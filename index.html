@@ -1,0 +1,1960 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3학년 2학기 1단원 · 곱셈 상자런 | 에듀잇티</title>
+  <style>
+    :root {
+      --page: #080914;
+      --panel: rgba(18, 19, 34, 0.92);
+      --panel-strong: #17182a;
+      --ink: #fff8d6;
+      --muted: #bac5db;
+      --line: rgba(255, 255, 255, 0.16);
+      --green: #35f2a6;
+      --yellow: #ffe45c;
+      --red: #ff4e6a;
+      --purple: #a96dff;
+      --cyan: #42d9ff;
+      --orange: #ff9d3c;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 14%, rgba(66, 217, 255, 0.24), transparent 26rem),
+        radial-gradient(circle at 82% 10%, rgba(255, 228, 92, 0.18), transparent 22rem),
+        radial-gradient(circle at 70% 90%, rgba(255, 78, 106, 0.18), transparent 24rem),
+        linear-gradient(135deg, #070811 0%, #141527 48%, #090a13 100%);
+      overflow-x: hidden;
+      word-break: keep-all;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+    }
+
+    .game {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    .phone-blocker {
+      display: none;
+    }
+
+    .screen {
+      width: min(1080px, 100%);
+      min-height: min(720px, calc(100dvh - 32px));
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        var(--panel);
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .screen.is-active {
+      display: grid;
+    }
+
+    .cover {
+      place-items: center;
+      text-align: center;
+      padding: clamp(24px, 6vw, 72px);
+      position: relative;
+    }
+
+    .series-brand {
+      position: absolute;
+      top: clamp(16px, 2.2vw, 24px);
+      left: clamp(16px, 2.2vw, 24px);
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 6px 12px 6px 7px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      font-size: 0.88rem;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .series-brand img {
+      display: block;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+    }
+
+    .cover::before,
+    .cover::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border: 2px solid rgba(255, 228, 92, 0.4);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .cover::before {
+      top: -110px;
+      left: -70px;
+    }
+
+    .cover::after {
+      right: -90px;
+      bottom: -120px;
+      border-color: rgba(66, 217, 255, 0.38);
+    }
+
+    .cover-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+    }
+
+    .tutorial {
+      place-items: center;
+      padding: clamp(18px, 5vw, 56px);
+    }
+
+    .tutorial-card {
+      width: min(760px, 100%);
+      display: grid;
+      gap: clamp(16px, 3vw, 28px);
+      text-align: center;
+    }
+
+    .tutorial-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.2rem, 7vw, 4.8rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-shadow: 0 0 24px rgba(66, 217, 255, 0.3);
+    }
+
+    .tutorial-steps {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+    }
+
+    .tutorial-steps li {
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 70px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 950;
+    }
+
+    .tutorial-steps b {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius);
+      background: var(--yellow);
+      color: #17120a;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .unit-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 14px;
+      border: 1px solid rgba(66, 217, 255, 0.45);
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(66, 217, 255, 0.08);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(3.1rem, 11vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+      text-shadow:
+        0 0 24px rgba(255, 228, 92, 0.44),
+        0 8px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    .cover-copy {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-weight: 950;
+    }
+
+    .primary-button,
+    .secondary-button,
+    .choice-button {
+      border: 0;
+      border-radius: var(--radius);
+      font-weight: 950;
+      letter-spacing: 0;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .primary-button {
+      min-width: min(320px, 100%);
+      min-height: 74px;
+      padding: 18px 34px;
+      background: linear-gradient(180deg, #fff375, #ffb23e);
+      color: #17120a;
+      box-shadow: 0 14px 0 #9f4d17, 0 26px 44px rgba(255, 178, 62, 0.24);
+      font-size: clamp(1.35rem, 4vw, 2.2rem);
+    }
+
+    .primary-button:hover,
+    .choice-button:hover,
+    .secondary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary-button:active,
+    .choice-button:active,
+    .secondary-button:active {
+      transform: translateY(2px);
+    }
+
+    .play {
+      grid-template-rows: auto minmax(0, 1fr);
+      padding: clamp(12px, 2.2vw, 24px);
+      gap: clamp(12px, 2vw, 22px);
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.72fr) minmax(360px, 1.16fr) minmax(180px, 0.72fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .hud-card {
+      min-width: 0;
+      min-height: 76px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+      padding: 13px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hud-card span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 850;
+      word-break: keep-all;
+    }
+
+    .hud-card strong {
+      min-width: 0;
+      color: #ffffff;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      line-height: 1.05;
+      font-weight: 1000;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .hud-card.score {
+      grid-column: 2;
+    }
+
+    .hud-card--progress,
+    .hud-card.score,
+    .hud-card--last-reward {
+      justify-items: center;
+      text-align: center;
+      min-height: 94px;
+      padding: 12px 18px 14px;
+    }
+
+    .hud-card--progress strong,
+    .hud-card--last-reward strong {
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
+    }
+
+    .hud-card.score strong {
+      color: var(--yellow);
+      font-size: clamp(2.35rem, 5vw, 4.8rem);
+      text-shadow: 0 0 18px rgba(255, 228, 92, 0.35);
+    }
+
+    .hud-card--last-reward strong {
+      color: var(--cyan);
+      text-shadow: 0 0 18px rgba(66, 217, 255, 0.26);
+    }
+
+    .hud-card--last-reward.is-good strong {
+      color: var(--green);
+      text-shadow: 0 0 18px rgba(53, 242, 166, 0.3);
+    }
+
+    .hud-card--last-reward.is-bad strong {
+      color: var(--red);
+      text-shadow: 0 0 18px rgba(255, 78, 106, 0.28);
+    }
+
+    .hud-card--last-reward.is-wild strong {
+      color: #d9a7ff;
+      text-shadow: 0 0 18px rgba(157, 92, 255, 0.32);
+    }
+
+    .hud-card--last-reward.is-hope strong {
+      color: var(--yellow);
+      text-shadow:
+        0 0 16px rgba(255, 228, 92, 0.38),
+        0 0 26px rgba(53, 242, 166, 0.22);
+    }
+
+    .last-reward-change {
+      min-width: 0;
+      color: var(--muted);
+      font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+      font-style: normal;
+      font-weight: 900;
+      line-height: 1.1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .hud-card.score.is-bumping strong {
+      animation: score-bump 420ms ease both;
+    }
+
+    .play-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+      gap: clamp(12px, 2vw, 22px);
+      min-height: 0;
+    }
+
+    .problem-panel,
+    .crate-panel {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(4, 6, 18, 0.68);
+    }
+
+    .problem-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 16px;
+      padding: clamp(16px, 3vw, 26px);
+    }
+
+    .feedback {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .feedback.is-good {
+      color: #09120d;
+      background: var(--green);
+    }
+
+    .feedback.is-bad {
+      color: #ffffff;
+      background: var(--red);
+    }
+
+    .question-card {
+      align-self: center;
+      display: grid;
+      place-items: center;
+      min-height: 190px;
+      padding: clamp(18px, 4vw, 42px);
+      border: 2px solid rgba(255, 228, 92, 0.38);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255, 228, 92, 0.1), rgba(255, 255, 255, 0.03)),
+        var(--panel-strong);
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.035);
+      transition: transform 220ms ease, opacity 220ms ease;
+      overflow: hidden;
+    }
+
+    .question-card.is-crate-ready {
+      transform: scale(0.94);
+      opacity: 0.58;
+    }
+
+    .question {
+      max-width: 100%;
+      color: #ffffff;
+      font-size: clamp(3.1rem, 8.6vw, 6.4rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .choice-button {
+      min-height: 76px;
+      padding: 14px;
+      border: 2px solid rgba(66, 217, 255, 0.3);
+      background: linear-gradient(180deg, rgba(66, 217, 255, 0.22), rgba(66, 217, 255, 0.08));
+      color: #ffffff;
+      box-shadow: 0 8px 0 rgba(22, 72, 97, 0.8);
+      font-size: clamp(1.55rem, 4vw, 2.7rem);
+    }
+
+    .choice-button.is-wrong {
+      border-color: rgba(255, 78, 106, 0.8);
+      background: rgba(255, 78, 106, 0.26);
+      box-shadow: 0 8px 0 rgba(111, 23, 37, 0.85);
+    }
+
+    .choice-button.is-correct {
+      border-color: rgba(53, 242, 166, 0.8);
+      background: rgba(53, 242, 166, 0.28);
+      box-shadow: 0 8px 0 rgba(18, 93, 67, 0.9);
+    }
+
+    .choice-button:disabled:not(.is-wrong):not(.is-correct) {
+      opacity: 0.5;
+    }
+
+    .crate-panel {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      justify-items: center;
+      align-items: center;
+      gap: 16px;
+      padding: clamp(16px, 3vw, 24px);
+      overflow: hidden;
+    }
+
+    .crate-panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+
+    .crate-title {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .crate-stage {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 230px;
+      width: 100%;
+    }
+
+    .crate {
+      width: min(180px, 62vw);
+      aspect-ratio: 1 / 0.82;
+      position: relative;
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35));
+    }
+
+    .crate::before,
+    .crate-lid,
+    .crate-body {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-radius: 6px;
+    }
+
+    .crate-lid {
+      top: 0;
+      height: 30%;
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.32) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #ffca52, #d27621);
+      border: 3px solid #6e3215;
+      transform-origin: bottom left;
+      transition: transform 260ms ease;
+    }
+
+    .crate-body {
+      bottom: 0;
+      height: 72%;
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.2) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #d9842a, #8d4119);
+      border: 3px solid #6e3215;
+    }
+
+    .crate::before {
+      top: 46%;
+      height: 15%;
+      z-index: 2;
+      background: rgba(255, 243, 117, 0.72);
+      border-radius: 2px;
+    }
+
+    .crate.is-ready {
+      animation: crate-idle 980ms ease-in-out infinite;
+    }
+
+    .crate.is-opening .crate-lid {
+      transform: rotate(-18deg) translate(-10px, -28px);
+    }
+
+    .crate.is-broken {
+      animation: crate-break 620ms ease-in-out infinite;
+      filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0 20px rgba(255, 78, 106, 0.2));
+    }
+
+    .crate.is-broken .crate-lid,
+    .crate.is-broken .crate-body {
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.18) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #9a672a, #562b1c);
+      border-color: #371910;
+    }
+
+    .crate.is-broken::before {
+      background: rgba(255, 78, 106, 0.58);
+    }
+
+    .crate-lid::after,
+    .crate-body::after {
+      content: "";
+      position: absolute;
+      top: 10%;
+      left: 52%;
+      width: 44px;
+      height: 82%;
+      opacity: 0;
+      background:
+        linear-gradient(145deg, transparent 0 22%, #1a0d0b 22% 29%, transparent 29% 43%, #1a0d0b 43% 52%, transparent 52% 68%, #1a0d0b 68% 76%, transparent 76%);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .crate.is-broken .crate-lid::after,
+    .crate.is-broken .crate-body::after {
+      opacity: 0.72;
+    }
+
+    .crate.is-broken-opening {
+      animation: crate-crack-open 520ms ease both;
+    }
+
+    .crate.is-broken-opening .crate-lid {
+      transform: rotate(13deg) translate(8px, -16px);
+    }
+
+    .crate.is-opened {
+      animation: crate-pop 460ms ease both;
+    }
+
+    .burst {
+      position: absolute;
+      inset: 50%;
+      width: 18px;
+      height: 18px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .burst::before,
+    .burst::after {
+      content: "";
+      position: absolute;
+      inset: -120px;
+      background:
+        conic-gradient(from 0deg, transparent 0 8deg, rgba(255, 228, 92, 0.95) 8deg 12deg, transparent 12deg 28deg, rgba(66, 217, 255, 0.8) 28deg 32deg, transparent 32deg 45deg);
+      border-radius: 50%;
+    }
+
+    .burst.is-on {
+      animation: burst-on 620ms ease both;
+    }
+
+    .burst.is-bad::before,
+    .burst.is-bad::after {
+      background:
+        conic-gradient(from 0deg, transparent 0 8deg, rgba(255, 78, 106, 0.95) 8deg 12deg, transparent 12deg 28deg, rgba(169, 109, 255, 0.78) 28deg 32deg, transparent 32deg 45deg);
+    }
+
+    .reward {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      min-height: 84px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .reward-label {
+      max-width: 100%;
+      color: var(--yellow);
+      font-size: clamp(2rem, 4.4vw, 4rem);
+      line-height: 1;
+      font-weight: 1000;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-shadow: 0 0 28px rgba(255, 228, 92, 0.45);
+    }
+
+    .reward-label.is-bad {
+      color: var(--red);
+      text-shadow: 0 0 28px rgba(255, 78, 106, 0.45);
+    }
+
+    .reward-label.is-wild {
+      color: var(--purple);
+      text-shadow: 0 0 28px rgba(169, 109, 255, 0.5);
+    }
+
+    .reward-label.is-hope {
+      color: var(--yellow);
+      text-shadow:
+        0 0 24px rgba(255, 228, 92, 0.5),
+        0 0 38px rgba(53, 242, 166, 0.28);
+    }
+
+    .reward-copy {
+      max-width: 100%;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      font-weight: 850;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .secondary-button {
+      position: relative;
+      z-index: 1;
+      min-width: min(220px, 100%);
+      min-height: 56px;
+      padding: 12px 22px;
+      background: #ffffff;
+      color: #111322;
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.38);
+      font-size: 1.15rem;
+    }
+
+    .secondary-button:disabled {
+      opacity: 0.5;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .result {
+      place-items: center;
+      padding: clamp(18px, 5vw, 58px);
+    }
+
+    .result-card {
+      width: min(840px, 100%);
+      display: grid;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .result-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.2rem, 7vw, 4.8rem);
+      line-height: 1;
+      font-weight: 1000;
+    }
+
+    .final-score {
+      min-width: 0;
+      padding: 22px;
+      border: 2px solid rgba(255, 228, 92, 0.44);
+      border-radius: var(--radius);
+      background: rgba(255, 228, 92, 0.08);
+      color: var(--yellow);
+      font-size: clamp(2.4rem, 8vw, 5.6rem);
+      line-height: 1;
+      font-weight: 1000;
+      overflow-wrap: anywhere;
+      text-shadow: 0 0 28px rgba(255, 228, 92, 0.36);
+    }
+
+    .result-mathmon-scene {
+      --mathmon-aura: rgba(255, 228, 92, 0.3);
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(190px, 0.8fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(14px, 3vw, 28px);
+      min-height: 250px;
+      padding: clamp(16px, 3vw, 26px);
+      border: 2px solid rgba(255, 228, 92, 0.36);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 24% 50%, var(--mathmon-aura), transparent 42%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+        rgba(4, 6, 18, 0.72);
+      box-shadow: 0 0 42px rgba(255, 228, 92, 0.12);
+      overflow: hidden;
+    }
+
+    .result-mathmon-scene::before,
+    .result-mathmon-scene::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+
+    .result-mathmon-scene::before {
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+    }
+
+    .result-mathmon-scene::after {
+      background:
+        conic-gradient(from 0deg, transparent 0 12deg, rgba(255, 228, 92, 0.28) 12deg 15deg, transparent 15deg 32deg);
+      opacity: 0;
+      transform: scale(0.75);
+    }
+
+    .result-mathmon-scene.is-revealed::after {
+      animation: prize-burst 900ms ease both;
+    }
+
+    .result-mathmon-stage {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 210px;
+    }
+
+    .result-mathmon-sprite {
+      width: min(220px, 100%);
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.38));
+      transform: scale(0.92);
+    }
+
+    .result-mathmon-scene.is-revealed .result-mathmon-sprite {
+      animation: mathmon-prize 820ms cubic-bezier(0.2, 1.4, 0.25, 1) both;
+    }
+
+    .result-mathmon-info {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      justify-items: start;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .result-mathmon-info span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255, 228, 92, 0.14);
+      color: var(--yellow);
+      font-size: 0.86rem;
+      font-weight: 1000;
+    }
+
+    .result-mathmon-info strong {
+      color: #ffffff;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 0.95;
+      font-weight: 1000;
+      text-shadow: 0 0 24px rgba(255, 228, 92, 0.26);
+      white-space: nowrap;
+    }
+
+    .result-mathmon-info p {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1rem, 2.4vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .result-stat {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .result-stat span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 850;
+    }
+
+    .result-stat strong {
+      color: #ffffff;
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      line-height: 1.1;
+      font-weight: 1000;
+      overflow-wrap: anywhere;
+    }
+
+    .result-stat--correct {
+      min-height: 184px;
+      place-items: center;
+      text-align: center;
+    }
+
+    .result-stat--correct span {
+      font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+      font-weight: 1000;
+    }
+
+    .result-stat--correct strong {
+      font-size: clamp(3.25rem, 7vw, 5.2rem);
+      line-height: 0.95;
+      text-shadow: 0 0 24px rgba(255, 255, 255, 0.14);
+      white-space: nowrap;
+    }
+
+    .result-stat--download {
+      grid-template-columns: minmax(74px, 0.45fr) minmax(0, 1fr);
+      align-items: center;
+      text-align: left;
+    }
+
+    .result-stat--download span {
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    .download-mathmon {
+      width: min(96px, 100%);
+      aspect-ratio: 1;
+      justify-self: center;
+      border-radius: var(--radius);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.26));
+    }
+
+    .download-button {
+      display: inline-grid;
+      place-items: center;
+      min-height: 52px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #fff375, #ffb23e);
+      color: #17120a;
+      font-weight: 1000;
+      text-decoration: none;
+      box-shadow: 0 7px 0 #9f4d17;
+      white-space: nowrap;
+    }
+
+    .download-button:active {
+      transform: translateY(2px);
+      box-shadow: 0 5px 0 #9f4d17;
+    }
+
+    .download-button.is-disabled {
+      pointer-events: none;
+      opacity: 0.68;
+      box-shadow: 0 4px 0 #7b3d15;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes score-bump {
+      0% { transform: scale(1); }
+      36% { transform: scale(1.12); color: #ffffff; }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes crate-idle {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+
+    @keyframes crate-pop {
+      0% { transform: scale(1); }
+      42% { transform: scale(1.14); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes crate-break {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      20% { transform: translateX(-5px) rotate(-2deg); }
+      42% { transform: translateX(5px) rotate(2deg); }
+      64% { transform: translateX(-3px) rotate(-1deg); }
+      82% { transform: translateX(3px) rotate(1deg); }
+    }
+
+    @keyframes crate-crack-open {
+      0% { transform: translateX(0) rotate(0deg) scale(1); }
+      24% { transform: translateX(-8px) rotate(-4deg) scale(1.02); }
+      48% { transform: translateX(8px) rotate(4deg) scale(1.04); }
+      100% { transform: translateX(0) rotate(0deg) scale(0.98); }
+    }
+
+    @keyframes burst-on {
+      0% { transform: translate(-50%, -50%) scale(0.35) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.2) rotate(20deg); opacity: 0; }
+    }
+
+    @keyframes mathmon-prize {
+      0% { transform: translateY(28px) scale(0.58) rotate(-8deg); opacity: 0; filter: brightness(1.4); }
+      58% { transform: translateY(-10px) scale(1.08) rotate(3deg); opacity: 1; filter: brightness(1.18); }
+      100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; filter: brightness(1); }
+    }
+
+    @keyframes prize-burst {
+      0% { transform: scale(0.35) rotate(0deg); opacity: 0; }
+      18% { opacity: 1; }
+      100% { transform: scale(1.35) rotate(16deg); opacity: 0; }
+    }
+
+    @media (max-width: 820px) {
+      .game {
+        align-items: stretch;
+        padding: 10px;
+      }
+
+      .screen {
+        min-height: calc(100dvh - 20px);
+      }
+
+      .play {
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .hud {
+        grid-template-columns: minmax(128px, 0.62fr) minmax(0, 0.96fr) minmax(128px, 0.62fr);
+      }
+
+      .hud-card {
+        min-height: 58px;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .hud-card strong {
+        text-align: center;
+        font-size: clamp(1.05rem, 6vw, 1.55rem);
+      }
+
+      .hud-card--progress,
+      .hud-card.score,
+      .hud-card--last-reward {
+        min-height: 80px;
+        padding-inline: 10px;
+      }
+
+      .hud-card.score strong {
+        font-size: clamp(1.9rem, 8vw, 3.35rem);
+      }
+
+      .hud-card--progress strong,
+      .hud-card--last-reward strong {
+        font-size: clamp(1.5rem, 5.8vw, 2.45rem);
+      }
+
+      .play-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .problem-panel {
+        gap: 12px;
+      }
+
+      .question-card {
+        min-height: 130px;
+      }
+
+      .choices {
+        gap: 9px;
+      }
+
+      .choice-button {
+        min-height: 64px;
+      }
+
+      .crate-panel {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        align-items: center;
+      }
+
+      .crate-title {
+        grid-column: 1 / -1;
+      }
+
+      .crate-stage {
+        min-height: 132px;
+      }
+
+      .crate {
+        width: 124px;
+      }
+
+      .reward {
+        min-height: 64px;
+      }
+
+      .reward-label {
+        font-size: clamp(1.8rem, 10vw, 3rem);
+      }
+
+      .result-mathmon-scene {
+        grid-template-columns: minmax(150px, 0.75fr) minmax(0, 1fr);
+        min-height: 210px;
+      }
+
+      .result-mathmon-stage {
+        min-height: 170px;
+      }
+
+      .result-mathmon-sprite {
+        width: min(170px, 100%);
+      }
+    }
+
+    @media (max-width: 719px) {
+      .game {
+        padding: 16px;
+      }
+
+      .screen {
+        display: none !important;
+      }
+
+      .phone-blocker {
+        width: min(420px, 100%);
+        min-height: calc(100dvh - 32px);
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          var(--panel);
+        background-size: 26px 26px, 26px 26px, auto;
+        box-shadow: var(--shadow);
+        text-align: center;
+        padding: 24px;
+      }
+
+      .phone-blocker strong {
+        display: block;
+        color: #ffffff;
+        font-size: 1.9rem;
+        line-height: 1.12;
+        font-weight: 1000;
+      }
+
+      .phone-blocker span {
+        display: block;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 1rem;
+        font-weight: 850;
+        line-height: 1.45;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="game" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2-1-1">
+    <aside class="phone-blocker" aria-label="지원 화면 안내">
+      <div>
+        <strong>태블릿이나 컴퓨터에서 열어요</strong>
+        <span>이 게임은 큰 화면에서만 플레이할 수 있어요.</span>
+      </div>
+    </aside>
+
+    <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
+      <div class="series-brand" aria-label="에듀잇티 수학 게임">
+        <img src="eduitit-logo-mark.png" alt="" aria-hidden="true">
+        <span>에듀잇티 수학 게임</span>
+      </div>
+      <div class="cover-inner">
+        <span class="unit-label">3학년 2학기 1단원</span>
+        <h1 id="coverTitle">곱셈 상자런</h1>
+        <p class="cover-copy">곱해서 상자를 열어요</p>
+        <button class="primary-button" type="button" data-action="start">시작</button>
+      </div>
+    </section>
+
+    <section class="screen tutorial" data-screen="tutorial" aria-labelledby="tutorialTitle">
+      <div class="tutorial-card">
+        <span class="unit-label">어떻게 해요?</span>
+        <h2 class="tutorial-title" id="tutorialTitle">상자를 열어요</h2>
+        <ol class="tutorial-steps">
+          <li data-tutorial-step><b>1</b><span>문제를 보고 답을 골라요</span></li>
+          <li data-tutorial-step><b>2</b><span>정답이면 상자를 열어요</span></li>
+          <li data-tutorial-step><b>3</b><span>두 번 틀리면 깨진 상자가 열려요</span></li>
+        </ol>
+        <button class="primary-button" type="button" data-action="start-first-problem">문제 시작</button>
+      </div>
+    </section>
+
+    <section class="screen play" data-screen="play" aria-label="곱셈 상자런 문제">
+      <div class="hud" aria-label="점수판">
+        <div class="hud-card hud-card--progress">
+          <span>문제</span>
+          <strong data-field="progress">1/10</strong>
+        </div>
+        <div class="hud-card score" data-score-card>
+          <span>현재 점수</span>
+          <strong data-field="score">0점</strong>
+        </div>
+        <div class="hud-card hud-card--last-reward" data-last-reward-card>
+          <span>방금 상자</span>
+          <strong data-field="last-reward">대기</strong>
+          <em class="last-reward-change" data-field="last-reward-change">상자를 열어요</em>
+        </div>
+      </div>
+
+      <div class="play-grid">
+        <section class="problem-panel" aria-label="문제 풀기">
+          <div class="feedback" data-field="feedback" aria-live="polite">답을 골라요</div>
+          <div class="question-card" data-question-card>
+            <div class="question" data-field="question">123 × 4 = ?</div>
+          </div>
+          <div class="choices" data-field="choices" aria-label="답 고르기"></div>
+        </section>
+
+        <aside class="crate-panel" aria-label="상자 보상">
+          <p class="crate-title" data-field="crate-title">정답이면 상자가 나와요</p>
+          <div class="crate-stage">
+            <div class="burst" data-burst aria-hidden="true"></div>
+            <div class="crate" data-crate aria-hidden="true">
+              <span class="crate-lid"></span>
+              <span class="crate-body"></span>
+            </div>
+          </div>
+          <div class="reward" aria-live="polite">
+            <strong class="reward-label" data-field="reward-label">?</strong>
+            <p class="reward-copy" data-field="reward-copy">상자를 기다려요</p>
+          </div>
+          <button class="secondary-button" type="button" data-action="open-crate" disabled>열기</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="screen result" data-screen="result" aria-labelledby="resultTitle">
+      <div class="result-card">
+        <h2 class="result-title" id="resultTitle">최종 점수</h2>
+        <div class="final-score" data-field="final-score">0점</div>
+        <div class="result-mathmon-scene" data-mathmon-result>
+          <div class="result-mathmon-stage">
+            <div class="result-mathmon-sprite" data-field="result-mathmon-sprite" aria-hidden="true"></div>
+          </div>
+          <div class="result-mathmon-info">
+            <span>획득 매스몬</span>
+            <strong data-field="final-mathmon-name">알몬</strong>
+            <p data-field="final-mathmon-copy">마지막 점수로 알몬을 얻었어요!</p>
+          </div>
+        </div>
+        <div class="result-stats">
+          <div class="result-stat result-stat--correct">
+            <span>정답 수</span>
+            <strong data-field="final-correct">0/10</strong>
+          </div>
+          <div class="result-stat result-stat--download">
+            <span>내 매스몬 이미지</span>
+            <div class="download-mathmon" data-field="download-mathmon" aria-hidden="true"></div>
+            <a class="download-button is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
+          </div>
+        </div>
+        <button class="primary-button" type="button" data-action="restart">다시</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const ROUND_SIZE = 10;
+      const BASE_CORRECT_SCORE = 100n;
+      const PHASES = Object.freeze({
+        cover: "cover",
+        playing: "playing",
+        missReview: "missReview",
+        crateReady: "crateReady",
+        crateOpening: "crateOpening",
+        reward: "reward",
+        finished: "finished",
+      });
+
+      const REWARDS = Object.freeze([
+        { label: "+100", type: "add", amount: 100n, tone: "good" },
+        { label: "+1000", type: "add", amount: 1000n, tone: "good" },
+        { label: "+100000", type: "add", amount: 100000n, tone: "good" },
+        { label: "-500", type: "add", amount: -500n, tone: "bad" },
+        { label: "-5000", type: "add", amount: -5000n, tone: "bad" },
+        { label: "-100000", type: "add", amount: -100000n, tone: "bad" },
+        { label: "×2", type: "multiply", amount: 2n, tone: "wild" },
+        { label: "×5", type: "multiply", amount: 5n, tone: "wild" },
+        { label: "×10", type: "multiply", amount: 10n, tone: "wild" },
+        { label: "÷2", type: "divide", amount: 2n, tone: "bad" },
+        { label: "÷3", type: "divide", amount: 3n, tone: "bad" },
+        { label: "-를 +로", type: "rescue", fallback: 500n, tone: "hope" },
+        { label: "0", type: "zero", tone: "bad" },
+      ]);
+
+      const BROKEN_REWARDS = Object.freeze([
+        { label: "-500", type: "add", amount: -500n, tone: "bad" },
+        { label: "-5000", type: "add", amount: -5000n, tone: "bad" },
+        { label: "÷2", type: "divide", amount: 2n, tone: "bad" },
+        { label: "0", type: "zero", tone: "bad" },
+        { label: "+100", type: "add", amount: 100n, tone: "good" },
+      ]);
+
+      const MATHMONS = Object.freeze([
+        { name: "알몬", threshold: 0n, minCorrect: 0, asset: "mathmon-0-almon.png?v=2", fileName: "almon.png", aura: "rgba(255, 228, 92, 0.28)", copy: "작지만 반짝이는 시작 매스몬이에요!" },
+        { name: "삐약몬", threshold: 500n, minCorrect: 2, asset: "mathmon-1-ppiyakmon.png?v=2", fileName: "ppiyakmon.png", aura: "rgba(255, 228, 92, 0.34)", copy: "톡톡 뛰는 계산 감각을 가진 매스몬이에요!" },
+        { name: "여우몬", threshold: 5000n, minCorrect: 4, asset: "mathmon-2-foxmon.png?v=2", fileName: "foxmon.png", aura: "rgba(255, 157, 60, 0.34)", copy: "빠른 눈으로 정답을 찾는 매스몬이에요!" },
+        { name: "새끼용몬", threshold: 50000n, minCorrect: 5, asset: "mathmon-3-babydragonmon.png?v=2", fileName: "babydragonmon.png", aura: "rgba(53, 242, 166, 0.28)", copy: "상자 운을 타고 날아오른 매스몬이에요!" },
+        { name: "사자몬", threshold: 500000n, minCorrect: 6, asset: "mathmon-4-lionmon.png?v=2", fileName: "lionmon.png", aura: "rgba(255, 228, 92, 0.38)", copy: "큰 점수를 지키는 당당한 매스몬이에요!" },
+        { name: "독수리몬", threshold: 5000000n, minCorrect: 7, asset: "mathmon-5-eaglemon.png?v=2", fileName: "eaglemon.png", aura: "rgba(66, 217, 255, 0.3)", copy: "높은 점수 위를 시원하게 나는 매스몬이에요!" },
+        { name: "드래곤몬", threshold: 50000000n, minCorrect: 8, asset: "mathmon-6-dragonmon.png?v=2", fileName: "dragonmon.png", aura: "rgba(53, 242, 166, 0.32)", copy: "곱셈 상자를 뜨겁게 여는 매스몬이에요!" },
+        { name: "티라노몬", threshold: 500000000n, minCorrect: 8, asset: "mathmon-7-tyranomon.png?v=2", fileName: "tyranomon.png", aura: "rgba(255, 78, 106, 0.32)", copy: "엄청난 점수도 씩씩하게 삼키는 매스몬이에요!" },
+        { name: "유니콘몬", threshold: 5000000000n, minCorrect: 9, asset: "mathmon-8-unicornmon.png?v=2", fileName: "unicornmon.png", aura: "rgba(169, 109, 255, 0.34)", copy: "반짝이는 행운을 몰고 온 매스몬이에요!" },
+        { name: "킹드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "mathmon-9-kingdragonmon.png?v=2", fileName: "kingdragonmon.png", aura: "rgba(255, 228, 92, 0.48)", copy: "이번 판의 전설급 상자런 매스몬이에요!" },
+      ]);
+
+      const SCORE_UNITS = Object.freeze([
+        { value: 1000000000000n, label: "조" },
+        { value: 100000000n, label: "억" },
+        { value: 10000n, label: "만" },
+      ]);
+
+      const els = {
+        screens: {
+          cover: document.querySelector('[data-screen="cover"]'),
+          tutorial: document.querySelector('[data-screen="tutorial"]'),
+          play: document.querySelector('[data-screen="play"]'),
+          result: document.querySelector('[data-screen="result"]'),
+        },
+        startButton: document.querySelector('[data-action="start"]'),
+        startFirstProblemButton: document.querySelector('[data-action="start-first-problem"]'),
+        restartButton: document.querySelector('[data-action="restart"]'),
+        openCrateButton: document.querySelector('[data-action="open-crate"]'),
+        progress: document.querySelector('[data-field="progress"]'),
+        score: document.querySelector('[data-field="score"]'),
+        scoreCard: document.querySelector("[data-score-card]"),
+        lastRewardCard: document.querySelector("[data-last-reward-card]"),
+        lastReward: document.querySelector('[data-field="last-reward"]'),
+        lastRewardChange: document.querySelector('[data-field="last-reward-change"]'),
+        feedback: document.querySelector('[data-field="feedback"]'),
+        questionCard: document.querySelector("[data-question-card]"),
+        question: document.querySelector('[data-field="question"]'),
+        choices: document.querySelector('[data-field="choices"]'),
+        crateTitle: document.querySelector('[data-field="crate-title"]'),
+        crate: document.querySelector("[data-crate]"),
+        burst: document.querySelector("[data-burst]"),
+        rewardLabel: document.querySelector('[data-field="reward-label"]'),
+        rewardBox: document.querySelector(".reward"),
+        rewardCopy: document.querySelector('[data-field="reward-copy"]'),
+        finalScore: document.querySelector('[data-field="final-score"]'),
+        finalCorrect: document.querySelector('[data-field="final-correct"]'),
+        resultMathmon: document.querySelector("[data-mathmon-result]"),
+        resultMathmonSprite: document.querySelector('[data-field="result-mathmon-sprite"]'),
+        finalMathmonName: document.querySelector('[data-field="final-mathmon-name"]'),
+        finalMathmonCopy: document.querySelector('[data-field="final-mathmon-copy"]'),
+        downloadMathmon: document.querySelector('[data-field="download-mathmon"]'),
+        downloadMathmonLink: document.querySelector('[data-action="download-mathmon"]'),
+      };
+
+      const state = {
+        phase: PHASES.cover,
+        questions: [],
+        currentIndex: 0,
+        score: 0n,
+        correctCount: 0,
+        answeredCurrent: false,
+        wrongAttempts: 0,
+        missAdvanceToken: 0,
+        biggestChangeAbs: 0n,
+        biggestChangeText: "아직 없음",
+        lastRewardText: "대기",
+        lastRewardChangeText: "상자를 열어요",
+        lastRewardTone: "",
+        pendingReward: null,
+        pendingCrateType: "normal",
+        downloadCardUrl: "",
+        downloadRequestToken: "",
+      };
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function shuffle(items) {
+        const copy = [...items];
+        for (let index = copy.length - 1; index > 0; index -= 1) {
+          const other = randomInt(0, index);
+          [copy[index], copy[other]] = [copy[other], copy[index]];
+        }
+        return copy;
+      }
+
+      function generateQuestion() {
+        const b = randomInt(2, 9);
+        const maxDigit = Math.floor(9 / b);
+        const hundreds = randomInt(1, maxDigit);
+        const tens = randomInt(0, maxDigit);
+        const ones = randomInt(0, maxDigit);
+        const a = hundreds * 100 + tens * 10 + ones;
+        const answer = a * b;
+        const placeSlip = Math.max(1, randomInt(-maxDigit, maxDigit)) * b;
+        const tensSlip = randomInt(-maxDigit, maxDigit) * 10;
+        const hundredsSlip = randomInt(-maxDigit, maxDigit) * 100;
+        const candidates = new Set([answer]);
+
+        [answer + placeSlip, answer + tensSlip, answer + hundredsSlip, answer - b * 10, answer + b * 100]
+          .filter((value) => value > 0 && value !== answer)
+          .forEach((value) => candidates.add(value));
+
+        while (candidates.size < 4) {
+          const offset = randomInt(-18, 18) * b;
+          const value = answer + offset;
+          if (value > 0 && value !== answer) {
+            candidates.add(value);
+          }
+        }
+
+        const distractors = shuffle([...candidates].filter((value) => value !== answer)).slice(0, 3);
+
+        return {
+          a,
+          b,
+          answer,
+          choices: shuffle([answer, ...distractors]),
+        };
+      }
+
+      function buildRound() {
+        return Array.from({ length: ROUND_SIZE }, generateQuestion);
+      }
+
+      function showScreen(name) {
+        Object.values(els.screens).forEach((screen) => screen.classList.remove("is-active"));
+        els.screens[name].classList.add("is-active");
+      }
+
+      function absBigInt(value) {
+        return value < 0n ? -value : value;
+      }
+
+      function formatNumber(value) {
+        const sign = value < 0n ? "-" : "";
+        const digits = (value < 0n ? -value : value).toString();
+        return `${sign}${digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      }
+
+      function compactNumber(value) {
+        const sign = value < 0n ? "-" : "";
+        const absValue = absBigInt(value);
+        for (const unit of SCORE_UNITS) {
+          if (absValue >= unit.value) {
+            const whole = absValue / unit.value;
+            const decimal = (absValue % unit.value) * 10n / unit.value;
+            const suffix = whole < 100n && decimal > 0n ? `.${decimal}` : "";
+            return `${sign}${whole}${suffix}${unit.label}`;
+          }
+        }
+        return `${sign}${formatNumber(absValue)}`;
+      }
+
+      function formatScore(value, compact = false) {
+        return `${compact ? compactNumber(value) : formatNumber(value)}점`;
+      }
+
+      function formatChange(before, after, compact = false) {
+        const diff = after - before;
+        if (diff === 0n) return "변화 없음";
+        return `${diff > 0n ? "+" : ""}${formatScore(diff, compact)}`;
+      }
+
+      function getMathmonForScore(score, correctCount = state.correctCount) {
+        const safeScore = score < 0n ? 0n : score;
+        let selected = MATHMONS[0];
+        for (const mathmon of MATHMONS) {
+          if (safeScore >= mathmon.threshold && correctCount >= mathmon.minCorrect) {
+            selected = mathmon;
+          }
+        }
+        return selected;
+      }
+
+      function clearDownloadCardUrl() {
+        if (!state.downloadCardUrl) return;
+        URL.revokeObjectURL(state.downloadCardUrl);
+        state.downloadCardUrl = "";
+      }
+
+      function setDownloadPending() {
+        clearDownloadCardUrl();
+        els.downloadMathmonLink.href = "#";
+        els.downloadMathmonLink.download = "mathmon-score-card.png";
+        els.downloadMathmonLink.textContent = "준비 중";
+        els.downloadMathmonLink.classList.add("is-disabled");
+        els.downloadMathmonLink.setAttribute("aria-disabled", "true");
+      }
+
+      function loadImage(src) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = reject;
+          image.src = src;
+        });
+      }
+
+      function drawRoundRect(context, x, y, width, height, radius) {
+        const safeRadius = Math.min(radius, width / 2, height / 2);
+        context.beginPath();
+        context.moveTo(x + safeRadius, y);
+        context.lineTo(x + width - safeRadius, y);
+        context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
+        context.lineTo(x + width, y + height - safeRadius);
+        context.quadraticCurveTo(x + width, y + height, x + width - safeRadius, y + height);
+        context.lineTo(x + safeRadius, y + height);
+        context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
+        context.lineTo(x, y + safeRadius);
+        context.quadraticCurveTo(x, y, x + safeRadius, y);
+        context.closePath();
+      }
+
+      function drawFittedText(context, text, x, y, maxWidth, startSize, minSize, color) {
+        let size = startSize;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillStyle = color;
+        do {
+          context.font = `1000 ${size}px Jua, system-ui, sans-serif`;
+          if (context.measureText(text).width <= maxWidth || size <= minSize) break;
+          size -= 2;
+        } while (size > minSize);
+        context.fillText(text, x, y);
+      }
+
+      function scoreFileSlug(score) {
+        const sign = score < 0n ? "minus-" : "";
+        const digits = (score < 0n ? -score : score).toString();
+        return `${sign}${digits}`;
+      }
+
+      async function buildMathmonDownloadCard(mathmon) {
+        const width = 1200;
+        const height = 1200;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        const scoreText = `내 점수 ${formatScore(state.score, true)}`;
+        const correctText = `정답 ${state.correctCount}/${ROUND_SIZE}`;
+        const image = await loadImage(mathmon.asset);
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
+
+        const bg = context.createLinearGradient(0, 0, width, height);
+        bg.addColorStop(0, "#072334");
+        bg.addColorStop(0.52, "#101225");
+        bg.addColorStop(1, "#271324");
+        context.fillStyle = bg;
+        context.fillRect(0, 0, width, height);
+
+        context.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        context.lineWidth = 2;
+        for (let pos = 0; pos <= width; pos += 72) {
+          context.beginPath();
+          context.moveTo(pos, 0);
+          context.lineTo(pos, height);
+          context.stroke();
+          context.beginPath();
+          context.moveTo(0, pos);
+          context.lineTo(width, pos);
+          context.stroke();
+        }
+
+        drawRoundRect(context, 78, 78, 1044, 1044, 48);
+        context.fillStyle = "rgba(255, 255, 255, 0.075)";
+        context.fill();
+        context.strokeStyle = "rgba(255, 228, 92, 0.56)";
+        context.lineWidth = 5;
+        context.stroke();
+
+        const aura = context.createRadialGradient(600, 520, 90, 600, 520, 420);
+        aura.addColorStop(0, mathmon.aura);
+        aura.addColorStop(1, "rgba(255, 228, 92, 0)");
+        context.fillStyle = aura;
+        context.fillRect(130, 170, 940, 690);
+
+        context.shadowColor = "rgba(0, 0, 0, 0.42)";
+        context.shadowBlur = 42;
+        context.shadowOffsetY = 28;
+        context.drawImage(image, 300, 210, 600, 600);
+        context.shadowColor = "transparent";
+        context.shadowBlur = 0;
+        context.shadowOffsetY = 0;
+
+        drawFittedText(context, "곱셈 상자런", 600, 148, 820, 62, 36, "#ffe45c");
+
+        drawRoundRect(context, 458, 800, 284, 62, 31);
+        context.fillStyle = "rgba(255, 228, 92, 0.2)";
+        context.fill();
+        drawFittedText(context, "획득 매스몬", 600, 831, 230, 32, 24, "#ffe45c");
+
+        drawFittedText(context, mathmon.name, 600, 925, 930, 96, 54, "#ffffff");
+        drawFittedText(context, scoreText, 600, 1025, 930, 72, 38, "#ffe45c");
+        drawFittedText(context, correctText, 600, 1092, 760, 42, 28, "#dfe7ff");
+
+        return new Promise((resolve, reject) => {
+          canvas.toBlob((blob) => {
+            if (blob) {
+              resolve(blob);
+              return;
+            }
+            reject(new Error("download canvas failed"));
+          }, "image/png");
+        });
+      }
+
+      async function prepareMathmonDownload(mathmon) {
+        const token = `${mathmon.fileName}:${state.score}:${state.correctCount}`;
+        state.downloadRequestToken = token;
+        setDownloadPending();
+        try {
+          const blob = await buildMathmonDownloadCard(mathmon);
+          if (state.downloadRequestToken !== token) return;
+          const url = URL.createObjectURL(blob);
+          clearDownloadCardUrl();
+          state.downloadCardUrl = url;
+          els.downloadMathmonLink.href = url;
+          els.downloadMathmonLink.download = `${mathmon.fileName.replace(".png", "")}-${scoreFileSlug(state.score)}-score.png`;
+          els.downloadMathmonLink.textContent = "이미지 받기";
+          els.downloadMathmonLink.classList.remove("is-disabled");
+          els.downloadMathmonLink.removeAttribute("aria-disabled");
+        } catch (error) {
+          if (state.downloadRequestToken !== token) return;
+          els.downloadMathmonLink.href = mathmon.asset;
+          els.downloadMathmonLink.download = mathmon.fileName;
+          els.downloadMathmonLink.textContent = "이미지 받기";
+          els.downloadMathmonLink.classList.remove("is-disabled");
+          els.downloadMathmonLink.removeAttribute("aria-disabled");
+        }
+      }
+
+      function renderResultMathmon() {
+        const mathmon = getMathmonForScore(state.score);
+        els.resultMathmon.style.setProperty("--mathmon-aura", mathmon.aura);
+        els.resultMathmonSprite.style.backgroundImage = `url("${mathmon.asset}")`;
+        els.finalMathmonName.textContent = mathmon.name;
+        els.finalMathmonCopy.textContent = "";
+        els.finalMathmonCopy.append(`${formatScore(state.score, true)}으로 ${mathmon.name}을 얻었어요!`);
+        els.finalMathmonCopy.append(document.createElement("br"));
+        els.finalMathmonCopy.append(mathmon.copy);
+        els.downloadMathmon.style.backgroundImage = `url("${mathmon.asset}")`;
+        els.downloadMathmonLink.setAttribute("aria-label", `${mathmon.name} 이미지 받기`);
+        prepareMathmonDownload(mathmon);
+        els.resultMathmon.classList.remove("is-revealed");
+        void els.resultMathmon.offsetWidth;
+        els.resultMathmon.classList.add("is-revealed");
+      }
+
+      function setFeedback(text, tone = "") {
+        els.feedback.textContent = text;
+        els.feedback.classList.toggle("is-good", tone === "good");
+        els.feedback.classList.toggle("is-bad", tone === "bad");
+      }
+
+      function fitTextToBox(textElement, boxElement, minSize, inset = 24) {
+        if (!textElement || !boxElement) return;
+        textElement.style.removeProperty("font-size");
+        window.requestAnimationFrame(() => {
+          const availableWidth = Math.max(0, boxElement.clientWidth - inset);
+          let size = parseFloat(window.getComputedStyle(textElement).fontSize);
+          while (availableWidth > 0 && textElement.scrollWidth > availableWidth && size > minSize) {
+            size -= 2;
+            textElement.style.fontSize = `${size}px`;
+          }
+        });
+      }
+
+      function fitQuestionText() {
+        fitTextToBox(els.question, els.questionCard, 48, 28);
+      }
+
+      function fitScoreText() {
+        fitTextToBox(els.score, els.scoreCard, 32, 32);
+      }
+
+      function fitLastRewardText() {
+        fitTextToBox(els.lastReward, els.lastRewardCard, 26, 20);
+      }
+
+      function fitRewardText() {
+        fitTextToBox(els.rewardLabel, els.rewardBox, 28, 24);
+      }
+
+      function bumpScore() {
+        els.scoreCard.classList.remove("is-bumping");
+        void els.scoreCard.offsetWidth;
+        els.scoreCard.classList.add("is-bumping");
+      }
+
+      function renderHud() {
+        els.progress.textContent = `${Math.min(state.currentIndex + 1, ROUND_SIZE)}/${ROUND_SIZE}`;
+        els.score.textContent = formatScore(state.score, true);
+        els.score.title = formatScore(state.score);
+        els.lastReward.textContent = state.lastRewardText;
+        els.lastRewardChange.textContent = state.lastRewardChangeText;
+        els.lastRewardCard.classList.toggle("is-good", state.lastRewardTone === "good");
+        els.lastRewardCard.classList.toggle("is-bad", state.lastRewardTone === "bad");
+        els.lastRewardCard.classList.toggle("is-wild", state.lastRewardTone === "wild");
+        els.lastRewardCard.classList.toggle("is-hope", state.lastRewardTone === "hope");
+        fitScoreText();
+        fitLastRewardText();
+      }
+
+      function renderCrateIdle() {
+        els.questionCard.classList.remove("is-crate-ready");
+        els.crate.classList.remove("is-ready", "is-opening", "is-broken", "is-broken-opening", "is-opened");
+        els.burst.classList.remove("is-on", "is-bad");
+        els.crateTitle.textContent = "정답이면 상자가 나와요";
+        els.rewardLabel.textContent = "?";
+        els.rewardLabel.classList.remove("is-bad", "is-wild", "is-hope");
+        els.rewardCopy.textContent = "상자를 기다려요";
+        els.openCrateButton.disabled = true;
+        els.openCrateButton.textContent = "열기";
+        fitRewardText();
+      }
+
+      function renderQuestion() {
+        const question = state.questions[state.currentIndex];
+        state.phase = PHASES.playing;
+        state.answeredCurrent = false;
+        state.wrongAttempts = 0;
+        state.pendingReward = null;
+        state.pendingCrateType = "normal";
+        els.question.textContent = `${question.a} × ${question.b} = ?`;
+        els.choices.innerHTML = "";
+        question.choices.forEach((choice) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.textContent = choice.toLocaleString("ko-KR");
+          button.dataset.value = String(choice);
+          button.addEventListener("click", () => handleChoice(button, choice));
+          els.choices.appendChild(button);
+        });
+        setFeedback("답을 골라요");
+        renderCrateIdle();
+        renderHud();
+        fitQuestionText();
+      }
+
+      function lockChoices(correctValue) {
+        els.choices.querySelectorAll("button").forEach((button) => {
+          button.disabled = true;
+          if (Number(button.dataset.value) === correctValue) {
+            button.classList.add("is-correct");
+          }
+        });
+      }
+
+      function handleChoice(button, choice) {
+        if (state.phase !== PHASES.playing) return;
+        const question = state.questions[state.currentIndex];
+        if (choice !== question.answer) {
+          state.wrongAttempts += 1;
+          button.disabled = true;
+          button.classList.add("is-wrong");
+          if (state.wrongAttempts >= 2) {
+            state.phase = PHASES.missReview;
+            state.missAdvanceToken += 1;
+            const token = state.missAdvanceToken;
+            state.pendingReward = pickBrokenReward();
+            state.pendingCrateType = "broken";
+            state.lastRewardText = "깨진 상자";
+            state.lastRewardChangeText = "자동으로 열려요";
+            state.lastRewardTone = "bad";
+            lockChoices(question.answer);
+            setFeedback(`정답은 ${question.answer.toLocaleString("ko-KR")}이에요`, "bad");
+            els.questionCard.classList.add("is-crate-ready");
+            els.crate.classList.add("is-broken", "is-ready");
+            els.crateTitle.textContent = "깨진 상자";
+            els.rewardLabel.textContent = "!";
+            els.rewardLabel.classList.add("is-bad");
+            els.rewardCopy.textContent = "자동으로 열려요";
+            els.openCrateButton.disabled = true;
+            els.openCrateButton.textContent = "자동";
+            renderHud();
+            fitRewardText();
+            window.setTimeout(() => openCrate({ auto: true, token }), 520);
+            return;
+          }
+          setFeedback("다시 골라요", "bad");
+          return;
+        }
+
+        state.phase = PHASES.crateReady;
+        state.correctCount += 1;
+        state.score += BASE_CORRECT_SCORE;
+        state.pendingReward = pickReward();
+        state.pendingCrateType = "normal";
+        state.lastRewardText = "열기 전";
+        state.lastRewardChangeText = "상자가 준비됐어요";
+        state.lastRewardTone = "";
+        lockChoices(question.answer);
+        setFeedback("정답!", "good");
+        els.questionCard.classList.add("is-crate-ready");
+        els.crate.classList.add("is-ready");
+        els.crateTitle.textContent = "상자를 열어요";
+        els.rewardLabel.textContent = "!";
+        els.rewardCopy.textContent = "+100점 받고 상자 대기";
+        els.openCrateButton.disabled = false;
+        renderHud();
+        bumpScore();
+        fitRewardText();
+      }
+
+      function pickReward() {
+        return REWARDS[randomInt(0, REWARDS.length - 1)];
+      }
+
+      function pickBrokenReward() {
+        return BROKEN_REWARDS[randomInt(0, BROKEN_REWARDS.length - 1)];
+      }
+
+      function applyReward(score, reward) {
+        if (reward.type === "add") return score + reward.amount;
+        if (reward.type === "multiply") return score * reward.amount;
+        if (reward.type === "divide") return score / reward.amount;
+        if (reward.type === "rescue") return score < 0n ? absBigInt(score) : score + reward.fallback;
+        if (reward.type === "zero") return 0n;
+        return score;
+      }
+
+      function openCrate(options = {}) {
+        const isAuto = Boolean(options.auto);
+        if (!isAuto && state.phase !== PHASES.crateReady) return;
+        if (isAuto && (state.phase !== PHASES.missReview || state.missAdvanceToken !== options.token)) return;
+        const isBroken = state.pendingCrateType === "broken";
+        state.phase = PHASES.crateOpening;
+        els.openCrateButton.disabled = true;
+        els.openCrateButton.textContent = "열리는 중";
+        els.crate.classList.remove("is-ready");
+        els.crate.classList.add(isBroken ? "is-broken-opening" : "is-opening");
+        window.setTimeout(() => {
+          if (state.phase !== PHASES.crateOpening) return;
+          if (isAuto && state.missAdvanceToken !== options.token) return;
+          const reward = state.pendingReward;
+          const before = state.score;
+          const after = applyReward(before, reward);
+          const changeAbs = absBigInt(after - before);
+          state.score = after;
+          state.phase = PHASES.reward;
+          if (changeAbs >= state.biggestChangeAbs) {
+            state.biggestChangeAbs = changeAbs;
+            state.biggestChangeText = `${reward.label} · ${formatChange(before, after, true)}`;
+          }
+          state.lastRewardText = isBroken ? `깨진 ${reward.label}` : reward.label;
+          state.lastRewardChangeText = formatChange(before, after, true);
+          state.lastRewardTone = reward.tone;
+          els.crate.classList.remove("is-opening", "is-broken-opening");
+          els.crate.classList.add("is-opened");
+          els.burst.classList.toggle("is-bad", isBroken);
+          els.burst.classList.add("is-on");
+          els.rewardLabel.textContent = reward.label;
+          els.rewardLabel.classList.toggle("is-bad", reward.tone === "bad");
+          els.rewardLabel.classList.toggle("is-wild", reward.tone === "wild");
+          els.rewardLabel.classList.toggle("is-hope", reward.tone === "hope");
+          els.rewardCopy.textContent = `${formatScore(before, true)} → ${formatScore(after, true)}`;
+          els.rewardCopy.title = `${formatScore(before)} → ${formatScore(after)}`;
+          els.crateTitle.textContent = isBroken ? "깨진 상자 결과" : "상자 결과";
+          els.openCrateButton.disabled = false;
+          els.openCrateButton.textContent = state.currentIndex + 1 >= ROUND_SIZE ? "결과" : "다음";
+          renderHud();
+          bumpScore();
+          fitRewardText();
+        }, 520);
+      }
+
+      function nextStep() {
+        if (state.phase !== PHASES.reward) return;
+        if (state.currentIndex + 1 >= ROUND_SIZE) {
+          finishRound();
+          return;
+        }
+        state.currentIndex += 1;
+        renderQuestion();
+      }
+
+      function finishRound() {
+        state.phase = PHASES.finished;
+        els.finalScore.textContent = formatScore(state.score, true);
+        els.finalScore.title = formatScore(state.score);
+        els.finalCorrect.textContent = `${state.correctCount}/${ROUND_SIZE}`;
+        showScreen("result");
+        window.requestAnimationFrame(renderResultMathmon);
+      }
+
+      function startRound() {
+        state.questions = buildRound();
+        state.currentIndex = 0;
+        state.score = 0n;
+        state.correctCount = 0;
+        state.wrongAttempts = 0;
+        state.missAdvanceToken += 1;
+        state.biggestChangeAbs = 0n;
+        state.biggestChangeText = "아직 없음";
+        state.lastRewardText = "대기";
+        state.lastRewardChangeText = "상자를 열어요";
+        state.lastRewardTone = "";
+        state.pendingReward = null;
+        state.pendingCrateType = "normal";
+        state.downloadRequestToken = "";
+        setDownloadPending();
+        showScreen("play");
+        renderQuestion();
+      }
+
+      els.startButton.addEventListener("click", () => showScreen("tutorial"));
+      els.startFirstProblemButton.addEventListener("click", startRound);
+      els.restartButton.addEventListener("click", startRound);
+      els.openCrateButton.addEventListener("click", () => {
+        if (state.phase === PHASES.crateReady) {
+          openCrate();
+          return;
+        }
+        nextStep();
+      });
+      window.addEventListener("resize", () => {
+        fitQuestionText();
+        fitScoreText();
+        fitLastRewardText();
+        fitRewardText();
+      });
+    })();
+  </script>
+</body>
+</html>
