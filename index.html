@@ -1290,6 +1290,7 @@
       "use strict";
 
       const ROUND_SIZE = 10;
+      const MIN_PROBLEM_BANK_SIZE = 100;
       const BASE_CORRECT_SCORE = 100n;
       const PHASES = Object.freeze({
         cover: "cover",
@@ -1414,14 +1415,38 @@
         return copy;
       }
 
-      function generateQuestion() {
-        const b = randomInt(2, 9);
+      function buildQuestionBank() {
+        const bank = [];
+
+        for (let b = 2; b <= 9; b += 1) {
+          const maxDigit = Math.floor(9 / b);
+
+          for (let hundreds = 1; hundreds <= maxDigit; hundreds += 1) {
+            for (let tens = 0; tens <= maxDigit; tens += 1) {
+              for (let ones = 0; ones <= maxDigit; ones += 1) {
+                const a = hundreds * 100 + tens * 10 + ones;
+                bank.push({
+                  a,
+                  b,
+                  answer: a * b,
+                });
+              }
+            }
+          }
+        }
+
+        return bank;
+      }
+
+      const QUESTION_BANK = Object.freeze(buildQuestionBank());
+
+      if (QUESTION_BANK.length < MIN_PROBLEM_BANK_SIZE) {
+        throw new Error("문제 은행이 충분하지 않습니다.");
+      }
+
+      function buildChoices(question) {
+        const { b, answer } = question;
         const maxDigit = Math.floor(9 / b);
-        const hundreds = randomInt(1, maxDigit);
-        const tens = randomInt(0, maxDigit);
-        const ones = randomInt(0, maxDigit);
-        const a = hundreds * 100 + tens * 10 + ones;
-        const answer = a * b;
         const placeSlip = Math.max(1, randomInt(-maxDigit, maxDigit)) * b;
         const tensSlip = randomInt(-maxDigit, maxDigit) * 10;
         const hundredsSlip = randomInt(-maxDigit, maxDigit) * 100;
@@ -1441,16 +1466,16 @@
 
         const distractors = shuffle([...candidates].filter((value) => value !== answer)).slice(0, 3);
 
-        return {
-          a,
-          b,
-          answer,
-          choices: shuffle([answer, ...distractors]),
-        };
+        return shuffle([answer, ...distractors]);
       }
 
       function buildRound() {
-        return Array.from({ length: ROUND_SIZE }, generateQuestion);
+        return shuffle(QUESTION_BANK)
+          .slice(0, ROUND_SIZE)
+          .map((question) => ({
+            ...question,
+            choices: buildChoices(question),
+          }));
       }
 
       function showScreen(name) {
