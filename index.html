@@ -331,6 +331,28 @@
       font-size: clamp(2rem, 3.8vw, 3.4rem);
     }
 
+    .combo-badge {
+      min-width: 84px;
+      padding: 4px 10px 5px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.08);
+      font-size: clamp(0.72rem, 1.4vw, 0.94rem);
+      font-style: normal;
+      font-weight: 950;
+      line-height: 1;
+      white-space: nowrap;
+      word-break: keep-all;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .combo-badge.is-hot {
+      color: #09120d;
+      background: linear-gradient(180deg, #ffe45c, #35f2a6);
+      box-shadow: 0 0 16px rgba(255, 228, 92, 0.34);
+      animation: combo-pop 560ms ease both;
+    }
+
     .hud-card.score strong {
       color: var(--yellow);
       font-size: clamp(2.35rem, 5vw, 4.8rem);
@@ -379,6 +401,12 @@
 
     .hud-card.score.is-bumping strong {
       animation: score-bump 420ms ease both;
+    }
+
+    @keyframes combo-pop {
+      0% { transform: scale(0.92); }
+      55% { transform: scale(1.08); }
+      100% { transform: scale(1); }
     }
 
     .play-grid {
@@ -1216,6 +1244,7 @@
         <div class="hud-card hud-card--progress">
           <span>문제</span>
           <strong data-field="progress">1/10</strong>
+          <em class="combo-badge" data-field="combo">콤보 대기</em>
         </div>
         <div class="hud-card score" data-score-card>
           <span>현재 점수</span>
@@ -1357,6 +1386,7 @@
         restartButton: document.querySelector('[data-action="restart"]'),
         openCrateButton: document.querySelector('[data-action="open-crate"]'),
         progress: document.querySelector('[data-field="progress"]'),
+        combo: document.querySelector('[data-field="combo"]'),
         score: document.querySelector('[data-field="score"]'),
         scoreCard: document.querySelector("[data-score-card]"),
         lastRewardCard: document.querySelector("[data-last-reward-card]"),
@@ -1388,6 +1418,7 @@
         currentIndex: 0,
         score: 0n,
         correctCount: 0,
+        comboCount: 0,
         answeredCurrent: false,
         wrongAttempts: 0,
         missAdvanceToken: 0,
@@ -1509,6 +1540,10 @@
 
       function formatScore(value, compact = false) {
         return `${compact ? compactNumber(value) : formatNumber(value)}점`;
+      }
+
+      function getComboScore(comboCount) {
+        return BASE_CORRECT_SCORE * BigInt(Math.min(comboCount, 5));
       }
 
       function formatChange(before, after, compact = false) {
@@ -1748,6 +1783,11 @@
 
       function renderHud() {
         els.progress.textContent = `${Math.min(state.currentIndex + 1, ROUND_SIZE)}/${ROUND_SIZE}`;
+        els.combo.textContent = state.comboCount > 0 ? `${state.comboCount}콤보` : "콤보 대기";
+        els.combo.classList.toggle("is-hot", state.comboCount >= 3);
+        els.combo.title = state.comboCount > 0
+          ? `정답 점수 +${formatNumber(getComboScore(state.comboCount))}점`
+          : "연속 정답을 맞히면 점수가 커져요";
         els.score.textContent = formatScore(state.score, true);
         els.score.title = formatScore(state.score);
         els.lastReward.textContent = state.lastRewardText;
@@ -1810,6 +1850,7 @@
         if (state.phase !== PHASES.playing) return;
         const question = state.questions[state.currentIndex];
         if (choice !== question.answer) {
+          state.comboCount = 0;
           state.wrongAttempts += 1;
           button.disabled = true;
           button.classList.add("is-wrong");
@@ -1838,24 +1879,27 @@
             return;
           }
           setFeedback("다시 골라요", "bad");
+          renderHud();
           return;
         }
 
         state.phase = PHASES.crateReady;
         state.correctCount += 1;
-        state.score += BASE_CORRECT_SCORE;
+        state.comboCount += 1;
+        const comboScore = getComboScore(state.comboCount);
+        state.score += comboScore;
         state.pendingReward = pickReward();
         state.pendingCrateType = "normal";
         state.lastRewardText = "열기 전";
         state.lastRewardChangeText = "상자가 준비됐어요";
         state.lastRewardTone = "";
         lockChoices(question.answer);
-        setFeedback("정답!", "good");
+        setFeedback(state.comboCount >= 2 ? `${state.comboCount}콤보! 정답!` : "정답!", "good");
         els.questionCard.classList.add("is-crate-ready");
         els.crate.classList.add("is-ready");
         els.crateTitle.textContent = "상자를 열어요";
         els.rewardLabel.textContent = "!";
-        els.rewardCopy.textContent = "+100점 받고 상자 대기";
+        els.rewardCopy.textContent = `+${formatNumber(comboScore)}점 받고 상자 대기`;
         els.openCrateButton.disabled = false;
         renderHud();
         bumpScore();
@@ -1948,6 +1992,7 @@
         state.currentIndex = 0;
         state.score = 0n;
         state.correctCount = 0;
+        state.comboCount = 0;
         state.wrongAttempts = 0;
         state.missAdvanceToken += 1;
         state.biggestChangeAbs = 0n;
