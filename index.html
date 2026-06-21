@@ -607,6 +607,55 @@
       animation: crate-idle 980ms ease-in-out infinite;
     }
 
+    .crate.grade-normal {
+      filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35));
+    }
+
+    .crate.grade-shiny {
+      filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0 20px rgba(66, 217, 255, 0.3));
+    }
+
+    .crate.grade-shiny .crate-lid,
+    .crate.grade-shiny .crate-body {
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.34) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #59f4ff, #1f9eb8 52%, #f0c84c);
+      border-color: #0b6d84;
+    }
+
+    .crate.grade-shiny::before {
+      background: rgba(255, 243, 117, 0.82);
+      box-shadow: 0 0 18px rgba(66, 217, 255, 0.26);
+    }
+
+    .crate.grade-gold {
+      transform: scale(1.03);
+      filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0 28px rgba(255, 228, 92, 0.46));
+    }
+
+    .crate.grade-gold .crate-lid,
+    .crate.grade-gold .crate-body {
+      background:
+        linear-gradient(90deg, transparent 42%, rgba(255, 255, 255, 0.5) 42% 58%, transparent 58%),
+        linear-gradient(180deg, #fff28a, #f1a52f 54%, #ad5b15);
+      border-color: #7d3e08;
+    }
+
+    .crate.grade-gold::before {
+      background: rgba(255, 255, 168, 0.94);
+      box-shadow:
+        0 0 20px rgba(255, 228, 92, 0.5),
+        0 0 34px rgba(255, 255, 255, 0.18);
+    }
+
+    .crate.grade-gold.is-ready {
+      animation: crate-gold-ready 920ms ease-in-out infinite;
+    }
+
     .crate.is-opening .crate-lid {
       transform: rotate(-18deg) translate(-10px, -28px);
     }
@@ -1014,6 +1063,11 @@
       50% { transform: translateY(-7px) rotate(1deg); }
     }
 
+    @keyframes crate-gold-ready {
+      0%, 100% { transform: translateY(0) rotate(-1deg) scale(1.03); }
+      50% { transform: translateY(-8px) rotate(1deg) scale(1.08); }
+    }
+
     @keyframes crate-pop {
       0% { transform: scale(1); }
       42% { transform: scale(1.14); }
@@ -1232,7 +1286,7 @@
         <h2 class="tutorial-title" id="tutorialTitle">상자를 열어요</h2>
         <ol class="tutorial-steps">
           <li data-tutorial-step><b>1</b><span>문제를 보고 답을 골라요</span></li>
-          <li data-tutorial-step><b>2</b><span>정답이면 상자를 열어요</span></li>
+          <li data-tutorial-step><b>2</b><span>정답이면 색깔 상자를 열어요</span></li>
           <li data-tutorial-step><b>3</b><span>두 번 틀리면 깨진 상자가 열려요</span></li>
         </ol>
         <button class="primary-button" type="button" data-action="start-first-problem">문제 시작</button>
@@ -1355,6 +1409,15 @@
         { label: "+100", type: "add", amount: 100n, tone: "good" },
       ]);
 
+      const SHINY_REWARD_BOOSTS = Object.freeze([REWARDS[1], REWARDS[2], REWARDS[6], REWARDS[11]]);
+      const GOLD_REWARD_BOOSTS = Object.freeze([REWARDS[1], REWARDS[2], REWARDS[2], REWARDS[6], REWARDS[7], REWARDS[8], REWARDS[11], REWARDS[11]]);
+
+      const CRATE_GRADES = Object.freeze([
+        { id: "normal", label: "일반 상자", className: "grade-normal", weight: 65, rewardPool: Object.freeze([...REWARDS]) },
+        { id: "shiny", label: "반짝 상자", className: "grade-shiny", weight: 25, rewardPool: Object.freeze([...REWARDS, ...SHINY_REWARD_BOOSTS]) },
+        { id: "gold", label: "황금 상자", className: "grade-gold", weight: 10, rewardPool: Object.freeze([...REWARDS, ...GOLD_REWARD_BOOSTS]) },
+      ]);
+
       const MATHMONS = Object.freeze([
         { name: "알몬", threshold: 0n, minCorrect: 0, asset: "mathmon-0-almon.png?v=2", fileName: "almon.png", aura: "rgba(255, 228, 92, 0.28)", copy: "작지만 반짝이는 시작 매스몬이에요!" },
         { name: "삐약몬", threshold: 500n, minCorrect: 2, asset: "mathmon-1-ppiyakmon.png?v=2", fileName: "ppiyakmon.png", aura: "rgba(255, 228, 92, 0.34)", copy: "톡톡 뛰는 계산 감각을 가진 매스몬이에요!" },
@@ -1429,6 +1492,7 @@
         lastRewardTone: "",
         pendingReward: null,
         pendingCrateType: "normal",
+        pendingCrateGrade: null,
         downloadCardUrl: "",
         downloadRequestToken: "",
       };
@@ -1802,7 +1866,7 @@
 
       function renderCrateIdle() {
         els.questionCard.classList.remove("is-crate-ready");
-        els.crate.classList.remove("is-ready", "is-opening", "is-broken", "is-broken-opening", "is-opened");
+        els.crate.classList.remove("is-ready", "is-opening", "is-broken", "is-broken-opening", "is-opened", "grade-normal", "grade-shiny", "grade-gold");
         els.burst.classList.remove("is-on", "is-bad");
         els.crateTitle.textContent = "정답이면 상자가 나와요";
         els.rewardLabel.textContent = "?";
@@ -1820,6 +1884,7 @@
         state.wrongAttempts = 0;
         state.pendingReward = null;
         state.pendingCrateType = "normal";
+        state.pendingCrateGrade = null;
         els.question.textContent = `${question.a} × ${question.b} = ?`;
         els.choices.innerHTML = "";
         question.choices.forEach((choice) => {
@@ -1860,6 +1925,7 @@
             const token = state.missAdvanceToken;
             state.pendingReward = pickBrokenReward();
             state.pendingCrateType = "broken";
+            state.pendingCrateGrade = null;
             state.lastRewardText = "깨진 상자";
             state.lastRewardChangeText = "자동으로 열려요";
             state.lastRewardTone = "bad";
@@ -1888,26 +1954,37 @@
         state.comboCount += 1;
         const comboScore = getComboScore(state.comboCount);
         state.score += comboScore;
-        state.pendingReward = pickReward();
+        state.pendingCrateGrade = pickCrateGrade();
+        state.pendingReward = pickWeightedReward(state.pendingCrateGrade.rewardPool);
         state.pendingCrateType = "normal";
-        state.lastRewardText = "열기 전";
+        state.lastRewardText = state.pendingCrateGrade.label;
         state.lastRewardChangeText = "상자가 준비됐어요";
         state.lastRewardTone = "";
         lockChoices(question.answer);
         setFeedback(state.comboCount >= 2 ? `${state.comboCount}콤보! 정답!` : "정답!", "good");
         els.questionCard.classList.add("is-crate-ready");
-        els.crate.classList.add("is-ready");
-        els.crateTitle.textContent = "상자를 열어요";
+        els.crate.classList.add("is-ready", state.pendingCrateGrade.className);
+        els.crateTitle.textContent = state.pendingCrateGrade.label;
         els.rewardLabel.textContent = "!";
-        els.rewardCopy.textContent = `+${formatNumber(comboScore)}점 받고 상자 대기`;
+        els.rewardCopy.textContent = `+${formatNumber(comboScore)}점 받고 ${state.pendingCrateGrade.label} 대기`;
         els.openCrateButton.disabled = false;
         renderHud();
         bumpScore();
         fitRewardText();
       }
 
-      function pickReward() {
-        return REWARDS[randomInt(0, REWARDS.length - 1)];
+      function pickCrateGrade() {
+        const totalWeight = CRATE_GRADES.reduce((sum, grade) => sum + grade.weight, 0);
+        let ticket = randomInt(1, totalWeight);
+        for (const grade of CRATE_GRADES) {
+          ticket -= grade.weight;
+          if (ticket <= 0) return grade;
+        }
+        return CRATE_GRADES[0];
+      }
+
+      function pickWeightedReward(pool) {
+        return pool[randomInt(0, pool.length - 1)];
       }
 
       function pickBrokenReward() {
@@ -1959,7 +2036,8 @@
           els.rewardLabel.classList.toggle("is-hope", reward.tone === "hope");
           els.rewardCopy.textContent = `${formatScore(before, true)} → ${formatScore(after, true)}`;
           els.rewardCopy.title = `${formatScore(before)} → ${formatScore(after)}`;
-          els.crateTitle.textContent = isBroken ? "깨진 상자 결과" : "상자 결과";
+          const gradeLabel = state.pendingCrateGrade ? state.pendingCrateGrade.label : "상자";
+          els.crateTitle.textContent = isBroken ? "깨진 상자 결과" : `${gradeLabel} 결과`;
           els.openCrateButton.disabled = false;
           els.openCrateButton.textContent = state.currentIndex + 1 >= ROUND_SIZE ? "결과" : "다음";
           renderHud();
@@ -2002,6 +2080,7 @@
         state.lastRewardTone = "";
         state.pendingReward = null;
         state.pendingCrateType = "normal";
+        state.pendingCrateGrade = null;
         state.downloadRequestToken = "";
         setDownloadPending();
         showScreen("play");
