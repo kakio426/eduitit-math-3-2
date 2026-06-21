@@ -841,6 +841,26 @@
       text-shadow: 0 0 28px rgba(255, 228, 92, 0.36);
     }
 
+    .result-praise {
+      justify-self: center;
+      max-width: min(720px, 100%);
+      margin-top: -4px;
+      padding: 9px 16px 10px;
+      border: 1px solid rgba(66, 217, 255, 0.36);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(66, 217, 255, 0.16), rgba(255, 228, 92, 0.1)),
+        rgba(255, 255, 255, 0.06);
+      color: var(--ink);
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-weight: 950;
+      line-height: 1.25;
+      text-align: center;
+      white-space: normal;
+      word-break: keep-all;
+      box-shadow: 0 0 24px rgba(66, 217, 255, 0.12);
+    }
+
     .result-mathmon-scene {
       --mathmon-aura: rgba(255, 228, 92, 0.3);
       position: relative;
@@ -1342,6 +1362,7 @@
       <div class="result-card">
         <h2 class="result-title" id="resultTitle">최종 점수</h2>
         <div class="final-score" data-field="final-score">0점</div>
+        <p class="result-praise" data-field="result-praise">계산 집중력이 좋아요!</p>
         <div class="result-mathmon-scene" data-mathmon-result>
           <div class="result-mathmon-stage">
             <div class="result-mathmon-sprite" data-field="result-mathmon-sprite" aria-hidden="true"></div>
@@ -1466,6 +1487,7 @@
         rewardBox: document.querySelector(".reward"),
         rewardCopy: document.querySelector('[data-field="reward-copy"]'),
         finalScore: document.querySelector('[data-field="final-score"]'),
+        resultPraise: document.querySelector('[data-field="result-praise"]'),
         finalCorrect: document.querySelector('[data-field="final-correct"]'),
         resultMathmon: document.querySelector("[data-mathmon-result]"),
         resultMathmonSprite: document.querySelector('[data-field="result-mathmon-sprite"]'),
@@ -1625,6 +1647,16 @@
           }
         }
         return selected;
+      }
+
+      function getResultPraise(score, correctCount) {
+        if (correctCount === ROUND_SIZE && score >= 100000000n) return "완벽한 계산에 상자 운까지 폭발했어요!";
+        if (correctCount === ROUND_SIZE) return "10문제 완주! 계산 집중력이 최고예요!";
+        if (correctCount >= 8 && score >= 1000000n) return "상자 운이 폭발했어요!";
+        if (correctCount >= 8) return "정확하게 달렸어요! 계산 힘이 탄탄해요!";
+        if (correctCount >= 6 && score < 0n) return "상자는 아쉬웠지만 계산은 잘했어요!";
+        if (correctCount >= 6) return "계산 감각이 살아나고 있어요!";
+        return "다음 판엔 더 멀리 갈 수 있어요!";
       }
 
       function clearDownloadCardUrl() {
@@ -2060,6 +2092,7 @@
         state.phase = PHASES.finished;
         els.finalScore.textContent = formatScore(state.score, true);
         els.finalScore.title = formatScore(state.score);
+        els.resultPraise.textContent = getResultPraise(state.score, state.correctCount);
         els.finalCorrect.textContent = `${state.correctCount}/${ROUND_SIZE}`;
         showScreen("result");
         window.requestAnimationFrame(renderResultMathmon);
