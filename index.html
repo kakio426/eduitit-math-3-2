@@ -85,116 +85,44 @@
     }
 
     .cover {
+      width: min(1080px, calc((100dvh - 32px) * 1.598), 100%);
+      min-height: auto;
+      aspect-ratio: 1586 / 992;
       place-items: center;
       text-align: center;
-      padding: clamp(24px, 6vw, 72px);
+      padding: 0;
       position: relative;
+      background: #080914;
     }
 
-    .series-brand {
-      position: absolute;
-      top: clamp(16px, 2.2vw, 24px);
-      left: clamp(16px, 2.2vw, 24px);
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 38px;
-      padding: 6px 12px 6px 7px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-      font-size: 0.88rem;
-      font-weight: 1000;
-      white-space: nowrap;
-    }
-
-    .series-brand img {
+    .cover-art {
       display: block;
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
     }
 
-    .cover::before,
-    .cover::after {
-      content: "";
+    .cover-start-hitbox {
       position: absolute;
-      width: 220px;
-      height: 220px;
-      border: 2px solid rgba(255, 228, 92, 0.4);
-      transform: rotate(45deg);
-      pointer-events: none;
+      left: 34%;
+      top: 62%;
+      z-index: 2;
+      width: 33%;
+      height: 18%;
+      padding: 0;
+      border: 0;
+      border-radius: 22px;
+      background: transparent;
+      box-shadow: none;
+      color: transparent;
+      font-size: 0;
     }
 
-    .cover::before {
-      top: -110px;
-      left: -70px;
-    }
-
-    .cover::after {
-      right: -90px;
-      bottom: -120px;
-      border-color: rgba(66, 217, 255, 0.38);
-    }
-
-    .cover-mathmons {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .cover-mathmon {
-      --cover-mathmon-transform: translate3d(0, 0, 0);
-      position: absolute;
-      aspect-ratio: 1;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.34));
-      opacity: 0.74;
-      transform: var(--cover-mathmon-transform);
-      animation: cover-mathmon-float 5.8s ease-in-out infinite;
-    }
-
-    .cover-mathmon-almon {
-      --cover-mathmon-transform: translateX(-50%) rotate(-4deg);
-      width: clamp(112px, 13vw, 178px);
-      left: 50%;
-      top: clamp(8px, 3vh, 28px);
-      background-image: url("mathmon-0-almon.png?v=2");
-      animation-delay: -1.4s;
-    }
-
-    .cover-mathmon-foxmon {
-      --cover-mathmon-transform: rotate(5deg);
-      width: clamp(126px, 14.5vw, 202px);
-      right: clamp(34px, 5vw, 78px);
-      top: clamp(284px, 45vh, 380px);
-      background-image: url("mathmon-2-foxmon.png?v=2");
-      animation-delay: -3.1s;
-    }
-
-    .cover-mathmon-babydragonmon {
-      --cover-mathmon-transform: translate3d(0, 0, 0);
-      width: clamp(140px, 16vw, 230px);
-      left: clamp(54px, 9vw, 130px);
-      bottom: clamp(92px, 15vh, 170px);
-      background-image: url("mathmon-3-babydragonmon.png?v=2");
-      opacity: 0.54;
-      animation-delay: -2.2s;
-    }
-
-    .cover-inner {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      justify-items: center;
-      gap: 18px;
+    .cover-start-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.92);
+      outline-offset: 5px;
+      box-shadow: 0 0 0 10px rgba(255, 228, 92, 0.42);
     }
 
     .tutorial {
@@ -1470,22 +1398,11 @@
     </aside>
 
     <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
-      <div class="series-brand" aria-label="에듀잇티 수학 게임">
-        <img src="eduitit-logo-mark.png" alt="" aria-hidden="true">
-        <span>에듀잇티 수학 게임</span>
-      </div>
-      <span class="unit-label cover-unit-label">3학년 2학기 1단원</span>
-      <span class="unit-label cover-learning-label">받아올림이 없는 (세 자리 수)×(한 자리 수)</span>
-      <div class="cover-mathmons" aria-hidden="true">
-        <div class="cover-mathmon cover-mathmon-almon"></div>
-        <div class="cover-mathmon cover-mathmon-foxmon"></div>
-        <div class="cover-mathmon cover-mathmon-babydragonmon"></div>
-      </div>
-      <div class="cover-inner">
-        <h1 id="coverTitle">매스몬 상자런</h1>
-        <p class="cover-copy">점수를 모아 매스몬을 얻어요</p>
-        <button class="primary-button" type="button" data-action="start">시작</button>
-      </div>
+      <img class="cover-art" src="cover-generated.png?v=1" alt="" aria-hidden="true">
+      <h1 class="sr-only" id="coverTitle">매스몬 상자런</h1>
+      <p class="sr-only">에듀잇티 수학 게임</p>
+      <p class="sr-only">점수를 모아 매스몬을 얻어요. 받아올림이 없는 (세 자리 수)×(한 자리 수) 게임입니다.</p>
+      <button class="cover-start-hitbox" type="button" data-action="start" aria-label="시작">시작</button>
     </section>
 
     <section class="screen tutorial" data-screen="tutorial" aria-labelledby="tutorialTitle">
