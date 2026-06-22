@@ -84,7 +84,7 @@
 
 ![최종 결과](screenshots/08-final-result.png)
 
-최종 점수, 획득 매스몬, 정답 수, 매스몬 이미지 받기 버튼을 보여 줍니다. 매스몬은 점수만이 아니라 정답 수 조건도 함께 봅니다.
+최종 결과는 이미지 생성으로 만든 시상식 무대를 배경으로 사용합니다. 최종 점수, 칭찬 문구, 획득 매스몬, 정답 수, 이미지 받기, 다시 버튼은 HTML로 올려 매 판 달라지는 결과값이 정확하게 보이도록 했습니다. 매스몬은 점수만이 아니라 정답 수 조건도 함께 봅니다.
 
 ### 이미지 받기
 
@@ -124,6 +124,7 @@
 
 - `index.html`
 - `cover-generated.png`
+- `result-generated.png`
 - `eduitit-logo-mark.png`
 - `mathmon-0-almon.png` ~ `mathmon-9-kingdragonmon.png`
 - `screenshots/*.png`
