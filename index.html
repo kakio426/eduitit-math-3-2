@@ -84,6 +84,36 @@
       display: grid;
     }
 
+    .sound-toggle {
+      position: fixed;
+      right: clamp(18px, 2.6vw, 34px);
+      bottom: clamp(18px, 2.6vw, 34px);
+      z-index: 20;
+      min-width: 86px;
+      min-height: 38px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255, 228, 92, 0.48);
+      border-radius: 999px;
+      color: #ffe45c;
+      background: rgba(8, 9, 20, 0.72);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+      font-size: 0.82rem;
+      font-weight: 950;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .sound-toggle[aria-pressed="false"] {
+      border-color: rgba(186, 197, 219, 0.38);
+      color: var(--muted);
+      background: rgba(8, 9, 20, 0.6);
+    }
+
+    .sound-toggle:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.8);
+      outline-offset: 3px;
+    }
+
     .cover {
       width: min(1080px, calc((100dvh - 32px) * 1.598), 100%);
       min-height: auto;
@@ -1459,6 +1489,7 @@
         <span>이 게임은 큰 화면에서만 플레이할 수 있어요.</span>
       </div>
     </aside>
+    <button class="sound-toggle" type="button" data-action="toggle-bgm" aria-pressed="true">BGM 켜짐</button>
 
     <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
       <img class="cover-art" src="cover-generated.png?v=1" alt="" aria-hidden="true">
@@ -1632,6 +1663,7 @@
         { value: 100000000n, label: "억" },
         { value: 10000n, label: "만" },
       ]);
+      const BGM_STORAGE_KEY = "mathmon-box-run-bgm-enabled";
 
       const els = {
         screens: {
@@ -1644,6 +1676,7 @@
         startFirstProblemButton: document.querySelector('[data-action="start-first-problem"]'),
         restartButton: document.querySelector('[data-action="restart"]'),
         openCrateButton: document.querySelector('[data-action="open-crate"]'),
+        bgmToggle: document.querySelector('[data-action="toggle-bgm"]'),
         progress: document.querySelector('[data-field="progress"]'),
         combo: document.querySelector('[data-field="combo"]'),
         score: document.querySelector('[data-field="score"]'),
@@ -1694,8 +1727,233 @@
         downloadRequestToken: "",
       };
 
+      const audioState = {
+        context: null,
+        masterGain: null,
+        bgmGain: null,
+        sfxGain: null,
+        bgmTimer: 0,
+        bgmEnabled: loadBgmPreference(),
+      };
+
       function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function loadBgmPreference() {
+        try {
+          return window.localStorage.getItem(BGM_STORAGE_KEY) !== "off";
+        } catch (error) {
+          return true;
+        }
+      }
+
+      function saveBgmPreference(enabled) {
+        try {
+          window.localStorage.setItem(BGM_STORAGE_KEY, enabled ? "on" : "off");
+        } catch (error) {
+          // localStorage may be blocked in some embedded browsers.
+        }
+      }
+
+      function ensureAudio() {
+        if (audioState.context) return audioState.context;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return null;
+        const context = new AudioContextClass();
+        audioState.context = context;
+        audioState.masterGain = context.createGain();
+        audioState.bgmGain = context.createGain();
+        audioState.sfxGain = context.createGain();
+        audioState.masterGain.gain.value = 0.72;
+        audioState.bgmGain.gain.value = 0.12;
+        audioState.sfxGain.gain.value = 0.55;
+        audioState.bgmGain.connect(audioState.masterGain);
+        audioState.sfxGain.connect(audioState.masterGain);
+        audioState.masterGain.connect(context.destination);
+        return context;
+      }
+
+      function updateBgmToggle() {
+        els.bgmToggle.textContent = audioState.bgmEnabled ? "BGM 켜짐" : "BGM 꺼짐";
+        els.bgmToggle.setAttribute("aria-pressed", audioState.bgmEnabled ? "true" : "false");
+        els.bgmToggle.setAttribute("aria-label", audioState.bgmEnabled ? "배경음 끄기" : "배경음 켜기");
+      }
+
+      function playTone(frequency, offset, duration, options = {}) {
+        const context = ensureAudio();
+        if (!context) return;
+        const start = context.currentTime + offset;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const attack = Math.min(options.attack ?? 0.012, duration / 3);
+        const volume = options.volume ?? 0.06;
+        oscillator.type = options.type || "sine";
+        oscillator.frequency.setValueAtTime(frequency, start);
+        if (options.endFrequency) {
+          oscillator.frequency.exponentialRampToValueAtTime(Math.max(1, options.endFrequency), start + duration);
+        }
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.linearRampToValueAtTime(volume, start + attack);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+        oscillator.connect(gain);
+        gain.connect(options.destination || audioState.sfxGain);
+        oscillator.start(start);
+        oscillator.stop(start + duration + 0.03);
+      }
+
+      function playNoise(offset, duration, volume = 0.05) {
+        const context = ensureAudio();
+        if (!context) return;
+        const start = context.currentTime + offset;
+        const buffer = context.createBuffer(1, Math.max(1, Math.floor(context.sampleRate * duration)), context.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let index = 0; index < data.length; index += 1) {
+          data[index] = (Math.random() * 2 - 1) * (1 - index / data.length);
+        }
+        const source = context.createBufferSource();
+        const filter = context.createBiquadFilter();
+        const gain = context.createGain();
+        source.buffer = buffer;
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(880, start);
+        filter.Q.setValueAtTime(1.5, start);
+        gain.gain.setValueAtTime(volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioState.sfxGain);
+        source.start(start);
+      }
+
+      function playBgmLoop() {
+        if (!audioState.bgmEnabled) return;
+        const context = ensureAudio();
+        if (!context || context.state === "suspended") return;
+        const notes = [294, 370, 440, 494, 440, 370, 330, 392];
+        notes.forEach((note, index) => {
+          playTone(note, index * 0.32, 0.2, {
+            type: index % 2 ? "sine" : "triangle",
+            volume: 0.032,
+            attack: 0.018,
+            destination: audioState.bgmGain,
+          });
+        });
+        playTone(147, 0, 1.6, {
+          type: "sine",
+          volume: 0.018,
+          attack: 0.04,
+          destination: audioState.bgmGain,
+        });
+      }
+
+      function startBgm() {
+        if (!audioState.bgmEnabled || audioState.bgmTimer) return;
+        playBgmLoop();
+        audioState.bgmTimer = window.setInterval(playBgmLoop, 2800);
+      }
+
+      function stopBgm() {
+        if (!audioState.bgmTimer) return;
+        window.clearInterval(audioState.bgmTimer);
+        audioState.bgmTimer = 0;
+      }
+
+      function unlockAudio() {
+        const context = ensureAudio();
+        if (!context) return;
+        if (context.state === "suspended") {
+          context.resume().then(() => {
+            if (audioState.bgmEnabled) startBgm();
+          }).catch(() => {});
+          return;
+        }
+        if (audioState.bgmEnabled) startBgm();
+      }
+
+      function setBgmEnabled(enabled, shouldUnlock = false) {
+        audioState.bgmEnabled = enabled;
+        saveBgmPreference(enabled);
+        updateBgmToggle();
+        if (enabled) {
+          if (shouldUnlock) unlockAudio();
+          else startBgm();
+        } else {
+          stopBgm();
+        }
+      }
+
+      function playUiSound() {
+        playTone(660, 0, 0.06, { volume: 0.04, type: "sine" });
+        playTone(880, 0.045, 0.07, { volume: 0.035, type: "sine" });
+      }
+
+      function playCorrectSound(comboCount, gradeId) {
+        const bonus = Math.min(comboCount, 5) * 42;
+        playTone(620 + bonus, 0, 0.08, { volume: 0.06, type: "triangle" });
+        playTone(830 + bonus, 0.08, 0.1, { volume: 0.055, type: "triangle" });
+        if (comboCount >= 3 || gradeId === "gold") {
+          playTone(1120, 0.18, 0.12, { volume: 0.045, type: "sine" });
+        }
+      }
+
+      function playWrongSound() {
+        playTone(240, 0, 0.12, { volume: 0.055, type: "triangle", endFrequency: 170 });
+        playTone(170, 0.08, 0.12, { volume: 0.035, type: "sine", endFrequency: 140 });
+      }
+
+      function playBrokenReadySound() {
+        playNoise(0, 0.16, 0.055);
+        playTone(150, 0.02, 0.16, { volume: 0.05, type: "sawtooth", endFrequency: 90 });
+      }
+
+      function playCrateOpeningSound(isBroken, gradeId) {
+        if (isBroken) {
+          playNoise(0, 0.2, 0.07);
+          playTone(130, 0.05, 0.18, { volume: 0.05, type: "square", endFrequency: 95 });
+          return;
+        }
+        playTone(310, 0, 0.08, { volume: 0.045, type: "triangle" });
+        playTone(520, 0.08, 0.12, { volume: 0.05, type: "triangle", endFrequency: 780 });
+        if (gradeId === "shiny" || gradeId === "gold") {
+          playTone(980, 0.17, 0.12, { volume: 0.04, type: "sine" });
+        }
+        if (gradeId === "gold") {
+          playTone(1240, 0.26, 0.14, { volume: 0.045, type: "sine" });
+        }
+      }
+
+      function playRewardSound(reward, isBroken) {
+        if (isBroken) {
+          playNoise(0, 0.12, 0.045);
+        }
+        if (reward.tone === "bad") {
+          playTone(320, 0, 0.15, { volume: 0.06, type: "triangle", endFrequency: 160 });
+          playTone(160, 0.12, 0.16, { volume: 0.045, type: "sine" });
+          return;
+        }
+        if (reward.tone === "wild") {
+          [520, 690, 880, 1180].forEach((note, index) => {
+            playTone(note, index * 0.07, 0.12, { volume: 0.05, type: "triangle" });
+          });
+          return;
+        }
+        if (reward.tone === "hope") {
+          playTone(420, 0, 0.18, { volume: 0.045, type: "sine", endFrequency: 980 });
+          playTone(1240, 0.18, 0.13, { volume: 0.05, type: "sine" });
+          return;
+        }
+        [660, 880, 1040].forEach((note, index) => {
+          playTone(note, index * 0.06, 0.1, { volume: 0.045, type: "triangle" });
+        });
+      }
+
+      function playResultSound(mathmon) {
+        const mathmonIndex = Math.max(0, MATHMONS.findIndex((item) => item.name === mathmon.name));
+        const topNote = mathmonIndex >= 6 ? 1320 : 1040;
+        [392, 523, 659, topNote].forEach((note, index) => {
+          playTone(note, index * 0.12, 0.2, { volume: 0.055, type: "triangle" });
+        });
       }
 
       function shuffle(items) {
@@ -2006,6 +2264,7 @@
         els.resultMathmon.classList.remove("is-revealed");
         void els.resultMathmon.offsetWidth;
         els.resultMathmon.classList.add("is-revealed");
+        playResultSound(mathmon);
       }
 
       function setFeedback(text, tone = "") {
@@ -2119,6 +2378,7 @@
         if (state.phase !== PHASES.playing) return;
         const question = state.questions[state.currentIndex];
         if (choice !== question.answer) {
+          playWrongSound();
           state.comboCount = 0;
           state.wrongAttempts += 1;
           button.disabled = true;
@@ -2145,6 +2405,7 @@
             els.openCrateButton.textContent = "자동";
             renderHud();
             fitRewardText();
+            playBrokenReadySound();
             window.setTimeout(() => openCrate({ auto: true, token }), 520);
             return;
           }
@@ -2175,6 +2436,7 @@
         renderHud();
         bumpScore();
         fitRewardText();
+        playCorrectSound(state.comboCount, state.pendingCrateGrade.id);
       }
 
       function pickCrateGrade() {
@@ -2209,6 +2471,7 @@
         if (!isAuto && state.phase !== PHASES.crateReady) return;
         if (isAuto && (state.phase !== PHASES.missReview || state.missAdvanceToken !== options.token)) return;
         const isBroken = state.pendingCrateType === "broken";
+        playCrateOpeningSound(isBroken, state.pendingCrateGrade ? state.pendingCrateGrade.id : "normal");
         state.phase = PHASES.crateOpening;
         els.openCrateButton.disabled = true;
         els.openCrateButton.textContent = "열리는 중";
@@ -2247,11 +2510,13 @@
           renderHud();
           bumpScore();
           fitRewardText();
+          playRewardSound(reward, isBroken);
         }, 520);
       }
 
       function nextStep() {
         if (state.phase !== PHASES.reward) return;
+        playUiSound();
         if (state.currentIndex + 1 >= ROUND_SIZE) {
           finishRound();
           return;
@@ -2271,6 +2536,7 @@
       }
 
       function startRound() {
+        unlockAudio();
         state.questions = buildRound();
         state.currentIndex = 0;
         state.score = 0n;
@@ -2292,9 +2558,27 @@
         renderQuestion();
       }
 
-      els.startButton.addEventListener("click", () => showScreen("tutorial"));
-      els.startFirstProblemButton.addEventListener("click", startRound);
-      els.restartButton.addEventListener("click", startRound);
+      updateBgmToggle();
+      els.bgmToggle.addEventListener("click", () => {
+        const nextEnabled = !audioState.bgmEnabled;
+        setBgmEnabled(nextEnabled, true);
+        if (nextEnabled) playUiSound();
+      });
+      els.startButton.addEventListener("click", () => {
+        unlockAudio();
+        playUiSound();
+        showScreen("tutorial");
+      });
+      els.startFirstProblemButton.addEventListener("click", () => {
+        unlockAudio();
+        playUiSound();
+        startRound();
+      });
+      els.restartButton.addEventListener("click", () => {
+        unlockAudio();
+        playUiSound();
+        startRound();
+      });
       els.openCrateButton.addEventListener("click", () => {
         if (state.phase === PHASES.crateReady) {
           openCrate();
@@ -2307,6 +2591,13 @@
         fitScoreText();
         fitLastRewardText();
         fitRewardText();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopBgm();
+          return;
+        }
+        if (audioState.bgmEnabled) startBgm();
       });
     })();
   </script>
