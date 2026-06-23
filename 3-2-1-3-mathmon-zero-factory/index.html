@@ -654,6 +654,7 @@
       position: absolute;
       inset: 0;
       z-index: 2;
+      display: none;
       pointer-events: none;
     }
 
@@ -900,6 +901,8 @@
     .fuel-panel {
       position: relative;
       z-index: 4;
+      grid-row: 2;
+      align-self: end;
       display: grid;
       gap: 10px;
       padding: 12px;
@@ -1162,7 +1165,7 @@
     }
 
     .factory-board {
-      min-height: 168px;
+      min-height: 132px;
       padding: 12px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -1171,8 +1174,8 @@
 
     .factory-board {
       display: grid;
-      grid-template-rows: 1fr auto;
-      gap: 10px;
+      grid-template-rows: 1fr;
+      gap: 0;
       font-variant-numeric: tabular-nums;
     }
 
@@ -1284,7 +1287,7 @@
 
     .factory-rule {
       min-height: 44px;
-      display: flex;
+      display: none;
       align-items: center;
       padding: 9px 11px;
       border: 1px solid rgba(53, 217, 178, 0.24);
@@ -1303,7 +1306,7 @@
       justify-self: center;
       width: min(238px, 76%);
       aspect-ratio: 1 / 1;
-      display: grid;
+      display: none;
       place-items: center;
       filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.34));
       transform: translateY(calc((1 - var(--charge, 0)) * 12px));
@@ -2986,7 +2989,7 @@
           optionType: "core",
           formula: `${problem.coreLeft} × ${problem.coreRight} = ?`,
           correct: problem.core,
-          prompt: `먼저 ${problem.coreLeft} × ${problem.coreRight}을 골라요.`,
+          prompt: `먼저 ${problem.coreLeft} × ${problem.coreRight}을 골라요`,
           meaning: "끝의 0은 잠깐 떼고 계산해요.",
           hint: `${problem.coreLeft} × ${problem.coreRight}만 먼저 봐요.`,
           explain: `${problem.coreLeft} × ${problem.coreRight} = ${problem.core.toLocaleString("ko-KR")}`,
@@ -3003,7 +3006,7 @@
           optionType: "zeros",
           formula: "0을 몇 개 붙일까요?",
           correct: problem.zeros,
-          prompt: `${problem.core.toLocaleString("ko-KR")} 뒤에 붙일 0의 개수를 골라요.`,
+          prompt: `${problem.core.toLocaleString("ko-KR")} 뒤에 붙일 0의 개수를 골라요`,
           meaning: "처음 두 수의 맨 끝 0만 세어요.",
           hint: `맨 끝 0은 모두 ${problem.zeros}개예요.`,
           explain: `0 ${problem.zeros}개를 붙여 ${problem.answer.toLocaleString("ko-KR")} 완성!`
