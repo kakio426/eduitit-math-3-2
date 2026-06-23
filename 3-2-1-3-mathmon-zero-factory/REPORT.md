@@ -60,9 +60,9 @@
 
 ## 5. 매스몬 역할
 
-3차시의 매스몬은 1차시 기준 공용 `base-pack` 10종 중 이번 판 결과에 맞는 카드 1장으로 공개됩니다. 0 공장의 중심 보상은 생산량과 출하 등급이고, 매스몬 카드는 그 결과를 기념하는 보상입니다.
+3차시의 매스몬은 1차시 기준으로 새로 만든 `0 공장 동물 매스몬팩` 10종 중 이번 판 결과에 맞는 카드 1장으로 공개됩니다. 0 공장의 중심 보상은 생산량과 출하 등급이고, 매스몬 카드는 그 결과를 기념하는 보상입니다.
 
-현재 기준은 1차시 `매스몬 상자런`의 밝은 2D 애니/스티커형 매스몬 톤입니다. 원본 관리는 `_shared/mathmon/base-pack/`에서 하고, 3차시 실행 패키지에는 `assets/mathmon/base-pack/*.webp` 배포본을 복사했습니다. 기존 0 공장팩과 V2 장난감/클레이풍 팩은 보존만 하고 실행에는 쓰지 않습니다.
+현재 기준은 1차시 `매스몬 상자런`의 밝은 2D 애니/스티커형 매스몬 톤입니다. 3차시 전용 팩은 톱니바퀴나 컨베이어 같은 사물형 매스몬이 아니라, 햄스터·토끼·수달·고양이·다람쥐·펭귄·거북이·판다·부엉이·별사슴처럼 동물/판타지 생물을 본체로 삼습니다. 0 공장 느낌은 작업모, 0 스티커, 배지 같은 소품으로만 더했습니다. 원본 관리는 `_shared/mathmon/zero-factory-animal-pack/`에서 하고, 3차시 실행 패키지에는 `assets/mathmon/zero-factory-animal-pack/*.webp` 배포본을 복사했습니다. 기존 0 공장팩과 V2 장난감/클레이풍 팩은 보존만 하고 실행에는 쓰지 않습니다.
 
 ## 6. 공개 패키지 구성
 
@@ -80,7 +80,7 @@
 - `result-space-generated.webp`
 - `result-retry-generated.webp`
 - `eduitit-logo-mark.png`
-- `assets/mathmon/base-pack/*.webp`
+- `assets/mathmon/zero-factory-animal-pack/*.webp`
 - `screenshots/*.png`
 - `README.md`
 

@@ -22,7 +22,7 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 ## 현재 기준
 
 - 활성 스타일은 `mathmon-v1-anime-sticker`다.
-- `base-pack`이 현재 실행 기준 팩이다.
+- `base-pack`과 `zero-factory-animal-pack`이 현재 실행 기준 팩이다.
 - `zero-factory-pack`, `core-pack-v2`, `zero-factory-pack-v2`는 보존 팩이며 새 차시와 리마스터의 기본값으로 쓰지 않는다.
 - 새 차시와 리마스터는 1차시 `매스몬 상자런`의 밝은 2D 애니/스티커형 매스몬 톤을 기본으로 쓴다.
 - 차시별 전용 매스몬도 본체는 동물/판타지 생물이어야 하며, 차시 테마는 소품·의상·배지·포즈로만 표현한다.

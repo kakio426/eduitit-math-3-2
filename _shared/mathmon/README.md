@@ -13,7 +13,8 @@
 
 ## 폴더 구조
 
-- `base-pack/`: 1차시 기준 공용 10종 매스몬(active, 1~3차시 실행 기준)
+- `base-pack/`: 1차시 기준 공용 10종 매스몬(active, 1~2차시 실행 기준)
+- `zero-factory-animal-pack/`: 1차시 동물형 톤을 유지한 3차시 `매스몬 0 공장` 전용 10종 매스몬(active)
 - `zero-factory-pack/`: 3차시 `매스몬 0 공장`용 기존 10종 매스몬(preserved, 1차시 기준으로 재생성 전까지 실행 미사용)
 - `core-pack-v2/`: 1차시와 2차시 공용 V2 10종 매스몬(preserved)
 - `zero-factory-pack-v2/`: 3차시 `매스몬 0 공장`용 V2 10종 매스몬(preserved)

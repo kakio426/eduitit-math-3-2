@@ -16,7 +16,7 @@
 
 - 활성 스타일: `mathmon-v1-anime-sticker`
 - 활성 공용 팩: `_shared/mathmon/base-pack/`
-- 활성 차시별 전용 팩: 없음. 전용 팩이 필요하면 1차시 스타일로 새로 생성합니다.
+- 활성 0 공장 팩: `_shared/mathmon/zero-factory-animal-pack/`
 - 보존 팩: `_shared/mathmon/zero-factory-pack/`, `_shared/mathmon/core-pack-v2/`, `_shared/mathmon/zero-factory-pack-v2/`
 
 앞으로 새 매스몬을 만들거나 기존 차시를 리마스터할 때는 1차시 `매스몬 상자런`의 매스몬 톤을 기준으로 삼습니다. 0 공장 기존 팩과 V2 장난감/클레이풍 팩은 삭제하지 않고 보존하지만, 실행 기본값이나 새 생성 기준으로 사용하지 않습니다.
