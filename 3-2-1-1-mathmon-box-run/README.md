@@ -30,8 +30,7 @@
 - `index.html`: 게임 본문
 - `cover-generated.webp`: 첫 화면 대표 커버 이미지(배포용 경량 포맷, PNG 원본은 작업실 보관)
 - `result-generated-v2.webp`: 최종 결과 RasterStage 배경 이미지(배포용 경량 포맷, PNG 원본은 작업실 보관)
-- `assets/mathmon/core-pack-v2/*.webp`: 최종 보상 카드에 쓰는 V2 매스몬 이미지
-- 매스몬 원본 PNG와 생성 원본: `_shared/mathmon/core-pack-v2/`에서 관리
+- `mathmon-*.png`: 최종 점수로 얻는 매스몬 이미지
 - `eduitit-logo-mark.png`: 첫 화면 브랜딩 로고
 - `screenshots/`: 화면별 스크린샷과 다운로드 카드 예시
 - `REPORT.md`: 게임 설명, 화면 흐름, 매스몬 설명

@@ -64,7 +64,11 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --sound-slot: clamp(64px, 6vw, 78px);
+      --sound-button-size: clamp(30px, 3vw, 34px);
+      --sound-gap: clamp(8px, 1vw, 12px);
+      --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
+      --top-control-pad-x: 9px;
+      --top-control-icon-gap: 7px;
       position: relative;
       width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);
       aspect-ratio: 16 / 10;
@@ -104,46 +108,68 @@
       z-index: 60;
       display: inline-grid;
       place-items: center;
-      width: clamp(54px, 5.3vw, 66px);
+      width: var(--sound-button-size);
       min-width: 0;
-      height: 34px;
-      min-height: 34px;
+      height: var(--sound-button-size);
+      min-height: 0;
       padding: 0;
       border: 1px solid rgba(255, 200, 87, 0.55);
       border-radius: 999px;
       color: #ffe3a5;
       background: rgba(14, 12, 22, 0.78);
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
-      font-size: clamp(0.72rem, 1vw, 0.84rem);
+      font-size: 0;
       font-weight: 950;
       line-height: 1;
       backdrop-filter: blur(10px);
     }
 
+    .sound-toggle::before,
     .sound-toggle::after {
-      content: "";
+      content: none !important;
+      display: none !important;
+    }
+
+    .sound-toggle svg {
       position: absolute;
-      top: 6px;
-      right: 7px;
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #69efbf;
-      box-shadow: 0 0 10px rgba(105, 239, 191, 0.8);
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      display: block;
+      transform: translate(-50%, -50%) translateX(1px);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .sound-off-stroke {
+      display: none;
     }
 
     .stage-shell .top-row {
-      right: calc(var(--stage-inset) + var(--sound-slot));
+      right: calc(var(--stage-inset) + var(--sound-reserve));
     }
 
     .stage-shell .hud {
-      padding-right: var(--sound-slot);
+      padding-right: var(--sound-reserve);
     }
 
     .sound-toggle[aria-pressed="false"] {
       border-color: rgba(186, 197, 219, 0.38);
       color: var(--muted);
       background: rgba(8, 9, 20, 0.6);
+    }
+
+    .sound-toggle[aria-pressed="false"] .sound-wave {
+      display: none;
+    }
+
+    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
+      display: block;
     }
 
     .sound-toggle:focus-visible {
@@ -225,14 +251,14 @@
     .tutorial-mathmon-top {
       left: clamp(120px, 13vw, 180px);
       top: clamp(70px, 11vh, 96px);
-      background-image: url("assets/mathmon/core-pack-v2/mathmon-core-v2-02-kongkongmon.webp");
+      background-image: url("mathmon-1-ppiyakmon.png?v=2");
       animation-delay: -2.1s;
     }
 
     .tutorial-mathmon-bottom {
       right: clamp(74px, 8vw, 120px);
       bottom: clamp(58px, 8vh, 96px);
-      background-image: url("assets/mathmon/core-pack-v2/mathmon-core-v2-03-jellymon.webp");
+      background-image: url("mathmon-2-foxmon.png?v=2");
       animation-delay: -4.1s;
     }
 
@@ -1517,7 +1543,14 @@
       </div>
     </aside>
     <div class="stage-shell">
-      <button class="sound-toggle" type="button" data-action="toggle-bgm" aria-pressed="true" aria-label="소리 켜짐">소리</button>
+      <button class="sound-toggle" type="button" data-action="toggle-bgm" aria-pressed="true" aria-label="소리 켜짐">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 10h3.5l4.2-4v12l-4.2-4H4z"></path>
+          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
+          <path class="sound-off-stroke" d="M16 8l5 8M21 8l-5 8"></path>
+        </svg>
+      </button>
 
     <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
       <img class="cover-art" src="cover-generated.webp?v=1" alt="" aria-hidden="true">
@@ -1601,8 +1634,8 @@
           </div>
           <div class="result-mathmon-info">
             <span>획득 매스몬</span>
-            <strong data-field="final-mathmon-name">몽글몬</strong>
-            <p data-field="final-mathmon-copy">점수와 정답 수로 몽글몬을 얻었어요!</p>
+            <strong data-field="final-mathmon-name">알몬</strong>
+            <p data-field="final-mathmon-copy">마지막 점수로 알몬을 얻었어요!</p>
           </div>
         </div>
         <div class="result-stats">
@@ -1675,16 +1708,16 @@
       ]);
 
       const MATHMONS = Object.freeze([
-        { name: "몽글몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-01-monglemon.webp", fileName: "monglemon.png", aura: "rgba(255, 228, 92, 0.28)", copy: "몽글몽글 힘을 모아 첫 상자를 열어 주는 매스몬이에요!" },
-        { name: "콩콩몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-02-kongkongmon.webp", fileName: "kongkongmon.png", aura: "rgba(255, 228, 92, 0.34)", copy: "정답을 찾으면 콩콩 뛰며 기뻐하는 매스몬이에요!" },
-        { name: "젤리몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-03-jellymon.webp", fileName: "jellymon.png", aura: "rgba(255, 157, 180, 0.34)", copy: "말랑한 계산 감각으로 상자를 척척 골라요!" },
-        { name: "반짝몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-04-banjjakmon.webp", fileName: "banjjakmon.png", aura: "rgba(255, 228, 92, 0.36)", copy: "풀이가 맞을 때마다 반짝 빛나는 매스몬이에요!" },
-        { name: "데굴몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-05-degeulmon.webp", fileName: "degeulmon.png", aura: "rgba(255, 157, 60, 0.34)", copy: "큰 점수도 데굴데굴 굴려 모으는 매스몬이에요!" },
-        { name: "루미몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-06-lumimon.webp", fileName: "lumimon.png", aura: "rgba(66, 217, 255, 0.32)", copy: "문제 길을 환하게 밝혀 주는 매스몬이에요!" },
-        { name: "큐브몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-07-cubemon.webp", fileName: "cubemon.png", aura: "rgba(53, 242, 166, 0.32)", copy: "차곡차곡 계산 블록을 쌓는 매스몬이에요!" },
-        { name: "스파크몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-08-sparkmon.webp", fileName: "sparkmon.png", aura: "rgba(255, 228, 92, 0.4)", copy: "번쩍이는 힘으로 높은 점수에 불을 붙여요!" },
-        { name: "오로라몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-09-auroramon.webp", fileName: "auroramon.png", aura: "rgba(169, 109, 255, 0.36)", copy: "행운빛을 펼쳐 특별한 상자를 불러오는 매스몬이에요!" },
-        { name: "크라운몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/core-pack-v2/mathmon-core-v2-10-crownmon.webp", fileName: "crownmon.png", aura: "rgba(255, 228, 92, 0.48)", copy: "이번 판의 최고 상자런을 장식하는 매스몬이에요!" },
+        { name: "알몬", threshold: 0n, minCorrect: 0, asset: "mathmon-0-almon.png?v=2", fileName: "almon.png", aura: "rgba(255, 228, 92, 0.28)", copy: "작지만 반짝이는 시작 매스몬이에요!" },
+        { name: "삐약몬", threshold: 500n, minCorrect: 2, asset: "mathmon-1-ppiyakmon.png?v=2", fileName: "ppiyakmon.png", aura: "rgba(255, 228, 92, 0.34)", copy: "톡톡 뛰는 계산 감각을 가진 매스몬이에요!" },
+        { name: "여우몬", threshold: 5000n, minCorrect: 4, asset: "mathmon-2-foxmon.png?v=2", fileName: "foxmon.png", aura: "rgba(255, 157, 60, 0.34)", copy: "빠른 눈으로 정답을 찾는 매스몬이에요!" },
+        { name: "새끼용몬", threshold: 50000n, minCorrect: 5, asset: "mathmon-3-babydragonmon.png?v=2", fileName: "babydragonmon.png", aura: "rgba(53, 242, 166, 0.28)", copy: "상자 운을 타고 날아오른 매스몬이에요!" },
+        { name: "사자몬", threshold: 500000n, minCorrect: 6, asset: "mathmon-4-lionmon.png?v=2", fileName: "lionmon.png", aura: "rgba(255, 228, 92, 0.38)", copy: "큰 점수를 지키는 당당한 매스몬이에요!" },
+        { name: "독수리몬", threshold: 5000000n, minCorrect: 7, asset: "mathmon-5-eaglemon.png?v=2", fileName: "eaglemon.png", aura: "rgba(66, 217, 255, 0.3)", copy: "높은 점수 위를 시원하게 나는 매스몬이에요!" },
+        { name: "드래곤몬", threshold: 50000000n, minCorrect: 8, asset: "mathmon-6-dragonmon.png?v=2", fileName: "dragonmon.png", aura: "rgba(53, 242, 166, 0.32)", copy: "곱셈 상자를 뜨겁게 여는 매스몬이에요!" },
+        { name: "티라노몬", threshold: 500000000n, minCorrect: 8, asset: "mathmon-7-tyranomon.png?v=2", fileName: "tyranomon.png", aura: "rgba(255, 78, 106, 0.32)", copy: "엄청난 점수도 씩씩하게 삼키는 매스몬이에요!" },
+        { name: "유니콘몬", threshold: 5000000000n, minCorrect: 9, asset: "mathmon-8-unicornmon.png?v=2", fileName: "unicornmon.png", aura: "rgba(169, 109, 255, 0.34)", copy: "반짝이는 행운을 몰고 온 매스몬이에요!" },
+        { name: "킹드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "mathmon-9-kingdragonmon.png?v=2", fileName: "kingdragonmon.png", aura: "rgba(255, 228, 92, 0.48)", copy: "이번 판의 전설급 상자런 매스몬이에요!" },
       ]);
 
       const SCORE_UNITS = Object.freeze([
@@ -1805,7 +1838,6 @@
       }
 
       function updateBgmToggle() {
-        els.bgmToggle.textContent = "소리";
         els.bgmToggle.setAttribute("aria-pressed", audioState.bgmEnabled ? "true" : "false");
         els.bgmToggle.setAttribute("aria-label", audioState.bgmEnabled ? "소리 켜짐" : "소리 꺼짐");
       }
