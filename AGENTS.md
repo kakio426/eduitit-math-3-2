@@ -4,6 +4,7 @@
 
 - `AGENTS.md`는 Codex용 프로젝트 진입점이고, `CLAUDE.md`는 Claude용 프로젝트 진입점입니다. 두 파일의 프로젝트 규칙과 로드맵은 같은 내용으로 유지합니다.
 - 차시 제작·계획·대형 화면 변경의 공정 기준은 프로젝트 전용 스킬 `.claude/skills/eduitit-mathmon-lesson/SKILL.md`입니다.
+- 매스몬 캐릭터 생성·교체·팩 관리·카탈로그·결과 카드 이미지 연결의 공정 기준은 프로젝트 전용 스킬 `.claude/skills/eduitit-mathmon-assets/SKILL.md`와 계약 문서 `_shared/mathmon/MATHMON_ASSET_CONTRACT.md`입니다.
 - Claude에서는 이 스킬이 프로젝트 스킬로 자동 인식될 수 있고, Codex에서는 현재 세션의 스킬 목록에 보이지 않아도 위 경로의 `SKILL.md`와 필요한 `references/` 문서를 직접 읽어 적용합니다.
 - 루트 하네스 문서(`AGENTS.md`/`CLAUDE.md`)는 "왜·무엇을"의 기준입니다. 스킬은 "어떻게 만들고 검증할지"의 기준입니다.
 - 스킬, `AGENTS.md`, `CLAUDE.md` 중 하나를 바꿀 때는 나머지 두 곳의 용어·배포 원칙·보상 원칙이 어긋나지 않는지 함께 확인합니다.
@@ -117,6 +118,7 @@
 
 ### 매스몬 자산 관리 기준
 
+- 매스몬 관련 작업을 시작하면 먼저 `.claude/skills/eduitit-mathmon-assets/SKILL.md`와 `_shared/mathmon/MATHMON_ASSET_CONTRACT.md`를 읽습니다.
 - 매스몬 원본의 단일 관리 위치는 `_shared/mathmon/`입니다. Codex와 Claude는 새 매스몬을 만들거나 기존 매스몬을 사용할 때 먼저 `_shared/mathmon/catalog.json`과 `_shared/mathmon/STYLE_GUIDE.md`를 확인합니다.
 - 새 매스몬은 곧바로 차시 폴더에만 넣지 않습니다. 먼저 `_shared/mathmon/<pack-id>/`에 `manifest.json`, `png/`, `webp/`, `raw-chromakey/`, `contact-sheets/` 구조로 등록합니다.
 - 차시 폴더에는 실행에 필요한 WebP 같은 경량 배포본만 복사합니다. 원본 PNG와 생성 원본은 `_shared/mathmon/`에 둡니다.

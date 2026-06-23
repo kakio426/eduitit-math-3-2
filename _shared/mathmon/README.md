@@ -18,6 +18,7 @@
 - `core-pack-v2/`: 1차시와 2차시 공용 V2 10종 매스몬(active)
 - `zero-factory-pack-v2/`: 3차시 `매스몬 0 공장`용 V2 10종 매스몬(active)
 - `catalog.json`: 팩 단위 인벤토리와 사용 차시 목록
+- `MATHMON_ASSET_CONTRACT.md`: Codex와 Claude가 반드시 먼저 확인하는 매스몬 자산 계약
 - `STYLE_GUIDE.md`: Codex와 Claude가 공통으로 따르는 매스몬 생성·관리 기준
 
 ## 파일 규칙

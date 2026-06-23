@@ -1,6 +1,6 @@
 ---
 name: eduitit-mathmon-lesson
-description: "Use when building, planning, or extending an Eduitit 매스몬 math game 차시(lesson) single-HTML package in the `ai mart` workspace — triggers like 차시 만들어, 새 게임 만들어, N단원 N차시 제작, 게임 빌드, 매스몬 게임 추가."
+description: "Use when building, planning, or extending an Eduitit 매스몬 math game 차시(lesson) single-HTML package in the `ai mart` workspace, including reward/effect animation polish — triggers like 차시 만들어, 새 게임 만들어, N단원 N차시 제작, 게임 빌드, 매스몬 게임 추가, 효과 넣어."
 ---
 
 # Eduitit 매스몬 차시 빌더
@@ -11,8 +11,9 @@ description: "Use when building, planning, or extending an Eduitit 매스몬 mat
 
 - 새 차시(`3-2-<단원>-<차시>-<영문짧은이름>`) 게임을 만든다.
 - 기존 차시의 화면·문제·보상을 크게 바꾼다.
+- 기존 차시의 효과, 보상 연출, 결과 측정감을 강화한다.
 - 차시 상세 계획(`PLAN.md`)을 세운다.
-- 트리거: `차시 만들어`, `새 게임 만들어`, `N단원 N차시 제작`, `게임 빌드`, `매스몬 게임 추가`.
+- 트리거: `차시 만들어`, `새 게임 만들어`, `N단원 N차시 제작`, `게임 빌드`, `매스몬 게임 추가`, `효과 넣어`.
 
 teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduitit-service-polish`). 배포/푸시는 `eduitit-main-release`를 함께 쓴다.
 
@@ -38,16 +39,17 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 1. **계획**: 해당 차시 폴더에 `PLAN.md`를 먼저 쓴다 → `references/plan-template.md`.
 2. **폴더**: `_templates/lesson-package`를 `3-2-<단원>-<차시>-<영문짧은이름>`으로 복사.
-3. **자산**: `_shared/`에서 `eduitit-logo-mark.png`와 필요한 배포용 자산만 복사. 매스몬은 반드시 `_shared/mathmon/catalog.json`과 `_shared/mathmon/STYLE_GUIDE.md`를 먼저 확인하고, 새 매스몬은 `_shared/mathmon/<pack-id>/`에 원본 등록 후 차시 폴더에는 WebP 배포본만 복사한다(10종 전부 복사 불필요 — 도감 없음).
+3. **자산**: `_shared/`에서 `eduitit-logo-mark.png`와 필요한 배포용 자산만 복사. 매스몬은 반드시 `eduitit-mathmon-assets` 스킬과 `_shared/mathmon/MATHMON_ASSET_CONTRACT.md`를 먼저 적용하고, 새 매스몬은 `_shared/mathmon/<pack-id>/`에 원본 등록 후 차시 폴더에는 WebP 배포본만 복사한다(10종 전부 복사 불필요 — 도감 없음).
 4. **엔진 복제**: 최신 기준 차시(`3-2-1-2-...`)의 `index.html`을 복제해 개조. 재사용 함수 맵 → `references/engine-and-images.md`.
 5. **개조 3종만**: ① 문제 생성기 ② 보상/등급 라벨 ③ 테마 이미지. 점수·콤보·단계선택·등급 뼈대는 그대로.
-6. **이미지**: 필요한 RasterStage 이미지를 생성하고 WebP로 배포 변환 → `references/engine-and-images.md`.
-7. **문서**: `README.md`, `REPORT.md` 작성, `screenshots/`에 첫·설명·문제·보상·결과 화면 저장.
-8. **등록**: `manifest.json`에 차시 추가, 루트 `README.md` 시리즈 표에 행 추가.
-9. **화면 계약 대조**: `SERIES_CONTRACT.md`와 한 줄씩 대조(첫 화면 3요소·배지 위치·중심 보상 1개·문제 화면 과밀 금지).
-10. **문제 화면 3초 검사**: 문제 화면 스크린샷에서 학생이 볼 기본 요소가 큰 문제·현재 단계·한 줄 지시·선택지뿐인지 확인하고, 설명 패널이 많으면 줄인다.
-11. **Stage 비율 검사**: 모든 `index.html`이 `16:10`/`1280×800` 계약을 지키는지 루트에서 `node scripts/check-stage-ratio.mjs` 실행.
-12. **검증·배포**: `references/verification.md` 통과 → 배포는 `eduitit-main-release` + GitHub Pages, 공개 URL `curl -I -L` 200 확인.
+6. **효과 설계**: 단계 정답, 보상 이동, 중심 오브젝트 변화, 랜덤 이벤트 충격, 결과 측정에 효과를 배치한다 → `references/effect-design.md`.
+7. **이미지**: 필요한 RasterStage 이미지를 생성하고 WebP로 배포 변환 → `references/engine-and-images.md`.
+8. **문서**: `README.md`, `REPORT.md` 작성, `screenshots/`에 첫·설명·문제·보상·결과 화면 저장.
+9. **등록**: `manifest.json`에 차시 추가, 루트 `README.md` 시리즈 표에 행 추가.
+10. **화면 계약 대조**: `SERIES_CONTRACT.md`와 한 줄씩 대조(첫 화면 3요소·배지 위치·중심 보상 1개·문제 화면 과밀 금지).
+11. **문제 화면 3초 검사**: 문제 화면 스크린샷에서 학생이 볼 기본 요소가 큰 문제·현재 단계·한 줄 지시·선택지뿐인지 확인하고, 설명 패널이 많으면 줄인다.
+12. **Stage 비율 검사**: 모든 `index.html`이 `16:10`/`1280×800` 계약을 지키는지 루트에서 `node scripts/check-stage-ratio.mjs` 실행.
+13. **검증·배포**: `references/verification.md` 통과 → 배포는 `eduitit-main-release` + GitHub Pages, 공개 URL `curl -I -L` 200 확인.
 
 ## 화면 골격 (모든 차시 동일)
 
@@ -66,6 +68,14 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 원리는 긴 문장이 아니라 블록·칸·스티커·화살표·자리값 묶음 같은 시각 조작으로 보여 준다.
 - 힌트는 기본으로 닫고, 열어도 지금 단계 힌트 1개만 보여 준다.
 - 스크린샷을 보고 "문제보다 패널이 많다", "문장이 여러 줄이다", "무엇을 눌러야 할지 바로 안 보인다"면 완성하지 말고 즉시 덜어낸다.
+
+## 효과 설계 계약
+
+- 효과는 장식이 아니라 **수학 행동이 게임 세계를 바꿨다는 신호**여야 한다.
+- 효과를 넣거나 다듬을 때는 `references/effect-design.md`를 읽고, 단계 정답·보상 이동·중심 오브젝트 변화·랜덤 이벤트 충격·결과 측정 중 어디에 붙일지 먼저 정한다.
+- 효과가 문제·현재 단계·한 줄 지시·선택지를 가리면 즉시 줄인다.
+- 중심 보상은 하나만 유지한다. 효과를 별, 코인, 하트 같은 별도 보상 체계처럼 추가하지 않는다.
+- 모든 큰 효과는 `prefers-reduced-motion` 대응과 브라우저 캡처 검증을 거친다.
 
 ## Stage 비율 계약
 
@@ -93,5 +103,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - `references/plan-template.md` — 차시 `PLAN.md` 템플릿(구조·화면 수·생성 이미지·검증).
 - `references/lesson-prompts.md` — 24개 차시별 제작 프롬프트와 문제 화면 과밀 방지 공통 프롬프트.
 - `references/engine-and-images.md` — 2차시 재사용 함수 맵 + RasterStage/WebP 이미지 패턴.
+- `references/effect-design.md` — 효과를 줄 위치, 물질감·보상 이동·랜덤 이벤트 충격·결과 측정 기준.
 - `references/verification.md` — 빌드·배포 검증 체크리스트.
+- `.claude/skills/eduitit-mathmon-assets/SKILL.md` — 매스몬 캐릭터·팩·카탈로그·결과 카드 자산 관리 절차.
+- `_shared/mathmon/MATHMON_ASSET_CONTRACT.md` — Codex와 Claude가 함께 따르는 매스몬 자산 계약.
 - `_shared/mathmon/STYLE_GUIDE.md` — 매스몬 팩 생성·중복 방지·이미지 분위기 기준.
