@@ -122,7 +122,7 @@
 - 차시 폴더에는 실행에 필요한 WebP 같은 경량 배포본만 복사합니다. 원본 PNG와 생성 원본은 `_shared/mathmon/`에 둡니다.
 - 한 차시는 기본적으로 한 매스몬 팩만 씁니다. 여러 팩을 섞어야 할 때는 해당 차시 `README.md`/`REPORT.md`와 팩 `manifest.json`에 이유를 남깁니다.
 - 새 팩을 만들기 전 기존 팩의 contact sheet와 manifest를 보고 실루엣·동물종·소재가 겹치지 않는지 확인합니다.
-- 이미지 분위기는 팩 단위로 반드시 일관되어야 합니다. 앞으로 새로 만드는 매스몬은 `_shared/mathmon/STYLE_GUIDE.md`의 "rounded toy-like 3D mascot" 기준을 기본값으로 삼습니다. 기존 `base-pack`은 레거시 팩으로 보관합니다.
+- 이미지 분위기는 팩 단위로 반드시 일관되어야 합니다. 앞으로 새로 만드는 매스몬은 `_shared/mathmon/STYLE_GUIDE.md`의 `mathmon-v2-toy-3d` 기준을 기본값으로 삼습니다. 기존 `base-pack`과 `zero-factory-pack`은 레거시 팩으로 보관합니다.
 
 ### RasterStage 화면 규칙
 

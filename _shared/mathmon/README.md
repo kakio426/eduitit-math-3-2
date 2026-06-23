@@ -13,8 +13,10 @@
 
 ## 폴더 구조
 
-- `base-pack/`: 1차시와 2차시에서 쓰던 기존 10종 매스몬
-- `zero-factory-pack/`: 3차시 `매스몬 0 공장`용 신규 10종 매스몬
+- `base-pack/`: 1차시와 2차시에서 쓰던 기존 10종 매스몬(legacy)
+- `zero-factory-pack/`: 3차시 `매스몬 0 공장`용 기존 10종 매스몬(legacy)
+- `core-pack-v2/`: 1차시와 2차시 공용 V2 10종 매스몬(active)
+- `zero-factory-pack-v2/`: 3차시 `매스몬 0 공장`용 V2 10종 매스몬(active)
 - `catalog.json`: 팩 단위 인벤토리와 사용 차시 목록
 - `STYLE_GUIDE.md`: Codex와 Claude가 공통으로 따르는 매스몬 생성·관리 기준
 

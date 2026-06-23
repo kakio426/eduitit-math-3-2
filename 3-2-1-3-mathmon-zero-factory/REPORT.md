@@ -60,9 +60,9 @@
 
 ## 5. 매스몬 역할
 
-3차시의 매스몬은 `0 공장 매스몬팩` 10종 중 이번 판 결과에 맞는 카드 1장으로 공개됩니다. 0 공장의 중심 보상은 생산량과 출하 등급이고, 매스몬 카드는 그 결과를 기념하는 보상입니다.
+3차시의 매스몬은 `0 공장 매스몬팩 V2` 10종 중 이번 판 결과에 맞는 카드 1장으로 공개됩니다. 0 공장의 중심 보상은 생산량과 출하 등급이고, 매스몬 카드는 그 결과를 기념하는 보상입니다.
 
-기존 기본 매스몬팩과 겹치지 않도록 공장 기계·부품·검사·포장 실루엣으로 새로 제작했습니다. 원본 관리는 `_shared/mathmon/zero-factory-pack/`에서 하고, 3차시 실행 패키지에는 `assets/mathmon/zero-factory-pack/*.webp` 배포본을 복사했습니다.
+V2 기준과 맞도록 밝은 장난감/클레이풍 공장 매스몬으로 새로 제작했습니다. 원본 관리는 `_shared/mathmon/zero-factory-pack-v2/`에서 하고, 3차시 실행 패키지에는 `assets/mathmon/zero-factory-pack-v2/*.webp` 배포본을 복사했습니다.
 
 ## 6. 공개 패키지 구성
 
@@ -80,7 +80,7 @@
 - `result-space-generated.webp`
 - `result-retry-generated.webp`
 - `eduitit-logo-mark.png`
-- `assets/mathmon/zero-factory-pack/*.webp`
+- `assets/mathmon/zero-factory-pack-v2/*.webp`
 - `screenshots/*.png`
 - `README.md`
 

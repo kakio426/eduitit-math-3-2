@@ -117,7 +117,7 @@
 - 모든 문제는 상자로 끝납니다. 정답이면 일반 상자, 2회 오답이면 깨진 상자가 열립니다.
 - 매스몬은 점수만 보지 않고 정답 수 조건도 함께 봅니다.
 
-예를 들어 10만점 이상을 얻어도 정답 수가 1/10이면 알몬만 얻습니다. 반대로 10/10을 맞히고 높은 점수까지 얻으면 킹드래곤몬까지 도달할 수 있습니다.
+예를 들어 10만점 이상을 얻어도 정답 수가 1/10이면 몽글몬만 얻습니다. 반대로 10/10을 맞히고 높은 점수까지 얻으면 크라운몬까지 도달할 수 있습니다.
 
 ## 7. 공개 패키지 구성
 
@@ -127,7 +127,7 @@
 - `cover-generated.webp`
 - `result-generated-v2.webp`
 - `eduitit-logo-mark.png`
-- `mathmon-0-almon.png` ~ `mathmon-9-kingdragonmon.png`
+- `assets/mathmon/core-pack-v2/*.webp`
 - `screenshots/*.png`
 - `README.md`
 - `REPORT.md`

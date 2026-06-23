@@ -4,7 +4,8 @@
   "policy": {
     "sourceOfTruth": "_shared/mathmon",
     "styleGuide": "_shared/mathmon/STYLE_GUIDE.md",
-    "defaultNewPackStyle": "rounded toy-like 3D mascot",
+    "activeStyle": "mathmon-v2-toy-3d",
+    "defaultNewPackStyle": "bright rounded toy-like 3D clay mascot",
     "lessonCopyRule": "Copy only the runtime assets needed by a lesson into that lesson folder.",
     "rewardRule": "A lesson should foreground one reward structure; Mathmon appears as the result card, not as a second scoring system."
   },
@@ -14,8 +15,8 @@
       "name": "기본 매스몬팩",
       "count": 10,
       "path": "_shared/mathmon/base-pack",
-      "status": "active",
-      "usedBy": ["3-2-1-1", "3-2-1-2"],
+      "status": "legacy",
+      "usedBy": [],
       "visualNotes": "동물/판타지 생물 중심: 알, 병아리, 여우, 용, 사자, 독수리, 티라노, 유니콘, 킹드래곤"
     },
     {
@@ -23,10 +24,31 @@
       "name": "0 공장 매스몬팩",
       "count": 10,
       "path": "_shared/mathmon/zero-factory-pack",
-      "status": "active",
-      "usedBy": ["3-2-1-3"],
+      "status": "legacy",
+      "usedBy": [],
       "avoidOverlapWith": ["base-pack"],
       "visualNotes": "공장/기계/0 스티커 중심: 톱니, 볼트, 컨베이어, 자석, 피스톤, 회로, 집게, 프리즘, 다이얼, 포장 상자"
+    },
+    {
+      "id": "core-pack-v2",
+      "name": "기본 매스몬팩 V2",
+      "count": 10,
+      "path": "_shared/mathmon/core-pack-v2",
+      "status": "active",
+      "styleId": "mathmon-v2-toy-3d",
+      "usedBy": ["3-2-1-1", "3-2-1-2"],
+      "visualNotes": "밝은 장난감/클레이풍 3D 공용 매스몬: 몽글, 콩콩, 젤리, 별빛, 구슬, 빛, 큐브, 스파크, 오로라, 왕관"
+    },
+    {
+      "id": "zero-factory-pack-v2",
+      "name": "0 공장 매스몬팩 V2",
+      "count": 10,
+      "path": "_shared/mathmon/zero-factory-pack-v2",
+      "status": "active",
+      "styleId": "mathmon-v2-toy-3d",
+      "usedBy": ["3-2-1-3"],
+      "avoidOverlapWith": ["core-pack-v2"],
+      "visualNotes": "밝은 장난감/클레이풍 3D 공장 매스몬: 톱니, 볼트, 컨베이어, 자석, 피스톤, 회로, 집게, 프리즘, 다이얼, 포장 상자"
     }
   ]
 }

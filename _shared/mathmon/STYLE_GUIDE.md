@@ -6,11 +6,12 @@
 
 매스몬 이미지는 앞으로 반드시 `_shared/mathmon/`에서 관리합니다. 새 이미지를 차시 폴더에만 생성하거나 저장하지 않습니다.
 
-이미지 분위기는 반드시 일관되어야 합니다. 학생이 차시가 달라져도 같은 시리즈의 보상 카드라고 느껴야 하기 때문입니다. 다만 1~2차시에서 쓰던 `base-pack`은 이미 만들어진 레거시 팩이므로 보존하고, 앞으로 새로 만드는 팩은 아래의 신규 표준을 따릅니다.
+이미지 분위기는 반드시 일관되어야 합니다. 학생이 차시가 달라져도 같은 시리즈의 보상 카드라고 느껴야 하기 때문입니다. `base-pack`과 `zero-factory-pack`은 레거시 팩으로 보존하고, 1~3차시부터는 V2 팩을 활성 표준으로 씁니다.
 
-## 신규 표준 스타일
+## V2 표준 스타일
 
-- 형태: 둥글고 부드러운 장난감 같은 3D 마스코트
+- 스타일 id: `mathmon-v2-toy-3d`
+- 형태: 둥글고 부드러운 장난감/클레이풍 3D 마스코트
 - 표정: 큰 눈, 밝은 표정, 초등학생에게 친근한 인상
 - 실루엣: 작은 썸네일에서도 구분되는 단순하고 강한 외곽
 - 재질: 부드러운 플라스틱, 고무, 천 인형, 무광 금속처럼 과하게 사실적이지 않은 표면
@@ -18,7 +19,7 @@
 - 조명: 부드러운 스튜디오 조명, 강한 그림자나 공포감 있는 대비 금지
 - 카메라: 정면 또는 3/4 정면, 전신, 카드 안에 넣기 좋은 중앙 배치
 - 배경: 원본은 투명 PNG, 생성 중에는 제거 가능한 단색 chroma-key 사용 가능
-- 금지: 텍스트, 로고, 워터마크, 복잡한 배경, 바닥 그림자, 날카로운 공포형 디자인, 과한 디테일
+- 금지: 2D 스티커풍, 굵은 검정 만화 외곽선, 과한 로봇 렌더, 실사 금속, 텍스트, 로고, 워터마크, 복잡한 배경, 바닥 그림자, 날카로운 공포형 디자인, 과한 디테일, 차시마다 다른 렌더링 톤
 
 ## 팩 단위 일관성
 
@@ -31,7 +32,7 @@
 - 카드 안에서의 크기감과 여백
 - 차시 테마와 연결되는 소재 범위
 
-예를 들어 `zero-factory-pack`은 공장·기계·0 스티커 소재로 통일합니다. 같은 팩 안에 갑자기 동물형, 판타지 용형, 사람형을 섞지 않습니다.
+예를 들어 `zero-factory-pack-v2`는 공장·기계·0 스티커 소재로 통일합니다. 같은 팩 안에 갑자기 동물형, 판타지 용형, 사람형을 섞지 않습니다.
 
 ## 중복 방지
 
@@ -41,7 +42,7 @@
 2. 각 팩의 `manifest.json`
 3. 각 팩의 `contact-sheets/`
 
-이미 있는 알, 병아리, 여우, 용, 사자, 독수리, 티라노, 유니콘, 왕관 드래곤 같은 실루엣은 새 팩에서 반복하지 않습니다. 이름만 바꾸고 같은 형태를 다시 만드는 것은 금지입니다.
+이미 있는 팩의 실루엣은 새 팩에서 반복하지 않습니다. 이름만 바꾸고 같은 형태를 다시 만드는 것은 금지입니다.
 
 ## 파일 규격
 
@@ -56,10 +57,10 @@
 
 ```text
 Create ONE original Mathmon character for a Korean elementary math game.
-Style: polished cute rounded toy-like 3D mascot sprite, child-friendly, clean silhouette, full body centered, front three-quarter view, generous padding.
+Style: bright cute rounded toy-like 3D mascot, soft clay/plastic material, child-friendly, clean silhouette, full body centered, front three-quarter view, generous padding.
 The character must match the pack theme: <pack theme>.
 It must not resemble any existing Mathmon in _shared/mathmon/catalog.json.
-Use big friendly eyes, soft studio lighting, simple readable shape, no text, no logo, no watermark.
+Use big friendly eyes, soft studio lighting, simple readable shape, no text, no logo, no watermark. Avoid 2D sticker style, thick black cartoon outline, realistic metal, and industrial robot render.
 Create on a perfectly flat solid #00ff00 chroma-key background for later removal.
 The background must be one uniform color with no shadows, gradients, texture, floor plane, or lighting variation.
 Do not use #00ff00 anywhere in the character.
