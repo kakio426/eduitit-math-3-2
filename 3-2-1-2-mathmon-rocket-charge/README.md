@@ -20,6 +20,15 @@
 
 스크린샷은 `screenshots/` 폴더에 저장합니다.
 
+- `01-cover.png`: 첫 화면
+- `02-tutorial.png`: 설명 화면
+- `03-problem.png`: 문제 화면
+- `03-problem-hint.png`: 힌트 열린 문제 화면
+- `04-reward.png`: 연료 이벤트 모달
+- `05-result-success.png`: 도착 결과 화면
+- `06-result-retry.png`: 다시하기 결과 화면
+- `07-tablet-cover.png`: 태블릿 가로 첫 화면 참고
+
 ## RasterStage 이미지
 
 - `cover-generated.png`: 첫 화면 생성 이미지 원본

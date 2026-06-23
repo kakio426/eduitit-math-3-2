@@ -1,0 +1,44 @@
+# 엔진 재사용 맵 + 이미지 패턴
+
+기준 파일: `3-2-1-2-mathmon-rocket-charge/index.html` (최신 단일 파일 엔진). 새 차시는 이걸 복제해 **문제 생성기 / 보상·등급 라벨 / 테마 이미지** 세 가지만 바꾼다.
+
+## 그대로 재사용하는 함수 (2차시 기준)
+
+> 줄 번호는 참고용. 복제 후 실제 위치는 다시 확인한다.
+
+- 화면/진행: `showScreen`, `startGame`, `renderProblem`, `renderStatus`, `finishProblem`, `nextAfterReward`, `completeProblem`
+- **단계 선택 엔진(핵심)**: `buildSteps`, `getCurrentStep`, `renderStep`, `buildStepOptions`, `handleStepChoice`, `completeStep`, `applyStepToBoard`, `updateStepChips`, `updateCurrentAnswerCell`
+  - 세로셈/나눗셈/검산 등 차시별 알고리즘을 "단계별 선택"으로 가르치는 뼈대. 단계 수·각 단계 계산·오답 보기만 교체.
+- **랜덤 보상 엔진**: `pickFuelEventForRoll`, `rollFuelEvent`, `applyFuelEvent`, `getFuelEventMessage`
+  - 효과 타입(증가 +/× · 감소 −/÷ · 0 · 즉시종료 · 특별=최고 직행)은 유지하고 **라벨만** 차시 소재로 바꾼다.
+  - 한 문제에서 한 번이라도 틀리면 그 문제는 "결함/누수" 처리 → 일부러 틀리기 차단.
+- **결과 등급/연출**: `getDestinationByFuel`, `renderPlanetTrack`(→ 차시별 트랙으로 rename), `showResult`, `getPraise`, `getRetryMessage`
+  - 등급 트랙 5단계 + 무지개(전설) + **정답 수 게이트**. 도감 아님 — 도달 등급 자체가 보상.
+- 공통: `shuffle`, `randomInt`, 오디오 `initAudio`/`playSound`(BGM 토글 포함), RasterStage CSS.
+
+## 단계 선택 설계 규칙
+
+- 각 단계 보기에는 **정답 1개 + 그 단계의 대표 오답**을 반드시 포함한다(차시별 핵심 오개념을 보기로 노출).
+- 마지막 단계는 앞 단계 결과를 합쳐 최종 답을 자동 완성하는 연출로 마무리.
+- 정답 누적은 콤보로 가산, 점수는 play 중 전면 비노출 → 끝나고 총량으로 등급 산정(2차시 방식).
+
+## RasterStage + WebP 이미지 패턴
+
+**RasterStage** = 고정 종횡비 컨테이너(예 `aspect-ratio: 1586/992`, 4:3 계열)에 AI 생성 배경을 깔고, 그 위에 실제 `<button>`을 퍼센트 좌표로 얹는 구조. 점수·문제 같은 가변 데이터는 HTML 오버레이로 유지(이미지에 굽지 않는다).
+
+- 텍스트 안전 여백 + 스크림(반투명 어둠막)으로 글자 가독성 확보.
+- 좌표 스트레스 방지: 배경은 그림, 조작은 투명/반투명 HTML 버튼.
+
+**WebP 규칙**: 작업실 원본은 PNG 보관, 배포는 WebP(quality 82). `index.html`은 webp 참조. 변환은 Pillow(`Image.save(..., format="WEBP", quality=82, method=6)`)를 임시 venv에서 사용 가능.
+
+## 차시당 생성 이미지 표준 세트
+
+| 용도 | 개수 | 비고 |
+| --- | --- | --- |
+| 첫 화면 커버 | 1 | 제목·매스몬·테마·시작 버튼 자리 포함한 한 장면 |
+| 문제 화면 배경(작업 보드) | 1 | 단계 선택판이 얹힐 테마 배경 |
+| 보상 오브젝트 | 1~2 | 차시 소재(바구니·층·별·자물쇠 등) |
+| 결과 등급 이미지 | 5~6 | 등급 5단계 + 무지개(전설) (+ 필요시 실패형) |
+| 결과 무대 배경 | 1 | 시상식/도착 무대(RasterStage) |
+
+> 합체·변신류는 실시간 합성이 아니라 **등급별 완성 이미지를 미리 생성**하고 도달 등급을 보여 준다(2차시 행성과 동형).
