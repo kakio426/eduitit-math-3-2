@@ -32,6 +32,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 3. **정답 ≠ 전부**: 최고 등급은 얻기 어렵게. 정답은 유리하되 유일한 통로 아님. 빈손 금지 + 운으로 도약 가능.
 4. **"다음엔 더 멀리"**: 차시 자체 완결형 등급 결과로 재도전 동기를 만든다(도감 없음 — 모아두는 백엔드 만들지 않음).
 5. 학생 화면에 `AI Mart` 등 내부 용어 노출 금지. 게임 제목은 **매스몬**으로 시작.
+6. **문제 화면 과밀 금지**: 초3 학생이 3초 안에 현재 할 일을 말할 수 있어야 한다. 기본 문제 화면은 큰 문제·현재 단계 조작판·한 줄 지시문·선택지만 남긴다.
 
 ## 빌드 파이프라인
 
@@ -43,8 +44,10 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 6. **이미지**: 필요한 RasterStage 이미지를 생성하고 WebP로 배포 변환 → `references/engine-and-images.md`.
 7. **문서**: `README.md`, `REPORT.md` 작성, `screenshots/`에 첫·설명·문제·보상·결과 화면 저장.
 8. **등록**: `manifest.json`에 차시 추가, 루트 `README.md` 시리즈 표에 행 추가.
-9. **화면 계약 대조**: `SERIES_CONTRACT.md`와 한 줄씩 대조(첫 화면 3요소·배지 위치·중심 보상 1개).
-10. **검증·배포**: `references/verification.md` 통과 → 배포는 `eduitit-main-release` + GitHub Pages, 공개 URL `curl -I -L` 200 확인.
+9. **화면 계약 대조**: `SERIES_CONTRACT.md`와 한 줄씩 대조(첫 화면 3요소·배지 위치·중심 보상 1개·문제 화면 과밀 금지).
+10. **문제 화면 3초 검사**: 문제 화면 스크린샷에서 학생이 볼 기본 요소가 큰 문제·현재 단계·한 줄 지시·선택지뿐인지 확인하고, 설명 패널이 많으면 줄인다.
+11. **Stage 비율 검사**: 모든 `index.html`이 `16:10`/`1280×800` 계약을 지키는지 루트에서 `node scripts/check-stage-ratio.mjs` 실행.
+12. **검증·배포**: `references/verification.md` 통과 → 배포는 `eduitit-main-release` + GitHub Pages, 공개 URL `curl -I -L` 200 확인.
 
 ## 화면 골격 (모든 차시 동일)
 
@@ -53,6 +56,25 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 ```
 
 세부 규칙은 `SERIES_CONTRACT.md`가 단일 기준. 첫 화면 3요소(제목·한 줄 목표·시작 버튼), 브랜드/단원/배움주제 배지 위치, 중심 보상 1개, 결과=차시 자체 완결형 등급은 고정.
+
+## 문제 화면 과밀 금지 계약
+
+- 문제 화면은 설명서가 아니라 **현재 한 단계의 수학 행동을 고르는 화면**이다.
+- 기본으로 펼쳐 둘 수 있는 학습 요소는 `큰 문제`, `현재 단계 조작판`, `한 줄 지시문`, `선택지`뿐이다.
+- 개념 설명판, 풀이 해설판, 힌트판, 계산 미리보기, 보상 상태판을 한 화면에 동시에 펼치지 않는다.
+- 단계형 문제는 현재 단계만 크게 보여 주고, 이전 단계는 작은 완료 칩으로 접으며, 다음 단계는 `?` 또는 잠금 상태로 둔다.
+- 원리는 긴 문장이 아니라 블록·칸·스티커·화살표·자리값 묶음 같은 시각 조작으로 보여 준다.
+- 힌트는 기본으로 닫고, 열어도 지금 단계 힌트 1개만 보여 준다.
+- 스크린샷을 보고 "문제보다 패널이 많다", "문장이 여러 줄이다", "무엇을 눌러야 할지 바로 안 보인다"면 완성하지 말고 즉시 덜어낸다.
+
+## Stage 비율 계약
+
+- 모든 차시는 `16:10` Stage, 기준 제작 크기 `1280×800`으로 만든다.
+- 모든 `index.html`의 `<main class="game">`에는 `data-stage-ratio="16:10"`과 `data-stage-size="1280x800"`을 둔다.
+- 기본 `.screen` CSS는 `width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);`, `min-height: auto;`, `aspect-ratio: 16 / 10;`을 유지한다.
+- PC와 태블릿 가로에서는 Stage를 contain 방식으로 맞추고, 남는 영역은 바깥 배경 여백으로 처리한다.
+- `소리 켬` 같은 전역 조작 버튼은 Stage 밖에 따로 고정하지 말고 Stage 우하단 안전영역을 따라가게 배치한다.
+- 새 차시를 만들거나 화면을 크게 고친 뒤에는 반드시 `node scripts/check-stage-ratio.mjs`를 통과시킨다.
 
 ## 성취기준 표기 주의
 
@@ -69,6 +91,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 ## 참고 파일
 
 - `references/plan-template.md` — 차시 `PLAN.md` 템플릿(구조·화면 수·생성 이미지·검증).
+- `references/lesson-prompts.md` — 24개 차시별 제작 프롬프트와 문제 화면 과밀 방지 공통 프롬프트.
 - `references/engine-and-images.md` — 2차시 재사용 함수 맵 + RasterStage/WebP 이미지 패턴.
 - `references/verification.md` — 빌드·배포 검증 체크리스트.
 - `_shared/mathmon/STYLE_GUIDE.md` — 매스몬 팩 생성·중복 방지·이미지 분위기 기준.
