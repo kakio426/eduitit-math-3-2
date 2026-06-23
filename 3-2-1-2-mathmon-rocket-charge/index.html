@@ -172,9 +172,22 @@
     .primary-button:focus-visible,
     .ghost-button:focus-visible,
     .choice-button:focus-visible,
+    .hint-toggle:focus-visible,
     .sound-toggle:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.86);
       outline-offset: 4px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .sound-toggle {
@@ -996,15 +1009,15 @@
 
     .calc-stage {
       display: grid;
-      grid-template-columns: minmax(210px, 0.8fr) minmax(320px, 1.2fr);
+      grid-template-columns: minmax(320px, 1fr) auto;
       gap: 12px;
       align-items: stretch;
     }
 
     .vertical-sum,
     .step-panel {
-      min-height: 224px;
-      padding: 14px;
+      min-height: 246px;
+      padding: 16px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(14, 12, 22, 0.42);
@@ -1013,17 +1026,22 @@
     .vertical-sum {
       display: grid;
       align-content: center;
-      gap: 6px;
+      gap: 8px;
+      border-color: rgba(53, 217, 178, 0.28);
+      background:
+        radial-gradient(circle at 82% 78%, rgba(53, 217, 178, 0.1), transparent 0 24%, transparent 56%),
+        rgba(14, 12, 22, 0.5);
       font-variant-numeric: tabular-nums;
+      box-shadow: inset 0 0 0 1px rgba(53, 217, 178, 0.08), 0 0 28px rgba(53, 217, 178, 0.08);
     }
 
     .sum-row {
       display: grid;
-      grid-template-columns: 34px repeat(4, minmax(0, 1fr));
+      grid-template-columns: 42px repeat(4, minmax(0, 1fr));
       align-items: center;
-      gap: clamp(4px, 0.55vw, 6px);
+      gap: clamp(6px, 0.8vw, 10px);
       width: 100%;
-      min-height: 40px;
+      min-height: 50px;
     }
 
     .sum-cell,
@@ -1032,10 +1050,10 @@
       place-items: center;
       min-width: 0;
       width: 100%;
-      min-height: clamp(34px, 5vw, 42px);
+      min-height: clamp(46px, 6.2vw, 64px);
       border-radius: var(--radius);
       color: #ffffff;
-      font-size: clamp(1.26rem, 2.75vw, 1.95rem);
+      font-size: clamp(1.74rem, 3.65vw, 2.85rem);
       font-weight: 1000;
       line-height: 1;
       overflow: hidden;
@@ -1052,16 +1070,16 @@
     }
 
     .carry-cell {
-      min-height: 30px;
+      min-height: clamp(38px, 5vw, 52px);
       color: var(--amber);
-      font-size: clamp(1rem, 2.1vw, 1.38rem);
+      font-size: clamp(1.28rem, 2.8vw, 2rem);
       background: rgba(255, 200, 87, 0.08);
       border-color: rgba(255, 200, 87, 0.22);
     }
 
     .sum-line {
-      height: 3px;
-      margin-left: 40px;
+      height: 4px;
+      margin-left: 54px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.42);
     }
@@ -1073,17 +1091,82 @@
     }
 
     .answer-cell.is-current {
-      box-shadow: inset 0 0 0 3px rgba(255, 200, 87, 0.56), 0 0 16px rgba(255, 200, 87, 0.22);
+      box-shadow: inset 0 0 0 4px rgba(255, 200, 87, 0.7), 0 0 22px rgba(255, 200, 87, 0.34);
+    }
+
+    .sum-cell.is-active-factor,
+    .sum-mark.is-active-factor,
+    .carry-cell.is-active-carry {
+      color: #231400;
+      border-color: rgba(255, 200, 87, 0.88);
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.18), 0 0 24px rgba(255, 200, 87, 0.22);
+    }
+
+    .carry-cell.is-carry-target {
+      border-color: rgba(255, 200, 87, 0.74);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 200, 87, 0.18), transparent 0 48%, transparent 70%),
+        rgba(255, 200, 87, 0.08);
+      box-shadow: inset 0 0 0 3px rgba(255, 200, 87, 0.28), 0 0 20px rgba(255, 200, 87, 0.2);
     }
 
     .step-panel {
       display: grid;
-      grid-template-rows: auto minmax(122px, 1fr) auto;
-      gap: 10px;
-      border-color: rgba(255, 200, 87, 0.36);
+      grid-template-rows: auto auto auto;
+      gap: 9px;
+      align-content: center;
+      width: 220px;
+      border-color: rgba(255, 255, 255, 0.14);
       background:
-        linear-gradient(150deg, rgba(255, 200, 87, 0.13), transparent 48%),
-        rgba(14, 12, 22, 0.5);
+        linear-gradient(150deg, rgba(255, 200, 87, 0.06), transparent 46%),
+        rgba(14, 12, 22, 0.38);
+      box-shadow: none;
+    }
+
+    .step-panel:not(.is-open) {
+      width: 92px;
+      padding: 12px;
+      place-items: center;
+      border-color: rgba(255, 200, 87, 0.24);
+      background: rgba(255, 200, 87, 0.06);
+    }
+
+    .step-panel:not(.is-open) .step-track,
+    .step-panel:not(.is-open) .step-focus-label,
+    .step-panel:not(.is-open) .step-formula,
+    .step-panel:not(.is-open) .step-meaning,
+    .step-panel:not(.is-open) #stepHintContent {
+      display: none;
+    }
+
+    #stepHintContent {
+      display: grid;
+      gap: 9px;
+    }
+
+    .hint-toggle {
+      min-width: 68px;
+      min-height: 56px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 200, 87, 0.52);
+      border-radius: var(--radius);
+      color: #231400;
+      background: linear-gradient(180deg, #ffe27a, #ffc857);
+      font-size: clamp(0.92rem, 1.8vw, 1.02rem);
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: 0 8px 0 rgba(106, 70, 23, 0.22), 0 12px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .step-panel.is-open .hint-toggle {
+      justify-self: end;
+      min-width: 58px;
+      min-height: 34px;
+      padding: 6px 10px;
+      color: #ffe7a4;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
     }
 
     .step-focus-label {
@@ -1102,7 +1185,7 @@
     }
 
     .step-chip {
-      min-height: 36px;
+      min-height: 32px;
       display: grid;
       place-items: center;
       padding: 6px 8px;
@@ -1110,7 +1193,7 @@
       border-radius: 999px;
       color: var(--muted);
       background: rgba(255, 255, 255, 0.06);
-      font-size: 0.86rem;
+      font-size: 0.8rem;
       font-weight: 950;
     }
 
@@ -1129,25 +1212,25 @@
     .step-formula {
       display: grid;
       place-items: center;
-      min-height: 122px;
-      padding: 10px 12px;
-      border: 2px solid rgba(255, 200, 87, 0.72);
+      min-height: 82px;
+      padding: 10px;
+      border: 1px solid rgba(255, 200, 87, 0.32);
       border-radius: var(--radius);
-      color: #251500;
+      color: #fff0c6;
       background:
-        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.68), transparent 0 22%, transparent 48%),
-        linear-gradient(180deg, #fff0a8, #ffc857);
-      font-size: clamp(2.25rem, 5.3vw, 4.45rem);
+        radial-gradient(circle at 18% 18%, rgba(255, 200, 87, 0.16), transparent 0 22%, transparent 48%),
+        rgba(255, 200, 87, 0.08);
+      font-size: clamp(1.34rem, 2.7vw, 2.05rem);
       font-weight: 1000;
       text-align: center;
       line-height: 1.08;
-      box-shadow: 0 12px 0 rgba(106, 70, 23, 0.22), 0 18px 34px rgba(0, 0, 0, 0.26);
+      box-shadow: none;
     }
 
     .step-meaning {
       margin: 0;
-      color: #fff0c6;
-      font-size: clamp(0.98rem, 2vw, 1.14rem);
+      color: rgba(255, 240, 198, 0.82);
+      font-size: clamp(0.9rem, 1.65vw, 1rem);
       font-weight: 900;
       line-height: 1.35;
     }
@@ -1240,103 +1323,118 @@
     }
 
     .reward-card {
-      width: min(540px, 100%);
+      width: min(560px, 100%);
       display: grid;
       justify-items: center;
-      gap: 14px;
-      padding: clamp(22px, 5vw, 38px);
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(150deg, rgba(255, 200, 87, 0.2), transparent 42%),
-        #201a2d;
+      gap: 16px;
+      padding: clamp(14px, 3vw, 22px);
+      border: 0;
+      border-radius: 12px;
+      background: rgba(14, 12, 22, 0.42);
       text-align: center;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
+      box-shadow: none;
     }
 
-    .reward-card h3 {
-      margin: 0;
-      color: #ffffff;
-      font-size: clamp(2rem, 5vw, 3.6rem);
-      line-height: 1;
-      font-weight: 1000;
+    .reward-art {
+      position: relative;
+      width: min(480px, 100%);
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      background-image: url("reward-events-sprite-generated.png");
+      background-repeat: no-repeat;
+      background-size: 300% 200%;
+      background-position: 0% 0%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(53, 217, 178, 0.12);
+    }
+
+    .reward-art::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 54%, rgba(14, 12, 22, 0.02), rgba(14, 12, 22, 0.18) 48%, rgba(14, 12, 22, 0.42) 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.1));
+      pointer-events: none;
     }
 
     .reward-delta {
-      display: grid;
+      position: absolute;
+      left: 50%;
+      bottom: 30px;
+      z-index: 2;
+      display: inline-grid;
       place-items: center;
-      width: 176px;
-      height: 92px;
-      padding: 0 14px;
-      border-radius: var(--radius);
+      min-width: 188px;
+      min-height: 86px;
+      padding: 10px 22px;
+      transform: translateX(-50%);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 16px;
       color: #241500;
-      background: linear-gradient(180deg, #ffe27a, #ffc857);
-      font-size: clamp(1.45rem, 3.8vw, 2.3rem);
+      background: linear-gradient(180deg, rgba(255, 231, 128, 0.96), rgba(255, 184, 61, 0.96));
+      font-size: clamp(1.7rem, 4.8vw, 3.05rem);
       font-weight: 1000;
-      line-height: 1.05;
-      box-shadow: 0 16px 0 rgba(106, 70, 23, 0.28);
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+      box-shadow: 0 14px 0 rgba(106, 70, 23, 0.28), 0 22px 30px rgba(0, 0, 0, 0.28);
+      text-shadow: 0 1px rgba(255, 255, 255, 0.32);
     }
 
-    .reward-pop.fuel-event--normal .reward-card,
-    .reward-pop.fuel-event--megaFuel .reward-card {
-      border-color: rgba(53, 217, 178, 0.48);
-      background:
-        linear-gradient(150deg, rgba(53, 217, 178, 0.2), transparent 42%),
-        #201a2d;
+    .reward-pop.reward-art--normal .reward-art {
+      background-position: 0% 0%;
     }
 
-    .reward-pop.fuel-event--smallExplosion .reward-card,
-    .reward-pop.fuel-event--leak .reward-card,
-    .reward-pop.fuel-event--emptyTank .reward-card {
-      border-color: rgba(255, 93, 122, 0.5);
-      background:
-        linear-gradient(150deg, rgba(255, 93, 122, 0.22), transparent 42%),
-        #201a2d;
+    .reward-pop.reward-art--mega .reward-art {
+      background-position: 50% 0%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(255, 200, 87, 0.24);
     }
 
-    .reward-pop.fuel-event--instantLaunch .reward-card {
-      border-color: rgba(255, 200, 87, 0.62);
-      background:
-        linear-gradient(150deg, rgba(255, 200, 87, 0.26), transparent 46%),
-        #201a2d;
-      animation: reward-pop 0.42s ease both;
-    }
-
-    .reward-pop.fuel-event--rainbowFuel .reward-card {
-      border-color: rgba(184, 116, 255, 0.72);
-      background:
-        linear-gradient(135deg, rgba(255, 93, 122, 0.22), rgba(255, 200, 87, 0.16), rgba(96, 215, 255, 0.2), rgba(184, 116, 255, 0.24)),
-        #201a2d;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36), 0 0 42px rgba(96, 215, 255, 0.26);
-    }
-
-    .reward-pop.fuel-event--smallExplosion .reward-card,
-    .reward-pop.fuel-event--emptyTank .reward-card {
+    .reward-pop.reward-art--loss .reward-art {
+      background-position: 100% 0%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 40px rgba(255, 93, 122, 0.22);
       animation: tank-shake 0.5s ease both;
     }
 
-    .reward-pop.fuel-event--smallExplosion .reward-delta,
-    .reward-pop.fuel-event--leak .reward-delta,
-    .reward-pop.fuel-event--emptyTank .reward-delta {
+    .reward-pop.reward-art--empty .reward-art {
+      background-position: 0% 100%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(255, 93, 122, 0.14);
+    }
+
+    .reward-pop.reward-art--launch .reward-art {
+      background-position: 50% 100%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 48px rgba(255, 200, 87, 0.28);
+      animation: reward-pop 0.42s ease both;
+    }
+
+    .reward-pop.reward-art--rainbow .reward-art {
+      background-position: 100% 100%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 54px rgba(96, 215, 255, 0.26), 0 0 40px rgba(184, 116, 255, 0.22);
+    }
+
+    .reward-pop.reward-art--loss .reward-delta,
+    .reward-pop.reward-art--empty .reward-delta {
       color: #ffffff;
-      background: linear-gradient(180deg, #ff8ca6, #ff5d7a);
+      background: linear-gradient(180deg, rgba(255, 140, 166, 0.96), rgba(255, 93, 122, 0.96));
       box-shadow: 0 16px 0 rgba(116, 25, 48, 0.28);
     }
 
-    .reward-pop.fuel-event--rainbowFuel .reward-delta {
+    .reward-pop.reward-art--mega .reward-delta,
+    .reward-pop.reward-art--launch .reward-delta {
+      min-width: 210px;
+      min-height: 96px;
+      font-size: clamp(1.9rem, 5.2vw, 3.25rem);
+    }
+
+    .reward-pop.reward-art--rainbow .reward-delta {
       color: #24132b;
-      background: linear-gradient(90deg, #ff8ca6, #ffe27a, #60d7ff, #c59bff);
+      background: linear-gradient(90deg, #ff8ca6, #ffe27a, #45f2b8, #60d7ff, #c59bff);
+      box-shadow: 0 16px 0 rgba(72, 38, 104, 0.28), 0 0 28px rgba(96, 215, 255, 0.36);
     }
 
     .reward-card p {
-      margin: 0;
-      color: #fff0c6;
-      font-size: clamp(1.04rem, 2.4vw, 1.28rem);
-      font-weight: 900;
-      line-height: 1.35;
-    }
-
-    #rewardMessage {
       display: none;
     }
 
@@ -1891,11 +1989,11 @@
       <div class="tutorial-layout">
         <div class="tutorial-copy">
           <span class="mini-badge">어떻게 해요?</span>
-          <h2 id="tutorialTitle">세로셈을 차례로 채워요</h2>
+          <h2 id="tutorialTitle">세로셈을 차례로 풀어요.</h2>
           <ol class="steps">
-            <li><b>1</b><span>문제를 풀면 연료 일이 일어나요.</span></li>
-            <li><b>2</b><span>가끔 많이 차거나 줄어들 수 있어요.</span></li>
-            <li><b>3</b><span>연료를 모으면 해왕성까지 갈 수 있어요.</span></li>
+            <li><b>1</b><span>문제를 풀면 연료가 변해요.</span></li>
+            <li><b>2</b><span>연료가 많이 늘어나거나 갑자기 줄어들 수도 있어요.</span></li>
+            <li><b>3</b><span>모인 연료에 따라 갈 수 있는 행성이 달라져요.</span></li>
           </ol>
           <button class="primary-button" id="tutorialNextButton" type="button">연료 넣기</button>
         </div>
@@ -1976,7 +2074,7 @@
                 <span class="sum-cell" id="onesDigit">3</span>
               </div>
               <div class="sum-row">
-                <span class="sum-mark">×</span>
+                <span class="sum-mark" id="multiplyMark">×</span>
                 <span class="sum-cell is-empty"></span>
                 <span class="sum-cell is-empty"></span>
                 <span class="sum-cell is-empty"></span>
@@ -1991,15 +2089,18 @@
                 <span class="sum-cell answer-cell is-current" id="onesAnswer">?</span>
               </div>
             </div>
-            <div class="step-panel">
+            <div class="step-panel" id="stepPanel">
+              <button class="hint-toggle" id="hintToggleButton" type="button" aria-expanded="false" aria-controls="stepHintContent">힌트</button>
               <div class="step-track" aria-label="계산 순서">
                 <span class="step-chip is-current" id="stepChipOnes">일</span>
                 <span class="step-chip" id="stepChipTens">십</span>
                 <span class="step-chip" id="stepChipHundreds">백</span>
               </div>
-              <p class="step-focus-label">지금 계산</p>
-              <div class="step-formula" id="stepFormula">3 × 4 = ?</div>
-              <p class="step-meaning" id="stepMeaning">일의 자리부터 계산해요.</p>
+              <div id="stepHintContent">
+                <p class="step-focus-label">지금 계산</p>
+                <div class="step-formula" id="stepFormula">3 × 4 = ?</div>
+                <p class="step-meaning" id="stepMeaning">일의 자리부터 계산해요.</p>
+              </div>
             </div>
           </div>
           <div class="prompt" id="promptText">지금 보이는 계산의 값을 골라요.</div>
@@ -2009,8 +2110,10 @@
       </div>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
         <div class="reward-card">
-          <h3 id="rewardTitle">연료 넣기</h3>
-          <div class="reward-delta" id="rewardDelta">연료 쑥</div>
+          <div class="reward-art" aria-hidden="true">
+            <div class="reward-delta" id="rewardDelta">연료 쑥</div>
+          </div>
+          <h3 class="visually-hidden" id="rewardTitle">연료 넣기</h3>
           <p id="rewardMessage">정답! 로켓의 연료가 들어갔어요.</p>
           <button class="primary-button" id="rewardNextButton" type="button">다음</button>
         </div>
@@ -2105,6 +2208,14 @@
       "fuel-event--rainbowFuel",
       "fuel-event--leak"
     ];
+    const FUEL_ART_CLASSES = [
+      "reward-art--normal",
+      "reward-art--mega",
+      "reward-art--loss",
+      "reward-art--empty",
+      "reward-art--launch",
+      "reward-art--rainbow"
+    ];
 
     const state = {
       screen: "cover",
@@ -2117,6 +2228,7 @@
       stepAttempts: 0,
       problemHadMistake: false,
       problemHadReveal: false,
+      hintOpen: false,
       rainbowFuel: false,
       lastFuelEvent: null,
       instantLaunch: false,
@@ -2147,6 +2259,7 @@
       hundredsDigit: document.getElementById("hundredsDigit"),
       tensDigit: document.getElementById("tensDigit"),
       onesDigit: document.getElementById("onesDigit"),
+      multiplyMark: document.getElementById("multiplyMark"),
       multiplierText: document.getElementById("multiplierText"),
       carryHundredsSlot: document.getElementById("carryHundredsSlot"),
       carryTensSlot: document.getElementById("carryTensSlot"),
@@ -2154,6 +2267,8 @@
       hundredsAnswer: document.getElementById("hundredsAnswer"),
       tensAnswer: document.getElementById("tensAnswer"),
       onesAnswer: document.getElementById("onesAnswer"),
+      stepPanel: document.getElementById("stepPanel"),
+      hintToggleButton: document.getElementById("hintToggleButton"),
       stepChipOnes: document.getElementById("stepChipOnes"),
       stepChipTens: document.getElementById("stepChipTens"),
       stepChipHundreds: document.getElementById("stepChipHundreds"),
@@ -2249,6 +2364,7 @@
       state.problemHadReveal = false;
       el.rewardPop.classList.remove("is-visible");
       FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.questionText.textContent = `${problem.number} × ${problem.multiplier}`;
       el.hundredsDigit.textContent = problem.hundreds;
       el.tensDigit.textContent = problem.tens;
@@ -2336,10 +2452,12 @@
     function renderStep() {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
+      state.hintOpen = false;
       el.phaseLabel.textContent = step.label;
       el.stepFormula.textContent = step.formula;
       el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
+      renderHintPanel();
       updateStepChips();
       updateCurrentAnswerCell();
       el.feedbackText.textContent = "";
@@ -2350,6 +2468,12 @@
         value: option,
         correct: option.value === step.correct
       })), handleStepChoice);
+    }
+
+    function renderHintPanel() {
+      el.stepPanel.classList.toggle("is-open", state.hintOpen);
+      el.hintToggleButton.textContent = state.hintOpen ? "닫기" : "힌트";
+      el.hintToggleButton.setAttribute("aria-expanded", String(state.hintOpen));
     }
 
     function getCurrentStep(problem) {
@@ -2367,8 +2491,8 @@
           label: "일의 자리",
           formula: `${problem.ones} × ${problem.multiplier} = ?`,
           correct: onesRaw,
-          prompt: "위 계산의 값을 골라요.",
-          meaning: "먼저 일의 자리부터 계산해요.",
+          prompt: "왼쪽 세로셈판을 보고 계산값을 골라요.",
+          meaning: "일의 자리 숫자와 곱하는 수를 봐요.",
           hint: `${problem.ones}을 ${problem.multiplier}번 더한 값을 찾아요.`,
           explain: `${onesRaw}라서 일의 자리에 ${problem.onesResult}을 쓰고, 십의 자리로 ${problem.carryToTens} 올려요.`
         },
@@ -2379,8 +2503,8 @@
             ? `${problem.tens} × ${problem.multiplier} + ${problem.carryToTens} = ?`
             : `${problem.tens} × ${problem.multiplier} = ?`,
           correct: tensRaw,
-          prompt: "위 계산의 값을 골라요.",
-          meaning: problem.carryToTens > 0 ? `아까 올린 ${problem.carryToTens}도 더해요.` : "올림이 없으면 그대로 곱해요.",
+          prompt: "왼쪽 세로셈판을 보고 계산값을 골라요.",
+          meaning: problem.carryToTens > 0 ? `십의 자리와 위에 올린 ${problem.carryToTens}을 봐요.` : "십의 자리 숫자와 곱하는 수를 봐요.",
           hint: problem.carryToTens > 0 ? `곱한 뒤 올림 ${problem.carryToTens}을 더해요.` : `${problem.tens} × ${problem.multiplier}을 계산해요.`,
           explain: `${tensRaw}라서 십의 자리에 ${problem.tensResult}을 쓰고, 백의 자리로 ${problem.carryToHundreds} 올려요.`
         },
@@ -2391,8 +2515,8 @@
             ? `${problem.hundreds} × ${problem.multiplier} + ${problem.carryToHundreds} = ?`
             : `${problem.hundreds} × ${problem.multiplier} = ?`,
           correct: hundredsRaw,
-          prompt: "위 계산의 값을 골라요.",
-          meaning: problem.carryToHundreds > 0 ? `백의 자리에는 올림 ${problem.carryToHundreds}을 더해요.` : "마지막으로 백의 자리를 계산해요.",
+          prompt: "왼쪽 세로셈판을 보고 계산값을 골라요.",
+          meaning: problem.carryToHundreds > 0 ? `백의 자리와 위에 올린 ${problem.carryToHundreds}을 봐요.` : "백의 자리 숫자와 곱하는 수를 봐요.",
           hint: problem.carryToHundreds > 0 ? `곱한 뒤 올림 ${problem.carryToHundreds}을 더해요.` : `${problem.hundreds} × ${problem.multiplier}을 계산해요.`,
           explain: `${hundredsRaw}을 앞에 쓰면 ${problem.product.toLocaleString("ko-KR")}이 완성돼요.`
         }
@@ -2411,14 +2535,47 @@
     }
 
     function updateCurrentAnswerCell() {
-      [el.thousandsAnswer, el.hundredsAnswer, el.tensAnswer, el.onesAnswer].forEach((cell) => {
+      [
+        el.thousandsAnswer,
+        el.hundredsAnswer,
+        el.tensAnswer,
+        el.onesAnswer,
+        el.hundredsDigit,
+        el.tensDigit,
+        el.onesDigit,
+        el.multiplierText,
+        el.multiplyMark,
+        el.carryHundredsSlot,
+        el.carryTensSlot
+      ].forEach((cell) => {
         cell.classList.remove("is-current");
+        cell.classList.remove("is-active-factor");
+        cell.classList.remove("is-active-carry");
+        cell.classList.remove("is-carry-target");
       });
+      const problem = currentProblem();
+      el.multiplierText.classList.add("is-active-factor");
+      el.multiplyMark.classList.add("is-active-factor");
       if (state.stepIndex === 0) {
+        el.onesDigit.classList.add("is-active-factor");
+        if (problem.carryToTens > 0) {
+          el.carryTensSlot.classList.add("is-carry-target");
+        }
         el.onesAnswer.classList.add("is-current");
       } else if (state.stepIndex === 1) {
+        el.tensDigit.classList.add("is-active-factor");
+        if (el.carryTensSlot.textContent.trim()) {
+          el.carryTensSlot.classList.add("is-active-carry");
+        }
+        if (problem.carryToHundreds > 0) {
+          el.carryHundredsSlot.classList.add("is-carry-target");
+        }
         el.tensAnswer.classList.add("is-current");
       } else {
+        el.hundredsDigit.classList.add("is-active-factor");
+        if (el.carryHundredsSlot.textContent.trim()) {
+          el.carryHundredsSlot.classList.add("is-active-carry");
+        }
         el.hundredsAnswer.classList.add("is-current");
       }
     }
@@ -2532,7 +2689,7 @@
           id: "normal",
           amount,
           title: "연료가 들어갔어요",
-          message: "연료가 안정적으로 들어갔어요."
+          message: "연료 주입"
         };
       }
       if (roll < 88.45) {
@@ -2541,7 +2698,7 @@
           id: "smallExplosion",
           amount,
           title: "연료통이 펑!",
-          message: "맞췄지만 연료통이 흔들렸어요."
+          message: "연료 감소"
         };
       }
       if (roll < 97.45) {
@@ -2550,7 +2707,7 @@
           id: "megaFuel",
           amount,
           title: "연료가 콸콸!",
-          message: "연료가 크게 들어왔어요!"
+          message: "연료 대량 주입"
         };
       }
       if (roll < 97.95) {
@@ -2558,7 +2715,7 @@
           id: "instantLaunch",
           amount: 6,
           title: "발사 스위치 작동!",
-          message: "발사 스위치가 켜졌어요. 지금 떠날 수 있어요.",
+          message: "발사 준비",
           launches: true
         };
       }
@@ -2567,7 +2724,7 @@
           id: "emptyTank",
           amount: 0,
           title: "연료가 사라졌어요",
-          message: "연료통이 비었어요. 다음 문제로 다시 채워 봐요.",
+          message: "연료 0",
           emptiesTank: true
         };
       }
@@ -2575,7 +2732,7 @@
         id: "rainbowFuel",
         amount: 10,
         title: "무지개 연료 발견!",
-        message: "무지개 연료가 켜졌어요. 떠나면 안드로메다로 가요.",
+        message: "로켓 안이 무지개빛으로 반짝여요.",
         rainbow: true
       };
     }
@@ -2590,7 +2747,7 @@
         id: "leak",
         amount,
         title: "연료가 새요",
-        message: "틀린 곳을 고치며 연료가 새었어요."
+        message: "연료 감소"
       };
     }
 
@@ -2608,37 +2765,96 @@
         state.instantLaunch = true;
       }
       const actualDelta = state.fuelPercent - before;
+      const feedback = getFuelEventFeedback(event, actualDelta, before);
       state.lastFuelEvent = {
         ...event,
         actualDelta,
-        message: getFuelEventMessage(event, actualDelta, before)
+        ...feedback
       };
     }
 
-    function getFuelEventMessage(event, actualDelta, before) {
+    function getFuelEventFeedback(event, actualDelta, before) {
       if (event.rainbow) {
-        return "떠나면 안드로메다로 가요.";
+        return {
+          title: "무지개 연료 발견!",
+          message: "무지개 연료",
+          art: "rainbow"
+        };
       }
       if (event.launches) {
-        return "발사 스위치가 켜졌어요. 지금 떠날 수 있어요.";
+        return {
+          title: "발사 스위치 작동!",
+          message: "발사 준비",
+          art: "launch"
+        };
       }
       if (event.emptiesTank) {
-        return before > 0 ? "연료통이 모두 비었어요. 다음 문제로 다시 채워 봐요." : "연료통이 이미 비어 있어요. 다음 문제로 다시 채워 봐요.";
+        return {
+          title: before > 0 ? "연료가 모두 사라졌어요" : "연료통이 비어 있어요",
+          message: "연료 0",
+          art: "empty"
+        };
       }
       if (actualDelta > 0) {
-        return event.id === "megaFuel" ? "연료가 크게 들어왔어요!" : "연료가 안정적으로 들어갔어요.";
+        if (actualDelta <= 4) {
+          return {
+            title: "연료 주입",
+            message: "연료 주입",
+            art: "normal"
+          };
+        }
+        if (actualDelta <= 8) {
+          return {
+            title: "연료 주입",
+            message: "연료 주입",
+            art: "normal"
+          };
+        }
+        if (actualDelta <= 14) {
+          return {
+            title: "연료 주입",
+            message: "연료 주입",
+            art: event.id === "megaFuel" ? "mega" : "normal"
+          };
+        }
+        return {
+          title: "연료 대량 주입",
+          message: "연료 대량 주입",
+          art: "mega"
+        };
       }
       if (actualDelta < 0) {
-        return event.id === "smallExplosion"
-          ? "맞췄지만 연료통이 흔들렸어요."
-          : "틀린 곳을 고치며 연료가 새었어요.";
+        const loss = Math.abs(actualDelta);
+        if (event.id === "smallExplosion") {
+          return {
+            title: loss <= 5 ? "연료통이 푸슉!" : "연료통이 펑!",
+            message: "연료 감소",
+            art: "loss"
+          };
+        }
+        return {
+          title: loss <= 8 ? "연료가 조금 새요" : "연료가 많이 새요",
+          message: "연료 감소",
+          art: "loss"
+        };
       }
-      return event.amount < 0 ? "연료통이 이미 비어 있어서 더 줄지는 않았어요." : "연료통이 가득 차서 더 들어가지 않았어요.";
+      if (event.amount < 0) {
+        return {
+          title: "연료통이 버텼어요",
+          message: "연료 0",
+          art: "empty"
+        };
+      }
+      return {
+        title: "연료통이 가득 찼어요",
+        message: "연료 가득",
+        art: "mega"
+      };
     }
 
     function getFuelEventDeltaLabel(event) {
       if (event.rainbow) {
-        return "무지개";
+        return "무지개!";
       }
       if (event.launches) {
         return "발사!";
@@ -2674,7 +2890,11 @@
       void el.rocketMini.offsetWidth;
       el.rocketMini.classList.add("is-boosting");
       FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.rewardPop.classList.add(`fuel-event--${result.id}`);
+      if (result.art) {
+        el.rewardPop.classList.add(`reward-art--${result.art}`);
+      }
       el.rewardTitle.textContent = result.title;
       el.rewardDelta.textContent = getFuelEventDeltaLabel(result);
       el.rewardMessage.textContent = result.message;
@@ -2852,6 +3072,11 @@
     });
 
     el.tutorialNextButton.addEventListener("click", startGame);
+    el.hintToggleButton.addEventListener("click", () => {
+      state.hintOpen = !state.hintOpen;
+      renderHintPanel();
+      playSound("next");
+    });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
     el.restartButton.addEventListener("click", () => {
       playSound("start");

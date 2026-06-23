@@ -31,6 +31,7 @@
 - `rocket-charge.webp`: 문제 화면 배포용 로켓
 - `rocket-launchpad-generated.png`: 문제 화면 발사장 배경 생성 이미지 원본
 - `rocket-launchpad-generated.webp`: 문제 화면 발사장 배경 배포용 WebP
+- `reward-events-sprite-generated.png`: 연료 이벤트 모달용 3×2 생성 이미지 스프라이트
 - `result-mercury-generated.png/webp`: 수성 도착 결과 화면
 - `result-venus-generated.png/webp`: 금성 도착 결과 화면
 - `result-earth-generated.png/webp`: 지구 도착 결과 화면
@@ -43,7 +44,7 @@
 - `result-retry-generated.png`: 다시하기 결과 화면 생성 이미지 원본
 - `result-retry-generated.webp`: 다시하기 결과 화면 배포용 WebP
 
-첫 화면과 결과 화면은 생성 이미지를 배경으로 쓰고, 제목·목표·버튼·연료 측정값·정답 수처럼 매 판 달라지는 값은 HTML로 얹습니다. 결과 이미지는 텍스트 없이 로켓, 매스몬, 도착 장소만 담습니다. 문제 화면은 생성 이미지 발사장을 배경으로 깔고 기존 로켓 이미지를 얹습니다. 배터리 창 안쪽 액체 연료, 바닥 링, 증기, 신호등, 빛줄기 효과는 HTML/CSS 레이어로 얹어 연료량에 따라 반응하게 했습니다.
+첫 화면과 결과 화면은 생성 이미지를 배경으로 쓰고, 제목·목표·버튼·연료 측정값·정답 수처럼 매 판 달라지는 값은 HTML로 얹습니다. 결과 이미지는 텍스트 없이 로켓, 매스몬, 도착 장소만 담습니다. 문제 화면은 생성 이미지 발사장을 배경으로 깔고 기존 로켓 이미지를 얹습니다. 배터리 창 안쪽 액체 연료, 바닥 링, 증기, 신호등, 빛줄기 효과는 HTML/CSS 레이어로 얹어 연료량에 따라 반응하게 했습니다. 문제 계산은 왼쪽 세로셈판을 중심으로 보이게 하고, 오른쪽 보조식은 기본으로 숨긴 뒤 `힌트` 버튼을 눌렀을 때만 보여 줍니다. 연료 이벤트 모달은 6개 상황을 담은 스프라이트 이미지를 배경으로 쓰고, `연료 +6`, `연료 -12`, `연료 0`, `발사!`, `무지개!` 같은 짧은 값만 HTML로 얹습니다.
 
 ## 파일 구성
 
@@ -52,6 +53,7 @@
 - `tutorial-generated.webp`: 설명 화면 RasterStage 배경
 - `rocket-charge.webp`: 문제 화면 로켓 이미지
 - `rocket-launchpad-generated.webp`: 문제 화면 발사장 배경
+- `reward-events-sprite-generated.png`: 연료 이벤트 모달 스프라이트
 - `result-*-generated.webp`: 도착지별 결과 RasterStage 배경 9장
 - `result-retry-generated.webp`: 다시하기 RasterStage 배경
 - `eduitit-logo-mark.png`: 에듀잇티 로고
