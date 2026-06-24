@@ -36,7 +36,7 @@
 
 ### 첫 화면
 
-`cover-generated.webp`를 RasterStage 배경으로 사용합니다. `에듀잇티 수학 게임` 브랜드 배지, 차시 배지, 배움주제 배지, 제목, 한 줄 목표, `시작` 버튼은 HTML 오버레이입니다.
+`cover-generated.webp`를 RasterStage 배경으로 사용합니다. 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. `에듀잇티 수학 게임` 브랜드 배지, 차시 배지, 배움주제 배지, 한 줄 목표, `시작` 버튼은 HTML 오버레이입니다.
 
 ### 설명 화면
 
@@ -52,7 +52,7 @@
 
 ### 결과 화면
 
-`result-stage.webp`를 배경으로 사용하고, 도달 등급에 맞는 `result-star-dust.webp`, `result-star-small.webp`, `result-star-constellation.webp`, `result-star-galaxy.webp`, `result-star-universe.webp`, `result-star-rainbow.webp` 중 하나를 표시합니다. 최종 별빛, 정답 수, 등급명, 다시하기 버튼은 HTML 오버레이입니다. 매스몬 동행 캐릭터는 `_shared/mathmon/base-pack/`의 `mathmon-8-unicornmon.webp` 배포본을 사용합니다.
+`result-stage.webp`를 배경으로 사용하고, 도달 등급에 맞는 `result-star-dust.webp`, `result-star-small.webp`, `result-star-constellation.webp`, `result-star-galaxy.webp`, `result-star-universe.webp`, `result-star-rainbow.webp` 중 하나를 표시합니다. 최종 별빛, 정답 수, 등급명, 다시하기 버튼은 HTML 오버레이입니다. 매스몬 동행 캐릭터는 `_shared/mathmon/base-pack/`의 `mathmon-8-unicornmon.webp`를 차시 폴더 `assets/mathmon/base-pack/mathmon-8-unicornmon.webp`로 복사한 배포본을 사용합니다.
 
 ## 5. 검증 포인트
 
@@ -68,3 +68,5 @@
 - 문제 화면은 표본 대비 이미 깨끗해 구조는 유지했습니다. 보드의 `남은 별`·검산식 줄은 정적 군더더기가 아니라 학생 행동 뒤에 실제 진행을 보여 주는 동적 피드백이라 그대로 두었습니다.
 - 보상 연출 보강: 보상 팝업의 별빛 배지에 `requestAnimationFrame` 팝 모션을 추가했습니다.
 - 매스몬 동행: 이미 base-pack `mathmon-8-unicornmon`을 결과 동행으로 사용 중이라 교체하지 않았습니다.
+- 매스몬 경로 정규화: 2단원 다른 차시와 맞춰 `assets/mathmon/base-pack/mathmon-8-unicornmon.webp` 경로를 사용합니다.
+- 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.

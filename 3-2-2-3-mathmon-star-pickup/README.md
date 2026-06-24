@@ -14,7 +14,7 @@
 첫 화면 -> 설명 화면 -> 문제 풀이 -> 보상 -> 결과
 ```
 
-- 첫 화면: `cover-generated.webp` 위에 제목, 한 줄 목표, 시작 버튼을 HTML로 얹습니다.
+- 첫 화면: `cover-generated.webp` 위에 `title-logo-generated.webp` 제목 래스터, 한 줄 목표, 시작 버튼을 얹습니다. 실제 제목은 접근성용 숨김 텍스트로 남깁니다.
 - 설명 화면: 몫 고르기, 나머지 고르기, 검산 보기의 3단계를 짧게 보여 줍니다.
 - 문제 화면: `board-night.webp` 배경 위에서 몫 선택, 나머지 선택, 검산 자동 확인을 진행합니다.
 - 보상 화면: `star.webp`를 중심 보상으로 사용하며 유성우, 구름, 깜깜, 별똥별, 무지개 별 이벤트를 HTML/CSS로 표시합니다. 오답 문제의 나머지는 확인 문구로만 보여 주고 등급 점수에는 더하지 않습니다.
@@ -27,5 +27,6 @@
 - `REPORT.md`: 설계 및 검증 보고서
 - `screenshots/`: 화면별 스크린샷
 - `cover-generated.png/webp`, `tutorial-generated.png/webp`, `board-night.png/webp`, `result-stage.png/webp`: RasterStage 배경
+- `title-logo-chromakey.png`, `title-logo-generated.png/webp`: GPT Image/imagegen 제목 로고 원본과 배포본
 - `star.png/webp`, `result-star-*.png/webp`: 보상 및 결과 등급 이미지
-- `eduitit-logo-mark.png`, `mathmon-8-unicornmon.webp`: 공용 로고와 base-pack 매스몬 동행 캐릭터
+- `eduitit-logo-mark.png`, `assets/mathmon/base-pack/mathmon-8-unicornmon.webp`: 공용 로고와 base-pack 매스몬 동행 캐릭터

@@ -343,6 +343,13 @@
       letter-spacing: 0;
     }
 
+    .hero-title-art {
+      width: min(610px, 100%);
+      max-height: 230px;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.38));
+    }
+
     .hero-copy p {
       margin: 0;
       max-width: 520px;
@@ -351,6 +358,13 @@
       line-height: 1.35;
       font-weight: 950;
       text-shadow: 0 5px 20px rgba(0, 0, 0, 0.44);
+    }
+
+    .cover #startButton {
+      min-width: 190px;
+      min-height: 72px;
+      padding: 0 44px;
+      font-size: clamp(1.18rem, 2.7vw, 1.42rem);
     }
 
     .cover-visual {
@@ -1614,7 +1628,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay">
     <div class="stage-shell">
       <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1633,13 +1647,14 @@
       <span class="lesson-badge">나머지가 있는 나눗셈</span>
       <div class="cover-scene">
         <div class="hero-copy">
-          <h1 id="coverTitle">매스몬 별 줍기</h1>
+          <h1 class="visually-hidden" id="coverTitle">매스몬 별 줍기</h1>
+          <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
           <p>똑같이 나누고 남는 별을 주워 보자!</p>
           <button class="primary-button" id="startButton" type="button">시작</button>
         </div>
         <div class="cover-visual" aria-hidden="true">
           <img class="cover-star" src="star.webp" alt="">
-          <img class="cover-mathmon" src="mathmon-8-unicornmon.webp" alt="">
+          <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-8-unicornmon.webp" alt="">
         </div>
       </div>
     </section>
@@ -1785,7 +1800,7 @@
           <div class="result-star-art">
             <img id="resultStarImage" src="result-star-dust.webp" alt="">
           </div>
-          <img class="result-mathmon" src="mathmon-8-unicornmon.webp" alt="">
+          <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-8-unicornmon.webp" alt="">
         </div>
         <div class="result-copy">
           <h2 id="resultTitle">별빛 측정 준비</h2>
