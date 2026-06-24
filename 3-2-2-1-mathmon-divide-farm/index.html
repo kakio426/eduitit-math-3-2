@@ -2455,7 +2455,6 @@
                 <span class="share-equals">=</span>
                 <span class="basket-slot final-slot" id="hundredsAnswer">몫 ?</span>
               </div>
-              <p class="board-caption" id="boardCaption">십의 자리부터 바구니에 똑같이 나눠요.</p>
             </div>
             <div class="step-panel" id="stepPanel">
               <button class="hint-toggle" id="hintToggleButton" type="button" aria-expanded="false" aria-controls="stepHintContent">힌트</button>
@@ -2630,7 +2629,6 @@
       hundredsAnswer: document.getElementById("hundredsAnswer"),
       tensAnswer: document.getElementById("tensAnswer"),
       onesAnswer: document.getElementById("onesAnswer"),
-      boardCaption: document.getElementById("boardCaption"),
       stepPanel: document.getElementById("stepPanel"),
       hintToggleButton: document.getElementById("hintToggleButton"),
       stepChipOnes: document.getElementById("stepChipOnes"),
@@ -2764,7 +2762,6 @@
       el.hundredsAnswer.textContent = "몫 ?";
       el.tensAnswer.textContent = "?십";
       el.onesAnswer.textContent = "?개";
-      el.boardCaption.textContent = "십의 자리부터 바구니에 똑같이 나눠요.";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderStatus();
@@ -2846,7 +2843,6 @@
       el.stepFormula.textContent = step.formula;
       el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
-      el.boardCaption.textContent = step.prompt;
       renderHintPanel();
       updateStepChips();
       updateCurrentAnswerCell();
@@ -3290,8 +3286,30 @@
         : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
+        animateRewardPop();
         el.rewardNextButton.focus();
       }, 680);
+    }
+
+    function animateRewardPop() {
+      const badge = el.rewardDelta;
+      if (!badge) {
+        return;
+      }
+      const start = performance.now();
+      const duration = 640;
+      function frame(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const scale = 0.64 + 0.36 * eased + Math.sin(t * Math.PI) * 0.16;
+        badge.style.transform = `scale(${scale.toFixed(3)})`;
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          badge.style.transform = "";
+        }
+      }
+      requestAnimationFrame(frame);
     }
 
     function nextAfterReward() {

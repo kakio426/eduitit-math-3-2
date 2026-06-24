@@ -382,6 +382,16 @@
       min-height: clamp(300px, 42vw, 520px);
     }
 
+    .cover-space {
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .cover .raster-bg {
+      filter: brightness(1.12) saturate(1.06);
+    }
+
     .tutorial-copy {
       max-width: 710px;
     }
@@ -961,6 +971,25 @@
       border-color: rgba(255, 255, 255, 0.4);
     }
 
+    .choice-button--stack {
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 2px;
+      line-height: 1.05;
+    }
+
+    .choice-button--stack b {
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+      font-weight: 1000;
+    }
+
+    .choice-button--stack small {
+      font-size: clamp(0.78rem, 1.5vw, 0.94rem);
+      font-weight: 900;
+      opacity: 0.86;
+    }
+
     .choice-button.is-correct {
       color: #10271f;
       border-color: rgba(53, 214, 199, 0.86);
@@ -1532,7 +1561,6 @@
                 <span class="step-chip" id="stepChipOnes">일</span>
               </div>
               <div class="step-formula" id="stepFormula">5 ÷ 4 = ?</div>
-              <p class="step-meaning" id="stepMeaning">십의 자리부터 나눠요.</p>
             </div>
           </div>
 
@@ -1681,7 +1709,6 @@
       stepChipDown: document.getElementById("stepChipDown"),
       stepChipOnes: document.getElementById("stepChipOnes"),
       stepFormula: document.getElementById("stepFormula"),
-      stepMeaning: document.getElementById("stepMeaning"),
       promptText: document.getElementById("promptText"),
       choiceGrid: document.getElementById("choiceGrid"),
       feedbackText: document.getElementById("feedbackText"),
@@ -1879,7 +1906,6 @@
       const problem = currentProblem();
       const step = getCurrentStep(problem);
       el.stepFormula.textContent = state.hintOpen ? step.hint : step.formula;
-      el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
       el.hintToggleButton.textContent = state.hintOpen ? "닫기" : "힌트";
       el.hintToggleButton.setAttribute("aria-expanded", String(state.hintOpen));
@@ -1907,15 +1933,17 @@
           hint: `${problem.tensDigit} 안에 ${problem.divisor}가 ${problem.tensQuot}번 들어가고, ${problem.remainderTens}십이 남아요.`,
           explain: `${problem.tensDigit} ÷ ${problem.divisor} = ${problem.tensQuot}, 남은 십은 ${problem.remainderTens}이에요.`,
           options: [
-            { key: `tens:${problem.tensQuot}:${problem.remainderTens}`, label: `${problem.tensQuot}, 남은 ${problem.remainderTens}십` },
-            { key: `tens:${problem.tensQuot}:0`, label: `${problem.tensQuot}, 남은 십 없음` },
+            { key: `tens:${problem.tensQuot}:${problem.remainderTens}`, label: `${problem.tensQuot} 남은 ${problem.remainderTens}`, html: `<b>${problem.tensQuot}</b><small>남은 ${problem.remainderTens}</small>` },
+            { key: `tens:${problem.tensQuot}:0`, label: `${problem.tensQuot} 남은 0`, html: `<b>${problem.tensQuot}</b><small>남은 0</small>` },
             {
               key: `tens:${problem.tensQuot + 1}:${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}`,
-              label: `${problem.tensQuot + 1}, 남은 ${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}십`
+              label: `${problem.tensQuot + 1} 남은 ${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}`,
+              html: `<b>${problem.tensQuot + 1}</b><small>남은 ${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}</small>`
             },
             {
               key: `tens:${Math.max(0, problem.tensQuot - 1)}:${problem.remainderTens + problem.divisor}`,
-              label: `${Math.max(0, problem.tensQuot - 1)}, 남은 ${problem.remainderTens + problem.divisor}십`
+              label: `${Math.max(0, problem.tensQuot - 1)} 남은 ${problem.remainderTens + problem.divisor}`,
+              html: `<b>${Math.max(0, problem.tensQuot - 1)}</b><small>남은 ${problem.remainderTens + problem.divisor}</small>`
             }
           ]
         },
@@ -2007,7 +2035,12 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-button";
-        button.textContent = option.label;
+        if (option.html) {
+          button.classList.add("choice-button--stack");
+          button.innerHTML = option.html;
+        } else {
+          button.textContent = option.label;
+        }
         button.addEventListener("click", () => handler(option, button));
         el.choiceGrid.appendChild(button);
       });
@@ -2237,8 +2270,30 @@
         : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
+        animateRewardPop();
         el.rewardNextButton.focus();
       }, 560);
+    }
+
+    function animateRewardPop() {
+      const badge = el.rewardDelta;
+      if (!badge) {
+        return;
+      }
+      const start = performance.now();
+      const duration = 620;
+      function frame(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const scale = 0.64 + 0.36 * eased + Math.sin(t * Math.PI) * 0.16;
+        badge.style.transform = `scale(${scale.toFixed(3)})`;
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          badge.style.transform = "";
+        }
+      }
+      requestAnimationFrame(frame);
     }
 
     function nextAfterReward() {

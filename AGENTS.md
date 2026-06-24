@@ -99,8 +99,11 @@
   - `3-2-1-2-mathmon-rocket-charge` 매스몬 로켓발사 대작전 (받아올림 있는 세 자리×한 자리) — 최신 엔진 기준
   - `3-2-1-3-mathmon-zero-factory` 매스몬 0 공장 ((몇십)×(몇십), (몇십몇)×(몇십))
   - `3-2-1-4-mathmon-fusion` 매스몬 로봇 합체 ((몇)×(몇십몇), (몇십몇)×(몇십몇))
-- 2단원 나눗셈: 4차시 상세 계획 수립 완료, 빌드 대기
-  - `3-2-2-1-mathmon-divide-farm`, `3-2-2-2-mathmon-elevator`, `3-2-2-3-mathmon-star-pickup`, `3-2-2-4-mathmon-check-lock` (각 폴더 `PLAN.md`)
+- 2단원 나눗셈: 1~4차시 모두 빌드 완료 + 완성도 폴리시 적용 (문제 화면 과밀 정리, 보상 `requestAnimationFrame` 모션, 매스몬 동행 점검)
+  - `3-2-2-1-mathmon-divide-farm` 매스몬 나누기 농장 (내림 없는 (몇십몇)÷(몇))
+  - `3-2-2-2-mathmon-elevator` 매스몬 엘리베이터 (내림 있는 (두 자리)÷(한 자리))
+  - `3-2-2-3-mathmon-star-pickup` 매스몬 별 줍기 (나머지가 있는 나눗셈)
+  - `3-2-2-4-mathmon-check-lock` 매스몬 검산 자물쇠 (곱셈으로 검산하기)
 - 공통 흐름: 문제 풀이 → 단계 선택 → 랜덤 보상 → 차시별 자체 완결형 등급 결과
 
 ## 레포지토리 운영 기준

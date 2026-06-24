@@ -2464,8 +2464,30 @@
         : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
+        animateRewardPop();
         el.rewardNextButton.focus();
       }, 560);
+    }
+
+    function animateRewardPop() {
+      const badge = el.rewardDelta;
+      if (!badge) {
+        return;
+      }
+      const start = performance.now();
+      const duration = 640;
+      function frame(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const scale = 0.64 + 0.36 * eased + Math.sin(t * Math.PI) * 0.16;
+        badge.style.transform = `scale(${scale.toFixed(3)})`;
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          badge.style.transform = "";
+        }
+      }
+      requestAnimationFrame(frame);
     }
 
     function nextAfterReward() {

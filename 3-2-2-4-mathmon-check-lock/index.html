@@ -342,6 +342,35 @@
 
     .cover-safe-zone {
       min-height: 400px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .cover .raster-bg {
+      filter: brightness(1.16) saturate(1.08);
+    }
+
+    .cover-mathmon {
+      width: clamp(160px, 21vw, 248px);
+      filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.45));
+      animation: mathmon-float 3.2s ease-in-out infinite;
+    }
+
+    .result-visual-space {
+      display: grid;
+      place-items: center;
+    }
+
+    .result-mathmon {
+      width: clamp(150px, 19vw, 226px);
+      filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.42));
+      animation: mathmon-float 3.6s ease-in-out infinite;
+    }
+
+    @keyframes mathmon-float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
     }
 
     .tutorial {
@@ -529,6 +558,7 @@
       width: 100%;
       height: 100%;
       min-height: 0;
+      padding-top: calc(var(--sound-button-size) + 8px);
       display: grid;
       grid-template-columns: minmax(290px, 0.85fr) minmax(540px, 1.15fr);
       gap: 18px;
@@ -776,7 +806,7 @@
       padding: 18px;
       display: grid;
       grid-template-rows: auto 1fr auto auto auto;
-      gap: 10px;
+      gap: 14px;
       background:
         linear-gradient(150deg, rgba(255, 255, 255, 0.07), transparent 40%),
         rgba(12, 18, 24, 0.86);
@@ -833,8 +863,9 @@
 
     .check-board {
       display: grid;
-      gap: 8px;
-      padding: 12px;
+      align-content: center;
+      gap: 10px;
+      padding: 14px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: var(--radius);
       background:
@@ -842,64 +873,60 @@
         rgba(255, 255, 255, 0.07);
     }
 
-    .step-track {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .step-chip {
-      min-height: 38px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: var(--radius);
-      color: rgba(255, 255, 255, 0.7);
-      background: rgba(0, 0, 0, 0.2);
-      font-size: 0.94rem;
-      font-weight: 1000;
-    }
-
-    .step-chip.is-done {
-      border-color: rgba(126, 224, 131, 0.55);
-      color: #eaffec;
-      background: rgba(126, 224, 131, 0.16);
-    }
-
-    .step-chip.is-current {
-      border-color: rgba(255, 200, 79, 0.85);
-      color: #211300;
-      background: linear-gradient(180deg, #ffe483, #ffc84f);
-    }
-
     .equation-stack {
       display: grid;
-      gap: 8px;
+      gap: 9px;
     }
 
     .equation-row {
-      min-height: 52px;
+      min-height: 44px;
       display: grid;
-      grid-template-columns: 112px 1fr;
+      grid-template-columns: 80px 1fr;
       align-items: center;
       gap: 10px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: var(--radius);
-      background: rgba(0, 0, 0, 0.18);
+      background: rgba(0, 0, 0, 0.24);
+      opacity: 0.46;
+      transition: opacity 0.22s ease, min-height 0.22s ease, background 0.22s ease;
     }
 
     .equation-row small {
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 900;
     }
 
     .equation-row strong {
       color: #ffffff;
-      font-size: 1.48rem;
+      font-size: 1.16rem;
       font-weight: 1000;
       line-height: 1.1;
+    }
+
+    .equation-row.is-current {
+      opacity: 1;
+      min-height: 78px;
+      border-color: rgba(255, 200, 79, 0.72);
+      background:
+        linear-gradient(135deg, rgba(255, 200, 79, 0.18), rgba(84, 214, 206, 0.08) 60%),
+        rgba(0, 0, 0, 0.18);
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.22);
+    }
+
+    .equation-row.is-current strong {
+      font-size: 1.92rem;
+    }
+
+    .equation-row.is-done {
+      opacity: 1;
+      border-color: rgba(126, 224, 131, 0.5);
+      background: rgba(126, 224, 131, 0.12);
+    }
+
+    .equation-row.is-done strong {
+      color: #dfffe2;
     }
 
     .answer-slot {
@@ -1547,7 +1574,9 @@
           <p>검산으로 자물쇠를 풀어 금고를 열자!</p>
           <button class="primary-button" id="startButton" type="button">시작</button>
         </div>
-        <div class="cover-safe-zone" aria-hidden="true"></div>
+        <div class="cover-safe-zone" aria-hidden="true">
+          <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp" alt="">
+        </div>
       </div>
     </section>
 
@@ -1620,34 +1649,20 @@
             <span class="phase-label" id="phaseLabel">곱하기</span>
           </div>
 
-          <div class="division-result">
-            <span>검산식</span>
-            <strong id="checkFormulaText">9 × 5 + 2 = ?</strong>
-          </div>
-
           <div class="check-board" aria-label="검산 계산판">
-            <div class="step-track">
-              <span class="step-chip is-current" id="stepChipMultiply">곱하기</span>
-              <span class="step-chip" id="stepChipAdd">더하기</span>
-              <span class="step-chip" id="stepChipDial">자물쇠</span>
-            </div>
             <div class="equation-stack">
-              <div class="equation-row">
+              <div class="equation-row is-current" id="rowMultiply">
                 <small>1단계</small>
                 <strong><span id="multiplyLeft">9 × 5</span> = <span class="answer-slot is-current" id="productSlot">?</span></strong>
               </div>
-              <div class="equation-row">
+              <div class="equation-row" id="rowAdd">
                 <small>2단계</small>
                 <strong><span id="addLeft">45 + 2</span> = <span class="answer-slot" id="sumSlot">?</span></strong>
               </div>
-              <div class="equation-row">
+              <div class="equation-row" id="rowDial">
                 <small>3단계</small>
                 <strong>검산 확인 <span class="answer-slot" id="dialSlot">?</span></strong>
               </div>
-            </div>
-            <div class="step-panel">
-              <div class="step-formula" id="stepFormula">9 × 5 = ?</div>
-              <p class="step-meaning" id="stepMeaning">몫과 나누는 수를 먼저 곱해요.</p>
             </div>
           </div>
 
@@ -1675,7 +1690,9 @@
         <span class="unit-badge">3학년 2학기 2단원 4차시</span>
       </div>
       <div class="result-layout">
-        <div class="result-visual-space" aria-hidden="true"></div>
+        <div class="result-visual-space" aria-hidden="true">
+          <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp" alt="">
+        </div>
         <div class="result-copy">
           <h2 id="resultTitle">금고 측정 중</h2>
           <p class="praise" id="praiseText">검산 보안실에서 금고를 확인하고 있어요.</p>
@@ -1776,17 +1793,14 @@
       sideLockTrack: document.getElementById("sideLockTrack"),
       questionText: document.getElementById("questionText"),
       phaseLabel: document.getElementById("phaseLabel"),
-      checkFormulaText: document.getElementById("checkFormulaText"),
       multiplyLeft: document.getElementById("multiplyLeft"),
       addLeft: document.getElementById("addLeft"),
       productSlot: document.getElementById("productSlot"),
       sumSlot: document.getElementById("sumSlot"),
       dialSlot: document.getElementById("dialSlot"),
-      stepChipMultiply: document.getElementById("stepChipMultiply"),
-      stepChipAdd: document.getElementById("stepChipAdd"),
-      stepChipDial: document.getElementById("stepChipDial"),
-      stepFormula: document.getElementById("stepFormula"),
-      stepMeaning: document.getElementById("stepMeaning"),
+      rowMultiply: document.getElementById("rowMultiply"),
+      rowAdd: document.getElementById("rowAdd"),
+      rowDial: document.getElementById("rowDial"),
       promptText: document.getElementById("promptText"),
       choiceGrid: document.getElementById("choiceGrid"),
       feedbackText: document.getElementById("feedbackText"),
@@ -1865,7 +1879,6 @@
       el.rewardPop.classList.remove("is-visible");
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.questionText.textContent = `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient} ... ${problem.remainder}`;
-      el.checkFormulaText.textContent = `${problem.quotient} × ${problem.divisor} + ${problem.remainder} = ?`;
       el.multiplyLeft.textContent = `${problem.quotient} × ${problem.divisor}`;
       el.addLeft.textContent = `${formatNumber(problem.product)} + ${problem.remainder}`;
       resetSlot(el.productSlot);
@@ -1947,10 +1960,8 @@
       const problem = currentProblem();
       const step = getCurrentStep(problem);
       el.phaseLabel.textContent = step.label;
-      el.stepFormula.textContent = step.formula;
-      el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
-      updateStepChips();
+      updateEquationRows();
       updateCurrentSlot();
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
@@ -2020,14 +2031,14 @@
       ];
     }
 
-    function updateStepChips() {
+    function updateEquationRows() {
       [
-        [el.stepChipMultiply, 0],
-        [el.stepChipAdd, 1],
-        [el.stepChipDial, 2]
-      ].forEach(([chip, index]) => {
-        chip.classList.toggle("is-current", state.stepIndex === index);
-        chip.classList.toggle("is-done", state.stepIndex > index);
+        [el.rowMultiply, 0],
+        [el.rowAdd, 1],
+        [el.rowDial, 2]
+      ].forEach(([row, index]) => {
+        row.classList.toggle("is-current", state.stepIndex === index);
+        row.classList.toggle("is-done", state.stepIndex > index);
       });
     }
 
@@ -2302,8 +2313,30 @@
         : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
+        animateRewardPop();
         el.rewardNextButton.focus();
       }, 620);
+    }
+
+    function animateRewardPop() {
+      const icon = el.rewardPop.querySelector(".reward-icon");
+      if (!icon) {
+        return;
+      }
+      const start = performance.now();
+      const duration = 640;
+      function frame(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const scale = 0.62 + 0.38 * eased + Math.sin(t * Math.PI) * 0.14;
+        icon.style.transform = `scale(${scale.toFixed(3)})`;
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          icon.style.transform = "";
+        }
+      }
+      requestAnimationFrame(frame);
     }
 
     function nextAfterReward() {
