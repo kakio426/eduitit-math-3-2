@@ -39,7 +39,7 @@
 
 ### 첫 화면
 
-첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 배경 래스터는 캐릭터 없는 엘리베이터 장면으로 재생성했고, base-pack `mathmon-5-eaglemon.webp`를 `.cover-mathmon` HTML 이미지로 얹습니다. 게임 제목, 한 줄 목표, 시작 버튼은 HTML로 유지해 선명하게 보이도록 했습니다.
+첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 배경 래스터는 캐릭터 없는 엘리베이터 장면으로 재생성했고, base-pack `mathmon-5-eaglemon.webp`를 `.cover-mathmon` HTML 이미지로 얹습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 한 줄 목표와 시작 버튼은 HTML로 유지해 선명하게 보이도록 했습니다.
 
 ### 설명 화면
 
@@ -89,6 +89,9 @@
 
 - `index.html`
 - `cover-generated.webp`
+- `title-logo-chromakey.png`
+- `title-logo-generated.png`
+- `title-logo-generated.webp`
 - `board-shaft-generated.webp`
 - `reward-events-sprite-generated.png`
 - `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`
@@ -115,3 +118,4 @@
 - 보상 연출 보강: 보상 팝업의 동력 배지에 `requestAnimationFrame` 팝 모션을 추가했습니다.
 - 첫 화면 밝기 보강: `cover .raster-bg`에 가벼운 `brightness/saturate` 보정을 적용했습니다.
 - 매스몬 동행 통일: 첫 화면과 결과 래스터를 캐릭터 없는 엘리베이터 배경으로 재생성하고, `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`를 `.cover-mathmon`과 `.result-mathmon`으로 연결했습니다. 학생 화면에는 독수리몬 한 마리만 보입니다.
+- 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.
