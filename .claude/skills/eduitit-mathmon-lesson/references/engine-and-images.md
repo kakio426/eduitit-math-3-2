@@ -144,6 +144,11 @@
 ```
 
 - 텍스트 안전 여백 + 스크림(반투명 어둠막)으로 글자 가독성 확보.
+- 첫 화면 제목은 단순 `<h1>` 큰 글자로 방치하지 않는다. 사용자가 `그림으로`, `GPT Image`, `제목 이미지`를 요구하면 **전체 커버가 아니라 제목 로고만** 별도 래스터 자산으로 생성한다.
+- 올바른 제작 순서: 기존 `cover-generated.webp` 대표 장면 유지 → GPT Image에 `standalone title/logo asset`, `exact Korean text`, `no full scene`, `flat #00ff00 chroma-key background`로 제목만 생성 → 초록 배경 제거 → `title-poster-source.png`, `title-poster-generated.png`, `title-poster-generated.webp` 저장 → 첫 화면 위에 `.hero-title-art`로 배치.
+- 래스터 제목 자산 HTML 패턴: `<h1 class="visually-hidden" id="coverTitle">게임명</h1>` + `<img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">`.
+- 금지: 전체 커버를 새 이미지로 갈아엎기, 제목 참고 이미지를 16:10 배경으로 늘리기, HTML/CSS/SVG로 제목 그림 흉내 내기, 철자 검수 없이 생성 이미지를 넣기.
+- GPT Image로 제목을 만들 때는 한글 철자를 실제 화면 캡처로 확인한다. 철자가 틀리거나 품질이 맞지 않으면 같은 제목 오버레이 슬롯에서 다시 생성한다.
 - 좌표 스트레스 방지: 배경은 그림, 조작은 투명/반투명 HTML 버튼.
 - `소리` 같은 전역 조작 버튼은 `.stage-shell` 내부 상단 오른쪽 보조 슬롯에 작게 두고, `--sound-button-size`/`--sound-gap`/`--sound-reserve`로 모든 화면에서 같은 위치를 유지한다. 화면별 `transform`, active-screen별 위치 보정, 하단 고정은 금지한다.
 - 소리 버튼은 텍스트 pill이 아니라 원형 SVG 아이콘 버튼이다. 화면에 `소리` 글자를 직접 넣지 말고, 켜짐/꺼짐은 SVG 파형과 `aria-label`로 표현한다.
@@ -165,7 +170,8 @@
 
 | 용도 | 개수 | 비고 |
 | --- | --- | --- |
-| 첫 화면 커버 | 1 | 제목·매스몬·테마·시작 버튼 자리 포함한 한 장면 |
+| 첫 화면 커버 | 1 | 매스몬·테마·시작 버튼 자리 포함한 한 장면 |
+| 첫 화면 제목 타이틀 아트 | 0~1 | 전체 커버가 아니라 제목 로고만 생성해 기존 커버 위에 오버레이 |
 | 문제 화면 배경(작업 보드) | 1 | 단계 선택판이 얹힐 테마 배경 |
 | 보상 오브젝트 | 1~2 | 차시 소재(바구니·층·별·자물쇠 등) |
 | 결과 등급 이미지 | 5~6 | 등급 5단계 + 무지개(전설) (+ 필요시 실패형) |

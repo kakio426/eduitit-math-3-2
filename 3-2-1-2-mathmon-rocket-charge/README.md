@@ -33,6 +33,9 @@
 
 - `cover-generated.png`: 첫 화면 생성 이미지 원본
 - `cover-generated.webp`: 첫 화면 배포용 WebP
+- `title-poster-source.png`: GPT Image로 생성한 첫 화면 제목 이미지 원본
+- `title-poster-generated.png`: 초록 배경 제거 후 크롭한 첫 화면 제목 이미지
+- `title-poster-generated.webp`: 첫 화면 제목 배포용 WebP
 - `tutorial-generated.png`: 설명 화면 생성 이미지 원본
 - `tutorial-generated.webp`: 설명 화면 배포용 WebP
 - `rocket-charge-source.png`: 문제 화면 로켓 생성 이미지 원본
@@ -53,12 +56,13 @@
 - `result-retry-generated.png`: 다시하기 결과 화면 생성 이미지 원본
 - `result-retry-generated.webp`: 다시하기 결과 화면 배포용 WebP
 
-첫 화면과 결과 화면은 생성 이미지를 배경으로 쓰고, 제목·목표·버튼·연료 측정값·정답 수처럼 매 판 달라지는 값은 HTML로 얹습니다. 결과 이미지는 텍스트 없이 로켓, 매스몬, 도착 장소만 담습니다. 문제 화면은 생성 이미지 발사장을 배경으로 깔고 기존 로켓 이미지를 얹습니다. 배터리 창 안쪽 액체 연료, 바닥 링, 증기, 신호등, 빛줄기 효과는 HTML/CSS 레이어로 얹어 연료량에 따라 반응하게 했습니다. 문제 계산은 왼쪽 세로셈판을 중심으로 보이게 하고, 오른쪽 보조식은 기본으로 숨긴 뒤 `힌트` 버튼을 눌렀을 때만 보여 줍니다. 연료 이벤트 모달은 6개 상황을 담은 스프라이트 이미지를 배경으로 쓰고, `연료 +6`, `연료 -12`, `연료 0`, `발사!`, `무지개!` 같은 짧은 값만 HTML로 얹습니다.
+첫 화면과 결과 화면은 생성 이미지를 배경으로 씁니다. 첫 화면 제목은 GPT Image로 만든 별도 타이틀 아트를 배경 위에 얹고, 한 줄 목표와 시작 버튼은 HTML로 얹습니다. 결과 화면의 연료 측정값·정답 수처럼 매 판 달라지는 값도 HTML로 얹습니다. 결과 이미지는 텍스트 없이 로켓, 매스몬, 도착 장소만 담습니다. 문제 화면은 생성 이미지 발사장을 배경으로 깔고 기존 로켓 이미지를 얹습니다. 배터리 창 안쪽 액체 연료, 바닥 링, 증기, 신호등, 빛줄기 효과는 HTML/CSS 레이어로 얹어 연료량에 따라 반응하게 했습니다. 문제 계산은 왼쪽 세로셈판을 중심으로 보이게 하고, 오른쪽 보조식은 기본으로 숨긴 뒤 `힌트` 버튼을 눌렀을 때만 보여 줍니다. 연료 이벤트 모달은 6개 상황을 담은 스프라이트 이미지를 배경으로 쓰고, `연료 +6`, `연료 -12`, `연료 0`, `발사!`, `무지개!` 같은 짧은 값만 HTML로 얹습니다.
 
 ## 파일 구성
 
 - `index.html`: 게임 본문
 - `cover-generated.webp`: 첫 화면 RasterStage 배경
+- `title-poster-generated.webp`: 첫 화면 제목 타이틀 아트
 - `tutorial-generated.webp`: 설명 화면 RasterStage 배경
 - `rocket-charge.webp`: 문제 화면 로켓 이미지
 - `rocket-launchpad-generated.webp`: 문제 화면 발사장 배경
