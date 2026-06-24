@@ -388,6 +388,13 @@
       place-items: center;
     }
 
+    .cover-mathmon {
+      width: clamp(168px, 22vw, 266px);
+      transform: rotate(-4deg);
+      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.34));
+      animation: mathmon-float 4.8s ease-in-out infinite;
+    }
+
     .cover .raster-bg {
       filter: brightness(1.12) saturate(1.06);
     }
@@ -1166,6 +1173,16 @@
       place-items: center;
     }
 
+    .result-mathmon {
+      position: absolute;
+      right: 6%;
+      bottom: 7%;
+      width: clamp(164px, 22vw, 258px);
+      transform: rotate(3deg);
+      filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.36));
+      animation: mathmon-float 5.1s ease-in-out infinite;
+    }
+
     .arrival-floor {
       position: absolute;
       left: 10%;
@@ -1372,6 +1389,17 @@
       }
     }
 
+    @keyframes mathmon-float {
+      0%,
+      100% {
+        translate: 0 0;
+      }
+
+      50% {
+        translate: 0 -12px;
+      }
+    }
+
     @media (max-width: 930px) {
 
       .cover-scene,
@@ -1474,7 +1502,9 @@
           <p>십의 자리부터 한 층씩 내려가며 나눠 보자!</p>
           <button class="primary-button" id="startButton" type="button">시작</button>
         </div>
-        <div class="cover-space" aria-hidden="true"></div>
+        <div class="cover-space" aria-hidden="true">
+          <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-5-eaglemon.webp" alt="">
+        </div>
       </div>
     </section>
 
@@ -1594,6 +1624,7 @@
             <strong id="arrivalShort">?</strong>
             <span id="arrivalName">도착 준비</span>
           </div>
+          <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-5-eaglemon.webp" alt="">
         </div>
         <div class="result-copy">
           <h2 id="resultTitle">도착 층 확인 중</h2>

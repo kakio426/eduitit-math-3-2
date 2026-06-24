@@ -34,8 +34,9 @@
 - `result-roof-generated.png/webp`: 옥상 정원 결과 16:10 RasterStage
 - `result-rainbow-generated.png/webp`: 꼭대기 전망대 결과 16:10 RasterStage
 - `result-retry-generated.png/webp`: 다시 준비 결과 16:10 RasterStage
+- `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`: 첫 화면과 결과 화면 동행 매스몬(독수리몬)
 
-첫 화면과 결과 화면은 생성 이미지를 RasterStage 배경으로 쓰고, 제목·한 줄 목표·시작 버튼·동력·정답 수·도착 층처럼 매 판 달라지는 값은 HTML로 얹습니다. 결과 화면은 도착 층별 배경을 동적으로 교체하며, 실패 결과는 축하 무대가 아니라 안전하게 다시 준비하는 장면으로 분리했습니다. 생성 이미지에는 텍스트와 숫자를 넣지 않았습니다.
+첫 화면과 결과 화면은 생성 이미지를 RasterStage 배경으로 쓰고, 제목·한 줄 목표·시작 버튼·동력·정답 수·도착 층처럼 매 판 달라지는 값은 HTML로 얹습니다. 첫 화면과 결과 배경은 캐릭터 없는 엘리베이터 장면이며, 독수리몬은 `.cover-mathmon`과 `.result-mathmon` HTML 이미지로만 올라갑니다. 결과 화면은 도착 층별 배경을 동적으로 교체하며, 실패 결과는 축하 무대가 아니라 안전하게 다시 준비하는 장면으로 분리했습니다. 생성 이미지에는 텍스트와 숫자를 넣지 않았습니다.
 
 문제 화면은 생성 이미지 샤프트 배경 위에 HTML/CSS 나눗셈 보드와 동적 엘리베이터를 올립니다. 십의 자리 몫, 남은 십, 내린 수, 일의 자리 몫은 학생의 선택에 따라 채워집니다.
 
@@ -46,6 +47,7 @@
 - `board-shaft-generated.webp`: 설명/문제 화면 배경
 - `reward-events-sprite-generated.png`: 보상 이벤트 스프라이트
 - `result-*-generated.webp`: 결과 화면 등급별 배경
+- `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`: base-pack 동행 매스몬 배포본
 - `eduitit-logo-mark.png`: 에듀잇티 로고
 - `screenshots/`: 화면별 스크린샷
 - `REPORT.md`: 게임 설명, 화면 흐름, 보상 구조
