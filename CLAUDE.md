@@ -23,6 +23,8 @@
 - 첫 화면은 제목, 한 줄 목표, 시작 버튼이 가장 먼저 보여야 합니다.
 - 첫 화면과 마지막 결과 화면은 이미지 생성 기반 RasterStage로 제작하고, 매 판 달라지는 텍스트·점수·버튼은 HTML 오버레이로 얹습니다.
 - 모든 차시는 `16:10` Stage, 기준 제작 크기 `1280×800`을 지킵니다. `index.html`의 `<main class="game">`에는 `data-stage-ratio="16:10"`과 `data-stage-size="1280x800"`을 두고, `.stage-shell`이 contain 폭과 비율을 담당하게 합니다.
+- 첫 화면 커버 표준은 `data-cover-standard="generated-title-overlay"`입니다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깔고, 게임명은 생성형 이미지 제목 자산(`title-*-generated.webp`)을 `.hero-title-art`로 얹으며, 한 줄 목표와 `시작` 버튼은 보이는 HTML 오버레이로 둡니다.
+- `cover-generated.webp` 한 장 안에 제목·목표·시작 버튼을 baked-in 하거나, 투명 `cover-start-hitbox`로 시작시키는 방식은 새 차시에 쓰지 않습니다. 기존 1차시처럼 아직 이전 방식인 화면만 `data-cover-standard="legacy-raster-poster"`로 명시하고, 복제 기준으로 삼지 않습니다.
 - `소리` 같은 전역 조작 버튼은 Stage 밖 viewport에 fixed로 띄우지 않고, `.stage-shell` 안의 상단 오른쪽 보조 슬롯에 작게 둡니다. `.stage-shell`의 `--sound-button-size`, `--sound-gap`, `--sound-reserve`로 위치와 예비 공간을 고정하고, `.sound-toggle`에는 화면별 `transform`/active-screen별 위치 보정을 쓰지 않습니다. `top-row`/`hud`는 같은 `--sound-reserve`만큼 비워 버튼이 배지·문제·선택지를 가리지 않게 합니다.
 - 소리 버튼은 텍스트 pill이 아니라 `width/height: var(--sound-button-size)`인 원형 SVG 아이콘 버튼으로 만듭니다. 화면에 `소리` 글자를 직접 노출하지 말고, 켜짐/꺼짐은 SVG 파형과 `aria-label`로만 표현합니다.
 - 상단 배지·단원 pill·소리 버튼은 같은 기준선에 놓습니다. `.top-row`는 `top/left/right`와 `height: var(--sound-button-size)`, `gap: var(--sound-gap)`을 명시하고 `inset` 축약을 쓰지 않습니다. 문제 화면 `.hud`는 `align-items: start`와 `min-height: var(--sound-button-size)`를 둡니다.
@@ -139,7 +141,8 @@
 
 - 모든 새 차시의 첫 화면과 마지막 결과 화면은 이미지 생성으로 만든 대표 장면을 배경으로 사용합니다.
 - 모든 RasterStage와 주요 게임 화면은 `1280×800` 기준 `16:10` 안에서 설계합니다. 생성 이미지가 다른 비율이어도 Stage 안에서는 `object-fit: cover/contain`과 HTML 오버레이로 맞추고, Stage 자체 비율을 바꾸지 않습니다.
-- 첫 화면 생성 이미지는 게임명, 한 줄 목표, 시작 버튼 위치가 분명하게 살아야 하며, 실제 클릭은 HTML 버튼 또는 투명 hitbox로 얹습니다.
+- 첫 화면 배경 이미지는 글자 없는 대표 장면이어야 합니다. 게임명·한 줄 목표·시작 버튼을 한 이미지에 구워 넣지 않고, `cover-generated.webp` 배경 + `.hero-title-art` 제목 이미지 + HTML 목표/버튼 오버레이로 나눕니다.
+- 시작 버튼은 학생에게 보이는 실제 HTML 버튼입니다. 커버 전체에 투명 hitbox를 얹는 방식은 legacy 화면에만 남기고 새 차시에서는 금지합니다.
 - 첫 화면 제목은 배경 이미지 위에 별도의 타이틀 아트로 얹을 수 있습니다. 이때 **생성 대상은 전체 커버가 아니라 제목 로고만**입니다. 기존 `cover-generated.webp` 같은 대표 장면을 유지하고, GPT Image 등으로 만든 제목 로고를 초록 배경 제거 또는 투명 PNG/WebP로 분리해 `.hero-title-art`로 올립니다.
 - 학생에게 보이는 제목은 하나의 그림처럼 보여야 합니다. HTML/CSS로 급조한 밋밋한 큰 글자, 어설픈 SVG 로고, 전체 커버를 새로 합성해 장면 구도를 망가뜨리는 방식, AI가 철자를 틀린 한글 이미지는 모두 실패로 봅니다.
 - 제목 로고를 만드는 순간에는 `image_gen`/GPT Image 등 생성형 이미지 도구를 실제로 사용합니다. 로컬 폰트로 직접 래스터화하거나 CSS 효과를 캡처해 만든 파일은 `.hero-title-art`에 연결하지 않습니다.

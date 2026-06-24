@@ -59,6 +59,10 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 세부 규칙은 `SERIES_CONTRACT.md`가 단일 기준. 첫 화면 3요소(제목·한 줄 목표·시작 버튼), 브랜드/단원/배움주제 배지 위치, 중심 보상 1개, 결과=차시 자체 완결형 등급은 고정.
 
+첫 화면 커버는 기본적으로 `generated-title-overlay` 표준을 따른다. `<main class="game">`에 `data-cover-standard="generated-title-overlay"`를 선언하고, `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깐다. 게임명은 생성형 이미지로 만든 `title-*-generated.webp`를 `.hero-title-art`로 얹고, 한 줄 목표와 `<button class="primary-button" id="startButton">시작</button>`은 보이는 HTML 오버레이로 둔다. 시작 버튼 공통 크기는 `min-width: 190px`, `min-height: 72px`, `padding: 0 44px`이다.
+
+`cover-generated.webp` 한 장 안에 제목·목표·시작 버튼을 구워 넣거나, `cover-art`/`cover-start-hitbox` 투명 클릭 영역을 새 차시에 쓰지 않는다. 아직 마이그레이션하지 않은 기존 차시는 `data-cover-standard="legacy-raster-poster"`로 예외임을 명시하고, 새 차시 복제 기준으로 삼지 않는다.
+
 첫 화면 제목은 단순 큰 HTML 텍스트로 끝내지 않는다. 사용자가 `그림으로`, `GPT Image`, `제목 이미지`를 요구하면 기존 커버 배경은 유지하고, 제목 부분만 독립 래스터 타이틀 아트(`title-logo-generated.webp`, `title-poster-generated.webp` 등)로 생성해 얹는다. 전체 커버를 제목 이미지로 갈아엎거나 HTML/CSS/SVG로 흉내 내지 않는다. 실제 제목은 `visually-hidden` 텍스트로 남긴다. 생성형 이미지 제목은 캡처로 한글 철자와 배경 위 배치 상태를 검수하고, 철자 오류·어색한 자산·생성 실패 중간 결과를 화면에 남기지 않는다.
 
 중요: 첫 화면 제목 자산은 반드시 `image_gen`/GPT Image 등 생성형 이미지 도구로 만든 결과여야 한다. 로컬 폰트, Pillow, canvas, SVG, CSS text-shadow를 이용해 글자를 그린 뒤 이미지처럼 저장한 것은 실패다. 프로젝트에는 생성 원본(`title-*-source.png` 또는 `title-*-chromakey.png`)과 배경 제거 PNG/WebP를 함께 둔다. `node scripts/check-stage-ratio.mjs`가 이 원본 보관 조건을 검사한다.

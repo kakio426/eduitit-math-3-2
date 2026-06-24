@@ -21,11 +21,15 @@
 
 ## 3. 화면 계약 (SERIES_CONTRACT.md 대조)
 - [ ] 첫 화면 3요소(제목·한 줄 목표·시작 버튼) 최우선
+- [ ] 새 표준 커버는 `<main class="game" data-cover-standard="generated-title-overlay">`를 선언함
+- [ ] 첫 화면 배경은 글자 없는 `cover-generated.webp`를 `<img class="raster-bg">`로 깔고 `object-fit: cover`를 사용함
 - [ ] 첫 화면 제목이 단순 큰 HTML 글자처럼 보이지 않고, 배경과 어울리는 타이포그래픽 포스터/워드마크 또는 래스터 타이틀 아트로 보임
 - [ ] 제목을 그림 자산으로 쓰는 경우 기존 커버 배경은 유지되고, 보이는 제목만 `<img class="hero-title-art">` 독립 오버레이로 얹혀 있음
 - [ ] 제목 오버레이는 실제 `image_gen`/GPT Image 생성 산출물이며, 로컬 폰트/Pillow/canvas/SVG/CSS로 만든 텍스트 이미지가 아님
 - [ ] 제목 자산은 생성 원본(`title-*-source.png` 또는 `title-*-chromakey.png`), 투명 PNG(`title-*-generated.png`), 배포 WebP(`title-*-generated.webp`)가 함께 있음
 - [ ] 제목 오버레이는 GPT Image 등으로 만든 래스터 자산이며, 실제 제목은 `visually-hidden` 텍스트로 남아 있고 한글 철자가 캡처에서 정확함
+- [ ] 한 줄 목표와 `시작`은 이미지 안에 구워 넣지 않고 HTML 오버레이로 보이며, 시작 버튼은 `<button class="primary-button" id="startButton">시작</button>` 구조와 190×72 이상 공통 크기를 지킴
+- [ ] 새 차시에 `cover-art`, `cover-start-hitbox`, baked-in 제목/목표/버튼 방식이 남아 있지 않음. 이전 방식이면 `data-cover-standard="legacy-raster-poster"`로 예외 표시되어 있음
 - [ ] 제목 이미지가 한 줄 목표·시작 버튼·하단 배움주제 배지와 겹치지 않음(1280×800, 태블릿 가로 캡처 모두 확인)
 - [ ] 브랜드/단원/배움주제 배지 위치 동일
 - [ ] 소리 버튼이 모든 화면에서 같은 Stage 우상단 좌표에 있음(`--sound-button-size`/`--sound-gap`/`--sound-reserve` 사용, 화면별 transform 금지)

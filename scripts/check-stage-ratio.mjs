@@ -84,7 +84,12 @@ for (const lesson of lessons) {
   const playBlock = getStandaloneBlock(html, ".play");
   const hudBlock = getStandaloneBlock(html, ".hud");
   const soundBlock = getStandaloneBlock(html, ".sound-toggle");
+  const rasterBgBlock = getStandaloneBlock(html, ".raster-bg");
+  const coverStartButtonBlock = getBlock(html, ".cover #startButton");
   const hasStageMeta = /<main\s+class="game"[^>]*data-stage-ratio="16:10"[^>]*data-stage-size="1280x800"/.test(html);
+  const hasStandardCover = /<main\s+class="game"[^>]*data-cover-standard="generated-title-overlay"/.test(html);
+  const hasLegacyCover = /<main\s+class="game"[^>]*data-cover-standard="legacy-raster-poster"/.test(html);
+  const hasLegacyCoverArt = html.includes('class="cover-art"') || html.includes("cover-start-hitbox");
   const hasTopBadges = html.includes('class="brand-badge"') && html.includes(".top-row");
   const hasHudUnitBadge = /<header\s+class="hud"[\s\S]*class="unit-badge"/.test(html);
   const titleArtMatch = html.match(/<img(?=[^>]*class="hero-title-art")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*src="(title-(?:poster|logo)-generated\.webp)"[^>]*>/);
@@ -92,6 +97,12 @@ for (const lesson of lessons) {
   const hasHiddenCoverTitle = /<h1(?=[^>]*class="visually-hidden")(?=[^>]*id="coverTitle")[^>]*>/.test(html);
   const hasTitleArtImage = Boolean(titleArtMatch);
   const hasCoverBackground = /<img(?=[^>]*class="raster-bg")(?=[^>]*src="cover-generated\.webp")[^>]*>/.test(html);
+  const hasCoverScene = /<div\s+class="cover-scene"[\s>]/.test(html);
+  const hasHeroCopy = /<div\s+class="hero-copy"[\s>]/.test(html);
+  const hasVisibleCoverStart = /<button(?=[^>]*class="[^"]*primary-button[^"]*")(?=[^>]*id="startButton")[^>]*>\s*시작\s*<\/button>/.test(html);
+  const hasCoverStartSize = coverStartButtonBlock.includes("min-width: 190px;")
+    && coverStartButtonBlock.includes("min-height: 72px;")
+    && coverStartButtonBlock.includes("padding: 0 44px;");
   const titleArtFile = titleArtMatch?.[1] || "";
   const titleArtBase = titleArtFile.replace(/-generated\.webp$/, "");
   const hasTitleArtWebp = !hasTitleArt || (titleArtFile && await fileExists(path.join(lesson, titleArtFile)));
@@ -103,6 +114,17 @@ for (const lesson of lessons) {
   const stageWidthRuleCount = (html.match(new RegExp(STAGE_WIDTH_RULE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length;
   const checks = [
     [hasStageMeta, "main.game에 data-stage-ratio=\"16:10\" data-stage-size=\"1280x800\"가 필요합니다."],
+    [!hasLegacyCoverArt || hasLegacyCover, "cover-art/cover-start-hitbox 방식은 data-cover-standard=\"legacy-raster-poster\"가 붙은 기존 차시에서만 허용됩니다."],
+    [!hasStandardCover || !hasLegacyCoverArt, "generated-title-overlay 표준 차시는 cover-art/투명 hitbox를 쓰지 않습니다."],
+    [!hasStandardCover || hasCoverBackground, "generated-title-overlay 표준 차시는 첫 화면 배경을 <img class=\"raster-bg\" src=\"cover-generated.webp\">로 둬야 합니다."],
+    [!hasStandardCover || rasterBgBlock.includes("object-fit: cover;"), "generated-title-overlay 표준 차시의 .raster-bg는 object-fit: cover;를 써야 합니다."],
+    [!hasStandardCover || hasCoverScene, "generated-title-overlay 표준 차시는 커버 오버레이를 .cover-scene 안에 배치해야 합니다."],
+    [!hasStandardCover || hasHeroCopy, "generated-title-overlay 표준 차시는 제목·목표·시작 버튼을 .hero-copy 안에 둬야 합니다."],
+    [!hasStandardCover || hasTitleArt, "generated-title-overlay 표준 차시의 첫 화면 제목은 .hero-title-art 독립 이미지여야 합니다."],
+    [!hasTitleArt || hasStandardCover, ".hero-title-art를 쓰는 차시는 main.game에 data-cover-standard=\"generated-title-overlay\"를 선언해야 합니다."],
+    [!hasStandardCover || hasVisibleCoverStart, "generated-title-overlay 표준 차시의 시작 버튼은 투명 hitbox가 아니라 보이는 <button class=\"primary-button\" id=\"startButton\">시작</button>이어야 합니다."],
+    [!hasStandardCover || hasCoverStartSize, "generated-title-overlay 표준 차시의 시작 버튼은 공통 크기(min-width 190px, min-height 72px, padding 0 44px)를 써야 합니다."],
+    [!hasLegacyCover || hasLegacyCoverArt, "legacy-raster-poster 표식은 cover-art/cover-start-hitbox를 쓰는 이전 커버에만 붙입니다."],
     [gameBlock.includes("--stage-padding: clamp(10px, 2vw, 24px);"), ".game은 공통 --stage-padding 값을 가져야 합니다."],
     [gameBlock.includes("padding: var(--stage-padding);"), ".game padding은 var(--stage-padding)을 써야 합니다."],
     [!html.includes("--stage-padding: var(--stage-padding)"), "--stage-padding 재귀 선언이 남아 있습니다."],
