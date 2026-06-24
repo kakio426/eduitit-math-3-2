@@ -49,8 +49,9 @@
 - `result-tier-farm.png/webp`: 농장
 - `result-tier-bigfarm.png/webp`: 대농장
 - `result-tier-rainbow.png/webp`: 전설 황금밭
+- `assets/mathmon/base-pack/mathmon-2-foxmon.webp`: 첫 화면과 결과 화면 동행 매스몬(여우몬)
 
-첫 화면과 설명 화면은 생성 이미지를 배경으로 쓰고, 제목·목표·버튼은 HTML로 얹습니다. 문제 화면은 생성 농장 보드 위에 나눗셈판과 선택지를 HTML/CSS로 얹습니다. 결과 화면은 도달 등급 이미지를 RasterStage 배경으로 사용하고, 수확 점수·정답 수·등급명·다시하기 버튼은 HTML로 얹습니다.
+첫 화면과 설명 화면은 생성 이미지를 배경으로 쓰고, 제목·목표·버튼은 HTML로 얹습니다. 첫 화면 배경은 캐릭터 없는 농장 장면이며, 여우몬은 `.cover-mathmon` HTML 이미지로만 올라갑니다. 문제 화면은 생성 농장 보드 위에 나눗셈판과 선택지를 HTML/CSS로 얹습니다. 결과 화면은 캐릭터 없는 도달 등급별 RasterStage 배경을 사용하고, 여우몬은 `.result-mathmon` 오버레이로 한 마리만 보여 줍니다. 수확 점수·정답 수·등급명·다시하기 버튼은 HTML로 얹습니다.
 
 ## 파일 구성
 

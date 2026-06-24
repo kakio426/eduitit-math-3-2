@@ -352,7 +352,6 @@
       min-height: 470px;
       display: grid;
       place-items: center;
-      visibility: hidden;
     }
 
     .star-field {
@@ -454,11 +453,12 @@
 
     .cover-mathmon {
       position: absolute;
-      right: 2%;
-      bottom: 7%;
-      width: clamp(128px, 16vw, 180px);
+      right: 6%;
+      bottom: 5%;
+      width: clamp(168px, 22vw, 260px);
       transform: rotate(4deg);
       filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.32));
+      animation: float-rocket 4.8s ease-in-out infinite;
     }
 
     .tutorial {
@@ -1614,6 +1614,13 @@
       display: none;
     }
 
+    .result-mathmon {
+      width: clamp(178px, 24vw, 286px);
+      transform: rotate(-3deg);
+      filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.36));
+      animation: float-rocket 5s ease-in-out infinite;
+    }
+
     .result-copy {
       display: grid;
       gap: 14px;
@@ -2351,7 +2358,9 @@
           <p>수확물을 똑같이 나눠 바구니에 담자!</p>
           <button class="primary-button" id="startButton" type="button">시작</button>
         </div>
-        <div class="cover-visual" aria-hidden="true"></div>
+        <div class="cover-visual" aria-hidden="true">
+          <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-2-foxmon.webp" alt="">
+        </div>
       </div>
     </section>
 
@@ -2495,17 +2504,7 @@
       </div>
       <div class="result-layout">
         <div class="launch-scene" aria-hidden="true">
-          <div class="rocket-hero">
-            <div class="rocket-nose"></div>
-            <div class="rocket-body">
-              <div class="rocket-window"></div>
-              <div class="rocket-band"></div>
-            </div>
-            <div class="rocket-fin left"></div>
-            <div class="rocket-fin right"></div>
-            <div class="rocket-flame"></div>
-          </div>
-          <div class="launch-pad"></div>
+          <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-2-foxmon.webp" alt="">
         </div>
         <div class="result-copy">
           <h2 id="resultTitle">수확 정리 준비</h2>
