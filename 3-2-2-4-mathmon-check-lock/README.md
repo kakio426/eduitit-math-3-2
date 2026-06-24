@@ -26,6 +26,8 @@
 ## RasterStage 이미지
 
 - `cover-generated.png/webp`: 첫 화면 금고 보안실 표지
+- `title-logo-chromakey.png`: GPT Image/imagegen으로 생성한 제목 로고 원본
+- `title-logo-generated.png/webp`: 첫 화면 제목 래스터 오버레이
 - `tutorial-generated.png/webp`: 설명 화면 검산 흐름 배경
 - `board-vault-generated.png/webp`: 문제 화면 보안실 배경
 - `lock-generated.png/webp`: 보상 팝업 자물쇠 오브젝트
@@ -38,12 +40,13 @@
 - `result-retry-generated.png/webp`: 다시하기 결과 화면
 - `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`: 첫 화면과 결과 화면 동행 매스몬(킹드래곤몬)
 
-첫 화면과 결과 화면은 캐릭터 없는 RasterStage 배경을 쓰고, 킹드래곤몬은 `.cover-mathmon`과 `.result-mathmon` HTML 이미지로만 얹습니다. 제목·한 줄 목표·버튼·해제 에너지·정답 수·도달 등급처럼 매 판 달라지는 값도 HTML 오버레이입니다. 문제 화면의 계산판과 선택지는 HTML/CSS로 유지해 숫자가 선명하게 보이도록 했습니다. `board-vault-generated.webp`도 캐릭터 없는 금고 배경이며, 금고 해제 에너지는 왼쪽 보안실의 빛, 다이얼, 잠금등이 켜지는 CSS 레이어로 표현합니다.
+첫 화면과 결과 화면은 캐릭터 없는 RasterStage 배경을 쓰고, 킹드래곤몬은 `.cover-mathmon`과 `.result-mathmon` HTML 이미지로만 얹습니다. 첫 화면은 `generated-title-overlay` 표준으로, 제목은 `title-logo-generated.webp` 래스터 오버레이로 얹고 실제 제목 텍스트는 접근성용 숨김 제목으로 남깁니다. 한 줄 목표·버튼·해제 에너지·정답 수·도달 등급처럼 매 판 달라지는 값도 HTML 오버레이입니다. 문제 화면의 계산판과 선택지는 HTML/CSS로 유지해 숫자가 선명하게 보이도록 했습니다. `board-vault-generated.webp`도 캐릭터 없는 금고 배경이며, 금고 해제 에너지는 왼쪽 보안실의 빛, 다이얼, 잠금등이 켜지는 CSS 레이어로 표현합니다.
 
 ## 작업실 파일 구성
 
 - `index.html`: 게임 본문
 - `cover-generated.webp`, `tutorial-generated.webp`, `board-vault-generated.webp`: 주요 화면 배경
+- `title-logo-generated.webp`: 첫 화면 제목 오버레이
 - `result-*-generated.webp`: 금고 등급별 결과 배경
 - `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`: base-pack 동행 매스몬 배포본
 - `lock-generated.webp`: 보상 오브젝트
