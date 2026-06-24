@@ -36,14 +36,16 @@
 - `result-treasure-generated.png/webp`: 보물고 결과 화면
 - `result-rainbow-generated.png/webp`: 전설 금고 결과 화면
 - `result-retry-generated.png/webp`: 다시하기 결과 화면
+- `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`: 첫 화면과 결과 화면 동행 매스몬(킹드래곤몬)
 
-첫 화면과 결과 화면은 RasterStage 배경을 쓰고, 제목·한 줄 목표·버튼·해제 에너지·정답 수·도달 등급처럼 매 판 달라지는 값은 HTML로 얹습니다. 문제 화면의 계산판과 선택지도 HTML/CSS로 유지해 숫자가 선명하게 보이도록 했습니다. 금고 해제 에너지는 왼쪽 보안실의 빛, 다이얼, 잠금등이 켜지는 CSS 레이어로도 표현합니다.
+첫 화면과 결과 화면은 캐릭터 없는 RasterStage 배경을 쓰고, 킹드래곤몬은 `.cover-mathmon`과 `.result-mathmon` HTML 이미지로만 얹습니다. 제목·한 줄 목표·버튼·해제 에너지·정답 수·도달 등급처럼 매 판 달라지는 값도 HTML 오버레이입니다. 문제 화면의 계산판과 선택지는 HTML/CSS로 유지해 숫자가 선명하게 보이도록 했습니다. `board-vault-generated.webp`도 캐릭터 없는 금고 배경이며, 금고 해제 에너지는 왼쪽 보안실의 빛, 다이얼, 잠금등이 켜지는 CSS 레이어로 표현합니다.
 
 ## 작업실 파일 구성
 
 - `index.html`: 게임 본문
 - `cover-generated.webp`, `tutorial-generated.webp`, `board-vault-generated.webp`: 주요 화면 배경
 - `result-*-generated.webp`: 금고 등급별 결과 배경
+- `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`: base-pack 동행 매스몬 배포본
 - `lock-generated.webp`: 보상 오브젝트
 - `eduitit-logo-mark.png`: 에듀잇티 로고
 - `screenshots/`: 화면별 검증 스크린샷

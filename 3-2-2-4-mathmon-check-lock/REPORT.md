@@ -39,7 +39,7 @@
 
 ### 첫 화면
 
-첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 금고와 다이얼, 매스몬 동행 캐릭터가 보이는 보안실 장면 위에 게임 제목, 한 줄 목표, 시작 버튼을 HTML로 얹습니다. 생성 이미지에는 고정 텍스트를 넣지 않아 제목과 버튼이 선명하게 유지됩니다.
+첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 배경 래스터는 캐릭터 없는 보안실 장면으로 재생성했고, base-pack `mathmon-9-kingdragonmon.webp`를 `.cover-mathmon` HTML 이미지로 얹습니다. 게임 제목, 한 줄 목표, 시작 버튼은 HTML로 유지해 선명하게 보이도록 했습니다.
 
 ### 설명 화면
 
@@ -65,7 +65,7 @@
 
 ### 결과 화면
 
-결과 화면은 도달 등급별 RasterStage 배경을 사용합니다. 자물쇠, 금고, 대형금고, 비밀금고, 보물고, 전설 금고 이미지가 따로 있으며, 생성 이미지에는 점수·정답 수·버튼을 넣지 않았습니다. 그 위에 해제 에너지 측정 막대, 정답 수, 도달 등급, 칭찬 문구, 다시하기 버튼을 HTML로 얹습니다.
+결과 화면은 도달 등급별 RasterStage 배경을 사용합니다. 자물쇠, 금고, 대형금고, 비밀금고, 보물고, 전설 금고 이미지가 따로 있으며, 생성 이미지에는 점수·정답 수·버튼이나 캐릭터를 넣지 않았습니다. 그 위에 해제 에너지 측정 막대, 정답 수, 도달 등급, 칭찬 문구, 다시하기 버튼을 HTML로 얹고, 킹드래곤몬은 `.result-mathmon` 오버레이로 한 마리만 보여 줍니다.
 
 ### 다시하기 결과 화면
 
@@ -73,7 +73,7 @@
 
 ## 5. 매스몬 역할
 
-이 차시에서 매스몬은 금고 보안실을 함께 살피는 동행 캐릭터로 등장합니다. 학생이 얻는 중심 보상은 `금고 등급 도달`이며, 도감 수집 구조는 사용하지 않습니다.
+이 차시에서 매스몬은 금고 보안실을 함께 살피는 동행 캐릭터로 등장합니다. 동행은 base-pack `mathmon-9-kingdragonmon.webp`이며, 캐릭터 없는 cover/result 배경 위에 HTML 이미지로만 배치합니다. 학생이 얻는 중심 보상은 `금고 등급 도달`이며, 도감 수집 구조는 사용하지 않습니다.
 
 ## 6. 공개 패키지 구성
 
@@ -84,6 +84,7 @@
 - `tutorial-generated.webp`
 - `board-vault-generated.webp`
 - `lock-generated.webp`
+- `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`
 - `result-lock-generated.webp`
 - `result-safe-generated.webp`
 - `result-large-safe-generated.webp`
@@ -117,6 +118,6 @@
 
 - 문제 화면 과밀 제거: 검산식 패널·단계 칩 트랙·단계 설명 패널의 중복 표시를 없애고, 3단계 계산판을 "현재 단계만 크게, 이전 단계는 완료 칩, 다음 단계는 잠금"으로 재구성했습니다(`.equation-row`의 `is-current`/`is-done` 상태). 초3 3초 판단 기준을 통과합니다.
 - 매스몬 동행 연결: `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`(킹드래곤몬, 금고 수호자 톤)를 첫 화면 `cover-mathmon`과 결과 화면 `result-mathmon`으로 얹어, 본체가 동물/판타지 생물인 매스몬을 동행으로 노출합니다.
+- 래스터 재생성: `cover-generated`, `board-vault-generated`, `result-*-generated` 배경을 캐릭터 없는 금고 장면으로 재생성해, 학생 화면에는 킹드래곤몬 한 마리만 보입니다.
 - 보상 연출 보강: 보상 팝업 등장 시 `requestAnimationFrame` 기반 아이콘 팝 모션을 추가했습니다.
 - 첫 화면 밝기 보강: `cover .raster-bg`에 `brightness/saturate` 보정을 적용했습니다.
-- 남은 자산 과제: 생성 래스터(`cover-generated`, `result-*-generated`, `board-vault-generated`)에 "해 모양" 캐릭터가 그려져 있어 매스몬 오버레이로 가렸으나 일부가 비칩니다. 동물/판타지 생물 기준으로 해당 래스터를 재생성하면 완전히 정리됩니다.
