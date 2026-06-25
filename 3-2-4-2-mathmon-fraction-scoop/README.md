@@ -21,7 +21,9 @@
 - 화면 골격(첫 화면 → 설명 → 문제 → 보상 → 결과), 상단 배지, 소리 버튼, 16:10/1280×800 Stage 계약은 시리즈 공통입니다.
 - 문제 화면 도형(그룹 토큰)은 생성 이미지가 아니라 **SVG**로 그립니다.
 
-## 자산 상태 (TODO)
+## 자산 상태 (완료)
 
-- 첫 화면 커버 배경·제목 타이틀 아트, 결과 등급 6장, `fraction-pack` 매스몬 동행은 **생성형 이미지 자산**으로 이미지 도구 보유 세션에서 만든 뒤 연결합니다. 연결 전까지 첫 화면은 임시 텍스트 제목, 결과는 등급 색 카드로 동작합니다. 안내: `_shared/mathmon/UNIT4_IMAGE_GUIDE.md`.
-- 자산 생성 후 첫 화면을 `generated-title-overlay` 표준으로 승격합니다.
+- 첫 화면은 `generated-title-overlay` 표준입니다. `cover-generated.webp`는 글자 없는 담기 배경이고, 제목은 생성형 이미지 산출물 `title-logo-generated.webp`를 HTML 오버레이로 얹습니다.
+- 제목 원본 3종(`title-logo-source.png`, `title-logo-generated.png`, `title-logo-generated.webp`)과 결과 등급 6장(`result-{handful,smallbasket,basket,bigbasket,cartfull,rainbow}-generated.webp`)을 차시 폴더에 보관합니다.
+- 매스몬 동행은 `_shared/mathmon/fraction-pack/`의 `mathmon-fr-02-basketroo.webp`만 `assets/mathmon/fraction-pack/`에 복사해 사용합니다. 원본 PNG와 contact sheet는 `_shared/mathmon/`에만 둡니다.
+- 최종 스크린샷은 `screenshots/01-cover.png`부터 `screenshots/05-result-success.png`까지 저장했습니다.

@@ -25,7 +25,9 @@
 
 - 문제 화면 비교 막대(SVG), 분수 2선택지, 한 줄 지시문, 진행도, 좌측 줄다리기 점수 미터·등급 트랙, 결과 점수·등급·칭찬·다시하기는 모두 HTML/JS로 매 판 갱신.
 
-## 남은 일 (이미지 도구 보유 세션 — `_shared/mathmon/UNIT4_IMAGE_GUIDE.md`)
+## 생성형 이미지 자산 연결
 
-- 생성형 자산: `cover-generated.webp` + 제목 타이틀 아트 3종 + `result-{draw,smallwin,win,bigwin,champion,rainbow}-generated.webp` + `fraction-pack` 매스몬 동행 1종.
-- 자산 연결 후 첫 화면을 `generated-title-overlay` 표준으로 승격, 결과 래스터 교체, 스크린샷 5장 촬영.
+- `cover-generated.webp`는 글자 없는 줄다리기 배경으로 생성하고, 첫 화면 제목은 `title-logo-source.png` → `title-logo-generated.png` → `title-logo-generated.webp` 3종으로 보관했습니다.
+- 결과 등급 6장(`result-{draw,smallwin,win,bigwin,champion,rainbow}-generated.webp`)을 생성해 `DESTINATIONS[].image`와 연결했습니다.
+- 매스몬 동행은 `fraction-pack`의 `mathmon-fr-04-championseahorse.webp`를 커버/결과에 HTML 오버레이로 한 마리만 얹었습니다.
+- 첫 화면을 `data-cover-standard="generated-title-overlay"` 표준으로 승격했고, `node scripts/check-stage-ratio.mjs` 통과 및 스크린샷 5장 갱신을 완료했습니다.

@@ -1,6 +1,7 @@
 # 4단원 「분수」 이미지 자산 안내 (생성 도구 보유 세션용)
 
-> 작성 기준: 4단원 4차시(3-2-4-1~4)는 **코드·SVG·문서·등록·검증까지 완료**됐고, 현재 임시 텍스트 커버 + 등급 색 카드로 동작한다.
+> 작성 기준: 4단원 4차시(3-2-4-1~4)는 **코드·SVG·문서·등록·검증까지 완료**된 상태에서 이미지 생성 작업을 남겨 두고 있었다.
+> 완료 기록(2026-06-25): `fraction-pack` 4종, 커버·제목 아트·결과 등급 래스터를 생성하고 4개 차시에 연결했다. 현재 첫 화면은 `generated-title-overlay` 표준이고, 결과는 등급별 WebP 래스터를 로드한다.
 > 이 문서는 **이미지 생성 도구(GPT Image 등)를 가진 세션이 만들면 되는 자산**과 연결 절차만 정리한다.
 > 생성·후처리·연결의 단일 공정 기준은 `eduitit-mathmon-lesson` 스킬과 `eduitit-mathmon-assets` 스킬, `MATHMON_ASSET_CONTRACT.md`다.
 
@@ -10,12 +11,12 @@
 
 ## 0. 먼저: 4단원 전용 매스몬 팩 `fraction-pack` 생성 (사용자 선택 = 신규 4종)
 
-`eduitit-mathmon-assets` 스킬 절차대로 진행한다. 시작 전 `MATHMON_ASSET_CONTRACT.md`·`catalog.json`·`STYLE_GUIDE.md`·`base-pack/manifest.json`·base-pack/circle-pack contact sheet를 읽어 실루엣 중복을 피한다.
+`eduitit-mathmon-assets` 스킬 절차대로 진행한다. 시작 전 `MATHMON_ASSET_CONTRACT.md`·`catalog.json`·`STYLE_GUIDE.md`·`base-pack/manifest.json`·활성 팩 contact sheet를 읽어 실루엣 중복을 피한다.
 
 - 팩 위치: `_shared/mathmon/fraction-pack/`(`manifest.json`, `raw-chromakey/`, `png/`, `webp/`, `contact-sheets/`)
 - 스타일: `mathmon-v1-anime-sticker`(1차시 밝은 2D 애니/스티커 톤), 본체는 **동물/판타지 생물**, 분수 테마는 **소품·의상·배지·포즈로만**(피자·컨베이어를 몸으로 만들지 않음)
 - 생성: flat chroma-key → 투명 `768×768` PNG → WebP(82~86) → contact sheet
-- 등록: 팩 `manifest.json` + `catalog.json` 새 팩(`usedBy: ["3-2-4-1","3-2-4-2","3-2-4-3","3-2-4-4"]`, `avoidOverlapWith: ["base-pack","circle-pack"]`)
+- 등록: 팩 `manifest.json` + `catalog.json` 새 팩(`usedBy: ["3-2-4-1","3-2-4-2","3-2-4-3","3-2-4-4"]`, `avoidOverlapWith: ["base-pack","zero-factory-animal-pack"]`)
 - 4종(차시별 1마리) 콘셉트 제안:
   - 4-1 피자 가게: 피자 모자/앞치마를 두른 요리사 동물
   - 4-2 담기: 바구니 멜빵/수확 포즈 동물
@@ -64,19 +65,19 @@
 5. **좌측 점수 패널** 레거시 캡슐 비주얼(로켓 잔재)을 차시 소품(피자/바구니/분류함/줄)으로 교체(선택).
 6. `node scripts/check-stage-ratio.mjs` 통과 확인(표준 커버 승격 후 커버 검사 항목이 활성화됨 — 제목 원본 3종 파일이 있어야 통과).
 7. 스크린샷 촬영: 각 차시 `screenshots/`에 첫·설명·문제·보상·결과(1280×800, 태블릿 가로) 저장.
-8. `README.md`/`REPORT.md`의 "자산 상태 (TODO)"를 완료로 갱신.
+8. `README.md`/`REPORT.md`의 자산 상태를 완료로 갱신.
 
 ---
 
 ## 3. 완료 기준 (검수)
 
-- [ ] 각 차시 cover·result에 매스몬이 **한 마리만**(베이크 캐릭터 겹침 없음), 본체는 동물/판타지.
-- [ ] 첫 화면이 `generated-title-overlay` 표준(글자 없는 배경 + 제목 아트 + HTML 목표/시작 버튼). 한글 철자 캡처 정확.
-- [ ] 제목 원본(`title-logo-source.png`/`-chromakey.png`) + 투명 PNG + WebP 3종 보관.
-- [ ] 결과 등급 6장이 점수대로 표시되고 WebP 200 로드.
-- [ ] `node scripts/check-stage-ratio.mjs` 통과.
-- [ ] `catalog.json`에 `fraction-pack` 등록.
-- [ ] 각 차시 `screenshots/` 5장 + 문서 자산 상태 갱신.
+- [x] 각 차시 cover·result에 매스몬이 **한 마리만**(베이크 캐릭터 겹침 없음), 본체는 동물/판타지.
+- [x] 첫 화면이 `generated-title-overlay` 표준(글자 없는 배경 + 제목 아트 + HTML 목표/시작 버튼). 한글 철자 캡처 정확.
+- [x] 제목 원본(`title-logo-source.png`/`-chromakey.png`) + 투명 PNG + WebP 3종 보관.
+- [x] 결과 등급 6장이 점수대로 표시되고 WebP 200 로드.
+- [x] `node scripts/check-stage-ratio.mjs` 통과.
+- [x] `catalog.json`에 `fraction-pack` 등록.
+- [x] 각 차시 `screenshots/` 5장 + 문서 자산 상태 갱신.
 
 ## 참고
 - 표본 커버/제목 아트: `3-2-1-2-mathmon-rocket-charge`, `3-2-1-3-mathmon-zero-factory`.
