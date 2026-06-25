@@ -5,20 +5,22 @@
 - 대상: 3학년 2학기 1단원 3차시
 - 학습: (몇십)×(몇십), (몇십몇)×(몇십)
 - 문제: 0 처리가 필요한 곱셈 문제 10개 랜덤 출제
-- 방식: `핵심 곱 계산 -> 0 붙이기` 2단계 선택형
-- 보상: 한 문제를 끝낼 때마다 출하 준비 칸이 채워지고, 0 공장 생산 이벤트가 공장 부품 아이콘으로 1번 일어남
-- 결과: 총 생산량을 측정해 출하 등급을 보여 주고, 정답 수와 생산량에 맞는 0 공장 매스몬 카드를 공개함
+- 방식: `0 뗀 곱 계산 -> 0 붙이기` 2단계 선택형
+- 보상: 한 문제를 끝낼 때마다 상자 칸이 채워지고, 컨베이어에서 닫힌 장난감 상자가 움직임
+- 결과: 공장 힘을 확인해 상자가 간 곳을 보여 주고, 정답 수와 공장 힘에 맞는 0 공장 매스몬 카드를 공개함
 - 실행: `index.html`을 브라우저에서 열기
 
 ## 설계 의도
 
-`매스몬 0 공장`은 끝에 0이 붙은 곱셈을 통째로 외우게 하지 않고, 먼저 0을 잠깐 떼어 핵심 부분만 곱한 뒤 떼어 낸 0을 다시 붙이는 원리를 연습하게 만듭니다.
+`매스몬 0 공장`은 끝에 0이 붙은 곱셈을 통째로 외우게 하지 않고, 먼저 0을 잠깐 떼어 0 없는 곱셈을 한 뒤 떼어 낸 0을 다시 붙이는 원리를 연습하게 만듭니다.
 
 예를 들어 `30 × 40`은 `3 × 4 = 12`를 먼저 고른 뒤, 두 수 끝의 0이 모두 2개였다는 것을 골라 `1,200`을 완성합니다. `27 × 40`은 `27 × 4 = 108`을 먼저 고르고, 끝의 0 1개를 붙여 `1,080`을 완성합니다.
 
-보상은 0 공장의 생산량 하나로만 유지합니다. 문제 안에서 한 번이라도 틀리면 그 문제는 불량 처리 이벤트가 적용되어 일부러 틀려 보상을 노리는 흐름을 막습니다. 문제 화면 왼쪽에는 10칸 출하 준비 칸을 두어 완성품과 불량 처리 칸이 눈에 남도록 했고, 보상 팝업에는 생산·불량·정지·무지개 상태가 다른 부품 아이콘으로 보이게 했습니다. 생산량은 문제를 푸는 동안 전면 점수로 보여 주지 않고, 마지막 결과 화면에서 측정해 출하 등급과 0 공장 매스몬 카드로 이어집니다.
+보상은 0 공장의 `공장 힘` 하나로만 유지합니다. 문제 안에서 한 번이라도 틀리면 그 문제는 고칠 상자로 표시되어 일부러 틀려 보상을 노리는 흐름을 막습니다. 문제 화면에는 10칸 상자 칸을 두어 완성 상자와 고칠 상자가 눈에 남도록 했고, 보상 팝업에는 닫힌 장난감 상자만 크게 보이게 했습니다. 보통·대량·고치기·멈춤·무지개 상태는 닫힌 상자 위의 오버레이 이미지로 구분합니다. 매스몬은 중간 보상에서 미리 보여 주지 않고, 마지막 결과 화면에서 상자가 간 곳과 정답 수에 맞는 카드 1장으로만 공개합니다.
 
 3차시는 1차시 매스몬 기준에 맞춰 새로 만든 `0 공장 동물 매스몬팩` 10종을 사용합니다. 본체는 모두 동물/판타지 생물이고, 0 공장 느낌은 작업모, 0 스티커, 작은 배지 같은 소품으로만 표현합니다. 원본 관리는 `_shared/mathmon/zero-factory-animal-pack/`에서 하고, 실행 패키지에는 `assets/mathmon/zero-factory-animal-pack/*.webp`만 복사해 둡니다. 기존 0 공장팩과 V2 장난감/클레이풍 팩은 보존만 하고 실행에는 쓰지 않습니다.
+
+중간 보상용 장난감 상자 자산은 `_shared/mathmon/zero-factory-animal-pack/toybox/`에서 관리합니다. 실행 화면에는 매스몬이 보이는 패키지를 쓰지 않고, 닫힌 장난감 상자 1장과 컨베이어·이벤트 오버레이만 복사합니다. 캐릭터가 보이는 초기 toybox 시안은 공유 폴더에 보존만 하며 런타임에서는 제외합니다.
 
 ## 화면
 
@@ -31,28 +33,36 @@
 - `title-logo-chromakey.png`: GPT Image로 만든 첫 화면 제목 로고 원본
 - `title-logo-generated.png`: 초록 배경 제거 후 크롭한 제목 로고 PNG
 - `title-logo-generated.webp`: 첫 화면 제목 로고 배포용 WebP
+- `tutorial-zero-flow-generated.png`: 설명 화면 생성 이미지 원본
+- `tutorial-zero-flow-generated.webp`: 설명 화면 배포용 WebP
 - `factory-conveyor-generated.png`: 문제 화면 0 공장 배경 생성 이미지 원본
 - `factory-conveyor-generated.webp`: 문제 화면 0 공장 배경 배포용 WebP
-- `result-class-generated.png/webp`: 우리 반 출하 결과 화면
-- `result-school-generated.png/webp`: 학교 출하 결과 화면
-- `result-town-generated.png/webp`: 동네 출하 결과 화면
-- `result-city-generated.png/webp`: 도시 출하 결과 화면
-- `result-country-generated.png/webp`: 전국 출하 결과 화면
-- `result-world-generated.png/webp`: 세계 출하 결과 화면
-- `result-space-generated.png/webp`: 무지개 부품 특별 출하 결과 화면
+- `zero-token-generated.png`: 움직이는 0 이미지 원본
+- `zero-token-generated.webp`: 움직이는 0 배포용 WebP
+- `toybox/*.png/webp`: 닫힌 장난감 상자 1장, 컨베이어 무대 2장, 이벤트 오버레이 3장
+- `result-class-generated.png/webp`: 우리 반 결과 화면
+- `result-school-generated.png/webp`: 학교 결과 화면
+- `result-town-generated.png/webp`: 동네 결과 화면
+- `result-city-generated.png/webp`: 도시 결과 화면
+- `result-country-generated.png/webp`: 전국 결과 화면
+- `result-world-generated.png/webp`: 세계 결과 화면
+- `result-space-generated.png/webp`: 무지개 상자/우주 결과 화면
 - `result-retry-generated.png/webp`: 컨베이어 점검/다시하기 결과 화면
 
-첫 화면과 결과 화면은 생성 이미지를 배경으로 씁니다. 첫 화면 제목은 CSS 텍스트가 아니라 GPT Image로 만든 독립 제목 로고(`title-logo-generated.webp`)를 얹고, 목표·시작 버튼·생산량·정답 수·매스몬 카드처럼 매 판 달라지거나 클릭이 필요한 요소는 HTML로 얹습니다. 설명 화면과 문제 화면은 생성 이미지 0 공장 배경 위에 HTML/CSS 컨베이어 보드를 올려 `핵심 곱 -> 0 스티커 -> 완성 수`가 바로 보이게 했습니다. 성공 결과와 다시하기 결과는 서로 다른 RasterStage 배경을 사용합니다. 결과 화면의 매스몬 카드는 이번 판에서 받은 0 공장 매스몬 1장을 강조합니다.
+첫 화면, 설명 화면, 결과 화면은 생성 이미지를 배경으로 씁니다. 첫 화면 제목은 CSS 텍스트가 아니라 GPT Image로 만든 독립 제목 로고(`title-logo-generated.webp`)를 얹고, 목표·시작 버튼·공장 힘·정답 수·매스몬 카드처럼 매 판 달라지거나 클릭이 필요한 요소는 HTML로 얹습니다. 설명 화면은 숫자와 글자가 없는 생성 이미지(`tutorial-zero-flow-generated.webp`)로 0을 떼고 다시 붙이는 흐름을 보여 주고, 정확한 예시 수식은 HTML 오버레이로 얹습니다. 문제 화면은 생성 이미지 0 공장 배경 위에 HTML/CSS 컨베이어 보드를 올려 `0 뗀 곱 -> 붙일 0 -> 답`이 바로 보이게 했습니다. 성공 결과와 다시하기 결과는 서로 다른 RasterStage 배경을 사용합니다. 결과 화면의 매스몬 카드는 이번 판에서 받은 0 공장 매스몬 1장을 강조합니다.
 
 ## 파일 구성
 
 - `index.html`: 게임 본문
 - `cover-generated.webp`: 첫 화면 RasterStage 배경
 - `title-logo-generated.webp`: 첫 화면 제목 로고 오버레이
+- `tutorial-zero-flow-generated.webp`: 설명 화면 RasterStage 배경
 - `factory-conveyor-generated.webp`: 문제 화면 0 공장 배경
-- `result-*-generated.webp`: 출하 등급별 결과 RasterStage 배경
+- `zero-token-generated.webp`: 움직이는 0 자산
+- `result-*-generated.webp`: 상자가 간 곳별 결과 RasterStage 배경
 - `eduitit-logo-mark.png`: 에듀잇티 로고
 - `assets/mathmon/zero-factory-animal-pack/*.webp`: 0 공장 동물 매스몬 카드 이미지 10종
+- `assets/toybox/*.webp`: 보상 컨베이어와 닫힌 장난감 상자 실행 자산 6장
 - `_shared/mathmon/zero-factory-animal-pack/`: 0 공장 동물 매스몬팩 원본 관리 위치
 - `screenshots/`: 화면별 스크린샷
 - `REPORT.md`: 게임 설명, 화면 흐름, 보상 구조

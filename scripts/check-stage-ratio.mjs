@@ -103,6 +103,8 @@ for (const lesson of lessons) {
   const hasCoverStartSize = coverStartButtonBlock.includes("min-width: 190px;")
     && coverStartButtonBlock.includes("min-height: 72px;")
     && coverStartButtonBlock.includes("padding: 0 44px;");
+  const hasShipmentRepeatCopy = html.includes("출하!")
+    && (html.includes("출하 보기") || html.includes("출하보기"));
   const titleArtFile = titleArtMatch?.[1] || "";
   const titleArtBase = titleArtFile.replace(/-generated\.webp$/, "");
   const hasTitleArtWebp = !hasTitleArt || (titleArtFile && await fileExists(path.join(lesson, titleArtFile)));
@@ -180,6 +182,7 @@ for (const lesson of lessons) {
     [!html.includes(".stage-shell[data-active-screen=\"play\"] .sound-toggle"), "소리 버튼은 화면별(active-screen별) 위치 보정을 만들지 않습니다."],
     [!html.includes('content: "♪";'), "소리 버튼을 음표 문자 pseudo-element로 만들지 않습니다. SVG 스피커 아이콘을 쓰세요."],
     [!html.includes(">소리 켬<") && !html.includes(">소리 끔<") && !html.includes(">BGM 켜짐<") && !html.includes(">BGM 꺼짐<"), "소리 버튼의 긴 상태 문구는 화면에 직접 노출하지 않습니다. 보이는 글자는 짧게 두고 aria-label로 상태를 전달하세요."],
+    [!hasShipmentRepeatCopy, "보상/피드백 모달에서 같은 말을 반복하지 마세요. 예: 출하! + 출하 보기"],
     [!hasTitleArt || hasHiddenCoverTitle, "첫 화면 제목을 그림으로 쓰는 경우 실제 제목은 <h1 class=\"visually-hidden\" id=\"coverTitle\">로 남겨야 합니다."],
     [!hasTitleArt || hasTitleArtImage, "첫 화면 제목 그림은 <img class=\"hero-title-art\" src=\"title-*-generated.webp\" alt=\"\" aria-hidden=\"true\"> 패턴으로 얹어야 합니다."],
     [!hasTitleArt || hasCoverBackground, "제목 그림을 만들 때 전체 커버를 갈아엎지 말고 기존 cover-generated.webp 배경을 유지해야 합니다."],
