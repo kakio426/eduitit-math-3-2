@@ -30,6 +30,10 @@ ai mart/
   3-2-3-2-mathmon-compass-ring/
   3-2-3-3-mathmon-double-bridge/
   3-2-3-4-mathmon-circle-pattern/
+  3-2-4-1-mathmon-pizza-fraction/
+  3-2-4-2-mathmon-fraction-scoop/
+  3-2-4-3-mathmon-fraction-sorter/
+  3-2-4-4-mathmon-fraction-tug/
 ```
 
 ## 차시 폴더 이름 규칙
@@ -69,6 +73,10 @@ ai mart/
 | 3학년 2학기 3단원 2차시 | `3-2-3-2-mathmon-compass-ring` | 매스몬 컴퍼스 마법진 | 컴퍼스로 원 그리기 |
 | 3학년 2학기 3단원 3차시 | `3-2-3-3-mathmon-double-bridge` | 매스몬 두 배 다리 | 지름은 반지름의 두 배 |
 | 3학년 2학기 3단원 4차시 | `3-2-3-4-mathmon-circle-pattern` | 매스몬 원 무늬 디자이너 | 원으로 규칙·무늬 만들기 |
+| 3학년 2학기 4단원 1차시 | `3-2-4-1-mathmon-pizza-fraction` | 매스몬 피자 분수 가게 | 부분과 전체로 분수 나타내기 |
+| 3학년 2학기 4단원 2차시 | `3-2-4-2-mathmon-fraction-scoop` | 매스몬 분수만큼 담기 | 전체의 분수만큼 구하기 |
+| 3학년 2학기 4단원 3차시 | `3-2-4-3-mathmon-fraction-sorter` | 매스몬 분수 분류 컨베이어 | 진분수·가분수·대분수 구분 |
+| 3학년 2학기 4단원 4차시 | `3-2-4-4-mathmon-fraction-tug` | 매스몬 분수 줄다리기 | 분모 같은 분수·단위분수 비교 |
 
 ## 레포지토리 운영
 
