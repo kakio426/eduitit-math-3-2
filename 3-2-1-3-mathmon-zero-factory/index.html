@@ -477,7 +477,7 @@
 
     .tutorial {
       align-items: stretch;
-      padding: clamp(74px, 10vw, 96px) clamp(22px, 5vw, 70px) clamp(26px, 4vw, 42px);
+      padding: clamp(72px, 9vw, 88px) clamp(20px, 4vw, 54px) clamp(24px, 4vw, 38px);
     }
 
     .tutorial::before {
@@ -486,8 +486,7 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(90deg, rgba(14, 12, 22, 0.42) 0%, rgba(14, 12, 22, 0.1) 42%, rgba(14, 12, 22, 0.04) 100%),
-        linear-gradient(180deg, rgba(14, 12, 22, 0.12), rgba(14, 12, 22, 0.42));
+        linear-gradient(180deg, rgba(14, 12, 22, 0.24), rgba(14, 12, 22, 0.08) 42%, rgba(14, 12, 22, 0.3));
       pointer-events: none;
     }
 
@@ -495,31 +494,69 @@
       position: relative;
       z-index: 2;
       width: 100%;
+      height: 100%;
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
-      grid-template-rows: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: 70px minmax(0, 1fr) 68px;
+      grid-template-areas:
+        "head head"
+        "solve reward"
+        "action action";
       align-items: stretch;
-      gap: clamp(14px, 2.4vw, 24px);
+      gap: clamp(10px, 1.5vw, 14px);
+    }
+
+    .tutorial-head {
+      grid-area: head;
+      width: min(620px, 62%);
+      justify-self: center;
+      display: grid;
+      place-items: center;
+      min-height: 66px;
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 200, 87, 0.46);
+      border-radius: 22px;
+      background: rgba(255, 248, 226, 0.88);
+      text-align: center;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
+    }
+
+    .tutorial-head h2 {
+      margin: 0;
+      color: #271600;
+      font-size: clamp(1.42rem, 2.8vw, 2.22rem);
+      line-height: 1.06;
+      font-weight: 1000;
+      word-break: keep-all;
+    }
+
+    .tutorial-panel {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-height: 0;
+      padding: clamp(12px, 1.8vw, 18px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      background: rgba(10, 12, 28, 0.42);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(1.5px);
     }
 
     .tutorial-copy {
-      display: grid;
-      align-content: center;
-      gap: 16px;
-      min-height: 0;
-      padding: clamp(18px, 3vw, 28px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: var(--radius);
-      background: rgba(10, 12, 28, 0.58);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-      backdrop-filter: blur(2px);
+      grid-area: solve;
     }
 
-    .tutorial-copy h2 {
+    .tutorial-reward {
+      grid-area: reward;
+      background: rgba(36, 18, 46, 0.36);
+    }
+
+    .tutorial-panel h3 {
       margin: 0;
       color: #ffffff;
-      font-size: clamp(1.86rem, 4vw, 3.18rem);
+      font-size: clamp(1.16rem, 2.2vw, 1.62rem);
       line-height: 1.06;
       font-weight: 1000;
       word-break: keep-all;
@@ -527,7 +564,7 @@
 
     .steps {
       display: grid;
-      gap: 12px;
+      gap: 6px;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -535,16 +572,16 @@
 
     .steps li {
       display: grid;
-      grid-template-columns: 38px minmax(0, 1fr);
+      grid-template-columns: 32px minmax(0, 1fr);
       align-items: center;
-      gap: 12px;
-      min-height: 58px;
-      padding: 10px;
+      gap: 9px;
+      min-height: 42px;
+      padding: 6px 8px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff;
-      font-size: clamp(0.98rem, 1.8vw, 1.16rem);
+      font-size: clamp(0.9rem, 1.45vw, 1.04rem);
       font-weight: 950;
       line-height: 1.28;
       word-break: keep-all;
@@ -553,24 +590,24 @@
     .steps b {
       display: grid;
       place-items: center;
-      width: 38px;
-      height: 38px;
+      width: 32px;
+      height: 32px;
       border-radius: var(--radius);
       color: #201000;
       background: var(--amber);
-      font-size: 1.05rem;
+      font-size: 0.96rem;
     }
 
     .example-board {
       position: relative;
-      grid-column: 1 / -1;
-      align-self: end;
+      grid-column: auto;
+      align-self: stretch;
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 16px;
+      grid-template-columns: 1fr;
+      align-items: stretch;
+      gap: 5px;
       overflow: hidden;
-      padding: clamp(12px, 2.2vw, 18px);
+      padding: 8px;
       border: 1px solid rgba(96, 215, 255, 0.24);
       border-radius: var(--radius);
       background:
@@ -578,25 +615,6 @@
         rgba(14, 12, 22, 0.72);
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.26);
       backdrop-filter: blur(2px);
-    }
-
-    .example-board::before {
-      content: "";
-      position: absolute;
-      inset: auto -8% 16px -8%;
-      height: 74px;
-      background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 14px, transparent 14px 32px),
-        linear-gradient(180deg, rgba(96, 215, 255, 0.16), rgba(14, 12, 22, 0.42));
-      background-size: 44px 100%, 100% 100%;
-      border-top: 1px solid rgba(255, 255, 255, 0.14);
-      opacity: 0.68;
-      transform: skewX(-8deg);
-    }
-
-    .example-board > * {
-      position: relative;
-      z-index: 1;
     }
 
     .example-title {
@@ -609,13 +627,13 @@
 
     .mini-calculation {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
     }
 
     .mini-cell {
-      min-height: 58px;
-      padding: 8px 10px;
+      min-height: 38px;
+      padding: 5px 6px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.08);
@@ -625,16 +643,16 @@
     .mini-cell span {
       display: block;
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 850;
       white-space: nowrap;
     }
 
     .mini-cell strong {
       display: block;
-      margin-top: 4px;
+      margin-top: 3px;
       color: #ffffff;
-      font-size: clamp(1rem, 1.9vw, 1.34rem);
+      font-size: clamp(0.86rem, 1.35vw, 1.02rem);
       font-weight: 1000;
       line-height: 1.05;
       white-space: nowrap;
@@ -647,10 +665,89 @@
     .example-board .prompt {
       margin: 0;
       color: #fff4cd;
-      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-size: clamp(0.86rem, 1.35vw, 1rem);
       font-weight: 950;
       line-height: 1.28;
       word-break: keep-all;
+    }
+
+    .reward-guide {
+      margin: 0;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 200, 87, 0.24);
+      border-radius: var(--radius);
+      color: #fff4cd;
+      background: rgba(255, 200, 87, 0.1);
+      font-size: clamp(0.86rem, 1.34vw, 0.98rem);
+      font-weight: 900;
+      line-height: 1.3;
+      word-break: keep-all;
+    }
+
+    .tier-strip {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .tier-card {
+      min-width: 0;
+      display: grid;
+      justify-items: center;
+      gap: 3px;
+      padding: 6px 4px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      background: rgba(14, 12, 22, 0.34);
+    }
+
+    .tier-card img {
+      width: min(46px, 100%);
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.28));
+    }
+
+    .tier-card strong {
+      color: #ffffff;
+      font-size: clamp(0.64rem, 0.98vw, 0.76rem);
+      font-weight: 950;
+      line-height: 1.05;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .reward-rules {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .reward-rules li {
+      display: grid;
+      place-items: center;
+      min-height: 38px;
+      padding: 6px 7px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.09);
+      font-size: clamp(0.78rem, 1.16vw, 0.9rem);
+      font-weight: 950;
+      line-height: 1.16;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .tutorial-action {
+      grid-area: action;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 64px;
     }
 
     .play {
@@ -1100,15 +1197,15 @@
 
     .shipment-slot {
       position: relative;
-      min-height: 22px;
+      min-height: 42px;
       display: grid;
       place-items: center;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: var(--radius);
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.12)),
-        rgba(14, 12, 22, 0.56);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1)),
+        rgba(34, 30, 48, 0.72);
       color: rgba(255, 255, 255, 0.52);
       font-size: 0.8rem;
       font-weight: 1000;
@@ -1118,13 +1215,28 @@
     .shipment-slot::after {
       content: "";
       width: 70%;
-      max-width: 20px;
-      height: 13px;
+      max-width: 30px;
+      height: 18px;
       border-radius: 4px;
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 42%),
-        rgba(255, 255, 255, 0.16);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 42%),
+        rgba(255, 255, 255, 0.24);
       box-shadow: inset 0 4px 0 rgba(0, 0, 0, 0.16);
+    }
+
+    .shipment-slot.has-box::after {
+      content: none;
+    }
+
+    .shipment-slot-image {
+      position: relative;
+      z-index: 2;
+      width: min(34px, 86%);
+      height: min(34px, 86%);
+      object-fit: contain;
+      filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.28));
+      pointer-events: none;
+      user-select: none;
     }
 
     .shipment-slot.is-current {
@@ -1151,6 +1263,10 @@
       box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.14);
     }
 
+    .shipment-slot.has-box.is-filled::after {
+      content: none;
+    }
+
     .shipment-slot.is-defect {
       color: #ffffff;
       border-color: rgba(255, 93, 122, 0.78);
@@ -1168,6 +1284,34 @@
         linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent 42%),
         #7b1530;
       box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .shipment-slot.has-box.is-defect::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      z-index: 3;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 4px #ff5d7a, 0 2px 5px rgba(0, 0, 0, 0.24);
+    }
+
+    .shipment-slot.is-tier-silver,
+    .shipment-slot.is-tier-gold,
+    .shipment-slot.is-tier-crown,
+    .shipment-slot.is-tier-rainbow {
+      border-color: rgba(255, 226, 122, 0.72);
+      box-shadow: 0 0 18px rgba(255, 200, 87, 0.18);
+    }
+
+    .shipment-slot.is-tier-rainbow {
+      background:
+        linear-gradient(135deg, rgba(255, 93, 122, 0.34), rgba(255, 200, 87, 0.28), rgba(96, 215, 255, 0.3), rgba(184, 140, 255, 0.34)),
+        rgba(14, 12, 22, 0.62);
+      box-shadow: 0 0 22px rgba(96, 215, 255, 0.26), 0 0 16px rgba(184, 140, 255, 0.18);
     }
 
     .planet-panel {
@@ -1492,25 +1636,37 @@
     .shipment-goal {
       position: absolute;
       z-index: 7;
-      left: 22px;
-      bottom: 14px;
-      display: flex;
+      left: 16px;
+      right: 16px;
+      bottom: 10px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       align-items: center;
-      justify-content: center;
-      min-width: 108px;
-      padding: 6px 12px 7px;
+      gap: 10px;
+      min-width: 0;
+      padding: 8px 10px;
       border: 1px solid rgba(255, 200, 87, 0.28);
-      border-radius: 999px;
+      border-radius: var(--radius);
       background: rgba(12, 10, 18, 0.76);
       color: #ffffff;
       box-shadow: 0 10px 18px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(10px);
     }
 
-    .shipment-goal span {
-      display: none;
+    .shipment-goal > span {
+      grid-column: 1;
+      grid-row: 1;
+      display: block;
+      color: #ffe8ba;
+      font-size: clamp(0.82rem, 1.35vw, 0.95rem);
+      font-weight: 1000;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     .shipment-goal strong {
+      grid-column: 3;
+      grid-row: 1;
       color: #ffe27a;
       font-size: clamp(0.92rem, 1.5vw, 1.04rem);
       font-weight: 1000;
@@ -1518,7 +1674,15 @@
     }
 
     .shipment-goal .shipment-slots {
-      display: none;
+      grid-column: 2;
+      grid-row: 1;
+      display: grid;
+      min-width: 0;
+      gap: 5px;
+    }
+
+    .shipment-goal .shipment-slot {
+      min-height: 38px;
     }
 
     .factory-rule {
@@ -1588,80 +1752,82 @@
         linear-gradient(135deg, #ff8ca6, #ffe27a, #60d7ff, #c59bff);
     }
 
-    .result-box-showcase {
+    .result-prize-stage {
       position: relative;
-      min-height: 176px;
+      width: min(520px, 100%);
+      min-height: 510px;
       display: grid;
-      grid-template-columns: minmax(170px, 0.75fr) minmax(0, 1.25fr);
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 200, 87, 0.36);
-      border-radius: var(--radius);
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .result-prize-stage::before {
+      content: "";
+      position: absolute;
+      width: min(480px, 88%);
+      aspect-ratio: 1 / 0.62;
+      bottom: 28px;
+      border-radius: 50%;
       background:
-        radial-gradient(circle at 26% 46%, rgba(255, 200, 87, 0.16), transparent 0 38%, transparent 58%),
-        rgba(14, 12, 22, 0.62);
-      box-shadow: 0 0 34px rgba(255, 200, 87, 0.14);
+        radial-gradient(circle, rgba(255, 232, 158, 0.42), rgba(255, 200, 87, 0.2) 42%, transparent 68%);
+      filter: blur(8px);
+      z-index: -1;
+    }
+
+    .result-prize-stage::after {
+      content: "";
+      position: absolute;
+      inset: 8% 4% 10%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.5), transparent 0 9%, transparent 18%),
+        radial-gradient(circle at 50% 52%, rgba(255, 200, 87, 0.42), transparent 0 34%, transparent 60%);
+      opacity: 0.74;
+      z-index: -2;
     }
 
     .result-box-image {
-      width: min(190px, 100%);
+      width: min(430px, 86%);
       aspect-ratio: 1 / 1;
       object-fit: contain;
       justify-self: center;
-      filter: drop-shadow(0 24px 22px rgba(0, 0, 0, 0.38));
+      filter:
+        drop-shadow(0 28px 24px rgba(35, 22, 5, 0.34))
+        drop-shadow(0 0 34px rgba(255, 222, 128, 0.3));
+      transform-origin: 50% 72%;
     }
 
-    .result-box-copy {
-      display: grid;
-      gap: 6px;
-      min-width: 0;
-    }
-
-    .result-box-copy span {
-      display: block;
-      color: #ffe7a4;
-      font-size: 0.9rem;
-      font-weight: 950;
-    }
-
-    .result-box-copy strong {
-      display: block;
-      color: #ffffff;
-      font-size: clamp(1.45rem, 3vw, 2.08rem);
-      font-weight: 1000;
-      line-height: 1;
-    }
-
-    .result-box-copy p {
-      margin: 0;
-      color: #fff0c6;
-      font-size: clamp(0.9rem, 1.5vw, 1rem);
-      font-weight: 850;
-      line-height: 1.28;
+    .result.is-measuring .result-box-image {
+      animation: prize-wait 1.05s ease-in-out infinite;
     }
 
     .result-companion {
-      display: inline-grid;
+      position: absolute;
+      right: clamp(8px, 3vw, 34px);
+      bottom: clamp(18px, 5vw, 54px);
+      width: clamp(98px, 12vw, 140px);
+      aspect-ratio: 1;
+      display: grid;
       place-items: center;
-      justify-self: start;
-      width: 48px;
-      height: 48px;
-      padding: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 7px;
+      border: 2px solid rgba(255, 248, 232, 0.72);
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.2);
+      background:
+        radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.84), transparent 0 18%, transparent 42%),
+        linear-gradient(180deg, rgba(255, 232, 158, 0.92), rgba(255, 200, 87, 0.76));
+      box-shadow: 0 18px 22px rgba(87, 56, 16, 0.22);
+      transform: rotate(4deg);
     }
 
     .result-companion img {
-      width: 42px;
-      height: 42px;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.3));
+      filter: drop-shadow(0 10px 10px rgba(67, 38, 9, 0.24));
     }
 
-    .result-companion strong {
+    .result-companion strong,
+    .result-box-name-hidden {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -2122,13 +2288,13 @@
 
     .result {
       align-items: center;
-      padding: clamp(66px, 8vw, 84px) clamp(24px, 5vw, 62px) clamp(18px, 3vw, 28px);
-      background: #171421;
+      padding: clamp(66px, 8vw, 82px) clamp(28px, 5vw, 66px) clamp(22px, 3vw, 32px);
+      background: #21182b;
     }
 
     .result .raster-bg {
-      object-position: 58% center;
-      filter: brightness(0.74) saturate(0.92);
+      object-position: 46% center;
+      filter: brightness(0.98) saturate(1.08);
     }
 
     .result::after {
@@ -2137,8 +2303,9 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(90deg, rgba(13, 10, 20, 0.92) 0%, rgba(13, 10, 20, 0.88) 45%, rgba(13, 10, 20, 0.58) 62%, rgba(13, 10, 20, 0.86) 100%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.34));
+        radial-gradient(circle at 30% 54%, rgba(255, 218, 115, 0.28), transparent 0 28%, transparent 56%),
+        linear-gradient(90deg, rgba(18, 14, 25, 0.12) 0%, rgba(18, 14, 25, 0.22) 44%, rgba(18, 14, 25, 0.62) 78%, rgba(18, 14, 25, 0.72) 100%),
+        linear-gradient(180deg, rgba(255, 248, 232, 0.08), rgba(41, 28, 38, 0.18));
       pointer-events: none;
     }
 
@@ -2149,8 +2316,8 @@
       z-index: 1;
       opacity: 0;
       background:
-        repeating-linear-gradient(115deg, transparent 0 42px, rgba(96, 215, 255, 0.16) 43px 47px, transparent 48px 118px),
-        radial-gradient(circle at 22% 48%, rgba(255, 200, 87, 0.22), transparent 0 24%, transparent 25%);
+        repeating-linear-gradient(115deg, transparent 0 42px, rgba(255, 232, 158, 0.2) 43px 47px, transparent 48px 118px),
+        radial-gradient(circle at 32% 48%, rgba(255, 200, 87, 0.26), transparent 0 24%, transparent 25%);
       transform: translateX(-8%);
       pointer-events: none;
     }
@@ -2165,13 +2332,13 @@
       z-index: 2;
       width: 100%;
       display: grid;
-      grid-template-columns: minmax(280px, 0.86fr) minmax(360px, 1.14fr);
+      grid-template-columns: minmax(420px, 1.08fr) minmax(350px, 0.92fr);
       align-items: center;
-      gap: clamp(24px, 5vw, 56px);
+      gap: clamp(22px, 4.2vw, 48px);
     }
 
     .launch-scene {
-      min-height: 460px;
+      min-height: 520px;
       position: relative;
       display: grid;
       place-items: center;
@@ -2188,13 +2355,34 @@
 
     .result-copy {
       display: grid;
-      gap: 10px;
+      gap: 12px;
+      align-content: center;
+      padding: clamp(18px, 3vw, 28px);
+      border: 1px solid rgba(255, 248, 232, 0.2);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(43, 36, 58, 0.68), rgba(21, 17, 29, 0.7));
+      box-shadow: 0 20px 44px rgba(19, 12, 20, 0.22);
+      backdrop-filter: blur(4px);
+    }
+
+    .result-kicker {
+      width: fit-content;
+      max-width: max-content;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 200, 87, 0.34);
+      border-radius: 999px;
+      color: #ffe7a4;
+      background: rgba(255, 200, 87, 0.12);
+      font-size: 0.88rem;
+      font-weight: 950;
+      line-height: 1;
     }
 
     .result-copy h2 {
       margin: 0;
       color: #ffffff;
-      font-size: clamp(2.4rem, 5.8vw, 4.7rem);
+      font-size: clamp(2.6rem, 5.9vw, 4.9rem);
       line-height: 0.98;
       font-weight: 1000;
       text-shadow: 0 5px 18px rgba(0, 0, 0, 0.42);
@@ -2213,12 +2401,12 @@
       position: relative;
       display: grid;
       gap: 8px;
-      padding: 10px;
+      padding: 12px;
       overflow: hidden;
-      border: 1px solid rgba(96, 215, 255, 0.32);
+      border: 1px solid rgba(255, 200, 87, 0.28);
       border-radius: var(--radius);
-      background: rgba(14, 12, 22, 0.56);
-      box-shadow: 0 0 30px rgba(96, 215, 255, 0.1);
+      background: rgba(255, 248, 232, 0.08);
+      box-shadow: 0 0 28px rgba(255, 200, 87, 0.12);
     }
 
     .result-measure::after {
@@ -2247,7 +2435,7 @@
     }
 
     .measure-top span {
-      color: #c8f3ff;
+      color: #ffe8ba;
       font-size: 0.96rem;
     }
 
@@ -2301,20 +2489,45 @@
       animation: meter-scan 1.2s ease-in-out infinite;
     }
 
-    .result-planet-track {
+    .result-tier-track {
       display: grid;
-      grid-template-columns: repeat(9, minmax(0, 1fr));
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 6px;
     }
 
-    .result-planet-track .planet-chip {
-      min-height: 32px;
-      font-size: 0.82rem;
+    .tier-chip {
+      min-width: 0;
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      color: rgba(255, 248, 232, 0.68);
+      background: rgba(14, 12, 22, 0.38);
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      font-weight: 950;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tier-chip.is-reached {
+      color: #151015;
+      border-color: rgba(255, 232, 158, 0.74);
+      background: linear-gradient(180deg, #ffeaa6, #ffc857);
+    }
+
+    .tier-chip.is-current {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 rgba(89, 56, 12, 0.24), 0 0 18px rgba(255, 200, 87, 0.34);
+    }
+
+    .tier-chip.is-locked {
+      opacity: 0.62;
     }
 
     .result-stats {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -2337,9 +2550,21 @@
       display: block;
       margin-top: 6px;
       color: #ffffff;
-      font-size: clamp(1.28rem, 2.6vw, 1.86rem);
+      font-size: clamp(1.12rem, 2.2vw, 1.58rem);
       font-weight: 1000;
       line-height: 1;
+    }
+
+    .result-next-line {
+      margin: 0;
+      padding: 10px 12px;
+      border: 1px solid rgba(53, 217, 178, 0.26);
+      border-radius: var(--radius);
+      color: #dcfff5;
+      background: rgba(53, 217, 178, 0.1);
+      font-size: clamp(0.9rem, 1.5vw, 1rem);
+      font-weight: 900;
+      line-height: 1.28;
     }
 
     .result-stat[hidden] {
@@ -2512,6 +2737,22 @@
       }
     }
 
+    @keyframes prize-wait {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+        filter:
+          drop-shadow(0 28px 24px rgba(35, 22, 5, 0.34))
+          drop-shadow(0 0 30px rgba(255, 222, 128, 0.24));
+      }
+      50% {
+        transform: translateY(-8px) scale(1.018);
+        filter:
+          drop-shadow(0 34px 28px rgba(35, 22, 5, 0.28))
+          drop-shadow(0 0 42px rgba(255, 222, 128, 0.38));
+      }
+    }
+
     @keyframes pad-pulse {
       0%,
       100% {
@@ -2635,8 +2876,22 @@
         grid-template-columns: 1fr;
       }
 
-      .result-box-showcase {
-        grid-template-columns: 1fr;
+      .launch-scene {
+        min-height: 360px;
+      }
+
+      .result-prize-stage {
+        min-height: 340px;
+      }
+
+      .result-box-image {
+        width: min(300px, 78%);
+      }
+
+      .result-companion {
+        width: 94px;
+        right: 10%;
+        bottom: 18px;
       }
     }
 
@@ -2733,25 +2988,49 @@
         <span class="unit-badge">3학년 2학기 1단원 3차시</span>
       </div>
       <div class="tutorial-layout">
-        <div class="tutorial-copy">
-          <span class="mini-badge">어떻게 해요?</span>
-          <h2 id="tutorialTitle">0을 떼고 다시 붙여요</h2>
+        <div class="tutorial-head">
+          <h2 id="tutorialTitle">10문제 동안 상자를 키워요</h2>
+        </div>
+        <div class="tutorial-copy tutorial-panel">
+          <span class="mini-badge">문제 푸는 법</span>
+          <h3>0을 떼고 다시 붙여요</h3>
           <ol class="steps">
             <li><b>1</b><span>끝의 0을 잠깐 떼요.</span></li>
             <li><b>2</b><span>0 없는 곱셈을 먼저 골라요.</span></li>
             <li><b>3</b><span>0을 다시 붙여 상자를 보내요.</span></li>
           </ol>
-          <button class="primary-button" id="tutorialNextButton" type="button">문제 시작</button>
-        </div>
-        <div class="example-board" aria-label="0 붙이기 예시">
-          <p class="example-title">예시</p>
-          <div class="mini-calculation">
-            <div class="mini-cell"><span>문제</span><strong>30 × 40</strong></div>
-            <div class="mini-cell"><span>0 뗀 곱</span><strong>3 × 4 = 12</strong></div>
-            <div class="mini-cell is-zero"><span>0 몇 개?</span><strong>0 2개</strong></div>
-            <div class="mini-cell"><span>답</span><strong>1,200</strong></div>
+          <div class="example-board" aria-label="0 붙이기 예시">
+            <p class="example-title">예시</p>
+            <div class="mini-calculation">
+              <div class="mini-cell"><span>문제</span><strong>30 × 40</strong></div>
+              <div class="mini-cell"><span>0 뗀 곱</span><strong>3 × 4 = 12</strong></div>
+              <div class="mini-cell is-zero"><span>0 몇 개?</span><strong>0 2개</strong></div>
+              <div class="mini-cell"><span>답</span><strong>1,200</strong></div>
+            </div>
+            <p class="prompt">12 뒤에 0을 2개 붙여요.</p>
           </div>
-          <p class="prompt">12 뒤에 0을 2개 붙여요.</p>
+        </div>
+        <div class="tutorial-reward tutorial-panel">
+          <span class="mini-badge">좋은 상자 얻는 법</span>
+          <h3>끝까지 풀수록 좋아져요</h3>
+          <p class="reward-guide">한 문제마다 상자가 조금씩 자라요. 정답이 많을수록 마지막 상자가 더 좋아져요.</p>
+          <div class="tier-strip" aria-label="상자 단계">
+            <div class="tier-card"><img src="assets/toybox/box-tier-01-paper.webp" alt=""><strong>종이</strong></div>
+            <div class="tier-card"><img src="assets/toybox/box-tier-02-yellow.webp" alt=""><strong>노란</strong></div>
+            <div class="tier-card"><img src="assets/toybox/box-tier-03-strong.webp" alt=""><strong>튼튼</strong></div>
+            <div class="tier-card"><img src="assets/toybox/box-tier-04-silver.webp" alt=""><strong>은빛</strong></div>
+            <div class="tier-card"><img src="assets/toybox/box-tier-05-gold.webp" alt=""><strong>금빛</strong></div>
+            <div class="tier-card"><img src="assets/toybox/box-tier-06-crown.webp" alt=""><strong>왕관</strong></div>
+            <div class="tier-card"><img src="assets/toybox/box-tier-07-rainbow.webp" alt=""><strong>무지개</strong></div>
+          </div>
+          <ul class="reward-rules">
+            <li>10문제를 끝까지 풀어요</li>
+            <li>많이 맞히면 더 좋아져요</li>
+            <li>가끔 좋은 일이 도와줘요</li>
+          </ul>
+        </div>
+        <div class="tutorial-action">
+          <button class="primary-button" id="tutorialNextButton" type="button">문제 시작</button>
         </div>
       </div>
     </section>
@@ -2789,7 +3068,7 @@
             <div class="factory-rule" id="factoryRule">끝의 0은 잠깐 떼고 계산해요.</div>
           </div>
           <div class="shipment-goal" aria-label="상자 진행">
-            <span id="shipmentGoalText">맞히면 상자가 멀리 가요</span>
+            <span id="shipmentGoalText">받은 상자</span>
             <strong id="boxGoalText">상자 0/10</strong>
             <div class="shipment-slots" id="shipmentSlots"></div>
           </div>
@@ -2801,13 +3080,13 @@
             <div class="fuel-meter" aria-hidden="true">
               <span class="fuel-meter-fill" id="fuelMeterFill"></span>
             </div>
-            <p class="fuel-note" id="fuelNote">10문제를 풀면 상자가 어디까지 가는지 봐요.</p>
+            <p class="fuel-note" id="fuelNote">10문제를 풀면 마지막 상자를 봐요.</p>
             <div class="planet-panel">
               <div class="planet-title">
-                <span>상자 길</span>
+                <span>상자 단계</span>
                 <strong id="destinationText">끝나면 확인</strong>
               </div>
-              <div class="planet-track" id="planetTrack" aria-label="상자가 갈 길"></div>
+              <div class="planet-track" id="planetTrack" aria-label="상자 단계"></div>
             </div>
           </div>
         </aside>
@@ -2843,8 +3122,8 @@
             <img class="reward-toy-image" id="rewardToyImage" src="assets/toybox/toybox-closed-shipping-box.webp" alt="">
             <img class="reward-event-overlay" id="rewardEventOverlay" src="assets/toybox/toy-defect-sticker.webp" alt="" hidden>
           </div>
-          <div class="reward-delta" id="rewardDelta">상자 출발!</div>
-          <p id="rewardMessage">상자 출발!</p>
+          <div class="reward-delta" id="rewardDelta">종이 상자</div>
+          <p id="rewardMessage">오늘 만든 첫 상자예요.</p>
           <button class="primary-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
@@ -2858,50 +3137,41 @@
       </div>
       <div class="result-layout">
         <div class="launch-scene" aria-hidden="true">
-          <div class="rocket-hero">
-            <div class="rocket-nose"></div>
-            <div class="rocket-body">
-              <div class="rocket-window"></div>
-              <div class="rocket-band"></div>
+          <div class="result-prize-stage">
+            <img class="result-box-image" id="resultBoxImage" src="assets/toybox/box-tier-01-paper.webp" alt="">
+            <div class="result-companion">
+              <img id="resultMathmonImage" src="assets/mathmon/zero-factory-animal-pack/mathmon-zfa-04-nyangnyangmon.webp" alt="">
+              <strong id="resultMathmonName">냥냥몬</strong>
             </div>
-            <div class="rocket-fin left"></div>
-            <div class="rocket-fin right"></div>
-            <div class="rocket-flame"></div>
           </div>
-          <div class="launch-pad"></div>
         </div>
         <div class="result-copy">
+          <span class="result-kicker">오늘 만든 상자</span>
           <h2 id="resultTitle">상자 확인</h2>
           <p class="praise" id="praiseText">0을 잘 붙여 상자를 보냈어요.</p>
-          <div class="result-measure" id="resultMeasure" aria-label="상자 결과">
+          <div class="result-measure" id="resultMeasure" aria-label="상자 힘">
             <div class="measure-top">
-              <span id="measureStatus">상자 이동 중</span>
-              <strong id="measurePercent">출발</strong>
+              <span id="measureStatus">상자 힘</span>
+              <strong id="measurePercent">0칸</strong>
             </div>
             <div class="measure-tube" aria-hidden="true">
               <span class="measure-fill" id="measureFill"></span>
               <span class="measure-scan"></span>
             </div>
-            <div class="result-planet-track" id="resultPlanetTrack" aria-label="상자가 간 길"></div>
+            <div class="result-tier-track" id="resultPlanetTrack" aria-label="상자 단계"></div>
           </div>
           <div class="result-stats">
             <div class="result-stat">
               <span>맞힌 문제</span>
               <strong id="finalCorrectText">0/10</strong>
             </div>
-          </div>
-          <div class="result-box-showcase">
-            <img class="result-box-image" id="resultBoxImage" src="assets/toybox/box-tier-01-paper.webp" alt="">
-            <div class="result-box-copy">
-              <span>오늘 만든 상자</span>
-              <strong id="resultBoxName">종이 상자</strong>
-              <p id="resultBoxCopy">0을 붙여 완성한 상자예요.</p>
-              <div class="result-companion">
-                <img id="resultMathmonImage" src="assets/mathmon/zero-factory-animal-pack/mathmon-zfa-04-nyangnyangmon.webp" alt="">
-                <strong id="resultMathmonName">냥냥몬</strong>
-              </div>
+            <div class="result-stat">
+              <span>다음 상자</span>
+              <strong id="resultNextGoalText">확인 중</strong>
             </div>
           </div>
+          <strong class="result-box-name-hidden" id="resultBoxName">종이 상자</strong>
+          <p class="result-next-line" id="resultBoxCopy">정답이 많을수록 더 좋은 상자가 나와요.</p>
           <div class="result-actions">
             <button class="primary-button" id="restartButton" type="button">다시하기</button>
           </div>
@@ -2936,14 +3206,15 @@
       name: "냥냥몬",
       asset: "assets/mathmon/zero-factory-animal-pack/mathmon-zfa-04-nyangnyangmon.webp"
     };
+    const RESULT_BACKGROUND = "result-class-generated.webp";
     const BOX_TIERS = [
-      { id: "paper", name: "종이 상자", threshold: 0, minCorrect: 0, asset: "assets/toybox/box-tier-01-paper.webp", copy: "오늘 만든 첫 상자예요." },
-      { id: "yellow", name: "노란 상자", threshold: 10, minCorrect: 2, asset: "assets/toybox/box-tier-02-yellow.webp", copy: "상자가 노랗게 빛났어요." },
-      { id: "strong", name: "튼튼 상자", threshold: 25, minCorrect: 4, asset: "assets/toybox/box-tier-03-strong.webp", copy: "멀리 가도 끄떡없는 상자예요." },
-      { id: "silver", name: "은빛 상자", threshold: 42, minCorrect: 6, asset: "assets/toybox/box-tier-04-silver.webp", copy: "은빛 포장이 반짝였어요." },
-      { id: "gold", name: "금빛 상자", threshold: 62, minCorrect: 7, asset: "assets/toybox/box-tier-05-gold.webp", copy: "금빛 상자가 됐어요." },
-      { id: "crown", name: "왕관 상자", threshold: 82, minCorrect: 9, asset: "assets/toybox/box-tier-06-crown.webp", copy: "왕관이 붙은 멋진 상자예요." },
-      { id: "rainbow", name: "무지개 상자", threshold: 100, minCorrect: 0, asset: "assets/toybox/box-tier-07-rainbow.webp", copy: "우주 길이 열렸어요." }
+      { id: "paper", short: "종", name: "종이 상자", threshold: 0, minCorrect: 0, asset: "assets/toybox/box-tier-01-paper.webp" },
+      { id: "yellow", short: "노", name: "노란 상자", threshold: 10, minCorrect: 2, asset: "assets/toybox/box-tier-02-yellow.webp" },
+      { id: "strong", short: "튼", name: "튼튼 상자", threshold: 25, minCorrect: 4, asset: "assets/toybox/box-tier-03-strong.webp" },
+      { id: "silver", short: "은", name: "은빛 상자", threshold: 42, minCorrect: 6, asset: "assets/toybox/box-tier-04-silver.webp" },
+      { id: "gold", short: "금", name: "금빛 상자", threshold: 62, minCorrect: 7, asset: "assets/toybox/box-tier-05-gold.webp" },
+      { id: "crown", short: "왕", name: "왕관 상자", threshold: 82, minCorrect: 9, asset: "assets/toybox/box-tier-06-crown.webp" },
+      { id: "rainbow", short: "무", name: "무지개 상자", threshold: 100, minCorrect: 10, asset: "assets/toybox/box-tier-07-rainbow.webp" }
     ];
     const QA_EVENT_ID = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname)
       ? new URLSearchParams(window.location.search).get("qaEvent")
@@ -3039,6 +3310,7 @@
       resultPlanetTrack: document.getElementById("resultPlanetTrack"),
       praiseText: document.getElementById("praiseText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
+      resultNextGoalText: document.getElementById("resultNextGoalText"),
       resultBoxImage: document.getElementById("resultBoxImage"),
       resultBoxName: document.getElementById("resultBoxName"),
       resultBoxCopy: document.getElementById("resultBoxCopy"),
@@ -3159,13 +3431,11 @@
       el.rocketMini.style.setProperty("--fuel-height", `${Math.round(charge * 100)}%`);
       el.rocketZone.classList.toggle("is-rainbow", state.rainbowFuel);
       el.rocketMini.classList.toggle("is-rainbow", state.rainbowFuel);
-      el.fuelPercentText.textContent = state.rainbowFuel ? "무지개 상자" : "상자 이동";
+      el.fuelPercentText.textContent = state.rainbowFuel ? "무지개 빛" : "상자 힘";
       el.fuelMeterFill.style.setProperty("--fuel-width", `${fuelPercent}%`);
       el.destinationText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 확인" : "끝나면 확인";
-      el.fuelNote.textContent = "10문제를 풀면 상자가 어디까지 가는지 봐요.";
-      el.shipmentGoalText.textContent = finishedBoxes >= TOTAL_QUESTIONS
-        ? "상자 보내기 끝"
-        : "맞히면 상자가 한 칸 가요";
+      el.fuelNote.textContent = "10문제를 풀면 마지막 상자를 봐요.";
+      el.shipmentGoalText.textContent = "받은 상자";
       el.boxGoalText.textContent = `상자 ${finishedBoxes}/${TOTAL_QUESTIONS}`;
       renderShipmentSlots();
       renderPlanetTrack(el.planetTrack, { targetIndex: -1, reachedIndex: -1 });
@@ -3217,6 +3487,27 @@
       });
     }
 
+    function renderBoxTierTrack(container, boxTier = getBoxTierForProduction()) {
+      container.innerHTML = "";
+      const currentIndex = BOX_TIERS.findIndex((tier) => tier.id === boxTier.id);
+      BOX_TIERS.forEach((tier, index) => {
+        const chip = document.createElement("span");
+        chip.className = "tier-chip";
+        chip.textContent = tier.short;
+        chip.title = `${tier.name}: ${tier.minCorrect}문제부터`;
+        chip.setAttribute("aria-label", `${tier.name}, ${tier.minCorrect}문제부터`);
+        if (index <= currentIndex) {
+          chip.classList.add("is-reached");
+        } else {
+          chip.classList.add("is-locked");
+        }
+        if (index === currentIndex) {
+          chip.classList.add("is-current");
+        }
+        container.appendChild(chip);
+      });
+    }
+
     function renderShipmentSlots() {
       el.shipmentSlots.innerHTML = "";
       for (let index = 0; index < TOTAL_QUESTIONS; index += 1) {
@@ -3224,7 +3515,17 @@
         const status = state.shipments[index];
         slot.className = "shipment-slot";
         slot.setAttribute("aria-label", `${index + 1}번 상자 칸`);
-        if (status === "filled") {
+        if (status && typeof status === "object") {
+          slot.classList.add("has-box", status.defect ? "is-defect" : "is-filled", `is-tier-${status.tierId}`);
+          slot.title = status.defect ? `${status.name} 고쳐서 보냄` : status.name;
+          slot.setAttribute("aria-label", `${index + 1}번 ${status.name}`);
+          const image = document.createElement("img");
+          image.className = "shipment-slot-image";
+          image.src = status.asset;
+          image.alt = "";
+          image.setAttribute("aria-hidden", "true");
+          slot.appendChild(image);
+        } else if (status === "filled") {
           slot.classList.add("is-filled");
           slot.title = "완성 상자";
         } else if (status === "defect") {
@@ -3236,6 +3537,17 @@
         }
         el.shipmentSlots.appendChild(slot);
       }
+    }
+
+    function createShipmentRecord(perfect, event) {
+      const tier = getBoxTierForProduction();
+      return {
+        tierId: tier.id,
+        name: tier.name,
+        asset: tier.asset,
+        eventId: event?.id || "normal",
+        defect: !perfect || event?.id === "smallExplosion" || event?.id === "leak" || event?.amount < 0
+      };
     }
 
     function renderStep() {
@@ -3437,9 +3749,6 @@
     }
 
     function getBoxTierForProduction() {
-      if (state.rainbowFuel) {
-        return BOX_TIERS[BOX_TIERS.length - 1];
-      }
       const value = getFuelPercent();
       let selected = BOX_TIERS[0];
       BOX_TIERS.forEach((tier) => {
@@ -3447,30 +3756,53 @@
           selected = tier;
         }
       });
+      const rainbowTier = BOX_TIERS[BOX_TIERS.length - 1];
+      if (state.rainbowFuel && state.correct >= rainbowTier.minCorrect) {
+        selected = rainbowTier;
+      }
       return selected;
+    }
+
+    function getBoxLine(boxTier = getBoxTierForProduction()) {
+      if (boxTier.id === "rainbow") {
+        return "10문제를 모두 맞혀 무지개 상자가 열렸어요.";
+      }
+      return `${state.correct}문제를 맞혀 ${boxTier.name}까지 왔어요.`;
+    }
+
+    function getNextBoxTier(boxTier = getBoxTierForProduction()) {
+      const index = BOX_TIERS.findIndex((tier) => tier.id === boxTier.id);
+      return BOX_TIERS[Math.min(index + 1, BOX_TIERS.length - 1)] || null;
+    }
+
+    function getNextBoxGoalText(boxTier = getBoxTierForProduction()) {
+      const next = getNextBoxTier(boxTier);
+      if (!next || next.id === boxTier.id) {
+        return "최고 상자";
+      }
+      const needCorrect = Math.max(0, next.minCorrect - state.correct);
+      const needPower = Math.max(0, next.threshold - getFuelPercent());
+      if (needCorrect > 0) {
+        return `${next.minCorrect}문제부터`;
+      }
+      if (next.id === "rainbow") {
+        return "가끔 열려요";
+      }
+      if (needPower > 0) {
+        return `힘 ${next.threshold}칸부터`;
+      }
+      return "거의 다 왔어요";
     }
 
     function getToyboxForProduction() {
       return getBoxTierForProduction();
     }
 
-    function getToyRewardLabel(event) {
-      if (event.rainbow) {
-        return "무지개 상자";
+    function getToyRewardLabel(event, toybox = getToyboxForProduction()) {
+      if (event?.rainbow) {
+        return state.correct >= TOTAL_QUESTIONS ? "무지개 상자" : "무지개 빛";
       }
-      if (event.launches) {
-        return "문이 열림";
-      }
-      if (event.pauses) {
-        return "잠깐 멈춤";
-      }
-      if (event.id === "megaFuel") {
-        return "빠른 벨트";
-      }
-      if (event.id === "smallExplosion" || event.id === "leak" || event.amount < 0) {
-        return "고쳐서 보냄";
-      }
-      return "상자 출발";
+      return toybox.name;
     }
 
     function getToyEventOverlay(event) {
@@ -3574,9 +3906,9 @@
       } else {
         state.chain = 0;
       }
-      state.shipments[state.index] = perfect ? "filled" : "defect";
       const event = perfect ? rollFuelEvent() : createLeakEvent();
       applyFuelEvent(event);
+      state.shipments[state.index] = createShipmentRecord(perfect, state.lastFuelEvent);
       renderStatus();
       animateToyBoxShipment(state.lastFuelEvent).then(() => {
         finishProblem(state.lastFuelEvent, rewardDelay);
@@ -3590,8 +3922,8 @@
         return {
           id: "normal",
           amount,
-          title: "상자 출발",
-          message: "상자 출발"
+          title: "상자가 자람",
+          message: "상자가 자람"
         };
       }
       if (roll < 78) {
@@ -3644,8 +3976,8 @@
         normal: {
           id: "normal",
           amount: 12,
-          title: "상자 출발",
-          message: "상자 출발"
+          title: "상자가 자람",
+          message: "상자가 자람"
         },
         megaFuel: {
           id: "megaFuel",
@@ -3724,7 +4056,7 @@
     }
 
     function getFuelEventMessage(event, actualDelta, before) {
-      return getToyRewardLabel(event);
+      return getBoxLine(getToyboxForProduction());
     }
 
     function getFuelEventDeltaLabel(event) {
@@ -3752,7 +4084,8 @@
       el.rewardPop.classList.add(`fuel-event--${result.id}`);
       const toybox = getToyboxForProduction();
       const overlayAsset = getToyEventOverlay(result);
-      el.rewardTitle.textContent = "보상";
+      const rewardLabel = getFuelEventDeltaLabel(result);
+      el.rewardTitle.textContent = rewardLabel;
       el.rewardToyImage.src = toybox.asset;
       el.rewardToyImage.alt = toybox.name;
       if (overlayAsset) {
@@ -3761,11 +4094,9 @@
       } else {
         el.rewardEventOverlay.hidden = true;
       }
-      el.rewardDelta.textContent = getFuelEventDeltaLabel(result);
-      el.rewardMessage.textContent = result.message;
-      el.rewardNextButton.textContent = result.launches
-        ? "보기"
-        : state.index + 1 >= TOTAL_QUESTIONS ? "보기" : "다음";
+      el.rewardDelta.textContent = rewardLabel;
+      el.rewardMessage.textContent = getBoxLine(toybox);
+      el.rewardNextButton.textContent = state.index + 1 >= TOTAL_QUESTIONS ? "보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
         el.rewardNextButton.focus();
@@ -3773,7 +4104,7 @@
     }
 
     function nextAfterReward() {
-      if (state.lastFuelEvent?.launches || state.index + 1 >= TOTAL_QUESTIONS) {
+      if (state.index + 1 >= TOTAL_QUESTIONS) {
         showResult();
         return;
       }
@@ -3783,43 +4114,40 @@
     }
 
     function showResult() {
-      const destination = getDestination();
-      const launched = Boolean(destination);
       const fuelPercent = getFuelPercent();
       const boxTier = getBoxTierForProduction();
-      el.resultRaster.src = launched ? destination.image : "result-retry-generated.webp";
+      el.resultRaster.src = RESULT_BACKGROUND;
       el.resultScreen.classList.add("is-measuring");
-      el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowFuel);
+      el.resultScreen.classList.toggle("is-rainbow-result", boxTier.id === "rainbow");
       document.getElementById("resultTitle").textContent = "상자 확인 중";
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultNextGoalText.textContent = "확인 중";
       el.praiseText.textContent = "잠깐만 기다려요.";
-      el.measureStatus.textContent = "상자가 간 길";
+      el.measureStatus.textContent = "상자 힘";
       el.measurePercent.textContent = "확인";
       el.measureFill.style.setProperty("--measure-width", "0%");
-      renderPlanetTrack(el.resultPlanetTrack, { targetIndex: -1, reachedIndex: -1 });
+      renderBoxTierTrack(el.resultPlanetTrack, BOX_TIERS[0]);
       setResultBox(boxTier);
       setResultCompanion(getResultCompanion());
       el.restartButton.hidden = true;
       el.restartButton.disabled = true;
-      el.restartButton.textContent = launched ? "한 번 더" : "다시하기";
+      el.restartButton.textContent = "한 번 더";
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
-        el.measureStatus.textContent = "상자가 간 길";
-        el.measurePercent.textContent = "이동 중";
+        el.measureStatus.textContent = "상자 힘";
+        el.measurePercent.textContent = "모으는 중";
         el.measureFill.style.setProperty("--measure-width", `${fuelPercent}%`);
-        renderPlanetTrack(el.resultPlanetTrack, {
-          targetIndex: launched ? destination.index : -1,
-          reachedIndex: launched ? destination.index : -1
-        });
+        renderBoxTierTrack(el.resultPlanetTrack, boxTier);
         playSound("measure");
       }, 120);
       window.setTimeout(() => {
         el.resultScreen.classList.remove("is-measuring");
-        document.getElementById("resultTitle").textContent = `${boxTier.name} 완성!`;
-        el.measureStatus.textContent = launched ? "상자가 간 길" : "다음 목표";
-        el.measurePercent.textContent = launched ? "도착" : "다음";
-        el.praiseText.textContent = getPraise(destination, boxTier);
+        document.getElementById("resultTitle").textContent = boxTier.name;
+        el.measureStatus.textContent = "상자 힘";
+        el.measurePercent.textContent = boxTier.id === "rainbow" ? "무지개" : `${fuelPercent}칸`;
+        el.praiseText.textContent = getPraise(boxTier);
+        el.resultNextGoalText.textContent = getNextBoxGoalText(boxTier);
         setResultBox(boxTier);
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
@@ -3831,18 +4159,18 @@
       return Boolean(getDestination());
     }
 
-    function getPraise(destination, boxTier = getBoxTierForProduction()) {
-      return getJourneyLine(destination, boxTier);
+    function getPraise(boxTier = getBoxTierForProduction()) {
+      return getJourneyLine(boxTier);
     }
 
-    function getJourneyLine(destination, boxTier = getBoxTierForProduction()) {
-      if (!destination) {
-        return "다음엔 더 멀리 보내 봐요.";
+    function getJourneyLine(boxTier = getBoxTierForProduction()) {
+      if (boxTier.id === "rainbow") {
+        return "무지개 상자가 열렸어요.";
       }
-      if (boxTier.id === "rainbow" || destination.secret) {
-        return "우주 길이 열렸어요.";
+      if (state.correct === TOTAL_QUESTIONS) {
+        return "10문제를 모두 맞혔어요.";
       }
-      return `${destination.name}까지 갔어요.`;
+      return `${state.correct}문제를 맞혔어요.`;
     }
 
     function getRetryMessage() {
@@ -3864,7 +4192,7 @@
       el.resultBoxImage.src = boxTier.asset;
       el.resultBoxImage.alt = boxTier.name;
       el.resultBoxName.textContent = boxTier.name;
-      el.resultBoxCopy.textContent = boxTier.copy;
+      el.resultBoxCopy.textContent = getBoxLine(boxTier);
     }
 
     function setResultCompanion(mathmon) {
