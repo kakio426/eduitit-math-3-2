@@ -51,7 +51,7 @@ Task 6 play layout은 세 구역으로 고정합니다.
 - Modal card: x 270-1010, y 145-655, 최대 740px 폭.
 - Generated reward art area: x 320-960, y 170-530, ratio `16:9`.
 - HTML reward label: art area 중앙, 최소 220x92px. 보이는 non-button 텍스트는 하나만 허용합니다.
-- 허용 label: `살랑 바람`, `앞바람`, `잠깐 멈춤`, `쌩쌩 바람`, `무지개 길`, `길이 흔들렸어요`.
+- 허용 label: `조금 더 갔어요`, `길이 줄었어요`, `잠깐 멈췄어요`, `많이 더 갔어요`, `무지개 길이 열렸어요`, `길이 흔들렸어요`.
 - 버튼: art 아래 18px 이상 떨어진 곳. 버튼 문구는 `다음` 또는 `보기`만 씁니다.
 - 생성 보상 이미지는 바람, 길 흔들림, 작은 섬 실루엣, 장면 안에 함께 있는 매스몬을 담고 글자를 넣지 않습니다. 기존 매스몬 PNG/WebP를 보상 이미지 위에 따로 붙이지 않습니다.
 
@@ -86,11 +86,11 @@ Task 6 play layout은 세 구역으로 고정합니다.
 | `play-map-strip-source.png` | built-in `image_gen` output copied from `/Users/yubyeongju/.codex/generated_images/019f0b5c-eea3-7882-a79d-dec340f89c09/ig_0bf877857df4a570016a40dd5977b48191a0ec97a2ab403b23.png` | 문제 화면 상단 지도 원본 보관 | 글자 없는 여섯 섬 route scene. HTML labels/current marker only. |
 | `play-map-strip-generated.webp` | `play-map-strip-source.png` crop/resize → 1280x190 WebP | 문제 화면 상단 지도 runtime | `.island-map` slot에 `<img class="map-raster">`로 연결. 지도 이미지는 섬/바다/길을 담당하고 HTML은 라벨과 상태만 담당. |
 | `compact-island-map-generated.webp` | earlier generated map PNG → center-crop WebP | 보존 자산. 새 Phase 2 문제 화면 runtime에서는 미사용 | 이전 전체 지도 탐색본. |
-| `reward-tailwind-generated.webp` | `reward-tailwind-source.png` → 1280x720 WebP | `살랑 바람` 보상 모달 장면 | 매스몬과 가벼운 바람 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
-| `reward-headwind-generated.webp` | `reward-headwind-source.png` → 1280x720 WebP | `앞바람` 보상 모달 장면 | 매스몬과 앞바람 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
-| `reward-pause-generated.webp` | `reward-pause-source.png` → 1280x720 WebP | `잠깐 멈춤` 보상 모달 장면 | 매스몬과 멈춤 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
-| `reward-gust-generated.webp` | `reward-gust-source.png` → 1280x720 WebP | `쌩쌩 바람` 보상 모달 장면 | 매스몬과 큰 바람 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
-| `reward-rainbow-generated.webp` | `reward-rainbow-source.png` → 1280x720 WebP | `무지개 길` 보상 모달 장면 | 매스몬과 무지개 길이 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
+| `reward-tailwind-generated.webp` | `reward-tailwind-source.png` → 1280x720 WebP | `조금 더 갔어요` 보상 모달 장면 | 매스몬과 가벼운 바람 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
+| `reward-headwind-generated.webp` | `reward-headwind-source.png` → 1280x720 WebP | `길이 줄었어요` 보상 모달 장면 | 매스몬과 길이 줄어드는 바람 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
+| `reward-pause-generated.webp` | `reward-pause-source.png` → 1280x720 WebP | `잠깐 멈췄어요` 보상 모달 장면 | 매스몬과 멈춤 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
+| `reward-gust-generated.webp` | `reward-gust-source.png` → 1280x720 WebP | `많이 더 갔어요` 보상 모달 장면 | 매스몬과 큰 바람 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
+| `reward-rainbow-generated.webp` | `reward-rainbow-source.png` → 1280x720 WebP | `무지개 길이 열렸어요` 보상 모달 장면 | 매스몬과 무지개 길이 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
 | `reward-shaky-generated.webp` | `reward-shaky-source.png` → 1280x720 WebP | `길이 흔들렸어요` 보상 모달 장면 | 매스몬과 흔들린 길 효과가 이미지 안에 함께 생성됨. HTML reward label one visible phrase only. |
 | `result-start-generated.webp` | generated scene PNG → center-crop WebP | `출발섬` result background | right x 690-1210, y 130-710 for result title 48-52px, praise 20px, summary cards 94px. |
 | `result-sand-generated.webp` | generated scene PNG → center-crop WebP | `모래섬` result background | same right overlay zone. |

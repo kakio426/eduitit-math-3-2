@@ -326,6 +326,12 @@
       pointer-events: none;
     }
 
+    .result::after {
+      background:
+        linear-gradient(90deg, rgba(12, 10, 20, 0.02) 0%, rgba(12, 10, 20, 0.08) 52%, rgba(12, 10, 20, 0.34) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.12));
+    }
+
     .cover-scene {
       position: relative;
       z-index: 2;
@@ -448,11 +454,31 @@
       gap: 52px;
     }
 
+    .result-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(336px, 444px);
+      align-items: center;
+      gap: 34px;
+    }
+
     .tutorial-copy,
     .result-copy {
       display: grid;
       gap: 18px;
       max-width: 720px;
+    }
+
+    .result-copy {
+      justify-self: end;
+      width: min(444px, 100%);
+      max-width: 444px;
+      padding: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(160deg, rgba(14, 12, 22, 0.88), rgba(32, 26, 45, 0.72)),
+        rgba(14, 12, 22, 0.7);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(14px);
     }
 
     .result-reveal-status {
@@ -556,11 +582,8 @@
       background: transparent;
     }
 
-    .result-mathmon {
-      align-self: end;
-      justify-self: center;
-      width: min(260px, 54%);
-      transform: translateY(-18px);
+    .result-art-spacer {
+      min-height: 500px;
     }
 
     .play {
@@ -863,6 +886,12 @@
       gap: 10px;
     }
 
+    .choice-grid.is-confirm-action {
+      grid-template-columns: minmax(180px, 280px);
+      justify-content: center;
+      align-items: center;
+    }
+
     .choice-button {
       height: 100%;
       min-height: 0;
@@ -884,6 +913,13 @@
       color: #ffffff;
       border-color: rgba(255, 93, 122, 0.78);
       background: rgba(255, 93, 122, 0.32);
+    }
+
+    .reward-check-button {
+      width: 100%;
+      min-height: 68px;
+      padding: 0 28px;
+      font-size: 1.16rem;
     }
 
     .reward-pop {
@@ -993,12 +1029,12 @@
       padding: 12px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .result-stat span {
       display: block;
-      color: var(--muted);
+      color: #ffe8ba;
       font-size: 0.84rem;
       font-weight: 850;
     }
@@ -1048,6 +1084,12 @@
       .tutorial-art-spacer,
       .result-art-spacer {
         min-height: 240px;
+      }
+
+      .result-copy {
+        justify-self: start;
+        width: min(520px, 100%);
+        max-width: 520px;
       }
 
       .play-layout {
@@ -1286,7 +1328,7 @@
               <li><b>1</b><span>0을 잠깐 가려요.</span></li>
               <li><b>2</b><span>남은 곱셈을 먼저 해요.</span></li>
               <li><b>3</b><span>가렸던 0을 붙여요.</span></li>
-              <li><b>4</b><span>바람에 따라 점프 길이 달라져요.</span></li>
+              <li><b>4</b><span>점프 길이 달라져요.</span></li>
             </ol>
             <button class="primary-button" id="tutorialNextButton" type="button">점프 시작</button>
           </div>
@@ -1327,24 +1369,22 @@
         <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
           <div class="reward-card">
             <div class="reward-visual" data-art-slot="reward-modal-generated" aria-hidden="true">
-              <div class="reward-label" id="rewardLabel">살랑 바람</div>
+              <div class="reward-label" id="rewardLabel">조금 더 갔어요</div>
             </div>
-            <h3 class="visually-hidden" id="rewardTitle">바람</h3>
+            <h3 class="visually-hidden" id="rewardTitle">길 변화</h3>
             <button class="primary-button" id="rewardNextButton" type="button">다음</button>
           </div>
         </div>
       </section>
 
       <section class="screen result" id="resultScreen" data-result-reveal-phase="idle" aria-labelledby="resultTitle">
-        <img class="raster-bg" id="resultRaster" src="result-start-generated.webp" alt="">
+        <img class="raster-bg" id="resultRaster" src="result-start-integrated-generated.webp" alt="">
         <div class="top-row">
           <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
           <span class="unit-badge">3학년 2학기 1단원 3차시</span>
         </div>
         <div class="result-layout">
-          <div class="result-art-spacer" aria-hidden="true">
-            <img class="mathmon-companion result-mathmon" src="mathmon-zfa-04-nyangnyangmon.webp" alt="">
-          </div>
+          <div class="result-art-spacer" aria-hidden="true"></div>
           <div class="result-copy">
             <div class="result-reveal-status" id="resultRevealStatus" data-result-reveal-phase="idle" aria-live="polite">
               <span class="result-reveal-kicker" id="resultRevealKicker">점프 길을 살펴봐요.</span>
@@ -1380,21 +1420,20 @@
     const MAX_JUMP_DISTANCE = 100;
     const BASE_FIRST_TRY_DISTANCE = 5;
     const STEP_CONFIRM_DELAY = 920;
-    const FINAL_CONFIRM_DELAY = 1280;
     const ISLANDS = [
-      { id: "start", name: "출발섬", minDistance: 0, minCorrect: 0, image: "result-start-generated.webp" },
-      { id: "sand", name: "모래섬", minDistance: 1, minCorrect: 0, image: "result-sand-generated.webp" },
-      { id: "forest", name: "숲섬", minDistance: 34, minCorrect: 5, image: "result-forest-generated.webp" },
-      { id: "cloud", name: "구름섬", minDistance: 60, minCorrect: 8, image: "result-cloud-generated.webp" },
-      { id: "starlight", name: "별빛섬", minDistance: 86, minCorrect: 9, image: "result-starlight-generated.webp" },
-      { id: "rainbow", name: "무지개섬", minDistance: 96, minCorrect: 10, image: "result-rainbow-generated.webp", requiresRainbow: true }
+      { id: "start", name: "출발섬", minDistance: 0, minCorrect: 0, image: "result-start-integrated-generated.webp" },
+      { id: "sand", name: "모래섬", minDistance: 1, minCorrect: 0, image: "result-sand-integrated-generated.webp" },
+      { id: "forest", name: "숲섬", minDistance: 34, minCorrect: 5, image: "result-forest-integrated-generated.webp" },
+      { id: "cloud", name: "구름섬", minDistance: 60, minCorrect: 8, image: "result-cloud-integrated-generated.webp" },
+      { id: "starlight", name: "별빛섬", minDistance: 86, minCorrect: 9, image: "result-starlight-integrated-generated.webp" },
+      { id: "rainbow", name: "무지개섬", minDistance: 96, minCorrect: 10, image: "result-rainbow-integrated-generated.webp", requiresRainbow: true }
     ];
     const REWARD_EVENTS = [
-      { id: "tailwind", label: "살랑 바람", weight: 6400, min: 2, max: 5 },
-      { id: "headwind", label: "앞바람", weight: 1700, min: -8, max: -4 },
-      { id: "pause", label: "잠깐 멈춤", weight: 1284, min: 0, max: 0 },
-      { id: "gust", label: "쌩쌩 바람", weight: 598, min: 8, max: 13 },
-      { id: "rainbow", label: "무지개 길", weight: 18, min: 14, max: 14, rainbow: true }
+      { id: "tailwind", label: "조금 더 갔어요", weight: 6400, min: 2, max: 5 },
+      { id: "headwind", label: "길이 줄었어요", weight: 1700, min: -8, max: -4 },
+      { id: "pause", label: "잠깐 멈췄어요", weight: 1284, min: 0, max: 0 },
+      { id: "gust", label: "많이 더 갔어요", weight: 598, min: 8, max: 13 },
+      { id: "rainbow", label: "무지개 길이 열렸어요", weight: 18, min: 14, max: 14, rainbow: true }
     ];
     const MISTAKE_REWARD_EVENT = {
       id: "shaky",
@@ -1457,6 +1496,7 @@
           scaleMultiplier: data.scaleMultiplier,
           scaleLabel: data.scaleLabel,
           finalAnswer: data.finalAnswer,
+          finalExpression: `${data.leftFactor} × ${data.rightFactor} = ${data.finalAnswer.toLocaleString("ko-KR")}`,
           transformText,
           rewardBranch: "positive"
         };
@@ -1961,15 +2001,15 @@
 
       el.stepText.textContent = "답 완성";
       el.stepPrompt.textContent = "답이 완성됐어요.";
-      el.jumpTransform.textContent = problem.transformText;
-      el.promptText.textContent = "바람을 볼까요?";
-      el.choiceGrid.innerHTML = "";
+      el.jumpTransform.textContent = problem.finalExpression;
+      el.promptText.textContent = "식을 확인하고 길을 봐요.";
+      renderRewardCheckButton();
       pulseJumpTransform();
-      window.setTimeout(showReward, FINAL_CONFIRM_DELAY);
     }
 
     function renderChoices(values, correctValue) {
       el.choiceGrid.innerHTML = "";
+      el.choiceGrid.classList.remove("is-confirm-action");
       values.forEach((value) => {
         const button = document.createElement("button");
         button.type = "button";
@@ -1978,6 +2018,18 @@
         button.addEventListener("click", () => handleChoice(value, correctValue, button));
         el.choiceGrid.appendChild(button);
       });
+    }
+
+    function renderRewardCheckButton() {
+      el.choiceGrid.innerHTML = "";
+      el.choiceGrid.classList.add("is-confirm-action");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "primary-button reward-check-button";
+      button.textContent = "길 보기";
+      button.addEventListener("click", showReward, { once: true });
+      el.choiceGrid.appendChild(button);
+      button.focus();
     }
 
     function handleChoice(value, correctValue, button) {

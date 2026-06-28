@@ -145,7 +145,7 @@ async function clickCorrectChoice() {
     stepId: step.id,
     reveal: step.reveal,
     target,
-    transformText: problem.transformText
+    finalExpression: problem.finalExpression
   };
 })()
 `);
@@ -161,6 +161,7 @@ async function readFeedbackSnapshot() {
     && document.getElementById("promptText").scrollHeight <= document.getElementById("promptText").clientHeight + 1,
   transformFits: document.getElementById("jumpTransform").scrollWidth <= document.getElementById("jumpTransform").clientWidth + 1
     && document.getElementById("jumpTransform").scrollHeight <= document.getElementById("jumpTransform").clientHeight + 1,
+  rewardButtonText: document.querySelector(".reward-check-button")?.textContent.trim() || "",
   rewardVisible: document.getElementById("rewardPop").classList.contains("is-visible")
 }))()
 `);
@@ -201,10 +202,12 @@ async function runScenario(viewport) {
 
   await delay(1200);
   const heldSnapshot = await readFeedbackSnapshot();
-  assert(heldSnapshot.transform === secondStep.transformText, `${viewport.name}: completed expression was not held before reward: ${JSON.stringify(heldSnapshot)}`);
+  assert(heldSnapshot.transform === secondStep.finalExpression, `${viewport.name}: completed expression was not simplified to the final equation: ${JSON.stringify(heldSnapshot)}`);
+  assert(heldSnapshot.rewardButtonText === "길 보기", `${viewport.name}: reward check button did not appear: ${JSON.stringify(heldSnapshot)}`);
   assert(heldSnapshot.promptFits && heldSnapshot.transformFits, `${viewport.name}: completed expression text overflowed: ${JSON.stringify(heldSnapshot)}`);
-  assert(!heldSnapshot.rewardVisible, `${viewport.name}: reward modal covered the completed expression too soon: ${JSON.stringify(heldSnapshot)}`);
+  assert(!heldSnapshot.rewardVisible, `${viewport.name}: reward modal opened before the student pressed the reward button: ${JSON.stringify(heldSnapshot)}`);
 
+  await evaluate('document.querySelector(".reward-check-button").click()');
   await waitUntil('document.getElementById("rewardPop").classList.contains("is-visible")', `${viewport.name}: reward modal did not appear after confirmation hold`, 2500);
   return { viewport, firstSnapshot, secondSnapshot, heldSnapshot };
 }

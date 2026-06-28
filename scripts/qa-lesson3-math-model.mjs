@@ -41,6 +41,7 @@ function validateProblem(problem, index, model) {
   assert(footingStep.label === problem.scaleLabel, `problem ${index} footing step lacks correct label`);
   assert(problem.transformText.includes(`${problem.smallExpression} = ${problem.smallProduct}`), `problem ${index} transform lacks small product`);
   assert(problem.transformText.includes(`${problem.smallProduct} → ${problem.finalAnswer.toLocaleString("ko-KR")}`), `problem ${index} transform lacks final answer`);
+  assert(problem.finalExpression === `${problem.question} = ${problem.finalAnswer.toLocaleString("ko-KR")}`, `problem ${index} final expression mismatch`);
   assert(model.validateFooting(problem, problem.scaleLabel), `problem ${index} correct footing rejected`);
 
   if (problem.type === "hundredfold") {
@@ -103,6 +104,7 @@ function main() {
       split: Object.fromEntries(countBy(run, (problem) => problem.scaleLabel)),
       finalAnswers: run.map((problem) => problem.finalAnswer),
       sampleTransform: run[0].transformText,
+      sampleFinalExpression: run[0].finalExpression,
       rewardBranchAfterMistake: model.getRewardBranch(model.applyMistakeBranch(run[0]))
     });
   }
