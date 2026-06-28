@@ -17,11 +17,11 @@ const ISLANDS = [
 ];
 
 const REWARD_EVENTS = [
-  { id: "tailwind", label: "조금 더 갔어요", weight: 6400, min: 2, max: 5 },
-  { id: "headwind", label: "길이 줄었어요", weight: 1700, min: -8, max: -4 },
-  { id: "pause", label: "잠깐 멈췄어요", weight: 1284, min: 0, max: 0 },
-  { id: "gust", label: "많이 더 갔어요", weight: 598, min: 8, max: 13 },
-  { id: "rainbow", label: "무지개 길이 열렸어요", weight: 18, min: 14, max: 14, rainbow: true }
+  { id: "tailwind", label: "살랑 바람", weight: 6400, min: 2, max: 5 },
+  { id: "headwind", label: "앞바람", weight: 1700, min: -8, max: -4 },
+  { id: "pause", label: "잠깐 멈춤", weight: 1284, min: 0, max: 0 },
+  { id: "gust", label: "쌩쌩 바람", weight: 598, min: 8, max: 13 },
+  { id: "rainbow", label: "무지개 길", weight: 18, min: 14, max: 14, rainbow: true }
 ];
 
 const MISTAKE_EVENT = {

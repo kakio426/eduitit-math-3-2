@@ -203,7 +203,7 @@ async function runScenario(viewport) {
   await delay(1200);
   const heldSnapshot = await readFeedbackSnapshot();
   assert(heldSnapshot.transform === secondStep.finalExpression, `${viewport.name}: completed expression was not simplified to the final equation: ${JSON.stringify(heldSnapshot)}`);
-  assert(heldSnapshot.rewardButtonText === "길 보기", `${viewport.name}: reward check button did not appear: ${JSON.stringify(heldSnapshot)}`);
+  assert(heldSnapshot.rewardButtonText === "바람 보기", `${viewport.name}: reward check button did not appear: ${JSON.stringify(heldSnapshot)}`);
   assert(heldSnapshot.promptFits && heldSnapshot.transformFits, `${viewport.name}: completed expression text overflowed: ${JSON.stringify(heldSnapshot)}`);
   assert(!heldSnapshot.rewardVisible, `${viewport.name}: reward modal opened before the student pressed the reward button: ${JSON.stringify(heldSnapshot)}`);
 

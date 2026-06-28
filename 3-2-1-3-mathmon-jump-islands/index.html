@@ -535,6 +535,43 @@
       font-weight: 1000;
     }
 
+    .result-title[data-result-title-mode="art"] {
+      display: grid;
+      gap: 2px;
+      min-height: auto;
+      justify-items: start;
+    }
+
+    .result-title[data-result-title-mode="art"] .result-title-text,
+    .result-title[data-result-title-mode="text"] .result-island-name,
+    .result-title[data-result-title-mode="text"] .result-title-art {
+      display: none;
+    }
+
+    .result-island-name {
+      display: block;
+      color: #ffffff;
+      font-size: clamp(2.28rem, 4vw, 3.3rem);
+      line-height: 1.16;
+      font-weight: 1000;
+    }
+
+    .result-title-art {
+      display: block;
+      width: auto;
+      max-width: min(290px, 100%);
+      max-height: 98px;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.28));
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .result-title-art[data-title-art="ready"] {
+      max-width: min(282px, 100%);
+      max-height: 120px;
+    }
+
     .steps {
       display: grid;
       gap: 12px;
@@ -729,6 +766,126 @@
     .map-mathmon-marker.is-visible {
       opacity: 1;
       transform: translate(-50%, 0) scale(1);
+    }
+
+    .map-mathmon-marker.is-map-travel-forward {
+      filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.32)) brightness(1.08) saturate(1.1);
+    }
+
+    .map-mathmon-marker.is-map-travel-back {
+      filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.36)) brightness(0.96) saturate(0.94);
+    }
+
+    .map-mathmon-marker.is-map-land {
+      animation: map-marker-land 0.24s cubic-bezier(0.16, 0.92, 0.28, 1.12) both;
+    }
+
+    .map-mathmon-marker.is-map-land-shaky {
+      animation: map-marker-land-shaky 0.3s ease-out both;
+    }
+
+    .map-mathmon-marker.is-map-hop {
+      animation: map-marker-hop 0.42s cubic-bezier(0.2, 0.92, 0.25, 1.1) both;
+    }
+
+    .map-mathmon-marker.is-map-boost {
+      animation: map-marker-boost 0.48s cubic-bezier(0.18, 0.9, 0.22, 1.08) both;
+    }
+
+    .map-mathmon-marker.is-map-rainbow {
+      animation: map-marker-rainbow 0.58s ease-out both;
+    }
+
+    .map-mathmon-marker.is-map-pause {
+      animation: map-marker-pause 0.34s ease-out both;
+    }
+
+    .map-mathmon-marker.is-map-headwind {
+      animation: map-marker-headwind 0.38s ease-out both;
+    }
+
+    .map-mathmon-marker.is-map-shaky {
+      animation: map-marker-shaky 0.46s ease-out both;
+    }
+
+    .map-mathmon-marker.is-map-reduced-flash {
+      animation: map-marker-reduced-flash 0.12s ease-out both;
+    }
+
+    @keyframes map-marker-hop {
+      0%, 100% { transform: translate(-50%, 0) scale(1); }
+      46% { transform: translate(-50%, -10px) scale(1.05); }
+      68% { transform: translate(-50%, 2px) scale(0.98); }
+    }
+
+    @keyframes map-marker-boost {
+      0%, 100% {
+        transform: translate(-50%, 0) scale(1);
+        filter: drop-shadow(0 9px 10px rgba(0, 0, 0, 0.34));
+      }
+      38% {
+        transform: translate(-50%, -15px) scale(1.08);
+        filter: drop-shadow(0 14px 14px rgba(255, 200, 87, 0.35)) brightness(1.16) saturate(1.18);
+      }
+      70% { transform: translate(-50%, 3px) scale(0.97); }
+    }
+
+    @keyframes map-marker-rainbow {
+      0%, 100% {
+        transform: translate(-50%, 0) scale(1);
+        filter: drop-shadow(0 9px 10px rgba(0, 0, 0, 0.34));
+      }
+      42% {
+        transform: translate(-50%, -12px) scale(1.05);
+        filter: drop-shadow(0 14px 16px rgba(184, 140, 255, 0.48)) brightness(1.18) saturate(1.28) hue-rotate(26deg);
+      }
+      72% {
+        transform: translate(-50%, -4px) scale(1.02);
+        filter: drop-shadow(0 12px 15px rgba(96, 215, 255, 0.42)) brightness(1.12) saturate(1.22) hue-rotate(-18deg);
+      }
+    }
+
+    @keyframes map-marker-pause {
+      0%, 100% { transform: translate(-50%, 0) scale(1); }
+      34% { transform: translate(-50%, -2px) scale(1.03); }
+      62% { transform: translate(-50%, 1px) scale(0.98); }
+    }
+
+    @keyframes map-marker-headwind {
+      0%, 100% { transform: translate(-50%, 0) scale(1); }
+      28% { transform: translate(calc(-50% - 5px), 0) scale(0.99); }
+      54% { transform: translate(calc(-50% + 3px), 0) scale(1.01); }
+      76% { transform: translate(calc(-50% - 2px), 0) scale(1); }
+    }
+
+    @keyframes map-marker-shaky {
+      0%, 100% { transform: translate(-50%, 0) rotate(0deg) scale(1); }
+      18% { transform: translate(calc(-50% - 6px), 1px) rotate(-4deg) scale(0.99); }
+      36% { transform: translate(calc(-50% + 5px), -1px) rotate(3deg) scale(1.01); }
+      56% { transform: translate(calc(-50% - 4px), 0) rotate(-2deg) scale(1); }
+      76% { transform: translate(calc(-50% + 2px), 1px) rotate(1deg) scale(1); }
+    }
+
+    @keyframes map-marker-land {
+      0% { transform: translate(-50%, -7px) scale(1.04); }
+      58% { transform: translate(-50%, 3px) scale(0.96); }
+      100% { transform: translate(-50%, 0) scale(1); }
+    }
+
+    @keyframes map-marker-land-shaky {
+      0% { transform: translate(-50%, -3px) rotate(0deg) scale(1); }
+      28% { transform: translate(calc(-50% - 4px), 1px) rotate(-3deg) scale(0.98); }
+      54% { transform: translate(calc(-50% + 4px), 0) rotate(2deg) scale(1.01); }
+      100% { transform: translate(-50%, 0) rotate(0deg) scale(1); }
+    }
+
+    @keyframes map-marker-reduced-flash {
+      0%, 100% {
+        filter: drop-shadow(0 9px 10px rgba(0, 0, 0, 0.34));
+      }
+      50% {
+        filter: drop-shadow(0 10px 12px rgba(255, 200, 87, 0.34)) brightness(1.14);
+      }
     }
 
     .island-chip.is-next {
@@ -1064,6 +1221,10 @@
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
       }
+
+      .map-mathmon-marker.is-map-reduced-flash {
+        animation: map-marker-reduced-flash 0.12s ease-out both !important;
+      }
     }
 
     @media (max-width: 980px) {
@@ -1328,7 +1489,7 @@
               <li><b>1</b><span>0을 잠깐 가려요.</span></li>
               <li><b>2</b><span>남은 곱셈을 먼저 해요.</span></li>
               <li><b>3</b><span>가렸던 0을 붙여요.</span></li>
-              <li><b>4</b><span>점프 길이 달라져요.</span></li>
+              <li><b>4</b><span>바람에 따라 점프 길이 달라져요.</span></li>
             </ol>
             <button class="primary-button" id="tutorialNextButton" type="button">점프 시작</button>
           </div>
@@ -1369,9 +1530,9 @@
         <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
           <div class="reward-card">
             <div class="reward-visual" data-art-slot="reward-modal-generated" aria-hidden="true">
-              <div class="reward-label" id="rewardLabel">조금 더 갔어요</div>
+              <div class="reward-label" id="rewardLabel">살랑 바람</div>
             </div>
-            <h3 class="visually-hidden" id="rewardTitle">길 변화</h3>
+            <h3 class="visually-hidden" id="rewardTitle">바람</h3>
             <button class="primary-button" id="rewardNextButton" type="button">다음</button>
           </div>
         </div>
@@ -1394,7 +1555,12 @@
                 <span class="result-reveal-step" data-phase="island-reveal"></span>
               </div>
             </div>
-            <h2 id="resultTitle">모래섬 도착!</h2>
+            <h2 class="result-title" id="resultTitle" data-result-title-mode="text">
+              <span class="result-title-text" id="resultTitleText">모래섬 도착!</span>
+              <span class="result-island-name" id="resultIslandNameText">모래섬</span>
+              <span class="visually-hidden" id="resultTitleSuffixText"> 도착!</span>
+              <img class="result-title-art" id="resultTitleArt" src="result-stamp-arrival-generated.webp" alt="" aria-hidden="true">
+            </h2>
             <p id="praiseText">0을 가리고 곱한 뒤 0을 잘 붙였어요.</p>
             <div class="result-stats">
               <div class="result-stat">
@@ -1429,11 +1595,11 @@
       { id: "rainbow", name: "무지개섬", minDistance: 96, minCorrect: 10, image: "result-rainbow-integrated-generated.webp", requiresRainbow: true }
     ];
     const REWARD_EVENTS = [
-      { id: "tailwind", label: "조금 더 갔어요", weight: 6400, min: 2, max: 5 },
-      { id: "headwind", label: "길이 줄었어요", weight: 1700, min: -8, max: -4 },
-      { id: "pause", label: "잠깐 멈췄어요", weight: 1284, min: 0, max: 0 },
-      { id: "gust", label: "많이 더 갔어요", weight: 598, min: 8, max: 13 },
-      { id: "rainbow", label: "무지개 길이 열렸어요", weight: 18, min: 14, max: 14, rainbow: true }
+      { id: "tailwind", label: "살랑 바람", weight: 6400, min: 2, max: 5 },
+      { id: "headwind", label: "앞바람", weight: 1700, min: -8, max: -4 },
+      { id: "pause", label: "잠깐 멈춤", weight: 1284, min: 0, max: 0 },
+      { id: "gust", label: "쌩쌩 바람", weight: 598, min: 8, max: 13 },
+      { id: "rainbow", label: "무지개 길", weight: 18, min: 14, max: 14, rainbow: true }
     ];
     const MISTAKE_REWARD_EVENT = {
       id: "shaky",
@@ -1447,6 +1613,24 @@
       "landing-marker": "도착한 곳을 찾았어요.",
       "island-reveal": "섬이 보여요.",
       complete: "도착!"
+    };
+    const MAP_MARKER_EFFECT_CLASSES = [
+      "is-map-travel-forward",
+      "is-map-travel-back",
+      "is-map-land",
+      "is-map-land-shaky",
+      "is-map-hop",
+      "is-map-boost",
+      "is-map-rainbow",
+      "is-map-pause",
+      "is-map-headwind",
+      "is-map-shaky",
+      "is-map-reduced-flash"
+    ];
+    const MAP_MARKER_EFFECT_DURATIONS = {
+      move: 700,
+      stay: 500,
+      reduced: 120
     };
 
     const Lesson3MathModel = (() => {
@@ -1729,6 +1913,9 @@
       jumpDistance: 0,
       rainbowPath: false,
       lastRewardEvent: null,
+      rewardModalTimer: null,
+      mapMarkerEffectTimers: [],
+      mapMarkerEffectRunId: 0,
       resultRevealModel: RESULT_REVEAL_MODEL,
       resultRevealPhase: "idle",
       resultRevealTimers: [],
@@ -1768,11 +1955,121 @@
       resultRevealSteps: [...document.querySelectorAll(".result-reveal-step")],
       resultRaster: document.getElementById("resultRaster"),
       resultTitle: document.getElementById("resultTitle"),
+      resultTitleText: document.getElementById("resultTitleText"),
+      resultIslandNameText: document.getElementById("resultIslandNameText"),
+      resultTitleSuffixText: document.getElementById("resultTitleSuffixText"),
+      resultTitleArt: document.getElementById("resultTitleArt"),
       praiseText: document.getElementById("praiseText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalIslandText: document.getElementById("finalIslandText"),
       restartButton: document.getElementById("restartButton")
     };
+
+    function prefersReducedMotion() {
+      return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function clearRewardModalTimer() {
+      if (!state.rewardModalTimer) {
+        return;
+      }
+      window.clearTimeout(state.rewardModalTimer);
+      state.rewardModalTimer = null;
+    }
+
+    function clearMapMarkerEffect() {
+      state.mapMarkerEffectTimers.forEach((timer) => window.clearTimeout(timer));
+      state.mapMarkerEffectTimers = [];
+      state.mapMarkerEffectRunId += 1;
+      if (!el.mapMathmonMarker) {
+        return;
+      }
+      el.mapMathmonMarker.classList.remove(...MAP_MARKER_EFFECT_CLASSES);
+      delete el.mapMathmonMarker.dataset.mapEffect;
+    }
+
+    function queueMapMarkerEffectTimer(callback, delay) {
+      const timer = window.setTimeout(callback, delay);
+      state.mapMarkerEffectTimers.push(timer);
+      return timer;
+    }
+
+    function getStaticMapMarkerEffectClass(eventId) {
+      if (eventId === "gust") {
+        return "is-map-boost";
+      }
+      if (eventId === "rainbow") {
+        return "is-map-rainbow";
+      }
+      if (eventId === "pause") {
+        return "is-map-pause";
+      }
+      if (eventId === "headwind") {
+        return "is-map-headwind";
+      }
+      if (eventId === "shaky") {
+        return "is-map-shaky";
+      }
+      return "is-map-hop";
+    }
+
+    function getMapMarkerEffectDelay(effect) {
+      if (!effect) {
+        return 0;
+      }
+      if (prefersReducedMotion()) {
+        return MAP_MARKER_EFFECT_DURATIONS.reduced;
+      }
+      return effect.fromIndex === effect.toIndex ? MAP_MARKER_EFFECT_DURATIONS.stay : MAP_MARKER_EFFECT_DURATIONS.move;
+    }
+
+    function playMapRewardEffect(effect) {
+      if (!effect || !el.mapMathmonMarker) {
+        return 0;
+      }
+      clearMapMarkerEffect();
+      const marker = el.mapMathmonMarker;
+      const reducedMotion = prefersReducedMotion();
+      const moved = effect.fromIndex !== effect.toIndex;
+      const classes = reducedMotion
+        ? ["is-map-reduced-flash"]
+        : moved
+          ? [effect.toIndex > effect.fromIndex ? "is-map-travel-forward" : "is-map-travel-back"]
+          : [getStaticMapMarkerEffectClass(effect.eventId)];
+      const runId = state.mapMarkerEffectRunId;
+      const delay = getMapMarkerEffectDelay(effect);
+      marker.dataset.mapEffect = effect.eventId || "";
+      marker.classList.add(...classes);
+
+      if (!reducedMotion && moved) {
+        const landingClass = effect.toIndex > effect.fromIndex ? "is-map-land" : "is-map-land-shaky";
+        queueMapMarkerEffectTimer(() => {
+          if (runId !== state.mapMarkerEffectRunId) {
+            return;
+          }
+          classes.push(landingClass);
+          marker.classList.add(landingClass);
+        }, 440);
+      }
+
+      const finish = () => {
+        if (runId !== state.mapMarkerEffectRunId) {
+          return;
+        }
+        marker.classList.remove(...MAP_MARKER_EFFECT_CLASSES);
+        delete marker.dataset.mapEffect;
+      };
+      const fallbackTimer = queueMapMarkerEffectTimer(finish, delay + 80);
+      const onAnimationEnd = (event) => {
+        if (event.target !== marker) {
+          return;
+        }
+        window.clearTimeout(fallbackTimer);
+        finish();
+      };
+      marker.addEventListener("animationend", onAnimationEnd, { once: true });
+      return delay;
+    }
 
     function showScreen(name) {
       state.screen = name;
@@ -1794,6 +2091,8 @@
       state.jumpDistance = 0;
       state.rainbowPath = false;
       state.lastRewardEvent = null;
+      clearRewardModalTimer();
+      clearMapMarkerEffect();
       clearResultRevealTimers();
       setResultRevealPhase("idle");
       playSound("start");
@@ -1918,7 +2217,7 @@
       };
     }
 
-    function renderMap() {
+    function renderMap(options = {}) {
       const reached = getReachedIsland().index;
       const nextIndex = Math.min(reached + 1, ISLANDS.length - 1);
       el.mapLabelLayer.innerHTML = "";
@@ -1943,10 +2242,10 @@
         }
         el.mapLabelLayer.appendChild(chip);
       });
-      positionMapMathmon();
+      positionMapMathmon(options.markerEffect);
     }
 
-    function positionMapMathmon() {
+    function positionMapMathmon(markerEffect) {
       window.requestAnimationFrame(() => {
         const currentChip = el.mapLabelLayer.querySelector(".island-chip.is-current");
         if (!currentChip || !el.mapMathmonMarker) {
@@ -1957,6 +2256,9 @@
         const markerLeft = chipRect.left - mapRect.left + chipRect.width / 2;
         el.mapMathmonMarker.style.left = `${markerLeft}px`;
         el.mapMathmonMarker.classList.add("is-visible");
+        if (markerEffect) {
+          playMapRewardEffect(markerEffect);
+        }
       });
     }
 
@@ -1965,6 +2267,8 @@
       state.stepIndex = 0;
       state.stepAttempts = 0;
       state.problemMistakeTouched = false;
+      clearRewardModalTimer();
+      clearMapMarkerEffect();
       el.rewardPop.classList.remove("is-visible");
       el.rewardPop.removeAttribute("data-reward");
       el.progressText.textContent = `문제 ${state.problemIndex + 1}/${TOTAL_QUESTIONS}`;
@@ -2002,7 +2306,7 @@
       el.stepText.textContent = "답 완성";
       el.stepPrompt.textContent = "답이 완성됐어요.";
       el.jumpTransform.textContent = problem.finalExpression;
-      el.promptText.textContent = "식을 확인하고 길을 봐요.";
+      el.promptText.textContent = "식을 확인하고 바람을 봐요.";
       renderRewardCheckButton();
       pulseJumpTransform();
     }
@@ -2026,7 +2330,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "primary-button reward-check-button";
-      button.textContent = "길 보기";
+      button.textContent = "바람 보기";
       button.addEventListener("click", showReward, { once: true });
       el.choiceGrid.appendChild(button);
       button.focus();
@@ -2103,6 +2407,7 @@
       const problem = currentProblem();
       const completedProblem = state.problemMistakeTouched ? Lesson3MathModel.applyMistakeBranch(problem) : problem;
       const rewardBranch = QA.enabled && QA.nextRewardId === "shaky" ? "shaky" : Lesson3MathModel.getRewardBranch(completedProblem);
+      const previousIsland = getReachedIsland();
       const event = applyIslandReward(rewardBranch === "positive");
       state.problemResults.push({
         problemId: problem.id,
@@ -2112,7 +2417,20 @@
         jumpDistance: event.distance,
         reachedIsland: event.reachedIsland.name
       });
-      renderMap();
+      const markerEffect = {
+        eventId: event.id,
+        fromIndex: previousIsland.index,
+        toIndex: event.reachedIsland.index
+      };
+      renderMap({ markerEffect });
+      clearRewardModalTimer();
+      state.rewardModalTimer = window.setTimeout(() => {
+        state.rewardModalTimer = null;
+        openRewardModal(event);
+      }, getMapMarkerEffectDelay(markerEffect));
+    }
+
+    function openRewardModal(event) {
       el.rewardLabel.textContent = event.label;
       el.rewardPop.dataset.reward = event.id;
       el.rewardNextButton.textContent = state.problemIndex + 1 >= TOTAL_QUESTIONS ? "보기" : "다음";
@@ -2134,6 +2452,23 @@
     const showResult = () => {
       const island = getReachedIsland();
       startResultReveal(island);
+    };
+
+    const setResultTitleText = (text) => {
+      el.resultTitle.dataset.resultTitleMode = "text";
+      el.resultTitleText.textContent = text;
+      el.resultIslandNameText.textContent = "";
+      el.resultTitleSuffixText.textContent = "";
+    };
+
+    const setResultTitleForIsland = (island) => {
+      const isStart = island.id === "start";
+      el.resultTitle.dataset.resultTitleMode = "art";
+      el.resultTitleText.textContent = isStart ? `${island.name}에서 다시 준비!` : `${island.name} 도착!`;
+      el.resultIslandNameText.textContent = isStart ? `${island.name}에서` : island.name;
+      el.resultTitleSuffixText.textContent = isStart ? " 다시 준비!" : " 도착!";
+      el.resultTitleArt.src = isStart ? "result-stamp-ready-generated.webp" : "result-stamp-arrival-generated.webp";
+      el.resultTitleArt.dataset.titleArt = isStart ? "ready" : "arrival";
     };
 
     const showQaResultIsland = (id) => {
@@ -2166,7 +2501,7 @@
       state.resultRevealRunId += 1;
       const runId = state.resultRevealRunId;
       el.resultRaster.src = island.image;
-      el.resultTitle.textContent = RESULT_REVEAL_LABELS["jump-path-scan"];
+      setResultTitleText(RESULT_REVEAL_LABELS["jump-path-scan"]);
       el.praiseText.textContent = "어디까지 갔는지 볼까요?";
       el.finalCorrectText.textContent = "보고 있어요";
       el.finalIslandText.textContent = "찾고 있어요";
@@ -2211,7 +2546,7 @@
         step.classList.toggle("is-done", phase === "complete" || (phaseIndex >= 0 && stepIndex < phaseIndex));
       });
       if (phase !== "complete") {
-        el.resultTitle.textContent = RESULT_REVEAL_LABELS[phase] || "점프 길을 살펴봐요.";
+        setResultTitleText(RESULT_REVEAL_LABELS[phase] || "점프 길을 살펴봐요.");
       }
       if (phase !== previousPhase && RESULT_REVEAL_MODEL.includes(phase)) {
         playSound(`reveal-${phase}`);
@@ -2220,7 +2555,7 @@
 
     const finishResultReveal = (island) => {
       clearResultRevealTimers();
-      el.resultTitle.textContent = island.id === "start" ? `${island.name}에서 다시 준비!` : `${island.name} 도착!`;
+      setResultTitleForIsland(island);
       el.praiseText.textContent = getResultPraise(island);
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
       el.finalIslandText.textContent = island.name;
