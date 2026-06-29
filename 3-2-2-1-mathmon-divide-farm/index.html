@@ -1074,10 +1074,13 @@
 
     .problem-heading h2 {
       width: 100%;
+      min-height: 82px;
+      display: grid;
+      place-items: center;
       margin: 0;
       color: #ffffff;
       font-size: clamp(2.1rem, 5.8vw, 4.4rem);
-      line-height: 1;
+      line-height: 1.08;
       font-weight: 1000;
       text-align: center;
       white-space: nowrap;
@@ -1385,6 +1388,10 @@
       gap: 10px;
     }
 
+    .choice-grid[hidden] {
+      display: none;
+    }
+
     .choice-button {
       min-height: 64px;
       padding: 10px 12px;
@@ -1434,6 +1441,18 @@
 
     .feedback.wrong {
       color: #ffc0cd;
+    }
+
+    .harvest-button {
+      justify-self: center;
+      min-width: 180px;
+      min-height: 60px;
+      padding: 0 36px;
+      font-size: clamp(1.02rem, 2.2vw, 1.24rem);
+    }
+
+    .harvest-button[hidden] {
+      display: none;
     }
 
     .reward-pop {
@@ -1563,7 +1582,7 @@
       box-shadow: 0 16px 0 rgba(72, 38, 104, 0.28), 0 0 28px rgba(96, 215, 255, 0.36);
     }
 
-    .reward-card p {
+    .reward-card p:not(.visually-hidden) {
       display: none;
     }
 
@@ -1641,11 +1660,15 @@
     }
 
     .result-copy h2 {
+      min-height: 100px;
+      display: grid;
+      align-items: center;
       margin: 0;
       color: #ffffff;
       font-size: clamp(2.6rem, 6.5vw, 5.4rem);
-      line-height: 0.98;
+      line-height: 1.05;
       font-weight: 1000;
+      overflow-wrap: anywhere;
       text-shadow: 0 5px 18px rgba(0, 0, 0, 0.42);
     }
 
@@ -2251,6 +2274,64 @@
         min-height: 24px;
         font-size: 0.96rem;
       }
+
+      .result {
+        padding: 42px 38px 24px;
+      }
+
+      .result-layout {
+        gap: 24px;
+      }
+
+      .launch-scene {
+        min-height: 380px;
+      }
+
+      .result-mathmon {
+        width: 230px;
+      }
+
+      .result-copy {
+        gap: 10px;
+      }
+
+      .result-copy h2 {
+        min-height: 78px;
+        font-size: clamp(2.4rem, 5.3vw, 4.1rem);
+        line-height: 1.02;
+      }
+
+      .praise {
+        font-size: 1.12rem;
+        line-height: 1.25;
+      }
+
+      .result-measure {
+        gap: 8px;
+        padding: 11px 12px;
+      }
+
+      .measure-tube {
+        height: 22px;
+      }
+
+      .result-planet-track .planet-chip {
+        min-height: 36px;
+      }
+
+      .result-stats {
+        gap: 8px;
+      }
+
+      .result-stat {
+        min-height: 78px;
+        padding: 10px;
+      }
+
+      .result-stat strong {
+        margin-top: 4px;
+        font-size: 1.7rem;
+      }
     }
 
     @media (max-width: 880px) {
@@ -2406,7 +2487,7 @@
         <div class="hud-center">
           <span class="stat-pill" id="progressText">문제 1/10</span>
           <span class="stat-pill" id="energyText">수확 담는 중</span>
-          <span class="stat-pill" id="chainText">마지막에 수확</span>
+          <span class="stat-pill" id="chainText">마지막에 보기</span>
         </div>
         <span class="unit-badge">나누기 농장</span>
       </header>
@@ -2431,21 +2512,21 @@
             </div>
             <div class="rocket-thrust"></div>
           </div>
-          <div class="fuel-panel">
-            <div class="fuel-readout">
-              <span>바구니 수확</span>
-              <strong id="fuelPercentText">담는 중</strong>
-            </div>
+            <div class="fuel-panel">
+              <div class="fuel-readout">
+                <span>바구니 수확</span>
+                <strong id="fuelPercentText">담는 중</strong>
+              </div>
             <div class="fuel-meter" aria-hidden="true">
               <span class="fuel-meter-fill" id="fuelMeterFill"></span>
             </div>
-            <p class="fuel-note" id="fuelNote">10문제를 끝내면 수확을 모아 농장 등급을 정해요.</p>
+            <p class="fuel-note" id="fuelNote">10문제를 끝내면 어디까지 왔는지 봐요.</p>
             <div class="planet-panel">
               <div class="planet-title">
-                <span>수확 등급</span>
-                <strong id="destinationText">마지막에 수확</strong>
+                <span>농장 길</span>
+                <strong id="destinationText">마지막에 보기</strong>
               </div>
-              <div class="planet-track" id="planetTrack" aria-label="농장 수확 등급"></div>
+              <div class="planet-track" id="planetTrack" aria-label="농장 길"></div>
             </div>
           </div>
         </aside>
@@ -2497,15 +2578,16 @@
           <div class="prompt" id="promptText">바구니 하나에 들어갈 몫을 골라요.</div>
           <div class="choice-grid" id="choiceGrid"></div>
           <div class="feedback" id="feedbackText"></div>
+          <button class="primary-button harvest-button" id="harvestButton" type="button" hidden disabled>수확 보기</button>
         </section>
       </div>
-      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
+      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle" aria-describedby="rewardMessage">
         <div class="reward-card">
           <div class="reward-art" aria-hidden="true">
-            <div class="reward-delta" id="rewardDelta">풍년!</div>
+            <div class="reward-delta" id="rewardDelta">수확 0</div>
           </div>
           <h3 class="visually-hidden" id="rewardTitle">수확 담기</h3>
-          <p id="rewardMessage">정답! 바구니에 수확이 담겼어요.</p>
+          <p class="visually-hidden" id="rewardMessage">정답! 바구니에 수확이 담겼어요.</p>
           <button class="primary-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
@@ -2522,22 +2604,22 @@
           <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-2-foxmon.webp" alt="">
         </div>
         <div class="result-copy">
-          <h2 id="resultTitle">수확 정리 준비</h2>
+          <h2 id="resultTitle">수확 보는 중</h2>
           <p class="praise" id="praiseText">수확물을 똑같이 나눈 멋진 계산이에요.</p>
-          <div class="result-measure" id="resultMeasure" aria-label="수확 정리 결과">
+          <div class="result-measure" id="resultMeasure" aria-label="수확 보기 결과">
             <div class="measure-top">
-              <span id="measureStatus">수확 정리 중</span>
+              <span id="measureStatus">수확 보는 중</span>
               <strong id="measurePercent">수확 0</strong>
             </div>
             <div class="measure-tube" aria-hidden="true">
               <span class="measure-fill" id="measureFill"></span>
               <span class="measure-scan"></span>
             </div>
-            <div class="result-planet-track" id="resultPlanetTrack" aria-label="수확 등급 확인"></div>
+            <div class="result-planet-track" id="resultPlanetTrack" aria-label="농장 길 확인"></div>
           </div>
           <div class="result-stats">
             <div class="result-stat">
-              <span>수확 점수</span>
+              <span>모은 수확</span>
               <strong id="finalEnergyText">0</strong>
             </div>
             <div class="result-stat">
@@ -2545,7 +2627,7 @@
               <strong id="finalCorrectText">0/10</strong>
             </div>
             <div class="result-stat">
-              <span>수확 등급</span>
+              <span>도착한 밭</span>
               <strong id="finalDestinationText">씨앗</strong>
             </div>
           </div>
@@ -2611,6 +2693,7 @@
       hintOpen: false,
       rainbowFuel: false,
       lastFuelEvent: null,
+      pendingRewardEvent: null,
       instantLaunch: false,
       soundsOn: true,
       audio: null
@@ -2658,6 +2741,7 @@
       rewardDelta: document.getElementById("rewardDelta"),
       rewardMessage: document.getElementById("rewardMessage"),
       rewardNextButton: document.getElementById("rewardNextButton"),
+      harvestButton: document.getElementById("harvestButton"),
       resultRaster: document.getElementById("resultRaster"),
       resultMeasure: document.getElementById("resultMeasure"),
       measureStatus: document.getElementById("measureStatus"),
@@ -2687,6 +2771,7 @@
       state.chain = 0;
       state.rainbowFuel = false;
       state.lastFuelEvent = null;
+      state.pendingRewardEvent = null;
       state.instantLaunch = false;
       playSound("start");
       showScreen("play");
@@ -2776,6 +2861,9 @@
       el.hundredsAnswer.textContent = "몫 ?";
       el.tensAnswer.textContent = "?십";
       el.onesAnswer.textContent = "?개";
+      el.choiceGrid.hidden = false;
+      el.harvestButton.hidden = true;
+      el.harvestButton.disabled = true;
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderStatus();
@@ -2785,7 +2873,7 @@
     function renderStatus() {
       el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
       el.energyText.textContent = state.fuelPercent > 0 ? "수확 담는 중" : "바구니 준비";
-      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 수확" : "마지막에 수확";
+      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 보기" : "마지막에 보기";
       const charge = getFuelPercent() / MAX_FUEL;
       const fuelPercent = getFuelPercent();
       el.rocketZone.style.setProperty("--charge", charge.toFixed(3));
@@ -2795,8 +2883,8 @@
       el.rocketMini.classList.toggle("is-rainbow", state.rainbowFuel);
       el.fuelPercentText.textContent = state.rainbowFuel ? "황금 작물" : "담는 중";
       el.fuelMeterFill.style.setProperty("--fuel-width", `${fuelPercent}%`);
-      el.destinationText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 수확" : "마지막에 수확";
-      el.fuelNote.textContent = "10문제를 끝내면 수확을 모아 농장 등급을 정해요.";
+      el.destinationText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 보기" : "마지막에 보기";
+      el.fuelNote.textContent = "10문제를 끝내면 어디까지 왔는지 봐요.";
       renderPlanetTrack(el.planetTrack, { targetIndex: -1, reachedIndex: -1 });
     }
 
@@ -2913,7 +3001,7 @@
           prompt: "십의 자리 몫과 일의 자리 몫을 합쳐요.",
           meaning: `${problem.tensQuot}십과 ${problem.onesQuot}을 합치면 몫이 완성돼요.`,
           hint: `${problem.tensQuot}십은 ${problem.tensQuot * 10}이에요. 일의 자리 ${problem.onesQuot}을 붙여요.`,
-          explain: `${problem.tensQuot}십 + ${problem.onesQuot} = ${problem.answer}. 그래서 ${problem.dividend} ÷ ${problem.divisor} = ${problem.answer}이에요.`
+          explain: `몫 ${problem.answer} 완성!`
         }
       ];
     }
@@ -2957,10 +3045,9 @@
       }
     }
 
-    function buildStepOptions(step) {
+    function buildStepOptions(step, problem = currentProblem()) {
       const values = [step.correct];
       if (step.id === "combine") {
-        const problem = currentProblem();
         const addMistake = problem.tensQuot + problem.onesQuot;
         [addMistake, step.correct - 10, step.correct + 10, step.correct - 1, step.correct + 1].forEach((value) => {
           addOptionValue(values, value);
@@ -3038,7 +3125,7 @@
       }
       window.setTimeout(() => {
         if (state.stepIndex >= 2) {
-          completeProblem();
+          prepareProblemReward();
           return;
         }
         state.stepIndex += 1;
@@ -3061,7 +3148,7 @@
       updateCurrentAnswerCell();
     }
 
-    function completeProblem() {
+    function prepareProblemReward() {
       const perfect = !state.problemHadMistake;
       if (perfect) {
         state.correct += 1;
@@ -3069,7 +3156,25 @@
       } else {
         state.chain = 0;
       }
-      const event = perfect ? rollFuelEvent() : createLeakEvent();
+      state.pendingRewardEvent = perfect ? rollFuelEvent() : createLeakEvent();
+      renderStatus();
+      const problem = currentProblem();
+      el.choiceGrid.hidden = true;
+      el.promptText.textContent = "바구니에 담아 볼까요?";
+      el.feedbackText.textContent = `몫 ${problem.answer} 완성!`;
+      el.feedbackText.className = "feedback good";
+      el.harvestButton.hidden = false;
+      el.harvestButton.disabled = false;
+      el.harvestButton.focus();
+    }
+
+    function completeProblem() {
+      if (!state.pendingRewardEvent) {
+        return;
+      }
+      const event = state.pendingRewardEvent;
+      state.pendingRewardEvent = null;
+      el.harvestButton.disabled = true;
       applyFuelEvent(event);
       renderStatus();
       finishProblem(state.lastFuelEvent);
@@ -3108,7 +3213,7 @@
         return {
           id: "instantLaunch",
           amount: 6,
-          title: "대풍!",
+          title: "큰 풍년!",
           message: "수확 마무리",
           launches: true
         };
@@ -3117,7 +3222,7 @@
         return {
           id: "emptyTank",
           amount: 0,
-          title: "흉작",
+          title: "빈 바구니",
           message: "수확 0",
           emptiesTank: true
         };
@@ -3177,14 +3282,14 @@
       }
       if (event.launches) {
         return {
-          title: "대풍이 불어요!",
+          title: "큰 풍년이 왔어요",
           message: "수확 마무리",
           art: "launch"
         };
       }
       if (event.emptiesTank) {
         return {
-          title: before > 0 ? "흉작이 왔어요" : "바구니가 비어 있어요",
+          title: before > 0 ? "빈 바구니" : "바구니가 비었어요",
           message: "수확 0",
           art: "empty"
         };
@@ -3251,7 +3356,7 @@
         return "황금!";
       }
       if (event.launches) {
-        return "대풍!";
+        return "큰 풍년!";
       }
       if (event.emptiesTank) {
         return "수확 0";
@@ -3266,7 +3371,7 @@
       if (event.amount < 0) {
         return "수확 0";
       }
-      return "변화 없음";
+      return "수확 0";
     }
 
     function renderChoices(options, handler) {
@@ -3275,7 +3380,7 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-button";
-        button.innerHTML = option.label;
+        button.textContent = option.label;
         button.addEventListener("click", () => handler(option, button));
         el.choiceGrid.appendChild(button);
       });
@@ -3296,8 +3401,8 @@
       el.rewardDelta.textContent = getFuelEventDeltaLabel(result);
       el.rewardMessage.textContent = result.message;
       el.rewardNextButton.textContent = result.launches
-        ? "수확 보기"
-        : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
+        ? "보기"
+        : state.index + 1 >= TOTAL_QUESTIONS ? "보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
         animateRewardPop();
@@ -3344,12 +3449,12 @@
       el.resultRaster.src = destination.image;
       el.resultScreen.classList.add("is-measuring");
       el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowFuel);
-      document.getElementById("resultTitle").textContent = "수확 정리 중";
-      el.finalEnergyText.textContent = "정리 중";
+      document.getElementById("resultTitle").textContent = "수확 보는 중";
+      el.finalEnergyText.textContent = "보는 중";
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
-      el.finalDestinationText.textContent = "정리 중";
-      el.praiseText.textContent = "바구니에 담긴 수확을 살펴보고 있어요.";
-      el.measureStatus.textContent = "수확 정리 중";
+      el.finalDestinationText.textContent = "보는 중";
+      el.praiseText.textContent = "바구니에 담긴 수확을 보고 있어요.";
+      el.measureStatus.textContent = "수확 보는 중";
       el.measurePercent.textContent = "수확 0";
       el.measureFill.style.setProperty("--measure-width", "0%");
       renderPlanetTrack(el.resultPlanetTrack, { targetIndex: -1, reachedIndex: -1 });
@@ -3359,7 +3464,7 @@
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
-        el.measureStatus.textContent = "농장 등급 살피는 중";
+        el.measureStatus.textContent = "어디까지 왔는지 보는 중";
         el.measurePercent.textContent = measureLabel;
         el.measureFill.style.setProperty("--measure-width", `${measureWidth}%`);
         el.finalEnergyText.textContent = measureLabel;
@@ -3371,7 +3476,7 @@
       }, 120);
       window.setTimeout(() => {
         el.resultScreen.classList.remove("is-measuring");
-        document.getElementById("resultTitle").textContent = `${destination.name} 수확!`;
+        document.getElementById("resultTitle").textContent = `${destination.name}까지 왔어요!`;
         el.finalDestinationText.textContent = destination.name;
         el.praiseText.textContent = getPraise(destination);
         el.restartButton.hidden = false;
@@ -3386,16 +3491,16 @@
 
     function getPraise(destination) {
       if (destination.secret) {
-        return "황금 작물이 반짝여 전설 황금밭이 열렸어요!";
+        return "황금 작물이 반짝여 전설 황금밭까지 왔어요!";
       }
       if (destination.index >= 4) {
-        return "수확물을 똑같이 나눈 힘이 대농장까지 자랐어요.";
+        return "수확을 잘 나눠 대농장까지 왔어요.";
       }
       if (destination.index >= 3) {
-        return `이번엔 ${destination.name}까지 왔어요. 다음엔 대농장에 도전해요!`;
+        return `이번엔 ${destination.name}까지 왔어요. 다음엔 대농장!`;
       }
       if (destination.index >= 2) {
-        return `이번엔 ${destination.name}까지 자랐어요. 십의 자리와 일의 자리를 잘 나눴어요.`;
+        return `이번엔 ${destination.name}까지 왔어요. 십과 일을 잘 나눴어요.`;
       }
       return `이번엔 ${destination.name}부터 시작했어요. 다음엔 더 큰 밭까지 가 봐요.`;
     }
@@ -3497,6 +3602,7 @@
       playSound("next");
     });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.harvestButton.addEventListener("click", completeProblem);
     el.restartButton.addEventListener("click", () => {
       playSound("start");
       showScreen("cover");
@@ -3511,6 +3617,26 @@
     });
 
     renderStatus();
+    window.__divideFarmQa = {
+      buildProblemCandidates,
+      buildProblems,
+      buildSteps,
+      buildStepOptions,
+      formatStepAnswer,
+      pickFuelEventForRoll,
+      createLeakEvent,
+      getProblemKey,
+      totalQuestions: TOTAL_QUESTIONS,
+      currentProblem: () => ({ ...currentProblem() }),
+      getState: () => ({
+        index: state.index,
+        correct: state.correct,
+        stepIndex: state.stepIndex,
+        problemHadMistake: state.problemHadMistake,
+        pendingRewardEvent: state.pendingRewardEvent ? { ...state.pendingRewardEvent } : null,
+        lastFuelEvent: state.lastFuelEvent ? { ...state.lastFuelEvent } : null
+      })
+    };
   </script>
 </body>
 </html>
