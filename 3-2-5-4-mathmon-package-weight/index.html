@@ -1,0 +1,1551 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>매스몬 택배 무게 맞추기 | 에듀잇티 수학 게임</title>
+  <style>
+    :root {
+      --page: #111018;
+      --panel: #201a2d;
+      --panel-soft: #2b243a;
+      --ink: #fff8e8;
+      --muted: #d7cadb;
+      --line: rgba(255, 255, 255, 0.16);
+      --mint: #35d9b2;
+      --amber: #ffc857;
+      --rose: #ff5d7a;
+      --sky: #60d7ff;
+      --violet: #b88cff;
+      --deep: #0e0c16;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--page);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100dvh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(96, 215, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, #111018 0%, #1f1930 52%, #0e0c16 100%);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .game {
+      --stage-padding: clamp(10px, 2vw, 24px);
+      min-height: 100dvh;
+      padding: var(--stage-padding);
+      display: grid;
+      place-items: center;
+    }
+
+    .stage-shell {
+      --stage-inset: clamp(14px, 2vw, 22px);
+      --sound-button-size: clamp(30px, 3vw, 34px);
+      --sound-gap: clamp(8px, 1vw, 12px);
+      --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
+      --top-control-pad-x: 9px;
+      --top-control-icon-gap: 7px;
+      position: relative;
+      width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(53, 217, 178, 0.16), transparent 34%),
+        linear-gradient(160deg, #2a2140 0%, #171321 58%, #0e0c16 100%);
+      box-shadow: 0 24px 72px rgba(0, 0, 0, 0.32);
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: auto;
+      aspect-ratio: 16 / 10;
+      display: none;
+      padding: calc(var(--stage-inset) + 52px) var(--stage-inset) var(--stage-inset);
+    }
+
+    .screen.is-active {
+      display: block;
+    }
+
+    .top-row {
+      position: absolute;
+      top: var(--stage-inset);
+      left: var(--stage-inset);
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+      height: var(--sound-button-size);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sound-gap);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .brand-badge,
+    .unit-badge,
+    .mini-badge {
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      min-height: var(--sound-button-size);
+      padding: 0 var(--top-control-pad-x);
+      gap: var(--top-control-icon-gap);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(14, 12, 22, 0.58);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: auto;
+    }
+
+    .brand-badge img {
+      width: 18px;
+      height: 18px;
+      margin-right: 0;
+      border-radius: 50%;
+      background: var(--amber);
+      display: none;
+    }
+
+    .badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 0 3px rgba(53, 217, 178, 0.14);
+    }
+
+    .unit-badge .badge-dot {
+      background: var(--sky);
+      box-shadow: 0 0 0 3px rgba(96, 215, 255, 0.14);
+    }
+
+    .topic-badge {
+      position: absolute;
+      left: var(--stage-inset);
+      bottom: var(--stage-inset);
+      z-index: 4;
+      color: #2b2100;
+      background: var(--amber);
+      border: 0;
+    }
+
+    .stage-shell .top-row {
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+    }
+
+    .stage-shell .hud {
+      padding-right: var(--sound-reserve);
+    }
+
+    .sound-toggle {
+      position: absolute;
+      top: var(--stage-inset);
+      right: var(--stage-inset);
+      width: var(--sound-button-size);
+      height: var(--sound-button-size);
+      font-size: 0;
+      z-index: 8;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--ink);
+      background: rgba(14, 12, 22, 0.7);
+      cursor: pointer;
+    }
+
+    .sound-toggle svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      transform: translate(-50%, -50%);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .sound-toggle[aria-pressed="false"] .sound-wave {
+      display: none;
+    }
+
+    .sound-off-stroke {
+      display: none;
+    }
+
+    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
+      display: block;
+    }
+
+    .primary-button,
+    .secondary-button,
+    .choice-button {
+      border: 0;
+      border-radius: 8px;
+      font-weight: 1000;
+      letter-spacing: 0;
+      cursor: pointer;
+      transition: opacity 160ms ease, filter 160ms ease, transform 160ms ease;
+    }
+
+    .primary-button:hover,
+    .secondary-button:hover,
+    .choice-button:hover {
+      filter: brightness(1.05);
+    }
+
+    .primary-button:active,
+    .secondary-button:active,
+    .choice-button:active {
+      transform: translateY(1px);
+    }
+
+    .primary-button {
+      min-width: 190px;
+      min-height: 72px;
+      padding: 0 44px;
+      background: var(--amber);
+      color: #231900;
+      font-size: 1.32rem;
+      box-shadow: 0 14px 28px rgba(255, 200, 87, 0.22);
+    }
+
+    .secondary-button {
+      min-height: 54px;
+      padding: 0 24px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--line);
+    }
+
+    .cover {
+      padding: 0;
+      isolation: isolate;
+    }
+
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(14, 12, 22, 0.12), rgba(14, 12, 22, 0.78)),
+        repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px 76px);
+      z-index: -1;
+    }
+
+    .raster-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .cover::before {
+      z-index: 1;
+    }
+
+    .cover-scene {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 92px 58px 76px;
+    }
+
+    .hero-copy {
+      width: min(640px, 56%);
+      display: grid;
+      justify-items: start;
+      gap: 20px;
+    }
+
+    .hero-title-art {
+      display: block;
+      width: min(620px, 100%);
+      height: auto;
+      filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.34));
+    }
+
+    .cover-goal {
+      width: fit-content;
+      max-width: 100%;
+      margin: 0;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: clamp(1.06rem, 2vw, 1.32rem);
+      line-height: 1.35;
+      font-weight: 950;
+      color: var(--ink);
+      background: rgba(14, 12, 22, 0.66);
+      border: 1px solid var(--line);
+    }
+
+    .cover #startButton {
+      min-width: 190px;
+      min-height: 72px;
+      padding: 0 44px;
+    }
+
+    .tutorial-grid {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .screen-title {
+      margin: 0;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 1.05;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .tutorial-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tutorial-card {
+      min-height: 260px;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.08);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .card-mark {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #10251f;
+      background: var(--mint);
+      font-size: 1.8rem;
+      font-weight: 1000;
+    }
+
+    .tutorial-card strong {
+      display: block;
+      font-size: 1.32rem;
+      line-height: 1.25;
+    }
+
+    .tutorial-card p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 850;
+      line-height: 1.35;
+    }
+
+    .tutorial-action {
+      display: flex;
+      justify-content: center;
+    }
+
+    .play {
+      padding: var(--stage-inset);
+      display: none;
+    }
+
+    .play.is-active {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+
+    .hud {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      min-height: var(--sound-button-size);
+      gap: 12px;
+    }
+
+    .hud-left,
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .progress-line {
+      flex: 1 1 auto;
+      min-width: 180px;
+      max-width: 420px;
+      height: var(--sound-button-size);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--mint), var(--amber));
+      transition: width 360ms ease;
+    }
+
+    .progress-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 950;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .problem-card,
+    .step-board,
+    .choices-panel,
+    .complete-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .problem-card {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+      padding: 24px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .problem-label {
+      margin: 0;
+      color: var(--sky);
+      font-size: 1rem;
+      font-weight: 950;
+    }
+
+    .big-problem {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: rgba(14, 12, 22, 0.46);
+      font-size: clamp(1.8rem, 3.8vw, 3.4rem);
+      line-height: 1.05;
+      font-weight: 1000;
+      overflow-wrap: anywhere;
+    }
+
+    .step-board {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .step-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 32px;
+    }
+
+    .step-chip {
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.82rem;
+      font-weight: 950;
+    }
+
+    .step-chip.is-done {
+      color: #10251f;
+      background: var(--mint);
+    }
+
+    .step-chip.is-current {
+      color: #231900;
+      background: var(--amber);
+    }
+
+    .instruction {
+      margin: 0;
+      font-size: clamp(1.12rem, 2.1vw, 1.45rem);
+      line-height: 1.2;
+      font-weight: 1000;
+    }
+
+    .answer-slot {
+      min-height: 92px;
+      border-radius: 8px;
+      border: 2px dashed rgba(255, 255, 255, 0.28);
+      display: grid;
+      place-items: center;
+      padding: 10px 14px;
+      color: var(--muted);
+      background: rgba(14, 12, 22, 0.38);
+      text-align: center;
+      font-size: clamp(1.35rem, 2.9vw, 2.2rem);
+      font-weight: 1000;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .answer-slot.is-filled {
+      color: #10251f;
+      background: var(--mint);
+      border-color: transparent;
+      animation: slotPulse 520ms ease;
+    }
+
+    .feedback-line {
+      min-height: 26px;
+      margin: 0;
+      color: var(--muted);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .feedback-line.is-good {
+      color: var(--mint);
+    }
+
+    .feedback-line.is-wrong {
+      color: var(--rose);
+    }
+
+    .choices-panel {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-content: stretch;
+    }
+
+    .choice-button {
+      min-height: 86px;
+      padding: 12px 16px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: clamp(1.04rem, 2.2vw, 1.42rem);
+      line-height: 1.16;
+      overflow-wrap: anywhere;
+    }
+
+    .choice-button.is-correct {
+      color: #10251f;
+      background: var(--mint);
+    }
+
+    .choice-button.is-wrong {
+      color: var(--ink);
+      background: rgba(255, 93, 122, 0.26);
+      border-color: rgba(255, 93, 122, 0.48);
+    }
+
+    .choice-button:disabled {
+      cursor: default;
+      opacity: 0.76;
+    }
+
+    .complete-panel {
+      grid-column: 1 / 3;
+      grid-row: 3 / 4;
+      min-height: 88px;
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .complete-panel.is-visible {
+      display: flex;
+    }
+
+    .complete-text {
+      margin: 0;
+      font-size: clamp(1rem, 2vw, 1.28rem);
+      font-weight: 1000;
+      line-height: 1.24;
+      overflow-wrap: anywhere;
+    }
+
+    .reward,
+    .result {
+      display: none;
+      place-items: center;
+      text-align: center;
+    }
+
+    .reward.is-active,
+    .result.is-active {
+      display: grid;
+    }
+
+    .reward-card,
+    .result-card {
+      width: min(760px, 88%);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(14, 12, 22, 0.72);
+      padding: 34px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    .result-card {
+      position: relative;
+      z-index: 2;
+      align-self: end;
+      margin-bottom: 42px;
+      padding: 22px 28px 24px;
+      background: rgba(14, 12, 22, 0.62);
+      backdrop-filter: blur(4px);
+    }
+
+    .route-label {
+      min-height: 70px;
+      display: grid;
+      place-items: center;
+      margin: 0 0 18px;
+      font-size: clamp(2rem, 4.5vw, 3.6rem);
+      line-height: 1.05;
+      font-weight: 1000;
+      color: var(--amber);
+    }
+
+    .route-meter {
+      height: 42px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .route-meter-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--mint), var(--sky), var(--amber));
+      transition: width 620ms ease;
+    }
+
+    .route-meter-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-weight: 1000;
+      color: var(--deep);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.32);
+    }
+
+    .reward-change {
+      margin: 18px 0 28px;
+      color: var(--muted);
+      font-weight: 950;
+      font-size: 1.1rem;
+    }
+
+    .result-place {
+      margin: 0 0 14px;
+      color: var(--amber);
+      font-size: clamp(2rem, 4.8vw, 4rem);
+      line-height: 1.05;
+      font-weight: 1000;
+    }
+
+    .result-summary,
+    .result-next {
+      margin: 0 auto 14px;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes slotPulse {
+      0% { filter: brightness(1); }
+      45% { filter: brightness(1.34); }
+      100% { filter: brightness(1); }
+    }
+
+    @media (max-width: 900px) {
+      .cover-scene {
+        padding: 82px 42px 66px;
+      }
+
+      .hero-copy {
+        width: min(560px, 64%);
+      }
+
+      .tutorial-cards {
+        gap: 10px;
+      }
+
+      .tutorial-card {
+        padding: 16px;
+        min-height: 220px;
+      }
+
+      .problem-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .problem-card {
+        padding: 16px;
+      }
+
+      .choices-panel {
+        padding: 12px;
+        gap: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay">
+    <div class="stage-shell">
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 10h3.5l4.2-4v12l-4.2-4H4z"></path>
+          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
+          <path class="sound-off-stroke" d="M16 8l5 8M21 8l-5 8"></path>
+        </svg>
+      </button>
+
+      <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
+        <img class="raster-bg" src="cover-generated.webp" alt="">
+        <div class="top-row">
+          <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div>
+          <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 5단원</div>
+        </div>
+        <div class="cover-scene">
+          <div class="hero-copy">
+            <h1 class="visually-hidden" id="coverTitle">매스몬 택배 무게 맞추기</h1>
+            <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
+            <p class="cover-goal">택배 한도에 맞는 무게를 골라요.</p>
+            <button class="primary-button" id="startButton" type="button">시작</button>
+          </div>
+        </div>
+        <div class="mini-badge topic-badge">무게의 덧셈·뺄셈과 어림</div>
+      </section>
+
+      <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
+        <div class="top-row">
+          <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div>
+          <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>무게 계산</div>
+        </div>
+        <div class="tutorial-grid">
+          <h2 class="screen-title" id="tutorialTitle">택배를 보내기 전에</h2>
+          <div class="tutorial-cards" aria-label="게임 방법">
+            <div class="tutorial-card">
+              <div class="card-mark">1</div>
+              <strong>g끼리 먼저 봐요.</strong>
+              <p>1000g이 넘으면 1kg으로 바꿔요.</p>
+            </div>
+            <div class="tutorial-card">
+              <div class="card-mark">2</div>
+              <strong>부족하면 1kg을 빌려요.</strong>
+              <p>1kg은 1000g이에요.</p>
+            </div>
+            <div class="tutorial-card">
+              <div class="card-mark">3</div>
+              <strong>한도보다 가벼워야 해요.</strong>
+              <p>맞으면 택배가 더 멀리 가요.</p>
+            </div>
+          </div>
+          <div class="tutorial-action">
+            <button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
+        <header class="hud">
+          <div class="hud-left">
+            <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 택배</div>
+            <div class="mini-badge" id="problemCounter">1/10</div>
+          </div>
+          <div class="progress-line" aria-label="배송 거리">
+            <div class="progress-fill" id="runProgress"></div>
+            <div class="progress-text" id="runProgressText">0km</div>
+          </div>
+          <div class="hud-right">
+            <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>5단원 무게</div>
+          </div>
+        </header>
+
+        <div class="problem-grid">
+          <article class="problem-card">
+            <p class="problem-label" id="problemKind">택배 무게</p>
+            <h2 class="big-problem" id="problemTitle">문제</h2>
+          </article>
+
+          <section class="step-board" aria-label="현재 계산판">
+            <div class="step-chips" id="stepChips"></div>
+            <p class="instruction" id="stepInstruction">무게를 골라요.</p>
+            <div class="answer-slot" id="answerSlot">?</div>
+            <p class="feedback-line" id="feedbackLine" aria-live="polite"></p>
+          </section>
+
+          <section class="choices-panel" id="choicesPanel" aria-label="선택지"></section>
+
+          <section class="complete-panel" id="completePanel" aria-live="polite">
+            <p class="complete-text" id="completeExpression"></p>
+            <button class="primary-button" id="deliveryButton" type="button">배송 보기</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
+        <div class="top-row">
+          <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>배송 길</div>
+          <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 움직여요</div>
+        </div>
+        <div class="reward-card">
+          <h2 class="route-label" id="rewardTitle">길이 열렸어요</h2>
+          <div class="route-meter" aria-label="배송 거리">
+            <div class="route-meter-fill" id="rewardMeter"></div>
+            <div class="route-meter-text" id="rewardMeterText">0km</div>
+          </div>
+          <p class="reward-change" id="rewardChange">+0km</p>
+          <button class="primary-button" id="rewardNextButton" type="button">다음</button>
+        </div>
+      </section>
+
+      <section class="screen result" id="screen-result" aria-labelledby="resultTitle">
+        <img class="raster-bg" id="resultBg" src="result-home-generated.webp" alt="">
+        <div class="top-row">
+          <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 도착지</div>
+          <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>5단원 무게</div>
+        </div>
+        <div class="result-card">
+          <h2 class="result-place" id="resultTitle">가까운 집</h2>
+          <p class="result-summary" id="resultSummary"></p>
+          <p class="result-next" id="resultNext"></p>
+          <div class="result-actions">
+            <button class="primary-button" id="retryButton" type="button">다시</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const Lesson5PackageWeightModel = (() => {
+      const TOTAL_PROBLEMS = 10;
+      const MIN_REWARD_DISTANCE = 4;
+      const MAX_DISTANCE = 100;
+      const BASE_CORRECT_DISTANCE = 6;
+      const TYPES_PER_RUN = [
+        "addCarry",
+        "addCarry",
+        "addCarry",
+        "addCarry",
+        "subtractBorrow",
+        "subtractBorrow",
+        "subtractBorrow",
+        "limit",
+        "limit",
+        "limit"
+      ];
+      const DESTINATIONS = [
+        { id: "home", name: "가까운 집", minDistance: 0, minCorrect: 0, image: "result-home-generated.webp" },
+        { id: "school", name: "학교 앞", minDistance: 20, minCorrect: 3, image: "result-school-generated.webp" },
+        { id: "market", name: "시장 앞", minDistance: 45, minCorrect: 5, image: "result-market-generated.webp" },
+        { id: "mountain", name: "산마을", minDistance: 70, minCorrect: 7, image: "result-mountain-generated.webp" },
+        { id: "harbor", name: "바닷가 마을", minDistance: 90, minCorrect: 9, image: "result-harbor-generated.webp" },
+        { id: "rainbow", name: "무지개 우체국", minDistance: 100, minCorrect: 10, needsSecret: true, image: "result-rainbow-generated.webp" }
+      ];
+      const ROUTE_CHANGES = [
+        { id: "steady", text: "반듯한 길", weight: 5200, min: 7, max: 10, family: "increase" },
+        { id: "fast", text: "빠른 길", weight: 1700, min: 14, max: 20, family: "biggerIncrease" },
+        { id: "detour", text: "돌아가는 길", weight: 1500, min: -8, max: -4, family: "decrease" },
+        { id: "pause", text: "잠깐 멈춤", weight: 900, min: 0, max: 0, family: "zeroPause" },
+        { id: "express", text: "곧장 길", weight: 600, min: 28, max: 28, family: "instantSpecial", instant: true },
+        { id: "secret", text: "비밀 길", weight: 100, min: 40, max: 40, family: "instantSpecial", secret: true }
+      ];
+      const WRONG_ROUTE_CHANGE = { id: "retie", text: "끈 다시 묶기", min: -10, max: -6, family: "wrongPenalty" };
+
+      function createRng(seed = 12345) {
+        let value = seed >>> 0;
+        return function rng() {
+          value = (value + 0x6d2b79f5) >>> 0;
+          let t = value;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function randomInt(rng, min, max) {
+        return Math.floor(rng() * (max - min + 1)) + min;
+      }
+
+      function shuffle(items, rng) {
+        const copy = items.slice();
+        for (let index = copy.length - 1; index > 0; index -= 1) {
+          const target = Math.floor(rng() * (index + 1));
+          [copy[index], copy[target]] = [copy[target], copy[index]];
+        }
+        return copy;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function toTotalGrams(weight) {
+        return weight.kg * 1000 + weight.g;
+      }
+
+      function fromTotalGrams(total) {
+        return {
+          kg: Math.floor(total / 1000),
+          g: total % 1000
+        };
+      }
+
+      function formatGrams(value) {
+        return `${value}g`;
+      }
+
+      function formatWeight(weight) {
+        return `${weight.kg}kg ${weight.g}g`;
+      }
+
+      function uniqueChoices(values, rng) {
+        const seen = new Set();
+        const unique = [];
+        for (const value of values) {
+          if (!seen.has(value)) {
+            seen.add(value);
+            unique.push(value);
+          }
+        }
+        return shuffle(unique.slice(0, 4), rng);
+      }
+
+      function makeStep(id, prompt, slot, correct, choices, confirm) {
+        return { id, prompt, slot, correct, choices, confirm };
+      }
+
+      function makeAddCarry(rng, serial) {
+        const left = { kg: randomInt(rng, 1, 6), g: randomInt(rng, 520, 940) };
+        const right = { kg: randomInt(rng, 1, 5), g: randomInt(rng, 520, 940) };
+        const gramSum = left.g + right.g;
+        const final = fromTotalGrams(toTotalGrams(left) + toTotalGrams(right));
+        const noCarry = `${left.kg + right.kg}kg ${gramSum}g`;
+        const lowGram = formatGrams(gramSum - 1000);
+        const choices1 = uniqueChoices([
+          formatGrams(gramSum),
+          lowGram,
+          formatGrams(left.g + right.g - 100),
+          formatGrams(left.g + right.g + 100)
+        ], rng);
+        const choices2 = uniqueChoices([
+          formatWeight(final),
+          noCarry,
+          `${final.kg - 1}kg ${final.g}g`,
+          `${final.kg}kg ${Math.min(final.g + 100, 990)}g`
+        ], rng);
+        return {
+          id: `add-${serial}`,
+          type: "addCarry",
+          kind: "더하기 택배",
+          prompt: `${formatWeight(left)} + ${formatWeight(right)}`,
+          expression: `${formatWeight(left)} + ${formatWeight(right)} = ${formatWeight(final)}`,
+          left,
+          right,
+          gramSum,
+          final,
+          finalText: formatWeight(final),
+          fitsLimit: null,
+          representativeMistake: noCarry,
+          steps: [
+            makeStep("addGrams", "g끼리 더한 값을 골라요.", "g 합", formatGrams(gramSum), choices1, `${formatGrams(gramSum)}이 들어갔어요.`),
+            makeStep("addFinal", "1000g을 1kg으로 바꾼 무게를 골라요.", "완성 무게", formatWeight(final), choices2, `${formatWeight(final)}로 보낼 수 있어요.`)
+          ]
+        };
+      }
+
+      function makeSubtractBorrow(rng, serial) {
+        const top = { kg: randomInt(rng, 5, 9), g: randomInt(rng, 100, 420) };
+        const bottom = { kg: randomInt(rng, 1, top.kg - 2), g: randomInt(rng, top.g + 160, 960) };
+        const borrowedTop = { kg: top.kg - 1, g: top.g + 1000 };
+        const final = fromTotalGrams(toTotalGrams(top) - toTotalGrams(bottom));
+        const noBorrow = `${top.kg - bottom.kg}kg ${Math.abs(top.g - bottom.g)}g`;
+        const choices1 = uniqueChoices([
+          formatWeight(borrowedTop),
+          `${top.kg}kg ${top.g + 1000}g`,
+          `${top.kg - 1}kg ${top.g}g`,
+          `${top.kg - 2}kg ${top.g + 1000}g`
+        ], rng);
+        const choices2 = uniqueChoices([
+          formatWeight(final),
+          noBorrow,
+          `${final.kg + 1}kg ${final.g}g`,
+          `${Math.max(final.kg - 1, 0)}kg ${final.g}g`
+        ], rng);
+        return {
+          id: `subtract-${serial}`,
+          type: "subtractBorrow",
+          kind: "빼기 택배",
+          prompt: `${formatWeight(top)} - ${formatWeight(bottom)}`,
+          expression: `${formatWeight(top)} - ${formatWeight(bottom)} = ${formatWeight(final)}`,
+          top,
+          bottom,
+          borrowedTop,
+          final,
+          finalText: formatWeight(final),
+          fitsLimit: null,
+          representativeMistake: noBorrow,
+          steps: [
+            makeStep("borrowKg", "1kg을 빌린 윗무게를 골라요.", "빌린 무게", formatWeight(borrowedTop), choices1, `${formatWeight(borrowedTop)}로 바뀌었어요.`),
+            makeStep("subtractFinal", "남은 택배 무게를 골라요.", "완성 무게", formatWeight(final), choices2, `${formatWeight(final)}이 남았어요.`)
+          ]
+        };
+      }
+
+      function makeLimit(rng, serial) {
+        const box = { kg: randomInt(rng, 1, 5), g: randomInt(rng, 120, 880) };
+        const wrap = { kg: randomInt(rng, 0, 2), g: randomInt(rng, 140, 920) };
+        const total = fromTotalGrams(toTotalGrams(box) + toTotalGrams(wrap));
+        const fitsLimit = rng() > 0.46;
+        const limitOffset = fitsLimit ? randomInt(rng, 80, 540) : -randomInt(rng, 80, 540);
+        const limit = fromTotalGrams(clamp(toTotalGrams(total) + limitOffset, 1000, 9900));
+        const wrongTotal = fromTotalGrams(Math.max(0, toTotalGrams(box) + toTotalGrams(wrap) - 1000));
+        const correctFitText = fitsLimit ? "실을 수 있어요" : "무거워요";
+        const totalGrams = toTotalGrams(total);
+        const nearbyWeights = [-1000, -500, 500, 1000, 250, -250]
+          .map((offset) => totalGrams + offset)
+          .filter((value) => value >= 0 && value <= 9900)
+          .map((value) => formatWeight(fromTotalGrams(value)));
+        const choices1 = uniqueChoices([
+          formatWeight(total),
+          formatWeight(wrongTotal),
+          `${total.kg}kg ${Math.min(total.g + 100, 990)}g`,
+          `${Math.max(total.kg - 1, 0)}kg ${total.g}g`,
+          ...nearbyWeights
+        ], rng);
+        const choices2 = shuffle(["실을 수 있어요", "무거워요", "한 번 더 봐요", "한도와 같아요"], rng);
+        return {
+          id: `limit-${serial}`,
+          type: "limit",
+          kind: "한도 택배",
+          prompt: `${formatWeight(box)} + ${formatWeight(wrap)} / 한도 ${formatWeight(limit)}`,
+          expression: `${formatWeight(total)} / 한도 ${formatWeight(limit)}: ${correctFitText}`,
+          box,
+          wrap,
+          limit,
+          final: total,
+          finalText: formatWeight(total),
+          fitsLimit,
+          representativeMistake: fitsLimit ? "무거워요" : "실을 수 있어요",
+          steps: [
+            makeStep("limitTotal", "택배 무게를 골라요.", "택배 무게", formatWeight(total), choices1, `${formatWeight(total)}이에요.`),
+            makeStep("limitFit", "한도에 맞는 말을 골라요.", "한도 확인", correctFitText, choices2, `${correctFitText}.`)
+          ]
+        };
+      }
+
+      function makeProblem(type, rng, serial) {
+        if (type === "addCarry") return makeAddCarry(rng, serial);
+        if (type === "subtractBorrow") return makeSubtractBorrow(rng, serial);
+        return makeLimit(rng, serial);
+      }
+
+      function generateRun(seed = 12345) {
+        const rng = createRng(seed);
+        const types = shuffle(TYPES_PER_RUN, rng);
+        return types.map((type, index) => makeProblem(type, rng, index + 1));
+      }
+
+      function validateChoice(step, choice) {
+        return step.correct === choice;
+      }
+
+      function pickRouteChange(rng, mistakeTouched) {
+        if (mistakeTouched) {
+          return {
+            ...WRONG_ROUTE_CHANGE,
+            amount: randomInt(rng, WRONG_ROUTE_CHANGE.min, WRONG_ROUTE_CHANGE.max)
+          };
+        }
+        let roll = Math.floor(rng() * 10000);
+        for (const route of ROUTE_CHANGES) {
+          if (roll < route.weight) {
+            return { ...route, amount: randomInt(rng, route.min, route.max) };
+          }
+          roll -= route.weight;
+        }
+        const fallback = ROUTE_CHANGES[0];
+        return { ...fallback, amount: randomInt(rng, fallback.min, fallback.max) };
+      }
+
+      function applyRoute(state, change, firstTry) {
+        const before = state.distance;
+        const skillDistance = firstTry ? BASE_CORRECT_DISTANCE : 0;
+        const distance = clamp(before + skillDistance + change.amount, MIN_REWARD_DISTANCE, MAX_DISTANCE);
+        return {
+          distance,
+          correctFirstTry: state.correctFirstTry + (firstTry ? 1 : 0),
+          secretSeen: state.secretSeen || Boolean(change.secret),
+          before,
+          skillDistance,
+          change
+        };
+      }
+
+      function getDestination(distance, correctFirstTry, secretSeen) {
+        for (let index = DESTINATIONS.length - 1; index >= 0; index -= 1) {
+          const destination = DESTINATIONS[index];
+          if (destination.needsSecret && !secretSeen) continue;
+          if (distance >= destination.minDistance && correctFirstTry >= destination.minCorrect) {
+            return destination;
+          }
+        }
+        return DESTINATIONS[0];
+      }
+
+      function getNextDestination(destination) {
+        const index = DESTINATIONS.findIndex((item) => item.id === destination.id);
+        return DESTINATIONS[Math.min(index + 1, DESTINATIONS.length - 1)];
+      }
+
+      return {
+        TOTAL_PROBLEMS,
+        MIN_REWARD_DISTANCE,
+        MAX_DISTANCE,
+        BASE_CORRECT_DISTANCE,
+        TYPES_PER_RUN,
+        DESTINATIONS,
+        ROUTE_CHANGES,
+        WRONG_ROUTE_CHANGE,
+        createRng,
+        randomInt,
+        shuffle,
+        clamp,
+        toTotalGrams,
+        fromTotalGrams,
+        formatGrams,
+        formatWeight,
+        generateRun,
+        validateChoice,
+        pickRouteChange,
+        applyRoute,
+        getDestination,
+        getNextDestination
+      };
+    })();
+
+    const screens = {
+      cover: document.getElementById("screen-cover"),
+      tutorial: document.getElementById("screen-tutorial"),
+      play: document.getElementById("screen-play"),
+      reward: document.getElementById("screen-reward"),
+      result: document.getElementById("screen-result")
+    };
+
+    const ui = {
+      startButton: document.getElementById("startButton"),
+      tutorialStartButton: document.getElementById("tutorialStartButton"),
+      soundToggle: document.getElementById("soundToggle"),
+      problemCounter: document.getElementById("problemCounter"),
+      runProgress: document.getElementById("runProgress"),
+      runProgressText: document.getElementById("runProgressText"),
+      problemKind: document.getElementById("problemKind"),
+      problemTitle: document.getElementById("problemTitle"),
+      stepChips: document.getElementById("stepChips"),
+      stepInstruction: document.getElementById("stepInstruction"),
+      answerSlot: document.getElementById("answerSlot"),
+      feedbackLine: document.getElementById("feedbackLine"),
+      choicesPanel: document.getElementById("choicesPanel"),
+      completePanel: document.getElementById("completePanel"),
+      completeExpression: document.getElementById("completeExpression"),
+      deliveryButton: document.getElementById("deliveryButton"),
+      rewardTitle: document.getElementById("rewardTitle"),
+      rewardMeter: document.getElementById("rewardMeter"),
+      rewardMeterText: document.getElementById("rewardMeterText"),
+      rewardChange: document.getElementById("rewardChange"),
+      rewardNextButton: document.getElementById("rewardNextButton"),
+      resultBg: document.getElementById("resultBg"),
+      resultTitle: document.getElementById("resultTitle"),
+      resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
+      retryButton: document.getElementById("retryButton")
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const seedParam = params.get("seed");
+    const seedFromUrl = Number(seedParam);
+    const hasExplicitSeed = seedParam !== null && Number.isInteger(seedFromUrl);
+
+    let state = createInitialState(createRunSeed());
+
+    function createRunSeed() {
+      if (hasExplicitSeed) return seedFromUrl;
+      if (window.crypto?.getRandomValues) {
+        const values = new Uint32Array(1);
+        window.crypto.getRandomValues(values);
+        return values[0];
+      }
+      return Math.floor((Date.now() + Math.random() * 0xffffffff) % 0xffffffff);
+    }
+
+    function createInitialState(seed) {
+      const model = Lesson5PackageWeightModel;
+      return {
+        seed,
+        rng: model.createRng((seed + 0x9e3779b9) >>> 0),
+        problems: model.generateRun(seed),
+        problemIndex: 0,
+        stepIndex: 0,
+        mistakeTouched: false,
+        distance: 0,
+        correctFirstTry: 0,
+        secretSeen: false,
+        latestRoute: null,
+        rewardAppliedProblemIndex: -1,
+        rewardAdvancedProblemIndex: -1
+      };
+    }
+
+    function showScreen(name) {
+      Object.values(screens).forEach((screen) => screen.classList.remove("is-active"));
+      screens[name].classList.add("is-active");
+    }
+
+    function setButtonDisabled(button, disabled) {
+      button.disabled = disabled;
+      button.setAttribute("aria-disabled", String(disabled));
+    }
+
+    const TRANSIENT_INPUT_BLOCK_MS = 420;
+    const CHOICE_CARRY_THROUGH_BLOCK_MS = 900;
+
+    let transientInputBlockedUntil = 0;
+    let choiceInputLockedUntil = 0;
+
+    function blockTransientInput(ms = TRANSIENT_INPUT_BLOCK_MS) {
+      transientInputBlockedUntil = Math.max(transientInputBlockedUntil, performance.now() + ms);
+    }
+
+    function shouldBlockTransientInput(event) {
+      if (!event.isTrusted || performance.now() >= transientInputBlockedUntil) return false;
+      const target = event.target;
+      if (!(target instanceof Element) || !target.closest("button")) return false;
+      return !(event.type === "click" && event instanceof MouseEvent && event.detail === 0);
+    }
+
+    function handleTransientInput(event) {
+      if (!shouldBlockTransientInput(event)) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    ["pointerdown", "pointerup", "mousedown", "mouseup", "click", "dblclick"].forEach((eventName) => {
+      document.addEventListener(eventName, handleTransientInput, true);
+    });
+
+    function blockChoicePointerInput(ms = CHOICE_CARRY_THROUGH_BLOCK_MS) {
+      choiceInputLockedUntil = Math.max(choiceInputLockedUntil, performance.now() + ms);
+    }
+
+    function shouldBlockChoiceInput(event) {
+      if (!event || !event.isTrusted || performance.now() >= choiceInputLockedUntil) return false;
+      return event instanceof MouseEvent && event.detail > 0;
+    }
+
+    function formatRouteMovement(movement) {
+      if (movement === 0) return "그대로예요";
+      return `${movement >= 0 ? "+" : ""}${movement}km`;
+    }
+
+    function currentProblem() {
+      return state.problems[state.problemIndex];
+    }
+
+    function currentStep() {
+      return currentProblem().steps[state.stepIndex];
+    }
+
+    function renderProgress() {
+      const percent = Lesson5PackageWeightModel.clamp(state.distance, 0, 100);
+      ui.runProgress.style.width = `${percent}%`;
+      ui.runProgressText.textContent = `${state.distance}km`;
+    }
+
+    function renderProblem() {
+      const problem = currentProblem();
+      state.stepIndex = 0;
+      state.mistakeTouched = false;
+      ui.problemCounter.textContent = `${state.problemIndex + 1}/10`;
+      ui.problemKind.textContent = problem.kind;
+      ui.problemTitle.textContent = problem.prompt;
+      ui.completePanel.classList.remove("is-visible");
+      setButtonDisabled(ui.deliveryButton, true);
+      renderProgress();
+      renderStep();
+      showScreen("play");
+    }
+
+    function renderStep() {
+      const problem = currentProblem();
+      const step = currentStep();
+      ui.stepChips.innerHTML = "";
+      problem.steps.forEach((item, index) => {
+        const chip = document.createElement("span");
+        chip.className = "step-chip";
+        if (index < state.stepIndex) chip.classList.add("is-done");
+        if (index === state.stepIndex) chip.classList.add("is-current");
+        chip.textContent = index < state.stepIndex ? `${index + 1} ${problem.steps[index].correct}` : `${index + 1} ${index === state.stepIndex ? item.slot : "?"}`;
+        ui.stepChips.append(chip);
+      });
+      ui.stepInstruction.textContent = step.prompt;
+      ui.answerSlot.textContent = "?";
+      ui.answerSlot.classList.remove("is-filled");
+      ui.feedbackLine.textContent = "";
+      ui.feedbackLine.className = "feedback-line";
+      ui.choicesPanel.innerHTML = "";
+      step.choices.forEach((choice) => {
+        const button = document.createElement("button");
+        button.className = "choice-button";
+        button.type = "button";
+        button.textContent = choice;
+        button.dataset.choice = choice;
+        button.dataset.correct = String(Lesson5PackageWeightModel.validateChoice(step, choice));
+        button.addEventListener("click", (event) => handleChoice(button, choice, event));
+        ui.choicesPanel.append(button);
+      });
+    }
+
+    function setChoicesDisabled(disabled) {
+      ui.choicesPanel.querySelectorAll("button").forEach((button) => {
+        button.disabled = disabled;
+      });
+    }
+
+    function handleChoice(button, choice, event) {
+      if (shouldBlockChoiceInput(event)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+
+      const step = currentStep();
+      const correct = Lesson5PackageWeightModel.validateChoice(step, choice);
+      if (!correct) {
+        state.mistakeTouched = true;
+        button.classList.add("is-wrong");
+        button.disabled = true;
+        ui.feedbackLine.textContent = "다시 골라요.";
+        ui.feedbackLine.className = "feedback-line is-wrong";
+        return;
+      }
+
+      setChoicesDisabled(true);
+      button.classList.add("is-correct");
+      ui.answerSlot.textContent = choice;
+      ui.answerSlot.classList.add("is-filled");
+      ui.feedbackLine.textContent = step.confirm;
+      ui.feedbackLine.className = "feedback-line is-good";
+
+      const isLastStep = state.stepIndex === currentProblem().steps.length - 1;
+      if (isLastStep) {
+        window.setTimeout(showCompletePanel, 560);
+        return;
+      }
+      window.setTimeout(() => {
+        state.stepIndex += 1;
+        renderStep();
+      }, 1200);
+    }
+
+    function showCompletePanel() {
+      const problem = currentProblem();
+      ui.completeExpression.textContent = problem.expression;
+      ui.completePanel.classList.add("is-visible");
+      setButtonDisabled(ui.deliveryButton, false);
+      ui.deliveryButton.focus({ preventScroll: true });
+    }
+
+    function showReward() {
+      const canDeliver = screens.play.classList.contains("is-active")
+        && ui.completePanel.classList.contains("is-visible")
+        && state.rewardAppliedProblemIndex !== state.problemIndex;
+      if (!canDeliver) return;
+
+      state.rewardAppliedProblemIndex = state.problemIndex;
+      setButtonDisabled(ui.deliveryButton, true);
+
+      const model = Lesson5PackageWeightModel;
+      const firstTry = !state.mistakeTouched;
+      const routeChange = model.pickRouteChange(state.rng, state.mistakeTouched);
+      const routeResult = model.applyRoute({
+        distance: state.distance,
+        correctFirstTry: state.correctFirstTry,
+        secretSeen: state.secretSeen
+      }, routeChange, firstTry);
+      state.distance = routeResult.distance;
+      state.correctFirstTry = routeResult.correctFirstTry;
+      state.secretSeen = routeResult.secretSeen;
+      state.latestRoute = routeResult;
+
+      const actualMovement = routeResult.distance - routeResult.before;
+      ui.rewardTitle.textContent = routeChange.text;
+      ui.rewardMeter.style.width = `${state.distance}%`;
+      ui.rewardMeterText.textContent = `${state.distance}km`;
+      ui.rewardChange.textContent = formatRouteMovement(actualMovement);
+      ui.rewardNextButton.textContent = state.problemIndex === state.problems.length - 1 ? "보기" : "다음";
+      setButtonDisabled(ui.rewardNextButton, false);
+      showScreen("reward");
+    }
+
+    function advanceAfterReward() {
+      const canAdvance = screens.reward.classList.contains("is-active")
+        && state.latestRoute
+        && state.rewardAppliedProblemIndex === state.problemIndex
+        && state.rewardAdvancedProblemIndex !== state.problemIndex;
+      if (!canAdvance) return;
+
+      state.rewardAdvancedProblemIndex = state.problemIndex;
+      setButtonDisabled(ui.rewardNextButton, true);
+      blockTransientInput();
+
+      if (state.problemIndex === state.problems.length - 1) {
+        showResult();
+        return;
+      }
+      state.problemIndex += 1;
+      renderProblem();
+      blockChoicePointerInput();
+    }
+
+    function showResult() {
+      const model = Lesson5PackageWeightModel;
+      const destination = model.getDestination(state.distance, state.correctFirstTry, state.secretSeen);
+      const next = model.getNextDestination(destination);
+      ui.resultBg.src = destination.image;
+      ui.resultTitle.textContent = destination.name;
+      ui.resultSummary.textContent = `바로 맞힌 문제 ${state.correctFirstTry}개, 배송 거리 ${state.distance}km`;
+      ui.resultNext.textContent = destination.id === next.id
+        ? "끝까지 갔어요. 한 번 더 가 볼까요?"
+        : `이번엔 ${destination.name}. 다음엔 ${next.name}까지 가요.`;
+      showScreen("result");
+    }
+
+    function startGame() {
+      state = createInitialState(createRunSeed());
+      renderProblem();
+    }
+
+    ui.startButton.addEventListener("click", () => showScreen("tutorial"));
+    ui.tutorialStartButton.addEventListener("click", startGame);
+    ui.deliveryButton.addEventListener("click", showReward);
+    ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.retryButton.addEventListener("click", startGame);
+    ui.soundToggle.addEventListener("click", () => {
+      const pressed = ui.soundToggle.getAttribute("aria-pressed") === "true";
+      ui.soundToggle.setAttribute("aria-pressed", String(!pressed));
+      ui.soundToggle.setAttribute("aria-label", pressed ? "소리 꺼짐" : "소리 켜짐");
+    });
+
+    window.Lesson5PackageWeightModel = Lesson5PackageWeightModel;
+  </script>
+</body>
+</html>

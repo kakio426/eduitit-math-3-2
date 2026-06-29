@@ -32,6 +32,7 @@ ai mart/
   3-2-4-2-mathmon-fraction-scoop/
   3-2-4-3-mathmon-fraction-sorter/
   3-2-4-4-mathmon-fraction-tug/
+  3-2-5-4-mathmon-package-weight/
 ```
 
 ## 차시 폴더 이름 규칙
@@ -75,6 +76,7 @@ ai mart/
 | 3학년 2학기 4단원 2차시 | `3-2-4-2-mathmon-fraction-scoop` | 매스몬 분수만큼 담기 | 전체의 분수만큼 구하기 |
 | 3학년 2학기 4단원 3차시 | `3-2-4-3-mathmon-fraction-sorter` | 매스몬 분수 분류 컨베이어 | 진분수·가분수·대분수 구분 |
 | 3학년 2학기 4단원 4차시 | `3-2-4-4-mathmon-fraction-tug` | 매스몬 분수 줄다리기 | 분모 같은 분수·단위분수 비교 |
+| 3학년 2학기 5단원 4차시 | `3-2-5-4-mathmon-package-weight` | 매스몬 택배 무게 맞추기 | 무게의 덧셈·뺄셈과 어림 |
 
 ## 레포지토리 운영
 
