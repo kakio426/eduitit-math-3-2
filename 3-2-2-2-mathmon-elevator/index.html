@@ -68,7 +68,7 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --sound-button-size: clamp(30px, 3vw, 34px);
+      --sound-button-size: 38px;
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
       --top-control-pad-x: 9px;
@@ -216,15 +216,16 @@
     }
 
     .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      clip-path: inset(50%) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
     }
 
     .sound-toggle {
@@ -462,7 +463,8 @@
     }
 
     .play {
-      grid-template-rows: auto 1fr;
+      grid-template-rows: var(--sound-button-size) minmax(0, 1fr);
+      gap: 16px;
       padding: var(--stage-inset);
     }
 
@@ -472,7 +474,9 @@
       align-items: start;
       gap: 12px;
       min-height: var(--sound-button-size);
-      margin-bottom: 16px;
+      height: var(--sound-button-size);
+      margin: 0;
+      padding-right: var(--sound-reserve);
     }
 
     .hud .brand-badge,
@@ -506,14 +510,14 @@
     }
 
     #progressText {
-      min-height: 48px;
-      min-width: 172px;
-      padding: 10px 22px;
+      min-height: 38px;
+      min-width: 132px;
+      padding: 7px 14px;
       border-color: rgba(255, 200, 87, 0.52);
       color: #231400;
       background: linear-gradient(180deg, #ffe27a, #ffc857);
-      font-size: clamp(1.08rem, 2.2vw, 1.42rem);
-      box-shadow: 0 10px 0 rgba(106, 70, 23, 0.2), 0 16px 26px rgba(0, 0, 0, 0.18);
+      font-size: 0.98rem;
+      box-shadow: 0 6px 0 rgba(106, 70, 23, 0.18), 0 12px 22px rgba(0, 0, 0, 0.16);
     }
 
     .play-layout {
@@ -619,40 +623,14 @@
       left: 50%;
       bottom: calc(24px + var(--power) * 210px);
       z-index: 3;
-      width: min(170px, 56%);
-      aspect-ratio: 0.72;
+      width: min(190px, 62%);
+      aspect-ratio: 560 / 640;
       transform: translateX(-50%);
-      border: 4px solid rgba(255, 247, 215, 0.7);
-      border-radius: 24px;
-      background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 28%, transparent 29% 48%, rgba(255, 255, 255, 0.14) 49% 72%, transparent 73%),
-        linear-gradient(180deg, #5ee5dd, #2098a7);
-      box-shadow: 0 24px 34px rgba(0, 0, 0, 0.38), 0 0 calc(12px + var(--power) * 30px) rgba(53, 214, 199, 0.36);
-      transition: bottom 0.78s cubic-bezier(0.18, 0.9, 0.22, 1.08), box-shadow 0.7s ease;
-    }
-
-    .elevator-car::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: -18px;
-      width: 74%;
-      height: 30px;
-      transform: translateX(-50%);
-      border-radius: 999px;
-      background: linear-gradient(180deg, #ffe27a, #ffb83d);
-      box-shadow: 0 0 22px rgba(255, 200, 87, calc(0.16 + var(--power) * 0.34));
-    }
-
-    .elevator-car::after {
-      content: "";
-      position: absolute;
-      inset: 22% 16% 18%;
-      border-radius: 12px;
-      background:
-        radial-gradient(circle at 50% 72%, #ffe27a 0 10%, transparent 11%),
-        linear-gradient(90deg, rgba(12, 23, 27, 0.38) 0 49%, rgba(255, 255, 255, 0.34) 50% 51%, rgba(12, 23, 27, 0.38) 52% 100%);
-      border: 2px solid rgba(255, 255, 255, 0.32);
+      background: url("elevator-car-generated.webp") center / contain no-repeat;
+      filter:
+        drop-shadow(0 24px 28px rgba(0, 0, 0, 0.38))
+        drop-shadow(0 0 calc(10px + var(--power) * 26px) rgba(53, 214, 199, 0.38));
+      transition: bottom 0.78s cubic-bezier(0.18, 0.9, 0.22, 1.08), filter 0.7s ease;
     }
 
     .elevator-car.is-boosting {
@@ -660,10 +638,11 @@
     }
 
     .elevator-zone.is-rainbow .elevator-car {
-      background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 28%, transparent 29% 48%, rgba(255, 255, 255, 0.14) 49% 72%, transparent 73%),
-        linear-gradient(135deg, #ff7a9a, #ffe27a, #45f2b8, #70d7ff, #b58cff);
-      background-size: 220% 100%;
+      filter:
+        saturate(1.25)
+        hue-rotate(calc(var(--power) * 90deg))
+        drop-shadow(0 24px 28px rgba(0, 0, 0, 0.38))
+        drop-shadow(0 0 34px rgba(181, 140, 255, 0.52));
       animation: rainbow-flow 1.3s linear infinite;
     }
 
@@ -718,12 +697,80 @@
 
     .problem-panel {
       display: grid;
-      grid-template-rows: auto auto auto 1fr auto;
+      grid-template-rows: auto auto auto 1fr auto auto;
       gap: 14px;
       padding: clamp(16px, 2.6vw, 24px);
       background:
         linear-gradient(150deg, rgba(255, 200, 87, 0.06), transparent 42%),
         rgba(10, 20, 24, 0.72);
+    }
+
+    .problem-panel.is-confirming {
+      grid-template-rows: auto auto auto auto auto;
+      gap: 8px;
+    }
+
+    .problem-panel.is-confirming .division-board {
+      grid-template-columns: 1fr;
+    }
+
+    .problem-panel.is-confirming .problem-heading h2 {
+      font-size: clamp(2.35rem, 5.6vw, 4.2rem);
+    }
+
+    .problem-panel.is-confirming .quotient-stage,
+    .problem-panel.is-confirming .step-panel {
+      min-height: 0;
+      padding: 10px;
+    }
+
+    .problem-panel.is-confirming .quotient-stage {
+      gap: 8px;
+    }
+
+    .problem-panel.is-confirming .step-panel {
+      display: none;
+    }
+
+    .problem-panel.is-confirming .answer-strip {
+      max-width: 240px;
+      gap: 8px;
+    }
+
+    .problem-panel.is-confirming .answer-cell {
+      min-height: 44px;
+      font-size: 1.86rem;
+    }
+
+    .problem-panel.is-confirming .long-division {
+      grid-template-columns: 54px 1fr;
+      gap: 8px;
+      width: min(320px, 100%);
+    }
+
+    .problem-panel.is-confirming .divisor-box,
+    .problem-panel.is-confirming .dividend-box {
+      min-height: 52px;
+      font-size: 1.92rem;
+    }
+
+    .problem-panel.is-confirming .digit-box,
+    .problem-panel.is-confirming .down-box {
+      min-height: 38px;
+    }
+
+    .problem-panel.is-confirming .down-row {
+      display: none;
+    }
+
+    .problem-panel.is-confirming .step-formula {
+      min-height: 58px;
+      font-size: 1.42rem;
+    }
+
+    .problem-panel.is-confirming .prompt {
+      min-height: 40px;
+      padding: 8px 10px;
     }
 
     .problem-heading h2 {
@@ -970,12 +1017,12 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       align-content: start;
-      gap: 10px;
+      gap: 8px;
     }
 
     .choice-button {
-      min-height: 78px;
-      padding: 10px 12px;
+      min-height: 64px;
+      padding: 8px 12px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.1);
@@ -1024,11 +1071,15 @@
     }
 
     .feedback {
-      min-height: 42px;
+      min-height: 0;
       color: #ffffff;
       font-size: clamp(0.98rem, 2vw, 1.14rem);
       font-weight: 900;
       line-height: 1.35;
+    }
+
+    .feedback:not(:empty) {
+      min-height: 30px;
     }
 
     .feedback.good {
@@ -1041,6 +1092,18 @@
 
     .feedback.wrong {
       color: #ffc4c0;
+    }
+
+    .confirm-reward-button {
+      justify-self: center;
+      min-width: 220px;
+      min-height: 40px;
+      padding: 0 26px;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+    }
+
+    .confirm-reward-button[hidden] {
+      display: none;
     }
 
     .reward-pop {
@@ -1059,10 +1122,10 @@
     }
 
     .reward-card {
-      width: min(560px, 100%);
+      width: min(520px, 100%);
       display: grid;
       justify-items: center;
-      gap: 16px;
+      gap: 14px;
       padding: clamp(16px, 3vw, 24px);
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 14px;
@@ -1177,7 +1240,7 @@
     }
 
     .result-layout {
-      grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.05fr);
+      grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
     }
 
     .arrival-visual {
@@ -1187,21 +1250,11 @@
       place-items: center;
     }
 
-    .result-mathmon {
-      position: absolute;
-      right: 6%;
-      bottom: 7%;
-      width: clamp(164px, 22vw, 258px);
-      transform: rotate(3deg);
-      filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.36));
-      animation: mathmon-float 5.1s ease-in-out infinite;
-    }
-
     .arrival-floor {
       position: absolute;
-      left: 10%;
+      left: 7%;
       top: 50%;
-      display: grid;
+      display: none;
       place-items: center;
       min-width: 190px;
       min-height: 190px;
@@ -1209,7 +1262,7 @@
       transform: translateY(-50%);
       border: 3px solid rgba(255, 255, 255, 0.28);
       border-radius: 24px;
-      background: rgba(11, 20, 24, 0.52);
+      background: rgba(11, 20, 24, 0.6);
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
       backdrop-filter: blur(8px);
     }
@@ -1234,6 +1287,12 @@
     .result-copy {
       justify-items: stretch;
       gap: 14px;
+    }
+
+    .result-copy h2 {
+      font-size: clamp(2.6rem, 5.5vw, 4.7rem);
+      line-height: 1.08;
+      text-wrap: balance;
     }
 
     .result-measure {
@@ -1310,17 +1369,22 @@
     }
 
     .result-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
     }
 
     .result-stat {
-      min-height: 94px;
-      padding: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      min-width: 120px;
+      padding: 10px 16px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(12, 23, 27, 0.64);
+      backdrop-filter: blur(10px);
     }
 
     .result-stat span {
@@ -1332,7 +1396,6 @@
 
     .result-stat strong {
       display: block;
-      margin-top: 6px;
       color: #ffffff;
       font-size: clamp(1.28rem, 2.6vw, 2.05rem);
       font-weight: 1000;
@@ -1351,6 +1414,17 @@
 
     .result.is-measuring .result-actions {
       visibility: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     @keyframes car-boost {
@@ -1445,6 +1519,37 @@
 
       .result-stats {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .problem-panel {
+        gap: 10px;
+        padding: 16px;
+      }
+
+      .quotient-stage,
+      .step-panel {
+        min-height: 190px;
+      }
+
+      .choice-button {
+        min-height: 48px;
+        padding-block: 4px;
+        font-size: 0.94rem;
+      }
+
+      .choice-button--stack {
+        gap: 0;
+        line-height: 0.96;
+      }
+
+      .choice-button--stack b {
+        font-size: 1.16rem;
+      }
+
+      .choice-button--stack small {
+        font-size: 0.62rem;
       }
     }
 
@@ -1549,14 +1654,14 @@
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
         <div class="hud-center">
           <span class="stat-pill" id="progressText">문제 1/10</span>
-          <span class="stat-pill" id="powerText">동력 모으는 중</span>
+          <span class="stat-pill" id="powerText">힘 준비</span>
           <span class="stat-pill" id="chainText">마지막에 도착</span>
         </div>
         <span class="unit-badge">엘리베이터 나누기</span>
       </header>
 
       <div class="play-layout">
-        <aside class="elevator-zone" id="elevatorZone" aria-label="엘리베이터 도착 동력">
+        <aside class="elevator-zone" id="elevatorZone" aria-label="엘리베이터 올라갈 힘">
           <img class="shaft-bg" src="board-shaft-generated.webp" alt="">
           <div class="tower-visual" aria-hidden="true">
             <div class="floor-track" id="floorTrack"></div>
@@ -1564,7 +1669,7 @@
           </div>
           <div class="power-panel">
             <div class="power-readout">
-              <span>도착 동력</span>
+              <span>올라갈 힘</span>
               <strong id="powerPercentText">모으는 중</strong>
             </div>
             <div class="power-meter" aria-hidden="true">
@@ -1573,7 +1678,7 @@
           </div>
         </aside>
 
-        <section class="problem-panel" aria-live="polite">
+        <section class="problem-panel" id="problemPanel" aria-live="polite">
           <div class="problem-heading">
             <h2 id="questionText">52 ÷ 4</h2>
           </div>
@@ -1612,16 +1717,17 @@
           <div class="prompt" id="promptText">알맞은 계산을 골라요.</div>
           <div class="choice-grid" id="choiceGrid"></div>
           <div class="feedback" id="feedbackText"></div>
+          <button class="primary-button confirm-reward-button" id="confirmRewardButton" type="button" hidden>엘리베이터 움직이기</button>
         </section>
       </div>
 
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
         <div class="reward-card">
           <div class="reward-visual" aria-hidden="true">
-            <div class="reward-delta" id="rewardDelta">동력 +5</div>
+            <div class="reward-delta" id="rewardDelta">힘 +5</div>
           </div>
-          <h3 id="rewardTitle">가속 모터!</h3>
-          <p id="rewardMessage">엘리베이터가 더 힘차게 움직여요.</p>
+          <h3 class="visually-hidden" id="rewardTitle">가속 모터</h3>
+          <p class="visually-hidden" id="rewardMessage">엘리베이터가 더 힘차게 움직여요.</p>
           <button class="primary-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
@@ -1639,15 +1745,14 @@
             <strong id="arrivalShort">?</strong>
             <span id="arrivalName">도착 준비</span>
           </div>
-          <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-5-eaglemon.webp" alt="">
         </div>
         <div class="result-copy">
-          <h2 id="resultTitle">도착 층 확인 중</h2>
-          <p class="praise" id="praiseText">엘리베이터가 모은 동력을 살펴보고 있어요.</p>
-          <div class="result-measure" id="resultMeasure" aria-label="도착 동력 결과">
+          <h2 class="visually-hidden" id="resultTitle">도착 층 확인 중</h2>
+          <p class="praise visually-hidden" id="praiseText">엘리베이터가 모은 힘을 살펴보고 있어요.</p>
+          <div class="result-measure visually-hidden" id="resultMeasure" aria-label="올라갈 힘 결과">
             <div class="measure-top">
-              <span id="measureStatus">동력 측정 중</span>
-              <strong id="measurePercent">동력 0</strong>
+              <span id="measureStatus">어디까지 갈까?</span>
+              <strong id="measurePercent">힘 0</strong>
             </div>
             <div class="measure-tube" aria-hidden="true">
               <span class="measure-fill" id="measureFill"></span>
@@ -1656,16 +1761,12 @@
           </div>
           <div class="result-stats">
             <div class="result-stat">
-              <span>도착 동력</span>
+              <span class="visually-hidden">올라갈 힘</span>
               <strong id="finalPowerText">0</strong>
             </div>
             <div class="result-stat">
-              <span>맞힌 문제</span>
+              <span class="visually-hidden">맞힌 문제</span>
               <strong id="finalCorrectText">0/10</strong>
-            </div>
-            <div class="result-stat">
-              <span>도착한 곳</span>
-              <strong id="finalDestinationText">다시 도전</strong>
             </div>
           </div>
           <div class="result-actions">
@@ -1718,6 +1819,7 @@
       stepAttempts: 0,
       problemHadMistake: false,
       problemHadReveal: false,
+      awaitingRewardConfirm: false,
       hintOpen: false,
       rainbowPower: false,
       lastPowerEvent: null,
@@ -1742,6 +1844,7 @@
       floorTrack: document.getElementById("floorTrack"),
       powerPercentText: document.getElementById("powerPercentText"),
       powerMeterFill: document.getElementById("powerMeterFill"),
+      problemPanel: document.getElementById("problemPanel"),
       questionText: document.getElementById("questionText"),
       tensAnswer: document.getElementById("tensAnswer"),
       onesAnswer: document.getElementById("onesAnswer"),
@@ -1758,6 +1861,7 @@
       promptText: document.getElementById("promptText"),
       choiceGrid: document.getElementById("choiceGrid"),
       feedbackText: document.getElementById("feedbackText"),
+      confirmRewardButton: document.getElementById("confirmRewardButton"),
       rewardPop: document.getElementById("rewardPop"),
       rewardTitle: document.getElementById("rewardTitle"),
       rewardDelta: document.getElementById("rewardDelta"),
@@ -1775,7 +1879,6 @@
       praiseText: document.getElementById("praiseText"),
       finalPowerText: document.getElementById("finalPowerText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
-      finalDestinationText: document.getElementById("finalDestinationText"),
       restartButton: document.getElementById("restartButton")
     };
 
@@ -1801,7 +1904,7 @@
       renderProblem();
     }
 
-    function buildProblems() {
+    function getProblemCandidates() {
       const candidates = [];
       for (let divisor = 2; divisor <= 8; divisor += 1) {
         for (let quotient = 10; quotient <= 49; quotient += 1) {
@@ -1831,7 +1934,11 @@
           });
         }
       }
-      return shuffle(candidates).slice(0, TOTAL_QUESTIONS);
+      return candidates;
+    }
+
+    function buildProblems() {
+      return shuffle(getProblemCandidates()).slice(0, TOTAL_QUESTIONS);
     }
 
     function renderProblem() {
@@ -1840,6 +1947,7 @@
       state.stepAttempts = 0;
       state.problemHadMistake = false;
       state.problemHadReveal = false;
+      state.awaitingRewardConfirm = false;
       state.hintOpen = false;
       el.rewardPop.classList.remove("is-visible");
       REWARD_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
@@ -1853,6 +1961,10 @@
       el.downNumberBox.textContent = "내린 수 ?";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
+      el.problemPanel.classList.remove("is-confirming");
+      el.choiceGrid.hidden = false;
+      el.confirmRewardButton.hidden = true;
+      el.confirmRewardButton.disabled = true;
       renderStatus();
       renderStep();
     }
@@ -1862,11 +1974,11 @@
       const displayedPower = state.rainbowPower ? MAX_POWER : power;
       const charge = displayedPower / MAX_POWER;
       el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
-      el.powerText.textContent = state.power > 0 || state.rainbowPower ? "동력 모으는 중" : "동력 준비";
+      el.powerText.textContent = state.power > 0 || state.rainbowPower ? "힘 모으는 중" : "힘 준비";
       el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 도착" : "마지막에 도착";
       el.elevatorZone.style.setProperty("--power", charge.toFixed(3));
       el.elevatorZone.classList.toggle("is-rainbow", state.rainbowPower);
-      el.powerPercentText.textContent = state.rainbowPower ? "무지개 동력" : "모으는 중";
+      el.powerPercentText.textContent = state.rainbowPower ? "무지개 힘" : "모으는 중";
       el.powerMeterFill.style.setProperty("--power-width", `${displayedPower}%`);
       const destination = getDestinationByPower(state.power, state.rainbowPower);
       renderFloorTrack(el.floorTrack, {
@@ -1951,14 +2063,20 @@
     function renderStep() {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
+      state.awaitingRewardConfirm = false;
+      el.problemPanel.classList.remove("is-confirming");
+      el.choiceGrid.hidden = false;
       el.stepFormula.textContent = state.hintOpen ? step.hint : step.formula;
       el.promptText.textContent = step.prompt;
       el.hintToggleButton.textContent = state.hintOpen ? "닫기" : "힌트";
       el.hintToggleButton.setAttribute("aria-expanded", String(state.hintOpen));
+      el.hintToggleButton.disabled = false;
       updateStepChips();
       updateBoardFocus();
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
+      el.confirmRewardButton.hidden = true;
+      el.confirmRewardButton.disabled = true;
       renderChoices(buildStepOptions(step), handleStepChoice);
     }
 
@@ -1974,10 +2092,10 @@
           label: "십의 자리",
           formula: `${problem.tensDigit} ÷ ${problem.divisor}`,
           correctKey: `tens:${problem.tensQuot}:${problem.remainderTens}`,
-          prompt: "십의 자리 몫과 남은 십을 골라요.",
+          prompt: "몫과 남은 십을 골라요.",
           meaning: "십의 자리부터 나누고 남은 십을 기억해요.",
-          hint: `${problem.tensDigit} 안에 ${problem.divisor}가 ${problem.tensQuot}번 들어가고, ${problem.remainderTens}십이 남아요.`,
-          explain: `${problem.tensDigit} ÷ ${problem.divisor} = ${problem.tensQuot}, 남은 십은 ${problem.remainderTens}이에요.`,
+          hint: `${problem.tensDigit}에서 ${problem.divisor}는 ${problem.tensQuot}번, ${problem.remainderTens}십이 남아요.`,
+          explain: `몫 ${problem.tensQuot}, 남은 ${problem.remainderTens}십!`,
           options: [
             { key: `tens:${problem.tensQuot}:${problem.remainderTens}`, label: `${problem.tensQuot} 남은 ${problem.remainderTens}`, html: `<b>${problem.tensQuot}</b><small>남은 ${problem.remainderTens}</small>` },
             { key: `tens:${problem.tensQuot}:0`, label: `${problem.tensQuot} 남은 0`, html: `<b>${problem.tensQuot}</b><small>남은 0</small>` },
@@ -1998,10 +2116,10 @@
           label: "내리기",
           formula: `${problem.remainderTens}십 + ${problem.onesDigit}`,
           correctKey: `down:${problem.downNumber}`,
-          prompt: "남은 십을 일의 자리로 내린 수를 골라요.",
+          prompt: "아래로 내린 수를 골라요.",
           meaning: "남은 십을 그냥 버리지 않고 아래로 내려요.",
-          hint: `남은 ${problem.remainderTens}십은 ${problem.carryDown}이에요. ${problem.carryDown} + ${problem.onesDigit}를 해요.`,
-          explain: `남은 ${problem.remainderTens}십을 내리면 ${problem.carryDown} + ${problem.onesDigit} = ${problem.downNumber}이에요.`,
+          hint: `${problem.remainderTens}십은 ${problem.carryDown}. ${problem.onesDigit}와 합쳐요.`,
+          explain: `${problem.carryDown} + ${problem.onesDigit} = ${problem.downNumber}!`,
           options: [
             { key: `down:${problem.downNumber}`, label: `${problem.carryDown} + ${problem.onesDigit} = ${problem.downNumber}` },
             { key: `down:${problem.onesDigit}`, label: `일의 자리만 ${problem.onesDigit}` },
@@ -2014,10 +2132,10 @@
           label: "일의 자리",
           formula: `${problem.downNumber} ÷ ${problem.divisor}`,
           correctKey: `ones:${problem.onesQuot}`,
-          prompt: "내린 수를 나누어 일의 자리 몫을 골라요.",
+          prompt: "일의 자리 몫을 골라요.",
           meaning: "이제 일의 자리 몫을 찾아 답을 완성해요.",
-          hint: `${problem.downNumber} 안에 ${problem.divisor}가 몇 번 들어가는지 봐요.`,
-          explain: `${problem.downNumber} ÷ ${problem.divisor} = ${problem.onesQuot}, 그래서 답은 ${problem.quotient}이에요.`,
+          hint: `${problem.downNumber} 안에 ${problem.divisor}가 몇 번 들어갈까요?`,
+          explain: `${problem.downNumber} ÷ ${problem.divisor} = ${problem.onesQuot}. 답 ${problem.quotient} 완성!`,
           options: [
             { key: `ones:${problem.onesQuot}`, label: `${problem.onesQuot}` },
             { key: `ones:${noCarryQuotient}`, label: `${noCarryQuotient}` },
@@ -2081,6 +2199,9 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-button";
+        button.dataset.choiceKey = option.key;
+        button.dataset.correct = option.correct ? "true" : "false";
+        button.setAttribute("aria-label", option.label);
         if (option.html) {
           button.classList.add("choice-button--stack");
           button.innerHTML = option.html;
@@ -2114,7 +2235,7 @@
 
       state.problemHadReveal = true;
       setButtonsDisabled(true);
-      el.feedbackText.textContent = `정답은 ${getCorrectLabel(step)}예요. ${step.explain}`;
+      el.feedbackText.textContent = `정답은 ${getCorrectLabel(step)}예요.`;
       el.feedbackText.className = "feedback try";
       completeStep(step, true);
     }
@@ -2137,7 +2258,7 @@
       }
       window.setTimeout(() => {
         if (state.stepIndex >= 2) {
-          completeProblem();
+          showRewardConfirm(problem);
           return;
         }
         state.stepIndex += 1;
@@ -2159,7 +2280,26 @@
       updateBoardFocus();
     }
 
+    function showRewardConfirm(problem) {
+      state.awaitingRewardConfirm = true;
+      state.hintOpen = false;
+      el.hintToggleButton.textContent = "힌트";
+      el.hintToggleButton.setAttribute("aria-expanded", "false");
+      el.hintToggleButton.disabled = true;
+      el.problemPanel.classList.add("is-confirming");
+      el.choiceGrid.hidden = true;
+      el.promptText.textContent = `답 ${problem.quotient} 완성!`;
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback good";
+      el.confirmRewardButton.hidden = false;
+      el.confirmRewardButton.disabled = false;
+      el.confirmRewardButton.focus({ preventScroll: true });
+    }
+
     function completeProblem() {
+      state.awaitingRewardConfirm = false;
+      el.confirmRewardButton.hidden = true;
+      el.confirmRewardButton.disabled = true;
       const perfect = !state.problemHadMistake;
       if (perfect) {
         state.correct += 1;
@@ -2179,32 +2319,32 @@
         return {
           id: "motor",
           amount: amountPicker(5, 9),
-          title: "가속 모터!",
-          message: "엘리베이터가 더 힘차게 움직여요."
+          title: "힘이 늘었어요",
+          message: "엘리베이터 힘이 늘었어요."
         };
       }
       if (roll < 88.45) {
         return {
           id: "blackout",
           amount: -amountPicker(5, 10),
-          title: "정전!",
-          message: "동력이 줄었어요."
+          title: "힘이 줄었어요",
+          message: "엘리베이터 힘이 줄었어요."
         };
       }
       if (roll < 97.45) {
         return {
           id: "superMotor",
           amount: amountPicker(13, 22),
-          title: "슈퍼 모터!",
-          message: "엘리베이터가 크게 올라가요."
+          title: "힘이 크게 늘었어요",
+          message: "엘리베이터 힘이 크게 늘었어요."
         };
       }
       if (roll < 97.95) {
         return {
           id: "express",
           amount: 8,
-          title: "급행 운행!",
-          message: "바로 도착 층을 확인해요.",
+          title: "급행",
+          message: "바로 어디까지 갔는지 봐요.",
           express: true
         };
       }
@@ -2212,15 +2352,15 @@
         return {
           id: "stop",
           amount: 0,
-          title: "멈춤!",
-          message: "동력이 0이 되었어요.",
+          title: "멈춤",
+          message: "힘이 0이 되었어요.",
           emptiesPower: true
         };
       }
       return {
         id: "rainbow",
         amount: 12,
-        title: "무지개 동력!",
+        title: "무지개",
         message: "꼭대기 전망대가 반짝여요.",
         rainbow: true
       };
@@ -2234,8 +2374,8 @@
       return {
         id: "blackout",
         amount: -randomInt(8, 18),
-        title: "정전!",
-        message: "중간에 헷갈려 동력이 줄었어요."
+        title: "힘이 줄었어요",
+        message: "중간에 헷갈려 힘이 줄었어요."
       };
     }
 
@@ -2264,23 +2404,23 @@
 
     function getPowerEventFeedback(event, actualDelta, before) {
       if (event.rainbow) {
-        return { title: "무지개 동력!", message: "꼭대기 전망대가 반짝여요.", art: "rainbow" };
+        return { title: "무지개", message: "꼭대기 전망대가 반짝여요.", art: "rainbow" };
       }
       if (event.express) {
-        return { title: "급행 운행!", message: "바로 도착 층을 확인해요.", art: "express" };
+        return { title: "급행", message: "바로 어디까지 갔는지 봐요.", art: "express" };
       }
       if (event.emptiesPower) {
-        return { title: before > 0 ? "동력이 꺼졌어요" : "아직 동력이 없어요", message: "동력 0", art: "empty" };
+        return { title: before > 0 ? "힘이 꺼졌어요" : "아직 힘이 없어요", message: "힘 0", art: "empty" };
       }
       if (actualDelta > 0) {
         return actualDelta >= 13
-          ? { title: "슈퍼 모터!", message: "동력이 크게 늘었어요.", art: "mega" }
-          : { title: "가속 모터!", message: "동력이 늘었어요.", art: "normal" };
+          ? { title: "힘이 크게 늘었어요", message: "힘이 크게 늘었어요.", art: "mega" }
+          : { title: "힘이 늘었어요", message: "힘이 늘었어요.", art: "normal" };
       }
       if (actualDelta < 0) {
-        return { title: "정전!", message: "동력이 줄었어요.", art: "loss" };
+        return { title: "힘이 줄었어요", message: "힘이 줄었어요.", art: "loss" };
       }
-      return { title: "잠깐 멈춤", message: "동력 변화 없음", art: "empty" };
+      return { title: "잠깐 멈춤", message: "힘 그대로", art: "empty" };
     }
 
     function getPowerEventDeltaLabel(event) {
@@ -2291,16 +2431,16 @@
         return "급행!";
       }
       if (event.emptiesPower) {
-        return "동력 0";
+        return "힘 0";
       }
       const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount;
       if (actualDelta > 0) {
-        return `동력 +${actualDelta}`;
+        return `힘 +${actualDelta}`;
       }
       if (actualDelta < 0) {
-        return `동력 ${actualDelta}`;
+        return `힘 ${actualDelta}`;
       }
-      return "변화 없음";
+      return "그대로";
     }
 
     function finishProblem(result) {
@@ -2312,12 +2452,12 @@
       el.rewardDelta.textContent = getPowerEventDeltaLabel(result);
       el.rewardMessage.textContent = result.message;
       el.rewardNextButton.textContent = result.express
-        ? "도착하기"
-        : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
+        ? "보기"
+        : state.index + 1 >= TOTAL_QUESTIONS ? "보기" : "다음";
       window.setTimeout(() => {
         el.rewardPop.classList.add("is-visible");
         animateRewardPop();
-        el.rewardNextButton.focus();
+        el.rewardNextButton.focus({ preventScroll: true });
       }, 560);
     }
 
@@ -2357,19 +2497,19 @@
       const arrived = Boolean(destination);
       const power = getPower();
       const measuredPower = state.rainbowPower ? MAX_POWER : power;
-      const powerLabel = state.rainbowPower ? "무지개 동력" : `동력 ${power}`;
+      const powerLabel = state.rainbowPower ? "무지개 힘" : `힘 ${power}`;
+      const destinationLabel = arrived ? destination.name : "다시 준비";
       el.resultRaster.src = arrived ? destination.image : "result-retry-generated.webp";
       el.resultScreen.classList.add("is-measuring");
       el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowPower);
-      el.resultTitle.textContent = "도착 층 확인 중";
+      el.resultTitle.textContent = destinationLabel;
       el.arrivalShort.textContent = "?";
       el.arrivalName.textContent = "도착 준비";
-      el.finalPowerText.textContent = "측정 중";
+      el.finalPowerText.textContent = powerLabel;
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
-      el.finalDestinationText.textContent = "측정 중";
-      el.praiseText.textContent = "엘리베이터가 모은 동력을 살펴보고 있어요.";
-      el.measureStatus.textContent = "동력 측정 중";
-      el.measurePercent.textContent = "동력 0";
+      el.praiseText.textContent = "모은 힘으로 올라가요.";
+      el.measureStatus.textContent = "어디까지 갈까?";
+      el.measurePercent.textContent = "힘 0";
       el.measureFill.style.setProperty("--measure-width", "0%");
       renderFloorTrack(el.resultFloorTrack, { targetIndex: -1, reachedIndex: -1, includeSecret: true });
       el.restartButton.hidden = true;
@@ -2377,7 +2517,7 @@
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
-        el.measureStatus.textContent = "도착 층 계산 중";
+        el.measureStatus.textContent = "층을 찾는 중";
         el.measurePercent.textContent = powerLabel;
         el.measureFill.style.setProperty("--measure-width", `${measuredPower}%`);
         el.finalPowerText.textContent = powerLabel;
@@ -2390,11 +2530,10 @@
       }, 120);
       window.setTimeout(() => {
         el.resultScreen.classList.remove("is-measuring");
-        el.resultTitle.textContent = arrived ? `${destination.name} 도착!` : "동력 더 필요";
+        el.resultTitle.textContent = destinationLabel;
         el.arrivalShort.textContent = arrived ? destination.short : "다시";
         el.arrivalName.textContent = arrived ? destination.name : "도전";
-        el.measureStatus.textContent = arrived ? "도착 완료" : "다시 준비";
-        el.finalDestinationText.textContent = arrived ? destination.name : "다시 도전";
+        el.measureStatus.textContent = arrived ? "도착!" : "다시 준비";
         el.praiseText.textContent = arrived ? getPraise(destination) : getRetryMessage();
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
@@ -2404,7 +2543,7 @@
 
     function getPraise(destination) {
       if (destination.secret) {
-        return "무지개 동력으로 꼭대기 전망대까지 갔어요!";
+        return "무지개 힘으로 꼭대기 전망대까지 갔어요!";
       }
       if (destination.index >= 4) {
         return "옥상 정원까지 도착했어요. 남은 십을 끝까지 잘 내렸어요.";
@@ -2424,7 +2563,7 @@
         return `거의 다 왔어요. ${next.name}부터 다시 한 층씩 올라가 봐요.`;
       }
       if (state.correct >= 3) {
-        return "동력이 조금 부족해요. 남은 십을 아래로 내리는 걸 다시 해 봐요.";
+        return "힘이 조금 부족해요. 남은 십을 아래로 내리는 걸 다시 해 봐요.";
       }
       return "괜찮아요. 십의 자리부터 천천히 나누면 지하 정비층부터 도착할 수 있어요.";
     }
@@ -2509,11 +2648,17 @@
     });
     el.tutorialNextButton.addEventListener("click", startGame);
     el.hintToggleButton.addEventListener("click", () => {
+      if (state.awaitingRewardConfirm || el.hintToggleButton.disabled) {
+        return;
+      }
       state.hintOpen = !state.hintOpen;
       renderStep();
       playSound("next");
     });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.confirmRewardButton.addEventListener("click", () => {
+      completeProblem();
+    });
     el.restartButton.addEventListener("click", () => {
       playSound("start");
       showScreen("cover");
