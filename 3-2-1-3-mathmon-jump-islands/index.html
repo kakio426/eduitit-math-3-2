@@ -893,8 +893,10 @@
 
     .problem-panel {
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto auto;
-      gap: 12px;
+      grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+      grid-template-rows: minmax(0, 1fr);
+      align-items: stretch;
+      gap: 14px;
       padding: 16px 18px 18px;
       overflow: hidden;
       background:
@@ -902,23 +904,50 @@
         rgba(26, 22, 34, 0.78);
     }
 
+    .problem-stem,
+    .problem-action {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+    }
+
+    .problem-stem {
+      align-self: stretch;
+      grid-template-rows: auto;
+      align-content: center;
+      justify-items: center;
+      gap: 14px;
+      min-height: 0;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background: rgba(14, 12, 22, 0.3);
+    }
+
+    .problem-action {
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 12px;
+    }
+
     .problem-heading {
       display: grid;
       justify-items: center;
-      gap: 6px;
+      align-content: center;
+      gap: 10px;
+      width: 100%;
     }
 
     .problem-progress {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 30px;
-      padding: 0 12px;
+      min-height: 40px;
+      padding: 0 18px;
       border: 1px solid rgba(255, 200, 87, 0.38);
       border-radius: 999px;
       color: #ffeab0;
       background: rgba(255, 200, 87, 0.12);
-      font-size: 0.86rem;
+      font-size: 1.12rem;
       font-weight: 1000;
       line-height: 1;
       white-space: nowrap;
@@ -926,53 +955,56 @@
 
     .problem-heading h2 {
       width: 100%;
-      min-height: 64px;
+      min-height: 78px;
       margin: 0;
       color: #ffffff;
-      font-size: 3.4rem;
-      line-height: 1.1;
+      font-size: 3.72rem;
+      line-height: 1.04;
       font-weight: 1000;
       text-align: center;
       white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
 
     .step-board {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
+      align-items: start;
       justify-items: center;
       min-height: 0;
     }
 
     .jump-stage {
-      width: min(760px, 100%);
+      width: 100%;
+      align-self: start;
       min-height: 0;
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius);
       background: rgba(14, 12, 22, 0.44);
       display: grid;
-      grid-template-rows: auto minmax(108px, 1fr) auto;
+      grid-template-rows: auto minmax(132px, 1fr) auto;
       place-items: center;
-      gap: 12px;
-      padding: 18px 20px;
+      gap: 14px;
+      padding: 20px 22px;
       text-align: center;
     }
 
     .jump-stage strong {
       color: #fff0c6;
-      font-size: 1.28rem;
+      font-size: 1.36rem;
       line-height: 1.25;
     }
 
     .jump-transform {
       display: grid;
       place-items: center;
-      min-width: min(420px, 100%);
-      min-height: 108px;
-      padding: 18px 20px;
+      width: min(520px, 100%);
+      min-height: 132px;
+      padding: 20px 22px;
       border-radius: var(--radius);
       color: #231400;
       background: linear-gradient(180deg, #fff0a8, #ffc857);
-      font-size: 2.42rem;
+      font-size: 2.92rem;
       font-weight: 1000;
       line-height: 1.1;
       font-variant-numeric: tabular-nums;
@@ -980,6 +1012,15 @@
 
     .jump-transform.is-step-confirmed {
       animation: step-confirm-pulse 620ms ease;
+    }
+
+    .answer-area {
+      width: 100%;
+      align-self: center;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      transform: translateY(-4px);
     }
 
     @keyframes step-confirm-pulse {
@@ -1019,7 +1060,7 @@
     }
 
     .prompt {
-      min-height: 42px;
+      min-height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1028,16 +1069,20 @@
       border-radius: var(--radius);
       background: rgba(255, 200, 87, 0.08);
       color: #fff0c6;
-      font-size: 1.12rem;
+      font-size: 1.34rem;
       font-weight: 950;
       line-height: 1.35;
       text-align: center;
     }
 
+    .prompt[hidden] {
+      display: none;
+    }
+
     .choice-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-template-rows: minmax(68px, 1fr);
+      grid-template-rows: minmax(92px, 1fr);
       gap: 10px;
     }
 
@@ -1054,7 +1099,7 @@
       border: 1px solid rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.1);
       color: #ffffff;
-      font-size: 1.2rem;
+      font-size: 1.64rem;
       overflow-wrap: anywhere;
     }
 
@@ -1379,17 +1424,27 @@
       }
 
       .problem-panel {
+        grid-template-columns: minmax(260px, 0.74fr) minmax(0, 1.26fr);
         gap: 10px;
         padding: 14px;
       }
 
+      .problem-stem {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .problem-action {
+        gap: 8px;
+      }
+
       .problem-heading {
-        gap: 6px;
+        gap: 8px;
       }
 
       .problem-heading h2 {
-        min-height: 54px;
-        font-size: 2.9rem;
+        min-height: 66px;
+        font-size: 3rem;
       }
 
       .step-board {
@@ -1397,18 +1452,19 @@
       }
 
       .jump-stage {
-        grid-template-rows: auto minmax(82px, 1fr) auto;
-        gap: 8px;
-        padding: 12px;
+        grid-template-rows: auto minmax(104px, 1fr) auto;
+        gap: 10px;
+        padding: 14px;
       }
 
       .jump-stage strong {
-        font-size: 1.08rem;
+        font-size: 1.15rem;
       }
 
       .jump-transform {
-        min-height: 82px;
-        font-size: 1.92rem;
+        width: min(500px, 100%);
+        min-height: 104px;
+        font-size: 2.28rem;
       }
 
       .hint-line {
@@ -1417,18 +1473,23 @@
         font-size: 0.9rem;
       }
 
+      .answer-area {
+        gap: 8px;
+        transform: translateY(-2px);
+      }
+
       .prompt {
-        min-height: 38px;
+        min-height: 44px;
         padding: 6px 10px;
-        font-size: 1rem;
+        font-size: 1.22rem;
       }
 
       .choice-grid {
-        grid-template-rows: minmax(58px, 1fr);
+        grid-template-rows: minmax(76px, 1fr);
       }
 
       .choice-button {
-        font-size: 1.05rem;
+        font-size: 1.48rem;
       }
     }
 
@@ -1552,19 +1613,25 @@
             <img class="map-mathmon-marker" id="mapMathmonMarker" src="mathmon-zfa-04-nyangnyangmon.webp" alt="" aria-hidden="true">
           </div>
           <section class="problem-panel" aria-live="polite">
-            <div class="problem-heading">
-              <span class="problem-progress" id="stepText">1단계</span>
-              <h2 id="questionText">30 × 40</h2>
-            </div>
-            <div class="step-board">
-              <div class="jump-stage">
-                <strong id="stepPrompt">0을 잠깐 가리고 곱해요.</strong>
-                <div class="jump-transform" id="jumpTransform">3 × 4 = ?</div>
-                <div class="hint-line" id="hintLine" hidden></div>
+            <aside class="problem-stem" aria-label="이번 문제">
+              <div class="problem-heading">
+                <span class="problem-progress" id="stepText">1단계</span>
+                <h2 id="questionText">30 × 40</h2>
+              </div>
+            </aside>
+            <div class="problem-action">
+              <div class="step-board">
+                <div class="jump-stage">
+                  <strong id="stepPrompt">0을 잠깐 가리고 곱해요.</strong>
+                  <div class="jump-transform" id="jumpTransform">3 × 4 = ?</div>
+                  <div class="hint-line" id="hintLine" hidden></div>
+                </div>
+              </div>
+              <div class="answer-area">
+                <div class="prompt" id="promptText">먼저 답을 골라요.</div>
+                <div class="choice-grid" id="choiceGrid"></div>
               </div>
             </div>
-            <div class="prompt" id="promptText">먼저 답을 골라요.</div>
-            <div class="choice-grid" id="choiceGrid"></div>
           </section>
         </div>
         <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
@@ -1821,7 +1888,7 @@
             label: "먼저 곱하기",
             correct: problem.smallProduct,
             prompt: "0을 잠깐 가리고 곱해요.",
-            instruction: "먼저 답을 골라요.",
+            instruction: `${problem.smallExpression}의 답을 골라요.`,
             preview: `${problem.smallExpression} = ?`,
             hint: `${problem.smallExpression}를 차근차근 곱해요.`,
             reveal: `${problem.smallExpression} = ${problem.smallProduct}`,
@@ -1832,7 +1899,7 @@
             label: problem.scaleLabel,
             correct: problem.scaleLabel,
             prompt: "가렸던 0을 다시 붙여요.",
-            instruction: "0을 몇 개 붙일까요?",
+            instruction: `${problem.smallProduct} 뒤에 0을 몇 개 붙일까요?`,
             preview: `${problem.smallProduct} → ?`,
             hint: "처음 문제에서 가린 0을 세어 봐요.",
             reveal: `${problem.smallProduct} → ${problem.finalAnswer.toLocaleString("ko-KR")}`,
@@ -2309,7 +2376,7 @@
         el.stepText.textContent = "1단계";
         el.stepPrompt.textContent = step.prompt;
         el.jumpTransform.textContent = step.preview;
-        el.promptText.textContent = step.instruction;
+        hidePrompt();
         renderChoices(step.choices(), step.correct);
         return;
       }
@@ -2319,7 +2386,7 @@
         el.stepText.textContent = "2단계";
         el.stepPrompt.textContent = step.prompt;
         el.jumpTransform.textContent = step.preview;
-        el.promptText.textContent = step.instruction;
+        hidePrompt();
         renderChoices(step.choices(), step.correct);
         return;
       }
@@ -2327,9 +2394,19 @@
       el.stepText.textContent = "답 완성";
       el.stepPrompt.textContent = "답이 완성됐어요.";
       el.jumpTransform.textContent = problem.finalExpression;
-      el.promptText.textContent = "식을 확인하고 바람을 봐요.";
+      showPrompt("식을 확인하고 바람을 봐요.");
       renderRewardCheckButton();
       pulseJumpTransform();
+    }
+
+    function showPrompt(message) {
+      el.promptText.hidden = false;
+      el.promptText.textContent = message;
+    }
+
+    function hidePrompt() {
+      el.promptText.hidden = true;
+      el.promptText.textContent = "";
     }
 
     function renderChoices(values, correctValue) {
@@ -2378,7 +2455,7 @@
       state.problemMistakeTouched = true;
       button.disabled = true;
       if (state.stepAttempts === 1) {
-        el.promptText.textContent = "다시 골라요.";
+        showPrompt("다시 골라요.");
         el.hintLine.textContent = step.hint;
         el.hintLine.hidden = false;
         return;
@@ -2396,11 +2473,11 @@
       el.hintLine.hidden = true;
       el.hintLine.textContent = "";
       if (revealed) {
-        el.promptText.textContent = `정답은 ${formatChoice(step.correct)}예요.`;
+        showPrompt(`정답은 ${formatChoice(step.correct)}예요.`);
       } else if (step.id === "scaleFooting") {
-        el.promptText.textContent = "맞았어요. 답이 완성됐어요.";
+        showPrompt("맞았어요. 답이 완성됐어요.");
       } else {
-        el.promptText.textContent = "맞았어요. 다음은 0 붙이기예요.";
+        showPrompt("맞았어요. 다음은 0 붙이기예요.");
       }
       el.jumpTransform.textContent = step.reveal;
       pulseJumpTransform();
