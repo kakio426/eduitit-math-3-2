@@ -117,6 +117,52 @@
 - 결과 화면: `result-final-*` 래스터 6장이 도착 섬, 결과 라벨, 다시하기 버튼 모양, 점수용 빈 네모 상자를 담당합니다. HTML 오버레이는 정답 수 숫자 `#finalCorrectText`와 투명 `#restartButton` hitbox만 맡습니다. 점수 숫자는 각 이미지의 빈 네모 상자 위치에 맞춘 `data-result-island` RasterStage 슬롯 변수로 배치하고, 픽셀 중심 QA로 중앙 정렬을 검증합니다. `<main class="game">`에는 `data-result-visual-standard="generated-assets"`와 `data-result-render-mode="fullscene-score-slot"`를 선언했습니다.
 - 소리 버튼과 상단 배지는 같은 기준선을 쓰고, 문제·선택지를 덮지 않습니다.
 
+## 화면별 스크린샷
+
+### 첫 화면
+
+![첫 화면](screenshots/cover.png)
+
+### 설명 화면
+
+![설명 화면](screenshots/tutorial.png)
+
+### 문제 1단계: 먼저 곱하기
+
+![문제 1단계](screenshots/play-step1.png)
+
+### 문제 2단계: 0 붙이기
+
+![문제 2단계](screenshots/play-step2.png)
+
+### 답 완성 뒤 바람 보기
+
+![답 완성](screenshots/play-complete.png)
+
+### 오답 뒤 힌트
+
+![오답 뒤 힌트](screenshots/wrong-hint.png)
+
+### 바람 보상
+
+![바람 보상](screenshots/reward.png)
+
+### 결과 공개 전
+
+![결과 공개 전](screenshots/result-measurement.png)
+
+### 최종 결과
+
+![최종 결과](screenshots/result.png)
+
+### 태블릿 가로 문제 화면
+
+![태블릿 가로 문제 화면](screenshots/tablet-landscape-play.png)
+
+### 세로 화면 보호막
+
+![세로 화면 보호막](screenshots/portrait-guard.png)
+
 ## Humanizer 학생 문구 QA
 
 학생이 보는 한국어는 초3 학생이 소리 내어 읽어도 자연스러운지 기준으로 확인했습니다.
