@@ -19,6 +19,16 @@
 - `(AB)×(C0)`: `AB×C`를 고른 뒤 `0 한 개 붙이기`
 - 화면 변환 예: 1단계 `49 × 6 = 294`, 2단계 `294 → 2,940`, 완성 칸 `49 × 60 = 2,940`
 
+## 교육적 의도
+
+이 차시에서 곱셈 문제는 섬을 건너기 위한 행동입니다. 학생은 식을 맞히는 데서 끝나지 않고, 정답 뒤에 어떤 바람이 불지 보고, 이번에는 어느 섬까지 갔는지 확인합니다. 계산은 학생이 통제하는 영역이고, 바람은 매번 달라지는 영역입니다. 이 둘을 분리해 두면 학생은 운에 끌려 다시 도전하면서도, 실제로는 같은 계산 원리를 여러 번 반복하게 됩니다.
+
+문제 풀이를 두 단계로 나눈 이유는 `(몇십몇)×(몇십)`을 한 번에 암산하게 하려는 것이 아니라, 0을 잠깐 가린 곱셈과 0을 다시 붙이는 자릿값 행동을 분명히 보이게 하기 위해서입니다. 예를 들어 `49×60`은 먼저 `49×6`을 고르고, 그 결과 `294`에 0을 붙여 `2,940`을 만드는 순서로 다룹니다. 이 구조는 “0이 있으니 대충 붙인다”가 아니라 “먼저 무엇을 곱했고, 나중에 왜 0이 붙었는지”를 화면에서 확인하게 합니다.
+
+오답 뒤에는 전체 풀이를 길게 설명하지 않고 현재 단계 힌트 하나만 보여 줍니다. 초3 학생이 한 화면에서 읽어야 할 말을 줄이고, 큰 원식·현재 계산판·선택지 사이의 관계를 보게 하려는 의도입니다. 정답 뒤에도 바로 바람 보상으로 넘기지 않고, 계산판이 실제 값으로 바뀐 뒤 잠깐 머물게 했습니다. 학생이 방금 고른 답이 어디에 들어갔는지 확인한 다음 보상을 보게 하는 흐름입니다.
+
+무작위 바람은 학습을 흐리는 장치가 아니라 반복을 붙잡는 장치입니다. 잘 풀면 기본 점프가 쌓여 더 멀리 갈 가능성이 커지지만, `잠깐 멈춤`이나 `앞바람` 때문에 결과가 항상 보장되지는 않습니다. 반대로 아직 서툰 학생도 완전히 빈손으로 끝나지 않고, 다음 판에는 더 멀리 갈 수 있다는 여지를 봅니다. 이 차시의 목표는 “정답을 맞혔으니 끝”이 아니라, 0을 가리고 곱하고 다시 붙이는 절차를 다시 해 보고 싶게 만드는 것입니다.
+
 ## 실수와 힌트
 
 문제 화면은 왼쪽에 이번 문제 원식(`49 × 60`)을 고정하고, 오른쪽에는 현재 단계 행동만 모아 보여 줍니다. 그래서 1단계 선택지는 `49 × 6 = ?`와 붙어 있고, 2단계 선택지는 `294 → ?`와 붙어 있어 학생이 어떤 답을 고르는지 헷갈리지 않습니다. 첫 오답은 현재 단계 힌트 하나만 보여 줍니다. 같은 단계에서 두 번째 오답이 나오면 정답을 보여 주고 넘어갑니다. 한 번이라도 실수한 문제는 `길이 흔들렸어요`로 처리되어 좋은 바람을 받지 않습니다.
@@ -61,7 +71,7 @@
 
 ## 결과 공개
 
-마지막 바람 뒤 곧바로 결과를 고정하지 않고, `점프 길을 살펴봐요.` → `도착한 곳을 찾았어요.` → `섬이 보여요.` 순서로 짧게 보여 줍니다. 공개 뒤에는 도착한 섬, 한 줄 칭찬, 맞힌 문제 수, 다시하기 버튼만 남깁니다.
+마지막 바람 뒤 곧바로 결과를 고정하지 않고, `점프 길을 살펴봐요.` → `도착한 곳을 찾았어요.` → `섬이 보여요.` 순서로 짧게 보여 줍니다. 공개 뒤에는 도착지별 `result-final-*` 완성 이미지가 배경, 도착 라벨, 큰 결과 문구, 이미지 속 `다시하기` 버튼, 점수용 빈 네모 상자를 모두 담당합니다. 보이는 HTML/CSS는 `6/10` 같은 정답 수 숫자 1개와 투명 다시하기 hitbox만 남겼습니다. 점수 숫자는 스크린샷 픽셀에서 글자 중심과 빈칸 중심을 비교하는 QA로 확인합니다. 점수 상자의 `맞힌 문제` 라벨과 시작 결과의 보이는 `출발섬` 텍스트는 제거했습니다.
 
 ## 소리
 
@@ -87,12 +97,12 @@
 - `reward-rainbow-source.png`, `reward-rainbow-generated.webp`
 - `reward-shaky-source.png`, `reward-shaky-generated.webp`
 - `reward-wind-button-source.png`, `reward-wind-button-transparent-raw.png`, `reward-wind-button-generated.webp`
-- `result-final-start-source.png`, `result-final-start-generated.webp`
-- `result-final-sand-source.png`, `result-final-sand-generated.webp`
-- `result-final-forest-source.png`, `result-final-forest-generated.webp`
-- `result-final-cloud-source.png`, `result-final-cloud-generated.webp`
-- `result-final-starlight-source.png`, `result-final-starlight-generated.webp`
-- `result-final-rainbow-source.png`, `result-final-rainbow-generated.webp`
+- `result-final-start-source.png`, `result-final-start-generated.webp`: `다시 준비!`, 보이는 `출발섬` 텍스트 없음
+- `result-final-sand-source.png`, `result-final-sand-generated.webp`: `모래섬 도착!`
+- `result-final-forest-source.png`, `result-final-forest-generated.webp`: `숲섬 도착!`
+- `result-final-cloud-source.png`, `result-final-cloud-generated.webp`: `구름섬 도착!`
+- `result-final-starlight-source.png`, `result-final-starlight-generated.webp`: `별빛섬 도착!`
+- `result-final-rainbow-source.png`, `result-final-rainbow-generated.webp`: `무지개섬 도착!`
 - `mathmon-zfa-04-nyangnyangmon.webp`
 
 첫 화면과 상단 지도 현재 위치 마커의 동행 매스몬은 `_shared/mathmon/zero-factory-animal-pack/`의 냥냥몬 WebP를 runtime에 씁니다. 보상 모달과 `result-final-*` 결과 화면은 매스몬이 장면 안에 함께 생성된 이미지를 사용합니다. 보상 모달과 결과 장면 안에는 기존 매스몬 WebP를 별도 `<img>`로 붙이지 않습니다.
@@ -104,7 +114,7 @@
 - 첫 화면: 왼쪽 제목·목표·시작 버튼 영역과 오른쪽 장면 영역을 분리했습니다.
 - 문제 화면: 상단 전체 섬 지도 아래에서 왼쪽은 원문제 고정판, 오른쪽은 현재 계산판·선택지 행동판으로 나눴습니다. 왼쪽 판은 오른쪽 행동판의 위·아래 기준선에 맞춰 같은 높이로 보이고, 오른쪽 계산판의 상단도 왼쪽 판 상단에 맞춥니다. 선택 전에는 반복 지시문을 숨기고, 노란 계산 문제판과 큰 보기 버튼만 보이게 했습니다. 정답·오답 뒤에는 같은 자리에서 짧은 확인 문구만 잠깐 보입니다. 답 완성 뒤에는 안내 문장 없이 완성식과 generated image 버튼 `어떤 바람이 불까?`만 보입니다.
 - 보상 화면: 중앙 generated art 위에 보상 문구 한 개와 버튼 한 개만 둡니다. 매스몬과 바람 효과는 결과별 생성 이미지 안에 포함합니다.
-- 결과 화면: `result-final-*` 래스터가 도착 섬과 다시하기 버튼 모양을 담당하고, 맞힌 문제 수와 실제 클릭 영역만 HTML 오버레이로 둡니다.
+- 결과 화면: `result-final-*` 래스터 6장이 도착 섬, 결과 라벨, 다시하기 버튼 모양, 점수용 빈 네모 상자를 담당합니다. HTML 오버레이는 정답 수 숫자 `#finalCorrectText`와 투명 `#restartButton` hitbox만 맡습니다. 점수 숫자는 각 이미지의 빈 네모 상자 위치에 맞춘 `data-result-island` RasterStage 슬롯 변수로 배치하고, 픽셀 중심 QA로 중앙 정렬을 검증합니다. `<main class="game">`에는 `data-result-visual-standard="generated-assets"`와 `data-result-render-mode="fullscene-score-slot"`를 선언했습니다.
 - 소리 버튼과 상단 배지는 같은 기준선을 쓰고, 문제·선택지를 덮지 않습니다.
 
 ## Humanizer 학생 문구 QA
@@ -123,7 +133,7 @@
 
 ## 텍스트 넘침·요소 겹침 QA
 
-실제 브라우저에서 아래 상태를 캡처했습니다. 문제 1단계와 2단계는 왼쪽 원문제 판과 오른쪽 계산판 상단이 맞고, 선택 전 반복 지시문 없이 큰 계산판과 큰 보기 버튼만 보이는 배치로 다시 저장했습니다. 답 완성 상태는 완료 안내 문장을 숨기고, 글자까지 이미지 안에 들어간 `어떤 바람이 불까?` 버튼만 보이게 다시 확인했습니다. `1280x800`과 `1024x768`에서 텍스트 넘침과 요소 겹침 0건을 확인했습니다. 보상 모달, 지도 마커, 보상 문구, 결과 요약 숫자와 섬 이름도 다시 확인했고, 첫 화면, 설명, 보상, 결과 공개 전, 결과, 오답 힌트, 세로 보호막 모두 기존 QA 범위를 유지합니다. 새 지도 효과 QA는 `1280x800`, `1024x768`에서 `살랑 바람` 제자리 점프와 `쌩쌩 바람` 이동 착지 캡처를 확인했고, 보상 모달이 뜬 동안에는 마커가 움직이지 않으며 `잠깐 멈춤` 뒤에도 섬이 바뀌지 않는지 확인했습니다.
+실제 브라우저에서 아래 상태를 캡처했습니다. 문제 1단계와 2단계는 왼쪽 원문제 판과 오른쪽 계산판 상단이 맞고, 선택 전 반복 지시문 없이 큰 계산판과 큰 보기 버튼만 보이는 배치로 다시 저장했습니다. 답 완성 상태는 완료 안내 문장을 숨기고, 글자까지 이미지 안에 들어간 `어떤 바람이 불까?` 버튼만 보이게 다시 확인했습니다. 결과 화면은 6개 도착 상태에서 `result-final-*` 전체 이미지, 정답 수 숫자 1개, 투명 다시하기 hitbox만 보이도록 확인했습니다. 점수 상자의 `맞힌 문제` 라벨과 시작 결과의 보이는 `출발섬` 텍스트는 없습니다. `1280x800`과 `1024x768`에서 텍스트 넘침과 요소 겹침 0건을 확인했고, 결과 숫자는 스크린샷 픽셀 기준으로 글자 중심과 빈칸 중심이 허용치 안에 들어오는지 검사했습니다. 보상 모달, 지도 마커, 보상 문구, 결과 숫자 위치도 다시 확인했고, 첫 화면, 설명, 보상, 결과 공개 전, 결과, 오답 힌트, 세로 보호막 모두 기존 QA 범위를 유지합니다. 새 지도 효과 QA는 `1280x800`, `1024x768`에서 `살랑 바람` 제자리 점프와 `쌩쌩 바람` 이동 착지 캡처를 확인했고, 보상 모달이 뜬 동안에는 마커가 움직이지 않으며 `잠깐 멈춤` 뒤에도 섬이 바뀌지 않는지 확인했습니다.
 
 | 파일 | 화면 | 상태 |
 | --- | --- | --- |
@@ -134,7 +144,7 @@
 | `screenshots/play-complete.png` | 1280x800 | 답 완성 |
 | `screenshots/wrong-hint.png` | 1280x800 | 오답 뒤 힌트 |
 | `screenshots/reward.png` | 1280x800 | 바람 보상 |
-| `screenshots/result-measurement.png` | 1280x800 | 도착 전 살펴보기 |
+| `screenshots/result-measurement.png` | 1280x800 | 결과 공개 통이미지 |
 | `screenshots/result.png` | 1280x800 | 결과 |
 | `screenshots/tablet-landscape-play.png` | 1024x768 | 태블릿 가로 문제 |
 | `screenshots/portrait-guard.png` | 390x844 | 세로 화면 보호막 |
@@ -144,6 +154,8 @@
 - 지도 매스몬 효과 QA: `node scripts/qa-lesson3-map-effects.mjs`
 - 단계 정답 확인 QA: `node scripts/qa-lesson3-step-feedback.mjs`(1280×800), `LESSON3_QA_NAME=tablet-landscape LESSON3_QA_WIDTH=1024 LESSON3_QA_HEIGHT=768 LESSON3_QA_PORT=9252 node scripts/qa-lesson3-step-feedback.mjs`
 - 문제 모델 QA: `node scripts/qa-lesson3-math-model.mjs`
+- 결과 통이미지 QA: `node scripts/qa-lesson3-result-fullscene.mjs`
+- 대표 스크린샷 최신화: `node scripts/capture-lesson3-screenshots.mjs`
 - 보상 시뮬레이션: `node scripts/simulate-lesson3-islands.mjs --seed 12345 --runs 50000 --expect-rainbow-min 0.10`
 - Stage 검사: `node scripts/check-stage-ratio.mjs`
-- 브라우저 QA: 첫 화면, 설명, 문제 1단계, 문제 2단계, 보상, 결과 공개 전, 결과, 오답 힌트, 태블릿 가로 문제, 세로 보호막, 지도 매스몬 효과 캡처 확인
+- 브라우저 QA: 첫 화면, 설명, 문제 1단계, 문제 2단계, 보상, 결과 공개 통이미지, 결과, 오답 힌트, 태블릿 가로 문제, 세로 보호막, 지도 매스몬 효과 캡처 확인

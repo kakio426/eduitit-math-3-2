@@ -441,8 +441,7 @@
       background: linear-gradient(180deg, #ff8ca6, #ffe27a 44%, #60d7ff);
     }
 
-    .tutorial-layout,
-    .result-layout {
+    .tutorial-layout {
       position: relative;
       z-index: 2;
       width: 100%;
@@ -452,31 +451,10 @@
       gap: 52px;
     }
 
-    .result-layout {
-      grid-template-columns: minmax(0, 1fr) minmax(336px, 444px);
-      align-items: center;
-      gap: 34px;
-    }
-
-    .tutorial-copy,
-    .result-copy {
+    .tutorial-copy {
       display: grid;
       gap: 18px;
       max-width: 720px;
-    }
-
-    .result-copy {
-      justify-self: end;
-      width: min(444px, 100%);
-      max-width: 444px;
-      padding: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(160deg, rgba(14, 12, 22, 0.88), rgba(32, 26, 45, 0.72)),
-        rgba(14, 12, 22, 0.7);
-      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
-      backdrop-filter: blur(14px);
     }
 
     .result-reveal-status {
@@ -523,51 +501,13 @@
       display: none;
     }
 
-    .tutorial-copy h2,
-    .result-copy h2 {
+    .tutorial-copy h2 {
       margin: 0;
       color: #ffffff;
       min-height: 1.16em;
       font-size: 3rem;
       line-height: 1.12;
       font-weight: 1000;
-    }
-
-    .result-title[data-result-title-mode="art"] {
-      display: grid;
-      gap: 2px;
-      min-height: auto;
-      justify-items: start;
-    }
-
-    .result-title[data-result-title-mode="art"] .result-title-text,
-    .result-title[data-result-title-mode="text"] .result-island-name,
-    .result-title[data-result-title-mode="text"] .result-title-art {
-      display: none;
-    }
-
-    .result-island-name {
-      display: block;
-      color: #ffffff;
-      font-size: clamp(2.28rem, 4vw, 3.3rem);
-      line-height: 1.16;
-      font-weight: 1000;
-    }
-
-    .result-title-art {
-      display: block;
-      width: auto;
-      max-width: min(290px, 100%);
-      max-height: 98px;
-      object-fit: contain;
-      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.28));
-      user-select: none;
-      pointer-events: none;
-    }
-
-    .result-title-art[data-title-art="ready"] {
-      max-width: min(282px, 100%);
-      max-height: 120px;
     }
 
     .steps {
@@ -606,8 +546,7 @@
       font-size: 1.2rem;
     }
 
-    .tutorial-art-spacer,
-    .result-art-spacer {
+    .tutorial-art-spacer {
       position: relative;
       min-height: 420px;
       display: grid;
@@ -615,10 +554,6 @@
       border: 0;
       border-radius: 0;
       background: transparent;
-    }
-
-    .result-art-spacer {
-      min-height: 500px;
     }
 
     .play {
@@ -1240,68 +1175,63 @@
       transform: translateX(-50%);
     }
 
-    .result-copy p {
-      margin: 0;
-      color: #ffe8ba;
-      font-size: 1.24rem;
-      font-weight: 950;
-      line-height: 1.35;
-    }
-
-    .result-stats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .result-stat {
-      min-height: 94px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .result-stat span {
-      display: block;
-      color: #ffe8ba;
-      font-size: 0.84rem;
-      font-weight: 850;
-    }
-
-    .result-stat strong {
-      display: block;
-      margin-top: 6px;
-      color: #ffffff;
-      font-size: 2rem;
-      font-weight: 1000;
-      line-height: 1.16;
-      overflow-wrap: anywhere;
-    }
-
-    .result-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
     .result-count-overlay {
       position: absolute;
       z-index: 3;
-      left: 62.7%;
-      top: 65.7%;
-      width: 21.6%;
-      height: 7.8%;
+      left: var(--result-score-left, 63.9%);
+      top: var(--result-score-top, 57.5%);
+      width: var(--result-score-width, 25.3%);
+      height: var(--result-score-height, 12.4%);
       display: grid;
       place-items: center;
       color: #2a1b08;
-      font-size: clamp(2rem, 3.8vw, 3.25rem);
+      font-size: clamp(2.2rem, 4vw, 3.55rem);
       font-weight: 1000;
       line-height: 1;
       font-variant-numeric: tabular-nums;
       text-align: center;
       text-shadow: 0 2px 0 rgba(255, 255, 255, 0.55);
       pointer-events: none;
+    }
+
+    .result-count-overlay strong {
+      display: inline-block;
+      transform: translateY(clamp(-4px, -0.35vw, -3px));
+    }
+
+    .result[data-result-island="sand"] {
+      --result-score-left: 64.4%;
+      --result-score-top: 55.5%;
+      --result-score-width: 25.2%;
+      --result-score-height: 12.5%;
+    }
+
+    .result[data-result-island="forest"] {
+      --result-score-left: 64.7%;
+      --result-score-top: 56%;
+      --result-score-width: 24.9%;
+      --result-score-height: 11.8%;
+    }
+
+    .result[data-result-island="cloud"] {
+      --result-score-left: 63%;
+      --result-score-top: 55.5%;
+      --result-score-width: 26.5%;
+      --result-score-height: 12.4%;
+    }
+
+    .result[data-result-island="starlight"] {
+      --result-score-left: 63.1%;
+      --result-score-top: 57.5%;
+      --result-score-width: 26.8%;
+      --result-score-height: 12%;
+    }
+
+    .result[data-result-island="rainbow"] {
+      --result-score-left: 63.9%;
+      --result-score-top: 54.3%;
+      --result-score-width: 26.9%;
+      --result-score-height: 12.1%;
     }
 
     .result-restart-hitbox {
@@ -1350,22 +1280,14 @@
       }
 
       .cover-scene,
-      .tutorial-layout,
-      .result-layout {
+      .tutorial-layout {
         grid-template-columns: 1fr;
         gap: 24px;
       }
 
       .cover-visual,
-      .tutorial-art-spacer,
-      .result-art-spacer {
+      .tutorial-art-spacer {
         min-height: 240px;
-      }
-
-      .result-copy {
-        justify-self: start;
-        width: min(520px, 100%);
-        max-width: 520px;
       }
 
       .play-layout {
@@ -1568,7 +1490,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-result-visual-standard="generated-assets" data-result-render-mode="fullscene-score-slot">
     <div class="stage-shell" data-active-screen="cover">
       <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1675,16 +1597,12 @@
         </div>
       </section>
 
-      <section class="screen result" id="resultScreen" data-result-reveal-phase="idle" aria-labelledby="resultTitle">
+      <section class="screen result" id="resultScreen" data-result-reveal-phase="idle" data-result-island="start" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultRaster" src="result-final-start-generated.webp" alt="">
-        <div class="top-row">
-          <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
-          <span class="unit-badge">3학년 2학기 1단원 3차시</span>
-        </div>
         <h2 class="visually-hidden" id="resultTitle">모래섬 도착!</h2>
         <p class="visually-hidden" id="praiseText">0을 가리고 곱한 뒤 0을 잘 붙였어요.</p>
         <span class="visually-hidden" id="finalIslandText">모래섬</span>
-        <div class="result-count-overlay" id="resultCountOverlay" aria-live="polite" aria-label="맞힌 문제 0/10">
+        <div class="result-count-overlay" id="resultCountOverlay" aria-live="polite" aria-label="정답 0/10">
           <strong id="finalCorrectText">0/10</strong>
         </div>
         <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
@@ -2629,7 +2547,7 @@
 
     const setResultTitleForIsland = (island) => {
       const isStart = island.id === "start";
-      el.resultTitle.textContent = isStart ? `${island.name}에서 다시 준비!` : `${island.name} 도착!`;
+      el.resultTitle.textContent = isStart ? "다시 준비!" : `${island.name} 도착!`;
     };
 
     const showQaResultIsland = (id) => {
@@ -2662,10 +2580,11 @@
       state.resultRevealRunId += 1;
       const runId = state.resultRevealRunId;
       el.resultRaster.src = island.image;
+      el.resultScreen.dataset.resultIsland = island.id;
       setResultTitleText(RESULT_REVEAL_LABELS["jump-path-scan"]);
       el.praiseText.textContent = "어디까지 갔는지 볼까요?";
       el.finalCorrectText.textContent = "";
-      el.resultCountOverlay.setAttribute("aria-label", "맞힌 문제를 보고 있어요");
+      el.resultCountOverlay.setAttribute("aria-label", "정답 수를 보고 있어요");
       el.finalIslandText.textContent = "찾고 있어요";
       el.restartButton.disabled = true;
       setResultRevealPhase("jump-path-scan");
@@ -2720,8 +2639,8 @@
       setResultTitleForIsland(island);
       el.praiseText.textContent = getResultPraise(island);
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
-      el.resultCountOverlay.setAttribute("aria-label", `맞힌 문제 ${state.correct}/${TOTAL_QUESTIONS}`);
-      el.finalIslandText.textContent = island.name;
+      el.resultCountOverlay.setAttribute("aria-label", `정답 ${state.correct}/${TOTAL_QUESTIONS}`);
+      el.finalIslandText.textContent = island.id === "start" ? "다시 준비" : island.name;
       el.restartButton.disabled = false;
       setResultRevealPhase("complete");
       playSound("finish");
