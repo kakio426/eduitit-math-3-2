@@ -151,7 +151,8 @@ function simulateRound(rng, firstTryCount) {
     if (index < firstTryCount) {
       correct += 1;
       const event = pickRewardEvent(rng);
-      distance = clamp(distance + BASE_FIRST_TRY_DISTANCE + event.amount, 0, MAX_DISTANCE);
+      const pausesJump = event.id === "pause";
+      distance = clamp(distance + (pausesJump ? 0 : BASE_FIRST_TRY_DISTANCE + event.amount), 0, MAX_DISTANCE);
       hasRainbowPath ||= Boolean(event.rainbow);
       events.push(event.id);
       continue;
@@ -265,8 +266,8 @@ function evaluateTargets(profiles, options) {
   );
   addCheck(
     checks,
-    "10/10 무지개섬 0.2%-1.5%",
-    tenRainbow >= 0.2 && tenRainbow <= 1.5,
+    "10/10 무지개섬 0.1%-1.5%",
+    tenRainbow >= 0.1 && tenRainbow <= 1.5,
     `무지개섬 ${formatPercent(tenRainbow)}`
   );
   addCheck(
@@ -311,7 +312,7 @@ function evaluateTargets(profiles, options) {
       checks,
       `RED fixture: 10/10 무지개섬 ${options.expectRainbowMin}% 이상`,
       tenRainbow >= options.expectRainbowMin,
-      `무지개섬 ${formatPercent(tenRainbow)} < 기대 ${options.expectRainbowMin.toFixed(3)}%`
+      `무지개섬 ${formatPercent(tenRainbow)} / 기대 ${options.expectRainbowMin.toFixed(3)}% 이상`
     );
   }
 
@@ -345,7 +346,7 @@ function main() {
   console.log(`Seed: ${options.seed}`);
   console.log(`Runs per profile: ${options.runs}`);
   console.log("Reward weights: tailwind 64.00%, headwind 17.00%, pause 12.84%, gust 5.98%, rainbow 0.18%");
-  console.log("Base first-try distance: +5 before wind; mistake/reveal: hidden -8..-14 with label \"길이 흔들렸어요\".");
+  console.log("Base first-try distance: +5 before wind, except 잠깐 멈춤 freezes that jump; mistake/reveal: hidden -8..-14 with label \"길이 흔들렸어요\".");
   console.log("");
 
   const profiles = PROFILE_FIRST_TRY_COUNTS.map((firstTryCount) => (

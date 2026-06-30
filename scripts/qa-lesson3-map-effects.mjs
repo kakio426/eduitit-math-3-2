@@ -222,6 +222,27 @@ function markerAtSource(index) {
 `;
 }
 
+function markerSettledAt(index) {
+  const transientClasses = JSON.stringify(EFFECT_CLASSES);
+  return `
+(() => {
+  const marker = document.getElementById("mapMathmonMarker");
+  const chips = [...document.querySelectorAll(".island-chip")];
+  const current = chips.find((chip) => chip.classList.contains("is-current"));
+  if (!marker || !current) return false;
+  const transientClasses = ${transientClasses};
+  const markerRect = marker.getBoundingClientRect();
+  const chipRect = current.getBoundingClientRect();
+  const markerCenter = markerRect.left + markerRect.width / 2;
+  const chipCenter = chipRect.left + chipRect.width / 2;
+  return chips.indexOf(current) === ${index}
+    && Math.abs(markerCenter - chipCenter) <= 2
+    && ![...marker.classList].some((className) => transientClasses.includes(className))
+    && Number(getComputedStyle(marker).opacity) > 0.9;
+})()
+`;
+}
+
 async function readMarkerSnapshot() {
   return evaluate(`
 (() => {
@@ -279,7 +300,7 @@ async function runScenario(viewport, scenario) {
   let landingSnapshot = null;
   let screenshot = null;
   if (scenario.landingClass) {
-    await delay(430);
+    await delay(Math.max(120, effect.delay - 240));
     landingSnapshot = await readMarkerSnapshot();
     assert(landingSnapshot.classes.includes(scenario.landingClass), `${viewport.name}/${scenario.name}: landing class missing: ${JSON.stringify(landingSnapshot)}`);
     assertSnapshotSafe(landingSnapshot, viewport.name, scenario.name);
@@ -320,9 +341,26 @@ async function runReducedMotionCheck(viewport) {
   return { activeSnapshot, finalSnapshot };
 }
 
-async function runModalDelayCheck(viewport) {
-  await setMapIsland(1);
-  await waitUntil(markerAtSource(1), `${viewport.name}/modal-delay: marker did not settle at source island`);
+async function setRewardFlowStart({ correct, jumpDistance, rainbowPath = false }) {
+  await evaluate(`
+(() => {
+  state.correct = ${correct};
+  state.jumpDistance = ${jumpDistance};
+  state.rainbowPath = ${rainbowPath ? "true" : "false"};
+  state.problemMistakeTouched = false;
+  renderMap();
+  return getReachedIsland().index;
+})()
+`);
+}
+
+function hasTransientMapClass(snapshot) {
+  return snapshot.classes.some((className) => EFFECT_CLASSES.includes(className));
+}
+
+async function runModalThenMapCheck(viewport) {
+  await setRewardFlowStart({ correct: 4, jumpDistance: 29 });
+  await waitUntil(markerAtSource(1), `${viewport.name}/modal-then-map: marker did not settle at source island`);
   await evaluate(`
 (() => {
   QA.nextRewardId = "tailwind";
@@ -330,15 +368,54 @@ async function runModalDelayCheck(viewport) {
 })()
 `);
   await delay(120);
-  const beforeModal = await readMarkerSnapshot();
-  assert(beforeModal.classes.includes("is-map-hop"), `${viewport.name}/modal-delay: marker effect did not start before modal: ${JSON.stringify(beforeModal)}`);
-  assert(!beforeModal.rewardVisible, `${viewport.name}/modal-delay: reward modal opened before map effect finished`);
-  assertSnapshotSafe(beforeModal, viewport.name, "modal-delay-before");
-  await waitUntil("document.getElementById('rewardPop').classList.contains('is-visible')", `${viewport.name}/modal-delay: reward modal did not open after marker effect`, 1400);
-  const afterModal = await readMarkerSnapshot();
-  assert(afterModal.rewardVisible, `${viewport.name}/modal-delay: reward modal not visible after delay`);
-  assertSnapshotSafe(afterModal, viewport.name, "modal-delay-after");
-  return { beforeModal, afterModal };
+  const modalSnapshot = await readMarkerSnapshot();
+  assert(modalSnapshot.rewardVisible, `${viewport.name}/modal-then-map: reward modal should open before marker moves`);
+  assert(modalSnapshot.currentIndex === 1, `${viewport.name}/modal-then-map: marker moved before modal was dismissed: ${JSON.stringify(modalSnapshot)}`);
+  assert(!hasTransientMapClass(modalSnapshot), `${viewport.name}/modal-then-map: marker effect started under modal: ${JSON.stringify(modalSnapshot)}`);
+  assertSnapshotSafe(modalSnapshot, viewport.name, "modal-then-map-modal");
+
+  await evaluate('document.getElementById("rewardNextButton").click()');
+  await delay(120);
+  const movingSnapshot = await readMarkerSnapshot();
+  assert(!movingSnapshot.rewardVisible, `${viewport.name}/modal-then-map: reward modal stayed open after next`);
+  assert(movingSnapshot.classes.includes("is-map-travel-forward"), `${viewport.name}/modal-then-map: marker did not start moving after modal: ${JSON.stringify(movingSnapshot)}`);
+  assertSnapshotSafe(movingSnapshot, viewport.name, "modal-then-map-moving");
+
+  await waitUntil(markerSettledAt(2), `${viewport.name}/modal-then-map: marker did not finish at destination`, 2200);
+  const finalSnapshot = await readMarkerSnapshot();
+  assert(finalSnapshot.currentIndex === 2, `${viewport.name}/modal-then-map: marker destination mismatch: ${JSON.stringify(finalSnapshot)}`);
+  assert(!hasTransientMapClass(finalSnapshot), `${viewport.name}/modal-then-map: transient classes were not cleared: ${JSON.stringify(finalSnapshot)}`);
+  return { modalSnapshot, movingSnapshot, finalSnapshot };
+}
+
+async function runPauseRewardCheck(viewport) {
+  await setRewardFlowStart({ correct: 0, jumpDistance: 0 });
+  await waitUntil(markerAtSource(0), `${viewport.name}/pause-flow: marker did not settle at start island`);
+  await evaluate(`
+(() => {
+  QA.nextRewardId = "pause";
+  showReward();
+})()
+`);
+  await delay(120);
+  const modalSnapshot = await readMarkerSnapshot();
+  assert(modalSnapshot.rewardVisible, `${viewport.name}/pause-flow: pause modal should open before marker feedback`);
+  assert(modalSnapshot.currentIndex === 0, `${viewport.name}/pause-flow: pause changed island before modal dismiss: ${JSON.stringify(modalSnapshot)}`);
+  assert(!hasTransientMapClass(modalSnapshot), `${viewport.name}/pause-flow: pause marker feedback started under modal: ${JSON.stringify(modalSnapshot)}`);
+
+  await evaluate('document.getElementById("rewardNextButton").click()');
+  await delay(90);
+  const pauseSnapshot = await readMarkerSnapshot();
+  assert(!pauseSnapshot.rewardVisible, `${viewport.name}/pause-flow: reward modal stayed open after next`);
+  assert(pauseSnapshot.currentIndex === 0, `${viewport.name}/pause-flow: pause reward moved to another island: ${JSON.stringify(pauseSnapshot)}`);
+  assert(pauseSnapshot.classes.includes("is-map-pause"), `${viewport.name}/pause-flow: pause feedback class missing: ${JSON.stringify(pauseSnapshot)}`);
+
+  await delay(760);
+  const finalSnapshot = await readMarkerSnapshot();
+  assert(finalSnapshot.currentIndex === 0, `${viewport.name}/pause-flow: pause final island changed: ${JSON.stringify(finalSnapshot)}`);
+  assert(!hasTransientMapClass(finalSnapshot), `${viewport.name}/pause-flow: pause transient classes were not cleared: ${JSON.stringify(finalSnapshot)}`);
+  assertSnapshotSafe(finalSnapshot, viewport.name, "pause-flow-final");
+  return { modalSnapshot, pauseSnapshot, finalSnapshot };
 }
 
 async function runViewport(viewport) {
@@ -348,8 +425,9 @@ async function runViewport(viewport) {
     scenarioResults.push(await runScenario(viewport, scenario));
   }
   const reducedMotion = await runReducedMotionCheck(viewport);
-  const modalDelay = await runModalDelayCheck(viewport);
-  return { viewport, scenarios: scenarioResults, reducedMotion, modalDelay };
+  const modalThenMap = await runModalThenMapCheck(viewport);
+  const pauseReward = await runPauseRewardCheck(viewport);
+  return { viewport, scenarios: scenarioResults, reducedMotion, modalThenMap, pauseReward };
 }
 
 try {
