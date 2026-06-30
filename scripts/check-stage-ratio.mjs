@@ -69,6 +69,7 @@ function getStandaloneBlock(text, selector) {
 const lessons = await findLessons(root);
 const failures = [], fullSceneQaScripts = await readFullSceneQaScripts();
 const hasFullSceneScorePixelCenterQa = fullSceneQaScripts.includes("measureScoreCenter") && fullSceneQaScripts.includes("score is not horizontally centered") && fullSceneQaScripts.includes("score is not vertically centered");
+const hasFullSceneForbiddenScoreLabelQa = fullSceneQaScripts.includes("measureForbiddenScoreLabel") && fullSceneQaScripts.includes("forbidden score label pixels remain above the score box");
 
 for (const lesson of lessons) {
   const indexPath = path.join(lesson, "index.html");
@@ -129,7 +130,7 @@ for (const lesson of lessons) {
   const hasHiddenResultNext = !/\bid="resultNext"/.test(html)
     || /<p(?=[^>]*\bid="resultNext")(?=[^>]*\bclass="[^"]*\bvisually-hidden\b)[^>]*>/.test(html);
   const hasAccessibleResultRetryHitbox = /<button(?=[^>]*\bid="retryButton")(?=[^>]*\baria-label="다시")[^>]*>/.test(html);
-  const hasFullSceneResultRasterImage = /<img(?=[^>]*\bid="resultRaster")(?=[^>]*\bclass="[^"]*\braster-bg\b)(?=[^>]*\bsrc="result-final-[^"]*generated\.webp")(?=[^>]*\balt="")[^>]*>/.test(html);
+  const hasFullSceneResultRasterImage = /<img(?=[^>]*\bid="resultRaster")(?=[^>]*\bclass="[^"]*\braster-bg\b)(?=[^>]*\bsrc="result-final-[^"]*generated\.webp(?:\?v=[^"]+)?")(?=[^>]*\balt="")[^>]*>/.test(html);
   const hasFullSceneScoreOverlay = /<div(?=[^>]*\bid="resultCountOverlay")(?=[^>]*\bclass="[^"]*\bresult-count-overlay\b)[^>]*>\s*<strong(?=[^>]*\bid="finalCorrectText")[^>]*>/.test(html);
   const hasFullSceneRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
   const hasTransparentFullSceneRestartHitbox = resultRestartHitboxBlock.includes("border: 0;")
@@ -178,6 +179,7 @@ for (const lesson of lessons) {
     [!hasFullSceneScoreSlot || hasFullSceneScoreOverlay, "fullscene-score-slot 결과의 보이는 HTML은 <div id=\"resultCountOverlay\"><strong id=\"finalCorrectText\">...</strong></div> 점수 숫자만 허용합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneScoreSlotPosition, "fullscene-score-slot 점수 오버레이는 이미지별 data-result-island RasterStage 슬롯 변수(left/top/width/height)를 써야 합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneScorePixelCenterQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 점수 숫자 중심과 이미지 속 빈 점수칸 중심을 비교하는 QA 하네스를 가져야 합니다."],
+    [!hasFullSceneScoreSlot || hasFullSceneForbiddenScoreLabelQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 점수칸 위 '맞힌 문제' 같은 금지 라벨 잔상을 잡는 QA 하네스를 가져야 합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneRestartHitbox, "fullscene-score-slot 결과는 이미지 속 다시하기 버튼 위에 <button class=\"result-restart-hitbox\" id=\"restartButton\" aria-label=\"다시하기\"> 투명 hitbox를 둬야 합니다."],
     [!hasFullSceneScoreSlot || hasTransparentFullSceneRestartHitbox, "fullscene-score-slot 다시하기 hitbox는 border 0, transparent background/color여야 하며 새 시각 버튼을 그리면 안 됩니다."],
     [!hasFullSceneScoreSlot || !html.includes("맞힌 문제"), "fullscene-score-slot 결과에는 보이는/숨김 HTML 어느 쪽에도 '맞힌 문제' 라벨을 남기지 않습니다. 점수는 '정답 6/10'처럼 보조 라벨만 씁니다."],

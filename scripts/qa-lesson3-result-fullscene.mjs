@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { measureScoreCenter } from "./result-score-center.mjs";
+import { measureForbiddenScoreLabel, measureScoreCenter } from "./result-score-center.mjs";
 
 const ROOT = process.cwd();
 const LESSON = join(ROOT, "3-2-1-3-mathmon-jump-islands");
@@ -232,7 +232,7 @@ try {
     for (const scenario of SCENARIOS) {
       await showResult(scenario.id, scenario.correct);
       const snapshot = await readResultSnapshot();
-      assert(snapshot.rasterSrc.endsWith(`result-final-${scenario.id}-generated.webp`), `${viewport.name}/${scenario.id}: wrong raster ${snapshot.rasterSrc}`);
+      assert(snapshot.rasterSrc.includes(`result-final-${scenario.id}-generated.webp?v=clean-slot-20260630`), `${viewport.name}/${scenario.id}: wrong raster ${snapshot.rasterSrc}`);
       assert(snapshot.scoreText === `${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong score ${snapshot.scoreText}`);
       assert(snapshot.scoreAria === `정답 ${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong aria ${snapshot.scoreAria}`);
       assert(!snapshot.bodyText.includes("맞힌 문제"), `${viewport.name}/${scenario.id}: forbidden label remains`);
@@ -253,7 +253,9 @@ try {
       const visualScore = await measureScoreCenter(screenshot, snapshot.screenRect, expectedBox);
       assert(Math.abs(visualScore.dx) <= visualScore.tolerance, `${viewport.name}/${scenario.id}: score is not horizontally centered in the image box (${visualScore.dx.toFixed(1)}px)`);
       assert(Math.abs(visualScore.dy) <= visualScore.tolerance, `${viewport.name}/${scenario.id}: score is not vertically centered in the image box (${visualScore.dy.toFixed(1)}px)`);
-      results.push({ viewport: viewport.name, scenario, screenshot, scorePct: snapshot.scorePct, visualScore });
+      const forbiddenLabel = await measureForbiddenScoreLabel(screenshot, snapshot.screenRect, expectedBox);
+      assert(forbiddenLabel.darkPixels <= forbiddenLabel.maxAllowed, `${viewport.name}/${scenario.id}: forbidden score label pixels remain above the score box (${forbiddenLabel.darkPixels} > ${forbiddenLabel.maxAllowed})`);
+      results.push({ viewport: viewport.name, scenario, screenshot, scorePct: snapshot.scorePct, visualScore, forbiddenLabel });
     }
   }
   console.log("LESSON3_RESULT_FULLSCENE_QA: PASS");

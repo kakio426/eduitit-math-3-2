@@ -70,3 +70,36 @@ export async function measureScoreCenter(imagePath, screenRect, scoreBoxPct) {
     scoreBox
   };
 }
+
+export async function measureForbiddenScoreLabel(imagePath, screenRect, scoreBoxPct) {
+  const image = loadSharp()(imagePath).ensureAlpha();
+  const { width } = await image.metadata();
+  const data = await image.raw().toBuffer();
+  const scoreBox = {
+    left: screenRect.left + screenRect.width * scoreBoxPct.left / 100,
+    top: screenRect.top + screenRect.height * scoreBoxPct.top / 100,
+    width: screenRect.width * scoreBoxPct.width / 100,
+    height: screenRect.height * scoreBoxPct.height / 100
+  };
+  const bounds = {
+    left: Math.max(0, Math.floor(scoreBox.left - scoreBox.width * 0.04)),
+    top: Math.max(0, Math.floor(scoreBox.top - screenRect.height * 0.075)),
+    right: Math.min(width - 1, Math.ceil(scoreBox.left + scoreBox.width * 0.96)),
+    bottom: Math.max(0, Math.floor(scoreBox.top - scoreBox.height * 0.08))
+  };
+  let darkPixels = 0;
+  for (let y = bounds.top; y <= bounds.bottom; y += 1) {
+    for (let x = bounds.left; x <= bounds.right; x += 1) {
+      const offset = (y * width + x) * 4;
+      const r = data[offset];
+      const g = data[offset + 1];
+      const b = data[offset + 2];
+      if (r < 110 && g < 95 && b < 80) darkPixels += 1;
+    }
+  }
+  return {
+    darkPixels,
+    maxAllowed: Math.round(screenRect.width * screenRect.height * 0.00008),
+    bounds
+  };
+}
