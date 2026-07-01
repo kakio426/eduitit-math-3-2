@@ -462,11 +462,11 @@
 
     .hud {
       display: grid;
-      grid-template-columns: minmax(210px, auto) 1fr auto;
+      grid-template-columns: minmax(210px, auto) minmax(0, 1fr) auto;
       align-items: start;
       gap: 12px;
       min-height: var(--sound-button-size);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .hud .brand-badge,
@@ -486,28 +486,27 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 38px;
-      min-width: 112px;
-      padding: 7px 12px;
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      min-height: var(--sound-button-size);
+      min-width: 0;
+      padding: 0 var(--top-control-pad-x);
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(14, 12, 22, 0.7);
       color: #ffffff;
-      font-size: 0.92rem;
-      font-weight: 950;
+      font-size: 0.82rem;
+      font-weight: 900;
       line-height: 1;
+      backdrop-filter: blur(10px);
       white-space: nowrap;
     }
 
     #progressText {
-      min-height: 48px;
-      min-width: 172px;
-      padding: 10px 22px;
-      border-color: rgba(255, 200, 87, 0.52);
-      color: #231400;
-      background: linear-gradient(180deg, #ffe27a, #ffc857);
-      font-size: 1.24rem;
-      box-shadow: 0 10px 0 rgba(106, 70, 23, 0.2), 0 16px 26px rgba(0, 0, 0, 0.18);
+      border-color: rgba(255, 200, 87, 0.56);
+      color: #ffe0a3;
+      background: rgba(255, 200, 87, 0.1);
     }
 
     #energyText,
@@ -518,8 +517,8 @@
     .play-layout {
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(300px, 0.62fr) minmax(560px, 1fr);
-      gap: 24px;
+      grid-template-columns: minmax(280px, 0.46fr) minmax(0, 1fr);
+      gap: 18px;
     }
 
     .fusion-side,
@@ -533,11 +532,11 @@
     .fusion-side {
       position: relative;
       display: grid;
-      grid-template-rows: 1fr auto auto;
+      grid-template-rows: minmax(0, 1fr) auto auto;
       align-items: end;
-      gap: 12px;
+      gap: 10px;
       overflow: hidden;
-      padding: 18px;
+      padding: 14px;
       isolation: isolate;
       background: #151b1f;
     }
@@ -567,56 +566,173 @@
       user-select: none;
     }
 
-    .robot-shell {
+    .robot-stage {
       position: relative;
       z-index: 2;
       align-self: center;
       justify-self: center;
-      width: min(260px, 76%);
-      aspect-ratio: 1 / 1.08;
-      display: grid;
-      justify-items: center;
-      align-content: center;
-      gap: 6px;
-      filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.34));
-    }
-
-    .robot-head {
+      width: min(300px, 84%);
+      aspect-ratio: 1 / 1.05;
       display: grid;
       place-items: center;
-      width: 44%;
-      aspect-ratio: 1;
-      border: 6px solid rgba(255, 255, 255, 0.72);
-      border-radius: 20px;
-      color: #251500;
-      background: linear-gradient(180deg, #fff0a8, #ffc857);
-      font-size: 3.2rem;
-      font-weight: 1000;
-      box-shadow: 0 12px 0 rgba(106, 70, 23, 0.18), 0 0 28px rgba(255, 200, 87, 0.32);
+      margin-bottom: 4px;
+      filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.34));
     }
 
-    .robot-body {
-      position: relative;
-      width: 58%;
-      aspect-ratio: 1.18 / 1;
-      border: 7px solid rgba(255, 255, 255, 0.7);
-      border-radius: 26px;
+    .robot-stage::before,
+    .robot-stage::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      width: 72%;
+      aspect-ratio: 1 / 0.25;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .robot-stage::before {
+      z-index: 0;
       background:
-        radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.68), transparent 0 11%, transparent 24%),
-        linear-gradient(145deg, rgba(80, 201, 222, 0.72), rgba(55, 214, 173, 0.84));
-      opacity: 0.54;
-      transition: opacity 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+        radial-gradient(ellipse at 50% 50%, rgba(80, 201, 222, 0.44), transparent 0 45%, transparent 62%),
+        linear-gradient(90deg, transparent, rgba(255, 200, 87, 0.38), transparent);
+      filter: blur(2px);
     }
 
-    .fusion-side.has-one .robot-body {
-      opacity: 0.72;
-      box-shadow: 0 0 22px rgba(55, 214, 173, 0.22);
+    .robot-stage::after {
+      z-index: 1;
+      border: 2px solid rgba(80, 201, 222, 0.45);
+      box-shadow: 0 0 20px rgba(80, 201, 222, 0.22);
+      opacity: 0.76;
     }
 
-    .fusion-side.has-two .robot-body {
-      opacity: 0.9;
-      transform: translateY(-4px);
-      box-shadow: 0 0 32px rgba(255, 200, 87, 0.28);
+    .robot-sprite {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 292px);
+      aspect-ratio: 1;
+      object-fit: contain;
+      transform: translateY(2px) scale(0.96);
+      transition: filter 0.24s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .fusion-side.has-one .robot-sprite,
+    .fusion-side.has-two .robot-sprite {
+      filter: drop-shadow(0 0 16px rgba(80, 201, 222, 0.22));
+    }
+
+    .fusion-side.is-fusing .robot-sprite {
+      filter: drop-shadow(0 0 24px rgba(255, 200, 87, 0.45));
+    }
+
+    .robot-core-flash,
+    .robot-shockwave,
+    .flying-part,
+    .fusion-spark {
+      position: absolute;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .robot-core-flash {
+      left: 50%;
+      top: 50%;
+      width: 23%;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: radial-gradient(circle, #ffffff 0 16%, #8fffee 17% 36%, rgba(80, 201, 222, 0.38) 37% 60%, transparent 61%);
+      transform: translate(-50%, -50%) scale(0.2);
+      mix-blend-mode: screen;
+    }
+
+    .robot-shockwave {
+      left: 50%;
+      top: 52%;
+      width: 36%;
+      aspect-ratio: 1;
+      border: 3px solid rgba(143, 255, 238, 0.8);
+      border-radius: 999px;
+      transform: translate(-50%, -50%) scale(0.2);
+      mix-blend-mode: screen;
+    }
+
+    .flying-part {
+      top: 49%;
+      width: 54px;
+      aspect-ratio: 1.15 / 1;
+      border: 3px solid rgba(255, 255, 255, 0.82);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.92), transparent 0 13%, transparent 25%),
+        linear-gradient(145deg, #fff4c5, #ffc857 52%, #50c9de);
+      box-shadow: 0 0 22px rgba(80, 201, 222, 0.42), 0 14px 24px rgba(0, 0, 0, 0.32);
+      filter: saturate(1.08);
+    }
+
+    .flying-part-one {
+      left: -18%;
+      transform: translate(-20%, -50%) rotate(-18deg) scale(0.84);
+    }
+
+    .flying-part-two {
+      right: -18%;
+      transform: translate(20%, -50%) rotate(18deg) scale(0.84);
+    }
+
+    .fusion-spark {
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 36px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff, #8fffee, rgba(255, 255, 255, 0));
+      transform-origin: 50% 110px;
+      mix-blend-mode: screen;
+    }
+
+    .spark-one { --spark-rotate: 24deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+    .spark-two { --spark-rotate: 102deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+    .spark-three { --spark-rotate: 206deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+    .spark-four { --spark-rotate: 292deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+
+    .robot-stage.attach-one .robot-sprite {
+      animation: robot-attach-pop 0.78s cubic-bezier(0.2, 0.95, 0.2, 1.18);
+    }
+
+    .robot-stage.attach-one .flying-part-one {
+      animation: part-fly-left 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+    }
+
+    .robot-stage.attach-two .robot-sprite {
+      animation: robot-attach-pop 0.78s cubic-bezier(0.2, 0.95, 0.2, 1.18);
+    }
+
+    .robot-stage.attach-two .flying-part-two {
+      animation: part-fly-right 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+    }
+
+    .robot-stage.attach-one .robot-core-flash,
+    .robot-stage.attach-two .robot-core-flash,
+    .robot-stage.complete .robot-core-flash {
+      animation: core-pop 0.76s ease-out forwards;
+    }
+
+    .robot-stage.attach-one .robot-shockwave,
+    .robot-stage.attach-two .robot-shockwave,
+    .robot-stage.complete .robot-shockwave {
+      animation: shockwave-pop 0.78s ease-out forwards;
+    }
+
+    .robot-stage.complete .robot-sprite {
+      animation: robot-complete-hero 1.2s cubic-bezier(0.16, 0.9, 0.24, 1.12);
+    }
+
+    .robot-stage.complete .fusion-spark {
+      animation: spark-pop 0.72s ease-out forwards;
     }
 
     .side-parts {
@@ -632,8 +748,8 @@
       display: grid;
       place-items: center;
       gap: 5px;
-      min-height: 72px;
-      padding: 10px;
+      min-height: 64px;
+      padding: 8px;
       border: 2px solid rgba(255, 255, 255, 0.28);
       border-radius: var(--radius);
       color: #ffffff;
@@ -645,14 +761,14 @@
     .side-part small,
     .side-result small {
       color: #d8fff2;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 1000;
       line-height: 1;
     }
 
     .side-part strong,
     .side-result strong {
-      font-size: 1.9rem;
+      font-size: 1.68rem;
       font-weight: 1000;
       line-height: 1;
     }
@@ -693,7 +809,7 @@
       z-index: 3;
       margin: 0;
       color: #fff0c6;
-      font-size: 0.96rem;
+      font-size: 0.9rem;
       font-weight: 950;
       line-height: 1.25;
       text-align: center;
@@ -871,9 +987,9 @@
     .problem-panel {
       min-height: 0;
       display: grid;
-      grid-template-rows: auto minmax(158px, auto) minmax(0, 1fr) auto;
-      gap: 14px;
-      padding: clamp(18px, 2.4vw, 28px);
+      grid-template-rows: minmax(138px, auto) minmax(120px, auto) minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: clamp(14px, 2vw, 22px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background:
@@ -884,41 +1000,47 @@
     .problem-heading {
       display: grid;
       justify-items: center;
-      gap: 8px;
+      align-content: center;
+      gap: 0;
       text-align: center;
-    }
-
-    .split-text {
-      min-height: 38px;
-      display: inline-grid;
-      place-items: center;
-      padding: 6px 18px;
-      border: 1px solid rgba(255, 200, 87, 0.32);
-      border-radius: 999px;
-      color: #fff0c6;
-      background: rgba(255, 200, 87, 0.09);
-      font-size: 1.15rem;
-      font-weight: 1000;
-      line-height: 1;
     }
 
     .problem-heading h2 {
       width: 100%;
       margin: 0;
       color: #ffffff;
-      font-size: clamp(3.6rem, 5.8vw, 5.6rem);
+      font-size: clamp(4.7rem, 7.8vw, 7.15rem);
       line-height: 1;
       font-weight: 1000;
+      text-align: center;
       white-space: nowrap;
+    }
+
+    .question-part {
+      display: inline-block;
+      transition: color 0.18s ease, text-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .question-part.is-step-target {
+      color: #ffc857;
+      text-shadow: 0 0 18px rgba(255, 200, 87, 0.52);
+      transform: translateY(-2px);
+      animation: target-number-breathe 1.45s ease-in-out infinite;
+    }
+
+    .question-symbol {
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .task-card {
       display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
       align-content: center;
       justify-items: center;
-      gap: 14px;
-      min-height: 158px;
-      padding: clamp(18px, 2.5vw, 30px);
+      gap: 8px;
+      min-height: 112px;
+      padding: clamp(12px, 1.7vw, 18px);
       border: 2px solid rgba(255, 200, 87, 0.78);
       border-radius: var(--radius);
       color: #251500;
@@ -926,18 +1048,18 @@
         radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72), transparent 0 22%, transparent 48%),
         linear-gradient(180deg, #fff0a8, #ffc857);
       text-align: center;
-      box-shadow: 0 16px 0 rgba(106, 70, 23, 0.22), 0 24px 38px rgba(0, 0, 0, 0.26);
+      box-shadow: 0 10px 0 rgba(106, 70, 23, 0.18), 0 18px 28px rgba(0, 0, 0, 0.22);
     }
 
     .step-meaning {
       margin: 0;
-      font-size: clamp(1.42rem, 2.4vw, 2rem);
+      font-size: clamp(1.08rem, 1.7vw, 1.42rem);
       font-weight: 1000;
-      line-height: 1.15;
+      line-height: 1.18;
     }
 
     .step-formula {
-      font-size: clamp(3rem, 5.6vw, 5rem);
+      font-size: clamp(2.4rem, 4.4vw, 3.85rem);
       font-weight: 1000;
       line-height: 1;
       letter-spacing: 0;
@@ -949,20 +1071,22 @@
     }
 
     .choice-grid {
+      min-height: 0;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
       align-content: stretch;
-      gap: 14px;
+      gap: 10px;
     }
 
     .choice-button {
-      min-height: 92px;
-      padding: 12px 16px;
+      min-height: 78px;
+      padding: 10px 14px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.11);
       color: #ffffff;
-      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-size: clamp(1.85rem, 3.3vw, 2.85rem);
       font-weight: 1000;
       line-height: 1;
       transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
@@ -987,12 +1111,12 @@
     }
 
     .feedback {
-      min-height: 44px;
+      min-height: 36px;
       display: grid;
       place-items: center;
       pointer-events: none;
       color: #ffffff;
-      font-size: 1.22rem;
+      font-size: 1.02rem;
       font-weight: 1000;
       line-height: 1.25;
       text-align: center;
@@ -1097,6 +1221,25 @@
 
     .fusion-cutscene.is-visible .cut-plus {
       animation: cut-plus-hide 1.22s ease forwards;
+    }
+
+    .cut-robot {
+      position: absolute;
+      z-index: 2;
+      top: 45%;
+      left: 50%;
+      width: min(280px, 78%);
+      aspect-ratio: 1;
+      object-fit: contain;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.55);
+      filter: drop-shadow(0 0 22px rgba(80, 201, 222, 0.44)) drop-shadow(0 22px 28px rgba(0, 0, 0, 0.36));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .fusion-cutscene.is-visible .cut-robot {
+      animation: cut-robot-pop 1.22s cubic-bezier(0.16, 0.9, 0.24, 1.12) forwards;
     }
 
     .cut-flash {
@@ -1541,6 +1684,120 @@
       }
     }
 
+    @keyframes robot-attach-pop {
+      0% {
+        transform: translateY(8px) scale(0.9);
+      }
+      46% {
+        transform: translateY(-10px) scale(1.08);
+      }
+      72% {
+        transform: translateY(3px) scale(0.98);
+      }
+      100% {
+        transform: translateY(2px) scale(0.96);
+      }
+    }
+
+    @keyframes robot-complete-hero {
+      0% {
+        transform: translateY(12px) scale(0.78);
+        opacity: 0.36;
+        filter: brightness(1);
+      }
+      34% {
+        transform: translateY(-18px) scale(1.1);
+        opacity: 1;
+        filter: brightness(1.18);
+      }
+      62% {
+        transform: translateY(6px) scale(0.94);
+      }
+      100% {
+        transform: translateY(2px) scale(0.96);
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes part-fly-left {
+      0% {
+        opacity: 0;
+        transform: translate(-20%, -50%) rotate(-18deg) scale(0.84);
+      }
+      18% {
+        opacity: 1;
+      }
+      74% {
+        opacity: 1;
+        transform: translate(188%, -66%) rotate(8deg) scale(1.04);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(218%, -56%) rotate(0deg) scale(0.72);
+      }
+    }
+
+    @keyframes part-fly-right {
+      0% {
+        opacity: 0;
+        transform: translate(20%, -50%) rotate(18deg) scale(0.84);
+      }
+      18% {
+        opacity: 1;
+      }
+      74% {
+        opacity: 1;
+        transform: translate(-188%, -66%) rotate(-8deg) scale(1.04);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-218%, -56%) rotate(0deg) scale(0.72);
+      }
+    }
+
+    @keyframes core-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2);
+      }
+      44% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.75);
+      }
+    }
+
+    @keyframes shockwave-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2);
+      }
+      36% {
+        opacity: 0.85;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.3);
+      }
+    }
+
+    @keyframes spark-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--spark-rotate, 0deg)) scaleY(0.2);
+      }
+      32% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--spark-rotate, 0deg)) scaleY(1.4);
+      }
+    }
+
     @keyframes cut-left-merge {
       0% {
         transform: translate(calc(-50% - 112px), -50%) rotate(-4deg);
@@ -1587,6 +1844,22 @@
       }
     }
 
+    @keyframes cut-robot-pop {
+      0%,
+      56% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.55);
+      }
+      74% {
+        opacity: 1;
+        transform: translate(-50%, -52%) scale(1.08);
+      }
+      100% {
+        opacity: 0.92;
+        transform: translate(-50%, -50%) scale(0.92);
+      }
+    }
+
     @keyframes cut-plus-hide {
       0%,
       58% {
@@ -1609,6 +1882,49 @@
       }
     }
 
+    @keyframes target-number-breathe {
+      0%,
+      100% {
+        transform: translateY(-2px) scale(1);
+        filter: brightness(1);
+      }
+
+      50% {
+        transform: translateY(-6px) scale(1.035);
+        filter: brightness(1.08);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .question-part.is-step-target {
+        animation: none;
+        transform: none;
+      }
+
+      .robot-stage.attach-one .robot-sprite,
+      .robot-stage.attach-two .robot-sprite,
+      .robot-stage.complete .robot-sprite,
+      .robot-stage.attach-one .flying-part-one,
+      .robot-stage.attach-two .flying-part-two,
+      .robot-stage.attach-one .robot-core-flash,
+      .robot-stage.attach-two .robot-core-flash,
+      .robot-stage.complete .robot-core-flash,
+      .robot-stage.attach-one .robot-shockwave,
+      .robot-stage.attach-two .robot-shockwave,
+      .robot-stage.complete .robot-shockwave,
+      .robot-stage.complete .fusion-spark,
+      .fusion-cutscene.is-visible .cut-robot {
+        animation: none;
+      }
+
+      .flying-part,
+      .robot-core-flash,
+      .robot-shockwave,
+      .fusion-spark {
+        display: none;
+      }
+    }
+
     @media (max-width: 960px) {
       .game {
         padding: 10px;
@@ -1622,9 +1938,64 @@
 
       .cover-scene,
       .tutorial-layout,
-      .play-layout,
       .result-layout {
         grid-template-columns: 1fr;
+      }
+
+      .play {
+        padding: var(--stage-inset);
+      }
+
+      .hud {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .play-layout {
+        grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .fusion-side {
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .robot-stage {
+        width: min(220px, 78%);
+      }
+
+      .robot-sprite {
+        width: min(100%, 220px);
+      }
+
+      .flying-part {
+        width: 42px;
+        border-radius: 13px;
+      }
+
+      .side-parts {
+        gap: 6px;
+      }
+
+      .side-part,
+      .side-result {
+        min-height: 56px;
+        padding: 6px;
+      }
+
+      .side-part small,
+      .side-result small {
+        font-size: 0.68rem;
+      }
+
+      .side-part strong,
+      .side-result strong {
+        font-size: 1.28rem;
+      }
+
+      .side-caption {
+        font-size: 0.78rem;
       }
 
       .result-visual-space {
@@ -1648,16 +2019,56 @@
       }
 
       .hud {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
       }
 
       .hud-center {
-        justify-content: flex-start;
-        overflow-x: auto;
+        justify-content: center;
+        overflow: visible;
+      }
+
+      .problem-panel {
+        grid-template-rows: minmax(88px, auto) minmax(82px, auto) minmax(0, 1fr) 26px;
+        gap: 8px;
+        padding: 12px;
+      }
+
+      .problem-heading {
+        gap: 0;
       }
 
       .problem-heading h2 {
-        font-size: 3.6rem;
+        font-size: 3.7rem;
+      }
+
+      .task-card {
+        grid-template-columns: 1fr;
+        min-height: 76px;
+        gap: 5px;
+        padding: 8px 10px;
+      }
+
+      .step-meaning {
+        font-size: 0.92rem;
+      }
+
+      .step-formula {
+        font-size: 2.05rem;
+      }
+
+      .choice-grid {
+        gap: 8px;
+      }
+
+      .choice-button {
+        min-height: 0;
+        padding: 8px 10px;
+        font-size: 1.58rem;
+      }
+
+      .feedback {
+        min-height: 26px;
+        font-size: 0.78rem;
       }
     }
 
@@ -1774,9 +2185,16 @@
       <div class="play-layout">
         <aside class="fusion-side" id="fusionSide" aria-label="로봇 합체 화면">
           <img class="fusion-side-bg" src="fusion-workshop-generated.webp" alt="">
-          <div class="robot-shell" aria-hidden="true">
-            <div class="robot-head">×</div>
-            <div class="robot-body"></div>
+          <div class="robot-stage" id="robotStage" aria-hidden="true">
+            <img class="robot-sprite" id="robotSprite" src="mathmon-rfa-01-standby.webp" alt="">
+            <div class="flying-part flying-part-one"></div>
+            <div class="flying-part flying-part-two"></div>
+            <div class="robot-core-flash"></div>
+            <div class="robot-shockwave"></div>
+            <span class="fusion-spark spark-one"></span>
+            <span class="fusion-spark spark-two"></span>
+            <span class="fusion-spark spark-three"></span>
+            <span class="fusion-spark spark-four"></span>
           </div>
           <div class="side-parts" aria-label="완성한 계산 조각">
             <div class="side-part" id="sidePartOne">
@@ -1806,6 +2224,7 @@
                 <strong id="cutPartTwo">920</strong>
               </div>
               <div class="cut-flash">합체!</div>
+              <img class="cut-robot" src="mathmon-rfa-04-complete.webp" alt="" aria-hidden="true">
               <div class="cut-answer">
                 <small>완성 답</small>
                 <strong id="cutAnswer">1,035</strong>
@@ -1816,7 +2235,6 @@
 
         <section class="problem-panel" aria-live="polite">
           <div class="problem-heading">
-            <span class="split-text" id="fusionInput">45 = 40 + 5</span>
             <h2 id="questionText">23 × 45</h2>
           </div>
           <div class="task-card" id="taskCard">
@@ -1914,6 +2332,13 @@
       "fuel-event--rainbowFuel",
       "fuel-event--leak"
     ];
+    const ROBOT_SPRITES = {
+      standby: "mathmon-rfa-01-standby.webp",
+      one: "mathmon-rfa-02-one-part.webp",
+      two: "mathmon-rfa-03-two-parts.webp",
+      complete: "mathmon-rfa-04-complete.webp"
+    };
+    const ROBOT_STAGE_CLASSES = ["attach-one", "attach-two", "complete"];
 
     const state = {
       screen: "cover",
@@ -1943,7 +2368,6 @@
       energyText: document.getElementById("energyText"),
       chainText: document.getElementById("chainText"),
       questionText: document.getElementById("questionText"),
-      fusionInput: document.getElementById("fusionInput"),
       taskCard: document.getElementById("taskCard"),
       stepFormula: document.getElementById("stepFormula"),
       stepMeaning: document.getElementById("stepMeaning"),
@@ -1951,6 +2375,8 @@
       choiceGrid: document.getElementById("choiceGrid"),
       feedbackText: document.getElementById("feedbackText"),
       fusionSide: document.getElementById("fusionSide"),
+      robotStage: document.getElementById("robotStage"),
+      robotSprite: document.getElementById("robotSprite"),
       sidePartOne: document.getElementById("sidePartOne"),
       sidePartOneLabel: document.getElementById("sidePartOneLabel"),
       sidePartTwo: document.getElementById("sidePartTwo"),
@@ -2055,7 +2481,6 @@
 
     function renderProblem() {
       const problem = currentProblem();
-      const question = `${problem.top} × ${problem.bottom}`;
       state.stepIndex = 0;
       state.stepAttempts = 0;
       state.problemHadMistake = false;
@@ -2063,8 +2488,7 @@
       el.fusionCutscene.classList.remove("is-visible");
       el.fusionCutscene.setAttribute("aria-hidden", "true");
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
-      el.questionText.textContent = question;
-      el.fusionInput.textContent = `${problem.bottom} = ${problem.tensMul * 10} + ${problem.onesMul}`;
+      renderQuestionHighlight(problem, "partial1");
       resetFusionSide(problem);
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
@@ -2126,7 +2550,7 @@
     function renderStep() {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
-      el.fusionInput.textContent = step.split;
+      renderQuestionHighlight(problem, step.id);
       el.stepFormula.textContent = step.formula;
       el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
@@ -2150,13 +2574,12 @@
         {
           id: "partial1",
           label: `×${problem.onesMul}`,
-          split: `${problem.bottom} = ${problem.tensMul * 10} + ${problem.onesMul}`,
           formula: `${problem.top} × ${problem.onesMul} = ?`,
           correct: problem.partial1,
           prompt: "답을 골라요.",
-          meaning: `먼저 ${withGwa(problem.onesMul)} 곱해요.`,
-          hint: `${problem.top}에 ${withEul(problem.onesMul)} 곱해요. 10이 넘으면 받아올림을 생각해요.`,
-          explain: "정답!",
+          meaning: `1단계: ${withGwa(problem.onesMul)} 곱해요.`,
+          hint: `${problem.top} × ${problem.onesMul}을 먼저 봐요.`,
+          explain: `${withGwa(problem.onesMul)} 곱한 값은 ${formatNumber(problem.partial1)}예요.`,
           distractors: [
             problem.top * Math.max(1, problem.onesMul - 1),
             problem.top * Math.min(9, problem.onesMul + 1),
@@ -2167,13 +2590,12 @@
         {
           id: "partial2",
           label: `×${problem.tensMul * 10}`,
-          split: `${problem.bottom} = ${problem.tensMul * 10} + ${problem.onesMul}`,
           formula: `${problem.top} × ${problem.tensMul}0 = ?`,
           correct: problem.partial2,
           prompt: "답을 골라요.",
-          meaning: `이제 ${withGwa(problem.tensMul * 10)} 곱해요.`,
-          hint: `${problem.tensMul * 10}은 십의 자리 수라 0이 붙어요.`,
-          explain: "정답!",
+          meaning: `2단계: ${withGwa(problem.tensMul * 10)} 곱해요.`,
+          hint: `${withGwa(problem.tensMul * 10)} 곱할 때는 0을 붙여요.`,
+          explain: `${withGwa(problem.tensMul * 10)} 곱한 값은 ${formatNumber(problem.partial2)}예요.`,
           distractors: [
             problem.partial2Core,
             problem.partial2 + 100,
@@ -2184,13 +2606,12 @@
         {
           id: "fusion",
           label: "더하기",
-          split: "합체하기",
           formula: `${formatNumber(problem.partial1)} + ${formatNumber(problem.partial2)} = ?`,
           correct: problem.answer,
           prompt: "답을 골라요.",
-          meaning: "마지막으로 더해요.",
+          meaning: "3단계: 두 값을 더해요.",
           hint: `${formatNumber(problem.partial2)}의 0을 빠뜨리지 않아요.`,
-          explain: "합체!",
+          explain: `두 값을 더하면 ${formatNumber(problem.answer)}예요.`,
           distractors: [
             problem.misplacedSum,
             problem.answer + 10,
@@ -2218,6 +2639,36 @@
       }
     }
 
+    function renderQuestionHighlight(problem, stepId) {
+      const topClass = stepId === "fusion" ? "" : " is-step-target";
+      const tensClass = stepId === "partial2" || stepId === "fusion" ? " is-step-target" : "";
+      const onesClass = stepId === "partial1" || stepId === "fusion" ? " is-step-target" : "";
+      el.questionText.setAttribute("aria-label", `${problem.top} 곱하기 ${problem.bottom}`);
+      el.questionText.innerHTML = [
+        `<span class="question-part${topClass}">${formatNumber(problem.top)}</span>`,
+        `<span class="question-symbol">×</span>`,
+        `<span class="question-part question-bottom"><span class="question-part${tensClass}">${problem.tensMul}</span><span class="question-part${onesClass}">${problem.onesMul}</span></span>`
+      ].join(" ");
+    }
+
+    function setRobotSprite(spriteName) {
+      el.robotSprite.src = ROBOT_SPRITES[spriteName] || ROBOT_SPRITES.standby;
+    }
+
+    function clearRobotActionClasses() {
+      ROBOT_STAGE_CLASSES.forEach((className) => el.robotStage.classList.remove(className));
+    }
+
+    function triggerRobotAction(actionClass, spriteName) {
+      clearRobotActionClasses();
+      setRobotSprite(spriteName);
+      void el.robotStage.offsetWidth;
+      el.robotStage.classList.add(actionClass);
+      window.setTimeout(() => {
+        el.robotStage.classList.remove(actionClass);
+      }, actionClass === "complete" ? 1250 : 860);
+    }
+
     function handleStepChoice(option, button) {
       const step = getCurrentStep(currentProblem());
       if (option.correct) {
@@ -2239,7 +2690,7 @@
       }
 
       setButtonsDisabled(true);
-      el.feedbackText.textContent = `정답은 ${formatNumber(step.correct)}예요. ${step.explain}`;
+      el.feedbackText.textContent = `정답은 ${formatNumber(step.correct)}예요.`;
       el.feedbackText.className = "feedback try";
       completeStep(step, true);
     }
@@ -2267,6 +2718,8 @@
 
     function resetFusionSide(problem) {
       el.fusionSide.className = "fusion-side";
+      clearRobotActionClasses();
+      setRobotSprite("standby");
       el.sidePartOneLabel.textContent = `${withGwa(problem.onesMul)} 곱한 값`;
       el.sidePartOne.querySelector("strong").textContent = "?";
       el.sidePartTwoLabel.textContent = `${withGwa(problem.tensMul * 10)} 곱한 값`;
@@ -2297,10 +2750,12 @@
         el.sidePartOne.querySelector("strong").textContent = formatNumber(problem.partial1);
         el.sidePartOne.classList.add("is-done");
         el.fusionSide.classList.add("has-one");
+        triggerRobotAction("attach-one", "one");
       } else if (step.id === "partial2") {
         el.sidePartTwo.querySelector("strong").textContent = formatNumber(problem.partial2);
         el.sidePartTwo.classList.add("is-done");
         el.fusionSide.classList.add("has-two");
+        triggerRobotAction("attach-two", "two");
       }
     }
 
@@ -2308,6 +2763,7 @@
       el.sideResult.querySelector("strong").textContent = formatNumber(problem.answer);
       el.sideResult.classList.add("is-done");
       el.fusionSide.classList.add("has-two", "is-fusing");
+      triggerRobotAction("complete", "complete");
       el.cutPartOneLabel.textContent = `${withGwa(problem.onesMul)} 곱한 값`;
       el.cutPartOne.textContent = formatNumber(problem.partial1);
       el.cutPartTwoLabel.textContent = `${withGwa(problem.tensMul * 10)} 곱한 값`;
