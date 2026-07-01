@@ -101,7 +101,7 @@
       display: grid;
     }
 
-    .sound-toggle {
+    .settings-toggle {
       position: absolute;
       top: var(--stage-inset);
       right: var(--stage-inset);
@@ -124,18 +124,18 @@
       backdrop-filter: blur(10px);
     }
 
-    .sound-toggle::before,
-    .sound-toggle::after {
+    .settings-toggle::before,
+    .settings-toggle::after {
       content: none !important;
       display: none !important;
     }
 
-    .sound-toggle svg {
+    .settings-toggle svg {
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 18px;
-      height: 18px;
+      width: 19px;
+      height: 19px;
       display: block;
       transform: translate(-50%, -50%);
       fill: none;
@@ -146,10 +146,6 @@
       pointer-events: none;
     }
 
-    .sound-off-stroke {
-      display: none;
-    }
-
     .stage-shell .top-row {
       right: calc(var(--stage-inset) + var(--sound-reserve));
     }
@@ -158,23 +154,145 @@
       padding-right: var(--sound-reserve);
     }
 
-    .sound-toggle[aria-pressed="false"] {
-      border-color: rgba(186, 197, 219, 0.38);
-      color: var(--muted);
-      background: rgba(8, 9, 20, 0.6);
+    .settings-toggle[aria-expanded="true"] {
+      border-color: rgba(255, 228, 92, 0.85);
+      color: #fff6ca;
+      background: rgba(23, 20, 34, 0.92);
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-wave {
+    .settings-toggle:focus-visible,
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.8);
+      outline-offset: 3px;
+    }
+
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: clamp(20px, 4vw, 48px);
+      background: rgba(6, 7, 16, 0.56);
+      backdrop-filter: blur(8px);
+    }
+
+    .settings-backdrop[hidden] {
       display: none;
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
-      display: block;
+    .settings-modal {
+      width: min(420px, calc(100% - 32px));
+      max-height: calc(100% - 40px);
+      overflow: auto;
+      padding: 22px;
+      border: 1px solid rgba(255, 228, 92, 0.42);
+      border-radius: 8px;
+      color: #fff8d6;
+      background: rgba(17, 16, 31, 0.96);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.44);
     }
 
-    .sound-toggle:focus-visible {
-      outline: 4px solid rgba(255, 255, 255, 0.8);
-      outline-offset: 3px;
+    .settings-title {
+      margin: 0 0 16px;
+      font-size: 1.55rem;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .settings-menu,
+    .settings-confirm {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-menu[hidden],
+    .settings-confirm[hidden] {
+      display: none;
+    }
+
+    .settings-switch,
+    .settings-action {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      color: #fff8d6;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .settings-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .settings-switch-track {
+      position: relative;
+      flex: 0 0 auto;
+      width: 50px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(186, 197, 219, 0.32);
+      transition: background 0.18s ease;
+    }
+
+    .settings-switch-track::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease;
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track {
+      background: linear-gradient(180deg, #35f2a6, #2bbdff);
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track::after {
+      transform: translateX(22px);
+    }
+
+    .settings-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .settings-action.is-danger {
+      border-color: rgba(255, 157, 60, 0.52);
+      color: #fff3d1;
+    }
+
+    .settings-confirm {
+      padding-top: 4px;
+    }
+
+    .settings-confirm-title {
+      margin: 0 0 4px;
+      font-size: 1.08rem;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .settings-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .cover {
@@ -1535,22 +1653,45 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="legacy-raster-poster" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="legacy-raster-poster" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
     <aside class="phone-blocker" aria-label="지원 화면 안내">
       <div>
         <strong>태블릿이나 컴퓨터에서 열어요</strong>
         <span>이 게임은 큰 화면에서만 플레이할 수 있어요.</span>
       </div>
     </aside>
-    <div class="stage-shell">
-      <button class="sound-toggle" type="button" data-action="toggle-bgm" aria-pressed="true" aria-label="소리 켜짐">
+    <div class="stage-shell" data-active-screen="cover">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M4 10h3.5l4.2-4v12l-4.2-4H4z"></path>
-          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
-          <path class="sound-off-stroke" d="M16 8l5 8M21 8l-5 8"></path>
+          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
         </svg>
       </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
+              <span>배경 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
+              <span>효과 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
+          </div>
+          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
+            <p class="settings-confirm-title" id="settingsConfirmText">처음부터 할까요?</p>
+            <div class="settings-confirm-actions">
+              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
+              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
       <img class="cover-art" src="cover-generated.webp?v=1" alt="" aria-hidden="true">
@@ -1725,9 +1866,16 @@
         { value: 100000000n, label: "억" },
         { value: 10000n, label: "만" },
       ]);
-      const BGM_STORAGE_KEY = "mathmon-box-run-bgm-enabled";
+      const AUDIO_PREF_KEYS = Object.freeze({
+        bgm: "mathmon-audio-bgm-enabled",
+        sfx: "mathmon-audio-sfx-enabled",
+        legacyBoxRunBgm: "mathmon-box-run-bgm-enabled",
+      });
+      const TUTORIAL_START_LABEL = "문제 시작";
+      const TUTORIAL_REVIEW_LABEL = "계속하기";
 
       const els = {
+        stageShell: document.querySelector(".stage-shell"),
         screens: {
           cover: document.querySelector('[data-screen="cover"]'),
           tutorial: document.querySelector('[data-screen="tutorial"]'),
@@ -1738,7 +1886,18 @@
         startFirstProblemButton: document.querySelector('[data-action="start-first-problem"]'),
         restartButton: document.querySelector('[data-action="restart"]'),
         openCrateButton: document.querySelector('[data-action="open-crate"]'),
-        bgmToggle: document.querySelector('[data-action="toggle-bgm"]'),
+        settingsButton: document.getElementById("settingsButton"),
+        settingsBackdrop: document.getElementById("settingsBackdrop"),
+        settingsModal: document.getElementById("settingsModal"),
+        settingsMenu: document.getElementById("settingsMenu"),
+        settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+        settingsBgmToggle: document.getElementById("settingsBgmToggle"),
+        settingsSfxToggle: document.getElementById("settingsSfxToggle"),
+        settingsMethodButton: document.getElementById("settingsMethodButton"),
+        settingsRestartButton: document.getElementById("settingsRestartButton"),
+        settingsCloseButton: document.getElementById("settingsCloseButton"),
+        settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+        settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
         progress: document.querySelector('[data-field="progress"]'),
         combo: document.querySelector('[data-field="combo"]'),
         score: document.querySelector('[data-field="score"]'),
@@ -1787,6 +1946,11 @@
         pendingCrateGrade: null,
         downloadCardUrl: "",
         downloadRequestToken: "",
+        screen: "cover",
+        tutorialReviewMode: false,
+        reviewReturnScreen: "cover",
+        autoOpenTimer: 0,
+        crateOpenTimer: 0,
       };
 
       const audioState = {
@@ -1799,6 +1963,7 @@
         bgmTimer: 0,
         bgmLoopCount: 0,
         bgmEnabled: loadBgmPreference(),
+        sfxEnabled: loadSfxPreference(),
       };
 
       function randomInt(min, max) {
@@ -1807,7 +1972,23 @@
 
       function loadBgmPreference() {
         try {
-          return window.localStorage.getItem(BGM_STORAGE_KEY) !== "off";
+          const stored = window.localStorage.getItem(AUDIO_PREF_KEYS.bgm);
+          if (stored === "on" || stored === "off") {
+            return stored !== "off";
+          }
+          if (window.localStorage.getItem(AUDIO_PREF_KEYS.legacyBoxRunBgm) === "off") {
+            window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, "off");
+            return false;
+          }
+          return true;
+        } catch (error) {
+          return true;
+        }
+      }
+
+      function loadSfxPreference() {
+        try {
+          return window.localStorage.getItem(AUDIO_PREF_KEYS.sfx) !== "off";
         } catch (error) {
           return true;
         }
@@ -1815,7 +1996,15 @@
 
       function saveBgmPreference(enabled) {
         try {
-          window.localStorage.setItem(BGM_STORAGE_KEY, enabled ? "on" : "off");
+          window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, enabled ? "on" : "off");
+        } catch (error) {
+          // localStorage may be blocked in some embedded browsers.
+        }
+      }
+
+      function saveSfxPreference(enabled) {
+        try {
+          window.localStorage.setItem(AUDIO_PREF_KEYS.sfx, enabled ? "on" : "off");
         } catch (error) {
           // localStorage may be blocked in some embedded browsers.
         }
@@ -1839,9 +2028,10 @@
         return context;
       }
 
-      function updateBgmToggle() {
-        els.bgmToggle.setAttribute("aria-pressed", audioState.bgmEnabled ? "true" : "false");
-        els.bgmToggle.setAttribute("aria-label", audioState.bgmEnabled ? "소리 켜짐" : "소리 꺼짐");
+      function updateSettingsUi() {
+        els.settingsBgmToggle.setAttribute("aria-checked", String(audioState.bgmEnabled));
+        els.settingsSfxToggle.setAttribute("aria-checked", String(audioState.sfxEnabled));
+        els.settingsButton.setAttribute("aria-expanded", String(!els.settingsBackdrop.hidden));
       }
 
       const SFX_CUES = {
@@ -1885,7 +2075,7 @@
       }
 
       function playSample(cue) {
-        if (!audioState.bgmEnabled) return;
+        if (!audioState.sfxEnabled) return;
         const sample = getSample(cue);
         if (!sample) return;
         const voice = sample.cloneNode(true);
@@ -1900,6 +2090,17 @@
         getLog: () => [...audioState.sfxLog],
         clearLog: () => {
           audioState.sfxLog = [];
+        },
+        getPrefs: () => ({
+          bgmEnabled: audioState.bgmEnabled,
+          sfxEnabled: audioState.sfxEnabled,
+          settingsOpen: !els.settingsBackdrop.hidden,
+          screen: state.screen,
+        }),
+        setPrefs: (prefs = {}) => {
+          if (typeof prefs.bgmEnabled === "boolean") setBgmEnabled(prefs.bgmEnabled);
+          if (typeof prefs.sfxEnabled === "boolean") setSfxEnabled(prefs.sfxEnabled);
+          return window.__mathmonAudioQa.getPrefs();
         },
       };
 
@@ -1997,13 +2198,110 @@
       function setBgmEnabled(enabled, shouldUnlock = false) {
         audioState.bgmEnabled = enabled;
         saveBgmPreference(enabled);
-        updateBgmToggle();
+        updateSettingsUi();
         if (enabled) {
           if (shouldUnlock) unlockAudio();
           else startBgm();
         } else {
           stopBgm();
         }
+      }
+
+      function setSfxEnabled(enabled) {
+        audioState.sfxEnabled = enabled;
+        saveSfxPreference(enabled);
+        updateSettingsUi();
+      }
+
+      function getSettingsFocusable() {
+        return [...els.settingsModal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])")]
+          .filter((element) => !element.disabled && !element.closest("[hidden]"));
+      }
+
+      function setSettingsConfirming(confirming, shouldFocus = true) {
+        els.settingsMenu.hidden = confirming;
+        els.settingsRestartConfirm.hidden = !confirming;
+        if (!shouldFocus) return;
+        window.requestAnimationFrame(() => {
+          (confirming ? els.settingsRestartCancelButton : els.settingsBgmToggle).focus();
+        });
+      }
+
+      function openSettings() {
+        els.settingsBackdrop.hidden = false;
+        setSettingsConfirming(false);
+        updateSettingsUi();
+        window.requestAnimationFrame(() => els.settingsBgmToggle.focus());
+      }
+
+      function closeSettings(options = {}) {
+        const restoreFocus = options.restoreFocus !== false;
+        els.settingsBackdrop.hidden = true;
+        setSettingsConfirming(false, false);
+        updateSettingsUi();
+        if (restoreFocus) {
+          els.settingsButton.focus();
+        }
+      }
+
+      function handleSettingsKeydown(event) {
+        if (els.settingsBackdrop.hidden) return;
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeSettings();
+          return;
+        }
+        if (event.key !== "Tab") return;
+        const focusable = getSettingsFocusable();
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+
+      function enterTutorialReview() {
+        state.reviewReturnScreen = state.screen || "cover";
+        state.tutorialReviewMode = true;
+        els.startFirstProblemButton.textContent = TUTORIAL_REVIEW_LABEL;
+        closeSettings({ restoreFocus: false });
+        showScreen("tutorial");
+        window.requestAnimationFrame(() => els.startFirstProblemButton.focus());
+      }
+
+      function leaveTutorialReview() {
+        const returnScreen = state.reviewReturnScreen || "cover";
+        state.tutorialReviewMode = false;
+        state.reviewReturnScreen = "cover";
+        els.startFirstProblemButton.textContent = TUTORIAL_START_LABEL;
+        showScreen(returnScreen);
+      }
+
+      function clearPendingTimers() {
+        if (state.autoOpenTimer) {
+          window.clearTimeout(state.autoOpenTimer);
+          state.autoOpenTimer = 0;
+        }
+        if (state.crateOpenTimer) {
+          window.clearTimeout(state.crateOpenTimer);
+          state.crateOpenTimer = 0;
+        }
+      }
+
+      function resetToCoverFromSettings() {
+        clearPendingTimers();
+        state.missAdvanceToken += 1;
+        state.phase = PHASES.cover;
+        state.tutorialReviewMode = false;
+        state.reviewReturnScreen = "cover";
+        els.startFirstProblemButton.textContent = TUTORIAL_START_LABEL;
+        closeSettings({ restoreFocus: false });
+        showScreen("cover");
       }
 
       function playUiSound() {
@@ -2138,6 +2436,8 @@
       }
 
       function showScreen(name) {
+        state.screen = name;
+        els.stageShell.dataset.activeScreen = name;
         Object.values(els.screens).forEach((screen) => screen.classList.remove("is-active"));
         els.screens[name].classList.add("is-active");
       }
@@ -2515,7 +2815,11 @@
             renderHud();
             fitRewardText();
             playBrokenReadySound();
-            window.setTimeout(() => openCrate({ auto: true, token }), 520);
+            clearPendingTimers();
+            state.autoOpenTimer = window.setTimeout(() => {
+              state.autoOpenTimer = 0;
+              openCrate({ auto: true, token });
+            }, 520);
             return;
           }
           setFeedback("다시 골라요", "bad");
@@ -2586,7 +2890,9 @@
         els.openCrateButton.textContent = "열리는 중";
         els.crate.classList.remove("is-ready");
         els.crate.classList.add(isBroken ? "is-broken-opening" : "is-opening");
-        window.setTimeout(() => {
+        clearPendingTimers();
+        state.crateOpenTimer = window.setTimeout(() => {
+          state.crateOpenTimer = 0;
           if (state.phase !== PHASES.crateOpening) return;
           if (isAuto && state.missAdvanceToken !== options.token) return;
           const reward = state.pendingReward;
@@ -2667,11 +2973,41 @@
         renderQuestion();
       }
 
-      updateBgmToggle();
-      els.bgmToggle.addEventListener("click", () => {
+      updateSettingsUi();
+      els.settingsButton.addEventListener("click", openSettings);
+      els.settingsBackdrop.addEventListener("click", (event) => {
+        if (event.target === els.settingsBackdrop) closeSettings();
+      });
+      els.settingsModal.addEventListener("keydown", handleSettingsKeydown);
+      els.settingsBgmToggle.addEventListener("click", () => {
         const nextEnabled = !audioState.bgmEnabled;
         setBgmEnabled(nextEnabled, true);
         if (nextEnabled) playUiSound();
+      });
+      els.settingsSfxToggle.addEventListener("click", () => {
+        const nextEnabled = !audioState.sfxEnabled;
+        setSfxEnabled(nextEnabled);
+        if (nextEnabled) playUiSound();
+      });
+      els.settingsMethodButton.addEventListener("click", () => {
+        playUiSound();
+        enterTutorialReview();
+      });
+      els.settingsRestartButton.addEventListener("click", () => {
+        playUiSound();
+        setSettingsConfirming(true);
+      });
+      els.settingsRestartConfirmButton.addEventListener("click", () => {
+        playUiSound();
+        resetToCoverFromSettings();
+      });
+      els.settingsRestartCancelButton.addEventListener("click", () => {
+        playUiSound();
+        setSettingsConfirming(false);
+      });
+      els.settingsCloseButton.addEventListener("click", () => {
+        playUiSound();
+        closeSettings();
       });
       els.startButton.addEventListener("click", () => {
         unlockAudio();
@@ -2681,6 +3017,10 @@
       els.startFirstProblemButton.addEventListener("click", () => {
         unlockAudio();
         playUiSound();
+        if (state.tutorialReviewMode) {
+          leaveTutorialReview();
+          return;
+        }
         startRound();
       });
       els.restartButton.addEventListener("click", () => {

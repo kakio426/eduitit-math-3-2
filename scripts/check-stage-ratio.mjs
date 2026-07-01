@@ -96,7 +96,9 @@ for (const lesson of lessons) {
   const brandImageBlock = getBlock(html, ".brand-badge img");
   const playBlock = getStandaloneBlock(html, ".play");
   const hudBlock = getStandaloneBlock(html, ".hud");
-  const soundBlock = getStandaloneBlock(html, ".sound-toggle");
+  const hasSettingsStandard = /<main\s+class="game"[^>]*data-settings-standard="modal-controls"/.test(html);
+  const globalControlSelector = hasSettingsStandard ? ".settings-toggle" : ".sound-toggle";
+  const globalControlBlock = getStandaloneBlock(html, globalControlSelector);
   const rasterBgBlock = getStandaloneBlock(html, ".raster-bg");
   const coverStartButtonBlock = getBlock(html, ".cover #startButton");
   const coverStartGeneratedButtonBlock = getStandaloneBlock(html, ".cover-start-button");
@@ -137,6 +139,24 @@ for (const lesson of lessons) {
   const hasForbiddenFullSceneResultClass = /\b(result-card|result-stats|result-stat|result-copy)\b/.test(html);
   const hasGeneratedResultTitleArt = /<img(?=[^>]*class="[^"]*\bresult-title-art\b[^"]*")(?=[^>]*src="[^"]*result-title-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
   const hasGeneratedResultRetryArt = /<img(?=[^>]*class="[^"]*\bresult-retry-art\b[^"]*")(?=[^>]*src="[^"]*result-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
+  const hasSettingsToggleMarkup = /<button(?=[^>]*\bclass="[^"]*\bsettings-toggle\b)(?=[^>]*\bid="settingsButton")(?=[^>]*\baria-label="설정 열기")(?=[^>]*\baria-haspopup="dialog")(?=[^>]*\baria-controls="settingsModal")(?=[^>]*\baria-expanded="false")[^>]*>\s*<svg[\s\S]*?<\/svg>\s*<\/button>/.test(html);
+  const hasSettingsDialog = /<div(?=[^>]*\bid="settingsModal")(?=[^>]*\brole="dialog")(?=[^>]*\baria-modal="true")(?=[^>]*\baria-labelledby="settingsTitle")[^>]*>/.test(html);
+  const hasSettingsBackdrop = /<div(?=[^>]*\bid="settingsBackdrop")(?=[^>]*\bclass="[^"]*\bsettings-backdrop\b)(?=[^>]*\bhidden\b)[^>]*>/.test(html);
+  const hasSettingsTitle = /<h2(?=[^>]*\bid="settingsTitle")(?=[^>]*\bclass="[^"]*\bsettings-title\b)[^>]*>\s*설정\s*<\/h2>/.test(html);
+  const hasSettingsBgmSwitch = /<button(?=[^>]*\bid="settingsBgmToggle")(?=[^>]*\brole="switch")(?=[^>]*\baria-checked="true")[^>]*>[\s\S]*배경 소리[\s\S]*<\/button>/.test(html);
+  const hasSettingsSfxSwitch = /<button(?=[^>]*\bid="settingsSfxToggle")(?=[^>]*\brole="switch")(?=[^>]*\baria-checked="true")[^>]*>[\s\S]*효과 소리[\s\S]*<\/button>/.test(html);
+  const hasSettingsActions = html.includes('id="settingsMethodButton"')
+    && html.includes(">방법 다시 보기<")
+    && html.includes('id="settingsRestartButton"')
+    && html.includes(">처음부터<")
+    && html.includes('id="settingsCloseButton"')
+    && html.includes(">닫기<");
+  const hasSettingsRestartConfirm = html.includes('id="settingsRestartConfirm"')
+    && html.includes('id="settingsConfirmText"')
+    && html.includes("처음부터 할까요?")
+    && html.includes('id="settingsRestartConfirmButton"')
+    && html.includes('id="settingsRestartCancelButton"')
+    && html.includes(">계속하기<");
   const hasHiddenResultTitle = !/\bid="resultTitle"/.test(html)
     || /<h[1-6](?=[^>]*\bid="resultTitle")(?=[^>]*\bclass="[^"]*\bvisually-hidden\b)[^>]*>/.test(html);
   const hasHiddenPraiseText = !/\bid="praiseText"/.test(html)
@@ -232,15 +252,23 @@ for (const lesson of lessons) {
     [screenBlock.includes(`aspect-ratio: ${STAGE_RATIO};`), `.screen은 aspect-ratio: ${STAGE_RATIO}; 여야 합니다.`],
     [!screenBlock.includes("min-height: min("), ".screen 기본 블록에 min-height:min(...)을 쓰면 Stage 비율이 흔들립니다."],
     [!html.includes("aspect-ratio: 1586 / 992;"), "이전 1차시 임시 비율(1586/992)이 남아 있습니다."],
-    [soundBlock.includes("position: absolute;"), "소리 버튼은 viewport fixed가 아니라 .stage-shell 내부 absolute여야 합니다."],
-    [soundBlock.includes("top: var(--stage-inset);"), "소리 버튼은 Stage 상단 보조 슬롯에 맞춰야 합니다."],
-    [soundBlock.includes("right: var(--stage-inset);"), "소리 버튼은 Stage 우측 보조 슬롯에 맞춰야 합니다."],
-    [soundBlock.includes("width: var(--sound-button-size);"), "소리 버튼 width는 --sound-button-size를 써서 모든 화면에서 같아야 합니다."],
-    [soundBlock.includes("height: var(--sound-button-size);"), "소리 버튼 height는 --sound-button-size를 써서 모든 화면에서 같아야 합니다."],
-    [soundBlock.includes("font-size: 0;"), "소리 버튼은 보이는 텍스트 pill이 아니라 SVG 아이콘 버튼이어야 합니다."],
-    [html.includes(".sound-toggle svg"), "소리 버튼 SVG 아이콘을 중앙 배치하는 규칙이 필요합니다."],
-    [html.includes(".sound-off-stroke"), "소리 꺼짐 상태도 같은 SVG 안에서 표시해야 합니다."],
+    [globalControlBlock.includes("position: absolute;"), "전역 설정/소리 버튼은 viewport fixed가 아니라 .stage-shell 내부 absolute여야 합니다."],
+    [globalControlBlock.includes("top: var(--stage-inset);"), "전역 설정/소리 버튼은 Stage 상단 보조 슬롯에 맞춰야 합니다."],
+    [globalControlBlock.includes("right: var(--stage-inset);"), "전역 설정/소리 버튼은 Stage 우측 보조 슬롯에 맞춰야 합니다."],
+    [globalControlBlock.includes("width: var(--sound-button-size);"), "전역 설정/소리 버튼 width는 --sound-button-size를 써서 모든 화면에서 같아야 합니다."],
+    [globalControlBlock.includes("height: var(--sound-button-size);"), "전역 설정/소리 버튼 height는 --sound-button-size를 써서 모든 화면에서 같아야 합니다."],
+    [globalControlBlock.includes("font-size: 0;"), "전역 설정/소리 버튼은 보이는 텍스트 pill이 아니라 SVG 아이콘 버튼이어야 합니다."],
+    [html.includes(`${globalControlSelector} svg`), "전역 설정/소리 버튼 SVG 아이콘을 중앙 배치하는 규칙이 필요합니다."],
+    [hasSettingsStandard || html.includes(".sound-off-stroke"), "레거시 소리 버튼은 소리 꺼짐 상태도 같은 SVG 안에서 표시해야 합니다."],
     [!/<button\s+class="sound-toggle"[^>]*>\s*소리\s*<\/button>/.test(html), "소리 버튼 안에 보이는 '소리' 텍스트를 직접 넣지 마세요. aria-label과 SVG 아이콘을 사용하세요."],
+    [!hasSettingsStandard || hasSettingsToggleMarkup, "data-settings-standard=\"modal-controls\" 차시는 <button class=\"settings-toggle\" id=\"settingsButton\" aria-label=\"설정 열기\" aria-haspopup=\"dialog\" aria-controls=\"settingsModal\" aria-expanded=\"false\"> SVG 톱니바퀴 버튼을 써야 합니다."],
+    [!hasSettingsStandard || hasSettingsBackdrop, "data-settings-standard=\"modal-controls\" 차시는 .stage-shell 안에 hidden #settingsBackdrop을 둬야 합니다."],
+    [!hasSettingsStandard || hasSettingsDialog, "data-settings-standard=\"modal-controls\" 차시는 role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"settingsTitle\"인 #settingsModal이 필요합니다."],
+    [!hasSettingsStandard || hasSettingsTitle, "설정 모달 제목은 <h2 id=\"settingsTitle\">설정</h2> 구조여야 합니다."],
+    [!hasSettingsStandard || hasSettingsBgmSwitch, "설정 모달에는 role=\"switch\" aria-checked 토글인 #settingsBgmToggle 배경 소리가 필요합니다."],
+    [!hasSettingsStandard || hasSettingsSfxSwitch, "설정 모달에는 role=\"switch\" aria-checked 토글인 #settingsSfxToggle 효과 소리가 필요합니다."],
+    [!hasSettingsStandard || hasSettingsActions, "설정 모달에는 방법 다시 보기, 처음부터, 닫기 버튼이 필요합니다."],
+    [!hasSettingsStandard || hasSettingsRestartConfirm, "설정 모달 처음부터 확인 상태에는 처음부터 할까요?, 처음부터, 계속하기 버튼이 필요합니다."],
     [html.includes(".stage-shell .top-row"), "상단 배지가 소리 버튼과 겹치지 않도록 .top-row 보정 규칙이 필요합니다."],
     [html.includes(".stage-shell .hud"), "문제 화면 HUD가 소리 버튼과 겹치지 않도록 .hud 보정 규칙이 필요합니다."],
     [html.includes("right: calc(var(--stage-inset) + var(--sound-reserve));"), "상단 배지는 소리 버튼 고정 슬롯인 --sound-reserve만큼 우측을 비워야 합니다."],
@@ -260,11 +288,11 @@ for (const lesson of lessons) {
     [!hasHudUnitBadge || playBlock.includes("padding: var(--stage-inset);"), "문제 화면 play padding은 소리 버튼 기준선과 맞게 var(--stage-inset)을 써야 합니다."],
     [!hasHudUnitBadge || hudBlock.includes("align-items: start;"), "HUD 가운데 pill이 커도 오른쪽 배지가 소리 버튼보다 내려가지 않게 align-items: start;를 써야 합니다."],
     [!hasHudUnitBadge || hudBlock.includes("min-height: var(--sound-button-size);"), "HUD 최소 높이는 소리 버튼 높이와 같아야 합니다."],
-    [!soundBlock.includes("position: fixed;"), "소리 버튼에 position: fixed;를 쓰면 Stage 밖으로 떠 보입니다."],
-    [!soundBlock.includes("bottom:"), "소리 버튼은 선택지/결과 버튼을 가리지 않도록 하단 고정을 쓰지 않습니다."],
-    [!soundBlock.includes("transform:"), "소리 버튼 위치를 transform으로 화면별 보정하면 화면마다 위치가 달라집니다. top/right와 고정 슬롯만 쓰세요."],
-    [!html.includes(".stage-shell[data-active-screen=\"play\"] .sound-toggle"), "소리 버튼은 화면별(active-screen별) 위치 보정을 만들지 않습니다."],
-    [!html.includes('content: "♪";'), "소리 버튼을 음표 문자 pseudo-element로 만들지 않습니다. SVG 스피커 아이콘을 쓰세요."],
+    [!globalControlBlock.includes("position: fixed;"), "전역 설정/소리 버튼에 position: fixed;를 쓰면 Stage 밖으로 떠 보입니다."],
+    [!globalControlBlock.includes("bottom:"), "전역 설정/소리 버튼은 선택지/결과 버튼을 가리지 않도록 하단 고정을 쓰지 않습니다."],
+    [!globalControlBlock.includes("transform:"), "전역 설정/소리 버튼 위치를 transform으로 화면별 보정하면 화면마다 위치가 달라집니다. top/right와 고정 슬롯만 쓰세요."],
+    [!html.includes(`.stage-shell[data-active-screen=\"play\"] ${globalControlSelector}`), "전역 설정/소리 버튼은 화면별(active-screen별) 위치 보정을 만들지 않습니다."],
+    [!html.includes('content: "♪";'), "소리 버튼을 음표 문자 pseudo-element로 만들지 않습니다. SVG 아이콘을 쓰세요."],
     [!html.includes(">소리 켬<") && !html.includes(">소리 끔<") && !html.includes(">BGM 켜짐<") && !html.includes(">BGM 꺼짐<"), "소리 버튼의 긴 상태 문구는 화면에 직접 노출하지 않습니다. 보이는 글자는 짧게 두고 aria-label로 상태를 전달하세요."],
     [!hasShipmentRepeatCopy, "보상/피드백 모달에서 같은 말을 반복하지 마세요. 예: 출하! + 출하 보기"],
     [!hasTitleArt || hasHiddenCoverTitle, "첫 화면 제목을 그림으로 쓰는 경우 실제 제목은 <h1 class=\"visually-hidden\" id=\"coverTitle\">로 남겨야 합니다."],

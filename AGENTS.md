@@ -28,9 +28,9 @@
 - 첫 화면 커버 표준은 `data-cover-standard="generated-title-overlay"`입니다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깔고, 게임명은 생성형 이미지 제목 자산(`title-*-generated.webp`)을 `.hero-title-art`로 얹으며, 한 줄 목표는 보이는 HTML 오버레이로 둡니다. 새 차시와 생성형 시작 버튼으로 이관한 차시는 `data-cover-start-standard="generated-button-art"`를 붙이고, 시작 버튼의 보이는 면을 CSS 텍스트가 아니라 생성형 버튼 자산(`start-button-generated.webp`)으로 둡니다.
 - 기존 `generated-title-overlay` 차시 중 `.primary-button`으로 시작하는 커버는 개별 이관 전까지 `compatibility-primary-button` 상태로 보존합니다. 이 호환 상태는 기존 차시 실행을 위한 예외이며 새 차시 복제 기준이 아닙니다.
 - `cover-generated.webp` 한 장 안에 제목·목표·시작 버튼을 baked-in 하거나, 커버 전체 투명 `cover-start-hitbox`로 시작시키는 방식은 새 차시에 쓰지 않습니다. 기존 1차시처럼 아직 이전 방식인 화면만 `data-cover-standard="legacy-raster-poster"`로 명시하고, 복제 기준으로 삼지 않습니다.
-- `소리` 같은 전역 조작 버튼은 Stage 밖 viewport에 fixed로 띄우지 않고, `.stage-shell` 안의 상단 오른쪽 보조 슬롯에 작게 둡니다. `.stage-shell`의 `--sound-button-size`, `--sound-gap`, `--sound-reserve`로 위치와 예비 공간을 고정하고, `.sound-toggle`에는 화면별 `transform`/active-screen별 위치 보정을 쓰지 않습니다. `top-row`/`hud`는 같은 `--sound-reserve`만큼 비워 버튼이 배지·문제·선택지를 가리지 않게 합니다.
-- 소리 버튼은 텍스트 pill이 아니라 `width/height: var(--sound-button-size)`인 원형 SVG 아이콘 버튼으로 만듭니다. 화면에 `소리` 글자를 직접 노출하지 말고, 켜짐/꺼짐은 SVG 파형과 `aria-label`로만 표현합니다.
-- 상단 배지·단원 pill·소리 버튼은 같은 기준선에 놓습니다. `.top-row`는 `top/left/right`와 `height: var(--sound-button-size)`, `gap: var(--sound-gap)`을 명시하고 `inset` 축약을 쓰지 않습니다. 문제 화면 `.hud`는 `align-items: start`와 `min-height: var(--sound-button-size)`를 둡니다.
+- 설정/소리 같은 전역 조작 버튼은 Stage 밖 viewport에 fixed로 띄우지 않고, `.stage-shell` 안의 상단 오른쪽 보조 슬롯에 작게 둡니다. `.stage-shell`의 `--sound-button-size`, `--sound-gap`, `--sound-reserve`로 위치와 예비 공간을 고정하고, `.settings-toggle`/레거시 `.sound-toggle`에는 화면별 `transform`/active-screen별 위치 보정을 쓰지 않습니다. `top-row`/`hud`는 같은 `--sound-reserve`만큼 비워 버튼이 배지·문제·선택지를 가리지 않게 합니다.
+- 새 차시와 큰 수정 차시는 `<main class="game" data-settings-standard="modal-controls">`를 선언하고, 오른쪽 위 버튼은 보이는 텍스트 없는 원형 SVG 톱니바퀴 `.settings-toggle`로 둡니다. 설정 모달에는 `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`를 짧게 배치하고, BGM/SFX localStorage 키는 `mathmon-audio-bgm-enabled`, `mathmon-audio-sfx-enabled`를 씁니다.
+- 상단 배지·단원 pill·설정/소리 버튼은 같은 기준선에 놓습니다. `.top-row`는 `top/left/right`와 `height: var(--sound-button-size)`, `gap: var(--sound-gap)`을 명시하고 `inset` 축약을 쓰지 않습니다. 문제 화면 `.hud`는 `align-items: start`와 `min-height: var(--sound-button-size)`를 둡니다.
 - 브랜드/단원/상태 배지는 내용보다 오른쪽으로 늘어나면 실패입니다. `flex: 0 0 auto`, `width: fit-content`, `max-width: max-content`, 작은 좌우 패딩 변수(`--top-control-pad-x`)와 gap 변수(`--top-control-icon-gap`)를 쓰고, 안정 슬롯이 꼭 필요하지 않으면 `min-width`로 빈 공간을 만들지 않습니다.
 - 차시를 만들거나 화면을 크게 바꾼 뒤에는 루트에서 `node scripts/check-stage-ratio.mjs`를 실행해 Stage 비율 계약을 통과해야 합니다.
 - 문제와 선택지는 장식보다 항상 우선합니다.
@@ -51,7 +51,7 @@
 앞으로 모든 차시의 화면은 "글자가 자기 상자 안에 들어가 있는가?", "요소끼리 서로 덮지 않는가?"를 통과해야 합니다. 통과하지 못하면 완성 화면이 아니라 실패 화면으로 보고 레이아웃이나 문구를 다시 줄입니다.
 
 - 버튼, 카드, 배지, 선택지, 보상 모달, 결과 카드 안의 한글·숫자·기호는 상자 밖으로 튀어나가면 실패입니다. 잘림, 삐져나옴, 줄 사이 겹침도 실패입니다.
-- 문제, 선택지, 소리 버튼, 브랜드/단원 배지, 진행 상태, 보상 버튼, 다음 단계 조작부가 서로 덮이면 실패입니다. 의도한 오버레이가 아니라 읽기나 클릭을 방해하면 무조건 다시 배치합니다.
+- 문제, 선택지, 설정/소리 버튼, 브랜드/단원 배지, 진행 상태, 보상 버튼, 다음 단계 조작부가 서로 덮이면 실패입니다. 의도한 오버레이가 아니라 읽기나 클릭을 방해하면 무조건 다시 배치합니다.
 - 고정 포맷 UI(지도, 보드, 선택지 그리드, 배지 줄, 버튼 줄, 결과 카드)는 `aspect-ratio`, 명시적인 grid/flex track, `min/max-width`, `min/max-height`, 예약 공간(`--sound-reserve` 등)으로 크기를 안정시킵니다. hover, 정답/오답, disabled, 긴 숫자, 긴 문구 때문에 카드나 버튼 크기가 흔들리면 실패입니다.
 - 긴 문구는 CSS로 억지로 밀어 넣지 말고 먼저 학생 말로 짧게 줄입니다. 그래도 길면 상자 안에서 자연스럽게 줄바꿈되게 하고, `overflow-wrap`, 적절한 `line-height`, `max-width`를 둡니다.
 - 글자를 맞추려고 viewport 폭 기준으로 글자 크기를 계속 줄이는 방식은 쓰지 않습니다. 글자 크기는 화면 목적에 맞게 정하고, 공간이 부족하면 레이아웃·문구·정보량을 줄입니다.
@@ -69,7 +69,7 @@
 - 단계형 문제는 **현재 단계만 크게** 보여 줍니다. 이전 단계는 작은 완료 칩으로 접고, 다음 단계는 `?` 또는 잠금 상태로 둡니다. 여러 단계의 계산판을 옆에 동시에 펼치지 않습니다.
 - 단계 정답 뒤에는 반드시 **정답 확인 상태**가 보입니다. 학생이 방금 고른 답이 어디에 들어갔는지 계산판·칸·블록에서 바로 확인하고, 그 확인 화면이 잠깐 머문 뒤 다음 단계로 넘어가야 합니다. 마지막 단계 뒤 보상은 자동 모달보다 학생이 확인 버튼을 눌러 여는 흐름을 우선합니다.
 - 선택지는 항상 가장 눈에 잘 띄는 한 덩어리로 둡니다. 선택지와 큰 문제 사이에 장식, 보상판, 긴 설명 패널을 끼워 넣지 않습니다.
-- 문제·현재 단계·선택지가 Stage의 대부분을 차지해야 합니다. 보조 정보(진행도, 콤보, 보상 상태, 소리 버튼)는 작게 두고, 풀이 판단을 방해하면 숨깁니다.
+- 문제·현재 단계·선택지가 Stage의 대부분을 차지해야 합니다. 보조 정보(진행도, 콤보, 보상 상태, 설정/소리 버튼)는 작게 두고, 풀이 판단을 방해하면 숨깁니다.
 - 힌트는 기본으로 열어 두지 않습니다. 학생이 눌렀을 때도 **지금 단계 힌트 1개**만 보여 주고, 전체 풀이 과정을 한 번에 펼치지 않습니다.
 - 학생 화면에 `핵심 메커니즘`, `메타 필드`, `부분곱`, `정답 수 게이트` 같은 제작자 용어를 쓰지 않습니다. 수학 용어가 필요하면 교과서식 짧은 말로 바꿉니다.
 - 스크린샷을 보고 "문제보다 패널이 많다", "읽어야 할 문장이 많다", "지금 눌러야 할 것이 바로 안 보인다"는 느낌이 들면 무조건 덜어냅니다.
@@ -208,7 +208,7 @@
 
 새 차시를 만들거나 문제 화면을 다시 설계할 때는 `.claude/skills/eduitit-mathmon-lesson/references/lesson-prompts.md`의 공통 제작 프롬프트와 해당 차시별 프롬프트를 먼저 적용합니다.
 
-1-2-3차시에서 재사용할 Stage, 첫 화면, 소리 버튼, 문제 화면 밀도, 보상 모달, 결과 공개, Humanizer QA, 스크린샷 QA 공통 체크는 `LESSON_COMMONS.md`를 함께 확인합니다.
+1-2-3차시에서 재사용할 Stage, 첫 화면, 설정 버튼/모달, 문제 화면 밀도, 보상 모달, 결과 공개, Humanizer QA, 스크린샷 QA 공통 체크는 `LESSON_COMMONS.md`를 함께 확인합니다.
 
 성취기준 코드 표기·교과서 차시 배열 대조 같은 빌드 시 주의사항도 같은 스킬에 정리되어 있습니다. (아래 로드맵 표의 `[4수0X-XX]` 코드는 안내용이며, 문서에 박기 전 교육부 고시 제2022-33호 원문과 대조합니다.)
 

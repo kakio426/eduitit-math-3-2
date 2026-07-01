@@ -129,11 +129,14 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 모든 `index.html`의 `<main class="game">`에는 `data-stage-ratio="16:10"`과 `data-stage-size="1280x800"`을 둔다.
 - 기본 Stage CSS는 `.stage-shell`이 `width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);`, `aspect-ratio: 16 / 10;`을 담당하고, `.screen`은 `position: absolute; inset: 0; width: 100%; height: 100%;`로 Stage를 채우게 한다.
 - PC와 태블릿 가로에서는 Stage를 contain 방식으로 맞추고, 남는 영역은 바깥 배경 여백으로 처리한다.
-- `소리` 같은 전역 조작 버튼은 Stage 밖에 fixed로 띄우지 말고 `.stage-shell` 안의 상단 오른쪽 보조 슬롯에 작게 둔다. `top-row`/`hud`는 그 공간만큼 비워 버튼이 배지·문제·선택지를 가리지 않게 한다.
-- 소리 버튼 위치는 모든 화면에서 완전히 같아야 한다. `.stage-shell`에 `--sound-button-size`, `--sound-gap`, `--sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));`를 두고, `.sound-toggle`은 `top: var(--stage-inset); right: var(--stage-inset); width/height: var(--sound-button-size);`만 쓴다. 화면별 `transform`, active-screen별 위치 보정, 하단 고정은 금지한다.
-- 소리 버튼은 텍스트 pill이 아니라 원형 SVG 아이콘 버튼이다. 화면에 `소리` 글자를 직접 넣지 말고, 켜짐/꺼짐은 SVG 파형과 `aria-label`로만 표현한다. 음표 문자 pseudo-element나 초록 상태 점으로 버튼을 꾸미지 않는다.
-- `.stage-shell .top-row`는 `right: calc(var(--stage-inset) + var(--sound-reserve));`, `.stage-shell .hud`는 `padding-right: var(--sound-reserve);`로 같은 슬롯을 공유한다. 화면별로 단원 배지와 소리 버튼 사이 간격이 달라지면 실패다.
-- `.top-row`는 `top: var(--stage-inset); left: var(--stage-inset); right: calc(var(--stage-inset) + var(--sound-reserve)); height: var(--sound-button-size); gap: var(--sound-gap);`를 명시하고 `inset` 축약을 쓰지 않는다. 문제 화면 `.hud`는 `align-items: start; min-height: var(--sound-button-size);`로 오른쪽 배지가 소리 버튼보다 위아래로 흔들리지 않게 한다.
+- 설정/소리 같은 전역 조작 버튼은 Stage 밖에 fixed로 띄우지 말고 `.stage-shell` 안의 상단 오른쪽 보조 슬롯에 작게 둔다. `top-row`/`hud`는 그 공간만큼 비워 버튼이 배지·문제·선택지를 가리지 않게 한다.
+- 새 차시와 큰 수정 차시는 `<main class="game" data-settings-standard="modal-controls">`를 선언하고, 오른쪽 위 버튼은 `.settings-toggle` 원형 SVG 톱니바퀴로 만든다. 화면에 `설정`/`소리` 글자를 직접 넣지 말고 `aria-label="설정 열기"`를 둔다. 아직 이관하지 않은 차시는 레거시 `.sound-toggle`을 보존할 수 있지만 새 복제 기준은 아니다.
+- 전역 버튼 위치는 모든 화면에서 완전히 같아야 한다. `.stage-shell`에 `--sound-button-size`, `--sound-gap`, `--sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));`를 두고, `.settings-toggle`/레거시 `.sound-toggle`은 `top: var(--stage-inset); right: var(--stage-inset); width/height: var(--sound-button-size);`만 쓴다. 화면별 `transform`, active-screen별 위치 보정, 하단 고정은 금지한다.
+- 설정 모달은 `.stage-shell` 안에 `role="dialog" aria-modal="true" aria-labelledby="settingsTitle"`로 둔다. 보이는 문구는 `설정`, `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`처럼 짧게 유지하고, `움직임 줄이기`는 넣지 않는다. 모달은 열 때 첫 토글에 focus, 닫을 때 설정 버튼으로 focus 복귀, Escape 닫기, Tab 순환을 지원한다.
+- 오디오 상태는 `bgmEnabled`와 `sfxEnabled`로 분리한다. BGM은 `mathmon-audio-bgm-enabled`, 효과음은 `mathmon-audio-sfx-enabled`에 저장하고, `playSample()`은 효과음 설정만 본다. 브라우저 QA용 `__mathmonAudioQa`에는 `getPrefs()`와 `setPrefs({ bgmEnabled, sfxEnabled })`를 둔다.
+- `방법 다시 보기`는 기존 설명 화면을 복습 모드로 재사용하고 버튼 문구를 `계속하기`로 바꾼다. `계속하기`를 누르면 저장한 화면으로 돌아가며 문제/보상/결과 상태를 초기화하지 않는다. `처음부터`는 확인 상태(`처음부터 할까요?`)를 거친 뒤 보상 모달·타이머를 정리하고 첫 화면으로 돌아간다.
+- `.stage-shell .top-row`는 `right: calc(var(--stage-inset) + var(--sound-reserve));`, `.stage-shell .hud`는 `padding-right: var(--sound-reserve);`로 같은 슬롯을 공유한다. 화면별로 단원 배지와 설정/소리 버튼 사이 간격이 달라지면 실패다.
+- `.top-row`는 `top: var(--stage-inset); left: var(--stage-inset); right: calc(var(--stage-inset) + var(--sound-reserve)); height: var(--sound-button-size); gap: var(--sound-gap);`를 명시하고 `inset` 축약을 쓰지 않는다. 문제 화면 `.hud`는 `align-items: start; min-height: var(--sound-button-size);`로 오른쪽 배지가 전역 버튼보다 위아래로 흔들리지 않게 한다.
 - 브랜드/단원/상태 배지와 작은 보조 버튼은 글자보다 상자가 먼저 보이면 실패다. `flex: 0 0 auto; width: fit-content; max-width: max-content; min-height: var(--sound-button-size); padding: 0 var(--top-control-pad-x); gap: var(--top-control-icon-gap); white-space: nowrap;`를 기본으로 쓰고, 안정 슬롯이 꼭 필요한 경우를 제외하고 `min-width`로 빈 공간을 크게 만들지 않는다.
 - 아이콘+텍스트 배지는 아이콘 크기, 글자 크기, gap, 좌우 패딩을 함께 줄인다. 아이콘만 있는 전역 버튼은 텍스트 pill로 만들지 말고 원형/정사각 아이콘 버튼으로 둔다.
 - 새 차시를 만들거나 화면을 크게 고친 뒤에는 반드시 `node scripts/check-stage-ratio.mjs`를 통과시킨다.

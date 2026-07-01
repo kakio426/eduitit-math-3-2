@@ -12,7 +12,6 @@ const LESSONS = [
   {
     name: "lesson1-box-run",
     dir: "3-2-1-1-mathmon-box-run",
-    soundSelector: '[data-action="toggle-bgm"]',
     startSelector: '[data-action="start"]',
     playSelector: '[data-action="start-first-problem"]',
     startCue: "uiNext",
@@ -21,7 +20,6 @@ const LESSONS = [
   {
     name: "lesson2-rocket-charge",
     dir: "3-2-1-2-mathmon-rocket-charge",
-    soundSelector: "#soundToggle",
     startSelector: "#startButton",
     playSelector: "#tutorialNextButton",
     startCue: "uiStart",
@@ -30,13 +28,22 @@ const LESSONS = [
   {
     name: "lesson3-jump-islands",
     dir: "3-2-1-3-mathmon-jump-islands",
-    soundSelector: "#soundToggle",
     startSelector: "#startButton",
     playSelector: "#tutorialNextButton",
     startCue: "uiStart",
     playCue: "uiStart",
   },
 ];
+const SETTINGS = {
+  button: "#settingsButton",
+  bgmToggle: "#settingsBgmToggle",
+  sfxToggle: "#settingsSfxToggle",
+  method: "#settingsMethodButton",
+  restart: "#settingsRestartButton",
+  restartConfirm: "#settingsRestartConfirmButton",
+  restartCancel: "#settingsRestartCancelButton",
+  close: "#settingsCloseButton",
+};
 
 await rm(PROFILE, { recursive: true, force: true });
 
@@ -173,12 +180,39 @@ async function click(selector) {
   await evaluate(clickSource(selector));
 }
 
+async function pressKey(key, options = {}) {
+  const code = key === "Escape" ? "Escape" : key === "Tab" ? "Tab" : key;
+  const windowsVirtualKeyCode = key === "Escape" ? 27 : key === "Tab" ? 9 : key.charCodeAt(0);
+  await cdp.send("Input.dispatchKeyEvent", {
+    type: "keyDown",
+    key,
+    code,
+    windowsVirtualKeyCode,
+    modifiers: options.shift ? 8 : 0,
+  });
+  await cdp.send("Input.dispatchKeyEvent", {
+    type: "keyUp",
+    key,
+    code,
+    windowsVirtualKeyCode,
+    modifiers: options.shift ? 8 : 0,
+  });
+}
+
 async function getLog() {
   return evaluate("window.__mathmonAudioQa.getLog()");
 }
 
 async function clearLog() {
   await evaluate("window.__mathmonAudioQa.clearLog()");
+}
+
+async function getPrefs() {
+  return evaluate("window.__mathmonAudioQa.getPrefs()");
+}
+
+async function setPrefs(prefs) {
+  return evaluate(`window.__mathmonAudioQa.setPrefs(${JSON.stringify(prefs)})`);
 }
 
 async function assertLogIncludes(lesson, cue, message) {
@@ -216,18 +250,60 @@ async function checkCueLoads(lesson) {
   return results;
 }
 
-async function runSoundOnScenario(lesson) {
-  await navigateToLesson(lesson, "on");
-  const loaded = await checkCueLoads(lesson);
+async function openSettings(lesson) {
+  await click(SETTINGS.button);
+  await waitUntil("window.__mathmonAudioQa.getPrefs().settingsOpen", `${lesson.name}: settings modal did not open`, 2000);
+  await waitUntil("document.activeElement?.id === 'settingsBgmToggle'", `${lesson.name}: settings modal did not focus BGM toggle`, 2000);
+  const activeId = await evaluate("document.activeElement?.id");
+  assert(activeId === "settingsBgmToggle", `${lesson.name}: settings modal did not focus BGM toggle, got ${activeId}`);
+}
 
+async function assertSettingsCloseByButton(lesson) {
+  await openSettings(lesson);
+  await click(SETTINGS.close);
+  await waitUntil("!window.__mathmonAudioQa.getPrefs().settingsOpen", `${lesson.name}: close button did not close settings`, 2000);
+  const activeId = await evaluate("document.activeElement?.id");
+  assert(activeId === "settingsButton", `${lesson.name}: focus did not return to settings button after close, got ${activeId}`);
+}
+
+async function assertSettingsFocusTrapAndEscape(lesson) {
+  await openSettings(lesson);
+  await pressKey("Tab", { shift: true });
+  await waitUntil("document.activeElement?.id === 'settingsCloseButton'", `${lesson.name}: shift+tab did not wrap to close`, 2000);
+  await pressKey("Escape");
+  await waitUntil("!window.__mathmonAudioQa.getPrefs().settingsOpen", `${lesson.name}: escape did not close settings`, 2000);
+  const activeId = await evaluate("document.activeElement?.id");
+  assert(activeId === "settingsButton", `${lesson.name}: focus did not return to settings button after Escape, got ${activeId}`);
+}
+
+async function playToFirstQuestion(lesson) {
   await clearLog();
   await click(lesson.startSelector);
   await assertLogIncludes(lesson, lesson.startCue, "start cue was not logged");
-
   await clearLog();
   await click(lesson.playSelector);
   await assertLogIncludes(lesson, lesson.playCue, "play-screen cue was not logged");
   await waitUntil("document.querySelectorAll('.choice-button').length > 0", `${lesson.name}: choices did not render`, 3000);
+}
+
+async function screenSnapshot() {
+  return evaluate(`
+(() => ({
+  screen: window.__mathmonAudioQa.getPrefs().screen,
+  question: document.querySelector("#questionText, [data-field='question']")?.textContent || "",
+  progress: document.querySelector("#progressText, [data-field='progress']")?.textContent || ""
+}))()
+`);
+}
+
+async function runSoundOnScenario(lesson) {
+  await navigateToLesson(lesson, "on");
+  const loaded = await checkCueLoads(lesson);
+  await setPrefs({ bgmEnabled: true, sfxEnabled: true });
+  await assertSettingsCloseByButton(lesson);
+  await assertSettingsFocusTrapAndEscape(lesson);
+
+  await playToFirstQuestion(lesson);
 
   await clearLog();
   await click(".choice-button");
@@ -243,17 +319,73 @@ async function runSoundOnScenario(lesson) {
   };
 }
 
-async function runSoundOffScenario(lesson) {
-  await navigateToLesson(lesson, "off");
+async function runBgmOffSfxOnScenario(lesson) {
+  await navigateToLesson(lesson, "bgm-off");
+  await setPrefs({ bgmEnabled: false, sfxEnabled: true });
+  let prefs = await getPrefs();
+  assert(prefs.bgmEnabled === false && prefs.sfxEnabled === true, `${lesson.name}: prefs did not set BGM off / SFX on`);
   await clearLog();
-  await click(lesson.soundSelector);
-  const pressed = await evaluate(`document.querySelector(${JSON.stringify(lesson.soundSelector)}).getAttribute("aria-pressed")`);
-  assert(pressed === "false", `${lesson.name}: sound toggle did not switch off`);
+  await click(lesson.startSelector);
+  await assertLogIncludes(lesson, lesson.startCue, "SFX did not play while BGM was muted");
+  await openSettings(lesson);
+  const bgmChecked = await evaluate("document.querySelector('#settingsBgmToggle').getAttribute('aria-checked')");
+  const sfxChecked = await evaluate("document.querySelector('#settingsSfxToggle').getAttribute('aria-checked')");
+  assert(bgmChecked === "false" && sfxChecked === "true", `${lesson.name}: settings toggles did not show BGM off / SFX on`);
+  await click(SETTINGS.close);
+  prefs = await getPrefs();
+  return { bgmOffPrefs: prefs };
+}
+
+async function runSfxOffScenario(lesson) {
+  await navigateToLesson(lesson, "sfx-off");
+  await setPrefs({ bgmEnabled: true, sfxEnabled: false });
+  const prefs = await getPrefs();
+  assert(prefs.bgmEnabled === true && prefs.sfxEnabled === false, `${lesson.name}: prefs did not set BGM on / SFX off`);
+  await clearLog();
   await click(lesson.startSelector);
   await delay(250);
-  const log = await getLog();
-  assert(log.length === 0, `${lesson.name}: sound-off start still logged cues: ${JSON.stringify(log)}`);
-  return { mutedLogLength: log.length };
+  let log = await getLog();
+  assert(log.length === 0, `${lesson.name}: SFX-off start still logged cues: ${JSON.stringify(log)}`);
+  await click(lesson.playSelector);
+  await waitUntil("document.querySelectorAll('.choice-button').length > 0", `${lesson.name}: choices did not render with SFX off`, 3000);
+  await clearLog();
+  await click(".choice-button");
+  await delay(500);
+  log = await getLog();
+  assert(log.length === 0, `${lesson.name}: SFX-off answer still logged cues: ${JSON.stringify(log)}`);
+  return { sfxOffLogLength: log.length };
+}
+
+async function runSettingsFlowScenario(lesson) {
+  await navigateToLesson(lesson, "settings-flow");
+  await setPrefs({ bgmEnabled: true, sfxEnabled: true });
+  await playToFirstQuestion(lesson);
+  const before = await screenSnapshot();
+
+  await openSettings(lesson);
+  await click(SETTINGS.method);
+  await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'tutorial'", `${lesson.name}: method review did not open tutorial`, 2000);
+  const reviewLabel = await evaluate(`document.querySelector(${JSON.stringify(lesson.playSelector)})?.textContent.trim()`);
+  assert(reviewLabel === "계속하기", `${lesson.name}: tutorial review button label was ${reviewLabel}`);
+  await click(lesson.playSelector);
+  await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'play'", `${lesson.name}: method review did not return to play`, 2000);
+  const after = await screenSnapshot();
+  assert(before.question === after.question && before.progress === after.progress, `${lesson.name}: method review changed play state: ${JSON.stringify({ before, after })}`);
+
+  await openSettings(lesson);
+  await click(SETTINGS.restart);
+  await waitUntil("!document.querySelector('#settingsRestartConfirm').hidden", `${lesson.name}: restart confirm did not open`, 2000);
+  const confirmText = await evaluate("document.querySelector('#settingsConfirmText')?.textContent.trim()");
+  assert(confirmText === "처음부터 할까요?", `${lesson.name}: restart confirm text mismatch: ${confirmText}`);
+  await click(SETTINGS.restartCancel);
+  await waitUntil("document.querySelector('#settingsRestartConfirm').hidden", `${lesson.name}: restart cancel did not return to settings menu`, 2000);
+  assert((await getPrefs()).screen === "play", `${lesson.name}: restart cancel changed screen`);
+  await click(SETTINGS.restart);
+  await click(SETTINGS.restartConfirm);
+  await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'cover'", `${lesson.name}: restart confirm did not return to cover`, 2000);
+  const settingsOpen = (await getPrefs()).settingsOpen;
+  assert(settingsOpen === false, `${lesson.name}: settings stayed open after restart confirm`);
+  return { reviewReturnedQuestion: after.question };
 }
 
 const summaries = [];
@@ -263,8 +395,10 @@ try {
   await cdp.send("Runtime.enable");
   for (const lesson of LESSONS) {
     const on = await runSoundOnScenario(lesson);
-    const off = await runSoundOffScenario(lesson);
-    summaries.push({ lesson: lesson.name, ...on, ...off });
+    const bgmOff = await runBgmOffSfxOnScenario(lesson);
+    const sfxOff = await runSfxOffScenario(lesson);
+    const settingsFlow = await runSettingsFlowScenario(lesson);
+    summaries.push({ lesson: lesson.name, ...on, ...bgmOff, ...sfxOff, ...settingsFlow });
   }
   console.log("MATHMON_AUDIO_SMOKE_QA: PASS");
   console.log(JSON.stringify({ lessons: summaries }, null, 2));

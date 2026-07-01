@@ -73,7 +73,7 @@
 
 한 문제의 세 자리 계산이 끝나면 화면 중앙에 연료 이벤트 모달이 뜹니다. 모달은 긴 설명문 대신 `reward-events-sprite-generated.png`의 6개 이미지 칸을 사용합니다. 연료 주입, 대량 주입, 연료 감소, 연료 0, 즉시 발사, 무지개 연료를 이미지로 구분하고, 화면에는 `연료 +6`, `연료 -12`, `연료 0`, `발사!`, `무지개!`처럼 짧은 값만 HTML로 얹습니다. 문제 안에서 한 번이라도 틀리면 연료 감소 이미지가 나오고 연료가 줄어듭니다. 보상은 로켓 안 액체 연료 하나로만 적용됩니다. 문제 화면의 행성 트랙은 `마지막에 측정` 또는 `곧 측정` 상태로만 두고, 실제 도착 가능 행성은 마지막 측정 연출에서 공개합니다.
 
-소리는 낮은 우주 BGM만 기존 WebAudio 루프로 유지하고, 효과음은 Kenney CC0 샘플 WAV로 재생합니다. 시작, 정답, 오답, 자리값 확인, 연료 이벤트, 측정, 결과 공개가 서로 다른 소리로 구분됩니다. 상단의 소리 버튼으로 BGM과 효과음을 함께 켜고 끌 수 있습니다.
+소리는 낮은 우주 BGM만 기존 WebAudio 루프로 유지하고, 효과음은 Kenney CC0 샘플 WAV로 재생합니다. 시작, 정답, 오답, 자리값 확인, 연료 이벤트, 측정, 결과 공개가 서로 다른 소리로 구분됩니다. 오른쪽 위 설정 버튼을 열면 `배경 소리`와 `효과 소리`를 따로 켜고 끌 수 있고, `방법 다시 보기`는 현재 문제 상태를 유지한 채 설명 화면을 복습 모드로 보여 줍니다. `처음부터`는 확인 뒤 첫 화면으로 돌아갑니다.
 
 ![연료 이벤트 모달](screenshots/04-reward.png)
 
@@ -124,3 +124,11 @@
 브라우저에서 `index.html`을 열면 바로 실행됩니다.
 
 효과음은 `_shared/audio/kenney/`에 출처와 카탈로그를 남긴 Kenney CC0 샘플 중 이 차시에서 참조하는 파일만 `assets/audio/`에 복사했습니다. 사용 팩은 Interface Sounds, Sci-fi Sounds, Digital Audio, Music Jingles입니다. 자산 일치와 길이 검사는 루트에서 `node scripts/check-audio-assets.mjs`로 확인합니다.
+
+## 7. 설정/소리 QA
+
+설정 모달 문구는 `설정`, `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `처음부터 할까요?`, `계속하기`, `닫기`처럼 짧은 말만 사용했습니다. Humanizer 기준으로 번역투나 제작자 용어 없이 초3 학생이 바로 읽을 수 있는 말로 확인했습니다.
+
+- 정적 검사: `node --check scripts/check-stage-ratio.mjs`, `node --check scripts/qa-mathmon-audio-smoke.mjs`, `node scripts/check-stage-ratio.mjs`, `node scripts/check-audio-assets.mjs`
+- 브라우저 오디오/설정 QA: `node scripts/qa-mathmon-audio-smoke.mjs`
+- 화면 QA: 1280x800, 1024x768에서 첫 화면, 설명, 문제 화면의 설정 버튼과 배지/HUD 충돌 0건을 확인했습니다. 설정 모달 텍스트 넘침 0건, 버튼 클릭 영역 충돌 0건을 확인했습니다.
