@@ -1,0 +1,275 @@
+.mathmon-scoreboard {
+  --scoreboard-font: "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --scoreboard-title-fill: #fff6d1;
+  --scoreboard-title-rim: rgba(73, 38, 0, 0.74);
+  --scoreboard-ink: #fffaf0;
+  --scoreboard-soft: #dffcff;
+  --scoreboard-mint: #b8ffe9;
+  --scoreboard-gold: #ffd66b;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  color: var(--scoreboard-ink);
+  background: #061336;
+  font-family: var(--scoreboard-font);
+}
+
+.mathmon-scoreboard-stage,
+.mathmon-scoreboard-hitboxes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mathmon-scoreboard-stage {
+  z-index: 1;
+  display: block;
+}
+
+.mathmon-scoreboard-stage-art {
+  pointer-events: none;
+  user-select: none;
+}
+
+.mathmon-scoreboard-bg-dim {
+  fill: rgba(2, 8, 28, 0.16);
+}
+
+.mathmon-scoreboard-ui {
+  pointer-events: none;
+}
+
+.mathmon-scoreboard-board {
+  fill: url("#scoreboardBoardGradient");
+  stroke: url("#scoreboardGoldStroke");
+  stroke-width: 6px;
+}
+
+.mathmon-scoreboard-board-inner {
+  fill: url("#scoreboardPanelGradient");
+  stroke: rgba(177, 236, 255, 0.34);
+  stroke-width: 2px;
+}
+
+.mathmon-scoreboard-plaque {
+  fill: url("#scoreboardGoldStroke");
+  stroke: rgba(97, 44, 0, 0.7);
+  stroke-width: 3px;
+}
+
+.mathmon-scoreboard-plaque-inner {
+  fill: #133979;
+  stroke: rgba(255, 246, 195, 0.42);
+  stroke-width: 2px;
+}
+
+.mathmon-scoreboard-card,
+.mathmon-scoreboard-list-panel,
+.mathmon-scoreboard-row-slot {
+  fill: url("#scoreboardCardGradient");
+  stroke: rgba(184, 239, 255, 0.28);
+  stroke-width: 2px;
+}
+
+.mathmon-scoreboard-list-panel {
+  fill: rgba(5, 22, 57, 0.66);
+}
+
+.mathmon-scoreboard-list-header {
+  fill: rgba(13, 44, 95, 0.9);
+  stroke: rgba(184, 239, 255, 0.32);
+  stroke-width: 2px;
+}
+
+.mathmon-scoreboard-row-slot {
+  fill: url("#scoreboardRowGradient");
+  stroke: rgba(184, 239, 255, 0.2);
+  stroke-width: 1.5px;
+}
+
+.mathmon-scoreboard-row-highlight {
+  fill: rgba(255, 214, 107, 0.18);
+  stroke: rgba(255, 214, 107, 0.62);
+  stroke-width: 2px;
+}
+
+.mathmon-scoreboard-scroll-track {
+  fill: rgba(184, 239, 255, 0.22);
+}
+
+.mathmon-scoreboard-button-face {
+  fill: url("#scoreboardButtonGradient");
+  stroke: url("#scoreboardGoldStroke");
+  stroke-width: 3px;
+}
+
+.mathmon-scoreboard-button-face.is-primary {
+  fill: url("#scoreboardButtonPrimaryGradient");
+}
+
+.mathmon-scoreboard-copy {
+  font-family: var(--scoreboard-font);
+  text-rendering: geometricPrecision;
+}
+
+.mathmon-scoreboard-copy text {
+  dominant-baseline: middle;
+  letter-spacing: 0;
+  pointer-events: none;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+}
+
+.mathmon-scoreboard-kicker {
+  fill: var(--scoreboard-mint);
+  font-size: 16px;
+  font-weight: 950;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-title {
+  fill: url("#scoreboardTitleGradient");
+  stroke: var(--scoreboard-title-rim);
+  stroke-width: 1.8px;
+  font-size: 34px;
+  font-weight: 1000;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-status {
+  fill: var(--scoreboard-soft);
+  font-size: 17px;
+  font-weight: 950;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-label,
+.mathmon-scoreboard-head-left,
+.mathmon-scoreboard-head-week {
+  fill: var(--scoreboard-mint);
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.mathmon-scoreboard-value {
+  fill: var(--scoreboard-ink);
+  font-size: 27px;
+  font-weight: 1000;
+}
+
+.mathmon-scoreboard-rank-value {
+  fill: var(--scoreboard-gold);
+  font-size: 36px;
+}
+
+.mathmon-scoreboard-head-title {
+  fill: var(--scoreboard-title-fill);
+  font-size: 18px;
+  font-weight: 1000;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-head-week {
+  text-anchor: end;
+}
+
+.mathmon-scoreboard-list-hitbox {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.mathmon-scoreboard-row {
+  font-size: 19px;
+  font-weight: 1000;
+}
+
+.mathmon-scoreboard-row.is-mine text {
+  fill: var(--scoreboard-gold);
+}
+
+.mathmon-scoreboard-rank {
+  fill: var(--scoreboard-gold);
+  font-size: 22px;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-name {
+  fill: var(--scoreboard-ink);
+}
+
+.mathmon-scoreboard-score,
+.mathmon-scoreboard-correct {
+  fill: var(--scoreboard-soft);
+  font-size: 18px;
+  text-anchor: end;
+}
+
+.mathmon-scoreboard-empty {
+  fill: var(--scoreboard-soft);
+  font-size: 18px;
+  font-weight: 950;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-action-label {
+  fill: var(--scoreboard-title-fill);
+  font-size: 16px;
+  font-weight: 1000;
+  text-anchor: middle;
+}
+
+.mathmon-scoreboard-action-label.is-primary {
+  fill: #fff0a8;
+}
+
+.mathmon-scoreboard-hitboxes {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.mathmon-scoreboard-hitbox {
+  position: absolute;
+  left: calc(var(--x) * 100% / 1280);
+  top: calc(var(--y) * 100% / 800);
+  width: calc(var(--w) * 100% / 1280);
+  height: calc(var(--h) * 100% / 800);
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  appearance: none;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 0;
+  pointer-events: auto;
+}
+
+.mathmon-scoreboard-hitbox:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mathmon-scoreboard-hitbox:active {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.mathmon-scoreboard-hitbox:focus-visible {
+  outline: 4px solid rgba(255, 255, 255, 0.9);
+  outline-offset: -2px;
+}
+
+.mathmon-scoreboard-hitbox:disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.mathmon-scoreboard .top-row {
+  z-index: 3;
+}
+
+.mathmon-scoreboard[data-layout-debug="true"] .mathmon-scoreboard-list-hitbox,
+.mathmon-scoreboard[data-layout-debug="true"] .mathmon-scoreboard-hitbox {
+  outline: 3px solid rgba(255, 255, 255, 0.74);
+  outline-offset: -3px;
+}

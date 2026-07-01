@@ -65,6 +65,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 - 생성형 이미지처럼 보여야 하는 화면·타이틀·보상·결과 자산을 로컬 폰트, Pillow, canvas, SVG, CSS 캡처, 기존 PNG/WebP 겹치기 같은 로컬 합성으로 만들지 않는다.
 - 로컬 합성은 사용자가 먼저 명시적으로 허락한 경우에만 예외로 쓴다. 허락 없이 "최종 화면에서는 한 장 이미지처럼 보인다"는 이유로 로컬 합성 산출물을 생성형 이미지 자산처럼 연결하면 실패다.
+- 문제 화면 상단에 목표 지도, 진행 지도, 보상 도달 경로처럼 학생의 `다음엔 더 멀리` 기대감을 만드는 큰 시각 장치를 둘 때는 3차시 `play-map-strip-generated.webp` 방식을 기준으로 삼는다. CSS 도형, SVG, 회색 실루엣, 로컬에서 그린 아이콘 반복으로 목표 세계를 때우면 실패다. 배경/섬/로봇/장소/최종 목표 실루엣은 `image_gen`/GPT Image 등 생성형 bitmap 자산으로 만들고, HTML은 현재 위치 마커, 짧은 라벨, 접근성 hitbox처럼 동적으로 바뀌는 최소 오버레이만 맡긴다.
+- 상단 목표 지도 자산은 원본 `*-source.png`와 학생용 `*-generated.webp`를 함께 보관한다. 예: 3차시 `play-map-strip-source.png` + `play-map-strip-generated.webp`, 4차시 로봇 목표판 `play-robot-goal-strip-source.png` + `play-robot-goal-strip-generated.webp`. 크롭, 리사이즈, WebP 변환처럼 생성 원본의 의미를 바꾸지 않는 후처리는 허용하지만, 새 캐릭터·목표물·패널·문구를 로컬에서 그려 붙이면 로컬 합성으로 본다.
 - 특히 결과 화면처럼 고정 문구·버튼·캐릭터·배경을 한 장으로 보여 달라는 요청은 image_gen/GPT Image 등 생성형 이미지 도구로 한 장면을 생성하는 것이 기본이다. 섬 이름, 도착 라벨, 칭찬 문구, 다시하기 버튼처럼 매 판 똑같은 요소는 생성 이미지 안에 포함하고, 정답 수·점수처럼 매 판 달라지는 값만 HTML/CSS 오버레이로 남긴다.
 - 결과 화면에서 생성 이미지 위에 큰 반투명 CSS 카드, `backdrop-filter` blur 패널, CSS 제목/본문, CSS로 그린 큰 버튼을 얹어 결과 라벨을 처리하면 로컬 합성 우회로 보고 실패 처리한다.
 - 결과 라벨이 4단계처럼 유한하게 바뀌면 단계별 결과 이미지 또는 독립 생성형 타이틀/버튼 자산을 만들고, JS는 이미지 `src`만 바꾼다. `resultTitle`, `resultSummary`, `resultNext` 같은 HTML 텍스트는 `visually-hidden` 접근성 값이나 실제 정답 수·점수처럼 매 판 계산되는 최소 정보에만 쓴다.
@@ -75,6 +77,19 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - `fullscene-score-slot` 모드에서 `.result-stats`, `.result-stat`, `.result-card`, `.result-copy`, 보이는 CSS 제목/본문/버튼 장식이 있으면 실패다. 점수 박스 라벨도 이미지와 HTML 양쪽에서 보이지 않게 한다.
 - 결과 화면의 버튼을 이미지 안에 그린 경우에도 실제 클릭과 접근성을 위한 HTML 버튼 또는 hitbox는 같은 위치에 둔다. 단, 이 hitbox가 새 시각 요소를 로컬에서 그려 붙이는 방식이 되면 로컬 합성으로 본다.
 - 배경 제거, 크롭, WebP 변환, 용량 최적화처럼 생성형 원본의 의미를 바꾸지 않는 후처리는 허용된다. 단, 새 문구·버튼·캐릭터·패널을 로컬에서 그려 붙이는 순간 로컬 합성으로 본다.
+
+## 정밀 동적 UI 화면 계약
+
+전국 순위판, 대시보드, 표, 여러 행 목록처럼 매 판 달라지는 값이 많고 정확한 정렬이 필요한 화면에는 아래 패턴을 쓴다.
+
+- 생성 이미지 안에 박스, 카드, 행, 버튼 껍데기, 빈 텍스트 슬롯을 그려 넣고 그 위에 HTML/SVG 글자를 맞추지 않는다. 이 방식은 폰트 렌더링·브라우저 축소·이미지 여백 차이 때문에 반복해서 깨진다.
+- 생성 이미지는 `축하 배경`, `무대`, `불꽃`, `매스몬 장식`, `분위기`만 맡긴다. 프롬프트에는 `no text`, `no letters`, `no numbers`, `no UI panels`, `no leaderboard board`, `no cards`, `no table rows`, `no buttons`, `no empty boxes`, `no signs`, `no labels`를 명시한다.
+- 순위판, 내 기록 박스, 행 배경, 스크롤 영역, 버튼 표면, 보이는 글자는 하나의 SVG `viewBox="0 0 1280 800"` 컴포넌트가 그린다. 배경 이미지와 UI를 같은 SVG 좌표계 안에 두어 Stage가 줄어도 함께 줄어들게 한다.
+- 실제 클릭은 같은 좌표의 투명 HTML `button` hitbox가 맡는다. 버튼 안에 보이는 HTML 텍스트를 넣지 말고, 접근성용 `aria-label`만 둔다.
+- 긴 이름·긴 상태 문구는 렌더러에서 정해진 글자 수로 말줄임한다. 글자를 맞추려고 viewport 폭 기준 글자 크기를 계속 줄이지 않는다.
+- 목록은 고정 높이 row 슬롯 안에서 4행처럼 안정적으로 보여 주고, 10위까지 같은 SVG 리스트 안에서 wheel/pointer 스크롤로 확인하게 한다.
+- 이 패턴은 동적 UI가 많은 화면을 위한 예외다. 결과 라벨·칭찬·고정 버튼 장식처럼 유한하고 고정된 시각 요소는 여전히 생성형 결과 이미지/타이틀/버튼 자산으로 처리한다.
+- QA는 CSS 좌표값만 보지 않는다. 1280×800, 1024×768, 사용자가 올린 문제 크기와 비슷한 브라우저 크기에서 캡처하고, SVG `<text>`의 `getBBox()`가 Stage와 의도한 보드 영역 밖으로 나가지 않는지 확인한다. 보이는 HTML 버튼 텍스트, `foreignObject`, 제작자 용어, 금지 문구도 0건이어야 한다.
 
 첫 화면 커버는 기본적으로 `generated-title-overlay` 표준을 따른다. 새 차시와 생성형 시작 버튼으로 이관한 차시는 `<main class="game" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art">`를 선언한다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깐다. 게임명은 생성형 이미지로 만든 `title-*-generated.webp`를 `.hero-title-art`로 얹고, 한 줄 목표는 짧은 HTML 텍스트로 둔다. 시작 버튼의 보이는 면은 CSS 텍스트 버튼이 아니라 생성형 버튼 자산(`start-button-generated.webp`)으로 둔다. 실제 조작은 `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button>`처럼 같은 크기의 HTML 버튼이 맡는다.
 
