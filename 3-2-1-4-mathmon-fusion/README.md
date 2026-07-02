@@ -27,6 +27,14 @@
 
 - `fusion-workshop-generated.png`: 문제 화면 합체 공방 배경 생성 이미지 원본
 - `fusion-workshop-generated.webp`: 문제 화면 합체 공방 배포용 WebP
+- `play-robot-goal-strip-source.png`: 문제 화면 상단 로봇 목표 지도 생성 이미지 원본
+- `play-robot-goal-strip-generated.webp`: 문제 화면 상단 로봇 목표 지도 배포용 WebP
+- `play-robot-goal-small-generated.png/webp`: 소형 로봇이 첫 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-medium-generated.png/webp`: 중형 로봇이 둘째 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-large-generated.png/webp`: 대형 로봇이 셋째 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-giant-generated.png/webp`: 거대 로봇이 넷째 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-ultra-generated.png/webp`: 초거대 로봇이 다섯째 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-legend-generated.png/webp`: 전설 로봇이 마지막 플랫폼에 등장한 상단 목표 지도
 - `cover-robot-mathmon-generated.png/webp`: 첫 화면 로봇형 매스몬 표지
 - `result-small-generated.png/webp`: 소형 로봇 매스몬 결과 화면
 - `result-medium-generated.png/webp`: 중형 로봇 매스몬 결과 화면
@@ -38,12 +46,13 @@
 
 첫 화면과 결과 화면은 생성 이미지를 RasterStage 배경으로 쓰고, 제목·목표·버튼·합체 에너지·정답 수·도달 등급처럼 매 판 달라지는 값은 HTML로 얹습니다. 첫 화면은 `cover-robot-mathmon-generated.webp`를 사용해, 매스몬 자체가 둥글고 친근한 로봇형 캐릭터로 보이도록 했습니다. 생성 이미지에는 텍스트와 숫자를 넣지 않았습니다.
 
-문제 화면은 생성 이미지 합체 공방 배경 위에 HTML/CSS 합체 보드를 올립니다. 부품 1, 부품 2, 합체 수는 학생의 선택에 따라 채워지며, 마지막 단계에서 두 부품이 가운데로 합쳐지는 CSS 연출이 적용됩니다.
+문제 화면은 생성 이미지 합체 공방 배경 위에 HTML/CSS 합체 보드를 올립니다. 상단 목표 지도는 3차시 지도처럼 생성 이미지가 로봇 실루엣과 합체 길을 담당합니다. 진행 상태는 하단바나 좌표 마커를 올리지 않고, 소형부터 전설까지 상태별 목표 지도 6장을 미리 준비해 현재 등급 로봇이 플랫폼에 등장한 이미지로 통째 교체합니다. 각 상태 이미지는 잘라 붙인 조각이 아니라 전체 목표판을 다시 생성한 배너라 로봇 주변 배경과 플랫폼 조명이 끊기지 않습니다. 교체 순간에는 강한 빛과 스캔 효과가 지나가 이미지가 바뀌는 티를 줄이고, 무지개 코어를 얻었을 때만 전설 로봇 이미지가 켜집니다. 결과 화면 6장도 등급별 몸집, 색, 배경 에너지 차이가 분명하게 보이도록 다시 생성했습니다. 부품 1, 부품 2, 합체 수는 학생의 선택에 따라 채워지며, 마지막 단계에서 두 부품이 가운데로 합쳐지는 CSS 연출이 적용됩니다.
 
 ## 작업실 파일 구성
 
 - `index.html`: 게임 본문
 - `cover-robot-mathmon-generated.webp`: 첫 화면 로봇형 매스몬 표지
+- `play-robot-goal-*-generated.webp`: 문제 화면 상단 로봇 목표 지도 상태 이미지 6장
 - `fusion-workshop-generated.webp`: 문제 화면 합체 공방 배경
 - `result-*-generated.webp`: 합체 등급별 결과 RasterStage 배경
 - `eduitit-logo-mark.png`: 에듀잇티 로고
@@ -59,7 +68,6 @@
 - `screenshots/comparison-1-1-1-2-1-4.png`: 1-1, 1-2, 1-4 화면 비교
 - `screenshots/raster-assets-contact-sheet.png`: 최종 RasterStage 이미지 세트
 - `screenshots/08-result-retry.png`: 정답 수와 에너지가 부족한 재도전 결과
-
 
 ## 전국 순위 백엔드 연결
 

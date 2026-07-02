@@ -457,7 +457,7 @@
     }
 
     .play {
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto auto 1fr;
       padding: var(--stage-inset);
     }
 
@@ -467,7 +467,7 @@
       align-items: start;
       gap: 12px;
       min-height: var(--sound-button-size);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .hud .brand-badge,
@@ -513,6 +513,122 @@
     #energyText,
     #chainText {
       display: none;
+    }
+
+    .goal-rail {
+      position: relative;
+      height: 190px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      background: #0e0c16;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      isolation: isolate;
+      --goal-flare-x: 9.7%;
+      --goal-glow-strong: rgba(255, 226, 126, 0.96);
+      --goal-glow-soft: rgba(255, 200, 87, 0.38);
+      --goal-scan: rgba(103, 231, 255, 0.48);
+    }
+
+    .goal-map-raster {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      object-position: center;
+      pointer-events: none;
+      user-select: none;
+      transform: scale(1.001);
+      transition: filter 0.24s ease, transform 0.24s ease;
+    }
+
+    .goal-shade,
+    .goal-transition {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .goal-shade {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      height: 48%;
+      background: linear-gradient(180deg, transparent, rgba(14, 12, 22, 0.58));
+    }
+
+    .goal-transition {
+      inset: 0;
+      z-index: 2;
+      opacity: 0;
+      mix-blend-mode: screen;
+    }
+
+    .goal-transition-sweep {
+      width: 46%;
+      background:
+        linear-gradient(105deg, transparent 0 20%, rgba(255, 255, 255, 0.08) 28%, rgba(255, 244, 183, 0.9) 43%, var(--goal-scan) 52%, transparent 72%),
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+      filter: blur(0.3px) drop-shadow(0 0 18px var(--goal-glow-soft));
+      transform: translateX(-130%) skewX(-12deg);
+    }
+
+    .goal-transition-burst {
+      background:
+        radial-gradient(circle at var(--goal-flare-x) 54%, var(--goal-glow-strong) 0 4%, var(--goal-glow-soft) 18%, transparent 37%),
+        radial-gradient(ellipse at var(--goal-flare-x) 72%, rgba(255, 245, 197, 0.52), transparent 0 12%, transparent 36%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent 38%, rgba(255, 200, 87, 0.12));
+      transform: scale(0.96);
+    }
+
+    .goal-rail.is-switching .goal-transition-sweep {
+      animation: goal-strip-sweep 0.74s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-switching .goal-transition-burst {
+      animation: goal-strip-burst 0.74s ease-out both;
+    }
+
+    .goal-rail.is-switching .goal-map-raster,
+    .goal-rail.is-goal-up .goal-map-raster,
+    .goal-rail.is-goal-rare .goal-map-raster {
+      animation: goal-strip-pop 0.74s cubic-bezier(0.18, 0.9, 0.22, 1.08) both;
+    }
+
+    .goal-rail.is-goal-down .goal-map-raster,
+    .goal-rail.is-goal-empty .goal-map-raster {
+      animation: goal-strip-shake 0.48s ease-out both;
+    }
+
+    .goal-rail[data-goal-tier="small"] {
+      --goal-flare-x: 9.7%;
+    }
+
+    .goal-rail[data-goal-tier="medium"] {
+      --goal-flare-x: 22.2%;
+    }
+
+    .goal-rail[data-goal-tier="large"] {
+      --goal-flare-x: 36.3%;
+    }
+
+    .goal-rail[data-goal-tier="giant"] {
+      --goal-flare-x: 50.8%;
+    }
+
+    .goal-rail[data-goal-tier="ultra"] {
+      --goal-flare-x: 66.4%;
+    }
+
+    .goal-rail[data-goal-tier="legend"] {
+      --goal-flare-x: 86.8%;
+      --goal-glow-strong: rgba(238, 179, 255, 0.98);
+      --goal-glow-soft: rgba(178, 92, 255, 0.48);
+      --goal-scan: rgba(255, 131, 236, 0.54);
     }
 
     .play-layout {
@@ -1799,6 +1915,78 @@
       }
     }
 
+    @keyframes goal-strip-sweep {
+      0% {
+        opacity: 0;
+        transform: translateX(-130%) skewX(-12deg);
+      }
+      18% {
+        opacity: 0.95;
+      }
+      62% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(260%) skewX(-12deg);
+      }
+    }
+
+    @keyframes goal-strip-burst {
+      0% {
+        opacity: 0;
+        transform: scale(0.94);
+        filter: blur(2px);
+      }
+      32% {
+        opacity: 0.98;
+        transform: scale(1.02);
+        filter: blur(0);
+      }
+      68% {
+        opacity: 0.76;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.08);
+        filter: blur(4px);
+      }
+    }
+
+    @keyframes goal-strip-pop {
+      0%,
+      100% {
+        transform: scale(1.001);
+        filter: brightness(1) saturate(1);
+      }
+
+      42% {
+        transform: scale(1.018);
+        filter: brightness(1.2) saturate(1.18);
+      }
+    }
+
+    @keyframes goal-strip-shake {
+      0%,
+      100% {
+        transform: translateX(0) scale(1.001);
+        filter: brightness(1) saturate(1);
+      }
+
+      28% {
+        transform: translateX(-5px) scale(0.996);
+        filter: brightness(0.92) saturate(0.9);
+      }
+
+      56% {
+        transform: translateX(4px) scale(1.01);
+      }
+
+      78% {
+        transform: translateX(-2px) scale(1.001);
+      }
+    }
+
     @keyframes cut-left-merge {
       0% {
         transform: translate(calc(-50% - 112px), -50%) rotate(-4deg);
@@ -1914,8 +2102,19 @@
       .robot-stage.attach-two .robot-shockwave,
       .robot-stage.complete .robot-shockwave,
       .robot-stage.complete .fusion-spark,
-      .fusion-cutscene.is-visible .cut-robot {
+      .fusion-cutscene.is-visible .cut-robot,
+      .goal-rail.is-switching .goal-transition-sweep,
+      .goal-rail.is-switching .goal-transition-burst,
+      .goal-rail.is-switching .goal-map-raster,
+      .goal-rail.is-goal-up .goal-map-raster,
+      .goal-rail.is-goal-rare .goal-map-raster,
+      .goal-rail.is-goal-down .goal-map-raster,
+      .goal-rail.is-goal-empty .goal-map-raster {
         animation: none;
+      }
+
+      .goal-transition {
+        display: none;
       }
 
       .flying-part,
@@ -1926,7 +2125,7 @@
       }
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 1100px) {
       .game {
         padding: 10px;
       }
@@ -1949,12 +2148,17 @@
 
       .hud {
         gap: 8px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+      }
+
+      .goal-rail {
+        height: 132px;
+        margin-bottom: 8px;
       }
 
       .play-layout {
         grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
-        gap: 10px;
+        gap: 8px;
       }
 
       .fusion-side {
@@ -2183,6 +2387,13 @@
         <span class="unit-badge">합체 공방</span>
       </header>
 
+      <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
+        <img class="goal-map-raster" id="goalMapRaster" src="play-robot-goal-small-generated.webp" alt="">
+        <span class="goal-shade" aria-hidden="true"></span>
+        <span class="goal-transition goal-transition-sweep" aria-hidden="true"></span>
+        <span class="goal-transition goal-transition-burst" aria-hidden="true"></span>
+      </div>
+
       <div class="play-layout">
         <aside class="fusion-side" id="fusionSide" aria-label="로봇 합체 화면">
           <img class="fusion-side-bg" src="fusion-workshop-generated.webp" alt="">
@@ -2330,6 +2541,7 @@
       secret: true
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
+    const GOAL_RAIL_IMAGES = ALL_GRADES.map((grade) => `play-robot-goal-${grade.id}-generated.webp`);
     const EVENT_CLASSES = [
       "fuel-event--normal",
       "fuel-event--smallExplosion",
@@ -2346,6 +2558,7 @@
       complete: "mathmon-rfa-04-complete.webp"
     };
     const ROBOT_STAGE_CLASSES = ["attach-one", "attach-two", "complete"];
+    const GOAL_RAIL_CLASSES = ["is-goal-up", "is-goal-down", "is-goal-rare", "is-goal-empty"];
 
     const state = {
       screen: "cover",
@@ -2359,6 +2572,10 @@
       problemHadMistake: false,
       rainbowCore: false,
       lastEvent: null,
+      goalRailTimer: null,
+      goalSwitchSwapTimer: null,
+      goalSwitchDoneTimer: null,
+      goalImageIndex: 0,
       soundsOn: true,
       audio: null,
       scoreboardAnswers: [],
@@ -2366,6 +2583,11 @@
       scoreboardQuestionStartedAt: 0,
       scoreboardStepStartedAt: 0
     };
+
+    GOAL_RAIL_IMAGES.forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
 
     const el = {
       coverScreen: document.getElementById("coverScreen"),
@@ -2378,6 +2600,8 @@
       progressText: document.getElementById("progressText"),
       energyText: document.getElementById("energyText"),
       chainText: document.getElementById("chainText"),
+      goalRail: document.getElementById("goalRail"),
+      goalMapRaster: document.getElementById("goalMapRaster"),
       questionText: document.getElementById("questionText"),
       taskCard: document.getElementById("taskCard"),
       stepFormula: document.getElementById("stepFormula"),
@@ -2445,8 +2669,6 @@
       document.getElementById(`${name}Screen`).classList.add("is-active");
     }
 
-
-
     function getElapsedMs(startedAt) {
       return Math.max(0, Math.round(performance.now()) - startedAt);
     }
@@ -2493,8 +2715,8 @@
       const grade = getGradeByEnergy();
       return {
         gradeId: grade ? grade.id : "retry",
-        rainbowCore: state.rainbowCore,
-        energy: getEnergy()
+        energy: getEnergy(),
+        rainbowCore: state.rainbowCore
       };
     }
 
@@ -2510,6 +2732,14 @@
       state.scoreboardCurrentAnswer = null;
       state.scoreboardQuestionStartedAt = 0;
       state.scoreboardStepStartedAt = 0;
+      window.clearTimeout(state.goalRailTimer);
+      window.clearTimeout(state.goalSwitchSwapTimer);
+      window.clearTimeout(state.goalSwitchDoneTimer);
+      GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
+      el.goalRail.classList.remove("is-switching");
+      state.goalImageIndex = 0;
+      el.goalRail.dataset.goalTier = ALL_GRADES[0].id;
+      el.goalMapRaster.src = GOAL_RAIL_IMAGES[0];
       scoreboardBridge.start();
       playSound("start");
       showScreen("play");
@@ -2573,11 +2803,11 @@
       state.stepIndex = 0;
       state.stepAttempts = 0;
       state.problemHadMistake = false;
+      beginScoreboardQuestion();
       el.rewardPop.classList.remove("is-visible");
       el.fusionCutscene.classList.remove("is-visible");
       el.fusionCutscene.setAttribute("aria-hidden", "true");
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
-      beginScoreboardQuestion();
       renderQuestionHighlight(problem, "partial1");
       resetFusionSide(problem);
       el.feedbackText.textContent = "";
@@ -2590,6 +2820,7 @@
       el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
       el.energyText.textContent = state.energy > 0 ? "합체 중" : "합체 준비";
       el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 측정" : "마지막에 측정";
+      updateGoalRail();
     }
 
     function getEnergy(energy = state.energy) {
@@ -2637,10 +2868,69 @@
       });
     }
 
+    function setGoalRailImage(nextIndex) {
+      const nextImage = GOAL_RAIL_IMAGES[nextIndex] || GOAL_RAIL_IMAGES[0];
+      if (state.goalImageIndex === nextIndex && el.goalMapRaster.getAttribute("src") === nextImage) {
+        return;
+      }
+      window.clearTimeout(state.goalSwitchSwapTimer);
+      window.clearTimeout(state.goalSwitchDoneTimer);
+      el.goalRail.classList.remove("is-switching");
+      void el.goalRail.offsetWidth;
+      el.goalRail.classList.add("is-switching");
+      state.goalSwitchSwapTimer = window.setTimeout(() => {
+        el.goalMapRaster.src = nextImage;
+        state.goalImageIndex = nextIndex;
+      }, 220);
+      state.goalSwitchDoneTimer = window.setTimeout(() => {
+        el.goalRail.classList.remove("is-switching");
+      }, 780);
+    }
+
+    function getGoalRailImageIndex() {
+      const reachedGrade = getGradeByEnergy();
+      const reachedIndex = reachedGrade ? reachedGrade.index : -1;
+      return state.rainbowCore
+        ? ALL_GRADES.length - 1
+        : Math.min(GRADES.length - 1, Math.max(0, reachedIndex + 1));
+    }
+
+    function updateGoalRail() {
+      const energy = getEnergy();
+      const progress = state.rainbowCore ? 100 : energy;
+      const currentIndex = getGoalRailImageIndex();
+      const currentGrade = ALL_GRADES[currentIndex] || ALL_GRADES[0];
+      el.goalRail.dataset.goalTier = currentGrade.id;
+      setGoalRailImage(currentIndex);
+      el.goalRail.setAttribute(
+        "aria-label",
+        state.rainbowCore
+          ? "전설 로봇까지 빛이 켜졌어요."
+          : `멋진 로봇까지 가는 길, 합체 에너지 ${progress}%, 다음 로봇 ${currentGrade.name}.`
+      );
+    }
+
+    function pulseGoalRail(event) {
+      window.clearTimeout(state.goalRailTimer);
+      GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
+      const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount || 0;
+      const pulseClass = event.rainbow
+        ? "is-goal-rare"
+        : event.emptiesTank ? "is-goal-empty" : actualDelta < 0 ? "is-goal-down" : actualDelta > 0 ? "is-goal-up" : "";
+      if (!pulseClass) {
+        return;
+      }
+      void el.goalRail.offsetWidth;
+      el.goalRail.classList.add(pulseClass);
+      state.goalRailTimer = window.setTimeout(() => {
+        el.goalRail.classList.remove(pulseClass);
+      }, 760);
+    }
+
     function renderStep() {
-      beginScoreboardStep();
       const problem = currentProblem();
       const step = getCurrentStep(problem);
+      beginScoreboardStep();
       renderQuestionHighlight(problem, step.id);
       el.stepFormula.textContent = step.formula;
       el.stepMeaning.textContent = step.meaning;
@@ -3036,6 +3326,7 @@
 
     function finishProblem(result) {
       renderStatus();
+      pulseGoalRail(result);
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.rewardPop.classList.add(`fuel-event--${result.id}`);
       el.rewardTitle.textContent = result.title;
