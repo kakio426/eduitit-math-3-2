@@ -537,11 +537,11 @@
       z-index: 0;
       width: 100%;
       height: 100%;
-      object-fit: fill;
+      object-fit: contain;
       object-position: center;
       pointer-events: none;
       user-select: none;
-      transform: scale(1.001);
+      transform: none;
       transition: filter 0.24s ease, transform 0.24s ease;
     }
 
@@ -1956,12 +1956,12 @@
     @keyframes goal-strip-pop {
       0%,
       100% {
-        transform: scale(1.001);
+        transform: none;
         filter: brightness(1) saturate(1);
       }
 
       42% {
-        transform: scale(1.018);
+        transform: none;
         filter: brightness(1.2) saturate(1.18);
       }
     }
@@ -1969,17 +1969,17 @@
     @keyframes goal-strip-shake {
       0%,
       100% {
-        transform: translateX(0) scale(1.001);
+        transform: translateX(0);
         filter: brightness(1) saturate(1);
       }
 
       28% {
-        transform: translateX(-5px) scale(0.996);
+        transform: translateX(-4px);
         filter: brightness(0.92) saturate(0.9);
       }
 
       56% {
-        transform: translateX(4px) scale(1.01);
+        transform: translateX(4px);
       }
 
       78% {
@@ -2388,7 +2388,7 @@
       </header>
 
       <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
-        <img class="goal-map-raster" id="goalMapRaster" src="play-robot-goal-small-generated.webp?v=goal-nocrop-20260702b" alt="">
+        <img class="goal-map-raster" id="goalMapRaster" src="play-robot-goal-strip-generated.webp?v=goal-full-strip-20260702a" alt="">
         <span class="goal-shade" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-sweep" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-burst" aria-hidden="true"></span>
@@ -2541,8 +2541,9 @@
       secret: true
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
-    const GOAL_RAIL_ASSET_VERSION = "goal-nocrop-20260702b";
-    const GOAL_RAIL_IMAGES = ALL_GRADES.map((grade) => `play-robot-goal-${grade.id}-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`);
+    const GOAL_RAIL_ASSET_VERSION = "goal-full-strip-20260702a";
+    const GOAL_RAIL_IMAGE = `play-robot-goal-strip-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`;
+    const GOAL_RAIL_IMAGES = ALL_GRADES.map(() => GOAL_RAIL_IMAGE);
     const EVENT_CLASSES = [
       "fuel-event--normal",
       "fuel-event--smallExplosion",
