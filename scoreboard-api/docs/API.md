@@ -2,6 +2,13 @@
 
 기본 경로는 `/api/v1`입니다. 모든 요청과 응답은 JSON입니다.
 
+지원하는 `lessonId`는 아래 네 가지입니다.
+
+- `3-2-1-1-mathmon-box-run`
+- `3-2-1-2-mathmon-rocket-charge`
+- `3-2-1-3-mathmon-jump-islands`
+- `3-2-1-4-mathmon-fusion`
+
 ## `GET /health`
 
 서버 상태 확인입니다.
@@ -100,6 +107,8 @@
 `score`는 큰 점수 안전성을 위해 문자열입니다.
 
 `answers`는 기본 10개입니다. 다만 `instantLaunch`처럼 차시 규칙상 마지막 보상으로 조기 종료되는 경우에는 10개보다 적은 답안 로그도 받을 수 있습니다.
+
+1차시 상자런의 깨진 상자는 `reward.id = "broken"`으로 보내고, `reward.amount`에는 실제 점수 변화량을 넣습니다. 예를 들어 깨진 상자에서 점수가 100100점에서 0점이 되면 `amount`는 `-100100`입니다.
 
 ## `GET /api/v1/leaderboards/weekly?lessonId=...`
 

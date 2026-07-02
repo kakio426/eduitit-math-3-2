@@ -87,6 +87,12 @@
 
 최종 결과는 이미지 생성으로 만든 RasterStage 시상식 무대를 배경으로 사용합니다. 무대를 왼쪽으로 치우치게 두고 매스몬을 그 무대 중앙에 올린 뒤, 최종 점수, 칭찬 문구, 획득 매스몬 설명, 정답 수, 이미지 받기, 다시 버튼은 HTML로 올려 매 판 달라지는 결과값이 정확하게 보이도록 했습니다. 매스몬은 점수만이 아니라 정답 수 조건도 함께 봅니다.
 
+### 전국 순위 화면
+
+결과 화면의 `순위` 버튼을 누르면 마지막 전국 순위 화면으로 이동합니다. 이 화면은 `_shared/scoreboard` 공통 SVG 순위판을 사용하며, 생성 이미지는 축하 배경과 상단 타이틀 아트만 맡고 순위판·내 기록 박스·순위 행·버튼·동적 글자는 SVG가 직접 그립니다. 상단 상태 문장은 제거했고, API 주소가 없으면 순위 목록 영역 안에 `순위 기능이 켜지면 여기에 10위까지 보여요.` 안내만 보이며 게임 결과는 그대로 유지됩니다.
+
+백엔드 연동 지점은 `index.html`의 `LESSON_ID = "3-2-1-1-mathmon-box-run"`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다. 1차시는 깨진 상자에서 `0`이나 `÷2`가 나올 수 있으므로, 서버에는 보상 이름이 아니라 실제 점수 변화량 `after - before`를 `broken.amount`로 보냅니다. 이 항목을 빼면 점수 검증이 맞지 않을 수 있습니다.
+
 ### 이미지 받기
 
 ![이미지 받기 예시](screenshots/09-download-card.png)
@@ -150,3 +156,10 @@
 - 정적 검사: `node --check scripts/check-stage-ratio.mjs`, `node --check scripts/qa-mathmon-audio-smoke.mjs`, `node scripts/check-stage-ratio.mjs`, `node scripts/check-audio-assets.mjs`
 - 브라우저 오디오/설정 QA: `node scripts/qa-mathmon-audio-smoke.mjs`
 - 화면 QA: 1280x800, 1024x768에서 첫 화면, 설명, 문제 화면의 설정 버튼과 배지/HUD 충돌 0건을 확인했습니다. 설정 모달 텍스트 넘침 0건, 버튼 클릭 영역 충돌 0건을 확인했습니다.
+
+## 10. 전국 순위 QA
+
+- 정적 검사: `node --check _shared/scoreboard/scoreboard-ui.js`, 1차시 inline script 파싱, `node scripts/check-stage-ratio.mjs`, `git diff --check`
+- 백엔드 검사: `cd scoreboard-api && bun test`, `bun run typecheck`, `bun run lint`
+- 브라우저 QA: 1280x800, 1024x768, 856x544에서 결과 화면 `순위` 클릭, 전국 순위 화면 진입, 10행 샘플 렌더, `결과로` hitbox 복귀를 확인했습니다. SVG `<text>` Stage 밖 이탈, 보이는 HTML 버튼 텍스트, `foreignObject`, 버튼 겹침 0건을 확인했습니다.
+- 2026-07-02 추가 QA: `scoreboard-title-box-generated.webp` 생성형 타이틀 자산을 적용하고 1280x800, 1024x768, 856x544에서 타이틀 가독성, 배경 겹침, 상단 상태 문구 제거, 목록/버튼 위치를 다시 확인했습니다.

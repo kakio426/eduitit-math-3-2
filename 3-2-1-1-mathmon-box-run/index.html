@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 상자런 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css">
   <style>
     :root {
       --page: #080914;
@@ -1389,6 +1390,7 @@
       display: grid;
       align-content: center;
       justify-items: center;
+      row-gap: 8px;
       transform: translateY(-4px);
     }
 
@@ -1439,9 +1441,11 @@
     }
 
     .result-stat--restart .primary-button {
-      width: min(220px, 66%);
+      width: min(220px, 72%);
       min-width: 0;
+      min-height: 46px;
       margin-top: 0;
+      font-size: clamp(1rem, 1.7vw, 1.2rem);
     }
 
     .sr-only {
@@ -1761,7 +1765,7 @@
       </div>
     </section>
 
-    <section class="screen result" data-screen="result" aria-labelledby="resultTitle">
+    <section class="screen result" id="resultScreen" data-screen="result" aria-labelledby="resultTitle">
       <img class="result-art" src="result-generated-v2.webp?v=1" alt="" aria-hidden="true">
       <div class="result-card">
         <div class="result-summary">
@@ -1790,21 +1794,27 @@
             <a class="download-button is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
           </div>
           <div class="result-stat result-stat--restart">
+            <button class="primary-button" id="leaderboardButton" type="button" data-action="leaderboard">순위</button>
             <button class="primary-button" type="button" data-action="restart">다시</button>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 상자 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-box-generated.webp" data-scoreboard-score-label="상자 점수" data-scoreboard-list-title="상자 점수 순위" data-scoreboard-unit="3학년 2학기 1단원 1차시"></section>
     </div>
   </main>
 
+  <script src="../_shared/scoreboard/scoreboard-ui.js"></script>
   <script>
     (() => {
       "use strict";
 
+      const LESSON_ID = "3-2-1-1-mathmon-box-run";
       const ROUND_SIZE = 10;
       const MIN_PROBLEM_BANK_SIZE = 100;
       const BASE_CORRECT_SCORE = 100n;
+      const SCOREBOARD_API_URL = String(window.MATHMON_SCOREBOARD_API_URL || "").trim().replace(/\/+$/, "");
       const PHASES = Object.freeze({
         cover: "cover",
         playing: "playing",
@@ -1881,11 +1891,14 @@
           tutorial: document.querySelector('[data-screen="tutorial"]'),
           play: document.querySelector('[data-screen="play"]'),
           result: document.querySelector('[data-screen="result"]'),
+          scoreboard: document.querySelector('[data-screen="scoreboard"]'),
         },
         startButton: document.querySelector('[data-action="start"]'),
         startFirstProblemButton: document.querySelector('[data-action="start-first-problem"]'),
         restartButton: document.querySelector('[data-action="restart"]'),
+        leaderboardButton: document.querySelector('[data-action="leaderboard"]'),
         openCrateButton: document.querySelector('[data-action="open-crate"]'),
+        scoreboardScreen: document.getElementById("scoreboardScreen"),
         settingsButton: document.getElementById("settingsButton"),
         settingsBackdrop: document.getElementById("settingsBackdrop"),
         settingsModal: document.getElementById("settingsModal"),
@@ -1951,7 +1964,33 @@
         reviewReturnScreen: "cover",
         autoOpenTimer: 0,
         crateOpenTimer: 0,
+        scoreboardAnswers: [],
+        scoreboardCurrentAnswer: null,
+        scoreboardQuestionStartedAt: 0,
+        scoreboardStepStartedAt: 0,
       };
+
+      const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+        root: els.scoreboardScreen,
+        apiUrl: SCOREBOARD_API_URL,
+        lessonId: LESSON_ID,
+        totalQuestions: ROUND_SIZE,
+        getScore: () => state.score,
+        getCorrectCount: () => state.correctCount,
+        getAnswers: () => state.scoreboardAnswers,
+        getRewardResult: getScoreboardRewardResult,
+        showScoreboard: () => showScreen("scoreboard"),
+        showResult: () => {
+          playUiSound();
+          showScreen("result");
+        },
+        restart: () => {
+          unlockAudio();
+          playUiSound();
+          startRound();
+        },
+        playSound: playUiSound
+      });
 
       const audioState = {
         context: null,
@@ -2442,6 +2481,73 @@
         els.screens[name].classList.add("is-active");
       }
 
+      function getElapsedMs(startedAt) {
+        return Math.max(0, Math.round(performance.now()) - startedAt);
+      }
+
+      function beginScoreboardQuestion() {
+        const now = Math.round(performance.now());
+        state.scoreboardQuestionStartedAt = now;
+        state.scoreboardStepStartedAt = now;
+        state.scoreboardCurrentAnswer = {
+          questionIndex: state.currentIndex,
+          elapsedMs: 0,
+          steps: []
+        };
+      }
+
+      function recordScoreboardStep(selected, expected) {
+        const answer = state.scoreboardCurrentAnswer;
+        if (!answer || answer.steps.length > 0) return;
+        answer.steps.push({
+          stepId: "answer",
+          selected,
+          expected,
+          elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+        });
+      }
+
+      function getBoxRewardEvent(reward, isBroken, before, after) {
+        if (isBroken) {
+          return { id: "broken", amount: Number(after - before) };
+        }
+        if (reward.type === "add" && reward.amount === 100n) return { id: "add_100", amount: 100 };
+        if (reward.type === "add" && reward.amount === 1000n) return { id: "add_1000", amount: 1000 };
+        if (reward.type === "add" && reward.amount === 100000n) return { id: "add_100000", amount: 100000 };
+        if (reward.type === "add" && reward.amount === -500n) return { id: "subtract_500", amount: -500 };
+        if (reward.type === "add" && reward.amount === -5000n) return { id: "subtract_5000", amount: -5000 };
+        if (reward.type === "add" && reward.amount === -100000n) return { id: "subtract_100000", amount: -100000 };
+        if (reward.type === "multiply" && reward.amount === 2n) return { id: "multiply_2", amount: 2 };
+        if (reward.type === "multiply" && reward.amount === 5n) return { id: "multiply_5", amount: 5 };
+        if (reward.type === "multiply" && reward.amount === 10n) return { id: "multiply_10", amount: 10 };
+        if (reward.type === "divide" && reward.amount === 2n) return { id: "divide_2", amount: 2 };
+        if (reward.type === "divide" && reward.amount === 3n) return { id: "divide_3", amount: 3 };
+        if (reward.type === "rescue") return { id: "rescue", amount: Number(reward.fallback) };
+        if (reward.type === "zero") return { id: "zero", amount: 0 };
+        return { id: "broken", amount: Number(after - before) };
+      }
+
+      function finishScoreboardQuestion(reward, isBroken, before, after) {
+        const answer = state.scoreboardCurrentAnswer;
+        if (!answer) return;
+        state.scoreboardAnswers.push({
+          questionIndex: answer.questionIndex,
+          elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+          steps: answer.steps,
+          reward: getBoxRewardEvent(reward, isBroken, before, after)
+        });
+        state.scoreboardCurrentAnswer = null;
+      }
+
+      function getScoreboardRewardResult() {
+        const mathmon = getMathmonForScore(state.score);
+        return {
+          mathmonName: mathmon.name,
+          score: String(state.score),
+          correctCount: state.correctCount
+        };
+      }
+
       function absBigInt(value) {
         return value < 0n ? -value : value;
       }
@@ -2757,6 +2863,7 @@
         state.pendingReward = null;
         state.pendingCrateType = "normal";
         state.pendingCrateGrade = null;
+        beginScoreboardQuestion();
         els.question.textContent = `${question.a} × ${question.b} = ?`;
         els.choices.innerHTML = "";
         question.choices.forEach((choice) => {
@@ -2799,6 +2906,7 @@
             state.pendingReward = pickBrokenReward();
             state.pendingCrateType = "broken";
             state.pendingCrateGrade = null;
+            recordScoreboardStep(choice, question.answer);
             state.lastRewardText = "깨진 상자";
             state.lastRewardChangeText = "자동으로 열려요";
             state.lastRewardTone = "bad";
@@ -2835,6 +2943,7 @@
         state.pendingCrateGrade = pickCrateGrade();
         state.pendingReward = pickWeightedReward(state.pendingCrateGrade.rewardPool);
         state.pendingCrateType = "normal";
+        recordScoreboardStep(question.answer, question.answer);
         state.lastRewardText = state.pendingCrateGrade.label;
         state.lastRewardChangeText = "상자가 준비됐어요";
         state.lastRewardTone = "";
@@ -2900,6 +3009,7 @@
           const after = applyReward(before, reward);
           const changeAbs = absBigInt(after - before);
           state.score = after;
+          finishScoreboardQuestion(reward, isBroken, before, after);
           state.phase = PHASES.reward;
           if (changeAbs >= state.biggestChangeAbs) {
             state.biggestChangeAbs = changeAbs;
@@ -2967,8 +3077,13 @@
         state.pendingReward = null;
         state.pendingCrateType = "normal";
         state.pendingCrateGrade = null;
+        state.scoreboardAnswers = [];
+        state.scoreboardCurrentAnswer = null;
+        state.scoreboardQuestionStartedAt = 0;
+        state.scoreboardStepStartedAt = 0;
         state.downloadRequestToken = "";
         setDownloadPending();
+        scoreboardBridge.start();
         showScreen("play");
         renderQuestion();
       }
@@ -3028,6 +3143,7 @@
         playUiSound();
         startRound();
       });
+      els.leaderboardButton.addEventListener("click", scoreboardBridge.open);
       els.openCrateButton.addEventListener("click", () => {
         if (state.phase === PHASES.crateReady) {
           openCrate();

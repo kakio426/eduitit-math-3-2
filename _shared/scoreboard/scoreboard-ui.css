@@ -32,6 +32,12 @@
   user-select: none;
 }
 
+.mathmon-scoreboard-title-art {
+  pointer-events: none;
+  user-select: none;
+  filter: brightness(1.06) saturate(1.08) drop-shadow(0 8px 9px rgba(0, 6, 28, 0.62)) drop-shadow(0 0 10px rgba(75, 231, 255, 0.3));
+}
+
 .mathmon-scoreboard-bg-dim {
   fill: rgba(2, 8, 28, 0.16);
 }
@@ -265,7 +271,43 @@
 }
 
 .mathmon-scoreboard .top-row {
+  position: absolute;
+  top: var(--stage-inset, 18px);
+  left: var(--stage-inset, 18px);
+  right: calc(var(--stage-inset, 18px) + var(--sound-reserve, 48px));
+  height: var(--sound-button-size, 34px);
+  display: flex;
+  align-items: center;
+  gap: var(--sound-gap, 10px);
   z-index: 3;
+}
+
+.mathmon-scoreboard .brand-badge,
+.mathmon-scoreboard .unit-badge {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: max-content;
+  min-height: var(--sound-button-size, 34px);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--top-control-icon-gap, 7px);
+  padding: 0 var(--top-control-pad-x, 9px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fffaf0;
+  background: rgba(5, 18, 48, 0.62);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  font-family: var(--scoreboard-font);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.mathmon-scoreboard .brand-badge img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 .mathmon-scoreboard[data-layout-debug="true"] .mathmon-scoreboard-list-hitbox,

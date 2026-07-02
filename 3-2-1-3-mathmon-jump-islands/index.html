@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 10배 점프섬 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css">
   <style>
     :root {
       --page: #111018;
@@ -1405,6 +1406,38 @@
       transform: translateY(1px);
     }
 
+    .result-leaderboard-button {
+      position: absolute;
+      left: 7.5%;
+      bottom: 7.4%;
+      z-index: 4;
+      min-width: 160px;
+      min-height: 54px;
+      padding: 0 22px;
+      border: 2px solid rgba(255, 246, 190, 0.74);
+      border-radius: 999px;
+      color: #241400;
+      background: linear-gradient(180deg, #fff3a5, #ffc857 58%, #f29a2e);
+      box-shadow: 0 7px 0 rgba(114, 57, 8, 0.8), 0 18px 34px rgba(0, 0, 0, 0.28);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .result-leaderboard-button[hidden] {
+      display: none;
+    }
+
+    .result-leaderboard-button:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.92);
+      outline-offset: 3px;
+    }
+
+    .result-leaderboard-button:active {
+      transform: translateY(2px);
+      box-shadow: 0 5px 0 rgba(114, 57, 8, 0.8), 0 12px 24px rgba(0, 0, 0, 0.24);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1781,6 +1814,7 @@
         <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
           <span class="visually-hidden">다시하기</span>
         </button>
+        <button class="result-leaderboard-button" id="leaderboardButton" type="button" hidden>순위 보기</button>
         <div class="result-reveal-status visually-hidden" id="resultRevealStatus" data-result-reveal-phase="idle" aria-live="polite">
           <span class="result-reveal-kicker" id="resultRevealKicker">점프 길을 살펴봐요.</span>
           <div class="result-reveal-track" aria-hidden="true">
@@ -1790,14 +1824,19 @@
           </div>
         </div>
       </section>
+
+      <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 점프 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-jump-generated.webp" data-scoreboard-score-label="점프 거리" data-scoreboard-list-title="점프 거리 순위" data-scoreboard-unit="3학년 2학기 1단원 3차시"></section>
     </div>
   </main>
 
+  <script src="../_shared/scoreboard/scoreboard-ui.js"></script>
   <script>
+    const LESSON_ID = "3-2-1-3-mathmon-jump-islands";
     const TOTAL_QUESTIONS = 10;
     const MAX_JUMP_DISTANCE = 100;
     const BASE_FIRST_TRY_DISTANCE = 5;
     const STEP_CONFIRM_DELAY = 920;
+    const SCOREBOARD_API_URL = String(window.MATHMON_SCOREBOARD_API_URL || "").trim().replace(/\/+$/, "");
     const ISLANDS = [
       { id: "start", name: "출발섬", minDistance: 0, minCorrect: 0, image: "result-final-start-generated.webp?v=clean-slot-20260630" },
       { id: "sand", name: "모래섬", minDistance: 1, minCorrect: 0, image: "result-final-sand-generated.webp?v=clean-slot-20260630" },
@@ -2150,7 +2189,11 @@
       sfxLog: [],
       bgmGain: null,
       bgmTimer: null,
-      bgmRunning: false
+      bgmRunning: false,
+      scoreboardAnswers: [],
+      scoreboardCurrentAnswer: null,
+      scoreboardQuestionStartedAt: 0,
+      scoreboardStepStartedAt: 0
     };
 
     const el = {
@@ -2196,8 +2239,31 @@
       praiseText: document.getElementById("praiseText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalIslandText: document.getElementById("finalIslandText"),
-      restartButton: document.getElementById("restartButton")
+      restartButton: document.getElementById("restartButton"),
+      leaderboardButton: document.getElementById("leaderboardButton"),
+      scoreboardScreen: document.getElementById("scoreboardScreen")
     };
+
+    const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+      root: el.scoreboardScreen,
+      apiUrl: SCOREBOARD_API_URL,
+      lessonId: LESSON_ID,
+      totalQuestions: TOTAL_QUESTIONS,
+      getScore: () => state.jumpDistance,
+      getCorrectCount: () => state.correct,
+      getAnswers: () => state.scoreboardAnswers,
+      getRewardResult: getScoreboardRewardResult,
+      showScoreboard: () => showScreen("scoreboard"),
+      showResult: () => {
+        playSound("next");
+        showScreen("result");
+      },
+      restart: () => {
+        startBgm();
+        startGame();
+      },
+      playSound: () => playSound("next")
+    });
 
     function prefersReducedMotion() {
       return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -2316,10 +2382,61 @@
     function showScreen(name) {
       state.screen = name;
       el.stageShell.dataset.activeScreen = name;
-      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen].forEach((screen) => {
+      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen, el.scoreboardScreen].forEach((screen) => {
         screen.classList.remove("is-active");
       });
       document.getElementById(`${name}Screen`).classList.add("is-active");
+    }
+
+    function getElapsedMs(startedAt) {
+      return Math.max(0, Math.round(performance.now()) - startedAt);
+    }
+
+    function beginScoreboardQuestion() {
+      const now = Math.round(performance.now());
+      state.scoreboardQuestionStartedAt = now;
+      state.scoreboardStepStartedAt = now;
+      state.scoreboardCurrentAnswer = {
+        questionIndex: state.problemIndex,
+        elapsedMs: 0,
+        steps: []
+      };
+    }
+
+    function beginScoreboardStep() {
+      state.scoreboardStepStartedAt = Math.round(performance.now());
+    }
+
+    function recordScoreboardStep(step, selected) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer || answer.steps.some((item) => item.stepId === step.id)) return;
+      answer.steps.push({
+        stepId: step.id,
+        selected,
+        expected: step.correct,
+        elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+      });
+    }
+
+    function finishScoreboardQuestion(event) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer) return;
+      state.scoreboardAnswers.push({
+        questionIndex: answer.questionIndex,
+        elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+        steps: answer.steps,
+        reward: { id: event.id, amount: event.amount }
+      });
+      state.scoreboardCurrentAnswer = null;
+    }
+
+    function getScoreboardRewardResult() {
+      const island = getReachedIsland();
+      return {
+        islandId: island.id,
+        jumpDistance: state.jumpDistance,
+        rainbowPath: state.rainbowPath
+      };
     }
 
     function clearStepAdvanceTimer() {
@@ -2479,12 +2596,17 @@
       state.jumpDistance = 0;
       state.rainbowPath = false;
       state.lastRewardEvent = null;
+      state.scoreboardAnswers = [];
+      state.scoreboardCurrentAnswer = null;
+      state.scoreboardQuestionStartedAt = 0;
+      state.scoreboardStepStartedAt = 0;
       state.pendingRewardMapEffect = null;
       clearRewardModalTimer();
       clearRewardAdvanceTimer();
       clearMapMarkerEffect();
       clearResultRevealTimers();
       setResultRevealPhase("idle");
+      scoreboardBridge.start();
       playSound("start");
       showScreen("play");
       renderMap();
@@ -2659,6 +2781,7 @@
       state.stepIndex = 0;
       state.stepAttempts = 0;
       state.problemMistakeTouched = false;
+      beginScoreboardQuestion();
       clearRewardModalTimer();
       clearRewardAdvanceTimer();
       state.pendingRewardMapEffect = null;
@@ -2674,6 +2797,7 @@
     function renderStep() {
       const problem = currentProblem();
       const steps = Lesson3MathModel.buildSteps(problem);
+      beginScoreboardStep();
       el.hintLine.hidden = true;
       el.hintLine.textContent = "";
       el.jumpTransform.classList.remove("is-step-confirmed");
@@ -2750,6 +2874,7 @@
       const problem = currentProblem();
       const step = Lesson3MathModel.buildSteps(problem)[state.stepIndex];
       const isCorrect = value === correctValue;
+      recordScoreboardStep(step, value);
       button.classList.add(isCorrect ? "is-correct" : "is-wrong");
       if (isCorrect) {
         if (step.id !== "scaleFooting") {
@@ -2821,6 +2946,7 @@
       const rewardBranch = QA.enabled && QA.nextRewardId === "shaky" ? "shaky" : Lesson3MathModel.getRewardBranch(completedProblem);
       const previousIsland = getReachedIsland();
       const event = applyIslandReward(rewardBranch === "positive");
+      finishScoreboardQuestion(event);
       state.problemResults.push({
         problemId: problem.id,
         mistakeTouched: rewardBranch === "shaky",
@@ -2932,6 +3058,8 @@
       el.resultCountOverlay.setAttribute("aria-label", "정답 수를 보고 있어요");
       el.finalIslandText.textContent = "찾고 있어요";
       el.restartButton.disabled = true;
+      el.leaderboardButton.hidden = true;
+      el.leaderboardButton.disabled = true;
       setResultRevealPhase("jump-path-scan");
       showScreen("result");
 
@@ -2987,6 +3115,8 @@
       el.resultCountOverlay.setAttribute("aria-label", `정답 ${state.correct}/${TOTAL_QUESTIONS}`);
       el.finalIslandText.textContent = island.id === "start" ? "다시 준비" : island.name;
       el.restartButton.disabled = false;
+      el.leaderboardButton.hidden = false;
+      el.leaderboardButton.disabled = false;
       setResultRevealPhase("complete");
       playSound("finish");
       el.restartButton.focus();
@@ -3189,6 +3319,7 @@
       startGame();
     });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.leaderboardButton.addEventListener("click", scoreboardBridge.open);
     el.restartButton.addEventListener("click", () => {
       startBgm();
       showScreen("cover");

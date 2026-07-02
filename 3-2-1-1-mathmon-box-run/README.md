@@ -8,6 +8,7 @@
 - 콤보: 연속 정답이면 기본 정답 점수가 커짐
 - 상자 등급: 일반, 반짝, 황금 상자에 따라 보상 기대감이 달라짐
 - 결과 칭찬: 정답 수와 점수에 맞춘 한 줄 칭찬 표시
+- 순위: 결과 뒤 `순위`를 누르면 이번 주 전국 상자 순위 화면으로 이동. API 주소가 설정된 경우 서버가 만든 기록 이름으로 점수를 제출하고 10위까지 보여 줌
 - 소리: 낮은 볼륨의 기존 BGM과 Kenney CC0 샘플 기반 상황별 효과음 제공. 사용 팩은 Interface Sounds, Impact Sounds, RPG Audio, Digital Audio, Music Jingles이며, 소리 버튼으로 함께 켜고 끔
 - 방식: 문제를 맞히고 상자를 열어 점수를 크게 바꾸는 짧은 반복 게임
 - 실행: `index.html`을 브라우저에서 열기
@@ -33,5 +34,18 @@
 - `mathmon-*.png`: 최종 점수로 얻는 매스몬 이미지
 - `eduitit-logo-mark.png`: 첫 화면 브랜딩 로고
 - `assets/audio/*.wav`: Kenney CC0 기반 정답, 오답, 상자, 보상, 결과 효과음
+- `../_shared/scoreboard/*`: 공통 전국 순위 배경, 생성형 타이틀 이미지, SVG UI, API 브리지
 - `screenshots/`: 화면별 스크린샷과 다운로드 카드 예시
 - `REPORT.md`: 게임 설명, 화면 흐름, 매스몬 설명
+
+## 전국 순위 백엔드 연결
+
+기본 파일만 열면 순위 기능은 꺼진 안내 상태로 동작합니다. 실제 서버를 붙일 때는 게임을 열기 전에 아래 값을 주입합니다.
+
+```html
+<script>
+  window.MATHMON_SCOREBOARD_API_URL = "https://your-scoreboard-api.example.com";
+</script>
+```
+
+연동 위치는 `index.html`의 `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 자세한 업체 인계 문서는 `../scoreboard-api/docs/GAME_INTEGRATION.md`를 기준으로 합니다.

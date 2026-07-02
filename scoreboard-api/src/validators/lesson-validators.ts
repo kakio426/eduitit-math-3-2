@@ -152,7 +152,7 @@ const BOX_REWARD_RULES = [
   { id: "divide_3", min: 3, max: 3 },
   { id: "rescue", min: 500, max: 500 },
   { id: "zero", min: 0, max: 0, empties: true },
-  { id: "broken", min: -5_000, max: 100 },
+  { id: "broken", min: -50_000_000_000, max: 100 },
 ] as const
 
 const ROCKET_RULE: ProgressRule = {

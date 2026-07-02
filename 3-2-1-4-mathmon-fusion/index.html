@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 로봇 합체 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css">
   <style>
     :root {
       --page: #111418;
@@ -2294,17 +2295,23 @@
             </div>
           </div>
           <div class="result-actions">
+            <button class="primary-button" id="leaderboardButton" type="button">순위 보기</button>
             <button class="primary-button" id="restartButton" type="button">다시하기</button>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 합체 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-fusion-generated.webp" data-scoreboard-score-label="합체 점수" data-scoreboard-list-title="합체 점수 순위" data-scoreboard-unit="3학년 2학기 1단원 4차시"></section>
     </div>
   </main>
 
+  <script src="../_shared/scoreboard/scoreboard-ui.js"></script>
   <script>
+    const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
     const MAX_ENERGY = 100;
+    const SCOREBOARD_API_URL = String(window.MATHMON_SCOREBOARD_API_URL || "").trim().replace(/\/+$/, "");
     const GRADES = [
       { id: "small", short: "소", name: "소형 로봇 매스몬", min: 1, max: 20, minCorrect: 1, image: "result-small-generated.webp" },
       { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 21, max: 40, minCorrect: 3, image: "result-medium-generated.webp" },
@@ -2353,7 +2360,11 @@
       rainbowCore: false,
       lastEvent: null,
       soundsOn: true,
-      audio: null
+      audio: null,
+      scoreboardAnswers: [],
+      scoreboardCurrentAnswer: null,
+      scoreboardQuestionStartedAt: 0,
+      scoreboardStepStartedAt: 0
     };
 
     const el = {
@@ -2403,15 +2414,88 @@
       finalEnergyText: document.getElementById("finalEnergyText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalGradeText: document.getElementById("finalGradeText"),
-      restartButton: document.getElementById("restartButton")
+      leaderboardButton: document.getElementById("leaderboardButton"),
+      restartButton: document.getElementById("restartButton"),
+      scoreboardScreen: document.getElementById("scoreboardScreen")
     };
+
+    const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+      root: el.scoreboardScreen,
+      apiUrl: SCOREBOARD_API_URL,
+      lessonId: LESSON_ID,
+      totalQuestions: TOTAL_QUESTIONS,
+      getScore: () => getEnergy(),
+      getCorrectCount: () => state.correct,
+      getAnswers: () => state.scoreboardAnswers,
+      getRewardResult: getScoreboardRewardResult,
+      showScoreboard: () => showScreen("scoreboard"),
+      showResult: () => {
+        playSound("next");
+        showScreen("result");
+      },
+      restart: startGame,
+      playSound: () => playSound("next")
+    });
 
     function showScreen(name) {
       state.screen = name;
-      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen].forEach((screen) => {
+      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen, el.scoreboardScreen].forEach((screen) => {
         screen.classList.remove("is-active");
       });
       document.getElementById(`${name}Screen`).classList.add("is-active");
+    }
+
+
+
+    function getElapsedMs(startedAt) {
+      return Math.max(0, Math.round(performance.now()) - startedAt);
+    }
+
+    function beginScoreboardQuestion() {
+      const now = Math.round(performance.now());
+      state.scoreboardQuestionStartedAt = now;
+      state.scoreboardStepStartedAt = now;
+      state.scoreboardCurrentAnswer = {
+        questionIndex: state.index,
+        elapsedMs: 0,
+        steps: []
+      };
+    }
+
+    function beginScoreboardStep() {
+      state.scoreboardStepStartedAt = Math.round(performance.now());
+    }
+
+    function recordScoreboardStep(step, selected) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer || answer.steps.some((item) => item.stepId === step.id)) return;
+      answer.steps.push({
+        stepId: step.id,
+        selected,
+        expected: step.correct,
+        elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+      });
+    }
+
+    function finishScoreboardQuestion(event) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer) return;
+      state.scoreboardAnswers.push({
+        questionIndex: answer.questionIndex,
+        elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+        steps: answer.steps,
+        reward: { id: event.id, amount: event.amount }
+      });
+      state.scoreboardCurrentAnswer = null;
+    }
+
+    function getScoreboardRewardResult() {
+      const grade = getGradeByEnergy();
+      return {
+        gradeId: grade ? grade.id : "retry",
+        rainbowCore: state.rainbowCore,
+        energy: getEnergy()
+      };
     }
 
     function startGame() {
@@ -2422,6 +2506,11 @@
       state.chain = 0;
       state.rainbowCore = false;
       state.lastEvent = null;
+      state.scoreboardAnswers = [];
+      state.scoreboardCurrentAnswer = null;
+      state.scoreboardQuestionStartedAt = 0;
+      state.scoreboardStepStartedAt = 0;
+      scoreboardBridge.start();
       playSound("start");
       showScreen("play");
       renderProblem();
@@ -2488,6 +2577,7 @@
       el.fusionCutscene.classList.remove("is-visible");
       el.fusionCutscene.setAttribute("aria-hidden", "true");
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      beginScoreboardQuestion();
       renderQuestionHighlight(problem, "partial1");
       resetFusionSide(problem);
       el.feedbackText.textContent = "";
@@ -2548,6 +2638,7 @@
     }
 
     function renderStep() {
+      beginScoreboardStep();
       const problem = currentProblem();
       const step = getCurrentStep(problem);
       renderQuestionHighlight(problem, step.id);
@@ -2671,6 +2762,7 @@
 
     function handleStepChoice(option, button) {
       const step = getCurrentStep(currentProblem());
+      recordScoreboardStep(step, option.value.value);
       if (option.correct) {
         button.classList.add("is-correct");
         setButtonsDisabled(true);
@@ -2792,6 +2884,7 @@
       }
       const event = perfect ? rollFusionEvent() : createDefectEvent();
       applyFusionEvent(event);
+      finishScoreboardQuestion(state.lastEvent);
       renderStatus();
       finishProblem(state.lastEvent);
       playSound("reward");
@@ -3146,6 +3239,7 @@
     });
     el.tutorialNextButton.addEventListener("click", startGame);
     el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.leaderboardButton.addEventListener("click", scoreboardBridge.open);
     el.restartButton.addEventListener("click", () => {
       playSound("start");
       showScreen("cover");

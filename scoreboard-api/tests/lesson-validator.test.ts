@@ -25,6 +25,23 @@ const createRocketLaunchAnswer = (questionIndex: number): AnswerLogItem => ({
   reward: { id: "instantLaunch", amount: 6 },
 })
 
+const createBoxPerfectAnswer = (
+  questionIndex: number,
+  reward: { readonly id: string; readonly amount: number } = { id: "add_100", amount: 100 },
+): AnswerLogItem => ({
+  questionIndex,
+  elapsedMs: 4200,
+  steps: [{ stepId: "answer", selected: 246, expected: 246, elapsedMs: 900 }],
+  reward,
+})
+
+const createBoxBrokenAnswer = (questionIndex: number, amount: number): AnswerLogItem => ({
+  questionIndex,
+  elapsedMs: 4200,
+  steps: [{ stepId: "answer", selected: 245, expected: 246, elapsedMs: 900 }],
+  reward: { id: "broken", amount },
+})
+
 describe("lesson validators", () => {
   test("Given ten perfect rocket answers When validating Then score is computed on the server", () => {
     const answers = Array.from({ length: 10 }, (_value, index) => createRocketAnswer(index, 5))
@@ -73,5 +90,24 @@ describe("lesson validators", () => {
     expect(result.status).toBe("accepted")
     expect(result.score).toBe(17n)
     expect(result.correctCount).toBe(3)
+  })
+
+  test("Given a broken box reward with dynamic score loss When validating Then the server accepts the score", () => {
+    const answers = [
+      createBoxPerfectAnswer(0, { id: "add_100000", amount: 100000 }),
+      createBoxBrokenAnswer(1, -100100),
+      ...Array.from({ length: 8 }, (_value, index) => createBoxPerfectAnswer(index + 2)),
+    ]
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-1-1-mathmon-box-run",
+      seed: 12345,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("accepted")
+    expect(result.score).toBe(3800n)
+    expect(result.correctCount).toBe(9)
   })
 })

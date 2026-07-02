@@ -8,6 +8,7 @@
 - 방식: `첫 부품 -> 두 번째 부품 -> 합체 덧셈` 3단계 선택형
 - 보상: 한 문제를 끝낼 때마다 합체 에너지 이벤트가 1번 일어남
 - 결과: 총 합체 에너지와 정답 수를 함께 측정해 소형 -> 중형 -> 대형 -> 거대 -> 초거대 로봇 매스몬 등급 중 도달 등급을 보여 줌. 무지개 코어를 얻으면 전설 로봇 매스몬이 열림
+- 순위: 결과 뒤 `순위 보기`를 누르면 이번 주 전국 합체 순위 화면으로 이동. API 주소가 설정된 경우 서버가 만든 기록 이름으로 점수를 제출하고 10위까지 보여 줌
 - 실행: `index.html`을 브라우저에서 열기
 
 ## 설계 의도
@@ -46,6 +47,7 @@
 - `fusion-workshop-generated.webp`: 문제 화면 합체 공방 배경
 - `result-*-generated.webp`: 합체 등급별 결과 RasterStage 배경
 - `eduitit-logo-mark.png`: 에듀잇티 로고
+- `../_shared/scoreboard/*`: 공통 전국 순위 배경, 생성형 타이틀 이미지, SVG UI, API 브리지
 - `screenshots/`: 화면별 스크린샷
 - `REPORT.md`: 게임 설명, 화면 흐름, 보상 구조
 - `QUALITY_AUDIT.md`: 1-1, 1-2 기준 비교와 보강 기록
@@ -57,3 +59,16 @@
 - `screenshots/comparison-1-1-1-2-1-4.png`: 1-1, 1-2, 1-4 화면 비교
 - `screenshots/raster-assets-contact-sheet.png`: 최종 RasterStage 이미지 세트
 - `screenshots/08-result-retry.png`: 정답 수와 에너지가 부족한 재도전 결과
+
+
+## 전국 순위 백엔드 연결
+
+기본 파일만 열면 순위 기능은 꺼진 안내 상태로 동작합니다. 실제 서버를 붙일 때는 게임을 열기 전에 아래 값을 주입합니다.
+
+```html
+<script>
+  window.MATHMON_SCOREBOARD_API_URL = "https://your-scoreboard-api.example.com";
+</script>
+```
+
+연동 위치는 `index.html`의 `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 4차시는 `partial1`, `partial2`, `fusion` 세 단계 선택과 합체 에너지 보상을 서버에 보냅니다. 자세한 업체 인계 문서는 `../scoreboard-api/docs/GAME_INTEGRATION.md`를 기준으로 합니다.

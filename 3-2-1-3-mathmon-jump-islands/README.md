@@ -16,6 +16,7 @@
 3. 문제: 상단 생성 이미지 지도에 여섯 섬과 현재 위치 매스몬을 보여 주고, 현재 단계만 크게 풉니다.
 4. 바람: 한 문제 뒤 한 가지 바람만 보여 줍니다. 보상 모달을 확인한 뒤 지도 매스몬이 작게 반응합니다.
 5. 결과: 점프 길을 살펴본 뒤 도착지별 완성 이미지 위에 정답 수 숫자와 투명 다시하기 hitbox만 얹습니다.
+6. 순위: 결과 공개 뒤 `순위 보기`를 누르면 이번 주 전국 점프 순위 화면으로 이동합니다.
 
 ## 문제 방식
 
@@ -51,8 +52,21 @@
 - 결과: `result-final-start-generated.webp`, `result-final-sand-generated.webp`, `result-final-forest-generated.webp`, `result-final-cloud-generated.webp`, `result-final-starlight-generated.webp`, `result-final-rainbow-generated.webp`
 - 매스몬: `_shared/mathmon/zero-factory-animal-pack/`의 `mathmon-zfa-04-nyangnyangmon.webp`
 - 소리: `assets/audio/*.wav` Kenney CC0 기반 버튼, 정답, 오답, 0 붙이기, 바람, 지도, 결과 효과음
+- 순위: `../_shared/scoreboard/*` 공통 전국 순위 배경, 생성형 타이틀 이미지, SVG UI, API 브리지
 
 문제와 보상 모달의 생성 이미지에는 문제, 선택지, 점수, 버튼, 섬 이름을 넣지 않았습니다. 결과 화면은 `result-final-*` 6장 완성형 래스터가 도착 라벨, 큰 결과 문구, 이미지 속 `다시하기` 버튼, 점수용 빈 네모 상자를 함께 담습니다. HTML/CSS가 보이게 만드는 것은 `6/10` 같은 정답 수 숫자 1개뿐이고, 다시하기는 같은 위치의 투명 HTML hitbox로 클릭 영역만 제공합니다. 점수 숫자는 각 결과 이미지의 빈 네모 상자에 맞춘 `data-result-island` RasterStage 슬롯으로 배치하고, QA 스크립트가 스크린샷 픽셀에서 숫자 중심과 빈칸 중심을 비교합니다. 점수 상자에는 라벨을 넣지 않았고, 시작 결과 이미지에도 보이는 `출발섬` 텍스트를 넣지 않았습니다.
+
+## 전국 순위 백엔드 연결
+
+기본 파일만 열면 순위 기능은 꺼진 안내 상태로 동작합니다. 실제 서버를 붙일 때는 게임을 열기 전에 아래 값을 주입합니다.
+
+```html
+<script>
+  window.MATHMON_SCOREBOARD_API_URL = "https://your-scoreboard-api.example.com";
+</script>
+```
+
+연동 위치는 `index.html`의 `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 3차시는 `smallProduct`, `scaleFooting` 두 단계 선택과 바람 보상을 서버에 보내며, 한 번이라도 틀린 문제는 `shaky` 보상으로 검증됩니다. 자세한 업체 인계 문서는 `../scoreboard-api/docs/GAME_INTEGRATION.md`를 기준으로 합니다.
 
 ## QA
 

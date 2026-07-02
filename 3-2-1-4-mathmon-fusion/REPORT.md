@@ -67,6 +67,13 @@
 
 결과 화면은 도달 등급별 RasterStage 배경 6장과 다시하기 배경 1장을 사용합니다. 소형, 중형, 대형, 거대, 초거대, 전설 합체 이미지가 따로 있으며, 생성 이미지에는 텍스트·점수·버튼을 넣지 않았습니다. 그 위에 합체 에너지 측정 막대, 정답 수, 도달 등급, 칭찬 문구, 다시하기 버튼을 HTML로 얹습니다.
 
+### 전국 순위 화면
+
+결과 화면의 `순위 보기` 버튼을 누르면 마지막 전국 순위 화면으로 이동합니다. 이 화면은 `_shared/scoreboard` 공통 SVG 순위판을 사용하며, 생성 이미지는 축하 배경과 상단 타이틀 아트만 맡고 순위판·내 기록 박스·순위 행·버튼·동적 글자는 SVG가 직접 그립니다. 상단 상태 문장은 제거했고, API 주소가 없으면 순위 목록 영역 안에 `순위 기능이 켜지면 여기에 10위까지 보여요.` 안내만 보이며 게임 결과는 그대로 유지됩니다.
+
+백엔드 연동 지점은 `index.html`의 `LESSON_ID = "3-2-1-4-mathmon-fusion"`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다. 4차시는 서버 점수로 `합체 에너지`를 보내고, 문제마다 `partial1`, `partial2`, `fusion` 세 단계 선택과 합체 에너지 보상(`normal`, `smallExplosion`, `megaFuel`, `instantLaunch`, `emptyTank`, `rainbowFuel`, `leak`)을 함께 보냅니다. `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다.
+
+
 ### 다시하기 결과 화면
 
 합체 에너지가 부족하거나 정답 수가 부족하면 `result-retry-generated.webp`를 RasterStage 배경으로 사용합니다. 로봇 부품이 안전하게 쉬고 있는 장면 위에 다시 도전 문구와 `다시하기` 버튼을 보여 줍니다.
@@ -131,3 +138,12 @@
 - `_shared/mathmon/robot-fusion-action-pack/`에 4상태 로봇 합체 액션 팩을 등록했습니다. 생성 원본 스프라이트시트는 `raw-chromakey/mathmon-rfa-source-spritesheet.png`, 배포본은 `webp/mathmon-rfa-01-standby.webp`부터 `mathmon-rfa-04-complete.webp`까지입니다.
 - 차시 실행 폴더에는 WebP 4장만 복사했습니다. 학생 화면에서는 정답 단계마다 로봇 이미지가 바뀌고, 마지막 합체 컷신에서는 완성 로봇 스프라이트가 중앙에 뜹니다.
 - 모션 민감 사용자를 위해 `prefers-reduced-motion: reduce`에서는 부품 비행, 번쩍임, 충격파, 스파크 애니메이션을 끄고 상태 이미지만 즉시 바뀌도록 했습니다.
+
+
+### 2026-07-02 전국 순위 화면 추가
+
+- 결과 화면에 `순위 보기` 버튼을 추가하고, 마지막 전국 순위 화면을 `_shared/scoreboard` 공통 SVG UI로 연결했습니다.
+- 상단 `전국 합체 순위`는 따뜻한 금색 `scoreboard-title-fusion-generated.webp` 생성형 타이틀 이미지로 바꾸고, 기존 상단 상태 문구는 제거했습니다.
+- 백엔드 연동 지점은 `LESSON_ID`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다.
+- 전국 순위 QA는 1280x800, 1024x768, 856x544에서 결과 화면 `순위 보기` 클릭, 전국 순위 화면 진입, 10행 샘플 렌더, `결과로` hitbox 복귀를 확인했습니다. 생성형 타이틀 가독성, 배경 겹침, 상단 상태 문구 제거, SVG `<text>` Stage 밖 이탈, 보이는 HTML 버튼 텍스트, `foreignObject`, 버튼 겹침 0건을 확인했습니다.
+- 정적 검사는 `node --check _shared/scoreboard/scoreboard-ui.js`, 4차시 inline script 파싱, `node scripts/check-stage-ratio.mjs`, `git diff --check`를 통과했습니다.

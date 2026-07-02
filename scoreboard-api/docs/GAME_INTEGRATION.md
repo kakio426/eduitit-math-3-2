@@ -35,6 +35,29 @@ const session = await response.json()
 
 게임은 `session.sessionId`, `session.seed`, `session.nickname`을 보관합니다.
 
+현재 1~4차시 프론트엔드는 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`를 사용하거나 같은 계약을 직접 구현합니다. 각 차시에서 백엔드와 맞닿는 값은 아래 네 가지입니다.
+
+```js
+const LESSON_ID = "3-2-1-2-mathmon-rocket-charge";
+const SCOREBOARD_API_URL = String(window.MATHMON_SCOREBOARD_API_URL || "").trim().replace(/\/+$/, "");
+
+const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+  root: el.scoreboardScreen,
+  apiUrl: SCOREBOARD_API_URL,
+  lessonId: LESSON_ID,
+  totalQuestions: TOTAL_QUESTIONS,
+  getScore,
+  getCorrectCount,
+  getAnswers,
+  getRewardResult,
+  showScoreboard,
+  showResult,
+  restart
+});
+```
+
+업체가 실제 API를 붙일 때 게임 로직 안의 fetch 경로를 다시 찾을 필요는 없습니다. 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다.
+
 ## 결과에서 점수 제출
 
 ```ts
@@ -71,6 +94,22 @@ await fetch(`${SCOREBOARD_API_URL}/api/v1/scores`, {
 ```
 
 1차 MVP는 차시별 보상 이벤트 ID와 범위를 검산합니다. 다음 단계에서 각 차시의 seed 기반 문제 생성까지 서버와 완전히 맞추면 조작 방지 강도가 더 올라갑니다.
+
+## 1~4차시 프론트 연동 지점
+
+| 차시 | `LESSON_ID` | 순위 화면 제목 | 서버 점수 | 답안 로그 | 놓치기 쉬운 점 |
+| --- | --- | --- | --- | --- | --- |
+| 1차시 상자런 | `3-2-1-1-mathmon-box-run` | 전국 상자 순위 | 최종 상자 점수 | `answer` 1단계 | 깨진 상자의 `0`, `÷2`는 고정값이 아니라 `after - before` 변화량을 `broken.amount`로 보냅니다. |
+| 2차시 로켓 | `3-2-1-2-mathmon-rocket-charge` | 전국 로켓 순위 | 연료 점수 | `ones`, `tens`, `hundreds` | `instantLaunch`가 마지막 보상이면 10문제 전에도 제출할 수 있습니다. |
+| 3차시 점프섬 | `3-2-1-3-mathmon-jump-islands` | 전국 점프 순위 | 점프 거리 | `smallProduct`, `scaleFooting` | 한 번이라도 틀린 문제는 좋은 바람이 아니라 `shaky` 보상으로 검증됩니다. |
+| 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 에너지 | `partial1`, `partial2`, `fusion` | `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다. |
+
+프론트 화면 위치:
+
+- 각 차시 `index.html`의 `SCOREBOARD_API_URL`: API 주소 주입값을 읽는 자리
+- 각 차시 `index.html`의 `scoreboardBridge`: 세션 생성, 점수 제출, 주간 순위 조회를 연결하는 자리
+- 각 차시 `index.html`의 `scoreboardAnswers`: 서버 검증용 문제별 답안/보상 로그
+- 각 차시 `index.html`의 `scoreboardScreen`: 학생이 보는 마지막 전국 순위 화면
 
 ## API 실패 fallback
 
