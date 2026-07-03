@@ -30,6 +30,7 @@
 - [ ] 새 표준 커버는 `<main class="game" data-cover-standard="generated-title-overlay">`를 선언함
 - [ ] 새 차시와 생성형 시작 버튼 이관 완료 커버는 `data-cover-start-standard="generated-button-art"`를 선언함
 - [ ] 첫 화면 배경은 글자 없는 `cover-generated.webp`를 `<img class="raster-bg">`로 깔고 `object-fit: cover`를 사용함
+- [ ] 첫 화면에 매스몬이 보인다면 별도 `<img class="cover-mathmon">` 오버레이가 아니라 `cover-generated.webp` 생성 장면 안에 함께 들어 있음
 - [ ] 첫 화면 제목이 단순 큰 HTML 글자처럼 보이지 않고, 배경과 어울리는 타이포그래픽 포스터/워드마크 또는 래스터 타이틀 아트로 보임
 - [ ] 제목을 그림 자산으로 쓰는 경우 기존 커버 배경은 유지되고, 보이는 제목만 `<img class="hero-title-art">` 독립 오버레이로 얹혀 있음
 - [ ] 제목 오버레이는 실제 `image_gen`/GPT Image 생성 산출물이며, 로컬 폰트/Pillow/canvas/SVG/CSS로 만든 텍스트 이미지가 아님

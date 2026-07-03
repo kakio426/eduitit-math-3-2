@@ -28,6 +28,7 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 - 차시별 전용 매스몬도 본체는 동물/판타지 생물이어야 하며, 차시 테마는 소품·의상·배지·포즈로만 표현한다.
 - 원본은 `_shared/mathmon/`에만 둔다.
 - 차시 폴더에는 실행용 WebP만 복사한다.
+- 첫 화면에 매스몬이 필요하면 커버 배경 생성 단계에서 `cover-generated.webp` 장면 안에 함께 포함한다. 팩 WebP를 `.cover-mathmon` 같은 별도 `<img>`로 커버 위에 붙이는 방식은 새 차시와 리마스터 기준이 아니다.
 
 ## 작업 절차
 
@@ -37,7 +38,7 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 4. **이미지 생성**: `STYLE_GUIDE.md`의 V1 프롬프트 기준으로 flat chroma-key 원본을 만들고 `raw-chromakey/`에 저장한다.
 5. **후처리**: chroma-key 제거 → 투명 `768x768` PNG → WebP quality 82~86 → contact sheet 생성.
 6. **등록**: 팩 `manifest.json`과 `_shared/mathmon/catalog.json`을 갱신한다.
-7. **차시 연결**: 차시 폴더에는 필요한 WebP만 복사하고 `index.html`의 매스몬 참조를 그 경로로 바꾼다.
+7. **차시 연결**: 차시 폴더에는 필요한 WebP만 복사하고 `index.html`의 매스몬 참조를 그 경로로 바꾼다. 단, 첫 화면 커버 동행용으로 기존 매스몬 WebP를 얹지 않는다. 커버에 매스몬이 필요하면 `cover-generated.webp` 자체를 매스몬 포함 장면으로 다시 생성한다.
 8. **검증**: JSON 파싱, 파일 개수, alpha, 레거시 실행 참조 제거, 로컬 200, 브라우저 이미지 로드를 확인한다.
 
 ## 금지
@@ -47,6 +48,7 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 - V2 팩을 새 차시에 기본값으로 쓰지 않는다.
 - 톱니바퀴, 자석, 상자, 컨베이어 같은 사물 자체를 매스몬 몸으로 만들지 않는다.
 - 매스몬을 별도 도감/점수/수집 시스템으로 전면화하지 않는다.
+- 첫 화면 커버에서 기존 매스몬 PNG/WebP를 `.cover-mathmon` 같은 별도 `<img>`로 올려 배경과 한 장면처럼 보이게 하지 않는다. 새 차시와 리마스터는 매스몬을 커버 프롬프트에 포함해 처음부터 한 장면으로 생성한다.
 - 로컬 폰트, Pillow, canvas, SVG, CSS 캡처, 기존 PNG/WebP 겹치기 등으로 매스몬·배경·버튼·문구를 조합해 생성형 이미지처럼 보이게 만드는 로컬 합성은 금지한다.
 - 로컬 합성은 사용자가 먼저 명시적으로 허락한 경우에만 예외로 쓴다. 허락 없이 로컬 합성 결과물을 매스몬 장면, 보상 모달, 결과 화면, 타이틀 아트의 최종 생성 이미지로 연결하면 실패다.
 - 결과 화면에서 섬 이름, 도착 라벨, 칭찬 문구, 다시하기 버튼처럼 매 판 똑같은 요소는 생성 이미지 안에 포함하는 것을 기본값으로 한다. 정답 수·점수처럼 매 판 달라지는 값만 HTML/CSS 오버레이로 남긴다.

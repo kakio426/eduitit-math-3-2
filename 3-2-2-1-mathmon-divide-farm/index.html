@@ -517,13 +517,6 @@
       filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.28));
     }
 
-    .cover-visual {
-      position: relative;
-      min-height: 470px;
-      display: grid;
-      place-items: center;
-    }
-
     .star-field {
       position: absolute;
       inset: 4% 0 0 0;
@@ -619,16 +612,6 @@
       clip-path: polygon(50% 100%, 100% 0, 0 0);
       background: linear-gradient(180deg, #ffe27a, #ff8f3d 52%, #ff5d7a);
       animation: flame-pulse 0.48s ease-in-out infinite alternate;
-    }
-
-    .cover-mathmon {
-      position: absolute;
-      right: 6%;
-      bottom: 5%;
-      width: clamp(168px, 22vw, 260px);
-      transform: rotate(4deg);
-      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.32));
-      animation: float-rocket 4.8s ease-in-out infinite;
     }
 
     .tutorial {
@@ -2455,17 +2438,8 @@
         grid-template-columns: 1fr;
       }
 
-      .cover-visual {
-        min-height: 300px;
-        order: -1;
-      }
-
       .rocket-hero {
         height: 300px;
-      }
-
-      .cover-mathmon {
-        width: 118px;
       }
 
       .hud {
@@ -2488,6 +2462,12 @@
 
       .share-operation {
         min-height: 44px;
+      }
+    }
+
+    @media (max-width: 1100px) and (orientation: landscape) {
+      .cover-scene {
+        transform: translateY(-40px);
       }
     }
 
@@ -2585,9 +2565,6 @@
           <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
             <img class="start-button-art" src="start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
           </button>
-        </div>
-        <div class="cover-visual" aria-hidden="true">
-          <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-2-foxmon.webp" alt="">
         </div>
       </div>
     </section>

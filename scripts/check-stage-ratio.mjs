@@ -13,6 +13,15 @@ const SOUND_GAP_RULE = "--sound-gap:";
 const SOUND_RESERVE_RULE = "--sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));";
 const TOP_CONTROL_PAD_RULE = "--top-control-pad-x:";
 const TOP_CONTROL_ICON_GAP_RULE = "--top-control-icon-gap:";
+const LEGACY_COVER_MATHMON_LESSONS = new Set([
+  "3-2-1-2-mathmon-rocket-charge",
+  "3-2-1-3-mathmon-jump-islands",
+  "3-2-1-3-mathmon-zero-factory",
+  "3-2-4-1-mathmon-pizza-fraction",
+  "3-2-4-2-mathmon-fraction-scoop",
+  "3-2-4-3-mathmon-fraction-sorter",
+  "3-2-4-4-mathmon-fraction-tug",
+]);
 
 async function findLessons(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -123,6 +132,8 @@ for (const lesson of lessons) {
   const hasHiddenCoverTitle = /<h1(?=[^>]*class="visually-hidden")(?=[^>]*id="coverTitle")[^>]*>/.test(html);
   const hasTitleArtImage = Boolean(titleArtMatch);
   const hasCoverBackground = /<img(?=[^>]*class="raster-bg")(?=[^>]*src="cover-generated\.webp")[^>]*>/.test(html);
+  const hasCoverMathmonImage = /<img(?=[^>]*\bclass="[^"]*\bcover-mathmon\b)[^>]*>/.test(html);
+  const hasLegacyCoverMathmonImage = LEGACY_COVER_MATHMON_LESSONS.has(label);
   const hasCoverScene = /<div\s+class="cover-scene"[\s>]/.test(html);
   const hasHeroCopy = /<div\s+class="hero-copy"[\s>]/.test(html);
   const hasVisibleCoverStart = /<button(?=[^>]*class="[^"]*primary-button[^"]*")(?=[^>]*id="startButton")[^>]*>\s*시작\s*<\/button>/.test(html);
@@ -214,6 +225,7 @@ for (const lesson of lessons) {
     [!hasStandardCover || hasHeroCopy, "generated-title-overlay 표준 차시는 제목·목표·시작 버튼을 .hero-copy 안에 둬야 합니다."],
     [!hasStandardCover || hasTitleArt, "generated-title-overlay 표준 차시의 첫 화면 제목은 .hero-title-art 독립 이미지여야 합니다."],
     [!hasTitleArt || hasStandardCover, ".hero-title-art를 쓰는 차시는 main.game에 data-cover-standard=\"generated-title-overlay\"를 선언해야 합니다."],
+    [!hasCoverMathmonImage || hasLegacyCoverMathmonImage, "첫 화면에 매스몬 이미지를 <img class=\"cover-mathmon\">로 따로 붙이지 않습니다. 필요하면 cover-generated.webp 생성 프롬프트에 배경과 함께 포함하세요. 기존 호환 차시는 이관 전까지만 허용됩니다."],
     [!hasStandardCover || hasVisibleCoverStart || hasGeneratedCoverStart, "generated-title-overlay 표준 차시의 시작 버튼은 투명 hitbox가 아니라 보이는 시작 버튼이어야 합니다."],
     [!hasStandardCover || hasVisibleCoverStart || hasGeneratedCoverStartStandard, "생성형 시작 버튼 아트를 쓰는 차시는 main.game에 data-cover-start-standard=\"generated-button-art\"를 선언해야 합니다."],
     [!hasGeneratedCoverStartStandard || hasGeneratedCoverStart, "data-cover-start-standard=\"generated-button-art\" 차시는 <button class=\"cover-start-button\" id=\"startButton\" aria-label=\"시작\"><img class=\"start-button-art\" src=\"start-button-generated.webp\" alt=\"\" aria-hidden=\"true\"></button> 구조여야 합니다."],

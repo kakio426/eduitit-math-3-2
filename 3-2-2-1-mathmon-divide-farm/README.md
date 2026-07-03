@@ -37,7 +37,8 @@
 
 ## RasterStage 자산
 
-- `cover-generated.png/webp`: 첫 화면 배경
+- `cover-generated-source.png`: 알파카몬이 들어간 첫 화면 커버 생성 원본
+- `cover-generated.png/webp`: 알파카몬이 농장 장면 안에 포함된 첫 화면 배경
 - `title-logo-chromakey.png`: 제목 로고 생성 원본
 - `title-logo-generated.png/webp`: 첫 화면 제목 래스터 오버레이
 - `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼
@@ -50,11 +51,11 @@
 - `result-tier-farm.png/webp`: 농장
 - `result-tier-bigfarm.png/webp`: 대농장
 - `result-tier-rainbow.png/webp`: 전설 황금밭
-- `assets/mathmon/base-pack/mathmon-2-foxmon.webp`: 여우몬
+- `assets/mathmon/base-pack/mathmon-2-foxmon.webp`: 보존된 base-pack 여우몬 배포본
 
-첫 화면은 `generated-title-overlay` 표준입니다. 배경은 글자 없는 `cover-generated.webp`, 제목은 생성형 이미지 기반 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
+첫 화면은 `generated-title-overlay` 표준입니다. 배경은 글자 없는 `cover-generated.webp`이며, 알파카몬은 농장 빛과 그림자 안에 함께 생성된 장면으로 들어가 있습니다. 제목은 생성형 이미지 기반 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
 
-설명 배경과 보상 스프라이트는 캐릭터 없는 농장/수확 장면입니다. 결과 화면은 `result-tier-*.webp` 생성형 농장 장면 위에 SVG 오버레이로 도착한 곳, 정답 수, 수확만 보여 줍니다. 런타임 매스몬은 base-pack 여우몬 한 마리만 사용합니다.
+설명 배경과 보상 스프라이트는 캐릭터 없는 농장/수확 장면입니다. 결과 화면은 `result-tier-*.webp` 생성형 농장 장면 위에 SVG 오버레이로 도착한 곳, 정답 수, 수확만 보여 줍니다. 첫 화면에는 별도 HTML 매스몬 이미지를 얹지 않습니다.
 
 ## 파일 구성
 

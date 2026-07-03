@@ -25,7 +25,8 @@
 
 ## RasterStage 이미지
 
-- `cover-generated.png/webp`: 첫 화면 표지 16:10 RasterStage
+- `cover-generated-source.png`: 코알라몬이 들어간 첫 화면 커버 생성 원본
+- `cover-generated.png/webp`: 코알라몬이 엘리베이터 로비 장면 안에 포함된 첫 화면 표지 16:10 RasterStage
 - `title-logo-chromakey.png`: GPT Image/imagegen으로 생성한 제목 로고 원본
 - `title-logo-generated.png/webp`: 첫 화면 제목 래스터 오버레이
 - `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼
@@ -40,9 +41,9 @@
 - `result-roof-generated.png/webp`: 옥상 정원 결과 16:10 RasterStage
 - `result-rainbow-generated.png/webp`: 꼭대기 전망대 결과 16:10 RasterStage
 - `result-retry-generated.png/webp`: 다시 준비 결과 16:10 RasterStage
-- `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`: 첫 화면 동행 매스몬(독수리몬)
+- `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`: 보존된 base-pack 독수리몬 배포본
 
-첫 화면과 결과 화면은 생성 이미지를 RasterStage 배경으로 씁니다. 첫 화면은 `generated-title-overlay` 표준으로, 제목은 `title-logo-generated.webp` 래스터 오버레이로 얹고 실제 제목 텍스트는 접근성용 숨김 제목으로 남깁니다. 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다. 결과 화면은 도착 층별 배경을 동적으로 교체하며, SVG 오버레이 하나가 도착 층, 정답 수, 올라갈 힘만 보여 줍니다. 실제 다시하기는 투명 HTML hitbox가 맡고, 도착 제목과 칭찬 문장은 숨김 접근성 텍스트로 둡니다. 실패 결과는 축하 무대가 아니라 안전하게 다시 준비하는 장면으로 분리했습니다. 생성 이미지에는 텍스트와 숫자를 넣지 않았습니다.
+첫 화면과 결과 화면은 생성 이미지를 RasterStage 배경으로 씁니다. 첫 화면은 `generated-title-overlay` 표준으로, 코알라몬이 로비 조명과 바닥 반사 안에 함께 들어간 `cover-generated.webp`를 사용합니다. 제목은 `title-logo-generated.webp` 래스터 오버레이로 얹고 실제 제목 텍스트는 접근성용 숨김 제목으로 남깁니다. 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다. 결과 화면은 도착 층별 배경을 동적으로 교체하며, SVG 오버레이 하나가 도착 층, 정답 수, 올라갈 힘만 보여 줍니다. 실제 다시하기는 투명 HTML hitbox가 맡고, 도착 제목과 칭찬 문장은 숨김 접근성 텍스트로 둡니다. 실패 결과는 축하 무대가 아니라 안전하게 다시 준비하는 장면으로 분리했습니다. 생성 이미지에는 텍스트와 숫자를 넣지 않았습니다.
 
 결과 배경 7종은 imagegen으로 생성한 원본을 1280×800 PNG/WebP로 후처리한 파일입니다. 로컬 폰트, canvas, SVG, 기존 PNG/WebP 겹치기로 생성 이미지처럼 보이게 만드는 합성은 쓰지 않았습니다.
 
@@ -59,7 +60,7 @@
 - `elevator-car-generated.webp`: 문제 화면 엘리베이터 차체 스프라이트
 - `reward-events-sprite-generated.png`: 보상 이벤트 스프라이트
 - `result-*-generated.webp`: 결과 화면 등급별 배경
-- `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`: base-pack 첫 화면 동행 매스몬 배포본
+- `assets/mathmon/base-pack/mathmon-5-eaglemon.webp`: 보존된 base-pack 독수리몬 배포본
 - `eduitit-logo-mark.png`: 에듀잇티 로고
 - `screenshots/`: 화면별 스크린샷
 - `REPORT.md`: 게임 설명, 화면 흐름, 보상 구조

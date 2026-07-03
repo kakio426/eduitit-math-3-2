@@ -18,6 +18,8 @@
 
 첫 화면 표준은 `data-cover-standard="generated-title-overlay"`입니다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 깔고, 게임명은 생성형 이미지로 만든 `.hero-title-art` 독립 오버레이로 얹습니다. 한 줄 목표는 짧은 HTML 텍스트로 둡니다. 새 차시와 생성형 시작 버튼으로 이관한 차시는 `data-cover-start-standard="generated-button-art"`를 함께 선언하고, 시작 버튼의 보이는 면을 CSS 텍스트 버튼이 아니라 생성형 이미지 버튼 자산(`start-button-generated.webp`)으로 둡니다. 실제 조작은 `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button>`처럼 같은 크기의 HTML 버튼이 맡습니다.
 
+첫 화면에 매스몬이 필요하면 `cover-generated.webp` 생성 단계에서 배경·소품·조명과 함께 한 장면으로 생성합니다. 기존 매스몬 PNG/WebP를 `.cover-mathmon` 같은 별도 `<img>`로 커버 위에 얹거나, 배경을 먼저 만든 뒤 로컬에서 캐릭터를 붙이는 방식은 새 차시와 리마스터에서 금지합니다. 첫 화면에서 별도 오버레이로 허용되는 것은 제목 아트, 한 줄 목표, 생성형 시작 버튼 아트, 접근성용 hitbox뿐입니다.
+
 시작 버튼 아트는 1차시 포스터형 시작 버튼처럼 플레이 아이콘이 들어간 두툼한 노란 래스터 버튼을 기준으로 합니다. 1280×800 Stage 기준 너비 `400-460px`, 높이 `140-170px`, 비율 `2.6-3.0:1`을 기본으로 합니다. 배치는 제목/목표 묶음의 시선 흐름을 따르며, 보통 목표 아래 `14-24px` 간격, Stage y좌표 `500-580px` 안쪽에 둡니다. 1차시의 물성 있는 버튼감과 2·3차시의 제목-목표-버튼 흐름을 기준으로 삼고, 배경 주인공을 가리지 않는 쪽을 우선합니다.
 
 `cover-generated.webp` 한 장에 제목·목표·시작 버튼을 모두 구워 넣거나, 커버 전체를 투명 hitbox로 시작시키는 방식은 새 차시에서 금지합니다. 버튼 크기의 실제 HTML 버튼은 접근성과 클릭을 위해 필요하지만, 보이는 버튼 표면을 CSS 배경/텍스트로 새로 그리면 실패입니다. 아직 이전 커버 구조를 쓰는 차시는 `<main class="game">`에 `data-cover-standard="legacy-raster-poster"`를 붙여 예외임을 드러내고, 복제 기준으로 삼지 않습니다.
@@ -28,7 +30,7 @@
 
 생성형 이미지로 제목을 만들 때는 `독립 제목 로고`, `정확한 한글`, `전체 장면 아님`, `초록 배경 또는 투명 배경` 기준으로 만들고, 배경 제거 후 첫 화면 위에 올립니다. 시작 버튼도 `standalone poster-style start button asset`, `exact Korean text 시작`, `play icon`, `glossy yellow pill`, `transparent or chroma-key background` 기준으로 생성합니다. 현재 표준은 1차시 생성형 커버의 시작 버튼 물성을 따른 독립 자산입니다. 한글 철자, 제목 크기, 목표 문구·시작 버튼 아트·하단 배지와의 간격은 실제 캡처로 검수합니다. 철자 오류, 어색한 이미지, 화면과 맞지 않는 제목/버튼 자산은 첫 화면에 남기지 않습니다.
 
-보상 캐릭터나 대표 이미지는 결과 화면에서 강하게 보여 줍니다. 첫 화면에 넣을 때는 아주 절제해서 쓰고, 구조가 흐려지면 빼는 쪽을 우선합니다.
+보상 캐릭터나 대표 이미지는 결과 화면에서 강하게 보여 줍니다. 첫 화면에 넣을 때는 아주 절제해서 쓰고, 넣는다면 커버 이미지 생성 프롬프트에 포함해 배경과 같은 톤으로 만듭니다. 구조가 흐려지면 빼는 쪽을 우선합니다.
 
 배움주제 배지는 단원 배지와 같은 형태를 쓰되 주황색 계열로 구분합니다. 문구는 차시의 실제 학습 내용을 짧게 적습니다.
 
@@ -120,6 +122,7 @@
 - `manifest.json`에 차시가 추가되었는가?
 - 첫 화면 브랜드/단원 배지 위치가 기존 차시와 맞는가?
 - 첫 화면이 `generated-title-overlay` 표준(글자 없는 `cover-generated.webp` 배경, `.hero-title-art` 제목 이미지, HTML 목표)을 따르고, 새 차시나 이관 완료 차시라면 `generated-button-art` 시작 버튼 구조를 선언했는가? 기존 `.primary-button` 시작은 `compatibility-primary-button`으로만 분류했는가?
+- 첫 화면에 매스몬이 보인다면 별도 `.cover-mathmon` 오버레이가 아니라 `cover-generated.webp` 장면 안에 함께 생성되어 있는가?
 - Stage 비율이 `16:10`, 기준 크기 `1280×800` 계약을 지키는가?
 - 문제 화면에서 문제와 선택지가 가장 잘 보이는가?
 - 문제 화면이 과밀하지 않은가? 큰 문제·현재 단계·한 줄 지시·선택지만 기본으로 보이는가?

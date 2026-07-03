@@ -36,7 +36,7 @@
 
 ### 첫 화면
 
-`cover-generated.webp`를 RasterStage 배경으로 사용합니다. 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp` 생성형 버튼 아트를 쓰는 `data-cover-start-standard="generated-button-art"` 구조입니다. `에듀잇티 수학 게임` 브랜드 배지, 차시 배지, 배움주제 배지, 한 줄 목표는 HTML 오버레이입니다.
+큰 별과 반딧불몬이 밤하늘 빛 안에 함께 들어간 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp` 생성형 버튼 아트를 쓰는 `data-cover-start-standard="generated-button-art"` 구조입니다. `에듀잇티 수학 게임` 브랜드 배지, 차시 배지, 배움주제 배지, 한 줄 목표는 HTML 오버레이입니다. 별도 `cover-star`와 `cover-mathmon` 커버 이미지는 사용하지 않습니다.
 
 ### 설명 화면
 
@@ -69,8 +69,8 @@
 
 - 문제 화면은 표본 대비 이미 깨끗해 구조는 유지했습니다. 보드의 `남은 별`·검산식 줄은 정적 군더더기가 아니라 학생 행동 뒤에 실제 진행을 보여 주는 동적 피드백이라 그대로 두었습니다.
 - 보상 연출 보강: 보상 팝업의 별빛 배지에 `requestAnimationFrame` 팝 모션을 추가했습니다.
-- 매스몬 동행: 이미 base-pack `mathmon-8-unicornmon`을 결과 동행으로 사용 중이라 교체하지 않았습니다.
-- 매스몬 경로 정규화: 2단원 다른 차시와 맞춰 `assets/mathmon/base-pack/mathmon-8-unicornmon.webp` 경로를 사용합니다.
+- 매스몬 동행: 2026-07-03 커버 이관 뒤 반딧불몬은 별도 HTML 오버레이가 아니라 `cover-generated.webp` 장면 안에 포함했습니다.
+- 매스몬 경로 정규화: 보존된 base-pack 유니콘몬 배포본은 `assets/mathmon/base-pack/mathmon-8-unicornmon.webp` 경로에 둡니다.
 - 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.
 
 ## 신규 표준 적용 패스 (2026-07-02)
@@ -90,3 +90,14 @@
 - 1쪽 문구: `어떻게 풀어요?`, `별을 똑같이 묶어요.`, `몇 묶음인지 골라요.`, `남은 별을 세요.`, `나머지를 확인해요.`
 - 2쪽 문구: `무엇을 얻어요?`, `10문제를 풀어요.`, `정답이면 별빛을 모아요.`, `마지막에 별 이름을 봐요.`
 - 검증: `node scripts/check-stage-ratio.mjs`, `node scripts/qa-lesson2-star-pickup.mjs` 통과.
+
+## 커버 이관 및 텍스트 넘침·요소 겹침 QA (2026-07-03)
+
+- 확인 크기: 데스크톱 `1280x800`, 태블릿 가로 `1024x768`
+- 확인 화면: 첫 화면
+- 커버 자산: `cover-generated-source.png`, `cover-generated.png/webp` 1280×800, 큰 별과 반딧불몬이 밤하늘 장면 안에 포함됨
+- DOM 확인: `.cover-mathmon`, `.cover-star`, `.cover-visual` 커버 노드 0건
+- 결과: 제목 아트, 목표, 시작 버튼, 상단 배지, 설정 버튼, 하단 배지의 텍스트 넘침·요소 겹침 0건
+- 이미지 확인: 커버 배경 안에 제목, 목표 문장, 숫자, 버튼, UI 패널, 라벨 없음
+- 보존 확인: `star.webp`는 보상/문제 화면용으로 유지하고 커버 DOM에서만 제거함
+- 스크린샷 갱신: `screenshots/01-cover.png`, `screenshots/06-tablet-cover.png`, `screenshots/tablet-01-cover.png`

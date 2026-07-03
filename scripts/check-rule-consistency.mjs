@@ -45,6 +45,10 @@ const stalePatterns = [
     pattern: /매스몬은 오버레이로 올려/,
     message: "stale Mathmon overlay guidance remains",
   },
+  {
+    pattern: /cover-visual에 오버레이/,
+    message: "stale cover Mathmon overlay guidance remains",
+  },
 ];
 
 function parseArgs(argv) {

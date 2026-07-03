@@ -40,7 +40,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 1. **계획**: 해당 차시 폴더에 `PLAN.md`를 먼저 쓴다 → `references/plan-template.md`.
 2. **폴더**: `_templates/lesson-package`를 `3-2-<단원>-<차시>-<영문짧은이름>`으로 복사.
-3. **자산**: `_shared/`에서 `eduitit-logo-mark.png`와 필요한 배포용 자산만 복사. 매스몬은 반드시 `eduitit-mathmon-assets` 스킬과 `_shared/mathmon/MATHMON_ASSET_CONTRACT.md`를 먼저 적용하고, 새 매스몬은 `_shared/mathmon/<pack-id>/`에 원본 등록 후 차시 폴더에는 WebP 배포본만 복사한다(10종 전부 복사 불필요 — 도감 없음).
+3. **자산**: `_shared/`에서 `eduitit-logo-mark.png`와 필요한 배포용 자산만 복사. 매스몬은 반드시 `eduitit-mathmon-assets` 스킬과 `_shared/mathmon/MATHMON_ASSET_CONTRACT.md`를 먼저 적용하고, 새 매스몬은 `_shared/mathmon/<pack-id>/`에 원본 등록 후 차시 폴더에는 WebP 배포본만 복사한다(10종 전부 복사 불필요 — 도감 없음). 첫 화면 커버용으로 기존 매스몬 WebP를 따로 얹지 말고, 매스몬이 필요하면 `cover-generated.webp` 생성 프롬프트에 포함한다.
 4. **엔진 복제**: 최신 기준 차시(`3-2-1-2-...`)의 `index.html`을 복제해 개조. 재사용 함수 맵 → `references/engine-and-images.md`.
 5. **개조 3종만**: ① 문제 생성기 ② 보상/등급 라벨 ③ 테마 이미지. 점수·콤보·단계선택·등급 뼈대는 그대로.
 6. **효과 설계**: 단계 정답, 보상 이동, 중심 오브젝트 변화, 랜덤 이벤트 충격, 결과 측정에 효과를 배치한다 → `references/effect-design.md`.
@@ -86,6 +86,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 ## 로컬 합성 금지
 
 - 생성형 이미지처럼 보여야 하는 화면·타이틀·보상·결과 자산을 로컬 폰트, Pillow, canvas, SVG, CSS 캡처, 기존 PNG/WebP 겹치기 같은 로컬 합성으로 만들지 않는다.
+- 첫 화면 커버에서 기존 매스몬 PNG/WebP를 `.cover-mathmon` 같은 별도 `<img>`로 배경 위에 붙이지 않는다. 매스몬이 첫 화면에 필요하면 `cover-generated.webp`를 만들 때 배경·소품·조명과 함께 한 장면으로 생성한다.
 - 로컬 합성은 사용자가 먼저 명시적으로 허락한 경우에만 예외로 쓴다. 허락 없이 "최종 화면에서는 한 장 이미지처럼 보인다"는 이유로 로컬 합성 산출물을 생성형 이미지 자산처럼 연결하면 실패다.
 - 문제 화면 상단에 목표 지도, 진행 지도, 보상 도달 경로처럼 학생의 `다음엔 더 멀리` 기대감을 만드는 큰 시각 장치를 둘 때는 3차시 `play-map-strip-generated.webp` 방식을 기준으로 삼는다. CSS 도형, SVG, 회색 실루엣, 로컬에서 그린 아이콘 반복으로 목표 세계를 때우면 실패다. 배경/섬/로봇/장소/최종 목표 실루엣은 `image_gen`/GPT Image 등 생성형 bitmap 자산으로 만들고, HTML은 현재 위치 마커, 짧은 라벨, 접근성 hitbox처럼 동적으로 바뀌는 최소 오버레이만 맡긴다.
 - 상단 목표 지도 자산은 원본 `*-source.png`와 학생용 `*-generated.webp`를 함께 보관한다. 예: 3차시 `play-map-strip-source.png` + `play-map-strip-generated.webp`, 4차시 로봇 목표판 `play-robot-goal-strip-source.png` + `play-robot-goal-strip-generated.webp`. 크롭, 리사이즈, WebP 변환처럼 생성 원본의 의미를 바꾸지 않는 후처리는 허용하지만, 새 캐릭터·목표물·패널·문구를 로컬에서 그려 붙이면 로컬 합성으로 본다.
@@ -130,6 +131,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 새 단원 QA는 프론트만 보지 않는다. API 켜짐 success, API 꺼짐/offline, loading, error, empty, 10행 스크롤, 긴 닉네임 말줄임, 버튼 hitbox 클릭까지 확인한다.
 
 첫 화면 커버는 기본적으로 `generated-title-overlay` 표준을 따른다. 새 차시와 생성형 시작 버튼으로 이관한 차시는 `<main class="game" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art">`를 선언한다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깐다. 게임명은 생성형 이미지로 만든 `title-*-generated.webp`를 `.hero-title-art`로 얹고, 한 줄 목표는 짧은 HTML 텍스트로 둔다. 시작 버튼의 보이는 면은 CSS 텍스트 버튼이 아니라 생성형 버튼 자산(`start-button-generated.webp`)으로 둔다. 실제 조작은 `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button>`처럼 같은 크기의 HTML 버튼이 맡는다.
+
+첫 화면에 매스몬이 필요하면 커버 배경과 분리된 컷아웃을 얹지 않는다. `cover-generated.webp` 생성 프롬프트에 매스몬을 처음부터 포함해 배경·소품·빛과 같은 톤으로 만들고, HTML은 제목 아트·목표·생성형 시작 버튼·접근성 hitbox만 얹는다. 최신 엔진을 복제할 때 남아 있는 `.cover-mathmon` 구조는 새 차시 기준이 아니라 이관 전 호환 흔적이다.
 
 시작 버튼 자산은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`를 기본 파일명으로 둔다. 기준 물성은 1차시 포스터형 시작 버튼처럼 플레이 아이콘이 들어간 두툼한 노란 래스터 버튼이다. 1280×800 Stage 기준 표시 크기는 너비 `400-460px`, 높이 `140-170px`, 비율 `2.6-3.0:1`을 권장한다. 배치는 제목/목표 묶음의 시선 흐름을 따르며, 보통 목표 아래 `14-24px` 간격, Stage y좌표 `500-580px` 안쪽에 둔다. 1차시의 물성 있는 버튼감과 2·3차시의 제목-목표-버튼 흐름을 기준으로 삼고, 배경 주인공을 가리지 않는 쪽을 우선한다.
 
