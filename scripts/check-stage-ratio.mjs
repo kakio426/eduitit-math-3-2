@@ -110,9 +110,11 @@ for (const lesson of lessons) {
   const hasLegacyCover = /<main\s+class="game"[^>]*data-cover-standard="legacy-raster-poster"/.test(html);
   const hasGeneratedResultStandard = /<main\s+class="game"[^>]*data-result-visual-standard="generated-assets"/.test(html);
   const hasFullSceneScoreSlot = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-score-slot"/.test(html);
+  const hasHybridGeneratedDynamic = hasGeneratedResultStandard
+    && /<main\s+class="game"[^>]*data-result-render-mode="hybrid-generated-dynamic"/.test(html);
   const hasResultFinalGeneratedAsset = /result-final-[a-z0-9-]+-generated\.webp/.test(html);
   const hasFullSceneResultSignal = hasResultFinalGeneratedAsset || hasFullSceneScoreSlot;
-  const hasSeparateGeneratedResultAssets = hasGeneratedResultStandard && !hasFullSceneScoreSlot;
+  const hasSeparateGeneratedResultAssets = hasGeneratedResultStandard && !hasFullSceneScoreSlot && !hasHybridGeneratedDynamic;
   const hasLegacyCoverArt = html.includes('class="cover-art"') || html.includes("cover-start-hitbox");
   const hasTopBadges = html.includes('class="brand-badge"') && html.includes(".top-row");
   const hasHudUnitBadge = /<header\s+class="hud"[\s\S]*class="unit-badge"/.test(html);
@@ -139,6 +141,12 @@ for (const lesson of lessons) {
   const hasForbiddenFullSceneResultClass = /\b(result-card|result-stats|result-stat|result-copy)\b/.test(html);
   const hasGeneratedResultTitleArt = /<img(?=[^>]*class="[^"]*\bresult-title-art\b[^"]*")(?=[^>]*src="[^"]*result-title-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
   const hasGeneratedResultRetryArt = /<img(?=[^>]*class="[^"]*\bresult-retry-art\b[^"]*")(?=[^>]*src="[^"]*result-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
+  const hasHybridResultSvg = /<svg(?=[^>]*class="[^"]*\bresult-dynamic-ui\b[^"]*")(?=[^>]*viewBox="0 0 1280 800")[^>]*>/.test(html);
+  const hasHybridResultValues = html.includes('id="resultDestinationSvg"')
+    && html.includes('id="resultScoreSvg"')
+    && html.includes('id="resultMeasureSvg"')
+    && html.includes('id="resultMeasureFillSvg"');
+  const hasHybridRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
   const hasSettingsToggleMarkup = /<button(?=[^>]*\bclass="[^"]*\bsettings-toggle\b)(?=[^>]*\bid="settingsButton")(?=[^>]*\baria-label="설정 열기")(?=[^>]*\baria-haspopup="dialog")(?=[^>]*\baria-controls="settingsModal")(?=[^>]*\baria-expanded="false")[^>]*>\s*<svg[\s\S]*?<\/svg>\s*<\/button>/.test(html);
   const hasSettingsDialog = /<div(?=[^>]*\bid="settingsModal")(?=[^>]*\brole="dialog")(?=[^>]*\baria-modal="true")(?=[^>]*\baria-labelledby="settingsTitle")[^>]*>/.test(html);
   const hasSettingsBackdrop = /<div(?=[^>]*\bid="settingsBackdrop")(?=[^>]*\bclass="[^"]*\bsettings-backdrop\b)(?=[^>]*\bhidden\b)[^>]*>/.test(html);
@@ -216,6 +224,10 @@ for (const lesson of lessons) {
     [!hasSeparateGeneratedResultAssets || hasGeneratedResultTitleArt, "별도 생성형 결과 자산 방식은 보이는 결과 라벨을 <img class=\"result-title-art\" src=\"result-title-*-generated.webp\" alt=\"\" aria-hidden=\"true\">로 둬야 합니다."],
     [!hasSeparateGeneratedResultAssets || hasGeneratedResultRetryArt, "별도 생성형 결과 자산 방식은 보이는 다시 버튼 장식을 <img class=\"result-retry-art\" ...> 생성형 자산으로 둬야 합니다."],
     [!hasSeparateGeneratedResultAssets || hasAccessibleResultRetryHitbox, "별도 생성형 결과 자산 방식은 생성형 다시 버튼 위에 <button id=\"retryButton\" aria-label=\"다시\"> 접근성 hitbox를 둬야 합니다."],
+    [!hasHybridGeneratedDynamic || hasGeneratedResultStandard, "hybrid-generated-dynamic 결과 차시는 main.game에 data-result-visual-standard=\"generated-assets\"를 선언해야 합니다."],
+    [!hasHybridGeneratedDynamic || hasHybridResultSvg, "hybrid-generated-dynamic 결과는 viewBox=\"0 0 1280 800\"인 단일 .result-dynamic-ui SVG 오버레이를 써야 합니다."],
+    [!hasHybridGeneratedDynamic || hasHybridResultValues, "hybrid-generated-dynamic 결과 SVG는 결과명, 정답 수, 짧은 진행값만 맡아야 합니다."],
+    [!hasHybridGeneratedDynamic || hasHybridRestartHitbox, "hybrid-generated-dynamic 결과는 SVG 버튼 장식 위에 restartButton 투명 hitbox를 둬야 합니다."],
     [!hasGeneratedResultStandard || !hasForbiddenFullSceneResultClass, "data-result-visual-standard=\"generated-assets\" 차시는 .result-card/.result-stats/.result-stat/.result-copy 같은 CSS 결과 카드를 쓰지 않습니다."],
     [!hasGeneratedResultStandard || hasHiddenResultTitle, "data-result-visual-standard=\"generated-assets\" 차시의 #resultTitle은 보이는 CSS 제목이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasFullSceneScoreSlot || hasHiddenPraiseText, "fullscene-score-slot 결과의 #praiseText는 보이는 CSS 본문이 아니라 visually-hidden 접근성 텍스트여야 합니다."],

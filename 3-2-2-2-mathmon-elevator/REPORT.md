@@ -31,7 +31,7 @@
 ## 3. 게임 흐름
 
 ```text
-첫 화면 -> 설명 화면 -> 십의 자리 나누기 -> 남은 십 내리기 -> 일의 자리 나누기 -> 최종 답 확인 -> 올라갈 힘 이벤트 -> 다음 문제 또는 급행 운행 -> 결과 확인 -> 도착 층 결과
+첫 화면 -> 설명 1 -> 설명 2 -> 십의 자리 나누기 -> 남은 십 내리기 -> 일의 자리 나누기 -> 최종 답 확인 -> 올라갈 힘 이벤트 -> 다음 문제 또는 급행 운행 -> 결과 확인 -> 도착 층 결과
 ```
 
 학생은 먼저 십의 자리 몫과 남은 십을 고릅니다. 다음에는 남은 십을 일의 자리로 내려 합친 수를 고르고, 마지막으로 그 수를 나누어 최종 몫을 완성합니다.
@@ -40,17 +40,13 @@
 
 ### 첫 화면
 
-첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 배경 래스터는 캐릭터 없는 엘리베이터 장면으로 재생성했고, base-pack `mathmon-5-eaglemon.webp`를 `.cover-mathmon` HTML 이미지로 얹습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 한 줄 목표와 시작 버튼은 HTML로 유지해 선명하게 보이도록 했습니다.
+첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 배경 래스터는 캐릭터 없는 엘리베이터 장면으로 재생성했고, base-pack `mathmon-5-eaglemon.webp`를 `.cover-mathmon` HTML 이미지로 얹습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
 
 ### 설명 화면
 
-설명 화면은 3단계만 보여 줍니다.
+설명 화면은 `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` 2장 생성 이미지가 보이는 문구와 버튼 표면을 담당합니다. HTML은 접근성용 숨김 텍스트와 투명 `tutorialBackButton`/`tutorialNextButton` hitbox만 맡습니다.
 
-1. 십의 자리부터 나누고, 남은 십을 봐요.
-2. 남은 십을 일의 자리로 내려 합쳐요.
-3. 내린 수를 나누면 도착 층이 올라가요.
-
-버튼 문구는 다음 행동이 바로 보이도록 `나누기 시작`으로 두었습니다.
+1쪽은 `어떻게 풀어요?`로 남은 십을 내려 일의 자리와 합치는 흐름을 보여 줍니다. 2쪽은 `무엇을 얻어요?`로 10문제, 올라갈 힘, 도착 층 결과를 보여 줍니다. 보이는 버튼은 이미지 안의 `다음`, `이전`, `계속하기`입니다.
 
 ### 문제 화면
 
@@ -65,14 +61,16 @@
 
 ### 결과 화면
 
-결과 화면은 도착 층별 RasterStage 배경을 동적으로 교체합니다. `result-basement-generated.webp`, `result-first-generated.webp`, `result-middle-generated.webp`, `result-view-generated.webp`, `result-roof-generated.webp`, `result-rainbow-generated.webp`, `result-retry-generated.webp`를 사용하고, 그 위에는 올라갈 힘, 맞힌 문제, 실제 다시하기 버튼만 HTML로 얹습니다. 도착 제목과 결과 칭찬 문장은 숨김 접근성 텍스트로만 둡니다. 결과 화면의 별도 독수리몬 HTML 오버레이는 제거했습니다. 독수리몬은 각 결과 generated bitmap 안에 도착 장소와 함께 포함했고, 로컬 합성으로 대신 만들지 않았습니다.
+결과 화면은 도착 층별 RasterStage 배경을 동적으로 교체합니다. `result-basement-generated.webp`, `result-first-generated.webp`, `result-middle-generated.webp`, `result-view-generated.webp`, `result-roof-generated.webp`, `result-rainbow-generated.webp`, `result-retry-generated.webp`를 사용하고, 그 위에는 단일 SVG 오버레이가 도착 층, 정답 수, 올라갈 힘만 보여 줍니다. 실제 다시하기는 같은 위치의 투명 `restartButton` hitbox가 맡습니다. 도착 제목과 결과 칭찬 문장은 숨김 접근성 텍스트로만 둡니다.
 
 도착 층은 지하 정비층, 1층 로비, 중간층, 전망층, 옥상 정원, 꼭대기 전망대로 구분됩니다. 일반 층은 힘만으로 쉽게 열리지 않도록 맞힌 문제 수 조건을 함께 사용합니다. 무지개 힘은 특별 보상으로, 맞힌 문제 수가 낮아도 꼭대기 전망대에 바로 도착합니다. 실패 결과는 축하 무대가 아니라 다시 준비하는 안전한 장면으로 분리했습니다.
 
 ## 5. 검증 스크린샷
 
 ![첫 화면](screenshots/01-cover.png)
+![설정 모달](screenshots/01b-settings.png)
 ![설명 화면](screenshots/02-tutorial.png)
+![설명 화면 2](screenshots/02b-tutorial-page2.png)
 ![문제 화면](screenshots/03-problem.png)
 ![힌트가 열린 문제 화면](screenshots/03-problem-hint.png)
 ![문제 2단계](screenshots/03-problem-step2.png)
@@ -83,6 +81,7 @@
 ![태블릿 표지](screenshots/07-tablet-cover.png)
 ![무지개 결과](screenshots/08-result-rainbow.png)
 ![태블릿 설명](screenshots/09-tablet-tutorial.png)
+![태블릿 설명 2](screenshots/09b-tablet-tutorial-page2.png)
 ![태블릿 문제](screenshots/10-tablet-problem.png)
 ![태블릿 최종 답 확인](screenshots/11-tablet-final-confirm.png)
 ![태블릿 결과](screenshots/12-tablet-result.png)
@@ -100,6 +99,11 @@
 - `title-logo-chromakey.png`
 - `title-logo-generated.png`
 - `title-logo-generated.webp`
+- `start-button-source.png`
+- `start-button-generated.png`
+- `start-button-generated.webp`
+- `tutorial-page-1-generated.webp`
+- `tutorial-page-2-generated.webp`
 - `board-shaft-generated.webp`
 - `elevator-car-generated.webp`
 - `reward-events-sprite-generated.png`
@@ -118,32 +122,44 @@
 작업실 보관물:
 
 - `*-generated.png`: 생성 이미지 원본
+- `tutorial-page-1-source.png`, `tutorial-page-2-source.png`: 설명 이미지 생성 원본
 - `elevator-car-source.png`: 엘리베이터 차체 생성 원본
 - `elevator-car-generated.png`: 엘리베이터 차체 투명 PNG 원본
 - `screenshots/*.png`: 화면 검증 스크린샷
 - 루트 `scripts/qa-lesson2-elevator.mjs`: 수학 모델, 보상, 화면 흐름, 최신 스크린샷 QA
 
-## 최신 하네스 리마스터 (2026-06-29)
+## 최신 하네스 리마스터 (2026-07-02)
 
+- 생성형 시작 버튼: `data-cover-start-standard="generated-button-art"`를 선언하고 `start-button-generated.webp`를 첫 화면 버튼 표면으로 연결했습니다.
+- 생성형 설명 화면: `data-tutorial-standard="generated-image-text"`를 선언하고 설명 1쪽/2쪽의 보이는 문구와 버튼 표면을 생성 이미지로 이관했습니다. HTML은 숨김 접근성 텍스트와 투명 hitbox만 유지합니다.
+- 설정 모달: `data-settings-standard="modal-controls"`를 선언하고 배경 소리, 효과 소리, 방법 다시 보기, 처음부터, 닫기를 `settingsModal`에 넣었습니다.
+- 설명 2장: 설명 화면을 `1/2`, `2/2` 흐름으로 나누고 설정의 `방법 다시 보기`에서도 같은 화면을 다시 볼 수 있게 했습니다.
 - 마지막 단계 확인: 3단계 정답 뒤 보상 모달을 바로 띄우지 않고 `답 N 완성!`과 `엘리베이터 움직이기` 버튼을 먼저 보이게 했습니다.
-- 학생 문구 정리: 문제 지시문을 `몫과 남은 십을 골라요`, `아래로 내린 수를 골라요`, `일의 자리 몫을 골라요`처럼 한 행동으로 줄였습니다.
+- Humanizer 학생 문구 QA: 문제 지시문을 `몫과 남은 십을 골라요`, `아래로 내린 수를 골라요`, `일의 자리 몫을 골라요`처럼 한 행동으로 줄였습니다. 보상과 결과 문구도 변화량·도착 층·올라갈 힘처럼 학생이 화면에서 바로 볼 수 있는 말로 유지했습니다.
 - 보상 모달 단순화: 보이는 텍스트를 변화량 1개와 버튼으로 줄이고, 제목/설명은 숨김 접근성 텍스트로 옮겼습니다.
 - 엘리베이터 차체 자산화: CSS gradient/pseudo-element 차체를 제거하고, imagegen 원본에서 배경 제거한 `elevator-car-generated.webp`를 연결했습니다. 외부 CDN 참조는 없습니다.
-- 결과 화면 정리: 결과 화면의 보이는 HTML 오버레이를 `올라갈 힘`, `맞힌 문제`, 실제 `다시하기` 버튼으로 줄였습니다.
+- 결과 화면 정리: `data-result-render-mode="hybrid-generated-dynamic"`를 선언하고 SVG 오버레이 하나가 도착 층, 정답 수, 올라갈 힘만 보여 주게 했습니다.
 - 결과 매스몬 오버레이 제거: 생성 이미지처럼 보이게 로컬 합성을 하지 않기 위해 별도 HTML 캐릭터 오버레이를 제거하고, 결과 7종 bitmap 안에 도착 장소와 독수리몬을 함께 넣었습니다. 왼쪽 큰 도착 배지와 오른쪽 도착 제목은 화면에서 숨기고 접근성 텍스트로만 유지합니다.
 - 결과 고정 문구 축소: 결과 제목과 칭찬 문장은 화면에 보이지 않게 숨김 접근성 텍스트로 내렸습니다.
-- QA 자동화: `scripts/qa-lesson2-elevator.mjs`가 실제 문제 후보군과 `buildProblems()` 샘플, 대표 오답, 보상 6종, 오답 정전 경로, 최종 답 확인, 보상 모달 단순화, 결과 화면, 데스크톱/태블릿 주요 상태 스크린샷을 검증합니다.
+- QA 자동화: `scripts/qa-lesson2-elevator.mjs`가 실제 문제 후보군과 `buildProblems()` 샘플, 대표 오답, 보상 6종, 오답 정전 경로, 최종 답 확인, 보상 모달 단순화, 설정 모달, 하이브리드 결과 화면, 데스크톱/태블릿 주요 상태 스크린샷을 검증합니다. PASS 뒤 종료 hang을 막기 위해 CDP 종료부에 타임아웃 정리를 추가했습니다.
 
-## 검증 결과 (2026-06-29)
+## 검증 결과 (2026-07-02)
 
 - 결과 자산: `result-basement/first/middle/view/roof/rainbow/retry-generated.png|webp` 7종을 imagegen 원본에서 1280×800으로 후처리했습니다. 생성 이미지에는 텍스트, 숫자, 버튼을 넣지 않았고, 각 장면 안에 독수리몬을 포함했습니다.
 - 엘리베이터 자산: `elevator-car-source.png` 원본을 보관하고, 투명 `elevator-car-generated.png/webp`(560×640, alpha 포함)를 문제 화면에 연결했습니다. `index.html`에는 CDN 참조나 예전 CSS 차체 pseudo-element가 남아 있지 않습니다.
 - 수학 QA: 후보 58개가 모두 두 자리 나눗셈, 나누는 수 2~8, 십의 자리 내림 있음, 최종 나머지 0 조건을 통과했습니다. 2단계와 3단계에는 남은 십을 빠뜨리는 대표 오답이 들어갑니다.
-- 흐름 QA: 첫 화면 -> 설명 -> 1단계 -> 2단계 -> 3단계 -> 최종 답 확인 버튼 -> 보상 -> 결과 흐름을 브라우저에서 완주했습니다.
+- 흐름 QA: 첫 화면 -> 설정 모달 -> 설명 1 -> 설명 2 -> 1단계 -> 2단계 -> 3단계 -> 최종 답 확인 버튼 -> 보상 -> 결과 흐름을 브라우저에서 완주했습니다.
 - 보상 QA: 증가, 감소, 대량 증가, 급행, 0, 무지개, 오답 정전 경로를 강제 확인했습니다.
-- 텍스트 넘침·요소 겹침 QA: 1280×800 데스크톱과 1024×768 태블릿 가로 스크린샷에서 첫 화면, 설명, 문제 1단계, 문제 2단계, 힌트, 최종 답 확인, 보상, 일반 결과, retry 결과, 무지개 결과를 확인했습니다. 자동 overflow/clipping 검사와 `screenshots/qa-contact-sheet.png` 눈검수 모두 통과했습니다.
+- 텍스트 넘침·요소 겹침 QA: 1280×800 데스크톱과 1024×768 태블릿 가로 스크린샷에서 첫 화면, 설정 모달, 설명 1장, 설명 2장, 문제 1단계, 문제 2단계, 힌트, 최종 답 확인, 보상, 일반 결과, retry 결과, 무지개 결과를 확인했습니다. 자동 overflow/clipping 검사와 스크린샷 눈검수 모두 통과했습니다.
 - 명령 검증: `node scripts/check-stage-ratio.mjs`, inline JS syntax check, `node --check scripts/qa-lesson2-elevator.mjs`, `node scripts/qa-lesson2-elevator.mjs` 모두 통과했습니다.
-- 하네스 재점검: 결과 화면 고정 제목과 칭찬 문구는 숨김 접근성 텍스트로 내리고, 보이는 HTML 오버레이는 올라갈 힘, 맞힌 문제, 다시하기 버튼만 남겼습니다. QA 스크립트의 Chrome 임시 프로필은 `screenshots/.qa-profile/chrome-user-data` 아래로 제한하고 경로 가드를 추가했습니다.
+- 하네스 재점검: 결과 화면 고정 제목과 칭찬 문구는 숨김 접근성 텍스트로 내리고, 보이는 값은 SVG 오버레이의 도착 층, 정답 수, 올라갈 힘만 남겼습니다. QA 스크립트의 Chrome 임시 프로필은 `screenshots/.qa-profile/chrome-user-data` 아래로 제한하고 경로 가드를 유지합니다.
+
+## 설명 이미지화 패스 (2026-07-03)
+
+- 설명 화면 1쪽/2쪽을 `tutorial-page-*-generated.webp` 생성 이미지로 교체했습니다.
+- 1쪽 문구: `어떻게 풀어요?`, `남은 십을 내려요.`, `십의 자리부터`, `남은 십을 내려요.`, `일의 자리와 합쳐요.`
+- 2쪽 문구: `무엇을 얻어요?`, `10문제를 풀어요.`, `정답이면 힘을 모아요.`, `마지막에 도착 층을 봐요.`
+- 검증: `node scripts/check-stage-ratio.mjs`, `node scripts/qa-lesson2-elevator.mjs` 통과.
 
 ## 완성도 폴리시 패스 (2026-06-24)
 

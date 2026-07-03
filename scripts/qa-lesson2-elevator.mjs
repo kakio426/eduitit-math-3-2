@@ -55,6 +55,13 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function ignoreTimeout(promise, ms) {
+  await Promise.race([
+    promise.catch(() => {}),
+    delay(ms)
+  ]);
+}
+
 function hasBrowserExited() {
   return browser.exitCode !== null || browser.signalCode !== null;
 }
@@ -129,7 +136,20 @@ class Cdp {
     const id = ++this.id;
     this.ws.send(JSON.stringify({ id, method, params }));
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      const timer = setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error(`${method} timed out`));
+      }, 15000);
+      this.pending.set(id, {
+        resolve: (value) => {
+          clearTimeout(timer);
+          resolve(value);
+        },
+        reject: (error) => {
+          clearTimeout(timer);
+          reject(error);
+        }
+      });
     });
   }
 
@@ -196,6 +216,7 @@ async function navigate(viewport) {
     url: `${FILE_URL}?qa=${viewport.name}-${Date.now()}`
   });
   await waitUntil("document.readyState === 'complete'", `${viewport.name}: page did not finish loading`, 6000);
+  await evaluate('window.__mathmonAudioQa?.setState({ bgmEnabled: false, sfxEnabled: false }); document.getElementById("settingsConfirm").textContent = ""');
   await delay(700);
 }
 
@@ -235,11 +256,12 @@ async function capture(name) {
     ".step-formula",
     ".answer-cell",
     ".down-box",
-    ".result-stat",
-    ".result-copy h2",
-    ".praise",
+    ".settings-modal",
+    ".settings-switch",
+    ".settings-action",
+    ".settings-restart-confirm",
     ".reward-delta",
-    ".arrival-floor"
+    ".result-restart-hitbox"
   ].join(",");
   const screen = document.querySelector(".screen.is-active");
   const screenRect = screen.getBoundingClientRect();
@@ -405,12 +427,46 @@ async function verifyRewardModel() {
   return result;
 }
 
+async function verifyContractFlags() {
+  const contract = await evaluate(`
+(() => {
+  const main = document.querySelector("main.game");
+  const audioQa = window.__mathmonAudioQa;
+  return {
+    coverStart: main?.dataset.coverStartStandard,
+    settings: main?.dataset.settingsStandard,
+    resultVisual: main?.dataset.resultVisualStandard,
+    resultMode: main?.dataset.resultRenderMode,
+    audioKeys: audioQa?.keys || null,
+    forbiddenResultNodes: document.querySelectorAll("#resultScreen .result-stats, #resultScreen .result-stat, #resultScreen .result-copy, #resultScreen .result-mathmon").length
+  };
+})()
+`);
+  assert(contract.coverStart === "generated-button-art", `generated start button flag missing: ${JSON.stringify(contract)}`);
+  assert(contract.settings === "modal-controls", `settings modal flag missing: ${JSON.stringify(contract)}`);
+  assert(contract.resultVisual === "generated-assets", `generated result flag missing: ${JSON.stringify(contract)}`);
+  assert(contract.resultMode === "hybrid-generated-dynamic", `hybrid result mode missing: ${JSON.stringify(contract)}`);
+  assert(contract.audioKeys?.bgm === "mathmon-audio-bgm-enabled", `bgm key mismatch: ${JSON.stringify(contract)}`);
+  assert(contract.audioKeys?.sfx === "mathmon-audio-sfx-enabled", `sfx key mismatch: ${JSON.stringify(contract)}`);
+  assert(contract.forbiddenResultNodes === 0, `legacy result nodes remain: ${JSON.stringify(contract)}`);
+  return contract;
+}
+
 async function runDesktopScenario() {
   await navigate(VIEWPORTS.desktop);
+  const contract = await verifyContractFlags();
   await capture("01-cover.png");
+  await click("#settingsButton");
+  await waitUntil('!document.getElementById("settingsBackdrop").hidden', "settings did not open");
+  await capture("01b-settings.png");
+  await click("#settingsCloseButton");
+  await waitUntil('document.getElementById("settingsBackdrop").hidden', "settings did not close");
   await click("#startButton");
   await waitUntil('document.getElementById("tutorialScreen").classList.contains("is-active")', "tutorial did not open");
   await capture("02-tutorial.png");
+  await click("#tutorialNextButton");
+  await waitUntil('document.getElementById("tutorialProgress").textContent.trim() === "2/2"', "tutorial page 2 did not open");
+  await capture("02b-tutorial-page2.png");
   await click("#tutorialNextButton");
   await waitUntil('document.getElementById("playScreen").classList.contains("is-active") && document.querySelectorAll("#choiceGrid button").length === 4', "play screen did not start");
 
@@ -554,13 +610,15 @@ async function runDesktopScenario() {
   await waitUntil('!document.getElementById("resultScreen").classList.contains("is-measuring")', "rainbow result did not finish", 4200);
   await capture("08-result-rainbow.png");
 
-  return { mathModel, rewardModel };
+  return { contract, mathModel, rewardModel };
 }
 
 async function runWrongAnswerScenario() {
   await navigate(VIEWPORTS.desktop);
   await click("#startButton");
   await waitUntil('document.getElementById("tutorialScreen").classList.contains("is-active")', "wrong path tutorial did not open");
+  await click("#tutorialNextButton");
+  await waitUntil('document.getElementById("tutorialProgress").textContent.trim() === "2/2"', "wrong path tutorial page 2 did not open");
   await click("#tutorialNextButton");
   await waitUntil('document.getElementById("playScreen").classList.contains("is-active") && document.querySelectorAll("#choiceGrid button").length === 4', "wrong path play screen did not start");
   await evaluate(`
@@ -607,6 +665,9 @@ async function runTabletScenario() {
   await waitUntil('document.getElementById("tutorialScreen").classList.contains("is-active")', "tablet tutorial did not open");
   await capture("09-tablet-tutorial.png");
   await click("#tutorialNextButton");
+  await waitUntil('document.getElementById("tutorialProgress").textContent.trim() === "2/2"', "tablet tutorial page 2 did not open");
+  await capture("09b-tablet-tutorial-page2.png");
+  await click("#tutorialNextButton");
   await waitUntil('document.getElementById("playScreen").classList.contains("is-active") && document.querySelectorAll("#choiceGrid button").length === 4', "tablet play screen did not start");
   await capture("10-tablet-problem.png");
   await clickCorrectChoice();
@@ -632,6 +693,8 @@ async function runTabletScenario() {
   await capture("12-tablet-result.png");
 }
 
+let passed = false;
+
 try {
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
@@ -640,20 +703,23 @@ try {
   await runTabletScenario();
   console.log("LESSON2_ELEVATOR_QA: PASS");
   console.log(JSON.stringify({ screenshots: SCREENSHOT_DIR, desktop, wrongAnswer }, null, 2));
+  passed = true;
 } finally {
-  await Promise.race([
-    cdp.send("Browser.close").catch(() => {}),
-    delay(1000)
-  ]);
-  await cdp.close();
+  await ignoreTimeout(cdp.send("Browser.close"), 800);
+  await ignoreTimeout(cdp.close(), 800);
   if (!hasBrowserExited()) {
     browser.kill();
-    await waitForBrowserExit(5000);
+    await ignoreTimeout(waitForBrowserExit(2500), 2700);
   }
   if (!hasBrowserExited()) {
     browser.kill("SIGKILL");
-    await waitForBrowserExit(2000);
+    await ignoreTimeout(waitForBrowserExit(1200), 1400);
   }
-  await rm(assertSafeProfilePath(PROFILE), { recursive: true, force: true });
-  await rm(assertSafeProfileBasePath(PROFILE_BASE), { recursive: true, force: true });
+  browser.stderr.destroy();
+  browser.unref();
+  await ignoreTimeout(rm(assertSafeProfilePath(PROFILE), { recursive: true, force: true }), 1000);
+  await ignoreTimeout(rm(assertSafeProfileBasePath(PROFILE_BASE), { recursive: true, force: true }), 1000);
+  if (passed) {
+    process.exit(0);
+  }
 }

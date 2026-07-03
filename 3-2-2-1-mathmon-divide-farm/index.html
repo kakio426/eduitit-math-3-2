@@ -198,7 +198,9 @@
     .ghost-button:focus-visible,
     .choice-button:focus-visible,
     .hint-toggle:focus-visible,
-    .sound-toggle:focus-visible {
+    .settings-toggle:focus-visible,
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.86);
       outline-offset: 4px;
     }
@@ -215,7 +217,7 @@
       border: 0;
     }
 
-    .sound-toggle {
+    .settings-toggle {
       position: absolute;
       top: var(--stage-inset);
       right: var(--stage-inset);
@@ -237,13 +239,13 @@
       backdrop-filter: blur(10px);
     }
 
-    .sound-toggle::before,
-    .sound-toggle::after {
+    .settings-toggle::before,
+    .settings-toggle::after {
       content: none !important;
       display: none !important;
     }
 
-    .sound-toggle svg {
+    .settings-toggle svg {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -259,10 +261,6 @@
       pointer-events: none;
     }
 
-    .sound-off-stroke {
-      display: none;
-    }
-
     .stage-shell .top-row {
       right: calc(var(--stage-inset) + var(--sound-reserve));
     }
@@ -271,17 +269,148 @@
       padding-right: var(--sound-reserve);
     }
 
-    .sound-toggle[aria-pressed="false"] {
-      border-color: rgba(215, 202, 219, 0.34);
-      color: var(--muted);
+    .settings-toggle[aria-expanded="true"] {
+      border-color: rgba(255, 200, 87, 0.78);
+      color: #ffe27a;
+      background: rgba(38, 29, 18, 0.74);
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-wave {
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 70;
+      display: none;
+      place-items: center;
+      padding: clamp(18px, 4vw, 44px);
+      background: rgba(8, 6, 12, 0.58);
+      backdrop-filter: blur(4px);
+    }
+
+    .settings-backdrop.is-open {
+      display: grid;
+    }
+
+    .settings-modal {
+      width: min(430px, 100%);
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      border: 1px solid rgba(255, 232, 186, 0.24);
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: rgba(26, 21, 36, 0.96);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+    }
+
+    .settings-title {
+      margin: 0;
+      color: #fff3c8;
+      font-size: clamp(1.28rem, 3vw, 1.7rem);
+      font-weight: 1000;
+      line-height: 1.15;
+    }
+
+    .settings-menu {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-switch,
+    .settings-action {
+      width: 100%;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 1rem;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .settings-switch-track {
+      flex: 0 0 auto;
+      width: 48px;
+      height: 28px;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(215, 202, 219, 0.34);
+      transition: background 0.16s ease;
+    }
+
+    .settings-switch-track::after {
+      content: "";
+      display: block;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+      transition: transform 0.16s ease;
+    }
+
+    .settings-switch[aria-pressed="true"] .settings-switch-track {
+      background: #35d9b2;
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track {
+      background: #35d9b2;
+    }
+
+    .settings-switch[aria-pressed="true"] .settings-switch-track::after,
+    .settings-switch[aria-checked="true"] .settings-switch-track::after {
+      transform: translateX(20px);
+    }
+
+    .settings-action {
+      justify-content: center;
+      color: #221400;
+      background: linear-gradient(180deg, #ffe27a, #ffc857);
+    }
+
+    .settings-action[data-variant="ghost"] {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .settings-confirm {
+      min-height: 18px;
+      margin: 0;
+      color: #d7fff2;
+      font-size: 0.9rem;
+      font-weight: 850;
+      line-height: 1.3;
+    }
+
+    .settings-restart-confirm {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 200, 87, 0.38);
+      border-radius: var(--radius);
+      background: rgba(255, 200, 87, 0.09);
+    }
+
+    .settings-restart-confirm[hidden] {
       display: none;
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
-      display: block;
+    .settings-restart-confirm p {
+      margin: 0;
+      color: #fff3c8;
+      font-weight: 950;
+      line-height: 1.25;
+    }
+
+    .settings-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
     .cover {
@@ -354,11 +483,38 @@
       line-height: 1.35;
     }
 
-    .cover #startButton {
-      min-width: 190px;
-      min-height: 72px;
-      padding: 0 44px;
-      font-size: clamp(1.18rem, 2.7vw, 1.42rem);
+    .cover-start-button {
+      width: 430px;
+      height: 160px;
+      max-width: 100%;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+      line-height: 0;
+      transition: transform 0.14s ease, filter 0.14s ease;
+    }
+
+    .cover-start-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .cover-start-button:active {
+      transform: translateY(1px);
+      filter: brightness(0.98);
+    }
+
+    .start-button-art {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.28));
     }
 
     .cover-visual {
@@ -508,6 +664,35 @@
       max-width: 720px;
     }
 
+    .tutorial-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tutorial-progress {
+      display: inline-grid;
+      place-items: center;
+      min-height: var(--sound-button-size);
+      padding: 0 12px;
+      border: 1px solid rgba(255, 200, 87, 0.46);
+      border-radius: 999px;
+      color: #231400;
+      background: var(--amber);
+      font-size: 0.9rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .tutorial-page {
+      display: grid;
+      gap: 18px;
+    }
+
+    .tutorial-page[hidden] {
+      display: none;
+    }
+
     .tutorial-copy h2 {
       margin: 0;
       color: #ffffff;
@@ -554,6 +739,93 @@
 
     .tutorial-art-spacer {
       min-height: clamp(360px, 48vw, 590px);
+    }
+
+    .tutorial-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tutorial[data-tutorial-standard="generated-image-text"] {
+      align-items: stretch;
+      padding: 0;
+      background: #81cef2;
+    }
+
+    .tutorial[data-tutorial-standard="generated-image-text"]::after {
+      display: none;
+    }
+
+    .tutorial[data-tutorial-standard="generated-image-text"] .tutorial-layout {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+      width: 100%;
+    }
+
+    .tutorial[data-tutorial-standard="generated-image-text"] .tutorial-page {
+      position: absolute;
+      inset: 0;
+      display: block;
+    }
+
+    .tutorial[data-tutorial-standard="generated-image-text"] .tutorial-page[hidden] {
+      display: none;
+    }
+
+    .tutorial-page-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .tutorial[data-tutorial-standard="generated-image-text"] .tutorial-actions {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: block;
+      pointer-events: none;
+    }
+
+    .tutorial-hitbox {
+      position: absolute;
+      bottom: 4.5%;
+      height: 13.5%;
+      padding: 0;
+      border: 0;
+      border-radius: 42px;
+      color: transparent;
+      background: transparent;
+      font-size: 0;
+      line-height: 0;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .tutorial-next-hitbox {
+      left: 29%;
+      width: 42%;
+    }
+
+    .tutorial-back-hitbox {
+      left: 19%;
+      width: 27%;
+    }
+
+    .tutorial.has-back .tutorial-next-hitbox {
+      left: 52%;
+      width: 31%;
+    }
+
+    .tutorial-hitbox:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.94);
+      outline-offset: 6px;
     }
 
     .play {
@@ -1588,7 +1860,7 @@
 
     .result {
       align-items: center;
-      padding: clamp(72px, 9vw, 92px) clamp(24px, 5vw, 62px) clamp(28px, 4vw, 44px);
+      padding: 0;
       background: #171421;
     }
 
@@ -1621,211 +1893,104 @@
       animation: flight-streak 1.4s linear infinite;
     }
 
-    .result-layout {
-      position: relative;
+    .result-dynamic-ui {
+      position: absolute;
+      inset: 0;
       z-index: 2;
       width: 100%;
-      display: grid;
-      grid-template-columns: minmax(280px, 0.86fr) minmax(360px, 1.14fr);
-      align-items: center;
-      gap: clamp(24px, 5vw, 56px);
-    }
-
-    .launch-scene {
-      min-height: 460px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      overflow: visible;
-    }
-
-    .launch-scene .rocket-hero {
-      display: none;
-    }
-
-    .launch-pad {
-      display: none;
-    }
-
-    .result-mathmon {
-      width: clamp(178px, 24vw, 286px);
-      transform: rotate(-3deg);
-      filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.36));
-      animation: float-rocket 5s ease-in-out infinite;
-    }
-
-    .result-copy {
-      display: grid;
-      gap: 14px;
-    }
-
-    .result-copy h2 {
-      min-height: 100px;
-      display: grid;
-      align-items: center;
-      margin: 0;
-      color: #ffffff;
-      font-size: clamp(2.6rem, 6.5vw, 5.4rem);
-      line-height: 1.05;
-      font-weight: 1000;
-      overflow-wrap: anywhere;
-      text-shadow: 0 5px 18px rgba(0, 0, 0, 0.42);
-    }
-
-    .praise {
-      margin: 0;
-      color: #ffe8ba;
-      font-size: clamp(1.14rem, 2.4vw, 1.45rem);
-      font-weight: 950;
-      line-height: 1.35;
-      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
-    }
-
-    .result-measure {
-      position: relative;
-      display: grid;
-      gap: 10px;
-      padding: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(96, 215, 255, 0.32);
-      border-radius: var(--radius);
-      background: rgba(14, 12, 22, 0.56);
-      box-shadow: 0 0 30px rgba(96, 215, 255, 0.1);
-    }
-
-    .result-measure::after {
-      content: "";
-      position: absolute;
-      inset: -40% auto -40% -30%;
-      width: 26%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
-      transform: skewX(-18deg);
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .result.is-measuring .result-measure::after {
-      opacity: 1;
-      animation: scan-sweep 1.35s ease-in-out infinite;
-    }
-
-    .measure-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 10px;
-      color: #ffffff;
-      font-weight: 1000;
-    }
-
-    .measure-top span {
-      color: #c8f3ff;
-      font-size: 0.96rem;
-    }
-
-    .measure-top strong {
-      color: #b8ffe9;
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-      line-height: 1;
-    }
-
-    .measure-tube {
-      position: relative;
-      height: 26px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.28);
-    }
-
-    .measure-fill {
-      display: block;
-      width: var(--measure-width, 0%);
       height: 100%;
-      border-radius: inherit;
-      background:
-        radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.66) 0 5px, transparent 6px),
-        linear-gradient(180deg, #d9fff2, #45f2b8 42%, #12a97d);
-      box-shadow: 0 0 28px rgba(53, 217, 178, 0.56);
+      pointer-events: none;
+      font-family: inherit;
+    }
+
+    .result-svg-panel rect:first-child {
+      fill: rgba(14, 12, 22, 0.68);
+      stroke: rgba(255, 255, 255, 0.22);
+      stroke-width: 2;
+    }
+
+    .result-svg-place,
+    .result-svg-score,
+    .result-svg-meter {
+      paint-order: stroke;
+      stroke: rgba(14, 12, 22, 0.35);
+      stroke-width: 4px;
+      stroke-linejoin: round;
+      fill: #ffffff;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .result-svg-place {
+      font-size: 48px;
+    }
+
+    .result-svg-score {
+      fill: #ffe27a;
+      font-size: 60px;
+    }
+
+    .result-svg-meter {
+      fill: #d9fff2;
+      font-size: 36px;
+    }
+
+    .result-meter-bg {
+      fill: rgba(0, 0, 0, 0.34);
+      stroke: rgba(255, 255, 255, 0.24);
+      stroke-width: 2;
+    }
+
+    .result-meter-fill {
+      fill: url("#resultMeterGradient");
       transition: width 1.7s cubic-bezier(0.18, 0.9, 0.2, 1);
     }
 
-    .result.is-rainbow-result .measure-fill {
-      background:
-        radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.66) 0 5px, transparent 6px),
-        linear-gradient(90deg, #ff5d7a, #ffc857, #45f2b8, #60d7ff, #b874ff, #ff5d7a);
-      background-size: 240% 100%;
-      animation: rainbow-flow 1.45s linear infinite;
-      box-shadow: 0 0 30px rgba(255, 200, 87, 0.42), 0 0 28px rgba(96, 215, 255, 0.4);
-    }
-
-    .measure-scan {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-      opacity: 0;
-      transform: translateX(-100%);
-      pointer-events: none;
-    }
-
-    .result.is-measuring .measure-scan {
+    .result-retry-shell {
       opacity: 1;
-      animation: meter-scan 1.2s ease-in-out infinite;
+      transition: opacity 0.2s ease;
     }
 
-    .result-planet-track {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 6px;
+    .result.is-measuring .result-retry-shell {
+      opacity: 0;
     }
 
-    .result-planet-track .planet-chip {
-      min-height: 40px;
-      font-size: 0.94rem;
+    .result-retry-shell rect {
+      fill: url("#resultPanelGradient");
+      stroke: rgba(255, 255, 255, 0.58);
+      stroke-width: 2;
     }
 
-    .result-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .result-stat {
-      min-height: 94px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .result-stat span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.84rem;
-      font-weight: 850;
-    }
-
-    .result-stat strong {
-      display: block;
-      margin-top: 6px;
-      color: #ffffff;
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
+    .result-retry-shell text {
+      fill: #241500;
+      font-size: 34px;
       font-weight: 1000;
-      line-height: 1;
+      letter-spacing: 0;
     }
 
-    .result-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .result-restart-hitbox {
+      position: absolute;
+      left: 65.47%;
+      top: 58.5%;
+      z-index: 3;
+      width: 21.4%;
+      height: 11%;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 20px;
+      color: transparent;
+      background: transparent;
     }
 
-    .result-actions [hidden] {
+    .result-restart-hitbox[hidden] {
       display: none;
     }
 
-    .result.is-measuring .result-actions {
-      visibility: hidden;
+    .result-restart-hitbox:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.86);
+      outline-offset: 4px;
     }
 
     .farm-zone {
@@ -2275,77 +2440,18 @@
         font-size: 0.96rem;
       }
 
-      .result {
-        padding: 42px 38px 24px;
-      }
-
-      .result-layout {
-        gap: 24px;
-      }
-
-      .launch-scene {
-        min-height: 380px;
-      }
-
-      .result-mathmon {
-        width: 230px;
-      }
-
-      .result-copy {
-        gap: 10px;
-      }
-
-      .result-copy h2 {
-        min-height: 78px;
-        font-size: clamp(2.4rem, 5.3vw, 4.1rem);
-        line-height: 1.02;
-      }
-
-      .praise {
-        font-size: 1.12rem;
-        line-height: 1.25;
-      }
-
-      .result-measure {
-        gap: 8px;
-        padding: 11px 12px;
-      }
-
-      .measure-tube {
-        height: 22px;
-      }
-
-      .result-planet-track .planet-chip {
-        min-height: 36px;
-      }
-
-      .result-stats {
-        gap: 8px;
-      }
-
-      .result-stat {
-        min-height: 78px;
-        padding: 10px;
-      }
-
-      .result-stat strong {
-        margin-top: 4px;
-        font-size: 1.7rem;
-      }
     }
 
     @media (max-width: 880px) {
 
       .cover,
-      .tutorial,
-      .result {
+      .tutorial {
         padding-top: 78px;
       }
 
       .cover-scene,
       .tutorial-layout,
-      .play-layout,
-      .result-layout {
+      .play-layout {
         grid-template-columns: 1fr;
       }
 
@@ -2387,7 +2493,7 @@
 
     @media (max-width: 720px) and (orientation: portrait) {
       .game,
-      .sound-toggle {
+      .settings-toggle {
         display: none;
       }
 
@@ -2430,16 +2536,40 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic">
     <div class="stage-shell">
-      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M4 10h3.5l4.2-4v12l-4.2-4H4z"></path>
-          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
-          <path class="sound-off-stroke" d="M16 8l5 8M21 8l-5 8"></path>
+          <path d="M12 8.2a3.8 3.8 0 1 1 0 7.6 3.8 3.8 0 0 1 0-7.6Z"></path>
+          <path d="M19.4 13.5a7.9 7.9 0 0 0 .1-1.5l2-1.5-2-3.5-2.5 1a8.2 8.2 0 0 0-1.3-.8L15.3 4h-4l-.4 3.2a8.2 8.2 0 0 0-1.4.8L7 7 5 10.5 7 12a7.9 7.9 0 0 0 .1 1.5L5 15l2 3.5 2.5-1a8.2 8.2 0 0 0 1.4.8l.4 3.2h4l.4-3.2a8.2 8.2 0 0 0 1.3-.8l2.5 1 2-3.5-2.1-1.5Z"></path>
         </svg>
       </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
+              <span>배경 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
+              <span>효과 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action" id="settingsRestartButton" type="button" data-variant="ghost">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button" data-variant="ghost">닫기</button>
+            <div class="settings-restart-confirm" id="settingsRestartConfirm" hidden>
+              <p id="settingsConfirmText">처음부터 할까요?</p>
+              <div class="settings-confirm-actions">
+                <button class="settings-action" id="settingsRestartConfirmButton" type="button">처음부터</button>
+                <button class="settings-action" id="settingsRestartCancelButton" type="button" data-variant="ghost">계속하기</button>
+              </div>
+            </div>
+          </div>
+          <p class="settings-confirm" id="settingsConfirm" aria-live="polite"></p>
+        </div>
+      </div>
     <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
       <img class="raster-bg" src="cover-generated.webp" alt="">
       <div class="top-row">
@@ -2452,7 +2582,9 @@
           <h1 class="visually-hidden" id="coverTitle">매스몬 나누기 농장</h1>
           <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
           <p>수확물을 똑같이 나눠 바구니에 담자!</p>
-          <button class="primary-button" id="startButton" type="button">시작</button>
+          <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
+            <img class="start-button-art" src="start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
+          </button>
         </div>
         <div class="cover-visual" aria-hidden="true">
           <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-2-foxmon.webp" alt="">
@@ -2460,24 +2592,30 @@
       </div>
     </section>
 
-    <section class="screen tutorial" id="tutorialScreen" aria-labelledby="tutorialTitle">
-      <img class="raster-bg" src="tutorial-generated.webp" alt="">
-      <div class="top-row">
-        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
-        <span class="unit-badge">3학년 2학기 2단원 1차시</span>
-      </div>
-      <div class="tutorial-layout">
-        <div class="tutorial-copy">
-          <span class="mini-badge">어떻게 해요?</span>
-          <h2 id="tutorialTitle">십의 자리부터 나눠요.</h2>
-          <ol class="steps">
-            <li><b>1</b><span>십의 자리 수확물을 먼저 나눠요.</span></li>
-            <li><b>2</b><span>일의 자리 수확물도 똑같이 나눠요.</span></li>
-            <li><b>3</b><span>몫을 합치면 바구니에 수확이 담겨요.</span></li>
-          </ol>
-          <button class="primary-button" id="tutorialNextButton" type="button">나누기 시작</button>
+    <section class="screen tutorial" id="tutorialScreen" aria-labelledby="tutorialTitle" data-tutorial-standard="generated-image-text">
+      <div class="tutorial-layout" aria-hidden="true">
+        <div class="tutorial-page" data-tutorial-page="0">
+          <img class="tutorial-page-art" src="tutorial-page-1-generated.webp" alt="">
         </div>
-        <div class="tutorial-art-spacer" aria-hidden="true"></div>
+        <div class="tutorial-page" data-tutorial-page="1" hidden>
+          <img class="tutorial-page-art" src="tutorial-page-2-generated.webp" alt="">
+        </div>
+      </div>
+      <div class="visually-hidden">
+        <h2 id="tutorialTitle">어떻게 풀어요?</h2>
+        <p>십의 자리부터 나누어요.</p>
+        <ol>
+          <li>십의 자리부터</li>
+          <li>일의 자리도</li>
+          <li>답을 확인해요.</li>
+        </ol>
+        <h2>무엇을 얻어요?</h2>
+        <p>10문제를 풀어요. 정답이면 수확을 담아요. 마지막에 농장 길을 봐요.</p>
+        <span id="tutorialProgress">1/2</span>
+      </div>
+      <div class="tutorial-actions">
+        <button class="tutorial-hitbox tutorial-back-hitbox" id="tutorialBackButton" type="button" hidden aria-label="이전"></button>
+        <button class="tutorial-hitbox tutorial-next-hitbox" id="tutorialNextButton" type="button" aria-label="다음"></button>
       </div>
     </section>
 
@@ -2595,47 +2733,39 @@
 
     <section class="screen result" id="resultScreen" aria-labelledby="resultTitle">
       <img class="raster-bg" id="resultRaster" src="result-tier-seed.webp" alt="">
-      <div class="top-row">
-        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
-        <span class="unit-badge">3학년 2학기 2단원 1차시</span>
-      </div>
-      <div class="result-layout">
-        <div class="launch-scene" aria-hidden="true">
-          <img class="result-mathmon" src="assets/mathmon/base-pack/mathmon-2-foxmon.webp" alt="">
-        </div>
-        <div class="result-copy">
-          <h2 id="resultTitle">수확 보는 중</h2>
-          <p class="praise" id="praiseText">수확물을 똑같이 나눈 멋진 계산이에요.</p>
-          <div class="result-measure" id="resultMeasure" aria-label="수확 보기 결과">
-            <div class="measure-top">
-              <span id="measureStatus">수확 보는 중</span>
-              <strong id="measurePercent">수확 0</strong>
-            </div>
-            <div class="measure-tube" aria-hidden="true">
-              <span class="measure-fill" id="measureFill"></span>
-              <span class="measure-scan"></span>
-            </div>
-            <div class="result-planet-track" id="resultPlanetTrack" aria-label="농장 길 확인"></div>
-          </div>
-          <div class="result-stats">
-            <div class="result-stat">
-              <span>모은 수확</span>
-              <strong id="finalEnergyText">0</strong>
-            </div>
-            <div class="result-stat">
-              <span>맞힌 문제</span>
-              <strong id="finalCorrectText">0/10</strong>
-            </div>
-            <div class="result-stat">
-              <span>도착한 밭</span>
-              <strong id="finalDestinationText">씨앗</strong>
-            </div>
-          </div>
-          <div class="result-actions">
-            <button class="primary-button" id="restartButton" type="button">다시하기</button>
-          </div>
-        </div>
-      </div>
+      <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultTitle resultPraiseText">
+        <defs>
+          <linearGradient id="resultPanelGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#fff1b8" stop-opacity="0.94"></stop>
+            <stop offset="1" stop-color="#ffc857" stop-opacity="0.94"></stop>
+          </linearGradient>
+          <linearGradient id="resultMeterGradient" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#45f2b8"></stop>
+            <stop offset="1" stop-color="#ffe27a"></stop>
+          </linearGradient>
+          <filter id="resultShadow" x="-20%" y="-30%" width="140%" height="170%">
+            <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000000" flood-opacity="0.28"></feDropShadow>
+          </filter>
+        </defs>
+        <g class="result-svg-panel" filter="url(#resultShadow)">
+          <rect x="770" y="128" width="410" height="286" rx="18"></rect>
+          <text class="result-svg-place" id="resultDestinationSvg" x="975" y="220" text-anchor="middle">수확 보는 중</text>
+          <text class="result-svg-score" id="resultScoreSvg" x="975" y="290" text-anchor="middle">0/10</text>
+          <rect class="result-meter-bg" x="835" y="332" width="280" height="34" rx="17"></rect>
+          <rect class="result-meter-fill" id="resultMeasureFillSvg" x="835" y="332" width="0" height="34" rx="17"></rect>
+          <text class="result-svg-meter" id="resultMeasureSvg" x="975" y="390" text-anchor="middle">수확 0</text>
+        </g>
+        <g class="result-retry-shell" id="resultRetryShell" filter="url(#resultShadow)">
+          <rect x="838" y="468" width="274" height="88" rx="20"></rect>
+          <text x="975" y="523" text-anchor="middle">다시하기</text>
+        </g>
+      </svg>
+      <h2 class="visually-hidden" id="resultTitle">수확 보는 중</h2>
+      <p class="visually-hidden" id="resultPraiseText">수확물을 똑같이 나눈 멋진 계산이에요.</p>
+      <span class="visually-hidden" id="finalEnergyText">0</span>
+      <span class="visually-hidden" id="finalCorrectText">0/10</span>
+      <span class="visually-hidden" id="finalDestinationText">씨앗</span>
+      <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기" hidden></button>
     </section>
     </div>
   </main>
@@ -2678,6 +2808,27 @@
       "reward-art--launch",
       "reward-art--rainbow"
     ];
+    const AUDIO_PREF_KEYS = Object.freeze({
+      bgm: "mathmon-audio-bgm-enabled",
+      sfx: "mathmon-audio-sfx-enabled"
+    });
+
+    function loadAudioPreference(kind, fallback = true) {
+      try {
+        const stored = window.localStorage.getItem(AUDIO_PREF_KEYS[kind]);
+        return stored === null ? fallback : stored === "true";
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveAudioPreference(kind, enabled) {
+      try {
+        window.localStorage.setItem(AUDIO_PREF_KEYS[kind], String(enabled));
+      } catch {
+        // localStorage can be unavailable in some embedded browsers.
+      }
+    }
 
     const state = {
       screen: "cover",
@@ -2695,18 +2846,40 @@
       lastFuelEvent: null,
       pendingRewardEvent: null,
       instantLaunch: false,
-      soundsOn: true,
+      bgmEnabled: loadAudioPreference("bgm"),
+      sfxEnabled: loadAudioPreference("sfx"),
+      bgmRunning: false,
+      bgmTimer: null,
+      settingsConfirmTimer: null,
+      tutorialReviewMode: false,
+      tutorialPage: 0,
+      reviewReturnScreen: "cover",
       audio: null
     };
 
     const el = {
+      stageShell: document.querySelector(".stage-shell"),
       coverScreen: document.getElementById("coverScreen"),
       tutorialScreen: document.getElementById("tutorialScreen"),
       playScreen: document.getElementById("playScreen"),
       resultScreen: document.getElementById("resultScreen"),
       startButton: document.getElementById("startButton"),
       tutorialNextButton: document.getElementById("tutorialNextButton"),
-      soundToggle: document.getElementById("soundToggle"),
+      tutorialBackButton: document.getElementById("tutorialBackButton"),
+      tutorialProgress: document.getElementById("tutorialProgress"),
+      tutorialPages: [...document.querySelectorAll(".tutorial-page")],
+      settingsToggle: document.getElementById("settingsButton"),
+      settingsBackdrop: document.getElementById("settingsBackdrop"),
+      settingsDialog: document.getElementById("settingsModal"),
+      bgmToggle: document.getElementById("settingsBgmToggle"),
+      sfxToggle: document.getElementById("settingsSfxToggle"),
+      reviewTutorialButton: document.getElementById("settingsMethodButton"),
+      resetGameButton: document.getElementById("settingsRestartButton"),
+      closeSettingsButton: document.getElementById("settingsCloseButton"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      settingsConfirm: document.getElementById("settingsConfirm"),
       progressText: document.getElementById("progressText"),
       energyText: document.getElementById("energyText"),
       chainText: document.getElementById("chainText"),
@@ -2743,12 +2916,13 @@
       rewardNextButton: document.getElementById("rewardNextButton"),
       harvestButton: document.getElementById("harvestButton"),
       resultRaster: document.getElementById("resultRaster"),
-      resultMeasure: document.getElementById("resultMeasure"),
-      measureStatus: document.getElementById("measureStatus"),
-      measurePercent: document.getElementById("measurePercent"),
-      measureFill: document.getElementById("measureFill"),
-      resultPlanetTrack: document.getElementById("resultPlanetTrack"),
-      praiseText: document.getElementById("praiseText"),
+      resultTitle: document.getElementById("resultTitle"),
+      resultPraiseText: document.getElementById("resultPraiseText"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultRetryShell: document.getElementById("resultRetryShell"),
       finalEnergyText: document.getElementById("finalEnergyText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalDestinationText: document.getElementById("finalDestinationText"),
@@ -2761,6 +2935,35 @@
         screen.classList.remove("is-active");
       });
       document.getElementById(`${name}Screen`).classList.add("is-active");
+      el.stageShell.dataset.activeScreen = name;
+    }
+
+    function renderTutorialPage() {
+      const lastPage = el.tutorialPages.length - 1;
+      state.tutorialPage = clamp(state.tutorialPage, 0, lastPage);
+      el.tutorialPages.forEach((page, index) => {
+        page.hidden = index !== state.tutorialPage;
+      });
+      el.tutorialProgress.textContent = `${state.tutorialPage + 1}/${el.tutorialPages.length}`;
+      el.tutorialBackButton.hidden = state.tutorialPage === 0;
+      el.tutorialScreen.classList.toggle("has-back", state.tutorialPage > 0);
+      const isLastPage = state.tutorialPage === lastPage;
+      el.tutorialBackButton.setAttribute("aria-label", "이전");
+      el.tutorialNextButton.setAttribute("aria-label", isLastPage ? "계속하기" : "다음");
+      el.tutorialBackButton.textContent = "";
+      el.tutorialNextButton.textContent = "";
+    }
+
+    function openTutorial({ review = false } = {}) {
+      state.tutorialReviewMode = review;
+      state.tutorialPage = 0;
+      renderTutorialPage();
+      showScreen("tutorial");
+    }
+
+    function moveTutorial(delta) {
+      state.tutorialPage += delta;
+      renderTutorialPage();
     }
 
     function startGame() {
@@ -3449,36 +3652,31 @@
       el.resultRaster.src = destination.image;
       el.resultScreen.classList.add("is-measuring");
       el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowFuel);
-      document.getElementById("resultTitle").textContent = "수확 보는 중";
+      el.resultTitle.textContent = "수확 보는 중";
+      el.resultDestinationSvg.textContent = "수확 보는 중";
+      el.resultScoreSvg.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultMeasureSvg.textContent = "수확 0";
+      el.resultMeasureFillSvg.setAttribute("width", "0");
       el.finalEnergyText.textContent = "보는 중";
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
       el.finalDestinationText.textContent = "보는 중";
-      el.praiseText.textContent = "바구니에 담긴 수확을 보고 있어요.";
-      el.measureStatus.textContent = "수확 보는 중";
-      el.measurePercent.textContent = "수확 0";
-      el.measureFill.style.setProperty("--measure-width", "0%");
-      renderPlanetTrack(el.resultPlanetTrack, { targetIndex: -1, reachedIndex: -1 });
+      el.resultPraiseText.textContent = "바구니에 담긴 수확을 보고 있어요.";
       el.restartButton.hidden = true;
       el.restartButton.disabled = true;
-      el.restartButton.textContent = "한 번 더";
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
-        el.measureStatus.textContent = "어디까지 왔는지 보는 중";
-        el.measurePercent.textContent = measureLabel;
-        el.measureFill.style.setProperty("--measure-width", `${measureWidth}%`);
+        el.resultMeasureSvg.textContent = measureLabel;
+        el.resultMeasureFillSvg.setAttribute("width", String(Math.round(280 * measureWidth / 100)));
         el.finalEnergyText.textContent = measureLabel;
-        renderPlanetTrack(el.resultPlanetTrack, {
-          targetIndex: destination.index,
-          reachedIndex: destination.index
-        });
         playSound("measure");
       }, 120);
       window.setTimeout(() => {
         el.resultScreen.classList.remove("is-measuring");
-        document.getElementById("resultTitle").textContent = `${destination.name}까지 왔어요!`;
+        el.resultTitle.textContent = `${destination.name}까지 왔어요!`;
+        el.resultDestinationSvg.textContent = destination.name;
         el.finalDestinationText.textContent = destination.name;
-        el.praiseText.textContent = getPraise(destination);
+        el.resultPraiseText.textContent = getPraise(destination);
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
         playSound("finish");
@@ -3554,12 +3752,22 @@
       state.audio = new AudioContext();
     }
 
-    function playSound(kind) {
-      if (!state.soundsOn) {
-        return;
-      }
+    function resumeAudio() {
       initAudio();
       if (!state.audio) {
+        return false;
+      }
+      if (state.audio.state === "suspended") {
+        state.audio.resume();
+      }
+      return true;
+    }
+
+    function playSound(kind) {
+      if (!state.sfxEnabled) {
+        return;
+      }
+      if (!resumeAudio()) {
         return;
       }
       if (state.audio.state === "suspended") {
@@ -3590,12 +3798,206 @@
       });
     }
 
+    function startBgm() {
+      if (!state.bgmEnabled || state.bgmRunning || !resumeAudio()) {
+        return;
+      }
+      state.bgmRunning = true;
+      scheduleBgmPulse();
+    }
+
+    function stopBgm() {
+      state.bgmRunning = false;
+      if (state.bgmTimer) {
+        window.clearTimeout(state.bgmTimer);
+        state.bgmTimer = null;
+      }
+    }
+
+    function scheduleBgmPulse() {
+      if (!state.bgmEnabled || !state.bgmRunning || !state.audio) {
+        return;
+      }
+      const notes = [196, 247, 294, 247];
+      notes.forEach((frequency, index) => {
+        const oscillator = state.audio.createOscillator();
+        const gain = state.audio.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.value = frequency;
+        const start = state.audio.currentTime + index * 0.22;
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.016, start + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.28);
+        oscillator.connect(gain).connect(state.audio.destination);
+        oscillator.start(start);
+        oscillator.stop(start + 0.3);
+      });
+      state.bgmTimer = window.setTimeout(scheduleBgmPulse, 2400);
+    }
+
+    function updateSettingsUi() {
+      el.settingsToggle.setAttribute("aria-expanded", String(!el.settingsBackdrop.hidden));
+      el.bgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+      el.sfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+    }
+
+    function showSettingsConfirm(message) {
+      el.settingsConfirm.textContent = message;
+      if (state.settingsConfirmTimer) {
+        window.clearTimeout(state.settingsConfirmTimer);
+      }
+      state.settingsConfirmTimer = window.setTimeout(() => {
+        el.settingsConfirm.textContent = "";
+        state.settingsConfirmTimer = null;
+      }, 1300);
+    }
+
+    function setBgmEnabled(enabled) {
+      state.bgmEnabled = enabled;
+      saveAudioPreference("bgm", enabled);
+      if (enabled) {
+        startBgm();
+      } else {
+        stopBgm();
+      }
+      updateSettingsUi();
+      showSettingsConfirm(enabled ? "배경 소리를 켰어요." : "배경 소리를 껐어요.");
+    }
+
+    function setSfxEnabled(enabled) {
+      state.sfxEnabled = enabled;
+      saveAudioPreference("sfx", enabled);
+      updateSettingsUi();
+      if (enabled) {
+        playSound("next");
+      }
+      showSettingsConfirm(enabled ? "효과 소리를 켰어요." : "효과 소리를 껐어요.");
+    }
+
+    function getSettingsFocusable() {
+      return [...el.settingsDialog.querySelectorAll("button")]
+        .filter((button) => !button.disabled && !button.closest("[hidden]"));
+    }
+
+    function openSettings() {
+      el.settingsBackdrop.hidden = false;
+      el.settingsBackdrop.classList.add("is-open");
+      updateSettingsUi();
+      playSound("next");
+      requestAnimationFrame(() => {
+        const [first] = getSettingsFocusable();
+        first?.focus();
+      });
+    }
+
+    function closeSettings({ restoreFocus = true } = {}) {
+      el.settingsBackdrop.classList.remove("is-open");
+      el.settingsBackdrop.hidden = true;
+      el.settingsRestartConfirm.hidden = true;
+      updateSettingsUi();
+      if (restoreFocus) {
+        el.settingsToggle.focus();
+      }
+    }
+
+    function showRestartConfirm() {
+      el.settingsRestartConfirm.hidden = false;
+      showSettingsConfirm("");
+      requestAnimationFrame(() => el.settingsRestartConfirmButton.focus());
+    }
+
+    function handleSettingsKeydown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") {
+        return;
+      }
+      const focusable = getSettingsFocusable();
+      if (focusable.length === 0) {
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function enterTutorialReview() {
+      state.reviewReturnScreen = state.screen === "tutorial" ? "cover" : state.screen;
+      closeSettings({ restoreFocus: false });
+      openTutorial({ review: true });
+      requestAnimationFrame(() => el.tutorialNextButton.focus());
+    }
+
+    function leaveTutorialReview() {
+      const returnScreen = state.reviewReturnScreen || "cover";
+      state.tutorialReviewMode = false;
+      state.tutorialPage = 0;
+      renderTutorialPage();
+      showScreen(returnScreen);
+      if (returnScreen === "cover") {
+        el.startButton.focus();
+      }
+    }
+
+    function resetToCoverFromSettings() {
+      state.tutorialReviewMode = false;
+      state.reviewReturnScreen = "cover";
+      state.problems = [];
+      state.index = 0;
+      state.fuelPercent = 0;
+      state.correct = 0;
+      state.chain = 0;
+      state.stepIndex = 0;
+      state.pendingRewardEvent = null;
+      state.lastFuelEvent = null;
+      state.rainbowFuel = false;
+      state.instantLaunch = false;
+      state.tutorialPage = 0;
+      renderTutorialPage();
+      el.rewardPop.classList.remove("is-visible");
+      el.harvestButton.hidden = true;
+      el.harvestButton.disabled = true;
+      renderStatus();
+      closeSettings({ restoreFocus: false });
+      showScreen("cover");
+      el.startButton.focus();
+      playSound("next");
+    }
+
     el.startButton.addEventListener("click", () => {
+      state.tutorialReviewMode = false;
+      startBgm();
       playSound("start");
-      showScreen("tutorial");
+      openTutorial();
     });
 
-    el.tutorialNextButton.addEventListener("click", startGame);
+    el.tutorialNextButton.addEventListener("click", () => {
+      if (state.tutorialPage < el.tutorialPages.length - 1) {
+        moveTutorial(1);
+        playSound("next");
+        return;
+      }
+      if (state.tutorialReviewMode) {
+        playSound("next");
+        leaveTutorialReview();
+        return;
+      }
+      startBgm();
+      startGame();
+    });
+    el.tutorialBackButton.addEventListener("click", () => {
+      moveTutorial(-1);
+      playSound("next");
+    });
     el.hintToggleButton.addEventListener("click", () => {
       state.hintOpen = !state.hintOpen;
       renderHintPanel();
@@ -3607,16 +4009,46 @@
       playSound("start");
       showScreen("cover");
     });
-    el.soundToggle.addEventListener("click", () => {
-      state.soundsOn = !state.soundsOn;
-      el.soundToggle.setAttribute("aria-label", state.soundsOn ? "소리 켜짐" : "소리 꺼짐");
-      el.soundToggle.setAttribute("aria-pressed", String(state.soundsOn));
-      if (state.soundsOn) {
-        playSound("next");
+    el.settingsToggle.addEventListener("click", () => {
+      if (el.settingsBackdrop.hidden) {
+        openSettings();
+      } else {
+        closeSettings();
       }
     });
+    el.settingsBackdrop.addEventListener("click", (event) => {
+      if (event.target === el.settingsBackdrop) {
+        closeSettings();
+      }
+    });
+    el.settingsDialog.addEventListener("keydown", handleSettingsKeydown);
+    el.bgmToggle.addEventListener("click", () => setBgmEnabled(!state.bgmEnabled));
+    el.sfxToggle.addEventListener("click", () => setSfxEnabled(!state.sfxEnabled));
+    el.reviewTutorialButton.addEventListener("click", enterTutorialReview);
+    el.resetGameButton.addEventListener("click", showRestartConfirm);
+    el.settingsRestartConfirmButton.addEventListener("click", resetToCoverFromSettings);
+    el.settingsRestartCancelButton.addEventListener("click", () => {
+      el.settingsRestartConfirm.hidden = true;
+      el.resetGameButton.focus();
+    });
+    el.closeSettingsButton.addEventListener("click", () => closeSettings());
 
+    updateSettingsUi();
+    renderTutorialPage();
     renderStatus();
+    window.__mathmonAudioQa = {
+      keys: { ...AUDIO_PREF_KEYS },
+      getState: () => ({
+        bgmEnabled: state.bgmEnabled,
+        sfxEnabled: state.sfxEnabled,
+        bgmRunning: state.bgmRunning,
+        settingsOpen: !el.settingsBackdrop.hidden
+      }),
+      setState: ({ bgmEnabled = state.bgmEnabled, sfxEnabled = state.sfxEnabled } = {}) => {
+        setBgmEnabled(Boolean(bgmEnabled));
+        setSfxEnabled(Boolean(sfxEnabled));
+      }
+    };
     window.__divideFarmQa = {
       buildProblemCandidates,
       buildProblems,

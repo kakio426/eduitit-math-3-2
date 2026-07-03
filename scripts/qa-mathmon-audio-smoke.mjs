@@ -365,7 +365,12 @@ async function runSettingsFlowScenario(lesson) {
   await openSettings(lesson);
   await click(SETTINGS.method);
   await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'tutorial'", `${lesson.name}: method review did not open tutorial`, 2000);
-  const reviewLabel = await evaluate(`document.querySelector(${JSON.stringify(lesson.playSelector)})?.textContent.trim()`);
+  const reviewLabel = await evaluate(`
+(() => {
+  const node = document.querySelector(${JSON.stringify(lesson.playSelector)});
+  return node?.getAttribute("aria-label")?.trim() || node?.textContent.trim() || "";
+})()
+`);
   assert(reviewLabel === "계속하기", `${lesson.name}: tutorial review button label was ${reviewLabel}`);
   await click(lesson.playSelector);
   await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'play'", `${lesson.name}: method review did not return to play`, 2000);

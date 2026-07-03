@@ -14,11 +14,11 @@
 첫 화면 -> 설명 화면 -> 문제 풀이 -> 보상 -> 결과
 ```
 
-- 첫 화면: `cover-generated.webp` 위에 `title-logo-generated.webp` 제목 래스터, 한 줄 목표, 시작 버튼을 얹습니다. 실제 제목은 접근성용 숨김 텍스트로 남깁니다.
-- 설명 화면: 몫 고르기, 나머지 고르기, 검산 보기의 3단계를 짧게 보여 줍니다.
-- 문제 화면: `board-night.webp` 배경 위에서 몫 선택, 나머지 선택, 검산 자동 확인을 진행합니다.
-- 보상 화면: `star.webp`를 중심 보상으로 사용하며 유성우, 구름, 깜깜, 별똥별, 무지개 별 이벤트를 HTML/CSS로 표시합니다. 오답 문제의 나머지는 확인 문구로만 보여 주고 등급 점수에는 더하지 않습니다.
-- 결과 화면: `result-stage.webp`와 등급별 `result-star-*.webp`를 사용하고 최종 별빛, 정답 수, 등급은 HTML 오버레이로 표시합니다. 플레이 중에는 최종 숫자 별빛을 공개하지 않습니다.
+- 첫 화면: `cover-generated.webp` 위에 `title-logo-generated.webp` 제목 래스터, 한 줄 목표, 생성형 `start-button-generated.webp` 시작 버튼을 얹습니다. 실제 제목은 접근성용 숨김 텍스트로 남깁니다.
+- 설명 화면: 2쪽으로 나누어 몫·나머지·검산 흐름을 짧게 보여 줍니다.
+- 문제 화면: `board-night.webp` 배경 위에서 몫 선택, 나머지 선택, 검산 자동 확인을 진행합니다. 마지막 검산 뒤에는 `별빛 열기`를 눌러 보상으로 넘어갑니다.
+- 보상 화면: `star.webp`를 중심 보상으로 사용하며 유성우, 구름, 깜깜, 별똥별, 무지개 별 이벤트를 HTML/CSS로 표시합니다. 보이는 텍스트는 별빛 변화량 한 덩어리로 줄였습니다.
+- 결과 화면: `result-stage.webp`와 등급별 `result-star-*.webp`를 사용하고, SVG 오버레이가 등급명·정답 수·별빛 미터·다시하기 버튼 외형을 표시합니다. 플레이 중에는 최종 숫자 별빛을 공개하지 않습니다.
 
 ## 파일 구성
 
@@ -28,5 +28,7 @@
 - `screenshots/`: 화면별 스크린샷
 - `cover-generated.png/webp`, `tutorial-generated.png/webp`, `board-night.png/webp`, `result-stage.png/webp`: RasterStage 배경
 - `title-logo-chromakey.png`, `title-logo-generated.png/webp`: GPT Image/imagegen 제목 로고 원본과 배포본
+- `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼 원본과 배포본
 - `star.png/webp`, `result-star-*.png/webp`: 보상 및 결과 등급 이미지
 - `eduitit-logo-mark.png`, `assets/mathmon/base-pack/mathmon-8-unicornmon.webp`: 공용 로고와 base-pack 매스몬 동행 캐릭터
+- `scripts/qa-lesson2-star-pickup.mjs`: 커버·설정·설명·문제·최종 확인·보상·결과 화면 QA 스크립트

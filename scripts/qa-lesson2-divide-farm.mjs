@@ -25,9 +25,11 @@ const VIEWPORTS = [
 ];
 const SCREENSHOT_NAMES = {
   cover: "01-cover.png",
+  settings: "01b-settings.png",
   tutorial: "02-tutorial.png",
   step1: "03-problem-step1.png",
   step2: "04-problem-step2.png",
+  tutorial2: "02b-tutorial-page2.png",
   confirm: "05-final-confirm.png",
   reward: "06-reward.png",
   resultMeasure: "07-result-measuring.png",
@@ -304,7 +306,7 @@ async function loadLesson(page, lessonUrl, viewport) {
   });
   await page.send("Page.navigate", { url: `${lessonUrl}?qa=${viewport.name}-${Date.now()}` });
   await waitForLoad(page);
-  await evalInPage(page, `document.getElementById("soundToggle").click()`);
+  await evalInPage(page, `window.__mathmonAudioQa?.setState({ bgmEnabled: false, sfxEnabled: false })`);
   await delay(250);
 }
 
@@ -410,7 +412,7 @@ async function readSnapshot(page) {
     rewardVisible,
     rewardDelta: rewardVisible ? document.getElementById("rewardDelta")?.textContent.trim() || "" : "",
     resultTitle: document.getElementById("resultTitle")?.textContent.trim() || "",
-    soundText: document.getElementById("soundToggle")?.innerText.trim() || ""
+    settingsText: document.getElementById("settingsButton")?.innerText.trim() || ""
   };
 })()
 `);
@@ -422,8 +424,14 @@ async function assertNoVisibleOverflow(page, label) {
   const selectors = [
     "#coverScreen.is-active .hero-copy p",
     "#coverScreen.is-active #startButton",
+    "#settingsBackdrop:not([hidden]) .settings-modal",
+    "#settingsBackdrop:not([hidden]) .settings-switch",
+    "#settingsBackdrop:not([hidden]) .settings-action",
+    "#settingsBackdrop:not([hidden]) .settings-restart-confirm",
     "#tutorialScreen.is-active .tutorial-copy",
     "#tutorialScreen.is-active #tutorialNextButton",
+    "#tutorialScreen.is-active #tutorialBackButton",
+    "#tutorialScreen.is-active #tutorialProgress",
     "#playScreen.is-active #questionText",
     "#playScreen.is-active #phaseLabel",
     "#playScreen.is-active #stepFormula",
@@ -434,9 +442,6 @@ async function assertNoVisibleOverflow(page, label) {
     "#playScreen.is-active #harvestButton",
     "#rewardPop.is-visible #rewardDelta",
     "#rewardPop.is-visible #rewardNextButton",
-    "#resultScreen.is-active #resultTitle",
-    "#resultScreen.is-active #praiseText",
-    "#resultScreen.is-active .result-stat",
     "#resultScreen.is-active #restartButton"
   ];
   const visible = (element) => {
@@ -458,8 +463,32 @@ async function assertNoVisibleOverflow(page, label) {
 })()
 `);
   assert(problems.length === 0, `${label}: visible text overflow detected`, problems);
-  const soundText = await evalInPage(page, `document.getElementById("soundToggle").innerText.trim()`);
-  assert(soundText === "", `${label}: sound button exposes visible text`, { soundText });
+  const settingsText = await evalInPage(page, `document.getElementById("settingsButton").innerText.trim()`);
+  assert(settingsText === "", `${label}: settings button exposes visible text`, { settingsText });
+}
+
+async function assertContractFlags(page, label) {
+  const contract = await evalInPage(page, String.raw`
+(() => {
+  const main = document.querySelector("main.game");
+  const audioQa = window.__mathmonAudioQa;
+  return {
+    coverStart: main?.dataset.coverStartStandard,
+    settings: main?.dataset.settingsStandard,
+    resultVisual: main?.dataset.resultVisualStandard,
+    resultMode: main?.dataset.resultRenderMode,
+    audioKeys: audioQa?.keys || null,
+    forbiddenResultNodes: document.querySelectorAll("#resultScreen .result-stats, #resultScreen .result-stat, #resultScreen .result-copy, #resultScreen .result-mathmon").length
+  };
+})()
+`);
+  assert(contract.coverStart === "generated-button-art", `${label}: generated start button flag missing`, contract);
+  assert(contract.settings === "modal-controls", `${label}: settings modal flag missing`, contract);
+  assert(contract.resultVisual === "generated-assets", `${label}: generated result flag missing`, contract);
+  assert(contract.resultMode === "hybrid-generated-dynamic", `${label}: hybrid result mode missing`, contract);
+  assert(contract.audioKeys?.bgm === "mathmon-audio-bgm-enabled", `${label}: bgm key mismatch`, contract);
+  assert(contract.audioKeys?.sfx === "mathmon-audio-sfx-enabled", `${label}: sfx key mismatch`, contract);
+  assert(contract.forbiddenResultNodes === 0, `${label}: legacy result nodes remain`, contract);
 }
 
 async function chooseCorrectStep(page) {
@@ -560,8 +589,15 @@ async function advanceAfterReward(page, label) {
 async function runViewport(page, lessonUrl, viewport, { verifyMath = false } = {}) {
   console.log(`${viewport.name}: load`);
   await loadLesson(page, lessonUrl, viewport);
+  await assertContractFlags(page, `${viewport.name} contract`);
   await assertNoVisibleOverflow(page, `${viewport.name} cover`);
   await capture(page, viewport, "cover");
+  await clickById(page, "settingsButton");
+  await waitUntil(page, `!document.getElementById("settingsBackdrop").hidden`, `${viewport.name}: settings did not open`);
+  await assertNoVisibleOverflow(page, `${viewport.name} settings`);
+  await capture(page, viewport, "settings");
+  await clickById(page, "settingsCloseButton");
+  await waitUntil(page, `document.getElementById("settingsBackdrop").hidden`, `${viewport.name}: settings did not close`);
 
   if (verifyMath) {
     console.log(`${viewport.name}: verify model`);
@@ -573,6 +609,10 @@ async function runViewport(page, lessonUrl, viewport, { verifyMath = false } = {
   await waitUntil(page, `document.querySelector(".screen.is-active")?.id === "tutorialScreen"`, `${viewport.name}: tutorial did not open`);
   await assertNoVisibleOverflow(page, `${viewport.name} tutorial`);
   await capture(page, viewport, "tutorial");
+  await clickById(page, "tutorialNextButton");
+  await waitUntil(page, `document.getElementById("tutorialProgress")?.textContent.trim() === "2/2"`, `${viewport.name}: tutorial page 2 did not open`);
+  await assertNoVisibleOverflow(page, `${viewport.name} tutorial page 2`);
+  await capture(page, viewport, "tutorial2");
 
   console.log(`${viewport.name}: first problem screenshots`);
   await clickById(page, "tutorialNextButton");

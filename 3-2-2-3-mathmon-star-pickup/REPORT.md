@@ -36,23 +36,25 @@
 
 ### 첫 화면
 
-`cover-generated.webp`를 RasterStage 배경으로 사용합니다. 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. `에듀잇티 수학 게임` 브랜드 배지, 차시 배지, 배움주제 배지, 한 줄 목표, `시작` 버튼은 HTML 오버레이입니다.
+`cover-generated.webp`를 RasterStage 배경으로 사용합니다. 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp` 생성형 버튼 아트를 쓰는 `data-cover-start-standard="generated-button-art"` 구조입니다. `에듀잇티 수학 게임` 브랜드 배지, 차시 배지, 배움주제 배지, 한 줄 목표는 HTML 오버레이입니다.
 
 ### 설명 화면
 
-`tutorial-generated.webp` 배경 위에 3단계만 표시합니다. 버튼은 다음 행동을 말하는 `별 줍기`입니다.
+설명 화면은 `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` 2장 생성 이미지가 보이는 문구와 버튼 표면을 담당합니다. HTML은 접근성용 숨김 텍스트와 투명 `tutorialBackButton`/`tutorialNextButton` hitbox만 맡습니다.
+
+1쪽은 `어떻게 풀어요?`로 별을 똑같이 묶고 남은 별을 확인하는 흐름을 보여 줍니다. 2쪽은 `무엇을 얻어요?`로 10문제, 별빛 보상, 별 이름 결과를 보여 줍니다. 보이는 버튼은 이미지 안의 `다음`, `이전`, `계속하기`입니다.
 
 ### 문제 화면
 
-`board-night.webp` 배경 위에 전체 별 수, 한 묶음 수, 몫, 나머지, 검산식을 보여 줍니다. 몫과 나머지를 맞히기 전에는 남은 별을 시각적으로 드러내지 않아 답이 새지 않게 했습니다.
+`board-night.webp` 배경 위에 전체 별 수, 한 묶음 수, 몫, 나머지, 검산식을 보여 줍니다. 몫과 나머지를 맞히기 전에는 남은 별을 시각적으로 드러내지 않아 답이 새지 않게 했습니다. 마지막 검산 뒤에는 바로 보상으로 넘어가지 않고 완성식과 `검산 완료! n개가 남았어요.` 문구를 보여 준 뒤, 학생이 `별빛 열기`를 눌러 보상을 엽니다.
 
 ### 보상 화면
 
-`star.webp`를 중심 오브젝트로 두고 CSS 클래스만 바꿔 유성우, 구름, 깜깜, 별똥별, 무지개 별을 표현합니다. 보상은 한 문제당 한 번만 적용됩니다.
+`star.webp`를 중심 오브젝트로 두고 CSS 클래스만 바꿔 유성우, 구름, 깜깜, 별똥별, 무지개 별을 표현합니다. 보이는 보상 문구는 `별빛 +n`, `별빛 감소`, `초신성!`처럼 한 덩어리 값으로 줄였고, 설명 문장은 접근성용 숨김 텍스트로 유지했습니다. 보상은 한 문제당 한 번만 적용됩니다.
 
 ### 결과 화면
 
-`result-stage.webp`를 배경으로 사용하고, 도달 등급에 맞는 `result-star-dust.webp`, `result-star-small.webp`, `result-star-constellation.webp`, `result-star-galaxy.webp`, `result-star-universe.webp`, `result-star-rainbow.webp` 중 하나를 표시합니다. 최종 별빛, 정답 수, 등급명, 다시하기 버튼은 HTML 오버레이입니다. 매스몬 동행 캐릭터는 `_shared/mathmon/base-pack/`의 `mathmon-8-unicornmon.webp`를 차시 폴더 `assets/mathmon/base-pack/mathmon-8-unicornmon.webp`로 복사한 배포본을 사용합니다.
+`result-stage.webp`를 배경으로 사용하고, 도달 등급에 맞는 `result-star-dust.webp`, `result-star-small.webp`, `result-star-constellation.webp`, `result-star-galaxy.webp`, `result-star-universe.webp`, `result-star-rainbow.webp` 중 하나를 SVG 안에 원형으로 표시합니다. 결과는 `data-result-visual-standard="generated-assets"`와 `data-result-render-mode="hybrid-generated-dynamic"`를 선언하고, 보이는 동적 값은 SVG 오버레이의 등급명, 정답 수, 별빛 미터, 투명 다시하기 hitbox가 맡습니다. CSS 결과 카드(`result-stats`, `result-copy` 등)는 제거했습니다.
 
 ## 5. 검증 포인트
 
@@ -70,3 +72,21 @@
 - 매스몬 동행: 이미 base-pack `mathmon-8-unicornmon`을 결과 동행으로 사용 중이라 교체하지 않았습니다.
 - 매스몬 경로 정규화: 2단원 다른 차시와 맞춰 `assets/mathmon/base-pack/mathmon-8-unicornmon.webp` 경로를 사용합니다.
 - 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.
+
+## 신규 표준 적용 패스 (2026-07-02)
+
+- 생성형 시작 버튼: 2단원 공통 생성형 `start-button-*` 자산을 배포본으로 복사하고, 커버 시작 버튼을 이미지 버튼 구조로 이관했습니다.
+- 생성형 설명 화면: `data-tutorial-standard="generated-image-text"`를 선언하고 설명 1쪽/2쪽의 보이는 문구와 버튼 표면을 생성 이미지로 이관했습니다. HTML은 숨김 접근성 텍스트와 투명 hitbox만 유지합니다.
+- 설정 모달: `<main class="game" data-settings-standard="modal-controls">`를 선언하고, 오른쪽 위 톱니바퀴 버튼과 `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기` 모달을 연결했습니다. 오디오 저장 키는 `mathmon-audio-bgm-enabled`, `mathmon-audio-sfx-enabled`입니다.
+- 정답 확인 흐름: 마지막 검산 뒤 완성식과 남은 별 수가 보인 뒤 `별빛 열기` 버튼을 눌러야 보상 모달이 열리게 했습니다.
+- 결과 화면: CSS 결과 카드를 제거하고 `result-dynamic-ui` SVG가 등급명, 정답 수, 별빛 미터, 다시하기 버튼 외형을 담당합니다.
+- Humanizer 학생 문구 QA: 새 문구 `똑같이 묶어요.`, `나머지를 확인해요.`, `검산 완료! n개가 남았어요.`, `별빛 열기`는 한 문장에 행동 하나만 담고 초3 학생이 바로 읽을 수 있는 말로 유지했습니다. 결과 대기 문구는 `측정/등급` 대신 `별빛 보는 중`, `별 이름`처럼 화면 행동 말로 정리했습니다.
+- 텍스트 넘침·요소 겹침 QA: `node scripts/qa-lesson2-star-pickup.mjs`로 1280×800 커버·설정·설명 1쪽·설명 2쪽·문제·최종 확인·보상·결과와 1024×768 커버·결과를 캡처했습니다. 버튼, 배지, 선택지, 검산식, 설정 모달, 보상값, 결과 hitbox의 overflow/clip 검사 0건입니다.
+- 계약 검증: `node scripts/check-stage-ratio.mjs` 통과, `node --check scripts/qa-lesson2-star-pickup.mjs` 통과, `index.html` 내 스크립트 `new Function(...)` 문법 검사 통과.
+
+## 설명 이미지화 패스 (2026-07-03)
+
+- 설명 화면 1쪽/2쪽을 `tutorial-page-*-generated.webp` 생성 이미지로 교체했습니다.
+- 1쪽 문구: `어떻게 풀어요?`, `별을 똑같이 묶어요.`, `몇 묶음인지 골라요.`, `남은 별을 세요.`, `나머지를 확인해요.`
+- 2쪽 문구: `무엇을 얻어요?`, `10문제를 풀어요.`, `정답이면 별빛을 모아요.`, `마지막에 별 이름을 봐요.`
+- 검증: `node scripts/check-stage-ratio.mjs`, `node scripts/qa-lesson2-star-pickup.mjs` 통과.

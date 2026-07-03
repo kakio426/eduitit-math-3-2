@@ -8,6 +8,7 @@
 - 방식: 십의 자리 나누기 -> 일의 자리 나누기 -> 몫 합치기
 - 보상: 문제마다 랜덤 수확 이벤트 1번
 - 결과: 수확과 정답 수를 함께 보아 `씨앗 -> 새싹 -> 텃밭 -> 농장 -> 대농장` 중 도착한 밭을 보여 줌
+- 화면 표준: 생성형 시작 버튼, 설정 모달, 하이브리드 생성형 결과 화면
 - 실행: `index.html`을 브라우저에서 열기
 
 ## 설계
@@ -23,7 +24,9 @@
 스크린샷은 `screenshots/` 폴더에 저장합니다.
 
 - `01-cover.png`: 첫 화면
-- `02-tutorial.png`: 설명 화면
+- `01b-settings.png`: 설정 모달
+- `02-tutorial.png`: 설명 화면 1
+- `02b-tutorial-page2.png`: 설명 화면 2
 - `03-problem-step1.png`: 문제 1단계
 - `04-problem-step2.png`: 문제 2단계
 - `05-final-confirm.png`: 몫 완성 확인
@@ -37,6 +40,7 @@
 - `cover-generated.png/webp`: 첫 화면 배경
 - `title-logo-chromakey.png`: 제목 로고 생성 원본
 - `title-logo-generated.png/webp`: 첫 화면 제목 래스터 오버레이
+- `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼
 - `tutorial-generated.png/webp`: 캐릭터 없는 설명 배경
 - `farm-board-generated.png/webp`: 문제 화면 농장 배경
 - `reward-events-sprite-generated.png/webp`: 1536x1024, 3x2 보상 스프라이트
@@ -48,9 +52,9 @@
 - `result-tier-rainbow.png/webp`: 전설 황금밭
 - `assets/mathmon/base-pack/mathmon-2-foxmon.webp`: 여우몬
 
-첫 화면은 `generated-title-overlay` 표준입니다. 배경은 글자 없는 `cover-generated.webp`, 제목은 생성형 이미지 기반 `title-logo-generated.webp`, 목표와 시작 버튼은 HTML 오버레이입니다.
+첫 화면은 `generated-title-overlay` 표준입니다. 배경은 글자 없는 `cover-generated.webp`, 제목은 생성형 이미지 기반 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
 
-설명 배경과 보상 스프라이트는 캐릭터 없는 농장/수확 장면입니다. 런타임 매스몬은 base-pack 여우몬 한 마리만 사용합니다.
+설명 배경과 보상 스프라이트는 캐릭터 없는 농장/수확 장면입니다. 결과 화면은 `result-tier-*.webp` 생성형 농장 장면 위에 SVG 오버레이로 도착한 곳, 정답 수, 수확만 보여 줍니다. 런타임 매스몬은 base-pack 여우몬 한 마리만 사용합니다.
 
 ## 파일 구성
 
