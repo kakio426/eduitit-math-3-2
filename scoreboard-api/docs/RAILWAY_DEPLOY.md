@@ -33,8 +33,6 @@ Railway가 Bun 프로젝트를 자동 감지하면 Install Command는 비워 둘
 
 Railway의 모노레포 Root Directory 공식 안내는 <https://docs.railway.com/deployments/monorepo>를 확인합니다.
 
-루트 디렉터리를 잘못 `/`로 둔 경우 Railway가 게임 정적 파일 저장소 전체를 앱으로 보고 실행에 실패할 수 있습니다. 이를 막기 위해 저장소 루트에 `Dockerfile`을 함께 둡니다. Root Directory를 `scoreboard-api`로 지정하지 못한 상태에서도 Railway가 루트 `Dockerfile`을 잡으면 `scoreboard-api` 폴더만 설치하고 `bun run start`로 실행합니다. 그래도 운영 설정의 1순위는 Root Directory를 `scoreboard-api`로 지정하는 것입니다.
-
 ## 2. 환경 변수
 
 `.env.example` 기준으로 Railway Variables에 넣습니다.
@@ -70,8 +68,6 @@ Railway Start Command:
 ```bash
 bun run start
 ```
-
-루트 `Dockerfile` fallback을 쓰는 경우 별도 Start Command를 비워 두고 Dockerfile의 `CMD ["bun", "run", "start"]`를 사용해도 됩니다.
 
 배포 뒤 확인:
 
