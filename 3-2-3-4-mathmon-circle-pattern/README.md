@@ -16,6 +16,9 @@
 
 보상·등급 구조는 시리즈 공통 엔진을 그대로 쓰고 무늬 테마로 이름만 바꿨습니다. 문제 화면 도형은 생성 이미지가 아니라 **SVG**로 그립니다.
 
-## 자산 상태 (TODO)
+## 자산 상태
 
-- 커버 배경·제목 타이틀 아트, 결과 등급 6장, `circle-pack` 매스몬 동행은 이미지 생성 도구 보유 세션에서 만든 뒤 연결합니다. 연결 전까지 첫 화면은 임시 텍스트 제목, 결과는 등급 색 카드로 동작합니다. 이후 첫 화면을 `generated-title-overlay` 표준으로 승격합니다.
+- 첫 화면은 `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, `start-button-generated.webp` 시작 버튼 아트를 연결했습니다.
+- 결과는 `result-{dot,small,pattern,big,design,rainbow}-generated.webp`와 `result-retry-generated.webp`를 사용합니다.
+- 공용 매스몬 팩은 `_shared/mathmon/circle-pack`의 `무늬공작몬` 콘셉트를 기준으로 등록했습니다.
+- 하네스는 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` + `hybrid-generated-dynamic` 기준입니다.
