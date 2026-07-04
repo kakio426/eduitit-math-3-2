@@ -164,22 +164,30 @@
       padding-right: var(--sound-reserve);
     }
 
-    .sound-toggle {
+    .settings-toggle {
       position: absolute;
       top: var(--stage-inset);
       right: var(--stage-inset);
       width: var(--sound-button-size);
       height: var(--sound-button-size);
       font-size: 0;
-      z-index: 8;
-      border: 1px solid var(--line);
-      border-radius: 50%;
+      z-index: 50;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
       color: var(--ink);
-      background: rgba(14, 12, 22, 0.7);
+      background: rgba(14, 12, 22, 0.58);
+      backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
       cursor: pointer;
     }
 
-    .sound-toggle svg {
+    .settings-toggle::before,
+    .settings-toggle::after {
+      content: "";
+    }
+
+    .settings-toggle svg {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -193,16 +201,120 @@
       stroke-linejoin: round;
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-wave {
+    .settings-toggle[aria-expanded="true"] {
+      background: rgba(53, 217, 178, 0.34);
+    }
+
+    .settings-toggle:focus-visible,
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
+      outline: 3px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(6px);
+    }
+
+    .settings-backdrop[hidden] {
       display: none;
     }
 
-    .sound-off-stroke {
+    .settings-modal {
+      width: min(410px, 86%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      background: rgba(32, 26, 45, 0.96);
+      padding: 22px;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+    }
+
+    .settings-title {
+      margin: 0 0 14px;
+      font-size: 1.38rem;
+      font-weight: 1000;
+    }
+
+    .settings-menu,
+    .settings-confirm {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-menu[hidden],
+    .settings-confirm[hidden] {
       display: none;
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
-      display: block;
+    .settings-switch,
+    .settings-action {
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0 14px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .settings-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .settings-switch-track {
+      position: relative;
+      flex: 0 0 auto;
+      width: 46px;
+      height: 26px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .settings-switch-track::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--ink);
+      transition: transform 180ms ease;
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track {
+      background: var(--mint);
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track::after {
+      transform: translateX(20px);
+    }
+
+    .settings-action.is-danger {
+      color: #ffd6de;
+      border-color: rgba(255, 93, 122, 0.42);
+    }
+
+    .settings-confirm-title {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      font-weight: 1000;
+    }
+
+    .settings-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .primary-button,
@@ -1109,16 +1221,33 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets">
-    <div class="stage-shell">
-      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets">
+    <div class="stage-shell" data-active-screen="cover">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M4 10h3.5l4.2-4v12l-4.2-4H4z"></path>
-          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
-          <path class="sound-off-stroke" d="M16 8l5 8M21 8l-5 8"></path>
+          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
         </svg>
       </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true"><span>배경 소리</span><span class="settings-switch-track" aria-hidden="true"></span></button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true"><span>효과 소리</span><span class="settings-switch-track" aria-hidden="true"></span></button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
+          </div>
+          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
+            <p class="settings-confirm-title" id="settingsConfirmText">처음부터 할까요?</p>
+            <div class="settings-confirm-actions">
+              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
+              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
@@ -1599,9 +1728,22 @@
     };
 
     const ui = {
+      stageShell: document.querySelector(".stage-shell"),
       startButton: document.getElementById("startButton"),
       tutorialStartButton: document.getElementById("tutorialStartButton"),
-      soundToggle: document.getElementById("soundToggle"),
+      tutorialTitle: document.getElementById("tutorialTitle"),
+      settingsButton: document.getElementById("settingsButton"),
+      settingsBackdrop: document.getElementById("settingsBackdrop"),
+      settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsBgmToggle: document.getElementById("settingsBgmToggle"),
+      settingsSfxToggle: document.getElementById("settingsSfxToggle"),
+      settingsMethodButton: document.getElementById("settingsMethodButton"),
+      settingsRestartButton: document.getElementById("settingsRestartButton"),
+      settingsCloseButton: document.getElementById("settingsCloseButton"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       problemCounter: document.getElementById("problemCounter"),
       runProgress: document.getElementById("runProgress"),
       runProgressText: document.getElementById("runProgressText"),
@@ -1635,6 +1777,12 @@
     const seedParam = params.get("seed");
     const seedFromUrl = Number(seedParam);
     const hasExplicitSeed = seedParam !== null && Number.isInteger(seedFromUrl);
+    const TUTORIAL_DEFAULT_TITLE = ui.tutorialTitle.textContent;
+    const TUTORIAL_DEFAULT_BUTTON = ui.tutorialStartButton.textContent;
+    const AUDIO_PREF_KEYS = Object.freeze({
+      bgm: "mathmon-audio-bgm-enabled",
+      sfx: "mathmon-audio-sfx-enabled"
+    });
 
     let state = createInitialState(createRunSeed());
 
@@ -1648,9 +1796,25 @@
       return Math.floor((Date.now() + Math.random() * 0xffffffff) % 0xffffffff);
     }
 
+    function loadAudioPreference(key) {
+      try {
+        const value = localStorage.getItem(key);
+        return value === null ? true : value === "true";
+      } catch {
+        return true;
+      }
+    }
+
+    function saveAudioPreference(key, enabled) {
+      try {
+        localStorage.setItem(key, String(enabled));
+      } catch {}
+    }
+
     function createInitialState(seed) {
       const model = Lesson5PackageWeightModel;
       return {
+        screen: "cover",
         seed,
         rng: model.createRng((seed + 0x9e3779b9) >>> 0),
         problems: model.generateRun(seed),
@@ -1662,13 +1826,20 @@
         superPartSeen: false,
         latestUpgrade: null,
         rewardAppliedProblemIndex: -1,
-        rewardAdvancedProblemIndex: -1
+        rewardAdvancedProblemIndex: -1,
+        tutorialReviewMode: false,
+        reviewReturnScreen: "cover",
+        bgmEnabled: loadAudioPreference(AUDIO_PREF_KEYS.bgm),
+        sfxEnabled: loadAudioPreference(AUDIO_PREF_KEYS.sfx),
+        sfxLog: []
       };
     }
 
     function showScreen(name) {
       Object.values(screens).forEach((screen) => screen.classList.remove("is-active"));
       screens[name].classList.add("is-active");
+      state.screen = name;
+      ui.stageShell.dataset.activeScreen = name;
     }
 
     function setButtonDisabled(button, disabled) {
@@ -1690,6 +1861,8 @@
       if (!event.isTrusted || performance.now() >= transientInputBlockedUntil) return false;
       const target = event.target;
       if (!(target instanceof Element) || !target.closest("button")) return false;
+      if (target.closest(".settings-toggle")) return false;
+      if (target.closest(".settings-backdrop")) return false;
       return !(event.type === "click" && event instanceof MouseEvent && event.detail === 0);
     }
 
@@ -1869,6 +2042,12 @@
       });
     }
 
+    function playSample(cue) {
+      if (!state.sfxEnabled) return;
+      state.sfxLog.push(cue);
+      if (state.sfxLog.length > 80) state.sfxLog.shift();
+    }
+
     function handleChoice(button, choice, event) {
       if (shouldBlockChoiceInput(event)) {
         event.preventDefault();
@@ -1884,6 +2063,7 @@
         button.disabled = true;
         ui.feedbackLine.textContent = "다시 골라요.";
         ui.feedbackLine.className = "feedback-line is-wrong";
+        playSample("wrong");
         return;
       }
 
@@ -1893,6 +2073,7 @@
       ui.answerSlot.classList.add("is-filled");
       setDisplayText(ui.feedbackLine, step.confirm);
       ui.feedbackLine.className = "feedback-line is-good";
+      playSample("correct");
 
       const isLastStep = state.stepIndex === currentProblem().steps.length - 1;
       if (isLastStep) {
@@ -1943,6 +2124,7 @@
       ui.rewardChange.textContent = formatUpgradeMessage(actualMovement);
       ui.rewardNextButton.textContent = state.problemIndex === state.problems.length - 1 ? "보기" : "다음";
       setButtonDisabled(ui.rewardNextButton, false);
+      playSample("reward");
       showScreen("reward");
     }
 
@@ -1989,25 +2171,143 @@
       ui.resultNext.textContent = result.id === next.id
         ? "최고 트럭이에요. 다시 만들까요?"
         : `다음엔 ${next.name}`;
+      playSample("result");
       showScreen("result");
     }
 
     function startGame() {
       state = createInitialState(createRunSeed());
+      syncSettingsUi();
       renderProblem();
     }
 
-    ui.startButton.addEventListener("click", () => showScreen("tutorial"));
-    ui.tutorialStartButton.addEventListener("click", startGame);
+    function syncSettingsUi() {
+      ui.settingsBgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+      ui.settingsSfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      ui.settingsButton.setAttribute("aria-expanded", String(!ui.settingsBackdrop.hidden));
+    }
+
+    function setBgmEnabled(enabled) {
+      state.bgmEnabled = enabled;
+      saveAudioPreference(AUDIO_PREF_KEYS.bgm, enabled);
+      syncSettingsUi();
+    }
+
+    function setSfxEnabled(enabled) {
+      state.sfxEnabled = enabled;
+      saveAudioPreference(AUDIO_PREF_KEYS.sfx, enabled);
+      syncSettingsUi();
+    }
+
+    function getFocusableSettings() {
+      return Array.from(ui.settingsModal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => !element.disabled && !element.hidden && element.offsetParent !== null);
+    }
+
+    function setRestartConfirm(confirming) {
+      ui.settingsMenu.hidden = confirming;
+      ui.settingsRestartConfirm.hidden = !confirming;
+      window.requestAnimationFrame(() => {
+        (confirming ? ui.settingsRestartCancelButton : ui.settingsBgmToggle).focus();
+      });
+    }
+
+    function openSettings() {
+      ui.settingsBackdrop.hidden = false;
+      setRestartConfirm(false);
+      syncSettingsUi();
+      window.requestAnimationFrame(() => ui.settingsBgmToggle.focus());
+    }
+
+    function closeSettings(options = {}) {
+      ui.settingsBackdrop.hidden = true;
+      setRestartConfirm(false);
+      syncSettingsUi();
+      if (options.restoreFocus !== false) ui.settingsButton.focus();
+    }
+
+    function handleSettingsKeydown(event) {
+      if (event.key === "Escape") {
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = getFocusableSettings();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function openTutorial(reviewMode) {
+      state.tutorialReviewMode = Boolean(reviewMode);
+      ui.tutorialTitle.textContent = TUTORIAL_DEFAULT_TITLE;
+      ui.tutorialStartButton.textContent = state.tutorialReviewMode ? "계속하기" : TUTORIAL_DEFAULT_BUTTON;
+      showScreen("tutorial");
+    }
+
+    function reviewTutorial() {
+      state.reviewReturnScreen = state.screen || "cover";
+      closeSettings({ restoreFocus: false });
+      openTutorial(true);
+    }
+
+    function continueAfterTutorial() {
+      if (state.tutorialReviewMode) {
+        state.tutorialReviewMode = false;
+        showScreen(state.reviewReturnScreen || "cover");
+        return;
+      }
+      startGame();
+    }
+
+    function restartFromSettings() {
+      closeSettings({ restoreFocus: false });
+      state = createInitialState(createRunSeed());
+      syncSettingsUi();
+      showScreen("cover");
+    }
+
+    ui.startButton.addEventListener("click", () => openTutorial(false));
+    ui.tutorialStartButton.addEventListener("click", continueAfterTutorial);
     ui.truckButton.addEventListener("click", showReward);
     ui.rewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
-    ui.soundToggle.addEventListener("click", () => {
-      const pressed = ui.soundToggle.getAttribute("aria-pressed") === "true";
-      ui.soundToggle.setAttribute("aria-pressed", String(!pressed));
-      ui.soundToggle.setAttribute("aria-label", pressed ? "소리 꺼짐" : "소리 켜짐");
+    ui.settingsButton.addEventListener("click", openSettings);
+    ui.settingsBackdrop.addEventListener("click", (event) => {
+      if (event.target === ui.settingsBackdrop) closeSettings();
     });
+    ui.settingsModal.addEventListener("keydown", handleSettingsKeydown);
+    ui.settingsBgmToggle.addEventListener("click", () => setBgmEnabled(!state.bgmEnabled));
+    ui.settingsSfxToggle.addEventListener("click", () => setSfxEnabled(!state.sfxEnabled));
+    ui.settingsMethodButton.addEventListener("click", reviewTutorial);
+    ui.settingsRestartButton.addEventListener("click", () => setRestartConfirm(true));
+    ui.settingsRestartConfirmButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartCancelButton.addEventListener("click", () => setRestartConfirm(false));
+    ui.settingsCloseButton.addEventListener("click", () => closeSettings());
 
+    syncSettingsUi();
+    window.__mathmonAudioQa = {
+      getPrefs: () => ({
+        bgmEnabled: state.bgmEnabled,
+        sfxEnabled: state.sfxEnabled,
+        settingsOpen: !ui.settingsBackdrop.hidden
+      }),
+      setPrefs: (prefs) => {
+        if (typeof prefs.bgmEnabled === "boolean") setBgmEnabled(prefs.bgmEnabled);
+        if (typeof prefs.sfxEnabled === "boolean") setSfxEnabled(prefs.sfxEnabled);
+      },
+      getLog: () => state.sfxLog.slice(),
+      clearLog: () => {
+        state.sfxLog = [];
+      }
+    };
     window.Lesson5PackageWeightModel = Lesson5PackageWeightModel;
   </script>
 </body>

@@ -4,7 +4,7 @@
 
 3학년 2학기 5단원 4차시 `무게의 덧셈·뺄셈과 어림`을 단일 HTML 게임으로 정리했습니다. 학생은 10문제 동안 kg와 g 무게를 더하고 빼며, 택배 한도에 맞는 말을 고릅니다. 정답을 고르면 답이 계산판에 먼저 들어가고, 마지막 단계에서는 완성식을 본 뒤 `트럭 보기`를 눌러 보상으로 넘어갑니다.
 
-이번 수정에서 보상 축을 트럭 진화로 바꾸고, 차시 README/REPORT, Humanizer QA, 스크린샷 QA, 검증 증거를 새 기준에 맞췄습니다.
+이번 수정에서 보상 축을 트럭 진화로 바꾸고, 차시 README/REPORT, Humanizer QA, 스크린샷 QA, 검증 증거를 새 기준에 맞췄습니다. 이후 전역 소리 버튼은 시리즈 표준인 Stage 안 설정 모달로 이관했습니다.
 
 ## 2. 등록
 
@@ -24,6 +24,7 @@
 ```
 
 - 첫 화면: `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, HTML 목표 문장, `data-cover-start-standard="generated-button-art"` 기반 독립 생성형 `start-button-generated.webp` 버튼 아트와 실제 HTML 버튼
+- 전역 설정: 오른쪽 위 톱니 버튼과 `data-settings-standard="modal-controls"` 설정 모달
 - 설명: 3개의 짧은 카드로 g 더하기, 1kg 빌리기, 한도 판단을 안내
 - 문제: 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본 노출
 - 보상: 부품 상자 이름, CSS 트럭 미리보기, 현재 트럭 단계 1개만 크게 표시
@@ -69,7 +70,7 @@
 - 결과 화면 동적(dynamic) 값: `resultTitle`, `resultSummary`, `resultNext`는 스크린리더용 숨김 텍스트로만 유지합니다.
 - 첫 화면 고정 조작: `startButton`은 생성형 버튼 아트 위의 실제 HTML 버튼입니다. 보이는 버튼 글자와 장식은 CSS가 아니라 이미지 자산이 맡습니다.
 - 결과 화면 고정 조작: `retryButton`은 생성형 버튼 아트 위의 실제 HTML hitbox입니다. 보이는 버튼 글자와 장식은 CSS가 아니라 이미지 자산이 맡습니다.
-- 결과 화면 전역 배지/조작: 상단 `오늘의 트럭`, `5단원 무게` 배지와 소리 아이콘은 시리즈 공통 Stage chrome입니다.
+- 전역 조작: 오른쪽 위 톱니 설정 버튼과 Stage 안 설정 모달은 `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`를 맡습니다.
 
 이 경계는 결과 RasterStage 하네스 보강입니다. 트럭 단계 이름과 버튼 장식은 생성형 이미지 자산이고, `retryButton`은 실제 조작과 접근성을 위한 hitbox로만 남깁니다. 결과 카드, 큰 제목, 칭찬 문구, 버튼 장식을 HTML/CSS로 새로 그리면 실패로 봅니다.
 
@@ -105,6 +106,7 @@
 - 문제 지시: `g끼리 더한 값을 골라요.`, `위 무게를 1kg 줄이고 1000g 늘려요.`, `한도에 맞는 말을 골라요.`
 - 오답 피드백: `다시 골라요.`
 - 보상/결과: `작은 부품 상자`, `트럭이 멋져졌어요.`, `평범 트럭`, `슈퍼 초울트라 트럭`, `5단원 무게`, `다시`
+- 설정: `설정`, `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`, `계속하기`
 
 점검 결과 학생 화면에는 내부 작업실 이름이나 제작자용 말이 보이지 않습니다. 보고서와 README의 기술 설명은 학생 화면이 아닙니다.
 
@@ -136,7 +138,8 @@
 확인 결과:
 
 - 버튼, 배지, 선택지, 보상 카드, 결과 카드의 글자 넘침 없음
-- 소리 버튼과 상단 배지 충돌 없음
+- 설정 버튼과 상단 배지 충돌 없음
+- 설정 모달은 Stage 안에서 열리고, 텍스트 넘침과 조작 영역 겹침 없음
 - 문제와 선택지 사이의 겹침 없음
 - 답 칸과 확인 문구가 보상 화면에 가려지지 않음
 - 태블릿 가로에서도 Stage 비율 유지
@@ -155,9 +158,12 @@
 - 등록 확인: `node -e <manifest lesson assertion>`
 - 학생 문구 감사: required student-term pattern with `rg`
 - Stage 계약: `node scripts/check-stage-ratio.mjs`
+- 규칙 일관성: `node scripts/check-rule-consistency.mjs`
+- 오디오 자산: `node scripts/check-audio-assets.mjs`
 - 수학 모델: `node scripts/qa-lesson5-package-weight-model.mjs --runs 10000`
 - 보상 시뮬레이션: `node scripts/simulate-lesson5-package-weight.mjs --runs 10000`
 - 클릭 가드: `node scripts/qa-lesson5-package-weight-click-guards.mjs`
+- 설정 모달 QA: Chrome CDP 직접 조작 `PHASE2_SETTINGS_BROWSER_QA: PASS`
 - 브라우저 QA: Chrome CDP 자동 조작과 캡처
 - Git 상태 후: `git status --short`
 

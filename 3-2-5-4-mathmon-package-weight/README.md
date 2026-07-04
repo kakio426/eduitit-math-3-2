@@ -19,7 +19,7 @@
 
 ## 생성 이미지 자산
 
-`index.html`은 `data-cover-standard="generated-title-overlay"`와 `data-cover-start-standard="generated-button-art"`를 선언합니다. 첫 화면은 글자 없는 배경, 생성형 제목 아트, HTML 목표 문장, 별도 생성형 `시작` 버튼 아트와 실제 HTML 버튼으로 나뉩니다.
+`index.html`은 `data-cover-standard="generated-title-overlay"`, `data-cover-start-standard="generated-button-art"`, `data-settings-standard="modal-controls"`를 선언합니다. 첫 화면은 글자 없는 배경, 생성형 제목 아트, HTML 목표 문장, 별도 생성형 `시작` 버튼 아트와 실제 HTML 버튼으로 나뉩니다.
 
 | 파일명 | 용도 | 런타임 |
 | --- | --- | --- |
@@ -45,7 +45,7 @@
 - 결과 화면 생성 이미지: 트럭 단계와 택배 매스몬, 생성형 결과 타이틀 아트, 생성형 `다시` 버튼 아트
 - 결과 화면 동적(dynamic) 값: `resultTitle`, `resultSummary`, `resultNext`는 스크린리더용 숨김 텍스트로만 유지합니다.
 - 결과 화면 고정 조작: `retryButton`은 생성형 버튼 아트 위의 실제 HTML hitbox입니다. 보이는 버튼 글자와 장식은 CSS가 아니라 이미지 자산이 맡습니다.
-- 결과 화면 전역 배지/조작: 상단 `오늘의 트럭`, `5단원 무게` 배지와 소리 아이콘은 시리즈 공통 Stage chrome입니다.
+- 전역 조작: 오른쪽 위 톱니 설정 버튼과 Stage 안 설정 모달은 `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`를 맡습니다.
 
 결과 화면의 보이는 HTML 오버레이는 실제 조작 hitbox와 시리즈 공통 배지로 제한합니다. 결과 카드, 큰 제목, 칭찬 문구, 버튼 장식을 HTML/CSS로 새로 그리면 하네스 실패로 봅니다.
 
@@ -85,6 +85,7 @@
 - 문제 지시: `g끼리 더한 값을 골라요.`, `남은 택배 무게를 골라요.`, `한도에 맞는 말을 골라요.`
 - 피드백: `다시 골라요.`, `...이 들어갔어요.`, `...로 보낼 수 있어요.`
 - 보상/결과: `작은 부품 상자`, `트럭이 멋져졌어요.`, `평범 트럭`, `슈퍼 초울트라 트럭`, `다시`
+- 설정: `설정`, `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`, `계속하기`
 
 학생 화면에는 내부 작업실 이름이나 제작자용 말을 보이지 않게 했습니다.
 
@@ -121,4 +122,4 @@
 - `node scripts/qa-lesson5-package-weight-model.mjs --runs 10000`
 - `node scripts/simulate-lesson5-package-weight.mjs --runs 10000`
 - `node scripts/qa-lesson5-package-weight-click-guards.mjs`
-- Browser QA: Chrome CDP 자동 캡처로 데스크톱과 태블릿 가로 화면 확인
+- Browser QA: Chrome CDP 자동 캡처와 설정 모달 직접 조작으로 데스크톱과 태블릿 가로 화면 확인
