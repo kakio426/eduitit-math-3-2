@@ -20,5 +20,5 @@
 
 - 첫 화면은 `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, `start-button-generated.webp` 시작 버튼 아트를 연결했습니다.
 - 결과는 `result-{faint,small,ring,big,grand,legend}-generated.webp`와 `result-retry-generated.webp`를 사용합니다.
-- 공용 매스몬 팩은 `_shared/mathmon/circle-pack`의 `컴퍼나방몬` 콘셉트를 기준으로 등록했습니다.
+- 공용 매스몬 팩은 `_shared/mathmon/circle-pack`의 `컴퍼스나방몬` 콘셉트를 기준으로 등록했습니다.
 - 하네스는 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` + `hybrid-generated-dynamic` 기준입니다.
