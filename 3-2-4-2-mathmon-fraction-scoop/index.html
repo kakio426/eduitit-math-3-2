@@ -88,8 +88,14 @@
     }
 
     .target-board.is-groups {
-      max-width: min(440px, 96%);
-      aspect-ratio: 360 / 232;
+      max-width: min(400px, 90%);
+      aspect-ratio: 360 / 204;
+    }
+
+    @media (max-width: 1100px), (max-height: 760px) {
+      .target-board.is-groups {
+        max-width: min(260px, 86%);
+      }
     }
 
     .target-board svg {
@@ -426,7 +432,7 @@
     .ghost-button:focus-visible,
     .choice-button:focus-visible,
     .hint-toggle:focus-visible,
-    .sound-toggle:focus-visible {
+    .settings-toggle:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.86);
       outline-offset: 4px;
     }
@@ -443,7 +449,7 @@
       border: 0;
     }
 
-    .sound-toggle {
+    .settings-toggle {
       position: absolute;
       top: var(--stage-inset);
       right: var(--stage-inset);
@@ -465,13 +471,13 @@
       backdrop-filter: blur(10px);
     }
 
-    .sound-toggle::before,
-    .sound-toggle::after {
+    .settings-toggle::before,
+    .settings-toggle::after {
       content: none !important;
       display: none !important;
     }
 
-    .sound-toggle svg {
+    .settings-toggle svg {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -487,10 +493,6 @@
       pointer-events: none;
     }
 
-    .sound-off-stroke {
-      display: none;
-    }
-
     .stage-shell .top-row {
       right: calc(var(--stage-inset) + var(--sound-reserve));
     }
@@ -499,23 +501,113 @@
       padding-right: var(--sound-reserve);
     }
 
-    .sound-toggle[aria-pressed="false"] {
-      border-color: rgba(215, 202, 219, 0.34);
-      color: var(--muted);
-      background: rgba(14, 12, 22, 0.32);
+    .settings-toggle[aria-expanded="true"] {
+      border-color: rgba(255, 200, 87, 0.78);
+      color: #ffffff;
+      background: rgba(255, 200, 87, 0.18);
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-wave {
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: var(--stage-inset);
+      background: rgba(8, 7, 12, 0.52);
+      backdrop-filter: blur(7px);
+    }
+
+    .settings-backdrop[hidden] {
       display: none;
     }
 
-    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
-      display: block;
+    .settings-modal {
+      width: min(420px, 92%);
+      max-height: calc(100% - 48px);
+      overflow: auto;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      background: rgba(32, 26, 45, 0.96);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+    }
+
+    .settings-title {
+      margin: 0 0 16px;
+      font-size: 1.55rem;
+      line-height: 1.1;
+      color: #ffffff;
+    }
+
+    .settings-menu,
+    .settings-confirm,
+    .settings-confirm-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-switch,
+    .settings-action {
+      min-height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-weight: 950;
+    }
+
+    .settings-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      text-align: left;
+    }
+
+    .settings-switch-state {
+      min-width: 54px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(53, 217, 178, 0.2);
+      color: #b8ffe9;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .settings-switch[aria-checked="false"] .settings-switch-state {
+      background: rgba(215, 202, 219, 0.16);
+      color: var(--muted);
+    }
+
+    .settings-action {
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .settings-action.is-danger {
+      border-color: rgba(255, 93, 122, 0.36);
+      color: #ffd0da;
+      background: rgba(255, 93, 122, 0.12);
+    }
+
+    .settings-confirm p {
+      margin: 0;
+      color: #ffe8ba;
+      font-size: 1.05rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.86);
+      outline-offset: 4px;
     }
 
     .cover {
       align-items: center;
-      padding: clamp(70px, 10vw, 100px) clamp(24px, 5vw, 70px);
+      padding: clamp(58px, 8vw, 88px) clamp(24px, 5vw, 70px) clamp(24px, 4vw, 42px);
       background: #171421;
     }
 
@@ -534,8 +626,8 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(90deg, rgba(18, 12, 26, 0.74) 0%, rgba(18, 12, 26, 0.44) 38%, transparent 68%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.16), transparent 38%);
+        linear-gradient(180deg, rgba(14, 12, 22, 0.42) 0%, rgba(14, 12, 22, 0.18) 34%, transparent 62%),
+        linear-gradient(90deg, rgba(14, 12, 22, 0.22), transparent 62%);
       pointer-events: none;
     }
 
@@ -543,54 +635,74 @@
       position: relative;
       z-index: 2;
       width: 100%;
+      height: 100%;
       display: grid;
-      grid-template-columns: minmax(300px, 0.92fr) minmax(360px, 1.08fr);
-      align-items: center;
-      gap: clamp(24px, 5vw, 58px);
+      place-items: start center;
+      padding-top: clamp(10px, 2vw, 24px);
+      text-align: center;
     }
 
     .hero-copy {
       position: relative;
       z-index: 2;
+      width: min(760px, 100%);
       display: grid;
-      justify-items: start;
-      gap: 18px;
-      transform: translateY(-48px);
+      justify-items: center;
+      gap: 12px;
     }
 
     .hero-title-art {
       display: block;
-      width: min(500px, 100%);
+      width: auto;
+      max-width: min(640px, 92%);
+      max-height: 380px;
       height: auto;
-      margin: -8px 0 -8px -10px;
-      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.24));
+      margin: 0;
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.26));
       user-select: none;
       pointer-events: none;
     }
 
     .hero-copy p {
-      max-width: 520px;
+      max-width: 760px;
       margin: 0;
-      color: #ffe8ba;
-      font-size: clamp(1.2rem, 2.8vw, 1.72rem);
-      font-weight: 900;
-      line-height: 1.35;
+      color: #fff6cf;
+      font-size: clamp(1.16rem, 2.4vw, 1.54rem);
+      font-weight: 950;
+      line-height: 1.28;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.42);
     }
 
-    .cover #startButton {
-      min-width: 190px;
-      min-height: 72px;
-      padding: 0 44px;
-      font-size: clamp(1.22rem, 3vw, 1.58rem);
-      box-shadow: 0 16px 0 rgba(106, 70, 23, 0.34), 0 26px 42px rgba(0, 0, 0, 0.32);
+    .cover-start-button {
+      width: 430px;
+      height: 156px;
+      max-width: min(430px, 92vw);
+      margin-top: 2px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: none;
+      line-height: 0;
+      transition: transform 0.14s ease, filter 0.14s ease;
     }
 
-    .cover-visual {
-      position: relative;
-      min-height: 470px;
-      display: grid;
-      place-items: center;
+    .cover-start-button:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.05);
+    }
+
+    .cover-start-button:active {
+      transform: translateY(1px);
+    }
+
+    .start-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       pointer-events: none;
+      user-select: none;
     }
 
     .star-field {
@@ -690,18 +802,9 @@
       animation: flame-pulse 0.48s ease-in-out infinite alternate;
     }
 
-    .cover-mathmon {
-      position: absolute;
-      right: 6%;
-      bottom: 8%;
-      width: clamp(170px, 20vw, 248px);
-      transform: rotate(4deg);
-      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.32));
-    }
-
     .tutorial {
       align-items: center;
-      padding: clamp(74px, 10vw, 100px) clamp(22px, 5vw, 70px) clamp(28px, 4vw, 42px);
+      padding: clamp(74px, 10vw, 100px) clamp(22px, 5vw, 70px) 176px;
       background: #171421;
     }
 
@@ -728,21 +831,135 @@
 
     .tutorial-copy {
       display: grid;
-      gap: 20px;
+      gap: 16px;
       max-width: 720px;
+    }
+
+    .tutorial .primary-button {
+      position: absolute;
+      left: clamp(44px, 5vw, 70px);
+      bottom: 24px;
+      z-index: 3;
+      width: min(430px, calc(50% - 72px));
+      min-height: clamp(88px, 10vw, 118px);
+    }
+
+    .tutorial .primary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .tutorial .primary-button:active {
+      transform: translateY(1px);
     }
 
     .tutorial-copy h2 {
       margin: 0;
+      padding-bottom: 0.08em;
       color: #ffffff;
-      font-size: clamp(2.2rem, 5.4vw, 4.2rem);
-      line-height: 1.02;
+      font-size: clamp(2rem, 4.6vw, 3.45rem);
+      line-height: 1.08;
+      font-weight: 1000;
+    }
+
+    .tutorial-example {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+      min-height: clamp(300px, 38vw, 460px);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-lg);
+      background: rgba(32, 26, 45, 0.62);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(12px);
+    }
+
+    .example-card,
+    .goal-card {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.075);
+      color: #ffffff;
+    }
+
+    .example-title,
+    .goal-card strong {
+      color: var(--amber);
+      font-size: clamp(1rem, 2vw, 1.26rem);
+      font-weight: 1000;
+      line-height: 1.15;
+    }
+
+    .example-caption,
+    .goal-card span {
+      color: var(--ink);
+      font-size: clamp(0.9rem, 1.7vw, 1.08rem);
+      font-weight: 850;
+      line-height: 1.28;
+      word-break: keep-all;
+    }
+
+    .example-svg {
+      width: 100%;
+      max-width: 360px;
+      justify-self: center;
+      overflow: visible;
+    }
+
+    .example-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .example-chip {
+      min-width: 94px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 200, 87, 0.42);
+      border-radius: 14px;
+      background: rgba(255, 200, 87, 0.14);
+      color: var(--ink);
+      font-size: clamp(0.92rem, 1.7vw, 1.05rem);
+      font-weight: 950;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .example-plus {
+      color: var(--amber);
+      font-size: 1.4rem;
+      font-weight: 1000;
+    }
+
+    .goal-board {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: center;
+    }
+
+    .goal-card {
+      min-height: 108px;
+      align-content: center;
+    }
+
+    .goal-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--amber);
+      color: #211400;
       font-weight: 1000;
     }
 
     .steps {
       display: grid;
-      gap: 12px;
+      gap: 10px;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -753,13 +970,13 @@
       grid-template-columns: 44px minmax(0, 1fr);
       align-items: center;
       gap: 12px;
-      min-height: 72px;
-      padding: 12px;
+      min-height: 64px;
+      padding: 10px 12px;
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: var(--radius);
       background: rgba(26, 21, 36, 0.68);
       color: #ffffff;
-      font-size: clamp(1.05rem, 2.4vw, 1.38rem);
+      font-size: clamp(1rem, 2vw, 1.24rem);
       font-weight: 950;
       line-height: 1.28;
       backdrop-filter: blur(10px);
@@ -1389,7 +1606,7 @@
       margin: 0;
       color: #ffffff;
       font-size: clamp(2rem, 4.65vw, 3.72rem);
-      line-height: 1;
+      line-height: 1.18;
       font-weight: 1000;
       text-align: center;
       white-space: nowrap;
@@ -1398,7 +1615,7 @@
     .phase-label {
       display: none;
       min-height: 0;
-      padding: 8px 12px;
+      padding: 6px 12px;
       border-radius: 999px;
       color: #231400;
       background: var(--amber);
@@ -1702,39 +1919,146 @@
     .choice-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(2, clamp(48px, 4.4vw, 58px));
+      grid-template-rows: repeat(2, clamp(60px, 5.1vw, 70px));
       align-content: start;
       align-self: start;
       gap: 8px;
     }
 
+    .choice-grid.is-drag-input {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      gap: 10px;
+    }
+
+    .drag-card-row,
+    .drop-zone-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .drop-zone-row {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .drag-card-row[data-count="2"] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .drag-card-row[data-count="3"] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .drag-card-row[data-count="4"] {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .choice-button,
+    .drop-zone {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      color: #ffffff;
+      font-weight: 1000;
+      line-height: 1.22;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+    }
+
     .choice-button {
       height: 100%;
       min-height: 0;
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: var(--radius);
+      padding: 5px 12px;
       background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
       font-size: clamp(1rem, 1.82vw, 1.24rem);
-      font-weight: 1000;
-      line-height: 1.22;
-      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
     }
 
-    .choice-button:hover {
+    .choice-button.drag-choice {
+      min-height: 80px;
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      padding: 9px 10px;
+      touch-action: none;
+      cursor: grab;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .drag-card-label,
+    .drop-zone-hint {
+      display: block;
+      color: rgba(255, 240, 198, 0.78);
+      font-size: 0.72rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .drag-card-value,
+    .drop-zone-answer {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 1.45em;
+      font-size: clamp(1.12rem, 2.3vw, 1.55rem);
+      line-height: 1.05;
+    }
+
+    .drop-zone {
+      min-height: 90px;
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      padding: 10px 12px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(53, 217, 178, 0.14), transparent 0 30%, transparent 58%),
+        rgba(53, 217, 178, 0.08);
+      border-color: rgba(53, 217, 178, 0.48);
+      font-size: clamp(1rem, 1.9vw, 1.2rem);
+      cursor: pointer;
+    }
+
+    .drop-zone-title {
+      display: block;
+      font-size: clamp(1rem, 2vw, 1.24rem);
+      line-height: 1.12;
+    }
+
+    .choice-button:hover,
+    .drop-zone:hover {
       transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.15);
+      background-color: rgba(255, 255, 255, 0.15);
       border-color: rgba(255, 255, 255, 0.4);
     }
 
-    .choice-button.is-correct {
+    .drag-choice.is-selected,
+    .drop-zone.is-drop-ready {
+      border-color: rgba(255, 200, 87, 0.9);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.18);
+    }
+
+    .drag-choice.is-dragging {
+      z-index: 20;
+      cursor: grabbing;
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    .drag-choice.is-locked {
+      opacity: 0.28;
+      cursor: default;
+    }
+
+    .choice-button.is-correct,
+    .drop-zone.is-correct,
+    .drop-zone.is-correct-drop {
       color: #10271f;
       border-color: rgba(53, 217, 178, 0.86);
       background: linear-gradient(180deg, #b8ffe9, #35d9b2);
     }
 
-    .choice-button.is-wrong {
+    .choice-button.is-wrong,
+    .drop-zone.is-wrong,
+    .drop-zone.is-wrong-drop {
       color: #ffffff;
       border-color: rgba(255, 93, 122, 0.78);
       background: rgba(255, 93, 122, 0.32);
@@ -1895,8 +2219,8 @@
     }
 
     .result {
-      align-items: center;
-      padding: clamp(72px, 9vw, 92px) clamp(24px, 5vw, 62px) clamp(28px, 4vw, 44px);
+      align-items: stretch;
+      padding: 0;
       background: #171421;
     }
 
@@ -1906,8 +2230,8 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(90deg, transparent 0%, rgba(13, 10, 20, 0.28) 45%, rgba(13, 10, 20, 0.78) 100%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.22));
+        linear-gradient(90deg, transparent 0%, rgba(13, 10, 20, 0.18) 48%, rgba(13, 10, 20, 0.62) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.2));
       pointer-events: none;
     }
 
@@ -1915,7 +2239,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
       opacity: 0;
       background:
         repeating-linear-gradient(115deg, transparent 0 42px, rgba(96, 215, 255, 0.16) 43px 47px, transparent 48px 118px),
@@ -1929,216 +2253,58 @@
       animation: flight-streak 1.4s linear infinite;
     }
 
-    .result-layout {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      display: grid;
-      grid-template-columns: minmax(280px, 0.86fr) minmax(360px, 1.14fr);
-      align-items: center;
-      gap: clamp(24px, 5vw, 56px);
-    }
-
-    .launch-scene {
-      min-height: 460px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      overflow: visible;
-    }
-
-    .launch-scene .rocket-hero {
-      display: none;
-    }
-
-    .launch-scene .cover-mathmon {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      width: clamp(170px, 22vw, 260px);
-      transform: rotate(-4deg);
-    }
-
-    .launch-pad {
-      display: none;
-    }
-
-    .result-copy {
-      display: grid;
-      gap: 14px;
-    }
-
-    .result-copy h2 {
-      margin: 0;
-      color: #ffffff;
-      font-size: clamp(2.6rem, 6.5vw, 5.4rem);
-      line-height: 0.98;
-      font-weight: 1000;
-      text-shadow: 0 5px 18px rgba(0, 0, 0, 0.42);
-    }
-
-    .praise {
-      margin: 0;
-      color: #ffe8ba;
-      font-size: clamp(1.14rem, 2.4vw, 1.45rem);
-      font-weight: 950;
-      line-height: 1.35;
-      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
-    }
-
-    .result-measure {
-      position: relative;
-      display: grid;
-      gap: 10px;
-      padding: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(96, 215, 255, 0.32);
-      border-radius: var(--radius);
-      background: rgba(14, 12, 22, 0.56);
-      box-shadow: 0 0 30px rgba(96, 215, 255, 0.1);
-    }
-
-    .result-measure::after {
-      content: "";
-      position: absolute;
-      inset: -40% auto -40% -30%;
-      width: 26%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
-      transform: skewX(-18deg);
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .result.is-measuring .result-measure::after {
-      opacity: 1;
-      animation: scan-sweep 1.35s ease-in-out infinite;
-    }
-
-    .measure-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 10px;
-      color: #ffffff;
-      font-weight: 1000;
-    }
-
-    .measure-top span {
-      color: #c8f3ff;
-      font-size: 0.96rem;
-    }
-
-    .measure-top strong {
-      color: #b8ffe9;
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-      line-height: 1;
-    }
-
-    .measure-tube {
-      position: relative;
-      height: 26px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.28);
-    }
-
-    .measure-fill {
-      display: block;
-      width: var(--measure-width, 0%);
-      height: 100%;
-      border-radius: inherit;
-      background:
-        radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.66) 0 5px, transparent 6px),
-        linear-gradient(180deg, #d9fff2, #45f2b8 42%, #12a97d);
-      box-shadow: 0 0 28px rgba(53, 217, 178, 0.56);
-      transition: width 1.7s cubic-bezier(0.18, 0.9, 0.2, 1);
-    }
-
-    .result.is-rainbow-result .measure-fill {
-      background:
-        radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.66) 0 5px, transparent 6px),
-        linear-gradient(90deg, #ff5d7a, #ffc857, #45f2b8, #60d7ff, #b874ff, #ff5d7a);
-      background-size: 240% 100%;
-      animation: rainbow-flow 1.45s linear infinite;
-      box-shadow: 0 0 30px rgba(255, 200, 87, 0.42), 0 0 28px rgba(96, 215, 255, 0.4);
-    }
-
-    .measure-scan {
+    .result-dynamic-ui {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-      opacity: 0;
-      transform: translateX(-100%);
+      z-index: 3;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
     }
 
-    .result.is-measuring .measure-scan {
-      opacity: 1;
-      animation: meter-scan 1.2s ease-in-out infinite;
+    .result-panel-bg {
+      fill: rgba(14, 12, 22, 0.66);
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 2;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.26));
     }
 
-    .result-planet-track {
-      display: grid;
-      grid-template-columns: repeat(9, minmax(0, 1fr));
-      gap: 6px;
+    .result-meter-track {
+      fill: rgba(0, 0, 0, 0.34);
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 2;
     }
 
-    .result-planet-track .planet-chip {
-      min-height: 40px;
-      font-size: 0.94rem;
+    .result-meter-fill {
+      fill: url(#resultMeterGradient);
+      filter: drop-shadow(0 0 14px rgba(53, 217, 178, 0.46));
     }
 
-    .result.is-measuring .result-planet-track .planet-chip.is-scanning {
-      color: #201000;
-      border-color: rgba(255, 200, 87, 0.88);
-      background: linear-gradient(180deg, #fff0a8, #ffc857);
-      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.2), 0 0 26px rgba(255, 200, 87, 0.32);
-      animation: planet-scan-pop 0.48s ease both;
+    .result.is-rainbow-result .result-meter-fill {
+      filter: drop-shadow(0 0 18px rgba(255, 200, 87, 0.5));
     }
 
-    .result-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+    .result-restart-hitbox {
+      position: absolute;
+      z-index: 5;
+      left: 64.53125%;
+      top: 78.25%;
+      width: 25%;
+      height: 11.5%;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: transparent;
     }
 
-    .result-stat {
-      min-height: 94px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .result-stat span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.84rem;
-      font-weight: 850;
-    }
-
-    .result-stat strong {
-      display: block;
-      margin-top: 6px;
-      color: #ffffff;
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-      font-weight: 1000;
-      line-height: 1;
-    }
-
-    .result-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .result-actions [hidden] {
+    .result-restart-hitbox[hidden] {
       display: none;
     }
 
-    .result.is-measuring .result-actions {
-      visibility: hidden;
+    .result-restart-hitbox:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.86);
+      outline-offset: 4px;
     }
 
     @keyframes float-rocket {
@@ -2528,9 +2694,138 @@
       .planet-chip {
         animation-duration: 0.01ms !important;
       }
+
+      .choice-button,
+      .drop-zone {
+        transition-duration: 0.01ms !important;
+      }
     }
 
     @media (max-width: 1100px) {
+      .cover {
+        padding: 58px 24px 18px;
+      }
+
+      .cover-scene {
+        padding-top: 8px;
+      }
+
+      .hero-copy {
+        gap: 8px;
+      }
+
+      .hero-title-art {
+        max-width: min(560px, 82%);
+        max-height: 300px;
+      }
+
+      .hero-copy p {
+        max-width: 680px;
+        font-size: 1.02rem;
+        line-height: 1.24;
+      }
+
+      .cover-start-button {
+        width: 340px;
+        height: 130px;
+        margin-top: 0;
+      }
+
+      .lesson-badge {
+        bottom: 10px;
+      }
+
+      .tutorial {
+        padding: 58px 24px 136px;
+      }
+
+      .tutorial-layout {
+        grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.85fr);
+        gap: 16px;
+        align-content: center;
+      }
+
+      .tutorial-copy {
+        max-width: 620px;
+        gap: 12px;
+      }
+
+      .tutorial .primary-button {
+        bottom: 12px;
+        width: 344px;
+        min-height: 100px;
+      }
+
+      .tutorial-copy h2 {
+        font-size: clamp(2rem, 4.2vw, 3.1rem);
+        line-height: 1.12;
+      }
+
+      .steps {
+        gap: 8px;
+      }
+
+      .steps li {
+        min-height: 58px;
+        padding: 10px;
+        font-size: clamp(0.98rem, 1.9vw, 1.14rem);
+        line-height: 1.28;
+      }
+
+      .steps b {
+        width: 38px;
+        height: 38px;
+        font-size: 1.05rem;
+      }
+
+      .tutorial-example {
+        min-height: 0;
+        padding: 12px;
+        gap: 10px;
+      }
+
+      .example-svg {
+        max-width: 280px;
+      }
+
+      .example-caption {
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+
+      .example-row {
+        gap: 6px;
+      }
+
+      .example-chip {
+        min-width: 70px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+
+      .example-plus {
+        font-size: 1.05rem;
+      }
+
+      .example-card,
+      .goal-card {
+        padding: 12px;
+      }
+
+      .goal-card {
+        min-height: 96px;
+      }
+
+      .goal-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+      }
+
+      .tutorial-art-spacer {
+        display: none;
+      }
+
       .play {
         padding: var(--stage-inset);
       }
@@ -2594,8 +2889,21 @@
 
       .choice-button {
         height: 100%;
-        min-height: 48px;
-        padding: 6px 10px;
+        min-height: 58px;
+        padding: 5px 10px;
+      }
+
+      .reward-pop {
+        padding: 14px;
+      }
+
+      .reward-card {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .reward-art {
+        width: min(420px, 100%);
       }
     }
 
@@ -2610,21 +2918,17 @@
       .cover-scene,
       .tutorial-layout,
       .play-layout,
-      .result-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .cover-visual {
-        min-height: 300px;
-        order: -1;
-      }
 
       .rocket-hero {
         height: 300px;
       }
 
-      .cover-mathmon {
-        width: 118px;
+      .tutorial-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tutorial-example {
+        display: none;
       }
 
       .hud {
@@ -2643,7 +2947,7 @@
 
     @media (max-width: 720px) and (orientation: portrait) {
       .game,
-      .sound-toggle {
+      .settings-toggle {
         display: none;
       }
 
@@ -2686,16 +2990,39 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic">
     <div class="stage-shell" data-active-screen="cover">
-      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
-          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
-          <path class="sound-off-stroke" d="M4.5 4.5 19.5 19.5"></path>
+          <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2 2 0 0 1-2.83 2.83l-.04-.04A1.7 1.7 0 0 0 15 19.37a1.7 1.7 0 0 0-1 .58V20a2 2 0 0 1-4 0v-.05a1.7 1.7 0 0 0-1-.58 1.7 1.7 0 0 0-1.88.34l-.04.04a2 2 0 0 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.63 15a1.7 1.7 0 0 0-.58-1H4a2 2 0 0 1 0-4h.05a1.7 1.7 0 0 0 .58-1 1.7 1.7 0 0 0-.34-1.88l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 9 4.63a1.7 1.7 0 0 0 1-.58V4a2 2 0 0 1 4 0v.05a1.7 1.7 0 0 0 1 .58 1.7 1.7 0 0 0 1.88-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.37 9c.18.36.34.7.58 1H20a2 2 0 0 1 0 4h-.05a1.7 1.7 0 0 0-.55 1Z"></path>
         </svg>
       </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
+              <span>배경 소리</span>
+              <strong class="settings-switch-state" id="settingsBgmState">켜짐</strong>
+            </button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
+              <span>효과 소리</span>
+              <strong class="settings-switch-state" id="settingsSfxState">켜짐</strong>
+            </button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
+          </div>
+          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
+            <p id="settingsConfirmText">처음부터 할까요?</p>
+            <div class="settings-confirm-actions">
+              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
+              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="fuel-transfer-layer" id="fuelTransferLayer" aria-hidden="true">
         <span class="fuel-stream"></span>
         <span class="fuel-droplet one"></span>
@@ -2703,7 +3030,7 @@
         <span class="fuel-droplet three"></span>
       </div>
     <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
-      <img class="raster-bg" src="cover-generated.webp" alt="">
+      <img class="raster-bg" src="cover-generated.webp" alt="" aria-hidden="true">
       <div class="top-row">
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 4단원 2차시</span>
@@ -2714,10 +3041,7 @@
           <h1 id="coverTitle" class="visually-hidden">매스몬 분수만큼 담기</h1>
           <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
           <p>전체를 똑같이 나눠 분수만큼 바구니에 담아요.</p>
-          <button class="primary-button" id="startButton" type="button">시작</button>
-        </div>
-        <div class="cover-visual" aria-hidden="true">
-          <img class="cover-mathmon" src="assets/mathmon/fraction-pack/mathmon-fr-02-basketroo.webp" alt="">
+          <button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button>
         </div>
       </div>
     </section>
@@ -2730,16 +3054,65 @@
       <div class="tutorial-layout">
         <div class="tutorial-copy">
           <span class="mini-badge">어떻게 해요?</span>
-          <h2 id="tutorialTitle">분수만큼 바구니에 담아요.</h2>
+          <h2 id="tutorialTitle">전체를 똑같이 나눠요.</h2>
           <ol class="steps">
-            <li><b>1</b><span>전체 조각은 분모, 색칠한 조각은 분자예요.</span></li>
-            <li><b>2</b><span>맞히면 담기 점수가 변해요. 갑자기 오르거나 내릴 수도 있어요.</span></li>
-            <li><b>3</b><span>모은 점수에 따라 담기 등급이 달라져요.</span></li>
+            <li><b>1</b><span>전체를 분모 수만큼 똑같이 나눠요.</span></li>
+            <li><b>2</b><span>한 묶음 숫자 카드를 칸에 놓아요.</span></li>
+            <li><b>3</b><span>담을 숫자 카드를 바구니에 놓아요.</span></li>
           </ol>
-          <button class="primary-button" id="tutorialNextButton" type="button">담기 시작</button>
         </div>
-        <div class="tutorial-art-spacer" aria-hidden="true"></div>
+        <div class="tutorial-example" aria-hidden="true">
+          <div class="example-card">
+            <strong class="example-title">보기</strong>
+            <svg class="example-svg" viewBox="0 0 360 220" role="img">
+              <g fill="#ffd9a8" stroke="#c98a2e" stroke-width="2">
+                <rect x="28" y="42" width="84" height="136" rx="14" fill="rgba(255,255,255,0.05)"></rect>
+                <rect x="138" y="42" width="84" height="136" rx="14" fill="rgba(255,255,255,0.05)"></rect>
+                <rect x="248" y="42" width="84" height="136" rx="14" fill="rgba(255,255,255,0.05)"></rect>
+                <circle cx="58" cy="78" r="14"></circle><circle cx="84" cy="78" r="14"></circle><circle cx="70" cy="112" r="14"></circle>
+                <circle cx="168" cy="78" r="14"></circle><circle cx="194" cy="78" r="14"></circle><circle cx="180" cy="112" r="14"></circle>
+                <circle cx="278" cy="78" r="14"></circle><circle cx="304" cy="78" r="14"></circle><circle cx="290" cy="112" r="14"></circle>
+              </g>
+            </svg>
+            <p class="example-caption">9개를 3묶음으로 나누면 3 카드를 한 묶음 칸에 놓아요.</p>
+          </div>
+          <div class="example-row">
+            <span class="example-chip">9개</span>
+            <span class="example-plus">÷</span>
+            <span class="example-chip">3묶음</span>
+            <span class="example-plus">→</span>
+            <span class="example-chip">3 카드</span>
+            <span class="example-plus">→</span>
+            <span class="example-chip">한 묶음 칸</span>
+          </div>
+        </div>
       </div>
+      <button class="primary-button" id="tutorialNextButton" type="button">다음</button>
+    </section>
+
+    <section class="screen tutorial goal-screen" id="goalScreen" aria-labelledby="goalTitle">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 4단원 2차시</span>
+      </div>
+      <div class="tutorial-layout">
+        <div class="tutorial-copy">
+          <span class="mini-badge">무엇을 얻어요?</span>
+          <h2 id="goalTitle">10문제를 풀고 담기 등급을 봐요.</h2>
+          <ol class="steps">
+            <li><b>1</b><span>10문제를 풀어요.</span></li>
+            <li><b>2</b><span>맞히면 담기 점수를 받을 기회가 커져요.</span></li>
+            <li><b>3</b><span>점수는 오르거나 조금 내려갈 수도 있어요.</span></li>
+          </ol>
+        </div>
+        <div class="tutorial-example goal-board" aria-hidden="true">
+          <div class="goal-card"><span class="goal-icon">1</span><strong>10문제</strong><span>끝까지 풀어요.</span></div>
+          <div class="goal-card"><span class="goal-icon">2</span><strong>담기 점수</strong><span>맞히면 기회가 커져요.</span></div>
+          <div class="goal-card"><span class="goal-icon">3</span><strong>오르거나 내려요</strong><span>그래서 두근두근해요.</span></div>
+          <div class="goal-card"><span class="goal-icon">4</span><strong>담기 등급</strong><span>마지막에 확인해요.</span></div>
+        </div>
+      </div>
+      <button class="primary-button" id="goalNextButton" type="button">담기 시작</button>
     </section>
 
     <section class="screen play" id="playScreen" aria-labelledby="questionText">
@@ -2774,11 +3147,11 @@
             <div class="fuel-meter" aria-hidden="true">
               <span class="fuel-meter-fill" id="fuelMeterFill"></span>
             </div>
-            <p class="fuel-note" id="fuelNote">10판을 끝내면 담기 점수를 재서 등급을 정해요.</p>
+            <p class="fuel-note" id="fuelNote">10판을 끝내면 담기 점수로 등급을 정해요.</p>
             <div class="planet-panel">
               <div class="planet-title">
                 <span>담기 등급</span>
-                <strong id="destinationText">마지막에 측정</strong>
+                <strong id="destinationText">마지막에 보기</strong>
               </div>
               <div class="planet-track" id="planetTrack" aria-label="받을 수 있는 담기 등급"></div>
             </div>
@@ -2817,43 +3190,26 @@
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 4단원 2차시</span>
       </div>
-      <div class="result-layout">
-        <div class="launch-scene" aria-hidden="true">
-          <img class="cover-mathmon" src="assets/mathmon/fraction-pack/mathmon-fr-02-basketroo.webp" alt="">
-        </div>
-        <div class="result-copy">
-          <h2 id="resultTitle">담기 점수 측정 준비</h2>
-          <p class="praise" id="praiseText">분수만큼 바구니에 잘 담았어요.</p>
-          <div class="result-measure" id="resultMeasure" aria-label="담기 점수 측정 결과">
-            <div class="measure-top">
-              <span id="measureStatus">점수 측정 중</span>
-              <strong id="measurePercent">점수 0</strong>
-            </div>
-            <div class="measure-tube" aria-hidden="true">
-              <span class="measure-fill" id="measureFill"></span>
-              <span class="measure-scan"></span>
-            </div>
-            <div class="result-planet-track" id="resultPlanetTrack" aria-label="담기 등급 측정"></div>
-          </div>
-          <div class="result-stats">
-            <div class="result-stat">
-              <span>담기 점수</span>
-              <strong id="finalEnergyText">0</strong>
-            </div>
-            <div class="result-stat">
-              <span>맞힌 문제</span>
-              <strong id="finalCorrectText">0/10</strong>
-            </div>
-            <div class="result-stat">
-              <span>담기 등급</span>
-              <strong id="finalDestinationText">바구니</strong>
-            </div>
-          </div>
-          <div class="result-actions">
-            <button class="primary-button" id="restartButton" type="button">다시하기</button>
-          </div>
-        </div>
-      </div>
+      <h2 class="visually-hidden" id="resultTitle">결과 확인</h2>
+      <p class="visually-hidden" id="praiseText">분수만큼 바구니에 잘 담았어요.</p>
+      <svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="resultMeterGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#35d9b2"></stop>
+            <stop offset="0.55" stop-color="#ffc857"></stop>
+            <stop offset="1" stop-color="#ff5d7a"></stop>
+          </linearGradient>
+        </defs>
+        <g>
+          <rect class="result-panel-bg" x="802" y="116" width="374" height="178" rx="24"></rect>
+          <text id="resultDestinationSvg" x="828" y="176" fill="#fff8e8" font-size="34" font-weight="1000">점수 재는 중</text>
+          <text id="resultScoreSvg" x="828" y="226" fill="#b8ffe9" font-size="42" font-weight="1000">정답 0/10</text>
+          <text id="resultMeasureSvg" x="828" y="264" fill="#ffe8ba" font-size="24" font-weight="950">점수 0</text>
+          <rect class="result-meter-track" x="828" y="304" width="320" height="26" rx="13"></rect>
+          <rect class="result-meter-fill" id="resultMeasureFillSvg" x="828" y="304" width="0" height="26" rx="13"></rect>
+        </g>
+      </svg>
+      <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기" hidden></button>
     </section>
     </div>
   </main>
@@ -2861,6 +3217,26 @@
   <script>
     const TOTAL_QUESTIONS = 10;
     const MAX_FUEL = 100;
+    const AUDIO_PREF_KEYS = {
+      bgm: "mathmon-audio-bgm-enabled",
+      sfx: "mathmon-audio-sfx-enabled"
+    };
+
+    function loadAudioPreference(kind) {
+      try {
+        return localStorage.getItem(AUDIO_PREF_KEYS[kind]) !== "false";
+      } catch (error) {
+        return true;
+      }
+    }
+
+    function saveAudioPreference(kind, enabled) {
+      try {
+        localStorage.setItem(AUDIO_PREF_KEYS[kind], String(enabled));
+      } catch (error) {
+        // localStorage may be unavailable in restricted previews.
+      }
+    }
     // 결과 등급: 담기 점수(0~100)에 따른 자체 완결형 등급.
     const DESTINATIONS = [
       { id: "handful", short: "줌", name: "한 줌", min: 1, max: 18, image: "result-handful-generated.webp" },
@@ -2921,7 +3297,10 @@
       rainbowFuel: false,
       lastFuelEvent: null,
       instantLaunch: false,
-      soundsOn: true,
+      tutorialReviewMode: false,
+      reviewReturnScreen: "cover",
+      bgmEnabled: loadAudioPreference("bgm"),
+      sfxEnabled: loadAudioPreference("sfx"),
       audio: null,
       bgmGain: null,
       bgmTimer: null,
@@ -2933,11 +3312,26 @@
       stageShell: document.querySelector(".stage-shell"),
       coverScreen: document.getElementById("coverScreen"),
       tutorialScreen: document.getElementById("tutorialScreen"),
+      goalScreen: document.getElementById("goalScreen"),
       playScreen: document.getElementById("playScreen"),
       resultScreen: document.getElementById("resultScreen"),
       startButton: document.getElementById("startButton"),
       tutorialNextButton: document.getElementById("tutorialNextButton"),
-      soundToggle: document.getElementById("soundToggle"),
+      goalNextButton: document.getElementById("goalNextButton"),
+      settingsButton: document.getElementById("settingsButton"),
+      settingsBackdrop: document.getElementById("settingsBackdrop"),
+      settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsBgmToggle: document.getElementById("settingsBgmToggle"),
+      settingsBgmState: document.getElementById("settingsBgmState"),
+      settingsSfxToggle: document.getElementById("settingsSfxToggle"),
+      settingsSfxState: document.getElementById("settingsSfxState"),
+      settingsMethodButton: document.getElementById("settingsMethodButton"),
+      settingsRestartButton: document.getElementById("settingsRestartButton"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      settingsCloseButton: document.getElementById("settingsCloseButton"),
       fuelTransferLayer: document.getElementById("fuelTransferLayer"),
       progressText: document.getElementById("progressText"),
       fuelPercentText: document.getElementById("fuelPercentText"),
@@ -2959,25 +3353,129 @@
       rewardMessage: document.getElementById("rewardMessage"),
       rewardNextButton: document.getElementById("rewardNextButton"),
       resultRaster: document.getElementById("resultRaster"),
-      resultMeasure: document.getElementById("resultMeasure"),
-      measureStatus: document.getElementById("measureStatus"),
-      measurePercent: document.getElementById("measurePercent"),
-      measureFill: document.getElementById("measureFill"),
-      resultPlanetTrack: document.getElementById("resultPlanetTrack"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
       praiseText: document.getElementById("praiseText"),
-      finalEnergyText: document.getElementById("finalEnergyText"),
-      finalCorrectText: document.getElementById("finalCorrectText"),
-      finalDestinationText: document.getElementById("finalDestinationText"),
       restartButton: document.getElementById("restartButton")
     };
+
+    el.tutorialNextButton.dataset.defaultLabel = el.tutorialNextButton.textContent;
+    el.goalNextButton.dataset.defaultLabel = el.goalNextButton.textContent;
 
     function showScreen(name) {
       state.screen = name;
       el.stageShell.dataset.activeScreen = name;
-      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen].forEach((screen) => {
+      [el.coverScreen, el.tutorialScreen, el.goalScreen, el.playScreen, el.resultScreen].forEach((screen) => {
         screen.classList.remove("is-active");
       });
       document.getElementById(`${name}Screen`).classList.add("is-active");
+    }
+
+
+    function updateSettingsUi() {
+      el.settingsBgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+      el.settingsSfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      el.settingsBgmState.textContent = state.bgmEnabled ? "켜짐" : "꺼짐";
+      el.settingsSfxState.textContent = state.sfxEnabled ? "켜짐" : "꺼짐";
+    }
+
+    function setBgmEnabled(enabled) {
+      state.bgmEnabled = enabled;
+      saveAudioPreference("bgm", enabled);
+      if (enabled) {
+        startBgm();
+      } else {
+        stopBgm();
+      }
+      updateSettingsUi();
+    }
+
+    function setSfxEnabled(enabled) {
+      state.sfxEnabled = enabled;
+      saveAudioPreference("sfx", enabled);
+      updateSettingsUi();
+      if (enabled) {
+        playSound("next");
+      }
+    }
+
+    function getSettingsFocusable() {
+      return [...el.settingsModal.querySelectorAll("button")].filter((button) => !button.hidden && !button.disabled && button.offsetParent !== null);
+    }
+
+    function setSettingsConfirming(confirming) {
+      el.settingsMenu.hidden = confirming;
+      el.settingsRestartConfirm.hidden = !confirming;
+      const focusTarget = confirming ? el.settingsRestartConfirmButton : el.settingsRestartButton;
+      window.setTimeout(() => focusTarget.focus(), 0);
+    }
+
+    function openSettings() {
+      updateSettingsUi();
+      el.settingsBackdrop.hidden = false;
+      el.settingsButton.setAttribute("aria-expanded", "true");
+      setSettingsConfirming(false);
+      window.setTimeout(() => el.settingsModal.focus(), 0);
+    }
+
+    function closeSettings() {
+      el.settingsBackdrop.hidden = true;
+      el.settingsButton.setAttribute("aria-expanded", "false");
+      el.settingsMenu.hidden = false;
+      el.settingsRestartConfirm.hidden = true;
+      el.settingsButton.focus();
+    }
+
+    function handleSettingsKeydown(event) {
+      if (el.settingsBackdrop.hidden) {
+        return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") {
+        return;
+      }
+      const focusable = getSettingsFocusable();
+      if (!focusable.length) {
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function restoreTutorialStartLabel() {
+      el.tutorialNextButton.textContent = el.tutorialNextButton.dataset.defaultLabel;
+      el.goalNextButton.textContent = el.goalNextButton.dataset.defaultLabel;
+    }
+
+    function showMethodReview() {
+      state.tutorialReviewMode = true;
+      state.reviewReturnScreen = ["tutorial", "goal"].includes(state.screen) ? "cover" : state.screen;
+      el.tutorialNextButton.textContent = "다음";
+      el.goalNextButton.textContent = "계속하기";
+      closeSettings();
+      showScreen("tutorial");
+    }
+
+    function restartFromSettings() {
+      state.tutorialReviewMode = false;
+      restoreTutorialStartLabel();
+      closeSettings();
+      stopBgm();
+      el.rewardPop.classList.remove("is-visible");
+      showScreen("cover");
     }
 
     function restartAnimation(target, className, duration = 760) {
@@ -3085,7 +3583,7 @@
       clearRocketImpact();
       FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
-      el.questionText.innerHTML = `${problem.total}개의 ${fracHtml({ num: problem.num, den: problem.den })}만큼은?`;
+      el.questionText.textContent = `${problem.total}개 중 ${problem.num}/${problem.den}은?`;
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderStatus();
@@ -3104,8 +3602,8 @@
       el.rocketMini.classList.toggle("is-rainbow", state.rainbowFuel);
       el.fuelPercentText.textContent = state.rainbowFuel ? "무지개 바구니" : "모으는 중";
       el.fuelMeterFill.style.setProperty("--fuel-width", `${fuelPercent}%`);
-      el.destinationText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 측정" : "마지막에 측정";
-      el.fuelNote.textContent = "10판을 끝내면 담기 점수를 재서 등급을 정해요.";
+      el.destinationText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 보기" : "마지막에 보기";
+      el.fuelNote.textContent = "10판을 끝내면 담기 점수로 등급을 정해요.";
       renderPlanetTrack(el.planetTrack, { targetIndex: -1, reachedIndex: -1 });
     }
 
@@ -3185,11 +3683,14 @@
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       const options = buildStepOptions(step);
+      const dropConfig = step.id === "group"
+        ? { cardLabel: "숫자 카드", dropLabel: "한 묶음 칸", dropHint: "몇 개인지 놓아요" }
+        : { cardLabel: "숫자 카드", dropLabel: "바구니 칸", dropHint: "담을 수를 놓아요" };
       renderChoices(options.map((option) => ({
         label: option.html,
         value: option,
         correct: option.isAnswer
-      })), handleStepChoice);
+      })), handleStepChoice, dropConfig);
     }
 
     function renderHintPanel() {}
@@ -3204,15 +3705,15 @@
         {
           id: "group",
           correctText: String(problem.perGroup),
-          prompt: `${problem.total}개를 ${problem.den}묶음으로 똑같이 나누면 한 묶음은?`,
-          hint: `${problem.total}을 ${problem.den}묶음으로 나눠요.`,
+          prompt: "숫자 카드를 한 묶음 칸에 놓아요.",
+          hint: `${problem.total}개를 ${problem.den}묶음으로 나눠요.`,
           explain: `${problem.total}÷${problem.den}=${problem.perGroup}, 한 묶음은 ${problem.perGroup}개예요.`,
           options: problem.step1
         },
         {
           id: "scoop",
           correctText: String(problem.answer),
-          prompt: `한 묶음 ${problem.perGroup}개씩 ${problem.num}묶음을 담으면?`,
+          prompt: "숫자 카드를 바구니 칸에 놓아요.",
           hint: `${problem.perGroup}개씩 ${problem.num}묶음이에요.`,
           explain: `${problem.perGroup}×${problem.num}=${problem.answer}, ${problem.answer}개를 담아요.`,
           options: problem.step2
@@ -3224,19 +3725,19 @@
 
     function updateCurrentAnswerCell() {}
 
-    function drawGroupTokens(problem) {
+    function drawGroupTokens(problem, forcedHighlightGroups = null) {
       const { total, den, num, perGroup } = problem;
-      const highlightGroups = state.stepIndex >= 1 ? num : 0;
+      const highlightGroups = forcedHighlightGroups === null ? state.stepIndex >= 1 ? num : 0 : forcedHighlightGroups;
       const W = 360;
-      const H = 232;
+      const H = 204;
       const pad = 10;
       const gap = 8;
       const gw = (W - pad * 2 - gap * (den - 1)) / den;
       const cols = Math.ceil(Math.sqrt(perGroup));
       const rows = Math.ceil(perGroup / cols);
       const innerX = 9;
-      const innerTop = 16;
-      const innerBot = 9;
+      const innerTop = 12;
+      const innerBot = 12;
       const availW = gw - innerX * 2;
       const availH = H - pad * 2 - innerTop - innerBot;
       const cw = availW / cols;
@@ -3333,7 +3834,15 @@
 
     function triggerStepEffect() {}
 
-    function applyStepToBoard() {}
+    function applyStepToBoard(step, problem) {
+      if (step.id === "group") {
+        el.targetBoard.innerHTML = drawGroupTokens(problem, 1);
+        return;
+      }
+      if (step.id === "scoop") {
+        el.targetBoard.innerHTML = drawGroupTokens(problem, problem.num);
+      }
+    }
 
     function completeProblem() {
       const perfect = !state.problemHadMistake;
@@ -3539,15 +4048,271 @@
       return "변화 없음";
     }
 
-    function renderChoices(options, handler) {
+    function setupDragChoice({ items, dropTargets, onSubmit, directTapSubmit = false }) {
+      const itemList = [...items].filter(Boolean);
+      const targetList = [...dropTargets].filter(Boolean);
+      const controller = new AbortController();
+      const { signal } = controller;
+      let selectedItem = null;
+      let active = null;
+
+      function isDisabled(node) {
+        return !node || node.disabled || node.getAttribute("aria-disabled") === "true";
+      }
+
+      function clearReady() {
+        targetList.forEach((target) => target.classList.remove("is-drop-ready"));
+      }
+
+      function resetItem(item) {
+        if (!item) {
+          return;
+        }
+        item.style.transform = "";
+        item.classList.remove("is-dragging");
+      }
+
+      function selectItem(item) {
+        if (isDisabled(item)) {
+          return;
+        }
+        itemList.forEach((entry) => entry.classList.remove("is-selected"));
+        selectedItem = item;
+        item.classList.add("is-selected");
+        targetList.filter((target) => !isDisabled(target)).forEach((target) => target.classList.add("is-drop-ready"));
+      }
+
+      function targetFromPoint(x, y) {
+        const moving = active?.item;
+        const previousPointerEvents = moving?.style.pointerEvents;
+        if (moving) {
+          moving.style.pointerEvents = "none";
+        }
+        const node = document.elementFromPoint(x, y);
+        if (moving) {
+          moving.style.pointerEvents = previousPointerEvents || "";
+        }
+        const target = node?.closest?.(".drop-zone");
+        return targetList.includes(target) ? target : null;
+      }
+
+      function submit(item, target) {
+        const option = target?.__dragOption || item?.__dragOption;
+        if (!option || isDisabled(target) || isDisabled(item)) {
+          return false;
+        }
+        onSubmit(option, item, target);
+        selectedItem = null;
+        itemList.forEach((entry) => entry.classList.remove("is-selected"));
+        clearReady();
+        return true;
+      }
+
+      function cancelActive() {
+        if (!active) {
+          return;
+        }
+        resetItem(active.item);
+        active = null;
+        clearReady();
+      }
+
+      itemList.forEach((item) => {
+        item.addEventListener("pointerdown", (event) => {
+          if (event.button !== undefined && event.button !== 0) {
+            return;
+          }
+          if (isDisabled(item)) {
+            return;
+          }
+          event.preventDefault();
+          selectItem(item);
+          active = { item, startX: event.clientX, startY: event.clientY, moved: false };
+          item.classList.add("is-dragging");
+          item.setPointerCapture?.(event.pointerId);
+        }, { signal });
+
+        item.addEventListener("pointermove", (event) => {
+          if (!active || active.item !== item) {
+            return;
+          }
+          const dx = event.clientX - active.startX;
+          const dy = event.clientY - active.startY;
+          if (Math.hypot(dx, dy) > 5) {
+            active.moved = true;
+          }
+          item.style.transform = `translate(${dx}px, ${dy}px)`;
+          clearReady();
+          const target = targetFromPoint(event.clientX, event.clientY);
+          if (target && !isDisabled(target)) {
+            target.classList.add("is-drop-ready");
+          }
+        }, { signal });
+
+        item.addEventListener("pointerup", (event) => {
+          if (!active || active.item !== item) {
+            return;
+          }
+          const moved = active.moved;
+          const target = targetFromPoint(event.clientX, event.clientY);
+          active = null;
+          resetItem(item);
+          if (moved) {
+            item.dataset.dragMoved = "true";
+            window.setTimeout(() => {
+              delete item.dataset.dragMoved;
+            }, 0);
+          }
+          if (target && !isDisabled(target)) {
+            submit(item, target);
+            return;
+          }
+          clearReady();
+        }, { signal });
+
+        item.addEventListener("pointercancel", cancelActive, { signal });
+
+        item.addEventListener("click", (event) => {
+          if (item.dataset.dragMoved === "true") {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+          if (directTapSubmit) {
+            const target = targetList.find((candidate) => !candidate.__dragOption && !isDisabled(candidate));
+            if (target && submit(item, target)) {
+              return;
+            }
+          }
+          selectItem(item);
+        }, { signal });
+
+        item.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") {
+            return;
+          }
+          event.preventDefault();
+          if (directTapSubmit) {
+            const target = targetList.find((candidate) => !candidate.__dragOption && !isDisabled(candidate));
+            if (target && submit(item, target)) {
+              return;
+            }
+          }
+          selectItem(item);
+        }, { signal });
+      });
+
+      targetList.forEach((target) => {
+        target.addEventListener("click", () => {
+          if (isDisabled(target)) {
+            return;
+          }
+          if (target.__dragOption) {
+            submit(selectedItem || itemList[0], target);
+            return;
+          }
+          if (selectedItem) {
+            submit(selectedItem, target);
+            return;
+          }
+          target.classList.add("is-drop-ready");
+          window.setTimeout(() => target.classList.remove("is-drop-ready"), 450);
+        }, { signal });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          selectedItem = null;
+          itemList.forEach((item) => item.classList.remove("is-selected"));
+          cancelActive();
+          clearReady();
+        }
+      }, { signal });
+      window.addEventListener("blur", cancelActive, { signal });
+
+      return () => {
+        controller.abort();
+        cancelActive();
+        itemList.forEach((item) => {
+          resetItem(item);
+          item.classList.remove("is-selected", "is-locked");
+          item.removeAttribute("aria-disabled");
+        });
+        clearReady();
+      };
+    }
+
+    function renderChoices(options, handler, config = {}) {
+      if (el.choiceGrid._dragCleanup) {
+        el.choiceGrid._dragCleanup();
+      }
       el.choiceGrid.innerHTML = "";
-      options.forEach((option) => {
+      el.choiceGrid.className = "choice-grid is-drag-input";
+      const cardRow = document.createElement("div");
+      cardRow.className = "drag-card-row";
+      cardRow.dataset.count = String(options.length);
+      const dropRow = document.createElement("div");
+      dropRow.className = "drop-zone-row";
+      const items = [];
+      const dropTargets = [];
+
+      function makeCard(option) {
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "choice-button";
-        button.innerHTML = option.label;
-        button.addEventListener("click", () => handler(option, button));
-        el.choiceGrid.appendChild(button);
+        button.className = "choice-button drag-choice";
+        button.__dragOption = option;
+        button.innerHTML = `<span class="drag-card-label">${config.cardLabel || "카드"}</span><span class="drag-card-value">${option.label}</span>`;
+        return button;
+      }
+
+      function makeDropZone(label, hint, option = null) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "drop-zone";
+        button.__dragOption = option;
+        button.dataset.dropTitle = label;
+        button.innerHTML = `<span class="drop-zone-title">${label}</span><span class="drop-zone-hint">${hint}</span>`;
+        return button;
+      }
+
+      function submitChoice(option, item, target) {
+        if (target && !target.__dragOption) {
+          if (option.correct) {
+            target.classList.add("is-correct-drop");
+            target.innerHTML = `<span class="drop-zone-title">${target.dataset.dropTitle}</span><span class="drop-zone-answer">${option.label}</span>`;
+            item?.classList.add("is-locked");
+            item?.setAttribute("aria-disabled", "true");
+            handler(option, target);
+            return;
+          }
+          target.classList.add("is-wrong-drop");
+          window.setTimeout(() => target.classList.remove("is-wrong-drop"), 420);
+          handler(option, item || target);
+          return;
+        }
+        if (target) {
+          target.classList.add(option.correct ? "is-correct-drop" : "is-wrong-drop");
+          if (!option.correct) {
+            window.setTimeout(() => target.classList.remove("is-wrong-drop"), 420);
+          }
+        }
+        handler(option, target || item);
+      }
+
+      options.forEach((option) => {
+        const card = makeCard(option);
+        items.push(card);
+        cardRow.appendChild(card);
+      });
+      const target = makeDropZone(config.dropLabel || "정답 자리", config.dropHint || "여기에 놓아요");
+      dropTargets.push(target);
+      dropRow.appendChild(target);
+      el.choiceGrid.append(cardRow, dropRow);
+      el.choiceGrid._dragCleanup = setupDragChoice({
+        items,
+        dropTargets,
+        onSubmit: submitChoice,
+        directTapSubmit: Boolean(config.directTapSubmit)
       });
     }
 
@@ -3662,21 +4427,21 @@
       const duration = 1500;
       const startedAt = performance.now();
       const target = getFuelPercent(targetFuel);
+      const meterWidth = 320;
 
       function tick(now) {
         const progress = clamp((now - startedAt) / duration, 0, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
         const current = Math.round(target * eased);
-        el.measureFill.style.setProperty("--measure-width", `${current}%`);
-        el.measurePercent.textContent = finalLabel === "무지개 점수" && progress > 0.84
+        el.resultMeasureFillSvg.setAttribute("width", String(Math.round(meterWidth * current / 100)));
+        el.resultMeasureSvg.textContent = finalLabel === "무지개 점수" && progress > 0.84
           ? finalLabel
-          : `점수 ${current}`;
+          : "점수 " + current;
         if (progress < 1) {
           window.requestAnimationFrame(tick);
           return;
         }
-        el.measurePercent.textContent = finalLabel;
-        el.finalEnergyText.textContent = finalLabel;
+        el.resultMeasureSvg.textContent = finalLabel;
       }
 
       window.requestAnimationFrame(tick);
@@ -3684,6 +4449,9 @@
 
     function scanResultPlanets(targetIndex) {
       if (targetIndex < 0) {
+        return;
+      }
+      if (!el.resultPlanetTrack) {
         return;
       }
       const chips = [...el.resultPlanetTrack.querySelectorAll(".planet-chip")];
@@ -3705,38 +4473,31 @@
       const launched = Boolean(destination);
       const fuelPercent = getFuelPercent();
       const measureFuel = state.rainbowFuel ? MAX_FUEL : fuelPercent;
-      const measureLabel = state.rainbowFuel ? "무지개 점수" : `점수 ${fuelPercent}`;
-      el.resultRaster.src = launched ? destination.image : "result-handful-generated.webp";
+      const measureLabel = state.rainbowFuel ? "무지개 점수" : "점수 " + fuelPercent;
+      const resultTitle = document.getElementById("resultTitle");
+      el.resultRaster.src = launched ? destination.image : "result-retry-generated.webp";
       el.resultScreen.classList.add("is-measuring");
       el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowFuel);
-      document.getElementById("resultTitle").textContent = "점수 측정 중";
-      el.finalEnergyText.textContent = "측정 중";
-      el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
-      el.finalDestinationText.textContent = "측정 중";
-      el.praiseText.textContent = "모인 담기 점수를 재고 있어요.";
-      el.measureStatus.textContent = "점수 측정 중";
-      el.measurePercent.textContent = "점수 0";
-      el.measureFill.style.setProperty("--measure-width", "0%");
-      renderPlanetTrack(el.resultPlanetTrack, { targetIndex: -1, reachedIndex: -1 });
+      resultTitle.textContent = "점수 재는 중";
+      el.praiseText.textContent = "점수를 재고 있어요.";
+      el.resultDestinationSvg.textContent = "점수 재는 중";
+      el.resultScoreSvg.textContent = "정답 " + state.correct + "/" + TOTAL_QUESTIONS;
+      el.resultMeasureSvg.textContent = "점수 0";
+      el.resultMeasureFillSvg.setAttribute("width", "0");
       el.restartButton.hidden = true;
       el.restartButton.disabled = true;
-      el.restartButton.textContent = launched ? "한 번 더" : "다시하기";
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
-        el.measureStatus.textContent = "담기 점수";
         animateMeasureValue(measureFuel, measureLabel);
-        renderPlanetTrack(el.resultPlanetTrack, {
-          targetIndex: launched ? destination.index : -1,
-          reachedIndex: launched ? destination.index : -1
-        });
-        scanResultPlanets(launched ? destination.index : -1);
         playSound("measure");
       }, 120);
       window.setTimeout(() => {
         el.resultScreen.classList.remove("is-measuring");
-        document.getElementById("resultTitle").textContent = launched ? `${destination.name} 등급!` : "점수 더 필요";
-        el.finalDestinationText.textContent = launched ? destination.name : "다시 도전";
+        const destinationLabel = launched ? destination.name + " 등급" : "다시 도전";
+        resultTitle.textContent = launched ? destination.name + " 등급!" : "다시 도전";
+        el.resultDestinationSvg.textContent = destinationLabel;
+        el.resultScoreSvg.textContent = "정답 " + state.correct + "/" + TOTAL_QUESTIONS;
         el.praiseText.textContent = launched ? getPraise(destination) : getRetryMessage();
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
@@ -3773,8 +4534,12 @@
     }
 
     function setButtonsDisabled(disabled) {
-      [...el.choiceGrid.querySelectorAll("button")].forEach((button) => {
-        button.disabled = disabled;
+      const controls = [...el.choiceGrid.querySelectorAll("button, [role='button']"), el.targetBoard].filter(Boolean);
+      controls.forEach((control) => {
+        if ("disabled" in control) {
+          control.disabled = disabled;
+        }
+        control.setAttribute("aria-disabled", String(disabled));
       });
     }
 
@@ -3846,7 +4611,7 @@
     }
 
     function startBgm() {
-      if (!state.soundsOn || state.bgmRunning || !resumeAudio()) {
+      if (!state.bgmEnabled || state.bgmRunning || !resumeAudio()) {
         return;
       }
       state.bgmRunning = true;
@@ -3912,7 +4677,7 @@
     }
 
     function playSound(kind) {
-      if (!state.soundsOn) {
+      if (!state.sfxEnabled) {
         return;
       }
       if (!resumeAudio()) {
@@ -3950,29 +4715,59 @@
     }
 
     el.startButton.addEventListener("click", () => {
+      state.tutorialReviewMode = false;
+      restoreTutorialStartLabel();
       startBgm();
       playSound("start");
       showScreen("tutorial");
     });
 
-    el.tutorialNextButton.addEventListener("click", startGame);
+    el.tutorialNextButton.addEventListener("click", () => {
+      showScreen("goal");
+    });
+
+    el.goalNextButton.addEventListener("click", () => {
+      if (state.tutorialReviewMode) {
+        const returnScreen = state.reviewReturnScreen || "cover";
+        state.tutorialReviewMode = false;
+        restoreTutorialStartLabel();
+        showScreen(returnScreen);
+        return;
+      }
+      startGame();
+    });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
     el.restartButton.addEventListener("click", () => {
       startBgm();
       playSound("start");
       showScreen("cover");
     });
-    el.soundToggle.addEventListener("click", () => {
-      state.soundsOn = !state.soundsOn;
-      el.soundToggle.setAttribute("aria-label", state.soundsOn ? "소리 켜짐" : "소리 꺼짐");
-      el.soundToggle.setAttribute("aria-pressed", String(state.soundsOn));
-      if (state.soundsOn) {
-        startBgm();
-        playSound("next");
-      } else {
-        stopBgm();
+    el.settingsButton.addEventListener("click", openSettings);
+    el.settingsCloseButton.addEventListener("click", closeSettings);
+    el.settingsBackdrop.addEventListener("click", (event) => {
+      if (event.target === el.settingsBackdrop) {
+        closeSettings();
       }
     });
+    el.settingsBgmToggle.addEventListener("click", () => setBgmEnabled(!state.bgmEnabled));
+    el.settingsSfxToggle.addEventListener("click", () => setSfxEnabled(!state.sfxEnabled));
+    el.settingsMethodButton.addEventListener("click", showMethodReview);
+    el.settingsRestartButton.addEventListener("click", () => setSettingsConfirming(true));
+    el.settingsRestartCancelButton.addEventListener("click", () => setSettingsConfirming(false));
+    el.settingsRestartConfirmButton.addEventListener("click", restartFromSettings);
+    document.addEventListener("keydown", handleSettingsKeydown);
+    window.__mathmonAudioQa = {
+      getPrefs: () => ({ bgmEnabled: state.bgmEnabled, sfxEnabled: state.sfxEnabled }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          setBgmEnabled(bgmEnabled);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          setSfxEnabled(sfxEnabled);
+        }
+      }
+    };
+    updateSettingsUi();
 
     renderStatus();
   </script>
