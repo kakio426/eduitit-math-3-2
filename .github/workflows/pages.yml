@@ -35,9 +35,34 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build static artifact
+        shell: bash
         run: |
+          set -euo pipefail
+          rm -rf _site
           mkdir -p _site
-          git ls-files -z | rsync -a --files-from=- --from0 ./ _site/
+          rsync -a \
+            --include='/.nojekyll' \
+            --include='/manifest.json' \
+            --include='/3-2-*/***' \
+            --include='/_shared/***' \
+            --exclude='*' \
+            ./ _site/
+          find _site -type d \( \
+            -name screenshots -o \
+            -name raw-chromakey -o \
+            -name contact-sheets \
+          \) -prune -exec rm -rf {} +
+          find _site -type f \( \
+            -name 'README.md' -o \
+            -name 'REPORT.md' -o \
+            -name '*-source.png' -o \
+            -name '*-source.webp' -o \
+            -name '*-source.jpg' -o \
+            -name '*-source.jpeg' -o \
+            -name '*-transparent-raw.png' -o \
+            -name '*chromakey*.png' \
+          \) -delete
+          du -sh _site
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
