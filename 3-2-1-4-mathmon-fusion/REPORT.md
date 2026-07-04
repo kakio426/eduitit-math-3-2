@@ -63,7 +63,11 @@
 
 ### 결과 화면
 
-결과 화면은 도달 등급별 RasterStage 배경 6장과 다시하기 배경 1장을 사용합니다. 소형, 중형, 대형, 거대, 초거대, 전설 합체 이미지가 따로 있으며, 등급이 올라갈수록 몸집, 색 포인트, 배경 에너지 효과가 분명히 커지도록 다시 생성했습니다. 생성 이미지는 로봇 장면을 맡고, SVG 동적 레이어가 정답 수, 도달 등급, 합체 힘, `순위 보기`, `한 번 더` 버튼 표면을 정확한 좌표에 그립니다. 실제 클릭은 투명 HTML hitbox가 맡습니다.
+결과 화면은 도달 등급별 RasterStage 배경 6장과 다시하기 배경 1장을 사용합니다. 소형, 중형, 대형, 거대, 초거대, 전설 합체 이미지가 따로 있으며, 등급이 올라갈수록 몸집, 색 포인트, 배경 에너지 효과가 분명히 커지도록 다시 생성했습니다. 큰 등급 문구는 `result-title-*-generated.webp` 생성형 타이틀 이미지가 크게 맡고, SVG 동적 레이어는 실제 정답 수, 합체 힘 값, `순위 보기`, `다시하기` 버튼 표면을 정확한 좌표에 그립니다. 실제 클릭은 투명 HTML hitbox가 맡습니다.
+
+### 결과 화면 QA
+
+`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존은 0건입니다.
 
 ### 전국 순위 화면
 
@@ -105,6 +109,7 @@
 - `result-ultra-generated.webp`
 - `result-legend-generated.webp`
 - `result-retry-generated.webp`
+- `result-title-robots-source.png`, `result-title-*-source.png`, `result-title-*-transparent-raw.png`, `result-title-*-generated.webp`
 - `eduitit-logo-mark.png`
 - `README.md`
 - `REPORT.md`
@@ -183,7 +188,7 @@
 ### 2026-07-01 결과 등급 이미지 재생성
 
 - `result-small-generated.webp`부터 `result-legend-generated.webp`까지 결과 등급 6장을 image generation으로 다시 만들었습니다. 소형은 따뜻한 노란 공방, 중형은 파란 조명, 대형은 초록 에너지, 거대는 주황·금색 중량감, 초거대는 파랑·자홍 크리스털, 전설은 보라 포털과 무지개 날개가 보이도록 단계 차이를 키웠습니다.
-- 오른쪽 점수/결과 HTML 슬롯이 읽히도록 각 결과 이미지의 오른쪽 영역은 비교적 비워 두었습니다. 고정 텍스트, 숫자, 버튼은 이미지에 넣지 않았습니다.
+- 오른쪽 점수/결과 HTML 슬롯이 읽히도록 각 결과 이미지의 오른쪽 영역은 비교적 비워 두었습니다. 큰 등급 문구는 별도 생성형 타이틀 이미지로 추가했고, 숫자와 버튼 표면은 동적 SVG가 맡습니다.
 - 새 결과 이미지와 별도로, 상단 목표 지도 상태 6장은 기준 실루엣 목표판을 참조해 전체 배너 생성 방식으로 다시 만들었습니다. 최신 컨택시트는 `.omo/evidence/mathmon-fusion-result-regeneration/result-tier-contact.png`와 `.omo/evidence/mathmon-fusion-goal-seamless/seamless-runtime-contact.png`입니다.
 
 ### 2026-07-02 전국 순위 화면 추가

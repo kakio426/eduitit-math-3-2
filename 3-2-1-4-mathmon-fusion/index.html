@@ -2668,6 +2668,23 @@
       pointer-events: none;
     }
 
+    .result-title-art {
+      position: absolute;
+      left: 74.5%;
+      top: 29.8%;
+      z-index: 4;
+      width: 39%;
+      max-height: 27%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.4));
+    }
+
+    .result-title-art[hidden] {
+      display: none;
+    }
+
     .result-panel-glow {
       opacity: 0.9;
       filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.38));
@@ -3118,6 +3135,7 @@
           <span id="finalCorrectText">0/10</span>
           <span id="finalGradeText">소형</span>
         </div>
+        <img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true" hidden>
         <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
           <title id="resultSvgTitle">합체 결과</title>
           <defs>
@@ -3144,12 +3162,12 @@
             <path d="M716 112H1198C1211 112 1222 123 1222 136V708C1222 721 1211 732 1198 732H716C703 732 692 721 692 708V136C692 123 703 112 716 112Z" fill="url(#resultPanelFill)" stroke="url(#resultPanelStroke)" stroke-width="3"></path>
             <path d="M731 130H1183C1193 130 1201 138 1201 148V696C1201 706 1193 714 1183 714H731C721 714 713 706 713 696V148C713 138 721 130 731 130Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
             <rect class="result-scan-beam" x="724" y="138" width="86" height="568" rx="43" fill="rgba(255,255,255,0.22)"></rect>
-            <text class="result-svg-kicker" x="760" y="188">이번 합체</text>
-            <text class="result-svg-title" id="resultDestinationSvg" x="760" y="266">합체 중</text>
+            <text class="result-svg-kicker" x="760" y="188"></text>
+            <text class="result-svg-title" id="resultDestinationSvg" x="760" y="266" opacity="0" aria-hidden="true"></text>
             <line x1="760" y1="366" x2="1154" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
-            <text class="result-svg-label" x="760" y="421">정답</text>
+            <text class="result-svg-label" x="760" y="421"></text>
             <text class="result-svg-value" id="resultScoreSvg" x="760" y="469">0/10</text>
-            <text class="result-svg-label" x="760" y="536">합체 힘</text>
+            <text class="result-svg-label" x="760" y="536"></text>
             <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="586">측정 중</text>
             <rect x="760" y="594" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
             <rect id="resultMeasureFillSvg" x="760" y="594" width="0" height="10" rx="5" fill="#79f5c4"></rect>
@@ -3189,11 +3207,11 @@
     }
     const SCOREBOARD_API_URL = getScoreboardApiUrl();
     const GRADES = [
-      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 1, max: 20, minCorrect: 1, image: "result-small-generated.webp" },
-      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 21, max: 40, minCorrect: 3, image: "result-medium-generated.webp" },
-      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 41, max: 60, minCorrect: 5, image: "result-large-generated.webp" },
-      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 61, max: 80, minCorrect: 7, image: "result-giant-generated.webp" },
-      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: 81, max: 100, minCorrect: 9, image: "result-ultra-generated.webp" }
+      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 1, max: 20, minCorrect: 1, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
+      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 21, max: 40, minCorrect: 3, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
+      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 41, max: 60, minCorrect: 5, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
+      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 61, max: 80, minCorrect: 7, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" },
+      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: 81, max: 100, minCorrect: 9, image: "result-ultra-generated.webp", titleArt: "result-title-ultra-generated.webp" }
     ];
     const SECRET_GRADE = {
       id: "legend",
@@ -3203,9 +3221,11 @@
       max: 100,
       minCorrect: 1,
       image: "result-legend-generated.webp",
+      titleArt: "result-title-legend-generated.webp",
       secret: true
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
+    const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
     const GOAL_RAIL_ASSET_VERSION = "goal-state-20260702a";
     const GOAL_RAIL_IMAGES = ALL_GRADES.map(
       (grade) => `play-robot-goal-${grade.id}-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`
@@ -3325,6 +3345,7 @@
       finalEnergyText: document.getElementById("finalEnergyText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalGradeText: document.getElementById("finalGradeText"),
+      resultTitleArt: document.getElementById("resultTitleArt"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultScoreSvg: document.getElementById("resultScoreSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
@@ -4215,7 +4236,8 @@
       el.measureStatus.textContent = "합체 에너지 측정 중";
       el.measurePercent.textContent = "0%";
       el.measureFill.style.setProperty("--measure-width", "0%");
-      el.resultDestinationSvg.textContent = "합체 중";
+      el.resultTitleArt.hidden = true;
+      el.resultDestinationSvg.textContent = "";
       el.resultScoreSvg.textContent = correctLabel;
       el.resultMeasureSvg.textContent = "측정 중";
       el.resultMeasureFillSvg.setAttribute("width", "0");
@@ -4244,7 +4266,9 @@
         document.getElementById("resultTitle").textContent = launched ? `${grade.name}!` : "다시 합체해요";
         el.finalGradeText.textContent = launched ? getShortGradeName(grade) : "다시 도전";
         el.praiseText.textContent = launched ? getPraise(grade) : getRetryMessage();
-        el.resultDestinationSvg.textContent = launched ? getResultDisplayTitle(grade) : "다시 합체";
+        el.resultTitleArt.src = launched ? grade.titleArt : RESULT_RETRY_TITLE_ART;
+        el.resultTitleArt.hidden = false;
+        el.resultDestinationSvg.textContent = "";
         el.resultMeasureSvg.textContent = measureLabel;
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;

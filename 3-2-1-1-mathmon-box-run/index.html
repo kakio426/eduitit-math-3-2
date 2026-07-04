@@ -414,14 +414,14 @@
     .tutorial-mathmon-top {
       left: clamp(120px, 13vw, 180px);
       top: clamp(70px, 11vh, 96px);
-      background-image: url("mathmon-1-ppiyakmon.png?v=2");
+      background-image: url("assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1");
       animation-delay: -2.1s;
     }
 
     .tutorial-mathmon-bottom {
       right: clamp(74px, 8vw, 120px);
       bottom: clamp(58px, 8vh, 96px);
-      background-image: url("mathmon-2-foxmon.png?v=2");
+      background-image: url("assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1");
       animation-delay: -4.1s;
     }
 
@@ -1153,6 +1153,23 @@
       object-position: center;
     }
 
+    .result-title-art {
+      position: absolute;
+      left: 28.7%;
+      top: 27.4%;
+      z-index: 4;
+      width: 36%;
+      max-height: 18%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.36));
+    }
+
+    .result-title-art[hidden] {
+      display: none;
+    }
+
     .result-mathmon-scene {
       --mathmon-aura: rgba(255, 228, 92, 0.3);
       position: absolute;
@@ -1195,8 +1212,8 @@
 
     .result-mathmon-stage {
       position: absolute;
-      left: 30%;
-      top: 44.5%;
+      left: 28.4%;
+      top: 50.2%;
       z-index: 1;
       display: grid;
       place-items: center;
@@ -1699,16 +1716,18 @@
     </section>
 
     <section class="screen result" id="resultScreen" data-screen="result" aria-labelledby="resultTitle">
-      <img class="result-art" src="result-generated-v2.webp?v=1" alt="" aria-hidden="true">
+      <img class="result-art" src="result-generated-v3.webp?v=1" alt="" aria-hidden="true">
       <h2 class="visually-hidden" id="resultTitle">상자런 결과</h2>
       <p class="visually-hidden" data-field="result-praise">계산 집중력이 좋아요!</p>
-      <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 알몬을 얻었어요!</p>
+      <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 보송몬을 얻었어요!</p>
+      <span class="visually-hidden" data-field="final-mathmon-name">보송몬</span>
       <span class="visually-hidden" data-field="download-mathmon" aria-hidden="true"></span>
       <div class="result-mathmon-scene" data-mathmon-result aria-hidden="true">
         <div class="result-mathmon-stage">
           <div class="result-mathmon-sprite" data-field="result-mathmon-sprite"></div>
         </div>
       </div>
+      <img class="result-title-art" id="resultTitleArt" src="result-title-cottonpuff-generated.webp" alt="" aria-hidden="true" hidden>
       <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
         <title id="resultSvgTitle">상자런 결과</title>
         <defs>
@@ -1734,15 +1753,15 @@
         <g class="result-panel-glow">
           <path d="M700 104H1190C1206 104 1218 116 1218 132V710C1218 724 1206 736 1190 736H700C686 736 674 724 674 710V132C674 116 686 104 700 104Z" fill="url(#boxResultPanel)" stroke="url(#boxResultStroke)" stroke-width="3"></path>
           <path d="M722 128H1168C1178 128 1186 136 1186 146V694C1186 704 1178 712 1168 712H722C712 712 704 704 704 694V146C704 136 712 128 722 128Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
-          <text class="result-svg-kicker" x="746" y="188">점수</text>
+          <text class="result-svg-kicker" x="746" y="188"></text>
           <text class="result-svg-title" id="resultMeasureSvg" data-field="final-score" x="746" y="270">0점</text>
           <rect x="746" y="312" width="386" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
           <rect id="resultMeasureFillSvg" x="746" y="312" width="0" height="12" rx="6" fill="#ffe45c"></rect>
           <line x1="746" y1="366" x2="1148" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
-          <text class="result-svg-label" x="746" y="426">정답</text>
+          <text class="result-svg-label" x="746" y="426"></text>
           <text class="result-svg-value" id="resultScoreSvg" data-field="final-correct" x="746" y="476">0/10</text>
-          <text class="result-svg-label" x="746" y="548">매스몬</text>
-          <text class="result-svg-value result-svg-mathmon" id="resultDestinationSvg" data-field="final-mathmon-name" x="746" y="598">알몬</text>
+          <text class="result-svg-label" x="746" y="548"></text>
+          <text class="result-svg-value result-svg-mathmon" id="resultDestinationSvg" x="746" y="598" opacity="0" aria-hidden="true"></text>
           <rect x="746" y="646" width="122" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
           <rect x="888" y="646" width="164" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
           <rect x="1072" y="646" width="94" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
@@ -1824,16 +1843,16 @@
       ]);
 
       const MATHMONS = Object.freeze([
-        { name: "알몬", threshold: 0n, minCorrect: 0, asset: "mathmon-0-almon.png?v=2", fileName: "almon.png", aura: "rgba(255, 228, 92, 0.28)", copy: "작지만 반짝이는 시작 매스몬이에요!" },
-        { name: "삐약몬", threshold: 500n, minCorrect: 2, asset: "mathmon-1-ppiyakmon.png?v=2", fileName: "ppiyakmon.png", aura: "rgba(255, 228, 92, 0.34)", copy: "톡톡 뛰는 계산 감각을 가진 매스몬이에요!" },
-        { name: "여우몬", threshold: 5000n, minCorrect: 4, asset: "mathmon-2-foxmon.png?v=2", fileName: "foxmon.png", aura: "rgba(255, 157, 60, 0.34)", copy: "빠른 눈으로 정답을 찾는 매스몬이에요!" },
-        { name: "새끼용몬", threshold: 50000n, minCorrect: 5, asset: "mathmon-3-babydragonmon.png?v=2", fileName: "babydragonmon.png", aura: "rgba(53, 242, 166, 0.28)", copy: "상자 운을 타고 날아오른 매스몬이에요!" },
-        { name: "사자몬", threshold: 500000n, minCorrect: 6, asset: "mathmon-4-lionmon.png?v=2", fileName: "lionmon.png", aura: "rgba(255, 228, 92, 0.38)", copy: "큰 점수를 지키는 당당한 매스몬이에요!" },
-        { name: "독수리몬", threshold: 5000000n, minCorrect: 7, asset: "mathmon-5-eaglemon.png?v=2", fileName: "eaglemon.png", aura: "rgba(66, 217, 255, 0.3)", copy: "높은 점수 위를 시원하게 나는 매스몬이에요!" },
-        { name: "드래곤몬", threshold: 50000000n, minCorrect: 8, asset: "mathmon-6-dragonmon.png?v=2", fileName: "dragonmon.png", aura: "rgba(53, 242, 166, 0.32)", copy: "곱셈 상자를 뜨겁게 여는 매스몬이에요!" },
-        { name: "티라노몬", threshold: 500000000n, minCorrect: 8, asset: "mathmon-7-tyranomon.png?v=2", fileName: "tyranomon.png", aura: "rgba(255, 78, 106, 0.32)", copy: "엄청난 점수도 씩씩하게 삼키는 매스몬이에요!" },
-        { name: "유니콘몬", threshold: 5000000000n, minCorrect: 9, asset: "mathmon-8-unicornmon.png?v=2", fileName: "unicornmon.png", aura: "rgba(169, 109, 255, 0.34)", copy: "반짝이는 행운을 몰고 온 매스몬이에요!" },
-        { name: "킹드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "mathmon-9-kingdragonmon.png?v=2", fileName: "kingdragonmon.png", aura: "rgba(255, 228, 92, 0.48)", copy: "이번 판의 전설급 상자런 매스몬이에요!" },
+        { name: "보송몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-01-cottonpuff.webp?v=1", titleArt: "result-title-cottonpuff-generated.webp", fileName: "cottonpuff.png", aura: "rgba(184, 140, 255, 0.24)", copy: "작고 폭신한 시작 매스몬이에요!" },
+        { name: "통통펭몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1", titleArt: "result-title-bouncepenguin-generated.webp", fileName: "bouncepenguin.png", aura: "rgba(96, 215, 255, 0.28)", copy: "상자를 보면 통통 뛰는 매스몬이에요!" },
+        { name: "분홍깃몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1", titleArt: "result-title-blushphoenix-generated.webp", fileName: "blushphoenix.png", aura: "rgba(255, 126, 166, 0.32)", copy: "밝은 깃털로 점수를 올리는 매스몬이에요!" },
+        { name: "호랑몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-04-bravetiger.webp?v=1", titleArt: "result-title-bravetiger-generated.webp", fileName: "bravetiger.png", aura: "rgba(255, 200, 87, 0.34)", copy: "씩씩하게 상자를 지키는 매스몬이에요!" },
+        { name: "수정부엉몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-05-crystalowl.webp?v=1", titleArt: "result-title-crystalowl-generated.webp", fileName: "crystalowl.png", aura: "rgba(184, 140, 255, 0.36)", copy: "반짝이는 눈으로 답을 찾는 매스몬이에요!" },
+        { name: "번개늑대몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-06-thunderwolf.webp?v=1", titleArt: "result-title-thunderwolf-generated.webp", fileName: "thunderwolf.png", aura: "rgba(96, 215, 255, 0.38)", copy: "번개처럼 달려 높은 점수를 잡는 매스몬이에요!" },
+        { name: "하늘그리핀몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-07-skygriffin.webp?v=1", titleArt: "result-title-skygriffin-generated.webp", fileName: "skygriffin.png", aura: "rgba(255, 228, 92, 0.42)", copy: "하늘에서 큰 점수를 지키는 매스몬이에요!" },
+        { name: "흑불드래곤몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-08-nightfiredragon.webp?v=1", titleArt: "result-title-nightfiredragon-generated.webp", fileName: "nightfiredragon.png", aura: "rgba(255, 78, 106, 0.42)", copy: "뜨거운 힘으로 큰 상자를 여는 매스몬이에요!" },
+        { name: "무지개유니몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-09-rainbowunicorn.webp?v=1", titleArt: "result-title-rainbowunicorn-generated.webp", fileName: "rainbowunicorn.png", aura: "rgba(169, 109, 255, 0.44)", copy: "무지갯빛으로 행운을 부르는 매스몬이에요!" },
+        { name: "황금드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-10-golddragon.webp?v=1", titleArt: "result-title-golddragon-generated.webp", fileName: "golddragon.png", aura: "rgba(255, 228, 92, 0.54)", copy: "이번 판 최고 보물을 지키는 전설 매스몬이에요!" },
       ]);
 
       const SCORE_UNITS = Object.freeze([
@@ -1900,6 +1919,8 @@
         finalCorrect: document.querySelector('[data-field="final-correct"]'),
         resultMathmon: document.querySelector("[data-mathmon-result]"),
         resultMathmonSprite: document.querySelector('[data-field="result-mathmon-sprite"]'),
+        resultTitleArt: document.getElementById("resultTitleArt"),
+        resultDestinationSvg: document.getElementById("resultDestinationSvg"),
         finalMathmonName: document.querySelector('[data-field="final-mathmon-name"]'),
         finalMathmonCopy: document.querySelector('[data-field="final-mathmon-copy"]'),
         downloadMathmon: document.querySelector('[data-field="download-mathmon"]'),
@@ -2764,6 +2785,16 @@
         const mathmon = getMathmonForScore(state.score);
         els.resultMathmon.style.setProperty("--mathmon-aura", mathmon.aura);
         els.resultMathmonSprite.style.backgroundImage = `url("${mathmon.asset}")`;
+        if (mathmon.titleArt) {
+          els.resultTitleArt.src = mathmon.titleArt;
+          els.resultTitleArt.hidden = false;
+          els.resultDestinationSvg.textContent = "";
+          els.resultDestinationSvg.setAttribute("opacity", "0");
+        } else {
+          els.resultTitleArt.hidden = true;
+          els.resultDestinationSvg.textContent = mathmon.name;
+          els.resultDestinationSvg.setAttribute("opacity", "1");
+        }
         els.finalMathmonName.textContent = mathmon.name;
         els.finalMathmonCopy.textContent = mathmon.copy;
         els.downloadMathmon.style.backgroundImage = `url("${mathmon.asset}")`;

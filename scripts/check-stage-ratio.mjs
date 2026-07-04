@@ -22,6 +22,11 @@ const LEGACY_COVER_MATHMON_LESSONS = new Set([
   "3-2-4-3-mathmon-fraction-sorter",
   "3-2-4-4-mathmon-fraction-tug",
 ]);
+const UNIT1_GENERATED_RESULT_TITLE_ART_LESSONS = new Set([
+  "3-2-1-1-mathmon-box-run",
+  "3-2-1-2-mathmon-rocket-charge",
+  "3-2-1-4-mathmon-fusion",
+]);
 
 async function findLessons(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -120,6 +125,7 @@ for (const lesson of lessons) {
   const hasGeneratedResultStandard = /<main\s+class="game"[^>]*data-result-visual-standard="generated-assets"/.test(html);
   const hasFullSceneScoreSlot = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-score-slot"/.test(html);
   const hasHybridGeneratedDynamic = /<main\s+class="game"[^>]*data-result-render-mode="hybrid-generated-dynamic"/.test(html);
+  const needsGeneratedHybridResultTitleArt = UNIT1_GENERATED_RESULT_TITLE_ART_LESSONS.has(label);
   const hasResultFinalGeneratedAsset = /result-final-[a-z0-9-]+-generated\.webp/.test(html);
   const hasFullSceneResultSignal = hasResultFinalGeneratedAsset || hasFullSceneScoreSlot;
   const hasSeparateGeneratedResultAssets = hasGeneratedResultStandard && !hasFullSceneScoreSlot && !hasHybridGeneratedDynamic;
@@ -238,6 +244,7 @@ for (const lesson of lessons) {
     [!hasHybridGeneratedDynamic || hasGeneratedResultStandard, "hybrid-generated-dynamic 결과 차시는 main.game에 data-result-visual-standard=\"generated-assets\"를 선언해야 합니다."],
     [!hasHybridGeneratedDynamic || hasHybridResultSvg, "hybrid-generated-dynamic 결과는 viewBox=\"0 0 1280 800\"인 단일 .result-dynamic-ui SVG 오버레이를 써야 합니다."],
     [!hasHybridGeneratedDynamic || hasHybridResultValues, "hybrid-generated-dynamic 결과 SVG는 결과명, 정답 수, 짧은 진행값만 맡아야 합니다."],
+    [!needsGeneratedHybridResultTitleArt || hasGeneratedResultTitleArt, "1단원 리마스터 하이브리드 결과의 큰 결과 라벨은 <img class=\"result-title-art\" src=\"result-title-*-generated.webp\" alt=\"\" aria-hidden=\"true\"> 생성형 자산이어야 합니다."],
     [!hasHybridGeneratedDynamic || hasHybridRestartHitbox, "hybrid-generated-dynamic 결과는 SVG 버튼 장식 위에 restartButton 투명 hitbox를 둬야 합니다."],
     [!hasGeneratedResultStandard || !hasForbiddenFullSceneResultClass, "data-result-visual-standard=\"generated-assets\" 차시는 .result-card/.result-stats/.result-stat/.result-copy 같은 CSS 결과 카드를 쓰지 않습니다."],
     [!hasGeneratedResultStandard || hasHiddenResultTitle, "data-result-visual-standard=\"generated-assets\" 차시의 #resultTitle은 보이는 CSS 제목이 아니라 visually-hidden 접근성 텍스트여야 합니다."],

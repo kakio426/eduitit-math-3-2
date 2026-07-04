@@ -22,7 +22,10 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 ## 현재 기준
 
 - 활성 스타일은 `mathmon-v1-anime-sticker`다.
+- 1차시 `매스몬 상자런` 기본 10종이 원본 표준이다. 이 10종은 없애는 대상이 아니라 뒤에 만든 매스몬을 맞추는 기준이다.
 - `base-pack`은 기준 팩이고, `base-pack`과 `zero-factory-animal-pack`만 승인된 활성 팩이다.
+- 일관성은 같은 화풍·외곽선·카메라 거리·파일 규격을 뜻한다. 캐릭터 성격은 귀여움, 사랑스러움, 멋짐, 강함, 살짝 포악한 야생성, 신비감까지 넓게 가져간다.
+- 10마리 팩이 같은 큰 눈, 같은 미소, 같은 둥근 몸, 같은 소품으로 반복되면 기준 실패다.
 - `circle-pack`, `fraction-pack`, `explorer-pack`, `weight-pack`처럼 기존 실행 화면 보존을 위해 남긴 팩은 `style-review-runtime`으로 보고 새 차시 복제 기준으로 쓰지 않는다.
 - `zero-factory-pack`, `core-pack-v2`, `zero-factory-pack-v2`는 보존 팩이며 새 차시와 리마스터의 기본값으로 쓰지 않는다.
 - 새 차시와 리마스터는 1차시 `매스몬 상자런`의 밝은 2D 애니/스티커형 매스몬 톤을 기본으로 쓴다.

@@ -2227,6 +2227,23 @@
       pointer-events: none;
     }
 
+    .result-title-art {
+      position: absolute;
+      left: 73.5%;
+      top: 30%;
+      z-index: 4;
+      width: 40%;
+      max-height: 27%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.4));
+    }
+
+    .result-title-art[hidden] {
+      display: none;
+    }
+
     .result-panel-glow {
       opacity: 0.92;
       filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38));
@@ -3085,6 +3102,7 @@
         <span id="finalCorrectText">0/10</span>
         <span id="finalDestinationText">수성</span>
       </div>
+      <img class="result-title-art" id="resultTitleArt" src="result-title-mercury-generated.webp" alt="" aria-hidden="true" hidden>
       <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
         <title id="resultSvgTitle">로켓 결과</title>
         <defs>
@@ -3111,12 +3129,12 @@
           <path d="M704 104H1194C1208 104 1220 116 1220 130V710C1220 724 1208 736 1194 736H704C690 736 678 724 678 710V130C678 116 690 104 704 104Z" fill="url(#rocketResultPanel)" stroke="url(#rocketResultStroke)" stroke-width="3"></path>
           <path d="M724 126H1174C1184 126 1192 134 1192 144V694C1192 704 1184 712 1174 712H724C714 712 706 704 706 694V144C706 134 714 126 724 126Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
           <rect class="result-scan-beam" x="714" y="136" width="88" height="566" rx="44" fill="rgba(255,255,255,0.22)"></rect>
-          <text class="result-svg-kicker" x="748" y="188">도착한 곳</text>
-          <text class="result-svg-title" id="resultDestinationSvg" x="748" y="268">측정 중</text>
+          <text class="result-svg-kicker" x="748" y="188"></text>
+          <text class="result-svg-title" id="resultDestinationSvg" x="748" y="268" opacity="0" aria-hidden="true"></text>
           <line x1="748" y1="366" x2="1152" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
-          <text class="result-svg-label" x="748" y="422">정답</text>
+          <text class="result-svg-label" x="748" y="422"></text>
           <text class="result-svg-value" id="resultScoreSvg" x="748" y="472">0/10</text>
-          <text class="result-svg-label" x="748" y="548">연료</text>
+          <text class="result-svg-label" x="748" y="548"></text>
           <text class="result-svg-value result-svg-measure" id="resultMeasureSvg" x="748" y="598">연료 0</text>
           <rect x="748" y="614" width="394" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
           <rect id="resultMeasureFillSvg" x="748" y="614" width="0" height="12" rx="6" fill="#79f5c4"></rect>
@@ -3268,14 +3286,14 @@
     }
     const SCOREBOARD_API_URL = getScoreboardApiUrl();
     const DESTINATIONS = [
-      { id: "mercury", short: "수", name: "수성", min: 1, max: 12, image: "result-mercury-generated.webp" },
-      { id: "venus", short: "금", name: "금성", min: 13, max: 24, image: "result-venus-generated.webp" },
-      { id: "earth", short: "지", name: "지구", min: 25, max: 36, image: "result-earth-generated.webp" },
-      { id: "mars", short: "화", name: "화성", min: 37, max: 49, image: "result-mars-generated.webp" },
-      { id: "jupiter", short: "목", name: "목성", min: 50, max: 62, image: "result-jupiter-generated.webp" },
-      { id: "saturn", short: "토", name: "토성", min: 63, max: 75, image: "result-saturn-generated.webp" },
-      { id: "uranus", short: "천", name: "천왕성", min: 76, max: 89, image: "result-uranus-generated.webp" },
-      { id: "neptune", short: "해", name: "해왕성", min: 90, max: 100, image: "result-neptune-generated.webp" }
+      { id: "mercury", short: "수", name: "수성", min: 1, max: 12, image: "result-mercury-generated.webp", titleArt: "result-title-mercury-generated.webp" },
+      { id: "venus", short: "금", name: "금성", min: 13, max: 24, image: "result-venus-generated.webp", titleArt: "result-title-venus-generated.webp" },
+      { id: "earth", short: "지", name: "지구", min: 25, max: 36, image: "result-earth-generated.webp", titleArt: "result-title-earth-generated.webp" },
+      { id: "mars", short: "화", name: "화성", min: 37, max: 49, image: "result-mars-generated.webp", titleArt: "result-title-mars-generated.webp" },
+      { id: "jupiter", short: "목", name: "목성", min: 50, max: 62, image: "result-jupiter-generated.webp", titleArt: "result-title-jupiter-generated.webp" },
+      { id: "saturn", short: "토", name: "토성", min: 63, max: 75, image: "result-saturn-generated.webp", titleArt: "result-title-saturn-generated.webp" },
+      { id: "uranus", short: "천", name: "천왕성", min: 76, max: 89, image: "result-uranus-generated.webp", titleArt: "result-title-uranus-generated.webp" },
+      { id: "neptune", short: "해", name: "해왕성", min: 90, max: 100, image: "result-neptune-generated.webp", titleArt: "result-title-neptune-generated.webp" }
     ];
     const SECRET_DESTINATION = {
       id: "andromeda",
@@ -3284,9 +3302,11 @@
       min: 100,
       max: 100,
       image: "result-andromeda-generated.webp",
+      titleArt: "result-title-andromeda-generated.webp",
       secret: true
     };
     const ALL_DESTINATIONS = [...DESTINATIONS, SECRET_DESTINATION];
+    const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
     const FUEL_EVENT_CLASSES = [
       "fuel-event--normal",
       "fuel-event--smallExplosion",
@@ -3430,6 +3450,7 @@
       finalEnergyText: document.getElementById("finalEnergyText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalDestinationText: document.getElementById("finalDestinationText"),
+      resultTitleArt: document.getElementById("resultTitleArt"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultScoreSvg: document.getElementById("resultScoreSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
@@ -4577,7 +4598,8 @@
       el.measureStatus.textContent = "연료 측정 중";
       el.measurePercent.textContent = "연료 0";
       el.measureFill.style.setProperty("--measure-width", "0%");
-      el.resultDestinationSvg.textContent = "측정 중";
+      el.resultTitleArt.hidden = true;
+      el.resultDestinationSvg.textContent = "";
       el.resultScoreSvg.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
       el.resultMeasureSvg.textContent = "연료 0";
       el.resultMeasureFillSvg.setAttribute("width", "0");
@@ -4606,7 +4628,9 @@
         document.getElementById("resultTitle").textContent = launched ? `${destination.name} 도착!` : "연료 더 필요";
         el.finalDestinationText.textContent = launched ? destination.name : "다시 도전";
         el.praiseText.textContent = launched ? getPraise(destination) : getRetryMessage();
-        el.resultDestinationSvg.textContent = launched ? `${destination.name} 도착` : "다시 도전";
+        el.resultTitleArt.src = launched ? destination.titleArt : RESULT_RETRY_TITLE_ART;
+        el.resultTitleArt.hidden = false;
+        el.resultDestinationSvg.textContent = "";
         el.resultMeasureSvg.textContent = measureLabel;
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;

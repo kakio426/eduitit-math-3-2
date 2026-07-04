@@ -20,6 +20,7 @@ const LESSONS = [
     forceResult: `
       window.__unit1ResultQa.showResult("1250000", 8);
     `,
+    generatedTitleArt: true,
     download: true
   },
   {
@@ -28,7 +29,8 @@ const LESSONS = [
     mode: "hybrid",
     forceResult: `
       window.__unit1ResultQa.showResult(86, 9, false);
-    `
+    `,
+    generatedTitleArt: true
   },
   {
     id: "1-3",
@@ -45,9 +47,20 @@ const LESSONS = [
     mode: "hybrid",
     forceResult: `
       window.__mathmonFusionQa.showResult("ultra", 9);
-    `
+    `,
+    generatedTitleArt: true
   }
 ];
+
+const FORBIDDEN_GENERATED_RESULT_LABELS = new Set([
+  "점수",
+  "정답",
+  "매스몬",
+  "도착한 곳",
+  "연료",
+  "이번 합체",
+  "합체 힘"
+]);
 
 await rm(PROFILE, { recursive: true, force: true });
 await rm(EVIDENCE_DIR, { recursive: true, force: true });
@@ -218,11 +231,23 @@ async function readResultSnapshot(lesson) {
       }
     });
   }
-  const svg = screen.querySelector(".result-dynamic-ui");
-  const svgTextsOutside = svg ? [...svg.querySelectorAll("text")].map((node) => {
-    const box = node.getBBox();
-    return { text: node.textContent.trim(), x: box.x, y: box.y, width: box.width, height: box.height };
-  }).filter((box) => box.x < -1 || box.y < -1 || box.x + box.width > 1281 || box.y + box.height > 801) : [];
+	  const svg = screen.querySelector(".result-dynamic-ui");
+	  const titleArt = screen.querySelector(".result-title-art");
+	  const titleArtStyle = titleArt ? getComputedStyle(titleArt) : null;
+	  const titleArtRect = titleArt ? rectOf(titleArt) : null;
+	  const titleArtVisible = Boolean(titleArt
+	    && !titleArt.hidden
+	    && titleArtStyle.display !== "none"
+	    && titleArtStyle.visibility !== "hidden"
+	    && Number(titleArtStyle.opacity || "1") > 0
+	    && titleArt.complete
+	    && titleArt.naturalWidth > 0
+	    && titleArtRect.width > 0
+	    && titleArtRect.height > 0);
+	  const svgTextsOutside = svg ? [...svg.querySelectorAll("text")].map((node) => {
+	    const box = node.getBBox();
+	    return { text: node.textContent.trim(), x: box.x, y: box.y, width: box.width, height: box.height };
+	  }).filter((box) => box.x < -1 || box.y < -1 || box.x + box.width > 1281 || box.y + box.height > 801) : [];
   const hitboxStyles = [...screen.querySelectorAll(".result-action-hitbox, .result-leaderboard-hitbox, .result-restart-hitbox")].map((node) => {
     const style = getComputedStyle(node);
     return { id: node.id || node.dataset.action || node.className, background: style.backgroundColor, color: style.color, border: style.borderTopWidth, rect: rectOf(node), hidden: node.hidden, disabled: node.disabled };
@@ -231,9 +256,15 @@ async function readResultSnapshot(lesson) {
     mode,
     mainHasGenerated: document.querySelector("main.game")?.dataset.resultVisualStandard === "generated-assets",
     renderMode: document.querySelector("main.game")?.dataset.resultRenderMode || "",
-    forbiddenCards: screen.querySelectorAll(".result-card, .result-stats, .result-stat, .result-copy").length,
-    hybridSvg: Boolean(svg && svg.getAttribute("viewBox") === "0 0 1280 800"),
-    fullsceneScoreOnly: mode !== "fullscene" || (visibleTexts.length === 1 && /\\/10$/.test(visibleTexts[0])),
+	    forbiddenCards: screen.querySelectorAll(".result-card, .result-stats, .result-stat, .result-copy").length,
+	    hybridSvg: Boolean(svg && svg.getAttribute("viewBox") === "0 0 1280 800"),
+	    generatedTitleArt: {
+	      visible: titleArtVisible,
+	      src: titleArt?.getAttribute("src") || "",
+	      rect: titleArtRect,
+	      legacySvgTitleText: screen.querySelector("#resultDestinationSvg")?.textContent.trim() || ""
+	    },
+	    fullsceneScoreOnly: mode !== "fullscene" || (visibleTexts.length === 1 && /\\/10$/.test(visibleTexts[0])),
     visibleTexts,
     overflowTexts,
     svgTextsOutside,
@@ -250,10 +281,17 @@ function validateSnapshot(lesson, viewport, snapshot) {
   assert(snapshot.mainHasGenerated, `${lesson.id}/${viewport.name}: generated result standard missing`);
   assert(snapshot.renderMode === (lesson.mode === "fullscene" ? "fullscene-score-slot" : "hybrid-generated-dynamic"), `${lesson.id}/${viewport.name}: wrong result render mode ${snapshot.renderMode}`);
   assert(snapshot.forbiddenCards === 0, `${lesson.id}/${viewport.name}: legacy result card classes remain`);
-  if (lesson.mode === "hybrid") {
-    assert(snapshot.hybridSvg, `${lesson.id}/${viewport.name}: hybrid SVG missing`);
-    assert(snapshot.svgTextsOutside.length === 0, `${lesson.id}/${viewport.name}: SVG text outside viewBox ${JSON.stringify(snapshot.svgTextsOutside)}`);
-  }
+	  if (lesson.mode === "hybrid") {
+	    assert(snapshot.hybridSvg, `${lesson.id}/${viewport.name}: hybrid SVG missing`);
+	    assert(snapshot.svgTextsOutside.length === 0, `${lesson.id}/${viewport.name}: SVG text outside viewBox ${JSON.stringify(snapshot.svgTextsOutside)}`);
+	  }
+	  if (lesson.generatedTitleArt) {
+	    assert(snapshot.generatedTitleArt.visible, `${lesson.id}/${viewport.name}: generated result title art is not visible ${JSON.stringify(snapshot.generatedTitleArt)}`);
+	    assert(/result-title-[^/]+-generated\.webp(?:\?|$)/.test(snapshot.generatedTitleArt.src), `${lesson.id}/${viewport.name}: generated result title art src is not a result-title asset ${snapshot.generatedTitleArt.src}`);
+	    assert(snapshot.generatedTitleArt.legacySvgTitleText === "", `${lesson.id}/${viewport.name}: legacy SVG result title text remains ${snapshot.generatedTitleArt.legacySvgTitleText}`);
+	    const leakedLabels = snapshot.visibleTexts.filter((text) => FORBIDDEN_GENERATED_RESULT_LABELS.has(text));
+	    assert(leakedLabels.length === 0, `${lesson.id}/${viewport.name}: fixed SVG result label remains ${JSON.stringify(leakedLabels)}`);
+	  }
   assert(snapshot.fullsceneScoreOnly, `${lesson.id}/${viewport.name}: fullscene visible DOM text is not score-only ${JSON.stringify(snapshot.visibleTexts)}`);
   assert(snapshot.overflowTexts.length === 0, `${lesson.id}/${viewport.name}: visible text overflow ${JSON.stringify(snapshot.overflowTexts)}`);
   snapshot.hitboxStyles.forEach((hitbox) => {

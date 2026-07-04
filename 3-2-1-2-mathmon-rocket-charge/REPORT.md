@@ -75,7 +75,7 @@
 
 ### 도착 결과 화면
 
-도착 결과는 도착지별 RasterStage 배경 9장을 사용합니다. 수성부터 해왕성까지 8행성, 그리고 무지개 연료 secret stage인 안드로메다 배경이 따로 있습니다. 생성 이미지에는 텍스트, 점수, 버튼을 넣지 않고 로켓, 매스몬, 도착 장소만 담습니다. 그 위에 연료 측정 막대, 행성 거리 스캔, `연료 측정값`, `맞힌 문제`, `도착한 곳`, 도착 문구를 HTML로 얹습니다.
+도착 결과는 도착지별 RasterStage 배경 9장을 사용합니다. 수성부터 해왕성까지 8행성, 그리고 무지개 연료 secret stage인 안드로메다 배경이 따로 있습니다. 생성 이미지에는 점수와 버튼을 넣지 않고 로켓, 매스몬, 도착 장소만 담습니다. 큰 도착 문구는 `result-title-*-generated.webp` 생성형 타이틀 이미지로 크게 보여 주고, 단일 SVG 동적 레이어는 실제 정답 수, 연료 값, `순위 보기`, `다시하기` 버튼 표면만 짧게 그립니다. 실제 클릭은 같은 위치의 투명 HTML hitbox가 맡습니다.
 
 ![도착 결과 화면](screenshots/05-result-success.png)
 
@@ -83,9 +83,13 @@
 
 ### 다시하기 결과 화면
 
-연료가 부족하면 `result-retry-generated.webp`를 RasterStage 배경으로 사용합니다. 로켓이 안전하게 점검되고 파란 매스몬 친구가 다시 해보자고 응원하는 장면 위에 다시 도전 문구와 `다시하기` 버튼을 보여 줍니다.
+연료가 부족하면 `result-retry-generated.webp`를 RasterStage 배경으로 사용합니다. 로켓이 안전하게 점검되고 파란 매스몬 친구가 다시 해보자고 응원하는 장면 위에 `result-title-retry-generated.webp` 타이틀, 같은 SVG 동적 레이어, 투명 hitbox로 `다시하기`를 보여 줍니다.
 
 ![다시하기 결과 화면](screenshots/06-result-retry.png)
+
+### 결과 화면 QA
+
+`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존은 0건입니다.
 
 ### 전국 순위 화면
 
@@ -217,6 +221,7 @@ API 주소가 없거나 실패해도 게임 완료는 막지 않습니다. 이 �
 - `result-neptune-generated.webp`
 - `result-andromeda-generated.webp`
 - `result-retry-generated.webp`
+- `result-title-planets-source.png`, `result-title-*-source.png`, `result-title-*-transparent-raw.png`, `result-title-*-generated.webp`
 - `eduitit-logo-mark.png`
 - `assets/mathmon/base-pack/*.webp`
 - `assets/audio/*.wav`
