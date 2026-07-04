@@ -9,7 +9,18 @@ on:
       - "_shared/**"
       - "manifest.json"
       - ".nojekyll"
+      - "scripts/build-pages-artifact.mjs"
       - ".github/workflows/pages.yml"
+      - "!**/screenshots/**"
+      - "!**/raw-chromakey/**"
+      - "!**/contact-sheets/**"
+      - "!**/README.md"
+      - "!**/REPORT.md"
+      - "!**/PLAN.md"
+      - "!**/IMAGE_PLAN.md"
+      - "!**/QUALITY_AUDIT.md"
+      - "!**/*-source.*"
+      - "!**/*chromakey*.png"
   workflow_dispatch:
 
 permissions:
@@ -19,13 +30,13 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,34 +46,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build static artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf _site
-          mkdir -p _site
-          rsync -a \
-            --include='/.nojekyll' \
-            --include='/manifest.json' \
-            --include='/3-2-*/***' \
-            --include='/_shared/***' \
-            --exclude='*' \
-            ./ _site/
-          find _site -type d \( \
-            -name screenshots -o \
-            -name raw-chromakey -o \
-            -name contact-sheets \
-          \) -prune -exec rm -rf {} +
-          find _site -type f \( \
-            -name 'README.md' -o \
-            -name 'REPORT.md' -o \
-            -name '*-source.png' -o \
-            -name '*-source.webp' -o \
-            -name '*-source.jpg' -o \
-            -name '*-source.jpeg' -o \
-            -name '*-transparent-raw.png' -o \
-            -name '*chromakey*.png' \
-          \) -delete
-          du -sh _site
+        run: node scripts/build-pages-artifact.mjs --out _site --check
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -71,9 +55,27 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
 
+      - name: Wait before retrying Pages deploy
+        if: ${{ steps.deployment.outcome == 'failure' }}
+        run: sleep 45
+
+      - name: Retry deploy to GitHub Pages
+        if: ${{ steps.deployment.outcome == 'failure' }}
+        id: deployment_retry
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Fail if Pages deploy failed twice
+        if: ${{ steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome != 'success' }}
+        run: |
+          echo "::error::GitHub Pages deployment failed twice."
+          exit 1
+
       - name: Sync Eduitit iframe launcher versions
+        if: ${{ steps.deployment.outcome == 'success' || steps.deployment_retry.outcome == 'success' }}
         env:
           SYNC_TOKEN: ${{ secrets.EDUITIT_MATHMON_SYNC_TOKEN }}
           SYNC_URL: ${{ vars.EDUITIT_MATHMON_SYNC_URL }}
