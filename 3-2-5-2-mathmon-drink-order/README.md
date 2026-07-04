@@ -60,14 +60,18 @@
 스크린샷은 `screenshots/`에 저장합니다.
 
 - `cover.png`
-- `tutorial.png`
+- `tutorial-1.png`
+- `tutorial-2.png`
 - `play-step1.png`
 - `play-confirm.png`
 - `wrong-hint.png`
 - `reward.png`
 - `result-*.png`
 - `tablet-cover.png`
+- `tablet-tutorial-1.png`
+- `tablet-tutorial-2.png`
 - `tablet-play-step1.png`
+- `tablet-play-confirm.png`
 - `tablet-reward.png`
 - `tablet-result-*.png`
 

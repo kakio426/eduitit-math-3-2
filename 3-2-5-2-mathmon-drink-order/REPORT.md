@@ -63,19 +63,20 @@
 
 ## 8. 텍스트 넘침·요소 겹침 QA
 
-브라우저 QA에서 desktop `1280x800`과 tablet landscape `1024x768`을 확인합니다.
+브라우저 QA에서 desktop `1280x800`과 tablet landscape `1024x768`을 확인했습니다.
 
 확인 대상:
 
 - 첫 화면
-- 설명
+- 설명 1
+- 설명 2
 - 문제 1단계
 - 정답 확인 상태
 - 오답 상태
 - 보상
 - 결과 단계별 화면
 
-확인 결과는 최종 QA 후 갱신합니다.
+확인 결과: 텍스트 넘침 0건, 요소 겹침 0건, Stage 밖 이탈 0건입니다. 결과 화면은 `작은 컵 주문`, `맛있는 주문`, `인기 가게 주문`, `무지개 음료 주문` 4단계를 실제 문제 풀이 흐름으로 도달해 캡처했습니다.
 
 ## 9. 검증 명령
 
@@ -84,3 +85,5 @@
 - `node scripts/qa-lesson5-drink-order-model.mjs --runs 10000`
 - `node scripts/simulate-lesson5-drink-order.mjs --runs 10000`
 - Browser QA: Chrome CDP 자동 캡처로 데스크톱과 태블릿 가로 화면 확인
+
+실행 결과: 위 명령과 브라우저 QA 모두 통과했습니다.
