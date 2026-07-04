@@ -45,20 +45,38 @@
 - QA: Chrome에서 1280×800과 1024×768 `drag-qa-*-{cover,tutorial-1,tutorial-2,play-first,play-wrong,play-correct-drop,reward,result}.png`를 캡처했습니다. 실제 Pointer Events로 오답 통에 넣었을 때 카드가 돌아오고 한 줄 힌트만 보이는지, 정답 통과 탭 대체 제출이 보상 화면까지 이어지는지 확인했습니다.
 - 정적 검증: 네 차시 인라인 JS 파싱, `node scripts/check-stage-ratio.mjs`, native drag/drop·레거시 `.sound-toggle`·학생 화면 기술어 `rg` 검사를 통과했습니다.
 
+## 2026-07-04 문제 화면 전면 재구성
+
+- 기존 play 화면의 큰 좌측 보상판을 아래 작은 진행 스트립으로 줄이고, 중앙 수학 작업대가 화면 대부분을 쓰도록 재배치했습니다.
+- 중앙 분수 카드 자체를 잡을 수 있게 유지하고, 정답 뒤에는 알맞은 통 안에 분수 표기가 들어간 상태가 보이도록 했습니다.
+- 기준 문구는 `분자가 더 작아요.`, `분자가 크거나 같아요.`, `자연수가 붙었어요.` 한 줄로 줄였습니다.
+- fresh CDP QA: 1280×800과 1024×768에서 `play-first`, `play-wrong`, `play-correct-drag`, `reward`, `result`를 새로 캡처했습니다. 텍스트 넘침, 요소 겹침, Stage 밖 이탈 0건입니다.
+- Humanizer 학생 문구 QA: 새 문제 화면 문구에는 `드래그`/`드롭` 같은 기술어를 쓰지 않고 `넣어요`, `봐요` 중심으로 유지했습니다.
+
 ## 2026-07-04 수학 출제 균형 보정
 
 - 10문제 생성 시 진분수 4문항, 가분수 3문항, 대분수 3문항이 나오도록 `buildProblems()`에서 유형 계획을 먼저 만들고 순서만 섞게 했습니다.
 - 수학적 이유: 분수 분류 차시는 세 이름을 모두 비교해 보는 것이 핵심이므로, 완전 랜덤으로 특정 분수 종류가 빠지는 판을 막았습니다.
-- 검증: VM에서 페이지 스크립트를 실행해 `buildProblems()` 결과가 `proper 4 / improper 3 / mixed 3`으로 생성되는 것을 확인했습니다.
+- 검증: fresh CDP QA에서 `buildProblems()` 결과가 `proper 4 / improper 3 / mixed 3`으로 생성되는 것을 다시 확인했습니다.
+
+## 2026-07-04 결과 화면 하네스 보정
+
+- 결과 화면의 큰 SVG 통계 패널을 제거하고, 생성형 결과 장면 위에는 `공장장 등급`, `정답 10/10`, `점수 90`, 얇은 점수바만 남겼습니다.
+- 보이는 다시 버튼은 imagegen 생성 자산 `result-restart-button-source.png` → `result-restart-button-generated.png` → `result-restart-button-generated.webp`로 추가했습니다. 학생 화면 문구는 짧게 `다시`만 보입니다.
+- 실제 조작은 같은 좌표의 투명 `#restartButton` hitbox가 맡습니다. 1280×800에서 버튼 아트와 hitbox는 약 `331.5×135.7`, 1024×768에서는 약 `270.8×110.8`로 일치합니다.
+- 브라우저 QA: `result-top-desktop-1280x800.png`, `result-top-tablet-1024x768.png`, `result-retry-desktop-1280x800.png`, `result-retry-tablet-1024x768.png`를 새로 캡처했습니다. 결과 WebP 로드, SVG 텍스트 영역, 버튼 hitbox 정렬, 클릭/Enter/Space 재시작을 확인했습니다.
+- 텍스트 넘침·요소 겹침 QA: 1280×800과 1024×768의 최고 결과/다시 도전 상태에서 글자 넘침, CJK 어색한 줄바꿈, 결과 카드 잔존, 버튼 클릭 영역 이탈 0건입니다.
+- 다음 이미지 리마스터 후보: 현재 등급명 `공장장 등급`은 유지했습니다. 커버·결과 장면을 다시 생성할 때는 초3 말투에 더 가까운 `분류왕` 계열 이름을 검토합니다.
 
 ## 동적 HTML 오버레이 범위
 
-- 문제 화면 분수 숫자(HTML)·원 그림(SVG), 통 3선택지, 한 줄 지시문, 진행도, 좌측 분류 점수 미터·등급 트랙은 HTML/JS로 매 판 갱신합니다.
-- 결과 화면은 생성형 결과 장면(`resultRaster`) 위에 동적 SVG 점수/점수바/도착 등급만 얹습니다. 칭찬 문구는 접근성용 숨김 텍스트로 남기고, 다시하기는 투명 hitbox `#restartButton`이 맡습니다.
+- 문제 화면 분수 숫자(HTML)·원 그림(SVG), 통 3선택지, 한 줄 지시문, 진행도, 하단 분류 점수 미터·등급 트랙은 HTML/JS로 매 판 갱신합니다.
+- 결과 화면은 생성형 결과 장면(`resultRaster`) 위에 동적 SVG 점수/점수바/도착 등급만 얹습니다. 칭찬 문구는 접근성용 숨김 텍스트로 남기고, 보이는 다시 버튼은 생성형 버튼 아트가, 실제 조작은 투명 hitbox `#restartButton`이 맡습니다.
 
 ## 생성형 이미지 자산 연결
 
 - `cover-generated.webp`는 글자 없는 분류 컨베이어 배경이고, 첫 화면 제목은 `title-logo-source.png` → `title-logo-generated.png` → `title-logo-generated.webp` 3종으로 보관했습니다.
 - 시작 버튼은 생성형 버튼 자산 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`를 네 차시에 연결했습니다.
 - 결과 등급 6장(`result-{first,row,line,bigline,manager,rainbow}-generated.webp`)과 실패/재도전 장면 `result-retry-generated.webp`를 생성형 결과 표준에 맞춰 연결했습니다.
+- 결과 화면 다시 버튼은 생성형 버튼 자산 `result-restart-button-source.png`, `result-restart-button-generated.png`, `result-restart-button-generated.webp`로 연결했습니다.
 - 공용 캐릭터 팩은 `fraction-pack`입니다. `mathmon-fr-03-sorterbeaver`는 `_shared/mathmon/fraction-pack/manifest.json`과 `_shared/mathmon/catalog.json`에서 관리하며, 차시 화면에서는 생성형 커버/결과 장면 안의 매스몬으로 표현합니다.

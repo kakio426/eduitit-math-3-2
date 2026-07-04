@@ -44,14 +44,31 @@
 - QA: Chrome에서 1280×800과 1024×768 `drag-qa-*-{cover,tutorial-1,tutorial-2,play-first,play-wrong,play-correct-drop,reward,result}.png`를 캡처했습니다. 실제 Pointer Events 정답 이동과 탭 대체 제출 모두 보상 화면까지 확인했습니다.
 - 정적 검증: 네 차시 인라인 JS 파싱, `node scripts/check-stage-ratio.mjs`, native drag/drop·레거시 `.sound-toggle`·학생 화면 기술어 `rg` 검사를 통과했습니다.
 
+## 2026-07-04 문제 화면 전면 재구성
+
+- 기존 play 화면의 큰 좌측 보상판을 아래 작은 진행 스트립으로 줄이고, 중앙 수학 작업대가 화면 대부분을 쓰도록 재배치했습니다.
+- 피자 그림, 분수 카드, `분수 접시`가 한 시선 안에 들어오게 하고, 정답 뒤에는 `분수 접시`에 카드가 붙은 상태와 피자 색칠 조각 강조가 0.9초 정도 보이게 했습니다.
+- 오답 문구는 `전체 조각을 먼저 봐요.`처럼 한 줄만 보이게 유지했습니다.
+- fresh CDP QA: 1280×800과 1024×768에서 `play-first`, `play-wrong`, `play-correct-drag`, `reward`, `result`를 새로 캡처했습니다. 텍스트 넘침, 요소 겹침, Stage 밖 이탈 0건입니다.
+- Humanizer 학생 문구 QA: 새 문제 화면 문구에는 `드래그`/`드롭` 같은 기술어를 쓰지 않고 `놓아요`, `봐요`, `다시 골라요` 중심으로 유지했습니다.
+
+## 2026-07-04 결과 화면 하네스 보정
+
+- 결과 화면의 큰 SVG 통계 패널을 제거하고, 생성형 결과 장면 위에는 `가게 대박 등급`, `정답 10/10`, `점수 90`, 얇은 점수바만 남겼습니다.
+- 보이는 다시 버튼은 imagegen 생성 자산 `result-restart-button-source.png` → `result-restart-button-generated.png` → `result-restart-button-generated.webp`로 추가했습니다. 학생 화면 문구는 짧게 `다시`만 보입니다.
+- 실제 조작은 같은 좌표의 투명 `#restartButton` hitbox가 맡습니다. 1280×800에서 버튼 아트와 hitbox는 약 `331.5×135.7`, 1024×768에서는 약 `270.8×110.8`로 일치합니다.
+- 브라우저 QA: `result-top-desktop-1280x800.png`, `result-top-tablet-1024x768.png`, `result-retry-desktop-1280x800.png`, `result-retry-tablet-1024x768.png`를 새로 캡처했습니다. 결과 WebP 로드, SVG 텍스트 영역, 버튼 hitbox 정렬, 클릭/Enter/Space 재시작을 확인했습니다.
+- 텍스트 넘침·요소 겹침 QA: 1280×800과 1024×768의 최고 결과/다시 도전 상태에서 글자 넘침, CJK 어색한 줄바꿈, 결과 카드 잔존, 버튼 클릭 영역 이탈 0건입니다.
+
 ## 동적 HTML 오버레이 범위
 
-- 문제 화면 피자(SVG), 분수 선택지, 한 줄 지시문, 진행도, 좌측 피자 점수 미터·등급 트랙은 HTML/JS로 매 판 갱신합니다.
-- 결과 화면은 생성형 결과 장면(`resultRaster`) 위에 동적 SVG 점수/점수바/도착 등급만 얹습니다. 칭찬 문구는 접근성용 숨김 텍스트로 남기고, 다시하기는 투명 hitbox `#restartButton`이 맡습니다.
+- 문제 화면 피자(SVG), 분수 선택지, 한 줄 지시문, 진행도, 하단 피자 점수 미터·등급 트랙은 HTML/JS로 매 판 갱신합니다.
+- 결과 화면은 생성형 결과 장면(`resultRaster`) 위에 동적 SVG 점수/점수바/도착 등급만 얹습니다. 칭찬 문구는 접근성용 숨김 텍스트로 남기고, 보이는 다시 버튼은 생성형 버튼 아트가, 실제 조작은 투명 hitbox `#restartButton`이 맡습니다.
 
 ## 생성형 이미지 자산 연결
 
 - `cover-generated.webp`는 글자 없는 피자 가게 배경이고, 첫 화면 제목은 `title-logo-source.png` → `title-logo-generated.png` → `title-logo-generated.webp` 3종으로 보관했습니다.
 - 시작 버튼은 생성형 버튼 자산 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`를 네 차시에 연결했습니다.
 - 결과 등급 6장(`result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp`)과 실패/재도전 장면 `result-retry-generated.webp`를 생성형 결과 표준에 맞춰 연결했습니다.
+- 결과 화면 다시 버튼은 생성형 버튼 자산 `result-restart-button-source.png`, `result-restart-button-generated.png`, `result-restart-button-generated.webp`로 연결했습니다.
 - 공용 캐릭터 팩은 `fraction-pack`입니다. `mathmon-fr-01-lambchef`는 `_shared/mathmon/fraction-pack/manifest.json`과 `_shared/mathmon/catalog.json`에서 관리하며, 차시 화면에서는 생성형 커버/결과 장면 안의 매스몬으로 표현합니다.

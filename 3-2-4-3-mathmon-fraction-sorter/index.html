@@ -2303,13 +2303,6 @@
       pointer-events: none;
     }
 
-    .result-panel-bg {
-      fill: rgba(14, 12, 22, 0.66);
-      stroke: rgba(255, 255, 255, 0.18);
-      stroke-width: 2;
-      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.26));
-    }
-
     .result-meter-track {
       fill: rgba(0, 0, 0, 0.34);
       stroke: rgba(255, 255, 255, 0.18);
@@ -2325,21 +2318,37 @@
       filter: drop-shadow(0 0 18px rgba(255, 200, 87, 0.5));
     }
 
-    .result-restart-hitbox {
+    .result-restart-hitbox,
+    .result-restart-button-art {
       position: absolute;
+      left: 63.3%;
+      top: 73.8%;
+      width: 27.6%;
+      aspect-ratio: 960 / 393;
+    }
+
+    .result-restart-hitbox {
       z-index: 5;
-      left: 64.53125%;
-      top: 78.25%;
-      width: 25%;
-      height: 11.5%;
       padding: 0;
       border: 0;
       border-radius: 999px;
       background: transparent;
       color: transparent;
+      cursor: pointer;
+    }
+
+    .result-restart-button-art {
+      z-index: 4;
+      height: auto;
+      pointer-events: none;
+      filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.34));
     }
 
     .result-restart-hitbox[hidden] {
+      display: none;
+    }
+
+    .result-restart-hitbox[hidden] + .result-restart-button-art {
       display: none;
     }
 
@@ -3021,6 +3030,367 @@
         line-height: 1.45;
       }
     }
+    /* Intuitive play screen reset: one large math workbench, one compact reward strip. */
+    .play {
+      grid-template-rows: auto minmax(0, 1fr);
+      padding: var(--stage-inset);
+    }
+
+    .play-layout {
+      min-height: 0;
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 12px;
+    }
+
+    .play .problem-panel {
+      order: 1;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      gap: 10px;
+      min-height: 0;
+      padding: 14px 18px 16px;
+      overflow: hidden;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 32%, rgba(96, 215, 255, 0.08), transparent 0 34%, transparent 62%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
+        rgba(26, 22, 34, 0.86);
+    }
+
+    .play .problem-heading {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px 12px;
+    }
+
+    .play .problem-heading h2 {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.05rem, 4.2vw, 3.55rem);
+      line-height: 1.02;
+      font-weight: 1000;
+      text-align: center;
+      white-space: normal;
+      text-wrap: balance;
+    }
+
+    .play .phase-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: end;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: #201000;
+      background: var(--amber);
+      font-size: 0.82rem;
+      line-height: 1;
+    }
+
+    .play .calc-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      place-items: center;
+      min-height: 0;
+      padding: 10px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 200, 87, 0.07), transparent 0 28%, transparent 62%),
+        rgba(14, 12, 22, 0.58);
+    }
+
+    .play .target-board {
+      width: min(540px, 100%);
+      max-width: none;
+      height: 100%;
+      max-height: 100%;
+      min-height: 0;
+      aspect-ratio: auto;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .play .target-board svg {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      display: block;
+    }
+
+    .play .sort-visual {
+      height: 100%;
+      justify-content: center;
+    }
+
+    .play .sort-visual svg {
+      width: min(360px, 100%);
+      max-width: 100%;
+      max-height: 58%;
+    }
+
+    .play .target-board.is-confirmed .pizza-slice.is-filled,
+    .play .target-board.is-confirmed .token.is-on,
+    .play .target-board.is-confirmed .group-box.is-on,
+    .play .target-board.is-confirmed .bar-cell.is-filled {
+      filter: drop-shadow(0 0 12px rgba(255, 200, 87, 0.58));
+      stroke-width: 3px;
+    }
+
+    .play .target-board.winner-left .bar-cell[data-side="left"].is-filled,
+    .play .target-board.winner-right .bar-cell[data-side="right"].is-filled {
+      filter: drop-shadow(0 0 12px rgba(53, 217, 178, 0.64));
+    }
+
+    .play .prompt {
+      min-height: 36px;
+      display: grid;
+      place-items: center;
+      padding: 8px 14px;
+      border: 1px solid rgba(255, 200, 87, 0.42);
+      border-radius: 16px;
+      color: #fff0c6;
+      background: rgba(255, 200, 87, 0.12);
+      font-size: clamp(1.02rem, 2vw, 1.22rem);
+      font-weight: 1000;
+      line-height: 1.2;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .play .choice-grid.is-drag-input {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      align-self: stretch;
+    }
+
+    .play .drag-card-row,
+    .play .drop-zone-row {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .play .drag-card-row[data-count="2"],
+    .play .drop-zone-row[data-count="2"] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .play .drag-card-row[data-count="3"],
+    .play .drop-zone-row[data-count="3"] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .play .drag-card-row[data-count="4"],
+    .play .drop-zone-row[data-count="4"] {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .play .choice-button.drag-choice,
+    .play .drop-zone {
+      min-height: 66px;
+      border-radius: 18px;
+    }
+
+    .play .choice-button.drag-choice {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08)),
+        rgba(43, 36, 58, 0.92);
+    }
+
+    .play .drop-zone {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(53, 217, 178, 0.16), transparent 0 30%, transparent 58%),
+        rgba(53, 217, 178, 0.1);
+    }
+
+    .play .choice-grid.is-source-zones {
+      align-self: stretch;
+    }
+
+    .play .choice-grid.is-source-zones .drop-zone-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .play .target-board.drag-choice {
+      border-radius: 20px;
+      touch-action: none;
+      cursor: grab;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .bar-card {
+      width: 100%;
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .bar-card-track {
+      width: min(250px, 100%);
+      display: grid;
+      grid-template-columns: repeat(var(--bar-cells), minmax(0, 1fr));
+      gap: 3px;
+    }
+
+    .bar-card-cell {
+      height: 18px;
+      border: 2px solid rgba(255, 200, 87, 0.72);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .bar-card-cell.is-filled {
+      background: linear-gradient(180deg, #ff9b77, #ff7458);
+    }
+
+    .play .feedback {
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .play .feedback:empty {
+      display: grid;
+      visibility: hidden;
+    }
+
+    .play .rocket-zone {
+      order: 2;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      background:
+        linear-gradient(90deg, rgba(53, 217, 178, 0.12), rgba(255, 200, 87, 0.08)),
+        rgba(14, 12, 22, 0.82);
+    }
+
+    .play .rocket-zone::before,
+    .play .rocket-zone::after,
+    .play .launch-effects {
+      display: none;
+    }
+
+    .play .rocket-mini {
+      position: relative;
+      z-index: 3;
+      width: 42px;
+      height: 52px;
+      min-width: 42px;
+      transform: none;
+    }
+
+    .play .fuel-panel {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: minmax(108px, auto) minmax(160px, 1fr) minmax(260px, 0.95fr);
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .play .fuel-readout {
+      min-width: 0;
+      gap: 4px;
+    }
+
+    .play .fuel-meter {
+      height: 14px;
+      min-width: 120px;
+    }
+
+    .play .fuel-note {
+      display: none;
+    }
+
+    .play .planet-panel {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .play .planet-title {
+      min-width: 94px;
+      gap: 3px;
+    }
+
+    .play .planet-track {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 6px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .play .planet-chip {
+      min-width: 0;
+      min-height: 28px;
+      padding: 0 9px;
+      font-size: 0.72rem;
+    }
+
+    @media (max-width: 1100px), (max-height: 760px) {
+      .play .problem-panel {
+        gap: 8px;
+        padding: 12px 14px 14px;
+      }
+
+      .play .problem-heading h2 {
+        font-size: clamp(1.72rem, 3.9vw, 2.95rem);
+      }
+
+      .play .calc-stage {
+        padding: 8px;
+      }
+
+      .play .target-board svg {
+        max-height: min(260px, 35vh);
+      }
+
+      .play .choice-button.drag-choice,
+      .play .drop-zone {
+        min-height: 56px;
+      }
+
+      .play .rocket-zone {
+        min-height: 62px;
+        padding: 8px 12px;
+      }
+
+      .play .rocket-mini {
+        width: 34px;
+        height: 42px;
+        min-width: 34px;
+      }
+
+      .play .fuel-panel {
+        grid-template-columns: minmax(88px, auto) minmax(140px, 1fr) minmax(200px, 0.9fr);
+      }
+    }
   </style>
 </head>
 <body>
@@ -3234,7 +3604,6 @@
           </linearGradient>
         </defs>
         <g>
-          <rect class="result-panel-bg" x="802" y="116" width="374" height="178" rx="24"></rect>
           <text id="resultDestinationSvg" x="828" y="176" fill="#fff8e8" font-size="34" font-weight="1000">점수 재는 중</text>
           <text id="resultScoreSvg" x="828" y="226" fill="#b8ffe9" font-size="42" font-weight="1000">정답 0/10</text>
           <text id="resultMeasureSvg" x="828" y="264" fill="#ffe8ba" font-size="24" font-weight="950">점수 0</text>
@@ -3243,6 +3612,7 @@
         </g>
       </svg>
       <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기" hidden></button>
+      <img class="result-restart-button-art" src="result-restart-button-generated.webp" alt="" aria-hidden="true">
     </section>
     </div>
   </main>
@@ -3720,6 +4090,7 @@
       })), handleStepChoice, {
         mode: "source-to-zones",
         sourceElement: el.targetBoard,
+        sourceValue: buildProblemDisplay(problem),
         sourceLabel: "분수 카드",
         dropHint: "통에 넣어요"
       });
@@ -3734,9 +4105,9 @@
 
     const SORT_LABEL = { proper: "진분수", improper: "가분수", mixed: "대분수" };
     const SORT_EXPLAIN = {
-      proper: "분자가 더 작아서 진분수예요.",
-      improper: "한 줄 분수에서 분자가 크거나 같으면 가분수예요.",
-      mixed: "자연수가 붙어서 대분수예요."
+      proper: "분자가 더 작아요.",
+      improper: "분자가 크거나 같아요.",
+      mixed: "자연수가 붙었어요."
     };
 
     function buildSteps(problem) {
@@ -3874,12 +4245,16 @@
         state.stepIndex += 1;
         state.stepAttempts = 0;
         renderStep();
-      }, revealed ? 1000 : 760);
+      }, revealed ? 1000 : 900);
     }
 
     function triggerStepEffect() {}
 
-    function applyStepToBoard() {}
+    function applyStepToBoard() {
+      const problem = currentProblem();
+      el.targetBoard.className = "target-board is-wholes is-confirmed";
+      el.targetBoard.innerHTML = drawFractionWholes(problem);
+    }
 
     function completeProblem() {
       const perfect = !state.problemHadMistake;
@@ -4284,12 +4659,15 @@
         el.choiceGrid._dragCleanup();
       }
       el.choiceGrid.innerHTML = "";
-      el.choiceGrid.className = "choice-grid is-drag-input";
+      el.choiceGrid.className = config.mode === "source-to-zones"
+        ? "choice-grid is-drag-input is-source-zones"
+        : "choice-grid is-drag-input";
       const cardRow = document.createElement("div");
       cardRow.className = "drag-card-row";
       cardRow.dataset.count = String(options.length);
       const dropRow = document.createElement("div");
       dropRow.className = "drop-zone-row";
+      dropRow.dataset.count = String(options.length);
       const items = [];
       const dropTargets = [];
 
@@ -4329,6 +4707,11 @@
         }
         if (target) {
           target.classList.add(option.correct ? "is-correct-drop" : "is-wrong-drop");
+          if (option.correct && target.__dragOption) {
+            target.innerHTML = `<span class="drop-zone-title">${target.dataset.dropTitle}</span><span class="drop-zone-answer">${config.sourceValue || option.label}</span>`;
+            item?.classList.add("is-locked");
+            item?.setAttribute("aria-disabled", "true");
+          }
           if (!option.correct) {
             window.setTimeout(() => target.classList.remove("is-wrong-drop"), 420);
           }
