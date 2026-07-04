@@ -72,6 +72,42 @@
       bigwin: "큰 승",
       champion: "챔피언",
       rainbow: "전설 승부"
+    }),
+    "circle-target": Object.freeze({
+      retry: "다시 도전",
+      miss: "빗나감",
+      edge: "가장자리",
+      hit: "명중",
+      bullseye: "정중앙",
+      targetking: "표적왕",
+      legend: "전설 명중"
+    }),
+    "circle-compass": Object.freeze({
+      retry: "다시 도전",
+      faint: "흐린 원",
+      small: "작은 마법진",
+      ring: "마법진",
+      big: "큰 마법진",
+      grand: "대마법진",
+      legend: "전설 마법진"
+    }),
+    "circle-bridge": Object.freeze({
+      retry: "다시 도전",
+      log: "외나무다리",
+      small: "작은 다리",
+      bridge: "다리",
+      big: "큰 다리",
+      grand: "대교",
+      rainbow: "무지개 다리"
+    }),
+    "circle-pattern": Object.freeze({
+      retry: "다시 도전",
+      dot: "점무늬",
+      small: "작은 무늬",
+      pattern: "무늬",
+      big: "큰 무늬",
+      design: "무늬왕",
+      rainbow: "무지개 무늬"
     })
   });
 
@@ -265,7 +301,7 @@
       const id = objectValue(rewardResult, "gradeId") || objectValue(rewardResult, "id");
       return OUTCOME_LABELS.fusion[id] || OUTCOME_LABELS.fusion.retry;
     }
-    if (kind === "fraction-pizza" || kind === "fraction-scoop" || kind === "fraction-sorter" || kind === "fraction-tug") {
+    if (OUTCOME_LABELS[kind]) {
       const id = objectValue(rewardResult, "gradeId") || objectValue(rewardResult, "destinationId") || objectValue(rewardResult, "id");
       return OUTCOME_LABELS[kind][id] || OUTCOME_LABELS[kind].retry;
     }

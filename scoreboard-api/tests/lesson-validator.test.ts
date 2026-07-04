@@ -67,6 +67,17 @@ const createFractionAnswer = (
   reward,
 })
 
+const createCircleAnswer = (
+  questionIndex: number,
+  stepId = "find",
+  reward: { readonly id: string; readonly amount: number } = { id: "normal", amount: 6 },
+): AnswerLogItem => ({
+  questionIndex,
+  elapsedMs: 4200,
+  steps: [{ stepId, selected: "가", expected: "가", elapsedMs: 900 }],
+  reward,
+})
+
 describe("lesson validators", () => {
   test("Given ten perfect rocket answers When validating Then score is computed on the server", () => {
     const answers = Array.from({ length: 10 }, (_value, index) => createRocketAnswer(index, 5))
@@ -158,6 +169,24 @@ describe("lesson validators", () => {
 
     const result = validateLessonSubmission({
       lessonId: "3-2-4-1-mathmon-pizza-fraction",
+      seed: 12345,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("accepted")
+    expect(result.score).toBe(60n)
+    expect(result.correctCount).toBe(10)
+    expect(result.maxScore).toBe(100n)
+  })
+
+  test("Given ten perfect circle answers When validating Then score is computed on the server", () => {
+    const answers = Array.from({ length: 10 }, (_value, index) =>
+      createCircleAnswer(index, "place"),
+    )
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-3-4-mathmon-circle-pattern",
       seed: 12345,
       answers,
       playTimeMs: 62000,

@@ -5,6 +5,10 @@ export const LESSON_IDS = [
   "3-2-1-2-mathmon-rocket-charge",
   "3-2-1-3-mathmon-jump-islands",
   "3-2-1-4-mathmon-fusion",
+  "3-2-3-1-mathmon-target-hit",
+  "3-2-3-2-mathmon-compass-ring",
+  "3-2-3-3-mathmon-double-bridge",
+  "3-2-3-4-mathmon-circle-pattern",
   "3-2-4-1-mathmon-pizza-fraction",
   "3-2-4-2-mathmon-fraction-scoop",
   "3-2-4-3-mathmon-fraction-sorter",
@@ -39,6 +43,26 @@ export const LESSONS: readonly Lesson[] = [
   {
     id: "3-2-1-4-mathmon-fusion",
     title: "매스몬 로봇 합체",
+    active: true,
+  },
+  {
+    id: "3-2-3-1-mathmon-target-hit",
+    title: "매스몬 표적 맞히기",
+    active: true,
+  },
+  {
+    id: "3-2-3-2-mathmon-compass-ring",
+    title: "매스몬 컴퍼스 마법진",
+    active: true,
+  },
+  {
+    id: "3-2-3-3-mathmon-double-bridge",
+    title: "매스몬 두 배 다리",
+    active: true,
+  },
+  {
+    id: "3-2-3-4-mathmon-circle-pattern",
+    title: "매스몬 원 무늬 디자이너",
     active: true,
   },
   {

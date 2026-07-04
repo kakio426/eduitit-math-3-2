@@ -2,12 +2,16 @@
 
 기본 경로는 `/api/v1`입니다. 모든 요청과 응답은 JSON입니다.
 
-지원하는 `lessonId`는 아래 여덟 가지입니다.
+지원하는 `lessonId`는 아래 열두 가지입니다.
 
 - `3-2-1-1-mathmon-box-run`
 - `3-2-1-2-mathmon-rocket-charge`
 - `3-2-1-3-mathmon-jump-islands`
 - `3-2-1-4-mathmon-fusion`
+- `3-2-3-1-mathmon-target-hit`
+- `3-2-3-2-mathmon-compass-ring`
+- `3-2-3-3-mathmon-double-bridge`
+- `3-2-3-4-mathmon-circle-pattern`
 - `3-2-4-1-mathmon-pizza-fraction`
 - `3-2-4-2-mathmon-fraction-scoop`
 - `3-2-4-3-mathmon-fraction-sorter`

@@ -6,8 +6,9 @@
 - 학습: 원으로 규칙과 무늬 만들기 (같은 크기 원을 규칙대로 배치)
 - 문제: 일부 놓인 무늬에서 다음에 놓을 같은 반지름 원의 자리를 고르는 문제 10개
 - 방식: 놓인 원 + 후보 자리(가·나·다·라)를 보고 규칙에 맞는 자리를 고르는 1단계 선택형
+- 흐름: 첫 화면 → 설명 1(어떻게 해요?) → 설명 2(무엇을 얻어요?) → 문제 → 보상 → 결과 → 전국 순위
 - 보상: 한 문제마다 랜덤 무늬 점수 이벤트(증가/감소/0/완벽한 무늬/무지개)
-- 결과: `점무늬 → 작은 무늬 → 무늬 → 큰 무늬 → 대디자인`(무지개면 `무지개 무늬`)
+- 결과: `점무늬 → 작은 무늬 → 무늬 → 큰 무늬 → 무늬왕`(무지개면 `무지개 무늬`)
 - 실행: `index.html`을 브라우저에서 열기
 
 ## 설계 의도
@@ -16,9 +17,16 @@
 
 보상·등급 구조는 시리즈 공통 엔진을 그대로 쓰고 무늬 테마로 이름만 바꿨습니다. 문제 화면 도형은 생성 이미지가 아니라 **SVG**로 그립니다.
 
+## 설명·순위 흐름
+
+- 설명 화면은 두 장입니다. 1장은 풀이 방법, 2장은 10문제·무늬 점수·등급·전국 순위를 보여 줍니다.
+- 설정의 `방법 다시 보기`는 설명 1 → 설명 2를 다시 보여 준 뒤 원래 화면으로 돌아옵니다.
+- 결과 화면에서는 생성형 결과 이미지 위에 동적 값과 `순위` hitbox만 얹고, 순위판은 SVG 동적 UI로 그립니다.
+
 ## 자산 상태
 
 - 첫 화면은 `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, `start-button-generated.webp` 시작 버튼 아트를 연결했습니다.
 - 결과는 `result-{dot,small,pattern,big,design,rainbow}-generated.webp`와 `result-retry-generated.webp`를 사용합니다.
 - 공용 매스몬 팩은 `_shared/mathmon/circle-pack`의 `무늬공작몬` 콘셉트를 기준으로 등록했습니다.
 - 하네스는 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` + `hybrid-generated-dynamic` 기준입니다.
+- 전국 순위판은 `_shared/scoreboard/scoreboard-ui.js` bridge로 연결하고, 결과 화면의 `순위` 버튼에서 열립니다.

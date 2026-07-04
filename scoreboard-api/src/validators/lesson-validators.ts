@@ -1,142 +1,21 @@
-import type { LessonId } from "../domain/lessons"
-import type { AnswerLogItem, RewardEvent } from "./schemas"
+import type { ProgressRule } from "./progress-lesson-validator"
+import { validateProgressLesson } from "./progress-lesson-validator"
+import type { RewardEvent } from "./schemas"
+import type { LessonValidationInput, LessonValidationResult } from "./validation-core"
+import {
+  findStructuralFlags,
+  isPerfectAnswer,
+  reject,
+  VALIDATION_STATUS,
+  validateReward,
+} from "./validation-core"
 
-export const VALIDATION_STATUS = {
-  accepted: "accepted",
-  flagged: "flagged",
-  rejected: "rejected",
-} as const
-
-export type ValidationStatus = (typeof VALIDATION_STATUS)[keyof typeof VALIDATION_STATUS]
-
-export type LessonValidationInput = {
-  readonly lessonId: LessonId
-  readonly seed: number
-  readonly answers: readonly AnswerLogItem[]
-  readonly playTimeMs: number
-}
-
-export type LessonValidationResult = {
-  readonly status: ValidationStatus
-  readonly score: bigint
-  readonly correctCount: number
-  readonly maxScore: bigint
-  readonly flagReasons: readonly string[]
-}
-
-type RewardRule = {
-  readonly id: string
-  readonly min: number
-  readonly max: number
-  readonly empties?: true
-  readonly pause?: true
-}
-
-type ProgressRule = {
-  readonly rules: readonly RewardRule[]
-  readonly mistakeId: string
-  readonly baseForPerfect: number
-  readonly maxScore: number
-  readonly earlyFinishRewardId?: string
-}
-
-const clamp = (value: number, min: number, max: number): number =>
-  Math.max(min, Math.min(value, max))
-
-const isPerfectAnswer = (answer: AnswerLogItem): boolean =>
-  answer.steps.every((step) => String(step.selected) === String(step.expected))
-
-const reject = (flagReasons: readonly string[]): LessonValidationResult => ({
-  status: VALIDATION_STATUS.rejected,
-  score: 0n,
-  correctCount: 0,
-  maxScore: 0n,
-  flagReasons,
-})
-
-const findStructuralFlags = (
-  answers: readonly AnswerLogItem[],
-  playTimeMs: number,
-  earlyFinishRewardId = "",
-): readonly string[] => {
-  const flags: string[] = []
-  const lastRewardId = answers.at(-1)?.reward?.id
-  const allowsEarlyFinish = lastRewardId === earlyFinishRewardId
-  if (answers.length !== 10 && !allowsEarlyFinish) flags.push("answer_count_must_be_10")
-  if (playTimeMs < 5_000) flags.push("play_time_too_short")
-
-  const seen = new Set<number>()
-  for (const answer of answers) {
-    if (seen.has(answer.questionIndex)) flags.push("duplicate_question_index")
-    seen.add(answer.questionIndex)
-  }
-  return flags
-}
-
-const findRewardRule = (rules: readonly RewardRule[], reward: RewardEvent): RewardRule | null =>
-  rules.find((rule) => rule.id === reward.id) ?? null
-
-const validateReward = (
-  reward: RewardEvent | undefined,
-  rules: readonly RewardRule[],
-  perfect: boolean,
-  mistakeId: string,
-): readonly string[] => {
-  if (!reward) return ["missing_reward_event"]
-  const rule = findRewardRule(rules, reward)
-  if (!rule) return ["unknown_reward_event"]
-  if (perfect && reward.id === mistakeId) return ["reward_not_allowed_for_answer"]
-  if (!perfect && reward.id !== mistakeId) return ["reward_not_allowed_for_answer"]
-  if (reward.amount < rule.min || reward.amount > rule.max) return ["reward_amount_out_of_range"]
-  return []
-}
-
-const validateProgressLesson = (
-  input: LessonValidationInput,
-  progressRule: ProgressRule,
-): LessonValidationResult => {
-  const structuralFlags = findStructuralFlags(
-    input.answers,
-    input.playTimeMs,
-    progressRule.earlyFinishRewardId,
-  )
-  if (structuralFlags.length > 0) return reject(structuralFlags)
-
-  const flags: string[] = []
-  let score = 0
-  let correctCount = 0
-
-  for (const answer of input.answers) {
-    const perfect = isPerfectAnswer(answer)
-    const rewardFlags = validateReward(
-      answer.reward,
-      progressRule.rules,
-      perfect,
-      progressRule.mistakeId,
-    )
-    flags.push(...rewardFlags)
-    if (!answer.reward) continue
-
-    const rule = findRewardRule(progressRule.rules, answer.reward)
-    if (!rule) continue
-    if (perfect) correctCount += 1
-    if (rule.empties) {
-      score = 0
-    } else {
-      const base = perfect && !rule.pause ? progressRule.baseForPerfect : 0
-      score = clamp(score + base + answer.reward.amount, 0, progressRule.maxScore)
-    }
-  }
-
-  if (flags.length > 0) return reject([...new Set(flags)])
-  return {
-    status: VALIDATION_STATUS.accepted,
-    score: BigInt(score),
-    correctCount,
-    maxScore: BigInt(progressRule.maxScore),
-    flagReasons: [],
-  }
-}
+export type {
+  LessonValidationInput,
+  LessonValidationResult,
+  ValidationStatus,
+} from "./validation-core"
+export { VALIDATION_STATUS } from "./validation-core"
 
 const BOX_REWARD_RULES = [
   { id: "add_100", min: 100, max: 100 },
@@ -215,6 +94,7 @@ const FRACTION_RULE: ProgressRule = {
     { id: "leak", min: -18, max: -8 },
   ],
 }
+const CIRCLE_RULE: ProgressRule = FRACTION_RULE
 
 const applyBoxReward = (score: bigint, reward: RewardEvent): bigint => {
   switch (reward.id) {
@@ -287,6 +167,11 @@ export const validateLessonSubmission = (input: LessonValidationInput): LessonVa
       return validateProgressLesson(input, ISLAND_RULE)
     case "3-2-1-4-mathmon-fusion":
       return validateProgressLesson(input, FUSION_RULE)
+    case "3-2-3-1-mathmon-target-hit":
+    case "3-2-3-2-mathmon-compass-ring":
+    case "3-2-3-3-mathmon-double-bridge":
+    case "3-2-3-4-mathmon-circle-pattern":
+      return validateProgressLesson(input, CIRCLE_RULE)
     case "3-2-4-1-mathmon-pizza-fraction":
     case "3-2-4-2-mathmon-fraction-scoop":
     case "3-2-4-3-mathmon-fraction-sorter":

@@ -6,6 +6,7 @@
 - 학습: 지름 = 반지름 × 2
 - 문제: 반지름→지름(두 배) 또는 지름→반지름(반으로) 한 방향을 묻는 문제 10개
 - 방식: 두 배 다리 그림(반지름 칸 두 개 = 지름 칸)을 보고 알맞은 길이(cm)를 고르는 1단계 선택형
+- 흐름: 첫 화면 → 설명 1(어떻게 해요?) → 설명 2(무엇을 얻어요?) → 문제 → 보상 → 결과 → 전국 순위
 - 보상: 한 문제마다 랜덤 다리 점수 이벤트(증가/감소/0/한 번에 완공/무지개)
 - 결과: `외나무다리 → 작은 다리 → 다리 → 큰 다리 → 대교`(무지개면 `무지개 다리`)
 - 실행: `index.html`을 브라우저에서 열기
@@ -16,9 +17,16 @@
 
 보상·등급 구조는 시리즈 공통 엔진을 그대로 쓰고 다리 테마로 이름만 바꿨습니다. 문제 화면 도형은 생성 이미지가 아니라 **SVG**로 그립니다.
 
+## 설명·순위 흐름
+
+- 설명 화면은 두 장입니다. 1장은 풀이 방법, 2장은 10문제·다리 점수·등급·전국 순위를 보여 줍니다.
+- 설정의 `방법 다시 보기`는 설명 1 → 설명 2를 다시 보여 준 뒤 원래 화면으로 돌아옵니다.
+- 결과 화면에서는 생성형 결과 이미지 위에 동적 값과 `순위` hitbox만 얹고, 순위판은 SVG 동적 UI로 그립니다.
+
 ## 자산 상태
 
 - 첫 화면은 `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, `start-button-generated.webp` 시작 버튼 아트를 연결했습니다.
 - 결과는 `result-{log,small,bridge,big,grand,rainbow}-generated.webp`와 `result-retry-generated.webp`를 사용합니다.
 - 공용 매스몬 팩은 `_shared/mathmon/circle-pack`의 `두배수달몬` 콘셉트를 기준으로 등록했습니다.
 - 하네스는 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` + `hybrid-generated-dynamic` 기준입니다.
+- 전국 순위판은 `_shared/scoreboard/scoreboard-ui.js` bridge로 연결하고, 결과 화면의 `순위` 버튼에서 열립니다.

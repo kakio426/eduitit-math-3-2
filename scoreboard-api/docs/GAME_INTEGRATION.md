@@ -35,7 +35,7 @@ const session = await response.json()
 
 게임은 `session.sessionId`, `session.seed`, `session.nickname`을 보관합니다.
 
-현재 1단원 1~4차시와 4단원 1~4차시 프론트엔드는 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`를 사용하거나 같은 계약을 직접 구현합니다. 각 차시에서 백엔드와 맞닿는 값은 아래 네 가지입니다.
+현재 1단원 1~4차시, 3단원 1~4차시, 4단원 1~4차시 프론트엔드는 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`를 사용하거나 같은 계약을 직접 구현합니다. 각 차시에서 백엔드와 맞닿는 값은 아래 네 가지입니다.
 
 ```js
 const LESSON_ID = "3-2-1-2-mathmon-rocket-charge";
@@ -103,6 +103,10 @@ await fetch(`${SCOREBOARD_API_URL}/api/v1/scores`, {
 | 2차시 로켓 | `3-2-1-2-mathmon-rocket-charge` | 전국 로켓 순위 | 연료 점수 | 도착한 곳 | `ones`, `tens`, `hundreds` | `instantLaunch`가 마지막 보상이면 10문제 전에도 제출할 수 있습니다. |
 | 3차시 점프섬 | `3-2-1-3-mathmon-jump-islands` | 전국 점프 순위 | 점프 거리 | 도착한 섬 | `smallProduct`, `scaleFooting` | 한 번이라도 틀린 문제는 좋은 바람이 아니라 `shaky` 보상으로 검증됩니다. |
 | 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 에너지 | 얻은 로봇 | `partial1`, `partial2`, `fusion` | `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다. |
+| 3단원 1차시 표적 맞히기 | `3-2-3-1-mathmon-target-hit` | 전국 표적 순위 | 표적 점수 | 표적 등급 | `find` | 중심·반지름·지름 보기의 첫 선택을 보냅니다. |
+| 3단원 2차시 컴퍼스 마법진 | `3-2-3-2-mathmon-compass-ring` | 전국 마법진 순위 | 마법진 점수 | 마법진 등급 | `spread` | 컴퍼스가 벌어진 길이를 `selected`, 정답 길이를 `expected`로 보냅니다. |
+| 3단원 3차시 두 배 다리 | `3-2-3-3-mathmon-double-bridge` | 전국 다리 순위 | 다리 점수 | 다리 등급 | `double` | 반지름 두 개의 합으로 고른 길이를 보냅니다. |
+| 3단원 4차시 원 무늬 디자이너 | `3-2-3-4-mathmon-circle-pattern` | 전국 무늬 순위 | 무늬 점수 | 무늬 등급 | `place` | 규칙에 맞는 원 자리 보기의 첫 선택을 보냅니다. |
 | 4단원 1차시 피자 분수 | `3-2-4-1-mathmon-pizza-fraction` | 전국 피자 순위 | 피자 점수 | 피자 등급 | `name` | 분수 카드의 첫 선택을 `selected`, 정답 분수를 `expected`로 보냅니다. |
 | 4단원 2차시 분수만큼 담기 | `3-2-4-2-mathmon-fraction-scoop` | 전국 담기 순위 | 담기 점수 | 담기 등급 | `group`, `scoop` | 한 묶음 수와 담을 수를 두 단계 로그로 보냅니다. |
 | 4단원 3차시 분수 분류 | `3-2-4-3-mathmon-fraction-sorter` | 전국 분류 순위 | 분류 점수 | 분류 등급 | `sort` | `proper`, `improper`, `mixed` 중 첫 선택을 보냅니다. |
@@ -157,6 +161,10 @@ await fetch(`${SCOREBOARD_API_URL}/api/v1/scores`, {
 - `3-2-1-2-mathmon-rocket-charge`
 - `3-2-1-3-mathmon-jump-islands`
 - `3-2-1-4-mathmon-fusion`
+- `3-2-3-1-mathmon-target-hit`
+- `3-2-3-2-mathmon-compass-ring`
+- `3-2-3-3-mathmon-double-bridge`
+- `3-2-3-4-mathmon-circle-pattern`
 - `3-2-4-1-mathmon-pizza-fraction`
 - `3-2-4-2-mathmon-fraction-scoop`
 - `3-2-4-3-mathmon-fraction-sorter`
