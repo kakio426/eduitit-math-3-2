@@ -602,6 +602,8 @@ async function runResultRasterContractProbe(page, pageUrl) {
         hasResultCard: Boolean(document.querySelector(".result-card")),
         hasCssResultHeading: Boolean(document.querySelector(".result-truck-name")),
         hasResultTitleArt: document.querySelector("#resultTitleArt")?.tagName === "IMG",
+        hasResultCorrectArt: document.querySelector("#resultCorrectArt")?.tagName === "IMG",
+        correctArtSrc: document.querySelector("#resultCorrectArt")?.getAttribute("src") || "",
         hasRetryArt: document.querySelector(".result-retry-art")?.tagName === "IMG",
         retryVisibleText: retryButton?.textContent.trim() || "",
         retryAriaLabel: retryButton?.getAttribute("aria-label") || "",
@@ -614,6 +616,8 @@ async function runResultRasterContractProbe(page, pageUrl) {
   const pass = !observed.hasResultCard
     && !observed.hasCssResultHeading
     && observed.hasResultTitleArt
+    && observed.hasResultCorrectArt
+    && /result-correct-\d+-generated\.webp(?:\?|$)/.test(observed.correctArtSrc)
     && observed.hasRetryArt
     && observed.retryVisibleText === ""
     && observed.retryAriaLabel === "다시"

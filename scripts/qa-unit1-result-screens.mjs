@@ -281,7 +281,7 @@ async function readResultSnapshot(lesson) {
 	      src: correctArt?.getAttribute("src") || "",
 	      rect: correctArtRect
 	    },
-	    fullsceneScoreOnly: mode !== "fullscene" || (visibleTexts.length === 1 && /\\/10$/.test(visibleTexts[0])),
+	    noVisibleCorrectText: !visibleTexts.some((text) => /^\\d+\\/10$/.test(text)),
     visibleTexts,
     overflowTexts,
     svgTextsOutside,
@@ -306,14 +306,12 @@ function validateSnapshot(lesson, viewport, snapshot) {
 	    assert(snapshot.generatedTitleArt.visible, `${lesson.id}/${viewport.name}: generated result title art is not visible ${JSON.stringify(snapshot.generatedTitleArt)}`);
 	    assert(/result-title-[^/]+-generated\.webp(?:\?|$)/.test(snapshot.generatedTitleArt.src), `${lesson.id}/${viewport.name}: generated result title art src is not a result-title asset ${snapshot.generatedTitleArt.src}`);
 	    assert(snapshot.generatedTitleArt.legacySvgTitleText === "", `${lesson.id}/${viewport.name}: legacy SVG result title text remains ${snapshot.generatedTitleArt.legacySvgTitleText}`);
-	    assert(snapshot.generatedCorrectArt.visible, `${lesson.id}/${viewport.name}: generated correct-count art is not visible ${JSON.stringify(snapshot.generatedCorrectArt)}`);
-	    assert(/result-correct-\d+-generated\.webp(?:\?|$)/.test(snapshot.generatedCorrectArt.src), `${lesson.id}/${viewport.name}: generated correct-count art src is not a result-correct asset ${snapshot.generatedCorrectArt.src}`);
 	    const leakedLabels = snapshot.visibleTexts.filter((text) => FORBIDDEN_GENERATED_RESULT_LABELS.has(text));
 	    assert(leakedLabels.length === 0, `${lesson.id}/${viewport.name}: fixed SVG result label remains ${JSON.stringify(leakedLabels)}`);
-	    const leakedCorrectText = snapshot.visibleTexts.filter((text) => /^\d+\/10$/.test(text));
-	    assert(leakedCorrectText.length === 0, `${lesson.id}/${viewport.name}: correct-count remains visible as font text ${JSON.stringify(leakedCorrectText)}`);
 	  }
-  assert(snapshot.fullsceneScoreOnly, `${lesson.id}/${viewport.name}: fullscene visible DOM text is not score-only ${JSON.stringify(snapshot.visibleTexts)}`);
+  assert(snapshot.generatedCorrectArt.visible, `${lesson.id}/${viewport.name}: generated correct-count art is not visible ${JSON.stringify(snapshot.generatedCorrectArt)}`);
+  assert(/result-correct-\d+-generated\.webp(?:\?|$)/.test(snapshot.generatedCorrectArt.src), `${lesson.id}/${viewport.name}: generated correct-count art src is not a result-correct asset ${snapshot.generatedCorrectArt.src}`);
+  assert(snapshot.noVisibleCorrectText, `${lesson.id}/${viewport.name}: correct-count remains visible as font text ${JSON.stringify(snapshot.visibleTexts)}`);
   assert(snapshot.overflowTexts.length === 0, `${lesson.id}/${viewport.name}: visible text overflow ${JSON.stringify(snapshot.overflowTexts)}`);
   snapshot.hitboxStyles.forEach((hitbox) => {
     if (hitbox.hidden || hitbox.disabled) return;

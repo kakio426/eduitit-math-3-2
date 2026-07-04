@@ -1007,6 +1007,18 @@
       width: min(840px, 82%);
     }
 
+    .result-correct-art {
+      position: absolute;
+      top: 268px;
+      left: 50%;
+      width: min(390px, 37%);
+      max-height: 132px;
+      object-fit: contain;
+      transform: translateX(-50%);
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.38));
+      pointer-events: none;
+    }
+
     .result-retry-hitbox {
       position: absolute;
       left: 50%;
@@ -1235,6 +1247,7 @@
         </div>
         <div class="result-layer">
           <img class="result-title-art" id="resultTitleArt" src="result-title-plain-generated.webp" alt="" aria-hidden="true">
+          <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
           <button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시">
             <img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true">
           </button>
@@ -1611,6 +1624,7 @@
       rewardNextButton: document.getElementById("rewardNextButton"),
       resultBg: document.getElementById("resultBg"),
       resultTitleArt: document.getElementById("resultTitleArt"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultTitle: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
       resultNext: document.getElementById("resultNext"),
@@ -1952,6 +1966,16 @@
       blockChoicePointerInput();
     }
 
+    function getResultTotalProblems() {
+      return typeof TOTAL_QUESTIONS === "number" ? TOTAL_QUESTIONS : (typeof TOTAL_PROBLEMS === "number" ? TOTAL_PROBLEMS : 10);
+    }
+
+    function getResultCorrectArtSrc(correctCount) {
+      const total = getResultTotalProblems();
+      const value = Math.max(0, Math.min(total, Math.round(Number(correctCount) || 0)));
+      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+    }
+
     function showResult() {
       const model = Lesson5PackageWeightModel;
       const result = model.getTruckResult(state.truckPower, state.correctFirstTry, state.superPartSeen);
@@ -1960,7 +1984,8 @@
       ui.resultBg.src = result.image;
       ui.resultTitleArt.src = result.titleImage;
       ui.resultTitle.textContent = result.name;
-      ui.resultSummary.textContent = `바로 맞힌 문제 ${state.correctFirstTry}개`;
+      ui.resultCorrectArt.src = getResultCorrectArtSrc(state.correctFirstTry);
+      ui.resultSummary.textContent = `정답 ${state.correctFirstTry}/${getResultTotalProblems()}`;
       ui.resultNext.textContent = result.id === next.id
         ? "최고 트럭이에요. 다시 만들까요?"
         : `다음엔 ${next.name}`;

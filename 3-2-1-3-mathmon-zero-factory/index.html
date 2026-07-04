@@ -2567,6 +2567,15 @@
       line-height: 1;
     }
 
+    .result-stat .result-correct-art {
+      display: block;
+      width: min(180px, 100%);
+      max-height: 58px;
+      margin-top: 6px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.28));
+    }
+
     .result-next-line {
       margin: 0;
       padding: 10px 12px;
@@ -3175,7 +3184,8 @@
           <div class="result-stats">
             <div class="result-stat">
               <span>맞힌 문제</span>
-              <strong id="finalCorrectText">0/10</strong>
+              <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
+              <strong class="visually-hidden" id="finalCorrectText">0/10</strong>
             </div>
             <div class="result-stat">
               <span>다음 상자</span>
@@ -3213,6 +3223,11 @@
       image: "result-space-generated.webp",
       secret: true
     };
+
+    function getResultCorrectArtSrc(correctCount) {
+      const count = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
+      return `../_shared/result-count/result-correct-${count}-generated.webp`;
+    }
     const ALL_DESTINATIONS = [...DESTINATIONS, SECRET_DESTINATION];
     const RESULT_COMPANION = {
       name: "냥냥몬",
@@ -3322,6 +3337,7 @@
       resultPlanetTrack: document.getElementById("resultPlanetTrack"),
       praiseText: document.getElementById("praiseText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultNextGoalText: document.getElementById("resultNextGoalText"),
       resultBoxImage: document.getElementById("resultBoxImage"),
       resultBoxName: document.getElementById("resultBoxName"),
@@ -4133,6 +4149,7 @@
       el.resultScreen.classList.toggle("is-rainbow-result", boxTier.id === "rainbow");
       document.getElementById("resultTitle").textContent = "상자 확인 중";
       el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
       el.resultNextGoalText.textContent = "확인 중";
       el.praiseText.textContent = "잠깐만 기다려요.";
       el.measureStatus.textContent = "상자 힘";

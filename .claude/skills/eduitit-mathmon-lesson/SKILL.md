@@ -98,8 +98,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 결과 라벨이 4단계처럼 유한하게 바뀌면 단계별 결과 이미지 또는 독립 생성형 타이틀/버튼 자산을 만들고, JS는 이미지 `src`만 바꾼다. `resultTitle`, `resultSummary`, `resultNext` 같은 HTML 텍스트는 `visually-hidden` 접근성 값이나 점수·연료·힘처럼 매 판 계산되고 범위가 넓은 최소 정보에만 쓴다.
 - 사용자가 "이미지에는 글자를 넣지 말라"는 이미지 계획을 줬더라도 고정 결과 라벨·칭찬·버튼을 CSS 카드로 대체하지 않는다. 생성 이미지 안의 글자 금지와 CSS 결과 카드 금지가 충돌하면 구현 전에 계획을 바로잡는다.
 - 생성형 결과 라벨/버튼 자산 표준을 쓰는 차시는 `<main class="game">`에 `data-result-visual-standard="generated-assets"`를 선언한다. 이 표식이 있으면 공통 하네스가 `.result-card` 같은 CSS 결과 카드, 보이는 `resultTitle` 텍스트, 생성형 버튼 아트 누락을 실패로 본다.
-- 결과 화면을 통째 이미지로 요구받거나 `result-final-*-generated.webp`가 도착 상태별 완성 장면이면 `<main class="game">`에 `data-result-render-mode="fullscene-score-slot"`도 선언한다. 이 모드에서 보이는 HTML은 동적 점수 숫자 1개와 투명 다시하기 hitbox뿐이다.
-- `fullscene-score-slot`의 점수 숫자는 이미지 안 빈 점수칸에 맞춘 RasterStage 슬롯으로 배치한다. 생성 이미지마다 빈칸 위치가 다르면 `data-result-island` 같은 상태별 슬롯을 명시한다. 중앙 정렬은 CSS 좌표값만 확인하면 실패다. 1280×800과 1024×768 스크린샷 픽셀에서 숫자 글자 중심과 이미지 속 빈 점수칸 중심을 비교해 확인한다.
+- 결과 화면을 통째 이미지로 요구받거나 `result-final-*-generated.webp`가 도착 상태별 완성 장면이면 `<main class="game">`에 `data-result-render-mode="fullscene-score-slot"`도 선언한다. 이 모드에서 보이는 HTML은 공용 정답 수 이미지 아트(`.result-correct-art`)와 투명 다시하기 hitbox뿐이며, `#finalCorrectText`는 숨김 접근성 값으로만 둔다.
+- `fullscene-score-slot`의 정답 수 이미지는 이미지 안 빈 점수칸에 맞춘 RasterStage 슬롯으로 배치한다. 생성 이미지마다 빈칸 위치가 다르면 `data-result-island` 같은 상태별 슬롯을 명시한다. 중앙 정렬은 CSS 좌표값만 확인하면 실패다. 1280×800과 1024×768 스크린샷 픽셀에서 정답 수 이미지 중심과 이미지 속 빈 점수칸 중심을 비교해 확인한다.
 - `fullscene-score-slot` 모드에서 `.result-stats`, `.result-stat`, `.result-card`, `.result-copy`, 보이는 CSS 제목/본문/버튼 장식이 있으면 실패다. 점수 박스 라벨도 이미지와 HTML 양쪽에서 보이지 않게 한다.
 - 결과 화면의 버튼을 이미지 안에 그린 경우에도 실제 클릭과 접근성을 위한 HTML 버튼 또는 hitbox는 같은 위치에 둔다. 단, 이 hitbox가 새 시각 요소를 로컬에서 그려 붙이는 방식이 되면 로컬 합성으로 본다.
 - **혼합형 ResultStage**: 결과 화면에 멋진 보상 장면과 정확한 동적 정보가 함께 필요하면 `data-result-render-mode="hybrid-generated-dynamic"`을 쓴다. 생성 이미지는 로봇·섬·행성·무대·빛·감정, 큰 결과명, 고정 버튼 장식을 맡고, SVG `viewBox="0 0 1280 800"` 오버레이는 점수·연료량·힘처럼 매 판 실제 값 범위가 넓은 짧은 동적 UI만 맡는다. 정답 수는 값이 11개로 고정되어 있으므로 공용 `result-correct-*-generated.webp` 이미지 아트를 우선 사용한다. 혼합형이어도 `도착한 곳`, `이번 합체` 같은 작은 라벨은 보조 수준이어야 하며, 화면의 주인공인 결과명은 생성형 타이틀/장면이어야 한다.

@@ -153,6 +153,11 @@
   - `3-2-4-2-mathmon-fraction-scoop` 매스몬 분수만큼 담기 (전체의 분수만큼 구하기, 2단계 선택)
   - `3-2-4-3-mathmon-fraction-sorter` 매스몬 분수 분류 컨베이어 (진분수·가분수·대분수 구분)
   - `3-2-4-4-mathmon-fraction-tug` 매스몬 분수 줄다리기 (분모 같은 분수·단위분수 비교, ★ 단원 정점)
+- 5단원 들이와 무게: 1~4차시 모두 빌드 완료 (5-1~3은 `modal-controls`, `generated-title-overlay`, `generated-button-art`, `generated-assets` 기준)
+  - `3-2-5-1-mathmon-water-fill` 매스몬 물통 채우기 시합 (mL/L 눈금 읽기와 들이 비교)
+  - `3-2-5-2-mathmon-drink-order` 매스몬 음료 제조 주문 (들이의 덧셈·뺄셈과 주문 비교)
+  - `3-2-5-3-mathmon-scale-balance` 매스몬 저울 균형 (kg/g/t 무게 비교와 균형 맞추기)
+  - `3-2-5-4-mathmon-package-weight` 매스몬 택배 무게 맞추기 (무게의 덧셈·뺄셈과 어림)
 - 공통 흐름: 문제 풀이 → 단계 선택 → 랜덤 보상 → 차시별 자체 완결형 등급 결과
 
 ## 레포지토리 운영 기준
@@ -206,8 +211,8 @@
 - 결과 화면에 보이는 큰 결과 라벨, 칭찬 문구, 다시 버튼 장식은 CSS 텍스트/카드로 만들지 않습니다. 생성 이미지 위에 반투명 카드, blur 패널, CSS 제목, CSS 본문, CSS로 그린 큰 버튼을 얹으면 하네스 실패입니다.
 - 결과 라벨이 4단계처럼 유한하게 바뀌면 각 단계별 생성형 결과 이미지나 독립 타이틀/버튼 자산을 만들고 JS로 이미지 `src`만 바꿉니다. HTML 텍스트는 `visually-hidden` 접근성 값이나 점수·연료·힘처럼 매 판 계산되고 범위가 넓은 최소 정보만 남깁니다.
 - 생성형 결과 라벨/버튼 자산 표준을 쓰는 차시는 `<main class="game">`에 `data-result-visual-standard="generated-assets"`를 선언해 공통 하네스가 CSS 결과 카드와 보이는 HTML 결과 문구를 잡게 합니다.
-- 결과 화면을 통째 이미지로 요구받거나 `result-final-*-generated.webp`가 도착 상태별 완성 장면일 때는 `<main class="game">`에 `data-result-render-mode="fullscene-score-slot"`도 함께 선언합니다. 이 모드에서 보이는 HTML은 동적 점수 숫자 1개(`#finalCorrectText`)와 투명 다시하기 hitbox뿐입니다.
-- `fullscene-score-slot`의 점수 숫자는 이미지 안 빈 점수칸에 맞춘 RasterStage 슬롯으로 배치합니다. 생성 이미지마다 빈칸 위치가 다르면 `data-result-island` 같은 상태별 슬롯을 명시합니다. 중앙 정렬 QA는 CSS 좌표값만 보지 말고, 1280×800과 1024×768 스크린샷 픽셀에서 숫자 글자 중심과 빈 점수칸 중심을 비교해 확인합니다.
+- 결과 화면을 통째 이미지로 요구받거나 `result-final-*-generated.webp`가 도착 상태별 완성 장면일 때는 `<main class="game">`에 `data-result-render-mode="fullscene-score-slot"`도 함께 선언합니다. 이 모드에서 보이는 HTML은 공용 정답 수 이미지 아트(`.result-correct-art`)와 투명 다시하기 hitbox뿐이며, `#finalCorrectText`는 숨김 접근성 값으로만 둡니다.
+- `fullscene-score-slot`의 정답 수 이미지는 이미지 안 빈 점수칸에 맞춘 RasterStage 슬롯으로 배치합니다. 생성 이미지마다 빈칸 위치가 다르면 `data-result-island` 같은 상태별 슬롯을 명시합니다. 중앙 정렬 QA는 CSS 좌표값만 보지 말고, 1280×800과 1024×768 스크린샷 픽셀에서 정답 수 이미지 중심과 빈 점수칸 중심을 비교해 확인합니다.
 - `fullscene-score-slot` 모드에서는 `.result-stats`, `.result-stat`, `.result-card`, `.result-copy` 같은 CSS 결과 카드와 보이는 `resultTitle`/본문/버튼 장식이 있으면 실패입니다. 점수 박스 라벨도 이미지와 HTML 양쪽에서 보이지 않게 합니다.
 - 사용자가 "이미지에는 글자를 넣지 말라"는 계획을 줬더라도 결과 화면의 고정 라벨·칭찬·버튼을 CSS 카드로 대체하지 않습니다. 둘이 충돌하면 구현 전에 계획을 바로잡고, 글자 없는 결과를 택한다면 보이는 CSS 라벨도 함께 제거합니다.
 - 결과 화면에 멋진 보상 장면과 정확한 동적 UI가 함께 필요하면 `data-result-render-mode="hybrid-generated-dynamic"`을 씁니다. 생성 이미지는 로봇·섬·행성·무대·빛·감정 같은 결과 세계를 맡고, SVG `viewBox="0 0 1280 800"` 오버레이는 점수·연료·힘처럼 범위가 넓은 짧은 진행값만 맡습니다. 정답 수는 공용 생성 이미지 아트를 우선합니다.

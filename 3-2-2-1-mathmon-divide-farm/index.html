@@ -1913,6 +1913,22 @@
       font-size: 60px;
     }
 
+    .result-correct-art {
+      position: absolute;
+      z-index: 4;
+      left: 64.4%;
+      top: 27.4%;
+      width: 24%;
+      max-height: 14%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.38));
+      pointer-events: none;
+    }
+
+    .result-correct-art[hidden] {
+      display: none;
+    }
+
     .result-svg-meter {
       fill: #d9fff2;
       font-size: 36px;
@@ -2709,6 +2725,7 @@
     </section>
 
     <section class="screen result" id="resultScreen" aria-labelledby="resultTitle">
+      <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
       <img class="raster-bg" id="resultRaster" src="result-tier-seed.webp" alt="">
       <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultTitle resultPraiseText">
         <defs>
@@ -2727,7 +2744,7 @@
         <g class="result-svg-panel" filter="url(#resultShadow)">
           <rect x="770" y="128" width="410" height="286" rx="18"></rect>
           <text class="result-svg-place" id="resultDestinationSvg" x="975" y="220" text-anchor="middle">수확 보는 중</text>
-          <text class="result-svg-score" id="resultScoreSvg" x="975" y="290" text-anchor="middle">0/10</text>
+          <text class="result-svg-score" id="resultScoreSvg" x="975" y="290" text-anchor="middle" opacity="0" aria-hidden="true">0/10</text>
           <rect class="result-meter-bg" x="835" y="332" width="280" height="34" rx="17"></rect>
           <rect class="result-meter-fill" id="resultMeasureFillSvg" x="835" y="332" width="0" height="34" rx="17"></rect>
           <text class="result-svg-meter" id="resultMeasureSvg" x="975" y="390" text-anchor="middle">수확 0</text>
@@ -2805,6 +2822,12 @@
       } catch {
         // localStorage can be unavailable in some embedded browsers.
       }
+    }
+
+    function getResultCorrectArtSrc(correctCount) {
+      const total = typeof TOTAL_QUESTIONS === "number" ? TOTAL_QUESTIONS : (typeof TOTAL_PROBLEMS === "number" ? TOTAL_PROBLEMS : 10);
+      const value = Math.max(0, Math.min(total, Math.round(Number(correctCount) || 0)));
+      return `../_shared/result-count/result-correct-${value}-generated.webp`;
     }
 
     const state = {
@@ -2897,6 +2920,7 @@
       resultPraiseText: document.getElementById("resultPraiseText"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
       resultRetryShell: document.getElementById("resultRetryShell"),
@@ -3632,6 +3656,7 @@
       el.resultTitle.textContent = "수확 보는 중";
       el.resultDestinationSvg.textContent = "수확 보는 중";
       el.resultScoreSvg.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
       el.resultMeasureSvg.textContent = "수확 0";
       el.resultMeasureFillSvg.setAttribute("width", "0");
       el.finalEnergyText.textContent = "보는 중";

@@ -2304,6 +2304,22 @@
       pointer-events: none;
     }
 
+    .result-correct-art {
+      position: absolute;
+      z-index: 4;
+      left: 63.4%;
+      top: 22.8%;
+      width: 25%;
+      max-height: 14%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.38));
+      pointer-events: none;
+    }
+
+    .result-correct-art[hidden] {
+      display: none;
+    }
+
     .result-meter-track {
       fill: rgba(0, 0, 0, 0.34);
       stroke: rgba(255, 255, 255, 0.18);
@@ -3645,7 +3661,9 @@
         <span class="unit-badge">3학년 2학기 4단원 3차시</span>
       </div>
       <h2 class="visually-hidden" id="resultTitle">결과 확인</h2>
+      <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
       <p class="visually-hidden" id="praiseText">분수를 알맞은 통에 잘 넣었어요.</p>
+      <span class="visually-hidden" id="finalCorrectText">0/10</span>
       <svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="resultMeterGradient" x1="0" y1="0" x2="1" y2="0">
@@ -3656,7 +3674,7 @@
         </defs>
         <g>
           <text id="resultDestinationSvg" x="828" y="176" fill="#fff8e8" font-size="34" font-weight="1000">점수 재는 중</text>
-          <text id="resultScoreSvg" x="828" y="226" fill="#b8ffe9" font-size="42" font-weight="1000">정답 0/10</text>
+          <text id="resultScoreSvg" x="828" y="226" fill="#b8ffe9" font-size="42" font-weight="1000" opacity="0" aria-hidden="true">정답 0/10</text>
           <text id="resultMeasureSvg" x="828" y="264" fill="#ffe8ba" font-size="24" font-weight="950">점수 0</text>
           <rect class="result-meter-track" x="828" y="304" width="320" height="26" rx="13"></rect>
           <rect class="result-meter-fill" id="resultMeasureFillSvg" x="828" y="304" width="0" height="26" rx="13"></rect>
@@ -3830,6 +3848,8 @@
       resultRaster: document.getElementById("resultRaster"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
+      finalCorrectText: document.getElementById("finalCorrectText"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
       resultLeaderboardSvg: document.getElementById("resultLeaderboardSvg"),
@@ -5115,6 +5135,12 @@
       }, scanCount * 130 + 520);
     }
 
+    function getResultCorrectArtSrc(correctCount) {
+      const total = typeof TOTAL_QUESTIONS === "number" ? TOTAL_QUESTIONS : (typeof TOTAL_PROBLEMS === "number" ? TOTAL_PROBLEMS : 10);
+      const value = Math.max(0, Math.min(total, Math.round(Number(correctCount) || 0)));
+      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+    }
+
     function showResult() {
       const destination = getDestination();
       const launched = Boolean(destination);
@@ -5129,6 +5155,8 @@
       el.praiseText.textContent = "점수를 재고 있어요.";
       el.resultDestinationSvg.textContent = "점수 재는 중";
       el.resultScoreSvg.textContent = "정답 " + state.correct + "/" + TOTAL_QUESTIONS;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
+      el.finalCorrectText.textContent = state.correct + "/" + TOTAL_QUESTIONS;
       el.resultMeasureSvg.textContent = "점수 0";
       el.resultMeasureFillSvg.setAttribute("width", "0");
       el.restartButton.hidden = true;
@@ -5148,6 +5176,8 @@
         resultTitle.textContent = launched ? destination.name + " 등급!" : "다시 도전";
         el.resultDestinationSvg.textContent = destinationLabel;
         el.resultScoreSvg.textContent = "정답 " + state.correct + "/" + TOTAL_QUESTIONS;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
+      el.finalCorrectText.textContent = state.correct + "/" + TOTAL_QUESTIONS;
         el.praiseText.textContent = launched ? getPraise(destination) : getRetryMessage();
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;

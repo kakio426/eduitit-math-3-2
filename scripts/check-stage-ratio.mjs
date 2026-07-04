@@ -89,7 +89,9 @@ function getCssPxValue(block, property) {
 
 const lessons = await findLessons(root);
 const failures = [], fullSceneQaScripts = await readFullSceneQaScripts();
-const hasFullSceneScorePixelCenterQa = fullSceneQaScripts.includes("measureScoreCenter") && fullSceneQaScripts.includes("score is not horizontally centered") && fullSceneQaScripts.includes("score is not vertically centered");
+const hasFullSceneScorePixelCenterQa = fullSceneQaScripts.includes("measureScoreCenter")
+  && (fullSceneQaScripts.includes("correct-count art is not horizontally centered") || fullSceneQaScripts.includes("score is not horizontally centered"))
+  && (fullSceneQaScripts.includes("correct-count art is not vertically centered") || fullSceneQaScripts.includes("score is not vertically centered"));
 const hasFullSceneForbiddenScoreLabelQa = fullSceneQaScripts.includes("measureForbiddenScoreLabel") && fullSceneQaScripts.includes("forbidden score label pixels remain above the score box");
 
 for (const lesson of lessons) {
@@ -157,11 +159,16 @@ for (const lesson of lessons) {
   const hasForbiddenFullSceneResultClass = /\b(result-card|result-stats|result-stat|result-copy)\b/.test(html);
   const hasGeneratedResultTitleArt = /<img(?=[^>]*class="[^"]*\bresult-title-art\b[^"]*")(?=[^>]*src="[^"]*result-title-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
   const hasGeneratedResultRetryArt = /<img(?=[^>]*class="[^"]*\bresult-retry-art\b[^"]*")(?=[^>]*src="[^"]*result-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
+  const hasGeneratedResultCorrectArt = /<img(?=[^>]*class="[^"]*\bresult-correct-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/result-count\/result-correct-0-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
+  const resultScoreSvgTag = html.match(/<text(?=[^>]*\bid="resultScoreSvg")[^>]*>/)?.[0] || "";
+  const hasVisibleResultScoreSvgText = Boolean(resultScoreSvgTag)
+    && !resultScoreSvgTag.includes('opacity="0"')
+    && !resultScoreSvgTag.includes('aria-hidden="true"');
   const hasHybridResultSvg = /<svg(?=[^>]*class="[^"]*\bresult-dynamic-ui\b[^"]*")(?=[^>]*viewBox="0 0 1280 800")[^>]*>/.test(html);
   const hasHybridResultValues = html.includes('id="resultDestinationSvg"')
-    && html.includes('id="resultScoreSvg"')
     && html.includes('id="resultMeasureSvg"')
-    && html.includes('id="resultMeasureFillSvg"');
+    && html.includes('id="resultMeasureFillSvg"')
+    && hasGeneratedResultCorrectArt;
   const hasHybridRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
   const hasSettingsToggleMarkup = /<button(?=[^>]*\bclass="[^"]*\bsettings-toggle\b)(?=[^>]*\bid="settingsButton")(?=[^>]*\baria-label="설정 열기")(?=[^>]*\baria-haspopup="dialog")(?=[^>]*\baria-controls="settingsModal")(?=[^>]*\baria-expanded="false")[^>]*>\s*<svg[\s\S]*?<\/svg>\s*<\/button>/.test(html);
   const hasSettingsDialog = /<div(?=[^>]*\bid="settingsModal")(?=[^>]*\brole="dialog")(?=[^>]*\baria-modal="true")(?=[^>]*\baria-labelledby="settingsTitle")[^>]*>/.test(html);
@@ -193,7 +200,7 @@ for (const lesson of lessons) {
     || /<p(?=[^>]*\bid="resultNext")(?=[^>]*\bclass="[^"]*\bvisually-hidden\b)[^>]*>/.test(html);
   const hasAccessibleResultRetryHitbox = /<button(?=[^>]*\bid="retryButton")(?=[^>]*\baria-label="다시")[^>]*>/.test(html);
   const hasFullSceneResultRasterImage = /<img(?=[^>]*\bid="resultRaster")(?=[^>]*\bclass="[^"]*\braster-bg\b)(?=[^>]*\bsrc="result-final-[^"]*generated\.webp(?:\?v=[^"]+)?")(?=[^>]*\balt="")[^>]*>/.test(html);
-  const hasFullSceneScoreOverlay = /<div(?=[^>]*\bid="resultCountOverlay")(?=[^>]*\bclass="[^"]*\bresult-count-overlay\b)[^>]*>\s*<strong(?=[^>]*\bid="finalCorrectText")[^>]*>/.test(html);
+  const hasFullSceneScoreOverlay = /<div(?=[^>]*\bid="resultCountOverlay")(?=[^>]*\bclass="[^"]*\bresult-count-overlay\b)[^>]*>[\s\S]*?<img(?=[^>]*class="[^"]*\bresult-correct-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/result-count\/result-correct-0-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>[\s\S]*?<strong(?=[^>]*\bid="finalCorrectText")(?=[^>]*class="[^"]*\bvisually-hidden\b)[^>]*>/.test(html);
   const hasFullSceneRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
   const hasTransparentFullSceneRestartHitbox = resultRestartHitboxBlock.includes("border: 0;")
     && resultRestartHitboxBlock.includes("background: transparent;")
@@ -243,20 +250,22 @@ for (const lesson of lessons) {
     [!hasSeparateGeneratedResultAssets || hasAccessibleResultRetryHitbox, "별도 생성형 결과 자산 방식은 생성형 다시 버튼 위에 <button id=\"retryButton\" aria-label=\"다시\"> 접근성 hitbox를 둬야 합니다."],
     [!hasHybridGeneratedDynamic || hasGeneratedResultStandard, "hybrid-generated-dynamic 결과 차시는 main.game에 data-result-visual-standard=\"generated-assets\"를 선언해야 합니다."],
     [!hasHybridGeneratedDynamic || hasHybridResultSvg, "hybrid-generated-dynamic 결과는 viewBox=\"0 0 1280 800\"인 단일 .result-dynamic-ui SVG 오버레이를 써야 합니다."],
-    [!hasHybridGeneratedDynamic || hasHybridResultValues, "hybrid-generated-dynamic 결과 SVG는 결과명, 정답 수, 짧은 진행값만 맡아야 합니다."],
+    [!hasHybridGeneratedDynamic || hasHybridResultValues, "hybrid-generated-dynamic 결과는 SVG가 결과명·짧은 진행값을 맡고, 정답 수는 공용 result-correct 이미지 아트로 보여야 합니다."],
     [!needsGeneratedHybridResultTitleArt || hasGeneratedResultTitleArt, "1단원 리마스터 하이브리드 결과의 큰 결과 라벨은 <img class=\"result-title-art\" src=\"result-title-*-generated.webp\" alt=\"\" aria-hidden=\"true\"> 생성형 자산이어야 합니다."],
     [!hasHybridGeneratedDynamic || hasHybridRestartHitbox, "hybrid-generated-dynamic 결과는 SVG 버튼 장식 위에 restartButton 투명 hitbox를 둬야 합니다."],
     [!hasGeneratedResultStandard || !hasForbiddenFullSceneResultClass, "data-result-visual-standard=\"generated-assets\" 차시는 .result-card/.result-stats/.result-stat/.result-copy 같은 CSS 결과 카드를 쓰지 않습니다."],
+    [!hasGeneratedResultStandard || hasGeneratedResultCorrectArt, "data-result-visual-standard=\"generated-assets\" 차시는 정답 수를 <img class=\"result-correct-art\" src=\"../_shared/result-count/result-correct-0-generated.webp\" alt=\"\" aria-hidden=\"true\"> 공용 생성 이미지로 둬야 합니다."],
+    [!hasGeneratedResultStandard || !hasVisibleResultScoreSvgText, "data-result-visual-standard=\"generated-assets\" 차시의 #resultScoreSvg는 보이는 폰트 텍스트가 아니라 opacity=\"0\" 또는 aria-hidden=\"true\" 내부 호환값이어야 합니다."],
     [!hasGeneratedResultStandard || hasHiddenResultTitle, "data-result-visual-standard=\"generated-assets\" 차시의 #resultTitle은 보이는 CSS 제목이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasFullSceneScoreSlot || hasHiddenPraiseText, "fullscene-score-slot 결과의 #praiseText는 보이는 CSS 본문이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasFullSceneScoreSlot || hasHiddenFinalIslandText, "fullscene-score-slot 결과의 #finalIslandText는 보이는 텍스트가 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasGeneratedResultStandard || hasHiddenResultSummary, "data-result-visual-standard=\"generated-assets\" 차시의 #resultSummary는 보이는 CSS 본문이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasGeneratedResultStandard || hasHiddenResultNext, "data-result-visual-standard=\"generated-assets\" 차시의 #resultNext는 보이는 CSS 본문이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneResultRasterImage, "fullscene-score-slot 결과는 <img class=\"raster-bg\" id=\"resultRaster\" src=\"result-final-*-generated.webp\" alt=\"\"> 전체 장면을 써야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneScoreOverlay, "fullscene-score-slot 결과의 보이는 HTML은 <div id=\"resultCountOverlay\"><strong id=\"finalCorrectText\">...</strong></div> 점수 숫자만 허용합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneScoreSlotPosition, "fullscene-score-slot 점수 오버레이는 이미지별 data-result-island RasterStage 슬롯 변수(left/top/width/height)를 써야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneScorePixelCenterQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 점수 숫자 중심과 이미지 속 빈 점수칸 중심을 비교하는 QA 하네스를 가져야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneForbiddenScoreLabelQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 점수칸 위 '맞힌 문제' 같은 금지 라벨 잔상을 잡는 QA 하네스를 가져야 합니다."],
+    [!hasFullSceneScoreSlot || hasFullSceneScoreOverlay, "fullscene-score-slot 결과의 정답 수는 resultCountOverlay 안의 result-correct 이미지 아트로 보이고, #finalCorrectText는 visually-hidden이어야 합니다."],
+    [!hasFullSceneScoreSlot || hasFullSceneScoreSlotPosition, "fullscene-score-slot 정답 수 이미지 오버레이는 이미지별 data-result-island RasterStage 슬롯 변수(left/top/width/height)를 써야 합니다."],
+    [!hasFullSceneScoreSlot || hasFullSceneScorePixelCenterQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 정답 수 이미지 중심과 이미지 속 빈 점수칸 중심을 비교하는 QA 하네스를 가져야 합니다."],
+    [!hasFullSceneScoreSlot || hasFullSceneForbiddenScoreLabelQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 정답 수 이미지 위 '맞힌 문제' 같은 금지 라벨 잔상을 잡는 QA 하네스를 가져야 합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneRestartHitbox, "fullscene-score-slot 결과는 이미지 속 다시하기 버튼 위에 <button class=\"result-restart-hitbox\" id=\"restartButton\" aria-label=\"다시하기\"> 투명 hitbox를 둬야 합니다."],
     [!hasFullSceneScoreSlot || hasTransparentFullSceneRestartHitbox, "fullscene-score-slot 다시하기 hitbox는 border 0, transparent background/color여야 하며 새 시각 버튼을 그리면 안 됩니다."],
     [!hasFullSceneScoreSlot || !html.includes("맞힌 문제"), "fullscene-score-slot 결과에는 보이는/숨김 HTML 어느 쪽에도 '맞힌 문제' 라벨을 남기지 않습니다. 점수는 '정답 6/10'처럼 보조 라벨만 씁니다."],

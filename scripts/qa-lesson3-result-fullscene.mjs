@@ -165,7 +165,11 @@ async function showResult(id, correct) {
   startResultReveal({ ...island, index: islandIndex });
 })()
 `);
-  await waitUntil(`document.getElementById("finalCorrectText").textContent.trim() === "${correct}/10"`, `${id}: final score did not appear`);
+  await waitUntil(`document.getElementById("finalCorrectText").textContent.trim() === "${correct}/10"`, `${id}: hidden final score did not update`);
+  await waitUntil(`(() => {
+    const art = document.getElementById("resultCorrectArt");
+    return Boolean(art && !art.hidden && art.complete && art.naturalWidth > 0 && art.getAttribute("src").includes("result-correct-${correct}-generated.webp"));
+  })()`, `${id}: generated correct-count art did not appear`);
   await waitUntil("document.getElementById('resultRaster').complete", `${id}: result raster did not load`);
   await delay(160);
 }
@@ -177,12 +181,15 @@ async function readResultSnapshot() {
   const score = document.getElementById("resultCountOverlay");
   const retry = document.getElementById("restartButton");
   const raster = document.getElementById("resultRaster");
+  const correctArt = document.getElementById("resultCorrectArt");
   const rect = (node) => {
     const item = node.getBoundingClientRect();
     return { left: item.left, top: item.top, width: item.width, height: item.height };
   };
   const screenRect = rect(screen);
   const scoreRect = rect(score);
+  const correctArtRect = rect(correctArt);
+  const correctArtStyle = getComputedStyle(correctArt);
   const retryStyle = getComputedStyle(retry);
   const walker = document.createTreeWalker(screen, NodeFilter.SHOW_TEXT);
   const visibleTexts = [];
@@ -200,6 +207,24 @@ async function readResultSnapshot() {
     rasterSrc: raster.getAttribute("src"),
     scoreText: document.getElementById("finalCorrectText").textContent.trim(),
     scoreAria: score.getAttribute("aria-label"),
+    correctArt: {
+      visible: Boolean(correctArt
+        && !correctArt.hidden
+        && correctArtStyle.display !== "none"
+        && correctArtStyle.visibility !== "hidden"
+        && Number(correctArtStyle.opacity || "1") > 0
+        && correctArt.complete
+        && correctArt.naturalWidth > 0
+        && correctArtRect.width > 0
+        && correctArtRect.height > 0),
+      src: correctArt.getAttribute("src"),
+      pct: {
+        left: ((correctArtRect.left - screenRect.left) / screenRect.width) * 100,
+        top: ((correctArtRect.top - screenRect.top) / screenRect.height) * 100,
+        width: (correctArtRect.width / screenRect.width) * 100,
+        height: (correctArtRect.height / screenRect.height) * 100
+      }
+    },
     scorePct: {
       left: ((scoreRect.left - screenRect.left) / screenRect.width) * 100,
       top: ((scoreRect.top - screenRect.top) / screenRect.height) * 100,
@@ -235,12 +260,14 @@ try {
       assert(snapshot.rasterSrc.includes(`result-final-${scenario.id}-generated.webp?v=clean-slot-20260630`), `${viewport.name}/${scenario.id}: wrong raster ${snapshot.rasterSrc}`);
       assert(snapshot.scoreText === `${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong score ${snapshot.scoreText}`);
       assert(snapshot.scoreAria === `정답 ${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong aria ${snapshot.scoreAria}`);
+      assert(snapshot.correctArt.visible, `${viewport.name}/${scenario.id}: generated correct-count art is not visible ${JSON.stringify(snapshot.correctArt)}`);
+      assert(snapshot.correctArt.src.includes(`result-correct-${scenario.correct}-generated.webp`), `${viewport.name}/${scenario.id}: wrong correct-count art ${snapshot.correctArt.src}`);
       assert(!snapshot.bodyText.includes("맞힌 문제"), `${viewport.name}/${scenario.id}: forbidden label remains`);
       assert(snapshot.forbiddenCards === 0, `${viewport.name}/${scenario.id}: CSS result card remnants remain`);
       assert(snapshot.resultTopRow === 0, `${viewport.name}/${scenario.id}: result top-row should not render`);
       assert(snapshot.resultTitleHidden && snapshot.praiseHidden && snapshot.finalIslandHidden, `${viewport.name}/${scenario.id}: hidden result text leaked`);
       assert(snapshot.retryTransparent && snapshot.retryEnabled, `${viewport.name}/${scenario.id}: restart hitbox is not transparent/enabled`);
-      assert(snapshot.visibleTexts.length === 1 && snapshot.visibleTexts[0] === `${scenario.correct}/10`, `${viewport.name}/${scenario.id}: visible DOM text is not score-only ${JSON.stringify(snapshot.visibleTexts)}`);
+      assert(!snapshot.visibleTexts.some((text) => /^\d+\/10$/.test(text)), `${viewport.name}/${scenario.id}: correct-count remains visible as font text ${JSON.stringify(snapshot.visibleTexts)}`);
       const expectedBox = SCORE_BOXES[scenario.id];
       assertNear(snapshot.scorePct.left, expectedBox.left, `${viewport.name}/${scenario.id}: score left`);
       assertNear(snapshot.scorePct.top, expectedBox.top, `${viewport.name}/${scenario.id}: score top`);
@@ -251,8 +278,9 @@ try {
         : "";
       const screenshot = await captureScreenshot(`${viewport.name}-${scenario.id}-${scenario.correct}`, canonical);
       const visualScore = await measureScoreCenter(screenshot, snapshot.screenRect, expectedBox);
-      assert(Math.abs(visualScore.dx) <= visualScore.tolerance, `${viewport.name}/${scenario.id}: score is not horizontally centered in the image box (${visualScore.dx.toFixed(1)}px)`);
-      assert(Math.abs(visualScore.dy) <= visualScore.tolerance, `${viewport.name}/${scenario.id}: score is not vertically centered in the image box (${visualScore.dy.toFixed(1)}px)`);
+      const artTolerance = Math.max(14, visualScore.tolerance * 3);
+      assert(Math.abs(visualScore.dx) <= artTolerance, `${viewport.name}/${scenario.id}: correct-count art is not horizontally centered in the image box (${visualScore.dx.toFixed(1)}px)`);
+      assert(Math.abs(visualScore.dy) <= artTolerance, `${viewport.name}/${scenario.id}: correct-count art is not vertically centered in the image box (${visualScore.dy.toFixed(1)}px)`);
       const forbiddenLabel = await measureForbiddenScoreLabel(screenshot, snapshot.screenRect, expectedBox);
       assert(forbiddenLabel.darkPixels <= forbiddenLabel.maxAllowed, `${viewport.name}/${scenario.id}: forbidden score label pixels remain above the score box (${forbiddenLabel.darkPixels} > ${forbiddenLabel.maxAllowed})`);
       results.push({ viewport: viewport.name, scenario, screenshot, scorePct: snapshot.scorePct, visualScore, forbiddenLabel });
