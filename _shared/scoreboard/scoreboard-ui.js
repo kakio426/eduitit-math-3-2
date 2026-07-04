@@ -36,6 +36,42 @@
       giant: "거대 로봇",
       ultra: "초거대 로봇",
       legend: "전설 로봇"
+    }),
+    "fraction-pizza": Object.freeze({
+      retry: "다시 도전",
+      slice: "한 조각",
+      half: "반 판",
+      whole: "한 판",
+      jumbo: "특대 판",
+      shopstar: "가게 대박",
+      legend: "전설 피자"
+    }),
+    "fraction-scoop": Object.freeze({
+      retry: "다시 도전",
+      handful: "한 줌",
+      smallbasket: "작은 바구니",
+      basket: "바구니",
+      bigbasket: "큰 바구니",
+      cartfull: "수레 가득",
+      rainbow: "전설 바구니"
+    }),
+    "fraction-sorter": Object.freeze({
+      retry: "다시 도전",
+      first: "첫 분류",
+      row: "줄 분류",
+      line: "라인",
+      bigline: "큰 라인",
+      manager: "공장장",
+      rainbow: "전설 라인"
+    }),
+    "fraction-tug": Object.freeze({
+      retry: "다시 도전",
+      draw: "무승부",
+      smallwin: "작은 승",
+      win: "승리",
+      bigwin: "큰 승",
+      champion: "챔피언",
+      rainbow: "전설 승부"
     })
   });
 
@@ -228,6 +264,10 @@
     if (kind === "fusion") {
       const id = objectValue(rewardResult, "gradeId") || objectValue(rewardResult, "id");
       return OUTCOME_LABELS.fusion[id] || OUTCOME_LABELS.fusion.retry;
+    }
+    if (kind === "fraction-pizza" || kind === "fraction-scoop" || kind === "fraction-sorter" || kind === "fraction-tug") {
+      const id = objectValue(rewardResult, "gradeId") || objectValue(rewardResult, "destinationId") || objectValue(rewardResult, "id");
+      return OUTCOME_LABELS[kind][id] || OUTCOME_LABELS[kind].retry;
     }
     return "";
   }

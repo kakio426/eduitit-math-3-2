@@ -1,6 +1,6 @@
 # 전국 순위 백엔드 업체 인계서
 
-이 문서는 에듀잇티 매스몬 1단원 1~4차시의 전국 순위 기능을 업체가 배포하고 운영할 때 보는 시작 문서입니다.
+이 문서는 에듀잇티 매스몬 연동 차시의 전국 순위 기능을 업체가 배포하고 운영할 때 보는 시작 문서입니다.
 
 게임 HTML과 이미지는 기존 정적 호스팅에 그대로 두고, `scoreboard-api` 폴더만 별도 백엔드 서비스로 배포합니다. 백엔드는 게임 시작 세션, 안전 닉네임 생성, 점수 제출, 서버 검산, 주간 전국 순위 조회를 맡습니다.
 
@@ -104,7 +104,7 @@ PORT="3000"
 </script>
 ```
 
-현재 1~4차시는 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`를 통해 백엔드와 연결됩니다.
+현재 1단원 1~4차시와 4단원 1~4차시는 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`를 통해 백엔드와 연결됩니다.
 
 업체가 확인할 프론트 연동 지점:
 
@@ -184,6 +184,10 @@ GET /api/v1/leaderboards/weekly?lessonId=3-2-1-2-mathmon-rocket-charge&limit=10
 | 2차시 로켓 | `3-2-1-2-mathmon-rocket-charge` | 전국 로켓 순위 | 연료 점수 | `instantLaunch`가 마지막 보상이면 10문제 전에도 제출할 수 있습니다. |
 | 3차시 점프섬 | `3-2-1-3-mathmon-jump-islands` | 전국 점프 순위 | 점프 거리 | 한 번이라도 틀린 문제는 서버 검산에서 `shaky` 보상으로 봅니다. |
 | 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 에너지 | `emptyTank`는 점수를 0으로 만들고, `rainbowFuel`은 `rainbowCore`를 함께 보냅니다. |
+| 4단원 1차시 피자 분수 | `3-2-4-1-mathmon-pizza-fraction` | 전국 피자 순위 | 피자 점수 | 분수 카드의 첫 선택과 피자 점수 보상을 함께 검산합니다. |
+| 4단원 2차시 분수만큼 담기 | `3-2-4-2-mathmon-fraction-scoop` | 전국 담기 순위 | 담기 점수 | 한 묶음 수와 담을 수 두 단계 로그를 검산합니다. |
+| 4단원 3차시 분수 분류 | `3-2-4-3-mathmon-fraction-sorter` | 전국 분류 순위 | 분류 점수 | 진분수·가분수·대분수 첫 선택을 검산합니다. |
+| 4단원 4차시 분수 줄다리기 | `3-2-4-4-mathmon-fraction-tug` | 전국 줄다리기 순위 | 줄다리기 점수 | 더 큰 분수로 고른 쪽을 검산합니다. |
 
 ## 개인정보와 닉네임 원칙
 

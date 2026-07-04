@@ -66,6 +66,14 @@
 - 브라우저 QA: `result-top-desktop-1280x800.png`, `result-top-tablet-1024x768.png`, `result-retry-desktop-1280x800.png`, `result-retry-tablet-1024x768.png`를 새로 캡처했습니다. 결과 WebP 로드, SVG 텍스트 영역, 버튼 hitbox 정렬, 클릭/Enter/Space 재시작을 확인했습니다.
 - 텍스트 넘침·요소 겹침 QA: 1280×800과 1024×768의 최고 결과/다시 도전 상태에서 글자 넘침, CJK 어색한 줄바꿈, 결과 카드 잔존, 버튼 클릭 영역 이탈 0건입니다.
 
+## 2026-07-04 스코어보드 API 연동
+
+- 결과 화면에 SVG `순위` 버튼과 투명 hitbox `#leaderboardButton`을 추가하고, 별도 `#scoreboardScreen`을 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`에 연결했습니다.
+- `LESSON_ID`는 `3-2-4-4-mathmon-fraction-tug`, `data-scoreboard-result-kind`는 `fraction-tug`입니다. 차시별 생성형 순위 제목 자산은 아직 없어서 공통 SVG 제목 fallback을 씁니다.
+- 답안 로그는 `compare` 1단계입니다. 정답 쪽 `left/right`를 `expected`, 학생이 처음 고른 쪽을 `selected`로 저장합니다.
+- API 주소는 `window.MATHMON_SCOREBOARD_API_URL` 또는 `?scoreboardApi=`로 받습니다. API 주소가 없거나 호출 실패 시 게임 완료는 막지 않고, 순위 화면만 안내 상태로 보입니다.
+- 브라우저 QA: 메모리 API 서버(`http://127.0.0.1:4179`)와 정적 서버(`http://127.0.0.1:4180`)로 1280×800/1024×768에서 `결과 → 순위 → 점수 제출 → 주간 랭킹 조회`를 확인했습니다. 스크린샷은 `scoreboard-api-desktop-1280x800.png`, `scoreboard-api-tablet-1024x768.png`입니다. SVG 텍스트 `getBBox()` Stage 밖 이탈 0건입니다.
+
 ## 동적 HTML 오버레이 범위
 
 - 문제 화면 비교 막대(SVG), 분수 2선택지, 한 줄 지시문, 진행도, 하단 줄다리기 점수 미터·등급 트랙은 HTML/JS로 매 판 갱신합니다.

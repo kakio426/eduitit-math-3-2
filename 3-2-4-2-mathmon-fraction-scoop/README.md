@@ -25,6 +25,13 @@
 - 문제 화면 도형(그룹 토큰)은 생성 이미지가 아니라 **SVG**로 그립니다.
 - 문제 화면은 Pointer Events 기반 카드/자리 조작과 탭 대체 조작을 함께 지원합니다.
 
+## 전국 순위 API
+
+- 결과 화면에서 `순위`를 누르면 `_shared/scoreboard/scoreboard-ui.js` 공통 순위 화면으로 이동합니다.
+- `LESSON_ID`는 `3-2-4-2-mathmon-fraction-scoop`, 순위 종류는 `fraction-scoop`입니다.
+- 답안 로그는 `group`, `scoop` 2단계입니다. 한 묶음 수와 바구니에 담을 수를 각각 `selected`/`expected`로 보냅니다.
+- API 주소는 `window.MATHMON_SCOREBOARD_API_URL` 또는 `?scoreboardApi=`로 받습니다. 주소가 없거나 호출에 실패해도 게임 결과는 정상으로 남고, 순위 화면만 안내 상태로 보입니다.
+
 ## 자산 상태 (완료)
 
 - 첫 화면은 `data-cover-standard="generated-title-overlay"`와 `data-cover-start-standard="generated-button-art"` 표준입니다. `cover-generated.webp`는 글자 없는 담기 배경이고, 제목은 생성형 이미지 산출물 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp`로 얹습니다.

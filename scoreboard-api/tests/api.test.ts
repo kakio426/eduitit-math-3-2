@@ -53,6 +53,17 @@ const createRocketAnswers = (): readonly AnswerLogItem[] =>
     reward: { id: "normal", amount: 5 },
   }))
 
+const createFractionScoopAnswers = (): readonly AnswerLogItem[] =>
+  Array.from({ length: 10 }, (_value, index) => ({
+    questionIndex: index,
+    elapsedMs: 4200,
+    steps: [
+      { stepId: "group", selected: 3, expected: 3, elapsedMs: 900 },
+      { stepId: "scoop", selected: 9, expected: 9, elapsedMs: 1100 },
+    ],
+    reward: { id: "normal", amount: 6 },
+  }))
+
 describe("scoreboard api", () => {
   test("Given a new session When submitting a valid score Then leaderboard hides private fields", async () => {
     const repository = createMemoryRepository()
@@ -114,6 +125,54 @@ describe("scoreboard api", () => {
     })
     expect(JSON.stringify(leaderboardBody)).not.toContain("M7K2Q")
     expect(JSON.stringify(leaderboardBody)).not.toContain("sessionId")
+  })
+
+  test("Given a fraction lesson session When submitting a valid score Then leaderboard stores the lesson result", async () => {
+    const app = createApp({
+      repository: createMemoryRepository(),
+      now: () => new Date("2026-07-01T00:00:00.000Z"),
+      random: () => 0.42,
+    })
+    const lessonId = "3-2-4-2-mathmon-fraction-scoop"
+    const sessionResponse = await app.request("/api/v1/sessions", {
+      method: "POST",
+      headers: jsonHeaders,
+      body: JSON.stringify({ lessonId }),
+    })
+    const sessionBody = SessionResponseSchema.parse(await sessionResponse.json())
+
+    expect(sessionResponse.status).toBe(201)
+    expect(sessionBody.lessonId).toBe(lessonId)
+
+    const scoreResponse = await app.request("/api/v1/scores", {
+      method: "POST",
+      headers: jsonHeaders,
+      body: JSON.stringify({
+        sessionId: sessionBody.sessionId,
+        lessonId,
+        nickname: sessionBody.nickname,
+        clientScore: "60",
+        clientCorrectCount: 10,
+        playTimeMs: 62000,
+        answers: createFractionScoopAnswers(),
+        rewardResult: { gradeId: "basket" },
+      }),
+    })
+    const scoreBody = ScoreResponseSchema.parse(await scoreResponse.json())
+
+    expect(scoreResponse.status).toBe(201)
+    expect(scoreBody.score).toBe("60")
+    expect(scoreBody.status).toBe("accepted")
+
+    const leaderboardResponse = await app.request(
+      `/api/v1/leaderboards/weekly?lessonId=${lessonId}`,
+    )
+    const leaderboardBody = LeaderboardResponseSchema.parse(await leaderboardResponse.json())
+
+    expect(leaderboardResponse.status).toBe(200)
+    expect(leaderboardBody.entries[0]?.lessonId).toBe(lessonId)
+    expect(leaderboardBody.entries[0]?.score).toBe("60")
+    expect(leaderboardBody.entries[0]?.rewardResult).toEqual({ gradeId: "basket" })
   })
 
   test("Given a server nickname When submitting free text Then the score is rejected", async () => {

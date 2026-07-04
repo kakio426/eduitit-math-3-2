@@ -200,6 +200,22 @@ const FUSION_RULE: ProgressRule = {
   ],
 }
 
+const FRACTION_RULE: ProgressRule = {
+  baseForPerfect: 0,
+  maxScore: 100,
+  mistakeId: "leak",
+  earlyFinishRewardId: "instantLaunch",
+  rules: [
+    { id: "normal", min: 4, max: 8 },
+    { id: "smallExplosion", min: -10, max: -5 },
+    { id: "megaFuel", min: 12, max: 20 },
+    { id: "instantLaunch", min: 6, max: 6 },
+    { id: "emptyTank", min: 0, max: 0, empties: true },
+    { id: "rainbowFuel", min: 10, max: 10 },
+    { id: "leak", min: -18, max: -8 },
+  ],
+}
+
 const applyBoxReward = (score: bigint, reward: RewardEvent): bigint => {
   switch (reward.id) {
     case "add_100":
@@ -271,6 +287,11 @@ export const validateLessonSubmission = (input: LessonValidationInput): LessonVa
       return validateProgressLesson(input, ISLAND_RULE)
     case "3-2-1-4-mathmon-fusion":
       return validateProgressLesson(input, FUSION_RULE)
+    case "3-2-4-1-mathmon-pizza-fraction":
+    case "3-2-4-2-mathmon-fraction-scoop":
+    case "3-2-4-3-mathmon-fraction-sorter":
+    case "3-2-4-4-mathmon-fraction-tug":
+      return validateProgressLesson(input, FRACTION_RULE)
     default:
       return reject(["unsupported_lesson"])
   }

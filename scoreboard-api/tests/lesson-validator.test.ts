@@ -56,6 +56,17 @@ const createFusionAnswer = (
   reward,
 })
 
+const createFractionAnswer = (
+  questionIndex: number,
+  stepId = "name",
+  reward: { readonly id: string; readonly amount: number } = { id: "normal", amount: 6 },
+): AnswerLogItem => ({
+  questionIndex,
+  elapsedMs: 4200,
+  steps: [{ stepId, selected: "1/2", expected: "1/2", elapsedMs: 900 }],
+  reward,
+})
+
 describe("lesson validators", () => {
   test("Given ten perfect rocket answers When validating Then score is computed on the server", () => {
     const answers = Array.from({ length: 10 }, (_value, index) => createRocketAnswer(index, 5))
@@ -140,5 +151,79 @@ describe("lesson validators", () => {
 
     expect(result.status).toBe("rejected")
     expect(result.flagReasons).toContain("answer_count_must_be_10")
+  })
+
+  test("Given ten perfect fraction answers When validating Then score is computed on the server", () => {
+    const answers = Array.from({ length: 10 }, (_value, index) => createFractionAnswer(index))
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-4-1-mathmon-pizza-fraction",
+      seed: 12345,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("accepted")
+    expect(result.score).toBe(60n)
+    expect(result.correctCount).toBe(10)
+    expect(result.maxScore).toBe(100n)
+  })
+
+  test("Given a fraction answer with impossible reward When validating Then the result is rejected", () => {
+    const answers = Array.from({ length: 10 }, (_value, index) =>
+      createFractionAnswer(index, "scoop", { id: "megaFuel", amount: 99 }),
+    )
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-4-2-mathmon-fraction-scoop",
+      seed: 12345,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("rejected")
+    expect(result.flagReasons).toContain("reward_amount_out_of_range")
+  })
+
+  test("Given fraction answers ending with instant win When validating Then early finish is accepted", () => {
+    const answers = [
+      createFractionAnswer(0, "sort", { id: "normal", amount: 5 }),
+      createFractionAnswer(1, "sort", { id: "instantLaunch", amount: 6 }),
+    ]
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-4-3-mathmon-fraction-sorter",
+      seed: 12345,
+      answers,
+      playTimeMs: 12000,
+    })
+
+    expect(result.status).toBe("accepted")
+    expect(result.score).toBe(11n)
+    expect(result.correctCount).toBe(2)
+  })
+
+  test("Given a leaked fraction tug answer When validating Then the server accepts the loss", () => {
+    const answers = [
+      createFractionAnswer(0, "compare", { id: "normal", amount: 8 }),
+      {
+        ...createFractionAnswer(1, "compare", { id: "leak", amount: -12 }),
+        steps: [{ stepId: "compare", selected: "left", expected: "right", elapsedMs: 900 }],
+      },
+      ...Array.from({ length: 8 }, (_value, index) =>
+        createFractionAnswer(index + 2, "compare", { id: "normal", amount: 4 }),
+      ),
+    ]
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-4-4-mathmon-fraction-tug",
+      seed: 12345,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("accepted")
+    expect(result.score).toBe(32n)
+    expect(result.correctCount).toBe(9)
   })
 })

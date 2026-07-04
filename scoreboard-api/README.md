@@ -26,6 +26,10 @@ GitHub에 포함할 파일은 소스, 문서, `bun.lock`, `prisma/migrations`입
 - `3-2-1-2-mathmon-rocket-charge`: 연료 점수 전국 순위
 - `3-2-1-3-mathmon-jump-islands`: 점프 거리 전국 순위
 - `3-2-1-4-mathmon-fusion`: 합체 점수 전국 순위
+- `3-2-4-1-mathmon-pizza-fraction`: 피자 점수 전국 순위
+- `3-2-4-2-mathmon-fraction-scoop`: 담기 점수 전국 순위
+- `3-2-4-3-mathmon-fraction-sorter`: 분류 점수 전국 순위
+- `3-2-4-4-mathmon-fraction-tug`: 줄다리기 점수 전국 순위
 
 각 차시의 프론트엔드 마지막 순위 화면은 `_shared/scoreboard` 공통 SVG UI를 사용합니다. 업체가 붙일 부분은 게임 HTML의 `window.MATHMON_SCOREBOARD_API_URL` 주입과 이 폴더의 API 배포입니다. 차시별 점수/답안 로그 계약은 [게임 연동](docs/GAME_INTEGRATION.md)에 정리했습니다.
 

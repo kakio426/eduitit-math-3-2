@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 4단원 · 매스몬 분수만큼 담기 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
   <style>
     :root {
       --page: #111018;
@@ -2303,7 +2304,26 @@
       filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.34));
     }
 
+    .result-leaderboard-hitbox {
+      position: absolute;
+      z-index: 5;
+      left: 64.7%;
+      top: 45%;
+      width: 13.2%;
+      height: 7.6%;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: transparent;
+      cursor: pointer;
+    }
+
     .result-restart-hitbox[hidden] {
+      display: none;
+    }
+
+    .result-leaderboard-hitbox[hidden] {
       display: none;
     }
 
@@ -2311,7 +2331,8 @@
       display: none;
     }
 
-    .result-restart-hitbox:focus-visible {
+    .result-restart-hitbox:focus-visible,
+    .result-leaderboard-hitbox:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.86);
       outline-offset: 4px;
     }
@@ -3577,15 +3598,24 @@
           <rect class="result-meter-track" x="828" y="304" width="320" height="26" rx="13"></rect>
           <rect class="result-meter-fill" id="resultMeasureFillSvg" x="828" y="304" width="0" height="26" rx="13"></rect>
         </g>
+        <g class="result-leaderboard-ui" id="resultLeaderboardSvg" hidden>
+          <rect x="828" y="360" width="168" height="58" rx="24" fill="rgba(14, 12, 22, 0.72)" stroke="#ffc857" stroke-width="3"></rect>
+          <text x="912" y="397" fill="#fff8e8" font-size="24" font-weight="1000" text-anchor="middle">순위</text>
+        </g>
       </svg>
+      <button class="result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button>
       <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기" hidden></button>
       <img class="result-restart-button-art" src="result-restart-button-generated.webp" alt="" aria-hidden="true">
     </section>
+
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 담기 순위" data-scoreboard-result-kind="fraction-scoop" data-scoreboard-score-label="담기 결과" data-scoreboard-list-title="담기 순위" data-scoreboard-unit="3학년 2학기 4단원 2차시"></section>
     </div>
   </main>
 
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260702-nojekyll"></script>
   <script>
     const TOTAL_QUESTIONS = 10;
+    const LESSON_ID = "3-2-4-2-mathmon-fraction-scoop";
     const MAX_FUEL = 100;
     const AUDIO_PREF_KEYS = {
       bgm: "mathmon-audio-bgm-enabled",
@@ -3607,6 +3637,13 @@
         // localStorage may be unavailable in restricted previews.
       }
     }
+    function getScoreboardApiUrl() {
+      const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
+      return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
+    }
+
+    const SCOREBOARD_API_URL = getScoreboardApiUrl();
+
     // 결과 등급: 담기 점수(0~100)에 따른 자체 완결형 등급.
     const DESTINATIONS = [
       { id: "handful", short: "줌", name: "한 줌", min: 1, max: 18, image: "result-handful-generated.webp" },
@@ -3675,7 +3712,11 @@
       bgmGain: null,
       bgmTimer: null,
       bgmRunning: false,
-      bgmStep: 0
+      bgmStep: 0,
+      scoreboardAnswers: [],
+      scoreboardCurrentAnswer: null,
+      scoreboardQuestionStartedAt: 0,
+      scoreboardStepStartedAt: 0
     };
 
     const el = {
@@ -3685,6 +3726,7 @@
       goalScreen: document.getElementById("goalScreen"),
       playScreen: document.getElementById("playScreen"),
       resultScreen: document.getElementById("resultScreen"),
+      scoreboardScreen: document.getElementById("scoreboardScreen"),
       startButton: document.getElementById("startButton"),
       tutorialNextButton: document.getElementById("tutorialNextButton"),
       goalNextButton: document.getElementById("goalNextButton"),
@@ -3727,17 +3769,141 @@
       resultScoreSvg: document.getElementById("resultScoreSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultLeaderboardSvg: document.getElementById("resultLeaderboardSvg"),
       praiseText: document.getElementById("praiseText"),
+      leaderboardButton: document.getElementById("leaderboardButton"),
       restartButton: document.getElementById("restartButton")
     };
 
     el.tutorialNextButton.dataset.defaultLabel = el.tutorialNextButton.textContent;
     el.goalNextButton.dataset.defaultLabel = el.goalNextButton.textContent;
 
+    const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+      root: el.scoreboardScreen,
+      apiUrl: SCOREBOARD_API_URL,
+      lessonId: LESSON_ID,
+      totalQuestions: TOTAL_QUESTIONS,
+      getScore: () => getFuelPercent(),
+      getCorrectCount: () => state.correct,
+      getAnswers: () => state.scoreboardAnswers,
+      getRewardResult: getScoreboardRewardResult,
+      showScoreboard: () => showScreen("scoreboard"),
+      showResult: () => {
+        playSound("next");
+        showScreen("result");
+      },
+      restart: startGame,
+      playSound: () => playSound("next")
+    });
+
+    function getElapsedMs(startedAt) {
+      return Math.max(0, Math.round(performance.now()) - startedAt);
+    }
+
+    function beginScoreboardQuestion() {
+      state.scoreboardQuestionStartedAt = Math.round(performance.now());
+      state.scoreboardCurrentAnswer = {
+        questionIndex: state.index,
+        elapsedMs: 0,
+        steps: []
+      };
+    }
+
+    function beginScoreboardStep() {
+      state.scoreboardStepStartedAt = Math.round(performance.now());
+    }
+
+    function recordScoreboardStep(step, selected) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer || answer.steps.some((item) => item.stepId === step.id)) {
+        return;
+      }
+      answer.steps.push({
+        stepId: step.id,
+        selected,
+        expected: step.correctValue,
+        elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+      });
+    }
+
+    function finishScoreboardQuestion(event) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer) {
+        return;
+      }
+      state.scoreboardAnswers.push({
+        questionIndex: answer.questionIndex,
+        elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+        steps: answer.steps,
+        reward: {
+          id: event.id,
+          amount: event.amount
+        }
+      });
+      state.scoreboardCurrentAnswer = null;
+    }
+
+    function getScoreboardRewardResult() {
+      const destination = getDestination();
+      return {
+        gradeId: destination ? destination.id : "retry",
+        score: getFuelPercent(),
+        rainbow: state.rainbowFuel
+      };
+    }
+
+    function getScoreboardQaStepIds() {
+      if (LESSON_ID.includes("fraction-scoop")) {
+        return ["group", "scoop"];
+      }
+      if (LESSON_ID.includes("fraction-sorter")) {
+        return ["sort"];
+      }
+      if (LESSON_ID.includes("fraction-tug")) {
+        return ["compare"];
+      }
+      return ["name"];
+    }
+
+    function buildScoreboardQaAnswers() {
+      const stepIds = getScoreboardQaStepIds();
+      return Array.from({ length: TOTAL_QUESTIONS }, (_value, questionIndex) => ({
+        questionIndex,
+        elapsedMs: 4200,
+        steps: stepIds.map((stepId, stepIndex) => ({
+          stepId,
+          selected: `ok-${stepId}`,
+          expected: `ok-${stepId}`,
+          elapsedMs: 900 + stepIndex * 100
+        })),
+        reward: {
+          id: "normal",
+          amount: 6
+        }
+      }));
+    }
+
+    if (new URLSearchParams(window.location.search).has("scoreboardDebug")) {
+      window.__mathmonScoreboardQa = {
+        forcePerfectResult: () => {
+          scoreboardBridge.start();
+          state.scoreboardAnswers = buildScoreboardQaAnswers();
+          state.scoreboardCurrentAnswer = null;
+          state.correct = TOTAL_QUESTIONS;
+          state.fuelPercent = 60;
+          state.rainbowFuel = false;
+          state.lastFuelEvent = { id: "normal", amount: 6 };
+          showResult();
+        },
+        getAnswers: () => state.scoreboardAnswers,
+        open: scoreboardBridge.open
+      };
+    }
+
     function showScreen(name) {
       state.screen = name;
       el.stageShell.dataset.activeScreen = name;
-      [el.coverScreen, el.tutorialScreen, el.goalScreen, el.playScreen, el.resultScreen].forEach((screen) => {
+      [el.coverScreen, el.tutorialScreen, el.goalScreen, el.playScreen, el.resultScreen, el.scoreboardScreen].forEach((screen) => {
         screen.classList.remove("is-active");
       });
       document.getElementById(`${name}Screen`).classList.add("is-active");
@@ -3883,6 +4049,11 @@
       state.rainbowFuel = false;
       state.lastFuelEvent = null;
       state.instantLaunch = false;
+      state.scoreboardAnswers = [];
+      state.scoreboardCurrentAnswer = null;
+      state.scoreboardQuestionStartedAt = 0;
+      state.scoreboardStepStartedAt = 0;
+      scoreboardBridge.start();
       playSound("start");
       showScreen("play");
       renderProblem();
@@ -3957,6 +4128,7 @@
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderStatus();
+      beginScoreboardQuestion();
       renderStep();
     }
 
@@ -4061,6 +4233,7 @@
         value: option,
         correct: option.isAnswer
       })), handleStepChoice, dropConfig);
+      beginScoreboardStep();
     }
 
     function renderHintPanel() {}
@@ -4075,6 +4248,7 @@
         {
           id: "group",
           correctText: String(problem.perGroup),
+          correctValue: problem.perGroup,
           prompt: "숫자 카드를 한 묶음 칸에 놓아요.",
           hint: `${problem.total}개를 ${problem.den}묶음으로 나눠요.`,
           explain: `${problem.total}÷${problem.den}=${problem.perGroup}, 한 묶음은 ${problem.perGroup}개예요.`,
@@ -4083,6 +4257,7 @@
         {
           id: "scoop",
           correctText: String(problem.answer),
+          correctValue: problem.answer,
           prompt: "숫자 카드를 바구니 칸에 놓아요.",
           hint: `${problem.perGroup}개씩 ${problem.num}묶음이에요.`,
           explain: `${problem.perGroup}×${problem.num}=${problem.answer}, ${problem.answer}개를 담아요.`,
@@ -4147,9 +4322,14 @@
       return step.options.slice();
     }
 
+    function getScoreboardSelectedValue(option) {
+      return Number(option.value?.value || 0);
+    }
+
     function handleStepChoice(option, button) {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
+      recordScoreboardStep(step, getScoreboardSelectedValue(option));
       if (option.correct) {
         button.classList.add("is-correct");
         pulseBoard(true);
@@ -4225,6 +4405,7 @@
       }
       const event = perfect ? rollFuelEvent() : createLeakEvent();
       applyFuelEvent(event);
+      finishScoreboardQuestion(state.lastFuelEvent);
       renderStatus();
       finishProblem(state.lastFuelEvent);
     }
@@ -4857,6 +5038,9 @@
       el.resultMeasureFillSvg.setAttribute("width", "0");
       el.restartButton.hidden = true;
       el.restartButton.disabled = true;
+      el.leaderboardButton.hidden = true;
+      el.leaderboardButton.disabled = true;
+      el.resultLeaderboardSvg.hidden = true;
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
@@ -4872,6 +5056,9 @@
         el.praiseText.textContent = launched ? getPraise(destination) : getRetryMessage();
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
+        el.leaderboardButton.hidden = false;
+        el.leaderboardButton.disabled = false;
+        el.resultLeaderboardSvg.hidden = false;
         playSound("finish");
       }, 2500);
     }
@@ -5108,6 +5295,7 @@
       startGame();
     });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.leaderboardButton.addEventListener("click", scoreboardBridge.open);
     el.restartButton.addEventListener("click", () => {
       startBgm();
       playSound("start");

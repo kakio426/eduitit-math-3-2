@@ -5,6 +5,10 @@ export const LESSON_IDS = [
   "3-2-1-2-mathmon-rocket-charge",
   "3-2-1-3-mathmon-jump-islands",
   "3-2-1-4-mathmon-fusion",
+  "3-2-4-1-mathmon-pizza-fraction",
+  "3-2-4-2-mathmon-fraction-scoop",
+  "3-2-4-3-mathmon-fraction-sorter",
+  "3-2-4-4-mathmon-fraction-tug",
 ] as const
 
 export const LessonIdSchema = z.enum(LESSON_IDS)
@@ -35,6 +39,26 @@ export const LESSONS: readonly Lesson[] = [
   {
     id: "3-2-1-4-mathmon-fusion",
     title: "매스몬 로봇 합체",
+    active: true,
+  },
+  {
+    id: "3-2-4-1-mathmon-pizza-fraction",
+    title: "매스몬 피자 분수 가게",
+    active: true,
+  },
+  {
+    id: "3-2-4-2-mathmon-fraction-scoop",
+    title: "매스몬 분수만큼 담기",
+    active: true,
+  },
+  {
+    id: "3-2-4-3-mathmon-fraction-sorter",
+    title: "매스몬 분수 분류 컨베이어",
+    active: true,
+  },
+  {
+    id: "3-2-4-4-mathmon-fraction-tug",
+    title: "매스몬 분수 줄다리기",
     active: true,
   },
 ] as const
