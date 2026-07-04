@@ -6,9 +6,19 @@
     "assetContract": "_shared/mathmon/MATHMON_ASSET_CONTRACT.md",
     "styleGuide": "_shared/mathmon/STYLE_GUIDE.md",
     "activeStyle": "mathmon-v1-anime-sticker",
+    "baselinePack": "base-pack",
+    "styleApprovalRule": "A pack is not approved by styleId alone. Compare its contact sheet against base-pack/contact-sheets/base-pack-contact-sheet.png before marking it active-approved.",
     "defaultNewPackStyle": "bright 2D anime sticker animal/fantasy-creature mascot matching lesson 1 Mathmon",
     "lessonCopyRule": "Copy only the runtime assets needed by a lesson into that lesson folder.",
-    "rewardRule": "A lesson should foreground one reward structure; Mathmon appears as the result card, not as a second scoring system."
+    "rewardRule": "A lesson should foreground one reward structure; Mathmon appears as the result card, not as a second scoring system.",
+    "statusGlossary": {
+      "active-baseline": "Canonical visual baseline for new lessons and regeneration.",
+      "active-approved": "Approved against the baseline contact sheet.",
+      "style-review-runtime": "Existing runtime use is preserved, but the pack is not a template for new lessons until regenerated or re-approved.",
+      "draft-style-review": "Prepared assets that must be reviewed or regenerated before runtime use.",
+      "exception-runtime": "Lesson-specific runtime asset, not a reusable Mathmon pack.",
+      "preserved": "Kept for history, not used as a current runtime or generation standard."
+    }
   },
   "packs": [
     {
@@ -16,17 +26,17 @@
       "name": "기본 매스몬팩",
       "count": 10,
       "path": "_shared/mathmon/base-pack",
-      "status": "active",
+      "status": "active-baseline",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": ["3-2-1-1", "3-2-1-2", "3-2-2-1", "3-2-2-2", "3-2-2-3", "3-2-2-4"],
-      "visualNotes": "동물/판타지 생물 중심: 알, 병아리, 여우, 용, 사자, 독수리, 티라노, 유니콘, 킹드래곤. 2단원 동행 배정은 3-2-2-1 foxmon, 3-2-2-2 eaglemon, 3-2-2-3 unicornmon, 3-2-2-4 kingdragonmon입니다. 2026-07-03 첫 화면 커버는 매스몬을 cover-generated.webp 장면 안에 함께 생성하며, base-pack WebP를 커버 위 HTML 오버레이로 얹지 않습니다."
+      "visualNotes": "동물/판타지 생물 중심: 알, 병아리, 여우, 용, 사자, 독수리, 티라노, 유니콘, 킹드래곤. 새 차시와 리마스터의 기준 contact sheet입니다. 2단원 동행 배정은 3-2-1차시 구현 이력상 일부 문서와 어긋날 수 있어 리마스터 때 재확인합니다."
     },
     {
       "id": "zero-factory-animal-pack",
       "name": "0 공장 동물 매스몬팩",
       "count": 10,
       "path": "_shared/mathmon/zero-factory-animal-pack",
-      "status": "active",
+      "status": "active-approved",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": ["3-2-1-3"],
       "avoidOverlapWith": ["base-pack", "zero-factory-pack"],
@@ -37,67 +47,67 @@
       "name": "분수 매스몬팩",
       "count": 4,
       "path": "_shared/mathmon/fraction-pack",
-      "status": "active",
+      "status": "style-review-runtime",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": ["3-2-4-1", "3-2-4-2", "3-2-4-3", "3-2-4-4"],
       "avoidOverlapWith": ["base-pack", "zero-factory-animal-pack"],
-      "visualNotes": "4단원 분수 전용 4종 팩. 피자·바구니·분류·줄다리기 테마는 소품과 의상으로만 표현하고, 본체는 양·캥거루·비버·해마 동물형으로 유지합니다."
+      "visualNotes": "4단원 분수 전용 4종 팩. 기존 실행 보존용입니다. 일부 캐릭터는 base-pack과 가까우나 팩 전체의 크기감·소품 밀도·렌더 질감 차이가 있어 새 차시 복제 기준으로 쓰지 않습니다."
     },
     {
       "id": "fraction-friends-pack",
       "name": "분수친구 매스몬팩",
       "count": 4,
       "path": "_shared/mathmon/fraction-friends-pack",
-      "status": "ready",
+      "status": "draft-style-review",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": [],
       "preparedFor": ["3-2-4-1", "3-2-4-2", "3-2-4-3", "3-2-4-4"],
       "avoidOverlapWith": ["base-pack", "zero-factory-animal-pack", "fraction-pack", "circle-pack", "explorer-pack", "weight-pack", "robot-fusion-action-pack"],
-      "visualNotes": "2026-07-04 검증 작업에서 새로 생성한 4단원 리마스터용 준비 팩입니다. 본체는 문어·물범·카멜레온·염소 동물형이며, 분수 테마는 피자·바구니·빈 카드·줄 소품으로만 표현합니다. 현재 3-2-4 실행 화면의 cover/result는 이미 생성 이미지 안에 기존 매스몬이 baked-in 되어 있어, 화면 교체 시 커버·결과 장면 재생성이 필요합니다."
+      "visualNotes": "2026-07-04 검증 작업에서 새로 생성한 4단원 리마스터용 준비 팩입니다. base-pack과 선 두께·비율·렌더 질감 차이가 있어 실행 연결 전 재검수 또는 재생성이 필요합니다. 현재 3-2-4 실행 화면의 cover/result는 이미 생성 이미지 안에 기존 매스몬이 baked-in 되어 있어, 화면 교체 시 커버·결과 장면 재생성이 필요합니다."
     },
     {
       "id": "circle-pack",
       "name": "원 매스몬팩",
       "count": 4,
       "path": "_shared/mathmon/circle-pack",
-      "status": "active",
+      "status": "style-review-runtime",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": ["3-2-3-1", "3-2-3-2", "3-2-3-3", "3-2-3-4"],
       "avoidOverlapWith": ["base-pack", "zero-factory-animal-pack", "fraction-pack", "weight-pack", "robot-fusion-action-pack"],
-      "visualNotes": "3단원 원 전용 4종 팩. 표적·컴퍼스·두 배 다리·원 무늬 테마는 소품과 의상으로만 표현하고, 본체는 다람쥐·나방 요정·수달·공작 동물/판타지형으로 유지합니다."
+      "visualNotes": "3단원 원 전용 4종 팩. 기존 실행 보존용입니다. 카드형 contact sheet와 캐릭터별 세밀한 명암·비율이 base-pack과 달라 새 차시 기준으로 쓰지 않습니다."
     },
     {
       "id": "weight-pack",
       "name": "택배 무게 매스몬팩",
       "count": 1,
       "path": "_shared/mathmon/weight-pack",
-      "status": "active",
+      "status": "style-review-runtime",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": ["3-2-5-4"],
       "avoidOverlapWith": ["base-pack", "zero-factory-animal-pack", "fraction-pack"],
-      "visualNotes": "5단원 4차시 택배 무게 전용 1종 팩. 여우 본체에 택배 모자·가방·상자 소품만 더해 활성 V1 스티커 톤을 유지합니다."
+      "visualNotes": "5단원 4차시 택배 무게 전용 1종 팩. 기존 실행 보존용입니다. base-pack 여우와 가까운 계열이지만 단일 캐릭터라 5단원 전체 기준 팩으로 확장하지 않습니다."
     },
     {
       "id": "explorer-pack",
       "name": "탐험친구 매스몬팩",
       "count": 10,
       "path": "_shared/mathmon/explorer-pack",
-      "status": "active",
+      "status": "style-review-runtime",
       "styleId": "mathmon-v1-anime-sticker",
       "usedBy": ["3-2-2-1", "3-2-2-2", "3-2-2-3", "3-2-2-4"],
       "avoidOverlapWith": ["base-pack", "zero-factory-animal-pack", "fraction-pack", "weight-pack", "robot-fusion-action-pack"],
-      "visualNotes": "새 차시와 리마스터에서 골라 쓸 수 있는 공용 확장팩. 고슴도치·코알라·알파카·개구리·돌고래·달팽이·우파루파·박쥐·카피바라·반딧불이 실루엣으로 기존 active 팩과 겹치지 않게 구성했습니다. 탐험 테마는 목수건, 배지, 가방 같은 작은 소품으로만 표현합니다."
+      "visualNotes": "2단원 일부 실행 화면에서 쓰인 확장팩입니다. 수채화·회화풍 느낌과 캐릭터 비율 차이가 커서 새 차시와 리마스터의 기준으로 쓰지 않습니다."
     },
     {
       "id": "robot-fusion-action-pack",
       "name": "로봇 합체 액션팩",
       "count": 4,
       "path": "_shared/mathmon/robot-fusion-action-pack",
-      "status": "active",
+      "status": "exception-runtime",
       "styleId": "mathmon-robot-fusion-generated-action",
       "usedBy": ["3-2-1-4"],
       "avoidOverlapWith": ["base-pack", "zero-factory-animal-pack", "fraction-pack"],
-      "visualNotes": "1단원 4차시 문제 화면의 합체 액션 전용 상태 스프라이트입니다. 기존 4차시 커버/결과 로봇 톤에 맞춘 예외형 실행 자산이며, 저장형 도감이나 공용 보상팩으로 쓰지 않습니다."
+      "visualNotes": "1단원 4차시 문제 화면의 합체 액션 전용 상태 스프라이트입니다. 기존 4차시 커버/결과 로봇 톤에 맞춘 예외형 실행 자산이며, 저장형 도감이나 공용 보상팩, 새 차시 기준으로 쓰지 않습니다."
     },
     {
       "id": "zero-factory-pack",

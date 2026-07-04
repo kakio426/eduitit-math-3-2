@@ -1458,36 +1458,42 @@
       transform: translateY(1px);
     }
 
-    .result-leaderboard-button {
+    .result-rank-button-art,
+    .result-leaderboard-hitbox {
       position: absolute;
       left: 7.5%;
       bottom: 7.4%;
       z-index: 4;
-      min-width: 160px;
-      min-height: 54px;
-      padding: 0 22px;
-      border: 2px solid rgba(255, 246, 190, 0.74);
-      border-radius: 999px;
-      color: #241400;
-      background: linear-gradient(180deg, #fff3a5, #ffc857 58%, #f29a2e);
-      box-shadow: 0 7px 0 rgba(114, 57, 8, 0.8), 0 18px 34px rgba(0, 0, 0, 0.28);
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      font-weight: 1000;
-      white-space: nowrap;
+      width: 188px;
+      height: 70px;
     }
 
-    .result-leaderboard-button[hidden] {
+    .result-rank-button-art {
+      object-fit: contain;
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.28));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .result-rank-button-art[hidden],
+    .result-leaderboard-hitbox[hidden] {
       display: none;
     }
 
-    .result-leaderboard-button:focus-visible {
+    .result-leaderboard-hitbox {
+      border: 0;
+      background: transparent;
+      color: transparent;
+      box-shadow: none;
+    }
+
+    .result-leaderboard-hitbox:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.92);
       outline-offset: 3px;
     }
 
-    .result-leaderboard-button:active {
+    .result-leaderboard-hitbox:active {
       transform: translateY(2px);
-      box-shadow: 0 5px 0 rgba(114, 57, 8, 0.8), 0 12px 24px rgba(0, 0, 0, 0.24);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1864,7 +1870,10 @@
         <button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
           <span class="visually-hidden">다시하기</span>
         </button>
-        <button class="result-leaderboard-button" id="leaderboardButton" type="button" hidden>순위 보기</button>
+        <img class="result-rank-button-art" id="leaderboardButtonArt" src="result-rank-button-generated.webp" alt="" aria-hidden="true" hidden>
+        <button class="result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden>
+          <span class="visually-hidden">순위 보기</span>
+        </button>
         <div class="result-reveal-status visually-hidden" id="resultRevealStatus" data-result-reveal-phase="idle" aria-live="polite">
           <span class="result-reveal-kicker" id="resultRevealKicker">점프 길을 살펴봐요.</span>
           <div class="result-reveal-track" aria-hidden="true">
@@ -2295,6 +2304,7 @@
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalIslandText: document.getElementById("finalIslandText"),
       restartButton: document.getElementById("restartButton"),
+      leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       scoreboardScreen: document.getElementById("scoreboardScreen")
     };
@@ -3124,6 +3134,7 @@
       el.resultCountOverlay.setAttribute("aria-label", "정답 수를 보고 있어요");
       el.finalIslandText.textContent = "찾고 있어요";
       el.restartButton.disabled = true;
+      el.leaderboardButtonArt.hidden = true;
       el.leaderboardButton.hidden = true;
       el.leaderboardButton.disabled = true;
       setResultRevealPhase("jump-path-scan");
@@ -3181,6 +3192,7 @@
       el.resultCountOverlay.setAttribute("aria-label", `정답 ${state.correct}/${TOTAL_QUESTIONS}`);
       el.finalIslandText.textContent = island.id === "start" ? "다시 준비" : island.name;
       el.restartButton.disabled = false;
+      el.leaderboardButtonArt.hidden = false;
       el.leaderboardButton.hidden = false;
       el.leaderboardButton.disabled = false;
       setResultRevealPhase("complete");

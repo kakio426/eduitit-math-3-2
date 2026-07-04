@@ -119,8 +119,7 @@ for (const lesson of lessons) {
   const hasLegacyCover = /<main\s+class="game"[^>]*data-cover-standard="legacy-raster-poster"/.test(html);
   const hasGeneratedResultStandard = /<main\s+class="game"[^>]*data-result-visual-standard="generated-assets"/.test(html);
   const hasFullSceneScoreSlot = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-score-slot"/.test(html);
-  const hasHybridGeneratedDynamic = hasGeneratedResultStandard
-    && /<main\s+class="game"[^>]*data-result-render-mode="hybrid-generated-dynamic"/.test(html);
+  const hasHybridGeneratedDynamic = /<main\s+class="game"[^>]*data-result-render-mode="hybrid-generated-dynamic"/.test(html);
   const hasResultFinalGeneratedAsset = /result-final-[a-z0-9-]+-generated\.webp/.test(html);
   const hasFullSceneResultSignal = hasResultFinalGeneratedAsset || hasFullSceneScoreSlot;
   const hasSeparateGeneratedResultAssets = hasGeneratedResultStandard && !hasFullSceneScoreSlot && !hasHybridGeneratedDynamic;

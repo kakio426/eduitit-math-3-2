@@ -2006,12 +2006,12 @@
       display: none;
     }
 
-    .result-copy {
+    .result-text-block {
       display: grid;
       gap: 14px;
     }
 
-    .result-copy h2 {
+    .result-text-block h2 {
       margin: 0;
       color: #ffffff;
       font-size: clamp(2.6rem, 6.5vw, 5.4rem);
@@ -2140,13 +2140,13 @@
       animation: planet-scan-pop 0.48s ease both;
     }
 
-    .result-stats {
+    .result-metrics {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .result-stat {
+    .result-metric {
       min-height: 94px;
       padding: 12px;
       border: 1px solid var(--line);
@@ -2154,14 +2154,14 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    .result-stat span {
+    .result-metric span {
       display: block;
       color: var(--muted);
       font-size: 0.84rem;
       font-weight: 850;
     }
 
-    .result-stat strong {
+    .result-metric strong {
       display: block;
       margin-top: 6px;
       color: #ffffff;
@@ -2171,17 +2171,123 @@
     }
 
     .result-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
     }
 
-    .result-actions [hidden] {
+    .result-action-hitbox {
+      position: absolute;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      color: transparent;
+      box-shadow: none;
+      pointer-events: auto;
+    }
+
+    .result-action-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 4px;
+    }
+
+    .result-action-hitbox:active {
+      transform: translateY(2px);
+    }
+
+    .result-action-hitbox[hidden] {
       display: none;
+    }
+
+    .result-leaderboard-hitbox {
+      left: 58.4%;
+      top: 80.75%;
+      width: 14.7%;
+      height: 7.75%;
+    }
+
+    .result-restart-hitbox {
+      left: 75%;
+      top: 80.75%;
+      width: 13.9%;
+      height: 7.75%;
     }
 
     .result.is-measuring .result-actions {
       visibility: hidden;
+    }
+
+    .result-dynamic-ui {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .result-panel-glow {
+      opacity: 0.92;
+      filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38));
+    }
+
+    .result.is-measuring .result-panel-glow {
+      animation: result-panel-pulse 1.1s ease-in-out infinite;
+    }
+
+    .result-scan-beam {
+      opacity: 0;
+      transform: translateX(-120px);
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .result.is-measuring .result-scan-beam {
+      opacity: 0.72;
+      animation: result-svg-scan 1.35s ease-in-out infinite;
+    }
+
+    .result-svg-kicker,
+    .result-svg-label,
+    .result-svg-button-text {
+      fill: #d8f9ff;
+      font-weight: 950;
+    }
+
+    .result-svg-kicker {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .result-svg-title {
+      fill: #ffffff;
+      font-size: 68px;
+      font-weight: 1000;
+      letter-spacing: 0;
+      filter: url(#rocketResultGlow);
+    }
+
+    .result-svg-label {
+      fill: rgba(216, 249, 255, 0.84);
+      font-size: 20px;
+    }
+
+    .result-svg-value {
+      fill: #ffffff;
+      font-size: 40px;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .result-svg-measure {
+      fill: #b9ffe8;
+    }
+
+    .result-svg-button-text {
+      fill: #241500;
+      font-size: 25px;
+      letter-spacing: 0;
     }
 
     @keyframes float-rocket {
@@ -2549,6 +2655,31 @@
       }
     }
 
+    @keyframes result-panel-pulse {
+      0%,
+      100% {
+        filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38)) drop-shadow(0 0 0 rgba(96, 215, 255, 0));
+      }
+      50% {
+        filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38)) drop-shadow(0 0 26px rgba(96, 215, 255, 0.38));
+      }
+    }
+
+    @keyframes result-svg-scan {
+      0% {
+        transform: translateX(-160px);
+        opacity: 0;
+      }
+      22%,
+      70% {
+        opacity: 0.72;
+      }
+      100% {
+        transform: translateX(360px);
+        opacity: 0;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .fuel-stream,
       .fuel-droplet,
@@ -2729,7 +2860,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -2941,53 +3072,67 @@
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 2차시</span>
       </div>
-      <div class="result-layout">
-        <div class="launch-scene" aria-hidden="true">
-          <div class="rocket-hero">
-            <div class="rocket-nose"></div>
-            <div class="rocket-body">
-              <div class="rocket-window"></div>
-              <div class="rocket-band"></div>
-            </div>
-            <div class="rocket-fin left"></div>
-            <div class="rocket-fin right"></div>
-            <div class="rocket-flame"></div>
-          </div>
-          <div class="launch-pad"></div>
+      <h2 class="visually-hidden" id="resultTitle">연료 측정 준비</h2>
+      <p class="visually-hidden" id="praiseText">자리올림을 끝까지 살핀 멋진 계산이에요.</p>
+      <div class="result-accessibility-values visually-hidden" aria-live="polite">
+        <div id="resultMeasure" aria-label="연료 측정 결과">
+          <span id="measureStatus">연료 측정 중</span>
+          <strong id="measurePercent">연료 0</strong>
+          <span class="measure-fill" id="measureFill" aria-hidden="true"></span>
+          <div id="resultPlanetTrack" aria-label="행성 거리 측정"></div>
         </div>
-        <div class="result-copy">
-          <h2 id="resultTitle">연료 측정 준비</h2>
-          <p class="praise" id="praiseText">자리올림을 끝까지 살핀 멋진 계산이에요.</p>
-          <div class="result-measure" id="resultMeasure" aria-label="연료 측정 결과">
-            <div class="measure-top">
-              <span id="measureStatus">연료 측정 중</span>
-              <strong id="measurePercent">연료 0</strong>
-            </div>
-            <div class="measure-tube" aria-hidden="true">
-              <span class="measure-fill" id="measureFill"></span>
-              <span class="measure-scan"></span>
-            </div>
-            <div class="result-planet-track" id="resultPlanetTrack" aria-label="행성 거리 측정"></div>
-          </div>
-          <div class="result-stats">
-            <div class="result-stat">
-              <span>연료 측정값</span>
-              <strong id="finalEnergyText">0</strong>
-            </div>
-            <div class="result-stat">
-              <span>맞힌 문제</span>
-              <strong id="finalCorrectText">0/10</strong>
-            </div>
-            <div class="result-stat">
-              <span>도착한 곳</span>
-              <strong id="finalDestinationText">수성</strong>
-            </div>
-          </div>
-          <div class="result-actions">
-            <button class="primary-button" id="leaderboardButton" type="button">순위 보기</button>
-            <button class="primary-button" id="restartButton" type="button">다시하기</button>
-          </div>
-        </div>
+        <span id="finalEnergyText">0</span>
+        <span id="finalCorrectText">0/10</span>
+        <span id="finalDestinationText">수성</span>
+      </div>
+      <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
+        <title id="resultSvgTitle">로켓 결과</title>
+        <defs>
+          <linearGradient id="rocketResultPanel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#101c36" stop-opacity="0.82"></stop>
+            <stop offset="0.62" stop-color="#101228" stop-opacity="0.7"></stop>
+            <stop offset="1" stop-color="#3b1d48" stop-opacity="0.76"></stop>
+          </linearGradient>
+          <linearGradient id="rocketResultStroke" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b8fff0"></stop>
+            <stop offset="0.5" stop-color="#ffc857"></stop>
+            <stop offset="1" stop-color="#9bd3ff"></stop>
+          </linearGradient>
+          <linearGradient id="rocketResultButton" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff4a6"></stop>
+            <stop offset="1" stop-color="#ffbd49"></stop>
+          </linearGradient>
+          <filter id="rocketResultGlow" x="-20%" y="-40%" width="140%" height="180%">
+            <feDropShadow dx="0" dy="7" stdDeviation="0" flood-color="#000000" flood-opacity="0.22"></feDropShadow>
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#60d7ff" flood-opacity="0.34"></feDropShadow>
+          </filter>
+        </defs>
+        <g class="result-panel-glow">
+          <path d="M704 104H1194C1208 104 1220 116 1220 130V710C1220 724 1208 736 1194 736H704C690 736 678 724 678 710V130C678 116 690 104 704 104Z" fill="url(#rocketResultPanel)" stroke="url(#rocketResultStroke)" stroke-width="3"></path>
+          <path d="M724 126H1174C1184 126 1192 134 1192 144V694C1192 704 1184 712 1174 712H724C714 712 706 704 706 694V144C706 134 714 126 724 126Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
+          <rect class="result-scan-beam" x="714" y="136" width="88" height="566" rx="44" fill="rgba(255,255,255,0.22)"></rect>
+          <text class="result-svg-kicker" x="748" y="188">도착한 곳</text>
+          <text class="result-svg-title" id="resultDestinationSvg" x="748" y="268">측정 중</text>
+          <line x1="748" y1="366" x2="1152" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
+          <text class="result-svg-label" x="748" y="422">정답</text>
+          <text class="result-svg-value" id="resultScoreSvg" x="748" y="472">0/10</text>
+          <text class="result-svg-label" x="748" y="548">연료</text>
+          <text class="result-svg-value result-svg-measure" id="resultMeasureSvg" x="748" y="598">연료 0</text>
+          <rect x="748" y="614" width="394" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
+          <rect id="resultMeasureFillSvg" x="748" y="614" width="0" height="12" rx="6" fill="#79f5c4"></rect>
+          <rect x="748" y="646" width="188" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect x="960" y="646" width="178" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <text class="result-svg-button-text" x="842" y="685" text-anchor="middle">순위 보기</text>
+          <text class="result-svg-button-text" id="resultSvgRestartText" x="1049" y="685" text-anchor="middle">다시하기</text>
+        </g>
+      </svg>
+      <div class="result-actions" aria-hidden="false">
+        <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
+          <span class="visually-hidden">순위 보기</span>
+        </button>
+        <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
+          <span class="visually-hidden">다시하기</span>
+        </button>
       </div>
     </section>
 
@@ -3285,6 +3430,11 @@
       finalEnergyText: document.getElementById("finalEnergyText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalDestinationText: document.getElementById("finalDestinationText"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultSvgRestartText: document.getElementById("resultSvgRestartText"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       restartButton: document.getElementById("restartButton"),
       scoreboardScreen: document.getElementById("scoreboardScreen"),
@@ -4375,15 +4525,18 @@
         const eased = 1 - Math.pow(1 - progress, 3);
         const current = Math.round(target * eased);
         el.measureFill.style.setProperty("--measure-width", `${current}%`);
+        el.resultMeasureFillSvg.setAttribute("width", String(Math.round(394 * current / 100)));
         el.measurePercent.textContent = finalLabel === "무지개 연료" && progress > 0.84
           ? finalLabel
           : `연료 ${current}`;
+        el.resultMeasureSvg.textContent = el.measurePercent.textContent;
         if (progress < 1) {
           window.requestAnimationFrame(tick);
           return;
         }
         el.measurePercent.textContent = finalLabel;
         el.finalEnergyText.textContent = finalLabel;
+        el.resultMeasureSvg.textContent = finalLabel;
       }
 
       window.requestAnimationFrame(tick);
@@ -4424,12 +4577,17 @@
       el.measureStatus.textContent = "연료 측정 중";
       el.measurePercent.textContent = "연료 0";
       el.measureFill.style.setProperty("--measure-width", "0%");
+      el.resultDestinationSvg.textContent = "측정 중";
+      el.resultScoreSvg.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultMeasureSvg.textContent = "연료 0";
+      el.resultMeasureFillSvg.setAttribute("width", "0");
+      el.resultSvgRestartText.textContent = "다시하기";
       renderPlanetTrack(el.resultPlanetTrack, { targetIndex: -1, reachedIndex: -1 });
       el.restartButton.hidden = true;
       el.restartButton.disabled = true;
       el.leaderboardButton.hidden = true;
       el.leaderboardButton.disabled = true;
-      el.restartButton.textContent = launched ? "한 번 더" : "다시하기";
+      el.restartButton.setAttribute("aria-label", "다시하기");
       playSound("scan");
       showScreen("result");
       clearResultTimers();
@@ -4448,6 +4606,8 @@
         document.getElementById("resultTitle").textContent = launched ? `${destination.name} 도착!` : "연료 더 필요";
         el.finalDestinationText.textContent = launched ? destination.name : "다시 도전";
         el.praiseText.textContent = launched ? getPraise(destination) : getRetryMessage();
+        el.resultDestinationSvg.textContent = launched ? `${destination.name} 도착` : "다시 도전";
+        el.resultMeasureSvg.textContent = measureLabel;
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
         el.leaderboardButton.hidden = false;
@@ -4848,6 +5008,22 @@
         if (typeof prefs.bgmEnabled === "boolean") setBgmEnabled(prefs.bgmEnabled);
         if (typeof prefs.sfxEnabled === "boolean") setSfxEnabled(prefs.sfxEnabled);
         return window.__mathmonAudioQa.getPrefs();
+      }
+    };
+
+    window.__unit1ResultQa = {
+      showResult(fuel = 86, correct = 9, rainbow = false) {
+        state.correct = Math.max(0, Math.min(TOTAL_QUESTIONS, Math.round(Number(correct) || 0)));
+        state.index = TOTAL_QUESTIONS - 1;
+        state.fuelPercent = Math.max(0, Math.min(MAX_FUEL, Math.round(Number(fuel) || 0)));
+        state.rainbowFuel = Boolean(rainbow);
+        showResult();
+        return {
+          fuel: state.fuelPercent,
+          correct: state.correct,
+          rainbowFuel: state.rainbowFuel,
+          screen: state.screen
+        };
       }
     };
 

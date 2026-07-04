@@ -15,13 +15,29 @@
 ## 현재 활성 기준
 
 - 활성 스타일: `mathmon-v1-anime-sticker`
-- 활성 공용 팩: `_shared/mathmon/base-pack/`
-- 활성 0 공장 팩: `_shared/mathmon/zero-factory-animal-pack/`
+- 기준 팩: `_shared/mathmon/base-pack/`
+- 승인된 활성 팩: `_shared/mathmon/base-pack/`, `_shared/mathmon/zero-factory-animal-pack/`
 - 보존 팩: `_shared/mathmon/zero-factory-pack/`, `_shared/mathmon/core-pack-v2/`, `_shared/mathmon/zero-factory-pack-v2/`
 
 앞으로 새 매스몬을 만들거나 기존 차시를 리마스터할 때는 1차시 `매스몬 상자런`의 매스몬 톤을 기준으로 삼습니다. 0 공장 기존 팩과 V2 장난감/클레이풍 팩은 삭제하지 않고 보존하지만, 실행 기본값이나 새 생성 기준으로 사용하지 않습니다.
 
 차시별 전용 매스몬을 새로 만들 때도 매스몬 본체는 동물 또는 판타지 생물이어야 합니다. 차시 테마는 소품, 의상, 배지, 포즈, 카드 문구로만 표현하고, 톱니바퀴·자석·상자·컨베이어 같은 사물 자체를 매스몬 몸으로 만들지 않습니다.
+
+## 스타일 승인 게이트
+
+`styleId`가 `mathmon-v1-anime-sticker`라고 적혀 있어도 자동으로 활성 팩이 되지 않습니다. 새 팩은 아래 게이트를 통과해야만 `active-approved` 또는 이에 준하는 실행 기준으로 올립니다.
+
+1. `base-pack/contact-sheets/base-pack-contact-sheet.png`를 옆에 두고 새 팩 contact sheet를 직접 비교합니다.
+2. 아래 항목이 base-pack과 같은 계열인지 확인합니다.
+   - 선 두께와 외곽선 색감
+   - 눈·입·볼터치의 귀여운 정도
+   - 머리와 몸 비율
+   - 채색 방식(밝은 2D 애니/스티커, 과한 회화풍·3D·실사풍 아님)
+   - 그림자와 하이라이트 강도
+   - 768×768 안에서의 크기감과 여백
+3. 하나라도 크게 어긋나면 `active`로 두지 않고 `style-review-runtime`, `draft-style-review`, `preserved` 중 하나로 분류합니다.
+4. `style-review-runtime` 팩은 기존 차시 실행을 깨지 않기 위한 임시 허용입니다. 새 차시나 리마스터의 복제 기준으로 쓰지 않습니다.
+5. 새 단원은 전용 팩을 바로 만들지 말고, 먼저 base-pack 재사용으로 구현을 시작합니다. 전용 팩이 꼭 필요하면 전체 팩을 한 번에 같은 프롬프트·같은 seed 계열·같은 후처리로 만들고, contact sheet를 검수한 뒤 승인합니다.
 
 ## 원본과 배포본
 

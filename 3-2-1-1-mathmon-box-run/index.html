@@ -1153,90 +1153,6 @@
       object-position: center;
     }
 
-    .result-card {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-    }
-
-    .result-summary {
-      position: absolute;
-      top: 12.2%;
-      left: 55%;
-      width: 31%;
-      transform: none;
-      display: grid;
-      justify-items: start;
-      gap: 8px;
-      padding: 0;
-      text-align: left;
-    }
-
-    .result-title {
-      margin: 0;
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 6px 11px;
-      border-radius: 999px;
-      background: rgba(255, 228, 92, 0.14);
-      color: var(--yellow);
-      font-size: 0.86rem;
-      line-height: 1.05;
-      font-weight: 1000;
-      text-shadow: none;
-    }
-
-    .final-score {
-      min-width: 0;
-      justify-self: start;
-      width: 100%;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-      color: var(--yellow);
-      font-size: clamp(2.7rem, 5.55vw, 3.95rem);
-      line-height: 1.18;
-      font-weight: 1000;
-      overflow-wrap: anywhere;
-      text-shadow:
-        0 0 22px rgba(255, 228, 92, 0.48),
-        0 8px 0 rgba(0, 0, 0, 0.28);
-    }
-
-    .result-praise {
-      justify-self: start;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-      color: var(--ink);
-      font-size: clamp(0.9rem, 1.55vw, 1.08rem);
-      font-weight: 950;
-      line-height: 1.2;
-      text-align: left;
-      white-space: normal;
-      word-break: keep-all;
-      text-shadow: 0 0 18px rgba(66, 217, 255, 0.18);
-    }
-
-    .result-praise::before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 1px;
-      margin: 4px 0 8px;
-      border: 1px solid rgba(255, 228, 92, 0.36);
-      border-width: 1px 0 0;
-      opacity: 0.55;
-    }
-
     .result-mathmon-scene {
       --mathmon-aura: rgba(255, 228, 92, 0.3);
       position: absolute;
@@ -1356,142 +1272,114 @@
       font-weight: 900;
     }
 
-    .result-stats {
+    .result-dynamic-ui {
       position: absolute;
-      left: 5.8%;
-      right: 7.6%;
-      bottom: 6.2%;
-      height: 18%;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      align-items: stretch;
-      gap: 2.3%;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-    }
-
-    .result-stat {
-      min-width: 0;
-      display: grid;
-      gap: 5px;
-      min-height: 0;
-      padding: clamp(22px, 2.8vw, 30px) clamp(8px, 1.6vw, 14px) clamp(7px, 1vw, 10px);
-      align-content: center;
-      border: 0;
-      border-radius: 18px;
-      background: transparent;
-    }
-
-    .result-stat span {
-      color: var(--muted);
-      font-size: 0.86rem;
-      font-weight: 850;
-    }
-
-    .result-stat strong {
-      color: #ffffff;
-      font-size: clamp(1.25rem, 4vw, 2rem);
-      line-height: 1.1;
-      font-weight: 1000;
-      overflow-wrap: anywhere;
-    }
-
-    .result-stat--correct {
-      align-content: center;
-      place-items: center;
-      text-align: center;
-      transform: translateY(-12px);
-    }
-
-    .result-stat--correct span {
-      font-size: clamp(1rem, 1.45vw, 1.22rem);
-      font-weight: 1000;
-    }
-
-    .result-stat--correct strong {
-      font-size: clamp(2.05rem, 4.75vw, 3.2rem);
-      line-height: 1.16;
-      text-shadow: 0 0 24px rgba(255, 255, 255, 0.14);
-      white-space: nowrap;
-    }
-
-    .result-stat--download {
-      grid-template-columns: minmax(0, 1fr);
-      align-content: center;
-      place-items: center;
-      row-gap: 8px;
-      text-align: center;
-      transform: translateY(-4px);
-    }
-
-    .result-stat--download span {
-      display: none;
-    }
-
-    .result-stat--restart {
-      display: grid;
-      align-content: center;
-      justify-items: center;
-      row-gap: 8px;
-      transform: translateY(-4px);
-    }
-
-    .download-mathmon {
-      display: none;
-      width: min(68px, 100%);
-      aspect-ratio: 1;
-      justify-self: center;
-      border-radius: var(--radius);
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.26));
-    }
-
-    .download-button {
-      display: inline-grid;
-      place-items: center;
-      width: min(220px, 66%);
-      min-height: 54px;
-      padding: 10px 18px;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, #fff375, #ffb23e);
-      color: #17120a;
-      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-      font-weight: 1000;
-      text-decoration: none;
-      box-shadow: 0 7px 0 #9f4d17;
-      white-space: nowrap;
-    }
-
-    .download-button:active {
-      transform: translateY(2px);
-      box-shadow: 0 5px 0 #9f4d17;
-    }
-
-    .download-button.is-disabled {
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      opacity: 0.68;
-      box-shadow: 0 4px 0 #7b3d15;
     }
 
-    .result .primary-button {
-      min-height: 54px;
-      align-self: center;
-      padding: 10px 18px;
-      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    .result-panel-glow {
+      filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38));
     }
 
-    .result-stat--restart .primary-button {
-      width: min(220px, 72%);
-      min-width: 0;
-      min-height: 46px;
-      margin-top: 0;
-      font-size: clamp(1rem, 1.7vw, 1.2rem);
+    .result-svg-kicker,
+    .result-svg-label,
+    .result-svg-button-text {
+      fill: #fff0a8;
+      font-weight: 950;
     }
 
+    .result-svg-kicker {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .result-svg-title {
+      fill: #ffffff;
+      font-size: 58px;
+      font-weight: 1000;
+      letter-spacing: 0;
+      filter: url(#boxResultGlow);
+    }
+
+    .result-svg-label {
+      fill: rgba(255, 240, 168, 0.86);
+      font-size: 20px;
+    }
+
+    .result-svg-value {
+      fill: #ffffff;
+      font-size: 38px;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .result-svg-mathmon {
+      fill: #ffe45c;
+    }
+
+    .result-svg-button-text {
+      fill: #241500;
+      font-size: 23px;
+      letter-spacing: 0;
+    }
+
+    .result-actions {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .result-action-hitbox {
+      position: absolute;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      color: transparent;
+      box-shadow: none;
+      pointer-events: auto;
+      text-decoration: none;
+    }
+
+    .result-action-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 4px;
+    }
+
+    .result-action-hitbox:active {
+      transform: translateY(2px);
+    }
+
+    .result-action-hitbox.is-disabled {
+      pointer-events: none;
+    }
+
+    .result-leaderboard-hitbox {
+      left: 58.3%;
+      top: 80.75%;
+      width: 9.55%;
+      height: 7.75%;
+    }
+
+    .result-download-hitbox {
+      left: 69.4%;
+      top: 80.75%;
+      width: 12.8%;
+      height: 7.75%;
+    }
+
+    .result-restart-hitbox {
+      left: 83.75%;
+      top: 80.75%;
+      width: 7.35%;
+      height: 7.75%;
+    }
+
+    .visually-hidden,
     .sr-only {
       position: absolute;
       width: 1px;
@@ -1701,7 +1589,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="legacy-raster-poster" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="legacy-raster-poster" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
     <aside class="phone-blocker" aria-label="지원 화면 안내">
       <div>
         <strong>태블릿이나 컴퓨터에서 열어요</strong>
@@ -1812,37 +1700,65 @@
 
     <section class="screen result" id="resultScreen" data-screen="result" aria-labelledby="resultTitle">
       <img class="result-art" src="result-generated-v2.webp?v=1" alt="" aria-hidden="true">
-      <div class="result-card">
-        <div class="result-summary">
-          <h2 class="result-title" id="resultTitle">최종 점수</h2>
-          <div class="final-score" data-field="final-score">0점</div>
-          <p class="result-praise" data-field="result-praise">계산 집중력이 좋아요!</p>
+      <h2 class="visually-hidden" id="resultTitle">상자런 결과</h2>
+      <p class="visually-hidden" data-field="result-praise">계산 집중력이 좋아요!</p>
+      <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 알몬을 얻었어요!</p>
+      <span class="visually-hidden" data-field="download-mathmon" aria-hidden="true"></span>
+      <div class="result-mathmon-scene" data-mathmon-result aria-hidden="true">
+        <div class="result-mathmon-stage">
+          <div class="result-mathmon-sprite" data-field="result-mathmon-sprite"></div>
         </div>
-        <div class="result-mathmon-scene" data-mathmon-result>
-          <div class="result-mathmon-stage">
-            <div class="result-mathmon-sprite" data-field="result-mathmon-sprite" aria-hidden="true"></div>
-          </div>
-          <div class="result-mathmon-info">
-            <span>획득 매스몬</span>
-            <strong data-field="final-mathmon-name">알몬</strong>
-            <p data-field="final-mathmon-copy">마지막 점수로 알몬을 얻었어요!</p>
-          </div>
-        </div>
-        <div class="result-stats">
-          <div class="result-stat result-stat--correct">
-            <span>정답 수</span>
-            <strong data-field="final-correct">0/10</strong>
-          </div>
-          <div class="result-stat result-stat--download">
-            <span>내 매스몬 이미지</span>
-            <div class="download-mathmon" data-field="download-mathmon" aria-hidden="true"></div>
-            <a class="download-button is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
-          </div>
-          <div class="result-stat result-stat--restart">
-            <button class="primary-button" id="leaderboardButton" type="button" data-action="leaderboard">순위</button>
-            <button class="primary-button" type="button" data-action="restart">다시</button>
-          </div>
-        </div>
+      </div>
+      <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
+        <title id="resultSvgTitle">상자런 결과</title>
+        <defs>
+          <linearGradient id="boxResultPanel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#18203a" stop-opacity="0.82"></stop>
+            <stop offset="0.58" stop-color="#16152d" stop-opacity="0.7"></stop>
+            <stop offset="1" stop-color="#42233d" stop-opacity="0.76"></stop>
+          </linearGradient>
+          <linearGradient id="boxResultStroke" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff08a"></stop>
+            <stop offset="0.54" stop-color="#60d7ff"></stop>
+            <stop offset="1" stop-color="#ff9cb1"></stop>
+          </linearGradient>
+          <linearGradient id="boxResultButton" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff4a6"></stop>
+            <stop offset="1" stop-color="#ffbd49"></stop>
+          </linearGradient>
+          <filter id="boxResultGlow" x="-20%" y="-40%" width="140%" height="180%">
+            <feDropShadow dx="0" dy="7" stdDeviation="0" flood-color="#000000" flood-opacity="0.22"></feDropShadow>
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#ffe45c" flood-opacity="0.34"></feDropShadow>
+          </filter>
+        </defs>
+        <g class="result-panel-glow">
+          <path d="M700 104H1190C1206 104 1218 116 1218 132V710C1218 724 1206 736 1190 736H700C686 736 674 724 674 710V132C674 116 686 104 700 104Z" fill="url(#boxResultPanel)" stroke="url(#boxResultStroke)" stroke-width="3"></path>
+          <path d="M722 128H1168C1178 128 1186 136 1186 146V694C1186 704 1178 712 1168 712H722C712 712 704 704 704 694V146C704 136 712 128 722 128Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
+          <text class="result-svg-kicker" x="746" y="188">점수</text>
+          <text class="result-svg-title" id="resultMeasureSvg" data-field="final-score" x="746" y="270">0점</text>
+          <rect x="746" y="312" width="386" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
+          <rect id="resultMeasureFillSvg" x="746" y="312" width="0" height="12" rx="6" fill="#ffe45c"></rect>
+          <line x1="746" y1="366" x2="1148" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
+          <text class="result-svg-label" x="746" y="426">정답</text>
+          <text class="result-svg-value" id="resultScoreSvg" data-field="final-correct" x="746" y="476">0/10</text>
+          <text class="result-svg-label" x="746" y="548">매스몬</text>
+          <text class="result-svg-value result-svg-mathmon" id="resultDestinationSvg" data-field="final-mathmon-name" x="746" y="598">알몬</text>
+          <rect x="746" y="646" width="122" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect x="888" y="646" width="164" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect x="1072" y="646" width="94" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <text class="result-svg-button-text" x="807" y="685" text-anchor="middle">순위</text>
+          <text class="result-svg-button-text" x="970" y="685" text-anchor="middle">이미지 받기</text>
+          <text class="result-svg-button-text" x="1119" y="685" text-anchor="middle">다시</text>
+        </g>
+      </svg>
+      <div class="result-actions" aria-hidden="false">
+        <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" data-action="leaderboard" aria-label="순위">
+          <span class="visually-hidden">순위</span>
+        </button>
+        <a class="result-action-hitbox result-download-hitbox is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
+        <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" data-action="restart" aria-label="다시하기">
+          <span class="visually-hidden">다시하기</span>
+        </button>
       </div>
     </section>
 
@@ -1979,6 +1895,7 @@
         rewardBox: document.querySelector(".reward"),
         rewardCopy: document.querySelector('[data-field="reward-copy"]'),
         finalScore: document.querySelector('[data-field="final-score"]'),
+        resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
         resultPraise: document.querySelector('[data-field="result-praise"]'),
         finalCorrect: document.querySelector('[data-field="final-correct"]'),
         resultMathmon: document.querySelector("[data-mathmon-result]"),
@@ -2190,6 +2107,21 @@
           if (typeof prefs.bgmEnabled === "boolean") setBgmEnabled(prefs.bgmEnabled);
           if (typeof prefs.sfxEnabled === "boolean") setSfxEnabled(prefs.sfxEnabled);
           return window.__mathmonAudioQa.getPrefs();
+        },
+      };
+
+      window.__unit1ResultQa = {
+        showResult(score = "1250000", correct = 8) {
+          const safeCorrect = Math.max(0, Math.min(ROUND_SIZE, Math.round(Number(correct) || 0)));
+          state.score = BigInt(score);
+          state.correctCount = safeCorrect;
+          state.currentIndex = ROUND_SIZE - 1;
+          finishRound();
+          return {
+            score: state.score.toString(),
+            correct: state.correctCount,
+            screen: state.screen,
+          };
         },
       };
 
@@ -3117,6 +3049,7 @@
         els.finalScore.title = formatScore(state.score);
         els.resultPraise.textContent = getResultPraise(state.score, state.correctCount);
         els.finalCorrect.textContent = `${state.correctCount}/${ROUND_SIZE}`;
+        els.resultMeasureFillSvg.setAttribute("width", String(Math.round(386 * state.correctCount / ROUND_SIZE)));
         showScreen("result");
         window.requestAnimationFrame(renderResultMathmon);
       }
