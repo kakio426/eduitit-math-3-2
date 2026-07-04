@@ -27,6 +27,6 @@
 
 - 첫 화면은 `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, `start-button-generated.webp` 시작 버튼 아트를 연결했습니다.
 - 결과는 `result-{log,small,bridge,big,grand,rainbow}-generated.webp`와 `result-retry-generated.webp`를 사용합니다.
-- 공용 매스몬 팩은 `_shared/mathmon/circle-pack`의 `두배수달몬` 콘셉트를 기준으로 등록했습니다.
+- 활성 매스몬 기준은 `_shared/mathmon/zero-factory-animal-pack`의 `수달몬`(`zfa-03-sudalmon`)입니다.
 - 하네스는 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` + `hybrid-generated-dynamic` 기준입니다.
 - 전국 순위판은 `_shared/scoreboard/scoreboard-ui.js` bridge로 연결하고, 결과 화면의 `순위` 버튼에서 열립니다.

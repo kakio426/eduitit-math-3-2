@@ -75,7 +75,7 @@
 
 ### 도착 결과 화면
 
-도착 결과는 도착지별 RasterStage 배경 9장을 사용합니다. 수성부터 해왕성까지 8행성, 그리고 무지개 연료 secret stage인 안드로메다 배경이 따로 있습니다. 생성 이미지에는 점수와 버튼을 넣지 않고 로켓, 매스몬, 도착 장소만 담습니다. 큰 도착 문구는 `result-title-*-generated.webp` 생성형 타이틀 이미지로 크게 보여 주고, 단일 SVG 동적 레이어는 실제 정답 수, 연료 값, `순위 보기`, `다시하기` 버튼 표면만 짧게 그립니다. 실제 클릭은 같은 위치의 투명 HTML hitbox가 맡습니다.
+도착 결과는 도착지별 RasterStage 배경 9장을 사용합니다. 수성부터 해왕성까지 8행성, 그리고 무지개 연료 secret stage인 안드로메다 배경이 따로 있습니다. 생성 이미지에는 점수와 버튼을 넣지 않고 로켓, 매스몬, 도착 장소만 담습니다. 큰 도착 문구는 `result-title-*-generated.webp` 생성형 타이틀 이미지로 크게 보여 주고, 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 생성형 숫자 이미지가 맡습니다. 단일 SVG 동적 레이어는 실제 연료 값, `순위 보기`, `다시하기` 버튼 표면만 짧게 그립니다. 실제 클릭은 같은 위치의 투명 HTML hitbox가 맡습니다.
 
 ![도착 결과 화면](screenshots/05-result-success.png)
 
@@ -89,7 +89,7 @@
 
 ### 결과 화면 QA
 
-`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존은 0건입니다.
+`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존, 정답 수 폰트 텍스트 잔존은 0건입니다.
 
 ### 전국 순위 화면
 

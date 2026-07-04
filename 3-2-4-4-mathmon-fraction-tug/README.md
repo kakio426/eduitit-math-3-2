@@ -39,5 +39,5 @@
 - 첫 화면은 `data-cover-standard="generated-title-overlay"`와 `data-cover-start-standard="generated-button-art"` 표준입니다. `cover-generated.webp`는 글자 없는 줄다리기 배경이고, 제목은 생성형 이미지 산출물 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp`로 얹습니다.
 - 보관 자산: `title-logo-source.png`, `title-logo-generated.png`, `title-logo-generated.webp`, `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`.
 - 결과 화면은 `data-result-visual-standard="generated-assets"`, `data-result-render-mode="hybrid-generated-dynamic"`입니다. 결과 등급 6장(`result-{draw,smallwin,win,bigwin,champion,rainbow}-generated.webp`)과 `result-retry-generated.webp`를 사용하고, 보이는 CSS 결과 카드·본문·큰 버튼 장식은 두지 않습니다.
-- 공용 매스몬 관리는 `_shared/mathmon/fraction-pack/`와 `_shared/mathmon/catalog.json`에서 합니다. 이 차시는 `mathmon-fr-04-championseahorse` 콘셉트를 기준으로 한 생성형 커버/결과 장면을 사용하며, 별도 HTML 매스몬 오버레이는 쓰지 않습니다.
+- 활성 매스몬 기준은 `_shared/mathmon/diversity-reward-pack`의 `호랑몬`(`mathmon-drv-04-bravetiger`)입니다. 커버/결과 장면 안에 함께 생성했으며, 별도 HTML 매스몬 오버레이는 쓰지 않습니다.
 - QA 스크린샷은 기존 `qa-*`/`verify-*`/`drag-qa-*` 세트에 더해 `screenshots/intuitive-qa-{desktop-1280x800,tablet-1024x768}-{play-first,play-wrong,play-correct-drag,reward,result}.png`로 갱신했습니다.

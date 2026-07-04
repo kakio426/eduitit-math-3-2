@@ -233,8 +233,11 @@ async function readResultSnapshot(lesson) {
   }
 	  const svg = screen.querySelector(".result-dynamic-ui");
 	  const titleArt = screen.querySelector(".result-title-art");
+	  const correctArt = screen.querySelector(".result-correct-art");
 	  const titleArtStyle = titleArt ? getComputedStyle(titleArt) : null;
+	  const correctArtStyle = correctArt ? getComputedStyle(correctArt) : null;
 	  const titleArtRect = titleArt ? rectOf(titleArt) : null;
+	  const correctArtRect = correctArt ? rectOf(correctArt) : null;
 	  const titleArtVisible = Boolean(titleArt
 	    && !titleArt.hidden
 	    && titleArtStyle.display !== "none"
@@ -244,6 +247,15 @@ async function readResultSnapshot(lesson) {
 	    && titleArt.naturalWidth > 0
 	    && titleArtRect.width > 0
 	    && titleArtRect.height > 0);
+	  const correctArtVisible = Boolean(correctArt
+	    && !correctArt.hidden
+	    && correctArtStyle.display !== "none"
+	    && correctArtStyle.visibility !== "hidden"
+	    && Number(correctArtStyle.opacity || "1") > 0
+	    && correctArt.complete
+	    && correctArt.naturalWidth > 0
+	    && correctArtRect.width > 0
+	    && correctArtRect.height > 0);
 	  const svgTextsOutside = svg ? [...svg.querySelectorAll("text")].map((node) => {
 	    const box = node.getBBox();
 	    return { text: node.textContent.trim(), x: box.x, y: box.y, width: box.width, height: box.height };
@@ -263,6 +275,11 @@ async function readResultSnapshot(lesson) {
 	      src: titleArt?.getAttribute("src") || "",
 	      rect: titleArtRect,
 	      legacySvgTitleText: screen.querySelector("#resultDestinationSvg")?.textContent.trim() || ""
+	    },
+	    generatedCorrectArt: {
+	      visible: correctArtVisible,
+	      src: correctArt?.getAttribute("src") || "",
+	      rect: correctArtRect
 	    },
 	    fullsceneScoreOnly: mode !== "fullscene" || (visibleTexts.length === 1 && /\\/10$/.test(visibleTexts[0])),
     visibleTexts,
@@ -289,8 +306,12 @@ function validateSnapshot(lesson, viewport, snapshot) {
 	    assert(snapshot.generatedTitleArt.visible, `${lesson.id}/${viewport.name}: generated result title art is not visible ${JSON.stringify(snapshot.generatedTitleArt)}`);
 	    assert(/result-title-[^/]+-generated\.webp(?:\?|$)/.test(snapshot.generatedTitleArt.src), `${lesson.id}/${viewport.name}: generated result title art src is not a result-title asset ${snapshot.generatedTitleArt.src}`);
 	    assert(snapshot.generatedTitleArt.legacySvgTitleText === "", `${lesson.id}/${viewport.name}: legacy SVG result title text remains ${snapshot.generatedTitleArt.legacySvgTitleText}`);
+	    assert(snapshot.generatedCorrectArt.visible, `${lesson.id}/${viewport.name}: generated correct-count art is not visible ${JSON.stringify(snapshot.generatedCorrectArt)}`);
+	    assert(/result-correct-\d+-generated\.webp(?:\?|$)/.test(snapshot.generatedCorrectArt.src), `${lesson.id}/${viewport.name}: generated correct-count art src is not a result-correct asset ${snapshot.generatedCorrectArt.src}`);
 	    const leakedLabels = snapshot.visibleTexts.filter((text) => FORBIDDEN_GENERATED_RESULT_LABELS.has(text));
 	    assert(leakedLabels.length === 0, `${lesson.id}/${viewport.name}: fixed SVG result label remains ${JSON.stringify(leakedLabels)}`);
+	    const leakedCorrectText = snapshot.visibleTexts.filter((text) => /^\d+\/10$/.test(text));
+	    assert(leakedCorrectText.length === 0, `${lesson.id}/${viewport.name}: correct-count remains visible as font text ${JSON.stringify(leakedCorrectText)}`);
 	  }
   assert(snapshot.fullsceneScoreOnly, `${lesson.id}/${viewport.name}: fullscene visible DOM text is not score-only ${JSON.stringify(snapshot.visibleTexts)}`);
   assert(snapshot.overflowTexts.length === 0, `${lesson.id}/${viewport.name}: visible text overflow ${JSON.stringify(snapshot.overflowTexts)}`);

@@ -25,8 +25,8 @@
 
 ## RasterStage 이미지
 
-- `cover-generated-source.png`: 고슴도치몬이 들어간 첫 화면 커버 생성 원본
-- `cover-generated.png/webp`: 고슴도치몬이 금고방 장면 안에 포함된 첫 화면 금고 보안실 표지
+- `cover-generated-source.png`: 킹드래곤몬이 들어간 첫 화면 커버 생성 원본
+- `cover-generated.png/webp`: 킹드래곤몬이 금고방 장면 안에 포함된 첫 화면 금고 보안실 표지
 - `title-logo-chromakey.png`: GPT Image/imagegen으로 생성한 제목 로고 원본
 - `title-logo-generated.png/webp`: 첫 화면 제목 래스터 오버레이
 - `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼 원본과 배포본
@@ -42,7 +42,7 @@
 - `result-retry-generated.png/webp`: 다시하기 결과 화면
 - `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`: 보존된 base-pack 킹드래곤몬 배포본
 
-첫 화면은 고슴도치몬이 금고방 조명과 바닥 그림자 안에 함께 들어간 RasterStage 배경을 씁니다. 커버 위에 `.cover-mathmon` HTML 이미지를 따로 얹지 않습니다. 첫 화면은 `generated-title-overlay`와 `generated-button-art` 표준으로, 제목은 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp` 래스터 오버레이로 얹고 실제 제목 텍스트는 접근성용 숨김 제목으로 남깁니다. 문제 화면의 계산판과 선택지는 HTML/CSS로 유지해 숫자가 선명하게 보이도록 했습니다. 결과 화면은 금고 이름별 생성 배경 위에 SVG 오버레이로 도달 이름·정답 수·금고 여는 힘·다시하기 버튼 외형을 표시합니다.
+첫 화면은 킹드래곤몬이 금고방 조명과 바닥 그림자 안에 함께 들어간 RasterStage 배경을 씁니다. 커버 위에 `.cover-mathmon` HTML 이미지를 따로 얹지 않습니다. 첫 화면은 `generated-title-overlay`와 `generated-button-art` 표준으로, 제목은 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp` 래스터 오버레이로 얹고 실제 제목 텍스트는 접근성용 숨김 제목으로 남깁니다. 문제 화면의 계산판과 선택지는 HTML/CSS로 유지해 숫자가 선명하게 보이도록 했습니다. 결과 화면은 금고 이름별 생성 배경 위에 SVG 오버레이로 도달 이름·정답 수·금고 여는 힘·다시하기 버튼 외형을 표시합니다.
 
 ## 작업실 파일 구성
 

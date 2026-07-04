@@ -40,7 +40,7 @@
 
 ### 첫 화면
 
-첫 화면은 코알라몬이 엘리베이터 로비 조명과 바닥 반사 안에 함께 들어간 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 커버 위에는 별도 `.cover-mathmon` HTML 이미지를 얹지 않습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
+첫 화면은 독수리몬이 엘리베이터 로비 조명과 바닥 반사 안에 함께 들어간 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 커버 위에는 별도 `.cover-mathmon` HTML 이미지를 얹지 않습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
 
 ### 설명 화면
 
@@ -88,7 +88,7 @@
 
 ## 6. 매스몬 역할
 
-매스몬은 첫 화면에서 엘리베이터 모험을 함께하는 동행 캐릭터로 등장합니다. 첫 화면 코알라몬은 `cover-generated.webp` 안에 포함된 생성 장면이며, 학생이 얻는 중심 보상은 `엘리베이터 도착 층`입니다. 도감 수집 구조는 사용하지 않습니다. 결과 화면도 별도 매스몬 오버레이 없이, 기존 생성 이미지 안에 포함된 도착 장소를 보여 줍니다.
+매스몬은 첫 화면에서 엘리베이터 모험을 함께하는 동행 캐릭터로 등장합니다. 첫 화면 독수리몬은 `cover-generated.webp` 안에 포함된 생성 장면이며, 학생이 얻는 중심 보상은 `엘리베이터 도착 층`입니다. 도감 수집 구조는 사용하지 않습니다. 결과 화면도 별도 매스몬 오버레이 없이, 기존 생성 이미지 안에 포함된 도착 장소를 보여 줍니다.
 
 ## 7. 공개 패키지 구성
 
@@ -165,7 +165,7 @@
 
 - 확인 크기: 데스크톱 `1280x800`, 태블릿 가로 `1024x768`
 - 확인 화면: 첫 화면
-- 커버 자산: `cover-generated-source.png`, `cover-generated.png/webp` 1280×800, 코알라몬이 엘리베이터 로비 장면 안에 포함됨
+- 커버 자산: `cover-generated-source.png`, `cover-generated.png/webp` 1280×800, 독수리몬이 엘리베이터 로비 장면 안에 포함됨
 - DOM 확인: `.cover-mathmon`, `.cover-space` 커버 노드 0건
 - 레이아웃 보정: 태블릿 가로에서 커버 묶음을 40px 올리고 하단 배지를 오른쪽 아래로 보내 시작 버튼과 분리함
 - 결과: 제목 아트, 목표, 시작 버튼, 상단 배지, 설정 버튼, 하단 배지의 텍스트 넘침·요소 겹침 0건
@@ -178,5 +178,5 @@
 - 텍스트 과밀 제거: 단계 설명 문장(`step-meaning`)을 없애고, 현재 단계는 `step-formula`와 한 줄 지시문(`prompt`)만 남겼습니다.
 - 보상 연출 보강: 보상 팝업의 힘 배지에 `requestAnimationFrame` 팝 모션을 추가했습니다.
 - 첫 화면 밝기 보강: `cover .raster-bg`에 가벼운 `brightness/saturate` 보정을 적용했습니다.
-- 매스몬 동행 통일: 2026-07-03 커버 이관 뒤 첫 화면은 별도 `.cover-mathmon` 없이, `cover-generated.webp` 안에 포함된 코알라몬 장면을 사용합니다. 2026-06-29 리마스터 뒤 결과 화면의 별도 매스몬 오버레이도 제거된 상태입니다.
+- 매스몬 동행 통일: 2026-07-03 커버 이관 뒤 첫 화면은 별도 `.cover-mathmon` 없이, `cover-generated.webp` 안에 포함된 독수리몬 장면을 사용합니다. 2026-06-29 리마스터 뒤 결과 화면의 별도 매스몬 오버레이도 제거된 상태입니다.
 - 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.

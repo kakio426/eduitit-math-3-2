@@ -85,4 +85,4 @@
 - 시작 버튼은 생성형 버튼 자산 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`를 네 차시에 연결했습니다.
 - 결과 등급 6장(`result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp`)과 실패/재도전 장면 `result-retry-generated.webp`를 생성형 결과 표준에 맞춰 연결했습니다.
 - 결과 화면 다시 버튼은 생성형 버튼 자산 `result-restart-button-source.png`, `result-restart-button-generated.png`, `result-restart-button-generated.webp`로 연결했습니다.
-- 공용 캐릭터 팩은 `fraction-pack`입니다. `mathmon-fr-01-lambchef`는 `_shared/mathmon/fraction-pack/manifest.json`과 `_shared/mathmon/catalog.json`에서 관리하며, 차시 화면에서는 생성형 커버/결과 장면 안의 매스몬으로 표현합니다.
+- 활성 캐릭터 기준은 `base-pack`의 `여우몬`(`base-02-foxmon`)입니다. 차시 화면에서는 생성형 커버/결과 장면 안의 매스몬으로 표현하며, 별도 HTML 오버레이는 쓰지 않습니다.

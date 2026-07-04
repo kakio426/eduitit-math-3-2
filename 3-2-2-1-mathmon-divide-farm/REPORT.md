@@ -12,7 +12,7 @@
 - 설명 화면 표준: `generated-image-text`
 - 설정 표준: `modal-controls`
 - 결과 표준: `generated-assets`, `hybrid-generated-dynamic`
-- 커버 매스몬: `cover-generated.webp` 안에 포함된 알파카몬 장면
+- 커버 매스몬: `cover-generated.webp` 안에 포함된 여우몬 장면
 
 ## 학습 흐름
 
@@ -27,7 +27,7 @@
 ## 화면 정비
 
 - 문제 화면 기본 노출을 큰 문제, 현재 단계 판, 한 줄 지시, 선택지로 고정했습니다.
-- 첫 화면 커버는 알파카몬을 농장 장면 안에 함께 생성한 `cover-generated.webp`로 교체하고, 별도 `cover-mathmon` HTML 이미지를 사용하지 않습니다.
+- 첫 화면 커버는 여우몬을 농장 장면 안에 함께 생성한 `cover-generated.webp`로 교체하고, 별도 `cover-mathmon` HTML 이미지를 사용하지 않습니다.
 - 설명 화면은 `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` 2장 생성 이미지가 보이는 문구와 버튼 표면을 담당합니다. HTML은 접근성용 숨김 텍스트와 투명 `tutorialBackButton`/`tutorialNextButton` hitbox만 맡습니다.
 - 첫 화면 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트로 바꿨습니다.
 - 오른쪽 위 전역 조작은 `settingsButton` 톱니바퀴와 `settingsModal`로 이관했습니다.
@@ -43,8 +43,8 @@
 - `tutorial-page-2-source.png`, `tutorial-page-2-generated.png/webp`: `무엇을 얻어요?` 설명 이미지
 - `tutorial-generated.png/webp`: 이전 설명 배경 자산으로 보존, 현재 화면 표면에는 쓰지 않음
 - `reward-events-sprite-generated.png/webp`: 캐릭터 없는 1536x1024, 3x2 보상 스프라이트로 교체
-- `cover-generated-source.png`: 알파카몬이 포함된 새 커버 생성 원본
-- `cover-generated.png/webp`: 알파카몬이 농장 장면 안에 포함된 새 커버 생성 자산
+- `cover-generated-source.png`: 여우몬이 포함된 새 커버 생성 원본
+- `cover-generated.png/webp`: 여우몬이 농장 장면 안에 포함된 새 커버 생성 자산
 - `title-logo-generated.png/webp`: 기존 생성형 제목 아트 유지
 - `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼 아트 추가
 - `result-tier-*.png/webp`: 기존 결과 배경 유지
@@ -105,7 +105,7 @@
 
 - 확인 크기: 데스크톱 `1280x800`, 태블릿 가로 `1024x768`
 - 확인 화면: 첫 화면
-- 커버 자산: `cover-generated.png/webp` 1280×800, 알파카몬이 농장 장면 안에 포함됨
+- 커버 자산: `cover-generated.png/webp` 1280×800, 여우몬이 농장 장면 안에 포함됨
 - DOM 확인: `.cover-mathmon`, `.cover-visual` 커버 노드 0건
 - 결과: 제목 아트, 목표, 시작 버튼, 상단 배지, 설정 버튼, 하단 배지의 텍스트 넘침·요소 겹침 0건
 - 이미지 확인: 커버 배경 안에 제목, 목표 문장, 숫자, 버튼, UI 패널, 라벨 없음

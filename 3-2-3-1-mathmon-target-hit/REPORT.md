@@ -6,7 +6,7 @@
 - 산술 세로셈 보드/단계 엔진을 **원 SVG 도형 + 1단계 요소 선택**으로 교체했습니다.
 - 보상 룰렛(5종)·결과 측정·등급 트랙·정답 수 게이트·오디오·Stage/소리 계약은 그대로 재사용하고 라벨만 표적 테마로 바꿨습니다.
 - 생성형 커버 배경, 제목 아트, 시작 버튼 아트, 결과 등급 이미지 6장과 retry 이미지를 연결했습니다.
-- `circle-pack`을 공용 매스몬 팩으로 등록하고 1차시는 `표적다람몬` 콘셉트로 문서화했습니다.
+- 활성 매스몬 기준을 `diversity-reward-pack`의 `번개늑대몬`으로 정리하고, 커버/결과 장면을 새로 연결했습니다.
 - 설정 버튼을 `modal-controls` 기준으로 이관하고 배경 소리/효과 소리를 분리했습니다.
 - 설명 화면을 2장 흐름(풀이 방법 → 보상/등급/전국 순위)으로 승격했습니다.
 - 결과 화면에 `순위` SVG 버튼과 투명 hitbox를 추가하고, `_shared/scoreboard` API bridge를 연결했습니다.
@@ -36,7 +36,7 @@
 - `node scripts/check-stage-ratio.mjs` → OK(18 lesson packages).
 - 인라인 JS `node --check` 통과.
 - 로직 시뮬레이션: 세 용어 × 2000회 모두 정답 1개 + 핵심 오답(지름→radius, 반지름→diameter) 포함.
-- JSON 검증: `_shared/mathmon/catalog.json`, `_shared/mathmon/circle-pack/manifest.json` 파싱 통과.
+- JSON 검증: `_shared/mathmon/catalog.json`, `_shared/mathmon/diversity-reward-pack/manifest.json` 파싱 통과.
 - 브라우저 QA: 로컬 서버 `http://127.0.0.1:4173`에서 1280×800, 1024×768, 1180×760 각각 첫 화면·설명 1·설명 2·첫 문제·정답 선택·보상·결과·전국 순위·설정의 방법 다시 보기 복귀를 Playwright로 확인했습니다. 콘솔 에러 0, 이미지 404 0, SVG text viewBox 이탈 0, 텍스트 넘침·요소 겹침 0.
 - 순위 API QA: mock API로 `POST /api/v1/sessions`, `POST /api/v1/scores`, `GET /api/v1/leaderboards/weekly` 호출을 네 차시×세 뷰포트에서 확인했습니다. 긴 닉네임/10행 목록/결과 복귀/다시하기 hitbox도 통과했습니다.
 - Humanizer 학생 문구 QA: 새로 보이는 설정/커버/결과 문구를 점검하고 `측정`을 `보기`로 바꿨습니다.
@@ -50,5 +50,5 @@
 
 - 커버/제목/시작: `cover-generated.webp`, `title-logo-generated.webp`, `start-button-generated.webp`.
 - 결과: `result-retry-generated.webp`, `result-{miss,edge,hit,bullseye,targetking,legend}-generated.webp`.
-- 공용 팩: `_shared/mathmon/circle-pack` (`ci-01-target-chipmunk`).
+- 활성 팩: `_shared/mathmon/diversity-reward-pack` (`mathmon-drv-06-thunderwolf`, 번개늑대몬).
 - 스크린샷: `screenshots/qa-{desktop-1280x800,tablet-1024x768}-{cover,settings,tutorial-1,tutorial-2,play-step1,play-step2,reward,result,scoreboard}.png`와 `screenshots/qa-mid-1180x760-{tutorial-1,tutorial-2,settings,result,scoreboard}.png`.

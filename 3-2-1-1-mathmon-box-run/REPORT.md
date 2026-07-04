@@ -85,7 +85,7 @@
 
 ![최종 결과](screenshots/08-final-result.png)
 
-최종 결과는 이미지 생성으로 새로 만든 RasterStage 시상식 무대를 배경으로 사용합니다. 무대를 왼쪽으로 치우치게 두고 매스몬을 그 무대 중앙에 올린 뒤, 매스몬 이름은 `result-title-*-generated.webp` 생성형 타이틀 이미지로 크게 보여 줍니다. 단일 SVG 동적 레이어는 실제 점수값, 정답 수, `순위`, `이미지 받기`, `다시` 버튼 표면만 그립니다. 실제 클릭은 같은 위치의 투명 hitbox가 맡고, 칭찬 문구는 접근성용 숨김 텍스트로만 남겼습니다. 매스몬은 점수만이 아니라 정답 수 조건도 함께 봅니다.
+최종 결과는 이미지 생성으로 새로 만든 RasterStage 시상식 무대를 배경으로 사용합니다. 무대를 왼쪽으로 치우치게 두고 매스몬을 그 무대 중앙에 올린 뒤, 매스몬 이름은 `result-title-*-generated.webp` 생성형 타이틀 이미지로 크게 보여 줍니다. 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 생성형 숫자 이미지가 맡고, 단일 SVG 동적 레이어는 실제 점수값, `순위`, `이미지 받기`, `다시` 버튼 표면만 그립니다. 실제 클릭은 같은 위치의 투명 hitbox가 맡고, 칭찬 문구는 접근성용 숨김 텍스트로만 남겼습니다. 매스몬은 점수만이 아니라 정답 수 조건도 함께 봅니다.
 
 ### 전국 순위 화면
 
@@ -101,7 +101,7 @@
 
 ### 결과 화면 QA
 
-`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존은 0건입니다. 2026-07-04 다양성 보상팩 교체 뒤에는 최고 점수 상태에서 `황금드래곤몬` WebP와 생성형 타이틀 자산 로딩, 이미지 받기 1200x1200 PNG 생성을 추가 확인했습니다. 첫 보상 상태는 0점/0개로 강제 표시해 `보송몬` 타이틀, WebP, 다운로드 파일명 `cottonpuff-0-score.png`를 확인했습니다.
+`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존, 정답 수 폰트 텍스트 잔존은 0건입니다. 2026-07-04 다양성 보상팩 교체 뒤에는 최고 점수 상태에서 `황금드래곤몬` WebP와 생성형 타이틀 자산 로딩, 이미지 받기 1200x1200 PNG 생성을 추가 확인했습니다. 첫 보상 상태는 0점/0개로 강제 표시해 `보송몬` 타이틀, WebP, 다운로드 파일명 `cottonpuff-0-score.png`를 확인했습니다.
 
 ## 5. 매스몬 설명
 
@@ -140,6 +140,7 @@
 - `tutorial-fulltext-source.png`, `tutorial-fulltext-generated.webp`(이전 포스터 보존본, 현재 실행 경로에서는 미사용)
 - `result-generated-v3-source.png`, `result-generated-v3.webp`
 - `result-title-*-source.png`, `result-title-*-transparent-raw.png`, `result-title-*-generated.webp`
+- `../_shared/result-count/result-correct-count-source.png`, `result-correct-*-generated.webp`
 - `eduitit-logo-mark.png`
 - `assets/audio/*.wav`
 - `assets/mathmon/diversity-reward-pack/*.webp`

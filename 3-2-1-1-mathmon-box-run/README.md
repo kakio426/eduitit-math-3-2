@@ -7,7 +7,7 @@
 - 문제 은행: 받아올림 없는 186개 후보 중 매 판 10개 랜덤 출제
 - 콤보: 연속 정답이면 기본 정답 점수가 커짐
 - 상자 등급: 일반, 반짝, 황금 상자에 따라 보상 기대감이 달라짐
-- 결과 화면: 새 생성 배경 위에 매스몬 이름은 생성형 타이틀 이미지로 크게 보여 주고, SVG 동적 레이어는 실제 점수값·정답 수·버튼 표면만 보여 줌. 매스몬은 새 다양성 보상팩 WebP를 사용함
+- 결과 화면: 새 생성 배경 위에 매스몬 이름과 정답 수는 생성형 이미지로 크게 보여 주고, SVG 동적 레이어는 실제 점수값·버튼 표면만 보여 줌. 매스몬은 새 다양성 보상팩 WebP를 사용함
 - 순위: 결과 뒤 `순위`를 누르면 이번 주 전국 상자 순위 화면으로 이동. API 주소가 설정된 경우 서버가 만든 기록 이름으로 점수를 제출하고 10위까지 보여 줌
 - 소리: 낮은 볼륨의 기존 BGM과 Kenney CC0 샘플 기반 상황별 효과음 제공. 사용 팩은 Interface Sounds, Impact Sounds, RPG Audio, Digital Audio, Music Jingles이며, 소리 버튼으로 함께 켜고 끔
 - 방식: 문제를 맞히고 상자를 열어 점수를 크게 바꾸는 짧은 반복 게임
@@ -32,6 +32,7 @@
 - `cover-generated.webp`: 첫 화면 대표 커버 이미지(배포용 경량 포맷, PNG 원본은 작업실 보관)
 - `result-generated-v3.webp`: 최종 결과 RasterStage 배경 이미지(배포용 경량 포맷, PNG 원본은 작업실 보관)
 - `result-title-*-generated.webp`: 최종 매스몬 이름 생성형 타이틀 이미지
+- `../_shared/result-count/result-correct-*-generated.webp`: 결과 정답 수 생성형 숫자 이미지
 - `assets/mathmon/diversity-reward-pack/*.webp`: 현재 최종 점수로 얻는 매스몬 배포 이미지
 - `mathmon-*.png`: 1단원 기본 10종 기준 이미지 보존본
 - `eduitit-logo-mark.png`: 첫 화면 브랜딩 로고

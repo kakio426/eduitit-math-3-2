@@ -39,7 +39,7 @@
 
 ### 첫 화면
 
-첫 화면은 고슴도치몬이 금고방 조명과 바닥 그림자 안에 함께 들어간 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 커버 위에는 별도 `.cover-mathmon` HTML 이미지를 얹지 않습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp` 생성형 버튼 아트를 쓰는 `data-cover-start-standard="generated-button-art"` 구조입니다.
+첫 화면은 킹드래곤몬이 금고방 조명과 바닥 그림자 안에 함께 들어간 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 커버 위에는 별도 `.cover-mathmon` HTML 이미지를 얹지 않습니다. 게임 제목은 GPT Image/imagegen으로 만든 `title-logo-generated.webp` 독립 래스터 오버레이이며, 실제 제목은 `visually-hidden` 텍스트로 남겼습니다. 시작 버튼은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp` 생성형 버튼 아트를 쓰는 `data-cover-start-standard="generated-button-art"` 구조입니다.
 
 ### 설명 화면
 
@@ -69,7 +69,7 @@
 
 ## 5. 매스몬 역할
 
-이 차시에서 매스몬은 금고 보안실을 함께 살피는 동행 캐릭터로 등장합니다. 첫 화면 고슴도치몬은 `cover-generated.webp` 안에 포함된 생성 장면이며, 커버 위 별도 HTML 이미지로 배치하지 않습니다. 학생이 얻는 중심 보상은 `금고 이름 도달`이며, 도감 수집 구조는 사용하지 않습니다.
+이 차시에서 매스몬은 금고 보안실을 함께 살피는 동행 캐릭터로 등장합니다. 첫 화면 킹드래곤몬은 `cover-generated.webp` 안에 포함된 생성 장면이며, 커버 위 별도 HTML 이미지로 배치하지 않습니다. 학생이 얻는 중심 보상은 `금고 이름 도달`이며, 도감 수집 구조는 사용하지 않습니다.
 
 ## 6. 공개 패키지 구성
 
@@ -119,8 +119,8 @@
 ## 완성도 폴리시 패스 (2026-06-24)
 
 - 문제 화면 과밀 제거: 검산식 패널·단계 칩 트랙·단계 설명 패널의 중복 표시를 없애고, 3단계 계산판을 "현재 단계만 크게, 이전 단계는 완료 칩, 다음 단계는 잠금"으로 재구성했습니다(`.equation-row`의 `is-current`/`is-done` 상태). 초3 3초 판단 기준을 통과합니다.
-- 매스몬 동행 연결: 2026-07-03 커버 이관 뒤 첫 화면은 별도 `cover-mathmon` 없이, `cover-generated.webp` 안에 포함된 고슴도치몬 장면을 사용합니다.
-- 래스터 재생성: `cover-generated`는 고슴도치몬이 포함된 금고 장면으로 교체했고, `board-vault-generated`, `result-*-generated` 배경은 기존 역할을 유지합니다.
+- 매스몬 동행 연결: 2026-07-03 커버 이관 뒤 첫 화면은 별도 `cover-mathmon` 없이, `cover-generated.webp` 안에 포함된 킹드래곤몬 장면을 사용합니다.
+- 래스터 재생성: `cover-generated`는 킹드래곤몬이 포함된 금고 장면으로 교체했고, `board-vault-generated`, `result-*-generated` 배경은 기존 역할을 유지합니다.
 - 보상 연출 보강: 보상 팝업 등장 시 `requestAnimationFrame` 기반 아이콘 팝 모션을 추가했습니다.
 - 첫 화면 밝기 보강: `cover .raster-bg`에 `brightness/saturate` 보정을 적용했습니다.
 - 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.
@@ -147,7 +147,7 @@
 
 - 확인 크기: 데스크톱 `1280x800`, 태블릿 가로 `1024x768`
 - 확인 화면: 첫 화면
-- 커버 자산: `cover-generated-source.png`, `cover-generated.png/webp` 1280×800, 고슴도치몬이 금고방 장면 안에 포함됨
+- 커버 자산: `cover-generated-source.png`, `cover-generated.png/webp` 1280×800, 킹드래곤몬이 금고방 장면 안에 포함됨
 - DOM 확인: `.cover-mathmon`, `.cover-safe-zone` 커버 노드 0건
 - 결과: 제목 아트, 목표, 시작 버튼, 상단 배지, 설정 버튼, 하단 배지의 텍스트 넘침·요소 겹침 0건
 - 이미지 확인: 커버 배경 안에 제목, 목표 문장, 숫자, 버튼, UI 패널, 라벨 없음

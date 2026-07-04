@@ -2685,6 +2685,23 @@
       display: none;
     }
 
+    .result-correct-art {
+      position: absolute;
+      left: 74.8%;
+      top: 52%;
+      z-index: 4;
+      width: 24%;
+      max-height: 14%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.34));
+    }
+
+    .result-correct-art[hidden] {
+      display: none;
+    }
+
     .result-panel-glow {
       opacity: 0.9;
       filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.38));
@@ -2759,7 +2776,7 @@
     .result-actions {
       position: absolute;
       left: 59.375%;
-      top: 76%;
+      top: 78.25%;
       z-index: 5;
       width: 32.8125%;
       height: 8%;
@@ -3136,6 +3153,7 @@
           <span id="finalGradeText">소형</span>
         </div>
         <img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true" hidden>
+        <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
         <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
           <title id="resultSvgTitle">합체 결과</title>
           <defs>
@@ -3166,15 +3184,15 @@
             <text class="result-svg-title" id="resultDestinationSvg" x="760" y="266" opacity="0" aria-hidden="true"></text>
             <line x1="760" y1="366" x2="1154" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
             <text class="result-svg-label" x="760" y="421"></text>
-            <text class="result-svg-value" id="resultScoreSvg" x="760" y="469">0/10</text>
+            <text class="result-svg-value" id="resultScoreSvg" x="760" y="469" opacity="0" aria-hidden="true">0/10</text>
             <text class="result-svg-label" x="760" y="536"></text>
-            <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="586">측정 중</text>
-            <rect x="760" y="594" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
-            <rect id="resultMeasureFillSvg" x="760" y="594" width="0" height="10" rx="5" fill="#79f5c4"></rect>
-            <rect x="760" y="608" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
-            <rect x="982" y="608" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
-            <text class="result-svg-button-text" x="860" y="649" text-anchor="middle">순위 보기</text>
-            <text class="result-svg-button-text" id="resultSvgRestartText" x="1072" y="649" text-anchor="middle">다시하기</text>
+            <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">측정 중</text>
+            <rect x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
+            <rect id="resultMeasureFillSvg" x="760" y="582" width="0" height="10" rx="5" fill="#79f5c4"></rect>
+            <rect x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <rect x="982" y="626" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <text class="result-svg-button-text" x="860" y="667" text-anchor="middle">순위 보기</text>
+            <text class="result-svg-button-text" id="resultSvgRestartText" x="1072" y="667" text-anchor="middle">다시하기</text>
           </g>
         </svg>
         <div class="result-actions" aria-hidden="false">
@@ -3346,6 +3364,7 @@
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalGradeText: document.getElementById("finalGradeText"),
       resultTitleArt: document.getElementById("resultTitleArt"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultScoreSvg: document.getElementById("resultScoreSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
@@ -3721,6 +3740,11 @@
         return null;
       }
       return { ...GRADES[index], index };
+    }
+
+    function getResultCorrectArtSrc(correctCount) {
+      const value = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
+      return `../_shared/result-count/result-correct-${value}-generated.webp`;
     }
 
     function renderGradeTrack(container, { targetIndex = -1, reachedIndex = -1 } = {}) {
@@ -4231,6 +4255,7 @@
       document.getElementById("resultTitle").textContent = "합체 에너지 측정 중";
       el.finalEnergyText.textContent = "측정 중";
       el.finalCorrectText.textContent = correctLabel;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
       el.finalGradeText.textContent = "측정 중";
       el.praiseText.textContent = "합체 공방에서 모은 에너지를 재고 있어요.";
       el.measureStatus.textContent = "합체 에너지 측정 중";

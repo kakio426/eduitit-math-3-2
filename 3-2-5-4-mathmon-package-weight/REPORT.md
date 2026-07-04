@@ -51,20 +51,11 @@
 
 결과 장면 안에는 생성 단계에서 트럭과 택배 매스몬이 함께 들어가 있습니다. 결과 이름과 `다시` 버튼도 생성형 타이틀/버튼 자산으로 처리했습니다. 결과 화면 위에 큰 CSS 카드, CSS 제목, CSS 본문, 로컬에서 만든 제목/버튼 그림을 덧붙이지 않았습니다. 이전 결과 이미지는 `_archive/3-2-5-4-destination-results/`에 보관했습니다.
 
-## 5. 매스몬 팩
+## 5. 매스몬 기준
 
-택배 차시 전용 `weight-pack`을 씁니다.
+현재 실행 장면의 매스몬 기준은 `base-pack`의 `여우몬`(`base-02-foxmon`)입니다. 첫 화면, 트럭 업그레이드 보상, 결과 트럭 장면 안에 함께 생성했으며, 차시 실행용 WebP를 별도 오버레이로 올리지 않았습니다.
 
-| 파일명 | 역할 |
-| --- | --- |
-| `_shared/mathmon/weight-pack/manifest.json` | 팩 메타데이터 |
-| `_shared/mathmon/weight-pack/raw-chromakey/mathmon-wt-01-courierfox.png` | 생성형 크로마키 원본 |
-| `_shared/mathmon/weight-pack/png/mathmon-wt-01-courierfox.png` | 투명 PNG 원본 |
-| `_shared/mathmon/weight-pack/webp/mathmon-wt-01-courierfox.webp` | 공용 WebP |
-| `_shared/mathmon/weight-pack/contact-sheets/weight-pack-contact-sheet.png` | 확인용 시트 |
-| `assets/mathmon/weight-pack/mathmon-wt-01-courierfox.webp` | 차시 실행용 WebP |
-
-첫 화면과 결과 장면에는 이미 매스몬이 생성 이미지 안에 있으므로, 차시 실행용 WebP를 별도 오버레이로 올리지 않았습니다.
+이전 택배 전용 여우 자산은 보존용 이력으로만 남기고, 새 화면 기준이나 보상 팩으로 쓰지 않습니다.
 
 ## 6. HTML 오버레이 경계
 

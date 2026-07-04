@@ -49,19 +49,11 @@
 
 결과 화면의 보이는 HTML 오버레이는 실제 조작 hitbox와 시리즈 공통 배지로 제한합니다. 결과 카드, 큰 제목, 칭찬 문구, 버튼 장식을 HTML/CSS로 새로 그리면 하네스 실패로 봅니다.
 
-## 매스몬 팩
+## 매스몬 기준
 
-택배 무게 차시 전용 `weight-pack`을 `_shared/mathmon/weight-pack/`에 등록했습니다.
+현재 실행 장면의 매스몬 기준은 `_shared/mathmon/base-pack`의 `여우몬`(`base-02-foxmon`)입니다. 첫 화면, 트럭 업그레이드 보상, 결과 트럭 장면 안에 함께 생성했으며, 런타임 복사본을 별도 HTML 오버레이로 얹지 않습니다.
 
-| 파일명 | 용도 |
-| --- | --- |
-| `_shared/mathmon/weight-pack/raw-chromakey/mathmon-wt-01-courierfox.png` | 생성형 크로마키 원본 |
-| `_shared/mathmon/weight-pack/png/mathmon-wt-01-courierfox.png` | 투명 PNG 원본 |
-| `_shared/mathmon/weight-pack/webp/mathmon-wt-01-courierfox.webp` | 공용 WebP 배포본 |
-| `assets/mathmon/weight-pack/mathmon-wt-01-courierfox.webp` | 차시 실행용 복사본 |
-| `_shared/mathmon/weight-pack/contact-sheets/weight-pack-contact-sheet.png` | 팩 확인용 시트 |
-
-첫 화면 배경과 결과 장면에는 매스몬이 생성 이미지 안에 들어가 있으므로, 런타임 복사본은 따로 얹지 않았습니다.
+이전 택배 전용 여우 자산은 보존용 이력으로만 남기고, 새 화면 기준이나 보상 팩으로 쓰지 않습니다.
 
 ## 보상 구조
 
