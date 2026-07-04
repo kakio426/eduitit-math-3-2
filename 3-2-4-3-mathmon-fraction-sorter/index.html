@@ -3132,6 +3132,7 @@
       height: 100%;
       max-height: 100%;
       min-height: 0;
+      padding: 6px 0;
       aspect-ratio: auto;
       display: grid;
       place-items: center;
@@ -3140,20 +3141,27 @@
 
     .play .target-board svg {
       width: 100%;
-      height: 100%;
+      height: auto;
       max-height: 100%;
       display: block;
     }
 
     .play .sort-visual {
-      height: 100%;
+      max-height: 100%;
       justify-content: center;
+      gap: 4px;
+    }
+
+    .play .sort-number {
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 0.98;
     }
 
     .play .sort-visual svg {
-      width: min(360px, 100%);
-      max-width: 100%;
-      max-height: 58%;
+      width: min(320px, 88%);
+      max-width: 88%;
+      max-height: 52%;
+      flex: 0 1 auto;
     }
 
     .play .target-board.is-confirmed .pizza-slice.is-filled,
@@ -3216,17 +3224,18 @@
 
     .play .choice-button.drag-choice,
     .play .drop-zone {
-      min-height: 66px;
       border-radius: 18px;
     }
 
     .play .choice-button.drag-choice {
+      min-height: 80px;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08)),
         rgba(43, 36, 58, 0.92);
     }
 
     .play .drop-zone {
+      min-height: 86px;
       background:
         radial-gradient(circle at 20% 20%, rgba(53, 217, 178, 0.16), transparent 0 30%, transparent 58%),
         rgba(53, 217, 178, 0.1);
@@ -3392,9 +3401,30 @@
         max-height: min(260px, 35vh);
       }
 
-      .play .choice-button.drag-choice,
+      .play .target-board {
+        padding: 4px 0;
+      }
+
+      .play .sort-visual {
+        gap: 2px;
+      }
+
+      .play .sort-number {
+        font-size: clamp(17px, 2.2vw, 20px);
+      }
+
+      .play .sort-visual svg {
+        width: min(170px, 58%);
+        max-width: 58%;
+        max-height: 38%;
+      }
+
+      .play .choice-button.drag-choice {
+        min-height: 80px;
+      }
+
       .play .drop-zone {
-        min-height: 56px;
+        min-height: 78px;
       }
 
       .play .rocket-zone {
