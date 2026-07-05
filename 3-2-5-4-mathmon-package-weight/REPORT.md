@@ -20,12 +20,13 @@
 ## 3. 화면 흐름
 
 ```text
-첫 화면 -> 설명 -> 문제 -> 보상 -> 결과
+첫 화면 -> 설명 1쪽 -> 설명 2쪽 -> 문제 -> 보상 -> 결과
 ```
 
 - 첫 화면: `cover-generated.webp` 배경, `title-logo-generated.webp` 제목 아트, HTML 목표 문장, `data-cover-start-standard="generated-button-art"` 기반 독립 생성형 `start-button-generated.webp` 버튼 아트와 실제 HTML 버튼
 - 전역 설정: 오른쪽 위 톱니 버튼과 `data-settings-standard="modal-controls"` 설정 모달
-- 설명: 3개의 짧은 카드로 g 더하기, 1kg 빌리기, 한도 판단을 안내
+- 설명 1쪽: 3개의 짧은 카드로 g 더하기, 1kg 빌리기, 한도 판단을 안내
+- 설명 2쪽: 3개의 짧은 카드로 정답 뒤 트럭 변화, 랜덤 보상, 최종 트럭 확인을 안내
 - 문제: 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본 노출
 - 보상: 부품 상자 이름, CSS 트럭 미리보기, 현재 트럭 단계 1개만 크게 표시
 - 결과: 트럭 단계 생성 이미지와 동적(dynamic) 결과값, 실제 다시 하기 조작 표시
@@ -103,6 +104,7 @@
 
 - 첫 화면 목표: `택배 한도에 맞는 무게를 골라요.`
 - 설명 카드: `g끼리 먼저 봐요.`, `부족하면 1kg을 빌려요.`, `한도보다 가벼워야 해요.`
+- 보상 설명 카드: `맞히면 트럭이 바뀌어요.`, `가끔 크게 바뀌어요.`, `슈퍼 트럭까지 도전해요.`
 - 문제 지시: `g끼리 더한 값을 골라요.`, `위 무게를 1kg 줄이고 1000g 늘려요.`, `한도에 맞는 말을 골라요.`
 - 오답 피드백: `다시 골라요.`
 - 보상/결과: `작은 부품 상자`, `트럭이 멋져졌어요.`, `평범 트럭`, `슈퍼 초울트라 트럭`, `5단원 무게`, `다시`
@@ -117,7 +119,8 @@
 확인 상태:
 
 - 첫 화면: `screenshots/cover.png`
-- 설명: `screenshots/tutorial.png`
+- 설명 1쪽: `screenshots/tutorial.png`
+- 설명 2쪽: `screenshots/tutorial-reward.png`
 - 문제 1단계: `screenshots/play-step1.png`
 - 문제 2단계: `screenshots/play-step2.png`
 - 오답/힌트 상태: `screenshots/wrong-hint.png`
@@ -127,6 +130,8 @@
 - 결과 3단계: `screenshots/result-cool.png`
 - 결과 4단계: `screenshots/result-super.png`
 - 태블릿 첫 화면: `screenshots/tablet-cover.png`
+- 태블릿 설명 1쪽: `screenshots/tablet-tutorial.png`
+- 태블릿 설명 2쪽: `screenshots/tablet-tutorial-reward.png`
 - 태블릿 문제: `screenshots/tablet-play-step1.png`
 - 태블릿 보상: `screenshots/tablet-reward.png`
 - 태블릿 결과 1단계: `screenshots/tablet-result-plain.png`

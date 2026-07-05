@@ -171,7 +171,20 @@ class Cdp {
     const id = this.nextId++;
     this.ws.send(JSON.stringify({ id, method, params }));
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      const timer = setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error(`${method} timed out`));
+      }, 15000);
+      this.pending.set(id, {
+        resolve: (value) => {
+          clearTimeout(timer);
+          resolve(value);
+        },
+        reject: (error) => {
+          clearTimeout(timer);
+          reject(error);
+        }
+      });
     });
   }
 
@@ -279,10 +292,17 @@ const PLAY_TO_COMPLETE = String.raw`
     if (!button) throw new Error("correct choice not found");
     button.click();
   };
+  const openPlayScreen = async (label) => {
+    document.querySelector("#startButton").click();
+    for (let guard = 0; guard < 4 && !document.querySelector("#screen-play").classList.contains("is-active"); guard += 1) {
+      document.querySelector("#tutorialStartButton").click();
+      await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active")
+        || document.querySelector("#screen-tutorial").classList.contains("is-active"), label + " tutorial advance");
+    }
+    await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active"), label);
+  };
 
-  document.querySelector("#startButton").click();
-  document.querySelector("#tutorialStartButton").click();
-  await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active"), "play screen");
+  await openPlayScreen("play screen");
   for (let guard = 0; guard < 8 && !document.querySelector("#completePanel").classList.contains("is-visible"); guard += 1) {
     clickCorrect();
     await waitFor(() => [...document.querySelectorAll("#choicesPanel button")].some((item) => item.dataset.correct === "true" && !item.disabled)
@@ -537,9 +557,16 @@ async function runSeedReplayProbe(page, seedPageUrl, randomPageUrl) {
           if (!button) throw new Error("correct choice not found");
           button.click();
         };
-        document.querySelector("#startButton").click();
-        document.querySelector("#tutorialStartButton").click();
-        await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active"), "first play screen");
+        const openPlayScreen = async (label) => {
+          document.querySelector("#startButton").click();
+          for (let guard = 0; guard < 4 && !document.querySelector("#screen-play").classList.contains("is-active"); guard += 1) {
+            document.querySelector("#tutorialStartButton").click();
+            await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active")
+              || document.querySelector("#screen-tutorial").classList.contains("is-active"), label + " tutorial advance");
+          }
+          await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active"), label);
+        };
+        await openPlayScreen("first play screen");
         const firstTitle = document.querySelector("#problemTitle").textContent;
         for (let guard = 0; guard < 80 && !document.querySelector("#screen-result").classList.contains("is-active"); guard += 1) {
           if (document.querySelector("#screen-reward").classList.contains("is-active")) {

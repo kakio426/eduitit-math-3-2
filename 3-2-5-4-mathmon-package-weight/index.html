@@ -1732,6 +1732,7 @@
       startButton: document.getElementById("startButton"),
       tutorialStartButton: document.getElementById("tutorialStartButton"),
       tutorialTitle: document.getElementById("tutorialTitle"),
+      tutorialCards: document.querySelector(".tutorial-cards"),
       settingsButton: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
@@ -1779,6 +1780,26 @@
     const hasExplicitSeed = seedParam !== null && Number.isInteger(seedFromUrl);
     const TUTORIAL_DEFAULT_TITLE = ui.tutorialTitle.textContent;
     const TUTORIAL_DEFAULT_BUTTON = ui.tutorialStartButton.textContent;
+    const TUTORIAL_PAGES = [
+      {
+        title: TUTORIAL_DEFAULT_TITLE,
+        button: "다음",
+        cards: [
+          ["1", "g끼리 먼저 봐요.", "1000g이 넘으면 1kg으로 바꿔요."],
+          ["2", "부족하면 1kg을 빌려요.", "1kg은 1000g이에요."],
+          ["3", "한도보다 가벼워야 해요.", "맞으면 트럭이 더 멋져요."]
+        ]
+      },
+      {
+        title: "트럭도 봐요",
+        button: TUTORIAL_DEFAULT_BUTTON,
+        cards: [
+          ["1", "맞히면 트럭이 바뀌어요.", "바로 맞히면 더 빨리 멋져져요."],
+          ["2", "가끔 크게 바뀌어요.", "운이 좋으면 한 번에 쑥 바뀌어요."],
+          ["3", "슈퍼 트럭까지 도전해요.", "마지막에 오늘 트럭을 봐요."]
+        ]
+      }
+    ];
     const AUDIO_PREF_KEYS = Object.freeze({
       bgm: "mathmon-audio-bgm-enabled",
       sfx: "mathmon-audio-sfx-enabled"
@@ -1827,6 +1848,7 @@
         latestUpgrade: null,
         rewardAppliedProblemIndex: -1,
         rewardAdvancedProblemIndex: -1,
+        tutorialPage: 0,
         tutorialReviewMode: false,
         reviewReturnScreen: "cover",
         bgmEnabled: loadAudioPreference(AUDIO_PREF_KEYS.bgm),
@@ -2245,10 +2267,31 @@
       }
     }
 
+    function renderTutorialPage(page) {
+      state.tutorialPage = Math.max(0, Math.min(TUTORIAL_PAGES.length - 1, page));
+      const view = TUTORIAL_PAGES[state.tutorialPage];
+      ui.tutorialTitle.textContent = view.title;
+      ui.tutorialStartButton.textContent = view.button;
+      ui.tutorialCards.innerHTML = "";
+      view.cards.forEach((card) => {
+        const item = document.createElement("div");
+        item.className = "tutorial-card";
+        const mark = document.createElement("div");
+        mark.className = "card-mark";
+        mark.textContent = card[0];
+        const title = document.createElement("strong");
+        title.textContent = card[1];
+        const body = document.createElement("p");
+        body.textContent = card[2];
+        item.append(mark, title, body);
+        ui.tutorialCards.append(item);
+      });
+    }
+
     function openTutorial(reviewMode) {
       state.tutorialReviewMode = Boolean(reviewMode);
-      ui.tutorialTitle.textContent = TUTORIAL_DEFAULT_TITLE;
-      ui.tutorialStartButton.textContent = state.tutorialReviewMode ? "계속하기" : TUTORIAL_DEFAULT_BUTTON;
+      renderTutorialPage(0);
+      if (state.tutorialReviewMode) ui.tutorialStartButton.textContent = "계속하기";
       showScreen("tutorial");
     }
 
@@ -2262,6 +2305,10 @@
       if (state.tutorialReviewMode) {
         state.tutorialReviewMode = false;
         showScreen(state.reviewReturnScreen || "cover");
+        return;
+      }
+      if (state.tutorialPage < TUTORIAL_PAGES.length - 1) {
+        renderTutorialPage(state.tutorialPage + 1);
         return;
       }
       startGame();
