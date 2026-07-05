@@ -7,6 +7,7 @@
 - 문제 은행: 받아올림 없는 186개 후보 중 매 판 10개 랜덤 출제
 - 콤보: 연속 정답이면 기본 정답 점수가 커짐
 - 상자 등급: 일반, 반짝, 황금 상자에 따라 보상 기대감이 달라짐
+- 첫 화면: 글자 없는 생성 배경, 독립 생성형 제목 아트, HTML 목표 문장, 독립 생성형 `시작` 버튼 아트로 구성
 - 결과 화면: 새 생성 배경 위에 매스몬 이름과 정답 수는 생성형 이미지로 크게 보여 주고, SVG 동적 레이어는 실제 점수값·버튼 표면만 보여 줌. 매스몬은 새 다양성 보상팩 WebP를 사용함
 - 순위: 결과 뒤 `순위`를 누르면 이번 주 전국 상자 순위 화면으로 이동. API 주소가 설정된 경우 서버가 만든 기록 이름으로 점수를 제출하고 10위까지 보여 줌
 - 소리: 낮은 볼륨의 기존 BGM과 Kenney CC0 샘플 기반 상황별 효과음 제공. 사용 팩은 Interface Sounds, Impact Sounds, RPG Audio, Digital Audio, Music Jingles이며, 소리 버튼으로 함께 켜고 끔
@@ -29,7 +30,10 @@
 ## 파일 구성
 
 - `index.html`: 게임 본문
-- `cover-generated.webp`: 첫 화면 대표 커버 이미지(배포용 경량 포맷, PNG 원본은 작업실 보관)
+- `cover-source.png`, `cover-generated.png`, `cover-generated.webp`: 글자 없는 첫 화면 대표 배경
+- `title-logo-source.png`, `title-logo-generated.png`, `title-logo-generated.webp`: 독립 생성형 제목 아트
+- `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`: 독립 생성형 `시작` 버튼 아트
+- `cover-legacy-poster.png`, `cover-legacy-poster.webp`: 이전 일체형 포스터 커버 보존본
 - `result-generated-v3.webp`: 최종 결과 RasterStage 배경 이미지(배포용 경량 포맷, PNG 원본은 작업실 보관)
 - `result-title-*-generated.webp`: 최종 매스몬 이름 생성형 타이틀 이미지
 - `../_shared/result-count/result-correct-*-generated.webp`: 결과 정답 수 생성형 숫자 이미지

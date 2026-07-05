@@ -304,34 +304,58 @@
       background: #080914;
     }
 
-    .cover-art {
+    .raster-bg {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .cover-brand-label {
+      position: absolute;
+      top: clamp(16px, 2.2vw, 24px);
+      left: clamp(16px, 2.2vw, 24px);
+      z-index: 2;
+    }
+
+    .cover-start-button {
+      width: 400px;
+      max-width: 58%;
+      height: 149px;
+      margin-top: 6px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: 0 20px 40px rgba(255, 178, 62, 0.28);
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    .cover-start-button:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.04);
+    }
+
+    .cover-start-button:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .cover-start-button:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.92);
+      outline-offset: 5px;
+      box-shadow: 0 0 0 10px rgba(255, 228, 92, 0.42), 0 20px 40px rgba(255, 178, 62, 0.28);
+    }
+
+    .start-button-art {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
-      object-position: center;
-    }
-
-    .cover-start-hitbox {
-      position: absolute;
-      left: 34%;
-      top: 62%;
-      z-index: 2;
-      width: 33%;
-      height: 18%;
-      padding: 0;
-      border: 0;
-      border-radius: 22px;
-      background: transparent;
-      box-shadow: none;
-      color: transparent;
-      font-size: 0;
-    }
-
-    .cover-start-hitbox:focus-visible {
-      outline: 5px solid rgba(255, 255, 255, 0.92);
-      outline-offset: 5px;
-      box-shadow: 0 0 0 10px rgba(255, 228, 92, 0.42);
+      pointer-events: none;
+      user-select: none;
     }
 
     .tutorial {
@@ -486,7 +510,7 @@
     .cover-unit-label {
       position: absolute;
       top: clamp(16px, 2.2vw, 24px);
-      right: clamp(16px, 2.2vw, 24px);
+      right: calc(clamp(16px, 2.2vw, 24px) + var(--sound-reserve));
       z-index: 2;
     }
 
@@ -512,11 +536,35 @@
         0 8px 0 rgba(0, 0, 0, 0.24);
     }
 
-    .cover-copy {
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      width: min(840px, 74%);
+      margin-top: 0;
+      gap: 12px;
+    }
+
+    .hero-title-art {
+      display: block;
+      width: min(700px, 100%);
+      height: auto;
+      filter: drop-shadow(0 16px 26px rgba(0, 18, 44, 0.28));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .cover-goal {
       margin: 0;
-      color: var(--ink);
-      font-size: clamp(1.25rem, 3vw, 2rem);
-      font-weight: 950;
+      padding: 8px 18px 9px;
+      border-radius: 999px;
+      color: #10251f;
+      background: rgba(255, 248, 232, 0.86);
+      box-shadow: 0 14px 34px rgba(0, 39, 84, 0.16);
+      font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+      font-weight: 1000;
+      line-height: 1.2;
     }
 
     .primary-button,
@@ -1623,7 +1671,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="legacy-raster-poster" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
     <aside class="phone-blocker" aria-label="지원 화면 안내">
       <div>
         <strong>태블릿이나 컴퓨터에서 열어요</strong>
@@ -1664,11 +1712,20 @@
       </div>
 
     <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
-      <img class="cover-art" src="cover-generated.webp?v=1" alt="" aria-hidden="true">
-      <h1 class="sr-only" id="coverTitle">매스몬 상자런</h1>
-      <p class="sr-only">에듀잇티 수학 게임</p>
-      <p class="sr-only">점수를 모아 매스몬을 얻어요. 받아올림이 없는 (세 자리 수)×(한 자리 수) 게임입니다.</p>
-      <button class="cover-start-hitbox" type="button" data-action="start" aria-label="시작">시작</button>
+      <img class="raster-bg" src="cover-generated.webp" alt="" aria-hidden="true">
+      <div class="cover-scene">
+        <div class="unit-label cover-brand-label">에듀잇티 수학 게임</div>
+        <div class="unit-label cover-unit-label">3학년 2학기 1단원</div>
+        <div class="unit-label cover-learning-label">받아올림이 없는 (세 자리 수)×(한 자리 수)</div>
+      </div>
+      <div class="hero-copy">
+        <h1 class="visually-hidden" id="coverTitle">매스몬 상자런</h1>
+        <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
+        <p class="cover-goal">점수를 모아 매스몬을 얻어요.</p>
+        <button class="cover-start-button" id="startButton" type="button" data-action="start" aria-label="시작">
+          <img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true">
+        </button>
+      </div>
     </section>
 
     <section class="screen tutorial" data-screen="tutorial" data-tutorial-step="solve" aria-labelledby="tutorialTitle">

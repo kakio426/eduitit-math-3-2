@@ -43,7 +43,7 @@
 
 ![첫 화면](screenshots/01-cover.png)
 
-첫 화면은 이미지 생성으로 만든 대표 커버를 사용합니다. 게임 제목, 매스몬, 상자, 배움 주제, 시작 버튼을 한 장면 안에 넣어 학생이 들어오자마자 `어떤 게임인지` 바로 느끼게 했습니다. 실제 조작은 이미지 위의 `시작` 버튼 위치에 투명 HTML 버튼을 얹어 처리하므로, 화면은 그림처럼 보이지만 클릭과 접근성은 유지됩니다.
+첫 화면은 `generated-title-overlay` 표준으로 이관했습니다. `cover-generated.webp`는 글자 없는 상자런 배경만 맡고, 게임 제목은 독립 생성형 `title-logo-generated.webp`, 시작 버튼 표면은 독립 생성형 `start-button-generated.webp`가 맡습니다. HTML은 브랜드/단원/배움주제 배지, 한 줄 목표, 실제 시작 버튼 hitbox와 접근성 제목을 맡습니다. 이전 일체형 포스터 커버는 `cover-legacy-poster.*`로 보존했습니다.
 
 ### 설명 화면
 
@@ -134,7 +134,10 @@
 이 폴더는 별도 빌드 없이 바로 열 수 있는 정적 패키지입니다.
 
 - `index.html`
-- `cover-generated.webp`
+- `cover-source.png`, `cover-generated.png`, `cover-generated.webp`
+- `title-logo-source.png`, `title-logo-generated.png`, `title-logo-generated.webp`
+- `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`
+- `cover-legacy-poster.png`, `cover-legacy-poster.webp`(이전 일체형 포스터 커버 보존본)
 - `tutorial-solve-source.png`, `tutorial-solve-generated.webp`
 - `tutorial-goal-source.png`, `tutorial-goal-generated.webp`
 - `tutorial-fulltext-source.png`, `tutorial-fulltext-generated.webp`(이전 포스터 보존본, 현재 실행 경로에서는 미사용)
@@ -181,3 +184,9 @@
 HTML은 보이는 설명을 다시 그리지 않고 접근성용 숨김 설명, 단계 전환 상태값, 투명 hitbox만 맡습니다. 첫 클릭은 `solve`에서 `goal`로 넘어가고, 둘째 클릭은 `상자 열기`로 첫 문제를 시작합니다. 설정의 `방법 다시 보기`도 같은 두 장을 보여 준 뒤 원래 화면으로 돌아옵니다.
 
 학생 문구는 `일의 자리부터 곱해요.`, `십의 자리도 곱해요.`, `백의 자리까지 곱해요.`, `상자 열기`처럼 짧은 행동 말로 유지했습니다. 로컬 Chrome QA와 배포본 QA에서 1280×800 기준 `시작 → 설명 1장 → 다음 → 설명 2장 → 상자 열기 → 문제 화면` 흐름을 확인했고, 설명 이미지 표시, 버튼 aria-label, Stage 비율, inline script 파싱, `git diff --check`를 통과했습니다. 에듀잇티 운영 런처는 `https://kakio426.github.io/eduitit-math-3-2/3-2-1-1-mathmon-box-run/?v=3bc3c71&scoreboardApi=https%3A%2F%2Feduitit.site`를 iframe으로 엽니다.
+
+## 12. 2026-07-05 첫 화면 표준 이관
+
+첫 화면을 이전 `legacy-raster-poster` 예외에서 `generated-title-overlay`와 `generated-button-art` 표준으로 옮겼습니다. 새 `cover-generated.webp`는 글자 없는 배경이며, 제목과 시작 버튼은 각각 생성형 독립 자산으로 올립니다. 커버 안의 매스몬과 상자는 배경 생성 단계에서 함께 들어간 장면이고, 별도 캐릭터 PNG를 얹지 않았습니다.
+
+학생 문구는 `점수를 모아 매스몬을 얻어요.`, `받아올림이 없는 (세 자리 수)×(한 자리 수)`, `시작`처럼 짧은 말로 유지했습니다. Chrome CDP QA에서 1280×800 `screenshots/01-cover.png`와 1024×768 `screenshots/tablet-cover.png`를 새로 캡처했고, 커버 배지·제목·목표·시작 버튼·설정 버튼의 Stage 밖 이탈과 겹침은 0건으로 확인했습니다.
