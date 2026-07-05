@@ -14,6 +14,7 @@ const LESSONS = [
     dir: "3-2-1-1-mathmon-box-run",
     startSelector: '[data-action="start"]',
     playSelector: '[data-action="start-first-problem"]',
+    tutorialClicksToPlay: 2,
     startCue: "uiNext",
     playCue: "uiNext",
   },
@@ -22,6 +23,8 @@ const LESSONS = [
     dir: "3-2-1-2-mathmon-rocket-charge",
     startSelector: "#startButton",
     playSelector: "#tutorialNextButton",
+    tutorialClicksToPlay: 2,
+    tutorialCuesToPlay: ["uiNext", "uiStart"],
     startCue: "uiStart",
     playCue: "uiStart",
   },
@@ -30,6 +33,8 @@ const LESSONS = [
     dir: "3-2-1-3-mathmon-jump-islands",
     startSelector: "#startButton",
     playSelector: "#tutorialNextButton",
+    tutorialClicksToPlay: 2,
+    tutorialCuesToPlay: ["uiNext", "uiStart"],
     startCue: "uiStart",
     playCue: "uiStart",
   },
@@ -159,6 +164,18 @@ function lessonUrl(lesson, suffix = "") {
   return url.href;
 }
 
+function choiceSelector(lesson) {
+  return lesson.choiceSelector || ".choice-button";
+}
+
+function tutorialClicksToPlay(lesson) {
+  return lesson.tutorialClicksToPlay || 1;
+}
+
+function tutorialCuesToPlay(lesson) {
+  return lesson.tutorialCuesToPlay || Array.from({ length: tutorialClicksToPlay(lesson) }, () => lesson.playCue);
+}
+
 async function navigateToLesson(lesson, suffix = "") {
   await cdp.send("Page.navigate", { url: lessonUrl(lesson, suffix) });
   await waitUntil("document.readyState === 'complete'", `${lesson.name}: document did not finish loading`, 6000);
@@ -280,10 +297,13 @@ async function playToFirstQuestion(lesson) {
   await clearLog();
   await click(lesson.startSelector);
   await assertLogIncludes(lesson, lesson.startCue, "start cue was not logged");
-  await clearLog();
-  await click(lesson.playSelector);
-  await assertLogIncludes(lesson, lesson.playCue, "play-screen cue was not logged");
-  await waitUntil("document.querySelectorAll('.choice-button').length > 0", `${lesson.name}: choices did not render`, 3000);
+  const cues = tutorialCuesToPlay(lesson);
+  for (let index = 0; index < tutorialClicksToPlay(lesson); index += 1) {
+    await clearLog();
+    await click(lesson.playSelector);
+    await assertLogIncludes(lesson, cues[index] || lesson.playCue, "play-screen cue was not logged");
+  }
+  await waitUntil(`document.querySelectorAll(${JSON.stringify(choiceSelector(lesson))}).length > 0`, `${lesson.name}: choices did not render`, 3000);
 }
 
 async function screenSnapshot() {
@@ -306,7 +326,7 @@ async function runSoundOnScenario(lesson) {
   await playToFirstQuestion(lesson);
 
   await clearLog();
-  await click(".choice-button");
+  await click(choiceSelector(lesson));
   await waitUntil(
     "window.__mathmonAudioQa.getLog().some((cue) => cue === 'answerCorrect' || cue === 'answerWrongSoft')",
     `${lesson.name}: answer cue was not logged`,
@@ -346,10 +366,12 @@ async function runSfxOffScenario(lesson) {
   await delay(250);
   let log = await getLog();
   assert(log.length === 0, `${lesson.name}: SFX-off start still logged cues: ${JSON.stringify(log)}`);
-  await click(lesson.playSelector);
-  await waitUntil("document.querySelectorAll('.choice-button').length > 0", `${lesson.name}: choices did not render with SFX off`, 3000);
+  for (let index = 0; index < tutorialClicksToPlay(lesson); index += 1) {
+    await click(lesson.playSelector);
+  }
+  await waitUntil(`document.querySelectorAll(${JSON.stringify(choiceSelector(lesson))}).length > 0`, `${lesson.name}: choices did not render with SFX off`, 3000);
   await clearLog();
-  await click(".choice-button");
+  await click(choiceSelector(lesson));
   await delay(500);
   log = await getLog();
   assert(log.length === 0, `${lesson.name}: SFX-off answer still logged cues: ${JSON.stringify(log)}`);
@@ -365,14 +387,18 @@ async function runSettingsFlowScenario(lesson) {
   await openSettings(lesson);
   await click(SETTINGS.method);
   await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'tutorial'", `${lesson.name}: method review did not open tutorial`, 2000);
-  const reviewLabel = await evaluate(`
+  for (let index = 0; index < tutorialClicksToPlay(lesson); index += 1) {
+    const reviewLabel = await evaluate(`
 (() => {
   const node = document.querySelector(${JSON.stringify(lesson.playSelector)});
   return node?.getAttribute("aria-label")?.trim() || node?.textContent.trim() || "";
 })()
 `);
-  assert(reviewLabel === "계속하기", `${lesson.name}: tutorial review button label was ${reviewLabel}`);
-  await click(lesson.playSelector);
+    if (index === tutorialClicksToPlay(lesson) - 1) {
+      assert(reviewLabel === "계속하기", `${lesson.name}: tutorial review button label was ${reviewLabel}`);
+    }
+    await click(lesson.playSelector);
+  }
   await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'play'", `${lesson.name}: method review did not return to play`, 2000);
   const after = await screenSnapshot();
   assert(before.question === after.question && before.progress === after.progress, `${lesson.name}: method review changed play state: ${JSON.stringify({ before, after })}`);

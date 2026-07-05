@@ -165,6 +165,8 @@ async function openLesson(viewport) {
   await evaluate('document.getElementById("startButton").click()');
   await delay(120);
   await evaluate('document.getElementById("tutorialNextButton").click()');
+  await delay(120);
+  await evaluate('document.getElementById("tutorialNextButton").click()');
   await waitUntil("document.getElementById('playScreen').classList.contains('is-active')", `${viewport.name}: play screen did not open`, 3000);
   await delay(160);
 }

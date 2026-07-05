@@ -185,6 +185,8 @@ async function runScenario(viewport) {
   await evaluate('document.getElementById("startButton").click()');
   await delay(120);
   await evaluate('document.getElementById("tutorialNextButton").click()');
+  await delay(120);
+  await evaluate('document.getElementById("tutorialNextButton").click()');
   await waitForStepText("1단계", viewport);
 
   const firstStep = await clickCorrectChoice();
