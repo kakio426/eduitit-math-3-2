@@ -32,7 +32,7 @@
 - `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼 원본과 배포본
 - `tutorial-generated.png/webp`: 설명 화면 검산 흐름 배경
 - `board-vault-generated.png/webp`: 문제 화면 보안실 배경
-- `lock-generated.png/webp`: 보상 팝업 자물쇠 오브젝트
+- `lock-generated.png/webp`: 보상 팝업 자물쇠 그림
 - `result-lock-generated.png/webp`: 자물쇠 결과 화면
 - `result-safe-generated.png/webp`: 금고 결과 화면
 - `result-large-safe-generated.png/webp`: 대형금고 결과 화면
@@ -52,7 +52,7 @@
 - `start-button-generated.webp`: 첫 화면 생성형 시작 버튼
 - `result-*-generated.webp`: 금고 이름별 결과 배경
 - `assets/mathmon/base-pack/mathmon-9-kingdragonmon.webp`: 보존된 base-pack 킹드래곤몬 배포본
-- `lock-generated.webp`: 보상 오브젝트
+- `lock-generated.webp`: 보상 자물쇠 그림
 - `eduitit-logo-mark.png`: 에듀잇티 로고
 - `screenshots/`: 화면별 검증 스크린샷
 - `REPORT.md`: 게임 설명, 화면 흐름, 보상 구조
