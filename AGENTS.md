@@ -143,17 +143,17 @@
   - `3-2-2-2-mathmon-elevator` 매스몬 엘리베이터 (내림 있는 (두 자리)÷(한 자리))
   - `3-2-2-3-mathmon-star-pickup` 매스몬 별 줍기 (나머지가 있는 나눗셈)
   - `3-2-2-4-mathmon-check-lock` 매스몬 검산 자물쇠 (곱셈으로 검산하기)
-- 3단원 원: 1~4차시 코드·SVG·문서·등록·검증 완료 (시리즈 최초 도형 단원 — 문제 화면을 원 SVG 도형 선택으로 구현). **생성형 이미지(커버·제목 아트·결과 등급·circle-pack 매스몬)는 미생성 TODO**: `_shared/mathmon/UNIT3_IMAGE_GUIDE.md` 참고. 이미지 연결 전까지 첫 화면은 임시 텍스트 제목, 결과는 등급 색 카드로 동작.
+- 3단원 원: 1~4차시 모두 빌드 완료 + 생성형 커버·제목 아트·시작 버튼·결과 등급 자산 연결 완료 (`modal-controls`, `generated-title-overlay`, `generated-button-art`, `generated-assets` 기준). 문제 화면은 원 SVG 도형 선택으로 구현.
   - `3-2-3-1-mathmon-target-hit` 매스몬 표적 맞히기 (원의 중심·반지름·지름 찾기)
   - `3-2-3-2-mathmon-compass-ring` 매스몬 컴퍼스 마법진 (컴퍼스로 원 그리기)
   - `3-2-3-3-mathmon-double-bridge` 매스몬 두 배 다리 (지름 = 반지름 × 2)
   - `3-2-3-4-mathmon-circle-pattern` 매스몬 원 무늬 디자이너 (원으로 규칙·무늬 만들기, ★ 단원 정점)
-- 4단원 분수: 1~4차시 코드·SVG·문서·등록·검증 완료 (문제 화면을 분수 SVG/HTML 선택으로 구현 — 피자 등분·그룹 토큰·분수 원·비교 막대). **생성형 이미지(커버·제목 아트·결과 등급·fraction-pack 매스몬)는 미생성 TODO**: `_shared/mathmon/UNIT4_IMAGE_GUIDE.md` 참고. 이미지 연결 전까지 첫 화면은 임시 텍스트 제목, 결과는 등급 색 카드로 동작.
+- 4단원 분수: 1~4차시 모두 빌드 완료 + 생성형 커버·제목 아트·시작 버튼·결과 등급 자산 연결 완료 (`modal-controls`, `generated-title-overlay`, `generated-button-art`, `generated-assets` 기준). 문제 화면은 분수 SVG/HTML 선택으로 구현.
   - `3-2-4-1-mathmon-pizza-fraction` 매스몬 피자 분수 가게 (부분과 전체로 분수 나타내기)
   - `3-2-4-2-mathmon-fraction-scoop` 매스몬 분수만큼 담기 (전체의 분수만큼 구하기, 2단계 선택)
   - `3-2-4-3-mathmon-fraction-sorter` 매스몬 분수 분류 컨베이어 (진분수·가분수·대분수 구분)
   - `3-2-4-4-mathmon-fraction-tug` 매스몬 분수 줄다리기 (분모 같은 분수·단위분수 비교, ★ 단원 정점)
-- 5단원 들이와 무게: 1~4차시 모두 빌드 완료 (5-1~3은 `modal-controls`, `generated-title-overlay`, `generated-button-art`, `generated-assets` 기준)
+- 5단원 들이와 무게: 1~4차시 모두 빌드 완료 (`modal-controls`, `generated-title-overlay`, `generated-button-art`, `generated-assets` 기준)
   - `3-2-5-1-mathmon-water-fill` 매스몬 물통 채우기 시합 (mL/L 눈금 읽기와 들이 비교)
   - `3-2-5-2-mathmon-drink-order` 매스몬 음료 제조 주문 (들이의 덧셈·뺄셈과 주문 비교)
   - `3-2-5-3-mathmon-scale-balance` 매스몬 저울 균형 (kg/g/t 무게 비교와 균형 맞추기)
