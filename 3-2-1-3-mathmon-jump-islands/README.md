@@ -15,7 +15,7 @@
 2. 설명: 0 가리기, 먼저 곱하기, 0 붙이기, 바람에 따라 점프 길이 달라지는 흐름을 짧게 안내합니다.
 3. 문제: 상단 생성 이미지 지도에 여섯 섬과 현재 위치 매스몬을 보여 주고, 현재 단계만 크게 풉니다.
 4. 바람: 한 문제 뒤 한 가지 바람만 보여 줍니다. 보상 모달을 확인한 뒤 지도 매스몬이 작게 반응합니다.
-5. 결과: 점프 길을 살펴본 뒤 도착지별 완성 이미지 위에 정답 수 숫자, 생성형 `순위 보기` 버튼 자산, 투명 hitbox만 얹습니다.
+5. 결과: 점프 길을 살펴본 뒤 도착지별 완성 이미지 위에 공용 정답 수 이미지 아트, 생성형 `순위 보기` 버튼 자산, 투명 hitbox만 얹습니다.
 6. 순위: 결과 공개 뒤 `순위 보기`를 누르면 이번 주 전국 점프 순위 화면으로 이동합니다.
 
 ## 문제 방식
@@ -45,16 +45,16 @@
 
 ## 자산
 
-- 첫 화면: `cover-generated.webp`, `title-poster-generated.webp`, 1차시 버튼 물성을 참고한 독립 생성형 자산 `start-button-generated.webp`
+- 첫 화면: `cover-generated.png`, `cover-generated.webp`, `title-poster-generated.webp`, 1차시 버튼 물성을 참고한 독립 생성형 자산 `start-button-generated.webp`
 - 설명: `tutorial-generated.webp`
 - 문제 지도: `play-map-strip-source.png`, `play-map-strip-generated.webp`, `mathmon-zfa-04-nyangnyangmon.webp` 현재 위치 마커
 - 바람: `reward-tailwind-generated.webp`, `reward-headwind-generated.webp`, `reward-pause-generated.webp`, `reward-gust-generated.webp`, `reward-rainbow-generated.webp`, `reward-shaky-generated.webp`
 - 결과: `result-final-start-generated.webp`, `result-final-sand-generated.webp`, `result-final-forest-generated.webp`, `result-final-cloud-generated.webp`, `result-final-starlight-generated.webp`, `result-final-rainbow-generated.webp`, `result-rank-button-source.png`, `result-rank-button-generated.png`, `result-rank-button-generated.webp`
-- 매스몬: `_shared/mathmon/zero-factory-animal-pack/`의 `mathmon-zfa-04-nyangnyangmon.webp`
+- 매스몬: 첫 화면 동행 캐릭터는 `cover-generated.png/webp` 장면 안에 포함하고, 문제 지도 현재 위치 마커는 `_shared/mathmon/zero-factory-animal-pack/`의 `mathmon-zfa-04-nyangnyangmon.webp`를 씁니다.
 - 소리: `assets/audio/*.wav` Kenney CC0 기반 버튼, 정답, 오답, 0 붙이기, 바람, 지도, 결과 효과음
 - 순위: `../_shared/scoreboard/*` 공통 전국 순위 배경, 생성형 타이틀 이미지, SVG UI, API 브리지
 
-문제와 보상 모달의 생성 이미지에는 문제, 선택지, 점수, 버튼, 섬 이름을 넣지 않았습니다. 결과 화면은 `result-final-*` 6장 완성형 래스터가 도착 라벨, 큰 결과 문구, 이미지 속 `다시하기` 버튼, 점수용 빈 네모 상자를 함께 담습니다. HTML/CSS가 보이게 만드는 것은 `6/10` 같은 정답 수 숫자 1개뿐입니다. 순위 버튼은 별도 생성형 이미지 자산으로 보이고, 순위와 다시하기 클릭은 같은 위치의 투명 HTML hitbox가 맡습니다. 점수 숫자는 각 결과 이미지의 빈 네모 상자에 맞춘 `data-result-island` RasterStage 슬롯으로 배치하고, QA 스크립트가 스크린샷 픽셀에서 숫자 중심과 빈칸 중심을 비교합니다. 점수 상자에는 라벨을 넣지 않았고, 시작 결과 이미지에도 보이는 `출발섬` 텍스트를 넣지 않았습니다.
+문제와 보상 모달의 생성 이미지에는 문제, 선택지, 점수, 버튼, 섬 이름을 넣지 않았습니다. 결과 화면은 `result-final-*` 6장 완성형 래스터가 도착 라벨, 큰 결과 문구, 이미지 속 `다시하기` 버튼, 점수용 빈 네모 상자를 함께 담습니다. 보이는 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 공용 이미지 아트가 맡고, `#finalCorrectText`는 숨김 접근성 값으로만 남깁니다. 순위 버튼은 별도 생성형 이미지 자산으로 보이고, 순위와 다시하기 클릭은 같은 위치의 투명 HTML hitbox가 맡습니다. 정답 수 이미지 아트는 각 결과 이미지의 빈 네모 상자에 맞춘 `data-result-island` RasterStage 슬롯으로 배치하고, QA 스크립트가 스크린샷 픽셀에서 이미지 중심과 빈칸 중심을 비교합니다. 점수 상자에는 라벨을 넣지 않았고, 시작 결과 이미지에도 보이는 `출발섬` 텍스트를 넣지 않았습니다.
 
 ## 전국 순위 백엔드 연결
 
@@ -70,4 +70,4 @@
 
 ## QA
 
-새 보상 모달 이미지 6종, 새 결과 완성 이미지 6종, 첫 화면부터 결과 화면까지의 흐름, 상단 지도 매스몬 미니 효과를 다시 확인했습니다. 결과 화면은 `fullscene-score-slot` 모드로 보이는 DOM 텍스트를 정답 수 숫자 하나로 제한하고, 순위와 다시하기는 이미지 자산과 투명 hitbox로 처리했습니다. `1280x800`, `1024x768`에서 텍스트 넘침과 요소 겹침 0건, 지도 밖 이탈 0건, 학생 화면 `현재` 글자 미노출을 확인했습니다. `node scripts/qa-lesson3-result-fullscene.mjs`는 6개 결과 이미지의 점수 숫자 픽셀 중심이 빈 점수칸 중심에서 허용치 안에 있는지도 검사합니다. `node scripts/qa-unit1-result-screens.mjs`는 Unit 1 결과 화면 계약과 버튼 동작을 함께 확인합니다. 오디오 자산은 루트에서 `node scripts/check-audio-assets.mjs`로 참조 파일, 배포 폴더, 길이를 확인합니다. 대표 스크린샷은 `screenshots/`에 있습니다.
+새 보상 모달 이미지 6종, 새 결과 완성 이미지 6종, 첫 화면부터 결과 화면까지의 흐름, 상단 지도 매스몬 미니 효과를 다시 확인했습니다. 결과 화면은 `fullscene-score-slot` 모드로 보이는 정답 수를 공용 생성형 이미지 아트로 제한하고, 순위와 다시하기는 이미지 자산과 투명 hitbox로 처리했습니다. `1280x800`, `1024x768`에서 텍스트 넘침과 요소 겹침 0건, 지도 밖 이탈 0건, 학생 화면 `현재` 글자 미노출을 확인했습니다. `node scripts/qa-lesson3-result-fullscene.mjs`는 6개 결과 이미지의 정답 수 이미지 중심이 빈 점수칸 중심에서 허용치 안에 있는지도 검사합니다. `node scripts/qa-unit1-result-screens.mjs`는 Unit 1 결과 화면 계약과 버튼 동작을 함께 확인합니다. 오디오 자산은 루트에서 `node scripts/check-audio-assets.mjs`로 참조 파일, 배포 폴더, 길이를 확인합니다. 대표 스크린샷은 `screenshots/`에 있습니다.

@@ -14,9 +14,6 @@ const SOUND_RESERVE_RULE = "--sound-reserve: calc(var(--sound-button-size) + var
 const TOP_CONTROL_PAD_RULE = "--top-control-pad-x:";
 const TOP_CONTROL_ICON_GAP_RULE = "--top-control-icon-gap:";
 const LEGACY_COVER_MATHMON_LESSONS = new Set([
-  "3-2-1-2-mathmon-rocket-charge",
-  "3-2-1-3-mathmon-jump-islands",
-  "3-2-1-3-mathmon-zero-factory",
   "3-2-4-1-mathmon-pizza-fraction",
   "3-2-4-2-mathmon-fraction-scoop",
   "3-2-4-3-mathmon-fraction-sorter",

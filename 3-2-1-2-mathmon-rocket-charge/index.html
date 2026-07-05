@@ -583,120 +583,6 @@
       user-select: none;
     }
 
-    .cover-visual {
-      position: relative;
-      min-height: 470px;
-      display: grid;
-      place-items: center;
-      visibility: hidden;
-    }
-
-    .star-field {
-      position: absolute;
-      inset: 4% 0 0 0;
-      background:
-        linear-gradient(90deg, transparent 0 14%, rgba(255, 255, 255, 0.54) 14% 15%, transparent 15% 45%, rgba(255, 200, 87, 0.6) 45% 46%, transparent 46%),
-        linear-gradient(90deg, transparent 0 62%, rgba(96, 215, 255, 0.56) 62% 63%, transparent 63%),
-        linear-gradient(90deg, transparent 0 28%, rgba(255, 255, 255, 0.42) 28% 29%, transparent 29% 82%, rgba(255, 93, 122, 0.5) 82% 83%, transparent 83%);
-      background-size: 220px 80px, 260px 130px, 310px 110px;
-      opacity: 0.5;
-      transform: skewY(-6deg);
-    }
-
-    .rocket-hero {
-      position: relative;
-      width: min(330px, 72%);
-      height: 420px;
-      filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.35));
-      animation: float-rocket 4.8s ease-in-out infinite;
-    }
-
-    .rocket-body {
-      position: absolute;
-      left: 50%;
-      top: 34px;
-      width: 136px;
-      height: 274px;
-      transform: translateX(-50%);
-      border: 4px solid rgba(255, 255, 255, 0.75);
-      border-radius: 78px 78px 36px 36px;
-      background: linear-gradient(90deg, #f8f4eb 0%, #ffffff 38%, #d9ecff 100%);
-    }
-
-    .rocket-nose {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 128px;
-      height: 108px;
-      transform: translateX(-50%);
-      clip-path: polygon(50% 0, 100% 100%, 0 100%);
-      background: linear-gradient(135deg, #ff5d7a, #ffc857);
-    }
-
-    .rocket-window {
-      position: absolute;
-      left: 50%;
-      top: 114px;
-      width: 66px;
-      height: 66px;
-      transform: translateX(-50%);
-      border: 7px solid #7d4b2d;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #60d7ff, #d2fbff);
-      box-shadow: inset 10px -10px 0 rgba(21, 107, 140, 0.14);
-    }
-
-    .rocket-band {
-      position: absolute;
-      left: 50%;
-      top: 205px;
-      width: 120px;
-      height: 36px;
-      transform: translateX(-50%);
-      border-radius: var(--radius);
-      background: #35d9b2;
-    }
-
-    .rocket-fin {
-      position: absolute;
-      top: 240px;
-      width: 76px;
-      height: 112px;
-      background: linear-gradient(180deg, #ff5d7a, #c93b58);
-    }
-
-    .rocket-fin.left {
-      left: 42px;
-      clip-path: polygon(100% 0, 100% 100%, 0 100%);
-    }
-
-    .rocket-fin.right {
-      right: 42px;
-      clip-path: polygon(0 0, 100% 100%, 0 100%);
-    }
-
-    .rocket-flame {
-      position: absolute;
-      left: 50%;
-      top: 314px;
-      width: 78px;
-      height: 100px;
-      transform: translateX(-50%);
-      clip-path: polygon(50% 100%, 100% 0, 0 0);
-      background: linear-gradient(180deg, #ffe27a, #ff8f3d 52%, #ff5d7a);
-      animation: flame-pulse 0.48s ease-in-out infinite alternate;
-    }
-
-    .cover-mathmon {
-      position: absolute;
-      right: 2%;
-      bottom: 7%;
-      width: clamp(128px, 16vw, 180px);
-      transform: rotate(4deg);
-      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.32));
-    }
-
     .tutorial {
       align-items: center;
       padding: clamp(74px, 10vw, 100px) clamp(22px, 5vw, 70px) clamp(28px, 4vw, 42px);
@@ -2822,19 +2708,6 @@
         grid-template-columns: 1fr;
       }
 
-      .cover-visual {
-        min-height: 300px;
-        order: -1;
-      }
-
-      .rocket-hero {
-        height: 300px;
-      }
-
-      .cover-mathmon {
-        width: 118px;
-      }
-
       .hud {
         grid-template-columns: 1fr;
       }
@@ -2948,20 +2821,6 @@
           <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
             <img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true">
           </button>
-        </div>
-        <div class="cover-visual" aria-hidden="true">
-          <div class="star-field"></div>
-          <div class="rocket-hero">
-            <div class="rocket-nose"></div>
-            <div class="rocket-body">
-              <div class="rocket-window"></div>
-              <div class="rocket-band"></div>
-            </div>
-            <div class="rocket-fin left"></div>
-            <div class="rocket-fin right"></div>
-            <div class="rocket-flame"></div>
-          </div>
-          <img class="cover-mathmon" src="assets/mathmon/base-pack/mathmon-3-babydragonmon.webp" alt="">
         </div>
       </div>
     </section>
@@ -3116,7 +2975,7 @@
           <div id="resultPlanetTrack" aria-label="행성 거리 측정"></div>
         </div>
         <span id="finalEnergyText">0</span>
-        <span id="finalCorrectText">0/10</span>
+        <span class="visually-hidden" id="finalCorrectText">0/10</span>
         <span id="finalDestinationText">수성</span>
       </div>
       <img class="result-title-art" id="resultTitleArt" src="result-title-mercury-generated.webp" alt="" aria-hidden="true" hidden>
