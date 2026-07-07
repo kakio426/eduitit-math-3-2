@@ -197,7 +197,6 @@
     .primary-button:focus-visible,
     .ghost-button:focus-visible,
     .choice-button:focus-visible,
-    .hint-toggle:focus-visible,
     .settings-toggle:focus-visible,
     .settings-switch:focus-visible,
     .settings-action:focus-visible {
@@ -1187,7 +1186,7 @@
     .fuel-panel {
       position: relative;
       z-index: 4;
-      display: grid;
+      display: none;
       gap: 10px;
       padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.16);
@@ -1314,10 +1313,12 @@
     }
 
     .problem-panel {
+      width: auto;
+      justify-self: stretch;
       display: grid;
-      grid-template-rows: auto auto auto auto minmax(30px, auto);
-      gap: 10px;
-      padding: clamp(12px, 2.1vw, 18px);
+      grid-template-rows: auto minmax(250px, 1fr) auto auto minmax(24px, auto);
+      gap: 12px;
+      padding: clamp(14px, 2.2vw, 20px);
     }
 
     .problem-heading {
@@ -1329,12 +1330,12 @@
 
     .problem-heading h2 {
       width: 100%;
-      min-height: 82px;
+      min-height: 70px;
       display: grid;
       place-items: center;
       margin: 0;
       color: #ffffff;
-      font-size: clamp(2.1rem, 5.8vw, 4.4rem);
+      font-size: clamp(2rem, 5.4vw, 4rem);
       line-height: 1.08;
       font-weight: 1000;
       text-align: center;
@@ -1355,14 +1356,13 @@
 
     .calc-stage {
       display: grid;
-      grid-template-columns: minmax(320px, 1fr) auto;
-      gap: 12px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
       align-items: stretch;
     }
 
     .division-board,
     .step-panel {
-      min-height: 218px;
       padding: 12px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -1371,9 +1371,10 @@
 
     .division-board {
       display: grid;
-      grid-template-rows: auto auto auto;
+      grid-template-rows: minmax(0, 1fr);
       align-content: stretch;
-      gap: 10px;
+      gap: 0;
+      min-height: 260px;
       border-color: rgba(53, 217, 178, 0.28);
       background:
         radial-gradient(circle at 82% 78%, rgba(53, 217, 178, 0.1), transparent 0 24%, transparent 56%),
@@ -1382,9 +1383,15 @@
       box-shadow: inset 0 0 0 1px rgba(53, 217, 178, 0.08), 0 0 28px rgba(53, 217, 178, 0.08);
     }
 
+    .division-board .share-row,
+    .division-board .basket-row,
+    .step-panel {
+      display: none;
+    }
+
     .share-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto minmax(130px, 0.48fr);
+      grid-template-columns: minmax(0, 1fr) auto minmax(138px, 0.42fr);
       align-items: center;
       gap: 10px;
       width: 100%;
@@ -1438,6 +1445,137 @@
       word-break: keep-all;
     }
 
+    .basket-workbench {
+      min-height: 100%;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      align-items: center;
+      justify-items: center;
+      gap: 14px;
+    }
+
+    .representative-basket {
+      position: relative;
+      width: min(360px, 76%);
+      min-height: clamp(168px, 23vw, 220px);
+      display: grid;
+      place-items: center;
+      padding: 34px 26px 24px;
+      border: 2px solid rgba(255, 200, 87, 0.66);
+      border-radius: 28px 28px 40px 40px;
+      color: #241500;
+      background:
+        linear-gradient(180deg, rgba(255, 244, 177, 0.98), rgba(255, 201, 90, 0.96));
+      box-shadow:
+        inset 0 -12px 0 rgba(178, 116, 26, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        0 18px 28px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .representative-basket::before {
+      content: "";
+      position: absolute;
+      top: 13px;
+      left: 24%;
+      right: 24%;
+      height: 26px;
+      border: 5px solid rgba(79, 47, 11, 0.24);
+      border-bottom: 0;
+      border-radius: 999px 999px 0 0;
+    }
+
+    .representative-basket::after {
+      content: "";
+      position: absolute;
+      inset: auto 10% 18px;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      filter: blur(1px);
+    }
+
+    .representative-basket.is-step-ones,
+    .representative-basket.is-step-combine {
+      border-color: rgba(53, 217, 178, 0.78);
+      box-shadow:
+        inset 0 -12px 0 rgba(178, 116, 26, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        0 0 0 4px rgba(53, 217, 178, 0.16),
+        0 18px 28px rgba(0, 0, 0, 0.22);
+    }
+
+    .representative-basket.is-final {
+      color: #10271f;
+      border-color: rgba(53, 217, 178, 0.9);
+      background: linear-gradient(180deg, #b8ffe9, #35d9b2);
+      box-shadow:
+        inset 0 -12px 0 rgba(17, 129, 98, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        0 0 0 5px rgba(53, 217, 178, 0.2),
+        0 20px 30px rgba(0, 0, 0, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .representative-basket-value {
+      position: relative;
+      z-index: 1;
+      max-width: 100%;
+      color: currentColor;
+      font-size: clamp(2.5rem, 7vw, 5.4rem);
+      font-weight: 1000;
+      line-height: 1.12;
+      text-align: center;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .basket-markers {
+      min-height: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      max-width: min(420px, 92%);
+    }
+
+    .basket-marker {
+      position: relative;
+      width: 32px;
+      height: 24px;
+      border: 1px solid rgba(255, 200, 87, 0.34);
+      border-radius: 8px 8px 12px 12px;
+      background: rgba(255, 200, 87, 0.2);
+      opacity: 0.58;
+    }
+
+    .basket-marker::before {
+      content: "";
+      position: absolute;
+      top: -7px;
+      left: 24%;
+      right: 24%;
+      height: 9px;
+      border: 2px solid rgba(255, 240, 198, 0.28);
+      border-bottom: 0;
+      border-radius: 999px 999px 0 0;
+    }
+
+    .basket-marker.is-filled {
+      opacity: 0.92;
+      border-color: rgba(255, 200, 87, 0.72);
+      background: linear-gradient(180deg, rgba(255, 238, 161, 0.9), rgba(255, 200, 87, 0.9));
+    }
+
+    .basket-marker.is-final {
+      opacity: 1;
+      border-color: rgba(53, 217, 178, 0.82);
+      background: linear-gradient(180deg, rgba(184, 255, 233, 0.95), rgba(53, 217, 178, 0.92));
+      box-shadow: 0 0 14px rgba(53, 217, 178, 0.2);
+    }
+
     .share-plus,
     .share-equals,
     .share-arrow {
@@ -1461,7 +1599,7 @@
 
     .basket-row {
       display: grid;
-      grid-template-columns: minmax(82px, 1fr) auto minmax(82px, 1fr) auto minmax(110px, 1.08fr);
+      grid-template-columns: minmax(94px, 0.82fr) auto minmax(94px, 0.82fr) auto minmax(132px, 1fr);
       align-items: center;
       gap: 10px;
     }
@@ -1499,70 +1637,14 @@
     }
 
     .step-panel {
-      display: grid;
-      grid-template-rows: auto auto auto;
-      gap: 9px;
-      align-content: center;
-      width: 220px;
+      display: none;
+      min-height: 54px;
+      padding: 10px;
       border-color: rgba(255, 255, 255, 0.14);
       background:
         linear-gradient(150deg, rgba(255, 200, 87, 0.06), transparent 46%),
         rgba(14, 12, 22, 0.38);
       box-shadow: none;
-    }
-
-    .step-panel:not(.is-open) {
-      width: 92px;
-      padding: 12px;
-      place-items: center;
-      border-color: rgba(255, 200, 87, 0.24);
-      background: rgba(255, 200, 87, 0.06);
-    }
-
-    .step-panel:not(.is-open) .step-track,
-    .step-panel:not(.is-open) .step-focus-label,
-    .step-panel:not(.is-open) .step-formula,
-    .step-panel:not(.is-open) .step-meaning,
-    .step-panel:not(.is-open) #stepHintContent {
-      display: none;
-    }
-
-    #stepHintContent {
-      display: grid;
-      gap: 9px;
-    }
-
-    .hint-toggle {
-      min-width: 68px;
-      min-height: 56px;
-      padding: 8px 10px;
-      border: 1px solid rgba(255, 200, 87, 0.52);
-      border-radius: var(--radius);
-      color: #231400;
-      background: linear-gradient(180deg, #ffe27a, #ffc857);
-      font-size: clamp(0.92rem, 1.8vw, 1.02rem);
-      font-weight: 1000;
-      line-height: 1;
-      box-shadow: 0 8px 0 rgba(106, 70, 23, 0.22), 0 12px 20px rgba(0, 0, 0, 0.18);
-    }
-
-    .step-panel.is-open .hint-toggle {
-      justify-self: end;
-      min-width: 58px;
-      min-height: 0;
-      padding: 6px 10px;
-      color: #ffe7a4;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: none;
-    }
-
-    .step-focus-label {
-      display: none;
-      margin: 0;
-      color: #ffe7a4;
-      font-size: 0.88rem;
-      font-weight: 1000;
-      letter-spacing: 0;
     }
 
     .step-track {
@@ -1596,32 +1678,6 @@
       border-color: rgba(53, 217, 178, 0.86);
     }
 
-    .step-formula {
-      display: grid;
-      place-items: center;
-      min-height: 68px;
-      padding: 10px;
-      border: 1px solid rgba(255, 200, 87, 0.32);
-      border-radius: var(--radius);
-      color: #fff0c6;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(255, 200, 87, 0.16), transparent 0 22%, transparent 48%),
-        rgba(255, 200, 87, 0.08);
-      font-size: clamp(1.34rem, 2.7vw, 2.05rem);
-      font-weight: 1000;
-      text-align: center;
-      line-height: 1.08;
-      box-shadow: none;
-    }
-
-    .step-meaning {
-      margin: 0;
-      color: rgba(255, 240, 198, 0.82);
-      font-size: clamp(0.9rem, 1.65vw, 1rem);
-      font-weight: 900;
-      line-height: 1.35;
-    }
-
     .prompt {
       min-height: 50px;
       display: flex;
@@ -1638,7 +1694,7 @@
 
     .choice-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       align-content: start;
       gap: 10px;
     }
@@ -1648,7 +1704,7 @@
     }
 
     .choice-button {
-      min-height: 64px;
+      min-height: 58px;
       padding: 10px 12px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
@@ -1679,7 +1735,7 @@
     }
 
     .feedback {
-      min-height: 30px;
+      min-height: 26px;
       color: #ffffff;
       font-size: clamp(0.98rem, 2vw, 1.14rem);
       font-weight: 900;
@@ -2347,24 +2403,29 @@
       }
 
       .problem-panel {
-        grid-template-rows: auto auto auto auto minmax(22px, auto);
-        gap: 8px;
+        width: auto;
+        grid-template-rows: auto minmax(220px, 1fr) auto auto minmax(20px, auto);
+        gap: 7px;
         padding: 10px;
       }
 
       .problem-heading h2 {
-        font-size: clamp(2rem, 5vw, 3.6rem);
+        min-height: 56px;
+        font-size: clamp(1.9rem, 5.1vw, 3.35rem);
       }
 
       .calc-stage {
-        grid-template-columns: minmax(0, 1fr) auto;
         gap: 8px;
       }
 
       .division-board,
       .step-panel {
-        min-height: 198px;
         padding: 9px;
+      }
+
+      .division-board {
+        min-height: 224px;
+        gap: 7px;
       }
 
       .share-row {
@@ -2373,8 +2434,8 @@
       }
 
       .share-card {
-        min-height: 58px;
-        padding: 8px;
+        min-height: 50px;
+        padding: 7px;
       }
 
       .share-values {
@@ -2383,14 +2444,52 @@
 
       .share-value,
       .basket-slot {
-        min-height: 44px;
-        padding: 6px 8px;
-        font-size: clamp(1.02rem, 2.25vw, 1.5rem);
+        min-height: 38px;
+        padding: 5px 7px;
+        font-size: clamp(0.98rem, 2.12vw, 1.34rem);
+      }
+
+      .basket-workbench {
+        gap: 9px;
+      }
+
+      .representative-basket {
+        width: min(300px, 72%);
+        min-height: 138px;
+        padding: 26px 20px 18px;
+        border-radius: 22px 22px 32px 32px;
+      }
+
+      .representative-basket::before {
+        top: 10px;
+        height: 20px;
+        border-width: 4px;
+      }
+
+      .representative-basket-value {
+        font-size: clamp(2rem, 5.6vw, 3.65rem);
+      }
+
+      .basket-markers {
+        min-height: 24px;
+        gap: 6px;
+      }
+
+      .basket-marker {
+        width: 26px;
+        height: 19px;
+        border-radius: 7px 7px 10px 10px;
+      }
+
+      .basket-marker::before {
+        top: -6px;
+        height: 7px;
+        border-width: 2px;
       }
 
       .share-operation {
         min-width: 44px;
-        min-height: 58px;
+        min-height: 50px;
         font-size: 1.7rem;
       }
 
@@ -2405,22 +2504,21 @@
         font-size: 0.78rem;
       }
 
-      .step-panel:not(.is-open) {
-        width: 74px;
-        min-height: 198px;
+      .step-panel {
+        min-height: 42px;
         padding: 9px;
       }
 
-      .hint-toggle {
-        min-width: 56px;
-        min-height: 48px;
-        padding: 7px 8px;
+      .step-chip {
+        min-height: 27px;
+        padding: 5px 7px;
+        font-size: 0.74rem;
       }
 
       .prompt {
-        min-height: 42px;
-        padding: 8px 10px;
-        font-size: 1rem;
+        min-height: 36px;
+        padding: 7px 9px;
+        font-size: 0.96rem;
       }
 
       .choice-grid {
@@ -2429,14 +2527,21 @@
       }
 
       .choice-button {
-        min-height: 54px;
-        padding: 8px 10px;
-        font-size: 1.08rem;
+        min-height: 46px;
+        padding: 7px 8px;
+        font-size: 1rem;
       }
 
       .feedback {
-        min-height: 24px;
+        min-height: 20px;
         font-size: 0.96rem;
+      }
+
+      .harvest-button {
+        min-width: 150px;
+        min-height: 48px;
+        padding: 0 28px;
+        font-size: 1rem;
       }
 
     }
@@ -2673,7 +2778,7 @@
                 <div class="share-card">
                   <span class="share-label">수확물</span>
                   <div class="share-values">
-                    <span class="share-value" id="tensDigit">4십</span>
+                    <span class="share-value" id="tensDigit">40개</span>
                     <span class="share-plus">+</span>
                     <span class="share-value" id="onesDigit">8개</span>
                   </div>
@@ -2684,25 +2789,26 @@
                   <span class="share-value" id="multiplierText">4바구니</span>
                 </div>
               </div>
+              <div class="basket-workbench" id="basketField" aria-label="한 바구니에 들어가는 수확">
+                <div class="representative-basket is-step-tens" id="representativeBasket" aria-live="polite">
+                  <span class="visually-hidden">한 바구니</span>
+                  <strong class="representative-basket-value" id="representativeBasketValue">?</strong>
+                </div>
+                <div class="basket-markers" id="basketMarkers" aria-hidden="true"></div>
+              </div>
               <div class="basket-row">
-                <span class="basket-slot" id="tensAnswer">?십</span>
+                <span class="basket-slot" id="tensAnswer">먼저 ?</span>
                 <span class="share-plus">+</span>
-                <span class="basket-slot" id="onesAnswer">?개</span>
+                <span class="basket-slot" id="onesAnswer">낱개 ?</span>
                 <span class="share-equals">=</span>
                 <span class="basket-slot final-slot" id="hundredsAnswer">몫 ?</span>
               </div>
             </div>
             <div class="step-panel" id="stepPanel">
-              <button class="hint-toggle" id="hintToggleButton" type="button" aria-expanded="false" aria-controls="stepHintContent">힌트</button>
               <div class="step-track" aria-label="계산 순서">
-                <span class="step-chip is-current" id="stepChipOnes">십</span>
-                <span class="step-chip" id="stepChipTens">일</span>
+                <span class="step-chip is-current" id="stepChipOnes">십 묶음</span>
+                <span class="step-chip" id="stepChipTens">낱개</span>
                 <span class="step-chip" id="stepChipHundreds">몫</span>
-              </div>
-              <div id="stepHintContent">
-                <p class="step-focus-label">지금 계산</p>
-                <div class="step-formula" id="stepFormula">4십 ÷ 4 = ?십</div>
-                <p class="step-meaning" id="stepMeaning">십의 자리부터 나눠요.</p>
               </div>
             </div>
           </div>
@@ -2841,7 +2947,6 @@
       stepAttempts: 0,
       problemHadMistake: false,
       problemHadReveal: false,
-      hintOpen: false,
       rainbowFuel: false,
       lastFuelEvent: null,
       pendingRewardEvent: null,
@@ -2896,16 +3001,17 @@
       onesDigit: document.getElementById("onesDigit"),
       multiplyMark: document.getElementById("multiplyMark"),
       multiplierText: document.getElementById("multiplierText"),
+      basketField: document.getElementById("basketField"),
+      representativeBasket: document.getElementById("representativeBasket"),
+      representativeBasketValue: document.getElementById("representativeBasketValue"),
+      basketMarkers: document.getElementById("basketMarkers"),
       hundredsAnswer: document.getElementById("hundredsAnswer"),
       tensAnswer: document.getElementById("tensAnswer"),
       onesAnswer: document.getElementById("onesAnswer"),
       stepPanel: document.getElementById("stepPanel"),
-      hintToggleButton: document.getElementById("hintToggleButton"),
       stepChipOnes: document.getElementById("stepChipOnes"),
       stepChipTens: document.getElementById("stepChipTens"),
       stepChipHundreds: document.getElementById("stepChipHundreds"),
-      stepFormula: document.getElementById("stepFormula"),
-      stepMeaning: document.getElementById("stepMeaning"),
       promptText: document.getElementById("promptText"),
       choiceGrid: document.getElementById("choiceGrid"),
       feedbackText: document.getElementById("feedbackText"),
@@ -3058,18 +3164,19 @@
       FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.questionText.textContent = `${problem.dividend} ÷ ${problem.divisor}`;
-      el.tensDigit.textContent = `${problem.tens}십`;
+      el.tensDigit.textContent = `${problem.tens * 10}개`;
       el.onesDigit.textContent = `${problem.ones}개`;
       el.multiplyMark.textContent = "÷";
-      el.multiplierText.textContent = `${problem.divisor}바구니`;
+      el.multiplierText.textContent = `${problem.divisor}개`;
       el.hundredsAnswer.textContent = "몫 ?";
-      el.tensAnswer.textContent = "?십";
-      el.onesAnswer.textContent = "?개";
+      el.tensAnswer.textContent = "먼저 ?";
+      el.onesAnswer.textContent = "낱개 ?";
       el.choiceGrid.hidden = false;
       el.harvestButton.hidden = true;
       el.harvestButton.disabled = true;
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
+      renderRepresentativeBasket(problem);
       renderStatus();
       renderStep();
     }
@@ -3144,12 +3251,9 @@
     function renderStep() {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
-      state.hintOpen = false;
       el.phaseLabel.textContent = step.label;
-      el.stepFormula.textContent = step.formula;
-      el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
-      renderHintPanel();
+      renderRepresentativeBasket(problem);
       updateStepChips();
       updateCurrentAnswerCell();
       el.feedbackText.textContent = "";
@@ -3162,12 +3266,6 @@
       })), handleStepChoice);
     }
 
-    function renderHintPanel() {
-      el.stepPanel.classList.toggle("is-open", state.hintOpen);
-      el.hintToggleButton.textContent = state.hintOpen ? "닫기" : "힌트";
-      el.hintToggleButton.setAttribute("aria-expanded", String(state.hintOpen));
-    }
-
     function getCurrentStep(problem) {
       const steps = buildSteps(problem);
       return steps[state.stepIndex];
@@ -3177,37 +3275,66 @@
       return [
         {
           id: "tens",
-          label: "십의 자리",
-          formula: `${problem.tens}십 ÷ ${problem.divisor} = ?십`,
+          label: "십 묶음",
           correct: problem.tensQuot,
-          prompt: "십의 자리 수확물을 바구니에 똑같이 나눠요.",
-          meaning: `${problem.tens}십을 ${problem.divisor}바구니에 나누면 한 바구니에 ${problem.tensQuot}십씩 담겨요.`,
-          hint: `${problem.tens}을 ${problem.divisor}로 나누면 몇인지 생각해요.`,
-          explain: `${problem.tens}십 ÷ ${problem.divisor} = ${problem.tensQuot}십이에요.`,
-          answerUnit: "십"
+          prompt: "십 묶음을 먼저 나눠요.",
+          explain: `한 바구니에 ${problem.tensQuot * 10}개씩!`
         },
         {
           id: "ones",
-          label: "일의 자리",
-          formula: `${problem.ones}개 ÷ ${problem.divisor} = ?개`,
+          label: "낱개",
           correct: problem.onesQuot,
-          prompt: "일의 자리 수확물도 똑같이 나눠요.",
-          meaning: `${problem.ones}개를 ${problem.divisor}바구니에 나누면 한 바구니에 ${problem.onesQuot}개씩 담겨요.`,
-          hint: `${problem.ones}을 ${problem.divisor}로 나누면 몇인지 생각해요.`,
-          explain: `${problem.ones}개 ÷ ${problem.divisor} = ${problem.onesQuot}개예요.`,
-          answerUnit: "개"
+          prompt: "남은 낱개를 나눠요.",
+          explain: problem.onesQuot > 0 ? `낱개는 ${problem.onesQuot}개씩!` : "낱개는 남지 않아요."
         },
         {
           id: "combine",
           label: "몫 합치기",
-          formula: `${problem.tensQuot}십 + ${problem.onesQuot} = ?`,
           correct: problem.answer,
-          prompt: "십의 자리 몫과 일의 자리 몫을 합쳐요.",
-          meaning: `${problem.tensQuot}십과 ${problem.onesQuot}을 합치면 몫이 완성돼요.`,
-          hint: `${problem.tensQuot}십은 ${problem.tensQuot * 10}이에요. 일의 자리 ${problem.onesQuot}을 붙여요.`,
-          explain: `몫 ${problem.answer} 완성!`
+          prompt: "한 바구니에 몇 개씩인지 골라요.",
+          explain: `한 바구니에 ${problem.answer}개씩 완성!`
         }
       ];
+    }
+
+    function renderRepresentativeBasket(problem, completedStep = null) {
+      if (!el.representativeBasket || !el.representativeBasketValue || !el.basketMarkers) {
+        return;
+      }
+      const count = clamp(problem.divisor, 1, 9);
+      const showTens = state.stepIndex > 0 || completedStep === "tens" || completedStep === "ones" || completedStep === "combine";
+      const showOnes = state.stepIndex > 1 || completedStep === "ones" || completedStep === "combine";
+      const showFinal = completedStep === "combine";
+      let amount = "?";
+      let basketState = "is-step-tens";
+
+      if (showFinal) {
+        amount = `${problem.answer}개`;
+        basketState = "is-final";
+      } else if (showOnes) {
+        amount = `${problem.tensQuot * 10} + ${problem.onesQuot}`;
+        basketState = "is-step-combine";
+      } else if (state.stepIndex === 1 && !completedStep) {
+        amount = `${problem.tensQuot * 10} + ?`;
+        basketState = "is-step-ones";
+      } else if (showTens) {
+        amount = `${problem.tensQuot * 10}개`;
+        basketState = "is-step-ones";
+      }
+
+      el.representativeBasket.className = `representative-basket ${basketState}`;
+      el.representativeBasketValue.textContent = amount;
+      el.basketMarkers.innerHTML = "";
+      for (let index = 0; index < count; index += 1) {
+        const marker = document.createElement("span");
+        marker.className = "basket-marker";
+        if (showFinal) {
+          marker.classList.add("is-final");
+        } else if (showTens || showOnes) {
+          marker.classList.add("is-filled");
+        }
+        el.basketMarkers.appendChild(marker);
+      }
     }
 
     function updateStepChips() {
@@ -3257,7 +3384,7 @@
           addOptionValue(values, value);
         });
       } else {
-        const placeMistake = step.answerUnit === "십" ? step.correct + 3 : Math.max(0, step.correct * 10);
+        const placeMistake = step.id === "tens" ? step.correct + 3 : Math.max(0, step.correct * 10);
         [step.correct + 1, step.correct - 1, step.correct + 2, placeMistake].forEach((value) => {
           addOptionValue(values, value);
         });
@@ -3280,11 +3407,13 @@
 
     function formatStepAnswer(step, value) {
       const numberText = value.toLocaleString("ko-KR");
-      return step.answerUnit ? `${numberText}${step.answerUnit}` : numberText;
-    }
-
-    function getAnswerCopula(step) {
-      return step.answerUnit === "십" ? "이에요" : "예요";
+      if (step.id === "tens") {
+        return value > 0 ? `${(value * 10).toLocaleString("ko-KR")}개씩` : "담지 않아요";
+      }
+      if (step.id === "ones") {
+        return value > 0 ? `${numberText}개씩` : "남지 않아요";
+      }
+      return `${numberText}개씩`;
     }
 
     function handleStepChoice(option, button) {
@@ -3302,7 +3431,7 @@
       button.classList.add("is-wrong");
       playSound("try");
       if (state.stepAttempts === 1) {
-        el.feedbackText.textContent = `다시 골라요. ${step.hint}`;
+        el.feedbackText.textContent = "다시 골라요.";
         el.feedbackText.className = "feedback try";
         button.disabled = true;
         return;
@@ -3310,7 +3439,7 @@
 
       state.problemHadReveal = true;
       setButtonsDisabled(true);
-      el.feedbackText.textContent = `정답은 ${formatStepAnswer(step, step.correct)}${getAnswerCopula(step)}. ${step.explain}`;
+      el.feedbackText.textContent = `정답은 ${formatStepAnswer(step, step.correct)}.`;
       el.feedbackText.className = "feedback try";
       completeStep(step, true);
     }
@@ -3340,14 +3469,17 @@
 
     function applyStepToBoard(step, problem) {
       if (step.id === "tens") {
-        el.tensAnswer.textContent = `${problem.tensQuot}십`;
-        el.onesAnswer.textContent = "?개";
+        el.tensAnswer.textContent = `${problem.tensQuot * 10}개씩`;
+        el.onesAnswer.textContent = "낱개 ?";
+        renderRepresentativeBasket(problem, "tens");
       } else if (step.id === "ones") {
-        el.onesAnswer.textContent = `${problem.onesQuot}개`;
+        el.onesAnswer.textContent = problem.onesQuot > 0 ? `${problem.onesQuot}개씩` : "남지 않음";
+        renderRepresentativeBasket(problem, "ones");
       } else {
-        el.tensAnswer.textContent = `${problem.tensQuot}십`;
-        el.onesAnswer.textContent = `${problem.onesQuot}개`;
+        el.tensAnswer.textContent = `${problem.tensQuot * 10}개씩`;
+        el.onesAnswer.textContent = problem.onesQuot > 0 ? `${problem.onesQuot}개씩` : "남지 않음";
         el.hundredsAnswer.textContent = `몫 ${problem.answer}`;
+        renderRepresentativeBasket(problem, "combine");
       }
       updateCurrentAnswerCell();
     }
@@ -3998,11 +4130,6 @@
     });
     el.tutorialBackButton.addEventListener("click", () => {
       moveTutorial(-1);
-      playSound("next");
-    });
-    el.hintToggleButton.addEventListener("click", () => {
-      state.hintOpen = !state.hintOpen;
-      renderHintPanel();
       playSound("next");
     });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
