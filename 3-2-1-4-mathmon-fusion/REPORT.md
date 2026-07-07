@@ -227,8 +227,10 @@
 
 - 보상 모달의 보이는 퍼센트 텍스트를 제거하고, 생성형 점수 이미지 8장으로 바꿨습니다. 학생 화면에 나오는 값은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개`뿐입니다.
 - 각 자산은 image generation으로 만들고, 원본 `reward-score-*-source.png`와 배포본 `reward-score-*-generated.webp`를 차시 폴더에 보관했습니다. HTML/CSS 숫자나 로컬 폰트 합성으로 점수를 그리지 않습니다.
+- 배포본 `reward-score-*-generated.webp` 8장은 가장자리와 연결된 어두운 생성 배경을 제거한 투명 WebP로 후처리해, 보상 화면에서 사각 카드 배경이 보이지 않게 했습니다.
 - 보상 모달은 제목과 설명 문장을 `visually-hidden`으로 숨기고, 보이는 요소는 점수 이미지와 `다음` 또는 `결과 보기` 버튼만 남겼습니다.
 - 내부 순위 검증용 `amount`는 기존 백엔드 허용 범위 안에 유지했습니다. 화면 점수 이미지는 학생에게 보이는 보상 표현이고, 결과 등급 계산은 기존 합체 힘 흐름을 그대로 사용합니다.
 - Humanizer 학생 문구 QA: 새 접근성 문구는 `합체 점수 50점이 들어왔어요.`, `합체 점수 100점이 줄었어요.`, `이번 보상은 0점이에요. 다음 문제에서 다시 모아요.`처럼 짧게 유지했습니다. `퍼센트`, `결함 처리`, `이벤트` 같은 제작자 말은 보상 화면에서 보이지 않습니다.
 - 텍스트 넘침·요소 겹침 QA: Playwright로 1365×900(실제 Stage 1280×800)과 1024×768에서 8개 보상 상태를 모두 캡처했습니다. `.omo/evidence/mathmon-fusion-reward-score-art/summary.json` 기준 Stage 밖 이탈 0건, 점수 이미지와 버튼 겹침 0건입니다. 대표 캡처는 같은 폴더의 `desktop-plus500.png`, `desktop-minus100.png`, `tablet-zero.png`, `tablet-rainbow.png`입니다.
+- 투명 배경 재검증: Playwright로 같은 2개 화면 크기에서 8개 보상 상태를 다시 캡처했습니다. `.omo/evidence/mathmon-fusion-reward-alpha-qa/summary.json` 기준 실패 0건이며, 8개 WebP 모두 알파 채널과 투명 가장자리를 확인했습니다.
 - 정적 검증: inline script 파싱, `node scripts/check-stage-ratio.mjs`, `git diff --check`, reward art 파일 존재 검사를 통과했습니다.
