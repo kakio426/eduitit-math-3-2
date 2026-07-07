@@ -248,9 +248,10 @@ async function capture(name) {
     ".choice-button",
     ".feedback",
     ".prompt",
-    ".check-preview",
-    ".equation-row",
-    ".answer-slot",
+    ".rebuild-board",
+    ".rebuild-canvas",
+    ".step-chip",
+    ".formula-summary",
     ".flow-card",
     ".settings-modal",
     ".settings-switch",
@@ -344,14 +345,21 @@ async function verifyMathModel() {
   const validate = (problem) => {
     const issues = [];
     const steps = buildSteps(problem);
+    const rebuilt = problem.divisor * problem.quotient + problem.remainder;
+    const original = problem.divisor * problem.trueQuotient + problem.trueRemainder;
     if (problem.dividend < 20 || problem.dividend > 99) issues.push("not-two-digit");
     if (problem.divisor < 2 || problem.divisor > 9) issues.push("bad-divisor");
     if (problem.quotient < 4 || problem.quotient > 18) issues.push("bad-quotient-range");
     if (problem.remainder <= 0 || problem.remainder >= problem.divisor) issues.push("bad-remainder");
     if (problem.product !== problem.divisor * problem.quotient) issues.push("bad-product");
-    if (problem.divisor * problem.quotient + problem.remainder !== problem.dividend) issues.push("bad-equation");
-    if (problem.answer !== problem.dividend || problem.omission !== problem.product) issues.push("bad-check-values");
-    if (steps.length !== 3 || steps[0].id !== "multiply" || steps[1].id !== "add" || steps[2].id !== "dial") issues.push("bad-steps");
+    if (problem.dividend !== original) issues.push("bad-original-equation");
+    if (problem.answer !== rebuilt || problem.omission !== problem.product) issues.push("bad-check-values");
+    if (problem.matchesOriginal !== (problem.answer === problem.dividend)) issues.push("bad-match-flag");
+    if (problem.matchesOriginal && problem.mismatchPart !== null) issues.push("unexpected-mismatch-part");
+    if (!problem.matchesOriginal && !["quotient", "remainder"].includes(problem.mismatchPart)) issues.push("missing-mismatch-part");
+    if (steps.length !== (problem.matchesOriginal ? 3 : 4)) issues.push("bad-step-count");
+    if (steps[0]?.id !== "multiply" || steps[1]?.id !== "add" || steps[2]?.id !== "dial") issues.push("bad-steps");
+    if (!problem.matchesOriginal && steps[3]?.id !== "locate") issues.push("missing-locate-step");
     if (!steps[1].distractors.includes(problem.omission)) issues.push("missing-omit-remainder-distractor");
     return { key: keyFor(problem), issues };
   };
@@ -360,16 +368,21 @@ async function verifyMathModel() {
     sampledProblems.push(...buildProblems());
   }
   const duplicateRun = buildProblems();
+  const matchingCount = duplicateRun.filter((problem) => problem.matchesOriginal).length;
+  const mismatchingCount = duplicateRun.filter((problem) => !problem.matchesOriginal).length;
   return {
     sampledCount: sampledProblems.length,
     sampleFailures: sampledProblems.map(validate).filter((item) => item.issues.length > 0).slice(0, 5),
-    duplicateCount: duplicateRun.length - new Set(duplicateRun.map(keyFor)).size
+    duplicateCount: duplicateRun.length - new Set(duplicateRun.map(keyFor)).size,
+    matchingCount,
+    mismatchingCount
   };
 })()
 `);
   assert(result.sampledCount === TOTAL_QUESTIONS * 20, `buildProblems sample count wrong: ${JSON.stringify(result)}`);
   assert(result.sampleFailures.length === 0, `buildProblems sample failures: ${JSON.stringify(result.sampleFailures)}`);
   assert(result.duplicateCount === 0, `one build emitted duplicate problems: ${JSON.stringify(result)}`);
+  assert(result.matchingCount === 6 && result.mismatchingCount === 4, `one build did not keep 6/4 card mix: ${JSON.stringify(result)}`);
   return result;
 }
 
@@ -446,11 +459,20 @@ async function runDesktopScenario() {
   const mathModel = await verifyMathModel();
   const rewardModel = await verifyRewardModel();
 
+  await evaluate(`
+(() => {
+  state.index = 0;
+  state.problems[0] = createProblem(6, 9, 5, true);
+  renderProblem();
+})()
+`);
   await capture("03-problem.png");
   await clickCorrectChoice();
   await waitUntil("state.stepIndex === 1", "multiply step did not complete");
+  await capture("03b-problem-step1-filled.png");
   await clickCorrectChoice();
   await waitUntil("state.stepIndex === 2", "add step did not complete");
+  await capture("03c-problem-step2-filled.png");
   await clickCorrectChoice();
   await waitUntil('!document.getElementById("confirmRewardButton").hidden', "final confirmation button did not appear", 4000);
   await capture("03-final-confirm.png");
@@ -463,8 +485,51 @@ async function runDesktopScenario() {
 }))()
 `);
   assert(!held.rewardVisible, `reward opened before confirmation: ${JSON.stringify(held)}`);
-  assert(held.prompt.startsWith("검산 완료!") && held.prompt.includes("같아요"), `final confirmation copy missing: ${JSON.stringify(held)}`);
-  assert(held.button === "힘 받기", `wrong final confirmation button: ${JSON.stringify(held)}`);
+  assert(held.prompt === "처음 수가 다시 나왔어요.", `final confirmation copy missing: ${JSON.stringify(held)}`);
+  assert(held.button === "자물쇠 돌리기", `wrong final confirmation button: ${JSON.stringify(held)}`);
+
+  await evaluate(`
+(() => {
+  state.index = 0;
+  state.problems[0] = {
+    divisor: 8,
+    quotient: 8,
+    remainder: 3,
+    trueQuotient: 7,
+    trueRemainder: 3,
+    product: 64,
+    dividend: 59,
+    answer: 67,
+    omission: 64,
+    matchesOriginal: false,
+    mismatchPart: "quotient"
+  };
+  renderProblem();
+})()
+`);
+  await clickCorrectChoice();
+  await waitUntil("state.stepIndex === 1", "mismatch multiply step did not complete");
+  await clickCorrectChoice();
+  await waitUntil("state.stepIndex === 2", "mismatch add step did not complete");
+  await clickCorrectChoice();
+  await waitUntil('state.stepIndex === 3 && document.getElementById("phaseLabel").textContent.trim() === "틀린 곳 찾기"', "locate step did not appear", 4000);
+  await capture("03d-mismatch-locate.png");
+  await clickCorrectChoice();
+  await waitUntil('!document.getElementById("confirmRewardButton").hidden', "mismatch confirmation button did not appear", 4000);
+  await capture("03e-mismatch-confirm.png");
+
+  const mismatchHeld = await evaluate(`
+(() => ({
+  prompt: document.getElementById("promptText").textContent.trim(),
+  formula: document.getElementById("formulaSummary").textContent.trim(),
+  chips: [...document.querySelectorAll("#stepChipRow .step-chip")].map((chip) => chip.textContent.trim()),
+  buttonsVisible: !document.getElementById("choiceGrid").hidden
+}))()
+`);
+  assert(mismatchHeld.prompt === "몫이 달라서 처음 수가 안 됐어요.", `mismatch confirmation copy missing: ${JSON.stringify(mismatchHeld)}`);
+  assert(mismatchHeld.formula === "8 × 8 + 3 = 67", `mismatch formula summary missing: ${JSON.stringify(mismatchHeld)}`);
+  assert(mismatchHeld.chips.length === 4 && mismatchHeld.chips.at(-1) === "4 틀린 곳", `mismatch step chips wrong: ${JSON.stringify(mismatchHeld)}`);
+  assert(!mismatchHeld.buttonsVisible, `choice buttons stayed visible on mismatch confirmation: ${JSON.stringify(mismatchHeld)}`);
 
   await evaluate("state.index = TOTAL_QUESTIONS - 1; state.correct = 8; state.unlockPower = 76; state.rainbowCore = false;");
   await click("#confirmRewardButton");
@@ -498,6 +563,18 @@ async function runDesktopScenario() {
 async function runTabletScenario() {
   await navigate(VIEWPORTS.tablet);
   await capture("tablet-01-cover.png");
+  await evaluate(`
+(() => {
+  showScreen("play");
+  state.problems = [createProblem(6, 9, 5, true)];
+  state.index = 0;
+  state.unlockPower = 32;
+  state.correct = 3;
+  renderProblem();
+})()
+`);
+  await waitUntil('document.getElementById("playScreen").classList.contains("is-active") && document.querySelectorAll("#choiceGrid button").length === 4', "tablet play did not render");
+  await capture("tablet-03-problem.png");
   await evaluate(`
 (() => {
   state.correct = 8;

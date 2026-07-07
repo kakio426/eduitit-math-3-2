@@ -842,8 +842,8 @@
       min-height: 0;
       padding-top: calc(var(--sound-button-size) + 8px);
       display: grid;
-      grid-template-columns: minmax(290px, 0.85fr) minmax(540px, 1.15fr);
-      gap: 18px;
+      grid-template-columns: minmax(230px, 0.55fr) minmax(720px, 1.45fr);
+      gap: 14px;
       align-items: stretch;
     }
 
@@ -974,13 +974,13 @@
 
     .unlock-panel {
       position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
       z-index: 2;
       display: grid;
-      gap: 12px;
-      padding: 14px;
+      gap: 8px;
+      padding: 10px;
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: var(--radius);
       background: rgba(9, 14, 19, 0.78);
@@ -996,13 +996,13 @@
 
     .unlock-readout span {
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.76rem;
       font-weight: 950;
     }
 
     .unlock-readout strong {
       color: #ffffff;
-      font-size: 1.42rem;
+      font-size: 1.16rem;
       font-weight: 1000;
       line-height: 1;
     }
@@ -1010,7 +1010,7 @@
     .unlock-meter,
     .measure-tube {
       position: relative;
-      height: 26px;
+      height: 20px;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius);
@@ -1036,19 +1036,19 @@
     .lock-track {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 7px;
+      gap: 5px;
     }
 
     .lock-chip,
     .grade-chip {
-      min-height: 39px;
+      min-height: 30px;
       display: grid;
       place-items: center;
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius);
       color: rgba(255, 255, 255, 0.62);
       background: rgba(0, 0, 0, 0.2);
-      font-size: 0.92rem;
+      font-size: 0.78rem;
       font-weight: 1000;
       line-height: 1;
     }
@@ -1085,10 +1085,10 @@
     }
 
     .problem-panel {
-      padding: 18px;
+      padding: 16px;
       display: grid;
-      grid-template-rows: auto 1fr auto auto auto;
-      gap: 14px;
+      grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+      gap: 12px;
       background:
         linear-gradient(150deg, rgba(255, 255, 255, 0.07), transparent 40%),
         rgba(12, 18, 24, 0.86);
@@ -1105,7 +1105,7 @@
     .problem-heading h2 {
       margin: 0;
       color: #ffffff;
-      font-size: 2.5rem;
+      font-size: 2.42rem;
       font-weight: 1000;
       line-height: 1.02;
     }
@@ -1143,11 +1143,12 @@
       line-height: 1.18;
     }
 
-    .check-board {
+    .rebuild-board {
+      min-height: 0;
       display: grid;
-      align-content: center;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       gap: 10px;
-      padding: 14px;
+      padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: var(--radius);
       background:
@@ -1155,60 +1156,145 @@
         rgba(255, 255, 255, 0.07);
     }
 
-    .equation-stack {
+    .step-chip-row {
       display: grid;
-      gap: 9px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 7px;
     }
 
-    .equation-row {
-      min-height: 44px;
+    .step-chip {
+      min-height: 31px;
       display: grid;
-      grid-template-columns: 80px 1fr;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
+      place-items: center;
+      padding: 0 8px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius);
+      border-radius: 10px;
+      color: rgba(255, 255, 255, 0.58);
       background: rgba(0, 0, 0, 0.24);
-      opacity: 0.46;
-      transition: opacity 0.22s ease, min-height 0.22s ease, background 0.22s ease;
-    }
-
-    .equation-row small {
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 900;
-    }
-
-    .equation-row strong {
-      color: #ffffff;
-      font-size: 1.16rem;
+      font-size: 0.82rem;
       font-weight: 1000;
-      line-height: 1.1;
+      line-height: 1;
     }
 
-    .equation-row.is-current {
-      opacity: 1;
-      min-height: 78px;
+    .step-chip.is-current {
       border-color: rgba(255, 200, 79, 0.72);
+      color: #ffe3a5;
       background:
         linear-gradient(135deg, rgba(255, 200, 79, 0.18), rgba(84, 214, 206, 0.08) 60%),
         rgba(0, 0, 0, 0.18);
-      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.22);
     }
 
-    .equation-row.is-current strong {
-      font-size: 1.92rem;
-    }
-
-    .equation-row.is-done {
-      opacity: 1;
+    .step-chip.is-done {
       border-color: rgba(126, 224, 131, 0.5);
+      color: #dfffe2;
       background: rgba(126, 224, 131, 0.12);
     }
 
-    .equation-row.is-done strong {
-      color: #dfffe2;
+    .rebuild-canvas {
+      min-height: 0;
+      overflow: hidden;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(255, 200, 79, 0.16), transparent 0 25%),
+        rgba(5, 9, 13, 0.34);
+    }
+
+    .rebuild-canvas svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 270px;
+      font-family: inherit;
+    }
+
+    .rebuild-label,
+    .rebuild-value,
+    .rebuild-note {
+      paint-order: stroke;
+      stroke: rgba(5, 9, 13, 0.46);
+      stroke-width: 4px;
+      stroke-linejoin: round;
+      letter-spacing: 0;
+    }
+
+    .rebuild-label {
+      fill: #dff9f6;
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .rebuild-value {
+      fill: #ffffff;
+      font-size: 28px;
+      font-weight: 1000;
+    }
+
+    .rebuild-note {
+      fill: #fff1b8;
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .rebuild-bar-shell {
+      fill: rgba(0, 0, 0, 0.24);
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 2;
+    }
+
+    .rebuild-target-fill {
+      fill: rgba(96, 215, 255, 0.28);
+      stroke: rgba(96, 215, 255, 0.52);
+      stroke-width: 2;
+    }
+
+    .rebuild-group-fill {
+      fill: url("#groupGradient");
+    }
+
+    .rebuild-remain-fill {
+      fill: url("#remainGradient");
+    }
+
+    .rebuild-ghost-fill {
+      fill: rgba(255, 255, 255, 0.1);
+      stroke: rgba(255, 255, 255, 0.24);
+      stroke-dasharray: 10 8;
+      stroke-width: 2;
+    }
+
+    .rebuild-end-line {
+      stroke: rgba(255, 255, 255, 0.72);
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .rebuild-diff-line {
+      stroke: #ff7669;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 8 8;
+    }
+
+    .rebuild-match-badge {
+      fill: rgba(126, 224, 131, 0.2);
+      stroke: rgba(126, 224, 131, 0.7);
+      stroke-width: 2;
+    }
+
+    .rebuild-mismatch-badge {
+      fill: rgba(255, 118, 105, 0.22);
+      stroke: rgba(255, 118, 105, 0.75);
+      stroke-width: 2;
+    }
+
+    .formula-summary {
+      min-height: 26px;
+      margin: 0;
+      color: #fff1b8;
+      font-size: 1rem;
+      font-weight: 950;
+      line-height: 1.25;
+      text-align: center;
     }
 
     .answer-slot {
@@ -1264,6 +1350,14 @@
       gap: 10px;
     }
 
+    .choice-grid.is-judge {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .choice-grid.is-locate {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .choice-grid[hidden] {
       display: none;
     }
@@ -1281,6 +1375,15 @@
       line-height: 1;
       box-shadow: 0 10px 0 rgba(0, 0, 0, 0.22);
       transition: transform 0.12s ease, filter 0.12s ease, border-color 0.12s ease;
+    }
+
+    .choice-button small {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.82rem;
+      font-weight: 950;
+      line-height: 1;
     }
 
     .choice-button:hover {
@@ -1662,17 +1765,17 @@
       }
 
       .play-layout {
-        grid-template-columns: minmax(270px, 0.8fr) minmax(500px, 1.2fr);
-        gap: 14px;
+        grid-template-columns: minmax(220px, 0.5fr) minmax(650px, 1.5fr);
+        gap: 12px;
       }
 
       .problem-panel {
-        padding: 14px;
+        padding: 12px;
         gap: 7px;
       }
 
       .problem-heading h2 {
-        font-size: 2.1rem;
+        font-size: 2rem;
       }
 
       .phase-label {
@@ -1688,7 +1791,7 @@
         font-size: 1.1rem;
       }
 
-      .check-board {
+      .rebuild-board {
         gap: 7px;
         padding: 10px;
       }
@@ -1698,22 +1801,20 @@
         font-size: 0.84rem;
       }
 
-      .equation-stack {
-        gap: 7px;
+      .rebuild-canvas svg {
+        min-height: 246px;
       }
 
-      .equation-row {
-        min-height: 45px;
-        padding: 7px 10px;
+      .rebuild-label {
+        font-size: 18px;
       }
 
-      .equation-row strong {
-        font-size: 1.28rem;
+      .rebuild-value {
+        font-size: 25px;
       }
 
-      .answer-slot {
-        min-width: 82px;
-        min-height: 0;
+      .rebuild-note {
+        font-size: 16px;
       }
 
       .step-panel {
@@ -1745,7 +1846,7 @@
       }
 
       .unlock-panel {
-        padding: 12px;
+        padding: 9px;
       }
     }
 
@@ -1760,8 +1861,7 @@
       }
 
       .cover-scene,
-      .tutorial-layout,
-      .play-layout {
+      .tutorial-layout {
         grid-template-columns: 1fr;
       }
 
@@ -1782,20 +1882,55 @@
         display: none;
       }
 
-      .vault-zone {
-        min-height: 230px;
+      .play-layout {
+        grid-template-columns: minmax(190px, 0.42fr) minmax(560px, 1.58fr);
+        gap: 10px;
       }
 
       .problem-panel {
-        min-height: 520px;
-      }
-
-      .choice-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 12px;
+        gap: 6px;
       }
 
       .problem-heading h2 {
-        font-size: 2.4rem;
+        font-size: 1.95rem;
+      }
+
+      .rebuild-board {
+        gap: 6px;
+        padding: 8px;
+      }
+
+      .step-chip-row {
+        gap: 5px;
+      }
+
+      .step-chip {
+        min-height: 28px;
+        padding: 0 5px;
+        font-size: 0.74rem;
+      }
+
+      .rebuild-canvas svg {
+        min-height: 220px;
+      }
+
+      .formula-summary {
+        min-height: 22px;
+        font-size: 0.86rem;
+      }
+
+      .choice-button {
+        min-height: 50px;
+        font-size: 1.36rem;
+      }
+
+      .unlock-panel {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        gap: 9px;
+        padding: 10px;
       }
     }
 
@@ -1964,27 +2099,16 @@
             <span class="phase-label" id="phaseLabel">곱하기</span>
           </div>
 
-          <div class="check-board" aria-label="검산 계산판">
-            <div class="equation-stack">
-              <div class="equation-row is-current" id="rowMultiply">
-                <small>1단계</small>
-                <strong><span id="multiplyLeft">9 × 5</span> = <span class="answer-slot is-current" id="productSlot">?</span></strong>
-              </div>
-              <div class="equation-row" id="rowAdd">
-                <small>2단계</small>
-                <strong><span id="addLeft">45 + 2</span> = <span class="answer-slot" id="sumSlot">?</span></strong>
-              </div>
-              <div class="equation-row" id="rowDial">
-                <small>3단계</small>
-                <strong>검산 확인 <span class="answer-slot" id="dialSlot">?</span></strong>
-              </div>
-            </div>
+          <div class="rebuild-board" id="rebuildBoard" aria-label="처음 수 다시 만들기">
+            <div class="step-chip-row" id="stepChipRow" aria-hidden="true"></div>
+            <div class="rebuild-canvas" id="rebuildCanvas" role="img" aria-live="polite"></div>
+            <p class="formula-summary" id="formulaSummary"></p>
           </div>
 
           <div class="prompt" id="promptText">곱한 값을 골라요.</div>
           <div class="choice-grid" id="choiceGrid"></div>
           <div class="feedback" id="feedbackText"></div>
-          <button class="primary-button confirm-reward-button" id="confirmRewardButton" type="button" hidden>힘 받기</button>
+          <button class="primary-button confirm-reward-button" id="confirmRewardButton" type="button" hidden>자물쇠 돌리기</button>
         </section>
       </div>
 
@@ -2117,6 +2241,7 @@
       correct: 0,
       stepIndex: 0,
       stepAttempts: 0,
+      stepProgress: { multiply: false, add: false, dial: false, locate: false },
       problemHadMistake: false,
       awaitingRewardConfirm: false,
       rainbowCore: false,
@@ -2164,14 +2289,10 @@
       sideLockTrack: document.getElementById("sideLockTrack"),
       questionText: document.getElementById("questionText"),
       phaseLabel: document.getElementById("phaseLabel"),
-      multiplyLeft: document.getElementById("multiplyLeft"),
-      addLeft: document.getElementById("addLeft"),
-      productSlot: document.getElementById("productSlot"),
-      sumSlot: document.getElementById("sumSlot"),
-      dialSlot: document.getElementById("dialSlot"),
-      rowMultiply: document.getElementById("rowMultiply"),
-      rowAdd: document.getElementById("rowAdd"),
-      rowDial: document.getElementById("rowDial"),
+      rebuildBoard: document.getElementById("rebuildBoard"),
+      stepChipRow: document.getElementById("stepChipRow"),
+      rebuildCanvas: document.getElementById("rebuildCanvas"),
+      formulaSummary: document.getElementById("formulaSummary"),
       problemPanel: document.getElementById("problemPanel"),
       promptText: document.getElementById("promptText"),
       choiceGrid: document.getElementById("choiceGrid"),
@@ -2250,49 +2371,90 @@
     }
 
     function buildProblems() {
-      const candidates = [];
+      const matching = [];
+      const mismatching = [];
       for (let divisor = 2; divisor <= 9; divisor += 1) {
         for (let quotient = 4; quotient <= 18; quotient += 1) {
           for (let remainder = 1; remainder < divisor; remainder += 1) {
-            const problem = createProblem(divisor, quotient, remainder);
-            if (problem.dividend >= 20 && problem.dividend <= 99 && problem.product <= 98) {
-              candidates.push(problem);
+            const matchingProblem = createProblem(divisor, quotient, remainder, true);
+            if (isUsableProblem(matchingProblem)) {
+              matching.push(matchingProblem);
+            }
+            const mismatchingProblem = createProblem(divisor, quotient, remainder, false);
+            if (mismatchingProblem && isUsableProblem(mismatchingProblem)) {
+              mismatching.push(mismatchingProblem);
             }
           }
         }
       }
-      return shuffle(candidates).slice(0, TOTAL_QUESTIONS);
+      return shuffle([
+        ...shuffle(matching).slice(0, 6),
+        ...shuffle(mismatching).slice(0, 4)
+      ]).slice(0, TOTAL_QUESTIONS);
     }
 
-    function createProblem(divisor, quotient, remainder) {
-      const product = divisor * quotient;
-      const dividend = product + remainder;
+    function createProblem(divisor, quotient, remainder, matchesOriginal) {
+      const dividend = divisor * quotient + remainder;
+      let shownQuotient = quotient;
+      let shownRemainder = remainder;
+      let mismatchPart = null;
+      if (!matchesOriginal) {
+        const variants = [
+          { quotient: quotient + 1, remainder, mismatchPart: "quotient" },
+          { quotient: quotient - 1, remainder, mismatchPart: "quotient" },
+          { quotient, remainder: remainder + 1, mismatchPart: "remainder" },
+          { quotient, remainder: remainder - 1, mismatchPart: "remainder" }
+        ].filter((variant) => (
+          variant.quotient >= 4
+          && variant.quotient <= 18
+          && variant.remainder > 0
+          && variant.remainder < divisor
+          && variant.quotient * divisor + variant.remainder !== dividend
+        ));
+        const picked = shuffle(variants)[0];
+        if (!picked) {
+          return null;
+        }
+        shownQuotient = picked.quotient;
+        shownRemainder = picked.remainder;
+        mismatchPart = picked.mismatchPart;
+      }
+      const product = divisor * shownQuotient;
+      const checkTotal = product + shownRemainder;
       return {
         divisor,
-        quotient,
-        remainder,
+        quotient: shownQuotient,
+        remainder: shownRemainder,
+        trueQuotient: quotient,
+        trueRemainder: remainder,
         product,
         dividend,
-        answer: dividend,
-        omission: product
+        answer: checkTotal,
+        omission: product,
+        matchesOriginal: checkTotal === dividend,
+        mismatchPart: checkTotal === dividend ? null : mismatchPart
       };
+    }
+
+    function isUsableProblem(problem) {
+      return Boolean(problem)
+        && problem.dividend >= 20
+        && problem.dividend <= 99
+        && problem.product <= 98
+        && problem.answer > 0
+        && problem.answer <= 120;
     }
 
     function renderProblem() {
       const problem = currentProblem();
       state.stepIndex = 0;
       state.stepAttempts = 0;
+      resetStepProgress();
       state.problemHadMistake = false;
       state.awaitingRewardConfirm = false;
       el.rewardPop.classList.remove("is-visible");
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
-      el.questionText.textContent = `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient} ... ${problem.remainder}`;
-      el.multiplyLeft.textContent = `${problem.quotient} × ${problem.divisor}`;
-      el.addLeft.textContent = `${formatNumber(problem.product)} + ${problem.remainder}`;
-      resetSlot(el.productSlot);
-      resetSlot(el.sumSlot);
-      resetSlot(el.dialSlot);
-      el.productSlot.classList.add("is-current");
+      el.questionText.textContent = `${problem.dividend} ÷ ${problem.divisor} = 몫 ${problem.quotient}, 나머지 ${problem.remainder}`;
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       el.problemPanel.classList.remove("is-confirming");
@@ -2301,6 +2463,10 @@
       el.confirmRewardButton.disabled = true;
       renderStatus();
       renderStep();
+    }
+
+    function resetStepProgress() {
+      state.stepProgress = { multiply: false, add: false, dial: false, locate: false };
     }
 
     function renderStatus() {
@@ -2373,11 +2539,12 @@
       const step = getCurrentStep(problem);
       el.phaseLabel.textContent = step.label;
       el.promptText.textContent = step.prompt;
-      updateEquationRows();
-      updateCurrentSlot();
+      renderRebuildBoard(problem);
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       const options = buildStepOptions(step);
+      el.choiceGrid.classList.toggle("is-judge", step.id === "dial");
+      el.choiceGrid.classList.toggle("is-locate", step.id === "locate");
       renderChoices(options.map((option) => ({
         label: option.label,
         value: option.value,
@@ -2390,16 +2557,17 @@
     }
 
     function buildSteps(problem) {
-      return [
+      const judgeAnswer = problem.matchesOriginal ? "same" : "different";
+      const steps = [
         {
           id: "multiply",
-          label: "곱하기",
-          formula: `${problem.quotient} × ${problem.divisor} = ?`,
+          label: "묶음 만들기",
+          formula: `${problem.divisor}개씩 ${problem.quotient}묶음 = ?`,
           correct: problem.product,
-          prompt: "몫과 나누는 수를 곱한 값을 골라요.",
-          meaning: `몫 ${problem.quotient}에 나누는 수 ${problem.divisor}을 곱해요.`,
-          hint: `먼저 ${problem.quotient} × ${problem.divisor}만 계산해요. 나머지는 다음에 더해요.`,
-          explain: `${problem.quotient} × ${problem.divisor} = ${formatNumber(problem.product)}예요.`,
+          prompt: `${problem.divisor}개씩 ${problem.quotient}묶음을 만들어요.`,
+          meaning: `${problem.divisor}개짜리 묶음이 ${problem.quotient}개 있어요.`,
+          hint: `${problem.divisor}개짜리 묶음이 ${problem.quotient}개예요.`,
+          explain: `묶음은 ${formatNumber(problem.product)}개예요.`,
           distractors: [
             problem.quotient + problem.divisor,
             problem.product + problem.remainder,
@@ -2409,14 +2577,15 @@
         },
         {
           id: "add",
-          label: "더하기",
-          formula: `${formatNumber(problem.product)} + ${problem.remainder} = ?`,
+          label: "남은 것 붙이기",
+          formula: `${formatNumber(problem.product)}개와 남은 ${problem.remainder}개`,
           correct: problem.answer,
-          prompt: "곱한 값에 나머지를 더한 수를 골라요.",
-          meaning: "나머지를 더해야 원래 수가 돌아와요.",
-          hint: `${formatNumber(problem.product)}에서 멈추면 나머지를 빠뜨린 거예요.`,
-          explain: `${formatNumber(problem.product)} + ${problem.remainder} = ${formatNumber(problem.answer)}. 검산 숫자가 완성됐어요.`,
+          prompt: `남은 ${problem.remainder}개를 붙여요.`,
+          meaning: "남은 것도 처음 수에 들어 있던 수예요.",
+          hint: `묶음 뒤에 남은 ${problem.remainder}개도 붙여요.`,
+          explain: `다시 만든 수는 ${formatNumber(problem.answer)}예요.`,
           distractors: [
+            problem.dividend,
             problem.omission,
             problem.answer + problem.divisor,
             problem.answer - problem.divisor,
@@ -2425,47 +2594,158 @@
         },
         {
           id: "dial",
-          label: "자물쇠",
-          formula: `검산 결과 = 원래 수 ?`,
-          correct: problem.answer,
-          prompt: "검산 결과가 원래 수와 같은 식을 골라요.",
-          meaning: `검산 결과와 원래 수 ${problem.dividend}가 같은지 확인해요.`,
-          hint: `나머지를 빠뜨린 ${formatNumber(problem.omission)}이 아닌지 살펴요.`,
-          explain: `${formatNumber(problem.answer)} = ${formatNumber(problem.dividend)}. 자물쇠가 열렸어요!`,
-          formatOption: (value) => `${formatNumber(value)} = ${formatNumber(problem.dividend)}`,
-          distractors: [
-            problem.omission,
-            problem.answer + 10,
-            problem.answer - 10,
-            problem.answer + problem.remainder
+          label: "처음 수 보기",
+          formula: `방금 만든 수 ${formatNumber(problem.answer)}, 처음 수 ${formatNumber(problem.dividend)}`,
+          correct: judgeAnswer,
+          prompt: "처음 수가 되는지 봐요.",
+          meaning: "다시 만든 수가 처음 수와 같으면 나눈 답이 맞아요.",
+          hint: "다시 만든 수와 처음 수를 견줘 봐요.",
+          explain: problem.matchesOriginal
+            ? "처음 수가 다시 나왔어요."
+            : "처음 수가 안 됐어요.",
+          correctFeedback: problem.matchesOriginal ? "처음 수가 됐어요." : "아직 안 맞아요.",
+          formatOption: (value) => value === "same" ? "처음 수가 됐어요" : "아직 안 맞아요",
+          options: [
+            { value: "same", label: "처음 수가 됐어요" },
+            { value: "different", label: "아직 안 맞아요" }
           ]
         }
       ];
-    }
-
-    function updateEquationRows() {
-      [
-        [el.rowMultiply, 0],
-        [el.rowAdd, 1],
-        [el.rowDial, 2]
-      ].forEach(([row, index]) => {
-        row.classList.toggle("is-current", state.stepIndex === index);
-        row.classList.toggle("is-done", state.stepIndex > index);
-      });
-    }
-
-    function updateCurrentSlot() {
-      [el.productSlot, el.sumSlot, el.dialSlot].forEach((slot) => slot.classList.remove("is-current"));
-      if (state.stepIndex === 0) {
-        el.productSlot.classList.add("is-current");
-      } else if (state.stepIndex === 1) {
-        el.sumSlot.classList.add("is-current");
-      } else {
-        el.dialSlot.classList.add("is-current");
+      if (!problem.matchesOriginal) {
+        const locateAnswer = problem.mismatchPart === "remainder" ? "remainder" : "quotient";
+        steps.push({
+          id: "locate",
+          label: "틀린 곳 찾기",
+          formula: "어디가 달랐을까요?",
+          correct: locateAnswer,
+          prompt: "어디가 달랐을까요?",
+          meaning: "달라진 곳을 찾으면 검산을 제대로 한 거예요.",
+          hint: "보드에서 빨간 표시가 난 곳을 봐요.",
+          explain: locateAnswer === "remainder"
+            ? "남은 것이 달라서 처음 수가 안 됐어요."
+            : "몫이 달라서 처음 수가 안 됐어요.",
+          correctFeedback: locateAnswer === "remainder" ? "정답은 남은 것이에요." : "정답은 몫이에요.",
+          formatOption: (value) => {
+            if (value === "quotient") return "몫";
+            if (value === "remainder") return "남은 것";
+            return "처음 수";
+          },
+          options: [
+            { value: "quotient", label: "몫" },
+            { value: "remainder", label: "남은 것" },
+            { value: "dividend", label: "처음 수" }
+          ]
+        });
       }
+      return steps;
+    }
+
+    function renderRebuildBoard(problem) {
+      const steps = buildSteps(problem);
+      const step = steps[state.stepIndex] || steps[0];
+      const shortLabels = {
+        multiply: "묶음",
+        add: "남은 것",
+        dial: "처음 수",
+        locate: "틀린 곳"
+      };
+      el.stepChipRow.style.gridTemplateColumns = `repeat(${steps.length}, minmax(0, 1fr))`;
+      el.stepChipRow.innerHTML = steps.map((item, index) => {
+        const classes = ["step-chip"];
+        if (state.stepIndex === index) classes.push("is-current");
+        if (state.stepIndex > index || state.stepProgress[item.id]) classes.push("is-done");
+        return `<span class="${classes.join(" ")}">${index + 1} ${shortLabels[item.id] || item.label}</span>`;
+      }).join("");
+
+      const barX = 154;
+      const barWidth = 560;
+      const targetY = 66;
+      const rebuildY = 166;
+      const barHeight = 42;
+      const scale = Math.max(problem.dividend, problem.answer, 1);
+      const toWidth = (value) => Math.max(value > 0 ? 10 : 0, Math.round(barWidth * value / scale));
+      const targetWidth = Math.min(barWidth, toWidth(problem.dividend));
+      const answerWidth = Math.min(barWidth, toWidth(problem.answer));
+      const rawRemainderWidth = Math.max(10, Math.round(barWidth * problem.remainder / scale));
+      const remainderWidth = Math.min(rawRemainderWidth, Math.max(10, answerWidth - 12));
+      const productWidth = Math.max(10, answerWidth - remainderWidth);
+      const targetEnd = barX + targetWidth;
+      const answerEnd = barX + answerWidth;
+      const productEnd = barX + productWidth;
+      const showProduct = state.stepProgress.multiply || step.id !== "multiply";
+      const showRemainder = state.stepProgress.add || step.id === "add" || step.id === "dial" || step.id === "locate";
+      const showAnswer = state.stepProgress.add || step.id === "dial" || step.id === "locate" || state.awaitingRewardConfirm;
+      const showComparison = state.stepProgress.dial || step.id === "locate" || state.awaitingRewardConfirm;
+      const showLocate = !problem.matchesOriginal && (step.id === "locate" || state.stepProgress.locate || state.awaitingRewardConfirm);
+      const diffWidth = Math.abs(answerEnd - targetEnd);
+      const diffLine = showComparison && diffWidth > 2
+        ? `<line class="rebuild-diff-line" x1="${Math.min(targetEnd, answerEnd)}" y1="${rebuildY + barHeight + 18}" x2="${Math.max(targetEnd, answerEnd)}" y2="${rebuildY + barHeight + 18}"></line>`
+        : "";
+      const badgeClass = problem.matchesOriginal ? "rebuild-match-badge" : "rebuild-mismatch-badge";
+      const badgeText = problem.matchesOriginal ? "같아요" : "달라요";
+      const locateHighlight = showLocate && problem.mismatchPart === "quotient"
+        ? `<rect x="${barX - 4}" y="${rebuildY - 4}" width="${productWidth + 8}" height="${barHeight + 8}" rx="14" fill="none" stroke="#ff7669" stroke-width="4"></rect>
+           <text class="rebuild-note" x="${barX + Math.min(productWidth / 2, 150)}" y="${rebuildY - 14}" text-anchor="middle">몫 확인</text>`
+        : showLocate && problem.mismatchPart === "remainder"
+          ? `<rect x="${productEnd - 4}" y="${rebuildY - 4}" width="${remainderWidth + 8}" height="${barHeight + 8}" rx="14" fill="none" stroke="#ff7669" stroke-width="4"></rect>
+             <text class="rebuild-note" x="${productEnd + Math.max(remainderWidth / 2, 44)}" y="${rebuildY - 14}" text-anchor="middle">남은 것 확인</text>`
+          : "";
+      const comparisonBadge = showComparison
+        ? `<g>
+             <rect class="${badgeClass}" x="602" y="242" width="104" height="38" rx="16"></rect>
+             <text class="rebuild-note" x="654" y="267" text-anchor="middle">${badgeText}</text>
+           </g>`
+        : "";
+
+      el.rebuildBoard.dataset.step = step.id;
+      el.rebuildBoard.dataset.matches = String(problem.matchesOriginal);
+      el.rebuildCanvas.setAttribute(
+        "aria-label",
+        `${problem.divisor}개씩 ${problem.quotient}묶음에 남은 ${problem.remainder}개를 붙여 처음 수 ${problem.dividend}와 비교해요.`
+      );
+      el.rebuildCanvas.innerHTML = `
+        <svg viewBox="0 0 760 300" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="groupGradient" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#d7fffb"></stop>
+              <stop offset="1" stop-color="#54d6ce"></stop>
+            </linearGradient>
+            <linearGradient id="remainGradient" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#ffe483"></stop>
+              <stop offset="1" stop-color="#ffc84f"></stop>
+            </linearGradient>
+          </defs>
+          <text class="rebuild-label" x="32" y="58">처음 수</text>
+          <text class="rebuild-value" x="32" y="90">${formatNumber(problem.dividend)}</text>
+          <rect class="rebuild-bar-shell" x="${barX}" y="${targetY}" width="${barWidth}" height="${barHeight}" rx="15"></rect>
+          <rect class="rebuild-target-fill" x="${barX}" y="${targetY}" width="${targetWidth}" height="${barHeight}" rx="15"></rect>
+          <line class="rebuild-end-line" x1="${targetEnd}" y1="${targetY - 10}" x2="${targetEnd}" y2="${targetY + barHeight + 10}"></line>
+
+          <text class="rebuild-label" x="32" y="158">다시 만든 수</text>
+          <text class="rebuild-value" x="32" y="190">${showAnswer ? formatNumber(problem.answer) : "?"}</text>
+          <rect class="rebuild-bar-shell" x="${barX}" y="${rebuildY}" width="${barWidth}" height="${barHeight}" rx="15"></rect>
+          <rect class="${showProduct ? "rebuild-group-fill" : "rebuild-ghost-fill"}" x="${barX}" y="${rebuildY}" width="${productWidth}" height="${barHeight}" rx="15"></rect>
+          <text class="rebuild-note" x="${barX + Math.min(productWidth / 2, 142)}" y="${rebuildY + 28}" text-anchor="middle">묶음 ${showProduct ? formatNumber(problem.product) : "?"}</text>
+          <rect class="${showRemainder ? "rebuild-remain-fill" : "rebuild-ghost-fill"}" x="${productEnd}" y="${rebuildY}" width="${remainderWidth}" height="${barHeight}" rx="15"></rect>
+          <text class="rebuild-note" x="${productEnd + Math.max(remainderWidth / 2, 44)}" y="${rebuildY + 28}" text-anchor="middle">남은 ${showRemainder ? formatNumber(problem.remainder) : "?"}</text>
+          <line class="rebuild-end-line" x1="${answerEnd}" y1="${rebuildY - 10}" x2="${answerEnd}" y2="${rebuildY + barHeight + 10}"></line>
+          ${diffLine}
+          ${locateHighlight}
+          ${comparisonBadge}
+        </svg>
+      `;
+      el.formulaSummary.textContent = showComparison || state.awaitingRewardConfirm
+        ? `${problem.divisor} × ${problem.quotient} + ${problem.remainder} = ${formatNumber(problem.answer)}`
+        : "";
     }
 
     function buildStepOptions(step) {
+      if (Array.isArray(step.options)) {
+        return shuffle(step.options.map((option) => ({
+          value: option.value,
+          label: option.label ?? formatStepChoiceValue(step, option.value)
+        })));
+      }
       const values = [step.correct];
       step.distractors.forEach((value) => addOptionValue(values, value, step.correct));
       while (values.length < 4) {
@@ -2509,9 +2789,13 @@
       }
 
       setButtonsDisabled(true);
-      el.feedbackText.textContent = `정답은 ${formatStepChoiceValue(step, step.correct)}예요. ${step.explain}`;
+      el.feedbackText.textContent = `${getCorrectFeedbackLead(step)} ${step.explain}`;
       el.feedbackText.className = "feedback try";
       completeStep(step, true);
+    }
+
+    function getCorrectFeedbackLead(step) {
+      return step.correctFeedback || `정답은 ${formatStepChoiceValue(step, step.correct)}예요.`;
     }
 
     function completeStep(step, revealed) {
@@ -2536,37 +2820,33 @@
 
     function applyStepToBoard(step, problem) {
       if (step.id === "multiply") {
-        fillSlot(el.productSlot, problem.product);
-        el.addLeft.textContent = `${formatNumber(problem.product)} + ${problem.remainder}`;
+        state.stepProgress.multiply = true;
       } else if (step.id === "add") {
-        fillSlot(el.sumSlot, problem.answer);
-      } else {
-        fillSlot(el.dialSlot, formatStepChoiceValue(step, problem.answer));
+        state.stepProgress.add = true;
+      } else if (step.id === "dial") {
+        state.stepProgress.dial = true;
+      } else if (step.id === "locate") {
+        state.stepProgress.locate = true;
       }
-      updateCurrentSlot();
+      renderRebuildBoard(problem);
     }
 
     function showRewardConfirm(problem) {
       state.awaitingRewardConfirm = true;
       el.problemPanel.classList.add("is-confirming");
       el.choiceGrid.hidden = true;
-      el.promptText.textContent = `검산 완료! ${formatNumber(problem.answer)}과 같아요.`;
+      el.choiceGrid.classList.remove("is-judge", "is-locate");
+      el.promptText.textContent = problem.matchesOriginal
+        ? "처음 수가 다시 나왔어요."
+        : problem.mismatchPart === "remainder"
+          ? "남은 것이 달라서 처음 수가 안 됐어요."
+          : "몫이 달라서 처음 수가 안 됐어요.";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback good";
+      renderRebuildBoard(problem);
       el.confirmRewardButton.hidden = false;
       el.confirmRewardButton.disabled = false;
       el.confirmRewardButton.focus({ preventScroll: true });
-    }
-
-    function fillSlot(slot, value) {
-      slot.textContent = typeof value === "number" ? formatNumber(value) : value;
-      slot.classList.add("is-filled");
-      slot.classList.remove("is-current");
-    }
-
-    function resetSlot(slot) {
-      slot.textContent = "?";
-      slot.classList.remove("is-filled", "is-current");
     }
 
     function completeProblem() {
@@ -3099,6 +3379,7 @@
       state.unlockPower = 0;
       state.correct = 0;
       state.stepIndex = 0;
+      resetStepProgress();
       state.awaitingRewardConfirm = false;
       state.rainbowCore = false;
       state.lastEvent = null;
