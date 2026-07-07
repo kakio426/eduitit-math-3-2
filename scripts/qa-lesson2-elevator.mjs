@@ -251,8 +251,12 @@ async function capture(name) {
     ".mini-badge",
     ".stat-pill",
     ".choice-button",
+    ".choice-grid",
+    ".division-board",
     ".feedback",
+    ".problem-panel",
     ".prompt",
+    ".quotient-stage",
     ".step-formula",
     ".answer-cell",
     ".down-box",
@@ -367,7 +371,7 @@ async function verifyMathModel() {
     if (problem.downNumber !== problem.carryDown + problem.onesDigit) issues.push("bad-down-number");
     if (problem.downNumber % problem.divisor !== 0) issues.push("final-remainder");
     if (problem.onesQuot !== problem.downNumber / problem.divisor) issues.push("bad-ones-quot");
-    if (!steps[1].options.some((option) => option.key === \`down:\${problem.onesDigit}\` && option.label.includes("일의 자리만"))) {
+    if (!steps[1].options.some((option) => option.key === \`down:\${problem.onesDigit}\` && option.label === String(problem.onesDigit))) {
       issues.push("missing-down-no-carry-wrong");
     }
     if (!steps[2].options.some((option) => option.key === \`ones:\${Math.floor(problem.onesDigit / problem.divisor)}\`)) {
@@ -452,6 +456,57 @@ async function verifyContractFlags() {
   return contract;
 }
 
+async function verifyFirstStepUi() {
+  const snapshot = await evaluate(`
+(() => {
+  const rectOf = (node) => {
+    const rect = node.getBoundingClientRect();
+    return {
+      x: Math.round(rect.x),
+      y: Math.round(rect.y),
+      width: Math.round(rect.width),
+      height: Math.round(rect.height)
+    };
+  };
+  const prompt = document.getElementById("promptText");
+  const choices = [...document.querySelectorAll("#choiceGrid .choice-button")].map((button) => {
+    const buttonRect = rectOf(button);
+    const pairs = [...button.querySelectorAll(".choice-pair")].map((pair) => {
+      const pairRect = rectOf(pair);
+      return {
+        text: pair.textContent.trim().replace(/\\s+/g, " "),
+        rect: pairRect,
+        fillsHeight: pairRect.height >= buttonRect.height - 2,
+        fillsHalfWidth: pairRect.width >= (buttonRect.width / 2) - 4,
+        overflows: pair.scrollWidth > pair.clientWidth + 1 || pair.scrollHeight > pair.clientHeight + 1
+      };
+    });
+    return {
+      text: button.textContent.trim().replace(/\\s+/g, " "),
+      aria: button.getAttribute("aria-label"),
+      correct: button.dataset.correct,
+      rect: buttonRect,
+      pairCount: pairs.length,
+      pairs,
+      overflows: button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1
+    };
+  });
+  return {
+    prompt: prompt.textContent.trim(),
+    promptOverflows: prompt.scrollWidth > prompt.clientWidth + 1 || prompt.scrollHeight > prompt.clientHeight + 1,
+    choices
+  };
+})()
+`);
+  assert(snapshot.prompt === "십의 자리 답을 골라요.", `first step prompt is awkward or stale: ${JSON.stringify(snapshot)}`);
+  assert(!snapshot.promptOverflows, `first step prompt overflows: ${JSON.stringify(snapshot)}`);
+  assert(snapshot.choices.length === 4, `first step choice count wrong: ${JSON.stringify(snapshot)}`);
+  assert(snapshot.choices.every((choice) => choice.pairCount === 2), `first step choices should show quotient/remainder as two cells: ${JSON.stringify(snapshot)}`);
+  assert(snapshot.choices.every((choice) => !choice.overflows && choice.pairs.every((pair) => !pair.overflows)), `first step choice text overflows: ${JSON.stringify(snapshot)}`);
+  assert(snapshot.choices.every((choice) => choice.pairs.every((pair) => pair.fillsHeight && pair.fillsHalfWidth)), `first step choice values are floating instead of filling the card: ${JSON.stringify(snapshot)}`);
+  return snapshot;
+}
+
 async function runDesktopScenario() {
   await navigate(VIEWPORTS.desktop);
   const contract = await verifyContractFlags();
@@ -474,11 +529,19 @@ async function runDesktopScenario() {
   const rewardModel = await verifyRewardModel();
 
   await capture("03-problem.png");
-  await click("#hintToggleButton");
-  await waitUntil('document.getElementById("hintToggleButton").getAttribute("aria-expanded") === "true"', "hint did not open");
-  await capture("03-problem-hint.png");
-  await click("#hintToggleButton");
-  await waitUntil('document.getElementById("hintToggleButton").getAttribute("aria-expanded") === "false"', "hint did not close");
+  const firstStepUi = await verifyFirstStepUi();
+  const hintVisibility = await evaluate(`
+(() => {
+  const node = document.getElementById("hintToggleButton");
+  const style = getComputedStyle(node);
+  const rect = node.getBoundingClientRect();
+  return {
+    display: style.display,
+    visible: style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0
+  };
+})()
+`);
+  assert(!hintVisibility.visible, `hint should stay hidden on one-action problem screen: ${JSON.stringify(hintVisibility)}`);
 
   await clickCorrectChoice();
   await waitUntil("state.stepIndex === 1", "first step did not complete");
@@ -610,7 +673,7 @@ async function runDesktopScenario() {
   await waitUntil('!document.getElementById("resultScreen").classList.contains("is-measuring")', "rainbow result did not finish", 4200);
   await capture("08-result-rainbow.png");
 
-  return { contract, mathModel, rewardModel };
+  return { contract, mathModel, rewardModel, firstStepUi };
 }
 
 async function runWrongAnswerScenario() {

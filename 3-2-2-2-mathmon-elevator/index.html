@@ -27,6 +27,10 @@
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     html,
     body {
       min-height: 100%;
@@ -68,10 +72,10 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --sound-button-size: 38px;
-      --sound-gap: clamp(8px, 1vw, 12px);
+      --sound-button-size: 40px;
+      --sound-gap: clamp(16px, 1.45vw, 20px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
-      --top-control-pad-x: 9px;
+      --top-control-pad-x: 12px;
       --top-control-icon-gap: 7px;
       position: relative;
       width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);
@@ -134,7 +138,9 @@
       flex: 0 0 auto;
       width: fit-content;
       max-width: max-content;
+      height: var(--sound-button-size);
       min-height: var(--sound-button-size);
+      max-height: var(--sound-button-size);
       padding: 0 var(--top-control-pad-x);
       gap: var(--top-control-icon-gap);
       border: 1px solid var(--line);
@@ -238,9 +244,9 @@
       display: grid;
       place-items: center;
       width: var(--sound-button-size);
-      min-width: 0;
+      min-width: var(--sound-button-size);
       height: var(--sound-button-size);
-      min-height: 0;
+      min-height: var(--sound-button-size);
       padding: 0;
       border: 1px solid rgba(255, 232, 186, 0.34);
       border-radius: 999px;
@@ -742,6 +748,11 @@
       min-width: 0;
     }
 
+    #powerText,
+    #chainText {
+      display: none;
+    }
+
     .stat-pill {
       display: inline-flex;
       align-items: center;
@@ -773,8 +784,8 @@
     .play-layout {
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(272px, 0.76fr) minmax(470px, 1.24fr);
-      gap: clamp(16px, 2.8vw, 28px);
+      grid-template-columns: minmax(164px, 0.24fr) minmax(0, 1.76fr);
+      gap: clamp(14px, 2vw, 22px);
     }
 
     .elevator-zone,
@@ -788,9 +799,9 @@
     .elevator-zone {
       position: relative;
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: 1fr;
       overflow: hidden;
-      padding: 18px;
+      padding: 14px;
       isolation: isolate;
       --power: 0;
       background: #142428;
@@ -823,21 +834,13 @@
     .tower-visual {
       position: relative;
       z-index: 2;
-      min-height: 384px;
+      min-height: 0;
       display: grid;
-      align-items: stretch;
+      align-items: center;
     }
 
     .floor-track {
-      position: absolute;
-      left: 10px;
-      top: 12px;
-      bottom: 12px;
-      z-index: 4;
-      display: grid;
-      grid-template-rows: repeat(5, minmax(0, 1fr));
-      gap: 8px;
-      width: 88px;
+      display: none;
     }
 
     .floor-chip {
@@ -850,7 +853,7 @@
       background: rgba(11, 20, 24, 0.56);
       font-size: 0.82rem;
       font-weight: 1000;
-      line-height: 1.05;
+      line-height: 1.12;
       text-align: center;
       backdrop-filter: blur(8px);
     }
@@ -871,9 +874,9 @@
     .elevator-car {
       position: absolute;
       left: 50%;
-      bottom: calc(24px + var(--power) * 210px);
+      bottom: calc(30px + var(--power) * 92px);
       z-index: 3;
-      width: min(190px, 62%);
+      width: min(150px, 78%);
       aspect-ratio: 560 / 640;
       transform: translateX(-50%);
       background: url("elevator-car-generated.webp") center / contain no-repeat;
@@ -897,9 +900,9 @@
     }
 
     .power-panel {
+      display: none;
       position: relative;
       z-index: 4;
-      display: grid;
       gap: 10px;
       padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.16);
@@ -947,9 +950,9 @@
 
     .problem-panel {
       display: grid;
-      grid-template-rows: auto auto auto 1fr auto auto;
-      gap: 14px;
-      padding: clamp(16px, 2.6vw, 24px);
+      grid-template-rows: auto minmax(0, 1fr) auto auto auto auto;
+      gap: 8px;
+      padding: 16px;
       background:
         linear-gradient(150deg, rgba(255, 200, 87, 0.06), transparent 42%),
         rgba(10, 20, 24, 0.72);
@@ -975,6 +978,9 @@
     }
 
     .problem-panel.is-confirming .quotient-stage {
+      --divisor-col: 64px;
+      --division-gap: 10px;
+      --digit-area: min(360px, calc(100% - var(--divisor-col) - var(--division-gap)));
       gap: 8px;
     }
 
@@ -983,7 +989,8 @@
     }
 
     .problem-panel.is-confirming .answer-strip {
-      max-width: 240px;
+      width: var(--digit-area);
+      max-width: none;
       gap: 8px;
     }
 
@@ -993,20 +1000,23 @@
     }
 
     .problem-panel.is-confirming .long-division {
-      grid-template-columns: 54px 1fr;
-      gap: 8px;
-      width: min(320px, 100%);
+      grid-template-columns: var(--divisor-col) var(--digit-area);
+      gap: var(--division-gap);
+      width: calc(var(--divisor-col) + var(--division-gap) + var(--digit-area));
     }
 
     .problem-panel.is-confirming .divisor-box,
     .problem-panel.is-confirming .dividend-box {
-      min-height: 52px;
-      font-size: 1.92rem;
+      min-height: 66px;
+      font-size: 2.1rem;
     }
 
-    .problem-panel.is-confirming .digit-box,
+    .problem-panel.is-confirming .digit-box {
+      min-height: 60px;
+    }
+
     .problem-panel.is-confirming .down-box {
-      min-height: 38px;
+      min-height: 48px;
     }
 
     .problem-panel.is-confirming .down-row {
@@ -1025,10 +1035,14 @@
 
     .problem-heading h2 {
       width: 100%;
+      min-height: 1.22em;
       margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: #ffffff;
-      font-size: clamp(2.8rem, 7vw, 5.6rem);
-      line-height: 1;
+      font-size: clamp(2.8rem, 6.2vw, 4.6rem);
+      line-height: 1.05;
       font-weight: 1000;
       text-align: center;
       white-space: nowrap;
@@ -1037,23 +1051,26 @@
 
     .division-board {
       display: grid;
-      grid-template-columns: minmax(260px, 0.94fr) minmax(210px, 0.66fr);
-      gap: 12px;
+      grid-template-columns: 1fr;
+      gap: 10px;
       align-items: stretch;
     }
 
     .quotient-stage,
     .step-panel {
-      min-height: 230px;
-      padding: 16px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.065);
     }
 
     .quotient-stage {
+      --divisor-col: 88px;
+      --division-gap: 14px;
+      --digit-area: min(430px, calc(100% - var(--divisor-col) - var(--division-gap)));
       display: grid;
-      gap: 12px;
+      min-height: 252px;
+      gap: 10px;
+      padding: 14px 20px;
       align-content: center;
       border-color: rgba(53, 214, 199, 0.28);
       background:
@@ -1066,19 +1083,20 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
-      max-width: 310px;
-      margin-inline: auto;
+      width: var(--digit-area);
+      justify-self: center;
+      transform: translateX(calc((var(--divisor-col) + var(--division-gap)) / 2));
     }
 
     .answer-cell {
       display: grid;
       place-items: center;
-      min-height: clamp(58px, 7vw, 74px);
+      min-height: clamp(54px, 5vw, 64px);
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: var(--radius);
       color: #ffffff;
       background: rgba(255, 255, 255, 0.09);
-      font-size: clamp(2rem, 4.8vw, 3rem);
+      font-size: clamp(2rem, 4vw, 2.6rem);
       font-weight: 1000;
       line-height: 1;
     }
@@ -1092,10 +1110,10 @@
 
     .long-division {
       display: grid;
-      grid-template-columns: 74px 1fr;
-      gap: 10px;
+      grid-template-columns: var(--divisor-col) var(--digit-area);
+      gap: var(--division-gap);
       align-items: center;
-      width: min(420px, 100%);
+      width: calc(var(--divisor-col) + var(--division-gap) + var(--digit-area));
       margin-inline: auto;
     }
 
@@ -1103,10 +1121,10 @@
     .dividend-box {
       display: grid;
       place-items: center;
-      min-height: clamp(64px, 8vw, 86px);
+      min-height: clamp(70px, 6.6vw, 84px);
       border-radius: var(--radius);
       color: #ffffff;
-      font-size: clamp(2rem, 4.8vw, 3.2rem);
+      font-size: clamp(2.35rem, 4.1vw, 3rem);
       font-weight: 1000;
       line-height: 1;
     }
@@ -1119,10 +1137,12 @@
     .dividend-box {
       position: relative;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      padding: 8px 12px;
-      border-top: 5px solid rgba(255, 255, 255, 0.64);
-      border-left: 5px solid rgba(255, 255, 255, 0.64);
+      align-items: stretch;
+      justify-items: stretch;
+      gap: 10px;
+      padding: 0 12px;
+      border-top: 6px solid rgba(255, 255, 255, 0.68);
+      border-left: 6px solid rgba(255, 255, 255, 0.68);
       border-radius: 0 0 var(--radius) 0;
       background: rgba(255, 255, 255, 0.08);
     }
@@ -1131,10 +1151,21 @@
     .down-box {
       display: grid;
       place-items: center;
-      min-height: 54px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.08);
+    }
+
+    .digit-box {
+      min-height: clamp(54px, 5.6vw, 66px);
+      font-size: inherit;
+    }
+
+    .down-box {
+      min-height: clamp(44px, 4.8vw, 54px);
+      font-size: clamp(1.72rem, 3vw, 2rem);
+      font-weight: 1000;
+      line-height: 1;
     }
 
     .digit-box.is-active,
@@ -1147,37 +1178,40 @@
 
     .down-row {
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 8px;
-      align-items: center;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+      width: var(--digit-area);
+      justify-self: center;
+      transform: translateX(calc((var(--divisor-col) + var(--division-gap)) / 2));
       color: #ffe8ba;
       font-size: clamp(1.2rem, 2.6vw, 1.72rem);
       font-weight: 1000;
       text-align: center;
     }
 
-    .down-row span {
-      min-width: 40px;
+    .problem-panel[data-step="tens"] .down-row {
+      display: none;
     }
 
     .down-box {
-      min-height: 48px;
       color: #b8fff2;
       border-color: rgba(53, 214, 199, 0.22);
       background: rgba(53, 214, 199, 0.09);
     }
 
     .step-panel {
-      display: grid;
-      grid-template-rows: auto auto auto;
-      gap: 10px;
-      align-content: center;
-      background:
-        linear-gradient(150deg, rgba(255, 200, 87, 0.06), transparent 46%),
-        rgba(12, 23, 27, 0.46);
+      order: -1;
+      min-height: 0;
+      display: none;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
     }
 
     .hint-toggle {
+      display: none;
       justify-self: end;
       min-width: 64px;
       min-height: 38px;
@@ -1193,7 +1227,7 @@
     }
 
     .step-track {
-      display: grid;
+      display: none;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
     }
@@ -1227,15 +1261,16 @@
     .step-formula {
       display: grid;
       place-items: center;
-      min-height: 78px;
-      padding: 10px;
+      min-height: 48px;
+      min-width: min(320px, 100%);
+      padding: 8px 18px;
       border: 1px solid rgba(255, 200, 87, 0.32);
-      border-radius: var(--radius);
+      border-radius: 999px;
       color: #fff0c6;
       background:
         radial-gradient(circle at 18% 18%, rgba(255, 200, 87, 0.16), transparent 0 22%, transparent 48%),
         rgba(255, 200, 87, 0.08);
-      font-size: clamp(1.32rem, 2.6vw, 2rem);
+      font-size: clamp(1.2rem, 2.2vw, 1.62rem);
       font-weight: 1000;
       text-align: center;
       line-height: 1.12;
@@ -1250,36 +1285,40 @@
     }
 
     .prompt {
-      min-height: 50px;
+      min-height: 48px;
       display: flex;
       align-items: center;
-      padding: 10px 12px;
+      justify-content: center;
+      padding: 10px 16px;
       border: 1px solid rgba(255, 200, 87, 0.26);
       border-radius: var(--radius);
       background: rgba(255, 200, 87, 0.08);
       color: #fff0c6;
-      font-size: clamp(1rem, 2.1vw, 1.2rem);
+      font-size: clamp(1.1rem, 2vw, 1.32rem);
       font-weight: 950;
       line-height: 1.35;
+      text-align: center;
     }
 
     .choice-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       align-content: start;
-      gap: 8px;
+      gap: 10px;
     }
 
     .choice-button {
-      min-height: 64px;
-      padding: 8px 12px;
+      display: grid;
+      place-items: center;
+      min-height: 76px;
+      padding: 10px 14px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.1);
       color: #ffffff;
-      font-size: clamp(1.02rem, 2.1vw, 1.34rem);
+      font-size: clamp(1.82rem, 3vw, 2.42rem);
       font-weight: 1000;
-      line-height: 1.22;
+      line-height: 1;
       transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
     }
 
@@ -1291,21 +1330,43 @@
 
     .choice-button--stack {
       display: grid;
-      align-content: center;
-      justify-items: center;
-      gap: 2px;
-      line-height: 1.05;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch;
+      justify-items: stretch;
+      gap: 0;
+      line-height: 1;
+      padding: 0;
+      overflow: hidden;
     }
 
-    .choice-button--stack b {
-      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+    .choice-pair {
+      min-height: 76px;
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: transparent;
+    }
+
+    .choice-pair + .choice-pair {
+      border-left: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .choice-label {
+      color: rgba(255, 240, 198, 0.86);
+      font-size: clamp(1rem, 1.6vw, 1.22rem);
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .choice-value {
+      color: #ffffff;
+      font-size: clamp(2.4rem, 3.7vw, 3rem);
       font-weight: 1000;
-    }
-
-    .choice-button--stack small {
-      font-size: clamp(0.78rem, 1.5vw, 0.94rem);
-      font-weight: 900;
-      opacity: 0.86;
+      line-height: 0.95;
+      font-variant-numeric: tabular-nums;
     }
 
     .choice-button.is-correct {
@@ -1681,7 +1742,7 @@
       }
     }
 
-    @media (max-width: 930px) {
+    @media (max-width: 930px) and (orientation: portrait) {
 
       .cover-scene,
       .tutorial-layout,
@@ -1723,32 +1784,258 @@
 
     @media (max-width: 1100px) {
       .problem-panel {
-        gap: 10px;
-        padding: 16px;
+        gap: 6px;
+        padding: 12px;
       }
 
-      .quotient-stage,
+      .division-board {
+        min-height: 218px;
+      }
+
+      .problem-heading h2 {
+        min-height: 1.12em;
+        font-size: clamp(2.5rem, 5.2vw, 3.2rem);
+      }
+
+      .quotient-stage {
+        --divisor-col: 78px;
+        --division-gap: 10px;
+        --digit-area: min(376px, calc(100% - var(--divisor-col) - var(--division-gap)));
+        min-height: 218px;
+        gap: 6px;
+        padding: 10px 12px;
+      }
+
       .step-panel {
-        min-height: 190px;
+        min-height: 0;
+        padding: 0;
       }
 
       .choice-button {
-        min-height: 48px;
-        padding-block: 4px;
-        font-size: 0.94rem;
+        min-height: 60px;
+        padding-block: 6px;
+        font-size: 1.38rem;
       }
 
       .choice-button--stack {
-        gap: 0;
-        line-height: 0.96;
+        min-height: 60px;
       }
 
-      .choice-button--stack b {
+      .choice-pair {
+        min-height: 60px;
+        padding: 6px 8px;
+        gap: 6px;
+      }
+
+      .choice-label {
+        font-size: 0.94rem;
+      }
+
+      .choice-value {
+        font-size: 2.15rem;
+      }
+    }
+
+    @media (max-width: 930px) and (orientation: landscape) {
+      .top-row {
+        top: 12px;
+        left: 12px;
+        right: calc(12px + var(--sound-reserve));
+      }
+
+      .stage-shell .top-row {
+        right: calc(12px + var(--sound-reserve));
+      }
+
+      .settings-toggle {
+        top: 13px;
+        right: 13px;
+      }
+
+      .play {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .hud {
+        gap: 8px;
+      }
+
+      .hud-center {
+        gap: 6px;
+      }
+
+      .stat-pill {
+        min-width: 92px;
+        padding-inline: 9px;
+        font-size: 0.8rem;
+      }
+
+      .play-layout {
+        grid-template-columns: minmax(132px, 0.2fr) minmax(0, 1.8fr);
+        gap: 12px;
+      }
+
+      .elevator-zone {
+        min-height: 0;
+        padding: 10px;
+      }
+
+      .tower-visual {
+        min-height: 0;
+      }
+
+      .floor-track {
+        left: 8px;
+        top: 8px;
+        bottom: 8px;
+        width: 64px;
+        gap: 5px;
+      }
+
+      .floor-chip {
+        min-height: 32px;
+        border-radius: 10px;
+        font-size: 0.66rem;
+      }
+
+      .elevator-car {
+        bottom: calc(22px + var(--power) * 110px);
+        width: min(126px, 72%);
+      }
+
+      .power-panel {
+        gap: 6px;
+        padding: 8px;
+      }
+
+      .power-readout {
+        font-size: 0.78rem;
+      }
+
+      .power-meter {
+        height: 12px;
+      }
+
+      .problem-panel {
+        grid-template-rows: auto auto auto minmax(0, auto) auto auto;
+        gap: 7px;
+        padding: 10px;
+      }
+
+      .division-board {
+        min-height: 218px;
+      }
+
+      .problem-heading h2 {
+        font-size: clamp(2.45rem, 5.6vw, 3.25rem);
+      }
+
+      .quotient-stage {
+        --divisor-col: 64px;
+        --division-gap: 8px;
+        --digit-area: min(340px, calc(100% - var(--divisor-col) - var(--division-gap)));
+        min-height: 172px;
+        padding: 8px;
+      }
+
+      .step-panel {
+        min-height: 0;
+        padding: 0;
+      }
+
+      .quotient-stage {
+        gap: 6px;
+      }
+
+      .answer-strip {
+        width: var(--digit-area);
+        max-width: none;
+        gap: 6px;
+      }
+
+      .answer-cell {
+        min-height: 42px;
+        font-size: 1.74rem;
+      }
+
+      .long-division {
+        grid-template-columns: var(--divisor-col) var(--digit-area);
+        gap: var(--division-gap);
+        width: calc(var(--divisor-col) + var(--division-gap) + var(--digit-area));
+      }
+
+      .divisor-box,
+      .dividend-box {
+        min-height: 70px;
+        font-size: 2.1rem;
+      }
+
+      .digit-box {
+        min-height: 60px;
+      }
+
+      .down-box {
+        min-height: 48px;
+      }
+
+      .down-row {
+        gap: 8px;
+        font-size: 1rem;
+      }
+
+      .hint-toggle {
+        min-width: 54px;
+        min-height: 30px;
+        font-size: 0.8rem;
+      }
+
+      .step-chip {
+        padding: 4px 6px;
+        font-size: 0.68rem;
+      }
+
+      .step-formula {
+        min-height: 48px;
+        font-size: 1.05rem;
+      }
+
+      .prompt {
+        min-height: 34px;
+        padding: 6px 8px;
+        font-size: 0.9rem;
+      }
+
+      .choice-grid {
+        gap: 6px;
+      }
+
+      .choice-button {
+        min-height: 58px;
+        padding: 5px 8px;
         font-size: 1.16rem;
       }
 
-      .choice-button--stack small {
-        font-size: 0.62rem;
+      .choice-button--stack {
+        min-height: 58px;
+      }
+
+      .choice-pair {
+        min-height: 58px;
+        padding: 5px 6px;
+        gap: 5px;
+      }
+
+      .choice-label {
+        font-size: 0.84rem;
+      }
+
+      .choice-value {
+        font-size: 1.9rem;
+      }
+
+      .feedback {
+        font-size: 0.86rem;
       }
     }
 
@@ -1925,9 +2212,8 @@
                 </div>
               </div>
               <div class="down-row">
-                <div class="down-box" id="remainderBox">남은 십 ?</div>
-                <span>↓</span>
-                <div class="down-box" id="downNumberBox">내린 수 ?</div>
+                <div class="down-box" id="remainderBox">?</div>
+                <div class="down-box" id="downNumberBox">?</div>
               </div>
             </div>
 
@@ -2271,8 +2557,8 @@
       el.divisorText.textContent = problem.divisor;
       el.tensDigit.textContent = problem.tensDigit;
       el.onesDigit.textContent = problem.onesDigit;
-      el.remainderBox.textContent = "남은 십 ?";
-      el.downNumberBox.textContent = "내린 수 ?";
+      el.remainderBox.textContent = "?";
+      el.downNumberBox.textContent = "?";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       el.problemPanel.classList.remove("is-confirming");
@@ -2406,22 +2692,30 @@
           label: "십의 자리",
           formula: `${problem.tensDigit} ÷ ${problem.divisor}`,
           correctKey: `tens:${problem.tensQuot}:${problem.remainderTens}`,
-          prompt: "몫과 남은 십을 골라요.",
+          prompt: "십의 자리 답을 골라요.",
           meaning: "십의 자리부터 나누고 남은 십을 기억해요.",
           hint: `${problem.tensDigit}에서 ${problem.divisor}는 ${problem.tensQuot}번, ${problem.remainderTens}십이 남아요.`,
           explain: `몫 ${problem.tensQuot}, 남은 ${problem.remainderTens}십!`,
           options: [
-            { key: `tens:${problem.tensQuot}:${problem.remainderTens}`, label: `${problem.tensQuot} 남은 ${problem.remainderTens}`, html: `<b>${problem.tensQuot}</b><small>남은 ${problem.remainderTens}</small>` },
-            { key: `tens:${problem.tensQuot}:0`, label: `${problem.tensQuot} 남은 0`, html: `<b>${problem.tensQuot}</b><small>남은 0</small>` },
+            {
+              key: `tens:${problem.tensQuot}:${problem.remainderTens}`,
+              label: `몫 ${problem.tensQuot}, 남은 십 ${problem.remainderTens}`,
+              html: renderTensChoiceHtml(problem.tensQuot, problem.remainderTens)
+            },
+            {
+              key: `tens:${problem.tensQuot}:0`,
+              label: `몫 ${problem.tensQuot}, 남은 십 0`,
+              html: renderTensChoiceHtml(problem.tensQuot, 0)
+            },
             {
               key: `tens:${problem.tensQuot + 1}:${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}`,
-              label: `${problem.tensQuot + 1} 남은 ${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}`,
-              html: `<b>${problem.tensQuot + 1}</b><small>남은 ${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}</small>`
+              label: `몫 ${problem.tensQuot + 1}, 남은 십 ${Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor)}`,
+              html: renderTensChoiceHtml(problem.tensQuot + 1, Math.max(0, problem.tensDigit - (problem.tensQuot + 1) * problem.divisor))
             },
             {
               key: `tens:${Math.max(0, problem.tensQuot - 1)}:${problem.remainderTens + problem.divisor}`,
-              label: `${Math.max(0, problem.tensQuot - 1)} 남은 ${problem.remainderTens + problem.divisor}`,
-              html: `<b>${Math.max(0, problem.tensQuot - 1)}</b><small>남은 ${problem.remainderTens + problem.divisor}</small>`
+              label: `몫 ${Math.max(0, problem.tensQuot - 1)}, 남은 십 ${problem.remainderTens + problem.divisor}`,
+              html: renderTensChoiceHtml(Math.max(0, problem.tensQuot - 1), problem.remainderTens + problem.divisor)
             }
           ]
         },
@@ -2430,14 +2724,14 @@
           label: "내리기",
           formula: `${problem.remainderTens}십 + ${problem.onesDigit}`,
           correctKey: `down:${problem.downNumber}`,
-          prompt: "아래로 내린 수를 골라요.",
+          prompt: "내린 수를 골라요.",
           meaning: "남은 십을 그냥 버리지 않고 아래로 내려요.",
           hint: `${problem.remainderTens}십은 ${problem.carryDown}. ${problem.onesDigit}와 합쳐요.`,
           explain: `${problem.carryDown} + ${problem.onesDigit} = ${problem.downNumber}!`,
           options: [
-            { key: `down:${problem.downNumber}`, label: `${problem.carryDown} + ${problem.onesDigit} = ${problem.downNumber}` },
-            { key: `down:${problem.onesDigit}`, label: `일의 자리만 ${problem.onesDigit}` },
-            { key: `down:${problem.carryDown}`, label: `남은 십만 ${problem.carryDown}` },
+            { key: `down:${problem.downNumber}`, label: `${problem.downNumber}` },
+            { key: `down:${problem.onesDigit}`, label: `${problem.onesDigit}` },
+            { key: `down:${problem.carryDown}`, label: `${problem.carryDown}` },
             { key: `down:${problem.downNumber + problem.divisor}`, label: `${problem.downNumber + problem.divisor}` }
           ]
         },
@@ -2460,6 +2754,19 @@
       ];
     }
 
+    function renderTensChoiceHtml(quotient, remainderTens) {
+      return `
+        <span class="choice-pair">
+          <span class="choice-label">몫</span>
+          <span class="choice-value">${quotient}</span>
+        </span>
+        <span class="choice-pair">
+          <span class="choice-label">남은 십</span>
+          <span class="choice-value">${remainderTens}</span>
+        </span>
+      `;
+    }
+
     function updateStepChips() {
       [
         [el.stepChipTens, 0],
@@ -2476,14 +2783,15 @@
         item.classList.remove("is-current", "is-active");
       });
       if (state.stepIndex === 0) {
+        el.problemPanel.dataset.step = "tens";
         el.tensAnswer.classList.add("is-current");
         el.tensDigit.classList.add("is-active");
       } else if (state.stepIndex === 1) {
-        el.remainderBox.classList.add("is-active");
-        el.onesDigit.classList.add("is-active");
-      } else {
-        el.onesAnswer.classList.add("is-current");
+        el.problemPanel.dataset.step = "down";
         el.downNumberBox.classList.add("is-active");
+      } else {
+        el.problemPanel.dataset.step = "ones";
+        el.onesAnswer.classList.add("is-current");
       }
     }
 
@@ -2541,7 +2849,7 @@
       button.classList.add("is-wrong");
       playSound("try");
       if (state.stepAttempts === 1) {
-        el.feedbackText.textContent = `다시 골라요. ${step.hint}`;
+        el.feedbackText.textContent = "다시 골라요.";
         el.feedbackText.className = "feedback try";
         button.disabled = true;
         return;
@@ -2566,7 +2874,7 @@
       void el.elevatorCar.offsetWidth;
       el.elevatorCar.classList.add("is-boosting");
       if (!revealed) {
-        el.feedbackText.textContent = step.explain;
+        el.feedbackText.textContent = "맞았어요.";
         el.feedbackText.className = "feedback good";
         playSound("correct");
       }
@@ -2585,9 +2893,9 @@
     function applyStepToBoard(step, problem) {
       if (step.id === "tens") {
         el.tensAnswer.textContent = problem.tensQuot;
-        el.remainderBox.textContent = `남은 ${problem.remainderTens}십`;
+        el.remainderBox.textContent = problem.remainderTens;
       } else if (step.id === "down") {
-        el.downNumberBox.textContent = problem.downNumber;
+        el.downNumberBox.textContent = problem.onesDigit;
       } else {
         el.onesAnswer.textContent = problem.onesQuot;
       }
@@ -2601,6 +2909,7 @@
       el.hintToggleButton.setAttribute("aria-expanded", "false");
       el.hintToggleButton.disabled = true;
       el.problemPanel.classList.add("is-confirming");
+      el.problemPanel.dataset.step = "confirm";
       el.choiceGrid.hidden = true;
       el.promptText.textContent = `답 ${problem.quotient} 완성!`;
       el.feedbackText.textContent = "";
