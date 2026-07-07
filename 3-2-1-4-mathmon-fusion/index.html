@@ -1716,85 +1716,63 @@
     }
 
     .reward-card {
-      width: min(540px, 100%);
+      width: min(760px, 100%);
       display: grid;
       justify-items: center;
-      gap: 14px;
-      padding: 36px;
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: var(--radius);
+      gap: 18px;
+      padding: 18px 24px 28px;
+      border: 0;
+      border-radius: 20px;
       background:
-        linear-gradient(150deg, rgba(255, 200, 87, 0.2), transparent 42%),
-        #1b2328;
+        radial-gradient(circle at 50% 44%, rgba(255, 200, 87, 0.2), transparent 0 48%),
+        radial-gradient(circle at 50% 48%, rgba(80, 201, 222, 0.18), transparent 0 58%);
       text-align: center;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
+      box-shadow: none;
     }
 
     .reward-card h3 {
       margin: 0;
-      color: #ffffff;
-      font-size: 3rem;
-      line-height: 1;
-      font-weight: 1000;
     }
 
-    .reward-delta {
-      display: grid;
-      place-items: center;
-      width: 176px;
-      height: 92px;
-      padding: 0 14px;
-      border-radius: var(--radius);
-      color: #241500;
-      background: linear-gradient(180deg, #ffe27a, #ffc857);
-      font-size: 1.84rem;
-      font-weight: 1000;
-      line-height: 1.05;
-      box-shadow: 0 16px 0 rgba(106, 70, 23, 0.28);
+    .reward-score-art {
+      display: block;
+      width: min(680px, 100%);
+      max-height: 390px;
+      object-fit: contain;
+      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.42));
+      transform-origin: center;
+      animation: reward-art-pop 0.46s cubic-bezier(0.2, 1.2, 0.34, 1) both;
     }
 
     .reward-pop.fuel-event--normal .reward-card,
     .reward-pop.fuel-event--megaFuel .reward-card {
-      border-color: rgba(55, 214, 173, 0.48);
       background:
-        linear-gradient(150deg, rgba(55, 214, 173, 0.2), transparent 42%),
-        #1b2328;
+        radial-gradient(circle at 50% 44%, rgba(255, 200, 87, 0.28), transparent 0 50%),
+        radial-gradient(circle at 50% 48%, rgba(55, 214, 173, 0.2), transparent 0 62%);
     }
 
     .reward-pop.fuel-event--smallExplosion .reward-card,
     .reward-pop.fuel-event--leak .reward-card,
     .reward-pop.fuel-event--emptyTank .reward-card {
-      border-color: rgba(255, 107, 99, 0.5);
       background:
-        linear-gradient(150deg, rgba(255, 107, 99, 0.22), transparent 42%),
-        #1b2328;
+        radial-gradient(circle at 50% 44%, rgba(255, 107, 99, 0.24), transparent 0 48%),
+        radial-gradient(circle at 50% 50%, rgba(80, 201, 222, 0.16), transparent 0 62%);
       animation: tank-shake 0.5s ease both;
     }
 
     .reward-pop.fuel-event--instantLaunch .reward-card {
-      border-color: rgba(255, 200, 87, 0.62);
       animation: reward-pop 0.42s ease both;
     }
 
     .reward-pop.fuel-event--rainbowFuel .reward-card {
-      border-color: rgba(212, 155, 255, 0.72);
       background:
-        linear-gradient(135deg, rgba(255, 107, 99, 0.22), rgba(255, 200, 87, 0.16), rgba(80, 201, 222, 0.2), rgba(212, 155, 255, 0.24)),
-        #1b2328;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36), 0 0 42px rgba(80, 201, 222, 0.26);
+        radial-gradient(circle at 50% 44%, rgba(212, 155, 255, 0.34), transparent 0 50%),
+        radial-gradient(circle at 42% 42%, rgba(255, 200, 87, 0.2), transparent 0 38%),
+        radial-gradient(circle at 58% 50%, rgba(80, 201, 222, 0.22), transparent 0 60%);
     }
 
-    .reward-pop.fuel-event--smallExplosion .reward-delta,
-    .reward-pop.fuel-event--leak .reward-delta,
-    .reward-pop.fuel-event--emptyTank .reward-delta {
-      color: #ffffff;
-      background: linear-gradient(180deg, #ff9b94, #ff6b63);
-      box-shadow: 0 16px 0 rgba(116, 25, 48, 0.28);
-    }
-
-    .reward-pop.fuel-event--rainbowFuel .reward-delta {
-      color: #24132b;
-      background: linear-gradient(90deg, #ff8ca6, #ffe27a, #50c9de, #d49bff);
+    .reward-pop.fuel-event--rainbowFuel .reward-score-art {
+      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.42)) drop-shadow(0 0 28px rgba(212, 155, 255, 0.42));
     }
 
     .reward-card p {
@@ -2075,6 +2053,21 @@
       }
       to {
         transform: scale(1);
+      }
+    }
+
+    @keyframes reward-art-pop {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.9);
+      }
+      62% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.035);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
     }
 
@@ -2489,7 +2482,12 @@
       .goal-rail.is-goal-up .goal-map-raster-current,
       .goal-rail.is-goal-rare .goal-map-raster-current,
       .goal-rail.is-goal-down .goal-map-raster-current,
-      .goal-rail.is-goal-empty .goal-map-raster-current {
+      .goal-rail.is-goal-empty .goal-map-raster-current,
+      .reward-score-art,
+      .reward-pop.fuel-event--smallExplosion .reward-card,
+      .reward-pop.fuel-event--leak .reward-card,
+      .reward-pop.fuel-event--emptyTank .reward-card,
+      .reward-pop.fuel-event--instantLaunch .reward-card {
         animation: none;
       }
 
@@ -3174,11 +3172,11 @@
         </section>
       </div>
 
-      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
+      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle" aria-describedby="rewardMessage">
         <div class="reward-card">
-          <h3 id="rewardTitle">합체 에너지</h3>
-          <div class="reward-delta" id="rewardDelta">+에너지</div>
-          <p id="rewardMessage">정답! 합체 에너지가 모였어요.</p>
+          <h3 class="visually-hidden" id="rewardTitle">합체 점수</h3>
+          <img class="reward-score-art" id="rewardScoreArt" src="reward-score-plus-50-generated.webp" alt="" aria-hidden="true">
+          <p class="visually-hidden" id="rewardMessage">합체 점수 50점이 들어왔어요.</p>
           <button class="primary-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
@@ -3314,6 +3312,16 @@
       "fuel-event--rainbowFuel",
       "fuel-event--leak"
     ];
+    const REWARD_SCORE_ART = {
+      plus50: "reward-score-plus-50-generated.webp",
+      plus100: "reward-score-plus-100-generated.webp",
+      plus200: "reward-score-plus-200-generated.webp",
+      plus500: "reward-score-plus-500-generated.webp",
+      minus50: "reward-score-minus-50-generated.webp",
+      minus100: "reward-score-minus-100-generated.webp",
+      zero: "reward-score-zero-generated.webp",
+      rainbow: "reward-score-rainbow-generated.webp"
+    };
     const ROBOT_SPRITES = {
       standby: "mathmon-rfa-01-standby.webp",
       one: "mathmon-rfa-02-one-part.webp",
@@ -3357,6 +3365,10 @@
     };
 
     GOAL_RAIL_IMAGES.forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+    Object.values(REWARD_SCORE_ART).forEach((src) => {
       const image = new Image();
       image.src = src;
     });
@@ -3410,7 +3422,7 @@
       cutAnswer: document.getElementById("cutAnswer"),
       rewardPop: document.getElementById("rewardPop"),
       rewardTitle: document.getElementById("rewardTitle"),
-      rewardDelta: document.getElementById("rewardDelta"),
+      rewardScoreArt: document.getElementById("rewardScoreArt"),
       rewardMessage: document.getElementById("rewardMessage"),
       rewardNextButton: document.getElementById("rewardNextButton"),
       resultRaster: document.getElementById("resultRaster"),
@@ -3482,6 +3494,31 @@
           energy: getEnergy(),
           grade: getGradeByEnergy()?.id || "retry",
           screen: state.screen
+        };
+      },
+      showReward(scoreKey = "plus50", isFinal = false) {
+        const samples = {
+          plus50: { id: "normal", scoreArt: REWARD_SCORE_ART.plus50, message: "합체 점수 50점이 들어왔어요." },
+          plus100: { id: "normal", scoreArt: REWARD_SCORE_ART.plus100, message: "합체 점수 100점이 들어왔어요." },
+          plus200: { id: "megaFuel", scoreArt: REWARD_SCORE_ART.plus200, message: "합체 점수 200점이 들어왔어요." },
+          plus500: { id: "instantLaunch", scoreArt: REWARD_SCORE_ART.plus500, message: "합체 점수 500점이 들어왔어요." },
+          minus50: { id: "smallExplosion", scoreArt: REWARD_SCORE_ART.minus50, message: "합체 점수 50점이 줄었어요." },
+          minus100: { id: "leak", scoreArt: REWARD_SCORE_ART.minus100, message: "합체 점수 100점이 줄었어요." },
+          zero: { id: "emptyTank", scoreArt: REWARD_SCORE_ART.zero, message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요." },
+          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요." }
+        };
+        const sample = samples[scoreKey] || samples.plus50;
+        EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+        el.rewardPop.classList.add(`fuel-event--${sample.id}`, "is-visible");
+        el.rewardTitle.textContent = "합체 점수";
+        el.rewardScoreArt.src = sample.scoreArt;
+        el.rewardMessage.textContent = sample.message;
+        el.rewardNextButton.textContent = isFinal ? "결과 보기" : "다음";
+        showScreen("play");
+        return {
+          scoreKey,
+          image: sample.scoreArt,
+          button: el.rewardNextButton.textContent
         };
       }
     };
@@ -4175,55 +4212,74 @@
       playSound("reward");
     }
 
-    function pickFusionEventForRoll(roll, amountPicker = randomInt) {
-      if (roll < 68) {
-        const amount = amountPicker(7, 13);
+    function pickFusionEventForRoll(roll) {
+      if (roll < 44) {
         return {
           id: "normal",
-          amount,
-          title: "에너지 충전!",
-          message: `합체 에너지가 ${amount}% 늘었어요.`
+          amount: 7,
+          score: 50,
+          scoreArt: REWARD_SCORE_ART.plus50,
+          title: "합체 점수",
+          message: "합체 점수 50점이 들어왔어요."
+        };
+      }
+      if (roll < 68) {
+        return {
+          id: "normal",
+          amount: 10,
+          score: 100,
+          scoreArt: REWARD_SCORE_ART.plus100,
+          title: "합체 점수",
+          message: "합체 점수 100점이 들어왔어요."
         };
       }
       if (roll < 78) {
-        const amount = -amountPicker(4, 9);
         return {
           id: "smallExplosion",
-          amount,
-          title: "부품 결함!",
-          message: `맞췄지만 부품을 다듬느라 ${Math.abs(amount)}% 줄었어요.`
+          amount: -5,
+          score: -50,
+          scoreArt: REWARD_SCORE_ART.minus50,
+          title: "합체 점수",
+          message: "합체 점수 50점이 줄었어요."
         };
       }
       if (roll < 88) {
-        const amount = amountPicker(18, 30);
         return {
           id: "megaFuel",
-          amount,
-          title: "강화 부품!",
-          message: `강화 부품이 붙어 ${amount}%나 늘었어요!`
+          amount: 20,
+          score: 200,
+          scoreArt: REWARD_SCORE_ART.plus200,
+          title: "합체 점수",
+          message: "합체 점수 200점이 들어왔어요."
         };
       }
       if (roll < 93) {
         return {
           id: "instantLaunch",
           amount: 10,
-          title: "완성 신호!",
-          message: "합체 신호가 켜져 에너지가 10% 늘었어요."
+          score: 500,
+          scoreArt: REWARD_SCORE_ART.plus500,
+          title: "합체 점수",
+          message: "합체 점수 500점이 들어왔어요."
         };
       }
       if (roll < 97) {
         return {
           id: "emptyTank",
           amount: 0,
-          title: "합체 실패",
-          message: "에너지가 흩어졌어요. 다음 문제에서 다시 모아 봐요.",
+          score: 0,
+          scoreArt: REWARD_SCORE_ART.zero,
+          title: "합체 점수",
+          message: "합체 점수가 0점이 됐어요. 다음 문제에서 다시 모아요.",
           emptiesTank: true
         };
       }
       return {
         id: "rainbowFuel",
         amount: 16,
-        title: "무지개 코어!",
+        score: "rainbow",
+        scoreArt: REWARD_SCORE_ART.rainbow,
+        title: "합체 점수",
         message: "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.",
         rainbow: true
       };
@@ -4234,12 +4290,13 @@
     }
 
     function createDefectEvent() {
-      const amount = -randomInt(8, 18);
       return {
         id: "leak",
-        amount,
-        title: "부품 결함 처리",
-        message: `틀린 곳을 고쳐 봤지만 결함 처리로 ${Math.abs(amount)}% 줄었어요.`
+        amount: -10,
+        score: -100,
+        scoreArt: REWARD_SCORE_ART.minus100,
+        title: "합체 점수",
+        message: "합체 점수 100점이 줄었어요."
       };
     }
 
@@ -4263,39 +4320,22 @@
 
     function getFusionEventMessage(event, actualDelta, before) {
       if (event.rainbow) {
-        return actualDelta > 0
-          ? `무지개 코어가 켜지고 에너지가 ${actualDelta}% 늘었어요.`
-          : "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.";
+        return "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.";
       }
       if (event.emptiesTank) {
-        return before > 0 ? "에너지가 흩어져 0이 되었어요. 다음 문제로 다시 모아 봐요." : "에너지가 아직 비어 있어요. 다음 문제로 다시 모아 봐요.";
+        return before > 0 ? "합체 점수가 0점이 됐어요. 다음 문제에서 다시 모아요." : "이번 보상은 0점이에요. 다음 문제에서 다시 모아요.";
       }
-      if (actualDelta > 0) {
-        return event.id === "megaFuel" ? `에너지가 ${actualDelta}%나 늘었어요!` : `합체 에너지가 ${actualDelta}% 늘었어요.`;
+      if (typeof event.score === "number" && event.score > 0) {
+        return `합체 점수 ${event.score}점이 들어왔어요.`;
       }
-      if (actualDelta < 0) {
-        return event.id === "smallExplosion"
-          ? `맞췄지만 부품을 다듬느라 ${Math.abs(actualDelta)}% 줄었어요.`
-          : `틀린 곳을 고쳐 봤지만 결함 처리로 ${Math.abs(actualDelta)}% 줄었어요.`;
+      if (typeof event.score === "number" && event.score < 0) {
+        return `합체 점수 ${Math.abs(event.score)}점이 줄었어요.`;
       }
-      return event.amount < 0 ? "에너지가 이미 0이라 더 줄지는 않았어요." : "에너지가 가득 차서 더 늘지는 않았어요.";
+      return actualDelta === 0 ? "이번 보상은 0점이에요." : event.message;
     }
 
-    function getFusionEventDeltaLabel(event) {
-      if (event.rainbow) {
-        return "무지개";
-      }
-      if (event.emptiesTank) {
-        return "0%";
-      }
-      const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount;
-      if (actualDelta > 0) {
-        return `+${actualDelta}%`;
-      }
-      if (actualDelta < 0) {
-        return `${actualDelta}%`;
-      }
-      return "변화 없음";
+    function getFusionEventScoreArtSrc(event) {
+      return event.scoreArt || REWARD_SCORE_ART.plus50;
     }
 
     function renderChoices(options, handler) {
@@ -4316,7 +4356,7 @@
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.rewardPop.classList.add(`fuel-event--${result.id}`);
       el.rewardTitle.textContent = result.title;
-      el.rewardDelta.textContent = getFusionEventDeltaLabel(result);
+      el.rewardScoreArt.src = getFusionEventScoreArtSrc(result);
       el.rewardMessage.textContent = result.message;
       el.rewardNextButton.textContent = state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
       window.setTimeout(() => {

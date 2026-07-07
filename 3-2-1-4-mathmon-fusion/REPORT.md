@@ -16,7 +16,7 @@
 - 2단계: `윗수 × 아랫수의 십의 자리`를 계산한 뒤 0을 붙인 값을 골라 두 번째 부품 완성
 - 3단계: 두 부분곱을 더해 최종 곱 완성
 - 오답 설계: 받아올림 실수, 0 빠뜨림, 부분곱2를 십의 자리로 밀지 않고 더하는 자리 어긋난 덧셈을 대표 오답으로 포함
-- 보상: 한 문제 완료마다 합체 에너지 이벤트를 1회 적용. 정답 문제는 에너지 충전, 강화 부품, 부품 결함, 완성 신호, 합체 실패, 무지개 코어 중 하나가 나오고, 오답이 있었던 문제는 부품 결함 처리만 적용. 어떤 보상이 나와도 10문제를 모두 푼 뒤에만 결과로 이동
+- 보상: 한 문제 완료마다 합체 점수 이미지 1장을 보여 줌. 정답 문제는 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `0점`, `무지개` 중 하나가 나오고, 오답이 있었던 문제는 `-100점`으로 처리. 어떤 보상이 나와도 10문제를 모두 푼 뒤에만 결과로 이동
 - 결과 등급: 합체 에너지와 정답 수 조건을 함께 사용해 소형 -> 중형 -> 대형 -> 거대 -> 초거대 합체 중 하나를 공개
 - 비밀 등급: 무지개 코어를 얻으면 전설 합체 결과가 열림
 - 최종 보상: 도달한 합체 등급 자체가 보상이며, 매스몬 도감 수집 구조는 사용하지 않음
@@ -25,12 +25,12 @@
 
 두 자리 수 곱셈은 답만 맞히면 어떤 자리에서 실수했는지 흐려지기 쉽습니다. 이 게임은 `23 × 45`를 `23 × 5`, `23 × 40`, `115 + 920`으로 분리해 보여 줍니다. 특히 두 번째 부분곱에서 0을 빠뜨리는 실수와, 마지막 덧셈에서 `115 + 92`처럼 자리 맞춤을 놓치는 실수를 선택지 안에 넣어 대표 오개념을 다시 점검하게 했습니다.
 
-합체 에너지는 단일 중심 보상입니다. 학생에게 원점수를 전면에 보여 주지 않고, 한 판이 끝난 뒤 에너지와 정답 수를 측정해 완성 로봇 등급을 공개합니다. 결과는 차시 자체 완결형 보상이며, 2차시의 행성 도달 구조와 같은 방식으로 `도달 등급`을 보여 줍니다.
+합체 보상은 단일 중심 보상입니다. 보상 화면에서는 퍼센트 대신 생성형 점수 이미지를 크게 보여 주고, 한 판이 끝난 뒤 내부 합체 힘과 정답 수를 측정해 완성 로봇 등급을 공개합니다. 결과는 차시 자체 완결형 보상이며, 2차시의 행성 도달 구조와 같은 방식으로 `도달 등급`을 보여 줍니다.
 
 ## 3. 게임 흐름
 
 ```text
-첫 화면 -> 설명 1(나누어 곱하기) -> 설명 2(합체와 순위 목표) -> 부품 1 -> 부품 2 -> 합체 덧셈 -> 합체 에너지 이벤트 -> 다음 문제 -> 10문제 완료 -> 에너지 측정 -> 로봇 매스몬 등급 결과 -> 전국 순위
+첫 화면 -> 설명 1(나누어 곱하기) -> 설명 2(합체와 순위 목표) -> 부품 1 -> 부품 2 -> 합체 덧셈 -> 합체 점수 이미지 -> 다음 문제 -> 10문제 완료 -> 에너지 측정 -> 로봇 매스몬 등급 결과 -> 전국 순위
 ```
 
 학생은 먼저 첫 곱셈 부품을 고릅니다. 예를 들어 `23 × 45`에서는 `23 × 5 = 115`를 고릅니다. 다음에는 십의 자리 4가 40을 뜻한다는 것을 확인하며 `23 × 40 = 920`을 고릅니다. 마지막으로 `115 + 920 = 1,035`를 골라 로봇 합체를 완성합니다.
@@ -59,7 +59,9 @@
 
 ### 보상 화면
 
-한 문제의 3단계 계산이 끝나면 화면 중앙에 합체 에너지 이벤트가 뜹니다. 정답 문제는 에너지 충전, 강화 부품, 부품 결함, 완성 신호, 합체 실패, 무지개 코어 중 하나가 나오며, 문제 안에서 한 번이라도 틀리면 부품 결함 처리만 적용됩니다. 완성 신호도 에너지 보너스일 뿐 문제 수를 건너뛰지 않습니다. 보상은 합체 에너지 하나로만 적용됩니다.
+한 문제의 3단계 계산이 끝나면 화면 중앙에 생성형 점수 이미지가 뜹니다. 보이는 값은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개` 8장으로 고정했습니다. 제목, 긴 설명, CSS 숫자는 보이지 않게 숨기고, 학생 화면에는 점수 이미지와 `다음` 또는 `결과 보기` 버튼만 남겼습니다.
+
+정답 문제는 여러 점수 이미지 중 하나가 랜덤으로 나오며, 문제 안에서 한 번이라도 틀리면 `-100점` 이미지만 나옵니다. `+500점`도 조기 종료가 아니라 큰 보상 이미지일 뿐이고, 어떤 보상이 떠도 10문제를 모두 푼 뒤에만 결과로 이동합니다. 내부 합체 힘 값은 기존 등급·순위 검증 범위를 유지해 백엔드 검증과 어긋나지 않게 했습니다.
 
 ### 결과 화면
 
@@ -73,7 +75,7 @@
 
 결과 화면의 `순위 보기` 버튼을 누르면 마지막 전국 순위 화면으로 이동합니다. 이 화면은 `_shared/scoreboard` 공통 SVG 순위판을 사용하며, 생성 이미지는 축하 배경과 상단 타이틀 아트만 맡고 순위판·내 기록 박스·순위 행·버튼·동적 글자는 SVG가 직접 그립니다. 상단 상태 문장은 제거했고, API 주소가 없으면 순위 목록 영역 안에 `순위 기능이 켜지면 여기에 10위까지 보여요.` 안내만 보이며 게임 결과는 그대로 유지됩니다.
 
-백엔드 연동 지점은 `index.html`의 `LESSON_ID = "3-2-1-4-mathmon-fusion"`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다. 4차시는 서버 점수로 `합체 에너지`를 보내고, 문제마다 `partial1`, `partial2`, `fusion` 세 단계 선택과 합체 에너지 보상(`normal`, `smallExplosion`, `megaFuel`, `instantLaunch`, `emptyTank`, `rainbowFuel`, `leak`)을 함께 보냅니다. `instantLaunch`는 기존 연동 호환을 위한 이벤트 id이며, 4차시에서는 조기 종료 없이 `완성 신호` 보너스로만 처리됩니다. `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다.
+백엔드 연동 지점은 `index.html`의 `LESSON_ID = "3-2-1-4-mathmon-fusion"`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다. 4차시는 서버 점수로 내부 합체 힘을 보내고, 문제마다 `partial1`, `partial2`, `fusion` 세 단계 선택과 합체 보상(`normal`, `smallExplosion`, `megaFuel`, `instantLaunch`, `emptyTank`, `rainbowFuel`, `leak`)을 함께 보냅니다. 보상 화면의 `+50점` 같은 생성형 점수 이미지는 학생에게 보이는 표현이고, 서버 검증용 `amount`는 기존 허용 범위를 유지합니다. `instantLaunch`는 기존 연동 호환을 위한 이벤트 id이며, 4차시에서는 조기 종료 없이 큰 보상 이미지로만 처리됩니다. `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다.
 
 ### 다시하기 결과 화면
 
@@ -103,6 +105,14 @@
 - `mathmon-rfa-02-one-part.webp`
 - `mathmon-rfa-03-two-parts.webp`
 - `mathmon-rfa-04-complete.webp`
+- `reward-score-plus-50-source.png`, `reward-score-plus-50-generated.webp`
+- `reward-score-plus-100-source.png`, `reward-score-plus-100-generated.webp`
+- `reward-score-plus-200-source.png`, `reward-score-plus-200-generated.webp`
+- `reward-score-plus-500-source.png`, `reward-score-plus-500-generated.webp`
+- `reward-score-minus-50-source.png`, `reward-score-minus-50-generated.webp`
+- `reward-score-minus-100-source.png`, `reward-score-minus-100-generated.webp`
+- `reward-score-zero-source.png`, `reward-score-zero-generated.webp`
+- `reward-score-rainbow-source.png`, `reward-score-rainbow-generated.webp`
 - `result-small-generated.webp`
 - `result-medium-generated.webp`
 - `result-large-generated.webp`
@@ -212,3 +222,13 @@
 - 기존 SVG/HTML 비교 흐름은 학생 기본 흐름에서 제외하고, 기본 variant를 `image` 하나로 고정했습니다. HTML은 접근성용 숨김 설명, 단계 전환 상태값, 투명 hitbox만 맡습니다.
 - 첫 클릭은 `solve`에서 `goal`로 넘어가고, 둘째 클릭은 `합체 준비`로 첫 문제를 시작합니다. 학생 문구는 `아래 수를 둘로 나눠요.`, `두 조각을 따로 곱해요.`, `두 값을 더해요.`, `합체 준비`처럼 짧은 행동 말로 유지했습니다.
 - 로컬 Chrome QA와 배포본 QA에서 1280×800 기준 `시작 → 설명 1장 → 다음 → 설명 2장 → 합체 준비 → 문제 화면` 흐름을 확인했고, 설명 이미지 표시, 버튼 aria-label, Stage 비율, inline script 파싱, `git diff --check`를 통과했습니다. 에듀잇티 운영 런처는 `https://kakio426.github.io/eduitit-math-3-2/3-2-1-4-mathmon-fusion/?v=3bc3c71&scoreboardApi=https%3A%2F%2Feduitit.site`를 iframe으로 엽니다.
+
+### 2026-07-07 보상 점수 이미지 이관
+
+- 보상 모달의 보이는 퍼센트 텍스트를 제거하고, 생성형 점수 이미지 8장으로 바꿨습니다. 학생 화면에 나오는 값은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개`뿐입니다.
+- 각 자산은 image generation으로 만들고, 원본 `reward-score-*-source.png`와 배포본 `reward-score-*-generated.webp`를 차시 폴더에 보관했습니다. HTML/CSS 숫자나 로컬 폰트 합성으로 점수를 그리지 않습니다.
+- 보상 모달은 제목과 설명 문장을 `visually-hidden`으로 숨기고, 보이는 요소는 점수 이미지와 `다음` 또는 `결과 보기` 버튼만 남겼습니다.
+- 내부 순위 검증용 `amount`는 기존 백엔드 허용 범위 안에 유지했습니다. 화면 점수 이미지는 학생에게 보이는 보상 표현이고, 결과 등급 계산은 기존 합체 힘 흐름을 그대로 사용합니다.
+- Humanizer 학생 문구 QA: 새 접근성 문구는 `합체 점수 50점이 들어왔어요.`, `합체 점수 100점이 줄었어요.`, `이번 보상은 0점이에요. 다음 문제에서 다시 모아요.`처럼 짧게 유지했습니다. `퍼센트`, `결함 처리`, `이벤트` 같은 제작자 말은 보상 화면에서 보이지 않습니다.
+- 텍스트 넘침·요소 겹침 QA: Playwright로 1365×900(실제 Stage 1280×800)과 1024×768에서 8개 보상 상태를 모두 캡처했습니다. `.omo/evidence/mathmon-fusion-reward-score-art/summary.json` 기준 Stage 밖 이탈 0건, 점수 이미지와 버튼 겹침 0건입니다. 대표 캡처는 같은 폴더의 `desktop-plus500.png`, `desktop-minus100.png`, `tablet-zero.png`, `tablet-rainbow.png`입니다.
+- 정적 검증: inline script 파싱, `node scripts/check-stage-ratio.mjs`, `git diff --check`, reward art 파일 존재 검사를 통과했습니다.
