@@ -232,6 +232,34 @@ async function clickCorrectChoice() {
   await click('#choiceGrid [data-correct="true"]');
 }
 
+async function clickChoiceByText(text) {
+  await evaluate(`
+(() => {
+  const button = [...document.querySelectorAll("#choiceGrid button")]
+    .find((node) => node.textContent.trim() === ${JSON.stringify(text)});
+  if (!button) throw new Error(${JSON.stringify(`Missing choice: ${text}`)});
+  button.click();
+})()
+`);
+}
+
+async function loadFixedProblem() {
+  await evaluate(`
+(() => {
+  state.problems = [{ dividend: 89, divisor: 3, quotient: 29, remainder: 2 }];
+  state.index = 0;
+  state.starScore = 0;
+  state.remainderStars = 0;
+  state.correct = 0;
+  state.chain = 0;
+  state.rainbowStar = false;
+  showScreen("play");
+  renderProblem();
+})()
+`);
+  await waitUntil('document.getElementById("questionText").textContent.trim() === "89 ÷ 3"', "deterministic problem did not render");
+}
+
 async function capture(name) {
   const layoutIssues = await evaluate(`
 (() => {
@@ -249,6 +277,7 @@ async function capture(name) {
     ".feedback",
     ".prompt",
     ".step-formula",
+    ".group-proof",
     ".check-preview",
     ".flow-card",
     ".settings-modal",
@@ -443,10 +472,86 @@ async function runDesktopScenario() {
   const mathModel = await verifyMathModel();
   const rewardModel = await verifyRewardModel();
 
+  await loadFixedProblem();
+  const initialQuotientUi = await evaluate(`
+(() => ({
+  prompt: document.getElementById("promptText").textContent.trim(),
+  divisorCardHeight: document.getElementById("divisorCard").getBoundingClientRect().height,
+  divisorLabelFontSize: Number.parseFloat(getComputedStyle(document.querySelector("#divisorCard span")).fontSize),
+  divisorValueFontSize: Number.parseFloat(getComputedStyle(document.querySelector("#divisorCard strong")).fontSize),
+  firstChoiceHeight: document.querySelector("#choiceGrid button")?.getBoundingClientRect().height || 0,
+  firstChoiceFontSize: Number.parseFloat(getComputedStyle(document.querySelector("#choiceGrid button")).fontSize)
+}))()
+`);
+  assert(initialQuotientUi.prompt === "3개씩 몇 번 묶을까요?", `quotient prompt copy mismatch: ${JSON.stringify(initialQuotientUi)}`);
+  assert(initialQuotientUi.divisorCardHeight >= 100, `desktop division card is too short: ${JSON.stringify(initialQuotientUi)}`);
+  assert(initialQuotientUi.divisorLabelFontSize >= 15, `desktop division card label is too small: ${JSON.stringify(initialQuotientUi)}`);
+  assert(initialQuotientUi.divisorValueFontSize >= 32, `desktop division card value is too small: ${JSON.stringify(initialQuotientUi)}`);
+  assert(initialQuotientUi.firstChoiceHeight >= 96, `desktop choice button is too short: ${JSON.stringify(initialQuotientUi)}`);
+  assert(initialQuotientUi.firstChoiceFontSize >= 28, `desktop choice button text is too small: ${JSON.stringify(initialQuotientUi)}`);
+  const desktopInitialRects = await evaluate(`
+(() => {
+  const board = document.querySelector(".division-board").getBoundingClientRect();
+  const prompt = document.getElementById("promptText").getBoundingClientRect();
+  const choices = document.getElementById("choiceGrid").getBoundingClientRect();
+  return {
+    boardBottom: board.bottom,
+    promptTop: prompt.top,
+    promptBottom: prompt.bottom,
+    choicesTop: choices.top
+  };
+})()
+`);
+  assert(desktopInitialRects.boardBottom <= desktopInitialRects.promptTop + 1, `desktop prompt overlaps division board: ${JSON.stringify(desktopInitialRects)}`);
+  assert(desktopInitialRects.promptBottom <= desktopInitialRects.choicesTop + 1, `desktop choices overlap prompt: ${JSON.stringify(desktopInitialRects)}`);
   await capture("03-problem.png");
-  await clickCorrectChoice();
+
+  await clickChoiceByText("30묶음");
+  await waitUntil('document.getElementById("groupProof").classList.contains("is-too-many")', "too-many quotient proof did not show");
+  const tooManyProof = await evaluate(`
+(() => ({
+  stepIndex: state.stepIndex,
+  text: document.getElementById("groupProofText").textContent.trim(),
+  overflow: getComputedStyle(document.getElementById("groupProofBar")).getPropertyValue("--proof-overflow").trim()
+}))()
+`);
+  assert(tooManyProof.stepIndex === 0, `too-many quotient advanced unexpectedly: ${JSON.stringify(tooManyProof)}`);
+  assert(tooManyProof.text === "30묶음은 90개라 별이 모자라요.", `too-many proof copy mismatch: ${JSON.stringify(tooManyProof)}`);
+  assert(tooManyProof.overflow !== "0%", `too-many overflow bar missing: ${JSON.stringify(tooManyProof)}`);
+  await capture("03-problem-quotient-too-many.png");
+
+  await loadFixedProblem();
+  await clickChoiceByText("28묶음");
+  await waitUntil('document.getElementById("groupProof").classList.contains("is-too-small")', "too-small quotient proof did not show");
+  const tooSmallProof = await evaluate(`
+(() => ({
+  stepIndex: state.stepIndex,
+  text: document.getElementById("groupProofText").textContent.trim(),
+  hidden: document.getElementById("groupProof").hidden
+}))()
+`);
+  assert(tooSmallProof.stepIndex === 0, `too-small quotient advanced unexpectedly: ${JSON.stringify(tooSmallProof)}`);
+  assert(tooSmallProof.text === "28묶음은 84개예요. 한 묶음 더 돼요.", `too-small proof copy mismatch: ${JSON.stringify(tooSmallProof)}`);
+  assert(!tooSmallProof.hidden, `too-small proof hidden: ${JSON.stringify(tooSmallProof)}`);
+  await capture("03-problem-quotient-too-small.png");
+
+  await loadFixedProblem();
+  await clickChoiceByText("29묶음");
+  await waitUntil('document.getElementById("groupProof").classList.contains("is-good")', "correct quotient proof did not show");
+  const correctProof = await evaluate(`
+(() => ({
+  text: document.getElementById("groupProofText").textContent.trim(),
+  leftoverDots: document.querySelectorAll("#groupProofStars .proof-star-dot").length,
+  quotient: document.getElementById("boardQuotient").textContent.trim()
+}))()
+`);
+  assert(correctProof.text === "3개씩 29묶음 = 87개", `correct quotient proof mismatch: ${JSON.stringify(correctProof)}`);
+  assert(correctProof.leftoverDots === 2, `correct quotient leftover dots missing: ${JSON.stringify(correctProof)}`);
+  assert(correctProof.quotient === "29묶음", `board quotient did not fill: ${JSON.stringify(correctProof)}`);
+  await capture("03-problem-quotient-good.png");
   await waitUntil("state.stepIndex === 1", "quotient step did not complete");
-  await clickCorrectChoice();
+  await capture("03-problem-remainder.png");
+  await clickChoiceByText("2개");
   await waitUntil("state.stepIndex === 2", "remainder step did not complete");
   await waitUntil('!document.getElementById("confirmRewardButton").hidden', "final confirmation button did not appear", 4000);
   await capture("03-final-confirm.png");
@@ -455,16 +560,26 @@ async function runDesktopScenario() {
 (() => ({
   rewardVisible: document.getElementById("rewardPop").classList.contains("is-visible"),
   prompt: document.getElementById("promptText").textContent.trim(),
+  check: document.getElementById("checkPreview").textContent.trim(),
   button: document.getElementById("confirmRewardButton").textContent.trim(),
   hintDisabled: document.getElementById("hintToggleButton").disabled
 }))()
 `);
   assert(!held.rewardVisible, `reward opened before confirmation: ${JSON.stringify(held)}`);
-  assert(held.prompt.startsWith("검산 완료!") && held.prompt.includes("남았어요"), `final confirmation copy missing: ${JSON.stringify(held)}`);
+  assert(held.prompt === "2개가 남았어요.", `final confirmation copy missing: ${JSON.stringify(held)}`);
+  assert(held.check === "3 × 29 + 2 = 89", `final check equation missing: ${JSON.stringify(held)}`);
   assert(held.button === "별빛 열기", `wrong final confirmation button: ${JSON.stringify(held)}`);
   assert(held.hintDisabled, `hint should be disabled during final confirmation: ${JSON.stringify(held)}`);
 
-  await evaluate("state.index = TOTAL_QUESTIONS - 1; state.correct = 7; state.starScore = 58; state.remainderStars = 8;");
+  await evaluate(`
+(() => {
+  state.problems = buildProblems();
+  state.index = TOTAL_QUESTIONS - 1;
+  state.correct = 7;
+  state.starScore = 58;
+  state.remainderStars = 8;
+})()
+`);
   await click("#confirmRewardButton");
   await waitUntil('document.getElementById("rewardPop").classList.contains("is-visible")', "reward did not open after confirmation", 4000);
   await capture("04-reward.png");
@@ -496,6 +611,52 @@ async function runDesktopScenario() {
 async function runTabletScenario() {
   await navigate(VIEWPORTS.tablet);
   await capture("tablet-01-cover.png");
+  await loadFixedProblem();
+  const tabletQuotientUi = await evaluate(`
+(() => ({
+  prompt: document.getElementById("promptText").textContent.trim(),
+  divisorCardHeight: document.getElementById("divisorCard").getBoundingClientRect().height,
+  divisorLabelFontSize: Number.parseFloat(getComputedStyle(document.querySelector("#divisorCard span")).fontSize),
+  divisorValueFontSize: Number.parseFloat(getComputedStyle(document.querySelector("#divisorCard strong")).fontSize),
+  firstChoiceHeight: document.querySelector("#choiceGrid button")?.getBoundingClientRect().height || 0,
+  firstChoiceFontSize: Number.parseFloat(getComputedStyle(document.querySelector("#choiceGrid button")).fontSize)
+}))()
+`);
+  assert(tabletQuotientUi.prompt === "3개씩 몇 번 묶을까요?", `tablet quotient prompt copy mismatch: ${JSON.stringify(tabletQuotientUi)}`);
+  assert(tabletQuotientUi.divisorCardHeight >= 80, `tablet division card is too short: ${JSON.stringify(tabletQuotientUi)}`);
+  assert(tabletQuotientUi.divisorLabelFontSize >= 15, `tablet division card label is too small: ${JSON.stringify(tabletQuotientUi)}`);
+  assert(tabletQuotientUi.divisorValueFontSize >= 32, `tablet division card value is too small: ${JSON.stringify(tabletQuotientUi)}`);
+  assert(tabletQuotientUi.firstChoiceHeight >= 78, `tablet choice button is too short: ${JSON.stringify(tabletQuotientUi)}`);
+  assert(tabletQuotientUi.firstChoiceFontSize >= 23, `tablet choice button text is too small: ${JSON.stringify(tabletQuotientUi)}`);
+  const tabletInitialRects = await evaluate(`
+(() => {
+  const board = document.querySelector(".division-board").getBoundingClientRect();
+  const prompt = document.getElementById("promptText").getBoundingClientRect();
+  const choices = document.getElementById("choiceGrid").getBoundingClientRect();
+  return {
+    boardBottom: board.bottom,
+    promptTop: prompt.top,
+    promptBottom: prompt.bottom,
+    choicesTop: choices.top
+  };
+})()
+`);
+  assert(tabletInitialRects.boardBottom <= tabletInitialRects.promptTop + 1, `tablet prompt overlaps division board: ${JSON.stringify(tabletInitialRects)}`);
+  assert(tabletInitialRects.promptBottom <= tabletInitialRects.choicesTop + 1, `tablet choices overlap prompt: ${JSON.stringify(tabletInitialRects)}`);
+  await capture("tablet-03-problem.png");
+  await clickChoiceByText("30묶음");
+  await waitUntil('document.getElementById("groupProof").classList.contains("is-too-many")', "tablet too-many quotient proof did not show");
+  await capture("tablet-03-problem-quotient-too-many.png");
+  await loadFixedProblem();
+  await clickChoiceByText("29묶음");
+  await waitUntil('document.getElementById("groupProof").classList.contains("is-good")', "tablet correct quotient proof did not show");
+  await capture("tablet-03-problem-quotient-good.png");
+  await waitUntil("state.stepIndex === 1", "tablet quotient step did not complete");
+  await capture("tablet-04-problem-remainder.png");
+  await clickChoiceByText("2개");
+  await waitUntil('!document.getElementById("confirmRewardButton").hidden', "tablet final confirmation button did not appear", 4000);
+  await capture("tablet-05-final-confirm.png");
+
   await evaluate(`
 (() => {
   state.correct = 8;

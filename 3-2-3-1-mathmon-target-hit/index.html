@@ -569,12 +569,14 @@
     }
 
     .hero-copy {
+      --cover-copy-offset-x: -170px;
       position: relative;
       z-index: 2;
       width: min(760px, 100%);
       display: grid;
       justify-items: center;
       gap: 14px;
+      transform: translateX(var(--cover-copy-offset-x));
     }
 
     .hero-title-art {
@@ -601,7 +603,7 @@
       width: 430px;
       height: 156px;
       max-width: min(430px, 92vw);
-      margin-top: 2px;
+      margin-top: 72px;
       padding: 0;
       border: 0;
       border-radius: 999px;
@@ -1565,6 +1567,29 @@
         radial-gradient(circle at 72% 62%, rgba(53, 217, 178, 0.1), transparent 0 26%, transparent 54%),
         rgba(14, 12, 22, 0.48);
       box-shadow: inset 0 0 0 1px rgba(53, 217, 178, 0.08);
+    }
+
+    .play .calc-stage {
+      grid-template-columns: minmax(0, 1fr);
+      place-items: center;
+      container-type: size;
+    }
+
+    .play .target-board {
+      width: min(clamp(146px, 18dvh, 188px), 100%);
+      max-width: none;
+      aspect-ratio: 1 / 1;
+    }
+
+    .play .target-board svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @supports (width: 1cqh) {
+      .play .target-board {
+        width: min(260px, calc(100cqh - 10px), 100%);
+      }
     }
 
     .vertical-sum,
@@ -2745,6 +2770,7 @@
       }
 
       .hero-copy {
+        --cover-copy-offset-x: -110px;
         gap: 7px;
       }
 
@@ -2761,7 +2787,7 @@
       .cover-start-button {
         width: 300px;
         height: 108px;
-        margin-top: -10px;
+        margin-top: 60px;
       }
 
       .play {
@@ -4744,13 +4770,20 @@
       });
     }
 
-    el.startButton.addEventListener("click", () => {
+    function activateStartButton(event) {
+      event.preventDefault();
+      if (state.screen !== "cover") {
+        return;
+      }
       state.tutorialReviewMode = false;
       restoreTutorialStartLabel();
       startBgm();
       playSound("start");
       showScreen("tutorial");
-    });
+    }
+
+    el.startButton.addEventListener("click", activateStartButton);
+    el.startButton.addEventListener("pointerup", activateStartButton);
 
     el.tutorialNextButton.addEventListener("click", () => {
       playSound("next");
