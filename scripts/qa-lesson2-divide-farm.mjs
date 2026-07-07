@@ -539,6 +539,32 @@ async function chooseWrongStep(page) {
   `);
 }
 
+async function assertTapDoesNotAutoPlace(page, label) {
+  const result = await evalInPage(page, String.raw`
+(() => {
+  const qa = window.__divideFarmQa;
+  qa.resetCurrentStep();
+  const before = {
+    sourcePieces: document.querySelectorAll("#carrotSource .carrot-piece").length,
+    placedTotal: qa.getCurrentStepInfo().placedTotal
+  };
+  document.querySelector("#carrotSource .carrot-piece")?.click();
+  const after = {
+    sourcePieces: document.querySelectorAll("#carrotSource .carrot-piece").length,
+    placedTotal: qa.getCurrentStepInfo().placedTotal,
+    selectedPieceKind: qa.getState().selectedPieceKind,
+    feedback: document.getElementById("feedbackText")?.textContent.trim() || ""
+  };
+  return { before, after };
+})()
+  `);
+  assert(result.after.sourcePieces === result.before.sourcePieces, `${label}: tapping a carrot should not remove it from the source`, result);
+  assert(result.after.placedTotal === result.before.placedTotal, `${label}: tapping a carrot should not place it automatically`, result);
+  assert(result.after.selectedPieceKind, `${label}: tapping a carrot should select it`, result);
+  assert(result.after.feedback.includes("칸"), `${label}: selected carrot should ask for a slot`, result);
+  await evalInPage(page, `window.__divideFarmQa.resetCurrentStep()`);
+}
+
 async function waitForStep(page, stepIndex, label) {
   await waitUntil(page, `window.__divideFarmQa.getState().stepIndex === ${stepIndex}`, label, 3000);
 }
@@ -633,6 +659,7 @@ async function runViewport(page, lessonUrl, viewport, { verifyMath = false } = {
   await waitForStep(page, 0, `${viewport.name}: first step did not render`);
   await assertNoVisibleOverflow(page, `${viewport.name} problem step 1`);
   await capture(page, viewport, "step1");
+  await assertTapDoesNotAutoPlace(page, `${viewport.name} problem step 1`);
 
   await chooseCorrectStep(page);
   await waitForStep(page, 1, `${viewport.name}: first step did not advance`);

@@ -1549,6 +1549,11 @@
       transform: translateY(-1px);
     }
 
+    .share-slot.is-click-target {
+      border-color: rgba(255, 231, 164, 0.58);
+      cursor: pointer;
+    }
+
     .slot-label {
       min-width: 0;
       min-height: 16px;
@@ -1621,6 +1626,14 @@
 
     .carrot-piece.is-tool {
       cursor: grab;
+    }
+
+    .carrot-piece.is-selected {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow:
+        inset 0 -5px 0 rgba(180, 105, 22, 0.18),
+        0 0 0 4px rgba(53, 217, 178, 0.26),
+        0 8px 14px rgba(0, 0, 0, 0.22);
     }
 
     .carrot-piece.is-dragging {
@@ -3240,6 +3253,7 @@
       stepAttempts: 0,
       stepPlacements: [],
       stepPlacementCursor: 0,
+      selectedPieceKind: "",
       problemHadMistake: false,
       problemHadReveal: false,
       rainbowFuel: false,
@@ -3460,6 +3474,7 @@
       state.problemHadReveal = false;
       state.stepPlacements = [];
       state.stepPlacementCursor = 0;
+      state.selectedPieceKind = "";
       el.rewardPop.classList.remove("is-visible");
       FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
@@ -3574,7 +3589,7 @@
           id: "tens",
           label: "10개 묶음",
           correct: problem.tensQuot,
-          prompt: "10개 묶음을 칸에 넣어요.",
+          prompt: "10개 묶음을 골라 칸에 넣어요.",
           explain: `한 칸에 ${problem.tensQuot * 10}개.`
         }
       ];
@@ -3583,7 +3598,7 @@
             id: "ones",
             label: "낱개",
             correct: problem.onesQuot,
-            prompt: "낱개 당근을 칸에 넣어요.",
+            prompt: "낱개 당근을 골라 칸에 넣어요.",
             explain: `한 칸에 낱개 ${problem.onesQuot}개.`
           });
       }
@@ -3602,6 +3617,7 @@
       const step = getCurrentStep(problem);
       const count = clamp(problem.divisor, 1, 9);
       state.stepPlacementCursor = 0;
+      state.selectedPieceKind = "";
       state.stepPlacements = isPlacementStep(step)
         ? Array.from({ length: count }, () => 0)
         : [];
@@ -3684,7 +3700,7 @@
       for (let index = 0; index < count; index += 1) {
         const marker = document.createElement("div");
         marker.className = "share-slot";
-        if (index === 0) {
+        if (index === 0 && !liveStep) {
           marker.classList.add("is-target");
         }
         if (showFinal) {
@@ -3692,7 +3708,7 @@
         }
         const labelText = document.createElement("span");
         labelText.className = "slot-label";
-        labelText.textContent = index === 0 ? "한 칸" : "";
+        labelText.textContent = index === 0 && !liveStep ? "한 칸" : "";
         const pieces = document.createElement("div");
         pieces.className = "slot-pieces";
         const liveTens = liveStep && currentStepId === "tens";
@@ -3701,6 +3717,17 @@
         const onesCount = liveOnes ? state.stepPlacements[index] : onesDone && problem.onesQuot > 0 ? problem.onesQuot : 0;
         if (liveStep) {
           marker.dataset.slotIndex = String(index);
+          marker.classList.toggle("is-click-target", Boolean(state.selectedPieceKind));
+          marker.setAttribute("role", "button");
+          marker.setAttribute("tabindex", "0");
+          marker.setAttribute("aria-label", `${index + 1}번째 칸에 넣기`);
+          marker.addEventListener("click", () => handleSlotActivate(index));
+          marker.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              handleSlotActivate(index);
+            }
+          });
         }
         if (tensCount > 0) {
           for (let bundleIndex = 0; bundleIndex < tensCount; bundleIndex += 1) {
@@ -3737,6 +3764,9 @@
     }
 
     function getSlotValueText({ problem, slotIndex, amount, tensCount, onesCount, liveTens, liveOnes, tensDone, onesDone }) {
+      if (liveTens || liveOnes) {
+        return "";
+      }
       if (slotIndex !== 0) {
         return "";
       }
@@ -3763,7 +3793,11 @@
       if (liveStep && step.id === "tens" && !tensDone) {
         const remaining = getRemainingPieces(step, problem);
         for (let index = 0; index < remaining; index += 1) {
-          el.carrotSource.appendChild(createCarrotBundle({ interactive: true, kind: "tens" }));
+          el.carrotSource.appendChild(createCarrotBundle({
+            interactive: true,
+            kind: "tens",
+            selected: state.selectedPieceKind === "tens" && index === 0
+          }));
         }
         if (remaining === 0) {
           el.carrotSource.dataset.note = "확인해요";
@@ -3774,7 +3808,11 @@
       if (liveStep && step.id === "ones" && !onesDone && problem.ones > 0) {
         const remaining = getRemainingPieces(step, problem);
         for (let index = 0; index < remaining; index += 1) {
-          el.carrotSource.appendChild(createCarrotOne({ interactive: true, kind: "ones" }));
+          el.carrotSource.appendChild(createCarrotOne({
+            interactive: true,
+            kind: "ones",
+            selected: state.selectedPieceKind === "ones" && index === 0
+          }));
         }
         if (remaining === 0) {
           el.carrotSource.dataset.note = "확인해요";
@@ -3821,6 +3859,7 @@
         moving: Boolean(options?.moving),
         interactive: Boolean(options?.interactive),
         placed: Boolean(options?.placed),
+        selected: Boolean(options?.selected),
         kind: options?.kind || "",
         slotIndex: Number.isInteger(options?.slotIndex) ? options.slotIndex : -1
       };
@@ -3832,19 +3871,24 @@
       }
       if (config.interactive) {
         piece.classList.add("is-tool");
-        piece.setAttribute("aria-label", config.kind === "tens" ? "10개 묶음 넣기" : "낱개 당근 넣기");
+        piece.classList.toggle("is-selected", config.selected);
+        piece.setAttribute("aria-pressed", config.selected ? "true" : "false");
+        piece.setAttribute("aria-label", config.kind === "tens" ? "10개 묶음 고르기" : "낱개 당근 고르기");
         piece.addEventListener("click", () => {
           if (state.suppressPieceClick) {
             return;
           }
-          placeCurrentPieceInNextSlot();
+          selectCurrentPiece(config.kind);
         });
         piece.addEventListener("pointerdown", (event) => beginPieceDrag(event, config.kind, piece));
       }
       if (config.placed) {
         piece.classList.add("is-placed");
         piece.setAttribute("aria-label", "다시 빼기");
-        piece.addEventListener("click", () => returnPlacedPiece(config.slotIndex));
+        piece.addEventListener("click", (event) => {
+          event.stopPropagation();
+          returnPlacedPiece(config.slotIndex);
+        });
       }
     }
 
@@ -3956,25 +4000,40 @@
       el.choiceGrid.appendChild(resetButton);
     }
 
-    function placeCurrentPieceInNextSlot() {
+    function selectCurrentPiece(kind) {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      if (!isPlacementStep(step) || getRemainingPieces(step, problem) <= 0) {
+        state.selectedPieceKind = "";
+        return false;
+      }
+      state.selectedPieceKind = kind;
+      el.feedbackText.textContent = "넣을 칸을 눌러요.";
+      el.feedbackText.className = "feedback try";
+      renderCarrotWorkbench(problem);
+      renderActionControls(step);
+      return true;
+    }
+
+    function handleSlotActivate(slotIndex) {
+      if (state.dragPiece?.moved) {
+        return;
+      }
+      placeSelectedPieceInSlot(slotIndex);
+    }
+
+    function placeSelectedPieceInSlot(slotIndex) {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
       if (!isPlacementStep(step)) {
         return false;
       }
-      ensurePlacementSlots(problem);
-      const target = getStepTargetPieces(step, problem);
-      const count = state.stepPlacements.length;
-      for (let offset = 0; offset < count; offset += 1) {
-        const slotIndex = (state.stepPlacementCursor + offset) % count;
-        if (state.stepPlacements[slotIndex] < target) {
-          return placeCurrentPieceInSlot(slotIndex);
-        }
+      if (!state.selectedPieceKind) {
+        el.feedbackText.textContent = "먼저 당근을 골라요.";
+        el.feedbackText.className = "feedback try";
+        return false;
       }
-      const smallest = state.stepPlacements.reduce((bestIndex, value, index, placements) => (
-        value < placements[bestIndex] ? index : bestIndex
-      ), 0);
-      return placeCurrentPieceInSlot(smallest);
+      return placeCurrentPieceInSlot(slotIndex);
     }
 
     function placeCurrentPieceInSlot(slotIndex) {
@@ -3995,6 +4054,7 @@
       }
       state.stepPlacements[slotIndex] += 1;
       state.stepPlacementCursor = (slotIndex + 1) % state.stepPlacements.length;
+      state.selectedPieceKind = "";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderCarrotWorkbench(problem);
@@ -4014,6 +4074,7 @@
       }
       state.stepPlacements[slotIndex] -= 1;
       state.stepPlacementCursor = slotIndex;
+      state.selectedPieceKind = "";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderCarrotWorkbench(problem);
@@ -4028,6 +4089,7 @@
       }
       state.stepPlacements = Array.from({ length: clamp(problem.divisor, 1, 9) }, () => 0);
       state.stepPlacementCursor = 0;
+      state.selectedPieceKind = "";
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
       renderCarrotWorkbench(problem);
@@ -4079,6 +4141,7 @@
       if (!isPlacementStep(step)) {
         return;
       }
+      state.selectedPieceKind = "";
       state.dragPiece = {
         pointerId: event.pointerId,
         kind,
@@ -4980,8 +5043,11 @@
 	          return false;
 	        }
 	        resetCurrentStep();
-	        while (getRemainingPieces(step, problem) > 0) {
-	          placeCurrentPieceInNextSlot();
+	        for (let slotIndex = 0; slotIndex < clamp(problem.divisor, 1, 9); slotIndex += 1) {
+	          while (state.stepPlacements[slotIndex] < getStepTargetPieces(step, problem)) {
+	            selectCurrentPiece(step.id);
+	            placeSelectedPieceInSlot(slotIndex);
+	          }
 	        }
 	        return true;
 	      },
@@ -5012,6 +5078,11 @@
 	        checkCurrentStep();
 	        return true;
 	      },
+	      selectCurrentPiece: () => {
+	        const step = getCurrentStep(currentProblem());
+	        return selectCurrentPiece(step.id);
+	      },
+	      placeSelectedPieceInSlot,
 	      resetCurrentStep: () => {
 	        resetCurrentStep();
 	        return true;
@@ -5021,6 +5092,7 @@
 	        correct: state.correct,
 	        stepIndex: state.stepIndex,
 	        stepPlacements: [...state.stepPlacements],
+	        selectedPieceKind: state.selectedPieceKind,
 	        problemHadMistake: state.problemHadMistake,
 	        pendingRewardEvent: state.pendingRewardEvent ? { ...state.pendingRewardEvent } : null,
         lastFuelEvent: state.lastFuelEvent ? { ...state.lastFuelEvent } : null
