@@ -197,6 +197,8 @@
     .primary-button:focus-visible,
     .ghost-button:focus-visible,
     .choice-button:focus-visible,
+    .action-button:focus-visible,
+    .carrot-piece:focus-visible,
     .settings-toggle:focus-visible,
     .settings-switch:focus-visible,
     .settings-action:focus-visible {
@@ -873,7 +875,7 @@
     .play-layout {
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(270px, 0.78fr) minmax(460px, 1.22fr);
+      grid-template-columns: minmax(230px, 0.62fr) minmax(520px, 1.38fr);
       gap: clamp(16px, 2.8vw, 28px);
     }
 
@@ -1316,9 +1318,10 @@
       width: auto;
       justify-self: stretch;
       display: grid;
-      grid-template-rows: auto minmax(250px, 1fr) auto auto minmax(24px, auto);
-      gap: 12px;
-      padding: clamp(14px, 2.2vw, 20px);
+      grid-template-rows: auto minmax(0, 1fr) auto auto minmax(20px, auto);
+      gap: 8px;
+      overflow: hidden;
+      padding: clamp(10px, 1.7vw, 16px);
     }
 
     .problem-heading {
@@ -1330,12 +1333,12 @@
 
     .problem-heading h2 {
       width: 100%;
-      min-height: 70px;
+      min-height: clamp(52px, 7vw, 70px);
       display: grid;
       place-items: center;
       margin: 0;
       color: #ffffff;
-      font-size: clamp(2rem, 5.4vw, 4rem);
+      font-size: clamp(1.9rem, 5vw, 4rem);
       line-height: 1.08;
       font-weight: 1000;
       text-align: center;
@@ -1374,7 +1377,7 @@
       grid-template-rows: minmax(0, 1fr);
       align-content: stretch;
       gap: 0;
-      min-height: 260px;
+      min-height: 0;
       border-color: rgba(53, 217, 178, 0.28);
       background:
         radial-gradient(circle at 82% 78%, rgba(53, 217, 178, 0.1), transparent 0 24%, transparent 56%),
@@ -1445,135 +1448,293 @@
       word-break: keep-all;
     }
 
-    .basket-workbench {
+    .carrot-workbench {
       min-height: 100%;
       display: grid;
-      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-rows: minmax(72px, 0.58fr) auto minmax(112px, 1fr);
+      gap: 8px;
+      padding: 4px;
+    }
+
+    .carrot-source,
+    .share-slots {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .carrot-source {
+      display: flex;
       align-items: center;
-      justify-items: center;
-      gap: 14px;
+      justify-content: center;
+      align-content: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 9px;
+      border: 1px dashed rgba(255, 200, 87, 0.34);
+      border-radius: 12px;
+      background: rgba(255, 200, 87, 0.06);
+      user-select: none;
+      touch-action: none;
+    }
+
+    .carrot-source.is-waiting::after {
+      content: attr(data-note);
+      color: rgba(255, 240, 198, 0.78);
+      font-size: clamp(0.96rem, 1.9vw, 1.15rem);
+      font-weight: 950;
+      line-height: 1;
     }
 
     .representative-basket {
-      position: relative;
-      width: min(360px, 76%);
-      min-height: clamp(168px, 23vw, 220px);
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .share-arrow {
       display: grid;
       place-items: center;
-      padding: 34px 26px 24px;
-      border: 2px solid rgba(255, 200, 87, 0.66);
-      border-radius: 28px 28px 40px 40px;
-      color: #241500;
-      background:
-        linear-gradient(180deg, rgba(255, 244, 177, 0.98), rgba(255, 201, 90, 0.96));
-      box-shadow:
-        inset 0 -12px 0 rgba(178, 116, 26, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.64),
-        0 18px 28px rgba(0, 0, 0, 0.22);
-      overflow: hidden;
-      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-    }
-
-    .representative-basket::before {
-      content: "";
-      position: absolute;
-      top: 13px;
-      left: 24%;
-      right: 24%;
-      height: 26px;
-      border: 5px solid rgba(79, 47, 11, 0.24);
-      border-bottom: 0;
-      border-radius: 999px 999px 0 0;
-    }
-
-    .representative-basket::after {
-      content: "";
-      position: absolute;
-      inset: auto 10% 18px;
-      height: 16px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.16);
-      filter: blur(1px);
-    }
-
-    .representative-basket.is-step-ones,
-    .representative-basket.is-step-combine {
-      border-color: rgba(53, 217, 178, 0.78);
-      box-shadow:
-        inset 0 -12px 0 rgba(178, 116, 26, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.64),
-        0 0 0 4px rgba(53, 217, 178, 0.16),
-        0 18px 28px rgba(0, 0, 0, 0.22);
-    }
-
-    .representative-basket.is-final {
-      color: #10271f;
-      border-color: rgba(53, 217, 178, 0.9);
-      background: linear-gradient(180deg, #b8ffe9, #35d9b2);
-      box-shadow:
-        inset 0 -12px 0 rgba(17, 129, 98, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.64),
-        0 0 0 5px rgba(53, 217, 178, 0.2),
-        0 20px 30px rgba(0, 0, 0, 0.24);
-      transform: translateY(-2px);
-    }
-
-    .representative-basket-value {
-      position: relative;
-      z-index: 1;
-      max-width: 100%;
-      color: currentColor;
-      font-size: clamp(2.5rem, 7vw, 5.4rem);
+      color: #ffe7a4;
+      font-size: clamp(1rem, 2vw, 1.38rem);
       font-weight: 1000;
-      line-height: 1.12;
+      line-height: 1;
+    }
+
+    .share-slots {
+      --slot-count: 4;
+      display: grid;
+      grid-template-columns: repeat(var(--slot-count), minmax(0, 1fr));
+      align-items: stretch;
+      gap: 6px;
+    }
+
+    .share-slot {
+      position: relative;
+      min-width: 0;
+      min-height: 112px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 4px;
+      padding: 8px 5px 7px;
+      border: 2px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)),
+        rgba(12, 11, 18, 0.38);
+      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12);
+      transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
+      touch-action: none;
+    }
+
+    .share-slot.is-target {
+      border-color: rgba(255, 200, 87, 0.82);
+      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12), 0 0 0 3px rgba(255, 200, 87, 0.14);
+    }
+
+    .share-slot.is-final {
+      border-color: rgba(53, 217, 178, 0.84);
+      background:
+        linear-gradient(180deg, rgba(53, 217, 178, 0.2), rgba(53, 217, 178, 0.08)),
+        rgba(12, 11, 18, 0.4);
+      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12), 0 0 18px rgba(53, 217, 178, 0.16);
+    }
+
+    .share-slot.is-drop-hover {
+      border-color: rgba(255, 231, 164, 0.92);
+      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12), 0 0 0 4px rgba(255, 231, 164, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .slot-label {
+      min-width: 0;
+      min-height: 16px;
+      color: rgba(255, 240, 198, 0.86);
+      font-size: clamp(0.7rem, 1.25vw, 0.82rem);
+      font-weight: 1000;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .slot-pieces {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      flex-wrap: wrap;
+      gap: 3px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .slot-total {
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      min-height: 27px;
+      display: grid;
+      place-items: center;
+      padding: 3px 2px;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.06);
+      font-size: clamp(0.76rem, 1.6vw, 1rem);
+      font-weight: 1000;
+      line-height: 1;
       text-align: center;
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
 
-    .basket-markers {
-      min-height: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      max-width: min(420px, 92%);
+    .share-slot.is-target .slot-total {
+      color: #241500;
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      box-shadow: 0 4px 0 rgba(106, 70, 23, 0.18);
     }
 
-    .basket-marker {
+    .share-slot.is-final .slot-total {
+      color: #10271f;
+      background: linear-gradient(180deg, #b8ffe9, #35d9b2);
+    }
+
+    .carrot-bundle,
+    .carrot-one {
       position: relative;
-      width: 32px;
-      height: 24px;
-      border: 1px solid rgba(255, 200, 87, 0.34);
-      border-radius: 8px 8px 12px 12px;
-      background: rgba(255, 200, 87, 0.2);
-      opacity: 0.58;
+      flex: 0 0 auto;
+      transform-origin: 50% 70%;
     }
 
-    .basket-marker::before {
+    .carrot-piece {
+      appearance: none;
+      border: 0;
+      margin: 0;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .carrot-piece.is-tool {
+      cursor: grab;
+    }
+
+    .carrot-piece.is-dragging {
+      opacity: 0.36;
+    }
+
+    .carrot-drag-ghost {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 80;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1.05);
+      filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.28));
+    }
+
+    .carrot-bundle {
+      width: 46px;
+      min-height: 48px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 2px;
+      padding: 6px 5px 14px;
+      border: 2px solid rgba(255, 231, 164, 0.66);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255, 237, 165, 0.92), rgba(255, 196, 76, 0.9));
+      box-shadow: inset 0 -5px 0 rgba(180, 105, 22, 0.18), 0 5px 8px rgba(0, 0, 0, 0.16);
+    }
+
+    .carrot-bundle::after {
+      content: "10개";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 3px;
+      color: #3a2300;
+      font-size: 0.58rem;
+      font-weight: 1000;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .carrot-unit,
+    .carrot-one::before {
+      border-radius: 999px 999px 80% 80%;
+      background: linear-gradient(180deg, #ff9f2f, #f36a21);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
+    }
+
+    .carrot-unit {
+      min-width: 0;
+      height: 14px;
+    }
+
+    .carrot-one {
+      width: 19px;
+      height: 34px;
+      display: block;
+    }
+
+    .carrot-one::before {
       content: "";
       position: absolute;
-      top: -7px;
-      left: 24%;
-      right: 24%;
-      height: 9px;
-      border: 2px solid rgba(255, 240, 198, 0.28);
-      border-bottom: 0;
-      border-radius: 999px 999px 0 0;
+      left: 4px;
+      right: 4px;
+      bottom: 0;
+      height: 25px;
+      border-radius: 999px 999px 70% 70%;
+      transform: rotate(4deg);
     }
 
-    .basket-marker.is-filled {
-      opacity: 0.92;
-      border-color: rgba(255, 200, 87, 0.72);
-      background: linear-gradient(180deg, rgba(255, 238, 161, 0.9), rgba(255, 200, 87, 0.9));
+    .carrot-one::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 0;
+      width: 10px;
+      height: 12px;
+      border-radius: 8px 8px 0 0;
+      background:
+        linear-gradient(90deg, transparent 0 30%, #4fd66c 31% 45%, transparent 46%),
+        linear-gradient(120deg, transparent 0 34%, #7ed957 35% 52%, transparent 53%),
+        linear-gradient(60deg, transparent 0 44%, #3dbb5d 45% 62%, transparent 63%);
     }
 
-    .basket-marker.is-final {
-      opacity: 1;
-      border-color: rgba(53, 217, 178, 0.82);
-      background: linear-gradient(180deg, rgba(184, 255, 233, 0.95), rgba(53, 217, 178, 0.92));
-      box-shadow: 0 0 14px rgba(53, 217, 178, 0.2);
+    .slot-pieces .carrot-bundle {
+      width: clamp(25px, 3.1vw, 36px);
+      min-height: clamp(32px, 4.2vw, 40px);
+      gap: 1px;
+      padding: 5px 4px 11px;
+      border-radius: 9px;
+    }
+
+    .slot-pieces .carrot-bundle::after {
+      bottom: 2px;
+      font-size: clamp(0.45rem, 0.9vw, 0.54rem);
+    }
+
+    .slot-pieces .carrot-unit {
+      height: clamp(9px, 1.1vw, 12px);
+    }
+
+    .slot-pieces .carrot-one {
+      width: clamp(13px, 1.8vw, 17px);
+      height: clamp(24px, 3.4vw, 30px);
+    }
+
+    .carrot-piece.is-moving {
+      animation: carrot-land 0.58s cubic-bezier(0.18, 0.9, 0.2, 1.16) both;
+    }
+
+    .slot-pieces .carrot-piece {
+      cursor: pointer;
     }
 
     .share-plus,
@@ -1679,10 +1840,10 @@
     }
 
     .prompt {
-      min-height: 50px;
+      min-height: 42px;
       display: flex;
       align-items: center;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border: 1px solid rgba(255, 200, 87, 0.26);
       border-radius: var(--radius);
       background: rgba(255, 200, 87, 0.08);
@@ -1699,13 +1860,23 @@
       gap: 10px;
     }
 
+    .choice-grid.is-action-controls {
+      grid-template-columns: minmax(160px, 250px) minmax(100px, 150px);
+      justify-content: center;
+      align-content: center;
+    }
+
+    .choice-grid.is-action-controls.has-one-action {
+      grid-template-columns: minmax(160px, 250px);
+    }
+
     .choice-grid[hidden] {
       display: none;
     }
 
     .choice-button {
-      min-height: 58px;
-      padding: 10px 12px;
+      min-height: 52px;
+      padding: 8px 10px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.1);
@@ -1734,8 +1905,34 @@
       background: rgba(255, 93, 122, 0.32);
     }
 
+    .action-button {
+      min-height: 52px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: clamp(1.04rem, 2.1vw, 1.32rem);
+      font-weight: 1000;
+      line-height: 1.15;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.42);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .action-button.is-primary {
+      color: #241500;
+      border-color: rgba(255, 200, 87, 0.82);
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      box-shadow: 0 5px 0 rgba(106, 70, 23, 0.18);
+    }
+
     .feedback {
-      min-height: 26px;
+      min-height: 20px;
       color: #ffffff;
       font-size: clamp(0.98rem, 2vw, 1.14rem);
       font-weight: 900;
@@ -2296,6 +2493,23 @@
       }
     }
 
+    @keyframes carrot-land {
+      0% {
+        opacity: 0;
+        transform: translateY(-32px) scale(0.82);
+        filter: brightness(1.2);
+      }
+      68% {
+        opacity: 1;
+        transform: translateY(4px) scale(1.06);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+      }
+    }
+
     @keyframes pad-pulse {
       0%,
       100% {
@@ -2394,7 +2608,7 @@
       }
 
       .play-layout {
-        grid-template-columns: minmax(240px, 0.66fr) minmax(520px, 1.34fr);
+        grid-template-columns: minmax(220px, 0.58fr) minmax(540px, 1.42fr);
         gap: 14px;
       }
 
@@ -2449,42 +2663,55 @@
         font-size: clamp(0.98rem, 2.12vw, 1.34rem);
       }
 
-      .basket-workbench {
-        gap: 9px;
-      }
-
-      .representative-basket {
-        width: min(300px, 72%);
-        min-height: 138px;
-        padding: 26px 20px 18px;
-        border-radius: 22px 22px 32px 32px;
-      }
-
-      .representative-basket::before {
-        top: 10px;
-        height: 20px;
-        border-width: 4px;
-      }
-
-      .representative-basket-value {
-        font-size: clamp(2rem, 5.6vw, 3.65rem);
-      }
-
-      .basket-markers {
-        min-height: 24px;
+      .carrot-workbench {
+        grid-template-rows: minmax(58px, 0.5fr) auto minmax(96px, 1fr);
         gap: 6px;
+        padding: 3px;
       }
 
-      .basket-marker {
-        width: 26px;
-        height: 19px;
-        border-radius: 7px 7px 10px 10px;
+      .carrot-source {
+        gap: 5px;
+        padding: 6px;
       }
 
-      .basket-marker::before {
-        top: -6px;
-        height: 7px;
-        border-width: 2px;
+      .share-slots {
+        gap: 5px;
+      }
+
+      .share-slot {
+        min-height: 92px;
+        padding: 6px 4px;
+        border-radius: 9px;
+      }
+
+      .slot-label {
+        min-height: 13px;
+        font-size: 0.68rem;
+      }
+
+      .slot-total {
+        min-height: 22px;
+        border-radius: 7px;
+        font-size: clamp(0.66rem, 1.28vw, 0.78rem);
+      }
+
+      .carrot-bundle {
+        width: 34px;
+        min-height: 38px;
+        padding: 5px 4px 11px;
+      }
+
+      .carrot-bundle::after {
+        font-size: 0.48rem;
+      }
+
+      .carrot-unit {
+        height: 10px;
+      }
+
+      .carrot-one {
+        width: 15px;
+        height: 27px;
       }
 
       .share-operation {
@@ -2583,6 +2810,70 @@
 
       .share-operation {
         min-height: 44px;
+      }
+    }
+
+    @media (max-width: 980px) and (min-width: 881px) {
+      .play-layout {
+        grid-template-columns: minmax(220px, 0.56fr) minmax(560px, 1.44fr);
+        gap: 14px;
+      }
+
+      .rocket-zone {
+        padding: 12px;
+      }
+
+      .rocket-mini.harvest-crate {
+        width: clamp(190px, 21vw, 230px);
+      }
+
+      .problem-panel {
+        padding: 10px;
+        gap: 6px;
+      }
+
+      .problem-heading h2 {
+        min-height: 52px;
+        font-size: clamp(2rem, 4.7vw, 3.2rem);
+      }
+
+      .division-board {
+        padding: 8px;
+      }
+
+      .carrot-workbench {
+        grid-template-rows: minmax(54px, 0.46fr) auto minmax(88px, 1fr);
+        gap: 5px;
+      }
+
+      .carrot-source {
+        gap: 4px;
+        padding: 6px;
+      }
+
+      .share-slot {
+        min-height: 86px;
+        padding: 5px 4px;
+      }
+
+      .slot-label {
+        min-height: 12px;
+        font-size: 0.66rem;
+      }
+
+      .slot-total {
+        min-height: 21px;
+        font-size: 0.72rem;
+      }
+
+      .slot-pieces .carrot-bundle {
+        width: 28px;
+        min-height: 34px;
+      }
+
+      .slot-pieces .carrot-one {
+        width: 13px;
+        height: 24px;
       }
     }
 
@@ -2701,10 +2992,10 @@
       </div>
       <div class="visually-hidden">
         <h2 id="tutorialTitle">어떻게 풀어요?</h2>
-        <p>십의 자리부터 나누어요.</p>
-        <ol>
-          <li>십의 자리부터</li>
-          <li>일의 자리도</li>
+          <p>10개 묶음부터 나누어요.</p>
+          <ol>
+          <li>10개 묶음부터</li>
+          <li>낱개도</li>
           <li>답을 확인해요.</li>
         </ol>
         <h2>무엇을 얻어요?</h2>
@@ -2770,7 +3061,7 @@
         <section class="problem-panel" aria-live="polite">
           <div class="problem-heading">
             <h2 id="questionText">48 ÷ 4</h2>
-            <span class="phase-label" id="phaseLabel">일의 자리</span>
+            <span class="phase-label" id="phaseLabel">10개 묶음</span>
           </div>
           <div class="calc-stage">
             <div class="division-board" aria-label="나눗셈 나눠 담기 판">
@@ -2789,12 +3080,14 @@
                   <span class="share-value" id="multiplierText">4바구니</span>
                 </div>
               </div>
-              <div class="basket-workbench" id="basketField" aria-label="한 바구니에 들어가는 수확">
-                <div class="representative-basket is-step-tens" id="representativeBasket" aria-live="polite">
-                  <span class="visually-hidden">한 바구니</span>
+              <div class="carrot-workbench" id="basketField" aria-label="당근 나누기 판">
+                <div class="carrot-source" id="carrotSource" aria-label="나눌 당근"></div>
+                <div class="share-arrow" aria-hidden="true">↓</div>
+                <div class="share-slots" id="basketMarkers" aria-label="나누기 칸"></div>
+                <div class="representative-basket" id="representativeBasket" aria-live="polite">
+                  <span class="visually-hidden">한 칸</span>
                   <strong class="representative-basket-value" id="representativeBasketValue">?</strong>
                 </div>
-                <div class="basket-markers" id="basketMarkers" aria-hidden="true"></div>
               </div>
               <div class="basket-row">
                 <span class="basket-slot" id="tensAnswer">먼저 ?</span>
@@ -2806,16 +3099,16 @@
             </div>
             <div class="step-panel" id="stepPanel">
               <div class="step-track" aria-label="계산 순서">
-                <span class="step-chip is-current" id="stepChipOnes">십 묶음</span>
+                <span class="step-chip is-current" id="stepChipOnes">10개 묶음</span>
                 <span class="step-chip" id="stepChipTens">낱개</span>
-                <span class="step-chip" id="stepChipHundreds">몫</span>
+                <span class="step-chip" id="stepChipHundreds">한 칸</span>
               </div>
             </div>
           </div>
           <div class="prompt" id="promptText">바구니 하나에 들어갈 몫을 골라요.</div>
           <div class="choice-grid" id="choiceGrid"></div>
           <div class="feedback" id="feedbackText"></div>
-          <button class="primary-button harvest-button" id="harvestButton" type="button" hidden disabled>수확 보기</button>
+          <button class="primary-button harvest-button" id="harvestButton" type="button" hidden disabled>담기</button>
         </section>
       </div>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle" aria-describedby="rewardMessage">
@@ -2945,6 +3238,8 @@
       chain: 0,
       stepIndex: 0,
       stepAttempts: 0,
+      stepPlacements: [],
+      stepPlacementCursor: 0,
       problemHadMistake: false,
       problemHadReveal: false,
       rainbowFuel: false,
@@ -2959,6 +3254,8 @@
       tutorialReviewMode: false,
       tutorialPage: 0,
       reviewReturnScreen: "cover",
+      dragPiece: null,
+      suppressPieceClick: false,
       audio: null
     };
 
@@ -3002,6 +3299,7 @@
       multiplyMark: document.getElementById("multiplyMark"),
       multiplierText: document.getElementById("multiplierText"),
       basketField: document.getElementById("basketField"),
+      carrotSource: document.getElementById("carrotSource"),
       representativeBasket: document.getElementById("representativeBasket"),
       representativeBasketValue: document.getElementById("representativeBasketValue"),
       basketMarkers: document.getElementById("basketMarkers"),
@@ -3160,6 +3458,8 @@
       state.stepAttempts = 0;
       state.problemHadMistake = false;
       state.problemHadReveal = false;
+      state.stepPlacements = [];
+      state.stepPlacementCursor = 0;
       el.rewardPop.classList.remove("is-visible");
       FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
@@ -3167,16 +3467,17 @@
       el.tensDigit.textContent = `${problem.tens * 10}개`;
       el.onesDigit.textContent = `${problem.ones}개`;
       el.multiplyMark.textContent = "÷";
-      el.multiplierText.textContent = `${problem.divisor}개`;
+      el.multiplierText.textContent = `${problem.divisor}칸`;
       el.hundredsAnswer.textContent = "몫 ?";
       el.tensAnswer.textContent = "먼저 ?";
       el.onesAnswer.textContent = "낱개 ?";
+      el.harvestButton.textContent = "담기";
       el.choiceGrid.hidden = false;
       el.harvestButton.hidden = true;
       el.harvestButton.disabled = true;
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
-      renderRepresentativeBasket(problem);
+      renderCarrotWorkbench(problem);
       renderStatus();
       renderStep();
     }
@@ -3251,19 +3552,15 @@
     function renderStep() {
       const problem = currentProblem();
       const step = getCurrentStep(problem);
+      startStepPlacement(problem);
       el.phaseLabel.textContent = step.label;
       el.promptText.textContent = step.prompt;
-      renderRepresentativeBasket(problem);
+      renderCarrotWorkbench(problem);
       updateStepChips();
       updateCurrentAnswerCell();
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
-      const options = buildStepOptions(step);
-      renderChoices(options.map((option) => ({
-        label: option.label || formatStepAnswer(step, option.value),
-        value: option,
-        correct: option.value === step.correct
-      })), handleStepChoice);
+      renderActionControls(step);
     }
 
     function getCurrentStep(problem) {
@@ -3272,68 +3569,282 @@
     }
 
     function buildSteps(problem) {
-      return [
+      const steps = [
         {
           id: "tens",
-          label: "십 묶음",
+          label: "10개 묶음",
           correct: problem.tensQuot,
-          prompt: "십 묶음을 먼저 나눠요.",
-          explain: `한 바구니에 ${problem.tensQuot * 10}개씩!`
-        },
-        {
-          id: "ones",
-          label: "낱개",
-          correct: problem.onesQuot,
-          prompt: "남은 낱개를 나눠요.",
-          explain: problem.onesQuot > 0 ? `낱개는 ${problem.onesQuot}개씩!` : "낱개는 남지 않아요."
-        },
-        {
-          id: "combine",
-          label: "몫 합치기",
-          correct: problem.answer,
-          prompt: "한 바구니에 몇 개씩인지 골라요.",
-          explain: `한 바구니에 ${problem.answer}개씩 완성!`
+          prompt: "10개 묶음을 칸에 넣어요.",
+          explain: `한 칸에 ${problem.tensQuot * 10}개.`
         }
       ];
+      if (problem.ones > 0) {
+        steps.push({
+            id: "ones",
+            label: "낱개",
+            correct: problem.onesQuot,
+            prompt: "낱개 당근을 칸에 넣어요.",
+            explain: `한 칸에 낱개 ${problem.onesQuot}개.`
+          });
+      }
+      steps.push({
+          id: "combine",
+          label: "한 칸",
+          correct: problem.answer,
+          prompt: "한 칸을 확인해요.",
+          explain: `한 칸에 ${problem.answer}개.`
+        }
+      );
+      return steps;
     }
 
-    function renderRepresentativeBasket(problem, completedStep = null) {
-      if (!el.representativeBasket || !el.representativeBasketValue || !el.basketMarkers) {
+    function startStepPlacement(problem) {
+      const step = getCurrentStep(problem);
+      const count = clamp(problem.divisor, 1, 9);
+      state.stepPlacementCursor = 0;
+      state.stepPlacements = isPlacementStep(step)
+        ? Array.from({ length: count }, () => 0)
+        : [];
+    }
+
+    function isPlacementStep(step) {
+      return step?.id === "tens" || step?.id === "ones";
+    }
+
+    function getStepTotalPieces(step, problem = currentProblem()) {
+      if (step?.id === "tens") {
+        return problem.tens;
+      }
+      if (step?.id === "ones") {
+        return problem.ones;
+      }
+      return 0;
+    }
+
+    function getStepTargetPieces(step, problem = currentProblem()) {
+      if (step?.id === "tens") {
+        return problem.tensQuot;
+      }
+      if (step?.id === "ones") {
+        return problem.onesQuot;
+      }
+      return 0;
+    }
+
+    function getPlacedTotal() {
+      return state.stepPlacements.reduce((sum, value) => sum + value, 0);
+    }
+
+    function getRemainingPieces(step, problem = currentProblem()) {
+      return Math.max(0, getStepTotalPieces(step, problem) - getPlacedTotal());
+    }
+
+    function ensurePlacementSlots(problem = currentProblem()) {
+      const count = clamp(problem.divisor, 1, 9);
+      if (state.stepPlacements.length !== count) {
+        state.stepPlacements = Array.from({ length: count }, () => 0);
+        state.stepPlacementCursor = 0;
+      }
+    }
+
+    function renderCarrotWorkbench(problem, completedStep = null) {
+      if (!el.carrotSource || !el.representativeBasketValue || !el.basketMarkers) {
         return;
       }
       const count = clamp(problem.divisor, 1, 9);
-      const showTens = state.stepIndex > 0 || completedStep === "tens" || completedStep === "ones" || completedStep === "combine";
-      const showOnes = state.stepIndex > 1 || completedStep === "ones" || completedStep === "combine";
+      const step = getCurrentStep(problem);
+      const steps = buildSteps(problem);
+      const currentStepId = step?.id || "tens";
+      const tensDone = state.stepIndex > steps.findIndex((item) => item.id === "tens") || completedStep === "tens" || completedStep === "ones" || completedStep === "combine";
+      const onesIndex = steps.findIndex((item) => item.id === "ones");
+      const onesDone = onesIndex === -1 || state.stepIndex > onesIndex || completedStep === "ones" || completedStep === "combine";
       const showFinal = completedStep === "combine";
       let amount = "?";
-      let basketState = "is-step-tens";
 
       if (showFinal) {
         amount = `${problem.answer}개`;
-        basketState = "is-final";
-      } else if (showOnes) {
-        amount = `${problem.tensQuot * 10} + ${problem.onesQuot}`;
-        basketState = "is-step-combine";
-      } else if (state.stepIndex === 1 && !completedStep) {
-        amount = `${problem.tensQuot * 10} + ?`;
-        basketState = "is-step-ones";
-      } else if (showTens) {
+      } else if (tensDone && onesDone && problem.onesQuot > 0) {
+        amount = `${problem.tensQuot * 10}+${problem.onesQuot}`;
+      } else if (currentStepId === "ones") {
+        amount = `${problem.tensQuot * 10}+?`;
+      } else if (tensDone) {
         amount = `${problem.tensQuot * 10}개`;
-        basketState = "is-step-ones";
       }
 
-      el.representativeBasket.className = `representative-basket ${basketState}`;
+      el.representativeBasket.className = "representative-basket";
       el.representativeBasketValue.textContent = amount;
+      const liveStep = !completedStep && isPlacementStep(step);
+      ensurePlacementSlots(problem);
+      renderCarrotSource(problem, step, tensDone, onesDone, liveStep);
       el.basketMarkers.innerHTML = "";
+      el.basketMarkers.style.setProperty("--slot-count", String(count));
+      el.basketMarkers.style.gridTemplateColumns = count > 1
+        ? `minmax(70px, 1.35fr) repeat(${count - 1}, minmax(0, 1fr))`
+        : "minmax(0, 1fr)";
       for (let index = 0; index < count; index += 1) {
-        const marker = document.createElement("span");
-        marker.className = "basket-marker";
+        const marker = document.createElement("div");
+        marker.className = "share-slot";
+        if (index === 0) {
+          marker.classList.add("is-target");
+        }
         if (showFinal) {
           marker.classList.add("is-final");
-        } else if (showTens || showOnes) {
-          marker.classList.add("is-filled");
         }
+        const labelText = document.createElement("span");
+        labelText.className = "slot-label";
+        labelText.textContent = index === 0 ? "한 칸" : "";
+        const pieces = document.createElement("div");
+        pieces.className = "slot-pieces";
+        const liveTens = liveStep && currentStepId === "tens";
+        const liveOnes = liveStep && currentStepId === "ones";
+        const tensCount = liveTens ? state.stepPlacements[index] : tensDone ? problem.tensQuot : 0;
+        const onesCount = liveOnes ? state.stepPlacements[index] : onesDone && problem.onesQuot > 0 ? problem.onesQuot : 0;
+        if (liveStep) {
+          marker.dataset.slotIndex = String(index);
+        }
+        if (tensCount > 0) {
+          for (let bundleIndex = 0; bundleIndex < tensCount; bundleIndex += 1) {
+            const pieceOptions = liveTens
+              ? { moving: false, placed: true, slotIndex: index, kind: "tens" }
+              : completedStep === "tens";
+            pieces.appendChild(createCarrotBundle(pieceOptions));
+          }
+        }
+        if (onesCount > 0) {
+          for (let oneIndex = 0; oneIndex < onesCount; oneIndex += 1) {
+            const pieceOptions = liveOnes
+              ? { moving: false, placed: true, slotIndex: index, kind: "ones" }
+              : completedStep === "ones";
+            pieces.appendChild(createCarrotOne(pieceOptions));
+          }
+        }
+        const valueText = document.createElement("span");
+        valueText.className = "slot-total";
+        valueText.textContent = getSlotValueText({
+          problem,
+          slotIndex: index,
+          amount,
+          tensCount,
+          onesCount,
+          liveTens,
+          liveOnes,
+          tensDone,
+          onesDone
+        });
+        marker.append(labelText, pieces, valueText);
         el.basketMarkers.appendChild(marker);
+      }
+    }
+
+    function getSlotValueText({ problem, slotIndex, amount, tensCount, onesCount, liveTens, liveOnes, tensDone, onesDone }) {
+      if (slotIndex !== 0) {
+        return "";
+      }
+      if (liveTens) {
+        return tensCount > 0 ? `${tensCount * 10}개` : "?";
+      }
+      if (liveOnes) {
+        const tensValue = tensDone ? problem.tensQuot * 10 : 0;
+        if (onesCount > 0) {
+          return `${tensValue}+${onesCount}`;
+        }
+        return `${tensValue}+?`;
+      }
+      if (tensDone && onesDone && amount === `${problem.tensQuot * 10}+${problem.onesQuot}`) {
+        return `${problem.tensQuot * 10}+${problem.onesQuot}`;
+      }
+      return amount;
+    }
+
+    function renderCarrotSource(problem, step, tensDone, onesDone, liveStep) {
+      el.carrotSource.innerHTML = "";
+      el.carrotSource.classList.remove("is-waiting");
+      el.carrotSource.dataset.note = "";
+      if (liveStep && step.id === "tens" && !tensDone) {
+        const remaining = getRemainingPieces(step, problem);
+        for (let index = 0; index < remaining; index += 1) {
+          el.carrotSource.appendChild(createCarrotBundle({ interactive: true, kind: "tens" }));
+        }
+        if (remaining === 0) {
+          el.carrotSource.dataset.note = "확인해요";
+          el.carrotSource.classList.add("is-waiting");
+        }
+        return;
+      }
+      if (liveStep && step.id === "ones" && !onesDone && problem.ones > 0) {
+        const remaining = getRemainingPieces(step, problem);
+        for (let index = 0; index < remaining; index += 1) {
+          el.carrotSource.appendChild(createCarrotOne({ interactive: true, kind: "ones" }));
+        }
+        if (remaining === 0) {
+          el.carrotSource.dataset.note = "확인해요";
+          el.carrotSource.classList.add("is-waiting");
+        }
+        return;
+      }
+      el.carrotSource.dataset.note = "한 칸을 봐요";
+      el.carrotSource.classList.add("is-waiting");
+    }
+
+    function createCarrotBundle(options = false) {
+      const config = normalizePieceOptions(options);
+      const bundle = document.createElement(config.interactive || config.placed ? "button" : "span");
+      bundle.className = "carrot-bundle carrot-piece";
+      decoratePiece(bundle, config);
+      if (config.moving) {
+        bundle.classList.add("is-moving");
+      }
+      for (let index = 0; index < 10; index += 1) {
+        const unit = document.createElement("span");
+        unit.className = "carrot-unit";
+        bundle.appendChild(unit);
+      }
+      return bundle;
+    }
+
+    function createCarrotOne(options = false) {
+      const config = normalizePieceOptions(options);
+      const carrot = document.createElement(config.interactive || config.placed ? "button" : "span");
+      carrot.className = "carrot-one carrot-piece";
+      decoratePiece(carrot, config);
+      if (config.moving) {
+        carrot.classList.add("is-moving");
+      }
+      return carrot;
+    }
+
+    function normalizePieceOptions(options) {
+      if (typeof options === "boolean") {
+        return { moving: options, interactive: false, placed: false, kind: "", slotIndex: -1 };
+      }
+      return {
+        moving: Boolean(options?.moving),
+        interactive: Boolean(options?.interactive),
+        placed: Boolean(options?.placed),
+        kind: options?.kind || "",
+        slotIndex: Number.isInteger(options?.slotIndex) ? options.slotIndex : -1
+      };
+    }
+
+    function decoratePiece(piece, config) {
+      if (piece.tagName === "BUTTON") {
+        piece.type = "button";
+      }
+      if (config.interactive) {
+        piece.classList.add("is-tool");
+        piece.setAttribute("aria-label", config.kind === "tens" ? "10개 묶음 넣기" : "낱개 당근 넣기");
+        piece.addEventListener("click", () => {
+          if (state.suppressPieceClick) {
+            return;
+          }
+          placeCurrentPieceInNextSlot();
+        });
+        piece.addEventListener("pointerdown", (event) => beginPieceDrag(event, config.kind, piece));
+      }
+      if (config.placed) {
+        piece.classList.add("is-placed");
+        piece.setAttribute("aria-label", "다시 빼기");
+        piece.addEventListener("click", () => returnPlacedPiece(config.slotIndex));
       }
     }
 
@@ -3363,10 +3874,11 @@
       });
       el.multiplierText.classList.add("is-active-factor");
       el.multiplyMark.classList.add("is-active-factor");
-      if (state.stepIndex === 0) {
+      const step = getCurrentStep(currentProblem());
+      if (step.id === "tens") {
         el.tensDigit.classList.add("is-active-factor");
         el.tensAnswer.classList.add("is-current");
-      } else if (state.stepIndex === 1) {
+      } else if (step.id === "ones") {
         el.onesDigit.classList.add("is-active-factor");
         el.onesAnswer.classList.add("is-current");
       } else {
@@ -3408,12 +3920,269 @@
     function formatStepAnswer(step, value) {
       const numberText = value.toLocaleString("ko-KR");
       if (step.id === "tens") {
-        return value > 0 ? `${(value * 10).toLocaleString("ko-KR")}개씩` : "담지 않아요";
+        return value > 0 ? `${(value * 10).toLocaleString("ko-KR")}개` : "0개";
       }
       if (step.id === "ones") {
-        return value > 0 ? `${numberText}개씩` : "남지 않아요";
+        return value > 0 ? `${numberText}개` : "낱개 없음";
       }
-      return `${numberText}개씩`;
+      return `${numberText}개`;
+    }
+
+    function renderActionControls(step) {
+      el.choiceGrid.hidden = false;
+      el.choiceGrid.innerHTML = "";
+      el.choiceGrid.className = "choice-grid is-action-controls";
+      el.choiceGrid.classList.toggle("has-one-action", !isPlacementStep(step));
+
+      const checkButton = document.createElement("button");
+      checkButton.type = "button";
+      checkButton.id = "checkStepButton";
+      checkButton.className = "action-button is-primary";
+      checkButton.textContent = "확인";
+      checkButton.addEventListener("click", checkCurrentStep);
+      el.choiceGrid.appendChild(checkButton);
+
+      if (!isPlacementStep(step)) {
+        return;
+      }
+
+      const resetButton = document.createElement("button");
+      resetButton.type = "button";
+      resetButton.id = "resetStepButton";
+      resetButton.className = "action-button";
+      resetButton.textContent = "다시";
+      resetButton.disabled = getPlacedTotal() === 0;
+      resetButton.addEventListener("click", resetCurrentStep);
+      el.choiceGrid.appendChild(resetButton);
+    }
+
+    function placeCurrentPieceInNextSlot() {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      if (!isPlacementStep(step)) {
+        return false;
+      }
+      ensurePlacementSlots(problem);
+      const target = getStepTargetPieces(step, problem);
+      const count = state.stepPlacements.length;
+      for (let offset = 0; offset < count; offset += 1) {
+        const slotIndex = (state.stepPlacementCursor + offset) % count;
+        if (state.stepPlacements[slotIndex] < target) {
+          return placeCurrentPieceInSlot(slotIndex);
+        }
+      }
+      const smallest = state.stepPlacements.reduce((bestIndex, value, index, placements) => (
+        value < placements[bestIndex] ? index : bestIndex
+      ), 0);
+      return placeCurrentPieceInSlot(smallest);
+    }
+
+    function placeCurrentPieceInSlot(slotIndex) {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      if (!isPlacementStep(step)) {
+        return false;
+      }
+      ensurePlacementSlots(problem);
+      if (slotIndex < 0 || slotIndex >= state.stepPlacements.length || getRemainingPieces(step, problem) <= 0) {
+        return false;
+      }
+      const target = getStepTargetPieces(step, problem);
+      if (state.stepPlacements[slotIndex] >= target + 1) {
+        el.feedbackText.textContent = "다른 칸에도 넣어요.";
+        el.feedbackText.className = "feedback try";
+        return false;
+      }
+      state.stepPlacements[slotIndex] += 1;
+      state.stepPlacementCursor = (slotIndex + 1) % state.stepPlacements.length;
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      renderCarrotWorkbench(problem);
+      renderActionControls(step);
+      return true;
+    }
+
+    function returnPlacedPiece(slotIndex) {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      if (!isPlacementStep(step)) {
+        return;
+      }
+      ensurePlacementSlots(problem);
+      if (slotIndex < 0 || slotIndex >= state.stepPlacements.length || state.stepPlacements[slotIndex] <= 0) {
+        return;
+      }
+      state.stepPlacements[slotIndex] -= 1;
+      state.stepPlacementCursor = slotIndex;
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      renderCarrotWorkbench(problem);
+      renderActionControls(step);
+    }
+
+    function resetCurrentStep() {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      if (!isPlacementStep(step)) {
+        return;
+      }
+      state.stepPlacements = Array.from({ length: clamp(problem.divisor, 1, 9) }, () => 0);
+      state.stepPlacementCursor = 0;
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      renderCarrotWorkbench(problem);
+      renderActionControls(step);
+    }
+
+    function isCurrentPlacementCorrect(step, problem = currentProblem()) {
+      if (!isPlacementStep(step)) {
+        return true;
+      }
+      ensurePlacementSlots(problem);
+      const target = getStepTargetPieces(step, problem);
+      const totalPieces = getStepTotalPieces(step, problem);
+      return getPlacedTotal() === totalPieces && state.stepPlacements.every((count) => count === target);
+    }
+
+    function checkCurrentStep() {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      if (!isPlacementStep(step)) {
+        setButtonsDisabled(true);
+        completeStep(step, false);
+        return;
+      }
+      const totalPieces = getStepTotalPieces(step, problem);
+      if (getPlacedTotal() < totalPieces) {
+        el.feedbackText.textContent = "당근을 모두 넣어요.";
+        el.feedbackText.className = "feedback try";
+        return;
+      }
+      if (isCurrentPlacementCorrect(step, problem)) {
+        setButtonsDisabled(true);
+        completeStep(step, false);
+        return;
+      }
+
+      state.stepAttempts += 1;
+      state.problemHadMistake = true;
+      el.feedbackText.textContent = "칸마다 똑같이 넣어요.";
+      el.feedbackText.className = "feedback try";
+      playSound("try");
+    }
+
+    function beginPieceDrag(event, kind, piece) {
+      if (event.button !== undefined && event.button !== 0) {
+        return;
+      }
+      const step = getCurrentStep(currentProblem());
+      if (!isPlacementStep(step)) {
+        return;
+      }
+      state.dragPiece = {
+        pointerId: event.pointerId,
+        kind,
+        piece,
+        startX: event.clientX,
+        startY: event.clientY,
+        moved: false,
+        ghost: null,
+        hoverSlot: -1
+      };
+      piece.setPointerCapture?.(event.pointerId);
+      document.addEventListener("pointermove", handlePieceDragMove);
+      document.addEventListener("pointerup", handlePieceDragEnd);
+      document.addEventListener("pointercancel", cancelPieceDrag);
+    }
+
+    function handlePieceDragMove(event) {
+      const drag = state.dragPiece;
+      if (!drag || drag.pointerId !== event.pointerId) {
+        return;
+      }
+      const distance = Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY);
+      if (!drag.moved && distance < 6) {
+        return;
+      }
+      event.preventDefault();
+      if (!drag.moved) {
+        drag.moved = true;
+        drag.piece.classList.add("is-dragging");
+        drag.ghost = drag.piece.cloneNode(true);
+        drag.ghost.classList.remove("is-dragging");
+        drag.ghost.classList.add("carrot-drag-ghost");
+        document.body.appendChild(drag.ghost);
+      }
+      moveDragGhost(event.clientX, event.clientY);
+      updateDropHover(event.clientX, event.clientY);
+    }
+
+    function handlePieceDragEnd(event) {
+      const drag = state.dragPiece;
+      if (!drag || drag.pointerId !== event.pointerId) {
+        return;
+      }
+      if (drag.moved) {
+        event.preventDefault();
+        const slotIndex = getSlotIndexFromPoint(event.clientX, event.clientY);
+        if (slotIndex >= 0) {
+          placeCurrentPieceInSlot(slotIndex);
+        }
+        state.suppressPieceClick = true;
+        window.setTimeout(() => {
+          state.suppressPieceClick = false;
+        }, 0);
+      }
+      cancelPieceDrag();
+    }
+
+    function cancelPieceDrag() {
+      const drag = state.dragPiece;
+      if (drag?.piece) {
+        drag.piece.classList.remove("is-dragging");
+      }
+      drag?.ghost?.remove();
+      state.dragPiece = null;
+      clearDropHover();
+      document.removeEventListener("pointermove", handlePieceDragMove);
+      document.removeEventListener("pointerup", handlePieceDragEnd);
+      document.removeEventListener("pointercancel", cancelPieceDrag);
+    }
+
+    function moveDragGhost(x, y) {
+      const drag = state.dragPiece;
+      if (!drag?.ghost) {
+        return;
+      }
+      drag.ghost.style.left = `${x}px`;
+      drag.ghost.style.top = `${y}px`;
+    }
+
+    function updateDropHover(x, y) {
+      const slotIndex = getSlotIndexFromPoint(x, y);
+      const drag = state.dragPiece;
+      if (!drag || drag.hoverSlot === slotIndex) {
+        return;
+      }
+      drag.hoverSlot = slotIndex;
+      [...el.basketMarkers.querySelectorAll(".share-slot")].forEach((slot) => {
+        slot.classList.toggle("is-drop-hover", Number(slot.dataset.slotIndex) === slotIndex);
+      });
+    }
+
+    function clearDropHover() {
+      [...el.basketMarkers.querySelectorAll(".share-slot")].forEach((slot) => {
+        slot.classList.remove("is-drop-hover");
+      });
+    }
+
+    function getSlotIndexFromPoint(x, y) {
+      const element = document.elementFromPoint(x, y);
+      const slot = element?.closest?.(".share-slot[data-slot-index]");
+      if (!slot) {
+        return -1;
+      }
+      return Number(slot.dataset.slotIndex);
     }
 
     function handleStepChoice(option, button) {
@@ -3431,7 +4200,7 @@
       button.classList.add("is-wrong");
       playSound("try");
       if (state.stepAttempts === 1) {
-        el.feedbackText.textContent = "다시 골라요.";
+        el.feedbackText.textContent = "다시 해요.";
         el.feedbackText.className = "feedback try";
         button.disabled = true;
         return;
@@ -3457,7 +4226,7 @@
         playSound("correct");
       }
       window.setTimeout(() => {
-        if (state.stepIndex >= 2) {
+        if (state.stepIndex >= buildSteps(problem).length - 1) {
           prepareProblemReward();
           return;
         }
@@ -3469,17 +4238,17 @@
 
     function applyStepToBoard(step, problem) {
       if (step.id === "tens") {
-        el.tensAnswer.textContent = `${problem.tensQuot * 10}개씩`;
-        el.onesAnswer.textContent = "낱개 ?";
-        renderRepresentativeBasket(problem, "tens");
+        el.tensAnswer.textContent = `${problem.tensQuot * 10}개`;
+        el.onesAnswer.textContent = problem.ones > 0 ? "낱개 ?" : "낱개 없음";
+        renderCarrotWorkbench(problem, "tens");
       } else if (step.id === "ones") {
-        el.onesAnswer.textContent = problem.onesQuot > 0 ? `${problem.onesQuot}개씩` : "남지 않음";
-        renderRepresentativeBasket(problem, "ones");
+        el.onesAnswer.textContent = `${problem.onesQuot}개`;
+        renderCarrotWorkbench(problem, "ones");
       } else {
-        el.tensAnswer.textContent = `${problem.tensQuot * 10}개씩`;
-        el.onesAnswer.textContent = problem.onesQuot > 0 ? `${problem.onesQuot}개씩` : "남지 않음";
+        el.tensAnswer.textContent = `${problem.tensQuot * 10}개`;
+        el.onesAnswer.textContent = problem.onesQuot > 0 ? `${problem.onesQuot}개` : "낱개 없음";
         el.hundredsAnswer.textContent = `몫 ${problem.answer}`;
-        renderRepresentativeBasket(problem, "combine");
+        renderCarrotWorkbench(problem, "combine");
       }
       updateCurrentAnswerCell();
     }
@@ -3496,8 +4265,8 @@
       renderStatus();
       const problem = currentProblem();
       el.choiceGrid.hidden = true;
-      el.promptText.textContent = "바구니에 담아 볼까요?";
-      el.feedbackText.textContent = `몫 ${problem.answer} 완성!`;
+      el.promptText.textContent = "왼쪽 바구니에 담아요.";
+      el.feedbackText.textContent = `한 칸에 ${problem.answer}개.`;
       el.feedbackText.className = "feedback good";
       el.harvestButton.hidden = false;
       el.harvestButton.disabled = false;
@@ -3689,25 +4458,25 @@
 
     function getFuelEventDeltaLabel(event) {
       if (event.rainbow) {
-        return "황금!";
+        return "황금";
       }
       if (event.launches) {
-        return "큰 풍년!";
+        return "큰 풍년";
       }
       if (event.emptiesTank) {
-        return "수확 0";
+        return "0";
       }
       const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount;
       if (actualDelta > 0) {
-        return `수확 +${actualDelta}`;
+        return `+${actualDelta}`;
       }
       if (actualDelta < 0) {
-        return `수확 ${actualDelta}`;
+        return `${actualDelta}`;
       }
       if (event.amount < 0) {
-        return "수확 0";
+        return "0";
       }
-      return "수확 0";
+      return "0";
     }
 
     function renderChoices(options, handler) {
@@ -3832,7 +4601,7 @@
         return `이번엔 ${destination.name}까지 왔어요. 다음엔 대농장!`;
       }
       if (destination.index >= 2) {
-        return `이번엔 ${destination.name}까지 왔어요. 십과 일을 잘 나눴어요.`;
+        return `이번엔 ${destination.name}까지 왔어요. 10개 묶음과 낱개를 잘 나눴어요.`;
       }
       return `이번엔 ${destination.name}부터 시작했어요. 다음엔 더 큰 밭까지 가 봐요.`;
     }
@@ -3840,12 +4609,12 @@
     function getRetryMessage() {
       const next = getNextPlanet(null);
       if (state.correct >= 6) {
-        return `거의 다 왔어요. ${next.name}까지 가려면 십의 자리부터 한 번만 더 살펴요.`;
+        return `거의 다 왔어요. ${next.name}까지 가려면 10개 묶음부터 한 번 더 봐요.`;
       }
       if (state.correct >= 3) {
         return `수확이 조금 부족해요. 다시 담으면 ${next.name}까지 갈 수 있어요.`;
       }
-      return "괜찮아요. 십의 자리부터 차례대로 나누면 씨앗부터 자랄 수 있어요.";
+      return "괜찮아요. 10개 묶음부터 차례대로 나누면 씨앗부터 자랄 수 있어요.";
     }
 
     function setButtonsDisabled(disabled) {
@@ -4183,18 +4952,77 @@
       buildProblems,
       buildSteps,
       buildStepOptions,
-      formatStepAnswer,
-      pickFuelEventForRoll,
-      createLeakEvent,
-      getProblemKey,
-      totalQuestions: TOTAL_QUESTIONS,
-      currentProblem: () => ({ ...currentProblem() }),
-      getState: () => ({
-        index: state.index,
-        correct: state.correct,
-        stepIndex: state.stepIndex,
-        problemHadMistake: state.problemHadMistake,
-        pendingRewardEvent: state.pendingRewardEvent ? { ...state.pendingRewardEvent } : null,
+	      formatStepAnswer,
+	      getStepTargetPieces,
+	      getStepTotalPieces,
+	      pickFuelEventForRoll,
+	      createLeakEvent,
+	      getProblemKey,
+	      totalQuestions: TOTAL_QUESTIONS,
+	      currentProblem: () => ({ ...currentProblem() }),
+	      getCurrentStepInfo: () => {
+	        const problem = currentProblem();
+	        const step = getCurrentStep(problem);
+	        return {
+	          step: { ...step },
+	          placements: [...state.stepPlacements],
+	          placedTotal: getPlacedTotal(),
+	          totalPieces: getStepTotalPieces(step, problem),
+	          targetPieces: getStepTargetPieces(step, problem),
+	          remainingPieces: getRemainingPieces(step, problem),
+	          isPlacementStep: isPlacementStep(step)
+	        };
+	      },
+	      placeCurrentStepCorrectly: () => {
+	        const problem = currentProblem();
+	        const step = getCurrentStep(problem);
+	        if (!isPlacementStep(step)) {
+	          return false;
+	        }
+	        resetCurrentStep();
+	        while (getRemainingPieces(step, problem) > 0) {
+	          placeCurrentPieceInNextSlot();
+	        }
+	        return true;
+	      },
+	      placeCurrentStepUnevenly: () => {
+	        const problem = currentProblem();
+	        const step = getCurrentStep(problem);
+	        if (!isPlacementStep(step)) {
+	          return false;
+	        }
+	        const count = clamp(problem.divisor, 1, 9);
+	        const total = getStepTotalPieces(step, problem);
+	        const target = getStepTargetPieces(step, problem);
+	        state.stepPlacements = Array.from({ length: count }, () => 0);
+	        state.stepPlacements[0] = Math.min(total, target + 1);
+	        let remaining = total - state.stepPlacements[0];
+	        let slotIndex = 1;
+	        while (remaining > 0 && count > 1) {
+	          state.stepPlacements[slotIndex] += 1;
+	          remaining -= 1;
+	          slotIndex = slotIndex + 1 >= count ? 1 : slotIndex + 1;
+	        }
+	        state.stepPlacementCursor = 0;
+	        renderCarrotWorkbench(problem);
+	        renderActionControls(step);
+	        return true;
+	      },
+	      confirmCurrentStep: () => {
+	        checkCurrentStep();
+	        return true;
+	      },
+	      resetCurrentStep: () => {
+	        resetCurrentStep();
+	        return true;
+	      },
+	      getState: () => ({
+	        index: state.index,
+	        correct: state.correct,
+	        stepIndex: state.stepIndex,
+	        stepPlacements: [...state.stepPlacements],
+	        problemHadMistake: state.problemHadMistake,
+	        pendingRewardEvent: state.pendingRewardEvent ? { ...state.pendingRewardEvent } : null,
         lastFuelEvent: state.lastFuelEvent ? { ...state.lastFuelEvent } : null
       })
     };

@@ -21,7 +21,8 @@ const CHROME_CANDIDATES = [
 ];
 const VIEWPORTS = [
   { name: "desktop", width: 1280, height: 800, prefix: "" },
-  { name: "tablet", width: 1024, height: 640, prefix: "tablet-" }
+  { name: "tablet", width: 1024, height: 640, prefix: "tablet-" },
+  { name: "compact", width: 918, height: 897, prefix: "compact-" }
 ];
 const SCREENSHOT_NAMES = {
   cover: "01-cover.png",
@@ -344,16 +345,20 @@ async function verifyModel(page) {
   const stepFailures = [];
   for (const problem of candidates) {
     const steps = qa.buildSteps(problem);
-    if (steps.length !== 3 || steps[0].id !== "tens" || steps[1].id !== "ones" || steps[2].id !== "combine") {
+    const expectedIds = problem.ones > 0 ? ["tens", "ones", "combine"] : ["tens", "combine"];
+    if (steps.map((step) => step.id).join(",") !== expectedIds.join(",")) {
       stepFailures.push(qa.getProblemKey(problem) + ": step order");
       continue;
     }
-    const combineOptions = qa.buildStepOptions(steps[2], problem);
+    const combineStep = steps[steps.length - 1];
+    const combineOptions = qa.buildStepOptions(combineStep, problem);
     const placeMistake = problem.tensQuot + problem.onesQuot;
     if (!combineOptions.some((option) => option.value === placeMistake)) {
       stepFailures.push(qa.getProblemKey(problem) + ": missing place-value mistake " + placeMistake);
     }
   }
+  const noOnesProblem = candidates.find((problem) => problem.dividend === 90 && problem.divisor === 9);
+  const noOnesStepIds = noOnesProblem ? qa.buildSteps(noOnesProblem).map((step) => step.id) : [];
   const eventSamples = {
     normal: qa.pickFuelEventForRoll(0, () => 7),
     smallExplosion: qa.pickFuelEventForRoll(80, () => 7),
@@ -369,6 +374,7 @@ async function verifyModel(page) {
     runCount: run.length,
     duplicateRunKeys,
     divisorsInRun,
+    noOnesStepIds,
     stepFailures,
     eventSamples
   };
@@ -379,6 +385,7 @@ async function verifyModel(page) {
   assert(model.runCount === 10, "one round must contain 10 problems", model);
   assert(model.duplicateRunKeys.length === 0, "one round contains duplicated problems", model);
   assert(model.divisorsInRun.length >= 8, "one round should cover all eight divisors before filling extras", model);
+  assert(model.noOnesStepIds.join(",") === "tens,combine", "90 ÷ 9 should skip the ones step", model);
   assert(model.stepFailures.length === 0, "step model is missing expected combine mistakes", model);
   assert(model.eventSamples.normal.id === "normal" && model.eventSamples.normal.amount === 7, "normal reward roll changed", model);
   assert(model.eventSamples.smallExplosion.id === "smallExplosion" && model.eventSamples.smallExplosion.amount === -7, "loss reward roll changed", model);
@@ -434,12 +441,15 @@ async function assertNoVisibleOverflow(page, label) {
     "#tutorialScreen.is-active #tutorialProgress",
     "#playScreen.is-active #questionText",
     "#playScreen.is-active #phaseLabel",
-    "#playScreen.is-active .representative-basket-value",
-    "#playScreen.is-active .basket-marker",
-    "#playScreen.is-active #promptText",
-    "#playScreen.is-active #feedbackText",
-    "#playScreen.is-active .choice-button",
-    "#playScreen.is-active #harvestButton",
+    "#playScreen.is-active .carrot-source",
+    "#playScreen.is-active .share-slot",
+    "#playScreen.is-active .slot-label",
+	    "#playScreen.is-active .slot-total",
+	    "#playScreen.is-active #promptText",
+	    "#playScreen.is-active #feedbackText",
+	    "#playScreen.is-active .choice-button",
+	    "#playScreen.is-active .action-button",
+	    "#playScreen.is-active #harvestButton",
     "#rewardPop.is-visible #rewardDelta",
     "#rewardPop.is-visible #rewardNextButton",
     "#resultScreen.is-active #restartButton"
@@ -495,35 +505,38 @@ async function chooseCorrectStep(page) {
   return evalInPage(page, String.raw`
 (() => {
   const qa = window.__divideFarmQa;
+  const before = qa.getCurrentStepInfo();
+  if (before.isPlacementStep) {
+    qa.placeCurrentStepCorrectly();
+  }
+  qa.confirmCurrentStep();
   const problem = qa.currentProblem();
-  const state = qa.getState();
-  const step = qa.buildSteps(problem)[state.stepIndex];
-  const target = qa.formatStepAnswer(step, step.correct);
-  const button = [...document.querySelectorAll("#choiceGrid .choice-button")]
-    .find((candidate) => candidate.textContent.trim() === target && !candidate.disabled);
-  if (!button) throw new Error("correct choice not found: " + target);
-  button.click();
-  return { stepId: step.id, stepIndex: state.stepIndex, target, answer: problem.answer };
+  return {
+    stepId: before.step.id,
+    stepIndex: qa.getState().stepIndex,
+    target: before.isPlacementStep ? before.targetPieces : before.step.correct,
+    answer: problem.answer
+  };
 })()
-`);
+  `);
 }
 
 async function chooseWrongStep(page) {
   return evalInPage(page, String.raw`
 (() => {
   const qa = window.__divideFarmQa;
-  const problem = qa.currentProblem();
-  const state = qa.getState();
-  const step = qa.buildSteps(problem)[state.stepIndex];
-  const target = qa.formatStepAnswer(step, step.correct);
-  const button = [...document.querySelectorAll("#choiceGrid .choice-button")]
-    .find((candidate) => candidate.textContent.trim() !== target && !candidate.disabled);
-  if (!button) throw new Error("wrong choice not found away from: " + target);
-  const label = button.textContent.trim();
-  button.click();
-  return { stepId: step.id, stepIndex: state.stepIndex, wrongLabel: label, target };
+  const before = qa.getCurrentStepInfo();
+  if (!before.isPlacementStep) throw new Error("wrong placement requested on a non-placement step");
+  qa.placeCurrentStepUnevenly();
+  qa.confirmCurrentStep();
+  return {
+    stepId: before.step.id,
+    stepIndex: qa.getState().stepIndex,
+    placements: qa.getCurrentStepInfo().placements,
+    target: before.targetPieces
+  };
 })()
-`);
+  `);
 }
 
 async function waitForStep(page, stepIndex, label) {
@@ -534,7 +547,7 @@ async function waitForHarvest(page, label) {
   await waitUntil(page, `!document.getElementById("harvestButton").hidden && !document.getElementById("rewardPop").classList.contains("is-visible")`, label, 4000);
   const snapshot = await readSnapshot(page);
   assert(snapshot.answer.startsWith("몫 "), `${label}: final quotient is not visible before reward`, snapshot);
-  assert(snapshot.feedback.endsWith("완성!"), `${label}: final confirmation copy missing`, snapshot);
+  assert(snapshot.feedback.includes("한 칸에"), `${label}: final confirmation copy missing`, snapshot);
   assert(snapshot.harvestVisible, `${label}: harvest button is not visible`, snapshot);
   assert(!snapshot.choiceGridVisible, `${label}: answer choices are still visible`, snapshot);
   return snapshot;
@@ -553,15 +566,15 @@ async function playProblem(page, options = {}) {
     await chooseWrongStep(page);
     await delay(180);
     const retrySnapshot = await readSnapshot(page);
-    assert(retrySnapshot.feedback.includes("다시 골라요"), "first wrong answer should keep the student on the step", retrySnapshot);
-    await chooseWrongStep(page);
-    await waitForStep(page, 1, "second wrong answer did not reveal and move to the next step");
+    assert(retrySnapshot.feedback.includes("똑같이"), "wrong placement should ask for equal sharing", retrySnapshot);
+    assert(retrySnapshot.state.stepIndex === 0, "wrong placement should keep the student on the step", retrySnapshot);
   }
 
   for (;;) {
+    const stepsLength = await evalInPage(page, `window.__divideFarmQa.buildSteps(window.__divideFarmQa.currentProblem()).length`);
     const before = await evalInPage(page, `window.__divideFarmQa.getState().stepIndex`);
     await chooseCorrectStep(page);
-    if (before >= 2) break;
+    if (before >= stepsLength - 1) break;
     await waitForStep(page, before + 1, `correct step ${before} did not advance`);
   }
 
@@ -626,9 +639,13 @@ async function runViewport(page, lessonUrl, viewport, { verifyMath = false } = {
   await assertNoVisibleOverflow(page, `${viewport.name} problem step 2`);
   await capture(page, viewport, "step2");
 
-  await chooseCorrectStep(page);
-  await waitForStep(page, 2, `${viewport.name}: second step did not advance`);
-  await chooseCorrectStep(page);
+  for (;;) {
+    const stepsLength = await evalInPage(page, `window.__divideFarmQa.buildSteps(window.__divideFarmQa.currentProblem()).length`);
+    const before = await evalInPage(page, `window.__divideFarmQa.getState().stepIndex`);
+    await chooseCorrectStep(page);
+    if (before >= stepsLength - 1) break;
+    await waitForStep(page, before + 1, `${viewport.name}: step ${before} did not advance`);
+  }
   await waitForHarvest(page, `${viewport.name}: final confirmation did not hold`);
   await assertNoVisibleOverflow(page, `${viewport.name} final confirmation`);
   await capture(page, viewport, "confirm");
