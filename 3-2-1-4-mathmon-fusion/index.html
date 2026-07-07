@@ -789,7 +789,8 @@
 
     .goal-rail {
       position: relative;
-      height: 168px;
+      aspect-ratio: 1280 / 190;
+      height: auto;
       margin-bottom: 8px;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -801,7 +802,6 @@
       --goal-glow-strong: rgba(255, 226, 126, 0.96);
       --goal-glow-soft: rgba(255, 200, 87, 0.38);
       --goal-scan: rgba(103, 231, 255, 0.48);
-      --goal-marker-size: 96px;
     }
 
     .goal-map-raster {
@@ -810,7 +810,7 @@
       z-index: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: fill;
       object-position: center;
       pointer-events: none;
       user-select: none;
@@ -818,8 +818,20 @@
       transition: filter 0.24s ease, transform 0.24s ease;
     }
 
+    .goal-map-raster-next {
+      z-index: 1;
+      opacity: 0;
+      transform: scale(1.006);
+      transform-origin: var(--goal-flare-x) 68%;
+      filter: brightness(1.18) saturate(1.16);
+      will-change: opacity, transform, filter;
+    }
+
+    .goal-map-raster-next[hidden] {
+      display: none;
+    }
+
     .goal-shade,
-    .goal-current-robot,
     .goal-transition {
       content: "";
       position: absolute;
@@ -830,53 +842,42 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 1;
+      z-index: 2;
       height: 48%;
       background: linear-gradient(180deg, transparent, rgba(14, 12, 22, 0.58));
     }
 
-    .goal-current-robot {
-      left: var(--goal-flare-x);
-      bottom: -4px;
-      z-index: 3;
-      width: var(--goal-marker-size);
-      height: var(--goal-marker-size);
-      object-fit: contain;
-      object-position: center;
-      transform: translateX(-50%);
-      filter:
-        drop-shadow(0 10px 14px rgba(0, 0, 0, 0.42))
-        drop-shadow(0 0 18px var(--goal-glow-soft));
-      transition:
-        left 0.34s cubic-bezier(0.18, 0.84, 0.2, 1),
-        width 0.24s ease,
-        height 0.24s ease,
-        filter 0.24s ease;
-      user-select: none;
-    }
-
     .goal-transition {
       inset: 0;
-      z-index: 2;
+      z-index: 3;
       opacity: 0;
       mix-blend-mode: screen;
     }
 
     .goal-transition-sweep {
-      width: 46%;
+      width: 28%;
       background:
-        linear-gradient(105deg, transparent 0 20%, rgba(255, 255, 255, 0.08) 28%, rgba(255, 244, 183, 0.9) 43%, var(--goal-scan) 52%, transparent 72%),
-        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
-      filter: blur(0.3px) drop-shadow(0 0 18px var(--goal-glow-soft));
+        linear-gradient(105deg, transparent 0 31%, rgba(255, 255, 255, 0.05) 39%, rgba(255, 244, 183, 0.44) 48%, var(--goal-scan) 55%, transparent 70%),
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+      filter: blur(0.35px) drop-shadow(0 0 14px var(--goal-glow-soft));
       transform: translateX(-130%) skewX(-12deg);
     }
 
     .goal-transition-burst {
       background:
-        radial-gradient(circle at var(--goal-flare-x) 54%, var(--goal-glow-strong) 0 4%, var(--goal-glow-soft) 18%, transparent 37%),
-        radial-gradient(ellipse at var(--goal-flare-x) 72%, rgba(255, 245, 197, 0.52), transparent 0 12%, transparent 36%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent 38%, rgba(255, 200, 87, 0.12));
+        radial-gradient(circle 18% at var(--goal-flare-x) 54%, var(--goal-glow-strong) 0 8%, var(--goal-glow-soft) 25%, transparent 70%),
+        radial-gradient(ellipse 22% 36% at var(--goal-flare-x) 72%, rgba(255, 245, 197, 0.38), transparent 68%);
       transform: scale(0.96);
+    }
+
+    .goal-transition-evolution {
+      z-index: 4;
+      transform-origin: var(--goal-flare-x) 66%;
+      background:
+        radial-gradient(ellipse 18% 72% at var(--goal-flare-x) 68%, transparent 0 17%, rgba(255, 247, 178, 0.58) 18% 19%, transparent 22% 33%, rgba(108, 239, 255, 0.34) 34% 35%, transparent 38%),
+        radial-gradient(circle 16% at var(--goal-flare-x) 56%, rgba(255, 255, 255, 0.54), rgba(255, 224, 91, 0.34) 18%, rgba(82, 230, 255, 0.16) 42%, transparent 76%);
+      filter: blur(0.2px) drop-shadow(0 0 18px var(--goal-glow-soft));
+      transform: scale(0.74);
     }
 
     .goal-rail.is-switching .goal-transition-sweep {
@@ -887,40 +888,46 @@
       animation: goal-strip-burst 0.74s ease-out both;
     }
 
-    .goal-rail.is-switching .goal-map-raster,
-    .goal-rail.is-goal-up .goal-map-raster,
-    .goal-rail.is-goal-rare .goal-map-raster {
+    .goal-rail.is-switching .goal-transition-evolution {
+      animation: goal-evolution-ring 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-evolving .goal-map-raster-current {
+      animation: goal-evolve-current 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-evolving .goal-map-raster-next {
+      animation: goal-evolve-next 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-goal-up .goal-map-raster-current,
+    .goal-rail.is-goal-rare .goal-map-raster-current {
       animation: goal-strip-pop 0.74s cubic-bezier(0.18, 0.9, 0.22, 1.08) both;
     }
 
-    .goal-rail.is-goal-down .goal-map-raster,
-    .goal-rail.is-goal-empty .goal-map-raster {
+    .goal-rail.is-goal-down .goal-map-raster-current,
+    .goal-rail.is-goal-empty .goal-map-raster-current {
       animation: goal-strip-shake 0.48s ease-out both;
     }
 
     .goal-rail[data-goal-tier="small"] {
       --goal-flare-x: 9.7%;
-      --goal-marker-size: 90px;
     }
 
     .goal-rail[data-goal-tier="medium"] {
       --goal-flare-x: 22.2%;
-      --goal-marker-size: 100px;
     }
 
     .goal-rail[data-goal-tier="large"] {
       --goal-flare-x: 36.3%;
-      --goal-marker-size: 112px;
     }
 
     .goal-rail[data-goal-tier="giant"] {
       --goal-flare-x: 50.8%;
-      --goal-marker-size: 124px;
     }
 
     .goal-rail[data-goal-tier="ultra"] {
       --goal-flare-x: 66.4%;
-      --goal-marker-size: 136px;
     }
 
     .goal-rail[data-goal-tier="legend"] {
@@ -928,7 +935,6 @@
       --goal-glow-strong: rgba(238, 179, 255, 0.98);
       --goal-glow-soft: rgba(178, 92, 255, 0.48);
       --goal-scan: rgba(255, 131, 236, 0.54);
-      --goal-marker-size: 152px;
     }
 
     .play-layout {
@@ -1456,7 +1462,7 @@
       align-content: center;
       justify-items: center;
       gap: 6px;
-      min-height: 88px;
+      min-height: 82px;
       padding: clamp(10px, 1.4vw, 14px);
       border: 2px solid rgba(255, 200, 87, 0.78);
       border-radius: var(--radius);
@@ -2221,10 +2227,10 @@
         transform: translateX(-130%) skewX(-12deg);
       }
       18% {
-        opacity: 0.95;
+        opacity: 0.72;
       }
       62% {
-        opacity: 1;
+        opacity: 0.68;
       }
       100% {
         opacity: 0;
@@ -2250,6 +2256,78 @@
         opacity: 0;
         transform: scale(1.08);
         filter: blur(4px);
+      }
+    }
+
+    @keyframes goal-evolution-ring {
+      0% {
+        opacity: 0;
+        transform: scale(0.62);
+        filter: blur(1.6px) drop-shadow(0 0 0 transparent);
+      }
+
+      30% {
+        opacity: 0.72;
+        transform: scale(0.86);
+        filter: blur(0.2px) drop-shadow(0 0 16px var(--goal-glow-soft));
+      }
+
+      62% {
+        opacity: 0.58;
+        transform: scale(1.08);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.38);
+        filter: blur(3px) drop-shadow(0 0 24px var(--goal-glow-soft));
+      }
+    }
+
+    @keyframes goal-evolve-current {
+      0% {
+        opacity: 1;
+        transform: none;
+        filter: brightness(1) saturate(1);
+      }
+
+      36% {
+        opacity: 0.82;
+        transform: scale(1.004);
+        filter: brightness(0.82) saturate(0.9);
+      }
+
+      64% {
+        opacity: 0.28;
+        transform: scale(1.01);
+        filter: brightness(1.42) saturate(1.24) blur(0.4px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.006);
+        filter: brightness(1.08) saturate(1.08);
+      }
+    }
+
+    @keyframes goal-evolve-next {
+      0%,
+      32% {
+        opacity: 0;
+        transform: scale(1.012);
+        filter: brightness(0.9) saturate(0.92) blur(0.6px);
+      }
+
+      64% {
+        opacity: 0.92;
+        transform: scale(1.004);
+        filter: brightness(1.42) saturate(1.28) blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: none;
+        filter: brightness(1) saturate(1);
       }
     }
 
@@ -2405,11 +2483,13 @@
       .fusion-cutscene.is-visible .cut-robot,
       .goal-rail.is-switching .goal-transition-sweep,
       .goal-rail.is-switching .goal-transition-burst,
-      .goal-rail.is-switching .goal-map-raster,
-      .goal-rail.is-goal-up .goal-map-raster,
-      .goal-rail.is-goal-rare .goal-map-raster,
-      .goal-rail.is-goal-down .goal-map-raster,
-      .goal-rail.is-goal-empty .goal-map-raster {
+      .goal-rail.is-switching .goal-transition-evolution,
+      .goal-rail.is-evolving .goal-map-raster-current,
+      .goal-rail.is-evolving .goal-map-raster-next,
+      .goal-rail.is-goal-up .goal-map-raster-current,
+      .goal-rail.is-goal-rare .goal-map-raster-current,
+      .goal-rail.is-goal-down .goal-map-raster-current,
+      .goal-rail.is-goal-empty .goal-map-raster-current {
         animation: none;
       }
 
@@ -2452,32 +2532,8 @@
       }
 
       .goal-rail {
-        height: 128px;
+        height: auto;
         margin-bottom: 8px;
-      }
-
-      .goal-rail[data-goal-tier="small"] {
-        --goal-marker-size: 70px;
-      }
-
-      .goal-rail[data-goal-tier="medium"] {
-        --goal-marker-size: 78px;
-      }
-
-      .goal-rail[data-goal-tier="large"] {
-        --goal-marker-size: 86px;
-      }
-
-      .goal-rail[data-goal-tier="giant"] {
-        --goal-marker-size: 96px;
-      }
-
-      .goal-rail[data-goal-tier="ultra"] {
-        --goal-marker-size: 106px;
-      }
-
-      .goal-rail[data-goal-tier="legend"] {
-        --goal-marker-size: 116px;
       }
 
       .play-layout {
@@ -3045,11 +3101,12 @@
       </header>
 
       <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
-        <img class="goal-map-raster" id="goalMapRaster" src="play-robot-goal-small-generated.webp?v=goal-state-20260702a" alt="">
-        <img class="goal-current-robot" id="goalCurrentRobot" src="mathmon-rfa-04-complete.webp" alt="" aria-hidden="true">
+        <img class="goal-map-raster goal-map-raster-current" id="goalMapRaster" src="play-robot-goal-small-generated.png?v=goal-state-20260707f" alt="">
+        <img class="goal-map-raster goal-map-raster-next" id="goalMapRasterNext" alt="" aria-hidden="true" hidden>
         <span class="goal-shade" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-sweep" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-burst" aria-hidden="true"></span>
+        <span class="goal-transition goal-transition-evolution" aria-hidden="true"></span>
       </div>
 
       <div class="play-layout">
@@ -3244,9 +3301,9 @@
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
     const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
-    const GOAL_RAIL_ASSET_VERSION = "goal-state-20260702a";
+    const GOAL_RAIL_ASSET_VERSION = "goal-state-20260707f";
     const GOAL_RAIL_IMAGES = ALL_GRADES.map(
-      (grade) => `play-robot-goal-${grade.id}-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`
+      (grade) => `play-robot-goal-${grade.id}-generated.png?v=${GOAL_RAIL_ASSET_VERSION}`
     );
     const EVENT_CLASSES = [
       "fuel-event--normal",
@@ -3287,6 +3344,7 @@
       goalSwitchSwapTimer: null,
       goalSwitchDoneTimer: null,
       goalImageIndex: 0,
+      goalPendingImageIndex: null,
       bgmEnabled: loadAudioPreference(AUDIO_PREF_KEYS.bgm),
       sfxEnabled: loadAudioPreference(AUDIO_PREF_KEYS.sfx),
       audio: null,
@@ -3327,6 +3385,7 @@
       chainText: document.getElementById("chainText"),
       goalRail: document.getElementById("goalRail"),
       goalMapRaster: document.getElementById("goalMapRaster"),
+      goalMapRasterNext: document.getElementById("goalMapRasterNext"),
       questionText: document.getElementById("questionText"),
       taskCard: document.getElementById("taskCard"),
       stepFormula: document.getElementById("stepFormula"),
@@ -3400,6 +3459,16 @@
     };
 
     window.__mathmonFusionQa = {
+      showGoalTier(gradeId = "medium") {
+        const targetIndex = Math.max(0, ALL_GRADES.findIndex((grade) => grade.id === gradeId));
+        const targetGrade = ALL_GRADES[targetIndex] || ALL_GRADES[0];
+        el.goalRail.dataset.goalTier = targetGrade.id;
+        setGoalRailImage(targetIndex);
+        return {
+          tier: targetGrade.id,
+          image: GOAL_RAIL_IMAGES[targetIndex] || GOAL_RAIL_IMAGES[0]
+        };
+      },
       showResult(gradeId = "legend", correct = TOTAL_QUESTIONS) {
         const targetGrade = ALL_GRADES.find((grade) => grade.id === gradeId);
         const safeCorrect = clamp(Math.round(Number(correct) || 0), 0, TOTAL_QUESTIONS);
@@ -3630,10 +3699,13 @@
       window.clearTimeout(state.goalSwitchSwapTimer);
       window.clearTimeout(state.goalSwitchDoneTimer);
       GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
-      el.goalRail.classList.remove("is-switching");
+      el.goalRail.classList.remove("is-switching", "is-evolving");
       state.goalImageIndex = 0;
+      state.goalPendingImageIndex = null;
       el.goalRail.dataset.goalTier = ALL_GRADES[0].id;
       el.goalMapRaster.src = GOAL_RAIL_IMAGES[0];
+      el.goalMapRasterNext.hidden = true;
+      el.goalMapRasterNext.removeAttribute("src");
       scoreboardBridge.start();
       playSound("start");
       showScreen("play");
@@ -3769,21 +3841,42 @@
 
     function setGoalRailImage(nextIndex) {
       const nextImage = GOAL_RAIL_IMAGES[nextIndex] || GOAL_RAIL_IMAGES[0];
-      if (state.goalImageIndex === nextIndex && el.goalMapRaster.getAttribute("src") === nextImage) {
+      if (state.goalPendingImageIndex === null && state.goalImageIndex === nextIndex && el.goalMapRaster.getAttribute("src") === nextImage) {
         return;
       }
       window.clearTimeout(state.goalSwitchSwapTimer);
       window.clearTimeout(state.goalSwitchDoneTimer);
-      el.goalRail.classList.remove("is-switching");
+      if (state.goalPendingImageIndex !== null) {
+        const pendingImage = GOAL_RAIL_IMAGES[state.goalPendingImageIndex] || GOAL_RAIL_IMAGES[0];
+        el.goalMapRaster.src = pendingImage;
+        state.goalImageIndex = state.goalPendingImageIndex;
+        state.goalPendingImageIndex = null;
+      }
+      el.goalRail.classList.remove("is-switching", "is-evolving");
+      el.goalMapRasterNext.hidden = true;
+      el.goalMapRasterNext.removeAttribute("src");
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        el.goalMapRaster.src = nextImage;
+        state.goalImageIndex = nextIndex;
+        return;
+      }
+      el.goalMapRasterNext.src = nextImage;
+      el.goalMapRasterNext.hidden = false;
+      state.goalPendingImageIndex = nextIndex;
       void el.goalRail.offsetWidth;
-      el.goalRail.classList.add("is-switching");
+      el.goalRail.classList.add("is-switching", "is-evolving");
       state.goalSwitchSwapTimer = window.setTimeout(() => {
         el.goalMapRaster.src = nextImage;
         state.goalImageIndex = nextIndex;
-      }, 220);
+      }, 620);
       state.goalSwitchDoneTimer = window.setTimeout(() => {
-        el.goalRail.classList.remove("is-switching");
-      }, 780);
+        el.goalRail.classList.remove("is-switching", "is-evolving");
+        el.goalMapRaster.src = nextImage;
+        el.goalMapRasterNext.hidden = true;
+        el.goalMapRasterNext.removeAttribute("src");
+        state.goalImageIndex = nextIndex;
+        state.goalPendingImageIndex = null;
+      }, 900);
     }
 
     function getGoalRailImageIndex() {

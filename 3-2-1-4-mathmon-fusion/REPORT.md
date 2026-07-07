@@ -95,8 +95,9 @@
 - `tutorial-goal-source.png`, `tutorial-goal-generated.webp`
 - `tutorial-fulltext-source.png`, `tutorial-fulltext-generated.webp`(이전 포스터 보존본, 현재 실행 경로에서는 미사용)
 - `tutorial-dynamic-bg-source.png`, `tutorial-dynamic-bg-generated.webp`(이전 비교안 보존본, 현재 학생 기본 흐름에서는 미사용)
-- `play-robot-goal-strip-source.png`, `play-robot-goal-strip-generated.webp`
-- `play-robot-goal-*-generated.webp`(상태별 목표 지도 실험 보존본, 현재 runtime은 strip 한 장 고정)
+- `play-robot-goal-strip-source.png`, `play-robot-goal-strip-generated.png`, `play-robot-goal-strip-generated.webp`
+- `play-robot-goal-*-generated.png`(상태별 목표 지도 runtime 배너 6장, 1280×190)
+- `play-robot-goal-*-generated.webp`(이전 1280×190 상태 배너 보존본, 파일 자체에서 일부 로봇이 잘려 현재 runtime에서는 미사용)
 - `fusion-workshop-generated.webp`
 - `mathmon-rfa-01-standby.webp`
 - `mathmon-rfa-02-one-part.webp`
@@ -151,25 +152,30 @@
 
 ### 2026-07-01 상단 로봇 목표 지도 추가
 
-- 문제 화면 상단을 3차시 `play-map-strip-generated.webp` 방식에 맞춰 생성 이미지 기반 목표 지도로 바꿨습니다. `play-robot-goal-strip-source.png`를 원본으로 보관하고, runtime에서는 상태별 1280×190 목표 지도 이미지 6장을 사용합니다.
+- 문제 화면 상단을 3차시 `play-map-strip-generated.webp` 방식에 맞춰 생성 이미지 기반 목표 지도로 바꿨습니다. `play-robot-goal-strip-source.png`를 원본으로 보관하고, runtime에서는 상태별 1280×190 목표 지도 PNG 6장을 사용합니다.
 - 로봇 목표 자체는 CSS 실루엣으로 그리지 않습니다. 생성 이미지 안에 소형부터 전설까지 이어지는 로봇 실루엣과 합체 길을 넣고, HTML은 접근성 상태와 전환 빛 효과만 맡습니다.
 - 이 목표 지도는 별도 점수판이 아니라 기존 중심 보상인 합체 에너지를 시각화합니다. 로봇 외곽선에 맞추는 현재 표시, 하단 진행바, 원형 노드는 쓰지 않고 현재 단계 로봇이 켜진 목표판 이미지로 상태를 보여 줍니다.
-- 목표 지도는 로봇 머리와 플랫폼이 잘리지 않도록 1280×800 기준 190px, 1024×768 태블릿 가로 기준 132px 높이로 둡니다. 문제 화면 과밀을 막기 위해 아래 계산 영역은 2열 구조 안에서 줄바꿈 없이 유지되도록 확인했습니다.
+- 목표 지도는 상단바 자체를 키우지 않고, 얇은 배너 안에서 로봇 실루엣과 발판이 모두 보이도록 이미지 구도를 조정했습니다. 문제 화면 과밀을 막기 위해 아래 계산 영역은 2열 구조 안에서 줄바꿈 없이 유지되도록 확인합니다.
 - Humanizer 학생 문구 QA: 새로 보이는 문장형 안내는 넣지 않았습니다. 접근성 문구는 `멋진 로봇까지 가는 길`처럼 짧게 유지했습니다.
 
 ### 2026-07-01 상단 목표 지도 상태 이미지 실험
 
 - 하단 에너지 레일과 원형 노드 오버레이를 제거했습니다. 목표 지도 위에는 좌표 마커, 동그라미, 진행바를 올리지 않습니다.
-- `play-robot-goal-small-generated.webp`부터 `play-robot-goal-legend-generated.webp`까지 상태별 목표 지도 6장을 준비했습니다. 각 이미지는 같은 실루엣 목표판에서 현재 등급 로봇이 해당 플랫폼에 실제 모습으로 등장한 상태입니다.
+- `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 상태별 목표 지도 6장을 준비했습니다. 각 이미지는 같은 실루엣 목표판에서 현재 등급 슬롯이 해당 플랫폼에서 밝게 켜진 상태입니다.
 - 로봇만 잘라 붙인 방식은 플랫폼과 배경이 직사각형으로 끊겨 보여 폐기했습니다. 현재 배포본은 기준 실루엣 목표판을 참조해 상태별 전체 배너를 다시 생성한 이미지이며, 로봇 주변 조명과 공방 배경이 한 장면으로 이어집니다.
-- 상태별 목표 지도는 일부 자산에서 로봇 하체와 플랫폼이 190px 안에 온전히 들어오지 않아 runtime 적용에서 제외했습니다. 현재 runtime은 전체 플랫폼과 실루엣이 들어 있는 `play-robot-goal-strip-generated.webp` 한 장을 고정 목표판으로 사용하고, 현재 도달 단계는 빛 전환 효과와 접근성 상태만 바꿉니다.
+- 상태별 목표 지도 6장을 runtime에 연결했습니다. 목표판 위에 별도 로봇 PNG/WebP를 얹지 않고, `play-robot-goal-*-generated.png` 이미지 자체를 점수 등급에 맞춰 통째로 바꿉니다.
 - 이미지가 바뀌는 느낌을 줄이기 위해 교체 순간에는 목표 로봇 위치에서 빛 번짐이 터지고, 밝은 스캔 라이트가 목표판 전체를 지나갑니다. 모션 민감 설정에서는 전환 빛과 흔들림 애니메이션을 끕니다.
-- 텍스트 넘침·요소 겹침 QA: `/Users/yubyeongju/ai mart/.omo/evidence/mathmon-fusion-goal-state-images/`에 1280×800 여섯 상태, 전환 중간 프레임, 1024×768 태블릿 상태 캡처를 남겼습니다. `summary.json` 기준 예전 하단바/노드/좌표 오버레이 셀렉터는 0개이고, 여섯 상태 모두 예상 WebP 파일로 교체되는 것을 확인했습니다.
+- 텍스트 넘침·요소 겹침 QA: `/Users/yubyeongju/ai mart/.omo/evidence/mathmon-fusion-goal-state-images/`에 1280×800 여섯 상태, 전환 중간 프레임, 1024×768 태블릿 상태 캡처를 남겼습니다. `summary.json` 기준 예전 하단바/노드/좌표 오버레이 셀렉터는 0개이고, 여섯 상태 모두 예상 이미지 파일로 교체되는 것을 확인했습니다.
 
-### 2026-07-02 상단 목표 지도 표시 핫픽스
+### 2026-07-07 상단 목표 지도 재수정
 
-- 상태별 목표 지도 WebP를 같은 파일명으로 다시 배포한 뒤 로컬 브라우저가 이전 이미지를 계속 보여 줄 수 있어, `goalMapRaster` 초기 이미지와 목표판 이미지 목록에 `goal-full-strip-20260702a` 버전을 붙였습니다.
-- 목표판은 `object-fit: contain`으로 렌더링하고, 이미지 자체를 확대하는 전환 애니메이션은 제거했습니다. 번들 Chromium에서 문제 화면까지 들어가 1746×900 넓은 화면과 1024×768 태블릿 가로 화면을 확인해 로봇 머리, 하체, 플랫폼이 모두 목표판 안에 들어오는지 봤습니다.
+- 실패 원인 1: 이전 1280×190 WebP 상태 배너는 파일 자체에서 맨 왼쪽 로봇의 몸과 발판이 잘려 runtime에서 제외했습니다.
+- 실패 원인 2: 이후 만든 1280×260 PNG 상태 배너는 로봇은 보였지만 상단바가 너무 길어져 문제 화면을 누르는 방식으로만 맞출 수 있어 실패 자산으로 제외했습니다.
+- 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG로 만들었습니다. 각 파일은 목표판 전체를 한 장면으로 생성하고, 현재 단계 슬롯에는 해당 로봇이 받침대·조명·그림자와 함께 실제로 보이게 했습니다. 나머지 슬롯은 실루엣으로 남깁니다.
+- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 되돌리고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260707f`로 올렸습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
+- 컨택시트: `.omo/evidence/mathmon-fusion-goal-robots-regenerated-20260707/goal-robot-state-contact-sheet.png`에서 여섯 상태 모두 현재 슬롯 로봇이 실체로 보이고, 머리·몸·다리·발판이 잘리지 않는 것을 확인했습니다.
+- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 진입해 확인했습니다. 상단바 이미지는 모두 natural size 1280×190이고, 표시 높이는 각각 171.8px, 142.7px입니다. Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 여섯 상태를 모두 순환한 브라우저 컨택시트는 `.omo/evidence/mathmon-fusion-goal-robots-regenerated-20260707/browser/browser-goal-state-contact-1280x800.png`와 `.omo/evidence/mathmon-fusion-goal-robots-regenerated-20260707/browser/browser-goal-state-contact-1024x768.png`입니다.
+- 전환 보강: 상태 이미지가 갑자기 바뀌어 보이지 않도록 다음 배너 이미지를 숨은 레이어에 먼저 로드하고, 현재 배너가 에너지에 녹듯 어두워진 뒤 다음 배너가 밝게 올라오는 진화 전환을 추가했습니다. 일반 모션에서는 `.omo/evidence/mathmon-fusion-goal-evolution-transition/goal-evolution-transition-frames-localized.png`로 시작, 중간, 완료 프레임을 확인했고, `prefers-reduced-motion: reduce`에서는 즉시 교체됩니다.
 
 ### 2026-07-02 10문제 완료 흐름 핫픽스
 
