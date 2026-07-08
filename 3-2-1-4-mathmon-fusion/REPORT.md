@@ -197,11 +197,12 @@
 - 실패 원인 1: 이전 1280×190 WebP 상태 배너는 파일 자체에서 맨 왼쪽 로봇의 몸과 발판이 잘려 runtime에서 제외했습니다.
 - 실패 원인 2: 이후 만든 1280×260 PNG 상태 배너는 로봇은 보였지만 상단바가 너무 길어져 문제 화면을 누르는 방식으로만 맞출 수 있어 실패 자산으로 제외했습니다.
 - 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG/WebP로 만들었습니다. 결과 화면의 보상 로봇과 같은 흰색 몸체, 청록 코어, 금색 포인트, 무지개 날개 계열로 맞췄고, 현재 단계 로봇 1개만 컬러로 켜지며 나머지 다섯 로봇은 검은 실루엣으로 남깁니다.
-- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 되돌리고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260707g`로 올렸습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
+- 2026-07-08 재생성 기준: 목표판 높이는 190px로 유지했습니다. 240px로 키우지 않고, 190px 안에서 로봇 전신·안테나·날개·발판이 모두 들어가도록 로봇 크기와 세로 여백을 줄인 6개 상태 이미지를 다시 생성했습니다.
+- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 유지하고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260708h`로 올렸습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
 - 컨택시트: `screenshots/play-robot-goal-result-matched-contact-sheet.png`에서 여섯 상태 모두 활성 로봇만 컬러이고, 3번째 이후 날개 흐름이 4번째 거대 로봇에도 이어지는 것을 확인했습니다.
 
 ![결과 로봇 톤에 맞춘 상단 목표 지도 6종](screenshots/play-robot-goal-result-matched-contact-sheet.png)
-- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 시작 흐름으로 진입해 확인했습니다. 상단바 이미지는 natural size 1280×190으로 로드되고, 보기 4개가 모두 표시되며, Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 최신 REPORT 대표 캡처는 `screenshots/03-problem.png`, 보상 캡처는 `screenshots/04-reward.png`와 `screenshots/07-defect-reward.png`입니다.
+- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 시작 흐름으로 진입해 확인했습니다. 상단바 이미지는 natural size 1280×190으로 로드되고, 6개 상태 모두 위·아래 잘림 없이 보입니다. 보기 4개가 모두 표시되며, Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 최신 REPORT 대표 캡처는 `screenshots/03-problem.png`, 보상 캡처는 `screenshots/04-reward.png`와 `screenshots/07-defect-reward.png`입니다.
 - 전환 보강: 상태 이미지가 갑자기 바뀌어 보이지 않도록 다음 배너 이미지를 숨은 레이어에 먼저 로드하고, 현재 배너가 에너지에 녹듯 어두워진 뒤 다음 배너가 밝게 올라오는 진화 전환을 추가했습니다. 일반 모션에서는 `.omo/evidence/mathmon-fusion-goal-evolution-transition/goal-evolution-transition-frames-localized.png`로 시작, 중간, 완료 프레임을 확인했고, `prefers-reduced-motion: reduce`에서는 즉시 교체됩니다.
 
 ### 2026-07-02 10문제 완료 흐름 핫픽스
