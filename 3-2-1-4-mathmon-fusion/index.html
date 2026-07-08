@@ -3276,7 +3276,8 @@
     const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
     const MAX_SCORE = 8000;
-    const LEGEND_SCORE = 1500;
+    const ULTRA_SCORE = 1500;
+    const LEGEND_SCORE = 2000;
     const AUDIO_PREF_KEYS = {
       bgm: "mathmon-audio-bgm-enabled",
       sfx: "mathmon-audio-sfx-enabled"
@@ -3287,10 +3288,11 @@
     }
     const SCOREBOARD_API_URL = getScoreboardApiUrl();
     const GRADES = [
-      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 100, max: 299, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
-      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 300, max: 499, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
-      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 500, max: 999, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
-      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 1000, max: 1499, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" }
+      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 0, max: 99, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
+      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 100, max: 199, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
+      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 200, max: 499, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
+      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 500, max: ULTRA_SCORE - 1, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" },
+      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: ULTRA_SCORE, max: LEGEND_SCORE - 1, image: "result-ultra-generated.webp", titleArt: "result-title-ultra-generated.webp" }
     ];
     const SECRET_GRADE = {
       id: "legend",
@@ -4429,7 +4431,10 @@
 
     function getPraise(grade) {
       if (grade.secret) {
-        return "1500점을 넘어 전설 로봇 매스몬에 도착했어요!";
+        return "2000점을 넘겨 전설 로봇 매스몬까지 갔어요!";
+      }
+      if (grade.id === "ultra") {
+        return "초거대 로봇까지 갔어요. 두 값을 끝까지 잘 합쳤어요.";
       }
       if (grade.index >= 3) {
         return "거대 로봇까지 도착했어요. 두 값을 끝까지 잘 합쳤어요.";
