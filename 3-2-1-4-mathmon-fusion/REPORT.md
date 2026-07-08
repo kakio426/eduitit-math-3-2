@@ -113,8 +113,8 @@
 - `tutorial-dynamic-bg-source.png`, `tutorial-dynamic-bg-generated.webp`(이전 비교안 보존본, 현재 학생 기본 흐름에서는 미사용)
 - `play-robot-goal-strip-source.png`, `play-robot-goal-strip-generated.png`, `play-robot-goal-strip-generated.webp`
 - `play-robot-goal-*-source.png`(상태별 목표 지도 생성 원본 6장)
-- `play-robot-goal-*-generated.png`(상태별 목표 지도 runtime 배너 6장, 1280×190)
-- `play-robot-goal-*-generated.webp`(상태별 목표 지도 배포용 WebP 6장, 1280×190)
+- `play-robot-goal-*-generated.png`(상태별 목표 지도 보관용 PNG 6장, 1280×190)
+- `play-robot-goal-*-generated.webp`(상태별 목표 지도 runtime/배포용 WebP 6장, 1280×190)
 - `fusion-workshop-generated.webp`
 - `mathmon-rfa-01-standby.webp`
 - `mathmon-rfa-02-one-part.webp`
@@ -188,7 +188,7 @@
 - 하단 에너지 레일과 원형 노드 오버레이를 제거했습니다. 목표 지도 위에는 좌표 마커, 동그라미, 진행바를 올리지 않습니다.
 - `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 상태별 목표 지도 6장을 준비했습니다. 각 이미지는 같은 실루엣 목표판에서 현재 등급 슬롯이 해당 플랫폼에서 밝게 켜진 상태입니다.
 - 로봇만 잘라 붙인 방식은 플랫폼과 배경이 직사각형으로 끊겨 보여 폐기했습니다. 현재 배포본은 기준 실루엣 목표판을 참조해 상태별 전체 배너를 다시 생성한 이미지이며, 로봇 주변 조명과 공방 배경이 한 장면으로 이어집니다.
-- 상태별 목표 지도 6장을 runtime에 연결했습니다. 목표판 위에 별도 로봇 PNG/WebP를 얹지 않고, `play-robot-goal-*-generated.png` 이미지 자체를 점수 등급에 맞춰 통째로 바꿉니다.
+- 상태별 목표 지도 6장을 runtime에 연결했습니다. 목표판 위에 별도 로봇 PNG/WebP를 얹지 않고, 배포에서 안정적으로 열리는 `play-robot-goal-*-generated.webp` 이미지 자체를 점수 등급에 맞춰 통째로 바꿉니다.
 - 이미지가 바뀌는 느낌을 줄이기 위해 교체 순간에는 목표 로봇 위치에서 빛 번짐이 터지고, 밝은 스캔 라이트가 목표판 전체를 지나갑니다. 모션 민감 설정에서는 전환 빛과 흔들림 애니메이션을 끕니다.
 - 텍스트 넘침·요소 겹침 QA: `/Users/yubyeongju/ai mart/.omo/evidence/mathmon-fusion-goal-state-images/`에 1280×800 여섯 상태, 전환 중간 프레임, 1024×768 태블릿 상태 캡처를 남겼습니다. `summary.json` 기준 예전 하단바/노드/좌표 오버레이 셀렉터는 0개이고, 여섯 상태 모두 예상 이미지 파일로 교체되는 것을 확인했습니다.
 
@@ -198,7 +198,7 @@
 - 실패 원인 2: 이후 만든 1280×260 PNG 상태 배너는 로봇은 보였지만 상단바가 너무 길어져 문제 화면을 누르는 방식으로만 맞출 수 있어 실패 자산으로 제외했습니다.
 - 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG/WebP로 만들었습니다. 결과 화면의 보상 로봇과 같은 흰색 몸체, 청록 코어, 금색 포인트, 무지개 날개 계열로 맞췄고, 현재 단계 로봇 1개만 컬러로 켜지며 나머지 다섯 로봇은 검은 실루엣으로 남깁니다.
 - 2026-07-08 재수정 기준: 목표판 배너 슬롯은 1280×190으로 확정하고, 가로 배치와 1280 전체 폭은 유지했습니다. 150px 실험 세트는 마지막 로봇 머리 장식이 잘리거나 아래 흰 빈 줄이 보였고, `object-fit: fill`을 쓰면 찌그러져 보일 수 있어 폐기했습니다. 이후 하단 받침대가 한 번 더 보이던 중복 밴드는 이미지에서 제거하고, 남은 장면을 1280×190으로 세로 재샘플했습니다. 아래 문제/왼쪽 상자 높이는 줄여 Stage 안에 맞췄습니다.
-- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 바꾸고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260708u`로 올렸습니다. `.goal-map-raster`는 `object-fit: contain`으로 표시하고, 하단 회색 음영을 만들던 `.goal-shade`는 숨겼습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
+- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 바꾸고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260708v`로 올렸습니다. `.goal-map-raster`는 배포에서 200 OK로 확인된 `play-robot-goal-*-generated.webp`를 `object-fit: contain`으로 표시하고, 하단 회색 음영을 만들던 `.goal-shade`는 숨겼습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
 - 컨택시트: `screenshots/play-robot-goal-result-matched-contact-sheet.png`에서 여섯 상태 모두 1280×190, 6개 로봇 슬롯, 활성 로봇 1개 컬러, 나머지 다섯 로봇 실루엣, 위 검정 빈칸 0건, 하단 흰 줄 0건으로 확인했습니다.
 
 ![결과 로봇 톤에 맞춘 상단 목표 지도 6종](screenshots/play-robot-goal-result-matched-contact-sheet.png)
