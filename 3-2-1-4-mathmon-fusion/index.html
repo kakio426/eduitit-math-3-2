@@ -224,14 +224,12 @@
     .choice-button:focus-visible,
     .tutorial-image-hitbox:focus-visible,
     .tutorial-svg-hitbox:focus-visible,
-    .settings-toggle:focus-visible,
-    .settings-switch:focus-visible,
-    .settings-action:focus-visible {
+    .sound-toggle:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.86);
       outline-offset: 4px;
     }
 
-    .settings-toggle {
+    .sound-toggle {
       position: absolute;
       top: var(--stage-inset);
       right: var(--stage-inset);
@@ -253,13 +251,13 @@
       backdrop-filter: blur(10px);
     }
 
-    .settings-toggle::before,
-    .settings-toggle::after {
+    .sound-toggle::before,
+    .sound-toggle::after {
       content: none !important;
       display: none !important;
     }
 
-    .settings-toggle svg {
+    .sound-toggle svg {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -275,6 +273,10 @@
       pointer-events: none;
     }
 
+    .sound-off-stroke {
+      display: none;
+    }
+
     .stage-shell .top-row {
       right: calc(var(--stage-inset) + var(--sound-reserve));
     }
@@ -283,138 +285,17 @@
       padding-right: var(--sound-reserve);
     }
 
-    .settings-toggle[aria-expanded="true"] {
-      border-color: rgba(255, 232, 186, 0.72);
-      color: #fff6ca;
-      background: rgba(14, 12, 22, 0.7);
+    .sound-toggle[aria-pressed="false"] {
+      border-color: rgba(213, 221, 216, 0.34);
+      color: var(--muted);
     }
 
-    .settings-backdrop {
-      position: absolute;
-      inset: 0;
-      z-index: 90;
-      display: grid;
-      place-items: center;
-      padding: clamp(20px, 4vw, 48px);
-      background: rgba(6, 7, 16, 0.56);
-      backdrop-filter: blur(8px);
-    }
-
-    .settings-backdrop[hidden] {
+    .sound-toggle[aria-pressed="false"] .sound-wave {
       display: none;
     }
 
-    .settings-modal {
-      width: min(420px, calc(100% - 32px));
-      max-height: calc(100% - 40px);
-      overflow: auto;
-      padding: 22px;
-      border: 1px solid rgba(255, 232, 186, 0.34);
-      border-radius: 8px;
-      color: #ffffff;
-      background: rgba(21, 18, 32, 0.96);
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.44);
-    }
-
-    .settings-title {
-      margin: 0 0 16px;
-      font-size: 1.55rem;
-      font-weight: 950;
-      line-height: 1.1;
-    }
-
-    .settings-menu,
-    .settings-confirm {
-      display: grid;
-      gap: 10px;
-    }
-
-    .settings-menu[hidden],
-    .settings-confirm[hidden] {
-      display: none;
-    }
-
-    .settings-switch,
-    .settings-action {
-      width: 100%;
-      min-height: 52px;
-      padding: 0 14px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 8px;
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: none;
-      font-size: 1rem;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-
-    .settings-switch {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      text-align: left;
-    }
-
-    .settings-switch-track {
-      position: relative;
-      flex: 0 0 auto;
-      width: 50px;
-      height: 28px;
-      border-radius: 999px;
-      background: rgba(215, 202, 219, 0.32);
-      transition: background 0.18s ease;
-    }
-
-    .settings-switch-track::after {
-      content: "";
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
-      transition: transform 0.18s ease;
-    }
-
-    .settings-switch[aria-checked="true"] .settings-switch-track {
-      background: linear-gradient(180deg, #50f0a8, #79d7ff);
-    }
-
-    .settings-switch[aria-checked="true"] .settings-switch-track::after {
-      transform: translateX(22px);
-    }
-
-    .settings-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .settings-action.is-danger {
-      border-color: rgba(255, 207, 84, 0.54);
-      color: #fff3d1;
-    }
-
-    .settings-confirm {
-      padding-top: 4px;
-    }
-
-    .settings-confirm-title {
-      margin: 0 0 4px;
-      font-size: 1.08rem;
-      font-weight: 950;
-      text-align: center;
-    }
-
-    .settings-confirm-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .sound-toggle[aria-pressed="false"] .sound-off-stroke {
+      display: block;
     }
 
     .cover,
@@ -448,7 +329,7 @@
     }
 
     .hero-copy,
-    .result-text-block {
+    .result-copy {
       display: grid;
       justify-items: start;
       gap: 22px;
@@ -460,7 +341,7 @@
     }
 
     .hero-copy h1,
-    .result-text-block h2 {
+    .result-copy h2 {
       max-width: 8em;
       margin: 0;
       color: #ffffff;
@@ -789,8 +670,7 @@
 
     .goal-rail {
       position: relative;
-      aspect-ratio: 1280 / 190;
-      height: auto;
+      height: 168px;
       margin-bottom: 8px;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -802,15 +682,11 @@
       --goal-glow-strong: rgba(255, 226, 126, 0.96);
       --goal-glow-soft: rgba(255, 200, 87, 0.38);
       --goal-scan: rgba(103, 231, 255, 0.48);
-      --goal-art-y: 0px;
     }
 
     .goal-map-raster {
       position: absolute;
-      left: 0;
-      right: 0;
-      top: var(--goal-art-y);
-      bottom: auto;
+      inset: 0;
       z-index: 0;
       width: 100%;
       height: 100%;
@@ -822,19 +698,6 @@
       transition: filter 0.24s ease, transform 0.24s ease;
     }
 
-    .goal-map-raster-next {
-      z-index: 1;
-      opacity: 0;
-      transform: scale(1.006);
-      transform-origin: var(--goal-flare-x) 68%;
-      filter: brightness(1.18) saturate(1.16);
-      will-change: opacity, transform, filter;
-    }
-
-    .goal-map-raster-next[hidden] {
-      display: none;
-    }
-
     .goal-shade,
     .goal-transition {
       content: "";
@@ -843,40 +706,36 @@
     }
 
     .goal-shade {
-      display: none;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      height: 48%;
+      background: linear-gradient(180deg, transparent, rgba(14, 12, 22, 0.58));
     }
 
     .goal-transition {
       inset: 0;
-      z-index: 3;
+      z-index: 2;
       opacity: 0;
       mix-blend-mode: screen;
     }
 
     .goal-transition-sweep {
-      width: 28%;
+      width: 46%;
       background:
-        linear-gradient(105deg, transparent 0 31%, rgba(255, 255, 255, 0.05) 39%, rgba(255, 244, 183, 0.44) 48%, var(--goal-scan) 55%, transparent 70%),
-        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
-      filter: blur(0.35px) drop-shadow(0 0 14px var(--goal-glow-soft));
+        linear-gradient(105deg, transparent 0 20%, rgba(255, 255, 255, 0.08) 28%, rgba(255, 244, 183, 0.9) 43%, var(--goal-scan) 52%, transparent 72%),
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+      filter: blur(0.3px) drop-shadow(0 0 18px var(--goal-glow-soft));
       transform: translateX(-130%) skewX(-12deg);
     }
 
     .goal-transition-burst {
       background:
-        radial-gradient(circle 18% at var(--goal-flare-x) 54%, var(--goal-glow-strong) 0 8%, var(--goal-glow-soft) 25%, transparent 70%),
-        radial-gradient(ellipse 22% 36% at var(--goal-flare-x) 72%, rgba(255, 245, 197, 0.38), transparent 68%);
+        radial-gradient(circle at var(--goal-flare-x) 54%, var(--goal-glow-strong) 0 4%, var(--goal-glow-soft) 18%, transparent 37%),
+        radial-gradient(ellipse at var(--goal-flare-x) 72%, rgba(255, 245, 197, 0.52), transparent 0 12%, transparent 36%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent 38%, rgba(255, 200, 87, 0.12));
       transform: scale(0.96);
-    }
-
-    .goal-transition-evolution {
-      z-index: 4;
-      transform-origin: var(--goal-flare-x) 66%;
-      background:
-        radial-gradient(ellipse 18% 72% at var(--goal-flare-x) 68%, transparent 0 17%, rgba(255, 247, 178, 0.58) 18% 19%, transparent 22% 33%, rgba(108, 239, 255, 0.34) 34% 35%, transparent 38%),
-        radial-gradient(circle 16% at var(--goal-flare-x) 56%, rgba(255, 255, 255, 0.54), rgba(255, 224, 91, 0.34) 18%, rgba(82, 230, 255, 0.16) 42%, transparent 76%);
-      filter: blur(0.2px) drop-shadow(0 0 18px var(--goal-glow-soft));
-      transform: scale(0.74);
     }
 
     .goal-rail.is-switching .goal-transition-sweep {
@@ -887,25 +746,14 @@
       animation: goal-strip-burst 0.74s ease-out both;
     }
 
-    .goal-rail.is-switching .goal-transition-evolution {
-      animation: goal-evolution-ring 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
-    }
-
-    .goal-rail.is-evolving .goal-map-raster-current {
-      animation: goal-evolve-current 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
-    }
-
-    .goal-rail.is-evolving .goal-map-raster-next {
-      animation: goal-evolve-next 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
-    }
-
-    .goal-rail.is-goal-up .goal-map-raster-current,
-    .goal-rail.is-goal-rare .goal-map-raster-current {
+    .goal-rail.is-switching .goal-map-raster,
+    .goal-rail.is-goal-up .goal-map-raster,
+    .goal-rail.is-goal-rare .goal-map-raster {
       animation: goal-strip-pop 0.74s cubic-bezier(0.18, 0.9, 0.22, 1.08) both;
     }
 
-    .goal-rail.is-goal-down .goal-map-raster-current,
-    .goal-rail.is-goal-empty .goal-map-raster-current {
+    .goal-rail.is-goal-down .goal-map-raster,
+    .goal-rail.is-goal-empty .goal-map-raster {
       animation: goal-strip-shake 0.48s ease-out both;
     }
 
@@ -940,7 +788,7 @@
       min-height: 0;
       display: grid;
       grid-template-columns: minmax(280px, 0.46fr) minmax(0, 1fr);
-      gap: 12px;
+      gap: 18px;
     }
 
     .fusion-side,
@@ -954,11 +802,11 @@
     .fusion-side {
       position: relative;
       display: grid;
-      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-rows: minmax(0, 1fr) auto auto;
       align-items: end;
-      gap: 6px;
+      gap: 10px;
       overflow: hidden;
-      padding: 12px 12px 14px;
+      padding: 14px;
       isolation: isolate;
       background: #151b1f;
     }
@@ -991,13 +839,13 @@
     .robot-stage {
       position: relative;
       z-index: 2;
-      align-self: end;
+      align-self: center;
       justify-self: center;
-      width: min(260px, 78%);
+      width: min(300px, 84%);
       aspect-ratio: 1 / 1.05;
       display: grid;
       place-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.34));
     }
 
@@ -1032,7 +880,7 @@
     .robot-sprite {
       position: relative;
       z-index: 3;
-      width: min(100%, 250px);
+      width: min(100%, 292px);
       aspect-ratio: 1;
       object-fit: contain;
       transform: translateY(2px) scale(0.96);
@@ -1226,22 +1074,15 @@
       box-shadow: 0 0 30px rgba(255, 200, 87, 0.34);
     }
 
-    .side-parts,
-    .side-result,
-    .side-result.is-done {
-      display: none !important;
-    }
-
     .side-caption {
       position: relative;
       z-index: 3;
       margin: 0;
       color: #fff0c6;
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       font-weight: 950;
       line-height: 1.25;
       text-align: center;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
     }
 
     .workshop-zone {
@@ -1416,9 +1257,9 @@
     .problem-panel {
       min-height: 0;
       display: grid;
-      grid-template-rows: minmax(66px, 0.55fr) minmax(72px, auto) minmax(140px, auto) minmax(24px, auto);
+      grid-template-rows: minmax(86px, 0.75fr) minmax(88px, auto) minmax(166px, auto) minmax(28px, auto);
       gap: 8px;
-      padding: clamp(10px, 1.2vw, 14px);
+      padding: clamp(12px, 1.6vw, 18px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background:
@@ -1438,7 +1279,7 @@
       width: 100%;
       margin: 0;
       color: #ffffff;
-      font-size: clamp(3.35rem, 5.6vw, 5.25rem);
+      font-size: clamp(4.1rem, 7vw, 6.2rem);
       line-height: 1;
       font-weight: 1000;
       text-align: center;
@@ -1468,8 +1309,8 @@
       align-content: center;
       justify-items: center;
       gap: 6px;
-      min-height: 72px;
-      padding: clamp(8px, 1vw, 12px);
+      min-height: 88px;
+      padding: clamp(10px, 1.4vw, 14px);
       border: 2px solid rgba(255, 200, 87, 0.78);
       border-radius: var(--radius);
       color: #251500;
@@ -1482,13 +1323,13 @@
 
     .step-meaning {
       margin: 0;
-      font-size: clamp(0.96rem, 1.35vw, 1.22rem);
+      font-size: clamp(1.08rem, 1.7vw, 1.42rem);
       font-weight: 1000;
       line-height: 1.18;
     }
 
     .step-formula {
-      font-size: clamp(1.95rem, 3.3vw, 2.82rem);
+      font-size: clamp(2.25rem, 4vw, 3.35rem);
       font-weight: 1000;
       line-height: 1;
       letter-spacing: 0;
@@ -1500,22 +1341,22 @@
     }
 
     .choice-grid {
-      min-height: 140px;
+      min-height: 166px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(2, minmax(64px, 1fr));
+      grid-template-rows: repeat(2, minmax(78px, 1fr));
       align-content: stretch;
       gap: 10px;
     }
 
     .choice-button {
-      min-height: 64px;
+      min-height: 78px;
       padding: 10px 14px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.11);
       color: #ffffff;
-      font-size: clamp(1.65rem, 2.75vw, 2.42rem);
+      font-size: clamp(1.85rem, 3.3vw, 2.85rem);
       font-weight: 1000;
       line-height: 1;
       transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
@@ -1722,63 +1563,85 @@
     }
 
     .reward-card {
-      width: min(760px, 100%);
+      width: min(540px, 100%);
       display: grid;
       justify-items: center;
-      gap: 18px;
-      padding: 18px 24px 28px;
-      border: 0;
-      border-radius: 20px;
+      gap: 14px;
+      padding: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: var(--radius);
       background:
-        radial-gradient(circle at 50% 44%, rgba(255, 200, 87, 0.2), transparent 0 48%),
-        radial-gradient(circle at 50% 48%, rgba(80, 201, 222, 0.18), transparent 0 58%);
+        linear-gradient(150deg, rgba(255, 200, 87, 0.2), transparent 42%),
+        #1b2328;
       text-align: center;
-      box-shadow: none;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
     }
 
     .reward-card h3 {
       margin: 0;
+      color: #ffffff;
+      font-size: 3rem;
+      line-height: 1;
+      font-weight: 1000;
     }
 
-    .reward-score-art {
-      display: block;
-      width: min(680px, 100%);
-      max-height: 390px;
-      object-fit: contain;
-      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.42));
-      transform-origin: center;
-      animation: reward-art-pop 0.46s cubic-bezier(0.2, 1.2, 0.34, 1) both;
+    .reward-delta {
+      display: grid;
+      place-items: center;
+      width: 176px;
+      height: 92px;
+      padding: 0 14px;
+      border-radius: var(--radius);
+      color: #241500;
+      background: linear-gradient(180deg, #ffe27a, #ffc857);
+      font-size: 1.84rem;
+      font-weight: 1000;
+      line-height: 1.05;
+      box-shadow: 0 16px 0 rgba(106, 70, 23, 0.28);
     }
 
     .reward-pop.fuel-event--normal .reward-card,
     .reward-pop.fuel-event--megaFuel .reward-card {
+      border-color: rgba(55, 214, 173, 0.48);
       background:
-        radial-gradient(circle at 50% 44%, rgba(255, 200, 87, 0.28), transparent 0 50%),
-        radial-gradient(circle at 50% 48%, rgba(55, 214, 173, 0.2), transparent 0 62%);
+        linear-gradient(150deg, rgba(55, 214, 173, 0.2), transparent 42%),
+        #1b2328;
     }
 
     .reward-pop.fuel-event--smallExplosion .reward-card,
     .reward-pop.fuel-event--leak .reward-card,
     .reward-pop.fuel-event--emptyTank .reward-card {
+      border-color: rgba(255, 107, 99, 0.5);
       background:
-        radial-gradient(circle at 50% 44%, rgba(255, 107, 99, 0.24), transparent 0 48%),
-        radial-gradient(circle at 50% 50%, rgba(80, 201, 222, 0.16), transparent 0 62%);
+        linear-gradient(150deg, rgba(255, 107, 99, 0.22), transparent 42%),
+        #1b2328;
       animation: tank-shake 0.5s ease both;
     }
 
     .reward-pop.fuel-event--instantLaunch .reward-card {
+      border-color: rgba(255, 200, 87, 0.62);
       animation: reward-pop 0.42s ease both;
     }
 
     .reward-pop.fuel-event--rainbowFuel .reward-card {
+      border-color: rgba(212, 155, 255, 0.72);
       background:
-        radial-gradient(circle at 50% 44%, rgba(212, 155, 255, 0.34), transparent 0 50%),
-        radial-gradient(circle at 42% 42%, rgba(255, 200, 87, 0.2), transparent 0 38%),
-        radial-gradient(circle at 58% 50%, rgba(80, 201, 222, 0.22), transparent 0 60%);
+        linear-gradient(135deg, rgba(255, 107, 99, 0.22), rgba(255, 200, 87, 0.16), rgba(80, 201, 222, 0.2), rgba(212, 155, 255, 0.24)),
+        #1b2328;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36), 0 0 42px rgba(80, 201, 222, 0.26);
     }
 
-    .reward-pop.fuel-event--rainbowFuel .reward-score-art {
-      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.42)) drop-shadow(0 0 28px rgba(212, 155, 255, 0.42));
+    .reward-pop.fuel-event--smallExplosion .reward-delta,
+    .reward-pop.fuel-event--leak .reward-delta,
+    .reward-pop.fuel-event--emptyTank .reward-delta {
+      color: #ffffff;
+      background: linear-gradient(180deg, #ff9b94, #ff6b63);
+      box-shadow: 0 16px 0 rgba(116, 25, 48, 0.28);
+    }
+
+    .reward-pop.fuel-event--rainbowFuel .reward-delta {
+      color: #24132b;
+      background: linear-gradient(90deg, #ff8ca6, #ffe27a, #50c9de, #d49bff);
     }
 
     .reward-card p {
@@ -1811,7 +1674,7 @@
       animation: flight-streak 1.4s linear infinite;
     }
 
-    .result-text-block {
+    .result-copy {
       justify-self: end;
       width: min(560px, 100%);
       padding: 18px;
@@ -1821,7 +1684,7 @@
       backdrop-filter: blur(8px);
     }
 
-    .result-text-block h2 {
+    .result-copy h2 {
       font-size: 4.4rem;
     }
 
@@ -1942,14 +1805,14 @@
       box-shadow: 0 0 0 3px rgba(212, 155, 255, 0.26), 0 0 30px rgba(80, 201, 222, 0.34);
     }
 
-    .result-metrics {
+    .result-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       width: 100%;
     }
 
-    .result-metric {
+    .result-stat {
       min-height: 94px;
       padding: 12px;
       border: 1px solid var(--line);
@@ -1957,14 +1820,14 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    .result-metric span {
+    .result-stat span {
       display: block;
       color: var(--muted);
       font-size: 0.84rem;
       font-weight: 850;
     }
 
-    .result-metric strong {
+    .result-stat strong {
       display: block;
       margin-top: 6px;
       color: #ffffff;
@@ -2059,21 +1922,6 @@
       }
       to {
         transform: scale(1);
-      }
-    }
-
-    @keyframes reward-art-pop {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.9);
-      }
-      62% {
-        opacity: 1;
-        transform: translateY(-4px) scale(1.035);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
       }
     }
 
@@ -2226,10 +2074,10 @@
         transform: translateX(-130%) skewX(-12deg);
       }
       18% {
-        opacity: 0.72;
+        opacity: 0.95;
       }
       62% {
-        opacity: 0.68;
+        opacity: 1;
       }
       100% {
         opacity: 0;
@@ -2255,78 +2103,6 @@
         opacity: 0;
         transform: scale(1.08);
         filter: blur(4px);
-      }
-    }
-
-    @keyframes goal-evolution-ring {
-      0% {
-        opacity: 0;
-        transform: scale(0.62);
-        filter: blur(1.6px) drop-shadow(0 0 0 transparent);
-      }
-
-      30% {
-        opacity: 0.72;
-        transform: scale(0.86);
-        filter: blur(0.2px) drop-shadow(0 0 16px var(--goal-glow-soft));
-      }
-
-      62% {
-        opacity: 0.58;
-        transform: scale(1.08);
-      }
-
-      100% {
-        opacity: 0;
-        transform: scale(1.38);
-        filter: blur(3px) drop-shadow(0 0 24px var(--goal-glow-soft));
-      }
-    }
-
-    @keyframes goal-evolve-current {
-      0% {
-        opacity: 1;
-        transform: none;
-        filter: brightness(1) saturate(1);
-      }
-
-      36% {
-        opacity: 0.82;
-        transform: scale(1.004);
-        filter: brightness(0.82) saturate(0.9);
-      }
-
-      64% {
-        opacity: 0.28;
-        transform: scale(1.01);
-        filter: brightness(1.42) saturate(1.24) blur(0.4px);
-      }
-
-      100% {
-        opacity: 0;
-        transform: scale(1.006);
-        filter: brightness(1.08) saturate(1.08);
-      }
-    }
-
-    @keyframes goal-evolve-next {
-      0%,
-      32% {
-        opacity: 0;
-        transform: scale(1.012);
-        filter: brightness(0.9) saturate(0.92) blur(0.6px);
-      }
-
-      64% {
-        opacity: 0.92;
-        transform: scale(1.004);
-        filter: brightness(1.42) saturate(1.28) blur(0);
-      }
-
-      100% {
-        opacity: 1;
-        transform: none;
-        filter: brightness(1) saturate(1);
       }
     }
 
@@ -2482,18 +2258,11 @@
       .fusion-cutscene.is-visible .cut-robot,
       .goal-rail.is-switching .goal-transition-sweep,
       .goal-rail.is-switching .goal-transition-burst,
-      .goal-rail.is-switching .goal-transition-evolution,
-      .goal-rail.is-evolving .goal-map-raster-current,
-      .goal-rail.is-evolving .goal-map-raster-next,
-      .goal-rail.is-goal-up .goal-map-raster-current,
-      .goal-rail.is-goal-rare .goal-map-raster-current,
-      .goal-rail.is-goal-down .goal-map-raster-current,
-      .goal-rail.is-goal-empty .goal-map-raster-current,
-      .reward-score-art,
-      .reward-pop.fuel-event--smallExplosion .reward-card,
-      .reward-pop.fuel-event--leak .reward-card,
-      .reward-pop.fuel-event--emptyTank .reward-card,
-      .reward-pop.fuel-event--instantLaunch .reward-card {
+      .goal-rail.is-switching .goal-map-raster,
+      .goal-rail.is-goal-up .goal-map-raster,
+      .goal-rail.is-goal-rare .goal-map-raster,
+      .goal-rail.is-goal-down .goal-map-raster,
+      .goal-rail.is-goal-empty .goal-map-raster {
         animation: none;
       }
 
@@ -2536,7 +2305,7 @@
       }
 
       .goal-rail {
-        height: auto;
+        height: 128px;
         margin-bottom: 8px;
       }
 
@@ -2594,7 +2363,7 @@
       }
 
       .hero-copy h1,
-      .result-text-block h2 {
+      .result-copy h2 {
         font-size: 3.6rem;
       }
 
@@ -2720,46 +2489,12 @@
       top: 0;
     }
 
-    .result-dynamic-ui {
+    .result-dynamic-stage {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-    }
-
-    .result-title-art {
-      position: absolute;
-      left: 74.5%;
-      top: 29.8%;
-      z-index: 4;
-      width: 39%;
-      max-height: 27%;
-      object-fit: contain;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.4));
-    }
-
-    .result-title-art[hidden] {
-      display: none;
-    }
-
-    .result-correct-art {
-      position: absolute;
-      left: 74.8%;
-      top: 52%;
-      z-index: 4;
-      width: 24%;
-      max-height: 14%;
-      object-fit: contain;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.34));
-    }
-
-    .result-correct-art[hidden] {
-      display: none;
     }
 
     .result-panel-glow {
@@ -2836,7 +2571,7 @@
     .result-actions {
       position: absolute;
       left: 59.375%;
-      top: 78.25%;
+      top: 76%;
       z-index: 5;
       width: 32.8125%;
       height: 8%;
@@ -2901,7 +2636,7 @@
 
     @media (max-width: 720px) and (orientation: portrait) {
       .game,
-      .settings-toggle {
+      .sound-toggle {
         display: none;
       }
 
@@ -2944,39 +2679,16 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-render-mode="hybrid-generated-dynamic">
     <div class="stage-shell">
-      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="소리 켜짐">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
-          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
+          <path d="M4 10h3.5l4.2-4v12l-4.2-4H4z"></path>
+          <path class="sound-wave" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+          <path class="sound-wave" d="M18.5 5.8a9 9 0 0 1 0 12.4"></path>
+          <path class="sound-off-stroke" d="M16 8l5 8M21 8l-5 8"></path>
         </svg>
       </button>
-      <div class="settings-backdrop" id="settingsBackdrop" hidden>
-        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
-          <h2 class="settings-title" id="settingsTitle">설정</h2>
-          <div class="settings-menu" id="settingsMenu">
-            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
-              <span>배경 소리</span>
-              <span class="settings-switch-track" aria-hidden="true"></span>
-            </button>
-            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
-              <span>효과 소리</span>
-              <span class="settings-switch-track" aria-hidden="true"></span>
-            </button>
-            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
-            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
-            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
-          </div>
-          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
-            <p class="settings-confirm-title" id="settingsConfirmText">처음부터 할까요?</p>
-            <div class="settings-confirm-actions">
-              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
-              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
-            </div>
-          </div>
-        </div>
-      </div>
     <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
       <img class="raster-bg" src="cover-generated.webp" alt="">
       <div class="top-row">
@@ -3098,19 +2810,17 @@
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
         <div class="hud-center">
           <span class="stat-pill" id="progressText">문제 1/10</span>
-          <span class="stat-pill" id="energyText">0점</span>
-          <span class="stat-pill" id="chainText">마지막에 로봇</span>
+          <span class="stat-pill" id="energyText">합체 준비</span>
+          <span class="stat-pill" id="chainText">마지막에 측정</span>
         </div>
         <span class="unit-badge">합체 공방</span>
       </header>
 
       <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
-        <img class="goal-map-raster goal-map-raster-current" id="goalMapRaster" src="play-robot-goal-small-generated.webp?v=goal-state-20260708v" alt="">
-        <img class="goal-map-raster goal-map-raster-next" id="goalMapRasterNext" alt="" aria-hidden="true" hidden>
+        <img class="goal-map-raster" id="goalMapRaster" src="play-robot-goal-strip-generated.webp?v=goal-full-strip-20260702a" alt="">
         <span class="goal-shade" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-sweep" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-burst" aria-hidden="true"></span>
-        <span class="goal-transition goal-transition-evolution" aria-hidden="true"></span>
       </div>
 
       <div class="play-layout">
@@ -3178,11 +2888,11 @@
         </section>
       </div>
 
-      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle" aria-describedby="rewardMessage">
+      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
         <div class="reward-card">
-          <h3 class="visually-hidden" id="rewardTitle">합체 점수</h3>
-          <img class="reward-score-art" id="rewardScoreArt" src="reward-score-plus-50-generated.webp" alt="" aria-hidden="true">
-          <p class="visually-hidden" id="rewardMessage">합체 점수 50점이 들어왔어요.</p>
+          <h3 id="rewardTitle">합체 에너지</h3>
+          <div class="reward-delta" id="rewardDelta">+에너지</div>
+          <p id="rewardMessage">정답! 합체 에너지가 모였어요.</p>
           <button class="primary-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
@@ -3196,12 +2906,12 @@
       </div>
       <div class="result-layout">
         <div class="result-accessibility-copy visually-hidden" aria-live="polite">
-          <h2 class="visually-hidden" id="resultTitle">합체 점수 확인 중</h2>
+          <h2 class="visually-hidden" id="resultTitle">합체 에너지 측정 중</h2>
           <p class="visually-hidden" id="praiseText">두 부품을 차근차근 합치고 있어요.</p>
           <div id="resultMeasure" aria-label="합체 등급 측정 결과">
             <div class="measure-top">
-              <span id="measureStatus">합체 점수 확인 중</span>
-              <strong id="measurePercent">0점</strong>
+              <span id="measureStatus">합체 에너지 측정 중</span>
+              <strong id="measurePercent">0%</strong>
             </div>
             <div class="measure-tube" aria-hidden="true">
               <span class="measure-fill" id="measureFill"></span>
@@ -3209,14 +2919,11 @@
             </div>
             <div class="result-grade-track" id="resultGradeTrack" aria-label="합체 등급 측정"></div>
           </div>
-          <span id="finalEnergyText">0점</span>
-          <span class="visually-hidden" id="finalCorrectText">0/10</span>
+          <span id="finalEnergyText">0%</span>
+          <span id="finalCorrectText">0/10</span>
           <span id="finalGradeText">소형</span>
         </div>
-        <img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true" hidden>
-        <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
-        <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
-          <title id="resultSvgTitle">합체 결과</title>
+        <svg class="result-dynamic-stage" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
           <defs>
             <linearGradient id="resultPanelFill" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#10232b" stop-opacity="0.78"></stop>
@@ -3241,27 +2948,27 @@
             <path d="M716 112H1198C1211 112 1222 123 1222 136V708C1222 721 1211 732 1198 732H716C703 732 692 721 692 708V136C692 123 703 112 716 112Z" fill="url(#resultPanelFill)" stroke="url(#resultPanelStroke)" stroke-width="3"></path>
             <path d="M731 130H1183C1193 130 1201 138 1201 148V696C1201 706 1193 714 1183 714H731C721 714 713 706 713 696V148C713 138 721 130 731 130Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
             <rect class="result-scan-beam" x="724" y="138" width="86" height="568" rx="43" fill="rgba(255,255,255,0.22)"></rect>
-            <text class="result-svg-kicker" x="760" y="188"></text>
-            <text class="result-svg-title" id="resultDestinationSvg" x="760" y="266" opacity="0" aria-hidden="true"></text>
+            <text class="result-svg-kicker" x="760" y="188">이번 합체</text>
+            <text class="result-svg-title" id="resultSvgTitle" x="760" y="266">합체 중</text>
             <line x1="760" y1="366" x2="1154" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
-            <text class="result-svg-label" x="760" y="421"></text>
-            <text class="result-svg-value" id="resultScoreSvg" x="760" y="469" opacity="0" aria-hidden="true">0/10</text>
-            <text class="result-svg-label" x="760" y="536"></text>
-            <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">측정 중</text>
-            <rect x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
-            <rect id="resultMeasureFillSvg" x="760" y="582" width="0" height="10" rx="5" fill="#79f5c4"></rect>
-            <rect x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
-            <rect x="982" y="626" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
-            <text class="result-svg-button-text" x="860" y="667" text-anchor="middle">순위 보기</text>
-            <text class="result-svg-button-text" id="resultSvgRestartText" x="1072" y="667" text-anchor="middle">다시하기</text>
+            <text class="result-svg-label" x="760" y="421">정답</text>
+            <text class="result-svg-value" id="resultSvgCorrect" x="760" y="469">0/10</text>
+            <text class="result-svg-label" x="972" y="421">로봇</text>
+            <text class="result-svg-value result-svg-grade" id="resultSvgGrade" x="972" y="469">확인 중</text>
+            <text class="result-svg-label" x="760" y="536">합체 힘</text>
+            <text class="result-svg-value result-svg-energy" id="resultSvgEnergy" x="760" y="586">측정 중</text>
+            <rect x="760" y="608" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <rect x="982" y="608" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <text class="result-svg-button-text" x="860" y="649" text-anchor="middle">순위 보기</text>
+            <text class="result-svg-button-text" id="resultSvgRestartText" x="1072" y="649" text-anchor="middle">한 번 더</text>
           </g>
         </svg>
         <div class="result-actions" aria-hidden="false">
           <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
             <span class="visually-hidden">순위 보기</span>
           </button>
-          <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
-            <span class="visually-hidden">다시하기</span>
+          <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="한 번 더">
+            <span class="visually-hidden">한 번 더</span>
           </button>
         </div>
       </div>
@@ -3271,45 +2978,37 @@
     </div>
   </main>
 
-  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260702-nojekyll"></script>
   <script>
     const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
-    const MAX_SCORE = 8000;
-    const ULTRA_SCORE = 1500;
-    const LEGEND_SCORE = 2000;
-    const AUDIO_PREF_KEYS = {
-      bgm: "mathmon-audio-bgm-enabled",
-      sfx: "mathmon-audio-sfx-enabled"
-    };
+    const MAX_ENERGY = 100;
     function getScoreboardApiUrl() {
       const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
       return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
     }
     const SCOREBOARD_API_URL = getScoreboardApiUrl();
     const GRADES = [
-      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 0, max: 99, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
-      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 100, max: 199, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
-      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 200, max: 499, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
-      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 500, max: ULTRA_SCORE - 1, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" },
-      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: ULTRA_SCORE, max: LEGEND_SCORE - 1, image: "result-ultra-generated.webp", titleArt: "result-title-ultra-generated.webp" }
+      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 1, max: 20, minCorrect: 1, image: "result-small-generated.webp" },
+      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 21, max: 40, minCorrect: 3, image: "result-medium-generated.webp" },
+      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 41, max: 60, minCorrect: 5, image: "result-large-generated.webp" },
+      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 61, max: 80, minCorrect: 7, image: "result-giant-generated.webp" },
+      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: 81, max: 100, minCorrect: 9, image: "result-ultra-generated.webp" }
     ];
     const SECRET_GRADE = {
       id: "legend",
       short: "전",
       name: "전설 로봇 매스몬",
-      min: LEGEND_SCORE,
-      max: MAX_SCORE,
+      min: 100,
+      max: 100,
+      minCorrect: 1,
       image: "result-legend-generated.webp",
-      titleArt: "result-title-legend-generated.webp",
       secret: true
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
-    const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
-    const GOAL_RAIL_ASSET_VERSION = "goal-state-20260708v";
-    const GOAL_RAIL_IMAGES = ALL_GRADES.map(
-      (grade) => `play-robot-goal-${grade.id}-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`
-    );
+    const GOAL_RAIL_ASSET_VERSION = "goal-full-strip-20260702a";
+    const GOAL_RAIL_IMAGE = `play-robot-goal-strip-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`;
+    const GOAL_RAIL_IMAGES = ALL_GRADES.map(() => GOAL_RAIL_IMAGE);
     const EVENT_CLASSES = [
       "fuel-event--normal",
       "fuel-event--smallExplosion",
@@ -3319,16 +3018,6 @@
       "fuel-event--rainbowFuel",
       "fuel-event--leak"
     ];
-    const REWARD_SCORE_ART = {
-      plus50: "reward-score-plus-50-generated.webp",
-      plus100: "reward-score-plus-100-generated.webp",
-      plus200: "reward-score-plus-200-generated.webp",
-      plus500: "reward-score-plus-500-generated.webp",
-      minus50: "reward-score-minus-50-generated.webp",
-      minus100: "reward-score-minus-100-generated.webp",
-      zero: "reward-score-zero-generated.webp",
-      rainbow: "reward-score-rainbow-generated.webp"
-    };
     const ROBOT_SPRITES = {
       standby: "mathmon-rfa-01-standby.webp",
       one: "mathmon-rfa-02-one-part.webp",
@@ -3347,34 +3036,27 @@
       screen: "cover",
       problems: [],
       index: 0,
-      score: 0,
+      energy: 0,
       correct: 0,
       chain: 0,
       stepIndex: 0,
       stepAttempts: 0,
       problemHadMistake: false,
+      rainbowCore: false,
       lastEvent: null,
       goalRailTimer: null,
       goalSwitchSwapTimer: null,
       goalSwitchDoneTimer: null,
       goalImageIndex: 0,
-      goalPendingImageIndex: null,
-      bgmEnabled: loadAudioPreference(AUDIO_PREF_KEYS.bgm),
-      sfxEnabled: loadAudioPreference(AUDIO_PREF_KEYS.sfx),
+      soundsOn: true,
       audio: null,
       scoreboardAnswers: [],
       scoreboardCurrentAnswer: null,
       scoreboardQuestionStartedAt: 0,
-      scoreboardStepStartedAt: 0,
-      tutorialReviewMode: false,
-      reviewReturnScreen: "cover"
+      scoreboardStepStartedAt: 0
     };
 
     GOAL_RAIL_IMAGES.forEach((src) => {
-      const image = new Image();
-      image.src = src;
-    });
-    Object.values(REWARD_SCORE_ART).forEach((src) => {
       const image = new Image();
       image.src = src;
     });
@@ -3386,24 +3068,12 @@
       resultScreen: document.getElementById("resultScreen"),
       startButton: document.getElementById("startButton"),
       tutorialNextButton: document.getElementById("tutorialNextButton"),
-      settingsButton: document.getElementById("settingsButton"),
-      settingsBackdrop: document.getElementById("settingsBackdrop"),
-      settingsModal: document.getElementById("settingsModal"),
-      settingsMenu: document.getElementById("settingsMenu"),
-      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
-      settingsBgmToggle: document.getElementById("settingsBgmToggle"),
-      settingsSfxToggle: document.getElementById("settingsSfxToggle"),
-      settingsMethodButton: document.getElementById("settingsMethodButton"),
-      settingsRestartButton: document.getElementById("settingsRestartButton"),
-      settingsCloseButton: document.getElementById("settingsCloseButton"),
-      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
-      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      soundToggle: document.getElementById("soundToggle"),
       progressText: document.getElementById("progressText"),
       energyText: document.getElementById("energyText"),
       chainText: document.getElementById("chainText"),
       goalRail: document.getElementById("goalRail"),
       goalMapRaster: document.getElementById("goalMapRaster"),
-      goalMapRasterNext: document.getElementById("goalMapRasterNext"),
       questionText: document.getElementById("questionText"),
       taskCard: document.getElementById("taskCard"),
       stepFormula: document.getElementById("stepFormula"),
@@ -3428,7 +3098,7 @@
       cutAnswer: document.getElementById("cutAnswer"),
       rewardPop: document.getElementById("rewardPop"),
       rewardTitle: document.getElementById("rewardTitle"),
-      rewardScoreArt: document.getElementById("rewardScoreArt"),
+      rewardDelta: document.getElementById("rewardDelta"),
       rewardMessage: document.getElementById("rewardMessage"),
       rewardNextButton: document.getElementById("rewardNextButton"),
       resultRaster: document.getElementById("resultRaster"),
@@ -3440,12 +3110,10 @@
       finalEnergyText: document.getElementById("finalEnergyText"),
       finalCorrectText: document.getElementById("finalCorrectText"),
       finalGradeText: document.getElementById("finalGradeText"),
-      resultTitleArt: document.getElementById("resultTitleArt"),
-      resultCorrectArt: document.getElementById("resultCorrectArt"),
-      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
-      resultScoreSvg: document.getElementById("resultScoreSvg"),
-      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
-      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultSvgTitle: document.getElementById("resultSvgTitle"),
+      resultSvgCorrect: document.getElementById("resultSvgCorrect"),
+      resultSvgGrade: document.getElementById("resultSvgGrade"),
+      resultSvgEnergy: document.getElementById("resultSvgEnergy"),
       resultSvgRestartText: document.getElementById("resultSvgRestartText"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       restartButton: document.getElementById("restartButton"),
@@ -3477,53 +3145,19 @@
     };
 
     window.__mathmonFusionQa = {
-      showGoalTier(gradeId = "medium") {
-        const targetIndex = Math.max(0, ALL_GRADES.findIndex((grade) => grade.id === gradeId));
-        const targetGrade = ALL_GRADES[targetIndex] || ALL_GRADES[0];
-        el.goalRail.dataset.goalTier = targetGrade.id;
-        setGoalRailImage(targetIndex);
-        return {
-          tier: targetGrade.id,
-          image: GOAL_RAIL_IMAGES[targetIndex] || GOAL_RAIL_IMAGES[0]
-        };
-      },
       showResult(gradeId = "legend", correct = TOTAL_QUESTIONS) {
         const targetGrade = ALL_GRADES.find((grade) => grade.id === gradeId);
         const safeCorrect = clamp(Math.round(Number(correct) || 0), 0, TOTAL_QUESTIONS);
         state.correct = safeCorrect;
         state.index = TOTAL_QUESTIONS;
-        state.score = targetGrade ? targetGrade.min : 0;
+        state.rainbowCore = Boolean(targetGrade?.secret);
+        state.energy = targetGrade ? targetGrade.max : 0;
         showResult();
         return {
           correct: state.correct,
-          score: getScore(),
-          grade: getGradeByScore()?.id || "retry",
+          energy: getEnergy(),
+          grade: getGradeByEnergy()?.id || "retry",
           screen: state.screen
-        };
-      },
-      showReward(scoreKey = "plus50", isFinal = false) {
-        const samples = {
-          plus50: { id: "normal", scoreArt: REWARD_SCORE_ART.plus50, message: "합체 점수 50점이 들어왔어요." },
-          plus100: { id: "normal", scoreArt: REWARD_SCORE_ART.plus100, message: "합체 점수 100점이 들어왔어요." },
-          plus200: { id: "megaFuel", scoreArt: REWARD_SCORE_ART.plus200, message: "합체 점수 200점이 들어왔어요." },
-          plus500: { id: "instantLaunch", scoreArt: REWARD_SCORE_ART.plus500, message: "합체 점수 500점이 들어왔어요." },
-          minus50: { id: "smallExplosion", scoreArt: REWARD_SCORE_ART.minus50, message: "합체 점수 50점이 줄었어요." },
-          minus100: { id: "leak", scoreArt: REWARD_SCORE_ART.minus100, message: "합체 점수 100점이 줄었어요." },
-          zero: { id: "emptyTank", scoreArt: REWARD_SCORE_ART.zero, message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요." },
-          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "무지개 점수 800점이 들어왔어요." }
-        };
-        const sample = samples[scoreKey] || samples.plus50;
-        EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
-        el.rewardPop.classList.add(`fuel-event--${sample.id}`, "is-visible");
-        el.rewardTitle.textContent = "합체 점수";
-        el.rewardScoreArt.src = sample.scoreArt;
-        el.rewardMessage.textContent = sample.message;
-        el.rewardNextButton.textContent = isFinal ? "결과 보기" : "다음";
-        showScreen("play");
-        return {
-          scoreKey,
-          image: sample.scoreArt,
-          button: el.rewardNextButton.textContent
         };
       }
     };
@@ -3535,14 +3169,13 @@
         window.__mathmonFusionQa.showResult(qaResultParam, qaCorrectParam ?? TOTAL_QUESTIONS);
       });
     }
-    const qaGoalParam = new URLSearchParams(window.location.search).get("qa-goal");
 
     const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
       root: el.scoreboardScreen,
       apiUrl: SCOREBOARD_API_URL,
       lessonId: LESSON_ID,
       totalQuestions: TOTAL_QUESTIONS,
-      getScore: () => getScore(),
+      getScore: () => getEnergy(),
       getCorrectCount: () => state.correct,
       getAnswers: () => state.scoreboardAnswers,
       getRewardResult: getScoreboardRewardResult,
@@ -3555,133 +3188,12 @@
       playSound: () => playSound("next")
     });
 
-    if (qaGoalParam) {
-      window.requestAnimationFrame(() => {
-        startGame();
-        window.setTimeout(() => {
-          window.__mathmonFusionQa.showGoalTier(qaGoalParam);
-        }, 60);
-      });
-    }
-
     function showScreen(name) {
       state.screen = name;
       [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen, el.scoreboardScreen].forEach((screen) => {
         screen.classList.remove("is-active");
       });
       document.getElementById(`${name}Screen`).classList.add("is-active");
-    }
-
-    function loadAudioPreference(key) {
-      try {
-        return window.localStorage.getItem(key) !== "off";
-      } catch (error) {
-        return true;
-      }
-    }
-
-    function saveAudioPreference(key, enabled) {
-      try {
-        window.localStorage.setItem(key, enabled ? "on" : "off");
-      } catch (error) {
-        // localStorage may be blocked in some embedded browsers.
-      }
-    }
-
-    function updateSettingsUi() {
-      el.settingsBgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
-      el.settingsSfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
-      el.settingsButton.setAttribute("aria-expanded", String(!el.settingsBackdrop.hidden));
-    }
-
-    function setBgmEnabled(enabled) {
-      state.bgmEnabled = enabled;
-      saveAudioPreference(AUDIO_PREF_KEYS.bgm, enabled);
-      updateSettingsUi();
-    }
-
-    function setSfxEnabled(enabled) {
-      state.sfxEnabled = enabled;
-      saveAudioPreference(AUDIO_PREF_KEYS.sfx, enabled);
-      updateSettingsUi();
-    }
-
-    function getSettingsFocusable() {
-      return [...el.settingsModal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])")]
-        .filter((element) => !element.disabled && !element.closest("[hidden]"));
-    }
-
-    function setSettingsConfirming(confirming, shouldFocus = true) {
-      el.settingsMenu.hidden = confirming;
-      el.settingsRestartConfirm.hidden = !confirming;
-      if (!shouldFocus) return;
-      window.requestAnimationFrame(() => {
-        (confirming ? el.settingsRestartCancelButton : el.settingsBgmToggle).focus();
-      });
-    }
-
-    function openSettings() {
-      el.settingsBackdrop.hidden = false;
-      setSettingsConfirming(false);
-      updateSettingsUi();
-      window.requestAnimationFrame(() => el.settingsBgmToggle.focus());
-    }
-
-    function closeSettings(options = {}) {
-      const restoreFocus = options.restoreFocus !== false;
-      el.settingsBackdrop.hidden = true;
-      setSettingsConfirming(false, false);
-      updateSettingsUi();
-      if (restoreFocus) {
-        el.settingsButton.focus();
-      }
-    }
-
-    function handleSettingsKeydown(event) {
-      if (el.settingsBackdrop.hidden) return;
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeSettings();
-        return;
-      }
-      if (event.key !== "Tab") return;
-      const focusable = getSettingsFocusable();
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    function enterTutorialReview() {
-      state.reviewReturnScreen = state.screen || "cover";
-      state.tutorialReviewMode = true;
-      setTutorialStep("solve");
-      closeSettings({ restoreFocus: false });
-      showScreen("tutorial");
-      window.requestAnimationFrame(() => el.tutorialNextButton.focus());
-    }
-
-    function leaveTutorialReview() {
-      const returnScreen = state.reviewReturnScreen || "cover";
-      state.tutorialReviewMode = false;
-      setTutorialStep("solve");
-      showScreen(returnScreen);
-    }
-
-    function resetToCoverFromSettings() {
-      state.tutorialReviewMode = false;
-      state.reviewReturnScreen = "cover";
-      el.rewardPop.classList.remove("is-visible");
-      setSettingsConfirming(false, false);
-      closeSettings({ restoreFocus: false });
-      setTutorialStep("solve");
-      showScreen("cover");
     }
 
     function getElapsedMs(startedAt) {
@@ -3727,19 +3239,21 @@
     }
 
     function getScoreboardRewardResult() {
-      const grade = getGradeByScore();
+      const grade = getGradeByEnergy();
       return {
         gradeId: grade ? grade.id : "retry",
-        score: getScore()
+        energy: getEnergy(),
+        rainbowCore: state.rainbowCore
       };
     }
 
     function startGame() {
       state.problems = buildProblems();
       state.index = 0;
-      state.score = 0;
+      state.energy = 0;
       state.correct = 0;
       state.chain = 0;
+      state.rainbowCore = false;
       state.lastEvent = null;
       state.scoreboardAnswers = [];
       state.scoreboardCurrentAnswer = null;
@@ -3749,13 +3263,10 @@
       window.clearTimeout(state.goalSwitchSwapTimer);
       window.clearTimeout(state.goalSwitchDoneTimer);
       GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
-      el.goalRail.classList.remove("is-switching", "is-evolving");
+      el.goalRail.classList.remove("is-switching");
       state.goalImageIndex = 0;
-      state.goalPendingImageIndex = null;
       el.goalRail.dataset.goalTier = ALL_GRADES[0].id;
       el.goalMapRaster.src = GOAL_RAIL_IMAGES[0];
-      el.goalMapRasterNext.hidden = true;
-      el.goalMapRasterNext.removeAttribute("src");
       scoreboardBridge.start();
       playSound("start");
       showScreen("play");
@@ -3834,30 +3345,34 @@
 
     function renderStatus() {
       el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
-      el.energyText.textContent = `${getScore()}점`;
-      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 확인" : "마지막에 로봇";
+      el.energyText.textContent = state.energy > 0 ? "합체 중" : "합체 준비";
+      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 측정" : "마지막에 측정";
       updateGoalRail();
     }
 
-    function getScore(score = state.score) {
-      return clamp(Math.round(score), 0, MAX_SCORE);
+    function getEnergy(energy = state.energy) {
+      return clamp(Math.round(energy), 0, MAX_ENERGY);
     }
 
-    function getGradeByScore(score = state.score) {
-      const measured = getScore(score);
-      if (measured < GRADES[0].min) {
+    function getGradeByEnergy(energy = state.energy, rainbowCore = state.rainbowCore, correct = state.correct) {
+      if (rainbowCore && correct >= SECRET_GRADE.minCorrect) {
+        return { ...SECRET_GRADE, index: GRADES.length };
+      }
+      const measured = getEnergy(energy);
+      if (measured <= 0 || correct <= 0) {
         return null;
       }
-      let index = ALL_GRADES.findIndex((grade) => measured >= grade.min && measured <= grade.max);
+      let index = GRADES.findIndex((grade) => measured >= grade.min && measured <= grade.max);
       if (index < 0) {
-        index = ALL_GRADES.length - 1;
+        index = measured > 0 ? GRADES.length - 1 : 0;
       }
-      return { ...ALL_GRADES[index], index };
-    }
-
-    function getResultCorrectArtSrc(correctCount) {
-      const value = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
-      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+      while (index > 0 && correct < GRADES[index].minCorrect) {
+        index -= 1;
+      }
+      if (correct < GRADES[index].minCorrect) {
+        return null;
+      }
+      return { ...GRADES[index], index };
     }
 
     function renderGradeTrack(container, { targetIndex = -1, reachedIndex = -1 } = {}) {
@@ -3882,62 +3397,43 @@
 
     function setGoalRailImage(nextIndex) {
       const nextImage = GOAL_RAIL_IMAGES[nextIndex] || GOAL_RAIL_IMAGES[0];
-      if (state.goalPendingImageIndex === null && state.goalImageIndex === nextIndex && el.goalMapRaster.getAttribute("src") === nextImage) {
+      if (state.goalImageIndex === nextIndex && el.goalMapRaster.getAttribute("src") === nextImage) {
         return;
       }
       window.clearTimeout(state.goalSwitchSwapTimer);
       window.clearTimeout(state.goalSwitchDoneTimer);
-      if (state.goalPendingImageIndex !== null) {
-        const pendingImage = GOAL_RAIL_IMAGES[state.goalPendingImageIndex] || GOAL_RAIL_IMAGES[0];
-        el.goalMapRaster.src = pendingImage;
-        state.goalImageIndex = state.goalPendingImageIndex;
-        state.goalPendingImageIndex = null;
-      }
-      el.goalRail.classList.remove("is-switching", "is-evolving");
-      el.goalMapRasterNext.hidden = true;
-      el.goalMapRasterNext.removeAttribute("src");
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        el.goalMapRaster.src = nextImage;
-        state.goalImageIndex = nextIndex;
-        return;
-      }
-      el.goalMapRasterNext.src = nextImage;
-      el.goalMapRasterNext.hidden = false;
-      state.goalPendingImageIndex = nextIndex;
+      el.goalRail.classList.remove("is-switching");
       void el.goalRail.offsetWidth;
-      el.goalRail.classList.add("is-switching", "is-evolving");
+      el.goalRail.classList.add("is-switching");
       state.goalSwitchSwapTimer = window.setTimeout(() => {
         el.goalMapRaster.src = nextImage;
         state.goalImageIndex = nextIndex;
-      }, 620);
+      }, 220);
       state.goalSwitchDoneTimer = window.setTimeout(() => {
-        el.goalRail.classList.remove("is-switching", "is-evolving");
-        el.goalMapRaster.src = nextImage;
-        el.goalMapRasterNext.hidden = true;
-        el.goalMapRasterNext.removeAttribute("src");
-        state.goalImageIndex = nextIndex;
-        state.goalPendingImageIndex = null;
-      }, 900);
+        el.goalRail.classList.remove("is-switching");
+      }, 780);
     }
 
     function getGoalRailImageIndex() {
-      const reachedGrade = getGradeByScore();
+      const reachedGrade = getGradeByEnergy();
       const reachedIndex = reachedGrade ? reachedGrade.index : -1;
-      return Math.min(ALL_GRADES.length - 1, Math.max(0, reachedIndex));
+      return state.rainbowCore
+        ? ALL_GRADES.length - 1
+        : Math.min(GRADES.length - 1, Math.max(0, reachedIndex + 1));
     }
 
     function updateGoalRail() {
-      const score = getScore();
+      const energy = getEnergy();
+      const progress = state.rainbowCore ? 100 : energy;
       const currentIndex = getGoalRailImageIndex();
       const currentGrade = ALL_GRADES[currentIndex] || ALL_GRADES[0];
-      const reachedGrade = getGradeByScore();
       el.goalRail.dataset.goalTier = currentGrade.id;
       setGoalRailImage(currentIndex);
       el.goalRail.setAttribute(
         "aria-label",
-        reachedGrade
-          ? `멋진 로봇까지 가는 길, 합체 점수 ${score}점, ${currentGrade.name}이 보이는 중.`
-          : `멋진 로봇까지 가는 길, 합체 점수 ${score}점, 첫 로봇을 준비하는 중.`
+        state.rainbowCore
+          ? "전설 로봇까지 빛이 켜졌어요."
+          : `멋진 로봇까지 가는 길, 합체 에너지 ${progress}%, 다음 로봇 ${currentGrade.name}.`
       );
     }
 
@@ -4053,8 +3549,8 @@
 
     function renderQuestionHighlight(problem, stepId) {
       const topClass = stepId === "fusion" ? "" : " is-step-target";
-      const tensClass = stepId === "partial2" ? " is-step-target" : "";
-      const onesClass = stepId === "partial1" ? " is-step-target" : "";
+      const tensClass = stepId === "partial2" || stepId === "fusion" ? " is-step-target" : "";
+      const onesClass = stepId === "partial1" || stepId === "fusion" ? " is-step-target" : "";
       el.questionText.setAttribute("aria-label", `${problem.top} 곱하기 ${problem.bottom}`);
       el.questionText.innerHTML = [
         `<span class="question-part${topClass}">${formatNumber(problem.top)}</span>`,
@@ -4211,74 +3707,56 @@
       playSound("reward");
     }
 
-    function pickFusionEventForRoll(roll) {
-      if (roll < 44) {
-        return {
-          id: "normal",
-          amount: 50,
-          score: 50,
-          scoreArt: REWARD_SCORE_ART.plus50,
-          title: "합체 점수",
-          message: "합체 점수 50점이 들어왔어요."
-        };
-      }
+    function pickFusionEventForRoll(roll, amountPicker = randomInt) {
       if (roll < 68) {
+        const amount = amountPicker(7, 13);
         return {
           id: "normal",
-          amount: 100,
-          score: 100,
-          scoreArt: REWARD_SCORE_ART.plus100,
-          title: "합체 점수",
-          message: "합체 점수 100점이 들어왔어요."
+          amount,
+          title: "에너지 충전!",
+          message: `합체 에너지가 ${amount}% 늘었어요.`
         };
       }
       if (roll < 78) {
+        const amount = -amountPicker(4, 9);
         return {
           id: "smallExplosion",
-          amount: -50,
-          score: -50,
-          scoreArt: REWARD_SCORE_ART.minus50,
-          title: "합체 점수",
-          message: "합체 점수 50점이 줄었어요."
+          amount,
+          title: "부품 결함!",
+          message: `맞췄지만 부품을 다듬느라 ${Math.abs(amount)}% 줄었어요.`
         };
       }
       if (roll < 88) {
+        const amount = amountPicker(18, 30);
         return {
           id: "megaFuel",
-          amount: 200,
-          score: 200,
-          scoreArt: REWARD_SCORE_ART.plus200,
-          title: "합체 점수",
-          message: "합체 점수 200점이 들어왔어요."
+          amount,
+          title: "강화 부품!",
+          message: `강화 부품이 붙어 ${amount}%나 늘었어요!`
         };
       }
       if (roll < 93) {
         return {
           id: "instantLaunch",
-          amount: 500,
-          score: 500,
-          scoreArt: REWARD_SCORE_ART.plus500,
-          title: "합체 점수",
-          message: "합체 점수 500점이 들어왔어요."
+          amount: 10,
+          title: "완성 신호!",
+          message: "합체 신호가 켜져 에너지가 10% 늘었어요."
         };
       }
       if (roll < 97) {
         return {
           id: "emptyTank",
           amount: 0,
-          score: 0,
-          scoreArt: REWARD_SCORE_ART.zero,
-          title: "합체 점수",
-          message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요."
+          title: "합체 실패",
+          message: "에너지가 흩어졌어요. 다음 문제에서 다시 모아 봐요.",
+          emptiesTank: true
         };
       }
       return {
         id: "rainbowFuel",
-        amount: 800,
-        score: 800,
-        scoreArt: REWARD_SCORE_ART.rainbow,
-        title: "합체 점수",
-        message: "무지개 점수 800점이 들어왔어요.",
+        amount: 16,
+        title: "무지개 코어!",
+        message: "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.",
         rainbow: true
       };
     }
@@ -4288,20 +3766,26 @@
     }
 
     function createDefectEvent() {
+      const amount = -randomInt(8, 18);
       return {
         id: "leak",
-        amount: -100,
-        score: -100,
-        scoreArt: REWARD_SCORE_ART.minus100,
-        title: "합체 점수",
-        message: "합체 점수 100점이 줄었어요."
+        amount,
+        title: "부품 결함 처리",
+        message: `틀린 곳을 고쳐 봤지만 결함 처리로 ${Math.abs(amount)}% 줄었어요.`
       };
     }
 
     function applyFusionEvent(event) {
-      const before = state.score;
-      state.score = clamp(state.score + event.amount, 0, MAX_SCORE);
-      const actualDelta = state.score - before;
+      const before = state.energy;
+      if (event.emptiesTank) {
+        state.energy = 0;
+      } else {
+        state.energy = clamp(state.energy + event.amount, 0, MAX_ENERGY);
+      }
+      if (event.rainbow) {
+        state.rainbowCore = true;
+      }
+      const actualDelta = state.energy - before;
       state.lastEvent = {
         ...event,
         actualDelta,
@@ -4311,19 +3795,39 @@
 
     function getFusionEventMessage(event, actualDelta, before) {
       if (event.rainbow) {
-        return "무지개 점수 800점이 들어왔어요.";
+        return actualDelta > 0
+          ? `무지개 코어가 켜지고 에너지가 ${actualDelta}% 늘었어요.`
+          : "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.";
       }
-      if (typeof event.score === "number" && event.score > 0) {
-        return `합체 점수 ${event.score}점이 들어왔어요.`;
+      if (event.emptiesTank) {
+        return before > 0 ? "에너지가 흩어져 0이 되었어요. 다음 문제로 다시 모아 봐요." : "에너지가 아직 비어 있어요. 다음 문제로 다시 모아 봐요.";
       }
-      if (typeof event.score === "number" && event.score < 0) {
-        return `합체 점수 ${Math.abs(event.score)}점이 줄었어요.`;
+      if (actualDelta > 0) {
+        return event.id === "megaFuel" ? `에너지가 ${actualDelta}%나 늘었어요!` : `합체 에너지가 ${actualDelta}% 늘었어요.`;
       }
-      return actualDelta === 0 ? "이번 보상은 0점이에요." : event.message;
+      if (actualDelta < 0) {
+        return event.id === "smallExplosion"
+          ? `맞췄지만 부품을 다듬느라 ${Math.abs(actualDelta)}% 줄었어요.`
+          : `틀린 곳을 고쳐 봤지만 결함 처리로 ${Math.abs(actualDelta)}% 줄었어요.`;
+      }
+      return event.amount < 0 ? "에너지가 이미 0이라 더 줄지는 않았어요." : "에너지가 가득 차서 더 늘지는 않았어요.";
     }
 
-    function getFusionEventScoreArtSrc(event) {
-      return event.scoreArt || REWARD_SCORE_ART.plus50;
+    function getFusionEventDeltaLabel(event) {
+      if (event.rainbow) {
+        return "무지개";
+      }
+      if (event.emptiesTank) {
+        return "0%";
+      }
+      const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount;
+      if (actualDelta > 0) {
+        return `+${actualDelta}%`;
+      }
+      if (actualDelta < 0) {
+        return `${actualDelta}%`;
+      }
+      return "변화 없음";
     }
 
     function renderChoices(options, handler) {
@@ -4344,7 +3848,7 @@
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
       el.rewardPop.classList.add(`fuel-event--${result.id}`);
       el.rewardTitle.textContent = result.title;
-      el.rewardScoreArt.src = getFusionEventScoreArtSrc(result);
+      el.rewardDelta.textContent = getFusionEventDeltaLabel(result);
       el.rewardMessage.textContent = result.message;
       el.rewardNextButton.textContent = state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
       window.setTimeout(() => {
@@ -4364,34 +3868,33 @@
     }
 
     function showResult() {
-      const grade = getGradeByScore();
+      const grade = getGradeByEnergy();
       const launched = Boolean(grade);
-      const score = getScore();
-      const measureLabel = `${score}점`;
-      const measureWidth = Math.min(100, Math.round(score / LEGEND_SCORE * 100));
+      const energy = getEnergy();
+      const measureLabel = state.rainbowCore ? "무지개 코어" : `${energy}%`;
+      const measureWidth = state.rainbowCore ? 100 : energy;
       const correctLabel = `${state.correct}/${TOTAL_QUESTIONS}`;
       el.resultRaster.src = launched ? grade.image : "result-retry-generated.webp";
       el.resultScreen.classList.add("is-measuring");
-      el.resultScreen.classList.toggle("is-rainbow-result", Boolean(grade?.secret));
-      document.getElementById("resultTitle").textContent = "합체 점수 확인 중";
+      el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowCore);
+      document.getElementById("resultTitle").textContent = "합체 에너지 측정 중";
       el.finalEnergyText.textContent = "측정 중";
       el.finalCorrectText.textContent = correctLabel;
-      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
       el.finalGradeText.textContent = "측정 중";
-      el.praiseText.textContent = "합체 공방에서 모은 점수를 보고 있어요.";
-      el.measureStatus.textContent = "합체 점수 확인 중";
-      el.measurePercent.textContent = "0점";
+      el.praiseText.textContent = "합체 공방에서 모은 에너지를 재고 있어요.";
+      el.measureStatus.textContent = "합체 에너지 측정 중";
+      el.measurePercent.textContent = "0%";
       el.measureFill.style.setProperty("--measure-width", "0%");
-      el.resultTitleArt.hidden = true;
-      el.resultDestinationSvg.textContent = "";
-      el.resultScoreSvg.textContent = correctLabel;
-      el.resultMeasureSvg.textContent = "측정 중";
-      el.resultMeasureFillSvg.setAttribute("width", "0");
-      el.resultSvgRestartText.textContent = "다시하기";
+      el.resultSvgTitle.textContent = "합체 중";
+      el.resultSvgCorrect.textContent = correctLabel;
+      el.resultSvgGrade.textContent = "확인 중";
+      el.resultSvgEnergy.textContent = "측정 중";
+      el.resultSvgRestartText.textContent = launched ? "한 번 더" : "다시하기";
       renderGradeTrack(el.resultGradeTrack, { targetIndex: -1, reachedIndex: -1 });
       el.restartButton.hidden = true;
       el.restartButton.disabled = true;
-      el.restartButton.setAttribute("aria-label", "다시하기");
+      el.restartButton.setAttribute("aria-label", launched ? "한 번 더" : "다시하기");
+      el.restartButton.textContent = launched ? "한 번 더" : "다시하기";
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
@@ -4399,8 +3902,7 @@
         el.measurePercent.textContent = measureLabel;
         el.measureFill.style.setProperty("--measure-width", `${measureWidth}%`);
         el.finalEnergyText.textContent = measureLabel;
-        el.resultMeasureSvg.textContent = measureLabel;
-        el.resultMeasureFillSvg.setAttribute("width", String(Math.round(394 * measureWidth / 100)));
+        el.resultSvgEnergy.textContent = measureLabel;
         renderGradeTrack(el.resultGradeTrack, {
           targetIndex: launched ? grade.index : -1,
           reachedIndex: launched ? grade.index : -1
@@ -4412,10 +3914,9 @@
         document.getElementById("resultTitle").textContent = launched ? `${grade.name}!` : "다시 합체해요";
         el.finalGradeText.textContent = launched ? getShortGradeName(grade) : "다시 도전";
         el.praiseText.textContent = launched ? getPraise(grade) : getRetryMessage();
-        el.resultTitleArt.src = launched ? grade.titleArt : RESULT_RETRY_TITLE_ART;
-        el.resultTitleArt.hidden = false;
-        el.resultDestinationSvg.textContent = "";
-        el.resultMeasureSvg.textContent = measureLabel;
+        el.resultSvgTitle.textContent = launched ? getResultDisplayTitle(grade) : "다시 합체";
+        el.resultSvgGrade.textContent = launched ? getShortGradeName(grade) : "다시 도전";
+        el.resultSvgEnergy.textContent = measureLabel;
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
         playSound("finish");
@@ -4431,13 +3932,13 @@
 
     function getPraise(grade) {
       if (grade.secret) {
-        return "2000점을 넘겨 전설 로봇 매스몬까지 갔어요!";
+        return "무지개 코어가 켜져 전설 로봇 매스몬에 도달했어요!";
       }
-      if (grade.id === "ultra") {
-        return "초거대 로봇까지 갔어요. 두 값을 끝까지 잘 합쳤어요.";
+      if (grade.index >= 4) {
+        return "초거대 로봇 매스몬이 완성됐어요. 두 값을 끝까지 잘 합쳤어요.";
       }
       if (grade.index >= 3) {
-        return "거대 로봇까지 도착했어요. 두 값을 끝까지 잘 합쳤어요.";
+        return "거대 합체까지 도달했어요. 0 붙이기와 덧셈을 차근차근 해냈어요.";
       }
       if (grade.index >= 2) {
         return "대형 로봇 매스몬 성공! 두 값을 잘 이어 붙였어요.";
@@ -4457,7 +3958,7 @@
         return "거의 다 왔어요. 두 번째 부품에 0을 붙였는지 한 번 더 살펴요.";
       }
       if (state.correct >= 3) {
-        return "합체 점수가 조금 부족해요. 두 부품을 차례로 만들면 더 커져요.";
+        return "합체 에너지가 조금 부족해요. 두 부품을 차례로 만들면 더 커져요.";
       }
       return "괜찮아요. 일의 자리 부품, 십의 자리 부품, 합체 순서로 다시 해 봐요.";
     }
@@ -4522,7 +4023,7 @@
     }
 
     function playSound(kind) {
-      if (!state.sfxEnabled) {
+      if (!state.soundsOn) {
         return;
       }
       initAudio();
@@ -4559,8 +4060,6 @@
 
     el.startButton.addEventListener("click", () => {
       playSound("start");
-      state.tutorialReviewMode = false;
-      state.reviewReturnScreen = "cover";
       setTutorialStep("solve");
       showScreen("tutorial");
     });
@@ -4568,11 +4067,6 @@
       if (el.tutorialScreen.dataset.tutorialStep !== "goal") {
         playSound("next");
         setTutorialStep("goal");
-        return;
-      }
-      if (state.tutorialReviewMode) {
-        playSound("next");
-        leaveTutorialReview();
         return;
       }
       startGame();
@@ -4583,41 +4077,13 @@
       playSound("start");
       showScreen("cover");
     });
-    updateSettingsUi();
-    el.settingsButton.addEventListener("click", openSettings);
-    el.settingsBackdrop.addEventListener("click", (event) => {
-      if (event.target === el.settingsBackdrop) closeSettings();
-    });
-    el.settingsModal.addEventListener("keydown", handleSettingsKeydown);
-    el.settingsBgmToggle.addEventListener("click", () => {
-      const nextEnabled = !state.bgmEnabled;
-      setBgmEnabled(nextEnabled);
-      if (nextEnabled) playSound("next");
-    });
-    el.settingsSfxToggle.addEventListener("click", () => {
-      const nextEnabled = !state.sfxEnabled;
-      setSfxEnabled(nextEnabled);
-      if (nextEnabled) playSound("next");
-    });
-    el.settingsMethodButton.addEventListener("click", () => {
-      playSound("next");
-      enterTutorialReview();
-    });
-    el.settingsRestartButton.addEventListener("click", () => {
-      playSound("next");
-      setSettingsConfirming(true);
-    });
-    el.settingsRestartConfirmButton.addEventListener("click", () => {
-      playSound("next");
-      resetToCoverFromSettings();
-    });
-    el.settingsRestartCancelButton.addEventListener("click", () => {
-      playSound("next");
-      setSettingsConfirming(false);
-    });
-    el.settingsCloseButton.addEventListener("click", () => {
-      playSound("next");
-      closeSettings();
+    el.soundToggle.addEventListener("click", () => {
+      state.soundsOn = !state.soundsOn;
+      el.soundToggle.setAttribute("aria-label", state.soundsOn ? "소리 켜짐" : "소리 꺼짐");
+      el.soundToggle.setAttribute("aria-pressed", String(state.soundsOn));
+      if (state.soundsOn) {
+        playSound("next");
+      }
     });
   </script>
 </body>

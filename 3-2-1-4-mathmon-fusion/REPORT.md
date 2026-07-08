@@ -16,21 +16,21 @@
 - 2단계: `윗수 × 아랫수의 십의 자리`를 계산한 뒤 0을 붙인 값을 골라 두 번째 부품 완성
 - 3단계: 두 부분곱을 더해 최종 곱 완성
 - 오답 설계: 받아올림 실수, 0 빠뜨림, 부분곱2를 십의 자리로 밀지 않고 더하는 자리 어긋난 덧셈을 대표 오답으로 포함
-- 보상: 한 문제 완료마다 합체 점수 이미지 1장을 보여 줌. 정답 문제는 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `0점`, `무지개` 중 하나가 나오고, 오답이 있었던 문제는 `-100점`으로 처리. 무지개는 실제 `+800점` 보상. 어떤 보상이 나와도 10문제를 모두 푼 뒤에만 결과로 이동
-- 결과 등급: 최종 합체 점수만으로 소형 -> 중형 -> 대형 -> 거대 -> 초거대 -> 전설 합체 중 하나를 공개
-- 점수 기준: 소형 0점, 중형 100점, 대형 200점, 거대 500점, 초거대 1500점, 전설 2000점
+- 보상: 한 문제 완료마다 합체 에너지 이벤트를 1회 적용. 정답 문제는 에너지 충전, 강화 부품, 부품 결함, 완성 신호, 합체 실패, 무지개 코어 중 하나가 나오고, 오답이 있었던 문제는 부품 결함 처리만 적용. 어떤 보상이 나와도 10문제를 모두 푼 뒤에만 결과로 이동
+- 결과 등급: 합체 에너지와 정답 수 게이트를 함께 사용해 소형 -> 중형 -> 대형 -> 거대 -> 초거대 합체 중 하나를 공개
+- 비밀 등급: 무지개 코어를 얻으면 전설 합체 결과가 열림
 - 최종 보상: 도달한 합체 등급 자체가 보상이며, 매스몬 도감 수집 구조는 사용하지 않음
 
 ### 교육적 의도
 
 두 자리 수 곱셈은 답만 맞히면 어떤 자리에서 실수했는지 흐려지기 쉽습니다. 이 게임은 `23 × 45`를 `23 × 5`, `23 × 40`, `115 + 920`으로 분리해 보여 줍니다. 특히 두 번째 부분곱에서 0을 빠뜨리는 실수와, 마지막 덧셈에서 `115 + 92`처럼 자리 맞춤을 놓치는 실수를 선택지 안에 넣어 대표 오개념을 다시 점검하게 했습니다.
 
-합체 보상은 단일 중심 보상입니다. 보상 화면에서는 생성형 점수 이미지를 크게 보여 주고, 학생이 본 숫자 그대로 점수가 더해집니다. 한 판이 끝나면 최종 합체 점수로 완성 로봇 등급을 공개합니다. 결과는 차시 자체 완결형 보상이며, 2차시의 행성 도달 구조와 같은 방식으로 `도달 등급`을 보여 줍니다.
+합체 에너지는 단일 중심 보상입니다. 학생에게 원점수를 전면에 보여 주지 않고, 한 판이 끝난 뒤 에너지와 정답 수를 측정해 완성 로봇 등급을 공개합니다. 결과는 차시 자체 완결형 보상이며, 2차시의 행성 도달 구조와 같은 방식으로 `도달 등급`을 보여 줍니다.
 
 ## 3. 게임 흐름
 
 ```text
-첫 화면 -> 설명 1(나누어 곱하기) -> 설명 2(합체와 순위 목표) -> 부품 1 -> 부품 2 -> 합체 덧셈 -> 합체 점수 이미지 -> 다음 문제 -> 10문제 완료 -> 점수 확인 -> 로봇 매스몬 등급 결과 -> 전국 순위
+첫 화면 -> 설명 화면 -> 부품 1 -> 부품 2 -> 합체 덧셈 -> 합체 에너지 이벤트 -> 다음 문제 -> 10문제 완료 -> 에너지 측정 -> 로봇 매스몬 등급 결과
 ```
 
 학생은 먼저 첫 곱셈 부품을 고릅니다. 예를 들어 `23 × 45`에서는 `23 × 5 = 115`를 고릅니다. 다음에는 십의 자리 4가 40을 뜻한다는 것을 확인하며 `23 × 40 = 920`을 고릅니다. 마지막으로 `115 + 920 = 1,035`를 골라 로봇 합체를 완성합니다.
@@ -39,17 +39,15 @@
 
 ### 첫 화면
 
-첫 화면은 `cover-generated.webp`를 RasterStage 배경으로 사용합니다. 로봇형 매스몬이 있는 대표 장면 위에 GPT Image로 만든 독립 타이틀 아트 `title-poster-generated.webp`를 얹고, 시작 버튼은 별도 생성형 버튼 자산 `start-button-generated.webp`로 보여 줍니다. 실제 클릭은 같은 크기의 HTML 버튼이 맡고, 접근성용 실제 제목은 숨김 텍스트로 유지합니다.
-
-![첫 화면](screenshots/01-cover.png)
+첫 화면은 `cover-robot-mathmon-generated.webp`를 RasterStage 배경으로 사용합니다. 둥글고 웃는 로봇형 매스몬 장면 위에 게임 제목, 한 줄 목표, 시작 버튼을 HTML로 얹습니다. 로봇이 곧 이번 차시의 매스몬이라는 점이 첫 화면에서 바로 읽히도록 했습니다. 생성 이미지에는 텍스트를 넣지 않아 제목과 버튼이 선명하게 유지됩니다.
 
 ### 설명 화면
 
 ![설명 화면](screenshots/02-tutorial.png)
 
-설명 화면은 생성 이미지 2장 흐름입니다. 첫 장 `tutorial-solve-generated.webp`는 `45 = 40 + 5`, `23 × 40`, `23 × 5`, `920 + 115`처럼 아래 수를 둘로 나누어 따로 곱한 뒤 더하는 방법을 보여 주고, 버튼은 `다음`입니다. 둘째 장 `tutorial-goal-generated.webp`는 10문제를 풀며 합체 힘을 얻고 마지막에 로봇 등급과 전국 순위를 확인한다는 목표를 보여 줍니다. HTML은 숨김 접근성 설명, `data-tutorial-step`, 투명 hitbox만 맡고 보이는 설명 UI를 다시 그리지 않습니다.
+설명 화면은 생성 이미지 포스터 한 장으로 규칙을 보여 줍니다. 학생이 바로 볼 말은 `나눠서 곱해요`, `아래 수를 둘로 나눠요`, `두 조각을 따로 곱해요`, `두 값을 더해요`, `합체 시작`뿐입니다. HTML은 숨김 접근성 설명과 `합체 시작` 투명 hitbox만 맡습니다.
 
-학생이 실제로 누르는 둘째 장 행동은 `합체 준비`입니다.
+버튼 문구는 다음 행동이 바로 보이도록 `합체 시작`으로 두었습니다.
 
 ### 문제 화면
 
@@ -59,41 +57,23 @@
 
 학생 풀이 흐름 QA에서는 기존 화면이 `46 × 19`와 `먼저 9와 곱해요`를 보여 주는 데서 멈춰, 학생이 왜 다음에 일의 자리와 곱하는지, 고른 값이 어디에 남는지 충분히 확인하기 어려운 상태로 판단했습니다. 수정 뒤에는 큰 흰 문제식의 윗수와 현재 아랫수 자리만 노란색으로 바뀌고 살짝 움직입니다. 현재 식 카드에는 `46 × 9 = ?`처럼 지금 풀 계산만 가운데에 보입니다. 정답 뒤에는 `9와 곱한 값은 414예요.`처럼 짧은 확인 문구와 왼쪽 부품 값이 먼저 바뀐 뒤 다음 단계로 넘어가게 했습니다.
 
-![문제 화면](screenshots/03-problem.png)
-
 ### 보상 화면
 
-한 문제의 3단계 계산이 끝나면 화면 중앙에 생성형 점수 이미지가 뜹니다. 보이는 값은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개` 8장으로 고정했습니다. 제목, 긴 설명, CSS 숫자는 보이지 않게 숨기고, 학생 화면에는 점수 이미지와 `다음` 또는 `결과 보기` 버튼만 남겼습니다.
-
-정답 문제는 여러 점수 이미지 중 하나가 랜덤으로 나오며, 문제 안에서 한 번이라도 틀리면 `-100점` 이미지만 나옵니다. `0점`은 점수 초기화가 아니라 변화 없음이고, `무지개`는 실제 `+800점` 보상입니다. `+500점`도 조기 종료가 아니라 큰 보상 이미지일 뿐이고, 어떤 보상이 떠도 10문제를 모두 푼 뒤에만 결과로 이동합니다. 서버 검증도 같은 보상 점수로 합계를 계산합니다.
-
-![정답 보상 화면](screenshots/04-reward.png)
-
-![오답 보상 화면](screenshots/07-defect-reward.png)
-
-8개 점수 이미지는 모두 투명 배경 WebP로 후처리했습니다. 그래서 보상 모달 위에서는 이미지 바깥 사각 배경이 보이지 않고, 생성형 타이틀 아트만 떠 있는 것처럼 보입니다.
-
-![보상 점수 이미지 8종](screenshots/reward-score-contact-sheet.png)
+한 문제의 3단계 계산이 끝나면 화면 중앙에 합체 에너지 이벤트가 뜹니다. 정답 문제는 에너지 충전, 강화 부품, 부품 결함, 완성 신호, 합체 실패, 무지개 코어 중 하나가 나오며, 문제 안에서 한 번이라도 틀리면 부품 결함 처리만 적용됩니다. 완성 신호도 에너지 보너스일 뿐 문제 수를 건너뛰지 않습니다. 보상은 합체 에너지 하나로만 적용됩니다.
 
 ### 결과 화면
 
-결과 화면은 도달 등급별 RasterStage 배경과 다시하기 배경을 사용합니다. 현재 점수표의 runtime 등급은 소형, 중형, 대형, 거대, 초거대, 전설입니다. 큰 등급 문구는 `result-title-*-generated.webp` 생성형 타이틀 이미지가 맡고, 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 생성형 숫자 이미지가 맡습니다. SVG 동적 레이어는 실제 합체 점수, `순위 보기`, `다시하기` 버튼 표면을 정확한 좌표에 그립니다. 실제 클릭은 투명 HTML hitbox가 맡습니다. 점수 바와 버튼 사이에는 충분한 여백을 두어 붙어 보이지 않게 했습니다.
-
-![성공 결과 화면](screenshots/05-result-success.png)
-
-### 결과 화면 QA
-
-`node scripts/qa-unit1-result-screens.mjs`로 1280x800, 1024x768에서 결과 화면을 열어 확인했습니다. CSS 결과 카드 잔존, 텍스트 넘침, Stage 밖 SVG 글자, 버튼 hitbox 충돌, SVG 큰 결과명 잔존, 고정 SVG 보조 라벨 잔존, 정답 수 폰트 텍스트 잔존은 0건입니다.
+결과 화면은 도달 등급별 RasterStage 배경 6장과 다시하기 배경 1장을 사용합니다. 소형, 중형, 대형, 거대, 초거대, 전설 합체 이미지가 따로 있으며, 등급이 올라갈수록 몸집, 색 포인트, 배경 에너지 효과가 분명히 커지도록 다시 생성했습니다. 생성 이미지에는 텍스트·점수·버튼을 넣지 않았습니다. 그 위에 합체 에너지 측정 막대, 정답 수, 도달 등급, 칭찬 문구, 다시하기 버튼을 HTML로 얹습니다.
 
 ### 전국 순위 화면
 
 결과 화면의 `순위 보기` 버튼을 누르면 마지막 전국 순위 화면으로 이동합니다. 이 화면은 `_shared/scoreboard` 공통 SVG 순위판을 사용하며, 생성 이미지는 축하 배경과 상단 타이틀 아트만 맡고 순위판·내 기록 박스·순위 행·버튼·동적 글자는 SVG가 직접 그립니다. 상단 상태 문장은 제거했고, API 주소가 없으면 순위 목록 영역 안에 `순위 기능이 켜지면 여기에 10위까지 보여요.` 안내만 보이며 게임 결과는 그대로 유지됩니다.
 
-백엔드 연동 지점은 `index.html`의 `LESSON_ID = "3-2-1-4-mathmon-fusion"`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다. 4차시는 서버 점수로 최종 합체 점수를 보내고, 문제마다 `partial1`, `partial2`, `fusion` 세 단계 선택과 합체 보상(`normal`, `smallExplosion`, `megaFuel`, `instantLaunch`, `emptyTank`, `rainbowFuel`, `leak`)을 함께 보냅니다. 서버 검증용 `amount`는 학생에게 보이는 점수와 같습니다. `normal`은 `50` 또는 `100`, `smallExplosion`은 `-50`, `megaFuel`은 `200`, `instantLaunch`는 `500`, `emptyTank`는 `0`, `rainbowFuel`은 `800`, `leak`은 `-100`입니다.
+백엔드 연동 지점은 `index.html`의 `LESSON_ID = "3-2-1-4-mathmon-fusion"`, `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 업체는 정적 HTML을 열기 전에 `window.MATHMON_SCOREBOARD_API_URL`만 주입하면 됩니다. 4차시는 서버 점수로 `합체 에너지`를 보내고, 문제마다 `partial1`, `partial2`, `fusion` 세 단계 선택과 합체 에너지 보상(`normal`, `smallExplosion`, `megaFuel`, `instantLaunch`, `emptyTank`, `rainbowFuel`, `leak`)을 함께 보냅니다. `instantLaunch`는 기존 연동 호환을 위한 이벤트 id이며, 4차시에서는 조기 종료 없이 `완성 신호` 보너스로만 처리됩니다. `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다.
 
 ### 다시하기 결과 화면
 
-현재 점수 기준은 0점부터 소형 로봇을 보여 주므로, 일반 결과 흐름에서는 `result-retry-generated.webp`가 기본으로 나오지 않습니다. 이 이미지는 이전 재도전 흐름 보존 자산으로 남깁니다.
+합체 에너지가 부족하거나 정답 수가 부족하면 `result-retry-generated.webp`를 RasterStage 배경으로 사용합니다. 로봇 부품이 안전하게 쉬고 있는 장면 위에 다시 도전 문구와 `다시하기` 버튼을 보여 줍니다.
 
 ## 5. 매스몬 역할
 
@@ -104,30 +84,13 @@
 이 폴더는 별도 빌드 없이 바로 열 수 있는 정적 패키지입니다. 학생용 static 사본에는 실행에 필요한 파일만 복사하고, PNG 원본과 스크린샷은 작업실에 보관합니다.
 
 - `index.html`
-- `cover-generated.webp`
-- `title-poster-source.png`, `title-poster-generated.png`, `title-poster-generated.webp`
-- `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`
-- `tutorial-solve-source.png`, `tutorial-solve-generated.webp`
-- `tutorial-goal-source.png`, `tutorial-goal-generated.webp`
-- `tutorial-fulltext-source.png`, `tutorial-fulltext-generated.webp`(이전 포스터 보존본, 현재 실행 경로에서는 미사용)
-- `tutorial-dynamic-bg-source.png`, `tutorial-dynamic-bg-generated.webp`(이전 비교안 보존본, 현재 학생 기본 흐름에서는 미사용)
-- `play-robot-goal-strip-source.png`, `play-robot-goal-strip-generated.png`, `play-robot-goal-strip-generated.webp`
-- `play-robot-goal-*-source.png`(상태별 목표 지도 생성 원본 6장)
-- `play-robot-goal-*-generated.png`(상태별 목표 지도 보관용 PNG 6장, 1280×190)
-- `play-robot-goal-*-generated.webp`(상태별 목표 지도 runtime/배포용 WebP 6장, 1280×190)
+- `cover-robot-mathmon-generated.webp`
+- `play-robot-goal-*-generated.webp`
 - `fusion-workshop-generated.webp`
 - `mathmon-rfa-01-standby.webp`
 - `mathmon-rfa-02-one-part.webp`
 - `mathmon-rfa-03-two-parts.webp`
 - `mathmon-rfa-04-complete.webp`
-- `reward-score-plus-50-source.png`, `reward-score-plus-50-generated.webp`
-- `reward-score-plus-100-source.png`, `reward-score-plus-100-generated.webp`
-- `reward-score-plus-200-source.png`, `reward-score-plus-200-generated.webp`
-- `reward-score-plus-500-source.png`, `reward-score-plus-500-generated.webp`
-- `reward-score-minus-50-source.png`, `reward-score-minus-50-generated.webp`
-- `reward-score-minus-100-source.png`, `reward-score-minus-100-generated.webp`
-- `reward-score-zero-source.png`, `reward-score-zero-generated.webp`
-- `reward-score-rainbow-source.png`, `reward-score-rainbow-generated.webp`
 - `result-small-generated.webp`
 - `result-medium-generated.webp`
 - `result-large-generated.webp`
@@ -135,7 +98,6 @@
 - `result-ultra-generated.webp`
 - `result-legend-generated.webp`
 - `result-retry-generated.webp`
-- `result-title-robots-source.png`, `result-title-*-source.png`, `result-title-*-transparent-raw.png`, `result-title-*-generated.webp`
 - `eduitit-logo-mark.png`
 - `README.md`
 - `REPORT.md`
@@ -165,7 +127,7 @@
 - 현재 단계 식은 카드 가운데에 고정하고, 큰 흰 문제식에서는 지금 곱하는 윗수와 아랫수 자리만 노란색으로 강조했습니다. 강조 숫자는 작은 숨쉬기 움직임으로 현재 쓰는 숫자임을 보여 줍니다.
 - 상단 진행도와 장소 배지는 문제보다 커 보이지 않도록 같은 줄의 작은 보조 상태칩으로 맞췄습니다.
 - 정답 뒤에는 선택지가 바로 사라지는 대신 방금 만든 값이 로봇 부품 칸에 들어가고, 한 줄 확인 문구가 보인 뒤 다음 단계로 넘어가게 했습니다.
-- Humanizer 학생 문구 QA: `부분곱`, `합체 보드`, `정답 조건` 같은 제작자용 설명은 문제 풀이 화면에 쓰지 않고 `곱한 값`, `두 값을 더해요`, `답을 골라요`처럼 초3 학생이 바로 읽을 수 있는 말로 유지했습니다.
+- Humanizer 학생 문구 QA: `부분곱`, `합체 보드`, `게이트` 같은 제작자 용어는 문제 풀이 화면에 쓰지 않고 `곱한 값`, `두 값을 더해요`, `답을 골라요`처럼 초3 학생이 바로 읽을 수 있는 말로 유지했습니다.
 - 텍스트 넘침·요소 겹침 QA: 로컬 Chrome/Playwright에서 첫 화면, 설명 화면, 문제 1단계, 1단계 정답 확인, 문제 2단계, 2단계 정답 확인, 3단계, 보상 모달을 확인했습니다. 문제식, 현재 식 카드, 선택지, 피드백, 왼쪽 로봇 부품 값이 서로 덮이지 않고 화면 안에 들어오는 것을 확인했습니다.
 - 큰 문제식 확대 QA: 1280×800과 1024×768에서 큰 문제식이 오른쪽 계산 상자 안에 들어오고 중앙 정렬되는지 확인했습니다. 분해 pill과 단계 칩은 렌더링되지 않으며, 현재 곱하는 숫자는 노란색과 작은 움직임으로 표시됩니다.
 
@@ -177,53 +139,49 @@
 
 ### 2026-07-01 상단 로봇 목표 지도 추가
 
-- 문제 화면 상단을 3차시 `play-map-strip-generated.webp` 방식에 맞춰 생성 이미지 기반 목표 지도로 바꿨습니다. `play-robot-goal-strip-source.png`를 원본으로 보관하고, 현재 runtime에서는 상태별 1280×190 목표 지도 PNG 6장을 사용합니다.
+- 문제 화면 상단을 3차시 `play-map-strip-generated.webp` 방식에 맞춰 생성 이미지 기반 목표 지도로 바꿨습니다. `play-robot-goal-strip-source.png`를 원본으로 보관하고, runtime에서는 상태별 1280×190 목표 지도 이미지 6장을 사용합니다.
 - 로봇 목표 자체는 CSS 실루엣으로 그리지 않습니다. 생성 이미지 안에 소형부터 전설까지 이어지는 로봇 실루엣과 합체 길을 넣고, HTML은 접근성 상태와 전환 빛 효과만 맡습니다.
-- 이 목표 지도는 별도 보상 체계가 아니라 기존 중심 보상인 합체 점수를 시각화합니다. 로봇 외곽선에 맞추는 현재 표시, 하단 진행바, 원형 노드는 쓰지 않고 현재 단계 로봇이 켜진 목표판 이미지로 상태를 보여 줍니다.
-- 초기 목표 지도는 얇은 배너 안에서 로봇 실루엣과 발판이 보이도록 시도했습니다. 최신 기준은 아래 2026-07-08 재수정 기록처럼 1280×190 배너 슬롯을 쓰고, 아래 문제/왼쪽 패널 높이를 줄여 Stage 안에 맞춥니다.
+- 이 목표 지도는 별도 점수판이 아니라 기존 중심 보상인 합체 에너지를 시각화합니다. 로봇 외곽선에 맞추는 현재 표시, 하단 진행바, 원형 노드는 쓰지 않고 현재 단계 로봇이 켜진 목표판 이미지로 상태를 보여 줍니다.
+- 목표 지도는 로봇 머리와 플랫폼이 잘리지 않도록 1280×800 기준 190px, 1024×768 태블릿 가로 기준 132px 높이로 둡니다. 문제 화면 과밀을 막기 위해 아래 계산 영역은 2열 구조 안에서 줄바꿈 없이 유지되도록 확인했습니다.
 - Humanizer 학생 문구 QA: 새로 보이는 문장형 안내는 넣지 않았습니다. 접근성 문구는 `멋진 로봇까지 가는 길`처럼 짧게 유지했습니다.
 
 ### 2026-07-01 상단 목표 지도 상태 이미지 실험
 
-- 하단 점수 레일과 원형 노드 오버레이를 제거했습니다. 목표 지도 위에는 좌표 마커, 동그라미, 진행바를 올리지 않습니다.
-- `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 상태별 목표 지도 6장을 준비했습니다. 각 이미지는 같은 실루엣 목표판에서 현재 등급 슬롯이 해당 플랫폼에서 밝게 켜진 상태입니다.
+- 하단 에너지 레일과 원형 노드 오버레이를 제거했습니다. 목표 지도 위에는 좌표 마커, 동그라미, 진행바를 올리지 않습니다.
+- `play-robot-goal-small-generated.webp`부터 `play-robot-goal-legend-generated.webp`까지 상태별 목표 지도 6장을 준비했습니다. 각 이미지는 같은 실루엣 목표판에서 현재 등급 로봇이 해당 플랫폼에 실제 모습으로 등장한 상태입니다.
 - 로봇만 잘라 붙인 방식은 플랫폼과 배경이 직사각형으로 끊겨 보여 폐기했습니다. 현재 배포본은 기준 실루엣 목표판을 참조해 상태별 전체 배너를 다시 생성한 이미지이며, 로봇 주변 조명과 공방 배경이 한 장면으로 이어집니다.
-- 상태별 목표 지도 6장을 runtime에 연결했습니다. 목표판 위에 별도 로봇 PNG/WebP를 얹지 않고, 배포에서 안정적으로 열리는 `play-robot-goal-*-generated.webp` 이미지 자체를 점수 등급에 맞춰 통째로 바꿉니다.
+- 상태별 목표 지도는 일부 자산에서 로봇 하체와 플랫폼이 190px 안에 온전히 들어오지 않아 runtime 적용에서 제외했습니다. 현재 runtime은 전체 플랫폼과 실루엣이 들어 있는 `play-robot-goal-strip-generated.webp` 한 장을 고정 목표판으로 사용하고, 현재 도달 단계는 빛 전환 효과와 접근성 상태만 바꿉니다.
 - 이미지가 바뀌는 느낌을 줄이기 위해 교체 순간에는 목표 로봇 위치에서 빛 번짐이 터지고, 밝은 스캔 라이트가 목표판 전체를 지나갑니다. 모션 민감 설정에서는 전환 빛과 흔들림 애니메이션을 끕니다.
-- 텍스트 넘침·요소 겹침 QA: `/Users/yubyeongju/ai mart/.omo/evidence/mathmon-fusion-goal-state-images/`에 1280×800 여섯 상태, 전환 중간 프레임, 1024×768 태블릿 상태 캡처를 남겼습니다. `summary.json` 기준 예전 하단바/노드/좌표 오버레이 셀렉터는 0개이고, 여섯 상태 모두 예상 이미지 파일로 교체되는 것을 확인했습니다.
+- 텍스트 넘침·요소 겹침 QA: `/Users/yubyeongju/ai mart/.omo/evidence/mathmon-fusion-goal-state-images/`에 1280×800 여섯 상태, 전환 중간 프레임, 1024×768 태블릿 상태 캡처를 남겼습니다. `summary.json` 기준 예전 하단바/노드/좌표 오버레이 셀렉터는 0개이고, 여섯 상태 모두 예상 WebP 파일로 교체되는 것을 확인했습니다.
 
-### 2026-07-07 상단 목표 지도 재수정
+### 2026-07-02 상단 목표 지도 표시 핫픽스
 
-- 실패 원인 1: 초기 1280×190 WebP 상태 배너는 파일 자체에서 맨 왼쪽 로봇의 몸과 발판이 잘려 runtime에서 제외했습니다.
-- 실패 원인 2: 이후 만든 1280×260 PNG 상태 배너는 로봇은 보였지만 상단바가 너무 길어져 문제 화면을 누르는 방식으로만 맞출 수 있어 실패 자산으로 제외했습니다.
-- 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG/WebP로 만들었습니다. 결과 화면의 보상 로봇과 같은 흰색 몸체, 청록 코어, 금색 포인트, 무지개 날개 계열로 맞췄고, 현재 단계 로봇 1개만 컬러로 켜지며 나머지 다섯 로봇은 검은 실루엣으로 남깁니다.
-- 2026-07-08 재수정 기준: 목표판 배너 슬롯은 1280×190으로 확정하고, 가로 배치와 1280 전체 폭은 유지했습니다. 150px 실험 세트는 마지막 로봇 머리 장식이 잘리거나 아래 흰 빈 줄이 보였고, `object-fit: fill`을 쓰면 찌그러져 보일 수 있어 폐기했습니다. 이후 하단 받침대가 한 번 더 보이던 중복 밴드는 이미지에서 제거하고, 남은 장면을 1280×190으로 세로 재샘플했습니다. 아래 문제/왼쪽 상자 높이는 줄여 Stage 안에 맞췄습니다.
-- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 바꾸고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260708v`로 올렸습니다. `.goal-map-raster`는 배포에서 200 OK로 확인된 `play-robot-goal-*-generated.webp`를 `object-fit: contain`으로 표시하고, 하단 회색 음영을 만들던 `.goal-shade`는 숨겼습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
-- 컨택시트: `screenshots/play-robot-goal-result-matched-contact-sheet.png`에서 여섯 상태 모두 1280×190, 6개 로봇 슬롯, 활성 로봇 1개 컬러, 나머지 다섯 로봇 실루엣, 위 검정 빈칸 0건, 하단 흰 줄 0건으로 확인했습니다.
-
-![결과 로봇 톤에 맞춘 상단 목표 지도 6종](screenshots/play-robot-goal-result-matched-contact-sheet.png)
-- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 시작 흐름으로 진입해 확인했습니다. 상단바 이미지는 natural size 1280×190으로 로드되고, 왼쪽 조각 카드 두 장은 화면에 보이지 않습니다. 보기 4개가 모두 표시되며, Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 최신 REPORT 대표 캡처는 `screenshots/03-problem.png`이며, 로컬 Chrome QA에서 `naturalWidth=1280`, `naturalHeight=190`, `objectFit=contain`, `top=0px`, 보기 4개 표시를 확인했습니다. 보상 캡처는 `screenshots/04-reward.png`와 `screenshots/07-defect-reward.png`입니다.
-- 전환 보강: 상태 이미지가 갑자기 바뀌어 보이지 않도록 다음 배너 이미지를 숨은 레이어에 먼저 로드하고, 현재 배너가 빛에 녹듯 어두워진 뒤 다음 배너가 밝게 올라오는 진화 전환을 추가했습니다. 일반 모션에서는 로컬 Chrome 캡처로 시작, 중간, 완료 프레임을 확인했고, `prefers-reduced-motion: reduce`에서는 즉시 교체됩니다.
+- 상태별 목표 지도 WebP를 같은 파일명으로 다시 배포한 뒤 로컬 브라우저가 이전 이미지를 계속 보여 줄 수 있어, `goalMapRaster` 초기 이미지와 목표판 이미지 목록에 `goal-full-strip-20260702a` 버전을 붙였습니다.
+- 목표판은 `object-fit: contain`으로 렌더링하고, 이미지 자체를 확대하는 전환 애니메이션은 제거했습니다. 번들 Chromium에서 문제 화면까지 들어가 1746×900 넓은 화면과 1024×768 태블릿 가로 화면을 확인해 로봇 머리, 하체, 플랫폼이 모두 목표판 안에 들어오는지 봤습니다.
 
 ### 2026-07-02 10문제 완료 흐름 핫픽스
 
-- `+500점` 보상은 조기 종료 이벤트가 아니라 큰 점수 보상으로만 처리하고, 결과 화면 이동 조건은 `현재 문제 번호가 10번째인가` 하나로 고정했습니다. 어떤 보상이 떠도 1~9번 문제 뒤에는 `다음`만 보입니다.
+- `완성 신호` 보상은 에너지 +10% 이벤트로만 처리하고, 결과 화면 이동 조건은 `현재 문제 번호가 10번째인가` 하나로 고정했습니다. 어떤 보상이 떠도 1~9번 문제 뒤에는 `다음`만 보입니다.
 - 기존 연동 호환 때문에 이벤트 id `instantLaunch`는 유지하되, 4차시에서는 조기 종료 의미로 쓰지 않는다고 문서화했습니다.
 - 번들 Chromium/Playwright에서 `Math.random()`을 0.9로 고정해 `완성 신호!`를 10번 연속 발생시켰습니다. 1~9번 보상 버튼은 모두 `다음`, 10번 보상 버튼만 `결과 보기`였고, 결과 화면의 정답 수는 `10/10`으로 확인했습니다.
 - 같은 검증 중 1365×768 화면에서 선택지 그리드 높이가 부족해 1행과 2행 버튼 hitbox가 겹치는 문제를 발견했습니다. 목표판 높이와 문제 패널 행 높이를 조정해 선택지 그리드를 166px로 고정하고, 버튼 1행과 2행 사이에 10px 간격이 남는 것을 좌표로 확인했습니다.
 
-### 2026-07-02 설명 화면 비교안 정리
+### 2026-07-02 설명 화면 3안 비교 프로토타입
 
-- 설명 화면은 최종 채택 전 `image`, `svg`, `html` 세 가지 방식으로 비교했습니다. 현재 학생 기본 흐름은 `image` 하나로 고정했고, JS의 `TUTORIAL_VARIANTS`도 `image`만 허용합니다.
-- 예전 `tutorial-fulltext-source.png`, `tutorial-fulltext-generated.webp`, `tutorial-dynamic-bg-source.png`, `tutorial-dynamic-bg-generated.webp`, SVG/HTML 설명 마크업은 비교용 보존물입니다. 현재 실행 경로에서는 `tutorial-solve-generated.webp`와 `tutorial-goal-generated.webp` 두 장만 학생에게 보입니다.
-- Humanizer 학생 문구 QA는 최신 2장 흐름 기준으로 다시 정리했습니다. 화면 말은 `아래 수를 둘로 나눠요.`, `두 조각을 따로 곱해요.`, `두 값을 더해요.`, `합체 준비`처럼 초3 학생이 바로 읽을 수 있는 말로 유지했습니다.
-- 로컬 Chrome과 배포본에서 1280×800 기본 진입 흐름을 다시 확인했습니다. `시작 → 설명 1장 → 다음 → 설명 2장 → 합체 준비 → 문제 화면` 순서로 동작하고, 이미지 로드, 투명 hitbox Stage 안 배치, 보이는 DOM 텍스트 overflow, 화면 밖 이탈이 0건이었습니다.
+- 설명 화면을 최종 채택 전 비교할 수 있도록 `?tutorial=image`, `?tutorial=svg`, `?tutorial=html` 세 가지 variant로 나눴습니다. 1단원 통일 기준으로 A안 `image` variant를 기본값으로 바꿨고, 쿼리값이 없으면 포스터형 설명 화면이 먼저 열립니다.
+- A안 `image`는 `tutorial-fulltext-source.png`와 `tutorial-fulltext-generated.webp`를 사용합니다. 설명 글자, 예시, 시작 버튼 표면까지 생성 이미지 안에 들어간 포스터형 화면이며, HTML은 접근성용 숨김 설명과 투명 hitbox만 맡습니다.
+- B안 `svg`는 `tutorial-dynamic-bg-source.png`와 `tutorial-dynamic-bg-generated.webp`를 배경으로 사용하고, 설명 카드·예시·버튼 표면·보이는 글자는 하나의 1280×800 SVG 좌표계 안에서 그립니다. 실제 클릭은 같은 좌표의 투명 HTML 버튼이 맡습니다.
+- C안 `html`은 기존 HTML/CSS 방식의 개선안입니다. 설명은 `나눠서 곱해요`, `아래 수를 둘로 나눠요`, `두 조각을 따로 곱해요`, `두 값을 더해요`로 줄였고, 태블릿 가로에서는 예시판을 숨겨 텍스트와 버튼이 화면 안에 안정적으로 남게 했습니다.
+- Humanizer 학생 문구 QA: 세 안 모두 어려운 제작자 말 대신 `아래 수`, `두 조각`, `두 값`, `합체 시작`처럼 초3 학생이 바로 읽을 수 있는 말로 통일했습니다.
+- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome 원격 디버깅으로 1280×800과 1024×768에서 세 variant를 모두 열었습니다. DOM 텍스트 overflow, 화면 밖 이탈, SVG `<text>` Stage 이탈, 투명 시작 hitbox Stage 이탈이 모두 0건이었습니다. 캡처와 비교 시트는 `.tmp-qa/fusion-tutorial-variants-final/`에 남겼습니다.
+- A안 채택 후에도 `?tutorial=svg`, `?tutorial=html` 비교 링크는 유지했습니다. 기본 학생 흐름은 `image`이고, HTML은 접근성용 숨김 설명과 투명 hitbox만 맡습니다.
+- 1단원 통일 후 로컬 Chrome에서 1280×800과 1024×768 기본 진입 화면을 다시 확인했습니다. 쿼리값이 없을 때 `image` variant가 열리고, 이미지 로드, 투명 `합체 시작` hitbox Stage 안 배치, 보이는 DOM 텍스트 overflow, 화면 밖 이탈이 모두 0건이었습니다. REPORT용 최신 캡처는 `screenshots/02-tutorial.png`입니다.
 
 ### 2026-07-01 결과 등급 이미지 재생성
 
-- `result-small-generated.webp`부터 `result-legend-generated.webp`까지 결과 등급 이미지 6장을 image generation으로 다시 만들었습니다. 현재 runtime 점수표는 소형, 중형, 대형, 거대, 초거대, 전설을 모두 사용합니다.
-- 오른쪽 점수/결과 HTML 슬롯이 읽히도록 각 결과 이미지의 오른쪽 영역은 비교적 비워 두었습니다. 큰 등급 문구는 별도 생성형 타이틀 이미지로 추가했고, 숫자와 버튼 표면은 동적 SVG가 맡습니다.
-- 새 결과 이미지와 별도로, 상단 목표 지도 상태 6장은 결과 로봇 톤에 맞춰 전체 배너 생성 방식으로 다시 만들었습니다. 최신 컨택시트는 `screenshots/play-robot-goal-result-matched-contact-sheet.png`입니다.
+- `result-small-generated.webp`부터 `result-legend-generated.webp`까지 결과 등급 6장을 image generation으로 다시 만들었습니다. 소형은 따뜻한 노란 공방, 중형은 파란 조명, 대형은 초록 에너지, 거대는 주황·금색 중량감, 초거대는 파랑·자홍 크리스털, 전설은 보라 포털과 무지개 날개가 보이도록 단계 차이를 키웠습니다.
+- 오른쪽 점수/결과 HTML 슬롯이 읽히도록 각 결과 이미지의 오른쪽 영역은 비교적 비워 두었습니다. 고정 텍스트, 숫자, 버튼은 이미지에 넣지 않았습니다.
+- 새 결과 이미지와 별도로, 상단 목표 지도 상태 6장은 기준 실루엣 목표판을 참조해 전체 배너 생성 방식으로 다시 만들었습니다. 최신 컨택시트는 `.omo/evidence/mathmon-fusion-result-regeneration/result-tier-contact.png`와 `.omo/evidence/mathmon-fusion-goal-seamless/seamless-runtime-contact.png`입니다.
 
 ### 2026-07-02 전국 순위 화면 추가
 
@@ -237,18 +195,6 @@
 
 - 설명 화면을 생성 이미지 2장 흐름으로 바꿨습니다. 첫 장은 `tutorial-solve-source.png`와 `tutorial-solve-generated.webp`가 맡고, 아래 수를 둘로 나누어 따로 곱한 뒤 더하는 방법과 `다음` 버튼을 보여 줍니다.
 - 둘째 장은 `tutorial-goal-source.png`와 `tutorial-goal-generated.webp`가 맡고, 문제를 맞히면 합체 힘을 얻고 마지막에 전국 순위를 볼 수 있음을 알려 줍니다.
-- 기존 SVG/HTML 비교 흐름은 학생 기본 흐름에서 제외하고, 기본 variant를 `image` 하나로 고정했습니다. HTML은 접근성용 숨김 설명, 단계 전환 상태값, 투명 hitbox만 맡습니다.
+- 기존 비교용 `?tutorial=svg`, `?tutorial=html` 흐름은 학생 기본 흐름에서 제외하고, 기본 variant를 `image` 하나로 고정했습니다. HTML은 접근성용 숨김 설명, 단계 전환 상태값, 투명 hitbox만 맡습니다.
 - 첫 클릭은 `solve`에서 `goal`로 넘어가고, 둘째 클릭은 `합체 준비`로 첫 문제를 시작합니다. 학생 문구는 `아래 수를 둘로 나눠요.`, `두 조각을 따로 곱해요.`, `두 값을 더해요.`, `합체 준비`처럼 짧은 행동 말로 유지했습니다.
-- 로컬 Chrome QA와 배포본 QA에서 1280×800 기준 `시작 → 설명 1장 → 다음 → 설명 2장 → 합체 준비 → 문제 화면` 흐름을 확인했고, 설명 이미지 표시, 버튼 aria-label, Stage 비율, inline script 파싱, `git diff --check`를 통과했습니다. 에듀잇티 운영 런처는 `https://kakio426.github.io/eduitit-math-3-2/3-2-1-4-mathmon-fusion/?v=3bc3c71&scoreboardApi=https%3A%2F%2Feduitit.site`를 iframe으로 엽니다.
-
-### 2026-07-07 보상 점수 이미지 이관
-
-- 보상 모달의 보이는 퍼센트 텍스트를 제거하고, 생성형 점수 이미지 8장으로 바꿨습니다. 학생 화면에 나오는 값은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개`뿐입니다.
-- 각 자산은 image generation으로 만들고, 원본 `reward-score-*-source.png`와 배포본 `reward-score-*-generated.webp`를 차시 폴더에 보관했습니다. HTML/CSS 숫자나 로컬 폰트 합성으로 점수를 그리지 않습니다.
-- 배포본 `reward-score-*-generated.webp` 8장은 가장자리와 연결된 어두운 생성 배경을 제거한 투명 WebP로 후처리해, 보상 화면에서 사각 카드 배경이 보이지 않게 했습니다.
-- 보상 모달은 제목과 설명 문장을 `visually-hidden`으로 숨기고, 보이는 요소는 점수 이미지와 `다음` 또는 `결과 보기` 버튼만 남겼습니다.
-- 내부 순위 검증용 `amount`는 기존 백엔드 허용 범위 안에 유지했습니다. 화면 점수 이미지는 학생에게 보이는 보상 표현이고, 결과 등급 계산은 기존 합체 힘 흐름을 그대로 사용합니다.
-- Humanizer 학생 문구 QA: 새 접근성 문구는 `합체 점수 50점이 들어왔어요.`, `합체 점수 100점이 줄었어요.`, `이번 보상은 0점이에요. 다음 문제에서 다시 모아요.`처럼 짧게 유지했습니다. `퍼센트`, `결함 처리`, `이벤트` 같은 제작자 말은 보상 화면에서 보이지 않습니다.
-- 텍스트 넘침·요소 겹침 QA: Playwright로 1365×900(실제 Stage 1280×800)과 1024×768에서 8개 보상 상태를 모두 캡처했습니다. `.omo/evidence/mathmon-fusion-reward-score-art/summary.json` 기준 Stage 밖 이탈 0건, 점수 이미지와 버튼 겹침 0건입니다. 대표 캡처는 같은 폴더의 `desktop-plus500.png`, `desktop-minus100.png`, `tablet-zero.png`, `tablet-rainbow.png`입니다.
-- 투명 배경 재검증: Playwright로 같은 2개 화면 크기에서 8개 보상 상태를 다시 캡처했습니다. `.omo/evidence/mathmon-fusion-reward-alpha-qa/summary.json` 기준 실패 0건이며, 8개 WebP 모두 알파 채널과 투명 가장자리를 확인했습니다.
-- 정적 검증: inline script 파싱, `node scripts/check-stage-ratio.mjs`, `git diff --check`, reward art 파일 존재 검사를 통과했습니다.
+- 로컬 Chrome QA에서 1280×800 기준 `시작 → 설명 1장 → 다음 → 설명 2장 → 합체 준비 → 문제 화면` 흐름을 확인했고, 설명 이미지 표시, 버튼 aria-label, Stage 비율, inline script 파싱, `git diff --check`를 통과했습니다.
