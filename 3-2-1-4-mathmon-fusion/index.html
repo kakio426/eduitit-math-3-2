@@ -3098,8 +3098,8 @@
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
         <div class="hud-center">
           <span class="stat-pill" id="progressText">문제 1/10</span>
-          <span class="stat-pill" id="energyText">합체 준비</span>
-          <span class="stat-pill" id="chainText">마지막에 측정</span>
+          <span class="stat-pill" id="energyText">0점</span>
+          <span class="stat-pill" id="chainText">마지막에 로봇</span>
         </div>
         <span class="unit-badge">합체 공방</span>
       </header>
@@ -3196,12 +3196,12 @@
       </div>
       <div class="result-layout">
         <div class="result-accessibility-copy visually-hidden" aria-live="polite">
-          <h2 class="visually-hidden" id="resultTitle">합체 에너지 측정 중</h2>
+          <h2 class="visually-hidden" id="resultTitle">합체 점수 확인 중</h2>
           <p class="visually-hidden" id="praiseText">두 부품을 차근차근 합치고 있어요.</p>
           <div id="resultMeasure" aria-label="합체 등급 측정 결과">
             <div class="measure-top">
-              <span id="measureStatus">합체 에너지 측정 중</span>
-              <strong id="measurePercent">0%</strong>
+              <span id="measureStatus">합체 점수 확인 중</span>
+              <strong id="measurePercent">0점</strong>
             </div>
             <div class="measure-tube" aria-hidden="true">
               <span class="measure-fill" id="measureFill"></span>
@@ -3209,7 +3209,7 @@
             </div>
             <div class="result-grade-track" id="resultGradeTrack" aria-label="합체 등급 측정"></div>
           </div>
-          <span id="finalEnergyText">0%</span>
+          <span id="finalEnergyText">0점</span>
           <span class="visually-hidden" id="finalCorrectText">0/10</span>
           <span id="finalGradeText">소형</span>
         </div>
@@ -3275,7 +3275,8 @@
   <script>
     const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
-    const MAX_ENERGY = 100;
+    const MAX_SCORE = 8000;
+    const LEGEND_SCORE = 1500;
     const AUDIO_PREF_KEYS = {
       bgm: "mathmon-audio-bgm-enabled",
       sfx: "mathmon-audio-sfx-enabled"
@@ -3286,19 +3287,17 @@
     }
     const SCOREBOARD_API_URL = getScoreboardApiUrl();
     const GRADES = [
-      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 1, max: 20, minCorrect: 1, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
-      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 21, max: 40, minCorrect: 3, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
-      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 41, max: 60, minCorrect: 5, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
-      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 61, max: 80, minCorrect: 7, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" },
-      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: 81, max: 100, minCorrect: 9, image: "result-ultra-generated.webp", titleArt: "result-title-ultra-generated.webp" }
+      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 100, max: 299, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
+      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 300, max: 499, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
+      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 500, max: 999, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
+      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 1000, max: 1499, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" }
     ];
     const SECRET_GRADE = {
       id: "legend",
       short: "전",
       name: "전설 로봇 매스몬",
-      min: 100,
-      max: 100,
-      minCorrect: 1,
+      min: LEGEND_SCORE,
+      max: MAX_SCORE,
       image: "result-legend-generated.webp",
       titleArt: "result-title-legend-generated.webp",
       secret: true
@@ -3346,13 +3345,12 @@
       screen: "cover",
       problems: [],
       index: 0,
-      energy: 0,
+      score: 0,
       correct: 0,
       chain: 0,
       stepIndex: 0,
       stepAttempts: 0,
       problemHadMistake: false,
-      rainbowCore: false,
       lastEvent: null,
       goalRailTimer: null,
       goalSwitchSwapTimer: null,
@@ -3492,13 +3490,12 @@
         const safeCorrect = clamp(Math.round(Number(correct) || 0), 0, TOTAL_QUESTIONS);
         state.correct = safeCorrect;
         state.index = TOTAL_QUESTIONS;
-        state.rainbowCore = Boolean(targetGrade?.secret);
-        state.energy = targetGrade ? targetGrade.max : 0;
+        state.score = targetGrade ? targetGrade.min : 0;
         showResult();
         return {
           correct: state.correct,
-          energy: getEnergy(),
-          grade: getGradeByEnergy()?.id || "retry",
+          score: getScore(),
+          grade: getGradeByScore()?.id || "retry",
           screen: state.screen
         };
       },
@@ -3511,7 +3508,7 @@
           minus50: { id: "smallExplosion", scoreArt: REWARD_SCORE_ART.minus50, message: "합체 점수 50점이 줄었어요." },
           minus100: { id: "leak", scoreArt: REWARD_SCORE_ART.minus100, message: "합체 점수 100점이 줄었어요." },
           zero: { id: "emptyTank", scoreArt: REWARD_SCORE_ART.zero, message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요." },
-          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요." }
+          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "무지개 점수 800점이 들어왔어요." }
         };
         const sample = samples[scoreKey] || samples.plus50;
         EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
@@ -3543,7 +3540,7 @@
       apiUrl: SCOREBOARD_API_URL,
       lessonId: LESSON_ID,
       totalQuestions: TOTAL_QUESTIONS,
-      getScore: () => getEnergy(),
+      getScore: () => getScore(),
       getCorrectCount: () => state.correct,
       getAnswers: () => state.scoreboardAnswers,
       getRewardResult: getScoreboardRewardResult,
@@ -3728,21 +3725,19 @@
     }
 
     function getScoreboardRewardResult() {
-      const grade = getGradeByEnergy();
+      const grade = getGradeByScore();
       return {
         gradeId: grade ? grade.id : "retry",
-        energy: getEnergy(),
-        rainbowCore: state.rainbowCore
+        score: getScore()
       };
     }
 
     function startGame() {
       state.problems = buildProblems();
       state.index = 0;
-      state.energy = 0;
+      state.score = 0;
       state.correct = 0;
       state.chain = 0;
-      state.rainbowCore = false;
       state.lastEvent = null;
       state.scoreboardAnswers = [];
       state.scoreboardCurrentAnswer = null;
@@ -3837,34 +3832,25 @@
 
     function renderStatus() {
       el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
-      el.energyText.textContent = state.energy > 0 ? "합체 중" : "합체 준비";
-      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 측정" : "마지막에 측정";
+      el.energyText.textContent = `${getScore()}점`;
+      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 확인" : "마지막에 로봇";
       updateGoalRail();
     }
 
-    function getEnergy(energy = state.energy) {
-      return clamp(Math.round(energy), 0, MAX_ENERGY);
+    function getScore(score = state.score) {
+      return clamp(Math.round(score), 0, MAX_SCORE);
     }
 
-    function getGradeByEnergy(energy = state.energy, rainbowCore = state.rainbowCore, correct = state.correct) {
-      if (rainbowCore && correct >= SECRET_GRADE.minCorrect) {
-        return { ...SECRET_GRADE, index: GRADES.length };
-      }
-      const measured = getEnergy(energy);
-      if (measured <= 0 || correct <= 0) {
+    function getGradeByScore(score = state.score) {
+      const measured = getScore(score);
+      if (measured < GRADES[0].min) {
         return null;
       }
-      let index = GRADES.findIndex((grade) => measured >= grade.min && measured <= grade.max);
+      let index = ALL_GRADES.findIndex((grade) => measured >= grade.min && measured <= grade.max);
       if (index < 0) {
-        index = measured > 0 ? GRADES.length - 1 : 0;
+        index = ALL_GRADES.length - 1;
       }
-      while (index > 0 && correct < GRADES[index].minCorrect) {
-        index -= 1;
-      }
-      if (correct < GRADES[index].minCorrect) {
-        return null;
-      }
-      return { ...GRADES[index], index };
+      return { ...ALL_GRADES[index], index };
     }
 
     function getResultCorrectArtSrc(correctCount) {
@@ -3933,28 +3919,23 @@
     }
 
     function getGoalRailImageIndex() {
-      const reachedGrade = getGradeByEnergy();
+      const reachedGrade = getGradeByScore();
       const reachedIndex = reachedGrade ? reachedGrade.index : -1;
-      return state.rainbowCore
-        ? ALL_GRADES.length - 1
-        : Math.min(GRADES.length - 1, Math.max(0, reachedIndex));
+      return Math.min(ALL_GRADES.length - 1, Math.max(0, reachedIndex));
     }
 
     function updateGoalRail() {
-      const energy = getEnergy();
-      const progress = state.rainbowCore ? 100 : energy;
+      const score = getScore();
       const currentIndex = getGoalRailImageIndex();
       const currentGrade = ALL_GRADES[currentIndex] || ALL_GRADES[0];
-      const reachedGrade = getGradeByEnergy();
+      const reachedGrade = getGradeByScore();
       el.goalRail.dataset.goalTier = currentGrade.id;
       setGoalRailImage(currentIndex);
       el.goalRail.setAttribute(
         "aria-label",
-        state.rainbowCore
-          ? "전설 로봇까지 빛이 켜졌어요."
-          : reachedGrade
-            ? `멋진 로봇까지 가는 길, 합체 에너지 ${progress}%, ${currentGrade.name}이 보이는 중.`
-            : `멋진 로봇까지 가는 길, 합체 에너지 ${progress}%, 첫 로봇을 준비하는 중.`
+        reachedGrade
+          ? `멋진 로봇까지 가는 길, 합체 점수 ${score}점, ${currentGrade.name}이 보이는 중.`
+          : `멋진 로봇까지 가는 길, 합체 점수 ${score}점, 첫 로봇을 준비하는 중.`
       );
     }
 
@@ -4232,7 +4213,7 @@
       if (roll < 44) {
         return {
           id: "normal",
-          amount: 7,
+          amount: 50,
           score: 50,
           scoreArt: REWARD_SCORE_ART.plus50,
           title: "합체 점수",
@@ -4242,7 +4223,7 @@
       if (roll < 68) {
         return {
           id: "normal",
-          amount: 10,
+          amount: 100,
           score: 100,
           scoreArt: REWARD_SCORE_ART.plus100,
           title: "합체 점수",
@@ -4252,7 +4233,7 @@
       if (roll < 78) {
         return {
           id: "smallExplosion",
-          amount: -5,
+          amount: -50,
           score: -50,
           scoreArt: REWARD_SCORE_ART.minus50,
           title: "합체 점수",
@@ -4262,7 +4243,7 @@
       if (roll < 88) {
         return {
           id: "megaFuel",
-          amount: 20,
+          amount: 200,
           score: 200,
           scoreArt: REWARD_SCORE_ART.plus200,
           title: "합체 점수",
@@ -4272,7 +4253,7 @@
       if (roll < 93) {
         return {
           id: "instantLaunch",
-          amount: 10,
+          amount: 500,
           score: 500,
           scoreArt: REWARD_SCORE_ART.plus500,
           title: "합체 점수",
@@ -4286,17 +4267,16 @@
           score: 0,
           scoreArt: REWARD_SCORE_ART.zero,
           title: "합체 점수",
-          message: "합체 점수가 0점이 됐어요. 다음 문제에서 다시 모아요.",
-          emptiesTank: true
+          message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요."
         };
       }
       return {
         id: "rainbowFuel",
-        amount: 16,
-        score: "rainbow",
+        amount: 800,
+        score: 800,
         scoreArt: REWARD_SCORE_ART.rainbow,
         title: "합체 점수",
-        message: "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.",
+        message: "무지개 점수 800점이 들어왔어요.",
         rainbow: true
       };
     }
@@ -4308,7 +4288,7 @@
     function createDefectEvent() {
       return {
         id: "leak",
-        amount: -10,
+        amount: -100,
         score: -100,
         scoreArt: REWARD_SCORE_ART.minus100,
         title: "합체 점수",
@@ -4317,16 +4297,9 @@
     }
 
     function applyFusionEvent(event) {
-      const before = state.energy;
-      if (event.emptiesTank) {
-        state.energy = 0;
-      } else {
-        state.energy = clamp(state.energy + event.amount, 0, MAX_ENERGY);
-      }
-      if (event.rainbow) {
-        state.rainbowCore = true;
-      }
-      const actualDelta = state.energy - before;
+      const before = state.score;
+      state.score = clamp(state.score + event.amount, 0, MAX_SCORE);
+      const actualDelta = state.score - before;
       state.lastEvent = {
         ...event,
         actualDelta,
@@ -4336,10 +4309,7 @@
 
     function getFusionEventMessage(event, actualDelta, before) {
       if (event.rainbow) {
-        return "무지개 코어가 켜졌어요. 전설 로봇 매스몬이 열려요.";
-      }
-      if (event.emptiesTank) {
-        return before > 0 ? "합체 점수가 0점이 됐어요. 다음 문제에서 다시 모아요." : "이번 보상은 0점이에요. 다음 문제에서 다시 모아요.";
+        return "무지개 점수 800점이 들어왔어요.";
       }
       if (typeof event.score === "number" && event.score > 0) {
         return `합체 점수 ${event.score}점이 들어왔어요.`;
@@ -4392,23 +4362,23 @@
     }
 
     function showResult() {
-      const grade = getGradeByEnergy();
+      const grade = getGradeByScore();
       const launched = Boolean(grade);
-      const energy = getEnergy();
-      const measureLabel = state.rainbowCore ? "무지개 코어" : `${energy}%`;
-      const measureWidth = state.rainbowCore ? 100 : energy;
+      const score = getScore();
+      const measureLabel = `${score}점`;
+      const measureWidth = Math.min(100, Math.round(score / LEGEND_SCORE * 100));
       const correctLabel = `${state.correct}/${TOTAL_QUESTIONS}`;
       el.resultRaster.src = launched ? grade.image : "result-retry-generated.webp";
       el.resultScreen.classList.add("is-measuring");
-      el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowCore);
-      document.getElementById("resultTitle").textContent = "합체 에너지 측정 중";
+      el.resultScreen.classList.toggle("is-rainbow-result", Boolean(grade?.secret));
+      document.getElementById("resultTitle").textContent = "합체 점수 확인 중";
       el.finalEnergyText.textContent = "측정 중";
       el.finalCorrectText.textContent = correctLabel;
       el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
       el.finalGradeText.textContent = "측정 중";
-      el.praiseText.textContent = "합체 공방에서 모은 에너지를 재고 있어요.";
-      el.measureStatus.textContent = "합체 에너지 측정 중";
-      el.measurePercent.textContent = "0%";
+      el.praiseText.textContent = "합체 공방에서 모은 점수를 보고 있어요.";
+      el.measureStatus.textContent = "합체 점수 확인 중";
+      el.measurePercent.textContent = "0점";
       el.measureFill.style.setProperty("--measure-width", "0%");
       el.resultTitleArt.hidden = true;
       el.resultDestinationSvg.textContent = "";
@@ -4459,13 +4429,10 @@
 
     function getPraise(grade) {
       if (grade.secret) {
-        return "무지개 코어가 켜져 전설 로봇 매스몬에 도달했어요!";
-      }
-      if (grade.index >= 4) {
-        return "초거대 로봇 매스몬이 완성됐어요. 두 값을 끝까지 잘 합쳤어요.";
+        return "1500점을 넘어 전설 로봇 매스몬에 도착했어요!";
       }
       if (grade.index >= 3) {
-        return "거대 합체까지 도달했어요. 0 붙이기와 덧셈을 차근차근 해냈어요.";
+        return "거대 로봇까지 도착했어요. 두 값을 끝까지 잘 합쳤어요.";
       }
       if (grade.index >= 2) {
         return "대형 로봇 매스몬 성공! 두 값을 잘 이어 붙였어요.";
@@ -4485,7 +4452,7 @@
         return "거의 다 왔어요. 두 번째 부품에 0을 붙였는지 한 번 더 살펴요.";
       }
       if (state.correct >= 3) {
-        return "합체 에너지가 조금 부족해요. 두 부품을 차례로 만들면 더 커져요.";
+        return "합체 점수가 조금 부족해요. 두 부품을 차례로 만들면 더 커져요.";
       }
       return "괜찮아요. 일의 자리 부품, 십의 자리 부품, 합체 순서로 다시 해 봐요.";
     }

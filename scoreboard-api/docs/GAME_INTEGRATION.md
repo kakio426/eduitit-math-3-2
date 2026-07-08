@@ -102,7 +102,7 @@ await fetch(`${SCOREBOARD_API_URL}/api/v1/scores`, {
 | 1차시 상자런 | `3-2-1-1-mathmon-box-run` | 전국 상자 순위 | 최종 상자 점수 | 상자 결과/매스몬 이름 | `answer` 1단계 | 깨진 상자의 `0`, `÷2`는 고정값이 아니라 `after - before` 변화량을 `broken.amount`로 보냅니다. |
 | 2차시 로켓 | `3-2-1-2-mathmon-rocket-charge` | 전국 로켓 순위 | 연료 점수 | 도착한 곳 | `ones`, `tens`, `hundreds` | `instantLaunch`가 마지막 보상이면 10문제 전에도 제출할 수 있습니다. |
 | 3차시 점프섬 | `3-2-1-3-mathmon-jump-islands` | 전국 점프 순위 | 점프 거리 | 도착한 섬 | `smallProduct`, `scaleFooting` | 한 번이라도 틀린 문제는 좋은 바람이 아니라 `shaky` 보상으로 검증됩니다. |
-| 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 에너지 | 얻은 로봇 | `partial1`, `partial2`, `fusion` | `emptyTank`는 서버에서도 점수를 0으로 만들고, `rainbowFuel`은 결과값에 `rainbowCore`를 함께 보냅니다. |
+| 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 점수 | 얻은 로봇 | `partial1`, `partial2`, `fusion` | `emptyTank`는 0점 보상이고, `rainbowFuel`은 `amount: 800`으로 보냅니다. |
 | 3단원 1차시 표적 맞히기 | `3-2-3-1-mathmon-target-hit` | 전국 표적 순위 | 표적 점수 | 표적 등급 | `find` | 중심·반지름·지름 보기의 첫 선택을 보냅니다. |
 | 3단원 2차시 컴퍼스 마법진 | `3-2-3-2-mathmon-compass-ring` | 전국 마법진 순위 | 마법진 점수 | 마법진 등급 | `spread` | 컴퍼스가 벌어진 길이를 `selected`, 정답 길이를 `expected`로 보냅니다. |
 | 3단원 3차시 두 배 다리 | `3-2-3-3-mathmon-double-bridge` | 전국 다리 순위 | 다리 점수 | 다리 등급 | `double` | 반지름 두 개의 합으로 고른 길이를 보냅니다. |

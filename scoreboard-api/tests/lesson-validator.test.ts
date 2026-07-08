@@ -44,7 +44,7 @@ const createBoxBrokenAnswer = (questionIndex: number, amount: number): AnswerLog
 
 const createFusionAnswer = (
   questionIndex: number,
-  reward: { readonly id: string; readonly amount: number } = { id: "normal", amount: 10 },
+  reward: { readonly id: string; readonly amount: number } = { id: "normal", amount: 100 },
 ): AnswerLogItem => ({
   questionIndex,
   elapsedMs: 5200,
@@ -149,8 +149,8 @@ describe("lesson validators", () => {
 
   test("Given fusion answers ending with completion signal before question ten When validating Then early finish is rejected", () => {
     const answers = [
-      createFusionAnswer(0, { id: "normal", amount: 10 }),
-      createFusionAnswer(1, { id: "instantLaunch", amount: 10 }),
+      createFusionAnswer(0, { id: "normal", amount: 100 }),
+      createFusionAnswer(1, { id: "instantLaunch", amount: 500 }),
     ]
 
     const result = validateLessonSubmission({
@@ -162,6 +162,40 @@ describe("lesson validators", () => {
 
     expect(result.status).toBe("rejected")
     expect(result.flagReasons).toContain("answer_count_must_be_10")
+  })
+
+  test("Given fusion answers with additive rewards When validating Then score follows visible points", () => {
+    const answers = [
+      createFusionAnswer(0, { id: "normal", amount: 50 }),
+      createFusionAnswer(1, { id: "normal", amount: 100 }),
+      createFusionAnswer(2, { id: "megaFuel", amount: 200 }),
+      createFusionAnswer(3, { id: "instantLaunch", amount: 500 }),
+      createFusionAnswer(4, { id: "emptyTank", amount: 0 }),
+      createFusionAnswer(5, { id: "rainbowFuel", amount: 800 }),
+      {
+        ...createFusionAnswer(6, { id: "leak", amount: -100 }),
+        steps: [
+          { stepId: "partial1", selected: 45, expected: 46, elapsedMs: 900 },
+          { stepId: "partial2", selected: 460, expected: 460, elapsedMs: 1100 },
+          { stepId: "fusion", selected: 506, expected: 506, elapsedMs: 1200 },
+        ],
+      },
+      createFusionAnswer(7, { id: "smallExplosion", amount: -50 }),
+      createFusionAnswer(8, { id: "normal", amount: 100 }),
+      createFusionAnswer(9, { id: "instantLaunch", amount: 500 }),
+    ]
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-1-4-mathmon-fusion",
+      seed: 12345,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("accepted")
+    expect(result.score).toBe(2100n)
+    expect(result.correctCount).toBe(9)
+    expect(result.maxScore).toBe(8000n)
   })
 
   test("Given ten perfect fraction answers When validating Then score is computed on the server", () => {

@@ -66,16 +66,16 @@ const ISLAND_RULE: ProgressRule = {
 
 const FUSION_RULE: ProgressRule = {
   baseForPerfect: 0,
-  maxScore: 100,
+  maxScore: 8000,
   mistakeId: "leak",
   rules: [
-    { id: "normal", min: 7, max: 13 },
-    { id: "smallExplosion", min: -9, max: -4 },
-    { id: "megaFuel", min: 18, max: 30 },
-    { id: "instantLaunch", min: 10, max: 10 },
-    { id: "emptyTank", min: 0, max: 0, empties: true },
-    { id: "rainbowFuel", min: 16, max: 16 },
-    { id: "leak", min: -18, max: -8 },
+    { id: "normal", min: 50, max: 100 },
+    { id: "smallExplosion", min: -50, max: -50 },
+    { id: "megaFuel", min: 200, max: 200 },
+    { id: "instantLaunch", min: 500, max: 500 },
+    { id: "emptyTank", min: 0, max: 0 },
+    { id: "rainbowFuel", min: 800, max: 800 },
+    { id: "leak", min: -100, max: -100 },
   ],
 }
 
