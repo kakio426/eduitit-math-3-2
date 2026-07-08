@@ -523,12 +523,12 @@
       display: grid;
       justify-items: start;
       gap: 14px;
-      transform: translateY(-92px);
+      transform: translateY(-38px);
     }
 
     .hero-title-art {
       display: block;
-      width: min(500px, 100%);
+      width: min(368px, 100%);
       height: auto;
       margin: -8px 0 -8px -10px;
       filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.24));
@@ -546,8 +546,10 @@
     }
 
     .cover-start-button {
+      --cover-start-scale: 0.7;
       width: 420px;
       height: 149px;
+      margin-bottom: -45px;
       padding: 0;
       border: 0;
       border-radius: 999px;
@@ -556,17 +558,19 @@
       display: inline-grid;
       place-items: center;
       transition: filter 160ms ease, transform 160ms ease;
+      transform: scale(var(--cover-start-scale));
+      transform-origin: left top;
       filter: drop-shadow(0 14px 24px rgba(255, 174, 34, 0.24));
     }
 
     .cover-start-button:hover {
       filter: brightness(1.04) drop-shadow(0 16px 26px rgba(255, 174, 34, 0.28));
-      transform: translateY(-1px);
+      transform: translateY(-1px) scale(var(--cover-start-scale));
     }
 
     .cover-start-button:active {
       filter: brightness(0.99) drop-shadow(0 10px 18px rgba(255, 174, 34, 0.22));
-      transform: translateY(1px);
+      transform: translateY(1px) scale(var(--cover-start-scale));
     }
 
     .cover-start-button:focus-visible {
@@ -3129,20 +3133,20 @@
             <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
 
             <g class="mathmon-scoreboard-action-labels">
-              <rect class="mathmon-scoreboard-button-face is-primary" x="642" y="648" width="142" height="58" rx="24"></rect>
-              <rect class="mathmon-scoreboard-button-face" x="804" y="648" width="142" height="58" rx="24"></rect>
-              <rect class="mathmon-scoreboard-button-face" x="966" y="648" width="142" height="58" rx="24"></rect>
-              <text class="mathmon-scoreboard-action-label is-primary" x="713" y="678">새로 보기</text>
-              <text class="mathmon-scoreboard-action-label" x="875" y="678">결과로</text>
-              <text class="mathmon-scoreboard-action-label" x="1037" y="678">다시하기</text>
+              <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
+              <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
+              <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+              <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
+              <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
+              <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
             </g>
           </g>
         </g>
       </svg>
       <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-        <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 642; --y: 648; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-        <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 804; --y: 648; --w: 142; --h: 58;" aria-label="결과로"></button>
-        <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 966; --y: 648; --w: 142; --h: 58;" aria-label="다시하기"></button>
+        <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
+        <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
+        <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
       </div>
       <div class="top-row">
         <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
@@ -3152,7 +3156,7 @@
     </div>
   </main>
 
-  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260702-nojekyll"></script>
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
   <script>
     const LESSON_ID = "3-2-1-2-mathmon-rocket-charge";
     const TOTAL_QUESTIONS = 10;

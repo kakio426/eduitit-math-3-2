@@ -177,10 +177,10 @@
 
 ### 2026-07-01 상단 로봇 목표 지도 추가
 
-- 문제 화면 상단을 3차시 `play-map-strip-generated.webp` 방식에 맞춰 생성 이미지 기반 목표 지도로 바꿨습니다. `play-robot-goal-strip-source.png`를 원본으로 보관하고, runtime에서는 상태별 1280×190 목표 지도 PNG 6장을 사용합니다.
+- 문제 화면 상단을 3차시 `play-map-strip-generated.webp` 방식에 맞춰 생성 이미지 기반 목표 지도로 바꿨습니다. `play-robot-goal-strip-source.png`를 원본으로 보관하고, 현재 runtime에서는 상태별 1280×190 목표 지도 PNG 6장을 사용합니다.
 - 로봇 목표 자체는 CSS 실루엣으로 그리지 않습니다. 생성 이미지 안에 소형부터 전설까지 이어지는 로봇 실루엣과 합체 길을 넣고, HTML은 접근성 상태와 전환 빛 효과만 맡습니다.
 - 이 목표 지도는 별도 점수판이 아니라 기존 중심 보상인 합체 에너지를 시각화합니다. 로봇 외곽선에 맞추는 현재 표시, 하단 진행바, 원형 노드는 쓰지 않고 현재 단계 로봇이 켜진 목표판 이미지로 상태를 보여 줍니다.
-- 목표 지도는 상단바 자체를 키우지 않고, 얇은 배너 안에서 로봇 실루엣과 발판이 모두 보이도록 이미지 구도를 조정했습니다. 문제 화면 과밀을 막기 위해 아래 계산 영역은 2열 구조 안에서 줄바꿈 없이 유지되도록 확인합니다.
+- 초기 목표 지도는 얇은 배너 안에서 로봇 실루엣과 발판이 보이도록 시도했습니다. 최신 기준은 아래 2026-07-08 재수정 기록처럼 1280×190 배너 슬롯을 쓰고, 아래 문제/왼쪽 패널 높이를 줄여 Stage 안에 맞춥니다.
 - Humanizer 학생 문구 QA: 새로 보이는 문장형 안내는 넣지 않았습니다. 접근성 문구는 `멋진 로봇까지 가는 길`처럼 짧게 유지했습니다.
 
 ### 2026-07-01 상단 목표 지도 상태 이미지 실험
@@ -194,16 +194,16 @@
 
 ### 2026-07-07 상단 목표 지도 재수정
 
-- 실패 원인 1: 이전 1280×190 WebP 상태 배너는 파일 자체에서 맨 왼쪽 로봇의 몸과 발판이 잘려 runtime에서 제외했습니다.
+- 실패 원인 1: 초기 1280×190 WebP 상태 배너는 파일 자체에서 맨 왼쪽 로봇의 몸과 발판이 잘려 runtime에서 제외했습니다.
 - 실패 원인 2: 이후 만든 1280×260 PNG 상태 배너는 로봇은 보였지만 상단바가 너무 길어져 문제 화면을 누르는 방식으로만 맞출 수 있어 실패 자산으로 제외했습니다.
 - 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG/WebP로 만들었습니다. 결과 화면의 보상 로봇과 같은 흰색 몸체, 청록 코어, 금색 포인트, 무지개 날개 계열로 맞췄고, 현재 단계 로봇 1개만 컬러로 켜지며 나머지 다섯 로봇은 검은 실루엣으로 남깁니다.
-- 2026-07-08 재생성 기준: 목표판 높이는 190px로 유지했습니다. 240px로 키우지 않고, 190px 안에서 로봇 전신·안테나·날개·발판이 모두 들어가도록 로봇 크기와 세로 여백을 줄인 6개 상태 이미지를 다시 생성했습니다.
-- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 유지하고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260708h`로 올렸습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
-- 컨택시트: `screenshots/play-robot-goal-result-matched-contact-sheet.png`에서 여섯 상태 모두 활성 로봇만 컬러이고, 3번째 이후 날개 흐름이 4번째 거대 로봇에도 이어지는 것을 확인했습니다.
+- 2026-07-08 재수정 기준: 목표판 배너 슬롯은 1280×190으로 확정하고, 가로 배치와 1280 전체 폭은 유지했습니다. 150px 실험 세트는 마지막 로봇 머리 장식이 잘리거나 아래 흰 빈 줄이 보였고, `object-fit: fill`을 쓰면 찌그러져 보일 수 있어 폐기했습니다. 이후 하단 받침대가 한 번 더 보이던 중복 밴드는 이미지에서 제거하고, 남은 장면을 1280×190으로 세로 재샘플했습니다. 아래 문제/왼쪽 상자 높이는 줄여 Stage 안에 맞췄습니다.
+- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 바꾸고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260708u`로 올렸습니다. `.goal-map-raster`는 `object-fit: contain`으로 표시하고, 하단 회색 음영을 만들던 `.goal-shade`는 숨겼습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
+- 컨택시트: `screenshots/play-robot-goal-result-matched-contact-sheet.png`에서 여섯 상태 모두 1280×190, 6개 로봇 슬롯, 활성 로봇 1개 컬러, 나머지 다섯 로봇 실루엣, 위 검정 빈칸 0건, 하단 흰 줄 0건으로 확인했습니다.
 
 ![결과 로봇 톤에 맞춘 상단 목표 지도 6종](screenshots/play-robot-goal-result-matched-contact-sheet.png)
-- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 시작 흐름으로 진입해 확인했습니다. 상단바 이미지는 natural size 1280×190으로 로드되고, 6개 상태 모두 위·아래 잘림 없이 보입니다. 보기 4개가 모두 표시되며, Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 최신 REPORT 대표 캡처는 `screenshots/03-problem.png`, 보상 캡처는 `screenshots/04-reward.png`와 `screenshots/07-defect-reward.png`입니다.
-- 전환 보강: 상태 이미지가 갑자기 바뀌어 보이지 않도록 다음 배너 이미지를 숨은 레이어에 먼저 로드하고, 현재 배너가 에너지에 녹듯 어두워진 뒤 다음 배너가 밝게 올라오는 진화 전환을 추가했습니다. 일반 모션에서는 `.omo/evidence/mathmon-fusion-goal-evolution-transition/goal-evolution-transition-frames-localized.png`로 시작, 중간, 완료 프레임을 확인했고, `prefers-reduced-motion: reduce`에서는 즉시 교체됩니다.
+- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 시작 흐름으로 진입해 확인했습니다. 상단바 이미지는 natural size 1280×190으로 로드되고, 왼쪽 조각 카드 두 장은 화면에 보이지 않습니다. 보기 4개가 모두 표시되며, Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 최신 REPORT 대표 캡처는 `screenshots/03-problem.png`이며, 로컬 Chrome QA에서 `naturalWidth=1280`, `naturalHeight=190`, `objectFit=contain`, `top=0px`, 보기 4개 표시를 확인했습니다. 보상 캡처는 `screenshots/04-reward.png`와 `screenshots/07-defect-reward.png`입니다.
+- 전환 보강: 상태 이미지가 갑자기 바뀌어 보이지 않도록 다음 배너 이미지를 숨은 레이어에 먼저 로드하고, 현재 배너가 에너지에 녹듯 어두워진 뒤 다음 배너가 밝게 올라오는 진화 전환을 추가했습니다. 일반 모션에서는 로컬 Chrome 캡처로 시작, 중간, 완료 프레임을 확인했고, `prefers-reduced-motion: reduce`에서는 즉시 교체됩니다.
 
 ### 2026-07-02 10문제 완료 흐름 핫픽스
 
@@ -223,7 +223,7 @@
 
 - `result-small-generated.webp`부터 `result-legend-generated.webp`까지 결과 등급 6장을 image generation으로 다시 만들었습니다. 소형은 따뜻한 노란 공방, 중형은 파란 조명, 대형은 초록 에너지, 거대는 주황·금색 중량감, 초거대는 파랑·자홍 크리스털, 전설은 보라 포털과 무지개 날개가 보이도록 단계 차이를 키웠습니다.
 - 오른쪽 점수/결과 HTML 슬롯이 읽히도록 각 결과 이미지의 오른쪽 영역은 비교적 비워 두었습니다. 큰 등급 문구는 별도 생성형 타이틀 이미지로 추가했고, 숫자와 버튼 표면은 동적 SVG가 맡습니다.
-- 새 결과 이미지와 별도로, 상단 목표 지도 상태 6장은 기준 실루엣 목표판을 참조해 전체 배너 생성 방식으로 다시 만들었습니다. 최신 컨택시트는 `.omo/evidence/mathmon-fusion-result-regeneration/result-tier-contact.png`와 `.omo/evidence/mathmon-fusion-goal-seamless/seamless-runtime-contact.png`입니다.
+- 새 결과 이미지와 별도로, 상단 목표 지도 상태 6장은 결과 로봇 톤에 맞춰 전체 배너 생성 방식으로 다시 만들었습니다. 최신 컨택시트는 `screenshots/play-robot-goal-result-matched-contact-sheet.png`입니다.
 
 ### 2026-07-02 전국 순위 화면 추가
 

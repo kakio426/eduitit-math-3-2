@@ -35,6 +35,19 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 - 첫 화면에 매스몬이 필요하면 커버 배경 생성 단계에서 `cover-generated.webp` 장면 안에 함께 포함한다. 팩 WebP를 `.cover-mathmon` 같은 별도 `<img>`로 커버 위에 붙이는 방식은 새 차시와 리마스터 기준이 아니다.
 - 결과 화면 정답 수 `0/10`~`10/10`은 공용 생성형 숫자 자산 `_shared/result-count/result-correct-*-generated.webp`를 기본으로 쓴다. 원본은 `_shared/result-count/result-correct-count-source.png`, 배경 제거 시트는 `_shared/result-count/result-correct-count-transparent-sheet.png`에 보관한다. 차시별로 같은 숫자를 새로 만들거나 로컬 폰트/Pillow/canvas/SVG로 재생성하지 않는다.
 
+## 상태 이미지 세트 QA
+
+한 UI 슬롯에서 여러 생성 이미지가 상태별로 바뀌는 경우는 매스몬 팩이 아니어도 이 스킬의 QA 대상이다. 예: 결과 등급 이미지 6장, 로봇 목표 지도 6장, 보상 점수 이미지 8장, 정답 수 이미지 11장.
+
+- 작업 시작 전에 세트 계약을 적는다. 최소 항목은 `개수`, `파일명 패턴`, `승인된 캔버스 크기`, `runtime 표시 슬롯`, `각 장에 반드시 보여야 하는 대상 개수`, `현재 상태와 비활성 상태의 표현 차이`다.
+- 사용자가 지정한 캔버스나 배너 높이를 임의로 바꾸지 않는다. 크기 변경이 필요하다고 판단되면 먼저 이유를 말하고, 마지막으로 승인받은 크기로 계약을 갱신한 뒤 생성한다.
+- 모든 상태 이미지는 같은 캔버스 크기, 같은 기준선, 같은 슬롯 수, 같은 여백 체계를 가져야 한다. 한 장만 좌우로 줄거나 위아래가 잘리거나 주인공 위치가 튀면 실패다.
+- 생성 후 파일 치수만 확인하지 않는다. 실제 표시 비율로 전체 컨택시트를 만들고, 각 행/칸에 파일명·상태명·크기를 표시한다.
+- 세트 필수 개수는 전수 검사한다. 예를 들어 6단계 로봇 목표판이면 6장 모두 로봇 슬롯 6개가 보여야 하며, 1장이라도 5개만 보이면 세트 전체를 실패로 보고 다시 만든다.
+- runtime 연결 뒤에는 브라우저에서 `naturalWidth/naturalHeight`, 렌더된 `getBoundingClientRect()`, `object-fit`, `aspect-ratio`, 캐시 버전이 의도와 같은지 확인한다. 파일은 맞는데 브라우저에서 잘리거나 눌리면 실패다.
+- 세로가 부족하면 이미지를 좌우로 줄이거나 `object-fit: fill`로 찌그러뜨리지 않는다. 슬롯 높이와 주변 레이아웃을 다시 나누고, 위 검정 빈칸·아래 흰 줄·회색 여백 같은 가장자리 결함이 보이면 실패다.
+- `README.md`/`REPORT.md`에는 현재 기준 크기, 세트 개수, 컨택시트 경로, 브라우저 QA 화면 크기를 남긴다. 실패했던 이전 크기와 현재 runtime 크기를 같은 문장에 섞어 쓰지 않는다.
+
 ## 작업 절차
 
 1. **현황 확인**: `catalog.json`, active/legacy 팩, contact sheet를 확인한다.
@@ -44,7 +57,8 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 5. **후처리**: chroma-key 제거 → 투명 `768x768` PNG → WebP quality 82~86 → contact sheet 생성.
 6. **등록**: 팩 `manifest.json`과 `_shared/mathmon/catalog.json`을 갱신한다.
 7. **차시 연결**: 차시 폴더에는 필요한 WebP만 복사하고 `index.html`의 매스몬 참조를 그 경로로 바꾼다. 단, 첫 화면 커버 동행용으로 기존 매스몬 WebP를 얹지 않는다. 커버에 매스몬이 필요하면 `cover-generated.webp` 자체를 매스몬 포함 장면으로 다시 생성한다. 결과 정답 수는 차시 폴더로 복사하지 말고 `../_shared/result-count/result-correct-N-generated.webp`를 직접 참조한다.
-8. **검증**: JSON 파싱, 파일 개수, alpha, 레거시 실행 참조 제거, 로컬 200, 브라우저 이미지 로드를 확인한다.
+8. **상태 세트 검증**: 상태별 이미지 세트라면 컨택시트에서 전 장의 개수·기준선·잘림·찌그러짐을 먼저 확인하고, 브라우저에서 실제 렌더 크기까지 확인한다.
+9. **검증**: JSON 파싱, 파일 개수, alpha, 레거시 실행 참조 제거, 로컬 200, 브라우저 이미지 로드를 확인한다.
 
 ## 금지
 

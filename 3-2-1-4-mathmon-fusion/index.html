@@ -802,15 +802,19 @@
       --goal-glow-strong: rgba(255, 226, 126, 0.96);
       --goal-glow-soft: rgba(255, 200, 87, 0.38);
       --goal-scan: rgba(103, 231, 255, 0.48);
+      --goal-art-y: 0px;
     }
 
     .goal-map-raster {
       position: absolute;
-      inset: 0;
+      left: 0;
+      right: 0;
+      top: var(--goal-art-y);
+      bottom: auto;
       z-index: 0;
       width: 100%;
       height: 100%;
-      object-fit: fill;
+      object-fit: contain;
       object-position: center;
       pointer-events: none;
       user-select: none;
@@ -839,12 +843,7 @@
     }
 
     .goal-shade {
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 2;
-      height: 48%;
-      background: linear-gradient(180deg, transparent, rgba(14, 12, 22, 0.58));
+      display: none;
     }
 
     .goal-transition {
@@ -941,7 +940,7 @@
       min-height: 0;
       display: grid;
       grid-template-columns: minmax(280px, 0.46fr) minmax(0, 1fr);
-      gap: 18px;
+      gap: 12px;
     }
 
     .fusion-side,
@@ -955,11 +954,11 @@
     .fusion-side {
       position: relative;
       display: grid;
-      grid-template-rows: minmax(0, 1fr) auto auto;
+      grid-template-rows: minmax(0, 1fr) auto;
       align-items: end;
-      gap: 10px;
+      gap: 6px;
       overflow: hidden;
-      padding: 14px;
+      padding: 12px 12px 14px;
       isolation: isolate;
       background: #151b1f;
     }
@@ -992,13 +991,13 @@
     .robot-stage {
       position: relative;
       z-index: 2;
-      align-self: center;
+      align-self: end;
       justify-self: center;
-      width: min(300px, 84%);
+      width: min(260px, 78%);
       aspect-ratio: 1 / 1.05;
       display: grid;
       place-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.34));
     }
 
@@ -1033,7 +1032,7 @@
     .robot-sprite {
       position: relative;
       z-index: 3;
-      width: min(100%, 292px);
+      width: min(100%, 250px);
       aspect-ratio: 1;
       object-fit: contain;
       transform: translateY(2px) scale(0.96);
@@ -1227,15 +1226,22 @@
       box-shadow: 0 0 30px rgba(255, 200, 87, 0.34);
     }
 
+    .side-parts,
+    .side-result,
+    .side-result.is-done {
+      display: none !important;
+    }
+
     .side-caption {
       position: relative;
       z-index: 3;
       margin: 0;
       color: #fff0c6;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 950;
       line-height: 1.25;
       text-align: center;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
     }
 
     .workshop-zone {
@@ -1410,9 +1416,9 @@
     .problem-panel {
       min-height: 0;
       display: grid;
-      grid-template-rows: minmax(86px, 0.75fr) minmax(88px, auto) minmax(166px, auto) minmax(28px, auto);
+      grid-template-rows: minmax(66px, 0.55fr) minmax(72px, auto) minmax(140px, auto) minmax(24px, auto);
       gap: 8px;
-      padding: clamp(12px, 1.6vw, 18px);
+      padding: clamp(10px, 1.2vw, 14px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background:
@@ -1432,7 +1438,7 @@
       width: 100%;
       margin: 0;
       color: #ffffff;
-      font-size: clamp(4.1rem, 7vw, 6.2rem);
+      font-size: clamp(3.35rem, 5.6vw, 5.25rem);
       line-height: 1;
       font-weight: 1000;
       text-align: center;
@@ -1462,8 +1468,8 @@
       align-content: center;
       justify-items: center;
       gap: 6px;
-      min-height: 82px;
-      padding: clamp(10px, 1.4vw, 14px);
+      min-height: 72px;
+      padding: clamp(8px, 1vw, 12px);
       border: 2px solid rgba(255, 200, 87, 0.78);
       border-radius: var(--radius);
       color: #251500;
@@ -1476,13 +1482,13 @@
 
     .step-meaning {
       margin: 0;
-      font-size: clamp(1.08rem, 1.7vw, 1.42rem);
+      font-size: clamp(0.96rem, 1.35vw, 1.22rem);
       font-weight: 1000;
       line-height: 1.18;
     }
 
     .step-formula {
-      font-size: clamp(2.25rem, 4vw, 3.35rem);
+      font-size: clamp(1.95rem, 3.3vw, 2.82rem);
       font-weight: 1000;
       line-height: 1;
       letter-spacing: 0;
@@ -1494,22 +1500,22 @@
     }
 
     .choice-grid {
-      min-height: 166px;
+      min-height: 140px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(2, minmax(78px, 1fr));
+      grid-template-rows: repeat(2, minmax(64px, 1fr));
       align-content: stretch;
       gap: 10px;
     }
 
     .choice-button {
-      min-height: 78px;
+      min-height: 64px;
       padding: 10px 14px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.11);
       color: #ffffff;
-      font-size: clamp(1.85rem, 3.3vw, 2.85rem);
+      font-size: clamp(1.65rem, 2.75vw, 2.42rem);
       font-weight: 1000;
       line-height: 1;
       transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
@@ -3099,7 +3105,7 @@
       </header>
 
       <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
-        <img class="goal-map-raster goal-map-raster-current" id="goalMapRaster" src="play-robot-goal-small-generated.png?v=goal-state-20260708h" alt="">
+        <img class="goal-map-raster goal-map-raster-current" id="goalMapRaster" src="play-robot-goal-small-generated.png?v=goal-state-20260708u" alt="">
         <img class="goal-map-raster goal-map-raster-next" id="goalMapRasterNext" alt="" aria-hidden="true" hidden>
         <span class="goal-shade" aria-hidden="true"></span>
         <span class="goal-transition goal-transition-sweep" aria-hidden="true"></span>
@@ -3265,7 +3271,7 @@
     </div>
   </main>
 
-  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260702-nojekyll"></script>
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
   <script>
     const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
@@ -3299,7 +3305,7 @@
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
     const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
-    const GOAL_RAIL_ASSET_VERSION = "goal-state-20260708h";
+    const GOAL_RAIL_ASSET_VERSION = "goal-state-20260708u";
     const GOAL_RAIL_IMAGES = ALL_GRADES.map(
       (grade) => `play-robot-goal-${grade.id}-generated.png?v=${GOAL_RAIL_ASSET_VERSION}`
     );
@@ -3530,6 +3536,7 @@
         window.__mathmonFusionQa.showResult(qaResultParam, qaCorrectParam ?? TOTAL_QUESTIONS);
       });
     }
+    const qaGoalParam = new URLSearchParams(window.location.search).get("qa-goal");
 
     const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
       root: el.scoreboardScreen,
@@ -3548,6 +3555,15 @@
       restart: startGame,
       playSound: () => playSound("next")
     });
+
+    if (qaGoalParam) {
+      window.requestAnimationFrame(() => {
+        startGame();
+        window.setTimeout(() => {
+          window.__mathmonFusionQa.showGoalTier(qaGoalParam);
+        }, 60);
+      });
+    }
 
     function showScreen(name) {
       state.screen = name;
