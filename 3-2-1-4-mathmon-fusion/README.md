@@ -39,12 +39,13 @@
 - `fusion-workshop-generated.webp`: 문제 화면 합체 공방 배포용 WebP
 - `play-robot-goal-strip-source.png`: 문제 화면 상단 로봇 목표 지도 생성 이미지 원본
 - `play-robot-goal-strip-generated.webp`: 문제 화면 상단 로봇 목표 지도 배포용 WebP
-- `play-robot-goal-small-generated.png/webp`: 소형 로봇이 첫 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-medium-generated.png/webp`: 중형 로봇이 둘째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-large-generated.png/webp`: 대형 로봇이 셋째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-giant-generated.png/webp`: 거대 로봇이 넷째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-ultra-generated.png/webp`: 초거대 로봇이 다섯째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-legend-generated.png/webp`: 전설 로봇이 마지막 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-*-source.png`: 결과 로봇 톤에 맞춰 다시 만든 상단 목표 지도 생성 원본 6장
+- `play-robot-goal-small-generated.png/webp`: 소형 로봇만 컬러로 켜지고 나머지는 실루엣인 상단 목표 지도
+- `play-robot-goal-medium-generated.png/webp`: 중형 로봇만 컬러로 켜지고 나머지는 실루엣인 상단 목표 지도
+- `play-robot-goal-large-generated.png/webp`: 대형 로봇만 컬러로 켜지고 나머지는 실루엣인 상단 목표 지도
+- `play-robot-goal-giant-generated.png/webp`: 거대 로봇만 컬러로 켜지고 나머지는 실루엣인 상단 목표 지도
+- `play-robot-goal-ultra-generated.png/webp`: 초거대 로봇만 컬러로 켜지고 나머지는 실루엣인 상단 목표 지도
+- `play-robot-goal-legend-generated.png/webp`: 전설 로봇만 컬러로 켜지고 나머지는 실루엣인 상단 목표 지도
 - `cover-robot-mathmon-generated.png/webp`: 첫 화면 로봇형 매스몬 표지
 - `result-small-generated.png/webp`: 소형 로봇 매스몬 결과 화면
 - `result-medium-generated.png/webp`: 중형 로봇 매스몬 결과 화면
@@ -58,7 +59,7 @@
 
 첫 화면과 결과 화면은 생성 이미지를 RasterStage 배경으로 씁니다. 첫 화면은 제목·목표·시작 버튼을 표준 오버레이로 두고, 결과 화면은 큰 `초거대 로봇!` 같은 등급 문구와 `9/10` 같은 정답 수를 생성형 이미지로 보여 줍니다. 단일 SVG 동적 레이어는 `100%`, `순위 보기`, `다시하기` 버튼 표면만 그립니다. 첫 화면은 `cover-robot-mathmon-generated.webp`를 사용해, 매스몬 자체가 둥글고 친근한 로봇형 캐릭터로 보이도록 했습니다.
 
-문제 화면은 생성 이미지 합체 공방 배경 위에 HTML/CSS 합체 보드를 올립니다. 상단 목표 지도는 3차시 지도처럼 생성 이미지가 로봇 실루엣과 합체 길을 담당합니다. 진행 상태는 하단바나 좌표 마커를 올리지 않고, 소형부터 전설까지 상태별 목표 지도 6장을 미리 준비해 현재 등급 로봇이 플랫폼에 등장한 이미지로 통째 교체합니다. 각 상태 이미지는 잘라 붙인 조각이 아니라 전체 목표판을 다시 생성한 배너라 로봇 주변 배경과 플랫폼 조명이 끊기지 않습니다. 교체 순간에는 강한 빛과 스캔 효과가 지나가 이미지가 바뀌는 티를 줄이고, 무지개 코어를 얻었을 때만 전설 로봇 이미지가 켜집니다. 보상 화면은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개` 생성형 점수 이미지 8장만 바꿔 보여 줍니다. 이 점수 이미지는 투명 WebP라 보상 배경 위에 바로 떠 보이고, 네모 카드처럼 잘린 배경은 없습니다. 결과 화면 6장도 등급별 몸집, 색, 배경 에너지 차이가 분명하게 보이도록 다시 생성했습니다. 부품 1, 부품 2, 합체 수는 학생의 선택에 따라 채워지며, 마지막 단계에서 두 부품이 가운데로 합쳐지는 CSS 연출이 적용됩니다.
+문제 화면은 생성 이미지 합체 공방 배경 위에 HTML/CSS 합체 보드를 올립니다. 상단 목표 지도는 3차시 지도처럼 생성 이미지가 로봇 실루엣과 합체 길을 담당합니다. 진행 상태는 하단바나 좌표 마커를 올리지 않고, 소형부터 전설까지 상태별 목표 지도 6장을 미리 준비해 현재 등급 로봇이 컬러로 켜진 이미지로 통째 교체합니다. 결과 화면 로봇과 같은 흰색 몸체, 청록 코어, 금색 포인트, 무지개 날개 계열로 맞췄고, 현재 로봇을 제외한 다섯 로봇은 검은 실루엣으로 남깁니다. 교체 순간에는 강한 빛과 스캔 효과가 지나가 이미지가 바뀌는 티를 줄이고, 무지개 코어를 얻었을 때만 전설 로봇 이미지가 켜집니다. 보상 화면은 `+50점`, `+100점`, `+200점`, `+500점`, `-50점`, `-100점`, `0점`, `무지개` 생성형 점수 이미지 8장만 바꿔 보여 줍니다. 이 점수 이미지는 투명 WebP라 보상 배경 위에 바로 떠 보이고, 네모 카드처럼 잘린 배경은 없습니다. 결과 화면 6장도 등급별 몸집, 색, 배경 에너지 차이가 분명하게 보이도록 다시 생성했습니다. 부품 1, 부품 2, 합체 수는 학생의 선택에 따라 채워지며, 마지막 단계에서 두 부품이 가운데로 합쳐지는 CSS 연출이 적용됩니다.
 
 ## 작업실 파일 구성
 
@@ -81,6 +82,7 @@
 
 - `screenshots/comparison-1-1-1-2-1-4.png`: 1-1, 1-2, 1-4 화면 비교
 - `screenshots/raster-assets-contact-sheet.png`: 최종 RasterStage 이미지 세트
+- `screenshots/play-robot-goal-result-matched-contact-sheet.png`: 결과 로봇 톤에 맞춘 상단 목표 지도 6종
 - `screenshots/reward-score-contact-sheet.png`: 보상 점수 이미지 8종 렌더링 상태
 - `screenshots/04-reward.png`, `screenshots/07-defect-reward.png`: 최신 투명 배경 보상 화면
 - `screenshots/08-result-retry.png`: 정답 수와 에너지가 부족한 재도전 결과

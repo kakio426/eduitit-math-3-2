@@ -112,8 +112,9 @@
 - `tutorial-fulltext-source.png`, `tutorial-fulltext-generated.webp`(이전 포스터 보존본, 현재 실행 경로에서는 미사용)
 - `tutorial-dynamic-bg-source.png`, `tutorial-dynamic-bg-generated.webp`(이전 비교안 보존본, 현재 학생 기본 흐름에서는 미사용)
 - `play-robot-goal-strip-source.png`, `play-robot-goal-strip-generated.png`, `play-robot-goal-strip-generated.webp`
+- `play-robot-goal-*-source.png`(상태별 목표 지도 생성 원본 6장)
 - `play-robot-goal-*-generated.png`(상태별 목표 지도 runtime 배너 6장, 1280×190)
-- `play-robot-goal-*-generated.webp`(이전 1280×190 상태 배너 보존본, 파일 자체에서 일부 로봇이 잘려 현재 runtime에서는 미사용)
+- `play-robot-goal-*-generated.webp`(상태별 목표 지도 배포용 WebP 6장, 1280×190)
 - `fusion-workshop-generated.webp`
 - `mathmon-rfa-01-standby.webp`
 - `mathmon-rfa-02-one-part.webp`
@@ -195,10 +196,12 @@
 
 - 실패 원인 1: 이전 1280×190 WebP 상태 배너는 파일 자체에서 맨 왼쪽 로봇의 몸과 발판이 잘려 runtime에서 제외했습니다.
 - 실패 원인 2: 이후 만든 1280×260 PNG 상태 배너는 로봇은 보였지만 상단바가 너무 길어져 문제 화면을 누르는 방식으로만 맞출 수 있어 실패 자산으로 제외했습니다.
-- 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG로 만들었습니다. 각 파일은 목표판 전체를 한 장면으로 생성하고, 현재 단계 슬롯에는 해당 로봇이 받침대·조명·그림자와 함께 실제로 보이게 했습니다. 나머지 슬롯은 실루엣으로 남깁니다.
-- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 되돌리고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260707f`로 올렸습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
-- 컨택시트: `.omo/evidence/mathmon-fusion-goal-robots-regenerated-20260707/goal-robot-state-contact-sheet.png`에서 여섯 상태 모두 현재 슬롯 로봇이 실체로 보이고, 머리·몸·다리·발판이 잘리지 않는 것을 확인했습니다.
-- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 진입해 확인했습니다. 상단바 이미지는 모두 natural size 1280×190이고, 표시 높이는 각각 171.8px, 142.7px입니다. Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 여섯 상태를 모두 순환한 브라우저 컨택시트는 `.omo/evidence/mathmon-fusion-goal-robots-regenerated-20260707/browser/browser-goal-state-contact-1280x800.png`와 `.omo/evidence/mathmon-fusion-goal-robots-regenerated-20260707/browser/browser-goal-state-contact-1024x768.png`입니다.
+- 최종 기준: `play-robot-goal-small-generated.png`부터 `play-robot-goal-legend-generated.png`까지 6장을 다시 1280×190 PNG/WebP로 만들었습니다. 결과 화면의 보상 로봇과 같은 흰색 몸체, 청록 코어, 금색 포인트, 무지개 날개 계열로 맞췄고, 현재 단계 로봇 1개만 컬러로 켜지며 나머지 다섯 로봇은 검은 실루엣으로 남깁니다.
+- runtime 연결: 목표판은 `aspect-ratio: 1280 / 190`으로 되돌리고, `GOAL_RAIL_ASSET_VERSION`은 `goal-state-20260707g`로 올렸습니다. 상단 목표판 위에 별도 로봇 PNG/WebP 오버레이는 없습니다.
+- 컨택시트: `screenshots/play-robot-goal-result-matched-contact-sheet.png`에서 여섯 상태 모두 활성 로봇만 컬러이고, 3번째 이후 날개 흐름이 4번째 거대 로봇에도 이어지는 것을 확인했습니다.
+
+![결과 로봇 톤에 맞춘 상단 목표 지도 6종](screenshots/play-robot-goal-result-matched-contact-sheet.png)
+- 텍스트 넘침·요소 겹침 QA: 로컬 Chrome(Playwright)에서 1280×800, 1024×768 문제 화면에 실제 시작 흐름으로 진입해 확인했습니다. 상단바 이미지는 natural size 1280×190으로 로드되고, 보기 4개가 모두 표시되며, Stage 밖 이탈 0건, 선택지 겹침 0건, 왼쪽 로봇 박스와 문제 박스 겹침 0건입니다. 최신 REPORT 대표 캡처는 `screenshots/03-problem.png`, 보상 캡처는 `screenshots/04-reward.png`와 `screenshots/07-defect-reward.png`입니다.
 - 전환 보강: 상태 이미지가 갑자기 바뀌어 보이지 않도록 다음 배너 이미지를 숨은 레이어에 먼저 로드하고, 현재 배너가 에너지에 녹듯 어두워진 뒤 다음 배너가 밝게 올라오는 진화 전환을 추가했습니다. 일반 모션에서는 `.omo/evidence/mathmon-fusion-goal-evolution-transition/goal-evolution-transition-frames-localized.png`로 시작, 중간, 완료 프레임을 확인했고, `prefers-reduced-motion: reduce`에서는 즉시 교체됩니다.
 
 ### 2026-07-02 10문제 완료 흐름 핫픽스
