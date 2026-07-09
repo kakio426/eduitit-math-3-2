@@ -1,0 +1,180 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "3-2-5-1-mathmon-water-fill",
+  "id": "3-2-5-1",
+  "folder": "3-2-5-1-mathmon-water-fill",
+  "modelName": "Lesson5WaterFillModel",
+  "title": "매스몬 물통 채우기 시합",
+  "shortTitle": "매스몬 물통",
+  "topic": "들이 비교와 L, mL",
+  "unitBadge": "5단원 들이",
+  "goal": "눈금에 맞는 들이를 골라요.",
+  "action": "눈금이 가리키는 들이를 고른다.",
+  "buttonLabel": "물통 보기",
+  "rewardScreenTitle": "물통 채우기",
+  "rewardThing": "물통",
+  "progressLabel": "물통 힘",
+  "rewardComplete": "물통이 찰랑였어요.",
+  "rewardSmall": "조금 찰랑였어요.",
+  "rewardBig": "크게 차올랐어요.",
+  "tutorialTitle": "물통을 채우기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    [
+      "1",
+      "눈금을 봐요.",
+      "물 높이가 닿은 눈금을 찾아요."
+    ],
+    [
+      "2",
+      "1L는 1000mL예요.",
+      "L와 mL를 함께 읽어요."
+    ],
+    [
+      "3",
+      "더 많이 든 쪽을 골라요.",
+      "맞히면 물통이 더 차요."
+    ]
+  ],
+  "resultPrefix": "result-tank",
+  "resultTitlePrefix": "result-title",
+  "results": [
+    {
+      "id": "small",
+      "name": "작은 물통",
+      "minPower": 0,
+      "minCorrect": 0,
+      "image": "result-tank-small-generated.webp",
+      "titleImage": "result-title-small-generated.webp"
+    },
+    {
+      "id": "spark",
+      "name": "반짝 물통",
+      "minPower": 30,
+      "minCorrect": 3,
+      "image": "result-tank-spark-generated.webp",
+      "titleImage": "result-title-spark-generated.webp"
+    },
+    {
+      "id": "full",
+      "name": "가득 물통",
+      "minPower": 70,
+      "minCorrect": 7,
+      "image": "result-tank-full-generated.webp",
+      "titleImage": "result-title-full-generated.webp"
+    },
+    {
+      "id": "rainbow",
+      "name": "무지개 물탑",
+      "minPower": 100,
+      "minCorrect": 10,
+      "needsSpecial": true,
+      "image": "result-tank-rainbow-generated.webp",
+      "titleImage": "result-title-rainbow-generated.webp"
+    }
+  ],
+  "rewardEvents": [
+    {
+      "id": "drop",
+      "text": "맑은 물방울",
+      "weight": 5200,
+      "min": 5,
+      "max": 8,
+      "family": "smallFlow"
+    },
+    {
+      "id": "stream",
+      "text": "시원한 물줄기",
+      "weight": 1700,
+      "min": 13,
+      "max": 18,
+      "family": "bigFlow"
+    },
+    {
+      "id": "shine",
+      "text": "반짝 물방울",
+      "weight": 1700,
+      "min": 9,
+      "max": 12,
+      "family": "shineFlow"
+    },
+    {
+      "id": "splash",
+      "text": "살짝 튄 물",
+      "weight": 1200,
+      "min": 1,
+      "max": 3,
+      "family": "smallOnly"
+    },
+    {
+      "id": "rainbow",
+      "text": "무지개 물줄기",
+      "weight": 200,
+      "min": 28,
+      "max": 28,
+      "family": "specialFlow",
+      "special": true
+    }
+  ],
+  "wrongEvent": {
+    "id": "refill",
+    "text": "다시 채우기",
+    "min": 1,
+    "max": 2,
+    "family": "repair"
+  },
+  "typesPerRun": [
+    "readMl",
+    "readMl",
+    "readMl",
+    "readMl",
+    "readLiterMl",
+    "readLiterMl",
+    "readLiterMl",
+    "compareBottle",
+    "compareBottle",
+    "compareBottle"
+  ],
+  "mathmonPack": "zero-factory-animal-pack",
+  "mathmonName": "펭귄몬",
+  "mathmonId": "zfa-06-penguinmon",
+  "stage": {
+    "ratio": "16:10",
+    "size": "1280x800"
+  },
+  "standards": {
+    "cover": "generated-title-overlay",
+    "coverStart": "generated-button-art",
+    "settings": "modal-controls",
+    "resultVisual": "generated-assets"
+  },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "start-button-generated.webp",
+    "rewardScene": "reward-scene-generated.webp",
+    "resultRetryButton": "result-retry-button-generated.webp"
+  },
+  "qa": {
+    "viewports": [
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768
+      }
+    ],
+    "requiredFlow": [
+      "cover",
+      "tutorial-1",
+      "tutorial-2",
+      "play",
+      "reward",
+      "result"
+    ]
+  }
+}

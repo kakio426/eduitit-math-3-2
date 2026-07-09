@@ -4,6 +4,17 @@
 
 3학년 2학기 5단원 1차시 `들이 비교와 L, mL`을 단일 HTML 게임으로 구현했습니다. 학생은 10문제 동안 눈금에 맞는 들이를 골라요. 정답을 고르면 값이 계산판에 먼저 들어가고, 마지막 단계에서는 완성값을 본 뒤 `물통 보기`를 눌러 보상으로 넘어갑니다.
 
+## 1-1. 엔진화 파일럿
+
+2026-07-09 기준 이 차시는 `mathmon-engine-v1` 파일럿으로 전환했습니다.
+
+- 공용 엔진 소스: `_engine/v1/`
+- 차시 소스: `_lessons/3-2-5-1-mathmon-water-fill/`
+- 빌드 산출물: `3-2-5-1-mathmon-water-fill/index.html`
+- 빌드 명령: `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill`
+
+학생용 배포 표면은 기존과 같습니다. `index.html` 안에 CSS/JS가 인라인으로 들어가며, 이미지 자산은 기존 차시 폴더와 `_shared/result-count/`를 참조합니다.
+
 ## 2. 등록
 
 - lesson id: `3-2-5-1`
@@ -80,10 +91,19 @@
 
 ## 9. 검증 명령
 
-- `node scripts/check-rule-consistency.mjs`
-- `node scripts/check-stage-ratio.mjs`
-- `node scripts/qa-lesson5-water-fill-model.mjs --runs 10000`
-- `node scripts/simulate-lesson5-water-fill.mjs --runs 10000`
-- Browser QA: Chrome CDP 자동 캡처로 데스크톱과 태블릿 가로 화면 확인
+엔진화 파일럿 검증:
 
-실행 결과: 위 명령과 브라우저 QA 모두 통과했습니다.
+- `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill` 통과
+- `node scripts/check-lesson-contract.mjs` 통과
+- `node scripts/qa-lesson5-water-fill-model.mjs --runs 1000` 통과
+- `node scripts/simulate-lesson5-water-fill.mjs --runs 1000` 통과
+
+루트 Stage 검사:
+
+- `node scripts/check-stage-ratio.mjs`는 현재 작업실의 별도 변경 중인 `3-2-1-4-mathmon-fusion`에서 실패합니다. 이번 엔진화 대상인 `3-2-5-1-mathmon-water-fill` 항목은 실패 목록에 없습니다.
+
+Browser QA:
+
+- `node scripts/qa-engine-water-fill-flow.mjs` 통과
+- desktop `1280x800`과 tablet landscape `1024x768`에서 첫 화면, 설정 모달, 설명 1·2, 문제 1단계, 정답 확인, 보상, 결과 흐름을 확인했습니다.
+- 캡처: `screenshots/engine-desktop-*.png`, `screenshots/engine-tablet-*.png`

@@ -9,6 +9,17 @@
 - 보상: 물통 변화
 - 실행: `index.html`을 브라우저에서 열기
 
+## 엔진 v1 파일럿
+
+이 차시는 `mathmon-engine-v1` 파일럿으로, 학생용 `index.html`은 아래 소스에서 다시 빌드합니다.
+
+- 공용 엔진: `_engine/v1/`
+- 차시 소스: `_lessons/3-2-5-1-mathmon-water-fill/`
+- 빌드: `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill`
+- 계약 검사: `node scripts/check-lesson-contract.mjs`
+
+배포 형태는 기존과 같습니다. 차시 폴더의 `index.html`은 CSS/JS를 인라인으로 가진 단일 HTML입니다.
+
 ## 화면 흐름
 
 ```text

@@ -1,0 +1,169 @@
+#!/usr/bin/env node
+// Build one Mathmon lesson package from _engine/v1 plus a lesson source manifest.
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+const ROOT = process.cwd();
+const ENGINE_VERSION = "mathmon-engine-v1";
+const ENGINE_DIR = path.join(ROOT, "_engine", "v1");
+const LESSON_SOURCE_ROOT = path.join(ROOT, "_lessons");
+
+function usage() {
+  console.error("Usage: node scripts/build-lesson.mjs <lesson-folder>");
+  console.error("Example: node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill");
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function indent(text, spaces = 4) {
+  const padding = " ".repeat(spaces);
+  return String(text)
+    .trimEnd()
+    .split("\n")
+    .map((line) => (line ? padding + line : ""))
+    .join("\n");
+}
+
+function renderCards(cards) {
+  return cards.map((card) => {
+    const [mark, title, body] = card;
+    return `<div class="tutorial-card"><div class="card-mark">${escapeHtml(mark)}</div><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></div>`;
+  }).join("");
+}
+
+function renderTemplate(template, replacements) {
+  return template.replace(/\{\{([a-zA-Z0-9_]+)\}\}/g, (match, key) => {
+    if (!(key in replacements)) throw new Error(`missing template value: ${key}`);
+    return replacements[key];
+  });
+}
+
+function requireLessonConfig(config, lessonFolder) {
+  const required = [
+    "engineVersion",
+    "id",
+    "folder",
+    "modelName",
+    "title",
+    "shortTitle",
+    "topic",
+    "unitBadge",
+    "goal",
+    "buttonLabel",
+    "rewardScreenTitle",
+    "progressLabel",
+    "rewardComplete",
+    "tutorialTitle",
+    "tutorialButton",
+  ];
+  for (const key of required) {
+    if (!config[key]) throw new Error(`${lessonFolder}/lesson.json is missing ${key}`);
+  }
+  if (config.folder !== lessonFolder) {
+    throw new Error(`${lessonFolder}/lesson.json folder must equal ${lessonFolder}`);
+  }
+  if (config.engineVersion !== ENGINE_VERSION) {
+    throw new Error(`${lessonFolder}/lesson.json uses unsupported engineVersion ${config.engineVersion}`);
+  }
+  if (!Array.isArray(config.tutorialCards) || config.tutorialCards.length < 2) {
+    throw new Error(`${lessonFolder}/lesson.json needs tutorialCards`);
+  }
+  if (!Array.isArray(config.results) || config.results.length < 1) {
+    throw new Error(`${lessonFolder}/lesson.json needs results`);
+  }
+}
+
+function getUnitNumber(config) {
+  const match = /^(\d)-(\d)-(\d)-(\d)$/.exec(config.id);
+  if (!match) throw new Error(`lesson id has unexpected shape: ${config.id}`);
+  return Number(match[3]);
+}
+
+async function main() {
+  const lessonFolder = process.argv[2];
+  if (!lessonFolder) {
+    usage();
+    process.exitCode = 1;
+    return;
+  }
+
+  const sourceDir = path.join(LESSON_SOURCE_ROOT, lessonFolder);
+  const configPath = path.join(sourceDir, "lesson.json");
+  const config = JSON.parse(await readFile(configPath, "utf8"));
+  requireLessonConfig(config, lessonFolder);
+
+  const [template, engineCss, engineRuntime, modelSource, viewSource] = await Promise.all([
+    readFile(path.join(ENGINE_DIR, "template.html"), "utf8"),
+    readFile(path.join(ENGINE_DIR, "styles", "core.css"), "utf8"),
+    readFile(path.join(ENGINE_DIR, "runtime", "core.js"), "utf8"),
+    readFile(path.join(sourceDir, "model.js"), "utf8"),
+    readFile(path.join(sourceDir, "view.js"), "utf8"),
+  ]);
+
+  let lessonCss = "";
+  try {
+    lessonCss = await readFile(path.join(sourceDir, "lesson.css"), "utf8");
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
+
+  const initialResult = config.results[0];
+  const imageAssets = config.imageAssets || {};
+  const standards = config.standards || {};
+  const engineRuntimeScript = engineRuntime.replaceAll("{{MODEL_NAME}}", config.modelName);
+  const lessonConfigScript = `const LESSON_CONFIG = ${JSON.stringify(config)};`;
+  const unitNumber = getUnitNumber(config);
+  const html = renderTemplate(template, {
+    documentTitle: `${escapeHtml(config.title)} | 에듀잇티 수학 게임`,
+    engineVersion: escapeHtml(config.engineVersion),
+    coverStandard: escapeHtml(standards.cover || "generated-title-overlay"),
+    coverStartStandard: escapeHtml(standards.coverStart || "generated-button-art"),
+    settingsStandard: escapeHtml(standards.settings || "modal-controls"),
+    resultVisualStandard: escapeHtml(standards.resultVisual || "generated-assets"),
+    engineCss: indent(engineCss, 4),
+    lessonCss: lessonCss.trim() ? "\n" + indent(lessonCss, 4) : "",
+    coverImage: escapeHtml(imageAssets.cover || "cover-generated.webp"),
+    coverUnitBadge: escapeHtml(`3학년 2학기 ${unitNumber}단원`),
+    title: escapeHtml(config.title),
+    titleArt: escapeHtml(imageAssets.titleArt || "title-logo-generated.webp"),
+    goal: escapeHtml(config.goal),
+    startButtonArt: escapeHtml(imageAssets.startButton || "start-button-generated.webp"),
+    topic: escapeHtml(config.topic),
+    unitBadge: escapeHtml(config.unitBadge),
+    tutorialTitle: escapeHtml(config.tutorialTitle),
+    tutorialCards: renderCards(config.tutorialCards),
+    tutorialButton: escapeHtml(config.tutorialButton),
+    shortTitle: escapeHtml(config.shortTitle),
+    progressLabel: escapeHtml(config.progressLabel),
+    initialResultName: escapeHtml(initialResult.name),
+    buttonLabel: escapeHtml(config.buttonLabel),
+    rewardScene: escapeHtml(imageAssets.rewardScene || "reward-scene-generated.webp"),
+    rewardScreenTitle: escapeHtml(config.rewardScreenTitle),
+    rewardComplete: escapeHtml(config.rewardComplete),
+    initialResultId: escapeHtml(initialResult.id),
+    initialResultImage: escapeHtml(initialResult.image),
+    initialResultTitleImage: escapeHtml(initialResult.titleImage),
+    resultRetryButton: escapeHtml(imageAssets.resultRetryButton || "result-retry-button-generated.webp"),
+    lessonConfigScript: indent(lessonConfigScript, 4),
+    lessonModelScript: indent(modelSource, 4),
+    lessonViewScript: indent(viewSource, 4),
+    engineRuntimeScript: indent(engineRuntimeScript, 4),
+    modelName: config.modelName,
+  });
+
+  const outputDir = path.join(ROOT, lessonFolder);
+  await mkdir(outputDir, { recursive: true });
+  await writeFile(path.join(outputDir, "index.html"), html);
+  console.log(`built ${path.relative(ROOT, path.join(outputDir, "index.html"))} from ${path.relative(ROOT, sourceDir)}`);
+}
+
+main().catch((error) => {
+  console.error(error?.stack || error);
+  process.exitCode = 1;
+});
