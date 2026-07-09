@@ -37,6 +37,8 @@
 
 첫 화면은 `generated-title-overlay`와 `generated-button-art` 기준입니다. 제목과 시작 버튼은 CSS 글자가 아니라 생성형 이미지 자산입니다.
 
+![첫 화면](screenshots/01-cover.png)
+
 ### 설명 화면
 
 - 설명 1단계: `tutorial-solve-generated.webp`
@@ -44,6 +46,10 @@
 - 버튼 aria-label: 1단계 `다음`, 2단계 `합체 준비`
 
 최신 캡처는 `screenshots/02-tutorial-solve.png`, `screenshots/03-tutorial-goal.png`입니다. 2026-07-09 문서 갱신 중 실제 브라우저 클릭 흐름으로 `solve -> goal` 전환을 확인했습니다. 전환 후 상태는 `data-tutorial-step="goal"`, 설명 1단계 opacity `0`, 설명 2단계 opacity `1`, 버튼 `합체 준비`였습니다.
+
+![설명 1단계](screenshots/02-tutorial-solve.png)
+
+![설명 2단계](screenshots/03-tutorial-goal.png)
 
 ### 문제 화면
 
@@ -54,6 +60,10 @@
 상단 목표 지도 최신 계약은 `6장`, `1232×166`, `각 장 로봇 슬롯 6개`, `현재 등급 1개만 컬러`, `나머지 5개 실루엣`, `잔상/중복/진행 노드 없음`, `로봇과 플랫폼 상하 잘림 없음`입니다. v2 세트는 롤백 전 간결한 결과 화면의 등급별 로봇 외형을 기준으로 다시 만들었습니다. 4단계부터 날개형 실루엣이 보이고, 5~6단계는 더 큰 날개와 전설 장식이 보입니다.
 
 최신 캡처는 `screenshots/04-problem-step1.png`, `screenshots/08-tablet-problem.png`입니다.
+
+![문제 1단계](screenshots/04-problem-step1.png)
+
+![태블릿 가로 문제 화면](screenshots/08-tablet-problem.png)
 
 ### 보상 화면
 
@@ -69,6 +79,8 @@
 - `reward-score-rainbow-generated.webp`
 
 무지개 이미지는 실제 `+800점` 보상입니다. `0점`은 변화 없음이며 기존 점수를 0으로 되돌리지 않습니다. 최신 무지개 보상 캡처는 `screenshots/05-reward-rainbow.png`입니다.
+
+![무지개 보상](screenshots/05-reward-rainbow.png)
 
 ### 결과 화면
 
@@ -90,11 +102,15 @@
 
 최신 전설 결과 캡처는 `screenshots/06-result-legend.png`입니다.
 
+![전설 결과](screenshots/06-result-legend.png)
+
 ### 전국 순위 화면
 
 전국 순위 화면은 `_shared/scoreboard` 공통 SVG UI를 사용합니다. 생성 이미지는 배경과 `scoreboard-title-fusion-generated.webp` 타이틀만 맡고, 내 기록 박스, 순위 행, 버튼, 동적 텍스트는 SVG가 그립니다.
 
 API 주소가 없으면 안내 상태로 동작합니다. API 주소가 있으면 `session -> score -> weekly leaderboard` 흐름으로 기록을 제출하고 순위판을 그립니다. 최신 API 연결 캡처는 `screenshots/07-scoreboard-api.png`입니다.
+
+![API 연결 전국 순위](screenshots/07-scoreboard-api.png)
 
 ## 5. 보상 구조
 
