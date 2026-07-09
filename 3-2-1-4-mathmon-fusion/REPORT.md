@@ -65,7 +65,7 @@
 
 ### 결과 화면
 
-결과 화면은 도달 등급별 RasterStage 배경 6장과 다시하기 배경 1장을 사용합니다. 소형, 중형, 대형, 거대, 초거대, 전설 합체 이미지가 따로 있으며, 등급이 올라갈수록 몸집, 색 포인트, 배경 에너지 효과가 분명히 커지도록 다시 생성했습니다. 생성 이미지에는 텍스트·점수·버튼을 넣지 않았습니다. 그 위에 합체 힘 점수, 정답 수, 도달 등급, 칭찬 문구, 다시하기 버튼을 HTML로 얹습니다.
+결과 화면은 도달 등급별 RasterStage 배경 6장과 다시하기 배경 1장을 사용합니다. 소형, 중형, 대형, 거대, 초거대, 전설 합체 이미지가 따로 있으며, 등급이 올라갈수록 몸집, 색 포인트, 배경 에너지 효과가 분명히 커지도록 다시 생성했습니다. 큰 결과 라벨은 `result-title-*-generated.webp`, 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 공용 생성형 이미지로 보여 줍니다. 합체 점수처럼 범위가 넓은 값과 버튼 hitbox, 접근성 문구만 SVG/HTML이 맡습니다.
 
 ### 전국 순위 화면
 
@@ -100,6 +100,7 @@
 - `result-ultra-generated.webp`
 - `result-legend-generated.webp`
 - `result-retry-generated.webp`
+- `result-title-*-generated.webp`
 - `eduitit-logo-mark.png`
 - `README.md`
 - `REPORT.md`
@@ -169,6 +170,14 @@
 - 브라우저 QA: 1440×900에서 문제 화면 진입 후 여섯 상태를 순서대로 로드했습니다. 모든 상태의 `naturalWidth/naturalHeight`는 `1232×166`, 목표바 안쪽은 `1232×166`, 실제 그려진 이미지도 `1232×166`, 좌우/상하 blank는 `0px`였습니다.
 - 태블릿 가로 1024×768에서는 기존 CSS의 `goal-rail` 높이 128px 때문에 안쪽 공간이 `959×126`으로 줄고, 이미지는 `935.13×126`으로 균일 축소되어 좌우 약 `11.93px` 여백이 남았습니다. 상하 찌그러짐이나 잘림은 없었습니다. 정지 상태 캡처는 `screenshots/play-robot-goal-1232-desktop.png`와 `screenshots/play-robot-goal-1232-tablet.png`입니다.
 
+### 2026-07-09 상단 목표 지도 1232×166 v2 재생성
+
+- 첫 1232×166 세트는 현재 컬러 로봇이 단계별 결과 로봇과 충분히 다르게 보이지 않아 실패로 판단했습니다. `033ad806`의 간결한 결과 화면 렌더와 `result-*-generated.webp` 로봇을 기준으로 다시 생성했습니다.
+- v2 세트 계약은 기존 1232×166 계약을 유지하되, `현재 컬러 로봇은 각 슬롯 실루엣과 같은 외형`, `소형→중형→대형→거대→초거대→전설로 갈수록 몸집·날개·왕관형 장식이 커짐`, `4단계부터 날개형 실루엣`, `5~6단계는 컬러 날개와 전설 장식`을 추가했습니다.
+- 최종 6장 WebP와 PNG는 모두 `1232×166`입니다. 원본 시트는 `play-robot-goal-six-1232-source.png`, 컨택시트는 `screenshots/play-robot-goal-1232-contact-sheet.png`로 갱신했습니다.
+- 브라우저 QA: 1440×900 문제 화면에서 6상태 모두 `naturalWidth/naturalHeight=1232×166`, 실제 그려진 그림은 `1232×166`, `object-fit: contain`, 깨진 이미지 0건이었습니다. 1024×768 태블릿에서는 CSS 박스 `959.06×140.66` 안에 그림이 `959.06×129.22`로 균일 축소되어 보였고, 상하 여백은 각각 `5.72px`였습니다.
+- 같은 작업에서 롤백 전 간결한 결과 화면 구조도 복원했습니다. 1365×900 `qa-result=legend&qa-correct=10` 기준 `result-title-legend-generated.webp`와 공용 `result-correct-10-generated.webp`가 정상 로드됐고, `.result-dynamic-ui`는 `viewBox="0 0 1280 800"`으로 렌더됐습니다. 캡처는 `screenshots/05-result-success.png`입니다.
+
 ### 2026-07-02 10문제 완료 흐름 핫픽스
 
 - `완성 신호` 보상은 500점 이벤트로만 처리하고, 결과 화면 이동 조건은 `현재 문제 번호가 10번째인가` 하나로 고정했습니다. 어떤 보상이 떠도 1~9번 문제 뒤에는 `다음`만 보입니다.
@@ -218,4 +227,4 @@
 - 상태 이미지 세트 QA: 인앱 브라우저에서 1280×800과 1024×768로 `qa-reward` 8개 상태를 전부 열어 확인했습니다. 모든 `reward-score-*-generated.webp`가 `naturalWidth=960`으로 로드됐고, `object-fit: contain`, 버튼 겹침 0건, 콘솔 오류 0건이었습니다.
 - 텍스트 넘침·요소 겹침 QA: Chrome/Playwright로 1280×800 전체 등급 결과, 1024×768 전설 결과, 1280×800 무지개 보상 모달을 확인했습니다. 캡처에서 비율 표기 0건, 콘솔 오류 0건이었습니다. 경계값은 0, 99, 100, 199, 200, 499, 500, 1499, 1500, 1999, 2000, 2500점으로 확인했습니다.
 - QA 증거는 `.tmp-qa/fusion-point-scoring/summary.json`과 같은 폴더의 `result-*-1280x800.png`, `result-legend-1024x768.png`, `reward-rainbow-1280x800.png`에 남겼습니다.
-- 정적 검사는 4차시 inline script 파싱과 `git diff --check`를 통과했습니다. `node scripts/check-stage-ratio.mjs`는 실행했지만, HEAD에도 이미 있던 hybrid result 자산 계약 미이행 항목 때문에 실패했습니다. 이번 점수 기준 변경과 별개인 기존 결과 화면 표준화 부채로 분리해 둡니다.
+- 정적 검사는 4차시 inline script 파싱과 `git diff --check`를 통과했습니다. 이후 2026-07-09 v2 작업에서 롤백 전 간결한 hybrid result 구조와 `result-title-*` 자산을 복원했습니다.
