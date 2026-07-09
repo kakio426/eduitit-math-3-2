@@ -27,14 +27,15 @@
 
 - `fusion-workshop-generated.png`: 문제 화면 합체 공방 배경 생성 이미지 원본
 - `fusion-workshop-generated.webp`: 문제 화면 합체 공방 배포용 WebP
-- `play-robot-goal-strip-source.png`: 문제 화면 상단 로봇 목표 지도 생성 이미지 원본
-- `play-robot-goal-strip-generated.webp`: 문제 화면 상단 로봇 목표 지도 배포용 WebP
-- `play-robot-goal-small-generated.png/webp`: 소형 로봇이 첫 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-medium-generated.png/webp`: 중형 로봇이 둘째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-large-generated.png/webp`: 대형 로봇이 셋째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-giant-generated.png/webp`: 거대 로봇이 넷째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-ultra-generated.png/webp`: 초거대 로봇이 다섯째 플랫폼에 등장한 상단 목표 지도
-- `play-robot-goal-legend-generated.png/webp`: 전설 로봇이 마지막 플랫폼에 등장한 상단 목표 지도
+- `play-robot-goal-strip-source.png`: 이전 1280×190 상단 로봇 목표 지도 생성 이미지 원본
+- `play-robot-goal-strip-generated.webp`: 이전 1280×190 상단 로봇 목표 지도 배포용 WebP
+- `play-robot-goal-six-1232-source.png`: 현재 문제 화면 상단 목표 지도 6상태 생성 원본 시트
+- `play-robot-goal-small-1232-generated.png/webp`: 소형 로봇이 첫 플랫폼에 등장한 1232×166 상단 목표 지도
+- `play-robot-goal-medium-1232-generated.png/webp`: 중형 로봇이 둘째 플랫폼에 등장한 1232×166 상단 목표 지도
+- `play-robot-goal-large-1232-generated.png/webp`: 대형 로봇이 셋째 플랫폼에 등장한 1232×166 상단 목표 지도
+- `play-robot-goal-giant-1232-generated.png/webp`: 거대 로봇이 넷째 플랫폼에 등장한 1232×166 상단 목표 지도
+- `play-robot-goal-ultra-1232-generated.png/webp`: 초거대 로봇이 다섯째 플랫폼에 등장한 1232×166 상단 목표 지도
+- `play-robot-goal-legend-1232-generated.png/webp`: 전설 로봇이 마지막 플랫폼에 등장한 1232×166 상단 목표 지도
 - `cover-robot-mathmon-generated.png/webp`: 첫 화면 로봇형 매스몬 표지
 - `result-small-generated.png/webp`: 소형 로봇 매스몬 결과 화면
 - `result-medium-generated.png/webp`: 중형 로봇 매스몬 결과 화면
@@ -56,7 +57,7 @@
 
 - `index.html`: 게임 본문
 - `cover-robot-mathmon-generated.webp`: 첫 화면 로봇형 매스몬 표지
-- `play-robot-goal-*-generated.webp`: 문제 화면 상단 로봇 목표 지도 상태 이미지 6장
+- `play-robot-goal-*-1232-generated.webp`: 문제 화면 상단 로봇 목표 지도 상태 이미지 6장
 - `fusion-workshop-generated.webp`: 문제 화면 합체 공방 배경
 - `result-*-generated.webp`: 합체 등급별 결과 RasterStage 배경
 - `reward-score-*-generated.webp`: 보상 화면 고정 점수 이미지 8장
