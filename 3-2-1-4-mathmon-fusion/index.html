@@ -1724,7 +1724,7 @@
       width: min(760px, 100%);
       display: grid;
       justify-items: center;
-      gap: 18px;
+      gap: 22px;
       padding: 18px 24px 28px;
       border: 0;
       border-radius: 20px;
@@ -1786,6 +1786,14 @@
       font-size: 1.12rem;
       font-weight: 900;
       line-height: 1.35;
+    }
+
+    .reward-next-button {
+      min-width: 150px;
+      min-height: 76px;
+      padding: 0 34px;
+      font-size: 1.34rem;
+      letter-spacing: 0.01em;
     }
 
     #rewardMessage {
@@ -3182,7 +3190,7 @@
           <h3 class="visually-hidden" id="rewardTitle">합체 점수</h3>
           <img class="reward-score-art" id="rewardScoreArt" src="reward-score-plus-50-generated.webp" alt="" aria-hidden="true">
           <p class="visually-hidden" id="rewardMessage">합체 점수 50점이 들어왔어요.</p>
-          <button class="primary-button" id="rewardNextButton" type="button">다음</button>
+          <button class="primary-button reward-next-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
     </section>
@@ -3989,7 +3997,7 @@
           correct: problem.partial1,
           prompt: "답을 골라요.",
           meaning: `1단계: ${withGwa(problem.onesMul)} 곱해요.`,
-          hint: `${problem.top} × ${problem.onesMul}을 먼저 봐요.`,
+          hint: `먼저 ${problem.top} × ${problem.onesMul}부터 봐요.`,
           explain: `${withGwa(problem.onesMul)} 곱한 값은 ${formatNumber(problem.partial1)}예요.`,
           distractors: [
             problem.top * Math.max(1, problem.onesMul - 1),
@@ -4004,7 +4012,7 @@
           formula: `${problem.top} × ${problem.tensMul}0 = ?`,
           correct: problem.partial2,
           prompt: "답을 골라요.",
-          meaning: `2단계: ${withGwa(problem.tensMul * 10)} 곱해요.`,
+          meaning: `2단계: ${problem.top} × ${problem.tensMul}에 0을 붙여요.`,
           hint: `${withGwa(problem.tensMul * 10)} 곱할 때는 0을 붙여요.`,
           explain: `${withGwa(problem.tensMul * 10)} 곱한 값은 ${formatNumber(problem.partial2)}예요.`,
           distractors: [
