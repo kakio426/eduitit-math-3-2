@@ -1,0 +1,79 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit4-fraction-tug-migration",
+  "id": "3-2-4-4",
+  "folder": "3-2-4-4-mathmon-fraction-tug",
+  "modelName": "Lesson4FractionTugModel",
+  "title": "매스몬 분수 줄다리기",
+  "shortTitle": "매스몬 분수 줄다리기",
+  "topic": "분모가 같은 분수와 단위분수 비교하기",
+  "unitBadge": "4단원 분수",
+  "goal": "두 분수 막대를 보고 더 큰 분수를 골라요.",
+  "action": "더 큰 분수 막대 하나를 고른다.",
+  "buttonLabel": "승부 보기",
+  "rewardScreenTitle": "줄다리기 힘",
+  "progressLabel": "줄다리기 힘",
+  "rewardComplete": "줄다리기 힘이 바뀌었어요.",
+  "tutorialTitle": "줄을 당기기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "title": "분모가 같으면?", "body": "색칠된 칸이 많은 쪽이 더 커요.", "image": "problem-stage-generated.webp" },
+    { "visual": "2", "title": "단위분수는?", "body": "똑같이 나눈 한 칸이 긴 쪽이 더 커요.", "image": "problem-stage-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art", "maxPower": 100, "nextLabel": "다음",
+    "artMap": {
+      "normal": "result-win-generated.webp", "loss": "result-smallwin-generated.webp", "mega": "result-bigwin-generated.webp",
+      "perfect": "result-champion-generated.webp", "empty": "result-draw-generated.webp", "rainbow": "result-rainbow-generated.webp"
+    }
+  },
+  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "workbench": { "type": "fraction-compare" },
+  "scoreboard": { "enabled": false },
+  "results": [
+    { "id": "draw", "name": "무승부", "minPower": 0, "minCorrect": 0, "image": "result-draw-generated.webp", "titleImage": "result-draw-generated.webp" },
+    { "id": "smallwin", "name": "작은 승", "minPower": 19, "minCorrect": 2, "image": "result-smallwin-generated.webp", "titleImage": "result-smallwin-generated.webp" },
+    { "id": "win", "name": "승리", "minPower": 39, "minCorrect": 4, "image": "result-win-generated.webp", "titleImage": "result-win-generated.webp" },
+    { "id": "bigwin", "name": "큰 승", "minPower": 61, "minCorrect": 6, "image": "result-bigwin-generated.webp", "titleImage": "result-bigwin-generated.webp" },
+    { "id": "champion", "name": "챔피언", "minPower": 83, "minCorrect": 8, "image": "result-champion-generated.webp", "titleImage": "result-champion-generated.webp" },
+    { "id": "rainbow", "name": "전설 승부", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "normal", "text": "힘 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
+    { "id": "loss", "text": "힘 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "mega", "text": "힘껏 당기기!", "weight": 900, "min": 12, "max": 20, "family": "mega" },
+    { "id": "perfect", "text": "한판승!", "weight": 50, "min": 6, "max": 6, "family": "perfect", "launches": true },
+    { "id": "empty", "text": "헛심", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "rainbow", "text": "무지개 힘!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
+  ],
+  "wrongEvent": { "id": "loss", "text": "힘 -", "min": -18, "max": -8, "family": "loss" },
+  "typesPerRun": ["same-1", "same-2", "same-3", "same-4", "same-5", "unit-1", "unit-2", "unit-3", "unit-4", "unit-5"],
+  "fractionCases": [
+    { "compareType": "same-denominator", "left": [2,5], "right": [4,5] },
+    { "compareType": "same-denominator", "left": [3,8], "right": [5,8] },
+    { "compareType": "same-denominator", "left": [1,4], "right": [3,4] },
+    { "compareType": "same-denominator", "left": [5,6], "right": [2,6] },
+    { "compareType": "same-denominator", "left": [2,7], "right": [6,7] },
+    { "compareType": "unit-fraction", "left": [1,2], "right": [1,4] },
+    { "compareType": "unit-fraction", "left": [1,3], "right": [1,5] },
+    { "compareType": "unit-fraction", "left": [1,6], "right": [1,4] },
+    { "compareType": "unit-fraction", "left": [1,8], "right": [1,3] },
+    { "compareType": "unit-fraction", "left": [1,5], "right": [1,7] }
+  ],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "start-button-generated.webp",
+    "problemStage": "problem-stage-generated.webp", "rewardScene": "result-win-generated.webp", "resultRetryButton": "result-restart-button-generated.webp"
+  },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp", "problem-stage-generated.webp",
+    "result-draw-generated.webp", "result-smallwin-generated.webp", "result-win-generated.webp", "result-bigwin-generated.webp",
+    "result-champion-generated.webp", "result-rainbow-generated.webp"
+  ],
+  "qa": {
+    "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+  }
+}

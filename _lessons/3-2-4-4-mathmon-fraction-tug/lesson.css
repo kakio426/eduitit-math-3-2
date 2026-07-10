@@ -1,0 +1,74 @@
+.game[data-workbench-type="fraction-compare"] .play { padding: 0; background: #dff4ff; }
+.tug-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+.game[data-workbench-type="fraction-compare"] .hud { position: absolute; top: 18px; right: 3%; z-index: 6; width: 66%; min-height: 42px; display: grid; place-items: center; padding: 0; }
+.game[data-workbench-type="fraction-compare"] .hud-left .brand-badge,
+.game[data-workbench-type="fraction-compare"] .hud-right,
+.game[data-workbench-type="fraction-compare"] .progress-line { display: none; }
+.game[data-workbench-type="fraction-compare"] #problemCounter { min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #2a6678; color: #1b4652; background: #d9f5ff; font-size: 1rem; }
+.game[data-workbench-type="fraction-compare"] .problem-grid { position: absolute; top: 66px; right: 3%; bottom: 20px; left: 31%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px minmax(245px, auto); gap: 8px; }
+.game[data-workbench-type="fraction-compare"] .problem-card,
+.game[data-workbench-type="fraction-compare"] .step-board,
+.game[data-workbench-type="fraction-compare"] .choices-panel,
+.game[data-workbench-type="fraction-compare"] .complete-panel { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game[data-workbench-type="fraction-compare"] .problem-card { grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 2px; }
+.game[data-workbench-type="fraction-compare"] .problem-label,
+.game[data-workbench-type="fraction-compare"] .step-chips,
+.game[data-workbench-type="fraction-compare"] .answer-slot { display: none; }
+.game[data-workbench-type="fraction-compare"] .big-problem { margin: 0; color: #1d4650; font-size: clamp(1.95rem, 3.4vw, 3.2rem); line-height: 1.08; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.88); }
+.game[data-workbench-type="fraction-compare"] .visual-area { min-height: 0; display: grid; place-items: center; }
+.compare-stage-svg, .fraction-compare-confirm-svg { width: min(100%, 800px); height: 100%; max-height: 260px; overflow: visible; }
+.tug-rope { fill: none; stroke: #9b6c33; stroke-width: 18; stroke-linecap: round; stroke-dasharray: 5 2; }
+.rope-mark { fill: #ffde5a; stroke: #80511c; stroke-width: 5; }
+.fraction-notation text { fill: #193f49; font-size: 38px; font-weight: 1000; }
+.fraction-notation line { stroke: #193f49; stroke-width: 5; stroke-linecap: round; }
+.fraction-notation-confirm text { font-size: 34px; }
+.bar-segment { fill: rgba(255,255,255,.9); stroke: #245e6d; stroke-width: 3; }
+.bar-segment.is-filled { fill: #ffbd4d; }
+.compare-sign { fill: #194c5a; font-size: 76px; font-weight: 1000; }
+.confirm-label { fill: #1e5965; font-size: 24px; font-weight: 1000; }
+.game[data-workbench-type="fraction-compare"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #3d7887; border-radius: 15px; background: #e2f7fc; }
+.game[data-workbench-type="fraction-compare"] .instruction,
+.game[data-workbench-type="fraction-compare"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #1b4652; font-size: clamp(.98rem, 1.55vw, 1.2rem); line-height: 1.15; font-weight: 1000; text-align: center; }
+.game[data-workbench-type="fraction-compare"] .instruction[hidden] { display: none; }
+.game[data-workbench-type="fraction-compare"] .feedback-line[data-state="idle"] { visibility: hidden; }
+.game[data-workbench-type="fraction-compare"] .feedback-line[data-state="wrong"] { color: #a11742; }
+.game[data-workbench-type="fraction-compare"] .feedback-line[data-state="correct"] { color: #12604c; }
+.game[data-workbench-type="fraction-compare"] .choices-panel { grid-row: 3; min-height: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: 1fr; gap: 13px; }
+.game[data-workbench-type="fraction-compare"] .compare-choice { min-height: 225px; padding: 0; border: 4px solid #347487; border-radius: 22px; background: rgba(255,255,255,.91); box-shadow: 0 8px 0 #2d5d69; }
+.compare-choice-svg { width: 100%; height: 100%; max-height: 225px; pointer-events: none; }
+.game[data-workbench-type="fraction-compare"] .compare-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 8px 0 #a45b70; }
+.game[data-workbench-type="fraction-compare"] .compare-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 8px 0 #5ea991; }
+.game[data-workbench-type="fraction-compare"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 245px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #3d7887; border-radius: 18px; background: rgba(226,247,252,.96); }
+.game[data-workbench-type="fraction-compare"] .complete-text { max-width: 770px; color: #1b4652; font-size: clamp(1.3rem, 2.2vw, 1.85rem); line-height: 1.2; text-align: center; word-break: keep-all; }
+.game[data-workbench-type="fraction-compare"] .complete-panel .primary-button { min-height: 64px; color: #1b4652; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
+.game[data-workbench-type="fraction-compare"] .problem-grid.is-complete .choices-panel,
+.game[data-workbench-type="fraction-compare"] .problem-grid.is-complete .step-board { display: none; }
+.game[data-workbench-type="fraction-compare"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
+.game[data-workbench-type="fraction-compare"] .result-title-art,
+.game[data-workbench-type="fraction-compare"] #screen-result .top-row { display: none; }
+.game[data-workbench-type="fraction-compare"] .result-correct-art { left: 64%; top: 56%; width: 22%; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #dff4ff; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .screen-title,
+.game[data-workbench-type="fraction-compare"] .tutorial-progress { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; z-index: 3; left: 38%; width: 58%; margin: 0; color: #1d4650; text-align: center; word-break: keep-all; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card strong { top: 30%; font-size: clamp(2.2rem, 4.5vw, 4.1rem); line-height: 1.05; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-card p { top: 46%; font-size: clamp(1.12rem, 2vw, 1.6rem); line-height: 1.35; font-weight: 900; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; bottom: 6%; min-height: 70px; pointer-events: auto; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] #tutorialStartButton { right: 13%; width: 30%; }
+.game[data-workbench-type="fraction-compare"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { left: 42%; width: 18%; border: 2px solid #347487; border-radius: 999px; color: #1b4652; background: #f4fdff; font-size: 1.15rem; font-weight: 1000; }
+@media (max-width: 980px) {
+  .game[data-workbench-type="fraction-compare"] .hud { right: 2%; width: 67%; }
+  .game[data-workbench-type="fraction-compare"] .problem-grid { top: 62px; right: 2%; bottom: 16px; left: 30%; grid-template-rows: minmax(0, 1fr) 50px minmax(224px, auto); gap: 7px; }
+  .game[data-workbench-type="fraction-compare"] .compare-choice { min-height: 205px; }
+  .game[data-workbench-type="fraction-compare"] .complete-panel { min-height: 224px; }
+}
