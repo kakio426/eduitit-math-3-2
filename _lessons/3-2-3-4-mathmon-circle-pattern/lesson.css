@@ -1,0 +1,78 @@
+.game[data-workbench-type="circle-pattern-choice"] .play { padding: 0; background: #eef8f0; }
+.pattern-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+.game[data-workbench-type="circle-pattern-choice"] .hud { position: absolute; top: 18px; right: 3%; z-index: 6; width: 61%; min-height: 42px; display: grid; place-items: center; padding: 0; }
+.game[data-workbench-type="circle-pattern-choice"] .hud-left .brand-badge,
+.game[data-workbench-type="circle-pattern-choice"] .hud-right,
+.game[data-workbench-type="circle-pattern-choice"] .progress-line { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] #problemCounter { min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1rem; }
+
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 66px; right: 3%; bottom: 20px; left: 36%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px minmax(212px, auto); gap: 8px; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-card,
+.game[data-workbench-type="circle-pattern-choice"] .step-board,
+.game[data-workbench-type="circle-pattern-choice"] .choices-panel,
+.game[data-workbench-type="circle-pattern-choice"] .complete-panel { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-card { grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 2px; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-label,
+.game[data-workbench-type="circle-pattern-choice"] .step-chips,
+.game[data-workbench-type="circle-pattern-choice"] .answer-slot { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] .big-problem { margin: 0; color: #31433d; font-size: clamp(2.35rem, 4.5vw, 4rem); line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.8); }
+.game[data-workbench-type="circle-pattern-choice"] .visual-area { min-height: 0; display: grid; place-items: center; }
+
+.pattern-confirm-svg { width: min(100%, 600px); height: 100%; max-height: 250px; overflow: visible; }
+.pattern-choice-svg { width: 100%; height: 100%; max-height: 128px; pointer-events: none; }
+.pattern-guide { stroke: #9aaea5; stroke-width: 4; stroke-dasharray: 7 8; stroke-linecap: round; }
+.pattern-known { fill: rgba(55,139,133,.18); stroke: #2e7778; stroke-width: 5; }
+.pattern-pending { fill: rgba(255,255,255,.52); stroke: #9b6b2d; stroke-width: 4; stroke-dasharray: 8 7; }
+.pattern-candidate { fill: rgba(230,146,60,.22); stroke: #d46c24; stroke-width: 6; }
+.pattern-question { fill: #7b5626; font-size: 34px; font-weight: 1000; }
+.pattern-confirm-svg[data-state="wrong"] .pattern-candidate { fill: rgba(201,43,89,.2); stroke: #b92852; }
+.pattern-confirm-svg[data-state="correct"] .pattern-candidate { fill: rgba(22,119,94,.22); stroke: #16775e; }
+
+.game[data-workbench-type="circle-pattern-choice"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
+.game[data-workbench-type="circle-pattern-choice"] .instruction,
+.game[data-workbench-type="circle-pattern-choice"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(.98rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: center; }
+.game[data-workbench-type="circle-pattern-choice"] .instruction[hidden] { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="idle"] { visibility: hidden; }
+.game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="wrong"] { color: #a11742; }
+.game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="correct"] { color: #12604c; }
+
+.game[data-workbench-type="circle-pattern-choice"] .choices-panel { grid-row: 3; min-height: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(98px, 1fr)); gap: 9px; }
+.game[data-workbench-type="circle-pattern-choice"] .pattern-choice { min-height: 98px; padding: 0; border: 3px solid #6f9191; border-radius: 18px; color: #273d3b; background: rgba(255,255,255,.84); box-shadow: 0 6px 0 #66817e; }
+.game[data-workbench-type="circle-pattern-choice"] .pattern-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70; }
+.game[data-workbench-type="circle-pattern-choice"] .pattern-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991; }
+
+.game[data-workbench-type="circle-pattern-choice"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96); }
+.game[data-workbench-type="circle-pattern-choice"] .complete-text { max-width: 760px; color: #36200b; font-size: clamp(1.18rem, 2vw, 1.65rem); line-height: 1.2; text-align: center; word-break: keep-all; }
+.game[data-workbench-type="circle-pattern-choice"] .complete-panel .primary-button { min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .choices-panel,
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .step-board { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
+.game[data-workbench-type="circle-pattern-choice"] .result-title-art { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] #screen-result .top-row { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] .result-correct-art { left: 64%; top: 56%; width: 22%; }
+
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #eef8f0; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .screen-title,
+.game[data-workbench-type="circle-pattern-choice"] .tutorial-progress { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; z-index: 3; left: 45%; width: 51%; margin: 0; color: #31433d; text-align: center; word-break: keep-all; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card strong { top: 30%; font-size: clamp(2.2rem, 4.5vw, 4.1rem); line-height: 1.05; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-card p { top: 46%; font-size: clamp(1.1rem, 2vw, 1.65rem); line-height: 1.35; font-weight: 900; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; bottom: 6%; min-height: 70px; pointer-events: auto; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] #tutorialStartButton { right: 13%; width: 30%; }
+.game[data-workbench-type="circle-pattern-choice"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { left: 49%; width: 18%; border: 2px solid #7b5a2a; border-radius: 999px; color: #36200b; background: #fff7dc; font-size: 1.15rem; font-weight: 1000; }
+
+@media (max-width: 980px) {
+  .game[data-workbench-type="circle-pattern-choice"] .hud { right: 2%; width: 62%; }
+  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 62px; right: 2%; bottom: 16px; left: 35%; grid-template-rows: minmax(0, 1fr) 50px minmax(196px, auto); gap: 7px; }
+  .game[data-workbench-type="circle-pattern-choice"] .complete-panel { min-height: 196px; }
+}

@@ -1,53 +1,60 @@
 # 매스몬 두 배 다리 제작 보고 (3-2-3-3)
 
-## 한 일
+## 이번 고도화
 
-- `3-2-3-2-mathmon-compass-ring`(숫자 선택 스캐폴드)를 복제해 두 배/반 변환 도메인으로 개조했습니다.
-- 보상 룰렛·결과 측정·등급 트랙·오디오·Stage/소리 계약은 그대로 재사용하고 라벨을 다리 테마로 바꿨습니다.
-- 생성형 커버 배경, 제목 아트, 시작 버튼 아트, 결과 등급 이미지 6장과 retry 이미지를 연결했습니다.
-- 활성 매스몬 기준을 `zero-factory-animal-pack`의 `수달몬`으로 정리하고, 커버/결과 장면을 새로 연결했습니다.
-- 설정 버튼을 `modal-controls` 기준으로 이관하고 배경 소리/효과 소리를 분리했습니다.
-- 설명 화면을 2장 흐름(풀이 방법 → 보상/등급/전국 순위)으로 승격했습니다.
-- 결과 화면에 `순위` SVG 버튼과 투명 hitbox를 추가하고, `_shared/scoreboard` API bridge를 연결했습니다.
+- 기존 검은 패널과 왼쪽 점수 장치를 생성 이미지 기반의 밝은 판타지 다리 공방으로 교체했습니다.
+- 숫자 버튼만 고르던 방식을 길이가 다른 다리 막대 4개 선택으로 바꿨습니다.
+- 문제 화면을 `큰 질문 → 원 안의 두 반지름 → 한 줄 지시 → 다리 길이 선택지`로 줄였습니다.
+- 오답에는 `≠` 비교만 보여 주고 빈칸은 유지하며, 정답에서만 빈칸과 완성식을 채웁니다.
+- 소스 엔진을 `_lessons/3-2-3-3-mathmon-double-bridge/`로 분리하고 `index.html`을 빌드 산출물로 전환했습니다.
 
-## 핵심 구현
+## 수학 설계
 
-- 문제 생성: `buildProblems`(10문제) → `buildDoubleProblem()`.
-  - 방향 랜덤(반지름→지름 ×2 / 지름→반지름 ÷2). 정답 + 핵심 오답(두 배 잊음 r / 반 안 나눔 2r) + 근접.
-  - 작은 값에서 보기 겹침 → 채움 로직으로 4개 distinct 보장(버그 수정 후 20000회 검증).
-- SVG 보드: `drawBridge` — 위(반지름)·아래(지름=반지름 두 칸+divider). 주어진 칸 채움, 묻는 칸 점선+"?". "반지름×2=지름?"/"지름÷2=반지름?" 안내.
-- 질문문/지시문/해설은 방향(`problem.ask`)에 따라 분기.
+- 지름 구하기 5개와 반지름 구하기 5개가 한 판에 균형 있게 나옵니다.
+- 모든 문제에서 `지름 = 반지름 × 2`가 성립합니다.
+- 지름 문제에는 두 배를 하지 않은 값, 반지름 문제에는 반으로 나누지 않은 값이 반드시 들어갑니다.
+- 원 안의 중심점이 두 반지름의 경계를 표시하고, 전체 괄호가 지름을 표시합니다.
+- 정답 확인 화면은 `r + r = d` 또는 `d ÷ 2 = r`을 완성합니다.
 
-## 전국 순위 구현
+## 이미지·동적 UI 역할
 
-- `LESSON_ID`는 폴더명과 같게 두고, `MathmonScoreboard.createApiBridge`로 세션 생성·점수 제출·주간 순위 조회 흐름을 연결했습니다.
-- 답안 로그는 문제 번호, 문제 요약, 선택값, 정답값, 정오답, 풀이 시간, 보상 이벤트를 담습니다.
-- 결과 화면 `순위` 버튼은 측정 애니메이션이 끝난 뒤 나타나고, 순위판의 `결과로`와 `다시하기` hitbox도 동작합니다.
+- 생성 이미지: 다리 공방, 계곡, 목재, 장식용 공구
+- SVG: 원, 중심점, 두 반지름, 지름 괄호, 다리 길이, `=`·`≠`
+- HTML: 질문과 한 줄 문구, 접근성 버튼 hitbox
+- 문제 배경: `problem-stage-generated.webp` 1280×800
 
-## 설명 화면 보정
+## 보상 구조
 
-- 설명 1: 차시별 수학 개념을 짧은 단계와 SVG 예시로 보여 줍니다.
-- 설명 2: 10문제, 다리 점수, 점수 변동 가능성, 전국 순위를 분리해서 보여 줍니다.
-- 1024×768과 1180×760에서 버튼·설정 모달·보상 모달이 잘리지 않도록 설명/모달 compact CSS를 추가했습니다.
+- 중심 보상은 `다리 힘` 하나입니다.
+- 일반 증감, 큰 증가, 한 번에 완공, 0, 무지개 이벤트를 유지했습니다.
+- 문제 화면에서는 현재 힘과 결과 미리보기를 숨겼습니다.
+- 정답 확인 뒤 학생이 `다리 보기`를 눌러 보상을 엽니다.
 
-## 검증
+## Humanizer 학생 문구 QA
 
-- `node scripts/check-stage-ratio.mjs` → OK(18 lesson packages).
-- 인라인 JS `node --check` 통과.
-- 로직 시뮬 20000회: 항등(지름=반지름×2) 성립, 4개 distinct, 정답·핵심 오답 항상 포함.
-- JSON 검증: `_shared/mathmon/catalog.json`, `_shared/mathmon/zero-factory-animal-pack/manifest.json` 파싱 통과.
-- 브라우저 QA: 로컬 서버 `http://127.0.0.1:4173`에서 1280×800, 1024×768, 1180×760 각각 첫 화면·설명 1·설명 2·첫 문제·정답 선택·보상·결과·전국 순위·설정의 방법 다시 보기 복귀를 Playwright로 확인했습니다. 콘솔 에러 0, 이미지 404 0, SVG text viewBox 이탈 0, 텍스트 넘침·요소 겹침 0.
-- 순위 API QA: mock API로 `POST /api/v1/sessions`, `POST /api/v1/scores`, `GET /api/v1/leaderboards/weekly` 호출을 네 차시×세 뷰포트에서 확인했습니다. 긴 닉네임/10행 목록/결과 복귀/다시하기 hitbox도 통과했습니다.
-- Humanizer 학생 문구 QA: 새로 보이는 설정/커버/결과 문구를 점검하고 `측정`을 `보기`로 바꿨습니다.
+- `두 배 또는 반의 길이`를 실제 문제에서는 `두 반지름을 이은 길이`, `지름의 반인 길이`로 풀어 썼습니다.
+- `반지름 두 개를 이어요`, `지름을 똑같이 둘로 나눠요`처럼 눈앞의 행동으로 피드백합니다.
+- 문제 지시와 피드백은 한 문장에 행동이나 이유 하나만 담았습니다.
 
-## 동적 HTML 오버레이 범위
+## 텍스트 넘침·요소 겹침 QA
 
-- 문제 화면 다리(SVG), cm 선택지, 한 줄 지시, 좌측 다리 점수 미터·등급 트랙은 HTML/JS로 갱신합니다.
-- 결과 화면은 생성형 배경 이미지 위에 SVG 동적 슬롯(`정답 n/10`, 짧은 점수값, `순위`)과 투명 다시하기/순위 hitbox만 둡니다.
+- 1280×800: 첫 화면, 설정, 방법 2장, 문제, 오답, 정답 확인, 보상, 결과 확인
+- 1024×768 태블릿 가로: 같은 전체 흐름 확인
+- 자동 측정 결과: overflow 0, missingImages 0
+- 눈으로 확인한 결과: 질문·원·지시문·선택지 겹침 0, 원 안의 라벨과 중심점 겹침 0
 
-## 최종 자산
+## 검증 결과
 
-- 커버/제목/시작: `cover-generated.webp`, `title-logo-generated.webp`, `start-button-generated.webp`.
-- 결과: `result-retry-generated.webp`, `result-{log,small,bridge,big,grand,rainbow}-generated.webp`.
-- 활성 팩: `_shared/mathmon/zero-factory-animal-pack` (`zfa-03-sudalmon`, 수달몬).
-- 스크린샷: `screenshots/qa-{desktop-1280x800,tablet-1024x768}-{cover,settings,tutorial-1,tutorial-2,play-step1,play-step2,reward,result,scoreboard}.png`와 `screenshots/qa-mid-1180x760-{tutorial-1,tutorial-2,settings,result,scoreboard}.png`.
+- `node scripts/qa-engine-unit3-double-bridge-source.mjs` → PASS
+- `node scripts/build-lesson.mjs 3-2-3-3-mathmon-double-bridge` → PASS
+- `node scripts/check-lesson-contract.mjs` → PASS
+- `node scripts/check-stage-ratio.mjs` → PASS (21개 패키지)
+- `node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` → PASS
+- 브라우저 QA: 1280×800, 1024×768 전체 흐름에서 이미지 누락·텍스트 넘침·요소 겹침 0
+
+## 검증 자산
+
+- 데스크톱: `screenshots/engine-flow-desktop-01-cover.png`부터 `08-result.png`
+- 태블릿 가로: `screenshots/engine-flow-tablet-landscape-01-cover.png`부터 `08-result.png`
+- 오답 상태: 각 화면군의 `05b-play-wrong.png`
+- 정답 확인: 각 화면군의 `06-confirm.png`

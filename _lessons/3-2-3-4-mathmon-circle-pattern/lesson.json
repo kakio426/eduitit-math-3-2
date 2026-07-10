@@ -1,0 +1,82 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit3-circle-pattern-migration",
+  "id": "3-2-3-4",
+  "folder": "3-2-3-4-mathmon-circle-pattern",
+  "modelName": "Lesson3CirclePatternModel",
+  "title": "매스몬 원 무늬 디자이너",
+  "shortTitle": "매스몬 원 무늬 디자이너",
+  "topic": "원으로 규칙과 무늬 만들기",
+  "unitBadge": "3단원 원",
+  "goal": "같은 크기와 간격으로 원 무늬를 이어요.",
+  "action": "규칙대로 이어진 원 무늬를 고른다.",
+  "buttonLabel": "무늬 보기",
+  "rewardScreenTitle": "무늬 빛",
+  "progressLabel": "무늬 빛",
+  "rewardComplete": "무늬 빛이 바뀌었어요.",
+  "tutorialTitle": "무늬를 잇기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "title": "어떻게 이어요?", "body": "원 크기와 간격을 맞춰 무늬를 이어요.", "image": "problem-stage-generated.webp" },
+    { "visual": "2", "title": "무엇을 얻어요?", "body": "10문제를 풀고 마지막 무늬를 봐요.", "image": "problem-stage-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "maxPower": 100,
+    "nextLabel": "다음",
+    "artMap": {
+      "normal": "result-pattern-generated.webp",
+      "loss": "result-small-generated.webp",
+      "mega": "result-big-generated.webp",
+      "perfect": "result-design-generated.webp",
+      "empty": "result-dot-generated.webp",
+      "rainbow": "result-rainbow-generated.webp"
+    }
+  },
+  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "workbench": { "type": "circle-pattern-choice" },
+  "scoreboard": { "enabled": false },
+  "results": [
+    { "id": "dot", "name": "점무늬", "minPower": 0, "minCorrect": 0, "image": "result-dot-generated.webp", "titleImage": "result-dot-generated.webp" },
+    { "id": "small", "name": "작은 무늬", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
+    { "id": "pattern", "name": "무늬", "minPower": 39, "minCorrect": 4, "image": "result-pattern-generated.webp", "titleImage": "result-pattern-generated.webp" },
+    { "id": "big", "name": "큰 무늬", "minPower": 61, "minCorrect": 6, "image": "result-big-generated.webp", "titleImage": "result-big-generated.webp" },
+    { "id": "design", "name": "무늬왕", "minPower": 83, "minCorrect": 8, "image": "result-design-generated.webp", "titleImage": "result-design-generated.webp" },
+    { "id": "rainbow", "name": "무지개 무늬", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "normal", "text": "빛 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
+    { "id": "loss", "text": "빛 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "mega", "text": "빛 크게 +", "weight": 900, "min": 12, "max": 20, "family": "mega" },
+    { "id": "perfect", "text": "완벽한 무늬!", "weight": 50, "min": 6, "max": 6, "family": "perfect", "launches": true },
+    { "id": "empty", "text": "빛 0", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "rainbow", "text": "무지개 무늬!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
+  ],
+  "wrongEvent": { "id": "loss", "text": "빛 -", "min": -18, "max": -8, "family": "loss" },
+  "typesPerRun": ["horizontal", "up", "down", "horizontal", "up", "down", "horizontal", "up", "down", "horizontal"],
+  "orientationsPerRun": ["horizontal", "up", "down", "horizontal", "up", "down", "horizontal", "up", "down", "horizontal"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "start-button-generated.webp",
+    "problemStage": "problem-stage-generated.webp",
+    "rewardScene": "result-pattern-generated.webp",
+    "resultRetryButton": "start-button-generated.webp"
+  },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
+    "problem-stage-generated.webp",
+    "result-dot-generated.webp", "result-small-generated.webp", "result-pattern-generated.webp",
+    "result-big-generated.webp", "result-design-generated.webp", "result-rainbow-generated.webp"
+  ],
+  "qa": {
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+    ],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+  }
+}

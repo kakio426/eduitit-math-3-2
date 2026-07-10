@@ -1,0 +1,85 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit3-double-bridge-migration",
+  "id": "3-2-3-3",
+  "folder": "3-2-3-3-mathmon-double-bridge",
+  "modelName": "Lesson3DoubleBridgeModel",
+  "title": "매스몬 두 배 다리",
+  "shortTitle": "매스몬 두 배 다리",
+  "topic": "지름과 반지름의 관계",
+  "unitBadge": "3단원 원",
+  "goal": "지름은 반지름의 두 배임을 알아봐요.",
+  "action": "두 배 또는 반의 길이를 고른다.",
+  "buttonLabel": "다리 보기",
+  "rewardScreenTitle": "다리 힘",
+  "progressLabel": "다리 힘",
+  "rewardComplete": "다리 힘이 바뀌었어요.",
+  "tutorialTitle": "다리를 놓기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "title": "어떻게 이어요?", "body": "반지름 두 개를 이으면 지름이 돼요.", "image": "problem-stage-generated.webp" },
+    { "visual": "2", "title": "무엇을 얻어요?", "body": "10문제를 풀고 마지막 다리를 봐요.", "image": "problem-stage-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "maxPower": 100,
+    "nextLabel": "다음",
+    "artMap": {
+      "normal": "result-bridge-generated.webp",
+      "loss": "result-small-generated.webp",
+      "mega": "result-big-generated.webp",
+      "complete": "result-grand-generated.webp",
+      "empty": "result-log-generated.webp",
+      "rainbow": "result-rainbow-generated.webp"
+    }
+  },
+  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "workbench": { "type": "circle-double-bridge" },
+  "scoreboard": { "enabled": false },
+  "results": [
+    { "id": "log", "name": "외나무다리", "minPower": 0, "minCorrect": 0, "image": "result-log-generated.webp", "titleImage": "result-log-generated.webp" },
+    { "id": "small", "name": "작은 다리", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
+    { "id": "bridge", "name": "다리", "minPower": 39, "minCorrect": 4, "image": "result-bridge-generated.webp", "titleImage": "result-bridge-generated.webp" },
+    { "id": "big", "name": "큰 다리", "minPower": 61, "minCorrect": 6, "image": "result-big-generated.webp", "titleImage": "result-big-generated.webp" },
+    { "id": "grand", "name": "대교", "minPower": 83, "minCorrect": 8, "image": "result-grand-generated.webp", "titleImage": "result-grand-generated.webp" },
+    { "id": "rainbow", "name": "무지개 다리", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "normal", "text": "힘 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
+    { "id": "loss", "text": "힘 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "mega", "text": "힘 크게 +", "weight": 900, "min": 12, "max": 20, "family": "mega" },
+    { "id": "complete", "text": "한 번에 완공!", "weight": 50, "min": 6, "max": 6, "family": "complete", "launches": true },
+    { "id": "empty", "text": "힘 0", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "rainbow", "text": "무지개 다리!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
+  ],
+  "wrongEvent": { "id": "loss", "text": "힘 -", "min": -18, "max": -8, "family": "loss" },
+  "typesPerRun": ["지름-2", "지름-3", "지름-4", "지름-5", "지름-6", "반지름-2", "반지름-3", "반지름-4", "반지름-5", "반지름-6"],
+  "casesPerRun": [
+    { "ask": "지름", "radius": 2 }, { "ask": "지름", "radius": 3 }, { "ask": "지름", "radius": 4 }, { "ask": "지름", "radius": 5 }, { "ask": "지름", "radius": 6 },
+    { "ask": "반지름", "radius": 2 }, { "ask": "반지름", "radius": 3 }, { "ask": "반지름", "radius": 4 }, { "ask": "반지름", "radius": 5 }, { "ask": "반지름", "radius": 6 }
+  ],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "start-button-generated.webp",
+    "problemStage": "problem-stage-generated.webp",
+    "rewardScene": "result-bridge-generated.webp",
+    "resultRetryButton": "start-button-generated.webp"
+  },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
+    "problem-stage-generated.webp",
+    "result-log-generated.webp", "result-small-generated.webp", "result-bridge-generated.webp",
+    "result-big-generated.webp", "result-grand-generated.webp", "result-rainbow-generated.webp"
+  ],
+  "qa": {
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+    ],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+  }
+}

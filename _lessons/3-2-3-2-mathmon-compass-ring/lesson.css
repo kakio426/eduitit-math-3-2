@@ -1,0 +1,143 @@
+.game[data-workbench-type="compass-opening"] .play { padding: 0; background: #e8f6ef; }
+.compass-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+
+.game[data-workbench-type="compass-opening"] .hud {
+  position: absolute; top: 18px; right: 3%; z-index: 6; width: 66%; min-height: 42px;
+  display: grid; place-items: center; padding: 0;
+}
+.game[data-workbench-type="compass-opening"] .hud-left .brand-badge,
+.game[data-workbench-type="compass-opening"] .hud-right,
+.game[data-workbench-type="compass-opening"] .progress-line { display: none; }
+.game[data-workbench-type="compass-opening"] #problemCounter {
+  min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23;
+  color: #36200b; background: #ffe28a; font-size: 1rem;
+}
+
+.game[data-workbench-type="compass-opening"] .problem-grid {
+  position: absolute; top: 66px; right: 3%; bottom: 20px; left: 31%; z-index: 3;
+  height: auto; margin: 0; display: grid; grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) 54px minmax(212px, auto); gap: 8px;
+}
+.game[data-workbench-type="compass-opening"] .problem-card,
+.game[data-workbench-type="compass-opening"] .step-board,
+.game[data-workbench-type="compass-opening"] .choices-panel,
+.game[data-workbench-type="compass-opening"] .complete-panel {
+  border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+.game[data-workbench-type="compass-opening"] .problem-card {
+  grid-row: 1; min-height: 0; padding: 0; display: grid;
+  grid-template-rows: auto minmax(0, 1fr); gap: 2px;
+}
+.game[data-workbench-type="compass-opening"] .problem-label,
+.game[data-workbench-type="compass-opening"] .step-chips,
+.game[data-workbench-type="compass-opening"] .answer-slot { display: none; }
+.game[data-workbench-type="compass-opening"] .big-problem {
+  margin: 0; color: #273d3b; font-size: clamp(2.35rem, 4.5vw, 4rem);
+  line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.75);
+}
+.game[data-workbench-type="compass-opening"] .visual-area { min-height: 0; display: grid; place-items: center; }
+
+.compass-confirm-svg { width: min(100%, 580px); height: 100%; max-height: 250px; overflow: visible; }
+.compass-choice-svg { width: 100%; height: 100%; max-height: 132px; pointer-events: none; }
+.target-circle { fill: rgba(255,255,255,.44); stroke: #315e61; stroke-width: 6; }
+.target-center { fill: #315e61; }
+.target-radius { stroke: #d46c24; stroke-width: 9; stroke-linecap: round; }
+.target-end { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
+.target-radius-label, .compass-opening-label, .confirm-opening-label { fill: #273d3b; font-weight: 1000; }
+.target-radius-label { font-size: 24px; }
+.compass-opening-label { font-size: 21px; }
+.confirm-opening-label { font-size: 25px; }
+.mapping-equals { fill: #315e61; font-size: 48px; font-weight: 1000; }
+.compass-ruler, .confirm-ruler { stroke: #6f9191; stroke-width: 3; stroke-linecap: round; }
+.compass-tick { stroke: #6f9191; stroke-width: 2; }
+.compass-band, .confirm-band { stroke: #d46c24; stroke-width: 7; stroke-linecap: round; }
+.compass-leg, .confirm-leg { stroke: #2e7778; stroke-width: 8; stroke-linecap: round; }
+.compass-pencil-leg, .confirm-pencil-leg { stroke: #b28128; }
+.compass-joint, .confirm-joint { fill: #ffd45c; stroke: #7e5d1f; stroke-width: 3; }
+.compass-foot, .confirm-foot { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
+.compass-confirm-svg[data-state="wrong"] .confirm-band,
+.compass-confirm-svg[data-state="wrong"] .confirm-foot { stroke: #b92852; fill: #b92852; }
+.compass-confirm-svg[data-state="correct"] .confirm-band,
+.compass-confirm-svg[data-state="correct"] .confirm-foot { stroke: #16775e; fill: #16775e; }
+
+.game[data-workbench-type="compass-opening"] .step-board {
+  grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
+  place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf;
+}
+.game[data-workbench-type="compass-opening"] .instruction,
+.game[data-workbench-type="compass-opening"] .feedback-line {
+  grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b;
+  font-size: clamp(.98rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: center;
+}
+.game[data-workbench-type="compass-opening"] .instruction[hidden] { display: none; }
+.game[data-workbench-type="compass-opening"] .feedback-line[data-state="idle"] { visibility: hidden; }
+.game[data-workbench-type="compass-opening"] .feedback-line[data-state="wrong"] { color: #a11742; }
+.game[data-workbench-type="compass-opening"] .feedback-line[data-state="correct"] { color: #12604c; }
+
+.game[data-workbench-type="compass-opening"] .choices-panel {
+  grid-row: 3; min-height: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(98px, 1fr)); gap: 9px;
+}
+.game[data-workbench-type="compass-opening"] .compass-choice {
+  min-height: 98px; padding: 0; border: 3px solid #6f9191; border-radius: 18px;
+  color: #273d3b; background: rgba(255,255,255,.84); box-shadow: 0 6px 0 #66817e;
+}
+.game[data-workbench-type="compass-opening"] .compass-choice[data-state="wrong"] {
+  border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70;
+}
+.game[data-workbench-type="compass-opening"] .compass-choice[data-state="correct"] {
+  border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991;
+}
+
+.game[data-workbench-type="compass-opening"] .complete-panel {
+  grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr;
+  border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96);
+}
+.game[data-workbench-type="compass-opening"] .complete-text {
+  max-width: 760px; color: #36200b; font-size: clamp(1.18rem, 2vw, 1.65rem); line-height: 1.2; text-align: center; word-break: keep-all;
+}
+.game[data-workbench-type="compass-opening"] .complete-panel .primary-button {
+  min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
+}
+.game[data-workbench-type="compass-opening"] .problem-grid.is-complete .choices-panel { display: none; }
+.game[data-workbench-type="compass-opening"] .problem-grid.is-complete .step-board { display: none; }
+.game[data-workbench-type="compass-opening"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
+.game[data-workbench-type="compass-opening"] .result-title-art { display: none; }
+.game[data-workbench-type="compass-opening"] #screen-result .top-row { display: none; }
+.game[data-workbench-type="compass-opening"] .result-correct-art { left: 64%; top: 56%; width: 22%; }
+.game[data-workbench-type="compass-opening"] .reward-visual { background-size: cover; background-position: center; }
+
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #e8f6ef; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .screen-title,
+.game[data-workbench-type="compass-opening"] .tutorial-progress { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+  position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+  position: absolute; z-index: 3; left: 35%; width: 60%; margin: 0; color: #273d3b; text-align: center; word-break: keep-all;
+}
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card strong { top: 30%; font-size: clamp(2.35rem, 4.8vw, 4.4rem); line-height: 1.05; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card p { top: 46%; font-size: clamp(1.2rem, 2.2vw, 1.75rem); line-height: 1.35; font-weight: 900; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-action {
+  position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none;
+}
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; bottom: 6%; min-height: 70px; pointer-events: auto; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialStartButton { right: 13%; width: 30%; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { left: 39%; width: 18%; border: 2px solid #7b5a2a; border-radius: 999px; color: #36200b; background: #fff7dc; font-size: 1.15rem; font-weight: 1000; }
+
+@media (max-width: 980px) {
+  .game[data-workbench-type="compass-opening"] .hud { right: 2%; width: 67%; }
+  .game[data-workbench-type="compass-opening"] .problem-grid {
+    top: 62px; right: 2%; bottom: 16px; left: 30%;
+    grid-template-rows: minmax(0, 1fr) 50px minmax(196px, auto); gap: 7px;
+  }
+  .game[data-workbench-type="compass-opening"] .complete-panel { min-height: 196px; }
+}
