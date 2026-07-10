@@ -1,0 +1,281 @@
+.game[data-workbench-type="check-lock-bars"] .play {
+  padding: 0;
+  background: #100f18;
+}
+
+.check-lock-stage-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .hud {
+  position: absolute;
+  top: 18px;
+  right: 3.5%;
+  z-index: 6;
+  width: 45%;
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.game[data-workbench-type="check-lock-bars"] .hud-left .brand-badge,
+.game[data-workbench-type="check-lock-bars"] .hud-right,
+.game[data-workbench-type="check-lock-bars"] .progress-line {
+  display: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] #problemCounter {
+  min-width: 132px;
+  min-height: 42px;
+  justify-content: center;
+  border: 2px solid #6d5623;
+  color: #281c08;
+  background: #ffe28a;
+  font-size: 1rem;
+}
+
+.game[data-workbench-type="check-lock-bars"] .problem-grid {
+  position: absolute;
+  top: 68px;
+  right: 3.5%;
+  bottom: 24px;
+  left: 51.5%;
+  z-index: 3;
+  height: auto;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) 58px minmax(142px, auto);
+  gap: 9px;
+}
+
+.game[data-workbench-type="check-lock-bars"] .problem-card,
+.game[data-workbench-type="check-lock-bars"] .step-board,
+.game[data-workbench-type="check-lock-bars"] .choices-panel,
+.game[data-workbench-type="check-lock-bars"] .complete-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .problem-card {
+  grid-row: 1;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.game[data-workbench-type="check-lock-bars"] .problem-label,
+.game[data-workbench-type="check-lock-bars"] .big-problem,
+.game[data-workbench-type="check-lock-bars"] .step-chips,
+.game[data-workbench-type="check-lock-bars"] .answer-slot {
+  display: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .visual-area {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.check-lock-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 470px;
+  overflow: visible;
+}
+
+.check-lock-svg .lock-board-bg {
+  fill: #171b27;
+  fill-opacity: 0.96;
+  stroke: #d6a84e;
+  stroke-width: 5;
+}
+
+.check-lock-svg .lock-calc-panel,
+.check-lock-svg .lock-total-panel {
+  fill: #252b38;
+  stroke: #677486;
+  stroke-width: 3;
+}
+
+.check-lock-svg .lock-total-panel.is-current-panel,
+.check-lock-svg .is-error-part {
+  stroke: #ffd45c;
+  stroke-width: 6;
+}
+
+.check-lock-svg .lock-small-label {
+  fill: #c9d3df;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.check-lock-svg .lock-problem-text {
+  fill: #fff4ce;
+  font-size: 36px;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+}
+
+.check-lock-svg .lock-value,
+.check-lock-svg .lock-total-value {
+  fill: #f8fbff;
+  font-size: 39px;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+}
+
+.check-lock-svg .lock-sign,
+.check-lock-svg .lock-compare-mark {
+  fill: #aeb9c8;
+  font-size: 34px;
+  font-weight: 1000;
+}
+
+.check-lock-svg .is-current,
+.check-lock-svg .lock-total-panel.is-current-panel + .lock-small-label,
+.check-lock-svg .lock-compare-mark.is-current {
+  fill: #ffd45c;
+}
+
+.game[data-workbench-type="check-lock-bars"] .step-board {
+  grid-row: 2;
+  min-height: 58px;
+  padding: 0 16px;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: center;
+  border: 2px solid #d6a84e;
+  border-radius: 15px;
+  background: #fff2bf;
+}
+
+.game[data-workbench-type="check-lock-bars"] .instruction,
+.game[data-workbench-type="check-lock-bars"] .feedback-line {
+  grid-area: 1 / 1;
+  min-height: 0;
+  margin: 0;
+  color: #281c08;
+  font-size: clamp(1rem, 1.7vw, 1.3rem);
+  line-height: 1.15;
+  font-weight: 1000;
+  text-align: center;
+}
+
+.game[data-workbench-type="check-lock-bars"] .instruction[hidden] { display: none; }
+.game[data-workbench-type="check-lock-bars"] .feedback-line[data-state="idle"] { visibility: hidden; }
+.game[data-workbench-type="check-lock-bars"] .feedback-line[data-state="wrong"] { color: #a11742; }
+.game[data-workbench-type="check-lock-bars"] .feedback-line[data-state="correct"] { color: #12604c; }
+
+.game[data-workbench-type="check-lock-bars"] .choices-panel {
+  grid-row: 3;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(64px, 1fr));
+  gap: 9px;
+}
+
+.game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="compare"],
+.game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="locate"] {
+  grid-template-rows: 1fr;
+  align-content: center;
+}
+
+.game[data-workbench-type="check-lock-bars"] .check-lock-choice {
+  min-height: 64px;
+  border: 3px solid #78879a;
+  border-radius: 16px;
+  color: #172131;
+  background: #f4f8fc;
+  box-shadow: 0 6px 0 #596779;
+  font-size: clamp(1.55rem, 2.8vw, 2.35rem);
+}
+
+.game[data-workbench-type="check-lock-bars"] .check-lock-choice[data-state="wrong"] {
+  border-color: #c92b59;
+  color: #6f0e2d;
+  background: #ffe0e9;
+  box-shadow: 0 6px 0 #a45b70;
+}
+
+.game[data-workbench-type="check-lock-bars"] .check-lock-choice[data-state="correct"] {
+  border-color: #1f8569;
+  color: #0f493a;
+  background: #d9f8ed;
+  box-shadow: 0 6px 0 #5ea991;
+}
+
+.game[data-workbench-type="check-lock-bars"] .complete-panel {
+  grid-row: 3;
+  min-height: 142px;
+  padding: 12px;
+  place-items: center;
+  grid-template-columns: 1fr;
+  border: 3px solid #d6a84e;
+  border-radius: 16px;
+  background: #fff2bf;
+}
+
+.game[data-workbench-type="check-lock-bars"] .complete-text {
+  color: #281c08;
+  font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+  text-align: center;
+}
+
+.game[data-workbench-type="check-lock-bars"] .complete-panel .primary-button {
+  min-height: 64px;
+  color: #281c08;
+  background: #ffd45c;
+  box-shadow: 0 7px 0 #8f6d17;
+}
+
+.game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete .choices-panel { display: none; }
+.game[data-workbench-type="check-lock-bars"] .result-title-art { display: none; }
+.game[data-workbench-type="check-lock-bars"] #screen-result .top-row { display: none; }
+.game[data-workbench-type="check-lock-bars"] .result-correct-art { left: 61%; top: 55%; width: 23%; }
+.game[data-workbench-type="check-lock-bars"] .reward-visual { background-size: contain; background-repeat: no-repeat; }
+
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #100f18; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .screen-title,
+.game[data-workbench-type="check-lock-bars"] .tutorial-progress,
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0);
+}
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-card { min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { width: 100%; height: 100%; display: block; object-fit: cover; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+  position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
+}
+.game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 29%; bottom: 2.5%; width: 42%; height: 15.5%; }
+.game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 64%; bottom: 4.5%; width: 30%; height: 13.5%; }
+.game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 4.5%; width: 29%; height: 13.5%; }
+
+@media (max-width: 980px) {
+  .game[data-workbench-type="check-lock-bars"] .hud { right: 2.5%; width: 47%; }
+  .game[data-workbench-type="check-lock-bars"] .problem-grid {
+    top: 62px; right: 2.5%; bottom: 18px; left: 50.5%;
+    grid-template-rows: minmax(0, 1fr) 52px minmax(132px, auto);
+    gap: 7px;
+  }
+}

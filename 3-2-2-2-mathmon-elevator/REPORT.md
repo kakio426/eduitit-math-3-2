@@ -201,3 +201,42 @@
 - 첫 화면 밝기 보강: `cover .raster-bg`에 가벼운 `brightness/saturate` 보정을 적용했습니다.
 - 매스몬 동행 통일: 2026-07-03 커버 이관 뒤 첫 화면은 별도 `.cover-mathmon` 없이, `cover-generated.webp` 안에 포함된 독수리몬 장면을 사용합니다. 2026-06-29 리마스터 뒤 결과 화면의 별도 매스몬 오버레이도 제거된 상태입니다.
 - 첫 화면 제목 아트 표준화: `title-logo-generated.webp`를 `.hero-title-art`로 얹고, 제목 텍스트는 접근성용 숨김 `<h1>`로 유지했습니다.
+
+## Mathmon Engine v1 골드 스탠더드 이관 (2026-07-10)
+
+### 구조
+
+- `_engine/v1`이 화면 전환, 설정, 오디오, 단계 상태, 보상, 결과, 전체 시도 기록을 맡습니다.
+- `_lessons/3-2-2-2-mathmon-elevator/lesson.json`은 문구·자산·보상·결과 계약을 선언합니다.
+- `model.js`는 내림이 필요한 문제 후보, 세 단계, 대표 오개념 선택지를 만듭니다.
+- `view.js`는 생성 이미지 장면 위의 SVG 세로셈판과 의미가 적힌 선택지를 그립니다.
+- 빌드 결과는 기존 폴더의 독립 실행 `index.html`로 유지합니다.
+
+### 이미지 중심 문제 화면
+
+- `board-shaft-generated.webp`를 Stage 전체 배경으로 사용했습니다. CSS로 엘리베이터나 공간을 다시 그리지 않습니다.
+- 오른쪽 칠판에는 큰 식, SVG 계산판, 한 줄 지시, 선택지만 둡니다.
+- 첫 단계 선택지 네 장 모두 `십의 자리 몫`과 `나머지`를 글자로 표시하고, 계산판에는 `나머지(남은 십)`을 함께 표시합니다.
+- 첫 단계에서는 남은 십 이동과 내린 수를 미리 보여 주지 않습니다. 정답 확인 뒤에만 다음 관계가 나타납니다.
+- 남은 십을 빠뜨린 오답에서는 `N십이 남아요.`와 남은 십만 보여 주고, 다음 단계 전체를 미리 설명하지 않습니다.
+
+### 오개념·기록
+
+- `DIV2_OMIT_REMAINING_TEN`, `DIV2_TENS_QUOTIENT_TOO_HIGH`, `DIV2_TENS_QUOTIENT_TOO_LOW`, `DIV2_IGNORE_REMAINING_TEN`, `DIV2_DIVIDE_ONES_DIGIT_ONLY` 등 오개념 ID를 선택지에 연결했습니다.
+- 단계별 첫 선택 하나가 아니라 모든 시도, 선택지 ID, 오개념 ID, 정오 여부, 시간을 기록합니다.
+- 결과 등급은 기존처럼 첫 시도 정답 수와 올라갈 힘을 사용합니다.
+
+### Humanizer 학생 문구 QA
+
+- 첫 단계 지시문은 `몫과 나머지를 골라요.`로 정리했습니다. 색을 보지 않아도 각 값의 뜻을 알 수 있습니다.
+- 다음 단계는 `내린 수를 골라요.`, `일의 자리 몫을 골라요.`처럼 한 문장에 행동 하나만 남겼습니다.
+- 오답 문구는 `2십이 남아요.`, `한 번 더 나눌 수 있어요.`처럼 화면에서 바로 확인할 수 있는 말로 줄였습니다.
+
+### 검증
+
+- `node scripts/qa-engine-unit2-elevator-source.mjs`: 고정 seed 200회, 회당 10문제의 범위·중복·항등식·세 단계·오개념 ID·선택지 라벨을 통과했습니다.
+- `node scripts/check-lesson-contract.mjs`: 소스 기반 4개 차시 계약을 통과했습니다.
+- `node scripts/check-stage-ratio.mjs`: 21개 차시의 16:10 / 1280×800 계약을 통과했습니다.
+- `node scripts/qa-lesson-flow.mjs 3-2-2-2-mathmon-elevator`: 첫 화면, 설정, 설명 2장, 문제, 대표 오답, 최종 확인, 모달 보상, 결과를 데스크톱 1280×800과 태블릿 가로 1024×768에서 완주했습니다.
+- 텍스트 넘침·요소 겹침 QA: 두 화면 크기 모두 자동 검사에서 overflow, clipping, 깨진 이미지 0건이었습니다.
+- 최신 공통 엔진 캡처: `screenshots/engine-flow-desktop-*`, `screenshots/engine-flow-tablet-landscape-*`.

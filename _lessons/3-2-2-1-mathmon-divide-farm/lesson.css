@@ -1,0 +1,131 @@
+.game[data-workbench-type="place-value-farm"] .play { padding: 0; background: #296c35; }
+.farm-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+
+.game[data-workbench-type="place-value-farm"] .hud {
+  position: absolute; top: 18px; right: 2.8%; z-index: 6; width: 61%; min-height: 40px;
+  display: grid; place-items: center; padding: 0;
+}
+.game[data-workbench-type="place-value-farm"] .hud-left .brand-badge,
+.game[data-workbench-type="place-value-farm"] .hud-right,
+.game[data-workbench-type="place-value-farm"] .progress-line { display: none; }
+.game[data-workbench-type="place-value-farm"] #problemCounter {
+  min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #7b4a1f;
+  color: #2c1b0a; background: #ffe28a; font-size: 1rem;
+}
+
+.game[data-workbench-type="place-value-farm"] .problem-grid {
+  position: absolute; top: 68px; right: 2.8%; bottom: 24px; left: 36.3%; z-index: 3;
+  height: auto; margin: 0; display: grid; grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) 58px minmax(142px, auto); gap: 9px;
+}
+.game[data-workbench-type="place-value-farm"] .problem-card,
+.game[data-workbench-type="place-value-farm"] .step-board,
+.game[data-workbench-type="place-value-farm"] .choices-panel,
+.game[data-workbench-type="place-value-farm"] .complete-panel {
+  border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+.game[data-workbench-type="place-value-farm"] .problem-card {
+  grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: minmax(0, 1fr);
+}
+.game[data-workbench-type="place-value-farm"] .problem-label,
+.game[data-workbench-type="place-value-farm"] .big-problem,
+.game[data-workbench-type="place-value-farm"] .step-chips,
+.game[data-workbench-type="place-value-farm"] .answer-slot { display: none; }
+.game[data-workbench-type="place-value-farm"] .visual-area { min-height: 0; display: grid; place-items: center; }
+
+.place-value-farm-svg { width: 100%; height: 100%; max-height: 455px; overflow: visible; }
+.place-value-farm-svg .farm-board-bg { fill: #fff8df; fill-opacity: .96; stroke: #7b4a1f; stroke-width: 6; }
+.place-value-farm-svg .farm-place-panel,
+.place-value-farm-svg .farm-total-panel { fill: #fffdf5; stroke: #c8a16f; stroke-width: 3; }
+.place-value-farm-svg .is-current-panel { fill: #fff2b8; stroke: #e89b24; stroke-width: 6; }
+.place-value-farm-svg .farm-problem { fill: #3d260f; font-size: 48px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+.place-value-farm-svg .farm-label { fill: #6b401b; font-size: 23px; font-weight: 1000; }
+.place-value-farm-svg .farm-calc { fill: #46321f; font-size: 34px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+.place-value-farm-svg .farm-answer,
+.place-value-farm-svg .farm-total { fill: #245c31; font-size: 43px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+.place-value-farm-svg .farm-place-hint { fill: #79644f; font-size: 17px; font-weight: 900; }
+.place-value-farm-svg .is-current { fill: #b95117; }
+
+.game[data-workbench-type="place-value-farm"] .step-board {
+  grid-row: 2; min-height: 58px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
+  place-items: center; border: 2px solid #7b4a1f; border-radius: 15px; background: #fff2bf;
+}
+.game[data-workbench-type="place-value-farm"] .instruction,
+.game[data-workbench-type="place-value-farm"] .feedback-line {
+  grid-area: 1 / 1; min-height: 0; margin: 0; color: #2c1b0a;
+  font-size: clamp(1rem, 1.7vw, 1.3rem); line-height: 1.15; font-weight: 1000; text-align: center;
+}
+.game[data-workbench-type="place-value-farm"] .instruction[hidden] { display: none; }
+.game[data-workbench-type="place-value-farm"] .feedback-line[data-state="idle"] { visibility: hidden; }
+.game[data-workbench-type="place-value-farm"] .feedback-line[data-state="wrong"] { color: #a11742; }
+.game[data-workbench-type="place-value-farm"] .feedback-line[data-state="correct"] { color: #12604c; }
+
+.game[data-workbench-type="place-value-farm"] .choices-panel {
+  grid-row: 3; min-height: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(64px, 1fr)); gap: 9px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-choice {
+  min-height: 64px; border: 3px solid #9a6c3d; border-radius: 16px; color: #34210e;
+  background: #fffaf0; box-shadow: 0 6px 0 #79502b; font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+}
+.game[data-workbench-type="place-value-farm"] .farm-choice[data-state="wrong"] {
+  border-color: #c92b59; color: #6f0e2d; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70;
+}
+.game[data-workbench-type="place-value-farm"] .farm-choice[data-state="correct"] {
+  border-color: #1f8569; color: #0f493a; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991;
+}
+.game[data-workbench-type="place-value-farm"] .complete-panel {
+  grid-row: 3; min-height: 142px; padding: 12px; place-items: center; grid-template-columns: 1fr;
+  border: 3px solid #7b4a1f; border-radius: 16px; background: #fff2bf;
+}
+.game[data-workbench-type="place-value-farm"] .complete-text { color: #2c1b0a; font-size: clamp(1.55rem, 2.8vw, 2.2rem); text-align: center; }
+.game[data-workbench-type="place-value-farm"] .complete-panel .primary-button {
+  min-height: 64px; color: #2c1b0a; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
+}
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { display: none; }
+.game[data-workbench-type="place-value-farm"] .result-title-art { display: none; }
+.game[data-workbench-type="place-value-farm"] #screen-result .top-row { display: none; }
+.game[data-workbench-type="place-value-farm"] .result-correct-art { left: 61%; top: 55%; width: 23%; }
+
+.game[data-workbench-type="place-value-farm"] .reward-visual {
+  background-image: var(--reward-modal-image);
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+.game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="bug"] .reward-visual { background-position: 50% 0; }
+.game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="big"] .reward-visual { background-position: 100% 0; }
+.game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="gold"] .reward-visual { background-position: 0 100%; }
+.game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="empty"] .reward-visual { background-position: 50% 100%; }
+.game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="rainbow"] .reward-visual { background-position: 100% 100%; }
+
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #296c35; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .screen-title,
+.game[data-workbench-type="place-value-farm"] .tutorial-progress,
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0);
+}
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-card { min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { width: 100%; height: 100%; display: block; object-fit: cover; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+  position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
+}
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 29%; bottom: 2.5%; width: 42%; height: 15.5%; }
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 64%; bottom: 4.5%; width: 30%; height: 13.5%; }
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 4.5%; width: 29%; height: 13.5%; }
+
+@media (max-width: 980px) {
+  .game[data-workbench-type="place-value-farm"] .hud { right: 2%; width: 63%; }
+  .game[data-workbench-type="place-value-farm"] .problem-grid {
+    top: 62px; right: 2%; bottom: 18px; left: 35%;
+    grid-template-rows: minmax(0, 1fr) 52px minmax(132px, auto); gap: 7px;
+  }
+}

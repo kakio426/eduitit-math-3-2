@@ -1,0 +1,82 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit2-place-value-migration",
+  "id": "3-2-2-1",
+  "folder": "3-2-2-1-mathmon-divide-farm",
+  "modelName": "Lesson2DivideFarmModel",
+  "title": "매스몬 나누기 농장",
+  "shortTitle": "매스몬 나누기 농장",
+  "topic": "내림 없는 두 자리 수 나눗셈",
+  "unitBadge": "2단원 나눗셈",
+  "goal": "10개 묶음과 낱개를 차례로 나눠요.",
+  "action": "자리마다 나눈 몫을 고른다.",
+  "buttonLabel": "수확 보기",
+  "rewardScreenTitle": "수확",
+  "progressLabel": "수확",
+  "rewardComplete": "수확이 바뀌었어요.",
+  "tutorialTitle": "농장에 가기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "title": "어떻게 나눠요?", "body": "10개 묶음과 낱개를 따로 나눠요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "title": "어떻게 답을 만들어요?", "body": "두 몫을 십의 자리와 일의 자리에 놓아요.", "image": "tutorial-page-2-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "maxPower": 100,
+    "nextLabel": "다음",
+    "artMap": {
+      "harvest": "reward-events-sprite-generated.webp",
+      "bug": "reward-events-sprite-generated.webp",
+      "big": "reward-events-sprite-generated.webp",
+      "gold": "reward-events-sprite-generated.webp",
+      "empty": "reward-events-sprite-generated.webp",
+      "rainbow": "reward-events-sprite-generated.webp"
+    }
+  },
+  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "workbench": { "type": "place-value-farm" },
+  "scoreboard": { "enabled": false },
+  "results": [
+    { "id": "seed", "name": "씨앗", "minPower": 0, "minCorrect": 0, "image": "result-tier-seed.webp", "titleImage": "result-tier-seed.webp" },
+    { "id": "sprout", "name": "새싹", "minPower": 19, "minCorrect": 2, "image": "result-tier-sprout.webp", "titleImage": "result-tier-sprout.webp" },
+    { "id": "garden", "name": "텃밭", "minPower": 39, "minCorrect": 4, "image": "result-tier-garden.webp", "titleImage": "result-tier-garden.webp" },
+    { "id": "farm", "name": "농장", "minPower": 59, "minCorrect": 6, "image": "result-tier-farm.webp", "titleImage": "result-tier-farm.webp" },
+    { "id": "bigfarm", "name": "대농장", "minPower": 82, "minCorrect": 8, "image": "result-tier-bigfarm.webp", "titleImage": "result-tier-bigfarm.webp" },
+    { "id": "rainbow", "name": "황금밭", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-tier-rainbow.webp", "titleImage": "result-tier-rainbow.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "harvest", "text": "수확이 늘었어요", "weight": 7200, "min": 4, "max": 8, "family": "harvest" },
+    { "id": "bug", "text": "수확이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "bug" },
+    { "id": "big", "text": "수확이 크게 늘었어요", "weight": 1000, "min": 12, "max": 20, "family": "big" },
+    { "id": "gold", "text": "황금 당근!", "weight": 300, "min": 6, "max": 6, "family": "gold", "express": true },
+    { "id": "empty", "text": "빈 바구니", "weight": 280, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "rainbow", "text": "황금밭!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "special": true }
+  ],
+  "wrongEvent": { "id": "bug", "text": "수확이 줄었어요", "min": -18, "max": -8, "family": "bug" },
+  "typesPerRun": ["exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "start-button-generated.webp",
+    "problemStage": "farm-board-generated.webp",
+    "rewardScene": "reward-events-sprite-generated.webp",
+    "resultRetryButton": "start-button-generated.webp"
+  },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
+    "farm-board-generated.webp", "reward-events-sprite-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "result-tier-seed.webp", "result-tier-sprout.webp", "result-tier-garden.webp",
+    "result-tier-farm.webp", "result-tier-bigfarm.webp", "result-tier-rainbow.webp"
+  ],
+  "qa": {
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+    ],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+  }
+}

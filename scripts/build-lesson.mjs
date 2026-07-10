@@ -7,6 +7,7 @@ const ROOT = process.cwd();
 const ENGINE_VERSION = "mathmon-engine-v1";
 const ENGINE_DIR = path.join(ROOT, "_engine", "v1");
 const LESSON_SOURCE_ROOT = path.join(ROOT, "_lessons");
+const SCOREBOARD_DIR = path.join(ROOT, "_shared", "scoreboard");
 
 function usage() {
   console.error("Usage: node scripts/build-lesson.mjs <lesson-folder>");
@@ -32,8 +33,13 @@ function indent(text, spaces = 4) {
 
 function renderCards(cards) {
   return cards.map((card) => {
-    const [mark, title, body] = card;
-    return `<div class="tutorial-card"><div class="card-mark">${escapeHtml(mark)}</div><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></div>`;
+    const [mark, title, body] = Array.isArray(card)
+      ? card
+      : [card.visual || "", card.title || "", card.body || ""];
+    const image = !Array.isArray(card) && card.image
+      ? `<img class="tutorial-poster-art" src="${escapeHtml(card.image)}" alt="">`
+      : "";
+    return `<div class="tutorial-card">${image}<div class="card-mark">${escapeHtml(mark)}</div><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></div>`;
   }).join("");
 }
 
@@ -42,6 +48,10 @@ function renderTemplate(template, replacements) {
     if (!(key in replacements)) throw new Error(`missing template value: ${key}`);
     return replacements[key];
   });
+}
+
+function requiredString(value, fallback = "") {
+  return typeof value === "string" && value.trim() ? value : fallback;
 }
 
 function requireLessonConfig(config, lessonFolder) {
@@ -98,10 +108,12 @@ async function main() {
   const config = JSON.parse(await readFile(configPath, "utf8"));
   requireLessonConfig(config, lessonFolder);
 
-  const [template, engineCss, engineRuntime, modelSource, viewSource] = await Promise.all([
+  const [template, engineCss, engineRuntime, scoreboardCss, scoreboardRuntime, modelSource, viewSource] = await Promise.all([
     readFile(path.join(ENGINE_DIR, "template.html"), "utf8"),
     readFile(path.join(ENGINE_DIR, "styles", "core.css"), "utf8"),
     readFile(path.join(ENGINE_DIR, "runtime", "core.js"), "utf8"),
+    readFile(path.join(SCOREBOARD_DIR, "scoreboard-ui.css"), "utf8"),
+    readFile(path.join(SCOREBOARD_DIR, "scoreboard-ui.js"), "utf8"),
     readFile(path.join(sourceDir, "model.js"), "utf8"),
     readFile(path.join(sourceDir, "view.js"), "utf8"),
   ]);
@@ -116,9 +128,16 @@ async function main() {
   const initialResult = config.results[0];
   const imageAssets = config.imageAssets || {};
   const standards = config.standards || {};
+  const tutorial = config.tutorial || {};
+  const reward = config.reward || {};
+  const result = config.result || {};
+  const workbench = config.workbench || {};
+  const scoreboard = config.scoreboard || {};
   const engineRuntimeScript = engineRuntime.replaceAll("{{MODEL_NAME}}", config.modelName);
   const lessonConfigScript = `const LESSON_CONFIG = ${JSON.stringify(config)};`;
   const unitNumber = getUnitNumber(config);
+  const scoreboardEnabled = Boolean(scoreboard.enabled);
+  const hybridResult = result.renderMode === "hybrid-generated-dynamic";
   const html = renderTemplate(template, {
     documentTitle: `${escapeHtml(config.title)} | 에듀잇티 수학 게임`,
     engineVersion: escapeHtml(config.engineVersion),
@@ -126,7 +145,13 @@ async function main() {
     coverStartStandard: escapeHtml(standards.coverStart || "generated-button-art"),
     settingsStandard: escapeHtml(standards.settings || "modal-controls"),
     resultVisualStandard: escapeHtml(standards.resultVisual || "generated-assets"),
+    resultRenderMode: escapeHtml(requiredString(result.renderMode, "simple-generated")),
+    rewardMode: escapeHtml(requiredString(reward.mode, "stage-full")),
+    tutorialMode: escapeHtml(requiredString(tutorial.mode, "card-grid")),
+    workbenchType: escapeHtml(requiredString(workbench.type, "step-choice")),
+    scoreboardEnabled: scoreboardEnabled ? "true" : "false",
     engineCss: indent(engineCss, 4),
+    scoreboardCss: indent(scoreboardCss, 4),
     lessonCss: lessonCss.trim() ? "\n" + indent(lessonCss, 4) : "",
     coverImage: escapeHtml(imageAssets.cover || "cover-generated.webp"),
     coverUnitBadge: escapeHtml(`3학년 2학기 ${unitNumber}단원`),
@@ -150,6 +175,17 @@ async function main() {
     initialResultImage: escapeHtml(initialResult.image),
     initialResultTitleImage: escapeHtml(initialResult.titleImage),
     resultRetryButton: escapeHtml(imageAssets.resultRetryButton || "result-retry-button-generated.webp"),
+    resultRestartButtonId: hybridResult ? "restartButton" : "retryButton",
+    resultRestartButtonClass: hybridResult ? "result-restart-hitbox" : "result-retry-hitbox",
+    resultRestartAria: hybridResult ? "다시하기" : "다시",
+    resultLeaderboardButton: escapeHtml(imageAssets.resultLeaderboardButton || imageAssets.startButton || "start-button-generated.webp"),
+    scoreboardTitle: escapeHtml(requiredString(scoreboard.title, "전국 순위")),
+    scoreboardTitleArt: escapeHtml(requiredString(scoreboard.titleArt, "")),
+    scoreboardResultKind: escapeHtml(requiredString(scoreboard.resultKind, "score")),
+    scoreboardScoreLabel: escapeHtml(requiredString(scoreboard.scoreLabel, "내 점수")),
+    scoreboardListTitle: escapeHtml(requiredString(scoreboard.listTitle, "점수 순위")),
+    scoreboardUnit: escapeHtml(requiredString(scoreboard.unit, config.unitBadge)),
+    scoreboardRuntimeScript: indent(scoreboardRuntime, 4),
     lessonConfigScript: indent(lessonConfigScript, 4),
     lessonModelScript: indent(modelSource, 4),
     lessonViewScript: indent(viewSource, 4),

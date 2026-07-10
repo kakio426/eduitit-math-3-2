@@ -1,0 +1,437 @@
+.game[data-workbench-type="division-elevator"] .play {
+  padding: 0;
+  background: #d7f3f0;
+}
+
+.elevator-stage-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.game[data-workbench-type="division-elevator"] .hud {
+  position: absolute;
+  top: 22px;
+  left: 52%;
+  right: auto;
+  z-index: 6;
+  min-height: 40px;
+  padding: 0;
+  transform: translateX(-50%);
+  display: block;
+}
+
+.game[data-workbench-type="division-elevator"] .hud-left .brand-badge,
+.game[data-workbench-type="division-elevator"] .hud-right,
+.game[data-workbench-type="division-elevator"] .progress-line {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] #problemCounter {
+  min-width: 132px;
+  min-height: 42px;
+  justify-content: center;
+  border-color: #8d6b20;
+  color: #2c210c;
+  background: #ffe49b;
+  font-size: 1rem;
+}
+
+.game[data-workbench-type="division-elevator"] .settings-toggle {
+  top: 22px;
+  right: 24px;
+  color: #173c43;
+  border-color: #61888e;
+  background: #edf8f6;
+  backdrop-filter: none;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-grid {
+  position: absolute;
+  top: 70px;
+  right: 42px;
+  bottom: 30px;
+  left: 34.5%;
+  z-index: 3;
+  height: auto;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) 58px minmax(150px, auto);
+  gap: 10px;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-card,
+.game[data-workbench-type="division-elevator"] .step-board,
+.game[data-workbench-type="division-elevator"] .choices-panel,
+.game[data-workbench-type="division-elevator"] .complete-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-card {
+  grid-row: 1;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 4px;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-label {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .big-problem {
+  margin: 0;
+  color: #17343b;
+  font-size: clamp(3rem, 5.8vw, 5.1rem);
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 3px 0 #ffffff;
+}
+
+.game[data-workbench-type="division-elevator"] .visual-area {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.elevator-math-svg {
+  width: min(100%, 920px);
+  height: 100%;
+  max-height: 340px;
+  overflow: visible;
+}
+
+.elevator-math-svg .board-number {
+  fill: #fff8e8;
+  font-size: 58px;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+}
+
+.elevator-math-svg .board-divisor {
+  font-size: 64px;
+}
+
+.elevator-math-svg .board-small-label {
+  fill: #d9f5f1;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.elevator-math-svg .board-small-value {
+  font-size: 43px;
+}
+
+.game[data-workbench-type="division-elevator"] .step-board {
+  grid-row: 2;
+  min-height: 58px;
+  padding: 0 18px;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: center;
+  border: 2px solid #8d6b20;
+  border-radius: 16px;
+  background: #fff0be;
+}
+
+.game[data-workbench-type="division-elevator"] .step-chips,
+.game[data-workbench-type="division-elevator"] .answer-slot {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .instruction,
+.game[data-workbench-type="division-elevator"] .feedback-line {
+  grid-area: 1 / 1;
+  min-height: 0;
+  margin: 0;
+  color: #2c210c;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.15;
+  font-weight: 1000;
+  text-align: center;
+}
+
+.game[data-workbench-type="division-elevator"] .instruction[hidden] {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .feedback-line[data-state="idle"] {
+  visibility: hidden;
+}
+
+.game[data-workbench-type="division-elevator"] .feedback-line[data-state="wrong"] {
+  color: #8d1736;
+}
+
+.game[data-workbench-type="division-elevator"] .feedback-line[data-state="correct"] {
+  color: #135b44;
+}
+
+.game[data-workbench-type="division-elevator"] .choices-panel {
+  grid-row: 3;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(72px, 1fr));
+  gap: 10px;
+}
+
+.game[data-workbench-type="division-elevator"] .elevator-choice {
+  min-height: 74px;
+  padding: 0;
+  border: 3px solid #486b71;
+  border-radius: 18px;
+  color: #17343b;
+  background: #edf8f6;
+  box-shadow: 0 6px 0 #9eb9b5;
+  overflow: hidden;
+}
+
+.game[data-workbench-type="division-elevator"] .elevator-choice[data-state="wrong"] {
+  border-color: #b72d4d;
+  color: #5d1125;
+  background: #ffe0e7;
+  box-shadow: 0 6px 0 #c98a98;
+}
+
+.game[data-workbench-type="division-elevator"] .elevator-choice[data-state="correct"] {
+  border-color: #177257;
+  color: #0e4334;
+  background: #d7f8ec;
+  box-shadow: 0 6px 0 #75b9a4;
+}
+
+.elevator-choice--pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.elevator-choice-part {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+}
+
+.elevator-choice-part + .elevator-choice-part {
+  border-left: 2px solid #8ca7aa;
+}
+
+.elevator-choice-label {
+  min-width: 0;
+  font-size: clamp(.76rem, 1.2vw, .95rem);
+  line-height: 1.1;
+  font-weight: 900;
+  text-align: left;
+  overflow-wrap: keep-all;
+}
+
+.elevator-choice-value {
+  font-size: clamp(2rem, 3.5vw, 3.1rem);
+  line-height: 1;
+  font-weight: 1000;
+}
+
+.elevator-number-value {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1;
+  font-weight: 1000;
+}
+
+.game[data-workbench-type="division-elevator"] .complete-panel {
+  grid-column: 1;
+  grid-row: 3;
+  min-height: 150px;
+  padding: 14px;
+  place-items: center;
+  grid-template-columns: 1fr;
+  border: 3px solid #8d6b20;
+  border-radius: 18px;
+  background: #fff0be;
+}
+
+.game[data-workbench-type="division-elevator"] .complete-text {
+  color: #2c210c;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  text-align: center;
+}
+
+.game[data-workbench-type="division-elevator"] .complete-panel .primary-button {
+  min-height: 68px;
+  color: #2c210c;
+  background: #ffd46d;
+  box-shadow: 0 8px 0 #9c721a;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-grid.is-complete .choices-panel {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .reward-visual {
+  background-image: var(--reward-modal-image);
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  background-position: 0 0;
+}
+
+.game[data-workbench-type="division-elevator"] .reward-pop[data-reward="motor"] .reward-visual { background-position: 0 0; }
+.game[data-workbench-type="division-elevator"] .reward-pop[data-reward="superMotor"] .reward-visual { background-position: 50% 0; }
+.game[data-workbench-type="division-elevator"] .reward-pop[data-reward="blackout"] .reward-visual { background-position: 100% 0; }
+.game[data-workbench-type="division-elevator"] .reward-pop[data-reward="stop"] .reward-visual { background-position: 0 100%; }
+.game[data-workbench-type="division-elevator"] .reward-pop[data-reward="express"] .reward-visual { background-position: 50% 100%; }
+.game[data-workbench-type="division-elevator"] .reward-pop[data-reward="rainbow"] .reward-visual { background-position: 100% 100%; }
+
+.game[data-workbench-type="division-elevator"] .result-title-art {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] #screen-result .top-row {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .result-correct-art {
+  left: 62%;
+  top: 55%;
+  width: 22%;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial {
+  padding: 0;
+  background: #d7f3f0;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-grid {
+  height: 100%;
+  padding: 0;
+  display: block;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .screen-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-action {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: block;
+  pointer-events: none;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-progress {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+  position: absolute;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="0"] #tutorialStartButton {
+  left: 29%;
+  bottom: 2.5%;
+  width: 42%;
+  height: 15.5%;
+}
+
+.game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] #tutorialStartButton {
+  left: 64%;
+  bottom: 4.5%;
+  width: 30%;
+  height: 13.5%;
+}
+
+.game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] #tutorialBackButton {
+  left: 7%;
+  bottom: 4.5%;
+  width: 29%;
+  height: 13.5%;
+}
+
+@media (max-width: 980px) {
+  .game[data-workbench-type="division-elevator"] .problem-grid {
+    top: 64px;
+    right: 28px;
+    bottom: 22px;
+    left: 33%;
+    grid-template-rows: minmax(0, 1fr) 52px minmax(136px, auto);
+    gap: 8px;
+  }
+
+  .game[data-workbench-type="division-elevator"] .big-problem {
+    font-size: clamp(2.7rem, 6vw, 4rem);
+  }
+
+  .elevator-choice-part {
+    padding: 6px 9px;
+  }
+
+  .elevator-choice-label {
+    font-size: .72rem;
+  }
+}

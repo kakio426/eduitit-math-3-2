@@ -1,0 +1,82 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit2-check-lock-migration",
+  "id": "3-2-2-4",
+  "folder": "3-2-2-4-mathmon-check-lock",
+  "modelName": "Lesson2CheckLockModel",
+  "title": "매스몬 검산 자물쇠",
+  "shortTitle": "매스몬 검산 자물쇠",
+  "topic": "곱셈으로 나눗셈 검산하기",
+  "unitBadge": "2단원 나눗셈",
+  "goal": "곱하고 더해 처음 수가 되는지 확인해요.",
+  "action": "검산 순서에 맞는 값을 고른다.",
+  "buttonLabel": "자물쇠 열기",
+  "rewardScreenTitle": "자물쇠",
+  "progressLabel": "열쇠 힘",
+  "rewardComplete": "자물쇠 힘이 바뀌었어요.",
+  "tutorialTitle": "금고를 열기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "title": "어떻게 확인해요?", "body": "나누는 수와 몫을 곱하고 나머지를 더해요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "title": "무엇을 비교해요?", "body": "검산값과 처음 수가 같은지 봐요.", "image": "tutorial-page-2-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "maxPower": 100,
+    "nextLabel": "다음",
+    "artMap": {
+      "click": "lock-generated.webp",
+      "jam": "lock-generated.webp",
+      "double": "lock-generated.webp",
+      "master": "lock-generated.webp",
+      "reset": "lock-generated.webp",
+      "rainbow": "lock-generated.webp"
+    }
+  },
+  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "workbench": { "type": "check-lock-bars" },
+  "scoreboard": { "enabled": false },
+  "results": [
+    { "id": "lock", "name": "작은 자물쇠", "minPower": 1, "minCorrect": 1, "image": "result-lock-generated.webp", "titleImage": "result-lock-generated.webp" },
+    { "id": "safe", "name": "튼튼한 금고", "minPower": 21, "minCorrect": 3, "image": "result-safe-generated.webp", "titleImage": "result-safe-generated.webp" },
+    { "id": "largeSafe", "name": "커다란 금고", "minPower": 41, "minCorrect": 5, "image": "result-large-safe-generated.webp", "titleImage": "result-large-safe-generated.webp" },
+    { "id": "secretSafe", "name": "비밀 금고", "minPower": 61, "minCorrect": 7, "image": "result-secret-safe-generated.webp", "titleImage": "result-secret-safe-generated.webp" },
+    { "id": "treasure", "name": "보물 금고", "minPower": 81, "minCorrect": 9, "image": "result-treasure-generated.webp", "titleImage": "result-treasure-generated.webp" },
+    { "id": "rainbow", "name": "무지개 금고", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "click", "text": "열쇠 힘이 늘었어요", "weight": 7200, "min": 4, "max": 8, "family": "click" },
+    { "id": "jam", "text": "열쇠 힘이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "jam" },
+    { "id": "double", "text": "열쇠 힘이 크게 늘었어요", "weight": 1000, "min": 12, "max": 20, "family": "double" },
+    { "id": "master", "text": "황금 열쇠!", "weight": 300, "min": 6, "max": 6, "family": "master", "express": true },
+    { "id": "reset", "text": "열쇠 힘 0", "weight": 280, "min": 0, "max": 0, "family": "reset", "emptiesPower": true },
+    { "id": "rainbow", "text": "무지개 열쇠!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "special": true }
+  ],
+  "wrongEvent": { "id": "jam", "text": "열쇠 힘이 줄었어요", "min": -18, "max": -8, "family": "jam" },
+  "typesPerRun": ["match", "match", "match", "match", "match", "match", "mismatch", "mismatch", "mismatch", "mismatch"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "start-button-generated.webp",
+    "problemStage": "board-vault-generated.webp",
+    "rewardScene": "lock-generated.webp",
+    "resultRetryButton": "start-button-generated.webp"
+  },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
+    "board-vault-generated.webp", "lock-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "result-lock-generated.webp", "result-safe-generated.webp", "result-large-safe-generated.webp",
+    "result-secret-safe-generated.webp", "result-treasure-generated.webp", "result-rainbow-generated.webp"
+  ],
+  "qa": {
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+    ],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+  }
+}

@@ -47,7 +47,9 @@
 
 결과 배경 7종은 imagegen으로 생성한 원본을 1280×800 PNG/WebP로 후처리한 파일입니다. 로컬 폰트, canvas, SVG, 기존 PNG/WebP 겹치기로 생성 이미지처럼 보이게 만드는 합성은 쓰지 않았습니다.
 
-문제 화면은 생성 이미지 샤프트 배경 위에 HTML/CSS 나눗셈 보드와 `elevator-car-generated.webp` 엘리베이터 스프라이트를 올립니다. 엘리베이터 차체는 CSS gradient/pseudo-element로 그리지 않습니다. 십의 자리 몫, 남은 십, 내린 수, 일의 자리 몫은 학생의 선택에 따라 채워집니다.
+문제 화면은 `board-shaft-generated.webp` 한 장을 1280×800 Stage 전체에 사용합니다. 오른쪽의 빈 칠판 자리에 하나의 SVG 나눗셈판을 올리고, HTML은 짧은 지시문과 선택지 hitbox만 맡습니다. CSS는 위치와 크기, 정답·오답 상태만 바꾸며 엘리베이터나 계산 장치를 그리지 않습니다.
+
+첫 단계의 선택지는 색만으로 뜻을 구분하지 않습니다. 네 선택지 모두 왼쪽에 `십의 자리 몫`, 오른쪽에 `나머지`를 글자로 표시합니다. 계산판에서는 이를 `나머지(남은 십)`으로 연결합니다. 문제를 처음 열었을 때는 현재 몫 칸만 보이고, `나머지인 남은 십 -> 내린 수` 관계는 정답을 확인한 뒤에 나타납니다.
 마지막 단계에서는 보상 모달로 바로 넘어가지 않고 최종 몫과 `답 N 완성!`을 먼저 보여 줍니다. 학생이 `엘리베이터 움직이기`를 눌러야 보상 이벤트가 열립니다.
 
 ## 작업실 파일 구성
@@ -64,6 +66,27 @@
 - `eduitit-logo-mark.png`: 에듀잇티 로고
 - `screenshots/`: 화면별 스크린샷
 - `REPORT.md`: 게임 설명, 화면 흐름, 보상 구조
-- 루트 `scripts/qa-lesson2-elevator.mjs`: 수학 모델, 보상, 화면 흐름, 최신 스크린샷 QA
+- `_lessons/3-2-2-2-mathmon-elevator/`: 공통 엔진이 읽는 차시 설정, 수학 모델, SVG view, 레이아웃 CSS
+- 루트 `scripts/qa-engine-unit2-elevator-source.mjs`: 200개 seed의 문제·오개념·선택지 의미 계약 QA
+- 루트 `scripts/qa-lesson-flow.mjs`: 데스크톱/태블릿 전체 브라우저 흐름과 화면 QA
 
 학생용 static 사본에는 실행에 필요한 `index.html`, WebP 배경, 엘리베이터 스프라이트, 로고, 문서만 복사합니다. PNG 원본과 `screenshots/`는 작업실에 보관합니다.
+
+## Mathmon Engine v1 골드 스탠더드 이관 (2026-07-10)
+
+- 소스 분리: 공통 화면 흐름은 `_engine/v1`, 차시 설정·문제 생성·SVG 계산판은 `_lessons/3-2-2-2-mathmon-elevator`가 맡습니다. 배포 결과는 기존처럼 독립 실행 `index.html` 한 개입니다.
+- 이미지 중심 문제 화면: 기존 `board-shaft-generated.webp`를 잘라 쓰지 않고 Stage 전체 장면으로 되살렸습니다. 문제 화면에서 별도 진행판, 층 목록, 힌트판, 보상판은 보이지 않습니다.
+- 한 화면 한 행동: 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 보입니다. 지시문과 오답 피드백은 같은 슬롯을 번갈아 씁니다.
+- 선택지 의미 표시: `십의 자리 몫`과 `나머지`를 모든 선택지에 반복 표기합니다. 계산판의 `나머지(남은 십)` 표기가 두 개념을 연결하며, 색은 정답·오답 상태를 돕는 보조 신호일 뿐 뜻을 전달하지 않습니다.
+- 단계별 공개: 첫 단계에서는 다음 단계의 `내린 수`를 숨깁니다. 정답 확인 뒤에만 남은 십이 아래로 이동합니다.
+- 오개념 기록: 모든 오답 선택지에 `misconceptionId`를 붙였고 첫 선택만이 아니라 단계 안의 모든 시도를 기록합니다.
+- 설명 화면: 기존 생성형 설명 2장을 그대로 사용하고 이미지 속 `다음`, `이전`, `계속하기` 표면 위에 투명 hitbox만 둡니다.
+
+검증 명령:
+
+```bash
+node scripts/qa-engine-unit2-elevator-source.mjs
+node scripts/check-lesson-contract.mjs
+node scripts/check-stage-ratio.mjs
+node scripts/qa-lesson-flow.mjs 3-2-2-2-mathmon-elevator
+```

@@ -1,67 +1,40 @@
 # 매스몬 나누기 농장
 
-3학년 2학기 2단원 1차시용 에듀잇티 수학 게임입니다.
+3학년 2학기 2단원 1차시, 내림 없는 `(몇십몇) ÷ (몇)` 게임입니다.
 
-- 학습: 내림 없는 `(몇십몇) ÷ (몇)`
-- 목표: 수확물을 똑같이 나눠 바구니에 담기
-- 문제: 십의 자리와 일의 자리가 각각 나누어떨어지는 두 자리 나눗셈 10문제
-- 방식: 십의 자리 나누기 -> 일의 자리 나누기 -> 몫 합치기
-- 보상: 문제마다 랜덤 수확 이벤트 1번
-- 결과: 수확과 정답 수를 함께 보아 `씨앗 -> 새싹 -> 텃밭 -> 농장 -> 대농장` 중 도착한 밭을 보여 줌
-- 화면 표준: 생성형 시작 버튼, 설정 모달, 하이브리드 생성형 결과 화면
-- 실행: `index.html`을 브라우저에서 열기
+## 현재 구조
 
-## 설계
+- 소스: `_lessons/3-2-2-1-mathmon-divide-farm/`
+- 공통 엔진: `_engine/v1/`
+- 배포본: 이 폴더의 독립 실행 `index.html`
+- Stage: `1280×800`, `16:10`
+- 문제 화면 배경: 생성 이미지 `farm-board-generated.webp`
+- 동적 수학판: SVG `place-value-farm-svg`
 
-학생은 답 하나만 고르지 않고, 십의 자리 수확물과 일의 자리 수확물을 차례로 나눕니다. 마지막에는 두 몫을 합쳐 `몫 41`처럼 완성값을 확인합니다.
+## 학습 흐름
 
-`몫 합치기` 단계에는 자리값을 놓친 오답이 항상 들어갑니다. 예를 들어 `82 ÷ 2`에서는 바른 몫 `41`과 함께 `4 + 1 = 5`처럼 착각하기 쉬운 선택지가 나옵니다.
+한 문제는 세 개의 한 행동 화면으로 진행됩니다.
 
-마지막 정답 뒤에는 보상 모달이 바로 덮지 않습니다. 계산판에 완성값과 `몫 41 완성!`을 보여 주고, 학생이 `수확 보기` 버튼을 눌러 보상으로 넘어갑니다.
+1. `10개 묶음 몫` 고르기
+2. `낱개 몫` 고르기
+3. 십의 자리와 일의 자리를 이어 `전체 몫` 만들기
 
-## 화면
+색만으로 뜻을 구별하지 않습니다. 계산판과 모든 선택지에 `10개 묶음 몫`, `낱개 몫`, `전체 몫`을 글자로 표시합니다. 오답을 고르면 그 값이 현재 칸에 들어가고, 대표 오개념에 맞는 한 줄 피드백을 보여 줍니다.
 
-스크린샷은 `screenshots/` 폴더에 저장합니다.
+## 게임 흐름
 
-- `01-cover.png`: 첫 화면
-- `01b-settings.png`: 설정 모달
-- `02-tutorial.png`: 설명 화면 1
-- `02b-tutorial-page2.png`: 설명 화면 2
-- `03-problem-step1.png`: 문제 1단계
-- `04-problem-step2.png`: 문제 2단계
-- `05-final-confirm.png`: 몫 완성 확인
-- `06-reward.png`: 수확 이벤트 모달
-- `07-result-measuring.png`: 결과 확인 중
-- `08-result.png`: 결과 완료
-- `tablet-01-cover.png` ~ `tablet-08-result.png`: 태블릿 가로 `1024x640` QA 캡처
+`첫 화면 → 설명 2장 → 10문제 → 정답 확인 → 랜덤 수확 → 결과`
 
-## RasterStage 자산
+랜덤 수확은 유지하며, 정답을 많이 맞힐수록 유리하지만 한 판의 결과를 완전히 보장하지는 않습니다. 결과는 `씨앗 → 새싹 → 텃밭 → 농장 → 대농장`과 특별 결과 `황금밭`으로 이어집니다.
 
-- `cover-generated-source.png`: 여우몬이 들어간 첫 화면 커버 생성 원본
-- `cover-generated.png/webp`: 여우몬이 농장 장면 안에 포함된 첫 화면 배경
-- `title-logo-chromakey.png`: 제목 로고 생성 원본
-- `title-logo-generated.png/webp`: 첫 화면 제목 래스터 오버레이
-- `start-button-source.png`, `start-button-generated.png/webp`: 생성형 시작 버튼
-- `tutorial-generated.png/webp`: 캐릭터 없는 설명 배경
-- `farm-board-generated.png/webp`: 문제 화면 농장 배경
-- `reward-events-sprite-generated.png/webp`: 1536x1024, 3x2 보상 스프라이트
-- `result-tier-seed.png/webp`: 씨앗
-- `result-tier-sprout.png/webp`: 새싹
-- `result-tier-garden.png/webp`: 텃밭
-- `result-tier-farm.png/webp`: 농장
-- `result-tier-bigfarm.png/webp`: 대농장
-- `result-tier-rainbow.png/webp`: 전설 황금밭
-- `assets/mathmon/base-pack/mathmon-2-foxmon.webp`: 보존된 base-pack 여우몬 배포본
+## 검증
 
-첫 화면은 `generated-title-overlay` 표준입니다. 배경은 글자 없는 `cover-generated.webp`이며, 여우몬은 농장 빛과 그림자 안에 함께 생성된 장면으로 들어가 있습니다. 제목은 생성형 이미지 기반 `title-logo-generated.webp`, 시작 버튼은 `start-button-generated.webp` 생성형 버튼 아트입니다.
+```bash
+node scripts/qa-engine-unit2-divide-farm-source.mjs
+node scripts/build-lesson.mjs 3-2-2-1-mathmon-divide-farm
+node scripts/qa-lesson-flow.mjs 3-2-2-1-mathmon-divide-farm
+node scripts/check-lesson-contract.mjs
+node scripts/check-stage-ratio.mjs
+```
 
-설명 배경과 보상 스프라이트는 캐릭터 없는 농장/수확 장면입니다. 결과 화면은 `result-tier-*.webp` 생성형 농장 장면 위에 SVG 오버레이로 도착한 곳, 정답 수, 수확만 보여 줍니다. 첫 화면에는 별도 HTML 매스몬 이미지를 얹지 않습니다.
-
-## 파일 구성
-
-- `index.html`: 게임 본문
-- `PLAN.md`: 정비 계획
-- `README.md`: 실행과 구조 설명
-- `REPORT.md`: 구현·검증 보고서
-- `screenshots/`: 최신 QA 캡처
-- `*.png`, `*.webp`: 생성 이미지 원본과 배포 자산
+최신 화면은 `screenshots/engine-flow-*`에 있습니다.
