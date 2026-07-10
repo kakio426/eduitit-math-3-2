@@ -25,7 +25,7 @@ GitHub에 포함할 파일은 소스, 문서, `bun.lock`, `prisma/migrations`입
 - `3-2-1-1-mathmon-box-run`: 상자 점수 전국 순위
 - `3-2-1-2-mathmon-rocket-charge`: 연료 점수 전국 순위
 - `3-2-1-3-mathmon-jump-islands`: 점프 거리 전국 순위
-- `3-2-1-4-mathmon-fusion`: 합체 점수 전국 순위
+- `3-2-1-4-mathmon-fusion`: 합체 힘 전국 순위
 - `3-2-3-1-mathmon-target-hit`: 표적 점수 전국 순위
 - `3-2-3-2-mathmon-compass-ring`: 마법진 점수 전국 순위
 - `3-2-3-3-mathmon-double-bridge`: 다리 점수 전국 순위

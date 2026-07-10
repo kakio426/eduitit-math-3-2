@@ -1477,6 +1477,15 @@
         linear-gradient(180deg, #fff0a8, #ffc857);
       text-align: center;
       box-shadow: 0 10px 0 rgba(106, 70, 23, 0.18), 0 18px 28px rgba(0, 0, 0, 0.22);
+      transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .task-card.is-confirmed {
+      border-color: rgba(55, 214, 173, 0.92);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.78), transparent 0 22%, transparent 48%),
+        linear-gradient(180deg, #d6fff2, #65e2bd);
+      box-shadow: 0 10px 0 rgba(18, 103, 80, 0.22), 0 18px 28px rgba(0, 0, 0, 0.22);
     }
 
     .step-meaning {
@@ -1492,6 +1501,10 @@
       line-height: 1;
       letter-spacing: 0;
       white-space: nowrap;
+    }
+
+    .task-card.is-confirmed .step-formula {
+      color: #0b5b44;
     }
 
     .prompt {
@@ -3011,8 +3024,8 @@
       <h2 class="visually-hidden" id="tutorialTitle">나눠서 곱해요</h2>
 
       <div class="tutorial-variant tutorial-image-variant" aria-label="이미지로 만든 설명 화면">
-        <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
-        <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
+        <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=verified-math-20260710" alt="" aria-hidden="true">
+        <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=fusion-power-20260710" alt="" aria-hidden="true">
         <div class="visually-hidden">
           <p>첫 화면은 아래 수를 둘로 나누어 곱하는 방법을 보여 줍니다.</p>
           <ol>
@@ -3020,7 +3033,7 @@
             <li>두 조각을 따로 곱해요.</li>
             <li>두 값을 더해요.</li>
           </ol>
-          <p>두 번째 화면은 문제를 맞혀 합체 힘을 얻고, 마지막에 전국 순위를 볼 수 있음을 알려 줍니다.</p>
+          <p>두 번째 화면에서는 합체 힘과 마지막 순위를 보여 줍니다.</p>
           <p>예: 45는 40과 5로 나누고, 23 곱하기 40과 23 곱하기 5를 따로 봐요.</p>
         </div>
         <button class="tutorial-image-hitbox" id="tutorialNextButton" type="button" data-tutorial-start aria-label="다음"></button>
@@ -3108,7 +3121,7 @@
           <span class="stat-pill" id="energyText">0점</span>
           <span class="stat-pill" id="chainText">마지막에 로봇</span>
         </div>
-        <span class="unit-badge">합체 공방</span>
+        <span class="unit-badge">로봇 합체</span>
       </header>
 
       <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
@@ -3187,9 +3200,9 @@
 
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle" aria-describedby="rewardMessage">
         <div class="reward-card">
-          <h3 class="visually-hidden" id="rewardTitle">합체 점수</h3>
+          <h3 class="visually-hidden" id="rewardTitle">합체 힘</h3>
           <img class="reward-score-art" id="rewardScoreArt" src="reward-score-plus-50-generated.webp" alt="" aria-hidden="true">
-          <p class="visually-hidden" id="rewardMessage">합체 점수 50점이 들어왔어요.</p>
+          <p class="visually-hidden" id="rewardMessage">합체 힘이 50점 늘었어요.</p>
           <button class="primary-button reward-next-button" id="rewardNextButton" type="button">다음</button>
         </div>
       </div>
@@ -3203,18 +3216,18 @@
       </div>
       <div class="result-layout">
         <div class="result-accessibility-copy visually-hidden" aria-live="polite">
-          <h2 class="visually-hidden" id="resultTitle">합체 점수 확인 중</h2>
+          <h2 class="visually-hidden" id="resultTitle">합체 힘 확인 중</h2>
           <p class="visually-hidden" id="praiseText">두 부품을 차근차근 합치고 있어요.</p>
-          <div id="resultMeasure" aria-label="합체 등급 측정 결과">
+          <div id="resultMeasure" aria-label="합체 결과">
             <div class="measure-top">
-              <span id="measureStatus">합체 점수 확인 중</span>
+              <span id="measureStatus">합체 힘 확인 중</span>
               <strong id="measurePercent">0점</strong>
             </div>
             <div class="measure-tube" aria-hidden="true">
               <span class="measure-fill" id="measureFill"></span>
               <span class="measure-scan"></span>
             </div>
-            <div class="result-grade-track" id="resultGradeTrack" aria-label="합체 등급 측정"></div>
+            <div class="result-grade-track" id="resultGradeTrack" aria-label="로봇 결과"></div>
           </div>
           <span id="finalEnergyText">0점</span>
           <span class="visually-hidden" id="finalCorrectText">0/10</span>
@@ -3254,7 +3267,7 @@
             <text class="result-svg-label" x="760" y="421"></text>
             <text class="result-svg-value" id="resultScoreSvg" x="760" y="469" opacity="0" aria-hidden="true">0/10</text>
             <text class="result-svg-label" x="760" y="536"></text>
-            <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">측정 중</text>
+            <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">확인 중</text>
             <rect x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
             <rect id="resultMeasureFillSvg" x="760" y="582" width="0" height="10" rx="5" fill="#79f5c4"></rect>
             <rect x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
@@ -3278,13 +3291,17 @@
     </div>
   </main>
 
-  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260710-seeded-session"></script>
   <script>
     const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
     const MAX_SCORE = 8000;
     const ULTRA_SCORE = 1500;
     const LEGEND_SCORE = 2000;
+    const PROBLEM_SEED_SALT = 0x46555331;
+    const REWARD_SEED_SALT = 0x46555352;
+    const OPTION_SEED_SALT = 0x4655534f;
+    const QUESTION_SEED_STEP = 0x9e3779b1;
     const AUDIO_PREF_KEYS = {
       bgm: "mathmon-audio-bgm-enabled",
       sfx: "mathmon-audio-sfx-enabled"
@@ -3312,7 +3329,6 @@
       secret: true
     };
     const ALL_GRADES = [...GRADES, SECRET_GRADE];
-    const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
     const GOAL_RAIL_ASSET_VERSION = "goal-1232-slot3-wingfix-20260709";
     const GOAL_RAIL_IMAGES = ALL_GRADES.map(
       (grade) => `play-robot-goal-${grade.id}-1232-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`
@@ -3334,7 +3350,7 @@
       minus50: "reward-score-minus-50-generated.webp",
       minus100: "reward-score-minus-100-generated.webp",
       zero: "reward-score-zero-generated.webp",
-      rainbow: "reward-score-rainbow-generated.webp"
+      rainbow: "reward-score-rainbow-generated.webp?v=actual-800-20260710"
     };
     const ROBOT_SPRITES = {
       standby: "mathmon-rfa-01-standby.webp",
@@ -3374,7 +3390,10 @@
       scoreboardQuestionStartedAt: 0,
       scoreboardStepStartedAt: 0,
       tutorialReviewMode: false,
-      reviewReturnScreen: "cover"
+      reviewReturnScreen: "cover",
+      runSeed: 1,
+      scoreboardSessionPromise: null,
+      bgmTimer: null
     };
 
     GOAL_RAIL_IMAGES.forEach((src) => {
@@ -3504,25 +3523,25 @@
         return {
           correct: state.correct,
           score: getScore(),
-          grade: getGradeByScore()?.id || "retry",
+          grade: getGradeByScore().id,
           screen: state.screen
         };
       },
       showReward(scoreKey = "plus50", isFinal = false) {
         const samples = {
-          plus50: { id: "normal", scoreArt: REWARD_SCORE_ART.plus50, message: "합체 점수 50점이 들어왔어요." },
-          plus100: { id: "normal", scoreArt: REWARD_SCORE_ART.plus100, message: "합체 점수 100점이 들어왔어요." },
-          plus200: { id: "megaFuel", scoreArt: REWARD_SCORE_ART.plus200, message: "합체 점수 200점이 들어왔어요." },
-          plus500: { id: "instantLaunch", scoreArt: REWARD_SCORE_ART.plus500, message: "합체 점수 500점이 들어왔어요." },
-          minus50: { id: "smallExplosion", scoreArt: REWARD_SCORE_ART.minus50, message: "합체 점수 50점이 줄었어요." },
-          minus100: { id: "leak", scoreArt: REWARD_SCORE_ART.minus100, message: "합체 점수 100점이 줄었어요." },
-          zero: { id: "emptyTank", scoreArt: REWARD_SCORE_ART.zero, message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요." },
-          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "무지개 점수 800점이 들어왔어요." }
+          plus50: { id: "normal", scoreArt: REWARD_SCORE_ART.plus50, message: "합체 힘이 50점 늘었어요." },
+          plus100: { id: "normal", scoreArt: REWARD_SCORE_ART.plus100, message: "합체 힘이 100점 늘었어요." },
+          plus200: { id: "megaFuel", scoreArt: REWARD_SCORE_ART.plus200, message: "합체 힘이 200점 늘었어요." },
+          plus500: { id: "instantLaunch", scoreArt: REWARD_SCORE_ART.plus500, message: "합체 힘이 500점 늘었어요." },
+          minus50: { id: "smallExplosion", scoreArt: REWARD_SCORE_ART.minus50, message: "합체 힘이 50점 줄었어요." },
+          minus100: { id: "leak", scoreArt: REWARD_SCORE_ART.minus100, message: "합체 힘이 100점 줄었어요." },
+          zero: { id: "emptyTank", scoreArt: REWARD_SCORE_ART.zero, message: "합체 힘은 그대로예요." },
+          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "합체 힘이 800점 늘었어요." }
         };
         const sample = samples[scoreKey] || samples.plus50;
         EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
         el.rewardPop.classList.add(`fuel-event--${sample.id}`, "is-visible");
-        el.rewardTitle.textContent = "합체 점수";
+        el.rewardTitle.textContent = "합체 힘";
         el.rewardScoreArt.src = sample.scoreArt;
         el.rewardMessage.textContent = sample.message;
         el.rewardNextButton.textContent = isFinal ? "결과 보기" : "다음";
@@ -3532,6 +3551,39 @@
           image: sample.scoreArt,
           button: el.rewardNextButton.textContent
         };
+      },
+      getSeededRun(seed = 12345) {
+        const safeSeed = Math.max(1, Math.round(Number(seed) || 1));
+        return buildProblems(safeSeed).map((problem, questionIndex) => ({
+          top: problem.top,
+          bottom: problem.bottom,
+          partial1: problem.partial1,
+          partial2: problem.partial2,
+          answer: problem.answer,
+          reward: getFusionRewardForQuestion(safeSeed, questionIndex)
+        }));
+      },
+      previewAppliedEvent(startScore = 0, eventKey = "minus100") {
+        const previousScore = state.score;
+        const previousEvent = state.lastEvent;
+        const samples = {
+          minus50: pickFusionEventForRoll(72),
+          minus100: createDefectEvent(),
+          zero: pickFusionEventForRoll(95),
+          rainbow: pickFusionEventForRoll(99)
+        };
+        state.score = clamp(Number(startScore) || 0, 0, MAX_SCORE);
+        applyFusionEvent(samples[eventKey] || samples.minus100);
+        const result = {
+          score: state.score,
+          actualDelta: state.lastEvent.actualDelta,
+          image: getFusionEventScoreArtSrc(state.lastEvent),
+          message: state.lastEvent.message,
+          visualId: state.lastEvent.visualId
+        };
+        state.score = previousScore;
+        state.lastEvent = previousEvent;
+        return result;
       }
     };
 
@@ -3558,7 +3610,7 @@
         playSound("next");
         showScreen("result");
       },
-      restart: startGame,
+      restart: restartGame,
       playSound: () => playSound("next")
     });
 
@@ -3605,6 +3657,11 @@
       state.bgmEnabled = enabled;
       saveAudioPreference(AUDIO_PREF_KEYS.bgm, enabled);
       updateSettingsUi();
+      if (enabled) {
+        startBgm();
+      } else {
+        stopBgm();
+      }
     }
 
     function setSfxEnabled(enabled) {
@@ -3688,6 +3745,7 @@
       setSettingsConfirming(false, false);
       closeSettings({ restoreFocus: false });
       setTutorialStep("solve");
+      state.scoreboardSessionPromise = null;
       showScreen("cover");
     }
 
@@ -3736,13 +3794,35 @@
     function getScoreboardRewardResult() {
       const grade = getGradeByScore();
       return {
-        gradeId: grade ? grade.id : "retry",
+        gradeId: grade.id,
         score: getScore()
       };
     }
 
-    function startGame() {
-      state.problems = buildProblems();
+    function prepareScoreboardSession() {
+      if (!state.scoreboardSessionPromise) {
+        state.scoreboardSessionPromise = Promise.resolve(scoreboardBridge.start());
+      }
+      return state.scoreboardSessionPromise;
+    }
+
+    function createLocalRunSeed() {
+      const qaSeed = Number(new URLSearchParams(window.location.search).get("qa-seed"));
+      if (Number.isInteger(qaSeed) && qaSeed > 0 && !SCOREBOARD_API_URL) return qaSeed;
+      if (window.crypto?.getRandomValues) {
+        const values = new Uint32Array(1);
+        window.crypto.getRandomValues(values);
+        return values[0] || 1;
+      }
+      return Math.floor(Math.random() * 2_147_483_646) + 1;
+    }
+
+    async function startGame() {
+      const session = await prepareScoreboardSession();
+      state.runSeed = Number.isInteger(Number(session?.seed)) && Number(session.seed) > 0
+        ? Number(session.seed)
+        : createLocalRunSeed();
+      state.problems = buildProblems(state.runSeed);
       state.index = 0;
       state.score = 0;
       state.correct = 0;
@@ -3763,41 +3843,67 @@
       el.goalMapRaster.src = GOAL_RAIL_IMAGES[0];
       el.goalMapRasterNext.hidden = true;
       el.goalMapRasterNext.removeAttribute("src");
-      scoreboardBridge.start();
       playSound("start");
+      startBgm();
       showScreen("play");
       renderProblem();
     }
 
-    function buildProblems() {
-      const singleByTwo = [];
-      const twoByTwo = [];
-      for (let top = 2; top <= 9; top += 1) {
-        for (let bottom = 12; bottom <= 99; bottom += 1) {
-          if (bottom % 10 === 0) {
-            continue;
-          }
-          singleByTwo.push(createProblem(top, bottom, "singleByTwo"));
-        }
+    async function restartGame() {
+      state.scoreboardSessionPromise = Promise.resolve(scoreboardBridge.start());
+      await startGame();
+    }
+
+    function createSeededRandom(seed) {
+      let value = seed >>> 0;
+      return () => {
+        value = (value + 0x6d2b79f5) >>> 0;
+        let mixed = value;
+        mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
+        mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+        return ((mixed ^ (mixed >>> 14)) >>> 0) / 4_294_967_296;
+      };
+    }
+
+    function mixSeed(seed, salt) {
+      let mixed = (seed ^ salt) >>> 0;
+      mixed = Math.imul(mixed ^ (mixed >>> 16), 0x45d9f3b);
+      mixed = Math.imul(mixed ^ (mixed >>> 16), 0x45d9f3b);
+      mixed = (mixed ^ (mixed >>> 16)) >>> 0;
+      return mixed || 1;
+    }
+
+    function randomIntWith(random, min, max) {
+      return Math.floor(random() * (max - min + 1)) + min;
+    }
+
+    function randomTwoDigitNonRound(random) {
+      let value = 10;
+      while (value % 10 === 0) value = randomIntWith(random, 12, 99);
+      return value;
+    }
+
+    function addUniqueProblem(problems, used, random, type) {
+      while (true) {
+        const top = type === "singleByTwo" ? randomIntWith(random, 2, 9) : randomTwoDigitNonRound(random);
+        const bottom = randomTwoDigitNonRound(random);
+        const key = `${top}:${bottom}`;
+        if (used.has(key)) continue;
+        used.add(key);
+        problems.push(createProblem(top, bottom, type));
+        return;
       }
-      for (let top = 12; top <= 99; top += 1) {
-        if (top % 10 === 0) {
-          continue;
-        }
-        for (let bottom = 12; bottom <= 99; bottom += 1) {
-          if (bottom % 10 === 0) {
-            continue;
-          }
-          const problem = createProblem(top, bottom, "twoByTwo");
-          if (problem.answer <= 9999) {
-            twoByTwo.push(problem);
-          }
-        }
+    }
+
+    function buildProblems(seed) {
+      const random = createSeededRandom(mixSeed(seed, PROBLEM_SEED_SALT));
+      const problems = [];
+      const used = new Set();
+      for (let index = 0; index < TOTAL_QUESTIONS / 2; index += 1) {
+        addUniqueProblem(problems, used, random, "singleByTwo");
+        addUniqueProblem(problems, used, random, "twoByTwo");
       }
-      return shuffle([
-        ...shuffle(singleByTwo).slice(0, TOTAL_QUESTIONS / 2),
-        ...shuffle(twoByTwo).slice(0, TOTAL_QUESTIONS / 2)
-      ]);
+      return shuffle(problems, random);
     }
 
     function createProblem(top, bottom, type) {
@@ -3852,9 +3958,6 @@
 
     function getGradeByScore(score = state.score) {
       const measured = getScore(score);
-      if (measured < GRADES[0].min) {
-        return null;
-      }
       let index = ALL_GRADES.findIndex((grade) => measured >= grade.min && measured <= grade.max);
       if (index < 0) {
         index = ALL_GRADES.length - 1;
@@ -3943,8 +4046,8 @@
       el.goalRail.setAttribute(
         "aria-label",
         reachedGrade
-          ? `멋진 로봇까지 가는 길, 합체 점수 ${score}점, ${currentGrade.name}이 보이는 중.`
-          : `멋진 로봇까지 가는 길, 합체 점수 ${score}점, 첫 로봇을 준비하는 중.`
+          ? `멋진 로봇까지 가는 길, 합체 힘 ${score}점, ${currentGrade.name}이 보이는 중.`
+          : `멋진 로봇까지 가는 길, 합체 힘 ${score}점, 첫 로봇을 준비하는 중.`
       );
     }
 
@@ -3952,7 +4055,7 @@
       window.clearTimeout(state.goalRailTimer);
       GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
       const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount || 0;
-      const pulseClass = event.rainbow
+      const pulseClass = event.rainbow && actualDelta > 0
         ? "is-goal-rare"
         : event.emptiesTank ? "is-goal-empty" : actualDelta < 0 ? "is-goal-down" : actualDelta > 0 ? "is-goal-up" : "";
       if (!pulseClass) {
@@ -3973,6 +4076,7 @@
       el.stepFormula.textContent = step.formula;
       el.stepMeaning.textContent = step.meaning;
       el.promptText.textContent = step.prompt;
+      el.taskCard.classList.remove("is-confirmed");
       updateFusionSideCurrent(step.id);
       el.feedbackText.textContent = "";
       el.feedbackText.className = "feedback";
@@ -4043,12 +4147,16 @@
     }
 
     function buildStepOptions(step) {
+      const optionSalt = OPTION_SEED_SALT
+        ^ Math.imul(state.index + 1, QUESTION_SEED_STEP)
+        ^ Math.imul(state.stepIndex + 1, 0x85ebca6b);
+      const random = createSeededRandom(mixSeed(state.runSeed, optionSalt));
       const values = [step.correct];
       step.distractors.forEach((value) => addOptionValue(values, value, step.correct));
       while (values.length < 4) {
-        addOptionValue(values, Math.max(1, step.correct + randomInt(-18, 18)), step.correct);
+        addOptionValue(values, Math.max(1, step.correct + randomIntWith(random, -18, 18)), step.correct);
       }
-      return shuffle(values.slice(0, 4).map((value) => ({ value })));
+      return shuffle(values.slice(0, 4).map((value) => ({ value })), random);
     }
 
     function addOptionValue(values, value, correct) {
@@ -4120,10 +4228,14 @@
       const steps = buildSteps(problem);
       renderStatus();
       completeFusionSideStep(step, problem);
+      el.stepFormula.textContent = step.formula.replace("?", formatNumber(step.correct));
+      el.taskCard.classList.add("is-confirmed");
       if (!revealed) {
         el.feedbackText.textContent = step.explain;
         el.feedbackText.className = "feedback good";
         playSound("correct");
+      } else {
+        el.feedbackText.textContent = `${withIGa(step.correct)} 들어갔어요.`;
       }
       window.setTimeout(() => {
         if (state.stepIndex >= steps.length - 1) {
@@ -4133,7 +4245,7 @@
         state.stepIndex += 1;
         state.stepAttempts = 0;
         renderStep();
-      }, revealed ? 1000 : 760);
+      }, revealed ? 1200 : 1050);
     }
 
     function resetFusionSide(problem) {
@@ -4225,8 +4337,8 @@
           amount: 50,
           score: 50,
           scoreArt: REWARD_SCORE_ART.plus50,
-          title: "합체 점수",
-          message: "합체 점수 50점이 들어왔어요."
+          title: "합체 힘",
+          message: "합체 힘이 50점 늘었어요."
         };
       }
       if (roll < 68) {
@@ -4235,8 +4347,8 @@
           amount: 100,
           score: 100,
           scoreArt: REWARD_SCORE_ART.plus100,
-          title: "합체 점수",
-          message: "합체 점수 100점이 들어왔어요."
+          title: "합체 힘",
+          message: "합체 힘이 100점 늘었어요."
         };
       }
       if (roll < 78) {
@@ -4245,8 +4357,8 @@
           amount: -50,
           score: -50,
           scoreArt: REWARD_SCORE_ART.minus50,
-          title: "합체 점수",
-          message: "합체 점수 50점이 줄었어요."
+          title: "합체 힘",
+          message: "합체 힘이 50점 줄었어요."
         };
       }
       if (roll < 88) {
@@ -4255,8 +4367,8 @@
           amount: 200,
           score: 200,
           scoreArt: REWARD_SCORE_ART.plus200,
-          title: "합체 점수",
-          message: "합체 점수 200점이 들어왔어요."
+          title: "합체 힘",
+          message: "합체 힘이 200점 늘었어요."
         };
       }
       if (roll < 93) {
@@ -4265,8 +4377,8 @@
           amount: 500,
           score: 500,
           scoreArt: REWARD_SCORE_ART.plus500,
-          title: "합체 점수",
-          message: "합체 점수 500점이 들어왔어요."
+          title: "합체 힘",
+          message: "합체 힘이 500점 늘었어요."
         };
       }
       if (roll < 97) {
@@ -4275,8 +4387,8 @@
           amount: 0,
           score: 0,
           scoreArt: REWARD_SCORE_ART.zero,
-          title: "합체 점수",
-          message: "이번 보상은 0점이에요. 다음 문제에서 다시 모아요."
+          title: "합체 힘",
+          message: "합체 힘은 그대로예요."
         };
       }
       return {
@@ -4284,14 +4396,20 @@
         amount: 800,
         score: 800,
         scoreArt: REWARD_SCORE_ART.rainbow,
-        title: "합체 점수",
-        message: "무지개 점수 800점이 들어왔어요.",
+        title: "합체 힘",
+        message: "합체 힘이 800점 늘었어요.",
         rainbow: true
       };
     }
 
+    function getFusionRewardForQuestion(seed, questionIndex) {
+      const questionSalt = REWARD_SEED_SALT ^ Math.imul(questionIndex + 1, QUESTION_SEED_STEP);
+      const random = createSeededRandom(mixSeed(seed, questionSalt));
+      return pickFusionEventForRoll(random() * 100);
+    }
+
     function rollFusionEvent() {
-      return pickFusionEventForRoll(Math.random() * 100);
+      return getFusionRewardForQuestion(state.runSeed, state.index);
     }
 
     function createDefectEvent() {
@@ -4300,8 +4418,8 @@
         amount: -100,
         score: -100,
         scoreArt: REWARD_SCORE_ART.minus100,
-        title: "합체 점수",
-        message: "합체 점수 100점이 줄었어요."
+        title: "합체 힘",
+        message: "합체 힘이 100점 줄었어요."
       };
     }
 
@@ -4312,24 +4430,26 @@
       state.lastEvent = {
         ...event,
         actualDelta,
-        message: getFusionEventMessage(event, actualDelta, before)
+        visualId: getFusionEventVisualId(event, actualDelta),
+        message: getFusionEventMessage(actualDelta)
       };
     }
 
-    function getFusionEventMessage(event, actualDelta, before) {
-      if (event.rainbow) {
-        return "무지개 점수 800점이 들어왔어요.";
-      }
-      if (typeof event.score === "number" && event.score > 0) {
-        return `합체 점수 ${event.score}점이 들어왔어요.`;
-      }
-      if (typeof event.score === "number" && event.score < 0) {
-        return `합체 점수 ${Math.abs(event.score)}점이 줄었어요.`;
-      }
-      return actualDelta === 0 ? "이번 보상은 0점이에요." : event.message;
+    function getFusionEventVisualId(event, actualDelta) {
+      if (actualDelta === 0) return "emptyTank";
+      return event.id;
+    }
+
+    function getFusionEventMessage(actualDelta) {
+      if (actualDelta > 0) return `합체 힘이 ${actualDelta}점 늘었어요.`;
+      if (actualDelta < 0) return `합체 힘이 ${Math.abs(actualDelta)}점 줄었어요.`;
+      return "합체 힘은 그대로예요.";
     }
 
     function getFusionEventScoreArtSrc(event) {
+      if (event.actualDelta === 0) return REWARD_SCORE_ART.zero;
+      if (event.actualDelta === -50) return REWARD_SCORE_ART.minus50;
+      if (event.actualDelta === -100) return REWARD_SCORE_ART.minus100;
       return event.scoreArt || REWARD_SCORE_ART.plus50;
     }
 
@@ -4349,7 +4469,7 @@
       renderStatus();
       pulseGoalRail(result);
       EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
-      el.rewardPop.classList.add(`fuel-event--${result.id}`);
+      el.rewardPop.classList.add(`fuel-event--${result.visualId || result.id}`);
       el.rewardTitle.textContent = result.title;
       el.rewardScoreArt.src = getFusionEventScoreArtSrc(result);
       el.rewardMessage.textContent = result.message;
@@ -4372,27 +4492,26 @@
 
     function showResult() {
       const grade = getGradeByScore();
-      const launched = Boolean(grade);
       const score = getScore();
       const measureLabel = `${score}점`;
       const measureWidth = Math.min(100, Math.round(score / LEGEND_SCORE * 100));
       const correctLabel = `${state.correct}/${TOTAL_QUESTIONS}`;
-      el.resultRaster.src = launched ? grade.image : "result-retry-generated.webp";
+      el.resultRaster.src = grade.image;
       el.resultScreen.classList.add("is-measuring");
-      el.resultScreen.classList.toggle("is-rainbow-result", Boolean(grade?.secret));
-      document.getElementById("resultTitle").textContent = "합체 점수 확인 중";
-      el.finalEnergyText.textContent = "측정 중";
+      el.resultScreen.classList.toggle("is-rainbow-result", Boolean(grade.secret));
+      document.getElementById("resultTitle").textContent = "합체 힘 확인 중";
+      el.finalEnergyText.textContent = "확인 중";
       el.finalCorrectText.textContent = correctLabel;
       el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
-      el.finalGradeText.textContent = "측정 중";
-      el.praiseText.textContent = "합체 공방에서 모은 점수를 보고 있어요.";
-      el.measureStatus.textContent = "합체 점수 확인 중";
+      el.finalGradeText.textContent = "확인 중";
+      el.praiseText.textContent = "모은 합체 힘을 보고 있어요.";
+      el.measureStatus.textContent = "합체 힘 확인 중";
       el.measurePercent.textContent = "0점";
       el.measureFill.style.setProperty("--measure-width", "0%");
       el.resultTitleArt.hidden = true;
       el.resultDestinationSvg.textContent = "";
       el.resultScoreSvg.textContent = correctLabel;
-      el.resultMeasureSvg.textContent = "측정 중";
+      el.resultMeasureSvg.textContent = "확인 중";
       el.resultMeasureFillSvg.setAttribute("width", "0");
       el.resultSvgRestartText.textContent = "다시하기";
       renderGradeTrack(el.resultGradeTrack, { targetIndex: -1, reachedIndex: -1 });
@@ -4402,24 +4521,25 @@
       playSound("scan");
       showScreen("result");
       window.setTimeout(() => {
-        el.measureStatus.textContent = "합체 등급 계산 중";
+        el.measureStatus.textContent = "어떤 로봇인지 보는 중";
         el.measurePercent.textContent = measureLabel;
         el.measureFill.style.setProperty("--measure-width", `${measureWidth}%`);
         el.finalEnergyText.textContent = measureLabel;
         el.resultMeasureSvg.textContent = measureLabel;
         el.resultMeasureFillSvg.setAttribute("width", String(Math.round(394 * measureWidth / 100)));
         renderGradeTrack(el.resultGradeTrack, {
-          targetIndex: launched ? grade.index : -1,
-          reachedIndex: launched ? grade.index : -1
+          targetIndex: grade.index,
+          reachedIndex: grade.index
         });
         playSound("measure");
       }, 120);
       window.setTimeout(() => {
         el.resultScreen.classList.remove("is-measuring");
-        document.getElementById("resultTitle").textContent = launched ? `${grade.name}!` : "다시 합체해요";
-        el.finalGradeText.textContent = launched ? getShortGradeName(grade) : "다시 도전";
-        el.praiseText.textContent = launched ? getPraise(grade) : getRetryMessage();
-        el.resultTitleArt.src = launched ? grade.titleArt : RESULT_RETRY_TITLE_ART;
+        document.getElementById("resultTitle").textContent = `${grade.name}!`;
+        el.measureStatus.textContent = `${grade.name}!`;
+        el.finalGradeText.textContent = getShortGradeName(grade);
+        el.praiseText.textContent = getPraise(grade);
+        el.resultTitleArt.src = grade.titleArt;
         el.resultTitleArt.hidden = false;
         el.resultDestinationSvg.textContent = "";
         el.resultMeasureSvg.textContent = measureLabel;
@@ -4429,16 +4549,9 @@
       }, 2500);
     }
 
-    function getResultDisplayTitle(grade) {
-      if (grade.secret) {
-        return "전설 로봇!";
-      }
-      return `${getShortGradeName(grade)} 로봇!`;
-    }
-
     function getPraise(grade) {
       if (grade.secret) {
-        return "2000점을 넘겨 전설 로봇 매스몬까지 갔어요!";
+        return "2000점을 모아 전설 로봇 매스몬까지 갔어요!";
       }
       if (grade.id === "ultra") {
         return "초거대 로봇까지 갔어요. 두 값을 끝까지 잘 합쳤어요.";
@@ -4459,16 +4572,6 @@
       return grade.name.replace(" 로봇 매스몬", "");
     }
 
-    function getRetryMessage() {
-      if (state.correct >= 6) {
-        return "거의 다 왔어요. 두 번째 부품에 0을 붙였는지 한 번 더 살펴요.";
-      }
-      if (state.correct >= 3) {
-        return "합체 점수가 조금 부족해요. 두 부품을 차례로 만들면 더 커져요.";
-      }
-      return "괜찮아요. 일의 자리 부품, 십의 자리 부품, 합체 순서로 다시 해 봐요.";
-    }
-
     function setButtonsDisabled(disabled) {
       [...el.choiceGrid.querySelectorAll("button")].forEach((button) => {
         button.disabled = disabled;
@@ -4479,17 +4582,13 @@
       return state.problems[state.index];
     }
 
-    function shuffle(items) {
+    function shuffle(items, random = Math.random) {
       const array = [...items];
       for (let i = array.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
       return array;
-    }
-
-    function randomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     function clamp(value, min, max) {
@@ -4506,6 +4605,10 @@
 
     function withGwa(value) {
       return `${formatNumber(value)}${hasNumberBatchim(value) ? "과" : "와"}`;
+    }
+
+    function withIGa(value) {
+      return `${formatNumber(value)}${hasNumberBatchim(value) ? "이" : "가"}`;
     }
 
     function withEul(value) {
@@ -4526,6 +4629,38 @@
         return;
       }
       state.audio = new AudioContext();
+    }
+
+    function playBgmPulse() {
+      if (!state.bgmEnabled || !state.audio) return;
+      const now = state.audio.currentTime;
+      [130.81, 196, 261.63].forEach((frequency, index) => {
+        const oscillator = state.audio.createOscillator();
+        const gain = state.audio.createGain();
+        oscillator.type = index === 1 ? "triangle" : "sine";
+        oscillator.frequency.setValueAtTime(frequency, now);
+        gain.gain.setValueAtTime(0.0001, now + index * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.009, now + 0.28 + index * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.3);
+        oscillator.connect(gain).connect(state.audio.destination);
+        oscillator.start(now + index * 0.12);
+        oscillator.stop(now + 2.35);
+      });
+    }
+
+    function startBgm() {
+      if (!state.bgmEnabled || document.hidden) return;
+      initAudio();
+      if (!state.audio || state.bgmTimer !== null) return;
+      if (state.audio.state === "suspended") state.audio.resume();
+      playBgmPulse();
+      state.bgmTimer = window.setInterval(playBgmPulse, 2400);
+    }
+
+    function stopBgm() {
+      if (state.bgmTimer === null) return;
+      window.clearInterval(state.bgmTimer);
+      state.bgmTimer = null;
     }
 
     function playSound(kind) {
@@ -4564,14 +4699,29 @@
       });
     }
 
+    window.__mathmonAudioQa = {
+      getPrefs: () => ({
+        bgmEnabled: state.bgmEnabled,
+        sfxEnabled: state.sfxEnabled,
+        bgmPlaying: state.bgmTimer !== null
+      }),
+      setPrefs({ bgmEnabled = state.bgmEnabled, sfxEnabled = state.sfxEnabled } = {}) {
+        setBgmEnabled(Boolean(bgmEnabled));
+        setSfxEnabled(Boolean(sfxEnabled));
+        return this.getPrefs();
+      }
+    };
+
     el.startButton.addEventListener("click", () => {
       playSound("start");
+      startBgm();
+      prepareScoreboardSession();
       state.tutorialReviewMode = false;
       state.reviewReturnScreen = "cover";
       setTutorialStep("solve");
       showScreen("tutorial");
     });
-    el.tutorialNextButton.addEventListener("click", () => {
+    el.tutorialNextButton.addEventListener("click", async () => {
       if (el.tutorialScreen.dataset.tutorialStep !== "goal") {
         playSound("next");
         setTutorialStep("goal");
@@ -4582,12 +4732,18 @@
         leaveTutorialReview();
         return;
       }
-      startGame();
+      el.tutorialNextButton.disabled = true;
+      try {
+        await startGame();
+      } finally {
+        el.tutorialNextButton.disabled = false;
+      }
     });
     el.rewardNextButton.addEventListener("click", nextAfterReward);
     el.leaderboardButton.addEventListener("click", scoreboardBridge.open);
     el.restartButton.addEventListener("click", () => {
       playSound("start");
+      state.scoreboardSessionPromise = null;
       showScreen("cover");
     });
     updateSettingsUi();
@@ -4625,6 +4781,13 @@
     el.settingsCloseButton.addEventListener("click", () => {
       playSound("next");
       closeSettings();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopBgm();
+      } else if (state.bgmEnabled) {
+        startBgm();
+      }
     });
   </script>
 </body>

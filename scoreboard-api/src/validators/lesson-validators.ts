@@ -1,3 +1,4 @@
+import { validateFusionSubmission } from "./fusion-validator"
 import type { ProgressRule } from "./progress-lesson-validator"
 import { validateProgressLesson } from "./progress-lesson-validator"
 import type { RewardEvent } from "./schemas"
@@ -61,21 +62,6 @@ const ISLAND_RULE: ProgressRule = {
     { id: "gust", min: 8, max: 13 },
     { id: "rainbow", min: 14, max: 14 },
     { id: "shaky", min: -14, max: -8 },
-  ],
-}
-
-const FUSION_RULE: ProgressRule = {
-  baseForPerfect: 0,
-  maxScore: 8000,
-  mistakeId: "leak",
-  rules: [
-    { id: "normal", min: 50, max: 100 },
-    { id: "smallExplosion", min: -50, max: -50 },
-    { id: "megaFuel", min: 200, max: 200 },
-    { id: "instantLaunch", min: 500, max: 500 },
-    { id: "emptyTank", min: 0, max: 0 },
-    { id: "rainbowFuel", min: 800, max: 800 },
-    { id: "leak", min: -100, max: -100 },
   ],
 }
 
@@ -166,7 +152,7 @@ export const validateLessonSubmission = (input: LessonValidationInput): LessonVa
     case "3-2-1-3-mathmon-jump-islands":
       return validateProgressLesson(input, ISLAND_RULE)
     case "3-2-1-4-mathmon-fusion":
-      return validateProgressLesson(input, FUSION_RULE)
+      return validateFusionSubmission(input)
     case "3-2-3-1-mathmon-target-hit":
     case "3-2-3-2-mathmon-compass-ring":
     case "3-2-3-3-mathmon-double-bridge":
