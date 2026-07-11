@@ -3306,6 +3306,19 @@
       bgm: "mathmon-audio-bgm-enabled",
       sfx: "mathmon-audio-sfx-enabled"
     };
+    const BGM_TRACK = {
+      src: "../_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260711",
+      gain: 0.025,
+      duckGain: 0.008,
+      fadeSeconds: 1.2
+    };
+    const BGM_DUCK_SECONDS = {
+      correct: 0.6,
+      reward: 1.1,
+      scan: 0.8,
+      measure: 0.8,
+      finish: 1.35
+    };
     function getScoreboardApiUrl() {
       const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
       return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
@@ -3385,6 +3398,10 @@
       bgmEnabled: loadAudioPreference(AUDIO_PREF_KEYS.bgm),
       sfxEnabled: loadAudioPreference(AUDIO_PREF_KEYS.sfx),
       audio: null,
+      bgmBuffer: null,
+      bgmBufferPromise: null,
+      bgmGain: null,
+      bgmSource: null,
       scoreboardAnswers: [],
       scoreboardCurrentAnswer: null,
       scoreboardQuestionStartedAt: 0,
@@ -3392,8 +3409,7 @@
       tutorialReviewMode: false,
       reviewReturnScreen: "cover",
       runSeed: 1,
-      scoreboardSessionPromise: null,
-      bgmTimer: null
+      scoreboardSessionPromise: null
     };
 
     GOAL_RAIL_IMAGES.forEach((src) => {
@@ -4629,38 +4645,86 @@
         return;
       }
       state.audio = new AudioContext();
+      state.bgmGain = state.audio.createGain();
+      state.bgmGain.gain.value = 0.0001;
+      state.bgmGain.connect(state.audio.destination);
     }
 
-    function playBgmPulse() {
-      if (!state.bgmEnabled || !state.audio) return;
-      const now = state.audio.currentTime;
-      [130.81, 196, 261.63].forEach((frequency, index) => {
-        const oscillator = state.audio.createOscillator();
-        const gain = state.audio.createGain();
-        oscillator.type = index === 1 ? "triangle" : "sine";
-        oscillator.frequency.setValueAtTime(frequency, now);
-        gain.gain.setValueAtTime(0.0001, now + index * 0.12);
-        gain.gain.exponentialRampToValueAtTime(0.009, now + 0.28 + index * 0.12);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.3);
-        oscillator.connect(gain).connect(state.audio.destination);
-        oscillator.start(now + index * 0.12);
-        oscillator.stop(now + 2.35);
-      });
+    function holdAudioParam(param, now) {
+      if (typeof param.cancelAndHoldAtTime === "function") {
+        param.cancelAndHoldAtTime(now);
+        return;
+      }
+      const currentValue = Math.max(0.0001, param.value);
+      param.cancelScheduledValues(now);
+      param.setValueAtTime(currentValue, now);
     }
 
-    function startBgm() {
+    function loadBgmBuffer() {
+      if (!state.audio) return Promise.resolve(null);
+      if (state.bgmBuffer) return Promise.resolve(state.bgmBuffer);
+      if (state.bgmBufferPromise) return state.bgmBufferPromise;
+      state.bgmBufferPromise = fetch(BGM_TRACK.src)
+        .then((response) => {
+          if (!response.ok) throw new Error(`BGM load failed: ${response.status}`);
+          return response.arrayBuffer();
+        })
+        .then((arrayBuffer) => state.audio.decodeAudioData(arrayBuffer))
+        .then((buffer) => {
+          state.bgmBuffer = buffer;
+          return buffer;
+        })
+        .catch((error) => {
+          console.warn("Background music could not be loaded.", error);
+          state.bgmBufferPromise = null;
+          return null;
+        });
+      return state.bgmBufferPromise;
+    }
+
+    async function startBgm() {
       if (!state.bgmEnabled || document.hidden) return;
       initAudio();
-      if (!state.audio || state.bgmTimer !== null) return;
-      if (state.audio.state === "suspended") state.audio.resume();
-      playBgmPulse();
-      state.bgmTimer = window.setInterval(playBgmPulse, 2400);
+      if (!state.audio || state.bgmSource) return;
+      if (state.audio.state === "suspended") await state.audio.resume();
+      const buffer = await loadBgmBuffer();
+      if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return;
+      const source = state.audio.createBufferSource();
+      const now = state.audio.currentTime;
+      source.buffer = buffer;
+      source.loop = true;
+      source.connect(state.bgmGain);
+      holdAudioParam(state.bgmGain.gain, now);
+      state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + BGM_TRACK.fadeSeconds);
+      source.onended = () => {
+        if (state.bgmSource === source) state.bgmSource = null;
+      };
+      state.bgmSource = source;
+      source.start(now);
     }
 
-    function stopBgm() {
-      if (state.bgmTimer === null) return;
-      window.clearInterval(state.bgmTimer);
-      state.bgmTimer = null;
+    function stopBgm({ immediate = false } = {}) {
+      const source = state.bgmSource;
+      if (!source || !state.audio || !state.bgmGain) return;
+      state.bgmSource = null;
+      const now = state.audio.currentTime;
+      if (immediate) {
+        source.stop(now);
+        state.bgmGain.gain.cancelScheduledValues(now);
+        state.bgmGain.gain.setValueAtTime(0.0001, now);
+        return;
+      }
+      holdAudioParam(state.bgmGain.gain, now);
+      state.bgmGain.gain.exponentialRampToValueAtTime(0.0001, now + BGM_TRACK.fadeSeconds);
+      source.stop(now + BGM_TRACK.fadeSeconds + 0.05);
+    }
+
+    function duckBgm(seconds) {
+      if (!state.bgmSource || !state.audio || !state.bgmGain) return;
+      const now = state.audio.currentTime;
+      holdAudioParam(state.bgmGain.gain, now);
+      state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.duckGain, now + 0.08);
+      state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + seconds);
     }
 
     function playSound(kind) {
@@ -4674,6 +4738,8 @@
       if (state.audio.state === "suspended") {
         state.audio.resume();
       }
+      const duckSeconds = BGM_DUCK_SECONDS[kind];
+      if (duckSeconds) duckBgm(duckSeconds);
       const plans = {
         start: [260, 330, 392],
         correct: [392, 494, 659],
@@ -4703,7 +4769,11 @@
       getPrefs: () => ({
         bgmEnabled: state.bgmEnabled,
         sfxEnabled: state.sfxEnabled,
-        bgmPlaying: state.bgmTimer !== null
+        bgmPlaying: Boolean(state.bgmSource),
+        bgmLoaded: Boolean(state.bgmBuffer),
+        bgmDuration: state.bgmBuffer?.duration || 0,
+        bgmGain: state.bgmGain?.gain.value || 0,
+        bgmTrack: "Sketchbook 2025-11-26"
       }),
       setPrefs({ bgmEnabled = state.bgmEnabled, sfxEnabled = state.sfxEnabled } = {}) {
         setBgmEnabled(Boolean(bgmEnabled));
@@ -4784,7 +4854,7 @@
     });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        stopBgm();
+        stopBgm({ immediate: true });
       } else if (state.bgmEnabled) {
         startBgm();
       }

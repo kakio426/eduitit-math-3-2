@@ -72,7 +72,7 @@
 - `mathmon-audio-bgm-enabled`
 - `mathmon-audio-sfx-enabled`
 
-배경 소리를 켜면 Web Audio 기반의 짧은 반복 음악이 실제로 재생되고, 끄면 타이머와 재생이 멈춥니다.
+배경 소리를 켜면 Tallbeard Studios의 CC0 루프 `Sketchbook 2025-11-26`이 약 70.6초 단위로 이어집니다. 최대 gain을 `0.025`로 낮게 두고, 정답·보상·결과 효과음이 나올 때는 `0.008`까지 잠깐 낮춥니다. 끄거나 탭을 숨기면 재생이 멈춥니다.
 
 ## 주요 자산
 
@@ -88,6 +88,7 @@
 - `result-title-*-generated.webp`: 결과 단계별 라벨 6장
 - `../_shared/result-count/result-correct-*-generated.webp`: 결과 정답 수 공용 이미지
 - `../_shared/scoreboard/*`: 전국 순위 공통 SVG UI와 API 브리지
+- `../_shared/audio/music/tallbeard/sketchbook-2025-11-26/*`: CC0 BGM과 출처 문서
 
 4차시 실행 화면의 로봇은 기존 예외 팩 `robot-fusion-action-pack`을 유지합니다. 새 매스몬 팩은 만들지 않았습니다.
 
