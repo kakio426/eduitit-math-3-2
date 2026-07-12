@@ -286,7 +286,65 @@ async function clickSelector(page, selector) {
 
 async function clickChoice(page, correct) {
   const selector = correct ? "button.choice-button[data-correct='true']:not(:disabled)" : "button.choice-button[data-correct='false']:not(:disabled)";
-  await clickSelector(page, selector);
+  const hasChoice = await evaluate(page, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+  if (hasChoice) {
+    await clickSelector(page, selector);
+    return;
+  }
+  const interaction = await evaluate(page, "document.getElementById('choicesPanel')?.dataset.interaction || ''");
+  const step = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()");
+  const choiceId = (choice) => String(choice?.id ?? choice?.value ?? choice);
+  const answer = step.answerChoiceId === undefined
+    ? step.correct
+    : step.choices.find((choice) => choiceId(choice) === String(step.answerChoiceId));
+  const wrongChoices = step.choices.filter((choice) => choiceId(choice) !== choiceId(answer));
+  const selected = correct
+    ? answer
+    : interaction === "make-star-groups"
+      ? wrongChoices.sort((a, b) => Number(a.value) - Number(b.value)).find((choice) => Number(choice.value) < Number(answer.value)) || wrongChoices[0]
+      : wrongChoices[0];
+  assert(selected, `No ${correct ? "correct" : "wrong"} direct-interaction value`, { interaction, step });
+
+  if (!interaction) {
+    const selectedId = choiceId(selected);
+    const clicked = await evaluate(page, `(() => {
+      const button = [...document.querySelectorAll('button.choice-button:not(:disabled)')]
+        .find((item) => item.dataset.choice === ${JSON.stringify(selectedId)});
+      if (!button) return false;
+      button.click();
+      return true;
+    })()`);
+    assert(clicked, `choice click failed for ${selectedId}`, { step });
+    await delay(100);
+    return;
+  }
+
+  if (interaction === "make-star-groups" || interaction === "count-leftover-stars") {
+    const amount = Math.max(0, Number(selected.value) || 0);
+    await evaluate(page, `(() => { const button = document.querySelector('.star-builder-button.is-main'); if (!button) throw new Error('missing star builder button'); for (let index = 0; index < ${amount}; index += 1) button.click(); })()`);
+    await clickSelector(page, ".star-builder-confirm");
+    return;
+  }
+  if (interaction === "vault-keypad") {
+    const digits = String(Math.max(0, Number(selected.value) || 0));
+    const clicked = await evaluate(page, `(() => {
+      const clear = document.querySelector('.vault-key.is-clear');
+      const enter = document.querySelector('.vault-key.is-enter');
+      if (!clear || !enter) return false;
+      clear.click();
+      for (const digit of ${JSON.stringify(digits)}) {
+        const key = document.querySelector('.vault-key[data-digit="' + digit + '"]');
+        if (!key) return false;
+        key.click();
+      }
+      enter.click();
+      return true;
+    })()`);
+    assert(clicked, `keypad input failed for ${digits}`);
+    await delay(100);
+    return;
+  }
+  throw new Error(`Unsupported direct interaction: ${interaction}`);
 }
 
 async function readSnapshot(page) {
@@ -318,6 +376,7 @@ async function readSnapshot(page) {
       .filter((node) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1)
       .map((node) => node.className || node.id || node.tagName);
     const missingImages = [...document.images]
+      .filter((img) => (img.getAttribute("src") || "").trim().length > 0)
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.getAttribute("src"));
     const stageRect = document.querySelector(".stage-shell")?.getBoundingClientRect();
@@ -326,14 +385,78 @@ async function readSnapshot(page) {
   })()`);
 }
 
+async function auditGeometry(page, label, { requireLogo = false, requireRetry = false } = {}) {
+  const audit = await evaluate(page, `(() => {
+    const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
+    const root = !document.getElementById('settingsBackdrop')?.hidden
+      ? document.getElementById('settingsBackdrop')
+      : !document.getElementById('rewardPop')?.hidden
+        ? document.getElementById('rewardPop')
+        : document.querySelector('.screen.is-active');
+    const selector = [
+      'button', '.brand-badge', '.unit-badge', '.mini-badge', '.big-problem',
+      '.instruction', '.feedback-line', '.choice-button', '.star-builder-count',
+      '.complete-text', '.result-correct-art'
+    ].join(',');
+    const visible = [...(root?.querySelectorAll(selector) || [])].filter((node) => {
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity || 1) > 0 && rect.width > 1 && rect.height > 1;
+    });
+    const rectOf = (node) => {
+      const r = node.getBoundingClientRect();
+      return { left:r.left, top:r.top, right:r.right, bottom:r.bottom, width:r.width, height:r.height };
+    };
+    const collisions = [];
+    for (let i = 0; i < visible.length; i += 1) for (let j = i + 1; j < visible.length; j += 1) {
+      const a = visible[i], b = visible[j];
+      if (a.contains(b) || b.contains(a)) continue;
+      const ar = rectOf(a), br = rectOf(b);
+      const overlapX = Math.min(ar.right, br.right) - Math.max(ar.left, br.left);
+      const overlapY = Math.min(ar.bottom, br.bottom) - Math.max(ar.top, br.top);
+      if (overlapX > 2 && overlapY > 2) collisions.push([a.className || a.id || a.tagName, b.className || b.id || b.tagName, Math.round(overlapX), Math.round(overlapY)]);
+    }
+    const outside = !stage ? [] : visible.filter((node) => {
+      const r = node.getBoundingClientRect();
+      return r.left < stage.left - 1 || r.top < stage.top - 1 || r.right > stage.right + 1 || r.bottom > stage.bottom + 1;
+    }).map((node) => node.className || node.id || node.tagName);
+    const logo = document.querySelector('img.brand-logo');
+    const retry = document.querySelector('.result-retry-art');
+    const retryHitbox = document.querySelector('.result-restart-hitbox');
+    const resultBg = document.getElementById('resultBg');
+    return {
+      collisions,
+      outside,
+      logo: logo ? { complete:logo.complete, naturalWidth:logo.naturalWidth, width:logo.getBoundingClientRect().width } : null,
+      retry: retry ? { complete:retry.complete, naturalWidth:retry.naturalWidth, width:retry.getBoundingClientRect().width, height:retry.getBoundingClientRect().height } : null,
+      retryHitbox: retryHitbox ? { width:retryHitbox.getBoundingClientRect().width, height:retryHitbox.getBoundingClientRect().height } : null,
+      resultBg: resultBg ? { complete:resultBg.complete, naturalWidth:resultBg.naturalWidth, width:resultBg.getBoundingClientRect().width, height:resultBg.getBoundingClientRect().height } : null
+    };
+  })()`);
+  assert(audit.collisions.length === 0, `${label}: unintended overlap`, audit);
+  assert(audit.outside.length === 0, `${label}: element outside Stage`, audit);
+  if (requireLogo) assert(audit.logo?.complete && audit.logo.naturalWidth > 0 && audit.logo.width > 0, `${label}: real Eduitit logo missing`, audit);
+  if (requireRetry) {
+    const independentRetryArt = audit.retry?.complete && audit.retry.naturalWidth > 0 && audit.retry.width > 0 && audit.retry.height > 0;
+    const generatedSceneRetry = audit.resultBg?.complete && audit.resultBg.naturalWidth > 0
+      && audit.resultBg.width > 0 && audit.resultBg.height > 0
+      && audit.retryHitbox?.width > 0 && audit.retryHitbox.height > 0;
+    assert(independentRetryArt || generatedSceneRetry, `${label}: generated retry button missing`, audit);
+  }
+}
+
 async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   if (wrongFirst) {
     await clickChoice(page, false);
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0", "wrong feedback did not appear");
+    await delay(500);
+    await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", "input stayed locked after wrong answer");
   }
   while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
+    const beforeStep = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
     await clickChoice(page, true);
-    await delay(1100);
+    const advanced = `document.getElementById('completePanel').classList.contains('is-visible') || (window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)})`;
+    await waitUntil(page, advanced, "correct response did not advance", 6000);
   }
 }
 
@@ -341,44 +464,68 @@ async function waitForReward(page, label) {
   const modalReward = await evaluate(page, "document.querySelector('.game')?.dataset.rewardMode === 'modal-art'");
   if (modalReward) {
     await waitUntil(page, "document.getElementById('rewardPop')?.hidden === false", `${label}: reward modal not shown`);
-    return { modal: true, nextSelector: "#modalRewardNextButton" };
+    return { modal: true, openSelector: "#modalRewardOpenButton", nextSelector: "#modalRewardNextButton" };
   }
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-reward'", `${label}: reward not shown`);
   return { modal: false, nextSelector: "#rewardNextButton" };
 }
 
+async function revealReward(page, reward, label) {
+  if (!reward.modal) return;
+  await clickSelector(page, reward.openSelector);
+  await waitUntil(page, "document.querySelector('.reward-card')?.dataset.rewardPhase === 'revealed' && !document.getElementById('modalRewardNextButton')?.hidden", `${label}: reward did not reveal`, 8000);
+}
+
 async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await setViewport(page, viewport);
+  await page.send("Emulation.setEmulatedMedia", {
+    features: [{ name: "prefers-reduced-motion", value: "reduce" }],
+  });
   await page.send("Page.navigate", { url: `${pageUrl}?seed=${seed}&qa=${viewport.name}-${Date.now()}` });
   await waitForLoad(page);
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-cover'", `${viewport.name}: cover not active`);
 
   const shots = [];
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
+  await auditGeometry(page, `${viewport.name} cover`, { requireLogo: true });
   await clickSelector(page, "#settingsButton");
   await waitUntil(page, "!document.getElementById('settingsBackdrop').hidden", `${viewport.name}: settings did not open`);
   shots.push(await screenshot(page, lesson, viewport, "02-settings"));
+  await auditGeometry(page, `${viewport.name} settings`);
   await clickSelector(page, "#settingsCloseButton");
   await waitUntil(page, "document.getElementById('settingsBackdrop').hidden", `${viewport.name}: settings did not close`);
 
   await clickSelector(page, "#startButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && document.getElementById('tutorialStartButton').textContent.trim() === '다음'", `${viewport.name}: tutorial 1 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "03-tutorial-1"));
+  await auditGeometry(page, `${viewport.name} tutorial 1`);
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.getElementById('tutorialStartButton').textContent.trim() === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "04-tutorial-2"));
+  await auditGeometry(page, `${viewport.name} tutorial 2`);
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
+  await auditGeometry(page, `${viewport.name} play`);
+  const answerLeak = await evaluate(page, "document.getElementById('answerSlot')?.textContent.trim() !== '?' || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
+  assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
 
   await clickChoice(page, false);
   await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0", `${viewport.name}: wrong feedback did not appear`);
+  await delay(500);
   shots.push(await screenshot(page, lesson, viewport, "05b-play-wrong"));
+  await auditGeometry(page, `${viewport.name} wrong feedback`);
+  await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: input stayed locked after wrong feedback`);
   await solveCurrentProblem(page);
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
+  await auditGeometry(page, `${viewport.name} confirmation`);
   await clickSelector(page, "#rewardButton");
   const firstReward = await waitForReward(page, viewport.name);
-  shots.push(await screenshot(page, lesson, viewport, "07-reward"));
+  shots.push(await screenshot(page, lesson, viewport, "07-reward-closed"));
+  await auditGeometry(page, `${viewport.name} closed reward`);
+  await revealReward(page, firstReward, viewport.name);
+  shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
+  await auditGeometry(page, `${viewport.name} revealed reward`);
   await clickSelector(page, firstReward.nextSelector);
 
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
@@ -386,11 +533,13 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await solveCurrentProblem(page);
     await clickSelector(page, "#rewardButton");
     const reward = await waitForReward(page, `${viewport.name} problem ${problemIndex}`);
+    await revealReward(page, reward, `${viewport.name} problem ${problemIndex}`);
     await clickSelector(page, reward.nextSelector);
   }
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
   shots.push(await screenshot(page, lesson, viewport, "08-result"));
+  await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
   const snapshot = await readSnapshot(page);
   assert(!snapshot.placeholders, `${viewport.name}: template placeholders leaked`, snapshot);
   assert(snapshot.missingImages.length === 0, `${viewport.name}: missing images`, snapshot);
