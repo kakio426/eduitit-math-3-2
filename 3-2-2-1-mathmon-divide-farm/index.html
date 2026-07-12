@@ -213,6 +213,8 @@
           backdrop-filter: blur(10px);
         }
         .brand-badge img { margin-right: 0; }
+        .brand-badge--logo { gap: 8px; }
+        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -300,6 +302,24 @@
         .tutorial-card strong { font-size: clamp(1.28rem, 2.2vw, 1.72rem); line-height: 1.18; }
         .tutorial-card p { margin: 0; color: #d7cadb; font-size: 1.02rem; line-height: 1.4; font-weight: 850; }
         .tutorial-action { display: grid; place-items: center; }
+
+        .game[data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #13202a; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid > .screen-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+        .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+        .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 31%; bottom: 1.5%; width: 38%; height: 15%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 72%; bottom: 1%; width: 27%; height: 14%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 24%; height: 14%; }
         .primary-button {
           min-width: 190px;
           min-height: 72px;
@@ -411,6 +431,30 @@
         .complete-panel.is-visible { display: grid; }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
         .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
+        .problem-grid.is-complete .step-chips,
+        .problem-grid.is-complete .instruction,
+        .problem-grid.is-complete .feedback-line { display: none; }
+        .play-mathmon-reaction {
+          position: absolute;
+          z-index: 4;
+          left: 18px;
+          bottom: 18px;
+          width: 156px;
+          height: 194px;
+          object-fit: contain;
+          object-position: left bottom;
+          pointer-events: none;
+          filter: drop-shadow(0 10px 16px rgba(0,0,0,.28));
+          animation: mathmon-reaction-pop .42s cubic-bezier(.2,.85,.25,1.25);
+        }
+        @keyframes mathmon-reaction-pop {
+          from { opacity: 0; transform: translateY(18px) scale(.84); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .play-mathmon-reaction { animation: none; filter: brightness(1.08) drop-shadow(0 8px 12px rgba(0,0,0,.22)); }
+        }
         .reward { background: #102839; }
         .reward-panel {
           position: absolute;
@@ -461,6 +505,11 @@
           padding: 24px;
           text-align: center;
         }
+        .reward-card[data-reward-phase="closed"] .reward-visual { transform: scale(.94); filter: brightness(.78) saturate(.8); }
+        .reward-card[data-reward-phase="opening"] .reward-visual { animation: reward-open-pulse .42s ease both; }
+        .reward-pop[data-rarity="rare"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 3px rgba(255,210,89,.55), 0 26px 70px rgba(0,0,0,.52); }
+        .reward-pop[data-rarity="legend"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 4px rgba(126,244,255,.72), 0 0 48px rgba(255,117,244,.5), 0 26px 70px rgba(0,0,0,.52); }
+        @keyframes reward-open-pulse { 0% { transform: scale(.92) rotate(-1deg); } 55% { transform: scale(1.06) rotate(1deg); } 100% { transform: scale(1); } }
         .reward-visual {
           width: 250px;
           height: 250px;
@@ -538,6 +587,9 @@
           .cover-start-button { width: 400px; height: 142px; }
           .result-title-art { width: 52%; }
           .result-correct-art { left: 82px; top: 410px; width: 230px; }
+        }
+        @media (max-width: 1100px) {
+          .topic-badge { left: auto; right: var(--stage-inset); }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
     .mathmon-scoreboard {
@@ -876,7 +928,8 @@
     .game[data-workbench-type="place-value-farm"] .problem-grid {
       position: absolute; top: 68px; right: 2.8%; bottom: 24px; left: 36.3%; z-index: 3;
       height: auto; margin: 0; display: grid; grid-template-columns: 1fr;
-      grid-template-rows: minmax(0, 1fr) 58px minmax(142px, auto); gap: 9px;
+      grid-template-rows: minmax(0, 1fr) minmax(152px, auto); gap: 18px;
+      transition: opacity 220ms ease-out, transform 220ms ease-out;
     }
     .game[data-workbench-type="place-value-farm"] .problem-card,
     .game[data-workbench-type="place-value-farm"] .step-board,
@@ -893,59 +946,111 @@
     .game[data-workbench-type="place-value-farm"] .answer-slot { display: none; }
     .game[data-workbench-type="place-value-farm"] .visual-area { min-height: 0; display: grid; place-items: center; }
 
-    .place-value-farm-svg { width: 100%; height: 100%; max-height: 455px; overflow: visible; }
+    .place-value-farm-svg { width: 100%; height: 100%; max-height: 330px; overflow: hidden; }
     .place-value-farm-svg .farm-board-bg { fill: #fff8df; fill-opacity: .96; stroke: #7b4a1f; stroke-width: 6; }
     .place-value-farm-svg .farm-place-panel,
     .place-value-farm-svg .farm-total-panel { fill: #fffdf5; stroke: #c8a16f; stroke-width: 3; }
+    .place-value-farm-svg .farm-current-panel { fill: #fff2b8; stroke: #e89b24; stroke-width: 6; }
     .place-value-farm-svg .is-current-panel { fill: #fff2b8; stroke: #e89b24; stroke-width: 6; }
     .place-value-farm-svg .farm-problem { fill: #3d260f; font-size: 48px; font-weight: 1000; font-variant-numeric: tabular-nums; }
     .place-value-farm-svg .farm-label { fill: #6b401b; font-size: 23px; font-weight: 1000; }
-    .place-value-farm-svg .farm-calc { fill: #46321f; font-size: 34px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .place-value-farm-svg .farm-calc { fill: #3d260f; font-size: 46px; font-weight: 1000; font-variant-numeric: tabular-nums; }
     .place-value-farm-svg .farm-answer,
     .place-value-farm-svg .farm-total { fill: #245c31; font-size: 43px; font-weight: 1000; font-variant-numeric: tabular-nums; }
     .place-value-farm-svg .farm-place-hint { fill: #79644f; font-size: 17px; font-weight: 900; }
+    .place-value-farm-svg .farm-decision-question { font-size: 34px; }
     .place-value-farm-svg .is-current { fill: #b95117; }
 
     .game[data-workbench-type="place-value-farm"] .step-board {
-      grid-row: 2; min-height: 58px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
-      place-items: center; border: 2px solid #7b4a1f; border-radius: 15px; background: #fff2bf;
+      position: absolute; inset: 0; z-index: 3; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
+      place-items: center; pointer-events: none;
     }
     .game[data-workbench-type="place-value-farm"] .instruction,
     .game[data-workbench-type="place-value-farm"] .feedback-line {
       grid-area: 1 / 1; min-height: 0; margin: 0; color: #2c1b0a;
-      font-size: clamp(1rem, 1.7vw, 1.3rem); line-height: 1.15; font-weight: 1000; text-align: center;
+      max-width: 78%; min-height: 76px; padding: 0 28px; border: 3px solid #7b4a1f; border-radius: 20px;
+      background: #fff2bf; box-shadow: 0 8px 0 rgba(123,74,31,.35);
+      font-size: clamp(1.1rem, 1.9vw, 1.45rem); line-height: 1.2; font-weight: 1000; text-align: center;
     }
+    .game[data-workbench-type="place-value-farm"] .instruction { display: none; }
     .game[data-workbench-type="place-value-farm"] .instruction[hidden] { display: none; }
-    .game[data-workbench-type="place-value-farm"] .feedback-line[data-state="idle"] { visibility: hidden; }
+    .game[data-workbench-type="place-value-farm"] .feedback-line[data-state="idle"] { display: none; }
     .game[data-workbench-type="place-value-farm"] .feedback-line[data-state="wrong"] { color: #a11742; }
     .game[data-workbench-type="place-value-farm"] .feedback-line[data-state="correct"] { color: #12604c; }
 
     .game[data-workbench-type="place-value-farm"] .choices-panel {
-      grid-row: 3; min-height: 0; padding: 0; display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(64px, 1fr)); gap: 9px;
+      grid-row: 2; min-height: 152px; padding: 0; display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(68px,1fr)); gap: 12px;
+      transition: opacity 160ms ease-in, transform 160ms ease-in;
     }
     .game[data-workbench-type="place-value-farm"] .farm-choice {
-      min-height: 64px; border: 3px solid #9a6c3d; border-radius: 16px; color: #34210e;
-      background: #fffaf0; box-shadow: 0 6px 0 #79502b; font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+      min-height: 68px; border: 3px solid #9a6c3d; border-radius: 20px; color: #34210e;
+      background: #fffaf0; box-shadow: 0 7px 0 #79502b; font-size: clamp(1.65rem, 2.8vw, 2.35rem);
+      cursor: pointer;
     }
+    .game[data-workbench-type="place-value-farm"] .farm-choice--digits { display: flex; justify-content: center; gap: 8px; }
+    .game[data-workbench-type="place-value-farm"] .farm-digit-piece {
+      width: 42px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #9c692d;
+      border-radius: 12px;
+      background: #fff7da;
+      color: #3b250d;
+      box-shadow: 0 4px 0 #b88745;
+      font-size: 1.7rem;
+      font-weight: 1000;
+    }
+    .farm-stage-art { transition: filter .28s ease, transform .28s ease; }
+    .farm-stage-art[data-scene-state="correct"] { filter: saturate(1.18) brightness(1.06); transform: scale(1.008); }
+    .farm-stage-art[data-scene-state="wrong"] { filter: saturate(.72) brightness(.86); }
+    .farm-stage-art[data-scene-state="complete"], .farm-stage-art[data-scene-state="reward"] { filter: saturate(1.24) brightness(1.1); transform: scale(1.012); }
     .game[data-workbench-type="place-value-farm"] .farm-choice[data-state="wrong"] {
       border-color: #c92b59; color: #6f0e2d; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70;
     }
     .game[data-workbench-type="place-value-farm"] .farm-choice[data-state="correct"] {
       border-color: #1f8569; color: #0f493a; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991;
     }
-    .game[data-workbench-type="place-value-farm"] .complete-panel {
-      grid-row: 3; min-height: 142px; padding: 12px; place-items: center; grid-template-columns: 1fr;
-      border: 3px solid #7b4a1f; border-radius: 16px; background: #fff2bf;
+    .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="enter"] {
+      opacity: 0; transform: translateY(10px);
     }
-    .game[data-workbench-type="place-value-farm"] .complete-text { color: #2c1b0a; font-size: clamp(1.55rem, 2.8vw, 2.2rem); text-align: center; }
+    .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="confirm"] .choices-panel,
+    .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="complete"] .choices-panel {
+      opacity: 0; transform: translateY(10px); pointer-events: none;
+    }
+    .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="active"] .step-board { display: none; }
+    .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="wrong"] .step-board,
+    .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="confirm"] .step-board { display: grid; }
+    .game[data-workbench-type="place-value-farm"] .complete-panel {
+      position: absolute; left: 6%; right: 6%; top: 50%; bottom: auto; z-index: 4;
+      grid-row: auto; grid-column: auto; width: auto; height: auto; min-height: 224px;
+      padding: 30px; place-items: center; grid-template-columns: 1fr; gap: 24px;
+      border: 3px solid #7b4a1f; border-radius: 28px; background: #fff2bf;
+      transform: translateY(-50%);
+    }
+    .game[data-workbench-type="place-value-farm"] .complete-text { color: #2c1b0a; font-size: clamp(2rem, 3.8vw, 3.1rem); text-align: center; }
     .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button {
       min-height: 64px; color: #2c1b0a; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
     }
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { display: none; }
-    .game[data-workbench-type="place-value-farm"] .result-title-art { display: none; }
+    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .problem-card,
+    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .step-board,
+    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { visibility: hidden; pointer-events: none; }
+    .game[data-workbench-type="place-value-farm"] .result-title-art { display: block; left: 62%; top: 11%; width: 31%; border-radius: 24px; }
     .game[data-workbench-type="place-value-farm"] #screen-result .top-row { display: none; }
-    .game[data-workbench-type="place-value-farm"] .result-correct-art { left: 61%; top: 55%; width: 23%; }
+    .game[data-workbench-type="place-value-farm"] #screen-result::after { background: none; }
+    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui #resultDestinationSvg,
+    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui .result-restart-surface { display: none; }
+    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui text {
+      fill: #3d260f; stroke: rgba(255, 248, 223, .96); stroke-width: 10px;
+    }
+    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui rect:first-of-type { fill: #7b4a1f; opacity: .32; }
+    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui #resultMeasureFillSvg { fill: #f2b72f; }
+    .game[data-workbench-type="place-value-farm"] .result-correct-art { left: 59%; top: 58%; width: 15%; }
+    .game[data-workbench-type="place-value-farm"] .result-restart-hitbox {
+      left: 74.5%; top: 64%; width: 18%; height: 14%;
+    }
+    .game[data-workbench-type="place-value-farm"] .result-restart-hitbox .result-retry-art { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 22px; }
 
     .game[data-workbench-type="place-value-farm"] .reward-visual {
       background-image: var(--reward-modal-image);
@@ -979,14 +1084,22 @@
       position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
     }
     .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 29%; bottom: 2.5%; width: 42%; height: 15.5%; }
-    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 64%; bottom: 4.5%; width: 30%; height: 13.5%; }
-    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 4.5%; width: 29%; height: 13.5%; }
+    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 51%; bottom: 4.5%; width: 30%; height: 15.5%; }
+    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 21%; bottom: 4.5%; width: 24%; height: 15.5%; }
 
     @media (max-width: 980px) {
       .game[data-workbench-type="place-value-farm"] .hud { right: 2%; width: 63%; }
       .game[data-workbench-type="place-value-farm"] .problem-grid {
         top: 62px; right: 2%; bottom: 18px; left: 35%;
-        grid-template-rows: minmax(0, 1fr) 52px minmax(132px, auto); gap: 7px;
+        grid-template-rows: minmax(0, 1fr) minmax(140px, auto); gap: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game[data-workbench-type="place-value-farm"] .problem-grid,
+      .game[data-workbench-type="place-value-farm"] .choices-panel { transition-duration: .001ms; }
+      .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="enter"] {
+        transform: none;
       }
     }
   </style>
@@ -1021,17 +1134,18 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 2단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 2단원</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 나누기 농장</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">10개 묶음과 낱개를 차례로 나눠요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">내림 없는 두 자리 수 나눗셈</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">농장에 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 나눠요?</strong><p>10개 묶음과 낱개를 따로 나눠요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>어떻게 답을 만들어요?</strong><p>두 몫을 십의 자리와 일의 자리에 놓아요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">농장에 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 풀어요?</strong><p>한 바구니에 들어갈 양을 놓아요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제 뒤에 농장을 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
         <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 나누기 농장</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="수확"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">씨앗</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">수확 보기</button></section></div>
+        <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="reward-events-sprite-generated.webp" alt="">
@@ -1039,17 +1153,18 @@
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">씨앗</p><p class="reward-change" id="rewardChange">수확이 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
-        <div class="reward-card">
+        <div class="reward-card" data-reward-phase="closed">
           <div class="reward-visual" id="rewardVisual" aria-hidden="true"></div>
           <h2 class="visually-hidden" id="modalRewardTitle">보상</h2>
-          <p class="reward-label" id="modalRewardLabel">보상</p>
-          <button class="primary-button" id="modalRewardNextButton" type="button">다음</button>
+          <p class="reward-label" id="modalRewardLabel" aria-live="polite">무엇이 나올까요?</p>
+          <button class="primary-button reward-open-button" id="modalRewardOpenButton" type="button">열기</button>
+          <button class="primary-button" id="modalRewardNextButton" type="button" hidden>다음</button>
         </div>
       </div>
       <section class="screen result" id="screen-result" data-result-tier="seed" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-tier-seed.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-tier-seed.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-seed-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">씨앗</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="2단원 나눗셈"></section>
@@ -1618,6 +1733,7 @@
           state.gameStartedAt = Math.round(performance.now());
           state.sessionPromise = startSession();
           renderBridge();
+          return state.sessionPromise;
         }
 
         async function submitScoreboardIfNeeded() {
@@ -1707,14 +1823,15 @@
           open,
           refresh,
           render: renderBridge,
-          getSession: () => state.session
+          getSession: () => state.session,
+          getSessionPromise: () => state.sessionPromise
         });
       }
 
       window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"10개 묶음과 낱개를 차례로 나눠요.","action":"자리마다 나눈 몫을 고른다.","buttonLabel":"수확 보기","rewardScreenTitle":"수확","progressLabel":"수확","rewardComplete":"수확이 바뀌었어요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","title":"어떻게 나눠요?","body":"10개 묶음과 낱개를 따로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","title":"어떻게 답을 만들어요?","body":"두 몫을 십의 자리와 일의 자리에 놓아요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","artMap":{"harvest":"reward-events-sprite-generated.webp","bug":"reward-events-sprite-generated.webp","big":"reward-events-sprite-generated.webp","gold":"reward-events-sprite-generated.webp","empty":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic"},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":false},"results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-tier-seed.webp"},{"id":"sprout","name":"새싹","minPower":19,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-tier-sprout.webp"},{"id":"garden","name":"텃밭","minPower":39,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-tier-garden.webp"},{"id":"farm","name":"농장","minPower":59,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-tier-farm.webp"},{"id":"bigfarm","name":"대농장","minPower":82,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-tier-bigfarm.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-tier-rainbow.webp"}],"rewardEvents":[{"id":"harvest","text":"수확이 늘었어요","weight":7200,"min":4,"max":8,"family":"harvest"},{"id":"bug","text":"수확이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"bug"},{"id":"big","text":"수확이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"big"},{"id":"gold","text":"황금 당근!","weight":300,"min":6,"max":6,"family":"gold","express":true},{"id":"empty","text":"빈 바구니","weight":280,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"황금밭!","weight":20,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"bug","text":"수확이 줄었어요","min":-18,"max":-8,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"farm-board-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultRetryButton":"start-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","farm-board-generated.webp","reward-events-sprite-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp"],"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"10개 묶음과 낱개를 차례로 나눠요.","action":"한 바구니에 들어갈 묶음을 놓아요.","buttonLabel":"수확 보기","rewardScreenTitle":"수확","progressLabel":"수확","rewardComplete":"수확이 바뀌었어요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 풀어요?","body":"한 바구니에 들어갈 양을 놓아요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 농장을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"수확","closedLabel":"바구니를 열어 봐요.","nextLabel":"다음","artMap":{"harvest":"reward-events-sprite-generated.webp","bug":"reward-events-sprite-generated.webp","big":"reward-events-sprite-generated.webp","gold":"reward-events-sprite-generated.webp","empty":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"harvest":[0,0],"bug":[1,0],"big":[2,0],"gold":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-title-contact-sheet.png","sceneBackground":"result-scene-generated.webp","protagonist":"base-02-foxmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["harvest-power","correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":19,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":39,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":59,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":82,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"수확이 늘었어요","weight":7200,"min":4,"max":8,"family":"harvest","rarity":"common"},{"id":"bug","text":"수확이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"bug","rarity":"common"},{"id":"big","text":"수확이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근!","weight":300,"min":6,"max":6,"family":"gold","rarity":"rare","express":true},{"id":"empty","text":"빈 바구니","weight":280,"min":0,"max":0,"family":"empty","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"황금밭!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bug","text":"수확이 줄었어요","min":-18,"max":-8,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","farm-board-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2DivideFarmModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -1805,12 +1922,12 @@
           onesQuotient,
           quotient,
           prompt: `${dividend} ÷ ${divisor}`,
-          finalExpression: `${tens}십 ÷ ${divisor} = ${tensQuotient}십, ${ones} ÷ ${divisor} = ${onesQuotient}`,
+          finalExpression: `${dividend} ÷ ${divisor} = ${quotient}`,
           steps: [
             {
               id: "tens",
               label: "10개 묶음",
-              instruction: "10개 묶음의 몫을 골라요.",
+              instruction: `${tens}묶음을 바구니 ${divisor}개에 똑같이 나눠요.`,
               answer: tensQuotient,
               answerChoiceId: `value:${tensQuotient}`,
               choices: makeNumericChoices(
@@ -1818,17 +1935,17 @@
                 [(tens * 10) / divisor, tensQuotient + 1, Math.max(0, tensQuotient - 1)],
                 "묶음",
                 ["DIV1_DIVIDE_FULL_TENS_VALUE", "DIV1_TENS_QUOTIENT_TOO_HIGH", "DIV1_TENS_QUOTIENT_TOO_LOW"],
-                ["10개 묶음의 개수로 골라요.", "한 묶음이 많아요.", "한 묶음 더 나눌 수 있어요."],
+                ["10개 묶음만 세어 봐요.", "한 묶음이 많아요.", "한 묶음이 남았어요."],
                 rng
               ),
-              correctText: `${tens}묶음 ÷ ${divisor} = ${tensQuotient}묶음`,
+              correctText: `한 바구니에 ${tensQuotient}묶음`,
               reveal: `${tensQuotient}묶음`,
               advance: { mode: "timed", delayMs: 850 }
             },
             {
               id: "ones",
               label: "낱개",
-              instruction: "낱개의 몫을 골라요.",
+              instruction: `${ones}개를 바구니 ${divisor}개에 똑같이 나눠요.`,
               answer: onesQuotient,
               answerChoiceId: `value:${onesQuotient}`,
               choices: makeNumericChoices(
@@ -1836,17 +1953,17 @@
                 [ones, onesQuotient + 1, Math.max(0, onesQuotient - 1)],
                 "개",
                 ["DIV1_COPY_ONES_WITHOUT_DIVIDING", "DIV1_ONES_QUOTIENT_TOO_HIGH", "DIV1_ONES_QUOTIENT_TOO_LOW"],
-                ["낱개도 똑같이 나눠요.", "한 개가 많아요.", "한 개 더 나눌 수 있어요."],
+                ["낱개도 똑같이 나눠요.", "한 개가 많아요.", "한 개가 남았어요."],
                 rng
               ),
-              correctText: `${ones}개 ÷ ${divisor} = ${onesQuotient}개`,
+              correctText: `한 바구니에 ${onesQuotient}개`,
               reveal: `${onesQuotient}개`,
               advance: { mode: "timed", delayMs: 850 }
             },
             {
               id: "combine",
               label: "몫 완성",
-              instruction: "십의 자리와 일의 자리를 이어 몫을 만들어요.",
+              instruction: "두 숫자로 몫을 만들어요.",
               answer: quotient,
               answerChoiceId: `value:${quotient}`,
               choices: makeNumericChoices(
@@ -1854,10 +1971,10 @@
                 [addDigits, reverseDigits, quotient + 10],
                 "",
                 ["DIV1_COMBINE_BY_ADDING_DIGITS", "DIV1_REVERSE_QUOTIENT_DIGITS", "DIV1_TENS_PLACE_TOO_HIGH"],
-                ["두 숫자를 더하지 말고 자리에 놓아요.", "십의 자리와 일의 자리를 다시 봐요.", "십의 자리 숫자를 다시 봐요."],
+                ["두 숫자를 나란히 놓아요.", "십의 자리와 일의 자리를 바꿨어요.", "십의 자리가 너무 커요."],
                 rng
               ),
-              correctText: `몫은 ${quotient}`,
+              correctText: `${dividend} ÷ ${divisor} = ${quotient}`,
               reveal: String(quotient),
               advance: { mode: "complete" }
             }
@@ -1968,6 +2085,7 @@
       problemText: document.getElementById("problemTitle"),
       instructionText: document.getElementById("stepInstruction"),
       visualArea: document.getElementById("visualArea"),
+      playMathmonReaction: document.getElementById("playMathmonReaction"),
       choices: document.getElementById("choicesPanel"),
       feedback: document.getElementById("feedbackLine"),
       answerSlot: document.getElementById("answerSlot"),
@@ -1982,6 +2100,7 @@
       rewardPop: document.getElementById("rewardPop"),
       rewardVisual: document.getElementById("rewardVisual"),
       modalRewardLabel: document.getElementById("modalRewardLabel"),
+      modalRewardOpenButton: document.getElementById("modalRewardOpenButton"),
       modalRewardNextButton: document.getElementById("modalRewardNextButton"),
       resultBg: document.getElementById("resultBg"),
       resultTitleArt: document.getElementById("resultTitleArt"),
@@ -2031,7 +2150,45 @@
         scoreboardQuestionStartedAt: 0,
         scoreboardStepStartedAt: 0,
         stepAttempts: [],
+        inputLocked: false,
+        pendingRewardEvent: null,
+        rewardPhase: "idle",
       };
+    }
+
+    async function runViewHook(name, payload) {
+      const hook = globalThis[name];
+      if (typeof hook !== "function") return;
+      try {
+        await hook(payload);
+      } catch (error) {
+        console.warn(`${name} failed`, error);
+      }
+    }
+
+    function showMathmonReaction(kind) {
+      const assets = LESSON_CONFIG.imageAssets?.mathmonReactions;
+      const source = assets?.[kind];
+      if (!ui.playMathmonReaction || !source) return Promise.resolve();
+      ui.playMathmonReaction.src = source;
+      ui.playMathmonReaction.hidden = false;
+      ui.playMathmonReaction.dataset.reaction = kind;
+      const wait = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+      return new Promise((resolve) => setTimeout(resolve, wait));
+    }
+
+    function setProblemSceneState(kind) {
+      const source = LESSON_CONFIG.imageAssets?.problemStates?.[kind];
+      const scene = document.querySelector("#screen-play > img:not(.play-mathmon-reaction)");
+      if (!scene || !source) return Promise.resolve();
+      scene.dataset.problemSceneState = kind;
+      if (scene.getAttribute("src") === source && scene.complete) return Promise.resolve();
+      scene.src = source;
+      if (scene.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        scene.addEventListener("load", resolve, { once: true });
+        scene.addEventListener("error", resolve, { once: true });
+      });
     }
 
     function readAudioFlag(key, fallback) {
@@ -2084,9 +2241,19 @@
       const oscillator = ctx.createOscillator();
       const gain = ctx.createGain();
       const now = ctx.currentTime;
-      const frequency = kind === "success" ? 720 : kind === "reward" ? 520 : kind === "scoreboard" ? 440 : 260;
+      const frequencies = {
+        "step-correct": 720,
+        "step-wrong": 260,
+        "problem-complete": 840,
+        "reward-open": 520,
+        "reward-rare": 660,
+        "reward-legend": 920,
+        result: 600,
+        scoreboard: 440,
+      };
+      const frequency = frequencies[kind] || 420;
       oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.type = kind === "error" ? "sawtooth" : "sine";
+      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
       gain.gain.setValueAtTime(0.001, now);
       gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
@@ -2179,6 +2346,7 @@
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.completeText.textContent = "";
       if (typeof renderProblemVisual === "function") renderProblemVisual(problem, state);
+      setProblemSceneState("waiting");
       renderStep();
       syncProgress();
       showScreen("play");
@@ -2221,8 +2389,9 @@
       if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
     }
 
-    function handleChoice(choice, button) {
-      if (state.pendingAdvance) return;
+    async function handleChoice(choice, button) {
+      if (state.pendingAdvance || state.inputLocked) return;
+      state.inputLocked = true;
       const problem = state.problems[state.problemIndex];
       const step = problem.steps[state.stepIndex];
       const correct = LessonModel.validateChoice(step, choice);
@@ -2240,7 +2409,11 @@
         ui.feedback.textContent = getChoiceFeedback(choice) || step.wrongText || "다시 골라 봐요.";
         ui.instructionText.hidden = true;
         if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: false, button });
-        playSample("error");
+        playSample("step-wrong");
+        await setProblemSceneState("waiting");
+        await showMathmonReaction("wrong");
+        await runViewHook("onStepWrong", { problem, step, choice, state, button });
+        state.inputLocked = false;
         return;
       }
 
@@ -2253,9 +2426,12 @@
       ui.instructionText.hidden = true;
       ui.answerSlot.textContent = step.reveal || step.correctText || String(step.answer);
       ui.answerSlot.classList.add("is-filled");
-      playSample("success");
+      playSample("step-correct");
+      await setProblemSceneState("working");
+      await showMathmonReaction("correct");
       if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: true, button });
       if (typeof revealCorrectStep === "function") revealCorrectStep(problem, step, state);
+      await runViewHook("onStepCorrect", { problem, step, choice, state, button });
 
       if (state.stepIndex < problem.steps.length - 1) {
         state.pendingAdvance = true;
@@ -2263,6 +2439,7 @@
         setTimeout(() => {
           state.stepIndex += 1;
           state.pendingAdvance = false;
+          state.inputLocked = false;
           state.stepAttempts = [];
           renderStep();
         }, Math.max(0, delay));
@@ -2270,12 +2447,17 @@
       }
 
       state.completed = true;
+      await setProblemSceneState("complete");
       if (!state.mistakeTouched) state.correctFirstTry += 1;
+      await runViewHook("onProblemComplete", { problem, step, choice, state });
+      await showMathmonReaction("reward");
+      playSample("problem-complete");
       ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
       ui.continueButton.focus();
+      state.inputLocked = false;
     }
 
     function getChoiceLabel(choice) {
@@ -2300,6 +2482,48 @@
         : "";
     }
 
+    function wireDirectChoice(button, dropTarget, choice, choose) {
+      button.draggable = true;
+      button.dataset.directChoice = "true";
+      const submit = () => choose(choice, button);
+      button.addEventListener("click", submit);
+      button.addEventListener("dragstart", (event) => {
+        event.dataTransfer?.setData("text/plain", getChoiceId(choice));
+        button.dataset.dragging = "true";
+        dropTarget.__directChoice = { choice, button };
+      });
+      button.addEventListener("dragend", () => { delete button.dataset.dragging; });
+      if (dropTarget.dataset.directDropReady !== "true") {
+        dropTarget.dataset.directDropReady = "true";
+        dropTarget.addEventListener("dragover", (event) => event.preventDefault());
+        dropTarget.addEventListener("drop", (event) => {
+          event.preventDefault();
+          const active = dropTarget.__directChoice;
+          if (active) choose(active.choice, active.button);
+          dropTarget.__directChoice = null;
+        });
+      }
+
+      let start = null;
+      button.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse") return;
+        start = { x: event.clientX, y: event.clientY };
+        button.setPointerCapture(event.pointerId);
+      });
+      button.addEventListener("pointermove", (event) => {
+        if (!start) return;
+        button.style.translate = `${event.clientX - start.x}px ${event.clientY - start.y}px`;
+      });
+      button.addEventListener("pointerup", (event) => {
+        if (!start) return;
+        const rect = dropTarget.getBoundingClientRect();
+        const dropped = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        start = null;
+        button.style.translate = "";
+        if (dropped) submit();
+      });
+    }
+
     function renderStepChips(problem) {
       ui.stepChips.innerHTML = "";
       problem.steps.forEach((step, index) => {
@@ -2317,19 +2541,15 @@
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
-      const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
-      if (rewardPatch && typeof rewardPatch === "object") {
-        if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
-        if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
-      }
-      finishScoreboardQuestion(event);
-      state.lastRewardEvent = event;
-      playSample("reward");
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
         openRewardModal(event);
         return;
       }
+
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -2343,17 +2563,86 @@
     }
 
     function openRewardModal(event) {
-      ui.modalRewardLabel.textContent = formatRewardText(event);
+      if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
+      ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardPop.dataset.reward = "closed";
+      ui.rewardPop.dataset.rarity = event.rarity || "common";
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
+      ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
+      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = true;
+      ui.rewardPop.hidden = false;
+      ui.modalRewardOpenButton.focus();
+    }
+
+    function applyPendingReward(event) {
+      const firstTry = !state.mistakeTouched;
+      const beforePower = state.power;
+      const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
+      if (rewardPatch && typeof rewardPatch === "object") {
+        if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
+        if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
+      }
+      finishScoreboardQuestion(event);
+      state.lastRewardEvent = event;
+      return beforePower;
+    }
+
+    async function revealRewardModal() {
+      if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      state.rewardPhase = "opening";
+      ui.modalRewardOpenButton.disabled = true;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
+      await nextAnimationFrame();
+      const beforePower = applyPendingReward(event);
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
-      ui.rewardPop.hidden = false;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      await animateRewardValue(event);
+      state.rewardPhase = "revealed";
+      ui.modalRewardOpenButton.hidden = true;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
+    }
+
+    function nextAnimationFrame() {
+      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    function animateRewardValue(event) {
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const duration = reduceMotion ? 0 : 650;
+      const target = Number(event.amount) || 0;
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      return new Promise((resolve) => {
+        const started = performance.now();
+        const tick = (now) => {
+          const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
+          const value = Math.round(target * progress);
+          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          if (progress < 1) requestAnimationFrame(tick);
+          else resolve();
+        };
+        requestAnimationFrame(tick);
+      });
     }
 
     function closeRewardModal() {
       ui.rewardPop.hidden = true;
       ui.rewardPop.dataset.reward = "";
+      ui.rewardPop.dataset.rarity = "";
+      state.pendingRewardEvent = null;
+      state.rewardPhase = "idle";
+    }
+
+    function getRewardClosedImage() {
+      return LESSON_CONFIG.imageAssets.rewardClosed || LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
     }
 
     function getRewardImage(event) {
@@ -2382,13 +2671,14 @@
     function showResult() {
       const result = getCurrentResult();
       state.currentResult = result;
-      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.cover;
+      playSample("result");
+      ui.resultBg.src = LESSON_CONFIG.imageAssets.resultScene || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
-      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `힘 ${state.power}`;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
         const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
@@ -2400,7 +2690,7 @@
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
       const fullScene = getResultRenderMode() === "fullscene-score-slot";
-      ui.resultTitleArt.hidden = fullScene;
+      ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
       screens.result.dataset.resultTier = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -2567,6 +2857,7 @@
     ui.backTutorialButton?.addEventListener("click", previousTutorial);
     ui.continueButton.addEventListener("click", showReward);
     ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
     ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
@@ -2598,6 +2889,9 @@
       getState: () => ({
         screen: state.screen,
         problemIndex: state.problemIndex,
+        stepIndex: state.stepIndex,
+        inputLocked: state.inputLocked,
+        pendingAdvance: state.pendingAdvance,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
         answers: state.scoreboardAnswers,
@@ -2630,7 +2924,14 @@
       ui.visualArea.dataset.revealedStep = "";
       ui.visualArea.dataset.attemptStep = "";
       ui.visualArea.dataset.attemptValue = "";
+      setFarmFlowPhase("enter");
       renderFarmBoard(problem, state);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setFarmFlowPhase("active");
+          ui.choices.querySelector("button")?.focus({ preventScroll: true });
+        });
+      });
     }
 
     function revealCorrectStep(problem, step, state) {
@@ -2650,6 +2951,7 @@
     function renderChoicesForStep(problem, step, state, choose) {
       ui.choices.innerHTML = "";
       ui.choices.dataset.choiceKind = step.id;
+      ui.choices.dataset.interaction = "tap-choice";
       for (const selected of step.choices) {
         const button = document.createElement("button");
         button.type = "button";
@@ -2657,13 +2959,56 @@
         button.dataset.choice = selected.id;
         button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
         button.setAttribute("aria-label", selected.label);
-        const value = document.createElement("strong");
-        value.textContent = selected.label;
-        button.appendChild(value);
+        if (step.id === "combine") {
+          button.classList.add("farm-choice--digits");
+          for (const digit of String(selected.value).padStart(2, "0")) {
+            const piece = document.createElement("span");
+            piece.className = "farm-digit-piece";
+            piece.textContent = digit;
+            button.appendChild(piece);
+          }
+        } else {
+          const value = document.createElement("strong");
+          value.textContent = selected.label;
+          button.appendChild(value);
+        }
         button.addEventListener("click", () => choose(selected, button));
         ui.choices.appendChild(button);
       }
       return true;
+    }
+
+    function onStepCorrect() {
+      setFarmFlowPhase("confirm");
+      return pulseScene("correct");
+    }
+
+    function onStepWrong() {
+      setFarmFlowPhase("wrong");
+      return pulseScene("wrong").then(() => {
+        setFarmFlowPhase("active");
+      });
+    }
+
+    function onProblemComplete() {
+      setFarmFlowPhase("complete");
+      return pulseScene("complete");
+    }
+
+    function onRewardReveal() {
+      return pulseScene("reward");
+    }
+
+    function pulseScene(stateName) {
+      const scene = document.querySelector(".farm-stage-art");
+      if (!scene) return Promise.resolve();
+      scene.dataset.sceneState = stateName;
+      return new Promise((resolve) => setTimeout(resolve, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 360));
+    }
+
+    function setFarmFlowPhase(phase) {
+      const grid = document.querySelector("#screen-play .problem-grid");
+      if (grid) grid.dataset.flowPhase = phase;
     }
 
     function renderFarmBoard(problem, state) {
@@ -2671,39 +3016,41 @@
       const revealedStep = ui.visualArea.dataset.revealedStep;
       const attemptStep = ui.visualArea.dataset.attemptStep;
       const attemptValue = ui.visualArea.dataset.attemptValue;
-      const tensDone = state.stepIndex > 0 || revealedStep === "tens";
-      const onesDone = state.stepIndex > 1 || revealedStep === "ones";
+      const tensDone = revealedStep === "tens";
+      const onesDone = revealedStep === "ones";
       const combineDone = revealedStep === "combine";
       const selectedValue = attemptStep === step.id && attemptValue !== "" ? attemptValue : "?";
       const tensValue = step.id === "tens" && !tensDone ? selectedValue : (tensDone ? problem.tensQuotient : "?");
       const onesValue = step.id === "ones" && !onesDone ? selectedValue : (onesDone ? problem.onesQuotient : "?");
       const totalValue = step.id === "combine" && !combineDone ? selectedValue : (combineDone ? problem.quotient : "?");
+      const current = step.id === "tens"
+        ? {
+            calculation: `${problem.tens}묶음 ÷ ${problem.divisor} = ${tensValue}묶음`,
+            question: "한 바구니에는 몇 묶음?",
+          }
+        : step.id === "ones"
+          ? {
+              calculation: `${problem.ones}개 ÷ ${problem.divisor} = ${onesValue}개`,
+              question: "한 바구니에는 몇 개?",
+            }
+          : {
+              calculation: combineDone
+                ? `${problem.dividend} ÷ ${problem.divisor} = ${totalValue}`
+                : `${problem.tensQuotient}  ${problem.onesQuotient}`,
+              question: combineDone ? "몫을 완성했어요!" : "두 숫자로 만든 몫은?",
+            };
 
       const svg = document.createElementNS(FARM_SVG_NS, "svg");
       svg.classList.add("place-value-farm-svg");
-      svg.setAttribute("viewBox", "0 0 700 455");
+      svg.setAttribute("viewBox", "0 0 700 330");
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", `${problem.prompt}, ${step.instruction}`);
       svg.innerHTML = `
         <title>${problem.prompt} 자리 나누기</title>
-        <rect x="14" y="12" width="672" height="430" rx="34" class="farm-board-bg"/>
+        <rect x="14" y="10" width="672" height="310" rx="34" class="farm-board-bg"/>
         <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-          <text x="350" y="72" class="farm-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-
-          <rect x="44" y="105" width="292" height="180" rx="24" class="farm-place-panel ${step.id === "tens" ? "is-current-panel" : ""}"/>
-          <text x="190" y="145" class="farm-label">10개 묶음 몫</text>
-          <text x="190" y="202" class="farm-calc">${problem.tens}묶음 ÷ ${problem.divisor}</text>
-          <text x="190" y="258" class="farm-answer ${step.id === "tens" ? "is-current" : ""}">${tensValue}묶음</text>
-
-          <rect x="364" y="105" width="292" height="180" rx="24" class="farm-place-panel ${step.id === "ones" ? "is-current-panel" : ""}"/>
-          <text x="510" y="145" class="farm-label">낱개 몫</text>
-          <text x="510" y="202" class="farm-calc">${problem.ones}개 ÷ ${problem.divisor}</text>
-          <text x="510" y="258" class="farm-answer ${step.id === "ones" ? "is-current" : ""}">${onesValue}개</text>
-
-          <rect x="128" y="316" width="444" height="94" rx="25" class="farm-total-panel ${step.id === "combine" ? "is-current-panel" : ""}"/>
-          <text x="250" y="352" class="farm-label">전체 몫</text>
-          <text x="250" y="390" class="farm-place-hint">십의 자리 · 일의 자리</text>
-          <text x="470" y="382" class="farm-total ${step.id === "combine" ? "is-current" : ""}">${totalValue}</text>
+          <text x="350" y="128" class="farm-calc farm-decision-value">${current.calculation}</text>
+          <text x="350" y="226" class="farm-answer farm-decision-question">${current.question}</text>
         </g>
       `;
       ui.visualArea.replaceChildren(svg);

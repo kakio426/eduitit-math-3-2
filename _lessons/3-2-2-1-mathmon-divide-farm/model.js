@@ -88,12 +88,12 @@ const Lesson2DivideFarmModel = (() => {
       onesQuotient,
       quotient,
       prompt: `${dividend} ÷ ${divisor}`,
-      finalExpression: `${tens}십 ÷ ${divisor} = ${tensQuotient}십, ${ones} ÷ ${divisor} = ${onesQuotient}`,
+      finalExpression: `${dividend} ÷ ${divisor} = ${quotient}`,
       steps: [
         {
           id: "tens",
           label: "10개 묶음",
-          instruction: "10개 묶음의 몫을 골라요.",
+          instruction: `${tens}묶음을 바구니 ${divisor}개에 똑같이 나눠요.`,
           answer: tensQuotient,
           answerChoiceId: `value:${tensQuotient}`,
           choices: makeNumericChoices(
@@ -101,17 +101,17 @@ const Lesson2DivideFarmModel = (() => {
             [(tens * 10) / divisor, tensQuotient + 1, Math.max(0, tensQuotient - 1)],
             "묶음",
             ["DIV1_DIVIDE_FULL_TENS_VALUE", "DIV1_TENS_QUOTIENT_TOO_HIGH", "DIV1_TENS_QUOTIENT_TOO_LOW"],
-            ["10개 묶음의 개수로 골라요.", "한 묶음이 많아요.", "한 묶음 더 나눌 수 있어요."],
+            ["10개 묶음만 세어 봐요.", "한 묶음이 많아요.", "한 묶음이 남았어요."],
             rng
           ),
-          correctText: `${tens}묶음 ÷ ${divisor} = ${tensQuotient}묶음`,
+          correctText: `한 바구니에 ${tensQuotient}묶음`,
           reveal: `${tensQuotient}묶음`,
           advance: { mode: "timed", delayMs: 850 }
         },
         {
           id: "ones",
           label: "낱개",
-          instruction: "낱개의 몫을 골라요.",
+          instruction: `${ones}개를 바구니 ${divisor}개에 똑같이 나눠요.`,
           answer: onesQuotient,
           answerChoiceId: `value:${onesQuotient}`,
           choices: makeNumericChoices(
@@ -119,17 +119,17 @@ const Lesson2DivideFarmModel = (() => {
             [ones, onesQuotient + 1, Math.max(0, onesQuotient - 1)],
             "개",
             ["DIV1_COPY_ONES_WITHOUT_DIVIDING", "DIV1_ONES_QUOTIENT_TOO_HIGH", "DIV1_ONES_QUOTIENT_TOO_LOW"],
-            ["낱개도 똑같이 나눠요.", "한 개가 많아요.", "한 개 더 나눌 수 있어요."],
+            ["낱개도 똑같이 나눠요.", "한 개가 많아요.", "한 개가 남았어요."],
             rng
           ),
-          correctText: `${ones}개 ÷ ${divisor} = ${onesQuotient}개`,
+          correctText: `한 바구니에 ${onesQuotient}개`,
           reveal: `${onesQuotient}개`,
           advance: { mode: "timed", delayMs: 850 }
         },
         {
           id: "combine",
           label: "몫 완성",
-          instruction: "십의 자리와 일의 자리를 이어 몫을 만들어요.",
+          instruction: "두 숫자로 몫을 만들어요.",
           answer: quotient,
           answerChoiceId: `value:${quotient}`,
           choices: makeNumericChoices(
@@ -137,10 +137,10 @@ const Lesson2DivideFarmModel = (() => {
             [addDigits, reverseDigits, quotient + 10],
             "",
             ["DIV1_COMBINE_BY_ADDING_DIGITS", "DIV1_REVERSE_QUOTIENT_DIGITS", "DIV1_TENS_PLACE_TOO_HIGH"],
-            ["두 숫자를 더하지 말고 자리에 놓아요.", "십의 자리와 일의 자리를 다시 봐요.", "십의 자리 숫자를 다시 봐요."],
+            ["두 숫자를 나란히 놓아요.", "십의 자리와 일의 자리를 바꿨어요.", "십의 자리가 너무 커요."],
             rng
           ),
-          correctText: `몫은 ${quotient}`,
+          correctText: `${dividend} ÷ ${divisor} = ${quotient}`,
           reveal: String(quotient),
           advance: { mode: "complete" }
         }

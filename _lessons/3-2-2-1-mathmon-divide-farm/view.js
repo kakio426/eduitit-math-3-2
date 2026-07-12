@@ -23,7 +23,14 @@ function updateProblemVisualForStep(problem, step, state) {
   ui.visualArea.dataset.revealedStep = "";
   ui.visualArea.dataset.attemptStep = "";
   ui.visualArea.dataset.attemptValue = "";
+  setFarmFlowPhase("enter");
   renderFarmBoard(problem, state);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setFarmFlowPhase("active");
+      ui.choices.querySelector("button")?.focus({ preventScroll: true });
+    });
+  });
 }
 
 function revealCorrectStep(problem, step, state) {
@@ -43,6 +50,7 @@ function renderAttempt(problem, step, selected, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.id;
+  ui.choices.dataset.interaction = "tap-choice";
   for (const selected of step.choices) {
     const button = document.createElement("button");
     button.type = "button";
@@ -50,13 +58,56 @@ function renderChoicesForStep(problem, step, state, choose) {
     button.dataset.choice = selected.id;
     button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
     button.setAttribute("aria-label", selected.label);
-    const value = document.createElement("strong");
-    value.textContent = selected.label;
-    button.appendChild(value);
+    if (step.id === "combine") {
+      button.classList.add("farm-choice--digits");
+      for (const digit of String(selected.value).padStart(2, "0")) {
+        const piece = document.createElement("span");
+        piece.className = "farm-digit-piece";
+        piece.textContent = digit;
+        button.appendChild(piece);
+      }
+    } else {
+      const value = document.createElement("strong");
+      value.textContent = selected.label;
+      button.appendChild(value);
+    }
     button.addEventListener("click", () => choose(selected, button));
     ui.choices.appendChild(button);
   }
   return true;
+}
+
+function onStepCorrect() {
+  setFarmFlowPhase("confirm");
+  return pulseScene("correct");
+}
+
+function onStepWrong() {
+  setFarmFlowPhase("wrong");
+  return pulseScene("wrong").then(() => {
+    setFarmFlowPhase("active");
+  });
+}
+
+function onProblemComplete() {
+  setFarmFlowPhase("complete");
+  return pulseScene("complete");
+}
+
+function onRewardReveal() {
+  return pulseScene("reward");
+}
+
+function pulseScene(stateName) {
+  const scene = document.querySelector(".farm-stage-art");
+  if (!scene) return Promise.resolve();
+  scene.dataset.sceneState = stateName;
+  return new Promise((resolve) => setTimeout(resolve, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 360));
+}
+
+function setFarmFlowPhase(phase) {
+  const grid = document.querySelector("#screen-play .problem-grid");
+  if (grid) grid.dataset.flowPhase = phase;
 }
 
 function renderFarmBoard(problem, state) {
@@ -64,39 +115,41 @@ function renderFarmBoard(problem, state) {
   const revealedStep = ui.visualArea.dataset.revealedStep;
   const attemptStep = ui.visualArea.dataset.attemptStep;
   const attemptValue = ui.visualArea.dataset.attemptValue;
-  const tensDone = state.stepIndex > 0 || revealedStep === "tens";
-  const onesDone = state.stepIndex > 1 || revealedStep === "ones";
+  const tensDone = revealedStep === "tens";
+  const onesDone = revealedStep === "ones";
   const combineDone = revealedStep === "combine";
   const selectedValue = attemptStep === step.id && attemptValue !== "" ? attemptValue : "?";
   const tensValue = step.id === "tens" && !tensDone ? selectedValue : (tensDone ? problem.tensQuotient : "?");
   const onesValue = step.id === "ones" && !onesDone ? selectedValue : (onesDone ? problem.onesQuotient : "?");
   const totalValue = step.id === "combine" && !combineDone ? selectedValue : (combineDone ? problem.quotient : "?");
+  const current = step.id === "tens"
+    ? {
+        calculation: `${problem.tens}묶음 ÷ ${problem.divisor} = ${tensValue}묶음`,
+        question: "한 바구니에는 몇 묶음?",
+      }
+    : step.id === "ones"
+      ? {
+          calculation: `${problem.ones}개 ÷ ${problem.divisor} = ${onesValue}개`,
+          question: "한 바구니에는 몇 개?",
+        }
+      : {
+          calculation: combineDone
+            ? `${problem.dividend} ÷ ${problem.divisor} = ${totalValue}`
+            : `${problem.tensQuotient}  ${problem.onesQuotient}`,
+          question: combineDone ? "몫을 완성했어요!" : "두 숫자로 만든 몫은?",
+        };
 
   const svg = document.createElementNS(FARM_SVG_NS, "svg");
   svg.classList.add("place-value-farm-svg");
-  svg.setAttribute("viewBox", "0 0 700 455");
+  svg.setAttribute("viewBox", "0 0 700 330");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", `${problem.prompt}, ${step.instruction}`);
   svg.innerHTML = `
     <title>${problem.prompt} 자리 나누기</title>
-    <rect x="14" y="12" width="672" height="430" rx="34" class="farm-board-bg"/>
+    <rect x="14" y="10" width="672" height="310" rx="34" class="farm-board-bg"/>
     <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="350" y="72" class="farm-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-
-      <rect x="44" y="105" width="292" height="180" rx="24" class="farm-place-panel ${step.id === "tens" ? "is-current-panel" : ""}"/>
-      <text x="190" y="145" class="farm-label">10개 묶음 몫</text>
-      <text x="190" y="202" class="farm-calc">${problem.tens}묶음 ÷ ${problem.divisor}</text>
-      <text x="190" y="258" class="farm-answer ${step.id === "tens" ? "is-current" : ""}">${tensValue}묶음</text>
-
-      <rect x="364" y="105" width="292" height="180" rx="24" class="farm-place-panel ${step.id === "ones" ? "is-current-panel" : ""}"/>
-      <text x="510" y="145" class="farm-label">낱개 몫</text>
-      <text x="510" y="202" class="farm-calc">${problem.ones}개 ÷ ${problem.divisor}</text>
-      <text x="510" y="258" class="farm-answer ${step.id === "ones" ? "is-current" : ""}">${onesValue}개</text>
-
-      <rect x="128" y="316" width="444" height="94" rx="25" class="farm-total-panel ${step.id === "combine" ? "is-current-panel" : ""}"/>
-      <text x="250" y="352" class="farm-label">전체 몫</text>
-      <text x="250" y="390" class="farm-place-hint">십의 자리 · 일의 자리</text>
-      <text x="470" y="382" class="farm-total ${step.id === "combine" ? "is-current" : ""}">${totalValue}</text>
+      <text x="350" y="128" class="farm-calc farm-decision-value">${current.calculation}</text>
+      <text x="350" y="226" class="farm-answer farm-decision-question">${current.question}</text>
     </g>
   `;
   ui.visualArea.replaceChildren(svg);
