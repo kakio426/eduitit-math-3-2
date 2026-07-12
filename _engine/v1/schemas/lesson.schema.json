@@ -101,6 +101,7 @@
           "weight": { "type": "number", "minimum": 1 },
           "min": { "type": "number" },
           "max": { "type": "number" },
+          "rarity": { "enum": ["common", "rare", "legend"] },
           "special": { "type": "boolean" }
         },
         "additionalProperties": true
@@ -214,7 +215,9 @@
         "requiredFlow": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
-        }
+        },
+        "modelRule": { "type": "string", "minLength": 1 },
+        "directInteractionRequired": { "type": "boolean" }
       }
     }
   },
