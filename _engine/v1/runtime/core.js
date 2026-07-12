@@ -35,6 +35,7 @@ const ui = {
   problemText: document.getElementById("problemTitle"),
   instructionText: document.getElementById("stepInstruction"),
   visualArea: document.getElementById("visualArea"),
+  playMathmonReaction: document.getElementById("playMathmonReaction"),
   choices: document.getElementById("choicesPanel"),
   feedback: document.getElementById("feedbackLine"),
   answerSlot: document.getElementById("answerSlot"),
@@ -49,6 +50,7 @@ const ui = {
   rewardPop: document.getElementById("rewardPop"),
   rewardVisual: document.getElementById("rewardVisual"),
   modalRewardLabel: document.getElementById("modalRewardLabel"),
+  modalRewardOpenButton: document.getElementById("modalRewardOpenButton"),
   modalRewardNextButton: document.getElementById("modalRewardNextButton"),
   resultBg: document.getElementById("resultBg"),
   resultTitleArt: document.getElementById("resultTitleArt"),
@@ -98,7 +100,45 @@ function createInitialState() {
     scoreboardQuestionStartedAt: 0,
     scoreboardStepStartedAt: 0,
     stepAttempts: [],
+    inputLocked: false,
+    pendingRewardEvent: null,
+    rewardPhase: "idle",
   };
+}
+
+async function runViewHook(name, payload) {
+  const hook = globalThis[name];
+  if (typeof hook !== "function") return;
+  try {
+    await hook(payload);
+  } catch (error) {
+    console.warn(`${name} failed`, error);
+  }
+}
+
+function showMathmonReaction(kind) {
+  const assets = LESSON_CONFIG.imageAssets?.mathmonReactions;
+  const source = assets?.[kind];
+  if (!ui.playMathmonReaction || !source) return Promise.resolve();
+  ui.playMathmonReaction.src = source;
+  ui.playMathmonReaction.hidden = false;
+  ui.playMathmonReaction.dataset.reaction = kind;
+  const wait = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+  return new Promise((resolve) => setTimeout(resolve, wait));
+}
+
+function setProblemSceneState(kind) {
+  const source = LESSON_CONFIG.imageAssets?.problemStates?.[kind];
+  const scene = document.querySelector("#screen-play > img:not(.play-mathmon-reaction)");
+  if (!scene || !source) return Promise.resolve();
+  scene.dataset.problemSceneState = kind;
+  if (scene.getAttribute("src") === source && scene.complete) return Promise.resolve();
+  scene.src = source;
+  if (scene.complete) return Promise.resolve();
+  return new Promise((resolve) => {
+    scene.addEventListener("load", resolve, { once: true });
+    scene.addEventListener("error", resolve, { once: true });
+  });
 }
 
 function readAudioFlag(key, fallback) {
@@ -151,9 +191,19 @@ function playSample(kind) {
   const oscillator = ctx.createOscillator();
   const gain = ctx.createGain();
   const now = ctx.currentTime;
-  const frequency = kind === "success" ? 720 : kind === "reward" ? 520 : kind === "scoreboard" ? 440 : 260;
+  const frequencies = {
+    "step-correct": 720,
+    "step-wrong": 260,
+    "problem-complete": 840,
+    "reward-open": 520,
+    "reward-rare": 660,
+    "reward-legend": 920,
+    result: 600,
+    scoreboard: 440,
+  };
+  const frequency = frequencies[kind] || 420;
   oscillator.frequency.setValueAtTime(frequency, now);
-  oscillator.type = kind === "error" ? "sawtooth" : "sine";
+  oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
   gain.gain.setValueAtTime(0.001, now);
   gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
   gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
@@ -246,6 +296,7 @@ function renderProblem() {
   ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
   ui.completeText.textContent = "";
   if (typeof renderProblemVisual === "function") renderProblemVisual(problem, state);
+  setProblemSceneState("waiting");
   renderStep();
   syncProgress();
   showScreen("play");
@@ -288,8 +339,9 @@ function renderStep() {
   if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
 }
 
-function handleChoice(choice, button) {
-  if (state.pendingAdvance) return;
+async function handleChoice(choice, button) {
+  if (state.pendingAdvance || state.inputLocked) return;
+  state.inputLocked = true;
   const problem = state.problems[state.problemIndex];
   const step = problem.steps[state.stepIndex];
   const correct = LessonModel.validateChoice(step, choice);
@@ -307,7 +359,11 @@ function handleChoice(choice, button) {
     ui.feedback.textContent = getChoiceFeedback(choice) || step.wrongText || "다시 골라 봐요.";
     ui.instructionText.hidden = true;
     if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: false, button });
-    playSample("error");
+    playSample("step-wrong");
+    await setProblemSceneState("waiting");
+    await showMathmonReaction("wrong");
+    await runViewHook("onStepWrong", { problem, step, choice, state, button });
+    state.inputLocked = false;
     return;
   }
 
@@ -320,9 +376,12 @@ function handleChoice(choice, button) {
   ui.instructionText.hidden = true;
   ui.answerSlot.textContent = step.reveal || step.correctText || String(step.answer);
   ui.answerSlot.classList.add("is-filled");
-  playSample("success");
+  playSample("step-correct");
+  await setProblemSceneState("working");
+  await showMathmonReaction("correct");
   if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: true, button });
   if (typeof revealCorrectStep === "function") revealCorrectStep(problem, step, state);
+  await runViewHook("onStepCorrect", { problem, step, choice, state, button });
 
   if (state.stepIndex < problem.steps.length - 1) {
     state.pendingAdvance = true;
@@ -330,6 +389,7 @@ function handleChoice(choice, button) {
     setTimeout(() => {
       state.stepIndex += 1;
       state.pendingAdvance = false;
+      state.inputLocked = false;
       state.stepAttempts = [];
       renderStep();
     }, Math.max(0, delay));
@@ -337,12 +397,17 @@ function handleChoice(choice, button) {
   }
 
   state.completed = true;
+  await setProblemSceneState("complete");
   if (!state.mistakeTouched) state.correctFirstTry += 1;
+  await runViewHook("onProblemComplete", { problem, step, choice, state });
+  await showMathmonReaction("reward");
+  playSample("problem-complete");
   ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
   ui.completePanel.classList.add("is-visible");
   ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
   ui.continueButton.hidden = false;
   ui.continueButton.focus();
+  state.inputLocked = false;
 }
 
 function getChoiceLabel(choice) {
@@ -367,6 +432,48 @@ function getChoiceFeedback(choice) {
     : "";
 }
 
+function wireDirectChoice(button, dropTarget, choice, choose) {
+  button.draggable = true;
+  button.dataset.directChoice = "true";
+  const submit = () => choose(choice, button);
+  button.addEventListener("click", submit);
+  button.addEventListener("dragstart", (event) => {
+    event.dataTransfer?.setData("text/plain", getChoiceId(choice));
+    button.dataset.dragging = "true";
+    dropTarget.__directChoice = { choice, button };
+  });
+  button.addEventListener("dragend", () => { delete button.dataset.dragging; });
+  if (dropTarget.dataset.directDropReady !== "true") {
+    dropTarget.dataset.directDropReady = "true";
+    dropTarget.addEventListener("dragover", (event) => event.preventDefault());
+    dropTarget.addEventListener("drop", (event) => {
+      event.preventDefault();
+      const active = dropTarget.__directChoice;
+      if (active) choose(active.choice, active.button);
+      dropTarget.__directChoice = null;
+    });
+  }
+
+  let start = null;
+  button.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse") return;
+    start = { x: event.clientX, y: event.clientY };
+    button.setPointerCapture(event.pointerId);
+  });
+  button.addEventListener("pointermove", (event) => {
+    if (!start) return;
+    button.style.translate = `${event.clientX - start.x}px ${event.clientY - start.y}px`;
+  });
+  button.addEventListener("pointerup", (event) => {
+    if (!start) return;
+    const rect = dropTarget.getBoundingClientRect();
+    const dropped = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    start = null;
+    button.style.translate = "";
+    if (dropped) submit();
+  });
+}
+
 function renderStepChips(problem) {
   ui.stepChips.innerHTML = "";
   problem.steps.forEach((step, index) => {
@@ -384,19 +491,15 @@ function showReward() {
   const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
   const firstTry = !state.mistakeTouched;
   const event = LessonModel.pickRewardEvent(rng, !firstTry);
-  const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
-  if (rewardPatch && typeof rewardPatch === "object") {
-    if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
-    if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
-  }
-  finishScoreboardQuestion(event);
-  state.lastRewardEvent = event;
-  playSample("reward");
+  state.pendingRewardEvent = event;
+  state.rewardPhase = "closed";
 
   if (getRewardMode() === "modal-art") {
     openRewardModal(event);
     return;
   }
+
+  applyPendingReward(event);
 
   ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
   if (ui.rewardScene instanceof HTMLImageElement) {
@@ -410,17 +513,86 @@ function showReward() {
 }
 
 function openRewardModal(event) {
-  ui.modalRewardLabel.textContent = formatRewardText(event);
+  if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
+  ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
   ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
+  ui.rewardPop.dataset.reward = "closed";
+  ui.rewardPop.dataset.rarity = event.rarity || "common";
+  ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
+  ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
+  ui.modalRewardOpenButton.hidden = false;
+  ui.modalRewardOpenButton.disabled = false;
+  ui.modalRewardNextButton.hidden = true;
+  ui.rewardPop.hidden = false;
+  ui.modalRewardOpenButton.focus();
+}
+
+function applyPendingReward(event) {
+  const firstTry = !state.mistakeTouched;
+  const beforePower = state.power;
+  const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
+  if (rewardPatch && typeof rewardPatch === "object") {
+    if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
+    if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
+  }
+  finishScoreboardQuestion(event);
+  state.lastRewardEvent = event;
+  return beforePower;
+}
+
+async function revealRewardModal() {
+  if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+  const event = state.pendingRewardEvent;
+  state.rewardPhase = "opening";
+  ui.modalRewardOpenButton.disabled = true;
+  ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
+  await nextAnimationFrame();
+  const beforePower = applyPendingReward(event);
   ui.rewardPop.dataset.reward = event.family || event.id || "";
   ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
-  ui.rewardPop.hidden = false;
+  ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
+  playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+  await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+  await animateRewardValue(event);
+  state.rewardPhase = "revealed";
+  ui.modalRewardOpenButton.hidden = true;
+  ui.modalRewardOpenButton.disabled = false;
+  ui.modalRewardNextButton.hidden = false;
   ui.modalRewardNextButton.focus();
+}
+
+function nextAnimationFrame() {
+  return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+function animateRewardValue(event) {
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = reduceMotion ? 0 : 650;
+  const target = Number(event.amount) || 0;
+  const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+  return new Promise((resolve) => {
+    const started = performance.now();
+    const tick = (now) => {
+      const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
+      const value = Math.round(target * progress);
+      ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+      if (progress < 1) requestAnimationFrame(tick);
+      else resolve();
+    };
+    requestAnimationFrame(tick);
+  });
 }
 
 function closeRewardModal() {
   ui.rewardPop.hidden = true;
   ui.rewardPop.dataset.reward = "";
+  ui.rewardPop.dataset.rarity = "";
+  state.pendingRewardEvent = null;
+  state.rewardPhase = "idle";
+}
+
+function getRewardClosedImage() {
+  return LESSON_CONFIG.imageAssets.rewardClosed || LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
 }
 
 function getRewardImage(event) {
@@ -449,13 +621,14 @@ function advanceAfterReward() {
 function showResult() {
   const result = getCurrentResult();
   state.currentResult = result;
-  ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.cover;
+  playSample("result");
+  ui.resultBg.src = LESSON_CONFIG.imageAssets.resultScene || result.image || LESSON_CONFIG.imageAssets.cover;
   ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
   ui.resultTitleArt.alt = "";
   ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
   ui.resultSummary.textContent = result.summary || "";
   if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
-  if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `힘 ${state.power}`;
+  if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
   if (ui.resultMeasureFillSvg) {
     const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
     const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
@@ -467,7 +640,7 @@ function showResult() {
   if (correctArt) ui.resultCorrectArt.src = correctArt;
 
   const fullScene = getResultRenderMode() === "fullscene-score-slot";
-  ui.resultTitleArt.hidden = fullScene;
+  ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
   screens.result.dataset.resultTier = result.id || "";
 
   const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -634,6 +807,7 @@ ui.nextTutorialButton.addEventListener("click", continueTutorial);
 ui.backTutorialButton?.addEventListener("click", previousTutorial);
 ui.continueButton.addEventListener("click", showReward);
 ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
 ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
 ui.retryButton.addEventListener("click", startGame);
 ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
@@ -665,6 +839,9 @@ window.__mathmonEngineQa = {
   getState: () => ({
     screen: state.screen,
     problemIndex: state.problemIndex,
+    stepIndex: state.stepIndex,
+    inputLocked: state.inputLocked,
+    pendingAdvance: state.pendingAdvance,
     power: state.power,
     correctFirstTry: state.correctFirstTry,
     answers: state.scoreboardAnswers,

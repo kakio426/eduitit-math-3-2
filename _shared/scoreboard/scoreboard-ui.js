@@ -560,6 +560,7 @@
       state.gameStartedAt = Math.round(performance.now());
       state.sessionPromise = startSession();
       renderBridge();
+      return state.sessionPromise;
     }
 
     async function submitScoreboardIfNeeded() {
@@ -649,7 +650,8 @@
       open,
       refresh,
       render: renderBridge,
-      getSession: () => state.session
+      getSession: () => state.session,
+      getSessionPromise: () => state.sessionPromise
     });
   }
 

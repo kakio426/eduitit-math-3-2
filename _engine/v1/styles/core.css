@@ -206,6 +206,8 @@
       backdrop-filter: blur(10px);
     }
     .brand-badge img { margin-right: 0; }
+    .brand-badge--logo { gap: 8px; }
+    .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
     .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
     .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
     .topic-badge {
@@ -293,6 +295,24 @@
     .tutorial-card strong { font-size: clamp(1.28rem, 2.2vw, 1.72rem); line-height: 1.18; }
     .tutorial-card p { margin: 0; color: #d7cadb; font-size: 1.02rem; line-height: 1.4; font-weight: 850; }
     .tutorial-action { display: grid; place-items: center; }
+
+    .game[data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #13202a; }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-grid > .screen-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+    .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+    .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 31%; bottom: 1.5%; width: 38%; height: 15%; }
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 72%; bottom: 1%; width: 27%; height: 14%; }
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 24%; height: 14%; }
     .primary-button {
       min-width: 190px;
       min-height: 72px;
@@ -404,6 +424,30 @@
     .complete-panel.is-visible { display: grid; }
     .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
     .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+    .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
+    .problem-grid.is-complete .step-chips,
+    .problem-grid.is-complete .instruction,
+    .problem-grid.is-complete .feedback-line { display: none; }
+    .play-mathmon-reaction {
+      position: absolute;
+      z-index: 4;
+      left: 18px;
+      bottom: 18px;
+      width: 156px;
+      height: 194px;
+      object-fit: contain;
+      object-position: left bottom;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.28));
+      animation: mathmon-reaction-pop .42s cubic-bezier(.2,.85,.25,1.25);
+    }
+    @keyframes mathmon-reaction-pop {
+      from { opacity: 0; transform: translateY(18px) scale(.84); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .play-mathmon-reaction { animation: none; filter: brightness(1.08) drop-shadow(0 8px 12px rgba(0,0,0,.22)); }
+    }
     .reward { background: #102839; }
     .reward-panel {
       position: absolute;
@@ -454,6 +498,11 @@
       padding: 24px;
       text-align: center;
     }
+    .reward-card[data-reward-phase="closed"] .reward-visual { transform: scale(.94); filter: brightness(.78) saturate(.8); }
+    .reward-card[data-reward-phase="opening"] .reward-visual { animation: reward-open-pulse .42s ease both; }
+    .reward-pop[data-rarity="rare"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 3px rgba(255,210,89,.55), 0 26px 70px rgba(0,0,0,.52); }
+    .reward-pop[data-rarity="legend"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 4px rgba(126,244,255,.72), 0 0 48px rgba(255,117,244,.5), 0 26px 70px rgba(0,0,0,.52); }
+    @keyframes reward-open-pulse { 0% { transform: scale(.92) rotate(-1deg); } 55% { transform: scale(1.06) rotate(1deg); } 100% { transform: scale(1); } }
     .reward-visual {
       width: 250px;
       height: 250px;
@@ -531,5 +580,8 @@
       .cover-start-button { width: 400px; height: 142px; }
       .result-title-art { width: 52%; }
       .result-correct-art { left: 82px; top: 410px; width: 230px; }
+    }
+    @media (max-width: 1100px) {
+      .topic-badge { left: auto; right: var(--stage-inset); }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
