@@ -37,18 +37,9 @@ function checkInvariant(rule, problem) {
     assert.equal(Math.floor(problem.dividend / 10) % problem.divisor, 0, `${problem.id}: tens exact`);
     assert.equal((problem.dividend % 10) % problem.divisor, 0, `${problem.id}: ones exact`);
     assert.equal(problem.quotient, problem.dividend / problem.divisor, `${problem.id}: quotient`);
-    assert.ok(problem.ones > 0, `${problem.id}: meaningful ones step`);
-    assert.ok(problem.divisor >= 2 && problem.divisor <= 5, `${problem.id}: share builder keeps two to five baskets`);
-    assert.equal(problem.steps.map((step) => step.id).join(","), "tens,ones,quotient", `${problem.id}: distribute tens, distribute ones, then write quotient`);
-    assert.equal(problem.tensShare, (problem.tens * 10) / problem.divisor, `${problem.id}: tens share`);
-    assert.equal(problem.tensShare + problem.onesQuotient, problem.quotient, `${problem.id}: quotient is completed from both shares`);
-    assert.equal(problem.steps[0].answer * problem.divisor, problem.tens, `${problem.id}: built tens share accounts for every bundle`);
-    assert.equal(problem.steps[1].answer * problem.divisor, problem.ones, `${problem.id}: built ones share accounts for every vegetable`);
-    assert.ok(problem.steps.slice(0, 2).every((step) => step.interaction === "distribute-equal"), `${problem.id}: student chooses every basket destination`);
-    assert.ok(problem.steps.slice(0, 2).every((step) => step.choices.some((choice) => choice.misconceptionId === "DIV1_UNEQUAL_GROUPS")), `${problem.id}: unequal distribution is a real wrong state`);
-    assert.equal(problem.steps[2].interaction, "enter-quotient", `${problem.id}: student writes the completed quotient`);
-    assert.equal(problem.steps[2].answer, problem.quotient, `${problem.id}: quotient entry answer`);
-    assert.ok(problem.steps[2].choices.some((choice) => choice.misconceptionId === "DIV1_QUOTIENT_COUNT_ERROR"), `${problem.id}: quotient count error state`);
+    assert.equal(problem.steps.length, 3, `${problem.id}: three learning actions`);
+    assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV1_DIVIDE_FULL_TENS_VALUE"), `${problem.id}: place-value misconception`);
+    assert.ok(problem.steps[2].choices.some((choice) => choice.misconceptionId === "DIV1_COMBINE_BY_ADDING_DIGITS"), `${problem.id}: combine misconception`);
     return;
   }
   if (rule === "division-regrouping-exact") {
@@ -154,7 +145,7 @@ function simulateRewards(model, config, runs = 10000) {
 
 function checkViewContract(rule, config, modelSource, viewSource, runtimeSource) {
   const expected = {
-    "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-instruction/, /farm-distribution-value/, /수확 점수|농장 등급|진행도/],
+    "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-decision-value/, /farm-decision-question/, /수확 점수|농장 등급|진행도/],
     "division-regrouping-exact": ["division-elevator", "board-shaft-generated.webp", /elevator-math-svg/, /십의 자리 몫/, /남은 십/, /보상 점수|엘리베이터 등급/],
     "division-with-remainder": ["remainder-stars", "result-stage.webp", /star-proof-bar/, /남은 별/, /만든 묶음/, /닉네임|별 이름|진행도|등급/],
     "division-check-lock": ["check-lock-bars", "board-vault-generated.webp", /check-lock-svg/, /처음 수/, /나누는 수 × 몫/, /보안 점수|금고 등급|진행도/],
@@ -167,19 +158,8 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
   assert.match(viewSource, expected[4], `${config.id}: second visible math label`);
   assert.doesNotMatch(viewSource, expected[5], `${config.id}: reward/result text must stay out of play view`);
   if (rule === "division-place-value-exact") {
-    assert.match(viewSource, /dataset\.interaction = "distribute-to-baskets"/, `${config.id}: student chooses every basket destination`);
-    assert.match(viewSource, /dataset\.interaction = "enter-quotient"/, `${config.id}: student enters the quotient`);
-    assert.match(viewSource, /animateFarmTokenTransfer/, `${config.id}: chosen vegetables visibly move into the basket`);
-    assert.match(viewSource, /farm-check-button/, `${config.id}: student validates the constructed share`);
-    assert.match(viewSource, /checkButton\.disabled = remaining > 0 \|\| selectedStock \|\| locked/, `${config.id}: checking is blocked until every unit has a student-chosen destination`);
-    assert.match(viewSource, /farm-basket-drop/, `${config.id}: basket destination remains a student decision`);
-    assert.match(viewSource, /basketCounts\.every\(\(count\) => count === step\.answer\)/, `${config.id}: wrong state checks every basket`);
-    assert.match(viewSource, /for \(let index = 0; index < problem\.divisor/, `${config.id}: correct share expands to every basket only after validation`);
-    assert.doesNotMatch(viewSource, /build-one-basket-share|distribute-vegetables|farm-move-button|animateFarmRound/, `${config.id}: guess-and-check or answer-performing distribution returned`);
+    assert.match(viewSource, /dataset\.interaction = "tap-choice"/, `${config.id}: one-decision tap choices`);
     assert.doesNotMatch(viewSource, /farm-drop-zone|farm-progress-panel|drag-basket/, `${config.id}: preview or drag UI returned`);
-    assert.doesNotMatch(modelSource, /makeNumericChoices/, `${config.id}: four-choice generator returned`);
-    assert.doesNotMatch(modelSource, /makeShareChoices/, `${config.id}: incremental one-basket guess checker returned`);
-    assert.doesNotMatch(modelSource, /id: "combine"|두 숫자로 몫/, `${config.id}: redundant combine quiz returned`);
     assert.match(viewSource, /setFarmFlowPhase\("confirm"\)/, `${config.id}: confirmation phase`);
   }
   if (rule === "division-with-remainder") {
