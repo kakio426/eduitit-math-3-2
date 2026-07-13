@@ -9,7 +9,7 @@
   "topic": "나머지가 있는 나눗셈",
   "unitBadge": "2단원 나눗셈",
   "goal": "묶고 남은 별을 찾아요.",
-  "action": "가능한 묶음 수와 남은 별을 고른다.",
+  "action": "넘지 않게 가장 많은 묶음을 골라요.",
   "buttonLabel": "별빛 열기",
   "rewardScreenTitle": "별빛",
   "progressLabel": "별빛",
@@ -17,41 +17,73 @@
   "tutorialTitle": "별을 줍기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "title": "어떻게 풀어요?", "body": "같은 수로 묶고 남은 별을 찾아요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "title": "무엇을 얻어요?", "body": "10문제를 풀고 마지막 별 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 풀어요?", "body": "별을 묶고 남은 별을 세어요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 별 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art",
     "maxPower": 100,
+    "unitLabel": "별빛",
+    "closedLabel": "별병을 열어 봐요.",
     "nextLabel": "다음",
     "artMap": {
-      "meteor": "star.webp",
-      "cloud": "star.webp",
-      "bigMeteor": "star.webp",
-      "shooting": "star.webp",
-      "dark": "star.webp",
-      "rainbow": "star.webp"
+      "meteor": "reward-event-meteor-generated.webp",
+      "cloud": "reward-event-cloud-generated.webp",
+      "bigMeteor": "reward-event-big-meteor-generated.webp",
+      "shooting": "reward-event-shooting-generated.webp",
+      "dark": "reward-event-dark-generated.webp",
+      "rainbow": "reward-event-rainbow-generated.webp"
+    },
+    "spriteSheet": {
+      "columns": 3,
+      "rows": 2,
+      "slots": {
+        "meteor": [0, 0],
+        "cloud": [1, 0],
+        "bigMeteor": [2, 0],
+        "shooting": [0, 1],
+        "dark": [1, 1],
+        "rainbow": [2, 1]
+      }
     }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic" },
-  "workbench": { "type": "remainder-stars" },
+  "result": {
+    "renderMode": "hybrid-generated-dynamic",
+    "stateImageSet": {
+      "count": 6,
+      "canvas": "1280x800",
+      "runtimeSlot": "1280x800",
+      "contactSheet": "result-title-contact-sheet.png",
+      "sceneBackground": "result-scene-generated.webp",
+      "protagonist": "base-08-unicornmon",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["star-light", "correct-count"]
+    }
+  },
+  "workbench": {
+    "type": "remainder-stars",
+    "learningFlow": ["choose-group-limit", "choose-leftover-stars", "confirm-identity"]
+  },
   "scoreboard": { "enabled": false },
+  "mathmonPack": "base-pack",
+  "mathmonName": "유니콘몬",
+  "mathmonId": "base-08-unicornmon",
   "results": [
-    { "id": "dust", "name": "별먼지", "minPower": 0, "minCorrect": 0, "image": "result-star-dust.webp", "titleImage": "result-star-dust.webp" },
-    { "id": "small", "name": "작은별", "minPower": 19, "minCorrect": 2, "image": "result-star-small.webp", "titleImage": "result-star-small.webp" },
-    { "id": "constellation", "name": "별자리", "minPower": 35, "minCorrect": 4, "image": "result-star-constellation.webp", "titleImage": "result-star-constellation.webp" },
-    { "id": "galaxy", "name": "은하", "minPower": 53, "minCorrect": 6, "image": "result-star-galaxy.webp", "titleImage": "result-star-galaxy.webp" },
-    { "id": "universe", "name": "대우주", "minPower": 75, "minCorrect": 8, "image": "result-star-universe.webp", "titleImage": "result-star-universe.webp" },
-    { "id": "rainbow", "name": "무지개 초신성", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-star-rainbow.webp", "titleImage": "result-star-rainbow.webp" }
+    { "id": "dust", "name": "별먼지", "minPower": 0, "minCorrect": 0, "image": "result-star-dust.webp", "titleImage": "result-title-dust-generated.webp" },
+    { "id": "small", "name": "작은별", "minPower": 19, "minCorrect": 2, "image": "result-star-small.webp", "titleImage": "result-title-small-generated.webp" },
+    { "id": "constellation", "name": "별자리", "minPower": 35, "minCorrect": 4, "image": "result-star-constellation.webp", "titleImage": "result-title-constellation-generated.webp" },
+    { "id": "galaxy", "name": "은하", "minPower": 53, "minCorrect": 6, "image": "result-star-galaxy.webp", "titleImage": "result-title-galaxy-generated.webp" },
+    { "id": "universe", "name": "대우주", "minPower": 75, "minCorrect": 8, "image": "result-star-universe.webp", "titleImage": "result-title-universe-generated.webp" },
+    { "id": "rainbow", "name": "무지개 초신성", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-star-rainbow.webp", "titleImage": "result-title-rainbow-generated.webp" }
   ],
   "rewardEvents": [
-    { "id": "meteor", "text": "별빛이 늘었어요", "weight": 7200, "min": 4, "max": 8, "family": "meteor" },
-    { "id": "cloud", "text": "별빛이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "cloud" },
-    { "id": "bigMeteor", "text": "별빛이 크게 늘었어요", "weight": 1000, "min": 12, "max": 20, "family": "bigMeteor" },
-    { "id": "shooting", "text": "별똥별!", "weight": 300, "min": 6, "max": 6, "family": "shooting", "express": true },
-    { "id": "dark", "text": "별빛 0", "weight": 280, "min": 0, "max": 0, "family": "dark", "emptiesPower": true },
-    { "id": "rainbow", "text": "초신성!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "special": true }
+    { "id": "meteor", "text": "별빛이 늘었어요", "weight": 7200, "min": 4, "max": 8, "family": "meteor", "rarity": "common" },
+    { "id": "cloud", "text": "별빛이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "cloud", "rarity": "common" },
+    { "id": "bigMeteor", "text": "별빛이 크게 늘었어요", "weight": 1000, "min": 12, "max": 20, "family": "bigMeteor", "rarity": "rare" },
+    { "id": "shooting", "text": "별똥별!", "weight": 300, "min": 6, "max": 6, "family": "shooting", "rarity": "rare", "express": true },
+    { "id": "dark", "text": "별빛 0", "weight": 280, "min": 0, "max": 0, "family": "dark", "rarity": "common", "emptiesPower": true },
+    { "id": "rainbow", "text": "초신성!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "rarity": "legend", "special": true }
   ],
   "wrongEvent": { "id": "cloud", "text": "별빛이 줄었어요", "min": -18, "max": -8, "family": "cloud" },
   "typesPerRun": ["remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder"],
@@ -62,16 +94,34 @@
     "titleArt": "title-logo-generated.webp",
     "startButton": "start-button-generated.webp",
     "problemStage": "result-stage.webp",
-    "rewardScene": "star.webp",
-    "resultRetryButton": "start-button-generated.webp"
+    "problemStates": { "waiting": "problem-state-waiting-generated.webp", "working": "problem-state-working-generated.webp", "complete": "problem-state-complete-generated.webp" },
+    "rewardClosed": "reward-closed-generated.webp",
+    "rewardScene": "result-stage.webp",
+    "resultScene": "result-scene-generated.webp",
+    "mathmonReactions": {
+      "correct": "mathmon-reaction-correct.webp",
+      "wrong": "mathmon-reaction-wrong.webp",
+      "reward": "mathmon-reaction-reward.webp"
+    },
+    "resultRetryButton": "result-retry-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
-    "result-stage.webp", "star.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "result-stage.webp", "reward-closed-generated.webp", "reward-events-sprite-generated.webp",
+    "problem-state-waiting-generated.webp", "problem-state-working-generated.webp", "problem-state-complete-generated.webp",
+    "mathmon-reaction-correct.webp", "mathmon-reaction-wrong.webp", "mathmon-reaction-reward.webp",
+    "result-scene-generated.webp", "result-title-dust-generated.webp", "result-title-small-generated.webp", "result-title-constellation-generated.webp", "result-title-galaxy-generated.webp", "result-title-universe-generated.webp", "result-title-rainbow-generated.webp",
+    "result-retry-button-generated.webp",
+    "reward-event-meteor-generated.webp", "reward-event-cloud-generated.webp", "reward-event-big-meteor-generated.webp",
+    "reward-event-shooting-generated.webp", "reward-event-dark-generated.webp", "reward-event-rainbow-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
     "result-star-dust.webp", "result-star-small.webp", "result-star-constellation.webp",
     "result-star-galaxy.webp", "result-star-universe.webp", "result-star-rainbow.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
+    "modelRule": "division-with-remainder",
+    "directInteractionRequired": true,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }

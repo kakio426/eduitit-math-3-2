@@ -33,8 +33,8 @@ const Lesson2StarPickupModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
-  function choice(id, value, label, misconceptionId = null, feedback = "") {
-    return { id, value, label, misconceptionId, feedback };
+  function choice(id, value, label, misconceptionId = null, feedback = "", meta = {}) {
+    return { id, value, label, misconceptionId, feedback, ...meta };
   }
 
   function makeProblem(rng, serial, used) {
@@ -65,30 +65,41 @@ const Lesson2StarPickupModel = (() => {
         {
           id: "quotient",
           label: "몫",
-          instruction: `${divisor}개씩 몇 묶음일까요?`,
+          instruction: `${dividend}개를 넘지 않게 가장 많이 묶어요.`,
           answer: quotient,
           answerChoiceId: quotientAnswerId,
           choices: shuffle([
-            choice(quotientAnswerId, quotient, `${quotient}묶음`),
-            choice(`quotient:${quotient + 1}`, quotient + 1, `${quotient + 1}묶음`, "DIV3_QUOTIENT_TOO_HIGH", `${quotient + 1}묶음은 별이 모자라요.`),
-            choice(`quotient:${quotient - 1}`, quotient - 1, `${quotient - 1}묶음`, "DIV3_QUOTIENT_TOO_LOW", "한 묶음 더 만들 수 있어요."),
-            choice(`quotient:${quotient + 2}`, quotient + 2, `${quotient + 2}묶음`, "DIV3_QUOTIENT_TOO_HIGH", `${quotient + 2}묶음은 별이 모자라요.`)
+            choice(quotientAnswerId, quotient, `${quotient}묶음`, null, "", {
+              product: divisor * quotient,
+              gap: remainder,
+              relation: "fit"
+            }),
+            choice(`quotient:${quotient + 1}`, quotient + 1, `${quotient + 1}묶음`, "DIV3_QUOTIENT_TOO_HIGH", `별 ${divisor - remainder}개가 모자라요.`, {
+              product: divisor * (quotient + 1),
+              gap: remainder - divisor,
+              relation: "too-high"
+            }),
+            choice(`quotient:${quotient - 1}`, quotient - 1, `${quotient - 1}묶음`, "DIV3_QUOTIENT_TOO_LOW", "한 묶음을 더 만들 수 있어요.", {
+              product: divisor * (quotient - 1),
+              gap: divisor + remainder,
+              relation: "too-small"
+            })
           ], rng),
-          correctText: `${divisor}개씩 ${quotient}묶음`,
+          correctText: `${divisor}개씩 ${quotient}묶음이에요.`,
           reveal: `${quotient}묶음`,
-          advance: { mode: "timed", delayMs: 950 }
+          advance: { mode: "timed", delayMs: 1200 }
         },
         {
           id: "remainder",
           label: "남은 별",
-          instruction: "남은 별을 골라요.",
+          instruction: "남은 별 수를 골라요.",
           answer: remainder,
           answerChoiceId: remainderAnswerId,
           choices: shuffle([
-            choice(remainderAnswerId, remainder, `${remainder}개`),
-            choice(`remainder:${remainder + divisor}`, remainder + divisor, `${remainder + divisor}개`, "DIV3_REMAINDER_NOT_LESS_THAN_DIVISOR", `남은 별은 ${divisor}개보다 작아요.`),
-            choice(`remainder:${divisor}`, divisor, `${divisor}개`, "DIV3_REMAINDER_EQUALS_DIVISOR", `${divisor}개면 한 묶음을 더 만들어요.`),
-            choice(`remainder:${Math.max(0, remainder - 1)}`, Math.max(0, remainder - 1), `${Math.max(0, remainder - 1)}개`, "DIV3_LEFTOVER_COUNT_OFF_BY_ONE", "남은 별을 한 번 더 세어 봐요.")
+            choice(remainderAnswerId, remainder, `${remainder}개`, null, "", { relation: "fit" }),
+            choice(`remainder:${remainder + divisor}`, remainder + divisor, `${remainder + divisor}개`, "DIV3_REMAINDER_NOT_LESS_THAN_DIVISOR", `${divisor}개를 묶고 다시 봐요.`, { relation: "has-full-group" }),
+            choice(`remainder:${divisor}`, divisor, `${divisor}개`, "DIV3_REMAINDER_EQUALS_DIVISOR", `${divisor}개면 한 묶음이에요.`, { relation: "equals-divisor" }),
+            choice(`remainder:${Math.max(0, remainder - 1)}`, Math.max(0, remainder - 1), `${Math.max(0, remainder - 1)}개`, "DIV3_LEFTOVER_COUNT_OFF_BY_ONE", "밝은 별을 다시 세어 봐요.", { relation: "count-off" })
           ], rng),
           correctText: `${remainder}개가 남았어요.`,
           reveal: `${remainder}개`,
