@@ -39,6 +39,21 @@ function renderAttempt(problem, step, choice, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.choices[0]?.kind || "number";
+  ui.choices.dataset.interaction = step.id === "down" ? "drag-down" : "floor-panel";
+  const panel = document.createElement("div");
+  panel.className = step.id === "down" ? "elevator-drop-layout" : "elevator-floor-panel";
+  let drop = null;
+  let tray = panel;
+  if (step.id === "down") {
+    drop = document.createElement("button");
+    drop.type = "button";
+    drop.className = "elevator-down-zone";
+    drop.setAttribute("aria-label", "남은 수와 일의 자리 수를 합친 수를 아래 칸으로 내리기");
+    drop.innerHTML = `<span aria-hidden="true">↓</span><strong>아래 칸</strong>`;
+    tray = document.createElement("div");
+    tray.className = "elevator-down-tray";
+    panel.append(drop, tray);
+  }
 
   for (const choice of step.choices) {
     const button = document.createElement("button");
@@ -72,10 +87,24 @@ function renderChoicesForStep(problem, step, state, choose) {
       button.appendChild(value);
     }
 
-    button.addEventListener("click", () => choose(choice, button));
-    ui.choices.appendChild(button);
+    if (drop) wireDirectChoice(button, drop, choice, choose);
+    else button.addEventListener("click", () => choose(choice, button));
+    tray.appendChild(button);
   }
+  ui.choices.appendChild(panel);
   return true;
+}
+
+function onStepCorrect({ step }) { return moveElevator(step.id === "down" ? "down" : "correct"); }
+function onStepWrong() { return moveElevator("wrong"); }
+function onProblemComplete() { return moveElevator("arrived"); }
+function onRewardReveal() { return moveElevator("reward"); }
+
+function moveElevator(sceneState) {
+  const art = document.querySelector(".elevator-stage-art");
+  if (!art) return Promise.resolve();
+  art.dataset.sceneState = sceneState;
+  return new Promise((resolve) => setTimeout(resolve, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420));
 }
 
 function renderElevatorMathBoard(problem, state) {
@@ -88,52 +117,52 @@ function renderElevatorMathBoard(problem, state) {
 
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.classList.add("elevator-math-svg");
-  svg.setAttribute("viewBox", "0 0 920 330");
+  svg.setAttribute("viewBox", "0 0 920 300");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep));
 
   const showRemainingEvidence = misconception === "DIV2_OMIT_REMAINING_TEN"
     || misconception === "DIV2_IGNORE_REMAINING_TEN";
   const remainingValue = tensDone || showRemainingEvidence ? String(problem.remainingTens) : "?";
-  const downTensValue = downDone ? String(problem.remainingTens) : remainingValue;
   const downOnesValue = downDone ? String(problem.onesDigit) : "?";
-  const showCarryRow = tensDone || state.stepIndex > 0 || showRemainingEvidence;
-  const remainingOnlyMarkup = showRemainingEvidence && !tensDone && state.stepIndex === 0 ? `
-      <g class="remaining-row is-evidence">
-        <text x="500" y="248" class="board-small-label">나머지(남은 십)</text>
-        <text x="500" y="296" class="board-number board-small-value">${remainingValue}</text>
-      </g>
-  ` : "";
-  const carryRowMarkup = showCarryRow && !remainingOnlyMarkup ? `
-      <g class="remaining-row ${state.stepIndex === 1 ? "is-current" : ""}">
-        <text x="392" y="248" class="board-small-label">나머지(남은 십)</text>
-        <text x="392" y="292" class="board-number board-small-value">${remainingValue}</text>
-        <path d="M458 238 C500 238 508 275 548 275" fill="none" stroke="#f3c45f" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowhead)" />
-        <text x="592" y="248" class="board-small-label">내린 수</text>
-        <text x="574" y="292" class="board-number board-small-value">${downTensValue}</text>
-        <text x="620" y="292" class="board-number board-small-value">${downOnesValue}</text>
+  const partialProduct = problem.divisor * problem.tensQuotient;
+  const showTensWork = tensDone || showRemainingEvidence;
+  const showDownWork = state.stepIndex > 0 || revealedStep === "down" || revealedStep === "ones";
+  const downTargetActive = state.stepIndex === 1 && !downDone;
+  const workMarkup = showTensWork ? `
+      <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"}">
+        <text x="414" y="208" class="board-work-minus">−</text>
+        <text x="463" y="208" class="board-work-product">${partialProduct}</text>
+        <path d="M416 219 H510" class="board-work-line" />
+        <text x="386" y="270" class="board-work-label" text-anchor="end">남은 십</text>
+        <text x="463" y="277" class="board-work-digit">${remainingValue}</text>
+        ${showDownWork ? `
+          <path d="M631 181 V231" class="board-down-arrow" marker-end="url(#arrowhead)" />
+          <rect x="590" y="238" width="82" height="52" rx="14" class="board-down-slot ${downTargetActive ? "is-active" : ""}" />
+          <text x="631" y="277" class="board-work-digit board-down-value ${downTargetActive ? "is-active" : ""}">${downOnesValue}</text>
+          <text x="704" y="270" class="board-work-label" text-anchor="start">내린 수</text>
+        ` : ""}
       </g>
   ` : "";
 
   svg.innerHTML = `
-    <title>${problem.prompt} 계산판</title>
     <g class="math-board-surface">
-      <rect x="112" y="18" width="720" height="292" rx="28" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect x="112" y="8" width="720" height="284" rx="28" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
     </g>
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="210" y="174" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 112 Q305 112 305 132 L305 250 M305 112 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="210" y="156" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M285 92 Q305 92 305 112 L305 174 M305 92 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      ${renderSvgCell(392, 42, 142, 72, tensDone ? problem.tensQuotient : "?", state.stepIndex === 0, "십의 자리 몫")}
-      ${renderSvgCell(560, 42, 142, 72, onesDone ? problem.onesQuotient : "?", state.stepIndex === 2, "일의 자리 몫")}
+      ${renderSvgCell(392, 18, 142, 58, tensDone ? problem.tensQuotient : "?", state.stepIndex === 0, "십의 자리 몫")}
+      ${renderSvgCell(560, 18, 142, 58, onesDone ? problem.onesQuotient : "?", state.stepIndex === 2, "일의 자리 몫")}
 
-      ${renderSvgCell(392, 130, 142, 78, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-      ${renderSvgCell(560, 130, 142, 78, problem.onesDigit, false, "일의 자리 수")}
+      ${renderSvgCell(392, 108, 142, 64, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
+      ${renderSvgCell(560, 108, 142, 64, problem.onesDigit, false, "일의 자리 수")}
 
-      ${remainingOnlyMarkup || carryRowMarkup}
+      ${workMarkup}
     </g>
     <defs>
-      <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
         <path d="M0,0 L8,4 L0,8 Z" fill="#f3c45f" />
       </marker>
     </defs>
@@ -154,7 +183,7 @@ function renderSvgCell(x, y, width, height, value, active, label) {
 
 function getBoardAriaLabel(problem, state, revealedStep) {
   if (revealedStep === "ones") return `${problem.prompt}, 답 ${problem.quotient} 완성`;
-  if (state.stepIndex === 0) return `${problem.prompt}, 십의 자리 몫과 나머지인 남은 십을 고르는 중`;
-  if (state.stepIndex === 1) return `남은 ${problem.remainingTens}십을 내려 ${problem.onesDigit}와 붙이는 중`;
+  if (state.stepIndex === 0) return `${problem.prompt}, 십의 자리 몫 ${problem.tensQuotient * 10}과 남은 수 ${problem.carriedTens}를 고르는 중`;
+  if (state.stepIndex === 1) return `남은 수 ${problem.carriedTens}, 일의 자리 ${problem.onesDigit}, 내린 수 ${problem.downNumber}`;
   return `${problem.downNumber}을 ${problem.divisor}로 나누는 중`;
 }

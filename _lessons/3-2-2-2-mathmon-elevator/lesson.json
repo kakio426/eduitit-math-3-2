@@ -8,8 +8,8 @@
   "shortTitle": "매스몬 엘리베이터",
   "topic": "내림 있는 두 자리 수 나눗셈",
   "unitBadge": "2단원 나눗셈",
-  "goal": "나머지인 남은 십을 내려서 나눠요.",
-  "action": "현재 계산 칸에 들어갈 값을 고른다.",
+  "goal": "남은 십을 내려 다시 나눠요.",
+  "action": "남은 수와 일의 자리 수를 합쳐 내려요.",
   "buttonLabel": "엘리베이터 움직이기",
   "rewardScreenTitle": "올라갈 힘",
   "progressLabel": "올라갈 힘",
@@ -19,12 +19,14 @@
   "tutorialCards": [
     {
       "visual": "1",
+      "purpose": "mechanic",
       "title": "어떻게 풀어요?",
-      "body": "십의 자리부터 나누고 나머지인 십을 내려요.",
+      "body": "남은 수와 일의 자리 수를 합쳐요.",
       "image": "tutorial-page-1-generated.webp"
     },
     {
       "visual": "2",
+      "purpose": "reward-goal",
       "title": "무엇을 얻어요?",
       "body": "10문제를 풀고 엘리베이터가 간 층을 봐요.",
       "image": "tutorial-page-2-generated.webp"
@@ -36,18 +38,42 @@
   "reward": {
     "mode": "modal-art",
     "maxPower": 100,
+    "unitLabel": "올라갈 힘",
+    "closedLabel": "문을 열어 봐요.",
     "nextLabel": "다음",
     "artMap": {
-      "motor": "reward-events-sprite-generated.png",
-      "blackout": "reward-events-sprite-generated.png",
-      "superMotor": "reward-events-sprite-generated.png",
-      "express": "reward-events-sprite-generated.png",
-      "stop": "reward-events-sprite-generated.png",
-      "rainbow": "reward-events-sprite-generated.png"
+      "motor": "reward-events-sprite-generated.webp",
+      "blackout": "reward-events-sprite-generated.webp",
+      "superMotor": "reward-events-sprite-generated.webp",
+      "express": "reward-events-sprite-generated.webp",
+      "stop": "reward-events-sprite-generated.webp",
+      "rainbow": "reward-events-sprite-generated.webp"
+    },
+    "spriteSheet": {
+      "columns": 3,
+      "rows": 2,
+      "slots": {
+        "motor": [0, 0],
+        "superMotor": [1, 0],
+        "blackout": [2, 0],
+        "stop": [0, 1],
+        "express": [1, 1],
+        "rainbow": [2, 1]
+      }
     }
   },
   "result": {
-    "renderMode": "hybrid-generated-dynamic"
+    "renderMode": "hybrid-generated-dynamic",
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "1280x800",
+      "runtimeSlot": "1280x800",
+      "contactSheet": "result-title-contact-sheet.png",
+      "sceneBackground": "result-scene-generated.webp",
+      "protagonist": "base-05-eaglemon",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["elevator-power", "correct-count"]
+    }
   },
   "workbench": {
     "type": "division-elevator"
@@ -55,6 +81,9 @@
   "scoreboard": {
     "enabled": false
   },
+  "mathmonPack": "base-pack",
+  "mathmonName": "독수리몬",
+  "mathmonId": "base-05-eaglemon",
   "results": [
     {
       "id": "retry",
@@ -62,7 +91,7 @@
       "minPower": 0,
       "minCorrect": 0,
       "image": "result-retry-generated.webp",
-      "titleImage": "result-retry-generated.webp"
+      "titleImage": "result-title-retry-generated.webp"
     },
     {
       "id": "basement",
@@ -70,7 +99,7 @@
       "minPower": 1,
       "minCorrect": 1,
       "image": "result-basement-generated.webp",
-      "titleImage": "result-basement-generated.webp"
+      "titleImage": "result-title-basement-generated.webp"
     },
     {
       "id": "first",
@@ -78,7 +107,7 @@
       "minPower": 19,
       "minCorrect": 3,
       "image": "result-first-generated.webp",
-      "titleImage": "result-first-generated.webp"
+      "titleImage": "result-title-first-generated.webp"
     },
     {
       "id": "middle",
@@ -86,7 +115,7 @@
       "minPower": 39,
       "minCorrect": 5,
       "image": "result-middle-generated.webp",
-      "titleImage": "result-middle-generated.webp"
+      "titleImage": "result-title-middle-generated.webp"
     },
     {
       "id": "view",
@@ -94,7 +123,7 @@
       "minPower": 59,
       "minCorrect": 7,
       "image": "result-view-generated.webp",
-      "titleImage": "result-view-generated.webp"
+      "titleImage": "result-title-view-generated.webp"
     },
     {
       "id": "roof",
@@ -102,7 +131,7 @@
       "minPower": 79,
       "minCorrect": 9,
       "image": "result-roof-generated.webp",
-      "titleImage": "result-roof-generated.webp"
+      "titleImage": "result-title-roof-generated.webp"
     },
     {
       "id": "rainbow",
@@ -111,7 +140,7 @@
       "minCorrect": 0,
       "needsSpecial": true,
       "image": "result-rainbow-generated.webp",
-      "titleImage": "result-rainbow-generated.webp"
+      "titleImage": "result-title-rainbow-generated.webp"
     }
   ],
   "rewardEvents": [
@@ -121,7 +150,8 @@
       "weight": 7645,
       "min": 5,
       "max": 9,
-      "family": "motor"
+      "family": "motor",
+      "rarity": "common"
     },
     {
       "id": "blackout",
@@ -129,7 +159,8 @@
       "weight": 1200,
       "min": -10,
       "max": -5,
-      "family": "blackout"
+      "family": "blackout",
+      "rarity": "common"
     },
     {
       "id": "superMotor",
@@ -137,7 +168,8 @@
       "weight": 900,
       "min": 13,
       "max": 22,
-      "family": "superMotor"
+      "family": "superMotor",
+      "rarity": "rare"
     },
     {
       "id": "express",
@@ -146,6 +178,7 @@
       "min": 8,
       "max": 8,
       "family": "express",
+      "rarity": "rare",
       "express": true
     },
     {
@@ -155,6 +188,7 @@
       "min": 0,
       "max": 0,
       "family": "stop",
+      "rarity": "common",
       "emptiesPower": true
     },
     {
@@ -164,6 +198,7 @@
       "min": 12,
       "max": 12,
       "family": "rainbow",
+      "rarity": "legend",
       "special": true
     }
   ],
@@ -201,15 +236,39 @@
     "titleArt": "title-logo-generated.webp",
     "startButton": "start-button-generated.webp",
     "problemStage": "board-shaft-generated.webp",
-    "rewardScene": "reward-events-sprite-generated.png",
-    "resultRetryButton": "start-button-generated.webp"
+    "problemStates": { "waiting": "problem-state-waiting-generated.webp", "working": "problem-state-working-generated.webp", "complete": "problem-state-complete-generated.webp" },
+    "rewardClosed": "reward-closed-generated.webp",
+    "rewardScene": "reward-events-sprite-generated.webp",
+    "resultScene": "result-scene-generated.webp",
+    "mathmonReactions": {
+      "correct": "mathmon-reaction-correct.webp",
+      "wrong": "mathmon-reaction-wrong.webp",
+      "reward": "mathmon-reaction-reward.webp"
+    },
+    "resultRetryButton": "result-retry-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp",
     "title-logo-generated.webp",
     "start-button-generated.webp",
     "board-shaft-generated.webp",
-    "reward-events-sprite-generated.png",
+    "problem-state-waiting-generated.webp",
+    "problem-state-working-generated.webp",
+    "problem-state-complete-generated.webp",
+    "reward-closed-generated.webp",
+    "reward-events-sprite-generated.webp",
+    "mathmon-reaction-correct.webp",
+    "mathmon-reaction-wrong.webp",
+    "mathmon-reaction-reward.webp",
+    "result-scene-generated.webp",
+    "result-title-retry-generated.webp",
+    "result-title-basement-generated.webp",
+    "result-title-first-generated.webp",
+    "result-title-middle-generated.webp",
+    "result-title-view-generated.webp",
+    "result-title-roof-generated.webp",
+    "result-title-rainbow-generated.webp",
+    "result-retry-button-generated.webp",
     "tutorial-page-1-generated.webp",
     "tutorial-page-2-generated.webp",
     "result-retry-generated.webp",
@@ -221,6 +280,9 @@
     "result-rainbow-generated.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
+    "modelRule": "division-regrouping-exact",
+    "directInteractionRequired": true,
     "viewports": [
       {
         "name": "desktop",
@@ -231,6 +293,11 @@
         "name": "tablet-landscape",
         "width": 1024,
         "height": 768
+      },
+      {
+        "name": "codex-browser",
+        "width": 931,
+        "height": 897
       }
     ],
     "requiredFlow": [
