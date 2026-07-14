@@ -55,6 +55,8 @@
   grid-template-columns: 1fr;
   grid-template-rows: minmax(0, 1fr) 58px minmax(142px, auto);
   gap: 9px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .game[data-workbench-type="check-lock-bars"] .problem-card,
@@ -73,6 +75,8 @@
   padding: 0;
   display: grid;
   grid-template-rows: minmax(0, 1fr);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .game[data-workbench-type="check-lock-bars"] .problem-label,
@@ -84,15 +88,21 @@
 
 .game[data-workbench-type="check-lock-bars"] .visual-area {
   min-height: 0;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
 
 .check-lock-svg {
+  display: block;
   width: 100%;
   height: 100%;
-  max-height: 470px;
-  overflow: visible;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .check-lock-svg .lock-board-bg {
@@ -159,6 +169,8 @@
   border: 2px solid #d6a84e;
   border-radius: 15px;
   background: #fff2bf;
+  position: relative;
+  z-index: 4;
 }
 
 .game[data-workbench-type="check-lock-bars"] .instruction,
@@ -186,7 +198,20 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(64px, 1fr));
   gap: 9px;
+  position: relative;
+  z-index: 4;
+  overflow: hidden;
 }
+.vault-keypad { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: minmax(88px,.62fr) minmax(226px,1.6fr) minmax(78px,.62fr); grid-template-rows: 1fr 1fr; gap: 6px; padding: 6px; border: 4px solid #b78b2d; border-radius: 22px; background: rgba(10,31,43,.94); }
+.vault-keypad-display { grid-row: 1 / -1; display: grid; place-items: center; border: 3px inset #d7b85b; border-radius: 16px; background: #071721; color: #ffe68d; font: 1000 2.6rem/1 ui-monospace,monospace; }
+.vault-key-grid { grid-row: 1 / -1; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(0,1fr)); gap: 8px; }
+.vault-key { border: 2px solid #9cb0bd; border-radius: 12px; background: #e8f0f4; color: #132432; font: 1000 1.35rem/1 ui-sans-serif,system-ui,sans-serif; box-shadow: 0 4px 0 #687d89; }
+.vault-key.is-clear { grid-column: 3; grid-row: 1; background: #ffd7df; border-color: #ad5369; }
+.vault-key.is-enter { grid-column: 3; grid-row: 2; background: #ffe079; border-color: #9a7220; }
+.check-lock-stage-art { transition: filter .3s ease, transform .3s ease; }
+.check-lock-stage-art[data-scene-state="correct"] { filter: brightness(1.1) saturate(1.16); }
+.check-lock-stage-art[data-scene-state="wrong"] { filter: brightness(.75) saturate(.7); transform: translateX(-4px); }
+.check-lock-stage-art[data-scene-state="open"], .check-lock-stage-art[data-scene-state="reward"] { filter: brightness(1.16) saturate(1.25); transform: scale(1.008); }
 
 .game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="compare"],
 .game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="locate"] {
@@ -242,11 +267,38 @@
   box-shadow: 0 7px 0 #8f6d17;
 }
 
+.game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete {
+  grid-template-rows: minmax(0, 1fr) minmax(142px, auto);
+}
+
+.game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete .step-board,
 .game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete .choices-panel { display: none; }
-.game[data-workbench-type="check-lock-bars"] .result-title-art { display: none; }
+
+.game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete .complete-panel { grid-row: 2; }
+.game[data-workbench-type="check-lock-bars"] .reward-card[data-reward-phase="closed"] .reward-label { display: none; }
+.game[data-workbench-type="check-lock-bars"] .result-title-art { display: block; left: 52%; top: 8%; width: 42%; border-radius: 18px; }
 .game[data-workbench-type="check-lock-bars"] #screen-result .top-row { display: none; }
-.game[data-workbench-type="check-lock-bars"] .result-correct-art { left: 61%; top: 55%; width: 23%; }
-.game[data-workbench-type="check-lock-bars"] .reward-visual { background-size: contain; background-repeat: no-repeat; }
+.game[data-workbench-type="check-lock-bars"] #screen-result::after { background: none; }
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui .result-restart-surface { display: none; }
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui text {
+  fill: #fff4cb;
+  stroke: rgba(12, 35, 46, .95);
+  stroke-width: 10px;
+}
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui rect:first-of-type { fill: #162f3d; opacity: .5; }
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffd05a; }
+.game[data-workbench-type="check-lock-bars"] .result-correct-art { left: 60%; top: 58%; width: 15%; }
+.game[data-workbench-type="check-lock-bars"] .result-restart-hitbox { left: 56%; top: 78%; width: 29%; height: 17%; }
+.game[data-workbench-type="check-lock-bars"] .result-rank-button-art { left: 40%; }
+.game[data-workbench-type="check-lock-bars"] .result-leaderboard-hitbox { left: calc(40% - 125px); }
+.game[data-workbench-type="check-lock-bars"] .result-restart-hitbox .result-retry-art { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 18px; }
+.game[data-workbench-type="check-lock-bars"] .reward-visual {
+  background-image: var(--reward-modal-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #100f18; }
 .game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
@@ -271,11 +323,18 @@
 .game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 64%; bottom: 4.5%; width: 30%; height: 13.5%; }
 .game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 4.5%; width: 29%; height: 13.5%; }
 
-@media (max-width: 980px) {
+@media (max-width: 1100px) {
   .game[data-workbench-type="check-lock-bars"] .hud { right: 2.5%; width: 47%; }
   .game[data-workbench-type="check-lock-bars"] .problem-grid {
-    top: 62px; right: 2.5%; bottom: 18px; left: 50.5%;
-    grid-template-rows: minmax(0, 1fr) 52px minmax(132px, auto);
+    top: 62px; right: 1.5%; bottom: 18px; left: 49%;
+    grid-template-rows: minmax(0, 1fr) 58px minmax(132px, auto);
     gap: 7px;
   }
+  .vault-keypad {
+    grid-template-columns: minmax(88px,.62fr) minmax(226px,1.6fr) minmax(78px,.62fr);
+    gap: 6px;
+    padding: 6px;
+  }
+  .vault-key-grid { gap: 4px; }
+  .vault-key { font-size: 1.08rem; }
 }

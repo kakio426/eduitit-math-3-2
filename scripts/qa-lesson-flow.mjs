@@ -497,6 +497,153 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
   }
 }
 
+async function auditCheckLockLayout(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const contains = (outer, inner, tolerance = 1) => Boolean(outer && inner
+      && inner.left >= outer.left - tolerance
+      && inner.top >= outer.top - tolerance
+      && inner.right <= outer.right + tolerance
+      && inner.bottom <= outer.bottom + tolerance);
+    const problem = rectOf(document.querySelector('.problem-card'));
+    const visual = rectOf(document.querySelector('.visual-area'));
+    const svg = rectOf(document.querySelector('.check-lock-svg'));
+    const surface = rectOf(document.querySelector('.lock-board-bg'));
+    const step = rectOf(document.querySelector('.step-board'));
+    const choices = rectOf(document.querySelector('.choices-panel'));
+    const keypad = rectOf(document.querySelector('.vault-keypad'));
+    const controls = [...document.querySelectorAll('.vault-key, .check-lock-choice')]
+      .filter((node) => {
+        const style = getComputedStyle(node);
+        const rect = node.getBoundingClientRect();
+        return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1;
+      })
+      .map(rectOf);
+    const textOutsideSurface = [...document.querySelectorAll('.check-lock-svg text')]
+      .map((node) => ({ text:node.textContent.trim(), rect:rectOf(node) }))
+      .filter((item) => !contains(surface, item.rect, 2));
+    return {
+      problem, visual, svg, surface, step, choices, keypad,
+      surfaceGap: surface && step ? step.top - surface.bottom : null,
+      stepChoiceGap: step && choices ? choices.top - step.bottom : null,
+      surfaceInsideVisual: contains(visual, surface, 1),
+      svgInsideProblem: contains(problem, svg, 1),
+      keypadInsideChoices: keypad ? contains(choices, keypad, 1) : true,
+      minControlWidth: controls.length ? Math.min(...controls.map((rect) => rect.width)) : 0,
+      minControlHeight: controls.length ? Math.min(...controls.map((rect) => rect.height)) : 0,
+      controlCount: controls.length,
+      textOutsideSurface
+    };
+  })()`);
+  assert(audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
+  assert(audit.surfaceGap >= 6, `${label}: vault calculation surface overlaps instruction`, audit);
+  assert(audit.stepChoiceGap >= 4, `${label}: instruction overlaps keypad or lever choices`, audit);
+  assert(audit.surfaceInsideVisual && audit.svgInsideProblem, `${label}: vault calculation surface left its reserved grid track`, audit);
+  assert(audit.keypadInsideChoices, `${label}: keypad left its reserved choice track`, audit);
+  assert(audit.controlCount > 0 && audit.minControlWidth >= 42 && audit.minControlHeight >= 42, `${label}: check-lock touch target is smaller than 42px`, audit);
+  assert(audit.textOutsideSurface.length === 0, `${label}: SVG text left the vault calculation surface`, audit);
+  return audit;
+}
+
+async function auditResultLeaderboardButton(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const art = document.getElementById('leaderboardButtonArt');
+    const hitbox = document.getElementById('leaderboardButton');
+    const read = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2 };
+    };
+    return {
+      art: art ? { hidden:art.hidden, complete:art.complete, naturalWidth:art.naturalWidth, rect:read(art) } : null,
+      hitbox: hitbox ? { hidden:hitbox.hidden, rect:read(hitbox) } : null
+    };
+  })()`);
+  assert(audit.art && !audit.art.hidden && audit.art.complete && audit.art.naturalWidth > 0, `${label}: generated leaderboard button art missing`, audit);
+  assert(audit.hitbox && !audit.hitbox.hidden && audit.hitbox.rect.width >= 42 && audit.hitbox.rect.height >= 42, `${label}: leaderboard hitbox missing`, audit);
+  assert(Math.abs(audit.art.rect.cx - audit.hitbox.rect.cx) <= 1 && Math.abs(audit.art.rect.cy - audit.hitbox.rect.cy) <= 1, `${label}: leaderboard art and hitbox centers differ`, audit);
+  assert(Math.abs(audit.art.rect.width - audit.hitbox.rect.width) <= 1 && Math.abs(audit.art.rect.height - audit.hitbox.rect.height) <= 1, `${label}: leaderboard art and hitbox sizes differ`, audit);
+}
+
+async function renderScoreboardQaState(page, mode) {
+  await evaluate(page, `(() => {
+    const root = document.getElementById('screen-scoreboard');
+    const entries = Array.from({ length: 10 }, (_, index) => ({
+      rank: index + 1,
+      nickname: '아주긴매스몬이름' + (index + 1),
+      score: String(100 - index * 3),
+      correctCount: 10 - (index % 3),
+      weekStart: '2026-07-13',
+      rewardResult: { id: 'qa' }
+    }));
+    const state = {
+      root,
+      apiEnabled: ${JSON.stringify("MODE")} !== 'offline',
+      loading: ${JSON.stringify("MODE")} === 'loading',
+      error: ${JSON.stringify("MODE")} === 'error',
+      session: ${JSON.stringify("MODE")} === 'offline' ? null : { nickname: '반짝여우몬' },
+      submission: ${JSON.stringify("MODE")} === 'success' ? { nickname: '반짝여우몬', score: '82', correctCount: 9 } : null,
+      score: 82,
+      rewardResult: { id: 'qa' },
+      myEntry: ${JSON.stringify("MODE")} === 'success' ? entries[6] : null,
+      weekLabel: '이번 주',
+      entries: ${JSON.stringify("MODE")} === 'success' ? entries : [],
+      totalQuestions: 10
+    };
+    window.MathmonScoreboard.render(state);
+  })()`.replaceAll('"MODE"', JSON.stringify(mode)));
+}
+
+async function auditScoreboard(page, label, { expectedFirstRank = null, expectedLastRank = null } = {}) {
+  const audit = await evaluate(page, `(() => {
+    const root = document.getElementById('screen-scoreboard');
+    const stage = root.querySelector('.mathmon-scoreboard-stage');
+    const faces = [...root.querySelectorAll('.mathmon-scoreboard-button-face')];
+    const hitboxes = [...root.querySelectorAll('.mathmon-scoreboard-hitbox')];
+    const rect = (node) => {
+      const box = node.getBoundingClientRect();
+      return { left:box.left, top:box.top, width:box.width, height:box.height, cx:box.left + box.width / 2, cy:box.top + box.height / 2 };
+    };
+    const buttonDeltas = hitboxes.map((button, index) => {
+      const hit = rect(button), face = rect(faces[index]);
+      return { centerX:Math.abs(hit.cx - face.cx), centerY:Math.abs(hit.cy - face.cy), width:Math.abs(hit.width - face.width), height:Math.abs(hit.height - face.height), hit };
+    });
+    const svgTextOutside = [...root.querySelectorAll('svg text')].filter((node) => {
+      try {
+        const box = node.getBBox();
+        const viewBox = node.ownerSVGElement.viewBox.baseVal;
+        return box.x < viewBox.x - 1 || box.y < viewBox.y - 1 || box.x + box.width > viewBox.x + viewBox.width + 1 || box.y + box.height > viewBox.y + viewBox.height + 1;
+      } catch { return false; }
+    }).map((node) => node.textContent.trim());
+    const ranks = [...root.querySelectorAll('.mathmon-scoreboard-rank')].map((node) => Number(node.textContent.trim())).filter(Number.isFinite);
+    const names = [...root.querySelectorAll('.mathmon-scoreboard-name')].map((node) => node.textContent.trim());
+    const image = root.querySelector('.mathmon-scoreboard-stage-art');
+    return {
+      active: root.classList.contains('is-active'),
+      viewBox: stage?.getAttribute('viewBox') || '',
+      status: root.querySelector('[data-scoreboard-status]')?.textContent.trim() || '',
+      empty: root.querySelector('.mathmon-scoreboard-empty')?.textContent.trim() || '',
+      ranks,
+      names,
+      buttonDeltas,
+      svgTextOutside,
+      image: image ? { href:image.getAttribute('href'), width:image.getBoundingClientRect().width, height:image.getBoundingClientRect().height } : null
+    };
+  })()`);
+  assert(audit.active && audit.viewBox === "0 0 1280 800", `${label}: scoreboard Stage contract missing`, audit);
+  assert(audit.image?.href?.includes('scoreboard-celebration-bg-generated.webp') && audit.image.width > 0 && audit.image.height > 0, `${label}: generated celebration background missing`, audit);
+  assert(audit.buttonDeltas.length === 3 && audit.buttonDeltas.every((item) => item.centerX <= 1 && item.centerY <= 1 && item.width <= 1 && item.height <= 1 && item.hit.width >= 42 && item.hit.height >= 42), `${label}: SVG button and HTML hitbox mismatch`, audit);
+  assert(audit.svgTextOutside.length === 0, `${label}: SVG text left its viewBox`, audit);
+  assert(audit.names.every((name) => name.length <= 12), `${label}: long nickname was not truncated`, audit);
+  if (expectedFirstRank !== null) assert(audit.ranks[0] === expectedFirstRank, `${label}: first visible rank mismatch`, audit);
+  if (expectedLastRank !== null) assert(audit.ranks.at(-1) === expectedLastRank, `${label}: last visible rank mismatch`, audit);
+  return audit;
+}
+
 async function auditElevatorDivisionBoard(page, label, { expectDown = false } = {}) {
   const audit = await evaluate(page, `(() => {
     const rectOf = (node) => {
@@ -756,6 +903,30 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   }
 }
 
+async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots) {
+  let stepNumber = 0;
+  while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
+    stepNumber += 1;
+    assert(stepNumber <= 4, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
+    const stepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    const safeStepId = stepId.replace(/[^a-z0-9-]/gi, "-") || `step-${stepNumber}`;
+    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-waiting`));
+    await auditGeometry(page, `${viewport.name} ${stepId} waiting`);
+    await auditCheckLockLayout(page, `${viewport.name} ${stepId} waiting`);
+
+    await clickChoice(page, true);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct'", `${viewport.name}: ${stepId} confirmation did not appear`, 6000);
+    await delay(360);
+    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-confirm`));
+    await auditGeometry(page, `${viewport.name} ${stepId} confirmation`);
+    const completeShown = await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')");
+    if (!completeShown) await auditCheckLockLayout(page, `${viewport.name} ${stepId} confirmation`);
+
+    const advanced = `document.getElementById('completePanel').classList.contains('is-visible') || (window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(stepId)})`;
+    await waitUntil(page, advanced, `${viewport.name}: ${stepId} did not advance`, 6000);
+  }
+}
+
 async function waitForReward(page, label) {
   const modalReward = await evaluate(page, "document.querySelector('.game')?.dataset.rewardMode === 'modal-art'");
   if (modalReward) {
@@ -824,6 +995,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
+  } else if (lesson === "3-2-2-4-mathmon-check-lock") {
+    await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
   const answerLeak = await evaluate(page, "document.getElementById('answerSlot')?.textContent.trim() !== '?' || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
@@ -850,6 +1023,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       : "05b-play-wrong";
   shots.push(await screenshot(page, lesson, viewport, firstWrongShot));
   await auditGeometry(page, `${viewport.name} wrong feedback`);
+  if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockLayout(page, `${viewport.name} product-too-high`);
   await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: input stayed locked after wrong feedback`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorWrongEvidence(page, `${viewport.name} quotient-too-high`, "DIV2_TENS_QUOTIENT_TOO_HIGH");
@@ -960,7 +1134,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: product-too-low feedback did not appear`);
     shots.push(await screenshot(page, lesson, viewport, "05b2-play-product-too-low"));
     await auditGeometry(page, `${viewport.name} product-too-low`);
-    await solveCurrentProblem(page);
+    await auditCheckLockLayout(page, `${viewport.name} product-too-low`);
+    await solveCheckLockProblemWithAudits(page, lesson, viewport, shots);
   } else {
     await solveCurrentProblem(page);
   }
@@ -998,6 +1173,42 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "08-result"));
   }
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
+
+  const scoreboardEnabled = await evaluate(page, "document.querySelector('.game')?.dataset.scoreboardEnabled === 'true'");
+  if (scoreboardEnabled) {
+    await auditResultLeaderboardButton(page, `${viewport.name} result leaderboard button`);
+    await clickSelector(page, "#leaderboardButton");
+    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-scoreboard'", `${viewport.name}: scoreboard not shown`);
+    await renderScoreboardQaState(page, "offline");
+    shots.push(await screenshot(page, lesson, viewport, "09-scoreboard-offline"));
+    const offline = await auditScoreboard(page, `${viewport.name} scoreboard offline`);
+    assert(offline.empty.includes("10위까지"), `${viewport.name}: offline guidance missing`, offline);
+
+    await renderScoreboardQaState(page, "loading");
+    const loading = await auditScoreboard(page, `${viewport.name} scoreboard loading`);
+    assert(loading.empty.includes("불러오고"), `${viewport.name}: loading guidance missing`, loading);
+
+    await renderScoreboardQaState(page, "error");
+    const error = await auditScoreboard(page, `${viewport.name} scoreboard error`);
+    assert(error.empty.includes("볼 수 없어요"), `${viewport.name}: error guidance missing`, error);
+
+    await renderScoreboardQaState(page, "empty");
+    const empty = await auditScoreboard(page, `${viewport.name} scoreboard empty`);
+    assert(empty.empty.includes("기록이 아직 없어요"), `${viewport.name}: empty-state guidance missing`, empty);
+
+    await renderScoreboardQaState(page, "success");
+    shots.push(await screenshot(page, lesson, viewport, "09b-scoreboard-10rows-start"));
+    await auditScoreboard(page, `${viewport.name} scoreboard rows 1-4`, { expectedFirstRank: 1, expectedLastRank: 4 });
+    await evaluate(page, `(() => {
+      const viewport = document.querySelector('[data-scoreboard-list-viewport]');
+      for (let index = 0; index < 8; index += 1) viewport.dispatchEvent(new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true }));
+    })()`);
+    shots.push(await screenshot(page, lesson, viewport, "09c-scoreboard-10rows-end"));
+    await auditScoreboard(page, `${viewport.name} scoreboard rows 7-10`, { expectedFirstRank: 7, expectedLastRank: 10 });
+    await clickSelector(page, "#scoreboardResultButton");
+    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result return failed`);
+  }
+
   const snapshot = await readSnapshot(page);
   assert(!snapshot.placeholders, `${viewport.name}: template placeholders leaked`, snapshot);
   assert(snapshot.missingImages.length === 0, `${viewport.name}: missing images`, snapshot);

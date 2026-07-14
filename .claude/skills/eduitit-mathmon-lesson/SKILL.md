@@ -1,6 +1,6 @@
 ---
 name: eduitit-mathmon-lesson
-description: "Use when building, planning, auditing, or extending an Eduitit 매스몬 math game 차시(lesson) single-HTML package in the `ai mart` workspace, including peer-lesson benchmark review and reward/effect animation polish — triggers like 차시 만들어, 새 게임 만들어, N단원 N차시 제작, 게임 빌드, 기존 차시와 비교해, 매스몬 게임 추가, 효과 넣어."
+description: "Use when building, planning, auditing, fixing UI overlap/overflow, or extending an Eduitit 매스몬 math game 차시(lesson) single-HTML package in the `ai mart` workspace, including peer-lesson benchmark review, browser-size regression QA, and reward/effect animation polish — triggers like 차시 만들어, 새 게임 만들어, N단원 N차시 제작, 게임 빌드, UI 겹침 고쳐, 글자 넘쳐, 기존 차시와 비교해, 매스몬 게임 추가, 효과 넣어."
 ---
 
 # Eduitit 매스몬 차시 빌더
@@ -39,6 +39,17 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 8. **학생 사고 필수**: 한 화면 한 행동을 반복 클릭으로 축소하지 않는다. 학생이 수·위치·관계·순서·분해 방법 중 하나를 판단해 답을 직접 만들게 한다. 시스템이 정답을 자동 분배하고 학생은 끝날 때까지 누르기만 하면 실패다. 숫자를 보지 않아도 완료할 수 있는지 검사하고, 가능하면 다시 설계한다.
 9. **교과서식 표현·찰나 상태 필수**: 계산 순서와 자리 배치는 교과서 풀이와 맞아야 한다. 자리 숫자와 실제 값을 구별하고, 오답·정답 확인·전환 상태를 각각 실제 화면으로 검사한다. 브랜드·단원 배지, 글씨 크기, 기호와 숫자 간격, 겹침 0건은 다른 장점으로 상쇄할 수 없다.
 10. **판단 밀도·조작 예산 필수**: 수학적 판단 횟수와 물리 입력 횟수를 따로 센다. 학생이 답을 이미 결정한 뒤 같은 뜻의 물건 놓기를 세 번 이상 되풀이한다면, 새 판단이 생기는 이유를 증명하지 못하는 한 실패다. 학생이 답을 먼저 확정하고 시스템은 그 답에 따른 반복 배치를 확인 애니메이션으로 보여 준다. 학생의 답 없이 시스템이 정답을 만드는 자동 풀이는 여전히 금지한다.
+11. **겹침 회귀 차단 필수**: 사용자가 겹침·넘침·잘림을 발견한 화면은 즉시 실패 증거로 등록한다. 그때의 실제 `innerWidth×innerHeight`, DPR, Stage 실제 렌더 크기와 상태를 기록하고 `lesson.json > qa.viewports` 및 전용 QA에 이름 있는 영구 회귀 항목으로 추가한다. 비슷한 크기나 기본 두 화면만 다시 보고 끝내지 않는다.
+
+## 겹침 0건 완료 게이트
+
+- 자동 검사는 텍스트와 버튼만 보지 않는다. SVG/Canvas 계산판의 실제 바깥 표면, 문제 카드, 지시문, 피드백, 선택지/숫자판, 모달, 투명 hitbox의 `getBoundingClientRect()`를 함께 재고 형제 영역 교차가 `0px`인지 확인한다.
+- SVG는 바깥 배경 도형의 실제 rect와 모든 `<text>`의 `getBBox()`/렌더 rect를 검사한다. SVG 요소 자체의 상자만 맞고 내부 그림이 지시문 위로 넘으면 실패다.
+- 계산판→지시문→선택지처럼 세로로 잇는 영역은 명시적인 grid track과 `overflow: hidden`/contain 경계를 두고, 각 경계에 눈에 보이는 간격을 확보한다. z-index로 겹친 부분을 가리는 방식은 수정으로 인정하지 않는다.
+- 문제 대기, 대표 오답 양방향, 각 단계 정답 확인, 다음 단계 대기, 마지막 확인, 닫힌/열린 보상, 결과, 설정/순위 모달을 각각 독립 상태로 검사한다. 한 상태라도 캡처·수치 검사가 빠지면 완료가 아니다.
+- 사용자가 올린 실패 화면은 고친 뒤 같은 화면 크기와 같은 상태로 다시 캡처한다. 재현할 수 없거나 실제 브라우저 크기를 확인하지 못했으면 PASS로 기록하지 않는다.
+- 지원 범위 밖처럼 좁은 창에서도 Stage는 16:10 contain으로 축소되어야 한다. 공간 부족을 이유로 패널을 겹치게 재배치하지 않는다.
+- `REPORT.md`에는 실패 증거 크기, 수정 전 충돌 대상, 수정 후 최소 간격, 회귀 테스트 이름과 캡처 경로를 남긴다.
 
 ## 빌드 파이프라인
 
@@ -57,7 +68,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 13. **한 화면 한 행동 3초 검사**: 문제 화면 스크린샷에서 학생이 볼 기본 요소가 큰 문제·현재 단계·한 줄 지시·선택지뿐인지 확인한다. 풀이판 해석, 탭 선택, 힌트 읽기, 보상 확인, 선택지 고르기를 한 화면에서 동시에 하게 만들면 즉시 줄인다.
 14. **Stage 비율 검사**: 모든 `index.html`이 `16:10`/`1280×800` 계약을 지키는지 루트에서 `node scripts/check-stage-ratio.mjs` 실행.
 15. **상태 이미지 세트 QA**: 한 슬롯에서 바뀌는 생성 이미지 세트가 있으면 개수 계약, 치수, 컨택시트, 브라우저 렌더 크기, 데스크톱/태블릿 캡처를 확인한다. 한 장이라도 필수 슬롯 수가 빠지거나 잘리면 세트 전체 실패다.
-16. **검증·배포**: `references/verification.md` 통과 → 배포는 `eduitit-main-release` + GitHub Pages, 공개 URL `curl -I -L` 200 확인.
+16. **겹침 회귀 검사**: `references/verification.md`의 표면 경계·상태별 충돌 검사를 실행하고, 사용자가 발견한 모든 화면 크기가 `qa.viewports`에 남아 있는지 확인한다.
+17. **검증·배포**: `references/verification.md` 통과 → 배포는 `eduitit-main-release` + GitHub Pages, 공개 URL `curl -I -L` 200 확인.
 
 ## 화면 골격 (모든 차시 동일)
 

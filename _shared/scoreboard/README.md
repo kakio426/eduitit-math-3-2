@@ -12,6 +12,10 @@
 - `scoreboard-title-*-source.png`: imagegen으로 만든 차시별 전국 순위 타이틀 원본
 - `scoreboard-title-*-generated.png`: 마젠타 배경 제거 후 확인용 PNG
 - `scoreboard-title-*-generated.webp`: 학생 화면에 쓰는 투명 타이틀 WebP
+- `scoreboard-result-button-source.png`: 1단원에서 검증한 공용 `순위 보기` 버튼 생성 원본
+- `scoreboard-result-button-transparent-raw.png`: 배경 제거 중간 PNG
+- `scoreboard-result-button-generated.png`: 공용 버튼 확인용 투명 PNG
+- `scoreboard-result-button-generated.webp`: 결과 화면 배포용 공용 버튼 WebP
 - `scoreboard-ui.css`: SVG 순위판, 카드, 행, 버튼, 글자 스타일과 투명 hitbox 정렬
 - `scoreboard-ui.js`: SVG 순위 화면 자동 생성, 상태별 문구, 순위 목록 렌더러, API 브리지
 

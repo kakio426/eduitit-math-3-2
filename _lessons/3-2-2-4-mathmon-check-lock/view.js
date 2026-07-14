@@ -43,10 +43,15 @@ function renderAttempt(problem, step, selected, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.id;
+  ui.choices.dataset.interaction = step.id === "multiply" || step.id === "add" ? "vault-keypad" : "vault-lever";
+  if (step.id === "multiply" || step.id === "add") {
+    renderVaultKeypad(step, choose);
+    return true;
+  }
   for (const selected of step.choices) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "choice-button check-lock-choice";
+    button.className = "choice-button check-lock-choice check-lock-lever";
     button.dataset.choice = selected.id;
     button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
     button.setAttribute("aria-label", selected.label);
@@ -57,6 +62,62 @@ function renderChoicesForStep(problem, step, state, choose) {
     ui.choices.appendChild(button);
   }
   return true;
+}
+
+function renderVaultKeypad(step, choose) {
+  let input = "";
+  const keypad = document.createElement("div");
+  keypad.className = "vault-keypad";
+  const display = document.createElement("output");
+  display.className = "vault-keypad-display";
+  display.textContent = "?";
+  const keys = document.createElement("div");
+  keys.className = "vault-key-grid";
+  const render = () => { display.textContent = input || "?"; };
+  for (const digit of [1,2,3,4,5,6,7,8,9,0]) {
+    const key = document.createElement("button");
+    key.type = "button";
+    key.className = "vault-key";
+    key.textContent = String(digit);
+    key.dataset.digit = String(digit);
+    key.addEventListener("click", () => { if (input.length < 3) input += digit; render(); });
+    keys.appendChild(key);
+  }
+  const clear = document.createElement("button");
+  clear.type = "button";
+  clear.className = "vault-key is-clear";
+  clear.textContent = "지우기";
+  clear.addEventListener("click", () => { input = ""; render(); });
+  const enter = document.createElement("button");
+  enter.type = "button";
+  enter.className = "vault-key is-enter";
+  enter.textContent = "넣기";
+  enter.addEventListener("click", () => {
+    const value = Number(input);
+    const selected = step.choices.find((choice) => Number(choice.value) === value) || {
+      id: `${step.id}:direct:${input || "empty"}`,
+      value,
+      label: input || "빈칸",
+      misconceptionId: "DIV4_CALCULATION_SLIP",
+      feedback: "식을 보고 다시 눌러 봐요.",
+    };
+    enter.dataset.choice = selected.id;
+    enter.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
+    choose(selected, enter);
+  });
+  keypad.append(display, keys, clear, enter);
+  ui.choices.appendChild(keypad);
+}
+
+function onStepCorrect() { return turnVault("correct"); }
+function onStepWrong() { return turnVault("wrong"); }
+function onProblemComplete() { return turnVault("open"); }
+function onRewardReveal() { return turnVault("reward"); }
+function turnVault(sceneState) {
+  const art = document.querySelector(".check-lock-stage-art");
+  if (!art) return Promise.resolve();
+  art.dataset.sceneState = sceneState;
+  return new Promise((resolve) => setTimeout(resolve, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 380));
 }
 
 function renderCheckLockBoard(problem, state) {
