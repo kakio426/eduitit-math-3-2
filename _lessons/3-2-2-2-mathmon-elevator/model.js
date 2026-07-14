@@ -35,14 +35,16 @@ const Lesson2ElevatorModel = (() => {
   }
 
   function makePairChoice(id, quotient, remainingTens, misconceptionId = null, feedback = "") {
+    const quotientValue = quotient * 10;
+    const remainingValue = remainingTens * 10;
     return {
       id,
       kind: "quotient-remaining-pair",
-      label: `십의 자리 몫 ${quotient}, 나머지 ${remainingTens}십`,
+      label: `몫 ${quotientValue}, 남은 수 ${remainingValue}`,
       value: { quotient, remainingTens },
       parts: [
-        { label: "십의 자리 몫", value: quotient },
-        { label: "나머지", value: remainingTens }
+        { label: "몫", value: quotientValue },
+        { label: "남은 수", value: remainingValue }
       ],
       misconceptionId,
       feedback
@@ -127,21 +129,21 @@ const Lesson2ElevatorModel = (() => {
         problem.tensQuotient,
         0,
         "DIV2_OMIT_REMAINING_TEN",
-        `${problem.remainingTens}십이 남아요.`
+        `${problem.carriedTens}이 남아요.`
       ),
       makePairChoice(
         `tens:${tooHighQuotient}:${tooHighRemaining}`,
         tooHighQuotient,
         tooHighRemaining,
         "DIV2_TENS_QUOTIENT_TOO_HIGH",
-        `${tooHighQuotient}묶음은 ${tooHighQuotient * problem.divisor}십이라 너무 커요.`
+        `곱하면 ${problem.divisor * tooHighQuotient * 10}이라 ${problem.tensDigit * 10}보다 커요.`
       ),
       makePairChoice(
         `tens:${tooLowQuotient}:${tooLowRemaining}`,
         tooLowQuotient,
         tooLowRemaining,
         "DIV2_TENS_QUOTIENT_TOO_LOW",
-        `${tooLowRemaining}십이면 한 번 더 나눌 수 있어요.`
+        `남은 수가 ${tooLowRemaining * 10}이면 한 번 더 나눌 수 있어요.`
       )
     ];
 
@@ -151,25 +153,25 @@ const Lesson2ElevatorModel = (() => {
         id: `ones-only:${problem.onesDigit}`,
         value: problem.onesDigit,
         misconceptionId: "DIV2_IGNORE_REMAINING_TEN",
-        feedback: `${problem.remainingTens}십을 먼저 내려요.`
+        feedback: `남은 ${problem.carriedTens}도 내려요.`
       },
       {
         id: `tens-only:${problem.carriedTens}`,
         value: problem.carriedTens,
         misconceptionId: "DIV2_IGNORE_ONES_DIGIT",
-        feedback: `내린 ${problem.carriedTens}에 ${problem.onesDigit}도 붙여요.`
+        feedback: `일의 자리 ${problem.onesDigit}도 내려요.`
       },
       {
         id: `add-divisor:${problem.downNumber + problem.divisor}`,
         value: problem.downNumber + problem.divisor,
         misconceptionId: "DIV2_ADD_DIVISOR_WHILE_CARRYING",
-        feedback: "남은 십과 일의 자리 수만 붙여요."
+        feedback: "남은 수 옆에 일의 자리도 내려요."
       },
       {
         id: `subtract-divisor:${problem.downNumber - problem.divisor}`,
         value: problem.downNumber - problem.divisor,
         misconceptionId: "DIV2_SUBTRACT_TOO_EARLY",
-        feedback: "먼저 수를 내린 뒤 나눠요."
+        feedback: "두 수를 내려놓은 뒤 나눠요."
       }
     ]);
 
@@ -186,19 +188,19 @@ const Lesson2ElevatorModel = (() => {
         id: `ones-high:${problem.onesQuotient + 1}`,
         value: problem.onesQuotient + 1,
         misconceptionId: "DIV2_ONES_QUOTIENT_TOO_HIGH",
-        feedback: "곱해서 내린 수보다 커지는지 봐요."
+        feedback: `곱하면 ${problem.divisor * (problem.onesQuotient + 1)}라 ${problem.downNumber}보다 커요.`
       },
       {
         id: `ones-low:${problem.onesQuotient - 1}`,
         value: problem.onesQuotient - 1,
         misconceptionId: "DIV2_ONES_QUOTIENT_TOO_LOW",
-        feedback: "한 묶음을 더 만들 수 있는지 봐요."
+        feedback: `남은 ${problem.divisor}도 한 번 더 나눌 수 있어요.`
       },
       {
         id: `use-remaining:${problem.remainingTens}`,
         value: problem.remainingTens,
         misconceptionId: "DIV2_REUSE_REMAINING_TENS",
-        feedback: "남은 십은 이미 아래로 내렸어요."
+        feedback: "남은 십은 이미 내려왔어요."
       }
     ]);
 
@@ -207,31 +209,31 @@ const Lesson2ElevatorModel = (() => {
         id: "tens",
         label: "십의 자리",
         action: "십의 자리 몫과 남은 십을 고른다",
-        instruction: "몫과 나머지를 골라요.",
+        instruction: `${problem.tensDigit * 10}에서 십의 자리 몫과 남은 수를 골라요.`,
         answer: { quotient: problem.tensQuotient, remainingTens: problem.remainingTens },
         answerChoiceId: tensAnswerId,
         choices: shuffle(tensChoices, rng),
-        correctText: `몫 ${problem.tensQuotient}, 나머지 ${problem.remainingTens}십`,
-        reveal: `${problem.tensQuotient} … ${problem.remainingTens}십`,
-        advance: { mode: "timed", delayMs: 1100 }
+        correctText: `몫 ${problem.tensQuotient * 10}, 남은 수 ${problem.carriedTens}`,
+        reveal: `몫 ${problem.tensQuotient * 10} · 남은 수 ${problem.carriedTens}`,
+        advance: { mode: "timed", delayMs: 1800 }
       },
       {
         id: "down",
         label: "내리기",
-        action: "남은 십과 일의 자리 수를 붙인다",
-        instruction: "내린 수를 골라요.",
+        action: "남은 수와 일의 자리 수를 합친다",
+        instruction: `남은 ${problem.carriedTens}과 일의 자리 ${problem.onesDigit}을 합친 수를 내려요.`,
         answer: problem.downNumber,
         answerChoiceId: downAnswerId,
         choices: shuffle(downChoices, rng),
-        correctText: `${problem.carriedTens}과 ${problem.onesDigit}를 붙이면 ${problem.downNumber}`,
+        correctText: `남은 수 ${problem.carriedTens} + 일의 자리 ${problem.onesDigit} = ${problem.downNumber}`,
         reveal: String(problem.downNumber),
-        advance: { mode: "timed", delayMs: 1100 }
+        advance: { mode: "timed", delayMs: 1600 }
       },
       {
         id: "ones",
         label: "일의 자리",
         action: "내린 수를 나눈 몫을 고른다",
-        instruction: "일의 자리 몫을 골라요.",
+        instruction: `${problem.downNumber} ÷ ${problem.divisor}의 몫을 골라요.`,
         answer: problem.onesQuotient,
         answerChoiceId: onesAnswerId,
         choices: shuffle(onesChoices, rng),
@@ -306,8 +308,10 @@ const Lesson2ElevatorModel = (() => {
   }
 
   function getNextResult(result) {
+    if (result?.needsSpecial) return result;
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0) return result;
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
 

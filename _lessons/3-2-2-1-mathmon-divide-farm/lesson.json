@@ -8,8 +8,8 @@
   "shortTitle": "매스몬 나누기 농장",
   "topic": "내림 없는 두 자리 수 나눗셈",
   "unitBadge": "2단원 나눗셈",
-  "goal": "10개 묶음과 낱개를 차례로 나눠요.",
-  "action": "한 바구니에 들어갈 묶음을 놓아요.",
+  "goal": "똑같이 나눠 농장을 키워요.",
+  "action": "한 바구니에 몇 개씩인지 써요.",
   "buttonLabel": "수확 보기",
   "rewardScreenTitle": "수확",
   "progressLabel": "수확",
@@ -17,15 +17,15 @@
   "tutorialTitle": "농장에 가기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "purpose": "mechanic", "title": "어떻게 풀어요?", "body": "한 바구니에 들어갈 양을 놓아요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 농장을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "왜 두 번 나눌까요?", "body": "10개 묶음과 낱개를 차례로 나눠요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "문제를 풀면 수확이 달라져요. 10문제 뒤 농장을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art",
     "maxPower": 100,
     "unitLabel": "수확",
-    "closedLabel": "바구니를 열어 봐요.",
+    "closedLabel": "바구니 열기",
     "nextLabel": "다음",
     "artMap": {
       "harvest": "reward-events-sprite-generated.webp",
@@ -62,7 +62,14 @@
     }
   },
   "workbench": { "type": "place-value-farm" },
-  "scoreboard": { "enabled": false },
+  "scoreboard": {
+    "enabled": true,
+    "title": "전국 수확 순위",
+    "resultKind": "score",
+    "scoreLabel": "내 수확",
+    "listTitle": "수확 순위",
+    "unit": "3학년 2학기 2단원 1차시"
+  },
   "mathmonPack": "base-pack",
   "mathmonName": "여우몬",
   "mathmonId": "base-02-foxmon",
@@ -82,7 +89,7 @@
     { "id": "empty", "text": "빈 바구니", "weight": 280, "min": 0, "max": 0, "family": "empty", "rarity": "common", "emptiesPower": true },
     { "id": "rainbow", "text": "황금밭!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "rarity": "legend", "special": true }
   ],
-  "wrongEvent": { "id": "bug", "text": "수확이 줄었어요", "min": -18, "max": -8, "family": "bug" },
+  "wrongEvent": { "id": "bugMistake", "text": "수확이 줄었어요", "min": -18, "max": -8, "family": "bug" },
   "typesPerRun": ["exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
@@ -92,6 +99,9 @@
     "startButton": "start-button-generated.webp",
     "problemStage": "farm-board-generated.webp",
     "problemStates": { "waiting": "problem-state-waiting-generated.webp", "working": "problem-state-working-generated.webp", "complete": "problem-state-complete-generated.webp" },
+    "farmBasket": "farm-basket-empty-generated.webp",
+    "farmBundleTen": "farm-bundle-ten-generated.webp",
+    "farmCarrotSingle": "farm-carrot-single-generated.webp",
     "rewardClosed": "reward-closed-generated.webp",
     "rewardScene": "reward-events-sprite-generated.webp",
     "resultScene": "result-scene-generated.webp",
@@ -100,12 +110,14 @@
       "wrong": "mathmon-reaction-wrong.webp",
       "reward": "mathmon-reaction-reward.webp"
     },
-    "resultRetryButton": "result-retry-button-generated.webp"
+    "resultRetryButton": "result-retry-button-generated.webp",
+    "resultLeaderboardButton": "../_shared/scoreboard/scoreboard-result-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
     "farm-board-generated.webp", "reward-closed-generated.webp", "reward-events-sprite-generated.webp",
     "problem-state-waiting-generated.webp", "problem-state-working-generated.webp", "problem-state-complete-generated.webp",
+    "farm-basket-empty-generated.webp", "farm-bundle-ten-generated.webp", "farm-carrot-single-generated.webp",
     "mathmon-reaction-correct.webp", "mathmon-reaction-wrong.webp", "mathmon-reaction-reward.webp",
     "result-scene-generated.webp", "result-title-seed-generated.webp", "result-title-sprout-generated.webp", "result-title-garden-generated.webp", "result-title-farm-generated.webp", "result-title-bigfarm-generated.webp", "result-title-rainbow-generated.webp",
     "result-retry-button-generated.webp",
@@ -119,8 +131,9 @@
     "directInteractionRequired": true,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "reported-compact", "width": 918, "height": 897 }
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result", "scoreboard"]
   }
 }

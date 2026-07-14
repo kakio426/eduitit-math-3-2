@@ -25,7 +25,7 @@
     "mode": "modal-art",
     "maxPower": 100,
     "unitLabel": "별빛",
-    "closedLabel": "별병을 열어 봐요.",
+    "closedLabel": "별빛은 얼마나 나올까요?",
     "nextLabel": "다음",
     "artMap": {
       "meteor": "reward-event-meteor-generated.webp",
@@ -65,7 +65,14 @@
     "type": "remainder-stars",
     "learningFlow": ["choose-group-limit", "choose-leftover-stars", "confirm-identity"]
   },
-  "scoreboard": { "enabled": false },
+  "scoreboard": {
+    "enabled": true,
+    "title": "전국 별빛 순위",
+    "resultKind": "score",
+    "scoreLabel": "내 별빛",
+    "listTitle": "별빛 순위",
+    "unit": "3학년 2학기 2단원 3차시"
+  },
   "mathmonPack": "base-pack",
   "mathmonName": "유니콘몬",
   "mathmonId": "base-08-unicornmon",
@@ -85,7 +92,7 @@
     { "id": "dark", "text": "별빛 0", "weight": 280, "min": 0, "max": 0, "family": "dark", "rarity": "common", "emptiesPower": true },
     { "id": "rainbow", "text": "초신성!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "rarity": "legend", "special": true }
   ],
-  "wrongEvent": { "id": "cloud", "text": "별빛이 줄었어요", "min": -18, "max": -8, "family": "cloud" },
+  "wrongEvent": { "id": "cloudMistake", "text": "별빛이 줄었어요", "min": -18, "max": -8, "family": "cloud" },
   "typesPerRun": ["remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
@@ -103,7 +110,8 @@
       "wrong": "mathmon-reaction-wrong.webp",
       "reward": "mathmon-reaction-reward.webp"
     },
-    "resultRetryButton": "result-retry-button-generated.webp"
+    "resultRetryButton": "result-retry-button-generated.webp",
+    "resultLeaderboardButton": "../_shared/scoreboard/scoreboard-result-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
@@ -126,6 +134,6 @@
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result", "scoreboard"]
   }
 }

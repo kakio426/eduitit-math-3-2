@@ -92,7 +92,7 @@ const Lesson2CheckLockModel = (() => {
         {
           id: "multiply",
           label: "곱하기",
-          instruction: "나누는 수와 몫을 곱해요.",
+          instruction: "곱한 값을 숫자판에 넣어요.",
           answer: product,
           answerChoiceId: multiplyAnswerId,
           choices: numericChoices(
@@ -109,7 +109,7 @@ const Lesson2CheckLockModel = (() => {
         {
           id: "add",
           label: "더하기",
-          instruction: "곱한 값에 나머지를 더해요.",
+          instruction: "더한 값을 숫자판에 넣어요.",
           answer: checkTotal,
           answerChoiceId: addAnswerId,
           choices: numericChoices(
@@ -126,7 +126,7 @@ const Lesson2CheckLockModel = (() => {
         {
           id: "compare",
           label: "비교하기",
-          instruction: "검산값과 처음 수를 비교해요.",
+          instruction: "같아요 또는 달라요를 눌러요.",
           answer: matchesOriginal ? "same" : "different",
           answerChoiceId: compareAnswerId,
           choices: shuffle([
@@ -144,7 +144,7 @@ const Lesson2CheckLockModel = (() => {
         steps.push({
           id: "locate",
           label: "다른 곳 찾기",
-          instruction: "어느 곳이 다른지 골라요.",
+          instruction: "몫 또는 나머지를 눌러요.",
           answer: mismatchPart,
           answerChoiceId: locateAnswerId,
           choices: shuffle([
@@ -221,8 +221,10 @@ const Lesson2CheckLockModel = (() => {
   }
 
   function getNextResult(result) {
+    if (result?.needsSpecial) return result;
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0) return result || visible[0];
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
 

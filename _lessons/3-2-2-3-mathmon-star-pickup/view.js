@@ -17,6 +17,50 @@ function renderProblemVisual(problem, state) {
   ui.visualArea.dataset.proofStep = "";
   ui.visualArea.dataset.revealedStep = "";
   renderStarMathBoard(problem, state);
+  syncStarJourneyHud(state);
+}
+
+function syncStarJourneyHud(state) {
+  requestAnimationFrame(() => {
+    const current = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+    const next = LessonModel.getNextResult(current);
+    const count = `${Math.min(state.problemIndex + 1, LessonModel.TOTAL_PROBLEMS)}/${LessonModel.TOTAL_PROBLEMS}`;
+    const countText = document.createElement("span");
+    countText.className = "star-journey-count";
+    countText.textContent = count;
+
+    const currentArt = createStarJourneyTitle(current, "지금");
+    const arrow = document.createElement("span");
+    arrow.className = "star-journey-arrow";
+    arrow.textContent = next && next.id !== current.id ? "→" : "도착";
+
+    const parts = [countText, currentArt, arrow];
+    if (next && next.id !== current.id) parts.push(createStarJourneyTitle(next, "다음"));
+
+    const accessibleJourney = document.createElement("span");
+    accessibleJourney.className = "visually-hidden";
+    accessibleJourney.textContent = next && next.id !== current.id
+      ? ` · ${current.name}→${next.name}`
+      : ` · ${current.name} 도착`;
+    parts.push(accessibleJourney);
+    ui.questionCount.replaceChildren(...parts);
+    ui.questionCount.setAttribute(
+      "aria-label",
+      next && next.id !== current.id
+        ? `${state.problemIndex + 1}번째 문제, 지금 ${current.name}, 다음 ${next.name}`
+        : `${state.problemIndex + 1}번째 문제, ${current.name} 도착`
+    );
+  });
+}
+
+function createStarJourneyTitle(result, position) {
+  const image = document.createElement("img");
+  image.className = "star-journey-title";
+  image.src = result.titleImage;
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  image.dataset.journeyPosition = position;
+  return image;
 }
 
 function updateProblemVisualForStep(problem, step, state) {
@@ -50,6 +94,7 @@ function renderChoicesForStep(problem, step, state, choose) {
     button.dataset.choice = selected.id;
     button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
     button.dataset.relation = selected.relation || "";
+    if (selected.misconceptionId) button.dataset.misconception = selected.misconceptionId;
     if (Number.isFinite(selected.product)) button.dataset.product = String(selected.product);
 
     const value = document.createElement("strong");

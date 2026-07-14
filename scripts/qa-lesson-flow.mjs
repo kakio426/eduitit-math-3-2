@@ -234,7 +234,7 @@ async function evaluate(page, expression) {
     returnByValue: true,
   });
   if (result.exceptionDetails) {
-    throw new Error(result.exceptionDetails.text || "Runtime.evaluate failed");
+    throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text || "Runtime.evaluate failed");
   }
   return result.result?.value;
 }
@@ -273,7 +273,7 @@ async function screenshot(page, lesson, viewport, name) {
 async function clickSelector(page, selector) {
   const rect = await evaluate(page, `(() => {
     const node = document.querySelector(${JSON.stringify(selector)});
-    if (!node) throw new Error("missing selector ${selector}");
+    if (!node) throw new Error(${JSON.stringify(`missing selector ${selector}`)});
     const rect = node.getBoundingClientRect();
     return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, width: rect.width, height: rect.height };
   })()`);
@@ -293,6 +293,17 @@ async function clickChoice(page, correct) {
   }
   const interaction = await evaluate(page, "document.getElementById('choicesPanel')?.dataset.interaction || ''");
   const step = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()");
+  if (interaction === "enter-share" || interaction === "enter-quotient") {
+    const answerValue = Number(step.answer);
+    const wrongAmount = interaction === "enter-share" && step.id === "tens"
+      ? answerValue > 10 ? answerValue - 10 : answerValue + 10
+      : answerValue === 99 ? 98 : answerValue + 1;
+    const amount = correct ? answerValue : wrongAmount;
+    await clickSelector(page, ".farm-key.is-clear:not(:disabled)");
+    for (const digit of String(amount)) await clickSelector(page, `.farm-key[data-digit="${digit}"]:not(:disabled)`);
+    await clickSelector(page, ".farm-key.is-enter:not(:disabled)");
+    return;
+  }
   const choiceId = (choice) => String(choice?.id ?? choice?.value ?? choice);
   const answer = step.answerChoiceId === undefined
     ? step.correct
@@ -347,6 +358,42 @@ async function clickChoice(page, correct) {
   throw new Error(`Unsupported direct interaction: ${interaction}`);
 }
 
+async function clickMisconception(page, misconceptionId) {
+  const selector = `button.choice-button[data-misconception=${JSON.stringify(misconceptionId)}]:not(:disabled)`;
+  const exists = await evaluate(page, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+  if (exists) {
+    await clickSelector(page, selector);
+    return;
+  }
+
+  const interaction = await evaluate(page, "document.getElementById('choicesPanel')?.dataset.interaction || ''");
+  const step = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()");
+  const selected = step?.choices?.find((choice) => choice.misconceptionId === misconceptionId);
+  assert(selected, `Missing deterministic misconception choice: ${misconceptionId}`, { interaction, step });
+
+  if (interaction === "vault-keypad") {
+    const digits = String(Math.max(0, Number(selected.value) || 0));
+    const clicked = await evaluate(page, `(() => {
+      const clear = document.querySelector('.vault-key.is-clear');
+      const enter = document.querySelector('.vault-key.is-enter');
+      if (!clear || !enter) return false;
+      clear.click();
+      for (const digit of ${JSON.stringify(digits)}) {
+        const key = document.querySelector('.vault-key[data-digit="' + digit + '"]');
+        if (!key) return false;
+        key.click();
+      }
+      enter.click();
+      return true;
+    })()`);
+    assert(clicked, `keypad misconception input failed for ${misconceptionId}`, { digits, step });
+    await delay(100);
+    return;
+  }
+
+  throw new Error(`Unsupported deterministic misconception interaction: ${interaction}`);
+}
+
 async function readSnapshot(page) {
   return evaluate(page, `(() => {
     const active = document.querySelector(".screen.is-active")?.id || "";
@@ -362,6 +409,10 @@ async function readSnapshot(page) {
       ".unit-badge",
       ".mini-badge",
       ".choice-button",
+      ".farm-share-answer",
+      ".farm-entry-message",
+      ".farm-answer-basket-card",
+      ".farm-final-sum",
       ".tutorial-card",
       ".reward-panel",
       ".big-problem",
@@ -396,6 +447,7 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
     const selector = [
       'button', '.brand-badge', '.unit-badge', '.mini-badge', '.big-problem',
       '.instruction', '.feedback-line', '.choice-button', '.star-builder-count',
+      '.farm-share-answer', '.farm-entry-message', '.farm-answer-basket-card', '.farm-final-sum',
       '.complete-text', '.result-correct-art'
     ].join(',');
     const visible = [...(root?.querySelectorAll(selector) || [])].filter((node) => {
@@ -445,6 +497,382 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
   }
 }
 
+async function auditCheckLockLayout(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const contains = (outer, inner, tolerance = 1) => Boolean(outer && inner
+      && inner.left >= outer.left - tolerance
+      && inner.top >= outer.top - tolerance
+      && inner.right <= outer.right + tolerance
+      && inner.bottom <= outer.bottom + tolerance);
+    const problem = rectOf(document.querySelector('.problem-card'));
+    const visual = rectOf(document.querySelector('.visual-area'));
+    const svg = rectOf(document.querySelector('.check-lock-svg'));
+    const surface = rectOf(document.querySelector('.lock-board-bg'));
+    const step = rectOf(document.querySelector('.step-board'));
+    const choices = rectOf(document.querySelector('.choices-panel'));
+    const keypad = rectOf(document.querySelector('.vault-keypad'));
+    const controls = [...document.querySelectorAll('.vault-key, .check-lock-choice')]
+      .filter((node) => {
+        const style = getComputedStyle(node);
+        const rect = node.getBoundingClientRect();
+        return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1;
+      })
+      .map(rectOf);
+    const textOutsideSurface = [...document.querySelectorAll('.check-lock-svg text')]
+      .map((node) => ({ text:node.textContent.trim(), rect:rectOf(node) }))
+      .filter((item) => !contains(surface, item.rect, 2));
+    return {
+      problem, visual, svg, surface, step, choices, keypad,
+      surfaceGap: surface && step ? step.top - surface.bottom : null,
+      stepChoiceGap: step && choices ? choices.top - step.bottom : null,
+      surfaceInsideVisual: contains(visual, surface, 1),
+      svgInsideProblem: contains(problem, svg, 1),
+      keypadInsideChoices: keypad ? contains(choices, keypad, 1) : true,
+      minControlWidth: controls.length ? Math.min(...controls.map((rect) => rect.width)) : 0,
+      minControlHeight: controls.length ? Math.min(...controls.map((rect) => rect.height)) : 0,
+      controlCount: controls.length,
+      textOutsideSurface
+    };
+  })()`);
+  assert(audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
+  assert(audit.surfaceGap >= 6, `${label}: vault calculation surface overlaps instruction`, audit);
+  assert(audit.stepChoiceGap >= 4, `${label}: instruction overlaps keypad or lever choices`, audit);
+  assert(audit.surfaceInsideVisual && audit.svgInsideProblem, `${label}: vault calculation surface left its reserved grid track`, audit);
+  assert(audit.keypadInsideChoices, `${label}: keypad left its reserved choice track`, audit);
+  assert(audit.controlCount > 0 && audit.minControlWidth >= 42 && audit.minControlHeight >= 42, `${label}: check-lock touch target is smaller than 42px`, audit);
+  assert(audit.textOutsideSurface.length === 0, `${label}: SVG text left the vault calculation surface`, audit);
+  return audit;
+}
+
+async function auditResultLeaderboardButton(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const art = document.getElementById('leaderboardButtonArt');
+    const hitbox = document.getElementById('leaderboardButton');
+    const read = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2 };
+    };
+    return {
+      art: art ? { hidden:art.hidden, complete:art.complete, naturalWidth:art.naturalWidth, rect:read(art) } : null,
+      hitbox: hitbox ? { hidden:hitbox.hidden, rect:read(hitbox) } : null
+    };
+  })()`);
+  assert(audit.art && !audit.art.hidden && audit.art.complete && audit.art.naturalWidth > 0, `${label}: generated leaderboard button art missing`, audit);
+  assert(audit.hitbox && !audit.hitbox.hidden && audit.hitbox.rect.width >= 42 && audit.hitbox.rect.height >= 42, `${label}: leaderboard hitbox missing`, audit);
+  assert(Math.abs(audit.art.rect.cx - audit.hitbox.rect.cx) <= 1 && Math.abs(audit.art.rect.cy - audit.hitbox.rect.cy) <= 1, `${label}: leaderboard art and hitbox centers differ`, audit);
+  assert(Math.abs(audit.art.rect.width - audit.hitbox.rect.width) <= 1 && Math.abs(audit.art.rect.height - audit.hitbox.rect.height) <= 1, `${label}: leaderboard art and hitbox sizes differ`, audit);
+}
+
+async function renderScoreboardQaState(page, mode) {
+  await evaluate(page, `(() => {
+    const root = document.getElementById('screen-scoreboard');
+    const entries = Array.from({ length: 10 }, (_, index) => ({
+      rank: index + 1,
+      nickname: '아주긴매스몬이름' + (index + 1),
+      score: String(100 - index * 3),
+      correctCount: 10 - (index % 3),
+      weekStart: '2026-07-13',
+      rewardResult: { id: 'qa' }
+    }));
+    const state = {
+      root,
+      apiEnabled: ${JSON.stringify("MODE")} !== 'offline',
+      loading: ${JSON.stringify("MODE")} === 'loading',
+      error: ${JSON.stringify("MODE")} === 'error',
+      session: ${JSON.stringify("MODE")} === 'offline' ? null : { nickname: '반짝여우몬' },
+      submission: ${JSON.stringify("MODE")} === 'success' ? { nickname: '반짝여우몬', score: '82', correctCount: 9 } : null,
+      score: 82,
+      rewardResult: { id: 'qa' },
+      myEntry: ${JSON.stringify("MODE")} === 'success' ? entries[6] : null,
+      weekLabel: '이번 주',
+      entries: ${JSON.stringify("MODE")} === 'success' ? entries : [],
+      totalQuestions: 10
+    };
+    window.MathmonScoreboard.render(state);
+  })()`.replaceAll('"MODE"', JSON.stringify(mode)));
+}
+
+async function auditScoreboard(page, label, { expectedFirstRank = null, expectedLastRank = null } = {}) {
+  const audit = await evaluate(page, `(() => {
+    const root = document.getElementById('screen-scoreboard');
+    const stage = root.querySelector('.mathmon-scoreboard-stage');
+    const faces = [...root.querySelectorAll('.mathmon-scoreboard-button-face')];
+    const hitboxes = [...root.querySelectorAll('.mathmon-scoreboard-hitbox')];
+    const rect = (node) => {
+      const box = node.getBoundingClientRect();
+      return { left:box.left, top:box.top, width:box.width, height:box.height, cx:box.left + box.width / 2, cy:box.top + box.height / 2 };
+    };
+    const buttonDeltas = hitboxes.map((button, index) => {
+      const hit = rect(button), face = rect(faces[index]);
+      return { centerX:Math.abs(hit.cx - face.cx), centerY:Math.abs(hit.cy - face.cy), width:Math.abs(hit.width - face.width), height:Math.abs(hit.height - face.height), hit };
+    });
+    const svgTextOutside = [...root.querySelectorAll('svg text')].filter((node) => {
+      try {
+        const box = node.getBBox();
+        const viewBox = node.ownerSVGElement.viewBox.baseVal;
+        return box.x < viewBox.x - 1 || box.y < viewBox.y - 1 || box.x + box.width > viewBox.x + viewBox.width + 1 || box.y + box.height > viewBox.y + viewBox.height + 1;
+      } catch { return false; }
+    }).map((node) => node.textContent.trim());
+    const ranks = [...root.querySelectorAll('.mathmon-scoreboard-rank')].map((node) => Number(node.textContent.trim())).filter(Number.isFinite);
+    const names = [...root.querySelectorAll('.mathmon-scoreboard-name')].map((node) => node.textContent.trim());
+    const image = root.querySelector('.mathmon-scoreboard-stage-art');
+    return {
+      active: root.classList.contains('is-active'),
+      viewBox: stage?.getAttribute('viewBox') || '',
+      status: root.querySelector('[data-scoreboard-status]')?.textContent.trim() || '',
+      empty: root.querySelector('.mathmon-scoreboard-empty')?.textContent.trim() || '',
+      ranks,
+      names,
+      buttonDeltas,
+      svgTextOutside,
+      image: image ? { href:image.getAttribute('href'), width:image.getBoundingClientRect().width, height:image.getBoundingClientRect().height } : null
+    };
+  })()`);
+  assert(audit.active && audit.viewBox === "0 0 1280 800", `${label}: scoreboard Stage contract missing`, audit);
+  assert(audit.image?.href?.includes('scoreboard-celebration-bg-generated.webp') && audit.image.width > 0 && audit.image.height > 0, `${label}: generated celebration background missing`, audit);
+  assert(audit.buttonDeltas.length === 3 && audit.buttonDeltas.every((item) => item.centerX <= 1 && item.centerY <= 1 && item.width <= 1 && item.height <= 1 && item.hit.width >= 42 && item.hit.height >= 42), `${label}: SVG button and HTML hitbox mismatch`, audit);
+  assert(audit.svgTextOutside.length === 0, `${label}: SVG text left its viewBox`, audit);
+  assert(audit.names.every((name) => name.length <= 12), `${label}: long nickname was not truncated`, audit);
+  if (expectedFirstRank !== null) assert(audit.ranks[0] === expectedFirstRank, `${label}: first visible rank mismatch`, audit);
+  if (expectedLastRank !== null) assert(audit.ranks.at(-1) === expectedLastRank, `${label}: last visible rank mismatch`, audit);
+  return audit;
+}
+
+async function auditElevatorDivisionBoard(page, label, { expectDown = false } = {}) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2 };
+    };
+    const surface = rectOf(document.querySelector('.math-board-surface rect'));
+    const work = rectOf(document.querySelector('.division-work'));
+    const step = rectOf(document.querySelector('.step-board'));
+    const tensCell = rectOf(document.querySelector('.board-cell[aria-label^="십의 자리 수"] rect'));
+    const onesCell = rectOf(document.querySelector('.board-cell[aria-label^="일의 자리 수"] rect'));
+    const product = rectOf(document.querySelector('.board-work-product'));
+    const remainder = rectOf(document.querySelector('.division-work .board-work-digit'));
+    const downSlot = rectOf(document.querySelector('.board-down-slot'));
+    const combinedTarget = rectOf(document.querySelector('.board-combined-target .board-down-slot'));
+    const combinedLabel = document.querySelector('.board-combined-label')?.textContent.trim() || '';
+    const arrow = document.querySelector('.board-down-arrow')?.getAttribute('d') || '';
+    const texts = [...document.querySelectorAll('.division-work text')].map((node) => ({ text:node.textContent, rect:rectOf(node) }));
+    const textOverlaps = [];
+    for (let i = 0; i < texts.length; i += 1) for (let j = i + 1; j < texts.length; j += 1) {
+      const a = texts[i].rect, b = texts[j].rect;
+      const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (overlapX > 1 && overlapY > 1) textOverlaps.push([texts[i].text, texts[j].text, overlapX, overlapY]);
+    }
+    return {
+      surface, work, step, tensCell, onesCell, product, remainder, downSlot, combinedTarget, combinedLabel, arrow, textOverlaps,
+      surfaceGap: surface && step ? step.top - surface.bottom : null,
+      workGap: work && step ? step.top - work.bottom : null,
+      productColumnDelta: product && tensCell ? Math.abs(product.cx - tensCell.cx) : null,
+      remainderColumnDelta: remainder && tensCell ? Math.abs(remainder.cx - tensCell.cx) : null,
+      downColumnDelta: downSlot && onesCell ? Math.abs(downSlot.cx - onesCell.cx) : null
+    };
+  })()`);
+  assert(audit.surface && audit.work && audit.step, `${label}: division board state missing`, audit);
+  assert(audit.surfaceGap >= 4, `${label}: calculation board overlaps instruction`, audit);
+  assert(audit.workGap >= 4, `${label}: calculation work overlaps instruction`, audit);
+  assert(audit.productColumnDelta <= 1, `${label}: partial product left its tens column`, audit);
+  assert(audit.remainderColumnDelta <= 1, `${label}: remainder left its tens column`, audit);
+  assert(audit.textOverlaps.length === 0, `${label}: calculation text overlaps`, audit);
+  if (expectDown) {
+    assert(audit.combinedTarget, `${label}: combined-number target missing`, audit);
+    assert(audit.combinedTarget.left <= audit.tensCell.cx && audit.combinedTarget.right >= audit.onesCell.cx, `${label}: combined-number target does not span both place-value columns`, audit);
+    assert(audit.combinedLabel === '합친 수', `${label}: combined-number target meaning is unclear`, audit);
+    assert(audit.arrow === 'M631 197 V249', `${label}: bring-down arrow is not vertical`, audit);
+  }
+}
+
+async function auditElevatorPlayHeader(page, label) {
+  const header = await evaluate(page, `(() => {
+    const read = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return {
+        text: node.textContent.trim().replace(/\\s+/g, ' '),
+        visible: style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1,
+        top: rect.top,
+        bottom: rect.bottom,
+        fontSize: parseFloat(style.fontSize),
+        overflows: node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1
+      };
+    };
+    return {
+      brand: read('#screen-play .hud-left .brand-badge'),
+      unit: read('#screen-play .hud-right .unit-badge'),
+      counter: read('#problemCounter'),
+      route: read('.elevator-route-summary')
+    };
+  })()`);
+  assert(header.brand?.visible && header.brand.text === "에듀잇티 수학 게임", `${label}: Eduitit play badge missing`, header);
+  assert(header.unit?.visible && header.unit.text === "2단원 나눗셈", `${label}: unit play badge missing`, header);
+  assert(header.counter?.visible, `${label}: problem counter missing`, header);
+  assert(header.route?.visible && /지금.*다음.*끝/.test(header.route.text), `${label}: current, next, and final floors are not visible`, header);
+  assert(!header.route.overflows, `${label}: floor progress text overflows`, header);
+  assert(Math.abs(header.brand.top - header.unit.top) <= 1, `${label}: brand and unit badges are off baseline`, header);
+}
+
+async function auditStarPickupPlayHeader(page, label) {
+  const header = await evaluate(page, `(() => {
+    const read = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return {
+        text: node.textContent.trim(),
+        visible: style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1,
+        top: rect.top,
+        bottom: rect.bottom,
+        ariaLabel: node.getAttribute('aria-label') || '',
+        titleImages: [...node.querySelectorAll('.star-journey-title')].map((image) => ({
+          src: image.getAttribute('src') || '',
+          complete: image.complete,
+          naturalWidth: image.naturalWidth,
+          width: image.getBoundingClientRect().width,
+          height: image.getBoundingClientRect().height
+        }))
+      };
+    };
+    return {
+      brand: read('#screen-play .hud-left .brand-badge'),
+      unit: read('#screen-play .hud-right .unit-badge'),
+      counter: read('#problemCounter')
+    };
+  })()`);
+  assert(header.brand?.visible && header.brand.text === "에듀잇티 수학 게임", `${label}: Eduitit play badge missing`, header);
+  assert(header.unit?.visible && header.unit.text === "2단원 나눗셈", `${label}: unit play badge missing`, header);
+  assert(header.counter?.visible && /^\d+\/10/.test(header.counter.text) && header.counter.ariaLabel.includes("다음"), `${label}: current-to-next star journey missing`, header);
+  assert(header.counter.titleImages.length === 2, `${label}: current and next generated title images are missing`, header);
+  assert(header.counter.titleImages.every((image) => image.complete && image.naturalWidth > 0 && image.width >= 80 && image.height >= 20), `${label}: generated title image slot is broken`, header);
+  assert(Math.abs(header.brand.top - header.unit.top) <= 1, `${label}: brand and unit badges are off baseline`, header);
+  assert(Math.abs(header.brand.top - header.counter.top) <= 1, `${label}: play badges and journey are off baseline`, header);
+}
+
+async function auditStarPickupEvidence(page, label, kind) {
+  const audit = await evaluate(page, `(() => ({
+    step: window.__mathmonEngineQa.getCurrentStep()?.id || '',
+    proofStep: document.getElementById('visualArea')?.dataset.proofStep || '',
+    revealedStep: document.getElementById('visualArea')?.dataset.revealedStep || '',
+    feedback: document.getElementById('feedbackLine')?.textContent.trim() || '',
+    proofText: document.querySelector('.star-proof-label')?.textContent.trim() || '',
+    hasOverflow: Boolean(document.querySelector('.star-proof-overflow')),
+    hasNextGroup: Boolean(document.querySelector('.star-next-group')),
+    hasFill: Boolean(document.querySelector('.star-proof-fill')),
+    minChoiceHeight: Math.min(...[...document.querySelectorAll('.star-choice')].map((node) => node.getBoundingClientRect().height))
+  }))()`);
+  assert(audit.feedback.length > 0, `${label}: one-line feedback is missing`, audit);
+  assert(audit.minChoiceHeight >= 42, `${label}: choice touch target is too short`, audit);
+  if (kind === "quotient-too-low") {
+    assert(audit.step === "quotient" && audit.proofStep === "quotient", `${label}: quotient evidence state missing`, audit);
+    assert(audit.hasNextGroup && audit.feedback.includes("한 묶음을 더"), `${label}: another possible group is not shown`, audit);
+  } else if (kind === "quotient-too-high") {
+    assert(audit.step === "quotient" && audit.proofStep === "quotient", `${label}: quotient evidence state missing`, audit);
+    assert(audit.hasOverflow && audit.feedback.includes("모자라"), `${label}: overflow shortage is not shown`, audit);
+  } else if (kind === "quotient-confirm") {
+    assert(audit.step === "quotient" && audit.revealedStep === "quotient", `${label}: chosen quotient was not placed on the board`, audit);
+    assert(audit.hasFill && audit.feedback.includes("묶음"), `${label}: quotient confirmation is not visible`, audit);
+  } else if (kind === "remainder-wrong") {
+    assert(audit.step === "remainder" && audit.proofStep === "remainder", `${label}: remainder evidence state missing`, audit);
+    assert(audit.hasNextGroup && audit.feedback.includes("한 묶음"), `${label}: divisor-sized leftover group is not shown`, audit);
+  }
+}
+
+async function auditElevatorLearningLegibility(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const stage = document.querySelector('.stage-shell');
+    const stageRect = stage?.getBoundingClientRect();
+    const scale = stage && stageRect ? stageRect.width / stage.offsetWidth : 1;
+    const physicalFont = (selector) => {
+      const node = document.querySelector(selector);
+      return node ? parseFloat(getComputedStyle(node).fontSize) * scale : 0;
+    };
+    const choices = [...document.querySelectorAll('.elevator-choice--pair')];
+    const choiceRects = choices.map((node) => node.getBoundingClientRect());
+    const labels = choices.map((node) => [...node.querySelectorAll('.elevator-choice-label')].map((part) => part.textContent.trim()));
+    const values = choices.map((node) => [...node.querySelectorAll('.elevator-choice-value')].map((part) => Number(part.textContent.trim())));
+    return {
+      scale,
+      bigProblem: physicalFont('.big-problem'),
+      boardNumber: physicalFont('.board-number'),
+      instruction: physicalFont('.instruction'),
+      choiceLabel: physicalFont('.elevator-choice-label'),
+      choiceValue: physicalFont('.elevator-choice-value'),
+      minChoiceHeight: choiceRects.length ? Math.min(...choiceRects.map((rect) => rect.height)) : 0,
+      labels,
+      values
+    };
+  })()`);
+  assert(audit.bigProblem >= 40, `${label}: main problem text is too small`, audit);
+  assert(audit.boardNumber >= 32, `${label}: calculation board numbers are too small`, audit);
+  assert(audit.instruction >= 14, `${label}: instruction text is too small`, audit);
+  assert(audit.choiceLabel >= 12, `${label}: choice labels are too small`, audit);
+  assert(audit.choiceValue >= 21, `${label}: choice values are too small`, audit);
+  assert(audit.minChoiceHeight >= 42, `${label}: choice touch target is too short`, audit);
+  assert(audit.labels.every((parts) => parts.join('|') === '몫|남은 수'), `${label}: choice meanings are unclear`, audit);
+  assert(audit.values.every((parts) => parts.length === 2 && parts.every((value) => value % 10 === 0)), `${label}: first-step choices must show 20/10-style place values`, audit);
+}
+
+async function auditElevatorWrongEvidence(page, label, misconceptionId) {
+  const audit = await evaluate(page, `(() => {
+    const note = document.querySelector('.board-attempt-note');
+    const wrongCell = document.querySelector('.board-cell.is-wrong');
+    const work = document.querySelector('.division-work.is-wrong-attempt');
+    const combinedWrong = document.querySelector('.board-combined-target.is-wrong');
+    const noteRect = note?.querySelector('rect')?.getBoundingClientRect();
+    const combinedRect = combinedWrong?.querySelector('rect')?.getBoundingClientRect();
+    return {
+      misconception: document.getElementById('visualArea')?.dataset.misconception || '',
+      noteText: note?.textContent.trim().replace(/\\s+/g, ' ') || '',
+      noteWidth: noteRect?.width || 0,
+      noteHeight: noteRect?.height || 0,
+      combinedText: combinedWrong?.textContent.trim().replace(/\\s+/g, ' ') || '',
+      combinedWidth: combinedRect?.width || 0,
+      combinedHeight: combinedRect?.height || 0,
+      wrongCell: Boolean(wrongCell),
+      wrongWork: Boolean(work),
+      feedback: document.getElementById('feedbackLine')?.textContent.trim() || ''
+    };
+  })()`);
+  assert(audit.misconception === misconceptionId, `${label}: wrong misconception state was not kept`, audit);
+  const hasAttemptNote = audit.noteText.length > 0 && audit.noteWidth >= 70 && audit.noteHeight >= 30;
+  const hasCombinedEvidence = audit.combinedText.length > 0 && audit.combinedWidth >= 120 && audit.combinedHeight >= 36;
+  assert(hasAttemptNote || hasCombinedEvidence, `${label}: chosen wrong value is not visible on the board`, audit);
+  assert(audit.wrongWork, `${label}: calculation board did not enter the wrong-evidence state`, audit);
+  if (misconceptionId.includes('QUOTIENT')) assert(audit.wrongCell, `${label}: chosen quotient did not enter its board slot`, audit);
+  assert(audit.feedback.length > 0, `${label}: one-line wrong reason is missing`, audit);
+}
+
+async function auditElevatorNumericLegibility(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const instruction = document.querySelector('.instruction');
+    const values = [...document.querySelectorAll('.elevator-number-value')];
+    const choices = [...document.querySelectorAll('.elevator-choice')];
+    return {
+      instruction: instruction ? parseFloat(getComputedStyle(instruction).fontSize) : 0,
+      numericValue: values[0] ? parseFloat(getComputedStyle(values[0]).fontSize) : 0,
+      valueCount: values.length,
+      minChoiceHeight: choices.length ? Math.min(...choices.map((node) => node.getBoundingClientRect().height)) : 0
+    };
+  })()`);
+  assert(audit.instruction >= 14, `${label}: instruction text is too small`, audit);
+  assert(audit.numericValue >= 28, `${label}: numeric choices are too small`, audit);
+  assert(audit.valueCount === 4, `${label}: four numeric choices must stay visible`, audit);
+  assert(audit.minChoiceHeight >= 42, `${label}: numeric choice touch target is too short`, audit);
+}
+
 async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   if (wrongFirst) {
     await clickChoice(page, false);
@@ -457,6 +885,30 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
     await clickChoice(page, true);
     const advanced = `document.getElementById('completePanel').classList.contains('is-visible') || (window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)})`;
     await waitUntil(page, advanced, "correct response did not advance", 6000);
+  }
+}
+
+async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots) {
+  let stepNumber = 0;
+  while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
+    stepNumber += 1;
+    assert(stepNumber <= 4, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
+    const stepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    const safeStepId = stepId.replace(/[^a-z0-9-]/gi, "-") || `step-${stepNumber}`;
+    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-waiting`));
+    await auditGeometry(page, `${viewport.name} ${stepId} waiting`);
+    await auditCheckLockLayout(page, `${viewport.name} ${stepId} waiting`);
+
+    await clickChoice(page, true);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct'", `${viewport.name}: ${stepId} confirmation did not appear`, 6000);
+    await delay(360);
+    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-confirm`));
+    await auditGeometry(page, `${viewport.name} ${stepId} confirmation`);
+    const completeShown = await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')");
+    if (!completeShown) await auditCheckLockLayout(page, `${viewport.name} ${stepId} confirmation`);
+
+    const advanced = `document.getElementById('completePanel').classList.contains('is-visible') || (window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(stepId)})`;
+    await waitUntil(page, advanced, `${viewport.name}: ${stepId} did not advance`, 6000);
   }
 }
 
@@ -485,6 +937,22 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await waitForLoad(page);
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-cover'", `${viewport.name}: cover not active`);
 
+  if (lesson === "3-2-2-1-mathmon-divide-farm") {
+    const audioQa = await evaluate(page, `(() => {
+      const qa = window.__mathmonAudioQa;
+      if (!qa) return null;
+      qa.setPrefs({ bgmEnabled: false, sfxEnabled: false });
+      const off = qa.getPrefs();
+      qa.setPrefs({ bgmEnabled: true, sfxEnabled: true });
+      const on = qa.getPrefs();
+      return { keys: qa.keys, off, on };
+    })()`);
+    assert(audioQa?.keys?.bgm === "mathmon-audio-bgm-enabled", `${viewport.name}: BGM QA key mismatch`, audioQa);
+    assert(audioQa?.keys?.sfx === "mathmon-audio-sfx-enabled", `${viewport.name}: SFX QA key mismatch`, audioQa);
+    assert(audioQa.off.bgmEnabled === false && audioQa.off.sfxEnabled === false, `${viewport.name}: audio off state did not persist`, audioQa);
+    assert(audioQa.on.bgmEnabled === true && audioQa.on.sfxEnabled === true, `${viewport.name}: audio on state did not persist`, audioQa);
+  }
+
   const shots = [];
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
   await auditGeometry(page, `${viewport.name} cover`, { requireLogo: true });
@@ -507,16 +975,155 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorPlayHeader(page, `${viewport.name} play header`);
+    await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
+  } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
+  } else if (lesson === "3-2-2-4-mathmon-check-lock") {
+    await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
+  }
   const answerLeak = await evaluate(page, "document.getElementById('answerSlot')?.textContent.trim() !== '?' || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
 
-  await clickChoice(page, false);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await clickMisconception(page, "DIV2_TENS_QUOTIENT_TOO_HIGH");
+  } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    await clickMisconception(page, "DIV3_QUOTIENT_TOO_LOW");
+  } else if (lesson === "3-2-2-4-mathmon-check-lock") {
+    await clickMisconception(page, "DIV4_PRODUCT_TOO_HIGH");
+  } else {
+    await clickChoice(page, false);
+  }
   await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0", `${viewport.name}: wrong feedback did not appear`);
-  await delay(500);
-  shots.push(await screenshot(page, lesson, viewport, "05b-play-wrong"));
+  if (lesson === "3-2-2-1-mathmon-divide-farm") {
+    await waitUntil(page, "Boolean(document.querySelector('.farm-share-entry.is-wrong'))", `${viewport.name}: wrong share was not shown in the baskets`);
+  } else {
+    await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: input stayed locked after wrong feedback`);
+  }
+  const firstWrongShot = lesson === "3-2-2-3-mathmon-star-pickup"
+    ? "05b-play-quotient-too-low"
+    : lesson === "3-2-2-4-mathmon-check-lock"
+      ? "05b-play-product-too-high"
+      : "05b-play-wrong";
+  shots.push(await screenshot(page, lesson, viewport, firstWrongShot));
   await auditGeometry(page, `${viewport.name} wrong feedback`);
+  if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockLayout(page, `${viewport.name} product-too-high`);
   await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: input stayed locked after wrong feedback`);
-  await solveCurrentProblem(page);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorWrongEvidence(page, `${viewport.name} quotient-too-high`, "DIV2_TENS_QUOTIENT_TOO_HIGH");
+    await auditElevatorDivisionBoard(page, `${viewport.name} quotient-too-high`);
+  } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    await auditStarPickupEvidence(page, `${viewport.name} quotient-too-low`, "quotient-too-low");
+  }
+  if (lesson === "3-2-2-1-mathmon-divide-farm") {
+    let beforeStep = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    await clickChoice(page, true);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct' && Boolean(document.querySelector('.farm-share-confirmation'))", `${viewport.name}: tens confirmation did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05c-play-tens-confirm"));
+    await auditGeometry(page, `${viewport.name} tens confirmation`);
+    await waitUntil(page, `(window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)} && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: tens share did not advance`, 8000);
+    shots.push(await screenshot(page, lesson, viewport, "05c-play-step2"));
+    await auditGeometry(page, `${viewport.name} ones share`);
+
+    beforeStep = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    await clickChoice(page, true);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct' && Boolean(document.querySelector('.farm-share-confirmation'))", `${viewport.name}: ones confirmation did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05d-play-ones-confirm"));
+    await auditGeometry(page, `${viewport.name} ones confirmation`);
+    await waitUntil(page, `(window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)} && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: ones share did not advance`, 8000);
+    shots.push(await screenshot(page, lesson, viewport, "05d-play-quotient"));
+    await auditGeometry(page, `${viewport.name} quotient entry`);
+
+    await clickChoice(page, false);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && Boolean(document.querySelector('.farm-quotient-entry.is-wrong'))", `${viewport.name}: quotient wrong feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05e-play-quotient-wrong"));
+    await auditGeometry(page, `${viewport.name} quotient wrong feedback`);
+    await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: quotient input stayed locked`);
+    await solveCurrentProblem(page);
+  } else if (lesson === "3-2-2-2-mathmon-elevator") {
+    await clickMisconception(page, "DIV2_TENS_QUOTIENT_TOO_LOW");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: quotient-too-low feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05b2-play-quotient-too-low"));
+    await auditGeometry(page, `${viewport.name} quotient-too-low`);
+    await auditElevatorWrongEvidence(page, `${viewport.name} quotient-too-low`, "DIV2_TENS_QUOTIENT_TOO_LOW");
+    await auditElevatorDivisionBoard(page, `${viewport.name} quotient-too-low`);
+
+    const firstStepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    await clickChoice(page, true);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct' && Boolean(document.querySelector('.division-work.is-tens-check'))", `${viewport.name}: first-step confirmation did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05c-play-step1-confirm"));
+    await auditGeometry(page, `${viewport.name} first-step confirmation`);
+    await auditElevatorDivisionBoard(page, `${viewport.name} first-step confirmation`);
+    await waitUntil(page, `window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(firstStepId)}`, `${viewport.name}: first step did not advance`, 6000);
+    await waitUntil(page, "Boolean(document.querySelector('.division-work.is-down-step'))", `${viewport.name}: down step did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "05d-play-step2"));
+    await auditGeometry(page, `${viewport.name} down step`);
+    await auditElevatorDivisionBoard(page, `${viewport.name} down step`, { expectDown: true });
+    await auditElevatorNumericLegibility(page, `${viewport.name} down-step legibility`);
+
+    await clickMisconception(page, "DIV2_IGNORE_REMAINING_TEN");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: down-step wrong feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05d2-play-down-wrong"));
+    await auditGeometry(page, `${viewport.name} down-step wrong`);
+    await auditElevatorWrongEvidence(page, `${viewport.name} down-step wrong`, "DIV2_IGNORE_REMAINING_TEN");
+    await auditElevatorDivisionBoard(page, `${viewport.name} down-step wrong`, { expectDown: true });
+
+    const downStepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    await clickChoice(page, true);
+    await waitUntil(page, `window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(downStepId)}`, `${viewport.name}: down step did not advance`, 6000);
+    shots.push(await screenshot(page, lesson, viewport, "05e-play-step3"));
+    await auditGeometry(page, `${viewport.name} final quotient step`);
+    await auditElevatorDivisionBoard(page, `${viewport.name} final quotient step`, { expectDown: true });
+    await auditElevatorNumericLegibility(page, `${viewport.name} final quotient legibility`);
+
+    await clickMisconception(page, "DIV2_ONES_QUOTIENT_TOO_HIGH");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: final quotient-too-high feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05e2-play-ones-too-high"));
+    await auditGeometry(page, `${viewport.name} final quotient-too-high`);
+    await auditElevatorWrongEvidence(page, `${viewport.name} final quotient-too-high`, "DIV2_ONES_QUOTIENT_TOO_HIGH");
+    await auditElevatorDivisionBoard(page, `${viewport.name} final quotient-too-high`, { expectDown: true });
+
+    await clickMisconception(page, "DIV2_ONES_QUOTIENT_TOO_LOW");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: final quotient-too-low feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05e3-play-ones-too-low"));
+    await auditGeometry(page, `${viewport.name} final quotient-too-low`);
+    await auditElevatorWrongEvidence(page, `${viewport.name} final quotient-too-low`, "DIV2_ONES_QUOTIENT_TOO_LOW");
+    await auditElevatorDivisionBoard(page, `${viewport.name} final quotient-too-low`, { expectDown: true });
+    await solveCurrentProblem(page);
+  } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    await clickMisconception(page, "DIV3_QUOTIENT_TOO_HIGH");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: quotient-too-high feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05b2-play-quotient-too-high"));
+    await auditGeometry(page, `${viewport.name} quotient-too-high`);
+    await auditStarPickupEvidence(page, `${viewport.name} quotient-too-high`, "quotient-too-high");
+
+    const quotientStepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    await clickChoice(page, true);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct' && document.getElementById('visualArea').dataset.revealedStep === 'quotient'", `${viewport.name}: quotient confirmation did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05c-play-quotient-confirm"));
+    await auditGeometry(page, `${viewport.name} quotient confirmation`);
+    await auditStarPickupEvidence(page, `${viewport.name} quotient confirmation`, "quotient-confirm");
+    await waitUntil(page, `window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(quotientStepId)}`, `${viewport.name}: quotient step did not advance`, 6000);
+    shots.push(await screenshot(page, lesson, viewport, "05d-play-remainder"));
+    await auditGeometry(page, `${viewport.name} remainder step`);
+
+    await clickMisconception(page, "DIV3_REMAINDER_EQUALS_DIVISOR");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: remainder wrong feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05d2-play-remainder-wrong"));
+    await auditGeometry(page, `${viewport.name} remainder wrong`);
+    await auditStarPickupEvidence(page, `${viewport.name} remainder wrong`, "remainder-wrong");
+    await solveCurrentProblem(page);
+  } else if (lesson === "3-2-2-4-mathmon-check-lock") {
+    await clickMisconception(page, "DIV4_PRODUCT_TOO_LOW");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: product-too-low feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05b2-play-product-too-low"));
+    await auditGeometry(page, `${viewport.name} product-too-low`);
+    await auditCheckLockLayout(page, `${viewport.name} product-too-low`);
+    await solveCheckLockProblemWithAudits(page, lesson, viewport, shots);
+  } else {
+    await solveCurrentProblem(page);
+  }
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);
   await clickSelector(page, "#rewardButton");
@@ -530,7 +1137,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
 
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
     await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not active for problem ${problemIndex}`);
-    await solveCurrentProblem(page);
+    await solveCurrentProblem(page, { wrongFirst: lesson === "3-2-2-2-mathmon-elevator" });
     await clickSelector(page, "#rewardButton");
     const reward = await waitForReward(page, `${viewport.name} problem ${problemIndex}`);
     await revealReward(page, reward, `${viewport.name} problem ${problemIndex}`);
@@ -538,8 +1145,55 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
-  shots.push(await screenshot(page, lesson, viewport, "08-result"));
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    const lowResult = await evaluate(page, `(() => ({
+      correctFirstTry: window.__mathmonEngineQa.getState().correctFirstTry,
+      result: document.getElementById('resultTitle')?.textContent.trim() || '',
+      tier: document.getElementById('screen-result')?.dataset.resultTier || ''
+    }))()`);
+    assert(lowResult.correctFirstTry === 0, `${viewport.name}: low-result scenario must finish at 0/10`, lowResult);
+    assert(lowResult.result === "지하 정비층" && lowResult.tier === "basement", `${viewport.name}: 0/10 must still arrive at a visible place`, lowResult);
+    shots.push(await screenshot(page, lesson, viewport, "08-result-low-0-of-10"));
+  } else {
+    shots.push(await screenshot(page, lesson, viewport, "08-result"));
+  }
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
+
+  const scoreboardEnabled = await evaluate(page, "document.querySelector('.game')?.dataset.scoreboardEnabled === 'true'");
+  if (scoreboardEnabled) {
+    await auditResultLeaderboardButton(page, `${viewport.name} result leaderboard button`);
+    await clickSelector(page, "#leaderboardButton");
+    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-scoreboard'", `${viewport.name}: scoreboard not shown`);
+    await renderScoreboardQaState(page, "offline");
+    shots.push(await screenshot(page, lesson, viewport, "09-scoreboard-offline"));
+    const offline = await auditScoreboard(page, `${viewport.name} scoreboard offline`);
+    assert(offline.empty.includes("10위까지"), `${viewport.name}: offline guidance missing`, offline);
+
+    await renderScoreboardQaState(page, "loading");
+    const loading = await auditScoreboard(page, `${viewport.name} scoreboard loading`);
+    assert(loading.empty.includes("불러오고"), `${viewport.name}: loading guidance missing`, loading);
+
+    await renderScoreboardQaState(page, "error");
+    const error = await auditScoreboard(page, `${viewport.name} scoreboard error`);
+    assert(error.empty.includes("볼 수 없어요"), `${viewport.name}: error guidance missing`, error);
+
+    await renderScoreboardQaState(page, "empty");
+    const empty = await auditScoreboard(page, `${viewport.name} scoreboard empty`);
+    assert(empty.empty.includes("기록이 아직 없어요"), `${viewport.name}: empty-state guidance missing`, empty);
+
+    await renderScoreboardQaState(page, "success");
+    shots.push(await screenshot(page, lesson, viewport, "09b-scoreboard-10rows-start"));
+    await auditScoreboard(page, `${viewport.name} scoreboard rows 1-4`, { expectedFirstRank: 1, expectedLastRank: 4 });
+    await evaluate(page, `(() => {
+      const viewport = document.querySelector('[data-scoreboard-list-viewport]');
+      for (let index = 0; index < 8; index += 1) viewport.dispatchEvent(new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true }));
+    })()`);
+    shots.push(await screenshot(page, lesson, viewport, "09c-scoreboard-10rows-end"));
+    await auditScoreboard(page, `${viewport.name} scoreboard rows 7-10`, { expectedFirstRank: 7, expectedLastRank: 10 });
+    await clickSelector(page, "#scoreboardResultButton");
+    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result return failed`);
+  }
+
   const snapshot = await readSnapshot(page);
   assert(!snapshot.placeholders, `${viewport.name}: template placeholders leaked`, snapshot);
   assert(snapshot.missingImages.length === 0, `${viewport.name}: missing images`, snapshot);

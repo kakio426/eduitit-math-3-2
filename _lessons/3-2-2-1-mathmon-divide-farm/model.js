@@ -37,24 +37,17 @@ const Lesson2DivideFarmModel = (() => {
     return { id, value, label, misconceptionId, feedback };
   }
 
-  function makeNumericChoices(answer, candidates, unit, misconceptionIds, feedbacks, rng) {
-    const values = [answer];
-    for (const candidate of candidates) {
-      if (candidate >= 0 && !values.includes(candidate)) values.push(candidate);
-      if (values.length === 4) break;
-    }
-    let bump = 1;
-    while (values.length < 4) {
-      if (!values.includes(answer + bump)) values.push(answer + bump);
-      bump += 1;
-    }
-    return shuffle(values.map((value, index) => choice(
-      `value:${value}`,
-      value,
-      `${value}${unit}`,
-      index === 0 ? null : (misconceptionIds[index - 1] || "DIV1_CALCULATION_SLIP"),
-      index === 0 ? "" : (feedbacks[index - 1] || "한 번 더 나눠 봐요.")
-    )), rng);
+  function makeNumberEntryChoices(answer, misconceptionId = "DIV1_QUOTIENT_COUNT_ERROR") {
+    return Array.from({ length: 99 }, (_, offset) => {
+      const value = offset + 1;
+      return choice(
+        `value:${value}`,
+        value,
+        String(value),
+        value === answer ? null : misconceptionId,
+        value === answer ? "" : "한 바구니를 다시 세어 봐요."
+      );
+    });
   }
 
   function buildPool() {
@@ -62,7 +55,8 @@ const Lesson2DivideFarmModel = (() => {
     for (let dividend = 20; dividend <= 99; dividend += 1) {
       const tens = Math.floor(dividend / 10);
       const ones = dividend % 10;
-      for (let divisor = 2; divisor <= 9; divisor += 1) {
+      if (ones === 0) continue;
+      for (let divisor = 2; divisor <= 5; divisor += 1) {
         if (tens % divisor !== 0 || ones % divisor !== 0) continue;
         pool.push({ dividend, divisor, tens, ones });
       }
@@ -75,8 +69,8 @@ const Lesson2DivideFarmModel = (() => {
     const tensQuotient = tens / divisor;
     const onesQuotient = ones / divisor;
     const quotient = dividend / divisor;
-    const addDigits = tensQuotient + onesQuotient;
-    const reverseDigits = onesQuotient * 10 + tensQuotient;
+    const tensValue = tens * 10;
+    const tensShare = tensQuotient * 10;
     return {
       id: `farm-${serial}-${dividend}-by-${divisor}`,
       type: "exact",
@@ -84,64 +78,57 @@ const Lesson2DivideFarmModel = (() => {
       divisor,
       tens,
       ones,
+      tensValue,
+      tensShare,
       tensQuotient,
       onesQuotient,
       quotient,
       prompt: `${dividend} ÷ ${divisor}`,
-      finalExpression: `${dividend} ÷ ${divisor} = ${quotient}`,
+      finalExpression: `${tensShare} + ${onesQuotient} = ${quotient}\n${dividend} ÷ ${divisor} = ${quotient}`,
       steps: [
         {
           id: "tens",
-          label: "10개 묶음",
-          instruction: `${tens}묶음을 바구니 ${divisor}개에 똑같이 나눠요.`,
-          answer: tensQuotient,
-          answerChoiceId: `value:${tensQuotient}`,
-          choices: makeNumericChoices(
-            tensQuotient,
-            [(tens * 10) / divisor, tensQuotient + 1, Math.max(0, tensQuotient - 1)],
-            "묶음",
-            ["DIV1_DIVIDE_FULL_TENS_VALUE", "DIV1_TENS_QUOTIENT_TOO_HIGH", "DIV1_TENS_QUOTIENT_TOO_LOW"],
-            ["10개 묶음만 세어 봐요.", "한 묶음이 많아요.", "한 묶음이 남았어요."],
-            rng
-          ),
-          correctText: `한 바구니에 ${tensQuotient}묶음`,
-          reveal: `${tensQuotient}묶음`,
-          advance: { mode: "timed", delayMs: 850 }
+          label: `${tensValue}개 먼저`,
+          interaction: "enter-share",
+          instruction: `먼저 ${tensValue}을 바구니 ${divisor}개에 똑같이 나눠요.`,
+          reason: "십의 자리 몫을 만들어요.",
+          answer: tensShare,
+          answerChoiceId: `value:${tensShare}`,
+          totalValue: tensValue,
+          unitCount: tens,
+          unitValue: 10,
+          choices: makeNumberEntryChoices(tensShare, "DIV1_TENS_SHARE_ERROR"),
+          correctText: `바구니마다 ${tensShare}개씩`,
+          reveal: `${tensShare}개`,
+          advance: { mode: "timed", delayMs: 1450 }
         },
         {
           id: "ones",
-          label: "낱개",
-          instruction: `${ones}개를 바구니 ${divisor}개에 똑같이 나눠요.`,
+          label: `남은 ${ones}개`,
+          interaction: "enter-share",
+          instruction: `이제 ${ones}개를 바구니 ${divisor}개에 똑같이 나눠요.`,
+          reason: "일의 자리 몫을 만들어요.",
           answer: onesQuotient,
           answerChoiceId: `value:${onesQuotient}`,
-          choices: makeNumericChoices(
-            onesQuotient,
-            [ones, onesQuotient + 1, Math.max(0, onesQuotient - 1)],
-            "개",
-            ["DIV1_COPY_ONES_WITHOUT_DIVIDING", "DIV1_ONES_QUOTIENT_TOO_HIGH", "DIV1_ONES_QUOTIENT_TOO_LOW"],
-            ["낱개도 똑같이 나눠요.", "한 개가 많아요.", "한 개가 남았어요."],
-            rng
-          ),
-          correctText: `한 바구니에 ${onesQuotient}개`,
+          totalValue: ones,
+          unitCount: ones,
+          unitValue: 1,
+          choices: makeNumberEntryChoices(onesQuotient, "DIV1_ONES_SHARE_ERROR"),
+          correctText: `바구니마다 낱개 ${onesQuotient}개씩`,
           reveal: `${onesQuotient}개`,
-          advance: { mode: "timed", delayMs: 850 }
+          advance: { mode: "timed", delayMs: 1450 }
         },
         {
-          id: "combine",
-          label: "몫 완성",
-          instruction: "두 숫자로 몫을 만들어요.",
+          id: "quotient",
+          label: "몫 쓰기",
+          interaction: "enter-quotient",
+          instruction: "두 수를 합쳐 몫을 써요.",
+          reason: "한 바구니에 담긴 전체 수예요.",
           answer: quotient,
           answerChoiceId: `value:${quotient}`,
-          choices: makeNumericChoices(
-            quotient,
-            [addDigits, reverseDigits, quotient + 10],
-            "",
-            ["DIV1_COMBINE_BY_ADDING_DIGITS", "DIV1_REVERSE_QUOTIENT_DIGITS", "DIV1_TENS_PLACE_TOO_HIGH"],
-            ["두 숫자를 나란히 놓아요.", "십의 자리와 일의 자리를 바꿨어요.", "십의 자리가 너무 커요."],
-            rng
-          ),
+          choices: makeNumberEntryChoices(quotient),
           correctText: `${dividend} ÷ ${divisor} = ${quotient}`,
-          reveal: String(quotient),
+          reveal: `${quotient}`,
           advance: { mode: "complete" }
         }
       ]
@@ -202,6 +189,7 @@ const Lesson2DivideFarmModel = (() => {
   }
 
   function getNextResult(result) {
+    if (result?.needsSpecial) return result;
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];

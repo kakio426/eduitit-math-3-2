@@ -28,24 +28,59 @@
 }
 
 .game[data-workbench-type="remainder-stars"] .hud-left {
-  grid-column: 2;
+  display: contents;
 }
 
-.game[data-workbench-type="remainder-stars"] .hud-left .brand-badge,
-.game[data-workbench-type="remainder-stars"] .hud-right,
 .game[data-workbench-type="remainder-stars"] .progress-line {
   display: none;
 }
 
+.game[data-workbench-type="remainder-stars"] .hud-left .brand-badge {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.game[data-workbench-type="remainder-stars"] .hud-right {
+  grid-column: 3;
+  justify-self: end;
+}
+
 .game[data-workbench-type="remainder-stars"] #problemCounter {
+  grid-column: 2;
+  justify-self: center;
   width: fit-content;
-  min-width: 124px;
+  min-width: 0;
   min-height: 42px;
+  padding: 5px 12px;
+  gap: 7px;
   justify-content: center;
   border-color: #91752c;
   color: #251a05;
   background: #ffe28a;
   font-size: 1rem;
+}
+
+.game[data-workbench-type="remainder-stars"] .star-journey-count,
+.game[data-workbench-type="remainder-stars"] .star-journey-arrow {
+  flex: 0 0 auto;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.game[data-workbench-type="remainder-stars"] .star-journey-count {
+  font-size: .9rem;
+}
+
+.game[data-workbench-type="remainder-stars"] .star-journey-arrow {
+  font-size: 1rem;
+}
+
+.game[data-workbench-type="remainder-stars"] .star-journey-title {
+  display: block;
+  flex: 0 0 auto;
+  width: 104px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .game[data-workbench-type="remainder-stars"] .problem-grid {
@@ -290,6 +325,7 @@
 
 .game[data-workbench-type="remainder-stars"] .problem-grid.is-complete .step-board,
 .game[data-workbench-type="remainder-stars"] .problem-grid.is-complete .choices-panel { display: none; }
+.game[data-workbench-type="remainder-stars"] .reward-card[data-reward-phase="closed"] .reward-label { display: none; }
 .game[data-workbench-type="remainder-stars"] .result-title-art { display: block; left: 61%; top: 12%; width: 30%; border-radius: 999px; }
 .game[data-workbench-type="remainder-stars"] #screen-result .top-row { display: none; }
 .game[data-workbench-type="remainder-stars"] #screen-result::after { background: none; }
@@ -380,9 +416,20 @@
   }
 
   .game[data-workbench-type="remainder-stars"] #problemCounter {
-    min-width: 112px;
+    min-width: 0;
     min-height: 38px;
+    padding: 4px 9px;
+    gap: 5px;
     font-size: .9rem;
+  }
+
+  .game[data-workbench-type="remainder-stars"] .star-journey-title {
+    width: 92px;
+    height: 24px;
+  }
+
+  .game[data-workbench-type="remainder-stars"] .star-journey-count {
+    font-size: .82rem;
   }
 
   .game[data-workbench-type="remainder-stars"] .problem-grid {

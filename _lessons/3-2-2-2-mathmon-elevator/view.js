@@ -1,30 +1,79 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
+let elevatorAttempt = null;
 
 function ensureElevatorStageArt() {
   const playScreen = document.getElementById("screen-play");
-  if (!playScreen || playScreen.querySelector(".elevator-stage-art")) return;
-  const image = document.createElement("img");
-  image.className = "elevator-stage-art";
-  image.src = LESSON_CONFIG.imageAssets.problemStage;
-  image.alt = "";
-  image.setAttribute("aria-hidden", "true");
-  playScreen.prepend(image);
+  if (!playScreen) return;
+  if (!playScreen.querySelector(".elevator-stage-art")) {
+    const image = document.createElement("img");
+    image.className = "elevator-stage-art";
+    image.src = LESSON_CONFIG.imageAssets.problemStage;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    playScreen.prepend(image);
+  }
+
+  const progressLine = playScreen.querySelector(".progress-line");
+  if (progressLine && !progressLine.querySelector(".elevator-route-summary")) {
+    const summary = document.createElement("div");
+    summary.className = "elevator-route-summary";
+    summary.innerHTML = `
+      <span class="elevator-route-point is-current"><b>지금</b><span data-route="current">지하</span></span>
+      <span class="elevator-route-arrow" aria-hidden="true">→</span>
+      <span class="elevator-route-point is-next"><b>다음</b><span data-route="next">1층</span></span>
+      <span class="elevator-route-arrow" aria-hidden="true">→</span>
+      <span class="elevator-route-point is-final"><b>끝</b><span>꼭대기</span></span>
+    `;
+    progressLine.appendChild(summary);
+  }
+}
+
+function syncElevatorRoute(state) {
+  const summary = document.querySelector("#screen-play .elevator-route-summary");
+  if (!summary) return;
+  const current = Lesson2ElevatorModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+  const special = Lesson2ElevatorModel.RESULT_TIERS.find((result) => result.needsSpecial);
+  const next = current.needsSpecial ? null : Lesson2ElevatorModel.getNextResult(current);
+  const nextName = !next || next.id === current.id ? (special?.name || "꼭대기 전망대") : next.name;
+  const nextLabelResult = !next || next.id === current.id ? special : next;
+  summary.querySelector('[data-route="current"]').textContent = getElevatorFloorLabel(current);
+  summary.querySelector('[data-route="next"]').textContent = current.needsSpecial ? "도착" : getElevatorFloorLabel(nextLabelResult || { name: nextName });
+  summary.parentElement?.setAttribute(
+    "aria-label",
+    `지금 ${current.name}, 다음 ${current.needsSpecial ? "도착" : nextName}, 끝 꼭대기 전망대`
+  );
+}
+
+function getElevatorFloorLabel(result) {
+  const labels = {
+    basement: "지하",
+    first: "1층",
+    middle: "중간층",
+    view: "전망층",
+    roof: "옥상",
+    rainbow: "꼭대기"
+  };
+  return labels[result?.id] || String(result?.name || "다음 층").replace(" 정비층", "").replace(" 로비", "").replace(" 전망대", "");
 }
 
 function renderProblemVisual(problem, state) {
   ensureElevatorStageArt();
+  elevatorAttempt = null;
   ui.visualArea.dataset.revealedStep = "";
   ui.visualArea.dataset.misconception = "";
+  syncElevatorRoute(state);
   renderElevatorMathBoard(problem, state);
 }
 
 function updateProblemVisualForStep(problem, step, state) {
+  elevatorAttempt = null;
   ui.visualArea.dataset.revealedStep = "";
   ui.visualArea.dataset.misconception = "";
   renderElevatorMathBoard(problem, state);
 }
 
 function revealCorrectStep(problem, step, state) {
+  elevatorAttempt = null;
   ui.visualArea.dataset.revealedStep = step.id;
   ui.visualArea.dataset.misconception = "";
   renderElevatorMathBoard(problem, state);
@@ -32,6 +81,7 @@ function revealCorrectStep(problem, step, state) {
 
 function renderAttempt(problem, step, choice, state, result) {
   if (result.correct) return;
+  elevatorAttempt = { stepId: step.id, choice };
   ui.visualArea.dataset.misconception = choice.misconceptionId || "";
   renderElevatorMathBoard(problem, state);
 }
@@ -39,6 +89,21 @@ function renderAttempt(problem, step, choice, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.choices[0]?.kind || "number";
+  ui.choices.dataset.interaction = step.id === "down" ? "drag-down" : "floor-panel";
+  const panel = document.createElement("div");
+  panel.className = step.id === "down" ? "elevator-drop-layout" : "elevator-floor-panel";
+  let drop = null;
+  let tray = panel;
+  if (step.id === "down") {
+    drop = document.createElement("button");
+    drop.type = "button";
+    drop.className = "elevator-down-zone";
+    drop.setAttribute("aria-label", "남은 수와 일의 자리 수를 합친 수를 아래 칸으로 내리기");
+    drop.innerHTML = `<span aria-hidden="true">↓</span><strong>아래 칸</strong>`;
+    tray = document.createElement("div");
+    tray.className = "elevator-down-tray";
+    panel.append(drop, tray);
+  }
 
   for (const choice of step.choices) {
     const button = document.createElement("button");
@@ -46,6 +111,7 @@ function renderChoicesForStep(problem, step, state, choose) {
     button.type = "button";
     button.dataset.choice = choice.id;
     button.dataset.correct = choice.id === step.answerChoiceId ? "true" : "false";
+    button.dataset.misconception = choice.misconceptionId || "";
     button.setAttribute("aria-label", choice.label);
 
     if (choice.kind === "quotient-remaining-pair") {
@@ -72,68 +138,94 @@ function renderChoicesForStep(problem, step, state, choose) {
       button.appendChild(value);
     }
 
-    button.addEventListener("click", () => choose(choice, button));
-    ui.choices.appendChild(button);
+    if (drop) wireDirectChoice(button, drop, choice, choose);
+    else button.addEventListener("click", () => choose(choice, button));
+    tray.appendChild(button);
   }
+  ui.choices.appendChild(panel);
   return true;
+}
+
+function onStepCorrect({ step }) { return moveElevator(step.id === "down" ? "down" : "correct"); }
+function onStepWrong() { return moveElevator("wrong"); }
+function onProblemComplete() { return moveElevator("arrived"); }
+function onRewardReveal() { return moveElevator("reward"); }
+
+function moveElevator(sceneState) {
+  const art = document.querySelector(".elevator-stage-art");
+  if (!art) return Promise.resolve();
+  art.dataset.sceneState = sceneState;
+  return new Promise((resolve) => setTimeout(resolve, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420));
 }
 
 function renderElevatorMathBoard(problem, state) {
   const step = problem.steps[state.stepIndex];
   const revealedStep = ui.visualArea.dataset.revealedStep;
   const misconception = ui.visualArea.dataset.misconception;
+  const attemptedChoice = elevatorAttempt?.stepId === step.id ? elevatorAttempt.choice : null;
+  const wrongTens = step.id === "tens" && attemptedChoice;
+  const wrongDown = step.id === "down" && attemptedChoice;
+  const wrongOnes = step.id === "ones" && attemptedChoice;
   const tensDone = state.stepIndex > 0 || revealedStep === "tens";
   const downDone = state.stepIndex > 1 || revealedStep === "down" || revealedStep === "ones";
   const onesDone = revealedStep === "ones";
 
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.classList.add("elevator-math-svg");
-  svg.setAttribute("viewBox", "0 0 920 330");
+  svg.setAttribute("viewBox", "0 0 920 300");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep));
+  svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep, attemptedChoice));
 
   const showRemainingEvidence = misconception === "DIV2_OMIT_REMAINING_TEN"
     || misconception === "DIV2_IGNORE_REMAINING_TEN";
-  const remainingValue = tensDone || showRemainingEvidence ? String(problem.remainingTens) : "?";
-  const downTensValue = downDone ? String(problem.remainingTens) : remainingValue;
-  const downOnesValue = downDone ? String(problem.onesDigit) : "?";
-  const showCarryRow = tensDone || state.stepIndex > 0 || showRemainingEvidence;
-  const remainingOnlyMarkup = showRemainingEvidence && !tensDone && state.stepIndex === 0 ? `
-      <g class="remaining-row is-evidence">
-        <text x="500" y="248" class="board-small-label">나머지(남은 십)</text>
-        <text x="500" y="296" class="board-number board-small-value">${remainingValue}</text>
-      </g>
-  ` : "";
-  const carryRowMarkup = showCarryRow && !remainingOnlyMarkup ? `
-      <g class="remaining-row ${state.stepIndex === 1 ? "is-current" : ""}">
-        <text x="392" y="248" class="board-small-label">나머지(남은 십)</text>
-        <text x="392" y="292" class="board-number board-small-value">${remainingValue}</text>
-        <path d="M458 238 C500 238 508 275 548 275" fill="none" stroke="#f3c45f" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowhead)" />
-        <text x="592" y="248" class="board-small-label">내린 수</text>
-        <text x="574" y="292" class="board-number board-small-value">${downTensValue}</text>
-        <text x="620" y="292" class="board-number board-small-value">${downOnesValue}</text>
+  const displayedTensQuotient = wrongTens ? attemptedChoice.value.quotient : problem.tensQuotient;
+  const partialProduct = problem.divisor * displayedTensQuotient;
+  const calculatedRemaining = problem.tensDigit - partialProduct;
+  const remainingValue = wrongTens
+    ? String(calculatedRemaining)
+    : tensDone || showRemainingEvidence
+      ? String(problem.remainingTens)
+      : "?";
+  const downOnesValue = downDone || wrongDown ? String(problem.onesDigit) : "?";
+  const showTensWork = tensDone || showRemainingEvidence || wrongTens;
+  const showDownWork = state.stepIndex > 0 || revealedStep === "down" || revealedStep === "ones";
+  const downTargetActive = state.stepIndex === 1 && !downDone;
+  const attemptNote = renderAttemptNote(problem, step, attemptedChoice);
+  const workMarkup = showTensWork ? `
+      <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"} ${attemptedChoice ? "is-wrong-attempt" : ""}">
+        <text x="414" y="208" class="board-work-minus">−</text>
+        <text x="463" y="208" class="board-work-product">${partialProduct}</text>
+        <path d="M416 219 H510" class="board-work-line" />
+        <text x="386" y="270" class="board-work-label" text-anchor="end">남은 십</text>
+        <text x="463" y="277" class="board-work-digit">${remainingValue}</text>
+        ${showDownWork ? `
+          <path d="M631 181 V231" class="board-down-arrow" marker-end="url(#arrowhead)" />
+          <rect x="590" y="238" width="82" height="52" rx="14" class="board-down-slot ${downTargetActive ? "is-active" : ""}" />
+          <text x="631" y="277" class="board-work-digit board-down-value ${downTargetActive ? "is-active" : ""}">${downOnesValue}</text>
+          ${attemptNote ? "" : '<text x="704" y="270" class="board-work-label" text-anchor="start">내린 수</text>'}
+        ` : ""}
+        ${attemptNote}
       </g>
   ` : "";
 
   svg.innerHTML = `
-    <title>${problem.prompt} 계산판</title>
     <g class="math-board-surface">
-      <rect x="112" y="18" width="720" height="292" rx="28" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect x="112" y="8" width="720" height="284" rx="28" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
     </g>
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="210" y="174" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 112 Q305 112 305 132 L305 250 M305 112 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="210" y="156" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M285 92 Q305 92 305 112 L305 174 M305 92 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      ${renderSvgCell(392, 42, 142, 72, tensDone ? problem.tensQuotient : "?", state.stepIndex === 0, "십의 자리 몫")}
-      ${renderSvgCell(560, 42, 142, 72, onesDone ? problem.onesQuotient : "?", state.stepIndex === 2, "일의 자리 몫")}
+      ${renderSvgCell(392, 18, 142, 58, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
+      ${renderSvgCell(560, 18, 142, 58, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
-      ${renderSvgCell(392, 130, 142, 78, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-      ${renderSvgCell(560, 130, 142, 78, problem.onesDigit, false, "일의 자리 수")}
+      ${renderSvgCell(392, 108, 142, 64, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
+      ${renderSvgCell(560, 108, 142, 64, problem.onesDigit, false, "일의 자리 수")}
 
-      ${remainingOnlyMarkup || carryRowMarkup}
+      ${workMarkup}
     </g>
     <defs>
-      <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
         <path d="M0,0 L8,4 L0,8 Z" fill="#f3c45f" />
       </marker>
     </defs>
@@ -142,19 +234,44 @@ function renderElevatorMathBoard(problem, state) {
   ui.visualArea.replaceChildren(svg);
 }
 
-function renderSvgCell(x, y, width, height, value, active, label) {
+function renderSvgCell(x, y, width, height, value, active, label, wrong = false) {
   const activeClass = active ? "is-active" : "";
+  const wrongClass = wrong ? "is-wrong" : "";
+  const fill = wrong ? "#ffe0e7" : active ? "#ffd46d" : "#27434a";
+  const stroke = wrong ? "#b72d4d" : active ? "#6f4b00" : "#7fa2aa";
+  const textFill = wrong || active ? "#2c210c" : "#fff8e8";
   return `
-    <g class="board-cell ${activeClass}" aria-label="${label} ${value}">
-      <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="18" fill="${active ? "#ffd46d" : "#27434a"}" stroke="${active ? "#6f4b00" : "#7fa2aa"}" stroke-width="4" />
-      <text x="${x + width / 2}" y="${y + height / 2 + 18}" class="board-number" fill="${active ? "#2c210c" : "#fff8e8"}">${value}</text>
+    <g class="board-cell ${activeClass} ${wrongClass}" aria-label="${label} ${value}">
+      <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="18" fill="${fill}" stroke="${stroke}" stroke-width="4" />
+      <text x="${x + width / 2}" y="${y + height / 2 + 18}" class="board-number" fill="${textFill}">${value}</text>
     </g>
   `;
 }
 
-function getBoardAriaLabel(problem, state, revealedStep) {
+function renderAttemptNote(problem, step, choice) {
+  if (!choice) return "";
+  let label = "고른 수";
+  let value = String(choice.value);
+  if (step.id === "tens") {
+    label = "고른 남은 수";
+    value = String(choice.value.remainingTens * 10);
+  } else if (step.id === "ones") {
+    label = "곱해서 확인";
+    value = `${problem.divisor}×${choice.value}=${problem.divisor * choice.value}`;
+  }
+  return `
+    <g class="board-attempt-note" aria-label="${label} ${value}">
+      <rect x="672" y="226" width="152" height="64" rx="14" />
+      <text x="748" y="249" class="board-attempt-label">${label}</text>
+      <text x="748" y="282" class="board-attempt-value">${value}</text>
+    </g>
+  `;
+}
+
+function getBoardAriaLabel(problem, state, revealedStep, attemptedChoice) {
+  if (attemptedChoice) return `${problem.prompt}, ${problem.steps[state.stepIndex].label}에서 ${attemptedChoice.label}을 골라 다시 확인하는 중`;
   if (revealedStep === "ones") return `${problem.prompt}, 답 ${problem.quotient} 완성`;
-  if (state.stepIndex === 0) return `${problem.prompt}, 십의 자리 몫과 나머지인 남은 십을 고르는 중`;
-  if (state.stepIndex === 1) return `남은 ${problem.remainingTens}십을 내려 ${problem.onesDigit}와 붙이는 중`;
+  if (state.stepIndex === 0) return `${problem.prompt}, 십의 자리 몫 ${problem.tensQuotient * 10}과 남은 수 ${problem.carriedTens}를 고르는 중`;
+  if (state.stepIndex === 1) return `남은 수 ${problem.carriedTens}, 일의 자리 ${problem.onesDigit}, 내린 수 ${problem.downNumber}`;
   return `${problem.downNumber}을 ${problem.divisor}로 나누는 중`;
 }
