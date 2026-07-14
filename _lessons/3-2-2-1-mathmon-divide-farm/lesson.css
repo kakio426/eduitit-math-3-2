@@ -2,21 +2,29 @@
 .farm-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
 
 .game[data-workbench-type="place-value-farm"] .hud {
-  position: absolute; top: 18px; right: 2.8%; z-index: 6; width: 61%; min-height: 40px;
-  display: grid; place-items: center; padding: 0;
+  position: absolute; top: 18px; right: 2.8%; left: 2.8%; z-index: 6; width: auto; min-height: 42px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 0 var(--sound-reserve) 0 0;
 }
-.game[data-workbench-type="place-value-farm"] .hud-left .brand-badge,
-.game[data-workbench-type="place-value-farm"] .hud-right,
 .game[data-workbench-type="place-value-farm"] .progress-line { display: none; }
+.game[data-workbench-type="place-value-farm"] .hud-left { display: contents; }
+.game[data-workbench-type="place-value-farm"] .hud-left .brand-badge {
+  grid-column: 1; justify-self: start; min-height: 38px; padding: 0 13px; font-size: .85rem;
+  color: #fffdf5; background: rgba(38, 73, 44, .9); border-color: rgba(255,255,255,.42);
+}
+.game[data-workbench-type="place-value-farm"] .hud-right { grid-column: 3; justify-self: end; display: flex; }
+.game[data-workbench-type="place-value-farm"] .hud-right .unit-badge {
+  min-height: 38px; padding: 0 13px; color: #fffdf5; background: rgba(38, 73, 44, .9); border-color: rgba(255,255,255,.42); font-size: .85rem;
+}
 .game[data-workbench-type="place-value-farm"] #problemCounter {
+  grid-column: 2; justify-self: center; position: relative; z-index: 2;
   min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #7b4a1f;
-  color: #2c1b0a; background: #ffe28a; font-size: 1rem;
+  color: #2c1b0a; background: #ffe28a; font-size: 1rem; opacity: 1; visibility: visible;
 }
 
 .game[data-workbench-type="place-value-farm"] .problem-grid {
   position: absolute; top: 68px; right: 2.8%; bottom: 24px; left: 36.3%; z-index: 3;
   height: auto; margin: 0; display: grid; grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) minmax(152px, auto); gap: 18px;
+  grid-template-rows: 150px minmax(0, 1fr); gap: 12px;
   transition: opacity 220ms ease-out, transform 220ms ease-out;
 }
 .game[data-workbench-type="place-value-farm"] .problem-card,
@@ -34,96 +42,344 @@
 .game[data-workbench-type="place-value-farm"] .answer-slot { display: none; }
 .game[data-workbench-type="place-value-farm"] .visual-area { min-height: 0; display: grid; place-items: center; }
 
-.place-value-farm-svg { width: 100%; height: 100%; max-height: 330px; overflow: hidden; }
+.place-value-farm-svg { width: 100%; height: 100%; max-height: 150px; overflow: hidden; }
 .place-value-farm-svg .farm-board-bg { fill: #fff8df; fill-opacity: .96; stroke: #7b4a1f; stroke-width: 6; }
-.place-value-farm-svg .farm-place-panel,
-.place-value-farm-svg .farm-total-panel { fill: #fffdf5; stroke: #c8a16f; stroke-width: 3; }
-.place-value-farm-svg .farm-current-panel { fill: #fff2b8; stroke: #e89b24; stroke-width: 6; }
-.place-value-farm-svg .is-current-panel { fill: #fff2b8; stroke: #e89b24; stroke-width: 6; }
-.place-value-farm-svg .farm-problem { fill: #3d260f; font-size: 48px; font-weight: 1000; font-variant-numeric: tabular-nums; }
-.place-value-farm-svg .farm-label { fill: #6b401b; font-size: 23px; font-weight: 1000; }
-.place-value-farm-svg .farm-calc { fill: #3d260f; font-size: 46px; font-weight: 1000; font-variant-numeric: tabular-nums; }
-.place-value-farm-svg .farm-answer,
-.place-value-farm-svg .farm-total { fill: #245c31; font-size: 43px; font-weight: 1000; font-variant-numeric: tabular-nums; }
-.place-value-farm-svg .farm-place-hint { fill: #79644f; font-size: 17px; font-weight: 900; }
-.place-value-farm-svg .farm-decision-question { font-size: 34px; }
-.place-value-farm-svg .is-current { fill: #b95117; }
+.place-value-farm-svg .farm-problem { fill: #321d09; font-size: 54px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+.place-value-farm-svg .farm-instruction { fill: #245c31; font-size: 25px; font-weight: 1000; }
+.place-value-farm-svg .farm-reason { fill: #684019; font-size: 19px; font-weight: 1000; }
 
 .game[data-workbench-type="place-value-farm"] .step-board {
-  position: absolute; inset: 0; z-index: 3; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
-  place-items: center; pointer-events: none;
+  display: none !important;
 }
-.game[data-workbench-type="place-value-farm"] .instruction,
-.game[data-workbench-type="place-value-farm"] .feedback-line {
-  grid-area: 1 / 1; min-height: 0; margin: 0; color: #2c1b0a;
-  max-width: 78%; min-height: 76px; padding: 0 28px; border: 3px solid #7b4a1f; border-radius: 20px;
-  background: #fff2bf; box-shadow: 0 8px 0 rgba(123,74,31,.35);
-  font-size: clamp(1.1rem, 1.9vw, 1.45rem); line-height: 1.2; font-weight: 1000; text-align: center;
-}
-.game[data-workbench-type="place-value-farm"] .instruction { display: none; }
-.game[data-workbench-type="place-value-farm"] .instruction[hidden] { display: none; }
-.game[data-workbench-type="place-value-farm"] .feedback-line[data-state="idle"] { display: none; }
-.game[data-workbench-type="place-value-farm"] .feedback-line[data-state="wrong"] { color: #a11742; }
-.game[data-workbench-type="place-value-farm"] .feedback-line[data-state="correct"] { color: #12604c; }
 
 .game[data-workbench-type="place-value-farm"] .choices-panel {
-  grid-row: 2; min-height: 152px; padding: 0; display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(68px,1fr)); gap: 12px;
+  grid-row: 2; min-height: 0; padding: 0; display: block;
   transition: opacity 160ms ease-in, transform 160ms ease-in;
 }
-.game[data-workbench-type="place-value-farm"] .farm-choice {
-  min-height: 68px; border: 3px solid #9a6c3d; border-radius: 20px; color: #34210e;
-  background: #fffaf0; box-shadow: 0 7px 0 #79502b; font-size: clamp(1.65rem, 2.8vw, 2.35rem);
-  cursor: pointer;
+.farm-distribution-builder {
+  width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 12px 14px;
+  display: grid; grid-template-rows: 86px 30px minmax(0, 1fr) 62px; gap: 7px;
+  border: 4px solid #a56a28; border-radius: 28px; color: #34210e; background: #fff4c6;
+  box-shadow: 0 8px 0 #79502b;
 }
-.game[data-workbench-type="place-value-farm"] .farm-choice--digits { display: flex; justify-content: center; gap: 8px; }
-.game[data-workbench-type="place-value-farm"] .farm-digit-piece {
-  width: 42px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border: 3px solid #9c692d;
-  border-radius: 12px;
-  background: #fff7da;
-  color: #3b250d;
-  box-shadow: 0 4px 0 #b88745;
-  font-size: 1.7rem;
-  font-weight: 1000;
+.farm-distribution-stock {
+  min-width: 0; min-height: 0; padding: 7px 14px; display: grid; grid-template-columns: 132px minmax(0, 1fr); align-items: center;
+  border: 3px solid #c99a58; border-radius: 20px; background: #fffdf5;
+}
+.farm-zone-label {
+  margin: 0; color: #684019; font-size: clamp(1rem, 1.8vw, 1.2rem); line-height: 1.15; font-weight: 1000; text-align: center;
+}
+.farm-stock-tokens {
+  min-width: 0; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 2px;
+}
+.farm-action-hint {
+  min-height: 0; margin: 0; align-self: center; color: #245c31;
+  font-size: clamp(.98rem, 1.55vw, 1.15rem); line-height: 1.1; font-weight: 1000; text-align: center;
+}
+.farm-distribution-builder.is-wrong .farm-action-hint { color: #b71943; }
+.farm-distribution-baskets {
+  min-width: 0; min-height: 0; display: grid;
+  grid-template-columns: repeat(var(--basket-count), minmax(0, 1fr)); align-items: stretch; gap: 7px;
+}
+.farm-basket-drop {
+  min-width: 0; min-height: 0; padding: 5px 4px; display: grid; grid-template-rows: 24px minmax(0, 1fr);
+  border: 3px solid #c99a58; border-radius: 18px; color: #34210e; background: #fffdf5; cursor: pointer; touch-action: manipulation;
+  transition: border-color .16s ease, background .16s ease, transform .16s ease;
+}
+.farm-basket-drop:hover, .farm-basket-drop:focus-visible { border-color: #e58a18; background: #fff0ad; outline: 3px solid #8f5d27; outline-offset: -2px; }
+.farm-basket-drop:active { transform: translateY(2px); }
+.farm-basket-drop.is-low { border-color: #df8a22; background: #fff4d4; }
+.farm-basket-drop.is-high { border-color: #c83a55; background: #fff0f2; }
+.farm-basket-name { font-size: .92rem; line-height: 1; font-weight: 1000; }
+.farm-distribution-basket {
+  position: relative; width: 100%; height: 100%; min-height: 100px; display: grid; place-items: center; overflow: hidden;
+}
+.farm-basket-art,
+.farm-basket-front-art {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none;
+}
+.farm-basket-art { z-index: 1; }
+.farm-basket-front-art { z-index: 3; clip-path: inset(58% 0 0 0); }
+.farm-distribution-value {
+  position: absolute; right: 0; bottom: 18%; left: 0; z-index: 5; color: #321d09; font-size: clamp(.95rem, 1.35vw, 1.18rem);
+  line-height: 1; font-weight: 1000; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.farm-basket-pieces {
+  position: absolute; inset: 6% 8% 38%; z-index: 2; pointer-events: none;
+}
+.farm-basket-pieces .farm-produce-piece {
+  position: absolute; width: 48%; height: 68%; transform: translateX(-50%); transform-origin: center bottom; margin: 0;
+}
+.farm-basket-pieces .farm-produce-piece--single { width: 26%; height: 92%; }
+.farm-basket-pieces[data-count="1"] .farm-produce-piece[data-slot="0"] { left: 50%; bottom: 2%; }
+.farm-basket-pieces[data-count="2"] .farm-produce-piece[data-slot="0"] { left: 38%; bottom: 2%; }
+.farm-basket-pieces[data-count="2"] .farm-produce-piece[data-slot="1"] { left: 62%; bottom: 2%; }
+.farm-basket-pieces[data-count="3"] .farm-produce-piece[data-slot="0"] { left: 29%; bottom: 2%; }
+.farm-basket-pieces[data-count="3"] .farm-produce-piece[data-slot="1"] { left: 50%; bottom: 2%; }
+.farm-basket-pieces[data-count="3"] .farm-produce-piece[data-slot="2"] { left: 71%; bottom: 2%; }
+.farm-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="0"] { left: 38%; bottom: 0; }
+.farm-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="1"] { left: 62%; bottom: 0; }
+.farm-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="2"] { left: 38%; bottom: 24%; }
+.farm-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="3"] { left: 62%; bottom: 24%; }
+.farm-piece-more {
+  min-width: 30px; height: 30px; display: grid; place-items: center; align-self: end;
+  border: 2px solid #7b4a1f; border-radius: 999px; color: #321d09; background: #ffe18a; font-size: .82rem; font-weight: 1000;
+}
+.farm-token-button {
+  width: 54px; height: 62px; padding: 2px; display: grid; place-items: center;
+  border: 0; border-radius: 14px; color: inherit; background: transparent; cursor: pointer; touch-action: manipulation;
+}
+.farm-token-button:hover,
+.farm-token-button:focus-visible { background: #ffe08a; outline: 3px solid #9b5d17; outline-offset: -2px; }
+.farm-token-button.is-selected { background: #ffd45c; outline: 4px solid #c46b12; transform: translateY(-3px); }
+.farm-token-button[data-dragging="true"] { opacity: .4; }
+.farm-produce-piece {
+  position: relative; flex: 0 0 auto; display: grid; place-items: center; box-sizing: border-box;
+  filter: drop-shadow(0 4px 2px rgba(83,48,14,.22));
+}
+.farm-produce-piece--bundle {
+  width: 66px; height: 50px; color: #3b230b;
+}
+.farm-produce-art { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: none; user-select: none; }
+.farm-produce-value {
+  position: absolute; left: 50%; bottom: 1%; z-index: 2; transform: translateX(-50%);
+  width: 24px; height: 18px; display: grid; place-items: center;
+  font-size: .92rem; line-height: 1; font-weight: 1000;
+}
+.farm-stock-token .farm-produce-piece--bundle { width: 50px; height: 44px; }
+.farm-produce-piece--single {
+  width: 34px; height: 62px; margin: 0 6px; background: transparent;
+}
+.farm-flying-piece { position: absolute; z-index: 32; margin: 0; pointer-events: none; }
+.farm-flying-piece.farm-produce-piece--single { margin: 0; }
+.farm-flying-piece .farm-produce-value { display: grid; place-items: center; }
+.farm-check-button {
+  width: min(290px, 72%); min-height: 56px; margin: 0; justify-self: center;
+  border: 3px solid #7b4a1f; border-radius: 20px; color: #2c1b0a; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem); font-weight: 1000;
+}
+.farm-check-button:disabled { color: #786a54; background: #e7d8ad; box-shadow: 0 5px 0 #a99876; opacity: 1; cursor: default; }
+.farm-quotient-entry {
+  width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 14px;
+  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 14px;
+  border: 4px solid #a56a28; border-radius: 28px; color: #34210e; background: #fff4c6; box-shadow: 0 8px 0 #79502b;
+}
+.farm-final-basket-card {
+  min-width: 0; min-height: 0; padding: 12px; display: grid; grid-template-rows: auto minmax(100px, 1fr) auto; place-items: center;
+  border: 3px solid #c99a58; border-radius: 22px; background: #fffdf5;
+}
+.farm-final-basket-card > p { margin: 0; color: #684019; font-size: 1.2rem; font-weight: 1000; }
+.farm-final-basket-scene { position: relative; width: min(280px, 96%); height: 100%; min-height: 100px; overflow: hidden; }
+.farm-final-basket-pieces {
+  position: absolute; inset: 18% 9% 18%; z-index: 2; pointer-events: none;
+}
+.farm-final-basket-pieces .farm-produce-piece {
+  position: absolute; width: 44%; height: 48%; margin: 0; transform: translateX(-50%); transform-origin: center bottom;
+}
+.farm-final-basket-pieces .farm-produce-piece--single { width: 20%; height: 66%; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="0"] { left: 28%; bottom: 0; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="1"] { left: 50%; bottom: 0; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="2"] { left: 72%; bottom: 0; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="3"] { left: 34%; bottom: 28%; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="4"] { left: 56%; bottom: 28%; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="5"] { left: 78%; bottom: 28%; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="6"] { left: 42%; bottom: 52%; }
+.farm-final-basket-pieces .farm-produce-piece[data-slot="7"] { left: 64%; bottom: 52%; }
+.farm-quotient-display {
+  width: min(210px, 88%); min-height: 64px; display: grid; place-items: center;
+  border: 4px solid #8f5d27; border-radius: 18px; color: #321d09; background: #ffe7a0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
+}
+.farm-keypad-wrap {
+  min-width: 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) 36px; gap: 8px;
+}
+.farm-keypad { min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.farm-key {
+  min-width: 0; min-height: 0; border: 3px solid #91602c; border-radius: 16px; color: #321d09; background: #fffdf5;
+  box-shadow: 0 5px 0 #79502b; font-size: clamp(1.35rem, 2.3vw, 1.8rem); line-height: 1; font-weight: 1000; cursor: pointer;
+}
+.farm-key:active { transform: translateY(2px); box-shadow: 0 3px 0 #79502b; }
+.farm-key.is-clear { font-size: 1rem; background: #f3ead5; }
+.farm-key.is-enter { font-size: 1.15rem; background: #ffd45c; }
+.farm-key.is-enter:disabled { color: #786a54; background: #e7d8ad; opacity: 1; }
+.farm-entry-message {
+  min-height: 0; margin: 0; align-self: center; color: #245c31;
+  font-size: clamp(.95rem, 1.45vw, 1.1rem); line-height: 1.1; font-weight: 1000; text-align: center;
+}
+.farm-share-entry {
+  width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 14px;
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(230px, .85fr); gap: 14px;
+  border: 4px solid #a56a28; border-radius: 28px; color: #34210e; background: #fff4c6; box-shadow: 0 8px 0 #79502b;
+}
+.farm-share-work {
+  min-width: 0; min-height: 0; display: grid;
+  grid-template-rows: 96px 30px minmax(110px, 1fr) 54px; gap: 7px;
+}
+.farm-share-source {
+  min-width: 0; min-height: 0; padding: 7px 10px; display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: center; gap: 6px;
+  border: 3px solid #c99a58; border-radius: 20px; background: #fffdf5;
+}
+.farm-share-source > strong {
+  color: #684019; font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.15; font-weight: 1000; text-align: center;
+}
+.farm-share-source-pieces {
+  min-width: 0; min-height: 0; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 1px;
+}
+.farm-share-source-pieces .farm-produce-piece--bundle { width: 42px; height: 38px; }
+.farm-share-source-pieces .farm-produce-piece--single { width: 25px; height: 43px; margin: 0 2px; }
+.farm-step-reason {
+  margin: 0; align-self: center; color: #245c31; font-size: clamp(.95rem, 1.45vw, 1.08rem); line-height: 1.1; font-weight: 1000; text-align: center;
+}
+.farm-share-baskets {
+  min-width: 0; min-height: 0; display: grid; grid-template-columns: repeat(var(--basket-count), minmax(0, 1fr)); align-items: stretch; gap: 5px;
+}
+.farm-answer-basket-card {
+  min-width: 0; min-height: 0; padding: 4px 2px; display: grid; grid-template-rows: 20px minmax(0, 1fr); place-items: center;
+  border: 3px solid #c99a58; border-radius: 16px; background: #fffdf5;
+}
+.farm-answer-basket-card > span { font-size: .78rem; line-height: 1; font-weight: 1000; }
+.farm-answer-basket-scene {
+  position: relative; width: auto; height: 100%; max-width: 100%; min-height: 84px;
+  aspect-ratio: 640 / 426; justify-self: center; overflow: hidden;
+}
+.farm-answer-basket-pieces,
+.farm-confirm-pieces,
+.farm-tutorial-result-pieces {
+  position: absolute; inset: 9% 10% 36%; z-index: 2; pointer-events: none;
+}
+.farm-answer-basket-pieces .farm-produce-piece,
+.farm-confirm-pieces .farm-produce-piece,
+.farm-tutorial-result-pieces .farm-produce-piece {
+  position: absolute; width: 48%; height: 68%; margin: 0; transform: translateX(-50%); transform-origin: center bottom;
+}
+.farm-answer-basket-pieces .farm-produce-piece--single,
+.farm-confirm-pieces .farm-produce-piece--single,
+.farm-tutorial-result-pieces .farm-produce-piece--single { width: 25%; height: 90%; }
+.farm-answer-basket-pieces .farm-produce-piece[data-slot="0"],
+.farm-confirm-pieces .farm-produce-piece[data-slot="0"],
+.farm-tutorial-result-pieces .farm-produce-piece[data-slot="0"] { left: 34%; bottom: 0; }
+.farm-answer-basket-pieces .farm-produce-piece[data-slot="1"],
+.farm-confirm-pieces .farm-produce-piece[data-slot="1"],
+.farm-tutorial-result-pieces .farm-produce-piece[data-slot="1"] { left: 66%; bottom: 0; }
+.farm-answer-basket-pieces .farm-produce-piece[data-slot="2"],
+.farm-confirm-pieces .farm-produce-piece[data-slot="2"],
+.farm-tutorial-result-pieces .farm-produce-piece[data-slot="2"] { left: 36%; bottom: 30%; }
+.farm-answer-basket-pieces .farm-produce-piece[data-slot="3"],
+.farm-confirm-pieces .farm-produce-piece[data-slot="3"],
+.farm-tutorial-result-pieces .farm-produce-piece[data-slot="3"] { left: 64%; bottom: 30%; }
+.farm-confirm-pieces .farm-produce-piece[data-slot="4"] { left: 25%; bottom: 4%; }
+.farm-confirm-pieces .farm-produce-piece[data-slot="5"] { left: 45%; bottom: 4%; }
+.farm-confirm-pieces .farm-produce-piece[data-slot="6"] { left: 65%; bottom: 4%; }
+.farm-confirm-pieces .farm-produce-piece[data-slot="7"] { left: 82%; bottom: 4%; }
+.farm-answer-basket-pieces,
+.farm-confirm-pieces,
+.farm-tutorial-result-pieces,
+.farm-final-basket-pieces { inset: 8% 12% 34%; }
+.farm-answer-basket-pieces .farm-produce-piece--bundle,
+.farm-confirm-pieces .farm-produce-piece--bundle,
+.farm-tutorial-result-pieces .farm-produce-piece--bundle,
+.farm-final-basket-pieces .farm-produce-piece--bundle { width: 34%; height: 44%; bottom: 28%; }
+.farm-answer-basket-pieces .farm-produce-piece--single,
+.farm-confirm-pieces .farm-produce-piece--single,
+.farm-tutorial-result-pieces .farm-produce-piece--single,
+.farm-final-basket-pieces .farm-produce-piece--single { width: 18%; height: 70%; bottom: 0; }
+.farm-answer-basket-pieces .farm-produce-piece--bundle[data-kind-slot],
+.farm-confirm-pieces .farm-produce-piece--bundle[data-kind-slot],
+.farm-tutorial-result-pieces .farm-produce-piece--bundle[data-kind-slot],
+.farm-final-basket-pieces .farm-produce-piece--bundle[data-kind-slot] { bottom: 28%; }
+.farm-answer-basket-pieces .farm-produce-piece--single[data-kind-slot],
+.farm-confirm-pieces .farm-produce-piece--single[data-kind-slot],
+.farm-tutorial-result-pieces .farm-produce-piece--single[data-kind-slot],
+.farm-final-basket-pieces .farm-produce-piece--single[data-kind-slot] { bottom: 0; }
+[data-bundle-count="1"] .farm-produce-piece--bundle[data-kind-slot="0"] { left: 50%; }
+[data-bundle-count="2"] .farm-produce-piece--bundle[data-kind-slot="0"] { left: 39%; }
+[data-bundle-count="2"] .farm-produce-piece--bundle[data-kind-slot="1"] { left: 61%; }
+[data-bundle-count="3"] .farm-produce-piece--bundle[data-kind-slot="0"] { left: 31%; }
+[data-bundle-count="3"] .farm-produce-piece--bundle[data-kind-slot="1"] { left: 50%; }
+[data-bundle-count="3"] .farm-produce-piece--bundle[data-kind-slot="2"] { left: 69%; }
+[data-bundle-count="4"] .farm-produce-piece--bundle[data-kind-slot="0"] { left: 24%; }
+[data-bundle-count="4"] .farm-produce-piece--bundle[data-kind-slot="1"] { left: 41%; }
+[data-bundle-count="4"] .farm-produce-piece--bundle[data-kind-slot="2"] { left: 59%; }
+[data-bundle-count="4"] .farm-produce-piece--bundle[data-kind-slot="3"] { left: 76%; }
+[data-single-count="1"] .farm-produce-piece--single[data-kind-slot="0"] { left: 50%; }
+[data-single-count="2"] .farm-produce-piece--single[data-kind-slot="0"] { left: 42%; }
+[data-single-count="2"] .farm-produce-piece--single[data-kind-slot="1"] { left: 58%; }
+[data-single-count="3"] .farm-produce-piece--single[data-kind-slot="0"] { left: 35%; }
+[data-single-count="3"] .farm-produce-piece--single[data-kind-slot="1"] { left: 50%; }
+[data-single-count="3"] .farm-produce-piece--single[data-kind-slot="2"] { left: 65%; }
+[data-single-count="4"] .farm-produce-piece--single[data-kind-slot="0"] { left: 30%; }
+[data-single-count="4"] .farm-produce-piece--single[data-kind-slot="1"] { left: 44%; }
+[data-single-count="4"] .farm-produce-piece--single[data-kind-slot="2"] { left: 58%; }
+[data-single-count="4"] .farm-produce-piece--single[data-kind-slot="3"] { left: 72%; }
+.farm-answer-basket-scene > strong {
+  position: absolute; right: 0; bottom: 16%; left: 0; z-index: 5; color: #321d09;
+  font-size: clamp(.88rem, 1.2vw, 1.05rem); line-height: 1; font-weight: 1000; text-align: center; white-space: nowrap;
+}
+.farm-share-answer {
+  min-width: 0; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+  border: 3px solid #8f5d27; border-radius: 17px; background: #ffe7a0;
+}
+.farm-share-answer span { color: #684019; font-size: 1rem; font-weight: 1000; }
+.farm-share-answer strong { color: #321d09; font-size: clamp(1.45rem, 2.3vw, 1.9rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
+.farm-share-keypad-wrap { grid-template-rows: minmax(0, 1fr) 34px; }
+.farm-share-entry.is-wrong { border-color: #b71943; }
+.farm-share-entry.is-wrong .farm-answer-basket-card { border-color: #c83a55; background: #fff0f2; }
+.farm-share-entry.is-wrong .farm-entry-message { color: #b71943; }
+.farm-quotient-entry.is-wrong .farm-final-basket-card { border-color: #c83a55; background: #fff0f2; }
+.farm-quotient-entry.is-wrong .farm-entry-message { color: #b71943; }
+.farm-share-confirmation {
+  width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 20px 14px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: center; gap: 10px;
+  border: 4px solid #3f8f62; border-radius: 28px; background: #effbea; box-shadow: 0 8px 0 #2e6f4b;
+}
+.farm-confirm-basket {
+  position: relative; min-width: 0; height: 188px; display: grid; grid-template-rows: minmax(0, 1fr) 36px; place-items: center;
+  background: none;
+}
+.farm-confirm-basket strong {
+  position: relative; z-index: 5; margin: 0; color: #245c31; font-size: clamp(1.2rem, 2.1vw, 1.7rem);
+  font-weight: 1000; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.farm-confirm-basket-scene {
+  position: relative; width: auto; height: 100%; max-width: 100%; min-height: 0;
+  aspect-ratio: 640 / 426; justify-self: center; overflow: hidden;
+}
+.farm-confirm-pieces .farm-produce-piece { animation: farm-piece-arrive 300ms cubic-bezier(.2,.8,.3,1.25) both; animation-delay: var(--piece-delay); }
+.farm-final-basket-card { grid-template-rows: auto minmax(100px, 1fr) auto auto; }
+.farm-final-sum { color: #684019; font-size: clamp(1.15rem, 1.8vw, 1.4rem); font-weight: 1000; font-variant-numeric: tabular-nums; }
+@keyframes farm-piece-arrive {
+  from { opacity: 0; transform: translateX(-50%) translateY(-18px) scale(.65); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 .farm-stage-art { transition: filter .28s ease, transform .28s ease; }
 .farm-stage-art[data-scene-state="correct"] { filter: saturate(1.18) brightness(1.06); transform: scale(1.008); }
 .farm-stage-art[data-scene-state="wrong"] { filter: saturate(.72) brightness(.86); }
 .farm-stage-art[data-scene-state="complete"], .farm-stage-art[data-scene-state="reward"] { filter: saturate(1.24) brightness(1.1); transform: scale(1.012); }
-.game[data-workbench-type="place-value-farm"] .farm-choice[data-state="wrong"] {
-  border-color: #c92b59; color: #6f0e2d; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70;
-}
-.game[data-workbench-type="place-value-farm"] .farm-choice[data-state="correct"] {
-  border-color: #1f8569; color: #0f493a; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991;
-}
 .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="enter"] {
   opacity: 0; transform: translateY(10px);
 }
-.game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="confirm"] .choices-panel,
-.game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="complete"] .choices-panel {
-  opacity: 0; transform: translateY(10px); pointer-events: none;
-}
-.game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="active"] .step-board { display: none; }
-.game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="wrong"] .step-board,
-.game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="confirm"] .step-board { display: grid; }
 .game[data-workbench-type="place-value-farm"] .complete-panel {
-  position: absolute; left: 6%; right: 6%; top: 50%; bottom: auto; z-index: 4;
-  grid-row: auto; grid-column: auto; width: auto; height: auto; min-height: 224px;
-  padding: 30px; place-items: center; grid-template-columns: 1fr; gap: 24px;
+  position: absolute; right: 0; bottom: 0; left: 0; top: auto; z-index: 6;
+  grid-row: auto; grid-column: auto; width: auto; height: 158px; min-height: 0;
+  padding: 18px 28px; place-items: center; grid-template-columns: 1fr 220px; gap: 22px;
   border: 3px solid #7b4a1f; border-radius: 28px; background: #fff2bf;
-  transform: translateY(-50%);
+  transform: none;
 }
-.game[data-workbench-type="place-value-farm"] .complete-text { color: #2c1b0a; font-size: clamp(2rem, 3.8vw, 3.1rem); text-align: center; }
+.game[data-workbench-type="place-value-farm"] .complete-text {
+  margin: 0; color: #2c1b0a; font-size: clamp(1.65rem, 2.6vw, 2.2rem); line-height: 1.18;
+  font-variant-numeric: tabular-nums; white-space: pre-line; text-align: center;
+}
 .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button {
-  min-height: 64px; color: #2c1b0a; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
+  width: 100%; min-height: 66px; color: #2c1b0a; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
 }
-.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .problem-card,
-.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .step-board,
-.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { visibility: hidden; pointer-events: none; }
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .step-board { visibility: hidden; pointer-events: none; }
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { opacity: 1; pointer-events: none; }
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-share-confirmation {
+  padding-bottom: 176px; align-items: start;
+}
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-confirm-basket { height: 190px; }
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-confirm-basket strong { margin: 0; }
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .problem-card { visibility: visible; }
 .game[data-workbench-type="place-value-farm"] .result-title-art { display: block; left: 62%; top: 11%; width: 31%; border-radius: 24px; }
 .game[data-workbench-type="place-value-farm"] #screen-result .top-row { display: none; }
 .game[data-workbench-type="place-value-farm"] #screen-result::after { background: none; }
@@ -140,11 +396,54 @@
 }
 .game[data-workbench-type="place-value-farm"] .result-restart-hitbox .result-retry-art { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 22px; }
 
+.game[data-workbench-type="place-value-farm"] .reward-card {
+  width: min(460px, 86%);
+  min-height: 0;
+  grid-template-rows: 280px auto 66px;
+  align-content: center;
+  gap: 14px;
+  padding: 26px;
+  border: 3px solid rgba(255, 226, 157, .72);
+  background: #2b1c12;
+}
 .game[data-workbench-type="place-value-farm"] .reward-visual {
+  width: 280px;
+  height: 280px;
+  align-self: center;
+  border-radius: 28px;
   background-image: var(--reward-modal-image);
-  background-size: 300% 200%;
   background-repeat: no-repeat;
+}
+.game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="closed"] {
+  grid-template-rows: 280px 66px;
+}
+.game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="closed"] .reward-visual {
+  background-size: contain;
+  background-position: center;
+}
+.game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="closed"] .reward-label {
+  display: none;
+}
+.game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="opening"] .reward-visual,
+.game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="revealed"] .reward-visual {
+  background-size: 300% 200%;
   background-position: 0 0;
+}
+.game[data-workbench-type="place-value-farm"] .reward-label {
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2rem, 3.4vw, 2.65rem);
+  line-height: 1;
+}
+.game[data-workbench-type="place-value-farm"] .reward-open-button,
+.game[data-workbench-type="place-value-farm"] #modalRewardNextButton {
+  width: 220px;
+  min-height: 66px;
+  margin: 0;
+  color: #2c1b0a;
+  background: #ffd45c;
+  box-shadow: 0 7px 0 #8f6d17;
 }
 .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="bug"] .reward-visual { background-position: 50% 0; }
 .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="big"] .reward-visual { background-position: 100% 0; }
@@ -175,12 +474,107 @@
 .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 51%; bottom: 4.5%; width: 30%; height: 15.5%; }
 .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 21%; bottom: 4.5%; width: 24%; height: 15.5%; }
 
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] .tutorial-card:first-child {
+  background: linear-gradient(rgba(255,252,232,.72), rgba(255,244,190,.86)), url("farm-board-generated.webp") center / cover no-repeat;
+}
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] .tutorial-card:first-child > .tutorial-poster-art { display: none; }
+.farm-tutorial-guide {
+  position: absolute; top: 82px; right: 9%; bottom: 126px; left: 9%; z-index: 3;
+  padding: 22px 34px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 12px;
+  border: 6px solid #7b4a1f; border-radius: 38px; background: rgba(255,250,229,.97); box-shadow: 0 12px 0 rgba(91,53,18,.36);
+}
+.farm-tutorial-guide h3 {
+  margin: 0; color: #3b230b; font-size: clamp(1.9rem, 3.6vw, 3rem); line-height: 1.05; font-weight: 1000; text-align: center;
+}
+.farm-tutorial-guide strong,
+.farm-tutorial-guide p {
+  position: static !important; width: auto !important; height: auto !important; overflow: visible !important; clip: auto !important;
+}
+.farm-tutorial-steps {
+  min-height: 0; display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px;
+}
+.farm-tutorial-step {
+  min-width: 0; min-height: 0; padding: 8px 14px; display: grid;
+  grid-template-columns: 44px minmax(180px, 1fr) minmax(150px, .7fr) minmax(150px, .72fr); align-items: center; gap: 12px;
+  border: 4px solid #c99a58; border-radius: 24px; background: #fffdf5;
+}
+.farm-tutorial-step-number {
+  width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%;
+  color: #fff; background: #2d7c42; font-size: 1.35rem; font-weight: 1000;
+}
+.farm-tutorial-source { min-width: 0; display: grid; place-items: center; }
+.farm-tutorial-source-pieces { min-width: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1px; }
+.farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 48px; height: 42px; }
+.farm-tutorial-source-pieces .farm-produce-piece--single { width: 27px; height: 48px; margin: 0 2px; }
+.farm-tutorial-expression { min-width: 0; display: grid; place-items: center; gap: 7px; text-align: center; }
+.farm-tutorial-expression strong { color: #3b230b; font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
+.farm-tutorial-expression span { color: #245c31; font-size: clamp(.95rem, 1.5vw, 1.15rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
+.farm-tutorial-result { position: relative; width: 100%; height: 118px; display: grid; grid-template-rows: minmax(0, 1fr) 28px; place-items: center; overflow: visible; }
+.farm-tutorial-result-scene {
+  position: relative; width: auto; height: 100%; max-width: 100%; min-height: 0;
+  aspect-ratio: 640 / 426; justify-self: center; overflow: hidden;
+}
+.farm-tutorial-basket-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.farm-tutorial-result > strong {
+  position: static !important; z-index: 5;
+  color: #321d09; font-size: 1rem; line-height: 1; font-weight: 1000; text-align: center; white-space: nowrap;
+}
+.farm-tutorial-guide .farm-tutorial-sum {
+  margin: 0; color: #245c31; font-size: clamp(1.35rem, 2.4vw, 1.8rem); line-height: 1.15; font-weight: 1000; text-align: center;
+}
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton {
+  left: 50%; bottom: 2.8%; width: 280px; height: 78px; transform: translateX(-50%);
+  border: 4px solid #153f80; border-radius: 999px; color: #fff; background: #287ce5; box-shadow: 0 8px 0 #153f80;
+  font-size: 2rem; line-height: 1; font-weight: 1000;
+}
+
 @media (max-width: 980px) {
-  .game[data-workbench-type="place-value-farm"] .hud { right: 2%; width: 63%; }
+  .game[data-workbench-type="place-value-farm"] .hud { right: 2%; left: 2%; width: auto; }
   .game[data-workbench-type="place-value-farm"] .problem-grid {
     top: 62px; right: 2%; bottom: 18px; left: 35%;
-    grid-template-rows: minmax(0, 1fr) minmax(140px, auto); gap: 14px;
+    grid-template-rows: 140px minmax(0, 1fr); gap: 10px;
   }
+  .game[data-workbench-type="place-value-farm"] .complete-panel {
+    height: 148px; grid-template-columns: 1fr 190px; padding: 14px 22px;
+  }
+  .farm-distribution-builder { padding: 9px 10px; grid-template-rows: 72px 26px minmax(0, 1fr) 54px; gap: 5px; }
+  .farm-distribution-stock {
+    padding: 1px 8px; grid-template-columns: minmax(0, 1fr); grid-template-rows: 20px minmax(0, 1fr); row-gap: 0;
+  }
+  .farm-stock-tokens { gap: 0; }
+  .farm-token-button { width: 42px; height: 49px; padding: 1px; }
+  .farm-distribution-baskets { gap: 4px; }
+  .farm-basket-drop { padding: 3px 2px; grid-template-rows: 20px minmax(0, 1fr); border-radius: 14px; }
+  .farm-basket-name { font-size: .78rem; }
+  .farm-distribution-basket { min-height: 84px; }
+  .farm-distribution-value { font-size: .95rem; }
+  .farm-check-button { min-height: 54px; }
+  .farm-quotient-entry { padding: 10px; gap: 9px; }
+  .farm-final-basket-card { padding: 8px; }
+  .farm-final-basket-card > p { font-size: 1rem; }
+  .farm-quotient-display { min-height: 54px; }
+  .farm-keypad-wrap { grid-template-rows: minmax(0, 1fr) 30px; gap: 5px; }
+  .farm-keypad { gap: 5px; }
+  .farm-key { border-radius: 12px; }
+  .farm-share-entry { padding: 10px; gap: 9px; grid-template-columns: minmax(0, 1.1fr) minmax(210px, .9fr); }
+  .farm-share-work { grid-template-rows: 78px 26px minmax(92px, 1fr) 48px; gap: 5px; }
+  .farm-share-source { padding: 3px 6px; grid-template-columns: 94px minmax(0, 1fr); }
+  .farm-share-source-pieces .farm-produce-piece--bundle { width: 34px; height: 31px; }
+  .farm-share-source-pieces .farm-produce-piece--single { width: 20px; height: 36px; }
+  .farm-answer-basket-card { border-radius: 12px; }
+  .farm-answer-basket-scene { min-height: 72px; }
+  .farm-share-answer { min-height: 46px; }
+  .farm-share-confirmation { padding: 12px 8px; gap: 5px; }
+  .farm-confirm-basket { height: 150px; }
+  .farm-stock-token .farm-produce-piece--bundle { width: 40px; height: 38px; }
+  .farm-produce-piece--single { margin: 0 4px; transform: scale(.75); }
+  .farm-tutorial-guide { top: 70px; right: 8%; bottom: 112px; left: 8%; padding: 16px 22px; gap: 8px; }
+  .farm-tutorial-step { padding: 6px 10px; grid-template-columns: 38px minmax(145px, 1fr) minmax(130px, .7fr) minmax(125px, .7fr); gap: 8px; }
+  .farm-tutorial-step-number { width: 36px; height: 36px; font-size: 1.15rem; }
+  .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 40px; height: 35px; }
+  .farm-tutorial-source-pieces .farm-produce-piece--single { width: 22px; height: 40px; }
+  .farm-tutorial-result { height: 100px; }
+  .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: 240px; height: 66px; font-size: 1.65rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -189,4 +583,5 @@
   .game[data-workbench-type="place-value-farm"] .problem-grid[data-flow-phase="enter"] {
     transform: none;
   }
+  .farm-confirm-pieces .farm-produce-piece { animation: none; }
 }
