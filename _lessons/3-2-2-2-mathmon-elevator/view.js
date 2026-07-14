@@ -89,21 +89,9 @@ function renderAttempt(problem, step, choice, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.choices[0]?.kind || "number";
-  ui.choices.dataset.interaction = step.id === "down" ? "drag-down" : "floor-panel";
+  ui.choices.dataset.interaction = "floor-panel";
   const panel = document.createElement("div");
-  panel.className = step.id === "down" ? "elevator-drop-layout" : "elevator-floor-panel";
-  let drop = null;
-  let tray = panel;
-  if (step.id === "down") {
-    drop = document.createElement("button");
-    drop.type = "button";
-    drop.className = "elevator-down-zone";
-    drop.setAttribute("aria-label", "남은 수와 일의 자리 수를 합친 수를 아래 칸으로 내리기");
-    drop.innerHTML = `<span aria-hidden="true">↓</span><strong>아래 칸</strong>`;
-    tray = document.createElement("div");
-    tray.className = "elevator-down-tray";
-    panel.append(drop, tray);
-  }
+  panel.className = "elevator-floor-panel";
 
   for (const choice of step.choices) {
     const button = document.createElement("button");
@@ -138,9 +126,8 @@ function renderChoicesForStep(problem, step, state, choose) {
       button.appendChild(value);
     }
 
-    if (drop) wireDirectChoice(button, drop, choice, choose);
-    else button.addEventListener("click", () => choose(choice, button));
-    tray.appendChild(button);
+    button.addEventListener("click", () => choose(choice, button));
+    panel.appendChild(button);
   }
   ui.choices.appendChild(panel);
   return true;
@@ -196,12 +183,10 @@ function renderElevatorMathBoard(problem, state) {
       : "?";
   const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
   const remainderMarkup = showDownWork ? `
-        <path d="M631 197 V249" class="board-down-arrow" marker-end="url(#arrowhead)" />
-        <text x="520" y="260" class="board-combine-source">남은 수 ${problem.carriedTens} + 일의 자리 ${problem.onesDigit}</text>
+        <path d="M631 194 V239" class="board-down-arrow" marker-end="url(#arrowhead)" />
         <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
-          <rect x="400" y="274" width="240" height="70" rx="18" class="board-down-slot" />
-          <text x="458" y="316" class="board-combined-label">합친 수</text>
-          <text x="585" y="330" class="board-combined-value">${combinedValue}</text>
+          <rect x="380" y="276" width="334" height="96" rx="18" class="board-down-slot" />
+          <text x="547" y="347" class="board-combined-value">${combinedValue}</text>
         </g>
       ` : `
         <text x="386" y="304" class="board-work-label" text-anchor="end">남은 십</text>
@@ -209,9 +194,9 @@ function renderElevatorMathBoard(problem, state) {
       `;
   const workMarkup = showTensWork ? `
       <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"} ${attemptedChoice ? "is-wrong-attempt" : ""}">
-        <text x="414" y="224" class="board-work-minus">−</text>
-        <text x="463" y="224" class="board-work-product">${partialProduct}</text>
-        <path d="M416 237 H510" class="board-work-line" />
+        <text x="414" y="250" class="board-work-minus">−</text>
+        <text x="463" y="250" class="board-work-product">${partialProduct}</text>
+        <path d="M416 264 H510" class="board-work-line" />
         ${remainderMarkup}
         ${attemptNote}
       </g>
@@ -219,17 +204,17 @@ function renderElevatorMathBoard(problem, state) {
 
   svg.innerHTML = `
     <g class="math-board-surface">
-      <rect x="112" y="8" width="720" height="344" rx="30" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect x="72" y="6" width="780" height="382" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
     </g>
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="210" y="174" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 104 Q305 104 305 124 L305 190 M305 104 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M285 102 Q305 102 305 124 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      ${renderSvgCell(392, 18, 142, 64, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
-      ${renderSvgCell(560, 18, 142, 64, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
+      ${renderSvgCell(380, 12, 166, 72, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
+      ${renderSvgCell(548, 12, 166, 72, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
-      ${renderSvgCell(392, 118, 142, 70, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-      ${renderSvgCell(560, 118, 142, 70, problem.onesDigit, false, "일의 자리 수")}
+      ${renderSvgCell(380, 112, 166, 80, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
+      ${renderSvgCell(548, 112, 166, 80, problem.onesDigit, false, "일의 자리 수")}
 
       ${workMarkup}
     </g>
@@ -252,7 +237,7 @@ function renderSvgCell(x, y, width, height, value, active, label, wrong = false)
   return `
     <g class="board-cell ${activeClass} ${wrongClass}" aria-label="${label} ${value}">
       <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="18" fill="${fill}" stroke="${stroke}" stroke-width="4" />
-      <text x="${x + width / 2}" y="${y + height / 2 + 18}" class="board-number" fill="${textFill}">${value}</text>
+      <text x="${x + width / 2}" y="${y + height / 2 + 21}" class="board-number" fill="${textFill}">${value}</text>
     </g>
   `;
 }
@@ -270,9 +255,9 @@ function renderAttemptNote(problem, step, choice) {
   }
   return `
     <g class="board-attempt-note" aria-label="${label} ${value}">
-      <rect x="658" y="274" width="166" height="70" rx="16" />
-      <text x="741" y="302" class="board-attempt-label">${label}</text>
-      <text x="741" y="334" class="board-attempt-value">${value}</text>
+      <rect x="96" y="276" width="220" height="96" rx="16" />
+      <text x="206" y="310" class="board-attempt-label">${label}</text>
+      <text x="206" y="356" class="board-attempt-value">${value}</text>
     </g>
   `;
 }

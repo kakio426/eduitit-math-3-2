@@ -572,7 +572,7 @@
           left: calc(50% - 125px);
           bottom: 78px;
           width: 250px;
-          height: 100px;
+          height: 77px;
         }
         .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-retry-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
@@ -1042,7 +1042,7 @@
       position: absolute;
       top: 70px;
       right: 42px;
-      bottom: 30px;
+      bottom: 10px;
       left: 34.5%;
       z-index: 3;
       height: auto;
@@ -1103,13 +1103,13 @@
 
     .elevator-math-svg .board-number {
       fill: #fff8e8;
-      font-size: 58px;
+      font-size: 64px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
     }
 
     .elevator-math-svg .board-divisor {
-      font-size: 64px;
+      font-size: 72px;
     }
 
     .elevator-math-svg .board-work-label {
@@ -1121,7 +1121,7 @@
     .elevator-math-svg .board-work-minus,
     .elevator-math-svg .board-work-product {
       fill: #fff8e8;
-      font-size: 36px;
+      font-size: 42px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
     }
@@ -1135,7 +1135,7 @@
 
     .elevator-math-svg .board-work-digit {
       fill: #fff8e8;
-      font-size: 46px;
+      font-size: 52px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
     }
@@ -1165,34 +1165,18 @@
       stroke-width: 4;
     }
 
-    .elevator-math-svg .board-combine-source {
-      fill: #d9f5f1;
-      font-size: 20px;
-      font-weight: 900;
-      text-anchor: middle;
-    }
-
-    .elevator-math-svg .board-combined-label {
-      fill: #d9f5f1;
-      font-size: 17px;
-      font-weight: 900;
-      text-anchor: middle;
-    }
-
     .elevator-math-svg .board-combined-value {
       fill: #fff8e8;
-      font-size: 44px;
+      font-size: 64px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
       text-anchor: middle;
     }
 
-    .elevator-math-svg .board-combined-target.is-active .board-combined-label,
     .elevator-math-svg .board-combined-target.is-active .board-combined-value {
       fill: #2c210c;
     }
 
-    .elevator-math-svg .board-combined-target.is-wrong .board-combined-label,
     .elevator-math-svg .board-combined-target.is-wrong .board-combined-value {
       fill: #6e1530;
     }
@@ -1214,14 +1198,14 @@
 
     .elevator-math-svg .board-attempt-label {
       fill: #6e1530;
-      font-size: 16px;
+      font-size: 22px;
       font-weight: 900;
       text-anchor: middle;
     }
 
     .elevator-math-svg .board-attempt-value {
       fill: #44101e;
-      font-size: 27px;
+      font-size: 36px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
       text-anchor: middle;
@@ -1283,13 +1267,6 @@
     }
     .elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(72px,1fr)); gap: 10px; padding: 8px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
     .elevator-floor-panel .elevator-choice { border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45), 0 5px 0 #314f55; }
-    .elevator-drop-layout { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: 180px 1fr; gap: 10px; }
-    .elevator-down-zone { border: 4px dashed #52757c; border-radius: 22px; background: #fff0af; color: #17343b; display: grid; place-content: center; gap: 4px; font: inherit; }
-    .elevator-down-zone span { font-size: 3rem; line-height: 1; }
-    .elevator-down-zone strong { font-size: 1.15rem; }
-    .elevator-down-tray { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(72px,1fr)); gap: 10px; }
-    .elevator-down-tray .elevator-choice { touch-action: none; cursor: grab; }
-
     .game[data-workbench-type="division-elevator"] .elevator-choice {
       min-height: 74px;
       padding: 0;
@@ -1580,7 +1557,7 @@
       .game[data-workbench-type="division-elevator"] .problem-grid {
         top: 50px;
         right: 28px;
-        bottom: 20px;
+        bottom: 8px;
         left: 33%;
         grid-template-rows: minmax(0, 1fr) 52px minmax(132px, auto);
         gap: 8px;
@@ -1604,8 +1581,7 @@
       }
 
       .game[data-workbench-type="division-elevator"] .choices-panel,
-      .elevator-floor-panel,
-      .elevator-down-tray {
+      .elevator-floor-panel {
         grid-template-rows: repeat(2, minmax(60px, 1fr));
         gap: 8px;
       }
@@ -1614,17 +1590,8 @@
         padding: 6px;
       }
 
-      .elevator-drop-layout {
-        grid-template-columns: 150px 1fr;
-        gap: 8px;
-      }
-
       .game[data-workbench-type="division-elevator"] .elevator-choice {
         min-height: 62px;
-      }
-
-      .elevator-down-zone span {
-        font-size: 2.6rem;
       }
 
       .game[data-workbench-type="division-elevator"] .complete-panel {
@@ -1939,9 +1906,9 @@
                 <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
                 <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
                 <g class="mathmon-scoreboard-action-labels">
-                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="569" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="731" y="631" width="142" height="64" rx="24"></rect>
                   <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
                   <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
                   <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
@@ -1950,9 +1917,9 @@
             </g>
           </svg>
           <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 631; --w: 142; --h: 64;" aria-label="새로 보기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 631; --w: 142; --h: 64;" aria-label="결과로"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
             <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
@@ -3650,21 +3617,9 @@
     function renderChoicesForStep(problem, step, state, choose) {
       ui.choices.innerHTML = "";
       ui.choices.dataset.choiceKind = step.choices[0]?.kind || "number";
-      ui.choices.dataset.interaction = step.id === "down" ? "drag-down" : "floor-panel";
+      ui.choices.dataset.interaction = "floor-panel";
       const panel = document.createElement("div");
-      panel.className = step.id === "down" ? "elevator-drop-layout" : "elevator-floor-panel";
-      let drop = null;
-      let tray = panel;
-      if (step.id === "down") {
-        drop = document.createElement("button");
-        drop.type = "button";
-        drop.className = "elevator-down-zone";
-        drop.setAttribute("aria-label", "남은 수와 일의 자리 수를 합친 수를 아래 칸으로 내리기");
-        drop.innerHTML = `<span aria-hidden="true">↓</span><strong>아래 칸</strong>`;
-        tray = document.createElement("div");
-        tray.className = "elevator-down-tray";
-        panel.append(drop, tray);
-      }
+      panel.className = "elevator-floor-panel";
 
       for (const choice of step.choices) {
         const button = document.createElement("button");
@@ -3699,9 +3654,8 @@
           button.appendChild(value);
         }
 
-        if (drop) wireDirectChoice(button, drop, choice, choose);
-        else button.addEventListener("click", () => choose(choice, button));
-        tray.appendChild(button);
+        button.addEventListener("click", () => choose(choice, button));
+        panel.appendChild(button);
       }
       ui.choices.appendChild(panel);
       return true;
@@ -3757,12 +3711,10 @@
           : "?";
       const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
       const remainderMarkup = showDownWork ? `
-            <path d="M631 197 V249" class="board-down-arrow" marker-end="url(#arrowhead)" />
-            <text x="520" y="260" class="board-combine-source">남은 수 ${problem.carriedTens} + 일의 자리 ${problem.onesDigit}</text>
+            <path d="M631 194 V239" class="board-down-arrow" marker-end="url(#arrowhead)" />
             <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
-              <rect x="400" y="274" width="240" height="70" rx="18" class="board-down-slot" />
-              <text x="458" y="316" class="board-combined-label">합친 수</text>
-              <text x="585" y="330" class="board-combined-value">${combinedValue}</text>
+              <rect x="380" y="276" width="334" height="96" rx="18" class="board-down-slot" />
+              <text x="547" y="347" class="board-combined-value">${combinedValue}</text>
             </g>
           ` : `
             <text x="386" y="304" class="board-work-label" text-anchor="end">남은 십</text>
@@ -3770,9 +3722,9 @@
           `;
       const workMarkup = showTensWork ? `
           <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"} ${attemptedChoice ? "is-wrong-attempt" : ""}">
-            <text x="414" y="224" class="board-work-minus">−</text>
-            <text x="463" y="224" class="board-work-product">${partialProduct}</text>
-            <path d="M416 237 H510" class="board-work-line" />
+            <text x="414" y="250" class="board-work-minus">−</text>
+            <text x="463" y="250" class="board-work-product">${partialProduct}</text>
+            <path d="M416 264 H510" class="board-work-line" />
             ${remainderMarkup}
             ${attemptNote}
           </g>
@@ -3780,17 +3732,17 @@
 
       svg.innerHTML = `
         <g class="math-board-surface">
-          <rect x="112" y="8" width="720" height="344" rx="30" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+          <rect x="72" y="6" width="780" height="382" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
         </g>
         <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-          <text x="210" y="174" class="board-number board-divisor">${problem.divisor}</text>
-          <path d="M285 104 Q305 104 305 124 L305 190 M305 104 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+          <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
+          <path d="M285 102 Q305 102 305 124 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-          ${renderSvgCell(392, 18, 142, 64, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
-          ${renderSvgCell(560, 18, 142, 64, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
+          ${renderSvgCell(380, 12, 166, 72, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
+          ${renderSvgCell(548, 12, 166, 72, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
-          ${renderSvgCell(392, 118, 142, 70, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-          ${renderSvgCell(560, 118, 142, 70, problem.onesDigit, false, "일의 자리 수")}
+          ${renderSvgCell(380, 112, 166, 80, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
+          ${renderSvgCell(548, 112, 166, 80, problem.onesDigit, false, "일의 자리 수")}
 
           ${workMarkup}
         </g>
@@ -3813,7 +3765,7 @@
       return `
         <g class="board-cell ${activeClass} ${wrongClass}" aria-label="${label} ${value}">
           <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="18" fill="${fill}" stroke="${stroke}" stroke-width="4" />
-          <text x="${x + width / 2}" y="${y + height / 2 + 18}" class="board-number" fill="${textFill}">${value}</text>
+          <text x="${x + width / 2}" y="${y + height / 2 + 21}" class="board-number" fill="${textFill}">${value}</text>
         </g>
       `;
     }
@@ -3831,9 +3783,9 @@
       }
       return `
         <g class="board-attempt-note" aria-label="${label} ${value}">
-          <rect x="658" y="274" width="166" height="70" rx="16" />
-          <text x="741" y="302" class="board-attempt-label">${label}</text>
-          <text x="741" y="334" class="board-attempt-value">${value}</text>
+          <rect x="96" y="276" width="220" height="96" rx="16" />
+          <text x="206" y="310" class="board-attempt-label">${label}</text>
+          <text x="206" y="356" class="board-attempt-value">${value}</text>
         </g>
       `;
     }

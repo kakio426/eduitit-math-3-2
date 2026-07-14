@@ -649,7 +649,7 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const rectOf = (node) => {
       if (!node) return null;
       const rect = node.getBoundingClientRect();
-      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2 };
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2 };
     };
     const surface = rectOf(document.querySelector('.math-board-surface rect'));
     const work = rectOf(document.querySelector('.division-work'));
@@ -660,7 +660,9 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const remainder = rectOf(document.querySelector('.division-work .board-work-digit'));
     const downSlot = rectOf(document.querySelector('.board-down-slot'));
     const combinedTarget = rectOf(document.querySelector('.board-combined-target .board-down-slot'));
-    const combinedLabel = document.querySelector('.board-combined-label')?.textContent.trim() || '';
+    const combinedLabelRect = rectOf(document.querySelector('.board-combined-label'));
+    const combinedValueRect = rectOf(document.querySelector('.board-combined-value'));
+    const combineSource = Boolean(document.querySelector('.board-combine-source'));
     const arrow = document.querySelector('.board-down-arrow')?.getAttribute('d') || '';
     const texts = [...document.querySelectorAll('.division-work text')].map((node) => ({ text:node.textContent, rect:rectOf(node) }));
     const textOverlaps = [];
@@ -671,12 +673,15 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
       if (overlapX > 1 && overlapY > 1) textOverlaps.push([texts[i].text, texts[j].text, overlapX, overlapY]);
     }
     return {
-      surface, work, step, tensCell, onesCell, product, remainder, downSlot, combinedTarget, combinedLabel, arrow, textOverlaps,
+      surface, work, step, tensCell, onesCell, product, remainder, downSlot, combinedTarget, combinedLabelRect, combinedValueRect, combineSource, arrow, textOverlaps,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       workGap: work && step ? step.top - work.bottom : null,
+      productTopGap: product && tensCell ? product.top - tensCell.bottom : null,
       productColumnDelta: product && tensCell ? Math.abs(product.cx - tensCell.cx) : null,
       remainderColumnDelta: remainder && tensCell ? Math.abs(remainder.cx - tensCell.cx) : null,
-      downColumnDelta: downSlot && onesCell ? Math.abs(downSlot.cx - onesCell.cx) : null
+      downColumnDelta: downSlot && onesCell ? Math.abs(downSlot.cx - onesCell.cx) : null,
+      combinedValueDeltaX: combinedValueRect && combinedTarget ? Math.abs(combinedValueRect.cx - combinedTarget.cx) : null,
+      combinedValueDeltaY: combinedValueRect && combinedTarget ? Math.abs(combinedValueRect.cy - combinedTarget.cy) : null
     };
   })()`);
   assert(audit.surface && audit.work && audit.step, `${label}: division board state missing`, audit);
@@ -684,12 +689,17 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
   assert(audit.workGap >= 4, `${label}: calculation work overlaps instruction`, audit);
   assert(audit.productColumnDelta <= 1, `${label}: partial product left its tens column`, audit);
   assert(audit.remainderColumnDelta <= 1, `${label}: remainder left its tens column`, audit);
+  assert(audit.productTopGap >= 8, `${label}: partial product overlaps the dividend cell`, audit);
   assert(audit.textOverlaps.length === 0, `${label}: calculation text overlaps`, audit);
   if (expectDown) {
     assert(audit.combinedTarget, `${label}: combined-number target missing`, audit);
-    assert(audit.combinedTarget.left <= audit.tensCell.cx && audit.combinedTarget.right >= audit.onesCell.cx, `${label}: combined-number target does not span both place-value columns`, audit);
-    assert(audit.combinedLabel === '합친 수', `${label}: combined-number target meaning is unclear`, audit);
-    assert(audit.arrow === 'M631 197 V249', `${label}: bring-down arrow is not vertical`, audit);
+    assert(Math.abs(audit.combinedTarget.left - audit.tensCell.left) <= 1 && Math.abs(audit.combinedTarget.right - audit.onesCell.right) <= 1, `${label}: combined-number target edges do not align with the place-value cells`, audit);
+    assert(audit.combinedTarget.width >= 180 && audit.combinedTarget.height >= 48, `${label}: combined-number target is too small`, audit);
+    assert(!audit.combinedLabelRect && audit.combinedValueRect?.height >= 30, `${label}: combined-number target label or value hierarchy is wrong`, audit);
+    assert(audit.combinedValueDeltaX <= 1 && audit.combinedValueDeltaY <= 3, `${label}: combined-number value is not centered`, audit);
+    assert(audit.surfaceGap >= 7, `${label}: calculation board leaves too little room above the instruction`, audit);
+    assert(!audit.combineSource, `${label}: redundant combined-number source text remains`, audit);
+    assert(audit.arrow === 'M631 194 V239', `${label}: bring-down arrow is not vertical`, audit);
   }
 }
 
@@ -875,17 +885,34 @@ async function auditElevatorNumericLegibility(page, label) {
     const instruction = document.querySelector('.instruction');
     const values = [...document.querySelectorAll('.elevator-number-value')];
     const choices = [...document.querySelectorAll('.elevator-choice')];
+    const choicesPanel = document.querySelector('.choices-panel')?.getBoundingClientRect();
+    const floorPanel = document.querySelector('.elevator-floor-panel')?.getBoundingClientRect();
+    const choiceRects = choices.map((node) => node.getBoundingClientRect());
+    const valueRects = values.map((node) => node.getBoundingClientRect());
     return {
       instruction: instruction ? parseFloat(getComputedStyle(instruction).fontSize) : 0,
       numericValue: values[0] ? parseFloat(getComputedStyle(values[0]).fontSize) : 0,
       valueCount: values.length,
-      minChoiceHeight: choices.length ? Math.min(...choices.map((node) => node.getBoundingClientRect().height)) : 0
+      minChoiceHeight: choiceRects.length ? Math.min(...choiceRects.map((rect) => rect.height)) : 0,
+      minChoiceWidth: choiceRects.length ? Math.min(...choiceRects.map((rect) => rect.width)) : 0,
+      choiceWidthSpread: choiceRects.length ? Math.max(...choiceRects.map((rect) => rect.width)) - Math.min(...choiceRects.map((rect) => rect.width)) : Infinity,
+      choiceHeightSpread: choiceRects.length ? Math.max(...choiceRects.map((rect) => rect.height)) - Math.min(...choiceRects.map((rect) => rect.height)) : Infinity,
+      panelWidthDelta: choicesPanel && floorPanel ? Math.abs(choicesPanel.width - floorPanel.width) : Infinity,
+      panelHeightDelta: choicesPanel && floorPanel ? Math.abs(choicesPanel.height - floorPanel.height) : Infinity,
+      minValueHeight: valueRects.length ? Math.min(...valueRects.map((rect) => rect.height)) : 0,
+      interaction: document.querySelector('.choices-panel')?.dataset.interaction || '',
+      hasDownZone: Boolean(document.querySelector('.elevator-down-zone')),
+      hasDirectChoice: Boolean(document.querySelector('[data-direct-choice="true"]'))
     };
   })()`);
   assert(audit.instruction >= 14, `${label}: instruction text is too small`, audit);
   assert(audit.numericValue >= 28, `${label}: numeric choices are too small`, audit);
   assert(audit.valueCount === 4, `${label}: four numeric choices must stay visible`, audit);
-  assert(audit.minChoiceHeight >= 42, `${label}: numeric choice touch target is too short`, audit);
+  assert(audit.minChoiceWidth >= 42 && audit.minChoiceHeight >= 42, `${label}: numeric choice touch target is too small`, audit);
+  assert(audit.choiceWidthSpread <= 1 && audit.choiceHeightSpread <= 1, `${label}: numeric choices are not equal-sized`, audit);
+  assert(audit.panelWidthDelta <= 1 && audit.panelHeightDelta <= 1, `${label}: numeric choices do not fill the choices area`, audit);
+  assert(audit.minValueHeight >= 21, `${label}: rendered numeric choices are too short`, audit);
+  assert(audit.interaction === 'floor-panel' && !audit.hasDownZone && !audit.hasDirectChoice, `${label}: obsolete drag-down interaction remains`, audit);
 }
 
 async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
