@@ -3709,12 +3709,21 @@
         : downDone
           ? String(problem.downNumber)
           : "?";
+      const combinedDigits = combinedValue === "?"
+        ? ["?", "?"]
+        : String(combinedValue).padStart(2, " ").slice(-2).split("");
+      const combinedTensMarkup = combinedDigits[0].trim()
+        ? `<text x="463" y="347" class="board-combined-value" data-place="tens">${combinedDigits[0]}</text>`
+        : "";
+      const combinedOnesMarkup = `<text x="631" y="347" class="board-combined-value" data-place="ones">${combinedDigits[1]}</text>`;
       const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
       const remainderMarkup = showDownWork ? `
             <path d="M631 194 V239" class="board-down-arrow" marker-end="url(#arrowhead)" />
             <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
-              <rect x="380" y="276" width="334" height="96" rx="18" class="board-down-slot" />
-              <text x="547" y="347" class="board-combined-value">${combinedValue}</text>
+              <rect x="380" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="tens" />
+              <rect x="548" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="ones" />
+              ${combinedTensMarkup}
+              ${combinedOnesMarkup}
             </g>
           ` : `
             <text x="386" y="304" class="board-work-label" text-anchor="end">남은 십</text>

@@ -658,10 +658,17 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const onesCell = rectOf(document.querySelector('.board-cell[aria-label^="일의 자리 수"] rect'));
     const product = rectOf(document.querySelector('.board-work-product'));
     const remainder = rectOf(document.querySelector('.division-work .board-work-digit'));
-    const downSlot = rectOf(document.querySelector('.board-down-slot'));
-    const combinedTarget = rectOf(document.querySelector('.board-combined-target .board-down-slot'));
+    const combinedSlots = [...document.querySelectorAll('.board-combined-target .board-down-slot')].map((node) => ({ place:node.dataset.place || '', rect:rectOf(node) }));
+    const combinedTarget = combinedSlots.length === 2 ? {
+      left:combinedSlots[0].rect.left,
+      top:Math.min(...combinedSlots.map((item) => item.rect.top)),
+      right:combinedSlots[1].rect.right,
+      bottom:Math.max(...combinedSlots.map((item) => item.rect.bottom)),
+      width:combinedSlots[1].rect.right - combinedSlots[0].rect.left,
+      height:Math.max(...combinedSlots.map((item) => item.rect.height))
+    } : null;
     const combinedLabelRect = rectOf(document.querySelector('.board-combined-label'));
-    const combinedValueRect = rectOf(document.querySelector('.board-combined-value'));
+    const combinedValues = [...document.querySelectorAll('.board-combined-value')].map((node) => ({ place:node.dataset.place || '', text:node.textContent.trim(), rect:rectOf(node) }));
     const combineSource = Boolean(document.querySelector('.board-combine-source'));
     const arrow = document.querySelector('.board-down-arrow')?.getAttribute('d') || '';
     const texts = [...document.querySelectorAll('.division-work text')].map((node) => ({ text:node.textContent, rect:rectOf(node) }));
@@ -673,15 +680,17 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
       if (overlapX > 1 && overlapY > 1) textOverlaps.push([texts[i].text, texts[j].text, overlapX, overlapY]);
     }
     return {
-      surface, work, step, tensCell, onesCell, product, remainder, downSlot, combinedTarget, combinedLabelRect, combinedValueRect, combineSource, arrow, textOverlaps,
+      surface, work, step, tensCell, onesCell, product, remainder, combinedSlots, combinedTarget, combinedLabelRect, combinedValues, combineSource, arrow, textOverlaps,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       workGap: work && step ? step.top - work.bottom : null,
       productTopGap: product && tensCell ? product.top - tensCell.bottom : null,
       productColumnDelta: product && tensCell ? Math.abs(product.cx - tensCell.cx) : null,
       remainderColumnDelta: remainder && tensCell ? Math.abs(remainder.cx - tensCell.cx) : null,
-      downColumnDelta: downSlot && onesCell ? Math.abs(downSlot.cx - onesCell.cx) : null,
-      combinedValueDeltaX: combinedValueRect && combinedTarget ? Math.abs(combinedValueRect.cx - combinedTarget.cx) : null,
-      combinedValueDeltaY: combinedValueRect && combinedTarget ? Math.abs(combinedValueRect.cy - combinedTarget.cy) : null
+      combinedValueColumnDeltas: combinedValues.map((item) => Math.abs(item.rect.cx - (item.place === 'tens' ? tensCell.cx : onesCell.cx))),
+      combinedValueVerticalDeltas: combinedValues.map((item) => {
+        const slot = combinedSlots.find((candidate) => candidate.place === item.place)?.rect;
+        return slot ? Math.abs(item.rect.cy - slot.cy) : Infinity;
+      })
     };
   })()`);
   assert(audit.surface && audit.work && audit.step, `${label}: division board state missing`, audit);
@@ -693,10 +702,12 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
   assert(audit.textOverlaps.length === 0, `${label}: calculation text overlaps`, audit);
   if (expectDown) {
     assert(audit.combinedTarget, `${label}: combined-number target missing`, audit);
-    assert(Math.abs(audit.combinedTarget.left - audit.tensCell.left) <= 1 && Math.abs(audit.combinedTarget.right - audit.onesCell.right) <= 1, `${label}: combined-number target edges do not align with the place-value cells`, audit);
-    assert(audit.combinedTarget.width >= 180 && audit.combinedTarget.height >= 48, `${label}: combined-number target is too small`, audit);
-    assert(!audit.combinedLabelRect && audit.combinedValueRect?.height >= 30, `${label}: combined-number target label or value hierarchy is wrong`, audit);
-    assert(audit.combinedValueDeltaX <= 1 && audit.combinedValueDeltaY <= 3, `${label}: combined-number value is not centered`, audit);
+    assert(audit.combinedSlots.length === 2 && audit.combinedSlots[0].place === 'tens' && audit.combinedSlots[1].place === 'ones', `${label}: combined-number target is not split into two place-value cells`, audit);
+    assert(Math.abs(audit.combinedSlots[0].rect.left - audit.tensCell.left) <= 1 && Math.abs(audit.combinedSlots[0].rect.right - audit.tensCell.right) <= 1, `${label}: combined-number tens cell is not aligned`, audit);
+    assert(Math.abs(audit.combinedSlots[1].rect.left - audit.onesCell.left) <= 1 && Math.abs(audit.combinedSlots[1].rect.right - audit.onesCell.right) <= 1, `${label}: combined-number ones cell is not aligned`, audit);
+    assert(audit.combinedSlots.every((item) => item.rect.width >= 80 && item.rect.height >= 48), `${label}: combined-number place-value cell is too small`, audit);
+    assert(!audit.combinedLabelRect && audit.combinedValues.length >= 1 && audit.combinedValues.every((item) => item.rect.height >= 30), `${label}: combined-number target label or value hierarchy is wrong`, audit);
+    assert(audit.combinedValueColumnDeltas.every((delta) => delta <= 1) && audit.combinedValueVerticalDeltas.every((delta) => delta <= 3), `${label}: combined-number digits left their place-value columns`, audit);
     assert(audit.surfaceGap >= 7, `${label}: calculation board leaves too little room above the instruction`, audit);
     assert(!audit.combineSource, `${label}: redundant combined-number source text remains`, audit);
     assert(audit.arrow === 'M631 194 V239', `${label}: bring-down arrow is not vertical`, audit);
@@ -857,7 +868,11 @@ async function auditElevatorWrongEvidence(page, label, misconceptionId) {
     const work = document.querySelector('.division-work.is-wrong-attempt');
     const combinedWrong = document.querySelector('.board-combined-target.is-wrong');
     const noteRect = note?.querySelector('rect')?.getBoundingClientRect();
-    const combinedRect = combinedWrong?.querySelector('rect')?.getBoundingClientRect();
+    const combinedRects = [...(combinedWrong?.querySelectorAll('rect') || [])].map((node) => node.getBoundingClientRect());
+    const combinedRect = combinedRects.length ? {
+      width:Math.max(...combinedRects.map((rect) => rect.right)) - Math.min(...combinedRects.map((rect) => rect.left)),
+      height:Math.max(...combinedRects.map((rect) => rect.height))
+    } : null;
     return {
       misconception: document.getElementById('visualArea')?.dataset.misconception || '',
       noteText: note?.textContent.trim().replace(/\\s+/g, ' ') || '',
