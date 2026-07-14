@@ -146,6 +146,9 @@ function simulateRewards(model, config, runs = 10000) {
   const special = config.results.find((result) => result.needsSpecial);
   if (special) {
     assert.ok((counts.get(special.id) || 0) < Math.max(...counts.values()), `${config.id}: highest result must be rarer than a general result`);
+    if (typeof model.getNextResult === "function") {
+      assert.equal(model.getNextResult(special)?.id, special.id, `${config.id}: special result must not point back to a lower next result`);
+    }
   }
   const lowest = model.getResult(0, 0, false);
   assert.ok(lowest?.image && lowest?.titleImage, `${config.id}: zero-correct result must still have art`);

@@ -612,19 +612,34 @@ async function auditStarPickupPlayHeader(page, label) {
 }
 
 async function auditStarPickupEvidence(page, label, kind) {
-  const audit = await evaluate(page, `(() => ({
-    step: window.__mathmonEngineQa.getCurrentStep()?.id || '',
-    proofStep: document.getElementById('visualArea')?.dataset.proofStep || '',
-    revealedStep: document.getElementById('visualArea')?.dataset.revealedStep || '',
-    feedback: document.getElementById('feedbackLine')?.textContent.trim() || '',
-    proofText: document.querySelector('.star-proof-label')?.textContent.trim() || '',
-    hasOverflow: Boolean(document.querySelector('.star-proof-overflow')),
-    hasNextGroup: Boolean(document.querySelector('.star-next-group')),
-    hasFill: Boolean(document.querySelector('.star-proof-fill')),
-    minChoiceHeight: Math.min(...[...document.querySelectorAll('.star-choice')].map((node) => node.getBoundingClientRect().height))
-  }))()`);
+  const audit = await evaluate(page, `(() => {
+    const choices = [...document.querySelectorAll('.star-choice')];
+    const reaction = document.getElementById('playMathmonReaction');
+    const reactionRect = reaction && !reaction.hidden ? reaction.getBoundingClientRect() : null;
+    const reactionChoiceOverlap = reactionRect
+      ? Math.max(0, ...choices.map((node) => {
+          const rect = node.getBoundingClientRect();
+          const overlapX = Math.min(reactionRect.right, rect.right) - Math.max(reactionRect.left, rect.left);
+          const overlapY = Math.min(reactionRect.bottom, rect.bottom) - Math.max(reactionRect.top, rect.top);
+          return overlapX > 0 && overlapY > 0 ? overlapX * overlapY : 0;
+        }))
+      : 0;
+    return {
+      step: window.__mathmonEngineQa.getCurrentStep()?.id || '',
+      proofStep: document.getElementById('visualArea')?.dataset.proofStep || '',
+      revealedStep: document.getElementById('visualArea')?.dataset.revealedStep || '',
+      feedback: document.getElementById('feedbackLine')?.textContent.trim() || '',
+      proofText: document.querySelector('.star-proof-label')?.textContent.trim() || '',
+      hasOverflow: Boolean(document.querySelector('.star-proof-overflow')),
+      hasNextGroup: Boolean(document.querySelector('.star-next-group')),
+      hasFill: Boolean(document.querySelector('.star-proof-fill')),
+      reactionChoiceOverlap,
+      minChoiceHeight: Math.min(...choices.map((node) => node.getBoundingClientRect().height))
+    };
+  })()`);
   assert(audit.feedback.length > 0, `${label}: one-line feedback is missing`, audit);
   assert(audit.minChoiceHeight >= 42, `${label}: choice touch target is too short`, audit);
+  assert(audit.reactionChoiceOverlap === 0, `${label}: Mathmon reaction overlaps a choice`, audit);
   if (kind === "quotient-too-low") {
     assert(audit.step === "quotient" && audit.proofStep === "quotient", `${label}: quotient evidence state missing`, audit);
     assert(audit.hasNextGroup && audit.feedback.includes("한 묶음을 더"), `${label}: another possible group is not shown`, audit);

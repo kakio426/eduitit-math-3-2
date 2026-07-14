@@ -155,6 +155,7 @@ const Lesson2StarPickupModel = (() => {
 
   function getNextResult(result) {
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
+    if (!result || result.needsSpecial) return result || visible[0];
     const index = visible.findIndex((item) => item.id === result.id);
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }

@@ -940,24 +940,59 @@
     }
 
     .game[data-workbench-type="remainder-stars"] .hud-left {
-      grid-column: 2;
+      display: contents;
     }
 
-    .game[data-workbench-type="remainder-stars"] .hud-left .brand-badge,
-    .game[data-workbench-type="remainder-stars"] .hud-right,
     .game[data-workbench-type="remainder-stars"] .progress-line {
       display: none;
     }
 
+    .game[data-workbench-type="remainder-stars"] .hud-left .brand-badge {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .hud-right {
+      grid-column: 3;
+      justify-self: end;
+    }
+
     .game[data-workbench-type="remainder-stars"] #problemCounter {
+      grid-column: 2;
+      justify-self: center;
       width: fit-content;
-      min-width: 124px;
+      min-width: 0;
       min-height: 42px;
+      padding: 5px 12px;
+      gap: 7px;
       justify-content: center;
       border-color: #91752c;
       color: #251a05;
       background: #ffe28a;
       font-size: 1rem;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .star-journey-count,
+    .game[data-workbench-type="remainder-stars"] .star-journey-arrow {
+      flex: 0 0 auto;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .star-journey-count {
+      font-size: .9rem;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .star-journey-arrow {
+      font-size: 1rem;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .star-journey-title {
+      display: block;
+      flex: 0 0 auto;
+      width: 104px;
+      height: 28px;
+      object-fit: contain;
     }
 
     .game[data-workbench-type="remainder-stars"] .problem-grid {
@@ -1100,9 +1135,14 @@
     .game[data-workbench-type="remainder-stars"] .choices-panel {
       grid-row: 3;
       min-height: 0;
-      padding: 0;
+      padding: 0 0 0 96px;
       display: grid;
       gap: 12px;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .play-mathmon-reaction {
+      width: 112px;
+      height: 140px;
     }
 
     .game[data-workbench-type="remainder-stars"] .choices-panel[data-choice-kind="quotient"] {
@@ -1202,6 +1242,7 @@
 
     .game[data-workbench-type="remainder-stars"] .problem-grid.is-complete .step-board,
     .game[data-workbench-type="remainder-stars"] .problem-grid.is-complete .choices-panel { display: none; }
+    .game[data-workbench-type="remainder-stars"] .reward-card[data-reward-phase="closed"] .reward-label { display: none; }
     .game[data-workbench-type="remainder-stars"] .result-title-art { display: block; left: 61%; top: 12%; width: 30%; border-radius: 999px; }
     .game[data-workbench-type="remainder-stars"] #screen-result .top-row { display: none; }
     .game[data-workbench-type="remainder-stars"] #screen-result::after { background: none; }
@@ -1292,9 +1333,20 @@
       }
 
       .game[data-workbench-type="remainder-stars"] #problemCounter {
-        min-width: 112px;
+        min-width: 0;
         min-height: 38px;
+        padding: 4px 9px;
+        gap: 5px;
         font-size: .9rem;
+      }
+
+      .game[data-workbench-type="remainder-stars"] .star-journey-title {
+        width: 92px;
+        height: 24px;
+      }
+
+      .game[data-workbench-type="remainder-stars"] .star-journey-count {
+        font-size: .82rem;
       }
 
       .game[data-workbench-type="remainder-stars"] .problem-grid {
@@ -2252,6 +2304,7 @@
 
       function getNextResult(result) {
         const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
+        if (!result || result.needsSpecial) return result || visible[0];
         const index = visible.findIndex((item) => item.id === result.id);
         return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
       }
@@ -3145,6 +3198,50 @@
       ui.visualArea.dataset.proofStep = "";
       ui.visualArea.dataset.revealedStep = "";
       renderStarMathBoard(problem, state);
+      syncStarJourneyHud(state);
+    }
+
+    function syncStarJourneyHud(state) {
+      requestAnimationFrame(() => {
+        const current = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+        const next = LessonModel.getNextResult(current);
+        const count = `${Math.min(state.problemIndex + 1, LessonModel.TOTAL_PROBLEMS)}/${LessonModel.TOTAL_PROBLEMS}`;
+        const countText = document.createElement("span");
+        countText.className = "star-journey-count";
+        countText.textContent = count;
+
+        const currentArt = createStarJourneyTitle(current, "지금");
+        const arrow = document.createElement("span");
+        arrow.className = "star-journey-arrow";
+        arrow.textContent = next && next.id !== current.id ? "→" : "도착";
+
+        const parts = [countText, currentArt, arrow];
+        if (next && next.id !== current.id) parts.push(createStarJourneyTitle(next, "다음"));
+
+        const accessibleJourney = document.createElement("span");
+        accessibleJourney.className = "visually-hidden";
+        accessibleJourney.textContent = next && next.id !== current.id
+          ? ` · ${current.name}→${next.name}`
+          : ` · ${current.name} 도착`;
+        parts.push(accessibleJourney);
+        ui.questionCount.replaceChildren(...parts);
+        ui.questionCount.setAttribute(
+          "aria-label",
+          next && next.id !== current.id
+            ? `${state.problemIndex + 1}번째 문제, 지금 ${current.name}, 다음 ${next.name}`
+            : `${state.problemIndex + 1}번째 문제, ${current.name} 도착`
+        );
+      });
+    }
+
+    function createStarJourneyTitle(result, position) {
+      const image = document.createElement("img");
+      image.className = "star-journey-title";
+      image.src = result.titleImage;
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      image.dataset.journeyPosition = position;
+      return image;
     }
 
     function updateProblemVisualForStep(problem, step, state) {
@@ -3178,6 +3275,7 @@
         button.dataset.choice = selected.id;
         button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
         button.dataset.relation = selected.relation || "";
+        if (selected.misconceptionId) button.dataset.misconception = selected.misconceptionId;
         if (Number.isFinite(selected.product)) button.dataset.product = String(selected.product);
 
         const value = document.createElement("strong");
