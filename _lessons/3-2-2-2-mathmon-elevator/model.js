@@ -136,7 +136,7 @@ const Lesson2ElevatorModel = (() => {
         tooHighQuotient,
         tooHighRemaining,
         "DIV2_TENS_QUOTIENT_TOO_HIGH",
-        "몫이 너무 커요. 곱해서 다시 확인해요."
+        `곱하면 ${problem.divisor * tooHighQuotient * 10}이라 ${problem.tensDigit * 10}보다 커요.`
       ),
       makePairChoice(
         `tens:${tooLowQuotient}:${tooLowRemaining}`,
@@ -188,13 +188,13 @@ const Lesson2ElevatorModel = (() => {
         id: `ones-high:${problem.onesQuotient + 1}`,
         value: problem.onesQuotient + 1,
         misconceptionId: "DIV2_ONES_QUOTIENT_TOO_HIGH",
-        feedback: "곱한 값이 내린 수보다 큰지 봐요."
+        feedback: `곱하면 ${problem.divisor * (problem.onesQuotient + 1)}라 ${problem.downNumber}보다 커요.`
       },
       {
         id: `ones-low:${problem.onesQuotient - 1}`,
         value: problem.onesQuotient - 1,
         misconceptionId: "DIV2_ONES_QUOTIENT_TOO_LOW",
-        feedback: "한 번 더 나눌 수 있는지 봐요."
+        feedback: `남은 ${problem.divisor}도 한 번 더 나눌 수 있어요.`
       },
       {
         id: `use-remaining:${problem.remainingTens}`,
@@ -308,8 +308,10 @@ const Lesson2ElevatorModel = (() => {
   }
 
   function getNextResult(result) {
+    if (result?.needsSpecial) return result;
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0) return result;
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
 

@@ -31,7 +31,65 @@
 }
 
 .game[data-workbench-type="division-elevator"] .progress-line {
+  min-width: 0;
+  min-height: var(--sound-button-size, 42px);
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(49, 91, 104, .55);
+  border-radius: 999px;
+  background: rgba(237, 248, 246, .88);
+  overflow: hidden;
+}
+
+.game[data-workbench-type="division-elevator"] .progress-fill,
+.game[data-workbench-type="division-elevator"] .progress-text {
   display: none;
+}
+
+.elevator-route-summary {
+  min-width: 0;
+  width: 100%;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, .6vw, 8px);
+  color: #17343b;
+  font-size: clamp(.94rem, 1.25vw, 1.05rem);
+  line-height: 1;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.elevator-route-point {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.elevator-route-point b {
+  padding: 3px 5px;
+  border-radius: 999px;
+  color: #fff8e8;
+  background: #315b68;
+  font-size: .78em;
+}
+
+.elevator-route-point.is-current b {
+  color: #2c210c;
+  background: #ffd46d;
+}
+
+.elevator-route-point.is-final span {
+  max-width: 3.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.elevator-route-arrow {
+  flex: 0 0 auto;
+  color: #8d6b20;
 }
 
 .game[data-workbench-type="division-elevator"] .hud-left,
@@ -193,6 +251,36 @@
   fill: #2c210c;
 }
 
+.elevator-math-svg .division-work.is-wrong-attempt .board-work-line {
+  stroke: #ff9db2;
+}
+
+.elevator-math-svg .division-work.is-wrong-attempt .board-work-product,
+.elevator-math-svg .division-work.is-wrong-attempt > .board-work-digit {
+  fill: #ffd6df;
+}
+
+.elevator-math-svg .board-attempt-note rect {
+  fill: #ffe0e7;
+  stroke: #b72d4d;
+  stroke-width: 3;
+}
+
+.elevator-math-svg .board-attempt-label {
+  fill: #6e1530;
+  font-size: 16px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+.elevator-math-svg .board-attempt-value {
+  fill: #44101e;
+  font-size: 27px;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  text-anchor: middle;
+}
+
 .game[data-workbench-type="division-elevator"] .step-board {
   grid-row: 2;
   min-height: 58px;
@@ -350,6 +438,22 @@
 }
 
 .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .choices-panel {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-grid.is-complete {
+  grid-template-rows: minmax(0, 1fr) minmax(150px, auto);
+}
+
+.game[data-workbench-type="division-elevator"] .problem-grid.is-complete .step-board {
+  display: none;
+}
+
+.game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-panel {
+  grid-row: 2;
+}
+
+.game[data-workbench-type="division-elevator"] .reward-card[data-reward-phase="closed"] .reward-label {
   display: none;
 }
 
@@ -538,6 +642,15 @@
 
   .game[data-workbench-type="division-elevator"] .big-problem {
     font-size: clamp(2.55rem, 6vw, 4rem);
+  }
+
+  .elevator-route-summary {
+    padding-inline: 6px;
+    gap: 4px;
+  }
+
+  .elevator-route-point {
+    gap: 3px;
   }
 
   .elevator-math-svg {
