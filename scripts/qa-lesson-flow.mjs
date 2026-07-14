@@ -512,6 +512,8 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const product = rectOf(document.querySelector('.board-work-product'));
     const remainder = rectOf(document.querySelector('.division-work .board-work-digit'));
     const downSlot = rectOf(document.querySelector('.board-down-slot'));
+    const combinedTarget = rectOf(document.querySelector('.board-combined-target .board-down-slot'));
+    const combinedLabel = document.querySelector('.board-combined-label')?.textContent.trim() || '';
     const arrow = document.querySelector('.board-down-arrow')?.getAttribute('d') || '';
     const texts = [...document.querySelectorAll('.division-work text')].map((node) => ({ text:node.textContent, rect:rectOf(node) }));
     const textOverlaps = [];
@@ -522,7 +524,7 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
       if (overlapX > 1 && overlapY > 1) textOverlaps.push([texts[i].text, texts[j].text, overlapX, overlapY]);
     }
     return {
-      surface, work, step, tensCell, onesCell, product, remainder, downSlot, arrow, textOverlaps,
+      surface, work, step, tensCell, onesCell, product, remainder, downSlot, combinedTarget, combinedLabel, arrow, textOverlaps,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       workGap: work && step ? step.top - work.bottom : null,
       productColumnDelta: product && tensCell ? Math.abs(product.cx - tensCell.cx) : null,
@@ -537,9 +539,10 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
   assert(audit.remainderColumnDelta <= 1, `${label}: remainder left its tens column`, audit);
   assert(audit.textOverlaps.length === 0, `${label}: calculation text overlaps`, audit);
   if (expectDown) {
-    assert(audit.downSlot, `${label}: down-number slot missing`, audit);
-    assert(audit.downColumnDelta <= 1, `${label}: down-number slot left its ones column`, audit);
-    assert(audit.arrow === 'M631 181 V231', `${label}: bring-down arrow is not vertical`, audit);
+    assert(audit.combinedTarget, `${label}: combined-number target missing`, audit);
+    assert(audit.combinedTarget.left <= audit.tensCell.cx && audit.combinedTarget.right >= audit.onesCell.cx, `${label}: combined-number target does not span both place-value columns`, audit);
+    assert(audit.combinedLabel === '합친 수', `${label}: combined-number target meaning is unclear`, audit);
+    assert(audit.arrow === 'M631 197 V249', `${label}: bring-down arrow is not vertical`, audit);
   }
 }
 
@@ -695,19 +698,26 @@ async function auditElevatorWrongEvidence(page, label, misconceptionId) {
     const note = document.querySelector('.board-attempt-note');
     const wrongCell = document.querySelector('.board-cell.is-wrong');
     const work = document.querySelector('.division-work.is-wrong-attempt');
+    const combinedWrong = document.querySelector('.board-combined-target.is-wrong');
     const noteRect = note?.querySelector('rect')?.getBoundingClientRect();
+    const combinedRect = combinedWrong?.querySelector('rect')?.getBoundingClientRect();
     return {
       misconception: document.getElementById('visualArea')?.dataset.misconception || '',
       noteText: note?.textContent.trim().replace(/\\s+/g, ' ') || '',
       noteWidth: noteRect?.width || 0,
       noteHeight: noteRect?.height || 0,
+      combinedText: combinedWrong?.textContent.trim().replace(/\\s+/g, ' ') || '',
+      combinedWidth: combinedRect?.width || 0,
+      combinedHeight: combinedRect?.height || 0,
       wrongCell: Boolean(wrongCell),
       wrongWork: Boolean(work),
       feedback: document.getElementById('feedbackLine')?.textContent.trim() || ''
     };
   })()`);
   assert(audit.misconception === misconceptionId, `${label}: wrong misconception state was not kept`, audit);
-  assert(audit.noteText.length > 0 && audit.noteWidth >= 70 && audit.noteHeight >= 30, `${label}: chosen wrong value is not visible on the board`, audit);
+  const hasAttemptNote = audit.noteText.length > 0 && audit.noteWidth >= 70 && audit.noteHeight >= 30;
+  const hasCombinedEvidence = audit.combinedText.length > 0 && audit.combinedWidth >= 120 && audit.combinedHeight >= 36;
+  assert(hasAttemptNote || hasCombinedEvidence, `${label}: chosen wrong value is not visible on the board`, audit);
   assert(audit.wrongWork, `${label}: calculation board did not enter the wrong-evidence state`, audit);
   if (misconceptionId.includes('QUOTIENT')) assert(audit.wrongCell, `${label}: chosen quotient did not enter its board slot`, audit);
   assert(audit.feedback.length > 0, `${label}: one-line wrong reason is missing`, audit);

@@ -172,7 +172,7 @@ function renderElevatorMathBoard(problem, state) {
 
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.classList.add("elevator-math-svg");
-  svg.setAttribute("viewBox", "0 0 920 300");
+  svg.setAttribute("viewBox", "0 0 920 400");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep, attemptedChoice));
 
@@ -186,41 +186,50 @@ function renderElevatorMathBoard(problem, state) {
     : tensDone || showRemainingEvidence
       ? String(problem.remainingTens)
       : "?";
-  const downOnesValue = downDone || wrongDown ? String(problem.onesDigit) : "?";
   const showTensWork = tensDone || showRemainingEvidence || wrongTens;
   const showDownWork = state.stepIndex > 0 || revealedStep === "down" || revealedStep === "ones";
   const downTargetActive = state.stepIndex === 1 && !downDone;
-  const attemptNote = renderAttemptNote(problem, step, attemptedChoice);
+  const combinedValue = wrongDown
+    ? String(attemptedChoice.value)
+    : downDone
+      ? String(problem.downNumber)
+      : "?";
+  const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
+  const remainderMarkup = showDownWork ? `
+        <path d="M631 197 V249" class="board-down-arrow" marker-end="url(#arrowhead)" />
+        <text x="520" y="260" class="board-combine-source">남은 수 ${problem.carriedTens} + 일의 자리 ${problem.onesDigit}</text>
+        <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
+          <rect x="400" y="274" width="240" height="70" rx="18" class="board-down-slot" />
+          <text x="458" y="316" class="board-combined-label">합친 수</text>
+          <text x="585" y="330" class="board-combined-value">${combinedValue}</text>
+        </g>
+      ` : `
+        <text x="386" y="304" class="board-work-label" text-anchor="end">남은 십</text>
+        <text x="463" y="318" class="board-work-digit">${remainingValue}</text>
+      `;
   const workMarkup = showTensWork ? `
       <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"} ${attemptedChoice ? "is-wrong-attempt" : ""}">
-        <text x="414" y="208" class="board-work-minus">−</text>
-        <text x="463" y="208" class="board-work-product">${partialProduct}</text>
-        <path d="M416 219 H510" class="board-work-line" />
-        <text x="386" y="270" class="board-work-label" text-anchor="end">남은 십</text>
-        <text x="463" y="277" class="board-work-digit">${remainingValue}</text>
-        ${showDownWork ? `
-          <path d="M631 181 V231" class="board-down-arrow" marker-end="url(#arrowhead)" />
-          <rect x="590" y="238" width="82" height="52" rx="14" class="board-down-slot ${downTargetActive ? "is-active" : ""}" />
-          <text x="631" y="277" class="board-work-digit board-down-value ${downTargetActive ? "is-active" : ""}">${downOnesValue}</text>
-          ${attemptNote ? "" : '<text x="704" y="270" class="board-work-label" text-anchor="start">내린 수</text>'}
-        ` : ""}
+        <text x="414" y="224" class="board-work-minus">−</text>
+        <text x="463" y="224" class="board-work-product">${partialProduct}</text>
+        <path d="M416 237 H510" class="board-work-line" />
+        ${remainderMarkup}
         ${attemptNote}
       </g>
   ` : "";
 
   svg.innerHTML = `
     <g class="math-board-surface">
-      <rect x="112" y="8" width="720" height="284" rx="28" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect x="112" y="8" width="720" height="344" rx="30" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
     </g>
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="210" y="156" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 92 Q305 92 305 112 L305 174 M305 92 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="210" y="174" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M285 104 Q305 104 305 124 L305 190 M305 104 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      ${renderSvgCell(392, 18, 142, 58, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
-      ${renderSvgCell(560, 18, 142, 58, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
+      ${renderSvgCell(392, 18, 142, 64, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
+      ${renderSvgCell(560, 18, 142, 64, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
-      ${renderSvgCell(392, 108, 142, 64, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-      ${renderSvgCell(560, 108, 142, 64, problem.onesDigit, false, "일의 자리 수")}
+      ${renderSvgCell(392, 118, 142, 70, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
+      ${renderSvgCell(560, 118, 142, 70, problem.onesDigit, false, "일의 자리 수")}
 
       ${workMarkup}
     </g>
@@ -261,9 +270,9 @@ function renderAttemptNote(problem, step, choice) {
   }
   return `
     <g class="board-attempt-note" aria-label="${label} ${value}">
-      <rect x="672" y="226" width="152" height="64" rx="14" />
-      <text x="748" y="249" class="board-attempt-label">${label}</text>
-      <text x="748" y="282" class="board-attempt-value">${value}</text>
+      <rect x="658" y="274" width="166" height="70" rx="16" />
+      <text x="741" y="302" class="board-attempt-label">${label}</text>
+      <text x="741" y="334" class="board-attempt-value">${value}</text>
     </g>
   `;
 }

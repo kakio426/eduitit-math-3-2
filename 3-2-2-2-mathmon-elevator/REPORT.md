@@ -48,6 +48,8 @@
 
 - 몫을 크게 또는 작게 고르면 고른 몫이 붉은 몫 칸에 들어가고, 곱한 값과 실제로 남는 수가 계산판에 나타납니다.
 - 남은 수 내림 오답은 계산판의 `남은 십 + 일의 자리`와 학생이 고른 수를 나란히 보여 줍니다.
+- 계산판을 기존보다 세로로 넓히고 숫자 칸·부분곱·남은 수 사이의 간격을 다시 배분했습니다.
+- 내림 단계의 `?`를 일의 자리 한 칸에 두지 않고, `남은 수 10 + 일의 자리 2` 아래 두 자리 열을 함께 감싸는 넓은 `합친 수` 상자에 둡니다. 정답이면 `12`, 오답이면 학생이 고른 수 전체가 같은 상자에 나타납니다.
 - 마지막 몫 오답은 고른 몫을 몫 칸에 넣고 `나누는 수×고른 몫`을 계산판 안에서 바로 확인합니다.
 - 상단에 `지금 지하 → 다음 1층 → 끝 꼭대기`를 보여 주고, 힘과 정답 수가 바뀌면 현재·다음 층도 함께 바뀝니다.
 - 최저 결과를 `다시 준비`에서 `지하 정비층`으로 바꿔 `0/10`이어도 도착지가 남습니다.
@@ -60,6 +62,7 @@
 - 긴 나눗셈 가로선과 위쪽 몫 칸 사이에 간격을 두고, 숫자·괄호선·칸 테두리의 겹침이 0건임을 캡처로 확인했습니다.
 - 부분곱과 남은 십은 십의 자리 중심선, 내려온 일의 자리 수는 일의 자리 중심선에서 오차 1px 이하입니다.
 - 내림 화살표가 같은 x좌표에서 수직으로 내려오는지, 계산판과 지시문 사이에 4px 이상의 간격이 있는지를 자동 검사합니다.
+- `합친 수` 상자가 십의 자리와 일의 자리 중심선을 모두 포함하는지, Codex 브라우저 크기에서도 안내 상자와 겹치지 않는지를 자동 검사합니다.
 - Codex 브라우저 오답 캡처: `screenshots/engine-flow-codex-browser-05b-play-wrong.png`, `screenshots/engine-flow-codex-browser-05b2-play-quotient-too-low.png`, `screenshots/engine-flow-codex-browser-05d2-play-down-wrong.png`, `screenshots/engine-flow-codex-browser-05e2-play-ones-too-high.png`, `screenshots/engine-flow-codex-browser-05e3-play-ones-too-low.png`
 - `0/10` 최저 결과 캡처: `screenshots/engine-flow-codex-browser-08-result-low-0-of-10.png`
 - 표지 시작 버튼과 하단 배지의 6px 겹침을 수정했습니다.

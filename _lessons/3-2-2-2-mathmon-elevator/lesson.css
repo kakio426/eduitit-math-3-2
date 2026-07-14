@@ -185,7 +185,7 @@
 .elevator-math-svg {
   width: min(100%, 920px);
   height: 100%;
-  max-height: 340px;
+  max-height: 420px;
   overflow: visible;
 }
 
@@ -241,14 +241,48 @@
   stroke-width: 3;
 }
 
-.elevator-math-svg .board-down-slot.is-active {
+.elevator-math-svg .board-combined-target.is-active .board-down-slot {
   fill: #ffd46d;
   stroke: #6f4b00;
   stroke-width: 4;
 }
 
-.elevator-math-svg .board-down-value.is-active {
+.elevator-math-svg .board-combined-target.is-wrong .board-down-slot {
+  fill: #ffe0e7;
+  stroke: #b72d4d;
+  stroke-width: 4;
+}
+
+.elevator-math-svg .board-combine-source {
+  fill: #d9f5f1;
+  font-size: 20px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+.elevator-math-svg .board-combined-label {
+  fill: #d9f5f1;
+  font-size: 17px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+.elevator-math-svg .board-combined-value {
+  fill: #fff8e8;
+  font-size: 44px;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  text-anchor: middle;
+}
+
+.elevator-math-svg .board-combined-target.is-active .board-combined-label,
+.elevator-math-svg .board-combined-target.is-active .board-combined-value {
   fill: #2c210c;
+}
+
+.elevator-math-svg .board-combined-target.is-wrong .board-combined-label,
+.elevator-math-svg .board-combined-target.is-wrong .board-combined-value {
+  fill: #6e1530;
 }
 
 .elevator-math-svg .division-work.is-wrong-attempt .board-work-line {
@@ -632,7 +666,7 @@
 
 @media (max-width: 1100px), (max-height: 720px) {
   .game[data-workbench-type="division-elevator"] .problem-grid {
-    top: 66px;
+    top: 50px;
     right: 28px;
     bottom: 20px;
     left: 33%;
