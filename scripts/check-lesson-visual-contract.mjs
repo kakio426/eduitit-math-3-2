@@ -82,12 +82,17 @@ function checkLesson(folder, config) {
   assert(readme.includes(config.mathmonPack) && report.includes(config.mathmonPack), `${prefix} README/REPORT에 매스몬 팩 id가 없습니다.`);
 }
 
+const requested = process.argv.slice(2);
+const folders = requested.length ? requested : readdirSync(SOURCE_ROOT);
 const checked = [];
-for (const folder of readdirSync(SOURCE_ROOT)) {
+for (const folder of folders) {
   const configPath = path.join(SOURCE_ROOT, folder, "lesson.json");
-  if (!existsSync(configPath)) continue;
+  assert(existsSync(configPath), `${folder}: lesson source does not exist`);
   const config = JSON.parse(readFileSync(configPath, "utf8"));
-  if (config.qa?.visualContractVersion !== 1) continue;
+  if (config.qa?.visualContractVersion !== 1) {
+    assert(!requested.length, `${folder}: visualContractVersion 1 is required for a targeted check`);
+    continue;
+  }
   checkLesson(folder, config);
   checked.push(folder);
 }

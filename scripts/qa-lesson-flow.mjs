@@ -791,72 +791,134 @@ async function auditStarPickupPlayHeader(page, label) {
         top: rect.top,
         bottom: rect.bottom,
         ariaLabel: node.getAttribute('aria-label') || '',
-        titleImages: [...node.querySelectorAll('.star-journey-title')].map((image) => ({
-          src: image.getAttribute('src') || '',
-          complete: image.complete,
-          naturalWidth: image.naturalWidth,
-          width: image.getBoundingClientRect().width,
-          height: image.getBoundingClientRect().height
-        }))
+        width: rect.width,
+        height: rect.height
       };
     };
+    const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
+    const world = document.getElementById('starWorldPanel');
+    const worldRect = world?.getBoundingClientRect();
+    const image = document.getElementById('starWorldImage');
     return {
       brand: read('#screen-play .hud-left .brand-badge'),
       unit: read('#screen-play .hud-right .unit-badge'),
-      counter: read('#problemCounter')
+      counter: read('#problemCounter'),
+      world: worldRect && stage ? {
+        visible: worldRect.width > 1 && worldRect.height > 1,
+        leftRatio: (worldRect.left - stage.left) / stage.width,
+        topRatio: (worldRect.top - stage.top) / stage.height,
+        widthRatio: worldRect.width / stage.width,
+        heightRatio: worldRect.height / stage.height,
+        imageSrc: image?.getAttribute('src') || '',
+        complete: Boolean(image?.complete),
+        naturalWidth: image?.naturalWidth || 0,
+        naturalHeight: image?.naturalHeight || 0
+      } : null
     };
   })()`);
   assert(header.brand?.visible && header.brand.text === "에듀잇티 수학 게임", `${label}: Eduitit play badge missing`, header);
   assert(header.unit?.visible && header.unit.text === "2단원 나눗셈", `${label}: unit play badge missing`, header);
-  assert(header.counter?.visible && /^\d+\/10/.test(header.counter.text) && header.counter.ariaLabel.includes("다음"), `${label}: current-to-next star journey missing`, header);
-  assert(header.counter.titleImages.length === 2, `${label}: current and next generated title images are missing`, header);
-  assert(header.counter.titleImages.every((image) => image.complete && image.naturalWidth > 0 && image.width >= 80 && image.height >= 20), `${label}: generated title image slot is broken`, header);
+  assert(header.counter?.visible && /^\d+\/10$/.test(header.counter.text) && header.counter.ariaLabel.includes("번째 문제"), `${label}: count-only progress is missing`, header);
+  assert(header.world?.visible, `${label}: unicorn constellation board is missing`, header);
+  assert(header.world.complete && header.world.naturalWidth === 600 && header.world.naturalHeight === 1312, `${label}: constellation state image is missing or has the wrong canvas`, header);
+  assert(/^play-constellation-.+-generated\.webp$/.test(header.world.imageSrc), `${label}: constellation state image is not connected`, header);
+  assert(Math.abs(header.world.leftRatio - .025) <= .006 && Math.abs(header.world.topRatio - .115) <= .008, `${label}: constellation board position drifted`, header);
+  assert(Math.abs(header.world.widthRatio - .234375) <= .008 && Math.abs(header.world.heightRatio - .82) <= .01, `${label}: constellation board slot drifted`, header);
   assert(Math.abs(header.brand.top - header.unit.top) <= 1, `${label}: brand and unit badges are off baseline`, header);
   assert(Math.abs(header.brand.top - header.counter.top) <= 1, `${label}: play badges and journey are off baseline`, header);
 }
 
-async function auditStarPickupEvidence(page, label, kind) {
+async function auditStarPickupWaiting(page, label, expectedDividend) {
   const audit = await evaluate(page, `(() => {
     const choices = [...document.querySelectorAll('.star-choice')];
-    const reaction = document.getElementById('playMathmonReaction');
-    const reactionRect = reaction && !reaction.hidden ? reaction.getBoundingClientRect() : null;
-    const reactionChoiceOverlap = reactionRect
-      ? Math.max(0, ...choices.map((node) => {
-          const rect = node.getBoundingClientRect();
-          const overlapX = Math.min(reactionRect.right, rect.right) - Math.max(reactionRect.left, rect.left);
-          const overlapY = Math.min(reactionRect.bottom, rect.bottom) - Math.max(reactionRect.top, rect.top);
-          return overlapX > 0 && overlapY > 0 ? overlapX * overlapY : 0;
-        }))
-      : 0;
+    const choiceRects = choices.map((node) => node.getBoundingClientRect());
+    const products = choices.map((node) => node.querySelector('strong')?.textContent.trim() || '');
+    const groups = choices.map((node) => node.querySelector('span')?.textContent.trim() || '');
+    const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
+    const world = document.getElementById('starWorldPanel')?.getBoundingClientRect();
+    const board = document.getElementById('visualArea')?.getBoundingClientRect();
     return {
-      step: window.__mathmonEngineQa.getCurrentStep()?.id || '',
-      proofStep: document.getElementById('visualArea')?.dataset.proofStep || '',
-      revealedStep: document.getElementById('visualArea')?.dataset.revealedStep || '',
-      feedback: document.getElementById('feedbackLine')?.textContent.trim() || '',
-      proofText: document.querySelector('.star-proof-label')?.textContent.trim() || '',
-      hasOverflow: Boolean(document.querySelector('.star-proof-overflow')),
-      hasNextGroup: Boolean(document.querySelector('.star-next-group')),
-      hasFill: Boolean(document.querySelector('.star-proof-fill')),
-      reactionChoiceOverlap,
-      minChoiceHeight: Math.min(...choices.map((node) => node.getBoundingClientRect().height))
+      dividend: window.__mathmonEngineQa.getCurrentProblem()?.dividend,
+      looseStars: document.querySelectorAll('.star-loose-grid .star-glyph[data-tone="loose"]').length,
+      instruction: document.getElementById('stepInstruction')?.textContent.trim() || '',
+      choiceCount: choices.length,
+      choiceHeights: choiceRects.map((rect) => rect.height),
+      productFont: choices.length ? Math.min(...choices.map((node) => parseFloat(getComputedStyle(node.querySelector('strong')).fontSize))) : 0,
+      groupFont: choices.length ? Math.min(...choices.map((node) => parseFloat(getComputedStyle(node.querySelector('span')).fontSize))) : 0,
+      products,
+      groups,
+      worldBoardGap: world && board ? board.left - world.right : -1,
+      stageVisible: Boolean(stage?.width && stage?.height)
     };
   })()`);
+  assert(audit.stageVisible, `${label}: stage is missing`, audit);
+  assert(audit.dividend === expectedDividend && audit.looseStars === expectedDividend, `${label}: loose star count does not match the dividend`, audit);
+  assert(/×몇이 .* 넘지 않을까요\?$/.test(audit.instruction), `${label}: product-comparison instruction is missing`, audit);
+  assert(audit.choiceCount === 3, `${label}: quotient choices must stay in one three-card row`, audit);
+  assert(audit.choiceHeights.every((height) => height >= 108 && height <= 116), `${label}: quotient card height is not fixed at 112px`, audit);
+  assert(audit.productFont >= 29 && audit.groupFont >= 23, `${label}: choice hierarchy is too small`, audit);
+  assert(audit.products.every((text) => /^\d+×\d+=\d+$/.test(text)), `${label}: product and result are not the primary choice text`, audit);
+  assert(audit.groups.every((text) => /^\d+묶음$/.test(text)), `${label}: group count is not the secondary choice text`, audit);
+  assert(audit.worldBoardGap >= 12, `${label}: constellation board and calculation board overlap`, audit);
+}
+
+async function auditStarPickupEvidence(page, label, kind) {
+  const audit = await evaluate(page, `(() => ({
+    step: window.__mathmonEngineQa.getCurrentStep()?.id || '',
+    proofStep: document.getElementById('visualArea')?.dataset.proofStep || '',
+    revealedStep: document.getElementById('visualArea')?.dataset.revealedStep || '',
+    feedback: document.getElementById('feedbackLine')?.textContent.trim() || '',
+    capsuleCount: document.querySelectorAll('.star-capsule').length,
+    missingSlotCount: document.querySelectorAll('.star-glyph[data-tone="missing-slot"]').length,
+    hasNextGroup: Boolean(document.querySelector('.star-next-group')),
+    hasFill: Boolean(document.querySelector('.star-capsule[data-state="full"]')),
+    hasRemainderPanel: Boolean(document.querySelector('.star-remainder-focus')),
+    minChoiceHeight: Math.min(...[...document.querySelectorAll('.star-choice')].map((node) => node.getBoundingClientRect().height))
+  }))()`);
   assert(audit.feedback.length > 0, `${label}: one-line feedback is missing`, audit);
   assert(audit.minChoiceHeight >= 42, `${label}: choice touch target is too short`, audit);
-  assert(audit.reactionChoiceOverlap === 0, `${label}: Mathmon reaction overlaps a choice`, audit);
   if (kind === "quotient-too-low") {
     assert(audit.step === "quotient" && audit.proofStep === "quotient", `${label}: quotient evidence state missing`, audit);
     assert(audit.hasNextGroup && audit.feedback.includes("한 묶음을 더"), `${label}: another possible group is not shown`, audit);
   } else if (kind === "quotient-too-high") {
     assert(audit.step === "quotient" && audit.proofStep === "quotient", `${label}: quotient evidence state missing`, audit);
-    assert(audit.hasOverflow && audit.feedback.includes("모자라"), `${label}: overflow shortage is not shown`, audit);
+    assert(audit.missingSlotCount > 0 && audit.feedback.includes("모자라"), `${label}: missing star slots are not shown`, audit);
   } else if (kind === "quotient-confirm") {
     assert(audit.step === "quotient" && audit.revealedStep === "quotient", `${label}: chosen quotient was not placed on the board`, audit);
-    assert(audit.hasFill && audit.feedback.includes("묶음"), `${label}: quotient confirmation is not visible`, audit);
+    assert(audit.hasFill && audit.hasRemainderPanel && audit.feedback.includes("묶음"), `${label}: quotient confirmation is not visible`, audit);
   } else if (kind === "remainder-wrong") {
     assert(audit.step === "remainder" && audit.proofStep === "remainder", `${label}: remainder evidence state missing`, audit);
     assert(audit.hasNextGroup && audit.feedback.includes("한 묶음"), `${label}: divisor-sized leftover group is not shown`, audit);
   }
+}
+
+async function auditStarPickupResultTier(page, label, expectedTier) {
+  const audit = await evaluate(page, `(() => {
+    const screen = document.getElementById('screen-result');
+    const background = document.getElementById('resultBg');
+    const title = document.getElementById('resultTitleArt');
+    return {
+      tier: screen?.dataset.resultTier || '',
+      heading: document.getElementById('resultTitle')?.textContent.trim() || '',
+      background: {
+        src: background?.getAttribute('src') || '',
+        complete: Boolean(background?.complete),
+        naturalWidth: background?.naturalWidth || 0,
+        naturalHeight: background?.naturalHeight || 0
+      },
+      title: {
+        src: title?.getAttribute('src') || '',
+        complete: Boolean(title?.complete),
+        naturalWidth: title?.naturalWidth || 0,
+        naturalHeight: title?.naturalHeight || 0
+      }
+    };
+  })()`);
+  assert(audit.tier === expectedTier, `${label}: wrong result tier`, audit);
+  assert(audit.background.complete && audit.background.naturalWidth === 1280 && audit.background.naturalHeight === 800, `${label}: generated result scene is missing or has the wrong canvas`, audit);
+  assert(/^result-unicorn-.+-generated\.webp$/.test(audit.background.src), `${label}: result scene is not connected`, audit);
+  assert(audit.title.complete && audit.title.naturalWidth > 0 && audit.title.naturalHeight > 0, `${label}: generated result title is missing`, audit);
+  assert(/^result-title-.+-generated\.webp$/.test(audit.title.src), `${label}: result title is not connected`, audit);
 }
 
 async function auditElevatorLearningLegibility(page, label) {
@@ -1065,6 +1127,10 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditGeometry(page, `${viewport.name} tutorial 2`);
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
+  if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    await evaluate(page, "window.__starPickupQa.forceProblem(47, 6)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 47", `${viewport.name}: fixed 47-star board did not render`);
+  }
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
@@ -1072,6 +1138,34 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
+    await auditStarPickupWaiting(page, `${viewport.name} fixed 47-star waiting`, 47);
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(20, 3)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 20", `${viewport.name}: 20-star boundary board did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "05a-boundary-20-stars"));
+    await auditGeometry(page, `${viewport.name} 20-star boundary`);
+    await auditStarPickupWaiting(page, `${viewport.name} 20-star boundary`, 20);
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(99, 4)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 99", `${viewport.name}: 99-star boundary board did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "05a2-boundary-99-stars"));
+    await auditGeometry(page, `${viewport.name} 99-star boundary`);
+    await auditStarPickupWaiting(page, `${viewport.name} 99-star boundary`, 99);
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(95, 3)");
+    await clickMisconception(page, "DIV3_QUOTIENT_TOO_HIGH");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: 32-capsule boundary did not render`);
+    const capsuleBoundary = await evaluate(page, `(() => ({
+      capsules: document.querySelectorAll('.star-capsule').length,
+      missingSlots: document.querySelectorAll('.star-glyph[data-tone="missing-slot"]').length
+    }))()`);
+    assert(capsuleBoundary.capsules === 32 && capsuleBoundary.missingSlots === 1, `${viewport.name}: 8x4 capsule boundary is incorrect`, capsuleBoundary);
+    shots.push(await screenshot(page, lesson, viewport, "05a3-boundary-32-capsules"));
+    await auditGeometry(page, `${viewport.name} 32-capsule boundary`);
+    await auditStarPickupEvidence(page, `${viewport.name} 32-capsule boundary`, "quotient-too-high");
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(47, 6)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 47", `${viewport.name}: fixed 47-star board did not restore`);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
@@ -1266,6 +1360,17 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "08-result"));
   }
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
+
+  if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    const tierIds = await evaluate(page, "LESSON_CONFIG.results.map((result) => result.id)");
+    for (const tierId of tierIds) {
+      await evaluate(page, `window.__starPickupQa.forceResult(${JSON.stringify(tierId)})`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tierId)} && document.getElementById('resultBg')?.complete && document.getElementById('resultBg')?.naturalWidth > 0`, `${viewport.name}: result tier ${tierId} did not render`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tierId}`));
+      await auditGeometry(page, `${viewport.name} result ${tierId}`, { requireRetry: true });
+      await auditStarPickupResultTier(page, `${viewport.name} result ${tierId}`, tierId);
+    }
+  }
 
   const scoreboardEnabled = await evaluate(page, "document.querySelector('.game')?.dataset.scoreboardEnabled === 'true'");
   if (scoreboardEnabled) {

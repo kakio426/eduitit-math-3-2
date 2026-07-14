@@ -292,9 +292,14 @@ async function main() {
     console.log("CHECK_LESSON_CONTRACT: PASS (no _lessons directory)");
     return;
   }
-  const lessons = await findLessonSources();
+  const requested = process.argv.slice(2);
+  const lessons = requested.length ? requested : await findLessonSources();
   const failures = [];
   for (const lesson of lessons) {
+    if (!(await pathExists(path.join(SOURCE_ROOT, lesson, "lesson.json")))) {
+      addFailure(failures, lesson, "lesson source does not exist");
+      continue;
+    }
     await checkLesson(lesson, failures);
   }
   if (failures.length) {

@@ -87,6 +87,11 @@ function checkInvariant(rule, problem) {
     assert.ok(problem.remainder > 0 && problem.remainder < problem.divisor, `${problem.id}: remainder range`);
     assert.equal(problem.divisor * problem.quotient + problem.remainder, problem.dividend, `${problem.id}: identity`);
     assert.equal(problem.steps.map((step) => step.id).join(","), "quotient,remainder", `${problem.id}: action order`);
+    assert.equal(problem.finalExpression, `${problem.divisor}×${problem.quotient}+${problem.remainder}=${problem.dividend}`, `${problem.id}: final identity text`);
+    assert.match(problem.steps[0].instruction, new RegExp(`^${problem.divisor}×몇이 ${problem.dividend}[을를] 넘지 않을까요\\?$`), `${problem.id}: product-comparison instruction`);
+    assert.equal(problem.steps[1].instruction, "묶고 남은 별을 세어 봐요.", `${problem.id}: one-line remainder action`);
+    assert.ok(problem.steps[0].advance?.delayMs >= 1200, `${problem.id}: quotient confirmation must stay long enough to read`);
+    assert.ok(problem.quotient + 1 <= 32, `${problem.id}: quotient capsules must fit the fixed 8x4 board`);
     const quotientStep = problem.steps[0];
     const quotientValues = quotientStep.choices.map((choice) => choice.value).sort((a, b) => a - b);
     assert.equal(quotientValues.join(","), [problem.quotient - 1, problem.quotient, problem.quotient + 1].join(","), `${problem.id}: quotient boundary choices`);
@@ -170,7 +175,7 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
   const expected = {
     "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-instruction/, /farm-share-answer/, /수확 점수|농장 등급|진행도/],
     "division-regrouping-exact": ["division-elevator", "board-shaft-generated.webp", /elevator-math-svg/, /십의 자리 몫/, /남은 십/, /보상 점수|엘리베이터 등급/],
-    "division-with-remainder": ["remainder-stars", "result-stage.webp", /star-proof-bar/, /남은 별/, /만든 묶음/, /닉네임|별 이름|진행도|등급/],
+    "division-with-remainder": ["remainder-stars", "result-stage.webp", /star-math-svg/, /renderLooseStarGrid/, /renderGroupedStars/, /닉네임|별 이름|진행도|등급/],
     "division-check-lock": ["check-lock-bars", "board-vault-generated.webp", /check-lock-svg/, /처음 수/, /나누는 수 × 몫/, /보안 점수|금고 등급|진행도/],
   }[rule];
   assert.ok(expected, `${config.id}: view rule`);
@@ -199,11 +204,17 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
     assert.match(viewSource, /setFarmFlowPhase\("confirm"\)/, `${config.id}: confirmation phase`);
   }
   if (rule === "division-with-remainder") {
-    assert.match(viewSource, /choose-group-limit/, `${config.id}: quotient is chosen as a boundary, not built by repeated taps`);
-    assert.match(viewSource, /choose-leftover-stars/, `${config.id}: remainder is chosen in one action`);
+    assert.match(viewSource, /compare-products/, `${config.id}: quotient is chosen by comparing products, not built by repeated taps`);
+    assert.match(viewSource, /count-leftover-stars/, `${config.id}: remainder is chosen in one action`);
     assert.match(viewSource, /star-quotient-choice/, `${config.id}: quotient boundary choices are visible`);
     assert.match(viewSource, /star-remainder-choice/, `${config.id}: remainder choices are visible`);
-    assert.match(viewSource, /renderRemainderEvidence/, `${config.id}: remainder misconception changes the current objects`);
+    assert.match(viewSource, /renderRemainderBoard/, `${config.id}: remainder misconception changes the current objects`);
+    assert.match(viewSource, /star-next-group/, `${config.id}: a low quotient or full leftover group is outlined`);
+    assert.match(viewSource, /missing-slot/, `${config.id}: a high quotient shows the exact missing star slots`);
+    assert.match(viewSource, /animateRemainderToJar/, `${config.id}: first-try remainder moves into the star jar`);
+    assert.match(viewSource, /syncStarWorld/, `${config.id}: calculation rewards update the visible constellation`);
+    assert.match(viewSource, /playImage/, `${config.id}: all play states use the generated constellation set`);
+    assert.doesNotMatch(viewSource, /star-journey-title/, `${config.id}: disconnected current-to-next title fragments returned`);
     assert.doesNotMatch(viewSource, /star-builder|별 한 묶음|count = Math\.min|max = step\.id/, `${config.id}: repeated-tap answer builder returned`);
   }
   assert.match(viewSource, /dataset\.interaction/, `${config.id}: direct interaction marker`);
@@ -222,9 +233,12 @@ for (const lesson of lessons) {
   assert.ok(config.qa?.modelRule, `${lesson}: qa.modelRule`);
   assert.equal(config.qa?.directInteractionRequired, true, `${lesson}: direct interaction contract`);
   assert.deepEqual(Object.keys(config.imageAssets?.problemStates || {}).sort(), ["complete", "waiting", "working"], `${lesson}: three generated problem states`);
-  assert.ok(config.imageAssets?.resultScene, `${lesson}: UI-free result scene`);
+  assert.ok(config.imageAssets?.resultScene || config.results.every((result) => result.image), `${lesson}: UI-free result scene`);
   for (const result of config.results) {
     assert.ok(result.titleImage && result.titleImage !== result.image, `${lesson}/${result.id}: independent generated result title`);
+    if (config.qa.modelRule === "division-with-remainder") {
+      assert.ok(result.playImage, `${lesson}/${result.id}: generated play-state constellation`);
+    }
   }
   checkViewContract(config.qa.modelRule, config, modelSource, viewSource, runtimeSource);
   for (const event of config.rewardEvents) {
