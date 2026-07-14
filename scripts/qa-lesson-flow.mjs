@@ -257,7 +257,7 @@ async function setViewport(page, viewport) {
   await page.send("Emulation.setDeviceMetricsOverride", {
     width: viewport.width,
     height: viewport.height,
-    deviceScaleFactor: 1,
+    deviceScaleFactor: viewport.dpr || 1,
     mobile: false,
     screenOrientation: { type: "landscapePrimary", angle: 90 },
   });
@@ -509,6 +509,8 @@ async function auditCheckLockLayout(page, label) {
       && inner.top >= outer.top - tolerance
       && inner.right <= outer.right + tolerance
       && inner.bottom <= outer.bottom + tolerance);
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const grid = rectOf(document.querySelector('.problem-grid'));
     const problem = rectOf(document.querySelector('.problem-card'));
     const visual = rectOf(document.querySelector('.visual-area'));
     const svg = rectOf(document.querySelector('.check-lock-svg'));
@@ -527,7 +529,10 @@ async function auditCheckLockLayout(page, label) {
       .map((node) => ({ text:node.textContent.trim(), rect:rectOf(node) }))
       .filter((item) => !contains(surface, item.rect, 2));
     return {
-      problem, visual, svg, surface, step, choices, keypad,
+      stage, grid, problem, visual, svg, surface, step, choices, keypad,
+      gridWidthRatio: stage && grid ? grid.width / stage.width : null,
+      surfaceWidthRatio: stage && surface ? surface.width / stage.width : null,
+      surfaceAreaRatio: stage && surface ? (surface.width * surface.height) / (stage.width * stage.height) : null,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       stepChoiceGap: step && choices ? choices.top - step.bottom : null,
       surfaceInsideVisual: contains(visual, surface, 1),
@@ -539,13 +544,41 @@ async function auditCheckLockLayout(page, label) {
       textOutsideSurface
     };
   })()`);
-  assert(audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
+  assert(audit.stage && audit.grid && audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
+  assert(audit.gridWidthRatio >= 0.7, `${label}: learning workbench is narrower than 70% of the Stage`, audit);
+  assert(audit.surfaceWidthRatio >= 0.65, `${label}: core verification board is narrower than 65% of the Stage`, audit);
   assert(audit.surfaceGap >= 6, `${label}: vault calculation surface overlaps instruction`, audit);
   assert(audit.stepChoiceGap >= 4, `${label}: instruction overlaps keypad or lever choices`, audit);
   assert(audit.surfaceInsideVisual && audit.svgInsideProblem, `${label}: vault calculation surface left its reserved grid track`, audit);
   assert(audit.keypadInsideChoices, `${label}: keypad left its reserved choice track`, audit);
   assert(audit.controlCount > 0 && audit.minControlWidth >= 42 && audit.minControlHeight >= 42, `${label}: check-lock touch target is smaller than 42px`, audit);
   assert(audit.textOutsideSurface.length === 0, `${label}: SVG text left the vault calculation surface`, audit);
+  return audit;
+}
+
+async function auditCheckLockCompleteLayout(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const grid = rectOf(document.querySelector('.problem-grid'));
+    const surface = rectOf(document.querySelector('.lock-board-bg'));
+    const complete = rectOf(document.querySelector('.complete-panel'));
+    return {
+      stage, grid, surface, complete,
+      surfaceWidthRatio: stage && surface ? surface.width / stage.width : null,
+      completeWidthRatio: stage && complete ? complete.width / stage.width : null,
+      surfaceCompleteGap: surface && complete ? complete.top - surface.bottom : null,
+      sameColumn: grid && complete ? Math.abs(grid.left - complete.left) <= 1 && Math.abs(grid.right - complete.right) <= 1 : false
+    };
+  })()`);
+  assert(audit.stage && audit.grid && audit.surface && audit.complete, `${label}: final confirmation layout state missing`, audit);
+  assert(audit.surfaceWidthRatio >= 0.65, `${label}: final verification board is narrower than 65% of the Stage`, audit);
+  assert(audit.completeWidthRatio >= 0.7 && audit.sameColumn, `${label}: reward action split the learning workbench into another column`, audit);
+  assert(audit.surfaceCompleteGap >= 6, `${label}: final verification board overlaps the reward action`, audit);
   return audit;
 }
 
@@ -945,21 +978,22 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   }
 }
 
-async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots) {
+async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots, shotPrefix = "05-lock") {
   let stepNumber = 0;
   while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
     stepNumber += 1;
-    assert(stepNumber <= 4, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
+    assert(stepNumber <= 3, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
     const stepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    assert(stepId !== "compare", `${viewport.name}: deterministic comparison was exposed as a student action`, { stepNumber, stepId });
     const safeStepId = stepId.replace(/[^a-z0-9-]/gi, "-") || `step-${stepNumber}`;
-    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-waiting`));
+    shots.push(await screenshot(page, lesson, viewport, `${shotPrefix}-${stepNumber}-${safeStepId}-waiting`));
     await auditGeometry(page, `${viewport.name} ${stepId} waiting`);
     await auditCheckLockLayout(page, `${viewport.name} ${stepId} waiting`);
 
     await clickChoice(page, true);
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct'", `${viewport.name}: ${stepId} confirmation did not appear`, 6000);
     await delay(360);
-    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-confirm`));
+    shots.push(await screenshot(page, lesson, viewport, `${shotPrefix}-${stepNumber}-${safeStepId}-confirm`));
     await auditGeometry(page, `${viewport.name} ${stepId} confirmation`);
     const completeShown = await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')");
     if (!completeShown) await auditCheckLockLayout(page, `${viewport.name} ${stepId} confirmation`);
@@ -1011,6 +1045,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
 
   const shots = [];
+  let initialLearningLayout = null;
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
   await auditGeometry(page, `${viewport.name} cover`, { requireLogo: true });
   await clickSelector(page, "#settingsButton");
@@ -1038,7 +1073,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
-    await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
+    initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
   const answerLeak = await evaluate(page, "document.getElementById('answerSlot')?.textContent.trim() !== '?' || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
@@ -1183,6 +1218,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);
+  if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await clickSelector(page, "#rewardButton");
   const firstReward = await waitForReward(page, viewport.name);
   shots.push(await screenshot(page, lesson, viewport, "07-reward-closed"));
@@ -1192,13 +1228,28 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditGeometry(page, `${viewport.name} revealed reward`);
   await clickSelector(page, firstReward.nextSelector);
 
+  let checkLockMatchCaptured = false;
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
     await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not active for problem ${problemIndex}`);
-    await solveCurrentProblem(page, { wrongFirst: lesson === "3-2-2-2-mathmon-elevator" });
+    const captureCheckLockMatch = lesson === "3-2-2-4-mathmon-check-lock"
+      && !checkLockMatchCaptured
+      && await evaluate(page, "window.__mathmonEngineQa.getCurrentProblem()?.matchesOriginal === true");
+    if (captureCheckLockMatch) {
+      await solveCheckLockProblemWithAudits(page, lesson, viewport, shots, "05-match-lock");
+      shots.push(await screenshot(page, lesson, viewport, "06b-match-auto-confirm"));
+      await auditGeometry(page, `${viewport.name} matching final confirmation`);
+      await auditCheckLockCompleteLayout(page, `${viewport.name} matching final confirmation`);
+      checkLockMatchCaptured = true;
+    } else {
+      await solveCurrentProblem(page, { wrongFirst: lesson === "3-2-2-2-mathmon-elevator" });
+    }
     await clickSelector(page, "#rewardButton");
     const reward = await waitForReward(page, `${viewport.name} problem ${problemIndex}`);
     await revealReward(page, reward, `${viewport.name} problem ${problemIndex}`);
     await clickSelector(page, reward.nextSelector);
+  }
+  if (lesson === "3-2-2-4-mathmon-check-lock") {
+    assert(checkLockMatchCaptured, `${viewport.name}: matching auto-comparison state was not captured`);
   }
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
@@ -1256,7 +1307,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   assert(snapshot.missingImages.length === 0, `${viewport.name}: missing images`, snapshot);
   assert(snapshot.overflowing.length === 0, `${viewport.name}: text overflow`, snapshot);
   assert(snapshot.stage?.width > 0 && snapshot.stage?.height > 0, `${viewport.name}: stage not visible`, snapshot);
-  return { viewport, shots, snapshot };
+  return { viewport, shots, learningLayout: initialLearningLayout, snapshot };
 }
 
 async function readLessonConfig(lesson) {

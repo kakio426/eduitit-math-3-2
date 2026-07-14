@@ -87,7 +87,6 @@ const Lesson2CheckLockModel = (() => {
       const matchesOriginal = checkTotal === dividend;
       const multiplyAnswerId = `value:${product}`;
       const addAnswerId = `value:${checkTotal}`;
-      const compareAnswerId = matchesOriginal ? "compare:same" : "compare:different";
       const steps = [
         {
           id: "multiply",
@@ -121,21 +120,7 @@ const Lesson2CheckLockModel = (() => {
           ),
           correctText: `${product} + ${shownRemainder} = ${checkTotal}`,
           reveal: String(checkTotal),
-          advance: { mode: "timed", delayMs: 850 }
-        },
-        {
-          id: "compare",
-          label: "비교하기",
-          instruction: "같아요 또는 달라요를 눌러요.",
-          answer: matchesOriginal ? "same" : "different",
-          answerChoiceId: compareAnswerId,
-          choices: shuffle([
-            choice("compare:same", "same", "같아요", matchesOriginal ? null : "DIV4_COMPARE_AS_SAME", "두 수를 다시 봐요."),
-            choice("compare:different", "different", "달라요", matchesOriginal ? "DIV4_COMPARE_AS_DIFFERENT" : null, matchesOriginal ? "두 수가 같아요." : "")
-          ], rng),
-          correctText: matchesOriginal ? "처음 수와 같아요." : "처음 수와 달라요.",
-          reveal: matchesOriginal ? "같아요" : "달라요",
-          advance: { mode: matchesOriginal ? "complete" : "timed", delayMs: 850 }
+          advance: { mode: matchesOriginal ? "complete" : "timed", delayMs: 1000 }
         }
       ];
 
@@ -171,7 +156,9 @@ const Lesson2CheckLockModel = (() => {
         matchesOriginal,
         mismatchPart,
         prompt: `${dividend} ÷ ${divisor} = ${shownQuotient} … ${shownRemainder}`,
-        finalExpression: `${divisor} × ${shownQuotient} + ${shownRemainder} = ${checkTotal}`,
+        finalExpression: matchesOriginal
+          ? `${divisor} × ${shownQuotient} + ${shownRemainder} = ${dividend}`
+          : `${divisor} × ${shownQuotient} + ${shownRemainder} = ${checkTotal} ≠ ${dividend}`,
         steps
       };
     }

@@ -929,23 +929,31 @@
     .game[data-workbench-type="check-lock-bars"] .hud {
       position: absolute;
       top: 18px;
-      right: 3.5%;
+      right: calc(3.5% + var(--sound-reserve));
+      left: 3.5%;
       z-index: 6;
-      width: 45%;
+      width: auto;
       min-height: 40px;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
       padding: 0;
     }
 
-    .game[data-workbench-type="check-lock-bars"] .hud-left .brand-badge,
-    .game[data-workbench-type="check-lock-bars"] .hud-right,
     .game[data-workbench-type="check-lock-bars"] .progress-line {
       display: none;
     }
 
+    .game[data-workbench-type="check-lock-bars"] .hud-left,
+    .game[data-workbench-type="check-lock-bars"] .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .game[data-workbench-type="check-lock-bars"] #problemCounter {
-      min-width: 132px;
+      min-width: 112px;
       min-height: 42px;
       justify-content: center;
       border: 2px solid #6d5623;
@@ -957,9 +965,9 @@
     .game[data-workbench-type="check-lock-bars"] .problem-grid {
       position: absolute;
       top: 68px;
-      right: 3.5%;
-      bottom: 24px;
-      left: 51.5%;
+      right: 12%;
+      bottom: 20px;
+      left: 12%;
       z-index: 3;
       height: auto;
       margin: 0;
@@ -1031,10 +1039,25 @@
       stroke-width: 3;
     }
 
+    .check-lock-svg .lock-term-target {
+      fill: transparent;
+      stroke: transparent;
+      stroke-width: 0;
+    }
+
     .check-lock-svg .lock-total-panel.is-current-panel,
     .check-lock-svg .is-error-part {
       stroke: #ffd45c;
       stroke-width: 6;
+    }
+
+    .check-lock-svg .lock-term-target.is-attempt-part {
+      stroke: #ff6b86;
+      stroke-width: 5;
+    }
+
+    .check-lock-svg .lock-term-target.is-confirmed-part {
+      fill: rgba(255, 212, 92, .09);
     }
 
     .check-lock-svg .lock-small-label {
@@ -1067,8 +1090,17 @@
 
     .check-lock-svg .is-current,
     .check-lock-svg .lock-total-panel.is-current-panel + .lock-small-label,
-    .check-lock-svg .lock-compare-mark.is-current {
+    .check-lock-svg .lock-compare-mark.is-revealed {
       fill: #ffd45c;
+    }
+
+    .check-lock-svg .lock-compare-mark.is-revealed {
+      animation: lock-compare-pop .42s ease-out;
+    }
+
+    @keyframes lock-compare-pop {
+      from { opacity: 0; transform: scale(.68); transform-origin: center; }
+      to { opacity: 1; transform: scale(1); transform-origin: center; }
     }
 
     .game[data-workbench-type="check-lock-bars"] .step-board {
@@ -1125,7 +1157,6 @@
     .check-lock-stage-art[data-scene-state="wrong"] { filter: brightness(.75) saturate(.7); transform: translateX(-4px); }
     .check-lock-stage-art[data-scene-state="open"], .check-lock-stage-art[data-scene-state="reward"] { filter: brightness(1.16) saturate(1.25); transform: scale(1.008); }
 
-    .game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="compare"],
     .game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="locate"] {
       grid-template-rows: 1fr;
       align-content: center;
@@ -1156,11 +1187,12 @@
     }
 
     .game[data-workbench-type="check-lock-bars"] .complete-panel {
+      grid-column: 1;
       grid-row: 3;
-      min-height: 142px;
-      padding: 12px;
+      min-height: 96px;
+      padding: 10px 14px;
       place-items: center;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(190px, 240px);
       border: 3px solid #d6a84e;
       border-radius: 16px;
       background: #fff2bf;
@@ -1174,13 +1206,14 @@
 
     .game[data-workbench-type="check-lock-bars"] .complete-panel .primary-button {
       min-height: 64px;
+      width: 100%;
       color: #281c08;
       background: #ffd45c;
       box-shadow: 0 7px 0 #8f6d17;
     }
 
     .game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete {
-      grid-template-rows: minmax(0, 1fr) minmax(142px, auto);
+      grid-template-rows: minmax(0, 1fr) minmax(96px, auto);
     }
 
     .game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete .step-board,
@@ -1236,9 +1269,12 @@
     .game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 4.5%; width: 29%; height: 13.5%; }
 
     @media (max-width: 1100px) {
-      .game[data-workbench-type="check-lock-bars"] .hud { right: 2.5%; width: 47%; }
+      .game[data-workbench-type="check-lock-bars"] .hud {
+        right: calc(2.5% + var(--sound-reserve));
+        left: 2.5%;
+      }
       .game[data-workbench-type="check-lock-bars"] .problem-grid {
-        top: 62px; right: 1.5%; bottom: 18px; left: 49%;
+        top: 62px; right: 8%; bottom: 18px; left: 8%;
         grid-template-rows: minmax(0, 1fr) 58px minmax(132px, auto);
         gap: 7px;
       }
@@ -1249,6 +1285,10 @@
       }
       .vault-key-grid { gap: 4px; }
       .vault-key { font-size: 1.08rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .check-lock-svg .lock-compare-mark.is-revealed { animation: none; }
     }
   </style>
 </head>
@@ -1979,7 +2019,7 @@
       window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-check-lock-migration","id":"3-2-2-4","folder":"3-2-2-4-mathmon-check-lock","modelName":"Lesson2CheckLockModel","title":"매스몬 검산 자물쇠","shortTitle":"매스몬 검산 자물쇠","topic":"곱셈으로 나눗셈 검산하기","unitBadge":"2단원 나눗셈","goal":"곱하고 더해 처음 수가 되는지 확인해요.","action":"금고 숫자판에 검산값을 넣어요.","buttonLabel":"자물쇠 열기","rewardScreenTitle":"자물쇠","progressLabel":"열쇠 힘","rewardComplete":"자물쇠 힘이 바뀌었어요.","tutorialTitle":"금고를 열기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 확인해요?","body":"곱하고 나머지를 더해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 금고를 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"열쇠 힘","closedLabel":"열쇠 힘은 얼마나 나올까요?","nextLabel":"다음","artMap":{"click":"reward-event-click-generated.webp","jam":"reward-event-jam-generated.webp","double":"reward-event-double-generated.webp","master":"reward-event-master-generated.webp","reset":"reward-event-reset-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"click":[0,0],"jam":[1,0],"double":[2,0],"master":[0,1],"reset":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-title-contact-sheet.png","sceneBackground":"result-scene-generated.webp","protagonist":"base-09-kingdragonmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["key-power","correct-count"]}},"workbench":{"type":"check-lock-bars"},"scoreboard":{"enabled":true,"title":"전국 열쇠 순위","resultKind":"score","scoreLabel":"내 열쇠 힘","listTitle":"열쇠 힘 순위","unit":"3학년 2학기 2단원 4차시"},"mathmonPack":"base-pack","mathmonName":"킹드래곤몬","mathmonId":"base-09-kingdragonmon","results":[{"id":"lock","name":"작은 자물쇠","minPower":1,"minCorrect":1,"image":"result-lock-generated.webp","titleImage":"result-title-lock-generated.webp"},{"id":"safe","name":"튼튼한 금고","minPower":21,"minCorrect":3,"image":"result-safe-generated.webp","titleImage":"result-title-safe-generated.webp"},{"id":"largeSafe","name":"커다란 금고","minPower":41,"minCorrect":5,"image":"result-large-safe-generated.webp","titleImage":"result-title-largeSafe-generated.webp"},{"id":"secretSafe","name":"비밀 금고","minPower":61,"minCorrect":7,"image":"result-secret-safe-generated.webp","titleImage":"result-title-secretSafe-generated.webp"},{"id":"treasure","name":"보물 금고","minPower":81,"minCorrect":9,"image":"result-treasure-generated.webp","titleImage":"result-title-treasure-generated.webp"},{"id":"rainbow","name":"무지개 금고","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"click","text":"열쇠 힘이 늘었어요","weight":7200,"min":4,"max":8,"family":"click","rarity":"common"},{"id":"jam","text":"열쇠 힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"jam","rarity":"common"},{"id":"double","text":"열쇠 힘이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"double","rarity":"rare"},{"id":"master","text":"황금 열쇠!","weight":300,"min":6,"max":6,"family":"master","rarity":"rare","express":true},{"id":"reset","text":"열쇠 힘 0","weight":280,"min":0,"max":0,"family":"reset","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개 열쇠!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"jamMistake","text":"열쇠 힘이 줄었어요","min":-18,"max":-8,"family":"jam"},"typesPerRun":["match","match","match","match","match","match","mismatch","mismatch","mismatch","mismatch"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"board-vault-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"lock-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","board-vault-generated.webp","reward-closed-generated.webp","lock-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-lock-generated.webp","result-title-safe-generated.webp","result-title-largeSafe-generated.webp","result-title-secretSafe-generated.webp","result-title-treasure-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","reward-event-click-generated.webp","reward-event-jam-generated.webp","reward-event-double-generated.webp","reward-event-master-generated.webp","reward-event-reset-generated.webp","reward-event-rainbow-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-lock-generated.webp","result-safe-generated.webp","result-large-safe-generated.webp","result-secret-safe-generated.webp","result-treasure-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-check-lock","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser-regression","width":1280,"height":720}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result","scoreboard"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-check-lock-migration","id":"3-2-2-4","folder":"3-2-2-4-mathmon-check-lock","modelName":"Lesson2CheckLockModel","title":"매스몬 검산 자물쇠","shortTitle":"매스몬 검산 자물쇠","topic":"곱셈으로 나눗셈 검산하기","unitBadge":"2단원 나눗셈","goal":"곱하고 더해 처음 수가 되는지 확인해요.","action":"곱한 값과 더한 값을 숫자판에 넣어요.","buttonLabel":"자물쇠 열기","rewardScreenTitle":"자물쇠","progressLabel":"열쇠 힘","rewardComplete":"자물쇠 힘이 바뀌었어요.","tutorialTitle":"금고를 열기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 확인해요?","body":"곱하고 나머지를 더해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 금고를 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"열쇠 힘","closedLabel":"열쇠 힘은 얼마나 나올까요?","nextLabel":"다음","artMap":{"click":"reward-event-click-generated.webp","jam":"reward-event-jam-generated.webp","double":"reward-event-double-generated.webp","master":"reward-event-master-generated.webp","reset":"reward-event-reset-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"click":[0,0],"jam":[1,0],"double":[2,0],"master":[0,1],"reset":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-title-contact-sheet.png","sceneBackground":"result-scene-generated.webp","protagonist":"base-09-kingdragonmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["key-power","correct-count"]}},"workbench":{"type":"check-lock-bars"},"scoreboard":{"enabled":true,"title":"전국 열쇠 순위","resultKind":"score","scoreLabel":"내 열쇠 힘","listTitle":"열쇠 힘 순위","unit":"3학년 2학기 2단원 4차시"},"mathmonPack":"base-pack","mathmonName":"킹드래곤몬","mathmonId":"base-09-kingdragonmon","results":[{"id":"lock","name":"작은 자물쇠","minPower":1,"minCorrect":1,"image":"result-lock-generated.webp","titleImage":"result-title-lock-generated.webp"},{"id":"safe","name":"튼튼한 금고","minPower":21,"minCorrect":3,"image":"result-safe-generated.webp","titleImage":"result-title-safe-generated.webp"},{"id":"largeSafe","name":"커다란 금고","minPower":41,"minCorrect":5,"image":"result-large-safe-generated.webp","titleImage":"result-title-largeSafe-generated.webp"},{"id":"secretSafe","name":"비밀 금고","minPower":61,"minCorrect":7,"image":"result-secret-safe-generated.webp","titleImage":"result-title-secretSafe-generated.webp"},{"id":"treasure","name":"보물 금고","minPower":81,"minCorrect":9,"image":"result-treasure-generated.webp","titleImage":"result-title-treasure-generated.webp"},{"id":"rainbow","name":"무지개 금고","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"click","text":"열쇠 힘이 늘었어요","weight":7200,"min":4,"max":8,"family":"click","rarity":"common"},{"id":"jam","text":"열쇠 힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"jam","rarity":"common"},{"id":"double","text":"열쇠 힘이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"double","rarity":"rare"},{"id":"master","text":"황금 열쇠!","weight":300,"min":6,"max":6,"family":"master","rarity":"rare","express":true},{"id":"reset","text":"열쇠 힘 0","weight":280,"min":0,"max":0,"family":"reset","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개 열쇠!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"jamMistake","text":"열쇠 힘이 줄었어요","min":-18,"max":-8,"family":"jam"},"typesPerRun":["match","match","match","match","match","match","mismatch","mismatch","mismatch","mismatch"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"board-vault-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"lock-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","board-vault-generated.webp","reward-closed-generated.webp","lock-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-lock-generated.webp","result-title-safe-generated.webp","result-title-largeSafe-generated.webp","result-title-secretSafe-generated.webp","result-title-treasure-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","reward-event-click-generated.webp","reward-event-jam-generated.webp","reward-event-double-generated.webp","reward-event-master-generated.webp","reward-event-reset-generated.webp","reward-event-rainbow-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-lock-generated.webp","result-safe-generated.webp","result-large-safe-generated.webp","result-secret-safe-generated.webp","result-treasure-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-check-lock","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"codex-browser-regression","width":1280,"height":720,"dpr":2},{"name":"codex-live-panel-regression","width":931,"height":897,"dpr":2}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result","scoreboard"]}};
     const Lesson2CheckLockModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2069,7 +2109,6 @@
           const matchesOriginal = checkTotal === dividend;
           const multiplyAnswerId = `value:${product}`;
           const addAnswerId = `value:${checkTotal}`;
-          const compareAnswerId = matchesOriginal ? "compare:same" : "compare:different";
           const steps = [
             {
               id: "multiply",
@@ -2103,21 +2142,7 @@
               ),
               correctText: `${product} + ${shownRemainder} = ${checkTotal}`,
               reveal: String(checkTotal),
-              advance: { mode: "timed", delayMs: 850 }
-            },
-            {
-              id: "compare",
-              label: "비교하기",
-              instruction: "같아요 또는 달라요를 눌러요.",
-              answer: matchesOriginal ? "same" : "different",
-              answerChoiceId: compareAnswerId,
-              choices: shuffle([
-                choice("compare:same", "same", "같아요", matchesOriginal ? null : "DIV4_COMPARE_AS_SAME", "두 수를 다시 봐요."),
-                choice("compare:different", "different", "달라요", matchesOriginal ? "DIV4_COMPARE_AS_DIFFERENT" : null, matchesOriginal ? "두 수가 같아요." : "")
-              ], rng),
-              correctText: matchesOriginal ? "처음 수와 같아요." : "처음 수와 달라요.",
-              reveal: matchesOriginal ? "같아요" : "달라요",
-              advance: { mode: matchesOriginal ? "complete" : "timed", delayMs: 850 }
+              advance: { mode: matchesOriginal ? "complete" : "timed", delayMs: 1000 }
             }
           ];
 
@@ -2153,7 +2178,9 @@
             matchesOriginal,
             mismatchPart,
             prompt: `${dividend} ÷ ${divisor} = ${shownQuotient} … ${shownRemainder}`,
-            finalExpression: `${divisor} × ${shownQuotient} + ${shownRemainder} = ${checkTotal}`,
+            finalExpression: matchesOriginal
+              ? `${divisor} × ${shownQuotient} + ${shownRemainder} = ${dividend}`
+              : `${divisor} × ${shownQuotient} + ${shownRemainder} = ${checkTotal} ≠ ${dividend}`,
             steps
           };
         }
@@ -2895,7 +2922,8 @@
 
     function startGame() {
       state = createInitialState();
-      const seed = Date.now();
+      const requestedSeed = Number(new URLSearchParams(window.location.search).get("seed"));
+      const seed = Number.isSafeInteger(requestedSeed) ? requestedSeed : Date.now();
       state.problems = LessonModel.generateRun(seed);
       scoreboardBridge?.start?.();
       renderProblem();
@@ -3200,40 +3228,46 @@
       const selectedForCurrent = attemptStep === step.id && attemptValue !== "" ? attemptValue : "?";
       const productText = step.id === "multiply" && !productDone ? selectedForCurrent : (productDone ? problem.product : "?");
       const totalText = step.id === "add" && !totalDone ? selectedForCurrent : (totalDone ? problem.checkTotal : "?");
-      const showComparison = state.stepIndex >= 2 || revealedStep === "compare" || revealedStep === "locate";
+      const showComparison = totalDone || revealedStep === "locate";
       const locateStep = step.id === "locate";
       const comparisonMark = showComparison ? (problem.matchesOriginal ? "=" : "≠") : "?";
+      const locateRevealed = revealedStep === "locate";
+      const attemptedLocatePart = attemptStep === "locate" ? attemptValue : "";
+      const locateClass = (part) => {
+        if (locateRevealed && problem.mismatchPart === part) return "is-error-part is-confirmed-part";
+        if (attemptedLocatePart === part) return "is-attempt-part";
+        return "";
+      };
 
       const svg = document.createElementNS(CHECK_LOCK_SVG_NS, "svg");
       svg.classList.add("check-lock-svg");
-      svg.setAttribute("viewBox", "0 0 600 470");
+      svg.setAttribute("viewBox", "0 0 1000 360");
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", `${problem.prompt}, ${step.instruction}`);
       svg.innerHTML = `
         <title>${problem.prompt} 검산판</title>
-        <rect x="18" y="14" width="564" height="442" rx="32" class="lock-board-bg"/>
+        <rect x="18" y="8" width="964" height="344" rx="30" class="lock-board-bg"/>
         <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-          <text x="300" y="62" class="lock-small-label">나눗셈</text>
-          <text x="300" y="112" class="lock-problem-text">${problem.dividend} ÷ ${problem.divisor} = ${problem.shownQuotient} … ${problem.shownRemainder}</text>
+          <text x="500" y="40" class="lock-small-label">나눗셈</text>
+          <text x="500" y="84" class="lock-problem-text">${problem.dividend} ÷ ${problem.divisor} = ${problem.shownQuotient} … ${problem.shownRemainder}</text>
 
-          <rect x="54" y="146" width="492" height="122" rx="22" class="lock-calc-panel"/>
-          <text x="150" y="178" class="lock-small-label">나누는 수 × 몫</text>
-          <text x="150" y="226" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${problem.divisor} × ${problem.shownQuotient}</text>
-          <text x="282" y="226" class="lock-sign">=</text>
-          <text x="370" y="226" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${productText}</text>
-          <text x="438" y="226" class="lock-sign">+</text>
-          <g class="${locateStep && problem.mismatchPart === "remainder" ? "is-error-part" : ""}">
-            <text x="498" y="178" class="lock-small-label">나머지</text>
-            <text x="498" y="226" class="lock-value ${step.id === "add" ? "is-current" : ""}">${problem.shownRemainder}</text>
-          </g>
+          <rect x="54" y="104" width="892" height="108" rx="22" class="lock-calc-panel"/>
+          <rect x="104" y="143" width="226" height="55" rx="16" class="lock-term-target ${locateStep ? locateClass("quotient") : ""}"/>
+          <text x="217" y="134" class="lock-small-label">나누는 수 × 몫</text>
+          <text x="217" y="184" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${problem.divisor} × ${problem.shownQuotient}</text>
+          <text x="382" y="184" class="lock-sign">=</text>
+          <text x="492" y="184" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${productText}</text>
+          <text x="608" y="184" class="lock-sign">+</text>
+          <rect x="690" y="143" width="128" height="55" rx="16" class="lock-term-target ${locateStep ? locateClass("remainder") : ""}"/>
+          <text x="754" y="134" class="lock-small-label">나머지</text>
+          <text x="754" y="184" class="lock-value ${step.id === "add" ? "is-current" : ""}">${problem.shownRemainder}</text>
 
-          <rect x="54" y="292" width="214" height="118" rx="22" class="lock-total-panel ${step.id === "add" ? "is-current-panel" : ""}"/>
-          <text x="161" y="326" class="lock-small-label">검산값</text>
-          <text x="161" y="382" class="lock-total-value">${totalText}</text>
-          <text x="300" y="366" class="lock-compare-mark ${step.id === "compare" ? "is-current" : ""}">${comparisonMark}</text>
-          <rect x="332" y="292" width="214" height="118" rx="22" class="lock-total-panel ${locateStep && problem.mismatchPart === "quotient" ? "is-error-part" : ""}"/>
-          <text x="439" y="326" class="lock-small-label">처음 수</text>
-          <text x="439" y="382" class="lock-total-value">${problem.dividend}</text>
+          <rect x="54" y="230" width="892" height="98" rx="22" class="lock-total-panel ${step.id === "add" ? "is-current-panel" : ""}"/>
+          <text x="286" y="258" class="lock-small-label">곱하고 더한 값</text>
+          <text x="286" y="306" class="lock-total-value">${totalText}</text>
+          <text x="500" y="306" class="lock-compare-mark ${showComparison ? "is-revealed" : ""}">${comparisonMark}</text>
+          <text x="740" y="258" class="lock-small-label">처음 수</text>
+          <text x="740" y="306" class="lock-total-value">${problem.dividend}</text>
         </g>
       `;
       ui.visualArea.replaceChildren(svg);

@@ -17,23 +17,31 @@
 .game[data-workbench-type="check-lock-bars"] .hud {
   position: absolute;
   top: 18px;
-  right: 3.5%;
+  right: calc(3.5% + var(--sound-reserve));
+  left: 3.5%;
   z-index: 6;
-  width: 45%;
+  width: auto;
   min-height: 40px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   padding: 0;
 }
 
-.game[data-workbench-type="check-lock-bars"] .hud-left .brand-badge,
-.game[data-workbench-type="check-lock-bars"] .hud-right,
 .game[data-workbench-type="check-lock-bars"] .progress-line {
   display: none;
 }
 
+.game[data-workbench-type="check-lock-bars"] .hud-left,
+.game[data-workbench-type="check-lock-bars"] .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .game[data-workbench-type="check-lock-bars"] #problemCounter {
-  min-width: 132px;
+  min-width: 112px;
   min-height: 42px;
   justify-content: center;
   border: 2px solid #6d5623;
@@ -45,9 +53,9 @@
 .game[data-workbench-type="check-lock-bars"] .problem-grid {
   position: absolute;
   top: 68px;
-  right: 3.5%;
-  bottom: 24px;
-  left: 51.5%;
+  right: 12%;
+  bottom: 20px;
+  left: 12%;
   z-index: 3;
   height: auto;
   margin: 0;
@@ -119,10 +127,25 @@
   stroke-width: 3;
 }
 
+.check-lock-svg .lock-term-target {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
 .check-lock-svg .lock-total-panel.is-current-panel,
 .check-lock-svg .is-error-part {
   stroke: #ffd45c;
   stroke-width: 6;
+}
+
+.check-lock-svg .lock-term-target.is-attempt-part {
+  stroke: #ff6b86;
+  stroke-width: 5;
+}
+
+.check-lock-svg .lock-term-target.is-confirmed-part {
+  fill: rgba(255, 212, 92, .09);
 }
 
 .check-lock-svg .lock-small-label {
@@ -155,8 +178,17 @@
 
 .check-lock-svg .is-current,
 .check-lock-svg .lock-total-panel.is-current-panel + .lock-small-label,
-.check-lock-svg .lock-compare-mark.is-current {
+.check-lock-svg .lock-compare-mark.is-revealed {
   fill: #ffd45c;
+}
+
+.check-lock-svg .lock-compare-mark.is-revealed {
+  animation: lock-compare-pop .42s ease-out;
+}
+
+@keyframes lock-compare-pop {
+  from { opacity: 0; transform: scale(.68); transform-origin: center; }
+  to { opacity: 1; transform: scale(1); transform-origin: center; }
 }
 
 .game[data-workbench-type="check-lock-bars"] .step-board {
@@ -213,7 +245,6 @@
 .check-lock-stage-art[data-scene-state="wrong"] { filter: brightness(.75) saturate(.7); transform: translateX(-4px); }
 .check-lock-stage-art[data-scene-state="open"], .check-lock-stage-art[data-scene-state="reward"] { filter: brightness(1.16) saturate(1.25); transform: scale(1.008); }
 
-.game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="compare"],
 .game[data-workbench-type="check-lock-bars"] .choices-panel[data-choice-kind="locate"] {
   grid-template-rows: 1fr;
   align-content: center;
@@ -244,11 +275,12 @@
 }
 
 .game[data-workbench-type="check-lock-bars"] .complete-panel {
+  grid-column: 1;
   grid-row: 3;
-  min-height: 142px;
-  padding: 12px;
+  min-height: 96px;
+  padding: 10px 14px;
   place-items: center;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 240px);
   border: 3px solid #d6a84e;
   border-radius: 16px;
   background: #fff2bf;
@@ -262,13 +294,14 @@
 
 .game[data-workbench-type="check-lock-bars"] .complete-panel .primary-button {
   min-height: 64px;
+  width: 100%;
   color: #281c08;
   background: #ffd45c;
   box-shadow: 0 7px 0 #8f6d17;
 }
 
 .game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete {
-  grid-template-rows: minmax(0, 1fr) minmax(142px, auto);
+  grid-template-rows: minmax(0, 1fr) minmax(96px, auto);
 }
 
 .game[data-workbench-type="check-lock-bars"] .problem-grid.is-complete .step-board,
@@ -324,9 +357,12 @@
 .game[data-workbench-type="check-lock-bars"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 4.5%; width: 29%; height: 13.5%; }
 
 @media (max-width: 1100px) {
-  .game[data-workbench-type="check-lock-bars"] .hud { right: 2.5%; width: 47%; }
+  .game[data-workbench-type="check-lock-bars"] .hud {
+    right: calc(2.5% + var(--sound-reserve));
+    left: 2.5%;
+  }
   .game[data-workbench-type="check-lock-bars"] .problem-grid {
-    top: 62px; right: 1.5%; bottom: 18px; left: 49%;
+    top: 62px; right: 8%; bottom: 18px; left: 8%;
     grid-template-rows: minmax(0, 1fr) 58px minmax(132px, auto);
     gap: 7px;
   }
@@ -337,4 +373,8 @@
   }
   .vault-key-grid { gap: 4px; }
   .vault-key { font-size: 1.08rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check-lock-svg .lock-compare-mark.is-revealed { animation: none; }
 }

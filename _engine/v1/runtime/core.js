@@ -676,7 +676,8 @@ function isScoreboardEnabled() {
 
 function startGame() {
   state = createInitialState();
-  const seed = Date.now();
+  const requestedSeed = Number(new URLSearchParams(window.location.search).get("seed"));
+  const seed = Number.isSafeInteger(requestedSeed) ? requestedSeed : Date.now();
   state.problems = LessonModel.generateRun(seed);
   scoreboardBridge?.start?.();
   renderProblem();

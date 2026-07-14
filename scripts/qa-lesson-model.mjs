@@ -116,7 +116,12 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.product, problem.divisor * problem.shownQuotient, `${problem.id}: product`);
     assert.equal(problem.checkTotal, problem.product + problem.shownRemainder, `${problem.id}: check total`);
     assert.equal(problem.matchesOriginal, problem.checkTotal === problem.dividend, `${problem.id}: comparison`);
-    assert.ok(problem.steps.length >= 3 && problem.steps.length <= 4, `${problem.id}: action count`);
+    assert.equal(
+      problem.steps.map((step) => step.id).join(","),
+      (problem.matchesOriginal ? ["multiply", "add"] : ["multiply", "add", "locate"]).join(","),
+      `${problem.id}: deterministic comparison must auto-complete`
+    );
+    assert.ok(!problem.steps.some((step) => step.id === "compare"), `${problem.id}: redundant compare action`);
     assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV4_ADD_INSTEAD_OF_MULTIPLY"), `${problem.id}: multiply misconception`);
     assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV4_OMIT_REMAINDER"), `${problem.id}: remainder omission misconception`);
     if (!problem.matchesOriginal) {

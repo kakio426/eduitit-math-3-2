@@ -130,40 +130,46 @@ function renderCheckLockBoard(problem, state) {
   const selectedForCurrent = attemptStep === step.id && attemptValue !== "" ? attemptValue : "?";
   const productText = step.id === "multiply" && !productDone ? selectedForCurrent : (productDone ? problem.product : "?");
   const totalText = step.id === "add" && !totalDone ? selectedForCurrent : (totalDone ? problem.checkTotal : "?");
-  const showComparison = state.stepIndex >= 2 || revealedStep === "compare" || revealedStep === "locate";
+  const showComparison = totalDone || revealedStep === "locate";
   const locateStep = step.id === "locate";
   const comparisonMark = showComparison ? (problem.matchesOriginal ? "=" : "≠") : "?";
+  const locateRevealed = revealedStep === "locate";
+  const attemptedLocatePart = attemptStep === "locate" ? attemptValue : "";
+  const locateClass = (part) => {
+    if (locateRevealed && problem.mismatchPart === part) return "is-error-part is-confirmed-part";
+    if (attemptedLocatePart === part) return "is-attempt-part";
+    return "";
+  };
 
   const svg = document.createElementNS(CHECK_LOCK_SVG_NS, "svg");
   svg.classList.add("check-lock-svg");
-  svg.setAttribute("viewBox", "0 0 600 470");
+  svg.setAttribute("viewBox", "0 0 1000 360");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", `${problem.prompt}, ${step.instruction}`);
   svg.innerHTML = `
     <title>${problem.prompt} 검산판</title>
-    <rect x="18" y="14" width="564" height="442" rx="32" class="lock-board-bg"/>
+    <rect x="18" y="8" width="964" height="344" rx="30" class="lock-board-bg"/>
     <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="300" y="62" class="lock-small-label">나눗셈</text>
-      <text x="300" y="112" class="lock-problem-text">${problem.dividend} ÷ ${problem.divisor} = ${problem.shownQuotient} … ${problem.shownRemainder}</text>
+      <text x="500" y="40" class="lock-small-label">나눗셈</text>
+      <text x="500" y="84" class="lock-problem-text">${problem.dividend} ÷ ${problem.divisor} = ${problem.shownQuotient} … ${problem.shownRemainder}</text>
 
-      <rect x="54" y="146" width="492" height="122" rx="22" class="lock-calc-panel"/>
-      <text x="150" y="178" class="lock-small-label">나누는 수 × 몫</text>
-      <text x="150" y="226" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${problem.divisor} × ${problem.shownQuotient}</text>
-      <text x="282" y="226" class="lock-sign">=</text>
-      <text x="370" y="226" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${productText}</text>
-      <text x="438" y="226" class="lock-sign">+</text>
-      <g class="${locateStep && problem.mismatchPart === "remainder" ? "is-error-part" : ""}">
-        <text x="498" y="178" class="lock-small-label">나머지</text>
-        <text x="498" y="226" class="lock-value ${step.id === "add" ? "is-current" : ""}">${problem.shownRemainder}</text>
-      </g>
+      <rect x="54" y="104" width="892" height="108" rx="22" class="lock-calc-panel"/>
+      <rect x="104" y="143" width="226" height="55" rx="16" class="lock-term-target ${locateStep ? locateClass("quotient") : ""}"/>
+      <text x="217" y="134" class="lock-small-label">나누는 수 × 몫</text>
+      <text x="217" y="184" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${problem.divisor} × ${problem.shownQuotient}</text>
+      <text x="382" y="184" class="lock-sign">=</text>
+      <text x="492" y="184" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${productText}</text>
+      <text x="608" y="184" class="lock-sign">+</text>
+      <rect x="690" y="143" width="128" height="55" rx="16" class="lock-term-target ${locateStep ? locateClass("remainder") : ""}"/>
+      <text x="754" y="134" class="lock-small-label">나머지</text>
+      <text x="754" y="184" class="lock-value ${step.id === "add" ? "is-current" : ""}">${problem.shownRemainder}</text>
 
-      <rect x="54" y="292" width="214" height="118" rx="22" class="lock-total-panel ${step.id === "add" ? "is-current-panel" : ""}"/>
-      <text x="161" y="326" class="lock-small-label">검산값</text>
-      <text x="161" y="382" class="lock-total-value">${totalText}</text>
-      <text x="300" y="366" class="lock-compare-mark ${step.id === "compare" ? "is-current" : ""}">${comparisonMark}</text>
-      <rect x="332" y="292" width="214" height="118" rx="22" class="lock-total-panel ${locateStep && problem.mismatchPart === "quotient" ? "is-error-part" : ""}"/>
-      <text x="439" y="326" class="lock-small-label">처음 수</text>
-      <text x="439" y="382" class="lock-total-value">${problem.dividend}</text>
+      <rect x="54" y="230" width="892" height="98" rx="22" class="lock-total-panel ${step.id === "add" ? "is-current-panel" : ""}"/>
+      <text x="286" y="258" class="lock-small-label">곱하고 더한 값</text>
+      <text x="286" y="306" class="lock-total-value">${totalText}</text>
+      <text x="500" y="306" class="lock-compare-mark ${showComparison ? "is-revealed" : ""}">${comparisonMark}</text>
+      <text x="740" y="258" class="lock-small-label">처음 수</text>
+      <text x="740" y="306" class="lock-total-value">${problem.dividend}</text>
     </g>
   `;
   ui.visualArea.replaceChildren(svg);

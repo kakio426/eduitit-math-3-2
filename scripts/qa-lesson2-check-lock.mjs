@@ -9,7 +9,7 @@ const LESSON = "3-2-2-4-mathmon-check-lock";
 const CONFIG_PATH = path.join(ROOT, "_lessons", LESSON, "lesson.json");
 const CSS_PATH = path.join(ROOT, "_lessons", LESSON, "lesson.css");
 const SCREENSHOT_DIR = path.join(ROOT, LESSON, "screenshots");
-const SEED = process.argv[2] || "20260714";
+const SEED = process.argv[2] || "20260701";
 
 function assert(condition, message, details) {
   if (condition) return;
@@ -37,6 +37,7 @@ function verifyEvidence(config, css) {
     "05b-play-product-too-high",
     "05b2-play-product-too-low",
     "06-confirm",
+    "06b-match-auto-confirm",
     "07-reward-closed",
     "07b-reward-open",
     "08-result",

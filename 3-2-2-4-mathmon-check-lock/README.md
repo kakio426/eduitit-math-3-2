@@ -8,8 +8,8 @@
 
 1. 금고 숫자판에 `나누는 수×몫`을 넣습니다.
 2. 나머지를 더한 값을 숫자판에 넣습니다.
-3. `같아요 / 달라요` 레버를 누릅니다.
-4. 틀린 식은 몫 또는 나머지 레버로 다른 곳을 찾습니다.
+3. 계산판이 처음 수와 같은지 `=` 또는 `≠`로 바로 보여 줍니다.
+4. 틀린 식에서만 몫 또는 나머지 가운데 다른 곳을 찾습니다.
 
 학생이 입력한 오답도 계산판에 먼저 들어갑니다. 곱한 값이 너무 크거나 작은 경우를 서로 다른 화면 상태로 보여 준 뒤 다시 입력하게 합니다.
 
@@ -17,9 +17,9 @@
 
 현재 모델 500개 시드, 5,000문제 기준입니다.
 
-- 수학적 판단: 최소 3회, 중앙값 3회, 평균 3.4회, 최대 4회
-- 숫자·레버 입력: 최소 7회, 중앙값 7회, 평균 7.41회, 최대 10회
-- 맞는 식은 곱하기·더하기·비교, 틀린 식은 다른 곳 찾기가 한 번 더 필요합니다.
+- 수학적 판단: 최소 2회, 중앙값 2회, 평균 2.4회, 최대 3회
+- 숫자·선택 입력: 최소 6회, 중앙값 6회, 평균 6.413회, 최대 9회
+- 맞는 식은 곱하기와 더하기만 학생이 판단합니다. 같고 다름은 입력한 값으로 이미 결정되므로 자동으로 보여 줍니다. 틀린 식은 다른 곳 찾기가 한 번 더 필요합니다.
 
 ## 보상과 결과
 
@@ -32,15 +32,16 @@
 
 - 결과 화면의 생성형 `순위 보기` 버튼으로 `전국 열쇠 순위`를 엽니다.
 - 순위 점수는 `내 열쇠 힘`, 목록은 `열쇠 힘 순위`, 서버 차시 ID는 `3-2-2-4-mathmon-check-lock`입니다.
-- 서버는 곱하기·더하기·같고 다름·틀린 곳 찾기와 보상 사건을 다시 계산해 제출 점수를 검증합니다.
+- 서버는 곱하기·더하기·필요할 때 다른 곳 찾기와 보상 사건을 다시 계산해 제출 점수를 검증합니다.
 - 오프라인·연결 중·오류·빈 목록·긴 이름 10개와 1~10위 스크롤을 `1280×800`, `1024×768`, `1280×720`에서 확인합니다.
 
 ## 겹침 회귀 계약
 
 - 사용자 제보 조건은 `codex-browser-regression`이라는 이름으로 `lesson.json > qa.viewports`에 고정합니다.
 - 기준 브라우저는 `1280×720`, DPR 2이며, 높이에 맞춰 줄어든 실제 Stage는 `1075.19×671.98`입니다.
+- 현재 Codex 패널 조건은 `codex-live-panel-regression`이라는 이름으로 `931×897`, DPR 2에 고정합니다. 실제 Stage는 `893.78×558.61`입니다.
 - QA는 SVG 계산판 표면, 단계판, 지시문, 피드백, 선택지·숫자판, 버튼 hitbox의 실제 렌더 경계를 재서 형제 요소 겹침 0px와 Stage 이탈 0건을 확인합니다.
-- 곱하기·더하기·같고 다름의 대기/정답 확인 상태와 곱한 값 과대·과소 상태를 각각 캡처합니다.
+- 핵심 계산판은 Stage 너비의 65% 이상을 차지해야 합니다. 곱하기·더하기·자동 비교·틀린 곳 찾기의 대기/정답 확인 상태와 곱한 값 과대·과소 상태를 각각 캡처합니다.
 
 ## 이미지 계약
 
@@ -57,11 +58,11 @@
 node scripts/build-lesson.mjs 3-2-2-4-mathmon-check-lock
 node scripts/qa-lesson-model.mjs 3-2-2-4-mathmon-check-lock
 node scripts/qa-lesson-flow.mjs 3-2-2-4-mathmon-check-lock
-node scripts/qa-lesson2-check-lock.mjs 20260714
+node scripts/qa-lesson2-check-lock.mjs 20260701
 node scripts/check-stage-ratio.mjs
 node scripts/check-rule-consistency.mjs
 node scripts/check-lesson-contract.mjs
 node scripts/check-lesson-visual-contract.mjs
 ```
 
-현재 화면 증거는 `screenshots/engine-flow-desktop-*.png`, `screenshots/engine-flow-tablet-landscape-*.png`, `screenshots/engine-flow-codex-browser-regression-*.png`입니다. 곱한 값 과대·과소, 단계별 대기·정답 확인, 마지막 확인, 닫힌·열린 보상, 결과, 전국 순위를 각각 포함합니다.
+현재 화면 증거는 `screenshots/engine-flow-desktop-*.png`, `screenshots/engine-flow-tablet-landscape-*.png`, `screenshots/engine-flow-codex-browser-regression-*.png`, `screenshots/engine-flow-codex-live-panel-regression-*.png`입니다. 곱한 값 과대·과소, 단계별 대기·정답 확인, 자동 `=`·`≠`, 마지막 확인, 닫힌·열린 보상, 결과, 전국 순위를 각각 포함합니다.
