@@ -572,7 +572,7 @@
           left: calc(50% - 125px);
           bottom: 78px;
           width: 250px;
-          height: 100px;
+          height: 77px;
         }
         .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-retry-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
@@ -918,9 +918,11 @@
       display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 0 var(--sound-reserve) 0 0;
     }
     .game[data-workbench-type="place-value-farm"] .progress-line { display: none; }
-    .game[data-workbench-type="place-value-farm"] .hud-left { display: contents; }
+    .game[data-workbench-type="place-value-farm"] .hud-left {
+      grid-column: 1; min-width: 0; display: flex; align-items: center; gap: 8px;
+    }
     .game[data-workbench-type="place-value-farm"] .hud-left .brand-badge {
-      grid-column: 1; justify-self: start; min-height: 38px; padding: 0 13px; font-size: .85rem;
+      flex: 0 0 auto; justify-self: start; min-height: 38px; padding: 0 13px; font-size: .85rem;
       color: #fffdf5; background: rgba(38, 73, 44, .9); border-color: rgba(255,255,255,.42);
     }
     .game[data-workbench-type="place-value-farm"] .hud-right { grid-column: 3; justify-self: end; display: flex; }
@@ -928,15 +930,25 @@
       min-height: 38px; padding: 0 13px; color: #fffdf5; background: rgba(38, 73, 44, .9); border-color: rgba(255,255,255,.42); font-size: .85rem;
     }
     .game[data-workbench-type="place-value-farm"] #problemCounter {
-      grid-column: 2; justify-self: center; position: relative; z-index: 2;
-      min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #7b4a1f;
-      color: #2c1b0a; background: #ffe28a; font-size: 1rem; opacity: 1; visibility: visible;
+      flex: 0 0 auto; position: relative; z-index: 2;
+      min-width: 74px; min-height: 38px; padding: 0 10px; justify-content: center; border: 2px solid #7b4a1f;
+      color: #2c1b0a; background: #ffe28a; font-size: .9rem; opacity: 1; visibility: visible;
     }
+    .farm-current-badge {
+      grid-column: 2; justify-self: center; min-width: 118px; height: 48px; padding: 3px 13px 3px 6px;
+      display: flex; align-items: center; justify-content: center; gap: 7px; box-sizing: border-box;
+      border: 2px solid #7b4a1f; border-radius: 999px; color: #2c1b0a; background: rgba(255, 246, 207, .96);
+      box-shadow: 0 4px 0 rgba(92, 55, 20, .62); font-size: .92rem; line-height: 1; font-weight: 1000;
+    }
+    .farm-current-badge img {
+      width: 40px; height: 40px; flex: 0 0 40px; display: block; object-fit: contain; border-radius: 50%;
+    }
+    .farm-current-badge span { white-space: nowrap; }
 
     .game[data-workbench-type="place-value-farm"] .problem-grid {
-      position: absolute; top: 68px; right: 2.8%; bottom: 24px; left: 36.3%; z-index: 3;
-      height: auto; margin: 0; display: grid; grid-template-columns: 1fr;
-      grid-template-rows: 150px minmax(0, 1fr); gap: 12px;
+      position: absolute; top: 68px; right: auto; bottom: 24px; left: 36.3%; z-index: 3;
+      width: 60.9%; min-width: 0; height: auto; margin: 0; display: grid;
+      grid-template-columns: minmax(0, 1fr) !important; grid-template-rows: 150px minmax(0, 1fr); grid-template-areas: "problem" "choices"; gap: 12px;
       transition: opacity 220ms ease-out, transform 220ms ease-out;
     }
     .game[data-workbench-type="place-value-farm"] .problem-card,
@@ -946,7 +958,7 @@
       border: 0; border-radius: 0; background: transparent; box-shadow: none;
     }
     .game[data-workbench-type="place-value-farm"] .problem-card {
-      grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: minmax(0, 1fr);
+      grid-area: problem; min-height: 0; padding: 0; display: grid; grid-template-rows: minmax(0, 1fr);
     }
     .game[data-workbench-type="place-value-farm"] .problem-label,
     .game[data-workbench-type="place-value-farm"] .big-problem,
@@ -965,7 +977,7 @@
     }
 
     .game[data-workbench-type="place-value-farm"] .choices-panel {
-      grid-row: 2; min-height: 0; padding: 0; display: block;
+      grid-area: choices; min-width: 0; min-height: 0; padding: 0; display: block;
       transition: opacity 160ms ease-in, transform 160ms ease-in;
     }
     .farm-distribution-builder {
@@ -1050,13 +1062,22 @@
       filter: drop-shadow(0 4px 2px rgba(83,48,14,.22));
     }
     .farm-produce-piece--bundle {
-      width: 66px; height: 50px; color: #3b230b;
+      width: 66px; height: 78px; color: #3b230b;
+      grid-template-rows: minmax(0, 1fr) 13px;
+      align-items: stretch;
     }
     .farm-produce-art { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: none; user-select: none; }
+    .farm-produce-piece--bundle .farm-produce-art { grid-row: 1; min-height: 0; }
     .farm-produce-value {
       position: absolute; left: 50%; bottom: 1%; z-index: 2; transform: translateX(-50%);
       width: 24px; height: 18px; display: grid; place-items: center;
       font-size: .92rem; line-height: 1; font-weight: 1000;
+    }
+    .farm-produce-piece--bundle .farm-produce-value {
+      position: static; grid-row: 2; justify-self: center; align-self: stretch; transform: none;
+      width: min(100%, 38px); height: 100%; min-height: 13px; box-sizing: border-box;
+      border: 2px solid #7b4a1f; border-radius: 999px; color: #321d09; background: #ffe18a;
+      font-size: clamp(.55rem, 1vw, .78rem); line-height: 1; font-variant-numeric: tabular-nums;
     }
     .farm-stock-token .farm-produce-piece--bundle { width: 50px; height: 44px; }
     .farm-produce-piece--single {
@@ -1242,10 +1263,10 @@
     .farm-share-confirmation {
       width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 20px 14px;
       display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: center; gap: 10px;
-      border: 4px solid #3f8f62; border-radius: 28px; background: #effbea; box-shadow: 0 8px 0 #2e6f4b;
+      overflow: hidden; border: 4px solid #3f8f62; border-radius: 28px; background: #effbea; box-shadow: 0 8px 0 #2e6f4b;
     }
     .farm-confirm-basket {
-      position: relative; min-width: 0; height: 188px; display: grid; grid-template-rows: minmax(0, 1fr) 36px; place-items: center;
+      position: relative; width: 100%; min-width: 0; height: 188px; display: grid; grid-template-rows: minmax(0, 1fr) 36px; place-items: center; overflow: hidden;
       background: none;
     }
     .farm-confirm-basket strong {
@@ -1253,8 +1274,8 @@
       font-weight: 1000; white-space: nowrap; font-variant-numeric: tabular-nums;
     }
     .farm-confirm-basket-scene {
-      position: relative; width: auto; height: 100%; max-width: 100%; min-height: 0;
-      aspect-ratio: 640 / 426; justify-self: center; overflow: hidden;
+      position: relative; width: 100%; height: 100%; max-width: 100%; min-width: 0; min-height: 0;
+      justify-self: stretch; overflow: hidden;
     }
     .farm-confirm-pieces .farm-produce-piece { animation: farm-piece-arrive 300ms cubic-bezier(.2,.8,.3,1.25) both; animation-delay: var(--piece-delay); }
     .farm-final-basket-card { grid-template-rows: auto minmax(100px, 1fr) auto auto; }
@@ -1272,13 +1293,13 @@
     }
     .game[data-workbench-type="place-value-farm"] .complete-panel {
       position: absolute; right: 0; bottom: 0; left: 0; top: auto; z-index: 6;
-      grid-row: auto; grid-column: auto; width: auto; height: 158px; min-height: 0;
-      padding: 18px 28px; place-items: center; grid-template-columns: 1fr 220px; gap: 22px;
+      grid-row: 1 / -1; grid-column: 1 / -1; width: 100%; max-width: 100%; min-width: 0; height: 158px; min-height: 0;
+      padding: 18px 28px; place-items: center; grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: 22px;
       border: 3px solid #7b4a1f; border-radius: 28px; background: #fff2bf;
       transform: none;
     }
     .game[data-workbench-type="place-value-farm"] .complete-text {
-      margin: 0; color: #2c1b0a; font-size: clamp(1.65rem, 2.6vw, 2.2rem); line-height: 1.18;
+      min-width: 0; margin: 0; color: #2c1b0a; font-size: clamp(1.65rem, 2.6vw, 2.2rem); line-height: 1.18;
       font-variant-numeric: tabular-nums; white-space: pre-line; text-align: center;
     }
     .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button {
@@ -1292,76 +1313,80 @@
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-confirm-basket { height: 190px; }
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-confirm-basket strong { margin: 0; }
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .problem-card { visibility: visible; }
-    .game[data-workbench-type="place-value-farm"] .result-title-art { display: block; left: 62%; top: 11%; width: 31%; border-radius: 24px; }
+    .game[data-workbench-type="place-value-farm"] #screen-reward .top-row,
     .game[data-workbench-type="place-value-farm"] #screen-result .top-row { display: none; }
+    .game[data-workbench-type="place-value-farm"] #screen-reward::after,
     .game[data-workbench-type="place-value-farm"] #screen-result::after { background: none; }
+
+    .game[data-workbench-type="place-value-farm"] .reward-panel {
+      top: 51%; width: min(1040px, 88%); min-height: 0; height: min(650px, 82%); padding: 18px 36px 22px;
+      grid-template-rows: minmax(0, 1fr) 68px 72px; justify-items: stretch; align-content: stretch; gap: 10px;
+      border: 0; border-radius: 0; background: transparent; backdrop-filter: none; box-shadow: none;
+    }
+    .farm-reward-story {
+      min-width: 0; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+      align-items: center; justify-items: center; gap: 44px;
+    }
+    .farm-reward-farm,
+    .farm-reward-event {
+      position: relative; width: min(430px, 100%); height: min(430px, 100%); min-height: 260px;
+      display: grid; place-items: center;
+    }
+    .farm-reward-event { width: min(360px, 100%); height: min(360px, 100%); }
+    .farm-reward-farm img,
+    .farm-reward-event img {
+      width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 18px 24px rgba(74, 50, 23, .22));
+    }
+    .farm-reward-farm img { position: absolute; inset: 0; transition: opacity 420ms ease, transform 420ms ease, filter 420ms ease; }
+    .farm-reward-before { opacity: 1; }
+    .farm-reward-after { opacity: 0; transform: scale(.94); }
+    .farm-reward-story[data-phase="revealed"] .farm-reward-before { opacity: 0; transform: scale(1.04); }
+    .farm-reward-story[data-phase="revealed"] .farm-reward-after { opacity: 1; transform: scale(1); filter: drop-shadow(0 18px 24px rgba(74, 50, 23, .18)) brightness(1.05); }
+    .farm-reward-event img { transition: opacity 260ms ease, transform 460ms cubic-bezier(.2,.82,.25,1.18), filter 340ms ease; }
+    .farm-reward-story[data-phase="revealed"] .farm-reward-event img { transform: scale(1.04); filter: drop-shadow(0 20px 28px rgba(74, 50, 23, .2)) brightness(1.04); }
+    .farm-reward-line {
+      min-width: 0; min-height: 68px; margin: 0; padding: 6px 24px; box-sizing: border-box;
+      display: grid; place-items: center; align-self: center; color: #3a250f; background: rgba(255, 249, 222, .94);
+      border: 3px solid rgba(139, 91, 36, .7); border-radius: 999px; box-shadow: 0 7px 0 rgba(103, 67, 28, .34);
+      font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 1.05; font-weight: 1000; text-align: center;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .farm-reward-story[data-phase="closed"] + .farm-reward-line { visibility: hidden; }
+    .game[data-workbench-type="place-value-farm"] #rewardNextButton {
+      width: min(330px, 72%); min-height: 68px; margin: 0; justify-self: center;
+      color: #2c1b0a; background: #ffd45c; border: 3px solid #7b4a1f; border-radius: 24px;
+      box-shadow: 0 7px 0 #8f6d17; font-size: clamp(1.2rem, 2vw, 1.55rem);
+    }
+    .game[data-workbench-type="place-value-farm"] #rewardNextButton:disabled { opacity: .72; cursor: default; }
+
+    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui { display: none !important; }
     .game[data-workbench-type="place-value-farm"] .result-dynamic-ui #resultDestinationSvg,
     .game[data-workbench-type="place-value-farm"] .result-dynamic-ui .result-restart-surface { display: none; }
-    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui text {
-      fill: #3d260f; stroke: rgba(255, 248, 223, .96); stroke-width: 10px;
+    .game[data-workbench-type="place-value-farm"] .result-title-art {
+      display: block; left: 60.5%; top: 8.5%; width: 33%; height: 24%; object-fit: contain; border-radius: 0;
+      filter: drop-shadow(0 14px 22px rgba(51, 31, 11, .28));
     }
-    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui rect:first-of-type { fill: #7b4a1f; opacity: .32; }
-    .game[data-workbench-type="place-value-farm"] .result-dynamic-ui #resultMeasureFillSvg { fill: #f2b72f; }
-    .game[data-workbench-type="place-value-farm"] .result-correct-art { left: 59%; top: 58%; width: 15%; }
+    .game[data-workbench-type="place-value-farm"] .result-next-art {
+      position: absolute; left: 56.5%; top: 33%; width: 40%; height: 18%; display: block; object-fit: contain;
+      filter: drop-shadow(0 12px 20px rgba(51, 31, 11, .22)); pointer-events: none;
+    }
+    .game[data-workbench-type="place-value-farm"] .result-next-art[hidden] { display: none; }
+    .game[data-workbench-type="place-value-farm"] .result-correct-art {
+      left: 62.5%; top: 53%; width: 20%; height: 13%; object-fit: contain;
+      filter: drop-shadow(0 10px 16px rgba(51, 31, 11, .25));
+    }
+    .game[data-workbench-type="place-value-farm"] .result-rank-button-art {
+      left: 56.5%; bottom: 7%; width: 19%; height: 12%; transform: none; object-fit: contain;
+    }
+    .game[data-workbench-type="place-value-farm"] .result-leaderboard-hitbox {
+      left: 56.5%; bottom: 7%; width: 19%; height: 12%;
+    }
     .game[data-workbench-type="place-value-farm"] .result-restart-hitbox {
-      left: 74.5%; top: 64%; width: 18%; height: 14%;
+      right: auto; left: 77%; top: auto; bottom: 7%; width: 19%; height: 12%;
     }
-    .game[data-workbench-type="place-value-farm"] .result-restart-hitbox .result-retry-art { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 22px; }
-
-    .game[data-workbench-type="place-value-farm"] .reward-card {
-      width: min(460px, 86%);
-      min-height: 0;
-      grid-template-rows: 280px auto 66px;
-      align-content: center;
-      gap: 14px;
-      padding: 26px;
-      border: 3px solid rgba(255, 226, 157, .72);
-      background: #2b1c12;
+    .game[data-workbench-type="place-value-farm"] .result-restart-hitbox .result-retry-art {
+      display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 0;
     }
-    .game[data-workbench-type="place-value-farm"] .reward-visual {
-      width: 280px;
-      height: 280px;
-      align-self: center;
-      border-radius: 28px;
-      background-image: var(--reward-modal-image);
-      background-repeat: no-repeat;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="closed"] {
-      grid-template-rows: 280px 66px;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="closed"] .reward-visual {
-      background-size: contain;
-      background-position: center;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="closed"] .reward-label {
-      display: none;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="opening"] .reward-visual,
-    .game[data-workbench-type="place-value-farm"] .reward-card[data-reward-phase="revealed"] .reward-visual {
-      background-size: 300% 200%;
-      background-position: 0 0;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-label {
-      min-height: 48px;
-      display: grid;
-      place-items: center;
-      font-size: clamp(2rem, 3.4vw, 2.65rem);
-      line-height: 1;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-open-button,
-    .game[data-workbench-type="place-value-farm"] #modalRewardNextButton {
-      width: 220px;
-      min-height: 66px;
-      margin: 0;
-      color: #2c1b0a;
-      background: #ffd45c;
-      box-shadow: 0 7px 0 #8f6d17;
-    }
-    .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="bug"] .reward-visual { background-position: 50% 0; }
-    .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="big"] .reward-visual { background-position: 100% 0; }
-    .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="gold"] .reward-visual { background-position: 0 100%; }
-    .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="empty"] .reward-visual { background-position: 50% 100%; }
-    .game[data-workbench-type="place-value-farm"] .reward-pop[data-reward="rainbow"] .reward-visual { background-position: 100% 100%; }
 
     .game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #296c35; }
     .game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
@@ -1383,8 +1408,8 @@
       position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
     }
     .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 29%; bottom: 2.5%; width: 42%; height: 15.5%; }
-    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 51%; bottom: 4.5%; width: 30%; height: 15.5%; }
-    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 21%; bottom: 4.5%; width: 24%; height: 15.5%; }
+    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 69%; bottom: 2.5%; width: 27.5%; height: 15%; }
+    .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 2.5%; bottom: 2.5%; width: 22%; height: 15%; }
 
     .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] .tutorial-card:first-child {
       background: linear-gradient(rgba(255,252,232,.72), rgba(255,244,190,.86)), url("farm-board-generated.webp") center / cover no-repeat;
@@ -1442,12 +1467,17 @@
 
     @media (max-width: 980px) {
       .game[data-workbench-type="place-value-farm"] .hud { right: 2%; left: 2%; width: auto; }
+      .game[data-workbench-type="place-value-farm"] .hud-left { gap: 5px; }
+      .game[data-workbench-type="place-value-farm"] .hud-left .brand-badge { padding: 0 9px; font-size: .75rem; }
+      .game[data-workbench-type="place-value-farm"] #problemCounter { min-width: 64px; padding: 0 7px; font-size: .8rem; }
+      .farm-current-badge { min-width: 104px; height: 44px; padding-right: 10px; font-size: .82rem; }
+      .farm-current-badge img { width: 36px; height: 36px; flex-basis: 36px; }
       .game[data-workbench-type="place-value-farm"] .problem-grid {
-        top: 62px; right: 2%; bottom: 18px; left: 35%;
-        grid-template-rows: 140px minmax(0, 1fr); gap: 10px;
+        top: 32px; right: auto; bottom: 12px; left: 35%; width: 63%;
+        grid-template-rows: 116px minmax(0, 1fr); gap: 8px;
       }
       .game[data-workbench-type="place-value-farm"] .complete-panel {
-        height: 148px; grid-template-columns: 1fr 190px; padding: 14px 22px;
+        height: 148px; grid-template-columns: minmax(0, 1fr) minmax(0, 190px); padding: 14px 22px;
       }
       .farm-distribution-builder { padding: 9px 10px; grid-template-rows: 72px 26px minmax(0, 1fr) 54px; gap: 5px; }
       .farm-distribution-stock {
@@ -1468,14 +1498,14 @@
       .farm-keypad-wrap { grid-template-rows: minmax(0, 1fr) 30px; gap: 5px; }
       .farm-keypad { gap: 5px; }
       .farm-key { border-radius: 12px; }
-      .farm-share-entry { padding: 10px; gap: 9px; grid-template-columns: minmax(0, 1.1fr) minmax(210px, .9fr); }
-      .farm-share-work { grid-template-rows: 78px 26px minmax(92px, 1fr) 48px; gap: 5px; }
+      .farm-share-entry { padding: 8px; gap: 7px; grid-template-columns: minmax(0, 1.1fr) minmax(202px, .9fr); }
+      .farm-share-work { grid-template-rows: 68px 22px minmax(76px, 1fr) 42px; gap: 4px; }
       .farm-share-source { padding: 3px 6px; grid-template-columns: 94px minmax(0, 1fr); }
       .farm-share-source-pieces .farm-produce-piece--bundle { width: 34px; height: 31px; }
       .farm-share-source-pieces .farm-produce-piece--single { width: 20px; height: 36px; }
       .farm-answer-basket-card { border-radius: 12px; }
       .farm-answer-basket-scene { min-height: 72px; }
-      .farm-share-answer { min-height: 46px; }
+      .farm-share-answer { min-height: 42px; }
       .farm-share-confirmation { padding: 12px 8px; gap: 5px; }
       .farm-confirm-basket { height: 150px; }
       .farm-stock-token .farm-produce-piece--bundle { width: 40px; height: 38px; }
@@ -1487,6 +1517,12 @@
       .farm-tutorial-source-pieces .farm-produce-piece--single { width: 22px; height: 40px; }
       .farm-tutorial-result { height: 100px; }
       .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: 240px; height: 66px; font-size: 1.65rem; }
+      .game[data-workbench-type="place-value-farm"] .reward-panel { width: 91%; height: 83%; padding: 12px 24px 18px; gap: 7px; }
+      .farm-reward-story { gap: 22px; }
+      .farm-reward-farm { width: min(340px, 100%); height: min(340px, 100%); min-height: 220px; }
+      .farm-reward-event { width: min(290px, 100%); height: min(290px, 100%); min-height: 220px; }
+      .farm-reward-line { min-height: 58px; font-size: clamp(1.35rem, 3vw, 1.9rem); }
+      .game[data-workbench-type="place-value-farm"] #rewardNextButton { min-height: 60px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1496,6 +1532,10 @@
         transform: none;
       }
       .farm-confirm-pieces .farm-produce-piece { animation: none; }
+      .farm-reward-farm img,
+      .farm-reward-event img { transition: none; }
+      .farm-reward-story[data-phase="revealed"] .farm-reward-before { opacity: 0; transform: none; }
+      .farm-reward-story[data-phase="revealed"] .farm-reward-after { opacity: 1; transform: none; }
     }
   </style>
 </head>
@@ -1796,9 +1836,9 @@
                 <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
                 <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
                 <g class="mathmon-scoreboard-action-labels">
-                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="569" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="731" y="631" width="142" height="64" rx="24"></rect>
                   <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
                   <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
                   <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
@@ -1807,9 +1847,9 @@
             </g>
           </svg>
           <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 631; --w: 142; --h: 64;" aria-label="새로 보기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 631; --w: 142; --h: 64;" aria-label="결과로"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
             <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
@@ -3109,7 +3149,8 @@
 
     function startGame() {
       state = createInitialState();
-      const seed = Date.now();
+      const requestedSeed = Number(new URLSearchParams(window.location.search).get("seed"));
+      const seed = Number.isSafeInteger(requestedSeed) ? requestedSeed : Date.now();
       state.problems = LessonModel.generateRun(seed);
       scoreboardBridge?.start?.();
       renderProblem();
