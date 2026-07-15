@@ -31,6 +31,7 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 - 새 차시와 리마스터는 1차시 `매스몬 상자런`의 밝은 2D 애니/스티커형 매스몬 톤을 기본으로 쓴다.
 - 차시별 전용 매스몬도 본체는 동물/판타지 생물이어야 하며, 차시 테마는 소품·의상·배지·포즈로만 표현한다.
 - 원본은 `_shared/mathmon/`에만 둔다.
+- 첫 화면 시작 버튼은 공용 `mathmon-cover-start-button-v1`(`_shared/mathmon/cover-start-button/`)만 쓴다. 새 차시마다 버튼을 새로 생성·복제·색 변경·재가공하지 않고, 실행 HTML은 `../_shared/mathmon/cover-start-button/start-button-generated.webp`를 직접 참조한다.
 - 차시 폴더에는 실행용 WebP만 복사한다.
 - 첫 화면에 매스몬이 필요하면 커버 배경 생성 단계에서 `cover-generated.webp` 장면 안에 함께 포함한다. 팩 WebP를 `.cover-mathmon` 같은 별도 `<img>`로 커버 위에 붙이는 방식은 새 차시와 리마스터 기준이 아니다.
 - 결과 화면 정답 수 `0/10`~`10/10`은 공용 생성형 숫자 자산 `_shared/result-count/result-correct-*-generated.webp`를 기본으로 쓴다. 원본은 `_shared/result-count/result-correct-count-source.png`, 배경 제거 시트는 `_shared/result-count/result-correct-count-transparent-sheet.png`에 보관한다. 차시별로 같은 숫자를 새로 만들거나 로컬 폰트/Pillow/canvas/SVG로 재생성하지 않는다.
@@ -57,12 +58,14 @@ description: "Use whenever creating, replacing, selecting, organizing, auditing,
 5. **후처리**: chroma-key 제거 → 투명 `768x768` PNG → WebP quality 82~86 → contact sheet 생성.
 6. **등록**: 팩 `manifest.json`과 `_shared/mathmon/catalog.json`을 갱신한다.
 7. **차시 연결**: 차시 폴더에는 필요한 WebP만 복사하고 `index.html`의 매스몬 참조를 그 경로로 바꾼다. 단, 첫 화면 커버 동행용으로 기존 매스몬 WebP를 얹지 않는다. 커버에 매스몬이 필요하면 `cover-generated.webp` 자체를 매스몬 포함 장면으로 다시 생성한다. 결과 정답 수는 차시 폴더로 복사하지 말고 `../_shared/result-count/result-correct-N-generated.webp`를 직접 참조한다.
+   - 시작 버튼은 예외로 차시 폴더에 복사하지 않고 공용 `../_shared/mathmon/cover-start-button/start-button-generated.webp`를 직접 참조한다.
 8. **상태 세트 검증**: 상태별 이미지 세트라면 컨택시트에서 전 장의 개수·기준선·잘림·찌그러짐을 먼저 확인하고, 브라우저에서 실제 렌더 크기까지 확인한다.
 9. **검증**: JSON 파싱, 파일 개수, alpha, 레거시 실행 참조 제거, 로컬 200, 브라우저 이미지 로드를 확인한다.
 
 ## 금지
 
 - 차시 폴더에만 새 매스몬을 생성하거나 저장하지 않는다.
+- 새 차시나 큰 커버 수정에서 시작 버튼을 생성하지 않는다. 공용 버튼을 바꿀 수 있는 경우는 사용자가 명시적으로 승인한 브랜드 변경뿐이다.
 - 원본 PNG, raw chroma-key, contact sheet를 차시 폴더에 복사하지 않는다.
 - V2 팩을 새 차시에 기본값으로 쓰지 않는다.
 - 톱니바퀴, 자석, 상자, 컨베이어 같은 사물 자체를 매스몬 몸으로 만들지 않는다.

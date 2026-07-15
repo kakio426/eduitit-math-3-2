@@ -4,6 +4,12 @@ import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const root = path.resolve(process.argv[2] || process.cwd());
+const SHARED_COVER_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
+const SHARED_COVER_START_FILES = [
+  "start-button-source.png",
+  "start-button-generated.png",
+  "start-button-generated.webp",
+];
 const LESSON_DIR = /^(\d-\d-\d-\d-[a-z0-9-]+|eduitit_math_\d-\d-\d-\d)$/;
 const STAGE_WIDTH = "1280px";
 const STAGE_RATIO = "16 / 10";
@@ -90,6 +96,9 @@ const hasFullSceneScorePixelCenterQa = fullSceneQaScripts.includes("measureScore
   && (fullSceneQaScripts.includes("correct-count art is not horizontally centered") || fullSceneQaScripts.includes("score is not horizontally centered"))
   && (fullSceneQaScripts.includes("correct-count art is not vertically centered") || fullSceneQaScripts.includes("score is not vertically centered"));
 const hasFullSceneForbiddenScoreLabelQa = fullSceneQaScripts.includes("measureForbiddenScoreLabel") && fullSceneQaScripts.includes("forbidden score label pixels remain above the score box");
+const hasSharedCoverStartFiles = (await Promise.all(
+  SHARED_COVER_START_FILES.map((file) => fileExists(path.join(root, "_shared", "mathmon", "cover-start-button", file))),
+)).every(Boolean);
 
 for (const lesson of lessons) {
   const indexPath = path.join(lesson, "index.html");
@@ -117,9 +126,11 @@ for (const lesson of lessons) {
   const coverStartGeneratedButtonBlock = getStandaloneBlock(html, ".cover-start-button");
   const resultCountOverlayBlock = getStandaloneBlock(html, ".result-count-overlay");
   const resultRestartHitboxBlock = getStandaloneBlock(html, ".result-restart-hitbox");
+  const resultRetryHitboxBlock = getStandaloneBlock(html, ".result-retry-hitbox");
   const hasStageMeta = /<main\s+class="game"[^>]*data-stage-ratio="16:10"[^>]*data-stage-size="1280x800"/.test(html);
   const hasStandardCover = /<main\s+class="game"[^>]*data-cover-standard="generated-title-overlay"/.test(html);
   const hasGeneratedCoverStartStandard = /<main\s+class="game"[^>]*data-cover-start-standard="generated-button-art"/.test(html);
+  const hasSharedCoverStartAsset = /<main\s+class="game"[^>]*data-cover-start-asset="shared-canonical-v1"/.test(html);
   const hasLegacyCover = /<main\s+class="game"[^>]*data-cover-standard="legacy-raster-poster"/.test(html);
   const hasGeneratedResultStandard = /<main\s+class="game"[^>]*data-result-visual-standard="generated-assets"/.test(html);
   const hasFullSceneScoreSlot = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-score-slot"/.test(html);
@@ -141,18 +152,23 @@ for (const lesson of lessons) {
   const hasCoverScene = /<div\s+class="cover-scene"[\s>]/.test(html);
   const hasHeroCopy = /<div\s+class="hero-copy"[\s>]/.test(html);
   const hasVisibleCoverStart = /<button(?=[^>]*class="[^"]*primary-button[^"]*")(?=[^>]*id="startButton")[^>]*>\s*시작\s*<\/button>/.test(html);
-  const hasGeneratedCoverStart = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\s*<img(?=[^>]*class="[^"]*\bstart-button-art\b[^"]*")(?=[^>]*src="start-button-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\s*<\/button>/.test(html);
+  const hasGeneratedCoverStart = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\s*<img(?=[^>]*class="[^"]*\bstart-button-art\b[^"]*")(?=[^>]*src="(?:start-button-generated\.webp|\.\.\/_shared\/mathmon\/cover-start-button\/start-button-generated\.webp)")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\s*<\/button>/.test(html);
+  const hasSharedGeneratedCoverStart = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\s*<img(?=[^>]*class="[^"]*\bstart-button-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/mathmon\/cover-start-button\/start-button-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\s*<\/button>/.test(html);
   const hasCoverStartSize = coverStartButtonBlock.includes("min-width: 190px;")
     && coverStartButtonBlock.includes("min-height: 72px;")
     && coverStartButtonBlock.includes("padding: 0 44px;");
   const generatedCoverStartWidth = getCssPxValue(coverStartGeneratedButtonBlock, "width");
   const generatedCoverStartHeight = getCssPxValue(coverStartGeneratedButtonBlock, "height");
-  const hasGeneratedCoverStartSize = generatedCoverStartWidth !== null
+  const hasDefaultGeneratedCoverStartSize = generatedCoverStartWidth !== null
     && generatedCoverStartHeight !== null
     && generatedCoverStartWidth >= 400
     && generatedCoverStartWidth <= 460
     && generatedCoverStartHeight >= 140
     && generatedCoverStartHeight <= 170;
+  const hasCompactGeneratedCoverStartSize = coverStartGeneratedButtonBlock.includes("width: clamp(300px, 28vw, 360px);")
+    && coverStartGeneratedButtonBlock.includes("aspect-ratio: 1611 / 680;")
+    && coverStartGeneratedButtonBlock.includes("height: auto;");
+  const hasGeneratedCoverStartSize = hasDefaultGeneratedCoverStartSize || hasCompactGeneratedCoverStartSize;
   const hasForbiddenFullSceneResultClass = /\b(result-card|result-stats|result-stat|result-copy)\b/.test(html);
   const hasGeneratedResultTitleArt = /<img(?=[^>]*class="[^"]*\bresult-title-art\b[^"]*")(?=[^>]*src="[^"]*result-title-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
   const hasGeneratedResultRetryArt = /<img(?=[^>]*class="[^"]*\bresult-retry-art\b[^"]*")(?=[^>]*src="[^"]*result-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
@@ -197,17 +213,30 @@ for (const lesson of lessons) {
     || /<p(?=[^>]*\bid="resultNext")(?=[^>]*\bclass="[^"]*\bvisually-hidden\b)[^>]*>/.test(html);
   const hasAccessibleResultRetryHitbox = /<button(?=[^>]*\bid="retryButton")(?=[^>]*\baria-label="다시")[^>]*>/.test(html);
   const hasFullSceneResultRasterImage = /<img(?=[^>]*\bid="resultRaster")(?=[^>]*\bclass="[^"]*\braster-bg\b)(?=[^>]*\bsrc="result-final-[^"]*generated\.webp(?:\?v=[^"]+)?")(?=[^>]*\balt="")[^>]*>/.test(html);
+  const hasEngineFullSceneResultRasterImage = hasFullSceneResultRasterImage
+    || /<img(?=[^>]*\bid="resultBg")(?=[^>]*\bclass="[^"]*\braster-bg\b)(?=[^>]*\bsrc="result-final-[^"]*generated\.webp(?:\?v=[^"]+)?")(?=[^>]*\balt="")[^>]*>/.test(html);
   const hasFullSceneScoreOverlay = /<div(?=[^>]*\bid="resultCountOverlay")(?=[^>]*\bclass="[^"]*\bresult-count-overlay\b)[^>]*>[\s\S]*?<img(?=[^>]*class="[^"]*\bresult-correct-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/result-count\/result-correct-0-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>[\s\S]*?<strong(?=[^>]*\bid="finalCorrectText")(?=[^>]*class="[^"]*\bvisually-hidden\b)[^>]*>/.test(html);
+  const hasEngineFullSceneScoreOverlay = hasFullSceneScoreOverlay
+    || /<img(?=[^>]*\bid="resultCorrectArt")(?=[^>]*class="[^"]*\bresult-correct-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/result-count\/result-correct-0-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
   const hasFullSceneRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
+  const hasEngineFullSceneRestartHitbox = hasFullSceneRestartHitbox
+    || /<button(?=[^>]*\bid="retryButton")(?=[^>]*\bclass="[^"]*\bresult-retry-hitbox\b)(?=[^>]*\baria-label="다시")[^>]*>/.test(html);
   const hasTransparentFullSceneRestartHitbox = resultRestartHitboxBlock.includes("border: 0;")
     && resultRestartHitboxBlock.includes("background: transparent;")
     && resultRestartHitboxBlock.includes("color: transparent;");
+  const hasTransparentEngineFullSceneRestartHitbox = hasTransparentFullSceneRestartHitbox
+    || (resultRetryHitboxBlock.includes("border: 0;")
+      && resultRetryHitboxBlock.includes("background: transparent;"));
   const hasFullSceneScoreSlotPosition = resultCountOverlayBlock.includes("left: var(--result-score-left")
     && resultCountOverlayBlock.includes("top: var(--result-score-top")
     && resultCountOverlayBlock.includes("width: var(--result-score-width")
     && resultCountOverlayBlock.includes("height: var(--result-score-height")
     && /data-result-island="start"/.test(html)
     && /\[data-result-island="rainbow"\]/.test(html);
+  const hasEngineFullSceneScoreSlotPosition = hasFullSceneScoreSlotPosition
+    || (html.includes("#screen-result[data-result-tier=\"sand\"] .result-correct-art")
+      && html.includes("#screen-result[data-result-tier=\"rainbow\"] .result-correct-art")
+      && /\.result-correct-art\s*\{[\s\S]*?left:\s*63\.9%;[\s\S]*?top:\s*57\.5%;[\s\S]*?width:\s*25\.3%;[\s\S]*?height:\s*12\.4%;/.test(html));
   const hasShipmentRepeatCopy = html.includes("출하!")
     && (html.includes("출하 보기") || html.includes("출하보기"));
   const titleArtFile = titleArtMatch?.[1] || "";
@@ -218,11 +247,13 @@ for (const lesson of lessons) {
     await fileExists(path.join(lesson, `${titleArtBase}-source.png`)) ||
     await fileExists(path.join(lesson, `${titleArtBase}-chromakey.png`))
   ));
-  const hasGeneratedCoverStartAssets = !hasGeneratedCoverStartStandard || (
-    await fileExists(path.join(lesson, "start-button-source.png")) &&
-    await fileExists(path.join(lesson, "start-button-generated.png")) &&
-    await fileExists(path.join(lesson, "start-button-generated.webp"))
-  );
+  const hasGeneratedCoverStartAssets = !hasGeneratedCoverStartStandard || (hasSharedCoverStartAsset
+    ? hasSharedCoverStartFiles
+    : (
+      await fileExists(path.join(lesson, "start-button-source.png"))
+      && await fileExists(path.join(lesson, "start-button-generated.png"))
+      && await fileExists(path.join(lesson, "start-button-generated.webp"))
+    ));
   const stageWidthRuleCount = (html.match(new RegExp(STAGE_WIDTH_RULE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length;
   const checks = [
     [hasStageMeta, "main.game에 data-stage-ratio=\"16:10\" data-stage-size=\"1280x800\"가 필요합니다."],
@@ -237,9 +268,10 @@ for (const lesson of lessons) {
     [!hasCoverMathmonImage || hasLegacyCoverMathmonImage, "첫 화면에 매스몬 이미지를 <img class=\"cover-mathmon\">로 따로 붙이지 않습니다. 필요하면 cover-generated.webp 생성 프롬프트에 배경과 함께 포함하세요. 기존 호환 차시는 이관 전까지만 허용됩니다."],
     [!hasStandardCover || hasVisibleCoverStart || hasGeneratedCoverStart, "generated-title-overlay 표준 차시의 시작 버튼은 투명 hitbox가 아니라 보이는 시작 버튼이어야 합니다."],
     [!hasStandardCover || hasVisibleCoverStart || hasGeneratedCoverStartStandard, "생성형 시작 버튼 아트를 쓰는 차시는 main.game에 data-cover-start-standard=\"generated-button-art\"를 선언해야 합니다."],
-    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStart, "data-cover-start-standard=\"generated-button-art\" 차시는 <button class=\"cover-start-button\" id=\"startButton\" aria-label=\"시작\"><img class=\"start-button-art\" src=\"start-button-generated.webp\" alt=\"\" aria-hidden=\"true\"></button> 구조여야 합니다."],
-    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartAssets, "data-cover-start-standard=\"generated-button-art\" 차시는 start-button-source.png, start-button-generated.png, start-button-generated.webp 자산을 함께 보관해야 합니다."],
-    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartSize, "data-cover-start-standard=\"generated-button-art\" 차시의 시작 버튼은 1280×800 Stage 기준 width 400-460px, height 140-170px 범위여야 합니다."],
+    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStart, "data-cover-start-standard=\"generated-button-art\" 차시는 cover-start-button 안에 생성형 시작 버튼 아트를 둬야 합니다."],
+    [!hasSharedCoverStartAsset || hasSharedGeneratedCoverStart, `data-cover-start-asset=\"shared-canonical-v1\" 차시는 ${SHARED_COVER_START_ASSET}만 참조해야 합니다.`],
+    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartAssets, "data-cover-start-standard=\"generated-button-art\" 차시는 원본·PNG·WebP 자산 세트를 함께 보관해야 합니다."],
+    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartSize, "data-cover-start-standard=\"generated-button-art\" 차시의 시작 버튼은 기본 400-460px × 140-170px 또는 통일형 compact 360×152px(작은 화면 300×127px)여야 합니다."],
     [!hasStandardCover || hasGeneratedCoverStart || hasCoverStartSize, "generated-title-overlay 표준 차시의 CSS 시작 버튼은 공통 크기(min-width 190px, min-height 72px, padding 0 44px)를 써야 합니다."],
     [!hasFullSceneResultSignal || hasGeneratedResultStandard, "result-final-*-generated.webp 또는 fullscene-score-slot 결과 차시는 main.game에 data-result-visual-standard=\"generated-assets\"를 선언해야 합니다."],
     [!hasSeparateGeneratedResultAssets || hasGeneratedResultTitleArt, "별도 생성형 결과 자산 방식은 보이는 결과 라벨을 <img class=\"result-title-art\" src=\"result-title-*-generated.webp\" alt=\"\" aria-hidden=\"true\">로 둬야 합니다."],
@@ -258,13 +290,13 @@ for (const lesson of lessons) {
     [!hasFullSceneScoreSlot || hasHiddenFinalIslandText, "fullscene-score-slot 결과의 #finalIslandText는 보이는 텍스트가 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasGeneratedResultStandard || hasHiddenResultSummary, "data-result-visual-standard=\"generated-assets\" 차시의 #resultSummary는 보이는 CSS 본문이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
     [!hasGeneratedResultStandard || hasHiddenResultNext, "data-result-visual-standard=\"generated-assets\" 차시의 #resultNext는 보이는 CSS 본문이 아니라 visually-hidden 접근성 텍스트여야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneResultRasterImage, "fullscene-score-slot 결과는 <img class=\"raster-bg\" id=\"resultRaster\" src=\"result-final-*-generated.webp\" alt=\"\"> 전체 장면을 써야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneScoreOverlay, "fullscene-score-slot 결과의 정답 수는 resultCountOverlay 안의 result-correct 이미지 아트로 보이고, #finalCorrectText는 visually-hidden이어야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneScoreSlotPosition, "fullscene-score-slot 정답 수 이미지 오버레이는 이미지별 data-result-island RasterStage 슬롯 변수(left/top/width/height)를 써야 합니다."],
+    [!hasFullSceneScoreSlot || hasEngineFullSceneResultRasterImage, "fullscene-score-slot 결과는 result-final-*-generated.webp 전체 장면을 raster-bg로 써야 합니다."],
+    [!hasFullSceneScoreSlot || hasEngineFullSceneScoreOverlay, "fullscene-score-slot 결과의 정답 수는 result-correct 이미지 아트로 보이고, 텍스트 값은 접근성용 숨김 값이어야 합니다."],
+    [!hasFullSceneScoreSlot || hasEngineFullSceneScoreSlotPosition, "fullscene-score-slot 정답 수 이미지 오버레이는 이미지별 RasterStage 슬롯 변수(left/top/width/height)를 써야 합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneScorePixelCenterQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 정답 수 이미지 중심과 이미지 속 빈 점수칸 중심을 비교하는 QA 하네스를 가져야 합니다."],
     [!hasFullSceneScoreSlot || hasFullSceneForbiddenScoreLabelQa, "fullscene-score-slot 결과는 스크린샷 픽셀에서 정답 수 이미지 위 '맞힌 문제' 같은 금지 라벨 잔상을 잡는 QA 하네스를 가져야 합니다."],
-    [!hasFullSceneScoreSlot || hasFullSceneRestartHitbox, "fullscene-score-slot 결과는 이미지 속 다시하기 버튼 위에 <button class=\"result-restart-hitbox\" id=\"restartButton\" aria-label=\"다시하기\"> 투명 hitbox를 둬야 합니다."],
-    [!hasFullSceneScoreSlot || hasTransparentFullSceneRestartHitbox, "fullscene-score-slot 다시하기 hitbox는 border 0, transparent background/color여야 하며 새 시각 버튼을 그리면 안 됩니다."],
+    [!hasFullSceneScoreSlot || hasEngineFullSceneRestartHitbox, "fullscene-score-slot 결과는 이미지 속 다시하기 버튼 위에 투명 hitbox를 둬야 합니다."],
+    [!hasFullSceneScoreSlot || hasTransparentEngineFullSceneRestartHitbox, "fullscene-score-slot 다시하기 hitbox는 border 0, transparent background여야 하며 새 시각 버튼을 그리면 안 됩니다."],
     [!hasFullSceneScoreSlot || !html.includes("맞힌 문제"), "fullscene-score-slot 결과에는 보이는/숨김 HTML 어느 쪽에도 '맞힌 문제' 라벨을 남기지 않습니다. 점수는 '정답 6/10'처럼 보조 라벨만 씁니다."],
     [!hasLegacyCover || hasLegacyCoverArt, "legacy-raster-poster 표식은 cover-art/cover-start-hitbox를 쓰는 이전 커버에만 붙입니다."],
     [gameBlock.includes("--stage-padding: clamp(10px, 2vw, 24px);"), ".game은 공통 --stage-padding 값을 가져야 합니다."],

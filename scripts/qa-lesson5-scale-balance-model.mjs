@@ -4,19 +4,16 @@ import path from "node:path";
 import vm from "node:vm";
 
 const ROOT = process.cwd();
-const LESSON_PATH = path.join(ROOT, "3-2-5-3-mathmon-scale-balance/index.html");
-const MODEL_NAME = "Lesson5ScaleBalanceModel";
+const SOURCE_DIR = path.join(ROOT, "_lessons", "3-2-5-3-mathmon-scale-balance");
+const MODEL_PATH = path.join(ROOT, "_lessons", "3-2-5-1-mathmon-water-fill", "model.js");
+const MODEL_NAME = "Lesson5WaterFillModel";
 
 function parseArgs(argv) { const options = { runs: 10000, seed: 20260704 }; for (let index = 0; index < argv.length; index += 1) { const arg = argv[index]; if (arg === "--runs") { options.runs = Number(argv[++index]); continue; } if (arg === "--seed") { options.seed = Number(argv[++index]); continue; } throw new Error("Unknown option: " + arg); } if (!Number.isInteger(options.runs) || options.runs < 1) throw new Error("--runs must be a positive whole number"); return options; }
 function loadLessonModel() {
-  const html = fs.readFileSync(LESSON_PATH, "utf8");
-  const configStart = html.indexOf("const LESSON_CONFIG = ");
-  const start = html.indexOf("const " + MODEL_NAME + " = (() => {");
-  const end = html.indexOf("\n\n    const screens", start);
-  if (configStart === -1 || start === -1 || end === -1) throw new Error("model block not found");
-  const source = html.slice(configStart, end) + "\n" + MODEL_NAME + ";";
-  const context = vm.createContext({ console });
-  return vm.runInContext(source, context, { filename: LESSON_PATH });
+  const config = JSON.parse(fs.readFileSync(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
+  const source = fs.readFileSync(MODEL_PATH, "utf8");
+  const context = vm.createContext({ console, LESSON_CONFIG: config, Math });
+  return vm.runInContext(source + "\n" + MODEL_NAME + ";", context, { filename: MODEL_PATH });
 }
 function assert(condition, message) { if (!condition) throw new Error(message); }
 function addCount(map, key) { map.set(key, (map.get(key) || 0) + 1); }

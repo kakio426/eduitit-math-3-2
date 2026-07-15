@@ -14,6 +14,7 @@ const EXPECTED_STANDARDS = Object.freeze({
   settings: "modal-controls",
   resultVisual: "generated-assets",
 });
+const SHARED_COVER_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
 
 async function pathExists(filePath) {
   try {
@@ -104,6 +105,9 @@ function checkRewardEvents(failures, lesson, config) {
     if (!Number.isFinite(event.min) || !Number.isFinite(event.max) || event.min > event.max) {
       addFailure(failures, lesson, `rewardEvent ${event.id || "(missing id)"} has invalid min/max`);
     }
+    if (config.id.startsWith("3-2-2-") && !["common", "rare", "legend"].includes(event.rarity)) {
+      addFailure(failures, lesson, `rewardEvent ${event.id || "(missing id)"} needs common/rare/legend rarity`);
+    }
   }
   const wrongEvent = config.wrongEvent || {};
   if (!wrongEvent.id || !wrongEvent.text || !wrongEvent.family) {
@@ -115,11 +119,18 @@ function checkRewardEvents(failures, lesson, config) {
 }
 
 function checkEngineSurface(failures, lesson, config) {
+  if (config.standards?.coverStartAsset !== undefined) {
+    checkEnumValue(failures, lesson, config.standards.coverStartAsset, "standards.coverStartAsset", ["lesson-local", "shared-canonical-v1"]);
+    if (config.standards.coverStartAsset === "shared-canonical-v1"
+      && config.imageAssets?.startButton !== SHARED_COVER_START_ASSET) {
+      addFailure(failures, lesson, `shared-canonical-v1 must use ${SHARED_COVER_START_ASSET}`);
+    }
+  }
   if (config.tutorial?.mode !== undefined) {
     checkEnumValue(failures, lesson, config.tutorial.mode, "tutorial.mode", ["card-grid", "poster-two-step"]);
   }
   if (config.reward?.mode !== undefined) {
-    checkEnumValue(failures, lesson, config.reward.mode, "reward.mode", ["stage-full", "modal-art", "inline-panel"]);
+    checkEnumValue(failures, lesson, config.reward.mode, "reward.mode", ["stage-full", "stage-reveal", "modal-art", "inline-panel"]);
   }
   if (config.result?.renderMode !== undefined) {
     checkEnumValue(failures, lesson, config.result.renderMode, "result.renderMode", ["card-art", "simple-generated", "fullscene-score-slot", "hybrid-generated-dynamic"]);
@@ -174,6 +185,9 @@ function checkManifestShape(failures, lesson, config) {
   if (!Array.isArray(config.qa?.requiredFlow) || !config.qa.requiredFlow.includes("result")) {
     addFailure(failures, lesson, "qa.requiredFlow must include result");
   }
+  if (config.id.startsWith("3-2-2-") && config.qa?.directInteractionRequired !== true) {
+    addFailure(failures, lesson, "Unit 2 lessons must require direct interaction");
+  }
 }
 
 async function checkLesson(lesson, failures) {
@@ -193,9 +207,11 @@ async function checkLesson(lesson, failures) {
   if (!config.modelName || !/^[A-Z][A-Za-z0-9]*$/.test(config.modelName)) {
     addFailure(failures, lesson, "modelName must be a PascalCase identifier");
   }
-  for (const file of ["model.js", "view.js"]) {
-    if (!(await pathExists(path.join(sourceDir, file)))) {
-      addFailure(failures, lesson, `missing source file ${file}`);
+  for (const file of ["model", "view"]) {
+    const configured = config.sourceFiles?.[file] || `${file}.js`;
+    const resolved = path.resolve(sourceDir, configured);
+    if (!(await pathExists(resolved))) {
+      addFailure(failures, lesson, `missing source file ${configured}`);
     }
   }
 
@@ -208,6 +224,7 @@ async function checkLesson(lesson, failures) {
     `data-settings-standard="${EXPECTED_STANDARDS.settings}"`,
     `data-result-visual-standard="${EXPECTED_STANDARDS.resultVisual}"`,
   ];
+  if (config.standards?.coverStartAsset) expectedMarkers.push(`data-cover-start-asset="${config.standards.coverStartAsset}"`);
   if (config.result?.renderMode) expectedMarkers.push(`data-result-render-mode="${config.result.renderMode}"`);
   if (config.reward?.mode) expectedMarkers.push(`data-reward-mode="${config.reward.mode}"`);
   if (config.tutorial?.mode) expectedMarkers.push(`data-tutorial-mode="${config.tutorial.mode}"`);
@@ -292,9 +309,14 @@ async function main() {
     console.log("CHECK_LESSON_CONTRACT: PASS (no _lessons directory)");
     return;
   }
-  const lessons = await findLessonSources();
+  const requested = process.argv.slice(2);
+  const lessons = requested.length ? requested : await findLessonSources();
   const failures = [];
   for (const lesson of lessons) {
+    if (!(await pathExists(path.join(SOURCE_ROOT, lesson, "lesson.json")))) {
+      addFailure(failures, lesson, "lesson source does not exist");
+      continue;
+    }
     await checkLesson(lesson, failures);
   }
   if (failures.length) {

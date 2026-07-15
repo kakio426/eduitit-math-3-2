@@ -89,21 +89,9 @@ function renderAttempt(problem, step, choice, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.choices[0]?.kind || "number";
-  ui.choices.dataset.interaction = step.id === "down" ? "drag-down" : "floor-panel";
+  ui.choices.dataset.interaction = "floor-panel";
   const panel = document.createElement("div");
-  panel.className = step.id === "down" ? "elevator-drop-layout" : "elevator-floor-panel";
-  let drop = null;
-  let tray = panel;
-  if (step.id === "down") {
-    drop = document.createElement("button");
-    drop.type = "button";
-    drop.className = "elevator-down-zone";
-    drop.setAttribute("aria-label", "남은 수와 일의 자리 수를 합친 수를 아래 칸으로 내리기");
-    drop.innerHTML = `<span aria-hidden="true">↓</span><strong>아래 칸</strong>`;
-    tray = document.createElement("div");
-    tray.className = "elevator-down-tray";
-    panel.append(drop, tray);
-  }
+  panel.className = "elevator-floor-panel";
 
   for (const choice of step.choices) {
     const button = document.createElement("button");
@@ -138,9 +126,8 @@ function renderChoicesForStep(problem, step, state, choose) {
       button.appendChild(value);
     }
 
-    if (drop) wireDirectChoice(button, drop, choice, choose);
-    else button.addEventListener("click", () => choose(choice, button));
-    tray.appendChild(button);
+    button.addEventListener("click", () => choose(choice, button));
+    panel.appendChild(button);
   }
   ui.choices.appendChild(panel);
   return true;
@@ -172,7 +159,7 @@ function renderElevatorMathBoard(problem, state) {
 
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.classList.add("elevator-math-svg");
-  svg.setAttribute("viewBox", "0 0 920 300");
+  svg.setAttribute("viewBox", "0 0 920 400");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep, attemptedChoice));
 
@@ -186,41 +173,57 @@ function renderElevatorMathBoard(problem, state) {
     : tensDone || showRemainingEvidence
       ? String(problem.remainingTens)
       : "?";
-  const downOnesValue = downDone || wrongDown ? String(problem.onesDigit) : "?";
   const showTensWork = tensDone || showRemainingEvidence || wrongTens;
   const showDownWork = state.stepIndex > 0 || revealedStep === "down" || revealedStep === "ones";
   const downTargetActive = state.stepIndex === 1 && !downDone;
-  const attemptNote = renderAttemptNote(problem, step, attemptedChoice);
+  const combinedValue = wrongDown
+    ? String(attemptedChoice.value)
+    : downDone
+      ? String(problem.downNumber)
+      : "?";
+  const combinedDigits = combinedValue === "?"
+    ? ["?", "?"]
+    : String(combinedValue).padStart(2, " ").slice(-2).split("");
+  const combinedTensMarkup = combinedDigits[0].trim()
+    ? `<text x="463" y="347" class="board-combined-value" data-place="tens">${combinedDigits[0]}</text>`
+    : "";
+  const combinedOnesMarkup = `<text x="631" y="347" class="board-combined-value" data-place="ones">${combinedDigits[1]}</text>`;
+  const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
+  const remainderMarkup = showDownWork ? `
+        <path d="M631 194 V239" class="board-down-arrow" marker-end="url(#arrowhead)" />
+        <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
+          <rect x="380" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="tens" />
+          <rect x="548" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="ones" />
+          ${combinedTensMarkup}
+          ${combinedOnesMarkup}
+        </g>
+      ` : `
+        <text x="382" y="294" class="board-work-label" text-anchor="end">남은 십</text>
+        <text x="463" y="336" class="board-work-digit">${remainingValue}</text>
+      `;
   const workMarkup = showTensWork ? `
       <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"} ${attemptedChoice ? "is-wrong-attempt" : ""}">
-        <text x="414" y="208" class="board-work-minus">−</text>
-        <text x="463" y="208" class="board-work-product">${partialProduct}</text>
-        <path d="M416 219 H510" class="board-work-line" />
-        <text x="386" y="270" class="board-work-label" text-anchor="end">남은 십</text>
-        <text x="463" y="277" class="board-work-digit">${remainingValue}</text>
-        ${showDownWork ? `
-          <path d="M631 181 V231" class="board-down-arrow" marker-end="url(#arrowhead)" />
-          <rect x="590" y="238" width="82" height="52" rx="14" class="board-down-slot ${downTargetActive ? "is-active" : ""}" />
-          <text x="631" y="277" class="board-work-digit board-down-value ${downTargetActive ? "is-active" : ""}">${downOnesValue}</text>
-          ${attemptNote ? "" : '<text x="704" y="270" class="board-work-label" text-anchor="start">내린 수</text>'}
-        ` : ""}
+        <text x="414" y="250" class="board-work-minus">−</text>
+        <text x="463" y="250" class="board-work-product">${partialProduct}</text>
+        <path d="M416 264 H510" class="board-work-line" />
+        ${remainderMarkup}
         ${attemptNote}
       </g>
   ` : "";
 
   svg.innerHTML = `
     <g class="math-board-surface">
-      <rect x="112" y="8" width="720" height="284" rx="28" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect x="72" y="6" width="780" height="382" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
     </g>
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="210" y="156" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 92 Q305 92 305 112 L305 174 M305 92 H720" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      ${renderSvgCell(392, 18, 142, 58, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
-      ${renderSvgCell(560, 18, 142, 58, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
+      ${renderSvgCell(380, 12, 166, 72, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
+      ${renderSvgCell(548, 12, 166, 72, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
-      ${renderSvgCell(392, 108, 142, 64, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-      ${renderSvgCell(560, 108, 142, 64, problem.onesDigit, false, "일의 자리 수")}
+      ${renderSvgCell(380, 112, 166, 80, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
+      ${renderSvgCell(548, 112, 166, 80, problem.onesDigit, false, "일의 자리 수")}
 
       ${workMarkup}
     </g>
@@ -243,7 +246,7 @@ function renderSvgCell(x, y, width, height, value, active, label, wrong = false)
   return `
     <g class="board-cell ${activeClass} ${wrongClass}" aria-label="${label} ${value}">
       <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="18" fill="${fill}" stroke="${stroke}" stroke-width="4" />
-      <text x="${x + width / 2}" y="${y + height / 2 + 18}" class="board-number" fill="${textFill}">${value}</text>
+      <text x="${x + width / 2}" y="${y + height / 2 + 21}" class="board-number" fill="${textFill}">${value}</text>
     </g>
   `;
 }
@@ -261,9 +264,9 @@ function renderAttemptNote(problem, step, choice) {
   }
   return `
     <g class="board-attempt-note" aria-label="${label} ${value}">
-      <rect x="672" y="226" width="152" height="64" rx="14" />
-      <text x="748" y="249" class="board-attempt-label">${label}</text>
-      <text x="748" y="282" class="board-attempt-value">${value}</text>
+      <rect x="96" y="276" width="220" height="96" rx="20" />
+      <text x="206" y="310" class="board-attempt-label">${label}</text>
+      <text x="206" y="356" class="board-attempt-value">${value}</text>
     </g>
   `;
 }

@@ -42,13 +42,19 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.steps.map((step) => step.id).join(","), "tens,ones,quotient", `${problem.id}: distribute tens, distribute ones, then write quotient`);
     assert.equal(problem.tensShare, (problem.tens * 10) / problem.divisor, `${problem.id}: tens share`);
     assert.equal(problem.tensShare + problem.onesQuotient, problem.quotient, `${problem.id}: quotient is completed from both shares`);
-    assert.equal(problem.steps[0].answer * problem.divisor, problem.tens, `${problem.id}: built tens share accounts for every bundle`);
+    assert.equal(problem.steps[0].answer * problem.divisor, problem.tensValue, `${problem.id}: tens share accounts for the full tens value`);
     assert.equal(problem.steps[1].answer * problem.divisor, problem.ones, `${problem.id}: built ones share accounts for every vegetable`);
-    assert.ok(problem.steps.slice(0, 2).every((step) => step.interaction === "distribute-equal"), `${problem.id}: student chooses every basket destination`);
-    assert.ok(problem.steps.slice(0, 2).every((step) => step.choices.some((choice) => choice.misconceptionId === "DIV1_UNEQUAL_GROUPS")), `${problem.id}: unequal distribution is a real wrong state`);
+    assert.equal(problem.steps[0].answer, problem.tensShare, `${problem.id}: student answers with the actual tens share, not the number of bundles`);
+    assert.equal(problem.steps[1].answer, problem.onesQuotient, `${problem.id}: student answers with the actual ones share`);
+    assert.ok(problem.steps.slice(0, 2).every((step) => step.interaction === "enter-share"), `${problem.id}: student decides one basket's share before the system distributes`);
+    assert.ok(problem.steps.slice(0, 2).every((step) => step.reason), `${problem.id}: each place-value step states why it exists`);
+    assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV1_TENS_SHARE_ERROR"), `${problem.id}: tens-share error state`);
+    assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV1_ONES_SHARE_ERROR"), `${problem.id}: ones-share error state`);
     assert.equal(problem.steps[2].interaction, "enter-quotient", `${problem.id}: student writes the completed quotient`);
     assert.equal(problem.steps[2].answer, problem.quotient, `${problem.id}: quotient entry answer`);
     assert.ok(problem.steps[2].choices.some((choice) => choice.misconceptionId === "DIV1_QUOTIENT_COUNT_ERROR"), `${problem.id}: quotient count error state`);
+    const correctInputCount = problem.steps.reduce((sum, step) => sum + String(step.answer).length + 1, 0);
+    assert.ok(correctInputCount <= 8, `${problem.id}: repeated physical input must not replace mathematical decisions`);
     return;
   }
   if (rule === "division-regrouping-exact") {
@@ -81,6 +87,11 @@ function checkInvariant(rule, problem) {
     assert.ok(problem.remainder > 0 && problem.remainder < problem.divisor, `${problem.id}: remainder range`);
     assert.equal(problem.divisor * problem.quotient + problem.remainder, problem.dividend, `${problem.id}: identity`);
     assert.equal(problem.steps.map((step) => step.id).join(","), "quotient,remainder", `${problem.id}: action order`);
+    assert.equal(problem.finalExpression, `${problem.divisor}×${problem.quotient}+${problem.remainder}=${problem.dividend}`, `${problem.id}: final identity text`);
+    assert.match(problem.steps[0].instruction, new RegExp(`^${problem.divisor}×몇이 ${problem.dividend}[을를] 넘지 않을까요\\?$`), `${problem.id}: product-comparison instruction`);
+    assert.equal(problem.steps[1].instruction, "묶고 남은 별을 세어 봐요.", `${problem.id}: one-line remainder action`);
+    assert.ok(problem.steps[0].advance?.delayMs >= 1200, `${problem.id}: quotient confirmation must stay long enough to read`);
+    assert.ok(problem.quotient + 1 <= 32, `${problem.id}: quotient capsules must fit the fixed 8x4 board`);
     const quotientStep = problem.steps[0];
     const quotientValues = quotientStep.choices.map((choice) => choice.value).sort((a, b) => a - b);
     assert.equal(quotientValues.join(","), [problem.quotient - 1, problem.quotient, problem.quotient + 1].join(","), `${problem.id}: quotient boundary choices`);
@@ -110,7 +121,12 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.product, problem.divisor * problem.shownQuotient, `${problem.id}: product`);
     assert.equal(problem.checkTotal, problem.product + problem.shownRemainder, `${problem.id}: check total`);
     assert.equal(problem.matchesOriginal, problem.checkTotal === problem.dividend, `${problem.id}: comparison`);
-    assert.ok(problem.steps.length >= 3 && problem.steps.length <= 4, `${problem.id}: action count`);
+    assert.equal(
+      problem.steps.map((step) => step.id).join(","),
+      (problem.matchesOriginal ? ["multiply", "add"] : ["multiply", "add", "locate"]).join(","),
+      `${problem.id}: deterministic comparison must auto-complete`
+    );
+    assert.ok(!problem.steps.some((step) => step.id === "compare"), `${problem.id}: redundant compare action`);
     assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV4_ADD_INSTEAD_OF_MULTIPLY"), `${problem.id}: multiply misconception`);
     assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV4_OMIT_REMAINDER"), `${problem.id}: remainder omission misconception`);
     if (!problem.matchesOriginal) {
@@ -146,6 +162,9 @@ function simulateRewards(model, config, runs = 10000) {
   const special = config.results.find((result) => result.needsSpecial);
   if (special) {
     assert.ok((counts.get(special.id) || 0) < Math.max(...counts.values()), `${config.id}: highest result must be rarer than a general result`);
+    if (typeof model.getNextResult === "function") {
+      assert.equal(model.getNextResult(special)?.id, special.id, `${config.id}: special result must not point back to a lower next result`);
+    }
   }
   const lowest = model.getResult(0, 0, false);
   assert.ok(lowest?.image && lowest?.titleImage, `${config.id}: zero-correct result must still have art`);
@@ -154,9 +173,9 @@ function simulateRewards(model, config, runs = 10000) {
 
 function checkViewContract(rule, config, modelSource, viewSource, runtimeSource) {
   const expected = {
-    "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-instruction/, /farm-distribution-value/, /수확 점수|농장 등급|진행도/],
+    "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-instruction/, /farm-share-answer/, /수확 점수|농장 등급|진행도/],
     "division-regrouping-exact": ["division-elevator", "board-shaft-generated.webp", /elevator-math-svg/, /십의 자리 몫/, /남은 십/, /보상 점수|엘리베이터 등급/],
-    "division-with-remainder": ["remainder-stars", "result-stage.webp", /star-proof-bar/, /남은 별/, /만든 묶음/, /닉네임|별 이름|진행도|등급/],
+    "division-with-remainder": ["remainder-stars", "result-stage.webp", /star-math-svg/, /renderLooseStarGrid/, /renderGroupedStars/, /닉네임|별 이름|진행도|등급/],
     "division-check-lock": ["check-lock-bars", "board-vault-generated.webp", /check-lock-svg/, /처음 수/, /나누는 수 × 몫/, /보안 점수|금고 등급|진행도/],
   }[rule];
   assert.ok(expected, `${config.id}: view rule`);
@@ -167,14 +186,16 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
   assert.match(viewSource, expected[4], `${config.id}: second visible math label`);
   assert.doesNotMatch(viewSource, expected[5], `${config.id}: reward/result text must stay out of play view`);
   if (rule === "division-place-value-exact") {
-    assert.match(viewSource, /dataset\.interaction = "distribute-to-baskets"/, `${config.id}: student chooses every basket destination`);
+    assert.match(viewSource, /dataset\.interaction = "enter-share"/, `${config.id}: student enters one basket's share`);
     assert.match(viewSource, /dataset\.interaction = "enter-quotient"/, `${config.id}: student enters the quotient`);
-    assert.match(viewSource, /animateFarmTokenTransfer/, `${config.id}: chosen vegetables visibly move into the basket`);
-    assert.match(viewSource, /farm-check-button/, `${config.id}: student validates the constructed share`);
-    assert.match(viewSource, /checkButton\.disabled = remaining > 0 \|\| selectedStock \|\| locked/, `${config.id}: checking is blocked until every unit has a student-chosen destination`);
-    assert.match(viewSource, /farm-basket-drop/, `${config.id}: basket destination remains a student decision`);
-    assert.match(viewSource, /basketCounts\.every\(\(count\) => count === step\.answer\)/, `${config.id}: wrong state checks every basket`);
+    assert.match(viewSource, /createFarmKeypad\(handleFarmShareKey/, `${config.id}: one share decision uses a number entry`);
+    assert.match(viewSource, /step\.totalValue - used/, `${config.id}: a low answer shows what remains`);
+    assert.match(viewSource, /used - step\.totalValue/, `${config.id}: a high answer shows what is missing`);
+    assert.match(viewSource, /createFarmBasketImage/, `${config.id}: generated basket art is used instead of a CSS-drawn basket`);
+    assert.match(viewSource, /appendFarmPieces\(pieces/, `${config.id}: generated produce fills every basket after validation`);
+    assert.match(viewSource, /renderFarmShareConfirmation/, `${config.id}: the confirmed answer changes the current objects`);
     assert.match(viewSource, /for \(let index = 0; index < problem\.divisor/, `${config.id}: correct share expands to every basket only after validation`);
+    assert.doesNotMatch(viewSource, /distribute-equal|farm-basket-drop|farm-stock-token|animateFarmTokenTransfer/, `${config.id}: repeated destination tapping returned`);
     assert.doesNotMatch(viewSource, /build-one-basket-share|distribute-vegetables|farm-move-button|animateFarmRound/, `${config.id}: guess-and-check or answer-performing distribution returned`);
     assert.doesNotMatch(viewSource, /farm-drop-zone|farm-progress-panel|drag-basket/, `${config.id}: preview or drag UI returned`);
     assert.doesNotMatch(modelSource, /makeNumericChoices/, `${config.id}: four-choice generator returned`);
@@ -183,11 +204,17 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
     assert.match(viewSource, /setFarmFlowPhase\("confirm"\)/, `${config.id}: confirmation phase`);
   }
   if (rule === "division-with-remainder") {
-    assert.match(viewSource, /choose-group-limit/, `${config.id}: quotient is chosen as a boundary, not built by repeated taps`);
-    assert.match(viewSource, /choose-leftover-stars/, `${config.id}: remainder is chosen in one action`);
+    assert.match(viewSource, /compare-products/, `${config.id}: quotient is chosen by comparing products, not built by repeated taps`);
+    assert.match(viewSource, /count-leftover-stars/, `${config.id}: remainder is chosen in one action`);
     assert.match(viewSource, /star-quotient-choice/, `${config.id}: quotient boundary choices are visible`);
     assert.match(viewSource, /star-remainder-choice/, `${config.id}: remainder choices are visible`);
-    assert.match(viewSource, /renderRemainderEvidence/, `${config.id}: remainder misconception changes the current objects`);
+    assert.match(viewSource, /renderRemainderBoard/, `${config.id}: remainder misconception changes the current objects`);
+    assert.match(viewSource, /star-next-group/, `${config.id}: a low quotient or full leftover group is outlined`);
+    assert.match(viewSource, /missing-slot/, `${config.id}: a high quotient shows the exact missing star slots`);
+    assert.match(viewSource, /animateRemainderToJar/, `${config.id}: first-try remainder moves into the star jar`);
+    assert.match(viewSource, /syncStarWorld/, `${config.id}: calculation rewards update the visible constellation`);
+    assert.match(viewSource, /playImage/, `${config.id}: all play states use the generated constellation set`);
+    assert.doesNotMatch(viewSource, /star-journey-title/, `${config.id}: disconnected current-to-next title fragments returned`);
     assert.doesNotMatch(viewSource, /star-builder|별 한 묶음|count = Math\.min|max = step\.id/, `${config.id}: repeated-tap answer builder returned`);
   }
   assert.match(viewSource, /dataset\.interaction/, `${config.id}: direct interaction marker`);
@@ -206,9 +233,12 @@ for (const lesson of lessons) {
   assert.ok(config.qa?.modelRule, `${lesson}: qa.modelRule`);
   assert.equal(config.qa?.directInteractionRequired, true, `${lesson}: direct interaction contract`);
   assert.deepEqual(Object.keys(config.imageAssets?.problemStates || {}).sort(), ["complete", "waiting", "working"], `${lesson}: three generated problem states`);
-  assert.ok(config.imageAssets?.resultScene, `${lesson}: UI-free result scene`);
+  assert.ok(config.imageAssets?.resultScene || config.results.every((result) => result.image), `${lesson}: UI-free result scene`);
   for (const result of config.results) {
     assert.ok(result.titleImage && result.titleImage !== result.image, `${lesson}/${result.id}: independent generated result title`);
+    if (config.qa.modelRule === "division-with-remainder") {
+      assert.ok(result.playImage, `${lesson}/${result.id}: generated play-state constellation`);
+    }
   }
   checkViewContract(config.qa.modelRule, config, modelSource, viewSource, runtimeSource);
   for (const event of config.rewardEvents) {

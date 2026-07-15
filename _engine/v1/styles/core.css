@@ -252,8 +252,9 @@
       font-weight: 950;
     }
     .cover-start-button {
-      width: 430px;
-      height: 150px;
+      width: clamp(300px, 28vw, 360px);
+      aspect-ratio: 1611 / 680;
+      height: auto;
       display: grid;
       place-items: center;
       padding: 0;
@@ -265,7 +266,7 @@
     }
     .cover-start-button:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.04); }
     .cover-start-button:active { transform: translateY(1px) scale(.99); }
-    .start-button-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+    .start-button-art { display: block; width: 100%; height: auto; pointer-events: none; }
     .tutorial { padding: var(--stage-inset); background: linear-gradient(135deg, #201a2d, #102839); }
     .tutorial-grid {
       position: relative;
@@ -577,7 +578,6 @@
       .problem-card { padding: 18px; }
       .visual-area { min-height: 330px; }
       .choice-button { min-height: 72px; }
-      .cover-start-button { width: 400px; height: 142px; }
       .result-title-art { width: 52%; }
       .result-correct-art { left: 82px; top: 410px; width: 230px; }
     }

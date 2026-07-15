@@ -64,10 +64,26 @@ function checkLesson(folder, config) {
   assert(set, `${prefix} result.stateImageSet 계약이 없습니다.`);
   assert(set.count === config.results.length, `${prefix} 결과 이미지 개수 계약이 실제 결과 수와 다릅니다.`);
   assert(set.canvas === EXPECTED_CANVAS && set.runtimeSlot === EXPECTED_CANVAS, `${prefix} 결과 이미지/슬롯은 ${EXPECTED_CANVAS}이어야 합니다.`);
-  assert(set.protagonist === config.mathmonId, `${prefix} 결과 주인공과 mathmonId가 다릅니다.`);
+  const protagonistKind = set.protagonistKind || "mathmon";
+  if (protagonistKind === "mathmon") {
+    assert(set.protagonist === config.mathmonId, `${prefix} 결과 주인공과 mathmonId가 다릅니다.`);
+  } else {
+    assert(protagonistKind === "reward", `${prefix} 알 수 없는 결과 주인공 종류입니다: ${protagonistKind}`);
+    assert(typeof set.protagonist === "string" && set.protagonist.length > 0, `${prefix} 중심 보상 주인공 id가 없습니다.`);
+    assert(set.fixedGeneratedElements?.some((element) => element.endsWith("-scene")), `${prefix} 중심 보상 결과 장면이 생성 이미지 요소여야 합니다.`);
+  }
   assert(set.fixedGeneratedElements?.includes("result-title"), `${prefix} 결과 제목은 생성 이미지 요소여야 합니다.`);
   assert(set.fixedGeneratedElements?.includes("retry-button"), `${prefix} 다시 버튼은 생성 이미지 요소여야 합니다.`);
-  assert(css.includes("#resultDestinationSvg") && css.includes(".result-restart-surface") && css.includes("display: none"), `${prefix} 중복 SVG 결과 제목/다시 버튼을 숨겨야 합니다.`);
+  const hidesLegacyResultSurface = (
+    css.includes("#resultDestinationSvg")
+    && css.includes(".result-restart-surface")
+    && css.includes("display: none")
+  ) || (
+    css.includes(".result-dynamic-ui")
+    && css.includes("display: none")
+    && css.includes(".result-retry-art")
+  );
+  assert(hidesLegacyResultSurface, `${prefix} 중복 SVG 결과 제목/다시 버튼을 숨겨야 합니다.`);
 
   for (const result of config.results) {
     const pngPath = path.join(outputDir, pngFor(result.image));
@@ -82,12 +98,17 @@ function checkLesson(folder, config) {
   assert(readme.includes(config.mathmonPack) && report.includes(config.mathmonPack), `${prefix} README/REPORT에 매스몬 팩 id가 없습니다.`);
 }
 
+const requested = process.argv.slice(2);
+const folders = requested.length ? requested : readdirSync(SOURCE_ROOT);
 const checked = [];
-for (const folder of readdirSync(SOURCE_ROOT)) {
+for (const folder of folders) {
   const configPath = path.join(SOURCE_ROOT, folder, "lesson.json");
-  if (!existsSync(configPath)) continue;
+  assert(existsSync(configPath), `${folder}: lesson source does not exist`);
   const config = JSON.parse(readFileSync(configPath, "utf8"));
-  if (config.qa?.visualContractVersion !== 1) continue;
+  if (config.qa?.visualContractVersion !== 1) {
+    assert(!requested.length, `${folder}: visualContractVersion 1 is required for a targeted check`);
+    continue;
+  }
   checkLesson(folder, config);
   checked.push(folder);
 }

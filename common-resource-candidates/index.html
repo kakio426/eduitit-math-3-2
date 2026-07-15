@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>매스몬 공용 자원 선택판</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #19243a;
+        --muted: #63728d;
+        --line: #dbe3f0;
+        --canvas: #f4f7fc;
+        --panel: #fff;
+        --blue: #2657d8;
+        --blue-soft: #eaf0ff;
+        --yellow: #ffcb32;
+        --green: #16835d;
+        --red: #b73d4d;
+        --shadow: 0 18px 48px rgb(30 53 99 / 10%);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        background:
+          radial-gradient(circle at 11% 0%, rgb(255 219 96 / 24%), transparent 25rem),
+          linear-gradient(180deg, #f9fbff 0%, var(--canvas) 100%);
+        color: var(--ink);
+        font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+      }
+
+      button { font: inherit; }
+
+      .page { width: min(1180px, calc(100% - 40px)); margin: 0 auto 72px; }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+        gap: 40px;
+        align-items: end;
+        padding: 56px 0 34px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        margin: 0 0 14px;
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: .045em;
+      }
+
+      .eyebrow::before {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--yellow);
+        box-shadow: 0 0 0 4px rgb(255 203 50 / 22%);
+        content: "";
+      }
+
+      h1 { max-width: 800px; margin: 0; font-size: clamp(32px, 5vw, 56px); letter-spacing: -.058em; line-height: 1.1; }
+
+      .lead { max-width: 750px; margin: 18px 0 0; color: #45546c; font-size: 17px; line-height: 1.7; word-break: keep-all; }
+
+      .audit-card {
+        padding: 22px;
+        border: 1px solid #d6e1f7;
+        border-radius: 24px;
+        background: rgb(255 255 255 / 82%);
+        box-shadow: 0 14px 35px rgb(32 69 141 / 9%);
+        backdrop-filter: blur(9px);
+      }
+
+      .audit-card h2 { margin: 0 0 13px; font-size: 15px; }
+
+      .audit-list { display: grid; gap: 11px; margin: 0; padding: 0; list-style: none; }
+
+      .audit-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #56647b; font-size: 13px; }
+      .audit-list strong { color: var(--ink); font-size: 15px; }
+
+      .key { display: inline-flex; align-items: center; gap: 6px; }
+      .dot { width: 9px; height: 9px; border-radius: 999px; background: currentColor; }
+      .ok { color: var(--green); }
+      .work { color: #ca7900; }
+      .ask { color: var(--red); }
+
+      .notice {
+        display: flex;
+        gap: 14px;
+        align-items: start;
+        margin: 0 0 22px;
+        padding: 18px 20px;
+        border: 1px solid #c7d7ff;
+        border-radius: 18px;
+        background: var(--blue-soft);
+      }
+
+      .notice-mark { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-weight: 900; }
+      .notice p { margin: 2px 0 0; color: #3d5076; font-size: 14px; line-height: 1.6; word-break: keep-all; }
+
+      .section { margin-top: 30px; padding: 30px; border: 1px solid var(--line); border-radius: 28px; background: var(--panel); box-shadow: var(--shadow); }
+      .section-head { display: flex; justify-content: space-between; gap: 20px; align-items: start; margin-bottom: 24px; }
+      .section h2 { margin: 0; font-size: clamp(22px, 3vw, 29px); letter-spacing: -.04em; }
+      .section p { color: var(--muted); line-height: 1.65; word-break: keep-all; }
+      .section-head p { max-width: 550px; margin: 2px 0 0; font-size: 14px; text-align: right; }
+
+      .tag { display: inline-flex; align-items: center; min-height: 26px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+      .tag.fixed { background: #e3f7ed; color: #13704e; }
+      .tag.choice { background: #fff3cc; color: #8a5700; }
+      .tag.info { background: #e9efff; color: #3158b5; }
+      .tag.keep { background: #f2f3f6; color: #596579; }
+
+      .fixed-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(250px, .8fr); gap: 18px; }
+      .asset-preview, .facts { min-height: 242px; padding: 22px; border: 1px solid #e5eaf3; border-radius: 20px; background: #fbfcff; }
+      .asset-preview h3, .facts h3, .candidate-title { margin: 0; font-size: 17px; letter-spacing: -.025em; }
+      .asset-preview p, .facts p { margin: 9px 0 0; font-size: 13px; }
+
+      .start-stage { display: grid; place-items: center; min-height: 160px; margin-top: 16px; border-radius: 16px; background: linear-gradient(140deg, #596fb9, #1f2e5c); overflow: hidden; }
+      .start-stage img { width: min(80%, 450px); height: auto; }
+
+      .facts dl { display: grid; grid-template-columns: 1fr auto; gap: 12px 16px; margin: 17px 0 0; font-size: 13px; }
+      .facts dt { color: var(--muted); }
+      .facts dd { margin: 0; color: var(--ink); font-weight: 800; text-align: right; }
+
+      .count-row { display: flex; align-items: end; justify-content: center; gap: clamp(4px, 2vw, 24px); min-height: 168px; margin-top: 14px; padding: 10px; border: 1px dashed #cdd9ed; border-radius: 16px; background: #f6f8ff; }
+      .count-row figure { margin: 0; text-align: center; }
+      .count-row img { display: block; width: clamp(82px, 15vw, 150px); height: auto; }
+      .count-row figcaption { margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+      .choice-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+      .choice-card {
+        position: relative;
+        min-height: 246px;
+        padding: 16px;
+        overflow: hidden;
+        border: 2px solid #e0e6ef;
+        border-radius: 19px;
+        background: #fff;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        transition: border-color .17s ease, box-shadow .17s ease, transform .17s ease;
+      }
+      .choice-card:hover { border-color: #afc5ff; box-shadow: 0 11px 25px rgb(32 64 126 / 10%); transform: translateY(-2px); }
+      .choice-card[aria-pressed="true"] { border-color: var(--blue); box-shadow: 0 0 0 4px rgb(38 87 216 / 12%); }
+      .choice-card[aria-pressed="true"]::after { position: absolute; top: 12px; right: 12px; display: grid; width: 26px; height: 26px; place-items: center; border-radius: 50%; background: var(--blue); color: #fff; content: "✓"; font-weight: 900; }
+      .choice-card:focus-visible, .summary-action:focus-visible { outline: 3px solid #83a4ff; outline-offset: 3px; }
+
+      .choice-number { display: block; margin-bottom: 8px; color: var(--muted); font-size: 12px; font-weight: 800; }
+      .button-stage { display: grid; min-height: 116px; margin: 14px 0 12px; place-items: center; border-radius: 13px; background: linear-gradient(135deg, #f6f2e8, #e9f0fc); }
+      .button-stage img { max-width: 88%; max-height: 92px; object-fit: contain; }
+      .choice-card h3 { margin: 0; font-size: 15px; }
+      .choice-card p { margin: 7px 0 0; font-size: 12px; line-height: 1.5; }
+
+      .decision-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .decision-card { min-height: 212px; padding: 22px; border: 1px solid #e3e8f1; border-radius: 20px; background: linear-gradient(150deg, #fff, #f8faff); }
+      .decision-card > p { min-height: 46px; margin: 9px 0 17px; font-size: 13px; }
+      .brand-chip { display: inline-flex; align-items: center; gap: 9px; margin: 11px 0 15px; padding: 7px 11px; border: 1px solid #dbe3f1; border-radius: 999px; background: #fff; color: #34455f; font-size: 13px; font-weight: 800; }
+      .brand-chip img { width: 25px; height: 25px; object-fit: contain; }
+      .select-row { display: flex; flex-wrap: wrap; gap: 8px; }
+      .select-button { padding: 9px 12px; border: 1px solid #cbd7eb; border-radius: 11px; background: #fff; color: #435573; cursor: pointer; font-size: 13px; font-weight: 750; transition: .16s ease; }
+      .select-button:hover { border-color: #83a4ff; color: var(--blue); }
+      .select-button[aria-pressed="true"] { border-color: var(--blue); background: var(--blue); color: #fff; }
+
+      .reaction-stage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; padding: 9px; border-radius: 13px; background: #eef2f7; }
+      .reaction-stage img { width: 100%; height: 84px; object-fit: contain; border-radius: 9px; background: #e8edf3; }
+
+      .rank-stage { display: grid; min-height: 98px; margin: 14px 0; place-items: center; overflow: hidden; border-radius: 13px; background: linear-gradient(135deg, #344178, #26315c); }
+      .rank-stage img { width: min(90%, 330px); max-height: 88px; object-fit: contain; }
+
+      .keep-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+      .keep-card { padding: 16px; border-radius: 16px; background: #f8fafc; }
+      .keep-card h3 { margin: 0; font-size: 15px; }
+      .keep-card p { margin: 8px 0 0; font-size: 12px; }
+
+      .summary {
+        position: sticky;
+        bottom: 18px;
+        z-index: 3;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 20px;
+        align-items: center;
+        margin-top: 26px;
+        padding: 18px 20px;
+        border: 1px solid #263d78;
+        border-radius: 20px;
+        background: #1e2e59;
+        box-shadow: 0 18px 42px rgb(22 37 76 / 28%);
+        color: #fff;
+      }
+      .summary h2 { margin: 0; font-size: 16px; }
+      .summary p { margin: 6px 0 0; color: #dce6ff; font-size: 13px; line-height: 1.5; }
+      .summary-action { border: 0; border-radius: 12px; background: var(--yellow); color: #352300; cursor: pointer; padding: 12px 15px; font-size: 13px; font-weight: 900; white-space: nowrap; }
+      .summary-action:hover { filter: brightness(1.04); }
+
+      .footnote { margin: 24px 2px 0; color: #71809a; font-size: 12px; line-height: 1.65; }
+      code { padding: 2px 5px; border-radius: 5px; background: #edf1f7; color: #495a76; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+
+      @media (max-width: 900px) {
+        .hero, .fixed-grid { grid-template-columns: 1fr; }
+        .hero { gap: 22px; padding-top: 38px; }
+        .section-head { display: block; }
+        .section-head p { margin-top: 8px; text-align: left; }
+        .choice-grid, .keep-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 620px) {
+        .page { width: min(100% - 24px, 1180px); margin-bottom: 40px; }
+        .section { padding: 20px; border-radius: 22px; }
+        .choice-grid, .decision-grid, .keep-grid { grid-template-columns: 1fr; }
+        .summary { grid-template-columns: 1fr; gap: 14px; bottom: 10px; }
+        .summary-action { width: 100%; }
+        .count-row { gap: 2px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">3-2학년 1·2단원 자산 점검</p>
+          <h1>한 번 만들고,<br>계속 쓰는 것만 고릅니다.</h1>
+          <p class="lead">학생이 매 차시에서 같은 뜻으로 만나는 버튼과 이미지는 공용으로 고정합니다. 반대로 수업 내용과 보상을 설명하는 그림은 각 차시의 이야기로 남깁니다.</p>
+        </div>
+        <aside class="audit-card" aria-label="점검 요약">
+          <h2>확인한 8개 차시</h2>
+          <ul class="audit-list">
+            <li><span class="key ok"><span class="dot"></span>이미 공용</span><strong>정답 수 11장</strong></li>
+            <li><span class="key work"><span class="dot"></span>이관 필요</span><strong>1단원 시작 4개</strong></li>
+            <li><span class="key work"><span class="dot"></span>같은 복사본</span><strong>브랜드 마크 8개</strong></li>
+            <li><span class="key ask"><span class="dot"></span>선택 필요</span><strong>결과 다시 버튼</strong></li>
+          </ul>
+        </aside>
+      </header>
+
+      <div class="notice">
+        <div class="notice-mark" aria-hidden="true">!</div>
+        <p>여기에서 고르는 것은 <strong>새 이미지 생성</strong>이 아닙니다. 이미 만든 자산 중 하나를 공용 원본으로 정하는 일입니다. 선택을 마치면 공용 폴더·파일명·표시 크기·각 차시 참조를 한 묶음으로 정리합니다.</p>
+      </div>
+
+      <section class="section" aria-labelledby="fixed-title">
+        <div class="section-head">
+          <div><span class="tag fixed">이미 고정할 자원</span><h2 id="fixed-title">이 두 가지는 선택하지 않아도 됩니다.</h2></div>
+          <p>2단원에서 먼저 적용해 둔 공용 기준입니다. 1단원도 같은 참조로 이관하면 됩니다.</p>
+        </div>
+        <div class="fixed-grid">
+          <article class="asset-preview">
+            <h3>첫 화면 시작 버튼 · <code>mathmon-cover-start-button-v1</code></h3>
+            <p>2단원 4차시는 이미 이 원본을 직접 참조합니다. 1단원에 남은 차시별 버튼 4개는 더 만들지 않고 이 버튼으로 통일합니다.</p>
+            <div class="start-stage"><img src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="노란색 시작 버튼"></div>
+          </article>
+          <article class="facts">
+            <h3>고정 규격</h3>
+            <dl>
+              <dt>공용 경로</dt><dd>_shared/mathmon/cover-start-button</dd>
+              <dt>원본 비율</dt><dd>1611 × 680</dd>
+              <dt>1280 × 800 Stage 표시</dt><dd>360 × 152</dd>
+              <dt>현재 직접 사용</dt><dd>2단원 4 / 4차시</dd>
+            </dl>
+          </article>
+        </div>
+        <div class="fixed-grid" style="margin-top:18px">
+          <article class="asset-preview">
+            <h3>결과 정답 수 · <code>result-correct-0…10</code></h3>
+            <p>0/10부터 10/10까지는 모두 같은 공용 생성 이미지 세트입니다. 1·2단원 8개 차시가 이미 같은 경로를 씁니다.</p>
+            <div class="count-row">
+              <figure><img src="../_shared/result-count/result-correct-0-generated.webp" alt="0문제 맞음"><figcaption>0문제</figcaption></figure>
+              <figure><img src="../_shared/result-count/result-correct-5-generated.webp" alt="5문제 맞음"><figcaption>5문제</figcaption></figure>
+              <figure><img src="../_shared/result-count/result-correct-10-generated.webp" alt="10문제 맞음"><figcaption>10문제</figcaption></figure>
+            </div>
+          </article>
+          <article class="facts">
+            <h3>고정 규칙</h3>
+            <dl>
+              <dt>세트 수</dt><dd>11장</dd>
+              <dt>공용 경로</dt><dd>_shared/result-count</dd>
+              <dt>화면 역할</dt><dd>결과의 정답 수</dd>
+              <dt>새 차시 생성</dt><dd>필요 없음</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="retry-title">
+        <div class="section-head">
+          <div><span class="tag choice">결정해 주세요</span><h2 id="retry-title">결과의 “다시” 버튼은 하나로 고를까요?</h2></div>
+          <p>2단원 4개 차시가 같은 역할에 서로 다른 4개 이미지를 씁니다. 마음에 드는 하나를 누르면, 새로 생성하지 않고 그 파일을 공용 원본으로 승격합니다.</p>
+        </div>
+        <div class="choice-grid" role="group" aria-label="공용 다시 버튼 후보">
+          <button class="choice-card" type="button" data-group="retry" data-value="farm" aria-pressed="false">
+            <span class="choice-number">후보 A · 나누기 농장</span>
+            <div class="button-stage"><img src="../3-2-2-1-mathmon-divide-farm/result-retry-button-generated.webp" alt="다시 버튼 후보 A"></div>
+            <h3>작고 또렷한 둥근형</h3><p>220 × 110 · 가장 단순한 모양</p>
+          </button>
+          <button class="choice-card" type="button" data-group="retry" data-value="elevator" aria-pressed="false">
+            <span class="choice-number">후보 B · 엘리베이터</span>
+            <div class="button-stage"><img src="../3-2-2-2-mathmon-elevator/result-retry-button-generated.webp" alt="다시 버튼 후보 B"></div>
+            <h3>밝은 노란 둥근형</h3><p>280 × 125 · 가장 편안한 비율</p>
+          </button>
+          <button class="choice-card" type="button" data-group="retry" data-value="star" aria-pressed="false">
+            <span class="choice-number">후보 C · 별 줍기</span>
+            <div class="button-stage"><img src="../3-2-2-3-mathmon-star-pickup/result-retry-button-generated.webp" alt="다시 버튼 후보 C"></div>
+            <h3>가벼운 크림 테두리형</h3><p>210 × 105 · 가장 작은 자원</p>
+          </button>
+          <button class="choice-card" type="button" data-group="retry" data-value="lock" aria-pressed="false">
+            <span class="choice-number">후보 D · 검산 자물쇠</span>
+            <div class="button-stage"><img src="../3-2-2-4-mathmon-check-lock/result-retry-button-generated.webp" alt="다시 버튼 후보 D"></div>
+            <h3>각진 금속 테두리형</h3><p>340 × 140 · 가장 강한 느낌</p>
+          </button>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="shared-title">
+        <div class="section-head">
+          <div><span class="tag choice">범위를 정해 주세요</span><h2 id="shared-title">같은 역할을 하는 자원은 어디까지 묶을까요?</h2></div>
+          <p>아래 선택은 디자인을 새로 만드는 일이 아니라 공용 원본의 위치와 재사용 범위를 정하는 일입니다.</p>
+        </div>
+        <div class="decision-grid">
+          <article class="decision-card">
+            <span class="tag info">브랜드 마크</span>
+            <h3 class="candidate-title">에듀잇티 수학 게임 마크</h3>
+            <div class="brand-chip"><img src="../3-2-1-1-mathmon-box-run/eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</div>
+            <p>8개 차시에 완전히 같은 PNG가 복사되어 있습니다. 공용 원본을 <code>_shared/brand</code>에 두고, 차시에는 필요한 배포본만 연결하는 방식이 안전합니다.</p>
+            <div class="select-row" role="group" aria-label="브랜드 마크 방식">
+              <button class="select-button" type="button" data-group="brand" data-value="shared-source" aria-pressed="true">공용 원본으로 고정</button>
+              <button class="select-button" type="button" data-group="brand" data-value="direct-url" aria-pressed="false">공용 경로를 직접 참조</button>
+            </div>
+          </article>
+          <article class="decision-card">
+            <span class="tag info">매스몬 반응 3종</span>
+            <h3 class="candidate-title">맞음 · 생각 중 · 보상</h3>
+            <div class="reaction-stage" aria-label="여우몬 반응 예시">
+              <img src="../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-foxmon-correct.webp" alt="여우몬 맞음 반응">
+              <img src="../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-foxmon-wrong.webp" alt="여우몬 생각 중 반응">
+              <img src="../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-foxmon-reward.webp" alt="여우몬 보상 반응">
+            </div>
+            <p>2단원의 여우몬·독수리몬·유니콘몬·킹드래곤몬 반응은 이미 기본 매스몬팩에 원본이 있습니다. 차시별로 새 반응 이미지를 만들지 않고 이 4세트만 씁니다.</p>
+            <div class="select-row" role="group" aria-label="매스몬 반응 방식">
+              <button class="select-button" type="button" data-group="reaction" data-value="base-pack" aria-pressed="true">기본팩 4세트로 고정</button>
+            </div>
+          </article>
+          <article class="decision-card">
+            <span class="tag info">결과 순위 버튼</span>
+            <h3 class="candidate-title">순위 보기</h3>
+            <div class="rank-stage"><img src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="순위 보기 버튼"></div>
+            <p>2단원 4개 차시는 이미 같은 공용 버튼을 씁니다. 순위 기능을 넣는 차시는 이 버튼 하나만 쓰고, 순위 기능이 없는 차시는 버튼을 보이지 않게 둡니다.</p>
+            <div class="select-row" role="group" aria-label="순위 보기 버튼 범위">
+              <button class="select-button" type="button" data-group="rank" data-value="when-enabled" aria-pressed="true">순위 기능이 있을 때만 사용</button>
+              <button class="select-button" type="button" data-group="rank" data-value="all-results" aria-pressed="false">모든 결과에 넣기</button>
+            </div>
+          </article>
+          <article class="decision-card">
+            <span class="tag info">오른쪽 위 설정</span>
+            <h3 class="candidate-title">같은 자리의 설정 버튼</h3>
+            <div class="button-stage" aria-hidden="true" style="min-height:92px"><span style="display:grid;width:58px;height:58px;place-items:center;border:3px solid #2c416d;border-radius:50%;background:#fff;color:#2c416d;font-size:32px;font-weight:900">⚙</span></div>
+            <p>8개 차시 모두 <code>modal-controls</code> 방식입니다. 이 버튼은 이미지로 만들지 않고 같은 크기·같은 자리의 SVG 제어로만 고정합니다.</p>
+            <div class="select-row"><span class="tag fixed">이미 규격 고정</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="keep-title">
+        <div class="section-head">
+          <div><span class="tag keep">공용화하지 않음</span><h2 id="keep-title">이 그림들은 차시마다 남겨야 합니다.</h2></div>
+          <p>파일 수를 줄이려다 학습 맥락을 잃지 않도록, 아래 항목은 공용 후보에서 뺐습니다.</p>
+        </div>
+        <div class="keep-grid">
+          <article class="keep-card"><h3>첫 화면 배경과 제목</h3><p>차시의 수학 소재와 첫 행동을 알려 줍니다.</p></article>
+          <article class="keep-card"><h3>설명 화면 그림</h3><p>각 차시의 계산 순서와 물건 수가 달라집니다.</p></article>
+          <article class="keep-card"><h3>보상·결과 장면</h3><p>이번 차시의 보상이 무엇인지 보여 줍니다.</p></article>
+          <article class="keep-card"><h3>문제판과 선택지</h3><p>수학적 판단을 직접 만들게 하는 핵심 화면입니다.</p></article>
+        </div>
+      </section>
+
+      <section class="summary" aria-live="polite" aria-labelledby="summary-title">
+        <div>
+          <h2 id="summary-title">지금 고른 공용 규칙</h2>
+          <p id="summaryText">결과의 “다시” 버튼 후보를 골라 주세요. 나머지는 권장안으로 미리 표시되어 있습니다.</p>
+        </div>
+        <button class="summary-action" id="copyButton" type="button">선택 내용 복사</button>
+      </section>
+
+      <p class="footnote">근거: 3-2학년 1단원 1~4차시와 2단원 1~4차시의 실행 HTML 및 자산을 대조했습니다. 공용 시작 버튼, 정답 수 세트, 순위 버튼, 기본 매스몬 반응팩의 원본은 이미 <code>_shared</code>에 있습니다.</p>
+    </main>
+    <script>
+      (() => {
+        const storageKey = "mathmon-common-resource-candidates-v1";
+        const defaults = { brand: "shared-source", reaction: "base-pack", rank: "when-enabled" };
+        let selections = { ...defaults };
+
+        try {
+          selections = { ...defaults, ...JSON.parse(localStorage.getItem(storageKey) || "{}") };
+        } catch (_) {
+          selections = { ...defaults };
+        }
+
+        const labels = {
+          retry: { farm: "후보 A · 나누기 농장", elevator: "후보 B · 엘리베이터", star: "후보 C · 별 줍기", lock: "후보 D · 검산 자물쇠" },
+          brand: { "shared-source": "공용 원본으로 고정", "direct-url": "공용 경로를 직접 참조" },
+          reaction: { "base-pack": "기본팩 4세트로 고정" },
+          rank: { "when-enabled": "순위 기능이 있을 때만 사용", "all-results": "모든 결과에 넣기" }
+        };
+
+        const summary = document.getElementById("summaryText");
+
+        const render = () => {
+          document.querySelectorAll("[data-group][data-value]").forEach((button) => {
+            const { group, value } = button.dataset;
+            const pressed = selections[group] === value;
+            button.setAttribute("aria-pressed", String(pressed));
+          });
+
+          const retry = selections.retry ? labels.retry[selections.retry] : "선택 기다림";
+          summary.textContent = `시작 버튼·정답 수는 기존 공용 자원을 유지합니다. 다시 버튼: ${retry} / 브랜드 마크: ${labels.brand[selections.brand]} / 매스몬 반응: ${labels.reaction[selections.reaction]} / 순위 버튼: ${labels.rank[selections.rank]}`;
+          try { localStorage.setItem(storageKey, JSON.stringify(selections)); } catch (_) {}
+        };
+
+        document.querySelectorAll("[data-group][data-value]").forEach((button) => {
+          button.addEventListener("click", () => {
+            selections[button.dataset.group] = button.dataset.value;
+            render();
+          });
+        });
+
+        document.getElementById("copyButton").addEventListener("click", async (event) => {
+          const retry = selections.retry ? labels.retry[selections.retry] : "미선택";
+          const text = [
+            "매스몬 공용 자원 선택",
+            "- 시작 버튼: mathmon-cover-start-button-v1 유지, 1단원도 이관",
+            "- 결과 정답 수: result-correct-0…10 공용 세트 유지",
+            `- 결과 다시 버튼: ${retry}`,
+            `- 브랜드 마크: ${labels.brand[selections.brand]}`,
+            `- 매스몬 반응: ${labels.reaction[selections.reaction]}`,
+            `- 순위 보기 버튼: ${labels.rank[selections.rank]}`
+          ].join("\n");
+          try {
+            await navigator.clipboard.writeText(text);
+            event.currentTarget.textContent = "복사했어요";
+          } catch (_) {
+            window.prompt("아래 내용을 복사해 주세요.", text);
+          }
+          window.setTimeout(() => { event.currentTarget.textContent = "선택 내용 복사"; }, 1600);
+        });
+
+        render();
+      })();
+    </script>
+  </body>
+</html>

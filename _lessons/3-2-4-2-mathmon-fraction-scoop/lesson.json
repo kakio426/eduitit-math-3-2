@@ -17,8 +17,8 @@
   "tutorialTitle": "바구니에 담기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "title": "먼저 무엇을 해요?", "body": "전체를 분모만큼 똑같이 나눠요.", "image": "problem-stage-generated.webp" },
-    { "visual": "2", "title": "그다음은요?", "body": "한 묶음 수에 분자를 곱해요.", "image": "problem-stage-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 담아요?", "body": "한 묶음을 구한 뒤 필요한 묶음 수를 곱해요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 바구니 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -26,17 +26,29 @@
     "maxPower": 100,
     "nextLabel": "다음",
     "artMap": {
-      "normal": "result-basket-generated.webp",
-      "loss": "result-smallbasket-generated.webp",
-      "mega": "result-bigbasket-generated.webp",
-      "perfect": "result-cartfull-generated.webp",
-      "empty": "result-handful-generated.webp",
-      "rainbow": "result-rainbow-generated.webp"
-    }
+      "normal": "reward-event-normal-generated.webp",
+      "loss": "reward-event-loss-generated.webp",
+      "mega": "reward-event-mega-generated.webp",
+      "perfect": "reward-event-perfect-generated.webp",
+      "empty": "reward-event-empty-generated.webp",
+      "rainbow": "reward-event-rainbow-generated.webp"
+    },
+    "spriteSheet": { "columns": 3, "rows": 2, "slots": {
+      "normal": [0, 0], "loss": [1, 0], "mega": [2, 0],
+      "perfect": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
+    } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
+    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+    "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "zfa-02-rabbitmon",
+    "fixedGeneratedElements": ["result-title", "retry-button"],
+    "dynamicOverlays": ["basket-light", "correct-count"]
+  } },
   "workbench": { "type": "fraction-scoop" },
   "scoreboard": { "enabled": false },
+  "mathmonPack": "zero-factory-animal-pack",
+  "mathmonName": "토끼몬",
+  "mathmonId": "zfa-02-rabbitmon",
   "results": [
     { "id": "handful", "name": "한 줌", "minPower": 0, "minCorrect": 0, "image": "result-handful-generated.webp", "titleImage": "result-handful-generated.webp" },
     { "id": "smallbasket", "name": "작은 바구니", "minPower": 19, "minCorrect": 2, "image": "result-smallbasket-generated.webp", "titleImage": "result-smallbasket-generated.webp" },
@@ -68,10 +80,14 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp", "problem-stage-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
+    "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-handful-generated.webp", "result-smallbasket-generated.webp", "result-basket-generated.webp",
     "result-bigbasket-generated.webp", "result-cartfull-generated.webp", "result-rainbow-generated.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }

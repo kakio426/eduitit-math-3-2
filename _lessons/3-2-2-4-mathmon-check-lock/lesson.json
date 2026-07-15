@@ -9,7 +9,7 @@
   "topic": "곱셈으로 나눗셈 검산하기",
   "unitBadge": "2단원 나눗셈",
   "goal": "곱하고 더해 처음 수가 되는지 확인해요.",
-  "action": "금고 숫자판에 검산값을 넣어요.",
+  "action": "곱한 값과 더한 값을 숫자판에 넣어요.",
   "buttonLabel": "자물쇠 열기",
   "rewardScreenTitle": "자물쇠",
   "progressLabel": "열쇠 힘",
@@ -92,11 +92,11 @@
   "wrongEvent": { "id": "jamMistake", "text": "열쇠 힘이 줄었어요", "min": -18, "max": -8, "family": "jam" },
   "typesPerRun": ["match", "match", "match", "match", "match", "match", "mismatch", "mismatch", "mismatch", "mismatch"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
-    "startButton": "start-button-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "board-vault-generated.webp",
     "problemStates": { "waiting": "problem-state-waiting-generated.webp", "working": "problem-state-working-generated.webp", "complete": "problem-state-complete-generated.webp" },
     "rewardClosed": "reward-closed-generated.webp",
@@ -111,7 +111,7 @@
     "resultLeaderboardButton": "../_shared/scoreboard/scoreboard-result-button-generated.webp"
   },
   "assets": [
-    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "board-vault-generated.webp", "reward-closed-generated.webp", "lock-generated.webp",
     "problem-state-waiting-generated.webp", "problem-state-working-generated.webp", "problem-state-complete-generated.webp",
     "mathmon-reaction-correct.webp", "mathmon-reaction-wrong.webp", "mathmon-reaction-reward.webp",
@@ -128,9 +128,10 @@
     "modelRule": "division-check-lock",
     "directInteractionRequired": true,
     "viewports": [
-      { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 },
-      { "name": "codex-browser-regression", "width": 1280, "height": 720 }
+      { "name": "desktop", "width": 1280, "height": 800, "dpr": 1 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768, "dpr": 1 },
+      { "name": "codex-browser-regression", "width": 1280, "height": 720, "dpr": 2 },
+      { "name": "codex-live-panel-regression", "width": 931, "height": 897, "dpr": 2 }
     ],
     "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result", "scoreboard"]
   }

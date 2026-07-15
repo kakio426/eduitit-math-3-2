@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test"
 
+import {
+  buildFusionProblems,
+  FUSION_MAX_SCORE,
+  getFusionRewardForQuestion,
+} from "../src/validators/fusion-validator"
 import { validateLessonSubmission } from "../src/validators/lesson-validators"
 import type { AnswerLogItem } from "../src/validators/schemas"
 
@@ -42,19 +47,37 @@ const createBoxBrokenAnswer = (questionIndex: number, amount: number): AnswerLog
   reward: { id: "broken", amount },
 })
 
-const createFusionAnswer = (
-  questionIndex: number,
-  reward: { readonly id: string; readonly amount: number } = { id: "normal", amount: 100 },
-): AnswerLogItem => ({
-  questionIndex,
-  elapsedMs: 5200,
-  steps: [
-    { stepId: "partial1", selected: 46, expected: 46, elapsedMs: 900 },
-    { stepId: "partial2", selected: 460, expected: 460, elapsedMs: 1100 },
-    { stepId: "fusion", selected: 506, expected: 506, elapsedMs: 1200 },
-  ],
-  reward,
-})
+const createFusionAnswers = (seed: number, mistakeIndex = -1): readonly AnswerLogItem[] =>
+  buildFusionProblems(seed).map((problem, questionIndex) => {
+    const hasMistake = questionIndex === mistakeIndex
+    return {
+      questionIndex,
+      elapsedMs: 5200,
+      steps: [
+        {
+          stepId: "partial1",
+          selected: hasMistake ? problem.partial1 + 1 : problem.partial1,
+          expected: problem.partial1,
+          elapsedMs: 900,
+        },
+        {
+          stepId: "partial2",
+          selected: problem.partial2,
+          expected: problem.partial2,
+          elapsedMs: 1100,
+        },
+        {
+          stepId: "fusion",
+          selected: problem.answer,
+          expected: problem.answer,
+          elapsedMs: 1200,
+        },
+      ],
+      reward: hasMistake
+        ? { id: "leak", amount: -100 }
+        : getFusionRewardForQuestion(seed, questionIndex),
+    }
+  })
 
 const createFractionAnswer = (
   questionIndex: number,
@@ -148,14 +171,12 @@ describe("lesson validators", () => {
   })
 
   test("Given fusion answers ending with completion signal before question ten When validating Then early finish is rejected", () => {
-    const answers = [
-      createFusionAnswer(0, { id: "normal", amount: 100 }),
-      createFusionAnswer(1, { id: "instantLaunch", amount: 500 }),
-    ]
+    const seed = 12345
+    const answers = createFusionAnswers(seed).slice(0, 2)
 
     const result = validateLessonSubmission({
       lessonId: "3-2-1-4-mathmon-fusion",
-      seed: 12345,
+      seed,
       answers,
       playTimeMs: 12000,
     })
@@ -164,38 +185,74 @@ describe("lesson validators", () => {
     expect(result.flagReasons).toContain("answer_count_must_be_10")
   })
 
-  test("Given fusion answers with additive rewards When validating Then score follows visible points", () => {
-    const answers = [
-      createFusionAnswer(0, { id: "normal", amount: 50 }),
-      createFusionAnswer(1, { id: "normal", amount: 100 }),
-      createFusionAnswer(2, { id: "megaFuel", amount: 200 }),
-      createFusionAnswer(3, { id: "instantLaunch", amount: 500 }),
-      createFusionAnswer(4, { id: "emptyTank", amount: 0 }),
-      createFusionAnswer(5, { id: "rainbowFuel", amount: 800 }),
-      {
-        ...createFusionAnswer(6, { id: "leak", amount: -100 }),
-        steps: [
-          { stepId: "partial1", selected: 45, expected: 46, elapsedMs: 900 },
-          { stepId: "partial2", selected: 460, expected: 460, elapsedMs: 1100 },
-          { stepId: "fusion", selected: 506, expected: 506, elapsedMs: 1200 },
-        ],
-      },
-      createFusionAnswer(7, { id: "smallExplosion", amount: -50 }),
-      createFusionAnswer(8, { id: "normal", amount: 100 }),
-      createFusionAnswer(9, { id: "instantLaunch", amount: 500 }),
-    ]
+  test("Given fusion answers and rewards from the session seed When validating Then score follows the seeded run", () => {
+    const seed = 12345
+    const answers = createFusionAnswers(seed, 6)
+    const expectedScore = answers.reduce(
+      (score, answer) =>
+        Math.max(0, Math.min(FUSION_MAX_SCORE, score + (answer.reward?.amount ?? 0))),
+      0,
+    )
 
     const result = validateLessonSubmission({
       lessonId: "3-2-1-4-mathmon-fusion",
-      seed: 12345,
+      seed,
       answers,
       playTimeMs: 62000,
     })
 
     expect(result.status).toBe("accepted")
-    expect(result.score).toBe(2100n)
+    expect(result.score).toBe(BigInt(expectedScore))
     expect(result.correctCount).toBe(9)
-    expect(result.maxScore).toBe(8000n)
+    expect(result.maxScore).toBe(BigInt(FUSION_MAX_SCORE))
+  })
+
+  test("Given a client-forged fusion expected answer When validating Then the seed mismatch is rejected", () => {
+    const seed = 12345
+    const answers = createFusionAnswers(seed).map((answer, index) => {
+      if (index !== 0) return answer
+      const firstStep = answer.steps[0]
+      if (!firstStep) return answer
+      return {
+        ...answer,
+        steps: [
+          {
+            ...firstStep,
+            selected: Number(firstStep.expected) + 1,
+            expected: Number(firstStep.expected) + 1,
+          },
+          ...answer.steps.slice(1),
+        ],
+      }
+    })
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-1-4-mathmon-fusion",
+      seed,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("rejected")
+    expect(result.flagReasons).toContain("fusion_expected_answer_mismatch")
+  })
+
+  test("Given client-forged rainbow rewards When validating Then rewards not selected by the seed are rejected", () => {
+    const seed = 12345
+    const answers = createFusionAnswers(seed).map((answer) => ({
+      ...answer,
+      reward: { id: "rainbowFuel", amount: 800 },
+    }))
+
+    const result = validateLessonSubmission({
+      lessonId: "3-2-1-4-mathmon-fusion",
+      seed,
+      answers,
+      playTimeMs: 62000,
+    })
+
+    expect(result.status).toBe("rejected")
+    expect(result.flagReasons).toContain("fusion_reward_seed_mismatch")
   })
 
   test("Given ten perfect fraction answers When validating Then score is computed on the server", () => {

@@ -15,6 +15,7 @@ const DEFAULT_SEED = 20260709;
 const DEFAULT_VIEWPORTS = [
   { name: "desktop", width: 1280, height: 800 },
   { name: "tablet-landscape", width: 1024, height: 768 },
+  { name: "reported-browser", width: 918, height: 897 },
 ];
 const CHROME_CANDIDATES = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -257,7 +258,7 @@ async function setViewport(page, viewport) {
   await page.send("Emulation.setDeviceMetricsOverride", {
     width: viewport.width,
     height: viewport.height,
-    deviceScaleFactor: 1,
+    deviceScaleFactor: viewport.dpr || 1,
     mobile: false,
     screenOrientation: { type: "landscapePrimary", angle: 90 },
   });
@@ -299,9 +300,22 @@ async function clickChoice(page, correct) {
       ? answerValue > 10 ? answerValue - 10 : answerValue + 10
       : answerValue === 99 ? 98 : answerValue + 1;
     const amount = correct ? answerValue : wrongAmount;
-    await clickSelector(page, ".farm-key.is-clear:not(:disabled)");
-    for (const digit of String(amount)) await clickSelector(page, `.farm-key[data-digit="${digit}"]:not(:disabled)`);
-    await clickSelector(page, ".farm-key.is-enter:not(:disabled)");
+    const entered = await evaluate(page, `(() => {
+      const clear = document.querySelector('.farm-key.is-clear:not(:disabled)');
+      if (!clear) return { ok:false, reason:'clear' };
+      clear.click();
+      for (const digit of ${JSON.stringify(String(amount))}) {
+        const key = document.querySelector('.farm-key[data-digit="' + digit + '"]:not(:disabled)');
+        if (!key) return { ok:false, reason:'digit-' + digit };
+        key.click();
+      }
+      const enter = document.querySelector('.farm-key.is-enter:not(:disabled)');
+      if (!enter) return { ok:false, reason:'enter', text:document.querySelector('.farm-share-answer, .farm-quotient-display')?.textContent || '' };
+      enter.click();
+      return { ok:true };
+    })()`);
+    assert(entered.ok, `farm keypad input failed for ${amount}`, { interaction, step, entered });
+    await delay(100);
     return;
   }
   const choiceId = (choice) => String(choice?.id ?? choice?.value ?? choice);
@@ -471,18 +485,26 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
     const outside = !stage ? [] : visible.filter((node) => {
       const r = node.getBoundingClientRect();
       return r.left < stage.left - 1 || r.top < stage.top - 1 || r.right > stage.right + 1 || r.bottom > stage.bottom + 1;
-    }).map((node) => node.className || node.id || node.tagName);
+    }).map((node) => ({ name:node.className || node.id || node.tagName, rect:rectOf(node), stage:rectOf(document.querySelector('.stage-shell')) }));
     const logo = document.querySelector('img.brand-logo');
     const retry = document.querySelector('.result-retry-art');
     const retryHitbox = document.querySelector('.result-restart-hitbox');
     const resultBg = document.getElementById('resultBg');
+    const farmStage = document.querySelector('.farm-stage-art');
+    const hud = document.querySelector('#screen-play .hud');
+    const problemGrid = document.querySelector('.problem-grid');
+    const completePanel = document.getElementById('completePanel');
     return {
       collisions,
       outside,
       logo: logo ? { complete:logo.complete, naturalWidth:logo.naturalWidth, width:logo.getBoundingClientRect().width } : null,
       retry: retry ? { complete:retry.complete, naturalWidth:retry.naturalWidth, width:retry.getBoundingClientRect().width, height:retry.getBoundingClientRect().height } : null,
       retryHitbox: retryHitbox ? { width:retryHitbox.getBoundingClientRect().width, height:retryHitbox.getBoundingClientRect().height } : null,
-      resultBg: resultBg ? { complete:resultBg.complete, naturalWidth:resultBg.naturalWidth, width:resultBg.getBoundingClientRect().width, height:resultBg.getBoundingClientRect().height } : null
+      resultBg: resultBg ? { complete:resultBg.complete, naturalWidth:resultBg.naturalWidth, width:resultBg.getBoundingClientRect().width, height:resultBg.getBoundingClientRect().height } : null,
+      farmStage:farmStage ? { rect:rectOf(farmStage), cssWidth:getComputedStyle(farmStage).width, cssHeight:getComputedStyle(farmStage).height } : null,
+      hud:hud ? { rect:rectOf(hud), cssWidth:getComputedStyle(hud).width, grid:getComputedStyle(hud).gridTemplateColumns } : null,
+      problemGrid:problemGrid ? { rect:rectOf(problemGrid), cssWidth:getComputedStyle(problemGrid).width, grid:getComputedStyle(problemGrid).gridTemplateColumns } : null,
+      completePanel:completePanel ? { rect:rectOf(completePanel), cssWidth:getComputedStyle(completePanel).width, grid:getComputedStyle(completePanel).gridTemplateColumns } : null
     };
   })()`);
   assert(audit.collisions.length === 0, `${label}: unintended overlap`, audit);
@@ -509,6 +531,8 @@ async function auditCheckLockLayout(page, label) {
       && inner.top >= outer.top - tolerance
       && inner.right <= outer.right + tolerance
       && inner.bottom <= outer.bottom + tolerance);
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const grid = rectOf(document.querySelector('.problem-grid'));
     const problem = rectOf(document.querySelector('.problem-card'));
     const visual = rectOf(document.querySelector('.visual-area'));
     const svg = rectOf(document.querySelector('.check-lock-svg'));
@@ -527,7 +551,10 @@ async function auditCheckLockLayout(page, label) {
       .map((node) => ({ text:node.textContent.trim(), rect:rectOf(node) }))
       .filter((item) => !contains(surface, item.rect, 2));
     return {
-      problem, visual, svg, surface, step, choices, keypad,
+      stage, grid, problem, visual, svg, surface, step, choices, keypad,
+      gridWidthRatio: stage && grid ? grid.width / stage.width : null,
+      surfaceWidthRatio: stage && surface ? surface.width / stage.width : null,
+      surfaceAreaRatio: stage && surface ? (surface.width * surface.height) / (stage.width * stage.height) : null,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       stepChoiceGap: step && choices ? choices.top - step.bottom : null,
       surfaceInsideVisual: contains(visual, surface, 1),
@@ -539,13 +566,41 @@ async function auditCheckLockLayout(page, label) {
       textOutsideSurface
     };
   })()`);
-  assert(audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
+  assert(audit.stage && audit.grid && audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
+  assert(audit.gridWidthRatio >= 0.7, `${label}: learning workbench is narrower than 70% of the Stage`, audit);
+  assert(audit.surfaceWidthRatio >= 0.65, `${label}: core verification board is narrower than 65% of the Stage`, audit);
   assert(audit.surfaceGap >= 6, `${label}: vault calculation surface overlaps instruction`, audit);
   assert(audit.stepChoiceGap >= 4, `${label}: instruction overlaps keypad or lever choices`, audit);
   assert(audit.surfaceInsideVisual && audit.svgInsideProblem, `${label}: vault calculation surface left its reserved grid track`, audit);
   assert(audit.keypadInsideChoices, `${label}: keypad left its reserved choice track`, audit);
   assert(audit.controlCount > 0 && audit.minControlWidth >= 42 && audit.minControlHeight >= 42, `${label}: check-lock touch target is smaller than 42px`, audit);
   assert(audit.textOutsideSurface.length === 0, `${label}: SVG text left the vault calculation surface`, audit);
+  return audit;
+}
+
+async function auditCheckLockCompleteLayout(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const grid = rectOf(document.querySelector('.problem-grid'));
+    const surface = rectOf(document.querySelector('.lock-board-bg'));
+    const complete = rectOf(document.querySelector('.complete-panel'));
+    return {
+      stage, grid, surface, complete,
+      surfaceWidthRatio: stage && surface ? surface.width / stage.width : null,
+      completeWidthRatio: stage && complete ? complete.width / stage.width : null,
+      surfaceCompleteGap: surface && complete ? complete.top - surface.bottom : null,
+      sameColumn: grid && complete ? Math.abs(grid.left - complete.left) <= 1 && Math.abs(grid.right - complete.right) <= 1 : false
+    };
+  })()`);
+  assert(audit.stage && audit.grid && audit.surface && audit.complete, `${label}: final confirmation layout state missing`, audit);
+  assert(audit.surfaceWidthRatio >= 0.65, `${label}: final verification board is narrower than 65% of the Stage`, audit);
+  assert(audit.completeWidthRatio >= 0.7 && audit.sameColumn, `${label}: reward action split the learning workbench into another column`, audit);
+  assert(audit.surfaceCompleteGap >= 6, `${label}: final verification board overlaps the reward action`, audit);
   return audit;
 }
 
@@ -649,7 +704,7 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const rectOf = (node) => {
       if (!node) return null;
       const rect = node.getBoundingClientRect();
-      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2 };
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2 };
     };
     const surface = rectOf(document.querySelector('.math-board-surface rect'));
     const work = rectOf(document.querySelector('.division-work'));
@@ -658,9 +713,19 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const onesCell = rectOf(document.querySelector('.board-cell[aria-label^="일의 자리 수"] rect'));
     const product = rectOf(document.querySelector('.board-work-product'));
     const remainder = rectOf(document.querySelector('.division-work .board-work-digit'));
-    const downSlot = rectOf(document.querySelector('.board-down-slot'));
-    const combinedTarget = rectOf(document.querySelector('.board-combined-target .board-down-slot'));
-    const combinedLabel = document.querySelector('.board-combined-label')?.textContent.trim() || '';
+    const combinedSlots = [...document.querySelectorAll('.board-combined-target .board-down-slot')].map((node) => ({ place:node.dataset.place || '', rect:rectOf(node) }));
+    const combinedLabelNode = document.querySelector('.board-combined-label');
+    const combinedLabelRect = rectOf(combinedLabelNode);
+    const combinedValues = [...document.querySelectorAll('.board-combined-value')].map((node) => ({ place:node.dataset.place || '', text:node.textContent.trim(), rect:rectOf(node) }));
+    const combinedTarget = combinedSlots.length === 2 ? {
+      left:combinedSlots[0].rect.left,
+      top:Math.min(...combinedSlots.map((item) => item.rect.top)),
+      right:combinedSlots[1].rect.right,
+      bottom:Math.max(...combinedSlots.map((item) => item.rect.bottom)),
+      width:combinedSlots[1].rect.right - combinedSlots[0].rect.left,
+      height:Math.max(...combinedSlots.map((item) => item.rect.height))
+    } : null;
+    const combineSource = document.querySelector('.board-combine-source');
     const arrow = document.querySelector('.board-down-arrow')?.getAttribute('d') || '';
     const texts = [...document.querySelectorAll('.division-work text')].map((node) => ({ text:node.textContent, rect:rectOf(node) }));
     const textOverlaps = [];
@@ -671,25 +736,37 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
       if (overlapX > 1 && overlapY > 1) textOverlaps.push([texts[i].text, texts[j].text, overlapX, overlapY]);
     }
     return {
-      surface, work, step, tensCell, onesCell, product, remainder, downSlot, combinedTarget, combinedLabel, arrow, textOverlaps,
+      surface, work, step, tensCell, onesCell, product, remainder, combinedSlots, combinedTarget, combinedLabelRect, combinedValues, combineSource: Boolean(combineSource), arrow, textOverlaps,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       workGap: work && step ? step.top - work.bottom : null,
+      productTopGap: product && tensCell ? product.top - tensCell.bottom : null,
+      combinedValueColumnDeltas: combinedValues.map((item) => Math.abs(item.rect.cx - (item.place === 'tens' ? tensCell.cx : onesCell.cx))),
+      combinedValueVerticalDeltas: combinedValues.map((item) => {
+        const slot = combinedSlots.find((candidate) => candidate.place === item.place)?.rect;
+        return slot ? Math.abs(item.rect.cy - slot.cy) : Infinity;
+      }),
       productColumnDelta: product && tensCell ? Math.abs(product.cx - tensCell.cx) : null,
-      remainderColumnDelta: remainder && tensCell ? Math.abs(remainder.cx - tensCell.cx) : null,
-      downColumnDelta: downSlot && onesCell ? Math.abs(downSlot.cx - onesCell.cx) : null
+      remainderColumnDelta: remainder && tensCell ? Math.abs(remainder.cx - tensCell.cx) : null
     };
   })()`);
   assert(audit.surface && audit.work && audit.step, `${label}: division board state missing`, audit);
   assert(audit.surfaceGap >= 4, `${label}: calculation board overlaps instruction`, audit);
   assert(audit.workGap >= 4, `${label}: calculation work overlaps instruction`, audit);
   assert(audit.productColumnDelta <= 1, `${label}: partial product left its tens column`, audit);
+  assert(audit.productTopGap >= 8, `${label}: partial product overlaps the dividend cell`, audit);
   assert(audit.remainderColumnDelta <= 1, `${label}: remainder left its tens column`, audit);
   assert(audit.textOverlaps.length === 0, `${label}: calculation text overlaps`, audit);
   if (expectDown) {
     assert(audit.combinedTarget, `${label}: combined-number target missing`, audit);
-    assert(audit.combinedTarget.left <= audit.tensCell.cx && audit.combinedTarget.right >= audit.onesCell.cx, `${label}: combined-number target does not span both place-value columns`, audit);
-    assert(audit.combinedLabel === '합친 수', `${label}: combined-number target meaning is unclear`, audit);
-    assert(audit.arrow === 'M631 197 V249', `${label}: bring-down arrow is not vertical`, audit);
+    assert(audit.combinedSlots.length === 2 && audit.combinedSlots[0].place === 'tens' && audit.combinedSlots[1].place === 'ones', `${label}: combined-number target is not split into two place-value cells`, audit);
+    assert(Math.abs(audit.combinedSlots[0].rect.left - audit.tensCell.left) <= 1 && Math.abs(audit.combinedSlots[0].rect.right - audit.tensCell.right) <= 1, `${label}: combined-number tens cell is not aligned`, audit);
+    assert(Math.abs(audit.combinedSlots[1].rect.left - audit.onesCell.left) <= 1 && Math.abs(audit.combinedSlots[1].rect.right - audit.onesCell.right) <= 1, `${label}: combined-number ones cell is not aligned`, audit);
+    assert(audit.combinedSlots.every((item) => item.rect.width >= 80 && item.rect.height >= 48), `${label}: combined-number place-value cell is too small`, audit);
+    assert(!audit.combinedLabelRect && audit.combinedValues.length >= 1 && audit.combinedValues.every((item) => item.rect.height >= 30), `${label}: combined-number target has an unnecessary label or a small value`, audit);
+    assert(audit.combinedValueColumnDeltas.every((delta) => delta <= 1) && audit.combinedValueVerticalDeltas.every((delta) => delta <= 3), `${label}: combined-number digits left their place-value columns`, audit);
+    assert(audit.surface.bottom - audit.combinedTarget.bottom >= 7, `${label}: calculation board has no breathing room below the combined-number target`, audit);
+    assert(!audit.combineSource, `${label}: redundant combined-number explanation is still visible`, audit);
+    assert(audit.arrow === 'M631 194 V239', `${label}: bring-down arrow is not vertical`, audit);
   }
 }
 
@@ -737,28 +814,75 @@ async function auditStarPickupPlayHeader(page, label) {
         top: rect.top,
         bottom: rect.bottom,
         ariaLabel: node.getAttribute('aria-label') || '',
-        titleImages: [...node.querySelectorAll('.star-journey-title')].map((image) => ({
-          src: image.getAttribute('src') || '',
-          complete: image.complete,
-          naturalWidth: image.naturalWidth,
-          width: image.getBoundingClientRect().width,
-          height: image.getBoundingClientRect().height
-        }))
+        width: rect.width,
+        height: rect.height
       };
     };
+    const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
+    const world = document.getElementById('starWorldPanel');
+    const worldRect = world?.getBoundingClientRect();
+    const image = document.getElementById('starWorldImage');
     return {
       brand: read('#screen-play .hud-left .brand-badge'),
       unit: read('#screen-play .hud-right .unit-badge'),
-      counter: read('#problemCounter')
+      counter: read('#problemCounter'),
+      world: worldRect && stage ? {
+        visible: worldRect.width > 1 && worldRect.height > 1,
+        leftRatio: (worldRect.left - stage.left) / stage.width,
+        topRatio: (worldRect.top - stage.top) / stage.height,
+        widthRatio: worldRect.width / stage.width,
+        heightRatio: worldRect.height / stage.height,
+        imageSrc: image?.getAttribute('src') || '',
+        complete: Boolean(image?.complete),
+        naturalWidth: image?.naturalWidth || 0,
+        naturalHeight: image?.naturalHeight || 0
+      } : null
     };
   })()`);
   assert(header.brand?.visible && header.brand.text === "에듀잇티 수학 게임", `${label}: Eduitit play badge missing`, header);
   assert(header.unit?.visible && header.unit.text === "2단원 나눗셈", `${label}: unit play badge missing`, header);
-  assert(header.counter?.visible && /^\d+\/10/.test(header.counter.text) && header.counter.ariaLabel.includes("다음"), `${label}: current-to-next star journey missing`, header);
-  assert(header.counter.titleImages.length === 2, `${label}: current and next generated title images are missing`, header);
-  assert(header.counter.titleImages.every((image) => image.complete && image.naturalWidth > 0 && image.width >= 80 && image.height >= 20), `${label}: generated title image slot is broken`, header);
+  assert(header.counter?.visible && /^\d+\/10$/.test(header.counter.text) && header.counter.ariaLabel.includes("번째 문제"), `${label}: count-only progress is missing`, header);
+  assert(header.world?.visible, `${label}: unicorn constellation board is missing`, header);
+  assert(header.world.complete && header.world.naturalWidth === 600 && header.world.naturalHeight === 1312, `${label}: constellation state image is missing or has the wrong canvas`, header);
+  assert(/^play-constellation-.+-generated\.webp$/.test(header.world.imageSrc), `${label}: constellation state image is not connected`, header);
+  assert(Math.abs(header.world.leftRatio - .025) <= .006 && Math.abs(header.world.topRatio - .115) <= .008, `${label}: constellation board position drifted`, header);
+  assert(Math.abs(header.world.widthRatio - .234375) <= .008 && Math.abs(header.world.heightRatio - .82) <= .01, `${label}: constellation board slot drifted`, header);
   assert(Math.abs(header.brand.top - header.unit.top) <= 1, `${label}: brand and unit badges are off baseline`, header);
   assert(Math.abs(header.brand.top - header.counter.top) <= 1, `${label}: play badges and journey are off baseline`, header);
+}
+
+async function auditStarPickupWaiting(page, label, expectedDividend) {
+  const audit = await evaluate(page, `(() => {
+    const choices = [...document.querySelectorAll('.star-choice')];
+    const choiceRects = choices.map((node) => node.getBoundingClientRect());
+    const products = choices.map((node) => node.querySelector('strong')?.textContent.trim() || '');
+    const groups = choices.map((node) => node.querySelector('span')?.textContent.trim() || '');
+    const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
+    const world = document.getElementById('starWorldPanel')?.getBoundingClientRect();
+    const board = document.getElementById('visualArea')?.getBoundingClientRect();
+    return {
+      dividend: window.__mathmonEngineQa.getCurrentProblem()?.dividend,
+      looseStars: document.querySelectorAll('.star-loose-grid .star-glyph[data-tone="loose"]').length,
+      instruction: document.getElementById('stepInstruction')?.textContent.trim() || '',
+      choiceCount: choices.length,
+      choiceHeights: choiceRects.map((rect) => rect.height),
+      productFont: choices.length ? Math.min(...choices.map((node) => parseFloat(getComputedStyle(node.querySelector('strong')).fontSize))) : 0,
+      groupFont: choices.length ? Math.min(...choices.map((node) => parseFloat(getComputedStyle(node.querySelector('span')).fontSize))) : 0,
+      products,
+      groups,
+      worldBoardGap: world && board ? board.left - world.right : -1,
+      stageVisible: Boolean(stage?.width && stage?.height)
+    };
+  })()`);
+  assert(audit.stageVisible, `${label}: stage is missing`, audit);
+  assert(audit.dividend === expectedDividend && audit.looseStars === expectedDividend, `${label}: loose star count does not match the dividend`, audit);
+  assert(/×몇이 .* 넘지 않을까요\?$/.test(audit.instruction), `${label}: product-comparison instruction is missing`, audit);
+  assert(audit.choiceCount === 3, `${label}: quotient choices must stay in one three-card row`, audit);
+  assert(audit.choiceHeights.every((height) => height >= 108 && height <= 116), `${label}: quotient card height is not fixed at 112px`, audit);
+  assert(audit.productFont >= 29 && audit.groupFont >= 23, `${label}: choice hierarchy is too small`, audit);
+  assert(audit.products.every((text) => /^\d+×\d+=\d+$/.test(text)), `${label}: product and result are not the primary choice text`, audit);
+  assert(audit.groups.every((text) => /^\d+묶음$/.test(text)), `${label}: group count is not the secondary choice text`, audit);
+  assert(audit.worldBoardGap >= 12, `${label}: constellation board and calculation board overlap`, audit);
 }
 
 async function auditStarPickupEvidence(page, label, kind) {
@@ -767,10 +891,11 @@ async function auditStarPickupEvidence(page, label, kind) {
     proofStep: document.getElementById('visualArea')?.dataset.proofStep || '',
     revealedStep: document.getElementById('visualArea')?.dataset.revealedStep || '',
     feedback: document.getElementById('feedbackLine')?.textContent.trim() || '',
-    proofText: document.querySelector('.star-proof-label')?.textContent.trim() || '',
-    hasOverflow: Boolean(document.querySelector('.star-proof-overflow')),
+    capsuleCount: document.querySelectorAll('.star-capsule').length,
+    missingSlotCount: document.querySelectorAll('.star-glyph[data-tone="missing-slot"]').length,
     hasNextGroup: Boolean(document.querySelector('.star-next-group')),
-    hasFill: Boolean(document.querySelector('.star-proof-fill')),
+    hasFill: Boolean(document.querySelector('.star-capsule[data-state="full"]')),
+    hasRemainderPanel: Boolean(document.querySelector('.star-remainder-focus')),
     minChoiceHeight: Math.min(...[...document.querySelectorAll('.star-choice')].map((node) => node.getBoundingClientRect().height))
   }))()`);
   assert(audit.feedback.length > 0, `${label}: one-line feedback is missing`, audit);
@@ -780,14 +905,43 @@ async function auditStarPickupEvidence(page, label, kind) {
     assert(audit.hasNextGroup && audit.feedback.includes("한 묶음을 더"), `${label}: another possible group is not shown`, audit);
   } else if (kind === "quotient-too-high") {
     assert(audit.step === "quotient" && audit.proofStep === "quotient", `${label}: quotient evidence state missing`, audit);
-    assert(audit.hasOverflow && audit.feedback.includes("모자라"), `${label}: overflow shortage is not shown`, audit);
+    assert(audit.missingSlotCount > 0 && audit.feedback.includes("모자라"), `${label}: missing star slots are not shown`, audit);
   } else if (kind === "quotient-confirm") {
     assert(audit.step === "quotient" && audit.revealedStep === "quotient", `${label}: chosen quotient was not placed on the board`, audit);
-    assert(audit.hasFill && audit.feedback.includes("묶음"), `${label}: quotient confirmation is not visible`, audit);
+    assert(audit.hasFill && audit.hasRemainderPanel && audit.feedback.includes("묶음"), `${label}: quotient confirmation is not visible`, audit);
   } else if (kind === "remainder-wrong") {
     assert(audit.step === "remainder" && audit.proofStep === "remainder", `${label}: remainder evidence state missing`, audit);
     assert(audit.hasNextGroup && audit.feedback.includes("한 묶음"), `${label}: divisor-sized leftover group is not shown`, audit);
   }
+}
+
+async function auditStarPickupResultTier(page, label, expectedTier) {
+  const audit = await evaluate(page, `(() => {
+    const screen = document.getElementById('screen-result');
+    const background = document.getElementById('resultBg');
+    const title = document.getElementById('resultTitleArt');
+    return {
+      tier: screen?.dataset.resultTier || '',
+      heading: document.getElementById('resultTitle')?.textContent.trim() || '',
+      background: {
+        src: background?.getAttribute('src') || '',
+        complete: Boolean(background?.complete),
+        naturalWidth: background?.naturalWidth || 0,
+        naturalHeight: background?.naturalHeight || 0
+      },
+      title: {
+        src: title?.getAttribute('src') || '',
+        complete: Boolean(title?.complete),
+        naturalWidth: title?.naturalWidth || 0,
+        naturalHeight: title?.naturalHeight || 0
+      }
+    };
+  })()`);
+  assert(audit.tier === expectedTier, `${label}: wrong result tier`, audit);
+  assert(audit.background.complete && audit.background.naturalWidth === 1280 && audit.background.naturalHeight === 800, `${label}: generated result scene is missing or has the wrong canvas`, audit);
+  assert(/^result-unicorn-.+-generated\.webp$/.test(audit.background.src), `${label}: result scene is not connected`, audit);
+  assert(audit.title.complete && audit.title.naturalWidth > 0 && audit.title.naturalHeight > 0, `${label}: generated result title is missing`, audit);
+  assert(/^result-title-.+-generated\.webp$/.test(audit.title.src), `${label}: result title is not connected`, audit);
 }
 
 async function auditElevatorLearningLegibility(page, label) {
@@ -832,7 +986,11 @@ async function auditElevatorWrongEvidence(page, label, misconceptionId) {
     const work = document.querySelector('.division-work.is-wrong-attempt');
     const combinedWrong = document.querySelector('.board-combined-target.is-wrong');
     const noteRect = note?.querySelector('rect')?.getBoundingClientRect();
-    const combinedRect = combinedWrong?.querySelector('rect')?.getBoundingClientRect();
+    const combinedRects = [...(combinedWrong?.querySelectorAll('rect') || [])].map((node) => node.getBoundingClientRect());
+    const combinedRect = combinedRects.length ? {
+      width:Math.max(...combinedRects.map((rect) => rect.right)) - Math.min(...combinedRects.map((rect) => rect.left)),
+      height:Math.max(...combinedRects.map((rect) => rect.height))
+    } : null;
     return {
       misconception: document.getElementById('visualArea')?.dataset.misconception || '',
       noteText: note?.textContent.trim().replace(/\\s+/g, ' ') || '',
@@ -860,17 +1018,38 @@ async function auditElevatorNumericLegibility(page, label) {
     const instruction = document.querySelector('.instruction');
     const values = [...document.querySelectorAll('.elevator-number-value')];
     const choices = [...document.querySelectorAll('.elevator-choice')];
+    const choicesPanel = document.querySelector('.choices-panel');
+    const floorPanel = document.querySelector('.elevator-floor-panel');
+    const choicesPanelRect = choicesPanel?.getBoundingClientRect();
+    const floorPanelRect = floorPanel?.getBoundingClientRect();
+    const choiceRects = choices.map((node) => node.getBoundingClientRect());
+    const valueRects = values.map((node) => node.getBoundingClientRect());
+    const widths = choiceRects.map((rect) => rect.width);
+    const heights = choiceRects.map((rect) => rect.height);
     return {
       instruction: instruction ? parseFloat(getComputedStyle(instruction).fontSize) : 0,
       numericValue: values[0] ? parseFloat(getComputedStyle(values[0]).fontSize) : 0,
+      minValueHeight: valueRects.length ? Math.min(...valueRects.map((rect) => rect.height)) : 0,
       valueCount: values.length,
-      minChoiceHeight: choices.length ? Math.min(...choices.map((node) => node.getBoundingClientRect().height)) : 0
+      minChoiceHeight: heights.length ? Math.min(...heights) : 0,
+      widthSpread: widths.length ? Math.max(...widths) - Math.min(...widths) : Infinity,
+      heightSpread: heights.length ? Math.max(...heights) - Math.min(...heights) : Infinity,
+      panelWidthDelta: choicesPanelRect && floorPanelRect ? Math.abs(choicesPanelRect.width - floorPanelRect.width) : Infinity,
+      panelHeightDelta: choicesPanelRect && floorPanelRect ? Math.abs(choicesPanelRect.height - floorPanelRect.height) : Infinity,
+      interaction: choicesPanel?.dataset.interaction || '',
+      dropZone: Boolean(document.querySelector('.elevator-down-zone')),
+      dragChoice: Boolean(document.querySelector('[data-direct-choice="true"]'))
     };
   })()`);
   assert(audit.instruction >= 14, `${label}: instruction text is too small`, audit);
   assert(audit.numericValue >= 28, `${label}: numeric choices are too small`, audit);
+  assert(audit.minValueHeight >= 21, `${label}: numeric choice values render too small`, audit);
   assert(audit.valueCount === 4, `${label}: four numeric choices must stay visible`, audit);
   assert(audit.minChoiceHeight >= 42, `${label}: numeric choice touch target is too short`, audit);
+  assert(audit.widthSpread <= 1 && audit.heightSpread <= 1, `${label}: numeric choices do not form an equal 2x2 grid`, audit);
+  assert(audit.panelWidthDelta <= 1 && audit.panelHeightDelta <= 1, `${label}: numeric choice grid does not fill the choice area`, audit);
+  assert(audit.interaction === 'floor-panel', `${label}: removed drag interaction is still declared`, audit);
+  assert(!audit.dropZone && !audit.dragChoice, `${label}: removed drop target or drag wiring is still present`, audit);
 }
 
 async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
@@ -888,21 +1067,22 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   }
 }
 
-async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots) {
+async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots, shotPrefix = "05-lock") {
   let stepNumber = 0;
   while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
     stepNumber += 1;
-    assert(stepNumber <= 4, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
+    assert(stepNumber <= 3, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
     const stepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    assert(stepId !== "compare", `${viewport.name}: deterministic comparison was exposed as a student action`, { stepNumber, stepId });
     const safeStepId = stepId.replace(/[^a-z0-9-]/gi, "-") || `step-${stepNumber}`;
-    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-waiting`));
+    shots.push(await screenshot(page, lesson, viewport, `${shotPrefix}-${stepNumber}-${safeStepId}-waiting`));
     await auditGeometry(page, `${viewport.name} ${stepId} waiting`);
     await auditCheckLockLayout(page, `${viewport.name} ${stepId} waiting`);
 
     await clickChoice(page, true);
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct'", `${viewport.name}: ${stepId} confirmation did not appear`, 6000);
     await delay(360);
-    shots.push(await screenshot(page, lesson, viewport, `05-lock-${stepNumber}-${safeStepId}-confirm`));
+    shots.push(await screenshot(page, lesson, viewport, `${shotPrefix}-${stepNumber}-${safeStepId}-confirm`));
     await auditGeometry(page, `${viewport.name} ${stepId} confirmation`);
     const completeShown = await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')");
     if (!completeShown) await auditCheckLockLayout(page, `${viewport.name} ${stepId} confirmation`);
@@ -913,19 +1093,150 @@ async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots) {
 }
 
 async function waitForReward(page, label) {
-  const modalReward = await evaluate(page, "document.querySelector('.game')?.dataset.rewardMode === 'modal-art'");
+  const rewardMode = await evaluate(page, "document.querySelector('.game')?.dataset.rewardMode || ''");
+  const modalReward = rewardMode === "modal-art";
   if (modalReward) {
     await waitUntil(page, "document.getElementById('rewardPop')?.hidden === false", `${label}: reward modal not shown`);
     return { modal: true, openSelector: "#modalRewardOpenButton", nextSelector: "#modalRewardNextButton" };
   }
-  await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-reward'", `${label}: reward not shown`);
-  return { modal: false, nextSelector: "#rewardNextButton" };
+  try {
+    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-reward'", `${label}: reward not shown`);
+  } catch (error) {
+    error.details = await evaluate(page, `(() => ({
+      active:document.querySelector('.screen.is-active')?.id || '',
+      state:window.__mathmonEngineQa?.getState?.() || null,
+      completeVisible:document.getElementById('completePanel')?.classList.contains('is-visible') || false,
+      rewardButton:{ hidden:document.getElementById('rewardButton')?.hidden, disabled:document.getElementById('rewardButton')?.disabled }
+    }))()`);
+    throw error;
+  }
+  return { modal: false, stageReveal: rewardMode === "stage-reveal", nextSelector: "#rewardNextButton" };
 }
 
 async function revealReward(page, reward, label) {
+  if (reward.stageReveal) {
+    const before = await evaluate(page, "window.__mathmonEngineQa.getState()");
+    await evaluate(page, "(() => { const button = document.getElementById('rewardNextButton'); button.click(); button.click(); })()");
+    await waitUntil(page, "window.__mathmonEngineQa.getState().rewardPhase === 'revealed' && document.querySelector('.farm-reward-story')?.dataset.phase === 'revealed'", `${label}: stage reward did not reveal`, 8000);
+    const after = await evaluate(page, "window.__mathmonEngineQa.getState()");
+    const expectedPower = before.pendingRewardSpecial
+      ? 100
+      : Math.max(0, Math.min(100, before.power + before.pendingRewardAmount));
+    assert(after.power === expectedPower, `${label}: rapid reward clicks applied the event more than once`, { before, after, expectedPower });
+    return;
+  }
   if (!reward.modal) return;
   await clickSelector(page, reward.openSelector);
   await waitUntil(page, "document.querySelector('.reward-card')?.dataset.rewardPhase === 'revealed' && !document.getElementById('modalRewardNextButton')?.hidden", `${label}: reward did not reveal`, 8000);
+}
+
+async function auditFarmReward(page, label, phase) {
+  await waitUntil(
+    page,
+    "[...document.querySelectorAll('.farm-reward-before, .farm-reward-after, .farm-reward-event img')].every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0)",
+    `${label}: farm reward images did not finish loading`,
+    8000,
+  );
+  const audit = await evaluate(page, `(() => {
+    const story = document.querySelector('.farm-reward-story');
+    const before = document.querySelector('.farm-reward-before');
+    const after = document.querySelector('.farm-reward-after');
+    const event = document.querySelector('.farm-reward-event img');
+    const line = document.querySelector('.farm-reward-line');
+    const button = document.getElementById('rewardNextButton');
+    const readImage = (image) => image ? {
+      src:image.getAttribute('src') || '', complete:image.complete,
+      naturalWidth:image.naturalWidth, naturalHeight:image.naturalHeight
+    } : null;
+    const style = line ? getComputedStyle(line) : null;
+    return {
+      phase: story?.dataset.phase || '',
+      before: readImage(before), after: readImage(after), event: readImage(event),
+      line: line ? {
+        text:line.textContent.trim(), visible:style.visibility !== 'hidden',
+        overflows:line.scrollWidth > line.clientWidth + 1 || line.scrollHeight > line.clientHeight + 1
+      } : null,
+      button: button ? { text:button.textContent.trim(), disabled:button.disabled } : null,
+      modalVisible: !document.getElementById('rewardPop')?.hidden
+    };
+  })()`);
+  assert(audit.phase === phase, `${label}: wrong farm reward phase`, audit);
+  assert(!audit.modalVisible, `${label}: legacy reward popup is still visible`, audit);
+  for (const image of [audit.before, audit.after, audit.event]) {
+    assert(image?.complete && image.naturalWidth > 0 && image.naturalHeight > 0, `${label}: farm reward image is missing`, audit);
+  }
+  assert(audit.before.naturalWidth === 512 && audit.before.naturalHeight === 512, `${label}: farm stage canvas must be 512x512`, audit);
+  assert(audit.after.naturalWidth === 512 && audit.after.naturalHeight === 512, `${label}: revealed farm stage canvas must be 512x512`, audit);
+  assert(audit.event.naturalWidth === 512 && audit.event.naturalHeight === 512, `${label}: reward event canvas must be 512x512`, audit);
+  if (phase === "closed") {
+    assert(audit.event.src.endsWith("reward-closed-generated.webp"), `${label}: closed basket art is wrong`, audit);
+    assert(!audit.line.visible && audit.button.text === "바구니 열기", `${label}: closed reward must show only the open action`, audit);
+  } else {
+    assert(/reward-event-.+-generated\.webp$/.test(audit.event.src), `${label}: revealed event art is wrong`, audit);
+    assert(audit.line.visible && audit.line.text.length > 0 && !audit.line.overflows, `${label}: revealed reward needs one readable line`, audit);
+  }
+}
+
+async function auditFarmResultTier(page, label, expectedTier) {
+  const audit = await evaluate(page, `(() => {
+    const read = (selector) => {
+      const image = document.querySelector(selector);
+      return image ? { src:image.getAttribute('src') || '', complete:image.complete, naturalWidth:image.naturalWidth, naturalHeight:image.naturalHeight } : null;
+    };
+    const dynamic = document.querySelector('.result-dynamic-ui');
+    return {
+      tier:document.getElementById('screen-result')?.dataset.resultTier || '',
+      background:read('#resultBg'), title:read('#resultTitleArt'), next:read('.result-next-art'), correct:read('#resultCorrectArt'),
+      dynamicVisible:dynamic ? getComputedStyle(dynamic).display !== 'none' : false
+    };
+  })()`);
+  assert(audit.tier === expectedTier, `${label}: wrong farm result tier`, audit);
+  assert(audit.background?.complete && audit.background.naturalWidth === 1280 && audit.background.naturalHeight === 800, `${label}: tier farm scene is missing`, audit);
+  assert(audit.background.src === `result-tier-${expectedTier}.webp`, `${label}: shared result scene is still connected`, audit);
+  assert(audit.title?.complete && audit.title.naturalWidth > 0, `${label}: result tier title is missing`, audit);
+  assert(audit.next?.complete && audit.next.naturalWidth > 0, `${label}: next-target title is missing`, audit);
+  assert(audit.correct?.complete && audit.correct.naturalWidth > 0, `${label}: correct-count art is missing`, audit);
+  assert(!audit.dynamicVisible, `${label}: numeric power gauge is still visible`, audit);
+}
+
+async function forceFarmRewardCases(page, lesson, viewport, shots) {
+  const stageNames = { seed:"씨앗", sprout:"새싹", garden:"텃밭", rainbow:"황금밭" };
+  const cases = [
+    { name:"increase", event:"harvest", amount:8, power:10, correct:2, special:false, tier:"sprout", text:"새싹이 됐어요!" },
+    { name:"decrease", event:"bug", amount:-4, power:18, correct:2, special:false, tier:"seed", text:"씨앗이 됐어요!" },
+    { name:"zero", event:"empty", amount:0, power:40, correct:4, special:false, tier:"garden", text:"농장까지 15 더" },
+    { name:"correct-gate", event:"empty", amount:0, power:55, correct:5, special:false, tier:"garden", text:"농장까지 문제 1개 더" },
+    { name:"golden-field", event:"rainbow", amount:0, power:50, correct:6, special:true, tier:"rainbow", text:"황금밭을 찾았어요!" },
+  ];
+  for (const item of cases) {
+    const prepared = await evaluate(page, `(() => {
+      const base = LESSON_CONFIG.rewardEvents.find((event) => event.id === ${JSON.stringify(item.event)});
+      const forced = { ...base, amount:${item.amount} };
+      Lesson2DivideFarmModel.pickRewardEvent = () => forced;
+      window.__mathmonEngineQa.setState({
+        power:${item.power}, correctFirstTry:${item.correct}, specialSeen:false,
+        completed:true, mistakeTouched:false, rewardPhase:'idle', pendingRewardEvent:null, currentResult:null
+      });
+      return window.__mathmonEngineQa.showReward().then(() => window.__mathmonEngineQa.getState());
+    })()`);
+    assert(prepared.rewardPhase === "closed", `${viewport.name} ${item.name}: forced reward did not prepare`, prepared);
+    await waitUntil(page, "document.querySelector('.farm-reward-story')?.dataset.phase === 'closed'", `${viewport.name} ${item.name}: closed farm reward missing`);
+    await auditFarmReward(page, `${viewport.name} forced ${item.name} closed`, "closed");
+    await revealReward(page, { stageReveal:true, nextSelector:"#rewardNextButton" }, `${viewport.name} forced ${item.name}`);
+    await waitUntil(page, `document.querySelector('.farm-reward-line')?.textContent.trim() === ${JSON.stringify(item.text)}`, `${viewport.name} ${item.name}: target message is wrong`);
+    const revealed = await evaluate(page, `(() => ({
+      tier:document.querySelector('.farm-reward-story')?.getAttribute('aria-label') || '',
+      eventSrc:document.querySelector('.farm-reward-event img')?.getAttribute('src') || '',
+      line:document.querySelector('.farm-reward-line')?.textContent.trim() || '',
+      state:window.__mathmonEngineQa.getState()
+    }))()`);
+    assert(revealed.tier.includes(stageNames[item.tier]), `${viewport.name} ${item.name}: forced farm tier did not reveal`, revealed);
+    assert(revealed.eventSrc === `reward-event-${item.event}-generated.webp`, `${viewport.name} ${item.name}: wrong event art`, revealed);
+    assert(revealed.line === item.text, `${viewport.name} ${item.name}: wrong reward line`, revealed);
+    shots.push(await screenshot(page, lesson, viewport, `07c-reward-${item.name}`));
+    await auditGeometry(page, `${viewport.name} forced ${item.name}`);
+    await auditFarmReward(page, `${viewport.name} forced ${item.name}`, "revealed");
+  }
 }
 
 async function runViewport(page, lesson, pageUrl, viewport, seed) {
@@ -954,6 +1265,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
 
   const shots = [];
+  let initialLearningLayout = null;
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
   await auditGeometry(page, `${viewport.name} cover`, { requireLogo: true });
   await clickSelector(page, "#settingsButton");
@@ -973,6 +1285,10 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditGeometry(page, `${viewport.name} tutorial 2`);
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
+  if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    await evaluate(page, "window.__starPickupQa.forceProblem(47, 6)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 47", `${viewport.name}: fixed 47-star board did not render`);
+  }
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
@@ -980,8 +1296,36 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
+    await auditStarPickupWaiting(page, `${viewport.name} fixed 47-star waiting`, 47);
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(20, 3)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 20", `${viewport.name}: 20-star boundary board did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "05a-boundary-20-stars"));
+    await auditGeometry(page, `${viewport.name} 20-star boundary`);
+    await auditStarPickupWaiting(page, `${viewport.name} 20-star boundary`, 20);
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(99, 4)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 99", `${viewport.name}: 99-star boundary board did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "05a2-boundary-99-stars"));
+    await auditGeometry(page, `${viewport.name} 99-star boundary`);
+    await auditStarPickupWaiting(page, `${viewport.name} 99-star boundary`, 99);
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(95, 3)");
+    await clickMisconception(page, "DIV3_QUOTIENT_TOO_HIGH");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: 32-capsule boundary did not render`);
+    const capsuleBoundary = await evaluate(page, `(() => ({
+      capsules: document.querySelectorAll('.star-capsule').length,
+      missingSlots: document.querySelectorAll('.star-glyph[data-tone="missing-slot"]').length
+    }))()`);
+    assert(capsuleBoundary.capsules === 32 && capsuleBoundary.missingSlots === 1, `${viewport.name}: 8x4 capsule boundary is incorrect`, capsuleBoundary);
+    shots.push(await screenshot(page, lesson, viewport, "05a3-boundary-32-capsules"));
+    await auditGeometry(page, `${viewport.name} 32-capsule boundary`);
+    await auditStarPickupEvidence(page, `${viewport.name} 32-capsule boundary`, "quotient-too-high");
+
+    await evaluate(page, "window.__starPickupQa.forceProblem(47, 6)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 47", `${viewport.name}: fixed 47-star board did not restore`);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
-    await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
+    initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
   const answerLeak = await evaluate(page, "document.getElementById('answerSlot')?.textContent.trim() !== '?' || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
@@ -1126,22 +1470,40 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);
-  await clickSelector(page, "#rewardButton");
+  if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
+  await evaluate(page, "document.getElementById('rewardButton').click()");
   const firstReward = await waitForReward(page, viewport.name);
   shots.push(await screenshot(page, lesson, viewport, "07-reward-closed"));
   await auditGeometry(page, `${viewport.name} closed reward`);
+  if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} closed reward`, "closed");
   await revealReward(page, firstReward, viewport.name);
   shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
   await auditGeometry(page, `${viewport.name} revealed reward`);
+  if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} revealed reward`, "revealed");
   await clickSelector(page, firstReward.nextSelector);
 
+  let checkLockMatchCaptured = false;
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
     await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not active for problem ${problemIndex}`);
-    await solveCurrentProblem(page, { wrongFirst: lesson === "3-2-2-2-mathmon-elevator" });
-    await clickSelector(page, "#rewardButton");
+    const captureCheckLockMatch = lesson === "3-2-2-4-mathmon-check-lock"
+      && !checkLockMatchCaptured
+      && await evaluate(page, "window.__mathmonEngineQa.getCurrentProblem()?.matchesOriginal === true");
+    if (captureCheckLockMatch) {
+      await solveCheckLockProblemWithAudits(page, lesson, viewport, shots, "05-match-lock");
+      shots.push(await screenshot(page, lesson, viewport, "06b-match-auto-confirm"));
+      await auditGeometry(page, `${viewport.name} matching final confirmation`);
+      await auditCheckLockCompleteLayout(page, `${viewport.name} matching final confirmation`);
+      checkLockMatchCaptured = true;
+    } else {
+      await solveCurrentProblem(page, { wrongFirst: lesson === "3-2-2-2-mathmon-elevator" });
+    }
+    await evaluate(page, "document.getElementById('rewardButton').click()");
     const reward = await waitForReward(page, `${viewport.name} problem ${problemIndex}`);
     await revealReward(page, reward, `${viewport.name} problem ${problemIndex}`);
     await clickSelector(page, reward.nextSelector);
+  }
+  if (lesson === "3-2-2-4-mathmon-check-lock") {
+    assert(checkLockMatchCaptured, `${viewport.name}: matching auto-comparison state was not captured`);
   }
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
@@ -1158,6 +1520,39 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "08-result"));
   }
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
+
+  if (lesson === "3-2-2-1-mathmon-divide-farm") {
+    await forceFarmRewardCases(page, lesson, viewport, shots);
+    const tierStates = [
+      { id: "seed", power: 0, correct: 0, special: false },
+      { id: "sprout", power: 15, correct: 2, special: false },
+      { id: "garden", power: 35, correct: 4, special: false },
+      { id: "farm", power: 55, correct: 6, special: false },
+      { id: "bigfarm", power: 78, correct: 8, special: false },
+      { id: "rainbow", power: 100, correct: 10, special: true },
+    ];
+    for (const tier of tierStates) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power}, correctFirstTry:${tier.correct}, specialSeen:${tier.special}, currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)} && document.querySelector('.result-next-art')?.complete && document.querySelector('.result-next-art')?.naturalWidth > 0`, `${viewport.name}: farm result ${tier.id} did not render`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+      await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
+      await auditFarmResultTier(page, `${viewport.name} result ${tier.id}`, tier.id);
+    }
+  } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
+    const tierIds = await evaluate(page, "LESSON_CONFIG.results.map((result) => result.id)");
+    for (const tierId of tierIds) {
+      await evaluate(page, `window.__starPickupQa.forceResult(${JSON.stringify(tierId)})`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tierId)} && document.getElementById('resultBg')?.complete && document.getElementById('resultBg')?.naturalWidth > 0`, `${viewport.name}: result tier ${tierId} did not render`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tierId}`));
+      await auditGeometry(page, `${viewport.name} result ${tierId}`, { requireRetry: true });
+      await auditStarPickupResultTier(page, `${viewport.name} result ${tierId}`, tierId);
+    }
+  }
 
   const scoreboardEnabled = await evaluate(page, "document.querySelector('.game')?.dataset.scoreboardEnabled === 'true'");
   if (scoreboardEnabled) {
@@ -1199,7 +1594,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   assert(snapshot.missingImages.length === 0, `${viewport.name}: missing images`, snapshot);
   assert(snapshot.overflowing.length === 0, `${viewport.name}: text overflow`, snapshot);
   assert(snapshot.stage?.width > 0 && snapshot.stage?.height > 0, `${viewport.name}: stage not visible`, snapshot);
-  return { viewport, shots, snapshot };
+  return { viewport, shots, learningLayout: initialLearningLayout, snapshot };
 }
 
 async function readLessonConfig(lesson) {
@@ -1217,7 +1612,12 @@ async function main() {
   const seedArg = Number(process.argv[3]);
   const seed = Number.isInteger(seedArg) ? seedArg : DEFAULT_SEED;
   const config = await readLessonConfig(lesson);
-  const viewports = Array.isArray(config.qa?.viewports) && config.qa.viewports.length ? config.qa.viewports : DEFAULT_VIEWPORTS;
+  const configuredViewports = Array.isArray(config.qa?.viewports) && config.qa.viewports.length ? config.qa.viewports : DEFAULT_VIEWPORTS;
+  const requestedViewport = process.env.MATHMON_QA_VIEWPORT || "";
+  const viewports = requestedViewport
+    ? configuredViewports.filter((viewport) => viewport.name === requestedViewport)
+    : configuredViewports;
+  assert(viewports.length > 0, `Unknown QA viewport: ${requestedViewport}`);
   await fsp.mkdir(path.join(ROOT, lesson, "screenshots"), { recursive: true });
   const serverPort = await getFreePort();
   const debugPort = await getFreePort();

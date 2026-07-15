@@ -23,6 +23,12 @@
 - `problem-stage-generated.webp`: 1280×800 밝은 판타지 표적 훈련장 문제 배경
 - `problem-stage-generated.png`: 1280×800 작업 원본
 - `problem-stage-source.png`: imagegen 생성 원본
+- 동행 매스몬: `diversity-reward-pack`의 번개늑대몬(`mathmon-drv-06-thunderwolf`)
+- 설명 1: 중심·반지름·지름의 이름과 위치 관계를 같은 화면에서 직접 연결
+- 설명 2: 10문제·표적 점수 변화·마지막 표적 이름만 안내
+- 랜덤 보상: 사건별 `reward-event-*-generated.webp` 6종
+- 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 - 원·점·선분: 정확한 위치 관계가 필요한 SVG
 - 선택: 같은 좌표의 HTML 버튼과 접근성 이름
 
@@ -43,3 +49,5 @@
 ## 검증 화면
 
 `screenshots/engine-flow-{desktop,tablet-landscape}-*.png`에 1280×800과 1024×768의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다.
+
+추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

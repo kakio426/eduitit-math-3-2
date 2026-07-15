@@ -8,6 +8,16 @@
 - 오답을 고르면 선택한 잘못된 무늬를 크게 보여 주고 한 가지 이유만 안내합니다.
 - 소스 엔진을 `_lessons/3-2-3-4-mathmon-circle-pattern/`로 분리하고 `index.html`을 빌드 산출물로 전환했습니다.
 
+## 2026-07-12 1단원 기준 시각 흐름 보강
+
+- 커버를 승인된 `diversity-reward-pack` 무지개유니몬 장면으로 다시 만들고 설명·보상·결과까지 같은 주인공을 유지했습니다.
+- 설명 1은 `원 크기`, `사이 간격`, `같은 크기와 간격으로 잇기`를 세 그림으로 분리해 보여 줍니다.
+- 설명 2에서는 풀이법을 반복하지 않고 `10문제 → 무늬 빛 변화 → 무늬 이름`만 보여 줍니다.
+- 랜덤 보상 6종은 무늬 연장·감소·큰 무늬·완벽한 무늬·점무늬·무지개 무늬를 별도 이미지로 구분했습니다.
+- 결과 6장은 모두 1280×800이며, 무지개유니몬·원 무늬·오른쪽 동적 정보판·고정 제목·`다시` 버튼 슬롯을 통일했습니다.
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 표지 왼쪽 위는 실제 `eduitit-logo-mark.png`를 쓰며, 공용 상단 슬롯 좌표를 따릅니다.
+
 ## 수학 설계
 
 - 가로 무늬 4개, 위로 이어지는 무늬 3개, 아래로 이어지는 무늬 3개가 한 판에 나옵니다.
@@ -48,6 +58,7 @@
 - `node scripts/qa-engine-unit3-circle-pattern-source.mjs` → PASS
 - `node scripts/build-lesson.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
 - `node scripts/check-lesson-contract.mjs` → PASS
+- `node scripts/check-lesson-visual-contract.mjs` → PASS
 - `node scripts/check-stage-ratio.mjs` → PASS (21개 패키지)
 - `node scripts/qa-lesson-flow.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
 - 브라우저 QA: 1280×800, 1024×768 전체 흐름에서 이미지 누락·텍스트 넘침·요소 겹침 0
@@ -58,3 +69,4 @@
 - 태블릿 가로: `screenshots/engine-flow-tablet-landscape-01-cover.png`부터 `08-result.png`
 - 오답 상태: 각 화면군의 `05b-play-wrong.png`
 - 정답 확인: 각 화면군의 `06-confirm.png`
+- 닫힌 보상·열린 보상: 각 화면군의 `07-reward-closed.png`, `07b-reward-open.png`

@@ -16,11 +16,24 @@
 - 배포 PNG: `problem-stage-generated.png`
 - 런타임 WebP: `problem-stage-generated.webp`
 
+## 2026-07-12 시각 흐름 리마스터
+
+- 승인된 `zero-factory-animal-pack` 토끼몬을 커버·설명·보상·결과까지 같은 주인공으로 유지했습니다.
+- 설명 1은 `12 ÷ 4 = 3`으로 한 묶음을 구하고 `3 × 3 = 9`로 3묶음을 담는 흐름을 한 장에 보여 줍니다.
+- 실제 문제는 기존처럼 두 행동을 서로 다른 단계에서 한 번씩만 요구합니다.
+- 설명 2는 `10문제 → 바구니 빛 변화 → 마지막 바구니 이름`만 안내합니다.
+- 랜덤 보상 6종과 결과 6단계를 별도 이미지로 만들었습니다.
+- 결과 6장은 1280×800이며 고정 등급명·`다시` 버튼과 빈 동적 정보판을 같은 위치에 맞췄습니다.
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 표지 왼쪽 위는 실제 `eduitit-logo-mark.png`를 공용 상단 슬롯에 표시합니다.
+- 닫힌 보상과 열린 보상은 각각 `07-reward-closed.png`, `07b-reward-open.png`로 검수했습니다.
+
 ## 검증
 
 - `node scripts/qa-engine-unit4-scoop-source.mjs` 통과
 - lesson engine build 통과
 - `node scripts/check-lesson-contract.mjs` 통과
+- `node scripts/check-lesson-visual-contract.mjs` 통과
 - `node scripts/check-stage-ratio.mjs` 통과
 - `node scripts/qa-lesson-flow.mjs 3-2-4-2-mathmon-fraction-scoop` 통과
 

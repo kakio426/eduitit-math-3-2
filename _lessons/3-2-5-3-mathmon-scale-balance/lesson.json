@@ -1,0 +1,36 @@
+{
+  "engineVersion": "mathmon-engine-v1", "sourceLesson": "unit5-weight-shared-model",
+  "id": "3-2-5-3", "folder": "3-2-5-3-mathmon-scale-balance", "modelName": "Lesson5WaterFillModel",
+  "title": "매스몬 저울 균형", "shortTitle": "매스몬 저울", "topic": "무게 비교와 kg, g, t", "unitBadge": "5단원 무게",
+  "goal": "저울에 맞는 무게를 골라요.", "action": "저울을 맞출 무게 또는 더 무거운 쪽을 고른다.",
+  "buttonLabel": "저울 보기", "rewardScreenTitle": "저울 맞추기", "progressLabel": "균형 힘",
+  "rewardComplete": "균형 힘이 바뀌었어요.", "rewardSmall": "조금 맞춰졌어요.", "rewardBig": "크게 맞춰졌어요.",
+  "tutorialTitle": "저울을 보기 전에", "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 비교해요?", "body": "무게를 비교하고 kg, g, t를 바꿔 봐요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 저울 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" }, "reward": { "mode": "stage-full", "maxPower": 100 },
+  "result": { "renderMode": "simple-generated" }, "workbench": { "type": "scale-balance" }, "scoreboard": { "enabled": false },
+  "sourceFiles": { "model": "../3-2-5-1-mathmon-water-fill/model.js", "view": "../3-2-5-1-mathmon-water-fill/view.js" },
+  "mathmonPack": "diversity-reward-pack", "mathmonName": "수정부엉몬", "mathmonId": "mathmon-drv-05-crystalowl",
+  "results": [
+    { "id": "tilted", "name": "살짝 기운 저울", "minPower": 0, "minCorrect": 0, "image": "result-scale-tilted-generated.webp", "titleImage": "result-title-tilted-generated.webp" },
+    { "id": "almost", "name": "거의 균형", "minPower": 30, "minCorrect": 3, "image": "result-scale-almost-generated.webp", "titleImage": "result-title-almost-generated.webp" },
+    { "id": "shining", "name": "반짝 균형", "minPower": 70, "minCorrect": 7, "image": "result-scale-shining-generated.webp", "titleImage": "result-title-shining-generated.webp" },
+    { "id": "gold", "name": "황금 균형", "minPower": 100, "minCorrect": 10, "needsSpecial": true, "image": "result-scale-gold-generated.webp", "titleImage": "result-title-gold-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "weight", "text": "작은 무게추", "weight": 5200, "min": 5, "max": 8, "family": "smallBalance" },
+    { "id": "heavy", "text": "튼튼 무게추", "weight": 1700, "min": 13, "max": 18, "family": "bigBalance" },
+    { "id": "shine", "text": "반짝 무게추", "weight": 1700, "min": 9, "max": 12, "family": "shineBalance" },
+    { "id": "wobble", "text": "흔들 무게추", "weight": 1200, "min": 1, "max": 3, "family": "smallOnly" },
+    { "id": "gold", "text": "황금 무게추", "weight": 200, "min": 28, "max": 28, "family": "specialBalance", "special": true }
+  ],
+  "wrongEvent": { "id": "retry", "text": "다시 맞추기", "min": 1, "max": 2, "family": "repair" },
+  "typesPerRun": ["compareKgG", "compareKgG", "compareKgG", "compareKgG", "balanceMissing", "balanceMissing", "balanceMissing", "balanceMissing", "compareTonKg", "compareTonKg"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "start-button-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "result-retry-button-generated.webp" },
+  "qa": { "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }], "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"] }
+}

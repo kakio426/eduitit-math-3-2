@@ -1,174 +1,192 @@
-# 매스몬 로봇 합체 설명 보고서
+# 매스몬 로봇 합체 수정 보고서
+
+수정일: 2026-07-10
 
 ## 1. 개요
 
-`매스몬 로봇 합체`는 3학년 2학기 1단원 4차시에서 (몇)×(몇십몇), (몇십몇)×(몇십몇)을 연습하는 에듀잇티 수학 게임입니다. 학생은 아래 수를 일의 자리와 십의 자리로 나누어 두 곱셈 조각을 만들고, 마지막에 두 값을 더해 로봇을 완성합니다.
+`매스몬 로봇 합체`는 3학년 2학기 1단원 4차시의 (몇)×(몇십몇), (몇십몇)×(몇십몇)을 연습하는 게임입니다. 학생은 아래 수를 일의 자리와 십의 자리로 나누어 두 곱셈 조각을 만들고, 마지막에 두 값을 더해 로봇을 완성합니다.
 
-핵심 목표는 `두 번 곱하고 더해서 로봇을 완성해요.`입니다.
+학생 목표 문장은 `두 번 곱하고 더해서 로봇을 완성해요.`입니다.
 
-## 2. 학습 설계
+## 2. 이번 수정의 핵심
 
-- 문제 유형: (몇)×(몇십몇), (몇십몇)×(몇십몇)
-- 라운드: 10문제
-- 입력: 첫 조각, 둘째 조각, 두 값 더하기 3단계 4지선다
-- 1단계: `윗수 × 아랫수의 일의 자리`
-- 2단계: `윗수 × 아랫수의 십의 자리`를 계산하고 0을 붙인 값
-- 3단계: 두 곱셈 조각을 더한 최종 곱
-- 대표 오답: 받아올림 실수, 0 빠뜨림, 십의 자리 값을 밀지 않고 더한 값
+이번 수정에서는 기존 화면 구조를 유지하면서 정확성과 결과 신뢰도를 보강했습니다.
 
-문제 화면은 한 번에 한 행동만 크게 보여 줍니다. 현재 곱할 자리만 노란색으로 강조하고, 학생이 고른 값은 로봇 조각 칸에 들어간 뒤 다음 단계로 넘어갑니다.
+- 잘못된 수 모형이 들어 있던 계산 설명 이미지를 정확한 식 중심 이미지로 교체
+- 정답을 고른 직후 현재 계산식의 `?`가 실제 답으로 바뀌는 확인 상태 추가
+- `합체 점수`, `합체 에너지`, `합체 힘`을 학생 화면에서 `합체 힘`으로 통일
+- 보상 이미지와 문구를 이벤트 원래 값이 아닌 실제 점수 변화량에 맞춤
+- 무지개 보상 이미지를 `무지개`에서 `+800점`으로 교체
+- 설정의 배경 소리 스위치를 실제 반복 음악 재생과 연결
+- 0점부터 시작하는 구조에서 도달하지 않던 `다시 도전` 결과 분기 제거
+- 서버가 세션 seed로 문제, 정답, 보상을 다시 계산하도록 4차시 전용 검증 추가
 
-## 3. 화면 흐름
+## 3. 학습 흐름
 
 ```text
-첫 화면 -> 설명 1단계 -> 설명 2단계 -> 문제 3단계 풀이 -> 합체 점수 보상 -> 다음 문제 -> 10문제 완료 -> 결과 -> 전국 순위
+첫 화면
+-> 계산 설명
+-> 보상과 순위 설명
+-> 문제 1단계
+-> 정답 확인
+-> 문제 2단계
+-> 정답 확인
+-> 두 값 더하기
+-> 완성식과 합체 연출
+-> 합체 힘 보상
+-> 10문제 완료
+-> 로봇 결과
+-> 전국 순위
 ```
 
-설명 화면은 생성 이미지 2장입니다. 첫 장은 계산 방법, 둘째 장은 보상과 순위 흐름을 보여 줍니다. HTML은 접근성 설명, 단계 상태값, 투명 hitbox만 맡습니다.
+문제 화면은 한 번에 한 행동만 크게 보여 줍니다. 현재 곱할 자리만 노란색으로 강조하고, 선택지는 한 덩어리로 유지합니다.
 
-## 4. 화면별 최신 기준
+정답을 고르면 다음 단계로 즉시 바뀌지 않습니다. 예를 들어 `7×5=?`에서 35를 고르면 카드가 초록색으로 바뀌고 `7×5=35`, `5와 곱한 값은 35예요.`가 보인 뒤 다음 단계로 넘어갑니다.
 
-### 첫 화면
+## 4. 생성 이미지 수정
 
-- 배경: `cover-generated.webp`
-- 제목: `title-poster-generated.webp`
-- 시작 버튼: `start-button-generated.webp`
-- 보이는 HTML 문구: `두 번 곱하고 더해서 로봇을 완성해요.`
+### 계산 설명
 
-첫 화면은 `generated-title-overlay`와 `generated-button-art` 기준입니다. 제목과 시작 버튼은 CSS 글자가 아니라 생성형 이미지 자산입니다.
+`tutorial-solve-generated.webp`는 아래 식을 정확하게 보여 줍니다.
 
-![첫 화면](screenshots/01-cover.png)
+- `45 = 40 + 5`
+- `23 × 40 = 920`
+- `23 × 5 = 115`
+- `920 + 115 = 1035`
+- `23 × 45 = 1035`
 
-### 설명 화면
+기존 설명에서 개수와 식이 맞지 않던 수 모형은 제거했습니다. 생성 원본은 `tutorial-solve-source.png`, 배포본은 `tutorial-solve-generated.webp`이며 둘 다 `1586×992`입니다.
 
-- 설명 1단계: `tutorial-solve-generated.webp`
-- 설명 2단계: `tutorial-goal-generated.webp`
-- 버튼 aria-label: 1단계 `다음`, 2단계 `합체 준비`
+### 보상과 순위 설명
 
-최신 캡처는 `screenshots/02-tutorial-solve.png`, `screenshots/03-tutorial-goal.png`입니다. 2026-07-09 문서 갱신 중 실제 브라우저 클릭 흐름으로 `solve -> goal` 전환을 확인했습니다. 전환 후 상태는 `data-tutorial-step="goal"`, 설명 1단계 opacity `0`, 설명 2단계 opacity `1`, 버튼 `합체 준비`였습니다.
+`tutorial-goal-generated.webp`는 아래 4단계만 보여 줍니다.
 
-![설명 1단계](screenshots/02-tutorial-solve.png)
+1. 10문제를 풀어요.
+2. 맞히면 합체 힘을 얻어요.
+3. 합체 힘이 늘거나 줄기도 해요.
+4. 마지막에 로봇과 순위를 봐요.
 
-![설명 2단계](screenshots/03-tutorial-goal.png)
+### 무지개 보상
 
-### 문제 화면
+`reward-score-rainbow-generated.webp`의 보이는 글자를 `+800점`으로 바꿨습니다. 생성 원본은 평면 크로마키 배경의 `reward-score-rainbow-source.png`로 보관하고, 배포본은 배경을 제거한 투명 WebP `960×615`입니다.
 
-- 공방 배경: `fusion-workshop-generated.webp`
-- 로봇 상태: `mathmon-rfa-01-standby.webp` ~ `mathmon-rfa-04-complete.webp`
-- 상단 목표 지도: `play-robot-goal-*-1232-generated.webp`
+![설명 이미지 확인](screenshots/tutorial-refresh-contact-sheet.png)
 
-상단 목표 지도 최신 계약은 `6장`, `1232×166`, `runtime 슬롯 1232 / 166`, `각 장 로봇 슬롯 6개`, `현재 등급 1개만 컬러`, `나머지 5개 실루엣`, `잔상/중복/진행 노드 없음`, `로봇과 플랫폼 상하 잘림 없음`입니다. 최신 세트는 기존 고급 배너 톤을 유지하고, 3번 슬롯에 잘못 보이던 날개형 그림자만 날개 없는 로봇 그림자로 교체했습니다. 날개형 예고는 뒤쪽 높은 단계 슬롯에만 남겨 로봇이 날개를 얻었다가 다시 잃는 흐름처럼 보이지 않게 했습니다.
+![보상 8상태 확인](screenshots/reward-score-contact-sheet.png)
 
-최신 캡처는 `screenshots/04-problem-step1.png`, `screenshots/08-tablet-problem.png`입니다.
+## 5. 보상 계산
 
-![문제 1단계](screenshots/04-problem-step1.png)
+보상은 `합체 힘` 하나입니다.
 
-![태블릿 가로 문제 화면](screenshots/08-tablet-problem.png)
+- 정답 문제: `+50`, `+100`, `-50`, `+200`, `+500`, `0`, `+800`
+- 문제 안에서 첫 선택이 한 번이라도 틀렸을 때: `-100`
+- 점수 범위: `0~8000`
+- 결과 기준: 소형 0, 중형 100, 대형 200, 거대 500, 초거대 1500, 전설 2000
 
-### 보상 화면
+점수 적용 뒤 `actualDelta`를 계산해 이미지와 문구를 정합니다. 따라서 0점에서 `-100`이 나와도 아래처럼 표시합니다.
 
-보상 화면은 점수 이미지 8장만 크게 보여 줍니다.
+- 점수: `0점`
+- 이미지: `reward-score-zero-generated.webp`
+- 문구: `합체 힘은 그대로예요.`
 
-- `reward-score-plus-50-generated.webp`
-- `reward-score-plus-100-generated.webp`
-- `reward-score-plus-200-generated.webp`
-- `reward-score-plus-500-generated.webp`
-- `reward-score-minus-50-generated.webp`
-- `reward-score-minus-100-generated.webp`
-- `reward-score-zero-generated.webp`
-- `reward-score-rainbow-generated.webp`
+50점에서 `-100`이 나오면 실제 변화량인 `-50점` 이미지와 문구를 보여 줍니다. 서버 제출에는 원래 이벤트 `leak/-100`을 남겨 오답 판정은 유지합니다.
 
-무지개 이미지는 실제 `+800점` 보상입니다. `0점`은 변화 없음이며 기존 점수를 0으로 되돌리지 않습니다. 최신 무지개 보상 캡처는 `screenshots/05-reward-rainbow.png`입니다.
+![실제 +800점 보상](screenshots/05-reward-rainbow.png)
 
-보상 이미지 아래 `다음`/`결과 보기` 버튼은 1280×800 Stage 기준 최소 150×76px로 키워, 큰 보상 이미지에 묻히지 않게 했습니다.
+![0점에서 오답이 있었던 보상](screenshots/07-defect-reward.png)
 
-![무지개 보상](screenshots/05-reward-rainbow.png)
+## 6. 결과 화면
 
-### 결과 화면
+0점부터 소형 로봇이므로 별도 실패 결과는 도달하지 않았습니다. 이 분기를 제거하고 모든 결과가 소형부터 전설까지 6단계 안에서 끝나도록 정리했습니다.
 
-결과는 간결한 hybrid 생성형 화면입니다.
+- 0점: 소형 로봇, `0/10`, `0점`
+- 2000점 이상: 전설 로봇, `10/10` 같은 실제 정답 수, 실제 합체 힘
+- 모든 결과: `순위 보기`, `다시하기`
 
-- 배경: `result-small-generated.webp` ~ `result-legend-generated.webp`
-- 큰 등급 라벨: `result-title-*-generated.webp`
-- 정답 수: `_shared/result-count/result-correct-*-generated.webp`
-- 동적 UI: SVG 점수, 에너지 선, 버튼 표면, 투명 HTML hitbox
+예전 `result-retry-*`, `result-title-retry-*`, `08-result-retry.png`는 삭제하지 않고 `_archive/legacy-retry-state/`로 옮겼습니다.
 
-합체 힘 등급 기준은 아래와 같습니다.
-
-- 소형: 0점 이상
-- 중형: 100점 이상
-- 대형: 200점 이상
-- 거대: 500점 이상
-- 초거대: 1500점 이상
-- 전설: 2000점 이상
-
-최신 전설 결과 캡처는 `screenshots/06-result-legend.png`입니다.
+![0점 소형 결과](screenshots/08-result-small.png)
 
 ![전설 결과](screenshots/06-result-legend.png)
 
-### 전국 순위 화면
+## 7. 순위 서버 검증
 
-전국 순위 화면은 `_shared/scoreboard` 공통 SVG UI를 사용합니다. 생성 이미지는 배경과 `scoreboard-title-fusion-generated.webp` 타이틀만 맡고, 내 기록 박스, 순위 행, 버튼, 동적 텍스트는 SVG가 그립니다.
+새 파일 `scoreboard-api/src/validators/fusion-validator.ts`가 4차시 전용 검증을 맡습니다.
 
-API 주소가 없으면 안내 상태로 동작합니다. API 주소가 있으면 `session -> score -> weekly leaderboard` 흐름으로 기록을 제출하고 순위판을 그립니다. 최신 API 연결 캡처는 `screenshots/07-scoreboard-api.png`입니다.
+서버는 세션 seed로 다음을 다시 만듭니다.
 
-![API 연결 전국 순위](screenshots/07-scoreboard-api.png)
+- (한 자리)×(두 자리) 5문제
+- (두 자리)×(두 자리) 5문제
+- 문제 순서
+- `partial1`, `partial2`, `fusion` 정답
+- 문제별 랜덤 보상
 
-## 5. 보상 구조
+클라이언트가 보낸 `expected`를 정답으로 믿지 않습니다. 조작된 정답값은 `fusion_expected_answer_mismatch`, seed와 다른 보상은 `fusion_reward_seed_mismatch`로 거절합니다. 오답이 있었던 문제는 `leak/-100`만 허용합니다.
 
-보상은 `합체 힘` 하나입니다. 도감 수집이나 별도 재화는 없습니다.
+공통 순위 브리지의 `start/reset`은 세션 Promise를 반환하도록 바꿨습니다. 4차시는 문제 시작 전에 이 Promise를 기다려 서버 seed와 브라우저 seed가 어긋나지 않게 했습니다.
 
-- 정답 문제: 랜덤 합체 점수 이미지 1장
-- 오답이 있었던 문제: `-100점`
-- 모든 보상: 10문제 완료 전에는 결과로 조기 이동하지 않음
-- 최고 보상: 한 판에 쉽게 닿지 않도록 전설 기준을 2000점으로 유지
-- 빈손 방지: 0점 이상이면 소형 로봇 결과를 보여 줌
+## 8. 배경 소리
 
-학생 화면 문구는 짧은 행동 말로 유지했습니다. `부분곱`, `게이트`, `메커니즘` 같은 제작자 말은 보이는 화면에 쓰지 않습니다.
+Tallbeard Studios의 CC0 번들 플레이어 13번 `Sketchbook 2025-11-26`을 사용합니다. OGG 원본과 출처·라이선스·해시는 `_shared/audio/music/tallbeard/sketchbook-2025-11-26/`에 보관합니다.
 
-## 6. 최신 스크린샷 세트
+- 게임 시작: 배경 소리가 켜져 있으면 약 70.6초 OGG를 Web Audio 버퍼로 불러와 반복 재생
+- 기본 믹스: 최대 gain `0.025`, 시작·중지 `1.2초` 페이드
+- 정답·보상·결과 효과음: 배경음을 gain `0.008`까지 잠깐 낮춘 뒤 복귀
+- 배경 소리 끄기: 페이드 후 재생 중지
+- 다시 켜기: 처음부터 재생
+- 탭 숨김: 즉시 중지
+- 다시 보임: 설정이 켜져 있으면 다시 시작
 
-2026-07-09 문서 갱신 기준으로 아래 캡처를 최신 세트로 전환했습니다.
+효과 소리는 기존처럼 별도 스위치와 키를 사용합니다.
 
-- `screenshots/01-cover.png` - 첫 화면, 1440×900
-- `screenshots/02-tutorial-solve.png` - 설명 1단계, 1440×900
-- `screenshots/03-tutorial-goal.png` - 설명 2단계, 1440×900
-- `screenshots/04-problem-step1.png` - 문제 1단계, 1440×900
-- `screenshots/05-reward-rainbow.png` - 무지개 보상, 1440×900
-- `screenshots/06-result-legend.png` - 전설 결과, 1440×900
-- `screenshots/07-scoreboard-api.png` - API 연결 전국 순위, 1440×900
-- `screenshots/08-tablet-problem.png` - 태블릿 가로 문제 화면, 1024×768
+## 9. 화면 QA
 
-상단 목표 지도 6상태 컨택시트는 `screenshots/play-robot-goal-1232-contact-sheet.png`입니다.
+### 컴퓨터 `1280×800`
 
-## 7. QA 기록
+- 첫 화면: `screenshots/01-cover.png`
+- 설명 1·2: `screenshots/02-tutorial-solve.png`, `screenshots/03-tutorial-goal.png`
+- 문제 1단계: `screenshots/04-problem-step1.png`
+- 정답 확인: `screenshots/05-problem-confirmed.png`
+- 문제 2단계: `screenshots/06-problem-step2.png`
+- 무지개 보상: `screenshots/05-reward-rainbow.png`
+- 변화 없음 보상: `screenshots/07-reward-zero.png`
+- 오답 뒤 실제 변화량 0: `screenshots/07-defect-reward.png`
+- 소형·전설 결과: `screenshots/08-result-small.png`, `screenshots/06-result-legend.png`
 
-### 화면 QA
+### 태블릿 가로 `1024×768`
 
-- 첫 화면: 생성형 제목과 생성형 시작 버튼이 16:10 Stage 안에 들어옴
-- 설명 화면: 실제 클릭 흐름으로 1단계에서 2단계로 전환됨
-- 문제 화면: 1440×900과 1024×768에서 상단 목표 지도, 문제식, 선택지, 로봇 영역 겹침 없음
-- 상단 목표 지도 겹침 확인: 1280×800과 1024×768 브라우저에서 `?qa-goal=medium` 전환 완료 후 `goalMapRasterNext.hidden=true`, `naturalWidth=1232`, `naturalHeight=166`, 슬롯 비율 `1232 / 166`, `object-fit: contain` 확인
-- 보상 화면: `reward-score-rainbow-generated.webp`가 `naturalWidth=960`, `naturalHeight=615`로 로드된 뒤 캡처됨
-- 결과 화면: 전설 배경, 전설 라벨, `10/10` 공용 이미지, `2000점`, 버튼 2개가 패널 안에 들어옴
-- 순위 화면: 로컬 메모리 API 응답값이 내 기록 박스와 1위 행에 들어오고, 텍스트가 박스 밖으로 나가지 않음
-
-### 백엔드 연결 QA
-
-문서 갱신용 순위판 캡처는 로컬 메모리 API로 검증했습니다.
-
-- `POST /api/v1/sessions`: 201
-- `POST /api/v1/scores`: 201
-- `GET /api/v1/leaderboards/weekly?lessonId=3-2-1-4-mathmon-fusion&limit=100`: 200
-- 순위판 표시값: 이름 `초록 점프 15`, 얻은 로봇 `거대 로봇`, 내 등수 `1위`, 주차 `2026-07-06 주`
+- 첫 화면: `screenshots/06-tablet-cover.png`
+- 설명 1·2: `screenshots/09-tablet-tutorial-solve.png`, `screenshots/10-tablet-tutorial-goal.png`
+- 문제 1·2단계: `screenshots/08-tablet-problem.png`, `screenshots/11-tablet-problem-step2.png`
+- 보상: `screenshots/12-tablet-reward-zero.png`
+- 결과: `screenshots/13-tablet-result-legend.png`
 
 ### 텍스트 넘침·요소 겹침 QA
 
-최신 스크린샷 기준 첫 화면, 설명 1단계, 설명 2단계, 문제 1단계, 무지개 보상, 전설 결과, API 순위판, 태블릿 문제 화면을 확인했습니다. 보이는 텍스트가 버튼, 카드, 배지, 패널 밖으로 튀어나간 화면은 발견하지 않았습니다.
+위 두 화면 크기에서 첫 화면, 설명 2장, 문제 1·2단계, 정답 확인, 보상 모달, 소형·전설 결과를 확인했습니다.
 
-2026-07-10 실제 플레이 QA에서 오답 힌트 `먼저 2 × 2부터 봐요.`와 2단계 안내 `2 × 6에 0을 붙여요.`처럼 초3 학생이 바로 읽을 수 있는 문구를 확인했고, 1024×768 태블릿 가로에서도 보상 CTA 확대 후 카드 밖으로 나가지 않는 것을 확인했습니다.
+- 문서 스크롤 크기가 viewport를 넘지 않음
+- 보이는 요소가 `.stage-shell` 밖으로 나간 상태 0개
+- 문제, 선택지, 상단 목표 지도, 설정 버튼 사이 겹침 0개
+- 보상 이미지와 다음 버튼 겹침 0개
+- 결과 SVG 버튼 표면과 HTML hitbox가 같은 좌표 안에 있고 패널 경계를 넘지 않음
 
-### 정적 검증
+### Humanizer 학생 문구 QA
 
-- 4차시 inline script 파싱 통과
-- 4차시 문서 `git diff --check` 통과
+첫 화면 목표, 설명 이미지, 문제 지시문, 정답 확인, 힌트, 보상, 결과 문구를 다시 읽었습니다.
+
+- `합체 점수`, `합체 에너지`를 `합체 힘`으로 통일
+- `합체 공방`을 문제 상단에서 `로봇 합체`로 변경
+- `측정 중`을 `확인 중`으로 변경
+- 한 문장에 행동 하나만 남김
+- `부분곱`, `게이트`, `메커니즘` 같은 제작자 말은 학생 화면에 사용하지 않음
+
+## 10. 정적·백엔드 검증
+
+- `bun test ./tests/lesson-validator.test.ts`: 13개 통과
+- `bun run check`: 린트·타입 검사와 전체 테스트 20개 통과
+- `bun run typecheck`: 통과
+- 프런트엔드 seed `12345`와 서버 seed `12345`의 문제 10개·보상 10개 일치
+- inline script 파싱: 통과
+- `node scripts/check-stage-ratio.mjs`: 통과
+- `git diff --check`: 통과

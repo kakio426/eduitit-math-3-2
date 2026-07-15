@@ -13,7 +13,13 @@
 
 - 편집 원본: `_lessons/3-2-4-4-mathmon-fraction-tug/`
 - 문제 배경: `problem-stage-source.png` → `problem-stage-generated.png` → `problem-stage-generated.webp`
-- 결과: `result-{draw,smallwin,win,bigwin,champion,rainbow}-generated.webp`
+- 동행 매스몬: 승인된 `diversity-reward-pack`의 호랑몬(`mathmon-drv-04-bravetiger`)
+- 설명: `tutorial-page-{1,2}-generated.webp` 2장
+- 랜덤 보상: `reward-event-*-generated.webp` 6종
+- 결과: `result-{draw,smallwin,win,bigwin,champion,rainbow}-generated.webp` 6장
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 - 빌드 결과: `3-2-4-4-mathmon-fraction-tug/index.html`
 
 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
+
+추가 시각 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

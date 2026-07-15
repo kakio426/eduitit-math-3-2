@@ -9,13 +9,15 @@
 - 보상: 상자로 트럭을 멋지게 바꾸기
 - 실행: `index.html`을 브라우저에서 열기
 
+설명 화면은 2026-07-12 리마스터에서 HTML 카드 대신 차시 장면과 같은 그림체의 2쪽 생성 포스터로 교체했습니다.
+
 ## 화면 흐름
 
 ```text
 첫 화면 -> 설명 1쪽 -> 설명 2쪽 -> 문제 -> 보상 -> 결과
 ```
 
-설명 1쪽은 g 계산, 1kg 빌리기, 택배 한도 판단을 짧게 보여 줍니다. 설명 2쪽은 정답 뒤 트럭이 바뀌고, 가끔 더 크게 바뀌며, 마지막에 오늘 트럭을 본다는 보상 흐름을 알려 줍니다.
+설명 1쪽은 `kg`과 `g`을 계산하는 행동 하나를 보여 줍니다. 설명 2쪽은 10문제, 트럭 보상, 마지막 결과를 알려 줍니다.
 
 문제 화면은 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본으로 보여 줍니다. 정답을 고르면 값이 계산판 칸에 들어간 뒤 다음 단계로 넘어갑니다. 마지막 단계 뒤에는 완성된 식을 먼저 보여 주고 `트럭 보기` 버튼으로 보상 화면을 엽니다.
 
@@ -129,3 +131,24 @@
 - `node scripts/simulate-lesson5-package-weight.mjs --runs 10000`
 - `node scripts/qa-lesson5-package-weight-click-guards.mjs`
 - Browser QA: Chrome CDP 자동 캡처와 설정 모달 직접 조작으로 데스크톱과 태블릿 가로 화면 확인
+
+## 설명·결과 상태 이미지 세트
+
+- 설명 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
+- 설명 생성 원본: `tutorial-page-1-source.png`, `tutorial-page-2-source.png`
+- 결과 4상태: 평범 / 살짝 멋진 / 번쩍 멋진 / 슈퍼 초울트라 트럭
+- 결과 컨택시트: `result-states-contact-sheet.png`
+- 실제 매스몬 팩: `base-pack` / `base-02-foxmon`
+- 실제 에듀잇티 로고: `eduitit-logo-mark.png`
+- 완료 화면: 데스크톱 `1280×800`, 태블릿 가로 `1024×768`
+
+## 트럭 진화 표시
+
+- 문제 상단은 단순 막대 대신 현재 트럭의 실제 그림과 이름을 보여 줍니다.
+- 상단 슬롯은 `420×92px`, 트럭 그림은 `250×88px`이며 그림이 슬롯 너비의 약 `59.5%`를 차지합니다.
+- 보상 화면은 현재 트럭과 다음 목표 트럭을 나란히 보여 줍니다. 새 단계에 도착하면 실제 이전·이후 트럭으로 바뀝니다.
+- 네 실루엣: 소형 삼륜차 / 대형 6륜 화물차 / 터보 장갑 트럭 / 무지개 날개 전설 트럭
+- 런타임 자산: `truck-evolution-*-generated.webp`
+- 상태 컨택시트: `truck-evolution-contact-sheet.png`
+- 새 결과 장면 원본: `result-truck-evolution-scenes-source.png`
+- 이전 결과 장면은 `_archive/3-2-5-4-pre-dramatic-results/`에 보존합니다.

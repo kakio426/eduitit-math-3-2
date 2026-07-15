@@ -1,0 +1,36 @@
+{
+  "engineVersion": "mathmon-engine-v1", "sourceLesson": "unit5-capacity-shared-model",
+  "id": "3-2-5-2", "folder": "3-2-5-2-mathmon-drink-order", "modelName": "Lesson5WaterFillModel",
+  "title": "매스몬 음료 제조 주문", "shortTitle": "매스몬 음료", "topic": "들이의 덧셈·뺄셈과 어림", "unitBadge": "5단원 들이",
+  "goal": "주문에 맞는 들이를 골라요.", "action": "주문에 맞는 L와 mL 계산 결과를 고른다.",
+  "buttonLabel": "주문 보기", "rewardScreenTitle": "주문 만들기", "progressLabel": "가게 인기",
+  "rewardComplete": "가게 인기가 바뀌었어요.", "rewardSmall": "조금 올라갔어요.", "rewardBig": "크게 올라갔어요.",
+  "tutorialTitle": "음료를 만들기 전에", "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 만들어요?", "body": "mL를 계산하고 1000mL를 1L로 바꿔요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 가게 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" }, "reward": { "mode": "stage-full", "maxPower": 100 },
+  "result": { "renderMode": "simple-generated" }, "workbench": { "type": "drink-order" }, "scoreboard": { "enabled": false },
+  "sourceFiles": { "model": "../3-2-5-1-mathmon-water-fill/model.js", "view": "../3-2-5-1-mathmon-water-fill/view.js" },
+  "mathmonPack": "zero-factory-animal-pack", "mathmonName": "냥냥몬", "mathmonId": "zfa-04-nyangnyangmon",
+  "results": [
+    { "id": "cup", "name": "작은 컵 주문", "minPower": 0, "minCorrect": 0, "image": "result-order-cup-generated.webp", "titleImage": "result-title-cup-generated.webp" },
+    { "id": "tasty", "name": "맛있는 주문", "minPower": 30, "minCorrect": 3, "image": "result-order-tasty-generated.webp", "titleImage": "result-title-tasty-generated.webp" },
+    { "id": "popular", "name": "인기 가게 주문", "minPower": 70, "minCorrect": 7, "image": "result-order-popular-generated.webp", "titleImage": "result-title-popular-generated.webp" },
+    { "id": "rainbow", "name": "무지개 음료 주문", "minPower": 100, "minCorrect": 10, "needsSpecial": true, "image": "result-order-rainbow-generated.webp", "titleImage": "result-title-rainbow-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "cup", "text": "작은 주문표", "weight": 5200, "min": 5, "max": 8, "family": "smallOrder" },
+    { "id": "rush", "text": "북적 주문표", "weight": 1700, "min": 13, "max": 18, "family": "bigOrder" },
+    { "id": "sweet", "text": "달콤 주문표", "weight": 1700, "min": 9, "max": 12, "family": "styleOrder" },
+    { "id": "spill", "text": "살짝 흘린 컵", "weight": 1200, "min": 1, "max": 3, "family": "smallOnly" },
+    { "id": "rainbow", "text": "무지개 주문표", "weight": 200, "min": 28, "max": 28, "family": "specialOrder", "special": true }
+  ],
+  "wrongEvent": { "id": "remake", "text": "다시 만들기", "min": 1, "max": 2, "family": "repair" },
+  "typesPerRun": ["addCarryMl", "addCarryMl", "addCarryMl", "addCarryMl", "subtractBorrowMl", "subtractBorrowMl", "subtractBorrowMl", "orderCheck", "orderCheck", "orderCheck"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "start-button-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "result-retry-button-generated.webp" },
+  "qa": { "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }], "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"] }
+}

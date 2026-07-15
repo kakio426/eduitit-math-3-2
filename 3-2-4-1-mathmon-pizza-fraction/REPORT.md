@@ -17,11 +17,23 @@
 - 런타임 WebP: `problem-stage-generated.webp`
 - 첫 화면과 결과 등급 자산은 기존 생성형 자산을 유지했습니다.
 
+## 2026-07-12 시각 흐름 리마스터
+
+- 커버의 승인된 `base-pack` 여우몬을 설명·랜덤 보상·결과까지 같은 주인공으로 이어 붙였습니다.
+- 설명 1은 `3/4` 피자 하나로 `색칠된 조각 3`, `전체 조각 4`를 바로 연결합니다.
+- 설명 2는 풀이법을 반복하지 않고 `10문제 → 피자 빛 변화 → 마지막 피자 이름`만 보여 줍니다.
+- 랜덤 보상 6종을 일반·감소·토핑 가득·좋은 피자·불 꺼짐·무지개 피자로 각각 분리했습니다.
+- 결과 6장은 모두 1280×800이며, 등급명과 `다시` 버튼은 생성 이미지에 고정하고 피자 빛과 정답 수만 동적으로 표시합니다.
+- 결과 상태 세트 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 표지 왼쪽 위는 실제 `eduitit-logo-mark.png`를 공용 상단 슬롯에 표시합니다.
+- 닫힌 보상과 열린 보상은 각각 `07-reward-closed.png`, `07b-reward-open.png`로 검수했습니다.
+
 ## 검증
 
 - `node scripts/qa-engine-unit4-pizza-source.mjs` 통과
 - lesson engine build 통과
 - `node scripts/check-lesson-contract.mjs` 통과
+- `node scripts/check-lesson-visual-contract.mjs` 통과
 - `node scripts/check-stage-ratio.mjs` 통과
 - `node scripts/qa-lesson-flow.mjs 3-2-4-1-mathmon-pizza-fraction` 통과
 

@@ -322,10 +322,11 @@
     }
 
     .cover-start-button {
-      width: 400px;
+      width: clamp(300px, 28vw, 360px);
       max-width: 58%;
-      height: 149px;
-      margin-top: 6px;
+      height: auto;
+      aspect-ratio: 1611 / 680;
+      margin-top: 18px;
       padding: 0;
       border: 0;
       border-radius: 999px;
@@ -1436,6 +1437,19 @@
       transform: translateY(2px);
     }
 
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-surface,
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-label {
+      display: none;
+    }
+
+    .result-action-hitbox .result-common-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
     .result-action-hitbox.is-disabled {
       pointer-events: none;
     }
@@ -1533,6 +1547,131 @@
       0% { transform: scale(0.35) rotate(0deg); opacity: 0; }
       18% { opacity: 1; }
       100% { transform: scale(1.35) rotate(16deg); opacity: 0; }
+    }
+
+    @media (max-width: 1080px) and (orientation: landscape) {
+      .play {
+        padding: 10px 14px;
+        gap: 10px;
+      }
+
+      .hud {
+        grid-template-columns: minmax(150px, 0.68fr) minmax(320px, 1fr) minmax(150px, 0.68fr);
+      }
+
+      .hud-card {
+        min-height: 58px;
+        padding: 8px 12px;
+      }
+
+      .hud-card span {
+        font-size: 0.74rem;
+      }
+
+      .hud-card--progress,
+      .hud-card.score,
+      .hud-card--last-reward {
+        min-height: 74px;
+        padding: 8px 12px 10px;
+      }
+
+      .hud-card.score strong {
+        font-size: clamp(2rem, 4.6vw, 3rem);
+      }
+
+      .hud-card--progress strong,
+      .hud-card--last-reward strong {
+        font-size: clamp(1.45rem, 3.4vw, 2.2rem);
+      }
+
+      .last-reward-change {
+        font-size: 0.72rem;
+      }
+
+      .play-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(236px, 286px);
+        gap: 14px;
+      }
+
+      .problem-panel {
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .feedback {
+        min-height: 34px;
+        padding: 6px 10px;
+        font-size: 0.9rem;
+      }
+
+      .question-card {
+        min-height: 148px;
+        padding: 18px;
+      }
+
+      .question {
+        font-size: clamp(3rem, 6.4vw, 5rem);
+      }
+
+      .choices {
+        gap: 8px;
+      }
+
+      .choice-button {
+        min-height: 58px;
+        padding: 9px 12px;
+        box-shadow: 0 6px 0 rgba(22, 72, 97, 0.8);
+        font-size: clamp(1.45rem, 3.4vw, 2.2rem);
+      }
+
+      .choice-button.is-wrong {
+        box-shadow: 0 6px 0 rgba(111, 23, 37, 0.85);
+      }
+
+      .choice-button.is-correct {
+        box-shadow: 0 6px 0 rgba(18, 93, 67, 0.9);
+      }
+
+      .crate-panel {
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .crate-panel::before {
+        inset: 12px;
+      }
+
+      .crate-title {
+        font-size: 0.86rem;
+      }
+
+      .crate-stage {
+        min-height: 164px;
+      }
+
+      .crate {
+        width: 144px;
+      }
+
+      .reward {
+        gap: 6px;
+        min-height: 62px;
+      }
+
+      .reward-label {
+        font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+      }
+
+      .reward-copy {
+        font-size: 0.82rem;
+      }
+
+      .secondary-button {
+        min-height: 46px;
+        padding: 8px 18px;
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.38);
+        font-size: 1rem;
+      }
     }
 
     @media (max-width: 820px) {
@@ -1671,7 +1810,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
     <aside class="phone-blocker" aria-label="지원 화면 안내">
       <div>
         <strong>태블릿이나 컴퓨터에서 열어요</strong>
@@ -1723,7 +1862,7 @@
         <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
         <p class="cover-goal">점수를 모아 매스몬을 얻어요.</p>
         <button class="cover-start-button" id="startButton" type="button" data-action="start" aria-label="시작">
-          <img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true">
+          <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
         </button>
       </div>
     </section>
@@ -1837,20 +1976,22 @@
           <text class="result-svg-value" id="resultScoreSvg" data-field="final-correct" x="746" y="476" opacity="0" aria-hidden="true">0/10</text>
           <text class="result-svg-label" x="746" y="548"></text>
           <text class="result-svg-value result-svg-mathmon" id="resultDestinationSvg" x="746" y="598" opacity="0" aria-hidden="true"></text>
-          <rect x="746" y="646" width="122" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect class="result-legacy-action-surface" x="746" y="646" width="122" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
           <rect x="888" y="646" width="164" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <rect x="1072" y="646" width="94" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <text class="result-svg-button-text" x="807" y="685" text-anchor="middle">순위</text>
+          <rect class="result-legacy-action-surface" x="1072" y="646" width="94" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <text class="result-svg-button-text result-legacy-action-label" x="807" y="685" text-anchor="middle">순위</text>
           <text class="result-svg-button-text" x="970" y="685" text-anchor="middle">이미지 받기</text>
-          <text class="result-svg-button-text" x="1119" y="685" text-anchor="middle">다시</text>
+          <text class="result-svg-button-text result-legacy-action-label" x="1119" y="685" text-anchor="middle">다시</text>
         </g>
       </svg>
       <div class="result-actions" aria-hidden="false">
         <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" data-action="leaderboard" aria-label="순위">
+          <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">순위</span>
         </button>
         <a class="result-action-hitbox result-download-hitbox is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
         <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" data-action="restart" aria-label="다시하기">
+          <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">다시하기</span>
         </button>
       </div>

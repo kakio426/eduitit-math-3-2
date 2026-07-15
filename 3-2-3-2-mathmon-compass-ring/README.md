@@ -19,6 +19,12 @@
 - `problem-stage-generated.webp`: 1280×800 밝은 마법 기하 작업실 문제 배경
 - `problem-stage-generated.png`: 1280×800 작업 원본
 - `problem-stage-source.png`: imagegen 생성 원본
+- 동행 매스몬: `diversity-reward-pack`의 수정부엉몬(`mathmon-drv-05-crystalowl`)
+- 설명 1: `반지름 3 cm = 컴퍼스 벌림 3 cm`를 원·눈금·컴퍼스로 직접 연결
+- 설명 2: 10문제·마법진 빛 변화·마지막 마법진 이름만 안내
+- 랜덤 보상: 사건별 `reward-event-*-generated.webp` 6종
+- 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 - 원·반지름·눈금·컴퍼스: 정확한 길이 관계가 필요한 SVG
 - 선택: 같은 좌표의 HTML 버튼과 접근성 이름
 
@@ -39,3 +45,5 @@
 ## 검증 화면
 
 `screenshots/engine-flow-{desktop,tablet-landscape}-*.png`에 1280×800과 1024×768의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다.
+
+추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

@@ -33,6 +33,11 @@ const Lesson2StarPickupModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
+  function withObjectParticle(value) {
+    const finalDigit = Math.abs(Number(value)) % 10;
+    return `${value}${[0, 1, 3, 6, 7, 8].includes(finalDigit) ? "을" : "를"}`;
+  }
+
   function choice(id, value, label, misconceptionId = null, feedback = "", meta = {}) {
     return { id, value, label, misconceptionId, feedback, ...meta };
   }
@@ -40,7 +45,7 @@ const Lesson2StarPickupModel = (() => {
   function makeProblem(rng, serial, used) {
     while (true) {
       const divisor = randomInt(rng, 3, 9);
-      const maxQuotient = Math.floor((99 - (divisor - 1)) / divisor);
+      const maxQuotient = Math.min(31, Math.floor((99 - (divisor - 1)) / divisor));
       const quotient = randomInt(rng, 2, maxQuotient);
       const remainder = randomInt(rng, 1, divisor - 1);
       const dividend = quotient * divisor + remainder;
@@ -58,14 +63,14 @@ const Lesson2StarPickupModel = (() => {
         remainder,
         grouped: divisor * quotient,
         prompt: `${dividend} ÷ ${divisor}`,
-        finalExpression: `${divisor} × ${quotient} + ${remainder} = ${dividend}`
+        finalExpression: `${divisor}×${quotient}+${remainder}=${dividend}`
       };
 
       problem.steps = [
         {
           id: "quotient",
           label: "몫",
-          instruction: `${dividend}개를 넘지 않게 가장 많이 묶어요.`,
+          instruction: `${divisor}×몇이 ${withObjectParticle(dividend)} 넘지 않을까요?`,
           answer: quotient,
           answerChoiceId: quotientAnswerId,
           choices: shuffle([
@@ -85,14 +90,14 @@ const Lesson2StarPickupModel = (() => {
               relation: "too-small"
             })
           ], rng),
-          correctText: `${divisor}개씩 ${quotient}묶음이에요.`,
+          correctText: `${divisor}개씩 ${quotient}묶음, ${divisor * quotient}개예요.`,
           reveal: `${quotient}묶음`,
           advance: { mode: "timed", delayMs: 1200 }
         },
         {
           id: "remainder",
           label: "남은 별",
-          instruction: "남은 별 수를 골라요.",
+          instruction: "묶고 남은 별을 세어 봐요.",
           answer: remainder,
           answerChoiceId: remainderAnswerId,
           choices: shuffle([

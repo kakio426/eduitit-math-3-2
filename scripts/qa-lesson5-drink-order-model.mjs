@@ -4,25 +4,22 @@ import path from "node:path";
 import vm from "node:vm";
 
 const ROOT = process.cwd();
-const LESSON_PATH = path.join(ROOT, "3-2-5-2-mathmon-drink-order/index.html");
-const MODEL_NAME = "Lesson5DrinkOrderModel";
+const SOURCE_DIR = path.join(ROOT, "_lessons", "3-2-5-2-mathmon-drink-order");
+const MODEL_PATH = path.join(ROOT, "_lessons", "3-2-5-1-mathmon-water-fill", "model.js");
+const MODEL_NAME = "Lesson5WaterFillModel";
 
 function parseArgs(argv) { const options = { runs: 10000, seed: 20260704 }; for (let index = 0; index < argv.length; index += 1) { const arg = argv[index]; if (arg === "--runs") { options.runs = Number(argv[++index]); continue; } if (arg === "--seed") { options.seed = Number(argv[++index]); continue; } throw new Error("Unknown option: " + arg); } if (!Number.isInteger(options.runs) || options.runs < 1) throw new Error("--runs must be a positive whole number"); return options; }
 function loadLessonModel() {
-  const html = fs.readFileSync(LESSON_PATH, "utf8");
-  const configStart = html.indexOf("const LESSON_CONFIG = ");
-  const start = html.indexOf("const " + MODEL_NAME + " = (() => {");
-  const end = html.indexOf("\n\n    const screens", start);
-  if (configStart === -1 || start === -1 || end === -1) throw new Error("model block not found");
-  const source = html.slice(configStart, end) + "\n" + MODEL_NAME + ";";
-  const context = vm.createContext({ console });
-  return vm.runInContext(source, context, { filename: LESSON_PATH });
+  const config = JSON.parse(fs.readFileSync(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
+  const source = fs.readFileSync(MODEL_PATH, "utf8");
+  const context = vm.createContext({ console, LESSON_CONFIG: config, Math });
+  return vm.runInContext(source + "\n" + MODEL_NAME + ";", context, { filename: MODEL_PATH });
 }
 function assert(condition, message) { if (!condition) throw new Error(message); }
 function addCount(map, key) { map.set(key, (map.get(key) || 0) + 1); }
 function toObject(map) { return Object.fromEntries([...map.entries()].sort(([a],[b]) => a.localeCompare(b))); }
 function validateStep(step, problem, label, model) { assert(step.choices.includes(step.correct), label + " step lacks correct choice"); assert(new Set(step.choices).size === step.choices.length, label + " duplicate choices"); assert(step.choices.length >= 3, label + " needs at least 3 choices"); assert(model.validateChoice(step, step.correct), label + " rejects correct choice"); const wrong = step.choices.find(choice => choice !== step.correct); assert(wrong && !model.validateChoice(step, wrong), label + " accepts wrong choice"); }
-function validateProblem(problem, index, model) { assert(problem.steps.length >= 1 && problem.steps.length <= 3, index + " invalid step count"); assert(problem.expression.includes(problem.finalText) || problem.expression.includes(problem.steps[problem.steps.length - 1].correct), index + " expression misses final value"); for (const step of problem.steps) validateStep(step, problem, index + "." + step.id, model);
+function validateProblem(problem, index, model) { assert(problem.steps.length >= 1 && problem.steps.length <= 3, index + " invalid step count"); assert(!String(problem.expression).includes("NaN") && !String(problem.finalText).includes("NaN"), index + " contains NaN"); assert(problem.expression.includes(problem.finalText) || problem.expression.includes(problem.steps[problem.steps.length - 1].correct), index + " expression misses final value"); for (const step of problem.steps) validateStep(step, problem, index + "." + step.id, model);
   if (problem.type === "readMl") { assert(problem.visual.amount >= 100 && problem.visual.amount <= 900 && problem.visual.amount % 100 === 0, index + " readMl range"); }
   if (problem.type === "readLiterMl") { assert(problem.visual.amount >= 1100 && problem.visual.amount <= 2900 && problem.visual.amount % 100 === 0, index + " readLiterMl range"); }
   if (problem.type === "compareBottle") { assert(Math.abs(problem.visual.left - problem.visual.right) >= 100, index + " compareBottle diff"); const expected = problem.visual.left > problem.visual.right ? "왼쪽 물통" : "오른쪽 물통"; assert(problem.finalText === expected, index + " compareBottle answer"); }

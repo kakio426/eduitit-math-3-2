@@ -9,7 +9,7 @@
   "topic": "컴퍼스로 원 그리기",
   "unitBadge": "3단원 원",
   "goal": "컴퍼스 벌림과 반지름의 관계를 알아봐요.",
-  "action": "반지름만큼 벌어진 컴퍼스를 고른다.",
+  "action": "반지름만큼 벌어진 컴퍼스를 골라요.",
   "buttonLabel": "마법 보기",
   "rewardScreenTitle": "마법진 빛",
   "progressLabel": "마법진 빛",
@@ -17,8 +17,8 @@
   "tutorialTitle": "원을 그리기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "title": "어떻게 벌려요?", "body": "컴퍼스는 반지름만큼 벌려요.", "image": "problem-stage-generated.webp" },
-    { "visual": "2", "title": "무엇을 얻어요?", "body": "10문제를 풀고 마지막 마법진을 봐요.", "image": "problem-stage-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 벌려요?", "body": "반지름과 컴퍼스 벌림을 같게 맞춰요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마법진 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -26,17 +26,30 @@
     "maxPower": 100,
     "nextLabel": "다음",
     "artMap": {
-      "normal": "result-ring-generated.webp",
-      "loss": "result-small-generated.webp",
-      "mega": "result-big-generated.webp",
-      "perfect": "result-grand-generated.webp",
-      "empty": "result-faint-generated.webp",
-      "rainbow": "result-legend-generated.webp"
-    }
+      "normal": "reward-event-normal-generated.webp",
+      "loss": "reward-event-loss-generated.webp",
+      "mega": "reward-event-mega-generated.webp",
+      "perfect": "reward-event-perfect-generated.webp",
+      "empty": "reward-event-empty-generated.webp",
+      "rainbow": "reward-event-rainbow-generated.webp"
+    },
+    "spriteSheet": { "columns": 3, "rows": 2, "slots": {
+      "normal": [0, 0], "loss": [1, 0], "mega": [2, 0],
+      "perfect": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
+    } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
+    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+    "contactSheet": "result-tiers-v2-contact-sheet.png",
+    "protagonist": "mathmon-drv-05-crystalowl",
+    "fixedGeneratedElements": ["result-title", "retry-button"],
+    "dynamicOverlays": ["magic-light", "correct-count"]
+  } },
   "workbench": { "type": "compass-opening" },
   "scoreboard": { "enabled": false },
+  "mathmonPack": "diversity-reward-pack",
+  "mathmonName": "수정부엉몬",
+  "mathmonId": "mathmon-drv-05-crystalowl",
   "results": [
     { "id": "faint", "name": "흐린 원", "minPower": 0, "minCorrect": 0, "image": "result-faint-generated.webp", "titleImage": "result-faint-generated.webp" },
     { "id": "small", "name": "작은 마법진", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
@@ -68,11 +81,14 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
-    "problem-stage-generated.webp",
+    "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
+    "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-faint-generated.webp", "result-small-generated.webp", "result-ring-generated.webp",
     "result-big-generated.webp", "result-grand-generated.webp", "result-legend-generated.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }

@@ -33,7 +33,7 @@ const response = await fetch(`${SCOREBOARD_API_URL}/api/v1/sessions`, {
 const session = await response.json()
 ```
 
-게임은 `session.sessionId`, `session.seed`, `session.nickname`을 보관합니다.
+게임은 `session.sessionId`, `session.seed`, `session.nickname`을 보관합니다. 1단원 4차시 로봇 합체는 세션 생성 Promise를 기다린 뒤 `session.seed`로 문제 10개와 보상을 만들기 때문에, 세션 응답 전에 문제를 시작하면 안 됩니다.
 
 현재 1단원 1~4차시, 3단원 1~4차시, 4단원 1~4차시 프론트엔드는 `_shared/scoreboard/scoreboard-ui.js`의 `MathmonScoreboard.createApiBridge(...)`를 사용하거나 같은 계약을 직접 구현합니다. 각 차시에서 백엔드와 맞닿는 값은 아래 네 가지입니다.
 
@@ -93,7 +93,7 @@ await fetch(`${SCOREBOARD_API_URL}/api/v1/scores`, {
 }
 ```
 
-1차 MVP는 차시별 보상 이벤트 ID와 범위를 검산합니다. 다음 단계에서 각 차시의 seed 기반 문제 생성까지 서버와 완전히 맞추면 조작 방지 강도가 더 올라갑니다.
+기본 차시는 차시별 보상 이벤트 ID와 범위를 검산합니다. 1단원 4차시 로봇 합체는 여기에 더해 세션 seed로 문제 10개, 세 단계 정답, 문제별 랜덤 보상을 서버에서 다시 계산합니다. 클라이언트가 보낸 `expected`나 임의 보상값을 정답으로 신뢰하지 않습니다.
 
 ## 1~4차시 프론트 연동 지점
 
@@ -102,7 +102,7 @@ await fetch(`${SCOREBOARD_API_URL}/api/v1/scores`, {
 | 1차시 상자런 | `3-2-1-1-mathmon-box-run` | 전국 상자 순위 | 최종 상자 점수 | 상자 결과/매스몬 이름 | `answer` 1단계 | 깨진 상자의 `0`, `÷2`는 고정값이 아니라 `after - before` 변화량을 `broken.amount`로 보냅니다. |
 | 2차시 로켓 | `3-2-1-2-mathmon-rocket-charge` | 전국 로켓 순위 | 연료 점수 | 도착한 곳 | `ones`, `tens`, `hundreds` | `instantLaunch`가 마지막 보상이면 10문제 전에도 제출할 수 있습니다. |
 | 3차시 점프섬 | `3-2-1-3-mathmon-jump-islands` | 전국 점프 순위 | 점프 거리 | 도착한 섬 | `smallProduct`, `scaleFooting` | 한 번이라도 틀린 문제는 좋은 바람이 아니라 `shaky` 보상으로 검증됩니다. |
-| 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 점수 | 얻은 로봇 | `partial1`, `partial2`, `fusion` | `emptyTank`는 0점 보상이고, `rainbowFuel`은 `amount: 800`으로 보냅니다. |
+| 4차시 로봇 합체 | `3-2-1-4-mathmon-fusion` | 전국 합체 순위 | 합체 힘 | 얻은 로봇 | `partial1`, `partial2`, `fusion` | 서버 seed로 문제·정답·정답 문제의 보상을 다시 계산합니다. `rainbowFuel`은 `amount: 800`, 오답 문제는 `leak/-100`입니다. |
 | 3단원 1차시 표적 맞히기 | `3-2-3-1-mathmon-target-hit` | 전국 표적 순위 | 표적 점수 | 표적 등급 | `find` | 중심·반지름·지름 보기의 첫 선택을 보냅니다. |
 | 3단원 2차시 컴퍼스 마법진 | `3-2-3-2-mathmon-compass-ring` | 전국 마법진 순위 | 마법진 점수 | 마법진 등급 | `spread` | 컴퍼스가 벌어진 길이를 `selected`, 정답 길이를 `expected`로 보냅니다. |
 | 3단원 3차시 두 배 다리 | `3-2-3-3-mathmon-double-bridge` | 전국 다리 순위 | 다리 점수 | 다리 등급 | `double` | 반지름 두 개의 합으로 고른 길이를 보냅니다. |

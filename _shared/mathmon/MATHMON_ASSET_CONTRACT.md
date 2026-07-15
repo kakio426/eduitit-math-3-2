@@ -79,6 +79,13 @@
 - 기존 차시 폴더의 옛 PNG를 계속 참조하지 않습니다.
 - 첫 화면 커버에 매스몬을 보이게 할 목적으로 기존 팩 WebP를 배경 위에 따로 붙이지 않습니다. 커버에 매스몬이 필요하면 `cover-generated.webp` 생성 단계에서 배경과 함께 한 장면으로 만듭니다.
 
+## 공용 시작 버튼
+
+- 공용 ID는 `mathmon-cover-start-button-v1`이고, 원본·PNG·배포 WebP는 `_shared/mathmon/cover-start-button/`에만 보관합니다.
+- 새 차시와 큰 커버 수정은 `../_shared/mathmon/cover-start-button/start-button-generated.webp`를 직접 참조하고, `<main>`에 `data-cover-start-asset="shared-canonical-v1"`를 선언합니다.
+- 시작 버튼은 차시별로 새로 생성·복제·색 변경·재가공하지 않습니다. 브랜드 변경처럼 공용 버튼을 교체하는 일은 사용자의 명시적 승인 뒤 공용 세트 전체를 바꾸는 경우에만 허용합니다.
+- 표시 크기는 1280×800 Stage에서 `360×152px`, 작은 화면 최소 `300×127px`, 원본 비율 `1611:680`으로 고정합니다. 보이는 아트와 HTML hitbox의 실제 렌더 경계는 같아야 합니다.
+
 ## 팩 구조
 
 새 팩은 항상 아래 구조를 가집니다.

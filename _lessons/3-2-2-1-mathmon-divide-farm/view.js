@@ -1,6 +1,99 @@
 const FARM_SVG_NS = "http://www.w3.org/2000/svg";
 let farmInteractionState = null;
 let farmProblemProgress = null;
+let farmStatusBadge = null;
+let farmRewardStage = null;
+let farmResultNextArt = null;
+
+function getFarmStageImage(result) {
+  const map = LESSON_CONFIG.imageAssets?.farmStages || LESSON_CONFIG.reward?.stageImages || {};
+  return map[result?.id] || map.seed || "farm-stage-seed-generated.webp";
+}
+
+function getFarmEventImage(event) {
+  const map = LESSON_CONFIG.reward?.artMap || {};
+  return event?.image || map[event?.id] || map[event?.family] || LESSON_CONFIG.imageAssets.rewardClosed;
+}
+
+function ensureFarmStatusBadge() {
+  if (farmStatusBadge?.root?.isConnected) return farmStatusBadge;
+  const hud = document.querySelector("#screen-play .hud");
+  const hudRight = hud?.querySelector(".hud-right");
+  if (!hud || !hudRight) return null;
+  const badge = document.createElement("div");
+  badge.className = "farm-current-badge";
+  badge.setAttribute("aria-label", "현재 농장");
+  const image = document.createElement("img");
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  const label = document.createElement("span");
+  badge.append(image, label);
+  hud.insertBefore(badge, hudRight);
+  farmStatusBadge = { root: badge, image, label };
+  return farmStatusBadge;
+}
+
+function syncFarmStatusBadge(state) {
+  const badge = ensureFarmStatusBadge();
+  if (!badge) return;
+  const result = Lesson2DivideFarmModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+  badge.image.src = getFarmStageImage(result);
+  badge.label.textContent = result.name;
+  badge.root.dataset.tier = result.id;
+  badge.root.setAttribute("aria-label", `현재 농장 ${result.name}`);
+}
+
+function ensureFarmRewardStage() {
+  if (farmRewardStage?.root?.isConnected) return farmRewardStage;
+  const panel = document.querySelector("#screen-reward .reward-panel");
+  const title = document.getElementById("rewardTitle");
+  const label = document.getElementById("rewardChange");
+  const button = document.getElementById("rewardNextButton");
+  if (!panel || !title || !label || !button) return null;
+
+  title.classList.add("visually-hidden");
+  const story = document.createElement("div");
+  story.className = "farm-reward-story";
+  story.dataset.phase = "closed";
+
+  const farm = document.createElement("div");
+  farm.className = "farm-reward-farm";
+  const before = document.createElement("img");
+  before.className = "farm-reward-before";
+  before.alt = "";
+  before.setAttribute("aria-hidden", "true");
+  const after = document.createElement("img");
+  after.className = "farm-reward-after";
+  after.alt = "";
+  after.setAttribute("aria-hidden", "true");
+  farm.append(before, after);
+
+  const eventWrap = document.createElement("div");
+  eventWrap.className = "farm-reward-event";
+  const eventArt = document.createElement("img");
+  eventArt.alt = "";
+  eventArt.setAttribute("aria-hidden", "true");
+  eventWrap.appendChild(eventArt);
+
+  story.append(farm, eventWrap);
+  label.className = "reward-change farm-reward-line";
+  panel.replaceChildren(title, story, label, button);
+  farmRewardStage = { root: story, before, after, eventArt, label, button };
+  return farmRewardStage;
+}
+
+function ensureFarmResultNextArt() {
+  if (farmResultNextArt?.isConnected) return farmResultNextArt;
+  const layer = document.querySelector("#screen-result .result-layer");
+  if (!layer) return null;
+  const image = document.createElement("img");
+  image.className = "result-next-art";
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  layer.appendChild(image);
+  farmResultNextArt = image;
+  return image;
+}
 
 function ensureFarmTutorialGuide() {
   const firstCard = document.querySelector("#screen-tutorial .tutorial-card:first-child");
@@ -76,6 +169,7 @@ function ensureFarmStageArt() {
 
 function renderProblemVisual(problem, state) {
   ensureFarmStageArt();
+  syncFarmStatusBadge(state);
   farmInteractionState = null;
   farmProblemProgress = { problemId: problem.id, tensDone: false, onesDone: false };
   ui.visualArea.dataset.revealedStep = "";
@@ -470,8 +564,52 @@ function onProblemComplete() {
   return pulseScene("complete");
 }
 
-function onRewardReveal() {
-  return pulseScene("reward");
+function onRewardPrepare({ beforeResult }) {
+  const stage = ensureFarmRewardStage();
+  if (!stage) return;
+  const source = getFarmStageImage(beforeResult);
+  stage.before.src = source;
+  stage.after.src = source;
+  stage.eventArt.src = LESSON_CONFIG.imageAssets.rewardClosed;
+  stage.label.textContent = "";
+  stage.root.dataset.phase = "closed";
+  stage.root.dataset.reward = "closed";
+  stage.root.setAttribute("aria-label", `현재 농장 ${beforeResult.name}. 닫힌 바구니`);
+}
+
+function onRewardReveal({ event, beforeResult, afterResult, state }) {
+  const stage = ensureFarmRewardStage();
+  if (!stage) return Promise.resolve();
+  stage.before.src = getFarmStageImage(beforeResult);
+  stage.after.src = getFarmStageImage(afterResult);
+  stage.eventArt.src = getFarmEventImage(event);
+  stage.root.dataset.reward = event.family || event.id || "harvest";
+  stage.root.dataset.phase = "revealed";
+  stage.root.setAttribute("aria-label", `${event.text}. ${afterResult.name}이 됐어요.`);
+  syncFarmStatusBadge(state);
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return new Promise((resolve) => setTimeout(resolve, reduced ? 0 : 480));
+}
+
+function onResult({ result }) {
+  const nextArt = ensureFarmResultNextArt();
+  const source = LESSON_CONFIG.result?.nextTitleMap?.[result.id];
+  if (nextArt) {
+    nextArt.src = source || "";
+    nextArt.hidden = !source;
+  }
+  const nextText = document.getElementById("resultNext");
+  if (nextText) {
+    const textMap = {
+      seed: "다음엔 새싹!",
+      sprout: "다음엔 텃밭!",
+      garden: "다음엔 농장!",
+      farm: "다음엔 대농장!",
+      bigfarm: "황금밭을 찾아봐요!",
+      rainbow: "황금밭을 찾았어요!",
+    };
+    nextText.textContent = textMap[result.id] || "다시 농장을 키워요!";
+  }
 }
 
 function pulseScene(stateName) {
@@ -553,4 +691,7 @@ function installDivideFarmAudioQa() {
 }
 
 ensureFarmTutorialGuide();
+ensureFarmStatusBadge();
+ensureFarmRewardStage();
+ensureFarmResultNextArt();
 queueMicrotask(installDivideFarmAudioQa);
