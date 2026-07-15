@@ -406,7 +406,7 @@ async function handleChoice(choice, button) {
   ui.completePanel.classList.add("is-visible");
   ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
   ui.continueButton.hidden = false;
-  ui.continueButton.focus();
+  ui.continueButton.focus({ preventScroll: true });
   state.inputLocked = false;
 }
 
@@ -486,7 +486,7 @@ function renderStepChips(problem) {
   });
 }
 
-function showReward() {
+async function showReward() {
   if (!state.completed) return;
   const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
   const firstTry = !state.mistakeTouched;
@@ -496,6 +496,23 @@ function showReward() {
 
   if (getRewardMode() === "modal-art") {
     openRewardModal(event);
+    return;
+  }
+
+  if (getRewardMode() === "stage-reveal") {
+    const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+    ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+    if (ui.rewardScene instanceof HTMLImageElement) {
+      ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+    } else if (ui.rewardScene) {
+      ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+    }
+    ui.rewardLabel.textContent = "";
+    ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+    ui.rewardNextButton.disabled = false;
+    await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+    showScreen("reward");
+    ui.rewardNextButton.focus({ preventScroll: true });
     return;
   }
 
@@ -537,7 +554,65 @@ function applyPendingReward(event) {
   }
   finishScoreboardQuestion(event);
   state.lastRewardEvent = event;
+  state.currentResult = null;
   return beforePower;
+}
+
+async function revealStageReward() {
+  if (getRewardMode() !== "stage-reveal" || state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+  const event = state.pendingRewardEvent;
+  const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+  state.rewardPhase = "opening";
+  ui.rewardNextButton.disabled = true;
+  const beforePower = applyPendingReward(event);
+  const afterResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ui.rewardLabel.textContent = formatRewardDelta(event);
+  playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+  if (!reduceMotion) await waitFor(650);
+  await runViewHook("onRewardReveal", {
+    event,
+    beforePower,
+    afterPower: state.power,
+    beforeResult,
+    afterResult,
+    state,
+  });
+  ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+  state.rewardPhase = "revealed";
+  ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
+    ? "결과 보기"
+    : (LESSON_CONFIG.reward?.nextLabel || "다음");
+  ui.rewardNextButton.disabled = false;
+  ui.rewardNextButton.focus({ preventScroll: true });
+  syncProgress();
+}
+
+function waitFor(duration) {
+  return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
+function formatRewardDelta(event) {
+  if (event.special) return "황금밭!";
+  const amount = Number(event.amount) || 0;
+  if (amount > 0) return `+${amount}`;
+  if (amount < 0) return String(amount);
+  return "그대로";
+}
+
+function getRewardTargetText(beforeResult, afterResult) {
+  if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+  if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
+  const nextResult = typeof LessonModel.getNextResult === "function"
+    ? LessonModel.getNextResult(afterResult)
+    : afterResult;
+  if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+  const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
+  if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
+    return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
+  }
+  const remaining = Math.max(0, Number(nextResult.minPower || 0) - state.power);
+  return `${nextResult.name}까지 ${remaining} 더`;
 }
 
 async function revealRewardModal() {
@@ -608,7 +683,12 @@ function formatRewardText(event) {
 }
 
 function advanceAfterReward() {
+  if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
   if (getRewardMode() === "modal-art") closeRewardModal();
+  if (getRewardMode() === "stage-reveal") {
+    state.pendingRewardEvent = null;
+    state.rewardPhase = "idle";
+  }
   if (state.problemIndex >= state.problems.length - 1) {
     showResult();
     return;
@@ -622,7 +702,7 @@ function showResult() {
   const result = getCurrentResult();
   state.currentResult = result;
   playSample("result");
-  ui.resultBg.src = LESSON_CONFIG.imageAssets.resultScene || result.image || LESSON_CONFIG.imageAssets.cover;
+  ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
   ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
   ui.resultTitleArt.alt = "";
   ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
@@ -648,6 +728,14 @@ function showResult() {
   ui.leaderboardButtonArt.hidden = !showLeaderboard;
   ui.leaderboardButton.hidden = !showLeaderboard;
   if (showLeaderboard) ui.leaderboardButtonArt.src = leaderboardAsset;
+
+  void runViewHook("onResult", {
+    result,
+    nextResult: typeof LessonModel.getNextResult === "function" ? LessonModel.getNextResult(result) : result,
+    power: state.power,
+    correctFirstTry: state.correctFirstTry,
+    state,
+  });
 
   showScreen("result");
 }
@@ -758,6 +846,9 @@ function finishScoreboardQuestion(event) {
     amount: event.amount,
     text: event.text,
   };
+  if (LESSON_CONFIG.reward?.version) {
+    state.currentScoreboardAnswer.reward.version = LESSON_CONFIG.reward.version;
+  }
   state.scoreboardAnswers.push(state.currentScoreboardAnswer);
   state.currentScoreboardAnswer = null;
 }
@@ -807,7 +898,14 @@ ui.startButton.addEventListener("click", () => beginTutorial("cover"));
 ui.nextTutorialButton.addEventListener("click", continueTutorial);
 ui.backTutorialButton?.addEventListener("click", previousTutorial);
 ui.continueButton.addEventListener("click", showReward);
-ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+ui.rewardNextButton.addEventListener("click", () => {
+  if (getRewardMode() === "stage-reveal") {
+    if (state.rewardPhase === "closed") revealStageReward();
+    else if (state.rewardPhase === "revealed") advanceAfterReward();
+    return;
+  }
+  advanceAfterReward();
+});
 ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
 ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
 ui.retryButton.addEventListener("click", startGame);
@@ -837,14 +935,33 @@ window.__mathmonEngineQa = {
   startGame,
   showResult,
   showScreen,
+  showReward,
+  revealStageReward,
+  setState: (patch = {}) => {
+    const allowed = [
+      "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
+      "completed", "mistakeTouched", "rewardPhase", "pendingRewardEvent", "currentResult",
+    ];
+    for (const key of allowed) {
+      if (Object.hasOwn(patch, key)) state[key] = patch[key];
+    }
+    return window.__mathmonEngineQa.getState();
+  },
   getState: () => ({
     screen: state.screen,
     problemIndex: state.problemIndex,
     stepIndex: state.stepIndex,
     inputLocked: state.inputLocked,
     pendingAdvance: state.pendingAdvance,
+    completed: state.completed,
     power: state.power,
     correctFirstTry: state.correctFirstTry,
+    specialSeen: state.specialSeen,
+    rewardPhase: state.rewardPhase,
+    pendingRewardId: state.pendingRewardEvent?.id || "",
+    pendingRewardAmount: Number(state.pendingRewardEvent?.amount) || 0,
+    pendingRewardSpecial: Boolean(state.pendingRewardEvent?.special),
+    lastRewardId: state.lastRewardEvent?.id || "",
     answers: state.scoreboardAnswers,
   }),
   getCurrentProblem: () => state.problems[state.problemIndex] || null,

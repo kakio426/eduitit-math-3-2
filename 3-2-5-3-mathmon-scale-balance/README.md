@@ -76,3 +76,15 @@
 - `tablet-result-*.png`
 
 세로 휴대폰은 기본 지원 대상이 아닙니다.
+
+## 엔진 소스와 2쪽 설명 포스터
+
+- 공용 엔진: `_engine/v1/`
+- 차시 설정: `_lessons/3-2-5-3-mathmon-scale-balance/lesson.json`
+- 들이·무게 공용 문제 모델: `_lessons/3-2-5-1-mathmon-water-fill/model.js`
+- 설명 1쪽: 양쪽 무게를 보고 저울을 맞추는 한 가지 행동
+- 설명 2쪽: 10문제, 학생이 확인하는 보석 보상, 마지막 결과
+- 런타임 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
+- 결과 4상태 컨택시트: `result-states-contact-sheet.png`
+- 실제 매스몬 팩: `diversity-reward-pack` / `mathmon-drv-05-crystalowl`
+- 브라우저 QA: `1280×800`, `1024×768`

@@ -76,3 +76,15 @@
 - `tablet-result-*.png`
 
 세로 휴대폰은 기본 지원 대상이 아닙니다.
+
+## 엔진 소스와 2쪽 설명 포스터
+
+- 공용 엔진: `_engine/v1/`
+- 차시 설정: `_lessons/3-2-5-2-mathmon-drink-order/lesson.json`
+- 들이·무게 공용 문제 모델: `_lessons/3-2-5-1-mathmon-water-fill/model.js`
+- 설명 1쪽: `mL`를 계산하고 `1000mL`를 `1L`로 바꾸는 행동
+- 설명 2쪽: 10문제, 학생이 확인하는 주문 보상, 마지막 결과
+- 런타임 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
+- 결과 4상태 컨택시트: `result-states-contact-sheet.png`
+- 실제 매스몬 팩: `zero-factory-animal-pack` / `zfa-04-nyangnyangmon`
+- 브라우저 QA: `1280×800`, `1024×768`

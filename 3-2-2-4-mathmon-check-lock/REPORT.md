@@ -75,11 +75,11 @@
 
 - `node scripts/qa-lesson-model.mjs 3-2-2-4-mathmon-check-lock` → `QA_LESSON_MODEL: PASS`
 - `node scripts/qa-lesson2-check-lock.mjs 20260701` → `QA_LESSON2_CHECK_LOCK: PASS` (네 화면 크기 전체 흐름)
-- `node scripts/check-stage-ratio.mjs` → 원격 메인 통합본 20개 차시 Stage 계약 통과
-- `node scripts/check-rule-consistency.mjs` → 원격 메인에 없는 기존 `UNIT3_IMAGE_GUIDE.md`, `UNIT4_IMAGE_GUIDE.md` 때문에 전체 명령 종료 코드 1
-- `node scripts/check-lesson-contract.mjs` → 원격 메인 통합본 13개 엔진 차시 통과
-- `node scripts/check-lesson-visual-contract.mjs` → 2단원 1~4차시 시각 계약 통과
-- `./.venv/bin/python manage.py test mathmon_scoreboard --keepdb` → 9개 서버 점수 재계산·변조 거부 검사 통과
+- `node scripts/check-stage-ratio.mjs` → 21개 차시 Stage 계약 통과
+- `node scripts/check-rule-consistency.mjs` → 13개 문서·21개 차시 규칙 일치
+- `node scripts/check-lesson-contract.mjs` → 이 차시 오류는 없었으나, 별도 차시 `3-2-2-1`의 기존 `reward.mode` 계약 불일치로 전체 명령 종료 코드 1
+- `node scripts/check-lesson-visual-contract.mjs` → 이 차시 오류는 없었으나, 별도 차시 `3-2-2-1`의 기존 결과 주인공 불일치로 전체 명령 종료 코드 1
+- `./.venv/bin/python manage.py test mathmon_scoreboard --keepdb` → 2단원 네 차시 서버 점수 재계산·변조 거부 검사 통과
 - `./.venv/bin/python manage.py check` → Django 시스템 오류 0건
 
 현재 캡처는 이번 코드에서 다시 만든 `screenshots/engine-flow-*.png`입니다. 자동 종료 코드와 실제 화면 확인을 별도 증거로 남겼습니다.

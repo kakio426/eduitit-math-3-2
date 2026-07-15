@@ -198,8 +198,8 @@ function renderElevatorMathBoard(problem, state) {
           ${combinedOnesMarkup}
         </g>
       ` : `
-        <text x="386" y="304" class="board-work-label" text-anchor="end">남은 십</text>
-        <text x="463" y="318" class="board-work-digit">${remainingValue}</text>
+        <text x="382" y="294" class="board-work-label" text-anchor="end">남은 십</text>
+        <text x="463" y="336" class="board-work-digit">${remainingValue}</text>
       `;
   const workMarkup = showTensWork ? `
       <g class="division-work ${showDownWork ? "is-down-step" : "is-tens-check"} ${attemptedChoice ? "is-wrong-attempt" : ""}">
@@ -217,7 +217,7 @@ function renderElevatorMathBoard(problem, state) {
     </g>
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
       <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 102 Q305 102 305 124 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
       ${renderSvgCell(380, 12, 166, 72, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
       ${renderSvgCell(548, 12, 166, 72, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
@@ -264,7 +264,7 @@ function renderAttemptNote(problem, step, choice) {
   }
   return `
     <g class="board-attempt-note" aria-label="${label} ${value}">
-      <rect x="96" y="276" width="220" height="96" rx="16" />
+      <rect x="96" y="276" width="220" height="96" rx="20" />
       <text x="206" y="310" class="board-attempt-label">${label}</text>
       <text x="206" y="356" class="board-attempt-value">${value}</text>
     </g>

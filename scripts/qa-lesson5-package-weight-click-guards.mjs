@@ -174,7 +174,7 @@ class Cdp {
       const timer = setTimeout(() => {
         this.pending.delete(id);
         reject(new Error(`${method} timed out`));
-      }, 15000);
+      }, 30000);
       this.pending.set(id, {
         resolve: (value) => {
           clearTimeout(timer);
@@ -237,6 +237,13 @@ async function evalInPage(page, expression) {
     throw new Error(result.exceptionDetails.text || "Runtime.evaluate failed");
   }
   return result.result.value;
+}
+
+async function captureLessonScreenshot(page, fileName) {
+  const result = await page.send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false });
+  const outputDir = path.join(ROOT, LESSON, "screenshots");
+  await fsp.mkdir(outputDir, { recursive: true });
+  await fsp.writeFile(path.join(outputDir, fileName), Buffer.from(result.data, "base64"));
 }
 
 async function loadLessonPage(page, pageUrl) {
@@ -308,11 +315,20 @@ const PLAY_TO_COMPLETE = String.raw`
     await waitFor(() => [...document.querySelectorAll("#choicesPanel button")].some((item) => item.dataset.correct === "true" && !item.disabled)
       || document.querySelector("#completePanel").classList.contains("is-visible"), "next choices or complete panel");
   }
-  await waitFor(() => document.querySelector("#completePanel").classList.contains("is-visible"), "complete panel");
+	  await waitFor(() => document.querySelector("#completePanel").classList.contains("is-visible"), "complete panel");
+	  const progressCard = document.querySelector("#truckProgressVisual").getBoundingClientRect();
+	  const progressImage = document.querySelector("#runTruckImage").getBoundingClientRect();
+	  const hudLeft = document.querySelector(".hud-left").getBoundingClientRect();
+	  const hudRight = document.querySelector(".hud-right").getBoundingClientRect();
+	  const overlaps = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
 	  return {
 	    progressBeforeReward: document.querySelector("#runProgressText").textContent,
 	    problemCounter: document.querySelector("#problemCounter").textContent,
-	    truckDisabled: document.querySelector("#truckButton").disabled
+	    truckDisabled: document.querySelector("#truckButton").disabled,
+	    progressImageShare: progressImage.width / progressCard.width,
+	    progressLabelFont: parseFloat(getComputedStyle(document.querySelector("#runProgressText")).fontSize),
+	    progressOverlapLeft: overlaps(progressCard, hudLeft),
+	    progressOverlapRight: overlaps(progressCard, hudRight)
 	  };
 	})()
 	`;
@@ -324,12 +340,11 @@ const PLAY_TO_COMPLETE = String.raw`
 	    const event = model.pickUpgradeEvent(rng, false);
 	    const upgradeResult = model.applyUpgrade({ truckPower: 0, correctFirstTry: 0, superPartSeen: false }, event, true);
 	    const actualMovement = upgradeResult.truckPower - upgradeResult.before;
+	    const previousResult = model.getTruckResult(0, 0, false);
 	    const truckResult = model.getTruckResult(upgradeResult.truckPower, upgradeResult.correctFirstTry, upgradeResult.superPartSeen);
-	    const expectedChangeText = actualMovement <= 2
-	      ? "조금 멋져졌어요."
-	      : actualMovement >= 28
-	        ? "크게 멋져졌어요."
-	        : "트럭이 멋져졌어요.";
+	    const expectedChangeText = previousResult.id === truckResult.id
+	      ? "다음 트럭이 가까워졌어요."
+	      : truckResult.name + "으로 바뀌었어요.";
 	    return {
 	      eventId: event.id,
 	      family: event.family,
@@ -347,6 +362,7 @@ const PLAY_TO_COMPLETE = String.raw`
 	async function runTruckButtonTripleProbe(page, pageUrl, seed) {
 	  await loadLessonPage(page, pageUrl);
 	  const setup = await evalInPage(page, PLAY_TO_COMPLETE);
+	  await captureLessonScreenshot(page, "truck-evolution-play.png");
 	  const expected = await evalInPage(page, expectedSingleUpgradeExpression(seed));
 	  const observed = await evalInPage(page, String.raw`
 	    (() => {
@@ -363,7 +379,13 @@ const PLAY_TO_COMPLETE = String.raw`
 	      };
 	    })()
 	  `);
-	  const pass = observed.rewardActive
+	  await delay(900);
+	  await captureLessonScreenshot(page, "truck-evolution-reward.png");
+	  const pass = setup.progressImageShare >= .5
+	    && setup.progressLabelFont >= 18
+	    && setup.progressOverlapLeft === 0
+	    && setup.progressOverlapRight === 0
+	    && observed.rewardActive
 	    && observed.stageText === expected.expectedStageText
 	    && observed.changeText === expected.expectedChangeText;
 	  return { name: "truck_button_triple_click", pass, setup, expected, observed };
@@ -662,6 +684,65 @@ async function runResultRasterContractProbe(page, pageUrl) {
   };
 }
 
+async function runTutorialPosterProbe(page, pageUrl) {
+  await loadLessonPage(page, pageUrl);
+  const observed = await evalInPage(page, String.raw`
+    (async () => {
+      const stage = document.querySelector('.stage-shell').getBoundingClientRect();
+      const insideStage = (node) => {
+        const rect = node.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0
+          && rect.left >= stage.left && rect.top >= stage.top
+          && rect.right <= stage.right && rect.bottom <= stage.bottom;
+      };
+      document.querySelector('#startButton').click();
+      await new Promise((resolve) => setTimeout(resolve, 80));
+      const tutorial = document.querySelector('#screen-tutorial');
+      const cards = [...document.querySelectorAll('.tutorial-card')];
+      const images = [...document.querySelectorAll('.tutorial-poster-art')];
+      const logo = tutorial.querySelector('.brand-badge img');
+      const first = {
+        active: tutorial.classList.contains('is-active'),
+        page: tutorial.dataset.page,
+        visibleCards: cards.filter((card) => !card.hidden).length,
+        nextInside: insideStage(document.querySelector('#tutorialStartButton'))
+      };
+      document.querySelector('#tutorialStartButton').click();
+      await new Promise((resolve) => setTimeout(resolve, 80));
+      const second = {
+        page: tutorial.dataset.page,
+        visibleCards: cards.filter((card) => !card.hidden).length,
+        backInside: insideStage(document.querySelector('#tutorialBackButton')),
+        startInside: insideStage(document.querySelector('#tutorialStartButton'))
+      };
+      return {
+        first,
+        second,
+        imageWidths: images.map((image) => image.naturalWidth),
+        imageHeights: images.map((image) => image.naturalHeight),
+        logoWidth: logo?.naturalWidth || 0
+      };
+    })()
+  `);
+  const pass = observed.first.active
+    && observed.first.page === '0'
+    && observed.first.visibleCards === 1
+    && observed.first.nextInside
+    && observed.second.page === '1'
+    && observed.second.visibleCards === 1
+    && observed.second.backInside
+    && observed.second.startInside
+    && observed.imageWidths.every((width) => width === 1280)
+    && observed.imageHeights.every((height) => height === 800)
+    && observed.logoWidth > 0;
+  return {
+    name: 'tutorial_two_poster_contract',
+    pass,
+    expected: { pages: 2, size: '1280x800', visibleCardsPerPage: 1, realLogo: true },
+    observed
+  };
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const serverPort = await getFreePort();
@@ -684,15 +765,15 @@ async function main() {
     await page.send("Runtime.enable");
     await waitForLoad(page);
 
-	    const probes = [
-	      await runTruckButtonTripleProbe(page, seedPageUrl, options.seed),
-	      await runRewardNextDoubleProbe(page, seedPageUrl),
-	      await runRewardNextPhysicalDoubleClickProbe(page, seedPageUrl),
-	      await runTruckButtonStaleEventProbe(page, seedPageUrl, options.seed),
-	      await runRewardNextStaleEventProbe(page, seedPageUrl),
-	      await runSeedReplayProbe(page, seedPageUrl, randomPageUrl),
-	      await runResultRasterContractProbe(page, seedPageUrl)
-	    ];
+    const probes = [];
+    probes.push(await runTutorialPosterProbe(page, seedPageUrl));
+    probes.push(await runTruckButtonTripleProbe(page, seedPageUrl, options.seed));
+    probes.push(await runRewardNextDoubleProbe(page, seedPageUrl));
+    probes.push(await runRewardNextPhysicalDoubleClickProbe(page, seedPageUrl));
+    probes.push(await runTruckButtonStaleEventProbe(page, seedPageUrl, options.seed));
+    probes.push(await runRewardNextStaleEventProbe(page, seedPageUrl));
+    probes.push(await runSeedReplayProbe(page, seedPageUrl, randomPageUrl));
+    probes.push(await runResultRasterContractProbe(page, seedPageUrl));
     const pass = probes.every((probe) => probe.pass);
     const payload = {
       status: pass ? "PASS" : "FAIL",

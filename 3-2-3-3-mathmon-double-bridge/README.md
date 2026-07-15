@@ -19,6 +19,12 @@
 - `problem-stage-generated.webp`: 1280×800 밝은 판타지 다리 공방 문제 배경
 - `problem-stage-generated.png`: 1280×800 작업 원본
 - `problem-stage-source.png`: imagegen 생성 원본
+- 동행 매스몬: `zero-factory-animal-pack`의 수달몬(`zfa-03-sudalmon`)
+- 설명 1: 반지름 3 cm 두 개가 `3+3=6`, 지름 6 cm가 되는 모습을 연결
+- 설명 2: 10문제·다리 힘 변화·마지막 다리 이름만 안내
+- 랜덤 보상: 사건별 `reward-event-*-generated.webp` 6종
+- 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 - 원·중심·반지름·지름·다리 길이: SVG
 - 선택: 같은 좌표의 HTML 버튼과 접근성 이름
 
@@ -39,3 +45,5 @@
 ## 검증 화면
 
 `screenshots/engine-flow-{desktop,tablet-landscape}-*.png`에 1280×800과 1024×768의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다.
+
+추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

@@ -494,8 +494,9 @@
     .cover-start-button {
       display: inline-grid;
       place-items: center;
-      width: 420px;
-      height: 149px;
+      width: clamp(300px, 28vw, 360px);
+      height: auto;
+      aspect-ratio: 1611 / 680;
       padding: 0;
       border: 0;
       border-radius: 999px;
@@ -2628,9 +2629,9 @@
       }
 
       .cover-start-button {
-        width: min(400px, 100%);
+        width: clamp(300px, 28vw, 360px);
         height: auto;
-        aspect-ratio: 1950 / 647;
+        aspect-ratio: 1611 / 680;
       }
 
       .tutorial-copy h2 {
@@ -2894,6 +2895,19 @@
       outline-offset: 4px;
     }
 
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-surface,
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-label {
+      display: none;
+    }
+
+    .result-action-hitbox .result-common-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
     @keyframes result-panel-pulse {
       0%,
       100% {
@@ -2964,7 +2978,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls">
     <div class="stage-shell">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -3010,7 +3024,7 @@
           <img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">
           <p>두 번 곱하고 더해서 로봇을 완성해요.</p>
           <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
-            <img class="start-button-art" src="start-button-generated.webp" width="1950" height="647" alt="" aria-hidden="true">
+            <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
           </button>
         </div>
       </div>
@@ -3270,17 +3284,19 @@
             <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">확인 중</text>
             <rect x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
             <rect id="resultMeasureFillSvg" x="760" y="582" width="0" height="10" rx="5" fill="#79f5c4"></rect>
-            <rect x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
-            <rect x="982" y="626" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
-            <text class="result-svg-button-text" x="860" y="667" text-anchor="middle">순위 보기</text>
-            <text class="result-svg-button-text" id="resultSvgRestartText" x="1072" y="667" text-anchor="middle">다시하기</text>
+            <rect class="result-legacy-action-surface" x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <rect class="result-legacy-action-surface" x="982" y="626" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <text class="result-svg-button-text result-legacy-action-label" x="860" y="667" text-anchor="middle">순위 보기</text>
+            <text class="result-svg-button-text result-legacy-action-label" id="resultSvgRestartText" x="1072" y="667" text-anchor="middle">다시하기</text>
           </g>
         </svg>
         <div class="result-actions" aria-hidden="false">
           <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
+            <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
             <span class="visually-hidden">순위 보기</span>
           </button>
           <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
+            <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
             <span class="visually-hidden">다시하기</span>
           </button>
         </div>

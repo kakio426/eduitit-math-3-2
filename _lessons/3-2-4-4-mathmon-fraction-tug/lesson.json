@@ -17,20 +17,32 @@
   "tutorialTitle": "줄을 당기기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "title": "분모가 같으면?", "body": "색칠된 칸이 많은 쪽이 더 커요.", "image": "problem-stage-generated.webp" },
-    { "visual": "2", "title": "단위분수는?", "body": "똑같이 나눈 한 칸이 긴 쪽이 더 커요.", "image": "problem-stage-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 비교해요?", "body": "분모가 같으면 색칠된 칸, 단위분수면 한 칸 길이를 봐요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 승부 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art", "maxPower": 100, "nextLabel": "다음",
     "artMap": {
-      "normal": "result-win-generated.webp", "loss": "result-smallwin-generated.webp", "mega": "result-bigwin-generated.webp",
-      "perfect": "result-champion-generated.webp", "empty": "result-draw-generated.webp", "rainbow": "result-rainbow-generated.webp"
-    }
+      "normal": "reward-event-normal-generated.webp", "loss": "reward-event-loss-generated.webp", "mega": "reward-event-mega-generated.webp",
+      "perfect": "reward-event-perfect-generated.webp", "empty": "reward-event-empty-generated.webp", "rainbow": "reward-event-rainbow-generated.webp"
+    },
+    "spriteSheet": { "columns": 3, "rows": 2, "slots": {
+      "normal": [0, 0], "loss": [1, 0], "mega": [2, 0],
+      "perfect": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
+    } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
+    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+    "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "mathmon-drv-04-bravetiger",
+    "fixedGeneratedElements": ["result-title", "retry-button"],
+    "dynamicOverlays": ["tug-power", "correct-count"]
+  } },
   "workbench": { "type": "fraction-compare" },
   "scoreboard": { "enabled": false },
+  "mathmonPack": "diversity-reward-pack",
+  "mathmonName": "호랑몬",
+  "mathmonId": "mathmon-drv-04-bravetiger",
   "results": [
     { "id": "draw", "name": "무승부", "minPower": 0, "minCorrect": 0, "image": "result-draw-generated.webp", "titleImage": "result-draw-generated.webp" },
     { "id": "smallwin", "name": "작은 승", "minPower": 19, "minCorrect": 2, "image": "result-smallwin-generated.webp", "titleImage": "result-smallwin-generated.webp" },
@@ -69,10 +81,14 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp", "problem-stage-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
+    "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-draw-generated.webp", "result-smallwin-generated.webp", "result-win-generated.webp", "result-bigwin-generated.webp",
     "result-champion-generated.webp", "result-rainbow-generated.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
     "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }],
     "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
   }

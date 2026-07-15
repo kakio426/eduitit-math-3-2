@@ -8,6 +8,16 @@
 - 정답 뒤 선택한 점 또는 선분이 큰 원에 확정되어 보이는 확인 화면을 추가했습니다.
 - 소스 엔진을 `_lessons/3-2-3-1-mathmon-target-hit/`로 분리하고 `index.html`을 빌드 산출물로 전환했습니다.
 
+## 2026-07-12 1단원 기준 시각 흐름 보강
+
+- 커버의 번개늑대몬을 설명·보상·결과까지 유지하고, 팩은 `diversity-reward-pack` 하나로 고정했습니다.
+- 설명 1에서 `중심`, `반지름`, `지름`을 명시하고 각각 `원 한가운데 점`, `중심에서 원까지`, `중심을 지나 양쪽 끝까지`로 연결했습니다.
+- 설명 2에서는 풀이법을 반복하지 않고 `10문제 → 표적 점수 변화 → 표적 이름`만 보여 줍니다.
+- 랜덤 보상 6종은 일반 명중·가장자리·대량 명중·정중앙·빗나감·무지개 명중을 별도 이미지로 구분했습니다.
+- 결과 6장은 모두 1280×800이며, 번개늑대몬의 위치·오른쪽 동적 정보판·고정 제목·`다시` 버튼 슬롯을 통일했습니다.
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 표지 왼쪽 위는 실제 `eduitit-logo-mark.png`를 쓰며, 공용 상단 슬롯 좌표를 따릅니다.
+
 ## 수학 설계
 
 - 10문제는 중심 4개, 반지름 3개, 지름 3개를 섞어 출제합니다.
@@ -48,6 +58,7 @@
 - `node scripts/qa-engine-unit3-target-source.mjs` → PASS
 - `node scripts/build-lesson.mjs 3-2-3-1-mathmon-target-hit` → PASS
 - `node scripts/check-lesson-contract.mjs` → PASS
+- `node scripts/check-lesson-visual-contract.mjs` → PASS
 - `node scripts/check-stage-ratio.mjs` → PASS (21개 패키지)
 - `node scripts/qa-lesson-flow.mjs 3-2-3-1-mathmon-target-hit` → PASS
 - 브라우저 QA: 1280×800, 1024×768 전체 흐름에서 이미지 누락·텍스트 넘침·요소 겹침 0
@@ -58,3 +69,4 @@
 - 태블릿 가로: `screenshots/engine-flow-tablet-landscape-01-cover.png`부터 `08-result.png`
 - 오답 상태: 각 화면군의 `05b-play-wrong.png`
 - 정답 확인: 각 화면군의 `06-confirm.png`
+- 닫힌 보상·열린 보상: 각 화면군의 `07-reward-closed.png`, `07b-reward-open.png`

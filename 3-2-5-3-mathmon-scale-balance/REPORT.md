@@ -87,3 +87,14 @@
 - Browser QA: Chrome CDP 자동 캡처로 데스크톱과 태블릿 가로 화면 확인
 
 실행 결과: 위 명령과 브라우저 QA 모두 통과했습니다.
+
+## 10. 2026-07-12 이미지 설명·엔진 소스 리마스터
+
+- 2쪽 설명을 생성 포스터로 교체했습니다. 1쪽은 양쪽 무게를 보고 저울을 맞추는 행동, 2쪽은 10문제·보석 보상·마지막 결과를 보여 줍니다.
+- `_lessons/3-2-5-3-mathmon-scale-balance/lesson.json`을 만들고 공통 엔진 빌드 대상으로 옮겼습니다.
+- 공유 모델 경로를 빌더와 계약 검사기가 읽도록 `sourceFiles` 계약을 적용했습니다.
+- 결과 상태 세트: 4장, 컨택시트 `result-states-contact-sheet.png`
+- 매스몬 팩: `diversity-reward-pack` / `mathmon-drv-05-crystalowl`
+- `node scripts/qa-lesson5-scale-balance-model.mjs --runs 10000` 통과 (`100,000`문제)
+- `node scripts/qa-lesson-flow.mjs 3-2-5-3-mathmon-scale-balance` 통과
+- 데스크톱 `1280×800`, 태블릿 가로 `1024×768`에서 깨진 이미지·텍스트 넘침·요소 겹침·Stage 밖 이탈 `0건`

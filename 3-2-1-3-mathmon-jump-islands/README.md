@@ -1,73 +1,56 @@
 # 매스몬 10배 점프섬
 
-3학년 2학기 1단원 3차시용 단일 HTML 게임입니다. `(몇십)×(몇십)`과 `(몇십몇)×(몇십)`에서 0을 잠깐 가리고 곱한 뒤, 가렸던 0을 붙이는 원리를 연습합니다.
+3학년 2학기 1단원 3차시용 수학 게임입니다. `(몇십)×(몇십)`, `(몇십몇)×(몇십)`에서 0을 잠깐 가리고 곱한 뒤, 가렸던 0을 다시 붙이는 과정을 연습합니다.
 
 ## 실행
 
-- 파일: `index.html`
+- 배포 파일: `index.html`
+- 제작 원본: `_lessons/3-2-1-3-mathmon-jump-islands/`
+- 공용 엔진: `_engine/v1/`
+- 빌드: `node scripts/build-lesson.mjs 3-2-1-3-mathmon-jump-islands`
 - 권장 화면: 컴퓨터, 태블릿 가로
 - Stage: `16:10`, 기준 `1280x800`
-- 첫 화면 표준: `generated-title-overlay`
 
 ## 화면 흐름
 
-1. 첫 화면: 제목 아트, 한 줄 목표, 별도 생성형 `시작` 버튼 아트와 실제 HTML 버튼을 오버레이로 보여 줍니다.
-2. 설명: 0 가리기, 먼저 곱하기, 0 붙이기, 바람에 따라 점프 길이 달라지는 흐름을 짧게 안내합니다.
-3. 문제: 상단 생성 이미지 지도에 여섯 섬과 현재 위치 매스몬을 보여 주고, 현재 단계만 크게 풉니다.
-4. 바람: 한 문제 뒤 한 가지 바람만 보여 줍니다. 보상 모달을 확인한 뒤 지도 매스몬이 작게 반응합니다.
-5. 결과: 점프 길을 살펴본 뒤 도착지별 완성 이미지 위에 공용 정답 수 이미지 아트, 생성형 `순위 보기` 버튼 자산, 투명 hitbox만 얹습니다.
-6. 순위: 결과 공개 뒤 `순위 보기`를 누르면 이번 주 전국 점프 순위 화면으로 이동합니다.
+1. 첫 화면: 생성형 커버 배경, 제목 아트, 목표 문장, 생성형 시작 버튼
+2. 설명: 0 가리기, 먼저 곱하기, 0 다시 붙이기
+3. 문제: 섬 지도, 현재 문제, 현재 단계 계산판, 선택지
+4. 보상: 바람 이미지 모달과 다음 점프 버튼
+5. 결과: 도착 섬 전체 장면, 공용 정답 수 이미지, 순위 보기 버튼
+6. 전국 순위: `_shared/scoreboard` 공통 SVG 순위판
 
 ## 문제 방식
 
-- 한 판은 10문제입니다.
-- 문제 은행은 실행 때 새로 뽑습니다.
-- `(A0)×(B0)`은 `A×B`를 고른 뒤 `0 두 개 붙이기`를 고릅니다.
-- `(AB)×(C0)`은 `AB×C`를 고른 뒤 `0 한 개 붙이기`를 고릅니다.
-- 한 판에는 `0 한 개 붙이기` 문제 5개, `0 두 개 붙이기` 문제 5개가 정확히 들어갑니다.
-- 같은 판 안에서 최종 답이 겹치지 않도록 뽑습니다.
+- 한 판 10문제입니다.
+- `0 한 개 붙이기` 문제 5개, `0 두 개 붙이기` 문제 5개를 뽑습니다.
+- 1단계는 0을 가린 작은 곱을 고릅니다.
+- 2단계는 작은 곱 뒤에 0을 몇 개 붙일지 고릅니다.
+- 두 단계를 모두 첫 시도에 맞힌 문제만 정답 수에 더합니다.
 
-## 실수와 힌트
+## 순위 API
 
-첫 번째 오답은 지금 단계 힌트 하나만 보여 줍니다. 같은 단계에서 다시 틀리면 정답을 보여 주고 다음 단계로 갑니다. 한 번이라도 도움을 받은 문제는 `길이 흔들렸어요` 쪽으로 가며, 좋은 바람 보상은 받지 않습니다.
+기본 실행에서는 순위판이 안내 상태로 열립니다. API를 붙일 때는 쿼리나 전역 값으로 주소를 넘깁니다.
 
-## 보상과 결과
-
-정답을 바로 고르면 기본 점프 거리와 바람 보상이 더해집니다. 바람은 점프 길을 조금 늘리거나 줄일 수 있고, `잠깐 멈춤`은 그 문제의 기본 점프까지 멈춥니다. 아주 드물게 `무지개 길`이 나오며, 낮은 결과도 실패가 아니라 `출발섬`이나 `모래섬`처럼 도착한 곳으로 보여 줍니다.
-
-큰 이동 연출은 문제 풀이 화면에 넣지 않습니다. 학생이 완성식을 확인하고 이미지 버튼 `어떤 바람이 불까?`를 누르면 먼저 보상 모달에서 바람 장면을 보여 줍니다. 그다음 `다음` 또는 `보기`를 누르면 상단 지도 안에서 냥냥몬 마커가 0.6~1.1초 동안 반응합니다. 도착 섬이 바뀌면 새 섬으로 천천히 이동하고 착지하며, 같은 섬이면 바람 종류에 따라 작은 점프·흔들림·밝기 변화만 보여 줍니다. 상단 지도에는 `현재` 글자 대신 작은 냥냥몬 마커만 현재 섬으로 움직입니다. 보상 모달의 매스몬은 별도 PNG를 붙인 것이 아니라 각 바람 이미지 안에 함께 생성했습니다.
-
-시뮬레이션 기준은 `node scripts/simulate-lesson3-islands.mjs --seed 12345 --runs 50000`입니다. 10/10으로 바로 맞힌 경우에도 `무지개섬`은 0.134%로 아주 드물고, 8/10에서는 0%였습니다.
-
-## 소리
-
-시작 뒤 기존 낮은 배경음이 켜지고, 정답·오답·보상·다음·결과 공개에는 Kenney CC0 샘플 기반 짧은 효과음이 납니다. 사용 팩은 Interface Sounds, Impact Sounds, RPG Audio, Sci-fi Sounds, Digital Audio, Music Jingles입니다. 소리 버튼은 Stage 안 오른쪽 위 원형 SVG 버튼이며, 화면에는 글자를 보이지 않습니다.
-
-## 자산
-
-- 첫 화면: `cover-generated.png`, `cover-generated.webp`, `title-poster-generated.webp`, 1차시 버튼 물성을 참고한 독립 생성형 자산 `start-button-generated.webp`
-- 설명: `tutorial-generated.webp`
-- 문제 지도: `play-map-strip-source.png`, `play-map-strip-generated.webp`, `mathmon-zfa-04-nyangnyangmon.webp` 현재 위치 마커
-- 바람: `reward-tailwind-generated.webp`, `reward-headwind-generated.webp`, `reward-pause-generated.webp`, `reward-gust-generated.webp`, `reward-rainbow-generated.webp`, `reward-shaky-generated.webp`
-- 결과: `result-final-start-generated.webp`, `result-final-sand-generated.webp`, `result-final-forest-generated.webp`, `result-final-cloud-generated.webp`, `result-final-starlight-generated.webp`, `result-final-rainbow-generated.webp`, `result-rank-button-source.png`, `result-rank-button-generated.png`, `result-rank-button-generated.webp`
-- 매스몬: 첫 화면 동행 캐릭터는 `cover-generated.png/webp` 장면 안에 포함하고, 문제 지도 현재 위치 마커는 `_shared/mathmon/zero-factory-animal-pack/`의 `mathmon-zfa-04-nyangnyangmon.webp`를 씁니다.
-- 소리: `assets/audio/*.wav` Kenney CC0 기반 버튼, 정답, 오답, 0 붙이기, 바람, 지도, 결과 효과음
-- 순위: `../_shared/scoreboard/*` 공통 전국 순위 배경, 생성형 타이틀 이미지, SVG UI, API 브리지
-
-문제와 보상 모달의 생성 이미지에는 문제, 선택지, 점수, 버튼, 섬 이름을 넣지 않았습니다. 결과 화면은 `result-final-*` 6장 완성형 래스터가 도착 라벨, 큰 결과 문구, 이미지 속 `다시하기` 버튼, 점수용 빈 네모 상자를 함께 담습니다. 보이는 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 공용 이미지 아트가 맡고, `#finalCorrectText`는 숨김 접근성 값으로만 남깁니다. 순위 버튼은 별도 생성형 이미지 자산으로 보이고, 순위와 다시하기 클릭은 같은 위치의 투명 HTML hitbox가 맡습니다. 정답 수 이미지 아트는 각 결과 이미지의 빈 네모 상자에 맞춘 `data-result-island` RasterStage 슬롯으로 배치하고, QA 스크립트가 스크린샷 픽셀에서 이미지 중심과 빈칸 중심을 비교합니다. 점수 상자에는 라벨을 넣지 않았고, 시작 결과 이미지에도 보이는 `출발섬` 텍스트를 넣지 않았습니다.
-
-## 전국 순위 백엔드 연결
-
-기본 파일만 열면 순위 기능은 꺼진 안내 상태로 동작합니다. 실제 서버를 붙일 때는 게임을 열기 전에 아래 값을 주입합니다.
-
-```html
-<script>
-  window.MATHMON_SCOREBOARD_API_URL = "https://your-scoreboard-api.example.com";
-</script>
+```text
+index.html?scoreboardApi=https://your-scoreboard-api.example.com
 ```
 
-연동 위치는 `index.html`의 `SCOREBOARD_API_URL`, `scoreboardBridge`, `scoreboardAnswers`, `scoreboardScreen`입니다. 3차시는 `smallProduct`, `scaleFooting` 두 단계 선택과 바람 보상을 서버에 보내며, 한 번이라도 틀린 문제는 `shaky` 보상으로 검증됩니다. 자세한 업체 인계 문서는 `../scoreboard-api/docs/GAME_INTEGRATION.md`를 기준으로 합니다.
+호출 endpoint는 기존 1단원 순위판과 같습니다.
+
+- `POST /api/v1/sessions`
+- `POST /api/v1/scores`
+- `GET /api/v1/leaderboards/weekly?lessonId=...&limit=100`
+
+3차시 payload에는 `answers`, `clientCorrectCount`, `clientScore`, `rewardResult.islandId`가 포함됩니다.
 
 ## QA
 
-새 보상 모달 이미지 6종, 새 결과 완성 이미지 6종, 첫 화면부터 결과 화면까지의 흐름, 상단 지도 매스몬 미니 효과를 다시 확인했습니다. 결과 화면은 `fullscene-score-slot` 모드로 보이는 정답 수를 공용 생성형 이미지 아트로 제한하고, 순위와 다시하기는 이미지 자산과 투명 hitbox로 처리했습니다. `1280x800`, `1024x768`에서 텍스트 넘침과 요소 겹침 0건, 지도 밖 이탈 0건, 학생 화면 `현재` 글자 미노출을 확인했습니다. `node scripts/qa-lesson3-result-fullscene.mjs`는 6개 결과 이미지의 정답 수 이미지 중심이 빈 점수칸 중심에서 허용치 안에 있는지도 검사합니다. `node scripts/qa-unit1-result-screens.mjs`는 Unit 1 결과 화면 계약과 버튼 동작을 함께 확인합니다. 오디오 자산은 루트에서 `node scripts/check-audio-assets.mjs`로 참조 파일, 배포 폴더, 길이를 확인합니다. 대표 스크린샷은 `screenshots/`에 있습니다.
+2026-07-09 엔진 v1.1 이관 후 브라우저에서 확인했습니다.
+
+- `1280x800`: cover → tutorial → 10문제 → reward modal → result → scoreboard 완주
+- `1024x768`: 같은 흐름 완주
+- 텍스트 넘침 0건, 보이는 이미지 누락 0건
+- 로컬 API stub으로 세 scoreboard endpoint 호출 확인
+
+대표 증거는 `.omo/ulw-loop/evidence/engine-v1-1/`에 있습니다.

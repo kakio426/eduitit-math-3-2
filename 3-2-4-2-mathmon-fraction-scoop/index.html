@@ -213,6 +213,8 @@
           backdrop-filter: blur(10px);
         }
         .brand-badge img { margin-right: 0; }
+        .brand-badge--logo { gap: 8px; }
+        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -411,6 +413,26 @@
         .complete-panel.is-visible { display: grid; }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
         .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .play-mathmon-reaction {
+          position: absolute;
+          z-index: 4;
+          left: 18px;
+          bottom: 18px;
+          width: 156px;
+          height: 194px;
+          object-fit: contain;
+          object-position: left bottom;
+          pointer-events: none;
+          filter: drop-shadow(0 10px 16px rgba(0,0,0,.28));
+          animation: mathmon-reaction-pop .42s cubic-bezier(.2,.85,.25,1.25);
+        }
+        @keyframes mathmon-reaction-pop {
+          from { opacity: 0; transform: translateY(18px) scale(.84); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .play-mathmon-reaction { animation: none; filter: brightness(1.08) drop-shadow(0 8px 12px rgba(0,0,0,.22)); }
+        }
         .reward { background: #102839; }
         .reward-panel {
           position: absolute;
@@ -461,6 +483,11 @@
           padding: 24px;
           text-align: center;
         }
+        .reward-card[data-reward-phase="closed"] .reward-visual { transform: scale(.94); filter: brightness(.78) saturate(.8); }
+        .reward-card[data-reward-phase="opening"] .reward-visual { animation: reward-open-pulse .42s ease both; }
+        .reward-pop[data-rarity="rare"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 3px rgba(255,210,89,.55), 0 26px 70px rgba(0,0,0,.52); }
+        .reward-pop[data-rarity="legend"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 4px rgba(126,244,255,.72), 0 0 48px rgba(255,117,244,.5), 0 26px 70px rgba(0,0,0,.52); }
+        @keyframes reward-open-pulse { 0% { transform: scale(.92) rotate(-1deg); } 55% { transform: scale(1.06) rotate(1deg); } 100% { transform: scale(1); } }
         .reward-visual {
           width: 250px;
           height: 250px;
@@ -538,6 +565,9 @@
           .cover-start-button { width: 400px; height: 142px; }
           .result-title-art { width: 52%; }
           .result-correct-art { left: 82px; top: 410px; width: 230px; }
+        }
+        @media (max-width: 1100px) {
+          .topic-badge { left: auto; right: var(--stage-inset); }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
     .mathmon-scoreboard {
@@ -914,7 +944,15 @@
     .game[data-workbench-type="fraction-scoop"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
     .game[data-workbench-type="fraction-scoop"] .result-title-art,
     .game[data-workbench-type="fraction-scoop"] #screen-result .top-row { display: none; }
-    .game[data-workbench-type="fraction-scoop"] .result-correct-art { left: 64%; top: 56%; width: 22%; }
+    .game[data-workbench-type="fraction-scoop"] #screen-result::after { background: none; }
+    .game[data-workbench-type="fraction-scoop"] .result-dynamic-ui #resultDestinationSvg,
+    .game[data-workbench-type="fraction-scoop"] .result-dynamic-ui .result-restart-surface { display: none; }
+    .game[data-workbench-type="fraction-scoop"] .result-dynamic-ui text { fill: #fff4cf; stroke: rgba(20,52,38,.98); stroke-width: 10px; }
+    .game[data-workbench-type="fraction-scoop"] .result-dynamic-ui rect:first-of-type { fill: #123b33; opacity: .25; }
+    .game[data-workbench-type="fraction-scoop"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffcf58; }
+    .game[data-workbench-type="fraction-scoop"] .result-correct-art { left: 68%; top: 57%; width: 16%; }
+    .game[data-workbench-type="fraction-scoop"] .result-restart-hitbox { left: 63%; top: 81%; width: 24%; height: 15%; }
+    .game[data-workbench-type="fraction-scoop"] .reward-visual { background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center; }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #fff5d9; }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .screen-title,
@@ -926,14 +964,13 @@
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
-    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; z-index: 3; left: 38%; width: 58%; margin: 0; color: #3e3324; text-align: center; word-break: keep-all; }
-    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-card strong { top: 30%; font-size: clamp(2.2rem, 4.5vw, 4.1rem); line-height: 1.05; }
-    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-card p { top: 46%; font-size: clamp(1.12rem, 2vw, 1.6rem); line-height: 1.35; font-weight: 900; }
+    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
     .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
-    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; bottom: 6%; min-height: 70px; pointer-events: auto; }
-    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] #tutorialStartButton { right: 13%; width: 30%; }
-    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { left: 42%; width: 18%; border: 2px solid #705228; border-radius: 999px; color: #36270f; background: #fff7dc; font-size: 1.15rem; font-weight: 1000; }
+    .game[data-workbench-type="fraction-scoop"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+    .game[data-workbench-type="fraction-scoop"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 39%; bottom: 1%; width: 22%; height: 17%; }
+    .game[data-workbench-type="fraction-scoop"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 77%; bottom: 1%; width: 22%; height: 17%; }
+    .game[data-workbench-type="fraction-scoop"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 22%; height: 17%; }
     @media (max-width: 980px) {
       .game[data-workbench-type="fraction-scoop"] .hud { right: 2%; width: 67%; }
       .game[data-workbench-type="fraction-scoop"] .problem-grid { top: 62px; right: 2%; bottom: 16px; left: 30%; grid-template-rows: minmax(0, 1fr) 50px minmax(170px, auto); gap: 7px; }
@@ -972,17 +1009,18 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 4단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 4단원</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 분수만큼 담기</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">전체를 똑같이 나누고 분수만큼 담아요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">전체의 분수만큼 구하기</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>4단원 분수</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">바구니에 담기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="problem-stage-generated.webp" alt=""><div class="card-mark">1</div><strong>먼저 무엇을 해요?</strong><p>전체를 분모만큼 똑같이 나눠요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="problem-stage-generated.webp" alt=""><div class="card-mark">2</div><strong>그다음은요?</strong><p>한 묶음 수에 분자를 곱해요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">바구니에 담기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 담아요?</strong><p>한 묶음을 구한 뒤 필요한 묶음 수를 곱해요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제 뒤에 마지막 바구니 이름을 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
         <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 분수만큼 담기</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="바구니 빛"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">한 줌</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>4단원 분수</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">바구니 보기</button></section></div>
+        <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="result-basket-generated.webp" alt="">
@@ -990,11 +1028,12 @@
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">한 줌</p><p class="reward-change" id="rewardChange">바구니 빛이 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
-        <div class="reward-card">
+        <div class="reward-card" data-reward-phase="closed">
           <div class="reward-visual" id="rewardVisual" aria-hidden="true"></div>
           <h2 class="visually-hidden" id="modalRewardTitle">보상</h2>
-          <p class="reward-label" id="modalRewardLabel">보상</p>
-          <button class="primary-button" id="modalRewardNextButton" type="button">다음</button>
+          <p class="reward-label" id="modalRewardLabel" aria-live="polite">무엇이 나올까요?</p>
+          <button class="primary-button reward-open-button" id="modalRewardOpenButton" type="button">열기</button>
+          <button class="primary-button" id="modalRewardNextButton" type="button" hidden>다음</button>
         </div>
       </div>
       <section class="screen result" id="screen-result" data-result-tier="handful" aria-labelledby="resultTitle">
@@ -1569,6 +1608,7 @@
           state.gameStartedAt = Math.round(performance.now());
           state.sessionPromise = startSession();
           renderBridge();
+          return state.sessionPromise;
         }
 
         async function submitScoreboardIfNeeded() {
@@ -1658,14 +1698,15 @@
           open,
           refresh,
           render: renderBridge,
-          getSession: () => state.session
+          getSession: () => state.session,
+          getSessionPromise: () => state.sessionPromise
         });
       }
 
       window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit4-fraction-scoop-migration","id":"3-2-4-2","folder":"3-2-4-2-mathmon-fraction-scoop","modelName":"Lesson4FractionScoopModel","title":"매스몬 분수만큼 담기","shortTitle":"매스몬 분수만큼 담기","topic":"전체의 분수만큼 구하기","unitBadge":"4단원 분수","goal":"전체를 똑같이 나누고 분수만큼 담아요.","action":"지금 필요한 수 하나를 고른다.","buttonLabel":"바구니 보기","rewardScreenTitle":"바구니 빛","progressLabel":"바구니 빛","rewardComplete":"바구니 빛이 바뀌었어요.","tutorialTitle":"바구니에 담기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","title":"먼저 무엇을 해요?","body":"전체를 분모만큼 똑같이 나눠요.","image":"problem-stage-generated.webp"},{"visual":"2","title":"그다음은요?","body":"한 묶음 수에 분자를 곱해요.","image":"problem-stage-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","artMap":{"normal":"result-basket-generated.webp","loss":"result-smallbasket-generated.webp","mega":"result-bigbasket-generated.webp","perfect":"result-cartfull-generated.webp","empty":"result-handful-generated.webp","rainbow":"result-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic"},"workbench":{"type":"fraction-scoop"},"scoreboard":{"enabled":false},"results":[{"id":"handful","name":"한 줌","minPower":0,"minCorrect":0,"image":"result-handful-generated.webp","titleImage":"result-handful-generated.webp"},{"id":"smallbasket","name":"작은 바구니","minPower":19,"minCorrect":2,"image":"result-smallbasket-generated.webp","titleImage":"result-smallbasket-generated.webp"},{"id":"basket","name":"바구니","minPower":39,"minCorrect":4,"image":"result-basket-generated.webp","titleImage":"result-basket-generated.webp"},{"id":"bigbasket","name":"큰 바구니","minPower":61,"minCorrect":6,"image":"result-bigbasket-generated.webp","titleImage":"result-bigbasket-generated.webp"},{"id":"cartfull","name":"수레 가득","minPower":83,"minCorrect":8,"image":"result-cartfull-generated.webp","titleImage":"result-cartfull-generated.webp"},{"id":"rainbow","name":"전설 바구니","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"빛 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"빛 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"가득 담기!","weight":900,"min":12,"max":20,"family":"mega"},{"id":"perfect","text":"수레 가득!","weight":50,"min":6,"max":6,"family":"perfect","launches":true},{"id":"empty","text":"빈 바구니","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 바구니!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"빛 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["8×3/4","12×2/3","12×3/4","15×2/5","18×2/3","20×3/5","24×3/4","24×2/6","30×3/5","42×4/6"],"fractionCases":[[8,3,4],[12,2,3],[12,3,4],[15,2,5],[18,2,3],[20,3,5],[24,3,4],[24,2,6],[30,3,5],[42,4,6]],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardScene":"result-basket-generated.webp","resultRetryButton":"result-restart-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","problem-stage-generated.webp","result-handful-generated.webp","result-smallbasket-generated.webp","result-basket-generated.webp","result-bigbasket-generated.webp","result-cartfull-generated.webp","result-rainbow-generated.webp"],"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit4-fraction-scoop-migration","id":"3-2-4-2","folder":"3-2-4-2-mathmon-fraction-scoop","modelName":"Lesson4FractionScoopModel","title":"매스몬 분수만큼 담기","shortTitle":"매스몬 분수만큼 담기","topic":"전체의 분수만큼 구하기","unitBadge":"4단원 분수","goal":"전체를 똑같이 나누고 분수만큼 담아요.","action":"지금 필요한 수 하나를 고른다.","buttonLabel":"바구니 보기","rewardScreenTitle":"바구니 빛","progressLabel":"바구니 빛","rewardComplete":"바구니 빛이 바뀌었어요.","tutorialTitle":"바구니에 담기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 담아요?","body":"한 묶음을 구한 뒤 필요한 묶음 수를 곱해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 바구니 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","perfect":"reward-event-perfect-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"perfect":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-02-rabbitmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["basket-light","correct-count"]}},"workbench":{"type":"fraction-scoop"},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"토끼몬","mathmonId":"zfa-02-rabbitmon","results":[{"id":"handful","name":"한 줌","minPower":0,"minCorrect":0,"image":"result-handful-generated.webp","titleImage":"result-handful-generated.webp"},{"id":"smallbasket","name":"작은 바구니","minPower":19,"minCorrect":2,"image":"result-smallbasket-generated.webp","titleImage":"result-smallbasket-generated.webp"},{"id":"basket","name":"바구니","minPower":39,"minCorrect":4,"image":"result-basket-generated.webp","titleImage":"result-basket-generated.webp"},{"id":"bigbasket","name":"큰 바구니","minPower":61,"minCorrect":6,"image":"result-bigbasket-generated.webp","titleImage":"result-bigbasket-generated.webp"},{"id":"cartfull","name":"수레 가득","minPower":83,"minCorrect":8,"image":"result-cartfull-generated.webp","titleImage":"result-cartfull-generated.webp"},{"id":"rainbow","name":"전설 바구니","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"빛 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"빛 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"가득 담기!","weight":900,"min":12,"max":20,"family":"mega"},{"id":"perfect","text":"수레 가득!","weight":50,"min":6,"max":6,"family":"perfect","launches":true},{"id":"empty","text":"빈 바구니","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 바구니!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"빛 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["8×3/4","12×2/3","12×3/4","15×2/5","18×2/3","20×3/5","24×3/4","24×2/6","30×3/5","42×4/6"],"fractionCases":[[8,3,4],[12,2,3],[12,3,4],[15,2,5],[18,2,3],[20,3,5],[24,3,4],[24,2,6],[30,3,5],[42,4,6]],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardScene":"result-basket-generated.webp","resultRetryButton":"result-restart-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-perfect-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-handful-generated.webp","result-smallbasket-generated.webp","result-basket-generated.webp","result-bigbasket-generated.webp","result-cartfull-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson4FractionScoopModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -1826,6 +1867,7 @@
       problemText: document.getElementById("problemTitle"),
       instructionText: document.getElementById("stepInstruction"),
       visualArea: document.getElementById("visualArea"),
+      playMathmonReaction: document.getElementById("playMathmonReaction"),
       choices: document.getElementById("choicesPanel"),
       feedback: document.getElementById("feedbackLine"),
       answerSlot: document.getElementById("answerSlot"),
@@ -1840,6 +1882,7 @@
       rewardPop: document.getElementById("rewardPop"),
       rewardVisual: document.getElementById("rewardVisual"),
       modalRewardLabel: document.getElementById("modalRewardLabel"),
+      modalRewardOpenButton: document.getElementById("modalRewardOpenButton"),
       modalRewardNextButton: document.getElementById("modalRewardNextButton"),
       resultBg: document.getElementById("resultBg"),
       resultTitleArt: document.getElementById("resultTitleArt"),
@@ -1889,7 +1932,45 @@
         scoreboardQuestionStartedAt: 0,
         scoreboardStepStartedAt: 0,
         stepAttempts: [],
+        inputLocked: false,
+        pendingRewardEvent: null,
+        rewardPhase: "idle",
       };
+    }
+
+    async function runViewHook(name, payload) {
+      const hook = globalThis[name];
+      if (typeof hook !== "function") return;
+      try {
+        await hook(payload);
+      } catch (error) {
+        console.warn(`${name} failed`, error);
+      }
+    }
+
+    function showMathmonReaction(kind) {
+      const assets = LESSON_CONFIG.imageAssets?.mathmonReactions;
+      const source = assets?.[kind];
+      if (!ui.playMathmonReaction || !source) return Promise.resolve();
+      ui.playMathmonReaction.src = source;
+      ui.playMathmonReaction.hidden = false;
+      ui.playMathmonReaction.dataset.reaction = kind;
+      const wait = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+      return new Promise((resolve) => setTimeout(resolve, wait));
+    }
+
+    function setProblemSceneState(kind) {
+      const source = LESSON_CONFIG.imageAssets?.problemStates?.[kind];
+      const scene = document.querySelector("#screen-play > img:not(.play-mathmon-reaction)");
+      if (!scene || !source) return Promise.resolve();
+      scene.dataset.problemSceneState = kind;
+      if (scene.getAttribute("src") === source && scene.complete) return Promise.resolve();
+      scene.src = source;
+      if (scene.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        scene.addEventListener("load", resolve, { once: true });
+        scene.addEventListener("error", resolve, { once: true });
+      });
     }
 
     function readAudioFlag(key, fallback) {
@@ -1942,9 +2023,19 @@
       const oscillator = ctx.createOscillator();
       const gain = ctx.createGain();
       const now = ctx.currentTime;
-      const frequency = kind === "success" ? 720 : kind === "reward" ? 520 : kind === "scoreboard" ? 440 : 260;
+      const frequencies = {
+        "step-correct": 720,
+        "step-wrong": 260,
+        "problem-complete": 840,
+        "reward-open": 520,
+        "reward-rare": 660,
+        "reward-legend": 920,
+        result: 600,
+        scoreboard: 440,
+      };
+      const frequency = frequencies[kind] || 420;
       oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.type = kind === "error" ? "sawtooth" : "sine";
+      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
       gain.gain.setValueAtTime(0.001, now);
       gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
@@ -2037,6 +2128,7 @@
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.completeText.textContent = "";
       if (typeof renderProblemVisual === "function") renderProblemVisual(problem, state);
+      setProblemSceneState("waiting");
       renderStep();
       syncProgress();
       showScreen("play");
@@ -2079,8 +2171,9 @@
       if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
     }
 
-    function handleChoice(choice, button) {
-      if (state.pendingAdvance) return;
+    async function handleChoice(choice, button) {
+      if (state.pendingAdvance || state.inputLocked) return;
+      state.inputLocked = true;
       const problem = state.problems[state.problemIndex];
       const step = problem.steps[state.stepIndex];
       const correct = LessonModel.validateChoice(step, choice);
@@ -2098,7 +2191,11 @@
         ui.feedback.textContent = getChoiceFeedback(choice) || step.wrongText || "다시 골라 봐요.";
         ui.instructionText.hidden = true;
         if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: false, button });
-        playSample("error");
+        playSample("step-wrong");
+        await setProblemSceneState("waiting");
+        await showMathmonReaction("wrong");
+        await runViewHook("onStepWrong", { problem, step, choice, state, button });
+        state.inputLocked = false;
         return;
       }
 
@@ -2111,9 +2208,12 @@
       ui.instructionText.hidden = true;
       ui.answerSlot.textContent = step.reveal || step.correctText || String(step.answer);
       ui.answerSlot.classList.add("is-filled");
-      playSample("success");
+      playSample("step-correct");
+      await setProblemSceneState("working");
+      await showMathmonReaction("correct");
       if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: true, button });
       if (typeof revealCorrectStep === "function") revealCorrectStep(problem, step, state);
+      await runViewHook("onStepCorrect", { problem, step, choice, state, button });
 
       if (state.stepIndex < problem.steps.length - 1) {
         state.pendingAdvance = true;
@@ -2121,6 +2221,7 @@
         setTimeout(() => {
           state.stepIndex += 1;
           state.pendingAdvance = false;
+          state.inputLocked = false;
           state.stepAttempts = [];
           renderStep();
         }, Math.max(0, delay));
@@ -2128,12 +2229,17 @@
       }
 
       state.completed = true;
+      await setProblemSceneState("complete");
       if (!state.mistakeTouched) state.correctFirstTry += 1;
+      await runViewHook("onProblemComplete", { problem, step, choice, state });
+      await showMathmonReaction("reward");
+      playSample("problem-complete");
       ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
       ui.continueButton.focus();
+      state.inputLocked = false;
     }
 
     function getChoiceLabel(choice) {
@@ -2158,6 +2264,48 @@
         : "";
     }
 
+    function wireDirectChoice(button, dropTarget, choice, choose) {
+      button.draggable = true;
+      button.dataset.directChoice = "true";
+      const submit = () => choose(choice, button);
+      button.addEventListener("click", submit);
+      button.addEventListener("dragstart", (event) => {
+        event.dataTransfer?.setData("text/plain", getChoiceId(choice));
+        button.dataset.dragging = "true";
+        dropTarget.__directChoice = { choice, button };
+      });
+      button.addEventListener("dragend", () => { delete button.dataset.dragging; });
+      if (dropTarget.dataset.directDropReady !== "true") {
+        dropTarget.dataset.directDropReady = "true";
+        dropTarget.addEventListener("dragover", (event) => event.preventDefault());
+        dropTarget.addEventListener("drop", (event) => {
+          event.preventDefault();
+          const active = dropTarget.__directChoice;
+          if (active) choose(active.choice, active.button);
+          dropTarget.__directChoice = null;
+        });
+      }
+
+      let start = null;
+      button.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse") return;
+        start = { x: event.clientX, y: event.clientY };
+        button.setPointerCapture(event.pointerId);
+      });
+      button.addEventListener("pointermove", (event) => {
+        if (!start) return;
+        button.style.translate = `${event.clientX - start.x}px ${event.clientY - start.y}px`;
+      });
+      button.addEventListener("pointerup", (event) => {
+        if (!start) return;
+        const rect = dropTarget.getBoundingClientRect();
+        const dropped = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        start = null;
+        button.style.translate = "";
+        if (dropped) submit();
+      });
+    }
+
     function renderStepChips(problem) {
       ui.stepChips.innerHTML = "";
       problem.steps.forEach((step, index) => {
@@ -2175,19 +2323,15 @@
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
-      const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
-      if (rewardPatch && typeof rewardPatch === "object") {
-        if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
-        if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
-      }
-      finishScoreboardQuestion(event);
-      state.lastRewardEvent = event;
-      playSample("reward");
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
         openRewardModal(event);
         return;
       }
+
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -2201,17 +2345,86 @@
     }
 
     function openRewardModal(event) {
-      ui.modalRewardLabel.textContent = formatRewardText(event);
+      if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
+      ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardPop.dataset.reward = "closed";
+      ui.rewardPop.dataset.rarity = event.rarity || "common";
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
+      ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
+      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = true;
+      ui.rewardPop.hidden = false;
+      ui.modalRewardOpenButton.focus();
+    }
+
+    function applyPendingReward(event) {
+      const firstTry = !state.mistakeTouched;
+      const beforePower = state.power;
+      const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
+      if (rewardPatch && typeof rewardPatch === "object") {
+        if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
+        if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
+      }
+      finishScoreboardQuestion(event);
+      state.lastRewardEvent = event;
+      return beforePower;
+    }
+
+    async function revealRewardModal() {
+      if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      state.rewardPhase = "opening";
+      ui.modalRewardOpenButton.disabled = true;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
+      await nextAnimationFrame();
+      const beforePower = applyPendingReward(event);
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
-      ui.rewardPop.hidden = false;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      await animateRewardValue(event);
+      state.rewardPhase = "revealed";
+      ui.modalRewardOpenButton.hidden = true;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
+    }
+
+    function nextAnimationFrame() {
+      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    function animateRewardValue(event) {
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const duration = reduceMotion ? 0 : 650;
+      const target = Number(event.amount) || 0;
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      return new Promise((resolve) => {
+        const started = performance.now();
+        const tick = (now) => {
+          const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
+          const value = Math.round(target * progress);
+          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          if (progress < 1) requestAnimationFrame(tick);
+          else resolve();
+        };
+        requestAnimationFrame(tick);
+      });
     }
 
     function closeRewardModal() {
       ui.rewardPop.hidden = true;
       ui.rewardPop.dataset.reward = "";
+      ui.rewardPop.dataset.rarity = "";
+      state.pendingRewardEvent = null;
+      state.rewardPhase = "idle";
+    }
+
+    function getRewardClosedImage() {
+      return LESSON_CONFIG.imageAssets.rewardClosed || LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
     }
 
     function getRewardImage(event) {
@@ -2240,13 +2453,14 @@
     function showResult() {
       const result = getCurrentResult();
       state.currentResult = result;
-      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.cover;
+      playSample("result");
+      ui.resultBg.src = LESSON_CONFIG.imageAssets.resultScene || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
-      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `힘 ${state.power}`;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
         const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
@@ -2258,7 +2472,7 @@
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
       const fullScene = getResultRenderMode() === "fullscene-score-slot";
-      ui.resultTitleArt.hidden = fullScene;
+      ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
       screens.result.dataset.resultTier = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -2425,6 +2639,7 @@
     ui.backTutorialButton?.addEventListener("click", previousTutorial);
     ui.continueButton.addEventListener("click", showReward);
     ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
     ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
@@ -2456,6 +2671,9 @@
       getState: () => ({
         screen: state.screen,
         problemIndex: state.problemIndex,
+        stepIndex: state.stepIndex,
+        inputLocked: state.inputLocked,
+        pendingAdvance: state.pendingAdvance,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
         answers: state.scoreboardAnswers,

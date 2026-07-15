@@ -7,7 +7,7 @@
 - 문제 화면: 생성형 피자 가게 배경 위에 큰 피자, 조각 수 표지, 분수 선택지만 보여 줍니다.
 - 정답 확인: 학생이 고른 분수가 큰 계산판에 들어가고, 조각 수와 같은지 확인한 뒤 `피자 보기`를 누릅니다.
 - 오답 피드백: 분자·분모 뒤바꿈, 색칠하지 않은 조각 세기 등 선택 이유에 맞는 한 줄 힌트를 보여 줍니다.
-- 보상: 문제마다 피자 점수가 무작위로 달라지고, 10문제 뒤 차시 전용 결과 장면을 보여 줍니다.
+- 보상: 문제마다 피자 빛이 무작위로 달라지고, 10문제 뒤 차시 전용 결과 장면을 보여 줍니다.
 - 실행: `index.html`을 브라우저에서 엽니다.
 
 ## 화면 원칙
@@ -23,6 +23,12 @@
 - 빌드 결과: `3-2-4-1-mathmon-pizza-fraction/index.html`
 - 문제 배경: `problem-stage-source.png` → `problem-stage-generated.png` → `problem-stage-generated.webp`
 - 커버: `cover-generated.webp`, `title-logo-generated.webp`, `start-button-generated.webp`
-- 결과: `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp`, `result-retry-generated.webp`
+- 동행 매스몬: 승인된 `base-pack`의 여우몬(`base-02-foxmon`)
+- 설명: `tutorial-page-{1,2}-generated.webp` 2장. 첫 장은 분자·분모, 둘째 장은 랜덤 보상과 마지막 피자 이름을 보여 줍니다.
+- 랜덤 보상: `reward-event-*-generated.webp` 6종
+- 결과: `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장. 각 이미지에 등급명과 `다시` 버튼이 들어 있습니다.
+- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 
 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
+
+추가 시각 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

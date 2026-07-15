@@ -9,7 +9,7 @@
   "topic": "원으로 규칙과 무늬 만들기",
   "unitBadge": "3단원 원",
   "goal": "같은 크기와 간격으로 원 무늬를 이어요.",
-  "action": "규칙대로 이어진 원 무늬를 고른다.",
+  "action": "규칙대로 이어진 원 무늬를 골라요.",
   "buttonLabel": "무늬 보기",
   "rewardScreenTitle": "무늬 빛",
   "progressLabel": "무늬 빛",
@@ -17,8 +17,8 @@
   "tutorialTitle": "무늬를 잇기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "title": "어떻게 이어요?", "body": "원 크기와 간격을 맞춰 무늬를 이어요.", "image": "problem-stage-generated.webp" },
-    { "visual": "2", "title": "무엇을 얻어요?", "body": "10문제를 풀고 마지막 무늬를 봐요.", "image": "problem-stage-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 이어요?", "body": "원 크기와 간격을 맞춰 이어요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 무늬 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -26,17 +26,26 @@
     "maxPower": 100,
     "nextLabel": "다음",
     "artMap": {
-      "normal": "result-pattern-generated.webp",
-      "loss": "result-small-generated.webp",
-      "mega": "result-big-generated.webp",
-      "perfect": "result-design-generated.webp",
-      "empty": "result-dot-generated.webp",
-      "rainbow": "result-rainbow-generated.webp"
-    }
+      "normal": "reward-event-normal-generated.webp", "loss": "reward-event-loss-generated.webp",
+      "mega": "reward-event-mega-generated.webp", "perfect": "reward-event-perfect-generated.webp",
+      "empty": "reward-event-empty-generated.webp", "rainbow": "reward-event-rainbow-generated.webp"
+    },
+    "spriteSheet": { "columns": 3, "rows": 2, "slots": {
+      "normal": [0, 0], "loss": [1, 0], "mega": [2, 0],
+      "perfect": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
+    } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
+    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+    "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "mathmon-drv-09-rainbowunicorn",
+    "fixedGeneratedElements": ["result-title", "retry-button"],
+    "dynamicOverlays": ["pattern-light", "correct-count"]
+  } },
   "workbench": { "type": "circle-pattern-choice" },
   "scoreboard": { "enabled": false },
+  "mathmonPack": "diversity-reward-pack",
+  "mathmonName": "무지개유니몬",
+  "mathmonId": "mathmon-drv-09-rainbowunicorn",
   "results": [
     { "id": "dot", "name": "점무늬", "minPower": 0, "minCorrect": 0, "image": "result-dot-generated.webp", "titleImage": "result-dot-generated.webp" },
     { "id": "small", "name": "작은 무늬", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
@@ -68,11 +77,14 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
-    "problem-stage-generated.webp",
+    "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
+    "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-dot-generated.webp", "result-small-generated.webp", "result-pattern-generated.webp",
     "result-big-generated.webp", "result-design-generated.webp", "result-rainbow-generated.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }

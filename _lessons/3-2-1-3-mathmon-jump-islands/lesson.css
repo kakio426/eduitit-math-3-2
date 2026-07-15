@@ -1,0 +1,301 @@
+.game[data-workbench-type="jump-islands"] {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(96, 215, 255, 0.18), transparent 26%),
+    radial-gradient(circle at 84% 78%, rgba(255, 200, 87, 0.16), transparent 28%),
+    #101320;
+}
+
+.game[data-workbench-type="jump-islands"] .hero-copy {
+  width: min(700px, 60%);
+}
+
+.game[data-workbench-type="jump-islands"] .hero-title-art {
+  width: min(650px, 100%);
+  max-height: 280px;
+}
+
+.game[data-workbench-type="jump-islands"] .problem-grid {
+  grid-template-columns: minmax(420px, 1.18fr) minmax(330px, 0.82fr);
+  gap: 16px;
+}
+
+.game[data-workbench-type="jump-islands"] .problem-card {
+  padding: 18px;
+  gap: 10px;
+}
+
+.game[data-workbench-type="jump-islands"] .visual-area {
+  min-height: 0;
+}
+
+.jump-visual {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  display: grid;
+  grid-template-rows: minmax(142px, 0.44fr) minmax(184px, 0.56fr);
+  gap: 14px;
+}
+
+.jump-map {
+  position: relative;
+  min-height: 142px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(14, 12, 22, 0.36);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.jump-map > img:first-child {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jump-marker {
+  position: absolute;
+  z-index: 3;
+  top: 16px;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 9px 10px rgba(0, 0, 0, 0.34));
+  transform: translateX(-50%);
+  transition: left 0.32s ease;
+}
+
+.jump-islands {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 9px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.jump-island-chip {
+  min-width: 0;
+  min-height: 25px;
+  display: grid;
+  place-items: center;
+  padding: 3px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(14, 12, 22, 0.58);
+  font-size: 0.78rem;
+  font-weight: 1000;
+  line-height: 1.1;
+  text-align: center;
+  overflow-wrap: keep-all;
+  white-space: nowrap;
+}
+
+.jump-island-chip.is-reached {
+  border-color: rgba(53, 217, 178, 0.7);
+  background: rgba(53, 217, 178, 0.2);
+}
+
+.jump-island-chip.is-current {
+  border-color: rgba(255, 200, 87, 0.88);
+  background: rgba(255, 200, 87, 0.22);
+}
+
+.jump-board {
+  min-height: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background: rgba(14, 12, 22, 0.44);
+  text-align: center;
+}
+
+.jump-expression {
+  color: #fff0c6;
+  font-size: clamp(1.18rem, 2vw, 1.44rem);
+  line-height: 1.15;
+}
+
+.jump-transform {
+  width: min(500px, 100%);
+  min-height: 112px;
+  display: grid;
+  place-items: center;
+  padding: 16px 18px;
+  border-radius: 18px;
+  color: #231400;
+  background: linear-gradient(180deg, #fff0a8, #ffc857);
+  font-size: clamp(2rem, 4vw, 2.76rem);
+  font-weight: 1000;
+  line-height: 1.08;
+  font-variant-numeric: tabular-nums;
+}
+
+.jump-transform.is-step-confirmed {
+  animation: jump-step-confirm 620ms ease;
+}
+
+.jump-note {
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 7px 12px;
+  border: 1px solid rgba(96, 215, 255, 0.36);
+  border-radius: 999px;
+  color: #d7f7ff;
+  background: rgba(96, 215, 255, 0.12);
+  font-size: 0.98rem;
+  font-weight: 950;
+  line-height: 1.18;
+  text-align: center;
+}
+
+.game[data-workbench-type="jump-islands"] .choices-panel {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.game[data-workbench-type="jump-islands"] .complete-panel {
+  min-height: 104px;
+}
+
+.game[data-workbench-type="jump-islands"] .complete-panel .primary-button {
+  min-width: 210px;
+}
+
+.game[data-workbench-type="jump-islands"] .reward-card {
+  width: min(740px, 92%);
+  min-height: 0;
+  gap: 18px;
+  padding: 24px;
+}
+
+.game[data-workbench-type="jump-islands"] .reward-visual {
+  width: min(640px, 100%);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+}
+
+.game[data-workbench-type="jump-islands"] .reward-label {
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+}
+
+.game[data-result-render-mode="fullscene-score-slot"] #screen-result::after,
+.game[data-result-render-mode="fullscene-score-slot"] #screen-result .top-row {
+  display: none;
+}
+
+.game[data-workbench-type="jump-islands"] .result-correct-art {
+  left: 63.9%;
+  top: 57.5%;
+  width: 25.3%;
+  height: 12.4%;
+  object-fit: contain;
+  transform: translateY(-8%);
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.36));
+}
+
+.game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="sand"] .result-correct-art {
+  left: 64.4%;
+  top: 55.5%;
+  width: 25.2%;
+  height: 12.5%;
+}
+
+.game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="forest"] .result-correct-art {
+  left: 64.7%;
+  top: 56%;
+  width: 24.9%;
+  height: 11.8%;
+}
+
+.game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="cloud"] .result-correct-art {
+  left: 63%;
+  top: 55.5%;
+  width: 26.5%;
+  height: 12.4%;
+}
+
+.game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="starlight"] .result-correct-art {
+  left: 63.1%;
+  top: 57.5%;
+  width: 26.8%;
+  height: 12%;
+}
+
+.game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="rainbow"] .result-correct-art {
+  left: 63.9%;
+  top: 54.3%;
+  width: 26.9%;
+  height: 12.1%;
+}
+
+.game[data-workbench-type="jump-islands"] .result-retry-hitbox {
+  left: 66.1%;
+  top: 78.2%;
+  right: auto;
+  bottom: auto;
+  width: 17.7%;
+  height: 9.8%;
+  border-radius: 18px;
+}
+
+.game[data-workbench-type="jump-islands"] .result-retry-art {
+  display: none;
+}
+
+.game[data-workbench-type="jump-islands"] .result-rank-button-art,
+.game[data-workbench-type="jump-islands"] .result-leaderboard-hitbox {
+  left: 7.5%;
+  bottom: 7.4%;
+  width: 188px;
+  height: 70px;
+  transform: none;
+}
+
+@keyframes jump-step-confirm {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  42% {
+    filter: brightness(1.12);
+    transform: scale(1.035);
+  }
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .game[data-workbench-type="jump-islands"] .problem-grid {
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 12px;
+  }
+
+  .jump-visual {
+    min-height: 330px;
+    grid-template-rows: 132px minmax(178px, 1fr);
+    gap: 12px;
+  }
+
+  .jump-transform {
+    min-height: 100px;
+  }
+
+  .jump-island-chip {
+    font-size: 0.7rem;
+    padding-inline: 4px;
+  }
+}

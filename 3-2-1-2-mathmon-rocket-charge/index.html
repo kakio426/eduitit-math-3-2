@@ -546,10 +546,10 @@
     }
 
     .cover-start-button {
-      --cover-start-scale: 0.7;
-      width: 420px;
-      height: 149px;
-      margin-bottom: -45px;
+      width: clamp(300px, 28vw, 360px);
+      height: auto;
+      aspect-ratio: 1611 / 680;
+      margin: 0;
       padding: 0;
       border: 0;
       border-radius: 999px;
@@ -558,19 +558,17 @@
       display: inline-grid;
       place-items: center;
       transition: filter 160ms ease, transform 160ms ease;
-      transform: scale(var(--cover-start-scale));
-      transform-origin: left top;
       filter: drop-shadow(0 14px 24px rgba(255, 174, 34, 0.24));
     }
 
     .cover-start-button:hover {
       filter: brightness(1.04) drop-shadow(0 16px 26px rgba(255, 174, 34, 0.28));
-      transform: translateY(-1px) scale(var(--cover-start-scale));
+      transform: translateY(-1px);
     }
 
     .cover-start-button:active {
       filter: brightness(0.99) drop-shadow(0 10px 18px rgba(255, 174, 34, 0.22));
-      transform: translateY(1px) scale(var(--cover-start-scale));
+      transform: translateY(1px);
     }
 
     .cover-start-button:focus-visible {
@@ -2086,6 +2084,19 @@
       transform: translateY(2px);
     }
 
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-surface,
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-label {
+      display: none;
+    }
+
+    .result-action-hitbox .result-common-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
     .result-action-hitbox[hidden] {
       display: none;
     }
@@ -2771,7 +2782,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-settings-standard="modal-controls">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -2823,7 +2834,7 @@
           <img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">
           <p>받아올림 있는 곱셈을 풀어 로켓의 연료를 넣어요.</p>
           <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
-            <img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true">
+            <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
           </button>
         </div>
       </div>
@@ -3019,17 +3030,19 @@
           <text class="result-svg-value result-svg-measure" id="resultMeasureSvg" x="748" y="598">연료 0</text>
           <rect x="748" y="614" width="394" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
           <rect id="resultMeasureFillSvg" x="748" y="614" width="0" height="12" rx="6" fill="#79f5c4"></rect>
-          <rect x="748" y="646" width="188" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <rect x="960" y="646" width="178" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <text class="result-svg-button-text" x="842" y="685" text-anchor="middle">순위 보기</text>
-          <text class="result-svg-button-text" id="resultSvgRestartText" x="1049" y="685" text-anchor="middle">다시하기</text>
+          <rect class="result-legacy-action-surface" x="748" y="646" width="188" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect class="result-legacy-action-surface" x="960" y="646" width="178" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <text class="result-svg-button-text result-legacy-action-label" x="842" y="685" text-anchor="middle">순위 보기</text>
+          <text class="result-svg-button-text result-legacy-action-label" id="resultSvgRestartText" x="1049" y="685" text-anchor="middle">다시하기</text>
         </g>
       </svg>
       <div class="result-actions" aria-hidden="false">
         <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
+          <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">순위 보기</span>
         </button>
         <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
+          <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">다시하기</span>
         </button>
       </div>

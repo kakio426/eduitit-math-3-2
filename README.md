@@ -40,6 +40,7 @@ ai mart/
   3-2-5-2-mathmon-drink-order/
   3-2-5-3-mathmon-scale-balance/
   3-2-5-4-mathmon-package-weight/
+  3-2-6-1-mathmon-data-rangers/
 ```
 
 ## 차시 폴더 이름 규칙
@@ -87,6 +88,7 @@ ai mart/
 | 3학년 2학기 5단원 2차시 | `3-2-5-2-mathmon-drink-order` | 매스몬 음료 제조 주문 | 들이의 덧셈·뺄셈과 주문 비교 |
 | 3학년 2학기 5단원 3차시 | `3-2-5-3-mathmon-scale-balance` | 매스몬 저울 균형 | kg, g, t 무게 비교 |
 | 3학년 2학기 5단원 4차시 | `3-2-5-4-mathmon-package-weight` | 매스몬 택배 무게 맞추기 | 무게의 덧셈·뺄셈과 어림 |
+| 3학년 2학기 6단원 1차시 | `3-2-6-1-mathmon-data-rangers` | 매스몬 자료 정리단 | 표와 그림그래프 읽기 |
 
 ## 레포지토리 운영
 

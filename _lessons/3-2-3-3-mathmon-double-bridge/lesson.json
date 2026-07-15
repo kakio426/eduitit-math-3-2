@@ -9,7 +9,7 @@
   "topic": "지름과 반지름의 관계",
   "unitBadge": "3단원 원",
   "goal": "지름은 반지름의 두 배임을 알아봐요.",
-  "action": "두 배 또는 반의 길이를 고른다.",
+  "action": "두 배 또는 반의 길이를 골라요.",
   "buttonLabel": "다리 보기",
   "rewardScreenTitle": "다리 힘",
   "progressLabel": "다리 힘",
@@ -17,8 +17,8 @@
   "tutorialTitle": "다리를 놓기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "title": "어떻게 이어요?", "body": "반지름 두 개를 이으면 지름이 돼요.", "image": "problem-stage-generated.webp" },
-    { "visual": "2", "title": "무엇을 얻어요?", "body": "10문제를 풀고 마지막 다리를 봐요.", "image": "problem-stage-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 이어요?", "body": "반지름 두 개를 이으면 지름이 돼요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 다리 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -26,17 +26,26 @@
     "maxPower": 100,
     "nextLabel": "다음",
     "artMap": {
-      "normal": "result-bridge-generated.webp",
-      "loss": "result-small-generated.webp",
-      "mega": "result-big-generated.webp",
-      "complete": "result-grand-generated.webp",
-      "empty": "result-log-generated.webp",
-      "rainbow": "result-rainbow-generated.webp"
-    }
+      "normal": "reward-event-normal-generated.webp", "loss": "reward-event-loss-generated.webp",
+      "mega": "reward-event-mega-generated.webp", "complete": "reward-event-complete-generated.webp",
+      "empty": "reward-event-empty-generated.webp", "rainbow": "reward-event-rainbow-generated.webp"
+    },
+    "spriteSheet": { "columns": 3, "rows": 2, "slots": {
+      "normal": [0, 0], "loss": [1, 0], "mega": [2, 0],
+      "complete": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
+    } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic" },
+  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
+    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+    "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "zfa-03-sudalmon",
+    "fixedGeneratedElements": ["result-title", "retry-button"],
+    "dynamicOverlays": ["bridge-power", "correct-count"]
+  } },
   "workbench": { "type": "circle-double-bridge" },
   "scoreboard": { "enabled": false },
+  "mathmonPack": "zero-factory-animal-pack",
+  "mathmonName": "수달몬",
+  "mathmonId": "zfa-03-sudalmon",
   "results": [
     { "id": "log", "name": "외나무다리", "minPower": 0, "minCorrect": 0, "image": "result-log-generated.webp", "titleImage": "result-log-generated.webp" },
     { "id": "small", "name": "작은 다리", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
@@ -71,11 +80,14 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
-    "problem-stage-generated.webp",
+    "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
+    "reward-event-complete-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-log-generated.webp", "result-small-generated.webp", "result-bridge-generated.webp",
     "result-big-generated.webp", "result-grand-generated.webp", "result-rainbow-generated.webp"
   ],
   "qa": {
+    "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }

@@ -100,10 +100,20 @@
 
 루트 Stage 검사:
 
-- `node scripts/check-stage-ratio.mjs`는 현재 작업실의 별도 변경 중인 `3-2-1-4-mathmon-fusion`에서 실패합니다. 이번 엔진화 대상인 `3-2-5-1-mathmon-water-fill` 항목은 실패 목록에 없습니다.
+- `node scripts/check-stage-ratio.mjs` 통과 (`21`개 차시, `16:10` / `1280×800`)
 
 Browser QA:
 
 - `node scripts/qa-engine-water-fill-flow.mjs` 통과
 - desktop `1280x800`과 tablet landscape `1024x768`에서 첫 화면, 설정 모달, 설명 1·2, 문제 1단계, 정답 확인, 보상, 결과 흐름을 확인했습니다.
 - 캡처: `screenshots/engine-desktop-*.png`, `screenshots/engine-tablet-*.png`
+
+## 10. 2026-07-12 이미지 설명 리마스터
+
+- 어두운 HTML 설명 카드를 2쪽 생성 포스터로 교체했습니다.
+- 1쪽은 눈금에서 들이를 고르는 행동 하나, 2쪽은 10문제·물통 보상·마지막 결과만 보여 줍니다.
+- 포스터 런타임 크기: `1280×800`, `object-fit: cover`
+- 결과 상태 세트: 4장, 컨택시트 `result-states-contact-sheet.png`
+- 매스몬 팩: `zero-factory-animal-pack` / `zfa-06-penguinmon`
+- `node scripts/qa-lesson-flow.mjs 3-2-5-1-mathmon-water-fill` 통과
+- 데스크톱 `1280×800`, 태블릿 가로 `1024×768` 전체 흐름에서 깨진 이미지·텍스트 넘침·요소 겹침·Stage 밖 이탈 `0건`

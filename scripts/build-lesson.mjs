@@ -8,6 +8,7 @@ const ENGINE_VERSION = "mathmon-engine-v1";
 const ENGINE_DIR = path.join(ROOT, "_engine", "v1");
 const LESSON_SOURCE_ROOT = path.join(ROOT, "_lessons");
 const SCOREBOARD_DIR = path.join(ROOT, "_shared", "scoreboard");
+const SHARED_COVER_START_BUTTON = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
 
 function usage() {
   console.error("Usage: node scripts/build-lesson.mjs <lesson-folder>");
@@ -108,14 +109,17 @@ async function main() {
   const config = JSON.parse(await readFile(configPath, "utf8"));
   requireLessonConfig(config, lessonFolder);
 
+  const sourceFiles = config.sourceFiles || {};
+  const modelPath = path.resolve(sourceDir, sourceFiles.model || "model.js");
+  const viewPath = path.resolve(sourceDir, sourceFiles.view || "view.js");
   const [template, engineCss, engineRuntime, scoreboardCss, scoreboardRuntime, modelSource, viewSource] = await Promise.all([
     readFile(path.join(ENGINE_DIR, "template.html"), "utf8"),
     readFile(path.join(ENGINE_DIR, "styles", "core.css"), "utf8"),
     readFile(path.join(ENGINE_DIR, "runtime", "core.js"), "utf8"),
     readFile(path.join(SCOREBOARD_DIR, "scoreboard-ui.css"), "utf8"),
     readFile(path.join(SCOREBOARD_DIR, "scoreboard-ui.js"), "utf8"),
-    readFile(path.join(sourceDir, "model.js"), "utf8"),
-    readFile(path.join(sourceDir, "view.js"), "utf8"),
+    readFile(modelPath, "utf8"),
+    readFile(viewPath, "utf8"),
   ]);
 
   let lessonCss = "";
@@ -138,11 +142,14 @@ async function main() {
   const unitNumber = getUnitNumber(config);
   const scoreboardEnabled = Boolean(scoreboard.enabled);
   const hybridResult = result.renderMode === "hybrid-generated-dynamic";
+  const generatedCoverStart = (standards.coverStart || "generated-button-art") === "generated-button-art";
+  const useSharedCoverStart = generatedCoverStart && standards.coverStartAsset !== "lesson-local";
   const html = renderTemplate(template, {
     documentTitle: `${escapeHtml(config.title)} | 에듀잇티 수학 게임`,
     engineVersion: escapeHtml(config.engineVersion),
     coverStandard: escapeHtml(standards.cover || "generated-title-overlay"),
     coverStartStandard: escapeHtml(standards.coverStart || "generated-button-art"),
+    coverStartAsset: escapeHtml(useSharedCoverStart ? "shared-canonical-v1" : "lesson-local"),
     settingsStandard: escapeHtml(standards.settings || "modal-controls"),
     resultVisualStandard: escapeHtml(standards.resultVisual || "generated-assets"),
     resultRenderMode: escapeHtml(requiredString(result.renderMode, "simple-generated")),
@@ -158,7 +165,7 @@ async function main() {
     title: escapeHtml(config.title),
     titleArt: escapeHtml(imageAssets.titleArt || "title-logo-generated.webp"),
     goal: escapeHtml(config.goal),
-    startButtonArt: escapeHtml(imageAssets.startButton || "start-button-generated.webp"),
+    startButtonArt: escapeHtml(useSharedCoverStart ? SHARED_COVER_START_BUTTON : (imageAssets.startButton || "start-button-generated.webp")),
     topic: escapeHtml(config.topic),
     unitBadge: escapeHtml(config.unitBadge),
     tutorialTitle: escapeHtml(config.tutorialTitle),

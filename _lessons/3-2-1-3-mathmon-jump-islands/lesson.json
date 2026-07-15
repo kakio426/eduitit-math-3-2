@@ -1,0 +1,257 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "engine-v1-1-scoreboard-pilot",
+  "id": "3-2-1-3",
+  "folder": "3-2-1-3-mathmon-jump-islands",
+  "modelName": "Lesson3JumpIslandsModel",
+  "title": "매스몬 10배 점프섬",
+  "shortTitle": "매스몬 점프섬",
+  "topic": "(몇십)×(몇십), (몇십몇)×(몇십)",
+  "unitBadge": "1단원 곱셈",
+  "goal": "0을 가리고 곱한 뒤 다시 붙여요.",
+  "action": "작은 곱을 찾고 0을 붙인다.",
+  "buttonLabel": "바람 보기",
+  "rewardScreenTitle": "점프 바람",
+  "rewardThing": "바람",
+  "progressLabel": "점프 거리",
+  "rewardComplete": "바람이 불었어요.",
+  "rewardSmall": "살짝 움직였어요.",
+  "rewardBig": "멀리 날아갔어요.",
+  "tutorialTitle": "점프섬으로 가기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    [
+      "1",
+      "0을 잠깐 가려요.",
+      "큰 수를 작은 곱셈으로 바꿔 봐요."
+    ],
+    [
+      "2",
+      "먼저 곱해요.",
+      "가린 0은 아직 붙이지 않아요."
+    ],
+    [
+      "3",
+      "0을 다시 붙여요.",
+      "맞히면 바람을 타고 다음 섬으로 가요."
+    ]
+  ],
+  "tutorial": {
+    "mode": "card-grid"
+  },
+  "reward": {
+    "mode": "modal-art",
+    "nextLabel": "다음 점프",
+    "artMap": {
+      "tailwind": "reward-tailwind-generated.webp",
+      "headwind": "reward-headwind-generated.webp",
+      "pause": "reward-pause-generated.webp",
+      "gust": "reward-gust-generated.webp",
+      "rainbow": "reward-rainbow-generated.webp",
+      "shaky": "reward-shaky-generated.webp"
+    }
+  },
+  "result": {
+    "renderMode": "fullscene-score-slot"
+  },
+  "workbench": {
+    "type": "jump-islands"
+  },
+  "scoreboard": {
+    "enabled": true,
+    "title": "전국 점프 순위",
+    "titleArt": "../_shared/scoreboard/scoreboard-title-jump-generated.webp",
+    "resultKind": "island",
+    "scoreLabel": "도착한 섬",
+    "listTitle": "점프섬 순위",
+    "unit": "3학년 2학기 1단원 3차시"
+  },
+  "results": [
+    {
+      "id": "start",
+      "name": "출발섬",
+      "minPower": 0,
+      "minCorrect": 0,
+      "image": "result-final-start-generated.webp",
+      "titleImage": "result-stamp-ready-generated.webp"
+    },
+    {
+      "id": "sand",
+      "name": "모래섬",
+      "minPower": 1,
+      "minCorrect": 0,
+      "image": "result-final-sand-generated.webp",
+      "titleImage": "result-stamp-arrival-generated.webp"
+    },
+    {
+      "id": "forest",
+      "name": "숲섬",
+      "minPower": 34,
+      "minCorrect": 5,
+      "image": "result-final-forest-generated.webp",
+      "titleImage": "result-stamp-arrival-generated.webp"
+    },
+    {
+      "id": "cloud",
+      "name": "구름섬",
+      "minPower": 60,
+      "minCorrect": 8,
+      "image": "result-final-cloud-generated.webp",
+      "titleImage": "result-stamp-arrival-generated.webp"
+    },
+    {
+      "id": "starlight",
+      "name": "별빛섬",
+      "minPower": 86,
+      "minCorrect": 9,
+      "image": "result-final-starlight-generated.webp",
+      "titleImage": "result-stamp-arrival-generated.webp"
+    },
+    {
+      "id": "rainbow",
+      "name": "무지개섬",
+      "minPower": 96,
+      "minCorrect": 10,
+      "needsSpecial": true,
+      "image": "result-final-rainbow-generated.webp",
+      "titleImage": "result-stamp-arrival-generated.webp"
+    }
+  ],
+  "rewardEvents": [
+    {
+      "id": "tailwind",
+      "text": "살랑 바람",
+      "weight": 6400,
+      "min": 2,
+      "max": 5,
+      "family": "tailwind",
+      "image": "reward-tailwind-generated.webp"
+    },
+    {
+      "id": "headwind",
+      "text": "앞바람",
+      "weight": 1700,
+      "min": -8,
+      "max": -4,
+      "family": "headwind",
+      "image": "reward-headwind-generated.webp"
+    },
+    {
+      "id": "pause",
+      "text": "잠깐 멈춤",
+      "weight": 1284,
+      "min": 0,
+      "max": 0,
+      "family": "pause",
+      "image": "reward-pause-generated.webp"
+    },
+    {
+      "id": "gust",
+      "text": "쌩쌩 바람",
+      "weight": 598,
+      "min": 8,
+      "max": 13,
+      "family": "gust",
+      "image": "reward-gust-generated.webp"
+    },
+    {
+      "id": "rainbow",
+      "text": "무지개 길",
+      "weight": 18,
+      "min": 14,
+      "max": 14,
+      "family": "rainbow",
+      "special": true,
+      "image": "reward-rainbow-generated.webp"
+    }
+  ],
+  "wrongEvent": {
+    "id": "shaky",
+    "text": "길이 흔들렸어요",
+    "min": -14,
+    "max": -8,
+    "family": "shaky",
+    "image": "reward-shaky-generated.webp"
+  },
+  "typesPerRun": [
+    "hundredfold",
+    "tenfold",
+    "hundredfold",
+    "tenfold",
+    "hundredfold",
+    "tenfold",
+    "hundredfold",
+    "tenfold",
+    "hundredfold",
+    "tenfold"
+  ],
+  "mathmonPack": "zero-factory-animal-pack",
+  "mathmonName": "냥냥몬",
+  "mathmonId": "zfa-04-nyangnyangmon",
+  "stage": {
+    "ratio": "16:10",
+    "size": "1280x800"
+  },
+  "standards": {
+    "cover": "generated-title-overlay",
+    "coverStart": "generated-button-art",
+    "settings": "modal-controls",
+    "resultVisual": "generated-assets"
+  },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-poster-generated.webp",
+    "startButton": "start-button-generated.webp",
+    "rewardScene": "reward-wind-path-generated.webp",
+    "resultRetryButton": "start-button-generated.webp",
+    "resultLeaderboardButton": "result-rank-button-generated.webp"
+  },
+  "assets": [
+    "cover-generated.webp",
+    "title-poster-generated.webp",
+    "start-button-generated.webp",
+    "play-map-strip-generated.webp",
+    "mathmon-zfa-04-nyangnyangmon.webp",
+    "reward-wind-path-generated.webp",
+    "reward-wind-button-generated.webp",
+    "reward-tailwind-generated.webp",
+    "reward-headwind-generated.webp",
+    "reward-pause-generated.webp",
+    "reward-gust-generated.webp",
+    "reward-rainbow-generated.webp",
+    "reward-shaky-generated.webp",
+    "result-final-start-generated.webp",
+    "result-final-sand-generated.webp",
+    "result-final-forest-generated.webp",
+    "result-final-cloud-generated.webp",
+    "result-final-starlight-generated.webp",
+    "result-final-rainbow-generated.webp",
+    "result-stamp-ready-generated.webp",
+    "result-stamp-arrival-generated.webp",
+    "result-rank-button-generated.webp",
+    "../_shared/scoreboard/scoreboard-title-jump-generated.webp"
+  ],
+  "qa": {
+    "viewports": [
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768
+      }
+    ],
+    "requiredFlow": [
+      "cover",
+      "tutorial-1",
+      "tutorial-2",
+      "play",
+      "reward",
+      "result",
+      "scoreboard"
+    ]
+  }
+}

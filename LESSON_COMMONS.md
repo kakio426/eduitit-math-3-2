@@ -11,8 +11,8 @@
 - 첫 화면은 `generated-title-overlay` 표준을 씁니다. 글자 없는 `cover-generated.webp`를 배경으로 깔고, 생성형 이미지 제목 자산을 `.hero-title-art`로 얹습니다.
 - 첫 화면에 매스몬을 보이게 할 때는 `cover-generated.webp` 생성 프롬프트에 처음부터 함께 넣습니다. 기존 매스몬 PNG/WebP를 `.cover-mathmon` 같은 별도 이미지로 커버 위에 붙이는 방식은 새 차시와 리마스터에서 쓰지 않습니다.
 - 제목 자산은 GPT Image/imagegen 같은 생성형 이미지 산출물이어야 합니다. HTML/CSS/SVG/로컬 폰트로 만든 글자 이미지는 제목 아트로 쓰지 않습니다.
-- 한 줄 목표는 실제 HTML 오버레이로 둡니다. 새 차시와 이관 완료 차시는 `data-cover-start-standard="generated-button-art"`를 붙이고, `start-button-generated.webp` 같은 생성형 버튼 아트를 실제 HTML 버튼 안에 넣습니다.
-- 시작 버튼은 1차시 포스터형 버튼처럼 플레이 아이콘이 들어간 두툼한 노란 래스터 버튼을 기준으로 삼고, 1280×800 Stage 기준 `400-460px × 140-170px` 정도로 목표 바로 아래에 둡니다. 커버 전체 투명 hitbox는 새 차시에 쓰지 않습니다.
+- 한 줄 목표는 실제 HTML 오버레이로 둡니다. 새 차시와 이관 완료 차시는 `data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1"`를 붙이고, 공용 `../_shared/mathmon/cover-start-button/start-button-generated.webp`만 실제 HTML 버튼 안에 넣습니다.
+- 시작 버튼은 `mathmon-cover-start-button-v1` 공용 생성 자산을 반복 사용합니다. 새 차시나 큰 커버 수정에서 버튼을 새로 생성·복제·색 변경·재가공하지 않습니다. 1280×800 Stage에서는 `360×152px`, 작은 화면에서는 최소 `300×127px`, `aspect-ratio: 1611 / 680`을 고정합니다. 버튼 아트와 HTML hitbox는 같은 실제 브라우저 경계여야 하며, 커버 전체 투명 hitbox는 새 차시에 쓰지 않습니다.
 - 기존 `generated-title-overlay` 차시의 `.primary-button` 시작은 개별 이관 전까지 `compatibility-primary-button`으로 보존할 수 있습니다. 이 호환 상태는 새 차시 기준이 아니며, 이관할 때는 생성형 버튼 자산과 실제 `.cover-start-button` 구조로 바꿉니다.
 
 ## 2. 상단 슬롯과 설정 버튼
@@ -61,6 +61,7 @@
 - 최고 보상은 어렵게 둡니다. 한 판으로 자주 닿으면 재도전 동기가 약해집니다.
 - 틀려도 무언가는 얻습니다. 낮은 결과에도 보이는 변화와 다시 할 길을 남깁니다.
 - 한 차시의 중심 보상은 하나만 둡니다. 별도 코인, 랭킹, 수집장을 동시에 앞세우지 않습니다.
+- **숫자 변화만 보여 주지 말고 현재 보상과 다음 목표를 연결합니다.** 보상 화면은 이번에 얻은 장소·물건·단계를 보여 주고, 결과 화면은 다음에 노릴 목표를 이어 보여 줍니다.
 
 ## 6. 보상 모달
 

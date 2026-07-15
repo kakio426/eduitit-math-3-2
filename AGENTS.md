@@ -25,7 +25,7 @@
 - 첫 화면은 제목, 한 줄 목표, 시작 버튼이 가장 먼저 보여야 합니다.
 - 첫 화면과 마지막 결과 화면은 이미지 생성 기반 RasterStage로 제작합니다. 결과 등급처럼 유한하게 바뀌는 라벨·칭찬·버튼 장식은 단계별 생성 이미지/타이틀 자산으로 처리하고, 정답 수 `0/10`~`10/10`처럼 유한한 동적 값도 공용 생성 이미지 세트로 처리합니다. HTML/SVG 오버레이는 점수·연료·힘처럼 값 범위가 넓은 정보와 접근성용 hitbox만 맡깁니다.
 - 모든 차시는 `16:10` Stage, 기준 제작 크기 `1280×800`을 지킵니다. `index.html`의 `<main class="game">`에는 `data-stage-ratio="16:10"`과 `data-stage-size="1280x800"`을 두고, `.stage-shell`이 contain 폭과 비율을 담당하게 합니다.
-- 첫 화면 커버 표준은 `data-cover-standard="generated-title-overlay"`입니다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깔고, 게임명은 생성형 이미지 제목 자산(`title-*-generated.webp`)을 `.hero-title-art`로 얹으며, 한 줄 목표는 보이는 HTML 오버레이로 둡니다. 새 차시와 생성형 시작 버튼으로 이관한 차시는 `data-cover-start-standard="generated-button-art"`를 붙이고, 시작 버튼의 보이는 면을 CSS 텍스트가 아니라 생성형 버튼 자산(`start-button-generated.webp`)으로 둡니다.
+- 첫 화면 커버 표준은 `data-cover-standard="generated-title-overlay"`입니다. `cover-generated.webp`는 글자 없는 대표 장면 배경으로 `.raster-bg`에 `object-fit: cover`로 깔고, 게임명은 생성형 이미지 제목 자산(`title-*-generated.webp`)을 `.hero-title-art`로 얹으며, 한 줄 목표는 보이는 HTML 오버레이로 둡니다. 새 차시와 생성형 시작 버튼으로 이관한 차시는 `data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1"`를 붙이고, 공용 생성형 버튼 자산(`../_shared/mathmon/cover-start-button/start-button-generated.webp`)만 둡니다.
 - 첫 화면에 매스몬이 필요하면 `cover-generated.webp` 생성 프롬프트 단계에서 배경·소품·조명과 같은 장면 안에 함께 포함합니다. 기존 매스몬 PNG/WebP를 `.cover-mathmon` 같은 별도 `<img>`로 얹거나 배경 생성 뒤 로컬로 붙이는 방식은 새 차시와 리마스터에서 금지합니다. 첫 화면에서 별도 오버레이로 허용되는 것은 제목 아트, 한 줄 목표, 생성형 시작 버튼 아트, 접근성용 hitbox뿐입니다.
 - 기존 `generated-title-overlay` 차시 중 `.primary-button`으로 시작하는 커버는 개별 이관 전까지 `compatibility-primary-button` 상태로 보존합니다. 이 호환 상태는 기존 차시 실행을 위한 예외이며 새 차시 복제 기준이 아닙니다.
 - `cover-generated.webp` 한 장 안에 제목·목표·시작 버튼을 baked-in 하거나, 커버 전체 투명 `cover-start-hitbox`로 시작시키는 방식은 새 차시에 쓰지 않습니다. 기존 1차시처럼 아직 이전 방식인 화면만 `data-cover-standard="legacy-raster-poster"`로 명시하고, 복제 기준으로 삼지 않습니다.
@@ -45,7 +45,7 @@
 - 문구는 짧아야 합니다. 한 문장에는 행동 하나만 넣고, 학생이 소리 내어 읽었을 때 숨이 차거나 교사용 설명처럼 들리면 실패입니다.
 - 첫 화면 제목은 단순 큰 글자가 아니라 **타이포그래픽 포스터/타이틀 아트**로 다룹니다. 사용자가 `그림으로`, `GPT Image`, `제목 이미지`를 요구하면 기존 첫 화면 배경은 유지하고, 제목 부분만 독립 래스터 오버레이(`title-logo-generated.webp` 또는 `title-poster-generated.webp` 같은 배포 자산)로 생성해 얹습니다. 전체 커버 이미지를 갈아엎거나 HTML/CSS/SVG로 어설프게 흉내 내지 않습니다. 접근성용 실제 제목은 `visually-hidden`으로 남깁니다.
 - 첫 화면 제목 자산은 반드시 GPT Image/imagegen 같은 생성형 이미지 산출물이어야 합니다. 로컬 폰트, Pillow, canvas, SVG, CSS text-shadow로 만든 "그림처럼 보이는 텍스트"는 실패입니다. 생성 원본(`title-*-source.png` 또는 `title-*-chromakey.png`)과 배경 제거 PNG/WebP를 함께 보관합니다.
-- 새 차시와 시작 버튼을 이관하는 차시는 첫 화면 시작 버튼도 독립 생성형 버튼 자산으로 만듭니다. `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`를 보관하고, 실제 클릭은 같은 크기의 `<button class="cover-start-button" id="startButton" aria-label="시작">`이 맡습니다. 기준 물성은 1차시 포스터형 버튼처럼 플레이 아이콘이 들어간 두툼한 노란 래스터 버튼입니다. 1280×800 Stage 기준 표시 크기는 `400-460px × 140-170px`, 위치는 목표 바로 아래 `14-24px` 간격을 기본으로 합니다.
+- 시작 버튼은 공용 생성 자산 `mathmon-cover-start-button-v1`만 반복 사용합니다. 원본·PNG·WebP는 `_shared/mathmon/cover-start-button/`에 한 세트로 보관하며, 새 차시·큰 커버 수정에서 차시별 새 생성, 복제, 색 변경, 재가공은 금지합니다. 브랜드 변경처럼 공용 버튼 자체를 바꿀 때만 사용자의 명시적 승인 뒤 공용 세트를 교체합니다. 실제 클릭은 같은 크기의 `<button class="cover-start-button" id="startButton" aria-label="시작">`이 맡고, 표시 규격은 1280×800 Stage에서 `360×152px`, 작은 화면 최소 `300×127px`, `aspect-ratio: 1611 / 680`으로 고정합니다. 목표 아래 `14-24px` 간격을 기본으로 하며, 브라우저에서 버튼 아트와 hitbox 경계가 반드시 일치해야 합니다.
 
 ## UI 텍스트 넘침·요소 겹침 금지 (강제)
 
@@ -181,6 +181,8 @@
 ### 4. "다음엔 더 멀리"를 만든다
 
 결과는 차시마다 자체 완결형 등급으로 보여 줍니다. 학생이 "이번엔 여기까지 왔지만 다음엔 더 멀리 갈 수 있다"고 느끼게 만드는 것이 이 자료의 핵심입니다. 한 개의 콘텐츠를 여러 번 반복하게 만드는 재도전 동기가 모든 차시 설계의 최종 점검 기준입니다.
+
+- **숫자 변화만 보여 주지 말고 현재 보상과 다음 목표를 연결합니다.** 보상 화면에서 이번에 얻은 장소·물건·단계가 무엇인지 보여 주고, 결과 화면에서 다음에 노릴 목표를 이어 보여 줍니다. 학생이 `이번엔 여기까지, 다음엔 저기까지`를 바로 알 수 없으면 실패입니다.
 
 ### 차시 설계 점검 질문
 

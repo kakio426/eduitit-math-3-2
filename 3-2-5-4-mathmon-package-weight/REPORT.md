@@ -175,3 +175,25 @@
 증거 파일:
 
 - `.omo/evidence/mathmon-lesson5-package-weight/truck-evolution-visual-qa.json`
+
+## 12. 2026-07-12 이미지 설명 리마스터
+
+- HTML 설명 카드 3개를 같은 택배 장면의 2쪽 생성 포스터로 교체했습니다.
+- 1쪽은 `kg`과 `g` 계산 한 가지 행동, 2쪽은 10문제·트럭 보상·마지막 결과만 보여 줍니다.
+- 생성 원본과 런타임 포스터를 함께 보존하며 런타임 크기는 `1280×800`입니다.
+- 표지와 설명의 CSS 점을 실제 `eduitit-logo-mark.png`로 교체했습니다.
+- 결과 상태 세트: 4장, 컨택시트 `result-states-contact-sheet.png`
+- 매스몬 팩: `base-pack` / `base-02-foxmon`
+- `node scripts/qa-lesson5-package-weight-model.mjs` 통과 (`1,000,000`문제)
+- `node scripts/qa-lesson5-package-weight-click-guards.mjs` 통과
+
+## 13. 트럭 진화 보상 재설계
+
+- 상단의 가느다란 진행 막대를 실제 트럭 이미지 슬롯으로 교체했습니다.
+- 사용자 캡처에서 확인된 작은 트럭·과한 왼쪽 여백·작은 이름 문제를 다시 조정했습니다.
+- 최종 상단 실측: 이미지/카드 폭 비율 `0.5952`, 이름 `19.84px`, 좌·우 배지 겹침 `0px`.
+- 트럭 단계는 소형 삼륜차, 대형 화물차, 터보 장갑 트럭, 무지개 날개 전설 트럭으로 실루엣 자체가 바뀝니다.
+- 보상 화면은 CSS로 그린 같은 트럭 대신 생성 트럭 전후 이미지를 사용합니다.
+- 아직 다음 단계에 닿지 않았을 때는 오른쪽에 다음 목표 트럭을 크게 보여 주고 `다음 트럭이 가까워졌어요.`라고 안내합니다.
+- 결과 4장도 같은 진화 실루엣의 새 장면으로 교체했으며 이전 장면은 `_archive/3-2-5-4-pre-dramatic-results/`에 보존했습니다.
+- 상태 QA: `truck-evolution-contact-sheet.png`, `result-states-contact-sheet.png`.

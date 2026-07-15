@@ -135,11 +135,11 @@
 | `node scripts/build-lesson.mjs 3-2-2-4-mathmon-check-lock` | 통과 |
 | `node scripts/qa-lesson-model.mjs 3-2-2-4-mathmon-check-lock` | 통과 |
 | `node scripts/qa-lesson2-check-lock.mjs 20260701` | 통과: 모델+네 화면 크기 전체 흐름 |
-| `node scripts/check-stage-ratio.mjs` | 통과: 원격 메인 통합본 20개 차시 |
-| `node scripts/check-rule-consistency.mjs` | 원격 메인에 없는 기존 `UNIT3_IMAGE_GUIDE.md`, `UNIT4_IMAGE_GUIDE.md` 때문에 전체 명령 실패 |
-| `node scripts/check-lesson-contract.mjs` | 통과: 원격 메인 통합본 13개 엔진 차시 |
-| `node scripts/check-lesson-visual-contract.mjs` | 통과: 2단원 1~4차시 |
-| `./.venv/bin/python manage.py test mathmon_scoreboard --keepdb` | 통과: 9개 서버 점수 검증 |
+| `node scripts/check-stage-ratio.mjs` | 통과: 21개 차시 |
+| `node scripts/check-rule-consistency.mjs` | 통과: 13개 문서·21개 차시 |
+| `node scripts/check-lesson-contract.mjs` | 이 차시 오류 없음, 별도 `3-2-2-1` 기존 계약 오류로 전체 명령 실패 |
+| `node scripts/check-lesson-visual-contract.mjs` | 이 차시 오류 없음, 별도 `3-2-2-1` 기존 자산 계약 오류로 전체 명령 실패 |
+| `./.venv/bin/python manage.py test mathmon_scoreboard --keepdb` | 통과: 5개 서버 점수 검증 |
 
 예전 DOM과 게임 흐름을 검사하던 전용 QA는 `scripts/_archive/qa-lesson2-check-lock-legacy-20260714.mjs`로 보관했다. 현재 전용 QA는 정본 빌드, 수학 모델, 데스크톱·태블릿·두 Codex 회귀 조건의 전체 흐름과 실제 SVG 표면 경계 검사를 실행한다.
 

@@ -12,7 +12,7 @@
 
 스크린샷을 `screenshots/` 폴더에 넣습니다.
 
-새 차시는 `SERIES_CONTRACT.md`와 `LESSON_COMMONS.md`의 현재 화면 계약을 따릅니다. 첫 화면은 `generated-title-overlay`와 생성형 시작 버튼 자산(`data-cover-start-standard="generated-button-art"`)을 목표 표준으로 삼고, 기존 `.primary-button` 시작은 이전 차시 compatibility 상태로만 둡니다.
+새 차시는 `SERIES_CONTRACT.md`와 `LESSON_COMMONS.md`의 현재 화면 계약을 따릅니다. 첫 화면은 `generated-title-overlay`와 공용 시작 버튼 자산(`data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1"`, `../_shared/mathmon/cover-start-button/start-button-generated.webp`)을 목표 표준으로 삼고, 버튼 이미지를 새로 생성하지 않습니다. 기존 `.primary-button` 시작은 이전 차시 compatibility 상태로만 둡니다.
 
 결과 화면은 generated-result와 `fullscene-score-slot` 규칙을 유지합니다. 고정 라벨·칭찬·버튼 장식은 생성형 결과 자산이 맡고, HTML은 실제 점수처럼 매 판 달라지는 값과 접근성 hitbox만 맡습니다.
 

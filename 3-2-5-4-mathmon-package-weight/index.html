@@ -129,8 +129,8 @@
       height: 18px;
       margin-right: 0;
       border-radius: 50%;
-      background: var(--amber);
-      display: none;
+      object-fit: contain;
+      display: block;
     }
 
     .badge-dot {
@@ -528,6 +528,90 @@
       justify-content: center;
     }
 
+    .game[data-tutorial-mode="poster-two-step"] .tutorial {
+      padding: 0;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-grid,
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      display: block;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] {
+      display: none;
+    }
+
+    .tutorial-poster-art {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] .tutorial .screen-title,
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-card .tutorial-semantic {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-action {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] .tutorial-action button {
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: transparent;
+      box-shadow: none;
+      pointer-events: auto;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton {
+      left: 438px;
+      bottom: 38px;
+      width: 404px;
+      height: 118px;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+      display: none;
+      left: 96px;
+      bottom: 42px;
+      width: 300px;
+      height: 110px;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton {
+      left: auto;
+      right: 96px;
+      width: 300px;
+      height: 110px;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton {
+      display: block;
+    }
+
     .play {
       padding: var(--stage-inset);
       display: none;
@@ -556,33 +640,40 @@
     }
 
     .progress-line {
-      flex: 1 1 auto;
-      min-width: 180px;
+      flex: 0 1 420px;
+      min-width: 360px;
       max-width: 420px;
-      height: var(--sound-button-size);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
+      height: 92px;
+      margin-top: -12px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(14,12,22,.82));
       border: 1px solid var(--line);
-      overflow: hidden;
       position: relative;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      align-items: center;
+      padding: 2px 22px 2px 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.12);
     }
 
     .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--mint), var(--amber));
-      transition: width 360ms ease;
+      display: none;
     }
 
     .progress-text {
-      position: absolute;
-      inset: 0;
+      position: static;
       display: grid;
       place-items: center;
       color: var(--ink);
-      font-size: 0.82rem;
+      font-size: 1.24rem;
+      line-height: 1.15;
+      text-align: center;
       font-weight: 950;
     }
+
+    .run-truck-image { width: 250px; height: 88px; justify-self: center; object-fit: contain; object-position: center; filter: drop-shadow(0 8px 9px rgba(0,0,0,.38)); }
+    .progress-line.is-upgraded .run-truck-image { animation: truck-arrive .7s cubic-bezier(.2,.85,.25,1.25); filter: drop-shadow(0 0 15px rgba(255,200,87,.85)); }
+    @keyframes truck-arrive { 0% { transform: translateX(-18px) scale(.82); opacity: .35; } 70% { transform: translateX(4px) scale(1.09); opacity: 1; } 100% { transform: none; opacity: 1; } }
 
     .problem-grid {
       display: grid;
@@ -923,6 +1014,30 @@
       border: 1px solid var(--line);
     }
 
+    .reward-evolution-stage {
+      min-height: 286px;
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) 58px minmax(0, 1.18fr);
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: radial-gradient(circle at 72% 46%, rgba(255,208,89,.38), transparent 34%), rgba(14,12,22,.7);
+      overflow: hidden;
+    }
+
+    .reward-truck-before,
+    .reward-truck-after { width: 100%; max-height: 248px; object-fit: contain; filter: drop-shadow(0 14px 16px rgba(0,0,0,.42)); }
+    .reward-truck-before { opacity: .54; transform: scale(.76); filter: grayscale(.35) brightness(.78) drop-shadow(0 10px 12px rgba(0,0,0,.4)); }
+    .reward-truck-after { transform: translateX(34px) scale(.72); opacity: 0; }
+    .reward-card.is-revealed .reward-truck-after { animation: reward-truck-reveal .78s cubic-bezier(.16,.88,.25,1.15) forwards; }
+    .reward-card.is-revealed .reward-truck-before { animation: reward-old-truck .5s ease forwards; }
+    .reward-burst { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; color: #5f3600; background: radial-gradient(circle, #fffbe3 0 22%, #ffc857 24% 55%, #ff8c42 58% 100%); font-size: 2rem; font-weight: 1000; box-shadow: 0 0 28px rgba(255,200,87,.75); animation: reward-burst-pulse .8s ease-in-out infinite alternate; }
+    @keyframes reward-truck-reveal { to { transform: none; opacity: 1; } }
+    @keyframes reward-old-truck { to { transform: translateX(-18px) scale(.68); opacity: .28; } }
+    @keyframes reward-burst-pulse { to { transform: scale(1.13) rotate(6deg); filter: brightness(1.2); } }
+
     .truck-visual {
       position: relative;
       width: min(440px, 92%);
@@ -1221,7 +1336,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-tutorial-mode="poster-two-step">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1252,7 +1367,7 @@
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
         <div class="top-row">
-          <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div>
+          <div class="brand-badge"><img src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div>
           <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 5단원</div>
         </div>
         <div class="cover-scene">
@@ -1268,31 +1383,25 @@
         <div class="mini-badge topic-badge">무게의 덧셈·뺄셈과 어림</div>
       </section>
 
-      <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
+      <section class="screen tutorial" id="screen-tutorial" data-page="0" aria-labelledby="tutorialTitle">
         <div class="top-row">
-          <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div>
+          <div class="brand-badge"><img src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div>
           <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>무게 계산</div>
         </div>
         <div class="tutorial-grid">
           <h2 class="screen-title" id="tutorialTitle">택배를 보내기 전에</h2>
           <div class="tutorial-cards" aria-label="게임 방법">
             <div class="tutorial-card">
-              <div class="card-mark">1</div>
-              <strong>g끼리 먼저 봐요.</strong>
-              <p>1000g이 넘으면 1kg으로 바꿔요.</p>
+              <img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt="kg과 g을 계산하는 방법">
+              <span class="tutorial-semantic">g끼리 계산해요. 1000g은 1kg으로 바꿔요.</span>
             </div>
-            <div class="tutorial-card">
-              <div class="card-mark">2</div>
-              <strong>부족하면 1kg을 빌려요.</strong>
-              <p>1kg은 1000g이에요.</p>
-            </div>
-            <div class="tutorial-card">
-              <div class="card-mark">3</div>
-              <strong>한도보다 가벼워야 해요.</strong>
-              <p>맞으면 트럭이 더 멋져요.</p>
+            <div class="tutorial-card" hidden>
+              <img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt="10문제와 트럭 보상 안내">
+              <span class="tutorial-semantic">10문제를 풀고 트럭을 열어요. 마지막에 오늘의 트럭을 봐요.</span>
             </div>
           </div>
           <div class="tutorial-action">
+            <button class="primary-button" id="tutorialBackButton" type="button" aria-label="이전">이전</button>
             <button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button>
           </div>
         </div>
@@ -1304,7 +1413,8 @@
             <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 택배</div>
             <div class="mini-badge" id="problemCounter">1/10</div>
           </div>
-          <div class="progress-line" aria-label="트럭 변화">
+          <div class="progress-line" id="truckProgressVisual" aria-label="현재 트럭">
+            <img class="run-truck-image" id="runTruckImage" src="truck-evolution-plain-generated.webp" alt="">
             <div class="progress-fill" id="runProgress"></div>
             <div class="progress-text" id="runProgressText">평범 트럭</div>
           </div>
@@ -1343,18 +1453,10 @@
         </div>
         <div class="reward-card">
           <h2 class="upgrade-label" id="rewardTitle">부품 상자</h2>
-          <div class="truck-preview" id="rewardTruckPreview" data-stage="plain" aria-label="현재 트럭">
-            <div class="truck-aura" aria-hidden="true"></div>
-            <div class="truck-visual" aria-hidden="true">
-              <div class="truck-wing"></div>
-              <div class="truck-body"></div>
-              <div class="truck-cab"></div>
-              <div class="truck-window"></div>
-              <div class="truck-stripe"></div>
-              <div class="truck-light"></div>
-              <div class="truck-wheel is-front"></div>
-              <div class="truck-wheel is-back"></div>
-            </div>
+          <div class="reward-evolution-stage" id="rewardTruckPreview" data-stage="plain" aria-label="트럭 업그레이드">
+            <img class="reward-truck-before" id="rewardTruckBefore" src="truck-evolution-plain-generated.webp" alt="업그레이드 전 트럭">
+            <span class="reward-burst" aria-hidden="true">✦</span>
+            <img class="reward-truck-after" id="rewardTruckAfter" src="truck-evolution-cargo-generated.webp" alt="업그레이드된 트럭">
           </div>
           <div class="stage-track" id="rewardStageTrack" aria-hidden="true">
             <span class="stage-dot"></span>
@@ -1731,6 +1833,7 @@
       stageShell: document.querySelector(".stage-shell"),
       startButton: document.getElementById("startButton"),
       tutorialStartButton: document.getElementById("tutorialStartButton"),
+      tutorialBackButton: document.getElementById("tutorialBackButton"),
       tutorialTitle: document.getElementById("tutorialTitle"),
       tutorialCards: document.querySelector(".tutorial-cards"),
       settingsButton: document.getElementById("settingsButton"),
@@ -1748,6 +1851,8 @@
       problemCounter: document.getElementById("problemCounter"),
       runProgress: document.getElementById("runProgress"),
       runProgressText: document.getElementById("runProgressText"),
+      truckProgressVisual: document.getElementById("truckProgressVisual"),
+      runTruckImage: document.getElementById("runTruckImage"),
       problemKind: document.getElementById("problemKind"),
       problemTitle: document.getElementById("problemTitle"),
       problemGrid: document.querySelector(".problem-grid"),
@@ -1761,6 +1866,9 @@
       truckButton: document.getElementById("truckButton"),
       rewardTitle: document.getElementById("rewardTitle"),
       rewardTruckPreview: document.getElementById("rewardTruckPreview"),
+      rewardCard: document.querySelector(".reward-card"),
+      rewardTruckBefore: document.getElementById("rewardTruckBefore"),
+      rewardTruckAfter: document.getElementById("rewardTruckAfter"),
       rewardStageTrack: document.getElementById("rewardStageTrack"),
       rewardStageText: document.getElementById("rewardStageText"),
       rewardChange: document.getElementById("rewardChange"),
@@ -1780,6 +1888,12 @@
     const hasExplicitSeed = seedParam !== null && Number.isInteger(seedFromUrl);
     const TUTORIAL_DEFAULT_TITLE = ui.tutorialTitle.textContent;
     const TUTORIAL_DEFAULT_BUTTON = ui.tutorialStartButton.textContent;
+    const TRUCK_EVOLUTION_IMAGES = Object.freeze({
+      plain: "truck-evolution-plain-generated.webp",
+      slight: "truck-evolution-cargo-generated.webp",
+      cool: "truck-evolution-turbo-generated.webp",
+      super: "truck-evolution-legend-generated.webp"
+    });
     const TUTORIAL_PAGES = [
       {
         title: TUTORIAL_DEFAULT_TITLE,
@@ -1925,8 +2039,19 @@
       return Lesson5PackageWeightModel.TRUCK_RESULTS.findIndex((item) => item.id === result.id);
     }
 
-    function renderTruckStage(result) {
+    function renderTruckStage(result, previousResult = result) {
       ui.rewardTruckPreview.dataset.stage = result.id;
+      const reachedNewStage = previousResult.id !== result.id;
+      const shownAfter = reachedNewStage
+        ? result
+        : Lesson5PackageWeightModel.getNextTruckResult(result);
+      ui.rewardTruckPreview.dataset.preview = reachedNewStage ? "reached" : "next";
+      ui.rewardTruckBefore.src = TRUCK_EVOLUTION_IMAGES[previousResult.id];
+      ui.rewardTruckBefore.alt = `${previousResult.name}`;
+      ui.rewardTruckAfter.src = TRUCK_EVOLUTION_IMAGES[shownAfter.id];
+      ui.rewardTruckAfter.alt = reachedNewStage ? `${result.name}` : `다음 목표 ${shownAfter.name}`;
+      ui.rewardCard.classList.remove("is-revealed");
+      requestAnimationFrame(() => requestAnimationFrame(() => ui.rewardCard.classList.add("is-revealed")));
       ui.rewardStageText.textContent = result.name;
       const activeIndex = getTruckStageIndex(result);
       ui.rewardStageTrack.querySelectorAll(".stage-dot").forEach((dot, index) => {
@@ -1946,6 +2071,12 @@
       const currentResult = getCurrentTruckResult();
       const percent = Lesson5PackageWeightModel.clamp(state.truckPower, 0, 100);
       ui.runProgress.style.width = `${percent}%`;
+      const nextSource = TRUCK_EVOLUTION_IMAGES[currentResult.id];
+      if (!ui.runTruckImage.src.endsWith(nextSource)) {
+        ui.runTruckImage.src = nextSource;
+        ui.truckProgressVisual.classList.remove("is-upgraded");
+        requestAnimationFrame(() => ui.truckProgressVisual.classList.add("is-upgraded"));
+      }
       ui.runProgressText.textContent = currentResult.name;
     }
 
@@ -2127,6 +2258,7 @@
       setButtonDisabled(ui.truckButton, true);
 
       const model = Lesson5PackageWeightModel;
+      const previousResult = getCurrentTruckResult();
       const firstTry = !state.mistakeTouched;
       const upgradeEvent = model.pickUpgradeEvent(state.rng, state.mistakeTouched);
       const upgradeResult = model.applyUpgrade({
@@ -2142,8 +2274,10 @@
       const actualMovement = upgradeResult.truckPower - upgradeResult.before;
       const currentResult = getCurrentTruckResult();
       ui.rewardTitle.textContent = upgradeEvent.text;
-      renderTruckStage(currentResult);
-      ui.rewardChange.textContent = formatUpgradeMessage(actualMovement);
+      renderTruckStage(currentResult, previousResult);
+      ui.rewardChange.textContent = previousResult.id === currentResult.id
+        ? "다음 트럭이 가까워졌어요."
+        : `${currentResult.name}으로 바뀌었어요.`;
       ui.rewardNextButton.textContent = state.problemIndex === state.problems.length - 1 ? "보기" : "다음";
       setButtonDisabled(ui.rewardNextButton, false);
       playSample("reward");
@@ -2272,19 +2406,9 @@
       const view = TUTORIAL_PAGES[state.tutorialPage];
       ui.tutorialTitle.textContent = view.title;
       ui.tutorialStartButton.textContent = view.button;
-      ui.tutorialCards.innerHTML = "";
-      view.cards.forEach((card) => {
-        const item = document.createElement("div");
-        item.className = "tutorial-card";
-        const mark = document.createElement("div");
-        mark.className = "card-mark";
-        mark.textContent = card[0];
-        const title = document.createElement("strong");
-        title.textContent = card[1];
-        const body = document.createElement("p");
-        body.textContent = card[2];
-        item.append(mark, title, body);
-        ui.tutorialCards.append(item);
+      screens.tutorial.dataset.page = String(state.tutorialPage);
+      [...ui.tutorialCards.querySelectorAll(".tutorial-card")].forEach((card, index) => {
+        card.hidden = index !== state.tutorialPage;
       });
     }
 
@@ -2323,6 +2447,7 @@
 
     ui.startButton.addEventListener("click", () => openTutorial(false));
     ui.tutorialStartButton.addEventListener("click", continueAfterTutorial);
+    ui.tutorialBackButton.addEventListener("click", () => renderTutorialPage(state.tutorialPage - 1));
     ui.truckButton.addEventListener("click", showReward);
     ui.rewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);

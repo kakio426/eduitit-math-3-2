@@ -22,6 +22,13 @@
 - 최저 결과: `0/10`, 힘 0이어도 `지하 정비층`에 도착합니다. `다시 준비` 결과는 현재 실행 흐름에서 사용하지 않습니다.
 - 컨택시트: `problem-state-contact-sheet.png`, `result-title-contact-sheet.png`, `_shared/mathmon/base-pack/contact-sheets/reactions-unit2/eaglemon-reactions-contact-sheet.png`
 
+## 전국 순위
+
+- 결과 화면의 생성형 `순위 보기` 버튼으로 `전국 엘리베이터 순위`를 엽니다.
+- 순위 점수는 `올라갈 힘`, 목록은 `올라갈 힘 순위`, 서버 차시 ID는 `3-2-2-2-mathmon-elevator`입니다.
+- 서버는 내림 있는 나눗셈의 세 단계 시도와 보상 사건을 다시 계산해 제출 점수를 검증합니다.
+- 오프라인·연결 중·오류·빈 목록·긴 이름 10개와 1~10위 스크롤을 `1280×800`, `1024×768`, `931×897`에서 확인합니다.
+
 ## 검증
 
 ```bash
@@ -34,7 +41,7 @@ node scripts/check-lesson-contract.mjs
 node scripts/check-lesson-visual-contract.mjs
 ```
 
-추가 화면 QA는 Codex 브라우저와 같은 931×897에서도 진행했습니다. 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소를 결정적으로 재현하고, `0/10` 최저 결과까지 완주합니다.
+추가 화면 QA는 Codex 브라우저와 같은 931×897에서도 진행했습니다. 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소를 결정적으로 재현하고, `0/10` 최저 결과와 전국 순위까지 완주합니다.
 
 - 몫 과대: `screenshots/engine-flow-codex-browser-05b-play-wrong.png`
 - 몫 과소: `screenshots/engine-flow-codex-browser-05b2-play-quotient-too-low.png`

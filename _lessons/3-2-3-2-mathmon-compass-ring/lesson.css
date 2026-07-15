@@ -104,8 +104,17 @@
 .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
 .game[data-workbench-type="compass-opening"] .result-title-art { display: none; }
 .game[data-workbench-type="compass-opening"] #screen-result .top-row { display: none; }
-.game[data-workbench-type="compass-opening"] .result-correct-art { left: 64%; top: 56%; width: 22%; }
-.game[data-workbench-type="compass-opening"] .reward-visual { background-size: cover; background-position: center; }
+.game[data-workbench-type="compass-opening"] #screen-result::after { background: none; }
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui .result-restart-surface { display: none; }
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui text { fill: #fff2bd; stroke: rgba(39,15,75,.96); stroke-width: 10px; }
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui rect:first-of-type { fill: #3c1d6b; opacity: .5; }
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultMeasureFillSvg { fill: #d696ff; }
+.game[data-workbench-type="compass-opening"] .result-correct-art { left: 62%; top: 57%; width: 15%; }
+.game[data-workbench-type="compass-opening"] .result-restart-hitbox { left: 59%; top: 78%; width: 28%; height: 16%; }
+.game[data-workbench-type="compass-opening"] .reward-visual {
+  background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center;
+}
 
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #e8f6ef; }
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
@@ -121,17 +130,19 @@
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
-  position: absolute; z-index: 3; left: 35%; width: 60%; margin: 0; color: #273d3b; text-align: center; word-break: keep-all;
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);
 }
-.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card strong { top: 30%; font-size: clamp(2.35rem, 4.8vw, 4.4rem); line-height: 1.05; }
-.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-card p { top: 46%; font-size: clamp(1.2rem, 2.2vw, 1.75rem); line-height: 1.35; font-weight: 900; }
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial-action {
   position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none;
 }
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
-.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; bottom: 6%; min-height: 70px; pointer-events: auto; }
-.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialStartButton { right: 13%; width: 30%; }
-.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialBackButton { left: 39%; width: 18%; border: 2px solid #7b5a2a; border-radius: 999px; color: #36200b; background: #fff7dc; font-size: 1.15rem; font-weight: 1000; }
+.game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+  position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0;
+  color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
+}
+.game[data-workbench-type="compass-opening"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 35%; bottom: 2%; width: 30%; height: 16%; }
+.game[data-workbench-type="compass-opening"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 71%; bottom: 2%; width: 29%; height: 16%; }
+.game[data-workbench-type="compass-opening"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 2%; width: 29%; height: 16%; }
 
 @media (max-width: 980px) {
   .game[data-workbench-type="compass-opening"] .hud { right: 2%; width: 67%; }

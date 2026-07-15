@@ -11,111 +11,135 @@
   "goal": "똑같이 나눠 농장을 키워요.",
   "action": "한 바구니에 몇 개씩인지 써요.",
   "buttonLabel": "수확 보기",
-  "rewardScreenTitle": "수확",
-  "progressLabel": "수확",
-  "rewardComplete": "수확이 바뀌었어요.",
+  "rewardScreenTitle": "농장이 자라요",
+  "progressLabel": "농장 힘",
+  "rewardComplete": "바구니를 열어 봐요.",
   "tutorialTitle": "농장에 가기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
     { "visual": "1", "purpose": "mechanic", "title": "왜 두 번 나눌까요?", "body": "10개 묶음과 낱개를 차례로 나눠요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "문제를 풀면 수확이 달라져요. 10문제 뒤 농장을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "2", "purpose": "reward-goal", "title": "농장은 어디까지 자랄까요?", "body": "10문제를 풀고 농장을 키워요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
-    "mode": "modal-art",
+    "mode": "stage-reveal",
+    "version": "farm-growth-v2",
     "maxPower": 100,
-    "unitLabel": "수확",
+    "unitLabel": "농장 힘",
     "closedLabel": "바구니 열기",
     "nextLabel": "다음",
-    "artMap": {
-      "harvest": "reward-events-sprite-generated.webp",
-      "bug": "reward-events-sprite-generated.webp",
-      "big": "reward-events-sprite-generated.webp",
-      "gold": "reward-events-sprite-generated.webp",
-      "empty": "reward-events-sprite-generated.webp",
-      "rainbow": "reward-events-sprite-generated.webp"
+    "stageImages": {
+      "seed": "farm-stage-seed-generated.webp",
+      "sprout": "farm-stage-sprout-generated.webp",
+      "garden": "farm-stage-garden-generated.webp",
+      "farm": "farm-stage-farm-generated.webp",
+      "bigfarm": "farm-stage-bigfarm-generated.webp",
+      "rainbow": "farm-stage-rainbow-generated.webp"
     },
-    "spriteSheet": {
-      "columns": 3,
-      "rows": 2,
-      "slots": {
-        "harvest": [0, 0],
-        "bug": [1, 0],
-        "big": [2, 0],
-        "gold": [0, 1],
-        "empty": [1, 1],
-        "rainbow": [2, 1]
-      }
+    "artMap": {
+      "harvest": "reward-event-harvest-generated.webp",
+      "bug": "reward-event-bug-generated.webp",
+      "big": "reward-event-big-generated.webp",
+      "gold": "reward-event-gold-generated.webp",
+      "empty": "reward-event-empty-generated.webp",
+      "rainbow": "reward-event-rainbow-generated.webp"
     }
   },
   "result": {
     "renderMode": "hybrid-generated-dynamic",
+    "showPower": false,
+    "nextTitleMap": {
+      "seed": "result-next-seed-generated.webp",
+      "sprout": "result-next-sprout-generated.webp",
+      "garden": "result-next-garden-generated.webp",
+      "farm": "result-next-farm-generated.webp",
+      "bigfarm": "result-next-bigfarm-generated.webp",
+      "rainbow": "result-next-rainbow-generated.webp"
+    },
     "stateImageSet": {
       "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-title-contact-sheet.png",
-      "sceneBackground": "result-scene-generated.webp",
-      "protagonist": "base-02-foxmon",
-      "fixedGeneratedElements": ["result-title", "retry-button"],
-      "dynamicOverlays": ["harvest-power", "correct-count"]
+      "contactSheet": "result-scenes-v3-contact-sheet.png",
+      "protagonist": "farm-growth",
+      "protagonistKind": "reward",
+      "fixedGeneratedElements": ["farm-scene", "result-title", "next-target-title", "retry-button"],
+      "dynamicOverlays": ["correct-count"]
     }
   },
   "workbench": { "type": "place-value-farm" },
-  "scoreboard": { "enabled": false },
+  "scoreboard": {
+    "enabled": true,
+    "title": "전국 수확 순위",
+    "resultKind": "score",
+    "scoreLabel": "내 농장 힘",
+    "listTitle": "농장 순위",
+    "unit": "3학년 2학기 2단원 1차시"
+  },
   "mathmonPack": "base-pack",
   "mathmonName": "여우몬",
   "mathmonId": "base-02-foxmon",
   "results": [
     { "id": "seed", "name": "씨앗", "minPower": 0, "minCorrect": 0, "image": "result-tier-seed.webp", "titleImage": "result-title-seed-generated.webp" },
-    { "id": "sprout", "name": "새싹", "minPower": 19, "minCorrect": 2, "image": "result-tier-sprout.webp", "titleImage": "result-title-sprout-generated.webp" },
-    { "id": "garden", "name": "텃밭", "minPower": 39, "minCorrect": 4, "image": "result-tier-garden.webp", "titleImage": "result-title-garden-generated.webp" },
-    { "id": "farm", "name": "농장", "minPower": 59, "minCorrect": 6, "image": "result-tier-farm.webp", "titleImage": "result-title-farm-generated.webp" },
-    { "id": "bigfarm", "name": "대농장", "minPower": 82, "minCorrect": 8, "image": "result-tier-bigfarm.webp", "titleImage": "result-title-bigfarm-generated.webp" },
-    { "id": "rainbow", "name": "황금밭", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-tier-rainbow.webp", "titleImage": "result-title-rainbow-generated.webp" }
+    { "id": "sprout", "name": "새싹", "minPower": 15, "minCorrect": 2, "image": "result-tier-sprout.webp", "titleImage": "result-title-sprout-generated.webp" },
+    { "id": "garden", "name": "텃밭", "minPower": 35, "minCorrect": 4, "image": "result-tier-garden.webp", "titleImage": "result-title-garden-generated.webp" },
+    { "id": "farm", "name": "농장", "minPower": 55, "minCorrect": 6, "image": "result-tier-farm.webp", "titleImage": "result-title-farm-generated.webp" },
+    { "id": "bigfarm", "name": "대농장", "minPower": 78, "minCorrect": 8, "image": "result-tier-bigfarm.webp", "titleImage": "result-title-bigfarm-generated.webp" },
+    { "id": "rainbow", "name": "황금밭", "minPower": 100, "minCorrect": 0, "needsSpecial": true, "image": "result-tier-rainbow.webp", "titleImage": "result-title-rainbow-generated.webp" }
   ],
   "rewardEvents": [
-    { "id": "harvest", "text": "수확이 늘었어요", "weight": 7200, "min": 4, "max": 8, "family": "harvest", "rarity": "common" },
-    { "id": "bug", "text": "수확이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "bug", "rarity": "common" },
-    { "id": "big", "text": "수확이 크게 늘었어요", "weight": 1000, "min": 12, "max": 20, "family": "big", "rarity": "rare" },
-    { "id": "gold", "text": "황금 당근!", "weight": 300, "min": 6, "max": 6, "family": "gold", "rarity": "rare", "express": true },
-    { "id": "empty", "text": "빈 바구니", "weight": 280, "min": 0, "max": 0, "family": "empty", "rarity": "common", "emptiesPower": true },
-    { "id": "rainbow", "text": "황금밭!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "rarity": "legend", "special": true }
+    { "id": "harvest", "text": "일반 수확", "weight": 6400, "min": 6, "max": 10, "family": "harvest", "rarity": "common" },
+    { "id": "bug", "text": "벌레가 먹었어요", "weight": 1500, "min": -5, "max": -2, "family": "bug", "rarity": "common" },
+    { "id": "big", "text": "대풍작", "weight": 1200, "min": 14, "max": 22, "family": "big", "rarity": "rare" },
+    { "id": "gold", "text": "황금 당근", "weight": 500, "min": 10, "max": 10, "family": "gold", "rarity": "rare" },
+    { "id": "empty", "text": "빈 바구니", "weight": 380, "min": 0, "max": 0, "family": "empty", "rarity": "common" },
+    { "id": "rainbow", "text": "황금밭", "weight": 20, "min": 0, "max": 0, "family": "rainbow", "rarity": "legend", "special": true }
   ],
-  "wrongEvent": { "id": "bug", "text": "수확이 줄었어요", "min": -18, "max": -8, "family": "bug" },
+  "wrongEvent": { "id": "bugMistake", "text": "벌레가 먹었어요", "min": -8, "max": -4, "family": "bug" },
   "typesPerRun": ["exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact", "exact"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
-    "startButton": "start-button-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "farm-board-generated.webp",
     "problemStates": { "waiting": "problem-state-waiting-generated.webp", "working": "problem-state-working-generated.webp", "complete": "problem-state-complete-generated.webp" },
     "farmBasket": "farm-basket-empty-generated.webp",
     "farmBundleTen": "farm-bundle-ten-generated.webp",
     "farmCarrotSingle": "farm-carrot-single-generated.webp",
+    "farmStages": {
+      "seed": "farm-stage-seed-generated.webp",
+      "sprout": "farm-stage-sprout-generated.webp",
+      "garden": "farm-stage-garden-generated.webp",
+      "farm": "farm-stage-farm-generated.webp",
+      "bigfarm": "farm-stage-bigfarm-generated.webp",
+      "rainbow": "farm-stage-rainbow-generated.webp"
+    },
     "rewardClosed": "reward-closed-generated.webp",
-    "rewardScene": "reward-events-sprite-generated.webp",
-    "resultScene": "result-scene-generated.webp",
+    "rewardScene": "reward-stage-generated.webp",
     "mathmonReactions": {
       "correct": "mathmon-reaction-correct.webp",
       "wrong": "mathmon-reaction-wrong.webp",
       "reward": "mathmon-reaction-reward.webp"
     },
-    "resultRetryButton": "result-retry-button-generated.webp"
+    "resultRetryButton": "result-retry-button-generated.webp",
+    "resultLeaderboardButton": "../_shared/scoreboard/scoreboard-result-button-generated.webp"
   },
   "assets": [
-    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
-    "farm-board-generated.webp", "reward-closed-generated.webp", "reward-events-sprite-generated.webp",
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "farm-board-generated.webp", "reward-stage-generated.webp", "reward-closed-generated.webp",
     "problem-state-waiting-generated.webp", "problem-state-working-generated.webp", "problem-state-complete-generated.webp",
     "farm-basket-empty-generated.webp", "farm-bundle-ten-generated.webp", "farm-carrot-single-generated.webp",
+    "farm-stage-seed-generated.webp", "farm-stage-sprout-generated.webp", "farm-stage-garden-generated.webp", "farm-stage-farm-generated.webp", "farm-stage-bigfarm-generated.webp", "farm-stage-rainbow-generated.webp",
+    "reward-event-harvest-generated.webp", "reward-event-bug-generated.webp", "reward-event-big-generated.webp", "reward-event-gold-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "mathmon-reaction-correct.webp", "mathmon-reaction-wrong.webp", "mathmon-reaction-reward.webp",
-    "result-scene-generated.webp", "result-title-seed-generated.webp", "result-title-sprout-generated.webp", "result-title-garden-generated.webp", "result-title-farm-generated.webp", "result-title-bigfarm-generated.webp", "result-title-rainbow-generated.webp",
+    "result-title-seed-generated.webp", "result-title-sprout-generated.webp", "result-title-garden-generated.webp", "result-title-farm-generated.webp", "result-title-bigfarm-generated.webp", "result-title-rainbow-generated.webp",
     "result-retry-button-generated.webp",
     "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
     "result-tier-seed.webp", "result-tier-sprout.webp", "result-tier-garden.webp",
     "result-tier-farm.webp", "result-tier-bigfarm.webp", "result-tier-rainbow.webp"
+    ,"result-next-seed-generated.webp", "result-next-sprout-generated.webp", "result-next-garden-generated.webp", "result-next-farm-generated.webp", "result-next-bigfarm-generated.webp", "result-next-rainbow-generated.webp"
   ],
   "qa": {
     "visualContractVersion": 1,
@@ -126,6 +150,6 @@
       { "name": "tablet-landscape", "width": 1024, "height": 768 },
       { "name": "reported-compact", "width": 918, "height": 897 }
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result", "scoreboard"]
   }
 }
