@@ -182,14 +182,48 @@
 .farm-check-button:disabled { color: #786a54; background: #e7d8ad; box-shadow: 0 5px 0 #a99876; opacity: 1; cursor: default; }
 .farm-quotient-entry {
   width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 14px;
-  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 14px;
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(230px, .85fr); gap: 14px;
   border: 4px solid #a56a28; border-radius: 28px; color: #34210e; background: #fff4c6; box-shadow: 0 8px 0 #79502b;
 }
 .farm-final-basket-card {
-  min-width: 0; min-height: 0; padding: 12px; display: grid; grid-template-rows: auto minmax(100px, 1fr) auto; place-items: center;
+  min-width: 0; min-height: 0; padding: 12px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; place-items: center;
   border: 3px solid #c99a58; border-radius: 22px; background: #fffdf5;
 }
-.farm-final-basket-card > p { margin: 0; color: #684019; font-size: 1.2rem; font-weight: 1000; }
+.farm-final-basket-card > p {
+  margin: 0; color: #684019; font-size: clamp(1.15rem, 1.9vw, 1.45rem); line-height: 1.2; font-weight: 1000; text-align: center;
+}
+.farm-value-breakdown {
+  width: min(100%, 440px); min-height: 214px; box-sizing: border-box; padding: 12px 10px 10px;
+  display: grid; grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+  align-items: stretch; gap: 8px; border: 3px solid #d3a260; border-radius: 20px; background: #fff8df;
+}
+.farm-breakdown-group {
+  min-width: 0; min-height: 0; padding: 7px 5px 5px; display: grid; grid-template-rows: 24px minmax(70px, 1fr) 28px;
+  align-items: center; justify-items: center; border: 3px solid #e0b36f; border-radius: 15px; background: #fffdf5;
+}
+.farm-breakdown-group-title {
+  color: #684019; font-size: clamp(1rem, 1.45vw, 1.1rem); line-height: 1.15; font-weight: 1000; white-space: nowrap;
+}
+.farm-breakdown-items {
+  min-width: 0; min-height: 70px; display: flex; align-items: center; justify-content: center; gap: 2px;
+}
+.farm-breakdown-items .farm-produce-piece--bundle { width: 58px; height: 68px; }
+.farm-breakdown-items .farm-produce-piece--single { width: 27px; height: 56px; margin: 0 2px; }
+.farm-breakdown-count {
+  display: inline-grid; place-items: center; min-width: 38px; min-height: 30px; padding: 2px 6px; box-sizing: border-box;
+  color: #3b230b; background: #ffe7a0; border: 2px solid #a56a28; border-radius: 999px;
+  font-size: clamp(.9rem, 1.45vw, 1.1rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.farm-breakdown-amount {
+  color: #321d09; font-size: clamp(1.15rem, 1.9vw, 1.4rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
+}
+.farm-breakdown-plus {
+  align-self: center; justify-self: center; color: #7b4a1f; font-size: 2rem; line-height: 1; font-weight: 1000;
+}
+.farm-breakdown-equation {
+  grid-column: 1 / -1; margin: 0; padding-top: 4px; color: #245c31; font-size: clamp(1.1rem, 1.9vw, 1.4rem);
+  line-height: 1; font-weight: 1000; text-align: center; font-variant-numeric: tabular-nums;
+}
 .farm-final-basket-scene { position: relative; width: min(280px, 96%); height: 100%; min-height: 100px; overflow: hidden; }
 .farm-final-basket-pieces {
   position: absolute; inset: 18% 9% 18%; z-index: 2; pointer-events: none;
@@ -209,7 +243,7 @@
 .farm-quotient-display {
   width: min(210px, 88%); min-height: 64px; display: grid; place-items: center;
   border: 4px solid #8f5d27; border-radius: 18px; color: #321d09; background: #ffe7a0;
-  font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
+  font-size: clamp(2rem, 3.2vw, 2.55rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
 }
 .farm-keypad-wrap {
   min-width: 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) 36px; gap: 8px;
@@ -354,11 +388,33 @@
   overflow: hidden; border: 4px solid #3f8f62; border-radius: 28px; background: #effbea; box-shadow: 0 8px 0 #2e6f4b;
 }
 .farm-confirm-basket {
-  position: relative; width: 100%; min-width: 0; height: 188px; display: grid; grid-template-rows: minmax(0, 1fr) 36px; place-items: center; overflow: hidden;
+  position: relative; width: 100%; min-width: 0; height: 188px; display: grid; grid-template-rows: 22px minmax(0, 1fr) 30px; place-items: center; overflow: hidden;
   background: none;
 }
-.farm-confirm-basket strong {
-  position: relative; z-index: 5; margin: 0; color: #245c31; font-size: clamp(1.2rem, 2.1vw, 1.7rem);
+.farm-confirm-basket-name {
+  color: #684019; font-size: clamp(.85rem, 1.35vw, 1rem); line-height: 1; font-weight: 1000; white-space: nowrap;
+}
+.farm-confirm-breakdown {
+  width: 100%; min-width: 0; min-height: 0; padding: 4px; box-sizing: border-box;
+  display: grid; grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 20px;
+  align-items: stretch; gap: 3px; border: 2px solid #d3a260; border-radius: 12px; background: #fff8df;
+}
+.farm-confirm-breakdown .farm-breakdown-group {
+  min-height: 0; padding: 2px 1px; grid-template-rows: 16px minmax(34px, 1fr) 17px; border-width: 2px; border-radius: 9px;
+}
+.farm-confirm-breakdown .farm-breakdown-group-title { font-size: clamp(.53rem, .9vw, .7rem); }
+.farm-confirm-breakdown .farm-breakdown-items { min-height: 34px; gap: 0; }
+.farm-confirm-breakdown .farm-breakdown-items .farm-produce-piece--bundle { width: 34px; height: 40px; }
+.farm-confirm-breakdown .farm-breakdown-items .farm-produce-piece--single { width: 17px; height: 34px; margin: 0 1px; }
+.farm-confirm-breakdown .farm-breakdown-count { min-width: 24px; min-height: 18px; padding: 1px 3px; border-width: 1px; font-size: .6rem; }
+.farm-confirm-breakdown .farm-breakdown-amount { font-size: clamp(.7rem, 1.1vw, .85rem); }
+.farm-confirm-breakdown .farm-breakdown-plus { font-size: 1rem; }
+.farm-confirm-equation {
+  grid-column: 1 / -1; align-self: center; color: #245c31; font-size: clamp(.72rem, 1.15vw, .9rem); line-height: 1; font-weight: 1000;
+  text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.farm-confirm-total {
+  position: relative; z-index: 5; margin: 0; color: #245c31; font-size: clamp(1.05rem, 1.8vw, 1.4rem);
   font-weight: 1000; white-space: nowrap; font-variant-numeric: tabular-nums;
 }
 .farm-confirm-basket-scene {
@@ -531,16 +587,25 @@
 .farm-tutorial-source-pieces .farm-produce-piece--single { width: 27px; height: 48px; margin: 0 2px; }
 .farm-tutorial-expression { min-width: 0; display: grid; place-items: center; gap: 7px; text-align: center; }
 .farm-tutorial-expression strong { color: #3b230b; font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
-.farm-tutorial-expression span { color: #245c31; font-size: clamp(.95rem, 1.5vw, 1.15rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
-.farm-tutorial-result { position: relative; width: 100%; height: 118px; display: grid; grid-template-rows: minmax(0, 1fr) 28px; place-items: center; overflow: visible; }
-.farm-tutorial-result-scene {
-  position: relative; width: auto; height: 100%; max-width: 100%; min-height: 0;
-  aspect-ratio: 640 / 426; justify-self: center; overflow: hidden;
+.farm-tutorial-expression span {
+  max-width: 100%; color: #245c31; font-size: clamp(.95rem, 1.5vw, 1.15rem); line-height: 1.15; font-weight: 1000;
+  white-space: normal; overflow-wrap: anywhere;
 }
-.farm-tutorial-basket-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.farm-tutorial-result > strong {
-  position: static !important; z-index: 5;
-  color: #321d09; font-size: 1rem; line-height: 1; font-weight: 1000; text-align: center; white-space: nowrap;
+.farm-tutorial-result { min-width: 0; width: 100%; min-height: 0; display: grid; place-items: center; overflow: visible; }
+.farm-tutorial-result-proof {
+  width: min(100%, 210px); min-height: 74px; padding: 8px 12px; box-sizing: border-box;
+  display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 10px;
+  border: 3px solid #c99a58; border-radius: 18px; background: #fff4c6;
+}
+.farm-tutorial-proof-pieces {
+  min-width: 0; height: 56px; display: flex; align-items: center; justify-content: center; gap: 2px; overflow: visible;
+}
+.farm-tutorial-proof-pieces .farm-produce-piece { position: relative; flex: 0 0 auto; margin: 0; transform: none; }
+.farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 62px; height: 48px; }
+.farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 48px; }
+.farm-tutorial-result-proof > strong {
+  position: static !important; color: #321d09; font-size: clamp(.9rem, 1.6vw, 1.12rem); line-height: 1.1;
+  font-weight: 1000; text-align: left; white-space: normal; overflow-wrap: anywhere;
 }
 .farm-tutorial-guide .farm-tutorial-sum {
   margin: 0; color: #245c31; font-size: clamp(1.35rem, 2.4vw, 1.8rem); line-height: 1.15; font-weight: 1000; text-align: center;
@@ -579,7 +644,7 @@
   .farm-check-button { min-height: 54px; }
   .farm-quotient-entry { padding: 10px; gap: 9px; }
   .farm-final-basket-card { padding: 8px; }
-  .farm-final-basket-card > p { font-size: 1rem; }
+  .farm-final-basket-card > p { font-size: 1.15rem; line-height: 1.2; }
   .farm-quotient-display { min-height: 54px; }
   .farm-keypad-wrap { grid-template-rows: minmax(0, 1fr) 30px; gap: 5px; }
   .farm-keypad { gap: 5px; }
@@ -601,7 +666,10 @@
   .farm-tutorial-step-number { width: 36px; height: 36px; font-size: 1.15rem; }
   .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 40px; height: 35px; }
   .farm-tutorial-source-pieces .farm-produce-piece--single { width: 22px; height: 40px; }
-  .farm-tutorial-result { height: 100px; }
+  .farm-tutorial-result-proof { width: min(100%, 190px); min-height: 68px; padding: 6px 8px; gap: 6px; }
+  .farm-tutorial-proof-pieces { height: 50px; }
+  .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 54px; height: 43px; }
+  .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 20px; height: 42px; }
   .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: 240px; height: 66px; font-size: 1.65rem; }
   .game[data-workbench-type="place-value-farm"] .reward-panel { width: 91%; height: 83%; padding: 12px 24px 18px; gap: 7px; }
   .farm-reward-story { gap: 22px; }
@@ -609,6 +677,31 @@
   .farm-reward-event { width: min(290px, 100%); height: min(290px, 100%); min-height: 220px; }
   .farm-reward-line { min-height: 58px; font-size: clamp(1.35rem, 3vw, 1.9rem); }
   .game[data-workbench-type="place-value-farm"] #rewardNextButton { min-height: 60px; }
+}
+
+@media (max-width: 620px) {
+  .farm-tutorial-guide {
+    top: 44px; right: 3%; bottom: 84px; left: 3%; padding: 10px 12px; gap: 6px; border-width: 4px; border-radius: 22px;
+  }
+  .farm-tutorial-guide h3 { font-size: clamp(1.2rem, 5vw, 1.65rem); }
+  .farm-tutorial-steps { gap: 6px; }
+  .farm-tutorial-step {
+    padding: 5px 7px; grid-template-columns: 28px minmax(0, .85fr) minmax(0, 1.15fr); grid-template-rows: minmax(0, 1fr) 44px;
+    grid-template-areas: "number source expression" "number result result"; gap: 5px; border-width: 3px; border-radius: 14px;
+  }
+  .farm-tutorial-step-number { grid-area: number; width: 28px; height: 28px; font-size: .95rem; }
+  .farm-tutorial-source { grid-area: source; }
+  .farm-tutorial-expression { grid-area: expression; gap: 3px; }
+  .farm-tutorial-expression strong { font-size: clamp(.8rem, 3vw, 1.05rem); white-space: normal; }
+  .farm-tutorial-expression span { font-size: clamp(.65rem, 2.5vw, .8rem); white-space: normal; }
+  .farm-tutorial-result { grid-area: result; }
+  .farm-tutorial-result-proof { width: min(100%, 220px); min-height: 38px; padding: 3px 7px; grid-template-columns: 50px minmax(0, 1fr); gap: 5px; border-width: 2px; border-radius: 10px; }
+  .farm-tutorial-proof-pieces { height: 34px; }
+  .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 42px; height: 32px; }
+  .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 14px; height: 30px; }
+  .farm-tutorial-result-proof > strong { font-size: .75rem; }
+  .farm-tutorial-guide .farm-tutorial-sum { font-size: clamp(.9rem, 3.8vw, 1.2rem); }
+  .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: min(240px, 70%); height: 54px; font-size: 1.35rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

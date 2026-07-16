@@ -108,8 +108,8 @@ function ensureFarmTutorialGuide() {
   const steps = document.createElement("div");
   steps.className = "farm-tutorial-steps";
   steps.append(
-    createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "십의 자리 몫 10"),
-    createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "일의 자리 몫 2")
+    createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "10개 묶음 4개를 똑같이 나눠요"),
+    createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "낱개 8개를 똑같이 나눠요")
   );
 
   const sum = document.createElement("p");
@@ -141,16 +141,15 @@ function createFarmTutorialStep(number, kind, sourceCount, shareCount, expressio
 
   const result = document.createElement("div");
   result.className = "farm-tutorial-result";
-  const resultScene = document.createElement("div");
-  resultScene.className = "farm-tutorial-result-scene";
-  const basket = createFarmBasketImage("farm-tutorial-basket-art");
-  const basketPieces = document.createElement("div");
-  basketPieces.className = "farm-tutorial-result-pieces";
-  appendFarmPieces(basketPieces, kind, shareCount, 4);
+  const proof = document.createElement("div");
+  proof.className = "farm-tutorial-result-proof";
+  const proofPieces = document.createElement("div");
+  proofPieces.className = "farm-tutorial-proof-pieces";
+  appendFarmPieces(proofPieces, kind, shareCount, 4);
   const resultLabel = document.createElement("strong");
   resultLabel.textContent = `한 바구니 ${kind === "tens" ? shareCount * 10 : shareCount}개`;
-  resultScene.append(basket, basketPieces);
-  result.append(resultScene, resultLabel);
+  proof.append(proofPieces, resultLabel);
+  result.append(proof);
 
   row.append(numberBadge, source, expressionNode, result);
   return row;
@@ -388,23 +387,39 @@ function renderFarmQuotientEntry() {
   const oneBasket = document.createElement("section");
   oneBasket.className = "farm-final-basket-card";
   const label = document.createElement("p");
-  label.textContent = "한 바구니에 모인 수";
-  const basketScene = document.createElement("div");
-  basketScene.className = "farm-final-basket-scene";
-  const basketArt = createFarmBasketImage("farm-basket-art");
-  const pieces = document.createElement("div");
-  pieces.className = "farm-final-basket-pieces";
-  appendFarmPieces(pieces, "tens", problem.tensQuotient, 4);
-  appendFarmPieces(pieces, "ones", problem.onesQuotient, 4, problem.tensQuotient);
-  const basketFrontArt = createFarmBasketImage("farm-basket-front-art");
-  basketScene.append(basketArt, pieces, basketFrontArt);
-  const sum = document.createElement("span");
-  sum.className = "farm-final-sum";
-  sum.textContent = `${problem.tensShare} + ${problem.onesQuotient}`;
+  label.textContent = "한 바구니 수를 합쳐요";
+  const breakdown = document.createElement("div");
+  breakdown.className = "farm-value-breakdown";
+  breakdown.setAttribute(
+    "aria-label",
+    `10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개를 합쳐요`
+  );
+
+  const tensGroup = createFarmBreakdownGroup(
+    "tens",
+    problem.tensQuotient,
+    `10개 묶음 ${problem.tensQuotient}개`,
+    `${problem.tensShare}개`
+  );
+  const plus = document.createElement("span");
+  plus.className = "farm-breakdown-plus";
+  plus.textContent = "+";
+  plus.setAttribute("aria-hidden", "true");
+  const onesGroup = createFarmBreakdownGroup(
+    "ones",
+    problem.onesQuotient,
+    `낱개 ${problem.onesQuotient}개`,
+    `${problem.onesQuotient}개`
+  );
+  const equation = document.createElement("p");
+  equation.className = "farm-breakdown-equation";
+  equation.textContent = `${problem.tensShare} + ${problem.onesQuotient} = ?개`;
+  breakdown.append(tensGroup, plus, onesGroup, equation);
+
   const display = document.createElement("strong");
   display.className = "farm-quotient-display";
   display.textContent = input ? `${input}개` : "?개";
-  oneBasket.append(label, basketScene, sum, display);
+  oneBasket.append(label, breakdown, display);
 
   const keypadWrap = document.createElement("section");
   keypadWrap.className = "farm-keypad-wrap";
@@ -415,6 +430,43 @@ function renderFarmQuotientEntry() {
 
   entry.append(oneBasket, keypadWrap);
   ui.choices.replaceChildren(entry);
+}
+
+function createFarmBreakdownGroup(kind, count, titleText, amountText) {
+  const group = document.createElement("div");
+  group.className = `farm-breakdown-group farm-breakdown-group--${kind}`;
+
+  const title = document.createElement("strong");
+  title.className = "farm-breakdown-group-title";
+  title.textContent = titleText;
+
+  const items = document.createElement("div");
+  items.className = "farm-breakdown-items";
+  const safeCount = Math.max(0, Number(count) || 0);
+  const visibleCount = kind === "tens" ? Math.min(safeCount, 1) : Math.min(safeCount, 4);
+  for (let index = 0; index < visibleCount; index += 1) {
+    items.appendChild(createFarmProducePiece(kind));
+  }
+  if (kind === "tens" && safeCount > 0) {
+    const countBadge = document.createElement("span");
+    countBadge.className = "farm-breakdown-count";
+    countBadge.textContent = `${safeCount}묶음`;
+    countBadge.setAttribute("aria-label", `${safeCount}묶음`);
+    items.appendChild(countBadge);
+  } else if (kind === "ones" && safeCount > visibleCount) {
+    const more = document.createElement("span");
+    more.className = "farm-breakdown-count";
+    more.textContent = `+${safeCount - visibleCount}개`;
+    more.setAttribute("aria-label", `낱개 ${safeCount - visibleCount}개 더`);
+    items.appendChild(more);
+  }
+
+  const amount = document.createElement("span");
+  amount.className = "farm-breakdown-amount";
+  amount.textContent = amountText;
+
+  group.append(title, items, amount);
+  return group;
 }
 
 function handleFarmQuotientKey(key, button) {
@@ -515,18 +567,40 @@ function renderFarmShareConfirmation(problem, step) {
     const basketCard = document.createElement("div");
     basketCard.className = "farm-confirm-basket";
     basketCard.style.setProperty("--piece-delay", `${index * 90}ms`);
-    const scene = document.createElement("div");
-    scene.className = "farm-confirm-basket-scene";
-    const basket = createFarmBasketImage("farm-basket-art");
-    const pieces = document.createElement("div");
-    pieces.className = "farm-confirm-pieces";
-    appendFarmPieces(pieces, "tens", problem.tensQuotient, 4);
-    if (isOnesOrFinal) appendFarmPieces(pieces, "ones", problem.onesQuotient, 4, problem.tensQuotient);
-    const front = createFarmBasketImage("farm-basket-front-art");
-    scene.append(basket, pieces, front);
+
+    const basketName = document.createElement("span");
+    basketName.className = "farm-confirm-basket-name";
+    basketName.textContent = `바구니 ${index + 1}`;
+
+    const breakdown = document.createElement("div");
+    breakdown.className = "farm-confirm-breakdown";
+    const tensGroup = createFarmBreakdownGroup(
+    "tens",
+    problem.tensQuotient,
+    `10개 묶음 ${problem.tensQuotient}개`,
+    `${problem.tensShare}개`
+  );
+    const plus = document.createElement("span");
+    plus.className = "farm-breakdown-plus";
+    plus.textContent = "+";
+    plus.setAttribute("aria-hidden", "true");
+    const onesGroup = createFarmBreakdownGroup(
+      "ones",
+      isOnesOrFinal ? problem.onesQuotient : 0,
+      `낱개 ${isOnesOrFinal ? problem.onesQuotient : 0}개`,
+      `${isOnesOrFinal ? problem.onesQuotient : 0}개`
+    );
+    const equation = document.createElement("span");
+    equation.className = "farm-confirm-equation";
+    equation.textContent = isOnesOrFinal
+      ? `${problem.tensShare} + ${problem.onesQuotient} = ${value}개`
+      : `${problem.tensShare}개`;
+    breakdown.append(tensGroup, plus, onesGroup, equation);
+
     const label = document.createElement("strong");
-    label.textContent = `${value}개`;
-    basketCard.append(scene, label);
+    label.className = "farm-confirm-total";
+    label.textContent = `${value}개씩`;
+    basketCard.append(basketName, breakdown, label);
     confirmation.appendChild(basketCard);
   }
 
