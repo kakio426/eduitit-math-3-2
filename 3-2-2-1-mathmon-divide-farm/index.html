@@ -1094,14 +1094,48 @@
     .farm-check-button:disabled { color: #786a54; background: #e7d8ad; box-shadow: 0 5px 0 #a99876; opacity: 1; cursor: default; }
     .farm-quotient-entry {
       width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 14px;
-      display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 14px;
+      display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(230px, .85fr); gap: 14px;
       border: 4px solid #a56a28; border-radius: 28px; color: #34210e; background: #fff4c6; box-shadow: 0 8px 0 #79502b;
     }
     .farm-final-basket-card {
-      min-width: 0; min-height: 0; padding: 12px; display: grid; grid-template-rows: auto minmax(100px, 1fr) auto; place-items: center;
+      min-width: 0; min-height: 0; padding: 12px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; place-items: center;
       border: 3px solid #c99a58; border-radius: 22px; background: #fffdf5;
     }
-    .farm-final-basket-card > p { margin: 0; color: #684019; font-size: 1.2rem; font-weight: 1000; }
+    .farm-final-basket-card > p {
+      margin: 0; color: #684019; font-size: clamp(1.15rem, 1.9vw, 1.45rem); line-height: 1.2; font-weight: 1000; text-align: center;
+    }
+    .farm-value-breakdown {
+      width: min(100%, 440px); min-height: 214px; box-sizing: border-box; padding: 12px 10px 10px;
+      display: grid; grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+      align-items: stretch; gap: 8px; border: 3px solid #d3a260; border-radius: 20px; background: #fff8df;
+    }
+    .farm-breakdown-group {
+      min-width: 0; min-height: 0; padding: 7px 5px 5px; display: grid; grid-template-rows: 24px minmax(70px, 1fr) 28px;
+      align-items: center; justify-items: center; border: 3px solid #e0b36f; border-radius: 15px; background: #fffdf5;
+    }
+    .farm-breakdown-group-title {
+      color: #684019; font-size: clamp(1rem, 1.45vw, 1.1rem); line-height: 1.15; font-weight: 1000; white-space: nowrap;
+    }
+    .farm-breakdown-items {
+      min-width: 0; min-height: 70px; display: flex; align-items: center; justify-content: center; gap: 2px;
+    }
+    .farm-breakdown-items .farm-produce-piece--bundle { width: 58px; height: 68px; }
+    .farm-breakdown-items .farm-produce-piece--single { width: 27px; height: 56px; margin: 0 2px; }
+    .farm-breakdown-count {
+      display: inline-grid; place-items: center; min-width: 38px; min-height: 30px; padding: 2px 6px; box-sizing: border-box;
+      color: #3b230b; background: #ffe7a0; border: 2px solid #a56a28; border-radius: 999px;
+      font-size: clamp(.9rem, 1.45vw, 1.1rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .farm-breakdown-amount {
+      color: #321d09; font-size: clamp(1.15rem, 1.9vw, 1.4rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
+    }
+    .farm-breakdown-plus {
+      align-self: center; justify-self: center; color: #7b4a1f; font-size: 2rem; line-height: 1; font-weight: 1000;
+    }
+    .farm-breakdown-equation {
+      grid-column: 1 / -1; margin: 0; padding-top: 4px; color: #245c31; font-size: clamp(1.1rem, 1.9vw, 1.4rem);
+      line-height: 1; font-weight: 1000; text-align: center; font-variant-numeric: tabular-nums;
+    }
     .farm-final-basket-scene { position: relative; width: min(280px, 96%); height: 100%; min-height: 100px; overflow: hidden; }
     .farm-final-basket-pieces {
       position: absolute; inset: 18% 9% 18%; z-index: 2; pointer-events: none;
@@ -1121,7 +1155,7 @@
     .farm-quotient-display {
       width: min(210px, 88%); min-height: 64px; display: grid; place-items: center;
       border: 4px solid #8f5d27; border-radius: 18px; color: #321d09; background: #ffe7a0;
-      font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
+      font-size: clamp(2rem, 3.2vw, 2.55rem); line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums;
     }
     .farm-keypad-wrap {
       min-width: 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) 36px; gap: 8px;
@@ -1266,11 +1300,33 @@
       overflow: hidden; border: 4px solid #3f8f62; border-radius: 28px; background: #effbea; box-shadow: 0 8px 0 #2e6f4b;
     }
     .farm-confirm-basket {
-      position: relative; width: 100%; min-width: 0; height: 188px; display: grid; grid-template-rows: minmax(0, 1fr) 36px; place-items: center; overflow: hidden;
+      position: relative; width: 100%; min-width: 0; height: 188px; display: grid; grid-template-rows: 22px minmax(0, 1fr) 30px; place-items: center; overflow: hidden;
       background: none;
     }
-    .farm-confirm-basket strong {
-      position: relative; z-index: 5; margin: 0; color: #245c31; font-size: clamp(1.2rem, 2.1vw, 1.7rem);
+    .farm-confirm-basket-name {
+      color: #684019; font-size: clamp(.85rem, 1.35vw, 1rem); line-height: 1; font-weight: 1000; white-space: nowrap;
+    }
+    .farm-confirm-breakdown {
+      width: 100%; min-width: 0; min-height: 0; padding: 4px; box-sizing: border-box;
+      display: grid; grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 20px;
+      align-items: stretch; gap: 3px; border: 2px solid #d3a260; border-radius: 12px; background: #fff8df;
+    }
+    .farm-confirm-breakdown .farm-breakdown-group {
+      min-height: 0; padding: 2px 1px; grid-template-rows: 16px minmax(34px, 1fr) 17px; border-width: 2px; border-radius: 9px;
+    }
+    .farm-confirm-breakdown .farm-breakdown-group-title { font-size: clamp(.53rem, .9vw, .7rem); }
+    .farm-confirm-breakdown .farm-breakdown-items { min-height: 34px; gap: 0; }
+    .farm-confirm-breakdown .farm-breakdown-items .farm-produce-piece--bundle { width: 34px; height: 40px; }
+    .farm-confirm-breakdown .farm-breakdown-items .farm-produce-piece--single { width: 17px; height: 34px; margin: 0 1px; }
+    .farm-confirm-breakdown .farm-breakdown-count { min-width: 24px; min-height: 18px; padding: 1px 3px; border-width: 1px; font-size: .6rem; }
+    .farm-confirm-breakdown .farm-breakdown-amount { font-size: clamp(.7rem, 1.1vw, .85rem); }
+    .farm-confirm-breakdown .farm-breakdown-plus { font-size: 1rem; }
+    .farm-confirm-equation {
+      grid-column: 1 / -1; align-self: center; color: #245c31; font-size: clamp(.72rem, 1.15vw, .9rem); line-height: 1; font-weight: 1000;
+      text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums;
+    }
+    .farm-confirm-total {
+      position: relative; z-index: 5; margin: 0; color: #245c31; font-size: clamp(1.05rem, 1.8vw, 1.4rem);
       font-weight: 1000; white-space: nowrap; font-variant-numeric: tabular-nums;
     }
     .farm-confirm-basket-scene {
@@ -1443,16 +1499,25 @@
     .farm-tutorial-source-pieces .farm-produce-piece--single { width: 27px; height: 48px; margin: 0 2px; }
     .farm-tutorial-expression { min-width: 0; display: grid; place-items: center; gap: 7px; text-align: center; }
     .farm-tutorial-expression strong { color: #3b230b; font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
-    .farm-tutorial-expression span { color: #245c31; font-size: clamp(.95rem, 1.5vw, 1.15rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
-    .farm-tutorial-result { position: relative; width: 100%; height: 118px; display: grid; grid-template-rows: minmax(0, 1fr) 28px; place-items: center; overflow: visible; }
-    .farm-tutorial-result-scene {
-      position: relative; width: auto; height: 100%; max-width: 100%; min-height: 0;
-      aspect-ratio: 640 / 426; justify-self: center; overflow: hidden;
+    .farm-tutorial-expression span {
+      max-width: 100%; color: #245c31; font-size: clamp(.95rem, 1.5vw, 1.15rem); line-height: 1.15; font-weight: 1000;
+      white-space: normal; overflow-wrap: anywhere;
     }
-    .farm-tutorial-basket-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-    .farm-tutorial-result > strong {
-      position: static !important; z-index: 5;
-      color: #321d09; font-size: 1rem; line-height: 1; font-weight: 1000; text-align: center; white-space: nowrap;
+    .farm-tutorial-result { min-width: 0; width: 100%; min-height: 0; display: grid; place-items: center; overflow: visible; }
+    .farm-tutorial-result-proof {
+      width: min(100%, 210px); min-height: 74px; padding: 8px 12px; box-sizing: border-box;
+      display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 10px;
+      border: 3px solid #c99a58; border-radius: 18px; background: #fff4c6;
+    }
+    .farm-tutorial-proof-pieces {
+      min-width: 0; height: 56px; display: flex; align-items: center; justify-content: center; gap: 2px; overflow: visible;
+    }
+    .farm-tutorial-proof-pieces .farm-produce-piece { position: relative; flex: 0 0 auto; margin: 0; transform: none; }
+    .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 62px; height: 48px; }
+    .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 48px; }
+    .farm-tutorial-result-proof > strong {
+      position: static !important; color: #321d09; font-size: clamp(.9rem, 1.6vw, 1.12rem); line-height: 1.1;
+      font-weight: 1000; text-align: left; white-space: normal; overflow-wrap: anywhere;
     }
     .farm-tutorial-guide .farm-tutorial-sum {
       margin: 0; color: #245c31; font-size: clamp(1.35rem, 2.4vw, 1.8rem); line-height: 1.15; font-weight: 1000; text-align: center;
@@ -1491,7 +1556,7 @@
       .farm-check-button { min-height: 54px; }
       .farm-quotient-entry { padding: 10px; gap: 9px; }
       .farm-final-basket-card { padding: 8px; }
-      .farm-final-basket-card > p { font-size: 1rem; }
+      .farm-final-basket-card > p { font-size: 1.15rem; line-height: 1.2; }
       .farm-quotient-display { min-height: 54px; }
       .farm-keypad-wrap { grid-template-rows: minmax(0, 1fr) 30px; gap: 5px; }
       .farm-keypad { gap: 5px; }
@@ -1513,7 +1578,10 @@
       .farm-tutorial-step-number { width: 36px; height: 36px; font-size: 1.15rem; }
       .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 40px; height: 35px; }
       .farm-tutorial-source-pieces .farm-produce-piece--single { width: 22px; height: 40px; }
-      .farm-tutorial-result { height: 100px; }
+      .farm-tutorial-result-proof { width: min(100%, 190px); min-height: 68px; padding: 6px 8px; gap: 6px; }
+      .farm-tutorial-proof-pieces { height: 50px; }
+      .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 54px; height: 43px; }
+      .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 20px; height: 42px; }
       .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: 240px; height: 66px; font-size: 1.65rem; }
       .game[data-workbench-type="place-value-farm"] .reward-panel { width: 91%; height: 83%; padding: 12px 24px 18px; gap: 7px; }
       .farm-reward-story { gap: 22px; }
@@ -1521,6 +1589,31 @@
       .farm-reward-event { width: min(290px, 100%); height: min(290px, 100%); min-height: 220px; }
       .farm-reward-line { min-height: 58px; font-size: clamp(1.35rem, 3vw, 1.9rem); }
       .game[data-workbench-type="place-value-farm"] #rewardNextButton { min-height: 60px; }
+    }
+
+    @media (max-width: 620px) {
+      .farm-tutorial-guide {
+        top: 44px; right: 3%; bottom: 84px; left: 3%; padding: 10px 12px; gap: 6px; border-width: 4px; border-radius: 22px;
+      }
+      .farm-tutorial-guide h3 { font-size: clamp(1.2rem, 5vw, 1.65rem); }
+      .farm-tutorial-steps { gap: 6px; }
+      .farm-tutorial-step {
+        padding: 5px 7px; grid-template-columns: 28px minmax(0, .85fr) minmax(0, 1.15fr); grid-template-rows: minmax(0, 1fr) 44px;
+        grid-template-areas: "number source expression" "number result result"; gap: 5px; border-width: 3px; border-radius: 14px;
+      }
+      .farm-tutorial-step-number { grid-area: number; width: 28px; height: 28px; font-size: .95rem; }
+      .farm-tutorial-source { grid-area: source; }
+      .farm-tutorial-expression { grid-area: expression; gap: 3px; }
+      .farm-tutorial-expression strong { font-size: clamp(.8rem, 3vw, 1.05rem); white-space: normal; }
+      .farm-tutorial-expression span { font-size: clamp(.65rem, 2.5vw, .8rem); white-space: normal; }
+      .farm-tutorial-result { grid-area: result; }
+      .farm-tutorial-result-proof { width: min(100%, 220px); min-height: 38px; padding: 3px 7px; grid-template-columns: 50px minmax(0, 1fr); gap: 5px; border-width: 2px; border-radius: 10px; }
+      .farm-tutorial-proof-pieces { height: 34px; }
+      .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 42px; height: 32px; }
+      .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 14px; height: 30px; }
+      .farm-tutorial-result-proof > strong { font-size: .75rem; }
+      .farm-tutorial-guide .farm-tutorial-sum { font-size: clamp(.9rem, 3.8vw, 1.2rem); }
+      .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: min(240px, 70%); height: 54px; font-size: 1.35rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1538,7 +1631,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="place-value-farm" data-scoreboard-enabled="true">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="place-value-farm" data-scoreboard-enabled="true">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1597,7 +1690,7 @@
       <section class="screen result" id="screen-result" data-result-tier="seed" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-tier-seed.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-seed-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-seed-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">씨앗</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 수확 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 농장 힘" data-scoreboard-list-title="농장 순위" data-scoreboard-unit="3학년 2학기 2단원 1차시"></section>
@@ -2264,7 +2357,7 @@
       window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"똑같이 나눠 농장을 키워요.","action":"한 바구니에 몇 개씩인지 써요.","buttonLabel":"수확 보기","rewardScreenTitle":"농장이 자라요","progressLabel":"농장 힘","rewardComplete":"바구니를 열어 봐요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"왜 두 번 나눌까요?","body":"10개 묶음과 낱개를 차례로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"농장은 어디까지 자랄까요?","body":"10문제를 풀고 농장을 키워요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"farm-growth-v2","maxPower":100,"unitLabel":"농장 힘","closedLabel":"바구니 열기","nextLabel":"다음","stageImages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"artMap":{"harvest":"reward-event-harvest-generated.webp","bug":"reward-event-bug-generated.webp","big":"reward-event-big-generated.webp","gold":"reward-event-gold-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showPower":false,"nextTitleMap":{"seed":"result-next-seed-generated.webp","sprout":"result-next-sprout-generated.webp","garden":"result-next-garden-generated.webp","farm":"result-next-farm-generated.webp","bigfarm":"result-next-bigfarm-generated.webp","rainbow":"result-next-rainbow-generated.webp"},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-v3-contact-sheet.png","protagonist":"farm-growth","protagonistKind":"reward","fixedGeneratedElements":["farm-scene","result-title","next-target-title","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":true,"title":"전국 수확 순위","resultKind":"score","scoreLabel":"내 농장 힘","listTitle":"농장 순위","unit":"3학년 2학기 2단원 1차시"},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":15,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":35,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":55,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":78,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"일반 수확","weight":6400,"min":6,"max":10,"family":"harvest","rarity":"common"},{"id":"bug","text":"벌레가 먹었어요","weight":1500,"min":-5,"max":-2,"family":"bug","rarity":"common"},{"id":"big","text":"대풍작","weight":1200,"min":14,"max":22,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근","weight":500,"min":10,"max":10,"family":"gold","rarity":"rare"},{"id":"empty","text":"빈 바구니","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"황금밭","weight":20,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bugMistake","text":"벌레가 먹었어요","min":-8,"max":-4,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"farmBasket":"farm-basket-empty-generated.webp","farmBundleTen":"farm-bundle-ten-generated.webp","farmCarrotSingle":"farm-carrot-single-generated.webp","farmStages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-stage-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","farm-board-generated.webp","reward-stage-generated.webp","reward-closed-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","farm-basket-empty-generated.webp","farm-bundle-ten-generated.webp","farm-carrot-single-generated.webp","farm-stage-seed-generated.webp","farm-stage-sprout-generated.webp","farm-stage-garden-generated.webp","farm-stage-farm-generated.webp","farm-stage-bigfarm-generated.webp","farm-stage-rainbow-generated.webp","reward-event-harvest-generated.webp","reward-event-bug-generated.webp","reward-event-big-generated.webp","reward-event-gold-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp","result-next-seed-generated.webp","result-next-sprout-generated.webp","result-next-garden-generated.webp","result-next-farm-generated.webp","result-next-bigfarm-generated.webp","result-next-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-compact","width":918,"height":897}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result","scoreboard"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"똑같이 나눠 농장을 키워요.","action":"한 바구니에 몇 개씩인지 써요.","buttonLabel":"수확 보기","rewardScreenTitle":"농장이 자라요","progressLabel":"농장 힘","rewardComplete":"바구니를 열어 봐요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"왜 두 번 나눌까요?","body":"10개 묶음과 낱개를 차례로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"농장은 어디까지 자랄까요?","body":"10문제를 풀고 농장을 키워요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"farm-growth-v2","maxPower":100,"unitLabel":"농장 힘","closedLabel":"바구니 열기","nextLabel":"다음","stageImages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"artMap":{"harvest":"reward-event-harvest-generated.webp","bug":"reward-event-bug-generated.webp","big":"reward-event-big-generated.webp","gold":"reward-event-gold-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showPower":false,"nextTitleMap":{"seed":"result-next-seed-generated.webp","sprout":"result-next-sprout-generated.webp","garden":"result-next-garden-generated.webp","farm":"result-next-farm-generated.webp","bigfarm":"result-next-bigfarm-generated.webp","rainbow":"result-next-rainbow-generated.webp"},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-v3-contact-sheet.png","protagonist":"farm-growth","protagonistKind":"reward","fixedGeneratedElements":["farm-scene","result-title","next-target-title","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":true,"title":"전국 수확 순위","resultKind":"score","scoreLabel":"내 농장 힘","listTitle":"농장 순위","unit":"3학년 2학기 2단원 1차시"},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":15,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":35,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":55,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":78,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"일반 수확","weight":6400,"min":6,"max":10,"family":"harvest","rarity":"common"},{"id":"bug","text":"벌레가 먹었어요","weight":1500,"min":-5,"max":-2,"family":"bug","rarity":"common"},{"id":"big","text":"대풍작","weight":1200,"min":14,"max":22,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근","weight":500,"min":10,"max":10,"family":"gold","rarity":"rare"},{"id":"empty","text":"빈 바구니","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"황금밭","weight":20,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bugMistake","text":"벌레가 먹었어요","min":-8,"max":-4,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"farmBasket":"farm-basket-empty-generated.webp","farmBundleTen":"farm-bundle-ten-generated.webp","farmCarrotSingle":"farm-carrot-single-generated.webp","farmStages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-stage-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","farm-board-generated.webp","reward-stage-generated.webp","reward-closed-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","farm-basket-empty-generated.webp","farm-bundle-ten-generated.webp","farm-carrot-single-generated.webp","farm-stage-seed-generated.webp","farm-stage-sprout-generated.webp","farm-stage-garden-generated.webp","farm-stage-farm-generated.webp","farm-stage-bigfarm-generated.webp","farm-stage-rainbow-generated.webp","reward-event-harvest-generated.webp","reward-event-bug-generated.webp","reward-event-big-generated.webp","reward-event-gold-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp","result-next-seed-generated.webp","result-next-sprout-generated.webp","result-next-garden-generated.webp","result-next-farm-generated.webp","result-next-bigfarm-generated.webp","result-next-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-compact","width":918,"height":897}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result","scoreboard"]}};
     const Lesson2DivideFarmModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -3548,8 +3641,8 @@
       const steps = document.createElement("div");
       steps.className = "farm-tutorial-steps";
       steps.append(
-        createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "십의 자리 몫 10"),
-        createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "일의 자리 몫 2")
+        createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "10개 묶음 4개를 똑같이 나눠요"),
+        createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "낱개 8개를 똑같이 나눠요")
       );
 
       const sum = document.createElement("p");
@@ -3581,16 +3674,15 @@
 
       const result = document.createElement("div");
       result.className = "farm-tutorial-result";
-      const resultScene = document.createElement("div");
-      resultScene.className = "farm-tutorial-result-scene";
-      const basket = createFarmBasketImage("farm-tutorial-basket-art");
-      const basketPieces = document.createElement("div");
-      basketPieces.className = "farm-tutorial-result-pieces";
-      appendFarmPieces(basketPieces, kind, shareCount, 4);
+      const proof = document.createElement("div");
+      proof.className = "farm-tutorial-result-proof";
+      const proofPieces = document.createElement("div");
+      proofPieces.className = "farm-tutorial-proof-pieces";
+      appendFarmPieces(proofPieces, kind, shareCount, 4);
       const resultLabel = document.createElement("strong");
       resultLabel.textContent = `한 바구니 ${kind === "tens" ? shareCount * 10 : shareCount}개`;
-      resultScene.append(basket, basketPieces);
-      result.append(resultScene, resultLabel);
+      proof.append(proofPieces, resultLabel);
+      result.append(proof);
 
       row.append(numberBadge, source, expressionNode, result);
       return row;
@@ -3828,23 +3920,39 @@
       const oneBasket = document.createElement("section");
       oneBasket.className = "farm-final-basket-card";
       const label = document.createElement("p");
-      label.textContent = "한 바구니에 모인 수";
-      const basketScene = document.createElement("div");
-      basketScene.className = "farm-final-basket-scene";
-      const basketArt = createFarmBasketImage("farm-basket-art");
-      const pieces = document.createElement("div");
-      pieces.className = "farm-final-basket-pieces";
-      appendFarmPieces(pieces, "tens", problem.tensQuotient, 4);
-      appendFarmPieces(pieces, "ones", problem.onesQuotient, 4, problem.tensQuotient);
-      const basketFrontArt = createFarmBasketImage("farm-basket-front-art");
-      basketScene.append(basketArt, pieces, basketFrontArt);
-      const sum = document.createElement("span");
-      sum.className = "farm-final-sum";
-      sum.textContent = `${problem.tensShare} + ${problem.onesQuotient}`;
+      label.textContent = "한 바구니 수를 합쳐요";
+      const breakdown = document.createElement("div");
+      breakdown.className = "farm-value-breakdown";
+      breakdown.setAttribute(
+        "aria-label",
+        `10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개를 합쳐요`
+      );
+
+      const tensGroup = createFarmBreakdownGroup(
+        "tens",
+        problem.tensQuotient,
+        `10개 묶음 ${problem.tensQuotient}개`,
+        `${problem.tensShare}개`
+      );
+      const plus = document.createElement("span");
+      plus.className = "farm-breakdown-plus";
+      plus.textContent = "+";
+      plus.setAttribute("aria-hidden", "true");
+      const onesGroup = createFarmBreakdownGroup(
+        "ones",
+        problem.onesQuotient,
+        `낱개 ${problem.onesQuotient}개`,
+        `${problem.onesQuotient}개`
+      );
+      const equation = document.createElement("p");
+      equation.className = "farm-breakdown-equation";
+      equation.textContent = `${problem.tensShare} + ${problem.onesQuotient} = ?개`;
+      breakdown.append(tensGroup, plus, onesGroup, equation);
+
       const display = document.createElement("strong");
       display.className = "farm-quotient-display";
       display.textContent = input ? `${input}개` : "?개";
-      oneBasket.append(label, basketScene, sum, display);
+      oneBasket.append(label, breakdown, display);
 
       const keypadWrap = document.createElement("section");
       keypadWrap.className = "farm-keypad-wrap";
@@ -3855,6 +3963,43 @@
 
       entry.append(oneBasket, keypadWrap);
       ui.choices.replaceChildren(entry);
+    }
+
+    function createFarmBreakdownGroup(kind, count, titleText, amountText) {
+      const group = document.createElement("div");
+      group.className = `farm-breakdown-group farm-breakdown-group--${kind}`;
+
+      const title = document.createElement("strong");
+      title.className = "farm-breakdown-group-title";
+      title.textContent = titleText;
+
+      const items = document.createElement("div");
+      items.className = "farm-breakdown-items";
+      const safeCount = Math.max(0, Number(count) || 0);
+      const visibleCount = kind === "tens" ? Math.min(safeCount, 1) : Math.min(safeCount, 4);
+      for (let index = 0; index < visibleCount; index += 1) {
+        items.appendChild(createFarmProducePiece(kind));
+      }
+      if (kind === "tens" && safeCount > 0) {
+        const countBadge = document.createElement("span");
+        countBadge.className = "farm-breakdown-count";
+        countBadge.textContent = `${safeCount}묶음`;
+        countBadge.setAttribute("aria-label", `${safeCount}묶음`);
+        items.appendChild(countBadge);
+      } else if (kind === "ones" && safeCount > visibleCount) {
+        const more = document.createElement("span");
+        more.className = "farm-breakdown-count";
+        more.textContent = `+${safeCount - visibleCount}개`;
+        more.setAttribute("aria-label", `낱개 ${safeCount - visibleCount}개 더`);
+        items.appendChild(more);
+      }
+
+      const amount = document.createElement("span");
+      amount.className = "farm-breakdown-amount";
+      amount.textContent = amountText;
+
+      group.append(title, items, amount);
+      return group;
     }
 
     function handleFarmQuotientKey(key, button) {
@@ -3955,18 +4100,40 @@
         const basketCard = document.createElement("div");
         basketCard.className = "farm-confirm-basket";
         basketCard.style.setProperty("--piece-delay", `${index * 90}ms`);
-        const scene = document.createElement("div");
-        scene.className = "farm-confirm-basket-scene";
-        const basket = createFarmBasketImage("farm-basket-art");
-        const pieces = document.createElement("div");
-        pieces.className = "farm-confirm-pieces";
-        appendFarmPieces(pieces, "tens", problem.tensQuotient, 4);
-        if (isOnesOrFinal) appendFarmPieces(pieces, "ones", problem.onesQuotient, 4, problem.tensQuotient);
-        const front = createFarmBasketImage("farm-basket-front-art");
-        scene.append(basket, pieces, front);
+
+        const basketName = document.createElement("span");
+        basketName.className = "farm-confirm-basket-name";
+        basketName.textContent = `바구니 ${index + 1}`;
+
+        const breakdown = document.createElement("div");
+        breakdown.className = "farm-confirm-breakdown";
+        const tensGroup = createFarmBreakdownGroup(
+        "tens",
+        problem.tensQuotient,
+        `10개 묶음 ${problem.tensQuotient}개`,
+        `${problem.tensShare}개`
+      );
+        const plus = document.createElement("span");
+        plus.className = "farm-breakdown-plus";
+        plus.textContent = "+";
+        plus.setAttribute("aria-hidden", "true");
+        const onesGroup = createFarmBreakdownGroup(
+          "ones",
+          isOnesOrFinal ? problem.onesQuotient : 0,
+          `낱개 ${isOnesOrFinal ? problem.onesQuotient : 0}개`,
+          `${isOnesOrFinal ? problem.onesQuotient : 0}개`
+        );
+        const equation = document.createElement("span");
+        equation.className = "farm-confirm-equation";
+        equation.textContent = isOnesOrFinal
+          ? `${problem.tensShare} + ${problem.onesQuotient} = ${value}개`
+          : `${problem.tensShare}개`;
+        breakdown.append(tensGroup, plus, onesGroup, equation);
+
         const label = document.createElement("strong");
-        label.textContent = `${value}개`;
-        basketCard.append(scene, label);
+        label.className = "farm-confirm-total";
+        label.textContent = `${value}개씩`;
+        basketCard.append(basketName, breakdown, label);
         confirmation.appendChild(basketCard);
       }
 
