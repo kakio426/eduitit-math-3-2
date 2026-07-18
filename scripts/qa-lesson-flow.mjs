@@ -108,6 +108,7 @@ function makeServer(port) {
 }
 
 function closeServer(server) {
+  server.closeAllConnections?.();
   return new Promise((resolve) => server.close(resolve));
 }
 
@@ -285,6 +286,55 @@ async function clickSelector(page, selector) {
   await delay(80);
 }
 
+async function dragSelectorToSelector(page, fromSelector, toSelector) {
+  const points = await evaluate(page, `(() => {
+    const from = document.querySelector(${JSON.stringify(fromSelector)});
+    const to = document.querySelector(${JSON.stringify(toSelector)});
+    if (!from || !to) return null;
+    const a = from.getBoundingClientRect();
+    const b = to.getBoundingClientRect();
+    return {
+      from:{ x:a.left + a.width / 2, y:a.top + a.height / 2 },
+      to:{ x:b.left + b.width / 2, y:b.top + b.height / 2 }
+    };
+  })()`);
+  assert(points, `drag endpoints missing: ${fromSelector} -> ${toSelector}`);
+  await page.send("Input.dispatchMouseEvent", { type:"mouseMoved", x:points.from.x, y:points.from.y, button:"none" });
+  await page.send("Input.dispatchMouseEvent", { type:"mousePressed", x:points.from.x, y:points.from.y, button:"left", buttons:1, clickCount:1 });
+  await page.send("Input.dispatchMouseEvent", { type:"mouseMoved", x:points.to.x, y:points.to.y, button:"left", buttons:1 });
+  await page.send("Input.dispatchMouseEvent", { type:"mouseReleased", x:points.to.x, y:points.to.y, button:"left", buttons:0, clickCount:1 });
+  await delay(70);
+}
+
+async function dragFarmDistribution(page, correct) {
+  const setup = await evaluate(page, `(() => ({
+    step:window.__mathmonEngineQa.getCurrentStep(),
+    source:document.querySelectorAll('.farm-share-source-pieces .farm-drag-piece').length,
+    counts:[...document.querySelectorAll('.farm-share-basket')].map((node) => Number(node.dataset.count || 0))
+  }))()`);
+  const divisor = setup.counts.length;
+  const answerUnits = Number(setup.step.answer) / Number(setup.step.unitValue || 1);
+  if (setup.source > 0) {
+    const targets = Array(divisor).fill(answerUnits);
+    if (!correct && answerUnits > 0 && answerUnits < 4) {
+      targets[0] += 1;
+      targets[1] -= 1;
+    }
+    for (let basket = 0; basket < divisor; basket += 1) {
+      for (let count = 0; count < targets[basket]; count += 1) {
+        await dragSelectorToSelector(page, '.farm-share-source-pieces .farm-drag-piece', `.farm-share-basket[data-basket-index="${basket}"]`);
+      }
+    }
+    return;
+  }
+  if (correct) {
+    const high = setup.counts.findIndex((count) => count > answerUnits);
+    const low = setup.counts.findIndex((count) => count < answerUnits);
+    assert(high >= 0 && low >= 0, "unequal farm distribution has no movable correction", setup);
+    await dragSelectorToSelector(page, `.farm-share-basket[data-basket-index="${high}"]`, `.farm-share-basket[data-basket-index="${low}"]`);
+  }
+}
+
 async function clickChoice(page, correct) {
   const selector = correct ? "button.choice-button[data-correct='true']:not(:disabled)" : "button.choice-button[data-correct='false']:not(:disabled)";
   const hasChoice = await evaluate(page, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
@@ -294,6 +344,25 @@ async function clickChoice(page, correct) {
   }
   const interaction = await evaluate(page, "document.getElementById('choicesPanel')?.dataset.interaction || ''");
   const step = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()");
+  if (interaction === "share-drag-distribution") {
+    await dragFarmDistribution(page, correct);
+    return;
+  }
+  if (interaction === "share-relation-choice") {
+    const answerUnits = Number(step.answer) / Number(step.unitValue || 1);
+    const units = correct
+      ? answerUnits
+      : answerUnits > 1 ? answerUnits - 1 : answerUnits + 1;
+    const selected = await evaluate(page, `(() => {
+      const card = document.querySelector('.farm-share-option[data-units="${units}"]:not(:disabled)');
+      if (!card) return { ok:false, units:${units} };
+      card.click();
+      return { ok:true };
+    })()`);
+    assert(selected.ok, `farm share card input failed for ${units}`, { interaction, step, selected });
+    await delay(100);
+    return;
+  }
   if (interaction === "enter-share" || interaction === "enter-quotient") {
     const answerValue = Number(step.answer);
     const wrongAmount = interaction === "enter-share" && step.id === "tens"
@@ -423,7 +492,7 @@ async function readSnapshot(page) {
       ".unit-badge",
       ".mini-badge",
       ".choice-button",
-      ".farm-share-answer",
+      ".farm-share-option",
       ".farm-entry-message",
       ".farm-answer-basket-card",
       ".farm-final-sum",
@@ -461,7 +530,7 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
     const selector = [
       'button', '.brand-badge', '.unit-badge', '.mini-badge', '.big-problem',
       '.instruction', '.feedback-line', '.choice-button', '.star-builder-count',
-      '.farm-share-answer', '.farm-entry-message', '.farm-answer-basket-card', '.farm-final-sum',
+      '.farm-share-option', '.farm-share-feedback',
       '.complete-text', '.result-correct-art'
     ].join(',');
     const visible = [...(root?.querySelectorAll(selector) || [])].filter((node) => {
@@ -517,6 +586,111 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
       && audit.retryHitbox?.width > 0 && audit.retryHitbox.height > 0;
     assert(independentRetryArt || generatedSceneRetry, `${label}: generated retry button missing`, audit);
   }
+}
+
+async function auditDivideFarmLayout(page, label, { confirmation = false, complete = false } = {}) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const visible = (node) => {
+      if (!node) return false;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity || 1) > 0 && rect.width > 1 && rect.height > 1;
+    };
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const entry = rectOf(document.querySelector('.farm-share-entry'));
+    const problemBox = rectOf(document.querySelector('.farm-problem-box'));
+    const stepBox = rectOf(document.querySelector('.farm-step-box'));
+    const problemText = rectOf(document.querySelector('.farm-problem'));
+    const stepText = rectOf(document.querySelector('.farm-step-expression'));
+    const instructionText = rectOf(document.querySelector('.farm-instruction'));
+    const contains = (outer, inner, tolerance = 1) => Boolean(outer && inner
+      && inner.left >= outer.left - tolerance && inner.top >= outer.top - tolerance
+      && inner.right <= outer.right + tolerance && inner.bottom <= outer.bottom + tolerance);
+    const dragPieces = [...document.querySelectorAll('.farm-share-source-pieces .farm-drag-piece')].filter(visible).map(rectOf);
+    const preview = rectOf(document.querySelector('.farm-share-preview'));
+    const baskets = [...document.querySelectorAll('.farm-share-basket')].filter(visible).map(rectOf);
+    const basketUnitCount = [...document.querySelectorAll('.farm-share-basket')]
+      .reduce((sum, node) => sum + Number(node.dataset.count || 0), 0);
+    const currentStep = window.__mathmonEngineQa?.getCurrentStep?.();
+    const sourcePieceCount = document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece').length;
+    const sourcePieceRects = [...document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece')].map(rectOf);
+    let sourcePieceOverlaps = 0;
+    for (let i = 0; i < sourcePieceRects.length; i += 1) for (let j = i + 1; j < sourcePieceRects.length; j += 1) {
+      const a = sourcePieceRects[i], b = sourcePieceRects[j];
+      const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (overlapX > 1 && overlapY > 1) sourcePieceOverlaps += 1;
+    }
+    const sourceMoreCount = document.querySelectorAll('.farm-share-source-pieces .farm-piece-more').length;
+    const basketLabelCount = document.querySelectorAll('.farm-share-basket-name, .farm-share-basket-amount').length;
+    const feedbackText = document.querySelector('.farm-share-feedback')?.textContent.trim() || '';
+    const core = ['.farm-share-source', '.farm-share-preview', '.farm-share-decision', '.farm-share-feedback']
+      .map((selector) => ({ selector, rect:rectOf(document.querySelector(selector)) }));
+    const coreInside = core.every((item) => !item.rect || (entry
+      && item.rect.left >= entry.left - 1 && item.rect.top >= entry.top - 1
+      && item.rect.right <= entry.right + 1 && item.rect.bottom <= entry.bottom + 1));
+    const confirmationPanel = rectOf(document.querySelector('.farm-share-confirmation'));
+    const confirmationBaskets = rectOf(document.querySelector('.farm-confirm-baskets'));
+    const problemGrid = rectOf(document.querySelector('.problem-grid'));
+    const completePanel = rectOf(document.querySelector('#completePanel.is-visible'));
+    const completeText = rectOf(document.querySelector('#completePanel.is-visible .complete-text'));
+    return {
+      stage, entry, preview, dragPieceCount:dragPieces.length,
+      problemBox, stepBox,
+      headerGap:problemBox && stepBox ? stepBox.left - problemBox.right : null,
+      problemTextInside:contains(problemBox, problemText, 2),
+      stepTextInside:contains(stepBox, stepText, 2),
+      instructionTextInside:contains(stepBox, instructionText, 2),
+      minDragWidth:dragPieces.length ? Math.min(...dragPieces.map((rect) => rect.width)) : 0,
+      minDragHeight:dragPieces.length ? Math.min(...dragPieces.map((rect) => rect.height)) : 0,
+      minBasketHeight:baskets.length ? Math.min(...baskets.map((rect) => rect.height)) : 0,
+      expectedSourcePieceCount:Number(currentStep?.unitCount || 0),
+      sourcePieceCount, basketUnitCount, totalUnitCount:sourcePieceCount + basketUnitCount,
+      sourcePieceOverlaps, sourceMoreCount, basketLabelCount, feedbackText,
+      entryWidthRatio:stage && entry ? entry.width / stage.width : null,
+      coreInside,
+      confirmationPanel, confirmationBaskets,
+      confirmationInside:confirmationPanel && confirmationBaskets
+        ? confirmationBaskets.left >= confirmationPanel.left - 1 && confirmationBaskets.right <= confirmationPanel.right + 1
+          && confirmationBaskets.top >= confirmationPanel.top - 1 && confirmationBaskets.bottom <= confirmationPanel.bottom + 1
+        : true,
+      completePanel, completeText,
+      completeWidthRatio:stage && completePanel ? completePanel.width / stage.width : null,
+      completeSameColumn:problemGrid && completePanel
+        ? Math.abs(problemGrid.left - completePanel.left) <= 1 && Math.abs(problemGrid.right - completePanel.right) <= 1
+        : true,
+    };
+  })()`);
+  if (!complete && (audit.problemBox || audit.stepBox)) {
+    assert(audit.problemBox && audit.stepBox && audit.headerGap >= 8, `${label}: full problem and current step are not visibly separated`, audit);
+    assert(audit.problemTextInside, `${label}: full problem left its own panel`, audit);
+    assert(audit.stepTextInside && audit.instructionTextInside, `${label}: current step left its own panel`, audit);
+  }
+  if (!confirmation && !complete) {
+    assert(audit.problemBox && audit.stepBox, `${label}: split problem header is missing`, audit);
+    assert(audit.entry && audit.preview, `${label}: drag distribution state missing`, audit);
+    assert(audit.entryWidthRatio >= 0.65, `${label}: share workbench is narrower than 65% of the Stage`, audit);
+    if (audit.dragPieceCount > 0) assert(audit.minDragWidth >= 28 && audit.minDragHeight >= 42, `${label}: draggable produce is too small`, audit);
+    assert(audit.totalUnitCount === audit.expectedSourcePieceCount && audit.sourceMoreCount === 0, `${label}: produce units were lost or abbreviated`, audit);
+    assert(audit.sourcePieceOverlaps === 0, `${label}: source produce images overlap instead of showing every bundle`, audit);
+    assert(audit.basketLabelCount === 0, `${label}: redundant basket labels or question marks returned`, audit);
+    assert(audit.feedbackText !== "바구니마다 같은 양이어야 해요.", `${label}: default helper sentence returned`, audit);
+    assert(audit.minBasketHeight >= 70, `${label}: empty baskets are too small`, audit);
+    assert(audit.coreInside, `${label}: share decision content left its reserved panel`, audit);
+  }
+  if (confirmation) {
+    assert(audit.confirmationPanel && audit.confirmationBaskets && audit.confirmationInside, `${label}: share confirmation panel is incomplete`, audit);
+  }
+  if (complete) {
+    assert(audit.completePanel && audit.completeText, `${label}: completed division panel is missing`, audit);
+    assert(audit.completeWidthRatio >= 0.7 && audit.completeSameColumn, `${label}: completed division panel split the learning column`, audit);
+  }
+  return audit;
 }
 
 async function auditCheckLockLayout(page, label) {
@@ -649,7 +823,7 @@ async function renderScoreboardQaState(page, mode) {
       entries: ${JSON.stringify("MODE")} === 'success' ? entries : [],
       totalQuestions: 10
     };
-    window.MathmonScoreboard.render(state);
+    MathmonScoreboard.render(state);
   })()`.replaceAll('"MODE"', JSON.stringify(mode)));
 }
 
@@ -1291,6 +1465,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
+  if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm waiting`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorPlayHeader(page, `${viewport.name} play header`);
     await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
@@ -1352,6 +1527,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       : "05b-play-wrong";
   shots.push(await screenshot(page, lesson, viewport, firstWrongShot));
   await auditGeometry(page, `${viewport.name} wrong feedback`);
+  if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm wrong`);
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockLayout(page, `${viewport.name} product-too-high`);
   await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: input stayed locked after wrong feedback`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
@@ -1366,25 +1542,22 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct' && Boolean(document.querySelector('.farm-share-confirmation'))", `${viewport.name}: tens confirmation did not appear`);
     shots.push(await screenshot(page, lesson, viewport, "05c-play-tens-confirm"));
     await auditGeometry(page, `${viewport.name} tens confirmation`);
+    await auditDivideFarmLayout(page, `${viewport.name} tens confirmation`, { confirmation:true });
     await waitUntil(page, `(window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)} && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: tens share did not advance`, 8000);
     shots.push(await screenshot(page, lesson, viewport, "05c-play-step2"));
     await auditGeometry(page, `${viewport.name} ones share`);
+    await auditDivideFarmLayout(page, `${viewport.name} ones waiting`);
 
     beforeStep = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
     await clickChoice(page, true);
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'correct' && Boolean(document.querySelector('.farm-share-confirmation'))", `${viewport.name}: ones confirmation did not appear`);
     shots.push(await screenshot(page, lesson, viewport, "05d-play-ones-confirm"));
     await auditGeometry(page, `${viewport.name} ones confirmation`);
-    await waitUntil(page, `(window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)} && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: ones share did not advance`, 8000);
-    shots.push(await screenshot(page, lesson, viewport, "05d-play-quotient"));
-    await auditGeometry(page, `${viewport.name} quotient entry`);
-
-    await clickChoice(page, false);
-    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && Boolean(document.querySelector('.farm-quotient-entry.is-wrong'))", `${viewport.name}: quotient wrong feedback did not appear`);
-    shots.push(await screenshot(page, lesson, viewport, "05e-play-quotient-wrong"));
-    await auditGeometry(page, `${viewport.name} quotient wrong feedback`);
-    await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: quotient input stayed locked`);
-    await solveCurrentProblem(page);
+    await auditDivideFarmLayout(page, `${viewport.name} ones confirmation`, { confirmation:true });
+    await waitUntil(page, "document.getElementById('completePanel')?.classList.contains('is-visible')", `${viewport.name}: one-basket completion did not appear`, 8000);
+    shots.push(await screenshot(page, lesson, viewport, "05d-play-one-basket-complete"));
+    await auditGeometry(page, `${viewport.name} one-basket completion`);
+    await auditDivideFarmLayout(page, `${viewport.name} completed division`, { complete:true });
   } else if (lesson === "3-2-2-2-mathmon-elevator") {
     await clickMisconception(page, "DIV2_TENS_QUOTIENT_TOO_LOW");
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: quotient-too-low feedback did not appear`);

@@ -37,16 +37,39 @@ const Lesson2DivideFarmModel = (() => {
     return { id, value, label, misconceptionId, feedback };
   }
 
-  function makeNumberEntryChoices(answer, misconceptionId = "DIV1_QUOTIENT_COUNT_ERROR") {
-    return Array.from({ length: 99 }, (_, offset) => {
-      const value = offset + 1;
-      return choice(
-        `value:${value}`,
-        value,
-        String(value),
-        value === answer ? null : misconceptionId,
-        value === answer ? "" : "한 바구니를 다시 세어 봐요."
-      );
+  function makeShareOptionSet(answer, unitValue, totalUnits, divisor, unitName, misconceptionId) {
+    const answerUnits = answer / unitValue;
+    const candidateUnits = [answerUnits - 1, answerUnits, answerUnits + 1]
+      .filter((units) => units >= 0)
+      .filter((units, index, list) => list.indexOf(units) === index);
+
+    while (candidateUnits.length < 3) {
+      const next = candidateUnits[candidateUnits.length - 1] + 1;
+      if (!candidateUnits.includes(next)) candidateUnits.push(next);
+    }
+
+    return candidateUnits.map((units) => {
+      const value = units * unitValue;
+      const difference = Math.abs(totalUnits - (units * divisor));
+      let feedback = "";
+      if (value !== answer) {
+        feedback = difference > 0
+              ? `${difference}${unitName}${units * divisor < totalUnits ? "이 남아요." : "이 넘쳐요."}`
+              : "바구니마다 같은 양이어야 해요.";
+      }
+      return {
+        ...choice(
+          `value:${value}`,
+          value,
+          `${value}개씩`,
+          value === answer ? null : misconceptionId,
+          feedback
+        ),
+        units,
+        unitName,
+        totalUnits,
+        divisor,
+      };
     });
   }
 
@@ -97,7 +120,7 @@ const Lesson2DivideFarmModel = (() => {
           totalValue: tensValue,
           unitCount: tens,
           unitValue: 10,
-          choices: makeNumberEntryChoices(tensShare, "DIV1_TENS_SHARE_ERROR"),
+          choices: makeShareOptionSet(tensShare, 10, tens, divisor, "묶음", "DIV1_TENS_SHARE_ERROR"),
           correctText: `바구니마다 ${tensShare}개씩`,
           reveal: `${tensShare}개`,
           advance: { mode: "timed", delayMs: 1450 }
@@ -113,23 +136,10 @@ const Lesson2DivideFarmModel = (() => {
           totalValue: ones,
           unitCount: ones,
           unitValue: 1,
-          choices: makeNumberEntryChoices(onesQuotient, "DIV1_ONES_SHARE_ERROR"),
+          choices: makeShareOptionSet(onesQuotient, 1, ones, divisor, "개", "DIV1_ONES_SHARE_ERROR"),
           correctText: `바구니마다 낱개 ${onesQuotient}개씩`,
           reveal: `${onesQuotient}개`,
           advance: { mode: "timed", delayMs: 1450 }
-        },
-        {
-          id: "quotient",
-          label: "몫 쓰기",
-          interaction: "enter-quotient",
-          instruction: "두 수를 합쳐 몫을 써요.",
-          reason: "한 바구니에 담긴 전체 수예요.",
-          answer: quotient,
-          answerChoiceId: `value:${quotient}`,
-          choices: makeNumberEntryChoices(quotient),
-          correctText: `${dividend} ÷ ${divisor} = ${quotient}`,
-          reveal: `${quotient}`,
-          advance: { mode: "complete" }
         }
       ]
     };

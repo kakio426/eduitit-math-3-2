@@ -39,22 +39,19 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.quotient, problem.dividend / problem.divisor, `${problem.id}: quotient`);
     assert.ok(problem.ones > 0, `${problem.id}: meaningful ones step`);
     assert.ok(problem.divisor >= 2 && problem.divisor <= 5, `${problem.id}: share builder keeps two to five baskets`);
-    assert.equal(problem.steps.map((step) => step.id).join(","), "tens,ones,quotient", `${problem.id}: distribute tens, distribute ones, then write quotient`);
+    assert.equal(problem.steps.map((step) => step.id).join(","), "tens,ones", `${problem.id}: distribute tens, then distribute ones`);
     assert.equal(problem.tensShare, (problem.tens * 10) / problem.divisor, `${problem.id}: tens share`);
     assert.equal(problem.tensShare + problem.onesQuotient, problem.quotient, `${problem.id}: quotient is completed from both shares`);
     assert.equal(problem.steps[0].answer * problem.divisor, problem.tensValue, `${problem.id}: tens share accounts for the full tens value`);
     assert.equal(problem.steps[1].answer * problem.divisor, problem.ones, `${problem.id}: built ones share accounts for every vegetable`);
-    assert.equal(problem.steps[0].answer, problem.tensShare, `${problem.id}: student answers with the actual tens share, not the number of bundles`);
+    assert.equal(problem.steps[0].answer, problem.tensShare, `${problem.id}: student answer maps to the actual tens share`);
     assert.equal(problem.steps[1].answer, problem.onesQuotient, `${problem.id}: student answers with the actual ones share`);
     assert.ok(problem.steps.slice(0, 2).every((step) => step.interaction === "enter-share"), `${problem.id}: student decides one basket's share before the system distributes`);
     assert.ok(problem.steps.slice(0, 2).every((step) => step.reason), `${problem.id}: each place-value step states why it exists`);
     assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV1_TENS_SHARE_ERROR"), `${problem.id}: tens-share error state`);
     assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV1_ONES_SHARE_ERROR"), `${problem.id}: ones-share error state`);
-    assert.equal(problem.steps[2].interaction, "enter-quotient", `${problem.id}: student writes the completed quotient`);
-    assert.equal(problem.steps[2].answer, problem.quotient, `${problem.id}: quotient entry answer`);
-    assert.ok(problem.steps[2].choices.some((choice) => choice.misconceptionId === "DIV1_QUOTIENT_COUNT_ERROR"), `${problem.id}: quotient count error state`);
-    const correctInputCount = problem.steps.reduce((sum, step) => sum + String(step.answer).length + 1, 0);
-    assert.ok(correctInputCount <= 8, `${problem.id}: repeated physical input must not replace mathematical decisions`);
+    assert.match(problem.finalExpression, new RegExp(`${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}`), `${problem.id}: completed shares form the final identity`);
+    assert.equal(problem.steps.length, 2, `${problem.id}: already-determined quotient is not re-entered`);
     return;
   }
   if (rule === "division-regrouping-exact") {
@@ -173,7 +170,7 @@ function simulateRewards(model, config, runs = 10000) {
 
 function checkViewContract(rule, config, modelSource, viewSource, runtimeSource) {
   const expected = {
-    "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-instruction/, /farm-share-answer/, /수확 점수|농장 등급|진행도/],
+    "division-place-value-exact": ["place-value-farm", "farm-board-generated.webp", /place-value-farm-svg/, /farm-instruction/, /farm-drag-piece|farm-share-basket/, /수확 점수|농장 등급|진행도/],
     "division-regrouping-exact": ["division-elevator", "board-shaft-generated.webp", /elevator-math-svg/, /십의 자리 몫/, /남은 십/, /보상 점수|엘리베이터 등급/],
     "division-with-remainder": ["remainder-stars", "result-stage.webp", /star-math-svg/, /renderLooseStarGrid/, /renderGroupedStars/, /닉네임|별 이름|진행도|등급/],
     "division-check-lock": ["check-lock-bars", "board-vault-generated.webp", /check-lock-svg/, /처음 수/, /나누는 수 × 몫/, /보안 점수|금고 등급|진행도/],
@@ -186,18 +183,18 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
   assert.match(viewSource, expected[4], `${config.id}: second visible math label`);
   assert.doesNotMatch(viewSource, expected[5], `${config.id}: reward/result text must stay out of play view`);
   if (rule === "division-place-value-exact") {
-    assert.match(viewSource, /dataset\.interaction = "enter-share"/, `${config.id}: student enters one basket's share`);
-    assert.match(viewSource, /dataset\.interaction = "enter-quotient"/, `${config.id}: student enters the quotient`);
-    assert.match(viewSource, /createFarmKeypad\(handleFarmShareKey/, `${config.id}: one share decision uses a number entry`);
-    assert.match(viewSource, /step\.totalValue - used/, `${config.id}: a low answer shows what remains`);
-    assert.match(viewSource, /used - step\.totalValue/, `${config.id}: a high answer shows what is missing`);
+    assert.match(viewSource, /dataset\.interaction = "share-drag-distribution"/, `${config.id}: every visible carrot is distributed by direct dragging`);
+    assert.match(viewSource, /beginFarmPieceDrag|applyFarmPieceDrop/, `${config.id}: pointer drag moves produce between source and baskets`);
+    assert.match(viewSource, /index < sourceRemaining/, `${config.id}: every remaining produce unit stays individually visible`);
+    assert.match(viewSource, /basketUnits\.every/, `${config.id}: equal basket quantities are validated`);
+    assert.match(viewSource, /바구니를 똑같이 만들어요/, `${config.id}: unequal distribution has visible corrective feedback`);
     assert.match(viewSource, /createFarmBasketImage/, `${config.id}: generated basket art is used instead of a CSS-drawn basket`);
-    assert.match(viewSource, /appendFarmPieces\(pieces/, `${config.id}: generated produce fills every basket after validation`);
+    assert.match(viewSource, /createFarmBasketStateImage/, `${config.id}: generated filled-basket states follow the dragged quantity`);
+    assert.match(viewSource, /farm-share-mini-basket/, `${config.id}: all destination baskets remain visible`);
     assert.match(viewSource, /renderFarmShareConfirmation/, `${config.id}: the confirmed answer changes the current objects`);
-    assert.match(viewSource, /for \(let index = 0; index < problem\.divisor/, `${config.id}: correct share expands to every basket only after validation`);
-    assert.doesNotMatch(viewSource, /distribute-equal|farm-basket-drop|farm-stock-token|animateFarmTokenTransfer/, `${config.id}: repeated destination tapping returned`);
-    assert.doesNotMatch(viewSource, /build-one-basket-share|distribute-vegetables|farm-move-button|animateFarmRound/, `${config.id}: guess-and-check or answer-performing distribution returned`);
-    assert.doesNotMatch(viewSource, /farm-drop-zone|farm-progress-panel|drag-basket/, `${config.id}: preview or drag UI returned`);
+    assert.match(viewSource, /for \(let index = 0; index < problem\.divisor/, `${config.id}: every divisor basket is rendered`);
+    assert.doesNotMatch(viewSource, /createFarmShareOption|farm-share-option-count/, `${config.id}: answer-card buttons returned`);
+    assert.doesNotMatch(viewSource, /addEventListener\("dragstart"/, `${config.id}: touch-fragile native drag returned`);
     assert.doesNotMatch(modelSource, /makeNumericChoices/, `${config.id}: four-choice generator returned`);
     assert.doesNotMatch(modelSource, /makeShareChoices/, `${config.id}: incremental one-basket guess checker returned`);
     assert.doesNotMatch(modelSource, /id: "combine"|두 숫자로 몫/, `${config.id}: redundant combine quiz returned`);

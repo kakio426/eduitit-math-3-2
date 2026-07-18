@@ -2855,7 +2855,7 @@
           <li>받아올릴 수를 위에 적어요.</li>
           <li>올린 수까지 더해 답을 만들어요.</li>
         </ol>
-        <p>두 번째 화면은 문제를 맞혀 연료를 얻고, 마지막에 전국 순위를 볼 수 있음을 알려 줍니다.</p>
+        <p>두 번째 화면은 문제를 맞혀 연료를 얻고, 마지막에 도착한 행성을 보는 흐름을 보여 줍니다.</p>
       </div>
       <button class="tutorial-poster-hitbox" id="tutorialNextButton" type="button" aria-label="다음"></button>
     </section>
@@ -3030,9 +3030,9 @@
           <text class="result-svg-value result-svg-measure" id="resultMeasureSvg" x="748" y="598">연료 0</text>
           <rect x="748" y="614" width="394" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
           <rect id="resultMeasureFillSvg" x="748" y="614" width="0" height="12" rx="6" fill="#79f5c4"></rect>
-          <rect class="result-legacy-action-surface" x="748" y="646" width="188" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect class="result-legacy-action-surface ranking-disabled" x="748" y="646" width="188" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
           <rect class="result-legacy-action-surface" x="960" y="646" width="178" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <text class="result-svg-button-text result-legacy-action-label" x="842" y="685" text-anchor="middle">순위 보기</text>
+          <text class="result-svg-button-text result-legacy-action-label ranking-disabled" x="842" y="685" text-anchor="middle">순위 보기</text>
           <text class="result-svg-button-text result-legacy-action-label" id="resultSvgRestartText" x="1049" y="685" text-anchor="middle">다시하기</text>
         </g>
       </svg>
@@ -3178,7 +3178,8 @@
       const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
       return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
     }
-    const SCOREBOARD_API_URL = getScoreboardApiUrl();
+    // Product policy: ranking is hidden and the score API is not contacted.
+    const SCOREBOARD_API_URL = "";
     const DESTINATIONS = [
       { id: "mercury", short: "수", name: "수성", min: 1, max: 12, image: "result-mercury-generated.webp", titleArt: "result-title-mercury-generated.webp" },
       { id: "venus", short: "금", name: "금성", min: 13, max: 24, image: "result-venus-generated.webp", titleArt: "result-title-venus-generated.webp" },
@@ -4535,8 +4536,8 @@
         el.resultMeasureSvg.textContent = measureLabel;
         el.restartButton.hidden = false;
         el.restartButton.disabled = false;
-        el.leaderboardButton.hidden = false;
-        el.leaderboardButton.disabled = false;
+        el.leaderboardButton.hidden = true;
+        el.leaderboardButton.disabled = true;
         playSound("finish");
       }, 2500);
     }

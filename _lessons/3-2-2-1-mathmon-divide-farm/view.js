@@ -103,18 +103,18 @@ function ensureFarmTutorialGuide() {
   guide.className = "farm-tutorial-guide";
 
   const heading = document.createElement("h3");
-  heading.textContent = "48 ÷ 4를 풀어 봐요";
+  heading.textContent = "똑같이 나누면 나눗셈";
 
   const steps = document.createElement("div");
   steps.className = "farm-tutorial-steps";
   steps.append(
-    createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "10개 묶음 4개를 똑같이 나눠요"),
-    createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "낱개 8개를 똑같이 나눠요")
+    createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "한 바구니에 10개씩"),
+    createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "한 바구니에 2개씩")
   );
 
   const sum = document.createElement("p");
   sum.className = "farm-tutorial-sum";
-  sum.textContent = "한 바구니에는 10 + 2 = 12개";
+  sum.textContent = "한 바구니에 10 + 2 = 12개";
 
   guide.append(heading, steps, sum);
   firstCard.appendChild(guide);
@@ -185,7 +185,7 @@ function updateProblemVisualForStep(problem, step, state) {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       setFarmFlowPhase("active");
-      ui.choices.querySelector(".farm-key")?.focus({ preventScroll: true });
+      ui.choices.querySelector(".farm-drag-piece")?.focus({ preventScroll: true });
     });
   });
 }
@@ -198,31 +198,13 @@ function renderChoicesForStep(problem, step, state, choose) {
       step,
       state,
       choose,
-      input: "",
       locked: false,
       wrongMessage: "",
-      previewValue: null,
+      basketUnits: Array(problem.divisor).fill(0),
     };
-    ui.choices.dataset.interaction = "enter-share";
+    ui.choices.dataset.interaction = "share-drag-distribution";
     ui.choices.dataset.choiceKind = step.id;
     renderFarmShareEntry();
-    return true;
-  }
-
-  if (step.interaction === "enter-quotient") {
-    farmInteractionState = {
-      type: "quotient",
-      problem,
-      step,
-      state,
-      choose,
-      input: "",
-      locked: false,
-      wrongMessage: "",
-    };
-    ui.choices.dataset.interaction = "enter-quotient";
-    ui.choices.dataset.choiceKind = step.id;
-    renderFarmQuotientEntry();
     return true;
   }
 
@@ -232,23 +214,10 @@ function renderChoicesForStep(problem, step, state, choose) {
 function renderAttempt(problem, step, selected, state, result) {
   if (result.correct || !farmInteractionState) return;
   if (farmInteractionState.type === "share") {
-    const chosenShare = Number(selected?.value || farmInteractionState.input || 0);
-    const used = chosenShare * problem.divisor;
-    farmInteractionState.previewValue = chosenShare;
-    if (step.id === "tens" && chosenShare % 10 !== 0) {
-      farmInteractionState.wrongMessage = "10개 묶음으로 나눠요.";
-    } else if (used < step.totalValue) {
-      farmInteractionState.wrongMessage = `${step.totalValue - used}개가 남아요.`;
-    } else if (used > step.totalValue) {
-      farmInteractionState.wrongMessage = `${used - step.totalValue}개가 부족해요.`;
-    } else {
-      farmInteractionState.wrongMessage = "한 바구니의 수를 다시 봐요.";
-    }
+    farmInteractionState.wrongMessage = "바구니를 똑같이 만들어요.";
     renderFarmShareEntry();
     return;
   }
-  farmInteractionState.wrongMessage = "10개 묶음과 낱개를 다시 더해요.";
-  renderFarmQuotientEntry();
 }
 
 function revealCorrectStep(problem, step, state) {
@@ -261,86 +230,161 @@ function revealCorrectStep(problem, step, state) {
 
 function renderFarmShareEntry() {
   if (!farmInteractionState || farmInteractionState.type !== "share") return;
-  const { problem, step, input, locked, wrongMessage, previewValue } = farmInteractionState;
+  const { problem, step, locked, wrongMessage, basketUnits } = farmInteractionState;
+  const placedUnits = basketUnits.reduce((sum, count) => sum + count, 0);
+  const sourceRemaining = Math.max(0, step.unitCount - placedUnits);
   const entry = document.createElement("div");
   entry.className = `farm-share-entry ${wrongMessage ? "is-wrong" : ""}`;
 
-  const work = document.createElement("section");
-  work.className = "farm-share-work";
-
-  const source = document.createElement("div");
+  const source = document.createElement("section");
   source.className = "farm-share-source";
   const sourceLabel = document.createElement("strong");
   sourceLabel.textContent = `전체 ${step.totalValue}개`;
   const sourcePieces = document.createElement("div");
   sourcePieces.className = "farm-share-source-pieces";
-  for (let index = 0; index < step.unitCount; index += 1) sourcePieces.appendChild(createFarmProducePiece(step.id));
+  for (let index = 0; index < sourceRemaining; index += 1) {
+    const piece = createFarmProducePiece(step.id);
+    piece.classList.add("farm-drag-piece");
+    piece.tabIndex = locked ? -1 : 0;
+    piece.setAttribute("role", "button");
+    piece.setAttribute("aria-label", `${step.id === "tens" ? "당근 10개 묶음" : "당근 한 개"}을 바구니로 옮기기`);
+    piece.addEventListener("pointerdown", (event) => beginFarmPieceDrag(event, { type: "source" }));
+    sourcePieces.appendChild(piece);
+  }
   source.append(sourceLabel, sourcePieces);
 
-  const reason = document.createElement("p");
-  reason.className = "farm-step-reason";
-  reason.textContent = step.reason;
-
-  const basketGrid = document.createElement("div");
-  basketGrid.className = "farm-share-baskets";
-  basketGrid.style.setProperty("--basket-count", String(problem.divisor));
-  for (let index = 0; index < problem.divisor; index += 1) {
-    basketGrid.appendChild(createFarmAnswerBasket(step, index, previewValue, Boolean(wrongMessage)));
-  }
-
-  const answer = document.createElement("div");
-  answer.className = "farm-share-answer";
-  answer.innerHTML = `<span>한 바구니에</span><strong>${input || "?"}개씩</strong>`;
-
-  work.append(source, reason, basketGrid, answer);
-
-  const keypadWrap = document.createElement("section");
-  keypadWrap.className = "farm-keypad-wrap farm-share-keypad-wrap";
-  keypadWrap.append(
-    createFarmKeypad(handleFarmShareKey, input, locked),
-    createFarmEntryMessage(wrongMessage || "몇 개씩 넣을지 써요.")
-  );
-
-  entry.append(work, keypadWrap);
+  const preview = createFarmShareBasketPreview(problem, step, basketUnits, true);
+  const feedback = createFarmEntryMessage(wrongMessage || "");
+  feedback.classList.add("farm-share-feedback");
+  const commitButton = document.createElement("button");
+  commitButton.type = "button";
+  commitButton.className = "farm-share-commit visually-hidden";
+  commitButton.tabIndex = -1;
+  entry.append(source, preview, feedback, commitButton);
   ui.choices.replaceChildren(entry);
 }
 
-function createFarmAnswerBasket(step, index, previewValue, showPreview) {
-  const card = document.createElement("div");
-  card.className = "farm-answer-basket-card";
-  const name = document.createElement("span");
-  name.textContent = `${index + 1}번`;
-  const scene = document.createElement("div");
-  scene.className = "farm-answer-basket-scene";
-  const basket = createFarmBasketImage("farm-basket-art");
-  const pieces = document.createElement("div");
-  pieces.className = "farm-answer-basket-pieces";
-  if (showPreview && Number.isFinite(previewValue)) {
-    const pieceCount = step.id === "tens" && previewValue % 10 === 0 ? previewValue / 10 : step.id === "ones" ? previewValue : 0;
-    appendFarmPieces(pieces, step.id, pieceCount, 4);
+function createFarmShareBasketPreview(problem, step, previewValue, interactive = false) {
+  const preview = document.createElement("div");
+  preview.className = "farm-share-preview farm-share-mini-basket";
+  preview.style.setProperty("--basket-count", String(problem.divisor));
+  const basketCounts = Array.isArray(previewValue)
+    ? previewValue
+    : Array(problem.divisor).fill(Number.isFinite(previewValue) ? previewValue : 0);
+  preview.setAttribute("aria-label", `바구니 ${problem.divisor}개에 직접 나누어 담는 곳`);
+
+  for (let index = 0; index < problem.divisor; index += 1) {
+    const count = Number(basketCounts[index] || 0);
+    const basket = document.createElement("section");
+    basket.className = "farm-share-basket";
+    basket.dataset.basketIndex = String(index);
+    basket.dataset.count = String(count);
+    if (interactive) {
+      basket.tabIndex = 0;
+      basket.setAttribute("role", "button");
+      basket.setAttribute("aria-label", `${index + 1}번째 바구니, ${count}${step.id === "tens" ? "묶음" : "개"}`);
+      basket.addEventListener("pointerdown", (event) => {
+        if (count > 0) beginFarmPieceDrag(event, { type: "basket", index });
+      });
+    }
+    const scene = document.createElement("div");
+    scene.className = "farm-share-basket-scene";
+    scene.appendChild(createFarmBasketStateImage(step.id, count, "farm-share-basket-art"));
+    if (step.id !== "tens" && count > 0) {
+      const pieces = document.createElement("div");
+      pieces.className = "farm-share-basket-pieces";
+      appendFarmPieces(pieces, step.id, count, 4);
+      scene.appendChild(pieces);
+    }
+    basket.appendChild(scene);
+    preview.appendChild(basket);
   }
-  const front = createFarmBasketImage("farm-basket-front-art");
-  const value = document.createElement("strong");
-  value.textContent = showPreview && Number.isFinite(previewValue) ? `${previewValue}개` : "?";
-  scene.append(basket, pieces, front, value);
-  card.append(name, scene);
-  return card;
+  return preview;
 }
 
-function createFarmKeypad(onKey, input, locked) {
-  const keypad = document.createElement("div");
-  keypad.className = "farm-keypad";
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, "지우기", 0, "확인"].forEach((key) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `farm-key ${key === "확인" ? "is-enter choice-button" : key === "지우기" ? "is-clear" : ""}`;
-    button.textContent = String(key);
-    button.disabled = locked || (key === "확인" && !input);
-    if (typeof key === "number") button.dataset.digit = String(key);
-    button.addEventListener("click", () => onKey(key, button));
-    keypad.appendChild(button);
-  });
-  return keypad;
+function createFarmQuantityToken(stepId, count, unitName) {
+  const token = document.createElement("div");
+  token.className = `farm-quantity-token farm-quantity-token--${stepId}`;
+  token.appendChild(createFarmProducePiece(stepId));
+  const countLabel = document.createElement("strong");
+  countLabel.textContent = `× ${count}${unitName}`;
+  token.appendChild(countLabel);
+  return token;
+}
+
+function beginFarmPieceDrag(event, origin) {
+  if (!farmInteractionState || farmInteractionState.type !== "share" || farmInteractionState.locked) return;
+  if (event.pointerType === "mouse" && event.button !== 0) return;
+  event.preventDefault();
+  const ghost = createFarmProducePiece(farmInteractionState.step.id);
+  ghost.classList.add("farm-drag-ghost");
+  document.body.appendChild(ghost);
+  const moveGhost = (point) => {
+    ghost.style.left = `${point.clientX}px`;
+    ghost.style.top = `${point.clientY}px`;
+  };
+  moveGhost(event);
+  document.querySelector(".farm-share-entry")?.classList.add("is-dragging");
+
+  const onMove = (moveEvent) => {
+    moveEvent.preventDefault();
+    moveGhost(moveEvent);
+  };
+  const onUp = (upEvent) => {
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("pointerup", onUp);
+    window.removeEventListener("pointercancel", onUp);
+    ghost.remove();
+    const target = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
+    applyFarmPieceDrop(
+      origin,
+      target?.closest?.(".farm-share-basket"),
+      target?.closest?.(".farm-share-source")
+    );
+  };
+  window.addEventListener("pointermove", onMove, { passive: false });
+  window.addEventListener("pointerup", onUp, { once: true });
+  window.addEventListener("pointercancel", onUp, { once: true });
+}
+
+function applyFarmPieceDrop(origin, targetBasket, targetSource) {
+  if (!farmInteractionState || farmInteractionState.type !== "share") return;
+  const counts = farmInteractionState.basketUnits;
+  const targetIndex = targetBasket ? Number(targetBasket.dataset.basketIndex) : -1;
+  let changed = false;
+  if (origin.type === "source" && targetIndex >= 0 && counts[targetIndex] < 4) {
+    counts[targetIndex] += 1;
+    changed = true;
+  } else if (origin.type === "basket" && targetSource && counts[origin.index] > 0) {
+    counts[origin.index] -= 1;
+    changed = true;
+  } else if (origin.type === "basket" && targetIndex >= 0 && targetIndex !== origin.index
+      && counts[origin.index] > 0 && counts[targetIndex] < 4) {
+    counts[origin.index] -= 1;
+    counts[targetIndex] += 1;
+    changed = true;
+  }
+  if (!changed) {
+    renderFarmShareEntry();
+    return;
+  }
+  farmInteractionState.wrongMessage = "";
+  renderFarmShareEntry();
+  const remaining = farmInteractionState.step.unitCount - counts.reduce((sum, count) => sum + count, 0);
+  if (remaining === 0) window.setTimeout(checkFarmDistribution, 120);
+}
+
+function checkFarmDistribution() {
+  if (!farmInteractionState || farmInteractionState.type !== "share" || farmInteractionState.locked) return;
+  const { basketUnits, step, choose } = farmInteractionState;
+  const allEqual = basketUnits.every((count) => count === basketUnits[0]);
+  const option = allEqual
+    ? step.choices.find((choice) => choice.units === basketUnits[0])
+    : step.choices.find((choice) => choice.units !== step.answer / step.unitValue);
+  const button = document.querySelector(".farm-share-commit");
+  if (!option || !button) return;
+  farmInteractionState.locked = true;
+  choose(option, button);
 }
 
 function createFarmEntryMessage(text) {
@@ -349,159 +393,6 @@ function createFarmEntryMessage(text) {
   message.setAttribute("aria-live", "polite");
   message.textContent = text;
   return message;
-}
-
-function handleFarmShareKey(key, button) {
-  if (!farmInteractionState || farmInteractionState.type !== "share" || farmInteractionState.locked) return;
-  if (key === "지우기") {
-    farmInteractionState.input = "";
-    farmInteractionState.previewValue = null;
-    farmInteractionState.wrongMessage = "";
-    renderFarmShareEntry();
-    return;
-  }
-  if (key === "확인") {
-    if (!farmInteractionState.input) return;
-    const value = Number(farmInteractionState.input);
-    const selected = farmInteractionState.step.choices.find((item) => item.id === `value:${value}`) || {
-      id: `value:${value}`,
-      value,
-      label: String(value),
-      misconceptionId: "DIV1_SHARE_ERROR",
-      feedback: "한 바구니의 수를 다시 봐요.",
-    };
-    farmInteractionState.previewValue = value;
-    farmInteractionState.locked = true;
-    farmInteractionState.choose(selected, button);
-    return;
-  }
-  updateFarmNumberInput(key, renderFarmShareEntry);
-}
-
-function renderFarmQuotientEntry() {
-  if (!farmInteractionState || farmInteractionState.type !== "quotient") return;
-  const { problem, input, locked, wrongMessage } = farmInteractionState;
-  const entry = document.createElement("div");
-  entry.className = `farm-quotient-entry ${wrongMessage ? "is-wrong" : ""}`;
-
-  const oneBasket = document.createElement("section");
-  oneBasket.className = "farm-final-basket-card";
-  const label = document.createElement("p");
-  label.textContent = "한 바구니 수를 합쳐요";
-  const breakdown = document.createElement("div");
-  breakdown.className = "farm-value-breakdown";
-  breakdown.setAttribute(
-    "aria-label",
-    `10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개를 합쳐요`
-  );
-
-  const tensGroup = createFarmBreakdownGroup(
-    "tens",
-    problem.tensQuotient,
-    `10개 묶음 ${problem.tensQuotient}개`,
-    `${problem.tensShare}개`
-  );
-  const plus = document.createElement("span");
-  plus.className = "farm-breakdown-plus";
-  plus.textContent = "+";
-  plus.setAttribute("aria-hidden", "true");
-  const onesGroup = createFarmBreakdownGroup(
-    "ones",
-    problem.onesQuotient,
-    `낱개 ${problem.onesQuotient}개`,
-    `${problem.onesQuotient}개`
-  );
-  const equation = document.createElement("p");
-  equation.className = "farm-breakdown-equation";
-  equation.textContent = `${problem.tensShare} + ${problem.onesQuotient} = ?개`;
-  breakdown.append(tensGroup, plus, onesGroup, equation);
-
-  const display = document.createElement("strong");
-  display.className = "farm-quotient-display";
-  display.textContent = input ? `${input}개` : "?개";
-  oneBasket.append(label, breakdown, display);
-
-  const keypadWrap = document.createElement("section");
-  keypadWrap.className = "farm-keypad-wrap";
-  keypadWrap.append(
-    createFarmKeypad(handleFarmQuotientKey, input, locked),
-    createFarmEntryMessage(wrongMessage || "두 수를 더해 몫을 써요.")
-  );
-
-  entry.append(oneBasket, keypadWrap);
-  ui.choices.replaceChildren(entry);
-}
-
-function createFarmBreakdownGroup(kind, count, titleText, amountText) {
-  const group = document.createElement("div");
-  group.className = `farm-breakdown-group farm-breakdown-group--${kind}`;
-
-  const title = document.createElement("strong");
-  title.className = "farm-breakdown-group-title";
-  title.textContent = titleText;
-
-  const items = document.createElement("div");
-  items.className = "farm-breakdown-items";
-  const safeCount = Math.max(0, Number(count) || 0);
-  const visibleCount = kind === "tens" ? Math.min(safeCount, 1) : Math.min(safeCount, 4);
-  for (let index = 0; index < visibleCount; index += 1) {
-    items.appendChild(createFarmProducePiece(kind));
-  }
-  if (kind === "tens" && safeCount > 0) {
-    const countBadge = document.createElement("span");
-    countBadge.className = "farm-breakdown-count";
-    countBadge.textContent = `${safeCount}묶음`;
-    countBadge.setAttribute("aria-label", `${safeCount}묶음`);
-    items.appendChild(countBadge);
-  } else if (kind === "ones" && safeCount > visibleCount) {
-    const more = document.createElement("span");
-    more.className = "farm-breakdown-count";
-    more.textContent = `+${safeCount - visibleCount}개`;
-    more.setAttribute("aria-label", `낱개 ${safeCount - visibleCount}개 더`);
-    items.appendChild(more);
-  }
-
-  const amount = document.createElement("span");
-  amount.className = "farm-breakdown-amount";
-  amount.textContent = amountText;
-
-  group.append(title, items, amount);
-  return group;
-}
-
-function handleFarmQuotientKey(key, button) {
-  if (!farmInteractionState || farmInteractionState.type !== "quotient" || farmInteractionState.locked) return;
-  if (key === "지우기") {
-    farmInteractionState.input = "";
-    farmInteractionState.wrongMessage = "";
-    renderFarmQuotientEntry();
-    return;
-  }
-  if (key === "확인") {
-    if (!farmInteractionState.input) return;
-    const value = Number(farmInteractionState.input);
-    const selected = farmInteractionState.step.choices.find((item) => item.id === `value:${value}`) || {
-      id: `value:${value}`,
-      value,
-      label: String(value),
-      misconceptionId: "DIV1_QUOTIENT_COUNT_ERROR",
-      feedback: "한 바구니를 다시 세어 봐요.",
-    };
-    farmInteractionState.locked = true;
-    farmInteractionState.choose(selected, button);
-    return;
-  }
-  updateFarmNumberInput(key, renderFarmQuotientEntry);
-}
-
-function updateFarmNumberInput(key, render) {
-  if (!farmInteractionState || typeof key !== "number") return;
-  if (farmInteractionState.input.length >= 2) return;
-  if (farmInteractionState.input === "" && key === 0) return;
-  farmInteractionState.input += String(key);
-  farmInteractionState.wrongMessage = "";
-  render();
-  ui.choices.querySelector(".farm-key.is-enter")?.focus({ preventScroll: true });
 }
 
 function createFarmProducePiece(stepId) {
@@ -535,6 +426,18 @@ function createFarmBasketImage(className) {
   return image;
 }
 
+function createFarmBasketStateImage(stepId, count, className) {
+  if (stepId !== "tens" || count < 1 || count > 4) return createFarmBasketImage(className);
+  const image = document.createElement("img");
+  image.className = className;
+  image.src = LESSON_CONFIG.imageAssets.farmBasketBundles?.[count]
+    || `farm-basket-bundles-${count}-generated.webp`;
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  image.draggable = false;
+  return image;
+}
+
 function appendFarmPieces(container, kind, count, maxVisible = 4, slotOffset = 0) {
   const safeCount = Math.max(0, Number(count) || 0);
   const visibleCount = Math.min(safeCount, maxVisible);
@@ -555,54 +458,28 @@ function appendFarmPieces(container, kind, count, maxVisible = 4, slotOffset = 0
 }
 
 function renderFarmShareConfirmation(problem, step) {
-  const isTens = step.id === "tens";
-  const isOnesOrFinal = step.id !== "tens";
-  const value = isTens ? problem.tensShare : problem.quotient;
   const confirmation = document.createElement("div");
-  confirmation.className = "farm-share-confirmation";
-  confirmation.style.setProperty("--basket-count", String(problem.divisor));
-  confirmation.setAttribute("aria-label", `바구니 ${problem.divisor}개에 ${value}개씩`);
-
-  for (let index = 0; index < problem.divisor; index += 1) {
-    const basketCard = document.createElement("div");
-    basketCard.className = "farm-confirm-basket";
-    basketCard.style.setProperty("--piece-delay", `${index * 90}ms`);
-
-    const basketName = document.createElement("span");
-    basketName.className = "farm-confirm-basket-name";
-    basketName.textContent = `바구니 ${index + 1}`;
-
-    const breakdown = document.createElement("div");
-    breakdown.className = "farm-confirm-breakdown";
-    const tensGroup = createFarmBreakdownGroup(
-    "tens",
-    problem.tensQuotient,
-    `10개 묶음 ${problem.tensQuotient}개`,
-    `${problem.tensShare}개`
+  const isFinal = step.id === "ones";
+  confirmation.className = `farm-share-confirmation ${isFinal ? "is-final" : "is-tens"}`;
+  confirmation.setAttribute(
+    "aria-label",
+    isFinal
+      ? `한 바구니에 10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개, 모두 ${problem.quotient}개`
+      : `한 바구니에 10개 묶음 ${problem.tensQuotient}개씩, 바구니 ${problem.divisor}개`
   );
-    const plus = document.createElement("span");
-    plus.className = "farm-breakdown-plus";
-    plus.textContent = "+";
-    plus.setAttribute("aria-hidden", "true");
-    const onesGroup = createFarmBreakdownGroup(
-      "ones",
-      isOnesOrFinal ? problem.onesQuotient : 0,
-      `낱개 ${isOnesOrFinal ? problem.onesQuotient : 0}개`,
-      `${isOnesOrFinal ? problem.onesQuotient : 0}개`
-    );
-    const equation = document.createElement("span");
-    equation.className = "farm-confirm-equation";
-    equation.textContent = isOnesOrFinal
-      ? `${problem.tensShare} + ${problem.onesQuotient} = ${value}개`
-      : `${problem.tensShare}개`;
-    breakdown.append(tensGroup, plus, onesGroup, equation);
 
-    const label = document.createElement("strong");
-    label.className = "farm-confirm-total";
-    label.textContent = `${value}개씩`;
-    basketCard.append(basketName, breakdown, label);
-    confirmation.appendChild(basketCard);
-  }
+  const title = document.createElement("p");
+  title.className = "farm-confirm-title";
+  title.textContent = isFinal ? "낱개도 똑같이 나눴어요." : "모든 바구니에 똑같이 들어갔어요.";
+  const baskets = createFarmShareBasketPreview(problem, step, step.answer / step.unitValue);
+  baskets.classList.add("farm-confirm-baskets");
+  const equation = document.createElement("strong");
+  equation.className = "farm-confirm-equation";
+  equation.textContent = `${step.totalValue} ÷ ${problem.divisor} = ${step.answer}`;
+  const note = document.createElement("p");
+  note.className = "farm-confirm-note";
+  note.textContent = isFinal ? "이제 한 바구니의 수를 합쳐요." : "다음에는 낱개를 나눠요.";
+  confirmation.append(title, baskets, equation, note);
 
   ui.choices.replaceChildren(confirmation);
 }
@@ -614,28 +491,65 @@ function onStepCorrect() {
 
 function onStepWrong() {
   setFarmFlowPhase("wrong");
-  return pulseScene("wrong").then(() => new Promise((resolve) => {
-    setTimeout(() => {
-      if (farmInteractionState) {
-        farmInteractionState.locked = false;
-        farmInteractionState.input = "";
-        farmInteractionState.wrongMessage = "";
-        if (farmInteractionState.type === "share") {
-          farmInteractionState.previewValue = null;
-          renderFarmShareEntry();
-        } else {
-          renderFarmQuotientEntry();
-        }
-      }
-      setFarmFlowPhase("active");
-      resolve();
-    }, 1000);
-  }));
+  return pulseScene("wrong").then(() => {
+    if (farmInteractionState?.type === "share") {
+      farmInteractionState.locked = false;
+      renderFarmShareEntry();
+    }
+    setFarmFlowPhase("active");
+  });
 }
 
-function onProblemComplete() {
+function onProblemComplete({ problem }) {
+  renderFarmCompleteHeader(problem);
+  renderFarmCompleteSummary(problem);
   setFarmFlowPhase("complete");
   return pulseScene("complete");
+}
+
+function renderFarmCompleteHeader(problem) {
+  const svg = document.createElementNS(FARM_SVG_NS, "svg");
+  svg.classList.add("place-value-farm-svg");
+  svg.setAttribute("viewBox", "0 0 900 170");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}. 한 바구니에 ${problem.quotient}개`);
+  svg.innerHTML = `
+    <rect x="8" y="8" width="884" height="154" rx="32" class="farm-board-bg"/>
+    <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+      <text x="450" y="58" class="farm-problem">${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}</text>
+      <text x="450" y="105" class="farm-step-expression">${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}</text>
+      <text x="450" y="142" class="farm-instruction">한 바구니에 ${problem.quotient}개</text>
+    </g>
+  `;
+  ui.visualArea.replaceChildren(svg);
+}
+
+function renderFarmCompleteSummary(problem) {
+  const panel = document.getElementById("completePanel");
+  if (!panel) return;
+  let visual = panel.querySelector(".farm-complete-summary");
+  if (!visual) {
+    visual = document.createElement("div");
+    visual.className = "farm-complete-summary";
+    const text = document.getElementById("completeExpression");
+    if (text) panel.insertBefore(visual, text);
+    else panel.prepend(visual);
+  }
+  const basket = document.createElement("section");
+  basket.className = "farm-complete-one-basket";
+  basket.appendChild(createFarmBasketImage("farm-complete-basket-art"));
+  const basketLabel = document.createElement("strong");
+  basketLabel.textContent = `한 바구니 ${problem.quotient}개`;
+  basket.appendChild(basketLabel);
+
+  const relation = document.createElement("div");
+  relation.className = "farm-complete-relation";
+  relation.appendChild(createFarmQuantityToken("tens", problem.tensQuotient, "묶음"));
+  const plus = document.createElement("span");
+  plus.className = "farm-complete-plus";
+  plus.textContent = "+";
+  relation.append(plus, createFarmQuantityToken("ones", problem.onesQuotient, "개"));
+  visual.replaceChildren(basket, relation);
 }
 
 function onRewardPrepare({ beforeResult }) {
@@ -700,31 +614,31 @@ function setFarmFlowPhase(phase) {
 
 function renderFarmHeader(problem, step, state) {
   const revealed = ui.visualArea.dataset.revealedStep === step.id;
-  let instruction = step.instruction;
-  let reason = step.reason;
+  let stepExpression = step.id === "tens"
+    ? `${problem.tensValue} ÷ ${problem.divisor}`
+    : `${problem.ones} ÷ ${problem.divisor}`;
+  let instruction = step.id === "tens" ? "한 바구니에 몇 묶음?" : "한 바구니에 몇 개?";
+  let reason = "";
   if (revealed && step.id === "tens") {
-    instruction = `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`;
-    reason = `십의 자리 몫은 ${problem.tensShare}`;
+    stepExpression = `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`;
+    instruction = `한 바구니에 ${problem.tensShare}개씩`;
   }
   if (revealed && step.id === "ones") {
-    instruction = `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`;
-    reason = `일의 자리 몫은 ${problem.onesQuotient}`;
-  }
-  if (revealed && step.id === "quotient") {
-    instruction = `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`;
-    reason = `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}`;
+    stepExpression = `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`;
+    instruction = `한 바구니에 ${problem.onesQuotient}개씩`;
   }
   const svg = document.createElementNS(FARM_SVG_NS, "svg");
   svg.classList.add("place-value-farm-svg");
-  svg.setAttribute("viewBox", "0 0 760 150");
+  svg.setAttribute("viewBox", "0 0 900 170");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", `${problem.prompt}. ${instruction} ${reason}`);
+  svg.setAttribute("aria-label", `${problem.prompt}. ${stepExpression}. ${instruction}`);
   svg.innerHTML = `
-    <rect x="8" y="8" width="744" height="134" rx="28" class="farm-board-bg"/>
+    <rect x="8" y="8" width="310" height="154" rx="28" class="farm-board-bg farm-problem-box"/>
+    <rect x="332" y="8" width="560" height="154" rx="28" class="farm-board-bg farm-step-box"/>
     <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="380" y="60" class="farm-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-      <text x="380" y="103" class="farm-instruction">${instruction}</text>
-      <text x="380" y="132" class="farm-reason">${reason}</text>
+      <text x="163" y="103" class="farm-problem">${problem.dividend} ÷ ${problem.divisor}</text>
+      <text x="612" y="74" class="farm-step-expression">${stepExpression}</text>
+      <text x="612" y="126" class="farm-instruction">${instruction}</text>
     </g>
   `;
   ui.visualArea.replaceChildren(svg);

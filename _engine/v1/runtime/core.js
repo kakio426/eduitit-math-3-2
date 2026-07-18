@@ -875,8 +875,8 @@ function getScoreboardApiUrl() {
 }
 
 function createScoreboardBridge() {
-  if (!isScoreboardEnabled() || !window.MathmonScoreboard?.createApiBridge) return null;
-  return window.MathmonScoreboard.createApiBridge({
+  if (!isScoreboardEnabled() || !MathmonScoreboard?.createApiBridge) return null;
+  return MathmonScoreboard.createApiBridge({
     root: ui.scoreboardScreen,
     apiUrl: getScoreboardApiUrl(),
     lessonId: LESSON_CONFIG.folder,

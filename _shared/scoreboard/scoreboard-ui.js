@@ -1,10 +1,11 @@
-(function () {
+const MathmonScoreboard = (function () {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const ROW_Y = [422, 476, 530, 584];
   const ROW_HEIGHT = 48;
   const ROW_STEP = 54;
   const VISIBLE_ROWS = ROW_Y.length;
   const REQUEST_TIMEOUT_MS = 7000;
+  const SCOREBOARD_PRODUCT_ENABLED = false;
   const OUTCOME_LABELS = Object.freeze({
     box: Object.freeze({ retry: "상자 준비" }),
     rocket: Object.freeze({
@@ -482,6 +483,19 @@
   }
 
   function createApiBridge(options) {
+    // Product policy: ranking stays hidden and must not contact the API until
+    // the owner explicitly changes the plan and removes this guard.
+    const disabledBridge = Object.freeze({
+      reset: () => null,
+      start: () => null,
+      open: () => null,
+      refresh: () => null,
+      render: () => null,
+      getSession: () => null,
+      getSessionPromise: () => null
+    });
+    if (!SCOREBOARD_PRODUCT_ENABLED) return disabledBridge;
+
     const root = mount(options.root);
     const state = {
       session: null,
@@ -655,5 +669,7 @@
     });
   }
 
-  window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
+  const api = Object.freeze({ mount, render, createApiBridge });
+  if (Object.isExtensible(window)) window.MathmonScoreboard = api;
+  return api;
 })();
