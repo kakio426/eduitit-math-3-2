@@ -1157,12 +1157,23 @@
   min-height: 0;
   padding: 6px 10px;
   display: grid;
-  grid-template-rows: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) 38px;
   align-items: center;
   justify-items: center;
   border: 3px solid #c99a58;
   border-radius: 17px;
   background: #fffdf5;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-basket-count {
+  align-self: center;
+  color: #3a220d;
+  font-size: 1.42rem;
+  line-height: 1;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .game[data-workbench-type="place-value-farm"] .farm-share-basket-scene {
@@ -1584,6 +1595,7 @@
   .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 28px; height: 54px; }
   .game[data-workbench-type="place-value-farm"] .farm-drag-piece { min-width: 58px; min-height: 58px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 7px; }
-  .game[data-workbench-type="place-value-farm"] .farm-share-basket { padding: 3px 5px; border-radius: 15px; }
+  .game[data-workbench-type="place-value-farm"] .farm-share-basket { grid-template-rows: minmax(0, 1fr) 30px; padding: 3px 5px; border-radius: 15px; }
+  .game[data-workbench-type="place-value-farm"] .farm-share-basket-count { font-size: 1.08rem; }
   .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
 }

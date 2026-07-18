@@ -296,7 +296,10 @@ function createFarmShareBasketPreview(problem, step, previewValue, interactive =
       appendFarmPieces(pieces, step.id, count, 4);
       scene.appendChild(pieces);
     }
-    basket.appendChild(scene);
+    const countLabel = document.createElement("strong");
+    countLabel.className = "farm-share-basket-count";
+    countLabel.textContent = `${count}${step.id === "tens" ? "묶음" : "개"}`;
+    basket.append(scene, countLabel);
     preview.appendChild(basket);
   }
   return preview;
