@@ -592,6 +592,15 @@
           .topic-badge { left: auto; right: var(--stage-inset); }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+    .mathmon-scoreboard,
+    .result-leaderboard-hitbox,
+    .result-rank-button-art,
+    #leaderboardButton,
+    #leaderboardButtonArt,
+    [data-action="leaderboard"] {
+      display: none !important;
+    }
+
     .mathmon-scoreboard {
       --scoreboard-font: "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
       --scoreboard-title-fill: #fff6d1;
@@ -917,6 +926,128 @@
       position: absolute; top: 18px; right: 2.8%; left: 2.8%; z-index: 6; width: auto; min-height: 42px;
       display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 0 var(--sound-reserve) 0 0;
     }
+
+    /* Direct distribution: every visible carrot is dragged into a basket. */
+    .place-value-farm-svg .farm-instruction { font-size: 30px; }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry {
+      grid-template-rows: 176px minmax(0, 1fr) 30px;
+      grid-template-areas:
+        "source"
+        "preview"
+        "feedback";
+      gap: 10px;
+      padding: 12px 14px 8px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source {
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px 18px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source > strong {
+      font-size: 1.45rem;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces {
+      gap: 8px;
+      overflow: visible;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle {
+      width: 72px;
+      height: 70px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single {
+      width: 38px;
+      height: 72px;
+      margin: 0 3px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-drag-piece,
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket {
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-drag-piece:active,
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket:active { cursor: grabbing; }
+
+    .game[data-workbench-type="place-value-farm"] .farm-drag-piece:focus-visible,
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket:focus-visible {
+      outline: 5px solid #1d8050;
+      outline-offset: 3px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-preview {
+      gap: 10px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket {
+      padding: 4px 8px;
+      border-width: 3px;
+      border-radius: 20px;
+      transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-dragging .farm-share-basket {
+      border-color: #2f8253;
+      background: #effbea;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-feedback {
+      min-height: 30px;
+      margin: 0;
+      padding: 2px 6px 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.12rem;
+      line-height: 1.1;
+      font-weight: 1000;
+    }
+
+    .farm-drag-ghost {
+      position: fixed !important;
+      z-index: 99999;
+      width: 86px !important;
+      height: 82px !important;
+      margin: 0 !important;
+      pointer-events: none;
+      transform: translate(-50%, -58%);
+      filter: drop-shadow(0 10px 8px rgb(55 31 9 / 30%));
+    }
+
+    .farm-drag-ghost.farm-produce-piece--single {
+      width: 46px !important;
+      height: 88px !important;
+    }
+
+    @media (max-width: 1100px) {
+      .place-value-farm-svg .farm-instruction { font-size: 27px; }
+
+      .game[data-workbench-type="place-value-farm"] .farm-share-entry {
+        grid-template-rows: 124px minmax(0, 1fr) 25px;
+        gap: 7px;
+        padding: 8px 10px 6px;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .farm-share-source {
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 8px;
+        padding: 7px 10px;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.15rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces { gap: 5px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 54px; height: 54px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 28px; height: 54px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 7px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-basket { padding: 3px 5px; border-radius: 15px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
+    }
     .game[data-workbench-type="place-value-farm"] .progress-line { display: none; }
     .game[data-workbench-type="place-value-farm"] .hud-left {
       grid-column: 1; min-width: 0; display: flex; align-items: center; gap: 8px;
@@ -946,8 +1077,8 @@
     .farm-current-badge span { white-space: nowrap; }
 
     .game[data-workbench-type="place-value-farm"] .problem-grid {
-      position: absolute; top: 68px; right: auto; bottom: 24px; left: 36.3%; z-index: 3;
-      width: 60.9%; min-width: 0; height: auto; margin: 0; display: grid;
+      position: absolute; top: 68px; right: auto; bottom: 24px; left: 30.5%; z-index: 3;
+      width: 66%; min-width: 0; height: auto; margin: 0; display: grid;
       grid-template-columns: minmax(0, 1fr) !important; grid-template-rows: 150px minmax(0, 1fr); grid-template-areas: "problem" "choices"; gap: 12px;
       transition: opacity 220ms ease-out, transform 220ms ease-out;
     }
@@ -1340,6 +1471,117 @@
       from { opacity: 0; transform: translateX(-50%) translateY(-18px) scale(.65); }
       to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
     }
+
+    /* One decision at a time: choose the relationship that makes the whole. */
+    .farm-share-entry {
+      padding: 14px;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 70px minmax(146px, 1fr) 28px;
+      grid-template-areas:
+        "source"
+        "decision"
+        "feedback";
+      gap: 9px;
+      overflow: hidden;
+    }
+    .farm-share-source {
+      grid-area: source;
+      padding: 7px 14px;
+      grid-template-columns: max-content minmax(0, 1fr) 118px;
+      gap: 12px;
+    }
+    .farm-share-source > strong { white-space: nowrap; }
+    .farm-share-source-summary {
+      min-width: 0;
+      color: #684019;
+      font-size: clamp(.9rem, 1.35vw, 1.05rem);
+      line-height: 1.15;
+      font-weight: 1000;
+      text-align: center;
+    }
+    .farm-quantity-token {
+      min-width: 0;
+      min-height: 0;
+      display: inline-grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #321d09;
+      font-size: clamp(.82rem, 1.15vw, .98rem);
+      line-height: 1;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .farm-quantity-token .farm-produce-piece {
+      position: relative;
+      width: 56px;
+      height: 46px;
+      margin: 0;
+      transform: none;
+    }
+    .farm-quantity-token--ones .farm-produce-piece { width: 38px; height: 48px; justify-self: center; }
+    .farm-quantity-token .farm-produce-art { width: 100%; height: 100%; object-fit: contain; }
+    .farm-quantity-token--ones .farm-produce-art { width: auto !important; max-width: 100%; height: 100% !important; max-height: 100%; justify-self: center; }
+    .farm-quantity-token .farm-produce-value { position: absolute; right: 8%; bottom: 5%; left: 8%; z-index: 2; font-size: .78em; text-align: center; }
+    .farm-share-decision { grid-area: decision; min-width: 0; min-height: 0; display: grid; grid-template-rows: 28px minmax(0, 1fr); gap: 6px; }
+    .farm-share-decision-title { margin: 0; color: #245c31; font-size: clamp(.92rem, 1.38vw, 1.08rem); line-height: 1.15; font-weight: 1000; text-align: center; }
+    .farm-share-options { min-width: 0; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .farm-share-option {
+      min-width: 0;
+      min-height: 0;
+      padding: 7px 10px;
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "token title"
+        "token relation";
+      align-items: center;
+      column-gap: 9px;
+      row-gap: 2px;
+      border: 3px solid #c99a58;
+      border-radius: 17px;
+      color: #321d09;
+      background: #fffdf5;
+      box-shadow: 0 4px 0 #b37a3d;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .farm-share-option:active { transform: translateY(2px); box-shadow: 0 2px 0 #b37a3d; }
+    .farm-share-option[data-state="selected"] { border-color: #2f8253; background: #eaf8e9; box-shadow: 0 4px 0 #25663f; }
+    .farm-share-option > .farm-quantity-token { grid-area: token; grid-template-columns: 1fr; font-size: .68rem; }
+    .farm-share-option > .farm-quantity-token .farm-produce-piece { width: 52px; height: 42px; }
+    .farm-share-option > .farm-quantity-token--ones .farm-produce-piece { width: 28px; height: 43px; }
+    .farm-share-option-title { grid-area: title; width: 100%; color: #684019; font-size: clamp(.86rem, 1.3vw, 1.05rem); line-height: 1.1; font-weight: 1000; text-align: left; white-space: nowrap; }
+    .farm-share-option-relation { grid-area: relation; min-width: 0; color: #245c31; font-size: clamp(.76rem, 1.15vw, .94rem); line-height: 1.1; font-weight: 1000; text-align: left; white-space: nowrap; }
+    .farm-share-option-total { color: #245c31; font-variant-numeric: tabular-nums; }
+    .farm-share-feedback { grid-area: feedback; font-size: clamp(.75rem, 1.05vw, .9rem); }
+    .farm-share-entry.is-wrong { border-color: #b71943; }
+    .farm-share-entry.is-wrong .farm-share-option[data-state="selected"] { border-color: #c83a55; background: #fff0f2; box-shadow: 0 4px 0 #a82c48; }
+    .farm-share-entry.is-wrong .farm-share-feedback { color: #b71943; }
+
+    .farm-share-confirmation {
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: minmax(160px, .65fr) minmax(0, 1.35fr);
+      grid-template-rows: minmax(0, 1fr) 28px;
+      gap: 6px 18px;
+      border-color: #3f8f62;
+    }
+    .farm-confirm-one-basket { min-width: 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; place-items: center; gap: 2px; }
+    .farm-confirm-one-basket-art { width: min(190px, 95%); height: min(118px, 100%); object-fit: contain; }
+    .farm-confirm-one-basket > strong { color: #321d09; font-size: clamp(1rem, 1.55vw, 1.25rem); line-height: 1; font-weight: 1000; }
+    .farm-confirm-detail { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; place-items: center; gap: 6px; }
+    .farm-confirm-detail > p { margin: 0; color: #684019; font-size: clamp(.9rem, 1.35vw, 1.1rem); line-height: 1.1; font-weight: 1000; text-align: center; }
+    .farm-confirm-tokens { min-width: 0; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .farm-confirm-tokens .farm-quantity-token { grid-template-columns: 64px minmax(0, 1fr); font-size: clamp(.9rem, 1.3vw, 1.05rem); }
+    .farm-confirm-tokens .farm-quantity-token .farm-produce-piece { width: 64px; height: 52px; }
+    .farm-confirm-tokens .farm-quantity-token--ones .farm-produce-piece { width: 36px; height: 54px; }
+    .farm-confirm-plus { color: #684019; font-size: clamp(1.4rem, 2vw, 1.8rem); line-height: 1; font-weight: 1000; }
+    .farm-confirm-equation { grid-column: auto; color: #245c31; font-size: clamp(.9rem, 1.35vw, 1.1rem); }
+    .farm-confirm-note { grid-column: 1 / -1; align-self: center; margin: 0; color: #245c31; font-size: clamp(.78rem, 1.1vw, .92rem); line-height: 1.1; font-weight: 1000; text-align: center; }
     .farm-stage-art { transition: filter .28s ease, transform .28s ease; }
     .farm-stage-art[data-scene-state="correct"] { filter: saturate(1.18) brightness(1.06); transform: scale(1.008); }
     .farm-stage-art[data-scene-state="wrong"] { filter: saturate(.72) brightness(.86); }
@@ -1350,24 +1592,29 @@
     .game[data-workbench-type="place-value-farm"] .complete-panel {
       position: absolute; right: 0; bottom: 0; left: 0; top: auto; z-index: 6;
       grid-row: 1 / -1; grid-column: 1 / -1; width: 100%; max-width: 100%; min-width: 0; height: 158px; min-height: 0;
-      padding: 18px 28px; place-items: center; grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: 22px;
+      padding: 14px 24px; place-items: center; grid-template-columns: 190px minmax(0, 1fr) minmax(0, 190px); grid-template-rows: minmax(0, 1fr); gap: 16px;
       border: 3px solid #7b4a1f; border-radius: 28px; background: #fff2bf;
       transform: none;
     }
+    .farm-complete-summary { min-width: 0; min-height: 0; height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) 31px; gap: 2px; }
+    .farm-complete-one-basket { min-width: 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; place-items: center; gap: 1px; }
+    .farm-complete-basket-art { width: 118px; height: 74px; object-fit: contain; }
+    .farm-complete-one-basket > strong { color: #684019; font-size: .78rem; line-height: 1; font-weight: 1000; white-space: nowrap; }
+    .farm-complete-relation { min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .farm-complete-relation .farm-quantity-token { grid-template-columns: 48px minmax(0, 1fr); font-size: .8rem; }
+    .farm-complete-relation .farm-quantity-token .farm-produce-piece { width: 48px; height: 40px; }
+    .farm-complete-relation .farm-quantity-token--ones .farm-produce-piece { width: 28px; height: 42px; }
+    .farm-complete-relation .farm-quantity-token--ones .farm-produce-art { width: auto !important; height: 42px !important; }
+    .farm-complete-plus { color: #684019; font-size: 1.4rem; line-height: 1; font-weight: 1000; }
     .game[data-workbench-type="place-value-farm"] .complete-text {
-      min-width: 0; margin: 0; color: #2c1b0a; font-size: clamp(1.65rem, 2.6vw, 2.2rem); line-height: 1.18;
+      min-width: 0; margin: 0; color: #2c1b0a; font-size: clamp(1.35rem, 2.2vw, 1.9rem); line-height: 1.12;
       font-variant-numeric: tabular-nums; white-space: pre-line; text-align: center;
     }
     .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button {
       width: 100%; min-height: 66px; color: #2c1b0a; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
     }
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .step-board { visibility: hidden; pointer-events: none; }
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { opacity: 1; pointer-events: none; }
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-share-confirmation {
-      padding-bottom: 176px; align-items: start;
-    }
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-confirm-basket { height: 190px; }
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-confirm-basket strong { margin: 0; }
+    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { visibility: hidden; opacity: 0; pointer-events: none; }
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .problem-card { visibility: visible; }
     .game[data-workbench-type="place-value-farm"] #screen-reward .top-row,
     .game[data-workbench-type="place-value-farm"] #screen-result .top-row { display: none; }
@@ -1497,6 +1744,8 @@
     .farm-tutorial-source-pieces { min-width: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1px; }
     .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 48px; height: 42px; }
     .farm-tutorial-source-pieces .farm-produce-piece--single { width: 27px; height: 48px; margin: 0 2px; }
+    .farm-tutorial-source-pieces .farm-produce-art,
+    .farm-tutorial-proof-pieces .farm-produce-art { min-width: 0; min-height: 0; }
     .farm-tutorial-expression { min-width: 0; display: grid; place-items: center; gap: 7px; text-align: center; }
     .farm-tutorial-expression strong { color: #3b230b; font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1; font-weight: 1000; white-space: nowrap; }
     .farm-tutorial-expression span {
@@ -1512,7 +1761,9 @@
     .farm-tutorial-proof-pieces {
       min-width: 0; height: 56px; display: flex; align-items: center; justify-content: center; gap: 2px; overflow: visible;
     }
-    .farm-tutorial-proof-pieces .farm-produce-piece { position: relative; flex: 0 0 auto; margin: 0; transform: none; }
+    .farm-tutorial-proof-pieces .farm-produce-piece { position: relative; inset: auto; left: auto; right: auto; flex: 0 0 auto; margin: 0; transform: none; }
+    .farm-tutorial-proof-pieces[data-bundle-count] .farm-produce-piece--bundle[data-kind-slot],
+    .farm-tutorial-proof-pieces[data-single-count] .farm-produce-piece--single[data-kind-slot] { inset: auto; left: auto; right: auto; top: auto; bottom: auto; }
     .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 62px; height: 48px; }
     .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 48px; }
     .farm-tutorial-result-proof > strong {
@@ -1536,7 +1787,7 @@
       .farm-current-badge { min-width: 104px; height: 44px; padding-right: 10px; font-size: .82rem; }
       .farm-current-badge img { width: 36px; height: 36px; flex-basis: 36px; }
       .game[data-workbench-type="place-value-farm"] .problem-grid {
-        top: 32px; right: auto; bottom: 12px; left: 35%; width: 63%;
+        top: 32px; right: auto; bottom: 12px; left: 29%; width: 67%;
         grid-template-rows: 116px minmax(0, 1fr); gap: 8px;
       }
       .game[data-workbench-type="place-value-farm"] .complete-panel {
@@ -1616,6 +1867,51 @@
       .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton { width: min(240px, 70%); height: 54px; font-size: 1.35rem; }
     }
 
+    @media (max-width: 1100px) {
+      .farm-share-entry {
+        padding: 9px;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: 58px minmax(128px, 1fr) 24px;
+        gap: 6px;
+      }
+      .farm-share-source { padding: 5px 9px; grid-template-columns: max-content minmax(0, 1fr) 92px; gap: 7px; }
+      .farm-share-source-summary { font-size: .78rem; }
+      .farm-quantity-token { grid-template-columns: 44px minmax(0, 1fr); font-size: .72rem; }
+      .farm-quantity-token .farm-produce-piece { width: 44px; height: 36px; }
+      .farm-quantity-token--ones .farm-produce-piece { width: 29px; height: 38px; }
+      .farm-share-decision { grid-template-rows: 23px minmax(0, 1fr); gap: 4px; }
+      .farm-share-decision-title { font-size: .78rem; }
+      .farm-share-options { gap: 6px; }
+      .farm-share-option { min-height: 0; padding: 5px 7px; grid-template-columns: 50px minmax(0, 1fr); column-gap: 6px; border-width: 2px; border-radius: 12px; }
+      .farm-share-option > .farm-quantity-token .farm-produce-piece { width: 39px; height: 32px; }
+      .farm-share-option > .farm-quantity-token--ones .farm-produce-piece { width: 22px; height: 33px; }
+      .farm-share-option-title { font-size: .76rem; }
+      .farm-share-option-relation { font-size: .67rem; }
+      .farm-share-feedback { font-size: .66rem; }
+      .farm-share-confirmation { padding: 9px 11px; grid-template-columns: minmax(130px, .65fr) minmax(0, 1.35fr); gap: 4px 10px; }
+      .farm-confirm-one-basket-art { width: min(150px, 95%); height: 92px; }
+      .farm-confirm-one-basket > strong { font-size: .84rem; }
+      .farm-confirm-detail > p { font-size: .78rem; }
+      .farm-confirm-tokens { gap: 6px; }
+      .farm-confirm-tokens .farm-quantity-token { grid-template-columns: 48px minmax(0, 1fr); font-size: .74rem; }
+      .farm-confirm-tokens .farm-quantity-token .farm-produce-piece { width: 48px; height: 40px; }
+      .farm-confirm-tokens .farm-quantity-token--ones .farm-produce-piece { width: 28px; height: 42px; }
+      .farm-confirm-equation { font-size: .78rem; }
+      .farm-confirm-note { font-size: .67rem; }
+      .game[data-workbench-type="place-value-farm"] .complete-panel { grid-template-columns: 150px minmax(0, 1fr) 170px; height: 142px; padding: 10px 14px; gap: 8px; }
+      .farm-complete-summary { grid-template-rows: minmax(0, 1fr) 27px; }
+      .farm-complete-basket-art { width: 98px; height: 61px; }
+      .farm-complete-one-basket > strong { font-size: .72rem; }
+      .farm-complete-relation { gap: 4px; }
+      .farm-complete-relation .farm-quantity-token { grid-template-columns: 38px minmax(0, 1fr); font-size: .65rem; }
+      .farm-complete-relation .farm-quantity-token .farm-produce-piece { width: 38px; height: 31px; }
+      .farm-complete-relation .farm-quantity-token--ones .farm-produce-piece { width: 22px; height: 33px; }
+      .farm-complete-relation .farm-quantity-token--ones .farm-produce-art { width: auto !important; height: 33px !important; }
+      .farm-complete-plus { font-size: 1rem; }
+      .game[data-workbench-type="place-value-farm"] .complete-text { font-size: clamp(1.1rem, 2vw, 1.5rem); }
+      .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button { min-height: 54px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .game[data-workbench-type="place-value-farm"] .problem-grid,
       .game[data-workbench-type="place-value-farm"] .choices-panel { transition-duration: .001ms; }
@@ -1628,10 +1924,594 @@
       .farm-reward-story[data-phase="revealed"] .farm-reward-before { opacity: 0; transform: none; }
       .farm-reward-story[data-phase="revealed"] .farm-reward-after { opacity: 1; transform: none; }
     }
+
+    /* 2026-07 staged division flow: one large decision, then visible equal groups. */
+    .game[data-workbench-type="place-value-farm"] .problem-grid {
+      top: 72px;
+      right: 4%;
+      bottom: 18px;
+      left: 12%;
+      width: 84%;
+      grid-template-rows: 146px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .problem-card {
+      min-height: 0;
+      height: 146px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .visual-area {
+      width: 100%;
+      height: 100%;
+    }
+
+    .place-value-farm-svg {
+      width: 100%;
+      height: 100%;
+      max-height: 146px;
+      overflow: visible;
+    }
+
+    .place-value-farm-svg .farm-board-bg {
+      fill: #fff8df;
+      fill-opacity: .98;
+      stroke: #7b4a1f;
+      stroke-width: 6;
+    }
+
+    .place-value-farm-svg .farm-step-box {
+      fill: #effbe9;
+      stroke: #3f8055;
+    }
+
+    .place-value-farm-svg .farm-problem {
+      fill: #321d09;
+      font-size: 58px;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .place-value-farm-svg .farm-step-expression {
+      fill: #214f30;
+      font-size: 42px;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .place-value-farm-svg .farm-instruction {
+      fill: #245c31;
+      font-size: 25px;
+      font-weight: 1000;
+    }
+
+    .place-value-farm-svg .farm-reason { display: none; }
+
+    .game[data-workbench-type="place-value-farm"] .choices-panel {
+      min-height: 0;
+      padding: 0;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      padding: 12px 14px 10px;
+      display: grid;
+      grid-template-rows: 64px 170px minmax(112px, 1fr) auto;
+      grid-template-areas:
+        "source"
+        "preview"
+        "decision"
+        "feedback";
+      gap: 8px;
+      overflow: hidden;
+      border: 4px solid #a56a28;
+      border-radius: 28px;
+      color: #34210e;
+      background: #fff4c6;
+      box-shadow: 0 8px 0 #79502b;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source {
+      grid-area: source;
+      min-width: 0;
+      min-height: 0;
+      padding: 5px 12px;
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      border: 3px solid #c99a58;
+      border-radius: 18px;
+      background: #fffdf5;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source > strong {
+      color: #321d09;
+      font-size: 1.25rem;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle {
+      width: 52px;
+      height: 48px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single {
+      width: 25px;
+      height: 45px;
+      margin: 0 2px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece[data-kind-slot] {
+      inset: auto;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      transform: none;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-preview {
+      grid-area: preview;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(var(--basket-count), minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket {
+      min-width: 0;
+      min-height: 0;
+      padding: 6px 10px;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr);
+      align-items: center;
+      justify-items: center;
+      border: 3px solid #c99a58;
+      border-radius: 17px;
+      background: #fffdf5;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-art {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces {
+      position: absolute;
+      inset: 4% 8% 33%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces .farm-produce-piece {
+      position: absolute;
+      width: 46%;
+      height: 72%;
+      margin: 0;
+      transform: translateX(-50%);
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces .farm-produce-piece--single {
+      width: 26%;
+      height: 94%;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="1"] .farm-produce-piece[data-slot="0"] { left: 50%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="2"] .farm-produce-piece[data-slot="0"] { left: 38%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="2"] .farm-produce-piece[data-slot="1"] { left: 62%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="3"] .farm-produce-piece[data-slot="0"] { left: 29%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="3"] .farm-produce-piece[data-slot="1"] { left: 50%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="3"] .farm-produce-piece[data-slot="2"] { left: 71%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="0"] { left: 38%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="1"] { left: 62%; bottom: 0; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="2"] { left: 38%; bottom: 24%; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket-pieces[data-count="4"] .farm-produce-piece[data-slot="3"] { left: 62%; bottom: 24%; }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-decision {
+      grid-area: decision;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 30px minmax(0, 1fr);
+      gap: 6px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-decision-title {
+      margin: 0;
+      color: #245c31;
+      font-size: 1.25rem;
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-options {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option {
+      min-width: 0;
+      min-height: 112px;
+      padding: 10px 18px;
+      display: grid;
+      grid-template-columns: minmax(76px, .8fr) minmax(0, 1.2fr);
+      grid-template-rows: minmax(0, 1fr);
+      grid-template-areas:
+        "picture count";
+      align-items: center;
+      justify-items: center;
+      column-gap: 18px;
+      border: 3px solid #c99a58;
+      border-radius: 18px;
+      color: #321d09;
+      background: #fffdf5;
+      box-shadow: 0 5px 0 #b37a3d;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #b37a3d;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option[data-state="selected"] {
+      border-color: #2f8253;
+      background: #eaf8e9;
+      box-shadow: 0 5px 0 #25663f;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option-picture {
+      grid-area: picture;
+      position: relative;
+      width: 78px;
+      height: 70px;
+      margin: 0;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option-picture.farm-produce-piece--single {
+      width: 42px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option-picture .farm-produce-art {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option-picture .farm-produce-value {
+      font-size: 1rem;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-option-count {
+      grid-area: count;
+      width: 100%;
+      color: #321d09;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-feedback {
+      grid-area: feedback;
+      align-self: center;
+      margin: 0;
+      color: #245c31;
+      font-size: 1rem;
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-wrong {
+      border-color: #b71943;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-wrong .farm-share-option[data-state="selected"] {
+      border-color: #c83a55;
+      background: #fff0f2;
+      box-shadow: 0 5px 0 #a82c48;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-wrong .farm-share-feedback {
+      color: #b71943;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-share-confirmation {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      padding: 12px 14px 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 30px minmax(0, 1fr) 34px 28px;
+      grid-template-areas:
+        "title"
+        "baskets"
+        "equation"
+        "note";
+      gap: 6px;
+      overflow: hidden;
+      border: 4px solid #3f8f62;
+      border-radius: 28px;
+      background: #effbea;
+      box-shadow: 0 8px 0 #286c45;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-title,
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-note {
+      margin: 0;
+      color: #245c31;
+      font-size: 1.1rem;
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-title { grid-area: title; }
+
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-baskets {
+      grid-area: baskets;
+      width: 100%;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-baskets .farm-share-basket {
+      border-color: #8bc59c;
+      background: #ffffff;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-equation {
+      grid-area: equation;
+      align-self: center;
+      color: #245c31;
+      font-size: 1.45rem;
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-confirm-note { grid-area: note; }
+
+    .game[data-workbench-type="place-value-farm"] .complete-panel {
+      height: 176px;
+      padding: 14px 24px;
+      grid-template-columns: 220px minmax(0, 1fr) 220px;
+      gap: 18px;
+      border: 4px solid #7b4a1f;
+      border-radius: 28px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .complete-text {
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button {
+      min-height: 76px;
+      font-size: 1.35rem;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete ~ .play-mathmon-reaction {
+      display: none !important;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .play-mathmon-reaction {
+      left: 20px;
+      bottom: 18px;
+      width: 132px;
+      height: 166px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide {
+      top: 78px;
+      right: 11%;
+      bottom: 124px;
+      left: 11%;
+      padding: 20px 28px;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 12px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide h3 {
+      font-size: 2.5rem;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+      grid-template-columns: 44px minmax(190px, 1fr) minmax(190px, .9fr) minmax(190px, .9fr);
+      gap: 16px;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong {
+      font-size: 1.6rem;
+    }
+
+    .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span {
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 1100px) {
+      .game[data-workbench-type="place-value-farm"] .problem-grid {
+        top: 66px;
+        right: 3%;
+        bottom: 14px;
+        left: 6%;
+        width: 91%;
+        grid-template-rows: 132px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .problem-card,
+      .place-value-farm-svg {
+        height: 132px;
+        max-height: 132px;
+      }
+
+      .place-value-farm-svg .farm-problem { font-size: 50px; }
+      .place-value-farm-svg .farm-step-expression { font-size: 38px; }
+      .place-value-farm-svg .farm-instruction { font-size: 24px; }
+
+      .game[data-workbench-type="place-value-farm"] .farm-share-entry {
+        grid-template-rows: 48px 112px minmax(112px, 1fr) auto;
+        gap: 6px;
+        padding: 7px 10px 8px;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .farm-share-source {
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 8px;
+        padding: 4px 8px;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.05rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 40px; height: 39px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 20px; height: 37px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-basket { grid-template-rows: minmax(0, 1fr); padding: 4px 7px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-decision { grid-template-rows: 24px minmax(0, 1fr); gap: 4px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-decision-title { font-size: 1rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-options { gap: 7px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-option { min-height: 84px; padding: 6px 12px; grid-template-columns: minmax(54px, .8fr) minmax(0, 1.2fr); column-gap: 10px; border-width: 2px; border-radius: 13px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-option-picture { width: 58px; height: 54px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-option-picture.farm-produce-piece--single { width: 30px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-option-picture .farm-produce-value { font-size: .8rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-option-count { font-size: 1.55rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-feedback { font-size: .82rem; line-height: 1.1; padding: 2px 4px 0; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-confirmation { grid-template-rows: 24px minmax(0, 1fr) 28px 22px; padding: 8px 10px 7px; gap: 4px; }
+      .game[data-workbench-type="place-value-farm"] .farm-confirm-title,
+      .game[data-workbench-type="place-value-farm"] .farm-confirm-note { font-size: .86rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-confirm-equation { font-size: 1.1rem; }
+      .game[data-workbench-type="place-value-farm"] .complete-panel { height: 150px; padding: 10px 14px; grid-template-columns: 160px minmax(0, 1fr) 170px; gap: 8px; }
+      .game[data-workbench-type="place-value-farm"] .complete-text { font-size: 1.45rem; }
+      .game[data-workbench-type="place-value-farm"] .complete-panel .primary-button { min-height: 58px; font-size: 1.1rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { top: 68px; right: 8%; bottom: 110px; left: 8%; padding: 14px 20px; gap: 8px; }
+      .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide h3 { font-size: 2rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-tutorial-step { grid-template-columns: 36px minmax(150px, 1fr) minmax(150px, .8fr) minmax(150px, .8fr); gap: 9px; }
+      .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.2rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: .86rem; }
+    }
+
+    /* Final direct-distribution overrides. */
+    .place-value-farm-svg .farm-instruction { font-size: 30px; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry {
+      grid-template-rows: 176px minmax(0, 1fr) 30px;
+      grid-template-areas: "source" "preview" "feedback";
+      gap: 10px;
+      padding: 12px 14px 8px;
+    }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source {
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px 18px;
+    }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.45rem; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces { gap: 8px; overflow: visible; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 72px; height: 70px; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 38px; height: 72px; margin: 0 3px; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 10px; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket {
+      padding: 4px 8px;
+      border-width: 3px;
+      border-radius: 20px;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+    }
+    .game[data-workbench-type="place-value-farm"] .farm-drag-piece {
+      min-width: 56px;
+      min-height: 56px;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+    .game[data-workbench-type="place-value-farm"] .farm-drag-piece:active,
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket:active { cursor: grabbing; }
+    .game[data-workbench-type="place-value-farm"] .farm-drag-piece:focus-visible,
+    .game[data-workbench-type="place-value-farm"] .farm-share-basket:focus-visible { outline: 5px solid #1d8050; outline-offset: 3px; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-dragging .farm-share-basket { border-color: #2f8253; background: #effbea; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-feedback {
+      min-height: 30px;
+      margin: 0;
+      padding: 2px 6px 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.12rem;
+      line-height: 1.1;
+      font-weight: 1000;
+    }
+    .farm-drag-ghost {
+      position: fixed !important;
+      z-index: 99999;
+      width: 86px !important;
+      height: 82px !important;
+      margin: 0 !important;
+      pointer-events: none;
+      transform: translate(-50%, -58%);
+      filter: drop-shadow(0 10px 8px rgb(55 31 9 / 30%));
+    }
+    .farm-drag-ghost.farm-produce-piece--single { width: 46px !important; height: 88px !important; }
+
+    @media (max-width: 1100px) {
+      .place-value-farm-svg .farm-instruction { font-size: 27px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-entry {
+        grid-template-rows: 124px minmax(0, 1fr) 25px;
+        grid-template-areas: "source" "preview" "feedback";
+        gap: 7px;
+        padding: 8px 10px 6px;
+      }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source { grid-template-columns: 104px minmax(0, 1fr); gap: 8px; padding: 7px 10px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.15rem; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces { gap: 5px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 54px; height: 54px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 28px; height: 54px; }
+      .game[data-workbench-type="place-value-farm"] .farm-drag-piece { min-width: 58px; min-height: 58px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 7px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-basket { padding: 3px 5px; border-radius: 15px; }
+      .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
+    }
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="place-value-farm" data-scoreboard-enabled="true">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="place-value-farm" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1666,7 +2546,7 @@
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">농장에 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>왜 두 번 나눌까요?</strong><p>10개 묶음과 낱개를 차례로 나눠요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>농장은 어디까지 자랄까요?</strong><p>10문제를 풀고 농장을 키워요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">농장에 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>똑같이 나눠요</strong><p>묶음과 낱개를 차례로 나눠요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>농장은 어디까지 자랄까요?</strong><p>10문제를 풀고 농장을 키워요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
         <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="농장 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">씨앗</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div></header>
@@ -1697,7 +2577,7 @@
     </div>
   </main>
   <script>
-    (function () {
+    const MathmonScoreboard = (function () {
       const SVG_NS = "http://www.w3.org/2000/svg";
       const ROW_Y = [422, 476, 530, 584];
       const ROW_HEIGHT = 48;
@@ -2181,6 +3061,19 @@
       }
 
       function createApiBridge(options) {
+        // Product policy: ranking stays hidden and must not contact the API until
+        // the owner explicitly changes the plan and removes this guard.
+        const disabledBridge = Object.freeze({
+          reset: () => null,
+          start: () => null,
+          open: () => null,
+          refresh: () => null,
+          render: () => null,
+          getSession: () => null,
+          getSessionPromise: () => null
+        });
+        if (window.MATHMON_SCOREBOARD_DISABLED !== false) return disabledBridge;
+
         const root = mount(options.root);
         const state = {
           session: null,
@@ -2354,10 +3247,12 @@
         });
       }
 
-      window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
+      const api = Object.freeze({ mount, render, createApiBridge });
+      if (Object.isExtensible(window)) window.MathmonScoreboard = api;
+      return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"똑같이 나눠 농장을 키워요.","action":"한 바구니에 몇 개씩인지 써요.","buttonLabel":"수확 보기","rewardScreenTitle":"농장이 자라요","progressLabel":"농장 힘","rewardComplete":"바구니를 열어 봐요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"왜 두 번 나눌까요?","body":"10개 묶음과 낱개를 차례로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"농장은 어디까지 자랄까요?","body":"10문제를 풀고 농장을 키워요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"farm-growth-v2","maxPower":100,"unitLabel":"농장 힘","closedLabel":"바구니 열기","nextLabel":"다음","stageImages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"artMap":{"harvest":"reward-event-harvest-generated.webp","bug":"reward-event-bug-generated.webp","big":"reward-event-big-generated.webp","gold":"reward-event-gold-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showPower":false,"nextTitleMap":{"seed":"result-next-seed-generated.webp","sprout":"result-next-sprout-generated.webp","garden":"result-next-garden-generated.webp","farm":"result-next-farm-generated.webp","bigfarm":"result-next-bigfarm-generated.webp","rainbow":"result-next-rainbow-generated.webp"},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-v3-contact-sheet.png","protagonist":"farm-growth","protagonistKind":"reward","fixedGeneratedElements":["farm-scene","result-title","next-target-title","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":true,"title":"전국 수확 순위","resultKind":"score","scoreLabel":"내 농장 힘","listTitle":"농장 순위","unit":"3학년 2학기 2단원 1차시"},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":15,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":35,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":55,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":78,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"일반 수확","weight":6400,"min":6,"max":10,"family":"harvest","rarity":"common"},{"id":"bug","text":"벌레가 먹었어요","weight":1500,"min":-5,"max":-2,"family":"bug","rarity":"common"},{"id":"big","text":"대풍작","weight":1200,"min":14,"max":22,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근","weight":500,"min":10,"max":10,"family":"gold","rarity":"rare"},{"id":"empty","text":"빈 바구니","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"황금밭","weight":20,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bugMistake","text":"벌레가 먹었어요","min":-8,"max":-4,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"farmBasket":"farm-basket-empty-generated.webp","farmBundleTen":"farm-bundle-ten-generated.webp","farmCarrotSingle":"farm-carrot-single-generated.webp","farmStages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-stage-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","farm-board-generated.webp","reward-stage-generated.webp","reward-closed-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","farm-basket-empty-generated.webp","farm-bundle-ten-generated.webp","farm-carrot-single-generated.webp","farm-stage-seed-generated.webp","farm-stage-sprout-generated.webp","farm-stage-garden-generated.webp","farm-stage-farm-generated.webp","farm-stage-bigfarm-generated.webp","farm-stage-rainbow-generated.webp","reward-event-harvest-generated.webp","reward-event-bug-generated.webp","reward-event-big-generated.webp","reward-event-gold-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp","result-next-seed-generated.webp","result-next-sprout-generated.webp","result-next-garden-generated.webp","result-next-farm-generated.webp","result-next-bigfarm-generated.webp","result-next-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-compact","width":918,"height":897}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result","scoreboard"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"똑같이 나눠 농장을 키워요.","action":"당근을 바구니에 똑같이 나눠 담아요.","buttonLabel":"수확 보기","rewardScreenTitle":"농장이 자라요","progressLabel":"농장 힘","rewardComplete":"바구니를 열어 봐요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"똑같이 나눠요","body":"묶음과 낱개를 차례로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"농장은 어디까지 자랄까요?","body":"10문제를 풀고 농장을 키워요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"farm-growth-v2","maxPower":100,"unitLabel":"농장 힘","closedLabel":"바구니 열기","nextLabel":"다음","stageImages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"artMap":{"harvest":"reward-event-harvest-generated.webp","bug":"reward-event-bug-generated.webp","big":"reward-event-big-generated.webp","gold":"reward-event-gold-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showPower":false,"nextTitleMap":{"seed":"result-next-seed-generated.webp","sprout":"result-next-sprout-generated.webp","garden":"result-next-garden-generated.webp","farm":"result-next-farm-generated.webp","bigfarm":"result-next-bigfarm-generated.webp","rainbow":"result-next-rainbow-generated.webp"},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-v3-contact-sheet.png","protagonist":"farm-growth","protagonistKind":"reward","fixedGeneratedElements":["farm-scene","result-title","next-target-title","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":false,"title":"전국 수확 순위","resultKind":"score","scoreLabel":"내 농장 힘","listTitle":"농장 순위","unit":"3학년 2학기 2단원 1차시"},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":15,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":35,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":55,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":78,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"일반 수확","weight":6400,"min":6,"max":10,"family":"harvest","rarity":"common"},{"id":"bug","text":"벌레가 먹었어요","weight":1500,"min":-5,"max":-2,"family":"bug","rarity":"common"},{"id":"big","text":"대풍작","weight":1200,"min":14,"max":22,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근","weight":500,"min":10,"max":10,"family":"gold","rarity":"rare"},{"id":"empty","text":"빈 바구니","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"황금밭","weight":20,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bugMistake","text":"벌레가 먹었어요","min":-8,"max":-4,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"farmBasket":"farm-basket-empty-generated.webp","farmBasketBundles":{"1":"farm-basket-bundles-1-generated.webp","2":"farm-basket-bundles-2-generated.webp","3":"farm-basket-bundles-3-generated.webp","4":"farm-basket-bundles-4-generated.webp"},"farmBundleTen":"farm-bundle-ten-generated.webp","farmCarrotSingle":"farm-carrot-single-generated.webp","farmStages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-stage-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","farm-board-generated.webp","reward-stage-generated.webp","reward-closed-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","farm-basket-empty-generated.webp","farm-basket-bundles-1-generated.webp","farm-basket-bundles-2-generated.webp","farm-basket-bundles-3-generated.webp","farm-basket-bundles-4-generated.webp","farm-bundle-ten-generated.webp","farm-carrot-single-generated.webp","farm-stage-seed-generated.webp","farm-stage-sprout-generated.webp","farm-stage-garden-generated.webp","farm-stage-farm-generated.webp","farm-stage-bigfarm-generated.webp","farm-stage-rainbow-generated.webp","reward-event-harvest-generated.webp","reward-event-bug-generated.webp","reward-event-big-generated.webp","reward-event-gold-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp","result-next-seed-generated.webp","result-next-sprout-generated.webp","result-next-garden-generated.webp","result-next-farm-generated.webp","result-next-bigfarm-generated.webp","result-next-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-compact","width":918,"height":897}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2DivideFarmModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2397,16 +3292,39 @@
         return { id, value, label, misconceptionId, feedback };
       }
 
-      function makeNumberEntryChoices(answer, misconceptionId = "DIV1_QUOTIENT_COUNT_ERROR") {
-        return Array.from({ length: 99 }, (_, offset) => {
-          const value = offset + 1;
-          return choice(
-            `value:${value}`,
-            value,
-            String(value),
-            value === answer ? null : misconceptionId,
-            value === answer ? "" : "한 바구니를 다시 세어 봐요."
-          );
+      function makeShareOptionSet(answer, unitValue, totalUnits, divisor, unitName, misconceptionId) {
+        const answerUnits = answer / unitValue;
+        const candidateUnits = [answerUnits - 1, answerUnits, answerUnits + 1]
+          .filter((units) => units >= 0)
+          .filter((units, index, list) => list.indexOf(units) === index);
+
+        while (candidateUnits.length < 3) {
+          const next = candidateUnits[candidateUnits.length - 1] + 1;
+          if (!candidateUnits.includes(next)) candidateUnits.push(next);
+        }
+
+        return candidateUnits.map((units) => {
+          const value = units * unitValue;
+          const difference = Math.abs(totalUnits - (units * divisor));
+          let feedback = "";
+          if (value !== answer) {
+            feedback = difference > 0
+                  ? `${difference}${unitName}${units * divisor < totalUnits ? "이 남아요." : "이 넘쳐요."}`
+                  : "바구니마다 같은 양이어야 해요.";
+          }
+          return {
+            ...choice(
+              `value:${value}`,
+              value,
+              `${value}개씩`,
+              value === answer ? null : misconceptionId,
+              feedback
+            ),
+            units,
+            unitName,
+            totalUnits,
+            divisor,
+          };
         });
       }
 
@@ -2457,7 +3375,7 @@
               totalValue: tensValue,
               unitCount: tens,
               unitValue: 10,
-              choices: makeNumberEntryChoices(tensShare, "DIV1_TENS_SHARE_ERROR"),
+              choices: makeShareOptionSet(tensShare, 10, tens, divisor, "묶음", "DIV1_TENS_SHARE_ERROR"),
               correctText: `바구니마다 ${tensShare}개씩`,
               reveal: `${tensShare}개`,
               advance: { mode: "timed", delayMs: 1450 }
@@ -2473,23 +3391,10 @@
               totalValue: ones,
               unitCount: ones,
               unitValue: 1,
-              choices: makeNumberEntryChoices(onesQuotient, "DIV1_ONES_SHARE_ERROR"),
+              choices: makeShareOptionSet(onesQuotient, 1, ones, divisor, "개", "DIV1_ONES_SHARE_ERROR"),
               correctText: `바구니마다 낱개 ${onesQuotient}개씩`,
               reveal: `${onesQuotient}개`,
               advance: { mode: "timed", delayMs: 1450 }
-            },
-            {
-              id: "quotient",
-              label: "몫 쓰기",
-              interaction: "enter-quotient",
-              instruction: "두 수를 합쳐 몫을 써요.",
-              reason: "한 바구니에 담긴 전체 수예요.",
-              answer: quotient,
-              answerChoiceId: `value:${quotient}`,
-              choices: makeNumberEntryChoices(quotient),
-              correctText: `${dividend} ÷ ${divisor} = ${quotient}`,
-              reveal: `${quotient}`,
-              advance: { mode: "complete" }
             }
           ]
         };
@@ -3323,7 +4228,7 @@
     }
 
     function isScoreboardEnabled() {
-      return LESSON_CONFIG.scoreboard?.enabled === true && Boolean(ui.scoreboardScreen);
+      return false;
     }
 
     function startGame() {
@@ -3439,8 +4344,8 @@
     }
 
     function createScoreboardBridge() {
-      if (!isScoreboardEnabled() || !window.MathmonScoreboard?.createApiBridge) return null;
-      return window.MathmonScoreboard.createApiBridge({
+      if (!isScoreboardEnabled() || !MathmonScoreboard?.createApiBridge) return null;
+      return MathmonScoreboard.createApiBridge({
         root: ui.scoreboardScreen,
         apiUrl: getScoreboardApiUrl(),
         lessonId: LESSON_CONFIG.folder,
@@ -3636,18 +4541,18 @@
       guide.className = "farm-tutorial-guide";
 
       const heading = document.createElement("h3");
-      heading.textContent = "48 ÷ 4를 풀어 봐요";
+      heading.textContent = "똑같이 나누면 나눗셈";
 
       const steps = document.createElement("div");
       steps.className = "farm-tutorial-steps";
       steps.append(
-        createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "10개 묶음 4개를 똑같이 나눠요"),
-        createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "낱개 8개를 똑같이 나눠요")
+        createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "한 바구니에 10개씩"),
+        createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "한 바구니에 2개씩")
       );
 
       const sum = document.createElement("p");
       sum.className = "farm-tutorial-sum";
-      sum.textContent = "한 바구니에는 10 + 2 = 12개";
+      sum.textContent = "한 바구니에 10 + 2 = 12개";
 
       guide.append(heading, steps, sum);
       firstCard.appendChild(guide);
@@ -3718,7 +4623,7 @@
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setFarmFlowPhase("active");
-          ui.choices.querySelector(".farm-key")?.focus({ preventScroll: true });
+          ui.choices.querySelector(".farm-drag-piece")?.focus({ preventScroll: true });
         });
       });
     }
@@ -3731,31 +4636,13 @@
           step,
           state,
           choose,
-          input: "",
           locked: false,
           wrongMessage: "",
-          previewValue: null,
+          basketUnits: Array(problem.divisor).fill(0),
         };
-        ui.choices.dataset.interaction = "enter-share";
+        ui.choices.dataset.interaction = "share-drag-distribution";
         ui.choices.dataset.choiceKind = step.id;
         renderFarmShareEntry();
-        return true;
-      }
-
-      if (step.interaction === "enter-quotient") {
-        farmInteractionState = {
-          type: "quotient",
-          problem,
-          step,
-          state,
-          choose,
-          input: "",
-          locked: false,
-          wrongMessage: "",
-        };
-        ui.choices.dataset.interaction = "enter-quotient";
-        ui.choices.dataset.choiceKind = step.id;
-        renderFarmQuotientEntry();
         return true;
       }
 
@@ -3765,23 +4652,10 @@
     function renderAttempt(problem, step, selected, state, result) {
       if (result.correct || !farmInteractionState) return;
       if (farmInteractionState.type === "share") {
-        const chosenShare = Number(selected?.value || farmInteractionState.input || 0);
-        const used = chosenShare * problem.divisor;
-        farmInteractionState.previewValue = chosenShare;
-        if (step.id === "tens" && chosenShare % 10 !== 0) {
-          farmInteractionState.wrongMessage = "10개 묶음으로 나눠요.";
-        } else if (used < step.totalValue) {
-          farmInteractionState.wrongMessage = `${step.totalValue - used}개가 남아요.`;
-        } else if (used > step.totalValue) {
-          farmInteractionState.wrongMessage = `${used - step.totalValue}개가 부족해요.`;
-        } else {
-          farmInteractionState.wrongMessage = "한 바구니의 수를 다시 봐요.";
-        }
+        farmInteractionState.wrongMessage = "바구니를 똑같이 만들어요.";
         renderFarmShareEntry();
         return;
       }
-      farmInteractionState.wrongMessage = "10개 묶음과 낱개를 다시 더해요.";
-      renderFarmQuotientEntry();
     }
 
     function revealCorrectStep(problem, step, state) {
@@ -3794,86 +4668,161 @@
 
     function renderFarmShareEntry() {
       if (!farmInteractionState || farmInteractionState.type !== "share") return;
-      const { problem, step, input, locked, wrongMessage, previewValue } = farmInteractionState;
+      const { problem, step, locked, wrongMessage, basketUnits } = farmInteractionState;
+      const placedUnits = basketUnits.reduce((sum, count) => sum + count, 0);
+      const sourceRemaining = Math.max(0, step.unitCount - placedUnits);
       const entry = document.createElement("div");
       entry.className = `farm-share-entry ${wrongMessage ? "is-wrong" : ""}`;
 
-      const work = document.createElement("section");
-      work.className = "farm-share-work";
-
-      const source = document.createElement("div");
+      const source = document.createElement("section");
       source.className = "farm-share-source";
       const sourceLabel = document.createElement("strong");
       sourceLabel.textContent = `전체 ${step.totalValue}개`;
       const sourcePieces = document.createElement("div");
       sourcePieces.className = "farm-share-source-pieces";
-      for (let index = 0; index < step.unitCount; index += 1) sourcePieces.appendChild(createFarmProducePiece(step.id));
+      for (let index = 0; index < sourceRemaining; index += 1) {
+        const piece = createFarmProducePiece(step.id);
+        piece.classList.add("farm-drag-piece");
+        piece.tabIndex = locked ? -1 : 0;
+        piece.setAttribute("role", "button");
+        piece.setAttribute("aria-label", `${step.id === "tens" ? "당근 10개 묶음" : "당근 한 개"}을 바구니로 옮기기`);
+        piece.addEventListener("pointerdown", (event) => beginFarmPieceDrag(event, { type: "source" }));
+        sourcePieces.appendChild(piece);
+      }
       source.append(sourceLabel, sourcePieces);
 
-      const reason = document.createElement("p");
-      reason.className = "farm-step-reason";
-      reason.textContent = step.reason;
-
-      const basketGrid = document.createElement("div");
-      basketGrid.className = "farm-share-baskets";
-      basketGrid.style.setProperty("--basket-count", String(problem.divisor));
-      for (let index = 0; index < problem.divisor; index += 1) {
-        basketGrid.appendChild(createFarmAnswerBasket(step, index, previewValue, Boolean(wrongMessage)));
-      }
-
-      const answer = document.createElement("div");
-      answer.className = "farm-share-answer";
-      answer.innerHTML = `<span>한 바구니에</span><strong>${input || "?"}개씩</strong>`;
-
-      work.append(source, reason, basketGrid, answer);
-
-      const keypadWrap = document.createElement("section");
-      keypadWrap.className = "farm-keypad-wrap farm-share-keypad-wrap";
-      keypadWrap.append(
-        createFarmKeypad(handleFarmShareKey, input, locked),
-        createFarmEntryMessage(wrongMessage || "몇 개씩 넣을지 써요.")
-      );
-
-      entry.append(work, keypadWrap);
+      const preview = createFarmShareBasketPreview(problem, step, basketUnits, true);
+      const feedback = createFarmEntryMessage(wrongMessage || "");
+      feedback.classList.add("farm-share-feedback");
+      const commitButton = document.createElement("button");
+      commitButton.type = "button";
+      commitButton.className = "farm-share-commit visually-hidden";
+      commitButton.tabIndex = -1;
+      entry.append(source, preview, feedback, commitButton);
       ui.choices.replaceChildren(entry);
     }
 
-    function createFarmAnswerBasket(step, index, previewValue, showPreview) {
-      const card = document.createElement("div");
-      card.className = "farm-answer-basket-card";
-      const name = document.createElement("span");
-      name.textContent = `${index + 1}번`;
-      const scene = document.createElement("div");
-      scene.className = "farm-answer-basket-scene";
-      const basket = createFarmBasketImage("farm-basket-art");
-      const pieces = document.createElement("div");
-      pieces.className = "farm-answer-basket-pieces";
-      if (showPreview && Number.isFinite(previewValue)) {
-        const pieceCount = step.id === "tens" && previewValue % 10 === 0 ? previewValue / 10 : step.id === "ones" ? previewValue : 0;
-        appendFarmPieces(pieces, step.id, pieceCount, 4);
+    function createFarmShareBasketPreview(problem, step, previewValue, interactive = false) {
+      const preview = document.createElement("div");
+      preview.className = "farm-share-preview farm-share-mini-basket";
+      preview.style.setProperty("--basket-count", String(problem.divisor));
+      const basketCounts = Array.isArray(previewValue)
+        ? previewValue
+        : Array(problem.divisor).fill(Number.isFinite(previewValue) ? previewValue : 0);
+      preview.setAttribute("aria-label", `바구니 ${problem.divisor}개에 직접 나누어 담는 곳`);
+
+      for (let index = 0; index < problem.divisor; index += 1) {
+        const count = Number(basketCounts[index] || 0);
+        const basket = document.createElement("section");
+        basket.className = "farm-share-basket";
+        basket.dataset.basketIndex = String(index);
+        basket.dataset.count = String(count);
+        if (interactive) {
+          basket.tabIndex = 0;
+          basket.setAttribute("role", "button");
+          basket.setAttribute("aria-label", `${index + 1}번째 바구니, ${count}${step.id === "tens" ? "묶음" : "개"}`);
+          basket.addEventListener("pointerdown", (event) => {
+            if (count > 0) beginFarmPieceDrag(event, { type: "basket", index });
+          });
+        }
+        const scene = document.createElement("div");
+        scene.className = "farm-share-basket-scene";
+        scene.appendChild(createFarmBasketStateImage(step.id, count, "farm-share-basket-art"));
+        if (step.id !== "tens" && count > 0) {
+          const pieces = document.createElement("div");
+          pieces.className = "farm-share-basket-pieces";
+          appendFarmPieces(pieces, step.id, count, 4);
+          scene.appendChild(pieces);
+        }
+        basket.appendChild(scene);
+        preview.appendChild(basket);
       }
-      const front = createFarmBasketImage("farm-basket-front-art");
-      const value = document.createElement("strong");
-      value.textContent = showPreview && Number.isFinite(previewValue) ? `${previewValue}개` : "?";
-      scene.append(basket, pieces, front, value);
-      card.append(name, scene);
-      return card;
+      return preview;
     }
 
-    function createFarmKeypad(onKey, input, locked) {
-      const keypad = document.createElement("div");
-      keypad.className = "farm-keypad";
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, "지우기", 0, "확인"].forEach((key) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `farm-key ${key === "확인" ? "is-enter choice-button" : key === "지우기" ? "is-clear" : ""}`;
-        button.textContent = String(key);
-        button.disabled = locked || (key === "확인" && !input);
-        if (typeof key === "number") button.dataset.digit = String(key);
-        button.addEventListener("click", () => onKey(key, button));
-        keypad.appendChild(button);
-      });
-      return keypad;
+    function createFarmQuantityToken(stepId, count, unitName) {
+      const token = document.createElement("div");
+      token.className = `farm-quantity-token farm-quantity-token--${stepId}`;
+      token.appendChild(createFarmProducePiece(stepId));
+      const countLabel = document.createElement("strong");
+      countLabel.textContent = `× ${count}${unitName}`;
+      token.appendChild(countLabel);
+      return token;
+    }
+
+    function beginFarmPieceDrag(event, origin) {
+      if (!farmInteractionState || farmInteractionState.type !== "share" || farmInteractionState.locked) return;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      event.preventDefault();
+      const ghost = createFarmProducePiece(farmInteractionState.step.id);
+      ghost.classList.add("farm-drag-ghost");
+      document.body.appendChild(ghost);
+      const moveGhost = (point) => {
+        ghost.style.left = `${point.clientX}px`;
+        ghost.style.top = `${point.clientY}px`;
+      };
+      moveGhost(event);
+      document.querySelector(".farm-share-entry")?.classList.add("is-dragging");
+
+      const onMove = (moveEvent) => {
+        moveEvent.preventDefault();
+        moveGhost(moveEvent);
+      };
+      const onUp = (upEvent) => {
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+        window.removeEventListener("pointercancel", onUp);
+        ghost.remove();
+        const target = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
+        applyFarmPieceDrop(
+          origin,
+          target?.closest?.(".farm-share-basket"),
+          target?.closest?.(".farm-share-source")
+        );
+      };
+      window.addEventListener("pointermove", onMove, { passive: false });
+      window.addEventListener("pointerup", onUp, { once: true });
+      window.addEventListener("pointercancel", onUp, { once: true });
+    }
+
+    function applyFarmPieceDrop(origin, targetBasket, targetSource) {
+      if (!farmInteractionState || farmInteractionState.type !== "share") return;
+      const counts = farmInteractionState.basketUnits;
+      const targetIndex = targetBasket ? Number(targetBasket.dataset.basketIndex) : -1;
+      let changed = false;
+      if (origin.type === "source" && targetIndex >= 0 && counts[targetIndex] < 4) {
+        counts[targetIndex] += 1;
+        changed = true;
+      } else if (origin.type === "basket" && targetSource && counts[origin.index] > 0) {
+        counts[origin.index] -= 1;
+        changed = true;
+      } else if (origin.type === "basket" && targetIndex >= 0 && targetIndex !== origin.index
+          && counts[origin.index] > 0 && counts[targetIndex] < 4) {
+        counts[origin.index] -= 1;
+        counts[targetIndex] += 1;
+        changed = true;
+      }
+      if (!changed) {
+        renderFarmShareEntry();
+        return;
+      }
+      farmInteractionState.wrongMessage = "";
+      renderFarmShareEntry();
+      const remaining = farmInteractionState.step.unitCount - counts.reduce((sum, count) => sum + count, 0);
+      if (remaining === 0) window.setTimeout(checkFarmDistribution, 120);
+    }
+
+    function checkFarmDistribution() {
+      if (!farmInteractionState || farmInteractionState.type !== "share" || farmInteractionState.locked) return;
+      const { basketUnits, step, choose } = farmInteractionState;
+      const allEqual = basketUnits.every((count) => count === basketUnits[0]);
+      const option = allEqual
+        ? step.choices.find((choice) => choice.units === basketUnits[0])
+        : step.choices.find((choice) => choice.units !== step.answer / step.unitValue);
+      const button = document.querySelector(".farm-share-commit");
+      if (!option || !button) return;
+      farmInteractionState.locked = true;
+      choose(option, button);
     }
 
     function createFarmEntryMessage(text) {
@@ -3882,159 +4831,6 @@
       message.setAttribute("aria-live", "polite");
       message.textContent = text;
       return message;
-    }
-
-    function handleFarmShareKey(key, button) {
-      if (!farmInteractionState || farmInteractionState.type !== "share" || farmInteractionState.locked) return;
-      if (key === "지우기") {
-        farmInteractionState.input = "";
-        farmInteractionState.previewValue = null;
-        farmInteractionState.wrongMessage = "";
-        renderFarmShareEntry();
-        return;
-      }
-      if (key === "확인") {
-        if (!farmInteractionState.input) return;
-        const value = Number(farmInteractionState.input);
-        const selected = farmInteractionState.step.choices.find((item) => item.id === `value:${value}`) || {
-          id: `value:${value}`,
-          value,
-          label: String(value),
-          misconceptionId: "DIV1_SHARE_ERROR",
-          feedback: "한 바구니의 수를 다시 봐요.",
-        };
-        farmInteractionState.previewValue = value;
-        farmInteractionState.locked = true;
-        farmInteractionState.choose(selected, button);
-        return;
-      }
-      updateFarmNumberInput(key, renderFarmShareEntry);
-    }
-
-    function renderFarmQuotientEntry() {
-      if (!farmInteractionState || farmInteractionState.type !== "quotient") return;
-      const { problem, input, locked, wrongMessage } = farmInteractionState;
-      const entry = document.createElement("div");
-      entry.className = `farm-quotient-entry ${wrongMessage ? "is-wrong" : ""}`;
-
-      const oneBasket = document.createElement("section");
-      oneBasket.className = "farm-final-basket-card";
-      const label = document.createElement("p");
-      label.textContent = "한 바구니 수를 합쳐요";
-      const breakdown = document.createElement("div");
-      breakdown.className = "farm-value-breakdown";
-      breakdown.setAttribute(
-        "aria-label",
-        `10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개를 합쳐요`
-      );
-
-      const tensGroup = createFarmBreakdownGroup(
-        "tens",
-        problem.tensQuotient,
-        `10개 묶음 ${problem.tensQuotient}개`,
-        `${problem.tensShare}개`
-      );
-      const plus = document.createElement("span");
-      plus.className = "farm-breakdown-plus";
-      plus.textContent = "+";
-      plus.setAttribute("aria-hidden", "true");
-      const onesGroup = createFarmBreakdownGroup(
-        "ones",
-        problem.onesQuotient,
-        `낱개 ${problem.onesQuotient}개`,
-        `${problem.onesQuotient}개`
-      );
-      const equation = document.createElement("p");
-      equation.className = "farm-breakdown-equation";
-      equation.textContent = `${problem.tensShare} + ${problem.onesQuotient} = ?개`;
-      breakdown.append(tensGroup, plus, onesGroup, equation);
-
-      const display = document.createElement("strong");
-      display.className = "farm-quotient-display";
-      display.textContent = input ? `${input}개` : "?개";
-      oneBasket.append(label, breakdown, display);
-
-      const keypadWrap = document.createElement("section");
-      keypadWrap.className = "farm-keypad-wrap";
-      keypadWrap.append(
-        createFarmKeypad(handleFarmQuotientKey, input, locked),
-        createFarmEntryMessage(wrongMessage || "두 수를 더해 몫을 써요.")
-      );
-
-      entry.append(oneBasket, keypadWrap);
-      ui.choices.replaceChildren(entry);
-    }
-
-    function createFarmBreakdownGroup(kind, count, titleText, amountText) {
-      const group = document.createElement("div");
-      group.className = `farm-breakdown-group farm-breakdown-group--${kind}`;
-
-      const title = document.createElement("strong");
-      title.className = "farm-breakdown-group-title";
-      title.textContent = titleText;
-
-      const items = document.createElement("div");
-      items.className = "farm-breakdown-items";
-      const safeCount = Math.max(0, Number(count) || 0);
-      const visibleCount = kind === "tens" ? Math.min(safeCount, 1) : Math.min(safeCount, 4);
-      for (let index = 0; index < visibleCount; index += 1) {
-        items.appendChild(createFarmProducePiece(kind));
-      }
-      if (kind === "tens" && safeCount > 0) {
-        const countBadge = document.createElement("span");
-        countBadge.className = "farm-breakdown-count";
-        countBadge.textContent = `${safeCount}묶음`;
-        countBadge.setAttribute("aria-label", `${safeCount}묶음`);
-        items.appendChild(countBadge);
-      } else if (kind === "ones" && safeCount > visibleCount) {
-        const more = document.createElement("span");
-        more.className = "farm-breakdown-count";
-        more.textContent = `+${safeCount - visibleCount}개`;
-        more.setAttribute("aria-label", `낱개 ${safeCount - visibleCount}개 더`);
-        items.appendChild(more);
-      }
-
-      const amount = document.createElement("span");
-      amount.className = "farm-breakdown-amount";
-      amount.textContent = amountText;
-
-      group.append(title, items, amount);
-      return group;
-    }
-
-    function handleFarmQuotientKey(key, button) {
-      if (!farmInteractionState || farmInteractionState.type !== "quotient" || farmInteractionState.locked) return;
-      if (key === "지우기") {
-        farmInteractionState.input = "";
-        farmInteractionState.wrongMessage = "";
-        renderFarmQuotientEntry();
-        return;
-      }
-      if (key === "확인") {
-        if (!farmInteractionState.input) return;
-        const value = Number(farmInteractionState.input);
-        const selected = farmInteractionState.step.choices.find((item) => item.id === `value:${value}`) || {
-          id: `value:${value}`,
-          value,
-          label: String(value),
-          misconceptionId: "DIV1_QUOTIENT_COUNT_ERROR",
-          feedback: "한 바구니를 다시 세어 봐요.",
-        };
-        farmInteractionState.locked = true;
-        farmInteractionState.choose(selected, button);
-        return;
-      }
-      updateFarmNumberInput(key, renderFarmQuotientEntry);
-    }
-
-    function updateFarmNumberInput(key, render) {
-      if (!farmInteractionState || typeof key !== "number") return;
-      if (farmInteractionState.input.length >= 2) return;
-      if (farmInteractionState.input === "" && key === 0) return;
-      farmInteractionState.input += String(key);
-      farmInteractionState.wrongMessage = "";
-      render();
-      ui.choices.querySelector(".farm-key.is-enter")?.focus({ preventScroll: true });
     }
 
     function createFarmProducePiece(stepId) {
@@ -4068,6 +4864,18 @@
       return image;
     }
 
+    function createFarmBasketStateImage(stepId, count, className) {
+      if (stepId !== "tens" || count < 1 || count > 4) return createFarmBasketImage(className);
+      const image = document.createElement("img");
+      image.className = className;
+      image.src = LESSON_CONFIG.imageAssets.farmBasketBundles?.[count]
+        || `farm-basket-bundles-${count}-generated.webp`;
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      image.draggable = false;
+      return image;
+    }
+
     function appendFarmPieces(container, kind, count, maxVisible = 4, slotOffset = 0) {
       const safeCount = Math.max(0, Number(count) || 0);
       const visibleCount = Math.min(safeCount, maxVisible);
@@ -4088,54 +4896,28 @@
     }
 
     function renderFarmShareConfirmation(problem, step) {
-      const isTens = step.id === "tens";
-      const isOnesOrFinal = step.id !== "tens";
-      const value = isTens ? problem.tensShare : problem.quotient;
       const confirmation = document.createElement("div");
-      confirmation.className = "farm-share-confirmation";
-      confirmation.style.setProperty("--basket-count", String(problem.divisor));
-      confirmation.setAttribute("aria-label", `바구니 ${problem.divisor}개에 ${value}개씩`);
-
-      for (let index = 0; index < problem.divisor; index += 1) {
-        const basketCard = document.createElement("div");
-        basketCard.className = "farm-confirm-basket";
-        basketCard.style.setProperty("--piece-delay", `${index * 90}ms`);
-
-        const basketName = document.createElement("span");
-        basketName.className = "farm-confirm-basket-name";
-        basketName.textContent = `바구니 ${index + 1}`;
-
-        const breakdown = document.createElement("div");
-        breakdown.className = "farm-confirm-breakdown";
-        const tensGroup = createFarmBreakdownGroup(
-        "tens",
-        problem.tensQuotient,
-        `10개 묶음 ${problem.tensQuotient}개`,
-        `${problem.tensShare}개`
+      const isFinal = step.id === "ones";
+      confirmation.className = `farm-share-confirmation ${isFinal ? "is-final" : "is-tens"}`;
+      confirmation.setAttribute(
+        "aria-label",
+        isFinal
+          ? `한 바구니에 10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개, 모두 ${problem.quotient}개`
+          : `한 바구니에 10개 묶음 ${problem.tensQuotient}개씩, 바구니 ${problem.divisor}개`
       );
-        const plus = document.createElement("span");
-        plus.className = "farm-breakdown-plus";
-        plus.textContent = "+";
-        plus.setAttribute("aria-hidden", "true");
-        const onesGroup = createFarmBreakdownGroup(
-          "ones",
-          isOnesOrFinal ? problem.onesQuotient : 0,
-          `낱개 ${isOnesOrFinal ? problem.onesQuotient : 0}개`,
-          `${isOnesOrFinal ? problem.onesQuotient : 0}개`
-        );
-        const equation = document.createElement("span");
-        equation.className = "farm-confirm-equation";
-        equation.textContent = isOnesOrFinal
-          ? `${problem.tensShare} + ${problem.onesQuotient} = ${value}개`
-          : `${problem.tensShare}개`;
-        breakdown.append(tensGroup, plus, onesGroup, equation);
 
-        const label = document.createElement("strong");
-        label.className = "farm-confirm-total";
-        label.textContent = `${value}개씩`;
-        basketCard.append(basketName, breakdown, label);
-        confirmation.appendChild(basketCard);
-      }
+      const title = document.createElement("p");
+      title.className = "farm-confirm-title";
+      title.textContent = isFinal ? "낱개도 똑같이 나눴어요." : "모든 바구니에 똑같이 들어갔어요.";
+      const baskets = createFarmShareBasketPreview(problem, step, step.answer / step.unitValue);
+      baskets.classList.add("farm-confirm-baskets");
+      const equation = document.createElement("strong");
+      equation.className = "farm-confirm-equation";
+      equation.textContent = `${step.totalValue} ÷ ${problem.divisor} = ${step.answer}`;
+      const note = document.createElement("p");
+      note.className = "farm-confirm-note";
+      note.textContent = isFinal ? "이제 한 바구니의 수를 합쳐요." : "다음에는 낱개를 나눠요.";
+      confirmation.append(title, baskets, equation, note);
 
       ui.choices.replaceChildren(confirmation);
     }
@@ -4147,28 +4929,65 @@
 
     function onStepWrong() {
       setFarmFlowPhase("wrong");
-      return pulseScene("wrong").then(() => new Promise((resolve) => {
-        setTimeout(() => {
-          if (farmInteractionState) {
-            farmInteractionState.locked = false;
-            farmInteractionState.input = "";
-            farmInteractionState.wrongMessage = "";
-            if (farmInteractionState.type === "share") {
-              farmInteractionState.previewValue = null;
-              renderFarmShareEntry();
-            } else {
-              renderFarmQuotientEntry();
-            }
-          }
-          setFarmFlowPhase("active");
-          resolve();
-        }, 1000);
-      }));
+      return pulseScene("wrong").then(() => {
+        if (farmInteractionState?.type === "share") {
+          farmInteractionState.locked = false;
+          renderFarmShareEntry();
+        }
+        setFarmFlowPhase("active");
+      });
     }
 
-    function onProblemComplete() {
+    function onProblemComplete({ problem }) {
+      renderFarmCompleteHeader(problem);
+      renderFarmCompleteSummary(problem);
       setFarmFlowPhase("complete");
       return pulseScene("complete");
+    }
+
+    function renderFarmCompleteHeader(problem) {
+      const svg = document.createElementNS(FARM_SVG_NS, "svg");
+      svg.classList.add("place-value-farm-svg");
+      svg.setAttribute("viewBox", "0 0 900 170");
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}. 한 바구니에 ${problem.quotient}개`);
+      svg.innerHTML = `
+        <rect x="8" y="8" width="884" height="154" rx="32" class="farm-board-bg"/>
+        <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+          <text x="450" y="58" class="farm-problem">${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}</text>
+          <text x="450" y="105" class="farm-step-expression">${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}</text>
+          <text x="450" y="142" class="farm-instruction">한 바구니에 ${problem.quotient}개</text>
+        </g>
+      `;
+      ui.visualArea.replaceChildren(svg);
+    }
+
+    function renderFarmCompleteSummary(problem) {
+      const panel = document.getElementById("completePanel");
+      if (!panel) return;
+      let visual = panel.querySelector(".farm-complete-summary");
+      if (!visual) {
+        visual = document.createElement("div");
+        visual.className = "farm-complete-summary";
+        const text = document.getElementById("completeExpression");
+        if (text) panel.insertBefore(visual, text);
+        else panel.prepend(visual);
+      }
+      const basket = document.createElement("section");
+      basket.className = "farm-complete-one-basket";
+      basket.appendChild(createFarmBasketImage("farm-complete-basket-art"));
+      const basketLabel = document.createElement("strong");
+      basketLabel.textContent = `한 바구니 ${problem.quotient}개`;
+      basket.appendChild(basketLabel);
+
+      const relation = document.createElement("div");
+      relation.className = "farm-complete-relation";
+      relation.appendChild(createFarmQuantityToken("tens", problem.tensQuotient, "묶음"));
+      const plus = document.createElement("span");
+      plus.className = "farm-complete-plus";
+      plus.textContent = "+";
+      relation.append(plus, createFarmQuantityToken("ones", problem.onesQuotient, "개"));
+      visual.replaceChildren(basket, relation);
     }
 
     function onRewardPrepare({ beforeResult }) {
@@ -4233,31 +5052,31 @@
 
     function renderFarmHeader(problem, step, state) {
       const revealed = ui.visualArea.dataset.revealedStep === step.id;
-      let instruction = step.instruction;
-      let reason = step.reason;
+      let stepExpression = step.id === "tens"
+        ? `${problem.tensValue} ÷ ${problem.divisor}`
+        : `${problem.ones} ÷ ${problem.divisor}`;
+      let instruction = step.id === "tens" ? "한 바구니에 몇 묶음?" : "한 바구니에 몇 개?";
+      let reason = "";
       if (revealed && step.id === "tens") {
-        instruction = `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`;
-        reason = `십의 자리 몫은 ${problem.tensShare}`;
+        stepExpression = `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`;
+        instruction = `한 바구니에 ${problem.tensShare}개씩`;
       }
       if (revealed && step.id === "ones") {
-        instruction = `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`;
-        reason = `일의 자리 몫은 ${problem.onesQuotient}`;
-      }
-      if (revealed && step.id === "quotient") {
-        instruction = `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`;
-        reason = `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}`;
+        stepExpression = `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`;
+        instruction = `한 바구니에 ${problem.onesQuotient}개씩`;
       }
       const svg = document.createElementNS(FARM_SVG_NS, "svg");
       svg.classList.add("place-value-farm-svg");
-      svg.setAttribute("viewBox", "0 0 760 150");
+      svg.setAttribute("viewBox", "0 0 900 170");
       svg.setAttribute("role", "img");
-      svg.setAttribute("aria-label", `${problem.prompt}. ${instruction} ${reason}`);
+      svg.setAttribute("aria-label", `${problem.prompt}. ${stepExpression}. ${instruction}`);
       svg.innerHTML = `
-        <rect x="8" y="8" width="744" height="134" rx="28" class="farm-board-bg"/>
+        <rect x="8" y="8" width="310" height="154" rx="28" class="farm-board-bg farm-problem-box"/>
+        <rect x="332" y="8" width="560" height="154" rx="28" class="farm-board-bg farm-step-box"/>
         <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-          <text x="380" y="60" class="farm-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-          <text x="380" y="103" class="farm-instruction">${instruction}</text>
-          <text x="380" y="132" class="farm-reason">${reason}</text>
+          <text x="163" y="103" class="farm-problem">${problem.dividend} ÷ ${problem.divisor}</text>
+          <text x="612" y="74" class="farm-step-expression">${stepExpression}</text>
+          <text x="612" y="126" class="farm-instruction">${instruction}</text>
         </g>
       `;
       ui.visualArea.replaceChildren(svg);
