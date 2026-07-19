@@ -290,7 +290,7 @@ function createFarmShareBasketPreview(problem, step, previewValue, interactive =
     const scene = document.createElement("div");
     scene.className = "farm-share-basket-scene";
     scene.appendChild(createFarmBasketStateImage(step.id, count, "farm-share-basket-art"));
-    if (step.id !== "tens" && count > 0) {
+    if (step.id !== "tens" && count > 0 && !(step.id === "ones" && count <= 4 && LESSON_CONFIG.imageAssets.farmBasketSingles?.[count])) {
       const pieces = document.createElement("div");
       pieces.className = "farm-share-basket-pieces";
       appendFarmPieces(pieces, step.id, count, 4);
@@ -430,11 +430,15 @@ function createFarmBasketImage(className) {
 }
 
 function createFarmBasketStateImage(stepId, count, className) {
-  if (stepId !== "tens" || count < 1 || count > 4) return createFarmBasketImage(className);
+  if (count < 1 || count > 4) return createFarmBasketImage(className);
+  const stateAssets = stepId === "tens"
+    ? LESSON_CONFIG.imageAssets.farmBasketBundles
+    : LESSON_CONFIG.imageAssets.farmBasketSingles;
+  if (!stateAssets?.[count]) return createFarmBasketImage(className);
   const image = document.createElement("img");
   image.className = className;
-  image.src = LESSON_CONFIG.imageAssets.farmBasketBundles?.[count]
-    || `farm-basket-bundles-${count}-generated.webp`;
+  image.src = stateAssets[count]
+    || (stepId === "tens" ? `farm-basket-bundles-${count}-generated.webp` : `farm-basket-singles-${count}-generated.png`);
   image.alt = "";
   image.setAttribute("aria-hidden", "true");
   image.draggable = false;

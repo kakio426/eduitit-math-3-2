@@ -23,6 +23,7 @@
   grid-template-columns: 132px minmax(0, 1fr);
   gap: 14px;
   padding: 14px 18px;
+  overflow: hidden;
 }
 
 .game[data-workbench-type="place-value-farm"] .farm-share-source > strong {
@@ -126,6 +127,164 @@
   .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 7px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-basket { padding: 3px 5px; border-radius: 15px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
+}
+
+/* Final tutorial scale override: keep both examples large and the basket label on one line. */
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-guide {
+  right: 6%;
+  left: 6%;
+  padding: 18px 24px;
+  gap: 12px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+  padding: 8px 12px;
+  grid-template-columns: 42px minmax(250px, 1.05fr) minmax(220px, .95fr) minmax(225px, .95fr);
+  gap: 10px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces { gap: 0; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 64px; height: 56px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 34px; height: 60px; margin: 0; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.9rem; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: 1.15rem; white-space: nowrap; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
+  width: min(100%, 250px);
+  min-height: 92px;
+  padding: 10px 12px;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 10px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 64px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 78px; height: 60px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 28px; height: 58px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: 1.1rem; line-height: 1.1; white-space: nowrap; }
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { right: 5%; left: 5%; padding: 12px 16px; gap: 8px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+    padding: 7px 10px;
+    grid-template-columns: 38px minmax(220px, 1fr) minmax(190px, .9fr) minmax(210px, .95fr);
+    gap: 8px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 48px; height: 42px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 26px; height: 45px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.35rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: .95rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
+    min-height: 72px;
+    padding: 7px 8px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 50px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 58px; height: 46px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 44px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: .92rem; }
+}
+
+/* 2026-07 tutorial visual scale polish: enlarge both examples without breaking the label. */
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-guide {
+  right: 6%;
+  left: 6%;
+  padding: 18px 24px;
+  gap: 12px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+  padding: 8px 12px;
+  grid-template-columns: 42px minmax(220px, 1.05fr) minmax(205px, .95fr) minmax(205px, .95fr);
+  gap: 10px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces {
+  gap: 0;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle {
+  width: 52px;
+  height: 46px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single {
+  width: 28px;
+  height: 48px;
+  margin: 0;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong {
+  font-size: 1.55rem;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
+  width: min(100%, 220px);
+  min-height: 78px;
+  padding: 8px 10px;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces {
+  height: 56px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle {
+  width: 66px;
+  height: 52px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single {
+  width: 24px;
+  height: 50px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong {
+  font-size: 1rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide {
+    right: 5%;
+    left: 5%;
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+    padding: 7px 10px;
+    grid-template-columns: 38px minmax(220px, 1fr) minmax(190px, .9fr) minmax(210px, .95fr);
+    gap: 8px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle {
+    width: 48px;
+    height: 42px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single {
+    width: 26px;
+    height: 45px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.35rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: .95rem; }
+
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
+    min-height: 72px;
+    padding: 7px 8px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 50px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 58px; height: 46px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 44px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: .92rem; }
 }
 .game[data-workbench-type="place-value-farm"] .progress-line { display: none; }
 .game[data-workbench-type="place-value-farm"] .hud-left {
@@ -1533,9 +1692,27 @@
   padding: 14px 18px;
 }
 .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.45rem; }
-.game[data-workbench-type="place-value-farm"] .farm-share-source-pieces { gap: 8px; overflow: visible; }
+.game[data-workbench-type="place-value-farm"] .farm-share-source-pieces {
+  height: 100%;
+  box-sizing: border-box;
+  padding-block: 12px;
+  gap: 8px;
+  overflow: hidden;
+}
 .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 72px; height: 70px; }
-.game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 38px; height: 72px; margin: 0 3px; }
+.game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single {
+  width: 38px;
+  height: 72px;
+  margin: 0 3px;
+  transform: none;
+}
+.game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single .farm-produce-art {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+}
 .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 10px; }
 .game[data-workbench-type="place-value-farm"] .farm-share-basket {
   padding: 4px 8px;
@@ -1558,6 +1735,7 @@
 .game[data-workbench-type="place-value-farm"] .farm-drag-piece:focus-visible,
 .game[data-workbench-type="place-value-farm"] .farm-share-basket:focus-visible { outline: 5px solid #1d8050; outline-offset: 3px; }
 .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-dragging .farm-share-basket { border-color: #2f8253; background: #effbea; }
+.game[data-workbench-type="place-value-farm"] .play-mathmon-reaction { display: none !important; }
 .game[data-workbench-type="place-value-farm"] .farm-share-feedback {
   min-height: 30px;
   margin: 0;
@@ -1590,12 +1768,59 @@
   }
   .game[data-workbench-type="place-value-farm"] .farm-share-source { grid-template-columns: 104px minmax(0, 1fr); gap: 8px; padding: 7px 10px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.15rem; }
-  .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces { gap: 5px; }
+  .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces { padding-block: 6px; gap: 5px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 54px; height: 54px; }
-  .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 28px; height: 54px; }
+  .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single { width: 28px; height: 54px; transform: none; }
   .game[data-workbench-type="place-value-farm"] .farm-drag-piece { min-width: 58px; min-height: 58px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-preview { gap: 7px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-basket { grid-template-rows: minmax(0, 1fr) 30px; padding: 3px 5px; border-radius: 15px; }
   .game[data-workbench-type="place-value-farm"] .farm-share-basket-count { font-size: 1.08rem; }
   .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
+}
+
+/* Final tutorial scale override: keep both examples large and the basket label on one line. */
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { right: 6%; left: 6%; padding: 18px 24px; gap: 12px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+  padding: 8px 12px;
+  grid-template-columns: 42px minmax(250px, 1.05fr) minmax(220px, .95fr) minmax(225px, .95fr);
+  gap: 10px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces { gap: 0; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 64px; height: 56px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 34px; height: 60px; margin: 0; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.9rem; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: 1.15rem; white-space: nowrap; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
+  width: min(100%, 250px);
+  min-height: 92px;
+  padding: 10px 12px;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 10px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 64px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 78px; height: 60px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 28px; height: 58px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: 1.1rem; line-height: 1.1; white-space: nowrap; }
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { right: 5%; left: 5%; padding: 12px 16px; gap: 8px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
+    padding: 7px 10px;
+    grid-template-columns: 38px minmax(220px, 1fr) minmax(190px, .9fr) minmax(210px, .95fr);
+    gap: 8px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 48px; height: 42px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 26px; height: 45px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.35rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: .95rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
+    min-height: 72px;
+    padding: 7px 8px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 50px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 58px; height: 46px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 44px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: .92rem; }
 }
