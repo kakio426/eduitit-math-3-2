@@ -1386,11 +1386,11 @@ async function auditFarmResultTier(page, label, expectedTier) {
 async function forceFarmRewardCases(page, lesson, viewport, shots) {
   const stageNames = { seed:"씨앗", sprout:"새싹", garden:"텃밭", rainbow:"황금밭" };
   const cases = [
-    { name:"increase", event:"harvest", amount:8, power:10, correct:2, special:false, tier:"sprout", text:"새싹이 됐어요!" },
-    { name:"decrease", event:"bug", amount:-4, power:18, correct:2, special:false, tier:"seed", text:"씨앗이 됐어요!" },
-    { name:"zero", event:"empty", amount:0, power:40, correct:4, special:false, tier:"garden", text:"농장까지 15 더" },
-    { name:"correct-gate", event:"empty", amount:0, power:55, correct:5, special:false, tier:"garden", text:"농장까지 문제 1개 더" },
-    { name:"golden-field", event:"rainbow", amount:0, power:50, correct:6, special:true, tier:"rainbow", text:"황금밭을 찾았어요!" },
+    { name:"increase", event:"harvest", amount:8, power:10, correct:2, special:false, tier:"sprout", text:"이번에 +8점→지금 18점" },
+    { name:"decrease", event:"bug", amount:-4, power:18, correct:2, special:false, tier:"seed", text:"이번에 -4점→지금 14점" },
+    { name:"zero", event:"empty", amount:0, power:40, correct:4, special:false, tier:"garden", text:"이번에 0점→지금 40점" },
+    { name:"correct-gate", event:"empty", amount:0, power:55, correct:5, special:false, tier:"garden", text:"이번에 0점→지금 55점" },
+    { name:"golden-field", event:"rainbow", amount:0, power:50, correct:6, special:true, tier:"rainbow", text:"황금밭 발견!→지금 100점" },
   ];
   for (const item of cases) {
     const prepared = await evaluate(page, `(() => {

@@ -6,6 +6,8 @@ let farmRewardStage = null;
 let farmResultNextArt = null;
 let farmResultPanel = null;
 let farmResultStep = null;
+let farmHarvestButtonArt = null;
+let farmRewardButtonObserver = null;
 
 function getFarmStageImage(result) {
   const map = LESSON_CONFIG.imageAssets?.farmStages || LESSON_CONFIG.reward?.stageImages || {};
@@ -33,6 +35,58 @@ function ensureFarmStatusBadge() {
   hud.insertBefore(badge, hudRight);
   farmStatusBadge = { root: badge, image, label };
   return farmStatusBadge;
+}
+
+function ensureFarmHarvestButtonArt() {
+  if (farmHarvestButtonArt?.isConnected) return farmHarvestButtonArt;
+  const button = document.getElementById("rewardButton");
+  const source = LESSON_CONFIG.imageAssets?.harvestViewButton;
+  if (!button || !source) return null;
+
+  button.classList.add("farm-harvest-button");
+  button.setAttribute("aria-label", LESSON_CONFIG.buttonLabel || "수확 보기");
+  const image = document.createElement("img");
+  image.className = "farm-harvest-button-art";
+  image.src = source;
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  button.replaceChildren(image);
+  farmHarvestButtonArt = image;
+  return farmHarvestButtonArt;
+}
+
+function ensureFarmRewardNextButtonArt() {
+  const button = document.getElementById("rewardNextButton");
+  const source = LESSON_CONFIG.imageAssets?.nextButton;
+  if (!button || !source) return null;
+
+  const sync = () => {
+    if (button.querySelector(".farm-next-button-art")) return;
+    const label = button.textContent.trim();
+    const nextLabel = LESSON_CONFIG.reward?.nextLabel || "다음";
+    if (label !== nextLabel) {
+      button.classList.remove("farm-next-button");
+      delete button.dataset.actionLabel;
+      return;
+    }
+
+    button.classList.add("farm-next-button");
+    button.dataset.actionLabel = label;
+    button.setAttribute("aria-label", label);
+    const image = document.createElement("img");
+    image.className = "farm-next-button-art";
+    image.src = source;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    button.replaceChildren(image);
+  };
+
+  if (!farmRewardButtonObserver) {
+    farmRewardButtonObserver = new MutationObserver(sync);
+    farmRewardButtonObserver.observe(button, { childList: true, subtree: true, characterData: true });
+  }
+  sync();
+  return farmRewardButtonObserver;
 }
 
 function syncFarmStatusBadge(state) {
@@ -272,7 +326,10 @@ function renderFarmShareEntry() {
     piece.classList.add("farm-drag-piece");
     piece.tabIndex = locked ? -1 : 0;
     piece.setAttribute("role", "button");
-    piece.setAttribute("aria-label", `${step.id === "tens" ? "당근 10개 묶음" : "당근 한 개"}을 바구니로 옮기기`);
+      piece.setAttribute(
+        "aria-label",
+        step.id === "tens" ? "당근 10개 묶음을 바구니로 옮기기" : "당근 한 개를 바구니로 옮기기"
+      );
     piece.addEventListener("pointerdown", (event) => beginFarmPieceDrag(event, { type: "source" }));
     sourcePieces.appendChild(piece);
   }
@@ -491,8 +548,9 @@ function appendFarmPieces(container, kind, count, maxVisible = 4, slotOffset = 0
 
 function renderFarmShareConfirmation(problem, step) {
   const confirmation = document.createElement("div");
-  const isFinal = step.id === "ones";
-  confirmation.className = `farm-share-confirmation ${isFinal ? "is-final" : "is-tens"}`;
+  const hasNextStep = problem.steps.indexOf(step) < problem.steps.length - 1;
+  const isFinal = !hasNextStep;
+  confirmation.className = `farm-share-confirmation ${isFinal ? "is-final has-action-button" : "is-tens has-next-step has-action-button"}`;
   confirmation.setAttribute(
     "aria-label",
     isFinal
@@ -508,12 +566,41 @@ function renderFarmShareConfirmation(problem, step) {
   const equation = document.createElement("strong");
   equation.className = "farm-confirm-equation";
   equation.textContent = `${step.totalValue} ÷ ${problem.divisor} = ${step.answer}`;
-  const note = document.createElement("p");
-  note.className = "farm-confirm-note";
-  note.textContent = isFinal ? "이제 한 바구니의 수를 합쳐요." : "다음에는 낱개를 나눠요.";
-  confirmation.append(title, baskets, equation, note);
+  const action = document.createElement("button");
+  action.className = `farm-confirm-next-button ${isFinal ? "farm-problem-complete-button" : "farm-step-next-button"}`;
+  action.type = "button";
+  action.textContent = step.advance?.label || (isFinal ? "나눈 값 더하기" : "낱개 나누기");
+  action.hidden = true;
+  action.disabled = true;
+  confirmation.append(title, baskets, equation, action);
 
   ui.choices.replaceChildren(confirmation);
+}
+
+function prepareStepAdvance(problem, step, state, advance) {
+  const button = ui.choices.querySelector(".farm-step-next-button");
+  if (!button) return false;
+  button.hidden = false;
+  button.disabled = false;
+  button.addEventListener("click", () => {
+    button.disabled = true;
+    advance();
+  }, { once: true });
+  button.focus({ preventScroll: true });
+  return true;
+}
+
+function prepareProblemComplete(problem, step, state, complete) {
+  const button = ui.choices.querySelector(".farm-problem-complete-button");
+  if (!button) return false;
+  button.hidden = false;
+  button.disabled = false;
+  button.addEventListener("click", () => {
+    button.disabled = true;
+    void complete();
+  }, { once: true });
+  button.focus({ preventScroll: true });
+  return true;
 }
 
 function onStepCorrect() {
@@ -592,16 +679,39 @@ function renderFarmCompleteSummary(problem) {
   const processTitle = document.createElement("strong");
   processTitle.textContent = "나눈 값을 더해요";
   process.appendChild(processTitle);
-  const processLines = [`${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`];
+  const processLines = [
+    { label: "1단계", left: `${problem.tensValue} ÷ ${problem.divisor}`, right: problem.tensShare },
+  ];
   if (problem.ones > 0) {
     processLines.push(
-      `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`,
-      `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`
+      { label: "2단계", left: `${problem.ones} ÷ ${problem.divisor}`, right: problem.onesQuotient },
+      { label: "", text: `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`, total: true }
     );
   }
-  processLines.forEach((text) => {
+  processLines.forEach(({ label, left, right, text, total }) => {
     const line = document.createElement("span");
-    line.textContent = text;
+    line.className = total ? "farm-complete-process-line is-total" : "farm-complete-process-line";
+    if (label) {
+      const stepLabel = document.createElement("small");
+      stepLabel.textContent = label;
+      line.appendChild(stepLabel);
+    }
+    if (total) {
+      const expression = document.createElement("b");
+      expression.textContent = text;
+      line.appendChild(expression);
+    } else {
+      const leftExpression = document.createElement("b");
+      leftExpression.className = "farm-complete-process-left";
+      leftExpression.textContent = left;
+      const equals = document.createElement("b");
+      equals.className = "farm-complete-process-equals";
+      equals.textContent = "=";
+      const rightExpression = document.createElement("b");
+      rightExpression.className = "farm-complete-process-right";
+      rightExpression.textContent = String(right);
+      line.append(leftExpression, equals, rightExpression);
+    }
     process.appendChild(line);
   });
 
@@ -660,8 +770,30 @@ function onRewardReveal({ event, beforeResult, afterResult, state }) {
   stage.root.dataset.phase = "revealed";
   stage.root.setAttribute("aria-label", `${event.text}. ${afterResult.name}이 됐어요.`);
   syncFarmStatusBadge(state);
+  const renderRewardScore = () => {
+    const amount = Number(event.amount) || 0;
+    const earned = document.createElement("strong");
+    earned.className = "farm-reward-earned";
+    earned.textContent = event.special
+      ? "황금밭 발견!"
+      : `이번에 ${amount > 0 ? "+" : ""}${amount}점`;
+    const total = document.createElement("strong");
+    total.className = "farm-reward-total";
+    total.textContent = `지금 ${state.power}점`;
+    const arrow = document.createElement("span");
+    arrow.className = "farm-reward-score-arrow";
+    arrow.textContent = "→";
+    arrow.setAttribute("aria-hidden", "true");
+    stage.label.replaceChildren(earned, arrow, total);
+    stage.label.setAttribute("aria-label", `${earned.textContent}, ${total.textContent}`);
+  };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return new Promise((resolve) => setTimeout(resolve, reduced ? 0 : 480));
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      resolve();
+      window.setTimeout(renderRewardScore, 0);
+    }, reduced ? 0 : 480);
+  });
 }
 
 function onResult({ result, correctFirstTry = 0 }) {
@@ -790,6 +922,8 @@ function installFarmResultPreview() {
 
 ensureFarmTutorialGuide();
 ensureFarmStatusBadge();
+ensureFarmHarvestButtonArt();
+ensureFarmRewardNextButtonArt();
 ensureFarmRewardStage();
 ensureFarmResultPanel();
 ensureFarmResultNextArt();
