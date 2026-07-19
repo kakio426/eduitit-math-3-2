@@ -4,6 +4,8 @@ let farmProblemProgress = null;
 let farmStatusBadge = null;
 let farmRewardStage = null;
 let farmResultNextArt = null;
+let farmResultPanel = null;
+let farmResultStep = null;
 
 function getFarmStageImage(result) {
   const map = LESSON_CONFIG.imageAssets?.farmStages || LESSON_CONFIG.reward?.stageImages || {};
@@ -84,15 +86,38 @@ function ensureFarmRewardStage() {
 
 function ensureFarmResultNextArt() {
   if (farmResultNextArt?.isConnected) return farmResultNextArt;
-  const layer = document.querySelector("#screen-result .result-layer");
-  if (!layer) return null;
+  const panel = ensureFarmResultPanel();
+  if (!panel) return null;
   const image = document.createElement("img");
   image.className = "result-next-art";
   image.alt = "";
   image.setAttribute("aria-hidden", "true");
-  layer.appendChild(image);
+  panel.insertBefore(image, panel.querySelector("#resultCorrectArt"));
   farmResultNextArt = image;
   return image;
+}
+
+function ensureFarmResultPanel() {
+  if (farmResultPanel?.isConnected) return farmResultPanel;
+  const layer = document.querySelector("#screen-result .result-layer");
+  const title = document.getElementById("resultTitleArt");
+  const correct = document.getElementById("resultCorrectArt");
+  const retry = document.getElementById("restartButton");
+  if (!layer || !title || !correct || !retry) return null;
+
+  const panel = document.createElement("section");
+  panel.className = "farm-result-panel";
+  panel.setAttribute("aria-label", "마지막 농장 결과");
+  const divider = document.createElement("span");
+  divider.className = "farm-result-divider";
+  divider.setAttribute("aria-hidden", "true");
+  const step = document.createElement("strong");
+  step.className = "farm-result-step";
+  panel.append(title, step, divider, correct, retry);
+  layer.appendChild(panel);
+  farmResultPanel = panel;
+  farmResultStep = step;
+  return panel;
 }
 
 function ensureFarmTutorialGuide() {
@@ -639,7 +664,15 @@ function onRewardReveal({ event, beforeResult, afterResult, state }) {
   return new Promise((resolve) => setTimeout(resolve, reduced ? 0 : 480));
 }
 
-function onResult({ result }) {
+function onResult({ result, correctFirstTry = 0 }) {
+  const panel = farmResultPanel || ensureFarmResultPanel();
+  const step = farmResultStep || panel?.querySelector(".farm-result-step");
+  const resultIndex = (LESSON_CONFIG.results || []).findIndex((item) => item.id === result.id);
+  if (panel) {
+    panel.dataset.resultId = result.id;
+    panel.dataset.correctCount = String(Math.max(0, Math.min(10, Number(correctFirstTry) || 0)));
+  }
+  if (step) step.textContent = `${Math.max(0, resultIndex) + 1}단계`;
   const nextArt = ensureFarmResultNextArt();
   const source = LESSON_CONFIG.result?.nextTitleMap?.[result.id];
   if (nextArt) {
@@ -738,8 +771,27 @@ function installDivideFarmAudioQa() {
   };
 }
 
+function installFarmResultPreview() {
+  const tierId = new URLSearchParams(window.location.search).get("resultPreview");
+  if (!tierId || !window.__mathmonEngineQa) return;
+  const tierStates = {
+    seed: { power: 0, correctFirstTry: 0, specialSeen: false },
+    sprout: { power: 15, correctFirstTry: 2, specialSeen: false },
+    garden: { power: 35, correctFirstTry: 4, specialSeen: false },
+    farm: { power: 55, correctFirstTry: 6, specialSeen: false },
+    bigfarm: { power: 78, correctFirstTry: 8, specialSeen: false },
+    rainbow: { power: 100, correctFirstTry: 10, specialSeen: true },
+  };
+  const preview = tierStates[tierId];
+  if (!preview) return;
+  window.__mathmonEngineQa.setState({ ...preview, currentResult: null });
+  window.__mathmonEngineQa.showResult();
+}
+
 ensureFarmTutorialGuide();
 ensureFarmStatusBadge();
 ensureFarmRewardStage();
+ensureFarmResultPanel();
 ensureFarmResultNextArt();
 queueMicrotask(installDivideFarmAudioQa);
+queueMicrotask(installFarmResultPreview);
