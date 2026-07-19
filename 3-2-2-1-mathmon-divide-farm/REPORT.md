@@ -1,6 +1,6 @@
 # 매스몬 나누기 농장 구현 보고서
 
-- 갱신일: 2026-07-18
+- 갱신일: 2026-07-19
 - 보상 버전: `farm-growth-v2`
 - 주인공 보상: 6단계 농장 성장
 - 문제 조작: 한 화면 한 결정의 3개 선택지 + 동일 바구니 확인
@@ -16,7 +16,8 @@
 - 공용 엔진에 기존 차시와 분리된 `stage-reveal` 생명주기와 `onRewardPrepare`, `onRewardReveal` 훅을 추가했습니다.
 - 빠른 연타와 이중 클릭에도 한 문제의 보상이 한 번만 적용되도록 잠갔습니다.
 - 결과는 공통 배경 대신 6단계별 실제 농장 장면을 사용하고, 내부 수확 숫자와 게이지를 숨겼습니다.
-- 결과에는 농장 이름, 다음 목표 타이틀, 정답 수, 순위 보기, 다시 하기만 남겼습니다.
+- 결과 화면은 3-2-1-4의 결속 구조를 기준으로 다시 구성했습니다. 왼쪽에는 완성된 농장 장면, 오른쪽 결과판에는 농장 이름·다음 목표·정답 수·다시 버튼을 하나의 세로 축으로 묶었습니다.
+- 결과판에서 의미 없이 떠 있던 단계 표시는 제거하고, 농장 이름을 가장 크게 보여 줍니다. 공용 `다시` 이미지 버튼은 모든 결과에서 같은 크기와 위치를 사용합니다.
 - 농장·사건·닫힌 바구니는 생성 원본을 보존하고 배경 제거 후 투명 512×512 WebP로 연결했습니다.
 - 문제 풀이 화면을 staged flow로 바꿨습니다. 첫 단계는 묶음, 다음 단계는 낱개만 보여 주며, 숫자 선택 버튼 없이 모든 당근을 직접 끌어 옮깁니다.
 - 상단 질문 아래에는 `전체 당근`과 `바구니`만 남겼습니다. 답 카드와 같은 뜻을 반복하던 글자는 모두 제거했습니다.
@@ -84,6 +85,27 @@
 
 현재 `index.html`이 참조하는 WebP의 `naturalWidth/naturalHeight`, 실제 렌더, 투명 배경, 상태별 파일명을 브라우저에서 확인했습니다. 당근 묶음 바구니 4장은 같은 1536×1024 캔버스와 기준선을 사용하며 각 묶음 수가 빠짐없이 보입니다. 결과는 모두 해당 `result.image`를 실제 배경으로 사용합니다.
 
+## 최신 결과 화면 6종
+
+모든 결과 화면은 `1280×800` 데스크톱 기준으로 현재 실행본에서 다시 캡처했습니다. 농장 장면은 왼쪽, 결과 정보는 오른쪽 결과판에 고정되며, 농장 이름·다음 목표·정답 수·다시 버튼은 같은 중앙 축을 공유합니다.
+
+| 씨앗 | 새싹 |
+|---|---|
+| ![씨앗 결과 화면](screenshots/engine-flow-desktop-08a-result-seed.png) | ![새싹 결과 화면](screenshots/engine-flow-desktop-08a-result-sprout.png) |
+
+| 텃밭 | 농장 |
+|---|---|
+| ![텃밭 결과 화면](screenshots/engine-flow-desktop-08a-result-garden.png) | ![농장 결과 화면](screenshots/engine-flow-desktop-08a-result-farm.png) |
+
+| 대농장 | 황금밭 |
+|---|---|
+| ![대농장 결과 화면](screenshots/engine-flow-desktop-08a-result-bigfarm.png) | ![황금밭 결과 화면](screenshots/engine-flow-desktop-08a-result-rainbow.png) |
+
+- 결과 농장명 자산은 원본 비율을 유지하며 `object-fit: contain`으로 표시합니다.
+- 결과판 중심은 Stage 가로 약 74.5%에 두고, 6종 모두 같은 세로 슬롯을 사용합니다.
+- 공용 다시 버튼 자산은 `_shared/result-actions/retry-button-generated.webp`이며 데스크톱 표시 크기는 `280×125px`입니다.
+- 정답 수는 공용 생성 이미지 세트 `0/10`~`10/10`을 사용합니다.
+
 ## Humanizer 학생 문구 QA
 
 확인한 대표 문구:
@@ -106,26 +128,24 @@
 
 상단 두 패널의 실제 rect를 검사해 패널 사이 간격 8px 이상, 전체 식은 왼쪽 패널 안, 현재 계산과 질문은 오른쪽 패널 안에 머무는지 문제 대기·오답·정답 확인 상태에서 확인합니다.
 
-- 화면 크기: `1280×800`, `1024×768`, `918×897`, 현재 브라우저 기본 크기.
+- 화면 크기: `1280×800`, `1024×768`, `918×897`, 당근·여우 회귀 화면 `934×987`.
 - 확인 상태: 표지, 설명 1·2, 문제 대기, 대표 오답 유지, 십의 자리 확인, 낱개 대기·확인, 최종 완성식, 보상 닫힘·열림, 결과.
 - 실제 브라우저 rect 검사: 문제 조작판 직접 형제 겹침 `0px`, 당근·바구니·피드백 겹침 `0px`, 카드·라벨·이미지의 부모 밖 넘침 `0px`, 완료 요약의 직접 형제 겹침 `0px`, Stage 밖 조작부 `0px`, 깨진 이미지 `0건`.
 - 수정 이력: `1024×768` 설명 카드의 당근 높이와 `918×897` 완료 요약의 낱개 당근 높이가 각각 부모를 넘던 문제를 고친 뒤 재검사했습니다.
 - 추가 수정 이력: `918×897`에서 선택지 카드와 하단 피드백이 5px 겹치던 문제를 발견해 선택지·피드백 행을 재배분하고 다시 검사했습니다.
+- 당근·여우 회귀: `934×987`, DPR 2에서 여우 반응 이미지가 첫 바구니와 가로 84px·세로 128px 겹치던 상태를 기록했습니다. 풀이 화면의 여우 반응 레이어를 숨기고, 낱개 당근 영역에 안쪽 여백과 잘림 경계를 두어 당근 끝이 원본 카드 테두리에 닿지 않게 고쳤습니다.
 - 최대 묶음 회귀: seed `8`, `99 ÷ 3`의 `90`을 10개 묶음 이미지 9개로 생략 없이 표시하고, 이미지 사이 겹침 `0px`을 확인했습니다.
 - 문제 핵심 패널은 현재 Stage 폭의 65% 이상이며, 드래그 당근과 바구니의 실제 터치 영역은 42×42px 이상입니다.
 - `prefers-reduced-motion`에서는 농장·사건의 이동 전환을 제거하고 이미지 교체·밝기 변화만 사용합니다.
 
-## 전국 순위 v1+v2 호환
+## 순위 기능 상태
 
-- v2 답안의 각 `reward`에 `version: "farm-growth-v2"`를 보냅니다.
-- 백엔드는 모든 답안이 무버전이면 기존 v1, 모두 v2면 새 보상 규칙을 적용합니다.
-- 혼합 버전은 `mixed_reward_versions`, 알 수 없는 버전은 `unsupported_reward_version`으로 거부합니다.
-- 정상 v2, 빈 바구니 누적 유지, 혼합 제출, 조작된 변화량, 점수 불일치 서버 테스트를 추가했습니다.
-- 기존 v1 제출 테스트를 그대로 유지해 캐시된 게임의 제출 호환을 확인했습니다.
+현재 제품 정책에 따라 학생 흐름에서 전국 순위 문구·버튼·화면과 점수 제출·조회 요청은 비활성화했습니다. 10문제를 마치면 결과 화면에서 `다시`만 선택할 수 있습니다.
 
 ## 현재 검증
 
 - `node scripts/build-lesson.mjs 3-2-2-1-mathmon-divide-farm` → 배포본 재생성
+- `MATHMON_QA_VIEWPORT=desktop node scripts/qa-lesson-flow.mjs 3-2-2-1-mathmon-divide-farm 45` → 현재 결과 6종 캡처, 누락 이미지·텍스트 넘침 0건, `QA_LESSON_FLOW: PASS`
 - `node scripts/qa-lesson-model.mjs 3-2-2-1-mathmon-divide-farm` → `QA_LESSON_MODEL: PASS`
 - `node scripts/qa-lesson-flow.mjs 3-2-2-1-mathmon-divide-farm` → `QA_LESSON_FLOW: PASS`
 - `node scripts/qa-lesson2-divide-farm.mjs` → 빌드·모델·3개 화면 크기 흐름 QA 묶음 통과
@@ -135,4 +155,4 @@
 - `node scripts/check-lesson-visual-contract.mjs` → 생성 이미지·결과 세트 계약 통과
 - `/Users/yubyeongju/Documents/eduitit/.venv/bin/python manage.py test mathmon_scoreboard` → v1+v2 점수 재계산·변조 거부 검사 통과
 
-현재 캡처는 이번 코드에서 다시 만든 `screenshots/engine-flow-*.png`입니다. 특히 `05-play-step1`, `05b-play-wrong`, `05c-play-tens-confirm`, `05c-play-step2`, `05d-play-ones-confirm`, `05d-play-one-basket-complete`를 세 화면 크기에서 확인했습니다.
+현재 결과 증거는 2026-07-19 실행본에서 다시 만든 `screenshots/engine-flow-desktop-08a-result-*.png` 6장입니다. 기존 문제·보상 회귀 캡처는 그대로 보존했습니다.
