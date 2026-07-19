@@ -561,7 +561,28 @@ function renderFarmCompleteSummary(problem) {
   result.className = "farm-complete-result";
   const imageKind = problem.tensQuotient > 0 ? "tens" : "ones";
   const imageCount = imageKind === "tens" ? problem.tensQuotient : problem.onesQuotient;
-  result.appendChild(createFarmBasketStateImage(imageKind, imageCount, "farm-complete-result-art"));
+
+  const process = document.createElement("div");
+  process.className = "farm-complete-process";
+  const processTitle = document.createElement("strong");
+  processTitle.textContent = "나눈 값을 더해요";
+  process.appendChild(processTitle);
+  const processLines = [`${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`];
+  if (problem.ones > 0) {
+    processLines.push(
+      `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`,
+      `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`
+    );
+  }
+  processLines.forEach((text) => {
+    const line = document.createElement("span");
+    line.textContent = text;
+    process.appendChild(line);
+  });
+
+  const basketResult = document.createElement("div");
+  basketResult.className = "farm-complete-basket-result";
+  basketResult.appendChild(createFarmBasketStateImage(imageKind, imageCount, "farm-complete-result-art"));
 
   const answer = document.createElement("div");
   answer.className = "farm-complete-answer";
@@ -570,7 +591,8 @@ function renderFarmCompleteSummary(problem) {
   const answerValue = document.createElement("strong");
   answerValue.textContent = `${problem.quotient}개씩`;
   answer.append(answerLabel, answerValue);
-  result.append(answer);
+  basketResult.append(answer);
+  result.append(process, basketResult);
   visual.replaceChildren(heading, result);
 
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
