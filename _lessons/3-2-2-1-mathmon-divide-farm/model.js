@@ -75,10 +75,9 @@ const Lesson2DivideFarmModel = (() => {
 
   function buildPool() {
     const pool = [];
-    for (let dividend = 20; dividend <= 99; dividend += 1) {
+    for (let dividend = 10; dividend <= 99; dividend += 1) {
       const tens = Math.floor(dividend / 10);
       const ones = dividend % 10;
-      if (ones === 0) continue;
       for (let divisor = 2; divisor <= 5; divisor += 1) {
         if (tens % divisor !== 0 || ones % divisor !== 0) continue;
         pool.push({ dividend, divisor, tens, ones });
@@ -125,7 +124,7 @@ const Lesson2DivideFarmModel = (() => {
           reveal: `${tensShare}개`,
           advance: { mode: "timed", delayMs: 1450 }
         },
-        {
+        ...(ones > 0 ? [{
           id: "ones",
           label: `남은 ${ones}개`,
           interaction: "enter-share",
@@ -140,7 +139,7 @@ const Lesson2DivideFarmModel = (() => {
           correctText: `바구니마다 낱개 ${onesQuotient}개씩`,
           reveal: `${onesQuotient}개`,
           advance: { mode: "timed", delayMs: 1450 }
-        }
+        }] : [])
       ]
     };
   }

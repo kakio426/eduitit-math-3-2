@@ -762,11 +762,28 @@ function isScoreboardEnabled() {
   return LESSON_CONFIG.scoreboard?.enabled === true && Boolean(ui.scoreboardScreen);
 }
 
+let lastRunSeed = null;
+
+function createRunSeed() {
+  const requestedSeed = Number(new URLSearchParams(window.location.search).get("seed"));
+  if (Number.isSafeInteger(requestedSeed)) return requestedSeed;
+
+  let seed = Date.now() >>> 0;
+  if (globalThis.crypto?.getRandomValues) {
+    const randomValues = new Uint32Array(2);
+    globalThis.crypto.getRandomValues(randomValues);
+    seed = (seed ^ randomValues[0] ^ randomValues[1]) >>> 0;
+  } else {
+    seed = (seed ^ Math.floor(Math.random() * 0x100000000)) >>> 0;
+  }
+  if (seed === lastRunSeed) seed = (seed + 0x6d2b79f5) >>> 0;
+  lastRunSeed = seed;
+  return seed;
+}
+
 function startGame() {
   state = createInitialState();
-  const requestedSeed = Number(new URLSearchParams(window.location.search).get("seed"));
-  const seed = Number.isSafeInteger(requestedSeed) ? requestedSeed : Date.now();
-  state.problems = LessonModel.generateRun(seed);
+  state.problems = LessonModel.generateRun(createRunSeed());
   scoreboardBridge?.start?.();
   renderProblem();
 }

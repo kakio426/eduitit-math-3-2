@@ -603,6 +603,7 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     };
     const stage = rectOf(document.querySelector('.stage-shell'));
     const entry = rectOf(document.querySelector('.farm-share-entry'));
+    const source = rectOf(document.querySelector('.farm-share-source'));
     const problemBox = rectOf(document.querySelector('.farm-problem-box'));
     const stepBox = rectOf(document.querySelector('.farm-step-box'));
     const problemText = rectOf(document.querySelector('.farm-problem'));
@@ -619,6 +620,9 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     const currentStep = window.__mathmonEngineQa?.getCurrentStep?.();
     const sourcePieceCount = document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece').length;
     const sourcePieceRects = [...document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece')].map(rectOf);
+    const sourcePiecesInside = sourcePieceRects.every((rect) => contains(source, rect, 1));
+    const sourcePieceTopGap = sourcePieceRects.length ? Math.min(...sourcePieceRects.map((rect) => rect.top - source.top)) : null;
+    const sourcePieceBottomGap = sourcePieceRects.length ? Math.min(...sourcePieceRects.map((rect) => source.bottom - rect.bottom)) : null;
     let sourcePieceOverlaps = 0;
     for (let i = 0; i < sourcePieceRects.length; i += 1) for (let j = i + 1; j < sourcePieceRects.length; j += 1) {
       const a = sourcePieceRects[i], b = sourcePieceRects[j];
@@ -639,8 +643,9 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     const problemGrid = rectOf(document.querySelector('.problem-grid'));
     const completePanel = rectOf(document.querySelector('#completePanel.is-visible'));
     const completeText = rectOf(document.querySelector('#completePanel.is-visible .complete-text'));
+    const reaction = document.querySelector('.play-mathmon-reaction');
     return {
-      stage, entry, preview, dragPieceCount:dragPieces.length,
+      stage, entry, source, preview, dragPieceCount:dragPieces.length,
       problemBox, stepBox,
       headerGap:problemBox && stepBox ? stepBox.left - problemBox.right : null,
       problemTextInside:contains(problemBox, problemText, 2),
@@ -651,7 +656,9 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       minBasketHeight:baskets.length ? Math.min(...baskets.map((rect) => rect.height)) : 0,
       expectedSourcePieceCount:Number(currentStep?.unitCount || 0),
       sourcePieceCount, basketUnitCount, totalUnitCount:sourcePieceCount + basketUnitCount,
-      sourcePieceOverlaps, sourceMoreCount, basketLabelCount, feedbackText,
+      sourcePieceOverlaps, sourcePiecesInside, sourcePieceTopGap, sourcePieceBottomGap,
+      sourceMoreCount, basketLabelCount, feedbackText,
+      reactionVisible:visible(reaction),
       entryWidthRatio:stage && entry ? entry.width / stage.width : null,
       coreInside,
       confirmationPanel, confirmationBaskets,
@@ -678,6 +685,9 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     if (audit.dragPieceCount > 0) assert(audit.minDragWidth >= 28 && audit.minDragHeight >= 42, `${label}: draggable produce is too small`, audit);
     assert(audit.totalUnitCount === audit.expectedSourcePieceCount && audit.sourceMoreCount === 0, `${label}: produce units were lost or abbreviated`, audit);
     assert(audit.sourcePieceOverlaps === 0, `${label}: source produce images overlap instead of showing every bundle`, audit);
+    assert(audit.sourcePiecesInside, `${label}: source produce left its original card`, audit);
+    if (audit.dragPieceCount > 0) assert(audit.sourcePieceTopGap >= 8 && audit.sourcePieceBottomGap >= 8, `${label}: source produce touches the card border`, audit);
+    assert(!audit.reactionVisible, `${label}: play reaction character covers the basket workbench`, audit);
     assert(audit.basketLabelCount === 0, `${label}: redundant basket labels or question marks returned`, audit);
     assert(audit.feedbackText !== "바구니마다 같은 양이어야 해요.", `${label}: default helper sentence returned`, audit);
     assert(audit.minBasketHeight >= 70, `${label}: empty baskets are too small`, audit);
