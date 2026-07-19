@@ -509,9 +509,12 @@ function onStepWrong() {
 
 function onProblemComplete({ problem }) {
   renderFarmCompleteHeader(problem);
-  renderFarmCompleteSummary(problem);
+  const animation = renderFarmCompleteSummary(problem);
   setFarmFlowPhase("complete");
-  return pulseScene("complete");
+  const panel = document.getElementById("completePanel");
+  panel?.classList.add("is-visible");
+  panel?.closest(".problem-grid")?.classList.add("is-complete");
+  return Promise.all([pulseScene("complete"), animation]);
 }
 
 function renderFarmCompleteHeader(problem) {
@@ -523,9 +526,8 @@ function renderFarmCompleteHeader(problem) {
   svg.innerHTML = `
     <rect x="8" y="8" width="884" height="154" rx="32" class="farm-board-bg"/>
     <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="450" y="58" class="farm-problem">${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}</text>
-      <text x="450" y="105" class="farm-step-expression">${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}</text>
-      <text x="450" y="142" class="farm-instruction">한 바구니에 ${problem.quotient}개</text>
+      <text x="450" y="72" class="farm-problem">${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}</text>
+      <text x="450" y="128" class="farm-instruction">한 바구니에 ${problem.quotient}개씩</text>
     </g>
   `;
   ui.visualArea.replaceChildren(svg);
@@ -542,21 +544,50 @@ function renderFarmCompleteSummary(problem) {
     if (text) panel.insertBefore(visual, text);
     else panel.prepend(visual);
   }
-  const basket = document.createElement("section");
-  basket.className = "farm-complete-one-basket";
-  basket.appendChild(createFarmBasketImage("farm-complete-basket-art"));
-  const basketLabel = document.createElement("strong");
-  basketLabel.textContent = `한 바구니 ${problem.quotient}개`;
-  basket.appendChild(basketLabel);
+  visual.style.setProperty("--basket-count", String(problem.divisor));
+  visual.dataset.phase = "empty";
+  visual.setAttribute(
+    "aria-label",
+    `바구니 ${problem.divisor}개에 당근이 똑같이 ${problem.quotient}개씩 들어갔어요.`
+  );
 
-  const relation = document.createElement("div");
-  relation.className = "farm-complete-relation";
-  relation.appendChild(createFarmQuantityToken("tens", problem.tensQuotient, "묶음"));
-  const plus = document.createElement("span");
-  plus.className = "farm-complete-plus";
-  plus.textContent = "+";
-  relation.append(plus, createFarmQuantityToken("ones", problem.onesQuotient, "개"));
-  visual.replaceChildren(basket, relation);
+  const heading = document.createElement("div");
+  heading.className = "farm-complete-heading";
+  const equation = document.createElement("strong");
+  equation.textContent = `${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}`;
+  heading.append(equation);
+
+  const result = document.createElement("div");
+  result.className = "farm-complete-result";
+  const imageKind = problem.tensQuotient > 0 ? "tens" : "ones";
+  const imageCount = imageKind === "tens" ? problem.tensQuotient : problem.onesQuotient;
+  result.appendChild(createFarmBasketStateImage(imageKind, imageCount, "farm-complete-result-art"));
+
+  const answer = document.createElement("div");
+  answer.className = "farm-complete-answer";
+  const answerLabel = document.createElement("span");
+  answerLabel.textContent = "한 바구니에";
+  const answerValue = document.createElement("strong");
+  answerValue.textContent = `${problem.quotient}개씩`;
+  answer.append(answerLabel, answerValue);
+  result.append(answer);
+  visual.replaceChildren(heading, result);
+
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    visual.dataset.phase = "complete";
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        visual.dataset.phase = "bundles";
+        window.setTimeout(() => {
+          visual.dataset.phase = "complete";
+          window.setTimeout(resolve, 360);
+        }, 420);
+      });
+    });
+  });
 }
 
 function onRewardPrepare({ beforeResult }) {
