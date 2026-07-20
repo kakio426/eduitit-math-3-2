@@ -1169,6 +1169,10 @@
       stroke-linecap: round;
     }
 
+    .elevator-math-svg .board-down-arrow-head {
+      fill: #f3c45f;
+    }
+
     .elevator-math-svg .board-down-slot {
       fill: #27434a;
       stroke: #7fa2aa;
@@ -1195,12 +1199,29 @@
       text-anchor: middle;
     }
 
-    .elevator-math-svg .board-final-subtrahend {
-      font-size: 50px;
+    .elevator-math-svg .division-board--complete .board-final-quotient--ones {
+      fill: #ffd46d;
     }
 
-    .elevator-math-svg .board-final-zero {
-      font-size: 50px;
+    .elevator-math-svg .division-board--complete .board-final-down-digit,
+    .elevator-math-svg .division-board--complete .board-final-subtrahend,
+    .elevator-math-svg .division-board--complete .board-final-zero {
+      fill: #fff8e8;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+      text-anchor: middle;
+    }
+
+    .elevator-math-svg .division-board--complete .board-final-down-digit {
+      font-size: 38px;
+    }
+
+    .elevator-math-svg .division-board--complete .board-final-subtrahend {
+      font-size: 38px;
+    }
+
+    .elevator-math-svg .division-board--complete .board-final-zero {
+      font-size: 40px;
     }
 
     .elevator-math-svg .board-combined-target.is-active .board-combined-value {
@@ -2669,7 +2690,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-gold-standard","id":"3-2-2-2","folder":"3-2-2-2-mathmon-elevator","modelName":"Lesson2ElevatorModel","title":"매스몬 엘리베이터","shortTitle":"매스몬 엘리베이터","topic":"내림 있는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"남은 수를 내려 다시 나눠요.","action":"남은 수와 일의 자리 수를 합쳐요.","buttonLabel":"문 열기","rewardScreenTitle":"올라갈 힘","progressLabel":"올라갈 힘","rewardComplete":"힘이 바뀌었어요.","tutorialTitle":"엘리베이터를 움직이기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"76 ÷ 2를 풀어 봐요","body":"7을 2로 나누면 1이 남아요. 6을 내려 16을 만들어요.","image":"tutorial-page-1-v5-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 마지막에 도착한 층을 봐요.","image":"tutorial-page-2-v2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"올라갈 힘","closedLabel":"어떤 힘이 나올까요?","nextLabel":"다음","artMap":{"motor":"reward-events-sprite-generated.webp","blackout":"reward-events-sprite-generated.webp","superMotor":"reward-events-sprite-generated.webp","express":"reward-events-sprite-generated.webp","stop":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"motor":[0,0],"superMotor":[1,0],"blackout":[2,0],"stop":[0,1],"express":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","tier-scene-with-title","retry-button"],"dynamicOverlays":["elevator-power","correct-count"]}},"workbench":{"type":"division-elevator"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"basement","name":"지하 정비층","minPower":0,"minCorrect":0,"image":"result-basement-generated.webp","titleImage":"result-title-basement-generated.webp"},{"id":"first","name":"1층 로비","minPower":19,"minCorrect":3,"image":"result-first-generated.webp","titleImage":"result-title-first-generated.webp"},{"id":"middle","name":"중간층","minPower":39,"minCorrect":5,"image":"result-middle-generated.webp","titleImage":"result-title-middle-generated.webp"},{"id":"view","name":"전망층","minPower":59,"minCorrect":7,"image":"result-view-generated.webp","titleImage":"result-title-view-generated.webp"},{"id":"roof","name":"옥상 정원","minPower":79,"minCorrect":9,"image":"result-roof-generated.webp","titleImage":"result-title-roof-generated.webp"},{"id":"rainbow","name":"꼭대기 전망대","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"motor","text":"힘이 늘었어요","weight":7645,"min":5,"max":9,"family":"motor","rarity":"common"},{"id":"blackout","text":"힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"blackout","rarity":"common"},{"id":"superMotor","text":"힘이 크게 늘었어요","weight":900,"min":13,"max":22,"family":"superMotor","rarity":"rare"},{"id":"express","text":"급행!","weight":50,"min":8,"max":8,"family":"express","rarity":"rare","express":true},{"id":"stop","text":"힘 0","weight":200,"min":0,"max":0,"family":"stop","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개!","weight":5,"min":12,"max":12,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"blackoutMistake","text":"힘이 줄었어요","min":-18,"max":-8,"family":"blackout"},"typesPerRun":["regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-shaft-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-shaft-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-basement-generated.webp","result-title-first-generated.webp","result-title-middle-generated.webp","result-title-view-generated.webp","result-title-roof-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","tutorial-page-1-v5-generated.webp","tutorial-page-2-v2-generated.webp","result-basement-generated.webp","result-first-generated.webp","result-middle-generated.webp","result-view-generated.webp","result-roof-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-regrouping-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser","width":931,"height":897}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-gold-standard","id":"3-2-2-2","folder":"3-2-2-2-mathmon-elevator","modelName":"Lesson2ElevatorModel","title":"매스몬 엘리베이터","shortTitle":"매스몬 엘리베이터","topic":"내림 있는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"남은 수를 내려 다시 나눠요.","action":"남은 수와 일의 자리 수를 합쳐요.","buttonLabel":"문 열기","rewardScreenTitle":"올라갈 힘","progressLabel":"올라갈 힘","rewardComplete":"힘이 바뀌었어요.","tutorialTitle":"엘리베이터를 움직이기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"76 ÷ 2를 풀어 봐요","body":"7을 2로 나누면 1이 남아요. 6을 내려 16을 만들어요.","image":"tutorial-page-1-v5-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 마지막에 도착한 층을 봐요.","image":"tutorial-page-2-v2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"올라갈 힘","closedLabel":"어떤 힘이 나올까요?","nextLabel":"다음","artMap":{"motor":"reward-events-sprite-generated.webp","blackout":"reward-events-sprite-generated.webp","superMotor":"reward-events-sprite-generated.webp","express":"reward-events-sprite-generated.webp","stop":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"motor":[0,0],"superMotor":[1,0],"blackout":[2,0],"stop":[0,1],"express":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","tier-scene-with-title","retry-button"],"dynamicOverlays":["elevator-power","correct-count"]}},"workbench":{"type":"division-elevator"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"basement","name":"지하 정비층","minPower":0,"minCorrect":0,"image":"result-basement-generated.webp","titleImage":"result-title-basement-generated.webp"},{"id":"first","name":"1층 로비","minPower":19,"minCorrect":3,"image":"result-first-generated.webp","titleImage":"result-title-first-generated.webp"},{"id":"middle","name":"중간층","minPower":39,"minCorrect":5,"image":"result-middle-generated.webp","titleImage":"result-title-middle-generated.webp"},{"id":"view","name":"전망층","minPower":59,"minCorrect":7,"image":"result-view-generated.webp","titleImage":"result-title-view-generated.webp"},{"id":"roof","name":"옥상 정원","minPower":79,"minCorrect":9,"image":"result-roof-generated.webp","titleImage":"result-title-roof-generated.webp"},{"id":"rainbow","name":"꼭대기 전망대","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"motor","text":"힘이 늘었어요","weight":7645,"min":5,"max":9,"family":"motor","rarity":"common"},{"id":"blackout","text":"힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"blackout","rarity":"common"},{"id":"superMotor","text":"힘이 크게 늘었어요","weight":900,"min":13,"max":22,"family":"superMotor","rarity":"rare"},{"id":"express","text":"급행!","weight":50,"min":8,"max":8,"family":"express","rarity":"rare","express":true},{"id":"stop","text":"힘 0","weight":200,"min":0,"max":0,"family":"stop","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개!","weight":5,"min":12,"max":12,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"blackoutMistake","text":"힘이 줄었어요","min":-18,"max":-8,"family":"blackout"},"typesPerRun":["regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-shaft-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-shaft-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-basement-generated.webp","result-title-first-generated.webp","result-title-middle-generated.webp","result-title-view-generated.webp","result-title-roof-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","tutorial-page-1-v5-generated.webp","tutorial-page-2-v2-generated.webp","result-basement-generated.webp","result-first-generated.webp","result-middle-generated.webp","result-view-generated.webp","result-roof-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-regrouping-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser","width":931,"height":897},{"name":"reported-svg-overlap-934x987","width":934,"height":987}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2ElevatorModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -2704,6 +2725,12 @@
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
+      }
+
+      function withObjectParticle(value) {
+        const lastDigit = String(value).match(/\d(?=\D*$)/)?.[0] || "";
+        const hasFinalConsonant = new Set(["0", "1", "3", "6", "7", "8"]).has(lastDigit);
+        return `${value}${hasFinalConsonant ? "을" : "를"}`;
       }
 
       function makePairChoice(id, quotient, remainingTens, misconceptionId = null, feedback = "") {
@@ -2854,7 +2881,7 @@
             id: `ones-only-quotient:${onesOnlyQuotient}`,
             value: onesOnlyQuotient,
             misconceptionId: "DIV2_DIVIDE_ONES_DIGIT_ONLY",
-            feedback: `${problem.downNumber}을 ${problem.divisor}로 나눠요.`
+            feedback: `${withObjectParticle(problem.downNumber)} ${problem.divisor}로 나눠요.`
           },
           {
             id: `ones-high:${problem.onesQuotient + 1}`,
@@ -2893,7 +2920,7 @@
             id: "down",
             label: "내리기",
             action: "남은 수와 일의 자리 수를 합친다",
-            instruction: `남은 ${problem.carriedTens}과 일의 자리 ${problem.onesDigit}을 합친 수를 내려요.`,
+            instruction: `남은 ${problem.carriedTens}과 일의 자리 ${withObjectParticle(problem.onesDigit)} 합친 수를 골라요.`,
             answer: problem.downNumber,
             answerChoiceId: downAnswerId,
             choices: shuffle(downChoices, rng),
@@ -4185,7 +4212,7 @@
         <h2>76 ÷ 2를 풀어 봐요</h2>
         <div class="tutorial-math-layout">
           <div class="tutorial-division-board">
-            <svg viewBox="0 0 560 500" role="img" aria-label="76 나누기 2. 십의 자리 몫은 3이고 1이 남습니다. 6을 내려 16을 만들고 일의 자리 몫 8을 씁니다. 답은 38입니다.">
+            <svg viewBox="0 0 560 560" role="img" aria-label="76 나누기 2. 십의 자리 몫은 3이고 1이 남습니다. 6을 내려 16을 만들고 일의 자리 몫 8을 씁니다. 답은 38입니다.">
               <g class="tutorial-division-ink" text-anchor="middle">
                 <text x="320" y="72" class="tutorial-quotient tutorial-tens-ink">3</text>
                 <text x="430" y="72" class="tutorial-quotient tutorial-ones-ink">8</text>
@@ -4199,21 +4226,17 @@
                 <text x="320" y="268" class="tutorial-work-number tutorial-tens-ink">6</text>
                 <path d="M275 288 H365" class="tutorial-work-line" />
 
-                <path d="M430 218 V304" class="tutorial-bring-down" marker-end="url(#tutorialArrow)" />
-                <text x="320" y="362" class="tutorial-work-number tutorial-tens-ink">1</text>
-                <text x="430" y="362" class="tutorial-work-number tutorial-ones-ink">6</text>
+                <path d="M430 218 V258" class="tutorial-bring-down" />
+                <path d="M416 258 L430 275 L444 258 Z" class="tutorial-arrow-head" data-tutorial-arrow-head="true" />
+                <text x="320" y="358" class="tutorial-work-number tutorial-tens-ink">1</text>
+                <text x="430" y="358" class="tutorial-work-number tutorial-ones-ink tutorial-brought-ones">6</text>
 
-                <text x="256" y="432" class="tutorial-minus">−</text>
-                <text x="320" y="432" class="tutorial-work-number tutorial-tens-ink">1</text>
-                <text x="430" y="432" class="tutorial-work-number tutorial-ones-ink">6</text>
-                <path d="M275 452 H475" class="tutorial-work-line" />
-                <text x="430" y="496" class="tutorial-remainder">0</text>
+                <text x="256" y="442" class="tutorial-minus">−</text>
+                <text x="320" y="442" class="tutorial-work-number tutorial-tens-ink">1</text>
+                <text x="430" y="442" class="tutorial-work-number tutorial-ones-ink">6</text>
+                <path d="M275 460 H475" class="tutorial-work-line tutorial-final-line" />
+                <text x="430" y="548" class="tutorial-remainder tutorial-final-zero">0</text>
               </g>
-              <defs>
-                <marker id="tutorialArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-                  <path d="M0 0 L10 5 L0 10 Z" class="tutorial-arrow-head" />
-                </marker>
-              </defs>
             </svg>
           </div>
           <div class="tutorial-step-list">
@@ -4298,30 +4321,14 @@
         : "";
       const combinedOnesMarkup = `<text x="631" y="347" class="board-combined-value" data-place="ones">${combinedDigits[1]}</text>`;
       const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
-      const firstSubtractionMarkup = onesDone ? `
-            <text x="414" y="220" class="board-work-minus">−</text>
-            <text x="463" y="220" class="board-work-product">${partialProduct}</text>
-            <path d="M416 234 H510" class="board-work-line" />
-          ` : `
+      const firstSubtractionMarkup = `
             <text x="414" y="250" class="board-work-minus">−</text>
             <text x="463" y="250" class="board-work-product">${partialProduct}</text>
             <path d="M416 264 H510" class="board-work-line" />
           `;
-      const remainderMarkup = onesDone ? `
-            <path d="M631 194 V232" class="board-down-arrow" marker-end="url(#arrowhead)" />
-            <g class="board-combined-target is-complete">
-              <rect x="380" y="240" width="166" height="58" rx="18" class="board-down-slot" data-place="tens" />
-              <rect x="548" y="240" width="166" height="58" rx="18" class="board-down-slot" data-place="ones" />
-              <text x="463" y="286" class="board-combined-value" data-place="tens">${String(problem.downNumber).padStart(2, "0")[0]}</text>
-              <text x="631" y="286" class="board-combined-value" data-place="ones">${String(problem.downNumber).padStart(2, "0")[1]}</text>
-            </g>
-            <text x="414" y="342" class="board-work-minus">−</text>
-            <text x="463" y="342" class="board-combined-value board-final-subtrahend" data-place="tens">${String(problem.downNumber).padStart(2, "0")[0]}</text>
-            <text x="631" y="342" class="board-combined-value board-final-subtrahend" data-place="ones">${String(problem.downNumber).padStart(2, "0")[1]}</text>
-            <path d="M416 356 H680" class="board-work-line" />
-            <text x="631" y="391" class="board-combined-value board-final-zero" data-place="ones">0</text>
-          ` : showDownWork ? `
-            <path d="M631 194 V239" class="board-down-arrow" marker-end="url(#arrowhead)" />
+      const remainderMarkup = showDownWork ? `
+            <path d="M631 194 V226" class="board-down-arrow" />
+            <path d="M619 226 L631 242 L643 226 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
             <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
               <rect x="380" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="tens" />
               <rect x="548" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="ones" />
@@ -4340,27 +4347,57 @@
           </g>
       ` : "";
 
-      svg.innerHTML = `
-        <g class="math-board-surface">
-          <rect x="8" y="6" width="904" height="388" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      const completedDigits = String(problem.downNumber).padStart(2, "0").slice(-2).split("");
+      const completedBoardMarkup = `
+        <g class="division-board division-board--complete" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+          <text x="210" y="160" class="board-number board-divisor">${problem.divisor}</text>
+          <path d="M285 86 Q305 86 305 106 L305 178 M305 86 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+
+          <text x="463" y="68" class="board-number board-final-quotient">${problem.tensQuotient}</text>
+          <text x="631" y="68" class="board-number board-final-quotient board-final-quotient--ones">${problem.onesQuotient}</text>
+
+          <text x="463" y="160" class="board-number">${problem.tensDigit}</text>
+          <text x="631" y="160" class="board-number">${problem.onesDigit}</text>
+
+          <g class="division-work division-work--complete">
+            <text x="414" y="215" class="board-work-minus">−</text>
+            <text x="463" y="215" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
+            <path d="M416 227 H510" class="board-work-line board-final-first-line" />
+
+            <path d="M631 178 V204" class="board-down-arrow" />
+            <path d="M619 204 L631 218 L643 204 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
+            <text x="463" y="272" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
+            <text x="631" y="272" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
+
+            <text x="414" y="324" class="board-work-minus">−</text>
+            <text x="463" y="324" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
+            <text x="631" y="324" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
+            <path d="M416 338 H680" class="board-work-line board-final-line" />
+            <text x="631" y="386" class="board-final-zero" data-place="ones">0</text>
+          </g>
         </g>
+      `;
+
+      const activeBoardMarkup = onesDone ? completedBoardMarkup : `
         <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
           <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
           <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
           ${renderSvgCell(380, 12, 166, 72, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
-          ${renderSvgCell(548, 12, 166, 72, onesDone || wrongOnes ? (wrongOnes ? attemptedChoice.value : problem.onesQuotient) : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
+          ${renderSvgCell(548, 12, 166, 72, wrongOnes ? attemptedChoice.value : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
           ${renderSvgCell(380, 112, 166, 80, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
           ${renderSvgCell(548, 112, 166, 80, problem.onesDigit, false, "일의 자리 수")}
 
           ${workMarkup}
         </g>
-        <defs>
-          <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-            <path d="M0,0 L8,4 L0,8 Z" fill="#f3c45f" />
-          </marker>
-        </defs>
+      `;
+
+      svg.innerHTML = `
+        <g class="math-board-surface">
+          <rect x="8" y="6" width="904" height="388" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+        </g>
+        ${activeBoardMarkup}
       `;
 
       ui.visualArea.replaceChildren(svg);
@@ -4400,12 +4437,18 @@
       `;
     }
 
+    function withBoardObjectParticle(value) {
+      const lastDigit = String(value).match(/\d(?=\D*$)/)?.[0] || "";
+      const hasFinalConsonant = new Set(["0", "1", "3", "6", "7", "8"]).has(lastDigit);
+      return `${value}${hasFinalConsonant ? "을" : "를"}`;
+    }
+
     function getBoardAriaLabel(problem, state, revealedStep, attemptedChoice) {
-      if (attemptedChoice) return `${problem.prompt}, ${problem.steps[state.stepIndex].label}에서 ${attemptedChoice.label}을 골라 다시 확인하는 중`;
-      if (revealedStep === "ones") return `${problem.prompt}, ${problem.downNumber}에서 ${problem.downNumber}을 빼면 0, 답 ${problem.quotient} 완성`;
-      if (state.stepIndex === 0) return `${problem.prompt}, 십의 자리 몫 ${problem.tensQuotient * 10}과 남은 수 ${problem.carriedTens}를 고르는 중`;
+      if (attemptedChoice) return `${problem.prompt}, ${problem.steps[state.stepIndex].label}에서 ${withBoardObjectParticle(attemptedChoice.label)} 골라 다시 확인하는 중`;
+      if (revealedStep === "ones") return `${problem.prompt}, ${problem.downNumber}에서 ${withBoardObjectParticle(problem.downNumber)} 빼면 0, 답 ${problem.quotient} 완성`;
+      if (state.stepIndex === 0) return `${problem.prompt}, 십의 자리 몫 ${problem.tensQuotient * 10}과 남은 수 ${withBoardObjectParticle(problem.carriedTens)} 고르는 중`;
       if (state.stepIndex === 1) return `남은 수 ${problem.carriedTens}, 일의 자리 ${problem.onesDigit}, 내린 수 ${problem.downNumber}`;
-      return `${problem.downNumber}을 ${problem.divisor}로 나누는 중`;
+      return `${withBoardObjectParticle(problem.downNumber)} ${problem.divisor}로 나누는 중`;
     }
 
     installSingleTapRewardFlow();

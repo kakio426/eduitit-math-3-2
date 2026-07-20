@@ -588,6 +588,115 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
   }
 }
 
+async function auditElevatorDivisionSvgClearance(page, label, mode) {
+  const selectors = mode === "tutorial"
+    ? {
+        svg: ".tutorial-division-board svg",
+        arrow: "[data-tutorial-arrow-head]",
+        brought: ".tutorial-brought-ones",
+        line: ".tutorial-final-line",
+        zero: ".tutorial-final-zero",
+      }
+    : {
+        svg: ".elevator-math-svg",
+        arrow: "[data-board-arrow-head]",
+        brought: ".board-brought-ones",
+        line: ".board-final-line",
+        zero: ".board-final-zero",
+        firstLine: ".board-final-first-line",
+        downDigits: ".board-final-down-digit",
+        subtrahends: ".board-final-subtrahend",
+      };
+  const audit = await evaluate(page, `(() => {
+    const selectors = ${JSON.stringify(selectors)};
+    const svg = document.querySelector(selectors.svg);
+    const readBox = (selector) => {
+      const node = svg?.querySelector(selector);
+      if (!node) return null;
+      const box = node.getBoundingClientRect();
+      return { x:box.x, y:box.y, width:box.width, height:box.height, right:box.right, bottom:box.bottom };
+    };
+    const arrow = readBox(selectors.arrow);
+    const brought = readBox(selectors.brought);
+    const line = readBox(selectors.line);
+    const zero = readBox(selectors.zero);
+    const firstLine = selectors.firstLine ? readBox(selectors.firstLine) : null;
+    const downDigits = selectors.downDigits
+      ? [...(svg?.querySelectorAll(selectors.downDigits) || [])].map((node) => {
+          const box = node.getBoundingClientRect();
+          return { x:box.x, y:box.y, width:box.width, height:box.height, right:box.right, bottom:box.bottom };
+        })
+      : [];
+    const subtrahends = selectors.subtrahends
+      ? [...(svg?.querySelectorAll(selectors.subtrahends) || [])].map((node) => {
+          const box = node.getBoundingClientRect();
+          return { x:box.x, y:box.y, width:box.width, height:box.height, right:box.right, bottom:box.bottom };
+        })
+      : [];
+    const lineNode = svg?.querySelector(selectors.line);
+    const firstLineNode = selectors.firstLine ? svg?.querySelector(selectors.firstLine) : null;
+    const svgRect = svg?.getBoundingClientRect();
+    const viewBox = svg?.viewBox?.baseVal;
+    const scale = svgRect && viewBox?.width && viewBox?.height
+      ? Math.min(svgRect.width / viewBox.width, svgRect.height / viewBox.height)
+      : 1;
+    const strokeWidth = (lineNode ? Number.parseFloat(getComputedStyle(lineNode).strokeWidth) || 0 : 0) * scale;
+    const firstStrokeWidth = (firstLineNode ? Number.parseFloat(getComputedStyle(firstLineNode).strokeWidth) || 0 : 0) * scale;
+    const overlapArea = (a, b, aStroke = 0) => {
+      if (!a || !b) return null;
+      const left = a.x - aStroke / 2;
+      const right = a.right + aStroke / 2;
+      const top = a.y - aStroke / 2;
+      const bottom = a.bottom + aStroke / 2;
+      return Math.max(0, Math.min(right, b.right) - Math.max(left, b.x))
+        * Math.max(0, Math.min(bottom, b.bottom) - Math.max(top, b.y));
+    };
+    const arrowGap = arrow && brought ? brought.y - arrow.bottom : null;
+    const lineGap = line && zero ? zero.y - (line.bottom + strokeWidth / 2) : null;
+    const firstLineGap = firstLine && downDigits.length
+      ? Math.min(...downDigits.map((item) => item.y)) - (firstLine.bottom + firstStrokeWidth / 2)
+      : null;
+    const middleGap = downDigits.length && subtrahends.length
+      ? Math.min(...subtrahends.map((item) => item.y)) - Math.max(...downDigits.map((item) => item.bottom))
+      : null;
+    const choiceBoxCount = svg?.querySelectorAll('.board-cell, .board-down-slot').length ?? null;
+    const completedText = [...(svg?.querySelectorAll('.division-board--complete text') || [])].map((node) => {
+      const box = node.getBoundingClientRect();
+      return { text:node.textContent.trim(), x:box.x, y:box.y, width:box.width, height:box.height, right:box.right, bottom:box.bottom };
+    });
+    const textOverlaps = [];
+    for (let index = 0; index < completedText.length; index += 1) {
+      for (let other = index + 1; other < completedText.length; other += 1) {
+        const a = completedText[index], b = completedText[other];
+        const overlapX = Math.min(a.right, b.right) - Math.max(a.x, b.x);
+        const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.y, b.y);
+        if (overlapX > 1 && overlapY > 1) textOverlaps.push({ a:a.text, b:b.text, overlapX, overlapY });
+      }
+    }
+    return {
+      selectors, arrow, brought, line, zero, firstLine, downDigits, subtrahends,
+      strokeWidth, firstStrokeWidth, scale, choiceBoxCount, textOverlaps,
+      arrowGap, arrowGapPx:arrowGap,
+      lineGap, lineGapPx:lineGap,
+      firstLineGapPx:firstLineGap,
+      middleGapPx:middleGap,
+      arrowOverlap:overlapArea(arrow, brought),
+      lineOverlap:overlapArea(line, zero, strokeWidth)
+    };
+  })()`);
+  assert(audit.arrow && audit.brought && audit.line && audit.zero, `${label}: SVG clearance target missing`, audit);
+  assert(audit.arrowOverlap === 0 && audit.arrowGapPx >= 4, `${label}: arrow overlaps the brought digit`, audit);
+  assert(audit.lineOverlap === 0 && audit.lineGapPx >= 4, `${label}: subtraction line overlaps zero`, audit);
+  if (mode === "complete") {
+    assert(audit.choiceBoxCount === 0, `${label}: completed board still shows choice boxes`, audit);
+    assert(audit.downDigits.length === 2 && audit.subtrahends.length === 2, `${label}: completed long division digits are missing`, audit);
+    assert(audit.firstLineGapPx >= 4, `${label}: first subtraction line overlaps the brought-down number`, audit);
+    assert(audit.middleGapPx >= 4, `${label}: brought-down number overlaps the second subtraction`, audit);
+    assert(audit.textOverlaps.length === 0, `${label}: completed long division text overlaps`, audit);
+  }
+  return audit;
+}
+
 async function auditDivideFarmLayout(page, label, { confirmation = false, complete = false, finalAnswer = false } = {}) {
   const audit = await evaluate(page, `(() => {
     const rectOf = (node) => {
@@ -1076,7 +1185,7 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     assert(audit.combinedValueColumnDeltas.every((delta) => delta <= 1) && audit.combinedValueVerticalDeltas.every((delta) => delta <= 3), `${label}: combined-number digits left their place-value columns`, audit);
     assert(audit.surface.bottom - audit.combinedTarget.bottom >= 7, `${label}: calculation board has no breathing room below the combined-number target`, audit);
     assert(!audit.combineSource, `${label}: redundant combined-number explanation is still visible`, audit);
-    assert(audit.arrow === 'M631 194 V239', `${label}: bring-down arrow is not vertical`, audit);
+    assert(audit.arrow === 'M631 194 V226', `${label}: bring-down arrow is not vertical`, audit);
   }
 }
 
@@ -1649,6 +1758,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && (document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '다음'", `${viewport.name}: tutorial 1 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "03-tutorial-1"));
   await auditGeometry(page, `${viewport.name} tutorial 1`);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorDivisionSvgClearance(page, `${viewport.name} tutorial division SVG`, "tutorial");
+  }
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "(document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "04-tutorial-2"));
@@ -1874,6 +1986,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorDivisionSvgClearance(page, `${viewport.name} completed division SVG`, "complete");
+  }
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");
   const firstReward = await waitForReward(page, viewport.name);
