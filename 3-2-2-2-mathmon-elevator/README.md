@@ -12,9 +12,11 @@
 
 내림 단계도 네 선택지에서 합친 수를 고릅니다. 몫과 남은 수는 색이 아니라 글자로 표시합니다. 한 문제의 정답 경로는 서로 다른 수학 판단 3회이며, 마지막에는 완성식을 확인한 뒤 `문 열기`를 한 번 누릅니다.
 
+문제 풀이 중에는 고를 자리의 상자가 보이지만, 마지막 확인에서는 상자를 모두 접고 교과서식 세로셈만 보여 줍니다. `65÷5`라면 `13 → 65 → −5 → 15 → −15 → 0`의 계산 순서가 한눈에 이어집니다.
+
 ## 이미지 계약
 
-- 설명 포스터 2장: `76÷2=38`의 실제 내림 풀이 / 10문제·보상·결과
+- 설명 배경 2장: 글자 없는 엘리베이터 장면, 각 1280×800. `76÷2=38` 세로셈과 10문제·도착 층 안내는 정확한 SVG/HTML UI로 따로 그립니다.
 - 문제 장면 3장: 대기 / 하강 / 도착, 각 1280×800
 - 독수리몬 반응 3장: 정답 / 오답 / 보상, 각 512×640
 - 보상: 닫힌 문 1장 + 사건 6종
@@ -38,10 +40,11 @@ node scripts/check-lesson-contract.mjs
 node scripts/check-lesson-visual-contract.mjs
 ```
 
-추가 화면 QA는 Codex 브라우저와 같은 931×897에서도 진행합니다. 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소를 결정적으로 재현하고 `0/10` 최저 결과까지 완주합니다.
+추가 화면 QA는 Codex 브라우저와 같은 931×897 및 사용자가 SVG 겹침과 완료 계산판 과밀을 발견한 934×987(DPR 2)에서도 진행합니다. `seed=61`로 첫 문제 `65÷5`를 고정하고 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소, 상자 없는 완료 세로셈을 결정적으로 재현한 뒤 `0/10` 최저 결과까지 완주합니다.
 
 - 몫 과대: `screenshots/engine-flow-codex-browser-05b-play-wrong.png`
 - 몫 과소: `screenshots/engine-flow-codex-browser-05b2-play-quotient-too-low.png`
 - 내림 오답: `screenshots/engine-flow-codex-browser-05d2-play-down-wrong.png`
 - 마지막 몫 과대·과소: `screenshots/engine-flow-codex-browser-05e2-play-ones-too-high.png`, `screenshots/engine-flow-codex-browser-05e3-play-ones-too-low.png`
 - `0/10` 결과: `screenshots/engine-flow-codex-browser-08-result-low-0-of-10.png`
+- SVG 겹침 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-03-tutorial-1.png`, `screenshots/engine-flow-reported-svg-overlap-934x987-06-confirm.png`

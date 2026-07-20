@@ -19,6 +19,11 @@ function loadModel(source, config) {
   return context.__lessonModel;
 }
 
+function withObjectParticle(value) {
+  const lastDigit = String(value).match(/\d(?=\D*$)/)?.[0] || "";
+  return `${value}${new Set(["0", "1", "3", "6", "7", "8"]).has(lastDigit) ? "을" : "를"}`;
+}
+
 function checkChoices(model, problem) {
   for (const step of problem.steps) {
     assert.ok(step.answerChoiceId, `${problem.id}/${step.id}: answerChoiceId`);
@@ -72,7 +77,7 @@ function checkInvariant(rule, problem) {
       assert.equal(choice.parts?.[1]?.value, choice.value.remainingTens * 10, `${problem.id}: show the remaining tens as its full place value`);
     }
     assert.equal(problem.steps[0].correctText, `몫 ${problem.tensQuotient * 10}, 남은 수 ${problem.carriedTens}`, `${problem.id}: first confirmation keeps full place values`);
-    assert.equal(problem.steps[1].instruction, `남은 ${problem.carriedTens}과 일의 자리 ${problem.onesDigit}을 합친 수를 내려요.`, `${problem.id}: bring-down instruction names both place values`);
+    assert.equal(problem.steps[1].instruction, `남은 ${problem.carriedTens}과 일의 자리 ${withObjectParticle(problem.onesDigit)} 합친 수를 골라요.`, `${problem.id}: bring-down instruction names both place values and the actual tap action`);
     assert.equal(problem.steps[1].correctText, `남은 수 ${problem.carriedTens} + 일의 자리 ${problem.onesDigit} = ${problem.downNumber}`, `${problem.id}: bring-down confirmation shows how the number was made`);
     assert.ok(problem.steps[0].advance?.delayMs >= 1800, `${problem.id}: first place-value confirmation must stay long enough to read`);
     assert.ok(problem.steps[1].advance?.delayMs >= 1600, `${problem.id}: bring-down confirmation must stay long enough to read`);

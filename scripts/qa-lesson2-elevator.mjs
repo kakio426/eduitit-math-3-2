@@ -56,7 +56,7 @@ function verifyEvidence(config) {
 try {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
   run("qa-lesson-model.mjs", [LESSON]);
-  run("qa-lesson-flow.mjs", [LESSON, "20260714"]);
+  run("qa-lesson-flow.mjs", [LESSON, "61"]);
   const evidence = verifyEvidence(config);
   console.log("LESSON2_ELEVATOR_QA: PASS");
   console.log(JSON.stringify({ lesson: LESSON, screenshots: path.relative(ROOT, SCREENSHOT_DIR), ...evidence }, null, 2));

@@ -34,6 +34,12 @@ const Lesson2ElevatorModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
+  function withObjectParticle(value) {
+    const lastDigit = String(value).match(/\d(?=\D*$)/)?.[0] || "";
+    const hasFinalConsonant = new Set(["0", "1", "3", "6", "7", "8"]).has(lastDigit);
+    return `${value}${hasFinalConsonant ? "을" : "를"}`;
+  }
+
   function makePairChoice(id, quotient, remainingTens, misconceptionId = null, feedback = "") {
     const quotientValue = quotient * 10;
     const remainingValue = remainingTens * 10;
@@ -182,7 +188,7 @@ const Lesson2ElevatorModel = (() => {
         id: `ones-only-quotient:${onesOnlyQuotient}`,
         value: onesOnlyQuotient,
         misconceptionId: "DIV2_DIVIDE_ONES_DIGIT_ONLY",
-        feedback: `${problem.downNumber}을 ${problem.divisor}로 나눠요.`
+        feedback: `${withObjectParticle(problem.downNumber)} ${problem.divisor}로 나눠요.`
       },
       {
         id: `ones-high:${problem.onesQuotient + 1}`,
@@ -221,7 +227,7 @@ const Lesson2ElevatorModel = (() => {
         id: "down",
         label: "내리기",
         action: "남은 수와 일의 자리 수를 합친다",
-        instruction: `남은 ${problem.carriedTens}과 일의 자리 ${problem.onesDigit}을 합친 수를 내려요.`,
+        instruction: `남은 ${problem.carriedTens}과 일의 자리 ${withObjectParticle(problem.onesDigit)} 합친 수를 골라요.`,
         answer: problem.downNumber,
         answerChoiceId: downAnswerId,
         choices: shuffle(downChoices, rng),
