@@ -3530,7 +3530,18 @@
     .game[data-workbench-type="place-value-farm"] .farm-drag-piece:focus-visible,
     .game[data-workbench-type="place-value-farm"] .farm-share-basket:focus-visible { outline: 5px solid #1d8050; outline-offset: 3px; }
     .game[data-workbench-type="place-value-farm"] .farm-share-entry.is-dragging .farm-share-basket { border-color: #2f8253; background: #effbea; }
-    .game[data-workbench-type="place-value-farm"] .play-mathmon-reaction { display: none !important; }
+    .game[data-workbench-type="place-value-farm"] .play-mathmon-reaction {
+      display: none !important;
+      left: 6px;
+      bottom: 18px;
+      width: 156px;
+      height: 194px;
+      pointer-events: none;
+    }
+    .game[data-workbench-type="place-value-farm"] .problem-grid:has(.farm-share-confirmation)
+      ~ .play-mathmon-reaction[data-reaction="correct"]:not([hidden]) {
+      display: block !important;
+    }
     .game[data-workbench-type="place-value-farm"] .farm-share-feedback {
       min-height: 30px;
       margin: 0;
