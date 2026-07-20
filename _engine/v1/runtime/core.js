@@ -385,17 +385,30 @@ async function handleChoice(choice, button) {
 
   if (state.stepIndex < problem.steps.length - 1) {
     state.pendingAdvance = true;
+    if (step.advance?.mode === "button" && typeof prepareStepAdvance === "function") {
+      const prepared = prepareStepAdvance(problem, step, state, advanceToNextStep);
+      if (prepared === true) return;
+    }
     const delay = Number.isFinite(step.advance?.delayMs) ? step.advance.delayMs : 900;
     setTimeout(() => {
-      state.stepIndex += 1;
-      state.pendingAdvance = false;
-      state.inputLocked = false;
-      state.stepAttempts = [];
-      renderStep();
+      advanceToNextStep();
     }, Math.max(0, delay));
     return;
   }
 
+  if (step.advance?.mode === "button" && typeof prepareProblemComplete === "function") {
+    state.pendingAdvance = true;
+    const prepared = prepareProblemComplete(problem, step, state, () => completeCurrentProblem(problem, step, choice));
+    if (prepared === true) return;
+    state.pendingAdvance = false;
+  }
+
+  await completeCurrentProblem(problem, step, choice);
+}
+
+async function completeCurrentProblem(problem, step, choice) {
+  if (state.completed) return;
+  state.pendingAdvance = false;
   state.completed = true;
   await setProblemSceneState("complete");
   if (!state.mistakeTouched) state.correctFirstTry += 1;
@@ -408,6 +421,15 @@ async function handleChoice(choice, button) {
   ui.continueButton.hidden = false;
   ui.continueButton.focus({ preventScroll: true });
   state.inputLocked = false;
+}
+
+function advanceToNextStep() {
+  if (!state.pendingAdvance) return;
+  state.stepIndex += 1;
+  state.pendingAdvance = false;
+  state.inputLocked = false;
+  state.stepAttempts = [];
+  renderStep();
 }
 
 function getChoiceLabel(choice) {

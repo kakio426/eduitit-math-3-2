@@ -639,7 +639,10 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       && item.rect.left >= entry.left - 1 && item.rect.top >= entry.top - 1
       && item.rect.right <= entry.right + 1 && item.rect.bottom <= entry.bottom + 1));
     const confirmationPanel = rectOf(document.querySelector('.farm-share-confirmation'));
+    const confirmationTitle = rectOf(document.querySelector('.farm-confirm-title'));
     const confirmationBaskets = rectOf(document.querySelector('.farm-confirm-baskets'));
+    const confirmationEquation = rectOf(document.querySelector('.farm-confirm-equation'));
+    const confirmationButton = rectOf(document.querySelector('.farm-confirm-next-button:not([hidden])'));
     const problemGrid = rectOf(document.querySelector('.problem-grid'));
     const completePanel = rectOf(document.querySelector('#completePanel.is-visible'));
     const completeText = rectOf(document.querySelector('#completePanel.is-visible .complete-text'));
@@ -661,11 +664,15 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       reactionVisible:visible(reaction),
       entryWidthRatio:stage && entry ? entry.width / stage.width : null,
       coreInside,
-      confirmationPanel, confirmationBaskets,
+      confirmationPanel, confirmationTitle, confirmationBaskets, confirmationEquation, confirmationButton,
       confirmationInside:confirmationPanel && confirmationBaskets
         ? confirmationBaskets.left >= confirmationPanel.left - 1 && confirmationBaskets.right <= confirmationPanel.right + 1
           && confirmationBaskets.top >= confirmationPanel.top - 1 && confirmationBaskets.bottom <= confirmationPanel.bottom + 1
         : true,
+      confirmationButtonInside:confirmationPanel && confirmationButton ? contains(confirmationPanel, confirmationButton, 1) : true,
+      confirmationTitleGap:confirmationTitle && confirmationBaskets ? confirmationBaskets.top - confirmationTitle.bottom : null,
+      confirmationEquationGap:confirmationBaskets && confirmationEquation ? confirmationEquation.top - confirmationBaskets.bottom : null,
+      confirmationButtonGap:confirmationEquation && confirmationButton ? confirmationButton.top - confirmationEquation.bottom : null,
       completePanel, completeText,
       completeWidthRatio:stage && completePanel ? completePanel.width / stage.width : null,
       completeSameColumn:problemGrid && completePanel
@@ -695,6 +702,11 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
   }
   if (confirmation) {
     assert(audit.confirmationPanel && audit.confirmationBaskets && audit.confirmationInside, `${label}: share confirmation panel is incomplete`, audit);
+    if (audit.confirmationButton) {
+      assert(audit.confirmationButtonInside, `${label}: manual next button left the confirmation panel`, audit);
+      assert(audit.confirmationButton.width >= 200 && audit.confirmationButton.height >= 42, `${label}: manual next button is smaller than the touch target`, audit);
+      assert(audit.confirmationTitleGap >= 4 && audit.confirmationEquationGap >= 4 && audit.confirmationButtonGap >= 4, `${label}: confirmation content overlaps the manual next button`, audit);
+    }
   }
   if (complete) {
     assert(audit.completePanel && audit.completeText, `${label}: completed division panel is missing`, audit);
@@ -1246,8 +1258,19 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
     const beforeStep = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
     await clickChoice(page, true);
-    const advanced = `document.getElementById('completePanel').classList.contains('is-visible') || (window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)})`;
-    await waitUntil(page, advanced, "correct response did not advance", 6000);
+    const ready = `document.getElementById('completePanel').classList.contains('is-visible') || Boolean(document.querySelector('.farm-confirm-next-button:not([hidden]):not(:disabled)')) || (window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)})`;
+    await waitUntil(page, ready, "correct response did not reach a confirmation", 6000);
+    const manualAdvanceReady = await evaluate(page, "Boolean(document.querySelector('.farm-step-next-button:not([hidden]):not(:disabled)'))");
+    if (manualAdvanceReady) {
+      await clickSelector(page, ".farm-step-next-button:not([hidden]):not(:disabled)");
+      await waitUntil(page, `(window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)} && window.__mathmonEngineQa.getState().inputLocked === false`, "manual confirmation did not advance", 6000);
+      continue;
+    }
+    const manualCompleteReady = await evaluate(page, "Boolean(document.querySelector('.farm-problem-complete-button:not([hidden]):not(:disabled)'))");
+    if (manualCompleteReady) {
+      await clickSelector(page, ".farm-problem-complete-button:not([hidden]):not(:disabled)");
+      await waitUntil(page, "document.getElementById('completePanel').classList.contains('is-visible')", "manual final confirmation did not complete", 6000);
+    }
   }
 }
 
@@ -1386,11 +1409,11 @@ async function auditFarmResultTier(page, label, expectedTier) {
 async function forceFarmRewardCases(page, lesson, viewport, shots) {
   const stageNames = { seed:"씨앗", sprout:"새싹", garden:"텃밭", rainbow:"황금밭" };
   const cases = [
-    { name:"increase", event:"harvest", amount:8, power:10, correct:2, special:false, tier:"sprout", text:"새싹이 됐어요!" },
-    { name:"decrease", event:"bug", amount:-4, power:18, correct:2, special:false, tier:"seed", text:"씨앗이 됐어요!" },
-    { name:"zero", event:"empty", amount:0, power:40, correct:4, special:false, tier:"garden", text:"농장까지 15 더" },
-    { name:"correct-gate", event:"empty", amount:0, power:55, correct:5, special:false, tier:"garden", text:"농장까지 문제 1개 더" },
-    { name:"golden-field", event:"rainbow", amount:0, power:50, correct:6, special:true, tier:"rainbow", text:"황금밭을 찾았어요!" },
+    { name:"increase", event:"harvest", amount:8, power:10, correct:2, special:false, tier:"sprout", text:"이번에 +8점→지금 18점" },
+    { name:"decrease", event:"bug", amount:-4, power:18, correct:2, special:false, tier:"seed", text:"이번에 -4점→지금 14점" },
+    { name:"zero", event:"empty", amount:0, power:40, correct:4, special:false, tier:"garden", text:"이번에 0점→지금 40점" },
+    { name:"correct-gate", event:"empty", amount:0, power:55, correct:5, special:false, tier:"garden", text:"이번에 0점→지금 55점" },
+    { name:"golden-field", event:"rainbow", amount:0, power:50, correct:6, special:true, tier:"rainbow", text:"황금밭 발견!→지금 100점" },
   ];
   for (const item of cases) {
     const prepared = await evaluate(page, `(() => {
@@ -1553,6 +1576,12 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "05c-play-tens-confirm"));
     await auditGeometry(page, `${viewport.name} tens confirmation`);
     await auditDivideFarmLayout(page, `${viewport.name} tens confirmation`, { confirmation:true });
+    const manualAdvanceReady = await evaluate(page, "Boolean(document.querySelector('.farm-step-next-button:not([hidden]):not(:disabled)'))");
+    assert(manualAdvanceReady, `${viewport.name}: tens confirmation manual button is missing`);
+    await delay(1800);
+    const heldStep = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
+    assert(heldStep === beforeStep, `${viewport.name}: tens confirmation advanced without the student button`, { beforeStep, heldStep });
+    await clickSelector(page, ".farm-step-next-button:not([hidden]):not(:disabled)");
     await waitUntil(page, `(window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(beforeStep)} && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: tens share did not advance`, 8000);
     shots.push(await screenshot(page, lesson, viewport, "05c-play-step2"));
     await auditGeometry(page, `${viewport.name} ones share`);
@@ -1564,6 +1593,12 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "05d-play-ones-confirm"));
     await auditGeometry(page, `${viewport.name} ones confirmation`);
     await auditDivideFarmLayout(page, `${viewport.name} ones confirmation`, { confirmation:true });
+    const manualCompleteReady = await evaluate(page, "Boolean(document.querySelector('.farm-problem-complete-button:not([hidden]):not(:disabled)'))");
+    assert(manualCompleteReady, `${viewport.name}: ones confirmation manual button is missing`);
+    await delay(1800);
+    const completedTooSoon = await evaluate(page, "document.getElementById('completePanel')?.classList.contains('is-visible')");
+    assert(!completedTooSoon, `${viewport.name}: ones confirmation advanced without the student button`);
+    await clickSelector(page, ".farm-problem-complete-button:not([hidden]):not(:disabled)");
     await waitUntil(page, "document.getElementById('completePanel')?.classList.contains('is-visible')", `${viewport.name}: one-basket completion did not appear`, 8000);
     shots.push(await screenshot(page, lesson, viewport, "05d-play-one-basket-complete"));
     await auditGeometry(page, `${viewport.name} one-basket completion`);

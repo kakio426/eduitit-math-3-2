@@ -46,6 +46,10 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.steps[1].answer * problem.divisor, problem.ones, `${problem.id}: built ones share accounts for every vegetable`);
     assert.equal(problem.steps[0].answer, problem.tensShare, `${problem.id}: student answer maps to the actual tens share`);
     assert.equal(problem.steps[1].answer, problem.onesQuotient, `${problem.id}: student answers with the actual ones share`);
+    assert.equal(problem.steps[0].advance?.mode, "button", `${problem.id}: student advances after reading the tens confirmation`);
+    assert.equal(problem.steps[0].advance?.label, "낱개 나누기", `${problem.id}: next action names the ones step`);
+    assert.equal(problem.steps[1].advance?.mode, "button", `${problem.id}: student advances after reading the ones confirmation`);
+    assert.equal(problem.steps[1].advance?.label, "나눈 값 더하기", `${problem.id}: final action names the completed relationship`);
     assert.ok(problem.steps.slice(0, 2).every((step) => step.interaction === "enter-share"), `${problem.id}: student decides one basket's share before the system distributes`);
     assert.ok(problem.steps.slice(0, 2).every((step) => step.reason), `${problem.id}: each place-value step states why it exists`);
     assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV1_TENS_SHARE_ERROR"), `${problem.id}: tens-share error state`);
@@ -192,6 +196,10 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
     assert.match(viewSource, /createFarmBasketStateImage/, `${config.id}: generated filled-basket states follow the dragged quantity`);
     assert.match(viewSource, /farm-share-mini-basket/, `${config.id}: all destination baskets remain visible`);
     assert.match(viewSource, /renderFarmShareConfirmation/, `${config.id}: the confirmed answer changes the current objects`);
+    assert.match(viewSource, /prepareStepAdvance/, `${config.id}: the confirmed tens step waits for the student button`);
+    assert.match(viewSource, /prepareProblemComplete/, `${config.id}: the confirmed ones step waits for the student button`);
+    assert.match(viewSource, /낱개 나누기/, `${config.id}: the manual transition names the next math action`);
+    assert.match(runtimeSource, /advanceToNextStep/, `${config.id}: manual and timed transitions share one guarded advance path`);
     assert.match(viewSource, /for \(let index = 0; index < problem\.divisor/, `${config.id}: every divisor basket is rendered`);
     assert.doesNotMatch(viewSource, /createFarmShareOption|farm-share-option-count/, `${config.id}: answer-card buttons returned`);
     assert.doesNotMatch(viewSource, /addEventListener\("dragstart"/, `${config.id}: touch-fragile native drag returned`);

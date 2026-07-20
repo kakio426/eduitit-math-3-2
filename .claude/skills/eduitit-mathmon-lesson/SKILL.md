@@ -179,6 +179,14 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 `cover-generated.webp` 한 장 안에 제목·목표·시작 버튼을 구워 넣거나, 커버 전체를 누르는 `cover-art`/`cover-start-hitbox` 투명 클릭 영역을 새 차시에 쓰지 않는다. 버튼 크기의 HTML 버튼은 접근성과 클릭을 위해 필요하지만, 보이는 버튼 표면을 CSS 배경/텍스트로 새로 그리면 실패다. 기존 `generated-title-overlay` 차시 중 아직 `.primary-button`으로 시작하는 화면은 개별 이관 전까지 `data-cover-start-standard="compatibility-primary-button"`로 분류하고, 새 차시 복제 기준으로 삼지 않는다. 아직 마이그레이션하지 않은 포스터형 기존 차시는 `data-cover-standard="legacy-raster-poster"`로 예외임을 명시한다.
 
+### 주요 행동 버튼 통일 규격
+
+- 시작·설명 시작·보상 열기·결과 다시처럼 화면 흐름을 바꾸는 큰 행동 버튼은 승인된 공용 버튼 계열의 시각 언어를 따른다. 기본은 밝은 금빛 가로 캡슐, 두꺼운 이중 테두리, 아래쪽 입체 그림자, 짧고 굵은 한글 라벨이다. 숫자 선택지, 설정, 닫기 같은 작은 조작에는 이 규격을 억지로 적용하지 않는다.
+- `시작`은 공용 `mathmon-cover-start-button-v1`, 결과의 `다시`는 공용 결과 버튼을 그대로 쓴다. 뜻이 다른 버튼에 기존 글자 자산을 재사용하거나 CSS로 글자만 덮지 말고, 같은 계열의 독립 생성형 PNG/WebP 버튼 아트를 만든다.
+- 차시별 큰 행동 버튼은 생성 원본 또는 크로마키 PNG, 배경 제거 PNG, 실행 WebP를 함께 보관한다. HTML `<button>`에는 보이는 텍스트를 중복하지 않고 `aria-label`만 남기며, 자식 `<img aria-hidden="true">`가 버튼 면 전체를 채우게 한다.
+- 같은 차시의 큰 행동 버튼은 비율·높이·광택·테두리 두께·그림자 방향을 나란히 비교한다. 이미 승인된 `시작`·`다시`와 한 계열로 보이지 않거나, `object-fit: fill`로 자산 자체 비율을 바꾸면 실패다.
+- 브라우저에서 버튼 아트와 HTML hitbox의 `getBoundingClientRect()` 중심·너비·높이 차이를 각각 `1px` 이하로 확인한다. 1280×800과 1024×768에서 주변 계산판·문구·패널과 교차가 `0px`이고 터치 영역이 최소 `42×42px`인지 캡처와 수치로 남긴다.
+
 첫 화면 제목은 단순 큰 HTML 텍스트로 끝내지 않는다. 사용자가 `그림으로`, `GPT Image`, `제목 이미지`를 요구하면 기존 커버 배경은 유지하고, 제목 부분만 독립 래스터 타이틀 아트(`title-logo-generated.webp`, `title-poster-generated.webp` 등)로 생성해 얹는다. 전체 커버를 제목 이미지로 갈아엎거나 HTML/CSS/SVG로 흉내 내지 않는다. 실제 제목은 `visually-hidden` 텍스트로 남긴다. 생성형 이미지 제목은 캡처로 한글 철자와 배경 위 배치 상태를 검수하고, 철자 오류·어색한 자산·생성 실패 중간 결과를 화면에 남기지 않는다.
 
 중요: 첫 화면 제목 자산은 반드시 `image_gen`/GPT Image 등 생성형 이미지 도구로 만든 결과여야 한다. 시작 버튼은 이미 승인된 공용 `mathmon-cover-start-button-v1`을 쓴다. 사용자가 명시적으로 승인한 공용 버튼 교체가 아니라면 시작 버튼을 새로 생성하지 않는다. 제목 원본(`title-*-source.png` 또는 `title-*-chromakey.png`)과 공용 버튼의 원본·PNG·WebP 세트는 함께 보관한다. `node scripts/check-stage-ratio.mjs`가 공용 버튼 참조와 원본 보관 조건을 검사한다.

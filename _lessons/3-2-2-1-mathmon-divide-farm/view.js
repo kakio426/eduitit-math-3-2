@@ -45,6 +45,14 @@ function ensureFarmHarvestButtonArt() {
 
   button.classList.add("farm-harvest-button");
   button.setAttribute("aria-label", LESSON_CONFIG.buttonLabel || "수확 보기");
+  button.style.setProperty("width", "min(270px, 23vw, 100%)", "important");
+  button.style.setProperty("min-width", "0", "important");
+  button.style.setProperty("min-height", "0", "important");
+  button.style.setProperty("aspect-ratio", "1785 / 706", "important");
+  button.style.setProperty("padding", "0", "important");
+  button.style.setProperty("border", "0", "important");
+  button.style.setProperty("background", "transparent", "important");
+  button.style.setProperty("box-shadow", "none", "important");
   const image = document.createElement("img");
   image.className = "farm-harvest-button-art";
   image.src = source;
@@ -67,6 +75,7 @@ function ensureFarmRewardNextButtonArt() {
     if (label !== nextLabel) {
       button.classList.remove("farm-next-button");
       delete button.dataset.actionLabel;
+      if (label) button.setAttribute("aria-label", label);
       return;
     }
 
@@ -317,6 +326,8 @@ function renderFarmShareEntry() {
 
   const source = document.createElement("section");
   source.className = "farm-share-source";
+  source.dataset.unitKind = step.id === "tens" ? "bundle" : "single";
+  source.dataset.unitCount = String(Math.min(10, Math.max(1, step.unitCount)));
   const sourceLabel = document.createElement("strong");
   sourceLabel.textContent = `전체 ${step.totalValue}개`;
   const sourcePieces = document.createElement("div");
@@ -770,7 +781,7 @@ function onRewardReveal({ event, beforeResult, afterResult, state }) {
   stage.root.dataset.phase = "revealed";
   stage.root.setAttribute("aria-label", `${event.text}. ${afterResult.name}이 됐어요.`);
   syncFarmStatusBadge(state);
-  window.setTimeout(() => {
+  const renderRewardScore = () => {
     const amount = Number(event.amount) || 0;
     const earned = document.createElement("strong");
     earned.className = "farm-reward-earned";
@@ -786,9 +797,14 @@ function onRewardReveal({ event, beforeResult, afterResult, state }) {
     arrow.setAttribute("aria-hidden", "true");
     stage.label.replaceChildren(earned, arrow, total);
     stage.label.setAttribute("aria-label", `${earned.textContent}, ${total.textContent}`);
-  }, 0);
+  };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return new Promise((resolve) => setTimeout(resolve, reduced ? 0 : 480));
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      resolve();
+      window.setTimeout(renderRewardScore, 0);
+    }, reduced ? 0 : 480);
+  });
 }
 
 function onResult({ result, correctFirstTry = 0 }) {
