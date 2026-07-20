@@ -210,19 +210,6 @@ function installElevatorTutorialGuides() {
     </div>
   `;
   tutorialCards[0].appendChild(mathGuide);
-
-  const rewardGuide = document.createElement("section");
-  rewardGuide.className = "tutorial-reward-guide";
-  rewardGuide.setAttribute("aria-label", "게임 목표");
-  rewardGuide.innerHTML = `
-    <div class="tutorial-reward-copy">
-      <span class="tutorial-reward-count">10문제</span>
-      <h2>문을 열며 올라가요</h2>
-      <p>문을 열면 올라갈 힘이 바뀌어요.</p>
-      <p>마지막에 도착한 층을 봐요.</p>
-    </div>
-  `;
-  tutorialCards[1].appendChild(rewardGuide);
 }
 
 function moveElevator(sceneState) {
@@ -406,5 +393,52 @@ function getBoardAriaLabel(problem, state, revealedStep, attemptedChoice) {
   return `${withBoardObjectParticle(problem.downNumber)} ${problem.divisor}로 나누는 중`;
 }
 
+const ELEVATOR_ACTION_ART_BY_LABEL = Object.freeze({
+  "다음": LESSON_CONFIG.imageAssets.actionButtons.next,
+  "이전": LESSON_CONFIG.imageAssets.actionButtons.previous,
+  "문제 시작": LESSON_CONFIG.imageAssets.actionButtons.problemStart,
+  "문 열기": LESSON_CONFIG.imageAssets.actionButtons.doorOpen,
+  "결과 보기": LESSON_CONFIG.imageAssets.actionButtons.resultView
+});
+
+function syncElevatorActionButtonArt(button, fallbackLabel = "") {
+  if (!button) return;
+  const visibleText = button.textContent.trim();
+  const label = visibleText || button.dataset.actionLabel || fallbackLabel;
+  const imageSource = ELEVATOR_ACTION_ART_BY_LABEL[label];
+  if (!imageSource) return;
+
+  const currentImage = button.querySelector(".generated-action-button-art");
+  if (currentImage?.getAttribute("src") === imageSource && button.dataset.actionLabel === label) return;
+
+  const image = document.createElement("img");
+  image.className = "generated-action-button-art";
+  image.src = imageSource;
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+
+  button.classList.add("generated-action-button");
+  button.dataset.actionLabel = label;
+  button.setAttribute("aria-label", label);
+  button.replaceChildren(image);
+}
+
+function observeElevatorActionButton(button, fallbackLabel = "") {
+  if (!button || button.dataset.generatedActionObserver === "true") return;
+  button.dataset.generatedActionObserver = "true";
+  const observer = new MutationObserver(() => syncElevatorActionButtonArt(button, fallbackLabel));
+  observer.observe(button, { childList: true, characterData: true, subtree: true });
+  syncElevatorActionButtonArt(button, fallbackLabel);
+}
+
+function installElevatorGeneratedActionButtons() {
+  observeElevatorActionButton(ui.nextTutorialButton, LESSON_CONFIG.tutorialButton || "문제 시작");
+  observeElevatorActionButton(ui.backTutorialButton, "이전");
+  observeElevatorActionButton(ui.continueButton, LESSON_CONFIG.buttonLabel || "문 열기");
+  observeElevatorActionButton(ui.rewardNextButton, "다음");
+  observeElevatorActionButton(ui.modalRewardNextButton, "다음");
+}
+
 installSingleTapRewardFlow();
 installElevatorTutorialGuides();
+installElevatorGeneratedActionButtons();

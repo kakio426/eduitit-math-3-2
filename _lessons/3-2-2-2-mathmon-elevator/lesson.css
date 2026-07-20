@@ -142,7 +142,7 @@
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) 54px minmax(140px, auto);
+  grid-template-rows: minmax(0, 1fr) 58px minmax(156px, auto);
   gap: 8px;
 }
 
@@ -481,10 +481,16 @@
 }
 
 .game[data-workbench-type="division-elevator"] .complete-panel .primary-button {
-  min-height: 68px;
-  color: #2c210c;
-  background: #ffd46d;
-  box-shadow: 0 8px 0 #9c721a;
+  width: clamp(220px, 23vw, 300px);
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1805 / 706;
+  height: auto;
+  padding: 0;
+  border: 0;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
 }
 
 .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .choices-panel {
@@ -580,7 +586,11 @@
   display: none !important;
 }
 .game[data-workbench-type="division-elevator"] .result-restart-hitbox .result-retry-art {
-  display: none !important;
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
 }
 
 .game[data-workbench-type="division-elevator"] .reward-card {
@@ -679,57 +689,102 @@
   position: absolute;
   min-width: 0;
   min-height: 0;
-  padding: 0 28px;
-  border: 4px solid #fff6cb;
-  border-radius: 999px;
-  color: #173a55;
-  background: linear-gradient(180deg, #ffe980 0%, #f7ba3e 100%);
-  box-shadow: 0 7px 0 #b87312, 0 12px 24px rgba(11, 49, 69, 0.28);
-  font-size: 28px;
-  font-weight: 1000;
-  line-height: 1;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+  aspect-ratio: 1805 / 705;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0;
+  line-height: 0;
+  text-shadow: none;
   pointer-events: auto;
   cursor: pointer;
 }
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
-  border-color: #ddf7ff;
-  color: #f6fdff;
-  background: linear-gradient(180deg, #2c8ec6 0%, #176096 100%);
-  box-shadow: 0 7px 0 #0e426c, 0 12px 24px rgba(11, 49, 69, 0.24);
-  text-shadow: 0 2px 0 rgba(4, 41, 66, 0.42);
+  aspect-ratio: 1805 / 707;
 }
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialStartButton:focus-visible,
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialBackButton:focus-visible {
-  outline: 3px solid #174d74;
-  outline-offset: 3px;
+  outline: none;
 }
 
 .game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="0"] #tutorialStartButton {
   left: 35%;
   bottom: 2.4%;
   width: 30%;
-  height: 11.5%;
 }
 
 .game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] #tutorialStartButton {
   left: 59%;
   bottom: 2.4%;
   width: 32%;
-  height: 11.5%;
 }
 
 .game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] #tutorialBackButton {
   left: 9%;
   bottom: 2.4%;
   width: 24%;
-  height: 11.5%;
 }
 
-.game[data-workbench-type="division-elevator"] .tutorial-math-guide,
-.game[data-workbench-type="division-elevator"] .tutorial-reward-guide {
+.game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] > .top-row {
+  justify-content: flex-start;
+}
+
+.game[data-workbench-type="division-elevator"] .generated-action-button {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0;
+  line-height: 0;
+  transform-origin: center;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.game[data-workbench-type="division-elevator"] .generated-action-button:hover {
+  transform: translateY(-2px) scale(1.015);
+  filter: brightness(1.04);
+}
+
+.game[data-workbench-type="division-elevator"] .generated-action-button:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.game[data-workbench-type="division-elevator"] .generated-action-button:focus-visible {
+  outline: none;
+}
+
+.game[data-workbench-type="division-elevator"] .generated-action-button:focus-visible .generated-action-button-art {
+  filter:
+    drop-shadow(0 0 5px #ffffff)
+    drop-shadow(0 0 9px #176ea4);
+}
+
+.game[data-workbench-type="division-elevator"] .generated-action-button-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.game[data-workbench-type="division-elevator"] #rewardNextButton.generated-action-button,
+.game[data-workbench-type="division-elevator"] #modalRewardNextButton.generated-action-button {
+  width: clamp(230px, 24vw, 300px);
+  aspect-ratio: 1805 / 705;
+  height: auto;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-math-guide {
   position: absolute;
   z-index: 3;
   pointer-events: none;
@@ -923,57 +978,22 @@
   font-size: 1.2em;
 }
 
-.game[data-workbench-type="division-elevator"] .tutorial-reward-guide {
-  top: 18cqh;
-  right: 5.6cqw;
-  width: min(43cqw, 494px);
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-reward-copy {
-  padding: clamp(24px, 4cqh, 36px) clamp(24px, 3cqw, 38px) clamp(22px, 3.8cqh, 34px);
-  border: 5px solid rgba(255, 255, 255, 0.93);
-  border-radius: clamp(26px, 3cqw, 38px);
-  color: #143d56;
-  background: rgba(244, 252, 255, 0.91);
-  box-shadow: 0 16px 0 rgba(27, 101, 133, 0.18), 0 26px 50px rgba(16, 70, 94, 0.2);
-  text-align: center;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-reward-count {
-  display: inline-block;
-  padding: clamp(6px, 1cqh, 9px) clamp(18px, 2.2cqw, 28px) clamp(7px, 1.2cqh, 11px);
-  border-radius: 999px;
-  color: #153a54;
-  background: #ffe06e;
-  font-size: clamp(27px, 2.8cqw, 34px);
-  font-weight: 1000;
-  line-height: 1;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-reward-copy h2 {
-  margin: clamp(15px, 2.5cqh, 22px) 0 clamp(18px, 3.2cqh, 28px);
-  font-size: clamp(31px, 3.4cqw, 42px);
-  font-weight: 1000;
-  line-height: 1.12;
-  letter-spacing: -0.04em;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-reward-copy p {
-  margin: clamp(9px, 1.5cqh, 13px) 0 0;
-  color: #254f65;
-  font-size: clamp(18px, 2cqw, 24px);
-  font-weight: 850;
-  line-height: 1.28;
-}
-
 @media (max-width: 1100px), (max-height: 720px) {
   .game[data-workbench-type="division-elevator"] .problem-grid {
     top: 56px;
     right: 24px;
     bottom: 8px;
     left: 15.5%;
-    grid-template-rows: minmax(0, 1fr) 44px minmax(112px, auto);
-    gap: 6px;
+    grid-template-rows: minmax(0, 1fr) 48px minmax(118px, auto);
+    gap: 8px;
+  }
+
+  .game[data-workbench-type="division-elevator"] .problem-card {
+    gap: 0;
+  }
+
+  .game[data-workbench-type="division-elevator"] .step-board {
+    min-height: 48px;
   }
 
   .game[data-workbench-type="division-elevator"] .big-problem {
@@ -995,7 +1015,7 @@
 
   .game[data-workbench-type="division-elevator"] .choices-panel,
   .elevator-floor-panel {
-    grid-template-rows: repeat(2, minmax(50px, 1fr));
+    grid-template-rows: repeat(2, minmax(46px, 1fr));
     gap: 6px;
   }
 
@@ -1004,11 +1024,17 @@
   }
 
   .game[data-workbench-type="division-elevator"] .elevator-choice {
-    min-height: 52px;
+    min-height: 46px;
   }
 
   .game[data-workbench-type="division-elevator"] .complete-panel {
     min-height: 132px;
+  }
+
+  .game[data-workbench-type="division-elevator"] .play-mathmon-reaction {
+    left: 4px;
+    width: 128px;
+    height: 160px;
   }
 
   .elevator-choice-part {

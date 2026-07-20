@@ -588,6 +588,145 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
   }
 }
 
+async function auditGeneratedActionButton(page, label, selector, expectedSource, expectedLabel) {
+  const audit = await evaluate(page, `(() => {
+    const button = document.querySelector(${JSON.stringify(selector)});
+    const image = button?.querySelector('.generated-action-button-art, .result-retry-art');
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height } : null;
+    };
+    return {
+      button:rectOf(button),
+      image:rectOf(image),
+      source:image?.getAttribute('src') || '',
+      naturalWidth:image?.naturalWidth || 0,
+      naturalHeight:image?.naturalHeight || 0,
+      complete:Boolean(image?.complete),
+      ariaLabel:button?.getAttribute('aria-label') || '',
+      visibleText:button?.textContent.trim() || '',
+      hidden:Boolean(button?.hidden),
+      display:button ? getComputedStyle(button).display : ''
+    };
+  })()`);
+  assert(audit.button && audit.image, `${label}: generated action button or art is missing`, audit);
+  assert(!audit.hidden && audit.display !== 'none', `${label}: generated action button is not visible`, audit);
+  assert(audit.complete && audit.naturalWidth > 0 && audit.naturalHeight > 0, `${label}: generated action art did not load`, audit);
+  assert(audit.source.endsWith(expectedSource), `${label}: wrong generated action asset`, audit);
+  assert(audit.ariaLabel === expectedLabel, `${label}: generated action accessible label is wrong`, audit);
+  assert(audit.visibleText === '', `${label}: visible HTML text duplicates generated button art`, audit);
+  for (const edge of ['left', 'top', 'right', 'bottom', 'width', 'height']) {
+    assert(Math.abs(audit.button[edge] - audit.image[edge]) <= 1, `${label}: art and hitbox ${edge} differ by more than 1px`, audit);
+  }
+  assert(audit.button.width >= 42 && audit.button.height >= 42, `${label}: generated action touch target is too small`, audit);
+}
+
+async function auditElevatorTutorialGoalRaster(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const cards = [...document.querySelectorAll('#screen-tutorial .tutorial-card')];
+    const card = cards[1];
+    const image = card?.querySelector('.tutorial-poster-art');
+    const directTitle = [...(card?.children || [])].find((node) => node.tagName === 'STRONG');
+    const directBody = [...(card?.children || [])].find((node) => node.tagName === 'P');
+    const topRow = document.querySelector('#screen-tutorial > .top-row');
+    const readRect = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    return {
+      source:image?.getAttribute('src') || '',
+      complete:Boolean(image?.complete),
+      naturalWidth:image?.naturalWidth || 0,
+      naturalHeight:image?.naturalHeight || 0,
+      objectFit:image ? getComputedStyle(image).objectFit : '',
+      card:readRect(card),
+      image:readRect(image),
+      title:directTitle?.textContent?.trim() || '',
+      body:directBody?.textContent?.trim() || '',
+      titleRect:readRect(directTitle),
+      bodyRect:readRect(directBody),
+      guideCount:card?.querySelectorAll('.tutorial-reward-guide').length ?? null,
+      topRowJustify:topRow ? getComputedStyle(topRow).justifyContent : '',
+    };
+  })()`);
+  assert(audit.source.endsWith('tutorial-page-2-v3-generated.webp'), `${label}: wrong generated tutorial image`, audit);
+  assert(audit.complete && audit.naturalWidth === 1280 && audit.naturalHeight === 800, `${label}: tutorial image size/load contract changed`, audit);
+  assert(audit.objectFit === 'cover', `${label}: tutorial image must fill the 16:10 card`, audit);
+  assert(audit.title === '나눗셈을 풀고 문을 열어요', `${label}: accessible tutorial title regressed`, audit);
+  assert(audit.body === '나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.', `${label}: accessible tutorial flow copy regressed`, audit);
+  assert(audit.guideCount === 0, `${label}: HTML tutorial panel duplicates generated image text`, audit);
+  assert(audit.titleRect?.width <= 1 && audit.titleRect?.height <= 1 && audit.bodyRect?.width <= 1 && audit.bodyRect?.height <= 1, `${label}: accessible HTML copy is visible over the generated poster`, audit);
+  for (const edge of ['left', 'top', 'right', 'bottom', 'width', 'height']) {
+    assert(Math.abs(audit.card[edge] - audit.image[edge]) <= 1, `${label}: poster and tutorial card ${edge} differ by more than 1px`, audit);
+  }
+  assert(audit.topRowJustify === 'flex-start', `${label}: top badges were not moved into the image safe zone`, audit);
+}
+
+async function auditMathmonReactionAlphaEdge(page, label) {
+  const audit = await evaluate(page, `(async () => {
+    const image = document.querySelector('.play-mathmon-reaction');
+    if (!image) return { missing:true };
+    await image.decode();
+    const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
+    const panel = document.getElementById('completePanel')?.getBoundingClientRect();
+    const imageRect = image.getBoundingClientRect();
+    const canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext('2d', { willReadFrequently:true });
+    context.drawImage(image, 0, 0);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let minX = canvas.width;
+    let maxX = -1;
+    let minY = canvas.height;
+    let maxY = -1;
+    for (let y = 0; y < canvas.height; y += 1) {
+      for (let x = 0; x < canvas.width; x += 1) {
+        const alpha = pixels[(y * canvas.width + x) * 4 + 3];
+        if (alpha < 16) continue;
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+      }
+    }
+    let leftOpaquePixels = 0;
+    if (maxX >= minX) {
+      for (let y = minY; y <= maxY; y += 1) {
+        if (pixels[(y * canvas.width + minX) * 4 + 3] >= 128) leftOpaquePixels += 1;
+      }
+    }
+    return {
+      missing:false,
+      src:image.getAttribute('src') || '',
+      naturalWidth:image.naturalWidth,
+      naturalHeight:image.naturalHeight,
+      alphaBounds:maxX >= minX ? { minX, minY, maxX:maxX + 1, maxY:maxY + 1 } : null,
+      transparentMargins:maxX >= minX ? {
+        left:minX,
+        right:canvas.width - maxX - 1,
+        top:minY,
+        bottom:canvas.height - maxY - 1,
+      } : null,
+      leftOpaquePixels,
+      layout: {
+        gapToPanel:panel ? panel.left - imageRect.right : null,
+        insideStage:stage ? imageRect.left >= stage.left - 1 && imageRect.bottom <= stage.bottom + 1 : false,
+        image:{ left:imageRect.left, right:imageRect.right, top:imageRect.top, bottom:imageRect.bottom, width:imageRect.width, height:imageRect.height },
+        panel:panel ? { left:panel.left, right:panel.right, top:panel.top, bottom:panel.bottom, width:panel.width, height:panel.height } : null,
+      },
+    };
+  })()`);
+  assert(!audit.missing, `${label}: Mathmon reaction image is missing`, audit);
+  assert(audit.src.endsWith('mathmon-reaction-reward.webp'), `${label}: reward reaction asset is not active`, audit);
+  assert(audit.naturalWidth === 512 && audit.naturalHeight === 640, `${label}: reaction canvas contract changed`, audit);
+  assert(audit.transparentMargins?.left >= 12 && audit.transparentMargins?.right >= 12, `${label}: reaction art lacks horizontal safety margin`, audit);
+  assert(audit.leftOpaquePixels <= 24, `${label}: eagle left wing has a hard clipped edge`, audit);
+  assert(audit.layout.insideStage, `${label}: eagle reaction left the Stage`, audit);
+  assert(audit.layout.gapToPanel >= 4, `${label}: eagle reaction overlaps the completion panel`, audit);
+}
+
 async function auditElevatorDivisionSvgClearance(page, label, mode) {
   const selectors = mode === "tutorial"
     ? {
@@ -1118,7 +1257,54 @@ async function auditScoreboard(page, label, { expectedFirstRank = null, expected
   return audit;
 }
 
+async function auditElevatorPlayStackClearance(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const overlapArea = (a, b) => {
+      if (!a || !b) return null;
+      return Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
+        * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    };
+    const stage = rectOf('.stage-shell');
+    const problem = rectOf('.problem-card');
+    const step = rectOf('.step-board');
+    const choices = rectOf('.choices-panel');
+    const floor = rectOf('.elevator-floor-panel');
+    return {
+      stage,
+      problem,
+      step,
+      choices,
+      floor,
+      problemStepGap: problem && step ? step.top - problem.bottom : null,
+      stepChoicesGap: step && choices ? choices.top - step.bottom : null,
+      problemStepOverlapArea: overlapArea(problem, step),
+      stepChoicesOverlapArea: overlapArea(step, choices),
+      choicesStageBottomGap: stage && choices ? stage.bottom - choices.bottom : null
+    };
+  })()`);
+  assert(audit.stage && audit.problem && audit.step && audit.choices && audit.floor, `${label}: play stack surface is missing`, audit);
+  assert(audit.problemStepOverlapArea === 0 && audit.problemStepGap >= 7.5, `${label}: calculation board overlaps instruction`, audit);
+  assert(audit.stepChoicesOverlapArea === 0 && audit.stepChoicesGap >= 7.5, `${label}: instruction overlaps choices`, audit);
+  assert(audit.choicesStageBottomGap >= 7.5, `${label}: choices leave the Stage`, audit);
+  assert(
+    Math.abs(audit.floor.left - audit.choices.left) <= 1
+      && Math.abs(audit.floor.top - audit.choices.top) <= 1
+      && Math.abs(audit.floor.right - audit.choices.right) <= 1
+      && Math.abs(audit.floor.bottom - audit.choices.bottom) <= 1,
+    `${label}: choice surface leaves its grid slot`,
+    audit
+  );
+  return audit;
+}
+
 async function auditElevatorDivisionBoard(page, label, { expectDown = false } = {}) {
+  await auditElevatorPlayStackClearance(page, `${label} play stack`);
   const audit = await evaluate(page, `(() => {
     const rectOf = (node) => {
       if (!node) return null;
@@ -1760,11 +1946,17 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditGeometry(page, `${viewport.name} tutorial 1`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorDivisionSvgClearance(page, `${viewport.name} tutorial division SVG`, "tutorial");
+    await auditGeneratedActionButton(page, `${viewport.name} tutorial next button`, "#tutorialStartButton", "action-buttons/next-button-generated.webp", "다음");
   }
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "(document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "04-tutorial-2"));
   await auditGeometry(page, `${viewport.name} tutorial 2`);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorTutorialGoalRaster(page, `${viewport.name} generated tutorial goal poster`);
+    await auditGeneratedActionButton(page, `${viewport.name} tutorial previous button`, "#tutorialBackButton", "action-buttons/previous-button-generated.webp", "이전");
+    await auditGeneratedActionButton(page, `${viewport.name} tutorial problem-start button`, "#tutorialStartButton", "action-buttons/problem-start-button-generated.webp", "문제 시작");
+  }
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
   if (lesson === "3-2-2-3-mathmon-star-pickup") {
@@ -1776,6 +1968,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm waiting`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorPlayHeader(page, `${viewport.name} play header`);
+    await auditElevatorPlayStackClearance(page, `${viewport.name} waiting play stack`);
     initialLearningLayout = await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
@@ -1988,6 +2181,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditGeometry(page, `${viewport.name} confirmation`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorDivisionSvgClearance(page, `${viewport.name} completed division SVG`, "complete");
+    await auditMathmonReactionAlphaEdge(page, `${viewport.name} completed eagle reward reaction`);
+    await auditGeneratedActionButton(page, `${viewport.name} door-open button`, "#rewardButton", "door-open-button-generated.webp", "문 열기");
   }
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");
@@ -1998,6 +2193,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await revealReward(page, firstReward, viewport.name);
   shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
   await auditGeometry(page, `${viewport.name} revealed reward`);
+  if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditGeneratedActionButton(page, `${viewport.name} reward next button`, "#modalRewardNextButton", "action-buttons/next-button-generated.webp", "다음");
+  }
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} revealed reward`, "revealed");
   await clickSelector(page, firstReward.nextSelector);
 
@@ -2024,6 +2222,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       await auditFarmReward(page, `${viewport.name} final closed reward`, "closed");
     }
     await revealReward(page, reward, `${viewport.name} problem ${problemIndex}`);
+    if (lesson === "3-2-2-2-mathmon-elevator" && problemIndex === 10) {
+      await auditGeneratedActionButton(page, `${viewport.name} final result-view button`, "#modalRewardNextButton", "action-buttons/result-view-button-generated.webp", "결과 보기");
+    }
     if (lesson === "3-2-2-1-mathmon-divide-farm" && problemIndex === 10) {
       shots.push(await screenshot(page, lesson, viewport, "07e-final-reward-open"));
       await auditGeometry(page, `${viewport.name} final revealed reward`);
@@ -2037,6 +2238,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
   if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditGeneratedActionButton(page, `${viewport.name} shared result retry button`, "#restartButton", "result-actions/retry-button-generated.webp", "다시하기");
     const lowResult = await evaluate(page, `(() => ({
       correctFirstTry: window.__mathmonEngineQa.getState().correctFirstTry,
       result: document.getElementById('resultTitle')?.textContent.trim() || '',

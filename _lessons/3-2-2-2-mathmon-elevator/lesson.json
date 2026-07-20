@@ -27,9 +27,9 @@
     {
       "visual": "2",
       "purpose": "reward-goal",
-      "title": "무엇을 얻어요?",
-      "body": "10문제를 풀어요. 마지막에 도착한 층을 봐요.",
-      "image": "tutorial-page-2-v2-generated.webp"
+      "title": "나눗셈을 풀고 문을 열어요",
+      "body": "나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.",
+      "image": "tutorial-page-2-v3-generated.webp"
     }
   ],
   "tutorial": {
@@ -237,7 +237,14 @@
       "wrong": "mathmon-reaction-wrong.webp",
       "reward": "mathmon-reaction-reward.webp"
     },
-    "resultRetryButton": "result-retry-button-generated.webp"
+    "actionButtons": {
+      "next": "../_shared/action-buttons/next-button-generated.webp",
+      "previous": "../_shared/action-buttons/previous-button-generated.webp",
+      "problemStart": "../_shared/action-buttons/problem-start-button-generated.webp",
+      "resultView": "../_shared/action-buttons/result-view-button-generated.webp",
+      "doorOpen": "door-open-button-generated.webp"
+    },
+    "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp",
@@ -259,9 +266,14 @@
     "result-title-view-generated.webp",
     "result-title-roof-generated.webp",
     "result-title-rainbow-generated.webp",
-    "result-retry-button-generated.webp",
+    "../_shared/action-buttons/next-button-generated.webp",
+    "../_shared/action-buttons/previous-button-generated.webp",
+    "../_shared/action-buttons/problem-start-button-generated.webp",
+    "../_shared/action-buttons/result-view-button-generated.webp",
+    "door-open-button-generated.webp",
+    "../_shared/result-actions/retry-button-generated.webp",
     "tutorial-page-1-v5-generated.webp",
-    "tutorial-page-2-v2-generated.webp",
+    "tutorial-page-2-v3-generated.webp",
     "result-basement-generated.webp",
     "result-first-generated.webp",
     "result-middle-generated.webp",
@@ -292,7 +304,12 @@
       {
         "name": "reported-svg-overlap-934x987",
         "width": 934,
-        "height": 987
+        "height": 987,
+        "regressions": [
+          "division-svg-overlap",
+          "eagle-reward-left-wing-clip",
+          "play-step-choices-surface-overlap"
+        ]
       }
     ],
     "requiredFlow": [
