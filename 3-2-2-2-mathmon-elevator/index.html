@@ -1066,9 +1066,10 @@
       height: auto;
       margin: 0;
       display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: minmax(0, 1fr) 58px minmax(156px, auto);
-      gap: 8px;
+      grid-template-columns: minmax(0, 1fr) clamp(250px, 32%, 330px);
+      grid-template-rows: 64px minmax(0, 1fr);
+      column-gap: 14px;
+      row-gap: 8px;
     }
 
     .game[data-workbench-type="division-elevator"] .problem-card,
@@ -1082,12 +1083,12 @@
     }
 
     .game[data-workbench-type="division-elevator"] .problem-card {
-      grid-row: 1;
+      position: relative;
+      grid-column: 1;
+      grid-row: 1 / -1;
       min-height: 0;
       padding: 0;
-      display: grid;
-      grid-template-rows: auto minmax(0, 1fr);
-      gap: 4px;
+      display: block;
     }
 
     .game[data-workbench-type="division-elevator"] .problem-label {
@@ -1095,19 +1096,21 @@
     }
 
     .game[data-workbench-type="division-elevator"] .big-problem {
-      margin: 0;
-      color: #17343b;
-      font-size: clamp(2.8rem, 4.7vw, 4.2rem);
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .02em;
-      word-spacing: .18em;
-      text-align: center;
-      text-shadow: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .game[data-workbench-type="division-elevator"] .visual-area {
       position: relative;
+      width: 100%;
+      height: 100%;
       min-height: 0;
       display: grid;
       place-items: center;
@@ -1128,6 +1131,15 @@
       font-size: 64px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
+    }
+
+    .elevator-math-svg .board-problem {
+      fill: #fff8e8;
+      font-size: 60px;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .02em;
+      text-anchor: middle;
     }
 
     .elevator-math-svg .board-divisor {
@@ -1203,6 +1215,19 @@
       fill: #ffd46d;
     }
 
+    .elevator-math-svg .division-board--complete .board-number {
+      font-size: 80px;
+    }
+
+    .elevator-math-svg .division-board--complete .board-divisor {
+      font-size: 86px;
+    }
+
+    .elevator-math-svg .division-board--complete .board-work-minus,
+    .elevator-math-svg .division-board--complete .board-work-product {
+      font-size: 48px;
+    }
+
     .elevator-math-svg .division-board--complete .board-final-down-digit,
     .elevator-math-svg .division-board--complete .board-final-subtrahend,
     .elevator-math-svg .division-board--complete .board-final-zero {
@@ -1213,15 +1238,15 @@
     }
 
     .elevator-math-svg .division-board--complete .board-final-down-digit {
-      font-size: 38px;
+      font-size: 48px;
     }
 
     .elevator-math-svg .division-board--complete .board-final-subtrahend {
-      font-size: 38px;
+      font-size: 48px;
     }
 
     .elevator-math-svg .division-board--complete .board-final-zero {
-      font-size: 40px;
+      font-size: 54px;
     }
 
     .elevator-math-svg .board-combined-target.is-active .board-combined-value {
@@ -1249,23 +1274,24 @@
 
     .elevator-math-svg .board-attempt-label {
       fill: #6e1530;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 900;
       text-anchor: middle;
     }
 
     .elevator-math-svg .board-attempt-value {
       fill: #44101e;
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 1000;
       font-variant-numeric: tabular-nums;
       text-anchor: middle;
     }
 
     .game[data-workbench-type="division-elevator"] .step-board {
-      grid-row: 2;
-      min-height: 58px;
-      padding: 0 18px;
+      grid-column: 2;
+      grid-row: 1;
+      min-height: 64px;
+      padding: 0 14px;
       display: grid;
       grid-template: 1fr / 1fr;
       place-items: center;
@@ -1308,16 +1334,17 @@
     }
 
     .game[data-workbench-type="division-elevator"] .choices-panel {
-      grid-row: 3;
+      grid-column: 2;
+      grid-row: 2;
       min-height: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(2, minmax(60px, 1fr));
-      gap: 8px;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: repeat(4, minmax(60px, 1fr));
+      gap: 0;
     }
-    .elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(60px,1fr)); gap: 8px; padding: 6px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
-    .elevator-floor-panel .elevator-choice { border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45), 0 5px 0 #314f55; }
+    .elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: repeat(4,minmax(60px,1fr)); gap: 10px; padding: 7px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
+    .elevator-floor-panel .elevator-choice { border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45); }
 
     .game[data-workbench-type="division-elevator"] .elevator-choice {
       min-height: 64px;
@@ -1344,6 +1371,12 @@
       box-shadow: 0 6px 0 #75b9a4;
     }
 
+    .game[data-workbench-type="division-elevator"] .elevator-floor-panel .elevator-choice,
+    .game[data-workbench-type="division-elevator"] .elevator-floor-panel .elevator-choice[data-state="wrong"],
+    .game[data-workbench-type="division-elevator"] .elevator-floor-panel .elevator-choice[data-state="correct"] {
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.45);
+    }
+
     .elevator-choice--pair {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1354,8 +1387,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(10px, 1.2vw, 16px);
-      padding: 8px 10px;
+      gap: clamp(6px, .8vw, 10px);
+      padding: 7px 6px;
     }
 
     .elevator-choice-part + .elevator-choice-part {
@@ -1390,10 +1423,13 @@
     .game[data-workbench-type="division-elevator"] .complete-panel {
       grid-column: 1;
       grid-row: 3;
-      min-height: 150px;
-      padding: 14px;
+      min-height: 0;
+      padding: 18px 16px;
       place-items: center;
       grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      align-self: center;
+      gap: 18px;
       border: 3px solid #8d6b20;
       border-radius: 18px;
       background: #fff0be;
@@ -1401,12 +1437,14 @@
 
     .game[data-workbench-type="division-elevator"] .complete-text {
       color: #2c210c;
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-size: clamp(1.65rem, 2.7vw, 2.35rem);
+      line-height: 1.1;
       text-align: center;
+      white-space: nowrap;
     }
 
     .game[data-workbench-type="division-elevator"] .complete-panel .primary-button {
-      width: clamp(220px, 23vw, 300px);
+      width: min(100%, 270px);
       min-width: 0;
       min-height: 0;
       aspect-ratio: 1805 / 706;
@@ -1423,15 +1461,23 @@
     }
 
     .game[data-workbench-type="division-elevator"] .problem-grid.is-complete {
-      grid-template-rows: minmax(0, 1fr) minmax(150px, auto);
+      grid-template-columns: minmax(0, 1fr) clamp(230px, 29%, 300px);
+      grid-template-rows: minmax(0, 1fr);
+      column-gap: 16px;
     }
 
     .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .step-board {
       display: none;
     }
 
+    .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .problem-card {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
     .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-panel {
-      grid-row: 2;
+      grid-column: 2;
+      grid-row: 1;
     }
 
     .game[data-workbench-type="division-elevator"] .reward-card[data-reward-phase="closed"] .reward-label {
@@ -1709,208 +1755,16 @@
       height: auto;
     }
 
-    .game[data-workbench-type="division-elevator"] .tutorial-math-guide {
-      position: absolute;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-step-chip > strong,
-    .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-answer,
-    .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-answer > strong,
-    .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-reward-copy p {
-      position: static;
-      width: auto;
-      height: auto;
-      overflow: visible;
-      clip: auto;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-math-guide {
-      top: 3cqh;
-      right: 3.5cqw;
-      bottom: 15cqh;
-      left: 13cqw;
-      display: flex;
-      flex-direction: column;
-      gap: clamp(8px, 1.4cqh, 14px);
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-math-guide h2 {
-      width: fit-content;
-      max-width: 100%;
-      margin: 0 auto;
-      padding: clamp(6px, 1.1cqh, 9px) clamp(22px, 2.7cqw, 34px) clamp(7px, 1.3cqh, 11px);
-      border: 3px solid rgba(255, 255, 255, 0.92);
-      border-radius: 999px;
-      color: #123a54;
-      background: rgba(245, 253, 255, 0.92);
-      box-shadow: 0 10px 25px rgba(30, 82, 105, 0.16);
-      font-size: clamp(29px, 4.2cqw, 40px);
-      font-weight: 1000;
-      line-height: 1.15;
-      letter-spacing: -0.04em;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-math-layout {
-      min-height: 0;
-      flex: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: clamp(14px, 2cqw, 24px);
-      align-items: stretch;
-      overflow: hidden;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-division-board {
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
-      box-sizing: border-box;
-      padding: clamp(10px, 1.8cqh, 18px) clamp(18px, 2.7cqw, 34px) clamp(8px, 1.5cqh, 14px);
-      border: clamp(3px, 0.4cqw, 5px) solid #2b769b;
-      border-radius: clamp(23px, 2.7cqw, 34px);
-      background: rgba(255, 254, 244, 0.96);
-      box-shadow: 0 13px 0 rgba(20, 83, 112, 0.19), 0 18px 34px rgba(14, 64, 87, 0.18);
-      overflow: hidden;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-division-board svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      overflow: visible;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-division-ink {
-      font-family: ui-rounded, "Arial Rounded MT Bold", "Noto Sans KR", sans-serif;
-      font-weight: 1000;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-quotient,
-    .game[data-workbench-type="division-elevator"] .tutorial-dividend,
-    .game[data-workbench-type="division-elevator"] .tutorial-divisor,
-    .game[data-workbench-type="division-elevator"] .tutorial-work-number,
-    .game[data-workbench-type="division-elevator"] .tutorial-remainder {
-      font-size: 72px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-tens-ink {
-      fill: #17659c;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-ones-ink {
-      fill: #e35e18;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-divisor,
-    .game[data-workbench-type="division-elevator"] .tutorial-remainder,
-    .game[data-workbench-type="division-elevator"] .tutorial-minus {
-      fill: #152f43;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-minus {
-      font-size: 58px;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-bracket,
-    .game[data-workbench-type="division-elevator"] .tutorial-work-line {
-      fill: none;
-      stroke: #152f43;
-      stroke-width: 8;
-      stroke-linecap: round;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-bring-down {
-      fill: none;
-      stroke: #e35e18;
-      stroke-width: 8;
-      stroke-linecap: round;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-arrow-head {
-      fill: #e35e18;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-step-list {
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: clamp(10px, 1.7cqh, 18px);
-      overflow: hidden;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-step-chip {
-      position: relative;
-      min-width: 0;
-      padding: clamp(13px, 2.1cqh, 22px) clamp(13px, 1.8cqw, 22px) clamp(12px, 1.9cqh, 20px) clamp(58px, 6.4cqw, 82px);
-      border: clamp(3px, 0.32cqw, 4px) solid #8fc8dc;
-      border-radius: clamp(19px, 2.2cqw, 28px);
-      color: #163a53;
-      background: rgba(250, 254, 255, 0.95);
-      box-shadow: 0 9px 0 rgba(33, 106, 137, 0.17);
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-step-chip > span {
-      position: absolute;
-      top: 50%;
-      left: clamp(13px, 1.6cqw, 20px);
-      color: #17659c;
-      font-size: clamp(31px, 3.3cqw, 42px);
-      font-weight: 1000;
-      transform: translateY(-50%);
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-step-chip > strong {
-      display: block;
-      font-size: clamp(27px, 3cqw, 35px);
-      font-weight: 1000;
-      line-height: 1.12;
-      white-space: nowrap;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-step-chip > small {
-      display: block;
-      margin-top: clamp(4px, 0.8cqh, 7px);
-      color: #315e72;
-      font-size: clamp(15px, 1.7cqw, 20px);
-      font-weight: 850;
-      line-height: 1.25;
-      overflow-wrap: break-word;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-answer {
-      margin: 0;
-      padding: clamp(11px, 1.7cqh, 18px) clamp(13px, 1.6cqw, 20px);
-      border: clamp(3px, 0.32cqw, 4px) solid #f2b43c;
-      border-radius: clamp(18px, 2cqw, 25px);
-      color: #183b51;
-      background: #fff7c9;
-      box-shadow: 0 8px 0 rgba(177, 111, 14, 0.18);
-      font-size: clamp(26px, 2.8cqw, 34px);
-      font-weight: 1000;
-      line-height: 1.1;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .game[data-workbench-type="division-elevator"] .tutorial-answer strong {
-      color: #d94f13;
-      font-size: 1.2em;
-    }
-
     @media (max-width: 1100px), (max-height: 720px) {
       .game[data-workbench-type="division-elevator"] .problem-grid {
         top: 56px;
         right: 24px;
         bottom: 8px;
         left: 15.5%;
-        grid-template-rows: minmax(0, 1fr) 48px minmax(118px, auto);
-        gap: 8px;
+        grid-template-columns: minmax(0, 1fr) clamp(238px, 32%, 270px);
+        grid-template-rows: 54px minmax(0, 1fr);
+        column-gap: 10px;
+        row-gap: 8px;
       }
 
       .game[data-workbench-type="division-elevator"] .problem-card {
@@ -1918,7 +1772,8 @@
       }
 
       .game[data-workbench-type="division-elevator"] .step-board {
-        min-height: 48px;
+        min-height: 54px;
+        padding-inline: 10px;
       }
 
       .game[data-workbench-type="division-elevator"] .big-problem {
@@ -1938,22 +1793,33 @@
         width: 100%;
       }
 
-      .game[data-workbench-type="division-elevator"] .choices-panel,
-      .elevator-floor-panel {
-        grid-template-rows: repeat(2, minmax(46px, 1fr));
-        gap: 6px;
+      .game[data-workbench-type="division-elevator"] .choices-panel {
+        grid-template-rows: repeat(4, minmax(46px, 1fr));
+        gap: 0;
       }
 
       .elevator-floor-panel {
-        padding: 6px;
+        grid-template-rows: repeat(4, minmax(46px, 1fr));
+        gap: 10px;
+        padding: 7px;
       }
 
       .game[data-workbench-type="division-elevator"] .elevator-choice {
         min-height: 46px;
       }
 
-      .game[data-workbench-type="division-elevator"] .complete-panel {
-        min-height: 132px;
+      .game[data-workbench-type="division-elevator"] .problem-grid.is-complete {
+        grid-template-columns: minmax(0, 1fr) clamp(220px, 29%, 260px);
+        column-gap: 12px;
+      }
+
+      .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-panel {
+        padding: 14px 12px;
+        gap: 12px;
+      }
+
+      .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-text {
+        font-size: clamp(1.4rem, 2.8vw, 2rem);
       }
 
       .game[data-workbench-type="division-elevator"] .play-mathmon-reaction {
@@ -1963,12 +1829,16 @@
       }
 
       .elevator-choice-part {
-        gap: 10px;
-        padding: 6px 8px;
+        gap: 5px;
+        padding: 6px 5px;
       }
 
       .elevator-choice-label {
-        font-size: 1.15rem;
+        font-size: 1rem;
+      }
+
+      .elevator-choice-value {
+        font-size: clamp(1.8rem, 3.2vw, 2.35rem);
       }
     }
   </style>
@@ -2009,7 +1879,7 @@
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">엘리베이터를 움직이기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-v5-generated.webp" alt=""><div class="card-mark">1</div><strong>76 ÷ 2를 풀어 봐요</strong><p>7을 2로 나누면 1이 남아요. 6을 내려 16을 만들어요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-v3-generated.webp" alt=""><div class="card-mark">2</div><strong>나눗셈을 풀고 문을 열어요</strong><p>나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">엘리베이터를 움직이기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-v6-generated.webp" alt=""><div class="card-mark">1</div><strong>십의 자리 값부터 나눠요</strong><p>70 = 2 × 30 + 10. 몫은 30이고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-v3-generated.webp" alt=""><div class="card-mark">2</div><strong>나눗셈을 풀고 문을 열어요</strong><p>나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
         <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="올라갈 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">지하 정비층</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div></header>
@@ -2716,7 +2586,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-gold-standard","id":"3-2-2-2","folder":"3-2-2-2-mathmon-elevator","modelName":"Lesson2ElevatorModel","title":"매스몬 엘리베이터","shortTitle":"매스몬 엘리베이터","topic":"내림 있는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"남은 수를 내려 다시 나눠요.","action":"남은 수와 일의 자리 수를 합쳐요.","buttonLabel":"문 열기","rewardScreenTitle":"올라갈 힘","progressLabel":"올라갈 힘","rewardComplete":"힘이 바뀌었어요.","tutorialTitle":"엘리베이터를 움직이기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"76 ÷ 2를 풀어 봐요","body":"7을 2로 나누면 1이 남아요. 6을 내려 16을 만들어요.","image":"tutorial-page-1-v5-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"나눗셈을 풀고 문을 열어요","body":"나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"올라갈 힘","closedLabel":"어떤 힘이 나올까요?","nextLabel":"다음","artMap":{"motor":"reward-events-sprite-generated.webp","blackout":"reward-events-sprite-generated.webp","superMotor":"reward-events-sprite-generated.webp","express":"reward-events-sprite-generated.webp","stop":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"motor":[0,0],"superMotor":[1,0],"blackout":[2,0],"stop":[0,1],"express":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","tier-scene-with-title","retry-button"],"dynamicOverlays":["elevator-power","correct-count"]}},"workbench":{"type":"division-elevator"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"basement","name":"지하 정비층","minPower":0,"minCorrect":0,"image":"result-basement-generated.webp","titleImage":"result-title-basement-generated.webp"},{"id":"first","name":"1층 로비","minPower":19,"minCorrect":3,"image":"result-first-generated.webp","titleImage":"result-title-first-generated.webp"},{"id":"middle","name":"중간층","minPower":39,"minCorrect":5,"image":"result-middle-generated.webp","titleImage":"result-title-middle-generated.webp"},{"id":"view","name":"전망층","minPower":59,"minCorrect":7,"image":"result-view-generated.webp","titleImage":"result-title-view-generated.webp"},{"id":"roof","name":"옥상 정원","minPower":79,"minCorrect":9,"image":"result-roof-generated.webp","titleImage":"result-title-roof-generated.webp"},{"id":"rainbow","name":"꼭대기 전망대","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"motor","text":"힘이 늘었어요","weight":7645,"min":5,"max":9,"family":"motor","rarity":"common"},{"id":"blackout","text":"힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"blackout","rarity":"common"},{"id":"superMotor","text":"힘이 크게 늘었어요","weight":900,"min":13,"max":22,"family":"superMotor","rarity":"rare"},{"id":"express","text":"급행!","weight":50,"min":8,"max":8,"family":"express","rarity":"rare","express":true},{"id":"stop","text":"힘 0","weight":200,"min":0,"max":0,"family":"stop","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개!","weight":5,"min":12,"max":12,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"blackoutMistake","text":"힘이 줄었어요","min":-18,"max":-8,"family":"blackout"},"typesPerRun":["regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-shaft-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"actionButtons":{"next":"../_shared/action-buttons/next-button-generated.webp","previous":"../_shared/action-buttons/previous-button-generated.webp","problemStart":"../_shared/action-buttons/problem-start-button-generated.webp","resultView":"../_shared/action-buttons/result-view-button-generated.webp","doorOpen":"door-open-button-generated.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-shaft-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-basement-generated.webp","result-title-first-generated.webp","result-title-middle-generated.webp","result-title-view-generated.webp","result-title-roof-generated.webp","result-title-rainbow-generated.webp","../_shared/action-buttons/next-button-generated.webp","../_shared/action-buttons/previous-button-generated.webp","../_shared/action-buttons/problem-start-button-generated.webp","../_shared/action-buttons/result-view-button-generated.webp","door-open-button-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-v5-generated.webp","tutorial-page-2-v3-generated.webp","result-basement-generated.webp","result-first-generated.webp","result-middle-generated.webp","result-view-generated.webp","result-roof-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-regrouping-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser","width":931,"height":897},{"name":"reported-svg-overlap-934x987","width":934,"height":987,"regressions":["division-svg-overlap","eagle-reward-left-wing-clip","play-step-choices-surface-overlap"]}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-gold-standard","id":"3-2-2-2","folder":"3-2-2-2-mathmon-elevator","modelName":"Lesson2ElevatorModel","title":"매스몬 엘리베이터","shortTitle":"매스몬 엘리베이터","topic":"내림 있는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"남은 수를 내려 다시 나눠요.","action":"남은 수와 일의 자리 수를 합쳐요.","buttonLabel":"문 열기","rewardScreenTitle":"올라갈 힘","progressLabel":"올라갈 힘","rewardComplete":"힘이 바뀌었어요.","tutorialTitle":"엘리베이터를 움직이기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"십의 자리 값부터 나눠요","body":"70 = 2 × 30 + 10. 몫은 30이고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.","image":"tutorial-page-1-v6-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"나눗셈을 풀고 문을 열어요","body":"나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"올라갈 힘","closedLabel":"어떤 힘이 나올까요?","nextLabel":"다음","artMap":{"motor":"reward-events-sprite-generated.webp","blackout":"reward-events-sprite-generated.webp","superMotor":"reward-events-sprite-generated.webp","express":"reward-events-sprite-generated.webp","stop":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"motor":[0,0],"superMotor":[1,0],"blackout":[2,0],"stop":[0,1],"express":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","tier-scene-with-title","retry-button"],"dynamicOverlays":["elevator-power","correct-count"]}},"workbench":{"type":"division-elevator"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"basement","name":"지하 정비층","minPower":0,"minCorrect":0,"image":"result-basement-generated.webp","titleImage":"result-title-basement-generated.webp"},{"id":"first","name":"1층 로비","minPower":19,"minCorrect":3,"image":"result-first-generated.webp","titleImage":"result-title-first-generated.webp"},{"id":"middle","name":"중간층","minPower":39,"minCorrect":5,"image":"result-middle-generated.webp","titleImage":"result-title-middle-generated.webp"},{"id":"view","name":"전망층","minPower":59,"minCorrect":7,"image":"result-view-generated.webp","titleImage":"result-title-view-generated.webp"},{"id":"roof","name":"옥상 정원","minPower":79,"minCorrect":9,"image":"result-roof-generated.webp","titleImage":"result-title-roof-generated.webp"},{"id":"rainbow","name":"꼭대기 전망대","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"motor","text":"힘이 늘었어요","weight":7645,"min":5,"max":9,"family":"motor","rarity":"common"},{"id":"blackout","text":"힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"blackout","rarity":"common"},{"id":"superMotor","text":"힘이 크게 늘었어요","weight":900,"min":13,"max":22,"family":"superMotor","rarity":"rare"},{"id":"express","text":"급행!","weight":50,"min":8,"max":8,"family":"express","rarity":"rare","express":true},{"id":"stop","text":"힘 0","weight":200,"min":0,"max":0,"family":"stop","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개!","weight":5,"min":12,"max":12,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"blackoutMistake","text":"힘이 줄었어요","min":-18,"max":-8,"family":"blackout"},"typesPerRun":["regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-shaft-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"actionButtons":{"next":"../_shared/action-buttons/next-button-generated.webp","previous":"../_shared/action-buttons/previous-button-generated.webp","problemStart":"../_shared/action-buttons/problem-start-button-generated.webp","resultView":"../_shared/action-buttons/result-view-button-generated.webp","doorOpen":"door-open-button-generated.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-shaft-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-title-basement-generated.webp","result-title-first-generated.webp","result-title-middle-generated.webp","result-title-view-generated.webp","result-title-roof-generated.webp","result-title-rainbow-generated.webp","../_shared/action-buttons/next-button-generated.webp","../_shared/action-buttons/previous-button-generated.webp","../_shared/action-buttons/problem-start-button-generated.webp","../_shared/action-buttons/result-view-button-generated.webp","door-open-button-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-v6-generated.webp","tutorial-page-2-v3-generated.webp","result-basement-generated.webp","result-first-generated.webp","result-middle-generated.webp","result-view-generated.webp","result-roof-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-regrouping-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser","width":931,"height":897},{"name":"reported-svg-overlap-934x987","width":934,"height":987,"regressions":["tutorial-place-value-flow-mismatch","completion-board-action-balance","active-board-control-column-balance","answer-choice-card-shadow-overlap","problem-heading-inside-board","division-svg-overlap","eagle-reward-left-wing-clip","play-step-choices-surface-overlap"]}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2ElevatorModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -4227,62 +4097,6 @@
       });
     }
 
-    function installElevatorTutorialGuides() {
-      const tutorialCards = [...document.querySelectorAll("#screen-tutorial .tutorial-card")];
-      if (tutorialCards.length < 2 || tutorialCards[0].querySelector(".tutorial-math-guide")) return;
-
-      const mathGuide = document.createElement("section");
-      mathGuide.className = "tutorial-math-guide";
-      mathGuide.setAttribute("aria-label", "76 나누기 2 풀이");
-      mathGuide.innerHTML = `
-        <h2>76 ÷ 2를 풀어 봐요</h2>
-        <div class="tutorial-math-layout">
-          <div class="tutorial-division-board">
-            <svg viewBox="0 0 560 560" role="img" aria-label="76 나누기 2. 십의 자리 몫은 3이고 1이 남습니다. 6을 내려 16을 만들고 일의 자리 몫 8을 씁니다. 답은 38입니다.">
-              <g class="tutorial-division-ink" text-anchor="middle">
-                <text x="320" y="72" class="tutorial-quotient tutorial-tens-ink">3</text>
-                <text x="430" y="72" class="tutorial-quotient tutorial-ones-ink">8</text>
-
-                <text x="112" y="178" class="tutorial-divisor">2</text>
-                <path d="M190 112 Q212 112 212 136 L212 205 M212 112 H500" class="tutorial-bracket" />
-                <text x="320" y="190" class="tutorial-dividend tutorial-tens-ink">7</text>
-                <text x="430" y="190" class="tutorial-dividend tutorial-ones-ink">6</text>
-
-                <text x="256" y="268" class="tutorial-minus">−</text>
-                <text x="320" y="268" class="tutorial-work-number tutorial-tens-ink">6</text>
-                <path d="M275 288 H365" class="tutorial-work-line" />
-
-                <path d="M430 218 V258" class="tutorial-bring-down" />
-                <path d="M416 258 L430 275 L444 258 Z" class="tutorial-arrow-head" data-tutorial-arrow-head="true" />
-                <text x="320" y="358" class="tutorial-work-number tutorial-tens-ink">1</text>
-                <text x="430" y="358" class="tutorial-work-number tutorial-ones-ink tutorial-brought-ones">6</text>
-
-                <text x="256" y="442" class="tutorial-minus">−</text>
-                <text x="320" y="442" class="tutorial-work-number tutorial-tens-ink">1</text>
-                <text x="430" y="442" class="tutorial-work-number tutorial-ones-ink">6</text>
-                <path d="M275 460 H475" class="tutorial-work-line tutorial-final-line" />
-                <text x="430" y="548" class="tutorial-remainder tutorial-final-zero">0</text>
-              </g>
-            </svg>
-          </div>
-          <div class="tutorial-step-list">
-            <div class="tutorial-step-chip">
-              <span>①</span>
-              <strong>7 ÷ 2 = 3</strong>
-              <small>1이 남아요.</small>
-            </div>
-            <div class="tutorial-step-chip">
-              <span>②</span>
-              <strong>16 ÷ 2 = 8</strong>
-              <small>6을 내려 16을 만들어요.</small>
-            </div>
-            <p class="tutorial-answer">76 ÷ 2 = <strong>38</strong></p>
-          </div>
-        </div>
-      `;
-      tutorialCards[0].appendChild(mathGuide);
-    }
-
     function moveElevator(sceneState) {
       const art = document.querySelector(".elevator-stage-art");
       if (!art) return Promise.resolve();
@@ -4304,7 +4118,8 @@
 
       const svg = document.createElementNS(SVG_NS, "svg");
       svg.classList.add("elevator-math-svg");
-      svg.setAttribute("viewBox", "0 0 920 400");
+      svg.classList.toggle("is-complete-board", onesDone);
+      svg.setAttribute("viewBox", onesDone ? "0 -100 600 567" : "170 -100 620 567");
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep, attemptedChoice));
 
@@ -4363,36 +4178,38 @@
       const completedDigits = String(problem.downNumber).padStart(2, "0").slice(-2).split("");
       const completedBoardMarkup = `
         <g class="division-board division-board--complete" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-          <text x="210" y="160" class="board-number board-divisor">${problem.divisor}</text>
-          <path d="M285 86 Q305 86 305 106 L305 178 M305 86 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+          <text x="300" y="-24" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
+          <text x="80" y="176" class="board-number board-divisor">${problem.divisor}</text>
+          <path d="M150 92 Q170 92 170 112 L170 194 M170 92 H560" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-          <text x="463" y="68" class="board-number board-final-quotient">${problem.tensQuotient}</text>
-          <text x="631" y="68" class="board-number board-final-quotient board-final-quotient--ones">${problem.onesQuotient}</text>
+          <text x="340" y="74" class="board-number board-final-quotient">${problem.tensQuotient}</text>
+          <text x="470" y="74" class="board-number board-final-quotient board-final-quotient--ones">${problem.onesQuotient}</text>
 
-          <text x="463" y="160" class="board-number">${problem.tensDigit}</text>
-          <text x="631" y="160" class="board-number">${problem.onesDigit}</text>
+          <text x="340" y="176" class="board-number">${problem.tensDigit}</text>
+          <text x="470" y="176" class="board-number">${problem.onesDigit}</text>
 
           <g class="division-work division-work--complete">
-            <text x="414" y="215" class="board-work-minus">−</text>
-            <text x="463" y="215" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
-            <path d="M416 227 H510" class="board-work-line board-final-first-line" />
+            <text x="294" y="242" class="board-work-minus">−</text>
+            <text x="340" y="242" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
+            <path d="M296 258 H384" class="board-work-line board-final-first-line" />
 
-            <path d="M631 178 V204" class="board-down-arrow" />
-            <path d="M619 204 L631 218 L643 204 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
-            <text x="463" y="272" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
-            <text x="631" y="272" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
+            <path d="M470 194 V220" class="board-down-arrow" />
+            <path d="M458 220 L470 234 L482 220 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
+            <text x="340" y="312" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
+            <text x="470" y="312" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
 
-            <text x="414" y="324" class="board-work-minus">−</text>
-            <text x="463" y="324" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
-            <text x="631" y="324" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
-            <path d="M416 338 H680" class="board-work-line board-final-line" />
-            <text x="631" y="386" class="board-final-zero" data-place="ones">0</text>
+            <text x="294" y="375" class="board-work-minus">−</text>
+            <text x="340" y="375" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
+            <text x="470" y="375" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
+            <path d="M296 391 H514" class="board-work-line board-final-line" />
+            <text x="470" y="451" class="board-final-zero" data-place="ones">0</text>
           </g>
         </g>
       `;
 
       const activeBoardMarkup = onesDone ? completedBoardMarkup : `
         <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+          <text x="480" y="-24" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
           <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
           <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
@@ -4408,7 +4225,7 @@
 
       svg.innerHTML = `
         <g class="math-board-surface">
-          <rect x="8" y="6" width="904" height="388" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+          <rect x="${onesDone ? 8 : 178}" y="-94" width="${onesDone ? 584 : 604}" height="557" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
         </g>
         ${activeBoardMarkup}
       `;
@@ -4443,9 +4260,9 @@
       }
       return `
         <g class="board-attempt-note" aria-label="${label} ${value}">
-          <rect x="96" y="276" width="220" height="96" rx="20" />
-          <text x="206" y="310" class="board-attempt-label">${label}</text>
-          <text x="206" y="356" class="board-attempt-value">${value}</text>
+          <rect x="184" y="276" width="140" height="96" rx="20" />
+          <text x="254" y="310" class="board-attempt-label">${label}</text>
+          <text x="254" y="356" class="board-attempt-value">${value}</text>
         </g>
       `;
     }
@@ -4511,7 +4328,6 @@
     }
 
     installSingleTapRewardFlow();
-    installElevatorTutorialGuides();
     installElevatorGeneratedActionButtons();
     window.Lesson2ElevatorModel = Lesson2ElevatorModel;
   </script>

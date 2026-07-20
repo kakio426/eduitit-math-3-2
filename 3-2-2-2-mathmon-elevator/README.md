@@ -12,11 +12,11 @@
 
 내림 단계도 네 선택지에서 합친 수를 고릅니다. 몫과 남은 수는 색이 아니라 글자로 표시합니다. 한 문제의 정답 경로는 서로 다른 수학 판단 3회이며, 마지막에는 완성식을 확인한 뒤 `문 열기`를 한 번 누릅니다.
 
-문제 풀이 중에는 고를 자리의 상자가 보이지만, 마지막 확인에서는 상자를 모두 접고 교과서식 세로셈만 보여 줍니다. `65÷5`라면 `13 → 65 → −5 → 15 → −15 → 0`의 계산 순서가 한눈에 이어집니다.
+문제 풀이 화면은 왼쪽의 큰 계산판과 오른쪽의 한 줄 지시문·선택지 4행으로 나뉩니다. 큰 문제식은 왼쪽 계산판 안쪽 상단 중앙에 밝게 표시하고, 고를 자리의 상자는 그 아래에서만 바뀝니다. 오른쪽 선택지 카드는 바깥 그림자 없이 10px씩 떨어져 있어 서로 닿지 않습니다. 마지막 확인에서는 상자를 모두 접고 교과서식 세로셈만 보여 주며, 오른쪽 열은 짧은 `완성식·문 열기` 카드로 바뀝니다. `65÷5`라면 `13 → 65 → −5 → 15 → −15 → 0`의 계산 순서가 한눈에 이어집니다.
 
 ## 이미지 계약
 
-- 설명 1쪽은 글자 없는 엘리베이터 장면 위에 `76÷2=38` 세로셈을 정확한 SVG로 그립니다. 설명 2쪽은 `나눗셈 풀기 → 문 열기 → + 위/− 아래 → 10문제 뒤 도착 층`을 한눈에 보여 주는 생성형 안내 이미지입니다. 두 실행 자산은 1280×800입니다.
+- 설명 1쪽은 `70 = 2×30+10 → 10+6=16 → 16÷2=8 → 30+8=38`을 한눈에 보여 주는 생성형 안내 이미지 `tutorial-page-1-v6-generated.webp`입니다. 설명 2쪽은 `나눗셈 풀기 → 문 열기 → + 위/− 아래 → 10문제 뒤 도착 층`을 보여 주는 생성형 안내 이미지입니다. 두 실행 자산은 1280×800이며, 설명용 계산판·단계 카드·문구를 CSS/SVG로 겹쳐 그리지 않습니다.
 - 문제 장면 3장: 대기 / 하강 / 도착, 각 1280×800
 - 독수리몬 반응 3장: 정답 / 오답 / 보상, 각 512×640. 보상 반응은 원본 시트에서 날개 전체를 다시 잘라 좌우 투명 안전 여백을 두고, 1100px 이하 화면에서는 완료 패널과 4px 이상 떨어지게 배치합니다.
 - 보상: 닫힌 문 1장 + 사건 6종
@@ -43,13 +43,14 @@ node scripts/check-lesson-contract.mjs
 node scripts/check-lesson-visual-contract.mjs
 ```
 
-추가 화면 QA는 Codex 브라우저와 같은 931×897 및 사용자가 SVG 겹침·완료 계산판 과밀·독수리몬 날개 잘림·지시문과 선택판 겹침을 발견한 934×987(DPR 2)에서도 진행합니다. `seed=61`로 첫 문제 `65÷5`를 고정하고 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소, 상자 없는 완료 세로셈과 독수리몬 알파 경계를 결정적으로 재현한 뒤 `0/10` 최저 결과까지 완주합니다.
+추가 화면 QA는 Codex 브라우저와 같은 931×897 및 사용자가 설명의 자리값 혼동·SVG 겹침·완료 계산판 과밀·독수리몬 날개 잘림·지시문과 선택판 겹침을 발견한 934×987(DPR 2)에서도 진행합니다. 설명 1쪽은 실제 값 흐름과 생성 이미지 단독 렌더를 검사합니다. 문제 화면은 `seed=61`로 첫 문제 `65÷5`를 고정하고 왼쪽 계산판·오른쪽 조작 열의 간격, 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소, 상자 없는 완료 세로셈과 독수리몬 알파 경계를 결정적으로 재현한 뒤 `0/10` 최저 결과까지 완주합니다.
 
 - 몫 과대: `screenshots/engine-flow-codex-browser-05b-play-wrong.png`
 - 몫 과소: `screenshots/engine-flow-codex-browser-05b2-play-quotient-too-low.png`
 - 내림 오답: `screenshots/engine-flow-codex-browser-05d2-play-down-wrong.png`
 - 마지막 몫 과대·과소: `screenshots/engine-flow-codex-browser-05e2-play-ones-too-high.png`, `screenshots/engine-flow-codex-browser-05e3-play-ones-too-low.png`
 - `0/10` 결과: `screenshots/engine-flow-codex-browser-08-result-low-0-of-10.png`
-- SVG 겹침 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-03-tutorial-1.png`, `screenshots/engine-flow-reported-svg-overlap-934x987-06-confirm.png`
+- 설명 실제 값·생성 이미지 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-03-tutorial-1.png`
+- 완료 계산판 SVG 겹침 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-06-confirm.png`
 - 독수리몬 날개 잘림 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-06-confirm.png`
 - 지시문·선택판 겹침 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-05-play-step1.png`
