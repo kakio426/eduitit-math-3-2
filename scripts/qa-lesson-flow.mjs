@@ -588,7 +588,7 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
   }
 }
 
-async function auditDivideFarmLayout(page, label, { confirmation = false, complete = false } = {}) {
+async function auditDivideFarmLayout(page, label, { confirmation = false, complete = false, finalAnswer = false } = {}) {
   const audit = await evaluate(page, `(() => {
     const rectOf = (node) => {
       if (!node) return null;
@@ -646,6 +646,43 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     const problemGrid = rectOf(document.querySelector('.problem-grid'));
     const completePanel = rectOf(document.querySelector('#completePanel.is-visible'));
     const completeText = rectOf(document.querySelector('#completePanel.is-visible .complete-text'));
+    const finalAnswerEntry = rectOf(document.querySelector('.farm-final-answer-entry'));
+    const finalAnswerWork = rectOf(document.querySelector('.farm-final-answer-work'));
+    const finalAnswerControls = rectOf(document.querySelector('.farm-final-answer-controls'));
+    const finalAnswerExpression = rectOf(document.querySelector('.farm-final-answer-expression'));
+    const finalAnswerKeypad = rectOf(document.querySelector('.farm-final-answer-keypad'));
+    const finalAnswerKeys = [...document.querySelectorAll('.farm-final-answer-keypad .farm-key')].filter(visible).map(rectOf);
+    const finalAnswerSources = [...document.querySelectorAll('.farm-final-answer-source')].map((row) => {
+      const rowRect = rectOf(row);
+      const label = row.querySelector('.farm-final-answer-source-label');
+      const equation = row.querySelector('.farm-final-answer-source-equation');
+      const labelRect = rectOf(label);
+      const equationRect = rectOf(equation);
+      return {
+        row:rowRect,
+        label:labelRect,
+        equation:equationRect,
+        labelText:label?.textContent.trim() || '',
+        equationText:equation?.textContent.trim() || '',
+        gap:labelRect && equationRect ? equationRect.left - labelRect.right : null,
+        centerDelta:labelRect && equationRect ? Math.abs((labelRect.top + labelRect.height / 2) - (equationRect.top + equationRect.height / 2)) : null
+      };
+    });
+    const finalAnswerMergeArrow = rectOf(document.querySelector('.farm-final-answer-merge-arrow'));
+    const pendingAnswerBox = rectOf(document.querySelector('.farm-pending-answer-box'));
+    const pendingAnswerText = rectOf(document.querySelector('.farm-pending-answer-header .farm-problem'));
+    const currentProblem = window.__mathmonEngineQa?.getCurrentProblem?.();
+    const expectedFinalSourceRows = currentProblem ? [
+      ['묶음 나누기', currentProblem.tensValue + ' ÷ ' + currentProblem.divisor + ' = ' + currentProblem.tensShare],
+      ['낱개 나누기', currentProblem.ones + ' ÷ ' + currentProblem.divisor + ' = ' + currentProblem.onesQuotient]
+    ] : [];
+    const visibleCompleteSummary = visible(document.querySelector('.farm-complete-summary'));
+    const ariaLabels = [...document.querySelectorAll('.problem-grid [aria-label]')]
+      .filter(visible)
+      .map((node) => node.getAttribute('aria-label') || '');
+    const fullAnswerLabel = currentProblem
+      ? currentProblem.dividend + ' ÷ ' + currentProblem.divisor + ' = ' + currentProblem.quotient
+      : '';
     const completeProcessRows = [...document.querySelectorAll('#completePanel.is-visible .farm-complete-process-line:not(.is-total)')].map((row) => {
       const label = rectOf(row.querySelector('small'));
       const equation = rectOf(row.querySelector('.farm-complete-process-equation'));
@@ -685,18 +722,40 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       confirmationEquationGap:confirmationBaskets && confirmationEquation ? confirmationEquation.top - confirmationBaskets.bottom : null,
       confirmationButtonGap:confirmationEquation && confirmationButton ? confirmationButton.top - confirmationEquation.bottom : null,
       completePanel, completeText, completeProcessRows,
+      finalAnswerEntry, finalAnswerWork, finalAnswerControls, finalAnswerExpression, finalAnswerKeypad,
+      finalAnswerSources, finalAnswerMergeArrow, expectedFinalSourceRows,
+      finalAnswerKeyCount:finalAnswerKeys.length,
+      finalAnswerMinKeyWidth:finalAnswerKeys.length ? Math.min(...finalAnswerKeys.map((rect) => rect.width)) : 0,
+      finalAnswerMinKeyHeight:finalAnswerKeys.length ? Math.min(...finalAnswerKeys.map((rect) => rect.height)) : 0,
+      finalAnswerColumnsGap:finalAnswerWork && finalAnswerControls ? finalAnswerControls.left - finalAnswerWork.right : null,
+      finalAnswerInside:contains(entry || rectOf(document.querySelector('.choices-panel')), finalAnswerEntry, 1),
+      finalAnswerWorkInside:contains(finalAnswerEntry, finalAnswerWork, 1),
+      finalAnswerControlsInside:contains(finalAnswerEntry, finalAnswerControls, 1),
+      finalAnswerExpressionInside:contains(finalAnswerWork, finalAnswerExpression, 1),
+      finalAnswerSourcesInside:finalAnswerSources.every((source) => contains(finalAnswerWork, source.row, 1)
+        && contains(source.row, source.label, 1) && contains(source.row, source.equation, 1)),
+      finalAnswerMergeInside:contains(finalAnswerWork, finalAnswerMergeArrow, 1),
+      finalAnswerSourceExpressionGap:finalAnswerMergeArrow && finalAnswerExpression
+        ? finalAnswerExpression.top - finalAnswerMergeArrow.bottom
+        : null,
+      finalAnswerKeypadInside:contains(finalAnswerControls, finalAnswerKeypad, 1),
+      pendingAnswerTextInside:contains(pendingAnswerBox, pendingAnswerText, 2),
+      pendingEquation:document.querySelector('.farm-pending-answer-header .farm-problem')?.textContent.trim() || '',
+      finalAnswerDisplay:document.querySelector('.farm-final-answer-display')?.textContent.trim() || '',
+      visibleCompleteSummary,
+      leakedFullAnswer:fullAnswerLabel ? ariaLabels.some((label) => label.includes(fullAnswerLabel)) : false,
       completeWidthRatio:stage && completePanel ? completePanel.width / stage.width : null,
       completeSameColumn:problemGrid && completePanel
         ? Math.abs(problemGrid.left - completePanel.left) <= 1 && Math.abs(problemGrid.right - completePanel.right) <= 1
         : true,
     };
   })()`);
-  if (!complete && (audit.problemBox || audit.stepBox)) {
+  if (!complete && !finalAnswer && (audit.problemBox || audit.stepBox)) {
     assert(audit.problemBox && audit.stepBox && audit.headerGap >= 8, `${label}: full problem and current step are not visibly separated`, audit);
     assert(audit.problemTextInside, `${label}: full problem left its own panel`, audit);
     assert(audit.stepTextInside && audit.instructionTextInside, `${label}: current step left its own panel`, audit);
   }
-  if (!confirmation && !complete) {
+  if (!confirmation && !complete && !finalAnswer) {
     assert(audit.problemBox && audit.stepBox, `${label}: split problem header is missing`, audit);
     assert(audit.entry && audit.preview, `${label}: drag distribution state missing`, audit);
     assert(audit.entryWidthRatio >= 0.65, `${label}: share workbench is narrower than 65% of the Stage`, audit);
@@ -718,6 +777,23 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       assert(audit.confirmationButton.width >= 200 && audit.confirmationButton.height >= 42, `${label}: manual next button is smaller than the touch target`, audit);
       assert(audit.confirmationTitleGap >= 4 && audit.confirmationEquationGap >= 4 && audit.confirmationButtonGap >= 4, `${label}: confirmation content overlaps the manual next button`, audit);
     }
+  }
+  if (finalAnswer) {
+    assert(audit.finalAnswerEntry && audit.finalAnswerWork && audit.finalAnswerControls, `${label}: final sum entry is missing`, audit);
+    assert(audit.finalAnswerWorkInside && audit.finalAnswerControlsInside, `${label}: final sum columns left their panel`, audit);
+    assert(audit.finalAnswerExpressionInside && audit.finalAnswerKeypadInside, `${label}: final expression or keypad left its card`, audit);
+    assert(audit.finalAnswerSources.length === 2 && audit.finalAnswerSourcesInside, `${label}: the two source equations are missing or outside their card`, audit);
+    assert(audit.finalAnswerMergeInside && audit.finalAnswerSourceExpressionGap >= 4, `${label}: the source equations do not lead cleanly into the final sum`, audit);
+    audit.finalAnswerSources.forEach((source, index) => {
+      assert(['묶음 나누기', '낱개 나누기'].includes(source.labelText), `${label}: final sum source ${index + 1} has an unclear label`, audit);
+      assert(source.gap >= 8 && source.gap <= 24 && source.centerDelta <= 3, `${label}: final sum source ${index + 1} is detached from its equation`, audit);
+      assert(source.labelText === audit.expectedFinalSourceRows[index][0] && source.equationText === audit.expectedFinalSourceRows[index][1], `${label}: final sum source ${index + 1} does not explain the addition`, audit);
+    });
+    assert(audit.finalAnswerColumnsGap >= 8, `${label}: final expression and keypad overlap`, audit);
+    assert(audit.finalAnswerKeyCount === 12, `${label}: final answer keypad is incomplete`, audit);
+    assert(audit.finalAnswerMinKeyWidth >= 42 && audit.finalAnswerMinKeyHeight >= 42, `${label}: final answer key is smaller than 42px`, audit);
+    assert(audit.pendingAnswerTextInside && /=\s*\?$/.test(audit.pendingEquation), `${label}: full division answer is not hidden with a question mark`, audit);
+    assert(!audit.visibleCompleteSummary && !audit.leakedFullAnswer, `${label}: completed quotient leaked before the final sum was checked`, audit);
   }
   if (complete) {
     assert(audit.completePanel && audit.completeText, `${label}: completed division panel is missing`, audit);
@@ -1162,6 +1238,9 @@ async function auditElevatorLearningLegibility(page, label) {
   const audit = await evaluate(page, `(() => {
     const stage = document.querySelector('.stage-shell');
     const stageRect = stage?.getBoundingClientRect();
+    const surfaceRect = document.querySelector('.math-board-surface rect')?.getBoundingClientRect();
+    const choicesRect = document.querySelector('.choices-panel')?.getBoundingClientRect();
+    const instructionRect = document.querySelector('.step-board')?.getBoundingClientRect();
     const scale = stage && stageRect ? stageRect.width / stage.offsetWidth : 1;
     const physicalFont = (selector) => {
       const node = document.querySelector(selector);
@@ -1180,7 +1259,21 @@ async function auditElevatorLearningLegibility(page, label) {
       choiceValue: physicalFont('.elevator-choice-value'),
       minChoiceHeight: choiceRects.length ? Math.min(...choiceRects.map((rect) => rect.height)) : 0,
       labels,
-      values
+      values,
+      priorityLayout: stageRect && surfaceRect ? {
+        priority: '1-current-calculation',
+        informationBundles: 4,
+        stage: { width:stageRect.width, height:stageRect.height },
+        primary: {
+          width:surfaceRect.width,
+          height:surfaceRect.height,
+          stageWidthRatio:surfaceRect.width / stageRect.width,
+          stageAreaRatio:(surfaceRect.width * surfaceRect.height) / (stageRect.width * stageRect.height)
+        },
+        secondary: choicesRect ? { width:choicesRect.width, height:choicesRect.height } : null,
+        tertiary: instructionRect ? { width:instructionRect.width, height:instructionRect.height } : null,
+        judgement: 'pass'
+      } : null
     };
   })()`);
   assert(audit.bigProblem >= 40, `${label}: main problem text is too small`, audit);
@@ -1191,6 +1284,11 @@ async function auditElevatorLearningLegibility(page, label) {
   assert(audit.minChoiceHeight >= 42, `${label}: choice touch target is too short`, audit);
   assert(audit.labels.every((parts) => parts.join('|') === '몫|남은 수'), `${label}: choice meanings are unclear`, audit);
   assert(audit.values.every((parts) => parts.length === 2 && parts.every((value) => value % 10 === 0)), `${label}: first-step choices must show 20/10-style place values`, audit);
+  assert(audit.priorityLayout?.primary?.stageWidthRatio >= 0.65, `${label}: current calculation board must use at least 65% of the Stage width`, audit);
+  const primaryArea = audit.priorityLayout.primary.width * audit.priorityLayout.primary.height;
+  const secondaryArea = audit.priorityLayout.secondary.width * audit.priorityLayout.secondary.height;
+  assert(primaryArea > secondaryArea, `${label}: current calculation board must remain the largest content area`, audit);
+  return audit.priorityLayout;
 }
 
 async function auditElevatorWrongEvidence(page, label, misconceptionId) {
@@ -1266,6 +1364,29 @@ async function auditElevatorNumericLegibility(page, label) {
   assert(!audit.dropZone && !audit.dragChoice, `${label}: removed drop target or drag wiring is still present`, audit);
 }
 
+async function inputFarmFinalValue(page, value) {
+  for (const digit of String(value)) {
+    await clickSelector(page, `.farm-final-answer-keypad .farm-key[data-key="${digit}"]`);
+  }
+  await clickSelector(page, '.farm-final-answer-keypad .farm-key[data-key="확인"]:not(:disabled)');
+}
+
+async function enterFarmFinalAnswer(page, { wrongFirst = false } = {}) {
+  await waitUntil(page, "Boolean(document.querySelector('.farm-final-answer-entry'))", "final sum entry did not appear", 6000);
+  const quotient = await evaluate(page, "window.__mathmonEngineQa.getCurrentProblem()?.quotient");
+  assert(Number.isInteger(quotient), "final sum answer is missing from the current problem", { quotient });
+
+  if (wrongFirst) {
+    const lower = quotient - 1;
+    const wrongValue = lower > 0 && String(lower).length === String(quotient).length ? lower : quotient + 1;
+    await inputFarmFinalValue(page, wrongValue);
+    await waitUntil(page, "Boolean(document.querySelector('.farm-final-answer-entry.is-wrong'))", "wrong final sum was not kept on screen", 6000);
+  }
+
+  await inputFarmFinalValue(page, quotient);
+  await waitUntil(page, "document.getElementById('completePanel').classList.contains('is-visible')", "correct final sum did not reveal the completed division", 8000);
+}
+
 async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   if (wrongFirst) {
     await clickChoice(page, false);
@@ -1287,7 +1408,7 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
     const manualCompleteReady = await evaluate(page, "Boolean(document.querySelector('.farm-problem-complete-button:not([hidden]):not(:disabled)'))");
     if (manualCompleteReady) {
       await clickSelector(page, ".farm-problem-complete-button:not([hidden]):not(:disabled)");
-      await waitUntil(page, "document.getElementById('completePanel').classList.contains('is-visible')", "manual final confirmation did not complete", 6000);
+      await enterFarmFinalAnswer(page);
     }
   }
 }
@@ -1381,7 +1502,11 @@ async function auditFarmReward(page, label, phase) {
         text:line.textContent.trim(), visible:style.visibility !== 'hidden',
         overflows:line.scrollWidth > line.clientWidth + 1 || line.scrollHeight > line.clientHeight + 1
       } : null,
-      button: button ? { text:button.textContent.trim(), disabled:button.disabled } : null,
+      button: button ? {
+        text:button.textContent.trim(),
+        label:button.textContent.trim() || button.getAttribute('aria-label') || '',
+        disabled:button.disabled
+      } : null,
       modalVisible: !document.getElementById('rewardPop')?.hidden
     };
   })()`);
@@ -1395,7 +1520,7 @@ async function auditFarmReward(page, label, phase) {
   assert(audit.event.naturalWidth === 512 && audit.event.naturalHeight === 512, `${label}: reward event canvas must be 512x512`, audit);
   if (phase === "closed") {
     assert(audit.event.src.endsWith("reward-closed-generated.webp"), `${label}: closed basket art is wrong`, audit);
-    assert(!audit.line.visible && audit.button.text === "바구니 열기", `${label}: closed reward must show only the open action`, audit);
+    assert(!audit.line.visible && audit.button.label === "바구니 열기", `${label}: closed reward must show only the open action`, audit);
   } else {
     assert(/reward-event-.+-generated\.webp$/.test(audit.event.src), `${label}: revealed event art is wrong`, audit);
     assert(audit.line.visible && audit.line.text.length > 0 && !audit.line.overflows, `${label}: revealed reward needs one readable line`, audit);
@@ -1501,11 +1626,11 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await waitUntil(page, "document.getElementById('settingsBackdrop').hidden", `${viewport.name}: settings did not close`);
 
   await clickSelector(page, "#startButton");
-  await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && document.getElementById('tutorialStartButton').textContent.trim() === '다음'", `${viewport.name}: tutorial 1 not shown`);
+  await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && (document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '다음'", `${viewport.name}: tutorial 1 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "03-tutorial-1"));
   await auditGeometry(page, `${viewport.name} tutorial 1`);
   await clickSelector(page, "#tutorialStartButton");
-  await waitUntil(page, "document.getElementById('tutorialStartButton').textContent.trim() === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
+  await waitUntil(page, "(document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "04-tutorial-2"));
   await auditGeometry(page, `${viewport.name} tutorial 2`);
   await clickSelector(page, "#tutorialStartButton");
@@ -1519,7 +1644,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm waiting`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorPlayHeader(page, `${viewport.name} play header`);
-    await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
+    initialLearningLayout = await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
     await auditStarPickupWaiting(page, `${viewport.name} fixed 47-star waiting`, 47);
@@ -1617,7 +1742,30 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     const completedTooSoon = await evaluate(page, "document.getElementById('completePanel')?.classList.contains('is-visible')");
     assert(!completedTooSoon, `${viewport.name}: ones confirmation advanced without the student button`);
     await clickSelector(page, ".farm-problem-complete-button:not([hidden]):not(:disabled)");
+    await waitUntil(page, "Boolean(document.querySelector('.farm-final-answer-entry'))", `${viewport.name}: final sum entry did not appear`, 8000);
+    shots.push(await screenshot(page, lesson, viewport, "05e-play-final-sum"));
+    await auditGeometry(page, `${viewport.name} final sum waiting`);
+    await auditDivideFarmLayout(page, `${viewport.name} final sum waiting`, { finalAnswer:true });
+    await delay(1800);
+    const finalSumCompletedTooSoon = await evaluate(page, "document.getElementById('completePanel')?.classList.contains('is-visible')");
+    assert(!finalSumCompletedTooSoon, `${viewport.name}: final sum completed before the student entered an answer`);
+
+    const quotient = await evaluate(page, "window.__mathmonEngineQa.getCurrentProblem()?.quotient");
+    const lowerQuotient = quotient - 1;
+    const wrongQuotient = lowerQuotient > 0 && String(lowerQuotient).length === String(quotient).length
+      ? lowerQuotient
+      : quotient + 1;
+    const correctCountBeforeFinalSum = await evaluate(page, "(() => { window.__mathmonEngineQa.setState({ mistakeTouched:false }); return window.__mathmonEngineQa.getState().correctFirstTry; })()");
+    await inputFarmFinalValue(page, wrongQuotient);
+    await waitUntil(page, "Boolean(document.querySelector('.farm-final-answer-entry.is-wrong'))", `${viewport.name}: wrong final sum was not shown`, 8000);
+    shots.push(await screenshot(page, lesson, viewport, "05f-play-final-sum-wrong"));
+    await auditGeometry(page, `${viewport.name} final sum wrong`);
+    await auditDivideFarmLayout(page, `${viewport.name} final sum wrong`, { finalAnswer:true });
+
+    await inputFarmFinalValue(page, quotient);
     await waitUntil(page, "document.getElementById('completePanel')?.classList.contains('is-visible')", `${viewport.name}: one-basket completion did not appear`, 8000);
+    const correctCountAfterFinalSum = await evaluate(page, "window.__mathmonEngineQa.getState().correctFirstTry");
+    assert(correctCountAfterFinalSum === correctCountBeforeFinalSum, `${viewport.name}: wrong final sum was counted as first-try correct`, { correctCountBeforeFinalSum, correctCountAfterFinalSum });
     shots.push(await screenshot(page, lesson, viewport, "05d-play-one-basket-complete"));
     await auditGeometry(page, `${viewport.name} one-basket completion`);
     await auditDivideFarmLayout(page, `${viewport.name} completed division`, { complete:true });
@@ -1735,7 +1883,17 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     }
     await evaluate(page, "document.getElementById('rewardButton').click()");
     const reward = await waitForReward(page, `${viewport.name} problem ${problemIndex}`);
+    if (lesson === "3-2-2-1-mathmon-divide-farm" && problemIndex === 10) {
+      shots.push(await screenshot(page, lesson, viewport, "07d-final-reward-closed"));
+      await auditGeometry(page, `${viewport.name} final closed reward`);
+      await auditFarmReward(page, `${viewport.name} final closed reward`, "closed");
+    }
     await revealReward(page, reward, `${viewport.name} problem ${problemIndex}`);
+    if (lesson === "3-2-2-1-mathmon-divide-farm" && problemIndex === 10) {
+      shots.push(await screenshot(page, lesson, viewport, "07e-final-reward-open"));
+      await auditGeometry(page, `${viewport.name} final revealed reward`);
+      await auditFarmReward(page, `${viewport.name} final revealed reward`, "revealed");
+    }
     await clickSelector(page, reward.nextSelector);
   }
   if (lesson === "3-2-2-4-mathmon-check-lock") {

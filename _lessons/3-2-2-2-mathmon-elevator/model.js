@@ -200,7 +200,7 @@ const Lesson2ElevatorModel = (() => {
         id: `use-remaining:${problem.remainingTens}`,
         value: problem.remainingTens,
         misconceptionId: "DIV2_REUSE_REMAINING_TENS",
-        feedback: "남은 십은 이미 내려왔어요."
+        feedback: "남은 수는 이미 내려왔어요."
       }
     ]);
 
@@ -208,7 +208,7 @@ const Lesson2ElevatorModel = (() => {
       {
         id: "tens",
         label: "십의 자리",
-        action: "십의 자리 몫과 남은 십을 고른다",
+        action: "십의 자리 몫과 남은 수를 고른다",
         instruction: `${problem.tensDigit * 10}에서 십의 자리 몫과 남은 수를 골라요.`,
         answer: { quotient: problem.tensQuotient, remainingTens: problem.remainingTens },
         answerChoiceId: tensAnswerId,

@@ -47,7 +47,7 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.steps[0].answer, problem.tensShare, `${problem.id}: student answer maps to the actual tens share`);
     assert.equal(problem.steps[1].answer, problem.onesQuotient, `${problem.id}: student answers with the actual ones share`);
     assert.equal(problem.steps[0].advance?.mode, "button", `${problem.id}: student advances after reading the tens confirmation`);
-    assert.equal(problem.steps[0].advance?.label, "낱개 나누기", `${problem.id}: next action names the ones step`);
+    assert.equal(problem.steps[0].advance?.label, "하나씩 나누기", `${problem.id}: next action names the ones step in student-friendly language`);
     assert.equal(problem.steps[1].advance?.mode, "button", `${problem.id}: student advances after reading the ones confirmation`);
     assert.equal(problem.steps[1].advance?.label, "나눈 값 더하기", `${problem.id}: final action names the completed relationship`);
     assert.ok(problem.steps.slice(0, 2).every((step) => step.interaction === "enter-share"), `${problem.id}: student decides one basket's share before the system distributes`);
@@ -55,7 +55,7 @@ function checkInvariant(rule, problem) {
     assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV1_TENS_SHARE_ERROR"), `${problem.id}: tens-share error state`);
     assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV1_ONES_SHARE_ERROR"), `${problem.id}: ones-share error state`);
     assert.match(problem.finalExpression, new RegExp(`${problem.dividend} ÷ ${problem.divisor} = ${problem.quotient}`), `${problem.id}: completed shares form the final identity`);
-    assert.equal(problem.steps.length, 2, `${problem.id}: already-determined quotient is not re-entered`);
+    assert.equal(problem.steps.length, 2, `${problem.id}: place-value distribution stays in two steps before the final sum`);
     return;
   }
   if (rule === "division-regrouping-exact") {
@@ -198,6 +198,12 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
     assert.match(viewSource, /renderFarmShareConfirmation/, `${config.id}: the confirmed answer changes the current objects`);
     assert.match(viewSource, /prepareStepAdvance/, `${config.id}: the confirmed tens step waits for the student button`);
     assert.match(viewSource, /prepareProblemComplete/, `${config.id}: the confirmed ones step waits for the student button`);
+    assert.match(viewSource, /renderFarmFinalAnswerEntry/, `${config.id}: the student completes the final sum before the quotient is revealed`);
+    assert.match(viewSource, /farm-final-answer-source/, `${config.id}: the two earlier divisions stay next to the final sum`);
+    assert.match(viewSource, /한 바구니에 들어갈 수를 구해요/, `${config.id}: the final addition states why the two shares are combined`);
+    assert.match(viewSource, /renderFarmPendingAnswerHeader/, `${config.id}: the full division stays in a question-mark state before the final sum`);
+    assert.match(viewSource, /dataset\.interaction = "enter-final-sum"/, `${config.id}: the final sum is an explicit student action`);
+    assert.match(viewSource, /다시 더해 봐요/, `${config.id}: a wrong final sum keeps a short corrective prompt`);
     assert.match(viewSource, /낱개 나누기/, `${config.id}: the manual transition names the next math action`);
     assert.match(runtimeSource, /advanceToNextStep/, `${config.id}: manual and timed transitions share one guarded advance path`);
     assert.match(viewSource, /for \(let index = 0; index < problem\.divisor/, `${config.id}: every divisor basket is rendered`);

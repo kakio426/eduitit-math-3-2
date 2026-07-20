@@ -129,6 +129,102 @@
   .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
 }
 
+/* 2026-07 unified generated action buttons and simplified tutorial layout. */
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+.game[data-workbench-type="place-value-farm"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+  border-radius: 999px;
+}
+
+.game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton.farm-tutorial-next-button {
+  left: 50%;
+  bottom: 1.7%;
+  width: 270px;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1805 / 703;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  line-height: 0;
+  transform: translateX(-50%);
+}
+
+.game[data-workbench-type="place-value-farm"] #screen-tutorial #tutorialStartButton:focus-visible,
+.game[data-workbench-type="place-value-farm"] #screen-tutorial #tutorialBackButton:focus-visible {
+  outline: none;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px #fffdf3, 0 0 0 8px #1e8d70;
+}
+
+.farm-tutorial-next-button-art,
+.farm-generated-button-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-confirmation.has-action-button {
+  grid-template-rows: 30px minmax(0, 1fr) 34px 96px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-confirm-next-button.farm-generated-action-button {
+  width: 240px;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 2.55 / 1;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  line-height: 0;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-confirm-next-button.farm-generated-action-button:hover {
+  transform: translateY(-2px) scale(1.015);
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-confirm-next-button.farm-generated-action-button:active {
+  transform: translateY(2px) scale(.99);
+  box-shadow: none;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-confirm-next-button.farm-generated-action-button:focus-visible {
+  outline: 4px solid #ffc857;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] #screen-tutorial[data-page="0"] #tutorialStartButton.farm-tutorial-next-button {
+    bottom: 1.7%;
+    width: 240px;
+    height: auto;
+    font-size: 0;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-share-confirmation.has-action-button {
+    grid-template-rows: 24px minmax(0, 1fr) 28px 84px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-confirm-next-button.farm-generated-action-button {
+    width: 210px;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    font-size: 0;
+  }
+
+}
+
 /* Source scale follows the number that entered the panel; it stays stable while distributing. */
 .game[data-workbench-type="place-value-farm"] .farm-share-source {
   grid-template-columns: 180px minmax(0, 1fr);
@@ -2531,48 +2627,283 @@
 }
 
 /* Final tutorial scale override: keep both examples large and the basket label on one line. */
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { right: 6%; left: 6%; padding: 18px 24px; gap: 12px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { top: 76px; right: 5%; bottom: 124px; left: 5%; padding: 16px 22px; gap: 10px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-guide h3 { font-size: 2.65rem; }
 .game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
   padding: 8px 12px;
-  grid-template-columns: 42px minmax(250px, 1.05fr) minmax(220px, .95fr) minmax(225px, .95fr);
-  gap: 10px;
+  grid-template-columns: 42px minmax(270px, 1.2fr) minmax(220px, .85fr) minmax(190px, .75fr);
+  gap: 12px;
 }
 .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces { gap: 0; }
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 64px; height: 56px; }
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 34px; height: 60px; margin: 0; }
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.9rem; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 68px; height: 58px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 36px; height: 62px; margin: 0; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 2.05rem; }
 .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: 1.15rem; white-space: nowrap; }
 .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
-  width: min(100%, 250px);
-  min-height: 92px;
-  padding: 10px 12px;
-  grid-template-columns: 86px minmax(0, 1fr);
+  width: min(100%, 240px);
+  min-height: 88px;
+  padding: 8px 12px;
+  grid-template-columns: 90px minmax(0, 1fr);
   gap: 10px;
 }
 .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 64px; }
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 78px; height: 60px; }
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 28px; height: 58px; }
-.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: 1.1rem; line-height: 1.1; white-space: nowrap; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 80px; height: 62px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 29px; height: 60px; }
+.game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: 1.3rem; line-height: 1.1; white-space: nowrap; }
 
 @media (max-width: 1100px) {
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { right: 5%; left: 5%; padding: 12px 16px; gap: 8px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide { top: 68px; right: 5%; bottom: 106px; left: 5%; padding: 12px 16px; gap: 8px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide h3 { font-size: 2.15rem; }
   .game[data-workbench-type="place-value-farm"] .farm-tutorial-step {
     padding: 7px 10px;
-    grid-template-columns: 38px minmax(220px, 1fr) minmax(190px, .9fr) minmax(210px, .95fr);
+    grid-template-columns: 38px minmax(240px, 1.1fr) minmax(190px, .85fr) minmax(190px, .8fr);
     gap: 8px;
   }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 48px; height: 42px; }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 26px; height: 45px; }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.35rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--bundle { width: 54px; height: 47px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-source-pieces .farm-produce-piece--single { width: 29px; height: 50px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression strong { font-size: 1.55rem; }
   .game[data-workbench-type="place-value-farm"] .farm-tutorial-expression span { font-size: .95rem; }
   .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof {
-    min-height: 72px;
-    padding: 7px 8px;
-    grid-template-columns: 68px minmax(0, 1fr);
+    width: min(100%, 210px);
+    min-height: 74px;
+    padding: 6px 8px;
+    grid-template-columns: 72px minmax(0, 1fr);
     gap: 6px;
   }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 50px; }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 58px; height: 46px; }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 44px; }
-  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: .92rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces { height: 52px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 62px; height: 49px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 23px; height: 47px; }
+  .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: 1.05rem; }
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-confirmation.has-action-button {
+  grid-template-rows: 30px minmax(0, 1fr) 34px 96px;
+}
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-share-confirmation.has-action-button {
+    grid-template-rows: 24px minmax(0, 1fr) 28px 84px;
+  }
+}
+
+/* Final sum entry: keep the quotient hidden until the student adds both shares. */
+.game[data-workbench-type="place-value-farm"] .farm-pending-answer-header .farm-problem {
+  font-size: 66px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 18px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr);
+  gap: 18px;
+  overflow: hidden;
+  border: 4px solid #a56a28;
+  border-radius: 28px;
+  color: #34210e;
+  background: #fff4c6;
+  box-shadow: 0 8px 0 #79502b;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-work {
+  min-width: 0;
+  min-height: 0;
+  padding: 20px 18px;
+  display: grid;
+  grid-template-rows: auto auto 24px minmax(0, 1fr);
+  place-items: center;
+  gap: 10px;
+  border: 4px solid #c99a58;
+  border-radius: 24px;
+  background: #fffdf5;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-title,
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-feedback {
+  margin: 0;
+  text-align: center;
+  font-weight: 1000;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-title {
+  color: #245c31;
+  font-size: clamp(1.55rem, 2.6vw, 2rem);
+  line-height: 1.1;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-sources {
+  width: min(100%, 500px);
+  display: grid;
+  gap: 8px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-source {
+  min-width: 0;
+  min-height: 54px;
+  padding: 6px 14px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 3px solid #91bf8d;
+  border-radius: 18px;
+  background: #f2fae9;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-source-label {
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: #245c31;
+  background: #dff0d5;
+  font-size: clamp(1rem, 1.55vw, 1.22rem);
+  line-height: 1;
+  font-weight: 1000;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-source-equation {
+  color: #34210e;
+  font-size: clamp(1.35rem, 2.3vw, 1.82rem);
+  line-height: 1;
+  font-weight: 1000;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-merge-arrow {
+  color: #ba6d22;
+  font-size: 2rem;
+  line-height: 24px;
+  font-weight: 1000;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-expression {
+  width: min(100%, 500px);
+  min-height: 120px;
+  padding: 14px 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: 24px;
+  color: #9c3f16;
+  background: #ffe3a0;
+  font-size: clamp(2.7rem, 5.1vw, 4.4rem);
+  line-height: 1;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-display {
+  min-width: 1.4em;
+  color: #321d09;
+  text-align: center;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-controls {
+  min-width: 0;
+  min-height: 0;
+  padding: 12px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 34px;
+  gap: 10px;
+  border: 4px solid #c99a58;
+  border-radius: 24px;
+  background: #fffdf5;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-keypad {
+  min-height: 0;
+  gap: 9px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-keypad .farm-key {
+  min-width: 42px;
+  min-height: 52px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-feedback {
+  min-height: 24px;
+  align-self: center;
+  color: #245c31;
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry.is-wrong {
+  border-color: #b71943;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry.is-wrong .farm-final-answer-expression {
+  outline: 4px solid #d44b64;
+  outline-offset: -4px;
+  background: #fff0f2;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry.is-wrong .farm-final-answer-feedback {
+  color: #b71943;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry.is-correct {
+  border-color: #3f8f62;
+  background: #effbea;
+  box-shadow: 0 8px 0 #286c45;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry.is-correct .farm-final-answer-display,
+.game[data-workbench-type="place-value-farm"] .farm-final-answer-entry.is-correct .farm-final-answer-feedback {
+  color: #245c31;
+}
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-pending-answer-header .farm-problem { font-size: 58px; }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-entry {
+    padding: 10px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(210px, .8fr);
+    gap: 10px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-work {
+    padding: 10px;
+    grid-template-rows: auto auto 18px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-title { font-size: 1.35rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-sources { gap: 5px; }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-source {
+    min-height: 43px;
+    padding: 4px 8px;
+    gap: 9px;
+    border-width: 2px;
+    border-radius: 14px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-source-label {
+    padding: 4px 8px;
+    font-size: .92rem;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-source-equation { font-size: 1.25rem; }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-merge-arrow {
+    font-size: 1.45rem;
+    line-height: 18px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-expression {
+    min-height: 96px;
+    padding: 12px 10px;
+    gap: 10px;
+    font-size: clamp(2.2rem, 4.7vw, 3.35rem);
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-controls {
+    padding: 8px;
+    grid-template-rows: minmax(0, 1fr) 28px;
+    gap: 6px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-keypad { gap: 6px; }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-keypad .farm-key { min-height: 44px; }
+  .game[data-workbench-type="place-value-farm"] .farm-final-answer-feedback { font-size: .86rem; }
 }

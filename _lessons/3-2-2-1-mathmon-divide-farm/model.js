@@ -122,7 +122,7 @@ const Lesson2DivideFarmModel = (() => {
           choices: makeShareOptionSet(tensShare, 10, tens, divisor, "묶음", "DIV1_TENS_SHARE_ERROR"),
           correctText: `바구니마다 ${tensShare}개씩`,
           reveal: `${tensShare}개`,
-          advance: { mode: "button", label: "낱개 나누기" }
+          advance: { mode: "button", label: "하나씩 나누기" }
         },
         ...(ones > 0 ? [{
           id: "ones",

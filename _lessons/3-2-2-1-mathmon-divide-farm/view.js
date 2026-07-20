@@ -8,6 +8,7 @@ let farmResultPanel = null;
 let farmResultStep = null;
 let farmHarvestButtonArt = null;
 let farmRewardButtonObserver = null;
+let farmTutorialButtonObserver = null;
 
 function getFarmStageImage(result) {
   const map = LESSON_CONFIG.imageAssets?.farmStages || LESSON_CONFIG.reward?.stageImages || {};
@@ -65,14 +66,19 @@ function ensureFarmHarvestButtonArt() {
 
 function ensureFarmRewardNextButtonArt() {
   const button = document.getElementById("rewardNextButton");
-  const source = LESSON_CONFIG.imageAssets?.nextButton;
-  if (!button || !source) return null;
+  if (!button) return null;
 
   const sync = () => {
     if (button.querySelector(".farm-next-button-art")) return;
     const label = button.textContent.trim();
     const nextLabel = LESSON_CONFIG.reward?.nextLabel || "다음";
-    if (label !== nextLabel) {
+    const actionAssets = {
+      [LESSON_CONFIG.reward?.closedLabel || "바구니 열기"]: LESSON_CONFIG.imageAssets?.basketOpenButton,
+      [nextLabel]: LESSON_CONFIG.imageAssets?.nextButton,
+      "결과 보기": LESSON_CONFIG.imageAssets?.resultViewButton
+    };
+    const source = actionAssets[label];
+    if (!label || !source) {
       button.classList.remove("farm-next-button");
       delete button.dataset.actionLabel;
       if (label) button.setAttribute("aria-label", label);
@@ -96,6 +102,44 @@ function ensureFarmRewardNextButtonArt() {
   }
   sync();
   return farmRewardButtonObserver;
+}
+
+function ensureFarmTutorialNextButtonArt() {
+  const screen = document.getElementById("screen-tutorial");
+  const button = document.getElementById("tutorialStartButton");
+  const source = LESSON_CONFIG.imageAssets?.nextButton;
+  if (!screen || !button || !source) return null;
+
+  const sync = () => {
+    const isFirstPage = screen.dataset.page === "0";
+    const image = button.querySelector(".farm-tutorial-next-button-art");
+    if (!isFirstPage) {
+      button.classList.remove("farm-tutorial-next-button");
+      delete button.dataset.actionLabel;
+      button.setAttribute("aria-label", LESSON_CONFIG.tutorialButton || "문제 시작");
+      if (image) button.replaceChildren();
+      return;
+    }
+    if (image) return;
+
+    button.classList.add("farm-tutorial-next-button");
+    button.dataset.actionLabel = "다음";
+    button.setAttribute("aria-label", "다음");
+    const art = document.createElement("img");
+    art.className = "farm-tutorial-next-button-art";
+    art.src = source;
+    art.alt = "";
+    art.setAttribute("aria-hidden", "true");
+    button.replaceChildren(art);
+  };
+
+  if (!farmTutorialButtonObserver) {
+    farmTutorialButtonObserver = new MutationObserver(sync);
+    farmTutorialButtonObserver.observe(screen, { attributes: true, attributeFilter: ["data-page"] });
+    farmTutorialButtonObserver.observe(button, { childList: true, subtree: true, characterData: true });
+  }
+  sync();
+  return farmTutorialButtonObserver;
 }
 
 function syncFarmStatusBadge(state) {
@@ -191,13 +235,13 @@ function ensureFarmTutorialGuide() {
   guide.className = "farm-tutorial-guide";
 
   const heading = document.createElement("h3");
-  heading.textContent = "똑같이 나누면 나눗셈";
+  heading.textContent = "묶음과 낱개로 나눠요";
 
   const steps = document.createElement("div");
   steps.className = "farm-tutorial-steps";
   steps.append(
-    createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10", "한 바구니에 10개씩"),
-    createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2", "한 바구니에 2개씩")
+    createFarmTutorialStep("1", "tens", 4, 1, "40 ÷ 4 = 10"),
+    createFarmTutorialStep("2", "ones", 8, 2, "8 ÷ 4 = 2")
   );
 
   const sum = document.createElement("p");
@@ -208,7 +252,7 @@ function ensureFarmTutorialGuide() {
   firstCard.appendChild(guide);
 }
 
-function createFarmTutorialStep(number, kind, sourceCount, shareCount, expression, reason) {
+function createFarmTutorialStep(number, kind, sourceCount, shareCount, expression) {
   const row = document.createElement("section");
   row.className = "farm-tutorial-step";
 
@@ -225,7 +269,9 @@ function createFarmTutorialStep(number, kind, sourceCount, shareCount, expressio
 
   const expressionNode = document.createElement("div");
   expressionNode.className = "farm-tutorial-expression";
-  expressionNode.innerHTML = `<strong>${expression}</strong><span>${reason}</span>`;
+  const expressionText = document.createElement("strong");
+  expressionText.textContent = expression;
+  expressionNode.appendChild(expressionText);
 
   const result = document.createElement("div");
   result.className = "farm-tutorial-result";
@@ -235,7 +281,7 @@ function createFarmTutorialStep(number, kind, sourceCount, shareCount, expressio
   proofPieces.className = "farm-tutorial-proof-pieces";
   appendFarmPieces(proofPieces, kind, shareCount, 4);
   const resultLabel = document.createElement("strong");
-  resultLabel.textContent = `한 바구니 ${kind === "tens" ? shareCount * 10 : shareCount}개`;
+  resultLabel.textContent = `${kind === "tens" ? shareCount * 10 : shareCount}개씩`;
   proof.append(proofPieces, resultLabel);
   result.append(proof);
 
@@ -565,13 +611,13 @@ function renderFarmShareConfirmation(problem, step) {
   confirmation.setAttribute(
     "aria-label",
     isFinal
-      ? `한 바구니에 10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개, 모두 ${problem.quotient}개`
+      ? `한 바구니에 10개 묶음 ${problem.tensQuotient}개와 낱개 ${problem.onesQuotient}개. 나눈 값을 더할 차례`
       : `한 바구니에 10개 묶음 ${problem.tensQuotient}개씩, 바구니 ${problem.divisor}개`
   );
 
   const title = document.createElement("p");
   title.className = "farm-confirm-title";
-  title.textContent = isFinal ? "낱개도 똑같이 나눴어요." : "모든 바구니에 똑같이 들어갔어요.";
+  title.textContent = isFinal ? "하나씩 똑같이 나눴어요." : "모든 바구니에 똑같이 들어갔어요.";
   const baskets = createFarmShareBasketPreview(problem, step, step.answer / step.unitValue);
   baskets.classList.add("farm-confirm-baskets");
   const equation = document.createElement("strong");
@@ -580,7 +626,21 @@ function renderFarmShareConfirmation(problem, step) {
   const action = document.createElement("button");
   action.className = `farm-confirm-next-button ${isFinal ? "farm-problem-complete-button" : "farm-step-next-button"}`;
   action.type = "button";
-  action.textContent = step.advance?.label || (isFinal ? "나눈 값 더하기" : "낱개 나누기");
+  const actionLabel = isFinal ? "나눈 값 더하기" : "하나씩 나누기";
+  const actionSource = isFinal
+    ? LESSON_CONFIG.imageAssets?.addSharesButton
+    : LESSON_CONFIG.imageAssets?.singlesDivideButton;
+  action.classList.add("farm-generated-action-button");
+  action.dataset.actionLabel = actionLabel;
+  action.setAttribute("aria-label", actionLabel);
+  if (actionSource) {
+    const actionArt = document.createElement("img");
+    actionArt.className = "farm-generated-button-art";
+    actionArt.src = actionSource;
+    actionArt.alt = "";
+    actionArt.setAttribute("aria-hidden", "true");
+    action.appendChild(actionArt);
+  }
   action.hidden = true;
   action.disabled = true;
   confirmation.append(title, baskets, equation, action);
@@ -608,10 +668,189 @@ function prepareProblemComplete(problem, step, state, complete) {
   button.disabled = false;
   button.addEventListener("click", () => {
     button.disabled = true;
-    void complete();
+    renderFarmFinalAnswerEntry(problem, state, complete);
   }, { once: true });
   button.focus({ preventScroll: true });
   return true;
+}
+
+function renderFarmFinalAnswerEntry(problem, state, complete) {
+  farmInteractionState = null;
+  setFarmFlowPhase("final-answer");
+  renderFarmPendingAnswerHeader(problem);
+
+  const entry = document.createElement("section");
+  entry.className = "farm-final-answer-entry";
+  entry.tabIndex = -1;
+  entry.setAttribute("aria-label", `묶음에서 구한 ${problem.tensShare}과 낱개에서 구한 ${problem.onesQuotient}을 더해 한 바구니의 수를 써요.`);
+
+  const work = document.createElement("div");
+  work.className = "farm-final-answer-work";
+  const title = document.createElement("p");
+  title.className = "farm-final-answer-title";
+  title.textContent = "한 바구니에 들어갈 수를 구해요";
+
+  const sources = document.createElement("div");
+  sources.className = "farm-final-answer-sources";
+  const makeSourceRow = (labelText, equationText) => {
+    const row = document.createElement("div");
+    row.className = "farm-final-answer-source";
+    const label = document.createElement("span");
+    label.className = "farm-final-answer-source-label";
+    label.textContent = labelText;
+    const equation = document.createElement("strong");
+    equation.className = "farm-final-answer-source-equation";
+    equation.textContent = equationText;
+    row.append(label, equation);
+    return row;
+  };
+  sources.append(
+    makeSourceRow("묶음 나누기", `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}`),
+    makeSourceRow("낱개 나누기", `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}`),
+  );
+
+  const mergeArrow = document.createElement("div");
+  mergeArrow.className = "farm-final-answer-merge-arrow";
+  mergeArrow.setAttribute("aria-hidden", "true");
+  mergeArrow.textContent = "↓";
+
+  const expression = document.createElement("div");
+  expression.className = "farm-final-answer-expression";
+  expression.setAttribute("aria-label", `${problem.tensShare} 더하기 ${problem.onesQuotient}는 물음표`);
+  const knownValues = document.createElement("span");
+  knownValues.textContent = `${problem.tensShare} + ${problem.onesQuotient} =`;
+  const answerDisplay = document.createElement("strong");
+  answerDisplay.className = "farm-final-answer-display";
+  answerDisplay.textContent = "?";
+  answerDisplay.setAttribute("aria-live", "polite");
+  expression.append(knownValues, answerDisplay);
+  work.append(title, sources, mergeArrow, expression);
+
+  const controls = document.createElement("div");
+  controls.className = "farm-final-answer-controls";
+  const keypad = document.createElement("div");
+  keypad.className = "farm-keypad farm-final-answer-keypad";
+  keypad.setAttribute("aria-label", "답 입력 숫자판");
+  const feedback = document.createElement("p");
+  feedback.className = "farm-final-answer-feedback";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.textContent = "";
+
+  let digits = "";
+  let wrong = false;
+  let completed = false;
+  const expectedLength = String(problem.quotient).length;
+  const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "지우기", "0", "확인"];
+
+  const syncAnswer = () => {
+    answerDisplay.textContent = digits || "?";
+    answerDisplay.setAttribute("aria-label", digits ? `쓴 답 ${digits}` : "아직 쓰지 않은 답");
+    const confirmButton = keypad.querySelector('[data-key="확인"]');
+    if (confirmButton) confirmButton.disabled = digits.length !== expectedLength || completed;
+  };
+
+  const clearWrongState = () => {
+    if (!wrong) return;
+    wrong = false;
+    entry.classList.remove("is-wrong");
+    feedback.textContent = "";
+    setFarmFlowPhase("final-answer");
+  };
+
+  const appendDigit = (digit) => {
+    if (completed) return;
+    if (wrong) {
+      digits = "";
+      clearWrongState();
+    }
+    if (digits.length >= expectedLength) return;
+    if (!digits && digit === "0") return;
+    digits += digit;
+    syncAnswer();
+  };
+
+  const clearDigit = () => {
+    if (completed) return;
+    clearWrongState();
+    digits = digits.slice(0, -1);
+    syncAnswer();
+  };
+
+  const submitAnswer = () => {
+    if (completed || digits.length !== expectedLength) return;
+    if (Number(digits) !== problem.quotient) {
+      state.mistakeTouched = true;
+      wrong = true;
+      entry.classList.add("is-wrong");
+      feedback.textContent = "다시 더해 봐요.";
+      setFarmFlowPhase("final-answer-wrong");
+      void pulseScene("wrong");
+      answerDisplay.focus?.({ preventScroll: true });
+      return;
+    }
+
+    completed = true;
+    entry.classList.remove("is-wrong");
+    entry.classList.add("is-correct");
+    expression.setAttribute("aria-label", `${problem.tensShare} 더하기 ${problem.onesQuotient}는 ${problem.quotient}`);
+    feedback.textContent = "맞아요! 나눈 값을 더했어요.";
+    setFarmFlowPhase("final-answer-correct");
+    keypad.querySelectorAll("button").forEach((button) => { button.disabled = true; });
+    syncAnswer();
+    window.setTimeout(() => { void complete(); }, 700);
+  };
+
+  keys.forEach((key) => {
+    const keyButton = document.createElement("button");
+    keyButton.type = "button";
+    keyButton.className = "farm-key";
+    keyButton.dataset.key = key;
+    keyButton.textContent = key;
+    if (key === "지우기") keyButton.classList.add("is-clear");
+    if (key === "확인") keyButton.classList.add("is-enter");
+    keyButton.addEventListener("click", () => {
+      if (/^\d$/.test(key)) appendDigit(key);
+      else if (key === "지우기") clearDigit();
+      else submitAnswer();
+    });
+    keypad.appendChild(keyButton);
+  });
+
+  entry.addEventListener("keydown", (event) => {
+    if (/^\d$/.test(event.key)) {
+      event.preventDefault();
+      appendDigit(event.key);
+    } else if (event.key === "Backspace" || event.key === "Delete") {
+      event.preventDefault();
+      clearDigit();
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      submitAnswer();
+    }
+  });
+
+  controls.append(keypad, feedback);
+  entry.append(work, controls);
+  ui.choices.dataset.interaction = "enter-final-sum";
+  ui.choices.dataset.choiceKind = "final-sum";
+  ui.choices.replaceChildren(entry);
+  syncAnswer();
+  entry.querySelector('.farm-key[data-key="1"]')?.focus({ preventScroll: true });
+}
+
+function renderFarmPendingAnswerHeader(problem) {
+  const svg = document.createElementNS(FARM_SVG_NS, "svg");
+  svg.classList.add("place-value-farm-svg", "farm-pending-answer-header");
+  svg.setAttribute("viewBox", "0 0 900 170");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `${problem.dividend} 나누기 ${problem.divisor}는 물음표`);
+  svg.innerHTML = `
+    <rect x="8" y="8" width="884" height="154" rx="32" class="farm-board-bg farm-pending-answer-box"/>
+    <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+      <text x="450" y="108" class="farm-problem">${problem.dividend} ÷ ${problem.divisor} = ?</text>
+    </g>
+  `;
+  ui.visualArea.replaceChildren(svg);
 }
 
 function onStepCorrect() {
@@ -926,6 +1165,7 @@ function installFarmResultPreview() {
 }
 
 ensureFarmTutorialGuide();
+ensureFarmTutorialNextButtonArt();
 ensureFarmStatusBadge();
 ensureFarmHarvestButtonArt();
 ensureFarmRewardNextButtonArt();

@@ -87,6 +87,11 @@
   text-overflow: ellipsis;
 }
 
+.elevator-route-arrow.is-final-route,
+.elevator-route-point.is-final {
+  display: none;
+}
+
 .elevator-route-arrow {
   flex: 0 0 auto;
   color: #8d6b20;
@@ -129,16 +134,16 @@
 .game[data-workbench-type="division-elevator"] .problem-grid {
   position: absolute;
   top: 70px;
-  right: 42px;
+  right: 34px;
   bottom: 10px;
-  left: 34.5%;
+  left: 17.5%;
   z-index: 3;
   height: auto;
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) 58px minmax(150px, auto);
-  gap: 10px;
+  grid-template-rows: minmax(0, 1fr) 54px minmax(140px, auto);
+  gap: 8px;
 }
 
 .game[data-workbench-type="division-elevator"] .problem-card,
@@ -167,8 +172,8 @@
 .game[data-workbench-type="division-elevator"] .big-problem {
   margin: 0;
   color: #17343b;
-  font-size: clamp(3rem, 5.8vw, 5.1rem);
-  line-height: 1.16;
+  font-size: clamp(2.8rem, 4.7vw, 4.2rem);
+  line-height: 1;
   font-variant-numeric: tabular-nums;
   letter-spacing: .02em;
   word-spacing: .18em;
@@ -177,15 +182,19 @@
 }
 
 .game[data-workbench-type="division-elevator"] .visual-area {
+  position: relative;
   min-height: 0;
   display: grid;
   place-items: center;
 }
 
 .elevator-math-svg {
-  width: min(100%, 920px);
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  max-height: 420px;
+  max-width: none;
+  max-height: none;
   overflow: visible;
 }
 
@@ -259,6 +268,14 @@
   font-weight: 1000;
   font-variant-numeric: tabular-nums;
   text-anchor: middle;
+}
+
+.elevator-math-svg .board-final-subtrahend {
+  font-size: 50px;
+}
+
+.elevator-math-svg .board-final-zero {
+  font-size: 50px;
 }
 
 .elevator-math-svg .board-combined-target.is-active .board-combined-value {
@@ -350,14 +367,14 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(72px, 1fr));
-  gap: 10px;
+  grid-template-rows: repeat(2, minmax(60px, 1fr));
+  gap: 8px;
 }
-.elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(72px,1fr)); gap: 10px; padding: 8px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
+.elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(60px,1fr)); gap: 8px; padding: 6px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
 .elevator-floor-panel .elevator-choice { border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45), 0 5px 0 #314f55; }
 
 .game[data-workbench-type="division-elevator"] .elevator-choice {
-  min-height: 74px;
+  min-height: 64px;
   padding: 0;
   border: 3px solid #486b71;
   border-radius: 18px;
@@ -484,11 +501,7 @@
 .game[data-workbench-type="division-elevator"] .reward-pop[data-reward="rainbow"] .reward-visual { background-position: 100% 100%; }
 
 .game[data-workbench-type="division-elevator"] .result-title-art {
-  display: block;
-  left: 54%;
-  top: 11%;
-  width: 38%;
-  border-radius: 22px;
+  display: none !important;
 }
 
 .game[data-workbench-type="division-elevator"] #screen-result .top-row {
@@ -520,24 +533,52 @@
 }
 
 .game[data-workbench-type="division-elevator"] .result-dynamic-ui #resultMeasureSvg {
-  transform: translateX(70px);
+  font-size: 36px;
+  transform: translateY(34px);
 }
 
 .game[data-workbench-type="division-elevator"] .result-correct-art {
-  left: 54%;
-  top: 52%;
-  width: 14.5%;
+  left: 65.5%;
+  top: 38%;
+  width: 15.5%;
 }
 
 .game[data-workbench-type="division-elevator"] .result-restart-hitbox {
-  left: 55.5%;
-  top: 64.5%;
-  width: 21%;
+  left: 70%;
+  top: 65%;
+  width: 22%;
   height: 17%;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
-.game[data-workbench-type="division-elevator"] .result-rank-button-art { left: 40%; }
-.game[data-workbench-type="division-elevator"] .result-leaderboard-hitbox { left: calc(40% - 125px); }
-.game[data-workbench-type="division-elevator"] .result-restart-hitbox .result-retry-art { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 24px; }
+.game[data-workbench-type="division-elevator"] .result-rank-button-art,
+.game[data-workbench-type="division-elevator"] .result-leaderboard-hitbox,
+.game[data-workbench-type="division-elevator"] #leaderboardButton,
+.game[data-workbench-type="division-elevator"] #leaderboardButtonArt {
+  display: none !important;
+}
+.game[data-workbench-type="division-elevator"] .result-restart-hitbox .result-retry-art {
+  display: none !important;
+}
+
+.game[data-workbench-type="division-elevator"] .reward-card {
+  position: relative;
+}
+
+.game[data-workbench-type="division-elevator"] .reward-open-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 250px;
+  height: 250px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  opacity: 0;
+}
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial {
   padding: 0;
@@ -566,12 +607,15 @@
 }
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+  position: relative;
+  container-type: size;
   min-height: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  overflow: hidden;
 }
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] {
@@ -579,6 +623,8 @@
 }
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
@@ -586,8 +632,8 @@
 }
 
 .game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
-.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
-.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card > strong,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-card > p {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -612,50 +658,305 @@
   position: absolute;
   min-width: 0;
   min-height: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  color: transparent;
-  background: transparent;
-  box-shadow: none;
-  font-size: 0;
+  padding: 0 28px;
+  border: 4px solid #fff6cb;
+  border-radius: 999px;
+  color: #173a55;
+  background: linear-gradient(180deg, #ffe980 0%, #f7ba3e 100%);
+  box-shadow: 0 7px 0 #b87312, 0 12px 24px rgba(11, 49, 69, 0.28);
+  font-size: 28px;
+  font-weight: 1000;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
   pointer-events: auto;
   cursor: pointer;
 }
 
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+  border-color: #ddf7ff;
+  color: #f6fdff;
+  background: linear-gradient(180deg, #2c8ec6 0%, #176096 100%);
+  box-shadow: 0 7px 0 #0e426c, 0 12px 24px rgba(11, 49, 69, 0.24);
+  text-shadow: 0 2px 0 rgba(4, 41, 66, 0.42);
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialStartButton:focus-visible,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] #tutorialBackButton:focus-visible {
+  outline: 3px solid #174d74;
+  outline-offset: 3px;
+}
+
 .game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="0"] #tutorialStartButton {
-  left: 29%;
-  bottom: 2.5%;
-  width: 42%;
-  height: 15.5%;
+  left: 35%;
+  bottom: 2.4%;
+  width: 30%;
+  height: 11.5%;
 }
 
 .game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] #tutorialStartButton {
-  left: 64%;
-  bottom: 4.5%;
-  width: 30%;
-  height: 13.5%;
+  left: 59%;
+  bottom: 2.4%;
+  width: 32%;
+  height: 11.5%;
 }
 
 .game[data-workbench-type="division-elevator"] #screen-tutorial[data-page="1"] #tutorialBackButton {
-  left: 7%;
-  bottom: 4.5%;
-  width: 29%;
-  height: 13.5%;
+  left: 9%;
+  bottom: 2.4%;
+  width: 24%;
+  height: 11.5%;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-math-guide,
+.game[data-workbench-type="division-elevator"] .tutorial-reward-guide {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-step-chip > strong,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-answer,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-answer > strong,
+.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-reward-copy p {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-math-guide {
+  top: 3cqh;
+  right: 3.5cqw;
+  bottom: 15cqh;
+  left: 13cqw;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.4cqh, 14px);
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-math-guide h2 {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: clamp(6px, 1.1cqh, 9px) clamp(22px, 2.7cqw, 34px) clamp(7px, 1.3cqh, 11px);
+  border: 3px solid rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  color: #123a54;
+  background: rgba(245, 253, 255, 0.92);
+  box-shadow: 0 10px 25px rgba(30, 82, 105, 0.16);
+  font-size: clamp(29px, 4.2cqw, 40px);
+  font-weight: 1000;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-math-layout {
+  min-height: 0;
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(14px, 2cqw, 24px);
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-division-board {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding: clamp(10px, 1.8cqh, 18px) clamp(18px, 2.7cqw, 34px) clamp(8px, 1.5cqh, 14px);
+  border: clamp(3px, 0.4cqw, 5px) solid #2b769b;
+  border-radius: clamp(23px, 2.7cqw, 34px);
+  background: rgba(255, 254, 244, 0.96);
+  box-shadow: 0 13px 0 rgba(20, 83, 112, 0.19), 0 18px 34px rgba(14, 64, 87, 0.18);
+  overflow: hidden;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-division-board svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-division-ink {
+  font-family: ui-rounded, "Arial Rounded MT Bold", "Noto Sans KR", sans-serif;
+  font-weight: 1000;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-quotient,
+.game[data-workbench-type="division-elevator"] .tutorial-dividend,
+.game[data-workbench-type="division-elevator"] .tutorial-divisor,
+.game[data-workbench-type="division-elevator"] .tutorial-work-number,
+.game[data-workbench-type="division-elevator"] .tutorial-remainder {
+  font-size: 72px;
+  font-variant-numeric: tabular-nums;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-tens-ink {
+  fill: #17659c;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-ones-ink {
+  fill: #e35e18;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-divisor,
+.game[data-workbench-type="division-elevator"] .tutorial-remainder,
+.game[data-workbench-type="division-elevator"] .tutorial-minus {
+  fill: #152f43;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-minus {
+  font-size: 58px;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-bracket,
+.game[data-workbench-type="division-elevator"] .tutorial-work-line {
+  fill: none;
+  stroke: #152f43;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-bring-down {
+  fill: none;
+  stroke: #e35e18;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-arrow-head {
+  fill: #e35e18;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-step-list {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(10px, 1.7cqh, 18px);
+  overflow: hidden;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-step-chip {
+  position: relative;
+  min-width: 0;
+  padding: clamp(13px, 2.1cqh, 22px) clamp(13px, 1.8cqw, 22px) clamp(12px, 1.9cqh, 20px) clamp(58px, 6.4cqw, 82px);
+  border: clamp(3px, 0.32cqw, 4px) solid #8fc8dc;
+  border-radius: clamp(19px, 2.2cqw, 28px);
+  color: #163a53;
+  background: rgba(250, 254, 255, 0.95);
+  box-shadow: 0 9px 0 rgba(33, 106, 137, 0.17);
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-step-chip > span {
+  position: absolute;
+  top: 50%;
+  left: clamp(13px, 1.6cqw, 20px);
+  color: #17659c;
+  font-size: clamp(31px, 3.3cqw, 42px);
+  font-weight: 1000;
+  transform: translateY(-50%);
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-step-chip > strong {
+  display: block;
+  font-size: clamp(27px, 3cqw, 35px);
+  font-weight: 1000;
+  line-height: 1.12;
+  white-space: nowrap;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-step-chip > small {
+  display: block;
+  margin-top: clamp(4px, 0.8cqh, 7px);
+  color: #315e72;
+  font-size: clamp(15px, 1.7cqw, 20px);
+  font-weight: 850;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-answer {
+  margin: 0;
+  padding: clamp(11px, 1.7cqh, 18px) clamp(13px, 1.6cqw, 20px);
+  border: clamp(3px, 0.32cqw, 4px) solid #f2b43c;
+  border-radius: clamp(18px, 2cqw, 25px);
+  color: #183b51;
+  background: #fff7c9;
+  box-shadow: 0 8px 0 rgba(177, 111, 14, 0.18);
+  font-size: clamp(26px, 2.8cqw, 34px);
+  font-weight: 1000;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-answer strong {
+  color: #d94f13;
+  font-size: 1.2em;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-reward-guide {
+  top: 18cqh;
+  right: 5.6cqw;
+  width: min(43cqw, 494px);
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-reward-copy {
+  padding: clamp(24px, 4cqh, 36px) clamp(24px, 3cqw, 38px) clamp(22px, 3.8cqh, 34px);
+  border: 5px solid rgba(255, 255, 255, 0.93);
+  border-radius: clamp(26px, 3cqw, 38px);
+  color: #143d56;
+  background: rgba(244, 252, 255, 0.91);
+  box-shadow: 0 16px 0 rgba(27, 101, 133, 0.18), 0 26px 50px rgba(16, 70, 94, 0.2);
+  text-align: center;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-reward-count {
+  display: inline-block;
+  padding: clamp(6px, 1cqh, 9px) clamp(18px, 2.2cqw, 28px) clamp(7px, 1.2cqh, 11px);
+  border-radius: 999px;
+  color: #153a54;
+  background: #ffe06e;
+  font-size: clamp(27px, 2.8cqw, 34px);
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-reward-copy h2 {
+  margin: clamp(15px, 2.5cqh, 22px) 0 clamp(18px, 3.2cqh, 28px);
+  font-size: clamp(31px, 3.4cqw, 42px);
+  font-weight: 1000;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.game[data-workbench-type="division-elevator"] .tutorial-reward-copy p {
+  margin: clamp(9px, 1.5cqh, 13px) 0 0;
+  color: #254f65;
+  font-size: clamp(18px, 2cqw, 24px);
+  font-weight: 850;
+  line-height: 1.28;
 }
 
 @media (max-width: 1100px), (max-height: 720px) {
   .game[data-workbench-type="division-elevator"] .problem-grid {
-    top: 50px;
-    right: 28px;
+    top: 56px;
+    right: 24px;
     bottom: 8px;
-    left: 33%;
-    grid-template-rows: minmax(0, 1fr) 52px minmax(132px, auto);
-    gap: 8px;
+    left: 15.5%;
+    grid-template-rows: minmax(0, 1fr) 44px minmax(112px, auto);
+    gap: 6px;
   }
 
   .game[data-workbench-type="division-elevator"] .big-problem {
-    font-size: clamp(2.55rem, 6vw, 4rem);
+    font-size: clamp(2.2rem, 5vw, 3.25rem);
   }
 
   .elevator-route-summary {
@@ -668,13 +969,13 @@
   }
 
   .elevator-math-svg {
-    width: min(88%, 920px);
+    width: 100%;
   }
 
   .game[data-workbench-type="division-elevator"] .choices-panel,
   .elevator-floor-panel {
-    grid-template-rows: repeat(2, minmax(60px, 1fr));
-    gap: 8px;
+    grid-template-rows: repeat(2, minmax(50px, 1fr));
+    gap: 6px;
   }
 
   .elevator-floor-panel {
@@ -682,7 +983,7 @@
   }
 
   .game[data-workbench-type="division-elevator"] .elevator-choice {
-    min-height: 62px;
+    min-height: 52px;
   }
 
   .game[data-workbench-type="division-elevator"] .complete-panel {
