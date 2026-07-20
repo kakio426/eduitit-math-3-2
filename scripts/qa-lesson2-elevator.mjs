@@ -50,6 +50,21 @@ function verifyEvidence(config) {
   assert(config.results?.[0]?.id === "basement", "The lowest result must still be a visible destination");
   assert(config.results?.[0]?.minPower === 0 && config.results?.[0]?.minCorrect === 0, "0/10 must reach the basement destination");
   assert(config.result?.stateImageSet?.count === config.results.length, "Result state-image contract count is stale");
+  const reportedViewport = viewports.find((item) => item.name === "reported-svg-overlap-934x987");
+  assert(reportedViewport?.width === 934 && reportedViewport?.height === 987, "The user-reported 934x987 regression viewport is missing");
+  assert(reportedViewport?.regressions?.includes("eagle-reward-left-wing-clip"), "The eagle wing clipping regression is not registered");
+  assert(reportedViewport?.regressions?.includes("play-step-choices-surface-overlap"), "The play stack overlap regression is not registered");
+  const goalTutorial = config.tutorialCards?.[1] || {};
+  assert(goalTutorial.image === "tutorial-page-2-v3-generated.webp", "The generated gameplay tutorial poster is not configured");
+  assert(goalTutorial.title === "나눗셈을 풀고 문을 열어요", "The gameplay tutorial title regressed");
+  assert(goalTutorial.body === "나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.", "The gameplay tutorial flow copy regressed");
+  const actionButtons = config.imageAssets?.actionButtons || {};
+  assert(actionButtons.next === "../_shared/action-buttons/next-button-generated.webp", "The shared next button is not configured");
+  assert(actionButtons.previous === "../_shared/action-buttons/previous-button-generated.webp", "The shared previous button is not configured");
+  assert(actionButtons.problemStart === "../_shared/action-buttons/problem-start-button-generated.webp", "The shared problem-start button is not configured");
+  assert(actionButtons.resultView === "../_shared/action-buttons/result-view-button-generated.webp", "The shared result-view button is not configured");
+  assert(actionButtons.doorOpen === "door-open-button-generated.webp", "The lesson-specific door-open button is not configured");
+  assert(config.imageAssets?.resultRetryButton === "../_shared/result-actions/retry-button-generated.webp", "The shared result retry button is not configured");
   return { viewports: viewports.map((item) => item.name), states, lowestResult: config.results[0].name };
 }
 

@@ -16,11 +16,14 @@
 
 ## 이미지 계약
 
-- 설명 배경 2장: 글자 없는 엘리베이터 장면, 각 1280×800. `76÷2=38` 세로셈과 10문제·도착 층 안내는 정확한 SVG/HTML UI로 따로 그립니다.
+- 설명 1쪽은 글자 없는 엘리베이터 장면 위에 `76÷2=38` 세로셈을 정확한 SVG로 그립니다. 설명 2쪽은 `나눗셈 풀기 → 문 열기 → + 위/− 아래 → 10문제 뒤 도착 층`을 한눈에 보여 주는 생성형 안내 이미지입니다. 두 실행 자산은 1280×800입니다.
 - 문제 장면 3장: 대기 / 하강 / 도착, 각 1280×800
-- 독수리몬 반응 3장: 정답 / 오답 / 보상, 각 512×640
+- 독수리몬 반응 3장: 정답 / 오답 / 보상, 각 512×640. 보상 반응은 원본 시트에서 날개 전체를 다시 잘라 좌우 투명 안전 여백을 두고, 1100px 이하 화면에서는 완료 패널과 4px 이상 떨어지게 배치합니다.
 - 보상: 닫힌 문 1장 + 사건 6종
 - 결과: 제목·다시 버튼이 포함된 도착 장면 6장 + 정답 수 + 올라갈 힘
+- 공용 주요 행동 버튼: `다음`, `이전`, `문제 시작`, `결과 보기`는 `_shared/action-buttons/`의 생성형 WebP를 직접 참조합니다.
+- 차시 전용 주요 행동 버튼: `문 열기`는 `door-open-button-chromakey.png` 원본과 투명 PNG·실행 WebP를 한 세트로 둡니다.
+- 결과 `다시`는 차시별 복사본 대신 `_shared/result-actions/retry-button-generated.webp`를 직접 참조합니다.
 - 최저 결과: `0/10`, 힘 0이어도 `지하 정비층`에 도착합니다. `다시 준비` 결과는 현재 실행 흐름에서 사용하지 않습니다.
 - 컨택시트: `problem-state-contact-sheet.png`, `result-tiers-v2-contact-sheet.png`, `_shared/mathmon/base-pack/contact-sheets/reactions-unit2/eaglemon-reactions-contact-sheet.png`
 
@@ -40,7 +43,7 @@ node scripts/check-lesson-contract.mjs
 node scripts/check-lesson-visual-contract.mjs
 ```
 
-추가 화면 QA는 Codex 브라우저와 같은 931×897 및 사용자가 SVG 겹침과 완료 계산판 과밀을 발견한 934×987(DPR 2)에서도 진행합니다. `seed=61`로 첫 문제 `65÷5`를 고정하고 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소, 상자 없는 완료 세로셈을 결정적으로 재현한 뒤 `0/10` 최저 결과까지 완주합니다.
+추가 화면 QA는 Codex 브라우저와 같은 931×897 및 사용자가 SVG 겹침·완료 계산판 과밀·독수리몬 날개 잘림·지시문과 선택판 겹침을 발견한 934×987(DPR 2)에서도 진행합니다. `seed=61`로 첫 문제 `65÷5`를 고정하고 몫 과대·과소, 내림 오답, 마지막 몫 과대·과소, 상자 없는 완료 세로셈과 독수리몬 알파 경계를 결정적으로 재현한 뒤 `0/10` 최저 결과까지 완주합니다.
 
 - 몫 과대: `screenshots/engine-flow-codex-browser-05b-play-wrong.png`
 - 몫 과소: `screenshots/engine-flow-codex-browser-05b2-play-quotient-too-low.png`
@@ -48,3 +51,5 @@ node scripts/check-lesson-visual-contract.mjs
 - 마지막 몫 과대·과소: `screenshots/engine-flow-codex-browser-05e2-play-ones-too-high.png`, `screenshots/engine-flow-codex-browser-05e3-play-ones-too-low.png`
 - `0/10` 결과: `screenshots/engine-flow-codex-browser-08-result-low-0-of-10.png`
 - SVG 겹침 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-03-tutorial-1.png`, `screenshots/engine-flow-reported-svg-overlap-934x987-06-confirm.png`
+- 독수리몬 날개 잘림 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-06-confirm.png`
+- 지시문·선택판 겹침 회귀: `screenshots/engine-flow-reported-svg-overlap-934x987-05-play-step1.png`
