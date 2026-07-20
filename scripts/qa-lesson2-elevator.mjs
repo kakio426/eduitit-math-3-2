@@ -54,6 +54,13 @@ function verifyEvidence(config) {
   assert(reportedViewport?.width === 934 && reportedViewport?.height === 987, "The user-reported 934x987 regression viewport is missing");
   assert(reportedViewport?.regressions?.includes("eagle-reward-left-wing-clip"), "The eagle wing clipping regression is not registered");
   assert(reportedViewport?.regressions?.includes("play-step-choices-surface-overlap"), "The play stack overlap regression is not registered");
+  assert(reportedViewport?.regressions?.includes("active-board-control-column-balance"), "The active board/control-column balance regression is not registered");
+  assert(reportedViewport?.regressions?.includes("answer-choice-card-shadow-overlap"), "The answer-card shadow overlap regression is not registered");
+  assert(reportedViewport?.regressions?.includes("problem-heading-inside-board"), "The in-board problem heading regression is not registered");
+  const solveTutorial = config.tutorialCards?.[0] || {};
+  assert(solveTutorial.image === "tutorial-page-1-v6-generated.webp", "The generated place-value tutorial poster is not configured");
+  assert(solveTutorial.title === "십의 자리 값부터 나눠요", "The place-value tutorial title regressed");
+  assert(solveTutorial.body.includes("70 = 2 × 30 + 10") && solveTutorial.body.includes("답은 38"), "The place-value tutorial flow regressed");
   const goalTutorial = config.tutorialCards?.[1] || {};
   assert(goalTutorial.image === "tutorial-page-2-v3-generated.webp", "The generated gameplay tutorial poster is not configured");
   assert(goalTutorial.title === "나눗셈을 풀고 문을 열어요", "The gameplay tutorial title regressed");

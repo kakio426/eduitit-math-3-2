@@ -156,62 +156,6 @@ function installSingleTapRewardFlow() {
   });
 }
 
-function installElevatorTutorialGuides() {
-  const tutorialCards = [...document.querySelectorAll("#screen-tutorial .tutorial-card")];
-  if (tutorialCards.length < 2 || tutorialCards[0].querySelector(".tutorial-math-guide")) return;
-
-  const mathGuide = document.createElement("section");
-  mathGuide.className = "tutorial-math-guide";
-  mathGuide.setAttribute("aria-label", "76 나누기 2 풀이");
-  mathGuide.innerHTML = `
-    <h2>76 ÷ 2를 풀어 봐요</h2>
-    <div class="tutorial-math-layout">
-      <div class="tutorial-division-board">
-        <svg viewBox="0 0 560 560" role="img" aria-label="76 나누기 2. 십의 자리 몫은 3이고 1이 남습니다. 6을 내려 16을 만들고 일의 자리 몫 8을 씁니다. 답은 38입니다.">
-          <g class="tutorial-division-ink" text-anchor="middle">
-            <text x="320" y="72" class="tutorial-quotient tutorial-tens-ink">3</text>
-            <text x="430" y="72" class="tutorial-quotient tutorial-ones-ink">8</text>
-
-            <text x="112" y="178" class="tutorial-divisor">2</text>
-            <path d="M190 112 Q212 112 212 136 L212 205 M212 112 H500" class="tutorial-bracket" />
-            <text x="320" y="190" class="tutorial-dividend tutorial-tens-ink">7</text>
-            <text x="430" y="190" class="tutorial-dividend tutorial-ones-ink">6</text>
-
-            <text x="256" y="268" class="tutorial-minus">−</text>
-            <text x="320" y="268" class="tutorial-work-number tutorial-tens-ink">6</text>
-            <path d="M275 288 H365" class="tutorial-work-line" />
-
-            <path d="M430 218 V258" class="tutorial-bring-down" />
-            <path d="M416 258 L430 275 L444 258 Z" class="tutorial-arrow-head" data-tutorial-arrow-head="true" />
-            <text x="320" y="358" class="tutorial-work-number tutorial-tens-ink">1</text>
-            <text x="430" y="358" class="tutorial-work-number tutorial-ones-ink tutorial-brought-ones">6</text>
-
-            <text x="256" y="442" class="tutorial-minus">−</text>
-            <text x="320" y="442" class="tutorial-work-number tutorial-tens-ink">1</text>
-            <text x="430" y="442" class="tutorial-work-number tutorial-ones-ink">6</text>
-            <path d="M275 460 H475" class="tutorial-work-line tutorial-final-line" />
-            <text x="430" y="548" class="tutorial-remainder tutorial-final-zero">0</text>
-          </g>
-        </svg>
-      </div>
-      <div class="tutorial-step-list">
-        <div class="tutorial-step-chip">
-          <span>①</span>
-          <strong>7 ÷ 2 = 3</strong>
-          <small>1이 남아요.</small>
-        </div>
-        <div class="tutorial-step-chip">
-          <span>②</span>
-          <strong>16 ÷ 2 = 8</strong>
-          <small>6을 내려 16을 만들어요.</small>
-        </div>
-        <p class="tutorial-answer">76 ÷ 2 = <strong>38</strong></p>
-      </div>
-    </div>
-  `;
-  tutorialCards[0].appendChild(mathGuide);
-}
-
 function moveElevator(sceneState) {
   const art = document.querySelector(".elevator-stage-art");
   if (!art) return Promise.resolve();
@@ -233,7 +177,8 @@ function renderElevatorMathBoard(problem, state) {
 
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.classList.add("elevator-math-svg");
-  svg.setAttribute("viewBox", "0 0 920 400");
+  svg.classList.toggle("is-complete-board", onesDone);
+  svg.setAttribute("viewBox", onesDone ? "0 -100 600 567" : "170 -100 620 567");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep, attemptedChoice));
 
@@ -292,36 +237,38 @@ function renderElevatorMathBoard(problem, state) {
   const completedDigits = String(problem.downNumber).padStart(2, "0").slice(-2).split("");
   const completedBoardMarkup = `
     <g class="division-board division-board--complete" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="210" y="160" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 86 Q305 86 305 106 L305 178 M305 86 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="300" y="-24" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
+      <text x="80" y="176" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M150 92 Q170 92 170 112 L170 194 M170 92 H560" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      <text x="463" y="68" class="board-number board-final-quotient">${problem.tensQuotient}</text>
-      <text x="631" y="68" class="board-number board-final-quotient board-final-quotient--ones">${problem.onesQuotient}</text>
+      <text x="340" y="74" class="board-number board-final-quotient">${problem.tensQuotient}</text>
+      <text x="470" y="74" class="board-number board-final-quotient board-final-quotient--ones">${problem.onesQuotient}</text>
 
-      <text x="463" y="160" class="board-number">${problem.tensDigit}</text>
-      <text x="631" y="160" class="board-number">${problem.onesDigit}</text>
+      <text x="340" y="176" class="board-number">${problem.tensDigit}</text>
+      <text x="470" y="176" class="board-number">${problem.onesDigit}</text>
 
       <g class="division-work division-work--complete">
-        <text x="414" y="215" class="board-work-minus">−</text>
-        <text x="463" y="215" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
-        <path d="M416 227 H510" class="board-work-line board-final-first-line" />
+        <text x="294" y="242" class="board-work-minus">−</text>
+        <text x="340" y="242" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
+        <path d="M296 258 H384" class="board-work-line board-final-first-line" />
 
-        <path d="M631 178 V204" class="board-down-arrow" />
-        <path d="M619 204 L631 218 L643 204 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
-        <text x="463" y="272" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
-        <text x="631" y="272" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
+        <path d="M470 194 V220" class="board-down-arrow" />
+        <path d="M458 220 L470 234 L482 220 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
+        <text x="340" y="312" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
+        <text x="470" y="312" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
 
-        <text x="414" y="324" class="board-work-minus">−</text>
-        <text x="463" y="324" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
-        <text x="631" y="324" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
-        <path d="M416 338 H680" class="board-work-line board-final-line" />
-        <text x="631" y="386" class="board-final-zero" data-place="ones">0</text>
+        <text x="294" y="375" class="board-work-minus">−</text>
+        <text x="340" y="375" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
+        <text x="470" y="375" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
+        <path d="M296 391 H514" class="board-work-line board-final-line" />
+        <text x="470" y="451" class="board-final-zero" data-place="ones">0</text>
       </g>
     </g>
   `;
 
   const activeBoardMarkup = onesDone ? completedBoardMarkup : `
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+      <text x="480" y="-24" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
       <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
       <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
@@ -337,7 +284,7 @@ function renderElevatorMathBoard(problem, state) {
 
   svg.innerHTML = `
     <g class="math-board-surface">
-      <rect x="8" y="6" width="904" height="388" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect x="${onesDone ? 8 : 178}" y="-94" width="${onesDone ? 584 : 604}" height="557" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
     </g>
     ${activeBoardMarkup}
   `;
@@ -372,9 +319,9 @@ function renderAttemptNote(problem, step, choice) {
   }
   return `
     <g class="board-attempt-note" aria-label="${label} ${value}">
-      <rect x="96" y="276" width="220" height="96" rx="20" />
-      <text x="206" y="310" class="board-attempt-label">${label}</text>
-      <text x="206" y="356" class="board-attempt-value">${value}</text>
+      <rect x="184" y="276" width="140" height="96" rx="20" />
+      <text x="254" y="310" class="board-attempt-label">${label}</text>
+      <text x="254" y="356" class="board-attempt-value">${value}</text>
     </g>
   `;
 }
@@ -440,5 +387,4 @@ function installElevatorGeneratedActionButtons() {
 }
 
 installSingleTapRewardFlow();
-installElevatorTutorialGuides();
 installElevatorGeneratedActionButtons();

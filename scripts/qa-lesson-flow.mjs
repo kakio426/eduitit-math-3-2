@@ -621,6 +621,44 @@ async function auditGeneratedActionButton(page, label, selector, expectedSource,
   assert(audit.button.width >= 42 && audit.button.height >= 42, `${label}: generated action touch target is too small`, audit);
 }
 
+async function auditElevatorTutorialSolveRaster(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const card = document.querySelector('#screen-tutorial .tutorial-card');
+    const image = card?.querySelector('.tutorial-poster-art');
+    const directTitle = [...(card?.children || [])].find((node) => node.tagName === 'STRONG');
+    const directBody = [...(card?.children || [])].find((node) => node.tagName === 'P');
+    const readRect = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    return {
+      source:image?.getAttribute('src') || '',
+      complete:Boolean(image?.complete),
+      naturalWidth:image?.naturalWidth || 0,
+      naturalHeight:image?.naturalHeight || 0,
+      objectFit:image ? getComputedStyle(image).objectFit : '',
+      card:readRect(card),
+      image:readRect(image),
+      title:directTitle?.textContent?.trim() || '',
+      body:directBody?.textContent?.trim() || '',
+      titleRect:readRect(directTitle),
+      bodyRect:readRect(directBody),
+      instructionalMarkupCount:card?.querySelectorAll('.tutorial-math-guide, .tutorial-division-board, .tutorial-step-chip, svg').length ?? null,
+    };
+  })()`);
+  assert(audit.source.endsWith('tutorial-page-1-v6-generated.webp'), `${label}: wrong generated tutorial image`, audit);
+  assert(audit.complete && audit.naturalWidth === 1280 && audit.naturalHeight === 800, `${label}: tutorial image size/load contract changed`, audit);
+  assert(audit.objectFit === 'cover', `${label}: tutorial image must fill the 16:10 card`, audit);
+  assert(audit.title === '십의 자리 값부터 나눠요', `${label}: accessible tutorial title regressed`, audit);
+  assert(audit.body.includes('70 = 2 × 30 + 10') && audit.body.includes('몫은 30이고 10이 남아요') && audit.body.includes('답은 38'), `${label}: actual-value tutorial flow regressed`, audit);
+  assert(audit.instructionalMarkupCount === 0, `${label}: CSS/SVG tutorial explanation duplicates the generated poster`, audit);
+  assert(audit.titleRect?.width <= 1 && audit.titleRect?.height <= 1 && audit.bodyRect?.width <= 1 && audit.bodyRect?.height <= 1, `${label}: accessible HTML copy is visible over the generated poster`, audit);
+  for (const edge of ['left', 'top', 'right', 'bottom', 'width', 'height']) {
+    assert(Math.abs(audit.card[edge] - audit.image[edge]) <= 1, `${label}: poster and tutorial card ${edge} differ by more than 1px`, audit);
+  }
+}
+
 async function auditElevatorTutorialGoalRaster(page, label) {
   const audit = await evaluate(page, `(() => {
     const cards = [...document.querySelectorAll('#screen-tutorial .tutorial-card')];
@@ -803,6 +841,10 @@ async function auditElevatorDivisionSvgClearance(page, label, mode) {
       const box = node.getBoundingClientRect();
       return { text:node.textContent.trim(), x:box.x, y:box.y, width:box.width, height:box.height, right:box.right, bottom:box.bottom };
     });
+    const surface = readBox('.math-board-surface rect');
+    const textOutsideSurface = surface ? completedText.filter((item) => (
+      item.x < surface.x - 1 || item.y < surface.y - 1 || item.right > surface.right + 1 || item.bottom > surface.bottom + 1
+    )) : [];
     const textOverlaps = [];
     for (let index = 0; index < completedText.length; index += 1) {
       for (let other = index + 1; other < completedText.length; other += 1) {
@@ -813,7 +855,7 @@ async function auditElevatorDivisionSvgClearance(page, label, mode) {
       }
     }
     return {
-      selectors, arrow, brought, line, zero, firstLine, downDigits, subtrahends,
+      selectors, arrow, brought, line, zero, firstLine, downDigits, subtrahends, surface, textOutsideSurface,
       strokeWidth, firstStrokeWidth, scale, choiceBoxCount, textOverlaps,
       arrowGap, arrowGapPx:arrowGap,
       lineGap, lineGapPx:lineGap,
@@ -832,7 +874,54 @@ async function auditElevatorDivisionSvgClearance(page, label, mode) {
     assert(audit.firstLineGapPx >= 4, `${label}: first subtraction line overlaps the brought-down number`, audit);
     assert(audit.middleGapPx >= 4, `${label}: brought-down number overlaps the second subtraction`, audit);
     assert(audit.textOverlaps.length === 0, `${label}: completed long division text overlaps`, audit);
+    assert(audit.textOutsideSurface.length === 0, `${label}: completed long division text left the calculation surface`, audit);
   }
+  return audit;
+}
+
+async function auditElevatorCompleteSplitLayout(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2 };
+    };
+    const contains = (outer, inner, tolerance = 1) => Boolean(outer && inner
+      && inner.left >= outer.left - tolerance && inner.top >= outer.top - tolerance
+      && inner.right <= outer.right + tolerance && inner.bottom <= outer.bottom + tolerance);
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const grid = rectOf(document.querySelector('.problem-grid.is-complete'));
+    const problem = rectOf(document.querySelector('.problem-grid.is-complete .problem-card'));
+    const visual = rectOf(document.querySelector('.problem-grid.is-complete .visual-area'));
+    const surface = rectOf(document.querySelector('.problem-grid.is-complete .math-board-surface rect'));
+    const panel = rectOf(document.querySelector('.problem-grid.is-complete .complete-panel.is-visible'));
+    const expression = rectOf(document.querySelector('.problem-grid.is-complete .complete-text'));
+    const button = rectOf(document.querySelector('.problem-grid.is-complete #rewardButton'));
+    const quotientDigits = [...document.querySelectorAll('.problem-grid.is-complete .board-final-quotient')].map(rectOf);
+    const workDigits = [
+      ...document.querySelectorAll('.problem-grid.is-complete .board-work-product, .problem-grid.is-complete .board-final-down-digit, .problem-grid.is-complete .board-final-subtrahend, .problem-grid.is-complete .board-final-zero')
+    ].map(rectOf);
+    return {
+      stage, grid, problem, visual, surface, panel, expression, button, quotientDigits, workDigits,
+      columnGap:problem && panel ? panel.left - problem.right : null,
+      problemWidthRatio:stage && problem ? problem.width / stage.width : null,
+      widthDominance:problem && panel ? problem.width / panel.width : null,
+      panelHeightRatio:problem && panel ? panel.height / problem.height : null,
+      panelCenterDelta:problem && panel ? Math.abs(problem.cy - panel.cy) : null,
+      surfaceInsideVisual:contains(visual, surface, 1),
+      contentInsidePanel:contains(panel, expression, 1) && contains(panel, button, 1),
+      contentGap:expression && button ? button.top - expression.bottom : null,
+      minQuotientHeight:quotientDigits.length ? Math.min(...quotientDigits.map((item) => item.height)) : 0,
+      minWorkHeight:workDigits.length ? Math.min(...workDigits.map((item) => item.height)) : 0,
+    };
+  })()`);
+  assert(audit.stage && audit.grid && audit.problem && audit.visual && audit.surface && audit.panel && audit.expression && audit.button, `${label}: horizontal completion layout is incomplete`, audit);
+  assert(audit.columnGap >= 11.5, `${label}: calculation board overlaps the reward action card`, audit);
+  assert(audit.problemWidthRatio >= 0.5 && audit.widthDominance >= 1.7, `${label}: reward action card still outranks the calculation board`, audit);
+  assert(audit.panelHeightRatio <= 0.72 && audit.panelCenterDelta <= 1, `${label}: reward action card is not a compact centered card`, audit);
+  assert(audit.surfaceInsideVisual && audit.contentInsidePanel, `${label}: calculation or action content left its reserved column`, audit);
+  assert(audit.contentGap >= 10, `${label}: completed expression overlaps the door button`, audit);
+  assert(audit.minQuotientHeight >= 42 && audit.minWorkHeight >= 25, `${label}: completed calculation digits are too small`, audit);
   return audit;
 }
 
@@ -1275,23 +1364,41 @@ async function auditElevatorPlayStackClearance(page, label) {
     const step = rectOf('.step-board');
     const choices = rectOf('.choices-panel');
     const floor = rectOf('.elevator-floor-panel');
+    const choiceRects = [...document.querySelectorAll('.elevator-floor-panel .elevator-choice')].map((node) => {
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    });
+    const choiceShadows = [...document.querySelectorAll('.elevator-floor-panel .elevator-choice')].map((node) => getComputedStyle(node).boxShadow);
+    const choiceGaps = choiceRects.slice(1).map((rect, index) => rect.top - choiceRects[index].bottom);
     return {
       stage,
       problem,
       step,
       choices,
       floor,
-      problemStepGap: problem && step ? step.top - problem.bottom : null,
+      choiceRects,
+      choiceShadows,
+      choiceGaps,
+      minChoiceGap:choiceGaps.length ? Math.min(...choiceGaps) : null,
+      problemControlGap: problem && step ? step.left - problem.right : null,
       stepChoicesGap: step && choices ? choices.top - step.bottom : null,
       problemStepOverlapArea: overlapArea(problem, step),
+      problemChoicesOverlapArea: overlapArea(problem, choices),
       stepChoicesOverlapArea: overlapArea(step, choices),
-      choicesStageBottomGap: stage && choices ? stage.bottom - choices.bottom : null
+      choicesStageBottomGap: stage && choices ? stage.bottom - choices.bottom : null,
+      controlColumnDeltas: step && choices ? {
+        left:Math.abs(step.left - choices.left),
+        right:Math.abs(step.right - choices.right)
+      } : null
     };
   })()`);
   assert(audit.stage && audit.problem && audit.step && audit.choices && audit.floor, `${label}: play stack surface is missing`, audit);
-  assert(audit.problemStepOverlapArea === 0 && audit.problemStepGap >= 7.5, `${label}: calculation board overlaps instruction`, audit);
+  assert(audit.problemStepOverlapArea === 0 && audit.problemChoicesOverlapArea === 0 && audit.problemControlGap >= 9.5, `${label}: calculation board overlaps the right control column`, audit);
   assert(audit.stepChoicesOverlapArea === 0 && audit.stepChoicesGap >= 7.5, `${label}: instruction overlaps choices`, audit);
+  assert(audit.choiceRects.length === 4 && audit.minChoiceGap >= 9.5, `${label}: answer cards visually collide`, audit);
+  assert(audit.choiceShadows.every((shadow) => shadow === 'none' || shadow.includes('inset')), `${label}: an answer-card shadow reaches the next card`, audit);
   assert(audit.choicesStageBottomGap >= 7.5, `${label}: choices leave the Stage`, audit);
+  assert(audit.controlColumnDeltas.left <= 1 && audit.controlColumnDeltas.right <= 1, `${label}: instruction and choices do not share one stable control column`, audit);
   assert(
     Math.abs(audit.floor.left - audit.choices.left) <= 1
       && Math.abs(audit.floor.top - audit.choices.top) <= 1
@@ -1342,8 +1449,8 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     }
     return {
       surface, work, step, tensCell, onesCell, product, remainder, combinedSlots, combinedTarget, combinedLabelRect, combinedValues, combineSource: Boolean(combineSource), arrow, textOverlaps,
-      surfaceGap: surface && step ? step.top - surface.bottom : null,
-      workGap: work && step ? step.top - work.bottom : null,
+      surfaceGap: surface && step ? step.left - surface.right : null,
+      workGap: work && step ? step.left - work.right : null,
       productTopGap: product && tensCell ? product.top - tensCell.bottom : null,
       combinedValueColumnDeltas: combinedValues.map((item) => Math.abs(item.rect.cx - (item.place === 'tens' ? tensCell.cx : onesCell.cx))),
       combinedValueVerticalDeltas: combinedValues.map((item) => {
@@ -1355,8 +1462,8 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     };
   })()`);
   assert(audit.surface && audit.work && audit.step, `${label}: division board state missing`, audit);
-  assert(audit.surfaceGap >= 4, `${label}: calculation board overlaps instruction`, audit);
-  assert(audit.workGap >= 4, `${label}: calculation work overlaps instruction`, audit);
+  assert(audit.surfaceGap >= 4, `${label}: calculation board overlaps the right control column`, audit);
+  assert(audit.workGap >= 4, `${label}: calculation work overlaps the right control column`, audit);
   assert(audit.productColumnDelta <= 1, `${label}: partial product left its tens column`, audit);
   assert(audit.productTopGap >= 8, `${label}: partial product overlaps the dividend cell`, audit);
   assert(audit.remainderColumnDelta <= 1, `${label}: remainder left its tens column`, audit);
@@ -1567,11 +1674,21 @@ async function auditElevatorLearningLegibility(page, label) {
     const values = choices.map((node) => [...node.querySelectorAll('.elevator-choice-value')].map((part) => Number(part.textContent.trim())));
     return {
       scale,
-      bigProblem: physicalFont('.big-problem'),
+      bigProblem: physicalFont('.board-problem'),
       boardNumber: physicalFont('.board-number'),
       instruction: physicalFont('.instruction'),
       choiceLabel: physicalFont('.elevator-choice-label'),
       choiceValue: physicalFont('.elevator-choice-value'),
+      problemHeading: (() => {
+        const heading = document.querySelector('.board-problem')?.getBoundingClientRect();
+        const surface = document.querySelector('.math-board-surface rect')?.getBoundingClientRect();
+        return heading && surface ? {
+          text:document.querySelector('.board-problem')?.textContent.trim() || '',
+          centerDelta:Math.abs((heading.left + heading.width / 2) - (surface.left + surface.width / 2)),
+          inside:heading.left >= surface.left - 1 && heading.top >= surface.top - 1 && heading.right <= surface.right + 1 && heading.bottom <= surface.bottom + 1,
+          topGap:heading.top - surface.top
+        } : null;
+      })(),
       minChoiceHeight: choiceRects.length ? Math.min(...choiceRects.map((rect) => rect.height)) : 0,
       labels,
       values,
@@ -1592,6 +1709,7 @@ async function auditElevatorLearningLegibility(page, label) {
     };
   })()`);
   assert(audit.bigProblem >= 40, `${label}: main problem text is too small`, audit);
+  assert(audit.problemHeading?.inside && audit.problemHeading.centerDelta <= 1 && audit.problemHeading.topGap >= 6, `${label}: main problem is not centered inside the calculation board`, audit);
   assert(audit.boardNumber >= 32, `${label}: calculation board numbers are too small`, audit);
   assert(audit.instruction >= 14, `${label}: instruction text is too small`, audit);
   assert(audit.choiceLabel >= 12, `${label}: choice labels are too small`, audit);
@@ -1599,7 +1717,7 @@ async function auditElevatorLearningLegibility(page, label) {
   assert(audit.minChoiceHeight >= 42, `${label}: choice touch target is too short`, audit);
   assert(audit.labels.every((parts) => parts.join('|') === '몫|남은 수'), `${label}: choice meanings are unclear`, audit);
   assert(audit.values.every((parts) => parts.length === 2 && parts.every((value) => value % 10 === 0)), `${label}: first-step choices must show 20/10-style place values`, audit);
-  assert(audit.priorityLayout?.primary?.stageWidthRatio >= 0.65, `${label}: current calculation board must use at least 65% of the Stage width`, audit);
+  assert(audit.priorityLayout?.primary?.stageWidthRatio >= 0.48, `${label}: current calculation board became too narrow beside the control column`, audit);
   const primaryArea = audit.priorityLayout.primary.width * audit.priorityLayout.primary.height;
   const secondaryArea = audit.priorityLayout.secondary.width * audit.priorityLayout.secondary.height;
   assert(primaryArea > secondaryArea, `${label}: current calculation board must remain the largest content area`, audit);
@@ -1945,7 +2063,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   shots.push(await screenshot(page, lesson, viewport, "03-tutorial-1"));
   await auditGeometry(page, `${viewport.name} tutorial 1`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
-    await auditElevatorDivisionSvgClearance(page, `${viewport.name} tutorial division SVG`, "tutorial");
+    await auditElevatorTutorialSolveRaster(page, `${viewport.name} generated place-value tutorial poster`);
     await auditGeneratedActionButton(page, `${viewport.name} tutorial next button`, "#tutorialStartButton", "action-buttons/next-button-generated.webp", "다음");
   }
   await clickSelector(page, "#tutorialStartButton");
@@ -2180,6 +2298,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorCompleteSplitLayout(page, `${viewport.name} horizontal completion hierarchy`);
     await auditElevatorDivisionSvgClearance(page, `${viewport.name} completed division SVG`, "complete");
     await auditMathmonReactionAlphaEdge(page, `${viewport.name} completed eagle reward reaction`);
     await auditGeneratedActionButton(page, `${viewport.name} door-open button`, "#rewardButton", "door-open-button-generated.webp", "문 열기");

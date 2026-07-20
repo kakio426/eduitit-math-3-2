@@ -141,9 +141,10 @@
   height: auto;
   margin: 0;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) 58px minmax(156px, auto);
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) clamp(250px, 32%, 330px);
+  grid-template-rows: 64px minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 8px;
 }
 
 .game[data-workbench-type="division-elevator"] .problem-card,
@@ -157,12 +158,12 @@
 }
 
 .game[data-workbench-type="division-elevator"] .problem-card {
-  grid-row: 1;
+  position: relative;
+  grid-column: 1;
+  grid-row: 1 / -1;
   min-height: 0;
   padding: 0;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 4px;
+  display: block;
 }
 
 .game[data-workbench-type="division-elevator"] .problem-label {
@@ -170,19 +171,21 @@
 }
 
 .game[data-workbench-type="division-elevator"] .big-problem {
-  margin: 0;
-  color: #17343b;
-  font-size: clamp(2.8rem, 4.7vw, 4.2rem);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .02em;
-  word-spacing: .18em;
-  text-align: center;
-  text-shadow: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .game[data-workbench-type="division-elevator"] .visual-area {
   position: relative;
+  width: 100%;
+  height: 100%;
   min-height: 0;
   display: grid;
   place-items: center;
@@ -203,6 +206,15 @@
   font-size: 64px;
   font-weight: 1000;
   font-variant-numeric: tabular-nums;
+}
+
+.elevator-math-svg .board-problem {
+  fill: #fff8e8;
+  font-size: 60px;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  text-anchor: middle;
 }
 
 .elevator-math-svg .board-divisor {
@@ -278,6 +290,19 @@
   fill: #ffd46d;
 }
 
+.elevator-math-svg .division-board--complete .board-number {
+  font-size: 80px;
+}
+
+.elevator-math-svg .division-board--complete .board-divisor {
+  font-size: 86px;
+}
+
+.elevator-math-svg .division-board--complete .board-work-minus,
+.elevator-math-svg .division-board--complete .board-work-product {
+  font-size: 48px;
+}
+
 .elevator-math-svg .division-board--complete .board-final-down-digit,
 .elevator-math-svg .division-board--complete .board-final-subtrahend,
 .elevator-math-svg .division-board--complete .board-final-zero {
@@ -288,15 +313,15 @@
 }
 
 .elevator-math-svg .division-board--complete .board-final-down-digit {
-  font-size: 38px;
+  font-size: 48px;
 }
 
 .elevator-math-svg .division-board--complete .board-final-subtrahend {
-  font-size: 38px;
+  font-size: 48px;
 }
 
 .elevator-math-svg .division-board--complete .board-final-zero {
-  font-size: 40px;
+  font-size: 54px;
 }
 
 .elevator-math-svg .board-combined-target.is-active .board-combined-value {
@@ -324,23 +349,24 @@
 
 .elevator-math-svg .board-attempt-label {
   fill: #6e1530;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
   text-anchor: middle;
 }
 
 .elevator-math-svg .board-attempt-value {
   fill: #44101e;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 1000;
   font-variant-numeric: tabular-nums;
   text-anchor: middle;
 }
 
 .game[data-workbench-type="division-elevator"] .step-board {
-  grid-row: 2;
-  min-height: 58px;
-  padding: 0 18px;
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 64px;
+  padding: 0 14px;
   display: grid;
   grid-template: 1fr / 1fr;
   place-items: center;
@@ -383,16 +409,17 @@
 }
 
 .game[data-workbench-type="division-elevator"] .choices-panel {
-  grid-row: 3;
+  grid-column: 2;
+  grid-row: 2;
   min-height: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(60px, 1fr));
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(4, minmax(60px, 1fr));
+  gap: 0;
 }
-.elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(60px,1fr)); gap: 8px; padding: 6px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
-.elevator-floor-panel .elevator-choice { border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45), 0 5px 0 #314f55; }
+.elevator-floor-panel { grid-column: 1 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: repeat(4,minmax(60px,1fr)); gap: 10px; padding: 7px; border: 4px solid #52757c; border-radius: 24px; background: rgba(19,52,59,.9); }
+.elevator-floor-panel .elevator-choice { border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45); }
 
 .game[data-workbench-type="division-elevator"] .elevator-choice {
   min-height: 64px;
@@ -419,6 +446,12 @@
   box-shadow: 0 6px 0 #75b9a4;
 }
 
+.game[data-workbench-type="division-elevator"] .elevator-floor-panel .elevator-choice,
+.game[data-workbench-type="division-elevator"] .elevator-floor-panel .elevator-choice[data-state="wrong"],
+.game[data-workbench-type="division-elevator"] .elevator-floor-panel .elevator-choice[data-state="correct"] {
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.45);
+}
+
 .elevator-choice--pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -429,8 +462,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(10px, 1.2vw, 16px);
-  padding: 8px 10px;
+  gap: clamp(6px, .8vw, 10px);
+  padding: 7px 6px;
 }
 
 .elevator-choice-part + .elevator-choice-part {
@@ -465,10 +498,13 @@
 .game[data-workbench-type="division-elevator"] .complete-panel {
   grid-column: 1;
   grid-row: 3;
-  min-height: 150px;
-  padding: 14px;
+  min-height: 0;
+  padding: 18px 16px;
   place-items: center;
   grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  align-self: center;
+  gap: 18px;
   border: 3px solid #8d6b20;
   border-radius: 18px;
   background: #fff0be;
@@ -476,12 +512,14 @@
 
 .game[data-workbench-type="division-elevator"] .complete-text {
   color: #2c210c;
-  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-size: clamp(1.65rem, 2.7vw, 2.35rem);
+  line-height: 1.1;
   text-align: center;
+  white-space: nowrap;
 }
 
 .game[data-workbench-type="division-elevator"] .complete-panel .primary-button {
-  width: clamp(220px, 23vw, 300px);
+  width: min(100%, 270px);
   min-width: 0;
   min-height: 0;
   aspect-ratio: 1805 / 706;
@@ -498,15 +536,23 @@
 }
 
 .game[data-workbench-type="division-elevator"] .problem-grid.is-complete {
-  grid-template-rows: minmax(0, 1fr) minmax(150px, auto);
+  grid-template-columns: minmax(0, 1fr) clamp(230px, 29%, 300px);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: 16px;
 }
 
 .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .step-board {
   display: none;
 }
 
+.game[data-workbench-type="division-elevator"] .problem-grid.is-complete .problem-card {
+  grid-column: 1;
+  grid-row: 1;
+}
+
 .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-panel {
-  grid-row: 2;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .game[data-workbench-type="division-elevator"] .reward-card[data-reward-phase="closed"] .reward-label {
@@ -784,208 +830,16 @@
   height: auto;
 }
 
-.game[data-workbench-type="division-elevator"] .tutorial-math-guide {
-  position: absolute;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-step-chip > strong,
-.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-answer,
-.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-answer > strong,
-.game[data-workbench-type="division-elevator"][data-tutorial-mode="poster-two-step"] .tutorial-reward-copy p {
-  position: static;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  clip: auto;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-math-guide {
-  top: 3cqh;
-  right: 3.5cqw;
-  bottom: 15cqh;
-  left: 13cqw;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(8px, 1.4cqh, 14px);
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-math-guide h2 {
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: clamp(6px, 1.1cqh, 9px) clamp(22px, 2.7cqw, 34px) clamp(7px, 1.3cqh, 11px);
-  border: 3px solid rgba(255, 255, 255, 0.92);
-  border-radius: 999px;
-  color: #123a54;
-  background: rgba(245, 253, 255, 0.92);
-  box-shadow: 0 10px 25px rgba(30, 82, 105, 0.16);
-  font-size: clamp(29px, 4.2cqw, 40px);
-  font-weight: 1000;
-  line-height: 1.15;
-  letter-spacing: -0.04em;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-math-layout {
-  min-height: 0;
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: clamp(14px, 2cqw, 24px);
-  align-items: stretch;
-  overflow: hidden;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-division-board {
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
-  box-sizing: border-box;
-  padding: clamp(10px, 1.8cqh, 18px) clamp(18px, 2.7cqw, 34px) clamp(8px, 1.5cqh, 14px);
-  border: clamp(3px, 0.4cqw, 5px) solid #2b769b;
-  border-radius: clamp(23px, 2.7cqw, 34px);
-  background: rgba(255, 254, 244, 0.96);
-  box-shadow: 0 13px 0 rgba(20, 83, 112, 0.19), 0 18px 34px rgba(14, 64, 87, 0.18);
-  overflow: hidden;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-division-board svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-division-ink {
-  font-family: ui-rounded, "Arial Rounded MT Bold", "Noto Sans KR", sans-serif;
-  font-weight: 1000;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-quotient,
-.game[data-workbench-type="division-elevator"] .tutorial-dividend,
-.game[data-workbench-type="division-elevator"] .tutorial-divisor,
-.game[data-workbench-type="division-elevator"] .tutorial-work-number,
-.game[data-workbench-type="division-elevator"] .tutorial-remainder {
-  font-size: 72px;
-  font-variant-numeric: tabular-nums;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-tens-ink {
-  fill: #17659c;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-ones-ink {
-  fill: #e35e18;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-divisor,
-.game[data-workbench-type="division-elevator"] .tutorial-remainder,
-.game[data-workbench-type="division-elevator"] .tutorial-minus {
-  fill: #152f43;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-minus {
-  font-size: 58px;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-bracket,
-.game[data-workbench-type="division-elevator"] .tutorial-work-line {
-  fill: none;
-  stroke: #152f43;
-  stroke-width: 8;
-  stroke-linecap: round;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-bring-down {
-  fill: none;
-  stroke: #e35e18;
-  stroke-width: 8;
-  stroke-linecap: round;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-arrow-head {
-  fill: #e35e18;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-step-list {
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: clamp(10px, 1.7cqh, 18px);
-  overflow: hidden;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-step-chip {
-  position: relative;
-  min-width: 0;
-  padding: clamp(13px, 2.1cqh, 22px) clamp(13px, 1.8cqw, 22px) clamp(12px, 1.9cqh, 20px) clamp(58px, 6.4cqw, 82px);
-  border: clamp(3px, 0.32cqw, 4px) solid #8fc8dc;
-  border-radius: clamp(19px, 2.2cqw, 28px);
-  color: #163a53;
-  background: rgba(250, 254, 255, 0.95);
-  box-shadow: 0 9px 0 rgba(33, 106, 137, 0.17);
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-step-chip > span {
-  position: absolute;
-  top: 50%;
-  left: clamp(13px, 1.6cqw, 20px);
-  color: #17659c;
-  font-size: clamp(31px, 3.3cqw, 42px);
-  font-weight: 1000;
-  transform: translateY(-50%);
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-step-chip > strong {
-  display: block;
-  font-size: clamp(27px, 3cqw, 35px);
-  font-weight: 1000;
-  line-height: 1.12;
-  white-space: nowrap;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-step-chip > small {
-  display: block;
-  margin-top: clamp(4px, 0.8cqh, 7px);
-  color: #315e72;
-  font-size: clamp(15px, 1.7cqw, 20px);
-  font-weight: 850;
-  line-height: 1.25;
-  overflow-wrap: break-word;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-answer {
-  margin: 0;
-  padding: clamp(11px, 1.7cqh, 18px) clamp(13px, 1.6cqw, 20px);
-  border: clamp(3px, 0.32cqw, 4px) solid #f2b43c;
-  border-radius: clamp(18px, 2cqw, 25px);
-  color: #183b51;
-  background: #fff7c9;
-  box-shadow: 0 8px 0 rgba(177, 111, 14, 0.18);
-  font-size: clamp(26px, 2.8cqw, 34px);
-  font-weight: 1000;
-  line-height: 1.1;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.game[data-workbench-type="division-elevator"] .tutorial-answer strong {
-  color: #d94f13;
-  font-size: 1.2em;
-}
-
 @media (max-width: 1100px), (max-height: 720px) {
   .game[data-workbench-type="division-elevator"] .problem-grid {
     top: 56px;
     right: 24px;
     bottom: 8px;
     left: 15.5%;
-    grid-template-rows: minmax(0, 1fr) 48px minmax(118px, auto);
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) clamp(238px, 32%, 270px);
+    grid-template-rows: 54px minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 8px;
   }
 
   .game[data-workbench-type="division-elevator"] .problem-card {
@@ -993,7 +847,8 @@
   }
 
   .game[data-workbench-type="division-elevator"] .step-board {
-    min-height: 48px;
+    min-height: 54px;
+    padding-inline: 10px;
   }
 
   .game[data-workbench-type="division-elevator"] .big-problem {
@@ -1013,22 +868,33 @@
     width: 100%;
   }
 
-  .game[data-workbench-type="division-elevator"] .choices-panel,
-  .elevator-floor-panel {
-    grid-template-rows: repeat(2, minmax(46px, 1fr));
-    gap: 6px;
+  .game[data-workbench-type="division-elevator"] .choices-panel {
+    grid-template-rows: repeat(4, minmax(46px, 1fr));
+    gap: 0;
   }
 
   .elevator-floor-panel {
-    padding: 6px;
+    grid-template-rows: repeat(4, minmax(46px, 1fr));
+    gap: 10px;
+    padding: 7px;
   }
 
   .game[data-workbench-type="division-elevator"] .elevator-choice {
     min-height: 46px;
   }
 
-  .game[data-workbench-type="division-elevator"] .complete-panel {
-    min-height: 132px;
+  .game[data-workbench-type="division-elevator"] .problem-grid.is-complete {
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 29%, 260px);
+    column-gap: 12px;
+  }
+
+  .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-panel {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-text {
+    font-size: clamp(1.4rem, 2.8vw, 2rem);
   }
 
   .game[data-workbench-type="division-elevator"] .play-mathmon-reaction {
@@ -1038,11 +904,15 @@
   }
 
   .elevator-choice-part {
-    gap: 10px;
-    padding: 6px 8px;
+    gap: 5px;
+    padding: 6px 5px;
   }
 
   .elevator-choice-label {
-    font-size: 1.15rem;
+    font-size: 1rem;
+  }
+
+  .elevator-choice-value {
+    font-size: clamp(1.8rem, 3.2vw, 2.35rem);
   }
 }
