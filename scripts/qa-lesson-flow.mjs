@@ -620,6 +620,16 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     const currentStep = window.__mathmonEngineQa?.getCurrentStep?.();
     const sourcePieceCount = document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece').length;
     const sourcePieceRects = [...document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece')].map(rectOf);
+    const sourceBundleLabels = [...document.querySelectorAll('.farm-share-source-pieces .farm-produce-piece--bundle .farm-produce-value')].map((label) => {
+      const style = getComputedStyle(label);
+      return {
+        rect:rectOf(label),
+        text:label.textContent.trim(),
+        clientHeight:label.clientHeight,
+        scrollHeight:label.scrollHeight,
+        fontSize:Number.parseFloat(style.fontSize) || 0
+      };
+    });
     const sourcePiecesInside = sourcePieceRects.every((rect) => contains(source, rect, 1));
     const sourcePieceTopGap = sourcePieceRects.length ? Math.min(...sourcePieceRects.map((rect) => rect.top - source.top)) : null;
     const sourcePieceBottomGap = sourcePieceRects.length ? Math.min(...sourcePieceRects.map((rect) => source.bottom - rect.bottom)) : null;
@@ -708,6 +718,11 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       expectedSourcePieceCount:Number(currentStep?.unitCount || 0),
       sourcePieceCount, basketUnitCount, totalUnitCount:sourcePieceCount + basketUnitCount,
       sourcePieceOverlaps, sourcePiecesInside, sourcePieceTopGap, sourcePieceBottomGap,
+      sourceBundleLabelCount:sourceBundleLabels.length,
+      sourceBundleLabelsInside:sourceBundleLabels.every((label) => contains(source, label.rect, 1)),
+      sourceBundleLabelsClipped:sourceBundleLabels.filter((label) => label.scrollHeight > label.clientHeight).length,
+      sourceBundleLabelMinHeight:sourceBundleLabels.length ? Math.min(...sourceBundleLabels.map((label) => label.rect.height)) : null,
+      sourceBundleLabelMinFontSize:sourceBundleLabels.length ? Math.min(...sourceBundleLabels.map((label) => label.fontSize)) : null,
       sourceMoreCount, basketLabelCount, feedbackText,
       reactionVisible:visible(reaction),
       entryWidthRatio:stage && entry ? entry.width / stage.width : null,
@@ -763,6 +778,11 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     assert(audit.totalUnitCount === audit.expectedSourcePieceCount && audit.sourceMoreCount === 0, `${label}: produce units were lost or abbreviated`, audit);
     assert(audit.sourcePieceOverlaps === 0, `${label}: source produce images overlap instead of showing every bundle`, audit);
     assert(audit.sourcePiecesInside, `${label}: source produce left its original card`, audit);
+    if (audit.sourceBundleLabelCount > 0) {
+      assert(audit.sourceBundleLabelsInside, `${label}: bundle value label left its original card`, audit);
+      assert(audit.sourceBundleLabelsClipped === 0, `${label}: bundle value text is vertically clipped`, audit);
+      assert(audit.sourceBundleLabelMinHeight >= 20 && audit.sourceBundleLabelMinFontSize >= 14, `${label}: bundle value label is too small`, audit);
+    }
     if (audit.dragPieceCount > 0) assert(audit.sourcePieceTopGap >= 8 && audit.sourcePieceBottomGap >= 8, `${label}: source produce touches the card border`, audit);
     assert(!audit.reactionVisible, `${label}: play reaction character covers the basket workbench`, audit);
     assert(audit.basketLabelCount === 0, `${label}: redundant basket labels or question marks returned`, audit);

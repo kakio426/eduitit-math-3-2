@@ -1174,26 +1174,38 @@
 
     .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="1"], [data-unit-count="2"], [data-unit-count="3"]) {
       --source-bundle-width: 112px;
-      --source-bundle-height: 108px;
+      --source-bundle-height: 118px;
       --source-bundle-gap: 24px;
+      --source-bundle-label-width: 64px;
+      --source-bundle-label-height: 26px;
+      --source-bundle-label-font: 1.12rem;
     }
 
     .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="4"], [data-unit-count="5"]) {
       --source-bundle-width: 92px;
-      --source-bundle-height: 90px;
+      --source-bundle-height: 100px;
       --source-bundle-gap: 16px;
+      --source-bundle-label-width: 60px;
+      --source-bundle-label-height: 24px;
+      --source-bundle-label-font: 1.05rem;
     }
 
     .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="6"], [data-unit-count="7"]) {
       --source-bundle-width: 76px;
-      --source-bundle-height: 74px;
+      --source-bundle-height: 84px;
       --source-bundle-gap: 10px;
+      --source-bundle-label-width: 56px;
+      --source-bundle-label-height: 23px;
+      --source-bundle-label-font: 1rem;
     }
 
     .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="8"], [data-unit-count="9"], [data-unit-count="10"]) {
       --source-bundle-width: 62px;
-      --source-bundle-height: 61px;
+      --source-bundle-height: 75px;
       --source-bundle-gap: 6px;
+      --source-bundle-label-width: 52px;
+      --source-bundle-label-height: 22px;
+      --source-bundle-label-font: .95rem;
     }
 
     @media (max-width: 1100px) {
@@ -1208,25 +1220,25 @@
 
       .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="1"], [data-unit-count="2"], [data-unit-count="3"]) {
         --source-bundle-width: 84px;
-        --source-bundle-height: 82px;
+        --source-bundle-height: 92px;
         --source-bundle-gap: 16px;
       }
 
       .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="4"], [data-unit-count="5"]) {
         --source-bundle-width: 70px;
-        --source-bundle-height: 68px;
+        --source-bundle-height: 78px;
         --source-bundle-gap: 10px;
       }
 
       .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="6"], [data-unit-count="7"]) {
         --source-bundle-width: 60px;
-        --source-bundle-height: 59px;
+        --source-bundle-height: 68px;
         --source-bundle-gap: 6px;
       }
 
       .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="8"], [data-unit-count="9"], [data-unit-count="10"]) {
         --source-bundle-width: 52px;
-        --source-bundle-height: 51px;
+        --source-bundle-height: 62px;
         --source-bundle-gap: 4px;
       }
     }
@@ -2004,7 +2016,7 @@
     }
     .farm-produce-piece--bundle {
       width: 66px; height: 78px; color: #3b230b;
-      grid-template-rows: minmax(0, 1fr) 13px;
+      grid-template-rows: minmax(0, 1fr) 18px;
       align-items: stretch;
     }
     .farm-produce-art { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: none; user-select: none; }
@@ -2016,9 +2028,9 @@
     }
     .farm-produce-piece--bundle .farm-produce-value {
       position: static; grid-row: 2; justify-self: center; align-self: stretch; transform: none;
-      width: min(100%, 38px); height: 100%; min-height: 13px; box-sizing: border-box;
+      width: min(100%, 44px); height: 100%; min-height: 18px; box-sizing: border-box;
       border: 2px solid #7b4a1f; border-radius: 999px; color: #321d09; background: #ffe18a;
-      font-size: clamp(.55rem, 1vw, .78rem); line-height: 1; font-variant-numeric: tabular-nums;
+      font-size: clamp(.72rem, .9vw, .85rem); line-height: 1; font-variant-numeric: tabular-nums;
     }
     .farm-stock-token .farm-produce-piece--bundle { width: 50px; height: 44px; }
     .farm-produce-piece--single {
@@ -3473,6 +3485,16 @@
       overflow: hidden;
     }
     .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle { width: 72px; height: 70px; }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"] .farm-produce-piece--bundle {
+      height: var(--source-bundle-height, 75px);
+      grid-template-rows: minmax(0, 1fr) var(--source-bundle-label-height, 22px);
+    }
+    .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--bundle .farm-produce-value {
+      width: min(100%, var(--source-bundle-label-width, 52px));
+      min-height: var(--source-bundle-label-height, 22px);
+      padding-inline: 4px;
+      font-size: var(--source-bundle-label-font, .95rem);
+    }
     .game[data-workbench-type="place-value-farm"] .farm-share-source-pieces .farm-produce-piece--single {
       width: 38px;
       height: 72px;
