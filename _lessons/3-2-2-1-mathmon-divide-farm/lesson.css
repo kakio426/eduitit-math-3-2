@@ -129,6 +129,87 @@
   .game[data-workbench-type="place-value-farm"] .farm-share-feedback { min-height: 25px; font-size: .9rem; }
 }
 
+/* Source scale follows the number that entered the panel; it stays stable while distributing. */
+.game[data-workbench-type="place-value-farm"] .farm-share-source {
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source > strong {
+  justify-self: center;
+  font-size: 1.9rem;
+  letter-spacing: -0.035em;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"] .farm-share-source-pieces {
+  gap: var(--source-bundle-gap, 8px);
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"] .farm-produce-piece--bundle {
+  width: var(--source-bundle-width, 72px);
+  height: var(--source-bundle-height, 70px);
+  flex: 0 0 var(--source-bundle-width, 72px);
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="1"], [data-unit-count="2"], [data-unit-count="3"]) {
+  --source-bundle-width: 112px;
+  --source-bundle-height: 108px;
+  --source-bundle-gap: 24px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="4"], [data-unit-count="5"]) {
+  --source-bundle-width: 92px;
+  --source-bundle-height: 90px;
+  --source-bundle-gap: 16px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="6"], [data-unit-count="7"]) {
+  --source-bundle-width: 76px;
+  --source-bundle-height: 74px;
+  --source-bundle-gap: 10px;
+}
+
+.game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="8"], [data-unit-count="9"], [data-unit-count="10"]) {
+  --source-bundle-width: 62px;
+  --source-bundle-height: 61px;
+  --source-bundle-gap: 6px;
+}
+
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-share-source {
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-share-source > strong {
+    font-size: 1.5rem;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="1"], [data-unit-count="2"], [data-unit-count="3"]) {
+    --source-bundle-width: 84px;
+    --source-bundle-height: 82px;
+    --source-bundle-gap: 16px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="4"], [data-unit-count="5"]) {
+    --source-bundle-width: 70px;
+    --source-bundle-height: 68px;
+    --source-bundle-gap: 10px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="6"], [data-unit-count="7"]) {
+    --source-bundle-width: 60px;
+    --source-bundle-height: 59px;
+    --source-bundle-gap: 6px;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .farm-share-source[data-unit-kind="bundle"]:is([data-unit-count="8"], [data-unit-count="9"], [data-unit-count="10"]) {
+    --source-bundle-width: 52px;
+    --source-bundle-height: 51px;
+    --source-bundle-gap: 4px;
+  }
+}
+
 /* Final tutorial scale override: keep both examples large and the basket label on one line. */
 .game[data-workbench-type="place-value-farm"] .farm-tutorial-guide {
   right: 6%;
@@ -179,6 +260,24 @@
   .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--bundle { width: 58px; height: 46px; }
   .game[data-workbench-type="place-value-farm"] .farm-tutorial-proof-pieces .farm-produce-piece--single { width: 22px; height: 44px; }
   .game[data-workbench-type="place-value-farm"] .farm-tutorial-result-proof > strong { font-size: .92rem; }
+}
+
+/* Keep the adaptive source hierarchy above the legacy compatibility overrides. */
+.game[data-workbench-type="place-value-farm"] .farm-share-source {
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 18px;
+}
+.game[data-workbench-type="place-value-farm"] .farm-share-source > strong {
+  justify-self: center;
+  font-size: 1.9rem;
+  letter-spacing: -0.035em;
+}
+@media (max-width: 1100px) {
+  .game[data-workbench-type="place-value-farm"] .farm-share-source {
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .game[data-workbench-type="place-value-farm"] .farm-share-source > strong { font-size: 1.5rem; }
 }
 
 /* Generated primary action art: reward-screen "다음". */
@@ -1316,6 +1415,14 @@
   height: 100%;
   object-fit: contain;
   pointer-events: none;
+}
+
+@media (max-width: 980px) {
+  .game[data-workbench-type="place-value-farm"] .complete-panel #rewardButton.farm-harvest-button,
+  .game[data-workbench-type="place-value-farm"] .complete-panel #rewardButton.farm-harvest-button:hover,
+  .game[data-workbench-type="place-value-farm"] .complete-panel #rewardButton.farm-harvest-button:active {
+    transform: translateY(-10px) scale(.68) !important;
+  }
 }
 .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .step-board { visibility: hidden; pointer-events: none; }
 .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .choices-panel { visibility: hidden; opacity: 0; pointer-events: none; }

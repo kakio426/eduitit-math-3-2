@@ -79,7 +79,7 @@ const Lesson2DivideFarmModel = (() => {
       const tens = Math.floor(dividend / 10);
       const ones = dividend % 10;
       for (let divisor = 2; divisor <= 5; divisor += 1) {
-        if (tens % divisor !== 0 || ones % divisor !== 0) continue;
+        if (ones === 0 || tens % divisor !== 0 || ones % divisor !== 0) continue;
         pool.push({ dividend, divisor, tens, ones });
       }
     }
@@ -122,7 +122,7 @@ const Lesson2DivideFarmModel = (() => {
           choices: makeShareOptionSet(tensShare, 10, tens, divisor, "묶음", "DIV1_TENS_SHARE_ERROR"),
           correctText: `바구니마다 ${tensShare}개씩`,
           reveal: `${tensShare}개`,
-          advance: { mode: "timed", delayMs: 1450 }
+          advance: { mode: "button", label: "낱개 나누기" }
         },
         ...(ones > 0 ? [{
           id: "ones",
@@ -138,7 +138,7 @@ const Lesson2DivideFarmModel = (() => {
           choices: makeShareOptionSet(onesQuotient, 1, ones, divisor, "개", "DIV1_ONES_SHARE_ERROR"),
           correctText: `바구니마다 낱개 ${onesQuotient}개씩`,
           reveal: `${onesQuotient}개`,
-          advance: { mode: "timed", delayMs: 1450 }
+          advance: { mode: "button", label: "나눈 값 더하기" }
         }] : [])
       ]
     };

@@ -45,6 +45,14 @@ function ensureFarmHarvestButtonArt() {
 
   button.classList.add("farm-harvest-button");
   button.setAttribute("aria-label", LESSON_CONFIG.buttonLabel || "수확 보기");
+  button.style.setProperty("width", "min(270px, 23vw, 100%)", "important");
+  button.style.setProperty("min-width", "0", "important");
+  button.style.setProperty("min-height", "0", "important");
+  button.style.setProperty("aspect-ratio", "1785 / 706", "important");
+  button.style.setProperty("padding", "0", "important");
+  button.style.setProperty("border", "0", "important");
+  button.style.setProperty("background", "transparent", "important");
+  button.style.setProperty("box-shadow", "none", "important");
   const image = document.createElement("img");
   image.className = "farm-harvest-button-art";
   image.src = source;
@@ -67,6 +75,7 @@ function ensureFarmRewardNextButtonArt() {
     if (label !== nextLabel) {
       button.classList.remove("farm-next-button");
       delete button.dataset.actionLabel;
+      if (label) button.setAttribute("aria-label", label);
       return;
     }
 
@@ -317,6 +326,8 @@ function renderFarmShareEntry() {
 
   const source = document.createElement("section");
   source.className = "farm-share-source";
+  source.dataset.unitKind = step.id === "tens" ? "bundle" : "single";
+  source.dataset.unitCount = String(Math.min(10, Math.max(1, step.unitCount)));
   const sourceLabel = document.createElement("strong");
   sourceLabel.textContent = `전체 ${step.totalValue}개`;
   const sourcePieces = document.createElement("div");
