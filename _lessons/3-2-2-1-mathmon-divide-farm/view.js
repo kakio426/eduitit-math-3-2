@@ -691,15 +691,15 @@ function renderFarmCompleteSummary(problem) {
   processTitle.textContent = "나눈 값을 더해요";
   process.appendChild(processTitle);
   const processLines = [
-    { label: "1단계", left: `${problem.tensValue} ÷ ${problem.divisor}`, right: problem.tensShare },
+    { label: "묶음 나누기", text: `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}` },
   ];
   if (problem.ones > 0) {
     processLines.push(
-      { label: "2단계", left: `${problem.ones} ÷ ${problem.divisor}`, right: problem.onesQuotient },
+      { label: "낱개 나누기", text: `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}` },
       { label: "", text: `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`, total: true }
     );
   }
-  processLines.forEach(({ label, left, right, text, total }) => {
+  processLines.forEach(({ label, text, total }) => {
     const line = document.createElement("span");
     line.className = total ? "farm-complete-process-line is-total" : "farm-complete-process-line";
     if (label) {
@@ -712,16 +712,10 @@ function renderFarmCompleteSummary(problem) {
       expression.textContent = text;
       line.appendChild(expression);
     } else {
-      const leftExpression = document.createElement("b");
-      leftExpression.className = "farm-complete-process-left";
-      leftExpression.textContent = left;
-      const equals = document.createElement("b");
-      equals.className = "farm-complete-process-equals";
-      equals.textContent = "=";
-      const rightExpression = document.createElement("b");
-      rightExpression.className = "farm-complete-process-right";
-      rightExpression.textContent = String(right);
-      line.append(leftExpression, equals, rightExpression);
+      const expression = document.createElement("b");
+      expression.className = "farm-complete-process-equation";
+      expression.textContent = text;
+      line.appendChild(expression);
     }
     process.appendChild(line);
   });

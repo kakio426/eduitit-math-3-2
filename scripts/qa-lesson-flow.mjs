@@ -646,6 +646,17 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
     const problemGrid = rectOf(document.querySelector('.problem-grid'));
     const completePanel = rectOf(document.querySelector('#completePanel.is-visible'));
     const completeText = rectOf(document.querySelector('#completePanel.is-visible .complete-text'));
+    const completeProcessRows = [...document.querySelectorAll('#completePanel.is-visible .farm-complete-process-line:not(.is-total)')].map((row) => {
+      const label = rectOf(row.querySelector('small'));
+      const equation = rectOf(row.querySelector('.farm-complete-process-equation'));
+      return {
+        label,
+        equation,
+        gap:label && equation ? equation.left - label.right : null,
+        centerDelta:label && equation ? Math.abs((label.top + label.height / 2) - (equation.top + equation.height / 2)) : null,
+        labelText:row.querySelector('small')?.textContent?.trim() || ''
+      };
+    });
     const reaction = document.querySelector('.play-mathmon-reaction');
     return {
       stage, entry, source, preview, dragPieceCount:dragPieces.length,
@@ -673,7 +684,7 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
       confirmationTitleGap:confirmationTitle && confirmationBaskets ? confirmationBaskets.top - confirmationTitle.bottom : null,
       confirmationEquationGap:confirmationBaskets && confirmationEquation ? confirmationEquation.top - confirmationBaskets.bottom : null,
       confirmationButtonGap:confirmationEquation && confirmationButton ? confirmationButton.top - confirmationEquation.bottom : null,
-      completePanel, completeText,
+      completePanel, completeText, completeProcessRows,
       completeWidthRatio:stage && completePanel ? completePanel.width / stage.width : null,
       completeSameColumn:problemGrid && completePanel
         ? Math.abs(problemGrid.left - completePanel.left) <= 1 && Math.abs(problemGrid.right - completePanel.right) <= 1
@@ -710,6 +721,13 @@ async function auditDivideFarmLayout(page, label, { confirmation = false, comple
   }
   if (complete) {
     assert(audit.completePanel && audit.completeText, `${label}: completed division panel is missing`, audit);
+    assert(audit.completeProcessRows.length >= 1, `${label}: completed division process rows are missing`, audit);
+    audit.completeProcessRows.forEach((row, index) => {
+      assert(row.label && row.equation, `${label}: completed division row ${index + 1} is incomplete`, audit);
+      assert(row.gap >= 8 && row.gap <= 24, `${label}: completed division row ${index + 1} label is detached from its equation`, audit);
+      assert(row.centerDelta <= 3, `${label}: completed division row ${index + 1} label is not aligned with its equation`, audit);
+      assert(['묶음 나누기', '낱개 나누기'].includes(row.labelText), `${label}: completed division row ${index + 1} has an unclear label`, audit);
+    });
     assert(audit.completeWidthRatio >= 0.7 && audit.completeSameColumn, `${label}: completed division panel split the learning column`, audit);
   }
   return audit;

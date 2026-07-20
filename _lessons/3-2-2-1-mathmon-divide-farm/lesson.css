@@ -438,9 +438,9 @@
   color: #321d09 !important;
   width: 100% !important;
   display: grid !important;
-  grid-template-columns: 58px minmax(0, 1fr) 28px 42px !important;
+  grid-template-columns: 112px minmax(0, 1fr) !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 16px !important;
   font-size: clamp(1.3rem, 2.55vw, 2rem) !important;
   line-height: 1.12 !important;
   font-weight: 1000 !important;
@@ -449,27 +449,28 @@
 
 .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line small {
   color: #245c31 !important;
-  font-size: .72rem !important;
+  min-height: 38px !important;
+  padding: 0 12px !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 2px solid #8fbd87 !important;
+  border-radius: 999px !important;
+  background: #e9f5df !important;
+  font-size: .88rem !important;
+  line-height: 1 !important;
   font-weight: 1000 !important;
+  white-space: nowrap !important;
 }
 
 .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line b {
   font: inherit !important;
 }
 
-.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-left {
-  justify-self: end !important;
-  text-align: right !important;
-}
-
-.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-equals {
-  justify-self: center !important;
-  text-align: center !important;
-}
-
-.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-right {
+.game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-equation {
   justify-self: start !important;
   text-align: left !important;
+  font-variant-numeric: tabular-nums !important;
 }
 
 .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line.is-total {
@@ -571,6 +572,22 @@
 
   .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-result-art {
     height: 215px !important;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process {
+    padding: 14px 12px !important;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line {
+    grid-template-columns: 88px minmax(0, 1fr) !important;
+    gap: 12px !important;
+    font-size: clamp(1.12rem, 2.35vw, 1.55rem) !important;
+  }
+
+  .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line small {
+    min-height: 32px !important;
+    padding: 0 8px !important;
+    font-size: .72rem !important;
   }
 }
 

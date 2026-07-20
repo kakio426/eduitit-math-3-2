@@ -1363,9 +1363,9 @@
       color: #321d09 !important;
       width: 100% !important;
       display: grid !important;
-      grid-template-columns: 58px minmax(0, 1fr) 28px 42px !important;
+      grid-template-columns: 112px minmax(0, 1fr) !important;
       align-items: center !important;
-      gap: 10px !important;
+      gap: 16px !important;
       font-size: clamp(1.3rem, 2.55vw, 2rem) !important;
       line-height: 1.12 !important;
       font-weight: 1000 !important;
@@ -1374,27 +1374,28 @@
 
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line small {
       color: #245c31 !important;
-      font-size: .72rem !important;
+      min-height: 38px !important;
+      padding: 0 12px !important;
+      box-sizing: border-box !important;
+      display: grid !important;
+      place-items: center !important;
+      border: 2px solid #8fbd87 !important;
+      border-radius: 999px !important;
+      background: #e9f5df !important;
+      font-size: .88rem !important;
+      line-height: 1 !important;
       font-weight: 1000 !important;
+      white-space: nowrap !important;
     }
 
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line b {
       font: inherit !important;
     }
 
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-left {
-      justify-self: end !important;
-      text-align: right !important;
-    }
-
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-equals {
-      justify-self: center !important;
-      text-align: center !important;
-    }
-
-    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-right {
+    .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-equation {
       justify-self: start !important;
       text-align: left !important;
+      font-variant-numeric: tabular-nums !important;
     }
 
     .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line.is-total {
@@ -1496,6 +1497,22 @@
 
       .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-result-art {
         height: 215px !important;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process {
+        padding: 14px 12px !important;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line {
+        grid-template-columns: 88px minmax(0, 1fr) !important;
+        gap: 12px !important;
+        font-size: clamp(1.12rem, 2.35vw, 1.55rem) !important;
+      }
+
+      .game[data-workbench-type="place-value-farm"] .problem-grid.is-complete .farm-complete-process-line small {
+        min-height: 32px !important;
+        padding: 0 8px !important;
+        font-size: .72rem !important;
       }
     }
 
@@ -4229,7 +4246,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"똑같이 나눠 농장을 키워요.","action":"당근을 바구니에 똑같이 나눠 담아요.","buttonLabel":"수확 보기","rewardScreenTitle":"농장이 자라요","progressLabel":"농장 힘","rewardComplete":"바구니를 열어 봐요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"똑같이 나눠요","body":"묶음과 낱개를 차례로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"농장은 어디까지 자랄까요?","body":"10문제를 풀고 농장을 키워요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"farm-growth-v2","maxPower":100,"unitLabel":"농장 힘","closedLabel":"바구니 열기","nextLabel":"다음","stageImages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"artMap":{"harvest":"reward-event-harvest-generated.webp","bug":"reward-event-bug-generated.webp","big":"reward-event-big-generated.webp","gold":"reward-event-gold-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showPower":false,"nextTitleMap":{"seed":"result-next-seed-generated.webp","sprout":"result-next-sprout-generated.webp","garden":"result-next-garden-generated.webp","farm":"result-next-farm-generated.webp","bigfarm":"result-next-bigfarm-generated.webp","rainbow":"result-next-rainbow-generated.webp"},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-v3-contact-sheet.png","protagonist":"farm-growth","protagonistKind":"reward","fixedGeneratedElements":["farm-scene","result-title","next-target-title","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":false,"title":"전국 수확 순위","resultKind":"score","scoreLabel":"내 농장 힘","listTitle":"농장 순위","unit":"3학년 2학기 2단원 1차시"},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":15,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":35,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":55,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":78,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"일반 수확","weight":6400,"min":6,"max":10,"family":"harvest","rarity":"common"},{"id":"bug","text":"벌레가 먹었어요","weight":1500,"min":-5,"max":-2,"family":"bug","rarity":"common"},{"id":"big","text":"대풍작","weight":1200,"min":14,"max":22,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근","weight":500,"min":30,"max":30,"family":"gold","rarity":"rare"},{"id":"empty","text":"빈 바구니","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"황금밭","weight":20,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bugMistake","text":"벌레가 먹었어요","min":-8,"max":-4,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","harvestViewButton":"harvest-view-button-generated.webp","nextButton":"next-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"farmBasket":"farm-basket-empty-generated.webp","farmBasketBundles":{"1":"farm-basket-bundles-1-generated.webp","2":"farm-basket-bundles-2-generated.webp","3":"farm-basket-bundles-3-generated.webp","4":"farm-basket-bundles-4-generated.webp"},"farmBasketSingles":{"1":"farm-basket-singles-1-generated.png","2":"farm-basket-singles-2-generated.png","3":"farm-basket-singles-3-generated.png","4":"farm-basket-singles-4-generated.png"},"farmBundleTen":"farm-bundle-ten-generated.webp","farmCarrotSingle":"farm-carrot-single-generated.webp","farmStages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-stage-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","harvest-view-button-chromakey.png","harvest-view-button-generated.png","harvest-view-button-generated.webp","next-button-chromakey.png","next-button-generated.png","next-button-generated.webp","farm-board-generated.webp","reward-stage-generated.webp","reward-closed-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","farm-basket-empty-generated.webp","farm-basket-bundles-1-generated.webp","farm-basket-bundles-2-generated.webp","farm-basket-bundles-3-generated.webp","farm-basket-bundles-4-generated.webp","farm-basket-singles-1-generated.png","farm-basket-singles-2-generated.png","farm-basket-singles-3-generated.png","farm-basket-singles-4-generated.png","farm-bundle-ten-generated.webp","farm-carrot-single-generated.webp","farm-stage-seed-generated.webp","farm-stage-sprout-generated.webp","farm-stage-garden-generated.webp","farm-stage-farm-generated.webp","farm-stage-bigfarm-generated.webp","farm-stage-rainbow-generated.webp","reward-event-harvest-generated.webp","reward-event-bug-generated.webp","reward-event-big-generated.webp","reward-event-gold-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp","result-next-seed-generated.webp","result-next-sprout-generated.webp","result-next-garden-generated.webp","result-next-farm-generated.webp","result-next-bigfarm-generated.webp","result-next-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-compact","width":918,"height":897},{"name":"reported-carrot-fox","width":934,"height":987}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-place-value-migration","id":"3-2-2-1","folder":"3-2-2-1-mathmon-divide-farm","modelName":"Lesson2DivideFarmModel","title":"매스몬 나누기 농장","shortTitle":"매스몬 나누기 농장","topic":"내림 없는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"똑같이 나눠 농장을 키워요.","action":"당근을 바구니에 똑같이 나눠 담아요.","buttonLabel":"수확 보기","rewardScreenTitle":"농장이 자라요","progressLabel":"농장 힘","rewardComplete":"바구니를 열어 봐요.","tutorialTitle":"농장에 가기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"똑같이 나눠요","body":"묶음과 낱개를 차례로 나눠요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"농장은 어디까지 자랄까요?","body":"10문제를 풀고 농장을 키워요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"farm-growth-v2","maxPower":100,"unitLabel":"농장 힘","closedLabel":"바구니 열기","nextLabel":"다음","stageImages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"artMap":{"harvest":"reward-event-harvest-generated.webp","bug":"reward-event-bug-generated.webp","big":"reward-event-big-generated.webp","gold":"reward-event-gold-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showPower":false,"nextTitleMap":{"seed":"result-next-seed-generated.webp","sprout":"result-next-sprout-generated.webp","garden":"result-next-garden-generated.webp","farm":"result-next-farm-generated.webp","bigfarm":"result-next-bigfarm-generated.webp","rainbow":"result-next-rainbow-generated.webp"},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-v3-contact-sheet.png","protagonist":"farm-growth","protagonistKind":"reward","fixedGeneratedElements":["farm-scene","result-title","next-target-title","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"place-value-farm"},"scoreboard":{"enabled":false,"title":"전국 수확 순위","resultKind":"score","scoreLabel":"내 농장 힘","listTitle":"농장 순위","unit":"3학년 2학기 2단원 1차시"},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"seed","name":"씨앗","minPower":0,"minCorrect":0,"image":"result-tier-seed.webp","titleImage":"result-title-seed-generated.webp"},{"id":"sprout","name":"새싹","minPower":15,"minCorrect":2,"image":"result-tier-sprout.webp","titleImage":"result-title-sprout-generated.webp"},{"id":"garden","name":"텃밭","minPower":35,"minCorrect":4,"image":"result-tier-garden.webp","titleImage":"result-title-garden-generated.webp"},{"id":"farm","name":"농장","minPower":55,"minCorrect":6,"image":"result-tier-farm.webp","titleImage":"result-title-farm-generated.webp"},{"id":"bigfarm","name":"대농장","minPower":78,"minCorrect":8,"image":"result-tier-bigfarm.webp","titleImage":"result-title-bigfarm-generated.webp"},{"id":"rainbow","name":"황금밭","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-tier-rainbow.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"harvest","text":"일반 수확","weight":6400,"min":6,"max":10,"family":"harvest","rarity":"common"},{"id":"bug","text":"벌레가 먹었어요","weight":1500,"min":-5,"max":-2,"family":"bug","rarity":"common"},{"id":"big","text":"대풍작","weight":1200,"min":14,"max":22,"family":"big","rarity":"rare"},{"id":"gold","text":"황금 당근","weight":500,"min":30,"max":30,"family":"gold","rarity":"rare"},{"id":"empty","text":"빈 바구니","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"황금밭","weight":20,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"bugMistake","text":"벌레가 먹었어요","min":-8,"max":-4,"family":"bug"},"typesPerRun":["exact","exact","exact","exact","exact","exact","exact","exact","exact","exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","harvestViewButton":"harvest-view-button-generated.webp","nextButton":"next-button-generated.webp","problemStage":"farm-board-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"farmBasket":"farm-basket-empty-generated.webp","farmBasketBundles":{"1":"farm-basket-bundles-1-generated.webp","2":"farm-basket-bundles-2-generated.webp","3":"farm-basket-bundles-3-generated.webp","4":"farm-basket-bundles-4-generated.webp"},"farmBasketSingles":{"1":"farm-basket-singles-1-generated.png","2":"farm-basket-singles-2-generated.png","3":"farm-basket-singles-3-generated.png","4":"farm-basket-singles-4-generated.png"},"farmBundleTen":"farm-bundle-ten-generated.webp","farmCarrotSingle":"farm-carrot-single-generated.webp","farmStages":{"seed":"farm-stage-seed-generated.webp","sprout":"farm-stage-sprout-generated.webp","garden":"farm-stage-garden-generated.webp","farm":"farm-stage-farm-generated.webp","bigfarm":"farm-stage-bigfarm-generated.webp","rainbow":"farm-stage-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-stage-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","harvest-view-button-chromakey.png","harvest-view-button-generated.png","harvest-view-button-generated.webp","next-button-chromakey.png","next-button-generated.png","next-button-generated.webp","farm-board-generated.webp","reward-stage-generated.webp","reward-closed-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","farm-basket-empty-generated.webp","farm-basket-bundles-1-generated.webp","farm-basket-bundles-2-generated.webp","farm-basket-bundles-3-generated.webp","farm-basket-bundles-4-generated.webp","farm-basket-singles-1-generated.png","farm-basket-singles-2-generated.png","farm-basket-singles-3-generated.png","farm-basket-singles-4-generated.png","farm-bundle-ten-generated.webp","farm-carrot-single-generated.webp","farm-stage-seed-generated.webp","farm-stage-sprout-generated.webp","farm-stage-garden-generated.webp","farm-stage-farm-generated.webp","farm-stage-bigfarm-generated.webp","farm-stage-rainbow-generated.webp","reward-event-harvest-generated.webp","reward-event-bug-generated.webp","reward-event-big-generated.webp","reward-event-gold-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-title-seed-generated.webp","result-title-sprout-generated.webp","result-title-garden-generated.webp","result-title-farm-generated.webp","result-title-bigfarm-generated.webp","result-title-rainbow-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-tier-seed.webp","result-tier-sprout.webp","result-tier-garden.webp","result-tier-farm.webp","result-tier-bigfarm.webp","result-tier-rainbow.webp","result-next-seed-generated.webp","result-next-sprout-generated.webp","result-next-garden-generated.webp","result-next-farm-generated.webp","result-next-bigfarm-generated.webp","result-next-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-place-value-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-compact","width":918,"height":897},{"name":"reported-carrot-fox","width":934,"height":987},{"name":"reported-complete-step-gap","width":926,"height":688}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2DivideFarmModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -6144,15 +6161,15 @@
       processTitle.textContent = "나눈 값을 더해요";
       process.appendChild(processTitle);
       const processLines = [
-        { label: "1단계", left: `${problem.tensValue} ÷ ${problem.divisor}`, right: problem.tensShare },
+        { label: "묶음 나누기", text: `${problem.tensValue} ÷ ${problem.divisor} = ${problem.tensShare}` },
       ];
       if (problem.ones > 0) {
         processLines.push(
-          { label: "2단계", left: `${problem.ones} ÷ ${problem.divisor}`, right: problem.onesQuotient },
+          { label: "낱개 나누기", text: `${problem.ones} ÷ ${problem.divisor} = ${problem.onesQuotient}` },
           { label: "", text: `${problem.tensShare} + ${problem.onesQuotient} = ${problem.quotient}`, total: true }
         );
       }
-      processLines.forEach(({ label, left, right, text, total }) => {
+      processLines.forEach(({ label, text, total }) => {
         const line = document.createElement("span");
         line.className = total ? "farm-complete-process-line is-total" : "farm-complete-process-line";
         if (label) {
@@ -6165,16 +6182,10 @@
           expression.textContent = text;
           line.appendChild(expression);
         } else {
-          const leftExpression = document.createElement("b");
-          leftExpression.className = "farm-complete-process-left";
-          leftExpression.textContent = left;
-          const equals = document.createElement("b");
-          equals.className = "farm-complete-process-equals";
-          equals.textContent = "=";
-          const rightExpression = document.createElement("b");
-          rightExpression.className = "farm-complete-process-right";
-          rightExpression.textContent = String(right);
-          line.append(leftExpression, equals, rightExpression);
+          const expression = document.createElement("b");
+          expression.className = "farm-complete-process-equation";
+          expression.textContent = text;
+          line.appendChild(expression);
         }
         process.appendChild(line);
       });
