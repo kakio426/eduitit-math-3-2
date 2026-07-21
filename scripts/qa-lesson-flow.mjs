@@ -647,11 +647,11 @@ async function auditElevatorTutorialSolveRaster(page, label) {
       instructionalMarkupCount:card?.querySelectorAll('.tutorial-math-guide, .tutorial-division-board, .tutorial-step-chip, svg').length ?? null,
     };
   })()`);
-  assert(audit.source.endsWith('tutorial-page-1-v6-generated.webp'), `${label}: wrong generated tutorial image`, audit);
+  assert(audit.source.endsWith('tutorial-page-1-v7-generated.webp'), `${label}: wrong generated tutorial image`, audit);
   assert(audit.complete && audit.naturalWidth === 1280 && audit.naturalHeight === 800, `${label}: tutorial image size/load contract changed`, audit);
   assert(audit.objectFit === 'cover', `${label}: tutorial image must fill the 16:10 card`, audit);
   assert(audit.title === '십의 자리 값부터 나눠요', `${label}: accessible tutorial title regressed`, audit);
-  assert(audit.body.includes('70 = 2 × 30 + 10') && audit.body.includes('몫은 30이고 10이 남아요') && audit.body.includes('답은 38'), `${label}: actual-value tutorial flow regressed`, audit);
+  assert(audit.body.includes('70을 2로 먼저 나눠요') && audit.body.includes('70 = 2 × 30 + 10') && audit.body.includes('30씩 나누고 10이 남아요') && audit.body.includes('답은 38'), `${label}: operation-first tutorial flow regressed`, audit);
   assert(audit.instructionalMarkupCount === 0, `${label}: CSS/SVG tutorial explanation duplicates the generated poster`, audit);
   assert(audit.titleRect?.width <= 1 && audit.titleRect?.height <= 1 && audit.bodyRect?.width <= 1 && audit.bodyRect?.height <= 1, `${label}: accessible HTML copy is visible over the generated poster`, audit);
   for (const edge of ['left', 'top', 'right', 'bottom', 'width', 'height']) {
@@ -804,6 +804,12 @@ async function auditElevatorDivisionSvgClearance(page, label, mode) {
     const brought = readBox(selectors.brought);
     const line = readBox(selectors.line);
     const zero = readBox(selectors.zero);
+    const divisor = readBox('.board-divisor');
+    const bracket = svg?.querySelector('[data-board-bracket="true"]');
+    const stemX = Number(bracket?.dataset.stemX || 0);
+    const stemPoint = bracket?.ownerSVGElement?.createSVGPoint();
+    if (stemPoint) { stemPoint.x = stemX; stemPoint.y = 150; }
+    const stemScreen = stemPoint && bracket?.getScreenCTM() ? stemPoint.matrixTransform(bracket.getScreenCTM()) : null;
     const firstLine = selectors.firstLine ? readBox(selectors.firstLine) : null;
     const downDigits = selectors.downDigits
       ? [...(svg?.querySelectorAll(selectors.downDigits) || [])].map((node) => {
@@ -871,7 +877,8 @@ async function auditElevatorDivisionSvgClearance(page, label, mode) {
       }
     }
     return {
-      selectors, arrow, brought, line, zero, firstLine, downDigits, subtrahends, surface:workSurface, problemSurface, workSurface, textOutsideSurface,
+      selectors, arrow, brought, line, zero, divisor, divisorStemGap:divisor && stemScreen ? stemScreen.x - divisor.right : null,
+      firstLine, downDigits, subtrahends, surface:workSurface, problemSurface, workSurface, textOutsideSurface,
       strokeWidth, firstStrokeWidth, scale, choiceBoxCount, textOverlaps,
       completeStaticFontSizes,
       completeStaticFontSpread:completeStaticFontSizes.length ? Math.max(...completeStaticFontSizes) - Math.min(...completeStaticFontSizes) : null,
@@ -889,6 +896,7 @@ async function auditElevatorDivisionSvgClearance(page, label, mode) {
   assert(audit.arrowOverlap === 0 && audit.arrowGapPx >= 4, `${label}: arrow overlaps the brought digit`, audit);
   assert(audit.lineOverlap === 0 && audit.lineGapPx >= 4, `${label}: subtraction line overlaps zero`, audit);
   if (mode === "complete") {
+    assert(audit.divisor && audit.divisorStemGap >= 8 && audit.divisorStemGap <= 45, `${label}: completed divisor is not visually grouped with the division bracket`, audit);
     assert(audit.choiceBoxCount === 0, `${label}: completed board still shows choice boxes`, audit);
     assert(audit.downDigits.length === 2 && audit.subtrahends.length === 2, `${label}: completed long division digits are missing`, audit);
     assert(audit.firstLineGapPx >= 4, `${label}: first subtraction line overlaps the brought-down number`, audit);
@@ -1454,6 +1462,12 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     const surface = rectOf(document.querySelector('.math-work-surface'));
     const work = rectOf(document.querySelector('.division-work'));
     const step = rectOf(document.querySelector('.step-board'));
+    const divisor = rectOf(document.querySelector('.board-divisor'));
+    const bracket = document.querySelector('[data-board-bracket="true"]');
+    const stemX = Number(bracket?.dataset.stemX || 0);
+    const stemPoint = bracket?.ownerSVGElement?.createSVGPoint();
+    if (stemPoint) { stemPoint.x = stemX; stemPoint.y = 150; }
+    const stemScreen = stemPoint && bracket?.getScreenCTM() ? stemPoint.matrixTransform(bracket.getScreenCTM()) : null;
     const tensCell = rectOf(document.querySelector('.board-cell[aria-label^="십의 자리 수"] rect'));
     const onesCell = rectOf(document.querySelector('.board-cell[aria-label^="일의 자리 수"] rect'));
     const product = rectOf(document.querySelector('.board-work-product'));
@@ -1488,7 +1502,8 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
       if (overlapX > 1 && overlapY > 1) textOverlaps.push([texts[i].text, texts[j].text, overlapX, overlapY]);
     }
     return {
-      surface, work, step, tensCell, onesCell, product, remainder, combinedSlots, combinedTarget, combinedLabelRect, combinedValues, combineSource: Boolean(combineSource), arrow, textOverlaps,
+      surface, work, step, divisor, divisorStemGap:divisor && stemScreen ? stemScreen.x - divisor.right : null,
+      tensCell, onesCell, product, remainder, combinedSlots, combinedTarget, combinedLabelRect, combinedValues, combineSource: Boolean(combineSource), arrow, textOverlaps,
       decisionFontSizes, neutralFontSizes, activeCellSizes, activeSlotSizes,
       neutralFontSpread:neutralFontSizes.length ? Math.max(...neutralFontSizes) - Math.min(...neutralFontSizes) : null,
       decisionFontRatio:decisionFontSizes.length && neutralFontSizes.length ? Math.min(...decisionFontSizes) / neutralFontSizes[0] : null,
@@ -1505,6 +1520,7 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
     };
   })()`);
   assert(audit.surface && audit.work && audit.step, `${label}: division board state missing`, audit);
+  assert(audit.divisor && audit.divisorStemGap >= 8 && audit.divisorStemGap <= 45, `${label}: divisor is not visually grouped with the division bracket`, audit);
   assert(audit.surfaceGap >= 4, `${label}: calculation board overlaps the right control column`, audit);
   assert(audit.workGap >= 4, `${label}: calculation work overlaps the right control column`, audit);
   assert(audit.productColumnDelta <= 1, `${label}: partial product left its tens column`, audit);
@@ -2047,6 +2063,39 @@ async function auditFarmResultTier(page, label, expectedTier) {
   assert(!audit.dynamicVisible, `${label}: numeric power gauge is still visible`, audit);
 }
 
+async function auditElevatorResultTier(page, label, expected) {
+  const audit = await evaluate(page, `(() => {
+    const background = document.getElementById('resultBg');
+    const title = document.getElementById('resultTitleArt');
+    const correct = document.getElementById('resultCorrectArt');
+    const meter = document.getElementById('resultMeasureFillSvg');
+    const box = (element) => {
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    return {
+      tier: document.getElementById('screen-result')?.dataset.resultTier || '',
+      heading: document.getElementById('resultTitle')?.textContent.trim() || '',
+      background: background ? {
+        src: background.getAttribute('src') || '',
+        complete: background.complete,
+        naturalWidth: background.naturalWidth,
+        naturalHeight: background.naturalHeight,
+      } : null,
+      titleVisible: title ? getComputedStyle(title).display !== 'none' : false,
+      correctBox: box(correct),
+      meterBox: box(meter),
+    };
+  })()`);
+  assert(audit.tier === expected.id, `${label}: wrong elevator result tier`, audit);
+  assert(audit.heading === expected.name, `${label}: wrong elevator result name`, audit);
+  assert(audit.background?.complete && audit.background.naturalWidth === 1280 && audit.background.naturalHeight === 800, `${label}: generated elevator result scene is missing`, audit);
+  assert(audit.background.src === `result-${expected.id}-generated.webp`, `${label}: wrong elevator result scene`, audit);
+  assert(!audit.titleVisible, `${label}: old separate title art overlaps the generated scene title`, audit);
+  assert(audit.correctBox && audit.meterBox && audit.correctBox.bottom + 8 <= audit.meterBox.top, `${label}: correct-count art overlaps the power meter`, audit);
+}
+
 async function forceFarmRewardCases(page, lesson, viewport, shots) {
   const stageNames = { seed:"씨앗", sprout:"새싹", garden:"텃밭", rainbow:"황금밭" };
   const cases = [
@@ -2429,8 +2478,29 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       tier: document.getElementById('screen-result')?.dataset.resultTier || ''
     }))()`);
     assert(lowResult.correctFirstTry === 0, `${viewport.name}: low-result scenario must finish at 0/10`, lowResult);
-    assert(lowResult.result === "지하 정비층" && lowResult.tier === "basement", `${viewport.name}: 0/10 must still arrive at a visible place`, lowResult);
+    assert(lowResult.result === "지하 비밀기지" && lowResult.tier === "basement", `${viewport.name}: 0/10 must still arrive at a visible place`, lowResult);
     shots.push(await screenshot(page, lesson, viewport, "08-result-low-0-of-10"));
+
+    const elevatorTiers = [
+      { id:"basement", name:"지하 비밀기지", power:0, correct:0, special:false },
+      { id:"first", name:"햇살 로비", power:19, correct:3, special:false },
+      { id:"middle", name:"구름 쉼터", power:39, correct:5, special:false },
+      { id:"view", name:"하늘 전망대", power:59, correct:7, special:false },
+      { id:"roof", name:"꽃빛 옥상정원", power:79, correct:9, special:false },
+      { id:"rainbow", name:"무지개 최고층", power:100, correct:10, special:true },
+    ];
+    for (const tier of elevatorTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power}, correctFirstTry:${tier.correct}, specialSeen:${tier.special}, currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)} && document.getElementById('resultBg')?.complete && document.getElementById('resultBg')?.naturalWidth === 1280`, `${viewport.name}: elevator result ${tier.id} did not render`);
+      await auditElevatorResultTier(page, `${viewport.name} result ${tier.id}`, tier);
+      await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+    }
   } else {
     shots.push(await screenshot(page, lesson, viewport, "08-result"));
   }

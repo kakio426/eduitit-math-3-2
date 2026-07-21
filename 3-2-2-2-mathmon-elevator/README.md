@@ -16,7 +16,7 @@
 
 ## 이미지 계약
 
-- 설명 1쪽은 `70 = 2×30+10 → 10+6=16 → 16÷2=8 → 30+8=38`을 한눈에 보여 주는 생성형 안내 이미지 `tutorial-page-1-v6-generated.webp`입니다. 설명 2쪽은 `나눗셈 풀기 → 문 열기 → + 위/− 아래 → 10문제 뒤 도착 층`을 보여 주는 생성형 안내 이미지입니다. 두 실행 자산은 1280×800이며, 설명용 계산판·단계 카드·문구를 CSS/SVG로 겹쳐 그리지 않습니다.
+- 설명 1쪽은 `70을 2로 먼저 나누기 → 70 = 2×30+10 → 10+6=16 → 16÷2=8 → 30+8=38`을 한눈에 보여 주는 생성형 안내 이미지 `tutorial-page-1-v7-generated.webp`입니다. 설명 2쪽은 `나눗셈 풀기 → 문 열기 → + 위/− 아래 → 10문제 뒤 도착 층`을 보여 주는 생성형 안내 이미지입니다. 두 실행 자산은 1280×800이며, 설명용 계산판·단계 카드·문구를 CSS/SVG로 겹쳐 그리지 않습니다.
 - 문제 장면 3장: 대기 / 하강 / 도착, 각 1280×800
 - 독수리몬 반응 3장: 정답 / 오답 / 보상, 각 512×640. 보상 반응은 원본 시트에서 날개 전체를 다시 잘라 좌우 투명 안전 여백을 두고, 1100px 이하 화면에서는 Stage 왼쪽과 이미지 상자 24px, 실제 날개 28px 이상의 여백을 둡니다.
 - 보상: 닫힌 문 1장 + 사건 6종
@@ -24,8 +24,8 @@
 - 공용 주요 행동 버튼: `다음`, `이전`, `문제 시작`, `결과 보기`는 `_shared/action-buttons/`의 생성형 WebP를 직접 참조합니다.
 - 차시 전용 주요 행동 버튼: `문 열기`는 `door-open-button-chromakey.png` 원본과 투명 PNG·실행 WebP를 한 세트로 둡니다.
 - 결과 `다시`는 차시별 복사본 대신 `_shared/result-actions/retry-button-generated.webp`를 직접 참조합니다.
-- 최저 결과: `0/10`, 힘 0이어도 `지하 정비층`에 도착합니다. `다시 준비` 결과는 현재 실행 흐름에서 사용하지 않습니다.
-- 컨택시트: `problem-state-contact-sheet.png`, `result-tiers-v2-contact-sheet.png`, `_shared/mathmon/base-pack/contact-sheets/reactions-unit2/eaglemon-reactions-contact-sheet.png`
+- 최저 결과: `0/10`, 힘 0이어도 `지하 비밀기지`에 도착합니다. `다시 준비` 결과는 현재 실행 흐름에서 사용하지 않습니다.
+- 컨택시트: `problem-state-contact-sheet.png`, `result-tiers-v3-contact-sheet.png`, `_shared/mathmon/base-pack/contact-sheets/reactions-unit2/eaglemon-reactions-contact-sheet.png`
 
 ## 제품 정책
 

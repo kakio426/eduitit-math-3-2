@@ -35,7 +35,7 @@
 | 생성형 제목 아트 | ✅ | ✅ | ✅ | ✅ | ✅ | `title-logo-generated.webp` |
 | 생성형 시작 버튼 | ✅ | ✅ | ✅ | ✅ | ✅ | `data-cover-start-standard="generated-button-art"` |
 | 설정 모달 표준 | ✅ | ✅ | ✅ | ✅ | ✅ | `data-settings-standard="modal-controls"` |
-| 풀이·목표 설명 분리 | ✅ 2장 | ✅ 2장 | ✅ 카드 | ✅ 2장 | ✅ 2장 | `tutorial-page-1-v6-generated.webp`, `tutorial-page-2-v3-generated.webp` |
+| 풀이·목표 설명 분리 | ✅ 2장 | ✅ 2장 | ✅ 카드 | ✅ 2장 | ✅ 2장 | `tutorial-page-1-v7-generated.webp`, `tutorial-page-2-v3-generated.webp` |
 | 문제 화면 왼쪽 브랜드 | ❌ 없음 | ✅ | 🟡 게임명 | ✅ | ✅ | `에듀잇티 수학 게임` |
 | 문제 화면 단원 배지 | ❌ | ❌ | 🟡 차시 | 🟡 테마 | ✅ | `2단원 나눗셈` |
 | 설정 버튼 예약 공간 | 🟡 구형 | ✅ | ✅ | ✅ | ✅ | 공통 상단 슬롯, 화면별 transform 없음 |
@@ -44,7 +44,7 @@
 ## 2. 수학 순서·표현 체크
 
 - [x] `✅ P0` 설명 1쪽은 1-3처럼 실제 수의 변화를 연결하고, 1-4처럼 Stage 전체 생성 이미지 한 장으로 보여 줍니다. `70 = 2×30+10 → 10+6=16 → 16÷2=8 → 30+8=38`이 실제 문제의 선택값과 같습니다.
-- [x] `✅ P0` 설명용 계산판·단계 카드·문구를 CSS/SVG로 다시 그리지 않으며, `tutorial-page-1-v6-generated.webp`와 공용 `다음` 버튼 hitbox만 렌더합니다.
+- [x] `✅ P0` 설명용 계산판·단계 카드·문구를 CSS/SVG로 다시 그리지 않으며, `tutorial-page-1-v7-generated.webp`와 공용 `다음` 버튼 hitbox만 렌더합니다.
 - [x] `✅ P0` 긴 나눗셈 순서가 `십의 자리 몫 → 곱한 값 → 빼기 → 남은 십 → 일의 자리 내려오기 → 다시 나누기`로 이어집니다.
 - [x] `✅ P0` 몫 칸은 교과서처럼 피제수 위의 해당 자리 열에 놓입니다.
 - [x] `✅ P0` `나누는 수×십의 자리 몫`과 빼는 선, 남은 수가 십의 자리 중심선에 맞습니다.

@@ -173,7 +173,9 @@ function simulateRewards(model, config, runs = 10000) {
     }
   }
   const lowest = model.getResult(0, 0, false);
-  assert.ok(lowest?.image && lowest?.titleImage, `${config.id}: zero-correct result must still have art`);
+  const resultElements = config.result?.stateImageSet?.fixedGeneratedElements;
+  const titleIsBakedIntoScene = Array.isArray(resultElements) && !resultElements.includes("result-title");
+  assert.ok(lowest?.image && (lowest?.titleImage || titleIsBakedIntoScene), `${config.id}: zero-correct result must still have art`);
   assert.ok(config.imageAssets?.resultRetryButton, `${config.id}: zero-correct path must retain retry control`);
 }
 
@@ -250,8 +252,14 @@ for (const lesson of lessons) {
   assert.equal(config.qa?.directInteractionRequired, true, `${lesson}: direct interaction contract`);
   assert.deepEqual(Object.keys(config.imageAssets?.problemStates || {}).sort(), ["complete", "waiting", "working"], `${lesson}: three generated problem states`);
   assert.ok(config.imageAssets?.resultScene || config.results.every((result) => result.image), `${lesson}: UI-free result scene`);
+  const fixedResultElements = config.result?.stateImageSet?.fixedGeneratedElements;
+  const requiresIndependentResultTitle = !Array.isArray(fixedResultElements) || fixedResultElements.includes("result-title");
   for (const result of config.results) {
-    assert.ok(result.titleImage && result.titleImage !== result.image, `${lesson}/${result.id}: independent generated result title`);
+    if (requiresIndependentResultTitle) {
+      assert.ok(result.titleImage && result.titleImage !== result.image, `${lesson}/${result.id}: independent generated result title`);
+    } else {
+      assert.ok(!result.titleImage, `${lesson}/${result.id}: scene-baked result title must not load a second title asset`);
+    }
     if (config.qa.modelRule === "division-with-remainder") {
       assert.ok(result.playImage, `${lesson}/${result.id}: generated play-state constellation`);
     }

@@ -21,8 +21,8 @@
       "visual": "1",
       "purpose": "mechanic",
       "title": "십의 자리 값부터 나눠요",
-      "body": "70 = 2 × 30 + 10. 몫은 30이고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.",
-      "image": "tutorial-page-1-v6-generated.webp"
+      "body": "십의 자리 값 70을 2로 먼저 나눠요. 70 = 2 × 30 + 10이에요. 30씩 나누고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.",
+      "image": "tutorial-page-1-v7-generated.webp"
     },
     {
       "visual": "2",
@@ -68,9 +68,9 @@
       "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-tiers-v2-contact-sheet.png",
+      "contactSheet": "result-tiers-v3-contact-sheet.png",
       "protagonist": "base-05-eaglemon",
-      "fixedGeneratedElements": ["result-title", "tier-scene-with-title", "retry-button"],
+      "fixedGeneratedElements": ["tier-scene-with-title", "retry-button"],
       "dynamicOverlays": ["elevator-power", "correct-count"]
     }
   },
@@ -86,52 +86,46 @@
   "results": [
     {
       "id": "basement",
-      "name": "지하 정비층",
+      "name": "지하 비밀기지",
       "minPower": 0,
       "minCorrect": 0,
-      "image": "result-basement-generated.webp",
-      "titleImage": "result-title-basement-generated.webp"
+      "image": "result-basement-generated.webp"
     },
     {
       "id": "first",
-      "name": "1층 로비",
+      "name": "햇살 로비",
       "minPower": 19,
       "minCorrect": 3,
-      "image": "result-first-generated.webp",
-      "titleImage": "result-title-first-generated.webp"
+      "image": "result-first-generated.webp"
     },
     {
       "id": "middle",
-      "name": "중간층",
+      "name": "구름 쉼터",
       "minPower": 39,
       "minCorrect": 5,
-      "image": "result-middle-generated.webp",
-      "titleImage": "result-title-middle-generated.webp"
+      "image": "result-middle-generated.webp"
     },
     {
       "id": "view",
-      "name": "전망층",
+      "name": "하늘 전망대",
       "minPower": 59,
       "minCorrect": 7,
-      "image": "result-view-generated.webp",
-      "titleImage": "result-title-view-generated.webp"
+      "image": "result-view-generated.webp"
     },
     {
       "id": "roof",
-      "name": "옥상 정원",
+      "name": "꽃빛 옥상정원",
       "minPower": 79,
       "minCorrect": 9,
-      "image": "result-roof-generated.webp",
-      "titleImage": "result-title-roof-generated.webp"
+      "image": "result-roof-generated.webp"
     },
     {
       "id": "rainbow",
-      "name": "꼭대기 전망대",
+      "name": "무지개 최고층",
       "minPower": 100,
       "minCorrect": 0,
       "needsSpecial": true,
-      "image": "result-rainbow-generated.webp",
-      "titleImage": "result-title-rainbow-generated.webp"
+      "image": "result-rainbow-generated.webp"
     }
   ],
   "rewardEvents": [
@@ -166,8 +160,8 @@
       "id": "express",
       "text": "급행!",
       "weight": 50,
-      "min": 8,
-      "max": 8,
+      "min": 50,
+      "max": 50,
       "family": "express",
       "rarity": "rare",
       "express": true
@@ -260,19 +254,13 @@
     "mathmon-reaction-wrong.webp",
     "mathmon-reaction-reward.webp",
     "result-scene-generated.webp",
-    "result-title-basement-generated.webp",
-    "result-title-first-generated.webp",
-    "result-title-middle-generated.webp",
-    "result-title-view-generated.webp",
-    "result-title-roof-generated.webp",
-    "result-title-rainbow-generated.webp",
     "../_shared/action-buttons/next-button-generated.webp",
     "../_shared/action-buttons/previous-button-generated.webp",
     "../_shared/action-buttons/problem-start-button-generated.webp",
     "../_shared/action-buttons/result-view-button-generated.webp",
     "door-open-button-generated.webp",
     "../_shared/result-actions/retry-button-generated.webp",
-    "tutorial-page-1-v6-generated.webp",
+    "tutorial-page-1-v7-generated.webp",
     "tutorial-page-2-v3-generated.webp",
     "result-basement-generated.webp",
     "result-first-generated.webp",
@@ -302,11 +290,20 @@
         "height": 897
       },
       {
+        "name": "reported-divisor-left-1022x774",
+        "width": 1022,
+        "height": 774,
+        "regressions": [
+          "division-divisor-bracket-grouping"
+        ]
+      },
+      {
         "name": "reported-svg-overlap-934x987",
         "width": 934,
         "height": 987,
         "regressions": [
           "tutorial-place-value-flow-mismatch",
+          "tutorial-operation-before-quotient",
           "completion-board-action-balance",
           "active-board-control-column-balance",
           "answer-choice-card-shadow-overlap",
