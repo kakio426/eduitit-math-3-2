@@ -178,7 +178,7 @@ function renderElevatorMathBoard(problem, state) {
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.classList.add("elevator-math-svg");
   svg.classList.toggle("is-complete-board", onesDone);
-  svg.setAttribute("viewBox", onesDone ? "0 -100 600 567" : "170 -100 620 567");
+  svg.setAttribute("viewBox", onesDone ? "0 -100 600 615" : "170 -100 620 567");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", getBoardAriaLabel(problem, state, revealedStep, attemptedChoice));
 
@@ -207,18 +207,24 @@ function renderElevatorMathBoard(problem, state) {
     ? `<text x="463" y="347" class="board-combined-value" data-place="tens">${combinedDigits[0]}</text>`
     : "";
   const combinedOnesMarkup = `<text x="631" y="347" class="board-combined-value" data-place="ones">${combinedDigits[1]}</text>`;
+  const downSlotInset = downTargetActive ? 3 : 0;
+  const downSlotY = 280 - downSlotInset;
+  const downSlotHeight = 88 + downSlotInset * 2;
+  const downSlotWidth = 158 + downSlotInset * 2;
+  const downTensX = 384 - downSlotInset;
+  const downOnesX = 552 - downSlotInset;
   const attemptNote = step.id === "down" ? "" : renderAttemptNote(problem, step, attemptedChoice);
   const firstSubtractionMarkup = `
-        <text x="414" y="250" class="board-work-minus">−</text>
-        <text x="463" y="250" class="board-work-product">${partialProduct}</text>
-        <path d="M416 264 H510" class="board-work-line" />
+        <text x="390" y="260" class="board-work-minus">−</text>
+        <text x="463" y="260" class="board-work-product">${partialProduct}</text>
+        <path d="M416 274 H510" class="board-work-line" />
       `;
   const remainderMarkup = showDownWork ? `
         <path d="M631 194 V226" class="board-down-arrow" />
         <path d="M619 226 L631 242 L643 226 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
         <g class="board-combined-target ${downTargetActive ? "is-active" : ""} ${wrongDown ? "is-wrong" : ""}">
-          <rect x="380" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="tens" />
-          <rect x="548" y="276" width="166" height="96" rx="22" class="board-down-slot" data-place="ones" />
+          <rect x="${downTensX}" y="${downSlotY}" width="${downSlotWidth}" height="${downSlotHeight}" rx="22" class="board-down-slot" data-place="tens" />
+          <rect x="${downOnesX}" y="${downSlotY}" width="${downSlotWidth}" height="${downSlotHeight}" rx="22" class="board-down-slot" data-place="ones" />
           ${combinedTensMarkup}
           ${combinedOnesMarkup}
         </g>
@@ -237,46 +243,46 @@ function renderElevatorMathBoard(problem, state) {
   const completedDigits = String(problem.downNumber).padStart(2, "0").slice(-2).split("");
   const completedBoardMarkup = `
     <g class="division-board division-board--complete" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="300" y="-24" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-      <text x="80" y="176" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M150 92 Q170 92 170 112 L170 194 M170 92 H560" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="300" y="-32" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
+      <text x="80" y="180" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M150 100 Q170 100 170 120 L170 198 M170 100 H560" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      <text x="340" y="74" class="board-number board-final-quotient">${problem.tensQuotient}</text>
-      <text x="470" y="74" class="board-number board-final-quotient board-final-quotient--ones">${problem.onesQuotient}</text>
+      <text x="340" y="76" class="board-number board-final-quotient">${problem.tensQuotient}</text>
+      <text x="470" y="76" class="board-number board-final-quotient board-final-quotient--ones is-student-decision">${problem.onesQuotient}</text>
 
-      <text x="340" y="176" class="board-number">${problem.tensDigit}</text>
-      <text x="470" y="176" class="board-number">${problem.onesDigit}</text>
+      <text x="340" y="180" class="board-number">${problem.tensDigit}</text>
+      <text x="470" y="180" class="board-number">${problem.onesDigit}</text>
 
       <g class="division-work division-work--complete">
-        <text x="294" y="242" class="board-work-minus">−</text>
-        <text x="340" y="242" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
-        <path d="M296 258 H384" class="board-work-line board-final-first-line" />
+        <text x="294" y="256" class="board-work-minus">−</text>
+        <text x="340" y="256" class="board-work-product">${problem.divisor * problem.tensQuotient}</text>
+        <path d="M296 272 H384" class="board-work-line board-final-first-line" />
 
-        <path d="M470 194 V220" class="board-down-arrow" />
-        <path d="M458 220 L470 234 L482 220 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
-        <text x="340" y="312" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
-        <text x="470" y="312" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
+        <path d="M470 198 V230" class="board-down-arrow" />
+        <path d="M458 230 L470 246 L482 230 Z" class="board-down-arrow-head" data-board-arrow-head="true" />
+        <text x="340" y="338" class="board-final-down-digit" data-place="tens">${completedDigits[0]}</text>
+        <text x="470" y="338" class="board-final-down-digit board-brought-ones" data-place="ones">${completedDigits[1]}</text>
 
-        <text x="294" y="375" class="board-work-minus">−</text>
-        <text x="340" y="375" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
-        <text x="470" y="375" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
-        <path d="M296 391 H514" class="board-work-line board-final-line" />
-        <text x="470" y="451" class="board-final-zero" data-place="ones">0</text>
+        <text x="294" y="414" class="board-work-minus">−</text>
+        <text x="340" y="414" class="board-final-subtrahend" data-place="tens">${completedDigits[0]}</text>
+        <text x="470" y="414" class="board-final-subtrahend" data-place="ones">${completedDigits[1]}</text>
+        <path d="M296 430 H514" class="board-work-line board-final-line" />
+        <text x="470" y="496" class="board-final-zero" data-place="ones">0</text>
       </g>
     </g>
   `;
 
   const activeBoardMarkup = onesDone ? completedBoardMarkup : `
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="480" y="-24" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
+      <text x="480" y="-32" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
       <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
       <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
-      ${renderSvgCell(380, 12, 166, 72, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
-      ${renderSvgCell(548, 12, 166, 72, wrongOnes ? attemptedChoice.value : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
+      ${renderSvgCell(384, 14, 158, 68, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
+      ${renderSvgCell(552, 14, 158, 68, wrongOnes ? attemptedChoice.value : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}
 
-      ${renderSvgCell(380, 112, 166, 80, problem.tensDigit, state.stepIndex === 0, "십의 자리 수")}
-      ${renderSvgCell(548, 112, 166, 80, problem.onesDigit, false, "일의 자리 수")}
+      ${renderSvgCell(384, 116, 158, 72, problem.tensDigit, false, "십의 자리 수")}
+      ${renderSvgCell(552, 116, 158, 72, problem.onesDigit, false, "일의 자리 수")}
 
       ${workMarkup}
     </g>
@@ -284,7 +290,8 @@ function renderElevatorMathBoard(problem, state) {
 
   svg.innerHTML = `
     <g class="math-board-surface">
-      <rect x="${onesDone ? 8 : 178}" y="-94" width="${onesDone ? 584 : 604}" height="557" rx="34" fill="#102d35" fill-opacity="0.93" stroke="#f3c45f" stroke-width="4" />
+      <rect class="math-problem-surface" x="${onesDone ? 8 : 178}" y="-98" width="${onesDone ? 584 : 604}" height="80" rx="28" />
+      <rect class="math-work-surface" x="${onesDone ? 8 : 178}" y="-6" width="${onesDone ? 584 : 604}" height="${onesDone ? 517 : 469}" rx="32" />
     </g>
     ${activeBoardMarkup}
   `;
@@ -298,9 +305,14 @@ function renderSvgCell(x, y, width, height, value, active, label, wrong = false)
   const fill = wrong ? "#ffe0e7" : active ? "#ffd46d" : "#27434a";
   const stroke = wrong ? "#b72d4d" : active ? "#6f4b00" : "#7fa2aa";
   const textFill = wrong || active ? "#2c210c" : "#fff8e8";
+  const emphasis = active ? 3 : 0;
+  const boxX = x - emphasis;
+  const boxY = y - emphasis;
+  const boxWidth = width + emphasis * 2;
+  const boxHeight = height + emphasis * 2;
   return `
     <g class="board-cell ${activeClass} ${wrongClass}" aria-label="${label} ${value}">
-      <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="18" fill="${fill}" stroke="${stroke}" stroke-width="4" />
+      <rect x="${boxX}" y="${boxY}" width="${boxWidth}" height="${boxHeight}" rx="18" fill="${fill}" stroke="${stroke}" stroke-width="4" />
       <text x="${x + width / 2}" y="${y + height / 2 + 21}" class="board-number" fill="${textFill}">${value}</text>
     </g>
   `;

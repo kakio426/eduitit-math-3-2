@@ -53,10 +53,14 @@ function verifyEvidence(config) {
   const reportedViewport = viewports.find((item) => item.name === "reported-svg-overlap-934x987");
   assert(reportedViewport?.width === 934 && reportedViewport?.height === 987, "The user-reported 934x987 regression viewport is missing");
   assert(reportedViewport?.regressions?.includes("eagle-reward-left-wing-clip"), "The eagle wing clipping regression is not registered");
+  assert(reportedViewport?.regressions?.includes("eagle-reaction-left-stage-clearance"), "The eagle Stage-edge clearance regression is not registered");
   assert(reportedViewport?.regressions?.includes("play-step-choices-surface-overlap"), "The play stack overlap regression is not registered");
   assert(reportedViewport?.regressions?.includes("active-board-control-column-balance"), "The active board/control-column balance regression is not registered");
   assert(reportedViewport?.regressions?.includes("answer-choice-card-shadow-overlap"), "The answer-card shadow overlap regression is not registered");
   assert(reportedViewport?.regressions?.includes("problem-heading-inside-board"), "The in-board problem heading regression is not registered");
+  assert(reportedViewport?.regressions?.includes("problem-heading-work-surface-separation"), "The problem/work surface separation regression is not registered");
+  assert(reportedViewport?.regressions?.includes("division-number-scale-consistency"), "The division-number scale regression is not registered");
+  assert(reportedViewport?.regressions?.includes("decision-cell-subtle-emphasis"), "The decision-cell emphasis regression is not registered");
   const solveTutorial = config.tutorialCards?.[0] || {};
   assert(solveTutorial.image === "tutorial-page-1-v6-generated.webp", "The generated place-value tutorial poster is not configured");
   assert(solveTutorial.title === "십의 자리 값부터 나눠요", "The place-value tutorial title regressed");

@@ -217,8 +217,22 @@
   text-anchor: middle;
 }
 
+.elevator-math-svg .math-problem-surface {
+  fill: #24505a;
+  fill-opacity: .97;
+  stroke: #f3c45f;
+  stroke-width: 4px;
+}
+
+.elevator-math-svg .math-work-surface {
+  fill: #102d35;
+  fill-opacity: .93;
+  stroke: #f3c45f;
+  stroke-width: 4px;
+}
+
 .elevator-math-svg .board-divisor {
-  font-size: 72px;
+  font-size: 64px;
 }
 
 .elevator-math-svg .board-work-label {
@@ -227,10 +241,15 @@
   font-weight: 900;
 }
 
-.elevator-math-svg .board-work-minus,
+.elevator-math-svg .board-work-minus {
+  fill: #fff8e8;
+  font-size: 48px;
+  font-weight: 1000;
+}
+
 .elevator-math-svg .board-work-product {
   fill: #fff8e8;
-  font-size: 42px;
+  font-size: 64px;
   font-weight: 1000;
   font-variant-numeric: tabular-nums;
 }
@@ -244,7 +263,7 @@
 
 .elevator-math-svg .board-work-digit {
   fill: #fff8e8;
-  font-size: 52px;
+  font-size: 64px;
   font-weight: 1000;
   font-variant-numeric: tabular-nums;
 }
@@ -286,21 +305,25 @@
   text-anchor: middle;
 }
 
+.elevator-math-svg .board-cell.is-active .board-number,
+.elevator-math-svg .board-combined-target.is-active .board-combined-value {
+  font-size: 68px;
+}
+
 .elevator-math-svg .division-board--complete .board-final-quotient--ones {
   fill: #ffd46d;
 }
 
 .elevator-math-svg .division-board--complete .board-number {
-  font-size: 80px;
+  font-size: 60px;
 }
 
-.elevator-math-svg .division-board--complete .board-divisor {
-  font-size: 86px;
-}
-
-.elevator-math-svg .division-board--complete .board-work-minus,
-.elevator-math-svg .division-board--complete .board-work-product {
+.elevator-math-svg .division-board--complete .board-work-minus {
   font-size: 48px;
+}
+
+.elevator-math-svg .division-board--complete .board-work-product {
+  font-size: 60px;
 }
 
 .elevator-math-svg .division-board--complete .board-final-down-digit,
@@ -312,16 +335,14 @@
   text-anchor: middle;
 }
 
-.elevator-math-svg .division-board--complete .board-final-down-digit {
-  font-size: 48px;
-}
-
-.elevator-math-svg .division-board--complete .board-final-subtrahend {
-  font-size: 48px;
-}
-
+.elevator-math-svg .division-board--complete .board-final-down-digit,
+.elevator-math-svg .division-board--complete .board-final-subtrahend,
 .elevator-math-svg .division-board--complete .board-final-zero {
-  font-size: 54px;
+  font-size: 60px;
+}
+
+.elevator-math-svg .division-board--complete .board-final-quotient--ones {
+  font-size: 64px;
 }
 
 .elevator-math-svg .board-combined-target.is-active .board-combined-value {
@@ -830,6 +851,10 @@
   height: auto;
 }
 
+.game[data-workbench-type="division-elevator"] .play-mathmon-reaction {
+  left: 30px;
+}
+
 @media (max-width: 1100px), (max-height: 720px) {
   .game[data-workbench-type="division-elevator"] .problem-grid {
     top: 56px;
@@ -898,7 +923,7 @@
   }
 
   .game[data-workbench-type="division-elevator"] .play-mathmon-reaction {
-    left: 4px;
+    left: 24px;
     width: 128px;
     height: 160px;
   }
