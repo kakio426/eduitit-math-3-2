@@ -1552,6 +1552,35 @@ async function auditElevatorDivisionBoard(page, label, { expectDown = false } = 
   }
 }
 
+async function auditElevatorInstructionWrap(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const board = document.querySelector('.step-board');
+    const copy = document.querySelector('.step-board .instruction:not([hidden])');
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const boardRect = rectOf(board);
+    const copyRect = rectOf(copy);
+    const style = copy ? getComputedStyle(copy) : null;
+    const lineHeight = Number.parseFloat(style?.lineHeight || '0');
+    return {
+      text:copy?.textContent.trim() || '',
+      board:boardRect,
+      copy:copyRect,
+      lineHeight,
+      lineCount:copyRect && lineHeight ? copyRect.height / lineHeight : null,
+      wordBreak:style?.wordBreak || '',
+      overflowWrap:style?.overflowWrap || '',
+      inside:Boolean(boardRect && copyRect && copyRect.left >= boardRect.left && copyRect.right <= boardRect.right && copyRect.top >= boardRect.top && copyRect.bottom <= boardRect.bottom)
+    };
+  })()`);
+  assert(/^\d+ ÷ \d+의 몫과 남은 수를 골라요\.$/.test(audit.text), `${label}: first-step instruction does not say the calculation directly`, audit);
+  assert(audit.wordBreak === 'keep-all' && audit.overflowWrap === 'normal', `${label}: Korean instruction can split inside a word`, audit);
+  assert(audit.inside && audit.lineCount >= 1 && audit.lineCount <= 2.1, `${label}: first-step instruction is not a balanced one- or two-line label`, audit);
+}
+
 async function auditElevatorPlayHeader(page, label) {
   const header = await evaluate(page, `(() => {
     const read = (selector) => {
@@ -2068,12 +2097,70 @@ async function auditElevatorResultTier(page, label, expected) {
     const background = document.getElementById('resultBg');
     const title = document.getElementById('resultTitleArt');
     const correct = document.getElementById('resultCorrectArt');
-    const meter = document.getElementById('resultMeasureFillSvg');
+    const meter = document.querySelector('.result-dynamic-ui rect:first-of-type');
+    const meterFill = document.getElementById('resultMeasureFillSvg');
+    const meterText = document.getElementById('resultMeasureSvg');
+    const retryArt = document.querySelector('.result-restart-hitbox .result-retry-art');
+    const retryHitbox = document.querySelector('.result-restart-hitbox');
+    const stage = document.querySelector('.stage-shell');
+    const layout = LESSON_CONFIG.result?.stateImageSet?.layoutByTier?.[${JSON.stringify(expected.id)}] || null;
     const box = (element) => {
       if (!element) return null;
       const rect = element.getBoundingClientRect();
-      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2 };
     };
+    const stageBox = box(stage);
+    const toSourceBox = (element) => {
+      const rect = box(element);
+      if (!rect || !stageBox) return null;
+      const scaleX = 1280 / stageBox.width;
+      const scaleY = 800 / stageBox.height;
+      return {
+        left:(rect.left - stageBox.left) * scaleX,
+        top:(rect.top - stageBox.top) * scaleY,
+        right:(rect.right - stageBox.left) * scaleX,
+        bottom:(rect.bottom - stageBox.top) * scaleY,
+        width:rect.width * scaleX,
+        height:rect.height * scaleY,
+        cx:(rect.cx - stageBox.left) * scaleX,
+        cy:(rect.cy - stageBox.top) * scaleY,
+      };
+    };
+    const findYellowButton = () => {
+      if (!background?.complete || !background.naturalWidth || !layout?.retryHitbox) return null;
+      const canvas = document.createElement('canvas');
+      canvas.width = background.naturalWidth;
+      canvas.height = background.naturalHeight;
+      const context = canvas.getContext('2d', { willReadFrequently:true });
+      context.drawImage(background, 0, 0);
+      const [x, y, width, height] = layout.retryHitbox;
+      const left = Math.max(0, Math.floor(x - 18));
+      const top = Math.max(0, Math.floor(y - 18));
+      const right = Math.min(canvas.width, Math.ceil(x + width + 18));
+      const bottom = Math.min(canvas.height, Math.ceil(y + height + 18));
+      const pixels = context.getImageData(left, top, right - left, bottom - top);
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity, count = 0;
+      for (let row = 0; row < pixels.height; row += 1) {
+        for (let column = 0; column < pixels.width; column += 1) {
+          const offset = (row * pixels.width + column) * 4;
+          const red = pixels.data[offset];
+          const green = pixels.data[offset + 1];
+          const blue = pixels.data[offset + 2];
+          if (red > 210 && green > 115 && blue < 110 && red - green > 20) {
+            minX = Math.min(minX, left + column);
+            minY = Math.min(minY, top + row);
+            maxX = Math.max(maxX, left + column + 1);
+            maxY = Math.max(maxY, top + row + 1);
+            count += 1;
+          }
+        }
+      }
+      return Number.isFinite(minX) ? { left:minX, top:minY, right:maxX, bottom:maxY, width:maxX - minX, height:maxY - minY, count } : null;
+    };
+    const correctBox = box(correct);
+    const meterBox = box(meter);
+    const meterTextBox = box(meterText);
+    const retryBox = box(retryHitbox);
     return {
       tier: document.getElementById('screen-result')?.dataset.resultTier || '',
       heading: document.getElementById('resultTitle')?.textContent.trim() || '',
@@ -2084,8 +2171,24 @@ async function auditElevatorResultTier(page, label, expected) {
         naturalHeight: background.naturalHeight,
       } : null,
       titleVisible: title ? getComputedStyle(title).display !== 'none' : false,
-      correctBox: box(correct),
-      meterBox: box(meter),
+      correct: correct ? { complete:correct.complete, naturalWidth:correct.naturalWidth, naturalHeight:correct.naturalHeight, box:correctBox } : null,
+      meterBox,
+      meterTextBox,
+      meterText:meterText?.textContent.trim() || '',
+      meterFillVisible:meterFill ? getComputedStyle(meterFill).display !== 'none' : false,
+      retryArtVisible:retryArt ? getComputedStyle(retryArt).display !== 'none' && box(retryArt)?.width > 0 : false,
+      retryBox,
+      retrySourceBox:toSourceBox(retryHitbox),
+      yellowButton:findYellowButton(),
+      layout,
+      centerDeltaSource:correctBox && meterBox && stageBox ? Math.abs(correctBox.cx - meterBox.cx) * 1280 / stageBox.width : null,
+      correctToMeterGapSource:correctBox && meterBox && stageBox ? (meterBox.top - correctBox.bottom) * 800 / stageBox.height : null,
+      meterToRetryGapSource:meterBox && retryBox && stageBox ? (retryBox.top - meterBox.bottom) * 800 / stageBox.height : null,
+      meterTextInside:Boolean(meterBox && meterTextBox
+        && meterTextBox.left >= meterBox.left + 12
+        && meterTextBox.right <= meterBox.right - 12
+        && meterTextBox.top >= meterBox.top + 4
+        && meterTextBox.bottom <= meterBox.bottom - 4),
     };
   })()`);
   assert(audit.tier === expected.id, `${label}: wrong elevator result tier`, audit);
@@ -2093,7 +2196,28 @@ async function auditElevatorResultTier(page, label, expected) {
   assert(audit.background?.complete && audit.background.naturalWidth === 1280 && audit.background.naturalHeight === 800, `${label}: generated elevator result scene is missing`, audit);
   assert(audit.background.src === `result-${expected.id}-generated.webp`, `${label}: wrong elevator result scene`, audit);
   assert(!audit.titleVisible, `${label}: old separate title art overlaps the generated scene title`, audit);
-  assert(audit.correctBox && audit.meterBox && audit.correctBox.bottom + 8 <= audit.meterBox.top, `${label}: correct-count art overlaps the power meter`, audit);
+  assert(audit.correct?.complete && audit.correct.naturalWidth > 0 && audit.correct.naturalHeight > 0, `${label}: correct-count art is missing`, audit);
+  assert(audit.layout?.panelCenterX && Array.isArray(audit.layout.retryHitbox), `${label}: result layout contract is missing`, audit);
+  assert(audit.meterText === `올라갈 힘 ${expected.power}`, `${label}: power result copy is wrong`, { expected, ...audit });
+  assert(!audit.meterFillVisible, `${label}: the old dashboard-like power bar is still visible`, audit);
+  assert(!audit.retryArtVisible, `${label}: a second retry image overlaps the retry button baked into the result scene`, audit);
+  assert(audit.centerDeltaSource <= 2, `${label}: correct-count and power badge do not share the result-panel center`, audit);
+  assert(audit.correctToMeterGapSource >= 18, `${label}: correct-count art overlaps the power badge`, audit);
+  assert(audit.meterToRetryGapSource >= 16, `${label}: power badge overlaps the baked retry button`, audit);
+  assert(audit.meterTextInside, `${label}: power text leaves its badge`, audit);
+  const [expectedLeft, expectedTop, expectedWidth, expectedHeight] = audit.layout.retryHitbox;
+  const expectedEdges = { left:expectedLeft, top:expectedTop, right:expectedLeft + expectedWidth, bottom:expectedTop + expectedHeight, width:expectedWidth, height:expectedHeight };
+  for (const edge of ["left", "top", "right", "bottom", "width", "height"]) {
+    assert(Math.abs(audit.retrySourceBox?.[edge] - expectedEdges[edge]) <= 1.5, `${label}: retry hitbox ${edge} differs from the tier contract`, audit);
+  }
+  assert(audit.yellowButton?.count > 5000, `${label}: baked retry button could not be found in the generated scene`, audit);
+  const buttonGaps = {
+    left:audit.yellowButton.left - audit.retrySourceBox.left,
+    top:audit.yellowButton.top - audit.retrySourceBox.top,
+    right:audit.retrySourceBox.right - audit.yellowButton.right,
+    bottom:audit.retrySourceBox.bottom - audit.yellowButton.bottom,
+  };
+  assert(Object.values(buttonGaps).every((gap) => gap >= 0 && gap <= 18), `${label}: retry hitbox does not follow the baked button edge`, { ...audit, buttonGaps });
 }
 
 async function forceFarmRewardCases(page, lesson, viewport, shots) {
@@ -2239,6 +2363,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
 
   if (lesson === "3-2-2-2-mathmon-elevator") {
+    await auditElevatorInstructionWrap(page, `${viewport.name} first-step instruction`);
     await clickMisconception(page, "DIV2_TENS_QUOTIENT_TOO_HIGH");
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await clickMisconception(page, "DIV3_QUOTIENT_TOO_LOW");
@@ -2471,14 +2596,15 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
   if (lesson === "3-2-2-2-mathmon-elevator") {
-    await auditGeneratedActionButton(page, `${viewport.name} shared result retry button`, "#restartButton", "result-actions/retry-button-generated.webp", "다시하기");
     const lowResult = await evaluate(page, `(() => ({
       correctFirstTry: window.__mathmonEngineQa.getState().correctFirstTry,
+      power: window.__mathmonEngineQa.getState().power,
       result: document.getElementById('resultTitle')?.textContent.trim() || '',
       tier: document.getElementById('screen-result')?.dataset.resultTier || ''
     }))()`);
     assert(lowResult.correctFirstTry === 0, `${viewport.name}: low-result scenario must finish at 0/10`, lowResult);
     assert(lowResult.result === "지하 비밀기지" && lowResult.tier === "basement", `${viewport.name}: 0/10 must still arrive at a visible place`, lowResult);
+    await auditElevatorResultTier(page, `${viewport.name} low result`, { id:"basement", name:"지하 비밀기지", power:lowResult.power });
     shots.push(await screenshot(page, lesson, viewport, "08-result-low-0-of-10"));
 
     const elevatorTiers = [

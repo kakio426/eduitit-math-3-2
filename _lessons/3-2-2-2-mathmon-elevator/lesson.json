@@ -38,6 +38,15 @@
   "reward": {
     "mode": "modal-art",
     "maxPower": 100,
+    "mistakePolicy": "penalty-biased-random-pool",
+    "mistakeRewardWeights": {
+      "motor": 3300,
+      "blackout": 5500,
+      "superMotor": 600,
+      "express": 90,
+      "stop": 500,
+      "rainbow": 10
+    },
     "unitLabel": "올라갈 힘",
     "closedLabel": "어떤 힘이 나올까요?",
     "nextLabel": "다음",
@@ -64,14 +73,23 @@
   },
   "result": {
     "renderMode": "hybrid-generated-dynamic",
+    "retryVisualMode": "baked-in-scene",
     "stateImageSet": {
       "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
       "contactSheet": "result-tiers-v3-contact-sheet.png",
       "protagonist": "base-05-eaglemon",
-      "fixedGeneratedElements": ["tier-scene-with-title", "retry-button"],
-      "dynamicOverlays": ["elevator-power", "correct-count"]
+      "fixedGeneratedElements": ["result-title", "tier-scene-with-title", "retry-button"],
+      "dynamicOverlays": ["elevator-power", "correct-count"],
+      "layoutByTier": {
+        "basement": { "panelCenterX": 1038, "retryHitbox": [896, 519, 283, 132] },
+        "first": { "panelCenterX": 905, "retryHitbox": [764, 523, 281, 131] },
+        "middle": { "panelCenterX": 845, "retryHitbox": [710, 524, 269, 126] },
+        "view": { "panelCenterX": 1036, "retryHitbox": [897, 508, 277, 127] },
+        "roof": { "panelCenterX": 1029, "retryHitbox": [888, 519, 282, 130] },
+        "rainbow": { "panelCenterX": 1040, "retryHitbox": [892, 542, 295, 128] }
+      }
     }
   },
   "workbench": {
@@ -188,11 +206,11 @@
     }
   ],
   "wrongEvent": {
-    "id": "blackoutMistake",
-    "text": "힘이 줄었어요",
-    "min": -18,
-    "max": -8,
-    "family": "blackout"
+    "id": "mistakeFallback",
+    "text": "힘 그대로",
+    "min": 0,
+    "max": 0,
+    "family": "stop"
   },
   "typesPerRun": [
     "regrouping",
@@ -272,6 +290,7 @@
   "qa": {
     "visualContractVersion": 1,
     "modelRule": "division-regrouping-exact",
+    "rewardPolicy": "mistakes-use-penalty-biased-random-pool",
     "directInteractionRequired": true,
     "viewports": [
       {
@@ -288,6 +307,15 @@
         "name": "codex-browser",
         "width": 931,
         "height": 897
+      },
+      {
+        "name": "reported-instruction-wrap-1082x897",
+        "width": 1082,
+        "height": 897,
+        "dpr": 2,
+        "regressions": [
+          "step-instruction-balanced-wrap"
+        ]
       },
       {
         "name": "reported-divisor-left-1022x774",
@@ -315,6 +343,17 @@
           "eagle-reward-left-wing-clip",
           "eagle-reaction-left-stage-clearance",
           "play-step-choices-surface-overlap"
+        ]
+      },
+      {
+        "name": "reported-result-overlap-1039x651",
+        "width": 1039,
+        "height": 651,
+        "dpr": 2,
+        "regressions": [
+          "result-fixed-action-duplication",
+          "result-score-power-panel-alignment",
+          "result-retry-hitbox-art-alignment"
         ]
       }
     ],

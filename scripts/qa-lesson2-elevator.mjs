@@ -47,6 +47,10 @@ function verifyEvidence(config) {
   }
   assert(missing.length === 0, "Deterministic elevator evidence is incomplete", missing);
   assert(config.reward?.closedLabel === "어떤 힘이 나올까요?", "Closed reward copy regressed");
+  assert(config.reward?.mistakePolicy === "penalty-biased-random-pool", "A mistake must use the penalty-biased random reward pool");
+  assert(config.qa?.rewardPolicy === "mistakes-use-penalty-biased-random-pool", "The mistake reward regression policy is missing");
+  assert(Object.values(config.reward?.mistakeRewardWeights || {}).reduce((sum, weight) => sum + Number(weight || 0), 0) === 10000, "Mistake reward weights must total 10000");
+  assert(config.wrongEvent?.min === 0 && config.wrongEvent?.max === 0, "The compatibility mistake fallback must not lower the score");
   assert(config.results?.[0]?.id === "basement", "The lowest result must still be a visible destination");
   assert(config.results?.[0]?.minPower === 0 && config.results?.[0]?.minCorrect === 0, "0/10 must reach the basement destination");
   assert(config.result?.stateImageSet?.count === config.results.length, "Result state-image contract count is stale");
@@ -76,7 +80,15 @@ function verifyEvidence(config) {
   assert(actionButtons.problemStart === "../_shared/action-buttons/problem-start-button-generated.webp", "The shared problem-start button is not configured");
   assert(actionButtons.resultView === "../_shared/action-buttons/result-view-button-generated.webp", "The shared result-view button is not configured");
   assert(actionButtons.doorOpen === "door-open-button-generated.webp", "The lesson-specific door-open button is not configured");
-  assert(config.imageAssets?.resultRetryButton === "../_shared/result-actions/retry-button-generated.webp", "The shared result retry button is not configured");
+  assert(config.result?.retryVisualMode === "baked-in-scene", "The result retry button must come from the generated tier scene");
+  assert(config.result?.stateImageSet?.fixedGeneratedElements?.includes("result-title"), "The generated result title contract is missing");
+  assert(config.result?.stateImageSet?.fixedGeneratedElements?.includes("retry-button"), "The generated result retry contract is missing");
+  assert(Object.keys(config.result?.stateImageSet?.layoutByTier || {}).length === config.results.length, "Each result tier needs its own overlay and retry-hitbox layout");
+  const resultViewport = viewports.find((item) => item.name === "reported-result-overlap-1039x651");
+  assert(resultViewport?.width === 1039 && resultViewport?.height === 651 && resultViewport?.dpr === 2, "The reported result-overlap viewport is missing");
+  assert(resultViewport?.regressions?.includes("result-fixed-action-duplication"), "The duplicate retry-button regression is not registered");
+  assert(resultViewport?.regressions?.includes("result-score-power-panel-alignment"), "The result-panel alignment regression is not registered");
+  assert(resultViewport?.regressions?.includes("result-retry-hitbox-art-alignment"), "The baked retry hitbox regression is not registered");
   return { viewports: viewports.map((item) => item.name), states, lowestResult: config.results[0].name };
 }
 

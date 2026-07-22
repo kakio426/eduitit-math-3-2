@@ -1067,7 +1067,7 @@
       margin: 0;
       display: grid;
       grid-template-columns: minmax(0, 1fr) clamp(250px, 32%, 330px);
-      grid-template-rows: 64px minmax(0, 1fr);
+      grid-template-rows: 72px minmax(0, 1fr);
       column-gap: 14px;
       row-gap: 8px;
     }
@@ -1311,7 +1311,7 @@
     .game[data-workbench-type="division-elevator"] .step-board {
       grid-column: 2;
       grid-row: 1;
-      min-height: 64px;
+      min-height: 72px;
       padding: 0 14px;
       display: grid;
       grid-template: 1fr / 1fr;
@@ -1336,6 +1336,9 @@
       line-height: 1.15;
       font-weight: 1000;
       text-align: center;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      text-wrap: balance;
     }
 
     .game[data-workbench-type="division-elevator"] .instruction[hidden] {
@@ -1531,44 +1534,101 @@
       background: none;
     }
 
+    .game[data-workbench-type="division-elevator"] #screen-result {
+      --result-panel-center: 81.09375%;
+      --result-meter-offset-x: 108px;
+      --result-retry-left: 70%;
+      --result-retry-top: 64.875%;
+      --result-retry-width: 22.109375%;
+      --result-retry-height: 16.5%;
+    }
+
+    .game[data-workbench-type="division-elevator"] #screen-result[data-result-tier="first"] {
+      --result-panel-center: 70.703125%;
+      --result-meter-offset-x: -25px;
+      --result-retry-left: 59.6875%;
+      --result-retry-top: 65.375%;
+      --result-retry-width: 21.953125%;
+      --result-retry-height: 16.375%;
+    }
+
+    .game[data-workbench-type="division-elevator"] #screen-result[data-result-tier="middle"] {
+      --result-panel-center: 66.015625%;
+      --result-meter-offset-x: -85px;
+      --result-retry-left: 55.46875%;
+      --result-retry-top: 65.5%;
+      --result-retry-width: 21.015625%;
+      --result-retry-height: 15.75%;
+    }
+
+    .game[data-workbench-type="division-elevator"] #screen-result[data-result-tier="view"] {
+      --result-panel-center: 80.9375%;
+      --result-meter-offset-x: 106px;
+      --result-retry-left: 70.078125%;
+      --result-retry-top: 63.5%;
+      --result-retry-width: 21.640625%;
+      --result-retry-height: 15.875%;
+    }
+
+    .game[data-workbench-type="division-elevator"] #screen-result[data-result-tier="roof"] {
+      --result-panel-center: 80.390625%;
+      --result-meter-offset-x: 99px;
+      --result-retry-left: 69.375%;
+      --result-retry-top: 64.875%;
+      --result-retry-width: 22.03125%;
+      --result-retry-height: 16.25%;
+    }
+
+    .game[data-workbench-type="division-elevator"] #screen-result[data-result-tier="rainbow"] {
+      --result-panel-center: 81.25%;
+      --result-meter-offset-x: 110px;
+      --result-retry-left: 69.6875%;
+      --result-retry-top: 67.75%;
+      --result-retry-width: 23.046875%;
+      --result-retry-height: 16%;
+    }
+
     .game[data-workbench-type="division-elevator"] .result-dynamic-ui #resultDestinationSvg,
     .game[data-workbench-type="division-elevator"] .result-dynamic-ui .result-restart-surface {
       display: none;
     }
 
     .game[data-workbench-type="division-elevator"] .result-dynamic-ui text {
-      fill: #17343b;
-      stroke: rgba(255, 248, 232, .96);
-      stroke-width: 10px;
+      fill: #fff8e8;
+      stroke: none;
     }
 
     .game[data-workbench-type="division-elevator"] .result-dynamic-ui rect:first-of-type {
-      fill: #315b68;
-      opacity: .32;
-      transform: translateY(52px);
+      width: 360px;
+      height: 64px;
+      rx: 32px;
+      fill: #17343b;
+      opacity: .94;
+      stroke: rgba(255, 248, 232, .9);
+      stroke-width: 4px;
+      transform: translate(var(--result-meter-offset-x), 74px);
     }
 
     .game[data-workbench-type="division-elevator"] .result-dynamic-ui #resultMeasureFillSvg {
-      fill: #f3c45f;
-      transform: translateY(52px);
+      display: none;
     }
 
     .game[data-workbench-type="division-elevator"] .result-dynamic-ui #resultMeasureSvg {
-      font-size: 36px;
-      transform: translateY(34px);
+      font-size: 34px;
+      transform: translate(var(--result-meter-offset-x), 41px);
     }
 
     .game[data-workbench-type="division-elevator"] .result-correct-art {
-      left: 65.5%;
-      top: 32.5%;
-      width: 15.5%;
+      left: calc(var(--result-panel-center) - 8.75%);
+      top: 33.5%;
+      width: 17.5%;
     }
 
     .game[data-workbench-type="division-elevator"] .result-restart-hitbox {
-      left: 70%;
-      top: 65%;
-      width: 22%;
-      height: 17%;
+      left: var(--result-retry-left);
+      top: var(--result-retry-top);
+      width: var(--result-retry-width);
+      height: var(--result-retry-height);
       background: transparent !important;
       border: 0 !important;
       box-shadow: none !important;
@@ -1580,11 +1640,7 @@
       display: none !important;
     }
     .game[data-workbench-type="division-elevator"] .result-restart-hitbox .result-retry-art {
-      display: block !important;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none;
+      display: none !important;
     }
 
     .game[data-workbench-type="division-elevator"] .reward-card {
@@ -1789,7 +1845,7 @@
         bottom: 8px;
         left: 15.5%;
         grid-template-columns: minmax(0, 1fr) clamp(238px, 32%, 270px);
-        grid-template-rows: 54px minmax(0, 1fr);
+        grid-template-rows: 64px minmax(0, 1fr);
         column-gap: 10px;
         row-gap: 8px;
       }
@@ -1799,7 +1855,7 @@
       }
 
       .game[data-workbench-type="division-elevator"] .step-board {
-        min-height: 54px;
+        min-height: 64px;
         padding-inline: 10px;
       }
 
@@ -1842,7 +1898,7 @@
 
       .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-panel {
         padding: 14px 12px;
-        gap: 12px;
+        gap: 14px;
       }
 
       .game[data-workbench-type="division-elevator"] .problem-grid.is-complete .complete-text {
@@ -2613,7 +2669,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-gold-standard","id":"3-2-2-2","folder":"3-2-2-2-mathmon-elevator","modelName":"Lesson2ElevatorModel","title":"매스몬 엘리베이터","shortTitle":"매스몬 엘리베이터","topic":"내림 있는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"남은 수를 내려 다시 나눠요.","action":"남은 수와 일의 자리 수를 합쳐요.","buttonLabel":"문 열기","rewardScreenTitle":"올라갈 힘","progressLabel":"올라갈 힘","rewardComplete":"힘이 바뀌었어요.","tutorialTitle":"엘리베이터를 움직이기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"십의 자리 값부터 나눠요","body":"십의 자리 값 70을 2로 먼저 나눠요. 70 = 2 × 30 + 10이에요. 30씩 나누고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.","image":"tutorial-page-1-v7-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"나눗셈을 풀고 문을 열어요","body":"나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"올라갈 힘","closedLabel":"어떤 힘이 나올까요?","nextLabel":"다음","artMap":{"motor":"reward-events-sprite-generated.webp","blackout":"reward-events-sprite-generated.webp","superMotor":"reward-events-sprite-generated.webp","express":"reward-events-sprite-generated.webp","stop":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"motor":[0,0],"superMotor":[1,0],"blackout":[2,0],"stop":[0,1],"express":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v3-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["tier-scene-with-title","retry-button"],"dynamicOverlays":["elevator-power","correct-count"]}},"workbench":{"type":"division-elevator"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"basement","name":"지하 비밀기지","minPower":0,"minCorrect":0,"image":"result-basement-generated.webp"},{"id":"first","name":"햇살 로비","minPower":19,"minCorrect":3,"image":"result-first-generated.webp"},{"id":"middle","name":"구름 쉼터","minPower":39,"minCorrect":5,"image":"result-middle-generated.webp"},{"id":"view","name":"하늘 전망대","minPower":59,"minCorrect":7,"image":"result-view-generated.webp"},{"id":"roof","name":"꽃빛 옥상정원","minPower":79,"minCorrect":9,"image":"result-roof-generated.webp"},{"id":"rainbow","name":"무지개 최고층","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"motor","text":"힘이 늘었어요","weight":7645,"min":5,"max":9,"family":"motor","rarity":"common"},{"id":"blackout","text":"힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"blackout","rarity":"common"},{"id":"superMotor","text":"힘이 크게 늘었어요","weight":900,"min":13,"max":22,"family":"superMotor","rarity":"rare"},{"id":"express","text":"급행!","weight":50,"min":50,"max":50,"family":"express","rarity":"rare","express":true},{"id":"stop","text":"힘 0","weight":200,"min":0,"max":0,"family":"stop","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개!","weight":5,"min":12,"max":12,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"blackoutMistake","text":"힘이 줄었어요","min":-18,"max":-8,"family":"blackout"},"typesPerRun":["regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-shaft-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"actionButtons":{"next":"../_shared/action-buttons/next-button-generated.webp","previous":"../_shared/action-buttons/previous-button-generated.webp","problemStart":"../_shared/action-buttons/problem-start-button-generated.webp","resultView":"../_shared/action-buttons/result-view-button-generated.webp","doorOpen":"door-open-button-generated.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-shaft-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","../_shared/action-buttons/next-button-generated.webp","../_shared/action-buttons/previous-button-generated.webp","../_shared/action-buttons/problem-start-button-generated.webp","../_shared/action-buttons/result-view-button-generated.webp","door-open-button-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-v7-generated.webp","tutorial-page-2-v3-generated.webp","result-basement-generated.webp","result-first-generated.webp","result-middle-generated.webp","result-view-generated.webp","result-roof-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-regrouping-exact","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser","width":931,"height":897},{"name":"reported-divisor-left-1022x774","width":1022,"height":774,"regressions":["division-divisor-bracket-grouping"]},{"name":"reported-svg-overlap-934x987","width":934,"height":987,"regressions":["tutorial-place-value-flow-mismatch","tutorial-operation-before-quotient","completion-board-action-balance","active-board-control-column-balance","answer-choice-card-shadow-overlap","problem-heading-inside-board","problem-heading-work-surface-separation","division-number-scale-consistency","decision-cell-subtle-emphasis","division-svg-overlap","eagle-reward-left-wing-clip","eagle-reaction-left-stage-clearance","play-step-choices-surface-overlap"]}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-gold-standard","id":"3-2-2-2","folder":"3-2-2-2-mathmon-elevator","modelName":"Lesson2ElevatorModel","title":"매스몬 엘리베이터","shortTitle":"매스몬 엘리베이터","topic":"내림 있는 두 자리 수 나눗셈","unitBadge":"2단원 나눗셈","goal":"남은 수를 내려 다시 나눠요.","action":"남은 수와 일의 자리 수를 합쳐요.","buttonLabel":"문 열기","rewardScreenTitle":"올라갈 힘","progressLabel":"올라갈 힘","rewardComplete":"힘이 바뀌었어요.","tutorialTitle":"엘리베이터를 움직이기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"십의 자리 값부터 나눠요","body":"십의 자리 값 70을 2로 먼저 나눠요. 70 = 2 × 30 + 10이에요. 30씩 나누고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.","image":"tutorial-page-1-v7-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"나눗셈을 풀고 문을 열어요","body":"나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"mistakePolicy":"penalty-biased-random-pool","mistakeRewardWeights":{"motor":3300,"blackout":5500,"superMotor":600,"express":90,"stop":500,"rainbow":10},"unitLabel":"올라갈 힘","closedLabel":"어떤 힘이 나올까요?","nextLabel":"다음","artMap":{"motor":"reward-events-sprite-generated.webp","blackout":"reward-events-sprite-generated.webp","superMotor":"reward-events-sprite-generated.webp","express":"reward-events-sprite-generated.webp","stop":"reward-events-sprite-generated.webp","rainbow":"reward-events-sprite-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"motor":[0,0],"superMotor":[1,0],"blackout":[2,0],"stop":[0,1],"express":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","retryVisualMode":"baked-in-scene","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v3-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","tier-scene-with-title","retry-button"],"dynamicOverlays":["elevator-power","correct-count"],"layoutByTier":{"basement":{"panelCenterX":1038,"retryHitbox":[896,519,283,132]},"first":{"panelCenterX":905,"retryHitbox":[764,523,281,131]},"middle":{"panelCenterX":845,"retryHitbox":[710,524,269,126]},"view":{"panelCenterX":1036,"retryHitbox":[897,508,277,127]},"roof":{"panelCenterX":1029,"retryHitbox":[888,519,282,130]},"rainbow":{"panelCenterX":1040,"retryHitbox":[892,542,295,128]}}}},"workbench":{"type":"division-elevator"},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"basement","name":"지하 비밀기지","minPower":0,"minCorrect":0,"image":"result-basement-generated.webp"},{"id":"first","name":"햇살 로비","minPower":19,"minCorrect":3,"image":"result-first-generated.webp"},{"id":"middle","name":"구름 쉼터","minPower":39,"minCorrect":5,"image":"result-middle-generated.webp"},{"id":"view","name":"하늘 전망대","minPower":59,"minCorrect":7,"image":"result-view-generated.webp"},{"id":"roof","name":"꽃빛 옥상정원","minPower":79,"minCorrect":9,"image":"result-roof-generated.webp"},{"id":"rainbow","name":"무지개 최고층","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"motor","text":"힘이 늘었어요","weight":7645,"min":5,"max":9,"family":"motor","rarity":"common"},{"id":"blackout","text":"힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"blackout","rarity":"common"},{"id":"superMotor","text":"힘이 크게 늘었어요","weight":900,"min":13,"max":22,"family":"superMotor","rarity":"rare"},{"id":"express","text":"급행!","weight":50,"min":50,"max":50,"family":"express","rarity":"rare","express":true},{"id":"stop","text":"힘 0","weight":200,"min":0,"max":0,"family":"stop","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"무지개!","weight":5,"min":12,"max":12,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"mistakeFallback","text":"힘 그대로","min":0,"max":0,"family":"stop"},"typesPerRun":["regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping","regrouping"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-shaft-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"reward-events-sprite-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"actionButtons":{"next":"../_shared/action-buttons/next-button-generated.webp","previous":"../_shared/action-buttons/previous-button-generated.webp","problemStart":"../_shared/action-buttons/problem-start-button-generated.webp","resultView":"../_shared/action-buttons/result-view-button-generated.webp","doorOpen":"door-open-button-generated.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-shaft-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","../_shared/action-buttons/next-button-generated.webp","../_shared/action-buttons/previous-button-generated.webp","../_shared/action-buttons/problem-start-button-generated.webp","../_shared/action-buttons/result-view-button-generated.webp","door-open-button-generated.webp","../_shared/result-actions/retry-button-generated.webp","tutorial-page-1-v7-generated.webp","tutorial-page-2-v3-generated.webp","result-basement-generated.webp","result-first-generated.webp","result-middle-generated.webp","result-view-generated.webp","result-roof-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"modelRule":"division-regrouping-exact","rewardPolicy":"mistakes-use-penalty-biased-random-pool","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-browser","width":931,"height":897},{"name":"reported-instruction-wrap-1082x897","width":1082,"height":897,"dpr":2,"regressions":["step-instruction-balanced-wrap"]},{"name":"reported-divisor-left-1022x774","width":1022,"height":774,"regressions":["division-divisor-bracket-grouping"]},{"name":"reported-svg-overlap-934x987","width":934,"height":987,"regressions":["tutorial-place-value-flow-mismatch","tutorial-operation-before-quotient","completion-board-action-balance","active-board-control-column-balance","answer-choice-card-shadow-overlap","problem-heading-inside-board","problem-heading-work-surface-separation","division-number-scale-consistency","decision-cell-subtle-emphasis","division-svg-overlap","eagle-reward-left-wing-clip","eagle-reaction-left-stage-clearance","play-step-choices-surface-overlap"]},{"name":"reported-result-overlap-1039x651","width":1039,"height":651,"dpr":2,"regressions":["result-fixed-action-duplication","result-score-power-panel-alignment","result-retry-hitbox-art-alignment"]}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2ElevatorModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -2621,6 +2677,7 @@
       const RESULT_TIERS = LESSON_CONFIG.results;
       const REWARD_EVENTS = LESSON_CONFIG.rewardEvents;
       const WRONG_REWARD_EVENT = LESSON_CONFIG.wrongEvent;
+      const MISTAKE_REWARD_WEIGHTS = LESSON_CONFIG.reward?.mistakeRewardWeights || {};
 
       function createRng(seed = 12345) {
         let value = seed >>> 0;
@@ -2831,7 +2888,7 @@
             id: "tens",
             label: "십의 자리",
             action: "십의 자리 몫과 남은 수를 고른다",
-            instruction: `${problem.tensDigit * 10}에서 십의 자리 몫과 남은 수를 골라요.`,
+            instruction: `${problem.tensDigit * 10} ÷ ${problem.divisor}의 몫과 남은 수를 골라요.`,
             answer: { quotient: problem.tensQuotient, remainingTens: problem.remainingTens },
             answerChoiceId: tensAnswerId,
             choices: shuffle(tensChoices, rng),
@@ -2888,18 +2945,20 @@
       }
 
       function pickRewardEvent(rng, mistakeTouched) {
-        if (mistakeTouched) {
-          return {
-            ...WRONG_REWARD_EVENT,
-            amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max)
-          };
-        }
-        let roll = Math.floor(rng() * 10000);
-        for (const event of REWARD_EVENTS) {
-          if (roll < event.weight) {
+        // A mistake never forces a penalty, but it makes downward events more likely.
+        const weightedEvents = REWARD_EVENTS.map((event) => ({
+          event,
+          weight: mistakeTouched
+            ? Number(MISTAKE_REWARD_WEIGHTS[event.id] ?? event.weight)
+            : Number(event.weight)
+        }));
+        const totalWeight = weightedEvents.reduce((sum, item) => sum + item.weight, 0);
+        let roll = Math.floor(rng() * totalWeight);
+        for (const { event, weight } of weightedEvents) {
+          if (roll < weight) {
             return { ...event, amount: randomInt(rng, event.min, event.max) };
           }
-          roll -= event.weight;
+          roll -= weight;
         }
         const fallback = REWARD_EVENTS[0];
         return { ...fallback, amount: randomInt(rng, fallback.min, fallback.max) };

@@ -174,9 +174,40 @@ function simulateRewards(model, config, runs = 10000) {
   }
   const lowest = model.getResult(0, 0, false);
   const resultElements = config.result?.stateImageSet?.fixedGeneratedElements;
-  const titleIsBakedIntoScene = Array.isArray(resultElements) && !resultElements.includes("result-title");
+  const titleIsBakedIntoScene = Array.isArray(resultElements) && resultElements.includes("tier-scene-with-title");
   assert.ok(lowest?.image && (lowest?.titleImage || titleIsBakedIntoScene), `${config.id}: zero-correct result must still have art`);
   assert.ok(config.imageAssets?.resultRetryButton, `${config.id}: zero-correct path must retain retry control`);
+}
+
+function checkMistakeRewardPolicy(model, config) {
+  if (config.qa?.rewardPolicy !== "mistakes-use-penalty-biased-random-pool") return;
+
+  let firstTryDecreaseCount = 0;
+  let retryDecreaseCount = 0;
+  let retryPositiveCount = 0;
+  let differentEventCount = 0;
+  const runs = 20000;
+  for (let seed = 1; seed <= runs; seed += 1) {
+    const firstTryEvent = model.pickRewardEvent(model.createRng(seed), false);
+    const retryEvent = model.pickRewardEvent(model.createRng(seed), true);
+    if (firstTryEvent.amount < 0 || firstTryEvent.emptiesPower) firstTryDecreaseCount += 1;
+    if (retryEvent.amount < 0 || retryEvent.emptiesPower) retryDecreaseCount += 1;
+    if (retryEvent.amount > 0 || retryEvent.special) retryPositiveCount += 1;
+    if (retryEvent.id !== firstTryEvent.id || retryEvent.amount !== firstTryEvent.amount) differentEventCount += 1;
+  }
+
+  const firstTryDecreaseRate = firstTryDecreaseCount / runs;
+  const retryDecreaseRate = retryDecreaseCount / runs;
+  const declaredWeights = Object.values(config.reward?.mistakeRewardWeights || {}).reduce((sum, weight) => sum + Number(weight || 0), 0);
+  assert.ok(retryPositiveCount > 0, `${config.id}: retry rewards must sometimes raise the score`);
+  assert.ok(differentEventCount > 0, `${config.id}: retry rewards still use the first-try probability table`);
+  assert.ok(firstTryDecreaseRate >= 0.12 && firstTryDecreaseRate <= 0.16, `${config.id}: first-try decrease rate left its intended range`);
+  assert.ok(retryDecreaseRate >= 0.57 && retryDecreaseRate <= 0.63, `${config.id}: retry decrease rate must stay near 60%`);
+  assert.ok(retryDecreaseRate >= firstTryDecreaseRate + 0.4, `${config.id}: a mistake does not meaningfully raise the chance of a decrease`);
+  assert.equal(declaredWeights, 10000, `${config.id}: mistake reward weights must total 10000`);
+  assert.equal(config.reward?.mistakePolicy, "penalty-biased-random-pool", `${config.id}: runtime mistake reward policy is not declared`);
+  assert.equal(config.wrongEvent?.min, 0, `${config.id}: compatibility mistake fallback must not deduct score`);
+  assert.equal(config.wrongEvent?.max, 0, `${config.id}: compatibility mistake fallback must not add a hidden penalty`);
 }
 
 function checkViewContract(rule, config, modelSource, viewSource, runtimeSource) {
@@ -253,7 +284,8 @@ for (const lesson of lessons) {
   assert.deepEqual(Object.keys(config.imageAssets?.problemStates || {}).sort(), ["complete", "waiting", "working"], `${lesson}: three generated problem states`);
   assert.ok(config.imageAssets?.resultScene || config.results.every((result) => result.image), `${lesson}: UI-free result scene`);
   const fixedResultElements = config.result?.stateImageSet?.fixedGeneratedElements;
-  const requiresIndependentResultTitle = !Array.isArray(fixedResultElements) || fixedResultElements.includes("result-title");
+  const titleIsBakedIntoTierScene = Array.isArray(fixedResultElements) && fixedResultElements.includes("tier-scene-with-title");
+  const requiresIndependentResultTitle = !titleIsBakedIntoTierScene && (!Array.isArray(fixedResultElements) || fixedResultElements.includes("result-title"));
   for (const result of config.results) {
     if (requiresIndependentResultTitle) {
       assert.ok(result.titleImage && result.titleImage !== result.image, `${lesson}/${result.id}: independent generated result title`);
@@ -278,6 +310,7 @@ for (const lesson of lessons) {
       checkChoices(model, problem);
     }
   }
+  checkMistakeRewardPolicy(model, config);
   simulateRewards(model, config);
   console.log(`QA_LESSON_MODEL: PASS ${lesson}`);
 }
