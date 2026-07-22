@@ -250,6 +250,10 @@
   font-size: 25px;
 }
 
+.star-remainder-board > .star-group-summary {
+  font-size: 34px;
+}
+
 .star-capsule > rect {
   fill: rgba(31, 73, 124, .72);
   stroke: #7fbde5;
@@ -284,6 +288,19 @@
   font-size: 27px;
 }
 
+.star-remainder-focus .star-side-title,
+.star-remainder-focus .star-side-value {
+  dominant-baseline: middle;
+}
+
+.star-remainder-focus .star-side-title {
+  font-size: 22px;
+}
+
+.star-remainder-focus .star-side-value {
+  font-size: 30px;
+}
+
 .star-check-mark {
   fill: #68edbd;
   font-size: 34px;
@@ -302,7 +319,16 @@
 
 .star-glyph[data-tone="loose"] text {
   fill: #ffe36f;
-  font-size: 19px;
+  font-size: 28px;
+  filter: drop-shadow(0 0 7px rgba(255, 226, 104, .92));
+}
+
+.star-loose-grid[data-density="medium"] .star-glyph[data-tone="loose"] text {
+  font-size: 24px;
+}
+
+.star-loose-grid[data-density="dense"] .star-glyph[data-tone="loose"] text {
+  font-size: 21px;
 }
 
 .star-glyph[data-tone="capsule"] text {
@@ -312,7 +338,11 @@
 }
 
 .star-capsule-grid.is-compact .star-glyph[data-tone="capsule"] text {
-  font-size: 8px;
+  font-size: 11px;
+}
+
+.star-capsule-grid.is-roomy .star-glyph[data-tone="capsule"] text {
+  font-size: 16px;
 }
 
 .star-glyph[data-tone="remaining"] text {
@@ -449,6 +479,14 @@
   font-weight: 1000;
   white-space: nowrap;
   opacity: .86;
+}
+
+.game[data-workbench-type="remainder-stars"] .star-quotient-choice strong {
+  font-size: 48px;
+}
+
+.game[data-workbench-type="remainder-stars"] .star-quotient-choice span {
+  font-size: 24px;
 }
 
 .game[data-workbench-type="remainder-stars"] .star-remainder-choice strong {
@@ -736,6 +774,14 @@
 
   .game[data-workbench-type="remainder-stars"] .star-choice span {
     font-size: 23px;
+  }
+
+  .game[data-workbench-type="remainder-stars"] .star-quotient-choice strong {
+    font-size: 42px;
+  }
+
+  .game[data-workbench-type="remainder-stars"] .star-quotient-choice span {
+    font-size: 21px;
   }
 
   .game[data-workbench-type="remainder-stars"] .complete-text {

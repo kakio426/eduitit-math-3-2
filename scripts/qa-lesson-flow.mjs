@@ -1621,33 +1621,50 @@ async function auditStarPickupWaiting(page, label, expectedDividend) {
   const audit = await evaluate(page, `(() => {
     const choices = [...document.querySelectorAll('.star-choice')];
     const choiceRects = choices.map((node) => node.getBoundingClientRect());
-    const products = choices.map((node) => node.querySelector('strong')?.textContent.trim() || '');
-    const groups = choices.map((node) => node.querySelector('span')?.textContent.trim() || '');
+    const values = choices.map((node) => node.querySelector('strong')?.textContent.trim() || '');
+    const units = choices.map((node) => node.querySelector('span')?.textContent.trim() || '');
+    const looseStars = [...document.querySelectorAll('.star-loose-grid .star-glyph[data-tone="loose"]')];
+    const starCenters = looseStars.map((node) => {
+      const transform = node.getAttribute('transform') || '';
+      if (!transform.startsWith('translate(') || !transform.endsWith(')')) return null;
+      const [x, y] = transform.slice(10, -1).split(' ').map(Number);
+      return Number.isFinite(x) && Number.isFinite(y) ? { x, y } : null;
+    }).filter(Boolean);
+    const starFontSizes = looseStars.map((node) => parseFloat(getComputedStyle(node.querySelector('text')).fontSize));
     const stage = document.querySelector('.stage-shell')?.getBoundingClientRect();
     const world = document.getElementById('starWorldPanel')?.getBoundingClientRect();
     const board = document.getElementById('visualArea')?.getBoundingClientRect();
     return {
       dividend: window.__mathmonEngineQa.getCurrentProblem()?.dividend,
-      looseStars: document.querySelectorAll('.star-loose-grid .star-glyph[data-tone="loose"]').length,
+      looseStars: looseStars.length,
       instruction: document.getElementById('stepInstruction')?.textContent.trim() || '',
       choiceCount: choices.length,
       choiceHeights: choiceRects.map((rect) => rect.height),
       productFont: choices.length ? Math.min(...choices.map((node) => parseFloat(getComputedStyle(node.querySelector('strong')).fontSize))) : 0,
       groupFont: choices.length ? Math.min(...choices.map((node) => parseFloat(getComputedStyle(node.querySelector('span')).fontSize))) : 0,
-      products,
-      groups,
+      values,
+      units,
+      starColumns: Number(document.querySelector('.star-loose-grid')?.dataset.columns || 0),
+      starCenters,
+      minStarFont: starFontSizes.length ? Math.min(...starFontSizes) : 0,
       worldBoardGap: world && board ? board.left - world.right : -1,
       stageVisible: Boolean(stage?.width && stage?.height)
     };
   })()`);
   assert(audit.stageVisible, `${label}: stage is missing`, audit);
   assert(audit.dividend === expectedDividend && audit.looseStars === expectedDividend, `${label}: loose star count does not match the dividend`, audit);
-  assert(/×몇이 .* 넘지 않을까요\?$/.test(audit.instruction), `${label}: product-comparison instruction is missing`, audit);
+  assert(new RegExp(`^별 ${expectedDividend}개를 \\d+개씩 묶으면 몇 묶음까지 만들 수 있을까요\\?$`).test(audit.instruction), `${label}: concrete maximum-bundle instruction is missing`, audit);
   assert(audit.choiceCount === 3, `${label}: quotient choices must stay in one three-card row`, audit);
   assert(audit.choiceHeights.every((height) => height >= 108 && height <= 116), `${label}: quotient card height is not fixed at 112px`, audit);
-  assert(audit.productFont >= 29 && audit.groupFont >= 23, `${label}: choice hierarchy is too small`, audit);
-  assert(audit.products.every((text) => /^\d+×\d+=\d+$/.test(text)), `${label}: product and result are not the primary choice text`, audit);
-  assert(audit.groups.every((text) => /^\d+묶음$/.test(text)), `${label}: group count is not the secondary choice text`, audit);
+  assert(audit.productFont >= 38 && audit.groupFont >= 20, `${label}: bundle-count choice hierarchy is too small`, audit);
+  assert(audit.values.every((text) => /^\d+$/.test(text)), `${label}: choices must not reveal multiplication results`, audit);
+  assert(audit.units.every((text) => text === '묶음'), `${label}: bundle unit is missing from a choice`, audit);
+  assert(audit.minStarFont >= 20, `${label}: loose stars are too small to count`, audit);
+  assert(audit.starColumns >= 10 && audit.starColumns <= 11, `${label}: loose-star column contract drifted`, audit);
+  const rowYs = [...new Set(audit.starCenters.map((point) => point.y))].sort((a, b) => a - b);
+  const columnXs = [...new Set(audit.starCenters.map((point) => point.x))].sort((a, b) => a - b);
+  assert(rowYs.length >= 2 && rowYs.every((y) => y >= 54 && y <= 314), `${label}: loose-star rows are not centered inside the board`, audit);
+  assert(columnXs.every((x) => x >= 190 && x <= 830), `${label}: loose-star columns collide with the count chip or board edge`, audit);
   assert(audit.worldBoardGap >= 12, `${label}: constellation board and calculation board overlap`, audit);
 }
 
@@ -1678,6 +1695,69 @@ async function auditStarPickupEvidence(page, label, kind) {
   } else if (kind === "remainder-wrong") {
     assert(audit.step === "remainder" && audit.proofStep === "remainder", `${label}: remainder evidence state missing`, audit);
     assert(audit.hasNextGroup && audit.feedback.includes("한 묶음"), `${label}: divisor-sized leftover group is not shown`, audit);
+  }
+}
+
+async function auditStarPickupAlignment(page, label, mode, { expectValue = true } = {}) {
+  const boardSelector = mode === "remainder" ? ".star-remainder-board" : ".star-group-board";
+  const audit = await evaluate(page, `(() => {
+    const board = document.querySelector(${JSON.stringify(boardSelector)});
+    if (!board) return null;
+    const capsuleRows = new Map();
+    const capsuleSizes = [];
+    for (const rect of board.querySelectorAll('.star-capsule > rect')) {
+      const y = Number(rect.getAttribute('y'));
+      capsuleSizes.push({
+        width: Number(rect.getAttribute('width')),
+        height: Number(rect.getAttribute('height'))
+      });
+      const row = capsuleRows.get(y) || [];
+      row.push({
+        left: Number(rect.getAttribute('x')),
+        right: Number(rect.getAttribute('x')) + Number(rect.getAttribute('width'))
+      });
+      capsuleRows.set(y, row);
+    }
+    const rowCenters = [...capsuleRows.values()].map((row) => (
+      Math.min(...row.map((item) => item.left)) + Math.max(...row.map((item) => item.right))
+    ) / 2);
+    const title = board.querySelector('.star-side-title');
+    const value = board.querySelector('.star-side-value');
+    const summary = board.querySelector('.star-group-summary');
+    const sideStars = [...board.querySelectorAll('.star-remainder-focus > .star-glyph')];
+    const starRows = new Map();
+    for (const star of sideStars) {
+      const transform = star.transform.baseVal.getItem(0)?.matrix;
+      if (!transform) continue;
+      const y = Number(transform.f.toFixed(3));
+      const row = starRows.get(y) || [];
+      row.push(transform.e);
+      starRows.set(y, row);
+    }
+    return {
+      rowCenters,
+      capsuleSizes,
+      capsuleColumns: Number(board.querySelector('.star-capsule-grid')?.dataset.columns || 0),
+      titleCenter: title ? title.getBBox().x + title.getBBox().width / 2 : null,
+      valueCenter: value ? value.getBBox().x + value.getBBox().width / 2 : null,
+      summaryFontSize: summary ? parseFloat(getComputedStyle(summary).fontSize) : 0,
+      starRowCenters: [...starRows.values()].map((row) => (Math.min(...row) + Math.max(...row)) / 2)
+    };
+  })()`);
+  assert(audit, `${label}: star board is missing`);
+  const expectedLeftCenter = mode === "remainder" ? 300 : 350;
+  const expectedSideCenter = mode === "remainder" ? 729 : 771;
+  assert(audit.rowCenters.length > 0 && audit.rowCenters.every((center) => Math.abs(center - expectedLeftCenter) <= 0.01), `${label}: capsule rows are not centered under the equation`, audit);
+  assert(Math.abs(audit.titleCenter - expectedSideCenter) <= 0.5, `${label}: side title is not centered`, audit);
+  if (expectValue) {
+    assert(Math.abs(audit.valueCenter - expectedSideCenter) <= 0.5, `${label}: revealed side value is not centered`, audit);
+  } else {
+    assert(audit.valueCenter === null, `${label}: remainder count is exposed before the student answers`, audit);
+  }
+  if (mode === "remainder") {
+    assert(audit.summaryFontSize >= 34, `${label}: completed multiplication is too small`, audit);
+    assert(audit.capsuleColumns === 4 && audit.capsuleSizes.every((size) => size.width >= 126 && size.height >= 58), `${label}: 12 groups did not switch to the roomy 4-column layout`, audit);
+    assert(audit.starRowCenters.length > 0 && audit.starRowCenters.every((center) => Math.abs(center - 729) <= 0.01), `${label}: remainder-star rows are not centered under the value`, audit);
   }
 }
 
@@ -2143,8 +2223,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
   if (lesson === "3-2-2-3-mathmon-star-pickup") {
-    await evaluate(page, "window.__starPickupQa.forceProblem(47, 6)");
-    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 47", `${viewport.name}: fixed 47-star board did not render`);
+    await evaluate(page, "window.__starPickupQa.forceProblem(50, 4)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 50", `${viewport.name}: fixed 50-star board did not render`);
   }
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
@@ -2155,7 +2235,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     initialLearningLayout = await auditElevatorLearningLegibility(page, `${viewport.name} learning legibility`);
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await auditStarPickupPlayHeader(page, `${viewport.name} play header`);
-    await auditStarPickupWaiting(page, `${viewport.name} fixed 47-star waiting`, 47);
+    await auditStarPickupWaiting(page, `${viewport.name} fixed 50-star waiting`, 50);
 
     await evaluate(page, "window.__starPickupQa.forceProblem(20, 3)");
     await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 20", `${viewport.name}: 20-star boundary board did not render`);
@@ -2181,8 +2261,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditGeometry(page, `${viewport.name} 32-capsule boundary`);
     await auditStarPickupEvidence(page, `${viewport.name} 32-capsule boundary`, "quotient-too-high");
 
-    await evaluate(page, "window.__starPickupQa.forceProblem(47, 6)");
-    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 47", `${viewport.name}: fixed 47-star board did not restore`);
+    await evaluate(page, "window.__starPickupQa.forceProblem(50, 4)");
+    await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 50", `${viewport.name}: fixed 50-star board did not restore`);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
@@ -2340,15 +2420,18 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "05c-play-quotient-confirm"));
     await auditGeometry(page, `${viewport.name} quotient confirmation`);
     await auditStarPickupEvidence(page, `${viewport.name} quotient confirmation`, "quotient-confirm");
+    await auditStarPickupAlignment(page, `${viewport.name} quotient confirmation alignment`, "grouped", { expectValue: false });
     await waitUntil(page, `window.__mathmonEngineQa.getState().inputLocked === false && (window.__mathmonEngineQa.getCurrentStep()?.id || '') !== ${JSON.stringify(quotientStepId)}`, `${viewport.name}: quotient step did not advance`, 6000);
     shots.push(await screenshot(page, lesson, viewport, "05d-play-remainder"));
     await auditGeometry(page, `${viewport.name} remainder step`);
+    await auditStarPickupAlignment(page, `${viewport.name} remainder alignment`, "remainder", { expectValue: false });
 
     await clickMisconception(page, "DIV3_REMAINDER_EQUALS_DIVISOR");
     await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: remainder wrong feedback did not appear`);
     shots.push(await screenshot(page, lesson, viewport, "05d2-play-remainder-wrong"));
     await auditGeometry(page, `${viewport.name} remainder wrong`);
     await auditStarPickupEvidence(page, `${viewport.name} remainder wrong`, "remainder-wrong");
+    await auditStarPickupAlignment(page, `${viewport.name} remainder wrong alignment`, "remainder");
     await solveCurrentProblem(page);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     await clickMisconception(page, "DIV4_PRODUCT_TOO_LOW");

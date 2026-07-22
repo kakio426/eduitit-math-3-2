@@ -33,11 +33,6 @@ const Lesson2StarPickupModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
-  function withObjectParticle(value) {
-    const finalDigit = Math.abs(Number(value)) % 10;
-    return `${value}${[0, 1, 3, 6, 7, 8].includes(finalDigit) ? "을" : "를"}`;
-  }
-
   function choice(id, value, label, misconceptionId = null, feedback = "", meta = {}) {
     return { id, value, label, misconceptionId, feedback, ...meta };
   }
@@ -70,7 +65,7 @@ const Lesson2StarPickupModel = (() => {
         {
           id: "quotient",
           label: "몫",
-          instruction: `${divisor}×몇이 ${withObjectParticle(dividend)} 넘지 않을까요?`,
+          instruction: `별 ${dividend}개를 ${divisor}개씩 묶으면 몇 묶음까지 만들 수 있을까요?`,
           answer: quotient,
           answerChoiceId: quotientAnswerId,
           choices: shuffle([

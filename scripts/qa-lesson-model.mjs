@@ -94,7 +94,7 @@ function checkInvariant(rule, problem) {
     assert.equal(problem.divisor * problem.quotient + problem.remainder, problem.dividend, `${problem.id}: identity`);
     assert.equal(problem.steps.map((step) => step.id).join(","), "quotient,remainder", `${problem.id}: action order`);
     assert.equal(problem.finalExpression, `${problem.divisor}×${problem.quotient}+${problem.remainder}=${problem.dividend}`, `${problem.id}: final identity text`);
-    assert.match(problem.steps[0].instruction, new RegExp(`^${problem.divisor}×몇이 ${problem.dividend}[을를] 넘지 않을까요\\?$`), `${problem.id}: product-comparison instruction`);
+    assert.equal(problem.steps[0].instruction, `별 ${problem.dividend}개를 ${problem.divisor}개씩 묶으면 몇 묶음까지 만들 수 있을까요?`, `${problem.id}: concrete maximum-bundle instruction`);
     assert.equal(problem.steps[1].instruction, "묶고 남은 별을 세어 봐요.", `${problem.id}: one-line remainder action`);
     assert.ok(problem.steps[0].advance?.delayMs >= 1200, `${problem.id}: quotient confirmation must stay long enough to read`);
     assert.ok(problem.quotient + 1 <= 32, `${problem.id}: quotient capsules must fit the fixed 8x4 board`);
@@ -220,7 +220,7 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
     assert.match(viewSource, /setFarmFlowPhase\("confirm"\)/, `${config.id}: confirmation phase`);
   }
   if (rule === "division-with-remainder") {
-    assert.match(viewSource, /compare-products/, `${config.id}: quotient is chosen by comparing products, not built by repeated taps`);
+    assert.match(viewSource, /choose-bundle-count/, `${config.id}: quotient is chosen as one bundle-count decision, not built by repeated taps`);
     assert.match(viewSource, /count-leftover-stars/, `${config.id}: remainder is chosen in one action`);
     assert.match(viewSource, /star-quotient-choice/, `${config.id}: quotient boundary choices are visible`);
     assert.match(viewSource, /star-remainder-choice/, `${config.id}: remainder choices are visible`);

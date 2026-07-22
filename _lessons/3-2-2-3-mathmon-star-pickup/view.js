@@ -112,7 +112,7 @@ function renderAttempt(problem, step, selected, state) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.id;
-  ui.choices.dataset.interaction = step.id === "quotient" ? "compare-products" : "count-leftover-stars";
+  ui.choices.dataset.interaction = step.id === "quotient" ? "choose-bundle-count" : "count-leftover-stars";
 
   for (const selected of step.choices) {
     const button = document.createElement("button");
@@ -127,9 +127,9 @@ function renderChoicesForStep(problem, step, state, choose) {
     const primary = document.createElement("strong");
     const secondary = document.createElement("span");
     if (step.id === "quotient") {
-      primary.textContent = `${problem.divisor}×${selected.value}=${problem.divisor * selected.value}`;
-      secondary.textContent = `${selected.value}묶음`;
-      button.setAttribute("aria-label", `${problem.divisor} 곱하기 ${selected.value}은 ${problem.divisor * selected.value}, ${selected.value}묶음`);
+      primary.textContent = String(selected.value);
+      secondary.textContent = "묶음";
+      button.setAttribute("aria-label", `${selected.value}묶음`);
     } else {
       primary.textContent = `${selected.value}개`;
       secondary.textContent = "남은 별";
@@ -253,19 +253,22 @@ function createStarSvg(problem, step) {
 }
 
 function renderLooseStarGrid(count) {
-  const columns = 10;
+  const columns = count > 80 ? 11 : 10;
   const rows = Math.ceil(count / columns);
-  const gapX = 66;
-  const gapY = rows <= 1 ? 0 : Math.min(27, 248 / (rows - 1));
-  const startX = 440 - ((columns - 1) * gapX) / 2;
-  const startY = rows <= 1 ? 178 : 58;
+  const density = rows >= 8 ? "dense" : rows === 7 ? "medium" : "comfortable";
+  const gapX = columns === 11 ? 58 : 64;
+  const maxGapY = density === "comfortable" ? 46 : density === "medium" ? 36 : 29;
+  const gapY = rows <= 1 ? 0 : Math.min(maxGapY, 230 / (rows - 1));
+  const startX = 510 - ((columns - 1) * gapX) / 2;
+  const startY = 184 - ((rows - 1) * gapY) / 2;
+  const radius = density === "comfortable" ? 14 : density === "medium" ? 12 : 10;
   const stars = Array.from({ length: count }, (_, index) => {
     const column = index % columns;
     const row = Math.floor(index / columns);
-    return renderStarGlyph(startX + column * gapX, startY + row * gapY, 8.5, "loose");
+    return renderStarGlyph(startX + column * gapX, startY + row * gapY, radius, "loose");
   }).join("");
   return `
-    <g class="star-loose-grid">
+    <g class="star-loose-grid" data-density="${density}" data-columns="${columns}">
       <rect class="star-count-chip" x="34" y="22" width="112" height="42" rx="21" />
       <text class="star-count-text" x="90" y="51">${count}개</text>
       ${stars}
@@ -293,14 +296,20 @@ function renderGroupedStars(problem, selectedQuotient) {
   const gapY = 7;
   const width = 72;
   const height = 45;
-  const startX = 34;
   const startY = 65;
   const capsuleMarkup = capsules.map((capsule, index) => {
-    const column = index % STAR_GROUP_COLUMNS;
-    const row = Math.floor(index / STAR_GROUP_COLUMNS);
+    const point = getCenteredGridPoint(index, capsules.length, {
+      columns: STAR_GROUP_COLUMNS,
+      centerX: 350,
+      startY,
+      width,
+      height,
+      gapX,
+      gapY
+    });
     return renderGroupCapsule(
-      startX + column * (width + gapX),
-      startY + row * (height + gapY),
+      point.x,
+      point.y,
       width,
       height,
       problem.divisor,
@@ -330,6 +339,7 @@ function renderGroupedStars(problem, selectedQuotient) {
 
 function renderSideStarPanel(problem, remaining, missing, relation, title, value) {
   const visibleCount = relation === "too-high" ? missing : remaining;
+  const showValue = relation !== "fit";
   const maxColumns = 4;
   const starMarkup = Array.from({ length: visibleCount }, (_, index) => {
     const column = index % maxColumns;
@@ -344,7 +354,7 @@ function renderSideStarPanel(problem, remaining, missing, relation, title, value
     <g class="star-side-panel ${relation === "fit" ? "star-remainder-focus" : ""}">
       <rect class="star-side-surface" x="686" y="60" width="170" height="250" rx="24" />
       <text class="star-side-title" x="771" y="96">${title}</text>
-      <text class="star-side-value" x="771" y="132">${value}</text>
+      ${showValue ? `<text class="star-side-value" x="771" y="132">${value}</text>` : ""}
       ${starMarkup}
       ${groupFrame}
     </g>
@@ -352,49 +362,73 @@ function renderSideStarPanel(problem, remaining, missing, relation, title, value
 }
 
 function renderRemainderBoard(problem, selectedCount, isProof, isRevealed) {
-  const width = 61;
-  const height = 36;
-  const gapX = 6;
-  const gapY = 6;
-  const startX = 34;
-  const startY = 82;
+  const isRoomyCapsuleGrid = problem.quotient <= 16;
+  const capsuleColumns = isRoomyCapsuleGrid ? 4 : STAR_GROUP_COLUMNS;
+  const width = isRoomyCapsuleGrid ? 126 : 63;
+  const height = isRoomyCapsuleGrid ? 58 : 44;
+  const gapX = isRoomyCapsuleGrid ? 12 : 5;
+  const gapY = isRoomyCapsuleGrid ? 10 : 8;
+  const capsuleRows = Math.ceil(problem.quotient / capsuleColumns);
+  const capsuleGridHeight = capsuleRows * height + Math.max(0, capsuleRows - 1) * gapY;
+  const startY = 58 + (266 - capsuleGridHeight) / 2;
+  const capsuleState = isRoomyCapsuleGrid ? "roomy" : "compact";
   const capsules = Array.from({ length: problem.quotient }, (_, index) => {
-    const column = index % STAR_GROUP_COLUMNS;
-    const row = Math.floor(index / STAR_GROUP_COLUMNS);
+    const point = getCenteredGridPoint(index, problem.quotient, {
+      columns: capsuleColumns,
+      centerX: 300,
+      startY,
+      width,
+      height,
+      gapX,
+      gapY
+    });
     return renderGroupCapsule(
-      startX + column * (width + gapX),
-      startY + row * (height + gapY),
+      point.x,
+      point.y,
       width,
       height,
       problem.divisor,
       problem.divisor,
       0,
-      "compact"
+      capsuleState
     );
   }).join("");
 
   const target = problem.remainder;
   const visibleSlots = Math.max(selectedCount, target);
-  const stars = Array.from({ length: visibleSlots }, (_, index) => {
-    const column = index % 3;
-    const row = Math.floor(index / 3);
+  const showRemainderCount = isProof || isRevealed;
+  const remainderColumns = visibleSlots > 12 ? 4 : 3;
+  const remainderRows = Math.ceil(visibleSlots / remainderColumns);
+  const remainderGapX = remainderColumns === 4 ? 38 : 48;
+  const remainderGapY = remainderRows <= 1 ? 0 : Math.min(46, 120 / (remainderRows - 1));
+  const remainderStartY = showRemainderCount
+    ? remainderRows <= 1 ? 176 : 166
+    : remainderRows <= 1 ? 154 : 146;
+  const starPoints = Array.from({ length: visibleSlots }, (_, index) => getCenteredPoint(index, visibleSlots, {
+    columns: remainderColumns,
+    centerX: 729,
+    startY: remainderStartY,
+    gapX: remainderGapX,
+    gapY: remainderGapY
+  }));
+  const stars = starPoints.map((point, index) => {
     const tone = index < selectedCount
       ? index < target ? "remaining" : "extra"
       : "missing";
-    return renderStarGlyph(688 + column * 48, 154 + row * 48, 13, tone);
+    return renderStarGlyph(point.x, point.y, 13, tone);
   }).join("");
   const groupFrame = isProof && selectedCount >= problem.divisor
-    ? renderDottedGroupFrame(problem.divisor, 688, 154, 48, 3)
+    ? renderDottedPointFrame(starPoints.slice(0, problem.divisor))
     : "";
 
   return `
-    <g class="star-remainder-board" data-proof="${isProof ? "true" : "false"}" data-revealed="${isRevealed ? "true" : "false"}">
+    <g class="star-remainder-board" data-proof="${isProof ? "true" : "false"}" data-revealed="${isRevealed ? "true" : "false"}" data-count-visible="${showRemainderCount ? "true" : "false"}">
       <text class="star-group-summary" x="300" y="42">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
-      <g class="star-capsule-grid is-compact">${capsules}</g>
+      <g class="star-capsule-grid ${isRoomyCapsuleGrid ? "is-roomy" : "is-compact"}" data-columns="${capsuleColumns}">${capsules}</g>
       <g class="star-remainder-focus">
         <rect class="star-side-surface is-focus" x="614" y="56" width="230" height="260" rx="28" />
-        <text class="star-side-title" x="729" y="96">남은 별</text>
-        <text class="star-side-value" x="729" y="136">${selectedCount}개</text>
+        <text class="star-side-title" x="729" y="88">남은 별</text>
+        ${showRemainderCount ? `<text class="star-side-value" x="729" y="128">${selectedCount}개</text>` : ""}
         ${stars}
         ${groupFrame}
         ${isRevealed ? '<text class="star-check-mark" x="806" y="294">✓</text>' : ""}
@@ -403,11 +437,46 @@ function renderRemainderBoard(problem, selectedCount, isProof, isRevealed) {
   `;
 }
 
+function getCenteredGridPoint(index, total, layout) {
+  const row = Math.floor(index / layout.columns);
+  const column = index % layout.columns;
+  const rowCount = Math.min(layout.columns, total - row * layout.columns);
+  const rowWidth = rowCount * layout.width + Math.max(0, rowCount - 1) * layout.gapX;
+  const rowStartX = layout.centerX - rowWidth / 2;
+  return {
+    x: rowStartX + column * (layout.width + layout.gapX),
+    y: layout.startY + row * (layout.height + layout.gapY)
+  };
+}
+
+function getCenteredPoint(index, total, layout) {
+  const row = Math.floor(index / layout.columns);
+  const column = index % layout.columns;
+  const rowCount = Math.min(layout.columns, total - row * layout.columns);
+  const rowStartX = layout.centerX - ((rowCount - 1) * layout.gapX) / 2;
+  return {
+    x: rowStartX + column * layout.gapX,
+    y: layout.startY + row * layout.gapY
+  };
+}
+
+function renderDottedPointFrame(points) {
+  if (!points.length) return "";
+  const xs = points.map((point) => point.x);
+  const ys = points.map((point) => point.y);
+  const minX = Math.min(...xs) - 17;
+  const maxX = Math.max(...xs) + 17;
+  const minY = Math.min(...ys) - 17;
+  const maxY = Math.max(...ys) + 17;
+  return `<rect class="star-next-group" x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" rx="17" />`;
+}
+
 function renderGroupCapsule(x, y, width, height, divisor, filled, missing, stateName) {
+  const isRoomy = stateName === "roomy";
   const columns = divisor <= 4 ? divisor : 3;
   const rows = Math.ceil(divisor / columns);
-  const gapX = Math.min(13, (width - 20) / Math.max(columns - 1, 1));
-  const gapY = rows <= 1 ? 0 : Math.min(11, (height - 18) / (rows - 1));
+  const gapX = Math.min(isRoomy ? 21 : 13, (width - 20) / Math.max(columns - 1, 1));
+  const gapY = rows <= 1 ? 0 : Math.min(isRoomy ? 14 : 11, (height - 18) / (rows - 1));
   const startX = x + width / 2 - ((columns - 1) * gapX) / 2;
   const startY = y + height / 2 - ((rows - 1) * gapY) / 2;
   const slots = Array.from({ length: divisor }, (_, index) => {
@@ -417,7 +486,8 @@ function renderGroupCapsule(x, y, width, height, divisor, filled, missing, state
     const slotY = startY + row * gapY;
     const isFilled = index < filled;
     const tone = isFilled ? "capsule" : "missing-slot";
-    return renderStarGlyph(slotX, slotY, stateName === "compact" ? 3.2 : 4, tone);
+    const radius = isRoomy ? 5.5 : stateName === "compact" ? 3.8 : 4;
+    return renderStarGlyph(slotX, slotY, radius, tone);
   }).join("");
   return `
     <g class="star-capsule" data-state="${stateName}">
@@ -447,7 +517,6 @@ function renderStarGlyph(x, y, radius, tone) {
 function makeStarQaProblem(dividend = 47, divisor = 6) {
   const quotient = Math.floor(dividend / divisor);
   const remainder = dividend % divisor;
-  const dividendParticle = [0, 1, 3, 6, 7, 8].includes(dividend % 10) ? "을" : "를";
   if (dividend < 20 || dividend > 99 || divisor < 3 || divisor > 9 || remainder <= 0) {
     throw new Error("QA problem must be 20–99 divided by 3–9 with a nonzero remainder.");
   }
@@ -481,7 +550,7 @@ function makeStarQaProblem(dividend = 47, divisor = 6) {
       {
         id: "quotient",
         label: "몫",
-        instruction: `${divisor}×몇이 ${dividend}${dividendParticle} 넘지 않을까요?`,
+        instruction: `별 ${dividend}개를 ${divisor}개씩 묶으면 몇 묶음까지 만들 수 있을까요?`,
         answer: quotient,
         answerChoiceId: `quotient:${quotient}`,
         choices: [
