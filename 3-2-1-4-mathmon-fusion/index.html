@@ -3838,22 +3838,40 @@
       return state.scoreboardSessionPromise;
     }
 
+    function getFixedQaRunSeed() {
+      const rawQaSeed = new URLSearchParams(window.location.search).get("qa-seed");
+      if (rawQaSeed === null || SCOREBOARD_API_URL) return null;
+      const qaSeed = Number(rawQaSeed);
+      return Number.isSafeInteger(qaSeed) && qaSeed > 0 ? qaSeed : null;
+    }
+
     function createLocalRunSeed() {
-      const qaSeed = Number(new URLSearchParams(window.location.search).get("qa-seed"));
-      if (Number.isInteger(qaSeed) && qaSeed > 0 && !SCOREBOARD_API_URL) return qaSeed;
-      if (window.crypto?.getRandomValues) {
-        const values = new Uint32Array(1);
-        window.crypto.getRandomValues(values);
-        return values[0] || 1;
-      }
-      return Math.floor(Math.random() * 2_147_483_646) + 1;
+      const fixedQaSeed = getFixedQaRunSeed();
+      if (fixedQaSeed !== null) return fixedQaSeed;
+
+      let seed = 0;
+      do {
+        if (window.crypto?.getRandomValues) {
+          const values = new Uint32Array(1);
+          window.crypto.getRandomValues(values);
+          seed = values[0] || 1;
+        } else {
+          seed = Math.floor(Math.random() * 2_147_483_646) + 1;
+        }
+      } while (seed === state.runSeed);
+      return seed;
     }
 
     async function startGame() {
       const session = await prepareScoreboardSession();
-      state.runSeed = Number.isInteger(Number(session?.seed)) && Number(session.seed) > 0
+      const fixedQaSeed = getFixedQaRunSeed();
+      let nextRunSeed = fixedQaSeed ?? (Number.isSafeInteger(Number(session?.seed)) && Number(session.seed) > 0
         ? Number(session.seed)
-        : createLocalRunSeed();
+        : createLocalRunSeed());
+      if (fixedQaSeed === null && nextRunSeed === state.runSeed) {
+        nextRunSeed = createLocalRunSeed();
+      }
+      state.runSeed = nextRunSeed;
       state.problems = buildProblems(state.runSeed);
       state.index = 0;
       state.score = 0;
@@ -3885,6 +3903,14 @@
       state.scoreboardSessionPromise = Promise.resolve(scoreboardBridge.start());
       await startGame();
     }
+
+    window.__mathmonRunQa = {
+      async generateSignature() {
+        await startGame();
+        return JSON.stringify(state.problems.map(({ top, bottom }) => [top, bottom]));
+      },
+      getRunSeed: () => state.runSeed
+    };
 
     function createSeededRandom(seed) {
       let value = seed >>> 0;

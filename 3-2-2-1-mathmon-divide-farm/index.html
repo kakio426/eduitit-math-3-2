@@ -5637,8 +5637,11 @@
     let lastRunSeed = null;
 
     function createRunSeed() {
-      const requestedSeed = Number(new URLSearchParams(window.location.search).get("seed"));
-      if (Number.isSafeInteger(requestedSeed)) return requestedSeed;
+      const params = new URLSearchParams(window.location.search);
+      const seedParam = params.get("seed");
+      const hasQaMarker = [...params.keys()].some((key) => key === "audioSmoke" || key.startsWith("qa"));
+      const requestedSeed = seedParam === null ? null : Number(seedParam);
+      if (hasQaMarker && Number.isSafeInteger(requestedSeed)) return requestedSeed;
 
       let seed = Date.now() >>> 0;
       if (globalThis.crypto?.getRandomValues) {

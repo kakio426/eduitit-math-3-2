@@ -46,7 +46,9 @@ function verifyEvidence(config) {
     }
   }
   assert(missing.length === 0, "Deterministic elevator evidence is incomplete", missing);
-  assert(config.reward?.closedLabel === "어떤 힘이 나올까요?", "Closed reward copy regressed");
+  assert(config.rewardScreenTitle === "점수" && config.progressLabel === "점수", "The student-facing score label regressed");
+  assert(config.reward?.unitLabel === "점수", "The reward value unit regressed");
+  assert(config.reward?.closedLabel === "점수가 어떻게 바뀔까요?", "Closed reward copy regressed");
   assert(config.reward?.mistakePolicy === "penalty-biased-random-pool", "A mistake must use the penalty-biased random reward pool");
   assert(config.qa?.rewardPolicy === "mistakes-use-penalty-biased-random-pool", "The mistake reward regression policy is missing");
   assert(Object.values(config.reward?.mistakeRewardWeights || {}).reduce((sum, weight) => sum + Number(weight || 0), 0) === 10000, "Mistake reward weights must total 10000");
@@ -71,9 +73,9 @@ function verifyEvidence(config) {
   assert(solveTutorial.title === "십의 자리 값부터 나눠요", "The place-value tutorial title regressed");
   assert(solveTutorial.body.includes("70을 2로 먼저 나눠요") && solveTutorial.body.includes("70 = 2 × 30 + 10") && solveTutorial.body.includes("답은 38"), "The operation-first place-value tutorial flow regressed");
   const goalTutorial = config.tutorialCards?.[1] || {};
-  assert(goalTutorial.image === "tutorial-page-2-v3-generated.webp", "The generated gameplay tutorial poster is not configured");
+  assert(goalTutorial.image === "tutorial-page-2-v4-generated.webp", "The generated gameplay tutorial poster is not configured");
   assert(goalTutorial.title === "나눗셈을 풀고 문을 열어요", "The gameplay tutorial title regressed");
-  assert(goalTutorial.body === "나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.", "The gameplay tutorial flow copy regressed");
+  assert(goalTutorial.body === "나눗셈을 풀어요. 문을 열어 점수를 봐요. +는 점수가 늘고, −는 점수가 줄어요. 10문제 뒤 도착한 층을 확인해요.", "The gameplay tutorial flow copy regressed");
   const actionButtons = config.imageAssets?.actionButtons || {};
   assert(actionButtons.next === "../_shared/action-buttons/next-button-generated.webp", "The shared next button is not configured");
   assert(actionButtons.previous === "../_shared/action-buttons/previous-button-generated.webp", "The shared previous button is not configured");
@@ -89,6 +91,7 @@ function verifyEvidence(config) {
   assert(resultViewport?.regressions?.includes("result-fixed-action-duplication"), "The duplicate retry-button regression is not registered");
   assert(resultViewport?.regressions?.includes("result-score-power-panel-alignment"), "The result-panel alignment regression is not registered");
   assert(resultViewport?.regressions?.includes("result-retry-hitbox-art-alignment"), "The baked retry hitbox regression is not registered");
+  assert(resultViewport?.regressions?.includes("result-inner-panel-center-axis"), "The inner result-panel center-axis regression is not registered");
   return { viewports: viewports.map((item) => item.name), states, lowestResult: config.results[0].name };
 }
 

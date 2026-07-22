@@ -688,11 +688,11 @@ async function auditElevatorTutorialGoalRaster(page, label) {
       topRowJustify:topRow ? getComputedStyle(topRow).justifyContent : '',
     };
   })()`);
-  assert(audit.source.endsWith('tutorial-page-2-v3-generated.webp'), `${label}: wrong generated tutorial image`, audit);
+  assert(audit.source.endsWith('tutorial-page-2-v4-generated.webp'), `${label}: wrong generated tutorial image`, audit);
   assert(audit.complete && audit.naturalWidth === 1280 && audit.naturalHeight === 800, `${label}: tutorial image size/load contract changed`, audit);
   assert(audit.objectFit === 'cover', `${label}: tutorial image must fill the 16:10 card`, audit);
   assert(audit.title === '나눗셈을 풀고 문을 열어요', `${label}: accessible tutorial title regressed`, audit);
-  assert(audit.body === '나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.', `${label}: accessible tutorial flow copy regressed`, audit);
+  assert(audit.body === '나눗셈을 풀어요. 문을 열어 점수를 봐요. +는 점수가 늘고, −는 점수가 줄어요. 10문제 뒤 도착한 층을 확인해요.', `${label}: accessible tutorial flow copy regressed`, audit);
   assert(audit.guideCount === 0, `${label}: HTML tutorial panel duplicates generated image text`, audit);
   assert(audit.titleRect?.width <= 1 && audit.titleRect?.height <= 1 && audit.bodyRect?.width <= 1 && audit.bodyRect?.height <= 1, `${label}: accessible HTML copy is visible over the generated poster`, audit);
   for (const edge of ['left', 'top', 'right', 'bottom', 'width', 'height']) {
@@ -1786,6 +1786,7 @@ async function auditStarPickupAlignment(page, label, mode, { expectValue = true 
       titleCenter: title ? title.getBBox().x + title.getBBox().width / 2 : null,
       valueCenter: value ? value.getBBox().x + value.getBBox().width / 2 : null,
       summaryFontSize: summary ? parseFloat(getComputedStyle(summary).fontSize) : 0,
+      sideStarCount: sideStars.length,
       starRowCenters: [...starRows.values()].map((row) => (Math.min(...row) + Math.max(...row)) / 2)
     };
   })()`);
@@ -1798,11 +1799,16 @@ async function auditStarPickupAlignment(page, label, mode, { expectValue = true 
     assert(Math.abs(audit.valueCenter - expectedSideCenter) <= 0.5, `${label}: revealed side value is not centered`, audit);
   } else {
     assert(audit.valueCenter === null, `${label}: remainder count is exposed before the student answers`, audit);
+    assert(audit.sideStarCount === 0, `${label}: remainder stars expose the answer before the student chooses`, audit);
   }
   if (mode === "remainder") {
     assert(audit.summaryFontSize >= 34, `${label}: completed multiplication is too small`, audit);
     assert(audit.capsuleColumns === 4 && audit.capsuleSizes.every((size) => size.width >= 126 && size.height >= 58), `${label}: 12 groups did not switch to the roomy 4-column layout`, audit);
-    assert(audit.starRowCenters.length > 0 && audit.starRowCenters.every((center) => Math.abs(center - 729) <= 0.01), `${label}: remainder-star rows are not centered under the value`, audit);
+    if (expectValue) {
+      assert(audit.starRowCenters.length > 0 && audit.starRowCenters.every((center) => Math.abs(center - 729) <= 0.01), `${label}: remainder-star rows are not centered under the value`, audit);
+    } else {
+      assert(audit.starRowCenters.length === 0, `${label}: remainder stars should stay hidden before the student chooses`, audit);
+    }
   }
 }
 
@@ -2066,6 +2072,17 @@ async function waitForReward(page, label) {
   const modalReward = rewardMode === "modal-art";
   if (modalReward) {
     await waitUntil(page, "document.getElementById('rewardPop')?.hidden === false", `${label}: reward modal not shown`);
+    await waitUntil(
+      page,
+      `(() => {
+        const button = document.getElementById('modalRewardOpenButton');
+        if (!button || button.hidden || button.disabled) return false;
+        const rect = button.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      })()`,
+      `${label}: reward open button did not become clickable`,
+      8000,
+    );
     return { modal: true, openSelector: "#modalRewardOpenButton", nextSelector: "#modalRewardNextButton" };
   }
   try {
@@ -2262,6 +2279,8 @@ async function auditElevatorResultTier(page, label, expected) {
       yellowButton:findYellowButton(),
       layout,
       centerDeltaSource:correctBox && meterBox && stageBox ? Math.abs(correctBox.cx - meterBox.cx) * 1280 / stageBox.width : null,
+      correctToPanelCenterSource:correctBox && stageBox && layout?.panelCenterX ? Math.abs((correctBox.cx - stageBox.left) * 1280 / stageBox.width - layout.panelCenterX) : null,
+      meterToPanelCenterSource:meterBox && stageBox && layout?.panelCenterX ? Math.abs((meterBox.cx - stageBox.left) * 1280 / stageBox.width - layout.panelCenterX) : null,
       correctToMeterGapSource:correctBox && meterBox && stageBox ? (meterBox.top - correctBox.bottom) * 800 / stageBox.height : null,
       meterToRetryGapSource:meterBox && retryBox && stageBox ? (retryBox.top - meterBox.bottom) * 800 / stageBox.height : null,
       meterTextInside:Boolean(meterBox && meterTextBox
@@ -2278,10 +2297,12 @@ async function auditElevatorResultTier(page, label, expected) {
   assert(!audit.titleVisible, `${label}: old separate title art overlaps the generated scene title`, audit);
   assert(audit.correct?.complete && audit.correct.naturalWidth > 0 && audit.correct.naturalHeight > 0, `${label}: correct-count art is missing`, audit);
   assert(audit.layout?.panelCenterX && Array.isArray(audit.layout.retryHitbox), `${label}: result layout contract is missing`, audit);
-  assert(audit.meterText === `올라갈 힘 ${expected.power}`, `${label}: power result copy is wrong`, { expected, ...audit });
+  assert(audit.meterText === `점수 ${expected.power}`, `${label}: score result copy is wrong`, { expected, ...audit });
   assert(!audit.meterFillVisible, `${label}: the old dashboard-like power bar is still visible`, audit);
   assert(!audit.retryArtVisible, `${label}: a second retry image overlaps the retry button baked into the result scene`, audit);
   assert(audit.centerDeltaSource <= 2, `${label}: correct-count and power badge do not share the result-panel center`, audit);
+  assert(audit.correctToPanelCenterSource <= 2, `${label}: correct-count art is not centered on the inner result panel`, audit);
+  assert(audit.meterToPanelCenterSource <= 2, `${label}: score badge is not centered on the inner result panel`, audit);
   assert(audit.correctToMeterGapSource >= 18, `${label}: correct-count art overlaps the power badge`, audit);
   assert(audit.meterToRetryGapSource >= 16, `${label}: power badge overlaps the baked retry button`, audit);
   assert(audit.meterTextInside, `${label}: power text leaves its badge`, audit);
@@ -2291,6 +2312,8 @@ async function auditElevatorResultTier(page, label, expected) {
     assert(Math.abs(audit.retrySourceBox?.[edge] - expectedEdges[edge]) <= 1.5, `${label}: retry hitbox ${edge} differs from the tier contract`, audit);
   }
   assert(audit.yellowButton?.count > 5000, `${label}: baked retry button could not be found in the generated scene`, audit);
+  const yellowButtonCenter = (audit.yellowButton.left + audit.yellowButton.right) / 2;
+  assert(Math.abs(yellowButtonCenter - audit.layout.panelCenterX) <= 14, `${label}: baked retry button is not centered on the inner result panel`, { ...audit, yellowButtonCenter });
   const buttonGaps = {
     left:audit.yellowButton.left - audit.retrySourceBox.left,
     top:audit.yellowButton.top - audit.retrySourceBox.top,

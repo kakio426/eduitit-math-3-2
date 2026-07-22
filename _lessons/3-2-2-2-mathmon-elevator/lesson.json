@@ -11,9 +11,9 @@
   "goal": "남은 수를 내려 다시 나눠요.",
   "action": "남은 수와 일의 자리 수를 합쳐요.",
   "buttonLabel": "문 열기",
-  "rewardScreenTitle": "올라갈 힘",
-  "progressLabel": "올라갈 힘",
-  "rewardComplete": "힘이 바뀌었어요.",
+  "rewardScreenTitle": "점수",
+  "progressLabel": "점수",
+  "rewardComplete": "점수가 바뀌었어요.",
   "tutorialTitle": "엘리베이터를 움직이기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
@@ -28,8 +28,8 @@
       "visual": "2",
       "purpose": "reward-goal",
       "title": "나눗셈을 풀고 문을 열어요",
-      "body": "나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.",
-      "image": "tutorial-page-2-v3-generated.webp"
+      "body": "나눗셈을 풀어요. 문을 열어 점수를 봐요. +는 점수가 늘고, −는 점수가 줄어요. 10문제 뒤 도착한 층을 확인해요.",
+      "image": "tutorial-page-2-v4-generated.webp"
     }
   ],
   "tutorial": {
@@ -47,8 +47,8 @@
       "stop": 500,
       "rainbow": 10
     },
-    "unitLabel": "올라갈 힘",
-    "closedLabel": "어떤 힘이 나올까요?",
+    "unitLabel": "점수",
+    "closedLabel": "점수가 어떻게 바뀔까요?",
     "nextLabel": "다음",
     "artMap": {
       "motor": "reward-events-sprite-generated.webp",
@@ -78,17 +78,17 @@
       "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-tiers-v3-contact-sheet.png",
+      "contactSheet": "result-tiers-v4-contact-sheet.png",
       "protagonist": "base-05-eaglemon",
       "fixedGeneratedElements": ["result-title", "tier-scene-with-title", "retry-button"],
       "dynamicOverlays": ["elevator-power", "correct-count"],
       "layoutByTier": {
-        "basement": { "panelCenterX": 1038, "retryHitbox": [896, 519, 283, 132] },
+        "basement": { "panelCenterX": 957, "retryHitbox": [815, 519, 283, 132] },
         "first": { "panelCenterX": 905, "retryHitbox": [764, 523, 281, 131] },
         "middle": { "panelCenterX": 845, "retryHitbox": [710, 524, 269, 126] },
-        "view": { "panelCenterX": 1036, "retryHitbox": [897, 508, 277, 127] },
-        "roof": { "panelCenterX": 1029, "retryHitbox": [888, 519, 282, 130] },
-        "rainbow": { "panelCenterX": 1040, "retryHitbox": [892, 542, 295, 128] }
+        "view": { "panelCenterX": 955, "retryHitbox": [817, 508, 276, 127] },
+        "roof": { "panelCenterX": 951, "retryHitbox": [804, 519, 281, 130] },
+        "rainbow": { "panelCenterX": 954, "retryHitbox": [802, 543, 295, 126] }
       }
     }
   },
@@ -149,7 +149,7 @@
   "rewardEvents": [
     {
       "id": "motor",
-      "text": "힘이 늘었어요",
+      "text": "점수가 올랐어요",
       "weight": 7645,
       "min": 5,
       "max": 9,
@@ -158,7 +158,7 @@
     },
     {
       "id": "blackout",
-      "text": "힘이 줄었어요",
+      "text": "점수가 줄었어요",
       "weight": 1200,
       "min": -10,
       "max": -5,
@@ -167,7 +167,7 @@
     },
     {
       "id": "superMotor",
-      "text": "힘이 크게 늘었어요",
+      "text": "점수가 크게 올랐어요",
       "weight": 900,
       "min": 13,
       "max": 22,
@@ -186,7 +186,7 @@
     },
     {
       "id": "stop",
-      "text": "힘 0",
+      "text": "점수 0",
       "weight": 200,
       "min": 0,
       "max": 0,
@@ -207,7 +207,7 @@
   ],
   "wrongEvent": {
     "id": "mistakeFallback",
-    "text": "힘 그대로",
+    "text": "점수 그대로",
     "min": 0,
     "max": 0,
     "family": "stop"
@@ -279,7 +279,7 @@
     "door-open-button-generated.webp",
     "../_shared/result-actions/retry-button-generated.webp",
     "tutorial-page-1-v7-generated.webp",
-    "tutorial-page-2-v3-generated.webp",
+    "tutorial-page-2-v4-generated.webp",
     "result-basement-generated.webp",
     "result-first-generated.webp",
     "result-middle-generated.webp",
@@ -353,7 +353,8 @@
         "regressions": [
           "result-fixed-action-duplication",
           "result-score-power-panel-alignment",
-          "result-retry-hitbox-art-alignment"
+          "result-retry-hitbox-art-alignment",
+          "result-inner-panel-center-axis"
         ]
       }
     ],
