@@ -23,7 +23,7 @@ function ensureElevatorStageArt() {
       <span class="elevator-route-arrow" aria-hidden="true">→</span>
       <span class="elevator-route-point is-next"><b>다음</b><span data-route="next">1층</span></span>
       <span class="elevator-route-arrow is-final-route" aria-hidden="true">→</span>
-      <span class="elevator-route-point is-final"><b>끝</b><span>꼭대기</span></span>
+      <span class="elevator-route-point is-final"><b>끝</b><span>무지개</span></span>
     `;
     progressLine.appendChild(summary);
   }
@@ -35,26 +35,26 @@ function syncElevatorRoute(state) {
   const current = Lesson2ElevatorModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
   const special = Lesson2ElevatorModel.RESULT_TIERS.find((result) => result.needsSpecial);
   const next = current.needsSpecial ? null : Lesson2ElevatorModel.getNextResult(current);
-  const nextName = !next || next.id === current.id ? (special?.name || "꼭대기 전망대") : next.name;
+  const nextName = !next || next.id === current.id ? (special?.name || "무지개 최고층") : next.name;
   const nextLabelResult = !next || next.id === current.id ? special : next;
   summary.querySelector('[data-route="current"]').textContent = getElevatorFloorLabel(current);
   summary.querySelector('[data-route="next"]').textContent = current.needsSpecial ? "도착" : getElevatorFloorLabel(nextLabelResult || { name: nextName });
   summary.parentElement?.setAttribute(
     "aria-label",
-    `지금 ${current.name}, 다음 ${current.needsSpecial ? "도착" : nextName}, 끝 꼭대기 전망대`
+    `지금 ${current.name}, 다음 ${current.needsSpecial ? "도착" : nextName}, 끝 무지개 최고층`
   );
 }
 
 function getElevatorFloorLabel(result) {
   const labels = {
-    basement: "지하",
-    first: "1층",
-    middle: "중간층",
-    view: "전망층",
-    roof: "옥상",
-    rainbow: "꼭대기"
+    basement: "비밀기지",
+    first: "햇살 로비",
+    middle: "구름 쉼터",
+    view: "하늘 전망대",
+    roof: "꽃빛 정원",
+    rainbow: "무지개"
   };
-  return labels[result?.id] || String(result?.name || "다음 층").replace(" 정비층", "").replace(" 로비", "").replace(" 전망대", "");
+  return labels[result?.id] || String(result?.name || "다음 층");
 }
 
 function renderProblemVisual(problem, state) {
@@ -244,8 +244,8 @@ function renderElevatorMathBoard(problem, state) {
   const completedBoardMarkup = `
     <g class="division-board division-board--complete" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
       <text x="300" y="-32" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-      <text x="80" y="180" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M150 100 Q170 100 170 120 L170 198 M170 100 H560" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="135" y="180" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M150 100 Q170 100 170 120 L170 198 M170 100 H560" data-board-bracket="true" data-stem-x="170" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
       <text x="340" y="76" class="board-number board-final-quotient">${problem.tensQuotient}</text>
       <text x="470" y="76" class="board-number board-final-quotient board-final-quotient--ones is-student-decision">${problem.onesQuotient}</text>
@@ -275,8 +275,8 @@ function renderElevatorMathBoard(problem, state) {
   const activeBoardMarkup = onesDone ? completedBoardMarkup : `
     <g class="division-board" font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
       <text x="480" y="-32" class="board-problem">${problem.dividend} ÷ ${problem.divisor}</text>
-      <text x="210" y="176" class="board-number board-divisor">${problem.divisor}</text>
-      <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
+      <text x="270" y="176" class="board-number board-divisor">${problem.divisor}</text>
+      <path d="M285 102 Q305 102 305 122 L305 194 M305 102 H760" data-board-bracket="true" data-stem-x="305" fill="none" stroke="#fff4d6" stroke-width="8" stroke-linecap="round" />
 
       ${renderSvgCell(384, 14, 158, 68, tensDone || wrongTens ? displayedTensQuotient : "?", state.stepIndex === 0, "십의 자리 몫", Boolean(wrongTens))}
       ${renderSvgCell(552, 14, 158, 68, wrongOnes ? attemptedChoice.value : "?", state.stepIndex === 2, "일의 자리 몫", Boolean(wrongOnes))}

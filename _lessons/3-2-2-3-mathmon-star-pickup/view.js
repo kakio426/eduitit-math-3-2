@@ -234,9 +234,8 @@ function renderStarMathBoard(problem, state) {
     const shown = Number.isFinite(selectedValue) ? selectedValue : problem.quotient;
     svg.insertAdjacentHTML("beforeend", renderGroupedStars(problem, shown));
   } else {
-    const shown = proofStep === "remainder" && Number.isFinite(selectedValue)
-      ? selectedValue
-      : problem.remainder;
+    const hasRemainderChoice = proofStep === "remainder" && Number.isFinite(selectedValue);
+    const shown = hasRemainderChoice ? selectedValue : 0;
     svg.insertAdjacentHTML("beforeend", renderRemainderBoard(problem, shown, proofStep === "remainder", revealedStep === "remainder"));
   }
   ui.visualArea.replaceChildren(svg);
@@ -395,8 +394,9 @@ function renderRemainderBoard(problem, selectedCount, isProof, isRevealed) {
   }).join("");
 
   const target = problem.remainder;
-  const visibleSlots = Math.max(selectedCount, target);
-  const showRemainderCount = isProof || isRevealed;
+  const showRemainderEvidence = isProof || isRevealed;
+  const visibleSlots = showRemainderEvidence ? Math.max(selectedCount, target) : 0;
+  const showRemainderCount = showRemainderEvidence;
   const remainderColumns = visibleSlots > 12 ? 4 : 3;
   const remainderRows = Math.ceil(visibleSlots / remainderColumns);
   const remainderGapX = remainderColumns === 4 ? 38 : 48;

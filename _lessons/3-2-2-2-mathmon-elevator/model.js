@@ -5,6 +5,7 @@ const Lesson2ElevatorModel = (() => {
   const RESULT_TIERS = LESSON_CONFIG.results;
   const REWARD_EVENTS = LESSON_CONFIG.rewardEvents;
   const WRONG_REWARD_EVENT = LESSON_CONFIG.wrongEvent;
+  const MISTAKE_REWARD_WEIGHTS = LESSON_CONFIG.reward?.mistakeRewardWeights || {};
 
   function createRng(seed = 12345) {
     let value = seed >>> 0;
@@ -215,7 +216,7 @@ const Lesson2ElevatorModel = (() => {
         id: "tens",
         label: "십의 자리",
         action: "십의 자리 몫과 남은 수를 고른다",
-        instruction: `${problem.tensDigit * 10}에서 십의 자리 몫과 남은 수를 골라요.`,
+        instruction: `${problem.tensDigit * 10} ÷ ${problem.divisor}의 몫과 남은 수를 골라요.`,
         answer: { quotient: problem.tensQuotient, remainingTens: problem.remainingTens },
         answerChoiceId: tensAnswerId,
         choices: shuffle(tensChoices, rng),
@@ -272,18 +273,20 @@ const Lesson2ElevatorModel = (() => {
   }
 
   function pickRewardEvent(rng, mistakeTouched) {
-    if (mistakeTouched) {
-      return {
-        ...WRONG_REWARD_EVENT,
-        amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max)
-      };
-    }
-    let roll = Math.floor(rng() * 10000);
-    for (const event of REWARD_EVENTS) {
-      if (roll < event.weight) {
+    // A mistake never forces a penalty, but it makes downward events more likely.
+    const weightedEvents = REWARD_EVENTS.map((event) => ({
+      event,
+      weight: mistakeTouched
+        ? Number(MISTAKE_REWARD_WEIGHTS[event.id] ?? event.weight)
+        : Number(event.weight)
+    }));
+    const totalWeight = weightedEvents.reduce((sum, item) => sum + item.weight, 0);
+    let roll = Math.floor(rng() * totalWeight);
+    for (const { event, weight } of weightedEvents) {
+      if (roll < weight) {
         return { ...event, amount: randomInt(rng, event.min, event.max) };
       }
-      roll -= event.weight;
+      roll -= weight;
     }
     const fallback = REWARD_EVENTS[0];
     return { ...fallback, amount: randomInt(rng, fallback.min, fallback.max) };

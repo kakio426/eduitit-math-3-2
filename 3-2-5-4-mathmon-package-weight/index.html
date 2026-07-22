@@ -1885,7 +1885,8 @@
     const params = new URLSearchParams(window.location.search);
     const seedParam = params.get("seed");
     const seedFromUrl = Number(seedParam);
-    const hasExplicitSeed = seedParam !== null && Number.isInteger(seedFromUrl);
+    const hasQaMarker = [...params.keys()].some((key) => key === "audioSmoke" || key.startsWith("qa"));
+    const hasExplicitSeed = hasQaMarker && seedParam !== null && Number.isInteger(seedFromUrl);
     const TUTORIAL_DEFAULT_TITLE = ui.tutorialTitle.textContent;
     const TUTORIAL_DEFAULT_BUTTON = ui.tutorialStartButton.textContent;
     const TRUCK_EVOLUTION_IMAGES = Object.freeze({
@@ -1919,16 +1920,22 @@
       sfx: "mathmon-audio-sfx-enabled"
     });
 
+    let lastRunSeed = null;
     let state = createInitialState(createRunSeed());
 
     function createRunSeed() {
       if (hasExplicitSeed) return seedFromUrl;
+      let seed;
       if (window.crypto?.getRandomValues) {
         const values = new Uint32Array(1);
         window.crypto.getRandomValues(values);
-        return values[0];
+        seed = values[0];
+      } else {
+        seed = Math.floor((Date.now() + Math.random() * 0xffffffff) % 0xffffffff);
       }
-      return Math.floor((Date.now() + Math.random() * 0xffffffff) % 0xffffffff);
+      if (seed === lastRunSeed) seed = (seed + 0x6d2b79f5) >>> 0;
+      lastRunSeed = seed;
+      return seed;
     }
 
     function loadAudioPreference(key) {
@@ -2336,6 +2343,14 @@
       syncSettingsUi();
       renderProblem();
     }
+
+    window.__mathmonRunQa = {
+      generateSignature() {
+        startGame();
+        return JSON.stringify(state.problems);
+      },
+      getRunSeed: () => state.seed
+    };
 
     function syncSettingsUi() {
       ui.settingsBgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));

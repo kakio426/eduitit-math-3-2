@@ -2705,6 +2705,10 @@
           }));
       }
 
+      window.__mathmonRunQa = {
+        generateSignature: () => JSON.stringify(buildRound().map(({ a, b }) => [String(a), b])),
+      };
+
       function showScreen(name) {
         state.screen = name;
         els.stageShell.dataset.activeScreen = name;

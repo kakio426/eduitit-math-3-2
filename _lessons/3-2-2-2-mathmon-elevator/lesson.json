@@ -11,9 +11,9 @@
   "goal": "남은 수를 내려 다시 나눠요.",
   "action": "남은 수와 일의 자리 수를 합쳐요.",
   "buttonLabel": "문 열기",
-  "rewardScreenTitle": "올라갈 힘",
-  "progressLabel": "올라갈 힘",
-  "rewardComplete": "힘이 바뀌었어요.",
+  "rewardScreenTitle": "점수",
+  "progressLabel": "점수",
+  "rewardComplete": "점수가 바뀌었어요.",
   "tutorialTitle": "엘리베이터를 움직이기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
@@ -21,15 +21,15 @@
       "visual": "1",
       "purpose": "mechanic",
       "title": "십의 자리 값부터 나눠요",
-      "body": "70 = 2 × 30 + 10. 몫은 30이고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.",
-      "image": "tutorial-page-1-v6-generated.webp"
+      "body": "십의 자리 값 70을 2로 먼저 나눠요. 70 = 2 × 30 + 10이에요. 30씩 나누고 10이 남아요. 10과 6을 합쳐 16을 만들어요. 16을 2로 나누면 8이에요. 30과 8을 더하면 답은 38이에요.",
+      "image": "tutorial-page-1-v7-generated.webp"
     },
     {
       "visual": "2",
       "purpose": "reward-goal",
       "title": "나눗셈을 풀고 문을 열어요",
-      "body": "나눗셈을 풀어요. 문을 열어 힘을 봐요. +는 위로, −는 아래로 가요. 10문제 뒤 도착한 층을 확인해요.",
-      "image": "tutorial-page-2-v3-generated.webp"
+      "body": "나눗셈을 풀어요. 문을 열어 점수를 봐요. +는 점수가 늘고, −는 점수가 줄어요. 10문제 뒤 도착한 층을 확인해요.",
+      "image": "tutorial-page-2-v4-generated.webp"
     }
   ],
   "tutorial": {
@@ -38,8 +38,17 @@
   "reward": {
     "mode": "modal-art",
     "maxPower": 100,
-    "unitLabel": "올라갈 힘",
-    "closedLabel": "어떤 힘이 나올까요?",
+    "mistakePolicy": "penalty-biased-random-pool",
+    "mistakeRewardWeights": {
+      "motor": 3300,
+      "blackout": 5500,
+      "superMotor": 600,
+      "express": 90,
+      "stop": 500,
+      "rainbow": 10
+    },
+    "unitLabel": "점수",
+    "closedLabel": "점수가 어떻게 바뀔까요?",
     "nextLabel": "다음",
     "artMap": {
       "motor": "reward-events-sprite-generated.webp",
@@ -64,14 +73,23 @@
   },
   "result": {
     "renderMode": "hybrid-generated-dynamic",
+    "retryVisualMode": "baked-in-scene",
     "stateImageSet": {
       "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-tiers-v2-contact-sheet.png",
+      "contactSheet": "result-tiers-v4-contact-sheet.png",
       "protagonist": "base-05-eaglemon",
       "fixedGeneratedElements": ["result-title", "tier-scene-with-title", "retry-button"],
-      "dynamicOverlays": ["elevator-power", "correct-count"]
+      "dynamicOverlays": ["elevator-power", "correct-count"],
+      "layoutByTier": {
+        "basement": { "panelCenterX": 957, "retryHitbox": [815, 519, 283, 132] },
+        "first": { "panelCenterX": 905, "retryHitbox": [764, 523, 281, 131] },
+        "middle": { "panelCenterX": 845, "retryHitbox": [710, 524, 269, 126] },
+        "view": { "panelCenterX": 955, "retryHitbox": [817, 508, 276, 127] },
+        "roof": { "panelCenterX": 951, "retryHitbox": [804, 519, 281, 130] },
+        "rainbow": { "panelCenterX": 954, "retryHitbox": [802, 543, 295, 126] }
+      }
     }
   },
   "workbench": {
@@ -86,58 +104,52 @@
   "results": [
     {
       "id": "basement",
-      "name": "지하 정비층",
+      "name": "지하 비밀기지",
       "minPower": 0,
       "minCorrect": 0,
-      "image": "result-basement-generated.webp",
-      "titleImage": "result-title-basement-generated.webp"
+      "image": "result-basement-generated.webp"
     },
     {
       "id": "first",
-      "name": "1층 로비",
+      "name": "햇살 로비",
       "minPower": 19,
       "minCorrect": 3,
-      "image": "result-first-generated.webp",
-      "titleImage": "result-title-first-generated.webp"
+      "image": "result-first-generated.webp"
     },
     {
       "id": "middle",
-      "name": "중간층",
+      "name": "구름 쉼터",
       "minPower": 39,
       "minCorrect": 5,
-      "image": "result-middle-generated.webp",
-      "titleImage": "result-title-middle-generated.webp"
+      "image": "result-middle-generated.webp"
     },
     {
       "id": "view",
-      "name": "전망층",
+      "name": "하늘 전망대",
       "minPower": 59,
       "minCorrect": 7,
-      "image": "result-view-generated.webp",
-      "titleImage": "result-title-view-generated.webp"
+      "image": "result-view-generated.webp"
     },
     {
       "id": "roof",
-      "name": "옥상 정원",
+      "name": "꽃빛 옥상정원",
       "minPower": 79,
       "minCorrect": 9,
-      "image": "result-roof-generated.webp",
-      "titleImage": "result-title-roof-generated.webp"
+      "image": "result-roof-generated.webp"
     },
     {
       "id": "rainbow",
-      "name": "꼭대기 전망대",
+      "name": "무지개 최고층",
       "minPower": 100,
       "minCorrect": 0,
       "needsSpecial": true,
-      "image": "result-rainbow-generated.webp",
-      "titleImage": "result-title-rainbow-generated.webp"
+      "image": "result-rainbow-generated.webp"
     }
   ],
   "rewardEvents": [
     {
       "id": "motor",
-      "text": "힘이 늘었어요",
+      "text": "점수가 올랐어요",
       "weight": 7645,
       "min": 5,
       "max": 9,
@@ -146,7 +158,7 @@
     },
     {
       "id": "blackout",
-      "text": "힘이 줄었어요",
+      "text": "점수가 줄었어요",
       "weight": 1200,
       "min": -10,
       "max": -5,
@@ -155,7 +167,7 @@
     },
     {
       "id": "superMotor",
-      "text": "힘이 크게 늘었어요",
+      "text": "점수가 크게 올랐어요",
       "weight": 900,
       "min": 13,
       "max": 22,
@@ -166,15 +178,15 @@
       "id": "express",
       "text": "급행!",
       "weight": 50,
-      "min": 8,
-      "max": 8,
+      "min": 50,
+      "max": 50,
       "family": "express",
       "rarity": "rare",
       "express": true
     },
     {
       "id": "stop",
-      "text": "힘 0",
+      "text": "점수 0",
       "weight": 200,
       "min": 0,
       "max": 0,
@@ -194,11 +206,11 @@
     }
   ],
   "wrongEvent": {
-    "id": "blackoutMistake",
-    "text": "힘이 줄었어요",
-    "min": -18,
-    "max": -8,
-    "family": "blackout"
+    "id": "mistakeFallback",
+    "text": "점수 그대로",
+    "min": 0,
+    "max": 0,
+    "family": "stop"
   },
   "typesPerRun": [
     "regrouping",
@@ -260,20 +272,14 @@
     "mathmon-reaction-wrong.webp",
     "mathmon-reaction-reward.webp",
     "result-scene-generated.webp",
-    "result-title-basement-generated.webp",
-    "result-title-first-generated.webp",
-    "result-title-middle-generated.webp",
-    "result-title-view-generated.webp",
-    "result-title-roof-generated.webp",
-    "result-title-rainbow-generated.webp",
     "../_shared/action-buttons/next-button-generated.webp",
     "../_shared/action-buttons/previous-button-generated.webp",
     "../_shared/action-buttons/problem-start-button-generated.webp",
     "../_shared/action-buttons/result-view-button-generated.webp",
     "door-open-button-generated.webp",
     "../_shared/result-actions/retry-button-generated.webp",
-    "tutorial-page-1-v6-generated.webp",
-    "tutorial-page-2-v3-generated.webp",
+    "tutorial-page-1-v7-generated.webp",
+    "tutorial-page-2-v4-generated.webp",
     "result-basement-generated.webp",
     "result-first-generated.webp",
     "result-middle-generated.webp",
@@ -284,6 +290,7 @@
   "qa": {
     "visualContractVersion": 1,
     "modelRule": "division-regrouping-exact",
+    "rewardPolicy": "mistakes-use-penalty-biased-random-pool",
     "directInteractionRequired": true,
     "viewports": [
       {
@@ -302,11 +309,29 @@
         "height": 897
       },
       {
+        "name": "reported-instruction-wrap-1082x897",
+        "width": 1082,
+        "height": 897,
+        "dpr": 2,
+        "regressions": [
+          "step-instruction-balanced-wrap"
+        ]
+      },
+      {
+        "name": "reported-divisor-left-1022x774",
+        "width": 1022,
+        "height": 774,
+        "regressions": [
+          "division-divisor-bracket-grouping"
+        ]
+      },
+      {
         "name": "reported-svg-overlap-934x987",
         "width": 934,
         "height": 987,
         "regressions": [
           "tutorial-place-value-flow-mismatch",
+          "tutorial-operation-before-quotient",
           "completion-board-action-balance",
           "active-board-control-column-balance",
           "answer-choice-card-shadow-overlap",
@@ -318,6 +343,18 @@
           "eagle-reward-left-wing-clip",
           "eagle-reaction-left-stage-clearance",
           "play-step-choices-surface-overlap"
+        ]
+      },
+      {
+        "name": "reported-result-overlap-1039x651",
+        "width": 1039,
+        "height": 651,
+        "dpr": 2,
+        "regressions": [
+          "result-fixed-action-duplication",
+          "result-score-power-panel-alignment",
+          "result-retry-hitbox-art-alignment",
+          "result-inner-panel-center-axis"
         ]
       }
     ],

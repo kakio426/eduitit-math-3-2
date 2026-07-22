@@ -748,7 +748,7 @@ async function main() {
   const serverPort = await getFreePort();
   const debugPort = await getFreePort();
   const profileDir = await fsp.mkdtemp(path.join(os.tmpdir(), "lesson5-click-guards-"));
-  const seedPageUrl = `http://127.0.0.1:${serverPort}/${LESSON}/index.html?seed=${options.seed}`;
+  const seedPageUrl = `http://127.0.0.1:${serverPort}/${LESSON}/index.html?seed=${options.seed}&qa=click-guards`;
   const randomPageUrl = `http://127.0.0.1:${serverPort}/${LESSON}/index.html`;
   let server;
   let chrome;

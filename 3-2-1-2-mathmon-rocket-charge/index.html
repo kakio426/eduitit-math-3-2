@@ -3744,6 +3744,10 @@
       return shuffle(candidates).slice(0, TOTAL_QUESTIONS);
     }
 
+    window.__mathmonRunQa = {
+      generateSignature: () => JSON.stringify(buildProblems().map(({ number, multiplier }) => [number, multiplier]))
+    };
+
     function renderProblem() {
       const problem = currentProblem();
       clearStepAdvanceTimer();

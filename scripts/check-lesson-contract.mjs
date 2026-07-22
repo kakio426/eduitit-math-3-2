@@ -268,6 +268,8 @@ async function checkLesson(lesson, failures) {
   if (!Array.isArray(config.results) || config.results.length === 0) {
     addFailure(failures, lesson, "results must contain at least one tier");
   } else {
+    const fixedResultElements = config.result?.stateImageSet?.fixedGeneratedElements;
+    const titleIsBakedIntoTierScene = Array.isArray(fixedResultElements) && fixedResultElements.includes("tier-scene-with-title");
     let previousPower = -1;
     let previousCorrect = -1;
     for (const result of config.results) {
@@ -280,7 +282,9 @@ async function checkLesson(lesson, failures) {
       previousPower = result.minPower;
       if (!result.needsSpecial) previousCorrect = result.minCorrect;
       await checkLocalAsset(failures, lesson, config, result.image, `result image ${result.id}`);
-      await checkLocalAsset(failures, lesson, config, result.titleImage, `result title image ${result.id}`);
+      if (!titleIsBakedIntoTierScene) {
+        await checkLocalAsset(failures, lesson, config, result.titleImage, `result title image ${result.id}`);
+      }
     }
   }
   checkRewardEvents(failures, lesson, config);
