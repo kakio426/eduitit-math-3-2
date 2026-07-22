@@ -86,12 +86,15 @@ function verifyEvidence(config) {
   assert(config.result?.stateImageSet?.fixedGeneratedElements?.includes("result-title"), "The generated result title contract is missing");
   assert(config.result?.stateImageSet?.fixedGeneratedElements?.includes("retry-button"), "The generated result retry contract is missing");
   assert(Object.keys(config.result?.stateImageSet?.layoutByTier || {}).length === config.results.length, "Each result tier needs its own overlay and retry-hitbox layout");
+  assert(config.result?.stateImageSet?.cacheVersion === "2026-07-22-result-centering", "The result state-set cache version is missing");
+  assert(config.results.every((item) => /-v\d+-generated\.webp$/.test(item.image)), "Every result tier must use a versioned runtime image URL");
   const resultViewport = viewports.find((item) => item.name === "reported-result-overlap-1039x651");
   assert(resultViewport?.width === 1039 && resultViewport?.height === 651 && resultViewport?.dpr === 2, "The reported result-overlap viewport is missing");
   assert(resultViewport?.regressions?.includes("result-fixed-action-duplication"), "The duplicate retry-button regression is not registered");
   assert(resultViewport?.regressions?.includes("result-score-power-panel-alignment"), "The result-panel alignment regression is not registered");
   assert(resultViewport?.regressions?.includes("result-retry-hitbox-art-alignment"), "The baked retry hitbox regression is not registered");
   assert(resultViewport?.regressions?.includes("result-inner-panel-center-axis"), "The inner result-panel center-axis regression is not registered");
+  assert(resultViewport?.regressions?.includes("result-versioned-state-image-cache"), "The stale result-image cache regression is not registered");
   return { viewports: viewports.map((item) => item.name), states, lowestResult: config.results[0].name };
 }
 

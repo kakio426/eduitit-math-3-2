@@ -2201,6 +2201,7 @@ async function auditElevatorResultTier(page, label, expected) {
     const retryHitbox = document.querySelector('.result-restart-hitbox');
     const stage = document.querySelector('.stage-shell');
     const layout = LESSON_CONFIG.result?.stateImageSet?.layoutByTier?.[${JSON.stringify(expected.id)}] || null;
+    const configuredImage = LESSON_CONFIG.results?.find((item) => item.id === ${JSON.stringify(expected.id)})?.image || '';
     const box = (element) => {
       if (!element) return null;
       const rect = element.getBoundingClientRect();
@@ -2278,6 +2279,7 @@ async function auditElevatorResultTier(page, label, expected) {
       retrySourceBox:toSourceBox(retryHitbox),
       yellowButton:findYellowButton(),
       layout,
+      configuredImage,
       centerDeltaSource:correctBox && meterBox && stageBox ? Math.abs(correctBox.cx - meterBox.cx) * 1280 / stageBox.width : null,
       correctToPanelCenterSource:correctBox && stageBox && layout?.panelCenterX ? Math.abs((correctBox.cx - stageBox.left) * 1280 / stageBox.width - layout.panelCenterX) : null,
       meterToPanelCenterSource:meterBox && stageBox && layout?.panelCenterX ? Math.abs((meterBox.cx - stageBox.left) * 1280 / stageBox.width - layout.panelCenterX) : null,
@@ -2293,7 +2295,8 @@ async function auditElevatorResultTier(page, label, expected) {
   assert(audit.tier === expected.id, `${label}: wrong elevator result tier`, audit);
   assert(audit.heading === expected.name, `${label}: wrong elevator result name`, audit);
   assert(audit.background?.complete && audit.background.naturalWidth === 1280 && audit.background.naturalHeight === 800, `${label}: generated elevator result scene is missing`, audit);
-  assert(audit.background.src === `result-${expected.id}-generated.webp`, `${label}: wrong elevator result scene`, audit);
+  assert(/-v\d+-generated\.webp$/.test(audit.configuredImage), `${label}: elevator result scene URL is not versioned`, audit);
+  assert(audit.background.src === audit.configuredImage, `${label}: wrong or stale elevator result scene`, audit);
   assert(!audit.titleVisible, `${label}: old separate title art overlaps the generated scene title`, audit);
   assert(audit.correct?.complete && audit.correct.naturalWidth > 0 && audit.correct.naturalHeight > 0, `${label}: correct-count art is missing`, audit);
   assert(audit.layout?.panelCenterX && Array.isArray(audit.layout.retryHitbox), `${label}: result layout contract is missing`, audit);
@@ -2728,7 +2731,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
         });
         window.__mathmonEngineQa.showResult();
       })()`);
-      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)} && document.getElementById('resultBg')?.complete && document.getElementById('resultBg')?.naturalWidth === 1280`, `${viewport.name}: elevator result ${tier.id} did not render`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)} && document.getElementById('resultBg')?.complete && document.getElementById('resultBg')?.naturalWidth === 1280 && document.getElementById('resultCorrectArt')?.complete && document.getElementById('resultCorrectArt')?.naturalWidth > 0`, `${viewport.name}: elevator result ${tier.id} did not render`);
       await auditElevatorResultTier(page, `${viewport.name} result ${tier.id}`, tier);
       await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
       shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
