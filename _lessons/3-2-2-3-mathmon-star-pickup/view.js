@@ -423,7 +423,7 @@ function renderRemainderBoard(problem, selectedCount, isProof, isRevealed) {
 
   return `
     <g class="star-remainder-board" data-proof="${isProof ? "true" : "false"}" data-revealed="${isRevealed ? "true" : "false"}" data-count-visible="${showRemainderCount ? "true" : "false"}">
-      <text class="star-group-summary" x="300" y="42">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
+      <text class="star-group-summary" x="300" y="62">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
       <g class="star-capsule-grid ${isRoomyCapsuleGrid ? "is-roomy" : "is-compact"}" data-columns="${capsuleColumns}">${capsules}</g>
       <g class="star-remainder-focus">
         <rect class="star-side-surface is-focus" x="614" y="56" width="230" height="260" rx="28" />
