@@ -1,12 +1,21 @@
 .game[data-workbench-type="circle-pattern-choice"] .play { padding: 0; background: #eef8f0; }
 .pattern-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
-.game[data-workbench-type="circle-pattern-choice"] .hud { position: absolute; top: 18px; right: 3%; z-index: 6; width: 61%; min-height: 42px; display: grid; place-items: center; padding: 0; }
-.game[data-workbench-type="circle-pattern-choice"] .hud-left .brand-badge,
-.game[data-workbench-type="circle-pattern-choice"] .hud-right,
+.game[data-workbench-type="circle-pattern-choice"] .stage-shell { --sound-button-size: 42px; }
+.game[data-workbench-type="circle-pattern-choice"] .settings-toggle svg { width: 20px; height: 20px; }
+.game[data-workbench-type="circle-pattern-choice"] .brand-badge,
+.game[data-workbench-type="circle-pattern-choice"] .unit-badge { font-size: .875rem; }
+.game[data-workbench-type="circle-pattern-choice"] .hud {
+  position: absolute; top: 18px; right: calc(3% + var(--sound-reserve)); left: 3%; z-index: 6;
+  width: auto; min-height: var(--sound-button-size); display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 12px; padding: 0;
+}
 .game[data-workbench-type="circle-pattern-choice"] .progress-line { display: none; }
-.game[data-workbench-type="circle-pattern-choice"] #problemCounter { min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1rem; }
+.game[data-workbench-type="circle-pattern-choice"] .hud-left { display: contents; }
+.game[data-workbench-type="circle-pattern-choice"] .hud-left .brand-badge { grid-column: 1; justify-self: start; }
+.game[data-workbench-type="circle-pattern-choice"] .hud-right { grid-column: 3; justify-self: end; }
+.game[data-workbench-type="circle-pattern-choice"] #problemCounter { grid-column: 2; justify-self: center; min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1.05rem; }
 
-.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 66px; right: 3%; bottom: 20px; left: 36%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px minmax(212px, auto); gap: 8px; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 72px; right: 3%; bottom: 20px; left: 36%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.2fr) 54px minmax(212px, 1fr); gap: 8px; }
 .game[data-workbench-type="circle-pattern-choice"] .problem-card,
 .game[data-workbench-type="circle-pattern-choice"] .step-board,
 .game[data-workbench-type="circle-pattern-choice"] .choices-panel,
@@ -16,9 +25,9 @@
 .game[data-workbench-type="circle-pattern-choice"] .step-chips,
 .game[data-workbench-type="circle-pattern-choice"] .answer-slot { display: none; }
 .game[data-workbench-type="circle-pattern-choice"] .big-problem { margin: 0; color: #31433d; font-size: clamp(2.35rem, 4.5vw, 4rem); line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.8); }
-.game[data-workbench-type="circle-pattern-choice"] .visual-area { min-height: 0; display: grid; place-items: center; }
+.game[data-workbench-type="circle-pattern-choice"] .visual-area { position: relative; min-height: 0; display: grid; place-items: center; overflow: hidden; }
 
-.pattern-confirm-svg { width: min(100%, 600px); height: 100%; max-height: 250px; overflow: visible; }
+.pattern-confirm-svg { position: absolute; inset: 0; width: min(100%, 600px); height: 100%; margin: auto; overflow: visible; }
 .pattern-choice-svg { width: 100%; height: 100%; max-height: 128px; pointer-events: none; }
 .pattern-guide { stroke: #9aaea5; stroke-width: 4; stroke-dasharray: 7 8; stroke-linecap: round; }
 .pattern-known { fill: rgba(55,139,133,.18); stroke: #2e7778; stroke-width: 5; }
@@ -30,7 +39,7 @@
 
 .game[data-workbench-type="circle-pattern-choice"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
 .game[data-workbench-type="circle-pattern-choice"] .instruction,
-.game[data-workbench-type="circle-pattern-choice"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(.98rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: center; }
+.game[data-workbench-type="circle-pattern-choice"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.8vw, 1.25rem); line-height: 1.3; font-weight: 1000; text-align: center; }
 .game[data-workbench-type="circle-pattern-choice"] .instruction[hidden] { display: none; }
 .game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="idle"] { visibility: hidden; }
 .game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="wrong"] { color: #a11742; }
@@ -84,7 +93,7 @@
 .game[data-workbench-type="circle-pattern-choice"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 13%; bottom: 1%; width: 25%; height: 16%; }
 
 @media (max-width: 980px) {
-  .game[data-workbench-type="circle-pattern-choice"] .hud { right: 2%; width: 62%; }
-  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 62px; right: 2%; bottom: 16px; left: 35%; grid-template-rows: minmax(0, 1fr) 50px minmax(196px, auto); gap: 7px; }
+  .game[data-workbench-type="circle-pattern-choice"] .hud { right: calc(2% + var(--sound-reserve)); left: 2%; }
+  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 68px; right: 2%; bottom: 16px; left: 35%; grid-template-rows: minmax(0, 1.2fr) 50px minmax(196px, 1fr); gap: 8px; }
   .game[data-workbench-type="circle-pattern-choice"] .complete-panel { min-height: 196px; }
 }

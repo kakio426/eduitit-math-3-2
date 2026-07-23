@@ -16,6 +16,17 @@ const model = context.__lessonModel;
 
 assert.equal(config.workbench.type, "compass-opening");
 assert.equal(config.imageAssets.problemStage, "problem-stage-generated.webp");
+assert.equal(config.goal, "반지름만큼 컴퍼스를 벌려요.");
+assert.equal(config.standards.coverStartAsset, "shared-canonical-v1");
+assert.equal(config.imageAssets.startButton, "../_shared/mathmon/cover-start-button/start-button-generated.webp");
+assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-generated.webp");
+assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
+assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);
+assert.deepEqual([...config.qa.misconceptionCoverage], [
+  "COMPASS_TOO_NARROW",
+  "COMPASS_TOO_WIDE",
+  "COMPASS_USES_DIAMETER",
+]);
 
 for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);

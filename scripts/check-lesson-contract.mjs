@@ -15,6 +15,7 @@ const EXPECTED_STANDARDS = Object.freeze({
   resultVisual: "generated-assets",
 });
 const SHARED_COVER_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
+const SHARED_RESULT_RETRY_ASSET = "../_shared/result-actions/retry-button-generated.webp";
 
 async function pathExists(filePath) {
   try {
@@ -125,6 +126,14 @@ function checkEngineSurface(failures, lesson, config) {
       && config.imageAssets?.startButton !== SHARED_COVER_START_ASSET) {
       addFailure(failures, lesson, `shared-canonical-v1 must use ${SHARED_COVER_START_ASSET}`);
     }
+    if (config.standards.coverStartAsset === "shared-canonical-v1"
+      && config.assets?.includes("start-button-generated.webp")) {
+      addFailure(failures, lesson, "shared-canonical-v1 must not list a lesson-local start button");
+    }
+  }
+  if (config.id.startsWith("3-2-3-") && config.standards?.coverStartAsset === "shared-canonical-v1"
+    && config.imageAssets?.resultRetryButton !== SHARED_RESULT_RETRY_ASSET) {
+    addFailure(failures, lesson, `Unit 3 shared cover lessons must use ${SHARED_RESULT_RETRY_ASSET} for result retry art`);
   }
   if (config.tutorial?.mode !== undefined) {
     checkEnumValue(failures, lesson, config.tutorial.mode, "tutorial.mode", ["card-grid", "poster-two-step"]);
@@ -184,6 +193,23 @@ function checkManifestShape(failures, lesson, config) {
   }
   if (!Array.isArray(config.qa?.requiredFlow) || !config.qa.requiredFlow.includes("result")) {
     addFailure(failures, lesson, "qa.requiredFlow must include result");
+  }
+  if (config.id.startsWith("3-2-3-")) {
+    if (config.result?.showNextGoal !== true) {
+      addFailure(failures, lesson, "Unit 3 result must visibly show the next result goal");
+    }
+    const layout = config.qa?.layoutAudit;
+    for (const key of ["workArea", "primary", "secondary", "tertiary", "complete"]) {
+      if (!isNonEmptyString(layout?.[key])) {
+        addFailure(failures, lesson, `qa.layoutAudit.${key} must be a selector`);
+      }
+    }
+    if (!(Number(layout?.minStageWidthRatio) > 0 && Number(layout?.minStageWidthRatio) <= 1)) {
+      addFailure(failures, lesson, "qa.layoutAudit.minStageWidthRatio must be between 0 and 1");
+    }
+    if (!Array.isArray(config.qa?.misconceptionCoverage) || config.qa.misconceptionCoverage.length === 0) {
+      addFailure(failures, lesson, "qa.misconceptionCoverage must list representative misconception ids");
+    }
   }
   if (config.id.startsWith("3-2-2-") && config.qa?.directInteractionRequired !== true) {
     addFailure(failures, lesson, "Unit 2 lessons must require direct interaction");

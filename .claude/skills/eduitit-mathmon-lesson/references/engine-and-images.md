@@ -151,9 +151,9 @@
 - 첫 화면 제목은 단순 `<h1>` 큰 글자로 방치하지 않는다. 사용자가 `그림으로`, `GPT Image`, `제목 이미지`를 요구하면 **전체 커버가 아니라 제목 로고만** 별도 래스터 자산으로 생성한다.
 - 올바른 제작 순서: 기존 `cover-generated.webp` 대표 장면 유지 → GPT Image에 `standalone title/logo asset`, `exact Korean text`, `no full scene`, `flat #00ff00 chroma-key background`로 제목만 생성 → 초록 배경 제거 → `title-poster-source.png`, `title-poster-generated.png`, `title-poster-generated.webp` 저장 → 첫 화면 위에 `.hero-title-art`로 배치.
 - 래스터 제목 자산 HTML 패턴: `<h1 class="visually-hidden" id="coverTitle">게임명</h1>` + `<img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">`.
-- 새 차시와 이관 완료 차시는 `<main class="game" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art">`로 시작 버튼 표준을 선언한다.
-- 첫 화면 시작 버튼도 CSS 텍스트 버튼으로 만들지 않는다. GPT Image/imagegen으로 `standalone poster-style start button asset`, `exact Korean text 시작`, `play icon`, `glossy yellow pill`, `transparent or chroma-key background` 조건의 독립 버튼 자산을 만든다. 1차시 커버나 포스터 버튼을 크롭·복제·합성해 새 차시 버튼으로 쓰는 방식은 `generated-button-art`로 인정하지 않는다. 사용자가 명시적으로 승인한 생성형 원본의 배경 제거·크롭·리사이즈·WebP 변환처럼 새 시각 의미를 만들지 않는 후처리만 허용한다. 파일은 `start-button-source.png`, `start-button-generated.png`, `start-button-generated.webp`로 저장한다.
-- 시작 버튼 HTML 패턴: `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button>`. 1280×800 Stage 기준 표시 크기는 `400-460px × 140-170px`, 목표 아래 간격은 `14-24px`, 권장 y좌표는 `500-580px`이다.
+- 새 차시와 이관 완료 차시는 `<main class="game" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1">`로 시작 버튼 표준을 선언한다.
+- 첫 화면 시작 버튼은 차시마다 새로 만들지 않는다. 공용 생성형 원본 세트 `_shared/mathmon/cover-start-button/`의 `start-button-generated.webp`만 참조하고, 차시 폴더에 복제·색 변경·재가공본을 두지 않는다. 공용 세트 자체를 바꿀 때만 사용자 승인을 받은 뒤 원본·PNG·WebP를 함께 교체한다.
+- 시작 버튼 HTML 패턴: `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true"></button>`. 1280×800 Stage 기준 표시 크기는 `360×152px`, 작은 화면 최소 크기는 `300×127px`, 비율은 `1611 / 680`이며 목표 아래 간격은 `14-24px`이다. 보이는 아트와 버튼 hitbox의 너비·높이·중심 차이는 각각 `1px` 이하여야 한다.
 - 기존 `generated-title-overlay` 차시가 아직 `.primary-button`으로 시작하면 `data-cover-start-standard="compatibility-primary-button"`로 분류한다. 검증은 호환 상태를 기록할 뿐, 생성형 버튼 이관을 조용히 끝난 것으로 처리하지 않는다.
 - 금지: 전체 커버를 새 이미지로 갈아엎기, 제목 참고 이미지를 16:10 배경으로 늘리기, HTML/CSS/SVG로 제목 그림 흉내 내기, 철자 검수 없이 생성 이미지를 넣기.
 - GPT Image로 제목을 만들 때는 한글 철자를 실제 화면 캡처로 확인한다. 철자가 틀리거나 품질이 맞지 않으면 같은 제목 오버레이 슬롯에서 다시 생성한다.
@@ -182,7 +182,7 @@
 | --- | --- | --- |
 | 첫 화면 커버 | 1 | 매스몬이 필요하면 배경과 함께 처음부터 포함한 한 장면. 시작 버튼은 들어갈 자리만 비워 둠 |
 | 첫 화면 제목 타이틀 아트 | 0~1 | 전체 커버가 아니라 제목 로고만 생성해 기존 커버 위에 오버레이 |
-| 첫 화면 시작 버튼 아트 | 1 | CSS 텍스트 버튼이 아니라 독립 생성형 버튼 자산으로 제작 |
+| 첫 화면 시작 버튼 아트 | 공용 1 | 차시별 생성 없이 `_shared/mathmon/cover-start-button/start-button-generated.webp` 참조 |
 | 문제 화면 배경(작업 보드) | 1 | 단계 선택판이 얹힐 테마 배경 |
 | 보상 오브젝트/모달 장면 | 1~6 | 차시 소재(바구니·층·별·자물쇠 등). 랜덤 이벤트가 결과를 바꾸면 이벤트별 완성 장면을 생성한다. 매스몬은 필요한 경우 이미지 안에 함께 생성한다. |
 | 결과 등급 이미지 | 5~6 | 등급 5단계 + 무지개(전설) (+ 필요시 실패형). 각 등급별 완성 결과 장면을 한 장 이미지로 만들고, 고정 문구·도착지 이름·버튼 시각 요소는 이미지 안에 포함한다. |

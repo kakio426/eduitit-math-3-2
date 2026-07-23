@@ -16,6 +16,10 @@ const ui = {
   settingsToggle: document.getElementById("settingsButton"),
   settingsBackdrop: document.getElementById("settingsBackdrop"),
   settingsModal: document.getElementById("settingsModal"),
+  settingsMenu: document.getElementById("settingsMenu"),
+  settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+  settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+  settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
   closeSettings: document.getElementById("settingsCloseButton"),
   bgmToggle: document.getElementById("settingsBgmToggle"),
   sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -59,9 +63,11 @@ const ui = {
   resultCorrectArt: document.getElementById("resultCorrectArt"),
   resultHeading: document.getElementById("resultTitle"),
   resultSummary: document.getElementById("resultSummary"),
+  resultNext: document.getElementById("resultNext"),
   resultDestinationSvg: document.getElementById("resultDestinationSvg"),
   resultMeasureSvg: document.getElementById("resultMeasureSvg"),
   resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+  resultNextSvg: document.getElementById("resultNextSvg"),
   leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
   leaderboardButton: document.getElementById("leaderboardButton"),
   retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
@@ -771,6 +777,11 @@ function advanceAfterReward() {
 
 function showResult() {
   const result = getCurrentResult();
+  const nextResult = typeof LessonModel.getNextResult === "function"
+    ? LessonModel.getNextResult(result)
+    : result;
+  const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+  const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
   state.currentResult = result;
   playSample("result");
   ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
@@ -778,6 +789,11 @@ function showResult() {
   ui.resultTitleArt.alt = "";
   ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
   ui.resultSummary.textContent = result.summary || "";
+  if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+  if (ui.resultNextSvg) {
+    ui.resultNextSvg.textContent = nextResultText;
+    ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+  }
   if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
   if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
   if (ui.resultMeasureFillSvg) {
@@ -802,7 +818,7 @@ function showResult() {
 
   void runViewHook("onResult", {
     result,
-    nextResult: typeof LessonModel.getNextResult === "function" ? LessonModel.getNextResult(result) : result,
+    nextResult,
     power: state.power,
     correctFirstTry: state.correctFirstTry,
     state,
@@ -863,24 +879,64 @@ function startGame() {
 }
 
 function restartFromSettings() {
-  closeSettings();
+  if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+  if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+  ui.settingsRestartConfirmButton?.focus();
+}
+
+function cancelRestartFromSettings() {
+  if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+  if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+  ui.restartButton?.focus();
+}
+
+function confirmRestartFromSettings() {
+  closeSettings({ restoreFocus: false });
   closeRewardModal();
   state = createInitialState();
   scoreboardBridge?.reset?.();
   syncProgress();
   showScreen("cover");
+  ui.startButton?.focus({ preventScroll: true });
 }
 
 function openSettings() {
+  if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+  if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
   ui.settingsBackdrop.hidden = false;
   ui.settingsToggle.setAttribute("aria-expanded", "true");
   syncAudioControls();
-  ui.settingsModal.focus();
+  ui.bgmToggle?.focus({ preventScroll: true });
 }
 
-function closeSettings() {
+function closeSettings({ restoreFocus = true } = {}) {
   ui.settingsBackdrop.hidden = true;
   ui.settingsToggle.setAttribute("aria-expanded", "false");
+  if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+  if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+  if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+}
+
+function trapSettingsFocus(event) {
+  if (ui.settingsBackdrop.hidden) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeSettings();
+    return;
+  }
+  if (event.key !== "Tab") return;
+  const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+    .filter((element) => element.offsetParent !== null);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 
 function beginScoreboardQuestion(problem) {
@@ -1002,12 +1058,15 @@ ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
 ui.retryButton.addEventListener("click", startGame);
 ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
 ui.settingsToggle.addEventListener("click", openSettings);
-ui.closeSettings.addEventListener("click", closeSettings);
+ui.closeSettings.addEventListener("click", () => closeSettings());
+ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
 ui.reviewTutorialButton.addEventListener("click", () => {
-  closeSettings();
+  closeSettings({ restoreFocus: false });
   beginTutorial(state.screen || "play");
 });
 ui.restartButton.addEventListener("click", restartFromSettings);
+ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
 ui.bgmToggle.addEventListener("click", () => {
   audio.bgm = !audio.bgm;
   saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -1022,8 +1081,26 @@ ui.sfxToggle.addEventListener("click", () => {
 syncAudioControls();
 syncProgress();
 
+window.__mathmonAudioQa = {
+  keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+  getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+  setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+    if (typeof bgmEnabled === "boolean") {
+      audio.bgm = bgmEnabled;
+      saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+    }
+    if (typeof sfxEnabled === "boolean") {
+      audio.sfx = sfxEnabled;
+      saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+    }
+    syncAudioControls();
+    return window.__mathmonAudioQa.getPrefs();
+  },
+};
+
 window.__mathmonEngineQa = {
   startGame,
+  renderProblem,
   showResult,
   showScreen,
   showReward,

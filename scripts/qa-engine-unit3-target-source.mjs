@@ -16,6 +16,24 @@ const model = context.__lessonModel;
 
 assert.equal(config.workbench.type, "circle-relations");
 assert.equal(config.imageAssets.problemStage, "problem-stage-generated.webp");
+assert.equal(config.standards.coverStartAsset, "shared-canonical-v1");
+assert.equal(config.imageAssets.startButton, "../_shared/mathmon/cover-start-button/start-button-generated.webp");
+assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-generated.webp");
+assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
+assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.62);
+assert.deepEqual([...config.qa.misconceptionCoverage], [
+  "CIRCLE_CENTER_ON_EDGE",
+  "CIRCLE_RADIUS_AS_DIAMETER",
+  "CIRCLE_DIAMETER_MISSES_CENTER",
+]);
+assert.deepEqual({ ...model.getResult(0, 0, false) }, {
+  id: "practice",
+  name: "연습 표적",
+  minPower: 0,
+  minCorrect: 0,
+  image: "result-practice-generated.webp",
+  titleImage: "result-practice-generated.webp",
+});
 
 for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);
@@ -29,6 +47,7 @@ for (let seed = 1; seed <= 200; seed += 1) {
     assert.equal(step.choices.length, 4, `${problem.id}: four mini-circle choices`);
     assert.equal(step.choices.filter((choice) => choice.id === step.answerChoiceId).length, 1, `${problem.id}: one answer`);
     assert.equal(new Set(step.choices.map((choice) => choice.visualKind)).size, 4, `${problem.id}: four distinct geometric relations`);
+    assert.ok(step.choices.every((choice) => choice.label && !/^선택지 \d+$/.test(choice.label)), `${problem.id}: semantic accessibility labels`);
     for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
       assert.ok(choice.misconceptionId, `${problem.id}: misconception id`);
       assert.ok(choice.feedback, `${problem.id}: short feedback`);
@@ -50,6 +69,7 @@ for (let seed = 1; seed <= 200; seed += 1) {
 
 assert.match(viewSource, /circle-choice-svg/, "each answer surface must be a geometric SVG");
 assert.match(viewSource, /circle-confirm-svg/, "correct relation must expand for confirmation");
+assert.match(viewSource, /setAttribute\("aria-label", selected\.label\)/, "choice aria-label must use the geometric relation");
 assert.doesNotMatch(viewSource, /표적 점수|표적 등급|진행도/, "problem view must not contain reward panels");
 
 console.log("QA_ENGINE_UNIT3_TARGET_SOURCE: PASS");

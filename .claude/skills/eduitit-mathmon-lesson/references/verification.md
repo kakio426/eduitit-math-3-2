@@ -97,9 +97,9 @@
 - [ ] 제목 오버레이는 실제 `image_gen`/GPT Image 생성 산출물이며, 로컬 폰트/Pillow/canvas/SVG/CSS로 만든 텍스트 이미지가 아님
 - [ ] 제목 자산은 생성 원본(`title-*-source.png` 또는 `title-*-chromakey.png`), 투명 PNG(`title-*-generated.png`), 배포 WebP(`title-*-generated.webp`)가 함께 있음
 - [ ] 제목 오버레이는 GPT Image 등으로 만든 래스터 자산이며, 실제 제목은 `visually-hidden` 텍스트로 남아 있고 한글 철자가 캡처에서 정확함
-- [ ] 한 줄 목표는 HTML 오버레이로 보이고, 시작 버튼의 보이는 면은 `start-button-generated.webp` 같은 생성형 버튼 아트임
-- [ ] 시작 버튼은 `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" ...></button>` 구조이며, 1280×800 Stage 기준 400-460px × 140-170px 정도로 목표 바로 아래에 놓임
-- [ ] 시작 버튼 자산은 실제 `image_gen`/GPT Image가 만든 독립 버튼 산출물이며, 1차시 커버/포스터 버튼을 크롭·복제·합성한 파생 자산이나 로컬 폰트/Pillow/canvas/SVG/CSS 캡처로 만든 텍스트 이미지가 아님
+- [ ] 한 줄 목표는 HTML 오버레이로 보이고, 시작 버튼의 보이는 면은 공용 `../_shared/mathmon/cover-start-button/start-button-generated.webp`임
+- [ ] 새 차시 시작 버튼은 `data-cover-start-asset="shared-canonical-v1"`와 공용 `../_shared/mathmon/cover-start-button/start-button-generated.webp`를 쓰며, `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" ...></button>` 구조, 1280×800 Stage 기준 `360×152px`, 작은 화면 최소 `300×127px`, `aspect-ratio: 1611 / 680`으로 목표 바로 아래에 놓임
+- [ ] 시작 버튼은 승인된 공용 생성형 원본 세트를 그대로 쓰며, 차시 폴더에 별도 원본·PNG·WebP 복제본이나 색 변경·재가공본이 없음
 - [ ] 새 차시에 `cover-art`, 전체 커버 `cover-start-hitbox`, baked-in 제목/목표/버튼 방식, 보이는 CSS 텍스트 시작 버튼이 남아 있지 않음. 이전 포스터 방식이면 `data-cover-standard="legacy-raster-poster"`로, 기존 generated-title 커버의 CSS 시작 버튼 호환 상태이면 `data-cover-start-standard="compatibility-primary-button"`로 분류되어 있음
 - [ ] 제목 이미지가 한 줄 목표·시작 버튼·하단 배움주제 배지와 겹치지 않음(1280×800, 태블릿 가로 캡처 모두 확인)
 - [ ] 결과 화면은 등급별 생성 이미지 1장이 중심이며, 섬 이름·도착 라벨·칭찬 문구·다시 하기 버튼처럼 매 판 똑같은 요소가 개별 HTML/CSS 조각으로 흩어져 있지 않음

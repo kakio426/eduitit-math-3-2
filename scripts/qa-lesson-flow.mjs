@@ -454,6 +454,20 @@ async function clickMisconception(page, misconceptionId) {
   const selected = step?.choices?.find((choice) => choice.misconceptionId === misconceptionId);
   assert(selected, `Missing deterministic misconception choice: ${misconceptionId}`, { interaction, step });
 
+  if (!interaction) {
+    const selectedId = String(selected.id ?? selected.value ?? selected);
+    const clicked = await evaluate(page, `(() => {
+      const button = [...document.querySelectorAll('button.choice-button:not(:disabled)')]
+        .find((item) => item.dataset.choice === ${JSON.stringify(selectedId)});
+      if (!button) return false;
+      button.click();
+      return true;
+    })()`);
+    assert(clicked, `direct misconception choice failed for ${misconceptionId}`, { selectedId, step });
+    await delay(100);
+    return;
+  }
+
   if (interaction === "vault-keypad") {
     const digits = String(Math.max(0, Number(selected.value) || 0));
     const clicked = await evaluate(page, `(() => {
@@ -619,6 +633,342 @@ async function auditGeneratedActionButton(page, label, selector, expectedSource,
     assert(Math.abs(audit.button[edge] - audit.image[edge]) <= 1, `${label}: art and hitbox ${edge} differ by more than 1px`, audit);
   }
   assert(audit.button.width >= 42 && audit.button.height >= 42, `${label}: generated action touch target is too small`, audit);
+}
+
+async function auditSharedCoverStartButton(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const game = document.querySelector('main.game');
+    const button = document.getElementById('startButton');
+    const image = button?.querySelector('.start-button-art');
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? {
+        left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
+        width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2
+      } : null;
+    };
+    return {
+      standard:game?.dataset.coverStartStandard || '',
+      asset:game?.dataset.coverStartAsset || '',
+      source:image?.getAttribute('src') || '',
+      complete:Boolean(image?.complete),
+      naturalWidth:image?.naturalWidth || 0,
+      naturalHeight:image?.naturalHeight || 0,
+      button:rectOf(button),
+      image:rectOf(image),
+      viewport:{ width:window.innerWidth, height:window.innerHeight }
+    };
+  })()`);
+  assert(audit.standard === "generated-button-art" && audit.asset === "shared-canonical-v1", `${label}: shared cover start marker is missing`, audit);
+  assert(audit.source === "../_shared/mathmon/cover-start-button/start-button-generated.webp", `${label}: wrong shared cover start asset`, audit);
+  assert(audit.complete && audit.naturalWidth > 0 && audit.naturalHeight > 0, `${label}: shared cover start art did not load`, audit);
+  assert(audit.button && audit.image, `${label}: cover start hitbox or art is missing`, audit);
+  for (const key of ["width", "height", "cx", "cy"]) {
+    assert(Math.abs(audit.button[key] - audit.image[key]) <= 1, `${label}: cover start ${key} differs by more than 1px`, audit);
+  }
+  assert(audit.button.width >= 300 && audit.button.width <= 360.5, `${label}: cover start width is outside the canonical range`, audit);
+  assert(audit.button.width >= 42 && audit.button.height >= 42, `${label}: cover start touch target is too small`, audit);
+  if (audit.viewport.width >= 1280) assert(Math.abs(audit.button.width - 360) <= 1, `${label}: 1280 cover start must be 360px wide`, audit);
+  if (audit.viewport.width <= 1024) assert(Math.abs(audit.button.width - 300) <= 1, `${label}: 1024 cover start must use the 300px minimum`, audit);
+  return audit;
+}
+
+async function auditConfiguredPlayHeader(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height } : null;
+    };
+    const visible = (node) => {
+      if (!node) return false;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1;
+    };
+    const nodes = {
+      brand:document.querySelector('#screen-play .hud .brand-badge'),
+      counter:document.getElementById('problemCounter'),
+      unit:document.querySelector('#screen-play .hud-right .unit-badge'),
+      settings:document.getElementById('settingsButton')
+    };
+    const rects = Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, rectOf(node)]));
+    const collisions = [];
+    const entries = Object.entries(rects);
+    for (let i = 0; i < entries.length; i += 1) for (let j = i + 1; j < entries.length; j += 1) {
+      const [aName, a] = entries[i], [bName, b] = entries[j];
+      if (!a || !b) continue;
+      const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (overlapX > 0 && overlapY > 0) collisions.push({ a:aName, b:bName, overlapX, overlapY });
+    }
+    return {
+      text:{
+        brand:nodes.brand?.textContent.trim() || '',
+        counter:nodes.counter?.textContent.trim() || '',
+        unit:nodes.unit?.textContent.trim() || ''
+      },
+      visible:Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, visible(node)])),
+      rects,
+      collisions,
+      expectedUnit:LESSON_CONFIG.unitBadge
+    };
+  })()`);
+  assert(Object.values(audit.visible).every(Boolean), `${label}: brand, counter, unit, or settings is hidden`, audit);
+  assert(audit.text.brand === "에듀잇티 수학 게임", `${label}: play brand copy is wrong`, audit);
+  assert(/^\d+\/10$/.test(audit.text.counter), `${label}: problem counter is wrong`, audit);
+  assert(audit.text.unit === audit.expectedUnit, `${label}: unit badge is wrong`, audit);
+  assert(audit.collisions.length === 0, `${label}: play header controls overlap`, audit);
+  return audit;
+}
+
+async function auditConfiguredLearningLayout(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa?.layoutAudit;
+    if (!config) return null;
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? {
+        left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
+        width:rect.width, height:rect.height, cx:rect.left + rect.width / 2,
+        area:rect.width * rect.height
+      } : null;
+    };
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const nodes = {
+      workArea:document.querySelector(config.workArea),
+      primary:document.querySelector(config.primary),
+      secondary:document.querySelector(config.secondary),
+      tertiary:document.querySelector(config.tertiary),
+      complete:document.querySelector(config.complete)
+    };
+    const rects = Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, rectOf(node)]));
+    const visible = (node) => {
+      if (!node) return false;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1;
+    };
+    const bundleCounts = {
+      primary:[...nodes.primary?.querySelectorAll('.big-problem, .visual-area') || []].filter(visible).length,
+      secondary:[...nodes.secondary?.querySelectorAll('.choice-button, .farm-share-option') || []].filter(visible).length,
+      tertiary:[...nodes.tertiary?.querySelectorAll('.instruction, .feedback-line, .answer-slot, .step-chips') || []].filter((node) => visible(node) && node.textContent.trim().length > 0).length,
+      complete:[...nodes.complete?.querySelectorAll('.complete-text, button') || []].filter(visible).length
+    };
+    const choiceRects = [...document.querySelectorAll('#choicesPanel button, #choicesPanel .farm-share-option')]
+      .filter(visible).map((node) => rectOf(node));
+    const intersections = [];
+    const peers = ['primary', 'secondary', 'tertiary'];
+    for (let i = 0; i < peers.length; i += 1) for (let j = i + 1; j < peers.length; j += 1) {
+      const a = rects[peers[i]], b = rects[peers[j]];
+      if (!a || !b) continue;
+      const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (overlapX > 0 && overlapY > 0) intersections.push({ a:peers[i], b:peers[j], overlapX, overlapY });
+    }
+    const metrics = Object.fromEntries(Object.entries(rects).map(([key, rect]) => [key, rect && stage ? {
+      ...rect,
+      stageWidthRatio:rect.width / stage.width,
+      stageAreaRatio:rect.area / stage.area,
+      informationBundles:bundleCounts[key] ?? 0
+    } : null]));
+    return { config, stage, metrics, choiceRects, intersections };
+  })()`);
+  if (!audit) return null;
+  const { config, metrics } = audit;
+  assert(metrics.workArea && metrics.primary && metrics.secondary && metrics.tertiary, `${label}: configured learning selectors did not resolve`, audit);
+  assert(metrics.workArea.stageWidthRatio + 0.0001 >= config.minStageWidthRatio, `${label}: learning work area is too narrow`, audit);
+  assert(metrics.primary.area > metrics.secondary.area, `${label}: primary learning panel is not the largest learning area`, audit);
+  assert(audit.choiceRects.length > 0 && audit.choiceRects.every((rect) => rect.width >= 42 && rect.height >= 42), `${label}: a choice touch target is smaller than 42x42`, audit);
+  assert(audit.intersections.length === 0, `${label}: primary, secondary, or tertiary learning panels overlap`, audit);
+  return audit;
+}
+
+async function auditConfiguredTypography(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa?.typographyAudit;
+    if (!config) return null;
+    const readFont = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return {
+        selector,
+        text:node.textContent.trim(),
+        fontSize:Number.parseFloat(style.fontSize) || 0,
+        lineHeight:Number.parseFloat(style.lineHeight) || 0,
+        rect:{ left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height },
+        visible:style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1
+      };
+    };
+    const readSvgText = (rootSelector) => [...document.querySelectorAll(rootSelector)]
+      .filter((node) => node.textContent.trim().length > 0 && node.ownerSVGElement)
+      .map((node) => {
+        const svg = node.ownerSVGElement;
+        const viewBox = svg.viewBox.baseVal;
+        const svgRect = svg.getBoundingClientRect();
+        const scale = viewBox.width > 0 && viewBox.height > 0
+          ? Math.min(svgRect.width / viewBox.width, svgRect.height / viewBox.height)
+          : 0;
+        let box = null;
+        try {
+          const measured = node.getBBox();
+          box = { x:measured.x, y:measured.y, width:measured.width, height:measured.height };
+        } catch {}
+        return {
+          text:node.textContent.trim(),
+          fontSize:Number.parseFloat(getComputedStyle(node).fontSize) || 0,
+          renderedFontSize:(Number.parseFloat(getComputedStyle(node).fontSize) || 0) * scale,
+          box,
+          viewBox:{ x:viewBox.x, y:viewBox.y, width:viewBox.width, height:viewBox.height },
+          outside:Boolean(box && (
+            box.x < viewBox.x - 1
+            || box.y < viewBox.y - 1
+            || box.x + box.width > viewBox.x + viewBox.width + 1
+            || box.y + box.height > viewBox.y + viewBox.height + 1
+          ))
+        };
+      });
+    const rectOf = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height };
+    };
+    const primary = rectOf(LESSON_CONFIG.qa?.layoutAudit?.primary);
+    const tertiary = rectOf(LESSON_CONFIG.qa?.layoutAudit?.tertiary);
+    const secondary = rectOf(LESSON_CONFIG.qa?.layoutAudit?.secondary);
+    return {
+      config,
+      headline:readFont(config.headline),
+      instruction:readFont(config.instruction),
+      feedback:readFont(config.feedback),
+      brand:readFont('#screen-play .brand-badge'),
+      counter:readFont('#problemCounter'),
+      unit:readFont('#screen-play .unit-badge'),
+      settings:rectOf('#settingsButton'),
+      primaryVisual:rectOf(config.primaryVisual),
+      primary,
+      primarySvgText:readSvgText(config.primarySvgText),
+      choiceSvgText:readSvgText(config.choiceSvgText),
+      gaps:{
+        primaryToInstruction:primary && tertiary ? tertiary.top - primary.bottom : null,
+        instructionToChoices:tertiary && secondary ? secondary.top - tertiary.bottom : null
+      }
+    };
+  })()`);
+  if (!audit) return null;
+  const { config } = audit;
+  assert(audit.headline?.visible && audit.headline.fontSize >= config.minHeadlinePx, `${label}: problem headline is too small`, audit);
+  assert(audit.instruction?.visible && audit.instruction.fontSize >= config.minInstructionPx, `${label}: instruction is too small`, audit);
+  assert(audit.brand?.visible && audit.brand.fontSize >= config.minBadgePx, `${label}: brand badge is too small`, audit);
+  assert(audit.unit?.visible && audit.unit.fontSize >= config.minBadgePx, `${label}: unit badge is too small`, audit);
+  assert(audit.counter?.visible && audit.counter.fontSize >= config.minCounterPx && /^\d+\/10$/.test(audit.counter.text), `${label}: problem counter is too small or unreadable`, audit);
+  assert(audit.settings?.width >= config.minGlobalControlPx && audit.settings?.height >= config.minGlobalControlPx, `${label}: settings touch target is too small`, audit);
+  assert(
+    audit.primaryVisual
+      && audit.primary
+      && audit.primaryVisual.left >= audit.primary.left - 1
+      && audit.primaryVisual.top >= audit.primary.top - 1
+      && audit.primaryVisual.right <= audit.primary.right + 1
+      && audit.primaryVisual.bottom <= audit.primary.bottom + 1,
+    `${label}: primary SVG surface left its reserved panel`,
+    audit
+  );
+  assert(audit.gaps.primaryToInstruction >= config.minPanelGapPx && audit.gaps.instructionToChoices >= config.minPanelGapPx, `${label}: learning panel gap is too small`, audit);
+  assert(audit.primarySvgText.every((item) => item.renderedFontSize >= config.minPrimarySvgTextPx), `${label}: primary SVG text is too small`, audit);
+  assert(audit.choiceSvgText.every((item) => item.renderedFontSize >= config.minChoiceSvgTextPx), `${label}: choice SVG text is too small`, audit);
+  assert([...audit.primarySvgText, ...audit.choiceSvgText].every((item) => !item.outside), `${label}: SVG text left its viewBox`, audit);
+  return audit;
+}
+
+async function auditConfiguredCompletionAlignment(page, label, waitingAudit) {
+  if (!waitingAudit?.metrics?.workArea) return null;
+  const complete = await evaluate(page, `(() => {
+    const selector = LESSON_CONFIG.qa?.layoutAudit?.complete;
+    const node = selector ? document.querySelector(selector) : null;
+    if (!node) return null;
+    const rect = node.getBoundingClientRect();
+    return {
+      left:rect.left, right:rect.right, width:rect.width,
+      cx:rect.left + rect.width / 2,
+      visible:node.classList.contains('is-visible') && getComputedStyle(node).display !== 'none'
+    };
+  })()`);
+  assert(complete?.visible, `${label}: configured completion panel is not visible`, { complete, waitingAudit });
+  const waiting = waitingAudit.metrics.workArea;
+  for (const key of ["left", "right", "cx"]) {
+    assert(Math.abs(complete[key] - waiting[key]) <= 1, `${label}: completion ${key} moved more than 1px`, { complete, waiting });
+  }
+  return complete;
+}
+
+async function auditConfiguredResultNextGoal(page, label) {
+  const audit = await evaluate(page, `(() => {
+    if (!LESSON_CONFIG.result?.showNextGoal) return null;
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? {
+        left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
+        width:rect.width, height:rect.height
+      } : null;
+    };
+    const overlaps = (a, b) => a && b
+      ? {
+        x:Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)),
+        y:Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top))
+      }
+      : { x:0, y:0 };
+    const node = document.getElementById('resultNextSvg');
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const next = rectOf(node);
+    const correct = rectOf(document.getElementById('resultCorrectArt'));
+    const retry = rectOf(document.querySelector('.result-restart-hitbox'));
+    return {
+      text:node?.textContent.trim() || '',
+      accessibleText:document.getElementById('resultNext')?.textContent.trim() || '',
+      hidden:Boolean(node?.hidden),
+      display:node ? getComputedStyle(node).display : '',
+      stage, next, correct, retry,
+      correctOverlap:overlaps(next, correct),
+      retryOverlap:overlaps(next, retry)
+    };
+  })()`);
+  if (!audit) return null;
+  assert(audit.text && audit.text === audit.accessibleText, `${label}: visible and accessible next-goal copy differ`, audit);
+  assert(/^다음엔 .+|^최고 단계예요!$/.test(audit.text), `${label}: next-goal copy is not student-facing`, audit);
+  assert(!audit.hidden && audit.display !== "none" && audit.next?.width > 0 && audit.next?.height > 0, `${label}: next goal is hidden`, audit);
+  assert(audit.next.left >= audit.stage.left && audit.next.right <= audit.stage.right && audit.next.top >= audit.stage.top && audit.next.bottom <= audit.stage.bottom, `${label}: next goal leaves the Stage`, audit);
+  assert(!(audit.correctOverlap.x > 0 && audit.correctOverlap.y > 0), `${label}: next goal overlaps the correct-count art`, audit);
+  assert(!(audit.retryOverlap.x > 0 && audit.retryOverlap.y > 0), `${label}: next goal overlaps the retry button`, audit);
+  return audit;
+}
+
+async function auditConfiguredMisconceptions(page, lesson, viewport, shots, remaining, problemIndex) {
+  if (!remaining?.size) return [];
+  const available = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.choices?.map((choice) => choice.misconceptionId).filter(Boolean) || []");
+  const targets = [...remaining].filter((id) => available.includes(id));
+  for (const id of targets) {
+    await clickMisconception(page, id);
+    await waitUntil(page, `document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0 && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: ${id} feedback did not appear`, 8000);
+    const evidence = await evaluate(page, `(() => {
+      const choice = window.__mathmonEngineQa.getCurrentStep()?.choices?.find((item) => item.misconceptionId === "${id}");
+      const selected = [...document.querySelectorAll('button.choice-button')]
+        .find((button) => button.dataset.choice === String(choice?.id ?? choice?.value ?? ''));
+      const visual = document.querySelector('#visualArea [data-state="wrong"], #visualArea .is-wrong');
+      return {
+        selectedState:selected?.dataset.state || '',
+        visualState:visual?.getAttribute('data-state') || visual?.className?.baseVal || visual?.className || '',
+        feedback:document.getElementById('feedbackLine')?.textContent.trim() || ''
+      };
+    })()`);
+    assert(evidence.selectedState === "wrong" && evidence.visualState, `${viewport.name}: ${id} did not show the selected wrong relation in the work area`, evidence);
+    const slug = id.toLowerCase().replace(/_/g, "-");
+    shots.push(await screenshot(page, lesson, viewport, `05m-p${problemIndex}-${slug}`));
+    await auditGeometry(page, `${viewport.name} misconception ${id}`);
+    remaining.delete(id);
+  }
+  return targets;
 }
 
 async function auditElevatorTutorialSolveRaster(page, label) {
@@ -1769,6 +2119,8 @@ async function auditStarPickupAlignment(page, label, mode, { expectValue = true 
     const title = board.querySelector('.star-side-title');
     const value = board.querySelector('.star-side-value');
     const summary = board.querySelector('.star-group-summary');
+    const capsuleRects = [...board.querySelectorAll('.star-capsule > rect')].map((node) => node.getBoundingClientRect());
+    const summaryRect = summary?.getBoundingClientRect();
     const sideStars = [...board.querySelectorAll('.star-remainder-focus > .star-glyph')];
     const starRows = new Map();
     for (const star of sideStars) {
@@ -1786,6 +2138,9 @@ async function auditStarPickupAlignment(page, label, mode, { expectValue = true 
       titleCenter: title ? title.getBBox().x + title.getBBox().width / 2 : null,
       valueCenter: value ? value.getBBox().x + value.getBBox().width / 2 : null,
       summaryFontSize: summary ? parseFloat(getComputedStyle(summary).fontSize) : 0,
+      equationCapsuleGap: summaryRect && capsuleRects.length
+        ? Math.min(...capsuleRects.map((rect) => rect.top)) - summaryRect.bottom
+        : null,
       sideStarCount: sideStars.length,
       starRowCenters: [...starRows.values()].map((row) => (Math.min(...row) + Math.max(...row)) / 2)
     };
@@ -1803,6 +2158,7 @@ async function auditStarPickupAlignment(page, label, mode, { expectValue = true 
   }
   if (mode === "remainder") {
     assert(audit.summaryFontSize >= 34, `${label}: completed multiplication is too small`, audit);
+    assert(audit.equationCapsuleGap >= 8, `${label}: completed multiplication overlaps the grouped stars`, audit);
     assert(audit.capsuleColumns === 4 && audit.capsuleSizes.every((size) => size.width >= 126 && size.height >= 58), `${label}: 12 groups did not switch to the roomy 4-column layout`, audit);
     if (expectValue) {
       assert(audit.starRowCenters.length > 0 && audit.starRowCenters.every((center) => Math.abs(center - 729) <= 0.01), `${label}: remainder-star rows are not centered under the value`, audit);
@@ -2393,8 +2749,13 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
 
   const shots = [];
   let initialLearningLayout = null;
+  const hasSharedCoverStart = await evaluate(page, "document.querySelector('main.game')?.dataset.coverStartAsset === 'shared-canonical-v1'");
+  const hasConfiguredLayoutAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.layoutAudit)");
+  const configuredMisconceptions = await evaluate(page, "LESSON_CONFIG.qa?.misconceptionCoverage || []");
+  const remainingMisconceptions = new Set(configuredMisconceptions);
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
   await auditGeometry(page, `${viewport.name} cover`, { requireLogo: true });
+  if (hasSharedCoverStart) await auditSharedCoverStartButton(page, `${viewport.name} cover start`);
   await clickSelector(page, "#settingsButton");
   await waitUntil(page, "!document.getElementById('settingsBackdrop').hidden", `${viewport.name}: settings did not open`);
   shots.push(await screenshot(page, lesson, viewport, "02-settings"));
@@ -2427,6 +2788,11 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
+  if (hasConfiguredLayoutAudit) {
+    await auditConfiguredPlayHeader(page, `${viewport.name} play header`);
+    initialLearningLayout = await auditConfiguredLearningLayout(page, `${viewport.name} learning layout`);
+    await auditConfiguredTypography(page, `${viewport.name} typography`);
+  }
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm waiting`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorPlayHeader(page, `${viewport.name} play header`);
@@ -2460,6 +2826,12 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditGeometry(page, `${viewport.name} 32-capsule boundary`);
     await auditStarPickupEvidence(page, `${viewport.name} 32-capsule boundary`, "quotient-too-high");
 
+    await evaluate(page, "window.__starPickupQa.forceProblem(83, 5, 1)");
+    await waitUntil(page, "document.querySelectorAll('.star-remainder-board .star-capsule').length === 16", `${viewport.name}: 16-group remainder board did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "05a4-boundary-16-groups"));
+    await auditGeometry(page, `${viewport.name} 16-group remainder boundary`);
+    await auditStarPickupAlignment(page, `${viewport.name} 16-group remainder alignment`, "remainder", { expectValue: false });
+
     await evaluate(page, "window.__starPickupQa.forceProblem(50, 4)");
     await waitUntil(page, "document.querySelectorAll('.star-loose-grid .star-glyph[data-tone=\"loose\"]').length === 50", `${viewport.name}: fixed 50-star board did not restore`);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
@@ -2475,6 +2847,12 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await clickMisconception(page, "DIV3_QUOTIENT_TOO_LOW");
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     await clickMisconception(page, "DIV4_PRODUCT_TOO_HIGH");
+  } else if (remainingMisconceptions.size) {
+    const captured = await auditConfiguredMisconceptions(page, lesson, viewport, shots, remainingMisconceptions, 1);
+    assert(captured.length > 0, `${viewport.name}: no configured misconception was available for problem 1`, {
+      configuredMisconceptions,
+      remaining:[...remainingMisconceptions],
+    });
   } else {
     await clickChoice(page, false);
   }
@@ -2645,6 +3023,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);
+  if (hasConfiguredLayoutAudit) {
+    await auditConfiguredCompletionAlignment(page, `${viewport.name} completion alignment`, initialLearningLayout);
+  }
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorCompleteSplitLayout(page, `${viewport.name} horizontal completion hierarchy`);
     await auditElevatorDivisionSvgClearance(page, `${viewport.name} completed division SVG`, "complete");
@@ -2669,6 +3050,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   let checkLockMatchCaptured = false;
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
     await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not active for problem ${problemIndex}`);
+    if (remainingMisconceptions.size) {
+      await auditConfiguredMisconceptions(page, lesson, viewport, shots, remainingMisconceptions, problemIndex);
+    }
     const captureCheckLockMatch = lesson === "3-2-2-4-mathmon-check-lock"
       && !checkLockMatchCaptured
       && await evaluate(page, "window.__mathmonEngineQa.getCurrentProblem()?.matchesOriginal === true");
@@ -2702,6 +3086,10 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-4-mathmon-check-lock") {
     assert(checkLockMatchCaptured, `${viewport.name}: matching auto-comparison state was not captured`);
   }
+  assert(remainingMisconceptions.size === 0, `${viewport.name}: configured misconception coverage is incomplete`, {
+    configuredMisconceptions,
+    remaining:[...remainingMisconceptions],
+  });
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);
   if (lesson === "3-2-2-2-mathmon-elevator") {
@@ -2740,6 +3128,34 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "08-result"));
   }
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
+  await auditConfiguredResultNextGoal(page, `${viewport.name} result next goal`);
+
+  if (lesson === "3-2-3-1-mathmon-target-hit") {
+    await evaluate(page, `(() => {
+      window.__mathmonEngineQa.setState({
+        power:0, correctFirstTry:0, specialSeen:false, currentResult:null
+      });
+      window.__mathmonEngineQa.showResult();
+    })()`);
+    await waitUntil(page, "document.getElementById('screen-result')?.dataset.resultTier === 'practice' && document.getElementById('resultBg')?.complete && document.getElementById('resultBg')?.naturalWidth === 1280", `${viewport.name}: practice result did not load`);
+    const practice = await evaluate(page, `(() => {
+      const background = document.getElementById('resultBg');
+      return {
+        tier:document.getElementById('screen-result')?.dataset.resultTier || '',
+        title:document.getElementById('resultTitle')?.textContent.trim() || '',
+        source:background?.getAttribute('src') || '',
+        complete:Boolean(background?.complete),
+        naturalWidth:background?.naturalWidth || 0,
+        naturalHeight:background?.naturalHeight || 0
+      };
+    })()`);
+    assert(practice.tier === "practice" && practice.title === "연습 표적", `${viewport.name}: 0/10 result must be 연습 표적`, practice);
+    assert(practice.source === "result-practice-generated.webp", `${viewport.name}: practice result uses the wrong scene`, practice);
+    assert(practice.complete && practice.naturalWidth === 1280 && practice.naturalHeight === 800, `${viewport.name}: practice result scene has the wrong canvas`, practice);
+    shots.push(await screenshot(page, lesson, viewport, "08a-result-practice-0-of-10"));
+    await auditGeometry(page, `${viewport.name} practice result`, { requireRetry: true });
+    await auditConfiguredResultNextGoal(page, `${viewport.name} practice result next goal`);
+  }
 
   if (lesson === "3-2-2-1-mathmon-divide-farm") {
     await forceFarmRewardCases(page, lesson, viewport, shots);

@@ -192,18 +192,32 @@ async function collectClassifications() {
 }
 
 async function checkGeneratedButtonLessons(rows, failures) {
-  const sharedAsset = path.join(root, "_shared", "mathmon", "cover-start-button", "start-button-generated.webp");
-  if (!(await fileExists(sharedAsset))) {
-    failures.push("_shared/mathmon/cover-start-button/start-button-generated.webp: shared cover start asset is missing");
-  }
+  const sharedAssetRoot = path.join(root, "_shared", "mathmon", "cover-start-button");
+  const sharedAssets = await Promise.all([
+    fileExists(path.join(sharedAssetRoot, "start-button-source.png")),
+    fileExists(path.join(sharedAssetRoot, "start-button-generated.png")),
+    fileExists(path.join(sharedAssetRoot, "start-button-generated.webp")),
+  ]);
   for (const row of rows) {
     if (row.startStyle !== "generated-button-art") continue;
     const lesson = path.join(root, row.folder);
     const html = await readFile(path.join(lesson, "index.html"), "utf8");
-    const hasCanonicalMarker = /<main\s+class="game"[^>]*data-cover-start-asset="shared-canonical-v1"/.test(html);
-    const hasButton = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\s*<img(?=[^>]*class="[^"]*\bstart-button-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/mathmon\/cover-start-button\/start-button-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\s*<\/button>/.test(html);
-    if (!hasCanonicalMarker) failures.push(`${row.folder}: shared-canonical-v1 marker is missing`);
-    if (!hasButton) failures.push(`${row.folder}: generated-button-art DOM is missing`);
+    const usesSharedAsset = /data-cover-start-asset="shared-canonical-v1"/.test(html);
+    const expectedSource = usesSharedAsset
+      ? "\\.\\.\\/_shared\\/mathmon\\/cover-start-button\\/start-button-generated\\.webp"
+      : "start-button-generated\\.webp";
+    const hasButton = new RegExp(`<button(?=[^>]*class="[^"]*\\bcover-start-button\\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\\s*<img(?=[^>]*class="[^"]*\\bstart-button-art\\b[^"]*")(?=[^>]*src="${expectedSource}")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\\s*<\\/button>`).test(html);
+    if (!hasButton) failures.push(`${row.folder}: ${usesSharedAsset ? "shared" : "lesson-local"} generated-button-art DOM is missing`);
+    if (usesSharedAsset) {
+      if (sharedAssets.includes(false)) failures.push(`${row.folder}: shared generated-button-art asset triplet is missing`);
+      continue;
+    }
+    const localAssets = await Promise.all([
+      fileExists(path.join(lesson, "start-button-source.png")),
+      fileExists(path.join(lesson, "start-button-generated.png")),
+      fileExists(path.join(lesson, "start-button-generated.webp")),
+    ]);
+    if (localAssets.includes(false)) failures.push(`${row.folder}: lesson-local generated-button-art asset triplet is missing`);
   }
 }
 

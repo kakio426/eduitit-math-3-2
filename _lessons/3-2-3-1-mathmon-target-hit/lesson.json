@@ -48,6 +48,7 @@
   },
   "result": {
     "renderMode": "hybrid-generated-dynamic",
+    "showNextGoal": true,
     "stateImageSet": {
       "count": 6,
       "canvas": "1280x800",
@@ -64,7 +65,7 @@
   "mathmonName": "번개늑대몬",
   "mathmonId": "mathmon-drv-06-thunderwolf",
   "results": [
-    { "id": "miss", "name": "빗나감", "minPower": 0, "minCorrect": 0, "image": "result-miss-generated.webp", "titleImage": "result-miss-generated.webp" },
+    { "id": "practice", "name": "연습 표적", "minPower": 0, "minCorrect": 0, "image": "result-practice-generated.webp", "titleImage": "result-practice-generated.webp" },
     { "id": "edge", "name": "가장자리", "minPower": 19, "minCorrect": 2, "image": "result-edge-generated.webp", "titleImage": "result-edge-generated.webp" },
     { "id": "hit", "name": "명중", "minPower": 39, "minCorrect": 4, "image": "result-hit-generated.webp", "titleImage": "result-hit-generated.webp" },
     { "id": "bullseye", "name": "정중앙", "minPower": 61, "minCorrect": 6, "image": "result-bullseye-generated.webp", "titleImage": "result-bullseye-generated.webp" },
@@ -82,21 +83,21 @@
   "wrongEvent": { "id": "loss", "text": "점수 -", "min": -18, "max": -8, "family": "loss" },
   "typesPerRun": ["중심", "반지름", "지름", "중심", "반지름", "지름", "중심", "반지름", "지름", "중심"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
-    "startButton": "start-button-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "problem-stage-generated.webp",
     "rewardScene": "result-hit-generated.webp",
-    "resultRetryButton": "start-button-generated.webp"
+    "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
   },
   "assets": [
-    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
+    "cover-generated.webp", "title-logo-generated.webp",
     "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-bullseye-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
-    "result-miss-generated.webp", "result-edge-generated.webp", "result-hit-generated.webp",
+    "result-practice-generated.webp", "result-edge-generated.webp", "result-hit-generated.webp",
     "result-bullseye-generated.webp", "result-targetking-generated.webp", "result-legend-generated.webp"
   ],
   "qa": {
@@ -104,6 +105,35 @@
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }
+    ],
+    "layoutAudit": {
+      "workArea": ".problem-grid",
+      "primary": ".problem-card",
+      "secondary": ".choices-panel",
+      "tertiary": ".step-board",
+      "complete": ".complete-panel",
+      "minStageWidthRatio": 0.62
+    },
+    "typographyAudit": {
+      "headline": ".big-problem",
+      "instruction": ".step-board .instruction",
+      "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".problem-card svg",
+      "primarySvgText": ".problem-card svg text",
+      "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 36,
+      "minInstructionPx": 18,
+      "minPrimarySvgTextPx": 16,
+      "minChoiceSvgTextPx": 18,
+      "minBadgePx": 14,
+      "minCounterPx": 16,
+      "minGlobalControlPx": 42,
+      "minPanelGapPx": 8
+    },
+    "misconceptionCoverage": [
+      "CIRCLE_CENTER_ON_EDGE",
+      "CIRCLE_RADIUS_AS_DIAMETER",
+      "CIRCLE_DIAMETER_MISSES_CENTER"
     ],
     "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
   }

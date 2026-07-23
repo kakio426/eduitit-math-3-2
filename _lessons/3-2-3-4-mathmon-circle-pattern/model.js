@@ -33,16 +33,16 @@ const Lesson3CirclePatternModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
-  function patternChoice(visualKind, misconceptionId = null, feedback = "") {
-    return { id: `choice:${visualKind}`, value: visualKind, visualKind, label: visualKind, misconceptionId, feedback };
+  function patternChoice(visualKind, label, misconceptionId = null, feedback = "") {
+    return { id: `choice:${visualKind}`, value: visualKind, visualKind, label, misconceptionId, feedback };
   }
 
   function choicesForPattern(rng) {
     return shuffle([
-      patternChoice("correct"),
-      patternChoice("gap-wide", "PATTERN_GAP_CHANGED", "간격이 넓어졌어요. 앞의 간격과 맞춰요."),
-      patternChoice("off-line", "PATTERN_OFF_LINE", "줄에서 벗어났어요. 앞의 원과 같은 줄로 이어요."),
-      patternChoice("size-changed", "PATTERN_SIZE_CHANGED", "원 크기가 달라졌어요. 같은 크기로 이어요.")
+      patternChoice("correct", "같은 크기와 간격"),
+      patternChoice("gap-wide", "간격이 넓음", "PATTERN_GAP_CHANGED", "간격이 넓어졌어요. 앞의 간격과 맞춰요."),
+      patternChoice("off-line", "줄에서 벗어남", "PATTERN_OFF_LINE", "줄에서 벗어났어요. 앞의 원과 같은 줄로 이어요."),
+      patternChoice("size-changed", "원 크기가 다름", "PATTERN_SIZE_CHANGED", "원 크기가 달라졌어요. 같은 크기로 이어요.")
     ], rng);
   }
 

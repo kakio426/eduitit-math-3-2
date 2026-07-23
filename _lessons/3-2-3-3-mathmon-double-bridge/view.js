@@ -110,8 +110,8 @@ function circleBridgeMarkup(problem, selected, matches) {
     <circle class="bridge-center" cx="${center}" cy="126" r="7"/>
     <circle class="bridge-end" cx="${left}" cy="126" r="6"/>
     <circle class="bridge-end" cx="${right}" cy="126" r="6"/>
-    <text class="radius-name" x="205" y="83" text-anchor="middle">반지름</text>
-    <text class="radius-name" x="315" y="83" text-anchor="middle">반지름</text>
+    <text class="radius-name" x="205" y="76" text-anchor="middle">반지름</text>
+    <text class="radius-name" x="315" y="76" text-anchor="middle">반지름</text>
     <text class="radius-value" x="205" y="112" text-anchor="middle">${leftLabel}</text>
     <text class="radius-value" x="315" y="112" text-anchor="middle">${rightLabel}</text>
     <line class="diameter-brace" x1="${left}" y1="166" x2="${right}" y2="166"/>

@@ -40,13 +40,13 @@ function renderAttempt(problem, step, selected, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = "circle-pattern";
-  step.choices.forEach((selected, index) => {
+  step.choices.forEach((selected) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "choice-button pattern-choice";
     button.dataset.choice = selected.id;
     button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-    button.setAttribute("aria-label", `원 무늬 선택지 ${index + 1}`);
+    button.setAttribute("aria-label", selected.label);
     const svg = document.createElementNS(PATTERN_SVG_NS, "svg");
     svg.classList.add("pattern-choice-svg");
     svg.setAttribute("viewBox", "0 0 240 145");

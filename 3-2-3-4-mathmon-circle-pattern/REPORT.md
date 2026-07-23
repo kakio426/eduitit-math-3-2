@@ -53,13 +53,32 @@
 - 자동 측정 결과: overflow 0, missingImages 0
 - 눈으로 확인한 결과: 질문·무늬·지시문·선택지 겹침 0, 원과 카드 경계 잘림 0
 
+## 2026-07-23 하네스 보완
+
+- 선택지 접근성 이름을 `같은 크기와 간격`, `간격이 넓음`, `줄에서 벗어남`, `원 크기가 다름`으로 바꾸고 학생 문구 전체를 Humanizer 기준으로 다시 읽었습니다.
+- 공용 시작 버튼과 hitbox의 중심·너비·높이 차이는 두 화면 모두 1px 이하입니다.
+- 문제 HUD의 브랜드·문제 수·단원·설정 버튼은 서로 겹치지 않습니다.
+- 1280×800 브라우저에서 실제 Stage는 1203.19×751.98px, 작업 영역은 733.95×659.98px입니다. Stage 폭의 61.00%, 면적의 53.54%입니다.
+- 1024×768 브라우저에서 실제 Stage는 983.06×614.41px, 작업 영역은 599.69×522.41px입니다. Stage 폭의 61.00%, 면적의 51.87%입니다.
+- 핵심 문제판 면적은 데스크톱 26.10%, 태블릿 23.87%로 선택지 묶음보다 큽니다.
+- 최소 선택지 크기는 데스크톱 362.47×130.95px, 태블릿 295.34×101.50px입니다.
+- 설정 버튼은 42×42px, 브랜드·단원 배지는 14px, 문제 수는 16.8px, 태블릿 지시문은 18.43px 이상입니다.
+- 문제판·지시판·선택지 사이 실제 간격은 8px 이상이며, 문제 SVG와 선택지 원은 각 패널 경계 안에 들어옵니다.
+- 그림 선택지는 보이는 글자 대신 실제 무늬를 크게 유지하고, 네 접근성 이름으로 차이를 설명합니다.
+- 대기 문제판과 완료 패널의 좌우 경계·중심 차이는 1px 이하입니다.
+- 간격·줄·크기 오개념 3종을 두 화면에서 각각 캡처했습니다.
+- 이전 전체 흐름 캡처는 `_archive/20260723-pre-harness-remediation/screenshots/`에 보관했습니다.
+
 ## 검증 결과
 
 - `node scripts/qa-engine-unit3-circle-pattern-source.mjs` → PASS
 - `node scripts/build-lesson.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
-- `node scripts/check-lesson-contract.mjs` → PASS
-- `node scripts/check-lesson-visual-contract.mjs` → PASS
-- `node scripts/check-stage-ratio.mjs` → PASS (21개 패키지)
+- `node scripts/check-lesson-contract.mjs 3-2-3-1-mathmon-target-hit 3-2-3-2-mathmon-compass-ring 3-2-3-3-mathmon-double-bridge 3-2-3-4-mathmon-circle-pattern` → PASS
+- `node scripts/check-lesson-visual-contract.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
+- `node scripts/check-stage-ratio.mjs --lesson=3-2-3-1-mathmon-target-hit --lesson=3-2-3-2-mathmon-compass-ring --lesson=3-2-3-3-mathmon-double-bridge --lesson=3-2-3-4-mathmon-circle-pattern` → PASS (대상 4개)
+- `node scripts/check-rule-consistency.mjs` → PASS
+- `node scripts/check-ranking-disabled.mjs` → PASS
+- `node scripts/check-run-randomness.mjs` → PASS
 - `node scripts/qa-lesson-flow.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
 - 브라우저 QA: 1280×800, 1024×768 전체 흐름에서 이미지 누락·텍스트 넘침·요소 겹침 0
 
@@ -70,3 +89,5 @@
 - 오답 상태: 각 화면군의 `05b-play-wrong.png`
 - 정답 확인: 각 화면군의 `06-confirm.png`
 - 닫힌 보상·열린 보상: 각 화면군의 `07-reward-closed.png`, `07b-reward-open.png`
+- 오개념별 화면: 각 화면군의 `05m-p1-pattern-*.png`
+- 기준 비교와 입력 통계: `BENCHMARK_AUDIT.md`

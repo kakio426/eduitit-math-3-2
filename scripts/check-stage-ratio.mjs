@@ -3,7 +3,13 @@
 import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-const root = path.resolve(process.argv[2] || process.cwd());
+const cliArgs = process.argv.slice(2);
+const requestedLessonNames = cliArgs
+  .filter((arg) => arg.startsWith("--lesson="))
+  .map((arg) => arg.slice("--lesson=".length))
+  .filter(Boolean);
+const rootArg = cliArgs.find((arg) => !arg.startsWith("--lesson="));
+const root = path.resolve(rootArg || process.cwd());
 const SHARED_COVER_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
 const SHARED_COVER_START_FILES = [
   "start-button-source.png",
@@ -90,8 +96,17 @@ function getCssPxValue(block, property) {
   return match ? Number(match[1]) : null;
 }
 
-const lessons = await findLessons(root);
+const allLessons = await findLessons(root);
+const requestedLessonSet = new Set(requestedLessonNames);
+const lessons = requestedLessonNames.length
+  ? allLessons.filter((lesson) => requestedLessonSet.has(path.basename(lesson)))
+  : allLessons;
 const failures = [], fullSceneQaScripts = await readFullSceneQaScripts();
+for (const requestedLesson of requestedLessonNames) {
+  if (!lessons.some((lesson) => path.basename(lesson) === requestedLesson)) {
+    failures.push(`${requestedLesson}: lesson package directory does not exist.`);
+  }
+}
 const hasFullSceneScorePixelCenterQa = fullSceneQaScripts.includes("measureScoreCenter")
   && (fullSceneQaScripts.includes("correct-count art is not horizontally centered") || fullSceneQaScripts.includes("score is not horizontally centered"))
   && (fullSceneQaScripts.includes("correct-count art is not vertically centered") || fullSceneQaScripts.includes("score is not vertically centered"));
@@ -165,10 +180,12 @@ for (const lesson of lessons) {
     && generatedCoverStartWidth <= 460
     && generatedCoverStartHeight >= 140
     && generatedCoverStartHeight <= 170;
-  const hasCompactGeneratedCoverStartSize = coverStartGeneratedButtonBlock.includes("width: clamp(300px, 28vw, 360px);")
+  const hasCompactGeneratedCoverStartSize = /width:\s*clamp\(300px,\s*(?:28|28\.125)vw,\s*360px\);/.test(coverStartGeneratedButtonBlock)
     && coverStartGeneratedButtonBlock.includes("aspect-ratio: 1611 / 680;")
     && coverStartGeneratedButtonBlock.includes("height: auto;");
-  const hasGeneratedCoverStartSize = hasDefaultGeneratedCoverStartSize || hasCompactGeneratedCoverStartSize;
+  const hasGeneratedCoverStartSize = hasSharedCoverStartAsset
+    ? hasCompactGeneratedCoverStartSize
+    : hasDefaultGeneratedCoverStartSize || hasCompactGeneratedCoverStartSize;
   const hasForbiddenFullSceneResultClass = /\b(result-card|result-stats|result-stat|result-copy)\b/.test(html);
   const hasGeneratedResultTitleArt = /<img(?=[^>]*class="[^"]*\bresult-title-art\b[^"]*")(?=[^>]*src="[^"]*result-title-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
   const hasGeneratedResultRetryArt = /<img(?=[^>]*class="[^"]*\bresult-retry-art\b[^"]*")(?=[^>]*src="[^"]*result-[^"]*generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>/.test(html);
@@ -271,7 +288,9 @@ for (const lesson of lessons) {
     [!hasGeneratedCoverStartStandard || hasGeneratedCoverStart, "data-cover-start-standard=\"generated-button-art\" 차시는 cover-start-button 안에 생성형 시작 버튼 아트를 둬야 합니다."],
     [!hasSharedCoverStartAsset || hasSharedGeneratedCoverStart, `data-cover-start-asset=\"shared-canonical-v1\" 차시는 ${SHARED_COVER_START_ASSET}만 참조해야 합니다.`],
     [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartAssets, "data-cover-start-standard=\"generated-button-art\" 차시는 원본·PNG·WebP 자산 세트를 함께 보관해야 합니다."],
-    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartSize, "data-cover-start-standard=\"generated-button-art\" 차시의 시작 버튼은 기본 400-460px × 140-170px 또는 통일형 compact 360×152px(작은 화면 300×127px)여야 합니다."],
+    [!hasGeneratedCoverStartStandard || hasGeneratedCoverStartSize, hasSharedCoverStartAsset
+      ? "data-cover-start-asset=\"shared-canonical-v1\" 차시의 시작 버튼은 compact 300-360px clamp와 1611:680 비율만 써야 합니다."
+      : "레거시 lesson-local 생성형 시작 버튼은 기존 400-460px 규격 또는 통일형 360×152px 규격이어야 합니다."],
     [!hasStandardCover || hasGeneratedCoverStart || hasCoverStartSize, "generated-title-overlay 표준 차시의 CSS 시작 버튼은 공통 크기(min-width 190px, min-height 72px, padding 0 44px)를 써야 합니다."],
     [!hasFullSceneResultSignal || hasGeneratedResultStandard, "result-final-*-generated.webp 또는 fullscene-score-slot 결과 차시는 main.game에 data-result-visual-standard=\"generated-assets\"를 선언해야 합니다."],
     [!hasSeparateGeneratedResultAssets || hasGeneratedResultTitleArt, "별도 생성형 결과 자산 방식은 보이는 결과 라벨을 <img class=\"result-title-art\" src=\"result-title-*-generated.webp\" alt=\"\" aria-hidden=\"true\">로 둬야 합니다."],

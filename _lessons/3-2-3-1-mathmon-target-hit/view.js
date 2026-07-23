@@ -40,13 +40,13 @@ function renderAttempt(problem, step, selected, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = "circle-diagram";
-  step.choices.forEach((selected, index) => {
+  step.choices.forEach((selected) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "choice-button circle-choice";
     button.dataset.choice = selected.id;
     button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-    button.setAttribute("aria-label", `선택지 ${index + 1}`);
+    button.setAttribute("aria-label", selected.label);
 
     const svg = document.createElementNS(CIRCLE_SVG_NS, "svg");
     svg.classList.add("circle-choice-svg");
