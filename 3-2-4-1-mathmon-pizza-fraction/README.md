@@ -22,13 +22,14 @@
 - 문제 화면: `view.js`, `lesson.css`
 - 빌드 결과: `3-2-4-1-mathmon-pizza-fraction/index.html`
 - 문제 배경: `problem-stage-source.png` → `problem-stage-generated.png` → `problem-stage-generated.webp`
-- 커버: `cover-generated.webp`, `title-logo-generated.webp`, `start-button-generated.webp`
+- 커버: `cover-generated.webp`, `title-logo-generated.webp`, 공용 시작 버튼 `../_shared/mathmon/cover-start-button/start-button-generated.webp`
 - 동행 매스몬: 승인된 `base-pack`의 여우몬(`base-02-foxmon`)
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장. 첫 장은 분자·분모, 둘째 장은 랜덤 보상과 마지막 피자 이름을 보여 줍니다.
-- 랜덤 보상: `reward-event-*-generated.webp` 6종
+- 랜덤 보상 상태 세트: 닫힌 피자 상자 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
+- 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
 - 결과: `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장. 각 이미지에 등급명과 `다시` 버튼이 들어 있습니다.
 - 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 
-모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
+시작 버튼은 `shared-canonical-v1` 한 세트만 쓰며, 1280×800 Stage에서 360×152px, 작은 화면에서 최소 300×127px로 표시합니다. 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
 
 추가 시각 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

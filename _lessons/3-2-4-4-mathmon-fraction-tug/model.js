@@ -19,8 +19,8 @@ const Lesson4FractionTugModel = (() => {
     return copy;
   }
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
-  function sideChoice(side, fraction, feedback) {
-    return { id: `side:${side}`, value: side, label: `${fraction.num}/${fraction.den}`, side, fraction, misconceptionId: "COMPARE_SMALLER", feedback };
+  function sideChoice(side, fraction, misconceptionId, feedback) {
+    return { id: `side:${side}`, value: side, label: `${fraction.num}/${fraction.den}`, side, fraction, misconceptionId, feedback };
   }
   function makeProblem(data, serial, rng) {
     const left = { num: data.left[0], den: data.left[1] };
@@ -29,6 +29,9 @@ const Lesson4FractionTugModel = (() => {
     const larger = answer === "left" ? left : right;
     const smaller = answer === "left" ? right : left;
     const rule = data.compareType === "same-denominator" ? "분모가 같으니 색칠된 칸 수를 봐요." : "단위분수는 한 칸이 긴 쪽을 봐요.";
+    const wrongChoiceId = data.compareType === "same-denominator"
+      ? "COMPARE_SAME_DENOMINATOR_SMALLER"
+      : "COMPARE_UNIT_FRACTION_SMALLER";
     return {
       id: `tug-${serial}-${data.compareType}-${left.num}-${left.den}-${right.num}-${right.den}`,
       type: "fraction-compare", compareType: data.compareType, left, right, larger, smaller,
@@ -37,8 +40,8 @@ const Lesson4FractionTugModel = (() => {
       steps: [{
         id: "compare", label: "더 큰 분수", instruction: rule, answer, answerChoiceId: `side:${answer}`,
         choices: [
-          sideChoice("left", left, answer === "left" ? "" : rule),
-          sideChoice("right", right, answer === "right" ? "" : rule)
+          sideChoice("left", left, answer === "left" ? null : wrongChoiceId, answer === "left" ? "" : rule),
+          sideChoice("right", right, answer === "right" ? null : wrongChoiceId, answer === "right" ? "" : rule)
         ],
         correctText: `맞아요. ${larger.num}/${larger.den}이 더 커요.`, reveal: `${larger.num}/${larger.den}`, advance: { mode: "complete" }
       }]

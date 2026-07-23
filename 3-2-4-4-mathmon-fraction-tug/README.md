@@ -12,10 +12,12 @@
 ## 엔진과 자산
 
 - 편집 원본: `_lessons/3-2-4-4-mathmon-fraction-tug/`
+- 공용 시작 버튼: `../_shared/mathmon/cover-start-button/start-button-generated.webp` (`shared-canonical-v1`, 360×152px, 최소 300×127px)
 - 문제 배경: `problem-stage-source.png` → `problem-stage-generated.png` → `problem-stage-generated.webp`
 - 동행 매스몬: 승인된 `diversity-reward-pack`의 호랑몬(`mathmon-drv-04-bravetiger`)
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장
-- 랜덤 보상: `reward-event-*-generated.webp` 6종
+- 랜덤 보상 상태 세트: 줄다리기 선물 상자 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
+- 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
 - 결과: `result-{draw,smallwin,win,bigwin,champion,rainbow}-generated.webp` 6장
 - 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 - 빌드 결과: `3-2-4-4-mathmon-fraction-tug/index.html`

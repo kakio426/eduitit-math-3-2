@@ -20,7 +20,12 @@ function revealCorrectStep(problem) {
   ui.visualArea.dataset.compareState = "correct";
   renderCompareStage(problem);
 }
-function renderAttempt() {}
+function renderAttempt(problem, step, selected, state, result) {
+  if (result.correct) return;
+  ui.visualArea.dataset.compareState = "wrong";
+  ui.visualArea.dataset.selectedSide = selected.side;
+  renderCompareStage(problem);
+}
 
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
@@ -45,20 +50,31 @@ function renderChoicesForStep(problem, step, state, choose) {
 }
 
 function renderCompareStage(problem) {
-  const correct = ui.visualArea.dataset.compareState === "correct";
+  const compareState = ui.visualArea.dataset.compareState || "idle";
+  const correct = compareState === "correct";
+  const wrong = compareState === "wrong";
   const svg = document.createElementNS(TUG_SVG_NS, "svg");
-  svg.classList.add(correct ? "fraction-compare-confirm-svg" : "compare-stage-svg");
+  svg.classList.add(correct || wrong ? "fraction-compare-confirm-svg" : "compare-stage-svg");
   svg.setAttribute("viewBox", "0 0 760 260");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", correct ? `${problem.larger.num}/${problem.larger.den}이 ${problem.smaller.num}/${problem.smaller.den}보다 큼` : "두 분수 막대의 길이 비교");
-  if (!correct) {
+  if (wrong) svg.dataset.state = "wrong";
+  const selected = ui.visualArea.dataset.selectedSide === "left" ? problem.left : problem.right;
+  const other = ui.visualArea.dataset.selectedSide === "left" ? problem.right : problem.left;
+  svg.setAttribute("aria-label", correct
+    ? `${problem.larger.num}/${problem.larger.den}이 ${problem.smaller.num}/${problem.smaller.den}보다 큼`
+    : wrong
+      ? `고른 ${selected.num}/${selected.den}이 ${other.num}/${other.den}보다 작음`
+      : "두 분수 막대의 길이 비교");
+  if (!correct && !wrong) {
     svg.innerHTML = `<path class="tug-rope" d="M92 130c105-44 177 42 278 0s177 44 298 0"/><circle class="rope-mark" cx="380" cy="130" r="20"/>`;
   } else {
+    const leftFraction = correct ? problem.larger : selected;
+    const rightFraction = correct ? problem.smaller : other;
     svg.innerHTML = `
-      <g transform="translate(8 0)">${fractionNotation(problem.larger, 150, 66, "confirm")}${fractionBar(problem.larger, 22, 108, 256, 58, "confirm")}</g>
-      <text class="compare-sign" x="380" y="145" text-anchor="middle">&gt;</text>
-      <g transform="translate(474 0)">${fractionNotation(problem.smaller, 150, 66, "confirm")}${fractionBar(problem.smaller, 22, 108, 256, 58, "confirm")}</g>
-      <text class="confirm-label" x="380" y="224" text-anchor="middle">왼쪽 막대가 더 길어요.</text>
+      <g transform="translate(8 0)">${fractionNotation(leftFraction, 150, 66, "confirm")}${fractionBar(leftFraction, 22, 108, 256, 58, "confirm")}</g>
+      <text class="compare-sign" x="380" y="145" text-anchor="middle">${correct ? "&gt;" : "&lt;"}</text>
+      <g transform="translate(474 0)">${fractionNotation(rightFraction, 150, 66, "confirm")}${fractionBar(rightFraction, 22, 108, 256, 58, "confirm")}</g>
+      <text class="confirm-label" x="380" y="224" text-anchor="middle">${correct ? "왼쪽 막대가 더 길어요." : "고른 막대가 더 짧아요."}</text>
     `;
   }
   ui.visualArea.replaceChildren(svg);

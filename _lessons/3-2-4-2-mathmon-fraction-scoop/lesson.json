@@ -33,6 +33,13 @@
       "empty": "reward-event-empty-generated.webp",
       "rainbow": "reward-event-rainbow-generated.webp"
     },
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "reward-modal",
+      "states": ["closed", "normal", "loss", "mega", "perfect", "empty", "rainbow"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
     "spriteSheet": { "columns": 3, "rows": 2, "slots": {
       "normal": [0, 0], "loss": [1, 0], "mega": [2, 0],
       "perfect": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
@@ -69,25 +76,44 @@
   "typesPerRun": ["8×3/4", "12×2/3", "12×3/4", "15×2/5", "18×2/3", "20×3/5", "24×3/4", "24×2/6", "30×3/5", "42×4/6"],
   "fractionCases": [[8,3,4],[12,2,3],[12,3,4],[15,2,5],[18,2,3],[20,3,5],[24,3,4],[24,2,6],[30,3,5],[42,4,6]],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
-    "startButton": "start-button-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "problem-stage-generated.webp",
+    "rewardClosed": "reward-event-closed-generated.webp",
     "rewardScene": "result-basket-generated.webp",
     "resultRetryButton": "result-restart-button-generated.webp"
   },
   "assets": [
-    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp", "problem-stage-generated.webp",
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp", "problem-stage-generated.webp",
     "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-closed-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-handful-generated.webp", "result-smallbasket-generated.webp", "result-basket-generated.webp",
     "result-bigbasket-generated.webp", "result-cartfull-generated.webp", "result-rainbow-generated.webp"
   ],
   "qa": {
-    "visualContractVersion": 1,
+    "visualContractVersion": 2,
+    "layoutAudit": {
+      "workArea": ".problem-grid",
+      "primary": ".problem-card",
+      "secondary": ".choices-panel",
+      "tertiary": ".step-board",
+      "complete": ".complete-panel",
+      "minStageWidthRatio": 0.65
+    },
+    "uiScaleContract": {
+      "minimumTouchPx": 42,
+      "minimumSmallLabelPx": 14,
+      "minimumProblemPx": 32,
+      "minimumInstructionPx": 14,
+      "minimumChoicePx": 20,
+      "minimumHeaderProblemGapPx": 6
+    },
+    "misconceptionCoverage": ["GROUP_USES_DENOMINATOR", "GROUP_USES_TOTAL"],
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 }

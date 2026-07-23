@@ -16,10 +16,12 @@
 - 문제·오개념 모델: `model.js`
 - 문제 화면: `view.js`, `lesson.css`
 - 빌드 결과: `3-2-4-2-mathmon-fraction-scoop/index.html`
+- 공용 시작 버튼: `../_shared/mathmon/cover-start-button/start-button-generated.webp` (`shared-canonical-v1`, 360×152px, 최소 300×127px)
 - 문제 배경: `problem-stage-source.png` → `problem-stage-generated.png` → `problem-stage-generated.webp`
 - 동행 매스몬: 승인된 `zero-factory-animal-pack`의 토끼몬(`zfa-02-rabbitmon`)
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장
-- 랜덤 보상: `reward-event-*-generated.webp` 6종
+- 랜덤 보상 상태 세트: 덮인 바구니 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
+- 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
 - 결과: `result-{handful,smallbasket,basket,bigbasket,cartfull,rainbow}-generated.webp` 6장
 - 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 

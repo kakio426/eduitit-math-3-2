@@ -42,7 +42,10 @@ const Lesson4FractionSorterModel = (() => {
       finalExpression: `${notation}${topicParticle(data.num)} ${data.kind}예요.`,
       steps: [{
         id: "sort", label: "분수 이름", instruction: "분수 모양과 분자·분모를 보고 이름을 골라요.",
-        answer: data.kind, answerChoiceId: kindId[data.kind], choices: shuffle(categoryChoices.map((item) => ({ ...item })), rng),
+        answer: data.kind, answerChoiceId: kindId[data.kind], choices: shuffle(categoryChoices.map((item) => ({
+          ...item,
+          misconceptionId: item.id === kindId[data.kind] ? null : item.misconceptionId
+        })), rng),
         correctText: `맞아요. ${notation}${topicParticle(data.num)} ${data.kind}예요.`, reveal: data.kind, advance: { mode: "complete" }
       }]
     };
