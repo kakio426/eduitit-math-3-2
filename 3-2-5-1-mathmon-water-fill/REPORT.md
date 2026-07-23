@@ -1,119 +1,59 @@
 # 매스몬 물통 채우기 시합 구현 보고서
 
-## 1. 구현 요약
+## 구현 결과
 
-3학년 2학기 5단원 1차시 `들이 비교와 L, mL`을 단일 HTML 게임으로 구현했습니다. 학생은 10문제 동안 눈금에 맞는 들이를 골라요. 정답을 고르면 값이 계산판에 먼저 들어가고, 마지막 단계에서는 완성값을 본 뒤 `물통 보기`를 눌러 보상으로 넘어갑니다.
+정답이 문제 제목에 노출되던 문제를 없애고, 실제 100mL 눈금판과 오답 위치 표시를 넣었습니다. 선택지는 모두 `{ id, label, value, numericValue, misconceptionId, feedback, relation }` 구조를 사용합니다.
 
-## 1-1. 엔진화 파일럿
+- 문제 제목: `물통 눈금 읽기`, `큰 물통 눈금 읽기`
+- 작은 눈금판: `0~1000mL`, 100mL 간격
+- 큰 눈금판: `0~3L`, 1L 큰 눈금과 100mL 작은 눈금
+- 비교 선택지: `왼쪽 물통`, `오른쪽 물통`, `같아요`
+- 비수학 선택지: 0건
+- 대표 오답: 한 눈금 적음·많음, L 눈금 이동, 물높이 비교 반대
 
-2026-07-09 기준 이 차시는 `mathmon-engine-v1` 파일럿으로 전환했습니다.
+## 정답 확인과 Humanizer QA
 
-- 공용 엔진 소스: `_engine/v1/`
-- 차시 소스: `_lessons/3-2-5-1-mathmon-water-fill/`
-- 빌드 산출물: `3-2-5-1-mathmon-water-fill/index.html`
-- 빌드 명령: `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill`
+오답을 고르면 빨간 선으로 학생의 눈금을 남기고 실제 물높이와 비교합니다. 정답 뒤에는 고른 값이 답 칸에 들어간 상태를 먼저 보여 준 다음 `물통 보기`로 이동합니다.
 
-학생용 배포 표면은 기존과 같습니다. `index.html` 안에 CSS/JS가 인라인으로 들어가며, 이미지 자산은 기존 차시 폴더와 `_shared/result-count/`를 참조합니다.
+학생 문구는 한 문장 한 행동으로 점검했습니다.
 
-## 2. 등록
+- `물높이에 맞는 들이를 골라요.`
+- `100mL 적어요.`
+- `두 물통은 300mL 차이 나요.`
 
-- lesson id: `3-2-5-1`
-- folder: `3-2-5-1-mathmon-water-fill`
-- title: `매스몬 물통 채우기 시합`
-- learningGoal: 들이 비교와 L, mL
+학생 화면의 제작자 용어와 번역투 표현은 0건입니다.
 
-## 3. 화면 흐름
+## 자산과 엔진
 
-```text
-첫 화면 -> 설명 -> 문제 -> 보상 -> 결과
-```
+- 엔진: `mathmon-engine-v1`
+- 소스 manifest: `_lessons/3-2-5-1-mathmon-water-fill/lesson.json`
+- 시작 버튼: 공용 `shared-canonical-v1`
+- 기존 커버·설명·보상·결과 이미지는 유지
+- 결과 컨택시트: `result-states-contact-sheet.png`
+- 매스몬 팩: `zero-factory-animal-pack`
 
-- 첫 화면: 생성형 배경, 생성형 제목 아트, HTML 목표 문장, 생성형 시작 버튼 아트
-- 설명: 3개의 짧은 카드
-- 문제: 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본 노출
-- 보상: 물통 변화 하나만 표시
-- 결과: 결과 단계 생성 이미지, 생성형 결과 타이틀, 생성형 `다시` 버튼 아트
+## 텍스트 넘침·요소 겹침 QA
 
-## 4. 생성 이미지 자산
+`node scripts/qa-lesson5-flow.mjs`에서 아래 상태를 각각 검사하고 캡처했습니다.
 
-| 파일명 | 역할 |
-| --- | --- |
-| `cover-source.png` / `cover-generated.webp` | 글자 없는 첫 화면 배경 |
-| `title-logo-chromakey.png` / `title-logo-generated.png` / `title-logo-generated.webp` | 생성형 제목 아트 |
-| `start-button-source.png` / `start-button-generated.png` / `start-button-generated.webp` | 생성형 시작 버튼 아트 |
-| `reward-scene-source.png` / `reward-scene-generated.webp` | 보상 배경 |
-| `result-tank-*-source.png` / `result-tank-*-generated.webp` | 결과 배경 |
-| `result-title-*-source.png` / `result-title-*-generated.webp` | 결과 이름 타이틀 아트 |
-| `result-retry-button-source.png` / `result-retry-button-generated.webp` | 생성형 다시 버튼 아트 |
+- `1280×800`
+- `1024×768`
+- `1280×720 / DPR 2`
+- 표지, 설정, 설명 1·2, 문제 대기, 작은 답 오답, 큰 답 오답, 정답 확인, 완성값, 보상, 낮음·중간·최고 결과
 
-## 5. 매스몬 기준
+현재 결과는 텍스트 넘침 0건, 문제·계산판·선택지 교차 0px, 터치 영역 42×42px 이상, 완료 전후 중심축 차이 1px 이하입니다. 대표 증거는 `screenshots/qa5-desktop-05-play-waiting.png`, `screenshots/qa5-desktop-06-wrong-low.png`, `screenshots/qa5-short-dpr2-10-complete.png`입니다.
 
-사용 팩은 `zero-factory-animal-pack`이고 기준 매스몬은 펭귄몬(`zfa-06-penguinmon`)입니다. 차시 폴더에는 매스몬 원본을 복사하지 않고, 커버/보상/결과 장면 생성 단계에서 함께 넣는 방식으로 처리합니다.
+## 화면 재점검 보완
 
-## 6. 보상과 확률
+두 번째 화면 점검에서 맨 위·아래 눈금 숫자가 물통 테두리에 걸리던 상태를 고쳤습니다. 가장 최근에 고른 오답만 빨간색으로 남고, 정답 뒤에는 이전 오답 색이 사라집니다. 완성 화면은 계산판의 완성값과 가운데 `물통 보기`만 남겨 같은 식을 반복하지 않습니다. 보상 화면의 빈 사각형은 현재 힘을 보여 주는 눈금과 방향 기호로 바꿨습니다.
 
-정답을 처음에 맞히면 내부 보상값 +5가 붙고, 랜덤 보상 1회가 더해집니다. 오답 뒤에 맞히면 회복 보상 +1~+2만 붙습니다. 최고 결과는 100점, 10문제 바로 정답, 특별 보상 조건이 필요합니다.
+전용 브라우저 QA는 `readMl`, `readLiterMl`, `compareBottle`을 세 viewport에서 각각 검사합니다. 글자 크기, 핵심 조작판 면적, Stage 밖 이탈, 물통 끝 눈금 경계, 문제 안쪽 라벨 교차도 종료 조건에 포함했습니다.
 
-| 결과 | 조건 |
-| --- | --- |
-| 작은 물통 | 0 이상, 바로 맞힌 문제 0개 이상 |
-| 반짝 물통 | 30 이상, 바로 맞힌 문제 3개 이상 |
-| 가득 물통 | 70 이상, 바로 맞힌 문제 7개 이상 |
-| 무지개 물탑 | 100 이상, 바로 맞힌 문제 10개 이상, 특별 보상 필요 |
+## 검증
 
-## 7. Humanizer QA
+- `node scripts/qa-lesson5-water-fill-model.mjs --runs 10000`
+- `node scripts/simulate-lesson5-water-fill.mjs --runs 10000`
+- `node scripts/qa-lesson5-flow.mjs`
+- 루트 공통 하네스 검사는 5단원 1~4차시 보고서와 같은 최종 실행 묶음으로 확인합니다.
 
-학생 문구는 짧은 행동 말 중심으로 구성했습니다.
-
-- 첫 화면 목표: `눈금에 맞는 들이를 골라요.`
-- 설명 카드: `눈금을 봐요.`, `1L는 1000mL예요.`, `더 많이 든 쪽을 골라요.`
-- 오답 피드백: `다시 골라요.`
-- 보상/결과: `작은 물통`, `반짝 물통`, `가득 물통`, `무지개 물탑`
-
-학생 화면에는 내부 작업실 이름이나 제작자용 말을 보이지 않게 합니다.
-
-## 8. 텍스트 넘침·요소 겹침 QA
-
-브라우저 QA에서 desktop `1280x800`과 tablet landscape `1024x768`을 확인했습니다.
-
-확인 대상:
-
-- 첫 화면
-- 설명 1
-- 설명 2
-- 문제 1단계
-- 정답 확인 상태
-- 오답 상태
-- 보상
-- 결과 단계별 화면
-
-확인 결과: 텍스트 넘침 0건, 요소 겹침 0건, Stage 밖 이탈 0건입니다. 결과 화면은 `작은 물통`, `반짝 물통`, `가득 물통`, `무지개 물탑` 4단계를 실제 문제 풀이 흐름으로 도달해 캡처했습니다.
-
-## 9. 검증 명령
-
-엔진화 파일럿 검증:
-
-- `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill` 통과
-- `node scripts/check-lesson-contract.mjs` 통과
-- `node scripts/qa-lesson5-water-fill-model.mjs --runs 1000` 통과
-- `node scripts/simulate-lesson5-water-fill.mjs --runs 1000` 통과
-
-루트 Stage 검사:
-
-- `node scripts/check-stage-ratio.mjs` 통과 (`21`개 차시, `16:10` / `1280×800`)
-
-Browser QA:
-
-- `node scripts/qa-engine-water-fill-flow.mjs` 통과
-- desktop `1280x800`과 tablet landscape `1024x768`에서 첫 화면, 설정 모달, 설명 1·2, 문제 1단계, 정답 확인, 보상, 결과 흐름을 확인했습니다.
-- 캡처: `screenshots/engine-desktop-*.png`, `screenshots/engine-tablet-*.png`
-
-## 10. 2026-07-12 이미지 설명 리마스터
-
-- 어두운 HTML 설명 카드를 2쪽 생성 포스터로 교체했습니다.
-- 1쪽은 눈금에서 들이를 고르는 행동 하나, 2쪽은 10문제·물통 보상·마지막 결과만 보여 줍니다.
-- 포스터 런타임 크기: `1280×800`, `object-fit: cover`
-- 결과 상태 세트: 4장, 컨택시트 `result-states-contact-sheet.png`
-- 매스몬 팩: `zero-factory-animal-pack` / `zfa-06-penguinmon`
-- `node scripts/qa-lesson-flow.mjs 3-2-5-1-mathmon-water-fill` 통과
-- 데스크톱 `1280×800`, 태블릿 가로 `1024×768` 전체 흐름에서 깨진 이미지·텍스트 넘침·요소 겹침·Stage 밖 이탈 `0건`
+정답 경로 수학 입력은 최소 `1`, 중앙값 `1`, 평균 `1.0`, 최대 `1`입니다.

@@ -123,8 +123,9 @@ async function main() {
   ]);
 
   let lessonCss = "";
+  const lessonCssPath = path.resolve(sourceDir, sourceFiles.css || "lesson.css");
   try {
-    lessonCss = await readFile(path.join(sourceDir, "lesson.css"), "utf8");
+    lessonCss = await readFile(lessonCssPath, "utf8");
   } catch (error) {
     if (error?.code !== "ENOENT") throw error;
   }

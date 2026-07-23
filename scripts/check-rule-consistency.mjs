@@ -16,8 +16,6 @@ const requiredDocs = [
   ".claude/skills/eduitit-mathmon-lesson/references/engine-and-images.md",
   ".claude/skills/eduitit-mathmon-lesson/references/verification.md",
   ".claude/skills/eduitit-mathmon-lesson/references/lesson-prompts.md",
-  "_shared/mathmon/UNIT3_IMAGE_GUIDE.md",
-  "_shared/mathmon/UNIT4_IMAGE_GUIDE.md",
 ];
 
 const optionalDocs = [
@@ -129,6 +127,7 @@ function classifyLesson(folder, html) {
   const hasGeneratedCover = /<main\s+class="game"[^>]*data-cover-standard="generated-title-overlay"/.test(html);
   const hasLegacyCover = /<main\s+class="game"[^>]*data-cover-standard="legacy-raster-poster"/.test(html);
   const hasGeneratedStart = /<main\s+class="game"[^>]*data-cover-start-standard="generated-button-art"/.test(html);
+  const hasSharedGeneratedStart = /<main\s+class="game"[^>]*data-cover-start-asset="shared-canonical-v1"/.test(html);
   const hasCoverStartButton = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")/.test(html);
   const hasPrimaryStart = /<button(?=[^>]*class="[^"]*\bprimary-button\b[^"]*")(?=[^>]*id="startButton")/.test(html);
   const hasStartHitbox = html.includes("cover-start-hitbox");
@@ -140,8 +139,10 @@ function classifyLesson(folder, html) {
     : hasGeneratedCover
       ? "generated-title-overlay"
       : "none";
-  const startStyle = hasGeneratedStart || hasCoverStartButton
+  const startStyle = hasSharedGeneratedStart
     ? "generated-button-art"
+    : hasGeneratedStart && hasCoverStartButton
+      ? "compatibility-local-generated-button"
     : hasStartHitbox
       ? "legacy-hitbox"
       : hasPrimaryStart
@@ -170,6 +171,7 @@ function resolveAction({ coverStandard, folder, fullsceneMode, startStyle }) {
   if (coverStandard === "legacy-raster-poster") return "keep legacy";
   if (fullsceneMode === "fullscene-score-slot") return "already fullscene";
   if (startStyle === "generated-button-art") return "already generated-button";
+  if (startStyle === "compatibility-local-generated-button") return "keep compatibility";
   if (coverStandard === "generated-title-overlay" && startStyle === "compatibility-primary-button") {
     return "keep compatibility";
   }
@@ -190,18 +192,18 @@ async function collectClassifications() {
 }
 
 async function checkGeneratedButtonLessons(rows, failures) {
+  const sharedAsset = path.join(root, "_shared", "mathmon", "cover-start-button", "start-button-generated.webp");
+  if (!(await fileExists(sharedAsset))) {
+    failures.push("_shared/mathmon/cover-start-button/start-button-generated.webp: shared cover start asset is missing");
+  }
   for (const row of rows) {
     if (row.startStyle !== "generated-button-art") continue;
     const lesson = path.join(root, row.folder);
     const html = await readFile(path.join(lesson, "index.html"), "utf8");
-    const hasButton = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\s*<img(?=[^>]*class="[^"]*\bstart-button-art\b[^"]*")(?=[^>]*src="start-button-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\s*<\/button>/.test(html);
-    const assets = await Promise.all([
-      fileExists(path.join(lesson, "start-button-source.png")),
-      fileExists(path.join(lesson, "start-button-generated.png")),
-      fileExists(path.join(lesson, "start-button-generated.webp")),
-    ]);
+    const hasCanonicalMarker = /<main\s+class="game"[^>]*data-cover-start-asset="shared-canonical-v1"/.test(html);
+    const hasButton = /<button(?=[^>]*class="[^"]*\bcover-start-button\b[^"]*")(?=[^>]*id="startButton")(?=[^>]*aria-label="시작")[^>]*>\s*<img(?=[^>]*class="[^"]*\bstart-button-art\b[^"]*")(?=[^>]*src="\.\.\/_shared\/mathmon\/cover-start-button\/start-button-generated\.webp")(?=[^>]*alt="")(?=[^>]*aria-hidden="true")[^>]*>\s*<\/button>/.test(html);
+    if (!hasCanonicalMarker) failures.push(`${row.folder}: shared-canonical-v1 marker is missing`);
     if (!hasButton) failures.push(`${row.folder}: generated-button-art DOM is missing`);
-    if (assets.includes(false)) failures.push(`${row.folder}: generated-button-art asset triplet is missing`);
   }
 }
 

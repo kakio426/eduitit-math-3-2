@@ -10,9 +10,9 @@
     { "visual": "1", "purpose": "mechanic", "title": "어떻게 만들어요?", "body": "mL를 계산하고 1000mL를 1L로 바꿔요.", "image": "tutorial-page-1-generated.webp" },
     { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 가게 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
-  "tutorial": { "mode": "poster-two-step" }, "reward": { "mode": "stage-full", "maxPower": 100 },
+  "tutorial": { "mode": "poster-two-step" }, "reward": { "mode": "stage-full", "maxPower": 100 }, "completion": { "showExpression": false },
   "result": { "renderMode": "simple-generated" }, "workbench": { "type": "drink-order" }, "scoreboard": { "enabled": false },
-  "sourceFiles": { "model": "../3-2-5-1-mathmon-water-fill/model.js", "view": "../3-2-5-1-mathmon-water-fill/view.js" },
+  "sourceFiles": { "model": "../3-2-5-1-mathmon-water-fill/model.js", "view": "../3-2-5-1-mathmon-water-fill/view.js", "css": "../3-2-5-1-mathmon-water-fill/lesson.css" },
   "mathmonPack": "zero-factory-animal-pack", "mathmonName": "냥냥몬", "mathmonId": "zfa-04-nyangnyangmon",
   "results": [
     { "id": "cup", "name": "작은 컵 주문", "minPower": 0, "minCorrect": 0, "image": "result-order-cup-generated.webp", "titleImage": "result-title-cup-generated.webp" },
@@ -30,7 +30,7 @@
   "wrongEvent": { "id": "remake", "text": "다시 만들기", "min": 1, "max": 2, "family": "repair" },
   "typesPerRun": ["addCarryMl", "addCarryMl", "addCarryMl", "addCarryMl", "subtractBorrowMl", "subtractBorrowMl", "subtractBorrowMl", "orderCheck", "orderCheck", "orderCheck"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
-  "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "start-button-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "result-retry-button-generated.webp" },
-  "qa": { "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }], "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"] }
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "result-retry-button-generated.webp" },
+  "qa": { "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }, { "name": "short-dpr2", "width": 1280, "height": 720, "deviceScaleFactor": 2 }], "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"] }
 }

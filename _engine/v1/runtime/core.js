@@ -43,6 +43,8 @@ const ui = {
   completePanel: document.getElementById("completePanel"),
   completeText: document.getElementById("completeExpression"),
   continueButton: document.getElementById("rewardButton"),
+  rewardObject: document.querySelector("#screen-reward .reward-object"),
+  rewardLiquid: document.getElementById("rewardLiquid"),
   rewardScreenTitle: document.getElementById("rewardTitle"),
   rewardScene: document.querySelector("#screen-reward .raster-bg"),
   rewardLabel: document.getElementById("rewardChange"),
@@ -312,6 +314,8 @@ function renderStep() {
   ui.feedback.dataset.state = "idle";
   ui.continueButton.hidden = true;
   ui.completePanel.classList.remove("is-visible");
+  ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
+  ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
   ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
   ui.answerSlot.classList.remove("is-filled");
   ui.answerSlot.textContent = step.preview || "?";
@@ -332,6 +336,12 @@ function renderStep() {
     button.type = "button";
     button.textContent = getChoiceLabel(choice);
     button.dataset.choice = getChoiceId(choice);
+    button.dataset.correct = String(LessonModel.validateChoice(step, choice));
+    const misconceptionId = getChoiceMisconceptionId(choice);
+    if (misconceptionId) button.dataset.misconception = misconceptionId;
+    if (choice && typeof choice === "object" && choice.relation) {
+      button.dataset.relation = String(choice.relation);
+    }
     button.addEventListener("click", () => handleChoice(choice, button));
     ui.choices.appendChild(button);
   });
@@ -350,6 +360,10 @@ async function handleChoice(choice, button) {
     choiceId: getChoiceId(choice),
     misconceptionId: getChoiceMisconceptionId(choice),
     correct,
+  });
+  [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
+    delete choiceButton.dataset.state;
+    choiceButton.classList.remove("is-wrong", "is-correct");
   });
 
   if (!correct) {
@@ -415,7 +429,12 @@ async function completeCurrentProblem(problem, step, choice) {
   await runViewHook("onProblemComplete", { problem, step, choice, state });
   await showMathmonReaction("reward");
   playSample("problem-complete");
-  ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
+  const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
+  ui.completeText.hidden = !showCompleteExpression;
+  ui.completeText.textContent = showCompleteExpression
+    ? (problem.finalExpression || ui.answerSlot.textContent)
+    : "";
+  ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
   ui.completePanel.classList.add("is-visible");
   ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
   ui.continueButton.hidden = false;
@@ -501,7 +520,8 @@ function renderStepChips(problem) {
   problem.steps.forEach((step, index) => {
     const chip = document.createElement("span");
     chip.className = "step-chip";
-    chip.textContent = step.label || `${index + 1}단계`;
+    chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
+    if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
     chip.classList.toggle("is-current", index === state.stepIndex);
     chip.classList.toggle("is-done", index < state.stepIndex);
     ui.stepChips.appendChild(chip);
@@ -509,7 +529,7 @@ function renderStepChips(problem) {
 }
 
 async function showReward() {
-  if (!state.completed) return;
+  if (!state.completed || state.rewardPhase !== "idle") return;
   const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
   const firstTry = !state.mistakeTouched;
   const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -538,7 +558,9 @@ async function showReward() {
     return;
   }
 
-  applyPendingReward(event);
+  const beforePower = applyPendingReward(event);
+  state.rewardPhase = "revealed";
+  renderRewardMeter(event, beforePower, state.power);
 
   ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
   if (ui.rewardScene instanceof HTMLImageElement) {
@@ -549,6 +571,18 @@ async function showReward() {
   ui.rewardLabel.textContent = formatRewardText(event);
   ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
   showScreen("reward");
+}
+
+function renderRewardMeter(event, beforePower, afterPower) {
+  if (!ui.rewardObject || !ui.rewardLiquid) return;
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
+  const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
+  const delta = Number(afterPower) - Number(beforePower);
+  const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
+  const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
+  ui.rewardObject.dataset.direction = direction;
+  ui.rewardObject.dataset.symbol = symbol;
+  ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
 }
 
 function openRewardModal(event) {
@@ -600,7 +634,7 @@ async function revealStageReward() {
     afterResult,
     state,
   });
-  ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+  ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
   state.rewardPhase = "revealed";
   ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
     ? "결과 보기"
@@ -615,14 +649,23 @@ function waitFor(duration) {
 }
 
 function formatRewardDelta(event) {
-  if (event.special) return "황금밭!";
+  if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
   const amount = Number(event.amount) || 0;
   if (amount > 0) return `+${amount}`;
   if (amount < 0) return String(amount);
   return "그대로";
 }
 
-function getRewardTargetText(beforeResult, afterResult) {
+function getRewardTargetText(event, beforeResult, afterResult) {
+  const formatter = globalThis.formatLessonRewardTarget;
+  if (typeof formatter === "function") {
+    try {
+      const formatted = formatter({ event, beforeResult, afterResult, state });
+      if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
+    } catch (error) {
+      console.warn("formatLessonRewardTarget failed", error);
+    }
+  }
   if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
   if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
   const nextResult = typeof LessonModel.getNextResult === "function"
@@ -706,8 +749,14 @@ function formatRewardText(event) {
 
 function advanceAfterReward() {
   if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
+  if (state.pendingAdvance) return;
+  state.pendingAdvance = true;
   if (getRewardMode() === "modal-art") closeRewardModal();
   if (getRewardMode() === "stage-reveal") {
+    state.pendingRewardEvent = null;
+    state.rewardPhase = "idle";
+  }
+  if (getRewardMode() === "stage-full") {
     state.pendingRewardEvent = null;
     state.rewardPhase = "idle";
   }

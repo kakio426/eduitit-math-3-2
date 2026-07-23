@@ -1,99 +1,48 @@
 # 매스몬 물통 채우기 시합
 
-에듀잇티 수학 게임 시리즈 3학년 2학기 5단원 1차시 단일 HTML 패키지입니다.
+3학년 2학기 5단원 1차시 단일 HTML 게임입니다. 학생은 실제 눈금판을 보고 `mL`, `L와 mL`, 두 물통의 들이를 판단합니다.
 
-- 대상: 초등학교 3학년 2학기
-- 배움주제: 들이 비교와 L, mL
-- 학생 행동: 눈금에 맞는 들이를 골라요.
-- 문제: 10문제, readMl, readLiterMl, compareBottle
-- 보상: 물통 변화
-- 실행: `index.html`을 브라우저에서 열기
+## 실행과 소스
 
-## 엔진 v1 파일럿
-
-이 차시는 `mathmon-engine-v1` 파일럿으로, 학생용 `index.html`은 아래 소스에서 다시 빌드합니다.
-
-- 공용 엔진: `_engine/v1/`
-- 차시 소스: `_lessons/3-2-5-1-mathmon-water-fill/`
+- 실행 파일: `index.html`
+- 공통 엔진: `_engine/v1/`
+- 차시 설정: `_lessons/3-2-5-1-mathmon-water-fill/lesson.json`
+- 공유 모델·화면: `_lessons/3-2-5-1-mathmon-water-fill/model.js`, `view.js`
 - 빌드: `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill`
-- 계약 검사: `node scripts/check-lesson-contract.mjs`
 
-배포 형태는 기존과 같습니다. 차시 폴더의 `index.html`은 CSS/JS를 인라인으로 가진 단일 HTML입니다.
+첫 화면은 `generated-title-overlay`, `shared-canonical-v1`, `modal-controls` 계약을 사용합니다. 시작 버튼 그림은 차시 복제본이 아니라 `_shared/mathmon/cover-start-button/start-button-generated.webp`를 직접 참조합니다.
 
-## 화면 흐름
+## 학습 흐름
 
 ```text
-첫 화면 -> 설명 -> 문제 -> 보상 -> 결과
+첫 화면 → 설명 1·2 → 눈금/비교 문제 → 정답 확인 → 물통 보기 → 결과
 ```
 
-문제 화면은 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본으로 보여 줍니다. 정답을 고르면 값이 칸에 들어간 뒤 다음 단계나 보상으로 넘어갑니다.
+- `0~1000mL`: 100mL 간격 눈금
+- `0~3L`: 1L 큰 눈금과 100mL 작은 눈금
+- 오답: 학생이 고른 눈금과 실제 물높이를 함께 표시
+- 피드백: `100mL 적어요.`, `200mL 많아요.`처럼 차이를 한 줄로 표시
+- 정답 경로 수학 입력: 최소·중앙·평균·최대 모두 `1`
 
-## 생성 이미지 자산
+## 보상과 결과
 
-`index.html`은 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` 기준을 선언합니다.
-
-| 파일명 | 용도 |
-| --- | --- |
-| `cover-source.png` / `cover-generated.webp` | 글자 없는 첫 화면 배경 |
-| `title-logo-chromakey.png` / `title-logo-generated.png` / `title-logo-generated.webp` | 생성형 제목 아트 |
-| `start-button-source.png` / `start-button-generated.png` / `start-button-generated.webp` | 생성형 시작 버튼 아트 |
-| `reward-scene-source.png` / `reward-scene-generated.webp` | 보상 장면 배경 |
-| `result-tank-*-source.png` / `result-tank-*-generated.webp` | 결과 장면 |
-| `result-title-*-source.png` / `result-title-*-generated.webp` | 결과 이름 타이틀 아트 |
-| `result-retry-button-source.png` / `result-retry-button-generated.webp` | 결과 화면 다시 버튼 아트 |
-
-## 매스몬 기준
-
-현재 실행 장면의 매스몬 기준은 `zero-factory-animal-pack`의 펭귄몬(`zfa-06-penguinmon`)입니다. 첫 화면, 보상, 결과 장면 안에 함께 생성하며 런타임 WebP를 별도 오버레이로 얹지 않습니다.
-
-## 보상 구조
-
-정답을 처음에 맞히면 기본 보상값이 붙고, 랜덤 보상이 한 번 더해집니다. 오답 뒤에 맞히면 작은 회복 보상만 붙습니다. 낮은 결과도 빈손처럼 보이지 않게 물통 변화로 보여 줍니다.
+보상 화면에는 변화 문구 한 덩어리만 보입니다. 기존 확률과 결과 조건은 유지합니다.
 
 | 결과 | 조건 |
 | --- | --- |
-| 작은 물통 | 0 이상, 바로 맞힌 문제 0개 이상 |
-| 반짝 물통 | 30 이상, 바로 맞힌 문제 3개 이상 |
-| 가득 물통 | 70 이상, 바로 맞힌 문제 7개 이상 |
-| 무지개 물탑 | 100 이상, 바로 맞힌 문제 10개 이상, 특별 보상 필요 |
+| 작은 물통 | 기본 |
+| 반짝 물통 | 힘 30, 바로 맞힌 문제 3개 |
+| 가득 물통 | 힘 70, 바로 맞힌 문제 7개 |
+| 무지개 물탑 | 힘 100, 10문제 바로 정답, 특별 보상 |
 
-## Humanizer QA
+결과 4상태 컨택시트는 `result-states-contact-sheet.png`입니다. 사용 팩은 `zero-factory-animal-pack`, 매스몬은 `zfa-06-penguinmon`입니다.
 
-학생에게 보이는 문구는 짧은 행동 말로 점검합니다.
+## 브라우저 증거
 
-- 첫 화면 목표: `눈금에 맞는 들이를 골라요.`
-- 문제 지시: 현재 단계에서 하나만 고르게 함
-- 피드백: `다시 골라요.`, `...이 들어갔어요.`
-- 버튼: `시작`, `문제 시작`, `물통 보기`, `다음`, `보기`, `다시`
+현재 캡처는 `screenshots/qa5-<viewport>-<state>.png`에 있습니다.
 
-## 스크린샷
+- 화면: `1280×800`, `1024×768`, `1280×720 / DPR 2`
+- 상태: 표지, 설정, 설명 1·2, 대기, 작은/큰 오답, 정답 확인, 완성, 보상, 낮음/중간/최고 결과
+- 검사: 텍스트 넘침 0, 영역 겹침 0, 42px 미만 터치 영역 0, 완료 중심축 차이 1px 이하
 
-스크린샷은 `screenshots/`에 저장합니다.
-
-- `cover.png`
-- `tutorial-1.png`
-- `tutorial-2.png`
-- `play-step1.png`
-- `play-confirm.png`
-- `wrong-hint.png`
-- `reward.png`
-- `result-*.png`
-- `tablet-cover.png`
-- `tablet-tutorial-1.png`
-- `tablet-tutorial-2.png`
-- `tablet-play-step1.png`
-- `tablet-play-confirm.png`
-- `tablet-reward.png`
-- `tablet-result-*.png`
-
-세로 휴대폰은 기본 지원 대상이 아닙니다.
-
-## 2쪽 설명 포스터와 상태 세트
-
-- 설명 1쪽: 눈금과 `L`, `mL`를 보고 들이를 고르는 한 가지 행동
-- 설명 2쪽: 10문제, 학생이 확인하는 물통 보상, 마지막 결과
-- 런타임 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
-- 생성 원본: `tutorial-page-1-source.png`, `tutorial-page-2-source.png`
-- 결과 4상태 컨택시트: `result-states-contact-sheet.png`
-- 실제 매스몬 팩: `zero-factory-animal-pack` / `zfa-06-penguinmon`
-- 브라우저 QA: `1280×800`, `1024×768`
+세로 스마트폰은 지원 범위가 아닙니다.

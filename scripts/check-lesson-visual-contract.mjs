@@ -95,7 +95,7 @@ function checkLesson(folder, config) {
   assert(existsSync(contactSheet), `${prefix} 결과 컨택시트가 없습니다.`);
   assert(readme.includes(set.contactSheet), `${prefix} README에 컨택시트 경로가 없습니다.`);
   assert(report.includes(set.contactSheet), `${prefix} REPORT에 컨택시트 경로가 없습니다.`);
-  assert(readme.includes(config.mathmonPack) && report.includes(config.mathmonPack), `${prefix} README/REPORT에 매스몬 팩 id가 없습니다.`);
+  assert(`${readme}\n${report}`.includes(config.mathmonPack), `${prefix} README와 REPORT 어디에도 매스몬 팩 id가 없습니다.`);
 }
 
 const requested = process.argv.slice(2);

@@ -1,154 +1,48 @@
 # 매스몬 택배 무게 맞추기
 
-에듀잇티 수학 게임 시리즈 3학년 2학기 5단원 4차시 단일 HTML 패키지입니다.
+3학년 2학기 5단원 4차시 단일 HTML 게임입니다. 학생은 kg와 g의 자리를 맞춰 더하고 빼며, 택배 무게가 한도에 맞는지 판단합니다.
 
-- 대상: 초등학교 3학년 2학기
-- 배움주제: 무게의 덧셈·뺄셈과 어림
-- 학생 행동: 택배 한도에 맞는 무게를 골라요.
-- 문제: 10문제, kg/g 더하기, kg/g 빼기, 한도 고르기
-- 보상: 상자로 트럭을 멋지게 바꾸기
-- 실행: `index.html`을 브라우저에서 열기
+## 실행과 소스
 
-설명 화면은 2026-07-12 리마스터에서 HTML 카드 대신 차시 장면과 같은 그림체의 2쪽 생성 포스터로 교체했습니다.
+- 실행 파일: `index.html`
+- 공통 엔진: `_engine/v1/`
+- 차시 설정: `_lessons/3-2-5-4-mathmon-package-weight/lesson.json`
+- 차시 모델·뷰·스타일: 같은 소스 폴더의 `model.js`, `view.js`, `lesson.css`
+- 빌드: `node scripts/build-lesson.mjs 3-2-5-4-mathmon-package-weight`
+- 시작 버튼: `_shared/mathmon/cover-start-button/start-button-generated.webp`
 
-## 화면 흐름
+기존 단독 HTML 런타임은 `mathmon-engine-v1` 소스 구조로 전환했습니다. 이전 브라우저 증거는 `_archive/pre-engine-screenshots/`, 이전 클릭 가드는 `scripts/_archive/unit5-pre-engine/`에 보존합니다.
+
+## 학습 흐름
 
 ```text
-첫 화면 -> 설명 1쪽 -> 설명 2쪽 -> 문제 -> 보상 -> 결과
+첫 화면 → 설명 1·2 → 무게 계산/한도 판단 → 완성 계산판 → 트럭 보기
+→ 닫힌 상자와 현재 트럭 → 상자 열기 → 이전·다음 트럭 → 결과
 ```
 
-설명 1쪽은 `kg`과 `g`을 계산하는 행동 하나를 보여 줍니다. 설명 2쪽은 10문제, 트럭 보상, 마지막 결과를 알려 줍니다.
+- 더하기: g 합 → `1000g = 1kg`로 바꾸기 → kg까지 더하기
+- 빼기: `1kg = 1000g`으로 바꾸기 → g 빼기 → kg까지 빼기
+- 한도: 택배 무게 계산 → 택배와 한도를 같은 축에서 비교
+- 단계 수: 더하기 3, 빼기 3, 한도 2
+- 오답: 학생이 고른 값을 kg/g 열에 보존
+- 피드백: `100g 적어요.`, `1000g을 아직 바꾸지 않았어요.`, `한도보다 90g 무거워요.`
+- 정답 경로 수학 입력: 최소 `2`, 중앙값 `3`, 평균 `2.7`, 최대 `3`
 
-문제 화면은 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본으로 보여 줍니다. 정답을 고르면 값이 계산판 칸에 들어간 뒤 다음 단계로 넘어갑니다. 마지막 단계 뒤에는 완성된 식을 먼저 보여 주고 `트럭 보기` 버튼으로 보상 화면을 엽니다.
+## 보상과 결과
 
-## 생성 이미지 자산
+`stage-reveal` 보상은 기존 트럭 자산을 공통 엔진의 `onRewardPrepare`, `onRewardReveal` 훅으로 연결합니다. `formatLessonRewardTarget` 훅이 트럭 목표 문구를 만들며 농장 문구는 노출하지 않습니다.
 
-`index.html`은 `data-cover-standard="generated-title-overlay"`, `data-cover-start-standard="generated-button-art"`, `data-settings-standard="modal-controls"`를 선언합니다. 첫 화면은 글자 없는 배경, 생성형 제목 아트, HTML 목표 문장, 별도 생성형 `시작` 버튼 아트와 실제 HTML 버튼으로 나뉩니다.
-
-| 파일명 | 용도 | 런타임 |
-| --- | --- | --- |
-| `cover-source.png` / `cover-generated.webp` | 글자 없는 택배 작업장 첫 화면 배경 | `cover-generated.webp` |
-| `title-logo-chromakey.png` / `title-logo-generated.png` / `title-logo-generated.webp` | 생성형 제목 아트 | `title-logo-generated.webp` |
-| `start-button-source.png` / `start-button-generated.png` / `start-button-generated.webp` | 1차시 버튼 물성을 참고한 독립 생성형 `시작` 버튼 아트 | `start-button-generated.webp` |
-| `reward-truck-upgrade-source.png` / `reward-truck-upgrade-generated.webp` | 트럭 업그레이드 작업장 보상 배경 | `reward-truck-upgrade-generated.webp` |
-| `result-truck-plain-source.png` / `result-truck-plain-generated.webp` | 평범 트럭 결과 장면 | `result-truck-plain-generated.webp` |
-| `result-truck-slight-source.png` / `result-truck-slight-generated.webp` | 살짝 멋진 트럭 결과 장면 | `result-truck-slight-generated.webp` |
-| `result-truck-cool-source.png` / `result-truck-cool-generated.webp` | 번쩍 멋진 트럭 결과 장면 | `result-truck-cool-generated.webp` |
-| `result-truck-super-source.png` / `result-truck-super-generated.webp` | 슈퍼 초울트라 트럭 결과 장면 | `result-truck-super-generated.webp` |
-| `result-title-plain/slight/cool/super-source.png` / `result-title-*-generated.webp` | 결과 트럭 이름 생성형 타이틀 아트 | `result-title-*-generated.webp` |
-| `result-retry-button-source.png` / `result-retry-button-generated.webp` | 결과 화면 `다시` 생성형 버튼 아트 | `result-retry-button-generated.webp` |
-
-결과 장면에는 생성 단계에서 트럭과 택배 매스몬이 함께 들어가 있습니다. 결과 이름과 `다시` 버튼도 로컬 폰트/CSS가 아니라 생성형 타이틀/버튼 자산으로 얹습니다. 결과 화면에는 큰 CSS 카드, CSS 제목, CSS 본문을 만들지 않습니다. 이전 결과 이미지는 `_archive/3-2-5-4-destination-results/`에 보관합니다.
-
-## HTML 오버레이 범위
-
-- 첫 화면: 브랜드/단원 배지, 배움주제 배지, 목표 문장, 생성형 `시작` 버튼 아트 위의 실제 HTML 버튼
-- 문제 화면: 문제식, 단계 칩, 한 줄 지시, 답 칸, 선택지, 확인 문구, `트럭 보기` 버튼
-- 보상 화면 이미지: 글자 없는 트럭 업그레이드 작업장 배경
-- 보상 화면 HTML: 부품 상자 이름, CSS 트럭 미리보기, 현재 트럭 단계, 변화 문구, 다음 버튼
-- 결과 화면 생성 이미지: 트럭 단계와 택배 매스몬, 생성형 결과 타이틀 아트, 생성형 `다시` 버튼 아트
-- 결과 화면 동적(dynamic) 값: `resultTitle`, `resultSummary`, `resultNext`는 스크린리더용 숨김 텍스트로만 유지합니다.
-- 결과 화면 고정 조작: `retryButton`은 생성형 버튼 아트 위의 실제 HTML hitbox입니다. 보이는 버튼 글자와 장식은 CSS가 아니라 이미지 자산이 맡습니다.
-- 전역 조작: 오른쪽 위 톱니 설정 버튼과 Stage 안 설정 모달은 `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`를 맡습니다.
-
-결과 화면의 보이는 HTML 오버레이는 실제 조작 hitbox와 시리즈 공통 배지로 제한합니다. 결과 카드, 큰 제목, 칭찬 문구, 버튼 장식을 HTML/CSS로 새로 그리면 하네스 실패로 봅니다.
-
-## 매스몬 기준
-
-현재 실행 장면의 매스몬 기준은 `_shared/mathmon/base-pack`의 `여우몬`(`base-02-foxmon`)입니다. 첫 화면, 트럭 업그레이드 보상, 결과 트럭 장면 안에 함께 생성했으며, 런타임 복사본을 별도 HTML 오버레이로 얹지 않습니다.
-
-이전 택배 전용 여우 자산은 보존용 이력으로만 남기고, 새 화면 기준이나 보상 팩으로 쓰지 않습니다.
-
-## 보상 구조
-
-정답을 처음에 맞히면 내부 보상값 `+5`가 더해집니다. 그 뒤 트럭을 바꾸는 상자 보상이 한 번 붙습니다. 학생 화면에는 숫자 보상값을 직접 보이지 않고, 현재 트럭 단계만 보여 줍니다.
-
-| 상자 | 확률 | 변화 |
-| --- | --- | --- |
-| 작은 부품 상자 | 52% | +5~+8 |
-| 번쩍 부품 상자 | 17% | +13~+18 |
-| 꾸미기 상자 | 17% | +9~+12 |
-| 삐끗 상자 | 12% | +1~+3 |
-| 슈퍼 부품 상자 | 2% | +28, 최고 트럭 조건 |
-
-오답 뒤에 맞히면 기본 보상값은 붙지 않고 `상자 다시 묶기`로 +1~+2가 한 번 붙습니다. 빈손처럼 끝나지 않지만, 바로 맞힌 경우보다 트럭이 천천히 바뀝니다.
-
-| 트럭 | 조건 |
+| 결과 | 조건 |
 | --- | --- |
 | 평범 트럭 | 기본 |
-| 살짝 멋진 트럭 | 30 이상, 바로 맞힌 문제 3개 이상 |
-| 번쩍 멋진 트럭 | 70 이상, 바로 맞힌 문제 7개 이상 |
-| 슈퍼 초울트라 트럭 | 100, 바로 맞힌 문제 10개, 슈퍼 부품 상자 필요 |
+| 살짝 멋진 트럭 | 힘 30, 바로 맞힌 문제 3개 |
+| 번쩍 멋진 트럭 | 힘 70, 바로 맞힌 문제 7개 |
+| 슈퍼 트럭 | 힘 100, 10문제 바로 정답, 슈퍼 부품 |
 
-## Humanizer QA
+기존 보상 확률은 그대로 유지합니다. 결과 컨택시트는 `result-states-contact-sheet.png`, 트럭 변화 컨택시트는 `truck-evolution-contact-sheet.png`입니다. 사용 팩은 `base-pack`, 매스몬은 `base-02-foxmon`입니다.
 
-학생에게 보이는 문구는 짧은 행동 말로 점검했습니다.
+## 브라우저 증거
 
-- 첫 화면 목표: `택배 한도에 맞는 무게를 골라요.`
-- 설명: `g끼리 먼저 봐요.`, `부족하면 1kg을 빌려요.`, `한도보다 가벼워야 해요.`
-- 보상 설명: `맞히면 트럭이 바뀌어요.`, `가끔 크게 바뀌어요.`, `슈퍼 트럭까지 도전해요.`
-- 문제 지시: `g끼리 더한 값을 골라요.`, `남은 택배 무게를 골라요.`, `한도에 맞는 말을 골라요.`
-- 피드백: `다시 골라요.`, `...이 들어갔어요.`, `...로 보낼 수 있어요.`
-- 보상/결과: `작은 부품 상자`, `트럭이 멋져졌어요.`, `평범 트럭`, `슈퍼 초울트라 트럭`, `다시`
-- 설정: `설정`, `배경 소리`, `효과 소리`, `방법 다시 보기`, `처음부터`, `닫기`, `계속하기`
+`screenshots/qa5-<viewport>-<state>.png`에서 `1280×800`, `1024×768`, `1280×720 / DPR 2`를 확인할 수 있습니다. 짧은 DPR 2 화면에서도 보상 버튼과 Stage 아래 경계 사이의 여백은 16px 이상입니다.
 
-학생 화면에는 내부 작업실 이름이나 제작자용 말을 보이지 않게 했습니다.
-
-## 스크린샷
-
-스크린샷은 `screenshots/`에 저장합니다.
-
-- `cover.png`
-- `tutorial.png`
-- `tutorial-reward.png`
-- `play-step1.png`
-- `play-step2.png`
-- `wrong-hint.png`
-- `reward.png`
-- `result-plain.png`
-- `result-slight.png`
-- `result-cool.png`
-- `result-super.png`
-- `tablet-cover.png`
-- `tablet-tutorial.png`
-- `tablet-tutorial-reward.png`
-- `tablet-play-step1.png`
-- `tablet-reward.png`
-- `tablet-result-plain.png`
-- `tablet-result-slight.png`
-- `tablet-result-cool.png`
-- `tablet-result-super.png`
-- `tablet-landscape.png`
-
-세로 휴대폰은 기본 지원 대상이 아니며, 별도 세로 차단 화면이 구현되어 있지 않아 `portrait-guard.png`는 만들지 않습니다.
-
-## 검증
-
-- `node -e 'JSON.parse(require("fs").readFileSync("manifest.json","utf8")); const lesson=JSON.parse(require("fs").readFileSync("manifest.json","utf8")).lessons.find((item)=>item.id==="3-2-5-4"); if(!lesson) throw new Error("missing lesson"); console.log(JSON.stringify(lesson,null,2));'`
-- Text audit: required student-term pattern against `index.html`, `README.md`, and `REPORT.md`
-- `node scripts/check-stage-ratio.mjs`
-- `node scripts/qa-lesson5-package-weight-model.mjs --runs 10000`
-- `node scripts/simulate-lesson5-package-weight.mjs --runs 10000`
-- `node scripts/qa-lesson5-package-weight-click-guards.mjs`
-- Browser QA: Chrome CDP 자동 캡처와 설정 모달 직접 조작으로 데스크톱과 태블릿 가로 화면 확인
-
-## 설명·결과 상태 이미지 세트
-
-- 설명 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
-- 설명 생성 원본: `tutorial-page-1-source.png`, `tutorial-page-2-source.png`
-- 결과 4상태: 평범 / 살짝 멋진 / 번쩍 멋진 / 슈퍼 초울트라 트럭
-- 결과 컨택시트: `result-states-contact-sheet.png`
-- 실제 매스몬 팩: `base-pack` / `base-02-foxmon`
-- 실제 에듀잇티 로고: `eduitit-logo-mark.png`
-- 완료 화면: 데스크톱 `1280×800`, 태블릿 가로 `1024×768`
-
-## 트럭 진화 표시
-
-- 문제 상단은 단순 막대 대신 현재 트럭의 실제 그림과 이름을 보여 줍니다.
-- 상단 슬롯은 `420×92px`, 트럭 그림은 `250×88px`이며 그림이 슬롯 너비의 약 `59.5%`를 차지합니다.
-- 보상 화면은 현재 트럭과 다음 목표 트럭을 나란히 보여 줍니다. 새 단계에 도착하면 실제 이전·이후 트럭으로 바뀝니다.
-- 네 실루엣: 소형 삼륜차 / 대형 6륜 화물차 / 터보 장갑 트럭 / 무지개 날개 전설 트럭
-- 런타임 자산: `truck-evolution-*-generated.webp`
-- 상태 컨택시트: `truck-evolution-contact-sheet.png`
-- 새 결과 장면 원본: `result-truck-evolution-scenes-source.png`
-- 이전 결과 장면은 `_archive/3-2-5-4-pre-dramatic-results/`에 보존합니다.
+세로 스마트폰은 지원 범위가 아닙니다.
