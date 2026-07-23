@@ -43,7 +43,7 @@ assert.equal(qaSeed("?seed=12345&qaProblem=tenfold"), 12345, "targeted QA needs 
 assert.equal(qaSeed("?seed=12345&audioSmoke=lesson"), 12345, "audio QA needs a reproducible seed");
 assert.equal(qaSeed("?qa=desktop"), null, "QA without an explicit seed must remain random");
 
-assert.equal(lessons.length, 21, "manifest lesson count changed; update the randomness audit");
+assert.equal(lessons.length, 24, "manifest lesson count changed; update the randomness audit");
 
 for (const lesson of lessons) {
   const indexPath = `${lesson.folder}/${lesson.entryFile || "index.html"}`;

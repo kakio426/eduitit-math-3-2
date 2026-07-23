@@ -1,0 +1,115 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit6-data-lab-series",
+  "id": "3-2-6-4",
+  "folder": "3-2-6-4-mathmon-data-detective",
+  "modelName": "Lesson6DataLabModel",
+  "title": "매스몬 데이터 탐정",
+  "shortTitle": "매스몬 데이터 탐정",
+  "topic": "그림그래프에서 큰 값·작은 값·차이 찾기",
+  "unitBadge": "6단원 자료의 정리",
+  "goal": "그림의 값을 읽어 한 가지 단서를 찾아요.",
+  "action": "현재 지시에 맞는 큰 값, 작은 값, 차이 하나를 고른다.",
+  "buttonLabel": "단서 상자 열기",
+  "rewardScreenTitle": "단서 상자",
+  "progressLabel": "탐정 힘",
+  "rewardComplete": "탐정 힘이 바뀌었어요.",
+  "tutorialTitle": "단서를 찾기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "purpose": "mechanic", "title": "지금 묻는 단서만 찾아요", "body": "가장 큰 값, 가장 작은 값, 차이 중 하나만 골라요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "열 문제를 풀어요", "body": "상자를 열어 사건 해결실을 밝혀요.", "image": "tutorial-page-2-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "maxPower": 100,
+    "unitLabel": "탐정 힘",
+    "closedLabel": "상자 안에는 무엇이 있을까요?",
+    "nextLabel": "다음 단서",
+    "artMap": {
+      "normal": "reward-normal-generated.webp",
+      "loss": "reward-loss-generated.webp",
+      "mega": "reward-mega-generated.webp",
+      "complete": "reward-complete-generated.webp",
+      "empty": "reward-empty-generated.webp",
+      "rainbow": "reward-rainbow-generated.webp"
+    },
+    "spriteSheet": {
+      "columns": 3,
+      "rows": 2,
+      "slots": { "normal": [0, 0], "loss": [1, 0], "mega": [2, 0], "complete": [0, 1], "empty": [1, 1], "rainbow": [2, 1] }
+    }
+  },
+  "result": {
+    "renderMode": "hybrid-generated-dynamic",
+    "stateImageSet": {
+      "count": 6,
+      "canvas": "1280x800",
+      "runtimeSlot": "1280x800",
+      "contactSheet": "result-scenes-contact-sheet.png",
+      "protagonist": "base-02-foxmon",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["detective-power", "correct-count"]
+    }
+  },
+  "workbench": { "type": "data-detective", "learningFlow": ["read-unit", "find-current-clue"] },
+  "scoreboard": { "enabled": false },
+  "mathmonPack": "base-pack",
+  "mathmonName": "여우몬",
+  "mathmonId": "base-02-foxmon",
+  "results": [
+    { "id": "first", "name": "첫 단서", "minPower": 0, "minCorrect": 0, "image": "result-scene-1-generated.webp", "titleImage": "result-title-1-generated.webp" },
+    { "id": "notebook", "name": "단서 수첩", "minPower": 19, "minCorrect": 2, "image": "result-scene-2-generated.webp", "titleImage": "result-title-2-generated.webp" },
+    { "id": "badge", "name": "해결 배지", "minPower": 39, "minCorrect": 4, "image": "result-scene-3-generated.webp", "titleImage": "result-title-3-generated.webp" },
+    { "id": "desk", "name": "탐정 책상", "minPower": 61, "minCorrect": 6, "image": "result-scene-4-generated.webp", "titleImage": "result-title-4-generated.webp" },
+    { "id": "case-room", "name": "사건 해결실", "minPower": 83, "minCorrect": 8, "image": "result-scene-5-generated.webp", "titleImage": "result-title-5-generated.webp" },
+    { "id": "rainbow", "name": "무지개 탐정본부", "minPower": 100, "minCorrect": 0, "needsSpecial": true, "image": "result-scene-6-generated.webp", "titleImage": "result-title-6-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "normal", "text": "탐정 힘이 늘었어요", "weight": 7645, "min": 4, "max": 8, "family": "normal", "rarity": "common" },
+    { "id": "loss", "text": "탐정 힘이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "loss", "rarity": "common" },
+    { "id": "mega", "text": "탐정 힘이 크게 늘었어요", "weight": 900, "min": 12, "max": 20, "family": "mega", "rarity": "rare" },
+    { "id": "complete", "text": "단서판이 한 번에 빛나요", "weight": 50, "min": 0, "max": 0, "family": "complete", "rarity": "rare" },
+    { "id": "empty", "text": "이번에는 그대로예요", "weight": 200, "min": 0, "max": 0, "family": "empty", "rarity": "common" },
+    { "id": "rainbow", "text": "무지개 단서가 나왔어요", "weight": 5, "min": 0, "max": 0, "family": "rainbow", "rarity": "legend", "special": true }
+  ],
+  "wrongEvent": { "id": "wrong-loss", "text": "탐정 힘이 줄었어요", "min": -18, "max": -8, "family": "loss" },
+  "typesPerRun": ["maximum", "maximum", "maximum", "minimum", "minimum", "minimum", "difference", "difference", "difference", "difference"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "problemStates": { "waiting": "problem-background-generated.webp", "working": "problem-background-generated.webp", "complete": "problem-background-generated.webp" },
+    "rewardClosed": "reward-empty-generated.webp",
+    "rewardScene": "problem-background-generated.webp",
+    "mathmonReactions": {
+      "correct": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-foxmon-correct.webp",
+      "wrong": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-foxmon-wrong.webp",
+      "reward": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-foxmon-reward.webp"
+    },
+    "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
+  },
+  "sourceFiles": { "model": "../_shared/unit6-data/model.js", "view": "../_shared/unit6-data/view.js", "style": "../_shared/unit6-data/lesson.css" },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp", "problem-background-generated.webp",
+    "reward-normal-generated.webp", "reward-loss-generated.webp", "reward-mega-generated.webp", "reward-complete-generated.webp", "reward-empty-generated.webp", "reward-rainbow-generated.webp",
+    "result-scene-1-generated.webp", "result-scene-2-generated.webp", "result-scene-3-generated.webp", "result-scene-4-generated.webp", "result-scene-5-generated.webp", "result-scene-6-generated.webp",
+    "result-title-1-generated.webp", "result-title-2-generated.webp", "result-title-3-generated.webp", "result-title-4-generated.webp", "result-title-5-generated.webp", "result-title-6-generated.webp",
+    "../_shared/result-actions/retry-button-generated.webp", "result-scenes-contact-sheet.png", "result-titles-contact-sheet.png", "reward-contact-sheet.png"
+  ],
+  "qa": {
+    "visualContractVersion": 1,
+    "modelContractVersion": 1,
+    "modelRule": "max-min-difference",
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800, "dpr": 1 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768, "dpr": 1 },
+      { "name": "unit6-reported-overlap-1024x768-dpr1", "width": 1024, "height": 768, "dpr": 1 }
+    ],
+    "requiredFlow": ["cover", "settings", "tutorial-1", "tutorial-2", "play-waiting", "play-wrong-low", "play-wrong-high", "play-correct", "complete", "reward-closed", "reward-open", "result", "result-all-tiers"]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "engineVersion": "mathmon-engine-v1",
+  "sourceLesson": "unit6-data-lab-series",
+  "id": "3-2-6-2",
+  "folder": "3-2-6-2-mathmon-picture-decoder",
+  "modelName": "Lesson6DataLabModel",
+  "title": "매스몬 그림 단위 해독",
+  "shortTitle": "매스몬 그림 단위 해독",
+  "topic": "그림 하나의 단위로 전체 값 읽기",
+  "unitBadge": "6단원 자료의 정리",
+  "goal": "그림 하나의 값을 보고 모두 얼마인지 찾아요.",
+  "action": "그림 수와 한 그림의 단위를 곱해 전체 값을 고른다.",
+  "buttonLabel": "해독 상자 열기",
+  "rewardScreenTitle": "해독 상자",
+  "progressLabel": "해독 힘",
+  "rewardComplete": "해독 힘이 바뀌었어요.",
+  "tutorialTitle": "그림을 읽기 전에",
+  "tutorialButton": "문제 시작",
+  "tutorialCards": [
+    { "visual": "1", "purpose": "mechanic", "title": "그림 하나의 값을 봐요", "body": "그림 하나의 값과 그림 수를 곱해요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "열 문제를 풀어요", "body": "상자를 열어 자료 해독실을 밝혀요.", "image": "tutorial-page-2-generated.webp" }
+  ],
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "maxPower": 100,
+    "unitLabel": "해독 힘",
+    "closedLabel": "상자 안에는 무엇이 있을까요?",
+    "nextLabel": "다음 해독",
+    "artMap": {
+      "normal": "reward-normal-generated.webp",
+      "loss": "reward-loss-generated.webp",
+      "mega": "reward-mega-generated.webp",
+      "complete": "reward-complete-generated.webp",
+      "empty": "reward-empty-generated.webp",
+      "rainbow": "reward-rainbow-generated.webp"
+    },
+    "spriteSheet": {
+      "columns": 3,
+      "rows": 2,
+      "slots": { "normal": [0, 0], "loss": [1, 0], "mega": [2, 0], "complete": [0, 1], "empty": [1, 1], "rainbow": [2, 1] }
+    }
+  },
+  "result": {
+    "renderMode": "hybrid-generated-dynamic",
+    "stateImageSet": {
+      "count": 6,
+      "canvas": "1280x800",
+      "runtimeSlot": "1280x800",
+      "contactSheet": "result-scenes-contact-sheet.png",
+      "protagonist": "base-05-eaglemon",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["decode-power", "correct-count"]
+    }
+  },
+  "workbench": { "type": "picture-decoder", "learningFlow": ["read-unit", "find-total"] },
+  "scoreboard": { "enabled": false },
+  "mathmonPack": "base-pack",
+  "mathmonName": "독수리몬",
+  "mathmonId": "base-05-eaglemon",
+  "results": [
+    { "id": "first", "name": "첫 그림표", "minPower": 0, "minCorrect": 0, "image": "result-scene-1-generated.webp", "titleImage": "result-title-1-generated.webp" },
+    { "id": "magnifier", "name": "반짝 돋보기", "minPower": 19, "minCorrect": 2, "image": "result-scene-2-generated.webp", "titleImage": "result-title-2-generated.webp" },
+    { "id": "decode-board", "name": "그림 해독판", "minPower": 39, "minCorrect": 4, "image": "result-scene-3-generated.webp", "titleImage": "result-title-3-generated.webp" },
+    { "id": "decode-desk", "name": "해독 책상", "minPower": 61, "minCorrect": 6, "image": "result-scene-4-generated.webp", "titleImage": "result-title-4-generated.webp" },
+    { "id": "decode-lab", "name": "자료 해독실", "minPower": 83, "minCorrect": 8, "image": "result-scene-5-generated.webp", "titleImage": "result-title-5-generated.webp" },
+    { "id": "rainbow", "name": "무지개 해독탑", "minPower": 100, "minCorrect": 0, "needsSpecial": true, "image": "result-scene-6-generated.webp", "titleImage": "result-title-6-generated.webp" }
+  ],
+  "rewardEvents": [
+    { "id": "normal", "text": "해독 힘이 늘었어요", "weight": 7645, "min": 4, "max": 8, "family": "normal", "rarity": "common" },
+    { "id": "loss", "text": "해독 힘이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "loss", "rarity": "common" },
+    { "id": "mega", "text": "해독 힘이 크게 늘었어요", "weight": 900, "min": 12, "max": 20, "family": "mega", "rarity": "rare" },
+    { "id": "complete", "text": "해독판이 한 번에 빛나요", "weight": 50, "min": 0, "max": 0, "family": "complete", "rarity": "rare" },
+    { "id": "empty", "text": "이번에는 그대로예요", "weight": 200, "min": 0, "max": 0, "family": "empty", "rarity": "common" },
+    { "id": "rainbow", "text": "무지개 그림이 나왔어요", "weight": 5, "min": 0, "max": 0, "family": "rainbow", "rarity": "legend", "special": true }
+  ],
+  "wrongEvent": { "id": "wrong-loss", "text": "해독 힘이 줄었어요", "min": -18, "max": -8, "family": "loss" },
+  "typesPerRun": ["decoder", "decoder", "decoder", "decoder", "decoder", "decoder", "decoder", "decoder", "decoder", "decoder"],
+  "stage": { "ratio": "16:10", "size": "1280x800" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "imageAssets": {
+    "cover": "cover-generated.webp",
+    "titleArt": "title-logo-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "problemStates": { "waiting": "problem-background-generated.webp", "working": "problem-background-generated.webp", "complete": "problem-background-generated.webp" },
+    "rewardClosed": "reward-empty-generated.webp",
+    "rewardScene": "problem-background-generated.webp",
+    "mathmonReactions": {
+      "correct": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-correct.webp",
+      "wrong": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-wrong.webp",
+      "reward": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-reward.webp"
+    },
+    "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
+  },
+  "sourceFiles": { "model": "../_shared/unit6-data/model.js", "view": "../_shared/unit6-data/view.js", "style": "../_shared/unit6-data/lesson.css" },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp", "problem-background-generated.webp",
+    "reward-normal-generated.webp", "reward-loss-generated.webp", "reward-mega-generated.webp", "reward-complete-generated.webp", "reward-empty-generated.webp", "reward-rainbow-generated.webp",
+    "result-scene-1-generated.webp", "result-scene-2-generated.webp", "result-scene-3-generated.webp", "result-scene-4-generated.webp", "result-scene-5-generated.webp", "result-scene-6-generated.webp",
+    "result-title-1-generated.webp", "result-title-2-generated.webp", "result-title-3-generated.webp", "result-title-4-generated.webp", "result-title-5-generated.webp", "result-title-6-generated.webp",
+    "../_shared/result-actions/retry-button-generated.webp", "result-scenes-contact-sheet.png", "result-titles-contact-sheet.png", "reward-contact-sheet.png"
+  ],
+  "qa": {
+    "visualContractVersion": 1,
+    "modelContractVersion": 1,
+    "modelRule": "picture-unit-total",
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800, "dpr": 1 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768, "dpr": 1 },
+      { "name": "unit6-reported-overlap-1024x768-dpr1", "width": 1024, "height": 768, "dpr": 1 }
+    ],
+    "requiredFlow": ["cover", "settings", "tutorial-1", "tutorial-2", "play-waiting", "play-wrong-low", "play-wrong-high", "play-correct", "complete", "reward-closed", "reward-open", "result", "result-all-tiers"]
+  }
+}

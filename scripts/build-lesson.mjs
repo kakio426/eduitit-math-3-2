@@ -2,6 +2,7 @@
 // Build one Mathmon lesson package from _engine/v1 plus a lesson source manifest.
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { runInNewContext } from "node:vm";
 
 const ROOT = process.cwd();
 const ENGINE_VERSION = "mathmon-engine-v1";
@@ -90,6 +91,66 @@ function requireLessonConfig(config, lessonFolder) {
   }
 }
 
+function validateModelContract(config, modelSource, lessonFolder) {
+  if (config.qa?.modelContractVersion !== 1) return;
+  const sandbox = {
+    LESSON_CONFIG: structuredClone(config),
+    Math,
+    Date,
+  };
+  runInNewContext(
+    `${modelSource}\n;globalThis.__lessonModel = ${config.modelName};`,
+    sandbox,
+    { timeout: 1000, filename: `${lessonFolder}/model.js` },
+  );
+  const model = sandbox.__lessonModel;
+  if (!model || typeof model.generateRun !== "function") {
+    throw new Error(`${lessonFolder}/model.js must expose ${config.modelName}.generateRun()`);
+  }
+  const problems = model.generateRun(20260723);
+  if (!Array.isArray(problems) || problems.length !== 10) {
+    throw new Error(`${lessonFolder}/model.js must generate exactly 10 problems`);
+  }
+  const requiredStepFields = [
+    "id", "label", "instruction", "answer", "answerChoiceId",
+    "choices", "correctText", "reveal", "advance",
+  ];
+  const requiredChoiceFields = ["id", "value", "label", "misconceptionId", "feedback"];
+  for (const [problemIndex, problem] of problems.entries()) {
+    if (!Array.isArray(problem.steps) || problem.steps.length < 1) {
+      throw new Error(`${lessonFolder}/model.js problem ${problemIndex + 1} has no steps`);
+    }
+    for (const [stepIndex, step] of problem.steps.entries()) {
+      for (const field of requiredStepFields) {
+        if (!(field in step)) {
+          throw new Error(`${lessonFolder}/model.js problem ${problemIndex + 1} step ${stepIndex + 1} is missing ${field}`);
+        }
+      }
+      if (!Array.isArray(step.choices) || step.choices.length < 2) {
+        throw new Error(`${lessonFolder}/model.js problem ${problemIndex + 1} step ${stepIndex + 1} needs choices`);
+      }
+      for (const [choiceIndex, choice] of step.choices.entries()) {
+        for (const field of requiredChoiceFields) {
+          if (!(field in choice)) {
+            throw new Error(`${lessonFolder}/model.js problem ${problemIndex + 1} step ${stepIndex + 1} choice ${choiceIndex + 1} is missing ${field}`);
+          }
+        }
+      }
+      const correctMatches = step.choices.filter((choice) => String(choice.id) === String(step.answerChoiceId));
+      if (correctMatches.length !== 1) {
+        throw new Error(`${lessonFolder}/model.js problem ${problemIndex + 1} step ${stepIndex + 1} must have one correct choice`);
+      }
+    }
+  }
+  if (typeof model.applyReward !== "function") {
+    throw new Error(`${lessonFolder}/model.js must expose applyReward()`);
+  }
+  const patch = model.applyReward({ power: 0, specialSeen: false }, { amount: 4 });
+  if (!patch || !Number.isFinite(patch.power) || typeof patch.specialSeen !== "boolean") {
+    throw new Error(`${lessonFolder}/model.js applyReward() must return { power, specialSeen }`);
+  }
+}
+
 function getUnitNumber(config) {
   const match = /^(\d)-(\d)-(\d)-(\d)$/.exec(config.id);
   if (!match) throw new Error(`lesson id has unexpected shape: ${config.id}`);
@@ -121,11 +182,19 @@ async function main() {
     readFile(modelPath, "utf8"),
     readFile(viewPath, "utf8"),
   ]);
+  validateModelContract(config, modelSource, lessonFolder);
 
   let lessonCss = "";
-  const lessonCssPath = path.resolve(sourceDir, sourceFiles.css || "lesson.css");
   try {
-    lessonCss = await readFile(lessonCssPath, "utf8");
+    const sharedStylePath = sourceFiles.style
+      ? path.resolve(sourceDir, sourceFiles.style)
+      : null;
+    const localStylePath = path.resolve(sourceDir, sourceFiles.css || "lesson.css");
+    const [sharedStyle, localStyle] = await Promise.all([
+      sharedStylePath ? readFile(sharedStylePath, "utf8") : Promise.resolve(""),
+      readFile(localStylePath, "utf8"),
+    ]);
+    lessonCss = [sharedStyle, localStyle].filter(Boolean).join("\n");
   } catch (error) {
     if (error?.code !== "ENOENT") throw error;
   }
@@ -184,7 +253,7 @@ async function main() {
     initialResultTitleImage: escapeHtml(initialResult.titleImage),
     resultRetryButton: escapeHtml(imageAssets.resultRetryButton || "result-retry-button-generated.webp"),
     resultRestartButtonId: hybridResult ? "restartButton" : "retryButton",
-    resultRestartButtonClass: hybridResult ? "result-restart-hitbox" : "result-retry-hitbox",
+    resultRestartButtonClass: "result-retry-hitbox",
     resultRestartAria: hybridResult ? "다시하기" : "다시",
     resultLeaderboardButton: escapeHtml(imageAssets.resultLeaderboardButton || imageAssets.startButton || "start-button-generated.webp"),
     scoreboardTitle: escapeHtml(requiredString(scoreboard.title, "전국 순위")),

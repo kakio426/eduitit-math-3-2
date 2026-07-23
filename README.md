@@ -41,6 +41,9 @@ ai mart/
   3-2-5-3-mathmon-scale-balance/
   3-2-5-4-mathmon-package-weight/
   3-2-6-1-mathmon-data-rangers/
+  3-2-6-2-mathmon-picture-decoder/
+  3-2-6-3-mathmon-picture-stamp/
+  3-2-6-4-mathmon-data-detective/
 ```
 
 ## 차시 폴더 이름 규칙
@@ -88,7 +91,10 @@ ai mart/
 | 3학년 2학기 5단원 2차시 | `3-2-5-2-mathmon-drink-order` | 매스몬 음료 제조 주문 | 들이의 덧셈·뺄셈과 주문 비교 |
 | 3학년 2학기 5단원 3차시 | `3-2-5-3-mathmon-scale-balance` | 매스몬 저울 균형 | kg, g, t 무게 비교 |
 | 3학년 2학기 5단원 4차시 | `3-2-5-4-mathmon-package-weight` | 매스몬 택배 무게 맞추기 | 무게의 덧셈·뺄셈과 어림 |
-| 3학년 2학기 6단원 1차시 | `3-2-6-1-mathmon-data-rangers` | 매스몬 자료 정리단 | 표와 그림그래프 읽기 |
+| 3학년 2학기 6단원 1차시 | `3-2-6-1-mathmon-data-rangers` | 매스몬 인구조사 | 자료를 세어 표에 나타내기 |
+| 3학년 2학기 6단원 2차시 | `3-2-6-2-mathmon-picture-decoder` | 매스몬 그림 단위 해독 | 그림 하나의 단위로 전체 값 구하기 |
+| 3학년 2학기 6단원 3차시 | `3-2-6-3-mathmon-picture-stamp` | 매스몬 그림 도장 찍기 | 큰 그림 10과 작은 그림 1로 나타내기 |
+| 3학년 2학기 6단원 4차시 | `3-2-6-4-mathmon-data-detective` | 매스몬 데이터 탐정 | 큰 값·작은 값·차이 구하기 |
 
 ## 레포지토리 운영
 

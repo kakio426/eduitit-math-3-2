@@ -200,6 +200,8 @@ for (const lesson of lessons) {
     && html.includes('id="resultMeasureFillSvg"')
     && hasGeneratedResultCorrectArt;
   const hasHybridRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
+  const hasHybridGeneratedRetryButton = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-retry-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>\s*<img(?=[^>]*\bclass="[^"]*\bresult-retry-art\b)[^>]*>\s*<\/button>/.test(html)
+    && hasGeneratedResultRetryArt;
   const hasSettingsToggleMarkup = /<button(?=[^>]*\bclass="[^"]*\bsettings-toggle\b)(?=[^>]*\bid="settingsButton")(?=[^>]*\baria-label="설정 열기")(?=[^>]*\baria-haspopup="dialog")(?=[^>]*\baria-controls="settingsModal")(?=[^>]*\baria-expanded="false")[^>]*>\s*<svg[\s\S]*?<\/svg>\s*<\/button>/.test(html);
   const hasSettingsDialog = /<div(?=[^>]*\bid="settingsModal")(?=[^>]*\brole="dialog")(?=[^>]*\baria-modal="true")(?=[^>]*\baria-labelledby="settingsTitle")[^>]*>/.test(html);
   const hasSettingsBackdrop = /<div(?=[^>]*\bid="settingsBackdrop")(?=[^>]*\bclass="[^"]*\bsettings-backdrop\b)(?=[^>]*\bhidden\b)[^>]*>/.test(html);
@@ -300,7 +302,7 @@ for (const lesson of lessons) {
     [!hasHybridGeneratedDynamic || hasHybridResultSvg, "hybrid-generated-dynamic 결과는 viewBox=\"0 0 1280 800\"인 단일 .result-dynamic-ui SVG 오버레이를 써야 합니다."],
     [!hasHybridGeneratedDynamic || hasHybridResultValues, "hybrid-generated-dynamic 결과는 SVG가 결과명·짧은 진행값을 맡고, 정답 수는 공용 result-correct 이미지 아트로 보여야 합니다."],
     [!needsGeneratedHybridResultTitleArt || hasGeneratedResultTitleArt, "1단원 리마스터 하이브리드 결과의 큰 결과 라벨은 <img class=\"result-title-art\" src=\"result-title-*-generated.webp\" alt=\"\" aria-hidden=\"true\"> 생성형 자산이어야 합니다."],
-    [!hasHybridGeneratedDynamic || hasHybridRestartHitbox, "hybrid-generated-dynamic 결과는 SVG 버튼 장식 위에 restartButton 투명 hitbox를 둬야 합니다."],
+    [!hasHybridGeneratedDynamic || hasHybridRestartHitbox || hasHybridGeneratedRetryButton, "hybrid-generated-dynamic 결과는 SVG 장식용 투명 hitbox 또는 공용 생성형 다시 버튼 아트와 일치하는 restartButton hitbox를 둬야 합니다."],
     [!hasGeneratedResultStandard || !hasForbiddenFullSceneResultClass, "data-result-visual-standard=\"generated-assets\" 차시는 .result-card/.result-stats/.result-stat/.result-copy 같은 CSS 결과 카드를 쓰지 않습니다."],
     [!hasGeneratedResultStandard || hasGeneratedResultCorrectArt, "data-result-visual-standard=\"generated-assets\" 차시는 정답 수를 <img class=\"result-correct-art\" src=\"../_shared/result-count/result-correct-0-generated.webp\" alt=\"\" aria-hidden=\"true\"> 공용 생성 이미지로 둬야 합니다."],
     [!hasGeneratedResultStandard || !hasVisibleResultScoreSvgText, "data-result-visual-standard=\"generated-assets\" 차시의 #resultScoreSvg는 보이는 폰트 텍스트가 아니라 opacity=\"0\" 또는 aria-hidden=\"true\" 내부 호환값이어야 합니다."],

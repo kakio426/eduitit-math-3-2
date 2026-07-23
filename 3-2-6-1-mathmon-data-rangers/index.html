@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>매스몬 자료 정리단 | 에듀잇티 수학 게임</title>
+  <title>매스몬 인구조사 | 에듀잇티 수학 게임</title>
   <style>
     :root { color-scheme: dark; }
         * { box-sizing: border-box; }
@@ -44,7 +44,7 @@
         }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
-          --sound-button-size: clamp(30px, 3vw, 34px);
+          --sound-button-size: clamp(42px, 3.6vw, 46px);
           --sound-gap: clamp(8px, 1vw, 12px);
           --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
           --top-control-pad-x: 9px;
@@ -114,6 +114,7 @@
         .settings-switch:focus-visible,
         .settings-action:focus-visible,
         .cover-start-button:focus-visible,
+        .tutorial-back-button:focus-visible,
         .primary-button:focus-visible,
         .choice-button:focus-visible,
         .result-action-hitbox:focus-visible,
@@ -212,6 +213,8 @@
           backdrop-filter: blur(10px);
         }
         .brand-badge img { margin-right: 0; }
+        .brand-badge--logo { gap: 8px; }
+        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -256,8 +259,9 @@
           font-weight: 950;
         }
         .cover-start-button {
-          width: 430px;
-          height: 150px;
+          width: clamp(300px, 28.125vw, 360px);
+          aspect-ratio: 1611 / 680;
+          height: auto;
           display: grid;
           place-items: center;
           padding: 0;
@@ -269,7 +273,7 @@
         }
         .cover-start-button:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.04); }
         .cover-start-button:active { transform: translateY(1px) scale(.99); }
-        .start-button-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        .start-button-art { display: block; width: 100%; height: auto; pointer-events: none; }
         .tutorial { padding: var(--stage-inset); background: linear-gradient(135deg, #201a2d, #102839); }
         .tutorial-grid {
           position: relative;
@@ -299,6 +303,24 @@
         .tutorial-card strong { font-size: clamp(1.28rem, 2.2vw, 1.72rem); line-height: 1.18; }
         .tutorial-card p { margin: 0; color: #d7cadb; font-size: 1.02rem; line-height: 1.4; font-weight: 850; }
         .tutorial-action { display: grid; place-items: center; }
+
+        .game[data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #13202a; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid > .screen-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+        .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+        .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 31%; bottom: 1.5%; width: 38%; height: 15%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 72%; bottom: 1%; width: 27%; height: 14%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 24%; height: 14%; }
         .primary-button {
           min-width: 190px;
           min-height: 72px;
@@ -406,10 +428,36 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
+        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .problem-grid.is-complete .choices-panel { display: none; }
+        .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
+        .problem-grid.is-complete .step-chips,
+        .problem-grid.is-complete .instruction,
+        .problem-grid.is-complete .feedback-line { display: none; }
+        .play-mathmon-reaction {
+          position: absolute;
+          z-index: 4;
+          left: 18px;
+          bottom: 18px;
+          width: 156px;
+          height: 194px;
+          object-fit: contain;
+          object-position: left bottom;
+          pointer-events: none;
+          filter: drop-shadow(0 10px 16px rgba(0,0,0,.28));
+          animation: mathmon-reaction-pop .42s cubic-bezier(.2,.85,.25,1.25);
+        }
+        @keyframes mathmon-reaction-pop {
+          from { opacity: 0; transform: translateY(18px) scale(.84); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .play-mathmon-reaction { animation: none; filter: brightness(1.08) drop-shadow(0 8px 12px rgba(0,0,0,.22)); }
+        }
         .reward { background: #102839; }
         .reward-panel {
           position: absolute;
@@ -431,8 +479,46 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
-        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
+        .reward-object {
+          position: relative;
+          width: 210px;
+          height: 210px;
+          border-radius: 28px;
+          display: grid;
+          place-items: end center;
+          background:
+            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
+            linear-gradient(180deg, #173649, #0c1c29);
+          border: 2px solid rgba(255,255,255,.3);
+          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
+          overflow: hidden;
+          isolation: isolate;
+        }
+        .reward-object::after {
+          content: attr(data-symbol);
+          position: absolute;
+          z-index: 2;
+          inset: 0;
+          display: grid;
+          place-items: center;
+          color: #fff8e8;
+          font-size: 4.5rem;
+          line-height: 1;
+          font-weight: 1000;
+          text-shadow: 0 5px 14px rgba(0,0,0,.48);
+        }
+        .reward-object[data-direction="special"]::after { color: #fff1a6; }
+        .reward-object[data-direction="same"]::after { color: #d7cadb; }
+        .reward-liquid {
+          position: absolute;
+          z-index: 1;
+          inset: auto 0 0;
+          width: 100%;
+          height: var(--fill);
+          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
+          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
+          transition: height .5s ease;
+        }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -460,6 +546,11 @@
           padding: 24px;
           text-align: center;
         }
+        .reward-card[data-reward-phase="closed"] .reward-visual { transform: scale(.94); filter: brightness(.78) saturate(.8); }
+        .reward-card[data-reward-phase="opening"] .reward-visual { animation: reward-open-pulse .42s ease both; }
+        .reward-pop[data-rarity="rare"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 3px rgba(255,210,89,.55), 0 26px 70px rgba(0,0,0,.52); }
+        .reward-pop[data-rarity="legend"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 4px rgba(126,244,255,.72), 0 0 48px rgba(255,117,244,.5), 0 26px 70px rgba(0,0,0,.52); }
+        @keyframes reward-open-pulse { 0% { transform: scale(.92) rotate(-1deg); } 55% { transform: scale(1.06) rotate(1deg); } 100% { transform: scale(1); } }
         .reward-visual {
           width: 250px;
           height: 250px;
@@ -477,6 +568,14 @@
           text-align: center;
         }
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+        .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
+        .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
+        .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
+        .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
+        .result-dynamic-ui .result-restart-surface { display: none; }
+        .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
+        .result-restart-hitbox .result-retry-art { display: none; }
         .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; filter: drop-shadow(0 18px 26px rgba(0,0,0,.44)); }
         .result-correct-art {
           position: absolute;
@@ -516,7 +615,7 @@
           left: calc(50% - 125px);
           bottom: 78px;
           width: 250px;
-          height: 100px;
+          height: 77px;
         }
         .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-retry-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
@@ -528,11 +627,26 @@
           .problem-card { padding: 18px; }
           .visual-area { min-height: 330px; }
           .choice-button { min-height: 72px; }
-          .cover-start-button { width: 400px; height: 142px; }
           .result-title-art { width: 52%; }
           .result-correct-art { left: 82px; top: 410px; width: 230px; }
         }
+        @media (max-width: 1100px) {
+          .topic-badge { left: auto; right: var(--stage-inset); }
+        }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+    .mathmon-scoreboard,
+    .result-leaderboard-hitbox,
+    .result-rank-button-art,
+    #leaderboardButton,
+    #leaderboardButtonArt,
+    [data-action="leaderboard"] {
+      display: none !important;
+    }
+
+    .ranking-disabled {
+      display: none !important;
+    }
+
     .mathmon-scoreboard {
       --scoreboard-font: "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
       --scoreboard-title-fill: #fff6d1;
@@ -851,136 +965,672 @@
       outline-offset: -3px;
     }
 
-        .data-visual {
-          width: 100%;
-          height: 100%;
-          display: grid;
-          place-items: center;
-        }
-        .data-board {
-          width: min(560px, 100%);
-          min-height: 330px;
-          display: grid;
-          grid-template-rows: auto 1fr;
-          gap: 14px;
-          padding: 18px;
-          border: 2px solid rgba(255, 248, 232, .28);
-          border-radius: 26px;
-          background:
-            linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)),
-            rgba(16, 40, 57, .78);
-          box-shadow: inset 0 1px rgba(255,255,255,.18), 0 18px 34px rgba(0,0,0,.22);
-        }
-        .data-board-title {
-          justify-self: center;
-          min-height: 38px;
-          padding: 7px 18px;
-          display: grid;
-          place-items: center;
-          border-radius: 999px;
-          background: rgba(255, 200, 87, .2);
-          color: #fff8e8;
-          font-size: 1rem;
-          font-weight: 1000;
-        }
-        .data-rows {
-          display: grid;
-          align-content: center;
-          gap: 12px;
-        }
-        .data-row {
-          min-height: 54px;
-          display: grid;
-          grid-template-columns: 92px 1fr;
-          align-items: center;
-          gap: 12px;
-          padding: 10px 12px;
-          border-radius: 18px;
-          background: rgba(255,255,255,.08);
-          border: 1px solid rgba(255,255,255,.12);
-        }
-        .data-label {
-          color: #fff8e8;
-          font-size: 1.16rem;
-          line-height: 1.1;
-          font-weight: 1000;
-          text-align: center;
-          white-space: nowrap;
-        }
-        .data-dots {
-          min-height: 34px;
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 7px;
-        }
-        .data-dot {
-          width: 24px;
-          height: 24px;
-          border-radius: 9px;
-          background: var(--dot-color);
-          box-shadow: inset 0 2px rgba(255,255,255,.34), 0 4px 10px rgba(0,0,0,.2);
-        }
-        .data-board.is-graph .data-row {
-          grid-template-columns: 92px 1fr;
-        }
-        .data-board.is-graph .data-dots {
-          min-height: 30px;
-          align-content: center;
-          padding: 4px 0;
-          border-bottom: 2px solid rgba(255,255,255,.18);
-        }
-        .data-board.is-graph .data-dot {
-          width: 22px;
-          height: 28px;
-          border-radius: 7px 7px 3px 3px;
-        }
-        .reward-object {
-          border-radius: 50%;
-          align-items: center;
-          background:
-            radial-gradient(circle at 50% 24%, rgba(255,255,255,.42), transparent 16%),
-            radial-gradient(circle, rgba(255,200,87,.2), rgba(53,217,178,.13));
-        }
-        .reward-liquid {
-          width: 100%;
-          align-self: end;
-          background: linear-gradient(180deg, rgba(255, 246, 157, .95), rgba(96, 215, 255, .85), rgba(53, 217, 178, .88));
-        }
-        .result-title-art {
-          width: min(590px, 56%);
-          left: 54px;
-          top: 132px;
-        }
-        @media (max-width: 900px) {
-          .data-board {
-            min-height: 292px;
-            padding: 14px;
-            gap: 10px;
-          }
-          .data-row {
-            min-height: 48px;
-            grid-template-columns: 82px 1fr;
-            gap: 8px;
-            padding: 8px 10px;
-          }
-          .data-label {
-            font-size: 1.04rem;
-          }
-          .data-dot {
-            width: 21px;
-            height: 21px;
-            border-radius: 8px;
-          }
-          .data-board.is-graph .data-dot {
-            width: 19px;
-            height: 24px;
-          }
-        }
+    .stage-shell {
+      --sound-button-size: 42px;
+    }
+
+    .play {
+      background:
+        linear-gradient(rgba(18, 34, 42, .74), rgba(18, 34, 42, .82)),
+        var(--unit6-problem-bg, none) center / cover no-repeat,
+        #182d34;
+    }
+
+    .play-mathmon-reaction {
+      display: none !important;
+    }
+
+    .problem-grid {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto auto auto;
+      gap: 10px;
+    }
+
+    .problem-card,
+    .step-board,
+    .choices-panel,
+    .complete-panel {
+      grid-column: 1;
+      width: 100%;
+      max-width: none;
+    }
+
+    .problem-card {
+      grid-row: 1;
+      min-height: 0;
+      padding: 12px 18px;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto minmax(0, 1fr);
+      column-gap: 14px;
+      row-gap: 8px;
+    }
+
+    .problem-label {
+      grid-column: 1;
+      align-self: center;
+    }
+
+    .big-problem {
+      grid-column: 2;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      align-self: center;
+    }
+
+    .visual-area {
+      grid-column: 1 / -1;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .step-board {
+      grid-row: 2;
+      min-height: 82px;
+      padding: 9px 12px;
+      display: grid;
+      grid-template-columns: minmax(110px, auto) minmax(0, 1fr) 112px;
+      grid-template-rows: 46px 26px;
+      align-items: center;
+      gap: 0 12px;
+    }
+
+    .step-chips {
+      grid-column: 1;
+      grid-row: 1;
+      min-height: 0;
+      flex-wrap: nowrap;
+    }
+
+    .instruction {
+      grid-column: 2;
+      grid-row: 1;
+      min-height: 0;
+      font-size: clamp(1rem, 1.7vw, 1.28rem);
+      text-align: center;
+    }
+
+    .answer-slot {
+      grid-column: 3;
+      grid-row: 1 / 3;
+      min-height: 58px;
+      height: 58px;
+      border-radius: 16px;
+      font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+    }
+
+    .feedback-line {
+      grid-column: 1 / 3;
+      grid-row: 2;
+      min-height: 24px;
+      display: grid;
+      align-items: center;
+      text-align: center;
+      font-size: .94rem;
+      overflow-wrap: anywhere;
+    }
+
+    .unit6-step-next {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      justify-self: center;
+      min-width: 180px;
+      min-height: 48px;
+      border: 0;
+      border-radius: 999px;
+      color: #2c210c;
+      background: #ffd35c;
+      font-weight: 1000;
+      cursor: pointer;
+    }
+
+    .choices-panel {
+      grid-row: 3;
+      min-height: 72px;
+      padding: 8px 12px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice-button {
+      min-height: 56px;
+      border-radius: 16px;
+      font-size: clamp(1.08rem, 2vw, 1.5rem);
+    }
+
+    .complete-panel {
+      grid-row: 4;
+      min-height: 64px;
+      padding: 8px 14px;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .complete-text {
+      text-align: center;
+      font-size: clamp(1.05rem, 2vw, 1.4rem);
+    }
+
+    .complete-panel .primary-button {
+      min-width: 172px;
+      min-height: 48px;
+      padding: 0 24px;
+      box-shadow: 0 8px 0 rgba(103,70,15,.4), 0 14px 22px rgba(0,0,0,.22);
+      font-size: 1.05rem;
+    }
+
+    .problem-grid.is-complete .step-board {
+      grid-template-rows: 46px 26px;
+    }
+
+    .problem-grid.is-complete .step-chips,
+    .problem-grid.is-complete .instruction,
+    .problem-grid.is-complete .feedback-line {
+      display: flex;
+    }
+
+    .problem-grid.is-complete .instruction {
+      display: grid;
+    }
+
+    .problem-grid.is-complete .feedback-line {
+      display: grid;
+    }
+
+    .unit6-board {
+      width: min(1040px, 100%);
+      height: 100%;
+      min-height: 200px;
+      display: grid;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: 20px;
+      background: rgba(250, 245, 218, .96);
+      border: 3px solid rgba(87, 67, 43, .34);
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.6), 0 12px 24px rgba(0,0,0,.2);
+      color: #332718;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit6-row-label,
+    .unit6-table-label,
+    .stamp-label {
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .unit6-marks {
+      min-width: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .unit6-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: #3b2a13;
+      background: var(--mark-color);
+      box-shadow: inset 0 2px rgba(255,255,255,.55), 0 3px 0 rgba(77,54,26,.25);
+      font-size: 18px;
+      font-weight: 1000;
+    }
+
+    .unit6-mark.is-small {
+      width: 26px;
+      height: 26px;
+      font-size: 15px;
+      border-radius: 8px;
+    }
+
+    .unit6-mark.is-picked-wrong {
+      opacity: .2;
+      transform: translateY(5px);
+    }
+
+    .census-board {
+      grid-template-columns: minmax(0, 1.65fr) minmax(260px, .75fr);
+    }
+
+    .census-items,
+    .census-table,
+    .detective-rows {
+      display: grid;
+      gap: 7px;
+    }
+
+    .census-item-row,
+    .census-table-row {
+      min-height: 38px;
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      padding: 5px 9px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .census-item-row.is-target {
+      outline: 3px solid #f0a928;
+      background: #fff4bf;
+    }
+
+    .census-table {
+      border: 3px solid #79684f;
+      border-radius: 14px;
+      overflow: hidden;
+      gap: 0;
+    }
+
+    .census-table-row {
+      grid-template-columns: 1fr 76px;
+      min-height: 52px;
+      border-radius: 0;
+      border-bottom: 2px solid #bbaa8f;
+    }
+
+    .census-table-row:last-child {
+      border-bottom: 0;
+    }
+
+    .unit6-table-value,
+    .detective-value {
+      min-width: 52px;
+      min-height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #e8e0cf;
+      font-size: 1.35rem;
+      font-weight: 1000;
+    }
+
+    .unit6-table-value.is-filled,
+    .decoder-total.is-filled,
+    .stamp-equation.is-filled,
+    .detective-relation.is-filled {
+      background: #bff2d3;
+      outline: 3px solid #3cac72;
+    }
+
+    .unit6-board .is-attempt-wrong {
+      background: #ffe1df;
+      outline: 3px solid #df6068;
+    }
+
+    .stamp-mark.is-attempt-wrong {
+      opacity: .62;
+      transform: translateY(4px);
+    }
+
+    .decoder-board {
+      grid-template-columns: 190px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .decoder-key {
+      min-height: 104px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border-radius: 18px;
+      background: #fff0b7;
+      font-size: 1.7rem;
+    }
+
+    .decoder-icon {
+      color: #ea765f;
+      font-size: 2.7rem;
+      text-shadow: 0 4px rgba(91,48,35,.2);
+    }
+
+    .decoder-icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .decoder-group {
+      min-width: 68px;
+      min-height: 78px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .decoder-group .decoder-icon {
+      font-size: 2rem;
+    }
+
+    .decoder-group small {
+      margin-top: -10px;
+      font-weight: 1000;
+    }
+
+    .decoder-total {
+      grid-column: 1 / -1;
+      min-height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: #e8e0cf;
+      font-size: clamp(1.18rem, 2.2vw, 1.72rem);
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .stamp-board {
+      grid-template-columns: 150px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .stamp-target {
+      min-height: 120px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      border-radius: 18px;
+      background: #fff0b7;
+    }
+
+    .stamp-target strong {
+      font-size: 3.1rem;
+    }
+
+    .stamp-work {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stamp-group {
+      min-height: 112px;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      padding: 10px;
+      border-radius: 16px;
+      background: #fff;
+      opacity: .68;
+    }
+
+    .stamp-group.is-current {
+      opacity: 1;
+      outline: 3px solid #f0a928;
+    }
+
+    .stamp-slots {
+      min-height: 54px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .stamp-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: #e96369;
+      font-weight: 1000;
+      box-shadow: inset 0 3px rgba(255,255,255,.35), 0 4px rgba(89,44,40,.22);
+    }
+
+    .stamp-mark.is-small {
+      width: 34px;
+      height: 34px;
+      background: #5ca9df;
+    }
+
+    .stamp-zero {
+      align-self: center;
+      color: #786d5e;
+      font-weight: 1000;
+    }
+
+    .stamp-equation {
+      grid-column: 1 / -1;
+      min-height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: #e8e0cf;
+      font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+      font-weight: 1000;
+    }
+
+    .detective-board {
+      grid-template-columns: 160px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .detective-key {
+      min-height: 112px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: #fff0b7;
+      font-size: 1.25rem;
+      font-weight: 1000;
+    }
+
+    .detective-rows {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .detective-row {
+      min-height: 62px;
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 54px;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .detective-row.is-picked-wrong {
+      outline: 3px solid #e65d66;
+    }
+
+    .detective-row.is-answer {
+      outline: 3px solid #3cac72;
+      background: #dff7e8;
+    }
+
+    .detective-value {
+      min-width: 46px;
+      min-height: 40px;
+    }
+
+    .detective-relation {
+      grid-column: 1 / -1;
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: #e8e0cf;
+      font-size: 1.22rem;
+      font-weight: 1000;
+    }
+
+    .reward-card {
+      min-height: 390px;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+    .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton {
+      min-width: 190px;
+      min-height: 58px;
+      width: auto;
+      height: 58px;
+      padding: 0 30px;
+      border: 3px solid rgba(77, 50, 10, .72);
+      border-radius: 999px;
+      color: #2c210c;
+      background: linear-gradient(180deg, #fff0af, #ffd35c 62%, #edaa27);
+      box-shadow: 0 9px 0 rgba(103,70,15,.5), 0 16px 28px rgba(0,0,0,.3);
+      font-size: 1.08rem;
+      font-weight: 1000;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton {
+      left: 50%;
+      bottom: 18px;
+      width: auto;
+      height: 58px;
+      transform: translateX(-50%);
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton {
+      left: auto;
+      right: 28px;
+      bottom: 18px;
+      width: auto;
+      height: 58px;
+    }
+
+    .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton {
+      left: 28px;
+      bottom: 18px;
+      width: auto;
+      height: 58px;
+    }
+
+    .tutorial-progress {
+      position: absolute;
+      left: 24px;
+      top: 14px;
+      z-index: 9;
+      min-width: 54px;
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff8e8;
+      background: rgba(14, 12, 22, .68);
+      font-weight: 1000;
+    }
+
+    .reward-visual {
+      width: 230px;
+      height: 230px;
+    }
+
+    .result-title-art {
+      left: 52px;
+      top: 96px;
+      width: min(500px, 44%);
+    }
+
+    .result-correct-art {
+      left: 120px;
+      top: 490px;
+      width: min(230px, 22%);
+    }
+
+    .result-retry-hitbox {
+      right: 68px;
+      bottom: 58px;
+    }
+
+    .result-restart-surface {
+      display: none;
+    }
+
+    #resultDestinationSvg {
+      display: none;
+    }
+
+    .result-retry-art {
+      display: block;
+    }
+
+    @media (max-width: 1100px) {
+      .result-title-art {
+        left: 44px;
+        top: 74px;
+        width: min(410px, 42%);
+      }
+
+      .result-correct-art {
+        left: 86px;
+        top: 410px;
+        width: 200px;
+      }
+
+      .result-retry-hitbox {
+        right: 50px;
+        bottom: 42px;
+        width: 220px;
+        height: 98px;
+      }
+
+      .problem-grid {
+        gap: 8px;
+      }
+
+      .problem-card {
+        padding: 8px 12px;
+      }
+
+      .big-problem {
+        font-size: 1.72rem;
+      }
+
+      .unit6-board {
+        min-height: 180px;
+        padding: 7px 10px;
+      }
+
+      .census-item-row,
+      .census-table-row {
+        min-height: 34px;
+      }
+
+      .unit6-mark.is-small {
+        width: 22px;
+        height: 22px;
+        font-size: 13px;
+      }
+
+      .step-board {
+        min-height: 76px;
+        grid-template-rows: 42px 24px;
+      }
+
+      .choices-panel {
+        min-height: 64px;
+        padding: 6px 10px;
+      }
+
+      .choice-button {
+        min-height: 52px;
+      }
+
+      .complete-panel {
+        min-height: 58px;
+      }
+    }
+
+    .play {
+      --unit6-problem-bg: url("problem-background-generated.webp");
+    }
+
+    /* Unit 6 uses the shared central workbench contract. */
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="simple-generated" data-reward-mode="stage-full" data-tutorial-mode="card-grid" data-workbench-type="data-rangers" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="census" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1009,48 +1659,51 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 6단원</div></div>
-        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 자료 정리단</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">표를 보고 가장 많은 것을 골라요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
-        <div class="mini-badge topic-badge">자료를 표와 그림그래프로 정리하기</div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 6단원</div></div>
+        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 인구조사</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">딱지를 세어 표 칸을 채워요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
+        <div class="mini-badge topic-badge">자료를 세어 표에 나타내기</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">자료를 보기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><div class="card-mark">1</div><strong>줄마다 개수를 세요.</strong><p>점이 몇 개인지 차근차근 봐요.</p></div><div class="tutorial-card"><div class="card-mark">2</div><strong>가장 긴 줄을 찾아요.</strong><p>점이 많은 줄이 더 많아요.</p></div><div class="tutorial-card"><div class="card-mark">3</div><strong>차이는 빼서 봐요.</strong><p>많은 수에서 적은 수를 빼요.</p></div></div><div class="tutorial-action"><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리</div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">조사를 시작하기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>반짝이는 딱지를 세어요</strong><p>딱지 수를 골라 빈 표 칸을 채워요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>열 문제를 풀어요</strong><p>상자를 열어 자료 연구실을 밝혀요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 자료</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="자료 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">첫 표</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료</div></div></header>
-        <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">불빛 보기</button></section></div>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="자료 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">첫 조사표</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리</div></div></header>
+        <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">조사 상자 열기</button></section></div>
+        <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
-        <img class="raster-bg" src="reward-scene-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>자료 불빛</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
-        <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">첫 표</p><p class="reward-change" id="rewardChange">불빛이 켜졌어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
+        <img class="raster-bg" src="problem-background-generated.webp" alt="">
+        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>조사 상자</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
+        <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">첫 조사표</p><p class="reward-change" id="rewardChange">자료 힘이 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
-        <div class="reward-card">
+        <div class="reward-card" data-reward-phase="closed">
           <div class="reward-visual" id="rewardVisual" aria-hidden="true"></div>
           <h2 class="visually-hidden" id="modalRewardTitle">보상</h2>
-          <p class="reward-label" id="modalRewardLabel">보상</p>
-          <button class="primary-button" id="modalRewardNextButton" type="button">다음</button>
+          <p class="reward-label" id="modalRewardLabel" aria-live="polite">무엇이 나올까요?</p>
+          <button class="primary-button reward-open-button" id="modalRewardOpenButton" type="button">열기</button>
+          <button class="primary-button" id="modalRewardNextButton" type="button" hidden>다음</button>
         </div>
       </div>
-      <section class="screen result" id="screen-result" data-result-tier="table" aria-labelledby="resultTitle">
-        <img class="raster-bg" id="resultBg" src="result-data-table-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-table-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
-        <h2 class="visually-hidden" id="resultTitle">첫 표</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
+      <section class="screen result" id="screen-result" data-result-tier="first" aria-labelledby="resultTitle">
+        <img class="raster-bg" id="resultBg" src="result-scene-1-generated.webp" alt="">
+        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리</div></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-1-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <h2 class="visually-hidden" id="resultTitle">첫 조사표</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
-      <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="6단원 자료"></section>
+      <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="6단원 자료의 정리"></section>
     </div>
   </main>
   <script>
-    (function () {
+    const MathmonScoreboard = (function () {
       const SVG_NS = "http://www.w3.org/2000/svg";
       const ROW_Y = [422, 476, 530, 584];
       const ROW_HEIGHT = 48;
       const ROW_STEP = 54;
       const VISIBLE_ROWS = ROW_Y.length;
       const REQUEST_TIMEOUT_MS = 7000;
+      const SCOREBOARD_PRODUCT_ENABLED = false;
       const OUTCOME_LABELS = Object.freeze({
         box: Object.freeze({ retry: "상자 준비" }),
         rocket: Object.freeze({
@@ -1274,9 +1927,9 @@
                 <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
                 <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
                 <g class="mathmon-scoreboard-action-labels">
-                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="569" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="731" y="631" width="142" height="64" rx="24"></rect>
                   <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
                   <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
                   <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
@@ -1285,12 +1938,12 @@
             </g>
           </svg>
           <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 631; --w: 142; --h: 64;" aria-label="새로 보기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 631; --w: 142; --h: 64;" aria-label="결과로"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -1528,6 +2181,19 @@
       }
 
       function createApiBridge(options) {
+        // Product policy: ranking stays hidden and must not contact the API until
+        // the owner explicitly changes the plan and removes this guard.
+        const disabledBridge = Object.freeze({
+          reset: () => null,
+          start: () => null,
+          open: () => null,
+          refresh: () => null,
+          render: () => null,
+          getSession: () => null,
+          getSessionPromise: () => null
+        });
+        if (!SCOREBOARD_PRODUCT_ENABLED) return disabledBridge;
+
         const root = mount(options.root);
         const state = {
           session: null,
@@ -1606,6 +2272,7 @@
           state.gameStartedAt = Math.round(performance.now());
           state.sessionPromise = startSession();
           renderBridge();
+          return state.sessionPromise;
         }
 
         async function submitScoreboardIfNeeded() {
@@ -1695,108 +2362,442 @@
           open,
           refresh,
           render: renderBridge,
-          getSession: () => state.session
+          getSession: () => state.session,
+          getSessionPromise: () => state.sessionPromise
         });
       }
 
-      window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
+      const api = Object.freeze({ mount, render, createApiBridge });
+      if (Object.isExtensible(window)) window.MathmonScoreboard = api;
+      return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"engine-v1-new-pilot","id":"3-2-6-1","folder":"3-2-6-1-mathmon-data-rangers","modelName":"Lesson6DataRangersModel","title":"매스몬 자료 정리단","shortTitle":"매스몬 자료","topic":"자료를 표와 그림그래프로 정리하기","unitBadge":"6단원 자료","goal":"표를 보고 가장 많은 것을 골라요.","action":"자료판에서 가장 많은 것과 개수를 읽는다.","buttonLabel":"불빛 보기","rewardScreenTitle":"자료 불빛","rewardThing":"불빛","progressLabel":"자료 힘","rewardComplete":"불빛이 켜졌어요.","rewardSmall":"조금 켜졌어요.","rewardBig":"크게 반짝였어요.","tutorialTitle":"자료를 보기 전에","tutorialButton":"문제 시작","tutorialCards":[["1","줄마다 개수를 세요.","점이 몇 개인지 차근차근 봐요."],["2","가장 긴 줄을 찾아요.","점이 많은 줄이 더 많아요."],["3","차이는 빼서 봐요.","많은 수에서 적은 수를 빼요."]],"tutorial":{"mode":"card-grid"},"reward":{"mode":"stage-full"},"result":{"renderMode":"simple-generated"},"workbench":{"type":"data-rangers"},"scoreboard":{"enabled":false},"resultPrefix":"result-data","resultTitlePrefix":"result-title","results":[{"id":"table","name":"첫 표","minPower":0,"minCorrect":0,"image":"result-data-table-generated.webp","titleImage":"result-title-table-generated.webp"},{"id":"spark","name":"반짝 그래프","minPower":30,"minCorrect":3,"image":"result-data-spark-generated.webp","titleImage":"result-title-spark-generated.webp"},{"id":"town","name":"자료 마을","minPower":70,"minCorrect":7,"image":"result-data-town-generated.webp","titleImage":"result-title-town-generated.webp"},{"id":"rainbow","name":"무지개 자료탑","minPower":100,"minCorrect":10,"needsSpecial":true,"image":"result-data-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"dot","text":"작은 불빛","weight":5200,"min":5,"max":8,"family":"smallLight"},{"id":"line","text":"긴 불빛","weight":1700,"min":13,"max":18,"family":"bigLight"},{"id":"spark","text":"반짝 불빛","weight":1700,"min":9,"max":12,"family":"shineLight"},{"id":"dim","text":"희미한 불빛","weight":1200,"min":1,"max":3,"family":"smallOnly"},{"id":"rainbow","text":"무지개 불빛","weight":200,"min":28,"max":28,"family":"specialLight","special":true}],"wrongEvent":{"id":"fix","text":"다시 켜기","min":1,"max":2,"family":"repair"},"typesPerRun":["mostTable","readTable","mostGraph","differenceTable","readGraph","mostTable","differenceGraph","readTable","mostGraph","differenceTable"],"mathmonPack":"base-pack","mathmonName":"매스몬","mathmonId":"base-pack-data-helper","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"result-retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","reward-scene-generated.webp","result-data-table-generated.webp","result-data-spark-generated.webp","result-data-town-generated.webp","result-data-rainbow-generated.webp","result-title-table-generated.webp","result-title-spark-generated.webp","result-title-town-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp"],"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
-    const Lesson6DataRangersModel = (() => {
-          const TOTAL_PROBLEMS = 10;
-          const MIN_POWER = 0;
-          const MAX_POWER = 100;
-          const BASE_CORRECT_POWER = 5;
-          const TYPES_PER_RUN = LESSON_CONFIG.typesPerRun;
-          const RESULT_TIERS = LESSON_CONFIG.results;
-          const REWARD_EVENTS = LESSON_CONFIG.rewardEvents;
-          const WRONG_REWARD_EVENT = LESSON_CONFIG.wrongEvent;
-          const LABELS = ["사과", "바나나", "포도", "딸기", "복숭아", "자두"];
-          const COLORS = ["#ff6f91", "#ffd166", "#8b5cf6", "#35d9b2", "#ff9f1c", "#60d7ff"];
-          function createRng(seed = 12345) { let value = seed >>> 0; return function rng() { value = (value + 0x6d2b79f5) >>> 0; let t = value; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
-          function randomInt(rng, min, max) { return Math.floor(rng() * (max - min + 1)) + min; }
-          function shuffle(items, rng) { const copy = items.slice(); for (let index = copy.length - 1; index > 0; index -= 1) { const target = Math.floor(rng() * (index + 1)); const temp = copy[index]; copy[index] = copy[target]; copy[target] = temp; } return copy; }
-          function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
-          function uniqueChoices(values, rng, limit = 4) { const seen = new Set(); const unique = []; for (const value of values) { if (!seen.has(value) && value !== undefined && value !== null && value !== "") { seen.add(value); unique.push(value); } } return shuffle(unique.slice(0, limit), rng); }
-          function formatCount(value) { return value + "개"; }
-          function makeStep(id, prompt, slot, correct, choices, confirm) { return { id, prompt, slot, correct, choices, confirm }; }
-          function makeRows(rng, serial) {
-            const labels = shuffle(LABELS, rng).slice(0, 4);
-            const counts = shuffle([3, 4, 5, 6, 7, 8, 9], rng).slice(0, 4);
-            return labels.map((label, index) => ({ label, count: counts[index], color: COLORS[(serial + index) % COLORS.length] }));
-          }
-          function withVisual(rows, mode) { return { kind: "dataBoard", mode, title: mode === "graph" ? "그림그래프" : "자료표", rows }; }
-          function mostRow(rows) { return rows.slice().sort((a, b) => b.count - a.count)[0]; }
-          function smallestRow(rows) { return rows.slice().sort((a, b) => a.count - b.count)[0]; }
-          function makeMost(type, rng, serial) {
-            const mode = type === "mostGraph" ? "graph" : "table";
-            const rows = makeRows(rng, serial);
-            const answer = mostRow(rows);
-            return {
-              id: "most-" + serial,
-              type,
-              kind: mode === "graph" ? "그림그래프 읽기" : "표 읽기",
-              prompt: "가장 많은 것은?",
-              expression: answer.label + "가 가장 많아요.",
-              visual: withVisual(rows, mode),
-              finalText: answer.label,
-              representativeMistake: smallestRow(rows).label,
-              steps: [
-                makeStep("most", "점이 가장 많은 줄을 골라요.", "가장 많은 것", answer.label, shuffle(rows.map((row) => row.label), rng), answer.label + "가 가장 많아요.")
-              ]
-            };
-          }
-          function makeRead(type, rng, serial) {
-            const mode = type === "readGraph" ? "graph" : "table";
-            const rows = makeRows(rng, serial);
-            const target = rows[randomInt(rng, 0, rows.length - 1)];
-            const wrongs = [target.count + 1, target.count - 1, target.count + 2, target.count - 2].map((value) => clamp(value, 1, 10));
-            return {
-              id: "read-" + serial,
-              type,
-              kind: mode === "graph" ? "그림그래프 읽기" : "표 읽기",
-              prompt: target.label + "는 몇 개?",
-              expression: target.label + "는 " + formatCount(target.count) + "예요.",
-              visual: withVisual(rows, mode),
-              finalText: formatCount(target.count),
-              representativeMistake: formatCount(wrongs[0]),
-              steps: [
-                makeStep("read", target.label + " 줄의 점을 세요.", "개수", formatCount(target.count), uniqueChoices([formatCount(target.count), ...wrongs.map(formatCount)], rng), target.label + "는 " + formatCount(target.count) + "예요.")
-              ]
-            };
-          }
-          function makeDifference(type, rng, serial) {
-            const mode = type === "differenceGraph" ? "graph" : "table";
-            const rows = makeRows(rng, serial);
-            const high = mostRow(rows);
-            const low = smallestRow(rows);
-            const diff = high.count - low.count;
-            return {
-              id: "difference-" + serial,
-              type,
-              kind: "차이 읽기",
-              prompt: high.label + "와 " + low.label + " 차이는?",
-              expression: high.label + "가 " + low.label + "보다 " + formatCount(diff) + " 많아요.",
-              visual: withVisual(rows, mode),
-              finalText: formatCount(diff),
-              representativeMistake: formatCount(diff + 1),
-              steps: [
-                makeStep("difference", "많은 수에서 적은 수를 빼요.", "차이", formatCount(diff), uniqueChoices([formatCount(diff), formatCount(diff + 1), formatCount(Math.max(1, diff - 1)), formatCount(high.count), formatCount(low.count)], rng), "차이는 " + formatCount(diff) + "예요.")
-              ]
-            };
-          }
-          function makeProblem(type, rng, serial) { if (type === "readTable" || type === "readGraph") return makeRead(type, rng, serial); if (type === "differenceTable" || type === "differenceGraph") return makeDifference(type, rng, serial); return makeMost(type, rng, serial); }
-          function generateRun(seed = 12345) { const rng = createRng(seed); return shuffle(TYPES_PER_RUN, rng).map((type, index) => makeProblem(type, rng, index + 1)); }
-          function validateChoice(step, choice) { return step.correct === choice; }
-          function pickRewardEvent(rng, mistakeTouched) { if (mistakeTouched) return Object.assign({}, WRONG_REWARD_EVENT, { amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max) }); let roll = Math.floor(rng() * 10000); for (const event of REWARD_EVENTS) { if (roll < event.weight) return Object.assign({}, event, { amount: randomInt(rng, event.min, event.max) }); roll -= event.weight; } const fallback = REWARD_EVENTS[0]; return Object.assign({}, fallback, { amount: randomInt(rng, fallback.min, fallback.max) }); }
-          function applyReward(state, event, firstTry) { const before = state.power; const skillPower = firstTry ? BASE_CORRECT_POWER : 0; const power = clamp(before + skillPower + event.amount, MIN_POWER, MAX_POWER); return { power, correctFirstTry: state.correctFirstTry + (firstTry ? 1 : 0), specialSeen: state.specialSeen || Boolean(event.special), before, skillPower, event }; }
-          function getResult(power, correctFirstTry, specialSeen) { for (let index = RESULT_TIERS.length - 1; index >= 0; index -= 1) { const result = RESULT_TIERS[index]; if (result.needsSpecial && !specialSeen) continue; if (power >= result.minPower && correctFirstTry >= result.minCorrect) return result; } return RESULT_TIERS[0]; }
-          function getNextResult(result) { const index = RESULT_TIERS.findIndex(item => item.id === result.id); return RESULT_TIERS[Math.min(index + 1, RESULT_TIERS.length - 1)]; }
-          return { TOTAL_PROBLEMS, MIN_POWER, MAX_POWER, BASE_CORRECT_POWER, TYPES_PER_RUN, RESULT_TIERS, REWARD_EVENTS, WRONG_REWARD_EVENT, createRng, randomInt, shuffle, clamp, generateRun, validateChoice, pickRewardEvent, applyReward, getResult, getNextResult };
-        })();
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit6-data-lab-series","id":"3-2-6-1","folder":"3-2-6-1-mathmon-data-rangers","modelName":"Lesson6DataLabModel","title":"매스몬 인구조사","shortTitle":"매스몬 인구조사","topic":"자료를 세어 표에 나타내기","unitBadge":"6단원 자료의 정리","goal":"딱지를 세어 표 칸을 채워요.","action":"반짝이는 딱지를 세어 알맞은 수를 고른다.","buttonLabel":"조사 상자 열기","rewardScreenTitle":"조사 상자","progressLabel":"자료 힘","rewardComplete":"자료 힘이 바뀌었어요.","tutorialTitle":"조사를 시작하기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"반짝이는 딱지를 세어요","body":"딱지 수를 골라 빈 표 칸을 채워요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"열 문제를 풀어요","body":"상자를 열어 자료 연구실을 밝혀요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"자료 힘","closedLabel":"상자 안에는 무엇이 있을까요?","nextLabel":"다음 조사","artMap":{"normal":"reward-normal-generated.webp","loss":"reward-loss-generated.webp","mega":"reward-mega-generated.webp","complete":"reward-complete-generated.webp","empty":"reward-empty-generated.webp","rainbow":"reward-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-contact-sheet.png","protagonist":"base-03-babydragonmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["data-power","correct-count"]}},"workbench":{"type":"census","learningFlow":["count-highlighted-data","fill-table-cell"]},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"새끼용몬","mathmonId":"base-03-babydragonmon","results":[{"id":"first","name":"첫 조사표","minPower":0,"minCorrect":0,"image":"result-scene-1-generated.webp","titleImage":"result-title-1-generated.webp"},{"id":"complete-table","name":"완성 조사표","minPower":19,"minCorrect":2,"image":"result-scene-2-generated.webp","titleImage":"result-title-2-generated.webp"},{"id":"spark-board","name":"반짝 조사판","minPower":39,"minCorrect":4,"image":"result-scene-3-generated.webp","titleImage":"result-title-3-generated.webp"},{"id":"notice-board","name":"조사 게시판","minPower":61,"minCorrect":6,"image":"result-scene-4-generated.webp","titleImage":"result-title-4-generated.webp"},{"id":"data-lab","name":"자료 연구실","minPower":83,"minCorrect":8,"image":"result-scene-5-generated.webp","titleImage":"result-title-5-generated.webp"},{"id":"rainbow","name":"무지개 자료관","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-scene-6-generated.webp","titleImage":"result-title-6-generated.webp"}],"rewardEvents":[{"id":"normal","text":"자료 힘이 늘었어요","weight":7645,"min":4,"max":8,"family":"normal","rarity":"common"},{"id":"loss","text":"자료 힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"loss","rarity":"common"},{"id":"mega","text":"자료 힘이 크게 늘었어요","weight":900,"min":12,"max":20,"family":"mega","rarity":"rare"},{"id":"complete","text":"조사판이 한 번에 빛나요","weight":50,"min":0,"max":0,"family":"complete","rarity":"rare"},{"id":"empty","text":"이번에는 그대로예요","weight":200,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"무지개 자료가 나왔어요","weight":5,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"wrong-loss","text":"자료 힘이 줄었어요","min":-18,"max":-8,"family":"loss"},"typesPerRun":["census","census","census","census","census","census","census","census","census","census"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStates":{"waiting":"problem-background-generated.webp","working":"problem-background-generated.webp","complete":"problem-background-generated.webp"},"rewardClosed":"reward-empty-generated.webp","rewardScene":"problem-background-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"sourceFiles":{"model":"../_shared/unit6-data/model.js","view":"../_shared/unit6-data/view.js","style":"../_shared/unit6-data/lesson.css"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","problem-background-generated.webp","reward-normal-generated.webp","reward-loss-generated.webp","reward-mega-generated.webp","reward-complete-generated.webp","reward-empty-generated.webp","reward-rainbow-generated.webp","result-scene-1-generated.webp","result-scene-2-generated.webp","result-scene-3-generated.webp","result-scene-4-generated.webp","result-scene-5-generated.webp","result-scene-6-generated.webp","result-title-1-generated.webp","result-title-2-generated.webp","result-title-3-generated.webp","result-title-4-generated.webp","result-title-5-generated.webp","result-title-6-generated.webp","../_shared/result-actions/retry-button-generated.webp","result-scenes-contact-sheet.png","result-titles-contact-sheet.png","reward-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelContractVersion":1,"modelRule":"count-highlighted-data","viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"unit6-reported-overlap-1024x768-dpr1","width":1024,"height":768,"dpr":1}],"requiredFlow":["cover","settings","tutorial-1","tutorial-2","play-waiting","play-wrong-low","play-wrong-high","play-correct","complete","reward-closed","reward-open","result","result-all-tiers"]}};
+    const Lesson6DataLabModel = (() => {
+      const TOTAL_PROBLEMS = 10;
+      const MIN_POWER = 0;
+      const MAX_POWER = 100;
+      const RESULT_TIERS = LESSON_CONFIG.results;
+      const REWARD_EVENTS = LESSON_CONFIG.rewardEvents;
+      const WRONG_REWARD_EVENT = LESSON_CONFIG.wrongEvent;
+      const CATEGORIES = [
+        { id: "star", label: "별 딱지", mark: "★", color: "#ffd35c" },
+        { id: "heart", label: "하트 딱지", mark: "♥", color: "#ff7f9f" },
+        { id: "moon", label: "달 딱지", mark: "●", color: "#79c9ff" },
+      ];
+      const DETECTIVE_LABELS = ["별", "하트", "달", "꽃"];
 
-    const LessonModel = Lesson6DataRangersModel;
+      function createRng(seed = 12345) {
+        let value = seed >>> 0;
+        return function rng() {
+          value = (value + 0x6d2b79f5) >>> 0;
+          let mixed = value;
+          mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
+          mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+          return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function randomInt(rng, min, max) {
+        return Math.floor(rng() * (max - min + 1)) + min;
+      }
+
+      function shuffle(items, rng) {
+        const copy = items.slice();
+        for (let index = copy.length - 1; index > 0; index -= 1) {
+          const target = Math.floor(rng() * (index + 1));
+          [copy[index], copy[target]] = [copy[target], copy[index]];
+        }
+        return copy;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function uniqueValues(values, fallbackStart = 1) {
+        const output = [];
+        const seen = new Set();
+        for (const value of values) {
+          if (value == null || value === "" || seen.has(String(value))) continue;
+          seen.add(String(value));
+          output.push(value);
+        }
+        let fallback = fallbackStart;
+        while (output.length < 4) {
+          if (!seen.has(String(fallback))) {
+            seen.add(String(fallback));
+            output.push(fallback);
+          }
+          fallback += 1;
+        }
+        return output.slice(0, 4);
+      }
+
+      function makeChoices(values, answer, misconceptionIds, feedbackFor, rng, labelFor = String) {
+        const normalized = uniqueValues(values, typeof answer === "number" ? Math.max(0, answer - 3) : 1);
+        const choices = normalized.map((value, index) => {
+          const misconceptionId = String(value) === String(answer)
+            ? "correct"
+            : (misconceptionIds[index] || "other");
+          return {
+            id: `choice-${String(value).replace(/\s+/g, "-")}`,
+            value,
+            label: labelFor(value),
+            misconceptionId,
+            feedback: String(value) === String(answer) ? "" : feedbackFor(value, misconceptionId),
+          };
+        });
+        return shuffle(choices, rng);
+      }
+
+      function makeStep({
+        id,
+        label,
+        instruction,
+        answer,
+        choices,
+        correctText,
+        reveal,
+        advance = { mode: "complete" },
+      }) {
+        const correctChoice = choices.find((choice) => String(choice.value) === String(answer));
+        return {
+          id,
+          label,
+          instruction,
+          answer,
+          answerChoiceId: correctChoice.id,
+          choices,
+          correctText,
+          reveal,
+          advance,
+        };
+      }
+
+      function makeCensusProblem(rng, serial, targetCount) {
+        const categories = shuffle(CATEGORIES, rng).map((category) => ({ ...category }));
+        const targetIndex = serial % categories.length;
+        const otherA = clamp(targetCount + (serial % 2 === 0 ? -2 : 2), 3, 10);
+        let otherB = clamp(12 + (serial % 3) - targetCount, 3, 10);
+        if (otherB === targetCount || otherB === otherA) otherB = clamp(otherB + 2, 3, 11);
+        const counts = [otherA, otherB, clamp(18 - otherA - otherB, 3, 10)];
+        counts[targetIndex] = targetCount;
+        const remainingIndices = [0, 1, 2].filter((index) => index !== targetIndex);
+        const totalWithoutTarget = counts[remainingIndices[0]] + counts[remainingIndices[1]];
+        if (targetCount + totalWithoutTarget < 12) counts[remainingIndices[0]] += 12 - (targetCount + totalWithoutTarget);
+        if (targetCount + counts[remainingIndices[0]] + counts[remainingIndices[1]] > 24) {
+          counts[remainingIndices[1]] = Math.max(3, 24 - targetCount - counts[remainingIndices[0]]);
+        }
+        const rows = categories.map((category, index) => ({ ...category, count: counts[index] }));
+        const target = rows[targetIndex];
+        const adjacent = rows[(targetIndex + 1) % rows.length];
+        const values = uniqueValues([
+          target.count,
+          Math.max(1, target.count - 1),
+          target.count + 1,
+          adjacent.count,
+        ], 2);
+        const choices = makeChoices(
+          values,
+          target.count,
+          ["correct", "one-less", "one-more", "neighbor-count"],
+          (value) => {
+            if (value < target.count) return `${target.label}가 ${target.count - value}개 남았어요.`;
+            if (value > target.count) return `${target.label}를 ${value - target.count}개 더 셌어요.`;
+            return `${adjacent.label} 줄을 센 것 같아요.`;
+          },
+          rng,
+          (value) => `${value}`,
+        );
+        return {
+          id: `census-${serial}`,
+          type: "census",
+          kind: "자료 세기",
+          prompt: `${target.label}는 몇 개일까요?`,
+          finalExpression: `${target.label} ${target.count}개`,
+          visual: { kind: "census", rows, targetId: target.id },
+          steps: [
+            makeStep({
+              id: "count",
+              label: "표 칸",
+              instruction: `반짝이는 ${target.label}를 세어요.`,
+              answer: target.count,
+              choices,
+              correctText: `${target.count}개가 표 칸에 들어갔어요.`,
+              reveal: `${target.count}`,
+            }),
+          ],
+        };
+      }
+
+      function makeDecoderProblem(rng, serial, unit, iconCount) {
+        const answer = unit * iconCount;
+        const values = uniqueValues([answer, iconCount, answer - unit, answer + unit], 2);
+        const choices = makeChoices(
+          values,
+          answer,
+          ["correct", "ignored-unit", "one-unit-less", "one-unit-more"],
+          (value, misconceptionId) => {
+            if (misconceptionId === "ignored-unit") return `그림마다 ${unit}씩 있어요.`;
+            if (value < answer) return "그림 하나를 빼먹었어요.";
+            return "그림 하나를 더 셌어요.";
+          },
+          rng,
+          (value) => `${value}`,
+        );
+        return {
+          id: `decoder-${serial}`,
+          type: "decoder",
+          kind: "그림 단위 읽기",
+          prompt: `그림 ${iconCount}개는 모두 얼마일까요?`,
+          finalExpression: `${unit} × ${iconCount} = ${answer}`,
+          visual: { kind: "decoder", unit, iconCount, answer },
+          steps: [
+            makeStep({
+              id: "total",
+              label: "모두",
+              instruction: `그림 하나는 ${unit}만큼이에요.`,
+              answer,
+              choices,
+              correctText: `모두 합친 값 = ${answer}`,
+              reveal: `${answer}`,
+            }),
+          ],
+        };
+      }
+
+      function digitChoices(answer, alternate, rng, kind) {
+        const values = uniqueValues([answer, alternate, Math.max(0, answer - 1), answer + 1], 0);
+        return makeChoices(
+          values,
+          answer,
+          ["correct", "swapped-place", "one-less", "one-more"],
+          (value, misconceptionId) => {
+            if (misconceptionId === "swapped-place") return "십의 자리와 일의 자리를 다시 봐요.";
+            if (value < answer) return `${kind}이 ${answer - value}개 모자라요.`;
+            return `${kind}이 ${value - answer}개 많아요.`;
+          },
+          rng,
+          (value) => `${value}`,
+        );
+      }
+
+      function makeStampProblem(rng, serial, value) {
+        const big = Math.floor(value / 10);
+        const small = value % 10;
+        const firstChoices = digitChoices(big, small, rng, "큰 도장");
+        const secondChoices = digitChoices(small, big, rng, "작은 도장");
+        return {
+          id: `stamp-${serial}`,
+          type: "stamp",
+          kind: "그림그래프 만들기",
+          prompt: `도장으로 나타낼 수 · ${value}`,
+          finalExpression: `${big}×10 + ${small}×1 = ${value}`,
+          visual: { kind: "stamp", value, big, small },
+          steps: [
+            makeStep({
+              id: "big-stamps",
+              label: "큰 도장",
+              instruction: "10짜리 큰 도장은 몇 개일까요?",
+              answer: big,
+              choices: firstChoices,
+              correctText: `큰 도장 ${big}개를 찍었어요.`,
+              reveal: `${big}`,
+              advance: { mode: "button", label: "작은 도장 보기" },
+            }),
+            makeStep({
+              id: "small-stamps",
+              label: "작은 도장",
+              instruction: "남은 1짜리 작은 도장은 몇 개일까요?",
+              answer: small,
+              choices: secondChoices,
+              correctText: `작은 도장 ${small}개를 찍었어요.`,
+              reveal: `${small}`,
+            }),
+          ],
+        };
+      }
+
+      function makeDetectiveProblem(rng, serial, type, unit) {
+        const iconCounts = shuffle([2, 3, 4, 5, 6, 7, 8], rng).slice(0, 4);
+        const rows = DETECTIVE_LABELS.map((label, index) => ({
+          id: `row-${index}`,
+          label,
+          iconCount: iconCounts[index],
+          value: iconCounts[index] * unit,
+        }));
+        const sorted = rows.slice().sort((a, b) => a.value - b.value);
+        const low = sorted[0];
+        const high = sorted[sorted.length - 1];
+        if (type === "difference") {
+          const difference = high.value - low.value;
+          const iconDifference = high.iconCount - low.iconCount;
+          const useLowerOffset = serial % 2 === 1;
+          const oneUnitOffset = useLowerOffset
+            ? Math.max(0, difference - unit)
+            : difference + unit;
+          const values = uniqueValues([
+            difference,
+            iconDifference,
+            high.value,
+            oneUnitOffset,
+          ], unit);
+          const choices = makeChoices(
+            values,
+            difference,
+            ["correct", "ignored-unit", "high-value", useLowerOffset ? "one-unit-less" : "one-unit-more"],
+            (value, misconceptionId) => {
+              if (misconceptionId === "ignored-unit") return `그림 차이에 ${unit}을 곱해요.`;
+              if (misconceptionId === "high-value") return "큰 값 말고 두 값의 차이를 찾아요.";
+              if (value < difference) return `${unit}만큼 모자라요.`;
+              return `${unit}만큼 많아요.`;
+            },
+            rng,
+            (value) => `${value}`,
+          );
+          return {
+            id: `detective-${serial}`,
+            type,
+            kind: "차이 찾기",
+            prompt: `${high.label} − ${low.label}, 차이는 얼마일까요?`,
+            finalExpression: `${high.value} − ${low.value} = ${difference}`,
+            visual: { kind: "detective", rows, unit, targetType: type, highId: high.id, lowId: low.id },
+            steps: [
+              makeStep({
+                id: "difference",
+                label: "차이",
+                instruction: "큰 값에서 작은 값을 빼요.",
+                answer: difference,
+                choices,
+                correctText: `두 값의 차이 = ${difference}`,
+                reveal: `${difference}`,
+              }),
+            ],
+          };
+        }
+
+        const answerRow = type === "maximum" ? high : low;
+        const choices = makeChoices(
+          rows.map((row) => row.label),
+          answerRow.label,
+          ["correct", "other-row", "other-row", "other-row"],
+          (value) => {
+            const picked = rows.find((row) => row.label === value);
+            const direction = type === "maximum" ? "더 큰 값" : "더 작은 값";
+            return `${picked.value}보다 ${direction}이 있어요.`;
+          },
+          rng,
+          String,
+        );
+        const typeText = type === "maximum" ? "가장 큰 값" : "가장 작은 값";
+        return {
+          id: `detective-${serial}`,
+          type,
+          kind: `${typeText} 찾기`,
+          prompt: `${typeText}은 어느 줄일까요?`,
+          finalExpression: `${answerRow.label} ${answerRow.value}`,
+          visual: { kind: "detective", rows, unit, targetType: type, answerId: answerRow.id },
+          steps: [
+            makeStep({
+              id: type,
+              label: type === "maximum" ? "큰 값" : "작은 값",
+              instruction: `그림 수에 ${unit}를 곱해 비교해요.`,
+              answer: answerRow.label,
+              choices,
+              correctText: `맞는 줄: ${answerRow.label} · 값: ${answerRow.value}`,
+              reveal: answerRow.label,
+            }),
+          ],
+        };
+      }
+
+      function generateRun(seed = 12345) {
+        const rng = createRng(seed);
+        const type = LESSON_CONFIG.workbench?.type;
+        if (type === "census") {
+          return [4, 5, 6, 7, 8, 9, 10, 11, 12, 8]
+            .map((count, index) => makeCensusProblem(rng, index + 1, count));
+        }
+        if (type === "picture-decoder") {
+          const cases = [[2, 3], [2, 5], [2, 8], [5, 2], [5, 4], [5, 7], [10, 2], [10, 4], [10, 6], [10, 8]];
+          return shuffle(cases, rng).map(([unit, count], index) => makeDecoderProblem(rng, index + 1, unit, count));
+        }
+        if (type === "picture-stamp") {
+          return shuffle([10, 14, 21, 26, 30, 37, 42, 48, 53, 59], rng)
+            .map((value, index) => makeStampProblem(rng, index + 1, value));
+        }
+        const types = shuffle(["maximum", "maximum", "maximum", "minimum", "minimum", "minimum", "difference", "difference", "difference", "difference"], rng);
+        return types.map((problemType, index) => makeDetectiveProblem(rng, index + 1, problemType, index % 2 === 0 ? 2 : 5));
+      }
+
+      function validateChoice(step, choice) {
+        return String(choice?.id) === String(step.answerChoiceId);
+      }
+
+      function pickRewardEvent(rng, mistakeTouched) {
+        if (mistakeTouched) {
+          return {
+            ...WRONG_REWARD_EVENT,
+            amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max),
+          };
+        }
+        let roll = Math.floor(rng() * 10000);
+        for (const event of REWARD_EVENTS) {
+          if (roll < event.weight) {
+            return { ...event, amount: randomInt(rng, event.min, event.max) };
+          }
+          roll -= event.weight;
+        }
+        const fallback = REWARD_EVENTS[0];
+        return { ...fallback, amount: randomInt(rng, fallback.min, fallback.max) };
+      }
+
+      function applyReward(state, event) {
+        let power = clamp(Number(state.power || 0) + Number(event.amount || 0), MIN_POWER, MAX_POWER);
+        if (event.family === "complete") power = Math.max(power, 61);
+        if (event.family === "rainbow") power = MAX_POWER;
+        return {
+          power,
+          specialSeen: Boolean(state.specialSeen || event.special || event.family === "rainbow"),
+        };
+      }
+
+      function getResult(power, correctFirstTry, specialSeen) {
+        for (let index = RESULT_TIERS.length - 1; index >= 0; index -= 1) {
+          const result = RESULT_TIERS[index];
+          if (result.needsSpecial && !specialSeen) continue;
+          if (power >= result.minPower && correctFirstTry >= result.minCorrect) return result;
+        }
+        return RESULT_TIERS[0];
+      }
+
+      function getNextResult(result) {
+        const index = RESULT_TIERS.findIndex((item) => item.id === result?.id);
+        return RESULT_TIERS[Math.min(Math.max(index + 1, 0), RESULT_TIERS.length - 1)];
+      }
+
+      return {
+        TOTAL_PROBLEMS,
+        MIN_POWER,
+        MAX_POWER,
+        RESULT_TIERS,
+        REWARD_EVENTS,
+        WRONG_REWARD_EVENT,
+        createRng,
+        randomInt,
+        shuffle,
+        clamp,
+        generateRun,
+        validateChoice,
+        pickRewardEvent,
+        applyReward,
+        getResult,
+        getNextResult,
+      };
+    })();
+
+    const LessonModel = Lesson6DataLabModel;
     const TOTAL_QUESTIONS = Array.isArray(LESSON_CONFIG.typesPerRun) ? LESSON_CONFIG.typesPerRun.length : 10;
 
     const screens = {
@@ -1814,6 +2815,10 @@
       settingsToggle: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -1821,6 +2826,7 @@
       restartButton: document.getElementById("settingsRestartButton"),
       startButton: document.getElementById("startButton"),
       nextTutorialButton: document.getElementById("tutorialStartButton"),
+      backTutorialButton: document.getElementById("tutorialBackButton"),
       tutorialTitle: document.getElementById("tutorialTitle"),
       tutorialText: document.getElementById("tutorialText"),
       tutorialVisual: document.getElementById("tutorialVisual"),
@@ -1832,6 +2838,7 @@
       problemText: document.getElementById("problemTitle"),
       instructionText: document.getElementById("stepInstruction"),
       visualArea: document.getElementById("visualArea"),
+      playMathmonReaction: document.getElementById("playMathmonReaction"),
       choices: document.getElementById("choicesPanel"),
       feedback: document.getElementById("feedbackLine"),
       answerSlot: document.getElementById("answerSlot"),
@@ -1839,6 +2846,8 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
+      rewardObject: document.querySelector("#screen-reward .reward-object"),
+      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -1846,15 +2855,21 @@
       rewardPop: document.getElementById("rewardPop"),
       rewardVisual: document.getElementById("rewardVisual"),
       modalRewardLabel: document.getElementById("modalRewardLabel"),
+      modalRewardOpenButton: document.getElementById("modalRewardOpenButton"),
       modalRewardNextButton: document.getElementById("modalRewardNextButton"),
       resultBg: document.getElementById("resultBg"),
       resultTitleArt: document.getElementById("resultTitleArt"),
       resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultHeading: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
-      retryButton: document.getElementById("retryButton"),
+      retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
       scoreboardScreen: document.getElementById("screen-scoreboard"),
     };
 
@@ -1891,7 +2906,46 @@
         scoreboardAnswers: [],
         scoreboardQuestionStartedAt: 0,
         scoreboardStepStartedAt: 0,
+        stepAttempts: [],
+        inputLocked: false,
+        pendingRewardEvent: null,
+        rewardPhase: "idle",
       };
+    }
+
+    async function runViewHook(name, payload) {
+      const hook = globalThis[name];
+      if (typeof hook !== "function") return;
+      try {
+        await hook(payload);
+      } catch (error) {
+        console.warn(`${name} failed`, error);
+      }
+    }
+
+    function showMathmonReaction(kind) {
+      const assets = LESSON_CONFIG.imageAssets?.mathmonReactions;
+      const source = assets?.[kind];
+      if (!ui.playMathmonReaction || !source) return Promise.resolve();
+      ui.playMathmonReaction.src = source;
+      ui.playMathmonReaction.hidden = false;
+      ui.playMathmonReaction.dataset.reaction = kind;
+      const wait = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+      return new Promise((resolve) => setTimeout(resolve, wait));
+    }
+
+    function setProblemSceneState(kind) {
+      const source = LESSON_CONFIG.imageAssets?.problemStates?.[kind];
+      const scene = document.querySelector("#screen-play > img:not(.play-mathmon-reaction)");
+      if (!scene || !source) return Promise.resolve();
+      scene.dataset.problemSceneState = kind;
+      if (scene.getAttribute("src") === source && scene.complete) return Promise.resolve();
+      scene.src = source;
+      if (scene.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        scene.addEventListener("load", resolve, { once: true });
+        scene.addEventListener("error", resolve, { once: true });
+      });
     }
 
     function readAudioFlag(key, fallback) {
@@ -1944,9 +2998,19 @@
       const oscillator = ctx.createOscillator();
       const gain = ctx.createGain();
       const now = ctx.currentTime;
-      const frequency = kind === "success" ? 720 : kind === "reward" ? 520 : kind === "scoreboard" ? 440 : 260;
+      const frequencies = {
+        "step-correct": 720,
+        "step-wrong": 260,
+        "problem-complete": 840,
+        "reward-open": 520,
+        "reward-rare": 660,
+        "reward-legend": 920,
+        result: 600,
+        scoreboard: 440,
+      };
+      const frequency = frequencies[kind] || 420;
       oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.type = kind === "error" ? "sawtooth" : "sine";
+      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
       gain.gain.setValueAtTime(0.001, now);
       gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
@@ -1959,6 +3023,12 @@
     function renderTutorial() {
       const cards = LESSON_CONFIG.tutorialCards || [];
       const card = normalizeTutorialCard(cards[state.tutorialIndex] || cards[0] || {});
+      const cardNodes = [...document.querySelectorAll("#screen-tutorial .tutorial-card")];
+      cardNodes.forEach((node, index) => {
+        node.hidden = getTutorialMode() === "poster-two-step" && index !== state.tutorialIndex;
+      });
+      screens.tutorial.dataset.page = String(state.tutorialIndex);
+      if (ui.backTutorialButton) ui.backTutorialButton.hidden = state.tutorialIndex === 0;
       ui.tutorialTitle.textContent = getTutorialMode() === "card-grid"
         ? (LESSON_CONFIG.tutorialTitle || LESSON_CONFIG.title)
         : (card.title || LESSON_CONFIG.title);
@@ -1968,7 +3038,9 @@
       if (getTutorialMode() === "card-grid") {
         ui.nextTutorialButton.textContent = LESSON_CONFIG.tutorialButton || "시작";
       } else {
-        ui.nextTutorialButton.textContent = state.tutorialIndex >= cards.length - 1 ? "시작" : "다음";
+        ui.nextTutorialButton.textContent = state.tutorialIndex >= cards.length - 1
+          ? (LESSON_CONFIG.tutorialButton || "시작")
+          : "다음";
       }
     }
 
@@ -2005,6 +3077,12 @@
       showScreen(state.reviewReturnScreen);
     }
 
+    function previousTutorial() {
+      if (state.tutorialIndex <= 0) return;
+      state.tutorialIndex -= 1;
+      renderTutorial();
+    }
+
     function getTutorialMode() {
       return LESSON_CONFIG.tutorial?.mode || "card-grid";
     }
@@ -2018,12 +3096,14 @@
       state.stepIndex = 0;
       state.mistakeTouched = false;
       state.pendingAdvance = false;
+      state.stepAttempts = [];
       beginScoreboardQuestion(problem);
       ui.problemText.textContent = problem.prompt;
       ui.completePanel.classList.remove("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.completeText.textContent = "";
       if (typeof renderProblemVisual === "function") renderProblemVisual(problem, state);
+      setProblemSceneState("waiting");
       renderStep();
       syncProgress();
       showScreen("play");
@@ -2034,22 +3114,39 @@
       const step = problem.steps[state.stepIndex];
       beginScoreboardStep(step);
       ui.instructionText.textContent = step.instruction;
+      ui.instructionText.hidden = false;
       ui.feedback.textContent = "";
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
+      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
+      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
       renderStepChips(problem);
       ui.choices.innerHTML = "";
 
+      if (typeof renderChoicesForStep === "function") {
+        const handled = renderChoicesForStep(problem, step, state, handleChoice);
+        if (handled === true) {
+          if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
+          return;
+        }
+      }
+
       step.choices.forEach((choice) => {
         const button = document.createElement("button");
         button.className = "choice-button";
         button.type = "button";
-        button.textContent = String(choice);
-        button.dataset.choice = String(choice);
+        button.textContent = getChoiceLabel(choice);
+        button.dataset.choice = getChoiceId(choice);
+        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
+        const misconceptionId = getChoiceMisconceptionId(choice);
+        if (misconceptionId) button.dataset.misconception = misconceptionId;
+        if (choice && typeof choice === "object" && choice.relation) {
+          button.dataset.relation = String(choice.relation);
+        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -2057,19 +3154,35 @@
       if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
     }
 
-    function handleChoice(choice, button) {
-      if (state.pendingAdvance) return;
+    async function handleChoice(choice, button) {
+      if (state.pendingAdvance || state.inputLocked) return;
+      state.inputLocked = true;
       const problem = state.problems[state.problemIndex];
       const step = problem.steps[state.stepIndex];
       const correct = LessonModel.validateChoice(step, choice);
       recordScoreboardStep(problem, step, choice, correct);
+      state.stepAttempts.push({
+        choiceId: getChoiceId(choice),
+        misconceptionId: getChoiceMisconceptionId(choice),
+        correct,
+      });
+      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
+        delete choiceButton.dataset.state;
+        choiceButton.classList.remove("is-wrong", "is-correct");
+      });
 
       if (!correct) {
         state.mistakeTouched = true;
         button.dataset.state = "wrong";
         ui.feedback.dataset.state = "wrong";
-        ui.feedback.textContent = step.wrongText || "다시 골라 봐요.";
-        playSample("error");
+        ui.feedback.textContent = getChoiceFeedback(choice) || step.wrongText || "다시 골라 봐요.";
+        ui.instructionText.hidden = true;
+        if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: false, button });
+        playSample("step-wrong");
+        await setProblemSceneState("waiting");
+        await showMathmonReaction("wrong");
+        await runViewHook("onStepWrong", { problem, step, choice, state, button });
+        state.inputLocked = false;
         return;
       }
 
@@ -2079,28 +3192,132 @@
       });
       ui.feedback.dataset.state = "correct";
       ui.feedback.textContent = step.correctText || "좋아요. 칸에 딱 맞았어요.";
+      ui.instructionText.hidden = true;
       ui.answerSlot.textContent = step.reveal || step.correctText || String(step.answer);
       ui.answerSlot.classList.add("is-filled");
-      playSample("success");
+      playSample("step-correct");
+      await setProblemSceneState("working");
+      await showMathmonReaction("correct");
+      if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: true, button });
       if (typeof revealCorrectStep === "function") revealCorrectStep(problem, step, state);
+      await runViewHook("onStepCorrect", { problem, step, choice, state, button });
 
       if (state.stepIndex < problem.steps.length - 1) {
         state.pendingAdvance = true;
+        if (step.advance?.mode === "button" && typeof prepareStepAdvance === "function") {
+          const prepared = prepareStepAdvance(problem, step, state, advanceToNextStep);
+          if (prepared === true) return;
+        }
+        const delay = Number.isFinite(step.advance?.delayMs) ? step.advance.delayMs : 900;
         setTimeout(() => {
-          state.stepIndex += 1;
-          state.pendingAdvance = false;
-          renderStep();
-        }, 650);
+          advanceToNextStep();
+        }, Math.max(0, delay));
         return;
       }
 
+      if (step.advance?.mode === "button" && typeof prepareProblemComplete === "function") {
+        state.pendingAdvance = true;
+        const prepared = prepareProblemComplete(problem, step, state, () => completeCurrentProblem(problem, step, choice));
+        if (prepared === true) return;
+        state.pendingAdvance = false;
+      }
+
+      await completeCurrentProblem(problem, step, choice);
+    }
+
+    async function completeCurrentProblem(problem, step, choice) {
+      if (state.completed) return;
+      state.pendingAdvance = false;
       state.completed = true;
+      await setProblemSceneState("complete");
       if (!state.mistakeTouched) state.correctFirstTry += 1;
-      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
+      await runViewHook("onProblemComplete", { problem, step, choice, state });
+      await showMathmonReaction("reward");
+      playSample("problem-complete");
+      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
+      ui.completeText.hidden = !showCompleteExpression;
+      ui.completeText.textContent = showCompleteExpression
+        ? (problem.finalExpression || ui.answerSlot.textContent)
+        : "";
+      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
-      ui.continueButton.focus();
+      ui.continueButton.focus({ preventScroll: true });
+      state.inputLocked = false;
+    }
+
+    function advanceToNextStep() {
+      if (!state.pendingAdvance) return;
+      state.stepIndex += 1;
+      state.pendingAdvance = false;
+      state.inputLocked = false;
+      state.stepAttempts = [];
+      renderStep();
+    }
+
+    function getChoiceLabel(choice) {
+      if (choice && typeof choice === "object") return String(choice.label ?? choice.value ?? choice.id ?? "");
+      return String(choice);
+    }
+
+    function getChoiceId(choice) {
+      if (choice && typeof choice === "object") return String(choice.id ?? choice.value ?? choice.label ?? "");
+      return String(choice);
+    }
+
+    function getChoiceMisconceptionId(choice) {
+      return choice && typeof choice === "object" && choice.misconceptionId
+        ? String(choice.misconceptionId)
+        : null;
+    }
+
+    function getChoiceFeedback(choice) {
+      return choice && typeof choice === "object" && choice.feedback
+        ? String(choice.feedback)
+        : "";
+    }
+
+    function wireDirectChoice(button, dropTarget, choice, choose) {
+      button.draggable = true;
+      button.dataset.directChoice = "true";
+      const submit = () => choose(choice, button);
+      button.addEventListener("click", submit);
+      button.addEventListener("dragstart", (event) => {
+        event.dataTransfer?.setData("text/plain", getChoiceId(choice));
+        button.dataset.dragging = "true";
+        dropTarget.__directChoice = { choice, button };
+      });
+      button.addEventListener("dragend", () => { delete button.dataset.dragging; });
+      if (dropTarget.dataset.directDropReady !== "true") {
+        dropTarget.dataset.directDropReady = "true";
+        dropTarget.addEventListener("dragover", (event) => event.preventDefault());
+        dropTarget.addEventListener("drop", (event) => {
+          event.preventDefault();
+          const active = dropTarget.__directChoice;
+          if (active) choose(active.choice, active.button);
+          dropTarget.__directChoice = null;
+        });
+      }
+
+      let start = null;
+      button.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse") return;
+        start = { x: event.clientX, y: event.clientY };
+        button.setPointerCapture(event.pointerId);
+      });
+      button.addEventListener("pointermove", (event) => {
+        if (!start) return;
+        button.style.translate = `${event.clientX - start.x}px ${event.clientY - start.y}px`;
+      });
+      button.addEventListener("pointerup", (event) => {
+        if (!start) return;
+        const rect = dropTarget.getBoundingClientRect();
+        const dropped = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        start = null;
+        button.style.translate = "";
+        if (dropped) submit();
+      });
     }
 
     function renderStepChips(problem) {
@@ -2108,27 +3325,47 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = step.label || `${index + 1}단계`;
+        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
+        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
       });
     }
 
-    function showReward() {
-      if (!state.completed) return;
+    async function showReward() {
+      if (!state.completed || state.rewardPhase !== "idle") return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
-      LessonModel.applyReward(state, event, firstTry);
-      finishScoreboardQuestion(event);
-      state.lastRewardEvent = event;
-      playSample("reward");
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
         openRewardModal(event);
         return;
       }
+
+      if (getRewardMode() === "stage-reveal") {
+        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+        if (ui.rewardScene instanceof HTMLImageElement) {
+          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+        } else if (ui.rewardScene) {
+          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+        }
+        ui.rewardLabel.textContent = "";
+        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+        ui.rewardNextButton.disabled = false;
+        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+        showScreen("reward");
+        ui.rewardNextButton.focus({ preventScroll: true });
+        return;
+      }
+
+      const beforePower = applyPendingReward(event);
+      state.rewardPhase = "revealed";
+      renderRewardMeter(event, beforePower, state.power);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -2141,18 +3378,166 @@
       showScreen("reward");
     }
 
+    function renderRewardMeter(event, beforePower, afterPower) {
+      if (!ui.rewardObject || !ui.rewardLiquid) return;
+      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
+      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
+      const delta = Number(afterPower) - Number(beforePower);
+      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
+      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
+      ui.rewardObject.dataset.direction = direction;
+      ui.rewardObject.dataset.symbol = symbol;
+      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
+    }
+
     function openRewardModal(event) {
-      ui.modalRewardLabel.textContent = formatRewardText(event);
+      if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
+      ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardPop.dataset.reward = "closed";
+      ui.rewardPop.dataset.rarity = event.rarity || "common";
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
+      ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
+      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = true;
+      ui.rewardPop.hidden = false;
+      ui.modalRewardOpenButton.focus();
+    }
+
+    function applyPendingReward(event) {
+      const firstTry = !state.mistakeTouched;
+      const beforePower = state.power;
+      const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
+      if (rewardPatch && typeof rewardPatch === "object") {
+        if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
+        if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
+      }
+      finishScoreboardQuestion(event);
+      state.lastRewardEvent = event;
+      state.currentResult = null;
+      return beforePower;
+    }
+
+    async function revealStageReward() {
+      if (getRewardMode() !== "stage-reveal" || state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      state.rewardPhase = "opening";
+      ui.rewardNextButton.disabled = true;
+      const beforePower = applyPendingReward(event);
+      const afterResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      ui.rewardLabel.textContent = formatRewardDelta(event);
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      if (!reduceMotion) await waitFor(650);
+      await runViewHook("onRewardReveal", {
+        event,
+        beforePower,
+        afterPower: state.power,
+        beforeResult,
+        afterResult,
+        state,
+      });
+      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+      state.rewardPhase = "revealed";
+      ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
+        ? "결과 보기"
+        : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardNextButton.disabled = false;
+      ui.rewardNextButton.focus({ preventScroll: true });
+      syncProgress();
+    }
+
+    function waitFor(duration) {
+      return new Promise((resolve) => setTimeout(resolve, duration));
+    }
+
+    function formatRewardDelta(event) {
+      if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
+      const amount = Number(event.amount) || 0;
+      if (amount > 0) return `+${amount}`;
+      if (amount < 0) return String(amount);
+      return "그대로";
+    }
+
+    function getRewardTargetText(event, beforeResult, afterResult) {
+      const formatter = globalThis.formatLessonRewardTarget;
+      if (typeof formatter === "function") {
+        try {
+          const formatted = formatter({ event, beforeResult, afterResult, state });
+          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
+        } catch (error) {
+          console.warn("formatLessonRewardTarget failed", error);
+        }
+      }
+      if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+      if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(afterResult)
+        : afterResult;
+      if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+      const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
+      if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
+        return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
+      }
+      const remaining = Math.max(0, Number(nextResult.minPower || 0) - state.power);
+      return `${nextResult.name}까지 ${remaining} 더`;
+    }
+
+    async function revealRewardModal() {
+      if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      state.rewardPhase = "opening";
+      ui.modalRewardOpenButton.disabled = true;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
+      await nextAnimationFrame();
+      const beforePower = applyPendingReward(event);
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
-      ui.rewardPop.hidden = false;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      await animateRewardValue(event);
+      state.rewardPhase = "revealed";
+      ui.modalRewardOpenButton.hidden = true;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
+    }
+
+    function nextAnimationFrame() {
+      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    function animateRewardValue(event) {
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const duration = reduceMotion ? 0 : 650;
+      const target = Number(event.amount) || 0;
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      return new Promise((resolve) => {
+        const started = performance.now();
+        const tick = (now) => {
+          const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
+          const value = Math.round(target * progress);
+          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          if (progress < 1) requestAnimationFrame(tick);
+          else resolve();
+        };
+        requestAnimationFrame(tick);
+      });
     }
 
     function closeRewardModal() {
       ui.rewardPop.hidden = true;
       ui.rewardPop.dataset.reward = "";
+      ui.rewardPop.dataset.rarity = "";
+      state.pendingRewardEvent = null;
+      state.rewardPhase = "idle";
+    }
+
+    function getRewardClosedImage() {
+      return LESSON_CONFIG.imageAssets.rewardClosed || LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
     }
 
     function getRewardImage(event) {
@@ -2168,7 +3553,18 @@
     }
 
     function advanceAfterReward() {
+      if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
+      if (state.pendingAdvance) return;
+      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") closeRewardModal();
+      if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
+      if (getRewardMode() === "stage-full") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
       if (state.problemIndex >= state.problems.length - 1) {
         showResult();
         return;
@@ -2180,19 +3576,37 @@
 
     function showResult() {
       const result = getCurrentResult();
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(result)
+        : result;
+      const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+      const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
       state.currentResult = result;
-      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.cover;
+      playSample("result");
+      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
+      if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextResultText;
+        ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+      }
+      if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      if (ui.resultMeasureFillSvg) {
+        const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
+        const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
+        ui.resultMeasureFillSvg.setAttribute("width", String(width));
+      }
 
       const correctArt = getCorrectCountAsset();
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
       const fullScene = getResultRenderMode() === "fullscene-score-slot";
-      ui.resultTitleArt.hidden = fullScene;
+      ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
       screens.result.dataset.resultTier = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -2200,6 +3614,14 @@
       ui.leaderboardButtonArt.hidden = !showLeaderboard;
       ui.leaderboardButton.hidden = !showLeaderboard;
       if (showLeaderboard) ui.leaderboardButtonArt.src = leaderboardAsset;
+
+      void runViewHook("onResult", {
+        result,
+        nextResult,
+        power: state.power,
+        correctFirstTry: state.correctFirstTry,
+        state,
+      });
 
       showScreen("result");
     }
@@ -2256,24 +3678,64 @@
     }
 
     function restartFromSettings() {
-      closeSettings();
+      if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+      ui.settingsRestartConfirmButton?.focus();
+    }
+
+    function cancelRestartFromSettings() {
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      ui.restartButton?.focus();
+    }
+
+    function confirmRestartFromSettings() {
+      closeSettings({ restoreFocus: false });
       closeRewardModal();
       state = createInitialState();
       scoreboardBridge?.reset?.();
       syncProgress();
       showScreen("cover");
+      ui.startButton?.focus({ preventScroll: true });
     }
 
     function openSettings() {
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
       ui.settingsBackdrop.hidden = false;
       ui.settingsToggle.setAttribute("aria-expanded", "true");
       syncAudioControls();
-      ui.settingsModal.focus();
+      ui.bgmToggle?.focus({ preventScroll: true });
     }
 
-    function closeSettings() {
+    function closeSettings({ restoreFocus = true } = {}) {
       ui.settingsBackdrop.hidden = true;
       ui.settingsToggle.setAttribute("aria-expanded", "false");
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+    }
+
+    function trapSettingsFocus(event) {
+      if (ui.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function beginScoreboardQuestion(problem) {
@@ -2297,6 +3759,7 @@
           selected: null,
           correct: null,
           elapsedMs: 0,
+          attempts: [],
         });
       }
     }
@@ -2304,10 +3767,19 @@
     function recordScoreboardStep(problem, step, choice, correct) {
       if (!state.currentScoreboardAnswer) beginScoreboardQuestion(problem);
       const record = state.currentScoreboardAnswer.steps.find((item) => item.id === step.id);
-      if (!record || record.selected != null) return;
-      record.selected = choice;
-      record.correct = correct;
-      record.elapsedMs = Math.round(performance.now() - state.scoreboardStepStartedAt);
+      if (!record) return;
+      const attempt = {
+        choiceId: getChoiceId(choice),
+        value: choice && typeof choice === "object" ? (choice.value ?? choice.label ?? choice.id) : choice,
+        misconceptionId: getChoiceMisconceptionId(choice),
+        correct,
+        elapsedMs: Math.round(performance.now() - state.scoreboardStepStartedAt),
+        attemptIndex: record.attempts.length,
+      };
+      record.attempts.push(attempt);
+      if (record.selected == null) record.selected = attempt.value;
+      record.correct = record.attempts.every((item) => item.correct);
+      record.elapsedMs = attempt.elapsedMs;
       if (!correct) state.currentScoreboardAnswer.correct = false;
     }
 
@@ -2320,6 +3792,9 @@
         amount: event.amount,
         text: event.text,
       };
+      if (LESSON_CONFIG.reward?.version) {
+        state.currentScoreboardAnswer.reward.version = LESSON_CONFIG.reward.version;
+      }
       state.scoreboardAnswers.push(state.currentScoreboardAnswer);
       state.currentScoreboardAnswer = null;
     }
@@ -2346,8 +3821,8 @@
     }
 
     function createScoreboardBridge() {
-      if (!isScoreboardEnabled() || !window.MathmonScoreboard?.createApiBridge) return null;
-      return window.MathmonScoreboard.createApiBridge({
+      if (!isScoreboardEnabled() || !MathmonScoreboard?.createApiBridge) return null;
+      return MathmonScoreboard.createApiBridge({
         root: ui.scoreboardScreen,
         apiUrl: getScoreboardApiUrl(),
         lessonId: LESSON_CONFIG.folder,
@@ -2367,18 +3842,30 @@
 
     ui.startButton.addEventListener("click", () => beginTutorial("cover"));
     ui.nextTutorialButton.addEventListener("click", continueTutorial);
+    ui.backTutorialButton?.addEventListener("click", previousTutorial);
     ui.continueButton.addEventListener("click", showReward);
-    ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.rewardNextButton.addEventListener("click", () => {
+      if (getRewardMode() === "stage-reveal") {
+        if (state.rewardPhase === "closed") revealStageReward();
+        else if (state.rewardPhase === "revealed") advanceAfterReward();
+        return;
+      }
+      advanceAfterReward();
+    });
+    ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
     ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
     ui.settingsToggle.addEventListener("click", openSettings);
-    ui.closeSettings.addEventListener("click", closeSettings);
+    ui.closeSettings.addEventListener("click", () => closeSettings());
+    ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
     ui.reviewTutorialButton.addEventListener("click", () => {
-      closeSettings();
+      closeSettings({ restoreFocus: false });
       beginTutorial(state.screen || "play");
     });
     ui.restartButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+    ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
     ui.bgmToggle.addEventListener("click", () => {
       audio.bgm = !audio.bgm;
       saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -2393,58 +3880,335 @@
     syncAudioControls();
     syncProgress();
 
+    window.__mathmonAudioQa = {
+      keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+      getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          audio.bgm = bgmEnabled;
+          saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          audio.sfx = sfxEnabled;
+          saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+        }
+        syncAudioControls();
+        return window.__mathmonAudioQa.getPrefs();
+      },
+    };
+
     window.__mathmonEngineQa = {
       startGame,
+      renderProblem,
       showResult,
       showScreen,
+      showReward,
+      revealStageReward,
+      setState: (patch = {}) => {
+        const allowed = [
+          "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
+          "completed", "mistakeTouched", "rewardPhase", "pendingRewardEvent", "currentResult",
+        ];
+        for (const key of allowed) {
+          if (Object.hasOwn(patch, key)) state[key] = patch[key];
+        }
+        return window.__mathmonEngineQa.getState();
+      },
       getState: () => ({
         screen: state.screen,
         problemIndex: state.problemIndex,
+        stepIndex: state.stepIndex,
+        inputLocked: state.inputLocked,
+        pendingAdvance: state.pendingAdvance,
+        completed: state.completed,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
+        specialSeen: state.specialSeen,
+        rewardPhase: state.rewardPhase,
+        pendingRewardId: state.pendingRewardEvent?.id || "",
+        pendingRewardAmount: Number(state.pendingRewardEvent?.amount) || 0,
+        pendingRewardSpecial: Boolean(state.pendingRewardEvent?.special),
+        lastRewardId: state.lastRewardEvent?.id || "",
         answers: state.scoreboardAnswers,
       }),
       getCurrentProblem: () => state.problems[state.problemIndex] || null,
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
+    function unit6Create(tag, className, text = "") {
+      const node = document.createElement(tag);
+      node.className = className;
+      if (text !== "") node.textContent = text;
+      return node;
+    }
+
+    function unit6RenderMarks(container, count, mark, color, small = false) {
+      for (let index = 0; index < count; index += 1) {
+        const item = unit6Create("span", `unit6-mark${small ? " is-small" : ""}`, mark);
+        item.style.setProperty("--mark-color", color);
+        item.dataset.index = String(index + 1);
+        container.append(item);
+      }
+    }
+
+    function renderCensusBoard(problem) {
+      const board = unit6Create("div", "unit6-board census-board");
+      board.dataset.targetId = problem.visual.targetId;
+      const items = unit6Create("div", "census-items");
+      const table = unit6Create("div", "census-table");
+      problem.visual.rows.forEach((row) => {
+        const itemRow = unit6Create("div", "census-item-row");
+        itemRow.dataset.rowId = row.id;
+        if (row.id === problem.visual.targetId) itemRow.classList.add("is-target");
+        itemRow.append(unit6Create("span", "unit6-row-label", row.label));
+        const marks = unit6Create("div", "unit6-marks");
+        unit6RenderMarks(marks, row.count, row.mark, row.color, true);
+        itemRow.append(marks);
+        items.append(itemRow);
+
+        const tableRow = unit6Create("div", "census-table-row");
+        tableRow.dataset.rowId = row.id;
+        tableRow.append(unit6Create("span", "unit6-table-label", row.label));
+        const value = unit6Create("span", "unit6-table-value", row.id === problem.visual.targetId ? "?" : `${row.count}`);
+        value.dataset.valueCell = row.id;
+        tableRow.append(value);
+        table.append(tableRow);
+      });
+      board.append(items, table);
+      return board;
+    }
+
+    function renderDecoderBoard(problem) {
+      const { unit, iconCount } = problem.visual;
+      const board = unit6Create("div", "unit6-board decoder-board");
+      const key = unit6Create("div", "decoder-key");
+      key.append(unit6Create("span", "decoder-icon", "◆"), unit6Create("strong", "", `= ${unit}`));
+      const icons = unit6Create("div", "decoder-icons");
+      for (let index = 0; index < iconCount; index += 1) {
+        const group = unit6Create("div", "decoder-group");
+        group.append(unit6Create("span", "decoder-icon", "◆"), unit6Create("small", "", `${unit}`));
+        icons.append(group);
+      }
+      const total = unit6Create("div", "decoder-total", `${unit} + `.repeat(Math.max(0, iconCount - 1)) + `${unit} = ?`);
+      total.dataset.totalSlot = "true";
+      board.append(key, icons, total);
+      return board;
+    }
+
+    function renderStampBoard(problem) {
+      const board = unit6Create("div", "unit6-board stamp-board");
+      board.dataset.bigCount = String(problem.visual.big);
+      board.dataset.smallCount = String(problem.visual.small);
+      const target = unit6Create("div", "stamp-target");
+      target.append(unit6Create("span", "", "나타낼 수"), unit6Create("strong", "", `${problem.visual.value}`));
+      const work = unit6Create("div", "stamp-work");
+      const big = unit6Create("div", "stamp-group");
+      big.dataset.stampGroup = "big";
+      big.append(unit6Create("span", "stamp-label", "큰 도장 ×10"), unit6Create("div", "stamp-slots"));
+      const small = unit6Create("div", "stamp-group");
+      small.dataset.stampGroup = "small";
+      small.append(unit6Create("span", "stamp-label", "작은 도장 ×1"), unit6Create("div", "stamp-slots"));
+      const equation = unit6Create("div", "stamp-equation", "?×10 + ?×1 = ?");
+      equation.dataset.stampEquation = "true";
+      work.append(big, small);
+      board.append(target, work, equation);
+      return board;
+    }
+
+    function renderDetectiveBoard(problem) {
+      const board = unit6Create("div", "unit6-board detective-board");
+      const key = unit6Create("div", "detective-key", `그림 하나 = ${problem.visual.unit}`);
+      const rows = unit6Create("div", "detective-rows");
+      problem.visual.rows.forEach((row) => {
+        const item = unit6Create("div", "detective-row");
+        item.dataset.rowId = row.id;
+        item.append(unit6Create("span", "unit6-row-label", row.label));
+        const marks = unit6Create("div", "unit6-marks");
+        unit6RenderMarks(marks, row.iconCount, "●", "#7cd7ff", true);
+        item.append(marks);
+        const value = unit6Create("span", "detective-value", "?");
+        value.dataset.rowValue = row.id;
+        item.append(value);
+        rows.append(item);
+      });
+      const relation = unit6Create("div", "detective-relation", "값을 읽어 단서를 찾아요.");
+      relation.dataset.detectiveRelation = "true";
+      board.append(key, rows, relation);
+      return board;
+    }
+
     function renderProblemVisual(problem) {
-          ui.visualArea.innerHTML = "";
-          const visual = problem.visual || {};
-          const wrapper = document.createElement("div");
-          wrapper.className = "data-visual";
-          if (visual.kind === "dataBoard") {
-            const board = document.createElement("div");
-            board.className = "data-board";
-            if (visual.mode === "graph") board.classList.add("is-graph");
-            const title = document.createElement("div");
-            title.className = "data-board-title";
-            title.textContent = visual.title || "자료판";
-            board.append(title);
-            const rows = document.createElement("div");
-            rows.className = "data-rows";
-            (visual.rows || []).forEach((row) => {
-              const item = document.createElement("div");
-              item.className = "data-row";
-              const label = document.createElement("div");
-              label.className = "data-label";
-              label.textContent = row.label;
-              const dots = document.createElement("div");
-              dots.className = "data-dots";
-              dots.style.setProperty("--dot-color", row.color || "#35d9b2");
-              for (let index = 0; index < row.count; index += 1) {
-                const dot = document.createElement("span");
-                dot.className = "data-dot";
-                dots.append(dot);
-              }
-              item.append(label, dots);
-              rows.append(item);
-            });
-            board.append(rows);
-            wrapper.append(board);
+      ui.visualArea.innerHTML = "";
+      let board;
+      if (problem.visual.kind === "census") board = renderCensusBoard(problem);
+      if (problem.visual.kind === "decoder") board = renderDecoderBoard(problem);
+      if (problem.visual.kind === "stamp") board = renderStampBoard(problem);
+      if (problem.visual.kind === "detective") board = renderDetectiveBoard(problem);
+      if (board) ui.visualArea.append(board);
+    }
+
+    function updateProblemVisualForStep(problem, step) {
+      ui.visualArea.dataset.step = step.id;
+      ui.visualArea.dataset.state = "waiting";
+      ui.visualArea.querySelectorAll(".is-picked-wrong").forEach((node) => node.classList.remove("is-picked-wrong"));
+      document.querySelector(".unit6-step-next")?.remove();
+      if (problem.visual.kind === "stamp") {
+        ui.visualArea.querySelectorAll(".stamp-group").forEach((group) => {
+          group.classList.toggle("is-current", group.dataset.stampGroup === (step.id === "big-stamps" ? "big" : "small"));
+        });
+      }
+    }
+
+    function renderAttempt(problem, step, choice, currentState, outcome) {
+      ui.visualArea.dataset.state = outcome.correct ? "correct" : "wrong";
+      ui.visualArea.dataset.attemptValue = String(choice.value);
+      if (outcome.correct) return;
+      if (problem.visual.kind === "census") {
+        const target = problem.visual.rows.find((row) => row.id === problem.visual.targetId);
+        const marksContainer = ui.visualArea.querySelector(".census-item-row.is-target .unit6-marks");
+        marksContainer?.querySelectorAll(".is-extra-attempt").forEach((mark) => mark.remove());
+        const marks = [...ui.visualArea.querySelectorAll(".census-item-row.is-target .unit6-mark")];
+        const picked = Number(choice.value);
+        marks.forEach((mark, index) => {
+          mark.classList.toggle("is-picked-wrong", picked < target.count && index >= picked);
+        });
+        if (picked > target.count && marksContainer) {
+          for (let index = target.count; index < picked; index += 1) {
+            const extra = unit6Create(
+              "span",
+              "unit6-mark is-small is-picked-wrong is-extra-attempt",
+              target.mark,
+            );
+            extra.style.setProperty("--mark-color", target.color);
+            marksContainer.append(extra);
           }
-          ui.visualArea.append(wrapper);
         }
-    window.Lesson6DataRangersModel = Lesson6DataRangersModel;
+      }
+      if (problem.visual.kind === "decoder") {
+        const total = ui.visualArea.querySelector("[data-total-slot]");
+        if (total) {
+          total.textContent = `${problem.visual.unit} × ${problem.visual.iconCount} ≠ ${choice.value}`;
+          total.classList.add("is-attempt-wrong");
+        }
+      }
+      if (problem.visual.kind === "stamp") {
+        const groupName = step.id === "big-stamps" ? "big" : "small";
+        const slots = ui.visualArea.querySelector(`[data-stamp-group="${groupName}"] .stamp-slots`);
+        const count = Math.max(0, Number(choice.value) || 0);
+        if (slots) {
+          slots.innerHTML = "";
+          for (let index = 0; index < count; index += 1) {
+            const mark = unit6Create(
+              "span",
+              `stamp-mark ${groupName === "small" ? "is-small " : ""}is-attempt-wrong`,
+              groupName === "big" ? "10" : "1",
+            );
+            slots.append(mark);
+          }
+          if (count === 0) slots.append(unit6Create("span", "stamp-zero is-attempt-wrong", "0개"));
+        }
+        const equation = ui.visualArea.querySelector("[data-stamp-equation]");
+        if (equation) {
+          equation.textContent = step.id === "big-stamps"
+            ? `${choice.value}×10 + ?×1 ≠ ${problem.visual.value}`
+            : `${problem.visual.big}×10 + ${choice.value}×1 ≠ ${problem.visual.value}`;
+          equation.classList.add("is-attempt-wrong");
+        }
+      }
+      if (problem.visual.kind === "detective" && typeof choice.value === "string") {
+        const picked = problem.visual.rows.find((row) => row.label === choice.value);
+        ui.visualArea.querySelector(`[data-row-id="${picked?.id || ""}"]`)?.classList.add("is-picked-wrong");
+      }
+      if (problem.visual.kind === "detective" && typeof choice.value === "number") {
+        problem.visual.rows.forEach((row) => {
+          const value = ui.visualArea.querySelector(`[data-row-value="${row.id}"]`);
+          if (value) value.textContent = `${row.value}`;
+        });
+        const relation = ui.visualArea.querySelector("[data-detective-relation]");
+        if (relation) {
+          relation.textContent = `고른 차이 ${choice.value}`;
+          relation.classList.add("is-attempt-wrong");
+        }
+      }
+    }
+
+    function revealCorrectStep(problem, step) {
+      ui.visualArea.querySelectorAll(".is-extra-attempt").forEach((node) => node.remove());
+      ui.visualArea.querySelectorAll(".is-picked-wrong, .is-attempt-wrong").forEach((node) => {
+        node.classList.remove("is-picked-wrong", "is-attempt-wrong");
+      });
+      if (problem.visual.kind === "census") {
+        const target = problem.visual.rows.find((row) => row.id === problem.visual.targetId);
+        const slot = ui.visualArea.querySelector(`[data-value-cell="${target.id}"]`);
+        if (slot) {
+          slot.textContent = `${target.count}`;
+          slot.classList.add("is-filled");
+        }
+      }
+      if (problem.visual.kind === "decoder") {
+        const slot = ui.visualArea.querySelector("[data-total-slot]");
+        if (slot) {
+          slot.textContent = `${problem.visual.unit} × ${problem.visual.iconCount} = ${problem.visual.answer}`;
+          slot.classList.add("is-filled");
+        }
+      }
+      if (problem.visual.kind === "stamp") {
+        const groupName = step.id === "big-stamps" ? "big" : "small";
+        const count = groupName === "big" ? problem.visual.big : problem.visual.small;
+        const slots = ui.visualArea.querySelector(`[data-stamp-group="${groupName}"] .stamp-slots`);
+        if (slots) {
+          slots.innerHTML = "";
+          for (let index = 0; index < count; index += 1) {
+            slots.append(unit6Create("span", `stamp-mark is-${groupName}`, groupName === "big" ? "10" : "1"));
+          }
+          if (count === 0) slots.append(unit6Create("span", "stamp-zero", "0개"));
+        }
+        const equation = ui.visualArea.querySelector("[data-stamp-equation]");
+        if (equation) {
+          equation.textContent = step.id === "big-stamps"
+            ? `${problem.visual.big}×10 + ?×1 = ?`
+            : `${problem.visual.big}×10 + ${problem.visual.small}×1 = ${problem.visual.value}`;
+          equation.classList.toggle("is-filled", step.id === "small-stamps");
+        }
+      }
+      if (problem.visual.kind === "detective") {
+        problem.visual.rows.forEach((row) => {
+          const value = ui.visualArea.querySelector(`[data-row-value="${row.id}"]`);
+          if (value) value.textContent = `${row.value}`;
+        });
+        const relation = ui.visualArea.querySelector("[data-detective-relation]");
+        if (relation) {
+          relation.textContent = problem.finalExpression;
+          relation.classList.add("is-filled");
+        }
+        const answerRow = problem.visual.rows.find((row) => (
+          problem.visual.answerId ? row.id === problem.visual.answerId : row.id === problem.visual.highId || row.id === problem.visual.lowId
+        ));
+        if (answerRow) ui.visualArea.querySelector(`[data-row-id="${answerRow.id}"]`)?.classList.add("is-answer");
+      }
+    }
+
+    function prepareStepAdvance(problem, step, currentState, advance) {
+      document.querySelector(".unit6-step-next")?.remove();
+      const button = unit6Create(
+        "button",
+        "unit6-step-next farm-step-next-button farm-confirm-next-button",
+        step.advance?.label || "다음",
+      );
+      button.type = "button";
+      button.addEventListener("click", advance, { once: true });
+      document.querySelector(".step-board")?.append(button);
+      button.focus({ preventScroll: true });
+      return true;
+    }
+
+    function onProblemComplete({ problem }) {
+      ui.visualArea.dataset.state = "complete";
+      if (problem.visual.kind === "stamp") {
+        const equation = ui.visualArea.querySelector("[data-stamp-equation]");
+        if (equation) equation.textContent = problem.finalExpression;
+      }
+    }
+    window.Lesson6DataLabModel = Lesson6DataLabModel;
   </script>
 </body>
 </html>
