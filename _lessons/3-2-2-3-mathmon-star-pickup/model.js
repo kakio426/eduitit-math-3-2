@@ -175,7 +175,11 @@ const Lesson2StarPickupModel = (() => {
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     if (!result || result.needsSpecial) return result || visible[0];
     const index = visible.findIndex((item) => item.id === result.id);
-    return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
+    if (index < 0) return visible[0];
+    if (index === visible.length - 1) {
+      return RESULT_TIERS.find((item) => item.needsSpecial) || result;
+    }
+    return visible[index + 1];
   }
 
   return {

@@ -923,7 +923,7 @@ async function auditConfiguredResultNextGoal(page, label) {
     const stage = rectOf(document.querySelector('.stage-shell'));
     const next = rectOf(node);
     const correct = rectOf(document.getElementById('resultCorrectArt'));
-    const retry = rectOf(document.querySelector('.result-restart-hitbox'));
+    const retry = rectOf(document.getElementById('restartButton'));
     return {
       text:node?.textContent.trim() || '',
       accessibleText:document.getElementById('resultNext')?.textContent.trim() || '',
@@ -936,7 +936,7 @@ async function auditConfiguredResultNextGoal(page, label) {
   })()`);
   if (!audit) return null;
   assert(audit.text && audit.text === audit.accessibleText, `${label}: visible and accessible next-goal copy differ`, audit);
-  assert(/^다음엔 .+|^최고 단계예요!$/.test(audit.text), `${label}: next-goal copy is not student-facing`, audit);
+  assert(/^다음엔 .+|^최고 단계예요!$|^모든 별자리를 밝혔어요!$/.test(audit.text), `${label}: next-goal copy is not student-facing`, audit);
   assert(!audit.hidden && audit.display !== "none" && audit.next?.width > 0 && audit.next?.height > 0, `${label}: next goal is hidden`, audit);
   assert(audit.next.left >= audit.stage.left && audit.next.right <= audit.stage.right && audit.next.top >= audit.stage.top && audit.next.bottom <= audit.stage.bottom, `${label}: next goal leaves the Stage`, audit);
   assert(!(audit.correctOverlap.x > 0 && audit.correctOverlap.y > 0), `${label}: next goal overlaps the correct-count art`, audit);
@@ -2170,12 +2170,71 @@ async function auditStarPickupAlignment(page, label, mode, { expectValue = true 
 
 async function auditStarPickupResultTier(page, label, expectedTier) {
   const audit = await evaluate(page, `(() => {
+    const rounded = (value) => Math.round(value * 100) / 100;
+    const rectOf = (node) => {
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+      return {
+        left:rounded(rect.left),
+        top:rounded(rect.top),
+        right:rounded(rect.right),
+        bottom:rounded(rect.bottom),
+        width:rounded(rect.width),
+        height:rounded(rect.height),
+        centerX:rounded(rect.left + rect.width / 2),
+        centerY:rounded(rect.top + rect.height / 2)
+      };
+    };
+    const stage = document.querySelector('.stage-shell');
     const screen = document.getElementById('screen-result');
     const background = document.getElementById('resultBg');
     const title = document.getElementById('resultTitleArt');
+    const track = document.querySelector('.result-dynamic-ui rect:first-of-type');
+    const measure = document.getElementById('resultMeasureSvg');
+    const correct = document.getElementById('resultCorrectArt');
+    const retry = document.getElementById('restartButton');
+    const retryArt = retry?.querySelector('.result-retry-art');
+    const next = document.getElementById('resultNextSvg');
+    const stageRect = rectOf(stage);
+    const titleRect = rectOf(title);
+    const trackRect = rectOf(track);
+    const measureRect = rectOf(measure);
+    const correctRect = rectOf(correct);
+    const retryRect = rectOf(retry);
+    const retryArtRect = rectOf(retryArt);
+    const nextRect = rectOf(next);
+    const centers = [titleRect, nextRect, trackRect, measureRect, correctRect, retryRect]
+      .filter(Boolean)
+      .map((rect) => rect.centerX);
+    const resultIndex = LESSON_CONFIG.results.findIndex((result) => result.id === screen?.dataset.resultTier);
+    const followingResult = resultIndex >= 0 ? LESSON_CONFIG.results[resultIndex + 1] : null;
+    let retryPixels = null;
+    if (retryArt?.complete && retryArt.naturalWidth > 0) {
+      const canvas = document.createElement('canvas');
+      canvas.width = retryArt.naturalWidth;
+      canvas.height = retryArt.naturalHeight;
+      const context = canvas.getContext('2d', { willReadFrequently:true });
+      context.drawImage(retryArt, 0, 0);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      const cornerAlpha = [
+        pixels[3],
+        pixels[(canvas.width - 1) * 4 + 3],
+        pixels[((canvas.height - 1) * canvas.width) * 4 + 3],
+        pixels[((canvas.height * canvas.width) - 1) * 4 + 3]
+      ];
+      let transparent = 0;
+      for (let index = 3; index < pixels.length; index += 64) {
+        if (pixels[index] < 8) transparent += 1;
+      }
+      retryPixels = {
+        cornerAlpha,
+        transparentRatio:rounded(transparent / Math.ceil(pixels.length / 64))
+      };
+    }
     return {
       tier: screen?.dataset.resultTier || '',
       heading: document.getElementById('resultTitle')?.textContent.trim() || '',
+      stage: stageRect,
       background: {
         src: background?.getAttribute('src') || '',
         complete: Boolean(background?.complete),
@@ -2187,6 +2246,38 @@ async function auditStarPickupResultTier(page, label, expectedTier) {
         complete: Boolean(title?.complete),
         naturalWidth: title?.naturalWidth || 0,
         naturalHeight: title?.naturalHeight || 0
+      },
+      layout: {
+        title:titleRect,
+        next:nextRect,
+        track:trackRect,
+        measure:measureRect,
+        correct:correctRect,
+        retry:retryRect,
+        retryArt:retryArtRect,
+        axisSpread:centers.length ? rounded(Math.max(...centers) - Math.min(...centers)) : null,
+        gaps: {
+          titleToNext:titleRect && nextRect ? rounded(nextRect.top - titleRect.bottom) : null,
+          nextToTrack:nextRect && trackRect ? rounded(trackRect.top - nextRect.bottom) : null,
+          measureToCorrect:measureRect && correctRect ? rounded(correctRect.top - measureRect.bottom) : null,
+          correctToRetry:correctRect && retryRect ? rounded(retryRect.top - correctRect.bottom) : null
+        }
+      },
+      next: {
+        text:next?.textContent.trim() || '',
+        expectedText:followingResult ? '다음엔 ' + followingResult.name : '모든 별자리를 밝혔어요!',
+        hidden:Boolean(next?.hidden),
+        display:next ? getComputedStyle(next).display : '',
+        rect:nextRect
+      },
+      measureText:measure?.textContent.trim() || '',
+      retry: {
+        src:retryArt?.getAttribute('src') || '',
+        complete:Boolean(retryArt?.complete),
+        naturalWidth:retryArt?.naturalWidth || 0,
+        naturalHeight:retryArt?.naturalHeight || 0,
+        objectFit:retryArt ? getComputedStyle(retryArt).objectFit : '',
+        pixels:retryPixels
       }
     };
   })()`);
@@ -2195,6 +2286,28 @@ async function auditStarPickupResultTier(page, label, expectedTier) {
   assert(/^result-unicorn-.+-generated\.webp$/.test(audit.background.src), `${label}: result scene is not connected`, audit);
   assert(audit.title.complete && audit.title.naturalWidth > 0 && audit.title.naturalHeight > 0, `${label}: generated result title is missing`, audit);
   assert(/^result-title-.+-generated\.webp$/.test(audit.title.src), `${label}: result title is not connected`, audit);
+  assert(audit.layout.axisSpread !== null && audit.layout.axisSpread <= audit.stage.width * 0.015, `${label}: title, star light, correct count, and retry button are not on one result axis`, audit);
+  const resultGapScale = audit.stage.width / 1280;
+  assert(audit.layout.gaps.titleToNext >= 8 * resultGapScale
+    && audit.layout.gaps.nextToTrack >= 8 * resultGapScale
+    && audit.layout.gaps.measureToCorrect >= 4 * resultGapScale
+    && audit.layout.gaps.correctToRetry >= 8 * resultGapScale,
+  `${label}: final reward elements overlap or have no readable vertical gap`, audit);
+  assert([audit.layout.title, audit.layout.next, audit.layout.track, audit.layout.measure, audit.layout.correct, audit.layout.retry].every((rect) => (
+    rect && rect.left >= audit.stage.left - 1 && rect.top >= audit.stage.top - 1
+      && rect.right <= audit.stage.right + 1 && rect.bottom <= audit.stage.bottom + 1
+  )), `${label}: a final reward element escapes the Stage`, audit);
+  assert(!audit.next.hidden && audit.next.display !== "none" && audit.next.rect?.width > 0 && audit.next.rect?.height > 0, `${label}: next constellation goal is not visible`, audit);
+  assert(audit.next.text === audit.next.expectedText, `${label}: next constellation goal is incorrect`, audit);
+  assert(/^모은 별빛 \d+$/.test(audit.measureText), `${label}: accumulated star-light score is unclear`, audit);
+  assert(audit.retry.complete && audit.retry.naturalWidth > 0 && audit.retry.naturalHeight > 0 && audit.retry.src === "result-retry-button-v2-generated.webp", `${label}: transparent generated retry button is not connected`, audit);
+  assert(audit.retry.objectFit === "contain", `${label}: retry art must preserve its generated aspect ratio`, audit);
+  assert(Math.abs(audit.layout.retry.left - audit.layout.retryArt.left) <= 1
+    && Math.abs(audit.layout.retry.top - audit.layout.retryArt.top) <= 1
+    && Math.abs(audit.layout.retry.right - audit.layout.retryArt.right) <= 1
+    && Math.abs(audit.layout.retry.bottom - audit.layout.retryArt.bottom) <= 1,
+  `${label}: retry hitbox and generated art do not share the same rect`, audit);
+  assert(audit.retry.pixels?.cornerAlpha.every((alpha) => alpha === 0) && audit.retry.pixels.transparentRatio >= 0.25, `${label}: retry button still has an opaque rectangular canvas`, audit);
 }
 
 async function auditElevatorLearningLegibility(page, label) {
@@ -3226,6 +3339,16 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       await auditGeometry(page, `${viewport.name} result ${tierId}`, { requireRetry: true });
       await auditStarPickupResultTier(page, `${viewport.name} result ${tierId}`, tierId);
     }
+    await evaluate(page, `(() => {
+      window.__mathmonEngineQa.setState({
+        power:100, correctFirstTry:10, specialSeen:true, currentResult:null
+      });
+      window.__mathmonEngineQa.showResult();
+    })()`);
+    await waitUntil(page, "document.getElementById('screen-result')?.dataset.resultTier === 'rainbow-unicorn' && /result-correct-10-generated\\.webp$/.test(document.getElementById('resultCorrectArt')?.getAttribute('src') || '') && document.getElementById('resultCorrectArt')?.complete", `${viewport.name}: rainbow 10/10 result did not render`);
+    shots.push(await screenshot(page, lesson, viewport, "08b-result-rainbow-10-of-10"));
+    await auditGeometry(page, `${viewport.name} result rainbow 10/10`, { requireRetry: true });
+    await auditStarPickupResultTier(page, `${viewport.name} result rainbow 10/10`, "rainbow-unicorn");
   }
 
   const scoreboardEnabled = await evaluate(page, "document.querySelector('.game')?.dataset.scoreboardEnabled === 'true'");

@@ -669,9 +669,9 @@
 
 .game[data-workbench-type="remainder-stars"] .result-title-art {
   display: block;
-  left: 57%;
+  left: 56.5%;
   top: 11%;
-  width: 39%;
+  width: 37%;
   max-height: 27%;
   object-fit: contain;
   filter: drop-shadow(0 14px 24px rgba(0, 0, 0, .4));
@@ -680,6 +680,14 @@
 .game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultDestinationSvg,
 .game[data-workbench-type="remainder-stars"] .result-dynamic-ui .result-restart-surface {
   display: none;
+}
+
+.game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultNextSvg {
+  display: block;
+  font-size: 24px;
+  letter-spacing: -.02em;
+  word-spacing: .1em;
+  transform: translate(30px, -270px);
 }
 
 .game[data-workbench-type="remainder-stars"] .result-dynamic-ui text {
@@ -691,31 +699,38 @@
 .game[data-workbench-type="remainder-stars"] .result-dynamic-ui rect:first-of-type {
   fill: #17365f;
   opacity: .76;
+  transform: translateX(30px);
 }
 
 .game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultMeasureFillSvg {
   fill: #ffd65a;
+  transform: translateX(30px);
+}
+
+.game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultMeasureSvg {
+  transform: translate(30px, -2px);
 }
 
 .game[data-workbench-type="remainder-stars"] .result-correct-art {
-  left: 59%;
-  top: 55%;
-  width: 16%;
+  left: 66%;
+  top: 56.5%;
+  width: 18%;
 }
 
-.game[data-workbench-type="remainder-stars"] .result-restart-hitbox {
-  left: 76%;
-  top: 66%;
-  width: 19%;
-  height: 16%;
+.game[data-workbench-type="remainder-stars"] .result-retry-hitbox {
+  left: 64.5%;
+  top: 74.5%;
+  right: auto;
+  bottom: auto;
+  width: 21%;
+  height: 17%;
 }
 
-.game[data-workbench-type="remainder-stars"] .result-restart-hitbox .result-retry-art {
+.game[data-workbench-type="remainder-stars"] .result-retry-hitbox .result-retry-art {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 999px;
 }
 
 .game[data-workbench-type="remainder-stars"][data-tutorial-mode="poster-two-step"] .tutorial {

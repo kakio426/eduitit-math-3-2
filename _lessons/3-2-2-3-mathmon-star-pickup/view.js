@@ -213,6 +213,17 @@ async function onRewardReveal({ event, beforePower, afterPower, state }) {
   ]);
 }
 
+function onResult({ result, power }) {
+  if (ui.resultMeasureSvg) {
+    ui.resultMeasureSvg.textContent = `모은 별빛 ${power}`;
+  }
+  if (result?.needsSpecial) {
+    const completeText = "모든 별자리를 밝혔어요!";
+    if (ui.resultNextSvg) ui.resultNextSvg.textContent = completeText;
+    if (ui.resultNext) ui.resultNext.textContent = completeText;
+  }
+}
+
 function glowStarScene(sceneState) {
   const art = document.querySelector(".star-stage-art");
   if (!art) return Promise.resolve();

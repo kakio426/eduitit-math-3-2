@@ -44,7 +44,7 @@
         }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
-          --sound-button-size: clamp(42px, 3.6vw, 46px);
+          --sound-button-size: clamp(30px, 3vw, 34px);
           --sound-gap: clamp(8px, 1vw, 12px);
           --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
           --top-control-pad-x: 9px;
@@ -428,12 +428,10 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
-        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
-        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { display: none; }
+        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
         .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
         .problem-grid.is-complete .step-chips,
         .problem-grid.is-complete .instruction,
@@ -479,46 +477,8 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object {
-          position: relative;
-          width: 210px;
-          height: 210px;
-          border-radius: 28px;
-          display: grid;
-          place-items: end center;
-          background:
-            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
-            linear-gradient(180deg, #173649, #0c1c29);
-          border: 2px solid rgba(255,255,255,.3);
-          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
-          overflow: hidden;
-          isolation: isolate;
-        }
-        .reward-object::after {
-          content: attr(data-symbol);
-          position: absolute;
-          z-index: 2;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          color: #fff8e8;
-          font-size: 4.5rem;
-          line-height: 1;
-          font-weight: 1000;
-          text-shadow: 0 5px 14px rgba(0,0,0,.48);
-        }
-        .reward-object[data-direction="special"]::after { color: #fff1a6; }
-        .reward-object[data-direction="same"]::after { color: #d7cadb; }
-        .reward-liquid {
-          position: absolute;
-          z-index: 1;
-          inset: auto 0 0;
-          width: 100%;
-          height: var(--fill);
-          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
-          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
-          transition: height .5s ease;
-        }
+        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
+        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -1636,9 +1596,9 @@
 
     .game[data-workbench-type="remainder-stars"] .result-title-art {
       display: block;
-      left: 57%;
+      left: 56.5%;
       top: 11%;
-      width: 39%;
+      width: 37%;
       max-height: 27%;
       object-fit: contain;
       filter: drop-shadow(0 14px 24px rgba(0, 0, 0, .4));
@@ -1647,6 +1607,14 @@
     .game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultDestinationSvg,
     .game[data-workbench-type="remainder-stars"] .result-dynamic-ui .result-restart-surface {
       display: none;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultNextSvg {
+      display: block;
+      font-size: 24px;
+      letter-spacing: -.02em;
+      word-spacing: .1em;
+      transform: translate(30px, -270px);
     }
 
     .game[data-workbench-type="remainder-stars"] .result-dynamic-ui text {
@@ -1658,31 +1626,38 @@
     .game[data-workbench-type="remainder-stars"] .result-dynamic-ui rect:first-of-type {
       fill: #17365f;
       opacity: .76;
+      transform: translateX(30px);
     }
 
     .game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultMeasureFillSvg {
       fill: #ffd65a;
+      transform: translateX(30px);
+    }
+
+    .game[data-workbench-type="remainder-stars"] .result-dynamic-ui #resultMeasureSvg {
+      transform: translate(30px, -2px);
     }
 
     .game[data-workbench-type="remainder-stars"] .result-correct-art {
-      left: 59%;
-      top: 55%;
-      width: 16%;
+      left: 66%;
+      top: 56.5%;
+      width: 18%;
     }
 
-    .game[data-workbench-type="remainder-stars"] .result-restart-hitbox {
-      left: 76%;
-      top: 66%;
-      width: 19%;
-      height: 16%;
+    .game[data-workbench-type="remainder-stars"] .result-retry-hitbox {
+      left: 64.5%;
+      top: 74.5%;
+      right: auto;
+      bottom: auto;
+      width: 21%;
+      height: 17%;
     }
 
-    .game[data-workbench-type="remainder-stars"] .result-restart-hitbox .result-retry-art {
+    .game[data-workbench-type="remainder-stars"] .result-retry-hitbox .result-retry-art {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
-      border-radius: 999px;
     }
 
     .game[data-workbench-type="remainder-stars"][data-tutorial-mode="poster-two-step"] .tutorial {
@@ -1988,7 +1963,7 @@
       <section class="screen result" id="screen-result" data-result-tier="first-star" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-unicorn-first-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-first-star-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-first-star-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-v2-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">첫 별</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 별빛 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 별빛" data-scoreboard-list-title="별빛 순위" data-scoreboard-unit="3학년 2학기 2단원 3차시"></section>
@@ -2671,7 +2646,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-remainder-migration","id":"3-2-2-3","folder":"3-2-2-3-mathmon-star-pickup","modelName":"Lesson2StarPickupModel","title":"매스몬 별 줍기","shortTitle":"매스몬 별 줍기","topic":"나머지가 있는 나눗셈","unitBadge":"2단원 나눗셈","goal":"묶고 남은 별로 유니콘자리를 밝혀요.","action":"몇 묶음인지 생각해 별을 묶어요.","buttonLabel":"별빛 보기","rewardScreenTitle":"별빛","progressLabel":"별빛","rewardComplete":"별빛이 바뀌었어요.","tutorialTitle":"별을 줍기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"몇 묶음인지 골라요","body":"별을 똑같이 묶고 묶음 수를 골라요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"유니콘자리를 밝혀요","body":"남은 별을 별병에 담으면 유니콘자리가 빛나요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","revealOnOpen":true,"maxPower":100,"unitLabel":"별빛","zeroLabel":"그대로","closedLabel":"별빛은 얼마나 나올까요?","nextLabel":"다음","eventPool":"shared-weighted-v1","correctProtection":"remainder-floor","retryPolicy":"same-weighted-pool","artMap":{"meteor":"reward-event-meteor-generated.webp","cloud":"reward-event-cloud-generated.webp","bigMeteor":"reward-event-big-meteor-generated.webp","shooting":"reward-event-shooting-generated.webp","dark":"reward-event-dark-generated.webp","rainbow":"reward-event-rainbow-generated.webp","protected":"reward-event-protected-generated.webp"},"spriteSheet":{"columns":4,"rows":2,"slots":{"meteor":[0,0],"cloud":[1,0],"bigMeteor":[2,0],"shooting":[3,0],"dark":[0,1],"rainbow":[1,1],"protected":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-unicorn-contact-sheet.png","protagonist":"base-08-unicornmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["star-light","correct-count"]}},"workbench":{"type":"remainder-stars","learningFlow":["choose-bundle-count","count-leftover-stars","confirm-identity"]},"scoreboard":{"enabled":false,"title":"전국 별빛 순위","resultKind":"score","scoreLabel":"내 별빛","listTitle":"별빛 순위","unit":"3학년 2학기 2단원 3차시"},"mathmonPack":"base-pack","mathmonName":"유니콘몬","mathmonId":"base-08-unicornmon","results":[{"id":"first-star","name":"첫 별","minPower":0,"minCorrect":0,"playImage":"play-constellation-first-generated.webp","image":"result-unicorn-first-generated.webp","titleImage":"result-title-first-star-generated.webp"},{"id":"star-cluster","name":"별무리","minPower":19,"minCorrect":2,"playImage":"play-constellation-cluster-generated.webp","image":"result-unicorn-cluster-generated.webp","titleImage":"result-title-cluster-generated.webp"},{"id":"star-path","name":"별길","minPower":35,"minCorrect":4,"playImage":"play-constellation-path-generated.webp","image":"result-unicorn-path-generated.webp","titleImage":"result-title-path-generated.webp"},{"id":"unicorn-constellation","name":"유니콘자리","minPower":53,"minCorrect":6,"playImage":"play-constellation-unicorn-generated.webp","image":"result-unicorn-unicorn-generated.webp","titleImage":"result-title-unicorn-generated.webp"},{"id":"shining-unicorn","name":"빛나는 유니콘자리","minPower":75,"minCorrect":8,"playImage":"play-constellation-shining-generated.webp","image":"result-unicorn-shining-generated.webp","titleImage":"result-title-shining-generated.webp"},{"id":"rainbow-unicorn","name":"무지개 유니콘자리","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-constellation-rainbow-generated.webp","image":"result-unicorn-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"meteor","text":"별빛이 늘었어요","weight":7200,"min":4,"max":8,"family":"meteor","rarity":"common"},{"id":"cloud","text":"별빛이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"cloud","rarity":"common"},{"id":"bigMeteor","text":"별빛이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"bigMeteor","rarity":"rare"},{"id":"shooting","text":"별똥별!","weight":300,"min":6,"max":6,"family":"shooting","rarity":"rare","express":true},{"id":"dark","text":"별빛 0","weight":280,"min":0,"max":0,"family":"dark","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"초신성!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"sharedPoolFallback","text":"별빛 그대로","min":0,"max":0,"family":"protected"},"typesPerRun":["remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"result-stage.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"result-stage.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","result-stage.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","play-constellation-first-generated.webp","play-constellation-cluster-generated.webp","play-constellation-path-generated.webp","play-constellation-unicorn-generated.webp","play-constellation-shining-generated.webp","play-constellation-rainbow-generated.webp","result-unicorn-first-generated.webp","result-unicorn-cluster-generated.webp","result-unicorn-path-generated.webp","result-unicorn-unicorn-generated.webp","result-unicorn-shining-generated.webp","result-unicorn-rainbow-generated.webp","result-title-first-star-generated.webp","result-title-cluster-generated.webp","result-title-path-generated.webp","result-title-unicorn-generated.webp","result-title-shining-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","reward-event-meteor-generated.webp","reward-event-cloud-generated.webp","reward-event-big-meteor-generated.webp","reward-event-shooting-generated.webp","reward-event-dark-generated.webp","reward-event-rainbow-generated.webp","reward-event-protected-generated.webp","reward-event-protected-source.png","reward-events-contact-sheet.png","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","play-constellation-contact-sheet.png","result-unicorn-contact-sheet.png","result-title-unicorn-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelRule":"division-with-remainder","directInteractionRequired":true,"rewardPolicy":"shared-weighted-pool-with-correct-protection","viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-1780x1112","width":1780,"height":1112},{"name":"reported-in-app-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-remainder-migration","id":"3-2-2-3","folder":"3-2-2-3-mathmon-star-pickup","modelName":"Lesson2StarPickupModel","title":"매스몬 별 줍기","shortTitle":"매스몬 별 줍기","topic":"나머지가 있는 나눗셈","unitBadge":"2단원 나눗셈","goal":"묶고 남은 별로 유니콘자리를 밝혀요.","action":"몇 묶음인지 생각해 별을 묶어요.","buttonLabel":"별빛 보기","rewardScreenTitle":"별빛","progressLabel":"별빛","rewardComplete":"별빛이 바뀌었어요.","tutorialTitle":"별을 줍기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"몇 묶음인지 골라요","body":"별을 똑같이 묶고 묶음 수를 골라요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"유니콘자리를 밝혀요","body":"남은 별을 별병에 담으면 유니콘자리가 빛나요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","revealOnOpen":true,"maxPower":100,"unitLabel":"별빛","zeroLabel":"그대로","closedLabel":"별빛은 얼마나 나올까요?","nextLabel":"다음","eventPool":"shared-weighted-v1","correctProtection":"remainder-floor","retryPolicy":"same-weighted-pool","artMap":{"meteor":"reward-event-meteor-generated.webp","cloud":"reward-event-cloud-generated.webp","bigMeteor":"reward-event-big-meteor-generated.webp","shooting":"reward-event-shooting-generated.webp","dark":"reward-event-dark-generated.webp","rainbow":"reward-event-rainbow-generated.webp","protected":"reward-event-protected-generated.webp"},"spriteSheet":{"columns":4,"rows":2,"slots":{"meteor":[0,0],"cloud":[1,0],"bigMeteor":[2,0],"shooting":[3,0],"dark":[0,1],"rainbow":[1,1],"protected":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-unicorn-contact-sheet.png","protagonist":"base-08-unicornmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["star-light","correct-count"]}},"workbench":{"type":"remainder-stars","learningFlow":["choose-bundle-count","count-leftover-stars","confirm-identity"]},"scoreboard":{"enabled":false,"title":"전국 별빛 순위","resultKind":"score","scoreLabel":"내 별빛","listTitle":"별빛 순위","unit":"3학년 2학기 2단원 3차시"},"mathmonPack":"base-pack","mathmonName":"유니콘몬","mathmonId":"base-08-unicornmon","results":[{"id":"first-star","name":"첫 별","minPower":0,"minCorrect":0,"playImage":"play-constellation-first-generated.webp","image":"result-unicorn-first-generated.webp","titleImage":"result-title-first-star-generated.webp"},{"id":"star-cluster","name":"별무리","minPower":19,"minCorrect":2,"playImage":"play-constellation-cluster-generated.webp","image":"result-unicorn-cluster-generated.webp","titleImage":"result-title-cluster-generated.webp"},{"id":"star-path","name":"별길","minPower":35,"minCorrect":4,"playImage":"play-constellation-path-generated.webp","image":"result-unicorn-path-generated.webp","titleImage":"result-title-path-generated.webp"},{"id":"unicorn-constellation","name":"유니콘자리","minPower":53,"minCorrect":6,"playImage":"play-constellation-unicorn-generated.webp","image":"result-unicorn-unicorn-generated.webp","titleImage":"result-title-unicorn-generated.webp"},{"id":"shining-unicorn","name":"빛나는 유니콘자리","minPower":75,"minCorrect":8,"playImage":"play-constellation-shining-generated.webp","image":"result-unicorn-shining-generated.webp","titleImage":"result-title-shining-generated.webp"},{"id":"rainbow-unicorn","name":"무지개 유니콘자리","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-constellation-rainbow-generated.webp","image":"result-unicorn-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"meteor","text":"별빛이 늘었어요","weight":7200,"min":4,"max":8,"family":"meteor","rarity":"common"},{"id":"cloud","text":"별빛이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"cloud","rarity":"common"},{"id":"bigMeteor","text":"별빛이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"bigMeteor","rarity":"rare"},{"id":"shooting","text":"별똥별!","weight":300,"min":6,"max":6,"family":"shooting","rarity":"rare","express":true},{"id":"dark","text":"별빛 0","weight":280,"min":0,"max":0,"family":"dark","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"초신성!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"sharedPoolFallback","text":"별빛 그대로","min":0,"max":0,"family":"protected"},"typesPerRun":["remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"result-stage.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"result-stage.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-v2-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","result-stage.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","play-constellation-first-generated.webp","play-constellation-cluster-generated.webp","play-constellation-path-generated.webp","play-constellation-unicorn-generated.webp","play-constellation-shining-generated.webp","play-constellation-rainbow-generated.webp","result-unicorn-first-generated.webp","result-unicorn-cluster-generated.webp","result-unicorn-path-generated.webp","result-unicorn-unicorn-generated.webp","result-unicorn-shining-generated.webp","result-unicorn-rainbow-generated.webp","result-title-first-star-generated.webp","result-title-cluster-generated.webp","result-title-path-generated.webp","result-title-unicorn-generated.webp","result-title-shining-generated.webp","result-title-rainbow-generated.webp","result-retry-button-v2-chromakey.png","result-retry-button-v2-generated.png","result-retry-button-v2-generated.webp","reward-event-meteor-generated.webp","reward-event-cloud-generated.webp","reward-event-big-meteor-generated.webp","reward-event-shooting-generated.webp","reward-event-dark-generated.webp","reward-event-rainbow-generated.webp","reward-event-protected-generated.webp","reward-event-protected-source.png","reward-events-contact-sheet.png","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","play-constellation-contact-sheet.png","result-unicorn-contact-sheet.png","result-title-unicorn-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelRule":"division-with-remainder","directInteractionRequired":true,"rewardPolicy":"shared-weighted-pool-with-correct-protection","viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-1780x1112","width":1780,"height":1112},{"name":"reported-in-app-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"reported-result-panel-1080x820-dpr2","width":1080,"height":820,"dpr":2}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2StarPickupModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2849,7 +2824,11 @@
         const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
         if (!result || result.needsSpecial) return result || visible[0];
         const index = visible.findIndex((item) => item.id === result.id);
-        return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
+        if (index < 0) return visible[0];
+        if (index === visible.length - 1) {
+          return RESULT_TIERS.find((item) => item.needsSpecial) || result;
+        }
+        return visible[index + 1];
       }
 
       return {
@@ -2920,8 +2899,6 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
-      rewardObject: document.querySelector("#screen-reward .reward-object"),
-      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -3193,8 +3170,6 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
-      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
-      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -3215,12 +3190,6 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
-        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
-        const misconceptionId = getChoiceMisconceptionId(choice);
-        if (misconceptionId) button.dataset.misconception = misconceptionId;
-        if (choice && typeof choice === "object" && choice.relation) {
-          button.dataset.relation = String(choice.relation);
-        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -3239,10 +3208,6 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
-      });
-      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
-        delete choiceButton.dataset.state;
-        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -3308,12 +3273,7 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
-      ui.completeText.hidden = !showCompleteExpression;
-      ui.completeText.textContent = showCompleteExpression
-        ? (problem.finalExpression || ui.answerSlot.textContent)
-        : "";
-      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
+      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -3399,8 +3359,7 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
-        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
+        chip.textContent = step.label || `${index + 1}단계`;
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -3408,7 +3367,7 @@
     }
 
     async function showReward() {
-      if (!state.completed || state.rewardPhase !== "idle") return;
+      if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -3439,9 +3398,7 @@
         return;
       }
 
-      const beforePower = applyPendingReward(event);
-      state.rewardPhase = "revealed";
-      renderRewardMeter(event, beforePower, state.power);
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -3452,18 +3409,6 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
-    }
-
-    function renderRewardMeter(event, beforePower, afterPower) {
-      if (!ui.rewardObject || !ui.rewardLiquid) return;
-      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
-      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
-      const delta = Number(afterPower) - Number(beforePower);
-      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
-      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
-      ui.rewardObject.dataset.direction = direction;
-      ui.rewardObject.dataset.symbol = symbol;
-      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3515,7 +3460,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3530,23 +3475,14 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
+      if (event.special) return "황금밭!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(event, beforeResult, afterResult) {
-      const formatter = globalThis.formatLessonRewardTarget;
-      if (typeof formatter === "function") {
-        try {
-          const formatted = formatter({ event, beforeResult, afterResult, state });
-          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
-        } catch (error) {
-          console.warn("formatLessonRewardTarget failed", error);
-        }
-      }
+    function getRewardTargetText(beforeResult, afterResult) {
       if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
@@ -3570,20 +3506,16 @@
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
       if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
-      if (immediateValue) event.amount = state.power - beforePower;
+      event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      if (immediateValue) {
-        const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-        setRewardValue(event.amount);
-        await revealHook;
-        setRewardValue(event.amount);
-      } else {
-        await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-        await animateRewardValue(event);
-      }
+      const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      if (immediateValue) setRewardValue(event.amount);
+      await revealHook;
+      if (immediateValue) setRewardValue(event.amount);
+      else await animateRewardValue(event);
       state.rewardPhase = "revealed";
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
@@ -3646,14 +3578,8 @@
 
     function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
-      if (state.pendingAdvance) return;
-      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") closeRewardModal();
       if (getRewardMode() === "stage-reveal") {
-        state.pendingRewardEvent = null;
-        state.rewardPhase = "idle";
-      }
-      if (getRewardMode() === "stage-full") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -4239,6 +4165,17 @@
         glowStarScene("reward"),
         syncStarWorld(state, { celebrate: actualDelta > 0, delta: actualDelta })
       ]);
+    }
+
+    function onResult({ result, power }) {
+      if (ui.resultMeasureSvg) {
+        ui.resultMeasureSvg.textContent = `모은 별빛 ${power}`;
+      }
+      if (result?.needsSpecial) {
+        const completeText = "모든 별자리를 밝혔어요!";
+        if (ui.resultNextSvg) ui.resultNextSvg.textContent = completeText;
+        if (ui.resultNext) ui.resultNext.textContent = completeText;
+      }
     }
 
     function glowStarScene(sceneState) {
