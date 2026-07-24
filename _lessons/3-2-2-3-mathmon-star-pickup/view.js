@@ -1,5 +1,28 @@
 const STAR_SVG_NS = "http://www.w3.org/2000/svg";
 const STAR_GROUP_COLUMNS = 8;
+const CONSTELLATION_SPARKS = {
+  "first-star": [[32, 19]],
+  "star-cluster": [[28, 19], [36, 23], [42, 22], [27, 27], [42, 27]],
+  "star-path": [[28, 19], [36, 23], [42, 22], [27, 27], [42, 27], [42, 32], [37, 38], [31, 40], [29, 44], [34, 48], [43, 45], [46, 38]],
+  "unicorn-constellation": [
+    [25, 15], [32, 20], [29, 25], [39, 23], [46, 28], [42, 34], [34, 35], [28, 32],
+    [25, 38], [21, 42], [23, 47], [31, 45], [42, 47], [49, 51], [61, 50], [73, 49],
+    [79, 54], [73, 57], [75, 62], [70, 66], [64, 66], [60, 59], [52, 58], [49, 64],
+    [43, 64], [42, 57], [33, 54], [27, 57], [23, 53]
+  ],
+  "shining-unicorn": [
+    [25, 15], [32, 20], [29, 25], [39, 23], [46, 28], [42, 34], [34, 35], [28, 32],
+    [25, 38], [21, 42], [23, 47], [31, 45], [42, 47], [49, 51], [61, 50], [73, 49],
+    [79, 54], [73, 57], [75, 62], [70, 66], [64, 66], [60, 59], [52, 58], [49, 64],
+    [43, 64], [42, 57], [33, 54], [27, 57], [23, 53]
+  ],
+  "rainbow-unicorn": [
+    [25, 15], [32, 20], [29, 25], [39, 23], [46, 28], [42, 34], [34, 35], [28, 32],
+    [25, 38], [21, 42], [23, 47], [31, 45], [42, 47], [49, 51], [61, 50], [73, 49],
+    [79, 54], [73, 57], [75, 62], [70, 66], [64, 66], [60, 59], [52, 58], [49, 64],
+    [43, 64], [42, 57], [33, 54], [27, 57], [23, 53]
+  ]
+};
 
 function ensureStarStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -21,6 +44,8 @@ function ensureStarStageArt() {
     panel.setAttribute("aria-live", "polite");
     panel.innerHTML = `
       <img class="star-world-image" id="starWorldImage" alt="" aria-hidden="true">
+      <img class="star-world-flare-image" id="starWorldFlareImage" alt="" aria-hidden="true">
+      <span class="constellation-spark-layer" id="constellationSparkLayer" aria-hidden="true"></span>
       <span class="visually-hidden" id="starWorldStatus"></span>
     `;
     playScreen.appendChild(panel);
@@ -43,10 +68,13 @@ function syncStarWorld(state, options = {}) {
   ensureStarStageArt();
   const panel = document.getElementById("starWorldPanel");
   const image = document.getElementById("starWorldImage");
+  const flareImage = document.getElementById("starWorldFlareImage");
+  const sparkLayer = document.getElementById("constellationSparkLayer");
   const status = document.getElementById("starWorldStatus");
-  if (!panel || !image || !status) return Promise.resolve();
+  if (!panel || !image || !flareImage || !sparkLayer || !status) return Promise.resolve();
 
   const result = getStarWorldResult(state);
+  const previousTier = panel.dataset.resultTier;
   panel.dataset.resultTier = result.id;
   status.textContent = `지금 별자리는 ${result.name}이에요.`;
   panel.setAttribute("aria-label", status.textContent);
@@ -54,17 +82,36 @@ function syncStarWorld(state, options = {}) {
   const nextSrc = result.playImage || LESSON_CONFIG.results[0]?.playImage || "";
   const changed = image.getAttribute("src") !== nextSrc;
   if (changed) {
-    panel.classList.remove("is-changing", "is-dimming");
+    panel.classList.remove("is-changing", "is-dimming", "is-star-lighting");
     void panel.offsetWidth;
     image.src = nextSrc;
+    flareImage.src = nextSrc;
     panel.classList.add(options.delta < 0 ? "is-dimming" : "is-changing");
+  }
+
+  const sparkPoints = CONSTELLATION_SPARKS[result.id] || CONSTELLATION_SPARKS["first-star"];
+  sparkLayer.replaceChildren(...sparkPoints.map(([left, top], index) => {
+    const spark = document.createElement("i");
+    spark.className = "constellation-spark";
+    spark.style.left = `${left}%`;
+    spark.style.top = `${top}%`;
+    spark.style.setProperty("--spark-delay", `${Math.min(index * 42, 720)}ms`);
+    spark.style.setProperty("--spark-hue", `${index * 19}deg`);
+    return spark;
+  }));
+
+  const lightStars = options.delta >= 0 && (options.celebrate || (changed && Boolean(previousTier)));
+  if (lightStars) {
+    panel.classList.remove("is-star-lighting");
+    void panel.offsetWidth;
+    panel.classList.add("is-star-lighting");
   }
   if (options.celebrate) panel.classList.add("is-celebrating");
 
   const settle = () => {
-    panel.classList.remove("is-changing", "is-dimming", "is-celebrating");
+    panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-star-lighting");
   };
-  const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 520;
+  const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : (lightStars ? 1550 : 520);
   return new Promise((resolve) => {
     setTimeout(() => {
       settle();
@@ -162,7 +209,7 @@ async function onRewardReveal({ event, beforePower, afterPower, state }) {
   event.amount = actualDelta;
   await Promise.all([
     glowStarScene("reward"),
-    syncStarWorld(state, { celebrate: actualDelta >= 0, delta: actualDelta })
+    syncStarWorld(state, { celebrate: actualDelta > 0, delta: actualDelta })
   ]);
 }
 
@@ -337,8 +384,9 @@ function renderGroupedStars(problem, selectedQuotient) {
 }
 
 function renderSideStarPanel(problem, remaining, missing, relation, title, value) {
-  const visibleCount = relation === "too-high" ? missing : remaining;
-  const showValue = relation !== "fit";
+  const showEvidence = relation !== "fit";
+  const visibleCount = showEvidence ? relation === "too-high" ? missing : remaining : 0;
+  const showValue = showEvidence;
   const maxColumns = 4;
   const starMarkup = Array.from({ length: visibleCount }, (_, index) => {
     const column = index % maxColumns;
@@ -369,7 +417,9 @@ function renderRemainderBoard(problem, selectedCount, isProof, isRevealed) {
   const gapY = isRoomyCapsuleGrid ? 10 : 8;
   const capsuleRows = Math.ceil(problem.quotient / capsuleColumns);
   const capsuleGridHeight = capsuleRows * height + Math.max(0, capsuleRows - 1) * gapY;
-  const startY = 58 + (266 - capsuleGridHeight) / 2;
+  const capsuleAreaTop = 80;
+  const capsuleAreaHeight = 262;
+  const startY = capsuleAreaTop + Math.max(0, (capsuleAreaHeight - capsuleGridHeight) / 2);
   const capsuleState = isRoomyCapsuleGrid ? "roomy" : "compact";
   const capsules = Array.from({ length: problem.quotient }, (_, index) => {
     const point = getCenteredGridPoint(index, problem.quotient, {
@@ -423,7 +473,7 @@ function renderRemainderBoard(problem, selectedCount, isProof, isRevealed) {
 
   return `
     <g class="star-remainder-board" data-proof="${isProof ? "true" : "false"}" data-revealed="${isRevealed ? "true" : "false"}" data-count-visible="${showRemainderCount ? "true" : "false"}">
-      <text class="star-group-summary" x="300" y="62">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
+      <text class="star-group-summary" x="300" y="52">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
       <g class="star-capsule-grid ${isRoomyCapsuleGrid ? "is-roomy" : "is-compact"}" data-columns="${capsuleColumns}">${capsules}</g>
       <g class="star-remainder-focus">
         <rect class="star-side-surface is-focus" x="614" y="56" width="230" height="260" rx="28" />
@@ -583,12 +633,18 @@ function makeStarQaProblem(dividend = 47, divisor = 6) {
 }
 
 window.__starPickupQa = {
-  forceProblem(dividend = 47, divisor = 6) {
+  forceProblem(dividend = 47, divisor = 6, stepIndex = 0) {
     const problem = makeStarQaProblem(dividend, divisor);
     state.problems[state.problemIndex] = problem;
     state.completed = false;
     state.currentResult = null;
     renderProblem();
+    if (stepIndex > 0) {
+      state.stepIndex = Math.min(stepIndex, problem.steps.length - 1);
+      state.pendingAdvance = false;
+      state.inputLocked = false;
+      renderStep();
+    }
     return problem;
   },
   forcePlayTier(resultId) {

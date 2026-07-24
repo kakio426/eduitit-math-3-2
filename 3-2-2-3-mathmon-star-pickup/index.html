@@ -44,7 +44,7 @@
         }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
-          --sound-button-size: clamp(30px, 3vw, 34px);
+          --sound-button-size: clamp(42px, 3.6vw, 46px);
           --sound-gap: clamp(8px, 1vw, 12px);
           --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
           --top-control-pad-x: 9px;
@@ -259,7 +259,7 @@
           font-weight: 950;
         }
         .cover-start-button {
-          width: clamp(300px, 28vw, 360px);
+          width: clamp(300px, 28.125vw, 360px);
           aspect-ratio: 1611 / 680;
           height: auto;
           display: grid;
@@ -428,10 +428,12 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
+        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .problem-grid.is-complete .choices-panel { display: none; }
         .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
         .problem-grid.is-complete .step-chips,
         .problem-grid.is-complete .instruction,
@@ -477,8 +479,46 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
-        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
+        .reward-object {
+          position: relative;
+          width: 210px;
+          height: 210px;
+          border-radius: 28px;
+          display: grid;
+          place-items: end center;
+          background:
+            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
+            linear-gradient(180deg, #173649, #0c1c29);
+          border: 2px solid rgba(255,255,255,.3);
+          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
+          overflow: hidden;
+          isolation: isolate;
+        }
+        .reward-object::after {
+          content: attr(data-symbol);
+          position: absolute;
+          z-index: 2;
+          inset: 0;
+          display: grid;
+          place-items: center;
+          color: #fff8e8;
+          font-size: 4.5rem;
+          line-height: 1;
+          font-weight: 1000;
+          text-shadow: 0 5px 14px rgba(0,0,0,.48);
+        }
+        .reward-object[data-direction="special"]::after { color: #fff1a6; }
+        .reward-object[data-direction="same"]::after { color: #d7cadb; }
+        .reward-liquid {
+          position: absolute;
+          z-index: 1;
+          inset: auto 0 0;
+          width: 100%;
+          height: var(--fill);
+          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
+          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
+          transition: height .5s ease;
+        }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -531,7 +571,9 @@
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
         .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
+        .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-restart-hitbox .result-retry-art { display: none; }
         .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; filter: drop-shadow(0 18px 26px rgba(0,0,0,.44)); }
@@ -979,6 +1021,8 @@
     }
 
     .star-world-image {
+      position: relative;
+      z-index: 0;
       display: block;
       width: 100%;
       height: 100%;
@@ -987,8 +1031,72 @@
       transition: filter .45s ease, opacity .24s ease, transform .52s ease;
     }
 
+    .star-world-flare-image {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      clip-path: inset(0 0 31% 0);
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .constellation-spark-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .constellation-spark {
+      position: absolute;
+      width: 16%;
+      aspect-ratio: 1;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.16) rotate(-22deg);
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0 5%, #fffde0 6% 12%, rgba(255, 224, 86, .9) 13% 23%, rgba(255, 203, 42, .25) 38%, transparent 68%);
+      filter: drop-shadow(0 0 7px #fff6a7) drop-shadow(0 0 16px rgba(255, 210, 58, .96));
+      will-change: opacity, transform;
+    }
+
+    .constellation-spark::before,
+    .constellation-spark::after {
+      position: absolute;
+      inset: 49% 5%;
+      content: "";
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 238, .96), transparent);
+    }
+
+    .constellation-spark::after {
+      transform: rotate(90deg);
+    }
+
+    .star-world-panel.is-star-lighting .star-world-flare-image {
+      animation: constellation-line-flare 1.45s ease-out both;
+    }
+
+    .star-world-panel.is-star-lighting .constellation-spark {
+      animation: constellation-star-on 1.05s cubic-bezier(.2, .82, .24, 1) var(--spark-delay) both;
+    }
+
+    .star-world-panel[data-result-tier="rainbow-unicorn"].is-star-lighting .star-world-flare-image {
+      animation-name: constellation-rainbow-flare;
+    }
+
+    .star-world-panel[data-result-tier="rainbow-unicorn"].is-star-lighting .constellation-spark {
+      filter: hue-rotate(var(--spark-hue)) drop-shadow(0 0 8px #fff) drop-shadow(0 0 18px rgba(255, 126, 244, .94));
+    }
+
     .star-world-panel.is-changing .star-world-image {
-      animation: constellation-brighten .52s ease both;
+      animation: constellation-brighten 1.2s ease both;
     }
 
     .star-world-panel.is-dimming .star-world-image {
@@ -997,7 +1105,7 @@
 
     .star-world-panel.is-celebrating,
     .star-world-panel.is-collecting {
-      box-shadow: 0 0 0 5px rgba(255, 221, 99, .28), 0 0 36px rgba(255, 221, 99, .75), 0 18px 44px rgba(0, 0, 0, .38);
+      box-shadow: 0 0 0 3px rgba(255, 221, 99, .2), 0 0 28px rgba(255, 221, 99, .54), 0 18px 44px rgba(0, 0, 0, .38);
     }
 
     .star-world-panel.is-celebrating .star-world-image {
@@ -1484,6 +1592,27 @@
       display: none;
     }
 
+    .game[data-workbench-type="remainder-stars"] .reward-pop {
+      grid-template-columns: 27.8125% minmax(0, 1fr);
+      place-items: center;
+      background: linear-gradient(
+        90deg,
+        rgba(2, 8, 24, .02) 0%,
+        rgba(2, 8, 24, .04) 26%,
+        rgba(2, 8, 24, .58) 31%,
+        rgba(2, 8, 24, .72) 100%
+      );
+      backdrop-filter: none;
+    }
+
+    .game[data-workbench-type="remainder-stars"] .reward-card {
+      grid-column: 2;
+      width: min(430px, 76%);
+      border: 2px solid rgba(255, 225, 119, .56);
+      background: rgba(9, 18, 43, .9);
+      box-shadow: 0 0 34px rgba(255, 211, 84, .2), 0 28px 70px rgba(0, 0, 0, .52);
+    }
+
     .game[data-workbench-type="remainder-stars"] .reward-label {
       max-width: 82%;
       font-size: 42px;
@@ -1537,7 +1666,7 @@
 
     .game[data-workbench-type="remainder-stars"] .result-correct-art {
       left: 59%;
-      top: 57%;
+      top: 55%;
       width: 16%;
     }
 
@@ -1668,9 +1797,64 @@
     }
 
     @keyframes constellation-brighten {
-      0% { opacity: .56; filter: brightness(.72) saturate(.72); }
-      58% { opacity: 1; filter: brightness(1.28) saturate(1.28); }
+      0% { opacity: .62; filter: brightness(.7) saturate(.78); }
+      46% { opacity: 1; filter: brightness(1.38) saturate(1.38); }
       100% { opacity: 1; filter: brightness(1) saturate(1); }
+    }
+
+    @keyframes constellation-line-flare {
+      0%, 8% {
+        opacity: 0;
+        filter: brightness(.8) saturate(.9);
+        transform: scale(.996);
+      }
+      48% {
+        opacity: .92;
+        filter: brightness(1.75) saturate(1.62) drop-shadow(0 0 13px rgba(255, 222, 90, .94));
+        transform: scale(1.012);
+      }
+      100% {
+        opacity: 0;
+        filter: brightness(1.15) saturate(1.15);
+        transform: scale(1.018);
+      }
+    }
+
+    @keyframes constellation-rainbow-flare {
+      0%, 8% {
+        opacity: 0;
+        filter: brightness(.8) saturate(.9) hue-rotate(0deg);
+        transform: scale(.996);
+      }
+      48% {
+        opacity: .94;
+        filter: brightness(1.7) saturate(1.85) hue-rotate(18deg) drop-shadow(0 0 14px rgba(255, 152, 244, .98));
+        transform: scale(1.014);
+      }
+      100% {
+        opacity: 0;
+        filter: brightness(1.15) saturate(1.25) hue-rotate(38deg);
+        transform: scale(1.02);
+      }
+    }
+
+    @keyframes constellation-star-on {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.16) rotate(-22deg);
+      }
+      28% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.34) rotate(0deg);
+      }
+      58% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(.7) rotate(18deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.72) rotate(42deg);
+      }
     }
 
     @keyframes constellation-dim {
@@ -1721,13 +1905,24 @@
     @media (prefers-reduced-motion: reduce) {
       .star-stage-art,
       .star-world-image,
+      .star-world-flare-image,
       .star-world-panel,
-      .star-flight-particle {
+      .star-flight-particle,
+      .constellation-spark {
         animation: none !important;
         transition-duration: .01ms !important;
       }
 
+      .star-world-panel.is-star-lighting .star-world-flare-image {
+        opacity: .3;
+        filter: brightness(1.3) saturate(1.2);
+      }
+
       .star-flight-particle {
+        display: none;
+      }
+
+      .constellation-spark {
         display: none;
       }
     }
@@ -1763,7 +1958,7 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 2단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 2단원</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 별 줍기</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">묶고 남은 별로 유니콘자리를 밝혀요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">나머지가 있는 나눗셈</div>
       </section>
@@ -1773,7 +1968,7 @@
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
         <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="별빛"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">첫 별</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div></header>
-        <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">별병 열기</button></section></div>
+        <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">별빛 보기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
@@ -1793,7 +1988,7 @@
       <section class="screen result" id="screen-result" data-result-tier="first-star" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-unicorn-first-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-first-star-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-first-star-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">첫 별</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 별빛 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 별빛" data-scoreboard-list-title="별빛 순위" data-scoreboard-unit="3학년 2학기 2단원 3차시"></section>
@@ -2476,7 +2671,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-remainder-migration","id":"3-2-2-3","folder":"3-2-2-3-mathmon-star-pickup","modelName":"Lesson2StarPickupModel","title":"매스몬 별 줍기","shortTitle":"매스몬 별 줍기","topic":"나머지가 있는 나눗셈","unitBadge":"2단원 나눗셈","goal":"묶고 남은 별로 유니콘자리를 밝혀요.","action":"몇 묶음인지 생각해 별을 묶어요.","buttonLabel":"별병 열기","rewardScreenTitle":"별빛","progressLabel":"별빛","rewardComplete":"별빛이 바뀌었어요.","tutorialTitle":"별을 줍기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"몇 묶음인지 골라요","body":"별을 똑같이 묶고 묶음 수를 골라요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"유니콘자리를 밝혀요","body":"남은 별을 별병에 담으면 유니콘자리가 빛나요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"별빛","closedLabel":"별빛은 얼마나 나올까요?","nextLabel":"다음","artMap":{"meteor":"reward-event-meteor-generated.webp","cloud":"reward-event-cloud-generated.webp","bigMeteor":"reward-event-big-meteor-generated.webp","shooting":"reward-event-shooting-generated.webp","dark":"reward-event-dark-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"meteor":[0,0],"cloud":[1,0],"bigMeteor":[2,0],"shooting":[0,1],"dark":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-unicorn-contact-sheet.png","protagonist":"base-08-unicornmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["star-light","correct-count"]}},"workbench":{"type":"remainder-stars","learningFlow":["choose-bundle-count","count-leftover-stars","confirm-identity"]},"scoreboard":{"enabled":false,"title":"전국 별빛 순위","resultKind":"score","scoreLabel":"내 별빛","listTitle":"별빛 순위","unit":"3학년 2학기 2단원 3차시"},"mathmonPack":"base-pack","mathmonName":"유니콘몬","mathmonId":"base-08-unicornmon","results":[{"id":"first-star","name":"첫 별","minPower":0,"minCorrect":0,"playImage":"play-constellation-first-generated.webp","image":"result-unicorn-first-generated.webp","titleImage":"result-title-first-star-generated.webp"},{"id":"star-cluster","name":"별무리","minPower":19,"minCorrect":2,"playImage":"play-constellation-cluster-generated.webp","image":"result-unicorn-cluster-generated.webp","titleImage":"result-title-cluster-generated.webp"},{"id":"star-path","name":"별길","minPower":35,"minCorrect":4,"playImage":"play-constellation-path-generated.webp","image":"result-unicorn-path-generated.webp","titleImage":"result-title-path-generated.webp"},{"id":"unicorn-constellation","name":"유니콘자리","minPower":53,"minCorrect":6,"playImage":"play-constellation-unicorn-generated.webp","image":"result-unicorn-unicorn-generated.webp","titleImage":"result-title-unicorn-generated.webp"},{"id":"shining-unicorn","name":"빛나는 유니콘자리","minPower":75,"minCorrect":8,"playImage":"play-constellation-shining-generated.webp","image":"result-unicorn-shining-generated.webp","titleImage":"result-title-shining-generated.webp"},{"id":"rainbow-unicorn","name":"무지개 유니콘자리","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-constellation-rainbow-generated.webp","image":"result-unicorn-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"meteor","text":"별빛이 늘었어요","weight":7200,"min":4,"max":8,"family":"meteor","rarity":"common"},{"id":"cloud","text":"별빛이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"cloud","rarity":"common"},{"id":"bigMeteor","text":"별빛이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"bigMeteor","rarity":"rare"},{"id":"shooting","text":"별똥별!","weight":300,"min":6,"max":6,"family":"shooting","rarity":"rare","express":true},{"id":"dark","text":"별빛 0","weight":280,"min":0,"max":0,"family":"dark","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"초신성!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"cloudMistake","text":"별빛이 줄었어요","min":-18,"max":-8,"family":"cloud"},"typesPerRun":["remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"result-stage.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"result-stage.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","result-stage.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","play-constellation-first-generated.webp","play-constellation-cluster-generated.webp","play-constellation-path-generated.webp","play-constellation-unicorn-generated.webp","play-constellation-shining-generated.webp","play-constellation-rainbow-generated.webp","result-unicorn-first-generated.webp","result-unicorn-cluster-generated.webp","result-unicorn-path-generated.webp","result-unicorn-unicorn-generated.webp","result-unicorn-shining-generated.webp","result-unicorn-rainbow-generated.webp","result-title-first-star-generated.webp","result-title-cluster-generated.webp","result-title-path-generated.webp","result-title-unicorn-generated.webp","result-title-shining-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","reward-event-meteor-generated.webp","reward-event-cloud-generated.webp","reward-event-big-meteor-generated.webp","reward-event-shooting-generated.webp","reward-event-dark-generated.webp","reward-event-rainbow-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","play-constellation-contact-sheet.png","result-unicorn-contact-sheet.png","result-title-unicorn-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelRule":"division-with-remainder","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-1780x1112","width":1780,"height":1112},{"name":"reported-in-app-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-remainder-migration","id":"3-2-2-3","folder":"3-2-2-3-mathmon-star-pickup","modelName":"Lesson2StarPickupModel","title":"매스몬 별 줍기","shortTitle":"매스몬 별 줍기","topic":"나머지가 있는 나눗셈","unitBadge":"2단원 나눗셈","goal":"묶고 남은 별로 유니콘자리를 밝혀요.","action":"몇 묶음인지 생각해 별을 묶어요.","buttonLabel":"별빛 보기","rewardScreenTitle":"별빛","progressLabel":"별빛","rewardComplete":"별빛이 바뀌었어요.","tutorialTitle":"별을 줍기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"몇 묶음인지 골라요","body":"별을 똑같이 묶고 묶음 수를 골라요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"유니콘자리를 밝혀요","body":"남은 별을 별병에 담으면 유니콘자리가 빛나요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","revealOnOpen":true,"maxPower":100,"unitLabel":"별빛","zeroLabel":"그대로","closedLabel":"별빛은 얼마나 나올까요?","nextLabel":"다음","eventPool":"shared-weighted-v1","correctProtection":"remainder-floor","retryPolicy":"same-weighted-pool","artMap":{"meteor":"reward-event-meteor-generated.webp","cloud":"reward-event-cloud-generated.webp","bigMeteor":"reward-event-big-meteor-generated.webp","shooting":"reward-event-shooting-generated.webp","dark":"reward-event-dark-generated.webp","rainbow":"reward-event-rainbow-generated.webp","protected":"reward-event-protected-generated.webp"},"spriteSheet":{"columns":4,"rows":2,"slots":{"meteor":[0,0],"cloud":[1,0],"bigMeteor":[2,0],"shooting":[3,0],"dark":[0,1],"rainbow":[1,1],"protected":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-unicorn-contact-sheet.png","protagonist":"base-08-unicornmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["star-light","correct-count"]}},"workbench":{"type":"remainder-stars","learningFlow":["choose-bundle-count","count-leftover-stars","confirm-identity"]},"scoreboard":{"enabled":false,"title":"전국 별빛 순위","resultKind":"score","scoreLabel":"내 별빛","listTitle":"별빛 순위","unit":"3학년 2학기 2단원 3차시"},"mathmonPack":"base-pack","mathmonName":"유니콘몬","mathmonId":"base-08-unicornmon","results":[{"id":"first-star","name":"첫 별","minPower":0,"minCorrect":0,"playImage":"play-constellation-first-generated.webp","image":"result-unicorn-first-generated.webp","titleImage":"result-title-first-star-generated.webp"},{"id":"star-cluster","name":"별무리","minPower":19,"minCorrect":2,"playImage":"play-constellation-cluster-generated.webp","image":"result-unicorn-cluster-generated.webp","titleImage":"result-title-cluster-generated.webp"},{"id":"star-path","name":"별길","minPower":35,"minCorrect":4,"playImage":"play-constellation-path-generated.webp","image":"result-unicorn-path-generated.webp","titleImage":"result-title-path-generated.webp"},{"id":"unicorn-constellation","name":"유니콘자리","minPower":53,"minCorrect":6,"playImage":"play-constellation-unicorn-generated.webp","image":"result-unicorn-unicorn-generated.webp","titleImage":"result-title-unicorn-generated.webp"},{"id":"shining-unicorn","name":"빛나는 유니콘자리","minPower":75,"minCorrect":8,"playImage":"play-constellation-shining-generated.webp","image":"result-unicorn-shining-generated.webp","titleImage":"result-title-shining-generated.webp"},{"id":"rainbow-unicorn","name":"무지개 유니콘자리","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-constellation-rainbow-generated.webp","image":"result-unicorn-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"meteor","text":"별빛이 늘었어요","weight":7200,"min":4,"max":8,"family":"meteor","rarity":"common"},{"id":"cloud","text":"별빛이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"cloud","rarity":"common"},{"id":"bigMeteor","text":"별빛이 크게 늘었어요","weight":1000,"min":12,"max":20,"family":"bigMeteor","rarity":"rare"},{"id":"shooting","text":"별똥별!","weight":300,"min":6,"max":6,"family":"shooting","rarity":"rare","express":true},{"id":"dark","text":"별빛 0","weight":280,"min":0,"max":0,"family":"dark","rarity":"common","emptiesPower":true},{"id":"rainbow","text":"초신성!","weight":20,"min":10,"max":10,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"sharedPoolFallback","text":"별빛 그대로","min":0,"max":0,"family":"protected"},"typesPerRun":["remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder","remainder"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"result-stage.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"result-stage.webp","mathmonReactions":{"correct":"mathmon-reaction-correct.webp","wrong":"mathmon-reaction-wrong.webp","reward":"mathmon-reaction-reward.webp"},"resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","result-stage.webp","reward-closed-generated.webp","reward-events-sprite-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","play-constellation-first-generated.webp","play-constellation-cluster-generated.webp","play-constellation-path-generated.webp","play-constellation-unicorn-generated.webp","play-constellation-shining-generated.webp","play-constellation-rainbow-generated.webp","result-unicorn-first-generated.webp","result-unicorn-cluster-generated.webp","result-unicorn-path-generated.webp","result-unicorn-unicorn-generated.webp","result-unicorn-shining-generated.webp","result-unicorn-rainbow-generated.webp","result-title-first-star-generated.webp","result-title-cluster-generated.webp","result-title-path-generated.webp","result-title-unicorn-generated.webp","result-title-shining-generated.webp","result-title-rainbow-generated.webp","result-retry-button-generated.webp","reward-event-meteor-generated.webp","reward-event-cloud-generated.webp","reward-event-big-meteor-generated.webp","reward-event-shooting-generated.webp","reward-event-dark-generated.webp","reward-event-rainbow-generated.webp","reward-event-protected-generated.webp","reward-event-protected-source.png","reward-events-contact-sheet.png","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","play-constellation-contact-sheet.png","result-unicorn-contact-sheet.png","result-title-unicorn-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelRule":"division-with-remainder","directInteractionRequired":true,"rewardPolicy":"shared-weighted-pool-with-correct-protection","viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-1780x1112","width":1780,"height":1112},{"name":"reported-in-app-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2StarPickupModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2599,10 +2794,7 @@
         return Boolean(selected && selected.id === step.answerChoiceId);
       }
 
-      function pickRewardEvent(rng, mistakeTouched) {
-        if (mistakeTouched) {
-          return { ...WRONG_REWARD_EVENT, amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max) };
-        }
+      function pickRewardEvent(rng, _mistakeTouched) {
         let roll = Math.floor(rng() * 10000);
         for (const event of REWARD_EVENTS) {
           if (roll < event.weight) return { ...event, amount: randomInt(rng, event.min, event.max) };
@@ -2613,9 +2805,25 @@
       }
 
       function applyReward(state, event, firstTry, problem) {
-        if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
-        if (event.special) return { power: MAX_POWER, specialSeen: true };
         const remainderBonus = firstTry ? (problem?.remainder || 0) : 0;
+        const protectedByCorrectAnswer = firstTry && (event.emptiesPower || event.amount < 0);
+        const specialTier = RESULT_TIERS.find((result) => result.needsSpecial);
+        const specialEligible = state.correctFirstTry >= Number(specialTier?.minCorrect || 0);
+
+        if (protectedByCorrectAnswer) {
+          event.protected = true;
+          event.originalFamily = event.family;
+          event.family = "protected";
+          event.image = LESSON_CONFIG.reward?.artMap?.protected;
+          event.text = "별빛을 지켰어요";
+          return {
+            power: clamp(state.power + remainderBonus, 0, MAX_POWER),
+            specialSeen: state.specialSeen
+          };
+        }
+
+        if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+        if (event.special && specialEligible) return { power: MAX_POWER, specialSeen: true };
         return {
           power: clamp(state.power + event.amount + remainderBonus, 0, MAX_POWER),
           specialSeen: state.specialSeen
@@ -2624,7 +2832,12 @@
 
       function getResult(power, correctFirstTry, specialSeen) {
         const special = RESULT_TIERS.find((result) => result.needsSpecial);
-        if (specialSeen && special) return special;
+        if (
+          specialSeen
+          && special
+          && power >= Number(special.minPower || 0)
+          && correctFirstTry >= Number(special.minCorrect || 0)
+        ) return special;
         let current = RESULT_TIERS.find((result) => !result.needsSpecial) || RESULT_TIERS[0];
         for (const result of RESULT_TIERS) {
           if (!result.needsSpecial && power >= result.minPower && correctFirstTry >= result.minCorrect) current = result;
@@ -2676,6 +2889,10 @@
       settingsToggle: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -2703,6 +2920,8 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
+      rewardObject: document.querySelector("#screen-reward .reward-object"),
+      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -2717,9 +2936,11 @@
       resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultHeading: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
@@ -2972,6 +3193,8 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
+      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
+      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -2992,6 +3215,12 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
+        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
+        const misconceptionId = getChoiceMisconceptionId(choice);
+        if (misconceptionId) button.dataset.misconception = misconceptionId;
+        if (choice && typeof choice === "object" && choice.relation) {
+          button.dataset.relation = String(choice.relation);
+        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -3010,6 +3239,10 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
+      });
+      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
+        delete choiceButton.dataset.state;
+        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -3075,7 +3308,12 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
+      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
+      ui.completeText.hidden = !showCompleteExpression;
+      ui.completeText.textContent = showCompleteExpression
+        ? (problem.finalExpression || ui.answerSlot.textContent)
+        : "";
+      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -3161,7 +3399,8 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = step.label || `${index + 1}단계`;
+        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
+        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -3169,7 +3408,7 @@
     }
 
     async function showReward() {
-      if (!state.completed) return;
+      if (!state.completed || state.rewardPhase !== "idle") return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -3177,7 +3416,9 @@
       state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
         return;
       }
 
@@ -3198,7 +3439,9 @@
         return;
       }
 
-      applyPendingReward(event);
+      const beforePower = applyPendingReward(event);
+      state.rewardPhase = "revealed";
+      renderRewardMeter(event, beforePower, state.power);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -3211,7 +3454,19 @@
       showScreen("reward");
     }
 
-    function openRewardModal(event) {
+    function renderRewardMeter(event, beforePower, afterPower) {
+      if (!ui.rewardObject || !ui.rewardLiquid) return;
+      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
+      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
+      const delta = Number(afterPower) - Number(beforePower);
+      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
+      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
+      ui.rewardObject.dataset.direction = direction;
+      ui.rewardObject.dataset.symbol = symbol;
+      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
+    }
+
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
       if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
       ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -3219,11 +3474,11 @@
       ui.rewardPop.dataset.rarity = event.rarity || "common";
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
       ui.rewardPop.hidden = false;
-      ui.modalRewardOpenButton.focus();
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
 
     function applyPendingReward(event) {
@@ -3260,7 +3515,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3275,14 +3530,23 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return "황금밭!";
+      if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(beforeResult, afterResult) {
+    function getRewardTargetText(event, beforeResult, afterResult) {
+      const formatter = globalThis.formatLessonRewardTarget;
+      if (typeof formatter === "function") {
+        try {
+          const formatted = formatter({ event, beforeResult, afterResult, state });
+          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
+        } catch (error) {
+          console.warn("formatLessonRewardTarget failed", error);
+        }
+      }
       if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
@@ -3297,22 +3561,30 @@
       return `${nextResult.name}까지 ${remaining} 더`;
     }
 
-    async function revealRewardModal() {
+    async function revealRewardModal({ immediateValue = false } = {}) {
       if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
       const event = state.pendingRewardEvent;
       state.rewardPhase = "opening";
       ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-      await nextAnimationFrame();
+      if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
+      if (immediateValue) event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      await animateRewardValue(event);
+      if (immediateValue) {
+        const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+        setRewardValue(event.amount);
+        await revealHook;
+        setRewardValue(event.amount);
+      } else {
+        await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+        await animateRewardValue(event);
+      }
       state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.hidden = true;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
@@ -3326,18 +3598,26 @@
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const duration = reduceMotion ? 0 : 650;
       const target = Number(event.amount) || 0;
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
       return new Promise((resolve) => {
         const started = performance.now();
         const tick = (now) => {
           const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
           const value = Math.round(target * progress);
-          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          setRewardValue(value);
           if (progress < 1) requestAnimationFrame(tick);
           else resolve();
         };
         requestAnimationFrame(tick);
       });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${unit} ${zeroLabel}`
+        : `${unit} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -3366,8 +3646,14 @@
 
     function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
+      if (state.pendingAdvance) return;
+      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") closeRewardModal();
       if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
+      if (getRewardMode() === "stage-full") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3382,6 +3668,11 @@
 
     function showResult() {
       const result = getCurrentResult();
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(result)
+        : result;
+      const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+      const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
       state.currentResult = result;
       playSample("result");
       ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
@@ -3389,6 +3680,11 @@
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
+      if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextResultText;
+        ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+      }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
       if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
@@ -3413,7 +3709,7 @@
 
       void runViewHook("onResult", {
         result,
-        nextResult: typeof LessonModel.getNextResult === "function" ? LessonModel.getNextResult(result) : result,
+        nextResult,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
         state,
@@ -3474,24 +3770,64 @@
     }
 
     function restartFromSettings() {
-      closeSettings();
+      if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+      ui.settingsRestartConfirmButton?.focus();
+    }
+
+    function cancelRestartFromSettings() {
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      ui.restartButton?.focus();
+    }
+
+    function confirmRestartFromSettings() {
+      closeSettings({ restoreFocus: false });
       closeRewardModal();
       state = createInitialState();
       scoreboardBridge?.reset?.();
       syncProgress();
       showScreen("cover");
+      ui.startButton?.focus({ preventScroll: true });
     }
 
     function openSettings() {
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
       ui.settingsBackdrop.hidden = false;
       ui.settingsToggle.setAttribute("aria-expanded", "true");
       syncAudioControls();
-      ui.settingsModal.focus();
+      ui.bgmToggle?.focus({ preventScroll: true });
     }
 
-    function closeSettings() {
+    function closeSettings({ restoreFocus = true } = {}) {
       ui.settingsBackdrop.hidden = true;
       ui.settingsToggle.setAttribute("aria-expanded", "false");
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+    }
+
+    function trapSettingsFocus(event) {
+      if (ui.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function beginScoreboardQuestion(problem) {
@@ -3613,12 +3949,15 @@
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
     ui.settingsToggle.addEventListener("click", openSettings);
-    ui.closeSettings.addEventListener("click", closeSettings);
+    ui.closeSettings.addEventListener("click", () => closeSettings());
+    ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
     ui.reviewTutorialButton.addEventListener("click", () => {
-      closeSettings();
+      closeSettings({ restoreFocus: false });
       beginTutorial(state.screen || "play");
     });
     ui.restartButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+    ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
     ui.bgmToggle.addEventListener("click", () => {
       audio.bgm = !audio.bgm;
       saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -3633,8 +3972,26 @@
     syncAudioControls();
     syncProgress();
 
+    window.__mathmonAudioQa = {
+      keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+      getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          audio.bgm = bgmEnabled;
+          saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          audio.sfx = sfxEnabled;
+          saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+        }
+        syncAudioControls();
+        return window.__mathmonAudioQa.getPrefs();
+      },
+    };
+
     window.__mathmonEngineQa = {
       startGame,
+      renderProblem,
       showResult,
       showScreen,
       showReward,
@@ -3671,6 +4028,29 @@
     };
     const STAR_SVG_NS = "http://www.w3.org/2000/svg";
     const STAR_GROUP_COLUMNS = 8;
+    const CONSTELLATION_SPARKS = {
+      "first-star": [[32, 19]],
+      "star-cluster": [[28, 19], [36, 23], [42, 22], [27, 27], [42, 27]],
+      "star-path": [[28, 19], [36, 23], [42, 22], [27, 27], [42, 27], [42, 32], [37, 38], [31, 40], [29, 44], [34, 48], [43, 45], [46, 38]],
+      "unicorn-constellation": [
+        [25, 15], [32, 20], [29, 25], [39, 23], [46, 28], [42, 34], [34, 35], [28, 32],
+        [25, 38], [21, 42], [23, 47], [31, 45], [42, 47], [49, 51], [61, 50], [73, 49],
+        [79, 54], [73, 57], [75, 62], [70, 66], [64, 66], [60, 59], [52, 58], [49, 64],
+        [43, 64], [42, 57], [33, 54], [27, 57], [23, 53]
+      ],
+      "shining-unicorn": [
+        [25, 15], [32, 20], [29, 25], [39, 23], [46, 28], [42, 34], [34, 35], [28, 32],
+        [25, 38], [21, 42], [23, 47], [31, 45], [42, 47], [49, 51], [61, 50], [73, 49],
+        [79, 54], [73, 57], [75, 62], [70, 66], [64, 66], [60, 59], [52, 58], [49, 64],
+        [43, 64], [42, 57], [33, 54], [27, 57], [23, 53]
+      ],
+      "rainbow-unicorn": [
+        [25, 15], [32, 20], [29, 25], [39, 23], [46, 28], [42, 34], [34, 35], [28, 32],
+        [25, 38], [21, 42], [23, 47], [31, 45], [42, 47], [49, 51], [61, 50], [73, 49],
+        [79, 54], [73, 57], [75, 62], [70, 66], [64, 66], [60, 59], [52, 58], [49, 64],
+        [43, 64], [42, 57], [33, 54], [27, 57], [23, 53]
+      ]
+    };
 
     function ensureStarStageArt() {
       const playScreen = document.getElementById("screen-play");
@@ -3692,6 +4072,8 @@
         panel.setAttribute("aria-live", "polite");
         panel.innerHTML = `
           <img class="star-world-image" id="starWorldImage" alt="" aria-hidden="true">
+          <img class="star-world-flare-image" id="starWorldFlareImage" alt="" aria-hidden="true">
+          <span class="constellation-spark-layer" id="constellationSparkLayer" aria-hidden="true"></span>
           <span class="visually-hidden" id="starWorldStatus"></span>
         `;
         playScreen.appendChild(panel);
@@ -3714,10 +4096,13 @@
       ensureStarStageArt();
       const panel = document.getElementById("starWorldPanel");
       const image = document.getElementById("starWorldImage");
+      const flareImage = document.getElementById("starWorldFlareImage");
+      const sparkLayer = document.getElementById("constellationSparkLayer");
       const status = document.getElementById("starWorldStatus");
-      if (!panel || !image || !status) return Promise.resolve();
+      if (!panel || !image || !flareImage || !sparkLayer || !status) return Promise.resolve();
 
       const result = getStarWorldResult(state);
+      const previousTier = panel.dataset.resultTier;
       panel.dataset.resultTier = result.id;
       status.textContent = `지금 별자리는 ${result.name}이에요.`;
       panel.setAttribute("aria-label", status.textContent);
@@ -3725,17 +4110,36 @@
       const nextSrc = result.playImage || LESSON_CONFIG.results[0]?.playImage || "";
       const changed = image.getAttribute("src") !== nextSrc;
       if (changed) {
-        panel.classList.remove("is-changing", "is-dimming");
+        panel.classList.remove("is-changing", "is-dimming", "is-star-lighting");
         void panel.offsetWidth;
         image.src = nextSrc;
+        flareImage.src = nextSrc;
         panel.classList.add(options.delta < 0 ? "is-dimming" : "is-changing");
+      }
+
+      const sparkPoints = CONSTELLATION_SPARKS[result.id] || CONSTELLATION_SPARKS["first-star"];
+      sparkLayer.replaceChildren(...sparkPoints.map(([left, top], index) => {
+        const spark = document.createElement("i");
+        spark.className = "constellation-spark";
+        spark.style.left = `${left}%`;
+        spark.style.top = `${top}%`;
+        spark.style.setProperty("--spark-delay", `${Math.min(index * 42, 720)}ms`);
+        spark.style.setProperty("--spark-hue", `${index * 19}deg`);
+        return spark;
+      }));
+
+      const lightStars = options.delta >= 0 && (options.celebrate || (changed && Boolean(previousTier)));
+      if (lightStars) {
+        panel.classList.remove("is-star-lighting");
+        void panel.offsetWidth;
+        panel.classList.add("is-star-lighting");
       }
       if (options.celebrate) panel.classList.add("is-celebrating");
 
       const settle = () => {
-        panel.classList.remove("is-changing", "is-dimming", "is-celebrating");
+        panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-star-lighting");
       };
-      const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 520;
+      const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : (lightStars ? 1550 : 520);
       return new Promise((resolve) => {
         setTimeout(() => {
           settle();
@@ -3833,7 +4237,7 @@
       event.amount = actualDelta;
       await Promise.all([
         glowStarScene("reward"),
-        syncStarWorld(state, { celebrate: actualDelta >= 0, delta: actualDelta })
+        syncStarWorld(state, { celebrate: actualDelta > 0, delta: actualDelta })
       ]);
     }
 
@@ -4008,8 +4412,9 @@
     }
 
     function renderSideStarPanel(problem, remaining, missing, relation, title, value) {
-      const visibleCount = relation === "too-high" ? missing : remaining;
-      const showValue = relation !== "fit";
+      const showEvidence = relation !== "fit";
+      const visibleCount = showEvidence ? relation === "too-high" ? missing : remaining : 0;
+      const showValue = showEvidence;
       const maxColumns = 4;
       const starMarkup = Array.from({ length: visibleCount }, (_, index) => {
         const column = index % maxColumns;
@@ -4040,7 +4445,9 @@
       const gapY = isRoomyCapsuleGrid ? 10 : 8;
       const capsuleRows = Math.ceil(problem.quotient / capsuleColumns);
       const capsuleGridHeight = capsuleRows * height + Math.max(0, capsuleRows - 1) * gapY;
-      const startY = 58 + (266 - capsuleGridHeight) / 2;
+      const capsuleAreaTop = 80;
+      const capsuleAreaHeight = 262;
+      const startY = capsuleAreaTop + Math.max(0, (capsuleAreaHeight - capsuleGridHeight) / 2);
       const capsuleState = isRoomyCapsuleGrid ? "roomy" : "compact";
       const capsules = Array.from({ length: problem.quotient }, (_, index) => {
         const point = getCenteredGridPoint(index, problem.quotient, {
@@ -4094,7 +4501,7 @@
 
       return `
         <g class="star-remainder-board" data-proof="${isProof ? "true" : "false"}" data-revealed="${isRevealed ? "true" : "false"}" data-count-visible="${showRemainderCount ? "true" : "false"}">
-          <text class="star-group-summary" x="300" y="62">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
+          <text class="star-group-summary" x="300" y="52">${problem.divisor}×${problem.quotient}=${problem.grouped}</text>
           <g class="star-capsule-grid ${isRoomyCapsuleGrid ? "is-roomy" : "is-compact"}" data-columns="${capsuleColumns}">${capsules}</g>
           <g class="star-remainder-focus">
             <rect class="star-side-surface is-focus" x="614" y="56" width="230" height="260" rx="28" />
@@ -4254,12 +4661,18 @@
     }
 
     window.__starPickupQa = {
-      forceProblem(dividend = 47, divisor = 6) {
+      forceProblem(dividend = 47, divisor = 6, stepIndex = 0) {
         const problem = makeStarQaProblem(dividend, divisor);
         state.problems[state.problemIndex] = problem;
         state.completed = false;
         state.currentResult = null;
         renderProblem();
+        if (stepIndex > 0) {
+          state.stepIndex = Math.min(stepIndex, problem.steps.length - 1);
+          state.pendingAdvance = false;
+          state.inputLocked = false;
+          renderStep();
+        }
         return problem;
       },
       forcePlayTier(resultId) {

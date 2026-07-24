@@ -2428,6 +2428,38 @@ async function waitForReward(page, label) {
   const modalReward = rewardMode === "modal-art";
   if (modalReward) {
     await waitUntil(page, "document.getElementById('rewardPop')?.hidden === false", `${label}: reward modal not shown`);
+    const revealOnOpen = await evaluate(page, "LESSON_CONFIG.reward?.revealOnOpen === true");
+    if (revealOnOpen) {
+      const immediate = await evaluate(page, `(() => {
+        const pop = document.getElementById('rewardPop');
+        const card = pop?.querySelector('.reward-card');
+        const label = document.getElementById('modalRewardLabel')?.textContent.trim() || '';
+        const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || '힘';
+        const zeroLabel = LESSON_CONFIG.reward?.zeroLabel || '';
+        return {
+          visible: pop?.hidden === false,
+          phase: card?.dataset.rewardPhase || '',
+          label,
+          hasScore: label.startsWith(unit + ' ') && (
+            /^[+-]?\\d+$/.test(label.slice(unit.length + 1))
+            || (zeroLabel && label === unit + ' ' + zeroLabel)
+          ),
+          openHidden: document.getElementById('modalRewardOpenButton')?.hidden === true,
+        };
+      })()`);
+      assert(
+        immediate.visible && immediate.phase === "revealed" && immediate.hasScore && immediate.openHidden,
+        `${label}: reward score was not visible immediately`,
+        immediate,
+      );
+      await waitUntil(
+        page,
+        "window.__mathmonEngineQa.getState().rewardPhase === 'revealed' && !document.getElementById('modalRewardNextButton')?.hidden",
+        `${label}: immediate reward did not settle`,
+        8000,
+      );
+      return { modal: true, autoRevealed: true, nextSelector: "#modalRewardNextButton" };
+    }
     await waitUntil(
       page,
       `(() => {
@@ -2468,6 +2500,7 @@ async function revealReward(page, reward, label) {
     return;
   }
   if (!reward.modal) return;
+  if (reward.autoRevealed) return;
   await clickSelector(page, reward.openSelector);
   await waitUntil(page, "document.querySelector('.reward-card')?.dataset.rewardPhase === 'revealed' && !document.getElementById('modalRewardNextButton')?.hidden", `${label}: reward did not reveal`, 8000);
 }
@@ -3035,16 +3068,21 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");
   const firstReward = await waitForReward(page, viewport.name);
-  shots.push(await screenshot(page, lesson, viewport, "07-reward-closed"));
-  await auditGeometry(page, `${viewport.name} closed reward`);
-  if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} closed reward`, "closed");
-  await revealReward(page, firstReward, viewport.name);
-  shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
-  await auditGeometry(page, `${viewport.name} revealed reward`);
-  if (lesson === "3-2-2-2-mathmon-elevator") {
-    await auditGeneratedActionButton(page, `${viewport.name} reward next button`, "#modalRewardNextButton", "action-buttons/next-button-generated.webp", "다음");
+  if (firstReward.autoRevealed) {
+    shots.push(await screenshot(page, lesson, viewport, "07-reward-immediate"));
+    await auditGeometry(page, `${viewport.name} immediate reward`);
+  } else {
+    shots.push(await screenshot(page, lesson, viewport, "07-reward-closed"));
+    await auditGeometry(page, `${viewport.name} closed reward`);
+    if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} closed reward`, "closed");
+    await revealReward(page, firstReward, viewport.name);
+    shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
+    await auditGeometry(page, `${viewport.name} revealed reward`);
+    if (lesson === "3-2-2-2-mathmon-elevator") {
+      await auditGeneratedActionButton(page, `${viewport.name} reward next button`, "#modalRewardNextButton", "action-buttons/next-button-generated.webp", "다음");
+    }
+    if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} revealed reward`, "revealed");
   }
-  if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} revealed reward`, "revealed");
   await clickSelector(page, firstReward.nextSelector);
 
   let checkLockMatchCaptured = false;

@@ -10,7 +10,7 @@
   "unitBadge": "2단원 나눗셈",
   "goal": "묶고 남은 별로 유니콘자리를 밝혀요.",
   "action": "몇 묶음인지 생각해 별을 묶어요.",
-  "buttonLabel": "별병 열기",
+  "buttonLabel": "별빛 보기",
   "rewardScreenTitle": "별빛",
   "progressLabel": "별빛",
   "rewardComplete": "별빛이 바뀌었어요.",
@@ -23,28 +23,35 @@
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art",
+    "revealOnOpen": true,
     "maxPower": 100,
     "unitLabel": "별빛",
+    "zeroLabel": "그대로",
     "closedLabel": "별빛은 얼마나 나올까요?",
     "nextLabel": "다음",
+    "eventPool": "shared-weighted-v1",
+    "correctProtection": "remainder-floor",
+    "retryPolicy": "same-weighted-pool",
     "artMap": {
       "meteor": "reward-event-meteor-generated.webp",
       "cloud": "reward-event-cloud-generated.webp",
       "bigMeteor": "reward-event-big-meteor-generated.webp",
       "shooting": "reward-event-shooting-generated.webp",
       "dark": "reward-event-dark-generated.webp",
-      "rainbow": "reward-event-rainbow-generated.webp"
+      "rainbow": "reward-event-rainbow-generated.webp",
+      "protected": "reward-event-protected-generated.webp"
     },
     "spriteSheet": {
-      "columns": 3,
+      "columns": 4,
       "rows": 2,
       "slots": {
         "meteor": [0, 0],
         "cloud": [1, 0],
         "bigMeteor": [2, 0],
-        "shooting": [0, 1],
-        "dark": [1, 1],
-        "rainbow": [2, 1]
+        "shooting": [3, 0],
+        "dark": [0, 1],
+        "rainbow": [1, 1],
+        "protected": [2, 1]
       }
     }
   },
@@ -91,7 +98,7 @@
     { "id": "dark", "text": "별빛 0", "weight": 280, "min": 0, "max": 0, "family": "dark", "rarity": "common", "emptiesPower": true },
     { "id": "rainbow", "text": "초신성!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "rarity": "legend", "special": true }
   ],
-  "wrongEvent": { "id": "cloudMistake", "text": "별빛이 줄었어요", "min": -18, "max": -8, "family": "cloud" },
+  "wrongEvent": { "id": "sharedPoolFallback", "text": "별빛 그대로", "min": 0, "max": 0, "family": "protected" },
   "typesPerRun": ["remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder", "remainder"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
@@ -122,6 +129,7 @@
     "result-retry-button-generated.webp",
     "reward-event-meteor-generated.webp", "reward-event-cloud-generated.webp", "reward-event-big-meteor-generated.webp",
     "reward-event-shooting-generated.webp", "reward-event-dark-generated.webp", "reward-event-rainbow-generated.webp",
+    "reward-event-protected-generated.webp", "reward-event-protected-source.png", "reward-events-contact-sheet.png",
     "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
     "play-constellation-contact-sheet.png", "result-unicorn-contact-sheet.png", "result-title-unicorn-contact-sheet.png"
   ],
@@ -129,6 +137,7 @@
     "visualContractVersion": 1,
     "modelRule": "division-with-remainder",
     "directInteractionRequired": true,
+    "rewardPolicy": "shared-weighted-pool-with-correct-protection",
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 },

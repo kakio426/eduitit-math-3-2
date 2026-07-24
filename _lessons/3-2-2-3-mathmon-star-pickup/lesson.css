@@ -54,6 +54,8 @@
 }
 
 .star-world-image {
+  position: relative;
+  z-index: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -62,8 +64,72 @@
   transition: filter .45s ease, opacity .24s ease, transform .52s ease;
 }
 
+.star-world-flare-image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  clip-path: inset(0 0 31% 0);
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.constellation-spark-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.constellation-spark {
+  position: absolute;
+  width: 16%;
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.16) rotate(-22deg);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 5%, #fffde0 6% 12%, rgba(255, 224, 86, .9) 13% 23%, rgba(255, 203, 42, .25) 38%, transparent 68%);
+  filter: drop-shadow(0 0 7px #fff6a7) drop-shadow(0 0 16px rgba(255, 210, 58, .96));
+  will-change: opacity, transform;
+}
+
+.constellation-spark::before,
+.constellation-spark::after {
+  position: absolute;
+  inset: 49% 5%;
+  content: "";
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 238, .96), transparent);
+}
+
+.constellation-spark::after {
+  transform: rotate(90deg);
+}
+
+.star-world-panel.is-star-lighting .star-world-flare-image {
+  animation: constellation-line-flare 1.45s ease-out both;
+}
+
+.star-world-panel.is-star-lighting .constellation-spark {
+  animation: constellation-star-on 1.05s cubic-bezier(.2, .82, .24, 1) var(--spark-delay) both;
+}
+
+.star-world-panel[data-result-tier="rainbow-unicorn"].is-star-lighting .star-world-flare-image {
+  animation-name: constellation-rainbow-flare;
+}
+
+.star-world-panel[data-result-tier="rainbow-unicorn"].is-star-lighting .constellation-spark {
+  filter: hue-rotate(var(--spark-hue)) drop-shadow(0 0 8px #fff) drop-shadow(0 0 18px rgba(255, 126, 244, .94));
+}
+
 .star-world-panel.is-changing .star-world-image {
-  animation: constellation-brighten .52s ease both;
+  animation: constellation-brighten 1.2s ease both;
 }
 
 .star-world-panel.is-dimming .star-world-image {
@@ -72,7 +138,7 @@
 
 .star-world-panel.is-celebrating,
 .star-world-panel.is-collecting {
-  box-shadow: 0 0 0 5px rgba(255, 221, 99, .28), 0 0 36px rgba(255, 221, 99, .75), 0 18px 44px rgba(0, 0, 0, .38);
+  box-shadow: 0 0 0 3px rgba(255, 221, 99, .2), 0 0 28px rgba(255, 221, 99, .54), 0 18px 44px rgba(0, 0, 0, .38);
 }
 
 .star-world-panel.is-celebrating .star-world-image {
@@ -559,6 +625,27 @@
   display: none;
 }
 
+.game[data-workbench-type="remainder-stars"] .reward-pop {
+  grid-template-columns: 27.8125% minmax(0, 1fr);
+  place-items: center;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 8, 24, .02) 0%,
+    rgba(2, 8, 24, .04) 26%,
+    rgba(2, 8, 24, .58) 31%,
+    rgba(2, 8, 24, .72) 100%
+  );
+  backdrop-filter: none;
+}
+
+.game[data-workbench-type="remainder-stars"] .reward-card {
+  grid-column: 2;
+  width: min(430px, 76%);
+  border: 2px solid rgba(255, 225, 119, .56);
+  background: rgba(9, 18, 43, .9);
+  box-shadow: 0 0 34px rgba(255, 211, 84, .2), 0 28px 70px rgba(0, 0, 0, .52);
+}
+
 .game[data-workbench-type="remainder-stars"] .reward-label {
   max-width: 82%;
   font-size: 42px;
@@ -612,7 +699,7 @@
 
 .game[data-workbench-type="remainder-stars"] .result-correct-art {
   left: 59%;
-  top: 57%;
+  top: 55%;
   width: 16%;
 }
 
@@ -743,9 +830,64 @@
 }
 
 @keyframes constellation-brighten {
-  0% { opacity: .56; filter: brightness(.72) saturate(.72); }
-  58% { opacity: 1; filter: brightness(1.28) saturate(1.28); }
+  0% { opacity: .62; filter: brightness(.7) saturate(.78); }
+  46% { opacity: 1; filter: brightness(1.38) saturate(1.38); }
   100% { opacity: 1; filter: brightness(1) saturate(1); }
+}
+
+@keyframes constellation-line-flare {
+  0%, 8% {
+    opacity: 0;
+    filter: brightness(.8) saturate(.9);
+    transform: scale(.996);
+  }
+  48% {
+    opacity: .92;
+    filter: brightness(1.75) saturate(1.62) drop-shadow(0 0 13px rgba(255, 222, 90, .94));
+    transform: scale(1.012);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(1.15) saturate(1.15);
+    transform: scale(1.018);
+  }
+}
+
+@keyframes constellation-rainbow-flare {
+  0%, 8% {
+    opacity: 0;
+    filter: brightness(.8) saturate(.9) hue-rotate(0deg);
+    transform: scale(.996);
+  }
+  48% {
+    opacity: .94;
+    filter: brightness(1.7) saturate(1.85) hue-rotate(18deg) drop-shadow(0 0 14px rgba(255, 152, 244, .98));
+    transform: scale(1.014);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(1.15) saturate(1.25) hue-rotate(38deg);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes constellation-star-on {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.16) rotate(-22deg);
+  }
+  28% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.34) rotate(0deg);
+  }
+  58% {
+    opacity: .9;
+    transform: translate(-50%, -50%) scale(.7) rotate(18deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.72) rotate(42deg);
+  }
 }
 
 @keyframes constellation-dim {
@@ -796,13 +938,24 @@
 @media (prefers-reduced-motion: reduce) {
   .star-stage-art,
   .star-world-image,
+  .star-world-flare-image,
   .star-world-panel,
-  .star-flight-particle {
+  .star-flight-particle,
+  .constellation-spark {
     animation: none !important;
     transition-duration: .01ms !important;
   }
 
+  .star-world-panel.is-star-lighting .star-world-flare-image {
+    opacity: .3;
+    filter: brightness(1.3) saturate(1.2);
+  }
+
   .star-flight-particle {
+    display: none;
+  }
+
+  .constellation-spark {
     display: none;
   }
 }

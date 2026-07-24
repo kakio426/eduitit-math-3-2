@@ -543,7 +543,9 @@ async function showReward() {
   state.rewardPhase = "closed";
 
   if (getRewardMode() === "modal-art") {
-    openRewardModal(event);
+    const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+    openRewardModal(event, { revealOnOpen });
+    if (revealOnOpen) await revealRewardModal({ immediateValue: true });
     return;
   }
 
@@ -591,7 +593,7 @@ function renderRewardMeter(event, beforePower, afterPower) {
   ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
 }
 
-function openRewardModal(event) {
+function openRewardModal(event, { revealOnOpen = false } = {}) {
   if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
   ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
   ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -599,11 +601,11 @@ function openRewardModal(event) {
   ui.rewardPop.dataset.rarity = event.rarity || "common";
   ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
   ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-  ui.modalRewardOpenButton.hidden = false;
+  ui.modalRewardOpenButton.hidden = revealOnOpen;
   ui.modalRewardOpenButton.disabled = false;
   ui.modalRewardNextButton.hidden = true;
   ui.rewardPop.hidden = false;
-  ui.modalRewardOpenButton.focus();
+  if (!revealOnOpen) ui.modalRewardOpenButton.focus();
 }
 
 function applyPendingReward(event) {
@@ -686,22 +688,30 @@ function getRewardTargetText(event, beforeResult, afterResult) {
   return `${nextResult.name}까지 ${remaining} 더`;
 }
 
-async function revealRewardModal() {
+async function revealRewardModal({ immediateValue = false } = {}) {
   if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
   const event = state.pendingRewardEvent;
   state.rewardPhase = "opening";
   ui.modalRewardOpenButton.disabled = true;
+  ui.modalRewardOpenButton.hidden = true;
   ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-  await nextAnimationFrame();
+  if (!immediateValue) await nextAnimationFrame();
   const beforePower = applyPendingReward(event);
+  if (immediateValue) event.amount = state.power - beforePower;
   ui.rewardPop.dataset.reward = event.family || event.id || "";
   ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
   ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
   playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-  await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-  await animateRewardValue(event);
+  if (immediateValue) {
+    const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+    setRewardValue(event.amount);
+    await revealHook;
+    setRewardValue(event.amount);
+  } else {
+    await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+    await animateRewardValue(event);
+  }
   state.rewardPhase = "revealed";
-  ui.modalRewardOpenButton.hidden = true;
   ui.modalRewardOpenButton.disabled = false;
   ui.modalRewardNextButton.hidden = false;
   ui.modalRewardNextButton.focus();
@@ -715,18 +725,26 @@ function animateRewardValue(event) {
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const duration = reduceMotion ? 0 : 650;
   const target = Number(event.amount) || 0;
-  const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
   return new Promise((resolve) => {
     const started = performance.now();
     const tick = (now) => {
       const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
       const value = Math.round(target * progress);
-      ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+      setRewardValue(value);
       if (progress < 1) requestAnimationFrame(tick);
       else resolve();
     };
     requestAnimationFrame(tick);
   });
+}
+
+function setRewardValue(amount) {
+  const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+  const value = Number(amount) || 0;
+  const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+  ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+    ? `${unit} ${zeroLabel}`
+    : `${unit} ${value > 0 ? "+" : ""}${value}`;
 }
 
 function closeRewardModal() {

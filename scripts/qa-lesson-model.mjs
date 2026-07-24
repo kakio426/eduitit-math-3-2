@@ -180,7 +180,78 @@ function simulateRewards(model, config, runs = 10000) {
 }
 
 function checkMistakeRewardPolicy(model, config) {
-  if (config.qa?.rewardPolicy !== "mistakes-use-penalty-biased-random-pool") return;
+  const policy = config.qa?.rewardPolicy;
+  if (policy === "shared-weighted-pool-with-correct-protection") {
+    let retryPositiveCount = 0;
+    let retryDecreaseCount = 0;
+    let retryUnchangedAtZeroCount = 0;
+    let protectedCount = 0;
+    const runs = 20000;
+
+    for (let seed = 1; seed <= runs; seed += 1) {
+      const firstTryEvent = model.pickRewardEvent(model.createRng(seed), false);
+      const retryEvent = model.pickRewardEvent(model.createRng(seed), true);
+      assert.equal(retryEvent.id, firstTryEvent.id, `${config.id}: retry must use the same weighted event pool`);
+      assert.equal(retryEvent.amount, firstTryEvent.amount, `${config.id}: retry changed the shared event amount`);
+
+      const retryPatch = model.applyReward(
+        { power: 40, correctFirstTry: 4, specialSeen: false },
+        { ...retryEvent },
+        false,
+        { remainder: 3 }
+      );
+      if (retryPatch.power > 40) retryPositiveCount += 1;
+      if (retryPatch.power < 40) retryDecreaseCount += 1;
+
+      const zeroPatch = model.applyReward(
+        { power: 0, correctFirstTry: 0, specialSeen: false },
+        { ...retryEvent },
+        false,
+        { remainder: 3 }
+      );
+      if (zeroPatch.power === 0) retryUnchangedAtZeroCount += 1;
+
+      const protectedEvent = { ...firstTryEvent };
+      const protectedPatch = model.applyReward(
+        { power: 40, correctFirstTry: 4, specialSeen: false },
+        protectedEvent,
+        true,
+        { remainder: 3 }
+      );
+      assert.ok(protectedPatch.power >= 40, `${config.id}: a correct answer lowered the score`);
+      if (firstTryEvent.amount < 0 || firstTryEvent.emptiesPower) {
+        protectedCount += 1;
+        assert.equal(protectedEvent.family, "protected", `${config.id}: protected reward art was not selected`);
+        assert.ok(protectedPatch.power >= 43, `${config.id}: protected remainder bonus was lost`);
+      }
+    }
+
+    const declaredWeights = config.rewardEvents.reduce((sum, event) => sum + Number(event.weight || 0), 0);
+    assert.ok(retryPositiveCount > 0, `${config.id}: retry rewards must sometimes raise the score`);
+    assert.ok(retryDecreaseCount > 0, `${config.id}: retry rewards must sometimes lower the score`);
+    assert.ok(retryUnchangedAtZeroCount > 0, `${config.id}: retry rewards must sometimes leave zero unchanged`);
+    assert.ok(protectedCount > 0, `${config.id}: correct-answer protection was never exercised`);
+    assert.equal(declaredWeights, 10000, `${config.id}: shared reward weights must total 10000`);
+    assert.equal(config.reward?.eventPool, "shared-weighted-v1", `${config.id}: shared event pool is not declared`);
+    assert.equal(config.reward?.correctProtection, "remainder-floor", `${config.id}: correct protection is not declared`);
+    assert.equal(config.reward?.retryPolicy, "same-weighted-pool", `${config.id}: retry pool is not declared`);
+    assert.ok(config.reward?.artMap?.protected, `${config.id}: protected reward art is missing`);
+    assert.equal(config.wrongEvent?.min, 0, `${config.id}: compatibility fallback must not deduct score`);
+    assert.equal(config.wrongEvent?.max, 0, `${config.id}: compatibility fallback must stay neutral`);
+
+    const specialEvent = config.rewardEvents.find((event) => event.special);
+    const blockedSpecial = model.applyReward(
+      { power: 0, correctFirstTry: 0, specialSeen: false },
+      { ...specialEvent, amount: specialEvent.min },
+      false,
+      { remainder: 1 }
+    );
+    assert.equal(blockedSpecial.specialSeen, false, `${config.id}: special result bypassed its correct-answer gate`);
+    assert.notEqual(model.getResult(100, 0, true)?.id, config.results.find((result) => result.needsSpecial)?.id, `${config.id}: special result ignored minCorrect`);
+    return;
+  }
+
+  if (policy !== "mistakes-use-penalty-biased-random-pool") return;
 
   let firstTryDecreaseCount = 0;
   let retryDecreaseCount = 0;
@@ -263,6 +334,9 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
     assert.match(viewSource, /animateRemainderToJar/, `${config.id}: first-try remainder moves into the star jar`);
     assert.match(viewSource, /syncStarWorld/, `${config.id}: calculation rewards update the visible constellation`);
     assert.match(viewSource, /playImage/, `${config.id}: all play states use the generated constellation set`);
+    assert.match(viewSource, /CONSTELLATION_SPARKS/, `${config.id}: constellation stars have tier-specific light positions`);
+    assert.match(viewSource, /constellation-spark/, `${config.id}: constellation stars light one by one`);
+    assert.match(viewSource, /star-world-flare-image/, `${config.id}: the completed constellation line gets a final glow`);
     assert.doesNotMatch(viewSource, /star-journey-title/, `${config.id}: disconnected current-to-next title fragments returned`);
     assert.doesNotMatch(viewSource, /star-builder|별 한 묶음|count = Math\.min|max = step\.id/, `${config.id}: repeated-tap answer builder returned`);
   }

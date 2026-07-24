@@ -120,10 +120,7 @@ const Lesson2StarPickupModel = (() => {
     return Boolean(selected && selected.id === step.answerChoiceId);
   }
 
-  function pickRewardEvent(rng, mistakeTouched) {
-    if (mistakeTouched) {
-      return { ...WRONG_REWARD_EVENT, amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max) };
-    }
+  function pickRewardEvent(rng, _mistakeTouched) {
     let roll = Math.floor(rng() * 10000);
     for (const event of REWARD_EVENTS) {
       if (roll < event.weight) return { ...event, amount: randomInt(rng, event.min, event.max) };
@@ -134,9 +131,25 @@ const Lesson2StarPickupModel = (() => {
   }
 
   function applyReward(state, event, firstTry, problem) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
-    if (event.special) return { power: MAX_POWER, specialSeen: true };
     const remainderBonus = firstTry ? (problem?.remainder || 0) : 0;
+    const protectedByCorrectAnswer = firstTry && (event.emptiesPower || event.amount < 0);
+    const specialTier = RESULT_TIERS.find((result) => result.needsSpecial);
+    const specialEligible = state.correctFirstTry >= Number(specialTier?.minCorrect || 0);
+
+    if (protectedByCorrectAnswer) {
+      event.protected = true;
+      event.originalFamily = event.family;
+      event.family = "protected";
+      event.image = LESSON_CONFIG.reward?.artMap?.protected;
+      event.text = "별빛을 지켰어요";
+      return {
+        power: clamp(state.power + remainderBonus, 0, MAX_POWER),
+        specialSeen: state.specialSeen
+      };
+    }
+
+    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.special && specialEligible) return { power: MAX_POWER, specialSeen: true };
     return {
       power: clamp(state.power + event.amount + remainderBonus, 0, MAX_POWER),
       specialSeen: state.specialSeen
@@ -145,7 +158,12 @@ const Lesson2StarPickupModel = (() => {
 
   function getResult(power, correctFirstTry, specialSeen) {
     const special = RESULT_TIERS.find((result) => result.needsSpecial);
-    if (specialSeen && special) return special;
+    if (
+      specialSeen
+      && special
+      && power >= Number(special.minPower || 0)
+      && correctFirstTry >= Number(special.minCorrect || 0)
+    ) return special;
     let current = RESULT_TIERS.find((result) => !result.needsSpecial) || RESULT_TIERS[0];
     for (const result of RESULT_TIERS) {
       if (!result.needsSpecial && power >= result.minPower && correctFirstTry >= result.minCorrect) current = result;
