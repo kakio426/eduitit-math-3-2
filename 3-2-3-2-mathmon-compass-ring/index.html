@@ -1006,33 +1006,75 @@
     .game[data-workbench-type="compass-opening"] .step-chips,
     .game[data-workbench-type="compass-opening"] .answer-slot { display: none; }
     .game[data-workbench-type="compass-opening"] .big-problem {
-      margin: 0; color: #273d3b; font-size: clamp(2.35rem, 4.5vw, 4rem);
+      margin: 0; color: #273d3b; font-size: clamp(2.2rem, 4.15vw, 3.75rem);
       line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.75);
     }
     .game[data-workbench-type="compass-opening"] .visual-area { position: relative; min-height: 0; display: grid; place-items: center; overflow: hidden; }
 
-    .compass-confirm-svg { position: absolute; inset: 0; width: min(100%, 580px); height: 100%; margin: auto; overflow: visible; }
+    .compass-confirm-svg { position: absolute; inset: 0; width: min(100%, 690px); height: 100%; margin: auto; overflow: visible; }
     .compass-choice-svg { width: 100%; height: 100%; max-height: 132px; pointer-events: none; }
     .target-circle { fill: rgba(255,255,255,.44); stroke: #315e61; stroke-width: 6; }
     .target-center { fill: #315e61; }
     .target-radius { stroke: #d46c24; stroke-width: 9; stroke-linecap: round; }
     .target-end { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
-    .target-radius-label, .compass-opening-label, .confirm-opening-label { fill: #273d3b; font-weight: 1000; }
-    .target-radius-label { font-size: 26px; }
+    .target-radius-label, .compass-opening-label { fill: #273d3b; font-weight: 1000; }
+    .target-radius-label { font-size: 28px; }
     .compass-opening-label { font-size: 29px; }
-    .confirm-opening-label { font-size: 28px; }
-    .mapping-equals { fill: #315e61; font-size: 48px; font-weight: 1000; }
-    .compass-ruler, .confirm-ruler { stroke: #6f9191; stroke-width: 3; stroke-linecap: round; }
+    .target-center-label, .proof-center-label {
+      fill: #315e61; font-size: 28px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
+    }
+    .compass-ruler { stroke: #6f9191; stroke-width: 3; stroke-linecap: round; }
     .compass-tick { stroke: #6f9191; stroke-width: 2; }
-    .compass-band, .confirm-band { stroke: #d46c24; stroke-width: 7; stroke-linecap: round; }
-    .compass-leg, .confirm-leg { stroke: #2e7778; stroke-width: 8; stroke-linecap: round; }
-    .compass-pencil-leg, .confirm-pencil-leg { stroke: #b28128; }
-    .compass-joint, .confirm-joint { fill: #ffd45c; stroke: #7e5d1f; stroke-width: 3; }
-    .compass-foot, .confirm-foot { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
-    .compass-confirm-svg[data-state="wrong"] .confirm-band,
-    .compass-confirm-svg[data-state="wrong"] .confirm-foot { stroke: #b92852; fill: #b92852; }
-    .compass-confirm-svg[data-state="correct"] .confirm-band,
-    .compass-confirm-svg[data-state="correct"] .confirm-foot { stroke: #16775e; fill: #16775e; }
+    .compass-band { stroke: #d46c24; stroke-width: 7; stroke-linecap: round; }
+    .compass-leg { stroke: #2e7778; stroke-width: 8; stroke-linecap: round; }
+    .compass-pencil-leg { stroke: #b28128; }
+    .compass-joint { fill: #ffd45c; stroke: #7e5d1f; stroke-width: 3; }
+    .compass-foot { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
+    .target-guide {
+      fill: rgba(255,255,255,.22); stroke: #315e61; stroke-width: 5; stroke-dasharray: 10 9; opacity: .62;
+    }
+    .drawn-circle, .attempt-arc { fill: none; stroke-linecap: round; transform-origin: center; }
+    .drawn-circle { stroke: #7d39d8; stroke-width: 10; filter: drop-shadow(0 0 8px rgba(132,67,226,.7)); }
+    .drawn-circle:not(.is-complete):not(.is-drawing) { stroke-dasharray: 0 1; }
+    .drawn-circle.is-drawing { stroke-dasharray: 1; stroke-dashoffset: 1; animation: compass-circle-draw 1.05s linear forwards; }
+    .drawn-circle.is-complete { stroke-dasharray: 1; stroke-dashoffset: 0; }
+    .attempt-arc {
+      stroke: #be2455; stroke-width: 9; stroke-dasharray: .3 .7; stroke-dashoffset: .3;
+      filter: drop-shadow(0 0 7px rgba(190,36,85,.42)); animation: compass-attempt-arc .72s ease-out forwards;
+    }
+    .target-center-halo { fill: rgba(255,212,92,.2); stroke: rgba(156,109,31,.42); stroke-width: 3; }
+    .proof-radius { opacity: .72; }
+    .proof-compass-leg { stroke: #2e7778; stroke-width: 11; stroke-linecap: round; }
+    .proof-pencil-leg { stroke: #b28128; }
+    .proof-opening-band { stroke: #16775e; stroke-width: 9; stroke-linecap: round; }
+    .proof-joint { fill: #ffd45c; stroke: #7e5d1f; stroke-width: 4; }
+    .proof-needle { fill: #16775e; stroke: #fff7df; stroke-width: 3; }
+    .proof-pencil { fill: #d46c24; stroke: #fff7df; stroke-width: 3; }
+    .proof-length-label, .proof-size-note {
+      fill: #273d3b; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.9); stroke-width: 6px; stroke-linejoin: round;
+    }
+    .proof-length-label { font-size: 28px; }
+    .proof-size-note { fill: #a11742; font-size: 28px; }
+    .compass-confirm-svg[data-state="correct-anchor"] .proof-needle { animation: compass-needle-pulse .65s ease-out both; }
+    .compass-confirm-svg[data-state="correct-open"] .proof-opening-band { animation: compass-band-pulse .72s ease-out both; }
+    .compass-rotor.is-drawing { animation: compass-full-turn 1.05s linear forwards; }
+    .compass-rotor.is-wrong-sweep { animation: compass-wrong-turn .72s ease-out forwards; }
+    .compass-confirm-svg[data-state="wrong"] .proof-opening-band,
+    .compass-confirm-svg[data-state="wrong"] .proof-pencil { stroke: #be2455; fill: #be2455; }
+
+    @keyframes compass-circle-draw { to { stroke-dashoffset: 0; } }
+    @keyframes compass-attempt-arc { to { stroke-dashoffset: 0; } }
+    @keyframes compass-full-turn { to { transform: rotate(360deg); } }
+    @keyframes compass-wrong-turn { to { transform: rotate(108deg); } }
+    @keyframes compass-needle-pulse {
+      0% { r: 8px; filter: drop-shadow(0 0 0 rgba(255,212,92,0)); }
+      55% { r: 13px; filter: drop-shadow(0 0 10px rgba(255,212,92,.9)); }
+      100% { r: 8px; filter: drop-shadow(0 0 4px rgba(255,212,92,.55)); }
+    }
+    @keyframes compass-band-pulse {
+      0%, 100% { stroke-width: 9; }
+      50% { stroke-width: 15; }
+    }
 
     .game[data-workbench-type="compass-opening"] .step-board {
       grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
@@ -1064,18 +1106,24 @@
     }
 
     .game[data-workbench-type="compass-opening"] .complete-panel {
-      grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr;
+      grid-column: 1; grid-row: 3; min-height: 0; max-height: 104px; padding: 12px 16px; align-items: center;
+      grid-template-columns: minmax(0, 1fr) minmax(190px, 240px); gap: 16px;
       border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96);
     }
     .game[data-workbench-type="compass-opening"] .complete-text {
-      max-width: 760px; color: #36200b; font-size: clamp(1.18rem, 2vw, 1.65rem); line-height: 1.2; text-align: center; word-break: keep-all;
+      max-width: none; color: #36200b; font-size: clamp(1.05rem, 1.7vw, 1.35rem); line-height: 1.2;
+      text-align: center; word-break: keep-all; overflow-wrap: normal;
     }
     .game[data-workbench-type="compass-opening"] .complete-panel .primary-button {
-      min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
+      width: 100%; min-height: 58px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
     }
     .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .choices-panel { display: none; }
     .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .step-board { display: none; }
-    .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
+    .game[data-workbench-type="compass-opening"] .problem-grid.is-proving { grid-template-rows: minmax(0, 1fr) 54px; }
+    .game[data-workbench-type="compass-opening"] .problem-grid.is-proving .choices-panel { display: none; }
+    .game[data-workbench-type="compass-opening"] .problem-grid.is-complete { grid-template-rows: minmax(0, 1fr) minmax(88px, 104px); }
+    .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .problem-card { grid-row: 1; }
+    .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .complete-panel { grid-row: 2; min-height: 88px; }
     .game[data-workbench-type="compass-opening"] .result-title-art { display: none; }
     .game[data-workbench-type="compass-opening"] #screen-result .top-row { display: none; }
     .game[data-workbench-type="compass-opening"] #screen-result::after { background: none; }
@@ -1084,10 +1132,68 @@
     .game[data-workbench-type="compass-opening"] .result-dynamic-ui text { fill: #fff2bd; stroke: rgba(39,15,75,.96); stroke-width: 10px; }
     .game[data-workbench-type="compass-opening"] .result-dynamic-ui rect:first-of-type { fill: #3c1d6b; opacity: .5; }
     .game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultMeasureFillSvg { fill: #d696ff; }
-    .game[data-workbench-type="compass-opening"] .result-correct-art { left: 62%; top: 57%; width: 15%; }
-    .game[data-workbench-type="compass-opening"] .result-restart-hitbox { left: 59%; top: 78%; width: 28%; height: 16%; }
-    .game[data-workbench-type="compass-opening"] .reward-visual {
-      background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center;
+    .game[data-workbench-type="compass-opening"] .result-correct-art { left: 62%; top: 54%; width: 15%; }
+    .game[data-workbench-type="compass-opening"] .result-retry-hitbox {
+      right: auto; bottom: auto; left: 59%; top: 78%; width: 28%; height: 16%;
+      border-radius: 999px; overflow: hidden;
+    }
+    .game[data-workbench-type="compass-opening"] .result-retry-hitbox .result-retry-art { display: none !important; }
+    .game[data-workbench-type="compass-opening"] #screen-reward {
+      overflow: hidden; background: radial-gradient(circle at 40% 46%, #3e1e78 0%, #160b33 46%, #090719 100%);
+    }
+    .game[data-workbench-type="compass-opening"] #screen-reward > .raster-bg {
+      filter: blur(18px) brightness(.34) saturate(1.2); transform: scale(1.12); opacity: .72;
+    }
+    .game[data-workbench-type="compass-opening"] #screen-reward .top-row { display: none; }
+    .game[data-workbench-type="compass-opening"] #screen-reward .reward-panel {
+      position: absolute; inset: 64px 5% 4%; z-index: 3; width: auto; min-height: 0; padding: 0;
+      display: block; transform: none; border: 0; border-radius: 0; background: transparent; backdrop-filter: none; box-shadow: none;
+    }
+    .compass-reward-story {
+      width: 100%; height: 100%; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
+      align-items: center; gap: clamp(22px, 4vw, 58px);
+    }
+    .compass-reward-visual {
+      position: relative; min-width: 0; height: 100%; display: grid; place-items: center; isolation: isolate;
+    }
+    .compass-reward-visual::before {
+      content: ""; position: absolute; width: min(48vw, 520px); aspect-ratio: 1; border-radius: 50%;
+      background: radial-gradient(circle, rgba(181,111,255,.28), rgba(92,33,157,.08) 58%, transparent 70%);
+      filter: blur(8px); z-index: -1;
+    }
+    .compass-reward-art {
+      width: min(100%, 520px); max-height: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 34px;
+      filter: drop-shadow(0 22px 34px rgba(0,0,0,.42)); transform: scale(.94); transition: transform .48s ease, filter .48s ease;
+    }
+    .compass-reward-copy {
+      min-width: 0; padding: clamp(24px, 4vw, 44px); display: grid; justify-items: center; gap: 18px;
+      border: 2px solid rgba(255,219,127,.68); border-radius: 30px;
+      background: linear-gradient(180deg, rgba(30,15,67,.92), rgba(17,10,40,.94));
+      box-shadow: inset 0 1px rgba(255,255,255,.16), 0 26px 48px rgba(0,0,0,.34);
+    }
+    .compass-reward-eyebrow { color: #d9c9f6; font-size: 1rem; font-weight: 900; }
+    .compass-reward-tier {
+      color: #ffd96f; font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1; text-align: center;
+      text-shadow: 0 3px 0 #6b3a08, 0 0 18px rgba(255,211,98,.38); word-break: keep-all;
+    }
+    .compass-reward-meter {
+      width: 100%; height: 24px; padding: 4px; overflow: hidden; border: 2px solid rgba(255,223,142,.8);
+      border-radius: 999px; background: rgba(7,4,20,.78);
+    }
+    .compass-reward-meter-fill {
+      display: block; width: 0%; height: 100%; border-radius: inherit;
+      background: linear-gradient(90deg, #8c51e8, #d788ff, #ffe177); box-shadow: 0 0 14px rgba(199,113,255,.76);
+      transition: width .72s cubic-bezier(.2,.8,.2,1);
+    }
+    .compass-reward-status {
+      min-height: 58px; margin: 0; display: grid; place-items: center; color: #fff6dc;
+      font-size: clamp(1.18rem, 2vw, 1.55rem); line-height: 1.18; font-weight: 1000; text-align: center; word-break: keep-all;
+    }
+    .compass-reward-copy #rewardNextButton {
+      width: min(100%, 260px); min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
+    }
+    .compass-reward-story[data-phase="revealed"] .compass-reward-art {
+      transform: scale(1); filter: drop-shadow(0 22px 34px rgba(0,0,0,.42)) drop-shadow(0 0 28px rgba(197,102,255,.45));
     }
 
     .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #e8f6ef; }
@@ -1124,12 +1230,32 @@
         top: 68px; right: 2%; bottom: 16px; left: 30%;
         grid-template-rows: minmax(0, 1.2fr) 50px minmax(196px, 1fr); gap: 8px;
       }
-      .game[data-workbench-type="compass-opening"] .complete-panel { min-height: 196px; }
+      .game[data-workbench-type="compass-opening"] .problem-grid.is-complete { grid-template-rows: minmax(0, 1fr) minmax(82px, 96px); }
+      .game[data-workbench-type="compass-opening"] .problem-grid.is-complete .complete-panel { min-height: 82px; }
+      .game[data-workbench-type="compass-opening"] .complete-panel {
+        max-height: 96px; grid-template-columns: minmax(0, 1fr) minmax(170px, 210px); gap: 12px; padding: 10px 14px;
+      }
+      .game[data-workbench-type="compass-opening"] .complete-panel .primary-button { min-height: 54px; }
+      .game[data-workbench-type="compass-opening"] #screen-reward .reward-panel { inset: 60px 3% 3%; }
+      .compass-reward-story { grid-template-columns: minmax(0, 1fr) minmax(270px, .85fr); gap: 18px; }
+      .compass-reward-copy { padding: 22px; gap: 14px; }
+      .compass-reward-status { min-height: 48px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .drawn-circle.is-drawing { stroke-dashoffset: 0; animation: none; }
+      .attempt-arc { stroke-dashoffset: 0; animation: none; }
+      .compass-rotor.is-drawing,
+      .compass-rotor.is-wrong-sweep,
+      .compass-confirm-svg[data-state="correct-anchor"] .proof-needle,
+      .compass-confirm-svg[data-state="correct-open"] .proof-opening-band { animation: none; }
+      .compass-reward-art,
+      .compass-reward-meter-fill { transition: none; }
     }
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="compass-opening" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="compass-opening" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1172,7 +1298,7 @@
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
-        <img class="raster-bg" src="result-ring-generated.webp" alt="">
+        <img class="raster-bg" src="reward-event-closed-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>마법진 빛</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">흐린 원</p><p class="reward-change" id="rewardChange">마법진 빛이 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
@@ -1188,7 +1314,7 @@
       <section class="screen result" id="screen-result" data-result-tier="faint" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-faint-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-faint-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-faint-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">흐린 원</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원"></section>
@@ -1871,7 +1997,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-compass-opening-migration","id":"3-2-3-2","folder":"3-2-3-2-mathmon-compass-ring","modelName":"Lesson3CompassRingModel","title":"매스몬 컴퍼스 마법진","shortTitle":"매스몬 컴퍼스 마법진","topic":"컴퍼스로 원 그리기","unitBadge":"3단원 원","goal":"반지름만큼 컴퍼스를 벌려요.","action":"반지름만큼 벌어진 컴퍼스를 골라요.","buttonLabel":"마법 보기","rewardScreenTitle":"마법진 빛","progressLabel":"마법진 빛","rewardComplete":"마법진 빛이 바뀌었어요.","tutorialTitle":"원을 그리기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 벌려요?","body":"반지름과 컴퍼스 벌림을 같게 맞춰요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마법진 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","perfect":"reward-event-perfect-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"perfect":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"mathmon-drv-05-crystalowl","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["magic-light","correct-count"]}},"workbench":{"type":"compass-opening"},"scoreboard":{"enabled":false},"mathmonPack":"diversity-reward-pack","mathmonName":"수정부엉몬","mathmonId":"mathmon-drv-05-crystalowl","results":[{"id":"faint","name":"흐린 원","minPower":0,"minCorrect":0,"image":"result-faint-generated.webp","titleImage":"result-faint-generated.webp"},{"id":"small","name":"작은 마법진","minPower":19,"minCorrect":2,"image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"ring","name":"마법진","minPower":39,"minCorrect":4,"image":"result-ring-generated.webp","titleImage":"result-ring-generated.webp"},{"id":"big","name":"큰 마법진","minPower":61,"minCorrect":6,"image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"대마법진","minPower":83,"minCorrect":8,"image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"legend","name":"전설 마법진","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"빛 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"빛 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"빛 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"perfect","text":"완벽한 원!","weight":50,"min":6,"max":6,"family":"perfect","launches":true},{"id":"empty","text":"빛 0","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 원!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"빛 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["2 cm","3 cm","4 cm","5 cm","6 cm","2 cm","3 cm","4 cm","5 cm","6 cm"],"radiiPerRun":[2,3,4,5,6,2,3,4,5,6],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardScene":"result-ring-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-perfect-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-faint-generated.webp","result-small-generated.webp","result-ring-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-legend-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":36,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["COMPASS_TOO_NARROW","COMPASS_TOO_WIDE","COMPASS_USES_DIAMETER"],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-compass-opening-migration","id":"3-2-3-2","folder":"3-2-3-2-mathmon-compass-ring","modelName":"Lesson3CompassRingModel","title":"매스몬 컴퍼스 마법진","shortTitle":"매스몬 컴퍼스 마법진","topic":"컴퍼스로 원 그리기","unitBadge":"3단원 원","goal":"반지름만큼 컴퍼스를 벌려요.","action":"바늘과 연필 사이의 길이를 골라요.","buttonLabel":"마법 보기","rewardScreenTitle":"마법진 빛","progressLabel":"마법진 빛","rewardComplete":"마법진 빛이 바뀌었어요.","tutorialTitle":"원을 그리기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 벌려요?","body":"반지름과 컴퍼스 벌림을 같게 맞춰요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마법진 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"magic-circle-stage-reveal-v1","maxPower":100,"closedLabel":"마법 보기","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"stage-reveal-event","states":["closed","normal","loss","mega","perfect","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","perfect":"reward-event-perfect-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"perfect":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"mathmon-drv-05-crystalowl","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["magic-light","correct-count"]}},"workbench":{"type":"compass-opening"},"scoreboard":{"enabled":false},"mathmonPack":"diversity-reward-pack","mathmonName":"수정부엉몬","mathmonId":"mathmon-drv-05-crystalowl","results":[{"id":"faint","name":"흐린 원","minPower":0,"minCorrect":0,"image":"result-faint-generated.webp","titleImage":"result-faint-generated.webp"},{"id":"small","name":"작은 마법진","minPower":19,"minCorrect":2,"image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"ring","name":"마법진","minPower":39,"minCorrect":4,"image":"result-ring-generated.webp","titleImage":"result-ring-generated.webp"},{"id":"big","name":"큰 마법진","minPower":61,"minCorrect":6,"image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"대마법진","minPower":83,"minCorrect":8,"image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"legend","name":"전설 마법진","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"빛 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"빛 -","weight":1200,"min":-4,"max":-2,"family":"loss"},{"id":"mega","text":"빛 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"perfect","text":"완벽한 원!","weight":50,"min":6,"max":6,"family":"perfect","launches":true},{"id":"empty","text":"빛 0","weight":200,"min":0,"max":0,"family":"empty"},{"id":"rainbow","text":"무지개 원!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"빛 -","min":-4,"max":-2,"family":"loss"},"typesPerRun":["2 cm","3 cm","4 cm","5 cm","6 cm","2 cm","3 cm","4 cm","5 cm","6 cm"],"radiiPerRun":[2,3,4,5,6,2,3,4,5,6],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardClosed":"reward-event-closed-generated.webp","rewardScene":"reward-event-closed-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-perfect-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-faint-generated.webp","result-small-generated.webp","result-ring-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-legend-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"reported-reward-closed-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"reported-complete-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":36,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["COMPASS_TOO_NARROW","COMPASS_TOO_WIDE","COMPASS_USES_DIAMETER"],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson3CompassRingModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -1921,9 +2047,9 @@
       function choicesForRadius(radius, rng) {
         return shuffle([
           openingChoice(radius, radius),
-          openingChoice(radius * 2, radius, "COMPASS_USES_DIAMETER", "지름이 아니라 반지름만큼 벌려요."),
-          openingChoice(radius - 1, radius, "COMPASS_TOO_NARROW", "조금 좁아요. 반지름의 길이를 다시 봐요."),
-          openingChoice(radius + 1, radius, "COMPASS_TOO_WIDE", "조금 넓어요. 반지름의 길이를 다시 봐요.")
+          openingChoice(radius * 2, radius, "COMPASS_USES_DIAMETER", "지름만큼 벌리면 목표 원보다 커져요."),
+          openingChoice(radius - 1, radius, "COMPASS_TOO_NARROW", "이대로 돌리면 원이 작아져요."),
+          openingChoice(radius + 1, radius, "COMPASS_TOO_WIDE", "이대로 돌리면 원이 커져요.")
         ], rng);
       }
 
@@ -1933,16 +2059,16 @@
           type: "compass-opening",
           radius,
           answerKind: "compass-opening",
-          prompt: `반지름 ${radius} cm인 원을 그리려면?`,
-          finalExpression: `컴퍼스를 ${radius} cm만큼 벌려요. 이 길이가 반지름이에요.`,
+          prompt: `반지름 ${radius} cm, 얼마나 벌릴까요?`,
+          finalExpression: `그대로 돌리면 반지름 ${radius} cm인 원이 돼요.`,
           steps: [{
             id: "spread",
             label: "컴퍼스 벌리기",
-            instruction: "반지름만큼 벌어진 컴퍼스를 골라요.",
+            instruction: "바늘과 연필 사이의 길이를 골라요.",
             answer: radius,
             answerChoiceId: `choice:${radius}`,
             choices: choicesForRadius(radius, rng),
-            correctText: `맞아요. 컴퍼스를 ${radius} cm만큼 벌려요.`,
+            correctText: `바늘과 연필 사이를 ${radius} cm로 맞춰요.`,
             reveal: `${radius} cm`,
             advance: { mode: "complete" }
           }]
@@ -1978,7 +2104,7 @@
       }
 
       function applyReward(state, event) {
-        if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+        if (event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
         if (event.special) return { power: MAX_POWER, specialSeen: true };
         if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
         return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };
@@ -2552,7 +2678,9 @@
       state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
         return;
       }
 
@@ -2600,7 +2728,7 @@
       ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
-    function openRewardModal(event) {
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
       if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
       ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -2608,11 +2736,11 @@
       ui.rewardPop.dataset.rarity = event.rarity || "common";
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
       ui.rewardPop.hidden = false;
-      ui.modalRewardOpenButton.focus();
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
 
     function applyPendingReward(event) {
@@ -2695,22 +2823,30 @@
       return `${nextResult.name}까지 ${remaining} 더`;
     }
 
-    async function revealRewardModal() {
+    async function revealRewardModal({ immediateValue = false } = {}) {
       if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
       const event = state.pendingRewardEvent;
       state.rewardPhase = "opening";
       ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-      await nextAnimationFrame();
+      if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
+      if (immediateValue) event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      await animateRewardValue(event);
+      if (immediateValue) {
+        const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+        setRewardValue(event.amount);
+        await revealHook;
+        setRewardValue(event.amount);
+      } else {
+        await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+        await animateRewardValue(event);
+      }
       state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.hidden = true;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
@@ -2724,18 +2860,26 @@
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const duration = reduceMotion ? 0 : 650;
       const target = Number(event.amount) || 0;
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
       return new Promise((resolve) => {
         const started = performance.now();
         const tick = (now) => {
           const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
           const value = Math.round(target * progress);
-          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          setRewardValue(value);
           if (progress < 1) requestAnimationFrame(tick);
           else resolve();
         };
         requestAnimationFrame(tick);
       });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${unit} ${zeroLabel}`
+        : `${unit} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -3146,6 +3290,9 @@
     };
     const COMPASS_SVG_NS = "http://www.w3.org/2000/svg";
     const COMPASS_RULER_MAX = 12;
+    const COMPASS_TARGET_RADIUS = 92;
+    let compassProofToken = 0;
+    let compassRewardStage = null;
 
     function ensureCompassStageArt() {
       const playScreen = document.getElementById("screen-play");
@@ -3160,40 +3307,83 @@
 
     function renderProblemVisual(problem, state) {
       ensureCompassStageArt();
-      ui.visualArea.dataset.compassState = "idle";
-      ui.visualArea.dataset.opening = "";
+      compassProofToken += 1;
+      ui.visualArea.closest(".problem-grid")?.classList.remove("is-proving");
+      setCompassVisualState("waiting", problem.radius, null);
       renderCompassWorkbench(problem);
     }
 
     function updateProblemVisualForStep(problem, step, state) {
-      ui.visualArea.dataset.compassState = "idle";
-      ui.visualArea.dataset.opening = "";
+      compassProofToken += 1;
+      ui.visualArea.closest(".problem-grid")?.classList.remove("is-proving");
+      setCompassVisualState("waiting", problem.radius, null);
       renderCompassWorkbench(problem);
     }
 
     function revealCorrectStep(problem, step, state) {
-      ui.visualArea.dataset.compassState = "correct";
-      ui.visualArea.dataset.opening = String(problem.radius);
+      setCompassVisualState("correct-anchor", problem.radius, null);
       renderCompassWorkbench(problem);
     }
 
     function renderAttempt(problem, step, selected, state, result) {
       if (result.correct) return;
-      ui.visualArea.dataset.compassState = "wrong";
-      ui.visualArea.dataset.opening = String(selected.value);
+      const wrongState = selected.misconceptionId === "COMPASS_TOO_NARROW"
+        ? "wrong-narrow"
+        : selected.misconceptionId === "COMPASS_TOO_WIDE"
+          ? "wrong-wide"
+          : "wrong-diameter";
+      setCompassVisualState(wrongState, selected.value, selected.misconceptionId);
       renderCompassWorkbench(problem);
+    }
+
+    async function onStepCorrect({ problem }) {
+      const proofToken = ++compassProofToken;
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      ui.visualArea.closest(".problem-grid")?.classList.add("is-proving");
+      const phases = [
+        { state: "correct-anchor", text: "바늘을 원의 중심에 꽂아요.", delay: 320 },
+        { state: "correct-open", text: `바늘과 연필 사이를 ${problem.radius} cm로 맞춰요.`, delay: 430 },
+        { state: "correct-draw", text: "길이를 그대로 두고 돌려요.", delay: 1050 },
+        { state: "complete-ready", text: `반지름 ${problem.radius} cm인 원이 완성됐어요.`, delay: 160 },
+      ];
+
+      for (const phase of phases) {
+        if (proofToken !== compassProofToken) return;
+        setCompassVisualState(phase.state, problem.radius, null);
+        renderCompassWorkbench(problem);
+        ui.feedback.dataset.state = "correct";
+        ui.feedback.textContent = phase.text;
+        if (!reducedMotion && phase.delay > 0) await waitForCompass(phase.delay);
+      }
+    }
+
+    function onProblemComplete({ problem }) {
+      ui.visualArea.closest(".problem-grid")?.classList.remove("is-proving");
+      setCompassVisualState("complete-ready", problem.radius, null);
+      renderCompassWorkbench(problem);
+    }
+
+    function setCompassVisualState(kind, opening, misconceptionId) {
+      ui.visualArea.dataset.compassState = kind;
+      ui.visualArea.dataset.opening = String(opening);
+      if (misconceptionId) ui.visualArea.dataset.misconception = misconceptionId;
+      else delete ui.visualArea.dataset.misconception;
+    }
+
+    function waitForCompass(duration) {
+      return new Promise((resolve) => window.setTimeout(resolve, duration));
     }
 
     function renderChoicesForStep(problem, step, state, choose) {
       ui.choices.innerHTML = "";
       ui.choices.dataset.choiceKind = "compass-diagram";
-      step.choices.forEach((selected, index) => {
+      step.choices.forEach((selected) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-button compass-choice";
         button.dataset.choice = selected.id;
         button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-        button.setAttribute("aria-label", `컴퍼스를 ${selected.value} cm만큼 벌린 그림`);
+        button.setAttribute("aria-label", `바늘과 연필 사이가 ${selected.value} cm인 컴퍼스`);
 
         const svg = document.createElementNS(COMPASS_SVG_NS, "svg");
         svg.classList.add("compass-choice-svg");
@@ -3231,47 +3421,192 @@
     }
 
     function renderCompassWorkbench(problem) {
-      const state = ui.visualArea.dataset.compassState || "idle";
+      const visualState = ui.visualArea.dataset.compassState || "waiting";
       const opening = Number(ui.visualArea.dataset.opening || problem.radius);
       const svg = document.createElementNS(COMPASS_SVG_NS, "svg");
       svg.classList.add("compass-confirm-svg");
-      svg.dataset.state = state;
-      svg.setAttribute("viewBox", "0 0 520 250");
+      svg.dataset.state = visualState.startsWith("wrong") ? "wrong" : visualState;
+      svg.dataset.proofState = visualState;
+      svg.setAttribute("viewBox", "0 0 640 330");
       svg.setAttribute("role", "img");
-      svg.setAttribute("aria-label", state === "idle" ? `반지름 ${problem.radius} cm인 원` : `반지름 ${problem.radius} cm와 컴퍼스 벌림 ${opening} cm 비교`);
-      svg.innerHTML = state === "idle"
-        ? targetRadiusMarkup(problem.radius, 260)
-        : compareRadiusAndOpeningMarkup(problem.radius, opening, state === "correct");
+      svg.setAttribute("aria-label", compassVisualLabel(problem.radius, opening, visualState));
+      svg.innerHTML = visualState === "waiting"
+        ? targetRadiusMarkup(problem.radius)
+        : compassProofMarkup(problem.radius, opening, visualState);
       ui.visualArea.replaceChildren(svg);
     }
 
-    function targetRadiusMarkup(radius, centerX) {
+    function compassVisualLabel(radius, opening, visualState) {
+      if (visualState === "waiting") return `중심에서 원까지의 길이가 ${radius} cm인 원`;
+      if (visualState.startsWith("wrong")) {
+        return `중심에 바늘을 꽂고 ${opening} cm로 벌리면 목표 원과 크기가 달라지는 모습`;
+      }
+      if (visualState === "complete-ready") {
+        return `바늘을 중심에 고정하고 ${radius} cm로 벌린 컴퍼스로 완성한 원`;
+      }
+      return `바늘을 중심에 고정하고 ${radius} cm로 벌린 컴퍼스를 돌려 원을 그리는 모습`;
+    }
+
+    function targetRadiusMarkup(radius) {
+      const centerX = 320;
+      const centerY = 172;
+      const endX = centerX + COMPASS_TARGET_RADIUS;
       return `
-        <circle class="target-circle" cx="${centerX}" cy="125" r="70"/>
-        <circle class="target-center" cx="${centerX}" cy="125" r="6"/>
-        <line class="target-radius" x1="${centerX}" y1="125" x2="${centerX + 70}" y2="125"/>
-        <circle class="target-end" cx="${centerX + 70}" cy="125" r="5"/>
-        <text class="target-radius-label" x="${centerX + 35}" y="108" text-anchor="middle">${radius} cm</text>
+        <circle class="target-circle" cx="${centerX}" cy="${centerY}" r="${COMPASS_TARGET_RADIUS}"/>
+        <circle class="target-center" cx="${centerX}" cy="${centerY}" r="7"/>
+        <line class="target-radius" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
+        <circle class="target-end" cx="${endX}" cy="${centerY}" r="6"/>
+        <text class="target-radius-label" x="${centerX + COMPASS_TARGET_RADIUS / 2}" y="${centerY - 20}" text-anchor="middle">${radius} cm</text>
+        <text class="target-center-label" x="${centerX}" y="${centerY + 34}" text-anchor="middle">중심</text>
       `;
     }
 
-    function compareRadiusAndOpeningMarkup(radius, opening, matches) {
-      const x0 = 325;
-      const unit = 13;
-      const x1 = x0 + opening * unit;
-      const apexX = (x0 + x1) / 2;
+    function compassProofMarkup(radius, opening, visualState) {
+      const centerX = 238;
+      const centerY = 177;
+      const openingRadius = Math.min(190, COMPASS_TARGET_RADIUS * opening / radius);
+      const pencilX = centerX + openingRadius;
+      const jointX = centerX + openingRadius / 2;
+      const jointY = 58;
+      const isWrong = visualState.startsWith("wrong");
+      const isDrawing = visualState === "correct-draw";
+      const isComplete = visualState === "complete-ready";
+      const rotorClass = isWrong
+        ? "compass-rotor is-wrong-sweep"
+        : isDrawing
+          ? "compass-rotor is-drawing"
+          : "compass-rotor";
+      const circleMarkup = isWrong
+        ? `<circle class="attempt-arc" cx="${centerX}" cy="${centerY}" r="${openingRadius}" pathLength="1"/>`
+        : `<circle class="drawn-circle${isDrawing ? " is-drawing" : ""}${isComplete ? " is-complete" : ""}" cx="${centerX}" cy="${centerY}" r="${COMPASS_TARGET_RADIUS}" pathLength="1"/>`;
+      const lengthLabel = isWrong ? `${opening} cm` : `${radius} cm`;
+
       return `
-        ${targetRadiusMarkup(radius, 125)}
-        <text class="mapping-equals" x="260" y="138" text-anchor="middle">${matches ? "=" : "≠"}</text>
-        <line class="confirm-ruler" x1="${x0}" y1="164" x2="481" y2="164"/>
-        <line class="confirm-band" x1="${x0}" y1="151" x2="${x1}" y2="151"/>
-        <line class="confirm-leg" x1="${apexX}" y1="54" x2="${x0}" y2="151"/>
-        <line class="confirm-leg confirm-pencil-leg" x1="${apexX}" y1="54" x2="${x1}" y2="151"/>
-        <circle class="confirm-joint" cx="${apexX}" cy="54" r="9"/>
-        <circle class="confirm-foot" cx="${x0}" cy="151" r="5"/>
-        <circle class="confirm-foot" cx="${x1}" cy="151" r="5"/>
-        <text class="confirm-opening-label" x="403" y="204" text-anchor="middle">${opening} cm</text>
+        <circle class="target-guide" cx="${centerX}" cy="${centerY}" r="${COMPASS_TARGET_RADIUS}"/>
+        ${circleMarkup}
+        <circle class="target-center-halo" cx="${centerX}" cy="${centerY}" r="18"/>
+        <line class="target-radius proof-radius" x1="${centerX}" y1="${centerY}" x2="${centerX + COMPASS_TARGET_RADIUS}" y2="${centerY}"/>
+        <g class="${rotorClass}" style="transform-origin:${centerX}px ${centerY}px">
+          <line class="proof-compass-leg proof-needle-leg" x1="${jointX}" y1="${jointY}" x2="${centerX}" y2="${centerY}"/>
+          <line class="proof-compass-leg proof-pencil-leg" x1="${jointX}" y1="${jointY}" x2="${pencilX}" y2="${centerY}"/>
+          <line class="proof-opening-band" x1="${centerX}" y1="${centerY}" x2="${pencilX}" y2="${centerY}"/>
+          <circle class="proof-joint" cx="${jointX}" cy="${jointY}" r="11"/>
+          <circle class="proof-needle" cx="${centerX}" cy="${centerY}" r="8"/>
+          <circle class="proof-pencil" cx="${pencilX}" cy="${centerY}" r="8"/>
+        </g>
+        <text class="proof-center-label" x="${centerX}" y="${centerY + 42}" text-anchor="middle">중심</text>
+        <text class="proof-length-label" x="${pencilX + 18}" y="${centerY + 8}" text-anchor="start">${lengthLabel}</text>
+        ${isWrong ? `<text class="proof-size-note" x="500" y="285" text-anchor="middle">${openingRadius < COMPASS_TARGET_RADIUS ? "목표보다 작아요" : "목표보다 커요"}</text>` : ""}
       `;
+    }
+
+    function getCompassRewardImage(event) {
+      const artMap = LESSON_CONFIG.reward?.artMap || {};
+      return event?.image
+        || artMap[event?.id]
+        || artMap[event?.family]
+        || LESSON_CONFIG.imageAssets.rewardClosed;
+    }
+
+    function ensureCompassRewardStage() {
+      if (compassRewardStage?.root?.isConnected) return compassRewardStage;
+      const panel = document.querySelector("#screen-reward .reward-panel");
+      const title = document.getElementById("rewardTitle");
+      const engineLabel = document.getElementById("rewardChange");
+      const button = document.getElementById("rewardNextButton");
+      if (!panel || !title || !engineLabel || !button) return null;
+
+      title.classList.add("visually-hidden");
+      engineLabel.className = "visually-hidden";
+      engineLabel.setAttribute("aria-hidden", "true");
+
+      const story = document.createElement("div");
+      story.className = "compass-reward-story";
+      story.dataset.rewardStageStory = "true";
+      story.dataset.phase = "closed";
+
+      const visual = document.createElement("div");
+      visual.className = "compass-reward-visual";
+      const art = document.createElement("img");
+      art.className = "compass-reward-art";
+      art.alt = "";
+      art.setAttribute("aria-hidden", "true");
+      visual.appendChild(art);
+
+      const copy = document.createElement("div");
+      copy.className = "compass-reward-copy";
+      const eyebrow = document.createElement("span");
+      eyebrow.className = "compass-reward-eyebrow";
+      eyebrow.textContent = "현재 마법진";
+      const tier = document.createElement("strong");
+      tier.className = "compass-reward-tier";
+      const meter = document.createElement("div");
+      meter.className = "compass-reward-meter";
+      meter.setAttribute("role", "progressbar");
+      meter.setAttribute("aria-valuemin", "0");
+      meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+      const meterFill = document.createElement("span");
+      meterFill.className = "compass-reward-meter-fill";
+      meter.appendChild(meterFill);
+      const status = document.createElement("p");
+      status.className = "compass-reward-status";
+      status.setAttribute("aria-live", "polite");
+      copy.append(eyebrow, tier, meter, status, button);
+      story.append(visual, copy);
+      panel.replaceChildren(title, story, engineLabel);
+
+      compassRewardStage = { root: story, art, tier, meter, meterFill, status, button };
+      return compassRewardStage;
+    }
+
+    function onRewardPrepare({ beforePower, beforeResult }) {
+      const stage = ensureCompassRewardStage();
+      if (!stage) return;
+      const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+      stage.art.src = LESSON_CONFIG.imageAssets.rewardClosed;
+      stage.tier.textContent = beforeResult.name;
+      stage.meter.setAttribute("aria-valuenow", String(beforePower));
+      stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
+      stage.status.textContent = "무엇이 나올까요?";
+      stage.root.dataset.phase = "closed";
+      stage.root.dataset.reward = "closed";
+      stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 마법 상자가 닫혀 있어요.`);
+      if (ui.rewardScene instanceof HTMLImageElement) ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardClosed;
+    }
+
+    function onRewardReveal({ event, beforePower, afterPower, beforeResult, afterResult }) {
+      const stage = ensureCompassRewardStage();
+      if (!stage) return Promise.resolve();
+      const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+      const eventImage = getCompassRewardImage(event);
+      stage.art.src = eventImage;
+      stage.tier.textContent = afterResult.name;
+      stage.meter.setAttribute("aria-valuenow", String(afterPower));
+      stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
+      stage.status.textContent = compassRewardSummary(event, beforePower, afterPower, beforeResult, afterResult);
+      stage.root.dataset.phase = "revealed";
+      stage.root.dataset.reward = event.family || event.id || "normal";
+      stage.root.setAttribute("aria-label", `${stage.status.textContent}. 지금 ${afterResult.name}.`);
+      if (ui.rewardScene instanceof HTMLImageElement) ui.rewardScene.src = eventImage;
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      return reducedMotion ? Promise.resolve() : waitForCompass(480);
+    }
+
+    function compassRewardSummary(event, beforePower, afterPower, beforeResult, afterResult) {
+      if (event.special || afterResult.needsSpecial) return "전설 마법진을 찾았어요!";
+      const change = afterPower - beforePower;
+      const changeText = change > 0 ? `+${change}` : change < 0 ? String(change) : "그대로";
+      if (beforeResult.id !== afterResult.id) return `${changeText} · ${afterResult.name}이 됐어요!`;
+      const nextResult = typeof Lesson3CompassRingModel.getNextResult === "function"
+        ? Lesson3CompassRingModel.getNextResult(afterResult)
+        : afterResult;
+      if (!nextResult || nextResult.id === afterResult.id) return `${changeText} · 가장 큰 마법진이에요!`;
+      const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
+      if (afterPower >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
+        return `${changeText} · 문제 ${missingCorrect}개 더`;
+      }
+      const remaining = Math.max(0, Number(nextResult.minPower || 0) - afterPower);
+      return `${changeText} · ${nextResult.name}까지 ${remaining} 더`;
     }
     window.Lesson3CompassRingModel = Lesson3CompassRingModel;
   </script>

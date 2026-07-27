@@ -45,6 +45,58 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 14. **학습 주인공 면적 필수**: 문제 화면의 1·2·3순위 요소를 먼저 선언하고, 1순위 학습 대상이 콘텐츠 레이어에서 가장 큰 면적·글자·대비를 가져야 한다. 장식 배경이나 보조 패널 때문에 핵심 계산판·조작판·선택지가 좁은 열에 갇히면 실패다. 서로 연결된 식·표현이 둘 이상 들어간 핵심 패널은 실제 Stage 폭의 `65%` 미만이면 재설계하고, 예외가 필요하면 대안 캡처와 이유를 `PLAN.md`/`REPORT.md`에 남긴다.
 15. **상태 전환 중심축 필수**: 문제 대기·정답 확인·마지막 완료 사이에서 핵심 계산판이 다른 열로 이동하거나 폭이 줄면 실패다. 완료식과 다음 행동 상자는 핵심 계산판과 같은 중앙 축·작업 영역 폭을 유지하고, 실제 rect 좌우 경계와 중심 차이를 `1px` 이하로 자동 검사한다.
 
+## 기본 Stage-Reveal 보상 계약
+
+새 차시와 보상 화면을 크게 고치는 차시는 작은 중앙 모달보다 `16:10` Stage 안에서 `마지막 정답 확인 → 닫힌 보상 → 사건 공개 → 현재 단계·다음 목표 → 다음 문제/결과`로 이어지는 `reward.mode="stage-reveal"`을 기본값으로 쓴다.
+
+- 닫힌 상태와 열린 상태를 독립 화면으로 검사하고, 같은 중심 보상 안에서 이미지·변화량·현재 단계를 함께 갱신한다.
+- `empty`는 누적값을 비우지 않고 이번 변화만 0으로 처리한다. 오답 손해는 흔한 정답 보상의 최소 증가량보다 커지지 않게 제한한다.
+- 보상 루트에는 `data-reward-stage-story="true"`를 두고, 공통 흐름 QA가 닫힌·열린 상태를 실제로 기다려 캡처하게 한다.
+- 닫힌 상태에서는 결과를 미리 보여 주지 않는다. 열린 뒤 사건 이미지, 실제 변화량, 현재 단계와 다음 목표를 함께 바꾼다.
+- 사건 이미지는 생성형 bitmap이 맡고, HTML/SVG는 실제 변화량·현재 단계·다음 목표처럼 매번 달라지는 짧은 값만 맡는다.
+- 일반 증가·작은 손해·큰 증가·희귀 사건·0 변화·최고 희귀 사건처럼 기대와 긴장이 함께 생기는 역할을 유지하되, 사건 이름과 소재는 차시에 맞게 바꾼다.
+- 낮은 결과도 실패나 빈손으로 끝내지 않는다. 지금 도착한 단계와 다시 하면 노릴 다음 단계를 이어 보여 준다.
+
+`lesson.json`에는 아래 최소 계약을 둔다.
+
+```json
+{
+  "reward": {
+    "mode": "stage-reveal",
+    "version": "<theme>-stage-reveal-v1",
+    "maxPower": 100,
+    "closedLabel": "<소재에 맞는 열기 행동>",
+    "nextLabel": "다음",
+    "fairness": {
+      "emptyKeepsProgress": true,
+      "lossCapAtCommonGainMin": true
+    },
+    "stateImageSet": {
+      "runtimeSlot": "stage-reveal-event",
+      "states": ["closed", "normal", "loss", "mega", "perfect", "empty", "rainbow"],
+      "contactSheet": "<reward-contact-sheet>.png"
+    },
+    "artMap": {
+      "normal": "<normal>.webp",
+      "loss": "<loss>.webp",
+      "mega": "<mega>.webp",
+      "perfect": "<perfect>.webp",
+      "empty": "<empty>.webp",
+      "rainbow": "<rainbow>.webp"
+    }
+  }
+}
+```
+
+구현과 검증은 다음을 강제한다.
+
+- `onRewardPrepare`는 닫힌 이미지, 현재 단계, 공개 전 문구와 `data-phase="closed"`를 설정한다.
+- `onRewardReveal`은 사건 이미지와 실제 누적값, `data-phase="revealed"`, 사건 id/family를 설정한다.
+- 상태 이미지 세트는 같은 캔버스 비율·주인공 크기·기준선·여백을 쓰고 실제 표시 비율의 컨택시트로 전수 확인한다.
+- `1280×800`, `1024×768`, 사용자가 문제를 발견한 실제 viewport/DPR에서 마지막 정답 확인·닫힌 보상·열린 보상·결과를 각각 캡처한다.
+- 닫힌 이미지가 결과 장면으로 fallback되지 않는지, 사건 이미지·라벨·진행 막대·버튼 교차가 `0px`인지, `empty` 뒤 누적값이 보존되는지 소스와 브라우저에서 함께 검사한다.
+- 기준 구현은 `_lessons/3-2-2-1-mathmon-divide-farm/`이고, 컴팩트한 2열 예시는 `_lessons/3-2-3-2-mathmon-compass-ring/`이다. 차시 전체를 복제하지 말고 계약과 필요한 훅만 가져온다.
+
 ## 겹침 0건 완료 게이트
 
 - 자동 검사는 텍스트와 버튼만 보지 않는다. SVG/Canvas 계산판의 실제 바깥 표면, 문제 카드, 지시문, 피드백, 선택지/숫자판, 모달, 투명 hitbox의 `getBoundingClientRect()`를 함께 재고 형제 영역 교차가 `0px`인지 확인한다.
@@ -62,7 +114,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 3. **자산**: `_shared/`에서 `eduitit-logo-mark.png`와 필요한 배포용 자산만 복사. 매스몬은 반드시 `eduitit-mathmon-assets` 스킬과 `_shared/mathmon/MATHMON_ASSET_CONTRACT.md`를 먼저 적용하고, 새 매스몬은 `_shared/mathmon/<pack-id>/`에 원본 등록 후 차시 폴더에는 WebP 배포본만 복사한다(10종 전부 복사 불필요 — 도감 없음). 첫 화면 커버용으로 기존 매스몬 WebP를 따로 얹지 말고, 매스몬이 필요하면 `cover-generated.webp` 생성 프롬프트에 포함한다.
 4. **엔진 복제**: 최신 기준 차시(`3-2-1-2-...`)의 `index.html`을 복제해 개조. 재사용 함수 맵 → `references/engine-and-images.md`.
 5. **개조 3종만**: ① 문제 생성기 ② 보상/등급 라벨 ③ 테마 이미지. 점수·콤보·단계선택·등급 뼈대는 그대로.
-6. **효과 설계**: 단계 정답, 보상 이동, 중심 오브젝트 변화, 랜덤 이벤트 충격, 결과 측정에 효과를 배치한다 → `references/effect-design.md`.
+6. **효과·보상 설계**: 단계 정답, 보상 이동, 중심 오브젝트 변화, 랜덤 이벤트 충격, 결과 측정에 효과를 배치한다 → `references/effect-design.md`. 새 차시나 큰 보상 수정은 이 문서의 「기본 Stage-Reveal 보상 계약」도 적용한다.
 7. **이미지**: 필요한 RasterStage 이미지를 생성하고 WebP로 배포 변환 → `references/engine-and-images.md`.
 8. **Humanizer 학생 문구 QA**: 학생에게 보이는 문구를 모두 뽑아 `humanizer` 스킬(`/Users/yubyeongju/.agents/skills/humanizer/SKILL.md`) 기준으로 AI 문체·번역투·어려운 한자어를 걷어낸다. 초3 학생이 소리 내어 읽어도 바로 이해되는 행동어로 바꾸고, 바뀐 문구가 화면에 맞는지 브라우저 캡처로 확인한다.
 9. **기준 차시 비교**: `references/verification.md`의 기준 차시 비교 항목에 따라 강점별 비교군을 고르고, 수학적 판단 수와 정답 경로의 최소·중앙값·평균·최대 물리 입력 수를 따로 계산한다. 현재 실행본의 오답·각 단계 정답 확인·전환 상태까지 실제 화면과 코드 증거로 `BENCHMARK_AUDIT.md`를 작성한다. 자동 검사 통과나 오래된 스크린샷만으로 완료 판정하지 않는다.

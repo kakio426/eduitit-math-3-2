@@ -571,7 +571,7 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
     }).map((node) => ({ name:node.className || node.id || node.tagName, rect:rectOf(node), stage:rectOf(document.querySelector('.stage-shell')) }));
     const logo = document.querySelector('img.brand-logo');
     const retry = document.querySelector('.result-retry-art');
-    const retryHitbox = document.querySelector('.result-restart-hitbox');
+    const retryHitbox = document.querySelector('.result-restart-hitbox, .result-retry-hitbox');
     const resultBg = document.getElementById('resultBg');
     const farmStage = document.querySelector('.farm-stage-art');
     const hud = document.querySelector('#screen-play .hud');
@@ -2604,7 +2604,12 @@ async function revealReward(page, reward, label) {
   if (reward.stageReveal) {
     const before = await evaluate(page, "window.__mathmonEngineQa.getState()");
     await evaluate(page, "(() => { const button = document.getElementById('rewardNextButton'); button.click(); button.click(); })()");
-    await waitUntil(page, "window.__mathmonEngineQa.getState().rewardPhase === 'revealed' && document.querySelector('.farm-reward-story')?.dataset.phase === 'revealed'", `${label}: stage reward did not reveal`, 8000);
+    await waitUntil(
+      page,
+      "window.__mathmonEngineQa.getState().rewardPhase === 'revealed' && document.querySelector('.farm-reward-story, [data-reward-stage-story=\"true\"]')?.dataset.phase === 'revealed'",
+      `${label}: stage reward did not reveal`,
+      8000,
+    );
     const after = await evaluate(page, "window.__mathmonEngineQa.getState()");
     const expectedPower = before.pendingRewardSpecial
       ? 100

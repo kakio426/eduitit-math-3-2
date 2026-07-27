@@ -9,7 +9,7 @@
   "topic": "컴퍼스로 원 그리기",
   "unitBadge": "3단원 원",
   "goal": "반지름만큼 컴퍼스를 벌려요.",
-  "action": "반지름만큼 벌어진 컴퍼스를 골라요.",
+  "action": "바늘과 연필 사이의 길이를 골라요.",
   "buttonLabel": "마법 보기",
   "rewardScreenTitle": "마법진 빛",
   "progressLabel": "마법진 빛",
@@ -22,9 +22,22 @@
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
-    "mode": "modal-art",
+    "mode": "stage-reveal",
+    "version": "magic-circle-stage-reveal-v1",
     "maxPower": 100,
+    "closedLabel": "마법 보기",
     "nextLabel": "다음",
+    "fairness": {
+      "emptyKeepsProgress": true,
+      "lossCapAtCommonGainMin": true
+    },
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "stage-reveal-event",
+      "states": ["closed", "normal", "loss", "mega", "perfect", "empty", "rainbow"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
     "artMap": {
       "normal": "reward-event-normal-generated.webp",
       "loss": "reward-event-loss-generated.webp",
@@ -60,13 +73,13 @@
   ],
   "rewardEvents": [
     { "id": "normal", "text": "빛 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
-    { "id": "loss", "text": "빛 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "loss", "text": "빛 -", "weight": 1200, "min": -4, "max": -2, "family": "loss" },
     { "id": "mega", "text": "빛 크게 +", "weight": 900, "min": 12, "max": 20, "family": "mega" },
     { "id": "perfect", "text": "완벽한 원!", "weight": 50, "min": 6, "max": 6, "family": "perfect", "launches": true },
-    { "id": "empty", "text": "빛 0", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "empty", "text": "빛 0", "weight": 200, "min": 0, "max": 0, "family": "empty" },
     { "id": "rainbow", "text": "무지개 원!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
   ],
-  "wrongEvent": { "id": "loss", "text": "빛 -", "min": -18, "max": -8, "family": "loss" },
+  "wrongEvent": { "id": "loss", "text": "빛 -", "min": -4, "max": -2, "family": "loss" },
   "typesPerRun": ["2 cm", "3 cm", "4 cm", "5 cm", "6 cm", "2 cm", "3 cm", "4 cm", "5 cm", "6 cm"],
   "radiiPerRun": [2, 3, 4, 5, 6, 2, 3, 4, 5, 6],
   "stage": { "ratio": "16:10", "size": "1280x800" },
@@ -76,12 +89,14 @@
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "problem-stage-generated.webp",
-    "rewardScene": "result-ring-generated.webp",
+    "rewardClosed": "reward-event-closed-generated.webp",
+    "rewardScene": "reward-event-closed-generated.webp",
     "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp",
     "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-closed-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-faint-generated.webp", "result-small-generated.webp", "result-ring-generated.webp",
@@ -91,7 +106,9 @@
     "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "reported-reward-closed-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 },
+      { "name": "reported-complete-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 }
     ],
     "layoutAudit": {
       "workArea": ".problem-grid",
@@ -122,6 +139,6 @@
       "COMPASS_TOO_WIDE",
       "COMPASS_USES_DIAMETER"
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward-closed", "reward-open", "result"]
   }
 }

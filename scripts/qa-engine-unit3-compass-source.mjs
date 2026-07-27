@@ -9,6 +9,9 @@ const SOURCE_DIR = path.join(ROOT, "_lessons", LESSON);
 const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
+const closedRewardPng = await readFile(path.join(ROOT, LESSON, "reward-event-closed-generated.png"));
+await readFile(path.join(ROOT, LESSON, "reward-event-closed-generated.webp"));
+await readFile(path.join(ROOT, LESSON, "reward-events-v3-contact-sheet.png"));
 
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
@@ -20,6 +23,35 @@ assert.equal(config.goal, "반지름만큼 컴퍼스를 벌려요.");
 assert.equal(config.standards.coverStartAsset, "shared-canonical-v1");
 assert.equal(config.imageAssets.startButton, "../_shared/mathmon/cover-start-button/start-button-generated.webp");
 assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-generated.webp");
+assert.equal(config.imageAssets.rewardClosed, "reward-event-closed-generated.webp");
+assert.ok(config.assets.includes(config.imageAssets.rewardClosed), "closed reward runtime asset must be listed");
+assert.equal(config.action, "바늘과 연필 사이의 길이를 골라요.");
+assert.equal(config.reward.mode, "stage-reveal");
+assert.equal(config.reward.version, "magic-circle-stage-reveal-v1");
+assert.equal(config.reward.closedLabel, "마법 보기");
+assert.equal(config.reward.fairness.emptyKeepsProgress, true);
+assert.equal(config.reward.fairness.lossCapAtCommonGainMin, true);
+assert.deepEqual(config.reward.stateImageSet, {
+  count: 7,
+  canvas: "512x512",
+  runtimeSlot: "stage-reveal-event",
+  states: ["closed", "normal", "loss", "mega", "perfect", "empty", "rainbow"],
+  contactSheet: "reward-events-v3-contact-sheet.png",
+});
+assert.equal(closedRewardPng.readUInt32BE(16), 512, "closed reward PNG width");
+assert.equal(closedRewardPng.readUInt32BE(20), 512, "closed reward PNG height");
+assert.ok(
+  config.qa.viewports.some((viewport) => viewport.name === "reported-reward-closed-1082x897-dpr2"
+    && viewport.width === 1082 && viewport.height === 897 && viewport.dpr === 2),
+  "reported reward viewport must stay in regression QA",
+);
+assert.ok(
+  config.qa.viewports.some((viewport) => viewport.name === "reported-complete-1082x897-dpr2"
+    && viewport.width === 1082 && viewport.height === 897 && viewport.dpr === 2),
+  "reported complete viewport must stay in regression QA",
+);
+assert.ok(config.qa.requiredFlow.includes("reward-closed"), "closed reward state must be audited");
+assert.ok(config.qa.requiredFlow.includes("reward-open"), "open reward state must be audited");
 assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
 assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);
 assert.deepEqual([...config.qa.misconceptionCoverage], [
@@ -37,6 +69,9 @@ for (let seed = 1; seed <= 200; seed += 1) {
     assert.ok(problem.radius >= 2 && problem.radius <= 6, `${problem.id}: radius is grade-appropriate`);
     assert.equal(problem.steps.length, 1, `${problem.id}: one visible action`);
     const step = problem.steps[0];
+    assert.equal(problem.prompt, `반지름 ${problem.radius} cm, 얼마나 벌릴까요?`);
+    assert.equal(problem.finalExpression, `그대로 돌리면 반지름 ${problem.radius} cm인 원이 돼요.`);
+    assert.equal(step.instruction, "바늘과 연필 사이의 길이를 골라요.");
     assert.equal(step.choices.length, 4, `${problem.id}: four compass choices`);
     assert.equal(step.choices.filter((choice) => choice.id === step.answerChoiceId).length, 1, `${problem.id}: one answer`);
     assert.equal(new Set(step.choices.map((choice) => choice.value)).size, 4, `${problem.id}: four distinct openings`);
@@ -51,9 +86,28 @@ for (let seed = 1; seed <= 200; seed += 1) {
   }
 }
 
+const commonGain = config.rewardEvents.find((event) => event.id === "normal");
+const smallLoss = config.rewardEvents.find((event) => event.id === "loss");
+const empty = config.rewardEvents.find((event) => event.id === "empty");
+assert.ok(Math.abs(smallLoss.min) <= commonGain.min, "small loss must not erase more than the minimum common gain");
+assert.ok(Math.abs(config.wrongEvent.min) <= commonGain.min, "wrong reward loss must stay within one minimum common gain");
+assert.equal(empty.emptiesPower, undefined, "empty reward must not reset progress");
+assert.deepEqual(
+  JSON.parse(JSON.stringify(model.applyReward({ power: 37, specialSeen: false }, { ...empty, amount: 0 }))),
+  { power: 37, specialSeen: false },
+  "empty reward keeps current progress",
+);
+
 assert.match(viewSource, /compass-choice-svg/, "each answer surface must show a compass opening");
-assert.match(viewSource, /compass-confirm-svg/, "the chosen opening must expand for confirmation");
-assert.match(viewSource, /matches \? "=" : "≠"/, "wrong opening comparison must never show a false equality");
+assert.match(viewSource, /correct-anchor/, "correct proof must anchor the needle");
+assert.match(viewSource, /correct-open/, "correct proof must show the matched opening");
+assert.match(viewSource, /correct-draw/, "correct proof must draw the circle");
+assert.match(viewSource, /complete-ready/, "completed circle must remain before reward");
+assert.match(viewSource, /pathLength="1"/, "circle drawing path must expose normalized progress");
+assert.match(viewSource, /COMPASS_TARGET_RADIUS \* opening \/ radius/, "compass opening and target radius must share one geometry scale");
+assert.match(viewSource, /compass-reward-story/, "reward must use a full stage-reveal story");
+assert.match(viewSource, /function onRewardPrepare/, "closed reward state must have a lesson hook");
+assert.match(viewSource, /function onRewardReveal/, "revealed reward state must have a lesson hook");
 assert.doesNotMatch(viewSource, /마법진 점수|마법진 등급|진행도/, "problem view must not contain reward panels");
 
 console.log("QA_ENGINE_UNIT3_COMPASS_SOURCE: PASS");

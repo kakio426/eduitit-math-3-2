@@ -47,9 +47,9 @@ const Lesson3CompassRingModel = (() => {
   function choicesForRadius(radius, rng) {
     return shuffle([
       openingChoice(radius, radius),
-      openingChoice(radius * 2, radius, "COMPASS_USES_DIAMETER", "지름이 아니라 반지름만큼 벌려요."),
-      openingChoice(radius - 1, radius, "COMPASS_TOO_NARROW", "조금 좁아요. 반지름의 길이를 다시 봐요."),
-      openingChoice(radius + 1, radius, "COMPASS_TOO_WIDE", "조금 넓어요. 반지름의 길이를 다시 봐요.")
+      openingChoice(radius * 2, radius, "COMPASS_USES_DIAMETER", "지름만큼 벌리면 목표 원보다 커져요."),
+      openingChoice(radius - 1, radius, "COMPASS_TOO_NARROW", "이대로 돌리면 원이 작아져요."),
+      openingChoice(radius + 1, radius, "COMPASS_TOO_WIDE", "이대로 돌리면 원이 커져요.")
     ], rng);
   }
 
@@ -59,16 +59,16 @@ const Lesson3CompassRingModel = (() => {
       type: "compass-opening",
       radius,
       answerKind: "compass-opening",
-      prompt: `반지름 ${radius} cm인 원을 그리려면?`,
-      finalExpression: `컴퍼스를 ${radius} cm만큼 벌려요. 이 길이가 반지름이에요.`,
+      prompt: `반지름 ${radius} cm, 얼마나 벌릴까요?`,
+      finalExpression: `그대로 돌리면 반지름 ${radius} cm인 원이 돼요.`,
       steps: [{
         id: "spread",
         label: "컴퍼스 벌리기",
-        instruction: "반지름만큼 벌어진 컴퍼스를 골라요.",
+        instruction: "바늘과 연필 사이의 길이를 골라요.",
         answer: radius,
         answerChoiceId: `choice:${radius}`,
         choices: choicesForRadius(radius, rng),
-        correctText: `맞아요. 컴퍼스를 ${radius} cm만큼 벌려요.`,
+        correctText: `바늘과 연필 사이를 ${radius} cm로 맞춰요.`,
         reveal: `${radius} cm`,
         advance: { mode: "complete" }
       }]
@@ -104,7 +104,7 @@ const Lesson3CompassRingModel = (() => {
   }
 
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };
