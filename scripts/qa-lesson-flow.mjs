@@ -605,7 +605,7 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
 async function auditGeneratedActionButton(page, label, selector, expectedSource, expectedLabel) {
   const audit = await evaluate(page, `(() => {
     const button = document.querySelector(${JSON.stringify(selector)});
-    const image = button?.querySelector('.generated-action-button-art, .result-retry-art');
+    const image = button?.querySelector('.generated-action-button-art, .result-retry-art, .score-view-button-art');
     const rectOf = (node) => {
       const rect = node?.getBoundingClientRect();
       return rect ? { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height } : null;
@@ -838,6 +838,21 @@ async function auditConfiguredTypography(page, label) {
     const primary = rectOf(LESSON_CONFIG.qa?.layoutAudit?.primary);
     const tertiary = rectOf(LESSON_CONFIG.qa?.layoutAudit?.tertiary);
     const secondary = rectOf(LESSON_CONFIG.qa?.layoutAudit?.secondary);
+    const panelRects = { primary, secondary, tertiary };
+    const layoutConfig = LESSON_CONFIG.qa?.layoutAudit;
+    const verticalOrder = Array.isArray(layoutConfig?.verticalOrder) && layoutConfig.verticalOrder.length >= 2
+      ? layoutConfig.verticalOrder
+      : ['primary', 'tertiary', 'secondary'];
+    const gaps = {};
+    for (let index = 0; index < verticalOrder.length - 1; index += 1) {
+      const from = verticalOrder[index];
+      const to = verticalOrder[index + 1];
+      const fromRect = panelRects[from];
+      const toRect = panelRects[to];
+      gaps[from + 'To' + to[0].toUpperCase() + to.slice(1)] = fromRect && toRect
+        ? toRect.top - fromRect.bottom
+        : null;
+    }
     return {
       config,
       headline:readFont(config.headline),
@@ -851,10 +866,8 @@ async function auditConfiguredTypography(page, label) {
       primary,
       primarySvgText:readSvgText(config.primarySvgText),
       choiceSvgText:readSvgText(config.choiceSvgText),
-      gaps:{
-        primaryToInstruction:primary && tertiary ? tertiary.top - primary.bottom : null,
-        instructionToChoices:tertiary && secondary ? secondary.top - tertiary.bottom : null
-      }
+      verticalOrder,
+      gaps
     };
   })()`);
   if (!audit) return null;
@@ -875,7 +888,12 @@ async function auditConfiguredTypography(page, label) {
     `${label}: primary SVG surface left its reserved panel`,
     audit
   );
-  assert(audit.gaps.primaryToInstruction >= config.minPanelGapPx && audit.gaps.instructionToChoices >= config.minPanelGapPx, `${label}: learning panel gap is too small`, audit);
+  assert(
+    Object.values(audit.gaps).length > 0
+      && Object.values(audit.gaps).every((gap) => Number.isFinite(gap) && gap >= config.minPanelGapPx),
+    `${label}: learning panel gap is too small`,
+    audit
+  );
   assert(audit.primarySvgText.every((item) => item.renderedFontSize >= config.minPrimarySvgTextPx), `${label}: primary SVG text is too small`, audit);
   assert(audit.choiceSvgText.every((item) => item.renderedFontSize >= config.minChoiceSvgTextPx), `${label}: choice SVG text is too small`, audit);
   assert([...audit.primarySvgText, ...audit.choiceSvgText].every((item) => !item.outside), `${label}: SVG text left its viewBox`, audit);
@@ -956,13 +974,45 @@ async function auditConfiguredMisconceptions(page, lesson, viewport, shots, rema
       const selected = [...document.querySelectorAll('button.choice-button')]
         .find((button) => button.dataset.choice === String(choice?.id ?? choice?.value ?? ''));
       const visual = document.querySelector('#visualArea [data-state="wrong"], #visualArea .is-wrong');
+      const selectedVisual = selected?.querySelector('.circle-choice-svg .relation-geometry');
+      const selectedVisualRect = selectedVisual?.getBoundingClientRect();
+      const candidateLine = selected?.querySelector('.relation-candidate');
+      const centerDistance = candidateLine ? (() => {
+        const x1 = Number(candidateLine.getAttribute('x1'));
+        const y1 = Number(candidateLine.getAttribute('y1'));
+        const x2 = Number(candidateLine.getAttribute('x2'));
+        const y2 = Number(candidateLine.getAttribute('y2'));
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const lengthSquared = dx * dx + dy * dy;
+        if (!lengthSquared) return null;
+        const raw = ((120 - x1) * dx + (90 - y1) * dy) / lengthSquared;
+        const t = Math.max(0, Math.min(1, raw));
+        const px = x1 + t * dx;
+        const py = y1 + t * dy;
+        return Math.hypot(120 - px, 90 - py);
+      })() : null;
       return {
         selectedState:selected?.dataset.state || '',
+        selectedVisualVisible:Boolean(selectedVisualRect?.width > 1 && selectedVisualRect?.height > 1),
+        diagnosticCount:selected?.querySelectorAll('.relation-diagnostic > *').length || 0,
+        centerDistance,
         visualState:visual?.getAttribute('data-state') || visual?.className?.baseVal || visual?.className || '',
         feedback:document.getElementById('feedbackLine')?.textContent.trim() || ''
       };
     })()`);
-    assert(evidence.selectedState === "wrong" && evidence.visualState, `${viewport.name}: ${id} did not show the selected wrong relation in the work area`, evidence);
+    const hasSelectedChoiceEvidence = evidence.selectedVisualVisible && evidence.diagnosticCount > 0;
+    assert(
+      evidence.selectedState === "wrong" && (hasSelectedChoiceEvidence || evidence.visualState),
+      `${viewport.name}: ${id} did not show the selected wrong relation in the work area`,
+      evidence
+    );
+    if (lesson === "3-2-3-1-mathmon-target-hit") {
+      assert(hasSelectedChoiceEvidence, `${viewport.name}: ${id} did not annotate the selected target slot`, evidence);
+      if (id === "CIRCLE_DIAMETER_MISSES_CENTER") {
+        assert(evidence.centerDistance > 12, `${viewport.name}: off-center chord is too close to the center marker`, evidence);
+      }
+    }
     const slug = id.toLowerCase().replace(/_/g, "-");
     shots.push(await screenshot(page, lesson, viewport, `05m-p${problemIndex}-${slug}`));
     await auditGeometry(page, `${viewport.name} misconception ${id}`);
@@ -2940,6 +2990,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   let initialLearningLayout = null;
   const hasSharedCoverStart = await evaluate(page, "document.querySelector('main.game')?.dataset.coverStartAsset === 'shared-canonical-v1'");
   const hasConfiguredLayoutAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.layoutAudit)");
+  const scoreViewButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.scoreViewButton || ''");
+  const tutorialNextButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.tutorialNextButton || ''");
   const configuredMisconceptions = await evaluate(page, "LESSON_CONFIG.qa?.misconceptionCoverage || []");
   const remainingMisconceptions = new Set(configuredMisconceptions);
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
@@ -2956,6 +3008,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && (document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '다음'", `${viewport.name}: tutorial 1 not shown`);
   shots.push(await screenshot(page, lesson, viewport, "03-tutorial-1"));
   await auditGeometry(page, `${viewport.name} tutorial 1`);
+  if (tutorialNextButtonAsset) {
+    await auditGeneratedActionButton(page, `${viewport.name} tutorial next button`, "#tutorialStartButton", tutorialNextButtonAsset, "다음");
+  }
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorTutorialSolveRaster(page, `${viewport.name} generated place-value tutorial poster`);
     await auditGeneratedActionButton(page, `${viewport.name} tutorial next button`, "#tutorialStartButton", "action-buttons/next-button-generated.webp", "다음");
@@ -3220,6 +3275,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditElevatorDivisionSvgClearance(page, `${viewport.name} completed division SVG`, "complete");
     await auditMathmonReactionAlphaEdge(page, `${viewport.name} completed eagle reward reaction`);
     await auditGeneratedActionButton(page, `${viewport.name} door-open button`, "#rewardButton", "door-open-button-generated.webp", "문 열기");
+  }
+  if (scoreViewButtonAsset) {
+    await auditGeneratedActionButton(page, `${viewport.name} score-view button`, "#rewardButton", scoreViewButtonAsset, "점수 보기");
   }
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");

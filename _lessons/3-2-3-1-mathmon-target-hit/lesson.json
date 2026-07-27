@@ -17,14 +17,27 @@
   "tutorialTitle": "표적을 맞히기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "purpose": "mechanic", "title": "어떻게 찾아요?", "body": "중심·반지름·지름을 그림으로 찾아요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 표적 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 찾아요?", "body": "표적 네 개 중 알맞은 그림을 골라요.", "image": "tutorial-page-1-target-console-v2-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제를 풀면 표적 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
-    "mode": "modal-art",
+    "mode": "stage-reveal",
+    "version": "target-score-stage-reveal-v1",
     "maxPower": 100,
+    "closedLabel": "가림막 열기",
     "nextLabel": "다음",
+    "fairness": {
+      "emptyKeepsProgress": true,
+      "lossCapAtCommonGainMin": true
+    },
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "stage-reveal-event",
+      "states": ["closed", "normal", "loss", "mega", "bullseye", "empty", "rainbow"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
     "artMap": {
       "normal": "reward-event-normal-generated.webp",
       "loss": "reward-event-loss-generated.webp",
@@ -74,13 +87,13 @@
   ],
   "rewardEvents": [
     { "id": "normal", "text": "점수 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
-    { "id": "loss", "text": "점수 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "loss", "text": "점수 -", "weight": 1200, "min": -4, "max": -2, "family": "loss" },
     { "id": "mega", "text": "점수 크게 +", "weight": 900, "min": 12, "max": 20, "family": "mega" },
     { "id": "bullseye", "text": "정중앙!", "weight": 50, "min": 6, "max": 6, "family": "bullseye", "launches": true },
-    { "id": "empty", "text": "점수 0", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "empty", "text": "점수 0", "weight": 200, "min": 0, "max": 0, "family": "empty" },
     { "id": "rainbow", "text": "무지개 명중!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
   ],
-  "wrongEvent": { "id": "loss", "text": "점수 -", "min": -18, "max": -8, "family": "loss" },
+  "wrongEvent": { "id": "loss", "text": "점수 -", "min": -4, "max": -2, "family": "loss" },
   "typesPerRun": ["중심", "반지름", "지름", "중심", "반지름", "지름", "중심", "반지름", "지름", "중심"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
@@ -88,13 +101,18 @@
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "tutorialNextButton": "../_shared/action-buttons/next-button-generated.webp",
     "problemStage": "problem-stage-generated.webp",
-    "rewardScene": "result-hit-generated.webp",
+    "scoreViewButton": "score-view-button-v1-generated.webp",
+    "rewardClosed": "reward-event-closed-generated.webp",
+    "rewardScene": "reward-event-closed-generated.webp",
     "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp",
-    "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "problem-stage-generated.webp", "tutorial-page-1-target-console-v2-generated.webp", "tutorial-page-2-generated.webp",
+    "score-view-button-v1-generated.webp", "../_shared/action-buttons/next-button-generated.webp",
+    "reward-event-closed-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-bullseye-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-practice-generated.webp", "result-edge-generated.webp", "result-hit-generated.webp",
@@ -104,23 +122,25 @@
     "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "user-redesign-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 }
     ],
     "layoutAudit": {
       "workArea": ".problem-grid",
-      "primary": ".problem-card",
-      "secondary": ".choices-panel",
-      "tertiary": ".step-board",
+      "primary": ".target-console",
+      "secondary": ".step-board",
+      "tertiary": ".problem-card",
       "complete": ".complete-panel",
-      "minStageWidthRatio": 0.62
+      "minStageWidthRatio": 0.64,
+      "verticalOrder": ["tertiary", "secondary", "primary"]
     },
     "typographyAudit": {
       "headline": ".big-problem",
       "instruction": ".step-board .instruction",
       "feedback": ".step-board .feedback-line",
-      "primaryVisual": ".problem-card svg",
-      "primarySvgText": ".problem-card svg text",
-      "choiceSvgText": ".choices-panel svg text",
+      "primaryVisual": ".target-console .circle-choice-svg",
+      "primarySvgText": ".target-console .circle-choice-svg text",
+      "choiceSvgText": ".target-console .circle-choice-svg text",
       "minHeadlinePx": 36,
       "minInstructionPx": 18,
       "minPrimarySvgTextPx": 16,
