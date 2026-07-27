@@ -33,29 +33,75 @@ const Lesson2CheckLockModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
-  function choice(id, value, label, misconceptionId = null, feedback = "") {
-    return { id, value, label, misconceptionId, feedback };
+  function choice(id, value, label, misconceptionId = null, feedback = "", meta = {}) {
+    return { id, value, label, misconceptionId, feedback, ...meta };
   }
 
-  function numericChoices(answer, candidates, misconceptionIds, feedbacks, rng) {
-    const values = [answer];
-    for (const candidate of candidates) {
-      if (candidate >= 0 && !values.includes(candidate)) values.push(candidate);
-      if (values.length === 4) break;
-    }
-    let bump = 1;
-    while (values.length < 4) {
-      const candidate = answer + bump;
-      if (!values.includes(candidate)) values.push(candidate);
-      bump += 1;
-    }
-    return shuffle(values.map((value, index) => choice(
-      `value:${value}`,
-      value,
-      String(value),
-      index === 0 ? null : (misconceptionIds[index - 1] || "DIV4_CALCULATION_SLIP"),
-      index === 0 ? "" : (feedbacks[index - 1] || "계산을 한 번 더 해 봐요.")
-    )), rng);
+  function multiplicationChoices(dividend, divisor, quotient, remainder, rng) {
+    return shuffle([
+      choice(
+        "multiply:divisor-quotient",
+        "divisor-quotient",
+        `${divisor} × ${quotient}`,
+        null,
+        "",
+        { roleLabel: "나누는 수 × 몫", expression: `${divisor} × ${quotient}` }
+      ),
+      choice(
+        "multiply:dividend-divisor",
+        "dividend-divisor",
+        `${dividend} × ${divisor}`,
+        "DIV4_MULTIPLY_DIVIDEND_DIVISOR",
+        "처음 수는 마지막에 비교해요.",
+        { roleLabel: "처음 수 × 나누는 수", expression: `${dividend} × ${divisor}` }
+      ),
+      choice(
+        "multiply:quotient-remainder",
+        "quotient-remainder",
+        `${quotient} × ${remainder}`,
+        "DIV4_MULTIPLY_QUOTIENT_REMAINDER",
+        "몫은 나누는 수와 곱해요.",
+        { roleLabel: "몫 × 나머지", expression: `${quotient} × ${remainder}` }
+      ),
+      choice(
+        "multiply:divisor-remainder",
+        "divisor-remainder",
+        `${divisor} × ${remainder}`,
+        "DIV4_MULTIPLY_DIVISOR_REMAINDER",
+        "나머지는 곱하지 않아요.",
+        { roleLabel: "나누는 수 × 나머지", expression: `${divisor} × ${remainder}` }
+      )
+    ], rng);
+  }
+
+  function additionChoices(dividend, divisor, quotient, remainder, rng) {
+    return shuffle([
+      choice("add:remainder", "remainder", String(remainder), null, "", { roleLabel: "나머지", number: remainder }),
+      choice(
+        "add:quotient",
+        "quotient",
+        String(quotient),
+        "DIV4_ADD_QUOTIENT",
+        "몫 말고 나머지를 더해요.",
+        { roleLabel: "몫", number: quotient }
+      ),
+      choice(
+        "add:divisor",
+        "divisor",
+        String(divisor),
+        "DIV4_ADD_DIVISOR",
+        "나누는 수가 아니라 나머지를 더해요.",
+        { roleLabel: "나누는 수", number: divisor }
+      ),
+      choice(
+        "add:dividend",
+        "dividend",
+        String(dividend),
+        "DIV4_ADD_DIVIDEND",
+        "처음 수는 마지막에 비교해요.",
+        { roleLabel: "처음 수", number: dividend }
+      )
+    ], rng);
   }
 
   function makeProblem(rng, serial, shouldMatch, mismatchKind, used) {
@@ -85,41 +131,29 @@ const Lesson2CheckLockModel = (() => {
       const product = divisor * shownQuotient;
       const checkTotal = product + shownRemainder;
       const matchesOriginal = checkTotal === dividend;
-      const multiplyAnswerId = `value:${product}`;
-      const addAnswerId = `value:${checkTotal}`;
+      const multiplyAnswerId = "multiply:divisor-quotient";
+      const addAnswerId = "add:remainder";
       const steps = [
         {
           id: "multiply",
           label: "곱하기",
-          instruction: "곱한 값을 숫자판에 넣어요.",
-          answer: product,
+          instruction: "먼저 무엇과 무엇을 곱할까요?",
+          answer: "divisor-quotient",
           answerChoiceId: multiplyAnswerId,
-          choices: numericChoices(
-            product,
-            [divisor + shownQuotient, product + divisor, product - divisor],
-            ["DIV4_ADD_INSTEAD_OF_MULTIPLY", "DIV4_PRODUCT_TOO_HIGH", "DIV4_PRODUCT_TOO_LOW"],
-            ["더하지 말고 곱해요.", "곱한 값이 너무 커요.", "곱한 값이 너무 작아요."],
-            rng
-          ),
+          choices: multiplicationChoices(dividend, divisor, shownQuotient, shownRemainder, rng),
           correctText: `${divisor} × ${shownQuotient} = ${product}`,
-          reveal: String(product),
+          reveal: `${divisor} × ${shownQuotient}`,
           advance: { mode: "timed", delayMs: 850 }
         },
         {
           id: "add",
           label: "더하기",
-          instruction: "더한 값을 숫자판에 넣어요.",
-          answer: checkTotal,
+          instruction: "그다음 무엇을 더할까요?",
+          answer: "remainder",
           answerChoiceId: addAnswerId,
-          choices: numericChoices(
-            checkTotal,
-            [product, product + divisor, checkTotal + 1],
-            ["DIV4_OMIT_REMAINDER", "DIV4_ADD_DIVISOR_NOT_REMAINDER", "DIV4_ADDITION_SLIP"],
-            ["나머지도 더해요.", "나누는 수가 아니라 나머지를 더해요.", "더한 값을 한 번 더 봐요."],
-            rng
-          ),
+          choices: additionChoices(dividend, divisor, shownQuotient, shownRemainder, rng),
           correctText: `${product} + ${shownRemainder} = ${checkTotal}`,
-          reveal: String(checkTotal),
+          reveal: String(shownRemainder),
           advance: { mode: matchesOriginal ? "complete" : "timed", delayMs: 1000 }
         }
       ];
@@ -129,12 +163,12 @@ const Lesson2CheckLockModel = (() => {
         steps.push({
           id: "locate",
           label: "다른 곳 찾기",
-          instruction: "몫 또는 나머지를 눌러요.",
+          instruction: "어느 수가 다를까요?",
           answer: mismatchPart,
           answerChoiceId: locateAnswerId,
           choices: shuffle([
-            choice("locate:quotient", "quotient", "몫", mismatchPart === "quotient" ? null : "DIV4_WRONG_ERROR_LOCATION", "나머지를 다시 봐요."),
-            choice("locate:remainder", "remainder", "나머지", mismatchPart === "remainder" ? null : "DIV4_WRONG_ERROR_LOCATION", "몫을 다시 봐요.")
+            choice("locate:quotient", "quotient", `몫 ${shownQuotient}`, mismatchPart === "quotient" ? null : "DIV4_WRONG_ERROR_LOCATION", "나머지를 다시 봐요."),
+            choice("locate:remainder", "remainder", `나머지 ${shownRemainder}`, mismatchPart === "remainder" ? null : "DIV4_WRONG_ERROR_LOCATION", "몫을 다시 봐요.")
           ], rng),
           correctText: mismatchPart === "quotient" ? "몫이 달라요." : "나머지가 달라요.",
           reveal: mismatchPart === "quotient" ? "몫" : "나머지",

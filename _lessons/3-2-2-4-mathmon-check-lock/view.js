@@ -1,14 +1,144 @@
 const CHECK_LOCK_SVG_NS = "http://www.w3.org/2000/svg";
+const CHECK_LOCK_RELATION_LABEL = "나누는 수 × 몫";
+
+const VAULT_WORLD_SPARKS = {
+  lock: [[50, 10], [50, 30], [50, 46]],
+  safe: [[50, 10], [50, 30], [31, 34], [69, 34], [50, 46]],
+  largeSafe: [[50, 10], [50, 30], [31, 34], [69, 34], [27, 41], [73, 41], [50, 46]],
+  secretSafe: [[50, 10], [50, 30], [31, 34], [69, 34], [27, 41], [73, 41], [50, 46], [35, 56], [65, 56]],
+  treasure: [[50, 10], [50, 30], [31, 34], [69, 34], [27, 41], [73, 41], [50, 46], [35, 56], [65, 56], [42, 67], [58, 67]],
+  rainbow: [[50, 10], [50, 30], [31, 34], [69, 34], [27, 41], [73, 41], [50, 46], [35, 56], [65, 56], [42, 67], [58, 67], [50, 78]]
+};
 
 function ensureCheckLockStageArt() {
   const playScreen = document.getElementById("screen-play");
-  if (!playScreen || playScreen.querySelector(".check-lock-stage-art")) return;
-  const image = document.createElement("img");
-  image.className = "check-lock-stage-art";
-  image.src = LESSON_CONFIG.imageAssets.problemStage;
-  image.alt = "";
-  image.setAttribute("aria-hidden", "true");
-  playScreen.prepend(image);
+  if (!playScreen) return;
+
+  if (!playScreen.querySelector(".check-lock-stage-art")) {
+    const image = document.createElement("img");
+    image.className = "check-lock-stage-art";
+    image.src = LESSON_CONFIG.imageAssets.problemStage;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    playScreen.prepend(image);
+  }
+
+  if (!playScreen.querySelector(".vault-world-panel")) {
+    const panel = document.createElement("aside");
+    panel.className = "vault-world-panel";
+    panel.id = "vaultWorldPanel";
+    panel.setAttribute("aria-live", "polite");
+    panel.innerHTML = `
+      <img class="vault-world-image" id="vaultWorldImage" alt="" aria-hidden="true">
+      <img class="vault-world-flare-image" id="vaultWorldFlareImage" alt="" aria-hidden="true">
+      <span class="vault-spark-layer" id="vaultSparkLayer" aria-hidden="true"></span>
+      <div class="vault-world-readout">
+        <p class="vault-world-current"><span>지금</span><strong id="vaultCurrentName">작은 자물쇠</strong></p>
+        <div class="vault-world-power">
+          <span>열쇠 힘</span>
+          <strong id="vaultPowerValue">0</strong>
+          <i aria-hidden="true"><b id="vaultPowerFill"></b></i>
+        </div>
+        <p class="vault-world-next"><span>다음</span><strong id="vaultNextName">튼튼한 금고</strong></p>
+      </div>
+      <span class="visually-hidden" id="vaultWorldStatus"></span>
+    `;
+    playScreen.appendChild(panel);
+  }
+
+  if (!playScreen.querySelector(".key-flight-layer")) {
+    const layer = document.createElement("div");
+    layer.className = "key-flight-layer";
+    layer.id = "keyFlightLayer";
+    layer.setAttribute("aria-hidden", "true");
+    playScreen.appendChild(layer);
+  }
+}
+
+function getVaultWorldResult(state) {
+  return Lesson2CheckLockModel.getResult(
+    Number(state.power || 0),
+    Number(state.correctFirstTry || 0),
+    Boolean(state.specialSeen)
+  );
+}
+
+function getNextVaultResult(current) {
+  if (current?.needsSpecial) return null;
+  const special = Lesson2CheckLockModel.RESULT_TIERS.find((result) => result.needsSpecial);
+  const candidate = Lesson2CheckLockModel.getNextResult(current);
+  if (!candidate || candidate.id === current.id) return special || null;
+  return candidate;
+}
+
+function syncVaultWorld(state, options = {}) {
+  ensureCheckLockStageArt();
+  const panel = document.getElementById("vaultWorldPanel");
+  const image = document.getElementById("vaultWorldImage");
+  const flareImage = document.getElementById("vaultWorldFlareImage");
+  const sparkLayer = document.getElementById("vaultSparkLayer");
+  const status = document.getElementById("vaultWorldStatus");
+  const currentName = document.getElementById("vaultCurrentName");
+  const nextName = document.getElementById("vaultNextName");
+  const powerValue = document.getElementById("vaultPowerValue");
+  const powerFill = document.getElementById("vaultPowerFill");
+  if (!panel || !image || !flareImage || !sparkLayer || !status) return Promise.resolve();
+
+  const result = getVaultWorldResult(state);
+  const next = getNextVaultResult(result);
+  const previousTier = panel.dataset.resultTier;
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), maxPower));
+  const nextSrc = result.playImage
+    || LESSON_CONFIG.imageAssets.playRewardStates?.[result.id]
+    || LESSON_CONFIG.imageAssets.playRewardStates?.lock
+    || "";
+
+  panel.dataset.resultTier = result.id;
+  currentName.textContent = result.name;
+  nextName.textContent = result.needsSpecial ? "모든 금고를 열었어요" : (next?.name || "무지개 금고");
+  powerValue.textContent = String(power);
+  powerFill.style.width = `${(power / maxPower) * 100}%`;
+  status.textContent = result.needsSpecial
+    ? `지금 ${result.name}, 열쇠 힘 ${power}, 모든 금고를 열었어요.`
+    : `지금 ${result.name}, 열쇠 힘 ${power}, 다음은 ${next?.name || "무지개 금고"}예요.`;
+  panel.setAttribute("aria-label", status.textContent);
+
+  const changed = image.getAttribute("src") !== nextSrc;
+  if (changed) {
+    panel.classList.remove("is-changing", "is-dimming", "is-key-lighting");
+    void panel.offsetWidth;
+    image.src = nextSrc;
+    flareImage.src = nextSrc;
+    panel.classList.add(options.delta < 0 ? "is-dimming" : "is-changing");
+  }
+
+  const sparkPoints = VAULT_WORLD_SPARKS[result.id] || VAULT_WORLD_SPARKS.lock;
+  sparkLayer.replaceChildren(...sparkPoints.map(([left, top], index) => {
+    const spark = document.createElement("i");
+    spark.className = "vault-spark";
+    spark.style.left = `${left}%`;
+    spark.style.top = `${top}%`;
+    spark.style.setProperty("--spark-delay", `${Math.min(index * 52, 620)}ms`);
+    spark.style.setProperty("--spark-hue", `${index * 13}deg`);
+    return spark;
+  }));
+
+  const lightKeys = options.delta >= 0 && (options.celebrate || (changed && Boolean(previousTier)));
+  if (lightKeys) {
+    panel.classList.remove("is-key-lighting");
+    void panel.offsetWidth;
+    panel.classList.add("is-key-lighting");
+  }
+  if (options.celebrate) panel.classList.add("is-celebrating");
+
+  const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : (lightKeys ? 1450 : 520);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      panel.classList.remove("is-changing", "is-dimming", "is-key-lighting", "is-celebrating");
+      resolve();
+    }, duration);
+  });
 }
 
 function renderProblemVisual(problem, state) {
@@ -17,6 +147,14 @@ function renderProblemVisual(problem, state) {
   ui.visualArea.dataset.attemptStep = "";
   ui.visualArea.dataset.attemptValue = "";
   renderCheckLockBoard(problem, state);
+  syncVaultWorld(state);
+  syncCheckLockHud(state);
+}
+
+function syncCheckLockHud(state) {
+  const count = `${Math.min(state.problemIndex + 1, Lesson2CheckLockModel.TOTAL_PROBLEMS)}/${Lesson2CheckLockModel.TOTAL_PROBLEMS}`;
+  ui.questionCount.textContent = count;
+  ui.questionCount.setAttribute("aria-label", `${state.problemIndex + 1}번째 문제`);
 }
 
 function updateProblemVisualForStep(problem, step, state) {
@@ -43,18 +181,33 @@ function renderAttempt(problem, step, selected, state, result) {
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
   ui.choices.dataset.choiceKind = step.id;
-  ui.choices.dataset.interaction = step.id === "multiply" || step.id === "add" ? "vault-keypad" : "vault-lever";
-  if (step.id === "multiply" || step.id === "add") {
-    renderVaultKeypad(step, choose);
-    return true;
-  }
+  ui.choices.dataset.interaction = step.id === "multiply"
+    ? "choose-check-pair"
+    : step.id === "add"
+      ? "choose-remainder"
+      : "find-different-number";
+
   for (const selected of step.choices) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "choice-button check-lock-choice check-lock-lever";
+    const choiceKind = step.id === "multiply"
+      ? "check-lock-relation-choice"
+      : step.id === "add"
+        ? "check-lock-addend-choice"
+        : "check-lock-part-choice";
+    button.className = `choice-button check-lock-choice ${choiceKind}`;
     button.dataset.choice = selected.id;
     button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-    button.setAttribute("aria-label", selected.label);
+    if (selected.misconceptionId) button.dataset.misconception = selected.misconceptionId;
+    button.setAttribute("aria-label", [selected.roleLabel, selected.label].filter(Boolean).join(" "));
+
+    if (selected.roleLabel) {
+      const role = document.createElement("span");
+      role.className = "check-lock-choice-role";
+      role.textContent = selected.roleLabel;
+      button.appendChild(role);
+    }
+
     const value = document.createElement("strong");
     value.textContent = selected.label;
     button.appendChild(value);
@@ -64,60 +217,93 @@ function renderChoicesForStep(problem, step, state, choose) {
   return true;
 }
 
-function renderVaultKeypad(step, choose) {
-  let input = "";
-  const keypad = document.createElement("div");
-  keypad.className = "vault-keypad";
-  const display = document.createElement("output");
-  display.className = "vault-keypad-display";
-  display.textContent = "?";
-  const keys = document.createElement("div");
-  keys.className = "vault-key-grid";
-  const render = () => { display.textContent = input || "?"; };
-  for (const digit of [1,2,3,4,5,6,7,8,9,0]) {
-    const key = document.createElement("button");
-    key.type = "button";
-    key.className = "vault-key";
-    key.textContent = String(digit);
-    key.dataset.digit = String(digit);
-    key.addEventListener("click", () => { if (input.length < 3) input += digit; render(); });
-    keys.appendChild(key);
-  }
-  const clear = document.createElement("button");
-  clear.type = "button";
-  clear.className = "vault-key is-clear";
-  clear.textContent = "지우기";
-  clear.addEventListener("click", () => { input = ""; render(); });
-  const enter = document.createElement("button");
-  enter.type = "button";
-  enter.className = "vault-key is-enter";
-  enter.textContent = "넣기";
-  enter.addEventListener("click", () => {
-    const value = Number(input);
-    const selected = step.choices.find((choice) => Number(choice.value) === value) || {
-      id: `${step.id}:direct:${input || "empty"}`,
-      value,
-      label: input || "빈칸",
-      misconceptionId: "DIV4_CALCULATION_SLIP",
-      feedback: "식을 보고 다시 눌러 봐요.",
-    };
-    enter.dataset.choice = selected.id;
-    enter.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-    choose(selected, enter);
-  });
-  keypad.append(display, keys, clear, enter);
-  ui.choices.appendChild(keypad);
+function onStepCorrect() {
+  return animateLockSignal("correct");
 }
 
-function onStepCorrect() { return turnVault("correct"); }
-function onStepWrong() { return turnVault("wrong"); }
-function onProblemComplete() { return turnVault("open"); }
-function onRewardReveal() { return turnVault("reward"); }
-function turnVault(sceneState) {
+function onStepWrong() {
+  return animateLockSignal("wrong");
+}
+
+async function onProblemComplete() {
+  await Promise.all([
+    animateLockSignal("complete"),
+    animateKeyEnergyToVault()
+  ]);
+}
+
+async function onRewardReveal({ event, beforePower, afterPower, state }) {
+  const actualDelta = afterPower - beforePower;
+  event.amount = actualDelta;
+  await Promise.all([
+    animateLockSignal("reward"),
+    syncVaultWorld(state, { celebrate: actualDelta > 0, delta: actualDelta })
+  ]);
+}
+
+function onResult({ result, power }) {
+  if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `열쇠 힘 ${power}`;
+  if (result?.needsSpecial) {
+    const completeText = "모든 금고를 열었어요!";
+    if (ui.resultNextSvg) ui.resultNextSvg.textContent = completeText;
+    if (ui.resultNext) ui.resultNext.textContent = completeText;
+  }
+}
+
+function animateLockSignal(sceneState) {
   const art = document.querySelector(".check-lock-stage-art");
-  if (!art) return Promise.resolve();
-  art.dataset.sceneState = sceneState;
-  return new Promise((resolve) => setTimeout(resolve, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 380));
+  const board = document.querySelector(".check-lock-svg");
+  if (art) art.dataset.sceneState = sceneState;
+  if (board) {
+    board.classList.remove("is-signal-correct", "is-signal-wrong", "is-signal-complete");
+    void board.getBoundingClientRect();
+    board.classList.add(sceneState === "wrong" ? "is-signal-wrong" : sceneState === "correct" ? "is-signal-correct" : "is-signal-complete");
+  }
+  const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+  return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
+function animateKeyEnergyToVault() {
+  const layer = document.getElementById("keyFlightLayer");
+  const panel = document.getElementById("vaultWorldPanel");
+  const originNode = document.querySelector(".check-lock-svg .lock-core") || ui.visualArea;
+  const stage = document.querySelector(".stage-shell");
+  if (!layer || !panel || !originNode || !stage) return Promise.resolve();
+
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  panel.classList.add("is-collecting");
+  if (reduceMotion) {
+    return new Promise((resolve) => setTimeout(() => {
+      panel.classList.remove("is-collecting");
+      resolve();
+    }, 120));
+  }
+
+  const stageRect = stage.getBoundingClientRect();
+  const originRect = originNode.getBoundingClientRect();
+  const panelRect = panel.getBoundingClientRect();
+  const fromX = originRect.left + originRect.width * 0.5 - stageRect.left;
+  const fromY = originRect.top + originRect.height * 0.5 - stageRect.top;
+  const toX = panelRect.left + panelRect.width * 0.5 - stageRect.left;
+  const toY = panelRect.top + panelRect.height * 0.3 - stageRect.top;
+  layer.replaceChildren();
+
+  for (let index = 0; index < 6; index += 1) {
+    const spark = document.createElement("i");
+    spark.className = "key-flight-particle";
+    spark.style.left = `${fromX + (index - 2.5) * 8}px`;
+    spark.style.top = `${fromY + (index % 2) * 7}px`;
+    spark.style.setProperty("--flight-x", `${toX - fromX}px`);
+    spark.style.setProperty("--flight-y", `${toY - fromY}px`);
+    spark.style.setProperty("--flight-delay", `${index * 48}ms`);
+    layer.appendChild(spark);
+  }
+
+  return new Promise((resolve) => setTimeout(() => {
+    layer.replaceChildren();
+    panel.classList.remove("is-collecting");
+    resolve();
+  }, 760));
 }
 
 function renderCheckLockBoard(problem, state) {
@@ -125,52 +311,126 @@ function renderCheckLockBoard(problem, state) {
   const revealedStep = ui.visualArea.dataset.revealedStep;
   const attemptStep = ui.visualArea.dataset.attemptStep;
   const attemptValue = ui.visualArea.dataset.attemptValue;
-  const productDone = state.stepIndex > 0 || revealedStep === "multiply";
-  const totalDone = state.stepIndex > 1 || revealedStep === "add";
-  const selectedForCurrent = attemptStep === step.id && attemptValue !== "" ? attemptValue : "?";
-  const productText = step.id === "multiply" && !productDone ? selectedForCurrent : (productDone ? problem.product : "?");
-  const totalText = step.id === "add" && !totalDone ? selectedForCurrent : (totalDone ? problem.checkTotal : "?");
-  const showComparison = totalDone || revealedStep === "locate";
-  const locateStep = step.id === "locate";
-  const comparisonMark = showComparison ? (problem.matchesOriginal ? "=" : "≠") : "?";
-  const locateRevealed = revealedStep === "locate";
-  const attemptedLocatePart = attemptStep === "locate" ? attemptValue : "";
-  const locateClass = (part) => {
-    if (locateRevealed && problem.mismatchPart === part) return "is-error-part is-confirmed-part";
-    if (attemptedLocatePart === part) return "is-attempt-part";
-    return "";
-  };
+  const hasCurrentSelection = attemptStep === step.id && attemptValue !== "";
+  const currentChoice = hasCurrentSelection
+    ? step.choices.find((choice) => String(choice.value) === attemptValue)
+    : null;
+  const currentAnswerClass = revealedStep === step.id
+    ? "is-correct-answer"
+    : hasCurrentSelection
+      ? "is-wrong-answer"
+      : "is-waiting-answer";
+
+  let boardMarkup = "";
+  if (step.id === "multiply") {
+    const relationRole = currentChoice?.roleLabel || "";
+    const relationExpression = currentChoice?.expression || "? × ?";
+    const relationResult = revealedStep === "multiply" ? ` = ${problem.product}` : "";
+    const relationExpressionY = relationRole ? 203 : 178;
+    boardMarkup = `
+      <text x="440" y="131" class="lock-relation-role ${currentAnswerClass}">${relationRole}</text>
+      <text x="440" y="${relationExpressionY}" class="lock-method-expression ${currentAnswerClass}">${relationExpression}${relationResult}</text>
+      ${renderLockPins(0, revealedStep === "multiply")}
+    `;
+  } else if (step.id === "add") {
+    const selectedNumber = Number(currentChoice?.number);
+    const hasSelectedNumber = Number.isFinite(selectedNumber);
+    const addRole = currentChoice?.roleLabel || "";
+    const addExpression = hasSelectedNumber
+      ? `${problem.product} + ${selectedNumber}${revealedStep === "add" ? ` = ${problem.product + selectedNumber}` : ""}`
+      : `${problem.product} + ?`;
+    const addExpressionY = addRole ? 218 : 190;
+    boardMarkup = `
+      <text x="440" y="92" class="lock-done-text">✓ ${CHECK_LOCK_RELATION_LABEL} · ${problem.divisor} × ${problem.shownQuotient} = ${problem.product}</text>
+      <text x="440" y="153" class="lock-relation-role ${currentAnswerClass}">${addRole}</text>
+      <text x="440" y="${addExpressionY}" class="lock-method-expression ${currentAnswerClass}">${addExpression}</text>
+      ${renderLockPins(1, revealedStep === "add")}
+    `;
+  } else {
+    const locateRevealed = revealedStep === "locate";
+    const attemptedPart = attemptStep === "locate" ? attemptValue : "";
+    const locateClass = (part) => {
+      if (locateRevealed && problem.mismatchPart === part) return "is-confirmed-part";
+      if (attemptedPart === part) return "is-attempt-part";
+      return "";
+    };
+    boardMarkup = `
+      <text x="440" y="86" class="lock-done-text">✓ ${problem.divisor} × ${problem.shownQuotient} + ${problem.shownRemainder} = ${problem.checkTotal}</text>
+      <g class="lock-locate-formula">
+        <text x="188" y="188" class="lock-active-expression">${problem.divisor}</text>
+        <text x="250" y="188" class="lock-active-expression">×</text>
+        <circle cx="330" cy="169" r="43" class="lock-term-target ${locateClass("quotient")}"/>
+        <text x="330" y="188" class="lock-active-answer">${problem.shownQuotient}</text>
+        <text x="412" y="188" class="lock-active-expression">+</text>
+        <circle cx="488" cy="169" r="43" class="lock-term-target ${locateClass("remainder")}"/>
+        <text x="488" y="188" class="lock-active-answer">${problem.shownRemainder}</text>
+        <text x="570" y="188" class="lock-active-expression">=</text>
+        <text x="652" y="188" class="lock-active-expression">${problem.checkTotal}</text>
+        <text x="330" y="232" class="lock-term-label">몫</text>
+        <text x="488" y="232" class="lock-term-label">나머지</text>
+      </g>
+      <text x="440" y="286" class="lock-compare-summary">${problem.checkTotal} ≠ 처음 수 ${problem.dividend}</text>
+      ${renderLockPins(2, locateRevealed)}
+    `;
+  }
 
   const svg = document.createElementNS(CHECK_LOCK_SVG_NS, "svg");
   svg.classList.add("check-lock-svg");
-  svg.setAttribute("viewBox", "0 0 1000 360");
+  svg.setAttribute("viewBox", "0 0 880 350");
   svg.setAttribute("role", "img");
+  svg.dataset.step = step.id;
+  svg.dataset.answerState = revealedStep === step.id ? "correct" : hasCurrentSelection ? "wrong" : "waiting";
   svg.setAttribute("aria-label", `${problem.prompt}, ${step.instruction}`);
   svg.innerHTML = `
-    <title>${problem.prompt} 검산판</title>
-    <rect x="18" y="8" width="964" height="344" rx="30" class="lock-board-bg"/>
+    <title>${problem.prompt} 검산 자물쇠</title>
+    <defs>
+      <radialGradient id="lockCoreGlow">
+        <stop offset="0%" stop-color="#ffd86d" stop-opacity=".3"/>
+        <stop offset="52%" stop-color="#2e6c76" stop-opacity=".08"/>
+        <stop offset="100%" stop-color="#08141f" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="lockSoftGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <rect x="2" y="2" width="876" height="346" rx="28" class="lock-board-surface"/>
+    <g class="lock-mechanism" aria-hidden="true">
+      <circle cx="440" cy="178" r="148" class="lock-aura"/>
+      <circle cx="440" cy="178" r="125" class="lock-outer-ring"/>
+      <circle cx="440" cy="178" r="105" class="lock-inner-ring"/>
+      <path d="M118 54H762" class="lock-rail"/>
+      <path d="M118 302H762" class="lock-rail"/>
+      <circle cx="118" cy="54" r="7" class="lock-rivet"/>
+      <circle cx="762" cy="54" r="7" class="lock-rivet"/>
+      <circle cx="118" cy="302" r="7" class="lock-rivet"/>
+      <circle cx="762" cy="302" r="7" class="lock-rivet"/>
+    </g>
     <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-      <text x="500" y="40" class="lock-small-label">나눗셈</text>
-      <text x="500" y="84" class="lock-problem-text">${problem.dividend} ÷ ${problem.divisor} = ${problem.shownQuotient} … ${problem.shownRemainder}</text>
-
-      <rect x="54" y="104" width="892" height="108" rx="22" class="lock-calc-panel"/>
-      <rect x="104" y="143" width="226" height="55" rx="16" class="lock-term-target ${locateStep ? locateClass("quotient") : ""}"/>
-      <text x="217" y="134" class="lock-small-label">나누는 수 × 몫</text>
-      <text x="217" y="184" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${problem.divisor} × ${problem.shownQuotient}</text>
-      <text x="382" y="184" class="lock-sign">=</text>
-      <text x="492" y="184" class="lock-value ${step.id === "multiply" ? "is-current" : ""}">${productText}</text>
-      <text x="608" y="184" class="lock-sign">+</text>
-      <rect x="690" y="143" width="128" height="55" rx="16" class="lock-term-target ${locateStep ? locateClass("remainder") : ""}"/>
-      <text x="754" y="134" class="lock-small-label">나머지</text>
-      <text x="754" y="184" class="lock-value ${step.id === "add" ? "is-current" : ""}">${problem.shownRemainder}</text>
-
-      <rect x="54" y="230" width="892" height="98" rx="22" class="lock-total-panel ${step.id === "add" ? "is-current-panel" : ""}"/>
-      <text x="286" y="258" class="lock-small-label">곱하고 더한 값</text>
-      <text x="286" y="306" class="lock-total-value">${totalText}</text>
-      <text x="500" y="306" class="lock-compare-mark ${showComparison ? "is-revealed" : ""}">${comparisonMark}</text>
-      <text x="740" y="258" class="lock-small-label">처음 수</text>
-      <text x="740" y="306" class="lock-total-value">${problem.dividend}</text>
+      ${boardMarkup}
     </g>
   `;
   ui.visualArea.replaceChildren(svg);
+}
+
+function renderLockPins(activeIndex, currentConfirmed) {
+  return `
+    <g class="lock-pin-progress" aria-hidden="true">
+      <path d="M378 312H502" class="lock-pin-link"/>
+      ${[0, 1, 2].map((index) => {
+        const stateClass = index < activeIndex || (index === activeIndex && currentConfirmed)
+          ? "is-done"
+          : index === activeIndex
+            ? "is-active"
+            : "is-locked";
+        const x = 378 + index * 62;
+        return `
+          <g class="lock-pin ${stateClass}" transform="translate(${x} 312)">
+            <circle r="18"/>
+            <path class="lock-core" d="M0 -7a6 6 0 1 1 0 12v8h-5V5a6 6 0 0 1 5-12Z"/>
+          </g>
+        `;
+      }).join("")}
+    </g>
+  `;
 }
