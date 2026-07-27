@@ -133,8 +133,11 @@ function checkInvariant(rule, problem) {
       `${problem.id}: deterministic comparison must auto-complete`
     );
     assert.ok(!problem.steps.some((step) => step.id === "compare"), `${problem.id}: redundant compare action`);
-    assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV4_ADD_INSTEAD_OF_MULTIPLY"), `${problem.id}: multiply misconception`);
-    assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV4_OMIT_REMAINDER"), `${problem.id}: remainder omission misconception`);
+    assert.equal(problem.steps[0].answerChoiceId, "multiply:divisor-quotient", `${problem.id}: verification must begin with divisor × quotient`);
+    assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV4_MULTIPLY_DIVIDEND_DIVISOR"), `${problem.id}: dividend/divisor relation misconception`);
+    assert.ok(problem.steps[0].choices.some((choice) => choice.misconceptionId === "DIV4_MULTIPLY_QUOTIENT_REMAINDER"), `${problem.id}: quotient/remainder relation misconception`);
+    assert.equal(problem.steps[1].answerChoiceId, "add:remainder", `${problem.id}: verification must add the remainder`);
+    assert.ok(problem.steps[1].choices.some((choice) => choice.misconceptionId === "DIV4_ADD_DIVISOR"), `${problem.id}: divisor-as-addend misconception`);
     if (!problem.matchesOriginal) {
       const quotientDiffers = problem.shownQuotient !== problem.trueQuotient;
       const remainderDiffers = problem.shownRemainder !== problem.trueRemainder;

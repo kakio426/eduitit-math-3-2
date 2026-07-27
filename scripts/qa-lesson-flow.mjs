@@ -1624,9 +1624,43 @@ async function auditCheckLockLayout(page, label) {
     const problem = rectOf(document.querySelector('.problem-card'));
     const visual = rectOf(document.querySelector('.visual-area'));
     const svg = rectOf(document.querySelector('.check-lock-svg'));
-    const surface = rectOf(document.querySelector('.lock-board-bg'));
+    const surface = rectOf(document.querySelector('.lock-board-surface'));
     const step = rectOf(document.querySelector('.step-board'));
     const choices = rectOf(document.querySelector('.choices-panel'));
+    const reward = rectOf(document.querySelector('.vault-world-panel'));
+    const rewardPanel = reward;
+    const rewardHeading = rectOf(document.querySelector('.vault-world-current'));
+    const rewardMeter = rectOf(document.querySelector('.vault-world-power'));
+    const rewardNext = rectOf(document.querySelector('.vault-world-next'));
+    const rewardArt = document.getElementById('vaultWorldImage');
+    const rewardCurrentName = document.getElementById('vaultCurrentName')?.textContent.trim() || '';
+    const rewardNextName = document.getElementById('vaultNextName')?.textContent.trim() || '';
+    const rewardPowerText = document.getElementById('vaultPowerValue')?.textContent.trim() || '';
+    const rewardState = window.__mathmonEngineQa?.getState?.() || {};
+    const expectedReward = Lesson2CheckLockModel.getResult(
+      Number(rewardState.power || 0),
+      Number(rewardState.correctFirstTry || 0),
+      Boolean(rewardState.specialSeen)
+    );
+    const rewardSections = [rewardHeading, rewardMeter, rewardNext].filter(Boolean);
+    let rewardSectionOverlaps = 0;
+    for (let i = 0; i < rewardSections.length; i += 1) for (let j = i + 1; j < rewardSections.length; j += 1) {
+      const a = rewardSections[i], b = rewardSections[j];
+      const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (overlapX > 1 && overlapY > 1) rewardSectionOverlaps += 1;
+    }
+    const relationRole = rectOf(document.querySelector('.lock-relation-role'));
+    const methodExpression = rectOf(document.querySelector('.lock-method-expression'));
+    const stepId = document.querySelector('.check-lock-svg')?.dataset.step || '';
+    const answerState = document.querySelector('.check-lock-svg')?.dataset.answerState || '';
+    const stepStyle = getComputedStyle(document.querySelector('.step-board'));
+    const stepBackgroundImage = stepStyle.backgroundImage;
+    const relationRects = [relationRole, methodExpression].filter((item) => item && item.width > 0 && item.height > 0);
+    const relationGroup = relationRects.length ? {
+      top:Math.min(...relationRects.map((item) => item.top)),
+      bottom:Math.max(...relationRects.map((item) => item.bottom))
+    } : null;
     const keypad = rectOf(document.querySelector('.vault-keypad'));
     const controls = [...document.querySelectorAll('.vault-key, .check-lock-choice')]
       .filter((node) => {
@@ -1637,12 +1671,35 @@ async function auditCheckLockLayout(page, label) {
       .map(rectOf);
     const textOutsideSurface = [...document.querySelectorAll('.check-lock-svg text')]
       .map((node) => ({ text:node.textContent.trim(), rect:rectOf(node) }))
+      .filter((item) => item.text && item.rect.width > 0 && item.rect.height > 0)
       .filter((item) => !contains(surface, item.rect, 2));
     return {
-      stage, grid, problem, visual, svg, surface, step, choices, keypad,
+      stage, grid, problem, visual, svg, surface, step, choices, reward, rewardPanel, rewardHeading, rewardMeter, rewardNext, methodExpression, stepId, answerState, keypad,
       gridWidthRatio: stage && grid ? grid.width / stage.width : null,
       surfaceWidthRatio: stage && surface ? surface.width / stage.width : null,
       surfaceAreaRatio: stage && surface ? (surface.width * surface.height) / (stage.width * stage.height) : null,
+      rewardWidthRatio: stage && reward ? reward.width / stage.width : null,
+      rewardHeightRatio: stage && reward ? reward.height / stage.height : null,
+      rewardGap: reward && grid ? grid.left - reward.right : null,
+      rewardInsideStage: contains(stage, reward, 1),
+      rewardPanelInside: contains(reward, rewardPanel, 1),
+      rewardContentInside: rewardSections.every((section) => contains(rewardPanel, section, 1)),
+      rewardSectionOverlaps,
+      rewardArtReady: Boolean(rewardArt?.complete && rewardArt.naturalWidth === 600 && rewardArt.naturalHeight === 1312),
+      rewardCurrentName,
+      rewardNextName,
+      rewardPowerMatches: rewardPowerText === String(Math.max(0, Math.min(Number(rewardState.power || 0), Number(LESSON_CONFIG.reward?.maxPower || 100)))),
+      rewardTierMatches: document.querySelector('.vault-world-panel')?.dataset.resultTier === expectedReward?.id,
+      multiplyActionCenterDelta: stepId === 'multiply' && relationGroup && surface
+        ? Math.abs((relationGroup.top + relationGroup.bottom) / 2 - (surface.top + surface.bottom) / 2)
+        : null,
+      multiplyActionSignedDelta: stepId === 'multiply' && relationGroup && surface
+        ? (relationGroup.top + relationGroup.bottom) / 2 - (surface.top + surface.bottom) / 2
+        : null,
+      svgRectCount: document.querySelectorAll('.check-lock-svg rect').length,
+      instructionBorderWidth: Number.parseFloat(stepStyle.borderTopWidth) || 0,
+      instructionBackground: stepStyle.backgroundColor,
+      instructionBackgroundImage: stepBackgroundImage,
       surfaceGap: surface && step ? step.top - surface.bottom : null,
       stepChoiceGap: step && choices ? choices.top - step.bottom : null,
       surfaceInsideVisual: contains(visual, surface, 1),
@@ -1657,6 +1714,15 @@ async function auditCheckLockLayout(page, label) {
   assert(audit.stage && audit.grid && audit.problem && audit.visual && audit.svg && audit.surface && audit.step && audit.choices, `${label}: check-lock layout state missing`, audit);
   assert(audit.gridWidthRatio >= 0.7, `${label}: learning workbench is narrower than 70% of the Stage`, audit);
   assert(audit.surfaceWidthRatio >= 0.65, `${label}: core verification board is narrower than 65% of the Stage`, audit);
+  assert(audit.reward && audit.rewardPanel && audit.rewardInsideStage && audit.rewardPanelInside && audit.rewardGap >= 8, `${label}: left reward panel is hidden or overlaps the learning workbench`, audit);
+  assert(audit.rewardWidthRatio >= 0.18 && audit.rewardHeightRatio >= 0.55, `${label}: left reward panel collapsed back into a small numeric badge`, audit);
+  assert(audit.rewardContentInside && audit.rewardSectionOverlaps === 0 && audit.rewardArtReady, `${label}: left reward panel content is clipped, overlapping, or missing its current vault art`, audit);
+  assert(audit.rewardCurrentName && audit.rewardNextName && audit.rewardPowerMatches && audit.rewardTierMatches, `${label}: left reward panel no longer connects current vault, key power, and next vault`, audit);
+  if (audit.stepId === "multiply") {
+    assert(audit.multiplyActionCenterDelta <= 5, `${label}: multiplication relation is not centered in its work area`, audit);
+  }
+  assert(audit.svgRectCount === 1, `${label}: calculation board regained unnecessary nested boxes`, audit);
+  assert(audit.instructionBorderWidth >= 1 && audit.instructionBackgroundImage !== "none", `${label}: the single instruction plate lost its visual boundary`, audit);
   assert(audit.surfaceGap >= 6, `${label}: vault calculation surface overlaps instruction`, audit);
   assert(audit.stepChoiceGap >= 4, `${label}: instruction overlaps keypad or lever choices`, audit);
   assert(audit.surfaceInsideVisual && audit.svgInsideProblem, `${label}: vault calculation surface left its reserved grid track`, audit);
@@ -1675,7 +1741,7 @@ async function auditCheckLockCompleteLayout(page, label) {
     };
     const stage = rectOf(document.querySelector('.stage-shell'));
     const grid = rectOf(document.querySelector('.problem-grid'));
-    const surface = rectOf(document.querySelector('.lock-board-bg'));
+    const surface = rectOf(document.querySelector('.lock-board-surface'));
     const complete = rectOf(document.querySelector('.complete-panel'));
     return {
       stage, grid, surface, complete,
@@ -2568,6 +2634,14 @@ async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots, sh
     assert(stepNumber <= 3, `${viewport.name}: check-lock exposed too many steps`, { stepNumber });
     const stepId = await evaluate(page, "window.__mathmonEngineQa.getCurrentStep()?.id || ''");
     assert(stepId !== "compare", `${viewport.name}: deterministic comparison was exposed as a student action`, { stepNumber, stepId });
+    await waitUntil(
+      page,
+      `document.querySelector('.check-lock-svg')?.dataset.step === ${JSON.stringify(stepId)}
+        && (document.querySelector('.big-problem')?.textContent.trim().length || 0) > 0`,
+      `${viewport.name}: ${stepId} board did not finish rendering`,
+      6000,
+    );
+    await delay(120);
     const safeStepId = stepId.replace(/[^a-z0-9-]/gi, "-") || `step-${stepNumber}`;
     shots.push(await screenshot(page, lesson, viewport, `${shotPrefix}-${stepNumber}-${safeStepId}-waiting`));
     await auditGeometry(page, `${viewport.name} ${stepId} waiting`);
@@ -3090,7 +3164,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   } else if (lesson === "3-2-2-3-mathmon-star-pickup") {
     await clickMisconception(page, "DIV3_QUOTIENT_TOO_LOW");
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
-    await clickMisconception(page, "DIV4_PRODUCT_TOO_HIGH");
+    await clickMisconception(page, "DIV4_MULTIPLY_DIVIDEND_DIVISOR");
   } else if (remainingMisconceptions.size) {
     const captured = await auditConfiguredMisconceptions(page, lesson, viewport, shots, remainingMisconceptions, 1);
     assert(captured.length > 0, `${viewport.name}: no configured misconception was available for problem 1`, {
@@ -3109,12 +3183,12 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   const firstWrongShot = lesson === "3-2-2-3-mathmon-star-pickup"
     ? "05b-play-quotient-too-low"
     : lesson === "3-2-2-4-mathmon-check-lock"
-      ? "05b-play-product-too-high"
+      ? "05b-play-dividend-times-divisor"
       : "05b-play-wrong";
   shots.push(await screenshot(page, lesson, viewport, firstWrongShot));
   await auditGeometry(page, `${viewport.name} wrong feedback`);
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm wrong`);
-  if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockLayout(page, `${viewport.name} product-too-high`);
+  if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockLayout(page, `${viewport.name} dividend-times-divisor`);
   await waitUntil(page, "window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: input stayed locked after wrong feedback`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorWrongEvidence(page, `${viewport.name} quotient-too-high`, "DIV2_TENS_QUOTIENT_TOO_HIGH");
@@ -3256,11 +3330,11 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditStarPickupAlignment(page, `${viewport.name} remainder wrong alignment`, "remainder");
     await solveCurrentProblem(page);
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
-    await clickMisconception(page, "DIV4_PRODUCT_TOO_LOW");
-    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: product-too-low feedback did not appear`);
-    shots.push(await screenshot(page, lesson, viewport, "05b2-play-product-too-low"));
-    await auditGeometry(page, `${viewport.name} product-too-low`);
-    await auditCheckLockLayout(page, `${viewport.name} product-too-low`);
+    await clickMisconception(page, "DIV4_MULTIPLY_DIVISOR_REMAINDER");
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${viewport.name}: divisor-times-remainder feedback did not appear`);
+    shots.push(await screenshot(page, lesson, viewport, "05b2-play-divisor-times-remainder"));
+    await auditGeometry(page, `${viewport.name} divisor-times-remainder`);
+    await auditCheckLockLayout(page, `${viewport.name} divisor-times-remainder`);
     await solveCheckLockProblemWithAudits(page, lesson, viewport, shots);
   } else {
     await solveCurrentProblem(page);
