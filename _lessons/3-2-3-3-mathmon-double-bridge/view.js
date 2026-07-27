@@ -1,5 +1,5 @@
 const BRIDGE_SVG_NS = "http://www.w3.org/2000/svg";
-const BRIDGE_SCALE_MAX_PX = 232;
+const BRIDGE_SCALE_MAX_PX = 320;
 
 function ensureBridgeStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -18,14 +18,14 @@ function getBridgeGeometry(problem, choices = problem.steps?.[0]?.choices ?? [])
   const values = choices.map((choice) => Number(choice.value)).filter(Number.isFinite);
   const maxVisibleCm = Math.max(problem.diameter, ...values);
   const pxPerCm = BRIDGE_SCALE_MAX_PX / maxVisibleCm;
-  const centerX = 380;
-  const circleY = 122;
+  const centerX = 200;
+  const circleY = 168;
   const circleDiameterPx = problem.diameter * pxPerCm;
   const circleRadiusPx = circleDiameterPx / 2;
   const circleLeft = centerX - circleRadiusPx;
   const circleRight = centerX + circleRadiusPx;
   const answer = problem.ask === "지름" ? problem.diameter : problem.radius;
-  const targetStart = problem.ask === "지름" ? circleLeft : centerX;
+  const targetStart = 420;
   const targetEnd = targetStart + answer * pxPerCm;
   return {
     answer,
@@ -105,7 +105,7 @@ function renderChoicesForStep(problem, step, state, choose) {
 
     const svg = document.createElementNS(BRIDGE_SVG_NS, "svg");
     svg.classList.add("bridge-part-svg");
-    svg.setAttribute("viewBox", "0 0 380 84");
+    svg.setAttribute("viewBox", "0 0 430 60");
     svg.setAttribute("aria-hidden", "true");
     svg.innerHTML = bridgePartMarkup(selected.value, geometry.pxPerCm);
     button.appendChild(svg);
@@ -121,13 +121,13 @@ function onResult() {
 
 function bridgePartMarkup(value, pxPerCm) {
   const x = 24;
-  const y = 19;
+  const y = 6;
   const width = value * pxPerCm;
   return `
     <g class="bridge-part-shape" data-length="${value}">
       ${bridgeStructureMarkup(x, y, width, value, "candidate")}
     </g>
-    <text class="bridge-part-label" x="356" y="55" text-anchor="end">${value} cm</text>
+    <text class="bridge-part-label" x="406" y="42" text-anchor="end">${value} cm</text>
   `;
 }
 
@@ -169,7 +169,7 @@ function renderCircleBridgeWorkbench(problem) {
   svg.dataset.state = state;
   svg.dataset.fit = fit;
   svg.dataset.pxPerCm = geometry.pxPerCm.toFixed(3);
-  svg.setAttribute("viewBox", "0 0 760 340");
+  svg.setAttribute("viewBox", "0 0 760 336");
   svg.setAttribute("role", "img");
 
   const relationLabel = problem.ask === "지름"
@@ -188,7 +188,7 @@ function renderCircleBridgeWorkbench(problem) {
 }
 
 function installedBridgeMarkup(fitGeometry, value) {
-  const y = 216;
+  const y = 150;
   return `
     <g class="installed-bridge" data-fit="${fitGeometry.fit}">
       ${bridgeStructureMarkup(fitGeometry.x, y, fitGeometry.width, value, "installed")}
@@ -200,19 +200,19 @@ function installedBridgeMarkup(fitGeometry, value) {
 function bridgeDifferenceMarkup(fitGeometry, geometry) {
   if (fitGeometry.fit === "fit") {
     return `
-      <circle class="bridge-lock" cx="${geometry.targetStart}" cy="232" r="9"/>
-      <circle class="bridge-lock" cx="${geometry.targetEnd}" cy="232" r="9"/>
-      <path class="bridge-fit-check" d="M ${geometry.targetEnd + 17} 229 l 8 8 l 17 -19"/>
+      <circle class="bridge-lock" cx="${geometry.targetStart}" cy="168" r="9"/>
+      <circle class="bridge-lock" cx="${geometry.targetEnd}" cy="168" r="9"/>
+      <path class="bridge-fit-check" d="M ${geometry.targetEnd + 15} 165 l 7 7 l 15 -17"/>
     `;
   }
   const start = Math.min(fitGeometry.end, geometry.targetEnd);
   const end = Math.max(fitGeometry.end, geometry.targetEnd);
   const label = fitGeometry.fit === "short" ? "여기만큼 짧아요" : "여기만큼 길어요";
   return `
-    <line class="bridge-difference" x1="${start}" y1="267" x2="${end}" y2="267"/>
-    <line class="bridge-difference-cap" x1="${start}" y1="259" x2="${start}" y2="275"/>
-    <line class="bridge-difference-cap" x1="${end}" y1="259" x2="${end}" y2="275"/>
-    <text class="bridge-difference-label" x="${(start + end) / 2}" y="290" text-anchor="middle">${label}</text>
+    <line class="bridge-difference" x1="${start}" y1="246" x2="${end}" y2="246"/>
+    <line class="bridge-difference-cap" x1="${start}" y1="238" x2="${start}" y2="254"/>
+    <line class="bridge-difference-cap" x1="${end}" y1="238" x2="${end}" y2="254"/>
+    <text class="bridge-difference-label" x="${(start + end) / 2}" y="274" text-anchor="middle">${label}</text>
   `;
 }
 
@@ -225,7 +225,7 @@ function circleBridgeMarkup(problem, geometry, selected) {
       : `${problem.diameter} ÷ 2 ${selected === geometry.answer ? "=" : "≠"} ${selected}`;
   const fitGeometry = selected == null ? null : getBridgeFit(selected, geometry);
   const targetQuestion = selected == null
-    ? `<text class="target-kind-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="200" text-anchor="middle">${problem.ask} ? cm</text>`
+    ? `<text class="target-kind-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="112" text-anchor="middle">${problem.ask} ? cm</text>`
     : "";
   const relationMarkup = askDiameter
     ? `
@@ -245,8 +245,8 @@ function circleBridgeMarkup(problem, geometry, selected) {
   const installed = fitGeometry
     ? installedBridgeMarkup(fitGeometry, selected)
     : `
-      <line class="bridge-empty-slot" x1="${geometry.targetStart}" y1="232" x2="${geometry.targetEnd}" y2="232"/>
-      <text class="bridge-empty-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="240" text-anchor="middle">?</text>
+      <line class="bridge-empty-slot" x1="${geometry.targetStart}" y1="168" x2="${geometry.targetEnd}" y2="168"/>
+      <text class="bridge-empty-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="176" text-anchor="middle">?</text>
     `;
   return `
     <g class="circle-relation">
@@ -260,13 +260,12 @@ function circleBridgeMarkup(problem, geometry, selected) {
       ${relationMarkup}
     </g>
     <g class="bridge-target">
-      <line class="target-projection" x1="${geometry.targetStart}" y1="${geometry.circleY + 10}" x2="${geometry.targetStart}" y2="264"/>
-      <line class="target-projection" x1="${geometry.targetEnd}" y1="${geometry.circleY + 10}" x2="${geometry.targetEnd}" y2="264"/>
-      <path class="bridge-pier" d="M ${geometry.targetStart - 12} 268 L ${geometry.targetStart + 12} 268 L ${geometry.targetStart + 8} 232 L ${geometry.targetStart - 8} 232 Z"/>
-      <path class="bridge-pier" d="M ${geometry.targetEnd - 12} 268 L ${geometry.targetEnd + 12} 268 L ${geometry.targetEnd + 8} 232 L ${geometry.targetEnd - 8} 232 Z"/>
+      <line class="target-projection" x1="${geometry.circleRight + 12}" y1="${geometry.circleY}" x2="${geometry.targetStart - 14}" y2="168"/>
+      <path class="bridge-pier" d="M ${geometry.targetStart - 12} 222 L ${geometry.targetStart + 12} 222 L ${geometry.targetStart + 8} 168 L ${geometry.targetStart - 8} 168 Z"/>
+      <path class="bridge-pier" d="M ${geometry.targetEnd - 12} 222 L ${geometry.targetEnd + 12} 222 L ${geometry.targetEnd + 8} 168 L ${geometry.targetEnd - 8} 168 Z"/>
       ${installed}
       ${fitGeometry ? bridgeDifferenceMarkup(fitGeometry, geometry) : ""}
     </g>
-    <text class="bridge-equation" x="380" y="322" text-anchor="middle">${equation}</text>
+    <text class="bridge-equation" x="570" y="316" text-anchor="middle">${equation}</text>
   `;
 }
