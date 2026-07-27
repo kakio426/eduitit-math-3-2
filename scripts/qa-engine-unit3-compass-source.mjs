@@ -69,7 +69,7 @@ for (let seed = 1; seed <= 200; seed += 1) {
     assert.ok(problem.radius >= 2 && problem.radius <= 6, `${problem.id}: radius is grade-appropriate`);
     assert.equal(problem.steps.length, 1, `${problem.id}: one visible action`);
     const step = problem.steps[0];
-    assert.equal(problem.prompt, `반지름 ${problem.radius} cm, 얼마나 벌릴까요?`);
+    assert.equal(problem.prompt, `반지름이 ${problem.radius} cm인 원을 그리려면?`);
     assert.equal(problem.finalExpression, `그대로 돌리면 반지름 ${problem.radius} cm인 원이 돼요.`);
     assert.equal(step.instruction, "바늘과 연필 사이의 길이를 골라요.");
     assert.equal(step.choices.length, 4, `${problem.id}: four compass choices`);
