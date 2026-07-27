@@ -42,16 +42,16 @@ const Lesson3DoubleBridgeModel = (() => {
     if (ask === "지름") {
       return shuffle([
         lengthChoice(diameter),
-        lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "반지름 두 개를 이어야 해요."),
-        lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "조금 짧아요. 반지름을 두 번 더해요."),
-        lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "조금 길어요. 같은 반지름 두 개만 이어요.")
+        lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "반지름 하나만 놓였어요."),
+        lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "끝까지 닿지 않아요."),
+        lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "기둥 밖으로 나갔어요.")
       ], rng);
     }
     return shuffle([
       lengthChoice(radius),
-      lengthChoice(diameter, "RADIUS_NOT_HALVED", "지름을 반으로 나눠야 해요."),
-      lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "조금 짧아요. 지름을 똑같이 둘로 나눠요."),
-      lengthChoice(radius + 1, "RADIUS_TOO_LONG", "조금 길어요. 지름을 똑같이 둘로 나눠요.")
+      lengthChoice(diameter, "RADIUS_NOT_HALVED", "지름 전체를 골랐어요."),
+      lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "끝까지 닿지 않아요."),
+      lengthChoice(radius + 1, "RADIUS_TOO_LONG", "반지름 자리를 넘었어요.")
     ], rng);
   }
 
@@ -64,8 +64,8 @@ const Lesson3DoubleBridgeModel = (() => {
       ? `반지름이 ${radius} cm예요. 지름은?`
       : `지름이 ${diameter} cm예요. 반지름은?`;
     const finalExpression = ask === "지름"
-      ? `${radius} cm + ${radius} cm = ${diameter} cm. 지름은 반지름의 두 배예요.`
-      : `${diameter} cm ÷ 2 = ${radius} cm. 반지름은 지름의 반이에요.`;
+      ? `${radius} cm + ${radius} cm = ${diameter} cm`
+      : `${diameter} cm ÷ 2 = ${radius} cm`;
     return {
       id: `double-bridge-${serial}-${ask}-${radius}`,
       type: ask === "지름" ? "double" : "half",
@@ -82,7 +82,9 @@ const Lesson3DoubleBridgeModel = (() => {
         answer,
         answerChoiceId: `choice:${answer}`,
         choices: choicesForCase(ask, radius, rng),
-        correctText: ask === "지름" ? `맞아요. ${radius} cm를 두 번 이으면 ${diameter} cm예요.` : `맞아요. ${diameter} cm를 반으로 나누면 ${radius} cm예요.`,
+        correctText: ask === "지름"
+          ? `딱 맞아요! ${radius} cm + ${radius} cm = ${diameter} cm`
+          : `딱 맞아요! ${diameter} cm ÷ 2 = ${radius} cm`,
         reveal: `${answer} cm`,
         advance: { mode: "complete" }
       }]

@@ -1,110 +1,885 @@
-.game[data-workbench-type="circle-double-bridge"] .play { padding: 0; background: #eaf6ee; }
-.bridge-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
-.game[data-workbench-type="circle-double-bridge"] .stage-shell { --sound-button-size: 42px; }
-.game[data-workbench-type="circle-double-bridge"] .settings-toggle svg { width: 20px; height: 20px; }
-.game[data-workbench-type="circle-double-bridge"] .brand-badge,
-.game[data-workbench-type="circle-double-bridge"] .unit-badge { font-size: .875rem; }
-.game[data-workbench-type="circle-double-bridge"] .hud {
-  position: absolute; top: 18px; right: calc(3% + var(--sound-reserve)); left: 3%; z-index: 6;
-  width: auto; min-height: var(--sound-button-size); display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 12px; padding: 0;
-}
-.game[data-workbench-type="circle-double-bridge"] .progress-line { display: none; }
-.game[data-workbench-type="circle-double-bridge"] .hud-left { display: contents; }
-.game[data-workbench-type="circle-double-bridge"] .hud-left .brand-badge { grid-column: 1; justify-self: start; }
-.game[data-workbench-type="circle-double-bridge"] .hud-right { grid-column: 3; justify-self: end; }
-.game[data-workbench-type="circle-double-bridge"] #problemCounter { grid-column: 2; justify-self: center; min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1.05rem; }
+/* 3-2-3-3 다리 제작 작업대
+   화면 구성은 배경 장면 → 원 관계/설치 자리 → 작업 지시 → 부품 선반 순서다. */
 
-.game[data-workbench-type="circle-double-bridge"] .problem-grid { position: absolute; top: 72px; right: 3%; bottom: 20px; left: 31%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.2fr) 54px minmax(212px, 1fr); gap: 8px; }
-.game[data-workbench-type="circle-double-bridge"] .problem-card,
-.game[data-workbench-type="circle-double-bridge"] .step-board,
-.game[data-workbench-type="circle-double-bridge"] .choices-panel,
-.game[data-workbench-type="circle-double-bridge"] .complete-panel { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-.game[data-workbench-type="circle-double-bridge"] .problem-card { grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 2px; }
+.game[data-workbench-type="circle-double-bridge"] {
+  --bridge-ink: #223d3a;
+  --bridge-teal: #26706b;
+  --bridge-orange: #d77a27;
+  --bridge-brass: #f2c15f;
+  --bridge-wood: #9a5927;
+  --bridge-wood-dark: #573019;
+  --bridge-paper: #fff5d8;
+  --bridge-danger: #b52245;
+  --bridge-success: #12805f;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .play {
+  padding: 0;
+  background: #cce9dc;
+}
+
+.bridge-stage-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 상단 공통 조작 */
+.game[data-workbench-type="circle-double-bridge"] .stage-shell {
+  --sound-button-size: 42px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .settings-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .brand-badge,
+.game[data-workbench-type="circle-double-bridge"] .unit-badge {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: max-content;
+  font-size: .875rem;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .hud {
+  position: absolute;
+  top: 16px;
+  right: calc(2.5% + var(--sound-reserve));
+  left: 2.5%;
+  z-index: 6;
+  width: auto;
+  min-height: var(--sound-button-size);
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .progress-line {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .hud-left {
+  display: contents;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .hud-left .brand-badge {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .hud-right {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.game[data-workbench-type="circle-double-bridge"] #problemCounter {
+  grid-column: 2;
+  justify-self: center;
+  min-width: 112px;
+  min-height: 42px;
+  justify-content: center;
+  border: 2px solid #76501f;
+  color: #38220d;
+  background: rgba(255, 226, 136, .94);
+  box-shadow: inset 0 2px rgba(255, 255, 255, .65), 0 3px 0 #6d431b;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 문제 화면 골격: 핵심 작업대가 Stage 폭의 68% 이상을 차지한다. */
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+  position: absolute;
+  top: 70px;
+  right: 2.5%;
+  bottom: 16px;
+  left: 28.5%;
+  z-index: 3;
+  width: auto;
+  height: auto;
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) 50px 174px;
+  gap: 8px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card {
+  grid-row: 1;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0;
+  background: transparent;
+}
+
 .game[data-workbench-type="circle-double-bridge"] .problem-label,
 .game[data-workbench-type="circle-double-bridge"] .step-chips,
-.game[data-workbench-type="circle-double-bridge"] .answer-slot { display: none; }
-.game[data-workbench-type="circle-double-bridge"] .big-problem { margin: 0; color: #31433d; font-size: clamp(2.25rem, 4.25vw, 3.8rem); line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.8); }
-.game[data-workbench-type="circle-double-bridge"] .visual-area { position: relative; min-height: 0; display: grid; place-items: center; overflow: hidden; }
-
-.circle-bridge-confirm-svg { position: absolute; inset: 0; width: min(100%, 580px); height: 100%; margin: auto; overflow: visible; }
-.bridge-choice-svg { width: 100%; height: 100%; max-height: 128px; pointer-events: none; }
-.bridge-circle { fill: rgba(255,255,255,.4); stroke: #315e61; stroke-width: 5; }
-.radius-half { stroke-width: 11; stroke-linecap: round; }
-.radius-half-left { stroke: #2e7778; }
-.radius-half-right { stroke: #c78628; }
-.bridge-center { fill: #273d3b; stroke: #fff7df; stroke-width: 2; }
-.bridge-end { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
-.radius-name { fill: #52655e; font-size: 21px; font-weight: 900; }
-.radius-value, .diameter-value, .bridge-equation, .bridge-length-label { fill: #273d3b; font-weight: 1000; }
-.radius-value { font-size: 25px; }
-.diameter-value { font-size: 26px; }
-.bridge-equation { font-size: 24px; }
-.bridge-length-label { font-size: 29px; }
-.diameter-brace { stroke: #d46c24; stroke-width: 5; stroke-linecap: round; }
-.bridge-plank { fill: #d5963e; stroke: #76501f; stroke-width: 3; }
-.bridge-seam { stroke: #9b6727; stroke-width: 2; }
-.bridge-rope, .bridge-hanger { stroke: #2e7778; stroke-width: 5; stroke-linecap: round; }
-.circle-bridge-confirm-svg[data-state="wrong"] .bridge-equation { fill: #b92852; }
-.circle-bridge-confirm-svg[data-state="correct"] .bridge-equation { fill: #16775e; }
-
-.game[data-workbench-type="circle-double-bridge"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
-.game[data-workbench-type="circle-double-bridge"] .instruction,
-.game[data-workbench-type="circle-double-bridge"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.8vw, 1.25rem); line-height: 1.3; font-weight: 1000; text-align: center; }
-.game[data-workbench-type="circle-double-bridge"] .instruction[hidden] { display: none; }
-.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="idle"] { visibility: hidden; }
-.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="wrong"] { color: #a11742; }
-.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="correct"] { color: #12604c; }
-
-.game[data-workbench-type="circle-double-bridge"] .choices-panel { grid-row: 3; min-height: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(98px, 1fr)); gap: 9px; }
-.game[data-workbench-type="circle-double-bridge"] .bridge-choice { min-height: 98px; padding: 0; border: 3px solid #6f9191; border-radius: 18px; color: #273d3b; background: rgba(255,255,255,.84); box-shadow: 0 6px 0 #66817e; }
-.game[data-workbench-type="circle-double-bridge"] .bridge-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70; }
-.game[data-workbench-type="circle-double-bridge"] .bridge-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991; }
-
-.game[data-workbench-type="circle-double-bridge"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96); }
-.game[data-workbench-type="circle-double-bridge"] .complete-text { max-width: 780px; color: #36200b; font-size: clamp(1.12rem, 1.9vw, 1.55rem); line-height: 1.2; text-align: center; word-break: keep-all; }
-.game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button { min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
-.game[data-workbench-type="circle-double-bridge"] .problem-grid.is-complete .choices-panel,
-.game[data-workbench-type="circle-double-bridge"] .problem-grid.is-complete .step-board { display: none; }
-.game[data-workbench-type="circle-double-bridge"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
-.game[data-workbench-type="circle-double-bridge"] .result-title-art { display: none; }
-.game[data-workbench-type="circle-double-bridge"] #screen-result .top-row { display: none; }
-.game[data-workbench-type="circle-double-bridge"] #screen-result::after { background: none; }
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultDestinationSvg,
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui .result-restart-surface { display: none; }
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui text { fill: #fff1b4; stroke: rgba(4,40,80,.96); stroke-width: 10px; }
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui rect:first-of-type { fill: #0e4076; opacity: .42; }
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffd45c; }
-.game[data-workbench-type="circle-double-bridge"] .result-correct-art { left: 62%; top: 57%; width: 15%; }
-.game[data-workbench-type="circle-double-bridge"] .result-restart-hitbox { left: 66%; top: 75%; width: 28%; height: 17%; }
-.game[data-workbench-type="circle-double-bridge"] .reward-visual {
-  background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center;
+.game[data-workbench-type="circle-double-bridge"] .answer-slot {
+  display: none;
 }
 
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #eaf6ee; }
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+.game[data-workbench-type="circle-double-bridge"] .big-problem {
+  max-width: 820px;
+  margin: 0 auto;
+  color: var(--bridge-ink);
+  font-size: clamp(2.25rem, 3.15vw, 2.65rem);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+  text-align: center;
+  word-break: keep-all;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .88), 0 4px 14px rgba(56, 43, 22, .12);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .visual-area {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* 원 관계와 실제 설치 자리 */
+.circle-bridge-confirm-svg {
+  width: 100%;
+  max-width: 760px;
+  height: 100%;
+  max-height: 340px;
+  overflow: visible;
+  font-family: ui-rounded, "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+}
+
+.bridge-circle-shadow {
+  fill: rgba(63, 42, 21, .17);
+}
+
+.bridge-circle {
+  fill: rgba(255, 249, 221, .82);
+  stroke: #315f5f;
+  stroke-width: 6;
+}
+
+.radius-half {
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.radius-half-left {
+  stroke: var(--bridge-teal);
+}
+
+.radius-half-right {
+  stroke: #ca852a;
+}
+
+.bridge-center {
+  fill: #263e3b;
+  stroke: #fff5d0;
+  stroke-width: 3;
+}
+
+.bridge-end {
+  fill: var(--bridge-orange);
+  stroke: #fff5d0;
+  stroke-width: 3;
+}
+
+.radius-name,
+.radius-value,
+.diameter-value,
+.target-kind-label,
+.bridge-equation,
+.bridge-empty-label,
+.installed-bridge-length,
+.bridge-difference-label,
+.bridge-part-label {
+  paint-order: stroke;
+  stroke: rgba(255, 247, 215, .96);
+  stroke-linejoin: round;
+  font-weight: 1000;
+}
+
+.radius-name {
+  fill: #52655e;
+  stroke-width: 5px;
+  font-size: 22px;
+}
+
+.radius-value,
+.diameter-value {
+  fill: var(--bridge-ink);
+  stroke-width: 6px;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+
+.diameter-brace {
+  stroke: var(--bridge-orange);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.target-kind-label {
+  fill: #314a45;
+  stroke-width: 6px;
+  font-size: 22px;
+}
+
+.target-projection {
+  stroke: rgba(41, 92, 88, .52);
+  stroke-width: 3;
+  stroke-dasharray: 5 6;
+}
+
+.bridge-pier {
+  fill: #6d4827;
+  stroke: #f1c36b;
+  stroke-width: 3;
+}
+
+.bridge-empty-slot {
+  stroke: rgba(78, 58, 35, .58);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 3 12;
+}
+
+.bridge-empty-label {
+  fill: #503722;
+  stroke-width: 6px;
+  font-size: 22px;
+}
+
+.installed-bridge {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: bridge-install .28s cubic-bezier(.2, .8, .22, 1.14) both;
+}
+
+.installed-shadow,
+.candidate-shadow {
+  stroke: rgba(44, 25, 12, .24);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.installed-beam,
+.installed-support {
+  fill: none;
+  stroke: #60391d;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.candidate-beam,
+.candidate-support {
+  fill: none;
+  stroke: #d69a50;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.installed-deck {
+  fill: #dd973c;
+  stroke: #68401d;
+  stroke-width: 3;
+}
+
+.candidate-deck {
+  fill: #e3a44f;
+  stroke: #5c3518;
+  stroke-width: 3;
+}
+
+.installed-highlight {
+  stroke: #ffd17a;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.candidate-highlight {
+  stroke: #ffe09a;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.installed-bridge-length {
+  fill: #38230f;
+  stroke-width: 6px;
+  font-size: 25px;
+}
+
+.bridge-difference,
+.bridge-difference-cap {
+  stroke: var(--bridge-danger);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.bridge-difference {
+  stroke-dasharray: 8 7;
+}
+
+.bridge-difference-label {
+  fill: #a51e40;
+  stroke-width: 6px;
+  font-size: 21px;
+}
+
+.bridge-lock {
+  fill: var(--bridge-success);
+  stroke: #e7fff2;
+  stroke-width: 4;
+}
+
+.bridge-fit-check {
+  fill: none;
+  stroke: var(--bridge-success);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bridge-equation {
+  fill: var(--bridge-ink);
+  stroke-width: 7px;
+  font-size: 27px;
+  font-variant-numeric: tabular-nums;
+}
+
+.circle-bridge-confirm-svg[data-state="wrong"] .bridge-equation {
+  fill: var(--bridge-danger);
+}
+
+.circle-bridge-confirm-svg[data-state="wrong"] .installed-deck {
+  stroke: var(--bridge-danger);
+}
+
+.circle-bridge-confirm-svg[data-state="correct"] .bridge-equation {
+  fill: var(--bridge-success);
+}
+
+.circle-bridge-confirm-svg[data-state="correct"] .installed-bridge {
+  animation: bridge-install .28s cubic-bezier(.2, .8, .22, 1.14) both,
+    bridge-lock-glow .55s .25s ease-out both;
+}
+
+/* 한 줄 작업 지시 */
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
+  grid-row: 2;
+  min-height: 50px;
+  padding: 0 18px;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: center;
+  border-top: 2px solid rgba(255, 233, 168, .72);
+  border-bottom: 4px solid #5b3318;
+  background: linear-gradient(180deg, rgba(141, 83, 38, .96), rgba(92, 50, 24, .97));
+}
+
+.game[data-workbench-type="circle-double-bridge"] .instruction,
+.game[data-workbench-type="circle-double-bridge"] .feedback-line {
+  grid-area: 1 / 1;
+  min-height: 0;
+  margin: 0;
+  color: #fff3cc;
+  font-size: clamp(1.125rem, 1.55vw, 1.25rem);
+  line-height: 1.2;
+  font-weight: 1000;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .instruction[hidden] {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="idle"] {
+  visibility: hidden;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="wrong"] {
+  color: #ffd4de;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="correct"] {
+  color: #c9ffe8;
+}
+
+/* 네 후보는 카드가 아니라 하나의 부품 선반 위에 놓인다. */
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel {
+  grid-row: 3;
+  min-height: 0;
+  padding: 3px 8px 7px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  align-content: stretch;
+  border-top: 5px solid #c98943;
+  border-bottom: 8px solid #4b2815;
+  background:
+    linear-gradient(90deg, transparent 49.7%, rgba(255, 215, 137, .22) 50%, transparent 50.3%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 54px),
+    linear-gradient(180deg, rgba(119, 65, 30, .96), rgba(78, 40, 20, .98));
+  box-shadow: inset 0 2px rgba(255, 229, 174, .24), 0 7px 0 rgba(54, 29, 14, .55);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part {
+  position: relative;
+  min-width: 0;
+  min-height: 72px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  transition: filter .16s ease;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part:nth-child(-n + 2) {
+  border-bottom: 1px solid rgba(255, 226, 153, .18);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bridge-part-label {
+  fill: #fff1bd;
+  stroke: rgba(67, 35, 17, .96);
+  stroke-width: 6px;
+  font-size: 25px;
+  font-variant-numeric: tabular-nums;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part:hover:not(:disabled),
+.game[data-workbench-type="circle-double-bridge"] .bridge-part:focus-visible {
+  filter: brightness(1.16) drop-shadow(0 0 5px rgba(255, 215, 103, .64));
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part:focus-visible {
+  outline: 4px solid #ffe37c;
+  outline-offset: -5px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part:disabled {
+  opacity: .58;
+  cursor: default;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] {
+  opacity: .5;
+  animation: bridge-part-shake .26s ease both;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] .candidate-deck,
+.game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] .candidate-beam,
+.game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] .candidate-support {
+  stroke: #e35d78;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="correct"] {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(91, 255, 195, .88));
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="correct"] .candidate-deck {
+  stroke: #4bffbd;
+}
+
+/* 정답 확인 뒤에도 원 작업대의 축과 크기는 그대로 유지한다. */
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+  grid-column: 1;
+  grid-row: 3;
+  min-height: 0;
+  padding: 14px 20px;
+  align-self: stretch;
+  place-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  border-top: 5px solid #d19a4d;
+  border-bottom: 8px solid #4b2815;
+  background: linear-gradient(180deg, rgba(119, 65, 30, .97), rgba(78, 40, 20, .98));
+  box-shadow: 0 7px 0 rgba(54, 29, 14, .55);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .complete-text {
+  max-width: 620px;
+  margin: 0;
+  color: #fff2c9;
+  font-size: clamp(1.22rem, 1.95vw, 1.55rem);
+  line-height: 1.2;
+  font-weight: 1000;
+  text-align: center;
+  word-break: keep-all;
+  font-variant-numeric: tabular-nums;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
+  min-width: 164px;
+  min-height: 58px;
+  color: #352107;
+  border: 3px solid #795414;
+  background: linear-gradient(180deg, #ffe783, #ffc947);
+  box-shadow: inset 0 2px rgba(255, 255, 255, .55), 0 5px 0 #765318;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .choices-panel,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .step-board {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .complete-panel {
+  grid-row: 2 / 4;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .bridge-equation {
+  display: none;
+}
+
+/* 기존 튜토리얼·보상·결과 자산 계약 */
+.game[data-workbench-type="circle-double-bridge"] .result-title-art,
+.game[data-workbench-type="circle-double-bridge"] #screen-result .top-row {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] #screen-result::after {
+  background: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui .result-restart-surface {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui text {
+  fill: #fff1b4;
+  stroke: rgba(4, 40, 80, .96);
+  stroke-width: 10px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui rect:first-of-type {
+  fill: #0e4076;
+  opacity: .42;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureFillSvg {
+  fill: #ffd45c;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultNextSvg {
+  transform: translate(150px, -60px);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-correct-art {
+  left: 62%;
+  top: 53%;
+  width: 15%;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-retry-hitbox {
+  left: 64.5%;
+  top: 74.3%;
+  width: 28%;
+  height: 16.5%;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-retry-hitbox .result-retry-art {
+  display: none !important;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .reward-pop {
+  background: rgba(14, 47, 46, .48);
+  backdrop-filter: blur(3px);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .reward-card {
+  width: min(470px, 86%);
+  min-height: 450px;
+  gap: 10px;
+  padding: 18px;
+  border: 5px solid #785025;
+  border-radius: 30px;
+  background: radial-gradient(circle at 50% 18%, #fff3c9 0%, #efd091 68%, #d5a95e 100%);
+  box-shadow: inset 0 3px rgba(255, 255, 255, .66), 0 10px 0 #513119, 0 28px 70px rgba(18, 34, 32, .42);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .reward-visual {
+  width: 290px;
+  height: 290px;
+  border: 7px solid #7a4e22;
+  border-radius: 24px;
+  background-image: var(--reward-modal-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: inset 0 0 0 3px rgba(255, 242, 197, .64), 0 9px 0 #57351a, 0 16px 28px rgba(69, 42, 18, .22);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .reward-label {
+  color: #2b5953;
+  text-shadow: 0 2px #fff0bd;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .reward-card .primary-button {
+  min-width: 166px;
+  color: #36230e;
+  border: 3px solid #7b5619;
+  background: linear-gradient(180deg, #ffe581, #ffc747);
+  box-shadow: 0 6px 0 #7d5a17;
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial {
+  padding: 0;
+  background: #eaf6ee;
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-grid {
+  height: 100%;
+  padding: 0;
+  display: block;
+}
+
 .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .screen-title,
-.game[data-workbench-type="circle-double-bridge"] .tutorial-progress { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.game[data-workbench-type="circle-double-bridge"] .tutorial-progress {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
 .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+  position: relative;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark {
+  display: none;
+}
+
 .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-action {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: block;
+  pointer-events: none;
+}
+
 .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
 .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
-  position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0;
-  color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
+  position: absolute;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0;
+  pointer-events: auto;
 }
-.game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 38%; bottom: 2%; width: 28%; height: 16%; }
-.game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 59%; bottom: 2%; width: 24%; height: 16%; }
-.game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 20%; bottom: 2%; width: 22%; height: 16%; }
+
+.game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="0"] #tutorialStartButton {
+  left: 38%;
+  bottom: 2%;
+  width: 28%;
+  height: 16%;
+}
+
+.game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialStartButton {
+  left: 59%;
+  bottom: 2%;
+  width: 24%;
+  height: 16%;
+}
+
+.game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialBackButton {
+  left: 20%;
+  bottom: 2%;
+  width: 22%;
+  height: 16%;
+}
+
+@keyframes bridge-install {
+  from {
+    opacity: .28;
+    transform: translateY(-20px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bridge-lock-glow {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(255, 213, 77, 0));
+  }
+  55% {
+    filter: drop-shadow(0 0 13px rgba(255, 213, 77, .95));
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 213, 77, .38));
+  }
+}
+
+@keyframes bridge-part-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(-5px);
+  }
+  70% {
+    transform: translateX(5px);
+  }
+}
 
 @media (max-width: 980px) {
-  .game[data-workbench-type="circle-double-bridge"] .hud { right: calc(2% + var(--sound-reserve)); left: 2%; }
-  .game[data-workbench-type="circle-double-bridge"] .problem-grid { top: 68px; right: 2%; bottom: 16px; left: 30%; grid-template-rows: minmax(0, 1.2fr) 50px minmax(196px, 1fr); gap: 8px; }
-  .game[data-workbench-type="circle-double-bridge"] .complete-panel { min-height: 196px; }
+  .game[data-workbench-type="circle-double-bridge"] .hud {
+    right: calc(2% + var(--sound-reserve));
+    left: 2%;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+    top: 64px;
+    right: 2%;
+    bottom: 12px;
+    left: 28%;
+    grid-template-rows: minmax(0, 1fr) 46px 164px;
+    gap: 7px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .big-problem {
+    font-size: 2.65rem;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
+    min-height: 46px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .instruction,
+  .game[data-workbench-type="circle-double-bridge"] .feedback-line {
+    font-size: 1.2rem;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-part-label {
+    font-size: 25px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+    padding: 12px 15px;
+    gap: 12px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
+    min-width: 150px;
+    min-height: 54px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .reward-card {
+    min-height: 420px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .reward-visual {
+    width: 255px;
+    height: 255px;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1100px) {
+  .game[data-workbench-type="circle-double-bridge"] .circle-bridge-confirm-svg {
+    max-width: 555px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
+    width: min(100%, 277.5px);
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 1101px) and (max-height: 740px) {
+  .game[data-workbench-type="circle-double-bridge"] .circle-bridge-confirm-svg {
+    max-width: 675px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
+    width: min(100%, 337.5px);
+    margin-inline: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game[data-workbench-type="circle-double-bridge"] .installed-bridge,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] {
+    animation: none;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-part {
+    transition: none;
+  }
 }

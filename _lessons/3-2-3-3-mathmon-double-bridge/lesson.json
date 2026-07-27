@@ -25,6 +25,13 @@
     "mode": "modal-art",
     "maxPower": 100,
     "nextLabel": "다음",
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "reward-modal",
+      "states": ["closed", "normal", "loss", "mega", "complete", "empty", "rainbow"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
     "artMap": {
       "normal": "reward-event-normal-generated.webp", "loss": "reward-event-loss-generated.webp",
       "mega": "reward-event-mega-generated.webp", "complete": "reward-event-complete-generated.webp",
@@ -74,13 +81,15 @@
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
-    "problemStage": "problem-stage-generated.webp",
+    "problemStage": "problem-workshop-v3-generated.webp",
+    "rewardClosed": "reward-event-closed-v2-generated.webp",
     "rewardScene": "result-bridge-generated.webp",
     "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
   },
   "assets": [
-    "cover-generated.webp", "title-logo-generated.webp",
-    "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "problem-workshop-v3-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-closed-v2-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-complete-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-log-generated.webp", "result-small-generated.webp", "result-bridge-generated.webp",
@@ -90,7 +99,8 @@
     "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "codex-in-app", "width": 1280, "height": 720, "dpr": 2 }
     ],
     "layoutAudit": {
       "workArea": ".problem-grid",
@@ -124,6 +134,14 @@
       "RADIUS_TOO_LONG",
       "RADIUS_TOO_SHORT"
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "bridgeFitAudit": {
+      "target": ".bridge-empty-slot, .installed-bridge",
+      "short": ".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference",
+      "long": ".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference",
+      "correct": ".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check",
+      "choiceRange": [1, 14],
+      "sharedScaleAttribute": "data-px-per-cm"
+    },
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward-closed", "reward-open", "result"]
   }
 }
