@@ -1020,6 +1020,17 @@
     .target-radius-label, .compass-opening-label { fill: #273d3b; font-weight: 1000; }
     .target-radius-label { font-size: 28px; }
     .compass-opening-label { font-size: 29px; }
+    .waiting-target-circle { stroke-dasharray: 8 8; opacity: .74; }
+    .waiting-draw-preview {
+      fill: none; stroke: #7d39d8; stroke-width: 10; stroke-linecap: round;
+      stroke-dasharray: 1; stroke-dashoffset: 1;
+      filter: drop-shadow(0 0 8px rgba(132,67,226,.64));
+      animation: compass-waiting-trace 3.1s ease-in-out infinite;
+    }
+    .waiting-compass-rotor {
+      animation: compass-waiting-turn 3.1s ease-in-out infinite;
+    }
+    .waiting-opening-band { opacity: .82; }
     .target-center-label, .proof-center-label {
       fill: #315e61; font-size: 28px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
     }
@@ -1064,6 +1075,15 @@
 
     @keyframes compass-circle-draw { to { stroke-dashoffset: 0; } }
     @keyframes compass-attempt-arc { to { stroke-dashoffset: 0; } }
+    @keyframes compass-waiting-turn {
+      0%, 12% { transform: rotate(-58deg); }
+      68%, 100% { transform: rotate(8deg); }
+    }
+    @keyframes compass-waiting-trace {
+      0%, 12% { stroke-dashoffset: 1; opacity: .14; }
+      68%, 82% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: .24; }
+    }
     @keyframes compass-full-turn { to { transform: rotate(360deg); } }
     @keyframes compass-wrong-turn { to { transform: rotate(108deg); } }
     @keyframes compass-needle-pulse {
@@ -1243,6 +1263,8 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .waiting-draw-preview { stroke-dashoffset: 0; animation: none; }
+      .waiting-compass-rotor { transform: rotate(8deg); animation: none; }
       .drawn-circle.is-drawing { stroke-dashoffset: 0; animation: none; }
       .attempt-arc { stroke-dashoffset: 0; animation: none; }
       .compass-rotor.is-drawing,
@@ -3293,8 +3315,11 @@
     const COMPASS_TARGET_RADIUS = 92;
     let compassProofToken = 0;
     let compassRewardStage = null;
+    let compassRewardArtPrimed = false;
+    const compassRewardPreloads = [];
 
     function ensureCompassStageArt() {
+      primeCompassRewardArt();
       const playScreen = document.getElementById("screen-play");
       if (!playScreen || playScreen.querySelector(".compass-stage-art")) return;
       const image = document.createElement("img");
@@ -3437,7 +3462,9 @@
     }
 
     function compassVisualLabel(radius, opening, visualState) {
-      if (visualState === "waiting") return `중심에서 원까지의 길이가 ${radius} cm인 원`;
+      if (visualState === "waiting") {
+        return `바늘을 중심에 고정하고 반지름 ${radius} cm를 유지한 채 컴퍼스를 돌리는 모습`;
+      }
       if (visualState.startsWith("wrong")) {
         return `중심에 바늘을 꽂고 ${opening} cm로 벌리면 목표 원과 크기가 달라지는 모습`;
       }
@@ -3451,11 +3478,28 @@
       const centerX = 320;
       const centerY = 172;
       const endX = centerX + COMPASS_TARGET_RADIUS;
+      const jointX = centerX + COMPASS_TARGET_RADIUS / 2;
+      const jointY = 54;
+      const startAngle = -58 * Math.PI / 180;
+      const endAngle = 8 * Math.PI / 180;
+      const startX = centerX + Math.cos(startAngle) * COMPASS_TARGET_RADIUS;
+      const startY = centerY + Math.sin(startAngle) * COMPASS_TARGET_RADIUS;
+      const arcEndX = centerX + Math.cos(endAngle) * COMPASS_TARGET_RADIUS;
+      const arcEndY = centerY + Math.sin(endAngle) * COMPASS_TARGET_RADIUS;
       return `
-        <circle class="target-circle" cx="${centerX}" cy="${centerY}" r="${COMPASS_TARGET_RADIUS}"/>
+        <circle class="target-circle waiting-target-circle" cx="${centerX}" cy="${centerY}" r="${COMPASS_TARGET_RADIUS}"/>
+        <path class="waiting-draw-preview" d="M ${startX.toFixed(2)} ${startY.toFixed(2)} A ${COMPASS_TARGET_RADIUS} ${COMPASS_TARGET_RADIUS} 0 0 1 ${arcEndX.toFixed(2)} ${arcEndY.toFixed(2)}" pathLength="1"/>
         <circle class="target-center" cx="${centerX}" cy="${centerY}" r="7"/>
         <line class="target-radius" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
         <circle class="target-end" cx="${endX}" cy="${centerY}" r="6"/>
+        <g class="waiting-compass-rotor" style="transform-origin:${centerX}px ${centerY}px">
+          <line class="proof-compass-leg proof-needle-leg" x1="${jointX}" y1="${jointY}" x2="${centerX}" y2="${centerY}"/>
+          <line class="proof-compass-leg proof-pencil-leg" x1="${jointX}" y1="${jointY}" x2="${endX}" y2="${centerY}"/>
+          <line class="proof-opening-band waiting-opening-band" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
+          <circle class="proof-joint" cx="${jointX}" cy="${jointY}" r="11"/>
+          <circle class="proof-needle" cx="${centerX}" cy="${centerY}" r="8"/>
+          <circle class="proof-pencil" cx="${endX}" cy="${centerY}" r="8"/>
+        </g>
         <text class="target-radius-label" x="${centerX + COMPASS_TARGET_RADIUS / 2}" y="${centerY - 20}" text-anchor="middle">${radius} cm</text>
         <text class="target-center-label" x="${centerX}" y="${centerY + 34}" text-anchor="middle">중심</text>
       `;
@@ -3508,7 +3552,33 @@
         || LESSON_CONFIG.imageAssets.rewardClosed;
     }
 
+    function primeCompassRewardArt() {
+      if (compassRewardArtPrimed || typeof Image === "undefined") return;
+      compassRewardArtPrimed = true;
+      const artMap = LESSON_CONFIG.reward?.artMap || {};
+      const sources = new Set([
+        LESSON_CONFIG.imageAssets.rewardClosed,
+        ...Object.values(artMap),
+      ].filter(Boolean));
+      sources.forEach((src) => {
+        const image = new Image();
+        image.src = src;
+        compassRewardPreloads.push(image);
+      });
+    }
+
+    function setCompassRewardArt(image, src) {
+      if (!(image instanceof HTMLImageElement)) return;
+      const fallback = LESSON_CONFIG.imageAssets.rewardClosed;
+      image.onerror = () => {
+        image.onerror = null;
+        if (image.getAttribute("src") !== fallback) image.src = fallback;
+      };
+      image.src = src || fallback;
+    }
+
     function ensureCompassRewardStage() {
+      primeCompassRewardArt();
       if (compassRewardStage?.root?.isConnected) return compassRewardStage;
       const panel = document.querySelector("#screen-reward .reward-panel");
       const title = document.getElementById("rewardTitle");
@@ -3563,7 +3633,7 @@
       const stage = ensureCompassRewardStage();
       if (!stage) return;
       const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
-      stage.art.src = LESSON_CONFIG.imageAssets.rewardClosed;
+      setCompassRewardArt(stage.art, LESSON_CONFIG.imageAssets.rewardClosed);
       stage.tier.textContent = beforeResult.name;
       stage.meter.setAttribute("aria-valuenow", String(beforePower));
       stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
@@ -3571,7 +3641,7 @@
       stage.root.dataset.phase = "closed";
       stage.root.dataset.reward = "closed";
       stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 마법 상자가 닫혀 있어요.`);
-      if (ui.rewardScene instanceof HTMLImageElement) ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardClosed;
+      setCompassRewardArt(ui.rewardScene, LESSON_CONFIG.imageAssets.rewardClosed);
     }
 
     function onRewardReveal({ event, beforePower, afterPower, beforeResult, afterResult }) {
@@ -3579,7 +3649,7 @@
       if (!stage) return Promise.resolve();
       const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
       const eventImage = getCompassRewardImage(event);
-      stage.art.src = eventImage;
+      setCompassRewardArt(stage.art, eventImage);
       stage.tier.textContent = afterResult.name;
       stage.meter.setAttribute("aria-valuenow", String(afterPower));
       stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
@@ -3587,7 +3657,7 @@
       stage.root.dataset.phase = "revealed";
       stage.root.dataset.reward = event.family || event.id || "normal";
       stage.root.setAttribute("aria-label", `${stage.status.textContent}. 지금 ${afterResult.name}.`);
-      if (ui.rewardScene instanceof HTMLImageElement) ui.rewardScene.src = eventImage;
+      setCompassRewardArt(ui.rewardScene, eventImage);
       const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       return reducedMotion ? Promise.resolve() : waitForCompass(480);
     }
@@ -3608,6 +3678,8 @@
       const remaining = Math.max(0, Number(nextResult.minPower || 0) - afterPower);
       return `${changeText} · ${nextResult.name}까지 ${remaining} 더`;
     }
+
+    primeCompassRewardArt();
     window.Lesson3CompassRingModel = Lesson3CompassRingModel;
   </script>
 </body>

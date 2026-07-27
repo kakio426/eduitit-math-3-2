@@ -99,6 +99,8 @@ assert.deepEqual(
 );
 
 assert.match(viewSource, /compass-choice-svg/, "each answer surface must show a compass opening");
+assert.match(viewSource, /waiting-compass-rotor/, "waiting screen must visibly rotate a compass around the fixed center");
+assert.match(viewSource, /waiting-draw-preview/, "waiting screen must trace the circle path before a choice");
 assert.match(viewSource, /correct-anchor/, "correct proof must anchor the needle");
 assert.match(viewSource, /correct-open/, "correct proof must show the matched opening");
 assert.match(viewSource, /correct-draw/, "correct proof must draw the circle");
@@ -108,6 +110,8 @@ assert.match(viewSource, /COMPASS_TARGET_RADIUS \* opening \/ radius/, "compass 
 assert.match(viewSource, /compass-reward-story/, "reward must use a full stage-reveal story");
 assert.match(viewSource, /function onRewardPrepare/, "closed reward state must have a lesson hook");
 assert.match(viewSource, /function onRewardReveal/, "revealed reward state must have a lesson hook");
+assert.match(viewSource, /primeCompassRewardArt\(\)/, "reward art must preload before the reveal");
+assert.match(viewSource, /naturalWidth|setCompassRewardArt/, "reward art must have a runtime-safe loading path");
 assert.doesNotMatch(viewSource, /마법진 점수|마법진 등급|진행도/, "problem view must not contain reward panels");
 
 console.log("QA_ENGINE_UNIT3_COMPASS_SOURCE: PASS");

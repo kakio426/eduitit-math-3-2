@@ -2536,6 +2536,41 @@ async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots, sh
   }
 }
 
+async function auditStageRevealImages(page, label, phase) {
+  await waitUntil(
+    page,
+    `(() => {
+      const images = [...document.querySelectorAll('#screen-reward > .raster-bg, .farm-reward-story img, [data-reward-stage-story="true"] img')];
+      return images.length > 0 && images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0);
+    })()`,
+    `${label}: ${phase} stage-reveal image is missing`,
+    8000,
+  );
+  const audit = await evaluate(page, `(() => {
+    const story = document.querySelector('.farm-reward-story, [data-reward-stage-story="true"]');
+    const images = [...document.querySelectorAll('#screen-reward > .raster-bg, .farm-reward-story img, [data-reward-stage-story="true"] img')].map((image) => ({
+      src:image.getAttribute('src') || '',
+      complete:image.complete,
+      naturalWidth:image.naturalWidth,
+      naturalHeight:image.naturalHeight,
+    }));
+    return { phase:story?.dataset.phase || '', images };
+  })()`);
+  assert(audit.phase === phase, `${label}: wrong stage-reveal phase`, audit);
+  assert(
+    audit.images.length > 0 && audit.images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0),
+    `${label}: broken stage-reveal image`,
+    audit,
+  );
+  if (phase === "revealed") {
+    assert(
+      audit.images.some((image) => /reward-event-.+-generated\.webp$/.test(image.src)),
+      `${label}: revealed event art is not connected`,
+      audit,
+    );
+  }
+}
+
 async function waitForReward(page, label) {
   const rewardMode = await evaluate(page, "document.querySelector('.game')?.dataset.rewardMode || ''");
   const modalReward = rewardMode === "modal-art";
@@ -2597,7 +2632,9 @@ async function waitForReward(page, label) {
     }))()`);
     throw error;
   }
-  return { modal: false, stageReveal: rewardMode === "stage-reveal", nextSelector: "#rewardNextButton" };
+  const stageReveal = rewardMode === "stage-reveal";
+  if (stageReveal) await auditStageRevealImages(page, `${label} closed reward`, "closed");
+  return { modal: false, stageReveal, nextSelector: "#rewardNextButton" };
 }
 
 async function revealReward(page, reward, label) {
@@ -2615,6 +2652,7 @@ async function revealReward(page, reward, label) {
       ? 100
       : Math.max(0, Math.min(100, before.power + before.pendingRewardAmount));
     assert(after.power === expectedPower, `${label}: rapid reward clicks applied the event more than once`, { before, after, expectedPower });
+    await auditStageRevealImages(page, `${label} revealed reward`, "revealed");
     return;
   }
   if (!reward.modal) return;

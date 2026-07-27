@@ -53,6 +53,17 @@
 .target-radius-label, .compass-opening-label { fill: #273d3b; font-weight: 1000; }
 .target-radius-label { font-size: 28px; }
 .compass-opening-label { font-size: 29px; }
+.waiting-target-circle { stroke-dasharray: 8 8; opacity: .74; }
+.waiting-draw-preview {
+  fill: none; stroke: #7d39d8; stroke-width: 10; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 8px rgba(132,67,226,.64));
+  animation: compass-waiting-trace 3.1s ease-in-out infinite;
+}
+.waiting-compass-rotor {
+  animation: compass-waiting-turn 3.1s ease-in-out infinite;
+}
+.waiting-opening-band { opacity: .82; }
 .target-center-label, .proof-center-label {
   fill: #315e61; font-size: 28px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
 }
@@ -97,6 +108,15 @@
 
 @keyframes compass-circle-draw { to { stroke-dashoffset: 0; } }
 @keyframes compass-attempt-arc { to { stroke-dashoffset: 0; } }
+@keyframes compass-waiting-turn {
+  0%, 12% { transform: rotate(-58deg); }
+  68%, 100% { transform: rotate(8deg); }
+}
+@keyframes compass-waiting-trace {
+  0%, 12% { stroke-dashoffset: 1; opacity: .14; }
+  68%, 82% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: .24; }
+}
 @keyframes compass-full-turn { to { transform: rotate(360deg); } }
 @keyframes compass-wrong-turn { to { transform: rotate(108deg); } }
 @keyframes compass-needle-pulse {
@@ -276,6 +296,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .waiting-draw-preview { stroke-dashoffset: 0; animation: none; }
+  .waiting-compass-rotor { transform: rotate(8deg); animation: none; }
   .drawn-circle.is-drawing { stroke-dashoffset: 0; animation: none; }
   .attempt-arc { stroke-dashoffset: 0; animation: none; }
   .compass-rotor.is-drawing,
