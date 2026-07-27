@@ -99,8 +99,10 @@ assert.deepEqual(
 );
 
 assert.match(viewSource, /compass-choice-svg/, "each answer surface must show a compass opening");
-assert.match(viewSource, /waiting-compass-rotor/, "waiting screen must visibly rotate a compass around the fixed center");
+const waitingMarkupSource = viewSource.match(/function targetRadiusMarkup[\s\S]*?function compassProofMarkup/)?.[0] || "";
+assert.match(waitingMarkupSource, /waiting-trace-rotor/, "waiting screen must show the drawing path without an opened compass");
 assert.match(viewSource, /waiting-draw-preview/, "waiting screen must trace the circle path before a choice");
+assert.doesNotMatch(waitingMarkupSource, /proof-compass-leg|proof-opening-band|proof-joint/, "waiting screen must not reveal the correct compass opening");
 assert.match(viewSource, /correct-anchor/, "correct proof must anchor the needle");
 assert.match(viewSource, /correct-open/, "correct proof must show the matched opening");
 assert.match(viewSource, /correct-draw/, "correct proof must draw the circle");

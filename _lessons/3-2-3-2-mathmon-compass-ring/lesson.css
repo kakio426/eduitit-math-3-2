@@ -60,10 +60,16 @@
   filter: drop-shadow(0 0 8px rgba(132,67,226,.64));
   animation: compass-waiting-trace 3.1s ease-in-out infinite;
 }
-.waiting-compass-rotor {
+.waiting-trace-rotor {
   animation: compass-waiting-turn 3.1s ease-in-out infinite;
 }
-.waiting-opening-band { opacity: .82; }
+.waiting-pencil-halo {
+  fill: rgba(125,57,216,.18); stroke: rgba(125,57,216,.38); stroke-width: 3;
+}
+.waiting-pencil-tip {
+  fill: #7d39d8; stroke: #fff7df; stroke-width: 3;
+  filter: drop-shadow(0 0 7px rgba(132,67,226,.72));
+}
 .target-center-label, .proof-center-label {
   fill: #315e61; font-size: 28px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
 }
@@ -297,7 +303,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .waiting-draw-preview { stroke-dashoffset: 0; animation: none; }
-  .waiting-compass-rotor { transform: rotate(8deg); animation: none; }
+  .waiting-trace-rotor { transform: rotate(8deg); animation: none; }
   .drawn-circle.is-drawing { stroke-dashoffset: 0; animation: none; }
   .attempt-arc { stroke-dashoffset: 0; animation: none; }
   .compass-rotor.is-drawing,

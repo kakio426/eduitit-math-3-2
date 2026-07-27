@@ -1027,10 +1027,16 @@
       filter: drop-shadow(0 0 8px rgba(132,67,226,.64));
       animation: compass-waiting-trace 3.1s ease-in-out infinite;
     }
-    .waiting-compass-rotor {
+    .waiting-trace-rotor {
       animation: compass-waiting-turn 3.1s ease-in-out infinite;
     }
-    .waiting-opening-band { opacity: .82; }
+    .waiting-pencil-halo {
+      fill: rgba(125,57,216,.18); stroke: rgba(125,57,216,.38); stroke-width: 3;
+    }
+    .waiting-pencil-tip {
+      fill: #7d39d8; stroke: #fff7df; stroke-width: 3;
+      filter: drop-shadow(0 0 7px rgba(132,67,226,.72));
+    }
     .target-center-label, .proof-center-label {
       fill: #315e61; font-size: 28px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
     }
@@ -1264,7 +1270,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .waiting-draw-preview { stroke-dashoffset: 0; animation: none; }
-      .waiting-compass-rotor { transform: rotate(8deg); animation: none; }
+      .waiting-trace-rotor { transform: rotate(8deg); animation: none; }
       .drawn-circle.is-drawing { stroke-dashoffset: 0; animation: none; }
       .attempt-arc { stroke-dashoffset: 0; animation: none; }
       .compass-rotor.is-drawing,
@@ -3463,7 +3469,7 @@
 
     function compassVisualLabel(radius, opening, visualState) {
       if (visualState === "waiting") {
-        return `바늘을 중심에 고정하고 반지름 ${radius} cm를 유지한 채 컴퍼스를 돌리는 모습`;
+        return `중심에서 ${radius} cm 떨어진 점이 원을 따라 움직이는 모습`;
       }
       if (visualState.startsWith("wrong")) {
         return `중심에 바늘을 꽂고 ${opening} cm로 벌리면 목표 원과 크기가 달라지는 모습`;
@@ -3478,8 +3484,6 @@
       const centerX = 320;
       const centerY = 172;
       const endX = centerX + COMPASS_TARGET_RADIUS;
-      const jointX = centerX + COMPASS_TARGET_RADIUS / 2;
-      const jointY = 54;
       const startAngle = -58 * Math.PI / 180;
       const endAngle = 8 * Math.PI / 180;
       const startX = centerX + Math.cos(startAngle) * COMPASS_TARGET_RADIUS;
@@ -3492,13 +3496,9 @@
         <circle class="target-center" cx="${centerX}" cy="${centerY}" r="7"/>
         <line class="target-radius" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
         <circle class="target-end" cx="${endX}" cy="${centerY}" r="6"/>
-        <g class="waiting-compass-rotor" style="transform-origin:${centerX}px ${centerY}px">
-          <line class="proof-compass-leg proof-needle-leg" x1="${jointX}" y1="${jointY}" x2="${centerX}" y2="${centerY}"/>
-          <line class="proof-compass-leg proof-pencil-leg" x1="${jointX}" y1="${jointY}" x2="${endX}" y2="${centerY}"/>
-          <line class="proof-opening-band waiting-opening-band" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
-          <circle class="proof-joint" cx="${jointX}" cy="${jointY}" r="11"/>
-          <circle class="proof-needle" cx="${centerX}" cy="${centerY}" r="8"/>
-          <circle class="proof-pencil" cx="${endX}" cy="${centerY}" r="8"/>
+        <g class="waiting-trace-rotor" data-preview="path-only" style="transform-origin:${centerX}px ${centerY}px">
+          <circle class="waiting-pencil-halo" cx="${endX}" cy="${centerY}" r="16"/>
+          <circle class="waiting-pencil-tip" cx="${endX}" cy="${centerY}" r="8"/>
         </g>
         <text class="target-radius-label" x="${centerX + COMPASS_TARGET_RADIUS / 2}" y="${centerY - 20}" text-anchor="middle">${radius} cm</text>
         <text class="target-center-label" x="${centerX}" y="${centerY + 34}" text-anchor="middle">중심</text>

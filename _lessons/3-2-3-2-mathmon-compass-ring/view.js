@@ -151,7 +151,7 @@ function renderCompassWorkbench(problem) {
 
 function compassVisualLabel(radius, opening, visualState) {
   if (visualState === "waiting") {
-    return `바늘을 중심에 고정하고 반지름 ${radius} cm를 유지한 채 컴퍼스를 돌리는 모습`;
+    return `중심에서 ${radius} cm 떨어진 점이 원을 따라 움직이는 모습`;
   }
   if (visualState.startsWith("wrong")) {
     return `중심에 바늘을 꽂고 ${opening} cm로 벌리면 목표 원과 크기가 달라지는 모습`;
@@ -166,8 +166,6 @@ function targetRadiusMarkup(radius) {
   const centerX = 320;
   const centerY = 172;
   const endX = centerX + COMPASS_TARGET_RADIUS;
-  const jointX = centerX + COMPASS_TARGET_RADIUS / 2;
-  const jointY = 54;
   const startAngle = -58 * Math.PI / 180;
   const endAngle = 8 * Math.PI / 180;
   const startX = centerX + Math.cos(startAngle) * COMPASS_TARGET_RADIUS;
@@ -180,13 +178,9 @@ function targetRadiusMarkup(radius) {
     <circle class="target-center" cx="${centerX}" cy="${centerY}" r="7"/>
     <line class="target-radius" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
     <circle class="target-end" cx="${endX}" cy="${centerY}" r="6"/>
-    <g class="waiting-compass-rotor" style="transform-origin:${centerX}px ${centerY}px">
-      <line class="proof-compass-leg proof-needle-leg" x1="${jointX}" y1="${jointY}" x2="${centerX}" y2="${centerY}"/>
-      <line class="proof-compass-leg proof-pencil-leg" x1="${jointX}" y1="${jointY}" x2="${endX}" y2="${centerY}"/>
-      <line class="proof-opening-band waiting-opening-band" x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${centerY}"/>
-      <circle class="proof-joint" cx="${jointX}" cy="${jointY}" r="11"/>
-      <circle class="proof-needle" cx="${centerX}" cy="${centerY}" r="8"/>
-      <circle class="proof-pencil" cx="${endX}" cy="${centerY}" r="8"/>
+    <g class="waiting-trace-rotor" data-preview="path-only" style="transform-origin:${centerX}px ${centerY}px">
+      <circle class="waiting-pencil-halo" cx="${endX}" cy="${centerY}" r="16"/>
+      <circle class="waiting-pencil-tip" cx="${endX}" cy="${centerY}" r="8"/>
     </g>
     <text class="target-radius-label" x="${centerX + COMPASS_TARGET_RADIUS / 2}" y="${centerY - 20}" text-anchor="middle">${radius} cm</text>
     <text class="target-center-label" x="${centerX}" y="${centerY + 34}" text-anchor="middle">중심</text>
