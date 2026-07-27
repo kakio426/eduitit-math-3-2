@@ -63,7 +63,7 @@ for (let seed = 1; seed <= 200; seed += 1) {
     assert.ok(step.correctText.length <= 34, `${problem.id}: confirmation copy stays short`);
     const geometry = getBridgeGeometry(problem, step.choices);
     assert.ok(
-      Math.abs(geometry.pxPerCm * geometry.maxVisibleCm - 232) < 0.0001,
+      Math.abs(geometry.pxPerCm * geometry.maxVisibleCm - 320) < 0.0001,
       `${problem.id}: one maximum span defines the shared scale`
     );
     assert.equal(
