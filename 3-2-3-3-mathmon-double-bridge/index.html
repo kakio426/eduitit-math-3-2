@@ -259,8 +259,9 @@
           font-weight: 950;
         }
         .cover-start-button {
-          width: 430px;
-          height: 150px;
+          width: clamp(300px, 28.125vw, 360px);
+          aspect-ratio: 1611 / 680;
+          height: auto;
           display: grid;
           place-items: center;
           padding: 0;
@@ -272,7 +273,7 @@
         }
         .cover-start-button:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.04); }
         .cover-start-button:active { transform: translateY(1px) scale(.99); }
-        .start-button-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        .start-button-art { display: block; width: 100%; height: auto; pointer-events: none; }
         .tutorial { padding: var(--stage-inset); background: linear-gradient(135deg, #201a2d, #102839); }
         .tutorial-grid {
           position: relative;
@@ -302,6 +303,24 @@
         .tutorial-card strong { font-size: clamp(1.28rem, 2.2vw, 1.72rem); line-height: 1.18; }
         .tutorial-card p { margin: 0; color: #d7cadb; font-size: 1.02rem; line-height: 1.4; font-weight: 850; }
         .tutorial-action { display: grid; place-items: center; }
+
+        .game[data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #13202a; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid > .screen-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+        .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+        .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 31%; bottom: 1.5%; width: 38%; height: 15%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 72%; bottom: 1%; width: 27%; height: 14%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 24%; height: 14%; }
         .primary-button {
           min-width: 190px;
           min-height: 72px;
@@ -413,6 +432,10 @@
         .complete-panel.is-visible { display: grid; }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
         .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
+        .problem-grid.is-complete .step-chips,
+        .problem-grid.is-complete .instruction,
+        .problem-grid.is-complete .feedback-line { display: none; }
         .play-mathmon-reaction {
           position: absolute;
           z-index: 4;
@@ -508,7 +531,9 @@
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
         .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
+        .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-restart-hitbox .result-retry-art { display: none; }
         .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; filter: drop-shadow(0 18px 26px rgba(0,0,0,.44)); }
@@ -550,7 +575,7 @@
           left: calc(50% - 125px);
           bottom: 78px;
           width: 250px;
-          height: 100px;
+          height: 77px;
         }
         .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-retry-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
@@ -562,7 +587,6 @@
           .problem-card { padding: 18px; }
           .visual-area { min-height: 330px; }
           .choice-button { min-height: 72px; }
-          .cover-start-button { width: 400px; height: 142px; }
           .result-title-art { width: 52%; }
           .result-correct-art { left: 82px; top: 410px; width: 230px; }
         }
@@ -570,6 +594,19 @@
           .topic-badge { left: auto; right: var(--stage-inset); }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+    .mathmon-scoreboard,
+    .result-leaderboard-hitbox,
+    .result-rank-button-art,
+    #leaderboardButton,
+    #leaderboardButtonArt,
+    [data-action="leaderboard"] {
+      display: none !important;
+    }
+
+    .ranking-disabled {
+      display: none !important;
+    }
+
     .mathmon-scoreboard {
       --scoreboard-font: "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
       --scoreboard-title-fill: #fff6d1;
@@ -888,110 +925,895 @@
       outline-offset: -3px;
     }
 
-    .game[data-workbench-type="circle-double-bridge"] .play { padding: 0; background: #eaf6ee; }
-    .bridge-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
-    .game[data-workbench-type="circle-double-bridge"] .hud { position: absolute; top: 18px; right: 3%; z-index: 6; width: 66%; min-height: 42px; display: grid; place-items: center; padding: 0; }
-    .game[data-workbench-type="circle-double-bridge"] .hud-left .brand-badge,
-    .game[data-workbench-type="circle-double-bridge"] .hud-right,
-    .game[data-workbench-type="circle-double-bridge"] .progress-line { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] #problemCounter { min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1rem; }
+    /* 3-2-3-3 다리 제작 작업대
+       화면 구성은 배경 장면 → 원 관계/설치 자리 → 작업 지시 → 부품 선반 순서다. */
 
-    .game[data-workbench-type="circle-double-bridge"] .problem-grid { position: absolute; top: 66px; right: 3%; bottom: 20px; left: 31%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px minmax(212px, auto); gap: 8px; }
-    .game[data-workbench-type="circle-double-bridge"] .problem-card,
-    .game[data-workbench-type="circle-double-bridge"] .step-board,
-    .game[data-workbench-type="circle-double-bridge"] .choices-panel,
-    .game[data-workbench-type="circle-double-bridge"] .complete-panel { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-    .game[data-workbench-type="circle-double-bridge"] .problem-card { grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 2px; }
+    .game[data-workbench-type="circle-double-bridge"] {
+      --bridge-ink: #223d3a;
+      --bridge-teal: #26706b;
+      --bridge-orange: #d77a27;
+      --bridge-brass: #f2c15f;
+      --bridge-wood: #9a5927;
+      --bridge-wood-dark: #573019;
+      --bridge-paper: #fff5d8;
+      --bridge-danger: #b52245;
+      --bridge-success: #12805f;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .play {
+      padding: 0;
+      background: #cce9dc;
+    }
+
+    .bridge-stage-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* 상단 공통 조작 */
+    .game[data-workbench-type="circle-double-bridge"] .stage-shell {
+      --sound-button-size: 42px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .settings-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .brand-badge,
+    .game[data-workbench-type="circle-double-bridge"] .unit-badge {
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      font-size: .875rem;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .hud {
+      position: absolute;
+      top: 16px;
+      right: calc(2.5% + var(--sound-reserve));
+      left: 2.5%;
+      z-index: 6;
+      width: auto;
+      min-height: var(--sound-button-size);
+      padding: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: start;
+      gap: 12px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .progress-line {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .hud-left {
+      display: contents;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .hud-left .brand-badge {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .hud-right {
+      grid-column: 3;
+      justify-self: end;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] #problemCounter {
+      grid-column: 2;
+      justify-self: center;
+      min-width: 112px;
+      min-height: 42px;
+      justify-content: center;
+      border: 2px solid #76501f;
+      color: #38220d;
+      background: rgba(255, 226, 136, .94);
+      box-shadow: inset 0 2px rgba(255, 255, 255, .65), 0 3px 0 #6d431b;
+      font-size: 1.05rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 문제 화면 골격: 핵심 작업대가 Stage 폭의 68% 이상을 차지한다. */
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+      position: absolute;
+      top: 70px;
+      right: 2.5%;
+      bottom: 16px;
+      left: 28.5%;
+      z-index: 3;
+      width: auto;
+      height: auto;
+      margin: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) 50px 174px;
+      gap: 8px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card,
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board,
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel,
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card {
+      grid-row: 1;
+      min-height: 0;
+      padding: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 0;
+      background: transparent;
+    }
+
     .game[data-workbench-type="circle-double-bridge"] .problem-label,
     .game[data-workbench-type="circle-double-bridge"] .step-chips,
-    .game[data-workbench-type="circle-double-bridge"] .answer-slot { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] .big-problem { margin: 0; color: #31433d; font-size: clamp(2.25rem, 4.25vw, 3.8rem); line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.8); }
-    .game[data-workbench-type="circle-double-bridge"] .visual-area { min-height: 0; display: grid; place-items: center; }
-
-    .circle-bridge-confirm-svg { width: min(100%, 580px); height: 100%; max-height: 255px; overflow: visible; }
-    .bridge-choice-svg { width: 100%; height: 100%; max-height: 128px; pointer-events: none; }
-    .bridge-circle { fill: rgba(255,255,255,.4); stroke: #315e61; stroke-width: 5; }
-    .radius-half { stroke-width: 11; stroke-linecap: round; }
-    .radius-half-left { stroke: #2e7778; }
-    .radius-half-right { stroke: #c78628; }
-    .bridge-center { fill: #273d3b; stroke: #fff7df; stroke-width: 2; }
-    .bridge-end { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
-    .radius-name { fill: #52655e; font-size: 17px; font-weight: 900; }
-    .radius-value, .diameter-value, .bridge-equation, .bridge-length-label { fill: #273d3b; font-weight: 1000; }
-    .radius-value { font-size: 22px; }
-    .diameter-value { font-size: 23px; }
-    .bridge-equation { font-size: 20px; }
-    .diameter-brace { stroke: #d46c24; stroke-width: 5; stroke-linecap: round; }
-    .bridge-plank { fill: #d5963e; stroke: #76501f; stroke-width: 3; }
-    .bridge-seam { stroke: #9b6727; stroke-width: 2; }
-    .bridge-rope, .bridge-hanger { stroke: #2e7778; stroke-width: 5; stroke-linecap: round; }
-    .circle-bridge-confirm-svg[data-state="wrong"] .bridge-equation { fill: #b92852; }
-    .circle-bridge-confirm-svg[data-state="correct"] .bridge-equation { fill: #16775e; }
-
-    .game[data-workbench-type="circle-double-bridge"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
-    .game[data-workbench-type="circle-double-bridge"] .instruction,
-    .game[data-workbench-type="circle-double-bridge"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(.98rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: center; }
-    .game[data-workbench-type="circle-double-bridge"] .instruction[hidden] { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="idle"] { visibility: hidden; }
-    .game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="wrong"] { color: #a11742; }
-    .game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="correct"] { color: #12604c; }
-
-    .game[data-workbench-type="circle-double-bridge"] .choices-panel { grid-row: 3; min-height: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(98px, 1fr)); gap: 9px; }
-    .game[data-workbench-type="circle-double-bridge"] .bridge-choice { min-height: 98px; padding: 0; border: 3px solid #6f9191; border-radius: 18px; color: #273d3b; background: rgba(255,255,255,.84); box-shadow: 0 6px 0 #66817e; }
-    .game[data-workbench-type="circle-double-bridge"] .bridge-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70; }
-    .game[data-workbench-type="circle-double-bridge"] .bridge-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991; }
-
-    .game[data-workbench-type="circle-double-bridge"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96); }
-    .game[data-workbench-type="circle-double-bridge"] .complete-text { max-width: 780px; color: #36200b; font-size: clamp(1.12rem, 1.9vw, 1.55rem); line-height: 1.2; text-align: center; word-break: keep-all; }
-    .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button { min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
-    .game[data-workbench-type="circle-double-bridge"] .problem-grid.is-complete .choices-panel,
-    .game[data-workbench-type="circle-double-bridge"] .problem-grid.is-complete .step-board { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
-    .game[data-workbench-type="circle-double-bridge"] .result-title-art { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] #screen-result .top-row { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] #screen-result::after { background: none; }
-    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultDestinationSvg,
-    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui .result-restart-surface { display: none; }
-    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui text { fill: #fff1b4; stroke: rgba(4,40,80,.96); stroke-width: 10px; }
-    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui rect:first-of-type { fill: #0e4076; opacity: .42; }
-    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffd45c; }
-    .game[data-workbench-type="circle-double-bridge"] .result-correct-art { left: 62%; top: 57%; width: 15%; }
-    .game[data-workbench-type="circle-double-bridge"] .result-restart-hitbox { left: 66%; top: 75%; width: 28%; height: 17%; }
-    .game[data-workbench-type="circle-double-bridge"] .reward-visual {
-      background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center;
+    .game[data-workbench-type="circle-double-bridge"] .answer-slot {
+      display: none;
     }
 
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #eaf6ee; }
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+    .game[data-workbench-type="circle-double-bridge"] .big-problem {
+      max-width: 820px;
+      margin: 0 auto;
+      color: var(--bridge-ink);
+      font-size: clamp(2.25rem, 3.15vw, 2.65rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+      text-align: center;
+      word-break: keep-all;
+      text-shadow: 0 2px 0 rgba(255, 255, 255, .88), 0 4px 14px rgba(56, 43, 22, .12);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .visual-area {
+      position: relative;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    /* 원 관계와 실제 설치 자리 */
+    .circle-bridge-confirm-svg {
+      width: 100%;
+      max-width: 760px;
+      height: 100%;
+      max-height: 340px;
+      overflow: visible;
+      font-family: ui-rounded, "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+    }
+
+    .bridge-circle-shadow {
+      fill: rgba(63, 42, 21, .17);
+    }
+
+    .bridge-circle {
+      fill: rgba(255, 249, 221, .82);
+      stroke: #315f5f;
+      stroke-width: 6;
+    }
+
+    .radius-half {
+      stroke-width: 12;
+      stroke-linecap: round;
+    }
+
+    .radius-half-left {
+      stroke: var(--bridge-teal);
+    }
+
+    .radius-half-right {
+      stroke: #ca852a;
+    }
+
+    .bridge-center {
+      fill: #263e3b;
+      stroke: #fff5d0;
+      stroke-width: 3;
+    }
+
+    .bridge-end {
+      fill: var(--bridge-orange);
+      stroke: #fff5d0;
+      stroke-width: 3;
+    }
+
+    .radius-name,
+    .radius-value,
+    .diameter-value,
+    .target-kind-label,
+    .bridge-equation,
+    .bridge-empty-label,
+    .installed-bridge-length,
+    .bridge-difference-label,
+    .bridge-part-label {
+      paint-order: stroke;
+      stroke: rgba(255, 247, 215, .96);
+      stroke-linejoin: round;
+      font-weight: 1000;
+    }
+
+    .radius-name {
+      fill: #52655e;
+      stroke-width: 5px;
+      font-size: 22px;
+    }
+
+    .radius-value,
+    .diameter-value {
+      fill: var(--bridge-ink);
+      stroke-width: 6px;
+      font-size: 24px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .diameter-brace {
+      stroke: var(--bridge-orange);
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+
+    .target-kind-label {
+      fill: #314a45;
+      stroke-width: 6px;
+      font-size: 22px;
+    }
+
+    .target-projection {
+      stroke: rgba(41, 92, 88, .52);
+      stroke-width: 3;
+      stroke-dasharray: 5 6;
+    }
+
+    .bridge-pier {
+      fill: #6d4827;
+      stroke: #f1c36b;
+      stroke-width: 3;
+    }
+
+    .bridge-empty-slot {
+      stroke: rgba(78, 58, 35, .58);
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 3 12;
+    }
+
+    .bridge-empty-label {
+      fill: #503722;
+      stroke-width: 6px;
+      font-size: 22px;
+    }
+
+    .installed-bridge {
+      transform-box: fill-box;
+      transform-origin: left center;
+      animation: bridge-install .28s cubic-bezier(.2, .8, .22, 1.14) both;
+    }
+
+    .installed-shadow,
+    .candidate-shadow {
+      stroke: rgba(44, 25, 12, .24);
+      stroke-width: 7;
+      stroke-linecap: round;
+    }
+
+    .installed-beam,
+    .installed-support {
+      fill: none;
+      stroke: #60391d;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .candidate-beam,
+    .candidate-support {
+      fill: none;
+      stroke: #d69a50;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .installed-deck {
+      fill: #dd973c;
+      stroke: #68401d;
+      stroke-width: 3;
+    }
+
+    .candidate-deck {
+      fill: #e3a44f;
+      stroke: #5c3518;
+      stroke-width: 3;
+    }
+
+    .installed-highlight {
+      stroke: #ffd17a;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .candidate-highlight {
+      stroke: #ffe09a;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .installed-bridge-length {
+      fill: #38230f;
+      stroke-width: 6px;
+      font-size: 25px;
+    }
+
+    .bridge-difference,
+    .bridge-difference-cap {
+      stroke: var(--bridge-danger);
+      stroke-width: 5;
+      stroke-linecap: round;
+    }
+
+    .bridge-difference {
+      stroke-dasharray: 8 7;
+    }
+
+    .bridge-difference-label {
+      fill: #a51e40;
+      stroke-width: 6px;
+      font-size: 21px;
+    }
+
+    .bridge-lock {
+      fill: var(--bridge-success);
+      stroke: #e7fff2;
+      stroke-width: 4;
+    }
+
+    .bridge-fit-check {
+      fill: none;
+      stroke: var(--bridge-success);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bridge-equation {
+      fill: var(--bridge-ink);
+      stroke-width: 7px;
+      font-size: 27px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .circle-bridge-confirm-svg[data-state="wrong"] .bridge-equation {
+      fill: var(--bridge-danger);
+    }
+
+    .circle-bridge-confirm-svg[data-state="wrong"] .installed-deck {
+      stroke: var(--bridge-danger);
+    }
+
+    .circle-bridge-confirm-svg[data-state="correct"] .bridge-equation {
+      fill: var(--bridge-success);
+    }
+
+    .circle-bridge-confirm-svg[data-state="correct"] .installed-bridge {
+      animation: bridge-install .28s cubic-bezier(.2, .8, .22, 1.14) both,
+        bridge-lock-glow .55s .25s ease-out both;
+    }
+
+    /* 한 줄 작업 지시 */
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
+      grid-row: 2;
+      min-height: 50px;
+      padding: 0 18px;
+      display: grid;
+      grid-template: 1fr / 1fr;
+      place-items: center;
+      border-top: 2px solid rgba(255, 233, 168, .72);
+      border-bottom: 4px solid #5b3318;
+      background: linear-gradient(180deg, rgba(141, 83, 38, .96), rgba(92, 50, 24, .97));
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .instruction,
+    .game[data-workbench-type="circle-double-bridge"] .feedback-line {
+      grid-area: 1 / 1;
+      min-height: 0;
+      margin: 0;
+      color: #fff3cc;
+      font-size: clamp(1.125rem, 1.55vw, 1.25rem);
+      line-height: 1.2;
+      font-weight: 1000;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .instruction[hidden] {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="idle"] {
+      visibility: hidden;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="wrong"] {
+      color: #ffd4de;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="correct"] {
+      color: #c9ffe8;
+    }
+
+    /* 네 후보는 카드가 아니라 하나의 부품 선반 위에 놓인다. */
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel {
+      grid-row: 3;
+      min-height: 0;
+      padding: 3px 8px 7px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      align-content: stretch;
+      border-top: 5px solid #c98943;
+      border-bottom: 8px solid #4b2815;
+      background:
+        linear-gradient(90deg, transparent 49.7%, rgba(255, 215, 137, .22) 50%, transparent 50.3%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 54px),
+        linear-gradient(180deg, rgba(119, 65, 30, .96), rgba(78, 40, 20, .98));
+      box-shadow: inset 0 2px rgba(255, 229, 174, .24), 0 7px 0 rgba(54, 29, 14, .55);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part {
+      position: relative;
+      min-width: 0;
+      min-height: 72px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      color: inherit;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+      transition: filter .16s ease;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part:nth-child(-n + 2) {
+      border-bottom: 1px solid rgba(255, 226, 153, .18);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .bridge-part-label {
+      fill: #fff1bd;
+      stroke: rgba(67, 35, 17, .96);
+      stroke-width: 6px;
+      font-size: 25px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part:hover:not(:disabled),
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part:focus-visible {
+      filter: brightness(1.16) drop-shadow(0 0 5px rgba(255, 215, 103, .64));
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part:focus-visible {
+      outline: 4px solid #ffe37c;
+      outline-offset: -5px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part:disabled {
+      opacity: .58;
+      cursor: default;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] {
+      opacity: .5;
+      animation: bridge-part-shake .26s ease both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] .candidate-deck,
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] .candidate-beam,
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] .candidate-support {
+      stroke: #e35d78;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="correct"] {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(91, 255, 195, .88));
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="correct"] .candidate-deck {
+      stroke: #4bffbd;
+    }
+
+    /* 정답 확인 뒤에도 원 작업대의 축과 크기는 그대로 유지한다. */
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+      grid-column: 1;
+      grid-row: 3;
+      min-height: 0;
+      padding: 14px 20px;
+      align-self: stretch;
+      place-items: center;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      border-top: 5px solid #d19a4d;
+      border-bottom: 8px solid #4b2815;
+      background: linear-gradient(180deg, rgba(119, 65, 30, .97), rgba(78, 40, 20, .98));
+      box-shadow: 0 7px 0 rgba(54, 29, 14, .55);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .complete-text {
+      max-width: 620px;
+      margin: 0;
+      color: #fff2c9;
+      font-size: clamp(1.22rem, 1.95vw, 1.55rem);
+      line-height: 1.2;
+      font-weight: 1000;
+      text-align: center;
+      word-break: keep-all;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
+      min-width: 164px;
+      min-height: 58px;
+      color: #352107;
+      border: 3px solid #795414;
+      background: linear-gradient(180deg, #ffe783, #ffc947);
+      box-shadow: inset 0 2px rgba(255, 255, 255, .55), 0 5px 0 #765318;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .choices-panel,
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .step-board {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .complete-panel {
+      grid-row: 2 / 4;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .bridge-equation {
+      display: none;
+    }
+
+    /* 기존 튜토리얼·보상·결과 자산 계약 */
+    .game[data-workbench-type="circle-double-bridge"] .result-title-art,
+    .game[data-workbench-type="circle-double-bridge"] #screen-result .top-row {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] #screen-result::after {
+      background: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultDestinationSvg,
+    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui .result-restart-surface {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui text {
+      fill: #fff1b4;
+      stroke: rgba(4, 40, 80, .96);
+      stroke-width: 10px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui rect:first-of-type {
+      fill: #0e4076;
+      opacity: .42;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureFillSvg {
+      fill: #ffd45c;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultNextSvg {
+      transform: translate(150px, -60px);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-correct-art {
+      left: 62%;
+      top: 53%;
+      width: 15%;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-retry-hitbox {
+      left: 64.5%;
+      top: 74.3%;
+      width: 28%;
+      height: 16.5%;
+      overflow: hidden;
+      border-radius: 999px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .result-retry-hitbox .result-retry-art {
+      display: none !important;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .reward-pop {
+      background: rgba(14, 47, 46, .48);
+      backdrop-filter: blur(3px);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .reward-card {
+      width: min(470px, 86%);
+      min-height: 450px;
+      gap: 10px;
+      padding: 18px;
+      border: 5px solid #785025;
+      border-radius: 30px;
+      background: radial-gradient(circle at 50% 18%, #fff3c9 0%, #efd091 68%, #d5a95e 100%);
+      box-shadow: inset 0 3px rgba(255, 255, 255, .66), 0 10px 0 #513119, 0 28px 70px rgba(18, 34, 32, .42);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .reward-visual {
+      width: 290px;
+      height: 290px;
+      border: 7px solid #7a4e22;
+      border-radius: 24px;
+      background-image: var(--reward-modal-image);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      box-shadow: inset 0 0 0 3px rgba(255, 242, 197, .64), 0 9px 0 #57351a, 0 16px 28px rgba(69, 42, 18, .22);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .reward-label {
+      color: #2b5953;
+      text-shadow: 0 2px #fff0bd;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .reward-card .primary-button {
+      min-width: 166px;
+      color: #36230e;
+      border: 3px solid #7b5619;
+      background: linear-gradient(180deg, #ffe581, #ffc747);
+      box-shadow: 0 6px 0 #7d5a17;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial {
+      padding: 0;
+      background: #eaf6ee;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-grid {
+      height: 100%;
+      padding: 0;
+      display: block;
+    }
+
     .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .screen-title,
-    .game[data-workbench-type="circle-double-bridge"] .tutorial-progress { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .game[data-workbench-type="circle-double-bridge"] .tutorial-progress {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
     .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+      position: relative;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark {
+      display: none;
+    }
+
     .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] .tutorial-action {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      display: block;
+      pointer-events: none;
+    }
+
     .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
     .game[data-workbench-type="circle-double-bridge"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
-      position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0;
-      color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
+      position: absolute;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+      font-size: 0;
+      pointer-events: auto;
     }
-    .game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 38%; bottom: 2%; width: 28%; height: 16%; }
-    .game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 59%; bottom: 2%; width: 24%; height: 16%; }
-    .game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 20%; bottom: 2%; width: 22%; height: 16%; }
+
+    .game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="0"] #tutorialStartButton {
+      left: 38%;
+      bottom: 2%;
+      width: 28%;
+      height: 16%;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialStartButton {
+      left: 59%;
+      bottom: 2%;
+      width: 24%;
+      height: 16%;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] #screen-tutorial[data-page="1"] #tutorialBackButton {
+      left: 20%;
+      bottom: 2%;
+      width: 22%;
+      height: 16%;
+    }
+
+    @keyframes bridge-install {
+      from {
+        opacity: .28;
+        transform: translateY(-20px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes bridge-lock-glow {
+      0% {
+        filter: drop-shadow(0 0 0 rgba(255, 213, 77, 0));
+      }
+      55% {
+        filter: drop-shadow(0 0 13px rgba(255, 213, 77, .95));
+      }
+      100% {
+        filter: drop-shadow(0 0 5px rgba(255, 213, 77, .38));
+      }
+    }
+
+    @keyframes bridge-part-shake {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      35% {
+        transform: translateX(-5px);
+      }
+      70% {
+        transform: translateX(5px);
+      }
+    }
 
     @media (max-width: 980px) {
-      .game[data-workbench-type="circle-double-bridge"] .hud { right: 2%; width: 67%; }
-      .game[data-workbench-type="circle-double-bridge"] .problem-grid { top: 62px; right: 2%; bottom: 16px; left: 30%; grid-template-rows: minmax(0, 1fr) 50px minmax(196px, auto); gap: 7px; }
-      .game[data-workbench-type="circle-double-bridge"] .complete-panel { min-height: 196px; }
+      .game[data-workbench-type="circle-double-bridge"] .hud {
+        right: calc(2% + var(--sound-reserve));
+        left: 2%;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+        top: 64px;
+        right: 2%;
+        bottom: 12px;
+        left: 28%;
+        grid-template-rows: minmax(0, 1fr) 46px 164px;
+        gap: 7px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .big-problem {
+        font-size: 2.65rem;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
+        min-height: 46px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .instruction,
+      .game[data-workbench-type="circle-double-bridge"] .feedback-line {
+        font-size: 1.2rem;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-part-label {
+        font-size: 25px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+        padding: 12px 15px;
+        gap: 12px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
+        min-width: 150px;
+        min-height: 54px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .reward-card {
+        min-height: 420px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .reward-visual {
+        width: 255px;
+        height: 255px;
+      }
+    }
+
+    @media (min-width: 981px) and (max-width: 1100px) {
+      .game[data-workbench-type="circle-double-bridge"] .circle-bridge-confirm-svg {
+        max-width: 555px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
+        width: min(100%, 277.5px);
+        margin-inline: auto;
+      }
+    }
+
+    @media (min-width: 1101px) and (max-height: 740px) {
+      .game[data-workbench-type="circle-double-bridge"] .circle-bridge-confirm-svg {
+        max-width: 675px;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
+        width: min(100%, 337.5px);
+        margin-inline: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game[data-workbench-type="circle-double-bridge"] .installed-bridge,
+      .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] {
+        animation: none;
+      }
+
+      .game[data-workbench-type="circle-double-bridge"] .bridge-part {
+        transition: none;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="circle-double-bridge" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="circle-double-bridge" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1020,8 +1842,8 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원</div></div>
-        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 두 배 다리</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">지름은 반지름의 두 배임을 알아봐요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원</div></div>
+        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 두 배 다리</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">반지름 두 개를 이으면 지름이 돼요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">지름과 반지름의 관계</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
@@ -1029,7 +1851,7 @@
         <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">다리를 놓기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 이어요?</strong><p>반지름 두 개를 이으면 지름이 돼요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제 뒤에 다리 이름을 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 두 배 다리</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="다리 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">외나무다리</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="다리 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">외나무다리</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">다리 보기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
@@ -1050,20 +1872,21 @@
       <section class="screen result" id="screen-result" data-result-tier="log" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-log-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-log-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-log-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">외나무다리</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원"></section>
     </div>
   </main>
   <script>
-    (function () {
+    const MathmonScoreboard = (function () {
       const SVG_NS = "http://www.w3.org/2000/svg";
       const ROW_Y = [422, 476, 530, 584];
       const ROW_HEIGHT = 48;
       const ROW_STEP = 54;
       const VISIBLE_ROWS = ROW_Y.length;
       const REQUEST_TIMEOUT_MS = 7000;
+      const SCOREBOARD_PRODUCT_ENABLED = false;
       const OUTCOME_LABELS = Object.freeze({
         box: Object.freeze({ retry: "상자 준비" }),
         rocket: Object.freeze({
@@ -1287,9 +2110,9 @@
                 <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
                 <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
                 <g class="mathmon-scoreboard-action-labels">
-                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="569" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="731" y="631" width="142" height="64" rx="24"></rect>
                   <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
                   <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
                   <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
@@ -1298,9 +2121,9 @@
             </g>
           </svg>
           <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 631; --w: 142; --h: 64;" aria-label="새로 보기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 631; --w: 142; --h: 64;" aria-label="결과로"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
             <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
@@ -1541,6 +2364,19 @@
       }
 
       function createApiBridge(options) {
+        // Product policy: ranking stays hidden and must not contact the API until
+        // the owner explicitly changes the plan and removes this guard.
+        const disabledBridge = Object.freeze({
+          reset: () => null,
+          start: () => null,
+          open: () => null,
+          refresh: () => null,
+          render: () => null,
+          getSession: () => null,
+          getSessionPromise: () => null
+        });
+        if (!SCOREBOARD_PRODUCT_ENABLED) return disabledBridge;
+
         const root = mount(options.root);
         const state = {
           session: null,
@@ -1714,10 +2550,12 @@
         });
       }
 
-      window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
+      const api = Object.freeze({ mount, render, createApiBridge });
+      if (Object.isExtensible(window)) window.MathmonScoreboard = api;
+      return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"지름은 반지름의 두 배임을 알아봐요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count"]}},"workbench":{"type":"circle-double-bridge"},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"대교","minPower":83,"minCorrect":8,"image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"start-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count"]}},"workbench":{"type":"circle-double-bridge"},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"대교","minPower":83,"minCorrect":8,"image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2}],"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":36,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"bridgeFitAudit":{"target":".bridge-empty-slot, .installed-bridge","short":".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference","long":".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference","correct":".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check","choiceRange":[1,14],"sharedScaleAttribute":"data-px-per-cm"},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson3DoubleBridgeModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -1762,16 +2600,16 @@
         if (ask === "지름") {
           return shuffle([
             lengthChoice(diameter),
-            lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "반지름 두 개를 이어야 해요."),
-            lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "조금 짧아요. 반지름을 두 번 더해요."),
-            lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "조금 길어요. 같은 반지름 두 개만 이어요.")
+            lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "반지름 하나만 놓였어요."),
+            lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "끝까지 닿지 않아요."),
+            lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "기둥 밖으로 나갔어요.")
           ], rng);
         }
         return shuffle([
           lengthChoice(radius),
-          lengthChoice(diameter, "RADIUS_NOT_HALVED", "지름을 반으로 나눠야 해요."),
-          lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "조금 짧아요. 지름을 똑같이 둘로 나눠요."),
-          lengthChoice(radius + 1, "RADIUS_TOO_LONG", "조금 길어요. 지름을 똑같이 둘로 나눠요.")
+          lengthChoice(diameter, "RADIUS_NOT_HALVED", "지름 전체를 골랐어요."),
+          lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "끝까지 닿지 않아요."),
+          lengthChoice(radius + 1, "RADIUS_TOO_LONG", "반지름 자리를 넘었어요.")
         ], rng);
       }
 
@@ -1784,8 +2622,8 @@
           ? `반지름이 ${radius} cm예요. 지름은?`
           : `지름이 ${diameter} cm예요. 반지름은?`;
         const finalExpression = ask === "지름"
-          ? `${radius} cm + ${radius} cm = ${diameter} cm. 지름은 반지름의 두 배예요.`
-          : `${diameter} cm ÷ 2 = ${radius} cm. 반지름은 지름의 반이에요.`;
+          ? `${radius} cm + ${radius} cm = ${diameter} cm`
+          : `${diameter} cm ÷ 2 = ${radius} cm`;
         return {
           id: `double-bridge-${serial}-${ask}-${radius}`,
           type: ask === "지름" ? "double" : "half",
@@ -1802,7 +2640,9 @@
             answer,
             answerChoiceId: `choice:${answer}`,
             choices: choicesForCase(ask, radius, rng),
-            correctText: ask === "지름" ? `맞아요. ${radius} cm를 두 번 이으면 ${diameter} cm예요.` : `맞아요. ${diameter} cm를 반으로 나누면 ${radius} cm예요.`,
+            correctText: ask === "지름"
+              ? `딱 맞아요! ${radius} cm + ${radius} cm = ${diameter} cm`
+              : `딱 맞아요! ${diameter} cm ÷ 2 = ${radius} cm`,
             reveal: `${answer} cm`,
             advance: { mode: "complete" }
           }]
@@ -1885,6 +2725,10 @@
       settingsToggle: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -1926,9 +2770,11 @@
       resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultHeading: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
@@ -2254,17 +3100,30 @@
 
       if (state.stepIndex < problem.steps.length - 1) {
         state.pendingAdvance = true;
+        if (step.advance?.mode === "button" && typeof prepareStepAdvance === "function") {
+          const prepared = prepareStepAdvance(problem, step, state, advanceToNextStep);
+          if (prepared === true) return;
+        }
         const delay = Number.isFinite(step.advance?.delayMs) ? step.advance.delayMs : 900;
         setTimeout(() => {
-          state.stepIndex += 1;
-          state.pendingAdvance = false;
-          state.inputLocked = false;
-          state.stepAttempts = [];
-          renderStep();
+          advanceToNextStep();
         }, Math.max(0, delay));
         return;
       }
 
+      if (step.advance?.mode === "button" && typeof prepareProblemComplete === "function") {
+        state.pendingAdvance = true;
+        const prepared = prepareProblemComplete(problem, step, state, () => completeCurrentProblem(problem, step, choice));
+        if (prepared === true) return;
+        state.pendingAdvance = false;
+      }
+
+      await completeCurrentProblem(problem, step, choice);
+    }
+
+    async function completeCurrentProblem(problem, step, choice) {
+      if (state.completed) return;
+      state.pendingAdvance = false;
       state.completed = true;
       await setProblemSceneState("complete");
       if (!state.mistakeTouched) state.correctFirstTry += 1;
@@ -2275,8 +3134,17 @@
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
-      ui.continueButton.focus();
+      ui.continueButton.focus({ preventScroll: true });
       state.inputLocked = false;
+    }
+
+    function advanceToNextStep() {
+      if (!state.pendingAdvance) return;
+      state.stepIndex += 1;
+      state.pendingAdvance = false;
+      state.inputLocked = false;
+      state.stepAttempts = [];
+      renderStep();
     }
 
     function getChoiceLabel(choice) {
@@ -2355,7 +3223,7 @@
       });
     }
 
-    function showReward() {
+    async function showReward() {
       if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
@@ -2364,7 +3232,26 @@
       state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
+        return;
+      }
+
+      if (getRewardMode() === "stage-reveal") {
+        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+        if (ui.rewardScene instanceof HTMLImageElement) {
+          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+        } else if (ui.rewardScene) {
+          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+        }
+        ui.rewardLabel.textContent = "";
+        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+        ui.rewardNextButton.disabled = false;
+        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+        showScreen("reward");
+        ui.rewardNextButton.focus({ preventScroll: true });
         return;
       }
 
@@ -2381,7 +3268,7 @@
       showScreen("reward");
     }
 
-    function openRewardModal(event) {
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
       if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
       ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -2389,11 +3276,11 @@
       ui.rewardPop.dataset.rarity = event.rarity || "common";
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
       ui.rewardPop.hidden = false;
-      ui.modalRewardOpenButton.focus();
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
 
     function applyPendingReward(event) {
@@ -2406,25 +3293,87 @@
       }
       finishScoreboardQuestion(event);
       state.lastRewardEvent = event;
+      state.currentResult = null;
       return beforePower;
     }
 
-    async function revealRewardModal() {
+    async function revealStageReward() {
+      if (getRewardMode() !== "stage-reveal" || state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      state.rewardPhase = "opening";
+      ui.rewardNextButton.disabled = true;
+      const beforePower = applyPendingReward(event);
+      const afterResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      ui.rewardLabel.textContent = formatRewardDelta(event);
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      if (!reduceMotion) await waitFor(650);
+      await runViewHook("onRewardReveal", {
+        event,
+        beforePower,
+        afterPower: state.power,
+        beforeResult,
+        afterResult,
+        state,
+      });
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+      state.rewardPhase = "revealed";
+      ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
+        ? "결과 보기"
+        : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardNextButton.disabled = false;
+      ui.rewardNextButton.focus({ preventScroll: true });
+      syncProgress();
+    }
+
+    function waitFor(duration) {
+      return new Promise((resolve) => setTimeout(resolve, duration));
+    }
+
+    function formatRewardDelta(event) {
+      if (event.special) return "황금밭!";
+      const amount = Number(event.amount) || 0;
+      if (amount > 0) return `+${amount}`;
+      if (amount < 0) return String(amount);
+      return "그대로";
+    }
+
+    function getRewardTargetText(beforeResult, afterResult) {
+      if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+      if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(afterResult)
+        : afterResult;
+      if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+      const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
+      if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
+        return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
+      }
+      const remaining = Math.max(0, Number(nextResult.minPower || 0) - state.power);
+      return `${nextResult.name}까지 ${remaining} 더`;
+    }
+
+    async function revealRewardModal({ immediateValue = false } = {}) {
       if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
       const event = state.pendingRewardEvent;
       state.rewardPhase = "opening";
       ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-      await nextAnimationFrame();
+      if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
+      event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      await animateRewardValue(event);
+      const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      if (immediateValue) setRewardValue(event.amount);
+      await revealHook;
+      if (immediateValue) setRewardValue(event.amount);
+      else await animateRewardValue(event);
       state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.hidden = true;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
@@ -2438,18 +3387,26 @@
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const duration = reduceMotion ? 0 : 650;
       const target = Number(event.amount) || 0;
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
       return new Promise((resolve) => {
         const started = performance.now();
         const tick = (now) => {
           const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
           const value = Math.round(target * progress);
-          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          setRewardValue(value);
           if (progress < 1) requestAnimationFrame(tick);
           else resolve();
         };
         requestAnimationFrame(tick);
       });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${unit} ${zeroLabel}`
+        : `${unit} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -2477,7 +3434,12 @@
     }
 
     function advanceAfterReward() {
+      if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
       if (getRewardMode() === "modal-art") closeRewardModal();
+      if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
       if (state.problemIndex >= state.problems.length - 1) {
         showResult();
         return;
@@ -2489,13 +3451,23 @@
 
     function showResult() {
       const result = getCurrentResult();
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(result)
+        : result;
+      const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+      const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
       state.currentResult = result;
       playSample("result");
-      ui.resultBg.src = LESSON_CONFIG.imageAssets.resultScene || result.image || LESSON_CONFIG.imageAssets.cover;
+      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
+      if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextResultText;
+        ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+      }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
       if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
@@ -2517,6 +3489,14 @@
       ui.leaderboardButtonArt.hidden = !showLeaderboard;
       ui.leaderboardButton.hidden = !showLeaderboard;
       if (showLeaderboard) ui.leaderboardButtonArt.src = leaderboardAsset;
+
+      void runViewHook("onResult", {
+        result,
+        nextResult,
+        power: state.power,
+        correctFirstTry: state.correctFirstTry,
+        state,
+      });
 
       showScreen("result");
     }
@@ -2573,24 +3553,64 @@
     }
 
     function restartFromSettings() {
-      closeSettings();
+      if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+      ui.settingsRestartConfirmButton?.focus();
+    }
+
+    function cancelRestartFromSettings() {
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      ui.restartButton?.focus();
+    }
+
+    function confirmRestartFromSettings() {
+      closeSettings({ restoreFocus: false });
       closeRewardModal();
       state = createInitialState();
       scoreboardBridge?.reset?.();
       syncProgress();
       showScreen("cover");
+      ui.startButton?.focus({ preventScroll: true });
     }
 
     function openSettings() {
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
       ui.settingsBackdrop.hidden = false;
       ui.settingsToggle.setAttribute("aria-expanded", "true");
       syncAudioControls();
-      ui.settingsModal.focus();
+      ui.bgmToggle?.focus({ preventScroll: true });
     }
 
-    function closeSettings() {
+    function closeSettings({ restoreFocus = true } = {}) {
       ui.settingsBackdrop.hidden = true;
       ui.settingsToggle.setAttribute("aria-expanded", "false");
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+    }
+
+    function trapSettingsFocus(event) {
+      if (ui.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function beginScoreboardQuestion(problem) {
@@ -2647,6 +3667,9 @@
         amount: event.amount,
         text: event.text,
       };
+      if (LESSON_CONFIG.reward?.version) {
+        state.currentScoreboardAnswer.reward.version = LESSON_CONFIG.reward.version;
+      }
       state.scoreboardAnswers.push(state.currentScoreboardAnswer);
       state.currentScoreboardAnswer = null;
     }
@@ -2673,8 +3696,8 @@
     }
 
     function createScoreboardBridge() {
-      if (!isScoreboardEnabled() || !window.MathmonScoreboard?.createApiBridge) return null;
-      return window.MathmonScoreboard.createApiBridge({
+      if (!isScoreboardEnabled() || !MathmonScoreboard?.createApiBridge) return null;
+      return MathmonScoreboard.createApiBridge({
         root: ui.scoreboardScreen,
         apiUrl: getScoreboardApiUrl(),
         lessonId: LESSON_CONFIG.folder,
@@ -2696,18 +3719,28 @@
     ui.nextTutorialButton.addEventListener("click", continueTutorial);
     ui.backTutorialButton?.addEventListener("click", previousTutorial);
     ui.continueButton.addEventListener("click", showReward);
-    ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.rewardNextButton.addEventListener("click", () => {
+      if (getRewardMode() === "stage-reveal") {
+        if (state.rewardPhase === "closed") revealStageReward();
+        else if (state.rewardPhase === "revealed") advanceAfterReward();
+        return;
+      }
+      advanceAfterReward();
+    });
     ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
     ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
     ui.settingsToggle.addEventListener("click", openSettings);
-    ui.closeSettings.addEventListener("click", closeSettings);
+    ui.closeSettings.addEventListener("click", () => closeSettings());
+    ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
     ui.reviewTutorialButton.addEventListener("click", () => {
-      closeSettings();
+      closeSettings({ restoreFocus: false });
       beginTutorial(state.screen || "play");
     });
     ui.restartButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+    ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
     ui.bgmToggle.addEventListener("click", () => {
       audio.bgm = !audio.bgm;
       saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -2722,28 +3755,68 @@
     syncAudioControls();
     syncProgress();
 
+    window.__mathmonAudioQa = {
+      keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+      getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          audio.bgm = bgmEnabled;
+          saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          audio.sfx = sfxEnabled;
+          saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+        }
+        syncAudioControls();
+        return window.__mathmonAudioQa.getPrefs();
+      },
+    };
+
     window.__mathmonEngineQa = {
       startGame,
+      renderProblem,
       showResult,
       showScreen,
+      showReward,
+      revealStageReward,
+      setState: (patch = {}) => {
+        const allowed = [
+          "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
+          "completed", "mistakeTouched", "rewardPhase", "pendingRewardEvent", "currentResult",
+        ];
+        for (const key of allowed) {
+          if (Object.hasOwn(patch, key)) state[key] = patch[key];
+        }
+        return window.__mathmonEngineQa.getState();
+      },
       getState: () => ({
         screen: state.screen,
         problemIndex: state.problemIndex,
         stepIndex: state.stepIndex,
         inputLocked: state.inputLocked,
         pendingAdvance: state.pendingAdvance,
+        completed: state.completed,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
+        specialSeen: state.specialSeen,
+        rewardPhase: state.rewardPhase,
+        pendingRewardId: state.pendingRewardEvent?.id || "",
+        pendingRewardAmount: Number(state.pendingRewardEvent?.amount) || 0,
+        pendingRewardSpecial: Boolean(state.pendingRewardEvent?.special),
+        lastRewardId: state.lastRewardEvent?.id || "",
         answers: state.scoreboardAnswers,
       }),
       getCurrentProblem: () => state.problems[state.problemIndex] || null,
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
     const BRIDGE_SVG_NS = "http://www.w3.org/2000/svg";
+    const BRIDGE_SCALE_MAX_PX = 232;
 
     function ensureBridgeStageArt() {
       const playScreen = document.getElementById("screen-play");
-      if (!playScreen || playScreen.querySelector(".bridge-stage-art")) return;
+      if (!playScreen) return;
+      playScreen.querySelector(".problem-grid")?.classList.add("bridge-workshop");
+      if (playScreen.querySelector(".bridge-stage-art")) return;
       const image = document.createElement("img");
       image.className = "bridge-stage-art";
       image.src = LESSON_CONFIG.imageAssets.problemStage;
@@ -2752,47 +3825,100 @@
       playScreen.prepend(image);
     }
 
-    function renderProblemVisual(problem, state) {
+    function getBridgeGeometry(problem, choices = problem.steps?.[0]?.choices ?? []) {
+      const values = choices.map((choice) => Number(choice.value)).filter(Number.isFinite);
+      const maxVisibleCm = Math.max(problem.diameter, ...values);
+      const pxPerCm = BRIDGE_SCALE_MAX_PX / maxVisibleCm;
+      const centerX = 380;
+      const circleY = 122;
+      const circleDiameterPx = problem.diameter * pxPerCm;
+      const circleRadiusPx = circleDiameterPx / 2;
+      const circleLeft = centerX - circleRadiusPx;
+      const circleRight = centerX + circleRadiusPx;
+      const answer = problem.ask === "지름" ? problem.diameter : problem.radius;
+      const targetStart = problem.ask === "지름" ? circleLeft : centerX;
+      const targetEnd = targetStart + answer * pxPerCm;
+      return {
+        answer,
+        centerX,
+        circleY,
+        circleDiameterPx,
+        circleRadiusPx,
+        circleLeft,
+        circleRight,
+        maxVisibleCm,
+        pxPerCm,
+        targetStart,
+        targetEnd,
+        targetWidth: answer * pxPerCm,
+      };
+    }
+
+    function getBridgeFit(value, geometry) {
+      const width = value * geometry.pxPerCm;
+      const end = geometry.targetStart + width;
+      const difference = end - geometry.targetEnd;
+      return {
+        x: geometry.targetStart,
+        width,
+        end,
+        difference,
+        fit: Math.abs(difference) < 0.001 ? "fit" : difference < 0 ? "short" : "long",
+      };
+    }
+
+    function renderProblemVisual(problem) {
       ensureBridgeStageArt();
-      ui.visualArea.dataset.bridgeState = "idle";
-      ui.visualArea.dataset.selectedLength = "";
+      setBridgeVisualState("idle");
       renderCircleBridgeWorkbench(problem);
     }
 
-    function updateProblemVisualForStep(problem, step, state) {
-      ui.visualArea.dataset.bridgeState = "idle";
-      ui.visualArea.dataset.selectedLength = "";
+    function updateProblemVisualForStep(problem) {
+      setBridgeVisualState("idle");
       renderCircleBridgeWorkbench(problem);
     }
 
-    function revealCorrectStep(problem, step, state) {
-      ui.visualArea.dataset.bridgeState = "correct";
-      ui.visualArea.dataset.selectedLength = String(step.answer);
+    function revealCorrectStep(problem, step) {
+      setBridgeVisualState("correct", step.answer, "fit");
       renderCircleBridgeWorkbench(problem);
     }
 
     function renderAttempt(problem, step, selected, state, result) {
       if (result.correct) return;
-      ui.visualArea.dataset.bridgeState = "wrong";
-      ui.visualArea.dataset.selectedLength = String(selected.value);
+      const geometry = getBridgeGeometry(problem, step.choices);
+      const fit = getBridgeFit(selected.value, geometry).fit;
+      setBridgeVisualState("wrong", selected.value, fit);
+      result.button.disabled = true;
+      result.button.setAttribute("aria-label", `${selected.value} cm 다리, 맞지 않아요.`);
       renderCircleBridgeWorkbench(problem);
     }
 
+    function setBridgeVisualState(bridgeState, selectedLength = "", bridgeFit = "waiting") {
+      ui.visualArea.dataset.bridgeState = bridgeState;
+      ui.visualArea.dataset.selectedLength = String(selectedLength);
+      ui.visualArea.dataset.bridgeFit = bridgeFit;
+    }
+
     function renderChoicesForStep(problem, step, state, choose) {
+      const geometry = getBridgeGeometry(problem, step.choices);
       ui.choices.innerHTML = "";
-      ui.choices.dataset.choiceKind = "bridge-length";
+      ui.choices.dataset.choiceKind = "bridge-parts";
+      ui.choices.style.setProperty("--bridge-px-per-cm", geometry.pxPerCm);
       step.choices.forEach((selected) => {
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "choice-button bridge-choice";
+        button.className = "choice-button bridge-part";
         button.dataset.choice = selected.id;
         button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-        button.setAttribute("aria-label", `${selected.value} cm 길이 다리`);
+        button.dataset.bridgeLength = String(selected.value);
+        if (selected.misconceptionId) button.dataset.misconception = selected.misconceptionId;
+        button.setAttribute("aria-label", `${selected.value} cm 다리 놓기`);
+
         const svg = document.createElementNS(BRIDGE_SVG_NS, "svg");
-        svg.classList.add("bridge-choice-svg");
-        svg.setAttribute("viewBox", "0 0 240 145");
+        svg.classList.add("bridge-part-svg");
+        svg.setAttribute("viewBox", "0 0 380 84");
         svg.setAttribute("aria-hidden", "true");
-        svg.innerHTML = bridgeChoiceMarkup(selected.value);
+        svg.innerHTML = bridgePartMarkup(selected.value, geometry.pxPerCm);
         button.appendChild(svg);
         button.addEventListener("click", () => choose(selected, button));
         ui.choices.appendChild(button);
@@ -2800,66 +3926,159 @@
       return true;
     }
 
-    function bridgeChoiceMarkup(value) {
-      const width = 54 + value * 8;
-      const x = (240 - width) / 2;
-      const plankCount = Math.max(2, Math.round(width / 24));
-      let seams = "";
-      for (let index = 1; index < plankCount; index += 1) {
-        const seamX = x + (width / plankCount) * index;
-        seams += `<line class="bridge-seam" x1="${seamX}" y1="58" x2="${seamX}" y2="88"/>`;
+    function onResult() {
+      document.getElementById("restartButton")?.classList.add("result-restart-hitbox");
+    }
+
+    function bridgePartMarkup(value, pxPerCm) {
+      const x = 24;
+      const y = 19;
+      const width = value * pxPerCm;
+      return `
+        <g class="bridge-part-shape" data-length="${value}">
+          ${bridgeStructureMarkup(x, y, width, value, "candidate")}
+        </g>
+        <text class="bridge-part-label" x="356" y="55" text-anchor="end">${value} cm</text>
+      `;
+    }
+
+    function bridgeStructureMarkup(x, y, width, value, kind) {
+      const deckHeight = kind === "installed" ? 15 : 13;
+      const trussDepth = kind === "installed" ? 27 : 23;
+      const sectionCount = Math.max(2, Math.min(7, Math.round(value / 2)));
+      const sectionWidth = width / sectionCount;
+      let supports = "";
+      for (let index = 0; index <= sectionCount; index += 1) {
+        const supportX = x + sectionWidth * index;
+        supports += `<line class="${kind}-support" x1="${supportX}" y1="${y + deckHeight}" x2="${supportX}" y2="${y + deckHeight + trussDepth}"/>`;
+        if (index < sectionCount) {
+          const nextX = x + sectionWidth * (index + 1);
+          const lowY = y + deckHeight + trussDepth;
+          supports += `<line class="${kind}-support" x1="${supportX}" y1="${y + deckHeight}" x2="${nextX}" y2="${lowY}"/>`;
+        }
       }
       return `
-        <rect class="bridge-plank" x="${x}" y="58" width="${width}" height="30" rx="8"/>
-        ${seams}
-        <line class="bridge-rope" x1="${x}" y1="48" x2="${x + width}" y2="48"/>
-        <line class="bridge-hanger" x1="${x + 8}" y1="48" x2="${x + 8}" y2="58"/>
-        <line class="bridge-hanger" x1="${x + width - 8}" y1="48" x2="${x + width - 8}" y2="58"/>
-        <text class="bridge-length-label" x="120" y="124" text-anchor="middle">${value} cm</text>
+        <line class="${kind}-shadow" x1="${x + 2}" y1="${y + deckHeight + trussDepth + 5}" x2="${x + width + 2}" y2="${y + deckHeight + trussDepth + 5}"/>
+        <g class="${kind}-truss">
+          <line class="${kind}-beam" x1="${x}" y1="${y + deckHeight}" x2="${x + width}" y2="${y + deckHeight}"/>
+          <line class="${kind}-beam" x1="${x}" y1="${y + deckHeight + trussDepth}" x2="${x + width}" y2="${y + deckHeight + trussDepth}"/>
+          ${supports}
+        </g>
+        <rect class="${kind}-deck" x="${x}" y="${y}" width="${width}" height="${deckHeight}" rx="3"/>
+        <line class="${kind}-highlight" x1="${x + 4}" y1="${y + 4}" x2="${x + width - 4}" y2="${y + 4}"/>
       `;
     }
 
     function renderCircleBridgeWorkbench(problem) {
       const state = ui.visualArea.dataset.bridgeState || "idle";
       const selected = Number(ui.visualArea.dataset.selectedLength || 0);
+      const fit = ui.visualArea.dataset.bridgeFit || "waiting";
+      const choices = problem.steps?.[0]?.choices ?? [];
+      const geometry = getBridgeGeometry(problem, choices);
       const svg = document.createElementNS(BRIDGE_SVG_NS, "svg");
       svg.classList.add("circle-bridge-confirm-svg");
       svg.dataset.state = state;
-      svg.setAttribute("viewBox", "0 0 520 250");
+      svg.dataset.fit = fit;
+      svg.dataset.pxPerCm = geometry.pxPerCm.toFixed(3);
+      svg.setAttribute("viewBox", "0 0 760 340");
       svg.setAttribute("role", "img");
-      svg.setAttribute("aria-label", problem.ask === "지름" ? `반지름 ${problem.radius} cm 두 개와 지름` : `지름 ${problem.diameter} cm를 반으로 나눈 반지름`);
-      svg.innerHTML = circleBridgeMarkup(problem, state === "idle" ? null : selected, state === "correct");
+
+      const relationLabel = problem.ask === "지름"
+        ? `반지름 ${problem.radius} 센티미터 두 개를 이은 지름`
+        : `지름 ${problem.diameter} 센티미터를 반으로 나눈 반지름`;
+      const fitLabel = state === "idle"
+        ? "다리 부품을 고르는 중"
+        : fit === "fit"
+          ? `고른 ${selected} 센티미터 다리가 두 기둥에 맞음`
+          : fit === "short"
+            ? `고른 ${selected} 센티미터 다리가 두 번째 기둥에 닿지 않음`
+            : `고른 ${selected} 센티미터 다리가 두 번째 기둥을 넘어감`;
+      svg.setAttribute("aria-label", `${relationLabel}. ${fitLabel}`);
+      svg.innerHTML = circleBridgeMarkup(problem, geometry, state === "idle" ? null : selected);
       ui.visualArea.replaceChildren(svg);
     }
 
-    function circleBridgeMarkup(problem, selected, matches) {
-      const left = 150;
-      const center = 260;
-      const right = 370;
-      const askDiameter = problem.ask === "지름";
-      const resolved = matches ? selected : null;
-      const leftLabel = askDiameter ? `${problem.radius} cm` : `${resolved ?? "?"} cm`;
-      const rightLabel = askDiameter ? `${problem.radius} cm` : `${resolved ?? "?"} cm`;
-      const diameterLabel = askDiameter ? `${resolved ?? "?"} cm` : `${problem.diameter} cm`;
-      const equation = selected == null ? "" : askDiameter
-        ? `${problem.radius} + ${problem.radius} ${matches ? "=" : "≠"} ${selected}`
-        : `${problem.diameter} ÷ 2 ${matches ? "=" : "≠"} ${selected}`;
+    function installedBridgeMarkup(fitGeometry, value) {
+      const y = 216;
       return `
-        <circle class="bridge-circle" cx="260" cy="126" r="112"/>
-        <line class="radius-half radius-half-left" x1="${left}" y1="126" x2="${center}" y2="126"/>
-        <line class="radius-half radius-half-right" x1="${center}" y1="126" x2="${right}" y2="126"/>
-        <circle class="bridge-center" cx="${center}" cy="126" r="7"/>
-        <circle class="bridge-end" cx="${left}" cy="126" r="6"/>
-        <circle class="bridge-end" cx="${right}" cy="126" r="6"/>
-        <text class="radius-name" x="205" y="83" text-anchor="middle">반지름</text>
-        <text class="radius-name" x="315" y="83" text-anchor="middle">반지름</text>
-        <text class="radius-value" x="205" y="112" text-anchor="middle">${leftLabel}</text>
-        <text class="radius-value" x="315" y="112" text-anchor="middle">${rightLabel}</text>
-        <line class="diameter-brace" x1="${left}" y1="166" x2="${right}" y2="166"/>
-        <line class="diameter-brace" x1="${left}" y1="158" x2="${left}" y2="174"/>
-        <line class="diameter-brace" x1="${right}" y1="158" x2="${right}" y2="174"/>
-        <text class="diameter-value" x="260" y="202" text-anchor="middle">지름 ${diameterLabel}</text>
-        <text class="bridge-equation" x="260" y="238" text-anchor="middle">${equation}</text>
+        <g class="installed-bridge" data-fit="${fitGeometry.fit}">
+          ${bridgeStructureMarkup(fitGeometry.x, y, fitGeometry.width, value, "installed")}
+          <text class="installed-bridge-length" x="${fitGeometry.x + fitGeometry.width / 2}" y="${y - 10}" text-anchor="middle">${value} cm</text>
+        </g>
+      `;
+    }
+
+    function bridgeDifferenceMarkup(fitGeometry, geometry) {
+      if (fitGeometry.fit === "fit") {
+        return `
+          <circle class="bridge-lock" cx="${geometry.targetStart}" cy="232" r="9"/>
+          <circle class="bridge-lock" cx="${geometry.targetEnd}" cy="232" r="9"/>
+          <path class="bridge-fit-check" d="M ${geometry.targetEnd + 17} 229 l 8 8 l 17 -19"/>
+        `;
+      }
+      const start = Math.min(fitGeometry.end, geometry.targetEnd);
+      const end = Math.max(fitGeometry.end, geometry.targetEnd);
+      const label = fitGeometry.fit === "short" ? "여기만큼 짧아요" : "여기만큼 길어요";
+      return `
+        <line class="bridge-difference" x1="${start}" y1="267" x2="${end}" y2="267"/>
+        <line class="bridge-difference-cap" x1="${start}" y1="259" x2="${start}" y2="275"/>
+        <line class="bridge-difference-cap" x1="${end}" y1="259" x2="${end}" y2="275"/>
+        <text class="bridge-difference-label" x="${(start + end) / 2}" y="290" text-anchor="middle">${label}</text>
+      `;
+    }
+
+    function circleBridgeMarkup(problem, geometry, selected) {
+      const askDiameter = problem.ask === "지름";
+      const equation = selected == null
+        ? ""
+        : askDiameter
+          ? `${problem.radius} + ${problem.radius} ${selected === geometry.answer ? "=" : "≠"} ${selected}`
+          : `${problem.diameter} ÷ 2 ${selected === geometry.answer ? "=" : "≠"} ${selected}`;
+      const fitGeometry = selected == null ? null : getBridgeFit(selected, geometry);
+      const targetQuestion = selected == null
+        ? `<text class="target-kind-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="200" text-anchor="middle">${problem.ask} ? cm</text>`
+        : "";
+      const relationMarkup = askDiameter
+        ? `
+          <text class="radius-name" x="${(geometry.circleLeft + geometry.centerX) / 2}" y="${geometry.circleY - 40}" text-anchor="middle">반지름</text>
+          <text class="radius-value" x="${(geometry.circleLeft + geometry.centerX) / 2}" y="${geometry.circleY - 13}" text-anchor="middle">${problem.radius} cm</text>
+          <text class="radius-name" x="${(geometry.centerX + geometry.circleRight) / 2}" y="${geometry.circleY - 40}" text-anchor="middle">반지름</text>
+          <text class="radius-value" x="${(geometry.centerX + geometry.circleRight) / 2}" y="${geometry.circleY - 13}" text-anchor="middle">${problem.radius} cm</text>
+          ${targetQuestion}
+        `
+        : `
+          <line class="diameter-brace" x1="${geometry.circleLeft}" y1="${geometry.circleY - 27}" x2="${geometry.circleRight}" y2="${geometry.circleY - 27}"/>
+          <line class="diameter-brace" x1="${geometry.circleLeft}" y1="${geometry.circleY - 34}" x2="${geometry.circleLeft}" y2="${geometry.circleY - 20}"/>
+          <line class="diameter-brace" x1="${geometry.circleRight}" y1="${geometry.circleY - 34}" x2="${geometry.circleRight}" y2="${geometry.circleY - 20}"/>
+          <text class="diameter-value" x="${geometry.centerX}" y="${geometry.circleY - 41}" text-anchor="middle">지름 ${problem.diameter} cm</text>
+          ${targetQuestion}
+        `;
+      const installed = fitGeometry
+        ? installedBridgeMarkup(fitGeometry, selected)
+        : `
+          <line class="bridge-empty-slot" x1="${geometry.targetStart}" y1="232" x2="${geometry.targetEnd}" y2="232"/>
+          <text class="bridge-empty-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="240" text-anchor="middle">?</text>
+        `;
+      return `
+        <g class="circle-relation">
+          <circle class="bridge-circle-shadow" cx="${geometry.centerX}" cy="${geometry.circleY + 5}" r="${geometry.circleRadiusPx}"/>
+          <circle class="bridge-circle" cx="${geometry.centerX}" cy="${geometry.circleY}" r="${geometry.circleRadiusPx}"/>
+          <line class="radius-half radius-half-left" x1="${geometry.circleLeft}" y1="${geometry.circleY}" x2="${geometry.centerX}" y2="${geometry.circleY}"/>
+          <line class="radius-half radius-half-right" x1="${geometry.centerX}" y1="${geometry.circleY}" x2="${geometry.circleRight}" y2="${geometry.circleY}"/>
+          <circle class="bridge-center" cx="${geometry.centerX}" cy="${geometry.circleY}" r="8"/>
+          <circle class="bridge-end" cx="${geometry.circleLeft}" cy="${geometry.circleY}" r="7"/>
+          <circle class="bridge-end" cx="${geometry.circleRight}" cy="${geometry.circleY}" r="7"/>
+          ${relationMarkup}
+        </g>
+        <g class="bridge-target">
+          <line class="target-projection" x1="${geometry.targetStart}" y1="${geometry.circleY + 10}" x2="${geometry.targetStart}" y2="264"/>
+          <line class="target-projection" x1="${geometry.targetEnd}" y1="${geometry.circleY + 10}" x2="${geometry.targetEnd}" y2="264"/>
+          <path class="bridge-pier" d="M ${geometry.targetStart - 12} 268 L ${geometry.targetStart + 12} 268 L ${geometry.targetStart + 8} 232 L ${geometry.targetStart - 8} 232 Z"/>
+          <path class="bridge-pier" d="M ${geometry.targetEnd - 12} 268 L ${geometry.targetEnd + 12} 268 L ${geometry.targetEnd + 8} 232 L ${geometry.targetEnd - 8} 232 Z"/>
+          ${installed}
+          ${fitGeometry ? bridgeDifferenceMarkup(fitGeometry, geometry) : ""}
+        </g>
+        <text class="bridge-equation" x="380" y="322" text-anchor="middle">${equation}</text>
       `;
     }
     window.Lesson3DoubleBridgeModel = Lesson3DoubleBridgeModel;

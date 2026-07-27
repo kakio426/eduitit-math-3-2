@@ -8,7 +8,7 @@
   "shortTitle": "매스몬 두 배 다리",
   "topic": "지름과 반지름의 관계",
   "unitBadge": "3단원 원",
-  "goal": "지름은 반지름의 두 배임을 알아봐요.",
+  "goal": "반지름 두 개를 이으면 지름이 돼요.",
   "action": "두 배 또는 반의 길이를 골라요.",
   "buttonLabel": "다리 보기",
   "rewardScreenTitle": "다리 힘",
@@ -25,6 +25,13 @@
     "mode": "modal-art",
     "maxPower": 100,
     "nextLabel": "다음",
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "reward-modal",
+      "states": ["closed", "normal", "loss", "mega", "complete", "empty", "rainbow"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
     "artMap": {
       "normal": "reward-event-normal-generated.webp", "loss": "reward-event-loss-generated.webp",
       "mega": "reward-event-mega-generated.webp", "complete": "reward-event-complete-generated.webp",
@@ -35,7 +42,7 @@
       "complete": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
     } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
+  "result": { "renderMode": "hybrid-generated-dynamic", "showNextGoal": true, "stateImageSet": {
     "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
     "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "zfa-03-sudalmon",
     "fixedGeneratedElements": ["result-title", "retry-button"],
@@ -69,18 +76,20 @@
     { "ask": "반지름", "radius": 2 }, { "ask": "반지름", "radius": 3 }, { "ask": "반지름", "radius": 4 }, { "ask": "반지름", "radius": 5 }, { "ask": "반지름", "radius": 6 }
   ],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
-    "startButton": "start-button-generated.webp",
-    "problemStage": "problem-stage-generated.webp",
+    "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "problemStage": "problem-workshop-v3-generated.webp",
+    "rewardClosed": "reward-event-closed-v2-generated.webp",
     "rewardScene": "result-bridge-generated.webp",
-    "resultRetryButton": "start-button-generated.webp"
+    "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
   },
   "assets": [
-    "cover-generated.webp", "title-logo-generated.webp", "start-button-generated.webp",
-    "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "problem-workshop-v3-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-closed-v2-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-complete-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-log-generated.webp", "result-small-generated.webp", "result-bridge-generated.webp",
@@ -90,8 +99,49 @@
     "visualContractVersion": 1,
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "codex-in-app", "width": 1280, "height": 720, "dpr": 2 }
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "layoutAudit": {
+      "workArea": ".problem-grid",
+      "primary": ".problem-card",
+      "secondary": ".choices-panel",
+      "tertiary": ".step-board",
+      "complete": ".complete-panel",
+      "minStageWidthRatio": 0.65
+    },
+    "typographyAudit": {
+      "headline": ".big-problem",
+      "instruction": ".step-board .instruction",
+      "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".problem-card svg",
+      "primarySvgText": ".problem-card svg text",
+      "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 36,
+      "minInstructionPx": 18,
+      "minPrimarySvgTextPx": 16,
+      "minChoiceSvgTextPx": 18,
+      "minBadgePx": 14,
+      "minCounterPx": 16,
+      "minGlobalControlPx": 42,
+      "minPanelGapPx": 8
+    },
+    "misconceptionCoverage": [
+      "DIAMETER_NOT_DOUBLED",
+      "DIAMETER_ONE_SHORT",
+      "DIAMETER_TOO_LONG",
+      "RADIUS_NOT_HALVED",
+      "RADIUS_TOO_LONG",
+      "RADIUS_TOO_SHORT"
+    ],
+    "bridgeFitAudit": {
+      "target": ".bridge-empty-slot, .installed-bridge",
+      "short": ".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference",
+      "long": ".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference",
+      "correct": ".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check",
+      "choiceRange": [1, 14],
+      "sharedScaleAttribute": "data-px-per-cm"
+    },
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward-closed", "reward-open", "result"]
   }
 }
