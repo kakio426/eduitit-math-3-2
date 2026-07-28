@@ -1,5 +1,13 @@
 const CHECK_LOCK_SVG_NS = "http://www.w3.org/2000/svg";
 const CHECK_LOCK_RELATION_LABEL = "나누는 수 × 몫";
+const RESULT_NEXT_TITLE_ART = {
+  lock: "result-title-lock-transparent-v2.png",
+  safe: "result-title-safe-transparent-v2.png",
+  largeSafe: "result-title-largeSafe-transparent-v2.png",
+  secretSafe: "result-title-secretSafe-transparent-v2.png",
+  treasure: "result-title-treasure-transparent-v2.png",
+  rainbow: "result-title-rainbow-transparent-v2.png"
+};
 
 const VAULT_WORLD_SPARKS = {
   lock: [[50, 10], [50, 30], [50, 46]],
@@ -35,7 +43,7 @@ function ensureCheckLockStageArt() {
       <div class="vault-world-readout">
         <p class="vault-world-current"><span>지금</span><strong id="vaultCurrentName">작은 자물쇠</strong></p>
         <div class="vault-world-power">
-          <span>열쇠 힘</span>
+          <span>열쇠 빛</span>
           <strong id="vaultPowerValue">0</strong>
           <i aria-hidden="true"><b id="vaultPowerFill"></b></i>
         </div>
@@ -100,8 +108,8 @@ function syncVaultWorld(state, options = {}) {
   powerValue.textContent = String(power);
   powerFill.style.width = `${(power / maxPower) * 100}%`;
   status.textContent = result.needsSpecial
-    ? `지금 ${result.name}, 열쇠 힘 ${power}, 모든 금고를 열었어요.`
-    : `지금 ${result.name}, 열쇠 힘 ${power}, 다음은 ${next?.name || "무지개 금고"}예요.`;
+    ? `지금 ${result.name}, 열쇠 빛 ${power}, 모든 금고를 열었어요.`
+    : `지금 ${result.name}, 열쇠 빛 ${power}, 다음은 ${next?.name || "무지개 금고"}예요.`;
   panel.setAttribute("aria-label", status.textContent);
 
   const changed = image.getAttribute("src") !== nextSrc;
@@ -241,13 +249,52 @@ async function onRewardReveal({ event, beforePower, afterPower, state }) {
   ]);
 }
 
-function onResult({ result, power }) {
-  if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `열쇠 힘 ${power}`;
-  if (result?.needsSpecial) {
-    const completeText = "모든 금고를 열었어요!";
-    if (ui.resultNextSvg) ui.resultNextSvg.textContent = completeText;
-    if (ui.resultNext) ui.resultNext.textContent = completeText;
+function onResult({ result }) {
+  const nextResult = getNextVaultResult(result);
+  const nextText = result?.needsSpecial
+    ? "최고 단계예요!"
+    : `다음은 ${nextResult?.name || "무지개 금고"}`;
+  const nextArt = ensureCheckLockResultNextArt();
+  if (nextArt) {
+    nextArt.prefix.hidden = Boolean(result?.needsSpecial);
+    nextArt.title.classList.toggle("is-final", Boolean(result?.needsSpecial));
+    nextArt.title.src = result?.needsSpecial
+      ? LESSON_CONFIG.imageAssets.resultFinalTitle
+      : RESULT_NEXT_TITLE_ART[nextResult?.id] || RESULT_NEXT_TITLE_ART.rainbow;
   }
+  if (ui.resultNextSvg) {
+    ui.resultNextSvg.textContent = nextText;
+    ui.resultNextSvg.hidden = true;
+  }
+  if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = nextText;
+  if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = "";
+  if (ui.resultNext) ui.resultNext.textContent = nextText;
+}
+
+function ensureCheckLockResultNextArt() {
+  const layer = document.querySelector("#screen-result .result-layer");
+  if (!layer) return null;
+
+  let prefix = layer.querySelector(".result-next-prefix-art");
+  if (!prefix) {
+    prefix = document.createElement("img");
+    prefix.className = "result-next-prefix-art";
+    prefix.src = LESSON_CONFIG.imageAssets.resultNextPrefix;
+    prefix.alt = "";
+    prefix.setAttribute("aria-hidden", "true");
+    layer.appendChild(prefix);
+  }
+
+  let title = layer.querySelector(".result-next-tier-art");
+  if (!title) {
+    title = document.createElement("img");
+    title.className = "result-next-tier-art";
+    title.alt = "";
+    title.setAttribute("aria-hidden", "true");
+    layer.appendChild(title);
+  }
+
+  return { prefix, title };
 }
 
 function animateLockSignal(sceneState) {
@@ -433,4 +480,22 @@ function renderLockPins(activeIndex, currentConfirmed) {
       }).join("")}
     </g>
   `;
+}
+
+const CHECK_LOCK_PREVIEW_PARAMS = new URLSearchParams(window.location.search);
+if (CHECK_LOCK_PREVIEW_PARAMS.get("preview") === "result") {
+  requestAnimationFrame(() => {
+    const preview = window.__mathmonEngineQa;
+    if (!preview) return;
+    const requestedTier = CHECK_LOCK_PREVIEW_PARAMS.get("tier");
+    const tier = Lesson2CheckLockModel.RESULT_TIERS.find((item) => item.id === requestedTier)
+      || Lesson2CheckLockModel.RESULT_TIERS.find((item) => item.id === "treasure");
+    preview.setState({
+      power: tier?.minPower ?? 96,
+      correctFirstTry: Math.max(tier?.minCorrect ?? 10, 1),
+      specialSeen: Boolean(tier?.needsSpecial),
+      currentResult: null,
+    });
+    preview.showResult();
+  });
 }
