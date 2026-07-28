@@ -12,8 +12,8 @@
   "action": "곱할 두 수와 더할 수를 골라요.",
   "buttonLabel": "자물쇠 열기",
   "rewardScreenTitle": "자물쇠",
-  "progressLabel": "열쇠 힘",
-  "rewardComplete": "자물쇠 힘이 바뀌었어요.",
+  "progressLabel": "열쇠 빛",
+  "rewardComplete": "열쇠 빛이 바뀌었어요.",
   "tutorialTitle": "금고를 열기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
@@ -23,10 +23,15 @@
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art",
+    "standard": "mathmon-unified-reward-v1",
     "maxPower": 100,
-    "unitLabel": "열쇠 힘",
-    "closedLabel": "열쇠 힘은 얼마나 나올까요?",
+    "unitLabel": "열쇠 빛",
+    "closedLabel": "열쇠가 얼마나 빛날까요?",
     "nextLabel": "다음",
+    "fairness": {
+      "emptyKeepsProgress": true,
+      "lossCapAtCommonGainMin": true
+    },
     "artMap": {
       "click": "reward-event-click-generated.webp",
       "jam": "reward-event-jam-generated.webp",
@@ -54,11 +59,11 @@
       "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-title-contact-sheet.png",
+      "contactSheet": "result-tiers-v2-contact-sheet.png",
       "sceneBackground": "result-scene-generated.webp",
       "protagonist": "base-09-kingdragonmon",
-      "fixedGeneratedElements": ["result-title", "retry-button"],
-      "dynamicOverlays": ["key-power", "correct-count"]
+      "fixedGeneratedElements": ["tier-scene-with-title", "next-goal-art", "retry-button"],
+      "dynamicOverlays": ["correct-count"]
     }
   },
   "workbench": {
@@ -78,30 +83,30 @@
     "enabled": false,
     "title": "전국 열쇠 순위",
     "resultKind": "score",
-    "scoreLabel": "내 열쇠 힘",
-    "listTitle": "열쇠 힘 순위",
+    "scoreLabel": "내 열쇠 빛",
+    "listTitle": "열쇠 빛 순위",
     "unit": "3학년 2학기 2단원 4차시"
   },
   "mathmonPack": "base-pack",
   "mathmonName": "킹드래곤몬",
   "mathmonId": "base-09-kingdragonmon",
   "results": [
-    { "id": "lock", "name": "작은 자물쇠", "minPower": 1, "minCorrect": 1, "playImage": "play-vault-lock-generated.webp", "image": "result-lock-generated.webp", "titleImage": "result-title-lock-generated.webp" },
-    { "id": "safe", "name": "튼튼한 금고", "minPower": 21, "minCorrect": 3, "playImage": "play-vault-safe-generated.webp", "image": "result-safe-generated.webp", "titleImage": "result-title-safe-generated.webp" },
-    { "id": "largeSafe", "name": "커다란 금고", "minPower": 41, "minCorrect": 5, "playImage": "play-vault-large-safe-generated.webp", "image": "result-large-safe-generated.webp", "titleImage": "result-title-largeSafe-generated.webp" },
-    { "id": "secretSafe", "name": "비밀 금고", "minPower": 61, "minCorrect": 7, "playImage": "play-vault-secret-safe-generated.webp", "image": "result-secret-safe-generated.webp", "titleImage": "result-title-secretSafe-generated.webp" },
-    { "id": "treasure", "name": "보물 금고", "minPower": 81, "minCorrect": 9, "playImage": "play-vault-treasure-generated.webp", "image": "result-treasure-generated.webp", "titleImage": "result-title-treasure-generated.webp" },
-    { "id": "rainbow", "name": "무지개 금고", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-vault-rainbow-generated.webp", "image": "result-rainbow-generated.webp", "titleImage": "result-title-rainbow-generated.webp" }
+    { "id": "lock", "name": "작은 자물쇠", "minPower": 0, "minCorrect": 0, "playImage": "play-vault-lock-generated.webp", "image": "result-lock-generated.webp" },
+    { "id": "safe", "name": "튼튼한 금고", "minPower": 15, "minCorrect": 2, "playImage": "play-vault-safe-generated.webp", "image": "result-safe-generated.webp" },
+    { "id": "largeSafe", "name": "커다란 금고", "minPower": 35, "minCorrect": 4, "playImage": "play-vault-large-safe-generated.webp", "image": "result-large-safe-generated.webp" },
+    { "id": "secretSafe", "name": "비밀 금고", "minPower": 55, "minCorrect": 6, "playImage": "play-vault-secret-safe-generated.webp", "image": "result-secret-safe-generated.webp" },
+    { "id": "treasure", "name": "보물 금고", "minPower": 78, "minCorrect": 8, "playImage": "play-vault-treasure-generated.webp", "image": "result-treasure-generated.webp" },
+    { "id": "rainbow", "name": "무지개 금고", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-vault-rainbow-generated.webp", "image": "result-rainbow-generated.webp" }
   ],
   "rewardEvents": [
-    { "id": "click", "text": "열쇠 힘이 늘었어요", "weight": 7200, "min": 4, "max": 8, "family": "click", "rarity": "common" },
-    { "id": "jam", "text": "열쇠 힘이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "jam", "rarity": "common" },
-    { "id": "double", "text": "열쇠 힘이 크게 늘었어요", "weight": 1000, "min": 12, "max": 20, "family": "double", "rarity": "rare" },
-    { "id": "master", "text": "황금 열쇠!", "weight": 300, "min": 6, "max": 6, "family": "master", "rarity": "rare", "express": true },
-    { "id": "reset", "text": "열쇠 힘 0", "weight": 280, "min": 0, "max": 0, "family": "reset", "rarity": "common", "emptiesPower": true },
-    { "id": "rainbow", "text": "무지개 열쇠!", "weight": 20, "min": 10, "max": 10, "family": "rainbow", "rarity": "legend", "special": true }
+    { "id": "click", "text": "열쇠 빛이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "click", "rarity": "common" },
+    { "id": "jam", "text": "열쇠 빛이 줄었어요", "weight": 1500, "min": -5, "max": -2, "family": "jam", "rarity": "common" },
+    { "id": "double", "text": "열쇠 빛이 크게 늘었어요", "weight": 1200, "min": 14, "max": 22, "family": "double", "rarity": "rare" },
+    { "id": "master", "text": "황금 열쇠!", "weight": 500, "min": 30, "max": 30, "family": "master", "rarity": "rare", "express": true },
+    { "id": "reset", "text": "열쇠 빛 그대로", "weight": 380, "min": 0, "max": 0, "family": "reset", "rarity": "common" },
+    { "id": "rainbow", "text": "무지개 열쇠!", "weight": 20, "min": 100, "max": 100, "family": "rainbow", "rarity": "legend", "special": true }
   ],
-  "wrongEvent": { "id": "jamMistake", "text": "열쇠 힘이 줄었어요", "min": -18, "max": -8, "family": "jam" },
+  "wrongEvent": { "id": "jamMistake", "text": "열쇠 빛이 줄었어요", "min": -6, "max": -3, "family": "jam" },
   "typesPerRun": ["match", "match", "match", "match", "match", "match", "mismatch", "mismatch", "mismatch", "mismatch"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
@@ -123,6 +128,8 @@
     "rewardScene": "lock-generated.webp",
     "resultScene": "result-scene-generated.webp",
     "mathmonReactions": {},
+    "resultNextPrefix": "result-next-prefix-generated.webp",
+    "resultFinalTitle": "result-final-title-generated.webp",
     "resultRetryButton": "result-retry-button-generated.webp",
     "resultLeaderboardButton": "../_shared/scoreboard/scoreboard-result-button-generated.webp"
   },
@@ -133,7 +140,11 @@
     "play-vault-secret-safe-generated.webp", "play-vault-treasure-generated.webp", "play-vault-rainbow-generated.webp",
     "problem-state-waiting-generated.webp", "problem-state-working-generated.webp", "problem-state-complete-generated.webp",
     "mathmon-reaction-correct.webp", "mathmon-reaction-wrong.webp", "mathmon-reaction-reward.webp",
-    "result-scene-generated.webp", "result-title-lock-generated.webp", "result-title-safe-generated.webp", "result-title-largeSafe-generated.webp", "result-title-secretSafe-generated.webp", "result-title-treasure-generated.webp", "result-title-rainbow-generated.webp",
+    "result-scene-generated.webp",
+    "result-next-prefix-generated.webp", "result-final-title-generated.webp",
+    "result-title-lock-transparent-v2.png", "result-title-safe-transparent-v2.png",
+    "result-title-largeSafe-transparent-v2.png", "result-title-secretSafe-transparent-v2.png",
+    "result-title-treasure-transparent-v2.png", "result-title-rainbow-transparent-v2.png",
     "result-retry-button-generated.webp",
     "reward-event-click-generated.webp", "reward-event-jam-generated.webp", "reward-event-double-generated.webp",
     "reward-event-master-generated.webp", "reward-event-reset-generated.webp", "reward-event-rainbow-generated.webp",

@@ -695,16 +695,16 @@
 .check-lock-choice-role {
   max-width: 100%;
   color: #314357;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.15;
   font-weight: 900;
+  white-space: nowrap;
   word-break: keep-all;
-  overflow-wrap: anywhere;
 }
 
 .check-lock-relation-choice strong {
   max-width: 100%;
-  font-size: 29px;
+  font-size: 34px;
   line-height: 1;
   font-weight: 1000;
   white-space: nowrap;
@@ -788,6 +788,16 @@
   display: none !important;
 }
 
+.game[data-workbench-type="check-lock-bars"] .reward-card {
+  width: min(560px, 88%);
+}
+
+.game[data-workbench-type="check-lock-bars"] .reward-label {
+  max-width: 100%;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
 .game[data-workbench-type="check-lock-bars"] .reward-card[data-reward-phase="closed"] .reward-label {
   display: none;
 }
@@ -800,11 +810,7 @@
 }
 
 .game[data-workbench-type="check-lock-bars"] .result-title-art {
-  display: block;
-  top: 8%;
-  left: 52%;
-  width: 42%;
-  border-radius: 18px;
+  display: none !important;
 }
 
 .game[data-workbench-type="check-lock-bars"] #screen-result .top-row {
@@ -815,8 +821,12 @@
   background: none;
 }
 
-.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultNextSvg,
 .game[data-workbench-type="check-lock-bars"] .result-dynamic-ui .result-restart-surface {
+  display: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultDestinationSvg {
   display: none;
 }
 
@@ -827,24 +837,59 @@
 }
 
 .game[data-workbench-type="check-lock-bars"] .result-dynamic-ui rect:first-of-type {
-  fill: #162f3d;
-  opacity: .5;
+  display: none;
 }
 
 .game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultMeasureFillSvg {
-  fill: #ffd05a;
+  display: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-dynamic-ui #resultMeasureSvg {
+  display: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-next-prefix-art,
+.game[data-workbench-type="check-lock-bars"] .result-next-tier-art {
+  position: absolute;
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, .34));
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-next-prefix-art {
+  top: 33.5%;
+  left: 61%;
+  width: 13%;
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-next-prefix-art[hidden] {
+  display: none;
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-next-tier-art {
+  top: 40%;
+  left: 53%;
+  width: 29%;
+}
+
+.game[data-workbench-type="check-lock-bars"] .result-next-tier-art.is-final {
+  top: 37%;
+  left: 51.5%;
+  width: 32%;
 }
 
 .game[data-workbench-type="check-lock-bars"] .result-correct-art {
-  top: 58%;
-  left: 60%;
-  width: 15%;
+  top: 55%;
+  left: 58.5%;
+  width: 18%;
 }
 
 .game[data-workbench-type="check-lock-bars"] .result-retry-hitbox {
-  top: 80%;
-  left: 56%;
-  width: 29%;
+  top: 78%;
+  left: 56.25%;
+  width: 27%;
   height: 17%;
 }
 
@@ -857,11 +902,7 @@
 }
 
 .game[data-workbench-type="check-lock-bars"] .result-retry-hitbox .result-retry-art {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 18px;
+  display: none;
 }
 
 .game[data-workbench-type="check-lock-bars"][data-tutorial-mode="poster-two-step"] .tutorial {
@@ -1038,11 +1079,11 @@
   }
 
   .check-lock-choice-role {
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .check-lock-relation-choice strong {
-    font-size: 25px;
+    font-size: 30px;
   }
 }
 
