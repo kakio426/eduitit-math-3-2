@@ -9,10 +9,6 @@ const CIRCLE_RELATION_KINDS = new Set([
   "off-center-chord",
   "inner-segment",
 ]);
-let targetRewardStage = null;
-let targetRewardArtPrimed = false;
-const targetRewardPreloads = [];
-
 function ensureCircleStageArt() {
   const playScreen = document.getElementById("screen-play");
   if (playScreen && !playScreen.querySelector(".circle-stage-art")) {
@@ -91,11 +87,45 @@ function installCircleTutorialNextArt() {
   syncCircleTutorialNextArt();
 }
 
-function alignCircleResultNextGoal() {
-  const nextGoal = document.getElementById("resultNextSvg");
-  if (!nextGoal) return;
-  nextGoal.setAttribute("x", "730");
-  nextGoal.setAttribute("y", "610");
+function ensureCircleResultNextGoal() {
+  const layer = document.querySelector("#screen-result .result-layer");
+  if (!layer) return null;
+
+  let goal = layer.querySelector(".result-next-goal-art");
+  if (!goal) {
+    goal = document.createElement("img");
+    goal.className = "result-next-goal-art";
+    goal.alt = "";
+    goal.setAttribute("aria-hidden", "true");
+    layer.appendChild(goal);
+  }
+  return goal;
+}
+
+function onResult({ result }) {
+  const regularNext = Lesson3TargetHitModel.getNextResult(result);
+  const specialResult = LESSON_CONFIG.results.find((item) => item.needsSpecial);
+  const nextResult = !result?.needsSpecial && regularNext?.id === result?.id
+    ? specialResult
+    : regularNext;
+  const isFinal = Boolean(result?.needsSpecial);
+  const goal = ensureCircleResultNextGoal();
+  if (!goal) return;
+  goal.src = isFinal
+    ? LESSON_CONFIG.imageAssets.resultNextGoalTitles.final
+    : LESSON_CONFIG.imageAssets.resultNextGoalTitles[nextResult?.id || "legend"];
+
+  const nextText = isFinal
+    ? "최고 단계예요!"
+    : `다음엔 ${nextResult?.name || "전설 명중"}`;
+  if (ui.resultNextSvg) {
+    ui.resultNextSvg.textContent = nextText;
+    ui.resultNextSvg.setAttribute("x", "830");
+    ui.resultNextSvg.setAttribute("y", "340");
+    ui.resultNextSvg.hidden = false;
+  }
+  if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = "";
+  if (ui.resultNext) ui.resultNext.textContent = nextText;
 }
 
 function renderProblemVisual(problem, state) {
@@ -239,11 +269,6 @@ function circleRelationMarkup(kind, large, diagnosticId = "") {
   const line = (x1, y1, x2, y2) => (
     `<line class="relation-candidate" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`
   );
-  const targetMarks = `
-    <path class="relation-target-mark" d="M120 21v9M120 150v9M51 90h9M180 90h9"/>
-    <path class="relation-corner-mark" d="M31 49v-13h13M196 36h13v13M31 131v13h13M196 144h13v-13"/>
-  `;
-
   let relation = "";
   if (kind === "center") {
     relation = `${circle}<circle class="relation-point-candidate" cx="120" cy="90" r="10"/>`;
@@ -266,7 +291,6 @@ function circleRelationMarkup(kind, large, diagnosticId = "") {
   }
 
   return `
-    <g class="relation-target-frame">${targetMarks}</g>
     <g class="relation-geometry">${relation}</g>
     ${circleDiagnosticMarkup(diagnosticId)}
   `;
@@ -334,172 +358,6 @@ function onProblemComplete() {
   ensureScoreViewButtonArt();
 }
 
-function getTargetRewardImage(event) {
-  const artMap = LESSON_CONFIG.reward?.artMap || {};
-  return event?.image
-    || artMap[event?.id]
-    || artMap[event?.family]
-    || LESSON_CONFIG.imageAssets.rewardClosed;
-}
-
-function primeTargetRewardArt() {
-  if (targetRewardArtPrimed || typeof Image === "undefined") return;
-  targetRewardArtPrimed = true;
-  const artMap = LESSON_CONFIG.reward?.artMap || {};
-  const sources = new Set([
-    LESSON_CONFIG.imageAssets.rewardClosed,
-    ...Object.values(artMap),
-  ].filter(Boolean));
-  sources.forEach((src) => {
-    const image = new Image();
-    image.src = src;
-    targetRewardPreloads.push(image);
-  });
-}
-
-function setTargetRewardArt(image, src) {
-  if (!(image instanceof HTMLImageElement)) return;
-  const fallback = LESSON_CONFIG.imageAssets.rewardClosed;
-  image.onerror = () => {
-    image.onerror = null;
-    if (image.getAttribute("src") !== fallback) image.src = fallback;
-  };
-  image.src = src || fallback;
-}
-
-function ensureTargetRewardStage() {
-  primeTargetRewardArt();
-  if (targetRewardStage?.root?.isConnected) return targetRewardStage;
-  const panel = document.querySelector("#screen-reward .reward-panel");
-  const title = document.getElementById("rewardTitle");
-  const engineLabel = document.getElementById("rewardChange");
-  const button = document.getElementById("rewardNextButton");
-  if (!panel || !title || !engineLabel || !button) return null;
-
-  title.classList.add("visually-hidden");
-  engineLabel.className = "visually-hidden";
-  engineLabel.setAttribute("aria-hidden", "true");
-
-  const story = document.createElement("div");
-  story.className = "target-reward-story";
-  story.dataset.rewardStageStory = "true";
-  story.dataset.phase = "closed";
-
-  const visual = document.createElement("div");
-  visual.className = "target-reward-visual";
-  const art = document.createElement("img");
-  art.className = "target-reward-art";
-  art.alt = "";
-  art.setAttribute("aria-hidden", "true");
-  visual.appendChild(art);
-
-  const copy = document.createElement("div");
-  copy.className = "target-reward-copy";
-  const score = document.createElement("div");
-  score.className = "target-reward-score";
-  const scoreLabel = document.createElement("span");
-  scoreLabel.className = "target-reward-score-label";
-  scoreLabel.textContent = "이번 점수";
-  const value = document.createElement("strong");
-  value.className = "target-reward-value";
-  value.setAttribute("aria-live", "polite");
-  score.append(scoreLabel, value);
-  const meter = document.createElement("div");
-  meter.className = "target-reward-meter";
-  meter.setAttribute("role", "progressbar");
-  meter.setAttribute("aria-valuemin", "0");
-  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
-  const meterFill = document.createElement("span");
-  meterFill.className = "target-reward-meter-fill";
-  meter.appendChild(meterFill);
-  const context = document.createElement("p");
-  context.className = "target-reward-context";
-  copy.append(score, meter, context, button);
-  story.append(visual, copy);
-  panel.replaceChildren(title, story, engineLabel);
-
-  targetRewardStage = { root: story, art, scoreLabel, value, meter, meterFill, context, button };
-  return targetRewardStage;
-}
-
-function onRewardPrepare({ beforePower, beforeResult }) {
-  const stage = ensureTargetRewardStage();
-  if (!stage) return;
-  const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
-  setTargetRewardArt(stage.art, LESSON_CONFIG.imageAssets.rewardClosed);
-  stage.scoreLabel.textContent = "이번 점수";
-  stage.value.textContent = "?";
-  stage.context.textContent = targetRewardProgressText(beforePower, beforeResult);
-  stage.meter.setAttribute("aria-valuenow", String(beforePower));
-  stage.meter.setAttribute("aria-valuetext", `${beforePower}점, ${beforeResult.name}`);
-  stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
-  stage.root.dataset.phase = "closed";
-  stage.root.dataset.reward = "closed";
-  stage.root.dataset.currentTier = beforeResult.id;
-  stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 가림막이 닫혀 있어요.`);
-  setTargetRewardArt(ui.rewardScene, LESSON_CONFIG.imageAssets.rewardClosed);
-}
-
-function onRewardReveal({ event, beforePower, afterPower, beforeResult, afterResult }) {
-  const stage = ensureTargetRewardStage();
-  if (!stage) return Promise.resolve();
-  const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
-  const eventImage = getTargetRewardImage(event);
-  setTargetRewardArt(stage.art, eventImage);
-  const change = afterPower - beforePower;
-  stage.scoreLabel.textContent = "이번 점수";
-  stage.value.textContent = change > 0 ? `+${change}` : change < 0 ? `−${Math.abs(change)}` : "0";
-  stage.context.textContent = targetRewardProgressText(afterPower, afterResult);
-  stage.meter.setAttribute("aria-valuenow", String(afterPower));
-  stage.meter.setAttribute("aria-valuetext", `${afterPower}점, ${afterResult.name}`);
-  stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
-  stage.root.dataset.phase = "revealed";
-  stage.root.dataset.reward = event.family || event.id || "normal";
-  stage.root.dataset.currentTier = afterResult.id;
-  stage.root.setAttribute(
-    "aria-label",
-    `${targetRewardAccessibleSummary(event, beforePower, afterPower, beforeResult, afterResult)} 지금 ${afterResult.name}.`,
-  );
-  setTargetRewardArt(ui.rewardScene, eventImage);
-  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return reducedMotion ? Promise.resolve() : waitForTargetReward(480);
-}
-
-function targetRewardProgressText(power, result) {
-  const nextResult = typeof Lesson3TargetHitModel.getNextResult === "function"
-    ? Lesson3TargetHitModel.getNextResult(result)
-    : result;
-  if (!nextResult || nextResult.id === result.id) return `${result.name} · 최고예요!`;
-  const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
-  if (power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
-    return `${result.name} · ${missingCorrect}문제 남음`;
-  }
-  const remaining = Math.max(0, Number(nextResult.minPower || 0) - power);
-  return `${result.name} · 다음까지 ${remaining}점`;
-}
-
-function targetRewardAccessibleSummary(event, beforePower, afterPower, beforeResult, afterResult) {
-  if (event.special || afterResult.needsSpecial) return "전설 명중을 찾았어요!";
-  const change = afterPower - beforePower;
-  const changeText = change > 0 ? `점수 +${change}` : change < 0 ? `점수 ${change}` : "점수 그대로";
-  if (beforeResult.id !== afterResult.id) return `${changeText} · ${afterResult.name}에 닿았어요!`;
-  const nextResult = typeof Lesson3TargetHitModel.getNextResult === "function"
-    ? Lesson3TargetHitModel.getNextResult(afterResult)
-    : afterResult;
-  if (!nextResult || nextResult.id === afterResult.id) return `${changeText} · 가장 높은 표적이에요!`;
-  const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
-  if (afterPower >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
-    return `${changeText} · 문제 ${missingCorrect}개 더`;
-  }
-  const remaining = Math.max(0, Number(nextResult.minPower || 0) - afterPower);
-  return `${changeText} · ${nextResult.name}까지 ${remaining} 더`;
-}
-
-function waitForTargetReward(duration) {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-}
-
 ensureScoreViewButtonArt();
 installCircleTutorialNextArt();
-alignCircleResultNextGoal();
-primeTargetRewardArt();
+ensureCircleResultNextGoal();
