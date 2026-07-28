@@ -3538,6 +3538,37 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
   await auditConfiguredResultNextGoal(page, `${viewport.name} result next goal`);
 
+  if (lesson === "3-2-2-4-mathmon-check-lock") {
+    const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      power:result.minPower,
+      correct:result.minCorrect,
+      special:Boolean(result.needsSpecial)
+    }))`);
+    assert(resultTiers.length === 6, `${viewport.name}: check-lock result set must contain six states`, resultTiers);
+    for (const tier of resultTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power},
+          correctFirstTry:${tier.correct},
+          specialSeen:${tier.special},
+          currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
+        && document.getElementById('resultBg')?.complete
+        && document.getElementById('resultBg')?.naturalWidth === 1280
+        && document.getElementById('resultTitleArt')?.complete
+        && document.getElementById('resultTitleArt')?.naturalWidth > 0
+        && document.getElementById('resultCorrectArt')?.complete
+        && document.querySelector('.result-retry-art')?.complete`, `${viewport.name}: check-lock result ${tier.id} did not render`);
+      await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
+      await auditConfiguredResultNextGoal(page, `${viewport.name} result ${tier.id} next goal`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+    }
+  }
+
   if (/^3-2-4-/.test(lesson)) {
     const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
       id:result.id,

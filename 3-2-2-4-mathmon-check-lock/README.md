@@ -61,7 +61,8 @@
 - 킹드래곤몬 반응 자산 3장은 보관하지만, 문제 선택지를 가리지 않도록 현재 문제 화면에서는 반응 오버레이를 쓰지 않습니다.
 - 보상: 닫힌 금고 1장 + 열쇠 사건 6종
 - 결과: 등급 제목·금고·킹드래곤몬·다시 버튼이 한 장에 결속된 결과 장면 6장 + `금고를 열었어요!` 결과 문장 + 동적 정답 수·열쇠 빛
-- 컨택시트: `problem-state-contact-sheet.png`, `play-vault-world-contact-sheet.png`, `result-tiers-v2-contact-sheet.png`, `_shared/mathmon/base-pack/contact-sheets/reactions-unit2/kingdragonmon-reactions-contact-sheet.png`
+- 컨택시트: `problem-state-contact-sheet.png`, `play-vault-world-contact-sheet.png`, `result-tiers-v3-contact-sheet.png`, `_shared/mathmon/base-pack/contact-sheets/reactions-unit2/kingdragonmon-reactions-contact-sheet.png`
+- 결과 단계성: `비밀 금고`는 닫힌 수정 봉인 금고, `보물 금고`는 문이 완전히 열리고 금화가 넘치는 금고, `무지개 금고`는 무지개빛 최고 단계로 구분합니다.
 
 ## 검증
 

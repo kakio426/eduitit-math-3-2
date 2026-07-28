@@ -106,6 +106,7 @@
 - 다음 목표는 `다음은` 생성형 타이포와 투명 배경 금고 제목 PNG를 이어서 보여 줍니다.
 - 최고 단계에서는 다음 금고 대신 `최고 단계예요!`를 표시합니다.
 - 결과 제목 PNG 6종은 투명 모서리와 잘림을 전수 확인했습니다.
+- 중간 단계가 색만 바뀌어 보이지 않도록 형태와 사건을 나눴습니다. `비밀 금고`는 높은 받침대 위에 닫힌 수정 봉인 금고, `보물 금고`는 문이 완전히 열리고 금화와 보석이 바닥까지 쏟아지는 금고, `무지개 금고`는 무지개빛이 더해진 최고 단계입니다.
 
 ## 5. 보상 체계
 
@@ -228,6 +229,10 @@
 
 ### 6.5 실제 결과와 결과 6단계
 
+![작은 자물쇠부터 무지개 금고까지 6단계 비교](result-tiers-v3-contact-sheet.png)
+
+6단계는 같은 1280×800 슬롯과 같은 오른쪽 정보판 구조를 유지합니다. 금고의 크기, 문이 열리는 사건, 보물의 양, 빛의 색을 차례로 키워 점수가 올라갈수록 무엇이 달라졌는지 한눈에 보이게 했습니다.
+
 #### 21) 한 판을 마친 실제 결과
 
 ![10문제를 마친 실제 결과 화면](screenshots/engine-flow-desktop-08-result.png)
@@ -248,9 +253,13 @@
 
 ![비밀 금고 결과 화면](screenshots/engine-flow-desktop-08a-result-secretSafe.png)
 
+문은 닫혀 있지만 금고가 더 높아지고 수정 봉인과 보랏빛 빛이 더해져 `커다란 금고`보다 한 단계 높은 금고임을 보여 줍니다.
+
 #### 26) 보물 금고
 
 ![보물 금고 결과 화면](screenshots/engine-flow-desktop-08a-result-treasure.png)
+
+문이 완전히 열리고 금화와 큰 보석이 바닥까지 넘쳐 `비밀 금고`와 즉시 구분됩니다. 무지개 효과는 마지막 단계에만 남겨 두었습니다.
 
 #### 27) 무지개 금고
 
@@ -307,7 +316,7 @@
 
 - `problem-state-contact-sheet.png`
 - `play-vault-world-contact-sheet.png`
-- `result-tiers-v2-contact-sheet.png`
+- `result-tiers-v3-contact-sheet.png`
 - `result-title-transparent-v2-contact-sheet.png`
 
 결과 제목 실행 자산:
@@ -337,7 +346,8 @@ Humanizer 학생 문구 QA 결과는 자연도 A이며 의미·수치·부정 �
 
 ```bash
 node scripts/qa-lesson-model.mjs 3-2-2-4-mathmon-check-lock
-node scripts/qa-lesson2-check-lock.mjs 20260728-vendor-handoff
+node scripts/qa-lesson2-check-lock.mjs 20260728-result-progression
+node scripts/build-check-lock-result-sheet.cjs
 node scripts/check-stage-ratio.mjs
 ```
 

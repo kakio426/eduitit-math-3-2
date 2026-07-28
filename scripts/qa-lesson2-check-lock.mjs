@@ -84,6 +84,12 @@ function verifyEvidence(config, css, viewSource) {
     "07-reward-closed",
     "07b-reward-open",
     "08-result",
+    "08a-result-lock",
+    "08a-result-safe",
+    "08a-result-largeSafe",
+    "08a-result-secretSafe",
+    "08a-result-treasure",
+    "08a-result-rainbow",
   ];
   const missing = [];
   for (const viewport of viewports) {
