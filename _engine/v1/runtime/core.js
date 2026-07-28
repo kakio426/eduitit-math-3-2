@@ -658,7 +658,7 @@ function waitFor(duration) {
 }
 
 function formatRewardDelta(event) {
-  if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
+  if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
   const amount = Number(event.amount) || 0;
   if (amount > 0) return `+${amount}`;
   if (amount < 0) return String(amount);
@@ -675,12 +675,12 @@ function getRewardTargetText(event, beforeResult, afterResult) {
       console.warn("formatLessonRewardTarget failed", error);
     }
   }
-  if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+  if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
   if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
   const nextResult = typeof LessonModel.getNextResult === "function"
     ? LessonModel.getNextResult(afterResult)
     : afterResult;
-  if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+  if (!nextResult || nextResult.id === afterResult?.id) return "최고 단계까지 왔어요!";
   const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
   if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
     return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;

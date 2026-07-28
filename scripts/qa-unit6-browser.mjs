@@ -20,11 +20,11 @@ const LESSONS = [
 ];
 const RESULT_CASES = [
   { power: 0, correct: 0, special: false },
-  { power: 19, correct: 2, special: false },
-  { power: 39, correct: 4, special: false },
-  { power: 61, correct: 6, special: false },
-  { power: 83, correct: 8, special: false },
-  { power: 100, correct: 10, special: true },
+  { power: 15, correct: 2, special: false },
+  { power: 35, correct: 4, special: false },
+  { power: 55, correct: 6, special: false },
+  { power: 78, correct: 8, special: false },
+  { power: 100, correct: 1, special: true },
 ];
 const CHROME_CANDIDATES = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -543,6 +543,7 @@ async function auditWrongState(page, lesson, viewport, ids, shotName) {
   assert(audit.boardInside && audit.evidence, `${lesson} ${shotName}: 작업판 안 오답 증거가 없습니다.`, audit);
   assert(rectStability(waiting.card, audit.card).center <= 1, `${lesson} ${shotName}: 문제판 중심이 흔들립니다.`, { waiting, audit });
   await screenshot(page, lesson, viewport, shotName);
+  return { target, audit };
 }
 
 async function auditCorrectAndComplete(page, lesson, viewport) {
@@ -649,6 +650,106 @@ async function auditCorrectAndComplete(page, lesson, viewport) {
   };
 }
 
+async function auditStageReward(page, lesson, viewport, config) {
+  await clickSelector(page, "#rewardButton");
+  await waitUntil(
+    page,
+    "window.__mathmonEngineQa.getState().screen === 'reward' && window.__mathmonEngineQa.getState().rewardPhase === 'closed' && Boolean(document.querySelector('.unit6-reward-story'))",
+    `${lesson}: 닫힌 Stage-Reveal 보상이 나타나지 않았습니다.`,
+  );
+  const closed = await evaluate(page, `(() => {
+    const rect = (node) => {
+      const box = node.getBoundingClientRect();
+      return { left:box.left, top:box.top, right:box.right, bottom:box.bottom, width:box.width, height:box.height };
+    };
+    const inside = (outer, inner) => (
+      inner.left >= outer.left - 1 && inner.top >= outer.top - 1
+      && inner.right <= outer.right + 1 && inner.bottom <= outer.bottom + 1
+    );
+    const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
+      * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    const stage = rect(document.querySelector('.stage-shell'));
+    const story = rect(document.querySelector('.unit6-reward-story'));
+    const artNode = document.querySelector('.unit6-reward-art');
+    const art = rect(artNode);
+    const copy = rect(document.querySelector('.unit6-reward-copy'));
+    const tier = rect(document.querySelector('.unit6-reward-tier'));
+    const meter = rect(document.querySelector('.unit6-reward-meter'));
+    const statusNode = document.querySelector('.unit6-reward-status');
+    const status = rect(statusNode);
+    const buttonNode = document.getElementById('rewardNextButton');
+    const button = rect(buttonNode);
+    return {
+      stage, story, art, copy, tier, meter, status, button,
+      phase:document.querySelector('.unit6-reward-story')?.dataset.phase || '',
+      artSrc:artNode.currentSrc || artNode.src,
+      artReady:artNode.complete && artNode.naturalWidth === 512 && artNode.naturalHeight === 512,
+      storyInside:inside(stage, story),
+      artInside:inside(story, art),
+      copyInside:inside(story, copy),
+      columnsOverlap:overlap(art, copy),
+      controlsOverlap:Math.max(overlap(tier, meter), overlap(meter, status), overlap(status, button)),
+      buttonLabel:buttonNode.textContent.trim(),
+      statusText:statusNode.textContent.trim(),
+      buttonTouch:button.width >= 42 && button.height >= 42
+    };
+  })()`);
+  assert(closed.phase === "closed", `${lesson}: 닫힌 보상 phase가 다릅니다.`, closed);
+  assert(closed.artReady, `${lesson}: 닫힌 상자 이미지가 512×512로 로드되지 않았습니다.`, closed);
+  assert(
+    closed.artSrc.endsWith(config.imageAssets.rewardClosed),
+    `${lesson}: 닫힌 보상에서 결과 이미지가 미리 노출됐습니다.`,
+    closed,
+  );
+  assert(closed.storyInside && closed.artInside && closed.copyInside, `${lesson}: 닫힌 보상 요소가 Stage 밖입니다.`, closed);
+  assert(closed.columnsOverlap === 0 && closed.controlsOverlap === 0, `${lesson}: 닫힌 보상 요소가 겹칩니다.`, closed);
+  assert(closed.buttonTouch && closed.buttonLabel === config.reward.closedLabel, `${lesson}: 닫힌 보상 버튼 계약이 다릅니다.`, closed);
+  assert(closed.statusText === "", `${lesson}: 닫힌 보상에서 결과 문구가 미리 보입니다.`, closed);
+  await screenshot(page, lesson, viewport, "07a-reward-closed");
+
+  await clickSelector(page, "#rewardNextButton");
+  await waitUntil(
+    page,
+    "window.__mathmonEngineQa.getState().rewardPhase === 'revealed' && document.querySelector('.unit6-reward-art')?.complete && document.querySelector('.unit6-reward-status')?.textContent.trim().length > 0",
+    `${lesson}: 열린 Stage-Reveal 보상이 나타나지 않았습니다.`,
+  );
+  const opened = await evaluate(page, `(() => {
+    const rect = (node) => {
+      const box = node.getBoundingClientRect();
+      return { left:box.left, top:box.top, right:box.right, bottom:box.bottom, width:box.width, height:box.height };
+    };
+    const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
+      * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    const artNode = document.querySelector('.unit6-reward-art');
+    const art = rect(artNode);
+    const copy = rect(document.querySelector('.unit6-reward-copy'));
+    const tier = rect(document.querySelector('.unit6-reward-tier'));
+    const meter = rect(document.querySelector('.unit6-reward-meter'));
+    const statusNode = document.querySelector('.unit6-reward-status');
+    const status = rect(statusNode);
+    const buttonNode = document.getElementById('rewardNextButton');
+    const button = rect(buttonNode);
+    return {
+      phase:document.querySelector('.unit6-reward-story')?.dataset.phase || '',
+      artSrc:artNode.currentSrc || artNode.src,
+      artReady:artNode.complete && artNode.naturalWidth === 512 && artNode.naturalHeight === 512,
+      statusText:statusNode.textContent.trim(),
+      tierText:document.querySelector('.unit6-reward-tier')?.textContent.trim() || '',
+      buttonLabel:buttonNode.textContent.trim(),
+      columnsOverlap:overlap(art, copy),
+      controlsOverlap:Math.max(overlap(tier, meter), overlap(meter, status), overlap(status, button)),
+      buttonTouch:button.width >= 42 && button.height >= 42
+    };
+  })()`);
+  assert(opened.phase === "revealed" && opened.artReady, `${lesson}: 열린 보상 이미지 상태가 다릅니다.`, opened);
+  assert(opened.artSrc !== closed.artSrc, `${lesson}: 상자를 열어도 이미지가 바뀌지 않습니다.`, { closed, opened });
+  assert(opened.statusText && opened.tierText, `${lesson}: 열린 보상 변화량 또는 현재 단계가 없습니다.`, opened);
+  assert(opened.columnsOverlap === 0 && opened.controlsOverlap === 0, `${lesson}: 열린 보상 요소가 겹칩니다.`, opened);
+  assert(opened.buttonTouch && opened.buttonLabel, `${lesson}: 열린 보상 다음 버튼이 작거나 비었습니다.`, opened);
+  await screenshot(page, lesson, viewport, "07b-reward-open");
+  return { closed, opened };
+}
+
 async function auditWrongAndComplete(page, pageUrl, lesson, viewport) {
   await navigate(page, `${pageUrl}?seed=20260723&qa=unit6-wrong-${viewport.name}`);
   await enterPlay(page);
@@ -667,6 +768,21 @@ async function auditWrongAndComplete(page, pageUrl, lesson, viewport) {
     "05c-play-wrong-high",
   );
   return auditCorrectAndComplete(page, lesson, viewport);
+}
+
+async function auditDetectiveRowWrong(page, pageUrl, lesson, viewport) {
+  if (lesson !== "3-2-6-4-mathmon-data-detective") return null;
+  await navigate(page, `${pageUrl}?seed=20260724&qa=unit6-row-wrong-${viewport.name}`);
+  await enterPlay(page);
+  const problemType = await evaluate(page, "window.__mathmonEngineQa.getCurrentProblem()?.type || ''");
+  assert(["maximum", "minimum"].includes(problemType), `${lesson}: 줄 선택 회귀 seed가 큰 값·작은 값 문제가 아닙니다.`, problemType);
+  return auditWrongState(
+    page,
+    lesson,
+    viewport,
+    ["other-row"],
+    "05d-play-wrong-row",
+  );
 }
 
 async function decodeWebpAssets(page, lesson, pageUrl) {
@@ -802,8 +918,10 @@ async function runLesson(lesson) {
     for (const viewport of viewports) {
       await setViewport(page, viewport);
       const alignment = await auditWrongAndComplete(page, pageUrl, lesson, viewport);
+      const reward = await auditStageReward(page, lesson, viewport, config);
+      const detectiveRowWrong = await auditDetectiveRowWrong(page, pageUrl, lesson, viewport);
       const resultShots = await auditResultTiers(page, pageUrl, lesson, viewport, config);
-      viewportResults.push({ viewport: viewport.name, alignment, resultShots });
+      viewportResults.push({ viewport: viewport.name, alignment, detectiveRowWrong, reward, resultShots });
     }
     const decodedWebps = await decodeWebpAssets(page, lesson, pageUrl);
     const rankingRequests = page.events

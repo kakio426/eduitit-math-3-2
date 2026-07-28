@@ -2770,7 +2770,7 @@ async function auditStageRevealImages(page, label, phase) {
   );
   if (phase === "revealed") {
     assert(
-      audit.images.some((image) => /reward-event-.+-generated\.webp$/.test(image.src)),
+      audit.images.some((image) => /reward-(?:event-)?[^/]+-generated\.webp$/.test(image.src)),
       `${label}: revealed event art is not connected`,
       audit,
     );

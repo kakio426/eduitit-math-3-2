@@ -1,6 +1,6 @@
 # 매스몬 인구조사 제작 보고
 
-검사일: 2026-07-23
+검사일: 2026-07-28
 최종 판정: **통과**
 잔여 P0/P1: 없음
 
@@ -10,6 +10,8 @@
 - 문제는 10개이며 강조된 범주의 수가 4~12, 전체 자료 수가 12~24가 되도록 고정 seed 문제 은행을 구성했습니다.
 - 모든 단계가 공통 `id`, `label`, `instruction`, `answer`, `answerChoiceId`, `choices`, `correctText`, `reveal`, `advance` 계약을 사용합니다.
 - 정답 수는 엔진에서 문제당 한 번만 늘고, `applyReward()`는 `power`, `specialSeen` 패치만 반환합니다.
+- 공용 보상 기준 `mathmon-unified-reward-v1`과 Stage-Reveal을 적용하고, 결과를 미리 보여 주지 않는 닫힌 상자 전용 이미지를 연결했습니다.
+- 모델 검사는 차시당 고정 시드 64회, 640문제로 제한해 모든 오답 표지·피드백과 보상 경계값을 확인했습니다.
 - 랭킹 UI와 네트워크 요청을 끄고 `base-pack`의 등록된 새끼용몬만 사용했습니다.
 
 ## Humanizer 학생 문구 QA
@@ -40,7 +42,8 @@
 - 첫 토글 초점, Escape 닫기, Tab/Shift+Tab 순환, 설정 버튼 초점 복귀 통과
 - 처음부터 확인·취소, 방법 복습 후 같은 문제 복귀 통과
 - `mathmon-audio-bgm-enabled`, `mathmon-audio-sfx-enabled` 새로고침 저장 통과
-- 현재 실행 WebP 36개 `decode()` 통과
+- 현재 실행 WebP 37개 `decode()` 통과
+- 닫힌·열린 보상에서 이미지·단계판·버튼 교차 0px, 닫힌 상자 PNG/WebP 512×512 확인
 - 랭킹 관련 네트워크 요청 0건
 - 보상 컨택시트 `reward-contact-sheet.png`
 - 결과 컨택시트 `result-scenes-contact-sheet.png`

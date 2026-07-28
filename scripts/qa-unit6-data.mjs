@@ -10,8 +10,16 @@ const LESSONS = [
   "3-2-6-3-mathmon-picture-stamp",
   "3-2-6-4-mathmon-data-detective",
 ];
-const EXPECTED_THRESHOLDS = [[0, 0], [19, 2], [39, 4], [61, 6], [83, 8]];
-const EXPECTED_REWARD_FAMILIES = ["normal", "loss", "mega", "complete", "empty", "rainbow"];
+const EXPECTED_THRESHOLDS = [[0, 0], [15, 2], [35, 4], [55, 6], [78, 8], [100, 1]];
+const EXPECTED_REWARD_EVENTS = [
+  ["normal", 6400, 6, 10],
+  ["loss", 1500, -5, -2],
+  ["mega", 1200, 14, 22],
+  ["jackpot", 500, 30, 30],
+  ["empty", 380, 0, 0],
+  ["special", 20, 100, 100],
+];
+const QA_RUN_COUNT = 64;
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -36,37 +44,84 @@ function checkCommon(folder, config, model) {
   assert(JSON.stringify(first) === JSON.stringify(second), `${folder}: 고정 seed가 재현되지 않습니다.`);
   assert(first.length === 10, `${folder}: 문제는 10개여야 합니다.`);
   assert(config.scoreboard?.enabled === false, `${folder}: 랭킹은 비활성화되어야 합니다.`);
+  assert(config.reward?.mode === "stage-reveal", `${folder}: 보상 흐름이 Stage-Reveal이 아닙니다.`);
+  assert(config.reward?.standard === "mathmon-unified-reward-v1", `${folder}: 공용 보상 기준이 선언되지 않았습니다.`);
+  assert(config.reward?.fairness?.emptyKeepsProgress === true, `${folder}: 빈 보상 누적 유지 계약이 없습니다.`);
+  assert(config.reward?.fairness?.lossCapAtCommonGainMin === true, `${folder}: 감소 보상 상한 계약이 없습니다.`);
+  assert(config.imageAssets?.rewardClosed === "reward-event-closed-generated.webp", `${folder}: 닫힌 상자 전용 이미지가 연결되지 않았습니다.`);
+  assert(config.reward?.stateImageSet?.count === 7, `${folder}: 닫힘 포함 보상 상태는 7개여야 합니다.`);
 
-  for (const [problemIndex, problem] of first.entries()) {
-    assert(problem.steps.length >= 1, `${folder}: ${problemIndex + 1}번에 단계가 없습니다.`);
-    for (const step of problem.steps) {
-      const ids = step.choices.map((choice) => String(choice.id));
-      const labels = step.choices.map((choice) => String(choice.label));
-      assert(new Set(ids).size === ids.length, `${folder}: ${problemIndex + 1}번 선택지 id가 겹칩니다.`);
-      assert(new Set(labels).size === labels.length, `${folder}: ${problemIndex + 1}번 선택지 문구가 겹칩니다.`);
-      assert(ids.filter((id) => id === String(step.answerChoiceId)).length === 1, `${folder}: ${problemIndex + 1}번 정답이 하나가 아닙니다.`);
-      assert(step.choices.some((choice) => choice.misconceptionId !== "correct"), `${folder}: ${problemIndex + 1}번에 대표 오개념이 없습니다.`);
+  for (let runIndex = 0; runIndex < QA_RUN_COUNT; runIndex += 1) {
+    const problems = model.generateRun(20260723 + runIndex);
+    assert(problems.length === 10, `${folder}: seed ${runIndex + 1} 문제는 10개여야 합니다.`);
+    for (const [problemIndex, problem] of problems.entries()) {
+      assert(problem.steps.length >= 1, `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번에 단계가 없습니다.`);
+      for (const step of problem.steps) {
+        const ids = step.choices.map((choice) => String(choice.id));
+        const labels = step.choices.map((choice) => String(choice.label));
+        const correctChoices = step.choices.filter((choice) => String(choice.id) === String(step.answerChoiceId));
+        const misconceptionCorrect = step.choices.filter((choice) => choice.misconceptionId === "correct");
+        const wrongChoices = step.choices.filter((choice) => String(choice.id) !== String(step.answerChoiceId));
+        assert(new Set(ids).size === ids.length, `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번 선택지 id가 겹칩니다.`);
+        assert(new Set(labels).size === labels.length, `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번 선택지 문구가 겹칩니다.`);
+        assert(correctChoices.length === 1, `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번 정답이 하나가 아닙니다.`);
+        assert(misconceptionCorrect.length === 1, `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번 정답 오개념 표지가 하나가 아닙니다.`);
+        assert(
+          misconceptionCorrect[0].id === step.answerChoiceId,
+          `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번 오답이 correct로 분류됐습니다.`,
+        );
+        assert(
+          wrongChoices.every((choice) => choice.misconceptionId !== "correct" && String(choice.feedback || "").trim()),
+          `${folder}: seed ${runIndex + 1} ${problemIndex + 1}번 오답 분류 또는 피드백이 비었습니다.`,
+        );
+      }
     }
   }
 
-  const families = config.rewardEvents.map((event) => event.family);
-  assert(JSON.stringify(families) === JSON.stringify(EXPECTED_REWARD_FAMILIES), `${folder}: 보상 가족 순서가 다릅니다.`);
+  const eventIds = config.rewardEvents.map((event) => event.id);
+  assert(
+    JSON.stringify(eventIds) === JSON.stringify(EXPECTED_REWARD_EVENTS.map(([id]) => id)),
+    `${folder}: 보상 사건 순서가 공용 기준과 다릅니다.`,
+  );
   assert(config.rewardEvents.reduce((sum, event) => sum + event.weight, 0) === 10000, `${folder}: 보상 확률 합이 10000이 아닙니다.`);
-  assert(config.wrongEvent.min === -18 && config.wrongEvent.max === -8, `${folder}: 오답 손해 범위가 다릅니다.`);
+  assert(config.wrongEvent.min === -6 && config.wrongEvent.max === -3, `${folder}: 오답 손해 범위가 다릅니다.`);
 
-  for (const event of config.rewardEvents) {
+  let cumulativeWeight = 0;
+  for (const [index, event] of config.rewardEvents.entries()) {
+    const [id, weight, min, max] = EXPECTED_REWARD_EVENTS[index];
+    assert(
+      event.id === id && event.weight === weight && event.min === min && event.max === max,
+      `${folder}: ${id} 보상 weight/min/max가 다릅니다.`,
+    );
+    const values = [(cumulativeWeight + .5) / 10000, 0];
+    const picked = model.pickRewardEvent(() => values.shift() ?? 0, false);
+    assert(picked.id === id && picked.amount === min, `${folder}: ${id} 보상 경계 선택이 잘못되었습니다.`);
+    cumulativeWeight += weight;
     const patch = model.applyReward({ power: 40, specialSeen: false }, { ...event, amount: event.min });
     assert(JSON.stringify(Object.keys(patch).sort()) === JSON.stringify(["power", "specialSeen"]), `${folder}: applyReward()는 power와 specialSeen만 반환해야 합니다.`);
-    if (event.family === "complete") assert(patch.power >= 61, `${folder}: 한 번에 도약 보상이 61에 닿지 않습니다.`);
-    if (event.family === "rainbow") assert(patch.power === 100 && patch.specialSeen, `${folder}: 무지개 보상이 특별 결과를 열지 못합니다.`);
   }
+  const wrongMin = model.pickRewardEvent(() => 0, true);
+  const wrongMax = model.pickRewardEvent(() => .999999, true);
+  assert(wrongMin.amount === -6 && wrongMax.amount === -3, `${folder}: 오답 손해 경계값이 다릅니다.`);
+  assert(model.applyReward({ power: 40, specialSeen: false }, { amount: 0 }).power === 40, `${folder}: 빈 보상이 누적값을 바꿉니다.`);
+  assert(model.applyReward({ power: 0, specialSeen: false }, { amount: -5 }).power === 0, `${folder}: 누적값이 0 아래로 내려갑니다.`);
+  assert(model.applyReward({ power: 97, specialSeen: false }, { amount: 10 }).power === 100, `${folder}: 누적값이 100을 넘습니다.`);
+  assert(model.applyReward({ power: 0, specialSeen: false }, { amount: 30 }).power === 30, `${folder}: +30 보상이 임의 문턱으로 점프합니다.`);
+  const specialPatch = model.applyReward({ power: 40, specialSeen: false }, { amount: 100, special: true });
+  assert(specialPatch.power === 100 && specialPatch.specialSeen, `${folder}: 특별 보상이 100/특별 상태를 만들지 못합니다.`);
 
-  EXPECTED_THRESHOLDS.forEach(([power, correct], index) => {
+  EXPECTED_THRESHOLDS.slice(0, -1).forEach(([power, correct], index) => {
     const result = model.getResult(power, correct, false);
     assert(result.id === config.results[index].id, `${folder}: ${power}/${correct} 결과 문턱이 다릅니다.`);
+    if (index > 0) {
+      assert(model.getResult(power - 1, correct, false).id !== result.id, `${folder}: ${result.id} 힘 문턱 아래에서 결과가 열립니다.`);
+      assert(model.getResult(power, correct - 1, false).id !== result.id, `${folder}: ${result.id} 정답 수 문턱 아래에서 결과가 열립니다.`);
+    }
   });
   assert(model.getResult(0, 0, false).id === config.results[0].id, `${folder}: 힘 0에서 첫 결과가 나오지 않습니다.`);
-  assert(model.getResult(100, 10, true).needsSpecial === true, `${folder}: 특별 결과가 열리지 않습니다.`);
+  assert(model.getResult(100, 1, false).needsSpecial !== true, `${folder}: 특별 사건 없이 특별 결과가 열립니다.`);
+  assert(model.getResult(100, 0, true).needsSpecial !== true, `${folder}: 정답 0개에서 특별 결과가 열립니다.`);
+  assert(model.getResult(100, 1, true).needsSpecial === true, `${folder}: 특별 결과가 열리지 않습니다.`);
 
   return first;
 }
@@ -135,4 +190,4 @@ for (const folder of LESSONS) {
   console.log(`UNIT6_DATA_MODEL: PASS (${folder})`);
 }
 
-console.log(`UNIT6_DATA_MODEL: PASS (${LESSONS.length} lessons)`);
+console.log(`UNIT6_DATA_MODEL: PASS (${LESSONS.length} lessons, ${QA_RUN_COUNT} bounded runs each)`);

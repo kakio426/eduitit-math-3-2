@@ -61,16 +61,19 @@ const Lesson6DataLabModel = (() => {
 
   function makeChoices(values, answer, misconceptionIds, feedbackFor, rng, labelFor = String) {
     const normalized = uniqueValues(values, typeof answer === "number" ? Math.max(0, answer - 3) : 1);
-    const choices = normalized.map((value, index) => {
-      const misconceptionId = String(value) === String(answer)
+    const distractorIds = misconceptionIds.filter((id) => id && id !== "correct");
+    let distractorIndex = 0;
+    const choices = normalized.map((value) => {
+      const isCorrect = String(value) === String(answer);
+      const misconceptionId = isCorrect
         ? "correct"
-        : (misconceptionIds[index] || "other");
+        : (distractorIds[distractorIndex++] || "other");
       return {
         id: `choice-${String(value).replace(/\s+/g, "-")}`,
         value,
         label: labelFor(value),
         misconceptionId,
-        feedback: String(value) === String(answer) ? "" : feedbackFor(value, misconceptionId),
+        feedback: isCorrect ? "" : feedbackFor(value, misconceptionId),
       };
     });
     return shuffle(choices, rng);
@@ -379,12 +382,10 @@ const Lesson6DataLabModel = (() => {
   }
 
   function applyReward(state, event) {
-    let power = clamp(Number(state.power || 0) + Number(event.amount || 0), MIN_POWER, MAX_POWER);
-    if (event.family === "complete") power = Math.max(power, 61);
-    if (event.family === "rainbow") power = MAX_POWER;
+    const power = clamp(Number(state.power || 0) + Number(event.amount || 0), MIN_POWER, MAX_POWER);
     return {
       power,
-      specialSeen: Boolean(state.specialSeen || event.special || event.family === "rainbow"),
+      specialSeen: Boolean(state.specialSeen || event.special),
     };
   }
 

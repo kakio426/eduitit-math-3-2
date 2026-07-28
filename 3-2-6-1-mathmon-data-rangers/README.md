@@ -18,7 +18,8 @@
 - 커버: `cover-source.png` → `cover-generated.webp`
 - 설명: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp`
 - 문제 배경: `problem-background-source.png` → `problem-background-generated.webp`
-- 보상 6종: `reward-{normal,loss,mega,complete,empty,rainbow}-generated.webp`
+- 보상 7상태: `reward-event-closed-generated.webp`와 `reward-{normal,loss,mega,complete,empty,rainbow}-generated.webp`
+- 닫힌 상자 원본: `reward-event-closed-source.png` → `reward-event-closed-generated.png` → `reward-event-closed-generated.webp`
 - 결과 장면 6장: `result-scene-1-generated.webp`~`result-scene-6-generated.webp`
 - 결과 제목 6장: `result-title-1-generated.webp`~`result-title-6-generated.webp`
 - QA 컨택시트: `reward-contact-sheet.png`, `result-scenes-contact-sheet.png`, `result-titles-contact-sheet.png`
@@ -29,9 +30,9 @@
 
 ## 보상과 결과
 
-중심 보상은 `자료 힘` 하나입니다. 일반 `+4~8`, 감소 `-10~-5`, 큰 증가 `+12~20`, 한 번에 도약, 그대로, 무지개 특별 중 하나가 나옵니다. 오답을 거친 문제는 `-18~-8`만 적용합니다.
+중심 보상은 `자료 힘` 하나입니다. 일반 `+6~10`, 감소 `-5~-2`, 큰 증가 `+14~22`, 대박 `+30`, 그대로 `0`, 특별 `100` 중 하나가 나옵니다. 오답을 거친 문제는 최초 한 번만 `-6~-3`을 적용합니다. 정답 확인 뒤 닫힌 상자를 열고 사건을 확인하는 Stage-Reveal 흐름입니다.
 
-결과는 `첫 조사표 → 완성 조사표 → 반짝 조사판 → 조사 게시판 → 자료 연구실 → 무지개 자료관` 순서입니다. 문턱은 `0/0, 19/2, 39/4, 61/6, 83/8, 특별`입니다.
+결과는 `첫 조사표 → 완성 조사표 → 반짝 조사판 → 조사 게시판 → 자료 연구실 → 무지개 자료관` 순서입니다. 문턱은 `0/0, 15/2, 35/4, 55/6, 78/8, 특별 100/1`입니다.
 
 ## 검증 자료
 

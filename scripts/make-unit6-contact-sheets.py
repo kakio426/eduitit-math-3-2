@@ -49,12 +49,13 @@ LESSONS = {
 }
 
 REWARDS = [
-    ("normal", "일반 +4~8"),
-    ("loss", "감소 -10~-5"),
-    ("mega", "큰 증가 +12~20"),
-    ("complete", "한 번에 도약"),
-    ("empty", "그대로"),
-    ("rainbow", "무지개 특별"),
+    ("reward-event-closed-generated.png", "닫힌 상자"),
+    ("reward-normal-generated.png", "일반 +6~10"),
+    ("reward-loss-generated.png", "감소 -5~-2"),
+    ("reward-mega-generated.png", "큰 증가 +14~22"),
+    ("reward-complete-generated.png", "대박 +30"),
+    ("reward-empty-generated.png", "그대로 0"),
+    ("reward-rainbow-generated.png", "특별 100"),
 ]
 
 
@@ -66,7 +67,7 @@ def font(size: int):
 
 def labeled_sheet(items, output: Path, cell_size, image_box, background="#f4f1e8"):
     columns = 3
-    rows = 2
+    rows = (len(items) + columns - 1) // columns
     sheet = Image.new("RGB", (cell_size[0] * columns, cell_size[1] * rows), background)
     draw = ImageDraw.Draw(sheet)
     title_font = font(24)
@@ -127,8 +128,8 @@ for lesson, result_names in LESSONS.items():
     )
     labeled_sheet(
         [
-            (folder / f"reward-{reward_id}-generated.png", state)
-            for reward_id, state in REWARDS
+            (folder / filename, state)
+            for filename, state in REWARDS
         ],
         folder / "reward-contact-sheet.png",
         (430, 430),

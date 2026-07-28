@@ -570,6 +570,7 @@
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
         .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
+        .result-dynamic-ui [hidden] { display: none; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
         .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
@@ -1463,6 +1464,141 @@
       font-weight: 1000;
     }
 
+    .detective-relation:empty {
+      visibility: hidden;
+    }
+
+    .game[data-reward-mode="stage-reveal"] #screen-reward {
+      overflow: hidden;
+      background: radial-gradient(circle at 38% 46%, #184f58 0%, #102f38 48%, #091b24 100%);
+    }
+
+    .game[data-reward-mode="stage-reveal"] #screen-reward > .raster-bg {
+      filter: blur(18px) brightness(.32) saturate(1.12);
+      transform: scale(1.12);
+      opacity: .72;
+    }
+
+    .game[data-reward-mode="stage-reveal"] #screen-reward .top-row {
+      display: none;
+    }
+
+    .game[data-reward-mode="stage-reveal"] #screen-reward .reward-panel {
+      position: absolute;
+      inset: 64px 5% 4%;
+      z-index: 3;
+      width: auto;
+      min-height: 0;
+      padding: 0;
+      display: block;
+      transform: none;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      backdrop-filter: none;
+      box-shadow: none;
+    }
+
+    .unit6-reward-story {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+      align-items: center;
+      gap: clamp(18px, 3.6vw, 52px);
+    }
+
+    .unit6-reward-visual {
+      min-width: 0;
+      height: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .unit6-reward-art {
+      width: min(100%, 512px);
+      max-height: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      border-radius: 32px;
+      filter: drop-shadow(0 22px 34px rgba(0, 0, 0, .42));
+      transform: scale(.94);
+      transition: transform .48s ease, filter .48s ease;
+    }
+
+    .unit6-reward-copy {
+      min-width: 0;
+      padding: clamp(22px, 3.6vw, 42px);
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      border: 2px solid rgba(255, 215, 123, .68);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(13, 49, 58, .94), rgba(8, 29, 38, .96));
+      box-shadow: inset 0 1px rgba(255, 255, 255, .15), 0 26px 48px rgba(0, 0, 0, .34);
+    }
+
+    .unit6-reward-eyebrow {
+      color: #c8e8e8;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .unit6-reward-tier {
+      color: #ffd976;
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.05;
+      text-align: center;
+      word-break: keep-all;
+      text-shadow: 0 3px 0 #664411, 0 0 18px rgba(255, 211, 98, .34);
+    }
+
+    .unit6-reward-meter {
+      width: 100%;
+      height: 24px;
+      padding: 4px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 223, 142, .82);
+      border-radius: 999px;
+      background: rgba(5, 23, 29, .82);
+    }
+
+    .unit6-reward-meter-fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #33c1b0, #74d8c4, #ffe177);
+      box-shadow: 0 0 14px rgba(85, 216, 194, .72);
+      transition: width .72s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .unit6-reward-status {
+      min-height: 44px;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      color: #fff6dc;
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+      line-height: 1.1;
+      font-weight: 1000;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .unit6-reward-copy #rewardNextButton {
+      width: min(100%, 260px);
+      min-height: 64px;
+      color: #34220c;
+      background: #ffd45c;
+      box-shadow: 0 7px 0 #8f6d17;
+    }
+
+    .unit6-reward-story[data-phase="revealed"] .unit6-reward-art {
+      transform: scale(1);
+      filter: drop-shadow(0 22px 34px rgba(0, 0, 0, .42)) drop-shadow(0 0 28px rgba(89, 214, 195, .42));
+    }
+
     .reward-card {
       min-height: 390px;
     }
@@ -1620,6 +1756,27 @@
       .complete-panel {
         min-height: 58px;
       }
+
+      .unit6-reward-story {
+        grid-template-columns: minmax(0, 1fr) minmax(270px, .86fr);
+        gap: 18px;
+      }
+
+      .unit6-reward-copy {
+        padding: 20px;
+        gap: 14px;
+      }
+
+      .unit6-reward-status {
+        min-height: 40px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .unit6-reward-art,
+      .unit6-reward-meter-fill {
+        transition: none;
+      }
     }
 
     .play {
@@ -1630,7 +1787,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="picture-decoder" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="picture-decoder" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1689,7 +1846,7 @@
       <section class="screen result" id="screen-result" data-result-tier="first" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-scene-1-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-1-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-1-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">첫 그림표</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="6단원 자료의 정리"></section>
@@ -2372,7 +2529,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit6-data-lab-series","id":"3-2-6-2","folder":"3-2-6-2-mathmon-picture-decoder","modelName":"Lesson6DataLabModel","title":"매스몬 그림 단위 해독","shortTitle":"매스몬 그림 단위 해독","topic":"그림 하나의 단위로 전체 값 읽기","unitBadge":"6단원 자료의 정리","goal":"그림 하나의 값을 보고 모두 얼마인지 찾아요.","action":"그림 수와 한 그림의 단위를 곱해 전체 값을 고른다.","buttonLabel":"해독 상자 열기","rewardScreenTitle":"해독 상자","progressLabel":"해독 힘","rewardComplete":"해독 힘이 바뀌었어요.","tutorialTitle":"그림을 읽기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"그림 하나의 값을 봐요","body":"그림 하나의 값과 그림 수를 곱해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"열 문제를 풀어요","body":"상자를 열어 자료 해독실을 밝혀요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"unitLabel":"해독 힘","closedLabel":"상자 안에는 무엇이 있을까요?","nextLabel":"다음 해독","artMap":{"normal":"reward-normal-generated.webp","loss":"reward-loss-generated.webp","mega":"reward-mega-generated.webp","complete":"reward-complete-generated.webp","empty":"reward-empty-generated.webp","rainbow":"reward-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["decode-power","correct-count"]}},"workbench":{"type":"picture-decoder","learningFlow":["read-unit","find-total"]},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"first","name":"첫 그림표","minPower":0,"minCorrect":0,"image":"result-scene-1-generated.webp","titleImage":"result-title-1-generated.webp"},{"id":"magnifier","name":"반짝 돋보기","minPower":19,"minCorrect":2,"image":"result-scene-2-generated.webp","titleImage":"result-title-2-generated.webp"},{"id":"decode-board","name":"그림 해독판","minPower":39,"minCorrect":4,"image":"result-scene-3-generated.webp","titleImage":"result-title-3-generated.webp"},{"id":"decode-desk","name":"해독 책상","minPower":61,"minCorrect":6,"image":"result-scene-4-generated.webp","titleImage":"result-title-4-generated.webp"},{"id":"decode-lab","name":"자료 해독실","minPower":83,"minCorrect":8,"image":"result-scene-5-generated.webp","titleImage":"result-title-5-generated.webp"},{"id":"rainbow","name":"무지개 해독탑","minPower":100,"minCorrect":0,"needsSpecial":true,"image":"result-scene-6-generated.webp","titleImage":"result-title-6-generated.webp"}],"rewardEvents":[{"id":"normal","text":"해독 힘이 늘었어요","weight":7645,"min":4,"max":8,"family":"normal","rarity":"common"},{"id":"loss","text":"해독 힘이 줄었어요","weight":1200,"min":-10,"max":-5,"family":"loss","rarity":"common"},{"id":"mega","text":"해독 힘이 크게 늘었어요","weight":900,"min":12,"max":20,"family":"mega","rarity":"rare"},{"id":"complete","text":"해독판이 한 번에 빛나요","weight":50,"min":0,"max":0,"family":"complete","rarity":"rare"},{"id":"empty","text":"이번에는 그대로예요","weight":200,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"무지개 그림이 나왔어요","weight":5,"min":0,"max":0,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"wrong-loss","text":"해독 힘이 줄었어요","min":-18,"max":-8,"family":"loss"},"typesPerRun":["decoder","decoder","decoder","decoder","decoder","decoder","decoder","decoder","decoder","decoder"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStates":{"waiting":"problem-background-generated.webp","working":"problem-background-generated.webp","complete":"problem-background-generated.webp"},"rewardClosed":"reward-empty-generated.webp","rewardScene":"problem-background-generated.webp","mathmonReactions":{"correct":"../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-correct.webp","wrong":"../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-wrong.webp","reward":"../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-reward.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"sourceFiles":{"model":"../_shared/unit6-data/model.js","view":"../_shared/unit6-data/view.js","style":"../_shared/unit6-data/lesson.css"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","problem-background-generated.webp","reward-normal-generated.webp","reward-loss-generated.webp","reward-mega-generated.webp","reward-complete-generated.webp","reward-empty-generated.webp","reward-rainbow-generated.webp","result-scene-1-generated.webp","result-scene-2-generated.webp","result-scene-3-generated.webp","result-scene-4-generated.webp","result-scene-5-generated.webp","result-scene-6-generated.webp","result-title-1-generated.webp","result-title-2-generated.webp","result-title-3-generated.webp","result-title-4-generated.webp","result-title-5-generated.webp","result-title-6-generated.webp","../_shared/result-actions/retry-button-generated.webp","result-scenes-contact-sheet.png","result-titles-contact-sheet.png","reward-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelContractVersion":1,"modelRule":"picture-unit-total","viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"unit6-reported-overlap-1024x768-dpr1","width":1024,"height":768,"dpr":1}],"requiredFlow":["cover","settings","tutorial-1","tutorial-2","play-waiting","play-wrong-low","play-wrong-high","play-correct","complete","reward-closed","reward-open","result","result-all-tiers"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit6-data-lab-series","id":"3-2-6-2","folder":"3-2-6-2-mathmon-picture-decoder","modelName":"Lesson6DataLabModel","title":"매스몬 그림 단위 해독","shortTitle":"매스몬 그림 단위 해독","topic":"그림 하나의 단위로 전체 값 읽기","unitBadge":"6단원 자료의 정리","goal":"그림 하나의 값을 보고 모두 얼마인지 찾아요.","action":"그림 수와 한 그림의 단위를 곱해 전체 값을 고른다.","buttonLabel":"해독 상자 열기","rewardScreenTitle":"해독 상자","progressLabel":"해독 힘","rewardComplete":"해독 힘이 바뀌었어요.","tutorialTitle":"그림을 읽기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"그림 하나의 값을 봐요","body":"그림 하나의 값과 그림 수를 곱해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"열 문제를 풀어요","body":"상자를 열어 자료 해독실을 밝혀요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-reveal","version":"unit6-data-stage-reveal-v1","standard":"mathmon-unified-reward-v1","maxPower":100,"unitLabel":"해독 힘","closedLabel":"상자 열기","nextLabel":"다음 해독","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"stage-reveal-event","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-contact-sheet.png"},"artMap":{"normal":"reward-normal-generated.webp","loss":"reward-loss-generated.webp","mega":"reward-mega-generated.webp","complete":"reward-complete-generated.webp","empty":"reward-empty-generated.webp","rainbow":"reward-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-scenes-contact-sheet.png","protagonist":"base-05-eaglemon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["decode-power","correct-count"]}},"workbench":{"type":"picture-decoder","learningFlow":["read-unit","find-total"]},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"독수리몬","mathmonId":"base-05-eaglemon","results":[{"id":"first","name":"첫 그림표","minPower":0,"minCorrect":0,"image":"result-scene-1-generated.webp","titleImage":"result-title-1-generated.webp"},{"id":"magnifier","name":"반짝 돋보기","minPower":15,"minCorrect":2,"image":"result-scene-2-generated.webp","titleImage":"result-title-2-generated.webp"},{"id":"decode-board","name":"그림 해독판","minPower":35,"minCorrect":4,"image":"result-scene-3-generated.webp","titleImage":"result-title-3-generated.webp"},{"id":"decode-desk","name":"해독 책상","minPower":55,"minCorrect":6,"image":"result-scene-4-generated.webp","titleImage":"result-title-4-generated.webp"},{"id":"decode-lab","name":"자료 해독실","minPower":78,"minCorrect":8,"image":"result-scene-5-generated.webp","titleImage":"result-title-5-generated.webp"},{"id":"rainbow","name":"무지개 해독탑","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-scene-6-generated.webp","titleImage":"result-title-6-generated.webp"}],"rewardEvents":[{"id":"normal","text":"해독 힘이 늘었어요","weight":6400,"min":6,"max":10,"family":"normal","rarity":"common"},{"id":"loss","text":"해독 힘이 줄었어요","weight":1500,"min":-5,"max":-2,"family":"loss","rarity":"common"},{"id":"mega","text":"해독 힘이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"mega","rarity":"rare"},{"id":"jackpot","text":"해독판이 크게 빛나요","weight":500,"min":30,"max":30,"family":"complete","rarity":"rare","express":true},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"special","text":"무지개 그림이 나왔어요","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"wrong-loss","text":"해독 힘이 줄었어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["decoder","decoder","decoder","decoder","decoder","decoder","decoder","decoder","decoder","decoder"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStates":{"waiting":"problem-background-generated.webp","working":"problem-background-generated.webp","complete":"problem-background-generated.webp"},"rewardClosed":"reward-event-closed-generated.webp","rewardScene":"problem-background-generated.webp","mathmonReactions":{"correct":"../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-correct.webp","wrong":"../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-wrong.webp","reward":"../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-eaglemon-reward.webp"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"sourceFiles":{"model":"../_shared/unit6-data/model.js","view":"../_shared/unit6-data/view.js","style":"../_shared/unit6-data/lesson.css"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","problem-background-generated.webp","reward-event-closed-generated.webp","reward-normal-generated.webp","reward-loss-generated.webp","reward-mega-generated.webp","reward-complete-generated.webp","reward-empty-generated.webp","reward-rainbow-generated.webp","result-scene-1-generated.webp","result-scene-2-generated.webp","result-scene-3-generated.webp","result-scene-4-generated.webp","result-scene-5-generated.webp","result-scene-6-generated.webp","result-title-1-generated.webp","result-title-2-generated.webp","result-title-3-generated.webp","result-title-4-generated.webp","result-title-5-generated.webp","result-title-6-generated.webp","../_shared/result-actions/retry-button-generated.webp","result-scenes-contact-sheet.png","result-titles-contact-sheet.png","reward-contact-sheet.png"],"qa":{"visualContractVersion":1,"modelContractVersion":1,"modelRule":"picture-unit-total","viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"unit6-reported-overlap-1024x768-dpr1","width":1024,"height":768,"dpr":1}],"requiredFlow":["cover","settings","tutorial-1","tutorial-2","play-waiting","play-wrong-low","play-wrong-high","play-correct","complete","reward-closed","reward-open","result","result-all-tiers"]}};
     const Lesson6DataLabModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -2436,16 +2593,19 @@
 
       function makeChoices(values, answer, misconceptionIds, feedbackFor, rng, labelFor = String) {
         const normalized = uniqueValues(values, typeof answer === "number" ? Math.max(0, answer - 3) : 1);
-        const choices = normalized.map((value, index) => {
-          const misconceptionId = String(value) === String(answer)
+        const distractorIds = misconceptionIds.filter((id) => id && id !== "correct");
+        let distractorIndex = 0;
+        const choices = normalized.map((value) => {
+          const isCorrect = String(value) === String(answer);
+          const misconceptionId = isCorrect
             ? "correct"
-            : (misconceptionIds[index] || "other");
+            : (distractorIds[distractorIndex++] || "other");
           return {
             id: `choice-${String(value).replace(/\s+/g, "-")}`,
             value,
             label: labelFor(value),
             misconceptionId,
-            feedback: String(value) === String(answer) ? "" : feedbackFor(value, misconceptionId),
+            feedback: isCorrect ? "" : feedbackFor(value, misconceptionId),
           };
         });
         return shuffle(choices, rng);
@@ -2754,12 +2914,10 @@
       }
 
       function applyReward(state, event) {
-        let power = clamp(Number(state.power || 0) + Number(event.amount || 0), MIN_POWER, MAX_POWER);
-        if (event.family === "complete") power = Math.max(power, 61);
-        if (event.family === "rainbow") power = MAX_POWER;
+        const power = clamp(Number(state.power || 0) + Number(event.amount || 0), MIN_POWER, MAX_POWER);
         return {
           power,
-          specialSeen: Boolean(state.specialSeen || event.special || event.family === "rainbow"),
+          specialSeen: Boolean(state.specialSeen || event.special),
         };
       }
 
@@ -2865,6 +3023,7 @@
       resultNext: document.getElementById("resultNext"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureTrackSvg: document.getElementById("resultMeasureTrackSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
       resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
@@ -3342,7 +3501,9 @@
       state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
         return;
       }
 
@@ -3390,7 +3551,7 @@
       ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
-    function openRewardModal(event) {
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
       if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
       ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -3398,11 +3559,11 @@
       ui.rewardPop.dataset.rarity = event.rarity || "common";
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
       ui.rewardPop.hidden = false;
-      ui.modalRewardOpenButton.focus();
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
 
     function applyPendingReward(event) {
@@ -3454,7 +3615,7 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
+      if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
@@ -3471,12 +3632,12 @@
           console.warn("formatLessonRewardTarget failed", error);
         }
       }
-      if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+      if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
         ? LessonModel.getNextResult(afterResult)
         : afterResult;
-      if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+      if (!nextResult || nextResult.id === afterResult?.id) return "최고 단계까지 왔어요!";
       const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
       if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
         return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
@@ -3485,22 +3646,30 @@
       return `${nextResult.name}까지 ${remaining} 더`;
     }
 
-    async function revealRewardModal() {
+    async function revealRewardModal({ immediateValue = false } = {}) {
       if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
       const event = state.pendingRewardEvent;
       state.rewardPhase = "opening";
       ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-      await nextAnimationFrame();
+      if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
+      if (immediateValue) event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      await animateRewardValue(event);
+      if (immediateValue) {
+        const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+        setRewardValue(event.amount);
+        await revealHook;
+        setRewardValue(event.amount);
+      } else {
+        await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+        await animateRewardValue(event);
+      }
       state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.hidden = true;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
@@ -3514,18 +3683,26 @@
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const duration = reduceMotion ? 0 : 650;
       const target = Number(event.amount) || 0;
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
       return new Promise((resolve) => {
         const started = performance.now();
         const tick = (now) => {
           const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
           const value = Math.round(target * progress);
-          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          setRewardValue(value);
           if (progress < 1) requestAnimationFrame(tick);
           else resolve();
         };
         requestAnimationFrame(tick);
       });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${unit} ${zeroLabel}`
+        : `${unit} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -3591,7 +3768,7 @@
       if (ui.resultNext) ui.resultNext.textContent = nextResultText;
       if (ui.resultNextSvg) {
         ui.resultNextSvg.textContent = nextResultText;
-        ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+        ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
       }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
       if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
@@ -3600,6 +3777,7 @@
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
         ui.resultMeasureFillSvg.setAttribute("width", String(width));
       }
+      applyResultLayout();
 
       const correctArt = getCorrectCountAsset();
       ui.resultCorrectArt.hidden = !correctArt;
@@ -3624,6 +3802,57 @@
       });
 
       showScreen("result");
+    }
+
+    function applyResultLayout() {
+      const layout = LESSON_CONFIG.result?.layout;
+      if (!layout) return;
+      const axisX = Number(layout.axisX ?? 930);
+      const titleWidth = Number(layout.titleWidth ?? 520);
+      const correctWidth = Number(layout.correctWidth ?? 220);
+      const barWidth = Number(layout.barWidth ?? 360);
+      const barHeight = Number(layout.barHeight ?? 28);
+      const retry = layout.retryRect || {};
+      const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
+      const percentY = (value) => `${(Number(value) / 800) * 100}%`;
+
+      if (ui.resultTitleArt) {
+        ui.resultTitleArt.style.left = percentX(axisX - titleWidth / 2);
+        ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
+        ui.resultTitleArt.style.width = percentX(titleWidth);
+      }
+      if (ui.resultCorrectArt) {
+        ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
+        ui.resultCorrectArt.style.top = percentY(layout.correctTop ?? 382);
+        ui.resultCorrectArt.style.width = percentX(correctWidth);
+      }
+      if (ui.resultDestinationSvg) {
+        ui.resultDestinationSvg.setAttribute("x", String(axisX));
+      }
+      if (ui.resultMeasureSvg) {
+        ui.resultMeasureSvg.setAttribute("x", String(axisX));
+        ui.resultMeasureSvg.setAttribute("y", String(layout.measureY ?? 295));
+      }
+      for (const node of [ui.resultMeasureTrackSvg, ui.resultMeasureFillSvg]) {
+        if (!node) continue;
+        node.setAttribute("x", String(axisX - barWidth / 2));
+        node.setAttribute("y", String(layout.barY ?? 324));
+        node.setAttribute("height", String(barHeight));
+        node.setAttribute("rx", String(barHeight / 2));
+      }
+      if (ui.resultMeasureTrackSvg) ui.resultMeasureTrackSvg.setAttribute("width", String(barWidth));
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.setAttribute("x", String(axisX));
+        ui.resultNextSvg.setAttribute("y", String(layout.nextY ?? 548));
+      }
+      if (ui.retryButton) {
+        ui.retryButton.style.left = percentX(retry.x ?? axisX - 150);
+        ui.retryButton.style.top = percentY(retry.y ?? 615);
+        ui.retryButton.style.right = "auto";
+        ui.retryButton.style.bottom = "auto";
+        ui.retryButton.style.width = percentX(retry.width ?? 300);
+        ui.retryButton.style.height = percentY(retry.height ?? 123);
+      }
     }
 
     function getCorrectCountAsset() {
@@ -3934,6 +4163,8 @@
       getCurrentProblem: () => state.problems[state.problemIndex] || null,
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
+    let unit6RewardStage = null;
+
     function unit6Create(tag, className, text = "") {
       const node = document.createElement(tag);
       node.className = className;
@@ -4030,7 +4261,7 @@
         item.append(value);
         rows.append(item);
       });
-      const relation = unit6Create("div", "detective-relation", "값을 읽어 단서를 찾아요.");
+      const relation = unit6Create("div", "detective-relation");
       relation.dataset.detectiveRelation = "true";
       board.append(key, rows, relation);
       return board;
@@ -4116,7 +4347,16 @@
       }
       if (problem.visual.kind === "detective" && typeof choice.value === "string") {
         const picked = problem.visual.rows.find((row) => row.label === choice.value);
+        problem.visual.rows.forEach((row) => {
+          const value = ui.visualArea.querySelector(`[data-row-value="${row.id}"]`);
+          if (value) value.textContent = `${row.value}`;
+        });
         ui.visualArea.querySelector(`[data-row-id="${picked?.id || ""}"]`)?.classList.add("is-picked-wrong");
+        const relation = ui.visualArea.querySelector("[data-detective-relation]");
+        if (relation && picked) {
+          relation.textContent = `고른 값: ${picked.label} ${picked.value}`;
+          relation.classList.add("is-attempt-wrong");
+        }
       }
       if (problem.visual.kind === "detective" && typeof choice.value === "number") {
         problem.visual.rows.forEach((row) => {
@@ -4207,6 +4447,87 @@
         const equation = ui.visualArea.querySelector("[data-stamp-equation]");
         if (equation) equation.textContent = problem.finalExpression;
       }
+    }
+
+    function unit6RewardImage(event) {
+      const artMap = LESSON_CONFIG.reward?.artMap || {};
+      return event?.image
+        || artMap[event?.id]
+        || artMap[event?.family]
+        || LESSON_CONFIG.imageAssets.rewardClosed;
+    }
+
+    function ensureUnit6RewardStage() {
+      if (unit6RewardStage?.root?.isConnected) return unit6RewardStage;
+      const panel = document.querySelector("#screen-reward .reward-panel");
+      const title = document.getElementById("rewardTitle");
+      const engineLabel = document.getElementById("rewardChange");
+      const button = document.getElementById("rewardNextButton");
+      if (!panel || !title || !engineLabel || !button) return null;
+
+      title.classList.add("visually-hidden");
+      engineLabel.className = "visually-hidden";
+      engineLabel.setAttribute("aria-hidden", "true");
+
+      const story = unit6Create("div", "unit6-reward-story");
+      story.dataset.rewardStageStory = "true";
+      story.dataset.phase = "closed";
+      const visual = unit6Create("div", "unit6-reward-visual");
+      const art = unit6Create("img", "unit6-reward-art");
+      art.alt = "";
+      art.setAttribute("aria-hidden", "true");
+      visual.append(art);
+
+      const copy = unit6Create("div", "unit6-reward-copy");
+      const eyebrow = unit6Create("span", "unit6-reward-eyebrow", "현재 단계");
+      const tier = unit6Create("strong", "unit6-reward-tier");
+      const meter = unit6Create("div", "unit6-reward-meter");
+      meter.setAttribute("role", "progressbar");
+      meter.setAttribute("aria-valuemin", "0");
+      meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+      const meterFill = unit6Create("span", "unit6-reward-meter-fill");
+      meter.append(meterFill);
+      const status = unit6Create("p", "unit6-reward-status");
+      status.setAttribute("aria-live", "polite");
+      copy.append(eyebrow, tier, meter, status, button);
+      story.append(visual, copy);
+      panel.replaceChildren(title, story, engineLabel);
+
+      unit6RewardStage = { root: story, art, tier, meter, meterFill, status };
+      return unit6RewardStage;
+    }
+
+    function onRewardPrepare({ beforePower, beforeResult }) {
+      const stage = ensureUnit6RewardStage();
+      if (!stage) return;
+      const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+      stage.art.src = LESSON_CONFIG.imageAssets.rewardClosed;
+      stage.tier.textContent = beforeResult.name;
+      stage.meter.setAttribute("aria-valuenow", String(beforePower));
+      stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
+      stage.status.textContent = "";
+      stage.root.dataset.phase = "closed";
+      stage.root.dataset.reward = "closed";
+      stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 상자가 닫혀 있어요.`);
+    }
+
+    function onRewardReveal({ event, beforePower, afterPower, afterResult }) {
+      const stage = ensureUnit6RewardStage();
+      if (!stage) return Promise.resolve();
+      const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+      const change = afterPower - beforePower;
+      const changeText = change > 0 ? `+${change}` : change < 0 ? String(change) : "그대로";
+      stage.art.src = unit6RewardImage(event);
+      stage.tier.textContent = afterResult.name;
+      stage.meter.setAttribute("aria-valuenow", String(afterPower));
+      stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
+      stage.status.textContent = event.special ? event.text : changeText;
+      stage.root.dataset.phase = "revealed";
+      stage.root.dataset.reward = event.family || event.id || "normal";
+      stage.root.setAttribute("aria-label", `${stage.status.textContent}. 지금 ${afterResult.name}.`);
+      return matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? Promise.resolve()
+        : new Promise((resolve) => window.setTimeout(resolve, 480));
     }
     window.Lesson6DataLabModel = Lesson6DataLabModel;
   </script>

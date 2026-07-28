@@ -1,3 +1,5 @@
+let unit6RewardStage = null;
+
 function unit6Create(tag, className, text = "") {
   const node = document.createElement(tag);
   node.className = className;
@@ -94,7 +96,7 @@ function renderDetectiveBoard(problem) {
     item.append(value);
     rows.append(item);
   });
-  const relation = unit6Create("div", "detective-relation", "값을 읽어 단서를 찾아요.");
+  const relation = unit6Create("div", "detective-relation");
   relation.dataset.detectiveRelation = "true";
   board.append(key, rows, relation);
   return board;
@@ -180,7 +182,16 @@ function renderAttempt(problem, step, choice, currentState, outcome) {
   }
   if (problem.visual.kind === "detective" && typeof choice.value === "string") {
     const picked = problem.visual.rows.find((row) => row.label === choice.value);
+    problem.visual.rows.forEach((row) => {
+      const value = ui.visualArea.querySelector(`[data-row-value="${row.id}"]`);
+      if (value) value.textContent = `${row.value}`;
+    });
     ui.visualArea.querySelector(`[data-row-id="${picked?.id || ""}"]`)?.classList.add("is-picked-wrong");
+    const relation = ui.visualArea.querySelector("[data-detective-relation]");
+    if (relation && picked) {
+      relation.textContent = `고른 값: ${picked.label} ${picked.value}`;
+      relation.classList.add("is-attempt-wrong");
+    }
   }
   if (problem.visual.kind === "detective" && typeof choice.value === "number") {
     problem.visual.rows.forEach((row) => {
@@ -271,4 +282,85 @@ function onProblemComplete({ problem }) {
     const equation = ui.visualArea.querySelector("[data-stamp-equation]");
     if (equation) equation.textContent = problem.finalExpression;
   }
+}
+
+function unit6RewardImage(event) {
+  const artMap = LESSON_CONFIG.reward?.artMap || {};
+  return event?.image
+    || artMap[event?.id]
+    || artMap[event?.family]
+    || LESSON_CONFIG.imageAssets.rewardClosed;
+}
+
+function ensureUnit6RewardStage() {
+  if (unit6RewardStage?.root?.isConnected) return unit6RewardStage;
+  const panel = document.querySelector("#screen-reward .reward-panel");
+  const title = document.getElementById("rewardTitle");
+  const engineLabel = document.getElementById("rewardChange");
+  const button = document.getElementById("rewardNextButton");
+  if (!panel || !title || !engineLabel || !button) return null;
+
+  title.classList.add("visually-hidden");
+  engineLabel.className = "visually-hidden";
+  engineLabel.setAttribute("aria-hidden", "true");
+
+  const story = unit6Create("div", "unit6-reward-story");
+  story.dataset.rewardStageStory = "true";
+  story.dataset.phase = "closed";
+  const visual = unit6Create("div", "unit6-reward-visual");
+  const art = unit6Create("img", "unit6-reward-art");
+  art.alt = "";
+  art.setAttribute("aria-hidden", "true");
+  visual.append(art);
+
+  const copy = unit6Create("div", "unit6-reward-copy");
+  const eyebrow = unit6Create("span", "unit6-reward-eyebrow", "현재 단계");
+  const tier = unit6Create("strong", "unit6-reward-tier");
+  const meter = unit6Create("div", "unit6-reward-meter");
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+  const meterFill = unit6Create("span", "unit6-reward-meter-fill");
+  meter.append(meterFill);
+  const status = unit6Create("p", "unit6-reward-status");
+  status.setAttribute("aria-live", "polite");
+  copy.append(eyebrow, tier, meter, status, button);
+  story.append(visual, copy);
+  panel.replaceChildren(title, story, engineLabel);
+
+  unit6RewardStage = { root: story, art, tier, meter, meterFill, status };
+  return unit6RewardStage;
+}
+
+function onRewardPrepare({ beforePower, beforeResult }) {
+  const stage = ensureUnit6RewardStage();
+  if (!stage) return;
+  const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+  stage.art.src = LESSON_CONFIG.imageAssets.rewardClosed;
+  stage.tier.textContent = beforeResult.name;
+  stage.meter.setAttribute("aria-valuenow", String(beforePower));
+  stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
+  stage.status.textContent = "";
+  stage.root.dataset.phase = "closed";
+  stage.root.dataset.reward = "closed";
+  stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 상자가 닫혀 있어요.`);
+}
+
+function onRewardReveal({ event, beforePower, afterPower, afterResult }) {
+  const stage = ensureUnit6RewardStage();
+  if (!stage) return Promise.resolve();
+  const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+  const change = afterPower - beforePower;
+  const changeText = change > 0 ? `+${change}` : change < 0 ? String(change) : "그대로";
+  stage.art.src = unit6RewardImage(event);
+  stage.tier.textContent = afterResult.name;
+  stage.meter.setAttribute("aria-valuenow", String(afterPower));
+  stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
+  stage.status.textContent = event.special ? event.text : changeText;
+  stage.root.dataset.phase = "revealed";
+  stage.root.dataset.reward = event.family || event.id || "normal";
+  stage.root.setAttribute("aria-label", `${stage.status.textContent}. 지금 ${afterResult.name}.`);
+  return matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? Promise.resolve()
+    : new Promise((resolve) => window.setTimeout(resolve, 480));
 }

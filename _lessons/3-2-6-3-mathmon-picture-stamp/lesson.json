@@ -22,11 +22,21 @@
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
-    "mode": "modal-art",
+    "mode": "stage-reveal",
+    "version": "unit6-data-stage-reveal-v1",
+    "standard": "mathmon-unified-reward-v1",
     "maxPower": 100,
     "unitLabel": "그래프 힘",
-    "closedLabel": "상자 안에는 무엇이 있을까요?",
+    "closedLabel": "상자 열기",
     "nextLabel": "다음 도장",
+    "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "stage-reveal-event",
+      "states": ["closed", "normal", "loss", "mega", "complete", "empty", "rainbow"],
+      "contactSheet": "reward-contact-sheet.png"
+    },
     "artMap": {
       "normal": "reward-normal-generated.webp",
       "loss": "reward-loss-generated.webp",
@@ -60,21 +70,21 @@
   "mathmonId": "base-08-unicornmon",
   "results": [
     { "id": "first", "name": "첫 도장판", "minPower": 0, "minCorrect": 0, "image": "result-scene-1-generated.webp", "titleImage": "result-title-1-generated.webp" },
-    { "id": "color-board", "name": "알록 도장판", "minPower": 19, "minCorrect": 2, "image": "result-scene-2-generated.webp", "titleImage": "result-title-2-generated.webp" },
-    { "id": "graph-board", "name": "그림그래프판", "minPower": 39, "minCorrect": 4, "image": "result-scene-3-generated.webp", "titleImage": "result-title-3-generated.webp" },
-    { "id": "graph-display", "name": "그래프 전시대", "minPower": 61, "minCorrect": 6, "image": "result-scene-4-generated.webp", "titleImage": "result-title-4-generated.webp" },
-    { "id": "graph-room", "name": "그래프 전시실", "minPower": 83, "minCorrect": 8, "image": "result-scene-5-generated.webp", "titleImage": "result-title-5-generated.webp" },
-    { "id": "rainbow", "name": "무지개 그래프탑", "minPower": 100, "minCorrect": 0, "needsSpecial": true, "image": "result-scene-6-generated.webp", "titleImage": "result-title-6-generated.webp" }
+    { "id": "color-board", "name": "알록 도장판", "minPower": 15, "minCorrect": 2, "image": "result-scene-2-generated.webp", "titleImage": "result-title-2-generated.webp" },
+    { "id": "graph-board", "name": "그림그래프판", "minPower": 35, "minCorrect": 4, "image": "result-scene-3-generated.webp", "titleImage": "result-title-3-generated.webp" },
+    { "id": "graph-display", "name": "그래프 전시대", "minPower": 55, "minCorrect": 6, "image": "result-scene-4-generated.webp", "titleImage": "result-title-4-generated.webp" },
+    { "id": "graph-room", "name": "그래프 전시실", "minPower": 78, "minCorrect": 8, "image": "result-scene-5-generated.webp", "titleImage": "result-title-5-generated.webp" },
+    { "id": "rainbow", "name": "무지개 그래프탑", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-scene-6-generated.webp", "titleImage": "result-title-6-generated.webp" }
   ],
   "rewardEvents": [
-    { "id": "normal", "text": "그래프 힘이 늘었어요", "weight": 7645, "min": 4, "max": 8, "family": "normal", "rarity": "common" },
-    { "id": "loss", "text": "그래프 힘이 줄었어요", "weight": 1200, "min": -10, "max": -5, "family": "loss", "rarity": "common" },
-    { "id": "mega", "text": "그래프 힘이 크게 늘었어요", "weight": 900, "min": 12, "max": 20, "family": "mega", "rarity": "rare" },
-    { "id": "complete", "text": "도장판이 한 번에 빛나요", "weight": 50, "min": 0, "max": 0, "family": "complete", "rarity": "rare" },
-    { "id": "empty", "text": "이번에는 그대로예요", "weight": 200, "min": 0, "max": 0, "family": "empty", "rarity": "common" },
-    { "id": "rainbow", "text": "무지개 도장이 나왔어요", "weight": 5, "min": 0, "max": 0, "family": "rainbow", "rarity": "legend", "special": true }
+    { "id": "normal", "text": "그래프 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "normal", "rarity": "common" },
+    { "id": "loss", "text": "그래프 힘이 줄었어요", "weight": 1500, "min": -5, "max": -2, "family": "loss", "rarity": "common" },
+    { "id": "mega", "text": "그래프 힘이 크게 늘었어요", "weight": 1200, "min": 14, "max": 22, "family": "mega", "rarity": "rare" },
+    { "id": "jackpot", "text": "도장판이 크게 빛나요", "weight": 500, "min": 30, "max": 30, "family": "complete", "rarity": "rare", "express": true },
+    { "id": "empty", "text": "이번에는 그대로예요", "weight": 380, "min": 0, "max": 0, "family": "empty", "rarity": "common" },
+    { "id": "special", "text": "무지개 도장이 나왔어요", "weight": 20, "min": 100, "max": 100, "family": "rainbow", "rarity": "legend", "special": true }
   ],
-  "wrongEvent": { "id": "wrong-loss", "text": "그래프 힘이 줄었어요", "min": -18, "max": -8, "family": "loss" },
+  "wrongEvent": { "id": "wrong-loss", "text": "그래프 힘이 줄었어요", "min": -6, "max": -3, "family": "loss" },
   "typesPerRun": ["stamp", "stamp", "stamp", "stamp", "stamp", "stamp", "stamp", "stamp", "stamp", "stamp"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
@@ -83,7 +93,7 @@
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStates": { "waiting": "problem-background-generated.webp", "working": "problem-background-generated.webp", "complete": "problem-background-generated.webp" },
-    "rewardClosed": "reward-empty-generated.webp",
+    "rewardClosed": "reward-event-closed-generated.webp",
     "rewardScene": "problem-background-generated.webp",
     "mathmonReactions": {
       "correct": "../_shared/mathmon/base-pack/webp/reactions-unit2/mathmon-unicornmon-correct.webp",
@@ -95,7 +105,7 @@
   "sourceFiles": { "model": "../_shared/unit6-data/model.js", "view": "../_shared/unit6-data/view.js", "style": "../_shared/unit6-data/lesson.css" },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
-    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp", "problem-background-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp", "problem-background-generated.webp", "reward-event-closed-generated.webp",
     "reward-normal-generated.webp", "reward-loss-generated.webp", "reward-mega-generated.webp", "reward-complete-generated.webp", "reward-empty-generated.webp", "reward-rainbow-generated.webp",
     "result-scene-1-generated.webp", "result-scene-2-generated.webp", "result-scene-3-generated.webp", "result-scene-4-generated.webp", "result-scene-5-generated.webp", "result-scene-6-generated.webp",
     "result-title-1-generated.webp", "result-title-2-generated.webp", "result-title-3-generated.webp", "result-title-4-generated.webp", "result-title-5-generated.webp", "result-title-6-generated.webp",

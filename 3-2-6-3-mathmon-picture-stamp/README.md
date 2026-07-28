@@ -16,7 +16,8 @@
 ## 화면과 자산
 
 - 매스몬: `base-pack`의 유니콘몬 `base-08-unicornmon`
-- 생성 자산: 커버, 설명 2장, 문제 배경, 보상 6장, 결과 장면 6장, 결과 제목 6장
+- 생성 자산: 커버, 설명 2장, 문제 배경, 닫힌 상자를 포함한 보상 7상태, 결과 장면 6장, 결과 제목 6장
+- 닫힌 상자 원본: `reward-event-closed-source.png` → `reward-event-closed-generated.png` → `reward-event-closed-generated.webp`
 - QA 컨택시트: `reward-contact-sheet.png`, `result-scenes-contact-sheet.png`, `result-titles-contact-sheet.png`
 - 생성 원본 시트: `reward-source-sheet.png`, `result-scenes-source-sheet.png`, `result-titles-source-sheet.png`
 - 공용 시작: `../_shared/mathmon/cover-start-button/start-button-generated.webp`
@@ -25,7 +26,7 @@
 
 ## 보상과 결과
 
-중심 보상은 `그래프 힘`입니다. 결과는 `첫 도장판 → 알록 도장판 → 그림그래프판 → 그래프 전시대 → 그래프 전시실 → 무지개 그래프탑` 순서입니다. 결과 문턱과 여섯 보상 가족은 Unit 6 공통 계약을 따릅니다.
+중심 보상은 `그래프 힘`입니다. 일반 `+6~10`, 감소 `-5~-2`, 큰 증가 `+14~22`, 대박 `+30`, 그대로 `0`, 특별 `100`을 쓰며 오답은 최초 한 번 `-6~-3`입니다. 결과는 `첫 도장판 → 알록 도장판 → 그림그래프판 → 그래프 전시대 → 그래프 전시실 → 무지개 그래프탑` 순서이고 문턱은 `0/0, 15/2, 35/4, 55/6, 78/8, 특별 100/1`입니다.
 
 ## 검증 자료
 
