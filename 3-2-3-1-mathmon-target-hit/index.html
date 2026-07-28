@@ -259,8 +259,9 @@
           font-weight: 950;
         }
         .cover-start-button {
-          width: 430px;
-          height: 150px;
+          width: clamp(300px, 28.125vw, 360px);
+          aspect-ratio: 1611 / 680;
+          height: auto;
           display: grid;
           place-items: center;
           padding: 0;
@@ -272,7 +273,7 @@
         }
         .cover-start-button:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.04); }
         .cover-start-button:active { transform: translateY(1px) scale(.99); }
-        .start-button-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        .start-button-art { display: block; width: 100%; height: auto; pointer-events: none; }
         .tutorial { padding: var(--stage-inset); background: linear-gradient(135deg, #201a2d, #102839); }
         .tutorial-grid {
           position: relative;
@@ -302,6 +303,24 @@
         .tutorial-card strong { font-size: clamp(1.28rem, 2.2vw, 1.72rem); line-height: 1.18; }
         .tutorial-card p { margin: 0; color: #d7cadb; font-size: 1.02rem; line-height: 1.4; font-weight: 850; }
         .tutorial-action { display: grid; place-items: center; }
+
+        .game[data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #13202a; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid > .screen-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+        .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+        .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 31%; bottom: 1.5%; width: 38%; height: 15%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 72%; bottom: 1%; width: 27%; height: 14%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 24%; height: 14%; }
         .primary-button {
           min-width: 190px;
           min-height: 72px;
@@ -413,6 +432,10 @@
         .complete-panel.is-visible { display: grid; }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
         .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
+        .problem-grid.is-complete .step-chips,
+        .problem-grid.is-complete .instruction,
+        .problem-grid.is-complete .feedback-line { display: none; }
         .play-mathmon-reaction {
           position: absolute;
           z-index: 4;
@@ -507,8 +530,11 @@
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
         .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
+        .result-dynamic-ui [hidden] { display: none; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
+        .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-restart-hitbox .result-retry-art { display: none; }
         .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; filter: drop-shadow(0 18px 26px rgba(0,0,0,.44)); }
@@ -550,7 +576,7 @@
           left: calc(50% - 125px);
           bottom: 78px;
           width: 250px;
-          height: 100px;
+          height: 77px;
         }
         .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-retry-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
@@ -562,7 +588,6 @@
           .problem-card { padding: 18px; }
           .visual-area { min-height: 330px; }
           .choice-button { min-height: 72px; }
-          .cover-start-button { width: 400px; height: 142px; }
           .result-title-art { width: 52%; }
           .result-correct-art { left: 82px; top: 410px; width: 230px; }
         }
@@ -570,6 +595,19 @@
           .topic-badge { left: auto; right: var(--stage-inset); }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+    .mathmon-scoreboard,
+    .result-leaderboard-hitbox,
+    .result-rank-button-art,
+    #leaderboardButton,
+    #leaderboardButtonArt,
+    [data-action="leaderboard"] {
+      display: none !important;
+    }
+
+    .ranking-disabled {
+      display: none !important;
+    }
+
     .mathmon-scoreboard {
       --scoreboard-font: "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
       --scoreboard-title-fill: #fff6d1;
@@ -888,156 +926,934 @@
       outline-offset: -3px;
     }
 
-    .game[data-workbench-type="circle-relations"] .play { padding: 0; background: #dff3ef; }
-    .circle-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+    .game[data-workbench-type="circle-relations"] .play {
+      padding: 0;
+      overflow: hidden;
+      background: #dff3ef;
+    }
+
+    .game[data-workbench-type="circle-relations"] .play::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(27, 65, 62, .08), transparent 18%, transparent 82%, rgba(31, 55, 47, .12)),
+        radial-gradient(circle at 50% 54%, transparent 48%, rgba(31, 61, 56, .09) 100%);
+    }
+
+    .circle-stage-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+      filter: saturate(.88) brightness(1.04);
+    }
+
+    .game[data-workbench-type="circle-relations"] .stage-shell {
+      --sound-button-size: 42px;
+      --target-brass-dark: #6f4518;
+      --target-brass: #b57a2c;
+      --target-brass-light: #f4d98b;
+      --target-ink: #173f42;
+      --target-cream: #fff7db;
+      --target-orange: #dc6a25;
+      --target-correct: #14745b;
+      --target-wrong: #b52357;
+    }
+
+    .game[data-workbench-type="circle-relations"] .settings-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .game[data-workbench-type="circle-relations"] .brand-badge,
+    .game[data-workbench-type="circle-relations"] .unit-badge {
+      font-size: .875rem;
+    }
 
     .game[data-workbench-type="circle-relations"] .hud {
-      position: absolute; top: 18px; right: 3%; z-index: 6; width: 63%; min-height: 42px;
-      display: grid; place-items: center; padding: 0;
+      position: absolute;
+      top: 18px;
+      right: calc(3% + var(--sound-reserve));
+      left: 3%;
+      z-index: 6;
+      width: auto;
+      min-height: var(--sound-button-size);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: start;
+      gap: 12px;
+      padding: 0;
     }
-    .game[data-workbench-type="circle-relations"] .hud-left .brand-badge,
-    .game[data-workbench-type="circle-relations"] .hud-right,
-    .game[data-workbench-type="circle-relations"] .progress-line { display: none; }
+
+    .game[data-workbench-type="circle-relations"] .progress-line {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .hud-left {
+      display: contents;
+    }
+
+    .game[data-workbench-type="circle-relations"] .hud-left .brand-badge {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    .game[data-workbench-type="circle-relations"] .hud-right {
+      grid-column: 3;
+      justify-self: end;
+    }
+
     .game[data-workbench-type="circle-relations"] #problemCounter {
-      min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23;
-      color: #36200b; background: #ffe28a; font-size: 1rem;
+      grid-column: 2;
+      justify-self: center;
+      min-width: 132px;
+      min-height: 42px;
+      justify-content: center;
+      border: 2px solid #82501b;
+      color: #36200b;
+      background: linear-gradient(180deg, #fff0ad, #ffd66e);
+      box-shadow: inset 0 2px rgba(255, 255, 255, .72), 0 3px 0 rgba(93, 56, 16, .22);
+      font-size: 1.05rem;
+      font-variant-numeric: tabular-nums;
     }
 
     .game[data-workbench-type="circle-relations"] .problem-grid {
-      position: absolute; top: 66px; right: 3%; bottom: 20px; left: 34%; z-index: 3;
-      height: auto; margin: 0; display: grid; grid-template-columns: 1fr;
-      grid-template-rows: minmax(0, 1fr) 54px minmax(212px, auto); gap: 8px;
+      position: absolute;
+      top: 72px;
+      right: 2.5%;
+      bottom: 16px;
+      left: 32%;
+      z-index: 3;
+      height: auto;
+      margin: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 64px 52px minmax(0, 1fr) 82px;
+      gap: 8px;
     }
+
     .game[data-workbench-type="circle-relations"] .problem-card,
     .game[data-workbench-type="circle-relations"] .step-board,
     .game[data-workbench-type="circle-relations"] .choices-panel,
     .game[data-workbench-type="circle-relations"] .complete-panel {
-      border: 0; border-radius: 0; background: transparent; box-shadow: none;
+      min-width: 0;
+      min-height: 0;
+      box-sizing: border-box;
     }
+
     .game[data-workbench-type="circle-relations"] .problem-card {
-      grid-row: 1; min-height: 0; padding: 0; display: grid;
-      grid-template-rows: auto minmax(0, 1fr); gap: 2px;
+      grid-row: 1;
+      position: relative;
+      width: min(610px, 72%);
+      height: 64px;
+      justify-self: center;
+      padding: 0 72px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 3px solid var(--target-brass-dark);
+      border-radius: 21px;
+      color: var(--target-ink);
+      background:
+        radial-gradient(circle at 18px 18px, #ffe9a7 0 4px, #7e531f 4.5px 7px, transparent 7.5px),
+        radial-gradient(circle at calc(100% - 18px) 18px, #ffe9a7 0 4px, #7e531f 4.5px 7px, transparent 7.5px),
+        linear-gradient(180deg, rgba(255, 255, 255, .86), transparent 48%),
+        linear-gradient(135deg, #fff4c7, #e8c46e);
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 244, 194, .64),
+        inset 0 -8px 14px rgba(103, 63, 14, .13),
+        0 6px 0 rgba(91, 57, 18, .25),
+        0 12px 20px rgba(42, 62, 52, .12);
     }
+
+    .game[data-workbench-type="circle-relations"] .problem-card::before,
+    .game[data-workbench-type="circle-relations"] .problem-card::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 64px;
+      height: 12px;
+      border-block: 2px solid rgba(95, 57, 14, .46);
+      background: linear-gradient(180deg, #f1d681, #9f6824 50%, #eac66e);
+      transform: translateY(-50%);
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-card::before {
+      left: 0;
+      clip-path: polygon(0 20%, 100% 0, 82% 100%, 0 80%);
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-card::after {
+      right: 0;
+      clip-path: polygon(0 0, 100% 20%, 100% 80%, 18% 100%);
+    }
+
     .game[data-workbench-type="circle-relations"] .problem-label,
     .game[data-workbench-type="circle-relations"] .step-chips,
-    .game[data-workbench-type="circle-relations"] .answer-slot { display: none; }
-    .game[data-workbench-type="circle-relations"] .big-problem {
-      margin: 0; color: #273d3b; font-size: clamp(2.7rem, 5vw, 4.45rem);
-      line-height: 1; text-align: center; text-shadow: 0 2px 0 rgba(255,255,255,.7);
+    .game[data-workbench-type="circle-relations"] .answer-slot {
+      display: none;
     }
-    .game[data-workbench-type="circle-relations"] .visual-area { min-height: 0; display: grid; place-items: center; }
 
-    .circle-confirm-svg { width: min(100%, 560px); height: 100%; max-height: 250px; overflow: visible; }
-    .circle-choice-svg { width: 100%; height: 100%; max-height: 132px; pointer-events: none; }
-    .relation-circle { fill: rgba(255,255,255,.45); stroke: #315e61; stroke-width: 6; }
-    .relation-center-reference { fill: #25464a; }
-    .relation-candidate { stroke: #d46c24; stroke-width: 10; stroke-linecap: round; }
-    .relation-endpoint { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
-    .relation-point-candidate { fill: #d46c24; stroke: #fff7df; stroke-width: 4; }
-    .relation-question { fill: #315e61; font-size: 60px; font-weight: 1000; }
-    .circle-confirm-svg[data-state="wrong"] .relation-candidate,
-    .circle-confirm-svg[data-state="wrong"] .relation-endpoint,
-    .circle-confirm-svg[data-state="wrong"] .relation-point-candidate { stroke: #b92852; fill: #b92852; }
-    .circle-confirm-svg[data-state="correct"] .relation-candidate,
-    .circle-confirm-svg[data-state="correct"] .relation-endpoint,
-    .circle-confirm-svg[data-state="correct"] .relation-point-candidate { stroke: #16775e; fill: #16775e; }
+    .game[data-workbench-type="circle-relations"] .big-problem {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--target-ink);
+      font-size: clamp(2.25rem, 3.9vw, 3rem);
+      line-height: 1.14;
+      font-weight: 1000;
+      text-align: center;
+      letter-spacing: -.055em;
+      word-break: keep-all;
+      text-shadow: 0 2px rgba(255, 255, 255, .72);
+    }
+
+    .game[data-workbench-type="circle-relations"] .visual-area {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .circle-confirm-svg {
+      width: 1px;
+      height: 1px;
+    }
+
+    .console-signal-ring,
+    .console-signal-tick {
+      fill: none;
+      stroke: var(--target-ink);
+      stroke-width: 4;
+    }
+
+    .console-signal-core {
+      fill: var(--target-orange);
+    }
 
     .game[data-workbench-type="circle-relations"] .step-board {
-      grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
-      place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf;
+      grid-row: 2;
+      width: min(900px, 78%);
+      height: 52px;
+      justify-self: center;
+      padding: 0 22px;
+      display: grid;
+      grid-template: 1fr / 1fr;
+      place-items: center;
+      overflow: hidden;
+      border: 2px solid #8e5b22;
+      border-radius: 15px;
+      background:
+        linear-gradient(90deg, rgba(255, 238, 174, .76), rgba(255, 250, 226, .97) 16%, rgba(255, 250, 226, .97) 84%, rgba(255, 238, 174, .76)),
+        #fff3be;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .62), 0 4px 0 rgba(83, 54, 18, .18);
     }
+
     .game[data-workbench-type="circle-relations"] .instruction,
     .game[data-workbench-type="circle-relations"] .feedback-line {
-      grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b;
-      font-size: clamp(.98rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: center;
+      grid-area: 1 / 1;
+      max-width: 100%;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden;
+      color: #39210c;
+      font-size: clamp(1.125rem, 1.72vw, 1.28rem);
+      line-height: 1.25;
+      font-weight: 1000;
+      text-align: center;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
-    .game[data-workbench-type="circle-relations"] .instruction[hidden] { display: none; }
-    .game[data-workbench-type="circle-relations"] .feedback-line[data-state="idle"] { visibility: hidden; }
-    .game[data-workbench-type="circle-relations"] .feedback-line[data-state="wrong"] { color: #a11742; }
-    .game[data-workbench-type="circle-relations"] .feedback-line[data-state="correct"] { color: #12604c; }
 
-    .game[data-workbench-type="circle-relations"] .choices-panel {
-      grid-row: 3; min-height: 0; padding: 0; display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(98px, 1fr)); gap: 9px;
+    .game[data-workbench-type="circle-relations"] .instruction[hidden] {
+      display: none;
     }
+
+    .game[data-workbench-type="circle-relations"] .feedback-line[data-state="idle"] {
+      visibility: hidden;
+    }
+
+    .game[data-workbench-type="circle-relations"] .feedback-line[data-state="wrong"] {
+      color: #951642;
+    }
+
+    .game[data-workbench-type="circle-relations"] .feedback-line[data-state="correct"] {
+      color: #0d644d;
+    }
+
+    .game[data-workbench-type="circle-relations"] .choices-panel.target-console {
+      grid-row: 3;
+      position: relative;
+      isolation: isolate;
+      min-height: 0;
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-content: stretch;
+      overflow: hidden;
+      border: 4px solid var(--target-brass-dark);
+      border-radius: 27px;
+      background:
+        radial-gradient(circle at 18px 18px, #ffe49b 0 4px, #644016 4.5px 7px, transparent 7.5px),
+        radial-gradient(circle at calc(100% - 18px) 18px, #ffe49b 0 4px, #644016 4.5px 7px, transparent 7.5px),
+        radial-gradient(circle at 18px calc(100% - 18px), #ffe49b 0 4px, #644016 4.5px 7px, transparent 7.5px),
+        radial-gradient(circle at calc(100% - 18px) calc(100% - 18px), #ffe49b 0 4px, #644016 4.5px 7px, transparent 7.5px),
+        linear-gradient(145deg, rgba(255, 255, 255, .14), transparent 28%),
+        linear-gradient(155deg, #225f60, #123f45 52%, #0f353a);
+      box-shadow:
+        inset 0 0 0 4px #e0b35d,
+        inset 0 0 0 8px rgba(61, 34, 10, .47),
+        inset 0 16px 28px rgba(255, 255, 255, .09),
+        0 8px 0 rgba(72, 45, 19, .34),
+        0 16px 30px rgba(24, 56, 51, .23);
+    }
+
+    .game[data-workbench-type="circle-relations"] .target-console::before,
+    .game[data-workbench-type="circle-relations"] .target-console::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, #704718, #f0d17d 20%, #a96d26 49%, #f5dc8e 78%, #6c4215);
+      box-shadow: inset 0 0 0 2px rgba(93, 55, 15, .65), 0 2px 5px rgba(0, 0, 0, .26);
+    }
+
+    .game[data-workbench-type="circle-relations"] .target-console::before {
+      top: 8px;
+      bottom: 8px;
+      left: calc(50% - 7px);
+      width: 14px;
+    }
+
+    .game[data-workbench-type="circle-relations"] .target-console::after {
+      top: calc(50% - 7px);
+      right: 8px;
+      left: 8px;
+      height: 14px;
+    }
+
     .game[data-workbench-type="circle-relations"] .circle-choice {
-      min-height: 98px; padding: 0; border: 3px solid #6f9191; border-radius: 18px;
-      color: #273d3b; background: rgba(255,255,255,.82); box-shadow: 0 6px 0 #66817e;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 42px;
+      aspect-ratio: 12 / 5;
+      padding: 4px 10px;
+      overflow: hidden;
+      isolation: isolate;
+      appearance: none;
+      border: 4px solid #a9762e;
+      border-radius: 20px;
+      color: var(--target-ink);
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .25) 35%, transparent 36%),
+        radial-gradient(circle at 50% 42%, #fffef3 0 28%, #f5edcf 65%, #ded0a8 100%);
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, .76),
+        inset 0 -10px 20px rgba(95, 70, 29, .13),
+        0 5px 0 #654417,
+        0 8px 15px rgba(7, 34, 35, .23);
+      cursor: pointer;
+      transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease;
     }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      z-index: -1;
+      border: 1px solid rgba(38, 82, 82, .23);
+      border-radius: 13px;
+      pointer-events: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 3;
+      width: 96px;
+      aspect-ratio: 1;
+      border: 5px solid rgba(250, 207, 92, .92);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(.35);
+    }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice:hover:not(:disabled) {
+      border-color: #d69a3c;
+      filter: brightness(1.035) saturate(1.04);
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, .8),
+        inset 0 -10px 20px rgba(95, 70, 29, .12),
+        0 5px 0 #654417,
+        0 0 0 3px rgba(255, 218, 120, .31),
+        0 9px 17px rgba(7, 34, 35, .24);
+    }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice:focus-visible {
+      outline: 4px solid #fff09b;
+      outline-offset: -8px;
+      border-color: #704412;
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, .82),
+        0 5px 0 #654417,
+        0 0 0 4px #173f42,
+        0 0 0 8px rgba(255, 236, 139, .8);
+    }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice:disabled {
+      cursor: default;
+    }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice[data-dimmed="true"] {
+      opacity: .46;
+      filter: saturate(.45) brightness(.98);
+    }
+
     .game[data-workbench-type="circle-relations"] .circle-choice[data-state="wrong"] {
-      border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70;
+      border-color: var(--target-wrong);
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .2) 35%, transparent 36%),
+        radial-gradient(circle at 50% 42%, #fff9f7 0 28%, #ffe1e8 66%, #e8b9c7 100%);
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, .72),
+        inset 0 -10px 20px rgba(151, 23, 65, .14),
+        0 5px 0 #751b3c,
+        0 0 0 3px rgba(181, 35, 87, .22),
+        0 9px 17px rgba(7, 34, 35, .22);
     }
+
     .game[data-workbench-type="circle-relations"] .circle-choice[data-state="correct"] {
-      border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991;
+      border-color: var(--target-correct);
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .2) 35%, transparent 36%),
+        radial-gradient(circle at 50% 42%, #fbfff9 0 28%, #d9f6e8 66%, #acd9c3 100%);
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, .76),
+        inset 0 -10px 20px rgba(12, 100, 74, .13),
+        0 5px 0 #10553f,
+        0 0 0 3px rgba(250, 207, 92, .43),
+        0 9px 18px rgba(7, 34, 35, .22);
+    }
+
+    .game[data-workbench-type="circle-relations"] .circle-choice[data-state="correct"]::after {
+      animation: target-hit-wave .62s cubic-bezier(.17, .78, .24, 1);
+    }
+
+    .target-slot-light {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      z-index: 4;
+      width: 13px;
+      height: 13px;
+      border: 2px solid #704718;
+      border-radius: 50%;
+      background: #f4c858;
+      box-shadow: inset 0 2px rgba(255, 255, 255, .72), 0 0 0 3px rgba(112, 71, 24, .12);
+      pointer-events: none;
+    }
+
+    .circle-choice[data-state="wrong"] .target-slot-light {
+      background: #d53166;
+      box-shadow: inset 0 2px rgba(255, 255, 255, .62), 0 0 0 3px rgba(181, 35, 87, .19);
+    }
+
+    .circle-choice[data-state="correct"] .target-slot-light {
+      background: #37c390;
+      box-shadow: inset 0 2px rgba(255, 255, 255, .67), 0 0 0 3px rgba(20, 116, 91, .18), 0 0 12px rgba(55, 195, 144, .7);
+    }
+
+    .circle-choice-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .relation-circle {
+      fill: rgba(255, 255, 255, .42);
+      stroke: #24575b;
+      stroke-width: 6;
+    }
+
+    .relation-center-reference {
+      fill: #153f44;
+      stroke: #fff8de;
+      stroke-width: 1.5;
+    }
+
+    .relation-candidate {
+      fill: none;
+      stroke: var(--target-orange);
+      stroke-width: 10;
+      stroke-linecap: round;
+    }
+
+    .relation-endpoint {
+      fill: var(--target-orange);
+      stroke: #fff8de;
+      stroke-width: 2;
+    }
+
+    .relation-point-candidate {
+      fill: var(--target-orange);
+      stroke: #fff8de;
+      stroke-width: 4;
+    }
+
+    .circle-choice[data-state="wrong"] .relation-candidate {
+      stroke: var(--target-wrong);
+    }
+
+    .circle-choice[data-state="wrong"] .relation-endpoint,
+    .circle-choice[data-state="wrong"] .relation-point-candidate {
+      fill: var(--target-wrong);
+      stroke: #fff7df;
+    }
+
+    .circle-choice[data-state="correct"] .relation-candidate {
+      stroke: var(--target-correct);
+      filter: drop-shadow(0 0 5px rgba(39, 173, 128, .47));
+    }
+
+    .circle-choice[data-state="correct"] .relation-endpoint,
+    .circle-choice[data-state="correct"] .relation-point-candidate {
+      fill: var(--target-correct);
+      stroke: #fff7df;
+      filter: drop-shadow(0 0 5px rgba(39, 173, 128, .46));
+    }
+
+    .relation-diagnostic {
+      animation: diagnostic-reveal .26s ease-out both;
+    }
+
+    .diagnostic-needed-ring,
+    .diagnostic-needed-cross,
+    .diagnostic-guide,
+    .diagnostic-missing,
+    .diagnostic-extra {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .diagnostic-needed-ring {
+      stroke: #e0a515;
+      stroke-width: 5;
+      stroke-dasharray: 6 5;
+      filter: drop-shadow(0 1px 1px rgba(73, 44, 5, .38));
+    }
+
+    .diagnostic-needed-cross {
+      stroke: #7a4e0e;
+      stroke-width: 4;
+    }
+
+    .diagnostic-guide {
+      stroke: #7a4e0e;
+      stroke-width: 4;
+      stroke-dasharray: 5 5;
+    }
+
+    .diagnostic-missing {
+      stroke: #d49a0c;
+      stroke-width: 8;
+      stroke-dasharray: 8 6;
+    }
+
+    .diagnostic-extra {
+      stroke: var(--target-wrong);
+      stroke-width: 14;
+      stroke-dasharray: 4 6;
+      opacity: .62;
+    }
+
+    @keyframes target-hit-wave {
+      0% {
+        opacity: .96;
+        transform: translate(-50%, -50%) scale(.28);
+      }
+      70% {
+        opacity: .72;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.7);
+      }
+    }
+
+    @keyframes diagnostic-reveal {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     .game[data-workbench-type="circle-relations"] .complete-panel {
-      grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr;
-      border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96);
-    }
-    .game[data-workbench-type="circle-relations"] .complete-text {
-      color: #36200b; font-size: clamp(1.25rem, 2.15vw, 1.75rem); line-height: 1.2; text-align: center;
-    }
-    .game[data-workbench-type="circle-relations"] .complete-panel .primary-button {
-      min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
-    }
-    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .choices-panel { display: none; }
-    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .step-board { display: none; }
-    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .complete-panel { grid-row: 2 / 4; min-height: 0; }
-    .game[data-workbench-type="circle-relations"] .result-title-art { display: none; }
-    .game[data-workbench-type="circle-relations"] #screen-result .top-row { display: none; }
-    .game[data-workbench-type="circle-relations"] #screen-result::after { background: none; }
-    .game[data-workbench-type="circle-relations"] .result-dynamic-ui #resultDestinationSvg,
-    .game[data-workbench-type="circle-relations"] .result-dynamic-ui .result-restart-surface { display: none; }
-    .game[data-workbench-type="circle-relations"] .result-dynamic-ui text { fill: #123c70; stroke: rgba(255,255,255,.96); stroke-width: 10px; }
-    .game[data-workbench-type="circle-relations"] .result-dynamic-ui rect:first-of-type { fill: #2d72a9; opacity: .28; }
-    .game[data-workbench-type="circle-relations"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffd45c; }
-    .game[data-workbench-type="circle-relations"] .result-correct-art { left: 62%; top: 57%; width: 15%; }
-    .game[data-workbench-type="circle-relations"] .result-restart-hitbox { left: 65%; top: 76%; width: 27%; height: 17%; }
-    .game[data-workbench-type="circle-relations"] .reward-visual {
-      background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center;
+      grid-column: 1;
+      grid-row: 4;
+      width: 100%;
+      height: 82px;
+      padding: 7px 14px 7px 22px;
+      display: grid;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      grid-template-columns: minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+      overflow: hidden;
+      border: 3px solid var(--target-brass-dark);
+      border-radius: 20px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .14), transparent 28%),
+        linear-gradient(110deg, #174d50, #103b41);
+      box-shadow:
+        inset 0 0 0 3px #d8aa54,
+        inset 0 -8px 16px rgba(0, 0, 0, .12),
+        0 5px 0 rgba(74, 45, 17, .28);
+      transition: opacity .2s ease;
     }
 
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #dff3ef; }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .screen-title,
-    .game[data-workbench-type="circle-relations"] .tutorial-progress { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card {
-      position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+    .game[data-workbench-type="circle-relations"] .complete-panel.is-visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
     }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark { display: none; }
+
+    .game[data-workbench-type="circle-relations"] .complete-text {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      color: #fff7d2;
+      font-size: clamp(1.08rem, 1.65vw, 1.35rem);
+      line-height: 1.18;
+      font-weight: 1000;
+      text-align: center;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, .3);
+    }
+
+    .game[data-workbench-type="circle-relations"] .complete-panel .score-view-button {
+      width: 176px;
+      max-width: none;
+      height: 66px;
+      min-width: 0;
+      min-height: 42px;
+      aspect-ratio: 1423 / 533;
+      padding: 0;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+      font-size: 0;
+    }
+
+    .score-view-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .complete-panel .score-view-button:focus-visible {
+      outline: 4px solid #fff2a2;
+      outline-offset: -5px;
+      border-radius: 18px;
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .choices-panel {
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .step-board {
+      display: grid;
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .instruction,
+    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .complete-text {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .feedback-line[data-state="correct"] {
+      display: block;
+      visibility: visible;
+    }
+
+    .game[data-workbench-type="circle-relations"] .problem-grid.is-complete .score-view-button {
+      justify-self: center;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-title-art {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] #screen-result .top-row {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] #screen-result::after {
+      background: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-dynamic-ui #resultDestinationSvg,
+    .game[data-workbench-type="circle-relations"] .result-dynamic-ui .result-restart-surface {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-dynamic-ui #resultNextSvg {
+      fill: transparent;
+      stroke: transparent;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-dynamic-ui rect:first-of-type {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-dynamic-ui #resultMeasureFillSvg {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-dynamic-ui #resultMeasureSvg {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-next-goal-art {
+      position: absolute;
+      top: 29%;
+      left: 44.3%;
+      z-index: 3;
+      width: 41%;
+      height: 25%;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-correct-art {
+      left: 55.8%;
+      top: 52%;
+      width: 18%;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-retry-hitbox {
+      right: auto;
+      bottom: auto;
+      left: 56.25%;
+      top: 78%;
+      width: 27%;
+      height: 17%;
+    }
+
+    .game[data-workbench-type="circle-relations"] .result-retry-art {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] .reward-visual {
+      background-image: var(--reward-modal-image);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .game[data-workbench-type="circle-relations"] .reward-card {
+      width: min(560px, 88%);
+    }
+
+    .game[data-workbench-type="circle-relations"] .reward-label {
+      max-width: 100%;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .game[data-workbench-type="circle-relations"] .reward-card[data-reward-phase="closed"] .reward-label {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial {
+      padding: 0;
+      background: #dff3ef;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-grid {
+      height: 100%;
+      padding: 0;
+      display: block;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .screen-title,
+    .game[data-workbench-type="circle-relations"] .tutorial-progress {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-cards,
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card {
+      position: relative;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] {
+      display: none;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-poster-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark {
+      display: none;
+    }
+
     .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card strong,
     .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-card p {
-      position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
     }
+
     .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] .tutorial-action {
-      position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none;
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      display: block;
+      pointer-events: none;
     }
+
     .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] #tutorialStartButton,
     .game[data-workbench-type="circle-relations"][data-tutorial-mode="poster-two-step"] #tutorialBackButton {
-      position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0;
-      color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto;
+      position: absolute;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+      font-size: 0;
+      pointer-events: auto;
     }
-    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 29%; bottom: 2%; width: 42%; height: 16%; }
-    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 65%; bottom: 3%; width: 29%; height: 15%; }
-    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 7%; bottom: 3%; width: 25%; height: 15%; }
 
-    @media (max-width: 980px) {
-      .game[data-workbench-type="circle-relations"] .hud { right: 2%; width: 65%; }
+    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="0"] #tutorialStartButton {
+      top: 68%;
+      right: 1.5%;
+      bottom: auto;
+      left: auto;
+      width: 18%;
+      height: auto;
+      aspect-ratio: 1805 / 703;
+    }
+
+    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="0"] .generated-action-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="1"] #tutorialStartButton {
+      left: 65%;
+      bottom: 3%;
+      width: 29%;
+      height: 15%;
+    }
+
+    .game[data-workbench-type="circle-relations"] #screen-tutorial[data-page="1"] #tutorialBackButton {
+      left: 7%;
+      bottom: 3%;
+      width: 25%;
+      height: 15%;
+    }
+
+    @media (max-width: 1100px) {
       .game[data-workbench-type="circle-relations"] .problem-grid {
-        top: 62px; right: 2%; bottom: 16px; left: 33%;
-        grid-template-rows: minmax(0, 1fr) 50px minmax(196px, auto); gap: 7px;
+        right: 2.5%;
+        left: 32%;
       }
-      .game[data-workbench-type="circle-relations"] .complete-panel { min-height: 196px; }
+
+      .game[data-workbench-type="circle-relations"] .problem-card {
+        width: min(560px, 72%);
+      }
+
+      .game[data-workbench-type="circle-relations"] .step-board {
+        width: min(820px, 82%);
+      }
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game[data-workbench-type="circle-relations"] .circle-choice,
+      .game[data-workbench-type="circle-relations"] .complete-panel {
+        transition: none;
+      }
+
+      .game[data-workbench-type="circle-relations"] .circle-choice[data-state="correct"]::after,
+      .game[data-workbench-type="circle-relations"] .relation-diagnostic {
+        animation: none;
+      }
+
+      .game[data-workbench-type="circle-relations"] .circle-choice[data-state="correct"]::after {
+        opacity: .5;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
     }
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="circle-relations" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="circle-relations" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1066,23 +1882,23 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원</div></div>
-        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 표적 맞히기</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">원에서 중심·반지름·지름을 찾아요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원</div></div>
+        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 표적 맞히기</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">원에서 중심·반지름·지름을 찾아요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">원의 중심·반지름·지름</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">표적을 맞히기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 찾아요?</strong><p>중심·반지름·지름을 그림으로 찾아요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제 뒤에 표적 이름을 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">표적을 맞히기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-target-console-v2-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 찾아요?</strong><p>표적 네 개 중 알맞은 그림을 골라요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제를 풀면 표적 이름을 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 표적 맞히기</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="표적 점수"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">빗나감</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="표적 점수"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">연습 표적</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">점수 보기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
-        <img class="raster-bg" src="result-hit-generated.webp" alt="">
+        <img class="raster-bg" src="reward-event-closed-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>표적 점수</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
-        <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">빗나감</p><p class="reward-change" id="rewardChange">표적 점수가 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
+        <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">연습 표적</p><p class="reward-change" id="rewardChange">표적 점수가 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
         <div class="reward-card" data-reward-phase="closed">
@@ -1093,23 +1909,24 @@
           <button class="primary-button" id="modalRewardNextButton" type="button" hidden>다음</button>
         </div>
       </div>
-      <section class="screen result" id="screen-result" data-result-tier="miss" aria-labelledby="resultTitle">
-        <img class="raster-bg" id="resultBg" src="result-miss-generated.webp" alt="">
+      <section class="screen result" id="screen-result" data-result-tier="practice" aria-labelledby="resultTitle">
+        <img class="raster-bg" id="resultBg" src="result-practice-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-miss-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button></div>
-        <h2 class="visually-hidden" id="resultTitle">빗나감</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-practice-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <h2 class="visually-hidden" id="resultTitle">연습 표적</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원"></section>
     </div>
   </main>
   <script>
-    (function () {
+    const MathmonScoreboard = (function () {
       const SVG_NS = "http://www.w3.org/2000/svg";
       const ROW_Y = [422, 476, 530, 584];
       const ROW_HEIGHT = 48;
       const ROW_STEP = 54;
       const VISIBLE_ROWS = ROW_Y.length;
       const REQUEST_TIMEOUT_MS = 7000;
+      const SCOREBOARD_PRODUCT_ENABLED = false;
       const OUTCOME_LABELS = Object.freeze({
         box: Object.freeze({ retry: "상자 준비" }),
         rocket: Object.freeze({
@@ -1333,9 +2150,9 @@
                 <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
                 <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
                 <g class="mathmon-scoreboard-action-labels">
-                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="569" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="731" y="631" width="142" height="64" rx="24"></rect>
                   <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
                   <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
                   <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
@@ -1344,9 +2161,9 @@
             </g>
           </svg>
           <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 631; --w: 142; --h: 64;" aria-label="새로 보기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 631; --w: 142; --h: 64;" aria-label="결과로"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
             <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
@@ -1587,6 +2404,19 @@
       }
 
       function createApiBridge(options) {
+        // Product policy: ranking stays hidden and must not contact the API until
+        // the owner explicitly changes the plan and removes this guard.
+        const disabledBridge = Object.freeze({
+          reset: () => null,
+          start: () => null,
+          open: () => null,
+          refresh: () => null,
+          render: () => null,
+          getSession: () => null,
+          getSessionPromise: () => null
+        });
+        if (!SCOREBOARD_PRODUCT_ENABLED) return disabledBridge;
+
         const root = mount(options.root);
         const state = {
           session: null,
@@ -1760,10 +2590,12 @@
         });
       }
 
-      window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
+      const api = Object.freeze({ mount, render, createApiBridge });
+      if (Object.isExtensible(window)) window.MathmonScoreboard = api;
+      return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-circle-relations-migration","id":"3-2-3-1","folder":"3-2-3-1-mathmon-target-hit","modelName":"Lesson3TargetHitModel","title":"매스몬 표적 맞히기","shortTitle":"매스몬 표적 맞히기","topic":"원의 중심·반지름·지름","unitBadge":"3단원 원","goal":"원에서 중심·반지름·지름을 찾아요.","action":"알맞은 점이나 선분이 그려진 원을 골라요.","buttonLabel":"점수 보기","rewardScreenTitle":"표적 점수","progressLabel":"표적 점수","rewardComplete":"표적 점수가 바뀌었어요.","tutorialTitle":"표적을 맞히기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 찾아요?","body":"중심·반지름·지름을 그림으로 찾아요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 표적 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","bullseye":"reward-event-bullseye-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"bullseye":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"mathmon-drv-06-thunderwolf","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["target-score","correct-count"]}},"workbench":{"type":"circle-relations"},"scoreboard":{"enabled":false},"mathmonPack":"diversity-reward-pack","mathmonName":"번개늑대몬","mathmonId":"mathmon-drv-06-thunderwolf","results":[{"id":"miss","name":"빗나감","minPower":0,"minCorrect":0,"image":"result-miss-generated.webp","titleImage":"result-miss-generated.webp"},{"id":"edge","name":"가장자리","minPower":19,"minCorrect":2,"image":"result-edge-generated.webp","titleImage":"result-edge-generated.webp"},{"id":"hit","name":"명중","minPower":39,"minCorrect":4,"image":"result-hit-generated.webp","titleImage":"result-hit-generated.webp"},{"id":"bullseye","name":"정중앙","minPower":61,"minCorrect":6,"image":"result-bullseye-generated.webp","titleImage":"result-bullseye-generated.webp"},{"id":"targetking","name":"표적왕","minPower":83,"minCorrect":8,"image":"result-targetking-generated.webp","titleImage":"result-targetking-generated.webp"},{"id":"legend","name":"전설 명중","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"점수 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"점수 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"점수 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"bullseye","text":"정중앙!","weight":50,"min":6,"max":6,"family":"bullseye","launches":true},{"id":"empty","text":"점수 0","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 명중!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"점수 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["중심","반지름","지름","중심","반지름","지름","중심","반지름","지름","중심"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardScene":"result-hit-generated.webp","resultRetryButton":"start-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","start-button-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-bullseye-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-miss-generated.webp","result-edge-generated.webp","result-hit-generated.webp","result-bullseye-generated.webp","result-targetking-generated.webp","result-legend-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-circle-relations-migration","id":"3-2-3-1","folder":"3-2-3-1-mathmon-target-hit","modelName":"Lesson3TargetHitModel","title":"매스몬 표적 맞히기","shortTitle":"매스몬 표적 맞히기","topic":"원의 중심·반지름·지름","unitBadge":"3단원 원","goal":"원에서 중심·반지름·지름을 찾아요.","action":"알맞은 점이나 선분이 그려진 원을 골라요.","buttonLabel":"점수 보기","rewardScreenTitle":"표적 점수","progressLabel":"표적 점수","rewardComplete":"표적 점수가 바뀌었어요.","tutorialTitle":"표적을 맞히기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 찾아요?","body":"표적 네 개 중 알맞은 그림을 골라요.","image":"tutorial-page-1-target-console-v2-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀면 표적 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"unitLabel":"표적 점수","closedLabel":"표적 점수가 얼마나 오를까요?","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","bullseye":"reward-event-bullseye-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"bullseye":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"mathmon-drv-06-thunderwolf","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["next-goal","correct-count"]}},"workbench":{"type":"circle-relations"},"scoreboard":{"enabled":false},"mathmonPack":"diversity-reward-pack","mathmonName":"번개늑대몬","mathmonId":"mathmon-drv-06-thunderwolf","results":[{"id":"practice","name":"연습 표적","minPower":0,"minCorrect":0,"image":"result-practice-generated.webp","titleImage":"result-practice-generated.webp"},{"id":"edge","name":"가장자리","minPower":15,"minCorrect":2,"image":"result-edge-generated.webp","titleImage":"result-edge-generated.webp"},{"id":"hit","name":"명중","minPower":35,"minCorrect":4,"image":"result-hit-generated.webp","titleImage":"result-hit-generated.webp"},{"id":"bullseye","name":"정중앙","minPower":55,"minCorrect":6,"image":"result-bullseye-generated.webp","titleImage":"result-bullseye-generated.webp"},{"id":"targetking","name":"표적왕","minPower":78,"minCorrect":8,"image":"result-targetking-generated.webp","titleImage":"result-targetking-generated.webp"},{"id":"legend","name":"전설 명중","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"점수 +","weight":6400,"min":6,"max":10,"family":"normal","rarity":"common"},{"id":"loss","text":"점수 -","weight":1500,"min":-5,"max":-2,"family":"loss","rarity":"common"},{"id":"mega","text":"점수 크게 +","weight":1200,"min":14,"max":22,"family":"mega","rarity":"rare"},{"id":"bullseye","text":"정중앙!","weight":500,"min":30,"max":30,"family":"bullseye","rarity":"rare"},{"id":"empty","text":"점수 0","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"무지개 명중!","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"loss","text":"점수 -","min":-6,"max":-3,"family":"loss"},"typesPerRun":["중심","반지름","지름","중심","반지름","지름","중심","반지름","지름","중심"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"../_shared/action-buttons/next-button-generated.webp","problemStage":"problem-stage-generated.webp","scoreViewButton":"score-view-button-v1-generated.webp","rewardClosed":"reward-event-closed-generated.webp","rewardScene":"reward-event-closed-generated.webp","resultNextGoalTitles":{"edge":"result-next-edge-title-generated-v1.png","hit":"result-next-hit-title-generated-v1.png","bullseye":"result-next-bullseye-title-generated-v1.png","targetking":"result-next-targetking-title-generated-v1.png","legend":"result-next-legend-title-generated-v1.png","final":"result-final-title-generated-v1.png"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","problem-stage-generated.webp","tutorial-page-1-target-console-v2-generated.webp","tutorial-page-2-generated.webp","score-view-button-v1-generated.webp","../_shared/action-buttons/next-button-generated.webp","reward-event-closed-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-bullseye-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-next-edge-title-generated-v1.png","result-next-hit-title-generated-v1.png","result-next-bullseye-title-generated-v1.png","result-next-targetking-title-generated-v1.png","result-next-legend-title-generated-v1.png","result-final-title-generated-v1.png","result-practice-generated.webp","result-edge-generated.webp","result-hit-generated.webp","result-bullseye-generated.webp","result-targetking-generated.webp","result-legend-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"user-redesign-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-final-reward-ui-broken-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-result-panel-axis-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"layoutAudit":{"workArea":".problem-grid","primary":".target-console","secondary":".step-board","tertiary":".problem-card","complete":".complete-panel","minStageWidthRatio":0.64,"verticalOrder":["tertiary","secondary","primary"]},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".target-console .circle-choice-svg","primarySvgText":".target-console .circle-choice-svg text","choiceSvgText":".target-console .circle-choice-svg text","minHeadlinePx":36,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["CIRCLE_CENTER_ON_EDGE","CIRCLE_RADIUS_AS_DIAMETER","CIRCLE_DIAMETER_MISSES_CENTER"],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson3TargetHitModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -1847,7 +2679,7 @@
           type: answerKind,
           term,
           answerKind,
-          prompt: `${term}은 어느 것일까요?`,
+          prompt: term,
           finalExpression: definitionForTerm(term),
           steps: [{
             id: "identify",
@@ -1892,7 +2724,7 @@
       }
 
       function applyReward(state, event) {
-        if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+        if (event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
         if (event.special) return { power: MAX_POWER, specialSeen: true };
         if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
         return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };
@@ -1939,6 +2771,10 @@
       settingsToggle: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -1980,9 +2816,12 @@
       resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultHeading: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureTrackSvg: document.getElementById("resultMeasureTrackSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
@@ -2308,17 +3147,30 @@
 
       if (state.stepIndex < problem.steps.length - 1) {
         state.pendingAdvance = true;
+        if (step.advance?.mode === "button" && typeof prepareStepAdvance === "function") {
+          const prepared = prepareStepAdvance(problem, step, state, advanceToNextStep);
+          if (prepared === true) return;
+        }
         const delay = Number.isFinite(step.advance?.delayMs) ? step.advance.delayMs : 900;
         setTimeout(() => {
-          state.stepIndex += 1;
-          state.pendingAdvance = false;
-          state.inputLocked = false;
-          state.stepAttempts = [];
-          renderStep();
+          advanceToNextStep();
         }, Math.max(0, delay));
         return;
       }
 
+      if (step.advance?.mode === "button" && typeof prepareProblemComplete === "function") {
+        state.pendingAdvance = true;
+        const prepared = prepareProblemComplete(problem, step, state, () => completeCurrentProblem(problem, step, choice));
+        if (prepared === true) return;
+        state.pendingAdvance = false;
+      }
+
+      await completeCurrentProblem(problem, step, choice);
+    }
+
+    async function completeCurrentProblem(problem, step, choice) {
+      if (state.completed) return;
+      state.pendingAdvance = false;
       state.completed = true;
       await setProblemSceneState("complete");
       if (!state.mistakeTouched) state.correctFirstTry += 1;
@@ -2329,8 +3181,17 @@
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
-      ui.continueButton.focus();
+      ui.continueButton.focus({ preventScroll: true });
       state.inputLocked = false;
+    }
+
+    function advanceToNextStep() {
+      if (!state.pendingAdvance) return;
+      state.stepIndex += 1;
+      state.pendingAdvance = false;
+      state.inputLocked = false;
+      state.stepAttempts = [];
+      renderStep();
     }
 
     function getChoiceLabel(choice) {
@@ -2409,7 +3270,7 @@
       });
     }
 
-    function showReward() {
+    async function showReward() {
       if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
@@ -2418,7 +3279,26 @@
       state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
+        return;
+      }
+
+      if (getRewardMode() === "stage-reveal") {
+        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+        if (ui.rewardScene instanceof HTMLImageElement) {
+          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+        } else if (ui.rewardScene) {
+          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+        }
+        ui.rewardLabel.textContent = "";
+        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+        ui.rewardNextButton.disabled = false;
+        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+        showScreen("reward");
+        ui.rewardNextButton.focus({ preventScroll: true });
         return;
       }
 
@@ -2435,7 +3315,7 @@
       showScreen("reward");
     }
 
-    function openRewardModal(event) {
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
       if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
       ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -2443,11 +3323,11 @@
       ui.rewardPop.dataset.rarity = event.rarity || "common";
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
       ui.rewardPop.hidden = false;
-      ui.modalRewardOpenButton.focus();
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
 
     function applyPendingReward(event) {
@@ -2460,25 +3340,87 @@
       }
       finishScoreboardQuestion(event);
       state.lastRewardEvent = event;
+      state.currentResult = null;
       return beforePower;
     }
 
-    async function revealRewardModal() {
+    async function revealStageReward() {
+      if (getRewardMode() !== "stage-reveal" || state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      state.rewardPhase = "opening";
+      ui.rewardNextButton.disabled = true;
+      const beforePower = applyPendingReward(event);
+      const afterResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      ui.rewardLabel.textContent = formatRewardDelta(event);
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      if (!reduceMotion) await waitFor(650);
+      await runViewHook("onRewardReveal", {
+        event,
+        beforePower,
+        afterPower: state.power,
+        beforeResult,
+        afterResult,
+        state,
+      });
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+      state.rewardPhase = "revealed";
+      ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
+        ? "결과 보기"
+        : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardNextButton.disabled = false;
+      ui.rewardNextButton.focus({ preventScroll: true });
+      syncProgress();
+    }
+
+    function waitFor(duration) {
+      return new Promise((resolve) => setTimeout(resolve, duration));
+    }
+
+    function formatRewardDelta(event) {
+      if (event.special) return event.text || "특별 보상!";
+      const amount = Number(event.amount) || 0;
+      if (amount > 0) return `+${amount}`;
+      if (amount < 0) return String(amount);
+      return "그대로";
+    }
+
+    function getRewardTargetText(beforeResult, afterResult) {
+      if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
+      if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(afterResult)
+        : afterResult;
+      if (!nextResult || nextResult.id === afterResult?.id) return "최고 단계까지 왔어요!";
+      const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
+      if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
+        return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
+      }
+      const remaining = Math.max(0, Number(nextResult.minPower || 0) - state.power);
+      return `${nextResult.name}까지 ${remaining} 더`;
+    }
+
+    async function revealRewardModal({ immediateValue = false } = {}) {
       if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
       const event = state.pendingRewardEvent;
       state.rewardPhase = "opening";
       ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-      await nextAnimationFrame();
+      if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
+      event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      await animateRewardValue(event);
+      const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      if (immediateValue) setRewardValue(event.amount);
+      await revealHook;
+      if (immediateValue) setRewardValue(event.amount);
+      else await animateRewardValue(event);
       state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.hidden = true;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
@@ -2492,18 +3434,26 @@
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const duration = reduceMotion ? 0 : 650;
       const target = Number(event.amount) || 0;
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
       return new Promise((resolve) => {
         const started = performance.now();
         const tick = (now) => {
           const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
           const value = Math.round(target * progress);
-          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          setRewardValue(value);
           if (progress < 1) requestAnimationFrame(tick);
           else resolve();
         };
         requestAnimationFrame(tick);
       });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${unit} ${zeroLabel}`
+        : `${unit} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -2531,7 +3481,12 @@
     }
 
     function advanceAfterReward() {
+      if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
       if (getRewardMode() === "modal-art") closeRewardModal();
+      if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
       if (state.problemIndex >= state.problems.length - 1) {
         showResult();
         return;
@@ -2543,13 +3498,23 @@
 
     function showResult() {
       const result = getCurrentResult();
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(result)
+        : result;
+      const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+      const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
       state.currentResult = result;
       playSample("result");
-      ui.resultBg.src = LESSON_CONFIG.imageAssets.resultScene || result.image || LESSON_CONFIG.imageAssets.cover;
+      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
+      if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextResultText;
+        ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
+      }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
       if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
@@ -2557,6 +3522,7 @@
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
         ui.resultMeasureFillSvg.setAttribute("width", String(width));
       }
+      applyResultLayout();
 
       const correctArt = getCorrectCountAsset();
       ui.resultCorrectArt.hidden = !correctArt;
@@ -2572,7 +3538,66 @@
       ui.leaderboardButton.hidden = !showLeaderboard;
       if (showLeaderboard) ui.leaderboardButtonArt.src = leaderboardAsset;
 
+      void runViewHook("onResult", {
+        result,
+        nextResult,
+        power: state.power,
+        correctFirstTry: state.correctFirstTry,
+        state,
+      });
+
       showScreen("result");
+    }
+
+    function applyResultLayout() {
+      const layout = LESSON_CONFIG.result?.layout;
+      if (!layout) return;
+      const axisX = Number(layout.axisX ?? 930);
+      const titleWidth = Number(layout.titleWidth ?? 520);
+      const correctWidth = Number(layout.correctWidth ?? 220);
+      const barWidth = Number(layout.barWidth ?? 360);
+      const barHeight = Number(layout.barHeight ?? 28);
+      const retry = layout.retryRect || {};
+      const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
+      const percentY = (value) => `${(Number(value) / 800) * 100}%`;
+
+      if (ui.resultTitleArt) {
+        ui.resultTitleArt.style.left = percentX(axisX - titleWidth / 2);
+        ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
+        ui.resultTitleArt.style.width = percentX(titleWidth);
+      }
+      if (ui.resultCorrectArt) {
+        ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
+        ui.resultCorrectArt.style.top = percentY(layout.correctTop ?? 382);
+        ui.resultCorrectArt.style.width = percentX(correctWidth);
+      }
+      if (ui.resultDestinationSvg) {
+        ui.resultDestinationSvg.setAttribute("x", String(axisX));
+      }
+      if (ui.resultMeasureSvg) {
+        ui.resultMeasureSvg.setAttribute("x", String(axisX));
+        ui.resultMeasureSvg.setAttribute("y", String(layout.measureY ?? 295));
+      }
+      for (const node of [ui.resultMeasureTrackSvg, ui.resultMeasureFillSvg]) {
+        if (!node) continue;
+        node.setAttribute("x", String(axisX - barWidth / 2));
+        node.setAttribute("y", String(layout.barY ?? 324));
+        node.setAttribute("height", String(barHeight));
+        node.setAttribute("rx", String(barHeight / 2));
+      }
+      if (ui.resultMeasureTrackSvg) ui.resultMeasureTrackSvg.setAttribute("width", String(barWidth));
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.setAttribute("x", String(axisX));
+        ui.resultNextSvg.setAttribute("y", String(layout.nextY ?? 548));
+      }
+      if (ui.retryButton) {
+        ui.retryButton.style.left = percentX(retry.x ?? axisX - 150);
+        ui.retryButton.style.top = percentY(retry.y ?? 615);
+        ui.retryButton.style.right = "auto";
+        ui.retryButton.style.bottom = "auto";
+        ui.retryButton.style.width = percentX(retry.width ?? 300);
+        ui.retryButton.style.height = percentY(retry.height ?? 123);
+      }
     }
 
     function getCorrectCountAsset() {
@@ -2627,24 +3652,64 @@
     }
 
     function restartFromSettings() {
-      closeSettings();
+      if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+      ui.settingsRestartConfirmButton?.focus();
+    }
+
+    function cancelRestartFromSettings() {
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      ui.restartButton?.focus();
+    }
+
+    function confirmRestartFromSettings() {
+      closeSettings({ restoreFocus: false });
       closeRewardModal();
       state = createInitialState();
       scoreboardBridge?.reset?.();
       syncProgress();
       showScreen("cover");
+      ui.startButton?.focus({ preventScroll: true });
     }
 
     function openSettings() {
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
       ui.settingsBackdrop.hidden = false;
       ui.settingsToggle.setAttribute("aria-expanded", "true");
       syncAudioControls();
-      ui.settingsModal.focus();
+      ui.bgmToggle?.focus({ preventScroll: true });
     }
 
-    function closeSettings() {
+    function closeSettings({ restoreFocus = true } = {}) {
       ui.settingsBackdrop.hidden = true;
       ui.settingsToggle.setAttribute("aria-expanded", "false");
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+    }
+
+    function trapSettingsFocus(event) {
+      if (ui.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function beginScoreboardQuestion(problem) {
@@ -2701,6 +3766,9 @@
         amount: event.amount,
         text: event.text,
       };
+      if (LESSON_CONFIG.reward?.version) {
+        state.currentScoreboardAnswer.reward.version = LESSON_CONFIG.reward.version;
+      }
       state.scoreboardAnswers.push(state.currentScoreboardAnswer);
       state.currentScoreboardAnswer = null;
     }
@@ -2727,8 +3795,8 @@
     }
 
     function createScoreboardBridge() {
-      if (!isScoreboardEnabled() || !window.MathmonScoreboard?.createApiBridge) return null;
-      return window.MathmonScoreboard.createApiBridge({
+      if (!isScoreboardEnabled() || !MathmonScoreboard?.createApiBridge) return null;
+      return MathmonScoreboard.createApiBridge({
         root: ui.scoreboardScreen,
         apiUrl: getScoreboardApiUrl(),
         lessonId: LESSON_CONFIG.folder,
@@ -2750,18 +3818,28 @@
     ui.nextTutorialButton.addEventListener("click", continueTutorial);
     ui.backTutorialButton?.addEventListener("click", previousTutorial);
     ui.continueButton.addEventListener("click", showReward);
-    ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.rewardNextButton.addEventListener("click", () => {
+      if (getRewardMode() === "stage-reveal") {
+        if (state.rewardPhase === "closed") revealStageReward();
+        else if (state.rewardPhase === "revealed") advanceAfterReward();
+        return;
+      }
+      advanceAfterReward();
+    });
     ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
     ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
     ui.settingsToggle.addEventListener("click", openSettings);
-    ui.closeSettings.addEventListener("click", closeSettings);
+    ui.closeSettings.addEventListener("click", () => closeSettings());
+    ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
     ui.reviewTutorialButton.addEventListener("click", () => {
-      closeSettings();
+      closeSettings({ restoreFocus: false });
       beginTutorial(state.screen || "play");
     });
     ui.restartButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+    ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
     ui.bgmToggle.addEventListener("click", () => {
       audio.bgm = !audio.bgm;
       saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -2776,135 +3854,423 @@
     syncAudioControls();
     syncProgress();
 
+    window.__mathmonAudioQa = {
+      keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+      getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          audio.bgm = bgmEnabled;
+          saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          audio.sfx = sfxEnabled;
+          saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+        }
+        syncAudioControls();
+        return window.__mathmonAudioQa.getPrefs();
+      },
+    };
+
     window.__mathmonEngineQa = {
       startGame,
+      renderProblem,
       showResult,
       showScreen,
+      showReward,
+      revealStageReward,
+      setState: (patch = {}) => {
+        const allowed = [
+          "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
+          "completed", "mistakeTouched", "rewardPhase", "pendingRewardEvent", "currentResult",
+        ];
+        for (const key of allowed) {
+          if (Object.hasOwn(patch, key)) state[key] = patch[key];
+        }
+        return window.__mathmonEngineQa.getState();
+      },
       getState: () => ({
         screen: state.screen,
         problemIndex: state.problemIndex,
         stepIndex: state.stepIndex,
         inputLocked: state.inputLocked,
         pendingAdvance: state.pendingAdvance,
+        completed: state.completed,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
+        specialSeen: state.specialSeen,
+        rewardPhase: state.rewardPhase,
+        pendingRewardId: state.pendingRewardEvent?.id || "",
+        pendingRewardAmount: Number(state.pendingRewardEvent?.amount) || 0,
+        pendingRewardSpecial: Boolean(state.pendingRewardEvent?.special),
+        lastRewardId: state.lastRewardEvent?.id || "",
         answers: state.scoreboardAnswers,
       }),
       getCurrentProblem: () => state.problems[state.problemIndex] || null,
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
     const CIRCLE_SVG_NS = "http://www.w3.org/2000/svg";
-
+    const CIRCLE_RELATION_KINDS = new Set([
+      "center",
+      "edge-point",
+      "inner-point",
+      "outer-point",
+      "radius",
+      "diameter",
+      "off-center-chord",
+      "inner-segment",
+    ]);
     function ensureCircleStageArt() {
       const playScreen = document.getElementById("screen-play");
-      if (!playScreen || playScreen.querySelector(".circle-stage-art")) return;
-      const image = document.createElement("img");
-      image.className = "circle-stage-art";
-      image.src = LESSON_CONFIG.imageAssets.problemStage;
-      image.alt = "";
-      image.setAttribute("aria-hidden", "true");
-      playScreen.prepend(image);
+      if (playScreen && !playScreen.querySelector(".circle-stage-art")) {
+        const image = document.createElement("img");
+        image.className = "circle-stage-art";
+        image.src = LESSON_CONFIG.imageAssets.problemStage;
+        image.alt = "";
+        image.setAttribute("aria-hidden", "true");
+        playScreen.prepend(image);
+      }
+
+      ui.choices.classList.add("target-console");
+      ensureScoreViewButtonArt();
+    }
+
+    function ensureScoreViewButtonArt() {
+      const button = document.getElementById("rewardButton");
+      const source = LESSON_CONFIG.imageAssets?.scoreViewButton;
+      if (!button || !source) return;
+
+      button.classList.add("score-view-button");
+      button.setAttribute("aria-label", LESSON_CONFIG.buttonLabel || "점수 보기");
+
+      let image = button.querySelector(".score-view-button-art");
+      if (!image) {
+        image = document.createElement("img");
+        image.className = "score-view-button-art";
+        image.alt = "";
+        image.setAttribute("aria-hidden", "true");
+        button.replaceChildren(image);
+      }
+      if (image.getAttribute("src") !== source) image.src = source;
+    }
+
+    function syncCircleTutorialNextArt() {
+      const button = ui.nextTutorialButton;
+      const tutorialScreen = document.getElementById("screen-tutorial");
+      if (!button || !tutorialScreen) return;
+
+      const isFirstPage = tutorialScreen.dataset.page === "0";
+      const image = button.querySelector(".generated-action-button-art");
+      if (!isFirstPage) {
+        const label = button.textContent.trim() || LESSON_CONFIG.tutorialButton || "문제 시작";
+        if (image) button.replaceChildren(document.createTextNode(label));
+        button.classList.remove("target-tutorial-next-button");
+        delete button.dataset.actionLabel;
+        button.setAttribute("aria-label", label);
+        return;
+      }
+
+      const source = LESSON_CONFIG.imageAssets?.tutorialNextButton;
+      if (!source) return;
+      if (image?.getAttribute("src") === source && button.dataset.actionLabel === "다음") return;
+
+      const nextImage = document.createElement("img");
+      nextImage.className = "generated-action-button-art";
+      nextImage.src = source;
+      nextImage.alt = "";
+      nextImage.setAttribute("aria-hidden", "true");
+      button.classList.add("target-tutorial-next-button");
+      button.dataset.actionLabel = "다음";
+      button.setAttribute("aria-label", "다음");
+      button.replaceChildren(nextImage);
+    }
+
+    function installCircleTutorialNextArt() {
+      const button = ui.nextTutorialButton;
+      const tutorialScreen = document.getElementById("screen-tutorial");
+      if (!button || !tutorialScreen || button.dataset.targetTutorialObserver === "true") return;
+
+      button.dataset.targetTutorialObserver = "true";
+      new MutationObserver(syncCircleTutorialNextArt)
+        .observe(button, { childList: true, characterData: true, subtree: true });
+      new MutationObserver(syncCircleTutorialNextArt)
+        .observe(tutorialScreen, { attributes: true, attributeFilter: ["data-page"] });
+      syncCircleTutorialNextArt();
+    }
+
+    function ensureCircleResultNextGoal() {
+      const layer = document.querySelector("#screen-result .result-layer");
+      if (!layer) return null;
+
+      let goal = layer.querySelector(".result-next-goal-art");
+      if (!goal) {
+        goal = document.createElement("img");
+        goal.className = "result-next-goal-art";
+        goal.alt = "";
+        goal.setAttribute("aria-hidden", "true");
+        layer.appendChild(goal);
+      }
+      return goal;
+    }
+
+    function onResult({ result }) {
+      const regularNext = Lesson3TargetHitModel.getNextResult(result);
+      const specialResult = LESSON_CONFIG.results.find((item) => item.needsSpecial);
+      const nextResult = !result?.needsSpecial && regularNext?.id === result?.id
+        ? specialResult
+        : regularNext;
+      const isFinal = Boolean(result?.needsSpecial);
+      const goal = ensureCircleResultNextGoal();
+      if (!goal) return;
+      goal.src = isFinal
+        ? LESSON_CONFIG.imageAssets.resultNextGoalTitles.final
+        : LESSON_CONFIG.imageAssets.resultNextGoalTitles[nextResult?.id || "legend"];
+
+      const nextText = isFinal
+        ? "최고 단계예요!"
+        : `다음엔 ${nextResult?.name || "전설 명중"}`;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextText;
+        ui.resultNextSvg.setAttribute("x", "830");
+        ui.resultNextSvg.setAttribute("y", "340");
+        ui.resultNextSvg.hidden = false;
+      }
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = "";
+      if (ui.resultNext) ui.resultNext.textContent = nextText;
     }
 
     function renderProblemVisual(problem, state) {
       ensureCircleStageArt();
+      ui.problemText.textContent = problem.term;
       ui.visualArea.dataset.relation = "neutral";
       ui.visualArea.dataset.relationState = "idle";
+      ui.choices.dataset.boardState = "idle";
       renderCircleWorkbench(problem);
     }
 
     function updateProblemVisualForStep(problem, step, state) {
+      ui.problemText.textContent = problem.term;
       ui.visualArea.dataset.relation = "neutral";
       ui.visualArea.dataset.relationState = "idle";
+      ui.choices.dataset.boardState = "idle";
       renderCircleWorkbench(problem);
     }
 
     function revealCorrectStep(problem, step, state) {
       ui.visualArea.dataset.relation = problem.answerKind;
       ui.visualArea.dataset.relationState = "correct";
+
+      const answer = [...ui.choices.querySelectorAll(".circle-choice")]
+        .find((button) => button.dataset.choice === step.answerChoiceId);
+      if (answer) {
+        answer.dataset.state = "correct";
+        answer.dataset.activeTarget = "true";
+        answer.setAttribute("aria-describedby", "feedbackLine");
+        renderChoiceRelation(answer, answer.dataset.visualKind);
+      }
+
+      ui.choices.dataset.boardState = "correct";
+      ui.choices.querySelectorAll(".circle-choice").forEach((button) => {
+        if (button !== answer) {
+          delete button.dataset.state;
+          delete button.dataset.activeTarget;
+          delete button.dataset.diagnostic;
+          button.removeAttribute("aria-describedby");
+          renderChoiceRelation(button, button.dataset.visualKind);
+        }
+        button.dataset.dimmed = button === answer ? "false" : "true";
+      });
       renderCircleWorkbench(problem);
     }
 
     function renderAttempt(problem, step, selected, state, result) {
       if (result.correct) return;
+
+      const activeButton = result.button
+        || ui.choices.querySelector(`[data-choice="${cssEscapeValue(selected.id)}"]`);
       ui.visualArea.dataset.relation = selected.visualKind;
       ui.visualArea.dataset.relationState = "wrong";
+      ui.choices.dataset.boardState = "wrong";
+
+      ui.choices.querySelectorAll(".circle-choice").forEach((button) => {
+        if (button !== activeButton && button.dataset.state === "wrong") {
+          delete button.dataset.state;
+          delete button.dataset.activeTarget;
+          delete button.dataset.diagnostic;
+          button.removeAttribute("aria-describedby");
+          renderChoiceRelation(button, button.dataset.visualKind);
+        }
+        button.dataset.dimmed = "false";
+      });
+
+      if (activeButton) {
+        activeButton.dataset.activeTarget = "true";
+        activeButton.dataset.diagnostic = selected.misconceptionId || "";
+        activeButton.setAttribute("aria-describedby", "feedbackLine");
+        renderChoiceRelation(activeButton, selected.visualKind, selected.misconceptionId);
+      }
       renderCircleWorkbench(problem);
     }
 
     function renderChoicesForStep(problem, step, state, choose) {
+      ensureCircleStageArt();
       ui.choices.innerHTML = "";
+      ui.choices.classList.add("target-console");
       ui.choices.dataset.choiceKind = "circle-diagram";
+      ui.choices.dataset.boardState = "idle";
+
       step.choices.forEach((selected, index) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-button circle-choice";
         button.dataset.choice = selected.id;
         button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-        button.setAttribute("aria-label", `선택지 ${index + 1}`);
+        button.dataset.visualKind = selected.visualKind;
+        button.dataset.slot = String(index + 1);
+        button.dataset.dimmed = "false";
+        if (selected.misconceptionId) button.dataset.misconception = selected.misconceptionId;
+        button.setAttribute("aria-label", selected.label);
 
         const svg = document.createElementNS(CIRCLE_SVG_NS, "svg");
         svg.classList.add("circle-choice-svg");
         svg.setAttribute("viewBox", "0 0 240 180");
         svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("focusable", "false");
         svg.innerHTML = circleRelationMarkup(selected.visualKind, false);
         button.appendChild(svg);
+
+        const slotLight = document.createElement("span");
+        slotLight.className = "target-slot-light";
+        slotLight.setAttribute("aria-hidden", "true");
+        button.appendChild(slotLight);
+
         button.addEventListener("click", () => choose(selected, button));
         ui.choices.appendChild(button);
       });
       return true;
     }
 
+    function renderChoiceRelation(button, kind, diagnosticId = "") {
+      if (!button || !CIRCLE_RELATION_KINDS.has(kind)) return;
+      const svg = button.querySelector(".circle-choice-svg");
+      if (!svg) return;
+      svg.innerHTML = circleRelationMarkup(kind, false, diagnosticId);
+    }
+
     function renderCircleWorkbench(problem) {
-      const relation = ui.visualArea.dataset.relation || "neutral";
       const relationState = ui.visualArea.dataset.relationState || "idle";
       const svg = document.createElementNS(CIRCLE_SVG_NS, "svg");
       svg.classList.add("circle-confirm-svg");
       svg.dataset.state = relationState;
-      svg.setAttribute("viewBox", "0 0 520 250");
-      svg.setAttribute("role", "img");
-      svg.setAttribute("aria-label", relation === "neutral" ? `${problem.term} 찾기` : `${problem.term} 확인`);
+      svg.setAttribute("viewBox", "0 0 80 80");
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("focusable", "false");
       svg.innerHTML = `
-        <title>${problem.term} 관계 확인</title>
-        <g transform="translate(140 5) scale(1.08)">
-          ${circleRelationMarkup(relation, true)}
-        </g>
+        <circle class="console-signal-ring" cx="40" cy="40" r="27"/>
+        <circle class="console-signal-core" cx="40" cy="40" r="7"/>
+        <path class="console-signal-tick" d="M40 7v10M40 63v10M7 40h10M63 40h10"/>
       `;
       ui.visualArea.replaceChildren(svg);
     }
 
-    function circleRelationMarkup(kind, large) {
+    function circleRelationMarkup(kind, large, diagnosticId = "") {
       const circle = `<circle class="relation-circle" cx="120" cy="90" r="58"/>`;
       const centerReference = `<circle class="relation-center-reference" cx="120" cy="90" r="5"/>`;
       const endpoint = (x, y) => `<circle class="relation-endpoint" cx="${x}" cy="${y}" r="5"/>`;
-      const line = (x1, y1, x2, y2) => `<line class="relation-candidate" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
-
-      if (kind === "neutral") {
-        return `${circle}<text class="relation-question" x="120" y="105" text-anchor="middle">?</text>`;
-      }
+      const line = (x1, y1, x2, y2) => (
+        `<line class="relation-candidate" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`
+      );
+      let relation = "";
       if (kind === "center") {
-        return `${circle}<circle class="relation-point-candidate" cx="120" cy="90" r="10"/>`;
+        relation = `${circle}<circle class="relation-point-candidate" cx="120" cy="90" r="10"/>`;
+      } else if (kind === "edge-point") {
+        relation = `${circle}<circle class="relation-point-candidate" cx="178" cy="90" r="10"/>`;
+      } else if (kind === "inner-point") {
+        relation = `${circle}<circle class="relation-point-candidate" cx="150" cy="66" r="10"/>`;
+      } else if (kind === "outer-point") {
+        relation = `${circle}<circle class="relation-point-candidate" cx="194" cy="48" r="10"/>`;
+      } else if (kind === "radius") {
+        relation = `${circle}${centerReference}${line(120, 90, 178, 90)}${endpoint(178, 90)}`;
+      } else if (kind === "diameter") {
+        relation = `${circle}${centerReference}${line(62, 90, 178, 90)}${endpoint(62, 90)}${endpoint(178, 90)}`;
+      } else if (kind === "off-center-chord") {
+        relation = `${circle}${centerReference}${line(74, 55, 166, 55)}${endpoint(74, 55)}${endpoint(166, 55)}`;
+      } else if (kind === "inner-segment") {
+        relation = `${circle}${centerReference}${line(120, 90, 158, 65)}${endpoint(158, 65)}`;
+      } else {
+        relation = circle;
       }
-      if (kind === "edge-point") {
-        return `${circle}<circle class="relation-point-candidate" cx="178" cy="90" r="10"/>`;
-      }
-      if (kind === "inner-point") {
-        return `${circle}<circle class="relation-point-candidate" cx="150" cy="66" r="10"/>`;
-      }
-      if (kind === "outer-point") {
-        return `${circle}<circle class="relation-point-candidate" cx="194" cy="48" r="10"/>`;
-      }
-      if (kind === "radius") {
-        return `${circle}${centerReference}${line(120, 90, 178, 90)}${endpoint(178, 90)}`;
-      }
-      if (kind === "diameter") {
-        return `${circle}${centerReference}${line(62, 90, 178, 90)}${endpoint(62, 90)}${endpoint(178, 90)}`;
-      }
-      if (kind === "off-center-chord") {
-        return `${circle}${centerReference}${line(72, 57, 166, 126)}${endpoint(72, 57)}${endpoint(166, 126)}`;
-      }
-      return `${circle}${centerReference}${line(120, 90, 158, 65)}${endpoint(158, 65)}`;
+
+      return `
+        <g class="relation-geometry">${relation}</g>
+        ${circleDiagnosticMarkup(diagnosticId)}
+      `;
     }
+
+    function circleDiagnosticMarkup(misconceptionId) {
+      const centerClue = `
+        <circle class="diagnostic-needed-ring" cx="120" cy="90" r="15"/>
+        <path class="diagnostic-needed-cross" d="M120 68v11M120 101v11M98 90h11M131 90h11"/>
+      `;
+
+      const diagnostics = {
+        CIRCLE_CENTER_ON_EDGE: `
+          <path class="diagnostic-guide" d="M166 90H137"/>
+          ${centerClue}
+        `,
+        CIRCLE_CENTER_OFF_MIDDLE: `
+          <path class="diagnostic-guide" d="M142 72l-11 9"/>
+          ${centerClue}
+        `,
+        CIRCLE_CENTER_OUTSIDE: `
+          <path class="diagnostic-guide" d="M181 57l-45 25"/>
+          ${centerClue}
+        `,
+        CIRCLE_RADIUS_AS_DIAMETER: `
+          <line class="diagnostic-extra" x1="62" y1="90" x2="120" y2="90"/>
+          ${centerClue}
+        `,
+        CIRCLE_RADIUS_MISSES_CENTER: `
+          <path class="diagnostic-guide" d="M120 75V58"/>
+          ${centerClue}
+        `,
+        CIRCLE_RADIUS_NOT_TO_EDGE: `
+          <line class="diagnostic-missing" x1="158" y1="65" x2="169" y2="58"/>
+          <circle class="diagnostic-needed-ring" cx="169" cy="58" r="9"/>
+        `,
+        CIRCLE_DIAMETER_AS_RADIUS: `
+          <line class="diagnostic-missing" x1="120" y1="90" x2="62" y2="90"/>
+          <circle class="diagnostic-needed-ring" cx="62" cy="90" r="9"/>
+        `,
+        CIRCLE_DIAMETER_MISSES_CENTER: `
+          <path class="diagnostic-guide" d="M120 75V58"/>
+          ${centerClue}
+        `,
+        CIRCLE_DIAMETER_NOT_EDGE_TO_EDGE: `
+          <line class="diagnostic-missing" x1="120" y1="90" x2="71" y2="122"/>
+          <line class="diagnostic-missing" x1="158" y1="65" x2="169" y2="58"/>
+          <circle class="diagnostic-needed-ring" cx="71" cy="122" r="9"/>
+          <circle class="diagnostic-needed-ring" cx="169" cy="58" r="9"/>
+        `,
+      };
+
+      const markup = diagnostics[misconceptionId];
+      return markup ? `<g class="relation-diagnostic">${markup}</g>` : "";
+    }
+
+    function cssEscapeValue(value) {
+      const string = String(value ?? "");
+      if (globalThis.CSS?.escape) return CSS.escape(string);
+      return string.replace(/["\\]/g, "\\$&");
+    }
+
+    function onProblemComplete() {
+      ui.choices.dataset.boardState = "complete";
+      ensureScoreViewButtonArt();
+    }
+
+    ensureScoreViewButtonArt();
+    installCircleTutorialNextArt();
+    ensureCircleResultNextGoal();
     window.Lesson3TargetHitModel = Lesson3TargetHitModel;
   </script>
 </body>

@@ -81,7 +81,7 @@ const Lesson3TargetHitModel = (() => {
       type: answerKind,
       term,
       answerKind,
-      prompt: `${term}은 어느 것일까요?`,
+      prompt: term,
       finalExpression: definitionForTerm(term),
       steps: [{
         id: "identify",
@@ -126,7 +126,7 @@ const Lesson3TargetHitModel = (() => {
   }
 
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };
