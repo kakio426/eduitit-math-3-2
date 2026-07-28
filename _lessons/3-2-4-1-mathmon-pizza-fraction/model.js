@@ -59,7 +59,7 @@ const Lesson4PizzaFractionModel = (() => {
         answer: `${num}/${den}`,
         answerChoiceId: `choice:${num}/${den}`,
         choices: choicesForFraction(num, den, rng),
-        correctText: `맞아요. 색칠된 ${num}조각은 전체 ${den}조각의 ${num}/${den}${fractionCopula(num)}.`,
+        correctText: `맞아요. 전체 ${den}조각 중 ${num}조각이라서 ${num}/${den}${fractionCopula(num)}.`,
         reveal: `${num}/${den}`,
         advance: { mode: "complete" }
       }]
@@ -109,6 +109,7 @@ const Lesson4PizzaFractionModel = (() => {
   function getNextResult(result) {
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0 || index >= visible.length - 1) return result;
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
 

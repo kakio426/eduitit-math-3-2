@@ -79,6 +79,7 @@ const Lesson4FractionTugModel = (() => {
   }
   function getNextResult(result) {
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial); const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0 || index >= visible.length - 1) return result;
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
   return { TOTAL_PROBLEMS, MAX_POWER, RESULT_TIERS, REWARD_EVENTS, WRONG_REWARD_EVENT, createRng, randomInt, shuffle, clamp, generateRun, validateChoice, pickRewardEvent, applyReward, getResult, getNextResult };

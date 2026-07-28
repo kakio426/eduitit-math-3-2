@@ -17,8 +17,8 @@
   "tutorialTitle": "분류를 시작하기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "purpose": "mechanic", "title": "어떻게 나눠요?", "body": "분자와 분모, 자연수가 있는지 봐요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 라인 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 나눠요?", "body": "분자와 분모를 비교하고 자연수가 붙었는지 봐요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 분류 결과를 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -39,24 +39,39 @@
       "perfect": [1, 1], "empty": [0, 2], "rainbow": [1, 2]
     } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
-    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
-    "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "zfa-08-pandamon",
-    "fixedGeneratedElements": ["result-title", "retry-button"],
-    "dynamicOverlays": ["conveyor-light", "correct-count"]
-  } },
+  "result": {
+    "renderMode": "hybrid-generated-dynamic",
+    "showNextGoal": true,
+    "layout": {
+      "axisX": 805,
+      "titleTop": 82,
+      "titleWidth": 500,
+      "measureY": 278,
+      "barY": 307,
+      "correctTop": 366,
+      "correctWidth": 210,
+      "nextY": 525,
+      "retryRect": { "x": 655, "y": 600, "width": 300, "height": 123 }
+    },
+    "stateImageSet": {
+      "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+      "contactSheet": "result-tiers-v3-contact-sheet.png", "protagonist": "zfa-08-pandamon",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["conveyor-light", "correct-count", "next-goal"]
+    }
+  },
   "workbench": { "type": "fraction-sorter" },
   "scoreboard": { "enabled": false },
   "mathmonPack": "zero-factory-animal-pack",
   "mathmonName": "판다몬",
   "mathmonId": "zfa-08-pandamon",
   "results": [
-    { "id": "first", "name": "첫 분류", "minPower": 0, "minCorrect": 0, "image": "result-first-generated.webp", "titleImage": "result-first-generated.webp" },
-    { "id": "row", "name": "줄 분류", "minPower": 19, "minCorrect": 2, "image": "result-row-generated.webp", "titleImage": "result-row-generated.webp" },
-    { "id": "line", "name": "라인", "minPower": 39, "minCorrect": 4, "image": "result-line-generated.webp", "titleImage": "result-line-generated.webp" },
-    { "id": "bigline", "name": "큰 라인", "minPower": 61, "minCorrect": 6, "image": "result-bigline-generated.webp", "titleImage": "result-bigline-generated.webp" },
-    { "id": "manager", "name": "공장장", "minPower": 83, "minCorrect": 8, "image": "result-manager-generated.webp", "titleImage": "result-manager-generated.webp" },
-    { "id": "rainbow", "name": "전설 라인", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+    { "id": "first", "name": "첫 분류", "minPower": 0, "minCorrect": 0, "image": "result-first-generated.webp", "titleImage": "result-title-first-generated.webp" },
+    { "id": "row", "name": "한 줄 완성", "minPower": 19, "minCorrect": 2, "image": "result-row-generated.webp", "titleImage": "result-title-row-generated.webp" },
+    { "id": "line", "name": "두 줄 완성", "minPower": 39, "minCorrect": 4, "image": "result-line-generated.webp", "titleImage": "result-title-line-generated.webp" },
+    { "id": "bigline", "name": "분류 달인", "minPower": 61, "minCorrect": 6, "image": "result-bigline-generated.webp", "titleImage": "result-title-bigline-generated.webp" },
+    { "id": "manager", "name": "공장장", "minPower": 83, "minCorrect": 8, "image": "result-manager-generated.webp", "titleImage": "result-title-manager-generated.webp" },
+    { "id": "rainbow", "name": "전설의 분류", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-title-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "빛 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
@@ -64,7 +79,7 @@
     { "id": "mega", "text": "빠른 분류!", "weight": 900, "min": 12, "max": 20, "family": "mega" },
     { "id": "perfect", "text": "완벽 분류!", "weight": 50, "min": 6, "max": 6, "family": "perfect", "launches": true },
     { "id": "empty", "text": "멈춤", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
-    { "id": "rainbow", "text": "무지개 라인!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
+    { "id": "rainbow", "text": "무지개 분류!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
   ],
   "wrongEvent": { "id": "loss", "text": "빛 -", "min": -18, "max": -8, "family": "loss" },
   "typesPerRun": ["proper-1", "proper-2", "proper-3", "proper-4", "improper-1", "improper-2", "improper-3", "mixed-1", "mixed-2", "mixed-3"],
@@ -93,7 +108,9 @@
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-first-generated.webp", "result-row-generated.webp", "result-line-generated.webp", "result-bigline-generated.webp",
-    "result-manager-generated.webp", "result-rainbow-generated.webp"
+    "result-manager-generated.webp", "result-rainbow-generated.webp",
+    "result-title-first-generated.webp", "result-title-row-generated.webp", "result-title-line-generated.webp",
+    "result-title-bigline-generated.webp", "result-title-manager-generated.webp", "result-title-rainbow-generated.webp"
   ],
   "qa": {
     "visualContractVersion": 2,

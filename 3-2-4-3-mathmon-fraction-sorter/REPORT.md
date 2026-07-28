@@ -1,5 +1,14 @@
 # 매스몬 분수 분류 컨베이어 제작 보고
 
+## 2026-07-28 전체 점검 수정 결과
+
+- 결과 6단계를 글자·버튼 없는 생성 배경, 투명 생성 제목, 동적 컨베이어 빛·정답 수·다음 목표, 투명 생성 `다시` 버튼으로 분리했습니다.
+- 결과 제목·컨베이어 빛·정답 수·다음 목표·버튼을 게시판의 한 세로축에 맞췄습니다.
+- 결과 이름은 `한 줄 완성`, `두 줄 완성`, `분류 달인`, `전설의 분류`로 다듬고, 오답은 현재 문제의 분자·분모 크기나 자연수 유무를 직접 말하도록 바꿨습니다.
+- `reward-event-mega-v3-source.png`로 특별 보상을 다시 만들고 흰 윗띠를 제거했습니다. `scripts/build-unit4-sorter-reward-sheet.cjs`는 위쪽 20px의 흰 결함 비율이 2%를 넘으면 실패합니다.
+- `1280×800`, `1024×768`에서 결과 6단계를 모두 검사했습니다. 축 오차는 Stage 폭의 1.5% 이하, 요소 교차·Stage 이탈·누락 이미지는 0건, 버튼 아트와 hitbox 경계 차이는 1px 이하입니다.
+- 최신 배경 컨택시트는 `result-tiers-v3-contact-sheet.png`, 제목 컨택시트는 `result-titles-v3-contact-sheet.png`입니다.
+
 ## 2026-07-23 V2 보완 결과
 
 - 공용 시작 버튼 `../_shared/mathmon/cover-start-button/start-button-generated.webp`만 사용합니다.
@@ -23,7 +32,8 @@
 - 닫힌 보상 런타임: `reward-event-closed-generated.webp`, `512×512`
 - 보상 상태: `closed`, `normal`, `loss`, `mega`, `perfect`, `empty`, `rainbow`
 - 보상 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과 6장 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 배경 6장 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 결과 제목 6장 컨택시트: `result-titles-v3-contact-sheet.png`
 - 닫힌 보상에는 글자·숫자·결과 등급·버튼이 없습니다.
 - 차시별 시작 버튼 원본·PNG·WebP는 제거했으며 공용 자산을 복제하거나 변형하지 않았습니다.
 
@@ -73,7 +83,3 @@
 ## Humanizer 학생 문구 QA
 
 학생 문구는 `분자와 분모의 크기를 봐요.`, `자연수와 진분수가 함께 있어요.`, `상자 보기`처럼 한 번에 읽을 수 있는 말로 정리했습니다. `분류 결과 보기`처럼 이미 본 결과를 되풀이하는 표현과 제작자 용어는 학생 화면에 남기지 않았습니다.
-
-## 2026-07-23 main 릴리스 재검증
-
-최신 `origin/main` 엔진으로 다시 빌드한 뒤 데스크톱·태블릿 10문제 완주, 오답 2종, 결과 6등급, 설명 그림의 분할 관계, 글자 크기·터치 영역·HUD 교차·시작 버튼 hitbox를 다시 검사했습니다. 위 실측값과 현재 `screenshots/engine-flow-*` 증거가 재검증 결과이며 모든 항목이 통과했습니다.

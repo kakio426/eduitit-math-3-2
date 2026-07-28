@@ -22,8 +22,11 @@
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장
 - 랜덤 보상 상태 세트: 덮인 바구니 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과: `result-{handful,smallbasket,basket,bigbasket,cartfull,rainbow}-generated.webp` 6장
-- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 배경: 글자와 버튼이 없는 `result-{handful,smallbasket,basket,bigbasket,cartfull,rainbow}-generated.webp` 6장
+- 결과 제목: 투명 생성 자산 `result-title-{handful,smallbasket,basket,bigbasket,cartfull,rainbow}-generated.webp` 6장
+- 결과 버튼: 투명 생성 자산 `result-restart-button-generated.webp`
+- 결과 배경 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 결과 제목 컨택시트: `result-titles-v3-contact-sheet.png`
 
 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
 

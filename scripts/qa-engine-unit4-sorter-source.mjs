@@ -30,11 +30,23 @@ for (let seed = 1; seed <= 200; seed += 1) {
     const step = problem.steps[0];
     assert.equal(step.choices.length, 3, `${problem.id}: three fraction names`);
     assert.equal(step.choices.filter((choice) => choice.id === step.answerChoiceId).length, 1, `${problem.id}: one answer`);
+    for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
+      assert.ok(choice.feedback, `${problem.id}: problem-specific feedback`);
+      if (problem.whole) assert.match(choice.feedback, new RegExp(`자연수 ${problem.whole}`), `${problem.id}: mixed-number feedback`);
+      else {
+        assert.ok(choice.feedback.includes(String(problem.num)) && choice.feedback.includes(String(problem.den)), `${problem.id}: numerator and denominator feedback`);
+      }
+    }
   }
   assert.equal(counts.get("진분수"), 4, `seed ${seed}: four proper fractions`);
   assert.equal(counts.get("가분수"), 3, `seed ${seed}: three improper fractions`);
   assert.equal(counts.get("대분수"), 3, `seed ${seed}: three mixed numbers`);
 }
+
+assert.deepEqual(
+  config.results.map((result) => result.name),
+  ["첫 분류", "한 줄 완성", "두 줄 완성", "분류 달인", "공장장", "전설의 분류"],
+);
 
 assert.match(viewSource, /sort-choice-svg/, "each answer surface must show the category relation");
 assert.match(viewSource, /fraction-model-svg/, "fraction notation and quantity model must stay together");

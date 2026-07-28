@@ -42,5 +42,10 @@ for (let seed = 1; seed <= 200; seed += 1) {
 assert.match(viewSource, /compare-choice-svg/, "each answer must show a fraction bar");
 assert.match(viewSource, /fraction-compare-confirm-svg/, "larger bar must expand for confirmation");
 assert.doesNotMatch(viewSource, /줄다리기 점수|줄다리기 등급|진행도/, "problem view must not contain reward panels");
+assert.deepEqual(
+  config.results.map((result) => result.name),
+  ["무승부", "아슬아슬 승리", "승리", "큰 승리", "챔피언", "전설의 승리"],
+);
+assert.match(config.tutorialCards[1].body, /마지막 승부 결과/);
 
 console.log("QA_ENGINE_UNIT4_TUG_SOURCE: PASS");

@@ -21,10 +21,13 @@ for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);
   assert.equal(problems.length, 10, `seed ${seed}: ten problems`);
   for (const problem of problems) {
+    assert.equal(problem.prompt, `${problem.total}개 중 ${problem.num}/${problem.den}만큼은 몇 개일까요?`, `${problem.id}: natural prompt`);
     assert.equal(problem.groupSize * problem.den, problem.total, `${problem.id}: equal groups rebuild total`);
     assert.equal(problem.groupSize * problem.num, problem.answer, `${problem.id}: selected groups make answer`);
     assert.equal(problem.steps.length, 2, `${problem.id}: two visible actions in sequence`);
     const [groupStep, scoopStep] = problem.steps;
+    assert.match(groupStep.instruction, /똑같이 나눴을 때, 한 묶음 수를 골라요\.$/, `${problem.id}: first instruction`);
+    assert.match(scoopStep.instruction, /묶음이면 몇 개인지 골라요\.$/, `${problem.id}: second instruction`);
     for (const step of problem.steps) {
       assert.equal(step.choices.length, 4, `${problem.id}/${step.id}: four choices`);
       assert.equal(step.choices.filter((choice) => choice.id === step.answerChoiceId).length, 1, `${problem.id}/${step.id}: one answer`);

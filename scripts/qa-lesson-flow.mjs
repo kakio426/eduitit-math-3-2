@@ -923,7 +923,7 @@ async function auditConfiguredCompletionAlignment(page, label, waitingAudit) {
 
 async function auditConfiguredResultNextGoal(page, label) {
   const audit = await evaluate(page, `(() => {
-    if (!LESSON_CONFIG.result?.showNextGoal) return null;
+    const shouldShow = LESSON_CONFIG.result?.showNextGoal === true;
     const rectOf = (node) => {
       const rect = node?.getBoundingClientRect();
       return rect ? {
@@ -943,22 +943,104 @@ async function auditConfiguredResultNextGoal(page, label) {
     const correct = rectOf(document.getElementById('resultCorrectArt'));
     const retry = rectOf(document.getElementById('restartButton'));
     return {
+      shouldShow,
       text:node?.textContent.trim() || '',
       accessibleText:document.getElementById('resultNext')?.textContent.trim() || '',
-      hidden:Boolean(node?.hidden),
+      hidden:Boolean(node?.hasAttribute('hidden')),
       display:node ? getComputedStyle(node).display : '',
       stage, next, correct, retry,
       correctOverlap:overlaps(next, correct),
       retryOverlap:overlaps(next, retry)
     };
   })()`);
-  if (!audit) return null;
+  assert(audit, `${label}: next-goal node is missing`);
+  if (!audit.shouldShow) {
+    assert(audit.hidden && audit.display === "none" && audit.next?.width === 0 && audit.next?.height === 0, `${label}: disabled next goal still occupies the result screen`, audit);
+    return audit;
+  }
   assert(audit.text && audit.text === audit.accessibleText, `${label}: visible and accessible next-goal copy differ`, audit);
   assert(/^다음엔 .+|^최고 단계예요!$|^모든 별자리를 밝혔어요!$/.test(audit.text), `${label}: next-goal copy is not student-facing`, audit);
   assert(!audit.hidden && audit.display !== "none" && audit.next?.width > 0 && audit.next?.height > 0, `${label}: next goal is hidden`, audit);
   assert(audit.next.left >= audit.stage.left && audit.next.right <= audit.stage.right && audit.next.top >= audit.stage.top && audit.next.bottom <= audit.stage.bottom, `${label}: next goal leaves the Stage`, audit);
   assert(!(audit.correctOverlap.x > 0 && audit.correctOverlap.y > 0), `${label}: next goal overlaps the correct-count art`, audit);
   assert(!(audit.retryOverlap.x > 0 && audit.retryOverlap.y > 0), `${label}: next goal overlaps the retry button`, audit);
+  return audit;
+}
+
+async function auditConfiguredResultCohesion(page, label) {
+  const audit = await evaluate(page, `(async () => {
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? {
+        left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
+        width:rect.width, height:rect.height,
+        cx:rect.left + rect.width / 2
+      } : null;
+    };
+    const pixels = (image) => {
+      if (!image?.complete || !image.naturalWidth || !image.naturalHeight) return null;
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d', { willReadFrequently:true });
+      context.drawImage(image, 0, 0);
+      const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      const corners = [
+        data[3],
+        data[(canvas.width - 1) * 4 + 3],
+        data[((canvas.height - 1) * canvas.width) * 4 + 3],
+        data[(canvas.width * canvas.height - 1) * 4 + 3]
+      ];
+      let opaque = 0;
+      for (let index = 3; index < data.length; index += 4) if (data[index] > 200) opaque += 1;
+      return { corners, opaqueRatio:opaque / (canvas.width * canvas.height) };
+    };
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const titleNode = document.getElementById('resultTitleArt');
+    const correctNode = document.getElementById('resultCorrectArt');
+    const nextNode = document.getElementById('resultNextSvg');
+    const retryNode = document.getElementById('restartButton') || document.getElementById('retryButton');
+    const retryArtNode = retryNode?.querySelector('.result-retry-art');
+    const layout = LESSON_CONFIG.result?.layout || {};
+    const targetAxis = stage.left + (Number(layout.axisX ?? 930) / 1280) * stage.width;
+    return {
+      stage,
+      targetAxis,
+      backgroundSource:document.getElementById('resultBg')?.getAttribute('src') || '',
+      titleSource:titleNode?.getAttribute('src') || '',
+      title:rectOf(titleNode),
+      measure:rectOf(document.getElementById('resultMeasureSvg')),
+      track:rectOf(document.getElementById('resultMeasureTrackSvg')),
+      correct:rectOf(correctNode),
+      next:nextNode && !nextNode.hasAttribute('hidden') && getComputedStyle(nextNode).display !== 'none' ? rectOf(nextNode) : null,
+      retry:rectOf(retryNode),
+      retryArt:rectOf(retryArtNode),
+      titlePixels:pixels(titleNode),
+      retryPixels:pixels(retryArtNode)
+    };
+  })()`);
+  assert(audit?.stage, `${label}: result Stage is missing`, audit);
+  assert(audit.titleSource.includes("result-title-") && audit.titleSource !== audit.backgroundSource, `${label}: generated title must be an independent result layer`, audit);
+  const aligned = [audit.title, audit.measure, audit.correct, audit.next, audit.retry].filter(Boolean);
+  const tolerance = audit.stage.width * 0.015;
+  for (const item of aligned) {
+    assert(Math.abs(item.cx - audit.targetAxis) <= tolerance, `${label}: a result element leaves the shared vertical axis`, { audit, item, tolerance });
+    assert(item.left >= audit.stage.left && item.right <= audit.stage.right && item.top >= audit.stage.top && item.bottom <= audit.stage.bottom, `${label}: a result element leaves the Stage`, { audit, item });
+  }
+  assert(audit.title.bottom <= audit.measure.top, `${label}: title overlaps the progress label`, audit);
+  assert(audit.measure.bottom <= audit.track.top, `${label}: progress label overlaps the progress bar`, audit);
+  assert(audit.track.bottom <= audit.correct.top, `${label}: progress bar overlaps the correct-count art`, audit);
+  if (audit.next) {
+    assert(audit.correct.bottom <= audit.next.top, `${label}: correct-count art overlaps the next goal`, audit);
+    assert(audit.next.bottom <= audit.retry.top, `${label}: next goal overlaps the retry button`, audit);
+  } else {
+    assert(audit.correct.bottom <= audit.retry.top, `${label}: correct-count art overlaps the retry button`, audit);
+  }
+  for (const edge of ["left", "top", "right", "bottom"]) {
+    assert(Math.abs(audit.retry[edge] - audit.retryArt[edge]) <= 1, `${label}: retry hitbox and generated button art do not match`, { audit, edge });
+  }
+  assert(audit.titlePixels?.corners.every((alpha) => alpha <= 16) && audit.titlePixels.opaqueRatio > 0.01, `${label}: generated title transparency contract failed`, audit);
+  assert(audit.retryPixels?.corners.every((alpha) => alpha <= 16) && audit.retryPixels.opaqueRatio > 0.1, `${label}: generated retry button transparency contract failed`, audit);
   return audit;
 }
 
@@ -3455,6 +3537,38 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   await auditGeometry(page, `${viewport.name} result`, { requireRetry: true });
   await auditConfiguredResultNextGoal(page, `${viewport.name} result next goal`);
+
+  if (/^3-2-4-/.test(lesson)) {
+    const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      power:result.minPower,
+      correct:result.minCorrect,
+      special:Boolean(result.needsSpecial)
+    }))`);
+    assert(resultTiers.length === 6, `${viewport.name}: unit 4 result set must contain six states`, resultTiers);
+    for (const tier of resultTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power},
+          correctFirstTry:${tier.correct},
+          specialSeen:${tier.special},
+          currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
+        && document.getElementById('resultBg')?.complete
+        && document.getElementById('resultBg')?.naturalWidth === 1280
+        && document.getElementById('resultTitleArt')?.complete
+        && document.getElementById('resultTitleArt')?.naturalWidth === 900
+        && document.getElementById('resultCorrectArt')?.complete
+        && document.querySelector('.result-retry-art')?.complete`, `${viewport.name}: unit 4 result ${tier.id} did not render`);
+      await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
+      await auditConfiguredResultNextGoal(page, `${viewport.name} result ${tier.id} next goal`);
+      await auditConfiguredResultCohesion(page, `${viewport.name} result ${tier.id} cohesion`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+    }
+  }
 
   if (lesson === "3-2-3-1-mathmon-target-hit") {
     await evaluate(page, `(() => {

@@ -27,6 +27,12 @@ const Lesson4FractionSorterModel = (() => {
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
   function numberHasBatchim(value) { return [0, 1, 3, 6, 7, 8].includes(Math.abs(value) % 10); }
   function topicParticle(num) { return numberHasBatchim(num) ? "은" : "는"; }
+  function relationFeedback(data) {
+    if (data.whole) return `자연수 ${data.whole}과 ${data.num}/${data.den}이 함께 보여요.`;
+    if (data.num < data.den) return `${data.num}은 ${data.den}보다 작아요.`;
+    if (data.num === data.den) return `${data.num}은 ${data.den}과 같아요.`;
+    return `${data.num}은 ${data.den}보다 커요.`;
+  }
   const categoryChoices = [
     { id: "kind:proper", value: "진분수", label: "진분수", relation: "분자 < 분모", misconceptionId: "SORT_PROPER", feedback: "분자가 분모보다 작은지 살펴봐요." },
     { id: "kind:improper", value: "가분수", label: "가분수", relation: "분자 ≥ 분모", misconceptionId: "SORT_IMPROPER", feedback: "분자가 분모와 같거나 큰지 살펴봐요." },
@@ -44,7 +50,8 @@ const Lesson4FractionSorterModel = (() => {
         id: "sort", label: "분수 이름", instruction: "분수 모양과 분자·분모를 보고 이름을 골라요.",
         answer: data.kind, answerChoiceId: kindId[data.kind], choices: shuffle(categoryChoices.map((item) => ({
           ...item,
-          misconceptionId: item.id === kindId[data.kind] ? null : item.misconceptionId
+          misconceptionId: item.id === kindId[data.kind] ? null : item.misconceptionId,
+          feedback: item.id === kindId[data.kind] ? "" : relationFeedback(data)
         })), rng),
         correctText: `맞아요. ${notation}${topicParticle(data.num)} ${data.kind}예요.`, reveal: data.kind, advance: { mode: "complete" }
       }]
@@ -88,6 +95,7 @@ const Lesson4FractionSorterModel = (() => {
   function getNextResult(result) {
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0 || index >= visible.length - 1) return result;
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
   return { TOTAL_PROBLEMS, MAX_POWER, RESULT_TIERS, REWARD_EVENTS, WRONG_REWARD_EVENT, createRng, randomInt, shuffle, clamp, generateRun, validateChoice, pickRewardEvent, applyReward, getResult, getNextResult };

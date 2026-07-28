@@ -58,16 +58,16 @@ const Lesson4FractionScoopModel = (() => {
       id: `scoop-${serial}-${total}-${num}-${den}`,
       type: "fraction-scoop",
       total, num, den, groupSize, answer,
-      prompt: `${total}개의 ${num}/${den}만큼은 몇 개일까요?`,
+      prompt: `${total}개 중 ${num}/${den}만큼은 몇 개일까요?`,
       finalExpression: `${total} ÷ ${den} = ${groupSize}  →  ${groupSize} × ${num} = ${answer}`,
       steps: [
         {
-          id: "find-group", label: "한 묶음", instruction: `먼저 ${total}개를 ${den}묶음으로 나눈 수를 골라요.`,
+          id: "find-group", label: "한 묶음", instruction: `${total}개를 ${den}묶음으로 똑같이 나눴을 때, 한 묶음 수를 골라요.`,
           answer: groupSize, answerChoiceId: `group:${groupSize}`, choices: groupChoices,
           correctText: `맞아요. 한 묶음은 ${groupSize}개예요.`, reveal: String(groupSize), advance: { mode: "next", delayMs: 1050 }
         },
         {
-          id: "fill-basket", label: "담을 수", instruction: `이제 ${groupSize}개씩 ${num}묶음인 수를 골라요.`,
+          id: "fill-basket", label: "담을 수", instruction: `${groupSize}개씩 ${num}묶음이면 몇 개인지 골라요.`,
           answer, answerChoiceId: `scoop:${answer}`, choices: scoopChoices,
           correctText: `맞아요. ${groupSize}개씩 ${num}묶음은 ${answer}개예요.`, reveal: String(answer), advance: { mode: "complete" }
         }
@@ -116,6 +116,7 @@ const Lesson4FractionScoopModel = (() => {
   function getNextResult(result) {
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
+    if (index < 0 || index >= visible.length - 1) return result;
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];
   }
   return { TOTAL_PROBLEMS, MAX_POWER, RESULT_TIERS, REWARD_EVENTS, WRONG_REWARD_EVENT, createRng, randomInt, shuffle, clamp, generateRun, validateChoice, pickRewardEvent, applyReward, getResult, getNextResult };

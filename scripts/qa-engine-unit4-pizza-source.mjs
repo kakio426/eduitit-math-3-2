@@ -33,8 +33,11 @@ for (let seed = 1; seed <= 200; seed += 1) {
     for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
       assert.ok(choice.feedback, `${problem.id}: short feedback`);
     }
+    assert.match(step.correctText, new RegExp(`^맞아요\\. 전체 ${problem.den}조각 중 ${problem.num}조각이라서 ${problem.num}/${problem.den}`), `${problem.id}: student-facing confirmation`);
   }
 }
+
+assert.equal(config.results.find((result) => result.id === "jumbo")?.name, "특대 피자");
 
 assert.match(viewSource, /fraction-choice-svg/, "each answer surface must show a fraction card");
 assert.match(viewSource, /pizza-confirm-svg/, "chosen fraction must expand for confirmation");

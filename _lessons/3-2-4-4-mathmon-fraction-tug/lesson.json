@@ -18,7 +18,7 @@
   "tutorialButton": "문제 시작",
   "tutorialCards": [
     { "visual": "1", "purpose": "mechanic", "title": "어떻게 비교해요?", "body": "분모가 같으면 색칠된 칸, 단위분수면 한 칸 길이를 봐요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 승부 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 승부 결과를 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -39,24 +39,39 @@
       "perfect": [0, 1], "empty": [1, 1], "rainbow": [2, 1]
     } }
   },
-  "result": { "renderMode": "hybrid-generated-dynamic", "stateImageSet": {
-    "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
-    "contactSheet": "result-tiers-v2-contact-sheet.png", "protagonist": "mathmon-drv-04-bravetiger",
-    "fixedGeneratedElements": ["result-title", "retry-button"],
-    "dynamicOverlays": ["tug-power", "correct-count"]
-  } },
+  "result": {
+    "renderMode": "hybrid-generated-dynamic",
+    "showNextGoal": true,
+    "layout": {
+      "axisX": 765,
+      "titleTop": 86,
+      "titleWidth": 500,
+      "measureY": 286,
+      "barY": 315,
+      "correctTop": 374,
+      "correctWidth": 210,
+      "nextY": 533,
+      "retryRect": { "x": 615, "y": 608, "width": 300, "height": 123 }
+    },
+    "stateImageSet": {
+      "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
+      "contactSheet": "result-tiers-v3-contact-sheet.png", "protagonist": "mathmon-drv-04-bravetiger",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["tug-power", "correct-count", "next-goal"]
+    }
+  },
   "workbench": { "type": "fraction-compare" },
   "scoreboard": { "enabled": false },
   "mathmonPack": "diversity-reward-pack",
   "mathmonName": "호랑몬",
   "mathmonId": "mathmon-drv-04-bravetiger",
   "results": [
-    { "id": "draw", "name": "무승부", "minPower": 0, "minCorrect": 0, "image": "result-draw-generated.webp", "titleImage": "result-draw-generated.webp" },
-    { "id": "smallwin", "name": "작은 승", "minPower": 19, "minCorrect": 2, "image": "result-smallwin-generated.webp", "titleImage": "result-smallwin-generated.webp" },
-    { "id": "win", "name": "승리", "minPower": 39, "minCorrect": 4, "image": "result-win-generated.webp", "titleImage": "result-win-generated.webp" },
-    { "id": "bigwin", "name": "큰 승", "minPower": 61, "minCorrect": 6, "image": "result-bigwin-generated.webp", "titleImage": "result-bigwin-generated.webp" },
-    { "id": "champion", "name": "챔피언", "minPower": 83, "minCorrect": 8, "image": "result-champion-generated.webp", "titleImage": "result-champion-generated.webp" },
-    { "id": "rainbow", "name": "전설 승부", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+    { "id": "draw", "name": "무승부", "minPower": 0, "minCorrect": 0, "image": "result-draw-generated.webp", "titleImage": "result-title-draw-generated.webp" },
+    { "id": "smallwin", "name": "아슬아슬 승리", "minPower": 19, "minCorrect": 2, "image": "result-smallwin-generated.webp", "titleImage": "result-title-smallwin-generated.webp" },
+    { "id": "win", "name": "승리", "minPower": 39, "minCorrect": 4, "image": "result-win-generated.webp", "titleImage": "result-title-win-generated.webp" },
+    { "id": "bigwin", "name": "큰 승리", "minPower": 61, "minCorrect": 6, "image": "result-bigwin-generated.webp", "titleImage": "result-title-bigwin-generated.webp" },
+    { "id": "champion", "name": "챔피언", "minPower": 83, "minCorrect": 8, "image": "result-champion-generated.webp", "titleImage": "result-title-champion-generated.webp" },
+    { "id": "rainbow", "name": "전설의 승리", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-title-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "힘 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
@@ -93,7 +108,9 @@
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-perfect-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
     "result-draw-generated.webp", "result-smallwin-generated.webp", "result-win-generated.webp", "result-bigwin-generated.webp",
-    "result-champion-generated.webp", "result-rainbow-generated.webp"
+    "result-champion-generated.webp", "result-rainbow-generated.webp",
+    "result-title-draw-generated.webp", "result-title-smallwin-generated.webp", "result-title-win-generated.webp",
+    "result-title-bigwin-generated.webp", "result-title-champion-generated.webp", "result-title-rainbow-generated.webp"
   ],
   "qa": {
     "visualContractVersion": 2,

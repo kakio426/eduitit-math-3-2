@@ -27,8 +27,11 @@
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장. 첫 장은 분자·분모, 둘째 장은 랜덤 보상과 마지막 피자 이름을 보여 줍니다.
 - 랜덤 보상 상태 세트: 닫힌 피자 상자 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과: `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장. 각 이미지에 등급명과 `다시` 버튼이 들어 있습니다.
-- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 배경: 글자와 버튼이 없는 `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장
+- 결과 제목: 투명 생성 자산 `result-title-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장
+- 결과 버튼: 투명 생성 자산 `result-restart-button-generated.webp`
+- 결과 배경 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 결과 제목 컨택시트: `result-titles-v3-contact-sheet.png`
 
 시작 버튼은 `shared-canonical-v1` 한 세트만 쓰며, 1280×800 Stage에서 360×152px, 작은 화면에서 최소 300×127px로 표시합니다. 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
 

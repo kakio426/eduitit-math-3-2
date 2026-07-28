@@ -1,5 +1,14 @@
 # 매스몬 피자 분수 가게 제작 보고
 
+## 2026-07-28 전체 점검 수정 결과
+
+- 결과 6단계를 글자·버튼 없는 생성 배경, 투명 생성 제목, 동적 피자 빛·정답 수·다음 목표, 투명 생성 `다시` 버튼으로 분리했습니다.
+- 결과 제목·피자 빛·정답 수·다음 목표·버튼을 게시판의 한 세로축에 맞췄습니다.
+- `resultNextSvg`의 SVG `hidden` 속성을 실제로 제거·복원하도록 고쳐 다음 목표가 보이지 않던 문제를 해결했습니다.
+- `특대 판`은 학생이 바로 뜻을 아는 `특대 피자`로 고쳤고, 정답 확인은 `전체 6조각 중 4조각`처럼 자연스럽게 읽히도록 다듬었습니다.
+- `1280×800`, `1024×768`에서 결과 6단계를 모두 검사했습니다. 축 오차는 Stage 폭의 1.5% 이하, 요소 교차·Stage 이탈·누락 이미지는 0건, 버튼 아트와 hitbox 경계 차이는 1px 이하입니다.
+- 최신 배경 컨택시트는 `result-tiers-v3-contact-sheet.png`, 제목 컨택시트는 `result-titles-v3-contact-sheet.png`입니다.
+
 ## 2026-07-23 V2 보완 결과
 
 - 공용 시작 버튼 `../_shared/mathmon/cover-start-button/start-button-generated.webp`만 사용합니다.
@@ -14,7 +23,8 @@
 - 닫힌 보상 런타임: `reward-event-closed-generated.webp`, `512×512`
 - 보상 상태: `closed`, `normal`, `loss`, `mega`, `perfect`, `empty`, `rainbow`
 - 보상 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과 6장 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 배경 6장 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 결과 제목 6장 컨택시트: `result-titles-v3-contact-sheet.png`
 - 닫힌 보상에는 글자·숫자·결과 등급·버튼이 없습니다.
 - 차시별 시작 버튼 원본·PNG·WebP는 제거했으며 공용 자산을 복제하거나 변형하지 않았습니다.
 
@@ -64,7 +74,3 @@
 ## Humanizer 학생 문구 QA
 
 학생 문구는 `색칠된 조각`, `전체 조각`, `피자 보기`처럼 화면에서 바로 찾을 수 있는 짧은 말로 유지했습니다. 제작자 용어, 번역투, 같은 뜻의 반복 문구는 학생 화면에 남기지 않았습니다.
-
-## 2026-07-23 main 릴리스 재검증
-
-최신 `origin/main` 엔진으로 다시 빌드한 뒤 데스크톱·태블릿 10문제 완주, 오답 2종, 결과 6등급, 글자 크기·터치 영역·HUD 교차·시작 버튼 hitbox를 다시 검사했습니다. 위 실측값과 현재 `screenshots/engine-flow-*` 증거가 재검증 결과이며 모든 항목이 통과했습니다.

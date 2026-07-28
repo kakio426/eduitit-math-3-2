@@ -66,6 +66,7 @@ const ui = {
   resultNext: document.getElementById("resultNext"),
   resultDestinationSvg: document.getElementById("resultDestinationSvg"),
   resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+  resultMeasureTrackSvg: document.getElementById("resultMeasureTrackSvg"),
   resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
   resultNextSvg: document.getElementById("resultNextSvg"),
   leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
@@ -810,7 +811,7 @@ function showResult() {
   if (ui.resultNext) ui.resultNext.textContent = nextResultText;
   if (ui.resultNextSvg) {
     ui.resultNextSvg.textContent = nextResultText;
-    ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+    ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
   }
   if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
   if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
@@ -819,6 +820,7 @@ function showResult() {
     const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
     ui.resultMeasureFillSvg.setAttribute("width", String(width));
   }
+  applyResultLayout();
 
   const correctArt = getCorrectCountAsset();
   ui.resultCorrectArt.hidden = !correctArt;
@@ -843,6 +845,57 @@ function showResult() {
   });
 
   showScreen("result");
+}
+
+function applyResultLayout() {
+  const layout = LESSON_CONFIG.result?.layout;
+  if (!layout) return;
+  const axisX = Number(layout.axisX ?? 930);
+  const titleWidth = Number(layout.titleWidth ?? 520);
+  const correctWidth = Number(layout.correctWidth ?? 220);
+  const barWidth = Number(layout.barWidth ?? 360);
+  const barHeight = Number(layout.barHeight ?? 28);
+  const retry = layout.retryRect || {};
+  const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
+  const percentY = (value) => `${(Number(value) / 800) * 100}%`;
+
+  if (ui.resultTitleArt) {
+    ui.resultTitleArt.style.left = percentX(axisX - titleWidth / 2);
+    ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
+    ui.resultTitleArt.style.width = percentX(titleWidth);
+  }
+  if (ui.resultCorrectArt) {
+    ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
+    ui.resultCorrectArt.style.top = percentY(layout.correctTop ?? 382);
+    ui.resultCorrectArt.style.width = percentX(correctWidth);
+  }
+  if (ui.resultDestinationSvg) {
+    ui.resultDestinationSvg.setAttribute("x", String(axisX));
+  }
+  if (ui.resultMeasureSvg) {
+    ui.resultMeasureSvg.setAttribute("x", String(axisX));
+    ui.resultMeasureSvg.setAttribute("y", String(layout.measureY ?? 295));
+  }
+  for (const node of [ui.resultMeasureTrackSvg, ui.resultMeasureFillSvg]) {
+    if (!node) continue;
+    node.setAttribute("x", String(axisX - barWidth / 2));
+    node.setAttribute("y", String(layout.barY ?? 324));
+    node.setAttribute("height", String(barHeight));
+    node.setAttribute("rx", String(barHeight / 2));
+  }
+  if (ui.resultMeasureTrackSvg) ui.resultMeasureTrackSvg.setAttribute("width", String(barWidth));
+  if (ui.resultNextSvg) {
+    ui.resultNextSvg.setAttribute("x", String(axisX));
+    ui.resultNextSvg.setAttribute("y", String(layout.nextY ?? 548));
+  }
+  if (ui.retryButton) {
+    ui.retryButton.style.left = percentX(retry.x ?? axisX - 150);
+    ui.retryButton.style.top = percentY(retry.y ?? 615);
+    ui.retryButton.style.right = "auto";
+    ui.retryButton.style.bottom = "auto";
+    ui.retryButton.style.width = percentX(retry.width ?? 300);
+    ui.retryButton.style.height = percentY(retry.height ?? 123);
+  }
 }
 
 function getCorrectCountAsset() {
