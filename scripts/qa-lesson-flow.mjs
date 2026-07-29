@@ -3438,6 +3438,13 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");
   const firstReward = await waitForReward(page, viewport.name);
+  const targetWorldBeforeReveal = lesson === "3-2-3-1-mathmon-target-hit"
+    ? await evaluate(page, `(() => ({
+        src: document.getElementById("circleWorldImage")?.getAttribute("src") || "",
+        classes: document.getElementById("circleWorldPanel")?.className || ""
+      }))()`)
+    : null;
+  let targetRewardImpactDelta = 0;
   if (firstReward.autoRevealed) {
     shots.push(await screenshot(page, lesson, viewport, "07-reward-immediate"));
     await auditGeometry(page, `${viewport.name} immediate reward`);
@@ -3446,6 +3453,27 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditGeometry(page, `${viewport.name} closed reward`);
     if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} closed reward`, "closed");
     await revealReward(page, firstReward, viewport.name);
+    if (lesson === "3-2-3-1-mathmon-target-hit") {
+      const targetWorldDuringModal = await evaluate(page, `(() => ({
+        src: document.getElementById("circleWorldImage")?.getAttribute("src") || "",
+        classes: document.getElementById("circleWorldPanel")?.className || "",
+        modalHidden: document.getElementById("rewardPop")?.hidden ?? true,
+        rewardText: document.getElementById("modalRewardLabel")?.textContent?.trim() || "",
+        pendingImpact: window.__targetHitQa.getSnapshot().pendingImpact
+      }))()`);
+      assert(targetWorldDuringModal.modalHidden === false, `${viewport.name}: score modal must remain visible during score reveal`, targetWorldDuringModal);
+      assert(targetWorldDuringModal.pendingImpact !== null, `${viewport.name}: score reveal must queue the background reward effect`, targetWorldDuringModal);
+      targetRewardImpactDelta = Number(targetWorldDuringModal.pendingImpact.delta) || 0;
+      assert(targetWorldDuringModal.src === targetWorldBeforeReveal.src, `${viewport.name}: blurred background art must not change during score reveal`, {
+        before: targetWorldBeforeReveal,
+        during: targetWorldDuringModal,
+      });
+      assert(
+        !/\bis-(?:changing|dimming|celebrating)\b/.test(targetWorldDuringModal.classes),
+        `${viewport.name}: background reward effect must wait for score confirmation`,
+        targetWorldDuringModal,
+      );
+    }
     shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
     await auditGeometry(page, `${viewport.name} revealed reward`);
     if (lesson === "3-2-2-2-mathmon-elevator") {
@@ -3453,7 +3481,37 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     }
     if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} revealed reward`, "revealed");
   }
-  await clickSelector(page, firstReward.nextSelector);
+  if (lesson === "3-2-3-1-mathmon-target-hit") {
+    await page.send("Emulation.setEmulatedMedia", {
+      features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
+    });
+    await clickSelector(page, firstReward.nextSelector);
+    const targetWorldAfterConfirm = await evaluate(page, `(() => ({
+      classes: document.getElementById("circleWorldPanel")?.className || "",
+      modalHidden: document.getElementById("rewardPop")?.hidden ?? true,
+      problemIndex: window.__mathmonEngineQa.getState().problemIndex
+    }))()`);
+    assert(targetWorldAfterConfirm.modalHidden === true, `${viewport.name}: score confirmation must close the modal before the background effect`, targetWorldAfterConfirm);
+    assert(targetWorldAfterConfirm.problemIndex === 0, `${viewport.name}: next problem must wait for the background effect`, targetWorldAfterConfirm);
+    if (targetRewardImpactDelta !== 0) {
+      assert(
+        /\bis-(?:changing|dimming|celebrating)\b/.test(targetWorldAfterConfirm.classes),
+        `${viewport.name}: non-zero reward must trigger the visible background effect after score confirmation`,
+        { rewardDelta: targetRewardImpactDelta, ...targetWorldAfterConfirm },
+      );
+    }
+    await page.send("Emulation.setEmulatedMedia", {
+      features: [{ name: "prefers-reduced-motion", value: "reduce" }],
+    });
+    await waitUntil(
+      page,
+      "window.__mathmonEngineQa.getState().problemIndex === 1 && window.__mathmonEngineQa.getState().pendingAdvance === false",
+      `${viewport.name}: next problem did not start after the background reward effect`,
+      3000,
+    );
+  } else {
+    await clickSelector(page, firstReward.nextSelector);
+  }
 
   let checkLockMatchCaptured = false;
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {

@@ -3476,6 +3476,7 @@
       ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
+      ui.modalRewardNextButton.disabled = false;
       ui.rewardPop.hidden = false;
       if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
@@ -3643,11 +3644,22 @@
       return "그대로";
     }
 
-    function advanceAfterReward() {
+    async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
       if (state.pendingAdvance) return;
+      if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
       state.pendingAdvance = true;
-      if (getRewardMode() === "modal-art") closeRewardModal();
+      if (getRewardMode() === "modal-art") {
+        const event = state.pendingRewardEvent;
+        ui.modalRewardNextButton.disabled = true;
+        closeRewardModal();
+        await runViewHook("onRewardDismiss", {
+          event,
+          afterPower: state.power,
+          state,
+        });
+        ui.modalRewardNextButton.disabled = false;
+      }
       if (getRewardMode() === "stage-reveal") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
@@ -4088,6 +4100,8 @@
       "off-center-chord",
       "inner-segment",
     ]);
+    let pendingCircleWorldImpact = null;
+
     function ensureCircleStageArt() {
       const playScreen = document.getElementById("screen-play");
       if (playScreen && !playScreen.querySelector(".circle-stage-art")) {
@@ -4147,6 +4161,8 @@
         void panel.offsetWidth;
         image.src = nextSrc;
         panel.classList.add(options.delta < 0 ? "is-dimming" : "is-changing");
+      } else if (options.delta < 0) {
+        panel.classList.add("is-dimming");
       }
       if (options.celebrate) panel.classList.add("is-celebrating");
 
@@ -4494,9 +4510,21 @@
       ensureScoreViewButtonArt();
     }
 
-    function onRewardReveal({ beforePower, afterPower, state }) {
-      const delta = afterPower - beforePower;
-      return syncCircleWorld(state, { celebrate: delta > 0, delta });
+    function onRewardReveal({ event, beforePower, afterPower }) {
+      pendingCircleWorldImpact = {
+        event,
+        delta: afterPower - beforePower,
+      };
+    }
+
+    function onRewardDismiss({ state }) {
+      const impact = pendingCircleWorldImpact;
+      pendingCircleWorldImpact = null;
+      if (!impact) return Promise.resolve();
+      return syncCircleWorld(state, {
+        celebrate: impact.delta > 0,
+        delta: impact.delta,
+      });
     }
 
     ensureScoreViewButtonArt();
@@ -4525,9 +4553,15 @@
         return result;
       },
       getSnapshot() {
+        const panel = document.getElementById("circleWorldPanel");
         return {
           result: getCircleWorldResult(state),
           worldImage: document.getElementById("circleWorldImage")?.getAttribute("src") || "",
+          pendingImpact: pendingCircleWorldImpact
+            ? { delta: pendingCircleWorldImpact.delta }
+            : null,
+          rewardModalHidden: document.getElementById("rewardPop")?.hidden ?? true,
+          worldEffectActive: Boolean(panel?.matches(".is-changing, .is-dimming, .is-celebrating")),
         };
       },
     };

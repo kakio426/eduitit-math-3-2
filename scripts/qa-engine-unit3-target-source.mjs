@@ -10,6 +10,7 @@ const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const cssSource = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
+const engineSource = await readFile(path.join(ROOT, "_engine/v1/runtime/core.js"), "utf8");
 for (const asset of [
   "tutorial-page-1-target-console-v2-generated.webp",
   "score-view-button-v1-generated.webp",
@@ -171,7 +172,31 @@ assert.doesNotMatch(
   /result\.playImage\s*\|\|\s*result\.image/,
   "play world must never fall back to a cropped final-result scene",
 );
-assert.match(viewSource, /function onRewardReveal/, "revealed rewards must update the left reward world");
+assert.match(
+  engineSource,
+  /async function advanceAfterReward\(\)[\s\S]*?closeRewardModal\(\);[\s\S]*?await runViewHook\("onRewardDismiss"/,
+  "the shared modal must close before the lesson reward-world effect runs",
+);
+assert.match(viewSource, /let pendingCircleWorldImpact = null/, "modal reveal must queue the left-world impact");
+assert.match(
+  viewSource,
+  /function onRewardReveal\([^)]*\)\s*\{[\s\S]*?pendingCircleWorldImpact\s*=\s*\{[\s\S]*?\};\s*\}/,
+  "revealing the score must only queue the left-world impact while the modal is visible",
+);
+assert.match(
+  viewSource,
+  /function onRewardDismiss\(\{ state \}\)[\s\S]*?return syncCircleWorld\(state/,
+  "pressing score confirmation must run the queued left-world effect after the modal closes",
+);
+const rewardRevealSource = viewSource.slice(
+  viewSource.indexOf("function onRewardReveal"),
+  viewSource.indexOf("function onRewardDismiss"),
+);
+assert.doesNotMatch(
+  rewardRevealSource,
+  /syncCircleWorld/,
+  "the blurred modal reveal phase must not run the background world effect",
+);
 assert.doesNotMatch(viewSource, /targetReward|target-reward|function onRewardPrepare/, "reward must use the shared engine modal without a lesson-local replacement");
 assert.doesNotMatch(cssSource, /\.target-reward|#screen-reward \.reward-panel/, "reward must not carry a lesson-local Stage layout");
 assert.match(cssSource, /\.reward-card\s*\{[\s\S]*?width:\s*min\(560px,\s*88%\)/, "reward must use the same bounded shared modal card as 3-2-2-4");

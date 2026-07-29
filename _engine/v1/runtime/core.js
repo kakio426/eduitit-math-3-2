@@ -605,6 +605,7 @@ function openRewardModal(event, { revealOnOpen = false } = {}) {
   ui.modalRewardOpenButton.hidden = revealOnOpen;
   ui.modalRewardOpenButton.disabled = false;
   ui.modalRewardNextButton.hidden = true;
+  ui.modalRewardNextButton.disabled = false;
   ui.rewardPop.hidden = false;
   if (!revealOnOpen) ui.modalRewardOpenButton.focus();
 }
@@ -772,11 +773,22 @@ function formatRewardText(event) {
   return "그대로";
 }
 
-function advanceAfterReward() {
+async function advanceAfterReward() {
   if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
   if (state.pendingAdvance) return;
+  if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
   state.pendingAdvance = true;
-  if (getRewardMode() === "modal-art") closeRewardModal();
+  if (getRewardMode() === "modal-art") {
+    const event = state.pendingRewardEvent;
+    ui.modalRewardNextButton.disabled = true;
+    closeRewardModal();
+    await runViewHook("onRewardDismiss", {
+      event,
+      afterPower: state.power,
+      state,
+    });
+    ui.modalRewardNextButton.disabled = false;
+  }
   if (getRewardMode() === "stage-reveal") {
     state.pendingRewardEvent = null;
     state.rewardPhase = "idle";

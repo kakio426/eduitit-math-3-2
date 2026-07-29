@@ -53,6 +53,7 @@
   - `animateResultMeasure(targetValue)`
 - `renderStatus()`는 숫자 상태를 CSS 변수 또는 `data-*` 속성으로 넘긴다. 예: `--charge`, `data-fuel-tier`.
 - `finishProblem()`은 보상 모달을 띄우기 전에 이동/충격 효과를 실행한다.
+- 모달 뒤의 보상 장면을 바꾸는 효과는 모달이 열린 동안 실행하지 않는다. 점수 확인 버튼으로 모달을 먼저 닫고 `onRewardDismiss`에서 효과를 실행한 뒤, 효과가 끝나면 다음 문제나 결과로 넘어간다.
 - `showResult()`는 결과 문구를 바로 공개하지 말고 측정 효과가 끝난 뒤 노출한다.
 - 효과 클래스는 `setTimeout` 또는 `animationend`로 제거해 다음 문제에 남지 않게 한다.
 - `prefers-reduced-motion: reduce`에서는 이동·흔들림을 줄이고 색 변화 또는 opacity 변화만 남긴다.

@@ -9,6 +9,8 @@ const CIRCLE_RELATION_KINDS = new Set([
   "off-center-chord",
   "inner-segment",
 ]);
+let pendingCircleWorldImpact = null;
+
 function ensureCircleStageArt() {
   const playScreen = document.getElementById("screen-play");
   if (playScreen && !playScreen.querySelector(".circle-stage-art")) {
@@ -68,6 +70,8 @@ function syncCircleWorld(state, options = {}) {
     void panel.offsetWidth;
     image.src = nextSrc;
     panel.classList.add(options.delta < 0 ? "is-dimming" : "is-changing");
+  } else if (options.delta < 0) {
+    panel.classList.add("is-dimming");
   }
   if (options.celebrate) panel.classList.add("is-celebrating");
 
@@ -415,9 +419,21 @@ function onProblemComplete() {
   ensureScoreViewButtonArt();
 }
 
-function onRewardReveal({ beforePower, afterPower, state }) {
-  const delta = afterPower - beforePower;
-  return syncCircleWorld(state, { celebrate: delta > 0, delta });
+function onRewardReveal({ event, beforePower, afterPower }) {
+  pendingCircleWorldImpact = {
+    event,
+    delta: afterPower - beforePower,
+  };
+}
+
+function onRewardDismiss({ state }) {
+  const impact = pendingCircleWorldImpact;
+  pendingCircleWorldImpact = null;
+  if (!impact) return Promise.resolve();
+  return syncCircleWorld(state, {
+    celebrate: impact.delta > 0,
+    delta: impact.delta,
+  });
 }
 
 ensureScoreViewButtonArt();
@@ -446,9 +462,15 @@ window.__targetHitQa = {
     return result;
   },
   getSnapshot() {
+    const panel = document.getElementById("circleWorldPanel");
     return {
       result: getCircleWorldResult(state),
       worldImage: document.getElementById("circleWorldImage")?.getAttribute("src") || "",
+      pendingImpact: pendingCircleWorldImpact
+        ? { delta: pendingCircleWorldImpact.delta }
+        : null,
+      rewardModalHidden: document.getElementById("rewardPop")?.hidden ?? true,
+      worldEffectActive: Boolean(panel?.matches(".is-changing, .is-dimming, .is-celebrating")),
     };
   },
 };
