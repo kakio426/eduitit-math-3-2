@@ -38,6 +38,14 @@
 - [ ] 문제 화면 왼쪽 위에 `에듀잇티 수학 게임`, 같은 상단 줄에 단원 배지가 보임
 - [ ] 큰 문제의 숫자와 `÷`·`×`·`−`, 나눗셈 괄호선, 몫 칸 사이 간격과 기준선이 자연스러움
 - [ ] 숫자 슬롯에 tabular 숫자 또는 고정 폭을 써서 값이 바뀌어도 정렬이 흔들리지 않음
+- [ ] 카드·칸·슬롯 안 숫자·분수·수식·비교·연산 기호는 부모 상자와 실제 보이는 내용의 가로·세로 중심 오차가 각각 `1px` 이하임
+- [ ] MathLive·MathCanvas 수식은 SVG 그룹, `foreignObject`, `math-field` 호스트가 아니라 열린 Shadow DOM 안의 `.ML__mfrac`, `.ML__base`, `.ML__latex`처럼 실제 글리프를 감싼 가장 안쪽의 보이는 rect를 우선 측정함
+- [ ] 한 자리·두 자리 수, 문제 은행 최솟값·최댓값, 기본·hover·focus·정답·오답·잠금·완성 배치 상태에서 중심 오차와 잘림을 전수 확인함
+- [ ] `REPORT.md`에 viewport·상태별 중심 오차 `dx`·`dy` 최댓값과 상자 밖 넘침 `0건`을 기록함
+- [ ] 숫자·수식·기호는 항상 가운데 정렬이며, `2어절 이하`·공백 제외 `10자 이하`의 짧은 라벨·상태칩·선택지·버튼도 실제 글자 중심 오차가 가로·세로 각각 `1px` 이하임
+- [ ] `3어절 이상`, 공백 제외 `11자 이상`, 또는 문장형 종결 표현을 가진 지시문·피드백·도움말은 왼쪽 정렬이고 모든 줄이 정해진 왼쪽 안쪽 여백에서 시작함
+- [ ] 길이와 의미가 충돌하면 `data-text-align-role="label|sentence"`로 역할을 명시하며, 짧아도 행동을 설명하는 문장은 왼쪽 정렬함
+- [ ] 폰트 bearing·baseline, Shadow DOM, SVG 변환, DPR·Stage 축소, 두 자리 값, 드래그 완료 위치, hitbox를 보정했다면 실패 fixture·자동 회귀 테스트·브라우저 캡처를 추가함
 - [ ] 너무 작은 답과 너무 큰 답을 각각 재현해 오답 이유가 현재 계산판·물건으로 보임
 - [ ] 각 단계 정답 확인을 따로 재현하고, 학생이 고른 값이 계산판·칸·물건에 들어감
 - [ ] 지시문과 피드백이 동시에 겹치지 않고 `?` 칸·숫자·화살표·선택지를 가리지 않음
@@ -97,14 +105,21 @@
 - [ ] 제목 오버레이는 실제 `image_gen`/GPT Image 생성 산출물이며, 로컬 폰트/Pillow/canvas/SVG/CSS로 만든 텍스트 이미지가 아님
 - [ ] 제목 자산은 생성 원본(`title-*-source.png` 또는 `title-*-chromakey.png`), 투명 PNG(`title-*-generated.png`), 배포 WebP(`title-*-generated.webp`)가 함께 있음
 - [ ] 제목 오버레이는 GPT Image 등으로 만든 래스터 자산이며, 실제 제목은 `visually-hidden` 텍스트로 남아 있고 한글 철자가 캡처에서 정확함
-- [ ] 한 줄 목표는 HTML 오버레이로 보이고, 시작 버튼의 보이는 면은 `start-button-generated.webp` 같은 생성형 버튼 아트임
-- [ ] 시작 버튼은 `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" ...></button>` 구조이며, 1280×800 Stage 기준 400-460px × 140-170px 정도로 목표 바로 아래에 놓임
-- [ ] 시작 버튼 자산은 실제 `image_gen`/GPT Image가 만든 독립 버튼 산출물이며, 1차시 커버/포스터 버튼을 크롭·복제·합성한 파생 자산이나 로컬 폰트/Pillow/canvas/SVG/CSS 캡처로 만든 텍스트 이미지가 아님
+- [ ] 한 줄 목표는 HTML 오버레이로 보이고, 시작 버튼의 보이는 면은 공용 `../_shared/mathmon/cover-start-button/start-button-generated.webp`임
+- [ ] 새 차시 시작 버튼은 `data-cover-start-asset="shared-canonical-v1"`와 공용 `../_shared/mathmon/cover-start-button/start-button-generated.webp`를 쓰며, `<button class="cover-start-button" id="startButton" aria-label="시작"><img class="start-button-art" ...></button>` 구조, 1280×800 Stage 기준 `360×152px`, 작은 화면 최소 `300×127px`, `aspect-ratio: 1611 / 680`으로 목표 바로 아래에 놓임
+- [ ] 시작 버튼은 승인된 공용 생성형 원본 세트를 그대로 쓰며, 차시 폴더에 별도 원본·PNG·WebP 복제본이나 색 변경·재가공본이 없음
 - [ ] 새 차시에 `cover-art`, 전체 커버 `cover-start-hitbox`, baked-in 제목/목표/버튼 방식, 보이는 CSS 텍스트 시작 버튼이 남아 있지 않음. 이전 포스터 방식이면 `data-cover-standard="legacy-raster-poster"`로, 기존 generated-title 커버의 CSS 시작 버튼 호환 상태이면 `data-cover-start-standard="compatibility-primary-button"`로 분류되어 있음
 - [ ] 제목 이미지가 한 줄 목표·시작 버튼·하단 배움주제 배지와 겹치지 않음(1280×800, 태블릿 가로 캡처 모두 확인)
 - [ ] 결과 화면은 등급별 생성 이미지 1장이 중심이며, 섬 이름·도착 라벨·칭찬 문구·다시 하기 버튼처럼 매 판 똑같은 요소가 개별 HTML/CSS 조각으로 흩어져 있지 않음
 - [ ] 결과 화면 HTML/CSS 오버레이는 정답 수·점수처럼 매 판 달라지는 값과 접근성용 실제 버튼/hitbox만 맡김
 - [ ] 결과 화면 자산은 실제 `image_gen`/GPT Image 생성 산출물이며, 로컬 폰트/Pillow/canvas/SVG/CSS 캡처/기존 PNG/WebP 겹치기로 만든 로컬 합성 이미지가 아님
+- [ ] 마지막 결과 화면의 결과명·동적 값·정답 수·다시하기가 같은 결과 영역과 세로 축에 묶이고, 중심값 최대 차이가 Stage 폭의 `1.5%` 이하임
+- [ ] 마지막 결과 화면 요소의 세로 순서와 실제 간격을 rect로 확인했고 형제 요소 교차가 `0px`임
+- [ ] 독립 생성형 다시하기 버튼의 네 모서리 알파가 `0`이고 불투명 사각 캔버스가 없으며, `object-fit: contain`으로 원본 비율을 유지함
+- [ ] 다시하기 버튼의 생성 이미지 rect와 실제 hitbox 네 변 차이가 각각 `1px` 이하임
+- [ ] 끈 결과 문구는 SVG `hidden` 선언만 보지 않고 computed `display:none`과 렌더 rect `0×0`을 확인함
+- [ ] 유한 결과 단계 전부와 `lesson.json > qa.viewports` 전부에서 결과 결속·버튼 알파·숨김 SVG·겹침을 확인함
+- [ ] 사용자가 발견한 최종 결과 화면 크기를 이름 있는 회귀 viewport로 남기고 수정 전 캡처를 `_archive/`에 보존함
 - [ ] 브랜드/단원/배움주제 배지 위치 동일
 - [ ] 소리 버튼이 모든 화면에서 같은 Stage 우상단 좌표에 있음(`--sound-button-size`/`--sound-gap`/`--sound-reserve` 사용, 화면별 transform 금지)
 - [ ] 소리 버튼은 원형 SVG 아이콘 버튼이며, 화면에 `소리` 텍스트 pill이나 초록 상태 점이 보이지 않음
