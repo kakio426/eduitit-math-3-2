@@ -16,6 +16,10 @@ for (const asset of [
   "reward-event-closed-generated.webp",
   "result-next-legend-title-generated-v1.png",
   "result-final-title-generated-v1.png",
+  "play-target-practice-v2-generated.webp",
+  "play-target-legend-v2-generated.webp",
+  "play-target-progress-v2-contact-sheet.png",
+  "play-vs-final-v2-contact-sheet.png",
 ]) {
   const bytes = await readFile(path.join(ROOT, LESSON, asset));
   assert.ok(bytes.byteLength > 0, `${asset}: runtime asset must exist and be non-empty`);
@@ -94,8 +98,29 @@ assert.deepEqual({ ...model.getResult(0, 0, false) }, {
   name: "연습 표적",
   minPower: 0,
   minCorrect: 0,
+  playImage: "play-target-practice-v2-generated.webp",
   image: "result-practice-generated.webp",
   titleImage: "result-practice-generated.webp",
+});
+const playImages = config.results.map((result) => result.playImage);
+assert.equal(new Set(playImages).size, 6, "all six play states must use unique dedicated images");
+assert.ok(
+  config.results.every((result) =>
+    /^play-target-.+-v2-generated\.webp$/.test(result.playImage)
+    && result.playImage !== result.image
+  ),
+  "play progression art must be dedicated and must never crop a final-result scene",
+);
+assert.deepEqual({ ...config.result.playStateImageSet }, {
+  count: 6,
+  canvas: "768x1536",
+  runtimeSlot: "left-reward-world-1x2",
+  contactSheet: "play-target-progress-v2-contact-sheet.png",
+  pairedContactSheet: "play-vs-final-v2-contact-sheet.png",
+  protagonist: "mathmon-drv-06-thunderwolf",
+  fit: "contain",
+  requiredProgression: ["outer-hits", "edge-hit", "inner-hits", "bullseye", "champion-cluster", "legend-lightning"],
+  pairedWithFinalResults: true,
 });
 
 for (let seed = 1; seed <= 200; seed += 1) {
@@ -137,6 +162,16 @@ assert.match(viewSource, /target-console/, "the four geometric choices must shar
 assert.match(viewSource, /circleDiagnosticMarkup/, "wrong choices must explain the visible geometric mismatch");
 assert.match(viewSource, /score-view-button-art/, "completion must use generated score-view button art");
 assert.match(viewSource, /installCircleTutorialNextArt/, "tutorial 1 must expose a visible generated next button");
+assert.match(viewSource, /circle-world-panel/, "play must keep the common left reward world panel");
+assert.match(viewSource, /function syncCircleWorld/, "left reward world must follow the accumulated result tier");
+assert.match(viewSource, /window\.__targetHitQa/, "all play and result tiers must be browser-inspectable");
+assert.match(viewSource, /forcePlayTier\(resultId\)/, "QA must be able to inspect every play tier");
+assert.doesNotMatch(
+  viewSource,
+  /result\.playImage\s*\|\|\s*result\.image/,
+  "play world must never fall back to a cropped final-result scene",
+);
+assert.match(viewSource, /function onRewardReveal/, "revealed rewards must update the left reward world");
 assert.doesNotMatch(viewSource, /targetReward|target-reward|function onRewardPrepare/, "reward must use the shared engine modal without a lesson-local replacement");
 assert.doesNotMatch(cssSource, /\.target-reward|#screen-reward \.reward-panel/, "reward must not carry a lesson-local Stage layout");
 assert.match(cssSource, /\.reward-card\s*\{[\s\S]*?width:\s*min\(560px,\s*88%\)/, "reward must use the same bounded shared modal card as 3-2-2-4");
@@ -156,6 +191,18 @@ assert.ok(config.qa.viewports.some((viewport) =>
   && viewport.height === 897
   && viewport.dpr === 2
 ), "reported result panel axis viewport must remain a named regression case");
+assert.ok(config.qa.viewports.some((viewport) =>
+  viewport.name === "user-reported-missing-left-reward-panel-1082x897-dpr2"
+  && viewport.width === 1082
+  && viewport.height === 897
+  && viewport.dpr === 2
+), "missing left reward panel must remain a named regression case");
+assert.ok(config.qa.viewports.some((viewport) =>
+  viewport.name === "user-reported-left-reward-character-cropped-1082x897-dpr2"
+  && viewport.width === 1082
+  && viewport.height === 897
+  && viewport.dpr === 2
+), "cropped left reward character must remain a named regression case");
 assert.match(viewSource, /function onResult\(\{ result \}\)/, "final reward must render its next goal in the result panel");
 assert.match(viewSource, /result-next-goal-art/, "final reward must use one generated next-goal art slot");
 assert.deepEqual(Object.keys(config.imageAssets.resultNextGoalTitles), [
@@ -185,6 +232,8 @@ const t = Math.max(0, Math.min(1, ((120 - x1) * dx + (90 - y1) * dy) / lengthSqu
 const chordCenterDistance = Math.hypot(120 - (x1 + t * dx), 90 - (y1 + t * dy));
 assert.ok(chordCenterDistance > 12, `off-center chord must visibly miss the center marker: ${chordCenterDistance}`);
 assert.match(viewSource, /setAttribute\("aria-label", selected\.label\)/, "choice aria-label must use the geometric relation");
-assert.doesNotMatch(viewSource, /표적 점수|표적 등급|진행도/, "problem view must not contain reward panels");
+assert.match(cssSource, /\.circle-world-panel\s*\{[\s\S]*?left:\s*2\.5%;[\s\S]*?width:\s*25\.78125%;[\s\S]*?aspect-ratio:\s*1\s*\/\s*2/, "left reward world must use the exact portrait slot");
+assert.match(cssSource, /\.circle-world-image\s*\{[^}]*object-fit:\s*contain/, "dedicated play art must remain fully visible");
+assert.doesNotMatch(cssSource, /\.circle-world-image\s*\{[^}]*object-fit:\s*cover/, "play art must never hide clipping with CSS cover");
 
 console.log("QA_ENGINE_UNIT3_TARGET_SOURCE: PASS");

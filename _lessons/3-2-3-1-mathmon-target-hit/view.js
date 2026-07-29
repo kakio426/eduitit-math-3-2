@@ -20,8 +20,64 @@ function ensureCircleStageArt() {
     playScreen.prepend(image);
   }
 
+  ensureCircleWorldPanel();
   ui.choices.classList.add("target-console");
   ensureScoreViewButtonArt();
+}
+
+function ensureCircleWorldPanel() {
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen || playScreen.querySelector(".circle-world-panel")) return;
+
+  const panel = document.createElement("aside");
+  panel.className = "circle-world-panel";
+  panel.id = "circleWorldPanel";
+  panel.setAttribute("aria-live", "polite");
+  panel.innerHTML = `
+    <img class="circle-world-image" id="circleWorldImage" alt="" aria-hidden="true">
+    <span class="circle-world-flare" aria-hidden="true"></span>
+    <span class="visually-hidden" id="circleWorldStatus"></span>
+  `;
+  playScreen.appendChild(panel);
+}
+
+function getCircleWorldResult(state) {
+  return Lesson3TargetHitModel.getResult(
+    state.power,
+    state.correctFirstTry,
+    state.specialSeen,
+  );
+}
+
+function syncCircleWorld(state, options = {}) {
+  ensureCircleWorldPanel();
+  const panel = document.getElementById("circleWorldPanel");
+  const image = document.getElementById("circleWorldImage");
+  const status = document.getElementById("circleWorldStatus");
+  if (!panel || !image || !status) return Promise.resolve();
+
+  const result = getCircleWorldResult(state);
+  const nextSrc = result.playImage || LESSON_CONFIG.results[0]?.playImage || "";
+  const changed = image.getAttribute("src") !== nextSrc;
+  panel.dataset.resultTier = result.id;
+  status.textContent = `지금 표적은 ${result.name}이에요.`;
+  panel.setAttribute("aria-label", status.textContent);
+
+  if (changed) {
+    panel.classList.remove("is-changing", "is-dimming", "is-celebrating");
+    void panel.offsetWidth;
+    image.src = nextSrc;
+    panel.classList.add(options.delta < 0 ? "is-dimming" : "is-changing");
+  }
+  if (options.celebrate) panel.classList.add("is-celebrating");
+
+  const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 720;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      panel.classList.remove("is-changing", "is-dimming", "is-celebrating");
+      resolve();
+    }, duration);
+  });
 }
 
 function ensureScoreViewButtonArt() {
@@ -130,6 +186,7 @@ function onResult({ result }) {
 
 function renderProblemVisual(problem, state) {
   ensureCircleStageArt();
+  syncCircleWorld(state);
   ui.problemText.textContent = problem.term;
   ui.visualArea.dataset.relation = "neutral";
   ui.visualArea.dataset.relationState = "idle";
@@ -358,6 +415,40 @@ function onProblemComplete() {
   ensureScoreViewButtonArt();
 }
 
+function onRewardReveal({ beforePower, afterPower, state }) {
+  const delta = afterPower - beforePower;
+  return syncCircleWorld(state, { celebrate: delta > 0, delta });
+}
+
 ensureScoreViewButtonArt();
 installCircleTutorialNextArt();
 ensureCircleResultNextGoal();
+
+window.__targetHitQa = {
+  forcePlayTier(resultId) {
+    const result = LESSON_CONFIG.results.find((item) => item.id === resultId);
+    if (!result) throw new Error(`Unknown result tier: ${resultId}`);
+    state.power = result.minPower;
+    state.correctFirstTry = result.minCorrect;
+    state.specialSeen = Boolean(result.needsSpecial);
+    state.currentResult = null;
+    syncCircleWorld(state, { celebrate: true });
+    return result;
+  },
+  forceResult(resultId) {
+    const result = LESSON_CONFIG.results.find((item) => item.id === resultId);
+    if (!result) throw new Error(`Unknown result tier: ${resultId}`);
+    state.power = result.minPower;
+    state.correctFirstTry = result.minCorrect;
+    state.specialSeen = Boolean(result.needsSpecial);
+    state.currentResult = null;
+    showResult();
+    return result;
+  },
+  getSnapshot() {
+    return {
+      result: getCircleWorldResult(state),
+      worldImage: document.getElementById("circleWorldImage")?.getAttribute("src") || "",
+    };
+  },
+};

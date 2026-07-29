@@ -18,7 +18,7 @@
   "tutorialButton": "문제 시작",
   "tutorialCards": [
     { "visual": "1", "purpose": "mechanic", "title": "어떻게 찾아요?", "body": "표적 네 개 중 알맞은 그림을 골라요.", "image": "tutorial-page-1-target-console-v2-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제를 풀면 표적 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제를 풀어요. 맞히면 덮인 표적을 열어요. 점수는 오르거나 그대로거나 조금 내려가요. 끝나면 내 표적 이름을 봐요.", "image": "tutorial-page-2-reward-flow-v2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
@@ -56,6 +56,17 @@
   "result": {
     "renderMode": "hybrid-generated-dynamic",
     "showNextGoal": true,
+    "playStateImageSet": {
+      "count": 6,
+      "canvas": "768x1536",
+      "runtimeSlot": "left-reward-world-1x2",
+      "contactSheet": "play-target-progress-v2-contact-sheet.png",
+      "pairedContactSheet": "play-vs-final-v2-contact-sheet.png",
+      "protagonist": "mathmon-drv-06-thunderwolf",
+      "fit": "contain",
+      "requiredProgression": ["outer-hits", "edge-hit", "inner-hits", "bullseye", "champion-cluster", "legend-lightning"],
+      "pairedWithFinalResults": true
+    },
     "stateImageSet": {
       "count": 6,
       "canvas": "1280x800",
@@ -72,12 +83,12 @@
   "mathmonName": "번개늑대몬",
   "mathmonId": "mathmon-drv-06-thunderwolf",
   "results": [
-    { "id": "practice", "name": "연습 표적", "minPower": 0, "minCorrect": 0, "image": "result-practice-generated.webp", "titleImage": "result-practice-generated.webp" },
-    { "id": "edge", "name": "가장자리", "minPower": 15, "minCorrect": 2, "image": "result-edge-generated.webp", "titleImage": "result-edge-generated.webp" },
-    { "id": "hit", "name": "명중", "minPower": 35, "minCorrect": 4, "image": "result-hit-generated.webp", "titleImage": "result-hit-generated.webp" },
-    { "id": "bullseye", "name": "정중앙", "minPower": 55, "minCorrect": 6, "image": "result-bullseye-generated.webp", "titleImage": "result-bullseye-generated.webp" },
-    { "id": "targetking", "name": "표적왕", "minPower": 78, "minCorrect": 8, "image": "result-targetking-generated.webp", "titleImage": "result-targetking-generated.webp" },
-    { "id": "legend", "name": "전설 명중", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-legend-generated.webp", "titleImage": "result-legend-generated.webp" }
+    { "id": "practice", "name": "연습 표적", "minPower": 0, "minCorrect": 0, "playImage": "play-target-practice-v2-generated.webp", "image": "result-practice-generated.webp", "titleImage": "result-practice-generated.webp" },
+    { "id": "edge", "name": "가장자리", "minPower": 15, "minCorrect": 2, "playImage": "play-target-edge-v2-generated.webp", "image": "result-edge-generated.webp", "titleImage": "result-edge-generated.webp" },
+    { "id": "hit", "name": "명중", "minPower": 35, "minCorrect": 4, "playImage": "play-target-hit-v2-generated.webp", "image": "result-hit-generated.webp", "titleImage": "result-hit-generated.webp" },
+    { "id": "bullseye", "name": "정중앙", "minPower": 55, "minCorrect": 6, "playImage": "play-target-bullseye-v2-generated.webp", "image": "result-bullseye-generated.webp", "titleImage": "result-bullseye-generated.webp" },
+    { "id": "targetking", "name": "표적왕", "minPower": 78, "minCorrect": 8, "playImage": "play-target-targetking-v2-generated.webp", "image": "result-targetking-generated.webp", "titleImage": "result-targetking-generated.webp" },
+    { "id": "legend", "name": "전설 명중", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-target-legend-v2-generated.webp", "image": "result-legend-generated.webp", "titleImage": "result-legend-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "점수 +", "weight": 6400, "min": 6, "max": 10, "family": "normal", "rarity": "common" },
@@ -112,7 +123,7 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp",
-    "problem-stage-generated.webp", "tutorial-page-1-target-console-v2-generated.webp", "tutorial-page-2-generated.webp",
+    "problem-stage-generated.webp", "tutorial-page-1-target-console-v2-generated.webp", "tutorial-page-2-reward-flow-v2-generated.webp",
     "score-view-button-v1-generated.webp", "../_shared/action-buttons/next-button-generated.webp",
     "reward-event-closed-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
@@ -120,6 +131,10 @@
     "result-next-edge-title-generated-v1.png", "result-next-hit-title-generated-v1.png",
     "result-next-bullseye-title-generated-v1.png", "result-next-targetking-title-generated-v1.png",
     "result-next-legend-title-generated-v1.png", "result-final-title-generated-v1.png",
+    "play-target-practice-v2-generated.webp", "play-target-edge-v2-generated.webp",
+    "play-target-hit-v2-generated.webp", "play-target-bullseye-v2-generated.webp",
+    "play-target-targetking-v2-generated.webp", "play-target-legend-v2-generated.webp",
+    "play-target-progress-v2-contact-sheet.png", "play-vs-final-v2-contact-sheet.png",
     "result-practice-generated.webp", "result-edge-generated.webp", "result-hit-generated.webp",
     "result-bullseye-generated.webp", "result-targetking-generated.webp", "result-legend-generated.webp"
   ],
@@ -130,7 +145,10 @@
       { "name": "tablet-landscape", "width": 1024, "height": 768 },
       { "name": "user-redesign-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 },
       { "name": "user-reported-final-reward-ui-broken-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 },
-      { "name": "user-reported-result-panel-axis-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 }
+      { "name": "user-reported-result-panel-axis-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 },
+      { "name": "user-reported-problem-title-side-spikes-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 },
+      { "name": "user-reported-missing-left-reward-panel-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 },
+      { "name": "user-reported-left-reward-character-cropped-1082x897-dpr2", "width": 1082, "height": 897, "dpr": 2 }
     ],
     "layoutAudit": {
       "workArea": ".problem-grid",

@@ -3602,6 +3602,57 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
 
   if (lesson === "3-2-3-1-mathmon-target-hit") {
+    const playTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => result.id)`);
+    assert(playTiers.length === 6, `${viewport.name}: target play progression must contain six states`, playTiers);
+    for (const tierId of playTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.showScreen('play');
+        window.__targetHitQa.forcePlayTier(${JSON.stringify(tierId)});
+      })()`);
+      await waitUntil(page, `(() => {
+        const panel = document.getElementById('circleWorldPanel');
+        const image = document.getElementById('circleWorldImage');
+        return panel?.dataset.resultTier === ${JSON.stringify(tierId)}
+          && image?.complete
+          && image?.naturalWidth === 768
+          && image?.naturalHeight === 1536;
+      })()`, `${viewport.name}: target play tier ${tierId} did not load`);
+      const playAudit = await evaluate(page, `(() => {
+        const panel = document.getElementById('circleWorldPanel');
+        const image = document.getElementById('circleWorldImage');
+        const problem = document.querySelector('.problem-grid');
+        const readRect = (node) => {
+          const rect = node?.getBoundingClientRect();
+          return rect ? { left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height } : null;
+        };
+        const panelRect = readRect(panel);
+        const imageRect = readRect(image);
+        const problemRect = readRect(problem);
+        const overlap = panelRect && problemRect
+          ? Math.max(0, Math.min(panelRect.right, problemRect.right) - Math.max(panelRect.left, problemRect.left))
+            * Math.max(0, Math.min(panelRect.bottom, problemRect.bottom) - Math.max(panelRect.top, problemRect.top))
+          : null;
+        return {
+          tier:panel?.dataset.resultTier || '',
+          source:image?.getAttribute('src') || '',
+          complete:Boolean(image?.complete),
+          naturalWidth:image?.naturalWidth || 0,
+          naturalHeight:image?.naturalHeight || 0,
+          objectFit:image ? getComputedStyle(image).objectFit : '',
+          panel:panelRect,
+          image:imageRect,
+          problem:problemRect,
+          overlap
+        };
+      })()`);
+      assert(playAudit.tier === tierId, `${viewport.name}: target play tier state mismatch`, playAudit);
+      assert(/^play-target-.+-v2-generated\.webp$/.test(playAudit.source), `${viewport.name}: target play tier reused final art`, playAudit);
+      assert(playAudit.complete && playAudit.naturalWidth === 768 && playAudit.naturalHeight === 1536, `${viewport.name}: target play tier has the wrong canvas`, playAudit);
+      assert(playAudit.objectFit === "contain", `${viewport.name}: target play tier may be cropped`, playAudit);
+      assert(playAudit.overlap === 0, `${viewport.name}: target play tier overlaps the problem area`, playAudit);
+      shots.push(await screenshot(page, lesson, viewport, `05p-play-tier-${tierId}`));
+    }
+
     await evaluate(page, `(() => {
       window.__mathmonEngineQa.setState({
         power:0, correctFirstTry:0, specialSeen:false, currentResult:null

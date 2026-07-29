@@ -24,12 +24,16 @@
 - `problem-stage-generated.png`: 1280×800 작업 원본
 - `problem-stage-source.png`: imagegen 생성 원본
 - `tutorial-page-1-target-console-v2-generated.webp`: 새 2×2 표적 콘솔과 같은 조작을 안내하는 설명 1
+- `tutorial-page-2-reward-flow-v2-generated.webp`: `10문제 → 덮인 표적 열기 → 점수 +/0/− → 마지막 표적 이름`을 실제 보상 장면과 이어 보여 주는 설명 2
 - `score-view-button-v1-generated.webp`: 정답 확인 뒤 누르는 1423×533 투명 생성형 `점수 보기` 버튼
 - 동행 매스몬: `diversity-reward-pack`의 번개늑대몬(`mathmon-drv-06-thunderwolf`)
 - 설명 1: 네 표적 중 알맞은 그림 하나를 고르는 새 문제 화면과 같은 조작 안내
-- 설명 2: 10문제·표적 점수 변화·마지막 표적 이름만 안내
+- 설명 2: 10문제 뒤 덮인 표적을 열고, 점수가 오르거나 그대로거나 조금 내려간 뒤 마지막 표적 이름을 확인하는 흐름 안내
 - 랜덤 보상: 공통 보상 모달에서 닫힌 표적 1장과 사건별 그림 6장을 차례로 공개
 - 보상 컨택시트: `reward-events-v3-contact-sheet.png`
+- 플레이 진행 상태 세트: 6장, 각 768×1536. 최종 결과 장면을 자르지 않고 문제 화면 왼쪽 슬롯 전용으로 생성
+- 플레이 진행 컨택시트: `play-target-progress-v2-contact-sheet.png`
+- 플레이↔최종 결과 1:1 비교표: `play-vs-final-v2-contact-sheet.png`
 - 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
 - 다음 목표 타이틀: 생성형 투명 PNG 6장(`가장자리`, `명중`, `정중앙`, `표적왕`, `전설 명중`, `최고 단계`)
 - 최종 정보판: 생성형 다음 목표 타이틀과 공용 정답 수 이미지만 중앙에 표시하며 표적 점수 막대는 반복하지 않음
@@ -38,7 +42,7 @@
 - 원·점·선분: 정확한 위치 관계가 필요한 SVG
 - 선택: 같은 좌표의 HTML 버튼과 `choice.label` 기반 관계 설명
 
-문제 화면 왼쪽에는 대포·화살 보상 장면을 유지하고, 오른쪽에는 교과 용어 한 단어, 한 줄 지시 또는 피드백, 2×2 표적 콘솔을 둡니다. 점수 미터와 결과 등급은 문제를 푸는 동안 숨깁니다.
+문제 화면 왼쪽에는 `3-2-2-3`과 같은 세로형 보상 장면을 둡니다. 현재 표적이 `연습 표적 → 가장자리 → 명중 → 정중앙 → 표적왕 → 전설 명중`으로 바뀌며, 화살 위치·충격광·번개늑대몬 반응이 단계마다 확실히 달라집니다. 6장은 최종 결과 장면과 별도인 플레이 전용 이미지이며 `object-fit: contain`으로 전신과 표적을 자르지 않습니다. 오른쪽에는 교과 용어 한 단어, 한 줄 지시 또는 피드백, 2×2 표적 콘솔을 둡니다.
 
 ## 보상
 
@@ -48,8 +52,8 @@
 
 - 시작 버튼: `shared-canonical-v1`, 공용 자산 `../_shared/mathmon/cover-start-button/start-button-generated.webp`
 - 표시 크기: 1280 화면 360×152px, 1024 화면 최소 300×127px, 비율 `1611 / 680`
-- 문제 HUD: 왼쪽 브랜드, 가운데 `1/10`, 오른쪽 `3단원 원`; 진행 막대는 숨김
-- 작업 영역 최소 폭 계약: Stage의 64%. 실제 측정은 세 화면 모두 65.50%이며 왼쪽 보상 장면을 보존
+- 문제 HUD: 왼쪽 브랜드, 가운데 `1/10`, 오른쪽 `3단원 원`; 숫자 진행 막대는 숨김
+- 작업 영역 최소 폭 계약: Stage의 64%. 실제 측정은 세 화면 모두 65.50%이며 왼쪽 25.78125% 보상 단계 장면과 분리
 - 읽기·조작 최소값: 설정 42×42px, 배지 14px, 문제 수 16.8px, 지시문 18px, 패널 간격 8px
 - 대표 오개념: 중심이 테두리에 있음, 반지름을 지름으로 고름, 지름이 중심을 지나지 않음
 - 입력 통계: 문제당 4/4/4/4회(최소/중앙값/평균/최대), 한 판 총 43회
@@ -66,6 +70,6 @@
 
 ## 검증 화면
 
-`screenshots/engine-flow-{desktop,tablet-landscape,user-redesign-1082x897-dpr2}-*.png`에 1280×800, 1024×768, 1082×897 DPR2의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다.
+`screenshots/engine-flow-{desktop,tablet-landscape,user-redesign-1082x897-dpr2,user-reported-left-reward-character-cropped-1082x897-dpr2}-*.png`에 1280×800, 1024×768, 1082×897 DPR2의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다. 최신 사용자 회귀 화면의 `05p-play-tier-*` 6장은 플레이 진행 상태 전수를 실제 브라우저에서 캡처한 증거입니다.
 
 전체 흐름 검사는 `node scripts/qa-lesson-flow.mjs 3-2-3-1-mathmon-target-hit`, 추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs 3-2-3-1-mathmon-target-hit`로 실행합니다.
