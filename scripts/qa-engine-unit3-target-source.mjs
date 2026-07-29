@@ -11,6 +11,7 @@ const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const cssSource = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
 const engineSource = await readFile(path.join(ROOT, "_engine/v1/runtime/core.js"), "utf8");
+const flowQaSource = await readFile(path.join(ROOT, "scripts/qa-lesson-flow.mjs"), "utf8");
 for (const asset of [
   "tutorial-page-1-target-console-v2-generated.webp",
   "score-view-button-v1-generated.webp",
@@ -203,6 +204,20 @@ assert.match(cssSource, /\.reward-card\s*\{[\s\S]*?width:\s*min\(560px,\s*88%\)/
 assert.match(cssSource, /\.reward-card\[data-reward-phase="closed"\] \.reward-label\s*\{[\s\S]*?display:\s*none/, "closed shared reward modal must hide helper copy");
 assert.match(cssSource, /\.reward-visual\s*\{[\s\S]*?background-image:\s*var\(--reward-modal-image\)/, "shared reward visual must use configured generated event art");
 assert.deepEqual(config.result.stateImageSet.dynamicOverlays, ["next-goal", "correct-count"]);
+assert.equal(config.result.stateImageSet.contactSheet, "result-tiers-v3-contact-sheet.png");
+assert.deepEqual(config.result.stateImageSet.requiredProgression, [
+  "complete-miss",
+  "single-edge-hit",
+  "multi-ring-hits",
+  "single-bullseye",
+  "champion-bullseye-cluster",
+  "legend-rainbow-lightning",
+]);
+assert.match(
+  flowQaSource,
+  /target result set must contain six states[\s\S]*?08a-result-\$\{tier\.id\}/,
+  "all six final target result screens must remain in the browser screenshot harness",
+);
 assert.equal(config.result.showNextGoal, true, "result contract must expose an accessible next-goal slot");
 assert.ok(config.qa.viewports.some((viewport) =>
   viewport.name === "user-reported-final-reward-ui-broken-1082x897-dpr2"

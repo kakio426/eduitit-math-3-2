@@ -3735,6 +3735,43 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "08a-result-practice-0-of-10"));
     await auditGeometry(page, `${viewport.name} practice result`, { requireRetry: true });
     await auditConfiguredResultNextGoal(page, `${viewport.name} practice result next goal`);
+
+    const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      image:result.image,
+      power:result.minPower,
+      correct:result.minCorrect,
+      special:Boolean(result.needsSpecial)
+    }))`);
+    assert(resultTiers.length === 6, `${viewport.name}: target result set must contain six states`, resultTiers);
+    for (const tier of resultTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power},
+          correctFirstTry:${tier.correct},
+          specialSeen:${tier.special},
+          currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `(() => {
+        const screen = document.getElementById('screen-result');
+        const background = document.getElementById('resultBg');
+        const countArt = document.getElementById('resultCorrectArt');
+        const retryArt = document.querySelector('.result-retry-art');
+        return screen?.dataset.resultTier === ${JSON.stringify(tier.id)}
+          && background?.getAttribute('src') === ${JSON.stringify(tier.image)}
+          && background?.complete
+          && background?.naturalWidth === 1280
+          && background?.naturalHeight === 800
+          && countArt?.complete
+          && countArt?.naturalWidth > 0
+          && retryArt?.complete;
+      })()`, `${viewport.name}: target result ${tier.id} did not render`);
+      await auditGeometry(page, `${viewport.name} target result ${tier.id}`, { requireRetry: true });
+      await auditConfiguredResultNextGoal(page, `${viewport.name} target result ${tier.id} next goal`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+    }
   }
 
   if (lesson === "3-2-2-1-mathmon-divide-farm") {

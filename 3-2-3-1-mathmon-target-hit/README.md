@@ -34,11 +34,12 @@
 - 플레이 진행 상태 세트: 6장, 각 768×1536. 최종 결과 장면을 자르지 않고 문제 화면 왼쪽 슬롯 전용으로 생성
 - 플레이 진행 컨택시트: `play-target-progress-v2-contact-sheet.png`
 - 플레이↔최종 결과 1:1 비교표: `play-vs-final-v2-contact-sheet.png`
-- 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
+- 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함. `빗나감 → 바깥 고리 한 발 → 여러 고리 명중 → 정중앙 한 발 → 정중앙 다발·금빛 왕관 → 무지개·망토·번개`로 제목을 가려도 단계가 구분됨
 - 다음 목표 타이틀: 생성형 투명 PNG 6장(`가장자리`, `명중`, `정중앙`, `표적왕`, `전설 명중`, `최고 단계`)
 - 최종 정보판: 생성형 다음 목표 타이틀과 공용 정답 수 이미지만 중앙에 표시하며 표적 점수 막대는 반복하지 않음
 - 다시하기: 결과 장면의 공용 버튼 표면과 같은 경계의 HTML hitbox 사용
-- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 결과 재생성 원본: `result-practice-v3-source.png`, `result-edge-v3-source.png`, `result-targetking-v3-source.png`
 - 원·점·선분: 정확한 위치 관계가 필요한 SVG
 - 선택: 같은 좌표의 HTML 버튼과 `choice.label` 기반 관계 설명
 

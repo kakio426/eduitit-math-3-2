@@ -80,7 +80,7 @@
 - `CIRCLE_DIAMETER_MISSES_CENTER`
 - 세 화면 크기에서 각 오개념을 실제로 눌러 `05m-*.png`로 저장했습니다.
 - `0점·0/10`을 강제해 `practice / 연습 표적`과 다음 목표를 확인했습니다.
-- 결과 상태 6장은 `result-tiers-v2-contact-sheet.png`에서 캐릭터·패널·버튼 기준선을 확인했습니다.
+- 결과 상태 6장은 `result-tiers-v3-contact-sheet.png`에서 캐릭터·패널·버튼 기준선과 `완전 빗나감 → 가장자리 한 발 → 일반 명중 → 정중앙 한 발 → 금빛 왕관·다발 집중 → 무지개·망토·번개`의 단계 대비를 확인했습니다.
 - 보상 상태 7장은 `reward-events-v3-contact-sheet.png`에서 512×512 캔버스와 사건 역할을 전수 확인했습니다.
 
 ## 최종 판정
