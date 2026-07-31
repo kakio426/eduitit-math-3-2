@@ -149,10 +149,11 @@ for (const lesson of lessons) {
   const hasLegacyCover = /<main\s+class="game"[^>]*data-cover-standard="legacy-raster-poster"/.test(html);
   const hasGeneratedResultStandard = /<main\s+class="game"[^>]*data-result-visual-standard="generated-assets"/.test(html);
   const hasFullSceneScoreSlot = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-score-slot"/.test(html);
-  const hasHybridGeneratedDynamic = /<main\s+class="game"[^>]*data-result-render-mode="hybrid-generated-dynamic"/.test(html);
+  const hasFullSceneGeneratedDynamic = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-generated-dynamic-slots"/.test(html);
+  const hasHybridGeneratedDynamic = /<main\s+class="game"[^>]*data-result-render-mode="(?:hybrid-generated-dynamic|fullscene-generated-dynamic-slots)"/.test(html);
   const needsGeneratedHybridResultTitleArt = UNIT1_GENERATED_RESULT_TITLE_ART_LESSONS.has(label);
   const hasResultFinalGeneratedAsset = /result-final-[a-z0-9-]+-generated\.webp/.test(html);
-  const hasFullSceneResultSignal = hasResultFinalGeneratedAsset || hasFullSceneScoreSlot;
+  const hasFullSceneResultSignal = hasResultFinalGeneratedAsset || hasFullSceneScoreSlot || hasFullSceneGeneratedDynamic;
   const hasSeparateGeneratedResultAssets = hasGeneratedResultStandard && !hasFullSceneScoreSlot && !hasHybridGeneratedDynamic;
   const hasLegacyCoverArt = html.includes('class="cover-art"') || html.includes("cover-start-hitbox");
   const hasTopBadges = html.includes('class="brand-badge"') && html.includes(".top-row");
@@ -200,8 +201,10 @@ for (const lesson of lessons) {
     && html.includes('id="resultMeasureFillSvg"')
     && hasGeneratedResultCorrectArt;
   const hasHybridRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
-  const hasHybridGeneratedRetryButton = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-retry-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>\s*<img(?=[^>]*\bclass="[^"]*\bresult-retry-art\b)[^>]*>\s*<\/button>/.test(html)
-    && hasGeneratedResultRetryArt;
+  const hasHybridGeneratedRetryButton = (
+    /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-retry-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>\s*<img(?=[^>]*\bclass="[^"]*\bresult-retry-art\b)[^>]*>\s*<\/button>/.test(html)
+    || /<button(?=[^>]*\bid="retryButton")(?=[^>]*\bclass="[^"]*\bresult-retry-hitbox\b)(?=[^>]*\baria-label="다시")[^>]*>\s*<img(?=[^>]*\bclass="[^"]*\bresult-retry-art\b)[^>]*>\s*<\/button>/.test(html)
+  ) && hasGeneratedResultRetryArt;
   const hasSettingsToggleMarkup = /<button(?=[^>]*\bclass="[^"]*\bsettings-toggle\b)(?=[^>]*\bid="settingsButton")(?=[^>]*\baria-label="설정 열기")(?=[^>]*\baria-haspopup="dialog")(?=[^>]*\baria-controls="settingsModal")(?=[^>]*\baria-expanded="false")[^>]*>\s*<svg[\s\S]*?<\/svg>\s*<\/button>/.test(html);
   const hasSettingsDialog = /<div(?=[^>]*\bid="settingsModal")(?=[^>]*\brole="dialog")(?=[^>]*\baria-modal="true")(?=[^>]*\baria-labelledby="settingsTitle")[^>]*>/.test(html);
   const hasSettingsBackdrop = /<div(?=[^>]*\bid="settingsBackdrop")(?=[^>]*\bclass="[^"]*\bsettings-backdrop\b)(?=[^>]*\bhidden\b)[^>]*>/.test(html);

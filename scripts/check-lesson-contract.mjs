@@ -16,6 +16,26 @@ const EXPECTED_STANDARDS = Object.freeze({
 });
 const SHARED_COVER_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
 const SHARED_RESULT_RETRY_ASSET = "../_shared/result-actions/retry-button-generated.webp";
+const UNIFIED_REWARD_STANDARD = "mathmon-unified-reward-v1";
+const UNIFIED_REWARD_EVENTS = Object.freeze([
+  ["normal", 6400, 6, 10],
+  ["loss", 1500, -5, -2],
+  ["mega", 1200, 14, 22],
+  ["jackpot", 500, 30, 30],
+  ["empty", 380, 0, 0],
+  ["special", 20, 100, 100],
+]);
+const UNIFIED_RESULT_THRESHOLDS = Object.freeze([
+  [0, 0],
+  [15, 2],
+  [35, 4],
+  [55, 6],
+  [78, 8],
+  [100, 1],
+]);
+const RESULT_TIER_FULLSCENE_STANDARD = "result-tier-fullscene-native-v1";
+const RESULT_TIER_FULLSCENE_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next", "retry"]);
+const RESULT_TIER_AXIS_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next"]);
 
 async function pathExists(filePath) {
   try {
@@ -119,6 +139,182 @@ function checkRewardEvents(failures, lesson, config) {
   }
 }
 
+function checkUnifiedReward(failures, lesson, config) {
+  if (config.reward?.standard !== UNIFIED_REWARD_STANDARD) return;
+  if (config.reward?.maxPower !== 100) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must use reward.maxPower=100`);
+  }
+  if (config.reward?.fairness?.emptyKeepsProgress !== true
+    || config.reward?.fairness?.lossCapAtCommonGainMin !== true) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} needs both reward.fairness flags`);
+  }
+  const events = config.rewardEvents || [];
+  if (events.length !== UNIFIED_REWARD_EVENTS.length) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must contain six reward events`);
+  } else {
+    UNIFIED_REWARD_EVENTS.forEach(([, weight, min, max], index) => {
+      const event = events[index];
+      if (event?.weight !== weight || event?.min !== min || event?.max !== max) {
+        addFailure(
+          failures,
+          lesson,
+          `${UNIFIED_REWARD_STANDARD} event ${index + 1} must be weight/min/max ${weight}/${min}/${max}`
+        );
+      }
+    });
+  }
+  if (events.some((event) => event.emptiesPower)) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must not reset accumulated power`);
+  }
+  if (config.wrongEvent?.min !== -6 || config.wrongEvent?.max !== -3) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} wrongEvent must be -6..-3`);
+  }
+  const results = config.results || [];
+  if (results.length !== UNIFIED_RESULT_THRESHOLDS.length) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must contain six result tiers`);
+  } else {
+    UNIFIED_RESULT_THRESHOLDS.forEach(([minPower, minCorrect], index) => {
+      const result = results[index];
+      if (result?.minPower !== minPower || result?.minCorrect !== minCorrect) {
+        addFailure(
+          failures,
+          lesson,
+          `${UNIFIED_REWARD_STANDARD} result ${index + 1} must be ${minPower}/${minCorrect}`
+        );
+      }
+    });
+    if (results[5]?.needsSpecial !== true) {
+      addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} final result must require the special event`);
+    }
+  }
+}
+
+function isValidStageRect(rect) {
+  if (!rect || typeof rect !== "object") return false;
+  const { x, y, width, height } = rect;
+  return [x, y, width, height].every(Number.isFinite)
+    && width > 0
+    && height > 0
+    && x >= 0
+    && y >= 0
+    && x + width <= 1280
+    && y + height <= 800;
+}
+
+function rectsIntersect(a, b) {
+  return Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x))
+    * Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)) > 0;
+}
+
+function checkResultTierFullsceneContract(failures, lesson, config) {
+  const audit = config.qa?.resultVisualAudit;
+  if (!audit) return;
+  if (audit.standard !== RESULT_TIER_FULLSCENE_STANDARD) {
+    addFailure(failures, lesson, `qa.resultVisualAudit.standard must be ${RESULT_TIER_FULLSCENE_STANDARD}`);
+    return;
+  }
+
+  const results = Array.isArray(config.results) ? config.results : [];
+  const expectedStates = results.map((result) => result.id);
+  const expectedRanks = results.map((result) => result.visualRank);
+  const sceneImages = results.map((result) => result.image);
+  const stateCount = results.length;
+  const stateImageSet = config.result?.stateImageSet || {};
+  if (audit.stateCount !== stateCount || stateImageSet.count !== stateCount) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} state counts must match results.length`);
+  }
+  if (JSON.stringify(audit.expectedStates) !== JSON.stringify(expectedStates)) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} expectedStates must match result ids`);
+  }
+  if (JSON.stringify(audit.expectedRanks) !== JSON.stringify(expectedRanks)
+    || expectedRanks.some((rank, index) => rank !== index)) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} visualRank must be 0..N-1`);
+  }
+  if (sceneImages.some((image) => !isNonEmptyString(image)) || new Set(sceneImages).size !== stateCount) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} needs one distinct complete scene image per tier`);
+  }
+  if (stateImageSet.standard !== "generated-result-fullscene-v3"
+    || stateImageSet.canvas !== "1280x800"
+    || stateImageSet.runtimeSlot !== "result-stage-fullscene"
+    || stateImageSet.nativeScenePerState !== true
+    || stateImageSet.forbidEffectOverlay !== true
+    || stateImageSet.forbidBlendMode !== true
+    || stateImageSet.forbidTierCssFilter !== true) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} complete-scene metadata is inconsistent`);
+  }
+  if (stateImageSet.impactSet !== undefined
+    || config.imageAssets?.resultImpactStates !== undefined
+    || results.some((result) => result.impactImage !== undefined)) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} forbids separate impact/effect assets`);
+  }
+
+  const slots = audit.slots || {};
+  for (const key of RESULT_TIER_FULLSCENE_SLOT_KEYS) {
+    if (!isValidStageRect(slots[key])) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} slot ${key} must be inside 1280x800`);
+    }
+  }
+  for (let index = 0; index < RESULT_TIER_FULLSCENE_SLOT_KEYS.length; index += 1) {
+    const firstKey = RESULT_TIER_FULLSCENE_SLOT_KEYS[index];
+    if (!isValidStageRect(slots[firstKey])) continue;
+    for (let nextIndex = index + 1; nextIndex < RESULT_TIER_FULLSCENE_SLOT_KEYS.length; nextIndex += 1) {
+      const secondKey = RESULT_TIER_FULLSCENE_SLOT_KEYS[nextIndex];
+      if (isValidStageRect(slots[secondKey]) && rectsIntersect(slots[firstKey], slots[secondKey])) {
+        addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} slots ${firstKey}/${secondKey} must not intersect`);
+      }
+    }
+  }
+  if (!Number.isFinite(audit.dynamicAxisX) || !(Number(audit.axisTolerancePx) <= 1)) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} needs a dynamic axis with <=1px tolerance`);
+  } else {
+    for (const key of RESULT_TIER_AXIS_SLOT_KEYS) {
+      const slot = slots[key];
+      if (isValidStageRect(slot) && Math.abs(slot.x + slot.width / 2 - audit.dynamicAxisX) > audit.axisTolerancePx) {
+        addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} slot ${key} must share dynamicAxisX`);
+      }
+    }
+  }
+  if (audit.dynamicAxisByTier !== undefined) {
+    if (!audit.dynamicAxisByTier || typeof audit.dynamicAxisByTier !== "object") {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} dynamicAxisByTier must be an object`);
+    } else {
+      for (const state of expectedStates) {
+        if (!Number.isFinite(audit.dynamicAxisByTier[state])) {
+          addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} needs a finite raster-panel axis for ${state}`);
+        }
+      }
+      const layoutAxes = config.result?.layout?.axisXByTier;
+      if (JSON.stringify(layoutAxes) !== JSON.stringify(audit.dynamicAxisByTier)) {
+        addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} runtime and QA tier axes must match`);
+      }
+    }
+    const panelAudit = audit.panelPixelAudit;
+    if (panelAudit?.standard !== "dark-panel-contiguous-run-v1"
+      || !isValidStageRect(panelAudit.searchRect)
+      || !Number.isFinite(panelAudit.darkRgbMax?.r)
+      || !Number.isFinite(panelAudit.darkRgbMax?.g)
+      || !Number.isFinite(panelAudit.darkRgbMax?.b)
+      || !Number.isFinite(panelAudit.minColumnDarkPixels)
+      || !Number.isFinite(panelAudit.minRunWidth)
+      || !(Number(panelAudit.centerTolerancePx) <= 3)) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} needs a bounded raster panel pixel audit with <=3px tolerance`);
+    }
+  }
+  if (audit.sceneCanvas !== "1280x800"
+    || audit.sceneObjectFit !== "cover"
+    || audit.nativeScenePerState !== true
+    || audit.forbidEffectOverlay !== true
+    || audit.forbidBlendMode !== true
+    || audit.forbidTierCssFilter !== true
+    || audit.requireDistinctSceneSource !== true
+    || !Array.isArray(audit.forbiddenSelectors)
+    || !audit.forbiddenSelectors.includes(".compass-result-impact")
+    || !isNonEmptyString(audit.grandColorFamily)
+    || !isNonEmptyString(audit.legendColorFamily)) {
+    addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} native full-scene requirements are incomplete`);
+  }
+}
+
 function checkEngineSurface(failures, lesson, config) {
   if (config.standards?.coverStartAsset !== undefined) {
     checkEnumValue(failures, lesson, config.standards.coverStartAsset, "standards.coverStartAsset", ["lesson-local", "shared-canonical-v1"]);
@@ -142,7 +338,7 @@ function checkEngineSurface(failures, lesson, config) {
     checkEnumValue(failures, lesson, config.reward.mode, "reward.mode", ["stage-full", "stage-reveal", "modal-art", "inline-panel"]);
   }
   if (config.result?.renderMode !== undefined) {
-    checkEnumValue(failures, lesson, config.result.renderMode, "result.renderMode", ["card-art", "simple-generated", "fullscene-score-slot", "hybrid-generated-dynamic"]);
+    checkEnumValue(failures, lesson, config.result.renderMode, "result.renderMode", ["card-art", "simple-generated", "fullscene-score-slot", "hybrid-generated-dynamic", "fullscene-generated-dynamic-slots"]);
   }
   if (config.workbench && !isNonEmptyString(config.workbench.type)) {
     addFailure(failures, lesson, "workbench.type must declare the lesson interaction surface");
@@ -222,6 +418,10 @@ async function checkLesson(lesson, failures) {
   const config = await readJson(configPath);
   const outputPath = path.join(ROOT, config.folder || lesson, "index.html");
   const html = await readFile(outputPath, "utf8");
+  const viewPath = path.join(sourceDir, config.sourceFiles?.view || "view.js");
+  const cssPath = path.join(sourceDir, config.sourceFiles?.css || "lesson.css");
+  const viewSource = await readFile(viewPath, "utf8");
+  const cssSource = await readFile(cssPath, "utf8");
 
   checkManifestShape(failures, lesson, config);
   if (config.engineVersion !== ENGINE_VERSION) {
@@ -314,6 +514,42 @@ async function checkLesson(lesson, failures) {
     }
   }
   checkRewardEvents(failures, lesson, config);
+  checkUnifiedReward(failures, lesson, config);
+  checkResultTierFullsceneContract(failures, lesson, config);
+  if (config.qa?.resultVisualAudit?.standard === RESULT_TIER_FULLSCENE_STANDARD) {
+    if (/compass-result-impact|resultImpactStates|impactImage/.test(viewSource)
+      || /class=["'][^"']*result-impact/.test(html)) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} forbids a result effect DOM/image runtime`);
+    }
+    const resultCssBlocks = [...cssSource.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .filter((match) => match[1].includes("#screen-result"));
+    const declarationValue = (body, property) => body
+      .match(new RegExp(`${property}\\s*:\\s*([^;]+)`))?.[1]
+      ?.trim();
+    if (resultCssBlocks.some((match) => {
+      const value = declarationValue(match[2], "mix-blend-mode");
+      return value !== undefined && value !== "normal";
+    })) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} forbids result blend modes`);
+    }
+    if (resultCssBlocks.some((match) => {
+      const value = declarationValue(match[2], "filter");
+      return value !== undefined && value !== "none";
+    })) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} forbids result tier CSS filters`);
+    }
+    if (resultCssBlocks.some((match) => {
+      const value = Number(declarationValue(match[2], "opacity"));
+      return Number.isFinite(value) && value !== 1;
+    })) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} forbids result scene opacity treatment`);
+    }
+  }
+  for (const result of config.results || []) {
+    if (result.impactImage) {
+      await checkLocalAsset(failures, lesson, config, result.impactImage, `result impact image ${result.id}`);
+    }
+  }
   for (const event of [...(config.rewardEvents || []), config.wrongEvent].filter(Boolean)) {
     if (event.image) {
       await checkLocalAsset(failures, lesson, config, event.image, `reward event image ${event.id}`);

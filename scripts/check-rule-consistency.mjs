@@ -132,7 +132,7 @@ function classifyLesson(folder, html) {
   const hasPrimaryStart = /<button(?=[^>]*class="[^"]*\bprimary-button\b[^"]*")(?=[^>]*id="startButton")/.test(html);
   const hasStartHitbox = html.includes("cover-start-hitbox");
   const hasGeneratedResult = /<main\s+class="game"[^>]*data-result-visual-standard="generated-assets"/.test(html);
-  const hasFullScene = /<main\s+class="game"[^>]*data-result-render-mode="fullscene-score-slot"/.test(html);
+  const fullsceneModeMatch = html.match(/<main\s+class="game"[^>]*data-result-render-mode="(fullscene-score-slot|fullscene-generated-dynamic-slots)"/);
 
   const coverStandard = hasLegacyCover
     ? "legacy-raster-poster"
@@ -149,7 +149,7 @@ function classifyLesson(folder, html) {
         ? "compatibility-primary-button"
         : "none";
   const resultStandard = hasGeneratedResult ? "generated-assets" : "css-or-legacy";
-  const fullsceneMode = hasFullScene ? "fullscene-score-slot" : "none";
+  const fullsceneMode = fullsceneModeMatch?.[1] || "none";
   const action = resolveAction({
     coverStandard,
     folder,
@@ -169,7 +169,7 @@ function classifyLesson(folder, html) {
 
 function resolveAction({ coverStandard, folder, fullsceneMode, startStyle }) {
   if (coverStandard === "legacy-raster-poster") return "keep legacy";
-  if (fullsceneMode === "fullscene-score-slot") return "already fullscene";
+  if (fullsceneMode === "fullscene-score-slot" || fullsceneMode === "fullscene-generated-dynamic-slots") return "already fullscene";
   if (startStyle === "generated-button-art") return "already generated-button";
   if (startStyle === "compatibility-local-generated-button") return "keep compatibility";
   if (coverStandard === "generated-title-overlay" && startStyle === "compatibility-primary-button") {

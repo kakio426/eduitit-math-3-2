@@ -95,7 +95,32 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 상태 이미지 세트는 같은 캔버스 비율·주인공 크기·기준선·여백을 쓰고 실제 표시 비율의 컨택시트로 전수 확인한다.
 - `1280×800`, `1024×768`, 사용자가 문제를 발견한 실제 viewport/DPR에서 마지막 정답 확인·닫힌 보상·열린 보상·결과를 각각 캡처한다.
 - 닫힌 이미지가 결과 장면으로 fallback되지 않는지, 사건 이미지·라벨·진행 막대·버튼 교차가 `0px`인지, `empty` 뒤 누적값이 보존되는지 소스와 브라우저에서 함께 검사한다.
-- 기준 구현은 `_lessons/3-2-2-1-mathmon-divide-farm/`이고, 컴팩트한 2열 예시는 `_lessons/3-2-3-2-mathmon-compass-ring/`이다. 차시 전체를 복제하지 말고 계약과 필요한 훅만 가져온다.
+- 기준 구현은 `_lessons/3-2-2-1-mathmon-divide-farm/`이다. 차시 전체를 복제하지 말고 계약과 필요한 훅만 가져온다.
+
+사용자가 기존 단원과 같은 중앙 모달을 명시하거나 기존 차시의 `modal-art` 호환 흐름을 유지하라고 한 경우에는 아래 예외 계약을 적용한다.
+
+- `reward.mode="modal-art"`를 쓰고, 문제 화면을 활성 상태로 둔 채 `rewardPop → reward-card → reward-visual → 열기/다음` 순서로 진행한다.
+- 기준 구현은 `_lessons/3-2-3-1-mathmon-target-hit/`이다. 공용 엔진의 `openRewardModal`, `revealRewardModal`, `advanceAfterReward`를 쓰고 차시별 전체 화면 보상 DOM을 다시 만들지 않는다.
+- 닫힌 상태는 사건 이미지와 `열기`만, 열린 상태는 사건 이미지·변화량 1개·`다음` 또는 `결과 보기`만 보이게 한다. 제목·설명·현재 단계·진행 막대를 모달 안에서 반복하지 않는다.
+- 기존 차시의 표시 방식만 바꾸는 작업에서는 확률·증감·결과 기준을 함께 바꾸거나 실제 값과 다른 `reward.standard`를 붙이지 않는다. 보상 경제 이관은 사용자가 따로 요청했을 때만 한다.
+- `unit3-modal-art-v1`의 카드 규격은 `560×480px`(`7:6`), 이미지 슬롯은 `250×250px`, 카드 최대 폭은 Stage의 `88%`다. 지원 viewport에서는 카드 폭·높이·이미지 네 변 오차를 각각 `1px` 이하로 유지하고 닫힘↔열림 전환 때 카드 크기가 흔들리면 실패다.
+- `lesson.json > qa.rewardModalAudit`에 카드·이미지·변화량·열기·다음 선택자, 원본 캔버스, `cardWidthPx=560`, `cardHeightPx=480`, `cardAspectRatio="7:6"`, `visualSizePx=250`, 중심·크기·정사각 허용 오차를 둔다.
+- `1280×800`, `1024×768`, 사용자가 발견한 viewport/DPR의 닫힘·열림을 각각 캡처한다. 활성 화면 `screen-play`, 카드↔Stage 중심 오차 1px 이하, 카드 `560×480px`, 이미지 `250×250px`, 512×512 원본 연결, 글자 넘침 0, 이미지·변화량·버튼 교차 0, 각 상태에서 보이는 행동 버튼 1개를 자동 검사한다.
+- 모달 확인 뒤 문제 화면의 진행 장면을 바꾸는 차시는 `modal-dismiss-world-impact-v2`를 쓴다. 열린 모달 뒤에서는 이미지·단계·효과 클래스를 그대로 유지하고, 확인 버튼이 모달을 완전히 숨긴 뒤 `onRewardDismiss`에서 새 단계 이미지와 효과를 시작한다. 양수 단계 상승은 전용 `tierUpClass`와 강한 빛·충격파를 최소 `1200ms` 보여 준 뒤에만 다음 문제나 결과로 이동한다.
+- `qa.rewardEffectAudit`에는 `requiresModalClosedBeforeStart=true`, `tierChangeRequiresImageSwap=true`, `minVisibleMs>=1200`, 단계 상승 전후를 고정하는 `forceTierTransition` fixture를 둔다. 브라우저 하네스는 모달 열린 동안 이미지 불변, 모달 닫힘 뒤 효과 시작, 전후 `src` 변경, 단계 ID 변경, 전용 클래스 활성, 최소 표시 시간 동안 문제 번호 고정을 모두 검사한다.
+- 모달이 사라지는 프레임과 큰 효과를 바로 붙이지 않는다. `preEffectDelayMs=250~450`의 시선 이동 여백을 두고, 큰 단계 상승은 `minVisibleMs>=1200`으로 유지한다. 효과 레이어는 왼쪽 진행 패널 안에만 가두지 말고 Stage 폭의 최소 `32%`를 차지하는 별도 시각 레이어로 확장하되 문제·선택지와의 실제 클릭 영역 교차는 0을 유지한다.
+- 하네스는 모달 닫힘 시각과 효과 시작 시각 차이, 효과 레이어의 Stage 폭 비율, 효과 절정 구간 캡처, 최소 표시 시간 동안 문제 번호 고정을 함께 검사한다. CSS 애니메이션 시간만 늘리고 실제 캡처에서 효과가 작거나 거의 끝난 상태면 실패다.
+
+## 문제 화면 왼쪽 진행 보상 고정 계약
+
+3-2-3-1과 3-2-2-3처럼 문제 풀이 중 현재 보상 장면을 왼쪽에 두는 차시는 `stage-left-play-progress-v1`을 쓴다.
+
+- 패널 위치와 크기는 viewport가 아니라 `.stage-shell` 실제 rect에 대한 비율로 선언한다. `lesson.json > qa.playProgressAudit.panelPlacement`에 `leftRatio`, `topRatio`, `widthRatio`, `heightRatio`, `tolerancePx`를 두고 브라우저에서 실제 네 변을 잰다. `height:auto`나 `max-height`만 두어 이미지 내용에 따라 세로 길이가 줄어드는 구현은 금지하고, 선언한 `heightRatio`와 실제 패널 높이 오차를 `1px` 이하로 고정한다.
+- 같은 차시의 지원 viewport에서는 위치 비율을 바꾸는 media query를 쓰지 않는다. 좁은 화면에서는 안쪽 글자·간격만 줄일 수 있고 패널의 왼쪽·위쪽·폭 좌표는 같은 계약을 유지한다.
+- 6단계 결과 구조는 문제 화면 진행 이미지도 정확히 `6장`으로 고정한다. 결과 단계마다 서로 다른 `playImage` 1장을 1:1로 연결하고 최종 결과 이미지를 잘라 재사용하지 않는다.
+- 여섯 장 모두 같은 캔버스·카메라·매스몬 크기·발 기준선·안전 여백을 쓴다. `layoutContract.mathmonPlacement`에 `centerX`, `centerY`, `footY`, `toleranceRatio`, `sameScaleAcrossStates=true`를 기록하고 매스몬 전신과 중심 보상물이 함께 보이게 한다.
+- 매스몬은 여섯 장 모두 장면 안에 포함한다. 별도 컷아웃 오버레이로 위치를 맞추지 않는다. 컨택시트에서 `6장`, 매스몬 전신 `6회`, 같은 위치·크기, 잘림 `0건`을 전수 확인한다.
+- 브라우저 하네스는 패널의 left/top/width/height 오차 `1px` 이하, Stage 이탈·학습 영역 교차 `0px`, 이미지↔패널 중심 오차 `1px` 이하, `object-fit: contain`, 원본 캔버스, 상태 수 `6`을 검사한다.
 
 ## 겹침 0건 완료 게이트
 
@@ -332,6 +357,17 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - SVG의 `hidden` 속성은 선언만 확인하지 않는다. 브라우저에서 `getComputedStyle(...).display === "none"`이고 렌더 rect가 `0×0`인지 확인한다. 특히 `다음 목표`를 끈 결과 화면에서 숨은 SVG 문구가 다시하기 버튼 주변에 남으면 실패다.
 - 결과 단계가 여러 장이면 대표 한 장만 보지 않는다. 모든 결과 단계와 모든 `lesson.json > qa.viewports`에서 결속 축, 요소 간격, 버튼 알파, 숨김 SVG, 텍스트 넘침·요소 겹침을 전수 검사한다.
 - 사용자가 발견한 최종 결과 화면 크기는 이름 있는 회귀 viewport로 `lesson.json`에 남기고, 수정 전 캡처는 `_archive/`로 보존하며 수정 뒤 같은 상태 캡처를 다시 만든다.
+
+### 완성 장면 단계 대비와 고정 슬롯 계약
+
+- 여러 결과 단계를 한 화면 슬롯에서 바꾸는 차시는 `lesson.json > qa.resultVisualAudit.standard="result-tier-fullscene-native-v1"`을 선언한다. 결과마다 `visualRank: 0..N-1`과 서로 다른 1280×800 완성 장면 `image`를 1:1로 연결한다. 각 이미지는 배경·매스몬·보상물·마법 효과·환경 조명·고정 제목·빈 동적 판·버튼 표면을 한 생성 과정에서 함께 만든다.
+- 기존 배경 위에 별도 효과 이미지를 얹는 `impactImage`, effect 전용 `<img>`, `mix-blend-mode`, 단계별 CSS `filter`·`opacity`·`hue-rotate`, 장식용 pseudo-element 합성은 금지한다. `stateImageSet.forbidEffectOverlay`, `forbidBlendMode`, `forbidTierCssFilter`와 같은 QA 값을 모두 `true`로 선언하며, 하네스는 JSON·JS·CSS·실제 DOM/computed style을 검사해 하나라도 발견하면 실패시킨다.
+- 단계가 오를수록 적어도 `효과 크기`, `빛·입자 밀도`, `문양 복잡도`, `색 계열`, `매스몬 반응`, `환경 변화` 중 두 가지가 완성 장면 자체에서 분명히 커져야 한다. 최상위 두 단계는 금빛·무지개처럼 색 계열과 공간 자체가 바뀌어야 하며, 컨택시트에서 이름을 가리고 보아도 단계 순서를 맞힐 수 있어야 한다.
+- 1280×800 Stage 기준으로 결과판의 `넓은 동적 값`, `진행 막대`, `정답 수`, `다음 목표`, `다시하기` 슬롯 rect와 공통 세로축을 `result.layout`과 `qa.resultVisualAudit.slots`에 숫자로 고정한다. 각 슬롯은 Stage 안에 있어야 하고 형제 rect 교차는 `0px`, 선언 슬롯과 실제 rect의 네 변 오차는 각각 `1px` 이하여야 한다.
+- 동적 글자는 SVG/HTML 호스트 좌표만 보지 않는다. 실제 보이는 글리프 rect가 선언 슬롯 안에 들어오는지, 중심이 공통 축에서 `1px` 이내인지, 지정한 font-size·line-height 토큰이 모든 단계와 viewport에서 유지되는지 잰다. 정답 수 생성 이미지와 다시하기 아트·hitbox도 `naturalWidth/naturalHeight`, `object-fit`, 네 변 오차를 각각 검사한다.
+- 상태별 생성 이미지의 빈 결과판 위치가 실제로 같은지 JSON만 보고 가정하지 않는다. 브라우저에서 `resultBg`를 동일 1280×800 canvas에 그려 계약된 색·탐색 영역으로 판의 연속 픽셀 경계를 검출하고, 검출 중심과 상태별 `axisXByTier`, 보이는 글리프·막대·정답 이미지 중심의 오차를 원본 Stage 기준 `3px` 이내로 검사한다. 이미지별 판 위치가 다른데 전역 `axisX` 하나만 검사하거나 선언 슬롯끼리만 비교하면 실패다.
+- 완성 장면은 승인된 1280×800 캔버스와 `object-fit: cover`를 유지하고 Stage 네 변을 `1px` 이내로 채워야 한다. 브라우저에는 결과 장면 `<img>` 한 장만 있어야 하며 computed `filter:none`, `mix-blend-mode:normal`, `opacity:1`을 검사한다.
+- 자산 컨택시트와 실제 브라우저 결과 컨택시트를 따로 만든다. 모든 결과 단계 × 모든 `qa.viewports`를 캡처하고, 단계 ID·visualRank·파일명·색 계열·실제 rect 측정값을 하네스가 전수 검사한 뒤에만 완료로 판정한다.
 
 ## Stage 비율 계약
 

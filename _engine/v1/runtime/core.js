@@ -699,20 +699,16 @@ async function revealRewardModal({ immediateValue = false } = {}) {
   ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
   if (!immediateValue) await nextAnimationFrame();
   const beforePower = applyPendingReward(event);
-  if (immediateValue) event.amount = state.power - beforePower;
+  event.amount = state.power - beforePower;
   ui.rewardPop.dataset.reward = event.family || event.id || "";
   ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
   ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
   playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-  if (immediateValue) {
-    const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-    setRewardValue(event.amount);
-    await revealHook;
-    setRewardValue(event.amount);
-  } else {
-    await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-    await animateRewardValue(event);
-  }
+  const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+  if (immediateValue) setRewardValue(event.amount);
+  await revealHook;
+  if (immediateValue) setRewardValue(event.amount);
+  else await animateRewardValue(event);
   state.rewardPhase = "revealed";
   ui.modalRewardOpenButton.disabled = false;
   ui.modalRewardNextButton.hidden = false;
@@ -860,9 +856,13 @@ function showResult() {
 }
 
 function applyResultLayout() {
-  const layout = LESSON_CONFIG.result?.layout;
-  if (!layout) return;
-  const axisX = Number(layout.axisX ?? 930);
+  const baseLayout = LESSON_CONFIG.result?.layout;
+  if (!baseLayout) return;
+  const tierId = state.currentResult?.id || screens.result?.dataset?.resultTier || "";
+  const tierLayout = baseLayout.byTier?.[tierId] || {};
+  const layout = { ...baseLayout, ...tierLayout };
+  const tierAxis = baseLayout.axisXByTier?.[tierId];
+  const axisX = Number(tierAxis ?? layout.axisX ?? 930);
   const titleWidth = Number(layout.titleWidth ?? 520);
   const correctWidth = Number(layout.correctWidth ?? 220);
   const barWidth = Number(layout.barWidth ?? 360);

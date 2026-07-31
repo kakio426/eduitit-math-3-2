@@ -185,6 +185,9 @@ async function main() {
   validateModelContract(config, modelSource, lessonFolder);
 
   let lessonCss = "";
+  const sharedStylePath = sourceFiles.style
+    ? path.resolve(sourceDir, sourceFiles.style)
+    : null;
   try {
     const sharedStylePath = sourceFiles.style
       ? path.resolve(sourceDir, sourceFiles.style)
@@ -250,7 +253,7 @@ async function main() {
     rewardComplete: escapeHtml(config.rewardComplete),
     initialResultId: escapeHtml(initialResult.id),
     initialResultImage: escapeHtml(initialResult.image),
-    initialResultTitleImage: escapeHtml(initialResult.titleImage),
+    initialResultTitleImage: escapeHtml(initialResult.titleImage || initialResult.image || config.imageAssets.cover),
     resultRetryButton: escapeHtml(imageAssets.resultRetryButton || "result-retry-button-generated.webp"),
     resultRestartButtonId: hybridResult ? "restartButton" : "retryButton",
     resultRestartButtonClass: "result-retry-hitbox",

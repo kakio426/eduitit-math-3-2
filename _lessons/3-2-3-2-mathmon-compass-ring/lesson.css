@@ -1,12 +1,145 @@
 .game[data-workbench-type="compass-opening"] .play { padding: 0; background: #e8f6ef; }
 .compass-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+.compass-play-progress {
+  position: absolute; top: 11%; left: 2.9%; z-index: 4;
+  width: 25.2%; height: 84%; min-width: 0; overflow: hidden; display: grid;
+  grid-template-rows: minmax(0, 1fr) auto; justify-items: stretch; border: 3px solid rgba(235,190,88,.88);
+  border-radius: 24px; background: #0b1224;
+  box-shadow: 0 18px 38px rgba(36,24,14,.34), inset 0 0 0 1px rgba(255,246,208,.16);
+}
+.compass-play-progress-art {
+  width: 100%; height: 100%; min-height: 0; display: block; object-fit: contain;
+  object-position: center center; justify-self: center; background: #07111f; transition: filter .42s ease, transform .52s ease, opacity .28s ease;
+}
+.compass-play-progress-flare {
+  position: absolute; inset: -18%; z-index: 2; pointer-events: none; opacity: 0; transform: rotate(-22deg) scale(.72);
+  background:
+    radial-gradient(circle at 50% 49%, rgba(255,249,176,.95) 0 3%, rgba(169,105,255,.72) 10%, rgba(74,218,255,.34) 26%, transparent 49%),
+    linear-gradient(108deg, transparent 34%, rgba(255,255,255,.9) 46%, rgba(208,148,255,.72) 51%, transparent 63%);
+  mix-blend-mode: screen;
+}
+.compass-play-progress-impact-stage {
+  position: absolute; top: 4%; left: -1%; z-index: 5; width: 35%; height: 92%;
+  border-radius: 50%; pointer-events: none; opacity: 0; transform: scale(.62);
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.96) 0 3%, rgba(255,222,105,.58) 12%, rgba(173,91,255,.42) 28%, rgba(64,217,255,.24) 45%, transparent 70%);
+  filter: drop-shadow(0 0 28px rgba(172,91,255,.82));
+  mix-blend-mode: screen;
+}
+.compass-play-progress-impact-stage::before,
+.compass-play-progress-impact-stage::after {
+  content: ""; position: absolute; inset: 8% 4%; border-radius: 50%; pointer-events: none;
+}
+.compass-play-progress-impact-stage::before {
+  border: 5px solid rgba(255,230,123,.9);
+  box-shadow:
+    0 0 18px 5px rgba(255,232,126,.7),
+    0 0 52px 18px rgba(174,87,255,.7),
+    inset 0 0 34px rgba(93,225,255,.62);
+  opacity: 0; transform: scale(.2);
+}
+.compass-play-progress-impact-stage::after {
+  inset: -4%;
+  background:
+    repeating-conic-gradient(from 4deg, rgba(255,242,164,.0) 0 7deg, rgba(255,242,164,.68) 8deg 9deg, rgba(90,222,255,0) 10deg 21deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+  mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+  opacity: 0; transform: rotate(-16deg) scale(.52);
+}
+.compass-play-progress::before,
+.compass-play-progress::after {
+  content: ""; position: absolute; z-index: 3; pointer-events: none; opacity: 0;
+}
+.compass-play-progress::before {
+  left: 50%; top: 48%; width: 44%; aspect-ratio: 1; border: 4px solid rgba(255,239,153,.95);
+  border-radius: 50%; transform: translate(-50%, -50%) scale(.25);
+  box-shadow: 0 0 22px rgba(130,87,255,.95), inset 0 0 18px rgba(98,220,255,.8);
+}
+.compass-play-progress::after {
+  top: -20%; bottom: 16%; left: 47%; width: 9%;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.96) 35%, rgba(129,224,255,.74) 58%, transparent);
+  filter: blur(4px); transform: skewX(-12deg) translateY(-28%);
+  mix-blend-mode: screen;
+}
+.compass-play-progress-readout {
+  min-height: 92px; padding: 10px 18px 14px; display: grid; place-items: center; gap: 5px;
+  border-top: 2px solid rgba(235,190,88,.6);
+  background: linear-gradient(180deg, rgba(20,20,49,.97), rgba(9,12,29,.99));
+}
+.compass-play-progress-eyebrow {
+  color: #d9c9f6; font-size: .78rem; line-height: 1; font-weight: 900; text-align: center;
+}
+.compass-play-progress-name {
+  color: #ffe07b; font-size: clamp(1.05rem, 1.8vw, 1.38rem); line-height: 1.05;
+  font-weight: 1000; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 #5d350a;
+}
+.compass-play-progress-meter {
+  width: 100%; height: 10px; overflow: hidden; display: block; border: 1px solid rgba(255,226,145,.75);
+  border-radius: 999px; background: rgba(3,5,16,.88);
+}
+.compass-play-progress-meter-fill {
+  width: 0%; height: 100%; display: block; border-radius: inherit;
+  background: linear-gradient(90deg, #5dd9ec, #a86ef2, #ffd568);
+  box-shadow: 0 0 10px rgba(172,107,255,.72); transition: width .62s cubic-bezier(.2,.8,.2,1);
+}
+.compass-play-progress.is-changing .compass-play-progress-art {
+  animation: compass-play-progress-brighten 1.18s cubic-bezier(.2,.82,.22,1) both;
+}
+.compass-play-progress.is-dimming .compass-play-progress-art {
+  animation: compass-play-progress-dim .82s ease both;
+}
+.compass-play-progress.is-celebrating {
+  animation: compass-play-progress-impact 1.18s cubic-bezier(.18,.78,.2,1) both;
+}
+.compass-play-progress.is-celebrating .compass-play-progress-flare {
+  animation: compass-play-progress-flare 1.18s cubic-bezier(.18,.78,.2,1) both;
+}
+.compass-play-progress.is-tier-up {
+  animation:
+    compass-play-progress-impact 1.18s cubic-bezier(.18,.78,.2,1) both,
+    compass-play-progress-tier-rise 1.18s cubic-bezier(.18,.78,.2,1) both;
+}
+.compass-play-progress.is-tier-up .compass-play-progress-art {
+  animation: compass-play-progress-tier-art 1.18s cubic-bezier(.18,.78,.2,1) both;
+}
+.compass-play-progress.is-tier-up::before {
+  animation: compass-play-progress-ring-burst 1.18s cubic-bezier(.12,.76,.18,1) both;
+}
+.compass-play-progress.is-tier-up::after {
+  animation: compass-play-progress-light-column 1.18s ease-out both;
+}
+.compass-play-progress.is-tier-up .compass-play-progress-name {
+  animation: compass-play-progress-name-rise 1.18s ease-out both;
+}
+.compass-play-progress.is-tier-up .compass-play-progress-meter-fill {
+  animation: compass-play-progress-meter-surge 1.18s ease-out both;
+}
+.compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage {
+  animation: compass-play-progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both;
+}
+.compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::before {
+  animation: compass-play-progress-stage-ring 1.56s cubic-bezier(.08,.72,.16,1) both;
+}
+.compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::after {
+  animation: compass-play-progress-stage-rays 1.56s ease-out both;
+}
+.compass-play-progress.is-tier-up {
+  animation-duration: 1.56s, 1.56s;
+}
+.compass-play-progress.is-tier-up .compass-play-progress-art,
+.compass-play-progress.is-tier-up::before,
+.compass-play-progress.is-tier-up::after,
+.compass-play-progress.is-tier-up .compass-play-progress-name,
+.compass-play-progress.is-tier-up .compass-play-progress-meter-fill {
+  animation-duration: 1.56s;
+}
 .game[data-workbench-type="compass-opening"] .stage-shell { --sound-button-size: 42px; }
 .game[data-workbench-type="compass-opening"] .settings-toggle svg { width: 20px; height: 20px; }
 .game[data-workbench-type="compass-opening"] .brand-badge,
 .game[data-workbench-type="compass-opening"] .unit-badge { font-size: .875rem; }
 
 .game[data-workbench-type="compass-opening"] .hud {
-  position: absolute; top: 18px; right: calc(3% + var(--sound-reserve)); left: 3%; z-index: 6;
+  position: absolute; top: var(--stage-inset); right: calc(3% + var(--sound-reserve)); left: 3%; z-index: 6;
   width: auto; min-height: var(--sound-button-size); display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 12px; padding: 0;
 }
@@ -134,6 +267,97 @@
   0%, 100% { stroke-width: 9; }
   50% { stroke-width: 15; }
 }
+@keyframes compass-play-progress-brighten {
+  0% { filter: brightness(.64) saturate(.72); transform: scale(.97); }
+  36% { filter: brightness(1.55) saturate(1.42) contrast(1.08); transform: scale(1.026); }
+  66% { filter: brightness(1.18) saturate(1.24); transform: scale(1.008); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+@keyframes compass-play-progress-dim {
+  0%, 100% { filter: brightness(1); transform: translateX(0); }
+  36% { filter: brightness(.54) saturate(.52); transform: translateX(-4px); }
+  68% { transform: translateX(3px); }
+}
+@keyframes compass-play-progress-impact {
+  0%, 100% {
+    box-shadow: 0 18px 38px rgba(36,24,14,.34), inset 0 0 0 1px rgba(255,246,208,.16);
+  }
+  38% {
+    box-shadow:
+      0 0 0 5px rgba(255,230,126,.72),
+      0 0 32px 12px rgba(173,92,255,.84),
+      0 0 68px 25px rgba(77,218,255,.52),
+      0 22px 46px rgba(36,24,14,.4),
+      inset 0 0 38px rgba(255,248,182,.64);
+  }
+  68% {
+    box-shadow:
+      0 0 0 2px rgba(255,230,126,.44),
+      0 0 22px 7px rgba(173,92,255,.5),
+      0 18px 38px rgba(36,24,14,.34),
+      inset 0 0 18px rgba(255,248,182,.28);
+  }
+}
+@keyframes compass-play-progress-flare {
+  0% { opacity: 0; transform: translateX(-38%) rotate(-22deg) scale(.72); }
+  34% { opacity: 1; }
+  72% { opacity: .52; }
+  100% { opacity: 0; transform: translateX(38%) rotate(-22deg) scale(1.16); }
+}
+@keyframes compass-play-progress-tier-rise {
+  0%, 100% { transform: translateY(0) scale(1); }
+  24% { transform: translateY(-5px) scale(1.018); }
+  46% { transform: translateY(2px) scale(.997); }
+  68% { transform: translateY(-2px) scale(1.006); }
+}
+@keyframes compass-play-progress-tier-art {
+  0% { filter: brightness(.55) saturate(.68); transform: scale(.95); }
+  18% { filter: brightness(2.35) saturate(1.9) contrast(1.16); transform: scale(1.085); }
+  42% { filter: brightness(1.38) saturate(1.52); transform: scale(1.026); }
+  68% { filter: brightness(1.68) saturate(1.68); transform: scale(1.045); }
+  100% { filter: brightness(1) saturate(1); transform: scale(1); }
+}
+@keyframes compass-play-progress-ring-burst {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); }
+  18% { opacity: 1; }
+  62% { opacity: .72; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(3.2); }
+}
+@keyframes compass-play-progress-light-column {
+  0% { opacity: 0; transform: skewX(-12deg) translateY(-32%); }
+  22% { opacity: .95; }
+  68% { opacity: .5; }
+  100% { opacity: 0; transform: skewX(-12deg) translateY(58%); }
+}
+@keyframes compass-play-progress-name-rise {
+  0%, 100% { color: #ffe07b; transform: scale(1); filter: none; }
+  28% { color: #fff9d7; transform: scale(1.13); filter: drop-shadow(0 0 10px #bf7dff); }
+  62% { color: #8eeeff; transform: scale(1.04); filter: drop-shadow(0 0 7px #ffe27d); }
+}
+@keyframes compass-play-progress-meter-surge {
+  0%, 100% { filter: brightness(1); box-shadow: 0 0 10px rgba(172,107,255,.72); }
+  30% { filter: brightness(2); box-shadow: 0 0 20px 6px rgba(255,230,126,.9); }
+  64% { filter: brightness(1.35); box-shadow: 0 0 14px 3px rgba(77,218,255,.85); }
+}
+@keyframes compass-play-progress-stage-impact {
+  0% { opacity: 0; transform: scale(.54); filter: brightness(.8) drop-shadow(0 0 0 rgba(172,91,255,0)); }
+  14% { opacity: .98; transform: scale(.82); filter: brightness(1.55) drop-shadow(0 0 34px rgba(255,229,126,.96)); }
+  42% { opacity: .88; transform: scale(1.08); filter: brightness(1.25) drop-shadow(0 0 48px rgba(172,91,255,.9)); }
+  74% { opacity: .46; transform: scale(1.22); }
+  100% { opacity: 0; transform: scale(1.34); filter: brightness(1) drop-shadow(0 0 16px rgba(75,220,255,.2)); }
+}
+@keyframes compass-play-progress-stage-ring {
+  0% { opacity: 0; transform: scale(.16); }
+  14% { opacity: 1; }
+  48% { opacity: .88; }
+  100% { opacity: 0; transform: scale(1.42); }
+}
+@keyframes compass-play-progress-stage-rays {
+  0% { opacity: 0; transform: rotate(-16deg) scale(.48); }
+  18% { opacity: .78; }
+  56% { opacity: .56; transform: rotate(8deg) scale(1.02); }
+  100% { opacity: 0; transform: rotate(22deg) scale(1.3); }
+}
 
 .game[data-workbench-type="compass-opening"] .step-board {
   grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr;
@@ -186,73 +410,74 @@
 .game[data-workbench-type="compass-opening"] .result-title-art { display: none; }
 .game[data-workbench-type="compass-opening"] #screen-result .top-row { display: none; }
 .game[data-workbench-type="compass-opening"] #screen-result::after { background: none; }
+.game[data-workbench-type="compass-opening"] #screen-result > .raster-bg {
+  object-fit: cover;
+  filter: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui {
+  z-index: 2;
+}
 .game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultDestinationSvg,
 .game[data-workbench-type="compass-opening"] .result-dynamic-ui .result-restart-surface { display: none; }
-.game[data-workbench-type="compass-opening"] .result-dynamic-ui text { fill: #fff2bd; stroke: rgba(39,15,75,.96); stroke-width: 10px; }
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui text {
+  fill: #fff2bd;
+  stroke: rgba(39,15,75,.96);
+  stroke-width: 7px;
+  letter-spacing: 0;
+  word-spacing: 0;
+}
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultMeasureSvg {
+  font-size: 32px;
+}
+.game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultNextSvg {
+  font-size: 28px;
+  stroke-width: 6px;
+}
 .game[data-workbench-type="compass-opening"] .result-dynamic-ui rect:first-of-type { fill: #3c1d6b; opacity: .5; }
 .game[data-workbench-type="compass-opening"] .result-dynamic-ui #resultMeasureFillSvg { fill: #d696ff; }
-.game[data-workbench-type="compass-opening"] .result-correct-art { left: 62%; top: 54%; width: 15%; }
+.game[data-workbench-type="compass-opening"] .result-correct-art {
+  left: 55.625%;
+  top: 43.75%;
+  z-index: 3;
+  width: 14.0625%;
+}
 .game[data-workbench-type="compass-opening"] .result-retry-hitbox {
-  right: auto; bottom: auto; left: 59%; top: 78%; width: 28%; height: 16%;
+  right: auto; bottom: auto; left: 57.421875%; top: 77.25%; width: 26.171875%; height: 15%;
+  z-index: 4;
   border-radius: 999px; overflow: hidden;
 }
 .game[data-workbench-type="compass-opening"] .result-retry-hitbox .result-retry-art { display: none !important; }
-.game[data-workbench-type="compass-opening"] #screen-reward {
-  overflow: hidden; background: radial-gradient(circle at 40% 46%, #3e1e78 0%, #160b33 46%, #090719 100%);
+.game[data-workbench-type="compass-opening"] .reward-visual {
+  background-image: var(--reward-modal-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
-.game[data-workbench-type="compass-opening"] #screen-reward > .raster-bg {
-  filter: blur(18px) brightness(.34) saturate(1.2); transform: scale(1.12); opacity: .72;
+.game[data-workbench-type="compass-opening"] .reward-pop {
+  background: rgba(8,7,23,.48);
+  -webkit-backdrop-filter: blur(9px) saturate(.78);
+  backdrop-filter: blur(9px) saturate(.78);
 }
-.game[data-workbench-type="compass-opening"] #screen-reward .top-row { display: none; }
-.game[data-workbench-type="compass-opening"] #screen-reward .reward-panel {
-  position: absolute; inset: 64px 5% 4%; z-index: 3; width: auto; min-height: 0; padding: 0;
-  display: block; transform: none; border: 0; border-radius: 0; background: transparent; backdrop-filter: none; box-shadow: none;
+.game[data-workbench-type="compass-opening"] .reward-card {
+  width: min(560px, 88%);
+  height: 480px;
+  min-height: 480px;
+  box-sizing: border-box;
 }
-.compass-reward-story {
-  width: 100%; height: 100%; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
-  align-items: center; gap: clamp(22px, 4vw, 58px);
+.game[data-workbench-type="compass-opening"] .reward-label {
+  max-width: 100%;
+  padding-block: 2px;
+  line-height: 1.2;
+  white-space: nowrap;
+  word-break: keep-all;
 }
-.compass-reward-visual {
-  position: relative; min-width: 0; height: 100%; display: grid; place-items: center; isolation: isolate;
+.game[data-workbench-type="compass-opening"] .reward-card[data-reward-phase="closed"] .reward-label {
+  display: none;
 }
-.compass-reward-visual::before {
-  content: ""; position: absolute; width: min(48vw, 520px); aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle, rgba(181,111,255,.28), rgba(92,33,157,.08) 58%, transparent 70%);
-  filter: blur(8px); z-index: -1;
-}
-.compass-reward-art {
-  width: min(100%, 520px); max-height: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 34px;
-  filter: drop-shadow(0 22px 34px rgba(0,0,0,.42)); transform: scale(.94); transition: transform .48s ease, filter .48s ease;
-}
-.compass-reward-copy {
-  min-width: 0; padding: clamp(24px, 4vw, 44px); display: grid; justify-items: center; gap: 18px;
-  border: 2px solid rgba(255,219,127,.68); border-radius: 30px;
-  background: linear-gradient(180deg, rgba(30,15,67,.92), rgba(17,10,40,.94));
-  box-shadow: inset 0 1px rgba(255,255,255,.16), 0 26px 48px rgba(0,0,0,.34);
-}
-.compass-reward-eyebrow { color: #d9c9f6; font-size: 1rem; font-weight: 900; }
-.compass-reward-tier {
-  color: #ffd96f; font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1; text-align: center;
-  text-shadow: 0 3px 0 #6b3a08, 0 0 18px rgba(255,211,98,.38); word-break: keep-all;
-}
-.compass-reward-meter {
-  width: 100%; height: 24px; padding: 4px; overflow: hidden; border: 2px solid rgba(255,223,142,.8);
-  border-radius: 999px; background: rgba(7,4,20,.78);
-}
-.compass-reward-meter-fill {
-  display: block; width: 0%; height: 100%; border-radius: inherit;
-  background: linear-gradient(90deg, #8c51e8, #d788ff, #ffe177); box-shadow: 0 0 14px rgba(199,113,255,.76);
-  transition: width .72s cubic-bezier(.2,.8,.2,1);
-}
-.compass-reward-status {
-  min-height: 58px; margin: 0; display: grid; place-items: center; color: #fff6dc;
-  font-size: clamp(1.18rem, 2vw, 1.55rem); line-height: 1.18; font-weight: 1000; text-align: center; word-break: keep-all;
-}
-.compass-reward-copy #rewardNextButton {
-  width: min(100%, 260px); min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17;
-}
-.compass-reward-story[data-phase="revealed"] .compass-reward-art {
-  transform: scale(1); filter: drop-shadow(0 22px 34px rgba(0,0,0,.42)) drop-shadow(0 0 28px rgba(197,102,255,.45));
+.game[data-workbench-type="compass-opening"] .reward-card[data-reward-phase="closed"] .reward-visual {
+  transform: none;
 }
 
 .game[data-workbench-type="compass-opening"][data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #e8f6ef; }
@@ -295,10 +520,9 @@
     max-height: 96px; grid-template-columns: minmax(0, 1fr) minmax(170px, 210px); gap: 12px; padding: 10px 14px;
   }
   .game[data-workbench-type="compass-opening"] .complete-panel .primary-button { min-height: 54px; }
-  .game[data-workbench-type="compass-opening"] #screen-reward .reward-panel { inset: 60px 3% 3%; }
-  .compass-reward-story { grid-template-columns: minmax(0, 1fr) minmax(270px, .85fr); gap: 18px; }
-  .compass-reward-copy { padding: 22px; gap: 14px; }
-  .compass-reward-status { min-height: 48px; }
+  .compass-play-progress { border-radius: 20px; }
+  .compass-play-progress-readout { min-height: 82px; padding: 8px 13px 11px; }
+  .compass-play-progress-eyebrow { font-size: .72rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -310,6 +534,18 @@
   .compass-rotor.is-wrong-sweep,
   .compass-confirm-svg[data-state="correct-anchor"] .proof-needle,
   .compass-confirm-svg[data-state="correct-open"] .proof-opening-band { animation: none; }
-  .compass-reward-art,
-  .compass-reward-meter-fill { transition: none; }
+  .compass-play-progress-art,
+  .compass-play-progress-meter-fill,
+  .compass-play-progress-flare,
+  .compass-play-progress.is-changing,
+  .compass-play-progress.is-dimming,
+  .compass-play-progress.is-celebrating,
+  .compass-play-progress.is-tier-up,
+  .compass-play-progress.is-tier-up::before,
+  .compass-play-progress.is-tier-up::after,
+  .compass-play-progress.is-tier-up .compass-play-progress-name,
+  .compass-play-progress.is-tier-up .compass-play-progress-meter-fill,
+  .compass-play-progress-impact-stage,
+  .compass-play-progress-impact-stage::before,
+  .compass-play-progress-impact-stage::after { transition: none; animation: none; }
 }

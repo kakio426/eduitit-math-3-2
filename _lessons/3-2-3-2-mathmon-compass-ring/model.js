@@ -121,6 +121,7 @@ const Lesson3CompassRingModel = (() => {
   }
 
   function getNextResult(result) {
+    if (result?.needsSpecial) return result;
     const visible = RESULT_TIERS.filter((item) => !item.needsSpecial);
     const index = visible.findIndex((item) => item.id === result.id);
     return visible[Math.min(Math.max(index, 0) + 1, visible.length - 1)];

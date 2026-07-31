@@ -685,11 +685,12 @@ async function auditConfiguredPlayHeader(page, label) {
       const rect = node.getBoundingClientRect();
       return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 1 && rect.height > 1;
     };
+    const topControlsConfig = LESSON_CONFIG.qa?.topControlsAudit || null;
     const nodes = {
       brand:document.querySelector('#screen-play .hud .brand-badge'),
       counter:document.getElementById('problemCounter'),
-      unit:document.querySelector('#screen-play .hud-right .unit-badge'),
-      settings:document.getElementById('settingsButton')
+      unit:document.querySelector(topControlsConfig?.unitBadge || '#screen-play .hud-right .unit-badge'),
+      settings:document.querySelector(topControlsConfig?.settingsButton || '#settingsButton')
     };
     const rects = Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, rectOf(node)]));
     const collisions = [];
@@ -701,6 +702,14 @@ async function auditConfiguredPlayHeader(page, label) {
       const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
       if (overlapX > 0 && overlapY > 0) collisions.push({ a:aName, b:bName, overlapX, overlapY });
     }
+    const topControls = rects.unit && rects.settings ? {
+      standard:topControlsConfig?.standard || '',
+      topDelta:Math.abs(rects.unit.top - rects.settings.top),
+      centerYDelta:Math.abs((rects.unit.top + rects.unit.height / 2) - (rects.settings.top + rects.settings.height / 2)),
+      heightDelta:Math.abs(rects.unit.height - rects.settings.height),
+      gap:rects.settings.left - rects.unit.right,
+      viewport:{ width:innerWidth, height:innerHeight, dpr:devicePixelRatio }
+    } : null;
     return {
       text:{
         brand:nodes.brand?.textContent.trim() || '',
@@ -710,6 +719,8 @@ async function auditConfiguredPlayHeader(page, label) {
       visible:Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, visible(node)])),
       rects,
       collisions,
+      topControlsConfig,
+      topControls,
       expectedUnit:LESSON_CONFIG.unitBadge
     };
   })()`);
@@ -718,6 +729,14 @@ async function auditConfiguredPlayHeader(page, label) {
   assert(/^\d+\/10$/.test(audit.text.counter), `${label}: problem counter is wrong`, audit);
   assert(audit.text.unit === audit.expectedUnit, `${label}: unit badge is wrong`, audit);
   assert(audit.collisions.length === 0, `${label}: play header controls overlap`, audit);
+  if (audit.topControlsConfig) {
+    assert(audit.topControls, `${label}: configured top controls did not resolve`, audit);
+    assert(audit.topControls.standard === "stage-top-controls-v1", `${label}: top control standard is wrong`, audit);
+    assert(audit.topControls.topDelta <= audit.topControlsConfig.topTolerancePx, `${label}: unit badge and settings top edges are misaligned`, audit);
+    assert(audit.topControls.centerYDelta <= audit.topControlsConfig.centerYTolerancePx, `${label}: unit badge and settings centers are misaligned`, audit);
+    assert(audit.topControls.heightDelta <= audit.topControlsConfig.heightTolerancePx, `${label}: unit badge and settings heights differ`, audit);
+    assert(audit.topControls.gap >= audit.topControlsConfig.minGapPx, `${label}: unit badge and settings gap is too small`, audit);
+  }
   return audit;
 }
 
@@ -781,6 +800,160 @@ async function auditConfiguredLearningLayout(page, label) {
   assert(audit.choiceRects.length > 0 && audit.choiceRects.every((rect) => rect.width >= 42 && rect.height >= 42), `${label}: a choice touch target is smaller than 42x42`, audit);
   assert(audit.intersections.length === 0, `${label}: primary, secondary, or tertiary learning panels overlap`, audit);
   return audit;
+}
+
+async function auditConfiguredPlayProgress(page, label) {
+  const configured = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.playProgressAudit)");
+  if (!configured) return null;
+  const before = await evaluate(page, "window.__mathmonEngineQa.getState()");
+  const tiers = await evaluate(page, "LESSON_CONFIG.results.map(({ id, name, minPower, minCorrect, needsSpecial, playImage }) => ({ id, name, minPower, minCorrect, needsSpecial:Boolean(needsSpecial), playImage }))");
+  const expectedCanvas = await evaluate(page, "LESSON_CONFIG.workbench?.playStateImageSet?.canvas || ''");
+  const auditConfig = await evaluate(page, "LESSON_CONFIG.qa.playProgressAudit");
+  const playSetConfig = await evaluate(page, "LESSON_CONFIG.workbench?.playStateImageSet || {}");
+  const [expectedWidth, expectedHeight] = expectedCanvas.split("x").map(Number);
+  const states = [];
+  assert(auditConfig.standard === "stage-left-play-progress-v1", `${label}: play progress position standard is wrong`, auditConfig);
+  assert(auditConfig.stateCount === 6, `${label}: play progress state count must be fixed at 6`, auditConfig);
+  assert(auditConfig.canvas === expectedCanvas, `${label}: play progress audit canvas differs from its image-set canvas`, { auditConfig, expectedCanvas });
+  assert(tiers.length === auditConfig.stateCount, `${label}: play progress result tier count differs from its fixed state count`, { tiers, auditConfig });
+  assert(
+    JSON.stringify(tiers.map((tier) => tier.id)) === JSON.stringify(auditConfig.expectedStates),
+    `${label}: play progress state order differs from its fixed contract`,
+    { tiers, auditConfig },
+  );
+  assert(
+    JSON.stringify(playSetConfig.layoutContract?.mathmonPlacement || {}) === JSON.stringify(auditConfig.mathmonPlacement || {}),
+    `${label}: play progress Mathmon placement differs between image and browser contracts`,
+    { playSetConfig, auditConfig },
+  );
+
+  for (const tier of tiers) {
+    await evaluate(page, `(() => {
+      window.__mathmonEngineQa.setState({
+        power:${Number(tier.minPower || 0)},
+        correctFirstTry:${Number(tier.minCorrect || 0)},
+        specialSeen:${tier.needsSpecial ? "true" : "false"}
+      });
+      window.__mathmonEngineQa.renderProblem();
+    })()`);
+    await waitUntil(
+      page,
+      `document.querySelector('.compass-play-progress')?.dataset.resultTier === ${JSON.stringify(tier.id)}
+        && document.querySelector('.compass-play-progress-art')?.complete
+        && document.querySelector('.compass-play-progress-art')?.naturalWidth > 0`,
+      `${label}: ${tier.id} play progress did not render`,
+      8000,
+    );
+    const state = await evaluate(page, `(() => {
+      const config = LESSON_CONFIG.qa.playProgressAudit;
+      const panel = document.querySelector(config.panel);
+      const image = document.querySelector(config.image);
+      const labelNode = document.querySelector(config.label);
+      const work = document.querySelector(LESSON_CONFIG.qa.layoutAudit.workArea);
+      const stage = document.querySelector('.stage-shell');
+      const rect = (node) => {
+        const value = node?.getBoundingClientRect();
+        return value ? { left:value.left, top:value.top, right:value.right, bottom:value.bottom, width:value.width, height:value.height } : null;
+      };
+      const panelRect = rect(panel);
+      const imageRect = rect(image);
+      const workRect = rect(work);
+      const stageRect = rect(stage);
+      const overlapX = panelRect && workRect ? Math.max(0, Math.min(panelRect.right, workRect.right) - Math.max(panelRect.left, workRect.left)) : Infinity;
+      const overlapY = panelRect && workRect ? Math.max(0, Math.min(panelRect.bottom, workRect.bottom) - Math.max(panelRect.top, workRect.top)) : Infinity;
+      const panelCenterX = panelRect ? (panelRect.left + panelRect.right) / 2 : NaN;
+      const imageCenterX = imageRect ? (imageRect.left + imageRect.right) / 2 : NaN;
+      const leftLaneCenterX = stageRect && workRect ? (stageRect.left + workRect.left) / 2 : NaN;
+      const naturalRatio = image?.naturalHeight ? image.naturalWidth / image.naturalHeight : 0;
+      const renderedRatio = imageRect?.height ? imageRect.width / imageRect.height : 0;
+      const placement = config.panelPlacement || {};
+      const expectedPanel = stageRect ? {
+        left:stageRect.left + stageRect.width * Number(placement.leftRatio || 0),
+        top:stageRect.top + stageRect.height * Number(placement.topRatio || 0),
+        width:stageRect.width * Number(placement.widthRatio || 0),
+        height:stageRect.height * Number(placement.heightRatio || 0)
+      } : null;
+      return {
+        tier:panel?.dataset.resultTier || '',
+        standard:panel?.dataset.playProgressStandard || '',
+        protagonist:panel?.dataset.protagonist || '',
+        cacheVersion:panel?.dataset.cacheVersion || '',
+        src:image?.getAttribute('src') || '',
+        label:labelNode?.textContent.trim() || '',
+        objectFit:image ? getComputedStyle(image).objectFit : '',
+        naturalWidth:image?.naturalWidth || 0,
+        naturalHeight:image?.naturalHeight || 0,
+        naturalRatio,
+        renderedRatio,
+        panelRect,
+        imageRect,
+        workRect,
+        stageRect,
+        overlapX,
+        overlapY,
+        panelLaneCenterDx:Math.abs(panelCenterX - leftLaneCenterX),
+        imagePanelCenterDx:Math.abs(imageCenterX - panelCenterX),
+        panelPlacementDelta:panelRect && expectedPanel ? {
+          left:Math.abs(panelRect.left - expectedPanel.left),
+          top:Math.abs(panelRect.top - expectedPanel.top),
+          width:Math.abs(panelRect.width - expectedPanel.width),
+          height:Math.abs(panelRect.height - expectedPanel.height)
+        } : null,
+        expectedPanel,
+        labelOverflow:Boolean(labelNode && (labelNode.scrollWidth > labelNode.clientWidth + 1 || labelNode.scrollHeight > labelNode.clientHeight + 1))
+      };
+    })()`);
+    assert(state.tier === tier.id, `${label}: wrong play progress tier`, { tier, state });
+    assert(state.src === tier.playImage, `${label}: wrong play progress image`, { tier, state });
+    assert(state.label === tier.name, `${label}: wrong play progress label`, { tier, state });
+    assert(state.standard === auditConfig.expectedStandard, `${label}: wrong play progress standard`, { tier, state });
+    assert(state.protagonist === auditConfig.expectedProtagonist, `${label}: play progress Mathmon is missing`, { tier, state });
+    assert(state.cacheVersion === playSetConfig.cacheVersion, `${label}: play progress cache version mismatch`, { tier, state });
+    assert(state.objectFit === "contain", `${label}: play progress image is not contain`, { tier, state });
+    assert(state.naturalWidth === expectedWidth && state.naturalHeight === expectedHeight, `${label}: play progress natural size mismatch`, { tier, state, expectedCanvas });
+    assert(state.overlapX === 0 || state.overlapY === 0, `${label}: play progress overlaps learning work area`, { tier, state });
+    assert(
+      state.panelLaneCenterDx <= auditConfig.panelLaneCenterTolerancePx,
+      `${label}: play progress panel is not centered in the left lane`,
+      { tier, state },
+    );
+    assert(
+      state.imagePanelCenterDx <= auditConfig.imagePanelCenterTolerancePx,
+      `${label}: play progress image is not centered in its panel`,
+      { tier, state },
+    );
+    assert(
+      state.panelPlacementDelta
+        && Object.values(state.panelPlacementDelta).every((delta) => delta <= auditConfig.panelPlacement.tolerancePx),
+      `${label}: play progress panel left/top/width/height left its fixed Stage coordinate`,
+      { tier, state, panelPlacement:auditConfig.panelPlacement },
+    );
+    assert(!state.labelOverflow, `${label}: play progress label overflows`, { tier, state });
+    assert(
+      state.panelRect.left >= state.stageRect.left - 1
+        && state.panelRect.top >= state.stageRect.top - 1
+        && state.panelRect.right <= state.stageRect.right + 1
+        && state.panelRect.bottom <= state.stageRect.bottom + 1,
+      `${label}: play progress leaves the Stage`,
+      { tier, state },
+    );
+    states.push(state);
+  }
+
+  await evaluate(page, `(() => {
+    window.__mathmonEngineQa.setState(${JSON.stringify({
+      problemIndex: before.problemIndex,
+      stepIndex: before.stepIndex,
+      power: before.power,
+      correctFirstTry: before.correctFirstTry,
+      specialSeen: before.specialSeen,
+      completed: before.completed,
+      mistakeTouched: before.mistakeTouched,
+    })});
+    window.__mathmonEngineQa.renderProblem();
+  })()`);
+  assert(new Set(states.map((state) => state.src)).size === tiers.length, `${label}: play progress states reuse an image`, states);
+  return { expectedCanvas, states };
 }
 
 async function auditConfiguredTypography(page, label) {
@@ -941,7 +1114,7 @@ async function auditConfiguredResultNextGoal(page, label) {
     const stage = rectOf(document.querySelector('.stage-shell'));
     const next = rectOf(node);
     const correct = rectOf(document.getElementById('resultCorrectArt'));
-    const retry = rectOf(document.getElementById('restartButton'));
+    const retry = rectOf(document.getElementById('restartButton') || document.getElementById('retryButton'));
     return {
       shouldShow,
       text:node?.textContent.trim() || '',
@@ -964,6 +1137,444 @@ async function auditConfiguredResultNextGoal(page, label) {
   assert(audit.next.left >= audit.stage.left && audit.next.right <= audit.stage.right && audit.next.top >= audit.stage.top && audit.next.bottom <= audit.stage.bottom, `${label}: next goal leaves the Stage`, audit);
   assert(!(audit.correctOverlap.x > 0 && audit.correctOverlap.y > 0), `${label}: next goal overlaps the correct-count art`, audit);
   assert(!(audit.retryOverlap.x > 0 && audit.retryOverlap.y > 0), `${label}: next goal overlaps the retry button`, audit);
+  return audit;
+}
+
+async function auditCompassResultVisual(page, label, expectedTier) {
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa?.resultVisualAudit;
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? {
+        left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
+        width:rect.width, height:rect.height,
+        cx:rect.left + rect.width / 2,
+        cy:rect.top + rect.height / 2
+      } : null;
+    };
+    const stage = rectOf(document.querySelector('.stage-shell'));
+    const screen = document.getElementById('screen-result');
+    const scene = document.getElementById('resultBg');
+    const tier = screen?.dataset.resultTier || '';
+    const scaleX = stage.width / 1280;
+    const scaleY = stage.height / 800;
+    const toScreenRect = (slot) => slot ? ({
+      left:stage.left + slot.x * scaleX,
+      top:stage.top + slot.y * scaleY,
+      right:stage.left + (slot.x + slot.width) * scaleX,
+      bottom:stage.top + (slot.y + slot.height) * scaleY,
+      width:slot.width * scaleX,
+      height:slot.height * scaleY,
+      cx:stage.left + (slot.x + slot.width / 2) * scaleX,
+      cy:stage.top + (slot.y + slot.height / 2) * scaleY
+    }) : null;
+    const nodes = {
+      measure:document.getElementById('resultMeasureSvg'),
+      track:document.getElementById('resultMeasureTrackSvg'),
+      correct:document.getElementById('resultCorrectArt'),
+      next:document.getElementById('resultNextSvg'),
+      retry:document.getElementById('restartButton') || document.getElementById('retryButton')
+    };
+    const rects = Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, rectOf(node)]));
+    const baseAxis = Number(config?.dynamicAxisX || 0);
+    const tierAxis = Number(config?.dynamicAxisByTier?.[tier] ?? baseAxis);
+    const axisBoundSlots = new Set(['measure', 'track', 'correct', 'next']);
+    const shiftedSlots = Object.fromEntries(Object.entries(config?.slots || {}).map(([key, slot]) => [
+      key,
+      axisBoundSlots.has(key) ? { ...slot, x:slot.x + tierAxis - baseAxis } : slot,
+    ]));
+    const slots = Object.fromEntries(Object.entries(shiftedSlots).map(([key, slot]) => [key, toScreenRect(slot)]));
+    const sceneStyle = getComputedStyle(scene);
+    const forbiddenNodes = (config?.forbiddenSelectors || [])
+      .flatMap((selector) => [...document.querySelectorAll(selector)])
+      .filter((node, index, all) => all.indexOf(node) === index)
+      .map((node) => ({
+        selector:node.className || node.id || node.tagName,
+        rect:rectOf(node),
+        display:getComputedStyle(node).display,
+        visibility:getComputedStyle(node).visibility,
+        opacity:Number(getComputedStyle(node).opacity || 0)
+      }));
+    const detectPanel = () => {
+      const panelConfig = config?.panelPixelAudit;
+      if (!panelConfig || !scene?.complete || !scene.naturalWidth || !scene.naturalHeight) return null;
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1280;
+        canvas.height = 800;
+        const context = canvas.getContext('2d', { willReadFrequently:true });
+        context.drawImage(scene, 0, 0, 1280, 800);
+        const pixels = context.getImageData(0, 0, 1280, 800).data;
+        const search = panelConfig.searchRect;
+        const rgb = panelConfig.darkRgbMax;
+        const ratio = Number(panelConfig.minBlueToRedRatio || 0);
+        const columns = [];
+        for (let x = search.x; x < search.x + search.width; x += 1) {
+          let darkPixels = 0;
+          for (let y = search.y; y < search.y + search.height; y += 1) {
+            const offset = (y * 1280 + x) * 4;
+            const red = pixels[offset];
+            const green = pixels[offset + 1];
+            const blue = pixels[offset + 2];
+            if (red < rgb.r && green < rgb.g && blue < rgb.b && blue > red * ratio) darkPixels += 1;
+          }
+          columns.push({ x, darkPixels });
+        }
+        const runs = [];
+        let start = null;
+        let end = null;
+        for (const column of columns) {
+          if (column.darkPixels > panelConfig.minColumnDarkPixels) {
+            if (start === null) start = column.x;
+            end = column.x;
+          } else if (start !== null) {
+            runs.push({ left:start, right:end, width:end - start + 1 });
+            start = null;
+            end = null;
+          }
+        }
+        if (start !== null) runs.push({ left:start, right:end, width:end - start + 1 });
+        const panel = runs
+          .filter((run) => run.width >= panelConfig.minRunWidth)
+          .sort((first, second) => second.width - first.width)[0];
+        if (!panel) return { error:'no-panel-run', runs };
+        panel.cx = (panel.left + panel.right) / 2;
+        panel.screenCx = stage.left + panel.cx * scaleX;
+        return panel;
+      } catch (error) {
+        return { error:String(error?.message || error) };
+      }
+    };
+    const panel = detectPanel();
+    const resultConfig = LESSON_CONFIG.results.find((result) => result.id === tier);
+    return {
+      config, stage, tier,
+      visualRank:Number(resultConfig?.visualRank),
+      scene:{
+        source:scene?.getAttribute('src') || '',
+        complete:Boolean(scene?.complete),
+        naturalWidth:scene?.naturalWidth || 0,
+        naturalHeight:scene?.naturalHeight || 0,
+        objectFit:sceneStyle.objectFit || '',
+        mixBlendMode:sceneStyle.mixBlendMode || '',
+        filter:sceneStyle.filter || '',
+        opacity:Number(sceneStyle.opacity || 0),
+        rect:rectOf(scene)
+      },
+      forbiddenNodes,
+      targetAxisStage:tierAxis,
+      targetAxis:stage.left + tierAxis * scaleX,
+      panel, rects, slots,
+      fontSizes:{
+        measure:parseFloat(getComputedStyle(nodes.measure).fontSize),
+        next:parseFloat(getComputedStyle(nodes.next).fontSize)
+      }
+    };
+  })()`);
+  assert(audit?.config?.standard === "result-tier-fullscene-native-v1", `${label}: result visual contract is missing`, audit);
+  assert(audit.tier === expectedTier.id, `${label}: wrong visible tier`, audit);
+  assert(audit.visualRank === expectedTier.visualRank, `${label}: visual rank does not match the tier`, audit);
+  assert(audit.scene.source.endsWith(`result-${expectedTier.id}-generated.webp`), `${label}: wrong complete result scene source`, audit);
+  assert(audit.scene.complete && audit.scene.naturalWidth === 1280 && audit.scene.naturalHeight === 800, `${label}: complete result scene canvas is wrong`, audit);
+  assert(audit.scene.objectFit === "cover", `${label}: complete result scene must use cover`, audit);
+  assert(audit.scene.mixBlendMode === "normal", `${label}: result scene must not use a blend mode`, audit);
+  assert(audit.scene.filter === "none", `${label}: result scene must not use a tier CSS filter`, audit);
+  assert(audit.scene.opacity === 1, `${label}: result scene opacity must stay at 1`, audit);
+  assert(audit.forbiddenNodes.length === 0, `${label}: a forbidden result effect overlay exists`, audit);
+  for (const edge of ["left", "top", "right", "bottom"]) {
+    assert(Math.abs(audit.scene.rect[edge] - audit.stage[edge]) <= 1, `${label}: complete result scene does not fill the Stage at ${edge}`, audit);
+  }
+  assert(audit.fontSizes.measure === 32 && audit.fontSizes.next === 28, `${label}: result typography token changed`, audit);
+  assert(audit.config.panelPixelAudit?.standard === "dark-panel-contiguous-run-v1", `${label}: result raster panel detector is missing`, audit);
+  assert(audit.config.dynamicAxisByTier?.[expectedTier.id] === audit.targetAxisStage, `${label}: the result tier has no declared raster-panel axis`, audit);
+  assert(audit.panel && !audit.panel.error, `${label}: the generated result panel was not detected from raster pixels`, audit);
+  assert(
+    Math.abs(audit.panel.cx - audit.targetAxisStage) <= Number(audit.config.panelPixelAudit.centerTolerancePx || 1),
+    `${label}: declared dynamic axis does not match the generated result panel pixels`,
+    audit,
+  );
+
+  const axisTolerance = Number(audit.config.axisTolerancePx || 1);
+  for (const key of ["measure", "track", "correct", "next"]) {
+    const rect = audit.rects[key];
+    const target = audit.slots[key];
+    assert(rect && target, `${label}: ${key} result slot is missing`, audit);
+    assert(Math.abs(rect.cx - audit.targetAxis) <= axisTolerance, `${label}: ${key} leaves the result axis`, { audit, key });
+    assert(Math.abs(rect.cx - audit.panel.screenCx) <= Math.max(axisTolerance, Number(audit.config.panelPixelAudit.centerTolerancePx || 1) * (audit.stage.width / 1280)), `${label}: ${key} is not centered on the generated result panel`, { audit, key });
+    assert(
+      rect.left >= target.left - 1 && rect.right <= target.right + 1
+      && rect.top >= target.top - 1 && rect.bottom <= target.bottom + 1,
+      `${label}: ${key} leaves its declared slot`,
+      { audit, key },
+    );
+  }
+  for (const key of ["track", "retry"]) {
+    const rect = audit.rects[key];
+    const target = audit.slots[key];
+    for (const edge of ["left", "top", "right", "bottom"]) {
+      assert(Math.abs(rect[edge] - target[edge]) <= 1, `${label}: ${key} ${edge} differs from its slot by more than 1px`, { audit, key, edge });
+    }
+  }
+  const ordered = ["measure", "track", "correct", "next", "retry"];
+  const minimumGap = Number(audit.config.minVerticalGapPx || 0) * (audit.stage.width / 1280);
+  for (let index = 0; index < ordered.length - 1; index += 1) {
+    const first = audit.rects[ordered[index]];
+    const second = audit.rects[ordered[index + 1]];
+    assert(second.top - first.bottom >= minimumGap - 1, `${label}: ${ordered[index]} and ${ordered[index + 1]} are too close or overlap`, { audit, minimumGap });
+  }
+  return audit;
+}
+async function auditConfiguredRewardSprite(page, label, phase) {
+  const audit = await evaluate(page, `(async () => {
+    const sprite = LESSON_CONFIG.reward?.spriteSheet;
+    if (!sprite?.image) return null;
+    const visual = document.getElementById('rewardVisual');
+    const pop = document.getElementById('rewardPop');
+    const style = getComputedStyle(visual);
+    const rect = visual.getBoundingClientRect();
+    const sourceSize = async (source) => {
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      return { width:image.naturalWidth, height:image.naturalHeight };
+    };
+    return {
+      dataReward:pop?.dataset.reward || '',
+      backgroundImage:style.backgroundImage,
+      backgroundSize:style.backgroundSize,
+      backgroundPosition:style.backgroundPosition,
+      rect:{ width:rect.width, height:rect.height },
+      spriteImage:sprite.image,
+      closedImage:LESSON_CONFIG.imageAssets?.rewardClosed || '',
+      columns:Number(sprite.columns) || 0,
+      rows:Number(sprite.rows) || 0,
+      slots:sprite.slots || {},
+      wrongFamily:LESSON_CONFIG.wrongEvent?.family || '',
+      sourceSize:await sourceSize(${phase === "closed"
+        ? "LESSON_CONFIG.imageAssets.rewardClosed"
+        : "sprite.image"})
+    };
+  })()`);
+  if (!audit) return null;
+  assert(audit.rect.width >= 180 && audit.rect.height >= 180, `${label}: reward art slot is too small`, audit);
+  assert(Math.abs(audit.rect.width - audit.rect.height) <= 1, `${label}: reward art slot is not square`, audit);
+  if (phase === "closed") {
+    assert(audit.dataReward === "closed", `${label}: closed reward state is missing`, audit);
+    assert(audit.backgroundImage.includes(audit.closedImage), `${label}: closed reward image is not connected`, audit);
+    assert(audit.sourceSize.width === 512 && audit.sourceSize.height === 512, `${label}: closed reward source must be 512x512`, audit);
+    return audit;
+  }
+  assert(audit.dataReward && audit.dataReward !== "closed", `${label}: revealed reward family is missing`, audit);
+  assert(audit.backgroundImage.includes(audit.spriteImage), `${label}: reward sprite is not connected`, audit);
+  assert(
+    audit.sourceSize.width === audit.columns * 512 && audit.sourceSize.height === audit.rows * 512,
+    `${label}: reward sprite dimensions do not match its grid`,
+    audit,
+  );
+  const slot = audit.slots[audit.dataReward]
+    || (audit.dataReward === audit.wrongFamily ? [audit.columns - 1, audit.rows - 1] : null);
+  assert(slot, `${label}: revealed reward has no sprite slot`, audit);
+  const [actualX, actualY] = audit.backgroundPosition.split(" ").map((value) => Number.parseFloat(value));
+  const expectedX = audit.columns > 1 ? (slot[0] / (audit.columns - 1)) * 100 : 0;
+  const expectedY = audit.rows > 1 ? (slot[1] / (audit.rows - 1)) * 100 : 0;
+  assert(Math.abs(actualX - expectedX) <= 0.5 && Math.abs(actualY - expectedY) <= 0.5, `${label}: reward sprite position is wrong`, {
+    ...audit,
+    slot,
+    expectedPosition:[expectedX, expectedY],
+    actualPosition:[actualX, actualY],
+  });
+  return audit;
+}
+
+async function auditConfiguredRewardModal(page, label, phase) {
+  const audit = await evaluate(page, `(async () => {
+    const config = LESSON_CONFIG.qa?.rewardModalAudit;
+    if (!config) return null;
+    const expectedPhase = ${JSON.stringify(phase)};
+    const rectOf = (node) => {
+      const rect = node?.getBoundingClientRect();
+      return rect ? {
+        left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
+        width:rect.width, height:rect.height,
+        cx:rect.left + rect.width / 2,
+        cy:rect.top + rect.height / 2
+      } : null;
+    };
+    const overlap = (a, b) => a && b ? {
+      x:Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)),
+      y:Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top))
+    } : { x:0, y:0 };
+    const isVisible = (node) => {
+      if (!node || node.hidden) return false;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
+    };
+    const pop = document.getElementById('rewardPop');
+    const stage = document.querySelector('.stage-shell');
+    const card = document.querySelector(config.card);
+    const visual = document.querySelector(config.visual);
+    const rewardLabel = document.querySelector(config.label);
+    const openButton = document.querySelector(config.openButton);
+    const nextButton = document.querySelector(config.nextButton);
+    const popStyle = pop ? getComputedStyle(pop) : null;
+    const visualStyle = visual ? getComputedStyle(visual) : null;
+    const labelStyle = rewardLabel ? getComputedStyle(rewardLabel) : null;
+    const backgroundImage = visualStyle?.backgroundImage || '';
+    const match = backgroundImage.match(/^url\\(["']?(.*?)["']?\\)$/);
+    const source = match?.[1] || '';
+    let natural = { width:0, height:0 };
+    if (source) {
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      natural = { width:image.naturalWidth, height:image.naturalHeight };
+    }
+    const stageRect = rectOf(stage);
+    const cardRect = rectOf(card);
+    const visualRect = rectOf(visual);
+    const labelRect = rectOf(rewardLabel);
+    const openRect = rectOf(openButton);
+    const nextRect = rectOf(nextButton);
+    const activeButton = expectedPhase === 'closed' ? openButton : nextButton;
+    const activeRect = expectedPhase === 'closed' ? openRect : nextRect;
+    const expectedAssets = expectedPhase === 'closed'
+      ? [LESSON_CONFIG.imageAssets?.rewardClosed]
+      : Object.values(LESSON_CONFIG.reward?.artMap || {});
+    const resolvedAssets = expectedAssets.filter(Boolean).map((asset) => new URL(asset, location.href).href);
+    const backdropFilter = popStyle?.backdropFilter || popStyle?.webkitBackdropFilter || '';
+    const backdropBlurPx = Number(backdropFilter.match(/blur\\(([\\d.]+)px\\)/)?.[1] || 0);
+    return {
+      standard:config.standard || '',
+      activeScreen:document.querySelector('.screen.is-active')?.id || '',
+      modalVisible:isVisible(pop),
+      rewardPhase:card?.dataset.rewardPhase || '',
+      dataReward:pop?.dataset.reward || '',
+      rewardLabel:rewardLabel?.textContent.trim() || '',
+      labelDisplay:labelStyle?.display || '',
+      labelOverflow:{
+        x:rewardLabel ? Math.max(0, rewardLabel.scrollWidth - rewardLabel.clientWidth) : 0,
+        y:rewardLabel ? Math.max(0, rewardLabel.scrollHeight - rewardLabel.clientHeight) : 0
+      },
+      openVisible:isVisible(openButton),
+      nextVisible:isVisible(nextButton),
+      activeButtonVisible:isVisible(activeButton),
+      backgroundImage,
+      backgroundSize:visualStyle?.backgroundSize || '',
+      backgroundPosition:visualStyle?.backgroundPosition || '',
+      source,
+      sourceMatchesExpected:resolvedAssets.includes(source),
+      backdropFilter,
+      backdropBlurPx,
+      natural,
+      canvas:config.canvas || '',
+      tolerances:{
+        center:Number(config.cardCenterTolerancePx) || 0,
+        cardSize:Number(config.cardSizeTolerancePx) || 0,
+        square:Number(config.visualSquareTolerancePx) || 0,
+        visualSize:Number(config.visualSizeTolerancePx) || 0,
+        minVisual:Number(config.minVisualPx) || 0,
+        minBackdropBlur:Number(config.backdropBlurMinPx) || 0
+      },
+      expected:{
+        cardWidth:Number(config.cardWidthPx) || 0,
+        cardHeight:Number(config.cardHeightPx) || 0,
+        cardAspectRatio:config.cardAspectRatio || '',
+        visualSize:Number(config.visualSizePx) || 0
+      },
+      stage:stageRect,
+      card:cardRect,
+      visual:visualRect,
+      label:labelRect,
+      openButton:openRect,
+      nextButton:nextRect,
+      centerDelta:stageRect && cardRect ? {
+        x:Math.abs(stageRect.cx - cardRect.cx),
+        y:Math.abs(stageRect.cy - cardRect.cy)
+      } : null,
+      visualSquareDelta:visualRect ? Math.abs(visualRect.width - visualRect.height) : null,
+      visualButtonOverlap:overlap(visualRect, activeRect),
+      labelButtonOverlap:overlap(labelRect, activeRect)
+    };
+  })()`);
+  if (!audit) return null;
+  const inside = (inner, outer) => inner && outer
+    && inner.left >= outer.left - 1
+    && inner.right <= outer.right + 1
+    && inner.top >= outer.top - 1
+    && inner.bottom <= outer.bottom + 1;
+  const [canvasWidth, canvasHeight] = audit.canvas.split("x").map(Number);
+  assert(audit.standard === "unit3-modal-art-v1", `${label}: reward modal standard is wrong`, audit);
+  assert(audit.modalVisible, `${label}: reward modal is not visible`, audit);
+  assert(audit.activeScreen === "screen-play", `${label}: reward modal must keep the problem screen behind it`, audit);
+  assert(
+    audit.backdropBlurPx >= audit.tolerances.minBackdropBlur,
+    `${label}: reward modal backdrop blur is weaker than its contract`,
+    audit,
+  );
+  assert(audit.rewardPhase === phase, `${label}: reward modal phase is wrong`, audit);
+  assert(audit.card && audit.visual && audit.stage, `${label}: reward modal geometry is incomplete`, audit);
+  assert(
+    audit.centerDelta.x <= audit.tolerances.center && audit.centerDelta.y <= audit.tolerances.center,
+    `${label}: reward card is not centered in the Stage`,
+    audit,
+  );
+  const [aspectWidth, aspectHeight] = audit.expected.cardAspectRatio.split(":").map(Number);
+  const expectedAspect = aspectHeight ? aspectWidth / aspectHeight : 0;
+  assert(
+    Math.abs(audit.card.width - audit.expected.cardWidth) <= audit.tolerances.cardSize
+      && Math.abs(audit.card.height - audit.expected.cardHeight) <= audit.tolerances.cardSize,
+    `${label}: reward card left its fixed width/height contract`,
+    audit,
+  );
+  assert(
+    expectedAspect > 0 && Math.abs((audit.card.width / audit.card.height) - expectedAspect) <= 0.003,
+    `${label}: reward card left its fixed aspect ratio`,
+    audit,
+  );
+  assert(
+    audit.visual.width >= audit.tolerances.minVisual
+      && audit.visual.height >= audit.tolerances.minVisual
+      && audit.visualSquareDelta <= audit.tolerances.square,
+    `${label}: reward visual slot is not a stable square`,
+    audit,
+  );
+  assert(
+    Math.abs(audit.visual.width - audit.expected.visualSize) <= audit.tolerances.visualSize
+      && Math.abs(audit.visual.height - audit.expected.visualSize) <= audit.tolerances.visualSize,
+    `${label}: reward visual left its fixed size contract`,
+    audit,
+  );
+  assert(inside(audit.card, audit.stage), `${label}: reward card leaves the Stage`, audit);
+  assert(inside(audit.visual, audit.card), `${label}: reward image leaves its card`, audit);
+  assert(audit.activeButtonVisible, `${label}: active reward button is not visible`, audit);
+  assert(
+    !(audit.visualButtonOverlap.x > 0 && audit.visualButtonOverlap.y > 0),
+    `${label}: reward image overlaps its button`,
+    audit,
+  );
+  assert(
+    !(audit.labelButtonOverlap.x > 0 && audit.labelButtonOverlap.y > 0),
+    `${label}: reward label overlaps its button`,
+    audit,
+  );
+  assert(audit.backgroundSize === "cover", `${label}: reward image must fill the square slot without empty edges`, audit);
+  assert(audit.sourceMatchesExpected, `${label}: reward image is not connected to the configured state asset`, audit);
+  assert(
+    audit.natural.width === canvasWidth && audit.natural.height === canvasHeight,
+    `${label}: reward source canvas does not match its contract`,
+    audit,
+  );
+  if (phase === "closed") {
+    assert(audit.dataReward === "closed", `${label}: closed reward family is missing`, audit);
+    assert(audit.openVisible && !audit.nextVisible, `${label}: closed reward must show only the open button`, audit);
+    assert(audit.labelDisplay === "none", `${label}: closed reward must not repeat explanatory copy`, audit);
+  } else {
+    assert(audit.dataReward && audit.dataReward !== "closed", `${label}: revealed reward family is missing`, audit);
+    assert(!audit.openVisible && audit.nextVisible, `${label}: revealed reward must show only the next button`, audit);
+    assert(audit.labelDisplay !== "none" && audit.rewardLabel, `${label}: revealed reward change is missing`, audit);
+    assert(audit.labelOverflow.x <= 1 && audit.labelOverflow.y <= 1, `${label}: reward label overflows its box`, audit);
+  }
   return audit;
 }
 
@@ -3144,8 +3755,10 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
 
   const shots = [];
   let initialLearningLayout = null;
+  let initialPlayProgress = null;
   const hasSharedCoverStart = await evaluate(page, "document.querySelector('main.game')?.dataset.coverStartAsset === 'shared-canonical-v1'");
   const hasConfiguredLayoutAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.layoutAudit)");
+  const hasConfiguredTopControlsAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.topControlsAudit)");
   const scoreViewButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.scoreViewButton || ''");
   const tutorialNextButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.tutorialNextButton || ''");
   const configuredMisconceptions = await evaluate(page, "LESSON_CONFIG.qa?.misconceptionCoverage || []");
@@ -3188,11 +3801,14 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
   shots.push(await screenshot(page, lesson, viewport, "05-play-step1"));
   await auditGeometry(page, `${viewport.name} play`);
-  if (hasConfiguredLayoutAudit) {
+  if (hasConfiguredLayoutAudit || hasConfiguredTopControlsAudit) {
     await auditConfiguredPlayHeader(page, `${viewport.name} play header`);
+  }
+  if (hasConfiguredLayoutAudit) {
     initialLearningLayout = await auditConfiguredLearningLayout(page, `${viewport.name} learning layout`);
     await auditConfiguredTypography(page, `${viewport.name} typography`);
   }
+  initialPlayProgress = await auditConfiguredPlayProgress(page, `${viewport.name} play progress`);
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm waiting`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorPlayHeader(page, `${viewport.name} play header`);
@@ -3438,6 +4054,36 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");
   const firstReward = await waitForReward(page, viewport.name);
+  const rewardEffectConfigured = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.rewardEffectAudit)");
+  const rewardEffectConfig = rewardEffectConfigured
+    ? await evaluate(page, "LESSON_CONFIG.qa.rewardEffectAudit")
+    : null;
+  let configuredRewardDelta = 0;
+  if (rewardEffectConfigured) {
+    await evaluate(page, `(() => {
+      const forced = LESSON_CONFIG.qa.rewardEffectAudit.forceTierTransition;
+      if (!forced) return;
+      const event = LESSON_CONFIG.rewardEvents.find((item) => item.id === forced.eventId);
+      if (!event) throw new Error("Forced reward tier event is missing: " + forced.eventId);
+      window.__mathmonEngineQa.setState({
+        power:Number(forced.beforePower),
+        correctFirstTry:Number(forced.beforeCorrect),
+        pendingRewardEvent:{ ...event, amount:Number(forced.amount) }
+      });
+      globalThis.__compassRingQa?.syncProgress?.();
+    })()`);
+  }
+  if (rewardEffectConfigured && !firstReward.autoRevealed) {
+    await evaluate(page, `(() => {
+      const state = window.__mathmonEngineQa.getState();
+      if (state.pendingRewardAmount !== 0 && !(state.power <= 0 && state.pendingRewardAmount < 0)) return;
+      const common = LESSON_CONFIG.rewardEvents.find((event) => event.id === "normal");
+      const amount = Math.max(1, Number(common?.min || 1));
+      window.__mathmonEngineQa.setState({
+        pendingRewardEvent:{ ...common, amount }
+      });
+    })()`);
+  }
   const targetWorldBeforeReveal = lesson === "3-2-3-1-mathmon-target-hit"
     ? await evaluate(page, `(() => ({
         src: document.getElementById("circleWorldImage")?.getAttribute("src") || "",
@@ -3445,12 +4091,31 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       }))()`)
     : null;
   let targetRewardImpactDelta = 0;
+  const configuredWorldBeforeReveal = rewardEffectConfigured
+    ? await evaluate(page, `(() => {
+        const config = LESSON_CONFIG.qa.rewardEffectAudit;
+        const panel = document.querySelector(config.panel);
+        const image = document.querySelector(config.image);
+        return {
+          src:image?.getAttribute("src") || "",
+          classes:panel?.className || "",
+          resultTier:panel?.dataset.resultTier || "",
+          activeClasses:config.activeClasses || [],
+          power:Number(window.__mathmonEngineQa.getState().power || 0),
+          revealHookType:typeof globalThis.onRewardReveal,
+          dismissHookType:typeof globalThis.onRewardDismiss,
+          lessonEffectState:globalThis.__compassRingQa?.getRewardEffectState?.() || null
+        };
+      })()`)
+    : null;
   if (firstReward.autoRevealed) {
     shots.push(await screenshot(page, lesson, viewport, "07-reward-immediate"));
     await auditGeometry(page, `${viewport.name} immediate reward`);
   } else {
     shots.push(await screenshot(page, lesson, viewport, "07-reward-closed"));
     await auditGeometry(page, `${viewport.name} closed reward`);
+    await auditConfiguredRewardSprite(page, `${viewport.name} closed reward sprite`, "closed");
+    await auditConfiguredRewardModal(page, `${viewport.name} closed reward modal`, "closed");
     if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} closed reward`, "closed");
     await revealReward(page, firstReward, viewport.name);
     if (lesson === "3-2-3-1-mathmon-target-hit") {
@@ -3474,8 +4139,36 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
         targetWorldDuringModal,
       );
     }
+    if (rewardEffectConfigured) {
+      const configuredWorldDuringModal = await evaluate(page, `(() => {
+        const config = LESSON_CONFIG.qa.rewardEffectAudit;
+        const panel = document.querySelector(config.panel);
+        const image = document.querySelector(config.image);
+        return {
+          src:image?.getAttribute("src") || "",
+          classes:panel?.className || "",
+          modalHidden:document.getElementById("rewardPop")?.hidden ?? true,
+          activeClasses:config.activeClasses || [],
+          power:Number(window.__mathmonEngineQa.getState().power || 0)
+        };
+      })()`);
+      configuredRewardDelta = configuredWorldDuringModal.power - configuredWorldBeforeReveal.power;
+      assert(configuredWorldDuringModal.modalHidden === false, `${viewport.name}: reward modal must remain visible during reward reveal`, configuredWorldDuringModal);
+      assert(
+        configuredWorldDuringModal.src === configuredWorldBeforeReveal.src,
+        `${viewport.name}: blurred problem-screen progress art must stay stable while the reward modal is open`,
+        { before:configuredWorldBeforeReveal, during:configuredWorldDuringModal },
+      );
+      assert(
+        configuredWorldDuringModal.activeClasses.every((className) => !configuredWorldDuringModal.classes.split(/\\s+/).includes(className)),
+        `${viewport.name}: background reward effect must wait until the modal is dismissed`,
+        configuredWorldDuringModal,
+      );
+    }
     shots.push(await screenshot(page, lesson, viewport, "07b-reward-open"));
     await auditGeometry(page, `${viewport.name} revealed reward`);
+    await auditConfiguredRewardSprite(page, `${viewport.name} revealed reward sprite`, "revealed");
+    await auditConfiguredRewardModal(page, `${viewport.name} revealed reward modal`, "revealed");
     if (lesson === "3-2-2-2-mathmon-elevator") {
       await auditGeneratedActionButton(page, `${viewport.name} reward next button`, "#modalRewardNextButton", "action-buttons/next-button-generated.webp", "다음");
     }
@@ -3499,6 +4192,128 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
         `${viewport.name}: non-zero reward must trigger the visible background effect after score confirmation`,
         { rewardDelta: targetRewardImpactDelta, ...targetWorldAfterConfirm },
       );
+    }
+  } else if (rewardEffectConfigured) {
+    await page.send("Emulation.setEmulatedMedia", {
+      features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
+    });
+    const effectConfig = rewardEffectConfig;
+    const readConfiguredWorld = () => evaluate(page, `(() => {
+      const config = LESSON_CONFIG.qa.rewardEffectAudit;
+      const panel = document.querySelector(config.panel);
+      const impactLayer = document.querySelector(config.impactLayer);
+      const stage = document.querySelector(".stage-shell");
+      const classes = panel?.className || "";
+      const impactRect = impactLayer?.getBoundingClientRect();
+      const stageRect = stage?.getBoundingClientRect();
+      return {
+        now:performance.now(),
+        classes,
+        src:document.querySelector(config.image)?.getAttribute("src") || "",
+        resultTier:panel?.dataset.resultTier || "",
+        modalHidden:document.getElementById("rewardPop")?.hidden ?? true,
+        problemIndex:window.__mathmonEngineQa.getState().problemIndex,
+        activeClasses:config.activeClasses || [],
+        activeEffect:(config.activeClasses || []).some((className) => classes.split(/\\s+/).includes(className)),
+        impactWidthRatio:impactRect && stageRect?.width ? impactRect.width / stageRect.width : 0,
+        revealHookType:typeof globalThis.onRewardReveal,
+        dismissHookType:typeof globalThis.onRewardDismiss,
+        lessonEffectState:globalThis.__compassRingQa?.getRewardEffectState?.() || null
+      };
+    })()`);
+    await clickSelector(page, firstReward.nextSelector);
+    let configuredWorldAfterConfirm = await readConfiguredWorld();
+    assert(configuredWorldAfterConfirm.modalHidden === true, `${viewport.name}: reward confirmation must close the modal before the background effect`, configuredWorldAfterConfirm);
+    if (configuredRewardDelta !== 0) {
+      if (effectConfig.preEffectDelayMs > 0) {
+        if (!configuredWorldAfterConfirm.activeEffect) {
+          assert(configuredWorldAfterConfirm.lessonEffectState?.effectPhase === "arming", `${viewport.name}: post-modal attention pause was not exposed`, configuredWorldAfterConfirm);
+          assert(configuredWorldAfterConfirm.problemIndex === 0, `${viewport.name}: next problem advanced during the post-modal attention pause`, configuredWorldAfterConfirm);
+          await waitUntil(
+            page,
+            "globalThis.__compassRingQa?.getRewardEffectState?.().effectPhase === 'active'",
+            `${viewport.name}: delayed reward effect did not start`,
+            Number(effectConfig.preEffectDelayMs || 0) + 1600,
+          );
+          configuredWorldAfterConfirm = await readConfiguredWorld();
+        }
+        const armedAt = Number(configuredWorldAfterConfirm.lessonEffectState?.effectArmedAt || 0);
+        const startedAt = Number(configuredWorldAfterConfirm.lessonEffectState?.effectStartedAt || 0);
+        assert(
+          startedAt - armedAt >= Number(effectConfig.preEffectDelayMs) - 40,
+          `${viewport.name}: post-modal attention pause was shorter than contracted`,
+          { armedAt, startedAt, expected:effectConfig.preEffectDelayMs },
+        );
+      }
+      assert(configuredWorldAfterConfirm.activeEffect, `${viewport.name}: non-zero reward must trigger the visible progress-panel effect`, {
+        rewardDelta:configuredRewardDelta,
+        ...configuredWorldAfterConfirm,
+      });
+      assert(configuredWorldAfterConfirm.problemIndex === 0, `${viewport.name}: next problem must wait for the progress-panel effect`, configuredWorldAfterConfirm);
+      if (effectConfig.standard === "modal-dismiss-world-impact-v2") {
+        assert(
+          configuredWorldAfterConfirm.lessonEffectState?.effectStartedWithModalHidden === "true",
+          `${viewport.name}: the world impact must start only after the reward modal is hidden`,
+          configuredWorldAfterConfirm,
+        );
+        assert(
+          configuredWorldAfterConfirm.lessonEffectState?.effectPhase === "active",
+          `${viewport.name}: the post-modal effect phase must be active`,
+          configuredWorldAfterConfirm,
+        );
+        const forced = effectConfig.forceTierTransition;
+        if (forced) {
+          assert(configuredWorldBeforeReveal.resultTier === forced.beforeTier, `${viewport.name}: forced tier fixture did not begin at ${forced.beforeTier}`, configuredWorldBeforeReveal);
+          assert(configuredWorldAfterConfirm.resultTier === forced.afterTier, `${viewport.name}: reward did not advance to ${forced.afterTier}`, configuredWorldAfterConfirm);
+          assert(configuredWorldAfterConfirm.src !== configuredWorldBeforeReveal.src, `${viewport.name}: tier-up must swap the progress scene image`, {
+            before:configuredWorldBeforeReveal,
+            after:configuredWorldAfterConfirm,
+          });
+          assert(
+            configuredWorldAfterConfirm.classes.split(/\s+/).includes(effectConfig.tierUpClass),
+            `${viewport.name}: tier-up must trigger the dedicated high-impact class`,
+            configuredWorldAfterConfirm,
+          );
+          assert(configuredWorldAfterConfirm.lessonEffectState?.effectKind === "tier-up", `${viewport.name}: tier-up effect kind was not recorded`, configuredWorldAfterConfirm);
+        }
+        const captureDelayMs = Math.min(520, Math.max(480, Math.floor(Number(effectConfig.minVisibleMs || 0) / 3)));
+        if (captureDelayMs > 0) await delay(captureDelayMs);
+        configuredWorldAfterConfirm = await readConfiguredWorld();
+        assert(
+          configuredWorldAfterConfirm.impactWidthRatio >= Number(effectConfig.minImpactStageWidthRatio || 0),
+          `${viewport.name}: post-modal effect is too small at its visible peak`,
+          configuredWorldAfterConfirm,
+        );
+        shots.push(await screenshot(page, lesson, viewport, "07c-reward-impact"));
+        const afterCaptureTiming = await readConfiguredWorld();
+        const effectStartedAt = Number(afterCaptureTiming.lessonEffectState?.effectStartedAt || 0);
+        const elapsedSinceEffectStart = Math.max(0, Number(afterCaptureTiming.now || 0) - effectStartedAt);
+        const holdMs = Math.max(0, Number(effectConfig.minVisibleMs || 0) - elapsedSinceEffectStart - 100);
+        if (holdMs > 0) {
+          await delay(holdMs);
+          const heldImpact = await evaluate(page, `(() => {
+            const config = LESSON_CONFIG.qa.rewardEffectAudit;
+            const panel = document.querySelector(config.panel);
+            return {
+              problemIndex:window.__mathmonEngineQa.getState().problemIndex,
+              effectPhase:panel?.dataset.effectPhase || "",
+              classes:panel?.className || ""
+            };
+          })()`);
+          assert(heldImpact.problemIndex === 0, `${viewport.name}: next problem advanced before the minimum effect reading time`, heldImpact);
+          assert(heldImpact.effectPhase === "active", `${viewport.name}: tier-up effect ended before the minimum visible duration`, heldImpact);
+        }
+      } else {
+        shots.push(await screenshot(page, lesson, viewport, "07c-reward-impact"));
+      }
+    }
+    await waitUntil(page, "window.__mathmonEngineQa.getState().problemIndex === 1", `${viewport.name}: next problem did not start after the reward effect`);
+    const restoreCorrect = await evaluate(page, "LESSON_CONFIG.qa.rewardEffectAudit.forceTierTransition?.restoreCorrect ?? null");
+    if (restoreCorrect != null) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({ correctFirstTry:${JSON.stringify(restoreCorrect)} });
+        window.__mathmonEngineQa.renderProblem();
+      })()`);
     }
     await page.send("Emulation.setEmulatedMedia", {
       features: [{ name: "prefers-reduced-motion", value: "reduce" }],
@@ -3547,7 +4362,21 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       await auditGeometry(page, `${viewport.name} final revealed reward`);
       await auditFarmReward(page, `${viewport.name} final revealed reward`, "revealed");
     }
+    const problemIndexBeforeRewardDismiss = await evaluate(
+      page,
+      "window.__mathmonEngineQa.getState().problemIndex",
+    );
     await clickSelector(page, reward.nextSelector);
+    if (rewardEffectConfigured) {
+      await waitUntil(
+        page,
+        `document.querySelector('.screen.is-active')?.id === 'screen-result' || window.__mathmonEngineQa.getState().problemIndex > ${JSON.stringify(problemIndexBeforeRewardDismiss)}`,
+        `${viewport.name}: problem ${problemIndex} did not advance after its post-modal reward effect`,
+        Number(rewardEffectConfig?.preEffectDelayMs || 0)
+          + Number(rewardEffectConfig?.durationMs || 0)
+          + 3000,
+      );
+    }
   }
   if (lesson === "3-2-2-4-mathmon-check-lock") {
     assert(checkLockMatchCaptured, `${viewport.name}: matching auto-comparison state was not captured`);
@@ -3623,6 +4452,48 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
         && document.querySelector('.result-retry-art')?.complete`, `${viewport.name}: check-lock result ${tier.id} did not render`);
       await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
       await auditConfiguredResultNextGoal(page, `${viewport.name} result ${tier.id} next goal`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+    }
+  }
+
+  if (lesson === "3-2-3-2-mathmon-compass-ring") {
+    const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      power:result.minPower,
+      correct:result.minCorrect,
+      special:Boolean(result.needsSpecial),
+      visualRank:Number(result.visualRank)
+    }))`);
+    assert(resultTiers.length === 6, `${viewport.name}: compass result set must contain six states`, resultTiers);
+    let previousVisualAudit = null;
+    for (const tier of resultTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power},
+          correctFirstTry:${tier.correct},
+          specialSeen:${tier.special},
+          currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
+        && document.getElementById('resultBg')?.complete
+        && document.getElementById('resultBg')?.naturalWidth === 1280
+        && document.getElementById('resultCorrectArt')?.complete
+        && document.getElementById('resultCorrectArt')?.naturalWidth > 0
+        && !document.querySelector('.compass-result-impact, [class*="result-impact"]')`, `${viewport.name}: compass result ${tier.id} did not render`);
+      await auditGeometry(page, `${viewport.name} compass result ${tier.id}`, { requireRetry: true });
+      await auditConfiguredResultNextGoal(page, `${viewport.name} compass result ${tier.id} next goal`);
+      const visualAudit = await auditCompassResultVisual(
+        page,
+        `${viewport.name} compass result ${tier.id} visual`,
+        tier,
+      );
+      if (previousVisualAudit) {
+        assert(visualAudit.visualRank === previousVisualAudit.visualRank + 1, `${viewport.name}: compass visual rank must rise by one per tier`, { previousVisualAudit, visualAudit });
+        assert(visualAudit.scene.source !== previousVisualAudit.scene.source, `${viewport.name}: adjacent compass tiers must use different complete scenes`, { previousVisualAudit, visualAudit });
+      }
+      previousVisualAudit = visualAudit;
       shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
     }
   }
@@ -3857,7 +4728,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   assert(snapshot.missingImages.length === 0, `${viewport.name}: missing images`, snapshot);
   assert(snapshot.overflowing.length === 0, `${viewport.name}: text overflow`, snapshot);
   assert(snapshot.stage?.width > 0 && snapshot.stage?.height > 0, `${viewport.name}: stage not visible`, snapshot);
-  return { viewport, shots, learningLayout: initialLearningLayout, snapshot };
+  return { viewport, shots, learningLayout: initialLearningLayout, playProgress: initialPlayProgress, snapshot };
 }
 
 async function readLessonConfig(lesson) {

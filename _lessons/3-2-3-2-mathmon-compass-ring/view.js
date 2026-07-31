@@ -2,24 +2,134 @@ const COMPASS_SVG_NS = "http://www.w3.org/2000/svg";
 const COMPASS_RULER_MAX = 12;
 const COMPASS_TARGET_RADIUS = 92;
 let compassProofToken = 0;
-let compassRewardStage = null;
 let compassRewardArtPrimed = false;
+let compassPlayProgress = null;
+let pendingCompassRewardImpact = null;
 const compassRewardPreloads = [];
 
 function ensureCompassStageArt() {
   primeCompassRewardArt();
   const playScreen = document.getElementById("screen-play");
-  if (!playScreen || playScreen.querySelector(".compass-stage-art")) return;
-  const image = document.createElement("img");
-  image.className = "compass-stage-art";
-  image.src = LESSON_CONFIG.imageAssets.problemStage;
-  image.alt = "";
-  image.setAttribute("aria-hidden", "true");
-  playScreen.prepend(image);
+  if (!playScreen) return null;
+  if (!playScreen.querySelector(".compass-stage-art")) {
+    const image = document.createElement("img");
+    image.className = "compass-stage-art";
+    image.src = LESSON_CONFIG.imageAssets.problemStage;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    playScreen.prepend(image);
+  }
+  if (!compassPlayProgress) {
+    const panel = document.createElement("aside");
+    panel.className = "compass-play-progress";
+    panel.dataset.playProgressStandard = LESSON_CONFIG.workbench?.playStateImageSet?.standard || "";
+    panel.dataset.protagonist = LESSON_CONFIG.workbench?.playStateImageSet?.protagonist || "";
+    panel.dataset.cacheVersion = LESSON_CONFIG.workbench?.playStateImageSet?.cacheVersion || "";
+
+    const art = document.createElement("img");
+    art.className = "compass-play-progress-art";
+    art.alt = "";
+    art.setAttribute("aria-hidden", "true");
+
+    const flare = document.createElement("span");
+    flare.className = "compass-play-progress-flare";
+    flare.setAttribute("aria-hidden", "true");
+
+    const stageImpact = document.createElement("span");
+    stageImpact.className = "compass-play-progress-impact-stage";
+    stageImpact.setAttribute("aria-hidden", "true");
+
+    const readout = document.createElement("div");
+    readout.className = "compass-play-progress-readout";
+    const eyebrow = document.createElement("span");
+    eyebrow.className = "compass-play-progress-eyebrow";
+    eyebrow.textContent = "지금의 마법진";
+    const name = document.createElement("strong");
+    name.className = "compass-play-progress-name";
+    const meter = document.createElement("span");
+    meter.className = "compass-play-progress-meter";
+    meter.setAttribute("role", "progressbar");
+    meter.setAttribute("aria-valuemin", "0");
+    meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+    const meterFill = document.createElement("i");
+    meterFill.className = "compass-play-progress-meter-fill";
+    meter.appendChild(meterFill);
+    readout.append(eyebrow, name, meter);
+    panel.append(art, flare, readout);
+    playScreen.append(panel, stageImpact);
+    compassPlayProgress = { panel, art, flare, stageImpact, name, meter, meterFill };
+  }
+  return compassPlayProgress;
+}
+
+function syncCompassPlayProgress(state, options = {}) {
+  const progress = ensureCompassStageArt();
+  if (!progress) return Promise.resolve();
+  const result = Lesson3CompassRingModel.getResult(
+    Number(state.power || 0),
+    Number(state.correctFirstTry || 0),
+    Boolean(state.specialSeen)
+  );
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), maxPower));
+  const nextSrc = result.playImage
+    || LESSON_CONFIG.imageAssets.playProgressStates?.[result.id]
+    || LESSON_CONFIG.imageAssets.playProgressStates?.faint
+    || "";
+  const previousPower = Number(progress.panel.dataset.power || 0);
+  const previousTier = progress.panel.dataset.resultTier || "";
+  const changed = progress.art.getAttribute("src") !== nextSrc;
+  const tierChanged = Boolean(previousTier && previousTier !== result.id);
+
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.meterFill.style.width = `${power / maxPower * 100}%`;
+  progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요. 마법진 빛은 ${power}이에요.`);
+
+  if (changed) progress.art.src = nextSrc;
+  const delta = Number(options.delta ?? (power - previousPower));
+  const shouldAnimate = options.animate === true && (changed || delta !== 0);
+  progress.panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+  progress.panel.dataset.effectPhase = "idle";
+  progress.panel.dataset.effectKind = "none";
+  if (shouldAnimate) {
+    void progress.panel.offsetWidth;
+    progress.panel.classList.add(delta < 0 ? "is-dimming" : "is-changing");
+    if (options.celebrate === true && delta > 0) progress.panel.classList.add("is-celebrating");
+    if (tierChanged && delta > 0) progress.panel.classList.add("is-tier-up");
+    progress.panel.dataset.effectPhase = "active";
+    progress.panel.dataset.effectKind = tierChanged && delta > 0
+      ? "tier-up"
+      : delta > 0
+        ? "gain"
+        : delta < 0
+          ? "loss"
+          : "none";
+    progress.panel.dataset.effectStartedAt = String(performance.now());
+    if (options.afterModalDismiss === true) {
+      progress.panel.dataset.effectStartedWithModalHidden = String(
+        document.getElementById("rewardPop")?.hidden === true
+      );
+    }
+  }
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = shouldAnimate && !reducedMotion
+    ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1180)
+    : 0;
+  if (!duration) return Promise.resolve();
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      progress.panel?.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      if (progress.panel) progress.panel.dataset.effectPhase = "idle";
+      resolve();
+    }, duration);
+  });
 }
 
 function renderProblemVisual(problem, state) {
-  ensureCompassStageArt();
+  syncCompassPlayProgress(state);
   compassProofToken += 1;
   ui.visualArea.closest(".problem-grid")?.classList.remove("is-proving");
   setCompassVisualState("waiting", problem.radius, null);
@@ -27,6 +137,7 @@ function renderProblemVisual(problem, state) {
 }
 
 function updateProblemVisualForStep(problem, step, state) {
+  syncCompassPlayProgress(state);
   compassProofToken += 1;
   ui.visualArea.closest(".problem-grid")?.classList.remove("is-proving");
   setCompassVisualState("waiting", problem.radius, null);
@@ -226,14 +337,6 @@ function compassProofMarkup(radius, opening, visualState) {
   `;
 }
 
-function getCompassRewardImage(event) {
-  const artMap = LESSON_CONFIG.reward?.artMap || {};
-  return event?.image
-    || artMap[event?.id]
-    || artMap[event?.family]
-    || LESSON_CONFIG.imageAssets.rewardClosed;
-}
-
 function primeCompassRewardArt() {
   if (compassRewardArtPrimed || typeof Image === "undefined") return;
   compassRewardArtPrimed = true;
@@ -241,6 +344,7 @@ function primeCompassRewardArt() {
   const sources = new Set([
     LESSON_CONFIG.imageAssets.rewardClosed,
     ...Object.values(artMap),
+    ...Object.values(LESSON_CONFIG.imageAssets.playProgressStates || {}),
   ].filter(Boolean));
   sources.forEach((src) => {
     const image = new Image();
@@ -249,116 +353,67 @@ function primeCompassRewardArt() {
   });
 }
 
-function setCompassRewardArt(image, src) {
-  if (!(image instanceof HTMLImageElement)) return;
-  const fallback = LESSON_CONFIG.imageAssets.rewardClosed;
-  image.onerror = () => {
-    image.onerror = null;
-    if (image.getAttribute("src") !== fallback) image.src = fallback;
+function onRewardReveal({ event, beforePower, afterPower }) {
+  pendingCompassRewardImpact = {
+    event,
+    delta: afterPower - beforePower,
   };
-  image.src = src || fallback;
 }
 
-function ensureCompassRewardStage() {
-  primeCompassRewardArt();
-  if (compassRewardStage?.root?.isConnected) return compassRewardStage;
-  const panel = document.querySelector("#screen-reward .reward-panel");
-  const title = document.getElementById("rewardTitle");
-  const engineLabel = document.getElementById("rewardChange");
-  const button = document.getElementById("rewardNextButton");
-  if (!panel || !title || !engineLabel || !button) return null;
-
-  title.classList.add("visually-hidden");
-  engineLabel.className = "visually-hidden";
-  engineLabel.setAttribute("aria-hidden", "true");
-
-  const story = document.createElement("div");
-  story.className = "compass-reward-story";
-  story.dataset.rewardStageStory = "true";
-  story.dataset.phase = "closed";
-
-  const visual = document.createElement("div");
-  visual.className = "compass-reward-visual";
-  const art = document.createElement("img");
-  art.className = "compass-reward-art";
-  art.alt = "";
-  art.setAttribute("aria-hidden", "true");
-  visual.appendChild(art);
-
-  const copy = document.createElement("div");
-  copy.className = "compass-reward-copy";
-  const eyebrow = document.createElement("span");
-  eyebrow.className = "compass-reward-eyebrow";
-  eyebrow.textContent = "현재 마법진";
-  const tier = document.createElement("strong");
-  tier.className = "compass-reward-tier";
-  const meter = document.createElement("div");
-  meter.className = "compass-reward-meter";
-  meter.setAttribute("role", "progressbar");
-  meter.setAttribute("aria-valuemin", "0");
-  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
-  const meterFill = document.createElement("span");
-  meterFill.className = "compass-reward-meter-fill";
-  meter.appendChild(meterFill);
-  const status = document.createElement("p");
-  status.className = "compass-reward-status";
-  status.setAttribute("aria-live", "polite");
-  copy.append(eyebrow, tier, meter, status, button);
-  story.append(visual, copy);
-  panel.replaceChildren(title, story, engineLabel);
-
-  compassRewardStage = { root: story, art, tier, meter, meterFill, status, button };
-  return compassRewardStage;
-}
-
-function onRewardPrepare({ beforePower, beforeResult }) {
-  const stage = ensureCompassRewardStage();
-  if (!stage) return;
-  const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
-  setCompassRewardArt(stage.art, LESSON_CONFIG.imageAssets.rewardClosed);
-  stage.tier.textContent = beforeResult.name;
-  stage.meter.setAttribute("aria-valuenow", String(beforePower));
-  stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
-  stage.status.textContent = "무엇이 나올까요?";
-  stage.root.dataset.phase = "closed";
-  stage.root.dataset.reward = "closed";
-  stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 마법 상자가 닫혀 있어요.`);
-  setCompassRewardArt(ui.rewardScene, LESSON_CONFIG.imageAssets.rewardClosed);
-}
-
-function onRewardReveal({ event, beforePower, afterPower, beforeResult, afterResult }) {
-  const stage = ensureCompassRewardStage();
-  if (!stage) return Promise.resolve();
-  const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
-  const eventImage = getCompassRewardImage(event);
-  setCompassRewardArt(stage.art, eventImage);
-  stage.tier.textContent = afterResult.name;
-  stage.meter.setAttribute("aria-valuenow", String(afterPower));
-  stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
-  stage.status.textContent = compassRewardSummary(event, beforePower, afterPower, beforeResult, afterResult);
-  stage.root.dataset.phase = "revealed";
-  stage.root.dataset.reward = event.family || event.id || "normal";
-  stage.root.setAttribute("aria-label", `${stage.status.textContent}. 지금 ${afterResult.name}.`);
-  setCompassRewardArt(ui.rewardScene, eventImage);
+async function onRewardDismiss({ state }) {
+  const impact = pendingCompassRewardImpact;
+  pendingCompassRewardImpact = null;
+  if (!impact) return Promise.resolve();
+  const progress = ensureCompassStageArt();
+  const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return reducedMotion ? Promise.resolve() : waitForCompass(480);
-}
-
-function compassRewardSummary(event, beforePower, afterPower, beforeResult, afterResult) {
-  if (event.special || afterResult.needsSpecial) return "전설 마법진을 찾았어요!";
-  const change = afterPower - beforePower;
-  const changeText = change > 0 ? `+${change}` : change < 0 ? String(change) : "그대로";
-  if (beforeResult.id !== afterResult.id) return `${changeText} · ${afterResult.name}이 됐어요!`;
-  const nextResult = typeof Lesson3CompassRingModel.getNextResult === "function"
-    ? Lesson3CompassRingModel.getNextResult(afterResult)
-    : afterResult;
-  if (!nextResult || nextResult.id === afterResult.id) return `${changeText} · 가장 큰 마법진이에요!`;
-  const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
-  if (afterPower >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
-    return `${changeText} · 문제 ${missingCorrect}개 더`;
+  const preEffectDelay = reducedMotion
+    ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+    : Number(effectConfig.preEffectDelayMs || 0);
+  if (progress?.panel && preEffectDelay > 0) {
+    progress.panel.dataset.effectPhase = "arming";
+    progress.panel.dataset.effectKind = impact.delta > 0 ? "gain-arming" : impact.delta < 0 ? "loss-arming" : "none";
+    progress.panel.dataset.effectArmedAt = String(performance.now());
+    progress.panel.dataset.effectStartedWithModalHidden = String(
+      document.getElementById("rewardPop")?.hidden === true
+    );
+    await waitForCompass(preEffectDelay);
   }
-  const remaining = Math.max(0, Number(nextResult.minPower || 0) - afterPower);
-  return `${changeText} · ${nextResult.name}까지 ${remaining} 더`;
+  return syncCompassPlayProgress(state, {
+    animate: true,
+    celebrate: impact.delta > 0,
+    delta: impact.delta,
+    afterModalDismiss: true,
+  });
 }
 
+globalThis.onRewardReveal = onRewardReveal;
+globalThis.onRewardDismiss = onRewardDismiss;
+globalThis.__compassRingQa = {
+  syncProgress() {
+    return syncCompassPlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });
+  },
+  getRewardEffectState() {
+    const impactRect = compassPlayProgress?.stageImpact?.getBoundingClientRect?.();
+    return {
+      pendingDelta: pendingCompassRewardImpact?.delta ?? null,
+      panelClasses: compassPlayProgress?.panel?.className || "",
+      effectPhase: compassPlayProgress?.panel?.dataset.effectPhase || "idle",
+      effectKind: compassPlayProgress?.panel?.dataset.effectKind || "none",
+      effectArmedAt: compassPlayProgress?.panel?.dataset.effectArmedAt || "",
+      effectStartedAt: compassPlayProgress?.panel?.dataset.effectStartedAt || "",
+      effectStartedWithModalHidden: compassPlayProgress?.panel?.dataset.effectStartedWithModalHidden || "",
+      resultTier: compassPlayProgress?.panel?.dataset.resultTier || "",
+      imageSrc: compassPlayProgress?.art?.getAttribute("src") || "",
+      impactLayerRect: impactRect
+        ? {
+            left: impactRect.left,
+            top: impactRect.top,
+            width: impactRect.width,
+            height: impactRect.height,
+          }
+        : null,
+    };
+  },
+};
 primeCompassRewardArt();
