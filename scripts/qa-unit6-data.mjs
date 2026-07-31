@@ -20,6 +20,7 @@ const EXPECTED_REWARD_EVENTS = [
   ["special", 20, 100, 100],
 ];
 const QA_RUN_COUNT = 64;
+const SHARED_VIEW_SOURCE = readFileSync(path.join(ROOT, "_lessons", "_shared", "unit6-data", "view.js"), "utf8");
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -158,7 +159,11 @@ function checkStamp(folder, problems) {
     const { value, big, small } = problem.visual;
     assert(big * 10 + small === value, `${folder}: 큰 도장×10+작은 도장 항등식이 깨졌습니다.`);
     assert(problem.finalExpression === `${big}×10 + ${small}×1 = ${value}`, `${folder}: 마지막 완성식이 다릅니다.`);
+    assert(problem.prompt === "도장 수를 차례로 골라요.", `${folder}: 문제 제목이 목표 수를 되풀이합니다.`);
   }
+  assert(SHARED_VIEW_SOURCE.includes('`?×10 + 작은 도장 = ${problem.visual.value}`'), `${folder}: 첫 화면 식에는 고를 물음표가 하나만 있어야 합니다.`);
+  assert(SHARED_VIEW_SOURCE.includes('`${problem.visual.big}×10 + ?×1 = ${problem.visual.value}`'), `${folder}: 둘째 단계 식에는 고를 물음표가 하나만 있어야 합니다.`);
+  assert(!SHARED_VIEW_SOURCE.includes('"?×10 + ?×1 = ?"'), `${folder}: 물음표 세 개짜리 식이 남아 있습니다.`);
 }
 
 function checkDetective(folder, problems) {

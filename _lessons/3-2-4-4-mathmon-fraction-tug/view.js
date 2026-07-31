@@ -58,25 +58,26 @@ function renderCompareStage(problem) {
   svg.setAttribute("viewBox", "0 0 760 260");
   svg.setAttribute("role", "img");
   if (wrong) svg.dataset.state = "wrong";
+  const leftValue = problem.left.num / problem.left.den;
+  const rightValue = problem.right.num / problem.right.den;
+  const relation = leftValue > rightValue ? ">" : "<";
   const selected = ui.visualArea.dataset.selectedSide === "left" ? problem.left : problem.right;
   const other = ui.visualArea.dataset.selectedSide === "left" ? problem.right : problem.left;
   svg.setAttribute("aria-label", correct
-    ? `${problem.larger.num}/${problem.larger.den}이 ${problem.smaller.num}/${problem.smaller.den}보다 큼`
+    ? `${problem.left.den}분의 ${problem.left.num} ${relation === ">" ? "큼" : "작음"} ${problem.right.den}분의 ${problem.right.num}`
     : wrong
-      ? `고른 ${selected.num}/${selected.den}이 ${other.num}/${other.den}보다 작음`
+      ? `고른 ${selected.den}분의 ${selected.num}이 ${other.den}분의 ${other.num}보다 작음`
       : "두 분수 막대의 길이 비교");
-  if (!correct && !wrong) {
-    svg.innerHTML = `<path class="tug-rope" d="M92 130c105-44 177 42 278 0s177 44 298 0"/><circle class="rope-mark" cx="380" cy="130" r="20"/>`;
-  } else {
-    const leftFraction = correct ? problem.larger : selected;
-    const rightFraction = correct ? problem.smaller : other;
-    svg.innerHTML = `
-      <g transform="translate(8 0)">${fractionNotation(leftFraction, 150, 66, "confirm")}${fractionBar(leftFraction, 22, 108, 256, 58, "confirm")}</g>
-      <text class="compare-sign" x="380" y="145" text-anchor="middle">${correct ? "&gt;" : "&lt;"}</text>
-      <g transform="translate(474 0)">${fractionNotation(rightFraction, 150, 66, "confirm")}${fractionBar(rightFraction, 22, 108, 256, 58, "confirm")}</g>
-      <text class="confirm-label" x="380" y="224" text-anchor="middle">${correct ? "왼쪽 막대가 더 길어요." : "고른 막대가 더 짧아요."}</text>
-    `;
-  }
+  const shownSign = correct ? relation : "?";
+  const confirmLabel = correct
+    ? (relation === ">" ? "왼쪽 막대가 더 길어요." : "오른쪽 막대가 더 길어요.")
+    : wrong ? "고른 막대의 길이를 다시 봐요." : "두 막대의 길이를 비교해요.";
+  svg.innerHTML = `
+    <g transform="translate(8 0)">${fractionNotation(problem.left, 150, 66, "confirm")}${fractionBar(problem.left, 22, 108, 256, 58, "confirm")}</g>
+    <text class="compare-sign" x="380" y="145" text-anchor="middle">${shownSign}</text>
+    <g transform="translate(474 0)">${fractionNotation(problem.right, 150, 66, "confirm")}${fractionBar(problem.right, 22, 108, 256, 58, "confirm")}</g>
+    <text class="confirm-label" x="380" y="224" text-anchor="middle">${confirmLabel}</text>
+  `;
   ui.visualArea.replaceChildren(svg);
 }
 

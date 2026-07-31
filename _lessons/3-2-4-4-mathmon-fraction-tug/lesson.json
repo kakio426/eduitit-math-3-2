@@ -22,7 +22,9 @@
   ],
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
-    "mode": "modal-art", "maxPower": 100, "nextLabel": "다음",
+    "mode": "modal-art", "maxPower": 100,
+    "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
+    "closedLabel": "두근두근!", "changeLabel": "이번 변화", "zeroLabel": "0", "nextLabel": "다음",
     "artMap": {
       "normal": "reward-event-normal-generated.webp", "loss": "reward-event-loss-generated.webp", "mega": "reward-event-mega-generated.webp",
       "perfect": "reward-event-perfect-generated.webp", "empty": "reward-event-empty-generated.webp", "rainbow": "reward-event-rainbow-generated.webp"
@@ -75,13 +77,13 @@
   ],
   "rewardEvents": [
     { "id": "normal", "text": "힘 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
-    { "id": "loss", "text": "힘 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "loss", "text": "힘 -", "weight": 1200, "min": -4, "max": -2, "family": "loss" },
     { "id": "mega", "text": "힘껏 당기기!", "weight": 900, "min": 12, "max": 20, "family": "mega" },
     { "id": "perfect", "text": "한판승!", "weight": 50, "min": 6, "max": 6, "family": "perfect", "launches": true },
-    { "id": "empty", "text": "헛심", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "empty", "text": "헛심", "weight": 200, "min": 0, "max": 0, "family": "empty", "keepsPower": true },
     { "id": "rainbow", "text": "무지개 힘!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
   ],
-  "wrongEvent": { "id": "loss", "text": "힘 -", "min": -18, "max": -8, "family": "loss" },
+  "wrongEvent": { "id": "loss", "text": "힘 -", "min": -4, "max": -2, "family": "loss" },
   "typesPerRun": ["same-1", "same-2", "same-3", "same-4", "same-5", "unit-1", "unit-2", "unit-3", "unit-4", "unit-5"],
   "fractionCases": [
     { "compareType": "same-denominator", "left": [2,5], "right": [4,5] },
@@ -99,7 +101,7 @@
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
   "imageAssets": {
     "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
-    "problemStage": "problem-stage-generated.webp", "rewardClosed": "reward-event-closed-generated.webp", "rewardScene": "result-win-generated.webp", "resultRetryButton": "result-restart-button-generated.webp"
+    "problemStage": "problem-stage-generated.webp", "rewardClosed": "reward-event-closed-generated.webp", "rewardScene": "result-win-generated.webp", "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp", "problem-stage-generated.webp",
@@ -113,14 +115,45 @@
     "result-title-bigwin-generated.webp", "result-title-champion-generated.webp", "result-title-rainbow-generated.webp"
   ],
   "qa": {
+    "emptyRewardAudit": true,
     "visualContractVersion": 2,
+    "rewardModalAudit": {
+      "standard": "unit3-modal-art-v1",
+      "card": "#rewardPop .reward-card",
+      "visual": "#rewardVisual",
+      "label": "#modalRewardLabel",
+      "openButton": "#modalRewardOpenButton",
+      "nextButton": "#modalRewardNextButton",
+      "canvas": "512x512",
+      "cardWidthPx": 560,
+      "cardHeightPx": 480,
+      "cardAspectRatio": "7:6",
+      "visualSizePx": 250,
+      "cardCenterTolerancePx": 1,
+      "cardSizeTolerancePx": 1,
+      "visualSquareTolerancePx": 1,
+      "visualSizeTolerancePx": 1,
+      "minVisualPx": 180,
+      "backdropBlurMinPx": 8
+    },
     "layoutAudit": {
       "workArea": ".problem-grid",
-      "primary": ".problem-card",
-      "secondary": ".choices-panel",
+      "primary": ".choices-panel",
+      "secondary": ".problem-card",
       "tertiary": ".step-board",
       "complete": ".complete-panel",
-      "minStageWidthRatio": 0.65
+      "verticalOrder": ["secondary", "tertiary", "primary"],
+      "minStageWidthRatio": 0.9
+    },
+    "typographyAudit": {
+      "headline": ".big-problem", "instruction": ".step-board .instruction", "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".choices-panel svg", "primarySvgText": ".choices-panel svg text", "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 32, "minInstructionPx": 18, "minPrimarySvgTextPx": 14, "minChoiceSvgTextPx": 18,
+      "minBadgePx": 14, "minCounterPx": 16, "minGlobalControlPx": 42, "minPanelGapPx": 8
+    },
+    "resultCohesionAudit": {
+      "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
+      "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
     },
     "uiScaleContract": {
       "minimumTouchPx": 42,

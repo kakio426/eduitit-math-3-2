@@ -15,7 +15,10 @@ const EXPECTED_STANDARDS = Object.freeze({
   resultVisual: "generated-assets",
 });
 const SHARED_COVER_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
-const SHARED_RESULT_RETRY_ASSET = "../_shared/result-actions/retry-button-generated.webp";
+const SHARED_RESULT_RETRY_ASSETS = new Set([
+  "../_shared/result-actions/retry-button-generated.webp",
+  "../_shared/result-actions/retry-button-v2-generated.webp",
+]);
 const UNIFIED_REWARD_STANDARD = "mathmon-unified-reward-v1";
 const UNIFIED_REWARD_EVENTS = Object.freeze([
   ["normal", 6400, 6, 10],
@@ -53,7 +56,7 @@ async function readJson(filePath) {
 async function findLessonSources() {
   const entries = await readdir(SOURCE_ROOT, { withFileTypes: true });
   return entries
-    .filter((entry) => entry.isDirectory())
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith("_"))
     .map((entry) => entry.name)
     .sort();
 }
@@ -137,10 +140,31 @@ function checkRewardEvents(failures, lesson, config) {
   if (!Number.isFinite(wrongEvent.min) || !Number.isFinite(wrongEvent.max) || wrongEvent.min > wrongEvent.max) {
     addFailure(failures, lesson, "wrongEvent has invalid min/max");
   }
+  if (config.reward?.fairness?.lossCapAtCommonGainMin === true) {
+    const commonGain = config.rewardEvents
+      .filter((event) => Number(event.min) > 0 && Number(event.weight) > 0)
+      .sort((left, right) => Number(right.weight) - Number(left.weight))[0];
+    if (!commonGain) {
+      addFailure(failures, lesson, "lossCapAtCommonGainMin needs a positive common reward event");
+    } else {
+      const cap = Number(commonGain.min);
+      const lossEvents = config.rewardEvents.filter((event) => Number(event.min) < 0);
+      for (const event of lossEvents) {
+        if (Math.abs(Number(event.min)) > cap) {
+          addFailure(failures, lesson, `rewardEvent ${event.id} loss exceeds common gain minimum ${cap}`);
+        }
+      }
+      if (Number.isFinite(wrongEvent.min) && Math.abs(Number(wrongEvent.min)) > cap) {
+        addFailure(failures, lesson, `wrongEvent loss exceeds common gain minimum ${cap}`);
+      }
+    }
+  }
 }
 
 function checkUnifiedReward(failures, lesson, config) {
-  if (config.reward?.standard !== UNIFIED_REWARD_STANDARD) return;
+  const fullStandard = config.reward?.standard === UNIFIED_REWARD_STANDARD;
+  const eventStandard = config.reward?.eventStandard === UNIFIED_REWARD_STANDARD;
+  if (!fullStandard && !eventStandard) return;
   if (config.reward?.maxPower !== 100) {
     addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must use reward.maxPower=100`);
   }
@@ -169,6 +193,7 @@ function checkUnifiedReward(failures, lesson, config) {
   if (config.wrongEvent?.min !== -6 || config.wrongEvent?.max !== -3) {
     addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} wrongEvent must be -6..-3`);
   }
+  if (!fullStandard) return;
   const results = config.results || [];
   if (results.length !== UNIFIED_RESULT_THRESHOLDS.length) {
     addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must contain six result tiers`);
@@ -328,8 +353,8 @@ function checkEngineSurface(failures, lesson, config) {
     }
   }
   if (config.id.startsWith("3-2-3-") && config.standards?.coverStartAsset === "shared-canonical-v1"
-    && config.imageAssets?.resultRetryButton !== SHARED_RESULT_RETRY_ASSET) {
-    addFailure(failures, lesson, `Unit 3 shared cover lessons must use ${SHARED_RESULT_RETRY_ASSET} for result retry art`);
+    && !SHARED_RESULT_RETRY_ASSETS.has(config.imageAssets?.resultRetryButton)) {
+    addFailure(failures, lesson, "Unit 3 shared cover lessons must use an approved shared result retry asset");
   }
   if (config.tutorial?.mode !== undefined) {
     checkEnumValue(failures, lesson, config.tutorial.mode, "tutorial.mode", ["card-grid", "poster-two-step"]);
@@ -412,12 +437,96 @@ function checkManifestShape(failures, lesson, config) {
   }
 }
 
+async function checkStandaloneLesson(lesson, failures, config, html) {
+  if (config.engineVersion !== "mathmon-standalone-v1") {
+    addFailure(failures, lesson, "standalone package must use engineVersion=mathmon-standalone-v1");
+  }
+  if (config.folder !== lesson || config.id !== "3-2-5-4") {
+    addFailure(failures, lesson, "standalone package id/folder metadata is inconsistent");
+  }
+  if (config.stage?.ratio !== EXPECTED_STAGE.ratio || config.stage?.size !== EXPECTED_STAGE.size) {
+    addFailure(failures, lesson, `standalone stage must be ${EXPECTED_STAGE.ratio} ${EXPECTED_STAGE.size}`);
+  }
+  for (const [key, expected] of Object.entries(EXPECTED_STANDARDS)) {
+    if (config.standards?.[key] !== expected) {
+      addFailure(failures, lesson, `standalone standards.${key} must be ${expected}`);
+    }
+  }
+  const requiredMarkers = [
+    'data-engine-version="mathmon-standalone-v1"',
+    'data-stage-ratio="16:10"',
+    'data-stage-size="1280x800"',
+    'data-cover-standard="generated-title-overlay"',
+    'data-cover-start-standard="generated-button-art"',
+    'data-cover-start-asset="shared-canonical-v1"',
+    'data-settings-standard="modal-controls"',
+    'data-result-visual-standard="generated-assets"',
+    'data-reward-mode="modal-art"',
+    'data-scoreboard-enabled="false"',
+    `data-mathmon-pack="${config.mathmonPack}"`,
+    `data-mathmon-id="${config.mathmonId}"`,
+  ];
+  for (const marker of requiredMarkers) {
+    if (!html.includes(marker)) addFailure(failures, lesson, `standalone index.html missing ${marker}`);
+  }
+  if (/<script\s+[^>]*src=/i.test(html) || /<link\s+[^>]*rel=["']stylesheet/i.test(html)) {
+    addFailure(failures, lesson, "standalone package must inline scripts and styles");
+  }
+  if (!html.includes("window.Lesson5PackageWeightModel") || !html.includes("window.__lesson5PackageQa")) {
+    addFailure(failures, lesson, "standalone model and browser QA exports are required");
+  }
+  const modalOverlayMarkers = [
+    'function showRewardOverlay()',
+    'screens.play.classList.add("is-active")',
+    '#screen-reward .raster-bg',
+    'display: none',
+  ];
+  if (config.qa?.standalonePackageAudit?.requiresPlayBehindModal === true
+    && modalOverlayMarkers.some((marker) => !html.includes(marker))) {
+    addFailure(failures, lesson, "modal-art reward must keep the problem screen behind the reward card");
+  }
+  const flowScript = path.resolve(ROOT, config.qa?.flowHarness?.script || "");
+  if (config.qa?.flowHarness?.standard !== "delegated-browser-v1"
+    || !flowScript.startsWith(`${ROOT}${path.sep}`)
+    || !(await pathExists(flowScript))) {
+    addFailure(failures, lesson, "standalone package needs an existing delegated browser harness");
+  }
+  const readme = await readFile(path.join(ROOT, lesson, config.qa?.standalonePackageAudit?.readme || "README.md"), "utf8");
+  const report = await readFile(path.join(ROOT, lesson, config.qa?.standalonePackageAudit?.report || "REPORT.md"), "utf8");
+  for (const documentText of [readme, report]) {
+    if (!documentText.includes(config.mathmonPack) || !documentText.includes(config.mathmonId)) {
+      addFailure(failures, lesson, "README/REPORT must declare the standalone Mathmon pack and id");
+    }
+  }
+  const manifestPath = path.join(ROOT, "_shared", "mathmon", config.mathmonPack || "", "manifest.json");
+  if (!(await pathExists(manifestPath))) {
+    addFailure(failures, lesson, "standalone Mathmon pack manifest is missing");
+  } else {
+    const manifest = await readJson(manifestPath);
+    const ids = new Set((manifest.items || manifest.characters || []).map((item) => item.id));
+    if (!ids.has(config.mathmonId)) addFailure(failures, lesson, "standalone Mathmon id is not present in its pack manifest");
+  }
+  checkRewardEvents(failures, lesson, config);
+  checkUnifiedReward(failures, lesson, config);
+  for (const asset of config.assets || []) {
+    await checkLocalAsset(failures, lesson, config, asset, `standalone declared asset ${asset}`);
+  }
+  for (let index = 0; index <= 10; index += 1) {
+    const resultCount = path.join(SHARED_RESULT_COUNT, `result-correct-${index}-generated.webp`);
+    if (!(await pathExists(resultCount))) addFailure(failures, lesson, `missing shared result count art ${index}/10`);
+  }
+}
+
 async function checkLesson(lesson, failures) {
   const sourceDir = path.join(SOURCE_ROOT, lesson);
   const configPath = path.join(sourceDir, "lesson.json");
   const config = await readJson(configPath);
   const outputPath = path.join(ROOT, config.folder || lesson, "index.html");
   const html = await readFile(outputPath, "utf8");
+  if (config.packageType === "standalone-html") {
+    await checkStandaloneLesson(lesson, failures, config, html);
+    return;
+  }
   const viewPath = path.join(sourceDir, config.sourceFiles?.view || "view.js");
   const cssPath = path.join(sourceDir, config.sourceFiles?.css || "lesson.css");
   const viewSource = await readFile(viewPath, "utf8");
@@ -578,11 +687,15 @@ async function main() {
   const requested = process.argv.slice(2);
   const lessons = requested.length ? requested : await findLessonSources();
   const failures = [];
+  const engineVersions = new Set();
   for (const lesson of lessons) {
-    if (!(await pathExists(path.join(SOURCE_ROOT, lesson, "lesson.json")))) {
+    const lessonConfigPath = path.join(SOURCE_ROOT, lesson, "lesson.json");
+    if (!(await pathExists(lessonConfigPath))) {
       addFailure(failures, lesson, "lesson source does not exist");
       continue;
     }
+    const lessonConfig = JSON.parse(await readFile(lessonConfigPath, "utf8"));
+    if (lessonConfig.engineVersion) engineVersions.add(lessonConfig.engineVersion);
     await checkLesson(lesson, failures);
   }
   if (failures.length) {
@@ -592,7 +705,7 @@ async function main() {
     return;
   }
   console.log("CHECK_LESSON_CONTRACT: PASS");
-  console.log(JSON.stringify({ lessonsChecked: lessons.length, engineVersion: ENGINE_VERSION }, null, 2));
+  console.log(JSON.stringify({ lessonsChecked: lessons.length, engineVersions: [...engineVersions].sort() }, null, 2));
 }
 
 main().catch((error) => {

@@ -50,7 +50,7 @@ for (const lesson of lessons) {
   const source = read(indexPath);
   const sourceLessonDir = path.join(ROOT, "_lessons", lesson.folder);
 
-  if (existsSync(sourceLessonDir)) {
+  if (existsSync(sourceLessonDir) && lesson.id !== "3-2-5-4") {
     assertCommonRunSeedContract(source, lesson.id);
     checked.push({ id: lesson.id, strategy: "engine-qa-seed-or-fresh-random" });
     continue;

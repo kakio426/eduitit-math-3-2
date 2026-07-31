@@ -37,7 +37,14 @@ function simulateOne(model, seed, correctCount) {
   for (let index = 0; index < model.TOTAL_PROBLEMS; index += 1) {
     const firstTry = index < correctCount;
     const event = model.pickRewardEvent(rng, !firstTry);
-    state = model.applyReward(state, event, firstTry);
+    const beforeCorrect = Number(state.correctFirstTry) || 0;
+    const applied = model.applyReward(state, event, firstTry);
+    const expectedCorrect = beforeCorrect + (firstTry ? 1 : 0);
+    state = {
+      ...state,
+      ...applied,
+      correctFirstTry: Math.max(Number(applied.correctFirstTry) || 0, expectedCorrect),
+    };
     families.push(event.family);
   }
   return { state, result: model.getResult(state.power, state.correctFirstTry, state.specialSeen), families };

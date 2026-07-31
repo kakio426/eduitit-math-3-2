@@ -196,10 +196,18 @@ for (const lesson of lessons) {
     && !resultScoreSvgTag.includes('opacity="0"')
     && !resultScoreSvgTag.includes('aria-hidden="true"');
   const hasHybridResultSvg = /<svg(?=[^>]*class="[^"]*\bresult-dynamic-ui\b[^"]*")(?=[^>]*viewBox="0 0 1280 800")[^>]*>/.test(html);
-  const hasHybridResultValues = html.includes('id="resultDestinationSvg"')
-    && html.includes('id="resultMeasureSvg"')
-    && html.includes('id="resultMeasureFillSvg"')
-    && hasGeneratedResultCorrectArt;
+  const hasHybridResultValues = (
+    (
+      html.includes('id="resultDestinationSvg"')
+      && html.includes('id="resultMeasureSvg"')
+      && html.includes('id="resultMeasureFillSvg"')
+    )
+    || (
+      html.includes('id="resultPowerText"')
+      && html.includes('id="resultProgressFill"')
+      && html.includes('id="resultNextGoalText"')
+    )
+  ) && hasGeneratedResultCorrectArt;
   const hasHybridRestartHitbox = /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-restart-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>/.test(html);
   const hasHybridGeneratedRetryButton = (
     /<button(?=[^>]*\bid="restartButton")(?=[^>]*\bclass="[^"]*\bresult-retry-hitbox\b)(?=[^>]*\baria-label="다시하기")[^>]*>\s*<img(?=[^>]*\bclass="[^"]*\bresult-retry-art\b)[^>]*>\s*<\/button>/.test(html)

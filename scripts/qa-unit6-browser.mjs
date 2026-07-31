@@ -473,6 +473,7 @@ async function setProblemWithMisconception(page, ids) {
           index,
           choiceId:String(choice.id),
           value:String(choice.value),
+          valueType:typeof choice.value,
           misconceptionId:choice.misconceptionId,
           kind:window.__mathmonEngineQa.getCurrentProblem()?.visual?.kind || ''
         };
@@ -503,9 +504,15 @@ async function auditWrongState(page, lesson, viewport, ids, shotName) {
       minChoiceHeight:choiceRects.length ? Math.min(...choiceRects.map((rect) => rect.height)) : 0,
       choiceFont:choiceNodes[0] ? parseFloat(getComputedStyle(choiceNodes[0]).fontSize) : 0,
       instructionFont:parseFloat(getComputedStyle(document.getElementById('stepInstruction')).fontSize),
-      settingsSize:document.getElementById('settingsButton').getBoundingClientRect().width
+      settingsSize:document.getElementById('settingsButton').getBoundingClientRect().width,
+      questionMarks:Math.max(0, (document.querySelector('.stamp-equation')?.textContent || '').split('?').length - 1),
+      headline:document.getElementById('problemText')?.textContent.trim() || ''
     };
   })()`);
+  if (lesson === "3-2-6-3-mathmon-picture-stamp") {
+    assert(waiting.questionMarks === 1, `${lesson}: 첫 식에는 지금 고를 물음표가 하나만 보여야 합니다.`, waiting);
+    assert(!/\d/.test(waiting.headline), `${lesson}: 문제 제목이 작업판의 목표 수를 되풀이합니다.`, waiting);
+  }
   await clickSelector(page, `[data-choice="${target.choiceId}"]`);
   await waitUntil(
     page,
@@ -533,6 +540,8 @@ async function auditWrongState(page, lesson, viewport, ids, shotName) {
       intersection:overlapWidth * overlapHeight,
       boardInside:board.left >= card.left - 1 && board.right <= card.right + 1,
       evidence,
+      revealedValueCount:[...document.querySelectorAll('[data-row-value]')]
+        .filter((node) => node.textContent.trim() !== '?').length,
       card:{ left:card.left, right:card.right },
       board:{ left:board.left, right:board.right }
     };
@@ -541,6 +550,10 @@ async function auditWrongState(page, lesson, viewport, ids, shotName) {
   assert(audit.feedback.length > 0, `${lesson} ${shotName}: 한 줄 오답 이유가 없습니다.`, audit);
   assert(audit.intersection === 0, `${lesson} ${shotName}: 피드백과 선택지가 겹칩니다.`, audit);
   assert(audit.boardInside && audit.evidence, `${lesson} ${shotName}: 작업판 안 오답 증거가 없습니다.`, audit);
+  if (target.kind === "detective") {
+    const expectedRevealed = target.valueType === "string" ? 1 : 0;
+    assert(audit.revealedValueCount === expectedRevealed, `${lesson} ${shotName}: 오답 뒤 정답을 확정하는 줄 값이 선노출됩니다.`, { target, audit });
+  }
   assert(rectStability(waiting.card, audit.card).center <= 1, `${lesson} ${shotName}: 문제판 중심이 흔들립니다.`, { waiting, audit });
   await screenshot(page, lesson, viewport, shotName);
   return { target, audit };
@@ -843,6 +856,50 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
       const title = document.getElementById('resultTitleArt').getBoundingClientRect();
       const hitbox = document.querySelector('.result-retry-hitbox').getBoundingClientRect();
       const art = document.querySelector('.result-retry-art').getBoundingClientRect();
+      const correct = document.getElementById('resultCorrectArt').getBoundingClientRect();
+      const track = document.getElementById('resultMeasureTrackSvg').getBoundingClientRect();
+      const measure = document.getElementById('resultMeasureSvg').getBoundingClientRect();
+      const next = document.getElementById('resultNextSvg').getBoundingClientRect();
+      const centerX = (rect) => rect.left + rect.width / 2;
+      const axisCenters = [title, correct, track, measure, next, hitbox].map(centerX);
+      const overlapArea = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
+        * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      const retryImage = document.querySelector('.result-retry-art');
+      const canvas = document.createElement('canvas');
+      canvas.width = retryImage.naturalWidth;
+      canvas.height = retryImage.naturalHeight;
+      const context = canvas.getContext('2d', { willReadFrequently:true });
+      context.drawImage(retryImage, 0, 0);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      const cornerAlpha = [
+        pixels[3],
+        pixels[(canvas.width - 1) * 4 + 3],
+        pixels[((canvas.height - 1) * canvas.width) * 4 + 3],
+        pixels[((canvas.height * canvas.width) - 1) * 4 + 3]
+      ];
+      let transparent = 0;
+      for (let pixel = 3; pixel < pixels.length; pixel += 64) {
+        if (pixels[pixel] < 8) transparent += 1;
+      }
+      const titleImage = document.getElementById('resultTitleArt');
+      const titleCanvas = document.createElement('canvas');
+      titleCanvas.width = titleImage.naturalWidth;
+      titleCanvas.height = titleImage.naturalHeight;
+      const titleContext = titleCanvas.getContext('2d', { willReadFrequently:true });
+      titleContext.drawImage(titleImage, 0, 0);
+      const titlePixels = titleContext.getImageData(0, 0, titleCanvas.width, titleCanvas.height).data;
+      let titleOpaqueBottomRow = -1;
+      for (let y = titleCanvas.height - 1; y >= 0 && titleOpaqueBottomRow < 0; y -= 1) {
+        for (let x = 0; x < titleCanvas.width; x += 1) {
+          if (titlePixels[(y * titleCanvas.width + x) * 4 + 3] > 24) {
+            titleOpaqueBottomRow = y;
+            break;
+          }
+        }
+      }
+      const titleOpaqueBottom = titleOpaqueBottomRow >= 0
+        ? title.top + ((titleOpaqueBottomRow + 1) / titleCanvas.height) * title.height
+        : title.top;
       const missing = [...document.images]
         .filter((img) => !img.hidden && img.offsetParent !== null && (!img.complete || img.naturalWidth === 0))
         .map((img) => img.id || img.className || img.src);
@@ -850,10 +907,25 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
         title:document.getElementById('resultTitle')?.textContent.trim() || '',
         titleSource:document.getElementById('resultTitleArt')?.getAttribute('src') || '',
         correctSource:document.getElementById('resultCorrectArt')?.getAttribute('src') || '',
+        retrySource:retryImage?.getAttribute('src') || '',
+        retryPixels:{
+          cornerAlpha,
+          transparentRatio:transparent / Math.ceil(pixels.length / 64)
+        },
         stageRatio:stage.width / stage.height,
         titleInside:title.left >= stage.left - 1 && title.right <= stage.right + 1 && title.top >= stage.top - 1 && title.bottom <= stage.bottom + 1,
         stage:{ left:stage.left, top:stage.top, right:stage.right, bottom:stage.bottom },
         titleRect:{ left:title.left, top:title.top, right:title.right, bottom:title.bottom },
+        cohesion:{
+          axisCenters,
+          axisSpread:Math.max(...axisCenters) - Math.min(...axisCenters),
+          allowedSpread:stage.width * 0.015,
+          titleTrackGap:track.top - titleOpaqueBottom,
+          trackMeasureOverlap:overlapArea(track, measure),
+          measureCorrectOverlap:overlapArea(measure, correct),
+          correctNextOverlap:overlapArea(correct, next),
+          nextRetryOverlap:overlapArea(next, hitbox)
+        },
         retryDelta:{
           left:Math.abs(hitbox.left - art.left),
           top:Math.abs(hitbox.top - art.top),
@@ -876,8 +948,25 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
     assert(Math.abs(audit.stageRatio - 1.6) <= 0.001, `${lesson}: 결과 Stage가 16:10이 아닙니다.`, audit);
     assert(audit.titleInside && audit.missing.length === 0, `${lesson}: 결과 자산이 Stage 밖이거나 누락됐습니다.`, audit);
     assert(
+      audit.cohesion.axisSpread <= audit.cohesion.allowedSpread
+        && audit.cohesion.titleTrackGap >= 8
+        && audit.cohesion.trackMeasureOverlap === 0
+        && audit.cohesion.measureCorrectOverlap === 0
+        && audit.cohesion.correctNextOverlap === 0
+        && audit.cohesion.nextRetryOverlap === 0,
+      `${lesson}: 결과 요소가 공통 결속 축을 벗어나거나 제목·막대·값·정답 수·다음 목표·버튼이 서로 겹칩니다.`,
+      audit,
+    );
+    assert(
       Object.values(audit.retryDelta).every((value) => value <= 1),
       `${lesson}: 다시 버튼 아트와 hitbox 차이가 1px을 넘습니다.`,
+      audit,
+    );
+    assert(
+      audit.retrySource === config.imageAssets.resultRetryButton
+        && audit.retryPixels.cornerAlpha.every((alpha) => alpha === 0)
+        && audit.retryPixels.transparentRatio >= 0.25,
+      `${lesson}: 다시 버튼에 불투명 사각 캔버스가 남았습니다.`,
       audit,
     );
     assert(

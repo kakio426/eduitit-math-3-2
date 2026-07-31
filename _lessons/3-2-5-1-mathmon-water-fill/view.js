@@ -1,190 +1,154 @@
-function escapeLessonText(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
+function renderBottleScale(max) {
+  const divisions = Math.round(max / 100);
+  return Array.from({ length: divisions + 1 }, (_, index) => {
+    const value = index * 100;
+    const major = value % 1000 === 0;
+    const label = value === 0 ? '0' : value / 1000 + 'L';
+    return '<span class="bottle-tick' + (major ? ' is-major' : '') + '" style="--tick:' + (value / max) * 100 + '%">' + (major ? '<span class="bottle-scale-label">' + label + '</span>' : '') + '</span>';
+  }).join('');
 }
 
-function getAttemptChoiceValue(choice) {
-  return choice && typeof choice === "object" ? choice.value : choice;
+function solvedStepSet() {
+  const source = ui.visualArea.querySelector('.capacity-visual')?.dataset.solvedSteps || '';
+  return new Set(source.split(',').filter(Boolean));
 }
 
-function getAttemptNumericValue(choice) {
-  return choice && typeof choice === "object" && Number.isFinite(choice.numericValue)
-    ? choice.numericValue
-    : null;
+function capacityRow(operator, liter, ml, className = '', ariaLabel = '') {
+  const safeLiter = liter === '' || liter == null ? '&nbsp;' : liter;
+  const safeMl = ml === '' || ml == null ? '&nbsp;' : ml;
+  return '<div class="capacity-calc-row ' + className + '"' + (ariaLabel ? ' aria-label="' + ariaLabel + '"' : '') + '><span class="capacity-calc-operator">' + (operator || '') + '</span><span class="capacity-liter-slot">' + safeLiter + '</span><span class="capacity-ml-slot">' + safeMl + '</span></div>';
 }
 
-function makeScaleTicks(max, interval) {
-  const ticks = [];
-  for (let value = 0; value <= max; value += interval) {
-    const percent = (value / max) * 100;
-    const isMajor = value % 1000 === 0 || max === 1000 && value % 500 === 0;
-    const label = isMajor
-      ? (value === 0 ? "0" : value >= 1000 ? `${value / 1000}L` : `${value}mL`)
-      : "";
-    const boundaryClass = value === 0 ? " is-min" : value === max ? " is-max" : "";
-    ticks.push(
-      `<span class="measure-tick${isMajor ? " is-major" : ""}${boundaryClass}" style="--tick:${percent}%">`
-      + `<span class="measure-tick-label">${label}</span></span>`,
-    );
+function relationForProblem(problem) {
+  if (problem.type === 'orderCheck') {
+    const made = problem.made.l * 1000 + problem.made.ml;
+    const order = problem.order.l * 1000 + problem.order.ml;
+    return made === order ? '=' : made > order ? '>' : '<';
   }
-  return ticks.join("");
+  if (problem.type === 'compareBottle') return problem.visual.left === problem.visual.right ? '=' : problem.visual.left > problem.visual.right ? '>' : '<';
+  if (problem.type === 'compareKgG' || problem.type === 'compareTonKg') {
+    const total = (weight) => weight.t !== undefined ? weight.t * 1000000 + weight.kg * 1000 : weight.kg * 1000 + weight.g;
+    return total(problem.left) === total(problem.right) ? '=' : total(problem.left) > total(problem.right) ? '>' : '<';
+  }
+  return '=';
 }
 
-function bottleMarkup(amount, max, interval, label, side = "") {
-  const fill = Math.round((amount / max) * 1000) / 10;
-  return `<div class="compare-label" data-side="${escapeLessonText(side)}">`
-    + `<div class="measure-bottle" style="--fill:${fill}%">`
-    + '<div class="water-fill"></div>'
-    + makeScaleTicks(max, interval)
-    + '<span class="chosen-level" hidden></span>'
-    + '</div>'
-    + `<div class="bottle-label">${escapeLessonText(label)}</div>`
-    + '</div>';
+function renderPlaceValueBoard(problem, solved) {
+  const subtract = problem.type === 'subtractBorrowMl';
+  const borrowed = subtract && solved.has('borrowLiter');
+  let result = '';
+  let note = '';
+  if (!subtract && solved.has('addFinal')) {
+    result = capacityRow('=', problem.final.l, problem.final.ml, 'capacity-result-row', problem.final.l + 'L ' + problem.final.ml + 'mL');
+    note = '완성 들이';
+  } else if (!subtract && solved.has('addChange')) {
+    result = capacityRow('=', problem.final.l, problem.final.ml, 'capacity-result-row', problem.final.l + 'L ' + problem.final.ml + 'mL');
+    note = '1000mL를 1L로 바꾼 값';
+  } else if (!subtract && solved.has('addMl')) {
+    result = capacityRow('=', problem.literSum, problem.mlSum, 'capacity-result-row', problem.literSum + 'L ' + problem.mlSum + 'mL');
+    note = 'L끼리, mL끼리 더한 값';
+  } else if (subtract && solved.has('subtractFinal')) {
+    result = capacityRow('=', problem.final.l, problem.final.ml, 'capacity-result-row', problem.final.l + 'L ' + problem.final.ml + 'mL');
+    note = '완성 들이';
+  } else if (subtract && solved.has('subtractMl')) {
+    result = capacityRow('=', '', problem.mlDiff, 'capacity-result-row', 'mL 차 ' + problem.mlDiff + 'mL');
+    note = 'mL끼리 뺀 값';
+  }
+  const top = subtract ? problem.top : problem.left;
+  const bottom = subtract ? problem.bottom : problem.right;
+  const annotation = borrowed
+    ? capacityRow('', problem.borrowedTop.l, problem.borrowedTop.ml, 'capacity-borrow-row', '1L를 빌리면 ' + problem.borrowedTop.l + 'L ' + problem.borrowedTop.ml + 'mL')
+    : '';
+  return '<div class="calculation-board place-value-board" data-answer-count="' + solved.size + '"><div class="capacity-board-title">계산판</div>'
+    + capacityRow('', 'L', 'mL', 'capacity-columns-header')
+    + annotation
+    + capacityRow('', top.l, top.ml, borrowed ? 'capacity-source-row' : '', '처음 들이 ' + top.l + 'L ' + top.ml + 'mL')
+    + capacityRow(subtract ? '−' : '+', bottom.l, bottom.ml, '', bottom.l + 'L ' + bottom.ml + 'mL')
+    + '<div class="capacity-calc-rule"></div>' + result
+    + (note ? '<div class="capacity-result-note">' + note + '</div>' : '') + '</div>';
 }
 
-function renderCapacityBoard(problem) {
-  const left = problem.left || problem.top;
-  const right = problem.right || problem.bottom;
-  const operation = problem.visual.operation;
-  return `<div class="column-board" data-operation="${operation === "+" ? "add" : "subtract"}">`
-    + '<div class="column-head"><span></span><span>L</span><span>mL</span></div>'
-    + `<div class="column-row"><span></span><strong>${left.l}</strong><strong>${left.ml}</strong></div>`
-    + `<div class="column-row"><span>${operation}</span><strong>${right.l}</strong><strong>${right.ml}</strong></div>`
-    + '<div class="column-rule"></div>'
-    + '<div class="column-attempt"><span></span><strong id="boardLiter">?</strong><strong id="boardSmallUnit">?</strong></div>'
-    + '</div>';
+function renderRelationBoard(problem, solved) {
+  const done = problem.steps.every((step) => solved.has(step.id));
+  const sign = done ? relationForProblem(problem) : '?';
+  let left = '왼쪽';
+  let right = '오른쪽';
+  if (problem.type === 'orderCheck') {
+    left = problem.visual.rows[0];
+    right = problem.visual.rows[2];
+  } else if (problem.type === 'balanceMissing') {
+    const answer = done ? problem.finalText : '?';
+    return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">균형식</div><div class="relation-equation"><span>' + problem.visual.left.replace('?', answer) + '</span><strong>=</strong><span>' + problem.visual.right + '</span></div></div>';
+  }
+  return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">비교판</div><div class="relation-equation"><span>' + left + '</span><strong class="relation-answer">' + sign + '</strong><span>' + right + '</span></div></div>';
 }
 
-function renderAmountAxis(problem) {
-  const made = problem.visual.made;
-  const target = problem.visual.target;
-  const max = problem.visual.max;
-  return '<div class="amount-axis" style="--made:'
-    + `${(made / max) * 100}%;--target:${(target / max) * 100}%">`
-    + '<div class="amount-axis-track"><span class="amount-fill"></span>'
-    + '<span class="amount-marker is-made"><b>만든 양</b></span>'
-    + '<span class="amount-marker is-target"><b>주문</b></span></div>'
-    + `<div class="amount-axis-values"><span>${escapeLessonText(Lesson5WaterFillModel.formatCapacity(made))}</span>`
-    + `<span>${escapeLessonText(Lesson5WaterFillModel.formatCapacity(target))}</span></div>`
-    + '<p class="amount-axis-difference" id="axisDifference"></p></div>';
+function renderReadBoard(problem, solved) {
+  const done = problem.steps.every((step) => solved.has(step.id));
+  return '<div class="calculation-board read-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">눈금 읽기</div><div class="read-equation"><span>한 눈금</span><strong>100mL</strong><span>읽은 들이</span><strong class="read-answer">' + (done ? problem.finalText : '?') + '</strong></div></div>';
 }
 
-function scaleMarkup(visual) {
-  return '<div class="scale-visual" data-attempt="waiting">'
-    + `<div class="scale-beam" style="--tilt:${escapeLessonText(visual.tilt || "0deg")}"></div>`
-    + '<div class="scale-pans">'
-    + `<div class="scale-pan" data-side="left"><div><strong>왼쪽</strong><span id="leftScaleValue">${escapeLessonText(visual.left)}</span></div></div>`
-    + `<div class="scale-pan" data-side="right"><div><strong>오른쪽</strong><span>${escapeLessonText(visual.right)}</span></div></div>`
-    + '</div><p class="scale-difference" id="scaleDifference"></p></div>';
+function renderCalculationBoard(problem, solved) {
+  if (problem.type === 'addCarryMl' || problem.type === 'subtractBorrowMl') return renderPlaceValueBoard(problem, solved);
+  if (problem.type === 'readMl' || problem.type === 'readLiterMl') return renderReadBoard(problem, solved);
+  return renderRelationBoard(problem, solved);
+}
+
+function renderCapacityVisual(problem, solved) {
+  const visual = problem.visual || {};
+  const wrapper = document.createElement('div');
+  wrapper.className = 'capacity-visual';
+  wrapper.dataset.solvedSteps = [...solved].join(',');
+  let scene = '';
+  if (visual.kind === 'bottle') {
+    scene = '<div class="capacity-scene bottle-wrap"><div class="compare-label"><div class="bottle bottle-with-scale" style="--fill:' + Math.round((visual.amount / visual.max) * 100) + '%"><div class="water-fill"></div>' + renderBottleScale(visual.max) + '</div><div class="bottle-label">한 눈금은 100mL</div></div></div>';
+  } else if (visual.kind === 'compareBottle') {
+    scene = '<div class="capacity-scene bottle-wrap"><div class="compare-label"><div class="bottle" style="--fill:' + Math.round((visual.left / visual.max) * 100) + '%"><div class="water-fill"></div><span class="tick" style="--tick:50%"></span></div><div class="bottle-label">왼쪽</div></div><div class="compare-label"><div class="bottle" style="--fill:' + Math.round((visual.right / visual.max) * 100) + '%"><div class="water-fill"></div><span class="tick" style="--tick:50%"></span></div><div class="bottle-label">오른쪽</div></div></div>';
+  } else if (visual.kind === 'mix') {
+    scene = '<div class="capacity-scene mix-visual"><div class="mix-row"><div class="mix-cup">' + visual.rows[0] + '</div><div class="mix-symbol">' + visual.rows[1] + '</div><div class="mix-cup">' + visual.rows[2] + '</div></div><div class="mix-note">' + visual.note + '</div></div>';
+  } else if (visual.kind === 'scale') {
+    scene = '<div class="capacity-scene scale-visual"><div class="scale-beam" data-target-tilt="' + visual.tilt + '" style="--tilt:' + visual.tilt + '"></div><div class="scale-pans"><div class="scale-pan"><div><strong>왼쪽</strong><span>' + visual.left + '</span></div></div><div class="scale-pan"><div><strong>오른쪽</strong><span>' + visual.right + '</span></div></div></div></div>';
+  }
+  wrapper.innerHTML = scene + renderCalculationBoard(problem, solved);
+  ui.visualArea.replaceChildren(wrapper);
 }
 
 function renderProblemVisual(problem) {
-  ui.visualArea.innerHTML = "";
-  const visual = problem.visual || {};
-  const wrapper = document.createElement("div");
-  wrapper.className = "capacity-visual";
-  wrapper.dataset.visualKind = visual.kind || "";
-
-  if (visual.kind === "bottle") {
-    wrapper.innerHTML = `<div class="bottle-wrap">${bottleMarkup(visual.amount, visual.max, visual.interval, visual.label)}</div>`;
-  } else if (visual.kind === "compareBottle") {
-    wrapper.innerHTML = '<div class="bottle-wrap is-compare">'
-      + bottleMarkup(visual.left, visual.max, visual.interval, "왼쪽", "left")
-      + bottleMarkup(visual.right, visual.max, visual.interval, "오른쪽", "right")
-      + '</div>';
-  } else if (visual.kind === "capacityBoard") {
-    wrapper.innerHTML = renderCapacityBoard(problem);
-  } else if (visual.kind === "amountAxis") {
-    wrapper.innerHTML = renderAmountAxis(problem);
-  } else if (visual.kind === "scale") {
-    wrapper.innerHTML = scaleMarkup(visual);
-  }
-  ui.visualArea.append(wrapper);
+  renderCapacityVisual(problem, new Set());
 }
 
-function updateCapacityBoardAttempt(problem, step, choice, correct) {
-  const smallCell = document.getElementById("boardSmallUnit");
-  const literCell = document.getElementById("boardLiter");
-  if (!smallCell || !literCell) return;
-  const value = getAttemptChoiceValue(choice);
-  const numeric = getAttemptNumericValue(choice);
-
-  if (step.id === "addMl" || step.id === "subtractMl") {
-    smallCell.textContent = numeric == null ? value : String(numeric);
-    literCell.textContent = "?";
-  } else if (step.id === "addChange" || step.id === "borrowLiter") {
-    const match = String(value).match(/(\d+)L\s+(\d+)mL/);
-    literCell.textContent = match ? match[1] : "?";
-    smallCell.textContent = match ? match[2] : String(value);
-  } else {
-    const total = numeric;
-    if (Number.isFinite(total)) {
-      const capacity = Lesson5WaterFillModel.fromTotalMl(total);
-      literCell.textContent = String(capacity.l);
-      smallCell.textContent = String(capacity.ml);
-    } else {
-      smallCell.textContent = String(value);
-    }
-  }
-  document.querySelector(".column-board")?.setAttribute("data-attempt", correct ? "correct" : choice.relation || "unit");
+function updateProblemVisualForStep(problem) {
+  renderCapacityVisual(problem, solvedStepSet());
 }
 
-function updateBottleAttempt(problem, choice) {
-  const marker = document.querySelector(".chosen-level");
-  const numeric = getAttemptNumericValue(choice);
-  if (!marker || !Number.isFinite(numeric)) return;
-  marker.hidden = false;
-  marker.style.setProperty("--chosen", `${(numeric / problem.visual.max) * 100}%`);
-  marker.dataset.relation = choice.relation || "unit";
+function revealCorrectStep(problem, step) {
+  const solved = solvedStepSet();
+  solved.add(step.id);
+  renderCapacityVisual(problem, solved);
 }
 
-function updateScaleAttempt(problem, choice, correct) {
-  const scale = document.querySelector(".scale-visual");
-  const beam = document.querySelector(".scale-beam");
-  if (!scale || !beam) return;
-  let leftValue = problem.visual.leftValue;
-  const rightValue = problem.visual.rightValue;
-  const selectedValue = getAttemptNumericValue(choice);
-
-  if (problem.type === "balanceMissing" && Number.isFinite(selectedValue)) {
-    leftValue = problem.visual.baseLeftValue + selectedValue;
-    const leftLabel = document.getElementById("leftScaleValue");
-    if (leftLabel) leftLabel.textContent = `${Lesson5WaterFillModel.formatWeight(problem.left)} + ${choice.label}`;
+function renderAttempt(problem, step, choice, state, { correct }) {
+  const visual = ui.visualArea.querySelector('.capacity-visual');
+  if (!visual) return;
+  visual.querySelector('.visual-attempt-note')?.remove();
+  visual.dataset.state = correct ? 'correct' : 'wrong';
+  if (correct) {
+    const beam = visual.querySelector('.scale-beam');
+    if (beam?.dataset.targetTilt) beam.style.setProperty('--tilt', beam.dataset.targetTilt);
+    return;
   }
-
-  const difference = Math.abs(leftValue - rightValue);
-  const tilt = leftValue === rightValue ? 0 : leftValue > rightValue ? -5 : 5;
-  beam.style.setProperty("--tilt", `${tilt}deg`);
-  scale.dataset.attempt = correct ? "correct" : choice.relation || "wrong";
-  const differenceNode = document.getElementById("scaleDifference");
-  if (differenceNode) {
-    differenceNode.textContent = difference === 0
-      ? "저울이 수평이에요."
-      : `${leftValue > rightValue ? "왼쪽" : "오른쪽"}이 ${difference >= 1000 ? Lesson5WaterFillModel.formatWeight(Lesson5WaterFillModel.fromTotalGrams(difference)) : `${difference}g`} 더 무거워요.`;
+  const value = choice && typeof choice === 'object' ? choice.label ?? choice.value ?? '' : choice;
+  const beam = visual.querySelector('.scale-beam');
+  if (beam) {
+    const picked = String(value);
+    const wrongTilt = picked.includes('왼쪽') ? '-3deg' : picked.includes('오른쪽') ? '3deg' : '0deg';
+    beam.style.setProperty('--tilt', wrongTilt);
+    beam.classList.remove('is-wrong-attempt');
+    void beam.offsetWidth;
+    beam.classList.add('is-wrong-attempt');
   }
-}
-
-function renderAttempt(problem, step, choice, state, result) {
-  if (problem.visual.kind === "bottle") {
-    updateBottleAttempt(problem, choice);
-  } else if (problem.visual.kind === "compareBottle") {
-    const side = String(getAttemptChoiceValue(choice)).startsWith("왼쪽") ? "left"
-      : String(getAttemptChoiceValue(choice)).startsWith("오른쪽") ? "right"
-        : "same";
-    document.querySelector(".bottle-wrap")?.setAttribute("data-picked-side", side);
-  } else if (problem.visual.kind === "capacityBoard") {
-    updateCapacityBoardAttempt(problem, step, choice, result.correct);
-  } else if (problem.visual.kind === "amountAxis") {
-    const difference = Math.abs(problem.visual.made - problem.visual.target);
-    const differenceNode = document.getElementById("axisDifference");
-    if (differenceNode) {
-      differenceNode.textContent = `${Lesson5WaterFillModel.formatMl(difference)} ${problem.visual.made < problem.visual.target ? "부족해요." : "남아요."}`;
-    }
-    document.querySelector(".amount-axis")?.setAttribute("data-attempt", result.correct ? "correct" : "wrong");
-  } else if (problem.visual.kind === "scale") {
-    updateScaleAttempt(problem, choice, result.correct);
-  }
+  const note = document.createElement('div');
+  note.className = 'visual-attempt-note is-wrong';
+  note.textContent = '고른 답: ' + value;
+  visual.append(note);
 }

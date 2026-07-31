@@ -13,6 +13,11 @@ const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
+const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
+assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
+assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
+assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
 
 assert.equal(config.workbench.type, "pizza-fraction");
 assert.equal(config.imageAssets.problemStage, "problem-stage-generated.webp");
@@ -33,7 +38,9 @@ for (let seed = 1; seed <= 200; seed += 1) {
     for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
       assert.ok(choice.feedback, `${problem.id}: short feedback`);
     }
-    assert.match(step.correctText, new RegExp(`^맞아요\\. 전체 ${problem.den}조각 중 ${problem.num}조각이라서 ${problem.num}/${problem.den}`), `${problem.id}: student-facing confirmation`);
+    assert.equal(step.instruction, "피자에 맞는 분수를 골라요.", `${problem.id}: answer is not named in advance`);
+    assert.match(step.correctText, new RegExp(`^맞아요\\. 전체 ${problem.den}조각 중 ${problem.num}조각, ${problem.den}분의 ${problem.num}`), `${problem.id}: student-facing confirmation`);
+    assert.doesNotMatch(`${problem.prompt} ${problem.finalExpression} ${step.instruction} ${step.correctText} ${step.reveal}`, /\d+\/\d+/, `${problem.id}: no slash fraction in student copy`);
   }
 }
 
@@ -41,6 +48,12 @@ assert.equal(config.results.find((result) => result.id === "jumbo")?.name, "특�
 
 assert.match(viewSource, /fraction-choice-svg/, "each answer surface must show a fraction card");
 assert.match(viewSource, /pizza-confirm-svg/, "chosen fraction must expand for confirmation");
+assert.match(viewSource, /if \(state === "idle"\) \{\s*svg\.innerHTML = pizza;/, "waiting state must show only the pizza, not a completed fraction");
+assert.doesNotMatch(viewSource, /state === "idle" \? "\?"/, "waiting state must not show a redundant relation question mark");
 assert.doesNotMatch(viewSource, /피자 점수|피자 등급|진행도/, "problem view must not contain reward panels");
+const lessonCss = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
+assert.match(lessonCss, /\.fraction-choice\s*\{[^}]*background:\s*#[0-9a-f]{6}/i, "answer choices must use an opaque background");
+assert.match(lessonCss, /pizza-fraction[^\n]*\.problem-card\s*\{[^}]*background:\s*#[0-9a-f]{6}/i, "problem panel must use an opaque surface");
+assert.match(lessonCss, /pizza-fraction[^\n]*\.complete-panel\s*\{[^}]*background:\s*#[0-9a-f]{6}/i, "completion panel must use an opaque surface");
 
 console.log("QA_ENGINE_UNIT4_PIZZA_SOURCE: PASS");

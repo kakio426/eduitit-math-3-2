@@ -229,7 +229,12 @@ async function evaluate(page, expression) {
     returnByValue: true
   });
   if (result.exceptionDetails) {
-    throw new Error(result.exceptionDetails.text || "Runtime.evaluate failed");
+    throw new Error(
+      result.exceptionDetails.exception?.description
+        || result.exceptionDetails.exception?.value
+        || result.exceptionDetails.text
+        || "Runtime.evaluate failed",
+    );
   }
   return result.result?.value;
 }
@@ -280,7 +285,19 @@ async function clickSelector(page, selector) {
 }
 
 async function clickChoice(page, correct) {
-  const selector = correct ? "button.choice-button[data-correct='true']:not(:disabled)" : "button.choice-button[data-correct='false']:not(:disabled)";
+  const index = await evaluate(page, `(() => {
+    const problem = state.problems[state.problemIndex];
+    const step = problem.steps[state.stepIndex];
+    const buttons = [...document.querySelectorAll("#choicesPanel button.choice-button:not(:disabled)")];
+    return buttons.findIndex((button) => {
+      const choice = step.choices.find((item) => String(
+        item && typeof item === "object" ? (item.id ?? item.value ?? item.label) : item,
+      ) === button.dataset.choice);
+      return choice && LessonModel.validateChoice(step, choice) === ${correct};
+    });
+  })()`);
+  assert(index >= 0, `${correct ? "correct" : "wrong"} choice is not available`, { index });
+  const selector = `#choicesPanel button.choice-button:nth-child(${index + 1}):not(:disabled)`;
   await clickSelector(page, selector);
 }
 
@@ -297,7 +314,7 @@ async function readSnapshot(page) {
       .filter((node) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1)
       .map((node) => node.className || node.id || node.tagName);
     const missingImages = [...document.images]
-      .filter((img) => !img.complete || img.naturalWidth === 0)
+      .filter((img) => img.getAttribute("src") && (!img.complete || img.naturalWidth === 0))
       .map((img) => img.getAttribute("src"));
     return { active, completeVisible, settingsOpen, problemCounter, feedback, result, placeholders, overflowing, missingImages };
   })()`);
@@ -306,7 +323,11 @@ async function readSnapshot(page) {
 async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
   if (wrongFirst) {
     await clickChoice(page, false);
-    await waitUntil(page, "document.getElementById('feedbackLine').textContent.trim() === '다시 골라요.'", "wrong feedback did not appear");
+    await waitUntil(
+      page,
+      "document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0",
+      "wrong feedback did not appear",
+    );
   }
   while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
     await clickChoice(page, true);
@@ -341,16 +362,29 @@ async function runViewport(page, pageUrl, viewport) {
   await solveCurrentProblem(page, { wrongFirst: true });
   shots.push(await screenshot(page, viewport, "06-confirm"));
   await clickSelector(page, "#rewardButton");
-  await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-reward'", `${viewport.name}: reward not shown`);
-  shots.push(await screenshot(page, viewport, "07-reward"));
-  await clickSelector(page, "#rewardNextButton");
+  await waitUntil(
+    page,
+    "!document.getElementById('rewardPop').hidden && document.querySelector('.reward-card')?.dataset.rewardPhase === 'closed'",
+    `${viewport.name}: closed reward modal not shown`,
+  );
+  shots.push(await screenshot(page, viewport, "07-reward-closed"));
+  await clickSelector(page, "#modalRewardOpenButton");
+  await waitUntil(
+    page,
+    "document.querySelector('.reward-card')?.dataset.rewardPhase === 'revealed' && !document.getElementById('modalRewardNextButton').hidden",
+    `${viewport.name}: opened reward modal not shown`,
+  );
+  shots.push(await screenshot(page, viewport, "07b-reward-open"));
+  await clickSelector(page, "#modalRewardNextButton");
 
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
     await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not active for problem ${problemIndex}`);
     await solveCurrentProblem(page);
     await clickSelector(page, "#rewardButton");
-    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-reward'", `${viewport.name}: reward not shown for problem ${problemIndex}`);
-    await clickSelector(page, "#rewardNextButton");
+    await waitUntil(page, "!document.getElementById('rewardPop').hidden", `${viewport.name}: reward modal not shown for problem ${problemIndex}`);
+    await clickSelector(page, "#modalRewardOpenButton");
+    await waitUntil(page, "!document.getElementById('modalRewardNextButton').hidden", `${viewport.name}: reward modal did not open for problem ${problemIndex}`);
+    await clickSelector(page, "#modalRewardNextButton");
   }
 
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-result'", `${viewport.name}: result not shown`, 8000);

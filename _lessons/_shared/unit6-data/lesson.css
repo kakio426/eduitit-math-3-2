@@ -46,6 +46,8 @@
 .big-problem {
   grid-column: 2;
   font-size: clamp(1.7rem, 3vw, 2.6rem);
+  line-height: 1.12;
+  padding-block: 2px;
   align-self: center;
 }
 
@@ -695,20 +697,24 @@
 }
 
 .result-title-art {
-  left: 52px;
-  top: 96px;
-  width: min(500px, 44%);
+  left: 56.5%;
+  top: 10%;
+  width: 32%;
 }
 
 .result-correct-art {
-  left: 120px;
-  top: 490px;
-  width: min(230px, 22%);
+  left: 64%;
+  top: 54%;
+  width: 17%;
 }
 
 .result-retry-hitbox {
-  right: 68px;
-  bottom: 58px;
+  left: 62.5%;
+  top: 76%;
+  right: auto;
+  bottom: auto;
+  width: 20%;
+  height: 14%;
 }
 
 .result-restart-surface {
@@ -719,28 +725,34 @@
   display: none;
 }
 
+#resultNextSvg {
+  transform: none;
+}
+
 .result-retry-art {
   display: block;
 }
 
 @media (max-width: 1100px) {
   .result-title-art {
-    left: 44px;
-    top: 74px;
-    width: min(410px, 42%);
+    left: 56.5%;
+    top: 10%;
+    width: 32%;
   }
 
   .result-correct-art {
-    left: 86px;
-    top: 410px;
-    width: 200px;
+    left: 64%;
+    top: 54%;
+    width: 17%;
   }
 
   .result-retry-hitbox {
-    right: 50px;
-    bottom: 42px;
-    width: 220px;
-    height: 98px;
+    left: 62.5%;
+    top: 76%;
+    right: auto;
+    bottom: auto;
+    width: 20%;
+    height: 14%;
   }
 
   .problem-grid {
@@ -752,7 +764,7 @@
   }
 
   .big-problem {
-    font-size: 1.72rem;
+    font-size: 1.8rem;
   }
 
   .unit6-board {
@@ -809,4 +821,12 @@
   .unit6-reward-meter-fill {
     transition: none;
   }
+}
+.hud .brand-badge,
+.hud .unit-badge,
+.hud .mini-badge,
+.top-row .brand-badge,
+.top-row .unit-badge,
+.top-row .mini-badge {
+  font-size: 1rem;
 }

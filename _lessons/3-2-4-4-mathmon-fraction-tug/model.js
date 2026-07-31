@@ -20,8 +20,11 @@ const Lesson4FractionTugModel = (() => {
   }
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
   function sideChoice(side, fraction, misconceptionId, feedback) {
-    return { id: `side:${side}`, value: side, label: `${fraction.num}/${fraction.den}`, side, fraction, misconceptionId, feedback };
+    return { id: `side:${side}`, value: side, label: fractionSpeech(fraction), side, fraction, misconceptionId, feedback };
   }
+  function fractionSpeech(fraction) { return `${fraction.den}분의 ${fraction.num}`; }
+  function numberHasBatchim(value) { return [0, 1, 3, 6, 7, 8].includes(Math.abs(value) % 10); }
+  function subjectParticle(value) { return numberHasBatchim(value) ? "이" : "가"; }
   function makeProblem(data, serial, rng) {
     const left = { num: data.left[0], den: data.left[1] };
     const right = { num: data.right[0], den: data.right[1] };
@@ -35,15 +38,15 @@ const Lesson4FractionTugModel = (() => {
     return {
       id: `tug-${serial}-${data.compareType}-${left.num}-${left.den}-${right.num}-${right.den}`,
       type: "fraction-compare", compareType: data.compareType, left, right, larger, smaller,
-      prompt: `${left.num}/${left.den}과 ${right.num}/${right.den} 중 더 큰 분수는 무엇일까요?`,
-      finalExpression: `${larger.num}/${larger.den} > ${smaller.num}/${smaller.den}`,
+      prompt: "두 분수 중 더 큰 것을 골라요.",
+      finalExpression: `${fractionSpeech(left)} ${left.num / left.den > right.num / right.den ? ">" : "<"} ${fractionSpeech(right)}`,
       steps: [{
         id: "compare", label: "더 큰 분수", instruction: rule, answer, answerChoiceId: `side:${answer}`,
         choices: [
           sideChoice("left", left, answer === "left" ? null : wrongChoiceId, answer === "left" ? "" : rule),
           sideChoice("right", right, answer === "right" ? null : wrongChoiceId, answer === "right" ? "" : rule)
         ],
-        correctText: `맞아요. ${larger.num}/${larger.den}이 더 커요.`, reveal: `${larger.num}/${larger.den}`, advance: { mode: "complete" }
+        correctText: `맞아요. ${fractionSpeech(larger)}${subjectParticle(larger.num)} 더 커요.`, reveal: fractionSpeech(larger), advance: { mode: "complete" }
       }]
     };
   }
@@ -58,7 +61,7 @@ const Lesson4FractionTugModel = (() => {
     for (const event of REWARD_EVENTS) {
       if (roll < event.weight) {
         const amount = randomInt(rng, event.min, event.max);
-        const text = event.special ? "무지개!" : event.launches ? "한판승!" : event.emptiesPower ? "0" : amount > 0 ? `+${amount}` : String(amount);
+        const text = event.special ? "무지개!" : event.launches ? "한판승!" : (event.keepsPower || event.emptiesPower) ? "0" : amount > 0 ? `+${amount}` : String(amount);
         return { ...event, amount, text };
       }
       roll -= event.weight;
@@ -66,7 +69,7 @@ const Lesson4FractionTugModel = (() => {
     const fallback = REWARD_EVENTS[0]; const amount = randomInt(rng, fallback.min, fallback.max); return { ...fallback, amount, text: `+${amount}` };
   }
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.keepsPower || event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };

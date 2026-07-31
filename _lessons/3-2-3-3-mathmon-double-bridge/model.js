@@ -109,7 +109,7 @@ const Lesson3DoubleBridgeModel = (() => {
     for (const event of REWARD_EVENTS) {
       if (roll < event.weight) {
         const amount = randomInt(rng, event.min, event.max);
-        const text = event.special ? "무지개!" : event.launches ? "한 번에 완공!" : event.emptiesPower ? "0" : amount > 0 ? `+${amount}` : String(amount);
+        const text = event.special ? "무지개!" : event.launches ? "한 번에 완공!" : (event.keepsPower || event.emptiesPower) ? "0" : amount > 0 ? `+${amount}` : String(amount);
         return { ...event, amount, text };
       }
       roll -= event.weight;
@@ -120,7 +120,7 @@ const Lesson3DoubleBridgeModel = (() => {
   }
 
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.keepsPower || event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };

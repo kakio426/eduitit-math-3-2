@@ -27,14 +27,67 @@
     "mode": "poster-two-step"
   },
   "reward": {
-    "mode": "stage-full",
-    "maxPower": 100
-  },
-  "completion": {
-    "showExpression": false
+    "mode": "modal-art",
+    "eventStandard": "mathmon-unified-reward-v1",
+    "maxPower": 100,
+    "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
+    "closedLabel": "두근두근!",
+    "changeLabel": "이번 변화",
+    "zeroLabel": "0",
+    "nextLabel": "다음",
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "reward-modal",
+      "states": ["closed", "smallFlow", "bigFlow", "shineFlow", "smallOnly", "specialFlow", "repair"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
+    "artMap": {
+      "smallFlow": "reward-event-small-flow-generated.webp",
+      "bigFlow": "reward-event-big-flow-generated.webp",
+      "shineFlow": "reward-event-shine-flow-generated.webp",
+      "smallOnly": "reward-event-small-only-generated.webp",
+      "specialFlow": "reward-event-special-flow-generated.webp",
+      "repair": "reward-event-repair-generated.webp"
+    }
   },
   "result": {
-    "renderMode": "simple-generated"
+    "renderMode": "hybrid-generated-dynamic",
+    "showNextGoal": true,
+    "layout": {
+      "axisX": 300,
+      "titleTop": 80,
+      "titleWidth": 420,
+      "measureY": 435,
+      "barY": 455,
+      "barWidth": 340,
+      "barHeight": 24,
+      "correctTop": 490,
+      "correctWidth": 210,
+      "nextY": 636,
+      "retryRect": {
+        "x": 150,
+        "y": 655,
+        "width": 300,
+        "height": 108
+      }
+    },
+    "stateImageSet": {
+      "count": 4,
+      "canvas": "1280x800",
+      "runtimeSlot": "1280x800",
+      "contactSheet": "result-states-contact-sheet.png",
+      "protagonist": "zfa-06-penguinmon",
+      "fixedGeneratedElements": [
+        "result-title",
+        "retry-button"
+      ],
+      "dynamicOverlays": [
+        "water-power",
+        "correct-count",
+        "next-goal"
+      ]
+    }
   },
   "workbench": {
     "type": "water-fill"
@@ -73,7 +126,7 @@
       "id": "rainbow",
       "name": "무지개 물탑",
       "minPower": 100,
-      "minCorrect": 10,
+      "minCorrect": 1,
       "needsSpecial": true,
       "image": "result-tank-rainbow-generated.webp",
       "titleImage": "result-title-rainbow-generated.webp"
@@ -81,52 +134,60 @@
   ],
   "rewardEvents": [
     {
-      "id": "drop",
-      "text": "맑은 물방울",
-      "weight": 5200,
-      "min": 5,
-      "max": 8,
+      "id": "normal",
+      "text": "물통 힘이 늘었어요",
+      "weight": 6400,
+      "min": 6,
+      "max": 10,
       "family": "smallFlow"
     },
     {
-      "id": "stream",
-      "text": "시원한 물줄기",
-      "weight": 1700,
-      "min": 13,
-      "max": 18,
+      "id": "loss",
+      "text": "물통 힘이 줄었어요",
+      "weight": 1500,
+      "min": -5,
+      "max": -2,
+      "family": "repair"
+    },
+    {
+      "id": "mega",
+      "text": "물통 힘이 크게 늘었어요",
+      "weight": 1200,
+      "min": 14,
+      "max": 22,
       "family": "bigFlow"
     },
     {
-      "id": "shine",
-      "text": "반짝 물방울",
-      "weight": 1700,
-      "min": 9,
-      "max": 12,
+      "id": "jackpot",
+      "text": "물통이 크게 빛나요",
+      "weight": 500,
+      "min": 30,
+      "max": 30,
       "family": "shineFlow"
     },
     {
-      "id": "splash",
-      "text": "살짝 튄 물",
-      "weight": 1200,
-      "min": 1,
-      "max": 3,
+      "id": "empty",
+      "text": "이번에는 그대로예요",
+      "weight": 380,
+      "min": 0,
+      "max": 0,
       "family": "smallOnly"
     },
     {
-      "id": "rainbow",
+      "id": "special",
       "text": "무지개 물줄기",
-      "weight": 200,
-      "min": 28,
-      "max": 28,
+      "weight": 20,
+      "min": 100,
+      "max": 100,
       "family": "specialFlow",
       "special": true
     }
   ],
   "wrongEvent": {
-    "id": "refill",
-    "text": "다시 채우기",
-    "min": 1,
-    "max": 2,
+    "id": "wrong-loss",
+    "text": "물통 힘이 줄었어요",
+    "min": -6,
+    "max": -3,
     "family": "repair"
   },
   "typesPerRun": [
@@ -159,10 +220,81 @@
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "rewardClosed": "reward-event-closed-v2-generated.webp",
     "rewardScene": "reward-scene-generated.webp",
-    "resultRetryButton": "result-retry-button-generated.webp"
+    "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "qa": {
+    "visualContractVersion": 1,
+    "misconceptionCoverage": [
+      "READ_ML_SCALE",
+      "READ_LITER_SCALE",
+      "COMPARE_BOTTLE_LEVEL"
+    ],
+    "rewardModalAudit": {
+      "standard": "unit3-modal-art-v1",
+      "card": "#rewardPop .reward-card",
+      "visual": "#rewardVisual",
+      "label": "#modalRewardLabel",
+      "openButton": "#modalRewardOpenButton",
+      "nextButton": "#modalRewardNextButton",
+      "canvas": "512x512",
+      "cardWidthPx": 560,
+      "cardHeightPx": 480,
+      "cardAspectRatio": "7:6",
+      "visualSizePx": 250,
+      "cardCenterTolerancePx": 1,
+      "cardSizeTolerancePx": 1,
+      "visualSquareTolerancePx": 1,
+      "visualSizeTolerancePx": 1,
+      "minVisualPx": 180,
+      "backdropBlurMinPx": 8
+    },
+    "layoutAudit": {
+      "workArea": ".problem-grid",
+      "primary": ".problem-card",
+      "secondary": ".choices-panel",
+      "tertiary": ".step-board",
+      "complete": ".complete-panel",
+      "verticalOrder": ["tertiary", "secondary"],
+      "minStageWidthRatio": 0.9
+    },
+    "answerAccumulationAudit": {
+      "standard": "primary-calculation-accumulates-v1",
+      "board": ".calculation-board",
+      "answerCountAttribute": "data-answer-count"
+    },
+    "completionAudit": {
+      "standard": "calculation-preserved-v1",
+      "primary": ".problem-card",
+      "calculation": ".step-board",
+      "panel": ".complete-panel",
+      "text": ".complete-text",
+      "action": "#rewardButton",
+      "choices": ".choices-panel",
+      "axisTolerancePx": 1,
+      "edgeTolerancePx": 1
+    },
+    "typographyAudit": {
+      "headline": ".big-problem",
+      "instruction": ".step-board .instruction",
+      "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".capacity-visual",
+      "primarySvgText": ".problem-card svg text",
+      "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 32,
+      "minInstructionPx": 18,
+      "minPrimarySvgTextPx": 14,
+      "minChoiceSvgTextPx": 18,
+      "minBadgePx": 14,
+      "minCounterPx": 16,
+      "minGlobalControlPx": 42,
+      "minPanelGapPx": 8
+    },
+    "resultCohesionAudit": {
+      "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
+      "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
+    },
     "viewports": [
       {
         "name": "desktop",
@@ -173,12 +305,6 @@
         "name": "tablet-landscape",
         "width": 1024,
         "height": 768
-      },
-      {
-        "name": "short-dpr2",
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 2
       }
     ],
     "requiredFlow": [
@@ -189,5 +315,30 @@
       "reward",
       "result"
     ]
-  }
+  },
+  "assets": [
+    "cover-generated.webp",
+    "title-logo-generated.webp",
+    "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "tutorial-page-1-generated.webp",
+    "tutorial-page-2-generated.webp",
+    "reward-event-closed-v2-generated.webp",
+    "reward-events-v2-generated.webp",
+    "reward-event-small-flow-generated.webp",
+    "reward-event-big-flow-generated.webp",
+    "reward-event-shine-flow-generated.webp",
+    "reward-event-small-only-generated.webp",
+    "reward-event-special-flow-generated.webp",
+    "reward-event-repair-generated.webp",
+    "reward-events-v3-contact-sheet.png",
+    "result-tank-small-generated.webp",
+    "result-tank-spark-generated.webp",
+    "result-tank-full-generated.webp",
+    "result-tank-rainbow-generated.webp",
+    "result-title-small-generated.webp",
+    "result-title-spark-generated.webp",
+    "result-title-full-generated.webp",
+    "result-title-rainbow-generated.webp",
+    "../_shared/result-actions/retry-button-v2-generated.webp"
+  ]
 }

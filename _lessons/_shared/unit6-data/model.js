@@ -220,7 +220,7 @@ const Lesson6DataLabModel = (() => {
       id: `stamp-${serial}`,
       type: "stamp",
       kind: "그림그래프 만들기",
-      prompt: `도장으로 나타낼 수 · ${value}`,
+      prompt: "도장 수를 차례로 골라요.",
       finalExpression: `${big}×10 + ${small}×1 = ${value}`,
       visual: { kind: "stamp", value, big, small },
       steps: [

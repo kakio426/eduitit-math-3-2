@@ -129,7 +129,7 @@
           display: grid;
           place-items: center;
           background: rgba(0,0,0,.38);
-          backdrop-filter: blur(6px);
+          backdrop-filter: blur(10px);
         }
         .settings-backdrop[hidden] { display: none; }
         .settings-modal {
@@ -414,7 +414,7 @@
         .step-chip { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,.09); color: #d7cadb; font-size: .8rem; font-weight: 1000; max-width: 100%; overflow-wrap: anywhere; }
         .step-chip.is-current { background: rgba(255,200,87,.22); color: #fff8e8; }
         .step-chip.is-done { background: rgba(53,217,178,.18); color: #dffff5; }
-        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; }
+        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; word-break: keep-all; overflow-wrap: normal; }
         .answer-slot { min-height: 90px; border: 2px dashed rgba(255,255,255,.22); border-radius: 20px; display: grid; place-items: center; font-size: clamp(1.7rem, 3.2vw, 2.55rem); font-weight: 1000; color: #ffc857; text-align: center; padding: 8px; overflow-wrap: anywhere; }
         .answer-slot.is-filled { border-style: solid; border-color: rgba(53,217,178,.7); background: rgba(53,217,178,.12); animation: slot-pop .5s ease; }
         .feedback-line { margin: 0; min-height: 28px; color: #d7cadb; font-size: .98rem; font-weight: 900; }
@@ -428,12 +428,10 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
-        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
-        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { display: none; }
+        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
         .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
         .problem-grid.is-complete .step-chips,
         .problem-grid.is-complete .instruction,
@@ -479,46 +477,8 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object {
-          position: relative;
-          width: 210px;
-          height: 210px;
-          border-radius: 28px;
-          display: grid;
-          place-items: end center;
-          background:
-            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
-            linear-gradient(180deg, #173649, #0c1c29);
-          border: 2px solid rgba(255,255,255,.3);
-          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
-          overflow: hidden;
-          isolation: isolate;
-        }
-        .reward-object::after {
-          content: attr(data-symbol);
-          position: absolute;
-          z-index: 2;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          color: #fff8e8;
-          font-size: 4.5rem;
-          line-height: 1;
-          font-weight: 1000;
-          text-shadow: 0 5px 14px rgba(0,0,0,.48);
-        }
-        .reward-object[data-direction="special"]::after { color: #fff1a6; }
-        .reward-object[data-direction="same"]::after { color: #d7cadb; }
-        .reward-liquid {
-          position: absolute;
-          z-index: 1;
-          inset: auto 0 0;
-          width: 100%;
-          height: var(--fill);
-          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
-          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
-          transition: height .5s ease;
-        }
+        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
+        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -567,11 +527,40 @@
           font-weight: 1000;
           text-align: center;
         }
+        main.game[data-reward-mode="modal-art"] .reward-card {
+          width: 560px;
+          max-width: 88%;
+          height: 480px;
+          min-height: 0;
+          aspect-ratio: 7 / 6;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-visual {
+          width: 250px;
+          height: 250px;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-label {
+          min-height: 52px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-block: 3px;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-pop {
+          backdrop-filter: blur(10px);
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-visual {
+          transform: none;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label { display: flex; }
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
-        .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
+    .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+        .result-dynamic-ui [hidden] { display: none; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
-        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: 0; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
         .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
@@ -1114,6 +1103,7 @@
     .game[data-workbench-type="circle-double-bridge"] .big-problem {
       max-width: 900px;
       margin: 0 auto;
+      padding-block: 3px;
       color: var(--bridge-ink);
       font-size: clamp(2.55rem, 3.55vw, 3rem);
       line-height: 1.08;
@@ -1572,7 +1562,7 @@
     }
 
     .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultNextSvg {
-      transform: translate(150px, -60px);
+      transform: none;
     }
 
     .game[data-workbench-type="circle-double-bridge"] .result-correct-art {
@@ -1923,7 +1913,7 @@
       <section class="screen result" id="screen-result" data-result-tier="log" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-log-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-log-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-log-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">외나무다리</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원"></section>
@@ -2606,7 +2596,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count"]}},"workbench":{"type":"circle-double-bridge"},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"대교","minPower":83,"minCorrect":8,"image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-10,"max":-5,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","emptiesPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-18,"max":-8,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632}],"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"bridgeFitAudit":{"target":".bridge-empty-slot, .installed-bridge","short":".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference","long":".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference","correct":".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check","choiceRange":[1,14],"sharedScaleAttribute":"data-px-per-cm"},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":975,"measureY":430,"barY":350,"barWidth":360,"barHeight":28,"correctTop":440,"correctWidth":210,"nextY":590,"retryRect":{"x":820,"y":608,"width":310,"height":136}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count","next-goal"]}},"workbench":{"type":"circle-double-bridge"},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":83,"minCorrect":8,"image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-4,"max":-2,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-4,"max":-2,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"visualContractVersion":1,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632}],"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"bridgeFitAudit":{"target":".bridge-empty-slot, .installed-bridge","short":".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference","long":".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference","correct":".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check","choiceRange":[1,14],"sharedScaleAttribute":"data-px-per-cm"},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson3DoubleBridgeModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2718,7 +2708,7 @@
         for (const event of REWARD_EVENTS) {
           if (roll < event.weight) {
             const amount = randomInt(rng, event.min, event.max);
-            const text = event.special ? "무지개!" : event.launches ? "한 번에 완공!" : event.emptiesPower ? "0" : amount > 0 ? `+${amount}` : String(amount);
+            const text = event.special ? "무지개!" : event.launches ? "한 번에 완공!" : (event.keepsPower || event.emptiesPower) ? "0" : amount > 0 ? `+${amount}` : String(amount);
             return { ...event, amount, text };
           }
           roll -= event.weight;
@@ -2729,7 +2719,7 @@
       }
 
       function applyReward(state, event) {
-        if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+        if (event.keepsPower || event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
         if (event.special) return { power: MAX_POWER, specialSeen: true };
         if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
         return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };
@@ -2807,8 +2797,6 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
-      rewardObject: document.querySelector("#screen-reward .reward-object"),
-      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -2826,6 +2814,7 @@
       resultNext: document.getElementById("resultNext"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureTrackSvg: document.getElementById("resultMeasureTrackSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
       resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
@@ -3080,8 +3069,6 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
-      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
-      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -3102,12 +3089,6 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
-        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
-        const misconceptionId = getChoiceMisconceptionId(choice);
-        if (misconceptionId) button.dataset.misconception = misconceptionId;
-        if (choice && typeof choice === "object" && choice.relation) {
-          button.dataset.relation = String(choice.relation);
-        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -3126,10 +3107,6 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
-      });
-      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
-        delete choiceButton.dataset.state;
-        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -3195,12 +3172,7 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
-      ui.completeText.hidden = !showCompleteExpression;
-      ui.completeText.textContent = showCompleteExpression
-        ? (problem.finalExpression || ui.answerSlot.textContent)
-        : "";
-      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
+      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -3286,8 +3258,7 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
-        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
+        chip.textContent = step.label || `${index + 1}단계`;
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -3295,7 +3266,7 @@
     }
 
     async function showReward() {
-      if (!state.completed || state.rewardPhase !== "idle") return;
+      if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -3326,9 +3297,7 @@
         return;
       }
 
-      const beforePower = applyPendingReward(event);
-      state.rewardPhase = "revealed";
-      renderRewardMeter(event, beforePower, state.power);
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -3339,18 +3308,6 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
-    }
-
-    function renderRewardMeter(event, beforePower, afterPower) {
-      if (!ui.rewardObject || !ui.rewardLiquid) return;
-      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
-      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
-      const delta = Number(afterPower) - Number(beforePower);
-      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
-      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
-      ui.rewardObject.dataset.direction = direction;
-      ui.rewardObject.dataset.symbol = symbol;
-      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3364,6 +3321,7 @@
       ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
+      ui.modalRewardNextButton.disabled = false;
       ui.rewardPop.hidden = false;
       if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
@@ -3402,7 +3360,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3417,29 +3375,20 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
+      if (event.special) return event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(event, beforeResult, afterResult) {
-      const formatter = globalThis.formatLessonRewardTarget;
-      if (typeof formatter === "function") {
-        try {
-          const formatted = formatter({ event, beforeResult, afterResult, state });
-          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
-        } catch (error) {
-          console.warn("formatLessonRewardTarget failed", error);
-        }
-      }
-      if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+    function getRewardTargetText(beforeResult, afterResult) {
+      if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
         ? LessonModel.getNextResult(afterResult)
         : afterResult;
-      if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+      if (!nextResult || nextResult.id === afterResult?.id) return "최고 단계까지 왔어요!";
       const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
       if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
         return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
@@ -3457,20 +3406,16 @@
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
       if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
-      if (immediateValue) event.amount = state.power - beforePower;
+      event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      if (immediateValue) {
-        const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-        setRewardValue(event.amount);
-        await revealHook;
-        setRewardValue(event.amount);
-      } else {
-        await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-        await animateRewardValue(event);
-      }
+      const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      if (immediateValue) setRewardValue(event.amount);
+      await revealHook;
+      if (immediateValue) setRewardValue(event.amount);
+      else await animateRewardValue(event);
       state.rewardPhase = "revealed";
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
@@ -3500,11 +3445,12 @@
 
     function setRewardValue(amount) {
       const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
-        ? `${unit} ${zeroLabel}`
-        : `${unit} ${value > 0 ? "+" : ""}${value}`;
+        ? `${changeLabel} ${zeroLabel}`
+        : `${changeLabel} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -3531,16 +3477,21 @@
       return "그대로";
     }
 
-    function advanceAfterReward() {
+    async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
-      if (state.pendingAdvance) return;
-      state.pendingAdvance = true;
-      if (getRewardMode() === "modal-art") closeRewardModal();
-      if (getRewardMode() === "stage-reveal") {
-        state.pendingRewardEvent = null;
-        state.rewardPhase = "idle";
+      if (getRewardMode() === "modal-art") {
+        if (state.rewardPhase !== "revealed") return;
+        const event = state.pendingRewardEvent;
+        ui.modalRewardNextButton.disabled = true;
+        closeRewardModal();
+        await runViewHook("onRewardDismiss", {
+          event,
+          afterPower: state.power,
+          state,
+        });
+        ui.modalRewardNextButton.disabled = false;
       }
-      if (getRewardMode() === "stage-full") {
+      if (getRewardMode() === "stage-reveal") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3570,7 +3521,7 @@
       if (ui.resultNext) ui.resultNext.textContent = nextResultText;
       if (ui.resultNextSvg) {
         ui.resultNextSvg.textContent = nextResultText;
-        ui.resultNextSvg.hidden = !LESSON_CONFIG.result?.showNextGoal;
+        ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
       }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
       if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
@@ -3579,6 +3530,7 @@
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
         ui.resultMeasureFillSvg.setAttribute("width", String(width));
       }
+      applyResultLayout();
 
       const correctArt = getCorrectCountAsset();
       ui.resultCorrectArt.hidden = !correctArt;
@@ -3603,6 +3555,61 @@
       });
 
       showScreen("result");
+    }
+
+    function applyResultLayout() {
+      const baseLayout = LESSON_CONFIG.result?.layout;
+      if (!baseLayout) return;
+      const tierId = state.currentResult?.id || screens.result?.dataset?.resultTier || "";
+      const tierLayout = baseLayout.byTier?.[tierId] || {};
+      const layout = { ...baseLayout, ...tierLayout };
+      const tierAxis = baseLayout.axisXByTier?.[tierId];
+      const axisX = Number(tierAxis ?? layout.axisX ?? 930);
+      const titleWidth = Number(layout.titleWidth ?? 520);
+      const correctWidth = Number(layout.correctWidth ?? 220);
+      const barWidth = Number(layout.barWidth ?? 360);
+      const barHeight = Number(layout.barHeight ?? 28);
+      const retry = layout.retryRect || {};
+      const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
+      const percentY = (value) => `${(Number(value) / 800) * 100}%`;
+
+      if (ui.resultTitleArt) {
+        ui.resultTitleArt.style.left = percentX(axisX - titleWidth / 2);
+        ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
+        ui.resultTitleArt.style.width = percentX(titleWidth);
+      }
+      if (ui.resultCorrectArt) {
+        ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
+        ui.resultCorrectArt.style.top = percentY(layout.correctTop ?? 382);
+        ui.resultCorrectArt.style.width = percentX(correctWidth);
+      }
+      if (ui.resultDestinationSvg) {
+        ui.resultDestinationSvg.setAttribute("x", String(axisX));
+      }
+      if (ui.resultMeasureSvg) {
+        ui.resultMeasureSvg.setAttribute("x", String(axisX));
+        ui.resultMeasureSvg.setAttribute("y", String(layout.measureY ?? 295));
+      }
+      for (const node of [ui.resultMeasureTrackSvg, ui.resultMeasureFillSvg]) {
+        if (!node) continue;
+        node.setAttribute("x", String(axisX - barWidth / 2));
+        node.setAttribute("y", String(layout.barY ?? 324));
+        node.setAttribute("height", String(barHeight));
+        node.setAttribute("rx", String(barHeight / 2));
+      }
+      if (ui.resultMeasureTrackSvg) ui.resultMeasureTrackSvg.setAttribute("width", String(barWidth));
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.setAttribute("x", String(axisX));
+        ui.resultNextSvg.setAttribute("y", String(layout.nextY ?? 548));
+      }
+      if (ui.retryButton) {
+        ui.retryButton.style.left = percentX(retry.x ?? axisX - 150);
+        ui.retryButton.style.top = percentY(retry.y ?? 615);
+        ui.retryButton.style.right = "auto";
+        ui.retryButton.style.bottom = "auto";
+        ui.retryButton.style.width = percentX(retry.width ?? 300);
+        ui.retryButton.style.height = percentY(retry.height ?? 123);
+      }
     }
 
     function getCorrectCountAsset() {

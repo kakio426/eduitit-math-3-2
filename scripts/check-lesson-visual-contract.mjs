@@ -4,6 +4,7 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const SOURCE_ROOT = path.join(ROOT, "_lessons");
+const ENGINE_CORE_CSS = readFileSync(path.join(ROOT, "_engine", "v1", "styles", "core.css"), "utf8");
 const EXPECTED_CANVAS = "1280x800";
 const REWARD_CANVAS = "512x512";
 const SHARED_START_ASSET = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
@@ -37,6 +38,41 @@ function readMathmonIds(packId) {
   assert(existsSync(manifestPath), `${packId}: 매스몬 팩 manifest가 없습니다.`);
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
   return new Set((manifest.items || manifest.characters || []).map((item) => item.id));
+}
+
+function checkStandaloneLesson(folder, config) {
+  const prefix = `${folder}:`;
+  const outputDir = path.join(ROOT, folder);
+  const html = readFileSync(path.join(outputDir, config.qa?.standalonePackageAudit?.entry || "index.html"), "utf8");
+  const readme = readFileSync(path.join(outputDir, config.qa?.standalonePackageAudit?.readme || "README.md"), "utf8");
+  const report = readFileSync(path.join(outputDir, config.qa?.standalonePackageAudit?.report || "REPORT.md"), "utf8");
+  assert(config.qa?.standalonePackageAudit?.standard === "standalone-html-v1", `${prefix} standalone visual standard is missing`);
+  assert(config.mathmonPack && config.mathmonId, `${prefix} standalone Mathmon pack/id metadata is missing`);
+  assert(readMathmonIds(config.mathmonPack).has(config.mathmonId), `${prefix} standalone Mathmon id is not in its pack manifest`);
+  assert(readme.includes(config.mathmonPack) && readme.includes(config.mathmonId), `${prefix} README lacks the Mathmon pack/id`);
+  assert(report.includes(config.mathmonPack) && report.includes(config.mathmonId), `${prefix} REPORT lacks the Mathmon pack/id`);
+  for (const marker of [
+    'data-stage-ratio="16:10"',
+    'data-stage-size="1280x800"',
+    'data-cover-standard="generated-title-overlay"',
+    'data-cover-start-standard="generated-button-art"',
+    'data-cover-start-asset="shared-canonical-v1"',
+    'data-settings-standard="modal-controls"',
+    'data-reward-mode="modal-art"',
+    'data-scoreboard-enabled="false"',
+    `data-mathmon-pack="${config.mathmonPack}"`,
+    `data-mathmon-id="${config.mathmonId}"`,
+  ]) assert(html.includes(marker), `${prefix} standalone index is missing ${marker}`);
+  assert(/#screen-reward\s+\.reward-card\s*\{[^}]*width:\s*560px[^}]*height:\s*480px/is.test(html), `${prefix} reward card must be 560x480`);
+  assert(/\.reward-visual\s*\{[^}]*width:\s*250px[^}]*height:\s*250px/is.test(html), `${prefix} reward visual must be 250x250`);
+  assert(/#screen-reward\s+\.raster-bg\s*\{[^}]*display:\s*none/is.test(html), `${prefix} modal reward must not replace the problem screen with a reward raster`);
+  assert(html.includes('function showRewardOverlay()') && html.includes('screens.play.classList.add("is-active")'), `${prefix} modal reward must retain the play screen behind the card`);
+  assert(html.includes('window.__lesson5PackageQa'), `${prefix} standalone visual browser QA export is missing`);
+  assert(html.includes('../_shared/mathmon/cover-start-button/start-button-generated.webp'), `${prefix} shared cover start asset is missing`);
+  for (const asset of config.assets || []) {
+    const resolved = path.resolve(outputDir, asset);
+    assert(existsSync(resolved), `${prefix} declared standalone asset is missing: ${asset}`);
+  }
 }
 
 function checkV2(folder, config, css, readme, report) {
@@ -103,6 +139,7 @@ function checkLesson(folder, config) {
     ? path.resolve(sourceDir, config.sourceFiles.style)
     : null;
   const css = [
+    ENGINE_CORE_CSS,
     sharedCssPath && existsSync(sharedCssPath) ? readFileSync(sharedCssPath, "utf8") : "",
     localCss,
   ].join("\n");
@@ -175,7 +212,7 @@ function checkLesson(folder, config) {
   assert(existsSync(contactSheet), `${prefix} 결과 컨택시트가 없습니다.`);
   assert(readme.includes(set.contactSheet), `${prefix} README에 컨택시트 경로가 없습니다.`);
   assert(report.includes(set.contactSheet), `${prefix} REPORT에 컨택시트 경로가 없습니다.`);
-  assert(`${readme}\n${report}`.includes(config.mathmonPack), `${prefix} README와 REPORT 어디에도 매스몬 팩 id가 없습니다.`);
+  assert(readme.includes(config.mathmonPack) && report.includes(config.mathmonPack), `${prefix} README/REPORT에 매스몬 팩 id가 없습니다.`);
 
   if (config.standards?.playProgress?.startsWith("generated-play-progress-")) {
     const playSet = config.workbench?.playStateImageSet;
@@ -270,9 +307,9 @@ function checkLesson(folder, config) {
       assert(css.includes("backdrop-filter: blur("), `${prefix} 보상 모달 배경 블러 CSS가 없습니다.`);
     }
     assert(config.imageAssets?.rewardClosed, `${prefix} 닫힌 보상 이미지가 없습니다.`);
-    assert(css.includes(".reward-card") && css.includes("width: min(560px, 88%)"), `${prefix} 보상 카드 폭 계약 CSS가 없습니다.`);
-    assert(css.includes("height: 480px") && css.includes("min-height: 480px"), `${prefix} 보상 카드 높이 계약 CSS가 없습니다.`);
-    assert(css.includes(".reward-visual") && css.includes("background-size: cover"), `${prefix} 보상 이미지 채움 CSS 계약이 없습니다.`);
+    assert(css.includes(".reward-card") && css.includes("width: 560px") && css.includes("max-width: 88%"), `${prefix} 보상 카드 폭 계약 CSS가 없습니다.`);
+    assert(css.includes("height: 480px") && css.includes("min-height: 0") && css.includes("aspect-ratio: 7 / 6"), `${prefix} 보상 카드 높이·비율 계약 CSS가 없습니다.`);
+    assert(css.includes(".reward-visual") && (css.includes("background-size: cover") || /center\s*\/\s*cover\s+no-repeat/.test(css)), `${prefix} 보상 이미지 채움 CSS 계약이 없습니다.`);
   }
 
   if (config.qa?.rewardEffectAudit) {
@@ -309,12 +346,19 @@ function checkLesson(folder, config) {
 }
 
 const requested = process.argv.slice(2);
-const folders = requested.length ? requested : readdirSync(SOURCE_ROOT);
+const folders = requested.length
+  ? requested
+  : readdirSync(SOURCE_ROOT).filter((folder) => !folder.startsWith("_"));
 const checked = [];
 for (const folder of folders) {
   const configPath = path.join(SOURCE_ROOT, folder, "lesson.json");
   assert(existsSync(configPath), `${folder}: lesson source does not exist`);
   const config = JSON.parse(readFileSync(configPath, "utf8"));
+  if (config.packageType === "standalone-html") {
+    checkStandaloneLesson(folder, config);
+    checked.push(folder);
+    continue;
+  }
   if (![1, 2].includes(config.qa?.visualContractVersion)) {
     assert(!requested.length, `${folder}: visualContractVersion 1 또는 2가 필요합니다.`);
     continue;

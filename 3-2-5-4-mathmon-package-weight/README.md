@@ -1,48 +1,61 @@
 # 매스몬 택배 무게 맞추기
 
-3학년 2학기 5단원 4차시 단일 HTML 게임입니다. 학생은 kg와 g의 자리를 맞춰 더하고 빼며, 택배 무게가 한도에 맞는지 판단합니다.
+3학년 2학기 5단원 4차시 단일 HTML 게임입니다.
 
-## 실행과 소스
+- 배움주제: kg와 g로 나타낸 무게의 덧셈·뺄셈과 어림
+- 학생 행동: 택배 한도에 맞는 무게를 고르기
+- 실행: `index.html`
+- 지원 화면: 컴퓨터, 태블릿 가로
 
-- 실행 파일: `index.html`
-- 공통 엔진: `_engine/v1/`
-- 차시 설정: `_lessons/3-2-5-4-mathmon-package-weight/lesson.json`
-- 차시 모델·뷰·스타일: 같은 소스 폴더의 `model.js`, `view.js`, `lesson.css`
-- 빌드: `node scripts/build-lesson.mjs 3-2-5-4-mathmon-package-weight`
-- 시작 버튼: `_shared/mathmon/cover-start-button/start-button-generated.webp`
-
-기존 단독 HTML 런타임은 `mathmon-engine-v1` 소스 구조로 전환했습니다. 이전 브라우저 증거는 `_archive/pre-engine-screenshots/`, 이전 클릭 가드는 `scripts/_archive/unit5-pre-engine/`에 보존합니다.
-
-## 학습 흐름
+## 흐름
 
 ```text
-첫 화면 → 설명 1·2 → 무게 계산/한도 판단 → 완성 계산판 → 트럭 보기
-→ 닫힌 상자와 현재 트럭 → 상자 열기 → 이전·다음 트럭 → 결과
+표지 → 방법 1 → 방법 2 → 문제·정답 확인 → 닫힌 부품 상자 → 사건 공개 → 결과
 ```
 
-- 더하기: g 합 → `1000g = 1kg`로 바꾸기 → kg까지 더하기
-- 빼기: `1kg = 1000g`으로 바꾸기 → g 빼기 → kg까지 빼기
-- 한도: 택배 무게 계산 → 택배와 한도를 같은 축에서 비교
-- 단계 수: 더하기 3, 빼기 3, 한도 2
-- 오답: 학생이 고른 값을 kg/g 열에 보존
-- 피드백: `100g 적어요.`, `1000g을 아직 바꾸지 않았어요.`, `한도보다 90g 무거워요.`
-- 정답 경로 수학 입력: 최소 `2`, 중앙값 `3`, 평균 `2.7`, 최대 `3`
+문제는 10개입니다. 정답을 고르면 선택값이 계산판에 먼저 들어가고 확인 문구를 읽은 뒤 다음 단계로 갑니다. 마지막에는 완성식을 본 뒤 학생이 `트럭 보기`를 눌러 보상을 엽니다.
 
-## 보상과 결과
+## 화면 계약
 
-`stage-reveal` 보상은 기존 트럭 자산을 공통 엔진의 `onRewardPrepare`, `onRewardReveal` 훅으로 연결합니다. `formatLessonRewardTarget` 훅이 트럭 목표 문구를 만들며 농장 문구는 노출하지 않습니다.
+- `<main class="game">`: `data-stage-ratio="16:10"`, `data-stage-size="1280x800"`
+- 표지: `generated-title-overlay`, `shared-canonical-v1` 시작 버튼
+- 설정: `modal-controls`, Stage 안 톱니 버튼
+- 보상: `unit5-package-modal-art-v2`, 카드 560×480, 생성 그림 250×250
+- 결과: 4개 생성 완성 장면 + 생성 제목 + 공용 생성 정답 수 + SVG 동적 힘/다음 목표
+- 랭킹: 비활성
+- 매스몬: 승인 활성 팩 `base-pack`의 여우몬 `base-02-foxmon`을 커버·결과 생성 장면 안에서 사용
+- 소스 계약: `_lessons/3-2-5-4-mathmon-package-weight/lesson.json`의 `standalone-html-v1` 메타데이터로 공통 계약·시각 계약·브라우저 흐름 검사에 포함
 
-| 결과 | 조건 |
-| --- | --- |
-| 평범 트럭 | 기본 |
-| 살짝 멋진 트럭 | 힘 30, 바로 맞힌 문제 3개 |
-| 번쩍 멋진 트럭 | 힘 70, 바로 맞힌 문제 7개 |
-| 슈퍼 트럭 | 힘 100, 10문제 바로 정답, 슈퍼 부품 |
+## 보상
 
-기존 보상 확률은 그대로 유지합니다. 결과 컨택시트는 `result-states-contact-sheet.png`, 트럭 변화 컨택시트는 `truck-evolution-contact-sheet.png`입니다. 사용 팩은 `base-pack`, 매스몬은 `base-02-foxmon`입니다.
+통합 사건 분포는 `64%/+6~10`, `15%/-5~-2`, `12%/+14~22`, `5%/+30`, `3.8%/0`, `0.2%/100`입니다. 오답은 문제당 처음 한 번만 `-6~-3`이며, 정답의 숨은 기본 가산값은 없습니다.
 
-## 브라우저 증거
+마지막 계산판을 그대로 둔 채 보상 카드가 모달로 열립니다. 학생이 `상자 열기`를 눌러야 사건 그림과 실제 변화량이 보입니다. 6개 사건은 각각 다른 생성 그림을 사용합니다.
 
-`screenshots/qa5-<viewport>-<state>.png`에서 `1280×800`, `1024×768`, `1280×720 / DPR 2`를 확인할 수 있습니다. 짧은 DPR 2 화면에서도 보상 버튼과 Stage 아래 경계 사이의 여백은 16px 이상입니다.
+- 자산 전수표: `reward-events-v1-contact-sheet.png`
+- 브라우저 증거: `screenshots/reward-event-*-open-*.png`
 
-세로 스마트폰은 지원 범위가 아닙니다.
+## 결과
+
+결과는 평범/살짝 멋진/번쩍 멋진/슈퍼 초울트라 트럭 4단계입니다. 현재 힘, 진행 막대, 다음 목표를 보이는 SVG 레이어로 표시하고, 제목·정답 수·힘 패널·다시 버튼을 한 축에 맞춥니다.
+
+- 데스크톱: `screenshots/result-tier-*-desktop.png`
+- 태블릿 가로: `screenshots/result-tier-*-tablet-landscape.png`
+
+## Humanizer QA
+
+학생 문구는 한 문장에 행동 하나만 남겼습니다. 예: `다 더한 무게를 골라요.`, `다 뺀 뒤의 무게를 골라요.`, `한도에 맞는 말을 골라요.`, `다시 골라요.`
+
+## 검증
+
+```sh
+node scripts/check-stage-ratio.mjs
+node scripts/check-lesson-contract.mjs 3-2-5-4-mathmon-package-weight
+node scripts/check-lesson-visual-contract.mjs 3-2-5-4-mathmon-package-weight
+node scripts/qa-lesson-flow.mjs 3-2-5-4-mathmon-package-weight
+node scripts/qa-lesson5-package-weight-model.mjs
+node scripts/simulate-lesson5-package-weight.mjs
+node scripts/qa-lesson5-package-weight-click-guards.mjs
+```
+
+2026-08-01 현재 위 검증은 모두 PASS입니다. 공통 브라우저 명령은 `lesson.json`에 선언한 위임형 하네스를 실행합니다. 전용 브라우저 하네스는 1280×800과 1024×768에서 닫힌/열린 보상 7상태, 사건 6종, 결과 4단계, 텍스트 넘침, 요소 교차, 연속 클릭 이월을 전수 검사합니다.

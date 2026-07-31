@@ -67,7 +67,9 @@ function renderScoopWorkbench(problem, stepIndex, wrongValue = null) {
   svg.setAttribute("viewBox", "0 0 700 290");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", `전체 ${problem.total}개를 ${problem.den}묶음으로 나누고 ${problem.num}묶음 담기`);
-  const groups = groupMarkup(problem);
+  const groups = groupValue
+    ? groupMarkup(problem, { showItems: true, showChosen: true })
+    : wholeItemsMarkup(problem);
   const firstValue = groupValue || (wrongValue != null && stepIndex === 0 ? String(wrongValue) : "?");
   const secondValue = scoopValue || (wrongValue != null && stepIndex === 1 ? String(wrongValue) : "?");
   svg.innerHTML = `
@@ -86,19 +88,33 @@ function renderScoopWorkbench(problem, stepIndex, wrongValue = null) {
   ui.visualArea.replaceChildren(svg);
 }
 
-function groupMarkup(problem) {
+function wholeItemsMarkup(problem) {
+  const columns = Math.min(6, problem.total);
+  const rows = Math.ceil(problem.total / columns);
+  let markup = '<g class="whole-tray"><rect x="72" y="18" width="556" height="142" rx="22"/><text class="whole-label" x="350" y="48" text-anchor="middle">전체 ' + problem.total + '개</text>';
+  for (let index = 0; index < problem.total; index += 1) {
+    const col = index % columns;
+    const row = Math.floor(index / columns);
+    const dotX = 350 + (col - (columns - 1) / 2) * Math.min(52, 450 / Math.max(columns - 1, 1));
+    const dotY = 82 + row * Math.min(40, 58 / Math.max(rows - 1, 1));
+    markup += `<circle class="whole-dot" cx="${dotX.toFixed(1)}" cy="${dotY.toFixed(1)}" r="11"/>`;
+  }
+  return markup + '</g>';
+}
+
+function groupMarkup(problem, { showItems = false, showChosen = false } = {}) {
   const startX = 28;
   const gap = 8;
   const width = (644 - gap * (problem.den - 1)) / problem.den;
   let markup = "";
   for (let group = 0; group < problem.den; group += 1) {
     const x = startX + group * (width + gap);
-    const chosen = group < problem.num;
+    const chosen = showChosen && group < problem.num;
     markup += `<g class="item-group ${chosen ? "is-chosen" : ""}"><rect x="${x.toFixed(1)}" y="18" width="${width.toFixed(1)}" height="142" rx="18"/>`;
     markup += `<text class="group-name" x="${(x + width / 2).toFixed(1)}" y="48" text-anchor="middle">${group + 1}묶음</text>`;
     const columns = Math.min(problem.groupSize, 4);
     const rows = Math.ceil(problem.groupSize / columns);
-    for (let index = 0; index < problem.groupSize; index += 1) {
+    for (let index = 0; showItems && index < problem.groupSize; index += 1) {
       const col = index % columns;
       const row = Math.floor(index / columns);
       const dotX = x + width / 2 + (col - (columns - 1) / 2) * Math.min(23, (width - 24) / columns);

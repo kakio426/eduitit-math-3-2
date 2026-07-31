@@ -28,9 +28,10 @@ const Lesson4PizzaFractionModel = (() => {
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
   function numberHasBatchim(value) { return [0, 1, 3, 6, 7, 8].includes(Math.abs(value) % 10); }
   function fractionCopula(num) { return numberHasBatchim(num) ? "이에요" : "예요"; }
+  function fractionSpeech(num, den) { return `${den}분의 ${num}`; }
 
   function fractionChoice(num, den, misconceptionId = null, feedback = "") {
-    return { id: `choice:${num}/${den}`, value: `${num}/${den}`, num, den, label: `${num}/${den}`, misconceptionId, feedback };
+    return { id: `choice:${num}/${den}`, value: `${num}/${den}`, num, den, label: fractionSpeech(num, den), misconceptionId, feedback };
   }
 
   function choicesForFraction(num, den, rng) {
@@ -51,16 +52,16 @@ const Lesson4PizzaFractionModel = (() => {
       den,
       answerKind: `${num}/${den}`,
       prompt: "색칠된 조각은 전체의 얼마일까요?",
-      finalExpression: `색칠된 조각은 ${num}개, 전체는 ${den}개라서 ${num}/${den}${fractionCopula(num)}.`,
+      finalExpression: `전체 ${den}조각 중 ${num}조각, ${fractionSpeech(num, den)}${fractionCopula(num)}.`,
       steps: [{
         id: "name-fraction",
         label: "분수 고르기",
-        instruction: "색칠된 조각 수가 위에 있는 분수를 골라요.",
+        instruction: "피자에 맞는 분수를 골라요.",
         answer: `${num}/${den}`,
         answerChoiceId: `choice:${num}/${den}`,
         choices: choicesForFraction(num, den, rng),
-        correctText: `맞아요. 전체 ${den}조각 중 ${num}조각이라서 ${num}/${den}${fractionCopula(num)}.`,
-        reveal: `${num}/${den}`,
+        correctText: `맞아요. 전체 ${den}조각 중 ${num}조각, ${fractionSpeech(num, den)}${fractionCopula(num)}.`,
+        reveal: fractionSpeech(num, den),
         advance: { mode: "complete" }
       }]
     };
@@ -81,7 +82,7 @@ const Lesson4PizzaFractionModel = (() => {
     for (const event of REWARD_EVENTS) {
       if (roll < event.weight) {
         const amount = randomInt(rng, event.min, event.max);
-        const text = event.special ? "무지개!" : event.launches ? "완벽한 피자!" : event.emptiesPower ? "0" : amount > 0 ? `+${amount}` : String(amount);
+        const text = event.special ? "무지개!" : event.launches ? "완벽한 피자!" : (event.keepsPower || event.emptiesPower) ? "0" : amount > 0 ? `+${amount}` : String(amount);
         return { ...event, amount, text };
       }
       roll -= event.weight;
@@ -92,7 +93,7 @@ const Lesson4PizzaFractionModel = (() => {
   }
 
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.keepsPower || event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };

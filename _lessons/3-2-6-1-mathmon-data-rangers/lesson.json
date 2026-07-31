@@ -75,6 +75,20 @@
   },
   "result": {
     "renderMode": "hybrid-generated-dynamic",
+    "showNextGoal": true,
+    "layout": {
+      "axisX": 930,
+      "titleTop": 64,
+      "titleWidth": 304,
+      "barY": 356,
+      "barWidth": 360,
+      "barHeight": 28,
+      "measureY": 430,
+      "correctTop": 450,
+      "correctWidth": 188,
+      "nextY": 600,
+      "retryRect": { "x": 800, "y": 620, "width": 260, "height": 130 }
+    },
     "stateImageSet": {
       "count": 6,
       "canvas": "1280x800",
@@ -130,7 +144,7 @@
     },
     "rewardClosed": "reward-event-closed-generated.webp",
     "rewardScene": "problem-background-generated.webp",
-    "resultRetryButton": "../_shared/result-actions/retry-button-generated.webp"
+    "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "sourceFiles": {
     "model": "../_shared/unit6-data/model.js",
@@ -163,7 +177,7 @@
     "result-title-4-generated.webp",
     "result-title-5-generated.webp",
     "result-title-6-generated.webp",
-    "../_shared/result-actions/retry-button-generated.webp",
+    "../_shared/result-actions/retry-button-v2-generated.webp",
     "result-scenes-contact-sheet.png",
     "result-titles-contact-sheet.png",
     "reward-contact-sheet.png"
@@ -172,6 +186,37 @@
     "visualContractVersion": 1,
     "modelContractVersion": 1,
     "modelRule": "count-highlighted-data",
+    "layoutAudit": {
+      "workArea": ".problem-grid",
+      "primary": ".problem-card",
+      "secondary": ".choices-panel",
+      "tertiary": ".step-board",
+      "complete": ".complete-panel",
+      "minStageWidthRatio": 0.9
+    },
+    "typographyAudit": {
+      "headline": ".big-problem",
+      "instruction": ".step-board .instruction",
+      "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".unit6-board",
+      "primarySvgText": ".problem-card svg text",
+      "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 28,
+      "minInstructionPx": 16,
+      "minPrimarySvgTextPx": 14,
+      "minChoiceSvgTextPx": 16,
+      "minBadgePx": 14,
+      "minCounterPx": 16,
+      "minGlobalControlPx": 42,
+      "minPanelGapPx": 4
+    },
+    "resultCohesionAudit": {
+      "standard": "result-dynamic-axis-v1",
+      "axisNodes": ["track", "measure", "correct", "next", "retry"],
+      "maxAxisSpreadRatio": 0.015,
+      "minimumVisibleGapPx": 8,
+      "titleAlphaThreshold": 24
+    },
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800, "dpr": 1 },
       { "name": "tablet-landscape", "width": 1024, "height": 768, "dpr": 1 },

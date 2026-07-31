@@ -129,7 +129,7 @@
           display: grid;
           place-items: center;
           background: rgba(0,0,0,.38);
-          backdrop-filter: blur(6px);
+          backdrop-filter: blur(10px);
         }
         .settings-backdrop[hidden] { display: none; }
         .settings-modal {
@@ -259,7 +259,7 @@
           font-weight: 950;
         }
         .cover-start-button {
-          width: clamp(300px, 28vw, 360px);
+          width: clamp(300px, 28.125vw, 360px);
           aspect-ratio: 1611 / 680;
           height: auto;
           display: grid;
@@ -414,7 +414,7 @@
         .step-chip { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,.09); color: #d7cadb; font-size: .8rem; font-weight: 1000; max-width: 100%; overflow-wrap: anywhere; }
         .step-chip.is-current { background: rgba(255,200,87,.22); color: #fff8e8; }
         .step-chip.is-done { background: rgba(53,217,178,.18); color: #dffff5; }
-        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; }
+        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; word-break: keep-all; overflow-wrap: normal; }
         .answer-slot { min-height: 90px; border: 2px dashed rgba(255,255,255,.22); border-radius: 20px; display: grid; place-items: center; font-size: clamp(1.7rem, 3.2vw, 2.55rem); font-weight: 1000; color: #ffc857; text-align: center; padding: 8px; overflow-wrap: anywhere; }
         .answer-slot.is-filled { border-style: solid; border-color: rgba(53,217,178,.7); background: rgba(53,217,178,.12); animation: slot-pop .5s ease; }
         .feedback-line { margin: 0; min-height: 28px; color: #d7cadb; font-size: .98rem; font-weight: 900; }
@@ -428,12 +428,10 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
-        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
-        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { display: none; }
+        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
         .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
         .problem-grid.is-complete .step-chips,
         .problem-grid.is-complete .instruction,
@@ -479,46 +477,8 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object {
-          position: relative;
-          width: 210px;
-          height: 210px;
-          border-radius: 28px;
-          display: grid;
-          place-items: end center;
-          background:
-            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
-            linear-gradient(180deg, #173649, #0c1c29);
-          border: 2px solid rgba(255,255,255,.3);
-          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
-          overflow: hidden;
-          isolation: isolate;
-        }
-        .reward-object::after {
-          content: attr(data-symbol);
-          position: absolute;
-          z-index: 2;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          color: #fff8e8;
-          font-size: 4.5rem;
-          line-height: 1;
-          font-weight: 1000;
-          text-shadow: 0 5px 14px rgba(0,0,0,.48);
-        }
-        .reward-object[data-direction="special"]::after { color: #fff1a6; }
-        .reward-object[data-direction="same"]::after { color: #d7cadb; }
-        .reward-liquid {
-          position: absolute;
-          z-index: 1;
-          inset: auto 0 0;
-          width: 100%;
-          height: var(--fill);
-          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
-          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
-          transition: height .5s ease;
-        }
+        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
+        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -567,11 +527,42 @@
           font-weight: 1000;
           text-align: center;
         }
+        main.game[data-reward-mode="modal-art"] .reward-card {
+          width: 560px;
+          max-width: 88%;
+          height: 480px;
+          min-height: 0;
+          aspect-ratio: 7 / 6;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-visual {
+          width: 250px;
+          height: 250px;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-label {
+          min-height: 52px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-block: 3px;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-pop {
+          backdrop-filter: blur(10px);
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-visual {
+          transform: none;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label { display: flex; }
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
-        .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui { display: block; }
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
+    .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+        .result-dynamic-ui [hidden] { display: none; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: 0; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
+        .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
         .result-restart-hitbox .result-retry-art { display: none; }
         .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; filter: drop-shadow(0 18px 26px rgba(0,0,0,.44)); }
@@ -963,262 +954,443 @@
       outline-offset: -3px;
     }
 
-    .game[data-reward-mode="stage-full"] .reward-title,
-    .game[data-reward-mode="stage-full"] .reward-stage {
-      display: none;
+    .game[data-workbench-type="water-fill"] .big-problem,
+    .game[data-workbench-type="drink-order"] .big-problem,
+    .game[data-workbench-type="scale-balance"] .big-problem {
+      line-height: 1.12;
+      padding-block: 2px;
     }
 
-    .game[data-reward-mode="stage-full"] .reward-panel {
-      grid-template-rows: minmax(0, 1fr) auto auto;
-    }
-
-    .game[data-reward-mode="stage-full"] .reward-change {
-      color: #fff8e8;
-      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
-    }
-
-    .measure-bottle {
-      position: relative;
-      width: 160px;
-      height: 340px;
-      border: 8px solid rgba(255,255,255,.88);
-      border-radius: 28px 28px 38px 38px;
-      background: rgba(255,255,255,.08);
-      box-shadow: inset 0 0 0 3px rgba(0,0,0,.16);
-    }
-
-    .measure-bottle .water-fill {
-      border-radius: 0 0 28px 28px;
-    }
-
-    .measure-tick {
-      position: absolute;
-      z-index: 2;
-      right: 0;
-      bottom: var(--tick);
-      width: 28px;
-      height: 2px;
-      background: rgba(255,255,255,.72);
-      transform: translateY(1px);
-    }
-
-    .measure-tick.is-major {
-      width: 46px;
-      height: 3px;
-      background: #fff8e8;
-    }
-
-    .measure-tick-label {
-      position: absolute;
-      right: 54px;
-      top: 50%;
-      color: #fff8e8;
-      font-size: .72rem;
-      font-weight: 1000;
-      white-space: nowrap;
-      transform: translateY(-50%);
-    }
-
-    .measure-tick.is-max .measure-tick-label {
-      top: 5px;
-      transform: none;
-    }
-
-    .measure-tick.is-min .measure-tick-label {
-      top: auto;
-      bottom: 5px;
-      transform: none;
-    }
-
-    .chosen-level {
-      position: absolute;
-      z-index: 4;
-      left: -12px;
-      right: -12px;
-      bottom: var(--chosen);
-      height: 5px;
-      border-radius: 99px;
-      background: #ff6b83;
-      box-shadow: 0 0 0 3px rgba(16,40,57,.7);
-    }
-
-    .chosen-level::before {
-      content: "내가 고른 눈금";
-      position: absolute;
-      left: calc(100% + 8px);
-      top: 50%;
-      width: max-content;
-      max-width: 112px;
-      color: #ffd6de;
-      font-size: .68rem;
-      font-weight: 1000;
-      transform: translateY(-50%);
-    }
-
-    .bottle-wrap.is-compare .measure-bottle {
-      width: 126px;
-      height: 292px;
-    }
-
-    .bottle-wrap[data-picked-side="left"] [data-side="left"] .measure-bottle,
-    .bottle-wrap[data-picked-side="right"] [data-side="right"] .measure-bottle {
-      outline: 5px solid #ff6b83;
-      outline-offset: 5px;
-    }
-
-    .column-board {
-      width: min(500px, 100%);
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 5px;
-      padding: 22px 30px;
-      border-radius: 26px;
-      background: rgba(6, 21, 31, .58);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .column-head,
-    .column-row,
-    .column-attempt {
-      display: grid;
-      grid-template-columns: 46px minmax(70px, 1fr) minmax(106px, 1.15fr);
-      align-items: center;
-      text-align: right;
+    .game[data-reward-mode="modal-art"] .reward-card {
+      width: 560px;
+      max-width: 88%;
+      height: 480px;
+      min-height: 0;
+      aspect-ratio: 7 / 6;
       gap: 14px;
     }
 
-    .column-head {
+    .game[data-reward-mode="modal-art"] .reward-visual {
+      width: 250px;
+      height: 250px;
+      border-radius: 28px;
+    }
+
+    .game[data-reward-mode="modal-art"] .reward-label {
+      max-width: 340px;
+      font-size: clamp(1.7rem, 3.2vw, 2.45rem);
+      overflow-wrap: anywhere;
+    }
+
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui #resultDestinationSvg,
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui .result-restart-surface {
+      display: none;
+    }
+
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui #resultMeasureSvg {
+      font-size: 24px;
+      stroke-width: 6px;
+    }
+
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui #resultNextSvg {
+      font-size: 22px;
+      stroke-width: 6px;
+    }
+
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-retry-art {
+      display: block;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board,
+    .game[data-workbench-type="drink-order"] .step-board,
+    .game[data-workbench-type="scale-balance"] .step-board {
+      align-content: start;
+      padding: 14px;
+      grid-template-rows: auto auto minmax(72px, 1fr) auto;
+      gap: 8px;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid,
+    .game[data-workbench-type="drink-order"] .problem-grid,
+    .game[data-workbench-type="scale-balance"] .problem-grid {
+      grid-template-rows: minmax(0, .9fr) minmax(0, 1.1fr);
+    }
+
+    .game[data-workbench-type="water-fill"] .choices-panel,
+    .game[data-workbench-type="drink-order"] .choices-panel,
+    .game[data-workbench-type="scale-balance"] .choices-panel {
+      grid-template-rows: repeat(2, minmax(82px, 1fr));
+    }
+
+    .game[data-workbench-type="water-fill"] .choices-panel > :last-child:nth-child(odd),
+    .game[data-workbench-type="drink-order"] .choices-panel > :last-child:nth-child(odd),
+    .game[data-workbench-type="scale-balance"] .choices-panel > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      width: calc(50% - 6px);
+      justify-self: center;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .choices-panel,
+    .game[data-workbench-type="drink-order"] .problem-grid.is-complete .choices-panel,
+    .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .choices-panel {
+      display: none;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .problem-card,
+    .game[data-workbench-type="drink-order"] .problem-grid.is-complete .problem-card,
+    .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .problem-card {
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .step-board,
+    .game[data-workbench-type="drink-order"] .problem-grid.is-complete .step-board,
+    .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .step-board {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-panel,
+    .game[data-workbench-type="drink-order"] .problem-grid.is-complete .complete-panel,
+    .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .complete-panel {
+      grid-column: 2;
+      grid-row: 2;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      place-items: center;
+      align-content: center;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-text,
+    .game[data-workbench-type="drink-order"] .problem-grid.is-complete .complete-text,
+    .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .complete-text,
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-panel .primary-button,
+    .game[data-workbench-type="drink-order"] .problem-grid.is-complete .complete-panel .primary-button,
+    .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .complete-panel .primary-button {
+      justify-self: center;
+    }
+
+    .game[data-workbench-type="water-fill"] .bottle {
+      width: 138px;
+      height: 232px;
+    }
+
+    .game[data-workbench-type="drink-order"] .visual-area {
+      min-height: 0;
+    }
+
+    .game[data-workbench-type="scale-balance"] .scale-pan {
+      min-height: 112px;
+    }
+
+    .game[data-workbench-type="water-fill"] .capacity-visual,
+    .game[data-workbench-type="drink-order"] .capacity-visual,
+    .game[data-workbench-type="scale-balance"] .capacity-visual {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      align-items: stretch;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .capacity-scene {
+      min-height: 0;
+    }
+
+    .game[data-workbench-type="drink-order"] .mix-visual {
+      max-width: 520px;
+      gap: 8px;
+      grid-template-rows: auto auto;
+      align-content: center;
+    }
+
+    .game[data-workbench-type="drink-order"] .mix-cup {
+      min-height: 60px;
+    }
+
+    .game[data-workbench-type="drink-order"] .mix-note {
+      min-height: 34px;
+      align-self: center;
+      display: grid;
+      place-items: center;
+      box-sizing: border-box;
+    }
+
+    .game[data-workbench-type="scale-balance"] .scale-visual {
+      gap: 8px;
+    }
+
+    .calculation-board {
+      width: min(100%, 540px);
+      justify-self: center;
+      min-width: 0;
+      padding: 10px 14px;
+      border: 2px solid #5d536d;
+      border-radius: 18px;
+      color: #fff8e8;
+      background: #241f32;
+      box-shadow: inset 0 1px #51475e;
+      box-sizing: border-box;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .capacity-board-title {
+      margin-bottom: 6px;
       color: #ffc857;
+      font-size: .9rem;
+      font-weight: 1000;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .place-value-board {
+      display: grid;
+      gap: 3px;
+    }
+
+    .capacity-calc-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) minmax(0, 1.35fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 28px;
+      font-size: clamp(1.05rem, 1.9vw, 1.34rem);
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .capacity-calc-operator {
+      color: #ffc857;
+      font-size: 1.45em;
+      text-align: center;
+    }
+
+    .capacity-liter-slot,
+    .capacity-ml-slot {
+      min-width: 0;
+      text-align: right;
+    }
+
+    .capacity-columns-header {
+      min-height: 20px;
+      color: #9cecff;
+      font-size: .86rem;
+    }
+
+    .capacity-borrow-row {
+      color: #ffc857;
+      font-size: .94rem;
+    }
+
+    .capacity-borrow-row .capacity-liter-slot,
+    .capacity-borrow-row .capacity-ml-slot {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    .capacity-source-row {
+      color: #c9bfce;
+    }
+
+    .capacity-calc-rule {
+      height: 3px;
+      margin-left: 46px;
+      border-radius: 99px;
+      background: #a499b0;
+    }
+
+    .capacity-result-row {
+      color: #8fffdc;
+    }
+
+    .capacity-result-note {
+      color: #bfefff;
+      font-size: .82rem;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: right;
+    }
+
+    .relation-board,
+    .read-board {
+      min-height: 94px;
+      display: grid;
+      align-content: center;
+    }
+
+    .relation-equation {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      font-size: clamp(1rem, 1.8vw, 1.28rem);
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .relation-equation > span {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .relation-equation > strong {
+      min-width: 52px;
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: #ffc857;
+      background: #453a50;
+      font-size: 1.75rem;
+    }
+
+    .calculation-board[data-answer-count="1"] .relation-answer,
+    .calculation-board[data-answer-count="1"] .read-answer {
+      color: #10241d;
+      background: #8fffdc;
+    }
+
+    .read-equation {
+      display: grid;
+      grid-template-columns: auto 1fr auto 1fr;
+      align-items: center;
+      gap: 8px;
+      font-size: .92rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .read-equation strong {
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0 8px;
+      border-radius: 12px;
+      color: #ffc857;
+      background: #453a50;
+      font-size: 1.08rem;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-chips,
+    .game[data-workbench-type="drink-order"] .step-chips,
+    .game[data-workbench-type="scale-balance"] .step-chips {
+      align-items: start;
+      align-self: start;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-chip,
+    .game[data-workbench-type="drink-order"] .step-chip,
+    .game[data-workbench-type="scale-balance"] .step-chip {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: start;
+      box-sizing: border-box;
+    }
+
+    .capacity-visual[data-state="wrong"] {
+      position: relative;
+    }
+
+    .visual-attempt-note {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 5;
+      max-width: calc(100% - 16px);
+      padding: 8px 12px;
+      border: 2px solid rgba(255, 165, 181, .78);
+      border-radius: 999px;
+      color: #fff8e8;
+      background: rgba(96, 24, 43, .9);
+      font-size: .92rem;
+      font-weight: 1000;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .bottle-with-scale .bottle-tick {
+      position: absolute;
+      z-index: 2;
+      left: 10px;
+      bottom: clamp(8px, var(--tick), calc(100% - 8px));
+      width: 112px;
+      height: 16px;
+      border-radius: 99px;
+      background: transparent;
+      transform: translateY(50%);
+    }
+
+    .bottle-with-scale .bottle-tick::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 20px;
+      height: 2px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .9);
+    }
+
+    .bottle-with-scale .bottle-tick.is-major::before {
+      width: 36px;
+      height: 3px;
+    }
+
+    .bottle-with-scale .bottle-scale-label {
+      position: absolute;
+      left: 44px;
+      top: 50%;
+      width: 68px;
+      color: #fff;
       font-size: 1rem;
       font-weight: 1000;
+      line-height: 1;
+      text-align: right;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, .9);
+      transform: translateY(-50%);
     }
 
-    .column-row,
-    .column-attempt {
-      min-height: 62px;
-      font-size: clamp(1.75rem, 3.6vw, 2.7rem);
+    @keyframes scale-wrong-attempt {
+      0%, 100% { translate: 0; }
+      30% { translate: -8px 0; }
+      65% { translate: 8px 0; }
     }
 
-    .column-rule {
-      height: 4px;
-      border-radius: 99px;
-      background: #fff8e8;
-    }
-
-    .column-attempt {
-      color: #a8ffe7;
-    }
-
-    .column-board[data-attempt="low"] .column-attempt,
-    .column-board[data-attempt="high"] .column-attempt,
-    .column-board[data-attempt="unit"] .column-attempt {
-      color: #ffd6de;
-    }
-
-    .amount-axis {
-      width: min(560px, 100%);
-      display: grid;
-      gap: 18px;
-    }
-
-    .amount-axis-track {
-      position: relative;
-      height: 34px;
-      margin: 74px 12px 0;
-      border-radius: 99px;
-      background: rgba(255,255,255,.16);
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,.16);
-    }
-
-    .amount-fill {
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: var(--made);
-      border-radius: inherit;
-      background: linear-gradient(90deg, #35d9b2, #60d7ff);
-    }
-
-    .amount-marker {
-      position: absolute;
-      top: -42px;
-      width: 4px;
-      height: 76px;
-      background: #fff8e8;
-    }
-
-    .amount-marker b {
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 7px);
-      color: #fff8e8;
-      white-space: nowrap;
-      transform: translateX(-50%);
-    }
-
-    .amount-marker.is-made { left: var(--made); }
-    .amount-marker.is-target { left: var(--target); background: #ffc857; }
-    .amount-marker.is-target b { color: #ffc857; }
-
-    .amount-axis-values {
-      display: flex;
-      justify-content: space-between;
-      color: #dffff5;
-      font-size: 1.05rem;
-      font-weight: 1000;
-    }
-
-    .amount-axis-difference,
-    .scale-difference {
-      min-height: 28px;
-      margin: 0;
-      color: #ffd6de;
-      text-align: center;
-      font-size: 1.05rem;
-      font-weight: 1000;
-    }
-
-    .scale-visual[data-attempt="waiting"] .scale-difference {
-      visibility: hidden;
-    }
-
-    .scale-pan {
-      transition: outline-color .2s ease, background .2s ease;
-    }
-
-    .scale-visual[data-attempt="opposite"] .scale-pan,
-    .scale-visual[data-attempt="low"] .scale-pan,
-    .scale-visual[data-attempt="high"] .scale-pan,
-    .scale-visual[data-attempt="unit"] .scale-pan {
-      background: rgba(255,93,122,.14);
-    }
-
-    .scale-visual[data-attempt="correct"] .scale-pan {
-      background: rgba(53,217,178,.14);
+    .scale-beam.is-wrong-attempt {
+      background: linear-gradient(90deg, #ff8aa0, #fff2b8, #ff8aa0);
+      animation: scale-wrong-attempt .45s ease;
     }
 
     @media (max-width: 900px) {
-      .measure-bottle {
-        width: 138px;
-        height: 294px;
+      .game[data-reward-mode="modal-art"] .reward-card {
+        width: 560px;
+        height: 480px;
+        min-height: 0;
       }
 
-      .bottle-wrap.is-compare .measure-bottle {
-        width: 108px;
+      .game[data-reward-mode="modal-art"] .reward-visual {
+        width: 250px;
         height: 250px;
       }
-
-      .chosen-level::before {
-        display: none;
-      }
-
-      .column-board {
-        padding: 18px 22px;
-      }
+    }
+    .top-row .brand-badge,
+    .top-row .unit-badge,
+    .top-row .mini-badge,
+    .hud .brand-badge,
+    .hud .unit-badge,
+    .hud .mini-badge {
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="simple-generated" data-reward-mode="stage-full" data-tutorial-mode="poster-two-step" data-workbench-type="water-fill" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="water-fill" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1247,7 +1419,7 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 5단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 5단원</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 물통 채우기 시합</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">눈금에 맞는 들이를 골라요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">들이 비교와 L, mL</div>
       </section>
@@ -1277,7 +1449,7 @@
       <section class="screen result" id="screen-result" data-result-tier="small" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-tank-small-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>5단원 들이</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">작은 물통</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="5단원 들이"></section>
@@ -1960,543 +2132,121 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"3-2-5-1-mathmon-water-fill","id":"3-2-5-1","folder":"3-2-5-1-mathmon-water-fill","modelName":"Lesson5WaterFillModel","title":"매스몬 물통 채우기 시합","shortTitle":"매스몬 물통","topic":"들이 비교와 L, mL","unitBadge":"5단원 들이","goal":"눈금에 맞는 들이를 골라요.","action":"눈금이 가리키는 들이를 고른다.","buttonLabel":"물통 보기","rewardScreenTitle":"물통 채우기","rewardThing":"물통","progressLabel":"물통 힘","rewardComplete":"물통이 찰랑였어요.","rewardSmall":"조금 찰랑였어요.","rewardBig":"크게 차올랐어요.","tutorialTitle":"물통을 채우기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 읽어요?","body":"눈금과 L, mL를 보고 들이를 골라요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 물통 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"stage-full","maxPower":100},"completion":{"showExpression":false},"result":{"renderMode":"simple-generated"},"workbench":{"type":"water-fill"},"scoreboard":{"enabled":false},"resultPrefix":"result-tank","resultTitlePrefix":"result-title","results":[{"id":"small","name":"작은 물통","minPower":0,"minCorrect":0,"image":"result-tank-small-generated.webp","titleImage":"result-title-small-generated.webp"},{"id":"spark","name":"반짝 물통","minPower":30,"minCorrect":3,"image":"result-tank-spark-generated.webp","titleImage":"result-title-spark-generated.webp"},{"id":"full","name":"가득 물통","minPower":70,"minCorrect":7,"image":"result-tank-full-generated.webp","titleImage":"result-title-full-generated.webp"},{"id":"rainbow","name":"무지개 물탑","minPower":100,"minCorrect":10,"needsSpecial":true,"image":"result-tank-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"drop","text":"맑은 물방울","weight":5200,"min":5,"max":8,"family":"smallFlow"},{"id":"stream","text":"시원한 물줄기","weight":1700,"min":13,"max":18,"family":"bigFlow"},{"id":"shine","text":"반짝 물방울","weight":1700,"min":9,"max":12,"family":"shineFlow"},{"id":"splash","text":"살짝 튄 물","weight":1200,"min":1,"max":3,"family":"smallOnly"},{"id":"rainbow","text":"무지개 물줄기","weight":200,"min":28,"max":28,"family":"specialFlow","special":true}],"wrongEvent":{"id":"refill","text":"다시 채우기","min":1,"max":2,"family":"repair"},"typesPerRun":["readMl","readMl","readMl","readMl","readLiterMl","readLiterMl","readLiterMl","compareBottle","compareBottle","compareBottle"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"펭귄몬","mathmonId":"zfa-06-penguinmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"result-retry-button-generated.webp"},"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"short-dpr2","width":1280,"height":720,"deviceScaleFactor":2}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"3-2-5-1-mathmon-water-fill","id":"3-2-5-1","folder":"3-2-5-1-mathmon-water-fill","modelName":"Lesson5WaterFillModel","title":"매스몬 물통 채우기 시합","shortTitle":"매스몬 물통","topic":"들이 비교와 L, mL","unitBadge":"5단원 들이","goal":"눈금에 맞는 들이를 골라요.","action":"눈금이 가리키는 들이를 고른다.","buttonLabel":"물통 보기","rewardScreenTitle":"물통 채우기","rewardThing":"물통","progressLabel":"물통 힘","rewardComplete":"물통이 찰랑였어요.","rewardSmall":"조금 찰랑였어요.","rewardBig":"크게 차올랐어요.","tutorialTitle":"물통을 채우기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 읽어요?","body":"눈금과 L, mL를 보고 들이를 골라요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 물통 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","eventStandard":"mathmon-unified-reward-v1","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallFlow","bigFlow","shineFlow","smallOnly","specialFlow","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallFlow":"reward-event-small-flow-generated.webp","bigFlow":"reward-event-big-flow-generated.webp","shineFlow":"reward-event-shine-flow-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialFlow":"reward-event-special-flow-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":300,"titleTop":80,"titleWidth":420,"measureY":435,"barY":455,"barWidth":340,"barHeight":24,"correctTop":490,"correctWidth":210,"nextY":636,"retryRect":{"x":150,"y":655,"width":300,"height":108}},"stateImageSet":{"count":4,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-states-contact-sheet.png","protagonist":"zfa-06-penguinmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["water-power","correct-count","next-goal"]}},"workbench":{"type":"water-fill"},"scoreboard":{"enabled":false},"resultPrefix":"result-tank","resultTitlePrefix":"result-title","results":[{"id":"small","name":"작은 물통","minPower":0,"minCorrect":0,"image":"result-tank-small-generated.webp","titleImage":"result-title-small-generated.webp"},{"id":"spark","name":"반짝 물통","minPower":30,"minCorrect":3,"image":"result-tank-spark-generated.webp","titleImage":"result-title-spark-generated.webp"},{"id":"full","name":"가득 물통","minPower":70,"minCorrect":7,"image":"result-tank-full-generated.webp","titleImage":"result-title-full-generated.webp"},{"id":"rainbow","name":"무지개 물탑","minPower":100,"minCorrect":1,"needsSpecial":true,"image":"result-tank-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"물통 힘이 늘었어요","weight":6400,"min":6,"max":10,"family":"smallFlow"},{"id":"loss","text":"물통 힘이 줄었어요","weight":1500,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"물통 힘이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"bigFlow"},{"id":"jackpot","text":"물통이 크게 빛나요","weight":500,"min":30,"max":30,"family":"shineFlow"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"무지개 물줄기","weight":20,"min":100,"max":100,"family":"specialFlow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"물통 힘이 줄었어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["readMl","readMl","readMl","readMl","readLiterMl","readLiterMl","readLiterMl","compareBottle","compareBottle","compareBottle"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"펭귄몬","mathmonId":"zfa-06-penguinmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"qa":{"visualContractVersion":1,"misconceptionCoverage":["READ_ML_SCALE","READ_LITER_SCALE","COMPARE_BOTTLE_LEVEL"],"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["tertiary","secondary"],"minStageWidthRatio":0.9},"answerAccumulationAudit":{"standard":"primary-calculation-accumulates-v1","board":".calculation-board","answerCountAttribute":"data-answer-count"},"completionAudit":{"standard":"calculation-preserved-v1","primary":".problem-card","calculation":".step-board","panel":".complete-panel","text":".complete-text","action":"#rewardButton","choices":".choices-panel","axisTolerancePx":1,"edgeTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".capacity-visual","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-flow-generated.webp","reward-event-big-flow-generated.webp","reward-event-shine-flow-generated.webp","reward-event-small-only-generated.webp","reward-event-special-flow-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-tank-small-generated.webp","result-tank-spark-generated.webp","result-tank-full-generated.webp","result-tank-rainbow-generated.webp","result-title-small-generated.webp","result-title-spark-generated.webp","result-title-full-generated.webp","result-title-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"]};
     const Lesson5WaterFillModel = (() => {
-      const TOTAL_PROBLEMS = 10;
-      const MIN_POWER = 0;
-      const MAX_POWER = 100;
-      const BASE_CORRECT_POWER = 5;
-      const TYPES_PER_RUN = LESSON_CONFIG.typesPerRun;
-      const RESULT_TIERS = LESSON_CONFIG.results;
-      const REWARD_EVENTS = LESSON_CONFIG.rewardEvents;
-      const WRONG_REWARD_EVENT = LESSON_CONFIG.wrongEvent;
-
-      function createRng(seed = 12345) {
-        let value = seed >>> 0;
-        return function rng() {
-          value = (value + 0x6d2b79f5) >>> 0;
-          let t = value;
-          t = Math.imul(t ^ (t >>> 15), t | 1);
-          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function randomInt(rng, min, max) {
-        return Math.floor(rng() * (max - min + 1)) + min;
-      }
-
-      function shuffle(items, rng) {
-        const copy = items.slice();
-        for (let index = copy.length - 1; index > 0; index -= 1) {
-          const target = Math.floor(rng() * (index + 1));
-          [copy[index], copy[target]] = [copy[target], copy[index]];
-        }
-        return copy;
-      }
-
-      function clamp(value, min, max) {
-        return Math.min(Math.max(value, min), max);
-      }
-
-      function formatMl(value) {
-        return `${value}mL`;
-      }
-
-      function formatCapacity(totalMl) {
-        if (totalMl < 1000) return `${totalMl}mL`;
-        const liter = Math.floor(totalMl / 1000);
-        const ml = totalMl % 1000;
-        return ml === 0 ? `${liter}L` : `${liter}L ${ml}mL`;
-      }
-
-      function toTotalMl(capacity) {
-        return capacity.l * 1000 + capacity.ml;
-      }
-
-      function fromTotalMl(total) {
-        return { l: Math.floor(total / 1000), ml: total % 1000 };
-      }
-
-      function formatWeight(weight) {
-        if (weight.t !== undefined) {
-          if (weight.t === 0) return `${weight.kg}kg`;
-          return weight.kg === 0 ? `${weight.t}t` : `${weight.t}t ${weight.kg}kg`;
-        }
-        if (weight.kg !== undefined) {
-          return weight.g === 0 ? `${weight.kg}kg` : `${weight.kg}kg ${weight.g}g`;
-        }
-        return `${weight.g}g`;
-      }
-
-      function toTotalGrams(weight) {
-        if (weight.t !== undefined) return weight.t * 1000000 + weight.kg * 1000;
-        return weight.kg * 1000 + weight.g;
-      }
-
-      function fromTotalGrams(total) {
-        return { kg: Math.floor(total / 1000), g: total % 1000 };
-      }
-
-      function amountFeedback(selected, correct, unit) {
-        const difference = Math.abs(selected - correct);
-        return `${difference}${unit} ${selected < correct ? "적어요." : "많아요."}`;
-      }
-
-      function makeChoice(id, label, value, numericValue, misconceptionId, feedback, relation) {
-        return { id, label, value, numericValue, misconceptionId, feedback, relation };
-      }
-
-      function correctChoice(stepId, label, value, numericValue) {
-        return makeChoice(`${stepId}-correct`, label, value, numericValue, null, "", "unit");
-      }
-
-      function makeStep(id, label, instruction, slot, correct, choices, confirm) {
-        return {
-          id,
-          label,
-          prompt: instruction,
-          instruction,
-          slot,
-          preview: "?",
-          correct,
-          answer: correct,
-          reveal: correct,
-          choices,
-          confirm,
-          correctText: confirm,
-          wrongText: "다시 골라요.",
-          advance: { delayMs: 1100 },
-        };
-      }
-
-      function makeReadMl(rng, serial) {
-        const amount = randomInt(rng, 1, 9) * 100;
-        const low = amount - 100;
-        const high = amount + 100;
-        const far = amount <= 700 ? amount + 200 : amount - 200;
-        const stepId = "readMl";
-        const choices = shuffle([
-          correctChoice(stepId, formatMl(amount), formatMl(amount), amount),
-          makeChoice(`${stepId}-low`, formatMl(low), formatMl(low), low, "one-tick-low", amountFeedback(low, amount, "mL"), "low"),
-          makeChoice(`${stepId}-high`, formatMl(high), formatMl(high), high, "one-tick-high", amountFeedback(high, amount, "mL"), "high"),
-          makeChoice(
-            `${stepId}-far`,
-            formatMl(far),
-            formatMl(far),
-            far,
-            "two-ticks-away",
-            amountFeedback(far, amount, "mL"),
-            far < amount ? "low" : "high",
-          ),
-        ], rng);
-        return {
-          id: `read-ml-${serial}`,
-          type: "readMl",
-          kind: "mL 눈금",
-          prompt: "물통 눈금 읽기",
-          expression: `눈금은 ${formatMl(amount)}예요.`,
-          visual: { kind: "bottle", max: 1000, amount, interval: 100, label: "물통" },
-          finalText: formatMl(amount),
-          representativeMistake: formatMl(low),
-          steps: [makeStep(stepId, "1단계", "물높이에 맞는 들이를 골라요.", "들이", formatMl(amount), choices, `${formatMl(amount)}예요.`)],
-        };
-      }
-
-      function makeReadLiterMl(rng, serial) {
-        const amount = randomInt(rng, 11, 29) * 100;
-        const low = amount - 100;
-        const high = amount + 100;
-        const unitWrong = amount >= 2000 ? amount - 1000 : amount + 1000;
-        const correct = formatCapacity(amount);
-        const stepId = "readLiterMl";
-        const choices = shuffle([
-          correctChoice(stepId, correct, correct, amount),
-          makeChoice(`${stepId}-low`, formatCapacity(low), formatCapacity(low), low, "one-tick-low", amountFeedback(low, amount, "mL"), "low"),
-          makeChoice(`${stepId}-high`, formatCapacity(high), formatCapacity(high), high, "one-tick-high", amountFeedback(high, amount, "mL"), "high"),
-          makeChoice(
-            `${stepId}-liter`,
-            formatCapacity(unitWrong),
-            formatCapacity(unitWrong),
-            unitWrong,
-            "liter-mark-shift",
-            amountFeedback(unitWrong, amount, "mL"),
-            unitWrong < amount ? "low" : "high",
-          ),
-        ], rng);
-        return {
-          id: `read-liter-${serial}`,
-          type: "readLiterMl",
-          kind: "L와 mL 눈금",
-          prompt: "큰 물통 눈금 읽기",
-          expression: `눈금은 ${correct}예요.`,
-          visual: { kind: "bottle", max: 3000, amount, interval: 100, label: "큰 물통" },
-          finalText: correct,
-          representativeMistake: formatCapacity(low),
-          steps: [makeStep(stepId, "1단계", "L와 mL를 함께 골라요.", "들이", correct, choices, `${correct}예요.`)],
-        };
-      }
-
-      function makeCompareBottle(rng, serial) {
-        let left = randomInt(rng, 4, 18) * 100;
-        let right = randomInt(rng, 4, 18) * 100;
-        if (left === right) right = clamp(left + 300, 400, 1800);
-        const correct = left > right ? "왼쪽 물통" : "오른쪽 물통";
-        const opposite = left > right ? "오른쪽 물통" : "왼쪽 물통";
-        const difference = Math.abs(left - right);
-        const stepId = "compareBottle";
-        const choices = shuffle([
-          correctChoice(stepId, correct, correct, Math.max(left, right)),
-          makeChoice(`${stepId}-opposite`, opposite, opposite, Math.min(left, right), "picked-less-water", `${correct}에 ${formatMl(difference)} 더 많아요.`, "opposite"),
-          makeChoice(`${stepId}-same`, "같아요", "같아요", 0, "ignored-water-level", `두 물통은 ${formatMl(difference)} 차이 나요.`, "unit"),
-        ], rng);
-        return {
-          id: `compare-bottle-${serial}`,
-          type: "compareBottle",
-          kind: "들이 비교",
-          prompt: "두 물통 비교",
-          expression: `${correct}에 더 많이 들었어요.`,
-          visual: { kind: "compareBottle", left, right, max: 2000, interval: 100 },
-          finalText: correct,
-          representativeMistake: opposite,
-          steps: [makeStep(stepId, "1단계", "물이 더 많은 물통을 골라요.", "더 많은 쪽", correct, choices, `${correct}이 더 많아요.`)],
-        };
-      }
-
-      function makeAddCarryMl(rng, serial) {
-        const left = { l: randomInt(rng, 1, 4), ml: randomInt(rng, 52, 94) * 10 };
-        const right = { l: randomInt(rng, 1, 3), ml: randomInt(rng, 52, 94) * 10 };
-        const mlSum = left.ml + right.ml;
-        const literSum = left.l + right.l;
-        const converted = fromTotalMl(mlSum);
-        const final = fromTotalMl(toTotalMl(left) + toTotalMl(right));
-        const correct = formatCapacity(toTotalMl(final));
-        const noCarry = `${literSum}L ${mlSum}mL`;
-        const addMlChoices = shuffle([
-          correctChoice("addMl", formatMl(mlSum), formatMl(mlSum), mlSum),
-          makeChoice("addMl-low", formatMl(mlSum - 100), formatMl(mlSum - 100), mlSum - 100, "added-100-too-little", "100mL 적어요.", "low"),
-          makeChoice("addMl-high", formatMl(mlSum + 100), formatMl(mlSum + 100), mlSum + 100, "added-100-too-much", "100mL 많아요.", "high"),
-          makeChoice("addMl-no-thousand", formatMl(mlSum - 1000), formatMl(mlSum - 1000), mlSum - 1000, "dropped-1000", "1000mL 적어요.", "low"),
-        ], rng);
-        const convertedTotal = mlSum;
-        const addChangeChoices = shuffle([
-          correctChoice("addChange", formatCapacity(convertedTotal), formatCapacity(convertedTotal), convertedTotal),
-          makeChoice("addChange-no-liter", formatMl(converted.ml), formatMl(converted.ml), converted.ml, "forgot-new-liter", "1L가 빠졌어요.", "low"),
-          makeChoice("addChange-unchanged", `0L ${mlSum}mL`, `0L ${mlSum}mL`, convertedTotal, "did-not-regroup", "1000mL를 아직 바꾸지 않았어요.", "unit"),
-          makeChoice("addChange-high", `1L ${converted.ml + 100}mL`, `1L ${converted.ml + 100}mL`, convertedTotal + 100, "regrouped-100-high", "100mL 많아요.", "high"),
-        ], rng);
-        const finalTotal = toTotalMl(final);
-        const addFinalChoices = shuffle([
-          correctChoice("addFinal", correct, correct, finalTotal),
-          makeChoice("addFinal-no-carry", noCarry, noCarry, finalTotal, "kept-1000-in-ml", "1000mL를 1L로 바꿔요.", "unit"),
-          makeChoice("addFinal-low", formatCapacity(finalTotal - 100), formatCapacity(finalTotal - 100), finalTotal - 100, "final-100-low", "100mL 적어요.", "low"),
-          makeChoice("addFinal-high", formatCapacity(finalTotal + 100), formatCapacity(finalTotal + 100), finalTotal + 100, "final-100-high", "100mL 많아요.", "high"),
-        ], rng);
-        return {
-          id: `add-ml-${serial}`,
-          type: "addCarryMl",
-          kind: "들이 더하기",
-          prompt: `${formatCapacity(toTotalMl(left))} + ${formatCapacity(toTotalMl(right))}`,
-          expression: `${formatCapacity(toTotalMl(left))} + ${formatCapacity(toTotalMl(right))} = ${correct}`,
-          visual: { kind: "capacityBoard", operation: "+", left, right },
-          left,
-          right,
-          mlSum,
-          literSum,
-          converted,
-          final,
-          finalText: correct,
-          representativeMistake: noCarry,
-          steps: [
-            makeStep("addMl", "1단계", "mL끼리 더한 값을 골라요.", "mL 합", formatMl(mlSum), addMlChoices, `${formatMl(mlSum)}이에요.`),
-            makeStep("addChange", "2단계", "1000mL를 1L로 바꿔요.", "바꾼 들이", formatCapacity(mlSum), addChangeChoices, `${formatCapacity(mlSum)}가 되었어요.`),
-            makeStep("addFinal", "3단계", "L까지 더한 들이를 골라요.", "완성 들이", correct, addFinalChoices, `${correct}예요.`),
-          ],
-        };
-      }
-
-      function makeSubtractBorrowMl(rng, serial) {
-        const top = { l: randomInt(rng, 3, 8), ml: randomInt(rng, 10, 42) * 10 };
-        const bottom = { l: randomInt(rng, 1, top.l - 1), ml: randomInt(rng, Math.floor(top.ml / 10) + 16, 96) * 10 };
-        const borrowedTop = { l: top.l - 1, ml: top.ml + 1000 };
-        const mlDiff = borrowedTop.ml - bottom.ml;
-        const rawNoBorrowMl = Math.abs(top.ml - bottom.ml);
-        const noBorrowMl = [mlDiff, Math.max(0, mlDiff - 100), mlDiff + 100].includes(rawNoBorrowMl)
-          ? mlDiff + 200
-          : rawNoBorrowMl;
-        const final = fromTotalMl(toTotalMl(top) - toTotalMl(bottom));
-        const finalTotal = toTotalMl(final);
-        const correct = formatCapacity(finalTotal);
-        const noBorrow = `${top.l - bottom.l}L ${Math.abs(top.ml - bottom.ml)}mL`;
-        const borrowChoices = shuffle([
-          correctChoice("borrowLiter", `${borrowedTop.l}L ${borrowedTop.ml}mL`, `${borrowedTop.l}L ${borrowedTop.ml}mL`, toTotalMl(top)),
-          makeChoice("borrowLiter-no-liter", `${top.l}L ${top.ml + 1000}mL`, `${top.l}L ${top.ml + 1000}mL`, toTotalMl(top) + 1000, "did-not-lower-liter", "1L 줄여요.", "high"),
-          makeChoice("borrowLiter-no-ml", `${top.l - 1}L ${top.ml}mL`, `${top.l - 1}L ${top.ml}mL`, toTotalMl(top) - 1000, "did-not-add-1000ml", "1000mL를 더해요.", "low"),
-          makeChoice("borrowLiter-two-liters", `${top.l - 2}L ${top.ml + 1000}mL`, `${top.l - 2}L ${top.ml + 1000}mL`, toTotalMl(top) - 1000, "borrowed-two-liters", "1L를 너무 많이 줄였어요.", "low"),
-        ], rng);
-        const subtractMlChoices = shuffle([
-          correctChoice("subtractMl", formatMl(mlDiff), formatMl(mlDiff), mlDiff),
-          makeChoice("subtractMl-low", formatMl(Math.max(0, mlDiff - 100)), formatMl(Math.max(0, mlDiff - 100)), Math.max(0, mlDiff - 100), "subtracted-100-too-much", "100mL 적어요.", "low"),
-          makeChoice("subtractMl-high", formatMl(mlDiff + 100), formatMl(mlDiff + 100), mlDiff + 100, "subtracted-100-too-little", "100mL 많아요.", "high"),
-          makeChoice("subtractMl-no-borrow", formatMl(noBorrowMl), formatMl(noBorrowMl), noBorrowMl, "subtracted-without-borrowing", "1000mL를 먼저 더해요.", noBorrowMl < mlDiff ? "low" : "high"),
-        ], rng);
-        const finalChoices = shuffle([
-          correctChoice("subtractFinal", correct, correct, finalTotal),
-          makeChoice("subtractFinal-no-borrow", noBorrow, noBorrow, finalTotal, "final-without-borrowing", "1L를 1000mL로 바꿔요.", "unit"),
-          makeChoice("subtractFinal-low", formatCapacity(Math.max(0, finalTotal - 100)), formatCapacity(Math.max(0, finalTotal - 100)), Math.max(0, finalTotal - 100), "final-100-low", "100mL 적어요.", "low"),
-          makeChoice("subtractFinal-high", formatCapacity(finalTotal + 100), formatCapacity(finalTotal + 100), finalTotal + 100, "final-100-high", "100mL 많아요.", "high"),
-        ], rng);
-        return {
-          id: `subtract-ml-${serial}`,
-          type: "subtractBorrowMl",
-          kind: "들이 빼기",
-          prompt: `${formatCapacity(toTotalMl(top))} − ${formatCapacity(toTotalMl(bottom))}`,
-          expression: `${formatCapacity(toTotalMl(top))} − ${formatCapacity(toTotalMl(bottom))} = ${correct}`,
-          visual: { kind: "capacityBoard", operation: "−", left: top, right: bottom },
-          top,
-          bottom,
-          borrowedTop,
-          mlDiff,
-          final,
-          finalText: correct,
-          representativeMistake: noBorrow,
-          steps: [
-            makeStep("borrowLiter", "1단계", "1L를 1000mL로 바꿔요.", "바뀐 위 들이", `${borrowedTop.l}L ${borrowedTop.ml}mL`, borrowChoices, `${borrowedTop.l}L ${borrowedTop.ml}mL가 되었어요.`),
-            makeStep("subtractMl", "2단계", "mL끼리 뺀 값을 골라요.", "mL 차", formatMl(mlDiff), subtractMlChoices, `${formatMl(mlDiff)}가 남아요.`),
-            makeStep("subtractFinal", "3단계", "L까지 뺀 들이를 골라요.", "완성 들이", correct, finalChoices, `${correct}가 남아요.`),
-          ],
-        };
-      }
-
-      function makeOrderCheck(rng, serial) {
-        const made = { l: randomInt(rng, 1, 5), ml: randomInt(rng, 1, 9) * 100 };
-        const madeTotal = toTotalMl(made);
-        const enough = rng() > 0.45;
-        const offset = enough ? -randomInt(rng, 1, 5) * 100 : randomInt(rng, 1, 5) * 100;
-        const orderTotal = clamp(madeTotal + offset, 700, 6900);
-        const order = fromTotalMl(orderTotal);
-        const fitsOrder = madeTotal >= orderTotal;
-        const correct = fitsOrder ? "주문보다 많아요" : "주문보다 적어요";
-        const opposite = fitsOrder ? "주문보다 적어요" : "주문보다 많아요";
-        const difference = Math.abs(madeTotal - orderTotal);
-        const choices = shuffle([
-          correctChoice("orderCheck", correct, correct, madeTotal - orderTotal),
-          makeChoice("orderCheck-opposite", opposite, opposite, orderTotal - madeTotal, "reversed-order-comparison", `주문과 ${formatMl(difference)} 차이 나요.`, "opposite"),
-          makeChoice("orderCheck-same", "주문과 같아요", "주문과 같아요", 0, "ignored-order-difference", `${formatMl(difference)} 차이 나요.`, "unit"),
-        ], rng);
-        return {
-          id: `order-check-${serial}`,
-          type: "orderCheck",
-          kind: "주문 비교",
-          prompt: "만든 양과 주문량 비교",
-          expression: `만든 양 ${formatCapacity(madeTotal)}, 주문 ${formatCapacity(orderTotal)}: ${correct}`,
-          visual: { kind: "amountAxis", made: madeTotal, target: orderTotal, max: Math.ceil(Math.max(madeTotal, orderTotal) / 1000) * 1000 },
-          made,
-          order,
-          fitsOrder,
-          final: made,
-          finalText: correct,
-          representativeMistake: opposite,
-          steps: [makeStep("orderCheck", "1단계", "주문과 비교해 골라요.", "주문 확인", correct, choices, `${formatMl(difference)} 차이예요.`)],
-        };
-      }
-
-      function makeCompareKgG(rng, serial) {
-        let left = { kg: randomInt(rng, 1, 6), g: randomInt(rng, 1, 9) * 100 };
-        let right = { kg: randomInt(rng, 1, 6), g: randomInt(rng, 1, 9) * 100 };
-        if (toTotalGrams(left) === toTotalGrams(right)) right = fromTotalGrams(clamp(toTotalGrams(left) + 400, 1000, 7900));
-        const leftTotal = toTotalGrams(left);
-        const rightTotal = toTotalGrams(right);
-        const correct = leftTotal > rightTotal ? "왼쪽 저울" : "오른쪽 저울";
-        const opposite = correct === "왼쪽 저울" ? "오른쪽 저울" : "왼쪽 저울";
-        const difference = Math.abs(leftTotal - rightTotal);
-        const choices = shuffle([
-          correctChoice("compareKgG", correct, correct, Math.max(leftTotal, rightTotal)),
-          makeChoice("compareKgG-opposite", opposite, opposite, Math.min(leftTotal, rightTotal), "picked-lighter-side", `${correct}이 ${difference}g 더 무거워요.`, "opposite"),
-          makeChoice("compareKgG-same", "같아요", "같아요", 0, "ignored-weight-difference", `${difference}g 차이 나요.`, "unit"),
-        ], rng);
-        return {
-          id: `compare-weight-${serial}`,
-          type: "compareKgG",
-          kind: "무게 비교",
-          prompt: `${formatWeight(left)}와 ${formatWeight(right)}`,
-          expression: `${correct}이 더 무거워요.`,
-          visual: { kind: "scale", left: formatWeight(left), right: formatWeight(right), leftValue: leftTotal, rightValue: rightTotal, tilt: "0deg" },
-          left,
-          right,
-          finalText: correct,
-          representativeMistake: opposite,
-          steps: [makeStep("compareKgG", "1단계", "더 무거운 쪽을 골라요.", "더 무거운 쪽", correct, choices, `${correct}이 ${difference}g 더 무거워요.`)],
-        };
-      }
-
-      function makeBalanceMissing(rng, serial) {
-        const left = { kg: randomInt(rng, 1, 5), g: randomInt(rng, 1, 8) * 100 };
-        const missing = randomInt(rng, 2, 8) * 100;
-        const targetTotal = toTotalGrams(left) + missing;
-        const target = fromTotalGrams(targetTotal);
-        const low = missing - 100;
-        const high = missing + 100;
-        const correct = `${missing}g`;
-        const choices = shuffle([
-          correctChoice("balanceMissing", correct, correct, missing),
-          makeChoice("balanceMissing-low", `${low}g`, `${low}g`, low, "weight-100-low", "100g 부족해요.", "low"),
-          makeChoice("balanceMissing-high", `${high}g`, `${high}g`, high, "weight-100-high", "100g 많아요.", "high"),
-          makeChoice("balanceMissing-unit", formatWeight(fromTotalGrams(missing + 1000)), formatWeight(fromTotalGrams(missing + 1000)), missing + 1000, "added-one-kilogram", "1kg 많아요.", "unit"),
-        ], rng);
-        return {
-          id: `balance-missing-${serial}`,
-          type: "balanceMissing",
-          kind: "저울 균형",
-          prompt: "저울을 수평으로 맞추기",
-          expression: `${formatWeight(left)} + ${correct} = ${formatWeight(target)}`,
-          visual: {
-            kind: "scale",
-            left: `${formatWeight(left)} + ?`,
-            right: formatWeight(target),
-            leftValue: toTotalGrams(left),
-            rightValue: targetTotal,
-            baseLeftValue: toTotalGrams(left),
-            tilt: "0deg",
-          },
-          left,
-          target,
-          missing,
-          finalText: correct,
-          representativeMistake: `${low}g`,
-          steps: [makeStep("balanceMissing", "1단계", "저울을 맞출 무게추를 골라요.", "무게추", correct, choices, `${correct}을 올리면 수평이에요.`)],
-        };
-      }
-
-      function makeCompareTonKg(rng, serial) {
-        const ton = { t: 1, kg: randomInt(rng, 0, 2) * 100 };
-        const kgOnly = { t: 0, kg: randomInt(rng, 850, 1250) };
-        if (kgOnly.kg === 1000 && ton.kg === 0) kgOnly.kg = 900;
-        const leftIsTon = rng() > 0.5;
-        const left = leftIsTon ? ton : kgOnly;
-        const right = leftIsTon ? kgOnly : ton;
-        const leftTotal = toTotalGrams(left);
-        const rightTotal = toTotalGrams(right);
-        const correct = leftTotal > rightTotal ? "왼쪽 저울" : "오른쪽 저울";
-        const opposite = correct === "왼쪽 저울" ? "오른쪽 저울" : "왼쪽 저울";
-        const differenceKg = Math.abs(leftTotal - rightTotal) / 1000;
-        const choices = shuffle([
-          correctChoice("compareTonKg", correct, correct, Math.max(leftTotal, rightTotal)),
-          makeChoice("compareTonKg-opposite", opposite, opposite, Math.min(leftTotal, rightTotal), "picked-lighter-side", `${correct}이 ${differenceKg}kg 더 무거워요.`, "opposite"),
-          makeChoice("compareTonKg-same", "같아요", "같아요", 0, "treated-ton-as-kilogram", `${differenceKg}kg 차이 나요.`, "unit"),
-        ], rng);
-        return {
-          id: `compare-ton-${serial}`,
-          type: "compareTonKg",
-          kind: "t와 kg 비교",
-          prompt: `${formatWeight(left)}와 ${formatWeight(right)}`,
-          expression: `${correct}이 더 무거워요.`,
-          visual: { kind: "scale", left: formatWeight(left), right: formatWeight(right), leftValue: leftTotal, rightValue: rightTotal, tilt: "0deg" },
-          left,
-          right,
-          finalText: correct,
-          representativeMistake: opposite,
-          steps: [makeStep("compareTonKg", "1단계", "더 무거운 쪽을 골라요.", "더 무거운 쪽", correct, choices, `${correct}이 ${differenceKg}kg 더 무거워요.`)],
-        };
-      }
-
-      function makeProblem(type, rng, serial) {
-        if (type === "readMl") return makeReadMl(rng, serial);
-        if (type === "readLiterMl") return makeReadLiterMl(rng, serial);
-        if (type === "compareBottle") return makeCompareBottle(rng, serial);
-        if (type === "addCarryMl") return makeAddCarryMl(rng, serial);
-        if (type === "subtractBorrowMl") return makeSubtractBorrowMl(rng, serial);
-        if (type === "orderCheck") return makeOrderCheck(rng, serial);
-        if (type === "compareKgG") return makeCompareKgG(rng, serial);
-        if (type === "balanceMissing") return makeBalanceMissing(rng, serial);
-        return makeCompareTonKg(rng, serial);
-      }
-
-      function generateRun(seed = 12345) {
-        const rng = createRng(seed);
-        return shuffle(TYPES_PER_RUN, rng).map((type, index) => {
-          const problem = makeProblem(type, rng, index + 1);
-          return Object.assign(problem, { finalExpression: problem.expression });
-        });
-      }
-
-      function validateChoice(step, choice) {
-        return step.correct === (choice && typeof choice === "object" ? choice.value : choice);
-      }
-
-      function pickRewardEvent(rng, mistakeTouched) {
-        if (mistakeTouched) {
-          return Object.assign({}, WRONG_REWARD_EVENT, {
-            amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max),
-          });
-        }
-        let roll = Math.floor(rng() * 10000);
-        for (const event of REWARD_EVENTS) {
-          if (roll < event.weight) {
-            return Object.assign({}, event, { amount: randomInt(rng, event.min, event.max) });
+          const TOTAL_PROBLEMS = 10;
+          const MIN_POWER = 0;
+          const MAX_POWER = 100;
+          const TYPES_PER_RUN = LESSON_CONFIG.typesPerRun;
+          const RESULT_TIERS = LESSON_CONFIG.results;
+          const REWARD_EVENTS = LESSON_CONFIG.rewardEvents;
+          const WRONG_REWARD_EVENT = LESSON_CONFIG.wrongEvent;
+          function createRng(seed = 12345) { let value = seed >>> 0; return function rng() { value = (value + 0x6d2b79f5) >>> 0; let t = value; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+          function randomInt(rng, min, max) { return Math.floor(rng() * (max - min + 1)) + min; }
+          function shuffle(items, rng) { const copy = items.slice(); for (let index = copy.length - 1; index > 0; index -= 1) { const target = Math.floor(rng() * (index + 1)); const temp = copy[index]; copy[index] = copy[target]; copy[target] = temp; } return copy; }
+          function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
+          function uniqueChoices(values, rng, limit = 4) { const seen = new Set(); const unique = []; for (const value of values) { if (!seen.has(value) && value !== undefined && value !== null && value !== '') { seen.add(value); unique.push(value); } } return shuffle(unique.slice(0, limit), rng); }
+          function formatMl(value) { return value + 'mL'; }
+          function formatCapacity(totalMl) { if (totalMl < 1000) return totalMl + 'mL'; const liter = Math.floor(totalMl / 1000); const ml = totalMl % 1000; return ml === 0 ? liter + 'L' : liter + 'L ' + ml + 'mL'; }
+          function toTotalMl(capacity) { return capacity.l * 1000 + capacity.ml; }
+          function fromTotalMl(total) { return { l: Math.floor(total / 1000), ml: total % 1000 }; }
+          function formatWeight(weight) { if (weight.t !== undefined) { if (weight.t === 0) return weight.kg + 'kg'; return weight.kg === 0 ? weight.t + 't' : weight.t + 't ' + weight.kg + 'kg'; } if (weight.kg !== undefined) return weight.g === 0 ? weight.kg + 'kg' : weight.kg + 'kg ' + weight.g + 'g'; return weight.g + 'g'; }
+          function toTotalGrams(weight) { if (weight.t !== undefined) return weight.t * 1000000 + weight.kg * 1000; return weight.kg * 1000 + weight.g; }
+          function fromTotalGrams(total) { return { kg: Math.floor(total / 1000), g: total % 1000 }; }
+          const MISCONCEPTION_IDS = {
+            readMl: 'READ_ML_SCALE',
+            readLiterMl: 'READ_LITER_SCALE',
+            compareBottle: 'COMPARE_BOTTLE_LEVEL',
+            addMl: 'ADD_ML_TOTAL',
+            addChange: 'ADD_LITER_EXCHANGE',
+            addFinal: 'ADD_FINAL_TOTAL',
+            borrowLiter: 'BORROW_LITER',
+            subtractMl: 'SUBTRACT_ML',
+            subtractFinal: 'SUBTRACT_FINAL',
+            orderCheck: 'ORDER_COMPARE',
+            compareKgG: 'COMPARE_KG_G',
+            balanceMissing: 'BALANCE_MISSING',
+            compareTonKg: 'COMPARE_TON_KG'
+          };
+          function choiceText(choice) { return String(choice && typeof choice === 'object' ? choice.value ?? choice.label ?? choice.id ?? '' : choice); }
+          function parseCapacityText(text) { const source = String(text); const liters = Number(source.match(/(\d+)L/)?.[1] || 0); const milliliters = Number(source.match(/(\d+)mL/)?.[1] || 0); return liters * 1000 + milliliters; }
+          function parseWeightText(text) { const source = String(text); const tons = Number(source.match(/(\d+)t/)?.[1] || 0); const kilograms = Number(source.match(/(\d+)kg/)?.[1] || 0); const grams = Number(source.match(/(\d+)g(?!\w)/)?.[1] || 0); return tons * 1000000 + kilograms * 1000 + grams; }
+          function scaleFeedback(selected, correct) { const picked = parseCapacityText(selected); const answer = parseCapacityText(correct); return picked > answer ? '고른 눈금이 물높이보다 높아요.' : '고른 눈금이 물높이보다 낮아요.'; }
+          function capacityGapFeedback(selected, correct) { const picked = parseCapacityText(selected); const answer = parseCapacityText(correct); return picked > answer ? '고른 수가 너무 커요. 계산판을 다시 봐요.' : '고른 수가 너무 작아요. 계산판을 다시 봐요.'; }
+          function weightGapFeedback(selected, correct) { const picked = parseWeightText(selected); const answer = parseWeightText(correct); return picked > answer ? '고른 무게추가 너무 무거워요. 저울을 다시 봐요.' : '고른 무게추가 너무 가벼워요. 저울을 다시 봐요.'; }
+          function misconceptionFeedback(id, selected, correct) {
+            if (id === 'readMl' || id === 'readLiterMl') return scaleFeedback(selected, correct);
+            if (id === 'compareBottle') {
+              if (selected === '같아요') return '두 물높이가 서로 달라요.';
+              return `${selected}의 물높이가 더 낮아요.`;
+            }
+            if (id === 'addMl') return capacityGapFeedback(selected, correct, '고른 mL 합');
+            if (id === 'addChange') return capacityGapFeedback(selected, correct, '바꾼 들이');
+            if (id === 'addFinal') return capacityGapFeedback(selected, correct, '고른 들이');
+            if (id === 'borrowLiter') return capacityGapFeedback(selected, correct, '바꾼 위 들이');
+            if (id === 'subtractMl') return capacityGapFeedback(selected, correct, '고른 mL 차');
+            if (id === 'subtractFinal') return capacityGapFeedback(selected, correct, '고른 들이');
+            if (id === 'orderCheck') {
+              if (selected === '같아요') return '만든 양과 주문한 양이 서로 달라요.';
+              return '만든 양과 주문한 양의 크기를 다시 비교해요.';
+            }
+            if (id === 'compareKgG') {
+              if (selected === '같아요') return '두 저울의 무게가 서로 달라요.';
+              return 'kg부터 비교하고, 같으면 g을 비교해요.';
+            }
+            if (id === 'balanceMissing') return weightGapFeedback(selected, correct);
+            if (id === 'compareTonKg') {
+              if (selected === '같아요') return '1t를 1000kg으로 바꾼 뒤 다시 비교해요.';
+              return '1t를 1000kg으로 바꾸어 비교해요.';
+            }
+            return '고른 답과 계산판의 수를 다시 비교해요.';
           }
-          roll -= event.weight;
-        }
-        const fallback = REWARD_EVENTS[0];
-        return Object.assign({}, fallback, { amount: randomInt(rng, fallback.min, fallback.max) });
-      }
-
-      function applyReward(state, event, firstTry) {
-        const before = state.power;
-        const skillPower = firstTry ? BASE_CORRECT_POWER : 0;
-        const power = clamp(before + skillPower + event.amount, MIN_POWER, MAX_POWER);
-        return {
-          power,
-          correctFirstTry: state.correctFirstTry + (firstTry ? 1 : 0),
-          specialSeen: state.specialSeen || Boolean(event.special),
-          before,
-          skillPower,
-          event,
-        };
-      }
-
-      function getResult(power, correctFirstTry, specialSeen) {
-        for (let index = RESULT_TIERS.length - 1; index >= 0; index -= 1) {
-          const result = RESULT_TIERS[index];
-          if (result.needsSpecial && !specialSeen) continue;
-          if (power >= result.minPower && correctFirstTry >= result.minCorrect) return result;
-        }
-        return RESULT_TIERS[0];
-      }
-
-      function getNextResult(result) {
-        const index = RESULT_TIERS.findIndex((item) => item.id === result.id);
-        return RESULT_TIERS[Math.min(index + 1, RESULT_TIERS.length - 1)];
-      }
-
-      return {
-        TOTAL_PROBLEMS,
-        MIN_POWER,
-        MAX_POWER,
-        BASE_CORRECT_POWER,
-        TYPES_PER_RUN,
-        RESULT_TIERS,
-        REWARD_EVENTS,
-        WRONG_REWARD_EVENT,
-        createRng,
-        randomInt,
-        shuffle,
-        clamp,
-        formatMl,
-        formatCapacity,
-        toTotalMl,
-        fromTotalMl,
-        formatWeight,
-        toTotalGrams,
-        fromTotalGrams,
-        generateRun,
-        validateChoice,
-        pickRewardEvent,
-        applyReward,
-        getResult,
-        getNextResult,
-      };
-    })();
+          function makeStep(id, prompt, slot, correct, choices, confirm) {
+            const misconceptionId = MISCONCEPTION_IDS[id] || `${id.toUpperCase()}_WRONG`;
+            const preparedChoices = choices.map((choice, index) => {
+              const value = choiceText(choice);
+              const base = { id: `${id}:${index}:${value}`, value, label: value };
+              return value === String(correct) ? base : { ...base, misconceptionId, feedback: misconceptionFeedback(id, value, String(correct)) };
+            });
+            return {
+              id,
+              prompt,
+              instruction: prompt,
+              slot,
+              preview: "?",
+              correct,
+              answer: correct,
+              reveal: correct,
+              choices: preparedChoices,
+              confirm,
+              correctText: confirm,
+              wrongText: "고른 답과 계산판의 수를 다시 비교해요."
+            };
+          }
+          function makeReadMl(rng, serial) { const amount = randomInt(rng, 1, 9) * 100; const wrong = formatMl(clamp(amount + (amount >= 600 ? -200 : 200), 100, 900)); return { id: 'read-ml-' + serial, type: 'readMl', kind: 'mL 눈금', prompt: '물통 눈금을 읽어 봐요.', expression: '눈금은 ' + formatMl(amount) + '예요.', visual: { kind: 'bottle', max: 1000, amount, label: '물통' }, finalText: formatMl(amount), representativeMistake: wrong, steps: [makeStep('readMl', '눈금이 가리키는 들이를 골라요.', '들이', formatMl(amount), uniqueChoices([formatMl(amount), wrong, formatMl(clamp(amount + 100, 100, 900)), formatMl(clamp(amount - 100, 100, 900)), formatMl(clamp(amount + 300, 100, 900))], rng), formatMl(amount) + '가 들어갔어요.')] }; }
+          function makeReadLiterMl(rng, serial) { const amount = randomInt(rng, 11, 29) * 100; const wrongTotal = amount >= 2000 ? amount - 1000 : amount + 1000; const correct = formatCapacity(amount); const wrong = formatCapacity(wrongTotal); return { id: 'read-liter-' + serial, type: 'readLiterMl', kind: 'L와 mL 눈금', prompt: '큰 물통 눈금을 읽어 봐요.', expression: '눈금은 ' + correct + '예요.', visual: { kind: 'bottle', max: 3000, amount, label: '큰 물통' }, finalText: correct, representativeMistake: wrong, steps: [makeStep('readLiterMl', 'L와 mL를 함께 골라요.', '들이', correct, uniqueChoices([correct, wrong, formatCapacity(amount + 100), formatCapacity(amount - 100), formatCapacity(clamp(amount + 300, 1100, 2900))], rng), correct + '가 들어갔어요.')] }; }
+          function makeCompareBottle(rng, serial) { let left = randomInt(rng, 4, 18) * 100; let right = randomInt(rng, 4, 18) * 100; const tied = rng() < 0.2; if (tied) right = left; else if (Math.abs(left - right) < 100) right = clamp(left + 300, 400, 1800); const correct = left === right ? '같아요' : left > right ? '왼쪽 물통' : '오른쪽 물통'; const wrong = correct === '왼쪽 물통' ? '오른쪽 물통' : '왼쪽 물통'; const confirm = correct === '같아요' ? '두 물통에 같은 만큼 들었어요.' : correct + '이 더 많아요.'; return { id: 'compare-bottle-' + serial, type: 'compareBottle', kind: '들이 비교', prompt: '두 물통 비교', expression: confirm, visual: { kind: 'compareBottle', left, right, max: 2000 }, finalText: correct, representativeMistake: wrong, steps: [makeStep('compareBottle', '더 많이 든 쪽이나 같은지를 골라요.', '비교 결과', correct, shuffle(['왼쪽 물통', '오른쪽 물통', '같아요'], rng), confirm)] }; }
+          function makeAddCarryMl(rng, serial) { const left = { l: randomInt(rng, 1, 4), ml: randomInt(rng, 520, 940) }; const right = { l: randomInt(rng, 1, 3), ml: randomInt(rng, 520, 940) }; const mlSum = left.ml + right.ml; const literSum = left.l + right.l; const converted = fromTotalMl(mlSum); const final = fromTotalMl(toTotalMl(left) + toTotalMl(right)); const noCarry = literSum + 'L ' + mlSum + 'mL'; const correct = formatCapacity(toTotalMl(final)); return { id: 'add-ml-' + serial, type: 'addCarryMl', kind: '더하기 주문', prompt: formatCapacity(toTotalMl(left)) + ' + ' + formatCapacity(toTotalMl(right)), expression: formatCapacity(toTotalMl(left)) + ' + ' + formatCapacity(toTotalMl(right)) + ' = ' + correct, visual: { kind: 'mix', rows: [formatCapacity(toTotalMl(left)), '+', formatCapacity(toTotalMl(right))], note: '1000mL는 1L' }, left, right, mlSum, literSum, converted, final, finalText: correct, representativeMistake: noCarry, steps: [makeStep('addMl', 'mL끼리 더한 값을 골라요.', 'mL 합', formatMl(mlSum), uniqueChoices([formatMl(mlSum), formatMl(mlSum - 1000), formatMl(mlSum - 100), formatMl(mlSum + 100)], rng), formatMl(mlSum) + '가 들어갔어요.'), makeStep('addChange', '1000mL를 1L로 바꿔요.', '바꾼 들이', formatCapacity(mlSum), uniqueChoices([formatCapacity(mlSum), formatMl(converted.ml), '1L ' + (converted.ml + 100) + 'mL', '0L ' + mlSum + 'mL'], rng), formatCapacity(mlSum) + '가 되었어요.'), makeStep('addFinal', '다 더한 들이를 골라요.', '완성 들이', correct, uniqueChoices([correct, noCarry, literSum + 'L ' + final.ml + 'mL', (final.l + 1) + 'L ' + final.ml + 'mL'], rng), correct + '가 맞아요.')] }; }
+          function makeSubtractBorrowMl(rng, serial) { const top = { l: randomInt(rng, 3, 8), ml: randomInt(rng, 100, 420) }; const bottom = { l: randomInt(rng, 1, top.l - 1), ml: randomInt(rng, top.ml + 160, 960) }; const borrowedTop = { l: top.l - 1, ml: top.ml + 1000 }; const mlDiff = borrowedTop.ml - bottom.ml; const final = fromTotalMl(toTotalMl(top) - toTotalMl(bottom)); const noBorrow = (top.l - bottom.l) + 'L ' + Math.abs(top.ml - bottom.ml) + 'mL'; const correct = formatCapacity(toTotalMl(final)); return { id: 'subtract-ml-' + serial, type: 'subtractBorrowMl', kind: '빼기 주문', prompt: formatCapacity(toTotalMl(top)) + ' - ' + formatCapacity(toTotalMl(bottom)), expression: formatCapacity(toTotalMl(top)) + ' - ' + formatCapacity(toTotalMl(bottom)) + ' = ' + correct, visual: { kind: 'mix', rows: [formatCapacity(toTotalMl(top)), '-', formatCapacity(toTotalMl(bottom))], note: '1L를 1000mL로' }, top, bottom, borrowedTop, mlDiff, final, finalText: correct, representativeMistake: noBorrow, steps: [makeStep('borrowLiter', '1L를 1000mL로 바꿔요.', '바뀐 위 들이', borrowedTop.l + 'L ' + borrowedTop.ml + 'mL', uniqueChoices([borrowedTop.l + 'L ' + borrowedTop.ml + 'mL', top.l + 'L ' + (top.ml + 1000) + 'mL', (top.l - 1) + 'L ' + top.ml + 'mL', (top.l - 2) + 'L ' + (top.ml + 1000) + 'mL'], rng), borrowedTop.l + 'L ' + borrowedTop.ml + 'mL로 바뀌었어요.'), makeStep('subtractMl', 'mL끼리 뺀 값을 골라요.', 'mL 차', formatMl(mlDiff), uniqueChoices([formatMl(mlDiff), formatMl(Math.abs(top.ml - bottom.ml)), formatMl(mlDiff + 100), formatMl(Math.max(0, mlDiff - 100))], rng), formatMl(mlDiff) + '가 남았어요.'), makeStep('subtractFinal', '다 뺀 뒤의 들이를 골라요.', '완성 들이', correct, uniqueChoices([correct, noBorrow, (final.l + 1) + 'L ' + final.ml + 'mL', final.l + 'L ' + Math.min(final.ml + 100, 990) + 'mL'], rng), correct + '가 남았어요.')] }; }
+          function makeOrderCheck(rng, serial) { const made = { l: randomInt(rng, 1, 5), ml: randomInt(rng, 100, 900) }; const madeTotal = toTotalMl(made); const tied = rng() < 0.2; const enough = rng() > 0.45; const offset = tied ? 0 : enough ? -randomInt(rng, 100, 500) : randomInt(rng, 100, 500); const orderTotal = clamp(madeTotal + offset, 700, 6900); const order = fromTotalMl(orderTotal); const fitsOrder = madeTotal >= orderTotal; const correct = madeTotal === orderTotal ? '같아요' : madeTotal > orderTotal ? '주문보다 많아요' : '주문보다 적어요'; const wrong = correct === '주문보다 많아요' ? '주문보다 적어요' : '주문보다 많아요'; return { id: 'order-check-' + serial, type: 'orderCheck', kind: '주문 확인', prompt: '만든 양 ' + formatCapacity(madeTotal) + ' · 주문 ' + formatCapacity(orderTotal), expression: correct + '.', visual: { kind: 'mix', rows: [formatCapacity(madeTotal), '↔', formatCapacity(orderTotal)], note: '주문과 비교' }, made, order, fitsOrder, final: made, finalText: correct, representativeMistake: wrong, steps: [makeStep('orderCheck', '주문에 맞는 말을 골라요.', '주문 확인', correct, shuffle(['주문보다 많아요', '주문보다 적어요', '같아요'], rng), correct + '.')] }; }
+          function makeCompareKgG(rng, serial) { let left = { kg: randomInt(rng, 1, 6), g: randomInt(rng, 100, 900) }; let right = { kg: randomInt(rng, 1, 6), g: randomInt(rng, 100, 900) }; const tied = rng() < 0.2; if (tied) right = { ...left }; else if (Math.abs(toTotalGrams(left) - toTotalGrams(right)) < 100) right = fromTotalGrams(clamp(toTotalGrams(left) + 400, 1000, 7900)); const leftWeight = toTotalGrams(left); const rightWeight = toTotalGrams(right); const correct = leftWeight === rightWeight ? '같아요' : leftWeight > rightWeight ? '왼쪽' : '오른쪽'; const wrong = correct === '왼쪽' ? '오른쪽' : '왼쪽'; const confirm = correct === '같아요' ? '양쪽 무게가 같아요.' : correct + '이 더 무거워요.'; return { id: 'compare-weight-' + serial, type: 'compareKgG', kind: '무게 비교', prompt: formatWeight(left) + ' · ' + formatWeight(right), expression: confirm, visual: { kind: 'scale', left: formatWeight(left), right: formatWeight(right), tilt: correct === '같아요' ? '0deg' : correct === '왼쪽' ? '-4deg' : '4deg' }, left, right, finalText: correct, representativeMistake: wrong, steps: [makeStep('compareKgG', '더 무거운 쪽이나 같은지를 골라요.', '비교 결과', correct, shuffle(['왼쪽', '오른쪽', '같아요'], rng), confirm)] }; }
+          function makeBalanceMissing(rng, serial) { const left = { kg: randomInt(rng, 1, 5), g: randomInt(rng, 100, 800) }; const missing = randomInt(rng, 1, 8) * 100; const targetTotal = toTotalGrams(left) + missing; const target = fromTotalGrams(targetTotal); const correct = formatMl(missing).replace('mL','g'); return { id: 'balance-missing-' + serial, type: 'balanceMissing', kind: '저울 균형', prompt: formatWeight(left) + ' + ? = ' + formatWeight(target), expression: formatWeight(left) + ' + ' + correct + ' = ' + formatWeight(target), visual: { kind: 'scale', left: formatWeight(left) + ' + ?', right: formatWeight(target), tilt: '-2deg' }, left, target, missing, finalText: correct, representativeMistake: formatMl(Math.max(100, missing + 200)).replace('mL','g'), steps: [makeStep('balanceMissing', '저울을 맞출 무게추를 골라요.', '무게추', correct, uniqueChoices([correct, formatMl(Math.max(100, missing + 200)).replace('mL','g'), formatMl(Math.max(100, missing - 100)).replace('mL','g'), formatWeight(fromTotalGrams(missing + 1000))], rng), correct + '을 올리면 맞아요.')] }; }
+          function makeCompareTonKg(rng, serial) { const ton = { t: 1, kg: randomInt(rng, 0, 2) * 100 }; const tied = rng() < 0.2; const kgOnly = { t: 0, kg: tied ? 1000 + ton.kg : randomInt(rng, 850, 1250) }; if (!tied && kgOnly.kg === 1000 + ton.kg) kgOnly.kg += kgOnly.kg <= 1150 ? 100 : -100; const leftIsTon = rng() > 0.5; const left = leftIsTon ? ton : kgOnly; const right = leftIsTon ? kgOnly : ton; const leftWeight = toTotalGrams(left); const rightWeight = toTotalGrams(right); const correct = leftWeight === rightWeight ? '같아요' : leftWeight > rightWeight ? '왼쪽' : '오른쪽'; const wrong = correct === '왼쪽' ? '오른쪽' : '왼쪽'; const confirm = correct === '같아요' ? '양쪽 무게가 같아요.' : correct + '이 더 무거워요.'; return { id: 'compare-ton-' + serial, type: 'compareTonKg', kind: 't와 kg 비교', prompt: formatWeight(left) + ' · ' + formatWeight(right), expression: confirm, visual: { kind: 'scale', left: formatWeight(left), right: formatWeight(right), tilt: correct === '같아요' ? '0deg' : correct === '왼쪽' ? '-5deg' : '5deg' }, left, right, finalText: correct, representativeMistake: wrong, steps: [makeStep('compareTonKg', '더 무거운 쪽이나 같은지를 골라요.', '비교 결과', correct, shuffle(['왼쪽', '오른쪽', '같아요'], rng), confirm)] }; }
+          function makeProblem(type, rng, serial) { if (type === 'readMl') return makeReadMl(rng, serial); if (type === 'readLiterMl') return makeReadLiterMl(rng, serial); if (type === 'compareBottle') return makeCompareBottle(rng, serial); if (type === 'addCarryMl') return makeAddCarryMl(rng, serial); if (type === 'subtractBorrowMl') return makeSubtractBorrowMl(rng, serial); if (type === 'orderCheck') return makeOrderCheck(rng, serial); if (type === 'compareKgG') return makeCompareKgG(rng, serial); if (type === 'balanceMissing') return makeBalanceMissing(rng, serial); return makeCompareTonKg(rng, serial); }
+          function generateRun(seed = 12345) {
+            const rng = createRng(seed);
+            return shuffle(TYPES_PER_RUN, rng).map((type, index) => {
+              const problem = makeProblem(type, rng, index + 1);
+              return Object.assign(problem, { finalExpression: problem.expression });
+            });
+          }
+          function validateChoice(step, choice) { return String(step.correct) === choiceText(choice); }
+          function pickRewardEvent(rng, mistakeTouched) { if (mistakeTouched) return Object.assign({}, WRONG_REWARD_EVENT, { amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max) }); let roll = Math.floor(rng() * 10000); for (const event of REWARD_EVENTS) { if (roll < event.weight) return Object.assign({}, event, { amount: randomInt(rng, event.min, event.max) }); roll -= event.weight; } const fallback = REWARD_EVENTS[0]; return Object.assign({}, fallback, { amount: randomInt(rng, fallback.min, fallback.max) }); }
+          function applyReward(state, event) { const before = state.power; const power = clamp(before + event.amount, MIN_POWER, MAX_POWER); return { power, specialSeen: state.specialSeen || Boolean(event.special), before, event }; }
+          function getResult(power, correctFirstTry, specialSeen) { for (let index = RESULT_TIERS.length - 1; index >= 0; index -= 1) { const result = RESULT_TIERS[index]; if (result.needsSpecial && !specialSeen) continue; if (power >= result.minPower && correctFirstTry >= result.minCorrect) return result; } return RESULT_TIERS[0]; }
+          function getNextResult(result) { const index = RESULT_TIERS.findIndex(item => item.id === result.id); return RESULT_TIERS[Math.min(index + 1, RESULT_TIERS.length - 1)]; }
+          return { TOTAL_PROBLEMS, MIN_POWER, MAX_POWER, TYPES_PER_RUN, RESULT_TIERS, REWARD_EVENTS, WRONG_REWARD_EVENT, createRng, randomInt, shuffle, clamp, formatMl, formatCapacity, toTotalMl, fromTotalMl, formatWeight, toTotalGrams, fromTotalGrams, generateRun, validateChoice, pickRewardEvent, applyReward, getResult, getNextResult };
+        })();
 
     const LessonModel = Lesson5WaterFillModel;
     const TOTAL_QUESTIONS = Array.isArray(LESSON_CONFIG.typesPerRun) ? LESSON_CONFIG.typesPerRun.length : 10;
@@ -2516,6 +2266,10 @@
       settingsToggle: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -2543,8 +2297,6 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
-      rewardObject: document.querySelector("#screen-reward .reward-object"),
-      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -2559,9 +2311,12 @@
       resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultHeading: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
       resultDestinationSvg: document.getElementById("resultDestinationSvg"),
       resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureTrackSvg: document.getElementById("resultMeasureTrackSvg"),
       resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
@@ -2814,8 +2569,6 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
-      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
-      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -2836,12 +2589,6 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
-        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
-        const misconceptionId = getChoiceMisconceptionId(choice);
-        if (misconceptionId) button.dataset.misconception = misconceptionId;
-        if (choice && typeof choice === "object" && choice.relation) {
-          button.dataset.relation = String(choice.relation);
-        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -2860,10 +2607,6 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
-      });
-      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
-        delete choiceButton.dataset.state;
-        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -2929,12 +2672,7 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
-      ui.completeText.hidden = !showCompleteExpression;
-      ui.completeText.textContent = showCompleteExpression
-        ? (problem.finalExpression || ui.answerSlot.textContent)
-        : "";
-      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
+      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -3020,8 +2758,7 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
-        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
+        chip.textContent = step.label || `${index + 1}단계`;
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -3029,7 +2766,7 @@
     }
 
     async function showReward() {
-      if (!state.completed || state.rewardPhase !== "idle") return;
+      if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -3037,7 +2774,9 @@
       state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
         return;
       }
 
@@ -3058,9 +2797,7 @@
         return;
       }
 
-      const beforePower = applyPendingReward(event);
-      state.rewardPhase = "revealed";
-      renderRewardMeter(event, beforePower, state.power);
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -3073,19 +2810,7 @@
       showScreen("reward");
     }
 
-    function renderRewardMeter(event, beforePower, afterPower) {
-      if (!ui.rewardObject || !ui.rewardLiquid) return;
-      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
-      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
-      const delta = Number(afterPower) - Number(beforePower);
-      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
-      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
-      ui.rewardObject.dataset.direction = direction;
-      ui.rewardObject.dataset.symbol = symbol;
-      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
-    }
-
-    function openRewardModal(event) {
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
       if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
       ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
@@ -3093,11 +2818,12 @@
       ui.rewardPop.dataset.rarity = event.rarity || "common";
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
-      ui.modalRewardOpenButton.hidden = false;
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = true;
+      ui.modalRewardNextButton.disabled = false;
       ui.rewardPop.hidden = false;
-      ui.modalRewardOpenButton.focus();
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
     }
 
     function applyPendingReward(event) {
@@ -3134,7 +2860,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3149,29 +2875,20 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return LESSON_CONFIG.reward?.specialLabel || "황금밭!";
+      if (event.special) return event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(event, beforeResult, afterResult) {
-      const formatter = globalThis.formatLessonRewardTarget;
-      if (typeof formatter === "function") {
-        try {
-          const formatted = formatter({ event, beforeResult, afterResult, state });
-          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
-        } catch (error) {
-          console.warn("formatLessonRewardTarget failed", error);
-        }
-      }
-      if (afterResult?.needsSpecial) return "황금밭을 찾았어요!";
+    function getRewardTargetText(beforeResult, afterResult) {
+      if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
         ? LessonModel.getNextResult(afterResult)
         : afterResult;
-      if (!nextResult || nextResult.id === afterResult?.id) return "황금밭을 찾아봐요!";
+      if (!nextResult || nextResult.id === afterResult?.id) return "최고 단계까지 왔어요!";
       const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
       if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
         return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
@@ -3180,22 +2897,26 @@
       return `${nextResult.name}까지 ${remaining} 더`;
     }
 
-    async function revealRewardModal() {
+    async function revealRewardModal({ immediateValue = false } = {}) {
       if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
       const event = state.pendingRewardEvent;
       state.rewardPhase = "opening";
       ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
-      await nextAnimationFrame();
+      if (!immediateValue) await nextAnimationFrame();
       const beforePower = applyPendingReward(event);
+      event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
-      await runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      await animateRewardValue(event);
+      const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      if (immediateValue) setRewardValue(event.amount);
+      await revealHook;
+      if (immediateValue) setRewardValue(event.amount);
+      else await animateRewardValue(event);
       state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.hidden = true;
       ui.modalRewardOpenButton.disabled = false;
       ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
@@ -3209,18 +2930,27 @@
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const duration = reduceMotion ? 0 : 650;
       const target = Number(event.amount) || 0;
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
       return new Promise((resolve) => {
         const started = performance.now();
         const tick = (now) => {
           const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
           const value = Math.round(target * progress);
-          ui.modalRewardLabel.textContent = `${unit} ${value > 0 ? "+" : ""}${value}`;
+          setRewardValue(value);
           if (progress < 1) requestAnimationFrame(tick);
           else resolve();
         };
         requestAnimationFrame(tick);
       });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${changeLabel} ${zeroLabel}`
+        : `${changeLabel} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -3247,16 +2977,21 @@
       return "그대로";
     }
 
-    function advanceAfterReward() {
+    async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
-      if (state.pendingAdvance) return;
-      state.pendingAdvance = true;
-      if (getRewardMode() === "modal-art") closeRewardModal();
-      if (getRewardMode() === "stage-reveal") {
-        state.pendingRewardEvent = null;
-        state.rewardPhase = "idle";
+      if (getRewardMode() === "modal-art") {
+        if (state.rewardPhase !== "revealed") return;
+        const event = state.pendingRewardEvent;
+        ui.modalRewardNextButton.disabled = true;
+        closeRewardModal();
+        await runViewHook("onRewardDismiss", {
+          event,
+          afterPower: state.power,
+          state,
+        });
+        ui.modalRewardNextButton.disabled = false;
       }
-      if (getRewardMode() === "stage-full") {
+      if (getRewardMode() === "stage-reveal") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3271,6 +3006,11 @@
 
     function showResult() {
       const result = getCurrentResult();
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(result)
+        : result;
+      const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+      const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
       state.currentResult = result;
       playSample("result");
       ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
@@ -3278,6 +3018,11 @@
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       ui.resultSummary.textContent = result.summary || "";
+      if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextResultText;
+        ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
+      }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
       if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
@@ -3285,6 +3030,7 @@
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
         ui.resultMeasureFillSvg.setAttribute("width", String(width));
       }
+      applyResultLayout();
 
       const correctArt = getCorrectCountAsset();
       ui.resultCorrectArt.hidden = !correctArt;
@@ -3302,13 +3048,68 @@
 
       void runViewHook("onResult", {
         result,
-        nextResult: typeof LessonModel.getNextResult === "function" ? LessonModel.getNextResult(result) : result,
+        nextResult,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
         state,
       });
 
       showScreen("result");
+    }
+
+    function applyResultLayout() {
+      const baseLayout = LESSON_CONFIG.result?.layout;
+      if (!baseLayout) return;
+      const tierId = state.currentResult?.id || screens.result?.dataset?.resultTier || "";
+      const tierLayout = baseLayout.byTier?.[tierId] || {};
+      const layout = { ...baseLayout, ...tierLayout };
+      const tierAxis = baseLayout.axisXByTier?.[tierId];
+      const axisX = Number(tierAxis ?? layout.axisX ?? 930);
+      const titleWidth = Number(layout.titleWidth ?? 520);
+      const correctWidth = Number(layout.correctWidth ?? 220);
+      const barWidth = Number(layout.barWidth ?? 360);
+      const barHeight = Number(layout.barHeight ?? 28);
+      const retry = layout.retryRect || {};
+      const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
+      const percentY = (value) => `${(Number(value) / 800) * 100}%`;
+
+      if (ui.resultTitleArt) {
+        ui.resultTitleArt.style.left = percentX(axisX - titleWidth / 2);
+        ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
+        ui.resultTitleArt.style.width = percentX(titleWidth);
+      }
+      if (ui.resultCorrectArt) {
+        ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
+        ui.resultCorrectArt.style.top = percentY(layout.correctTop ?? 382);
+        ui.resultCorrectArt.style.width = percentX(correctWidth);
+      }
+      if (ui.resultDestinationSvg) {
+        ui.resultDestinationSvg.setAttribute("x", String(axisX));
+      }
+      if (ui.resultMeasureSvg) {
+        ui.resultMeasureSvg.setAttribute("x", String(axisX));
+        ui.resultMeasureSvg.setAttribute("y", String(layout.measureY ?? 295));
+      }
+      for (const node of [ui.resultMeasureTrackSvg, ui.resultMeasureFillSvg]) {
+        if (!node) continue;
+        node.setAttribute("x", String(axisX - barWidth / 2));
+        node.setAttribute("y", String(layout.barY ?? 324));
+        node.setAttribute("height", String(barHeight));
+        node.setAttribute("rx", String(barHeight / 2));
+      }
+      if (ui.resultMeasureTrackSvg) ui.resultMeasureTrackSvg.setAttribute("width", String(barWidth));
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.setAttribute("x", String(axisX));
+        ui.resultNextSvg.setAttribute("y", String(layout.nextY ?? 548));
+      }
+      if (ui.retryButton) {
+        ui.retryButton.style.left = percentX(retry.x ?? axisX - 150);
+        ui.retryButton.style.top = percentY(retry.y ?? 615);
+        ui.retryButton.style.right = "auto";
+        ui.retryButton.style.bottom = "auto";
+        ui.retryButton.style.width = percentX(retry.width ?? 300);
+        ui.retryButton.style.height = percentY(retry.height ?? 123);
+      }
     }
 
     function getCorrectCountAsset() {
@@ -3363,24 +3164,64 @@
     }
 
     function restartFromSettings() {
-      closeSettings();
+      if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+      ui.settingsRestartConfirmButton?.focus();
+    }
+
+    function cancelRestartFromSettings() {
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      ui.restartButton?.focus();
+    }
+
+    function confirmRestartFromSettings() {
+      closeSettings({ restoreFocus: false });
       closeRewardModal();
       state = createInitialState();
       scoreboardBridge?.reset?.();
       syncProgress();
       showScreen("cover");
+      ui.startButton?.focus({ preventScroll: true });
     }
 
     function openSettings() {
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
       ui.settingsBackdrop.hidden = false;
       ui.settingsToggle.setAttribute("aria-expanded", "true");
       syncAudioControls();
-      ui.settingsModal.focus();
+      ui.bgmToggle?.focus({ preventScroll: true });
     }
 
-    function closeSettings() {
+    function closeSettings({ restoreFocus = true } = {}) {
       ui.settingsBackdrop.hidden = true;
       ui.settingsToggle.setAttribute("aria-expanded", "false");
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+    }
+
+    function trapSettingsFocus(event) {
+      if (ui.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function beginScoreboardQuestion(problem) {
@@ -3502,12 +3343,15 @@
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
     ui.settingsToggle.addEventListener("click", openSettings);
-    ui.closeSettings.addEventListener("click", closeSettings);
+    ui.closeSettings.addEventListener("click", () => closeSettings());
+    ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
     ui.reviewTutorialButton.addEventListener("click", () => {
-      closeSettings();
+      closeSettings({ restoreFocus: false });
       beginTutorial(state.screen || "play");
     });
     ui.restartButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+    ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
     ui.bgmToggle.addEventListener("click", () => {
       audio.bgm = !audio.bgm;
       saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -3522,8 +3366,26 @@
     syncAudioControls();
     syncProgress();
 
+    window.__mathmonAudioQa = {
+      keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+      getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          audio.bgm = bgmEnabled;
+          saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          audio.sfx = sfxEnabled;
+          saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+        }
+        syncAudioControls();
+        return window.__mathmonAudioQa.getPrefs();
+      },
+    };
+
     window.__mathmonEngineQa = {
       startGame,
+      renderProblem,
       showResult,
       showScreen,
       showReward,
@@ -3558,195 +3420,159 @@
       getCurrentProblem: () => state.problems[state.problemIndex] || null,
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
-    function escapeLessonText(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;");
+    function renderBottleScale(max) {
+      const divisions = Math.round(max / 100);
+      return Array.from({ length: divisions + 1 }, (_, index) => {
+        const value = index * 100;
+        const major = value % 1000 === 0;
+        const label = value === 0 ? '0' : value / 1000 + 'L';
+        return '<span class="bottle-tick' + (major ? ' is-major' : '') + '" style="--tick:' + (value / max) * 100 + '%">' + (major ? '<span class="bottle-scale-label">' + label + '</span>' : '') + '</span>';
+      }).join('');
     }
 
-    function getAttemptChoiceValue(choice) {
-      return choice && typeof choice === "object" ? choice.value : choice;
+    function solvedStepSet() {
+      const source = ui.visualArea.querySelector('.capacity-visual')?.dataset.solvedSteps || '';
+      return new Set(source.split(',').filter(Boolean));
     }
 
-    function getAttemptNumericValue(choice) {
-      return choice && typeof choice === "object" && Number.isFinite(choice.numericValue)
-        ? choice.numericValue
-        : null;
+    function capacityRow(operator, liter, ml, className = '', ariaLabel = '') {
+      const safeLiter = liter === '' || liter == null ? '&nbsp;' : liter;
+      const safeMl = ml === '' || ml == null ? '&nbsp;' : ml;
+      return '<div class="capacity-calc-row ' + className + '"' + (ariaLabel ? ' aria-label="' + ariaLabel + '"' : '') + '><span class="capacity-calc-operator">' + (operator || '') + '</span><span class="capacity-liter-slot">' + safeLiter + '</span><span class="capacity-ml-slot">' + safeMl + '</span></div>';
     }
 
-    function makeScaleTicks(max, interval) {
-      const ticks = [];
-      for (let value = 0; value <= max; value += interval) {
-        const percent = (value / max) * 100;
-        const isMajor = value % 1000 === 0 || max === 1000 && value % 500 === 0;
-        const label = isMajor
-          ? (value === 0 ? "0" : value >= 1000 ? `${value / 1000}L` : `${value}mL`)
-          : "";
-        const boundaryClass = value === 0 ? " is-min" : value === max ? " is-max" : "";
-        ticks.push(
-          `<span class="measure-tick${isMajor ? " is-major" : ""}${boundaryClass}" style="--tick:${percent}%">`
-          + `<span class="measure-tick-label">${label}</span></span>`,
-        );
+    function relationForProblem(problem) {
+      if (problem.type === 'orderCheck') {
+        const made = problem.made.l * 1000 + problem.made.ml;
+        const order = problem.order.l * 1000 + problem.order.ml;
+        return made === order ? '=' : made > order ? '>' : '<';
       }
-      return ticks.join("");
+      if (problem.type === 'compareBottle') return problem.visual.left === problem.visual.right ? '=' : problem.visual.left > problem.visual.right ? '>' : '<';
+      if (problem.type === 'compareKgG' || problem.type === 'compareTonKg') {
+        const total = (weight) => weight.t !== undefined ? weight.t * 1000000 + weight.kg * 1000 : weight.kg * 1000 + weight.g;
+        return total(problem.left) === total(problem.right) ? '=' : total(problem.left) > total(problem.right) ? '>' : '<';
+      }
+      return '=';
     }
 
-    function bottleMarkup(amount, max, interval, label, side = "") {
-      const fill = Math.round((amount / max) * 1000) / 10;
-      return `<div class="compare-label" data-side="${escapeLessonText(side)}">`
-        + `<div class="measure-bottle" style="--fill:${fill}%">`
-        + '<div class="water-fill"></div>'
-        + makeScaleTicks(max, interval)
-        + '<span class="chosen-level" hidden></span>'
-        + '</div>'
-        + `<div class="bottle-label">${escapeLessonText(label)}</div>`
-        + '</div>';
+    function renderPlaceValueBoard(problem, solved) {
+      const subtract = problem.type === 'subtractBorrowMl';
+      const borrowed = subtract && solved.has('borrowLiter');
+      let result = '';
+      let note = '';
+      if (!subtract && solved.has('addFinal')) {
+        result = capacityRow('=', problem.final.l, problem.final.ml, 'capacity-result-row', problem.final.l + 'L ' + problem.final.ml + 'mL');
+        note = '완성 들이';
+      } else if (!subtract && solved.has('addChange')) {
+        result = capacityRow('=', problem.final.l, problem.final.ml, 'capacity-result-row', problem.final.l + 'L ' + problem.final.ml + 'mL');
+        note = '1000mL를 1L로 바꾼 값';
+      } else if (!subtract && solved.has('addMl')) {
+        result = capacityRow('=', problem.literSum, problem.mlSum, 'capacity-result-row', problem.literSum + 'L ' + problem.mlSum + 'mL');
+        note = 'L끼리, mL끼리 더한 값';
+      } else if (subtract && solved.has('subtractFinal')) {
+        result = capacityRow('=', problem.final.l, problem.final.ml, 'capacity-result-row', problem.final.l + 'L ' + problem.final.ml + 'mL');
+        note = '완성 들이';
+      } else if (subtract && solved.has('subtractMl')) {
+        result = capacityRow('=', '', problem.mlDiff, 'capacity-result-row', 'mL 차 ' + problem.mlDiff + 'mL');
+        note = 'mL끼리 뺀 값';
+      }
+      const top = subtract ? problem.top : problem.left;
+      const bottom = subtract ? problem.bottom : problem.right;
+      const annotation = borrowed
+        ? capacityRow('', problem.borrowedTop.l, problem.borrowedTop.ml, 'capacity-borrow-row', '1L를 빌리면 ' + problem.borrowedTop.l + 'L ' + problem.borrowedTop.ml + 'mL')
+        : '';
+      return '<div class="calculation-board place-value-board" data-answer-count="' + solved.size + '"><div class="capacity-board-title">계산판</div>'
+        + capacityRow('', 'L', 'mL', 'capacity-columns-header')
+        + annotation
+        + capacityRow('', top.l, top.ml, borrowed ? 'capacity-source-row' : '', '처음 들이 ' + top.l + 'L ' + top.ml + 'mL')
+        + capacityRow(subtract ? '−' : '+', bottom.l, bottom.ml, '', bottom.l + 'L ' + bottom.ml + 'mL')
+        + '<div class="capacity-calc-rule"></div>' + result
+        + (note ? '<div class="capacity-result-note">' + note + '</div>' : '') + '</div>';
     }
 
-    function renderCapacityBoard(problem) {
-      const left = problem.left || problem.top;
-      const right = problem.right || problem.bottom;
-      const operation = problem.visual.operation;
-      return `<div class="column-board" data-operation="${operation === "+" ? "add" : "subtract"}">`
-        + '<div class="column-head"><span></span><span>L</span><span>mL</span></div>'
-        + `<div class="column-row"><span></span><strong>${left.l}</strong><strong>${left.ml}</strong></div>`
-        + `<div class="column-row"><span>${operation}</span><strong>${right.l}</strong><strong>${right.ml}</strong></div>`
-        + '<div class="column-rule"></div>'
-        + '<div class="column-attempt"><span></span><strong id="boardLiter">?</strong><strong id="boardSmallUnit">?</strong></div>'
-        + '</div>';
+    function renderRelationBoard(problem, solved) {
+      const done = problem.steps.every((step) => solved.has(step.id));
+      const sign = done ? relationForProblem(problem) : '?';
+      let left = '왼쪽';
+      let right = '오른쪽';
+      if (problem.type === 'orderCheck') {
+        left = problem.visual.rows[0];
+        right = problem.visual.rows[2];
+      } else if (problem.type === 'balanceMissing') {
+        const answer = done ? problem.finalText : '?';
+        return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">균형식</div><div class="relation-equation"><span>' + problem.visual.left.replace('?', answer) + '</span><strong>=</strong><span>' + problem.visual.right + '</span></div></div>';
+      }
+      return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">비교판</div><div class="relation-equation"><span>' + left + '</span><strong class="relation-answer">' + sign + '</strong><span>' + right + '</span></div></div>';
     }
 
-    function renderAmountAxis(problem) {
-      const made = problem.visual.made;
-      const target = problem.visual.target;
-      const max = problem.visual.max;
-      return '<div class="amount-axis" style="--made:'
-        + `${(made / max) * 100}%;--target:${(target / max) * 100}%">`
-        + '<div class="amount-axis-track"><span class="amount-fill"></span>'
-        + '<span class="amount-marker is-made"><b>만든 양</b></span>'
-        + '<span class="amount-marker is-target"><b>주문</b></span></div>'
-        + `<div class="amount-axis-values"><span>${escapeLessonText(Lesson5WaterFillModel.formatCapacity(made))}</span>`
-        + `<span>${escapeLessonText(Lesson5WaterFillModel.formatCapacity(target))}</span></div>`
-        + '<p class="amount-axis-difference" id="axisDifference"></p></div>';
+    function renderReadBoard(problem, solved) {
+      const done = problem.steps.every((step) => solved.has(step.id));
+      return '<div class="calculation-board read-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">눈금 읽기</div><div class="read-equation"><span>한 눈금</span><strong>100mL</strong><span>읽은 들이</span><strong class="read-answer">' + (done ? problem.finalText : '?') + '</strong></div></div>';
     }
 
-    function scaleMarkup(visual) {
-      return '<div class="scale-visual" data-attempt="waiting">'
-        + `<div class="scale-beam" style="--tilt:${escapeLessonText(visual.tilt || "0deg")}"></div>`
-        + '<div class="scale-pans">'
-        + `<div class="scale-pan" data-side="left"><div><strong>왼쪽</strong><span id="leftScaleValue">${escapeLessonText(visual.left)}</span></div></div>`
-        + `<div class="scale-pan" data-side="right"><div><strong>오른쪽</strong><span>${escapeLessonText(visual.right)}</span></div></div>`
-        + '</div><p class="scale-difference" id="scaleDifference"></p></div>';
+    function renderCalculationBoard(problem, solved) {
+      if (problem.type === 'addCarryMl' || problem.type === 'subtractBorrowMl') return renderPlaceValueBoard(problem, solved);
+      if (problem.type === 'readMl' || problem.type === 'readLiterMl') return renderReadBoard(problem, solved);
+      return renderRelationBoard(problem, solved);
+    }
+
+    function renderCapacityVisual(problem, solved) {
+      const visual = problem.visual || {};
+      const wrapper = document.createElement('div');
+      wrapper.className = 'capacity-visual';
+      wrapper.dataset.solvedSteps = [...solved].join(',');
+      let scene = '';
+      if (visual.kind === 'bottle') {
+        scene = '<div class="capacity-scene bottle-wrap"><div class="compare-label"><div class="bottle bottle-with-scale" style="--fill:' + Math.round((visual.amount / visual.max) * 100) + '%"><div class="water-fill"></div>' + renderBottleScale(visual.max) + '</div><div class="bottle-label">한 눈금은 100mL</div></div></div>';
+      } else if (visual.kind === 'compareBottle') {
+        scene = '<div class="capacity-scene bottle-wrap"><div class="compare-label"><div class="bottle" style="--fill:' + Math.round((visual.left / visual.max) * 100) + '%"><div class="water-fill"></div><span class="tick" style="--tick:50%"></span></div><div class="bottle-label">왼쪽</div></div><div class="compare-label"><div class="bottle" style="--fill:' + Math.round((visual.right / visual.max) * 100) + '%"><div class="water-fill"></div><span class="tick" style="--tick:50%"></span></div><div class="bottle-label">오른쪽</div></div></div>';
+      } else if (visual.kind === 'mix') {
+        scene = '<div class="capacity-scene mix-visual"><div class="mix-row"><div class="mix-cup">' + visual.rows[0] + '</div><div class="mix-symbol">' + visual.rows[1] + '</div><div class="mix-cup">' + visual.rows[2] + '</div></div><div class="mix-note">' + visual.note + '</div></div>';
+      } else if (visual.kind === 'scale') {
+        scene = '<div class="capacity-scene scale-visual"><div class="scale-beam" data-target-tilt="' + visual.tilt + '" style="--tilt:' + visual.tilt + '"></div><div class="scale-pans"><div class="scale-pan"><div><strong>왼쪽</strong><span>' + visual.left + '</span></div></div><div class="scale-pan"><div><strong>오른쪽</strong><span>' + visual.right + '</span></div></div></div></div>';
+      }
+      wrapper.innerHTML = scene + renderCalculationBoard(problem, solved);
+      ui.visualArea.replaceChildren(wrapper);
     }
 
     function renderProblemVisual(problem) {
-      ui.visualArea.innerHTML = "";
-      const visual = problem.visual || {};
-      const wrapper = document.createElement("div");
-      wrapper.className = "capacity-visual";
-      wrapper.dataset.visualKind = visual.kind || "";
-
-      if (visual.kind === "bottle") {
-        wrapper.innerHTML = `<div class="bottle-wrap">${bottleMarkup(visual.amount, visual.max, visual.interval, visual.label)}</div>`;
-      } else if (visual.kind === "compareBottle") {
-        wrapper.innerHTML = '<div class="bottle-wrap is-compare">'
-          + bottleMarkup(visual.left, visual.max, visual.interval, "왼쪽", "left")
-          + bottleMarkup(visual.right, visual.max, visual.interval, "오른쪽", "right")
-          + '</div>';
-      } else if (visual.kind === "capacityBoard") {
-        wrapper.innerHTML = renderCapacityBoard(problem);
-      } else if (visual.kind === "amountAxis") {
-        wrapper.innerHTML = renderAmountAxis(problem);
-      } else if (visual.kind === "scale") {
-        wrapper.innerHTML = scaleMarkup(visual);
-      }
-      ui.visualArea.append(wrapper);
+      renderCapacityVisual(problem, new Set());
     }
 
-    function updateCapacityBoardAttempt(problem, step, choice, correct) {
-      const smallCell = document.getElementById("boardSmallUnit");
-      const literCell = document.getElementById("boardLiter");
-      if (!smallCell || !literCell) return;
-      const value = getAttemptChoiceValue(choice);
-      const numeric = getAttemptNumericValue(choice);
-
-      if (step.id === "addMl" || step.id === "subtractMl") {
-        smallCell.textContent = numeric == null ? value : String(numeric);
-        literCell.textContent = "?";
-      } else if (step.id === "addChange" || step.id === "borrowLiter") {
-        const match = String(value).match(/(\d+)L\s+(\d+)mL/);
-        literCell.textContent = match ? match[1] : "?";
-        smallCell.textContent = match ? match[2] : String(value);
-      } else {
-        const total = numeric;
-        if (Number.isFinite(total)) {
-          const capacity = Lesson5WaterFillModel.fromTotalMl(total);
-          literCell.textContent = String(capacity.l);
-          smallCell.textContent = String(capacity.ml);
-        } else {
-          smallCell.textContent = String(value);
-        }
-      }
-      document.querySelector(".column-board")?.setAttribute("data-attempt", correct ? "correct" : choice.relation || "unit");
+    function updateProblemVisualForStep(problem) {
+      renderCapacityVisual(problem, solvedStepSet());
     }
 
-    function updateBottleAttempt(problem, choice) {
-      const marker = document.querySelector(".chosen-level");
-      const numeric = getAttemptNumericValue(choice);
-      if (!marker || !Number.isFinite(numeric)) return;
-      marker.hidden = false;
-      marker.style.setProperty("--chosen", `${(numeric / problem.visual.max) * 100}%`);
-      marker.dataset.relation = choice.relation || "unit";
+    function revealCorrectStep(problem, step) {
+      const solved = solvedStepSet();
+      solved.add(step.id);
+      renderCapacityVisual(problem, solved);
     }
 
-    function updateScaleAttempt(problem, choice, correct) {
-      const scale = document.querySelector(".scale-visual");
-      const beam = document.querySelector(".scale-beam");
-      if (!scale || !beam) return;
-      let leftValue = problem.visual.leftValue;
-      const rightValue = problem.visual.rightValue;
-      const selectedValue = getAttemptNumericValue(choice);
-
-      if (problem.type === "balanceMissing" && Number.isFinite(selectedValue)) {
-        leftValue = problem.visual.baseLeftValue + selectedValue;
-        const leftLabel = document.getElementById("leftScaleValue");
-        if (leftLabel) leftLabel.textContent = `${Lesson5WaterFillModel.formatWeight(problem.left)} + ${choice.label}`;
+    function renderAttempt(problem, step, choice, state, { correct }) {
+      const visual = ui.visualArea.querySelector('.capacity-visual');
+      if (!visual) return;
+      visual.querySelector('.visual-attempt-note')?.remove();
+      visual.dataset.state = correct ? 'correct' : 'wrong';
+      if (correct) {
+        const beam = visual.querySelector('.scale-beam');
+        if (beam?.dataset.targetTilt) beam.style.setProperty('--tilt', beam.dataset.targetTilt);
+        return;
       }
-
-      const difference = Math.abs(leftValue - rightValue);
-      const tilt = leftValue === rightValue ? 0 : leftValue > rightValue ? -5 : 5;
-      beam.style.setProperty("--tilt", `${tilt}deg`);
-      scale.dataset.attempt = correct ? "correct" : choice.relation || "wrong";
-      const differenceNode = document.getElementById("scaleDifference");
-      if (differenceNode) {
-        differenceNode.textContent = difference === 0
-          ? "저울이 수평이에요."
-          : `${leftValue > rightValue ? "왼쪽" : "오른쪽"}이 ${difference >= 1000 ? Lesson5WaterFillModel.formatWeight(Lesson5WaterFillModel.fromTotalGrams(difference)) : `${difference}g`} 더 무거워요.`;
+      const value = choice && typeof choice === 'object' ? choice.label ?? choice.value ?? '' : choice;
+      const beam = visual.querySelector('.scale-beam');
+      if (beam) {
+        const picked = String(value);
+        const wrongTilt = picked.includes('왼쪽') ? '-3deg' : picked.includes('오른쪽') ? '3deg' : '0deg';
+        beam.style.setProperty('--tilt', wrongTilt);
+        beam.classList.remove('is-wrong-attempt');
+        void beam.offsetWidth;
+        beam.classList.add('is-wrong-attempt');
       }
-    }
-
-    function renderAttempt(problem, step, choice, state, result) {
-      if (problem.visual.kind === "bottle") {
-        updateBottleAttempt(problem, choice);
-      } else if (problem.visual.kind === "compareBottle") {
-        const side = String(getAttemptChoiceValue(choice)).startsWith("왼쪽") ? "left"
-          : String(getAttemptChoiceValue(choice)).startsWith("오른쪽") ? "right"
-            : "same";
-        document.querySelector(".bottle-wrap")?.setAttribute("data-picked-side", side);
-      } else if (problem.visual.kind === "capacityBoard") {
-        updateCapacityBoardAttempt(problem, step, choice, result.correct);
-      } else if (problem.visual.kind === "amountAxis") {
-        const difference = Math.abs(problem.visual.made - problem.visual.target);
-        const differenceNode = document.getElementById("axisDifference");
-        if (differenceNode) {
-          differenceNode.textContent = `${Lesson5WaterFillModel.formatMl(difference)} ${problem.visual.made < problem.visual.target ? "부족해요." : "남아요."}`;
-        }
-        document.querySelector(".amount-axis")?.setAttribute("data-attempt", result.correct ? "correct" : "wrong");
-      } else if (problem.visual.kind === "scale") {
-        updateScaleAttempt(problem, choice, result.correct);
-      }
+      const note = document.createElement('div');
+      note.className = 'visual-attempt-note is-wrong';
+      note.textContent = '고른 답: ' + value;
+      visual.append(note);
     }
     window.Lesson5WaterFillModel = Lesson5WaterFillModel;
   </script>

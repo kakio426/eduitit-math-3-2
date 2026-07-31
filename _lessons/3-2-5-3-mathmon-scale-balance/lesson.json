@@ -10,27 +10,153 @@
     { "visual": "1", "purpose": "mechanic", "title": "어떻게 비교해요?", "body": "무게를 비교하고 kg, g, t를 바꿔 봐요.", "image": "tutorial-page-1-generated.webp" },
     { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 저울 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
-  "tutorial": { "mode": "poster-two-step" }, "reward": { "mode": "stage-full", "maxPower": 100 }, "completion": { "showExpression": false },
-  "result": { "renderMode": "simple-generated" }, "workbench": { "type": "scale-balance" }, "scoreboard": { "enabled": false },
-  "sourceFiles": { "model": "../3-2-5-1-mathmon-water-fill/model.js", "view": "../3-2-5-1-mathmon-water-fill/view.js", "css": "../3-2-5-1-mathmon-water-fill/lesson.css" },
+  "tutorial": { "mode": "poster-two-step" },
+  "reward": {
+    "mode": "modal-art",
+    "eventStandard": "mathmon-unified-reward-v1",
+    "maxPower": 100,
+    "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
+    "closedLabel": "두근두근!",
+    "changeLabel": "이번 변화",
+    "zeroLabel": "0",
+    "nextLabel": "다음",
+    "stateImageSet": {
+      "count": 7,
+      "canvas": "512x512",
+      "runtimeSlot": "reward-modal",
+      "states": ["closed", "smallBalance", "bigBalance", "shineBalance", "smallOnly", "specialBalance", "repair"],
+      "contactSheet": "reward-events-v3-contact-sheet.png"
+    },
+    "artMap": {
+      "smallBalance": "reward-event-small-balance-generated.webp",
+      "bigBalance": "reward-event-big-balance-generated.webp",
+      "shineBalance": "reward-event-shine-balance-generated.webp",
+      "smallOnly": "reward-event-small-only-generated.webp",
+      "specialBalance": "reward-event-special-balance-generated.webp",
+      "repair": "reward-event-repair-generated.webp"
+    }
+  },
+  "result": {
+    "renderMode": "hybrid-generated-dynamic",
+    "showNextGoal": true,
+    "layout": {
+      "axisX": 1000,
+      "titleTop": 82,
+      "titleWidth": 430,
+      "measureY": 435,
+      "barY": 455,
+      "barWidth": 340,
+      "barHeight": 24,
+      "correctTop": 490,
+      "correctWidth": 210,
+      "nextY": 636,
+      "retryRect": { "x": 850, "y": 655, "width": 300, "height": 108 }
+    },
+    "stateImageSet": {
+      "count": 4,
+      "canvas": "1280x800",
+      "runtimeSlot": "1280x800",
+      "contactSheet": "result-states-contact-sheet.png",
+      "protagonist": "mathmon-drv-05-crystalowl",
+      "fixedGeneratedElements": ["result-title", "retry-button"],
+      "dynamicOverlays": ["balance-power", "correct-count", "next-goal"]
+    }
+  },
+  "workbench": { "type": "scale-balance" }, "scoreboard": { "enabled": false },
+  "sourceFiles": {
+    "model": "../3-2-5-1-mathmon-water-fill/model.js",
+    "view": "../3-2-5-1-mathmon-water-fill/view.js",
+    "style": "../3-2-5-1-mathmon-water-fill/lesson.css"
+  },
   "mathmonPack": "diversity-reward-pack", "mathmonName": "수정부엉몬", "mathmonId": "mathmon-drv-05-crystalowl",
   "results": [
     { "id": "tilted", "name": "살짝 기운 저울", "minPower": 0, "minCorrect": 0, "image": "result-scale-tilted-generated.webp", "titleImage": "result-title-tilted-generated.webp" },
     { "id": "almost", "name": "거의 균형", "minPower": 30, "minCorrect": 3, "image": "result-scale-almost-generated.webp", "titleImage": "result-title-almost-generated.webp" },
     { "id": "shining", "name": "반짝 균형", "minPower": 70, "minCorrect": 7, "image": "result-scale-shining-generated.webp", "titleImage": "result-title-shining-generated.webp" },
-    { "id": "gold", "name": "황금 균형", "minPower": 100, "minCorrect": 10, "needsSpecial": true, "image": "result-scale-gold-generated.webp", "titleImage": "result-title-gold-generated.webp" }
+    { "id": "gold", "name": "황금 균형", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-scale-gold-generated.webp", "titleImage": "result-title-gold-generated.webp" }
   ],
   "rewardEvents": [
-    { "id": "weight", "text": "작은 무게추", "weight": 5200, "min": 5, "max": 8, "family": "smallBalance" },
-    { "id": "heavy", "text": "튼튼 무게추", "weight": 1700, "min": 13, "max": 18, "family": "bigBalance" },
-    { "id": "shine", "text": "반짝 무게추", "weight": 1700, "min": 9, "max": 12, "family": "shineBalance" },
-    { "id": "wobble", "text": "흔들 무게추", "weight": 1200, "min": 1, "max": 3, "family": "smallOnly" },
-    { "id": "gold", "text": "황금 무게추", "weight": 200, "min": 28, "max": 28, "family": "specialBalance", "special": true }
+    { "id": "normal", "text": "균형 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "smallBalance" },
+    { "id": "loss", "text": "균형 힘이 줄었어요", "weight": 1500, "min": -5, "max": -2, "family": "repair" },
+    { "id": "mega", "text": "균형 힘이 크게 늘었어요", "weight": 1200, "min": 14, "max": 22, "family": "bigBalance" },
+    { "id": "jackpot", "text": "저울이 크게 빛나요", "weight": 500, "min": 30, "max": 30, "family": "shineBalance" },
+    { "id": "empty", "text": "이번에는 그대로예요", "weight": 380, "min": 0, "max": 0, "family": "smallOnly" },
+    { "id": "special", "text": "황금 무게추", "weight": 20, "min": 100, "max": 100, "family": "specialBalance", "special": true }
   ],
-  "wrongEvent": { "id": "retry", "text": "다시 맞추기", "min": 1, "max": 2, "family": "repair" },
+  "wrongEvent": { "id": "wrong-loss", "text": "균형 힘이 줄었어요", "min": -6, "max": -3, "family": "repair" },
   "typesPerRun": ["compareKgG", "compareKgG", "compareKgG", "compareKgG", "balanceMissing", "balanceMissing", "balanceMissing", "balanceMissing", "compareTonKg", "compareTonKg"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
-  "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "result-retry-button-generated.webp" },
-  "qa": { "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }, { "name": "short-dpr2", "width": 1280, "height": 720, "deviceScaleFactor": 2 }], "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"] }
+  "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp", "rewardClosed": "reward-event-closed-v2-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp" },
+  "qa": {
+    "visualContractVersion": 1,
+    "misconceptionCoverage": ["COMPARE_KG_G", "BALANCE_MISSING", "COMPARE_TON_KG"],
+    "rewardModalAudit": {
+      "standard": "unit3-modal-art-v1",
+      "card": "#rewardPop .reward-card",
+      "visual": "#rewardVisual",
+      "label": "#modalRewardLabel",
+      "openButton": "#modalRewardOpenButton",
+      "nextButton": "#modalRewardNextButton",
+      "canvas": "512x512",
+      "cardWidthPx": 560,
+      "cardHeightPx": 480,
+      "cardAspectRatio": "7:6",
+      "visualSizePx": 250,
+      "cardCenterTolerancePx": 1,
+      "cardSizeTolerancePx": 1,
+      "visualSquareTolerancePx": 1,
+      "visualSizeTolerancePx": 1,
+      "minVisualPx": 180,
+      "backdropBlurMinPx": 8
+    },
+    "layoutAudit": {
+      "workArea": ".problem-grid", "primary": ".problem-card", "secondary": ".choices-panel",
+      "tertiary": ".step-board", "complete": ".complete-panel",
+      "verticalOrder": ["tertiary", "secondary"], "minStageWidthRatio": 0.9
+    },
+    "answerAccumulationAudit": {
+      "standard": "primary-calculation-accumulates-v1",
+      "board": ".calculation-board",
+      "answerCountAttribute": "data-answer-count"
+    },
+    "completionAudit": {
+      "standard": "calculation-preserved-v1",
+      "primary": ".problem-card",
+      "calculation": ".step-board",
+      "panel": ".complete-panel",
+      "text": ".complete-text",
+      "action": "#rewardButton",
+      "choices": ".choices-panel",
+      "axisTolerancePx": 1,
+      "edgeTolerancePx": 1
+    },
+    "typographyAudit": {
+      "headline": ".big-problem", "instruction": ".step-board .instruction", "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".capacity-visual", "primarySvgText": ".problem-card svg text", "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 32, "minInstructionPx": 18, "minPrimarySvgTextPx": 14, "minChoiceSvgTextPx": 18,
+      "minBadgePx": 14, "minCounterPx": 16, "minGlobalControlPx": 42, "minPanelGapPx": 8
+    },
+    "resultCohesionAudit": {
+      "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
+      "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
+    },
+    "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+  },
+  "assets": [
+    "cover-generated.webp", "title-logo-generated.webp",
+    "../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "reward-event-closed-v2-generated.webp", "reward-events-v2-generated.webp",
+    "reward-event-small-balance-generated.webp", "reward-event-big-balance-generated.webp",
+    "reward-event-shine-balance-generated.webp", "reward-event-small-only-generated.webp",
+    "reward-event-special-balance-generated.webp", "reward-event-repair-generated.webp",
+    "reward-events-v3-contact-sheet.png",
+    "result-scale-tilted-generated.webp", "result-scale-almost-generated.webp",
+    "result-scale-shining-generated.webp", "result-scale-gold-generated.webp",
+    "result-title-tilted-generated.webp", "result-title-almost-generated.webp",
+    "result-title-shining-generated.webp", "result-title-gold-generated.webp",
+    "../_shared/result-actions/retry-button-v2-generated.webp"
+  ]
 }

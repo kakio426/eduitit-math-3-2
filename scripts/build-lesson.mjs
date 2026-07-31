@@ -168,6 +168,12 @@ async function main() {
   const sourceDir = path.join(LESSON_SOURCE_ROOT, lessonFolder);
   const configPath = path.join(sourceDir, "lesson.json");
   const config = JSON.parse(await readFile(configPath, "utf8"));
+  if (config.packageType === "standalone-html") {
+    const outputPath = path.join(ROOT, config.folder || lessonFolder, "index.html");
+    await readFile(outputPath, "utf8");
+    console.log(`Standalone lesson preserved without regeneration: ${config.folder || lessonFolder}`);
+    return;
+  }
   requireLessonConfig(config, lessonFolder);
 
   const sourceFiles = config.sourceFiles || {};
@@ -189,10 +195,7 @@ async function main() {
     ? path.resolve(sourceDir, sourceFiles.style)
     : null;
   try {
-    const sharedStylePath = sourceFiles.style
-      ? path.resolve(sourceDir, sourceFiles.style)
-      : null;
-    const localStylePath = path.resolve(sourceDir, sourceFiles.css || "lesson.css");
+    const localStylePath = path.join(sourceDir, "lesson.css");
     const [sharedStyle, localStyle] = await Promise.all([
       sharedStylePath ? readFile(sharedStylePath, "utf8") : Promise.resolve(""),
       readFile(localStylePath, "utf8"),

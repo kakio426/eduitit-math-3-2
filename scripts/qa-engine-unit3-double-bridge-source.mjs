@@ -14,6 +14,11 @@ const lessonCss = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
+const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
+assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
+assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
+assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
 
 assert.equal(config.workbench.type, "circle-double-bridge");
 assert.equal(config.imageAssets.problemStage, "problem-workshop-v3-generated.webp");
@@ -23,7 +28,7 @@ assert.ok(!config.assets.includes("problem-stage-generated.webp"), "retired prob
 assert.equal(config.goal, "반지름 두 개를 이으면 지름이 돼요.");
 assert.equal(config.standards.coverStartAsset, "shared-canonical-v1");
 assert.equal(config.imageAssets.startButton, "../_shared/mathmon/cover-start-button/start-button-generated.webp");
-assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-generated.webp");
+assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-v2-generated.webp");
 assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
 assert.ok(config.assets.includes("../_shared/mathmon/cover-start-button/start-button-generated.webp"), "shared start button must be listed");
 assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);

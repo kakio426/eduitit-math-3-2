@@ -59,10 +59,10 @@ function renderFractionModel(problem) {
   svg.dataset.state = state;
   svg.setAttribute("viewBox", "0 0 720 285");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", `${problem.notation}, ${problem.kind}`);
+  svg.setAttribute("aria-label", `${problem.spokenNotation}, ${problem.kind}`);
   const notation = problem.whole ? mixedNotation(problem.whole, problem.num, problem.den, 160, 146) : fractionNotation(problem.num, problem.den, 160, 130);
   const quantity = quantityBars(problem);
-  const relation = selected ? `<g class="sort-result"><rect x="486" y="204" width="208" height="58" rx="22"/><text x="590" y="242" text-anchor="middle">${selected}</text></g>` : `<text class="sort-question" x="590" y="244" text-anchor="middle">어떤 분수?</text>`;
+  const relation = selected ? `<g class="sort-result"><rect x="486" y="204" width="208" height="58" rx="22"/><text x="590" y="242" text-anchor="middle">${selected}</text></g>` : "";
   svg.innerHTML = `${notation}<path class="model-arrow" d="M280 132h55"/><path class="model-arrow-head" d="M335 132l-15-11v22z"/>${quantity}${relation}`;
   ui.visualArea.replaceChildren(svg);
 }

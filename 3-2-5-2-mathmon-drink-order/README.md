@@ -1,36 +1,99 @@
 # 매스몬 음료 제조 주문
 
-3학년 2학기 5단원 2차시 단일 HTML 게임입니다. 학생은 L와 mL의 자리를 맞춰 더하고 빼며, 만든 양을 주문량과 비교합니다.
+에듀잇티 수학 게임 시리즈 3학년 2학기 5단원 2차시 단일 HTML 패키지입니다.
 
-## 실행과 소스
+- 대상: 초등학교 3학년 2학기
+- 배움주제: 들이의 덧셈·뺄셈과 어림
+- 학생 행동: 주문에 맞는 들이를 골라요.
+- 문제: 10문제, addCarryMl, subtractBorrowMl, orderCheck
+- 보상: 주문 변화
+- 실행: `index.html`을 브라우저에서 열기
 
-- 실행 파일: `index.html`
-- 차시 설정: `_lessons/3-2-5-2-mathmon-drink-order/lesson.json`
-- 공유 모델·화면·스타일: `_lessons/3-2-5-1-mathmon-water-fill/`
-- 빌드: `node scripts/build-lesson.mjs 3-2-5-2-mathmon-drink-order`
-- 시작 버튼: `_shared/mathmon/cover-start-button/start-button-generated.webp`
-
-## 학습 흐름
+## 화면 흐름
 
 ```text
-첫 화면 → 설명 1·2 → 들이 계산 → 단계별 확인 → 주문 보기 → 결과
+첫 화면 -> 설명 -> 문제 -> 보상 -> 결과
 ```
 
-- 더하기: mL 합 → `1000mL = 1L`로 바꾸기 → L까지 더하기
-- 빼기: `1L = 1000mL`로 바꾸기 → mL 빼기 → L까지 빼기
-- 주문 비교: 만든 양과 주문량을 같은 축에서 비교
-- 다음 단계: 정답 전까지 `?` 잠금
-- 오답: 학생이 고른 값을 계산판에 넣고 현재 오개념만 한 줄로 표시
-- 정답 경로 수학 입력: 최소 `1`, 중앙값 `3`, 평균 `2.4`, 최대 `3`
+문제 화면은 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본으로 보여 줍니다. 정답을 고르면 값이 칸에 들어간 뒤 다음 단계나 보상으로 넘어갑니다.
 
-## 보상과 결과
+## 생성 이미지 자산
 
-보상 화면에는 변화 문구 한 덩어리만 보입니다. 기존 결과 4단계와 보상 확률은 유지합니다.
+`index.html`은 `generated-title-overlay`, `generated-button-art`, `modal-controls`, `generated-assets` 기준을 선언합니다.
 
-결과 컨택시트는 `result-states-contact-sheet.png`입니다. 사용 팩은 `zero-factory-animal-pack`, 매스몬은 `zfa-04-nyangnyangmon`입니다.
+| 파일명 | 용도 |
+| --- | --- |
+| `cover-source.png` / `cover-generated.webp` | 글자 없는 첫 화면 배경 |
+| `title-logo-chromakey.png` / `title-logo-generated.png` / `title-logo-generated.webp` | 생성형 제목 아트 |
+| `../_shared/mathmon/cover-start-button/start-button-generated.webp` | 공용 시작 버튼 아트 |
+| `reward-event-closed-v2-generated.webp` | 닫힌 보상 장면 |
+| `reward-event-*-generated.webp` | 공개 보상 6상태 개별 512×512 장면 |
+| `reward-events-v3-contact-sheet.png` | 닫힘·공개 7상태 컨택시트 |
+| `result-order-*-source.png` / `result-order-*-generated.webp` | 결과 장면 |
+| `result-title-*-source.png` / `result-title-*-generated.webp` | 결과 이름 타이틀 아트 |
+| `result-retry-button-source.png` / `result-retry-button-generated.webp` | 결과 화면 다시 버튼 아트 |
 
-## 브라우저 증거
+## 매스몬 기준
 
-`screenshots/qa5-<viewport>-<state>.png`에서 `1280×800`, `1024×768`, `1280×720 / DPR 2`의 표지부터 결과까지 확인할 수 있습니다. 세 화면에서 텍스트 넘침·요소 겹침 0건, 터치 영역 42×42px 이상, 완료 중심축 차이 1px 이하를 통과했습니다.
+현재 실행 장면의 매스몬 기준은 `zero-factory-animal-pack`의 냥냥몬(`zfa-04-nyangnyangmon`)입니다. 첫 화면, 보상, 결과 장면 안에 함께 생성하며 런타임 WebP를 별도 오버레이로 얹지 않습니다.
 
-세로 스마트폰은 지원 범위가 아닙니다.
+## 보상 구조
+
+정답을 처음에 맞히면 기본 보상값이 붙고, 랜덤 보상이 한 번 더해집니다. 오답 뒤에 맞히면 작은 회복 보상만 붙습니다. 낮은 결과도 빈손처럼 보이지 않게 주문 변화로 보여 줍니다.
+
+| 결과 | 조건 |
+| --- | --- |
+| 작은 컵 주문 | 0 이상, 바로 맞힌 문제 0개 이상 |
+| 맛있는 주문 | 30 이상, 바로 맞힌 문제 3개 이상 |
+| 인기 가게 주문 | 70 이상, 바로 맞힌 문제 7개 이상 |
+| 무지개 음료 주문 | 100 이상, 바로 맞힌 문제 1개 이상, 특별 보상 필요 |
+
+## Humanizer QA
+
+학생에게 보이는 문구는 짧은 행동 말로 점검합니다.
+
+- 첫 화면 목표: `주문에 맞는 들이를 골라요.`
+- 문제 지시: 현재 단계에서 하나만 고르게 함
+- 피드백: `다시 골라요.`, `...이 들어갔어요.`
+- 버튼: `시작`, `문제 시작`, `주문 보기`, `다음`, `보기`, `다시`
+
+## 스크린샷
+
+스크린샷은 `screenshots/`에 저장합니다.
+
+- `cover.png`
+- `tutorial-1.png`
+- `tutorial-2.png`
+- `play-step1.png`
+- `play-confirm.png`
+- `wrong-hint.png`
+- `reward.png`
+- `result-*.png`
+- `tablet-cover.png`
+- `tablet-tutorial-1.png`
+- `tablet-tutorial-2.png`
+- `tablet-play-step1.png`
+- `tablet-play-confirm.png`
+- `tablet-reward.png`
+- `tablet-result-*.png`
+
+세로 휴대폰은 기본 지원 대상이 아닙니다.
+
+## 엔진 소스와 2쪽 설명 포스터
+
+- 공용 엔진: `_engine/v1/`
+- 차시 설정: `_lessons/3-2-5-2-mathmon-drink-order/lesson.json`
+- 들이·무게 공용 문제 모델: `_lessons/3-2-5-1-mathmon-water-fill/model.js`
+- 설명 1쪽: `mL`를 계산하고 `1000mL`를 `1L`로 바꾸는 행동
+- 설명 2쪽: 10문제, 학생이 확인하는 주문 보상, 마지막 결과
+- 런타임 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
+- 결과 4상태 컨택시트: `result-states-contact-sheet.png`
+- 실제 매스몬 팩: `zero-factory-animal-pack` / `zfa-04-nyangnyangmon`
+- 브라우저 QA: `1280×800`, `1024×768`
+
+## 2026-07-28 전 차시 점검
+
+- 닫힌 보상과 공개 보상을 서로 다른 생성 이미지로 교체했습니다.
+- 결과 4상태에 현재 가게 인기, 바로 맞힌 수, 다음 목표를 한 축으로 정렬했습니다.
+- 공용 시작 버튼으로 통일하고 차시별 복사본은 사용하지 않습니다.
+- 수학 모델 100,000문항, 보상 시뮬레이션 10,000회, 데스크톱·태블릿 전체 흐름 QA를 통과했습니다.

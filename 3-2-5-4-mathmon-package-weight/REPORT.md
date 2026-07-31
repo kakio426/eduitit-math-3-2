@@ -1,74 +1,123 @@
-# 매스몬 택배 무게 맞추기 구현 보고서
+# 매스몬 택배 무게 맞추기 검증 보고서
 
-## 구현 결과
+검증일: 2026-07-31
+실행본: `3-2-5-4-mathmon-package-weight/index.html`
 
-4차시를 `_lessons` 소스와 `mathmon-engine-v1`로 전환했습니다. 기존 3단계 더하기·빼기, 2단계 한도 판단, 보상 확률, 커버·설명·결과·트럭 이미지는 유지했습니다.
+## 현재 구현
 
-- kg/g 열을 맞춘 교과서식 계산판
-- 학생이 고른 오답을 현재 열에 보존
-- 받아올림·받아내림 누락과 100g 부족·초과를 한 줄로 표시
-- 택배 무게와 한도를 같은 축에 표시
-- 다음 단계는 정답 전까지 `?` 잠금
-- 비수학 선택지 0건
+- 16:10 Stage, 기준 크기 1280×800
+- 표지: 글자 없는 생성 배경 + 생성 제목 아트 + HTML 목표 + 공용 생성 시작 버튼
+- 설정: Stage 안 원형 톱니 모달, `mathmon-audio-bgm-enabled` / `mathmon-audio-sfx-enabled` 저장
+- 학습: kg·g 덧셈, 받아내림이 있는 뺄셈, 택배 한도 판단 10문제
+- 확인: 고른 답이 계산판에 들어간 뒤 확인 문구를 보여 주며, 마지막에는 완성식을 본 뒤 `트럭 보기`를 누름
+- 랭킹: 비활성, 네트워크 제출·조회 없음
+- 매스몬 자산: 승인 활성 팩 `base-pack`, 여우몬 `base-02-foxmon`; 커버·결과의 생성 장면 안에 포함
+- 공통 소스 계약: `_lessons/3-2-5-4-mathmon-package-weight/lesson.json`의 `standalone-html-v1` 메타데이터와 위임형 브라우저 하네스 사용
 
-## 보상 흐름
+## 문제 화면 QA
 
-```text
-완성 계산판 → 트럭 보기 → 닫힌 상자와 현재 트럭
-→ 상자 열기 → 이전 트럭과 다음 트럭 → 결과 한 줄 → 다음/결과 보기
-```
+- 계산판과 문제 카드를 화면의 주 영역으로 넓혔습니다. 데스크톱·태블릿 가로에서 문제판/지시/선택지 교차는 0px입니다.
+- 핵심 숫자는 tabular 숫자를 사용하며 선택지와 터치 버튼은 42×42px 이상입니다.
+- Humanizer 수정:
+  - `kg까지 더한 무게를 골라요.` → `다 더한 무게를 골라요.`
+  - `kg까지 뺀 무게를 골라요.` → `다 뺀 뒤의 무게를 골라요.`
+- 오답 뒤에도 현재 단계와 계산판이 유지되고, 정답 확인 뒤에만 다음 단계로 이동합니다.
 
-공통 엔진에 선택형 `formatLessonRewardTarget({ event, beforeResult, afterResult, state })` 훅을 추가했습니다. 4차시는 이 훅으로 `살짝 멋진 트럭까지 29 남았어요.` 같은 문구를 만들고, 다른 차시는 기존 기본 문구를 유지합니다.
+## 보상 계약
 
-보상 버튼 중복 클릭은 공통 엔진의 `rewardPhase`와 `pendingAdvance` 가드로 한 번만 처리합니다.
+`data-reward-mode="modal-art"`, `data-reward-standard="unit5-package-modal-art-v2"`를 선언합니다.
 
-## Humanizer QA
+- 카드: 560×480px
+- 그림 슬롯: 250×250px
+- 흐름: 마지막 문제 계산판을 뒤에 유지 → `두근두근!` 닫힌 상자 → 학생이 `상자 열기` → 사건 그림·실제 변화량 한 덩어리 → `다음`/`결과 보기`
+- 상태별 보이는 행동 버튼: 1개
+- 닫힘/열림 모두 문제 진행을 중복 적용하지 않음
 
-학생 문구는 한 문장 한 행동, 보상 문구 한 덩어리를 기준으로 점검했습니다.
+| 사건 | 확률 | 변화 | 그림 |
+| --- | ---: | ---: | --- |
+| normal | 64% | +6~+10 | `reward-event-normal-generated.webp` |
+| loss | 15% | -5~-2 | `reward-event-loss-generated.webp` |
+| mega | 12% | +14~+22 | `reward-event-mega-generated.webp` |
+| jackpot | 5% | +30 | `reward-event-jackpot-generated.webp` |
+| empty | 3.8% | 0, 누적 유지 | `reward-event-empty-generated.webp` |
+| special | 0.2% | 100 | `reward-event-special-generated.webp` |
+| 문제당 첫 오답 | 최초 1회 | -6~-3 | 감소·수리 그림 |
 
-- `g끼리 더한 값을 골라요.`
-- `1kg을 1000g으로 바꿔요.`
-- `한도와 비교해 골라요.`
-- `100g 적어요.`
-- `한도보다 90g 무거워요.`
-- `상자 열기`
+정답의 숨은 기본 가산값은 0입니다. 원본 접촉표는 `reward-events-truck-v1-source.png`, 최종 자산 전수표는 `reward-events-v1-contact-sheet.png`입니다. 닫힌 상자 1장과 열린 사건 6장은 모두 512×512이며 글자·숫자·UI를 포함하지 않습니다.
 
-제작자 용어와 농장 보상 문구는 학생 화면에 노출되지 않습니다.
+## 결과 화면
 
-## 자산과 엔진
+기존 차시의 4단계 결과 기준은 보존합니다.
 
-- 엔진: `mathmon-engine-v1`
-- 소스 manifest: `_lessons/3-2-5-4-mathmon-package-weight/lesson.json`
-- 시작 버튼: 공용 `shared-canonical-v1`
-- 결과 컨택시트: `result-states-contact-sheet.png`
-- 트럭 컨택시트: `truck-evolution-contact-sheet.png`
-- 매스몬 팩: `base-pack`
-- 이전 스크린샷: `_archive/pre-engine-screenshots/`
-- 이전 클릭 가드: `scripts/_archive/unit5-pre-engine/qa-lesson5-package-weight-click-guards.mjs`
+| 단계 | 조건 |
+| --- | --- |
+| 평범 트럭 | 기본 |
+| 살짝 멋진 트럭 | 힘 30, 바로 맞힌 문제 3개 |
+| 번쩍 멋진 트럭 | 힘 70, 바로 맞힌 문제 7개 |
+| 슈퍼 초울트라 트럭 | 힘 100, 바로 맞힌 문제 1개, 특별 부품 |
+
+- 고정 제목과 `다시` 장식은 생성 이미지입니다.
+- 정답 수는 공용 생성 이미지 세트를 씁니다.
+- 넓은 값인 현재 힘·진행 막대·다음 목표만 하나의 SVG 동적 레이어가 표시합니다.
+- 제목, 정답 수, 힘 패널, 다시 버튼은 같은 세로축에 놓고 형제 요소 교차 0px, 중심 오차 0px를 확인했습니다.
+- 4단계×2개 viewport를 전수 캡처했습니다: `screenshots/result-tier-*-desktop.png`, `screenshots/result-tier-*-tablet-landscape.png`.
 
 ## 텍스트 넘침·요소 겹침 QA
 
-세 viewport에서 표지, 설정, 설명 1·2, 문제 대기, 작은/큰 오답, 각 단계 확인과 대기, 마지막 완성 계산판, 닫힌/열린 보상, 낮음·중간·최고 결과를 캡처했습니다.
+브라우저 하네스가 desktop 1280×800과 tablet landscape 1024×768에서 다음을 검사합니다.
 
-- 텍스트 넘침 0건
-- 문제·계산판·선택지 교차 0px
-- 터치 영역 42×42px 이상
-- 완료 전후 계산판 중심축 차이 1px 이하
-- `1280×720 / DPR 2` 보상 버튼 아래 여백 16px 이상
-- 중복 보상 적용 0건
+- 카드 560×480, 그림 250×250 실측 오차 1px 이하
+- 닫힘 1상태와 열린 6사건 전수
+- 모달 안 글자 넘침 0건, 보이는 행동 버튼 1개
+- 닫힘 제목과 버튼의 같은 말 반복 0건, 열린 상태 설명 문장 0개, 한글 낱글자 줄바꿈 0건
+- 결과 4단계 전수, 제목/정답 수/힘 패널/다시 버튼 교차 0px
+- 결과 공통축 중심 오차 1px 이하
+- 결과 배경 natural size 1280×800
+- 연속 클릭·물리 더블클릭·오래된 pointer/keyboard 이벤트의 다음 문제 이월 0건
+- 현재 증거: `screenshots/current-*.png`, `screenshots/reward-event-*-open-*.png`, `screenshots/reward-event-closed-*.png`, `screenshots/result-tier-*-*.png`
+- 이전 명칭의 캡처 27장은 `screenshots/_archive/pre-20260731-modal-art-v2/`로 옮겨 현재 증거와 분리했습니다.
 
-대표 증거는 `screenshots/qa5-tablet-landscape-06-wrong-low.png`, `screenshots/qa5-short-dpr2-11-reward-closed.png`, `screenshots/qa5-short-dpr2-12-reward-open.png`입니다.
+## 검증 결과
 
-## 화면 재점검 보완
+- `node scripts/check-stage-ratio.mjs` → PASS (24 packages)
+- `node scripts/check-lesson-contract.mjs 3-2-5-4-mathmon-package-weight` → PASS
+- `node scripts/check-lesson-visual-contract.mjs 3-2-5-4-mathmon-package-weight` → PASS
+- `node scripts/qa-lesson-flow.mjs 3-2-5-4-mathmon-package-weight` → PASS (위임형 브라우저 하네스)
+- `node scripts/qa-lesson5-package-weight-model.mjs` → PASS (1,000,000문항)
+- `node scripts/simulate-lesson5-package-weight.mjs` → PASS
+- `node scripts/qa-lesson5-package-weight-click-guards.mjs` → PASS
+  - `reward_modal_all_events_all_viewports` PASS
+  - `result_all_tiers_all_viewports` PASS
+- 깨진 이미지, Stage 이탈, 글자 넘침, 의도하지 않은 요소 교차: 0건
 
-kg/g 계산판이 내용 폭만큼 작아지던 원인을 고쳐 핵심 문제 영역 안에서 충분히 크게 보이게 했습니다. 정답 결과 열은 초록색으로 바뀌며 이전 오답 색은 남지 않습니다. 한도 문제는 축을 넓히고, 가까운 `택배`와 `한도` 라벨 및 두 무게를 선의 양쪽으로 나눠 겹치지 않게 했습니다. 완성 화면은 계산판과 가운데 `트럭 보기`만 남깁니다.
+## 생성 자산 보관
 
-`addCarry`, `subtractBorrow`, `limit`을 세 viewport에서 각각 검사했습니다. 한도 축의 라벨·수치 교차, 계산판 실제 폭, 핵심 글자 크기, Stage 경계, 닫힌·열린 보상 버튼 여백을 브라우저 좌표로 확인했습니다.
+- 보상 사건 생성 원본: `reward-event-*-source.png`
+- 런타임 PNG/WebP: `reward-event-*-generated.png`, `reward-event-*-generated.webp`
+- 닫힌 상자: `reward-event-closed-v2-source.png`, `reward-event-closed-v2-generated.png`, `reward-event-closed-v2-generated.webp`
+- 자산 전수표: `reward-events-v1-contact-sheet.png`
+- 결과 4장과 제목 원본/런타임 파일은 기존 이름을 유지합니다.
 
-## 검증
+## 2026-08-01 학생 문구·한도 비교 회귀
 
-- `node scripts/qa-lesson5-package-weight-model.mjs --runs 10000`
-- `node scripts/simulate-lesson5-package-weight.mjs --runs 10000`
-- `node scripts/qa-lesson5-flow.mjs`
+- 첫 빌림 지시는 `1kg을 1000g으로 바꿔요.` 한 줄입니다. `word-break: keep-all`, `overflow-wrap: normal`, 데스크톱·태블릿 한 줄과 넘침 0건을 전용 브라우저 하네스로 확인했습니다.
+- 한도 문제의 `/` 구분과 `알 수 없어요`를 없앴습니다. `한도와 같아요`는 10,000회 실행에서 5,902회 실제 정답으로 생성됐습니다.
+- 결과 힘 문구는 `트럭 힘 70`처럼 한 덩어리로 표시합니다. 4단계×2 viewport 공통축과 형제 교차 0건을 다시 확인했습니다.
+- 보상 다음 행동은 `다음`으로 줄였습니다. 전용 Chrome QA에서 지시문의 세로 넘침도 다시 측정해 `0건`으로 확인했습니다.
 
-정답 경로 수학 입력은 최소 `2`, 중앙값 `3`, 평균 `2.7`, 최대 `3`입니다.
+## 2026-08-01 계산판 전환 상태 회귀
+
+- 빼기 문제는 처음 무게를 계속 남겨 둔 채, 1kg을 빌린 수를 원래 수 위에 주석으로 표시합니다. 빌리기 단계에는 거짓 `=` 결과 행을 만들지 않습니다. g 차 단계에는 kg 칸을 비우고, 마지막에만 완성 무게를 표시합니다.
+- 전용 Chrome fixture가 첫 문제를 받아내림 문제로 고정하고 `8kg 1295g`, `789g`, `3kg 789g`의 세 상태를 desktop·tablet에서 따로 캡처했습니다.
+- 숫자 행의 오른쪽 경계 편차는 `1px 이하`, 계산판 넘침·잘림은 `0건`입니다. 증거는 `screenshots/calculation-*-01-borrowed.png`, `02-grams.png`, `03-complete.png`입니다.
+
+## 2026-08-01 Kiro 8차 심층 회귀
+
+- 전용 fixture가 원래 피감수 유지, 빌린 수가 원래 수보다 위에 있음, 빌리기 단계 결과 행 없음, g 단계 kg 칸 비움, 마지막 kg·g 완성값을 DOM과 실제 rect로 검사합니다.
+- 100,000회 실행·1,000,000문항에서 한도와 같은 문제가 `60,151건` 생성됐고, 모델·클릭 방지·계산판·보상·결과 하네스가 모두 통과했습니다.
+
+## 2026-08-01 Kiro 9차 차단 항목 회귀
+
+- 독립 실행 HTML 구조를 `standalone-html-v1` 소스 계약으로 선언해 공통 계약·시각 계약·브라우저 명령에서 빠지지 않게 했습니다.
+- 보상 화면은 문제 화면을 유지한 채 여는 실제 모달입니다. 보상 전용 전체 화면 배경은 숨기고, 카드가 열린 동안 뒤 계산판과 마지막 확인 상태가 그대로 남는지 두 viewport·일곱 보상 상태에서 검사합니다.
+- 승인된 `base-pack`의 `base-02-foxmon` 연결, 런타임 자산, 문서 선언을 공통 계약에서 함께 확인합니다.

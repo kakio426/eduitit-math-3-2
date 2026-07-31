@@ -560,6 +560,35 @@
       font-weight: 1000;
       text-align: center;
     }
+    main.game[data-reward-mode="modal-art"] .reward-card {
+      width: 560px;
+      max-width: 88%;
+      height: 480px;
+      min-height: 0;
+      aspect-ratio: 7 / 6;
+      box-sizing: border-box;
+    }
+    main.game[data-reward-mode="modal-art"] .reward-visual {
+      width: 250px;
+      height: 250px;
+    }
+    main.game[data-reward-mode="modal-art"] .reward-label {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: 3px;
+      box-sizing: border-box;
+    }
+    main.game[data-reward-mode="modal-art"] .reward-pop {
+      backdrop-filter: blur(10px);
+    }
+    main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-visual {
+      transform: none;
+    }
+    main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label {
+      display: flex;
+    }
     .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
     .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
     .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,

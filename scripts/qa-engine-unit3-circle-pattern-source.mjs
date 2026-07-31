@@ -9,18 +9,24 @@ const SOURCE_DIR = path.join(ROOT, "_lessons", LESSON);
 const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
+const cssSource = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
 
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
+const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
+assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
+assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
+assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
 
 assert.equal(config.workbench.type, "circle-pattern-choice");
 assert.equal(config.imageAssets.problemStage, "problem-stage-generated.webp");
 assert.equal(config.standards.coverStartAsset, "shared-canonical-v1");
 assert.equal(config.imageAssets.startButton, "../_shared/mathmon/cover-start-button/start-button-generated.webp");
-assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-generated.webp");
+assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/retry-button-v2-generated.webp");
 assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
-assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.60);
+assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);
 assert.deepEqual([...config.qa.misconceptionCoverage], [
   "PATTERN_GAP_CHANGED",
   "PATTERN_OFF_LINE",
@@ -61,5 +67,15 @@ assert.match(viewSource, /pattern-choice-svg/, "each answer must be a separate c
 assert.match(viewSource, /pattern-confirm-svg/, "selected pattern must expand for confirmation");
 assert.match(viewSource, /setAttribute\("aria-label", selected\.label\)/, "choice aria-label must explain the visible relation");
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
+assert.match(
+  cssSource,
+  /\.result-retry-hitbox\s+\.result-retry-art\s*\{\s*display:\s*none\s*!important;/,
+  "the transparent retry hitbox must not draw a second button over the baked result button",
+);
+assert.doesNotMatch(
+  cssSource,
+  /\.result-restart-hitbox/,
+  "result geometry must target the runtime .result-retry-hitbox class",
+);
 
 console.log("QA_ENGINE_UNIT3_CIRCLE_PATTERN_SOURCE: PASS");

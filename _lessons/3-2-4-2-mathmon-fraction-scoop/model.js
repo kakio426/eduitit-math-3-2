@@ -25,6 +25,9 @@ const Lesson4FractionScoopModel = (() => {
     return copy;
   }
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
+  function numberHasBatchim(value) { return [0, 1, 3, 6, 7, 8].includes(Math.abs(value) % 10); }
+  function topicParticle(value) { return numberHasBatchim(value) ? "은" : "는"; }
+  function fractionSpeech(num, den) { return `${den}분의 ${num}`; }
 
   function numberChoice(stepId, value, misconceptionId = null, feedback = "") {
     return { id: `${stepId}:${value}`, value, label: String(value), misconceptionId, feedback };
@@ -58,7 +61,7 @@ const Lesson4FractionScoopModel = (() => {
       id: `scoop-${serial}-${total}-${num}-${den}`,
       type: "fraction-scoop",
       total, num, den, groupSize, answer,
-      prompt: `${total}개 중 ${num}/${den}만큼은 몇 개일까요?`,
+      prompt: `${total}개의 ${fractionSpeech(num, den)}${topicParticle(num)} 몇 개일까요?`,
       finalExpression: `${total} ÷ ${den} = ${groupSize}  →  ${groupSize} × ${num} = ${answer}`,
       steps: [
         {
@@ -89,7 +92,7 @@ const Lesson4FractionScoopModel = (() => {
     for (const event of REWARD_EVENTS) {
       if (roll < event.weight) {
         const amount = randomInt(rng, event.min, event.max);
-        const text = event.special ? "무지개!" : event.launches ? "수레 가득!" : event.emptiesPower ? "0" : amount > 0 ? `+${amount}` : String(amount);
+        const text = event.special ? "무지개!" : event.launches ? "수레 가득!" : (event.keepsPower || event.emptiesPower) ? "0" : amount > 0 ? `+${amount}` : String(amount);
         return { ...event, amount, text };
       }
       roll -= event.weight;
@@ -99,7 +102,7 @@ const Lesson4FractionScoopModel = (() => {
     return { ...fallback, amount, text: `+${amount}` };
   }
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.keepsPower || event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };

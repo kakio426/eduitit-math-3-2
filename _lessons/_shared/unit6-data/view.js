@@ -73,7 +73,7 @@ function renderStampBoard(problem) {
   const small = unit6Create("div", "stamp-group");
   small.dataset.stampGroup = "small";
   small.append(unit6Create("span", "stamp-label", "작은 도장 ×1"), unit6Create("div", "stamp-slots"));
-  const equation = unit6Create("div", "stamp-equation", "?×10 + ?×1 = ?");
+  const equation = unit6Create("div", "stamp-equation", `?×10 + 작은 도장 = ${problem.visual.value}`);
   equation.dataset.stampEquation = "true";
   work.append(big, small);
   board.append(target, work, equation);
@@ -182,10 +182,8 @@ function renderAttempt(problem, step, choice, currentState, outcome) {
   }
   if (problem.visual.kind === "detective" && typeof choice.value === "string") {
     const picked = problem.visual.rows.find((row) => row.label === choice.value);
-    problem.visual.rows.forEach((row) => {
-      const value = ui.visualArea.querySelector(`[data-row-value="${row.id}"]`);
-      if (value) value.textContent = `${row.value}`;
-    });
+    const pickedValue = ui.visualArea.querySelector(`[data-row-value="${picked?.id || ""}"]`);
+    if (pickedValue && picked) pickedValue.textContent = `${picked.value}`;
     ui.visualArea.querySelector(`[data-row-id="${picked?.id || ""}"]`)?.classList.add("is-picked-wrong");
     const relation = ui.visualArea.querySelector("[data-detective-relation]");
     if (relation && picked) {
@@ -194,10 +192,6 @@ function renderAttempt(problem, step, choice, currentState, outcome) {
     }
   }
   if (problem.visual.kind === "detective" && typeof choice.value === "number") {
-    problem.visual.rows.forEach((row) => {
-      const value = ui.visualArea.querySelector(`[data-row-value="${row.id}"]`);
-      if (value) value.textContent = `${row.value}`;
-    });
     const relation = ui.visualArea.querySelector("[data-detective-relation]");
     if (relation) {
       relation.textContent = `고른 차이 ${choice.value}`;
@@ -240,7 +234,7 @@ function revealCorrectStep(problem, step) {
     const equation = ui.visualArea.querySelector("[data-stamp-equation]");
     if (equation) {
       equation.textContent = step.id === "big-stamps"
-        ? `${problem.visual.big}×10 + ?×1 = ?`
+        ? `${problem.visual.big}×10 + ?×1 = ${problem.visual.value}`
         : `${problem.visual.big}×10 + ${problem.visual.small}×1 = ${problem.visual.value}`;
       equation.classList.toggle("is-filled", step.id === "small-stamps");
     }

@@ -27,25 +27,30 @@ const Lesson4FractionSorterModel = (() => {
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
   function numberHasBatchim(value) { return [0, 1, 3, 6, 7, 8].includes(Math.abs(value) % 10); }
   function topicParticle(num) { return numberHasBatchim(num) ? "은" : "는"; }
+  function subjectParticle(num) { return numberHasBatchim(num) ? "이" : "가"; }
+  function withParticle(num) { return numberHasBatchim(num) ? "과" : "와"; }
+  function fractionSpeech(num, den) { return `${den}분의 ${num}`; }
+  function spokenNotation(data) { return data.whole ? `${data.whole}${withParticle(data.whole)} ${fractionSpeech(data.num, data.den)}` : fractionSpeech(data.num, data.den); }
   function relationFeedback(data) {
-    if (data.whole) return `자연수 ${data.whole}과 ${data.num}/${data.den}이 함께 보여요.`;
-    if (data.num < data.den) return `${data.num}은 ${data.den}보다 작아요.`;
-    if (data.num === data.den) return `${data.num}은 ${data.den}과 같아요.`;
-    return `${data.num}은 ${data.den}보다 커요.`;
+    if (data.whole) return `자연수 ${data.whole}${withParticle(data.whole)} ${fractionSpeech(data.num, data.den)}${subjectParticle(data.num)} 함께 보여요.`;
+    if (data.num < data.den) return `${data.num}${topicParticle(data.num)} ${data.den}보다 작아요.`;
+    if (data.num === data.den) return `${data.num}${topicParticle(data.num)} ${data.den}${withParticle(data.den)} 같아요.`;
+    return `${data.num}${topicParticle(data.num)} ${data.den}보다 커요.`;
   }
   const categoryChoices = [
-    { id: "kind:proper", value: "진분수", label: "진분수", relation: "분자 < 분모", misconceptionId: "SORT_PROPER", feedback: "분자가 분모보다 작은지 살펴봐요." },
-    { id: "kind:improper", value: "가분수", label: "가분수", relation: "분자 ≥ 분모", misconceptionId: "SORT_IMPROPER", feedback: "분자가 분모와 같거나 큰지 살펴봐요." },
-    { id: "kind:mixed", value: "대분수", label: "대분수", relation: "자연수 + 진분수", misconceptionId: "SORT_MIXED", feedback: "자연수와 진분수가 함께 있는지 살펴봐요." }
+    { id: "kind:proper", value: "진분수", label: "진분수", relation: "분자가 더 작아요", misconceptionId: "SORT_PROPER", feedback: "분자가 분모보다 작은지 살펴봐요." },
+    { id: "kind:improper", value: "가분수", label: "가분수", relation: "분자가 같거나 커요", misconceptionId: "SORT_IMPROPER", feedback: "분자가 분모와 같거나 큰지 살펴봐요." },
+    { id: "kind:mixed", value: "대분수", label: "대분수", relation: "자연수와 진분수", misconceptionId: "SORT_MIXED", feedback: "자연수와 진분수가 함께 있는지 살펴봐요." }
   ];
   const kindId = { "진분수": "kind:proper", "가분수": "kind:improper", "대분수": "kind:mixed" };
   function makeProblem(data, serial, rng) {
     const notation = data.whole ? `${data.whole} ${data.num}/${data.den}` : `${data.num}/${data.den}`;
+    const spoken = spokenNotation(data);
     return {
       id: `sort-${serial}-${data.kind}-${data.whole}-${data.num}-${data.den}`,
-      type: "fraction-sorter", ...data, notation,
-      prompt: `${notation}${topicParticle(data.num)} 어떤 분수일까요?`,
-      finalExpression: `${notation}${topicParticle(data.num)} ${data.kind}예요.`,
+      type: "fraction-sorter", ...data, notation, spokenNotation: spoken,
+      prompt: `${spoken}${topicParticle(data.num)} 어떤 분수일까요?`,
+      finalExpression: `${spoken}${topicParticle(data.num)} ${data.kind}예요.`,
       steps: [{
         id: "sort", label: "분수 이름", instruction: "분수 모양과 분자·분모를 보고 이름을 골라요.",
         answer: data.kind, answerChoiceId: kindId[data.kind], choices: shuffle(categoryChoices.map((item) => ({
@@ -53,7 +58,7 @@ const Lesson4FractionSorterModel = (() => {
           misconceptionId: item.id === kindId[data.kind] ? null : item.misconceptionId,
           feedback: item.id === kindId[data.kind] ? "" : relationFeedback(data)
         })), rng),
-        correctText: `맞아요. ${notation}${topicParticle(data.num)} ${data.kind}예요.`, reveal: data.kind, advance: { mode: "complete" }
+        correctText: `맞아요. ${spoken}${topicParticle(data.num)} ${data.kind}예요.`, reveal: data.kind, advance: { mode: "complete" }
       }]
     };
   }
@@ -71,7 +76,7 @@ const Lesson4FractionSorterModel = (() => {
     for (const event of REWARD_EVENTS) {
       if (roll < event.weight) {
         const amount = randomInt(rng, event.min, event.max);
-        const text = event.special ? "무지개!" : event.launches ? "완벽 분류!" : event.emptiesPower ? "0" : amount > 0 ? `+${amount}` : String(amount);
+        const text = event.special ? "무지개!" : event.launches ? "완벽 분류!" : (event.keepsPower || event.emptiesPower) ? "0" : amount > 0 ? `+${amount}` : String(amount);
         return { ...event, amount, text };
       }
       roll -= event.weight;
@@ -80,7 +85,7 @@ const Lesson4FractionSorterModel = (() => {
     return { ...fallback, amount, text: `+${amount}` };
   }
   function applyReward(state, event) {
-    if (event.emptiesPower) return { power: 0, specialSeen: state.specialSeen };
+    if (event.keepsPower || event.emptiesPower) return { power: state.power, specialSeen: state.specialSeen };
     if (event.special) return { power: MAX_POWER, specialSeen: true };
     if (event.launches) return { power: Math.max(61, clamp(state.power + event.amount, 0, MAX_POWER)), specialSeen: state.specialSeen };
     return { power: clamp(state.power + event.amount, 0, MAX_POWER), specialSeen: state.specialSeen };

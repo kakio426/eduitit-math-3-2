@@ -27,7 +27,9 @@
 - 동행 매스몬: `diversity-reward-pack`의 무지개유니몬(`mathmon-drv-09-rainbowunicorn`)
 - 설명 1: 원 크기 확인 → 사이 간격 확인 → 같은 크기와 간격으로 잇기
 - 설명 2: 10문제·무늬 빛 변화·마지막 무늬 이름만 안내
+- 닫힌 보상: `reward-event-closed-v2-generated.webp` 1종
 - 랜덤 보상: 사건별 `reward-event-*-generated.webp` 6종
+- 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`(닫힘 포함 7종)
 - 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
 - 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
 - 원·중심선·다음 자리·완성 무늬: SVG

@@ -24,6 +24,10 @@
   "reward": {
     "mode": "modal-art",
     "maxPower": 100,
+    "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
+    "closedLabel": "두근두근!",
+    "changeLabel": "이번 변화",
+    "zeroLabel": "0",
     "nextLabel": "다음",
     "artMap": {
       "normal": "reward-event-normal-generated.webp",
@@ -81,13 +85,13 @@
   ],
   "rewardEvents": [
     { "id": "normal", "text": "빛 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
-    { "id": "loss", "text": "빛 -", "weight": 1200, "min": -10, "max": -5, "family": "loss" },
+    { "id": "loss", "text": "빛 -", "weight": 1200, "min": -4, "max": -2, "family": "loss" },
     { "id": "mega", "text": "가득 담기!", "weight": 900, "min": 12, "max": 20, "family": "mega" },
     { "id": "perfect", "text": "수레 가득!", "weight": 50, "min": 6, "max": 6, "family": "perfect", "launches": true },
-    { "id": "empty", "text": "빈 바구니", "weight": 200, "min": 0, "max": 0, "family": "empty", "emptiesPower": true },
+    { "id": "empty", "text": "빈 바구니", "weight": 200, "min": 0, "max": 0, "family": "empty", "keepsPower": true },
     { "id": "rainbow", "text": "무지개 바구니!", "weight": 5, "min": 10, "max": 10, "family": "rainbow", "special": true }
   ],
-  "wrongEvent": { "id": "loss", "text": "빛 -", "min": -18, "max": -8, "family": "loss" },
+  "wrongEvent": { "id": "loss", "text": "빛 -", "min": -4, "max": -2, "family": "loss" },
   "typesPerRun": ["8×3/4", "12×2/3", "12×3/4", "15×2/5", "18×2/3", "20×3/5", "24×3/4", "24×2/6", "30×3/5", "42×4/6"],
   "fractionCases": [[8,3,4],[12,2,3],[12,3,4],[15,2,5],[18,2,3],[20,3,5],[24,3,4],[24,2,6],[30,3,5],[42,4,6]],
   "stage": { "ratio": "16:10", "size": "1280x800" },
@@ -99,7 +103,7 @@
     "problemStage": "problem-stage-generated.webp",
     "rewardClosed": "reward-event-closed-generated.webp",
     "rewardScene": "result-basket-generated.webp",
-    "resultRetryButton": "result-restart-button-generated.webp"
+    "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp", "problem-stage-generated.webp",
@@ -113,14 +117,44 @@
     "result-title-bigbasket-generated.webp", "result-title-cartfull-generated.webp", "result-title-rainbow-generated.webp"
   ],
   "qa": {
+    "emptyRewardAudit": true,
     "visualContractVersion": 2,
+    "rewardModalAudit": {
+      "standard": "unit3-modal-art-v1",
+      "card": "#rewardPop .reward-card",
+      "visual": "#rewardVisual",
+      "label": "#modalRewardLabel",
+      "openButton": "#modalRewardOpenButton",
+      "nextButton": "#modalRewardNextButton",
+      "canvas": "512x512",
+      "cardWidthPx": 560,
+      "cardHeightPx": 480,
+      "cardAspectRatio": "7:6",
+      "visualSizePx": 250,
+      "cardCenterTolerancePx": 1,
+      "cardSizeTolerancePx": 1,
+      "visualSquareTolerancePx": 1,
+      "visualSizeTolerancePx": 1,
+      "minVisualPx": 180,
+      "backdropBlurMinPx": 8
+    },
     "layoutAudit": {
       "workArea": ".problem-grid",
       "primary": ".problem-card",
       "secondary": ".choices-panel",
       "tertiary": ".step-board",
       "complete": ".complete-panel",
-      "minStageWidthRatio": 0.65
+      "minStageWidthRatio": 0.9
+    },
+    "typographyAudit": {
+      "headline": ".big-problem", "instruction": ".step-board .instruction", "feedback": ".step-board .feedback-line",
+      "primaryVisual": ".problem-card svg", "primarySvgText": ".problem-card svg text", "choiceSvgText": ".choices-panel svg text",
+      "minHeadlinePx": 32, "minInstructionPx": 18, "minPrimarySvgTextPx": 14, "minChoiceSvgTextPx": 18,
+      "minBadgePx": 14, "minCounterPx": 16, "minGlobalControlPx": 42, "minPanelGapPx": 8
+    },
+    "resultCohesionAudit": {
+      "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
+      "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
     },
     "uiScaleContract": {
       "minimumTouchPx": 42,
