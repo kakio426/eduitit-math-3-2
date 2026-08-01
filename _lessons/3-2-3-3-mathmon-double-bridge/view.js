@@ -1,5 +1,56 @@
 const BRIDGE_SVG_NS = "http://www.w3.org/2000/svg";
 const BRIDGE_SCALE_MAX_PX = 320;
+let bridgePlayProgress = null;
+
+function ensureBridgePlayProgress() {
+  if (bridgePlayProgress) return bridgePlayProgress;
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen) return null;
+  const panel = document.createElement("aside");
+  panel.className = "compass-play-progress";
+  panel.dataset.playProgressStandard = LESSON_CONFIG.workbench.playStateImageSet.standard;
+  panel.dataset.protagonist = LESSON_CONFIG.workbench.playStateImageSet.protagonist;
+  panel.dataset.cacheVersion = LESSON_CONFIG.workbench.playStateImageSet.cacheVersion;
+  const art = document.createElement("img");
+  art.className = "compass-play-progress-art";
+  art.alt = "";
+  art.setAttribute("aria-hidden", "true");
+  const readout = document.createElement("div");
+  readout.className = "compass-play-progress-readout";
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "compass-play-progress-eyebrow";
+  eyebrow.textContent = "지금 다리";
+  const name = document.createElement("strong");
+  name.className = "compass-play-progress-name";
+  const meter = document.createElement("span");
+  meter.className = "compass-play-progress-meter";
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward.maxPower || 100));
+  const fill = document.createElement("i");
+  fill.className = "compass-play-progress-meter-fill";
+  meter.append(fill);
+  readout.append(eyebrow, name, meter);
+  panel.append(art, readout);
+  playScreen.append(panel);
+  bridgePlayProgress = { panel, art, name, meter, fill };
+  return bridgePlayProgress;
+}
+
+function syncBridgePlayProgress(state = {}) {
+  const progress = ensureBridgePlayProgress();
+  if (!progress) return;
+  const result = Lesson3DoubleBridgeModel.getResult(Number(state.power || 0), Number(state.correctFirstTry || 0), Boolean(state.specialSeen));
+  const max = Number(LESSON_CONFIG.reward.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), max));
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.art.src = result.playImage;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.fill.style.width = `${power / max * 100}%`;
+  progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요.`);
+}
 
 function ensureBridgeStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -56,16 +107,24 @@ function getBridgeFit(value, geometry) {
   };
 }
 
-function renderProblemVisual(problem) {
+function renderProblemVisual(problem, state) {
   ensureBridgeStageArt();
+  syncBridgePlayProgress(state);
   setBridgeVisualState("idle");
   renderCircleBridgeWorkbench(problem);
 }
 
-function updateProblemVisualForStep(problem) {
+function updateProblemVisualForStep(problem, step, state) {
+  syncBridgePlayProgress(state);
   setBridgeVisualState("idle");
   renderCircleBridgeWorkbench(problem);
 }
+
+async function onRewardDismiss({ state }) {
+  syncBridgePlayProgress(state);
+}
+
+globalThis.__mathmonPlayProgressQa = { syncProgress: () => syncBridgePlayProgress(window.__mathmonEngineQa?.getState?.() || {}) };
 
 function revealCorrectStep(problem, step) {
   setBridgeVisualState("correct", step.answer, "fit");

@@ -107,7 +107,7 @@ function renderCapacityVisual(problem, solved) {
   } else if (visual.kind === 'mix') {
     scene = '<div class="capacity-scene mix-visual"><div class="mix-row"><div class="mix-cup">' + visual.rows[0] + '</div><div class="mix-symbol">' + visual.rows[1] + '</div><div class="mix-cup">' + visual.rows[2] + '</div></div><div class="mix-note">' + visual.note + '</div></div>';
   } else if (visual.kind === 'scale') {
-    scene = '<div class="capacity-scene scale-visual"><div class="scale-beam" data-target-tilt="' + visual.tilt + '" style="--tilt:' + visual.tilt + '"></div><div class="scale-pans"><div class="scale-pan"><div><strong>왼쪽</strong><span>' + visual.left + '</span></div></div><div class="scale-pan"><div><strong>오른쪽</strong><span>' + visual.right + '</span></div></div></div></div>';
+    scene = '<div class="capacity-scene scale-visual"><div class="scale-beam" data-target-tilt="' + visual.tilt + '" style="--tilt:0deg"></div><div class="scale-pans"><div class="scale-pan"><div><strong>왼쪽</strong><span>' + visual.left + '</span></div></div><div class="scale-pan"><div><strong>오른쪽</strong><span>' + visual.right + '</span></div></div></div></div>';
   }
   wrapper.innerHTML = scene + renderCalculationBoard(problem, solved);
   ui.visualArea.replaceChildren(wrapper);

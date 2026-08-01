@@ -158,3 +158,7 @@ Browser QA:
 
 - 오답 문구에서 정답까지 몇 눈금 차이인지 알려 주지 않고, 학생이 고른 눈금이 물높이보다 높은지 낮은지만 말합니다. 모델 QA가 `정답은`, `차이`, `N칸` 형태의 답 누설을 문제 은행 전체에서 차단합니다.
 - 이전 `engine-desktop-*`·`engine-tablet-*` 캡처 18장은 `screenshots/_archive/pre-20260801-legacy-engine-names/`로 옮겼습니다. 현재 루트 캡처는 모두 현재 `index.html` 이후에 생성된 증거입니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 12개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.

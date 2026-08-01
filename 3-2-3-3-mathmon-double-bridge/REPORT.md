@@ -158,3 +158,15 @@
 - 이 절의 현재 측정값이 앞선 날짜의 작업영역 수치를 대체합니다.
 - 작업영역은 1280×800에서 `902.41×665.98px`(Stage 폭 `75.00%`), 1024×768에서 `737.31×528.41px`(Stage 폭 `75.00%`)입니다.
 - 추가 회귀 화면 1280×720과 994×632에서도 Stage 폭 `75.00%`를 유지합니다. 현재 캡처 전 상태에서 문제판·지시문·선택지 교차, 넘침, 이미지 누락은 모두 `0건`입니다.
+
+## 2026-08-01 문제 화면 진행 장면 이관
+
+- 생성 원본 `play-progress-source.png`에서 6단계 전용 장면을 만들고 `play-progress-contact-sheet.png`로 전수 비교했습니다.
+- 런타임은 `play-progress-{log,small,bridge,big,grand,rainbow}-generated.webp`를 결과 단계와 1:1로 연결합니다.
+- 패널은 Stage 기준 `left 2.25% / top 20% / width 18% / height 48%`, `object-fit: contain`으로 고정하며 viewport별 위치 보정은 두지 않습니다.
+- 브라우저 하네스는 6단계 파일·자연 크기·패널 네 변·왼쪽 학습 영역 교차·단계별 이미지 교체를 전수 측정합니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 `index.html` 해시와 대표 11개 상태를 연결합니다.
+- Humanizer 학생 문구 QA 결과 새 문구 `지금 다리`, `이번 변화`는 짧고 자연스러우며 의미 변경이 없습니다.

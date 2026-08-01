@@ -56,18 +56,26 @@
     "fixedGeneratedElements": ["result-title", "retry-button"],
     "dynamicOverlays": ["pattern-light", "correct-count"]
   } },
-  "workbench": { "type": "circle-pattern-choice" },
+  "workbench": {
+    "type": "circle-pattern-choice",
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character", "count": 6, "canvas": "512x512", "runtimeSlot": "left-progress-panel", "objectFit": "contain",
+      "filePattern": "play-progress-*-generated.webp", "sourceSheet": "play-progress-source.png", "contactSheet": "play-progress-contact-sheet.png", "cacheVersion": "2026-08-01-full-audit",
+      "protagonist": "mathmon-drv-09-rainbowunicorn", "requiredSubjects": ["원 무늬", "무지개유니몬 전신"],
+      "layoutContract": { "combinedFocalCenterX": 0.5, "combinedFocalCenterY": 0.58, "safeMarginRatio": 0.05, "characterFullBody": true, "sameCameraAcrossStates": true, "mathmonPlacement": { "centerX": 0.24, "centerY": 0.62, "footY": 0.82, "toleranceRatio": 0.03, "sameScaleAcrossStates": true } }
+    }
+  },
   "scoreboard": { "enabled": false },
   "mathmonPack": "diversity-reward-pack",
   "mathmonName": "무지개유니몬",
   "mathmonId": "mathmon-drv-09-rainbowunicorn",
   "results": [
-    { "id": "dot", "name": "점무늬", "minPower": 0, "minCorrect": 0, "image": "result-dot-generated.webp", "titleImage": "result-dot-generated.webp" },
-    { "id": "small", "name": "작은 무늬", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
-    { "id": "pattern", "name": "무늬", "minPower": 39, "minCorrect": 4, "image": "result-pattern-generated.webp", "titleImage": "result-pattern-generated.webp" },
-    { "id": "big", "name": "큰 무늬", "minPower": 61, "minCorrect": 6, "image": "result-big-generated.webp", "titleImage": "result-big-generated.webp" },
-    { "id": "design", "name": "무늬왕", "minPower": 83, "minCorrect": 8, "image": "result-design-generated.webp", "titleImage": "result-design-generated.webp" },
-    { "id": "rainbow", "name": "무지개 무늬", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+    { "id": "dot", "name": "점무늬", "minPower": 0, "minCorrect": 0, "playImage": "play-progress-dot-generated.webp", "image": "result-dot-generated.webp", "titleImage": "result-dot-generated.webp" },
+    { "id": "small", "name": "작은 무늬", "minPower": 19, "minCorrect": 2, "playImage": "play-progress-small-generated.webp", "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
+    { "id": "pattern", "name": "무늬", "minPower": 39, "minCorrect": 4, "playImage": "play-progress-pattern-generated.webp", "image": "result-pattern-generated.webp", "titleImage": "result-pattern-generated.webp" },
+    { "id": "big", "name": "큰 무늬", "minPower": 61, "minCorrect": 6, "playImage": "play-progress-big-generated.webp", "image": "result-big-generated.webp", "titleImage": "result-big-generated.webp" },
+    { "id": "design", "name": "무늬왕", "minPower": 83, "minCorrect": 8, "playImage": "play-progress-design-generated.webp", "image": "result-design-generated.webp", "titleImage": "result-design-generated.webp" },
+    { "id": "rainbow", "name": "무지개 무늬", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-progress-rainbow-generated.webp", "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "빛 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
@@ -81,12 +89,13 @@
   "typesPerRun": ["horizontal", "up", "down", "horizontal", "up", "down", "horizontal", "up", "down", "horizontal"],
   "orientationsPerRun": ["horizontal", "up", "down", "horizontal", "up", "down", "horizontal", "up", "down", "horizontal"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "problem-stage-generated.webp",
+    "playProgressStates": { "dot": "play-progress-dot-generated.webp", "small": "play-progress-small-generated.webp", "pattern": "play-progress-pattern-generated.webp", "big": "play-progress-big-generated.webp", "design": "play-progress-design-generated.webp", "rainbow": "play-progress-rainbow-generated.webp" },
     "rewardClosed": "reward-event-closed-v2-generated.webp",
     "rewardScene": "result-pattern-generated.webp",
     "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
@@ -94,6 +103,7 @@
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp",
     "problem-stage-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "play-progress-dot-generated.webp", "play-progress-small-generated.webp", "play-progress-pattern-generated.webp", "play-progress-big-generated.webp", "play-progress-design-generated.webp", "play-progress-rainbow-generated.webp",
     "reward-event-closed-v2-generated.webp",
     "reward-events-v3-contact-sheet.png",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
@@ -135,6 +145,14 @@
       "tertiary": ".step-board",
       "complete": ".complete-panel",
       "minStageWidthRatio": 0.65
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1", "panel": ".compass-play-progress", "image": ".compass-play-progress-art", "label": ".compass-play-progress-name",
+      "stateCount": 6, "canvas": "512x512", "expectedStates": ["dot", "small", "pattern", "big", "design", "rainbow"], "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character", "expectedProtagonist": "mathmon-drv-09-rainbowunicorn",
+      "panelPlacement": { "leftRatio": 0.03, "topRatio": 0.16, "widthRatio": 0.26, "heightRatio": 0.62, "tolerancePx": 1 },
+      "mathmonPlacement": { "centerX": 0.24, "centerY": 0.62, "footY": 0.82, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "panelLaneCenterTolerancePx": 1, "imagePanelCenterTolerancePx": 1
     },
     "typographyAudit": {
       "headline": ".big-problem",

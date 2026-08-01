@@ -737,12 +737,12 @@ function animateRewardValue(event) {
 }
 
 function setRewardValue(amount) {
-  const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+  const changeLabel = LESSON_CONFIG.reward?.changeLabel || "이번 변화";
   const value = Number(amount) || 0;
   const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
   ui.modalRewardLabel.textContent = value === 0 && zeroLabel
-    ? `${unit} ${zeroLabel}`
-    : `${unit} ${value > 0 ? "+" : ""}${value}`;
+    ? `${changeLabel} ${zeroLabel}`
+    : `${changeLabel} ${value > 0 ? "+" : ""}${value}`;
 }
 
 function closeRewardModal() {

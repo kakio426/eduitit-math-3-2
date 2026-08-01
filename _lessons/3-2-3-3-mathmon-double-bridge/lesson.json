@@ -67,18 +67,41 @@
       "dynamicOverlays": ["bridge-power", "correct-count", "next-goal"]
     }
   },
-  "workbench": { "type": "circle-double-bridge" },
+  "workbench": {
+    "type": "circle-double-bridge",
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "627x418",
+      "runtimeSlot": "left-progress-panel",
+      "objectFit": "contain",
+      "filePattern": "play-progress-*-generated.webp",
+      "sourceSheet": "play-progress-source.png",
+      "contactSheet": "play-progress-contact-sheet.png",
+      "cacheVersion": "2026-08-01-full-audit",
+      "protagonist": "zfa-03-sudalmon",
+      "requiredSubjects": ["다리", "수달몬 전신"],
+      "layoutContract": {
+        "combinedFocalCenterX": 0.5,
+        "combinedFocalCenterY": 0.55,
+        "safeMarginRatio": 0.05,
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "mathmonPlacement": { "centerX": 0.2, "centerY": 0.55, "footY": 0.74, "toleranceRatio": 0.03, "sameScaleAcrossStates": true }
+      }
+    }
+  },
   "scoreboard": { "enabled": false },
   "mathmonPack": "zero-factory-animal-pack",
   "mathmonName": "수달몬",
   "mathmonId": "zfa-03-sudalmon",
   "results": [
-    { "id": "log", "name": "외나무다리", "minPower": 0, "minCorrect": 0, "image": "result-log-generated.webp", "titleImage": "result-log-generated.webp" },
-    { "id": "small", "name": "작은 다리", "minPower": 19, "minCorrect": 2, "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
-    { "id": "bridge", "name": "다리", "minPower": 39, "minCorrect": 4, "image": "result-bridge-generated.webp", "titleImage": "result-bridge-generated.webp" },
-    { "id": "big", "name": "큰 다리", "minPower": 61, "minCorrect": 6, "image": "result-big-generated.webp", "titleImage": "result-big-generated.webp" },
-    { "id": "grand", "name": "튼튼한 다리", "minPower": 83, "minCorrect": 8, "image": "result-grand-generated.webp", "titleImage": "result-grand-generated.webp" },
-    { "id": "rainbow", "name": "무지개 다리", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
+    { "id": "log", "name": "외나무다리", "minPower": 0, "minCorrect": 0, "playImage": "play-progress-log-generated.webp", "image": "result-log-generated.webp", "titleImage": "result-log-generated.webp" },
+    { "id": "small", "name": "작은 다리", "minPower": 19, "minCorrect": 2, "playImage": "play-progress-small-generated.webp", "image": "result-small-generated.webp", "titleImage": "result-small-generated.webp" },
+    { "id": "bridge", "name": "다리", "minPower": 39, "minCorrect": 4, "playImage": "play-progress-bridge-generated.webp", "image": "result-bridge-generated.webp", "titleImage": "result-bridge-generated.webp" },
+    { "id": "big", "name": "큰 다리", "minPower": 61, "minCorrect": 6, "playImage": "play-progress-big-generated.webp", "image": "result-big-generated.webp", "titleImage": "result-big-generated.webp" },
+    { "id": "grand", "name": "튼튼한 다리", "minPower": 83, "minCorrect": 8, "playImage": "play-progress-grand-generated.webp", "image": "result-grand-generated.webp", "titleImage": "result-grand-generated.webp" },
+    { "id": "rainbow", "name": "무지개 다리", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-progress-rainbow-generated.webp", "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "힘 +", "weight": 7645, "min": 4, "max": 8, "family": "normal" },
@@ -95,12 +118,13 @@
     { "ask": "반지름", "radius": 2 }, { "ask": "반지름", "radius": 3 }, { "ask": "반지름", "radius": 4 }, { "ask": "반지름", "radius": 5 }, { "ask": "반지름", "radius": 6 }
   ],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
     "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problemStage": "problem-workshop-v3-generated.webp",
+    "playProgressStates": { "log": "play-progress-log-generated.webp", "small": "play-progress-small-generated.webp", "bridge": "play-progress-bridge-generated.webp", "big": "play-progress-big-generated.webp", "grand": "play-progress-grand-generated.webp", "rainbow": "play-progress-rainbow-generated.webp" },
     "rewardClosed": "reward-event-closed-v2-generated.webp",
     "rewardScene": "result-bridge-generated.webp",
     "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
@@ -108,6 +132,7 @@
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "problem-workshop-v3-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "play-progress-log-generated.webp", "play-progress-small-generated.webp", "play-progress-bridge-generated.webp", "play-progress-big-generated.webp", "play-progress-grand-generated.webp", "play-progress-rainbow-generated.webp",
     "reward-event-closed-v2-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-complete-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
@@ -150,6 +175,22 @@
       "tertiary": ".step-board",
       "complete": ".complete-panel",
       "minStageWidthRatio": 0.65
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".compass-play-progress",
+      "image": ".compass-play-progress-art",
+      "label": ".compass-play-progress-name",
+      "stateCount": 6,
+      "canvas": "627x418",
+      "expectedStates": ["log", "small", "bridge", "big", "grand", "rainbow"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "zfa-03-sudalmon",
+      "panelPlacement": { "leftRatio": 0.0225, "topRatio": 0.2, "widthRatio": 0.18, "heightRatio": 0.48, "tolerancePx": 1 },
+      "mathmonPlacement": { "centerX": 0.2, "centerY": 0.55, "footY": 0.74, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
     },
     "typographyAudit": {
       "headline": ".big-problem",

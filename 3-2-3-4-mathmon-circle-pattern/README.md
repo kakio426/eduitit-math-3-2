@@ -68,3 +68,10 @@
 `screenshots/engine-flow-{desktop,tablet-landscape}-*.png`에 1280×800과 1024×768의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다.
 
 추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.
+
+## 문제 화면 진행 장면
+
+- 생성 원본: `play-progress-source.png`
+- 6단계 컨택시트: `play-progress-contact-sheet.png`
+- 런타임 자산: `play-progress-{dot,small,pattern,big,design,rainbow}-generated.webp`
+- 여섯 장 모두 같은 카메라에서 무지개유니몬 전신과 원 무늬의 변화를 보여 주며, 문제 화면 왼쪽 고정 패널에서 `object-fit: contain`으로 표시합니다.

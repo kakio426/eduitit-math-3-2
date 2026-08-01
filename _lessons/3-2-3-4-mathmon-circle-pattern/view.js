@@ -1,4 +1,55 @@
 const PATTERN_SVG_NS = "http://www.w3.org/2000/svg";
+let patternPlayProgress = null;
+
+function ensurePatternPlayProgress() {
+  if (patternPlayProgress) return patternPlayProgress;
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen) return null;
+  const panel = document.createElement("aside");
+  panel.className = "compass-play-progress";
+  panel.dataset.playProgressStandard = LESSON_CONFIG.workbench.playStateImageSet.standard;
+  panel.dataset.protagonist = LESSON_CONFIG.workbench.playStateImageSet.protagonist;
+  panel.dataset.cacheVersion = LESSON_CONFIG.workbench.playStateImageSet.cacheVersion;
+  const art = document.createElement("img");
+  art.className = "compass-play-progress-art";
+  art.alt = "";
+  art.setAttribute("aria-hidden", "true");
+  const readout = document.createElement("div");
+  readout.className = "compass-play-progress-readout";
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "compass-play-progress-eyebrow";
+  eyebrow.textContent = "지금 무늬";
+  const name = document.createElement("strong");
+  name.className = "compass-play-progress-name";
+  const meter = document.createElement("span");
+  meter.className = "compass-play-progress-meter";
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward.maxPower || 100));
+  const fill = document.createElement("i");
+  fill.className = "compass-play-progress-meter-fill";
+  meter.append(fill);
+  readout.append(eyebrow, name, meter);
+  panel.append(art, readout);
+  playScreen.append(panel);
+  patternPlayProgress = { panel, art, name, meter, fill };
+  return patternPlayProgress;
+}
+
+function syncPatternPlayProgress(state = {}) {
+  const progress = ensurePatternPlayProgress();
+  if (!progress) return;
+  const result = Lesson3CirclePatternModel.getResult(Number(state.power || 0), Number(state.correctFirstTry || 0), Boolean(state.specialSeen));
+  const max = Number(LESSON_CONFIG.reward.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), max));
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.art.src = result.playImage;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.fill.style.width = `${power / max * 100}%`;
+  progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요.`);
+}
 
 function ensurePatternStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -13,16 +64,24 @@ function ensurePatternStageArt() {
 
 function renderProblemVisual(problem, state) {
   ensurePatternStageArt();
+  syncPatternPlayProgress(state);
   ui.visualArea.dataset.patternState = "idle";
   ui.visualArea.dataset.patternKind = "pending";
   renderPatternWorkbench(problem);
 }
 
 function updateProblemVisualForStep(problem, step, state) {
+  syncPatternPlayProgress(state);
   ui.visualArea.dataset.patternState = "idle";
   ui.visualArea.dataset.patternKind = "pending";
   renderPatternWorkbench(problem);
 }
+
+async function onRewardDismiss({ state }) {
+  syncPatternPlayProgress(state);
+}
+
+globalThis.__mathmonPlayProgressQa = { syncProgress: () => syncPatternPlayProgress(window.__mathmonEngineQa?.getState?.() || {}) };
 
 function revealCorrectStep(problem, step, state) {
   ui.visualArea.dataset.patternState = "correct";

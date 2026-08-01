@@ -964,6 +964,8 @@ async function auditConfiguredPlayProgress(page, label) {
   const expectedCanvas = await evaluate(page, "LESSON_CONFIG.workbench?.playStateImageSet?.canvas || ''");
   const auditConfig = await evaluate(page, "LESSON_CONFIG.qa.playProgressAudit");
   const playSetConfig = await evaluate(page, "LESSON_CONFIG.workbench?.playStateImageSet || {}");
+  const panelSelector = JSON.stringify(auditConfig.panel);
+  const imageSelector = JSON.stringify(auditConfig.image);
   const [expectedWidth, expectedHeight] = expectedCanvas.split("x").map(Number);
   const states = [];
   assert(auditConfig.standard === "stage-left-play-progress-v1", `${label}: play progress position standard is wrong`, auditConfig);
@@ -992,9 +994,9 @@ async function auditConfiguredPlayProgress(page, label) {
     })()`);
     await waitUntil(
       page,
-      `document.querySelector('.compass-play-progress')?.dataset.resultTier === ${JSON.stringify(tier.id)}
-        && document.querySelector('.compass-play-progress-art')?.complete
-        && document.querySelector('.compass-play-progress-art')?.naturalWidth > 0`,
+      `document.querySelector(${panelSelector})?.dataset.resultTier === ${JSON.stringify(tier.id)}
+        && document.querySelector(${imageSelector})?.complete
+        && document.querySelector(${imageSelector})?.naturalWidth > 0`,
       `${label}: ${tier.id} play progress did not render`,
       8000,
     );

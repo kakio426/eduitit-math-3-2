@@ -61,3 +61,10 @@
 `screenshots/engine-flow-{desktop,tablet-landscape,codex-in-app}-*.png`에 1280×800, 1024×768, 1280×720의 첫 화면, 설정, 방법 보기, 문제 대기, 짧은 오답, 긴 오답, 정답 확인, 닫힌/열린 보상, 결과 화면이 있습니다.
 
 추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.
+
+## 문제 화면 진행 장면
+
+- 생성 원본: `play-progress-source.png`
+- 6단계 컨택시트: `play-progress-contact-sheet.png`
+- 런타임 자산: `play-progress-{log,small,bridge,big,grand,rainbow}-generated.webp`
+- 여섯 장 모두 같은 카메라에서 수달몬 전신과 다리의 변화를 보여 주며, 문제 화면 왼쪽 고정 패널에서 `object-fit: contain`으로 표시합니다.

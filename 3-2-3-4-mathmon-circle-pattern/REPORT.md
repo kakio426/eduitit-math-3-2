@@ -106,3 +106,15 @@
 
 - `empty` 사건은 무늬 힘을 비우지 않고 이번 변화만 `0`으로 처리합니다.
 - 브라우저 하네스가 누적값 `47`에서 `이번 변화 0`과 누적값 유지가 동시에 성립하는지 검사합니다.
+
+## 2026-08-01 문제 화면 진행 장면 이관
+
+- 생성 원본 `play-progress-source.png`에서 6단계 전용 장면을 만들고 `play-progress-contact-sheet.png`로 전수 비교했습니다.
+- 런타임은 `play-progress-{dot,small,pattern,big,design,rainbow}-generated.webp`를 결과 단계와 1:1로 연결합니다.
+- 패널은 Stage 기준 `left 3% / top 16% / width 26% / height 62%`, `object-fit: contain`으로 고정하며 viewport별 위치 보정은 두지 않습니다.
+- 브라우저 하네스는 6단계 파일·자연 크기·패널 네 변·왼쪽 학습 영역 교차·단계별 이미지 교체를 전수 측정합니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 `index.html` 해시와 대표 11개 상태를 연결합니다.
+- Humanizer 학생 문구 QA 결과 새 문구 `지금 무늬`, `이번 변화`는 짧고 자연스러우며 의미 변경이 없습니다.

@@ -93,3 +93,7 @@
 
 - 문제판 `#fff8db`, 완료판 `#fff2bf`, 선택지 표면을 모두 완전 불투명 색으로 고정했습니다. 소스 QA가 선택지뿐 아니라 문제판·완료판의 실색도 검사합니다.
 - 현재 빌드의 desktop·tablet 전체 10문제 흐름에서 넘침·교차·Stage 이탈은 `0건`입니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 11개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.

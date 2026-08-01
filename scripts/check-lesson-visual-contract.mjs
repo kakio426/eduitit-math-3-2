@@ -40,6 +40,33 @@ function readMathmonIds(packId) {
   return new Set((manifest.items || manifest.characters || []).map((item) => item.id));
 }
 
+function isUnit3To6AuditTarget(folder) {
+  const match = folder.match(/^3-2-(\d+)-(\d+)-/);
+  if (!match) return false;
+  const unit = Number(match[1]);
+  const lesson = Number(match[2]);
+  return (unit === 3 && lesson >= 3) || (unit >= 4 && unit <= 6);
+}
+
+function checkPlayProgressDecision(folder, config) {
+  if (!isUnit3To6AuditTarget(folder)) return;
+  const audit = config.qa?.playProgressAudit;
+  const disposition = config.qa?.playProgressDisposition;
+  assert(Boolean(audit) !== Boolean(disposition), `${folder}: 문제 화면 진행 보상은 구현 계약과 미적용 판정 중 정확히 하나가 필요합니다.`);
+  if (audit) {
+    assert(audit.standard === "stage-left-play-progress-v1", `${folder}: 문제 화면 진행 보상 브라우저 계약이 잘못되었습니다.`);
+    assert(config.standards?.playProgress?.startsWith("generated-play-progress-"), `${folder}: 문제 화면 진행 이미지 표준이 없습니다.`);
+    return;
+  }
+  assert(disposition.standard === "play-progress-disposition-v1", `${folder}: 문제 화면 진행 보상 미적용 판정 표준이 잘못되었습니다.`);
+  assert(disposition.status === "not-applicable", `${folder}: 문제 화면 진행 보상 미적용 상태가 잘못되었습니다.`);
+  assert(typeof disposition.reason === "string" && disposition.reason.length >= 12, `${folder}: 문제 화면 진행 보상을 두지 않는 이유가 부족합니다.`);
+  assert(disposition.minLearningWidthRatio >= 0.9, `${folder}: 진행 보상 대신 확보한 학습 영역 폭 계약이 부족합니다.`);
+  if (config.packageType !== "standalone-html") {
+    assert(config.qa?.layoutAudit?.minStageWidthRatio >= disposition.minLearningWidthRatio, `${folder}: 실제 학습 영역 폭 계약이 진행 보상 미적용 판정보다 작습니다.`);
+  }
+}
+
 function checkStandaloneLesson(folder, config) {
   const prefix = `${folder}:`;
   const outputDir = path.join(ROOT, folder);
@@ -354,6 +381,7 @@ for (const folder of folders) {
   const configPath = path.join(SOURCE_ROOT, folder, "lesson.json");
   assert(existsSync(configPath), `${folder}: lesson source does not exist`);
   const config = JSON.parse(readFileSync(configPath, "utf8"));
+  checkPlayProgressDecision(folder, config);
   if (config.packageType === "standalone-html") {
     checkStandaloneLesson(folder, config);
     checked.push(folder);

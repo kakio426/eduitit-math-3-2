@@ -104,3 +104,7 @@
 
 - 문제판 `#eef9ec`, 완료판 `#e8f6e8`, 선택지 표면을 모두 완전 불투명 색으로 고정했습니다.
 - 소스 QA와 desktop·tablet 전체 흐름 QA가 불투명 표면, 학생 문구, 넘침·교차 `0건`을 다시 확인합니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 11개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.

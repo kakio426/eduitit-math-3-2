@@ -121,3 +121,7 @@
 - 독립 실행 HTML 구조를 `standalone-html-v1` 소스 계약으로 선언해 공통 계약·시각 계약·브라우저 명령에서 빠지지 않게 했습니다.
 - 보상 화면은 문제 화면을 유지한 채 여는 실제 모달입니다. 보상 전용 전체 화면 배경은 숨기고, 카드가 열린 동안 뒤 계산판과 마지막 확인 상태가 그대로 남는지 두 viewport·일곱 보상 상태에서 검사합니다.
 - 승인된 `base-pack`의 `base-02-foxmon` 연결, 런타임 자산, 문서 선언을 공통 계약에서 함께 확인합니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 독립 HTML과 대표 10개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.

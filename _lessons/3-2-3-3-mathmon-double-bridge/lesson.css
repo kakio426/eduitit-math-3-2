@@ -29,6 +29,64 @@
   user-select: none;
 }
 
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress {
+  position: absolute;
+  top: 20%;
+  left: 2.25%;
+  z-index: 2;
+  width: 18%;
+  height: 48%;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 2px solid rgba(72, 50, 27, .72);
+  border-radius: 18px;
+  background: rgba(255, 247, 220, .9);
+  box-shadow: 0 8px 0 rgba(72, 50, 27, .2);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress-readout {
+  display: grid;
+  gap: 5px;
+  padding: 8px 10px 10px;
+  color: var(--bridge-ink);
+  text-align: center;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress-eyebrow {
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress-name {
+  font-size: clamp(.78rem, 1.25vw, 1rem);
+  line-height: 1.1;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress-meter {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(38, 112, 107, .2);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress-meter-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--bridge-orange);
+  transition: width .3s ease;
+}
+
 /* 상단 공통 조작 */
 .game[data-workbench-type="circle-double-bridge"] .stage-shell {
   --sound-button-size: 42px;

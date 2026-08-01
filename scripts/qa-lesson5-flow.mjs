@@ -15,7 +15,9 @@ const LESSONS = [
   "3-2-5-1-mathmon-water-fill",
   "3-2-5-2-mathmon-drink-order",
   "3-2-5-3-mathmon-scale-balance",
-  "3-2-5-4-mathmon-package-weight",
+];
+const DELEGATED_LESSONS = [
+  { lesson: "3-2-5-4-mathmon-package-weight", script: "scripts/qa-lesson5-package-weight-click-guards.mjs" },
 ];
 const VIEWPORTS = [
   { name: "desktop", width: 1280, height: 800, dpr: 1 },
@@ -294,17 +296,16 @@ function findQaSeeds(lesson, offset) {
     const firstStep = firstProblem?.steps?.[0];
     if (!firstProblem || !firstStep) continue;
     const wrongChoices = firstStep.choices.filter((choice) => !model.validateChoice(firstStep, choice));
-    const relations = new Set(wrongChoices.map((choice) => choice.relation));
     if (requiredTypes.includes(firstProblem.type) && byType[firstProblem.type] == null && wrongChoices.length >= 2) {
       byType[firstProblem.type] = seed;
     }
-    if (primary == null && relations.has("low") && relations.has("high")) {
+    if (primary == null && wrongChoices.length >= 2) {
       primary = seed;
       primaryType = firstProblem.type;
     }
     if (primary != null && requiredTypes.every((type) => byType[type] != null)) break;
   }
-  assert(primary != null, `${lesson}: no QA seed with low/high first-step choices`);
+  assert(primary != null, `${lesson}: no QA seed with two first-step wrong choices`);
   assert(requiredTypes.every((type) => byType[type] != null), `${lesson}: missing problem-type QA seed`, { requiredTypes, byType });
   return { primary, primaryType, byType };
 }
@@ -510,7 +511,7 @@ async function auditLayout(page, label, { requireRewardMargin = false, baselineV
   return audit;
 }
 
-async function auditAttemptEvidence(page, label, relation) {
+async function auditAttemptEvidence(page, label, choiceId) {
   const evidence = await evaluate(page, `(() => {
     const feedback = document.getElementById("feedbackLine");
     const marker = document.querySelector(".chosen-level:not([hidden])");
@@ -522,21 +523,24 @@ async function auditAttemptEvidence(page, label, relation) {
     const scale = document.querySelector(".scale-visual");
     const scaleDifference = document.getElementById("scaleDifference");
     const changedScale = scale && (scale.dataset.attempt !== "waiting" || (scaleDifference?.textContent.trim() || ""));
+    const attemptNote = document.querySelector(".visual-attempt-note.is-wrong");
     return {
       feedback:feedback?.textContent.trim() || "",
       state:feedback?.dataset.state || "",
-      visualChanged:Boolean(marker || capacityBoard || weightBoard || amountAxis || limitAxis || pickedBottle || changedScale),
+      visualChanged:Boolean(marker || capacityBoard || weightBoard || amountAxis || limitAxis || pickedBottle || changedScale || attemptNote?.textContent.trim()),
+      attemptNote:attemptNote?.textContent.trim() || "",
       wrongButtons:[...document.querySelectorAll(".choice-button[data-state='wrong']")].map((button) => ({
+        choice:button.dataset.choice || "",
         relation:button.dataset.relation || "",
         text:button.textContent.trim()
       })),
-      relation:${JSON.stringify(relation)}
+      choiceId:${JSON.stringify(choiceId)}
     };
   })()`);
   assert(evidence.state === "wrong" && evidence.feedback, `${label}: wrong feedback missing`, evidence);
   assert(evidence.visualChanged, `${label}: chosen wrong value was not kept in the visual`, evidence);
   assert(evidence.wrongButtons.length === 1, `${label}: only the latest wrong choice may stay red`, evidence);
-  assert(evidence.wrongButtons[0].relation === relation, `${label}: the wrong highlight does not match the latest choice`, evidence);
+  assert(evidence.wrongButtons[0].choice === choiceId, `${label}: the wrong highlight does not match the latest choice`, evidence);
 }
 
 async function auditStepLock(page, label) {
@@ -548,7 +552,7 @@ async function auditStepLock(page, label) {
   assert(chips.slice(currentIndex + 1).every((chip) => chip.text === "?"), `${label}: future step must stay locked`, chips);
 }
 
-async function solveFirstProblem(page, lesson, viewport, shots, { prefix = "", wrongRelations = ["low", "high"] } = {}) {
+async function solveFirstProblem(page, lesson, viewport, shots, { prefix = "", wrongChoiceIds = null } = {}) {
   const shotName = (name) => prefix ? `${prefix}-${name}` : name;
   const waitingAudit = await auditLayout(page, `${lesson} ${viewport.name} play waiting`);
   await auditStepLock(page, `${lesson} ${viewport.name} play waiting`);
@@ -560,14 +564,17 @@ async function solveFirstProblem(page, lesson, viewport, shots, { prefix = "", w
     assert(scaleWaiting === "matrix(1, 0, 0, 1, 0, 0)" || scaleWaiting === "none", `${lesson} ${viewport.name}: scale reveals answer before selection`, scaleWaiting);
   }
 
-  for (let index = 0; index < wrongRelations.length; index += 1) {
-    const relation = wrongRelations[index];
-    await clickSelector(page, `button.choice-button[data-relation='${relation}'][data-correct='false']:not(:disabled)`);
-    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${lesson} ${viewport.name}: ${relation} wrong state`);
+  const representativeWrongChoices = wrongChoiceIds || await evaluate(page, `[...document.querySelectorAll(".choice-button[data-correct='false']")].slice(0, 2).map((button) => button.dataset.choice)`);
+  const renderedChoiceData = await evaluate(page, `[...document.querySelectorAll(".choice-button")].map((button) => ({ text:button.textContent.trim(), ...button.dataset }))`);
+  assert(representativeWrongChoices.length === 2, `${lesson} ${viewport.name}: two representative wrong choices are required`, renderedChoiceData);
+  for (let index = 0; index < representativeWrongChoices.length; index += 1) {
+    const choiceId = representativeWrongChoices[index];
+    await clickSelector(page, `button.choice-button[data-choice=${JSON.stringify(choiceId)}][data-correct='false']:not(:disabled)`);
+    await waitUntil(page, "document.getElementById('feedbackLine').dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false", `${lesson} ${viewport.name}: ${choiceId} wrong state`);
     const sequence = String(index + 6).padStart(2, "0");
-    shots.push(await capture(page, lesson, viewport, shotName(`${sequence}-wrong-${relation}`)));
-    await auditAttemptEvidence(page, `${lesson} ${viewport.name} ${relation} wrong`, relation);
-    await auditLayout(page, `${lesson} ${viewport.name} ${relation} wrong`);
+    shots.push(await capture(page, lesson, viewport, shotName(`${sequence}-wrong-${index + 1}`)));
+    await auditAttemptEvidence(page, `${lesson} ${viewport.name} ${choiceId} wrong`, choiceId);
+    await auditLayout(page, `${lesson} ${viewport.name} ${choiceId} wrong`);
   }
 
   let stepNumber = 1;
@@ -648,28 +655,51 @@ async function openProblemVariant(page, lesson, viewport, pageUrl, type, seed, s
   const variant = await evaluate(page, `(() => {
     const problem = window.__mathmonEngineQa.getCurrentProblem();
     const step = window.__mathmonEngineQa.getCurrentStep();
-    const relations = [...new Set([...document.querySelectorAll(".choice-button[data-correct='false']")]
-      .map((button) => button.dataset.relation)
-      .filter(Boolean))];
-    return { type:problem?.type || "", step:step?.id || "", relations };
+    const wrongChoiceIds = [...document.querySelectorAll(".choice-button[data-correct='false']")]
+      .slice(0, 2)
+      .map((button) => button.dataset.choice)
+      .filter(Boolean);
+    return { type:problem?.type || "", step:step?.id || "", wrongChoiceIds };
   })()`);
   assert(variant.type === type, `${lesson} ${viewport.name}: requested problem type was not generated`, { type, seed, variant });
-  const wrongRelations = variant.relations.includes("low") && variant.relations.includes("high")
-    ? ["low", "high"]
-    : variant.relations.slice(0, 2);
-  assert(wrongRelations.length === 2, `${lesson} ${viewport.name} ${type}: two representative wrong states are required`, variant);
+  assert(variant.wrongChoiceIds.length === 2, `${lesson} ${viewport.name} ${type}: two representative wrong states are required`, variant);
   shots.push(await capture(page, lesson, viewport, `type-${type}-05-play-waiting`));
-  return wrongRelations;
+  return variant.wrongChoiceIds;
 }
 
 async function auditReward(page, lesson, viewport, shots) {
-  await evaluate(page, `(() => {
-    const button = document.getElementById("rewardButton");
-    button.click();
-    button.click();
-  })()`);
+  const rewardMode = await evaluate(page, "LESSON_CONFIG.reward?.mode || document.querySelector('.game').dataset.rewardMode || ''");
+  await clickSelector(page, "#rewardButton");
+  if (rewardMode === "modal-art") {
+    await waitUntil(page, "!document.getElementById('rewardPop').hidden && window.__mathmonEngineQa.getState().rewardPhase === 'closed'", `${lesson} ${viewport.name}: reward modal closed`);
+    const closed = await evaluate(page, `(() => ({
+      active:document.querySelector('.screen.is-active')?.id || '',
+      phase:window.__mathmonEngineQa.getState().rewardPhase,
+      cardPhase:document.querySelector('#rewardPop .reward-card')?.dataset.rewardPhase || '',
+      openVisible:!document.getElementById('modalRewardOpenButton').hidden,
+      nextVisible:!document.getElementById('modalRewardNextButton').hidden
+    }))()`);
+    assert(closed.active === "screen-play" && closed.phase === "closed" && closed.cardPhase === "closed", `${lesson} ${viewport.name}: modal reward must preserve the solved problem behind a closed card`, closed);
+    assert(closed.openVisible && !closed.nextVisible, `${lesson} ${viewport.name}: closed modal must expose only the open action`, closed);
+    shots.push(await capture(page, lesson, viewport, "11-reward-closed"));
+    await auditLayout(page, `${lesson} ${viewport.name} reward modal closed`);
+    await clickSelector(page, "#modalRewardOpenButton");
+    await waitUntil(page, "window.__mathmonEngineQa.getState().rewardPhase === 'revealed'", `${lesson} ${viewport.name}: reward modal reveal`);
+    const opened = await evaluate(page, `(() => ({
+      phase:window.__mathmonEngineQa.getState().rewardPhase,
+      cardPhase:document.querySelector('#rewardPop .reward-card')?.dataset.rewardPhase || '',
+      label:document.getElementById('modalRewardLabel').textContent.trim(),
+      openVisible:!document.getElementById('modalRewardOpenButton').hidden,
+      nextVisible:!document.getElementById('modalRewardNextButton').hidden
+    }))()`);
+    assert(opened.phase === "revealed" && opened.cardPhase === "revealed" && opened.label, `${lesson} ${viewport.name}: modal reward reveal is incomplete`, opened);
+    assert(!opened.openVisible && opened.nextVisible, `${lesson} ${viewport.name}: revealed modal must expose only the next action`, opened);
+    shots.push(await capture(page, lesson, viewport, "12-reward-open"));
+    await auditLayout(page, `${lesson} ${viewport.name} reward modal open`);
+    return;
+  }
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-reward'", `${lesson} ${viewport.name}: reward`);
-  const stageReveal = await evaluate(page, "document.querySelector('.game').dataset.rewardMode === 'stage-reveal'");
+  const stageReveal = rewardMode === "stage-reveal";
   if (stageReveal) {
     const before = await evaluate(page, "window.__mathmonEngineQa.getState()");
     assert(before.rewardPhase === "closed" && before.power === 0, `${lesson} ${viewport.name}: closed reward was applied early or twice`, before);
@@ -748,9 +778,9 @@ async function runCase(page, serverOrigin, lesson, viewport, seed) {
 
 async function runVariantCase(page, serverOrigin, lesson, viewport, type, seed) {
   const shots = [];
-  const wrongRelations = await openProblemVariant(page, lesson, viewport, serverOrigin, type, seed, shots);
-  await solveFirstProblem(page, lesson, viewport, shots, { prefix: `type-${type}`, wrongRelations });
-  return { lesson, viewport, type, seed, wrongRelations, shots };
+  const wrongChoiceIds = await openProblemVariant(page, lesson, viewport, serverOrigin, type, seed, shots);
+  await solveFirstProblem(page, lesson, viewport, shots, { prefix: `type-${type}`, wrongChoiceIds });
+  return { lesson, viewport, type, seed, wrongChoiceIds, shots };
 }
 
 async function main() {
@@ -794,6 +824,14 @@ async function main() {
     await stopProcess(chrome);
     await closeServer(server);
     await fsp.rm(profileDir, { recursive: true, force: true });
+  }
+  for (const delegated of DELEGATED_LESSONS) {
+    const exitCode = await new Promise((resolve, reject) => {
+      const child = spawn(process.execPath, [path.join(ROOT, delegated.script)], { cwd: ROOT, stdio: "inherit" });
+      child.once("error", reject);
+      child.once("exit", (code, signal) => signal ? reject(new Error(`${delegated.lesson}: delegated QA stopped by ${signal}`)) : resolve(code));
+    });
+    assert(exitCode === 0, `${delegated.lesson}: delegated browser QA failed with exit ${exitCode}`);
   }
 }
 

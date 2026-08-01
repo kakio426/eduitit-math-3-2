@@ -92,3 +92,7 @@
 
 - `12개의 3분의 2` fixture는 선택 전에 `전체 12개` 점을 모두 보여 줍니다. 첫 답을 고른 뒤에만 3개의 같은 묶음으로 다시 그립니다.
 - 완료판은 `#fff2bf` 불투명 표면입니다. 소스 QA가 전체 점 개수, 대기 상태의 묶음 미노출, 안쪽 판·계산 카드·완료판의 실색을 함께 검사합니다.
+
+## 2026-08-01 전수감사 최신 증거
+
+- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 11개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.
