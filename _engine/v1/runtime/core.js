@@ -834,7 +834,7 @@ function showResult() {
   ui.resultCorrectArt.hidden = !correctArt;
   if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-  const fullScene = getResultRenderMode() === "fullscene-score-slot";
+  const fullScene = ["fullscene-score-slot", "fullscene-generated-dynamic-slots"].includes(getResultRenderMode());
   ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
   screens.result.dataset.resultTier = result.id || "";
 

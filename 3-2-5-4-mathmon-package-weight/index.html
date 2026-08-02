@@ -59,6 +59,7 @@
       --sound-button-size: clamp(42px, 3.6vw, 46px);
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
+      --top-control-y: var(--stage-inset);
       --top-control-pad-x: 9px;
       --top-control-icon-gap: 7px;
       position: relative;
@@ -90,7 +91,7 @@
 
     .top-row {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       left: var(--stage-inset);
       right: calc(var(--stage-inset) + var(--sound-reserve));
       height: var(--sound-button-size);
@@ -166,7 +167,7 @@
 
     .settings-toggle {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       right: var(--stage-inset);
       width: var(--sound-button-size);
       height: var(--sound-button-size);
@@ -624,7 +625,7 @@
 
     .hud {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       left: var(--stage-inset);
       right: var(--stage-inset);
       height: var(--sound-button-size);
@@ -680,7 +681,7 @@
     .progress-eyebrow {
       color: #dff8ff;
       font-size: clamp(.68rem, 1vw, .78rem);
-      line-height: 1;
+      line-height: 1.2;
       font-weight: 900;
       text-align: center;
     }
@@ -689,7 +690,7 @@
       max-width: 100%;
       color: #ffe19e;
       font-size: clamp(.94rem, 1.45vw, 1.16rem);
-      line-height: 1.05;
+      line-height: 1.2;
       text-align: center;
       font-weight: 1000;
       word-break: keep-all;
@@ -777,7 +778,7 @@
 
     .problem-grid {
       position: absolute;
-      top: calc(var(--stage-inset) + var(--sound-button-size) + 6px);
+      top: calc(var(--top-control-y) + var(--sound-button-size) + 6px);
       right: 3%;
       bottom: 20px;
       left: 22.5%;
@@ -1011,6 +1012,8 @@
 
     .instruction {
       margin: 0;
+      width: 100%;
+      text-align: left;
       font-size: clamp(1.3rem, 2.4vw, 1.75rem);
       line-height: 1.12;
       font-weight: 1000;
@@ -1044,6 +1047,8 @@
     .feedback-line {
       min-height: 26px;
       margin: 0;
+      width: 100%;
+      text-align: left;
       color: var(--muted);
       font-weight: 900;
       font-size: 1.125rem;
@@ -1141,6 +1146,16 @@
       font-weight: 1000;
       line-height: 1.24;
       overflow-wrap: anywhere;
+    }
+
+    .complete-text[data-text-align-role="sentence"] {
+      width: 100%;
+      align-self: stretch;
+      text-align: left;
+    }
+
+    .complete-text[data-text-align-role="math"] {
+      text-align: center;
     }
 
     .reward,
@@ -1712,7 +1727,7 @@
               <span class="tutorial-semantic">g끼리 계산해요. 1000g은 1kg으로 바꿔요.</span>
             </div>
             <div class="tutorial-card" hidden>
-              <img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt="10문제와 트럭 보상 안내">
+              <img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt="10문제와 마지막 트럭 안내">
               <span class="tutorial-semantic">10문제를 풀고 트럭을 열어요. 마지막에 오늘의 트럭을 봐요.</span>
             </div>
           </div>
@@ -2539,7 +2554,7 @@
         const result = solved.has("addFinal")
           ? { major:problem.final.kg, minor:problem.final.g, ariaLabel:Lesson5PackageWeightModel.formatWeight(problem.final), note: "완성 무게" }
           : solved.has("addCarry")
-            ? { major:problem.kgSum + problem.carriedGram.kg, minor:problem.carriedGram.g, ariaLabel:Lesson5PackageWeightModel.formatWeight(problem.final), note: "1000g을 1kg으로 바꾼 값" }
+            ? { major:problem.carriedGram.kg, minor:problem.carriedGram.g, ariaLabel:Lesson5PackageWeightModel.formatWeight(problem.carriedGram), note: "1000g을 1kg으로 바꾼 값" }
             : solved.has("addGrams")
               ? { major:problem.kgSum, minor:problem.gramSum, ariaLabel:`${problem.kgSum}kg ${problem.gramSum}g`, note: "kg끼리, g끼리 더한 값" }
               : null;
@@ -2648,6 +2663,20 @@
       if (state.sfxLog.length > 80) state.sfxLog.shift();
     }
 
+    function wrongFeedbackForStep(step) {
+      const feedbackByStep = {
+        addGrams: "g끼리 더한 값을 다시 계산해요.",
+        addCarry: "바꾼 1kg과 남은 g을 함께 봐요.",
+        addFinal: "kg 합에 바꾼 1kg을 더해요.",
+        borrowKg: "1kg을 빌린 위 무게를 다시 써요.",
+        subtractGrams: "바꾼 g에서 아래 g을 빼요.",
+        subtractFinal: "kg과 g을 차례로 확인해요.",
+        limitTotal: "상자와 포장 무게를 먼저 더해요.",
+        limitFit: "택배 무게와 한도를 다시 비교해요."
+      };
+      return feedbackByStep[step.id] || "계산판의 수를 다시 살펴봐요.";
+    }
+
     function handleChoice(button, choice, event) {
       if (shouldBlockChoiceInput(event)) {
         event.preventDefault();
@@ -2661,7 +2690,7 @@
         state.mistakeTouched = true;
         button.classList.add("is-wrong");
         button.disabled = true;
-        ui.feedbackLine.textContent = "다시 골라요.";
+        ui.feedbackLine.textContent = wrongFeedbackForStep(step);
         ui.feedbackLine.className = "feedback-line is-wrong";
         playSample("wrong");
         return;
@@ -2691,6 +2720,7 @@
     function showCompletePanel() {
       const problem = currentProblem();
       setDisplayText(ui.completeExpression, problem.expression);
+      ui.completeExpression.dataset.textAlignRole = problem.type === "limit" ? "sentence" : "math";
       ui.problemGrid.classList.add("is-complete");
       ui.completePanel.classList.add("is-visible");
       setButtonDisabled(ui.truckButton, false);
@@ -2766,6 +2796,24 @@
       state.screen = "play";
       ui.stageShell.dataset.activeScreen = "play";
       ui.stageShell.dataset.rewardModalClosedAt = String(performance.now());
+
+      if (movement === 0) {
+        renderProgress();
+        await waitForMs(REWARD_PRE_EFFECT_DELAY_MS);
+        state.rewardTransitioning = false;
+        ui.stageShell.dataset.rewardTransitioning = "false";
+        if (state.problemIndex === state.problems.length - 1) {
+          showResult();
+          ui.stageShell.dataset.rewardAdvancedAt = String(performance.now());
+          return;
+        }
+        state.problemIndex += 1;
+        renderProblem();
+        ui.stageShell.dataset.rewardAdvancedAt = String(performance.now());
+        blockChoicePointerInput();
+        return;
+      }
+
       await waitForMs(REWARD_PRE_EFFECT_DELAY_MS);
 
       ui.stageShell.dataset.rewardEffectStartedAt = String(performance.now());

@@ -1,31 +1,157 @@
 .game[data-workbench-type="circle-pattern-choice"] .play { padding: 0; background: #eef8f0; }
 .pattern-stage-art { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+
 .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress {
-  position: absolute; top: 16%; left: 3%; z-index: 2; width: 26%; height: 62%;
-  display: grid; grid-template-rows: minmax(0, 1fr) auto; overflow: hidden;
-  border: 2px solid rgba(49, 67, 61, .7); border-radius: 18px;
-  background: rgba(248, 255, 248, .9); box-shadow: 0 8px 0 rgba(49, 67, 61, .18);
+  position: absolute;
+  top: 11%;
+  left: 1.65%;
+  z-index: 4;
+  width: 19.2%;
+  height: 84%;
+  min-width: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: stretch;
+  border: 3px solid rgba(217, 179, 255, .94);
+  border-radius: 22px;
+  background: #171735;
+  box-shadow: 0 16px 34px rgba(29, 18, 68, .36), inset 0 0 0 1px rgba(255, 248, 255, .2);
 }
+
 .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-art {
-  display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: block;
+  justify-self: center;
+  object-fit: contain;
+  object-position: center center;
+  background: #10142d;
+  transition: filter .42s ease, transform .52s ease, opacity .28s ease;
 }
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-flare {
+  position: absolute;
+  inset: -18%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transform: rotate(-18deg) scale(.72);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 252, 220, .98) 0 3%, rgba(230, 164, 255, .76) 11%, rgba(75, 226, 208, .38) 27%, transparent 50%),
+    linear-gradient(108deg, transparent 34%, rgba(255, 255, 255, .92) 46%, rgba(255, 197, 246, .72) 51%, transparent 63%);
+  mix-blend-mode: screen;
+}
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage {
+  position: absolute;
+  top: 4%;
+  left: -1%;
+  z-index: 5;
+  width: 35%;
+  height: 92%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.62);
+  background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(231,192,255,.65) 13%, rgba(58,214,193,.44) 31%, rgba(255,156,245,.25) 48%, transparent 71%);
+  filter: drop-shadow(0 0 30px rgba(205, 134, 255, .9));
+  mix-blend-mode: screen;
+}
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::before,
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::after {
+  content: "";
+  position: absolute;
+  inset: 8% 4%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::before {
+  border: 5px solid rgba(255, 226, 255, .94);
+  box-shadow: 0 0 20px 6px rgba(228, 166, 255, .72), 0 0 58px 20px rgba(38, 196, 178, .65), inset 0 0 36px rgba(255, 173, 242, .6);
+  opacity: 0;
+  transform: scale(.2);
+}
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::after {
+  inset: -4%;
+  background: repeating-conic-gradient(from 4deg, transparent 0 7deg, rgba(255, 231, 255, .72) 8deg 9deg, transparent 10deg 21deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+  mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+  opacity: 0;
+  transform: rotate(-16deg) scale(.52);
+}
+
 .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-readout {
-  display: grid; gap: 5px; padding: 8px 10px 10px; color: #31433d; text-align: center;
+  min-height: 78px;
+  padding: 8px 12px 11px;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  border-top: 2px solid rgba(217, 179, 255, .72);
+  background: linear-gradient(180deg, rgba(55, 38, 89, .98), rgba(28, 23, 55, .99));
 }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-eyebrow { font-size: .72rem; font-weight: 900; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-name { font-size: clamp(.78rem, 1.25vw, 1rem); line-height: 1.1; }
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-eyebrow {
+  color: #d9f7f2;
+  font-size: clamp(.68rem, 1vw, .78rem);
+  line-height: 1;
+  font-weight: 900;
+  text-align: center;
+}
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-name {
+  max-width: 100%;
+  color: #ffe19e;
+  font-size: clamp(.94rem, 1.45vw, 1.16rem);
+  line-height: 1.05;
+  font-weight: 1000;
+  text-align: center;
+  word-break: keep-all;
+  text-shadow: 0 2px 0 #593270;
+}
+
 .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-meter {
-  height: 9px; overflow: hidden; border-radius: 999px; background: rgba(46, 119, 120, .2);
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  display: block;
+  border: 1px solid rgba(255, 226, 245, .82);
+  border-radius: 999px;
+  background: rgba(8, 13, 32, .92);
 }
+
 .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-meter-fill {
-  display: block; width: 0; height: 100%; border-radius: inherit; background: #d46c24; transition: width .3s ease;
+  width: 0%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #43c9bc, #bd7cff, #ff87d8);
+  box-shadow: 0 0 10px rgba(208, 139, 255, .76);
+  transition: width .62s cubic-bezier(.2, .8, .2, 1);
 }
+
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-changing .compass-play-progress-art { animation: pattern-progress-brighten 1.56s cubic-bezier(.2,.82,.22,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-dimming .compass-play-progress-art { animation: pattern-progress-dim 1.56s ease both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating { animation: pattern-progress-impact 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating .compass-play-progress-flare { animation: pattern-progress-flare 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up { animation: pattern-progress-tier-rise 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up .compass-play-progress-art { animation: pattern-progress-tier-art 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage,
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage { animation: pattern-progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::before,
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::before { animation: pattern-progress-stage-ring 1.56s cubic-bezier(.08,.72,.16,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::after,
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::after { animation: pattern-progress-stage-rays 1.56s ease-out both; }
 .game[data-workbench-type="circle-pattern-choice"] .stage-shell { --sound-button-size: 42px; }
 .game[data-workbench-type="circle-pattern-choice"] .settings-toggle svg { width: 20px; height: 20px; }
 .game[data-workbench-type="circle-pattern-choice"] .brand-badge,
 .game[data-workbench-type="circle-pattern-choice"] .unit-badge { font-size: .875rem; }
 .game[data-workbench-type="circle-pattern-choice"] .hud {
-  position: absolute; top: 18px; right: calc(3% + var(--sound-reserve)); left: 3%; z-index: 6;
+  position: absolute; top: var(--top-control-y); right: calc(3% + var(--sound-reserve)); left: 3%; z-index: 6;
   width: auto; min-height: var(--sound-button-size); display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 12px; padding: 0;
 }
@@ -35,7 +161,7 @@
 .game[data-workbench-type="circle-pattern-choice"] .hud-right { grid-column: 3; justify-self: end; }
 .game[data-workbench-type="circle-pattern-choice"] #problemCounter { grid-column: 2; justify-self: center; min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1.05rem; }
 
-.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 72px; right: 3%; bottom: 20px; left: 32%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.2fr) 54px minmax(212px, 1fr); gap: 8px; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 72px; right: 3%; bottom: 20px; left: 22.5%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.2fr) 54px minmax(205px, 1fr); gap: 8px; }
 .game[data-workbench-type="circle-pattern-choice"] .problem-card,
 .game[data-workbench-type="circle-pattern-choice"] .step-board,
 .game[data-workbench-type="circle-pattern-choice"] .choices-panel,
@@ -59,7 +185,7 @@
 
 .game[data-workbench-type="circle-pattern-choice"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
 .game[data-workbench-type="circle-pattern-choice"] .instruction,
-.game[data-workbench-type="circle-pattern-choice"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.8vw, 1.25rem); line-height: 1.3; font-weight: 1000; text-align: center; }
+.game[data-workbench-type="circle-pattern-choice"] .feedback-line { grid-area: 1 / 1; width: 100%; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.8vw, 1.25rem); line-height: 1.3; font-weight: 1000; text-align: left; }
 .game[data-workbench-type="circle-pattern-choice"] .instruction[hidden] { display: none; }
 .game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="idle"] { visibility: hidden; }
 .game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="wrong"] { color: #a11742; }
@@ -70,8 +196,8 @@
 .game[data-workbench-type="circle-pattern-choice"] .pattern-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70; }
 .game[data-workbench-type="circle-pattern-choice"] .pattern-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991; }
 
-.game[data-workbench-type="circle-pattern-choice"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96); }
-.game[data-workbench-type="circle-pattern-choice"] .complete-text { max-width: 760px; color: #36200b; font-size: clamp(1.18rem, 2vw, 1.65rem); line-height: 1.2; text-align: center; word-break: keep-all; }
+.game[data-workbench-type="circle-pattern-choice"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 205px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: rgba(255,242,191,.96); }
+.game[data-workbench-type="circle-pattern-choice"] .complete-text { width: min(100%, 760px); color: #36200b; font-size: clamp(1.18rem, 2vw, 1.65rem); line-height: 1.2; text-align: left; word-break: keep-all; }
 .game[data-workbench-type="circle-pattern-choice"] .complete-panel .primary-button { min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
 .game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .choices-panel,
 .game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .step-board { display: none; }
@@ -121,8 +247,71 @@
 .game[data-workbench-type="circle-pattern-choice"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 64%; bottom: 1%; width: 35%; height: 16%; }
 .game[data-workbench-type="circle-pattern-choice"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 13%; bottom: 1%; width: 25%; height: 16%; }
 
+@keyframes pattern-progress-brighten {
+  0% { filter: brightness(.64) saturate(.72); transform: scale(.97); }
+  34% { filter: brightness(1.58) saturate(1.4) contrast(1.08); transform: scale(1.025); }
+  68% { filter: brightness(1.18) saturate(1.22); transform: scale(1.008); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+@keyframes pattern-progress-dim {
+  0%, 100% { filter: brightness(1); transform: translateX(0); }
+  34% { filter: brightness(.52) saturate(.52); transform: translateX(-4px); }
+}
+@keyframes pattern-progress-impact {
+  0%, 100% { transform: scale(1); }
+  26% { transform: scale(1.025); }
+  52% { transform: scale(.992); }
+}
+@keyframes pattern-progress-flare {
+  0% { opacity: 0; transform: rotate(-18deg) scale(.58); }
+  24% { opacity: .96; }
+  64% { opacity: .38; transform: rotate(-8deg) scale(1.08); }
+  100% { opacity: 0; transform: rotate(2deg) scale(1.28); }
+}
+@keyframes pattern-progress-tier-rise {
+  0%, 100% { box-shadow: 0 16px 34px rgba(29,18,68,.36), inset 0 0 0 1px rgba(255,248,255,.2); }
+  28% { box-shadow: 0 0 0 6px rgba(238,196,255,.82), 0 0 44px 16px rgba(183,100,255,.74), 0 16px 34px rgba(29,18,68,.36); }
+}
+@keyframes pattern-progress-tier-art {
+  0% { filter: brightness(.5) saturate(.58); transform: scale(.95); }
+  30% { filter: brightness(1.72) saturate(1.5); transform: scale(1.035); }
+  66% { filter: brightness(1.2) saturate(1.22); transform: scale(1.01); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+@keyframes pattern-progress-stage-impact {
+  0% { opacity: 0; transform: scale(.62); }
+  18% { opacity: .94; transform: scale(.96); }
+  52% { opacity: .58; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.22); }
+}
+@keyframes pattern-progress-stage-ring {
+  0% { opacity: 0; transform: scale(.2); }
+  20% { opacity: 1; }
+  70% { opacity: .52; }
+  100% { opacity: 0; transform: scale(1.34); }
+}
+@keyframes pattern-progress-stage-rays {
+  0% { opacity: 0; transform: rotate(-16deg) scale(.52); }
+  24% { opacity: .85; }
+  100% { opacity: 0; transform: rotate(26deg) scale(1.36); }
+}
+
 @media (max-width: 980px) {
   .game[data-workbench-type="circle-pattern-choice"] .hud { right: calc(2% + var(--sound-reserve)); left: 2%; }
-  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 68px; right: 2%; bottom: 16px; left: 33%; grid-template-rows: minmax(0, 1.2fr) 50px minmax(196px, 1fr); gap: 8px; }
+  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 68px; right: 2%; bottom: 16px; left: 22.5%; grid-template-rows: minmax(0, 1.2fr) 50px minmax(196px, 1fr); gap: 8px; }
   .game[data-workbench-type="circle-pattern-choice"] .complete-panel { min-height: 196px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-art,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-flare,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-changing,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-dimming,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::before,
+  .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::after {
+    animation: none;
+  }
 }

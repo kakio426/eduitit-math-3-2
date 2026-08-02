@@ -21,8 +21,12 @@
 - 결과 배경: 글자와 버튼이 없는 `result-{first,row,line,bigline,manager,rainbow}-generated.webp` 6장
 - 결과 제목: 투명 생성 자산 `result-title-{first,row,line,bigline,manager,rainbow}-generated.webp` 6장
 - 결과 버튼: 투명 생성 자산 `result-restart-button-generated.webp`
-- 결과 배경 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 결과 배경 컨택시트: `result-tiers-v4-contact-sheet.png`
 - 결과 제목 컨택시트: `result-titles-v3-contact-sheet.png`
+- 문제 왼쪽 진행 장면: `play-sorter-v1-{first,row,line,bigline,manager,rainbow}-generated.webp` 6장, 각 768×1536, `object-fit: contain`
+- 진행 장면 생성 원본: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/play-progress-v1/source/`
+- 진행 장면 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/play-progress-v1/contact-sheets/play-sorter-progress-v1-contact-sheet.png`
+- 매스몬 픽셀 앵커 검수: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/play-progress-v1/contact-sheets/play-sorter-progress-v1-anchor-audit.png`
 - 빌드 결과: `3-2-4-3-mathmon-fraction-sorter/index.html`
 
 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.

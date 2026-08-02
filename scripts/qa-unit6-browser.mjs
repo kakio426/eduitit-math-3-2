@@ -559,8 +559,22 @@ async function auditWrongState(page, lesson, viewport, ids, shotName) {
   return { target, audit };
 }
 
-async function auditCorrectAndComplete(page, lesson, viewport) {
+async function auditCorrectAndComplete(page, lesson, viewport, { multipleWrong = false } = {}) {
   await evaluate(page, "window.__mathmonEngineQa.setState({ problemIndex:0 }); window.__mathmonEngineQa.renderProblem(); true");
+  if (multipleWrong) {
+    const wrongId = await evaluate(page, `(() => {
+      const step = window.__mathmonEngineQa.getCurrentStep();
+      return String(step.choices.find((choice) => String(choice.id) !== String(step.answerChoiceId)).id);
+    })()`);
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      await clickSelector(page, `[data-choice="${wrongId}"]`);
+      await waitUntil(
+        page,
+        "document.getElementById('feedbackLine')?.dataset.state === 'wrong' && window.__mathmonEngineQa.getState().inputLocked === false",
+        `${lesson}: 반복 오답 ${attempt + 1}회 상태가 나타나지 않았습니다.`,
+      );
+    }
+  }
   const waiting = await evaluate(page, `(() => {
     const stage = document.querySelector('.stage-shell').getBoundingClientRect();
     const card = document.querySelector('.problem-card').getBoundingClientRect();
@@ -664,12 +678,58 @@ async function auditCorrectAndComplete(page, lesson, viewport) {
 }
 
 async function auditStageReward(page, lesson, viewport, config) {
+  const wrongLossAudit = viewport.name === "desktop";
+  const wrongLossBefore = wrongLossAudit
+    ? await evaluate(page, "window.__mathmonEngineQa.setState({ power:50 })")
+    : null;
+  if (wrongLossBefore) {
+    assert(
+      wrongLossBefore.power === 50 && wrongLossBefore.correctFirstTry === 0,
+      `${lesson}: 여러 오답 뒤 최초 정답 수 또는 손실 fixture 시작값이 다릅니다.`,
+      wrongLossBefore,
+    );
+  }
   await clickSelector(page, "#rewardButton");
   await waitUntil(
     page,
     "window.__mathmonEngineQa.getState().screen === 'reward' && window.__mathmonEngineQa.getState().rewardPhase === 'closed' && Boolean(document.querySelector('.unit6-reward-story'))",
     `${lesson}: 닫힌 Stage-Reveal 보상이 나타나지 않았습니다.`,
   );
+  const emptyRewardAudit = config.qa?.emptyRewardAudit === true
+    && config.qa?.emptyRewardAuditViewport === viewport.name;
+  const preparedEmpty = emptyRewardAudit
+    ? await evaluate(page, `(() => {
+        const empty = LESSON_CONFIG.rewardEvents.find((event) => event.id === 'empty');
+        if (!empty) throw new Error('empty reward event is missing');
+        return window.__mathmonEngineQa.setState({
+          power:47,
+          rewardPhase:'closed',
+          pendingRewardEvent:{ ...empty, amount:0 }
+        });
+      })()`)
+    : null;
+  if (preparedEmpty) {
+    assert(
+      preparedEmpty.power === 47
+        && preparedEmpty.pendingRewardId === "empty"
+        && preparedEmpty.pendingRewardAmount === 0,
+      `${lesson}: 빈 보상 고정 fixture를 준비하지 못했습니다.`,
+      preparedEmpty,
+    );
+  }
+  const preparedWrongLoss = wrongLossAudit
+    ? await evaluate(page, "window.__mathmonEngineQa.getState()")
+    : null;
+  if (preparedWrongLoss) {
+    assert(
+      preparedWrongLoss.pendingRewardId === "wrong-loss"
+        && preparedWrongLoss.pendingRewardAmount >= -6
+        && preparedWrongLoss.pendingRewardAmount <= -3
+        && preparedWrongLoss.correctFirstTry === 0,
+      `${lesson}: 여러 오답은 -6~-3 손실 한 번과 최초 정답 수 0으로 이어져야 합니다.`,
+      preparedWrongLoss,
+    );
+  }
   const closed = await evaluate(page, `(() => {
     const rect = (node) => {
       const box = node.getBoundingClientRect();
@@ -720,7 +780,16 @@ async function auditStageReward(page, lesson, viewport, config) {
   assert(closed.statusText === "", `${lesson}: 닫힌 보상에서 결과 문구가 미리 보입니다.`, closed);
   await screenshot(page, lesson, viewport, "07a-reward-closed");
 
-  await clickSelector(page, "#rewardNextButton");
+  if (wrongLossAudit) {
+    await evaluate(page, `(() => {
+      const button = document.getElementById('rewardNextButton');
+      button.click();
+      button.click();
+      return true;
+    })()`);
+  } else {
+    await clickSelector(page, "#rewardNextButton");
+  }
   await waitUntil(
     page,
     "window.__mathmonEngineQa.getState().rewardPhase === 'revealed' && document.querySelector('.unit6-reward-art')?.complete && document.querySelector('.unit6-reward-status')?.textContent.trim().length > 0",
@@ -751,7 +820,11 @@ async function auditStageReward(page, lesson, viewport, config) {
       buttonLabel:buttonNode.textContent.trim(),
       columnsOverlap:overlap(art, copy),
       controlsOverlap:Math.max(overlap(tier, meter), overlap(meter, status), overlap(status, button)),
-      buttonTouch:button.width >= 42 && button.height >= 42
+      buttonTouch:button.width >= 42 && button.height >= 42,
+      power:window.__mathmonEngineQa.getState().power,
+      correctFirstTry:window.__mathmonEngineQa.getState().correctFirstTry,
+      pendingRewardId:window.__mathmonEngineQa.getState().pendingRewardId,
+      pendingRewardAmount:window.__mathmonEngineQa.getState().pendingRewardAmount
     };
   })()`);
   assert(opened.phase === "revealed" && opened.artReady, `${lesson}: 열린 보상 이미지 상태가 다릅니다.`, opened);
@@ -759,8 +832,32 @@ async function auditStageReward(page, lesson, viewport, config) {
   assert(opened.statusText && opened.tierText, `${lesson}: 열린 보상 변화량 또는 현재 단계가 없습니다.`, opened);
   assert(opened.columnsOverlap === 0 && opened.controlsOverlap === 0, `${lesson}: 열린 보상 요소가 겹칩니다.`, opened);
   assert(opened.buttonTouch && opened.buttonLabel, `${lesson}: 열린 보상 다음 버튼이 작거나 비었습니다.`, opened);
+  if (emptyRewardAudit) {
+    assert(
+      opened.power === 47 && opened.pendingRewardId === "empty" && opened.pendingRewardAmount === 0,
+      `${lesson}: 빈 보상이 누적값 47을 유지하지 못했습니다.`,
+      opened,
+    );
+  }
+  let duplicateLossState = null;
+  if (wrongLossAudit) {
+    const expectedPower = wrongLossBefore.power + preparedWrongLoss.pendingRewardAmount;
+    assert(
+      opened.power === expectedPower
+        && opened.pendingRewardId === "wrong-loss"
+        && opened.correctFirstTry === 0,
+      `${lesson}: 손실 보상이 정확히 한 번만 반영되지 않았습니다.`,
+      { wrongLossBefore, preparedWrongLoss, opened },
+    );
+    duplicateLossState = await evaluate(page, `Promise.resolve(window.__mathmonEngineQa.revealStageReward()).then(() => window.__mathmonEngineQa.getState())`);
+    assert(
+      duplicateLossState.power === expectedPower && duplicateLossState.correctFirstTry === 0,
+      `${lesson}: 공개 중복 입력이 손실 또는 최초 정답 수를 다시 바꿨습니다.`,
+      duplicateLossState,
+    );
+  }
   await screenshot(page, lesson, viewport, "07b-reward-open");
-  return { closed, opened };
+  return { wrongLossAudit, wrongLossBefore, preparedWrongLoss, duplicateLossState, emptyRewardAudit, preparedEmpty, closed, opened };
 }
 
 async function auditWrongAndComplete(page, pageUrl, lesson, viewport) {
@@ -780,7 +877,7 @@ async function auditWrongAndComplete(page, pageUrl, lesson, viewport) {
     ["one-more", "one-unit-more"],
     "05c-play-wrong-high",
   );
-  return auditCorrectAndComplete(page, lesson, viewport);
+  return auditCorrectAndComplete(page, lesson, viewport, { multipleWrong:viewport.name === "desktop" });
 }
 
 async function auditDetectiveRowWrong(page, pageUrl, lesson, viewport) {

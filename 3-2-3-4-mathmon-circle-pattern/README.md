@@ -31,13 +31,17 @@
 - 랜덤 보상: 사건별 `reward-event-*-generated.webp` 6종
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`(닫힘 포함 7종)
 - 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
-- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 컨택시트: `result-tiers-v3-contact-sheet.png`
+- 문제 화면 진행 보상: 결과 6단계와 1:1인 `play-pattern-v1-*-generated.webp` 6장, 각 768×1536
+- 진행 보상 원본: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-4/play-progress-v1/source`
+- 진행 보상 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-4/play-progress-v1/contact-sheets/play-pattern-progress-v1-contact-sheet.png`
+- 매스몬 픽셀 앵커 검수: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-4/play-progress-v1/contact-sheets/play-pattern-progress-v1-anchor-audit.png`
 - 원·중심선·다음 자리·완성 무늬: SVG
 - 선택: 같은 좌표의 HTML 버튼과 접근성 이름
 
 접근성 이름은 화면의 관계를 그대로 말합니다. 네 선택지는 `같은 크기와 간격`, `간격이 넓음`, `줄에서 벗어남`, `원 크기가 다름`으로 읽힙니다.
 
-문제 화면에는 큰 질문, 현재 원 무늬, 한 줄 지시 또는 피드백, 미니 무늬 선택지만 둡니다. 무늬 빛과 결과 등급은 문제를 푸는 동안 숨깁니다.
+문제 화면 왼쪽에는 지금 만든 무늬 한 장면만 보여 줍니다. 오른쪽에는 큰 질문, 현재 원 무늬, 한 줄 지시 또는 피드백, 미니 무늬 선택지만 둡니다.
 
 ## 보상
 
@@ -48,6 +52,7 @@
 - 시작 버튼: `shared-canonical-v1`, 공용 자산 `../_shared/mathmon/cover-start-button/start-button-generated.webp`
 - 표시 크기: 1280 화면 360×152px, 1024 화면 최소 300×127px, 비율 `1611 / 680`
 - 문제 HUD: 왼쪽 브랜드, 가운데 `1/10`, 오른쪽 `3단원 원`; 진행 막대는 숨김
+- 왼쪽 진행 보상: `stage-left-play-progress-v1`, Stage 기준 `left 1.65% / top 11% / width 19.2% / height 84%`, `object-fit: contain`
 - 작업 영역 최소 폭: Stage의 60%. 실제 측정은 두 QA 화면 모두 61.00%
 - 읽기·조작 최소값: 설정 42×42px, 배지 14px, 문제 수 16.8px, 지시문 18px, 패널 간격 8px
 - 대표 오개념: 간격이 달라짐, 줄에서 벗어남, 원 크기가 달라짐
@@ -68,10 +73,3 @@
 `screenshots/engine-flow-{desktop,tablet-landscape}-*.png`에 1280×800과 1024×768의 첫 화면, 설정, 방법 보기, 문제, 오답, 정답 확인, 보상, 결과 화면이 있습니다.
 
 추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.
-
-## 문제 화면 진행 장면
-
-- 생성 원본: `play-progress-source.png`
-- 6단계 컨택시트: `play-progress-contact-sheet.png`
-- 런타임 자산: `play-progress-{dot,small,pattern,big,design,rainbow}-generated.webp`
-- 여섯 장 모두 같은 카메라에서 무지개유니몬 전신과 원 무늬의 변화를 보여 주며, 문제 화면 왼쪽 고정 패널에서 `object-fit: contain`으로 표시합니다.

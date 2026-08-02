@@ -176,16 +176,19 @@ function checkUnifiedReward(failures, lesson, config) {
   if (events.length !== UNIFIED_REWARD_EVENTS.length) {
     addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must contain six reward events`);
   } else {
-    UNIFIED_REWARD_EVENTS.forEach(([, weight, min, max], index) => {
+    UNIFIED_REWARD_EVENTS.forEach(([id, weight, min, max], index) => {
       const event = events[index];
-      if (event?.weight !== weight || event?.min !== min || event?.max !== max) {
+      if (event?.id !== id || event?.weight !== weight || event?.min !== min || event?.max !== max) {
         addFailure(
           failures,
           lesson,
-          `${UNIFIED_REWARD_STANDARD} event ${index + 1} must be weight/min/max ${weight}/${min}/${max}`
+          `${UNIFIED_REWARD_STANDARD} event ${index + 1} must be ${id} with weight/min/max ${weight}/${min}/${max}`
         );
       }
     });
+  }
+  if (events.at(-1)?.special !== true || events.slice(0, -1).some((event) => event.special === true)) {
+    addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} special flag must belong only to the final special event`);
   }
   if (events.some((event) => event.emptiesPower)) {
     addFailure(failures, lesson, `${UNIFIED_REWARD_STANDARD} must not reset accumulated power`);
@@ -427,6 +430,11 @@ function checkManifestShape(failures, lesson, config) {
   }
   if (!Array.isArray(config.qa?.requiredFlow) || !config.qa.requiredFlow.includes("result")) {
     addFailure(failures, lesson, "qa.requiredFlow must include result");
+  }
+  if (/^3-2-(?:3-[34]|[456]-[1-4])$/.test(config.id)
+    && (!config.qa?.requiredFlow?.includes("reward-closed")
+      || !config.qa?.requiredFlow?.includes("reward-open"))) {
+    addFailure(failures, lesson, "qa.requiredFlow must declare reward-closed and reward-open for the audited 3-3 through 6-4 scope");
   }
   if (config.id.startsWith("3-2-3-")) {
     if (config.result?.showNextGoal !== true) {

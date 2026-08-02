@@ -159,14 +159,23 @@
 - 작업영역은 1280×800에서 `902.41×665.98px`(Stage 폭 `75.00%`), 1024×768에서 `737.31×528.41px`(Stage 폭 `75.00%`)입니다.
 - 추가 회귀 화면 1280×720과 994×632에서도 Stage 폭 `75.00%`를 유지합니다. 현재 캡처 전 상태에서 문제판·지시문·선택지 교차, 넘침, 이미지 누락은 모두 `0건`입니다.
 
-## 2026-08-01 문제 화면 진행 장면 이관
+## 2026-08-01 왼쪽 진행 보상 추가
 
-- 생성 원본 `play-progress-source.png`에서 6단계 전용 장면을 만들고 `play-progress-contact-sheet.png`로 전수 비교했습니다.
-- 런타임은 `play-progress-{log,small,bridge,big,grand,rainbow}-generated.webp`를 결과 단계와 1:1로 연결합니다.
-- 패널은 Stage 기준 `left 2.25% / top 20% / width 18% / height 48%`, `object-fit: contain`으로 고정하며 viewport별 위치 보정은 두지 않습니다.
-- 브라우저 하네스는 6단계 파일·자연 크기·패널 네 변·왼쪽 학습 영역 교차·단계별 이미지 교체를 전수 측정합니다.
+- 표준: `stage-left-play-progress-v1`, 생성 세트 `generated-play-progress-v3-left-character`
+- 상태: `log`, `small`, `bridge`, `big`, `grand`, `rainbow` 6장. 배포 파일은 각각 `768×1536`, `object-fit: contain`입니다.
+- 생성 원본: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source`
+- 컨택시트: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png`
+- 실제 픽셀 앵커 검수: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-anchor-audit.png`
+- 패널 좌표 계약: Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`; 학습 작업대는 `left 22.5%`를 유지합니다.
+- 사용자 제보 회귀 `1082×987, DPR 2` 실측: 패널 중심↔왼쪽 레인 중심 `dx 0.008px`, 이미지↔패널 중심 `dx 0px`, 작업대 교차 `0px`입니다.
+- 보상 전환: `modal-dismiss-world-impact-v2`; 모달이 닫힌 뒤 `320ms`의 시선 이동 여백, `1560ms`의 전용 효과, Stage 폭 `35%`의 효과 레이어를 사용합니다.
+- 이미지 생성 방식: Codex 내장 `imagegen` 참조 이미지 모드. 수달몬 원본과 현재 결과 장면을 스타일 참조로 사용하고, 결과 이미지를 크롭하지 않은 별도 플레이 장면 6장을 생성했습니다.
+- 브라우저 하네스 PASS: `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, 사용자 제보 `1082×987 DPR 2`의 문제 대기·오답·정답 확인·닫힌/열린 보상·단계 상승 효과·결과를 확인했습니다.
+- 전 화면 최대 실측: 패널 네 변 계약 오차 `0.016px`, 패널 중심 오차 `0.016px`, 이미지 중심 오차 `0px`, 패널↔학습 영역 교차 `0px`, 글자 넘침·이미지 누락 `0건`입니다.
+- `empty` fixture와 단계 상승 fixture는 같은 보상을 덮어쓰지 않도록 사용자 제보 화면과 데스크톱 화면에서 각각 독립 실행합니다. 이후 일반 보상도 `320ms + 1560ms` 효과가 끝나기 전에 다음 문제로 넘어가지 않는지 검사합니다.
+- Humanizer 학생 문구 QA: 새 라벨 `지금의 다리`와 `외나무다리`~`무지개 다리`는 짧고 바로 이해되는 말입니다. 번역투·어른말·뜻 반복이 없어 수정하지 않았습니다.
 
-## 2026-08-01 전수감사 최신 증거
+## 2026-08-02 현재 화면 증거
 
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 `index.html` 해시와 대표 11개 상태를 연결합니다.
-- Humanizer 학생 문구 QA 결과 새 문구 `지금 다리`, `이번 변화`는 짧고 자연스러우며 의미 변경이 없습니다.
+- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-994x632-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`
+- 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`

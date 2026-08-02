@@ -28,7 +28,7 @@
   },
   "reward": {
     "mode": "modal-art",
-    "eventStandard": "mathmon-unified-reward-v1",
+    "standard": "mathmon-unified-reward-v1",
     "maxPower": 100,
     "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
     "closedLabel": "두근두근!",
@@ -55,29 +55,49 @@
     "renderMode": "hybrid-generated-dynamic",
     "showNextGoal": true,
     "layout": {
-      "axisX": 300,
-      "titleTop": 80,
-      "titleWidth": 420,
-      "measureY": 435,
-      "barY": 455,
-      "barWidth": 340,
-      "barHeight": 24,
-      "correctTop": 490,
-      "correctWidth": 210,
-      "nextY": 636,
+      "axisX": 363,
+      "axisXByTier": {
+        "small": 363,
+        "spark": 361,
+        "stream": 306,
+        "full": 314,
+        "tower": 310,
+        "rainbow": 324
+      },
+      "byTier": {
+        "small": { "retryRect": { "x": 213, "y": 555, "width": 300, "height": 60 } },
+        "spark": { "retryRect": { "x": 211, "y": 555, "width": 300, "height": 60 } },
+        "stream": { "retryRect": { "x": 156, "y": 555, "width": 300, "height": 60 } },
+        "full": { "retryRect": { "x": 164, "y": 555, "width": 300, "height": 60 } },
+        "tower": { "retryRect": { "x": 160, "y": 555, "width": 300, "height": 60 } },
+        "rainbow": { "retryRect": { "x": 174, "y": 555, "width": 300, "height": 60 } }
+      },
+      "titleTop": 105,
+      "titleWidth": 280,
+      "measureY": 360,
+      "barY": 380,
+      "barWidth": 300,
+      "barHeight": 20,
+      "correctTop": 410,
+      "correctWidth": 150,
+      "nextY": 530,
       "retryRect": {
-        "x": 150,
-        "y": 655,
+        "x": 213,
+        "y": 555,
         "width": 300,
-        "height": 108
+        "height": 60
       }
     },
     "stateImageSet": {
-      "count": 4,
+      "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-states-contact-sheet.png",
+      "contactSheet": "result-tiers-v5-contact-sheet.png",
       "protagonist": "zfa-06-penguinmon",
+      "standard": "result-tier-fullscene-native-v1",
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
       "fixedGeneratedElements": [
         "result-title",
         "retry-button"
@@ -89,11 +109,52 @@
       ]
     }
   },
-  "completion": {
-    "showExpression": false
-  },
   "workbench": {
-    "type": "water-fill"
+    "type": "water-fill",
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "768x1536",
+      "objectFit": "contain",
+      "protagonist": "zfa-06-penguinmon",
+      "cacheVersion": "2026-08-01-left-progress-v1",
+      "runtimeSlot": "stage-left-play-progress-v1",
+      "sourceSetPath": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source",
+      "contactSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png",
+      "anchorAuditSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png",
+      "filePattern": "play-water-v1-{tier}-generated.webp",
+      "requiredSubjects": ["펭귄몬 전신", "water facility"],
+      "layoutContract": {
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "combinedFocalCenterX": 0.5,
+        "leftStageRatio": 0.0165,
+        "topStageRatio": 0.11,
+        "widthStageRatio": 0.192,
+        "heightStageRatio": 0.84,
+        "objectFit": "contain",
+        "safeMarginRatio": 0.06,
+        "maxFootBaselineDeltaRatio": 0.03,
+        "mathmonPlacement": {
+          "centerX": 0.5,
+          "centerY": 0.625,
+          "footY": 0.775,
+          "toleranceRatio": 0.03,
+          "sameScaleAcrossStates": true
+        },
+        "subjectAnchors": {
+          "standard": "source-pixel-anchor-v1",
+          "measurement": "full-body visible bounds from current source PNG",
+          "small": { "centerX": 0.49, "centerY": 0.60, "footY": 0.75, "height": 0.30 },
+          "spark": { "centerX": 0.49, "centerY": 0.60, "footY": 0.75, "height": 0.30 },
+          "stream": { "centerX": 0.50, "centerY": 0.60, "footY": 0.75, "height": 0.30 },
+          "full": { "centerX": 0.50, "centerY": 0.65, "footY": 0.80, "height": 0.30 },
+          "tower": { "centerX": 0.50, "centerY": 0.65, "footY": 0.80, "height": 0.30 },
+          "rainbow": { "centerX": 0.50, "centerY": 0.65, "footY": 0.80, "height": 0.30 }
+        },
+        "forbidResultCropReuse": true
+      }
+    }
   },
   "scoreboard": {
     "enabled": false
@@ -106,24 +167,50 @@
       "name": "작은 물통",
       "minPower": 0,
       "minCorrect": 0,
+      "visualRank": 0,
+      "playImage": "play-water-v1-small-generated.webp",
       "image": "result-tank-small-generated.webp",
       "titleImage": "result-title-small-generated.webp"
     },
     {
       "id": "spark",
       "name": "반짝 물통",
-      "minPower": 30,
-      "minCorrect": 3,
+      "minPower": 15,
+      "minCorrect": 2,
+      "visualRank": 1,
+      "playImage": "play-water-v1-spark-generated.webp",
       "image": "result-tank-spark-generated.webp",
       "titleImage": "result-title-spark-generated.webp"
     },
     {
+      "id": "stream",
+      "name": "물줄기 물통",
+      "minPower": 35,
+      "minCorrect": 4,
+      "visualRank": 2,
+      "playImage": "play-water-v1-stream-generated.webp",
+      "image": "result-tank-stream-generated.webp",
+      "titleImage": "result-title-stream-generated.webp"
+    },
+    {
       "id": "full",
       "name": "가득 물통",
-      "minPower": 70,
-      "minCorrect": 7,
+      "minPower": 55,
+      "minCorrect": 6,
+      "visualRank": 3,
+      "playImage": "play-water-v1-full-generated.webp",
       "image": "result-tank-full-generated.webp",
       "titleImage": "result-title-full-generated.webp"
+    },
+    {
+      "id": "tower",
+      "name": "황금 물탑",
+      "minPower": 78,
+      "minCorrect": 8,
+      "visualRank": 4,
+      "playImage": "play-water-v1-tower-generated.webp",
+      "image": "result-tank-tower-generated.webp",
+      "titleImage": "result-title-tower-generated.webp"
     },
     {
       "id": "rainbow",
@@ -131,6 +218,8 @@
       "minPower": 100,
       "minCorrect": 1,
       "needsSpecial": true,
+      "visualRank": 5,
+      "playImage": "play-water-v1-rainbow-generated.webp",
       "image": "result-tank-rainbow-generated.webp",
       "titleImage": "result-title-rainbow-generated.webp"
     }
@@ -217,7 +306,8 @@
     "coverStart": "generated-button-art",
     "coverStartAsset": "shared-canonical-v1",
     "settings": "modal-controls",
-    "resultVisual": "generated-assets"
+    "resultVisual": "generated-assets",
+    "playProgress": "generated-play-progress-v3-left-character"
   },
   "imageAssets": {
     "cover": "cover-generated.webp",
@@ -228,8 +318,19 @@
     "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "qa": {
-    "playProgressDisposition": { "standard": "play-progress-disposition-v1", "status": "not-applicable", "reason": "full-width-learning-area", "minLearningWidthRatio": 0.9 },
+    "emptyRewardAudit": true,
+    "emptyRewardAuditViewport": "empty-reward-fixture",
     "visualContractVersion": 1,
+    "topControlsAudit": {
+      "standard": "stage-top-controls-v1",
+      "unitBadge": "#screen-play .hud-right .unit-badge",
+      "settingsButton": "#settingsButton",
+      "topTolerancePx": 1,
+      "bottomTolerancePx": 1,
+      "centerYTolerancePx": 1,
+      "heightTolerancePx": 1,
+      "minGapPx": 8
+    },
     "misconceptionCoverage": [
       "READ_ML_SCALE",
       "READ_LITER_SCALE",
@@ -261,7 +362,7 @@
       "tertiary": ".step-board",
       "complete": ".complete-panel",
       "verticalOrder": ["tertiary", "secondary"],
-      "minStageWidthRatio": 0.9
+      "minStageWidthRatio": 0.7
     },
     "answerAccumulationAudit": {
       "standard": "primary-calculation-accumulates-v1",
@@ -299,6 +400,86 @@
       "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
       "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
     },
+    "resultBoardAudit": {
+      "standard": "generated-result-board-pixel-axis-v1",
+      "sceneImage": "#resultBg",
+      "matchMode": "light-board",
+      "scanStartRatio": 0.01,
+      "threshold": { "redMin": 220, "greenMin": 205, "blueMin": 160, "channelSpreadMax": 86 },
+      "minimumRunRatio": 0.18,
+      "maxDetectedAxisDeltaPx": 3,
+      "expectedAxisXByTier": {
+        "small": 363,
+        "spark": 360.5,
+        "stream": 306,
+        "full": 314,
+        "tower": 310,
+        "rainbow": 323.5
+      }
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".water-play-progress",
+      "image": ".water-play-progress-art",
+      "label": ".water-play-progress-name",
+      "stateCount": 6,
+      "canvas": "768x1536",
+      "expectedStates": ["small", "spark", "stream", "full", "tower", "rainbow"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "zfa-06-penguinmon",
+      "panelPlacement": {
+        "leftRatio": 0.0165,
+        "topRatio": 0.11,
+        "widthRatio": 0.192,
+        "heightRatio": 0.84,
+        "tolerancePx": 1
+      },
+      "mathmonPlacement": {
+        "centerX": 0.5,
+        "centerY": 0.625,
+        "footY": 0.775,
+        "toleranceRatio": 0.03,
+        "sameScaleAcrossStates": true
+      },
+      "subjectAnchorStandard": "source-pixel-anchor-v1",
+      "subjectAnchorToleranceRatio": 0.03,
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
+    },
+    "rewardEffectAudit": {
+      "standard": "modal-dismiss-world-impact-v2",
+      "panel": ".water-play-progress",
+      "image": ".water-play-progress-art",
+      "activeClasses": ["is-changing", "is-dimming", "is-celebrating", "is-tier-up"],
+      "positiveClasses": ["is-changing", "is-celebrating"],
+      "tierUpClass": "is-tier-up",
+      "impactLayer": ".water-play-progress-impact-stage",
+      "preEffectDelayMs": 320,
+      "durationMs": 1560,
+      "minVisibleMs": 1200,
+      "minImpactStageWidthRatio": 0.32,
+      "deferNextProblem": true,
+      "modalKeepsBackgroundStable": true,
+      "requiresModalClosedBeforeStart": true,
+      "tierChangeRequiresImageSwap": true,
+      "forceTierTransition": {
+        "beforePower": 14,
+        "beforeCorrect": 2,
+        "restoreCorrect": 1,
+        "eventId": "normal",
+        "amount": 6,
+        "beforeTier": "small",
+        "afterTier": "spark"
+      }
+    },
+    "resultTierContrastAudit": {
+      "standard": "result-tier-contrast-v1",
+      "stateCount": 6,
+      "minimumChangedAxesPerAdjacentTier": 2,
+      "topTwoColorFamiliesMustDiffer": true,
+      "contactSheet": "result-tiers-v5-contact-sheet.png"
+    },
     "viewports": [
       {
         "name": "desktop",
@@ -309,6 +490,29 @@
         "name": "tablet-landscape",
         "width": 1024,
         "height": 768
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "user-visibility",
+        "width": 994,
+        "height": 632
+      },
+      {
+        "name": "user-reported-missing-left-progress-1082x987-dpr2",
+        "width": 1082,
+        "height": 987,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "empty-reward-fixture",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
       }
     ],
     "requiredFlow": [
@@ -316,7 +520,8 @@
       "tutorial-1",
       "tutorial-2",
       "play",
-      "reward",
+      "reward-closed",
+      "reward-open",
       "result"
     ]
   },
@@ -337,11 +542,21 @@
     "reward-events-v3-contact-sheet.png",
     "result-tank-small-generated.webp",
     "result-tank-spark-generated.webp",
+    "result-tank-stream-generated.webp",
     "result-tank-full-generated.webp",
+    "result-tank-tower-generated.webp",
     "result-tank-rainbow-generated.webp",
+    "play-water-v1-small-generated.webp",
+    "play-water-v1-spark-generated.webp",
+    "play-water-v1-stream-generated.webp",
+    "play-water-v1-full-generated.webp",
+    "play-water-v1-tower-generated.webp",
+    "play-water-v1-rainbow-generated.webp",
     "result-title-small-generated.webp",
     "result-title-spark-generated.webp",
+    "result-title-stream-generated.webp",
     "result-title-full-generated.webp",
+    "result-title-tower-generated.webp",
     "result-title-rainbow-generated.webp",
     "../_shared/result-actions/retry-button-v2-generated.webp"
   ]

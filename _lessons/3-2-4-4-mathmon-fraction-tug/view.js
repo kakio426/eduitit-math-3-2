@@ -75,7 +75,7 @@ function syncTugPlayProgress(state, options = {}) {
   progress.name.textContent = result.name;
   progress.meter.setAttribute("aria-valuenow", String(power));
   progress.meterFill.style.width = `${power / maxPower * 100}%`;
-  progress.panel.setAttribute("aria-label", `지금 모습은 ${result.name}이에요. 줄다리기 힘은 ${power}예요.`);
+  progress.panel.setAttribute("aria-label", `지금은 ${result.name} 단계예요. 줄다리기 힘은 ${power}이에요.`);
   if (changed) progress.art.src = nextSrc;
 
   const delta = Number(options.delta ?? (power - previousPower));

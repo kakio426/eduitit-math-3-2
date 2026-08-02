@@ -366,6 +366,7 @@ const PLAY_TO_COMPLETE = String.raw`
 	  await waitFor(() => document.querySelector("#completePanel").classList.contains("is-visible"), "complete panel");
 	  const progressCard = document.querySelector("#truckProgressVisual").getBoundingClientRect();
 	  const progressImage = document.querySelector("#runTruckImage").getBoundingClientRect();
+	  const completeText = document.querySelector("#completeExpression");
 	  const hudLeft = document.querySelector(".hud-left").getBoundingClientRect();
 	  const hudRight = document.querySelector(".hud-right").getBoundingClientRect();
 	  const overlaps = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
@@ -375,6 +376,8 @@ const PLAY_TO_COMPLETE = String.raw`
 	    truckDisabled: document.querySelector("#truckButton").disabled,
 	    progressImageShare: progressImage.width / progressCard.width,
 	    progressLabelFont: parseFloat(getComputedStyle(document.querySelector("#runProgressText")).fontSize),
+	    completionRole: completeText.dataset.textAlignRole,
+	    completionTextAlign: getComputedStyle(completeText).textAlign,
 	    progressOverlapLeft: overlaps(progressCard, hudLeft),
 	    progressOverlapRight: overlaps(progressCard, hudRight)
 	  };
@@ -1114,6 +1117,101 @@ async function runRewardEventSetProbe(page, pageUrl) {
   };
 }
 
+async function runEmptyRewardFixtureProbe(page, pageUrl) {
+  const viewportName = LESSON_CONFIG.qa.emptyRewardAuditViewport;
+  const viewport = QA_VIEWPORTS.find((item) => item.name === viewportName);
+  if (!viewport) {
+    return {
+      name:"empty_reward_fixture_preserves_progress",
+      pass:false,
+      expected:{ viewport:viewportName },
+      observed:{ reason:"configured empty reward viewport is missing" }
+    };
+  }
+
+  await page.send("Emulation.setDeviceMetricsOverride", {
+    width:viewport.width,
+    height:viewport.height,
+    deviceScaleFactor:viewport.deviceScaleFactor || viewport.dpr || 1,
+    mobile:false
+  });
+  await loadLessonPage(page, pageUrl);
+  const setup = await evalInPage(page, String.raw`
+    (async () => {
+      const forced = window.__lesson5PackageQa.forceRewardEvent("empty");
+      await document.querySelector("#rewardVisual").decode();
+      const sourceBefore = document.querySelector("#runTruckImage").getAttribute("src");
+      const closed = {
+        phase:document.querySelector("#screen-reward").dataset.rewardPhase,
+        title:document.querySelector("#rewardTitle").textContent,
+        power:window.__lesson5PackageQa.getState().truckPower
+      };
+      window.__lesson5PackageQa.openReward();
+      await document.querySelector("#rewardVisual").decode();
+      const opened = {
+        phase:document.querySelector("#screen-reward").dataset.rewardPhase,
+        eventId:window.__lesson5PackageQa.getState().latestEventId,
+        visualSrc:document.querySelector("#rewardVisual").getAttribute("src"),
+        power:window.__lesson5PackageQa.getState().truckPower
+      };
+      return { forced, sourceBefore, closed, opened };
+    })()
+  `);
+  await captureLessonScreenshot(page, `empty-reward-fixture-01-open.png`);
+  await evalInPage(page, `document.querySelector("#rewardNextButton").click()`);
+  await delay(120);
+  const during = await evalInPage(page, String.raw`
+    (() => ({
+      power:window.__lesson5PackageQa.getState().truckPower,
+      transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+      source:document.querySelector("#runTruckImage").getAttribute("src"),
+      effectClasses:[...document.querySelector("#truckProgressVisual").classList].filter((name) => ["is-changing","is-dimming","is-celebrating","is-tier-up"].includes(name)),
+      impactActive:document.querySelector("#progressImpactStage").classList.contains("is-active"),
+      counter:document.querySelector("#problemCounter").textContent
+    }))()
+  `);
+  await delay(300);
+  const after = await evalInPage(page, String.raw`
+    (() => ({
+      power:window.__lesson5PackageQa.getState().truckPower,
+      transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+      source:document.querySelector("#runTruckImage").getAttribute("src"),
+      effectClasses:[...document.querySelector("#truckProgressVisual").classList].filter((name) => ["is-changing","is-dimming","is-celebrating","is-tier-up"].includes(name)),
+      impactActive:document.querySelector("#progressImpactStage").classList.contains("is-active"),
+      counter:document.querySelector("#problemCounter").textContent
+    }))()
+  `);
+  await captureLessonScreenshot(page, `empty-reward-fixture-02-after.png`);
+  await page.send("Emulation.clearDeviceMetricsOverride");
+
+  const pass = setup.forced.eventId === "empty"
+    && setup.forced.amount === 0
+    && setup.forced.beforePower === setup.forced.afterPower
+    && setup.closed.phase === "closed"
+    && setup.opened.phase === "opened"
+    && setup.opened.eventId === "empty"
+    && setup.opened.visualSrc === "reward-event-empty-generated.webp"
+    && setup.closed.power === setup.forced.beforePower
+    && setup.opened.power === setup.forced.beforePower
+    && during.power === setup.forced.beforePower
+    && during.source === setup.sourceBefore
+    && during.effectClasses.length === 0
+    && !during.impactActive
+    && during.counter === "1/10"
+    && after.power === setup.forced.beforePower
+    && after.source === setup.sourceBefore
+    && after.effectClasses.length === 0
+    && !after.impactActive
+    && after.transitioning === "false"
+    && after.counter === "2/10";
+  return {
+    name:"empty_reward_fixture_preserves_progress",
+    pass,
+    expected:{ viewport:viewportName, amount:0, powerPreserved:true, sceneEffect:false, counter:"1/10→2/10" },
+    observed:{ setup, during, after }
+  };
+}
+
 async function runRewardWorldImpactProbe(page, pageUrl) {
   await page.send("Emulation.setDeviceMetricsOverride", { width:1280, height:800, deviceScaleFactor:1, mobile:false });
   await loadLessonPage(page, pageUrl);
@@ -1287,15 +1385,16 @@ async function runReportEvidenceCaptureProbe(page, pageUrl) {
     await evalInPage(page, `document.querySelector("#rewardOpenButton").click()`);
     await captureLessonScreenshot(page, `engine-flow-${viewport.name}-07b-reward-open.png`);
 
+    const rewardEventId = viewport.name === LESSON_CONFIG.qa.emptyRewardAuditViewport ? "empty" : "normal";
     await evalInPage(page, String.raw`
       (() => {
-        window.__lesson5PackageQa.forceRewardEvent("normal");
+        window.__lesson5PackageQa.forceRewardEvent(REWARD_EVENT_ID);
         window.__lesson5PackageQa.openReward();
         document.querySelector("#rewardNextButton").click();
       })()
-    `);
+    `.replace("REWARD_EVENT_ID", JSON.stringify(rewardEventId)));
     await delay(400);
-    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-07c-reward-impact.png`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-07c-reward-${rewardEventId === "empty" ? "empty" : "impact"}.png`);
     await delay(1650);
 
     await evalInPage(page, `window.__lesson5PackageQa.forceResultTier("plain")`);
@@ -1347,6 +1446,7 @@ async function runCoreScreenEvidenceProbe(page, pageUrl) {
         range.selectNodeContents(node);
         return {
           text:node.textContent.trim(),
+          textAlign:style.textAlign,
           wordBreak:style.wordBreak,
           overflowWrap:style.overflowWrap,
           lineCount:range.getClientRects().length,
@@ -1355,12 +1455,29 @@ async function runCoreScreenEvidenceProbe(page, pageUrl) {
         };
       })()
     `);
+    const topControlsConfig = LESSON_CONFIG.qa.topControlsAudit;
+    const topControls = await evalInPage(page, String.raw`
+      (() => {
+        const config = TOP_CONTROLS_CONFIG;
+        const unit = document.querySelector(config.unitBadge).getBoundingClientRect();
+        const settings = document.querySelector(config.settingsButton).getBoundingClientRect();
+        return {
+          standard:config.standard,
+          topDelta:Math.abs(unit.top - settings.top),
+          bottomDelta:Math.abs(unit.bottom - settings.bottom),
+          centerYDelta:Math.abs((unit.top + unit.bottom) / 2 - (settings.top + settings.bottom) / 2),
+          heightDelta:Math.abs(unit.height - settings.height),
+          gap:settings.left - unit.right
+        };
+      })()
+    `.replace("TOP_CONTROLS_CONFIG", JSON.stringify(topControlsConfig)));
     const wrong = await evalInPage(page, String.raw`
       (() => {
         const button = [...document.querySelectorAll("#choicesPanel button")].find((item) => item.dataset.correct !== "true");
         if (!button) throw new Error("wrong choice not found");
         button.click();
-        return { feedback:document.querySelector("#feedbackLine").textContent, wrongChoices:document.querySelectorAll("#choicesPanel .is-wrong").length };
+        const feedback = document.querySelector("#feedbackLine");
+        return { feedback:feedback.textContent, textAlign:getComputedStyle(feedback).textAlign, wrongChoices:document.querySelectorAll("#choicesPanel .is-wrong").length };
       })()
     `);
     await captureLessonScreenshot(page, `current-${viewport.name}-06-play-wrong.png`);
@@ -1370,25 +1487,38 @@ async function runCoreScreenEvidenceProbe(page, pageUrl) {
     const overflow = await evalInPage(page, String.raw`
       (() => [...document.querySelectorAll("#screen-play.is-active .problem-grid, #screen-play.is-active .problem-card, #screen-play.is-active .step-board, #screen-play.is-active .choices-panel, #screen-play.is-active .complete-panel, #screen-play.is-active .instruction, #screen-play.is-active .answer-slot, #screen-play.is-active .feedback-line, #screen-play.is-active button")]
         .filter((node) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1)
-        .map((node) => node.id || node.className))()
+        .map((node) => node.id || node.className)
+        .concat([...document.querySelectorAll("#screen-play.is-active .progress-eyebrow, #screen-play.is-active .progress-text")]
+          .filter((node) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1)
+          .map((node) => node.id || node.className)))()
     `);
-    observations.push({ viewport, instruction, wrong, complete, overflow });
+    observations.push({ viewport, instruction, topControls, wrong, complete, overflow });
   }
   await page.send("Emulation.clearDeviceMetricsOverride");
-  const pass = observations.every((item) => item.wrong.feedback === "다시 골라요."
+  const pass = observations.every((item) => item.wrong.feedback === "1kg을 빌린 위 무게를 다시 써요."
     && item.wrong.wrongChoices === 1
     && item.complete.truckDisabled === false
+    && item.complete.completionRole === "math"
+    && item.complete.completionTextAlign === "center"
     && item.instruction.text === "1kg은 1000g이에요."
+    && item.instruction.textAlign === "left"
     && item.instruction.wordBreak === "keep-all"
     && item.instruction.overflowWrap === "normal"
     && item.instruction.lineCount === 1
     && item.instruction.overflowX <= 1
     && item.instruction.overflowY <= 1
+    && item.wrong.textAlign === "left"
+    && item.topControls.standard === "stage-top-controls-v1"
+    && item.topControls.topDelta <= LESSON_CONFIG.qa.topControlsAudit.topTolerancePx
+    && item.topControls.bottomDelta <= LESSON_CONFIG.qa.topControlsAudit.bottomTolerancePx
+    && item.topControls.centerYDelta <= LESSON_CONFIG.qa.topControlsAudit.centerYTolerancePx
+    && item.topControls.heightDelta <= LESSON_CONFIG.qa.topControlsAudit.heightTolerancePx
+    && item.topControls.gap >= LESSON_CONFIG.qa.topControlsAudit.minGapPx
     && item.overflow.length === 0);
   return {
     name:"core_screen_evidence_all_viewports",
     pass,
-    expected:{ screens:["cover", "settings", "tutorial-1", "tutorial-2", "play-wait", "play-wrong", "complete-confirm"], instruction:"1kg은 1000g이에요. (one line, keep-all)", overflow:0 },
+    expected:{ screens:["cover", "settings", "tutorial-1", "tutorial-2", "play-wait", "play-wrong", "complete-confirm"], instruction:"1kg은 1000g이에요. (one line, left, keep-all)", wrongFeedback:"1kg을 빌린 위 무게를 다시 써요. (left)", topControls:"<=1px, gap>=8px", overflow:0 },
     observed:observations
   };
 }
@@ -1861,6 +1991,7 @@ async function main() {
       probes.push(await runCalculationBoardStateProbe(page, seedPageUrl));
       probes.push(await runTabletLandscapeProbe(page, seedPageUrl));
       probes.push(await runRewardEventSetProbe(page, seedPageUrl));
+      probes.push(await runEmptyRewardFixtureProbe(page, seedPageUrl));
       probes.push(await runRewardWorldImpactProbe(page, seedPageUrl));
       probes.push(await runTruckButtonTripleProbe(page, seedPageUrl, options.seed));
       probes.push(await runRewardNextDoubleProbe(page, seedPageUrl));

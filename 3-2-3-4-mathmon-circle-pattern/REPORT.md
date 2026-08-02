@@ -15,7 +15,7 @@
 - 설명 2에서는 풀이법을 반복하지 않고 `10문제 → 무늬 빛 변화 → 무늬 이름`만 보여 줍니다.
 - 랜덤 보상 6종은 무늬 연장·감소·큰 무늬·완벽한 무늬·점무늬·무지개 무늬를 별도 이미지로 구분했습니다.
 - 결과 6장은 모두 1280×800이며, 무지개유니몬·원 무늬·오른쪽 동적 정보판·고정 제목·`다시` 버튼 슬롯을 통일했습니다.
-- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 컨택시트: `result-tiers-v3-contact-sheet.png`
 - 표지 왼쪽 위는 실제 `eduitit-logo-mark.png`를 쓰며, 공용 상단 슬롯 좌표를 따릅니다.
 
 ## 수학 설계
@@ -107,14 +107,21 @@
 - `empty` 사건은 무늬 힘을 비우지 않고 이번 변화만 `0`으로 처리합니다.
 - 브라우저 하네스가 누적값 `47`에서 `이번 변화 0`과 누적값 유지가 동시에 성립하는지 검사합니다.
 
-## 2026-08-01 문제 화면 진행 장면 이관
+## 2026-08-01 최종 결과 대비·왼쪽 진행 보상 루프
 
-- 생성 원본 `play-progress-source.png`에서 6단계 전용 장면을 만들고 `play-progress-contact-sheet.png`로 전수 비교했습니다.
-- 런타임은 `play-progress-{dot,small,pattern,big,design,rainbow}-generated.webp`를 결과 단계와 1:1로 연결합니다.
-- 패널은 Stage 기준 `left 3% / top 16% / width 26% / height 62%`, `object-fit: contain`으로 고정하며 viewport별 위치 보정은 두지 않습니다.
-- 브라우저 하네스는 6단계 파일·자연 크기·패널 네 변·왼쪽 학습 영역 교차·단계별 이미지 교체를 전수 측정합니다.
+- 최종 결과를 먼저 전수 비교하고, 구분이 약했던 `점무늬 → 작은 무늬` 사이를 다시 생성했습니다.
+- `작은 무늬`는 점무늬보다 연결 원·매스몬 반응·공간 빛이 커지고, 다음 `무늬`보다 효과 밀도가 낮게 보이도록 조정했습니다.
+- 승인된 결과 6단계를 기준으로 문제 화면 전용 세로 장면 6장을 새로 만들었습니다. 최종 결과 이미지를 자르거나 재사용하지 않았습니다.
+- 실행 파일: `play-pattern-v1-*-generated.webp`, 각 768×1536, `object-fit: contain`
+- 공유 원본: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-4/play-progress-v1/source`
+- 진행 보상 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-4/play-progress-v1/contact-sheets/play-pattern-progress-v1-contact-sheet.png`
+- 실제 픽셀 앵커 검수: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-4/play-progress-v1/contact-sheets/play-pattern-progress-v1-anchor-audit.png`
+- 고정 패널 계약: Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`
+- 보상 모달이 완전히 닫힌 뒤 320ms를 두고 장면을 바꾸며, 큰 변화 효과는 1560ms 동안 Stage 폭 35%로 보입니다.
+- 현재 빌드에서 `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`를 전수 재실행했습니다. 패널 네 변의 선언 좌표 오차 최댓값은 `0.02px` 미만, 학습 영역 교차는 `0px`, 이미지 누락·글자 넘침·요소 겹침은 모두 `0건`입니다.
+- `994×632`에서는 선택지 영역이 계산판보다 약간 커지던 기존 행 높이도 함께 고쳐, 계산판이 가장 큰 학습 영역이라는 계약을 다시 통과했습니다.
 
-## 2026-08-01 전수감사 최신 증거
+## 2026-08-02 현재 화면 증거
 
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 `index.html` 해시와 대표 11개 상태를 연결합니다.
-- Humanizer 학생 문구 QA 결과 새 문구 `지금 무늬`, `이번 변화`는 짧고 자연스러우며 의미 변경이 없습니다.
+- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-994x632-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`
+- 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`

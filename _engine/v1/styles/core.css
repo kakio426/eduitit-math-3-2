@@ -37,6 +37,7 @@
     }
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
+      --top-control-y: var(--stage-inset);
       --sound-button-size: clamp(42px, 3.6vw, 46px);
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
@@ -72,7 +73,7 @@
     }
     .settings-toggle {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       right: var(--stage-inset);
       width: var(--sound-button-size);
       height: var(--sound-button-size);
@@ -175,7 +176,7 @@
     .stage-shell .hud { padding-right: var(--sound-reserve); }
     .top-row {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       left: var(--stage-inset);
       right: calc(var(--stage-inset) + var(--sound-reserve));
       height: var(--sound-button-size);

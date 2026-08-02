@@ -14,6 +14,7 @@ const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
 const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.reward.standard, "mathmon-unified-reward-v1", "lesson must opt into the unified reward contract");
 assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
 assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
 assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");

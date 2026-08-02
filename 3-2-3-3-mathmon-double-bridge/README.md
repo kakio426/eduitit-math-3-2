@@ -27,10 +27,14 @@
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
 - 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
 - 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 문제 화면 왼쪽 진행 보상: `play-bridge-v1-{log,small,bridge,big,grand,rainbow}-generated.webp` 6장, 각 768×1536, `object-fit: contain`
+- 진행 보상 생성 원본: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source`
+- 진행 보상 컨택시트: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png`
+- 매스몬 픽셀 앵커 검수: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-anchor-audit.png`
 - 원·중심·반지름·지름·다리 길이: SVG
 - 선택: 같은 좌표의 HTML 버튼과 접근성 이름
 
-문제 화면에는 큰 질문, 현재 원 관계, 한 줄 지시 또는 피드백, 다리 길이 선택지만 둡니다. 다리 힘과 결과 등급은 문제를 푸는 동안 숨깁니다.
+문제 화면 왼쪽에는 현재 다리 한 장과 짧은 단계 이름, 다리 힘 막대만 둡니다. 학습 작업대는 Stage `left 22.5%`를 유지하고, 진행 패널은 `left 1.65% / top 11% / width 19.2% / height 84%`의 고정 좌표를 씁니다. 두 영역은 서로 겹치지 않습니다.
 
 ## 보상
 
@@ -40,7 +44,9 @@
 
 - 시작 버튼: `shared-canonical-v1`, 공용 자산 `../_shared/mathmon/cover-start-button/start-button-generated.webp`
 - 표시 크기: 1280 화면 360×152px, 1024 화면 최소 300×127px, 비율 `1611 / 680`
-- 문제 HUD: 왼쪽 브랜드, 가운데 `1/10`, 오른쪽 `3단원 원`; 진행 막대는 숨김
+- 문제 HUD: 왼쪽 브랜드, 가운데 `1/10`, 오른쪽 `3단원 원`; 다리 힘은 왼쪽 진행 보상 패널 한 곳에서만 표시
+- 진행 보상 표준: `stage-left-play-progress-v1`; 패널 네 변 오차 1px 이하, 학습 영역 교차 0px, 수달몬 전신 잘림 0건
+- 보상 뒤 전환: `modal-dismiss-world-impact-v2`; 모달 닫힘 → 320ms → 진행 이미지 교체와 1560ms 효과 → 다음 문제
 - 작업 영역 최소 폭: Stage의 65%. 최신 실제 측정은 세 QA 화면 모두 69.00%
 - 읽기·조작 최소값: 설정 42×42px, 배지 14px, 문제 수 16.8px, 지시문·선택지 글자 18px, 패널 간격 8px
 - 대표 오개념: 두 배를 하지 않음·하나 짧음·너무 김, 반으로 나누지 않음·너무 김·너무 짧음
@@ -61,10 +67,3 @@
 `screenshots/engine-flow-{desktop,tablet-landscape,codex-in-app}-*.png`에 1280×800, 1024×768, 1280×720의 첫 화면, 설정, 방법 보기, 문제 대기, 짧은 오답, 긴 오답, 정답 확인, 닫힌/열린 보상, 결과 화면이 있습니다.
 
 추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.
-
-## 문제 화면 진행 장면
-
-- 생성 원본: `play-progress-source.png`
-- 6단계 컨택시트: `play-progress-contact-sheet.png`
-- 런타임 자산: `play-progress-{log,small,bridge,big,grand,rainbow}-generated.webp`
-- 여섯 장 모두 같은 카메라에서 수달몬 전신과 다리의 변화를 보여 주며, 문제 화면 왼쪽 고정 패널에서 `object-fit: contain`으로 표시합니다.

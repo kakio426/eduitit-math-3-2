@@ -171,10 +171,24 @@ function validateUpgradeFamilies(model) {
     assert(event.weight === expected[index][0] && event.min === expected[index][1] && event.max === expected[index][2], `unified reward event ${index} mismatch`);
   });
   assert(model.WRONG_UPGRADE_EVENT.min === -6 && model.WRONG_UPGRADE_EVENT.max === -3, "wrong answer must lose 3 to 6 power");
+  const emptyEvent = model.UPGRADE_EVENTS.find((event) => event.id === "empty");
+  const emptyResult = model.applyUpgrade(
+    { truckPower: 40, correctFirstTry: 5, superPartSeen: false },
+    { ...emptyEvent, amount: 0 },
+    true
+  );
+  assert(emptyResult.before === 40 && emptyResult.truckPower === 40, "empty reward must preserve accumulated truck power");
 }
 
 function main() {
   const options = parseArgs(process.argv.slice(2));
+  const html = fs.readFileSync(LESSON_PATH, "utf8");
+  assert(html.includes("major:problem.carriedGram.kg, minor:problem.carriedGram.g"), "carry conversion screen must show only the converted gram sum");
+  assert(!html.includes("major:problem.kgSum + problem.carriedGram.kg"), "carry conversion screen leaks the next-step final weight");
+  assert(html.includes("function wrongFeedbackForStep(step)"), "wrong choices need step-specific misconception feedback");
+  assert(!html.includes('ui.feedbackLine.textContent = "다시 골라요."'), "generic wrong feedback must not replace misconception guidance");
+  assert(html.includes('ui.completeExpression.dataset.textAlignRole = problem.type === "limit" ? "sentence" : "math"'), "completion text must distinguish sentence from math alignment");
+  assert(html.includes('borrowKg: "1kg을 빌린 위 무게를 다시 써요."'), "borrow feedback must name one visible action in student language");
   const model = loadLessonModel();
   if (options.injectBadCarry) {
     runMalformedProbe(model);

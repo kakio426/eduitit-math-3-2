@@ -14,6 +14,9 @@ const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
 const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.reward.standard, "mathmon-unified-reward-v1", "lesson must opt into the unified reward contract");
+assert.equal(config.qa.emptyRewardAuditViewport, "empty-reward-fixture", "empty reward must use a fixture separate from desktop impact QA");
+assert.ok(config.qa.requiredFlow.includes("reward-closed") && config.qa.requiredFlow.includes("reward-open"), "required flow must lock both reward states");
 assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
 assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
 assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
@@ -67,6 +70,8 @@ assert.deepEqual(
 
 assert.match(viewSource, /sort-choice-svg/, "each answer surface must show the category relation");
 assert.match(viewSource, /fraction-model-svg/, "fraction notation and quantity model must stay together");
+assert.match(viewSource, /state === "correct"[\s\S]*\? `\$\{problem\.spokenNotation\}, \$\{problem\.kind\}`/, "the category name may be announced only after a correct answer");
+assert.match(viewSource, /: `\$\{problem\.spokenNotation\}, 분수 그림`/, "idle accessibility copy must describe the prompt without revealing its category");
 assert.doesNotMatch(modelSource, /relation:\s*"[^"]*[<>≥≤+][^"]*"/, "choice relation labels must use third-grade words, not symbolic inequalities");
 assert.doesNotMatch(viewSource, /어떤 분수\?/, "main question must not be repeated inside the quantity model");
 assert.doesNotMatch(viewSource, /분류 점수|분류 등급|진행도/, "problem view must not contain reward panels");

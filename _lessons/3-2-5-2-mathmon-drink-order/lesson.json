@@ -3,7 +3,7 @@
   "id": "3-2-5-2", "folder": "3-2-5-2-mathmon-drink-order", "modelName": "Lesson5WaterFillModel",
   "title": "매스몬 음료 제조 주문", "shortTitle": "매스몬 음료", "topic": "들이의 덧셈·뺄셈과 어림", "unitBadge": "5단원 들이",
   "goal": "주문에 맞는 들이를 골라요.", "action": "주문에 맞는 L와 mL 계산 결과를 고른다.",
-  "buttonLabel": "주문 보기", "rewardScreenTitle": "주문 만들기", "progressLabel": "가게 인기",
+  "buttonLabel": "주문 보기", "rewardScreenTitle": "주문 만들기", "progressLabel": "가게 인기", "rewardThing": "주문", "playProgressEyebrow": "지금의 주문",
   "rewardComplete": "가게 인기가 바뀌었어요.", "rewardSmall": "조금 올라갔어요.", "rewardBig": "크게 올라갔어요.",
   "tutorialTitle": "음료를 만들기 전에", "tutorialButton": "문제 시작",
   "tutorialCards": [
@@ -13,7 +13,7 @@
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art",
-    "eventStandard": "mathmon-unified-reward-v1",
+    "standard": "mathmon-unified-reward-v1",
     "maxPower": 100,
     "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
     "closedLabel": "두근두근!",
@@ -40,30 +40,95 @@
     "renderMode": "hybrid-generated-dynamic",
     "showNextGoal": true,
     "layout": {
-      "axisX": 315,
-      "titleTop": 92,
-      "titleWidth": 500,
-      "measureY": 435,
-      "barY": 455,
-      "barWidth": 340,
-      "barHeight": 24,
-      "correctTop": 490,
-      "correctWidth": 210,
-      "nextY": 636,
-      "retryRect": { "x": 165, "y": 655, "width": 300, "height": 108 }
+      "axisX": 424,
+      "axisXByTier": {
+        "cup": 424,
+        "tasty": 387,
+        "tray": 370,
+        "popular": 376,
+        "festival": 389,
+        "rainbow": 384
+      },
+      "byTier": {
+        "cup": { "retryRect": { "x": 274, "y": 555, "width": 300, "height": 60 } },
+        "tasty": { "retryRect": { "x": 237, "y": 555, "width": 300, "height": 60 } },
+        "tray": { "retryRect": { "x": 220, "y": 555, "width": 300, "height": 60 } },
+        "popular": { "retryRect": { "x": 226, "y": 555, "width": 300, "height": 60 } },
+        "festival": { "retryRect": { "x": 239, "y": 555, "width": 300, "height": 60 } },
+        "rainbow": { "retryRect": { "x": 234, "y": 555, "width": 300, "height": 60 } }
+      },
+      "titleTop": 105,
+      "titleWidth": 300,
+      "measureY": 360,
+      "barY": 380,
+      "barWidth": 300,
+      "barHeight": 20,
+      "correctTop": 410,
+      "correctWidth": 150,
+      "nextY": 530,
+      "retryRect": { "x": 274, "y": 555, "width": 300, "height": 60 }
     },
     "stateImageSet": {
-      "count": 4,
+      "standard": "result-tier-fullscene-native-v1",
+      "count": 6,
       "canvas": "1280x800",
       "runtimeSlot": "1280x800",
-      "contactSheet": "result-states-contact-sheet.png",
+      "contactSheet": "result-tiers-v5-contact-sheet.png",
       "protagonist": "zfa-04-nyangnyangmon",
       "fixedGeneratedElements": ["result-title", "retry-button"],
-      "dynamicOverlays": ["shop-popularity", "correct-count", "next-goal"]
+      "dynamicOverlays": ["shop-popularity", "correct-count", "next-goal"],
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true
     }
   },
-  "completion": { "showExpression": false },
-  "workbench": { "type": "drink-order" }, "scoreboard": { "enabled": false },
+  "workbench": {
+    "type": "drink-order",
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "768x1536",
+      "objectFit": "contain",
+      "protagonist": "zfa-04-nyangnyangmon",
+      "cacheVersion": "2026-08-01-left-progress-v1",
+      "runtimeSlot": "stage-left-play-progress-v1",
+      "sourceSetPath": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/source",
+      "contactSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png",
+      "anchorAuditSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png",
+      "filePattern": "play-drink-v1-{tier}-generated.webp",
+      "requiredSubjects": ["냥냥몬 전신", "drink shop progress"],
+      "layoutContract": {
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "combinedFocalCenterX": 0.5,
+        "leftStageRatio": 0.0165,
+        "topStageRatio": 0.11,
+        "widthStageRatio": 0.192,
+        "heightStageRatio": 0.84,
+        "objectFit": "contain",
+        "safeMarginRatio": 0.06,
+        "maxFootBaselineDeltaRatio": 0.03,
+        "mathmonPlacement": {
+          "centerX": 0.52,
+          "centerY": 0.58,
+          "footY": 0.73,
+          "toleranceRatio": 0.03,
+          "sameScaleAcrossStates": true
+        },
+        "subjectAnchors": {
+          "standard": "source-pixel-anchor-v1",
+          "measurement": "full-body visible bounds from current source PNG",
+          "cup": { "centerX": 0.52, "centerY": 0.57, "footY": 0.72, "height": 0.30 },
+          "tasty": { "centerX": 0.52, "centerY": 0.57, "footY": 0.72, "height": 0.30 },
+          "tray": { "centerX": 0.52, "centerY": 0.57, "footY": 0.72, "height": 0.30 },
+          "popular": { "centerX": 0.52, "centerY": 0.59, "footY": 0.74, "height": 0.30 },
+          "festival": { "centerX": 0.52, "centerY": 0.59, "footY": 0.74, "height": 0.30 },
+          "rainbow": { "centerX": 0.52, "centerY": 0.59, "footY": 0.74, "height": 0.30 }
+        },
+        "forbidResultCropReuse": true
+      }
+    }
+  }, "scoreboard": { "enabled": false },
   "sourceFiles": {
     "model": "../3-2-5-1-mathmon-water-fill/model.js",
     "view": "../3-2-5-1-mathmon-water-fill/view.js",
@@ -71,10 +136,12 @@
   },
   "mathmonPack": "zero-factory-animal-pack", "mathmonName": "냥냥몬", "mathmonId": "zfa-04-nyangnyangmon",
   "results": [
-    { "id": "cup", "name": "작은 컵 주문", "minPower": 0, "minCorrect": 0, "image": "result-order-cup-generated.webp", "titleImage": "result-title-cup-generated.webp" },
-    { "id": "tasty", "name": "맛있는 주문", "minPower": 30, "minCorrect": 3, "image": "result-order-tasty-generated.webp", "titleImage": "result-title-tasty-generated.webp" },
-    { "id": "popular", "name": "인기 가게 주문", "minPower": 70, "minCorrect": 7, "image": "result-order-popular-generated.webp", "titleImage": "result-title-popular-generated.webp" },
-    { "id": "rainbow", "name": "무지개 음료 주문", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-order-rainbow-generated.webp", "titleImage": "result-title-rainbow-generated.webp" }
+    { "id": "cup", "name": "작은 컵 주문", "minPower": 0, "minCorrect": 0, "visualRank": 0, "playImage": "play-drink-v1-cup-generated.webp", "image": "result-order-cup-generated.webp", "titleImage": "result-title-cup-generated.webp" },
+    { "id": "tasty", "name": "맛있는 주문", "minPower": 15, "minCorrect": 2, "visualRank": 1, "playImage": "play-drink-v1-tasty-generated.webp", "image": "result-order-tasty-generated.webp", "titleImage": "result-title-tasty-generated.webp" },
+    { "id": "tray", "name": "음료 쟁반 주문", "minPower": 35, "minCorrect": 4, "visualRank": 2, "playImage": "play-drink-v1-tray-generated.webp", "image": "result-order-tray-generated.webp", "titleImage": "result-title-tray-generated.webp" },
+    { "id": "popular", "name": "인기 가게 주문", "minPower": 55, "minCorrect": 6, "visualRank": 3, "playImage": "play-drink-v1-popular-generated.webp", "image": "result-order-popular-generated.webp", "titleImage": "result-title-popular-generated.webp" },
+    { "id": "festival", "name": "황금 축제 주문", "minPower": 78, "minCorrect": 8, "visualRank": 4, "playImage": "play-drink-v1-festival-generated.webp", "image": "result-order-festival-generated.webp", "titleImage": "result-title-festival-generated.webp" },
+    { "id": "rainbow", "name": "무지개 음료 주문", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "visualRank": 5, "playImage": "play-drink-v1-rainbow-generated.webp", "image": "result-order-rainbow-generated.webp", "titleImage": "result-title-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "가게 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "smallOrder" },
@@ -87,11 +154,22 @@
   "wrongEvent": { "id": "wrong-loss", "text": "가게 힘이 줄었어요", "min": -6, "max": -3, "family": "repair" },
   "typesPerRun": ["addCarryMl", "addCarryMl", "addCarryMl", "addCarryMl", "subtractBorrowMl", "subtractBorrowMl", "subtractBorrowMl", "orderCheck", "orderCheck", "orderCheck"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp", "rewardClosed": "reward-event-closed-v2-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp" },
   "qa": {
-    "playProgressDisposition": { "standard": "play-progress-disposition-v1", "status": "not-applicable", "reason": "full-width-learning-area", "minLearningWidthRatio": 0.9 },
+    "emptyRewardAudit": true,
+    "emptyRewardAuditViewport": "empty-reward-fixture",
     "visualContractVersion": 1,
+    "topControlsAudit": {
+      "standard": "stage-top-controls-v1",
+      "unitBadge": "#screen-play .hud-right .unit-badge",
+      "settingsButton": "#settingsButton",
+      "topTolerancePx": 1,
+      "bottomTolerancePx": 1,
+      "centerYTolerancePx": 1,
+      "heightTolerancePx": 1,
+      "minGapPx": 8
+    },
     "misconceptionCoverage": ["ADD_ML_TOTAL", "ADD_LITER_EXCHANGE", "ADD_FINAL_TOTAL", "BORROW_LITER", "SUBTRACT_ML", "SUBTRACT_FINAL", "ORDER_COMPARE"],
     "rewardModalAudit": {
       "standard": "unit3-modal-art-v1",
@@ -115,7 +193,7 @@
     "layoutAudit": {
       "workArea": ".problem-grid", "primary": ".problem-card", "secondary": ".choices-panel",
       "tertiary": ".step-board", "complete": ".complete-panel",
-      "verticalOrder": ["tertiary", "secondary"], "minStageWidthRatio": 0.9
+      "verticalOrder": ["tertiary", "secondary"], "minStageWidthRatio": 0.7
     },
     "answerAccumulationAudit": {
       "standard": "primary-calculation-accumulates-v1",
@@ -143,8 +221,75 @@
       "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
       "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
     },
-    "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "resultBoardAudit": {
+      "standard": "generated-result-board-pixel-axis-v1",
+      "sceneImage": "#resultBg",
+      "matchMode": "light-board",
+      "scanStartRatio": 0.01,
+      "threshold": { "redMin": 220, "greenMin": 205, "blueMin": 160, "channelSpreadMax": 86 },
+      "minimumRunRatio": 0.18,
+      "maxDetectedAxisDeltaPx": 3,
+      "expectedAxisXByTier": {
+        "cup": 423.5,
+        "tasty": 387,
+        "tray": 369.5,
+        "popular": 375.5,
+        "festival": 389,
+        "rainbow": 383.5
+      }
+    },
+    "resultTierContrastAudit": {
+      "standard": "result-tier-contrast-v1",
+      "stateCount": 6,
+      "minimumChangedAxesPerAdjacentTier": 2,
+      "topTwoColorFamiliesMustDiffer": true,
+      "contactSheet": "result-tiers-v5-contact-sheet.png"
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".water-play-progress",
+      "image": ".water-play-progress-art",
+      "label": ".water-play-progress-name",
+      "stateCount": 6,
+      "canvas": "768x1536",
+      "expectedStates": ["cup", "tasty", "tray", "popular", "festival", "rainbow"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "zfa-04-nyangnyangmon",
+      "panelPlacement": { "leftRatio": 0.0165, "topRatio": 0.11, "widthRatio": 0.192, "heightRatio": 0.84, "tolerancePx": 1 },
+      "mathmonPlacement": { "centerX": 0.52, "centerY": 0.58, "footY": 0.73, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "subjectAnchorStandard": "source-pixel-anchor-v1",
+      "subjectAnchorToleranceRatio": 0.03,
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
+    },
+    "rewardEffectAudit": {
+      "standard": "modal-dismiss-world-impact-v2",
+      "panel": ".water-play-progress",
+      "image": ".water-play-progress-art",
+      "activeClasses": ["is-changing", "is-dimming", "is-celebrating", "is-tier-up"],
+      "positiveClasses": ["is-changing", "is-celebrating"],
+      "tierUpClass": "is-tier-up",
+      "impactLayer": ".water-play-progress-impact-stage",
+      "preEffectDelayMs": 320,
+      "durationMs": 1560,
+      "minVisibleMs": 1200,
+      "minImpactStageWidthRatio": 0.32,
+      "deferNextProblem": true,
+      "modalKeepsBackgroundStable": true,
+      "requiresModalClosedBeforeStart": true,
+      "tierChangeRequiresImageSwap": true,
+      "forceTierTransition": { "beforePower": 14, "beforeCorrect": 2, "restoreCorrect": 1, "eventId": "normal", "amount": 6, "beforeTier": "cup", "afterTier": "tasty" }
+    },
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
+      { "name": "user-visibility", "width": 994, "height": 632 },
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 },
+      { "name": "empty-reward-fixture", "width": 1280, "height": 800, "dpr": 1 }
+    ],
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward-closed", "reward-open", "result"]
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp",
@@ -155,10 +300,13 @@
     "reward-event-style-order-generated.webp", "reward-event-small-only-generated.webp",
     "reward-event-special-order-generated.webp", "reward-event-repair-generated.webp",
     "reward-events-v3-contact-sheet.png",
-    "result-order-cup-generated.webp", "result-order-tasty-generated.webp",
-    "result-order-popular-generated.webp", "result-order-rainbow-generated.webp",
-    "result-title-cup-generated.webp", "result-title-tasty-generated.webp",
-    "result-title-popular-generated.webp", "result-title-rainbow-generated.webp",
+    "result-order-cup-generated.webp", "result-order-tasty-generated.webp", "result-order-tray-generated.webp",
+    "result-order-popular-generated.webp", "result-order-festival-generated.webp", "result-order-rainbow-generated.webp",
+    "result-title-cup-generated.webp", "result-title-tasty-generated.webp", "result-title-tray-generated.webp",
+    "result-title-popular-generated.webp", "result-title-festival-generated.webp", "result-title-rainbow-generated.webp",
+    "result-tiers-v5-contact-sheet.png", "result-layout-v5.json",
+    "play-drink-v1-cup-generated.webp", "play-drink-v1-tasty-generated.webp", "play-drink-v1-tray-generated.webp",
+    "play-drink-v1-popular-generated.webp", "play-drink-v1-festival-generated.webp", "play-drink-v1-rainbow-generated.webp",
     "../_shared/result-actions/retry-button-v2-generated.webp"
   ]
 }

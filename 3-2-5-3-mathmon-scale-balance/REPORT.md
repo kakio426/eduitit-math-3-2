@@ -21,7 +21,7 @@
 - 설명: 2쪽 생성 포스터
 - 문제: 큰 문제, 현재 계산판, 한 줄 지시, 선택지만 기본 노출
 - 보상: 저울 변화 하나만 표시
-- 결과: 결과 단계 생성 이미지, 생성형 결과 타이틀, 생성형 `다시` 버튼 아트
+- 결과: 단계별 1280×800 완성 장면 안의 생성형 결과 타이틀·`다시` 버튼 표면과 동적 값 슬롯
 
 ## 4. 생성 이미지 자산
 
@@ -34,8 +34,8 @@
 | `reward-event-*-source.png` / `reward-event-*-generated.webp` | 공개 보상 6상태 개별 512×512 장면 |
 | `reward-events-v3-contact-sheet.png` | 보상 7상태 컨택시트 |
 | `result-scale-*-source.png` / `result-scale-*-generated.webp` | 결과 배경 |
-| `result-title-*-source.png` / `result-title-*-generated.webp` | 결과 이름 타이틀 아트 |
-| `result-retry-button-source.png` / `result-retry-button-generated.webp` | 생성형 다시 버튼 아트 |
+| `result-title-*-source.png` / `result-title-*-generated.webp` | 완성 장면 제작에 사용한 생성형 결과 이름 원본 |
+| `../_shared/result-actions/retry-button-v2-generated.webp` | 완성 장면 제작에 사용한 공용 생성형 다시 버튼 원본 |
 
 ## 5. 매스몬 기준
 
@@ -48,9 +48,11 @@
 | 결과 | 조건 |
 | --- | --- |
 | 살짝 기운 저울 | 0 이상, 바로 맞힌 문제 0개 이상 |
-| 거의 균형 | 30 이상, 바로 맞힌 문제 3개 이상 |
-| 반짝 균형 | 70 이상, 바로 맞힌 문제 7개 이상 |
-| 황금 균형 | 100 이상, 바로 맞힌 문제 1개 이상, 특별 보상 필요 |
+| 거의 균형 | 15 이상, 바로 맞힌 문제 2개 이상 |
+| 균형 저울 | 35 이상, 바로 맞힌 문제 4개 이상 |
+| 반짝 균형 | 55 이상, 바로 맞힌 문제 6개 이상 |
+| 황금 균형 | 78 이상, 바로 맞힌 문제 8개 이상 |
+| 무지개 균형 | 100 이상, 바로 맞힌 문제 1개 이상, 특별 보상 필요 |
 
 ## 7. Humanizer QA
 
@@ -123,10 +125,10 @@
 - kg·g와 t·kg 비교 모두 동률일 때 `같아요`가 실제 정답으로 생성됩니다. 저울 기울기도 `0deg`로 맞춥니다.
 - 보상은 닫힌 상태 `두근두근!`, 열린 상태 `이번 변화 +N` 또는 `이번 변화 0`만 보여 줍니다.
 
-## 2026-08-01 저울 대기 상태 회귀
+## 2026-08-02 저울 대기 상태 회귀
 
-- 서로 다른 무게를 비교하는 문제는 답을 고르기 전부터 실제 무게 관계에 따라 저울대가 기울고, 같은 무게만 수평입니다.
-- 10,000회 실행, 100,000문항에서 `같아요` 정답 11,966건을 확인했습니다. 모델 QA가 `visual.tilt`와 실제 렌더 연결도 검사합니다.
+- 답을 고르기 전에는 모든 비교 저울을 수평으로 두어 정답 방향을 먼저 보여 주지 않습니다. 정답 확인 뒤에만 숨겨 둔 목표 기울기를 적용합니다.
+- 10,000회 실행, 100,000문항에서 `같아요` 정답 11,966건을 확인했습니다. 모델 QA가 대기 `0deg`와 정답 확인 뒤 목표 기울기 적용을 함께 검사합니다.
 - desktop `1280×800`, tablet landscape `1024×768` 전체 흐름의 넘침·교차·누락은 `0건`입니다.
 
 ## 2026-08-01 Kiro 8차 심층 회귀
@@ -135,7 +137,43 @@
 - 왼쪽 문제판에 실제 두 무게와 `?`가 있는 비교판 또는 균형식을 두고, 정답 뒤 비교 부호·빠진 무게가 같은 판에 들어갑니다. 누적 하네스가 대기 정보, 정답 누적, 실색, 넘침을 확인합니다.
 - 100,000회 실행·1,000,000문항에서 동률 정답 `119,804건`을 확인했습니다.
 
-## 2026-08-01 전수감사 최신 증거
+## 2026-08-01 최종 보상 선조정 v5
 
-- 대기 때 저울은 수평이고, 정답 확인 뒤 실제 기울기를 보여 줍니다.
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 12개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.
+- 문제 왼쪽 진행 보상보다 먼저 최종 결과를 `살짝 기운 저울 → 거의 균형 → 균형 저울 → 반짝 균형 → 황금 균형 → 무지개 균형` 6단계로 확정했습니다. 기준은 `0/0`, `15/2`, `35/4`, `55/6`, `78/8`, 특별 `100/1`입니다.
+- 최종 결과 원본은 `result-scale-*-v5-source.png`, 런타임은 `result-scale-*-generated.webp`, 자산 컨택시트는 `result-tiers-v5-contact-sheet.png`, 실제 브라우저 결과 컨택시트는 `result-tiers-v5-browser-contact-sheet.png`입니다.
+- 여섯 장은 낡은 나무 공방, 청동 공방, 은빛 수정 홀, 푸른 수정 성전, 황금 축제 궁전, 무지개 수정 도시로 공간·저울 재질·빛·효과·색 계열이 단계마다 달라집니다. 상위 두 단계도 금빛과 무지개 밤하늘로 구분됩니다.
+- 결과판 픽셀 중심은 단계별 `971.5`, `951.5`, `969`, `943.5`, `1004`, `984.5px`로 검출했으며, 화면 동적 정보는 단계별 축에 맞춥니다.
+- 최종 결과 6단계의 브라우저 QA가 먼저 통과한 뒤 문제 왼쪽 전용 진행 장면 6장을 만들었습니다. 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source/`, 런타임은 `play-scale-v1-*-generated.webp`, 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png`입니다.
+- 진행 이미지는 `768×1536`, `object-fit: contain`이며 최종 결과를 자르거나 재사용하지 않았습니다. 수정부엉몬의 같은 카메라·중심·크기·발 기준선과 전신 잘림 `0건`을 유지합니다.
+- 현재 원본의 수정부엉몬 중심·발 기준선·전신 높이는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png`에서 6장 전수 확인합니다.
+- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`입니다. 전환은 모달 닫힘 뒤 `320ms`를 두고 Stage 폭 `35%` 효과와 새 단계 이미지를 `1560ms` 보여 준 뒤 다음 문제로 이동합니다.
+- Humanizer 학생 문구 QA에서 패널 문구를 `지금의 저울`, 단계 이름, `균형 힘` 한 줄로 유지했습니다.
+- 브라우저 하네스는 `1280×800`, `1024×768`, `1280×720 DPR2`, `994×632`, `1082×987 DPR2`에서 문제 대기·오답·정답 확인·닫힌/열린 보상·단계 상승 효과·결과 6단계를 검사했습니다. 패널 네 변 최대 오차는 `0.016px`, 학습 영역 교차·텍스트 넘침·누락 이미지는 모두 `0건`입니다.
+- `modal-dismiss-world-impact-v2` 고정 fixture에서 모달 선행 닫힘, `320ms` 지연, `35%` 효과 폭, 새 단계 이미지 교체, `1560ms` 표시와 문제 번호 고정을 통과했습니다.
+
+## 2026-08-01 독립 검수 보완 v6
+
+- 독립 검수에서 `result-tier-fullscene-native-v1`인데 제목과 `다시` 버튼 표면을 별도 이미지로 합성하던 계약 위반을 발견했습니다. 여섯 배경을 `result-scale-*-v6-source.png`로 다시 만들고, 생성형 제목과 공용 생성형 `다시` 버튼 표면을 각 1280×800 장면 안에 넣었습니다.
+- 현재 런타임은 `generated-result-fullscene-v3`이며 별도 결과 제목·버튼 아트는 보이지 않습니다. 넓게 바뀌는 `균형 힘`, 진행 막대, 정답 수, 다음 목표와 투명 hitbox만 결과판 위에 표시합니다.
+- `qa.resultVisualAudit`를 추가하고 밝은 결과판의 실제 픽셀 경계를 행 단위로 검출합니다. 여섯 등급의 결과판 중심과 동적 슬롯 중심은 `3px` 이내, 슬롯·hitbox 네 변은 `1px` 이내, 요소 교차는 `0px`를 강제합니다.
+- 자산 팩 manifest에 `3-2-5-3-play-progress-v1`과 `3-2-5-3-result-fullscene-v1`을 등록했습니다.
+- Humanizer QA에서 설명 문구를 `같은 단위로 바꾼 뒤 무게를 비교해요.`로 고쳐 한 문장 안 행동 순서를 분명히 했습니다.
+- 현재 자산 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/contact-sheets/result-tiers-v6-contact-sheet.png`, 현재 브라우저 컨택시트는 `result-tiers-v6-browser-contact-sheet.png`입니다. 5개 viewport 전체 흐름과 결과 6단계 전수 브라우저 QA를 다시 통과했습니다.
+
+## 현재 화면 증거
+
+아래 컨택시트는 현재 `index.html`과 같은 빌드에서 시작·설명·문제·보상·결과 상태를 캡처한 화면 크기별 증거입니다.
+
+![desktop current flow](screenshots/report-flow-desktop-contact-sheet.png)
+
+![tablet landscape current flow](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+![Codex in-app current flow](screenshots/report-flow-codex-in-app-contact-sheet.png)
+
+![user visibility current flow](screenshots/report-flow-user-visibility-contact-sheet.png)
+
+![user reported missing left progress current flow](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
+
+![empty reward current flow](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
+
+현재 실행본 해시와 화면 크기별 캡처 목록은 `screenshots/report-evidence-manifest.json`에 있습니다.

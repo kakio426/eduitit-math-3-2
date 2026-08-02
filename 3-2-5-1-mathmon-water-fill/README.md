@@ -55,8 +55,10 @@
 | 결과 | 조건 |
 | --- | --- |
 | 작은 물통 | 0 이상, 바로 맞힌 문제 0개 이상 |
-| 반짝 물통 | 30 이상, 바로 맞힌 문제 3개 이상 |
-| 가득 물통 | 70 이상, 바로 맞힌 문제 7개 이상 |
+| 반짝 물통 | 15 이상, 바로 맞힌 문제 2개 이상 |
+| 물줄기 물통 | 35 이상, 바로 맞힌 문제 4개 이상 |
+| 가득 물통 | 55 이상, 바로 맞힌 문제 6개 이상 |
+| 황금 물탑 | 78 이상, 바로 맞힌 문제 8개 이상 |
 | 무지개 물탑 | 100 이상, 바로 맞힌 문제 1개 이상, 특별 보상 필요 |
 
 ## Humanizer QA
@@ -96,9 +98,20 @@
 - 설명 2쪽: 10문제, 학생이 확인하는 물통 보상, 마지막 결과
 - 런타임 포스터: `tutorial-page-1-generated.webp`, `tutorial-page-2-generated.webp` (`1280×800`)
 - 생성 원본: `tutorial-page-1-source.png`, `tutorial-page-2-source.png`
-- 결과 4상태 컨택시트: `result-states-contact-sheet.png`
+- 결과 6단계 컨택시트: `result-tiers-v5-contact-sheet.png`
+- 문제 왼쪽 진행 6단계 컨택시트: `../_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png`
+- 문제 왼쪽 진행 픽셀 앵커 검수: `../_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png`
 - 실제 매스몬 팩: `zero-factory-animal-pack` / `zfa-06-penguinmon`
 - 브라우저 QA: `1280×800`, `1024×768`
+
+## 2026-08-01 최종 결과·왼쪽 진행 보상 이관
+
+- 서로 같던 결과 장면을 `작은 물통 → 반짝 물통 → 물줄기 물통 → 가득 물통 → 황금 물탑 → 무지개 물탑`의 서로 다른 6개 완성 장면으로 교체했습니다.
+- 결과 원본은 `result-tank-*-v5-source.png`, 런타임은 `result-tank-*-generated.webp` 1280×800이며, 결과판 픽셀 중심을 단계별 `axisXByTier`에 연결합니다.
+- 문제 화면에는 최종 결과 순서를 그대로 축약한 전용 768×1536 세로 장면 6장을 사용합니다. 최종 결과 이미지를 자르거나 재사용하지 않습니다.
+- 진행 장면 생성 원본: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source`
+- 왼쪽 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`, `object-fit: contain`으로 고정합니다.
+- 브라우저 QA 화면은 `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`입니다.
 
 ## 2026-07-28 전 차시 점검
 

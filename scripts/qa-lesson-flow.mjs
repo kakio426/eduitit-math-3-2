@@ -517,6 +517,12 @@ async function readSnapshot(page) {
       ".instruction",
       ".answer-slot",
       ".complete-text",
+      ".water-play-progress-eyebrow",
+      ".water-play-progress-name",
+      ".progress-eyebrow",
+      ".progress-text",
+      ".unit6-play-progress-eyebrow",
+      ".unit6-play-progress-name",
       ".data-board-title",
       ".data-label",
       ".data-row"
@@ -589,6 +595,9 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
       'button:not(.result-retry-hitbox):not(.result-restart-hitbox)',
       '.brand-badge', '.unit-badge', '.mini-badge', '.big-problem',
       '.instruction', '.feedback-line', '.choice-button', '.complete-text',
+      '.water-play-progress-eyebrow', '.water-play-progress-name',
+      '.progress-eyebrow', '.progress-text',
+      '.unit6-play-progress-eyebrow', '.unit6-play-progress-name',
       '.tutorial-card', '.reward-card', '.complete-panel',
       '.calculation-board', '.capacity-result-note', '.unit6-board',
       '.data-board-title', '.data-label', '.data-row'
@@ -793,6 +802,7 @@ async function auditConfiguredPlayHeader(page, label) {
     const topControls = rects.unit && rects.settings ? {
       standard:topControlsConfig?.standard || '',
       topDelta:Math.abs(rects.unit.top - rects.settings.top),
+      bottomDelta:Math.abs(rects.unit.bottom - rects.settings.bottom),
       centerYDelta:Math.abs((rects.unit.top + rects.unit.height / 2) - (rects.settings.top + rects.settings.height / 2)),
       heightDelta:Math.abs(rects.unit.height - rects.settings.height),
       gap:rects.settings.left - rects.unit.right,
@@ -821,6 +831,7 @@ async function auditConfiguredPlayHeader(page, label) {
     assert(audit.topControls, `${label}: configured top controls did not resolve`, audit);
     assert(audit.topControls.standard === "stage-top-controls-v1", `${label}: top control standard is wrong`, audit);
     assert(audit.topControls.topDelta <= audit.topControlsConfig.topTolerancePx, `${label}: unit badge and settings top edges are misaligned`, audit);
+    assert(audit.topControls.bottomDelta <= (audit.topControlsConfig.bottomTolerancePx ?? audit.topControlsConfig.topTolerancePx), `${label}: unit badge and settings bottom edges are misaligned`, audit);
     assert(audit.topControls.centerYDelta <= audit.topControlsConfig.centerYTolerancePx, `${label}: unit badge and settings centers are misaligned`, audit);
     assert(audit.topControls.heightDelta <= audit.topControlsConfig.heightTolerancePx, `${label}: unit badge and settings heights differ`, audit);
     assert(audit.topControls.gap >= audit.topControlsConfig.minGapPx, `${label}: unit badge and settings gap is too small`, audit);

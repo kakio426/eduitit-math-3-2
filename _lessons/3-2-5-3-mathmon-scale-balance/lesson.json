@@ -13,7 +13,7 @@
   "tutorial": { "mode": "poster-two-step" },
   "reward": {
     "mode": "modal-art",
-    "eventStandard": "mathmon-unified-reward-v1",
+    "standard": "mathmon-unified-reward-v1",
     "maxPower": 100,
     "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
     "closedLabel": "두근두근!",
@@ -96,6 +96,7 @@
       "runtimeSlot": "stage-left-play-progress-v1",
       "sourceSetPath": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source",
       "contactSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png",
+      "anchorAuditSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png",
       "filePattern": "play-scale-v1-{tier}-generated.webp",
       "requiredSubjects": ["수정부엉몬 전신", "balance scale progress"],
       "layoutContract": {
@@ -110,11 +111,21 @@
         "safeMarginRatio": 0.06,
         "maxFootBaselineDeltaRatio": 0.03,
         "mathmonPlacement": {
-          "centerX": 0.5,
-          "centerY": 0.57,
-          "footY": 0.72,
+          "centerX": 0.49,
+          "centerY": 0.56,
+          "footY": 0.71,
           "toleranceRatio": 0.03,
           "sameScaleAcrossStates": true
+        },
+        "subjectAnchors": {
+          "standard": "source-pixel-anchor-v1",
+          "measurement": "full-body visible bounds from current source PNG",
+          "tilted": { "centerX": 0.48, "centerY": 0.56, "footY": 0.72, "height": 0.32 },
+          "almost": { "centerX": 0.48, "centerY": 0.56, "footY": 0.72, "height": 0.32 },
+          "balanced": { "centerX": 0.49, "centerY": 0.55, "footY": 0.71, "height": 0.32 },
+          "shining": { "centerX": 0.49, "centerY": 0.56, "footY": 0.71, "height": 0.31 },
+          "gold": { "centerX": 0.50, "centerY": 0.55, "footY": 0.70, "height": 0.31 },
+          "rainbow": { "centerX": 0.50, "centerY": 0.56, "footY": 0.71, "height": 0.31 }
         },
         "forbidResultCropReuse": true
       }
@@ -148,7 +159,19 @@
   "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp", "rewardClosed": "reward-event-closed-v2-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp" },
   "qa": {
+    "emptyRewardAudit": true,
+    "emptyRewardAuditViewport": "empty-reward-fixture",
     "visualContractVersion": 1,
+    "topControlsAudit": {
+      "standard": "stage-top-controls-v1",
+      "unitBadge": "#screen-play .hud-right .unit-badge",
+      "settingsButton": "#settingsButton",
+      "topTolerancePx": 1,
+      "bottomTolerancePx": 1,
+      "centerYTolerancePx": 1,
+      "heightTolerancePx": 1,
+      "minGapPx": 8
+    },
     "misconceptionCoverage": ["COMPARE_KG_G", "BALANCE_MISSING", "COMPARE_TON_KG"],
     "rewardModalAudit": {
       "standard": "unit3-modal-art-v1",
@@ -282,7 +305,9 @@
       "expectedStandard": "generated-play-progress-v3-left-character",
       "expectedProtagonist": "mathmon-drv-05-crystalowl",
       "panelPlacement": { "leftRatio": 0.0165, "topRatio": 0.11, "widthRatio": 0.192, "heightRatio": 0.84, "tolerancePx": 1 },
-      "mathmonPlacement": { "centerX": 0.5, "centerY": 0.57, "footY": 0.72, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "mathmonPlacement": { "centerX": 0.49, "centerY": 0.56, "footY": 0.71, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "subjectAnchorStandard": "source-pixel-anchor-v1",
+      "subjectAnchorToleranceRatio": 0.03,
       "panelLaneCenterTolerancePx": 1,
       "imagePanelCenterTolerancePx": 1
     },
@@ -302,16 +327,17 @@
       "modalKeepsBackgroundStable": true,
       "requiresModalClosedBeforeStart": true,
       "tierChangeRequiresImageSwap": true,
-      "forceTierTransition": { "beforePower": 13, "beforeCorrect": 2, "restoreCorrect": 1, "eventId": "normal", "amount": 4, "beforeTier": "tilted", "afterTier": "almost" }
+      "forceTierTransition": { "beforePower": 14, "beforeCorrect": 2, "restoreCorrect": 1, "eventId": "normal", "amount": 6, "beforeTier": "tilted", "afterTier": "almost" }
     },
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 },
       { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
       { "name": "user-visibility", "width": 994, "height": 632 },
-      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 }
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 },
+      { "name": "empty-reward-fixture", "width": 1280, "height": 800, "dpr": 1 }
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward-closed", "reward-open", "result"]
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp",

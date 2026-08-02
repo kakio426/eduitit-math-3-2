@@ -71,7 +71,7 @@
   "mathmonId": "base-02-foxmon",
   "reward": {
     "mode": "modal-art",
-    "eventStandard": "mathmon-unified-reward-v1",
+    "standard": "mathmon-unified-reward-v1",
     "displayStandard": "unit5-package-modal-art-v2",
     "maxPower": 100,
     "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
@@ -156,7 +156,28 @@
     "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "qa": {
+    "emptyRewardAudit": true,
+    "emptyRewardAuditViewport": "empty-reward-fixture",
     "visualContractVersion": 1,
+    "topControlsAudit": {
+      "standard": "stage-top-controls-v1",
+      "unitBadge": "#screen-play .hud-right .unit-badge",
+      "settingsButton": "#settingsButton",
+      "topTolerancePx": 1,
+      "bottomTolerancePx": 1,
+      "centerYTolerancePx": 1,
+      "heightTolerancePx": 1,
+      "minGapPx": 8
+    },
+    "layoutAudit": {
+      "workArea": ".problem-grid",
+      "primary": ".problem-card",
+      "secondary": ".choices-panel",
+      "tertiary": ".step-board",
+      "complete": ".complete-panel",
+      "verticalOrder": ["tertiary", "secondary"],
+      "minStageWidthRatio": 0.7
+    },
     "standalonePackageAudit": {
       "standard": "standalone-html-v1",
       "entry": "index.html",
@@ -303,9 +324,10 @@
       { "name": "tablet-landscape", "width": 1024, "height": 768 },
       { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
       { "name": "user-visibility", "width": 994, "height": 632 },
-      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 }
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 },
+      { "name": "empty-reward-fixture", "width": 1280, "height": 800, "dpr": 1 }
     ],
-    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
+    "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward-closed", "reward-open", "result"]
   },
   "assets": [
     "cover-generated.webp",

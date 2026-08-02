@@ -15,7 +15,9 @@ const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
 const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.reward.standard, "mathmon-unified-reward-v1", "lesson must opt into the unified reward contract");
 assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
+assert.equal(config.qa.emptyRewardAuditViewport, "user-reported-missing-left-progress-1082x987-dpr2", "empty and tier-up browser fixtures must run independently");
 assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
 assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
 assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
@@ -32,8 +34,50 @@ assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/re
 assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
 assert.ok(config.assets.includes("../_shared/mathmon/cover-start-button/start-button-generated.webp"), "shared start button must be listed");
 assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);
+assert.equal(config.qa.topControlsAudit.standard, "stage-top-controls-v1");
+assert.equal(config.qa.topControlsAudit.unitBadge, "#screen-play .hud-right .unit-badge");
+assert.equal(config.qa.topControlsAudit.settingsButton, "#settingsButton");
+assert.equal(config.qa.topControlsAudit.topTolerancePx, 1);
+assert.equal(config.qa.topControlsAudit.bottomTolerancePx, 1);
+assert.equal(config.qa.topControlsAudit.centerYTolerancePx, 1);
+assert.equal(config.qa.topControlsAudit.heightTolerancePx, 1);
+assert.equal(config.qa.topControlsAudit.minGapPx, 8);
 assert.equal(config.qa.visualContractVersion, 1);
-assert.equal(config.qa.bridgeFitAudit.sharedScaleAttribute, "data-px-per-cm");
+assert.equal(config.standards.playProgress, "generated-play-progress-v3-left-character");
+assert.equal(config.workbench.playStateImageSet.standard, "generated-play-progress-v3-left-character");
+assert.equal(config.workbench.playStateImageSet.count, 6);
+assert.equal(config.workbench.playStateImageSet.canvas, "768x1536");
+assert.equal(config.workbench.playStateImageSet.objectFit, "contain");
+assert.equal(config.workbench.playStateImageSet.protagonist, "zfa-03-sudalmon");
+assert.equal(config.qa.playProgressAudit.standard, "stage-left-play-progress-v1");
+assert.equal(config.qa.rewardEffectAudit.standard, "modal-dismiss-world-impact-v2");
+assert.equal(config.qa.rewardEffectAudit.preEffectDelayMs, 320);
+assert.ok(config.qa.rewardEffectAudit.minVisibleMs >= 1200);
+assert.ok(config.qa.rewardEffectAudit.minImpactStageWidthRatio >= 0.32);
+assert.deepEqual(config.qa.playProgressAudit.panelPlacement, {
+  leftRatio: 0.0165,
+  topRatio: 0.11,
+  widthRatio: 0.192,
+  heightRatio: 0.84,
+  tolerancePx: 1,
+});
+assert.equal(new Set(config.results.map((result) => result.playImage)).size, 6, "six tiers must use six dedicated play images");
+assert.ok(config.results.every((result) => config.assets.includes(result.playImage)), "every play image must be listed as a runtime asset");
+assert.equal(config.qa.circleRelationAudit.standard, "circle-only-one-known-v4");
+assert.equal(config.qa.circleRelationAudit.promptMode, "ask-only");
+assert.equal(config.qa.circleRelationAudit.maxKnownLabels, 1);
+assert.equal(config.qa.circleRelationAudit.choiceTrackPx, 166);
+assert.equal(config.qa.circleRelationAudit.compactChoiceTrackPx, 146);
+assert.equal(config.qa.circleRelationAudit.minChoiceHeightPx, 58);
+assert.equal(config.qa.circleRelationAudit.visual, ".circle-relation-svg");
+assert.equal(config.qa.circleRelationAudit.answer, ".source-question");
+assert.equal(config.qa.circleRelationAudit.choice, ".length-choice");
+assert.deepEqual([...config.qa.circleRelationAudit.forbidSelectors], [
+  ".bridge-target",
+  ".length-transfer",
+  ".bridge-part-svg",
+  ".installed-bridge",
+]);
 assert.deepEqual([...config.qa.misconceptionCoverage], [
   "DIAMETER_NOT_DOUBLED",
   "DIAMETER_ONE_SHORT",
@@ -42,16 +86,15 @@ assert.deepEqual([...config.qa.misconceptionCoverage], [
   "RADIUS_TOO_LONG",
   "RADIUS_TOO_SHORT",
 ]);
-assert.deepEqual([...config.qa.bridgeFitAudit.choiceRange], [1, 14]);
 
 vm.runInContext(
   `${viewSource}
-   globalThis.__getBridgeGeometry = getBridgeGeometry;
-   globalThis.__getBridgeFit = getBridgeFit;`,
+   globalThis.__getCircleGeometry = getCircleGeometry;
+   globalThis.__circleRelationMarkup = circleRelationMarkup;`,
   context
 );
-const getBridgeGeometry = context.__getBridgeGeometry;
-const getBridgeFit = context.__getBridgeFit;
+const getCircleGeometry = context.__getCircleGeometry;
+const circleRelationMarkup = context.__circleRelationMarkup;
 
 for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);
@@ -65,35 +108,17 @@ for (let seed = 1; seed <= 200; seed += 1) {
     assert.equal(step.choices.length, 4, `${problem.id}: four length choices`);
     assert.equal(step.choices.filter((choice) => choice.id === step.answerChoiceId).length, 1, `${problem.id}: one answer`);
     assert.equal(new Set(step.choices.map((choice) => choice.value)).size, 4, `${problem.id}: four distinct lengths`);
+    assert.ok(step.choices.every((choice) => choice.visualKind === "length"), `${problem.id}: choices stay numeric`);
+    assert.equal(step.instruction, "알맞은 길이를 골라요.", `${problem.id}: one short action`);
+    assert.equal(problem.prompt, problem.ask === "지름" ? "지름은?" : "반지름은?", `${problem.id}: headline asks only the unknown`);
     assert.ok(step.correctText.length <= 34, `${problem.id}: confirmation copy stays short`);
-    const geometry = getBridgeGeometry(problem, step.choices);
-    assert.ok(
-      Math.abs(geometry.pxPerCm * geometry.maxVisibleCm - 320) < 0.0001,
-      `${problem.id}: one maximum span defines the shared scale`
-    );
-    assert.equal(
-      geometry.circleDiameterPx,
-      problem.diameter * geometry.pxPerCm,
-      `${problem.id}: circle uses the shared scale`
-    );
-    assert.equal(
-      geometry.targetWidth,
-      step.answer * geometry.pxPerCm,
-      `${problem.id}: target uses the shared scale`
-    );
-    for (const choice of step.choices) {
-      const fitGeometry = getBridgeFit(choice.value, geometry);
-      assert.equal(
-        fitGeometry.width,
-        choice.value * geometry.pxPerCm,
-        `${problem.id}/${choice.value}: candidate and installed bridge use the shared scale`
-      );
-      assert.equal(
-        fitGeometry.fit,
-        choice.value === step.answer ? "fit" : choice.value < step.answer ? "short" : "long",
-        `${problem.id}/${choice.value}: physical fit state`
-      );
-    }
+    const geometry = getCircleGeometry(problem);
+    assert.equal(geometry.centerX, 380, `${problem.id}: circle stays centered`);
+    assert.equal(geometry.circleY, 158, `${problem.id}: circle baseline stays fixed`);
+    assert.equal(geometry.circleRadiusPx, 124, `${problem.id}: circle size stays fixed`);
+    assert.equal(geometry.answer, step.answer, `${problem.id}: unknown segment uses the answer`);
+    const idleMarkup = circleRelationMarkup(problem, geometry, null);
+    assert.equal((idleMarkup.match(/class="known-length"/g) || []).length, 1, `${problem.id}: known length appears once`);
     const requiredMisconception = problem.ask === "지름" ? "DIAMETER_NOT_DOUBLED" : "RADIUS_NOT_HALVED";
     assert.ok(step.choices.some((choice) => choice.misconceptionId === requiredMisconception), `${problem.id}: core misconception`);
     for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
@@ -105,20 +130,31 @@ for (let seed = 1; seed <= 200; seed += 1) {
   assert.equal(counts.get("반지름"), 5, `seed ${seed}: five radius questions`);
 }
 
-assert.match(viewSource, /bridge-part-svg/, "each answer surface must show a bridge part");
-assert.match(viewSource, /bridgeStructureMarkup/, "candidates and installed answers must share one bridge structure renderer");
-assert.match(viewSource, /BRIDGE_SCALE_MAX_PX/, "all geometry must derive from one scale constant");
-assert.match(viewSource, /circle-bridge-confirm-svg/, "circle relation must remain visible for confirmation");
-assert.match(viewSource, /data-fit=/, "installed bridge must expose a physical fit state");
-assert.match(viewSource, /dataset\.pxPerCm/, "rendered workbench must expose the shared physical scale");
-assert.match(viewSource, /bridge-difference/, "wrong answers must show a visible length difference");
-assert.match(viewSource, /bridge-fit-check/, "correct answers must visibly lock into place");
+assert.match(viewSource, /circle-relation-svg/, "the problem must show one centered circle relation");
+assert.match(viewSource, /length-choice-value/, "each answer must be a simple numeric length");
+assert.match(viewSource, /source-question/, "the unknown length must stay on the circle segment");
+assert.match(modelSource, /알맞은 길이를 골라요\./, "the instruction must contain one short action");
+assert.doesNotMatch(viewSource, /bridge-target|length-transfer|bridge-part-svg|installed-bridge/, "the problem must not render a second bridge diagram");
+assert.doesNotMatch(viewSource, /bridgeStructureMarkup|bridgeDifferenceMarkup|getBridgeFit/, "retired bridge-fit geometry must be removed");
+assert.doesNotMatch(viewSource, /다리 자리|같은 길이/, "retired explanatory labels must be removed");
 assert.match(viewSource, /classList\.add\("result-restart-hitbox"\)/, "baked result retry button must keep a measured hitbox");
 assert.match(viewSource, /selected === geometry\.answer \? "=" : "≠"/, "wrong comparison must never show a false equality");
-assert.doesNotMatch(viewSource, /다리 점수|다리 등급|진행도/, "problem view must not contain reward panels");
+assert.match(viewSource, /className = "compass-play-progress"/, "problem view must expose the measured left progress panel");
+assert.match(viewSource, /function syncBridgePlayProgress/, "play progress must synchronize all six result tiers");
+assert.match(viewSource, /function onRewardReveal/, "reward reveal must remember the pending world change");
+assert.match(viewSource, /async function onRewardDismiss/, "reward dismissal must apply the world change after the modal closes");
+assert.match(viewSource, /globalThis\.onRewardDismiss = onRewardDismiss/, "reward dismissal hook must be registered with the engine");
+assert.match(viewSource, /effectStartedWithModalHidden/, "world impact must expose modal-first timing evidence");
+assert.doesNotMatch(viewSource, /다리 점수|다리 등급|진행도/, "problem view must not add a second reward vocabulary");
 assert.doesNotMatch(viewSource, /bridgeChoiceMarkup|bridge-choice-svg/, "retired floating measurement-handle choices must be removed");
-assert.match(lessonCss, /\.bridge-part\s*\{[\s\S]*?background:\s*transparent;/, "individual answer cards must have no card surface");
-assert.match(lessonCss, /\.choices-panel\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/, "four parts must share one two-by-two workshop rack");
-assert.doesNotMatch(lessonCss, /\.bridge-choice\b/, "retired teal choice card selectors must be removed");
+assert.match(lessonCss, /\.compass-play-progress\s*\{[\s\S]*?top:\s*11%;[\s\S]*?left:\s*1\.65%;[\s\S]*?width:\s*19\.2%;[\s\S]*?height:\s*84%;/, "left progress panel must keep the fixed Stage placement");
+assert.match(lessonCss, /\.compass-play-progress-art\s*\{[\s\S]*?object-fit:\s*contain;/, "play scene must never be cropped");
+assert.match(lessonCss, /\.compass-play-progress-impact-stage\s*\{[\s\S]*?width:\s*35%;/, "world impact must cover at least 32% of the Stage width");
+assert.match(lessonCss, /\.hud\s*\{[\s\S]*?top:\s*var\(--top-control-y\);/, "play HUD and settings must share one vertical token");
+assert.match(lessonCss, /\.circle-relation-svg\s*\{[\s\S]*?max-width:\s*650px;/, "the single circle visual must stay compact");
+assert.match(lessonCss, /\.length-choice\s*\{[\s\S]*?min-height:\s*58px;[\s\S]*?place-items:\s*center;/, "numeric choices must use large centered touch targets");
+assert.match(lessonCss, /\.choices-panel\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/, "four lengths must stay in a two-by-two grid");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+50px\s+166px;/, "desktop must give more height to answer choices");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+46px\s+146px;/, "compact landscape must keep larger answer choices");
 
 console.log("QA_ENGINE_UNIT3_DOUBLE_BRIDGE_SOURCE: PASS");

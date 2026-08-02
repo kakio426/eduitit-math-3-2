@@ -27,11 +27,21 @@
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장. 첫 장은 분자·분모, 둘째 장은 랜덤 보상과 마지막 피자 이름을 보여 줍니다.
 - 랜덤 보상 상태 세트: 닫힌 피자 상자 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과 배경: 글자와 버튼이 없는 `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장
-- 결과 제목: 투명 생성 자산 `result-title-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장
-- 결과 버튼: 투명 생성 자산 `result-restart-button-generated.webp`
-- 결과 배경 컨택시트: `result-tiers-v3-contact-sheet.png`
-- 결과 제목 컨택시트: `result-titles-v3-contact-sheet.png`
+- 최종 보상 장면: `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장. 각 장은 1280×800 완성 장면이며 배경·여우몬·피자·등급 제목·빈 결과판·`다시` 버튼 표면을 한 이미지 안에 넣었습니다.
+- 최종 보상 생성 원본: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/source/result-*-v4-source.png`
+- 최종 보상 런타임 PNG: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/runtime-png/result-*-generated.png`
+- 최종 보상 컨택시트: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png`
+- 실제 브라우저 결과 전수표: `screenshots/result-all-tiers-desktop-contact-sheet.png`, `screenshots/result-all-tiers-tablet-landscape-contact-sheet.png`
+- 문제 왼쪽 진행 생성 원본: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/source/play-pizza-v1-*-source.png`
+- 문제 왼쪽 진행 런타임: `play-pizza-v1-*-generated.webp`, 768×1536, `object-fit: contain`
+- 문제 왼쪽 진행 전수표: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/contact-sheets/play-pizza-progress-v1-contact-sheet.png`
+- 여우몬 중심·발 기준선 검수표: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/contact-sheets/play-pizza-progress-v1-anchor-audit.png`
+
+최종 보상은 비 오는 낡은 손수레의 `한 조각`에서 시작해 꽃이 핀 가게, 벽돌 화덕 식당, 네온 축제 무대, 황금 피자 궁전, 무지개 피자 세계로 올라갑니다. 인접 단계마다 장소·날씨·피자 크기·빛·여우몬 반응 가운데 두 가지 이상이 달라지며, 최상위 두 단계는 황금과 무지개 색 계열로 분명히 구분합니다. 현재 피자 빛·진행 막대·정답 수·다음 목표만 빈 결과판 위에 동적으로 표시합니다.
+
+최종 보상 6등급은 `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 전수 검사했습니다. 생성 결과판 중심과 선언 축 차이는 3px 이내, 동적 요소 축 오차는 1px 이내이며 글자 넘침·요소 교차·Stage 이탈은 0건입니다.
+
+문제 왼쪽 진행은 최종 보상 6등급을 확정한 뒤 같은 성장 순서로 별도 제작했습니다. Stage 기준 `left 1.65% / top 11% / width 19.2% / height 84%` 슬롯에서 여섯 장을 모두 `contain`으로 표시하며, 학습판 교차와 여우몬 전신 잘림은 0건입니다. 보상 카드를 닫은 뒤 `320ms` 후 진행 장면을 바꾸고 `1560ms` 동안 변화 효과를 보여 준 다음에만 다음 문제로 이동합니다.
 
 시작 버튼은 `shared-canonical-v1` 한 세트만 쓰며, 1280×800 Stage에서 360×152px, 작은 화면에서 최소 300×127px로 표시합니다. 모든 화면은 16:10, 기준 크기 1280×800 Stage를 사용합니다.
 

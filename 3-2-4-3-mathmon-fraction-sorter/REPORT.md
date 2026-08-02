@@ -9,6 +9,14 @@
 - `1280×800`, `1024×768`에서 결과 6단계를 모두 검사했습니다. 축 오차는 Stage 폭의 1.5% 이하, 요소 교차·Stage 이탈·누락 이미지는 0건, 버튼 아트와 hitbox 경계 차이는 1px 이하입니다.
 - 최신 배경 컨택시트는 `result-tiers-v3-contact-sheet.png`, 제목 컨택시트는 `result-titles-v3-contact-sheet.png`입니다.
 
+## 2026-08-01 최종 결과 대비 선행 조정
+
+- 문제 화면 왼쪽 진행 보상을 만들기 전에 최종 결과 6장을 먼저 다시 비교했습니다. 앞 5장이 사실상 같은 공방이던 세트는 진행 기준으로 쓰지 않았습니다.
+- 새 생성 장면은 `멈춘 작은 분류대 → 한 줄 가동 → 두 줄 가동 → 청보라 다층 분류 공장 → 금빛 공장장 무대 → 무지개 전설 공장` 순서로 기계 규모·완성물 수·빛 범위·판다몬 반응·색 계열이 함께 커집니다.
+- 최상위 두 장은 금빛과 무지개 색 계열로 분리했습니다. CSS 효과·혼합 모드·단계별 필터를 덧붙이지 않고 각 등급을 서로 다른 1280×800 완성 장면으로 연결했습니다.
+- 생성 원본은 `result-{first,row,line,bigline,manager,rainbow}-v4-source.png`, 런타임은 기존 `result-*-generated.webp`, 전수 비교표는 `result-tiers-v4-contact-sheet.png`입니다.
+- 빈 결과판 픽셀 중심을 각 장에서 검출하고 `axisXByTier`에 `842, 842, 851, 851, 849, 842`를 선언했습니다. 동적 제목·진행 막대·정답 수·다음 목표·다시 버튼은 검출 중심과 3px 이내여야 합니다.
+
 ## 2026-07-23 V2 보완 결과
 
 - 공용 시작 버튼 `../_shared/mathmon/cover-start-button/start-button-generated.webp`만 사용합니다.
@@ -65,7 +73,7 @@
 
 ## 상태별 최신 증거
 
-- 화면 크기: `1280×800`, `1024×768`
+- 화면 크기: `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`
 - 상태: 커버, 설정 모달, 설명 1·2, 문제 대기, 오답 2종, 정답 확인, 마지막 확인, 닫힌 보상, 열린 보상, 결과 6등급
 - 현재 증거: `screenshots/engine-flow-desktop-*`, `screenshots/engine-flow-tablet-landscape-*`
 - 결과 6등급: `screenshots/engine-flow-*-08a-result-*.png`
@@ -105,6 +113,19 @@
 - 문제판 `#eef9ec`, 완료판 `#e8f6e8`, 선택지 표면을 모두 완전 불투명 색으로 고정했습니다.
 - 소스 QA와 desktop·tablet 전체 흐름 QA가 불투명 표면, 학생 문구, 넘침·교차 `0건`을 다시 확인합니다.
 
-## 2026-08-01 전수감사 최신 증거
+## 2026-08-01 왼쪽 진행 보상 연결
 
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 11개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.
+- 독립 검수에서 승인된 최종 결과 v4 6단계를 기준으로 문제 화면 전용 세로 장면 6장을 새로 생성했습니다. 최종 결과 이미지를 자르거나 재사용하지 않았습니다.
+- 두 차례 초안에서 판다몬 크기와 발 기준선이 움직인 장면은 제외했습니다. 최종 세트는 첫 장을 공통 기준으로 각각 다시 생성해 같은 중심·크기·발 기준선을 유지하며 전신 잘림이 없습니다.
+- 런타임 파일은 `play-sorter-v1-*-generated.webp` 6장, 각 768×1536, `object-fit: contain`입니다. 생성 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/play-progress-v1/source`, 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/play-progress-v1/contact-sheets/play-sorter-progress-v1-contact-sheet.png`, 실제 픽셀 앵커 검수는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/play-progress-v1/contact-sheets/play-sorter-progress-v1-anchor-audit.png`에 보관합니다.
+- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`로 고정합니다. 이미지 행은 실제 1:2 비율로 표시해 검은 빈 띠나 CSS 크롭이 없습니다.
+- 보상 모달을 완전히 닫은 뒤 320ms를 두고 장면을 바꾸며, Stage 폭 35%의 강한 효과를 1560ms 표시합니다. 최소 1200ms 동안 다음 문제로 넘어가지 않습니다.
+- 왼쪽 패널을 넣은 뒤 태블릿과 `994×632`에서 선택지 작은 설명이 각각 실제 15.98px, 17.66px로 줄어든 실패를 발견해 원본 글자 크기를 22px로 올렸습니다. 현재 실제 렌더는 최소 18px을 통과합니다.
+- `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`의 다섯 화면에서 현재 실행본 전체 흐름을 다시 확인했습니다. 선언한 패널 네 변과 실제 패널의 최대 오차는 `0.02px` 미만, 학습 영역 교차 `0px`, 텍스트 넘침·요소 겹침·이미지 누락 `0건`입니다.
+- 결과 6장의 실제 픽셀 결과판 축과 동적 UI 축 오차는 모두 `3px` 이하입니다. 모달 선행 닫힘, `320ms` 시선 이동 여백, 이미지·단계 교체, Stage 폭 `35%` 효과, `1560ms` 효과 유지, 최소 `1200ms` 문제 번호 고정을 브라우저 하네스로 확인했습니다.
+- Humanizer 학생 문구 QA에서 새 상태 라벨 `지금의 분류`와 상태 안내를 확인했습니다. 제작자 용어를 덧붙이지 않고 한 화면에서 현재 단계 하나만 읽히도록 유지했습니다.
+
+## 2026-08-02 현재 화면 증거
+
+- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-994x632-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`, `screenshots/report-flow-empty-reward-fixture-contact-sheet.png`
+- 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`

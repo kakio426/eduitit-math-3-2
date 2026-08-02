@@ -136,6 +136,19 @@
 - 오답 문구는 `답보다 1L 많아요`처럼 정답 차이를 알려 주지 않고 `고른 수가 너무 커요/작아요. 계산판을 다시 봐요.`로 바꿨습니다.
 - `primary-calculation-accumulates-v1` 하네스가 세 단계 누적값 `1→2→3`, 실색, 실제 정보, 넘침 `0건`을 검사합니다. 100,000회 실행·1,000,000문항에서 동률 정답 `59,465건`을 확인했습니다.
 
-## 2026-08-01 전수감사 최신 증거
+## 2026-08-01 최종 보상 선조정·왼쪽 진행 보상 v1
 
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 12개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.
+- 최종 결과를 먼저 `작은 컵 주문 → 맛있는 주문 → 음료 쟁반 주문 → 인기 가게 주문 → 황금 축제 주문 → 무지개 음료 주문` 6단계로 확정했습니다. 기준은 `0/0`, `15/2`, `35/4`, `55/6`, `78/8`, 특별 `100/1`입니다.
+- 최종 결과 원본은 `result-order-*-v5-source.png`, 런타임은 `result-order-*-generated.webp`, 자산 컨택시트는 `result-tiers-v5-contact-sheet.png`, 실제 브라우저 컨택시트는 `result-tiers-v5-browser-contact-sheet.png`입니다.
+- 여섯 결과 장면은 컵·음료 수·가게 규모·손님 수·조명·색 계열이 단계마다 커지며, 상위 둘은 금빛 궁전과 밤의 무지개 수정 도시로 구분됩니다.
+- 결과판 픽셀 중심은 단계별 `423.5`, `387`, `369.5`, `375.5`, `389`, `383.5px`로 검출했고, 선언 축과 최대 오차 `3px` 이하로 연결했습니다.
+- 최종 결과 승인 뒤에만 문제 왼쪽 전용 진행 장면 6장을 만들었습니다. 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/source/`, 런타임은 `play-drink-v1-*-generated.webp`, 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png`입니다.
+- 진행 이미지는 `768×1536`, `object-fit: contain`이며 최종 결과를 자르거나 재사용하지 않았습니다. 냥냥몬의 같은 카메라·중심·크기·발 기준선과 전신 잘림 `0건`을 유지합니다.
+- 현재 원본의 냥냥몬 중심·발 기준선·전신 높이는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png`에서 6장 전수 확인합니다.
+- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`입니다. 전환은 모달 닫힘 뒤 `320ms`를 두고 Stage 폭 `35%` 효과와 새 단계 이미지를 `1560ms` 보여 준 뒤 다음 문제로 이동합니다.
+- Humanizer 학생 문구 QA에서 패널 문구를 `지금의 주문`, 단계 이름, `가게 인기` 한 줄로 유지했습니다.
+
+## 2026-08-02 현재 화면 증거
+
+- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png`, `screenshots/report-flow-empty-reward-fixture-contact-sheet.png`
+- 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`

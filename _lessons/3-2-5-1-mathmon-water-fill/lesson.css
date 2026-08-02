@@ -54,6 +54,17 @@
   gap: 8px;
 }
 
+.game[data-workbench-type="water-fill"] .step-board .instruction,
+.game[data-workbench-type="drink-order"] .step-board .instruction,
+.game[data-workbench-type="scale-balance"] .step-board .instruction,
+.game[data-workbench-type="water-fill"] .step-board .feedback-line,
+.game[data-workbench-type="drink-order"] .step-board .feedback-line,
+.game[data-workbench-type="scale-balance"] .step-board .feedback-line {
+  width: 100%;
+  justify-self: stretch;
+  text-align: left;
+}
+
 .game[data-workbench-type="water-fill"] .problem-grid,
 .game[data-workbench-type="drink-order"] .problem-grid,
 .game[data-workbench-type="scale-balance"] .problem-grid {
@@ -107,6 +118,17 @@
   text-align: center;
 }
 
+.game .complete-text[data-text-align-role="sentence"] {
+  width: 100%;
+  justify-self: stretch;
+  text-align: left;
+}
+
+.game .complete-text[data-text-align-role="math"] {
+  justify-self: center;
+  text-align: center;
+}
+
 .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-text,
 .game[data-workbench-type="drink-order"] .problem-grid.is-complete .complete-text,
 .game[data-workbench-type="scale-balance"] .problem-grid.is-complete .complete-text,
@@ -137,6 +159,40 @@
   align-items: stretch;
   gap: 10px;
   min-height: 0;
+}
+
+.game[data-workbench-type="water-fill"] .visual-area {
+  min-height: 0;
+}
+
+.game[data-workbench-type="scale-balance"] .visual-area {
+  min-height: 0;
+}
+
+.game[data-workbench-type="scale-balance"] #screen-result > .raster-bg {
+  object-fit: cover;
+  filter: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+.game[data-workbench-type="scale-balance"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="scale-balance"] .result-dynamic-ui .result-restart-surface {
+  display: none;
+}
+
+.game[data-workbench-type="scale-balance"] .result-dynamic-ui #resultMeasureSvg {
+  font-size: 32px;
+}
+
+.game[data-workbench-type="scale-balance"] .result-dynamic-ui #resultNextSvg {
+  font-size: 28px;
+  stroke-width: 6px;
+}
+
+.game[data-workbench-type="scale-balance"] .result-title-art,
+.game[data-workbench-type="scale-balance"] .result-retry-hitbox .result-retry-art {
+  display: none !important;
 }
 
 .capacity-scene {
@@ -431,3 +487,191 @@
 .hud .mini-badge {
   font-size: 1rem;
 }
+.game.has-play-progress .water-play-progress {
+  position: absolute;
+  top: 11%;
+  left: 1.65%;
+  z-index: 4;
+  width: 19.2%;
+  height: 84%;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid rgba(96, 215, 255, .92);
+  border-radius: 22px;
+  background: #102839;
+  box-shadow: 0 16px 34px rgba(10, 43, 65, .4), inset 0 0 0 1px rgba(255, 249, 220, .22);
+}
+
+.game.has-play-progress .water-play-progress-art {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 2;
+  flex: 0 0 auto;
+  min-height: 0;
+  display: block;
+  object-fit: contain;
+  object-position: center center;
+  background: #0d2333;
+  transition: filter .42s ease, transform .52s ease, opacity .28s ease;
+}
+
+.game.has-play-progress .water-play-progress-flare {
+  position: absolute;
+  inset: -18%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transform: rotate(-18deg) scale(.72);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 238, .98) 0 3%, rgba(91, 224, 255, .76) 11%, rgba(255, 205, 84, .42) 27%, transparent 50%),
+    linear-gradient(108deg, transparent 34%, rgba(255, 255, 255, .92) 46%, rgba(114, 232, 255, .72) 51%, transparent 63%);
+  mix-blend-mode: screen;
+}
+
+.game.has-play-progress .water-play-progress-impact-stage {
+  position: absolute;
+  top: 4%;
+  left: -1%;
+  z-index: 5;
+  width: 35%;
+  height: 92%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.62);
+  background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(90,224,255,.68) 13%, rgba(255,205,88,.45) 31%, rgba(56,169,230,.24) 48%, transparent 71%);
+  filter: drop-shadow(0 0 30px rgba(87, 219, 255, .9));
+  mix-blend-mode: screen;
+}
+
+.game.has-play-progress .step-board .instruction {
+  min-height: 50px;
+}
+
+.game.has-play-progress .water-play-progress-impact-stage::before,
+.game.has-play-progress .water-play-progress-impact-stage::after {
+  content: "";
+  position: absolute;
+  inset: 8% 4%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.game.has-play-progress .water-play-progress-impact-stage::before {
+  border: 5px solid rgba(225, 251, 255, .94);
+  box-shadow: 0 0 20px 6px rgba(94, 221, 255, .72), 0 0 58px 20px rgba(255, 196, 74, .62), inset 0 0 36px rgba(91, 213, 255, .62);
+  opacity: 0;
+  transform: scale(.2);
+}
+
+.game.has-play-progress .water-play-progress-impact-stage::after {
+  inset: -4%;
+  background: repeating-conic-gradient(from 4deg, transparent 0 7deg, rgba(238, 253, 255, .72) 8deg 9deg, transparent 10deg 21deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+  mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+  opacity: 0;
+  transform: rotate(-16deg) scale(.52);
+}
+
+.game.has-play-progress .water-play-progress-readout {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 8px 12px 11px;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  border-top: 2px solid rgba(96, 215, 255, .68);
+  background: linear-gradient(180deg, rgba(25, 78, 107, .98), rgba(14, 45, 64, .99));
+}
+
+.game.has-play-progress .water-play-progress-eyebrow {
+  color: #dff8ff;
+  font-size: clamp(.68rem, 1vw, .78rem);
+  line-height: 1.2;
+  font-weight: 900;
+  text-align: center;
+}
+
+.game.has-play-progress .water-play-progress-name {
+  max-width: 100%;
+  color: #ffe19e;
+  font-size: clamp(.94rem, 1.45vw, 1.16rem);
+  line-height: 1.2;
+  font-weight: 1000;
+  text-align: center;
+  word-break: keep-all;
+  text-shadow: 0 2px 0 #4c3b1a;
+}
+
+.game.has-play-progress .water-play-progress-meter {
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  display: block;
+  border: 1px solid rgba(231, 252, 255, .82);
+  border-radius: 999px;
+  background: rgba(5, 23, 34, .92);
+}
+
+.game.has-play-progress .water-play-progress-meter-fill {
+  width: 0%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #56dfff, #35d9b2, #ffd263);
+  box-shadow: 0 0 10px rgba(91, 222, 255, .76);
+  transition: width .62s cubic-bezier(.2, .8, .2, 1);
+}
+
+.game.has-play-progress .water-play-progress.is-changing .water-play-progress-art { animation: water-progress-brighten 1.56s cubic-bezier(.2,.82,.22,1) both; }
+.game.has-play-progress .water-play-progress.is-dimming .water-play-progress-art { animation: water-progress-dim 1.56s ease both; }
+.game.has-play-progress .water-play-progress.is-celebrating { animation: water-progress-impact 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game.has-play-progress .water-play-progress.is-celebrating .water-play-progress-flare { animation: water-progress-flare 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game.has-play-progress .water-play-progress.is-tier-up { animation: water-progress-tier-rise 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game.has-play-progress .water-play-progress.is-tier-up .water-play-progress-art { animation: water-progress-tier-art 1.56s cubic-bezier(.18,.78,.2,1) both; }
+.game.has-play-progress .water-play-progress.is-celebrating ~ .water-play-progress-impact-stage,
+.game.has-play-progress .water-play-progress.is-tier-up ~ .water-play-progress-impact-stage { animation: water-progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both; }
+.game.has-play-progress .water-play-progress.is-celebrating ~ .water-play-progress-impact-stage::before,
+.game.has-play-progress .water-play-progress.is-tier-up ~ .water-play-progress-impact-stage::before { animation: water-progress-stage-ring 1.56s cubic-bezier(.08,.72,.16,1) both; }
+.game.has-play-progress .water-play-progress.is-celebrating ~ .water-play-progress-impact-stage::after,
+.game.has-play-progress .water-play-progress.is-tier-up ~ .water-play-progress-impact-stage::after { animation: water-progress-stage-rays 1.56s ease-out both; }
+
+.game.has-play-progress .problem-grid {
+  position: absolute;
+  top: calc(var(--top-control-y) + var(--sound-button-size) + 6px);
+  right: 3%;
+  bottom: 20px;
+  left: 22.5%;
+  width: auto;
+  height: auto;
+  margin: 0;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+}
+
+.game.has-play-progress .feedback-line {
+  min-height: 40px;
+  line-height: 1.2;
+  overflow: visible;
+}
+
+.game.has-play-progress .play-mathmon-reaction { display: none; }
+
+@keyframes water-progress-brighten {
+  0% { filter: brightness(.64) saturate(.72); transform: scale(.97); }
+  34% { filter: brightness(1.58) saturate(1.4) contrast(1.08); transform: scale(1.025); }
+  68% { filter: brightness(1.18) saturate(1.22); transform: scale(1.008); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+@keyframes water-progress-dim {
+  0%, 100% { filter: brightness(1); transform: translateX(0); }
+  34% { filter: brightness(.52) saturate(.52); transform: translateX(-4px); }
+}
+@keyframes water-progress-impact { 0%, 100% { transform: scale(1); } 26% { transform: scale(1.025); } 52% { transform: scale(.992); } }
+@keyframes water-progress-flare { 0% { opacity: 0; transform: rotate(-18deg) scale(.58); } 24% { opacity: .96; } 64% { opacity: .38; transform: rotate(-8deg) scale(1.08); } 100% { opacity: 0; transform: rotate(2deg) scale(1.28); } }
+@keyframes water-progress-tier-rise { 0%, 100% { box-shadow: 0 16px 34px rgba(10,43,65,.4), inset 0 0 0 1px rgba(255,249,220,.22); } 28% { box-shadow: 0 0 0 6px rgba(177,240,255,.82), 0 0 44px 16px rgba(255,196,74,.72), 0 16px 34px rgba(10,43,65,.4); } }
+@keyframes water-progress-tier-art { 0% { filter: brightness(.5) saturate(.58); transform: scale(.95); } 30% { filter: brightness(1.72) saturate(1.5); transform: scale(1.035); } 66% { filter: brightness(1.2) saturate(1.22); transform: scale(1.01); } 100% { filter: brightness(1); transform: scale(1); } }
+@keyframes water-progress-stage-impact { 0% { opacity: 0; transform: scale(.62); } 18% { opacity: .94; transform: scale(.96); } 52% { opacity: .58; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.22); } }
+@keyframes water-progress-stage-ring { 0% { opacity: 0; transform: scale(.2); } 20% { opacity: 1; } 70% { opacity: .52; } 100% { opacity: 0; transform: scale(1.34); } }
+@keyframes water-progress-stage-rays { 0% { opacity: 0; transform: rotate(-16deg) scale(.52); } 24% { opacity: .85; } 100% { opacity: 0; transform: rotate(26deg) scale(1.36); } }

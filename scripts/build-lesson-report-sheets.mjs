@@ -1,87 +1,164 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
-import { execFileSync } from "node:child_process";
-import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+const require = createRequire(import.meta.url);
+let sharp;
+try {
+  sharp = require("sharp");
+} catch {
+  sharp = require("/Users/yubyeongju/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp");
+}
+
 const ROOT = process.cwd();
-const CHROME = [
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-  "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
-  "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
-].find(existsSync);
-
-function isTarget(folder) {
-  const match = folder.match(/^3-2-(\d+)-(\d+)-/);
-  if (!match) return false;
-  const unit = Number(match[1]);
-  const lesson = Number(match[2]);
-  return (unit === 3 && lesson >= 3) || (unit >= 4 && unit <= 6);
+const lesson = process.argv[2];
+if (!lesson) {
+  console.error("Usage: node scripts/build-lesson-report-sheets.mjs <lesson-folder>");
+  process.exit(1);
 }
 
-function hash(file) {
-  return createHash("sha256").update(readFileSync(file)).digest("hex");
+const lessonDir = path.join(ROOT, lesson);
+const sourceDir = path.join(ROOT, "_lessons", lesson);
+const screenshotsDir = path.join(lessonDir, "screenshots");
+const config = JSON.parse(await readFile(path.join(sourceDir, "lesson.json"), "utf8"));
+const indexBuffer = await readFile(path.join(lessonDir, "index.html"));
+const filenames = await readdir(screenshotsDir);
+const hash = (buffer) => createHash("sha256").update(buffer).digest("hex");
+const natural = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
+
+function escapeXml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
 
-function selectEvidence(files, screenshotDir) {
-  const states = [
-    /desktop.*cover.*\.png$/, /tablet-landscape.*cover.*\.png$/,
-    /desktop.*play.*\.png$/, /tablet-landscape.*play.*\.png$/,
-    /desktop.*wrong.*\.png$/, /tablet-landscape.*wrong.*\.png$/,
-    /desktop.*(?:confirm|complete).*\.png$/, /tablet-landscape.*(?:confirm|complete).*\.png$/,
-    /(?:desktop.*reward|reward.*desktop).*closed.*\.png$/, /(?:desktop.*reward|reward.*open.*desktop).*\.png$/,
-    /(?:desktop.*result|result.*desktop).*\.png$/, /(?:tablet-landscape.*result|result.*tablet-landscape).*\.png$/,
-  ];
-  const selected = [];
-  for (const pattern of states) {
-    const match = files
-      .filter((file) => pattern.test(file))
-      .sort((a, b) => statSync(path.join(screenshotDir, b)).mtimeMs - statSync(path.join(screenshotDir, a)).mtimeMs)[0];
-    if (match && !selected.includes(match)) selected.push(match);
+function stateLabel(filename, viewport) {
+  return filename
+    .replace(`engine-flow-${viewport}-`, "")
+    .replace(/\.png$/u, "")
+    .replaceAll("-", " ");
+}
+
+function stateOrder(filename, viewport) {
+  const state = filename.replace(`engine-flow-${viewport}-`, "").replace(/\.png$/u, "");
+  const resultMatch = state.match(/^08a-result-(.+)$/u);
+  if (resultMatch) {
+    const resultStates = config.qa?.resultVisualAudit?.expectedStates || [];
+    const index = resultStates.indexOf(resultMatch[1]);
+    return 800 + (index < 0 ? 99 : index);
   }
-  return selected.slice(0, 12);
+  const prefix = Number.parseInt(state, 10);
+  if (!Number.isFinite(prefix)) return 9999;
+  if (state.startsWith("05-play")) return 500;
+  if (state.startsWith("05m-")) return 510;
+  if (state.startsWith("05b-")) return 590;
+  if (state === "08-result") return 790;
+  return prefix * 100;
 }
 
-const requested = process.argv.slice(2);
-const folders = requested.length ? requested : readdirSync(ROOT).filter(isTarget).sort();
-if (!CHROME) throw new Error("Chrome binary not found; report contact sheets cannot be rendered.");
+async function buildViewportSheet(viewport) {
+  const prefix = `engine-flow-${viewport.name}-`;
+  const sources = filenames
+    .filter((filename) => filename.startsWith(prefix) && filename.endsWith(".png"))
+    .sort((a, b) => stateOrder(a, viewport.name) - stateOrder(b, viewport.name) || natural.compare(a, b));
+  if (!sources.length) throw new Error(`No current flow screenshots found for ${viewport.name}`);
 
-for (const folder of folders) {
-  if (!isTarget(folder)) throw new Error(`${folder}: outside the unit 3 lesson 3 through unit 6 lesson 4 audit range`);
-  const lessonDir = path.join(ROOT, folder);
-  const screenshotDir = path.join(lessonDir, "screenshots");
-  const indexPath = path.join(lessonDir, "index.html");
-  if (!existsSync(indexPath) || !existsSync(screenshotDir)) throw new Error(`${folder}: index or screenshots directory is missing`);
-  const allPng = readdirSync(screenshotDir).filter((file) => file.endsWith(".png")).sort();
-  const evidence = selectEvidence(allPng, screenshotDir);
-  if (evidence.length < 6) throw new Error(`${folder}: fewer than six representative browser screenshots`);
-  const cards = evidence.map((file) => `<figure><img src="${encodeURI(file)}" alt=""><figcaption>${file}</figcaption></figure>`).join("\n");
-  const htmlPath = path.join(screenshotDir, "report-contact-sheet.html");
-  const pngPath = path.join(screenshotDir, "report-contact-sheet.png");
-  writeFileSync(htmlPath, `<!doctype html><meta charset="utf-8"><style>*{box-sizing:border-box}body{margin:0;padding:24px;background:#18201d;color:#fff;font:16px system-ui}h1{margin:0 0 20px}.grid{display:grid;grid-template-columns:repeat(2,600px);gap:18px}figure{margin:0;padding:10px;background:#fff;color:#14201b;border-radius:12px}img{display:block;width:580px;height:363px;object-fit:contain;background:#dfe8e3}figcaption{padding-top:7px;font-size:13px;overflow-wrap:anywhere}</style><h1>${folder} · current browser evidence</h1><div class="grid">${cards}</div>`, "utf8");
-  const rows = Math.ceil(evidence.length / 2);
-  execFileSync(CHROME, [
-    "--headless=new", "--hide-scrollbars", "--disable-gpu", "--allow-file-access-from-files",
-    "--virtual-time-budget=2000", `--window-size=1280,${Math.max(800, 100 + rows * 410)}`,
-    `--screenshot=${pngPath}`, `file://${htmlPath}`,
-  ], { stdio: "ignore" });
-  const files = evidence.map((file) => {
-    const absolute = path.join(screenshotDir, file);
-    return { file, sha256: hash(absolute), bytes: statSync(absolute).size, mtimeMs: statSync(absolute).mtimeMs };
-  });
-  const indexMtimeMs = statSync(indexPath).mtimeMs;
-  if (files.some((entry) => entry.mtimeMs + 1000 < indexMtimeMs)) {
-    throw new Error(`${folder}: representative screenshot predates the current index.html`);
+  const columns = 4;
+  const tileWidth = 320;
+  const imageHeight = 200;
+  const labelHeight = 42;
+  const headerHeight = 66;
+  const rows = Math.ceil(sources.length / columns);
+  const width = columns * tileWidth;
+  const height = headerHeight + rows * (imageHeight + labelHeight);
+  const composites = [];
+  const evidence = [];
+
+  const dpr = viewport.deviceScaleFactor || viewport.dpr || 1;
+  const header = Buffer.from(`
+    <svg width="${width}" height="${headerHeight}" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100%" height="100%" fill="#0b1020"/>
+      <text x="24" y="30" fill="#ffe07b" font-size="22" font-weight="800"
+        font-family="Arial, Apple SD Gothic Neo, sans-serif">${escapeXml(lesson)} · ${escapeXml(viewport.name)}</text>
+      <text x="24" y="52" fill="#c9d2e8" font-size="14" font-weight="600"
+        font-family="Arial, Apple SD Gothic Neo, sans-serif">${viewport.width}×${viewport.height} · DPR ${dpr} · ${sources.length} screens</text>
+    </svg>
+  `);
+  composites.push({ input: header, left: 0, top: 0 });
+
+  for (const [index, filename] of sources.entries()) {
+    const sourcePath = path.join(screenshotsDir, filename);
+    const sourceBuffer = await readFile(sourcePath);
+    const left = (index % columns) * tileWidth;
+    const top = headerHeight + Math.floor(index / columns) * (imageHeight + labelHeight);
+    const image = await sharp(sourceBuffer)
+      .resize(tileWidth, imageHeight, {
+        fit: "contain",
+        background: { r: 8, g: 10, b: 20, alpha: 1 },
+      })
+      .png()
+      .toBuffer();
+    const label = Buffer.from(`
+      <svg width="${tileWidth}" height="${labelHeight}" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" fill="#151b31"/>
+        <text x="12" y="27" fill="#eef2ff" font-size="13" font-weight="700"
+          font-family="Arial, Apple SD Gothic Neo, sans-serif">${escapeXml(stateLabel(filename, viewport.name))}</text>
+      </svg>
+    `);
+    composites.push({ input: image, left, top });
+    composites.push({ input: label, left, top: top + imageHeight });
+    evidence.push({
+      path: `screenshots/${filename}`,
+      sha256: hash(sourceBuffer),
+    });
   }
-  const manifest = {
-    standard: "lesson-report-evidence-v1",
-    lesson: folder,
-    generatedAt: new Date().toISOString(),
-    index: { file: "index.html", sha256: hash(indexPath), mtimeMs: indexMtimeMs },
-    contactSheet: { file: "screenshots/report-contact-sheet.png", sha256: hash(pngPath) },
-    sourceScreenshotsCommitted: false,
-    screenshots: files,
+
+  const outputName = `report-flow-${viewport.name}-contact-sheet.png`;
+  const outputPath = path.join(screenshotsDir, outputName);
+  await sharp({
+    create: {
+      width,
+      height,
+      channels: 4,
+      background: { r: 8, g: 10, b: 20, alpha: 1 },
+    },
+  })
+    .composite(composites)
+    .png()
+    .toFile(outputPath);
+  const sheetBuffer = await readFile(outputPath);
+
+  return {
+    ...viewport,
+    dpr,
+    screenshotCount: sources.length,
+    sheet: `screenshots/${outputName}`,
+    sheetSha256: hash(sheetBuffer),
+    screenshots: evidence,
   };
-  writeFileSync(path.join(screenshotDir, "report-evidence-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
-  console.log(`REPORT_SHEET: ${folder} (${evidence.length} screenshots)`);
 }
+
+const viewports = [];
+for (const viewport of config.qa?.viewports || []) {
+  viewports.push(await buildViewportSheet(viewport));
+}
+if (!viewports.length) throw new Error(`${lesson} has no qa.viewports`);
+
+const manifest = {
+  standard: "report-current-screen-evidence-v1",
+  lesson,
+  generatedAt: new Date().toISOString(),
+  indexSha256: hash(indexBuffer),
+  sourceScreenshotsCommitted: false,
+  viewports,
+};
+await writeFile(
+  path.join(screenshotsDir, "report-evidence-manifest.json"),
+  `${JSON.stringify(manifest, null, 2)}\n`,
+);
+
+console.log(`BUILD_LESSON_REPORT_SHEETS: PASS (${viewports.length} viewports, ${viewports.reduce((sum, item) => sum + item.screenshotCount, 0)} screenshots)`);

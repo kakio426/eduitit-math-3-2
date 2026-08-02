@@ -1,7 +1,29 @@
 # 매스몬 분수만큼 담기 제작 보고
 
+## 2026-08-02 왼쪽 진행 보상 완성 및 현재 화면 증거
+
+- 최종 보상 6등급을 먼저 확정·검증한 뒤, 결과 화면을 자르지 않은 문제 왼쪽 전용 생성 장면 6장을 만들었습니다. 흐름은 `한 줌 → 작은 바구니 → 바구니 → 큰 바구니 → 수레 가득 → 전설 바구니`이며, 최종 보상의 `비 오는 빈 채집터 → 작은 밭 → 과수원 → 마법 숲 → 금빛 축제 → 무지개 수정 하늘정원` 차이를 그대로 이어갑니다.
+- 진행 원본은 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-4-2/play-progress-v1/source`, 전수표는 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-4-2/play-progress-v1/contact-sheets/play-basket-progress-v1-contact-sheet.png`, 토끼몬 중심·발 기준선 검수표는 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-4-2/play-progress-v1/contact-sheets/play-basket-progress-v1-anchor-audit.png`입니다.
+- 여섯 장 모두 런타임 `768×1536`, `object-fit: contain`입니다. 토끼몬 중심은 `0.50`, 발 기준선은 `0.68~0.70`, 전신 높이는 `0.32~0.35`이며, 전신 잘림은 0건입니다.
+- 실제 패널은 Stage의 `left 1.65% / top 11% / width 19.2% / height 84%`입니다. 다섯 배포 화면 크기에서 패널 네 변 오차 1px 이하, 이미지·패널 중심 오차 1px 이하, 학습 영역 교차 0px, 라벨 넘침 0건을 통과했습니다.
+- 보상 모달을 완전히 닫은 뒤 `320ms`를 기다리고, 단계 이미지 교체와 Stage 폭 `35%`의 전용 빛 효과를 `1560ms` 보여 준 다음에만 다음 문제로 이동합니다. 최소 표시 시간 `1200ms`를 만족하며, `한 줌 → 작은 바구니` 고정 fixture에서 모달 선행 닫힘과 실제 이미지 교체를 확인했습니다.
+- 시작, 설명 1·2, 문제 대기·대표 오답·정답 확인·마지막 확인, 닫힌 보상·열린 보상·보상 뒤 변화, 결과 6등급을 현재 빌드로 다시 캡처했습니다. 화면 크기는 `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`이며, 빈 보상은 별도 `1280×800` fixture로 검사했습니다.
+- 현재 코드와 해시로 묶은 화면별 전수표: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png`, `screenshots/report-flow-empty-reward-fixture-contact-sheet.png`
+- 현재 증거는 6개 fixture, 149장입니다. 글자 넘침·요소 겹침·Stage 이탈·이미지 누락·콘솔 오류는 모두 0건입니다.
+
+## 2026-08-02 최종 보상 우선 재제작
+
+- 문제 왼쪽 진행 장면을 만들기 전에 최종 보상 6등급부터 다시 제작했습니다.
+- `한 줌 → 작은 바구니 → 바구니 → 큰 바구니 → 수레 가득 → 전설 바구니`는 비 오는 빈 채집터·작은 시골 밭·맑은 과수원·마법 숲·황금 수확 축제·무지개 수정 하늘정원으로 이어집니다. 배경, 날씨, 바구니 크기, 조명, 토끼몬의 옷과 반응이 단계마다 함께 달라집니다.
+- 각 등급은 서로 다른 1280×800 생성 완성 장면입니다. 등급 제목과 `다시` 버튼 표면은 장면 안에 고정하고, 바구니 빛·진행 막대·정답 수·다음 목표만 빈 결과판 위에 표시합니다. 별도 결과 효과 오버레이, 혼합 모드, 단계별 CSS 필터는 쓰지 않습니다.
+- 생성 원본은 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-4-2/result-fullscene-v1/source`, 런타임 PNG는 같은 경로의 `runtime-png`, 전수표는 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-4-2/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png`입니다.
+- 최종 보상 6장과 토끼몬 전신의 잘림은 현재 자산 전수표에서 0건입니다. 실제 브라우저 전수표는 `screenshots/result-all-tiers-desktop-contact-sheet.png`, `screenshots/result-all-tiers-tablet-landscape-contact-sheet.png`입니다.
+- `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 10문제 전체 흐름과 결과 6등급을 검사했습니다. 결과판 픽셀 중심은 등급별 `958.5 / 973.5 / 948.5 / 973.5 / 952 / 971px`이고, 선언 축·동적 요소와의 차이는 3px 이내입니다. 장면 잘림·별도 결과 효과 오버레이·혼합 모드·단계 필터·요소 교차·글자 넘침은 모두 0건입니다.
+- 문제 왼쪽 진행 6장은 이 최종 세트의 브라우저 검증을 통과한 뒤 별도 제작했고, 위의 `stage-left-play-progress-v1` 계약으로 연결했습니다.
+
 ## 2026-07-28 전체 점검 수정 결과
 
+- 이 절은 2026-07-28 당시의 V3 기록입니다. 현재 런타임은 위 2026-08-02 완성 장면 V4 계약을 따릅니다.
 - 결과 6단계를 글자·버튼 없는 생성 배경, 투명 생성 제목, 동적 바구니 빛·정답 수·다음 목표, 투명 생성 `다시` 버튼으로 분리했습니다.
 - 결과 제목·바구니 빛·정답 수·다음 목표·버튼을 게시판의 한 세로축에 맞췄습니다.
 - `12개의 3/4만큼`은 `12개 중 3/4만큼`으로, 단계 안내는 `똑같이 나눴을 때 한 묶음 수`처럼 학생이 바로 행동할 수 있는 말로 고쳤습니다.
@@ -55,7 +77,7 @@
 
 ## 상태별 최신 증거
 
-- 화면 크기: `1280×800`, `1024×768`
+- 화면 크기: `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`
 - 상태: 커버, 설정 모달, 설명 1·2, 문제 1단계, 대표 오답 2종, 1단계 확인, 2단계 대기·확인, 마지막 확인, 닫힌 보상, 열린 보상, 결과 6등급
 - 현재 증거: `screenshots/engine-flow-desktop-*`, `screenshots/engine-flow-tablet-landscape-*`
 - 결과 6등급: `screenshots/engine-flow-*-08a-result-*.png`
@@ -68,7 +90,7 @@
 - 대상 lesson build, lesson contract, visual contract V2, Stage ratio 검사 통과
 - `node scripts/check-run-randomness.mjs` 통과
 - `node scripts/check-ranking-disabled.mjs` 통과
-- `node scripts/qa-lesson-flow.mjs 3-2-4-2-mathmon-fraction-scoop` 양쪽 화면 10문제 완주 통과
+- `node scripts/qa-lesson-flow.mjs 3-2-4-2-mathmon-fraction-scoop` 다섯 화면 크기 10문제 완주 통과
 
 ## Humanizer 학생 문구 QA
 
@@ -92,7 +114,3 @@
 
 - `12개의 3분의 2` fixture는 선택 전에 `전체 12개` 점을 모두 보여 줍니다. 첫 답을 고른 뒤에만 3개의 같은 묶음으로 다시 그립니다.
 - 완료판은 `#fff2bf` 불투명 표면입니다. 소스 QA가 전체 점 개수, 대기 상태의 묶음 미노출, 안쪽 판·계산 카드·완료판의 실색을 함께 검사합니다.
-
-## 2026-08-01 전수감사 최신 증거
-
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 11개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.

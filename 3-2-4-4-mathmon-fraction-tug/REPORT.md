@@ -1,5 +1,36 @@
 # 매스몬 분수 줄다리기 제작 보고
 
+## 2026-08-02 최종 보상 우선 재구축과 왼쪽 진행 보상 적용
+
+- 먼저 최종 보상 6등급을 전부 새로 만들고 실제 결과 화면에서 확정한 뒤, 그 상승 흐름을 기준으로 문제 왼쪽 진행 보상 6장을 별도로 만들었습니다. 최종 결과 이미지를 잘라서 재사용한 장면은 `0장`입니다.
+- 최종 결과는 `비 오는 빈 연습장 → 따뜻한 학교 운동장 → 협곡 다리 → 설산 정상 → 황금 챔피언 경기장 → 우주 무지개 신전`으로 바뀝니다. 배경·조명·호랑몬 반응·메달/깃발/트로피·색 계열이 인접 단계마다 두 가지 이상 달라지며, 상위 두 단계도 황금 왕실과 보라·청록 무지개 우주로 분리했습니다.
+- 최종 보상 6장은 각각 `1280×800` 완성 장면입니다. 등급 제목과 `다시` 표면은 생성 이미지 안에 있고, 줄다리기 힘·막대·정답 수·다음 목표만 동적 슬롯으로 표시합니다. CSS 단계 필터·혼합 모드·결과 효과 오버레이는 사용하지 않습니다.
+- 최종 보상 자산 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-4/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png`
+- 최종 보상 브라우저 컨택시트: `screenshots/result-all-tiers-desktop-contact-sheet.png`, `screenshots/result-all-tiers-tablet-landscape-contact-sheet.png`
+- 문제 왼쪽 진행 보상은 같은 여섯 환경을 `768×1536` 세로 전용 장면으로 다시 생성했습니다. 여섯 장 모두 호랑몬 전신 잘림 `0건`, 중심 `x=0.50`, 몸 중심 `y=0.56~0.57`, 발 기준선 `y=0.69~0.70`, 보이는 몸 높이 `0.30~0.31`입니다.
+- 왼쪽 자산 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-4/play-progress-v1/contact-sheets/play-tug-progress-v1-contact-sheet.png`
+- 왼쪽 생성 원본: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-4/play-progress-v1/source`
+- 왼쪽 기준선 검사: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-4/play-progress-v1/contact-sheets/play-tug-progress-v1-anchor-audit.png`
+- 왼쪽 패널은 `stage-left-play-progress-v1`로 Stage 기준 `left 1.65% / top 11% / width 19.2% / height 84%`에 고정했습니다. 모든 화면 크기에서 네 변 오차는 `1px` 이하, 학습 영역 교차는 `0px`, 이미지와 패널 중심 차이는 `1px` 이하입니다.
+- 모달이 완전히 닫힌 뒤 `320ms`를 기다리고, 단계 이미지 교체와 Stage 폭 `35%`의 전용 충격 효과를 `1560ms` 보여 준 다음에만 다음 문제로 이동합니다. 고정 `무승부 → 아슬아슬 승리` fixture로 이미지 변경·모달 선행 닫힘·문제 번호 고정을 검사했습니다.
+- `empty` fixture에서는 누적 줄다리기 힘을 유지하고 이번 변화만 `0`으로 처리했습니다.
+
+### 현재 화면 증거와 화면 크기
+
+- 시작·설정·설명·문제 대기·대표 오답 2종·정답 확인·닫힌 보상·열린 보상·단계 상승 효과·결과 6등급을 현재 `index.html` 해시 기준으로 다시 캡처했습니다.
+- `1280×800`: `screenshots/report-flow-desktop-contact-sheet.png`
+- `1024×768`: `screenshots/report-flow-tablet-landscape-contact-sheet.png`
+- `1280×720`, DPR 2: `screenshots/report-flow-codex-in-app-contact-sheet.png`
+- `994×632`: `screenshots/report-flow-user-visibility-contact-sheet.png`
+- 사용자가 왼쪽 보상 누락을 확인한 회귀 화면 `1082×987`, DPR 2: `screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png`
+- 빈 보상 전용 `1280×800`: `screenshots/report-flow-empty-reward-fixture-contact-sheet.png`
+- 총 `6`개 fixture, `149`개 현재 스크린샷이며 텍스트 넘침·요소 겹침·Stage 이탈·이미지 누락은 모두 `0건`입니다.
+
+### Humanizer 학생 문구 QA
+
+- 왼쪽 패널 이름은 제작 용어인 `진행 보상`, `등급`, `단계`를 쓰지 않고 `지금 모습`으로 표시했습니다.
+- 결과 이름 `무승부`, `아슬아슬 승리`, `승리`, `큰 승리`, `챔피언`, `전설의 승리`는 화면의 변화와 바로 연결되고, 한 패널 안에서 같은 뜻을 반복하지 않습니다.
+
 ## 2026-07-28 전체 점검 수정 결과
 
 - 결과 6단계를 글자·버튼 없는 생성 배경, 투명 생성 제목, 동적 줄다리기 힘·정답 수·다음 목표, 투명 생성 `다시` 버튼으로 분리했습니다.
@@ -93,7 +124,3 @@
 
 - 대기부터 왼쪽·오른쪽의 실제 분수와 막대를 모두 보여 줍니다. 정답·오답 확인에서도 원래 피연산자 순서를 바꾸지 않고, 정답 부호만 원래 왼쪽/오른쪽 값으로 계산합니다.
 - 완료판은 `#e2f7fc` 불투명 표면입니다. 소스 QA가 `larger` 우선 재배치가 되돌아오지 않는지와 문제판·선택지·완료판의 실색을 검사합니다.
-
-## 2026-08-01 전수감사 최신 증거
-
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 11개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.

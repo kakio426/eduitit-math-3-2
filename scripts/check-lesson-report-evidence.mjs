@@ -1,46 +1,58 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = process.cwd();
-
-function isTarget(folder) {
-  const match = folder.match(/^3-2-(\d+)-(\d+)-/);
-  if (!match) return false;
-  const unit = Number(match[1]);
-  const lesson = Number(match[2]);
-  return (unit === 3 && lesson >= 3) || (unit >= 4 && unit <= 6);
+const lesson = process.argv[2];
+if (!lesson) {
+  console.error("Usage: node scripts/check-lesson-report-evidence.mjs <lesson-folder>");
+  process.exit(1);
 }
 
-function hash(file) {
-  return createHash("sha256").update(readFileSync(file)).digest("hex");
-}
+const lessonDir = path.join(ROOT, lesson);
+const config = JSON.parse(await readFile(path.join(ROOT, "_lessons", lesson, "lesson.json"), "utf8"));
+const report = await readFile(path.join(lessonDir, "REPORT.md"), "utf8");
+const indexBuffer = await readFile(path.join(lessonDir, "index.html"));
+const manifest = JSON.parse(await readFile(path.join(lessonDir, "screenshots", "report-evidence-manifest.json"), "utf8"));
+const hash = (buffer) => createHash("sha256").update(buffer).digest("hex");
+const assert = (condition, message) => {
+  if (!condition) throw new Error(message);
+};
 
-function assert(value, message) {
-  if (!value) throw new Error(message);
-}
+assert(manifest.standard === "report-current-screen-evidence-v1", "report evidence standard is missing");
+assert(manifest.lesson === lesson, "report evidence lesson id does not match");
+assert(manifest.indexSha256 === hash(indexBuffer), "screenshots are older than the current index.html; recapture them");
+assert(manifest.sourceScreenshotsCommitted === false, "raw browser screenshots must stay local; commit the verified contact sheets instead");
 
-const requested = process.argv.slice(2);
-const folders = requested.length ? requested : readdirSync(ROOT).filter(isTarget).sort();
-for (const folder of folders) {
-  const lessonDir = path.join(ROOT, folder);
-  const manifestPath = path.join(lessonDir, "screenshots", "report-evidence-manifest.json");
-  assert(existsSync(manifestPath), `${folder}: report evidence manifest is missing`);
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  assert(manifest.standard === "lesson-report-evidence-v1" && manifest.lesson === folder, `${folder}: evidence manifest identity is invalid`);
-  const indexPath = path.join(lessonDir, manifest.index.file);
-  assert(existsSync(indexPath) && hash(indexPath) === manifest.index.sha256, `${folder}: evidence was captured from an older index.html`);
-  const sheetPath = path.join(lessonDir, manifest.contactSheet.file);
-  assert(existsSync(sheetPath) && hash(sheetPath) === manifest.contactSheet.sha256, `${folder}: contact sheet is missing or stale`);
-  assert(Array.isArray(manifest.screenshots) && manifest.screenshots.length >= 6, `${folder}: too few browser states in evidence`);
-  const names = manifest.screenshots.map(({ file }) => file);
-  for (const entry of manifest.screenshots) {
-    assert(/^[a-f0-9]{64}$/.test(entry.sha256), `${folder}: screenshot evidence hash is invalid: ${entry.file}`);
-    assert(entry.mtimeMs + 1000 >= manifest.index.mtimeMs, `${folder}: captured evidence predates the recorded index: ${entry.file}`);
+const expectedViewports = config.qa?.viewports || [];
+assert(manifest.viewports.length === expectedViewports.length, "not every qa viewport has a report contact sheet");
+for (const expected of expectedViewports) {
+  const viewport = manifest.viewports.find((item) => item.name === expected.name);
+  assert(viewport, `missing report evidence viewport: ${expected.name}`);
+  const expectedDpr = expected.deviceScaleFactor || expected.dpr || 1;
+  assert(viewport.width === expected.width && viewport.height === expected.height && (viewport.dpr || 1) === expectedDpr, `viewport contract changed: ${expected.name}`);
+  assert(report.includes(viewport.sheet), `REPORT.md does not embed ${viewport.sheet}`);
+  const sheetBuffer = await readFile(path.join(lessonDir, viewport.sheet));
+  assert(hash(sheetBuffer) === viewport.sheetSha256, `report contact sheet changed after manifest creation: ${viewport.sheet}`);
+
+  const paths = viewport.screenshots.map((item) => item.path);
+  const required = ["01-cover", "02-settings", "03-tutorial-1", "04-tutorial-2", "05-play-step1", "06-confirm", "07-reward-closed", "07b-reward-open", "08-result"];
+  const isEmptyRewardFixture = config.qa?.emptyRewardAudit === true
+    && config.qa?.emptyRewardAuditViewport === expected.name;
+  if (config.qa?.rewardEffectAudit && !isEmptyRewardFixture) required.push("07c-reward-impact");
+  for (const token of required) {
+    assert(paths.some((item) => item.includes(token)), `${expected.name} is missing ${token}`);
   }
-  for (const required of [/cover/, /play/, /wrong/, /(?:confirm|complete)/, /reward/, /result/]) {
-    assert(names.some((name) => required.test(name)), `${folder}: missing ${required} browser state evidence`);
+  for (const state of config.qa?.resultVisualAudit?.expectedStates || []) {
+    assert(paths.some((item) => item.endsWith(`08a-result-${state}.png`)), `${expected.name} is missing result state ${state}`);
   }
-  console.log(`REPORT_EVIDENCE: PASS (${folder}, ${names.length} states)`);
+  assert(paths.filter((item) => item.includes("05m-")).length >= (config.qa?.misconceptionCoverage?.length || 0), `${expected.name} is missing misconception screenshots`);
+
 }
+
+for (const heading of ["시작", "설명", "문제", "보상", "결과", "화면 크기"]) {
+  assert(report.includes(heading), `REPORT.md needs a current-screen explanation for: ${heading}`);
+}
+
+console.log(`CHECK_LESSON_REPORT_EVIDENCE: PASS (${manifest.viewports.length} viewports, ${manifest.viewports.reduce((sum, item) => sum + item.screenshotCount, 0)} screenshots)`);

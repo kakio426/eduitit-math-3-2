@@ -15,6 +15,7 @@ const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
 const model = context.__lessonModel;
 const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
+assert.equal(config.reward.standard, "mathmon-unified-reward-v1", "lesson must opt into the unified reward contract");
 assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
 assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
 assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
@@ -65,6 +66,8 @@ for (let seed = 1; seed <= 200; seed += 1) {
 
 assert.match(viewSource, /pattern-choice-svg/, "each answer must be a separate completed pattern");
 assert.match(viewSource, /pattern-confirm-svg/, "selected pattern must expand for confirmation");
+assert.match(viewSource, /if \(kind === "pending"\) \{\s*return knownMarkup;/, "waiting view must show only the three known circles");
+assert.doesNotMatch(viewSource, /return `\$\{guide\}\$\{knownMarkup\}<circle class="pattern-pending"/, "waiting view must not reveal the answer circle position or size");
 assert.match(viewSource, /setAttribute\("aria-label", selected\.label\)/, "choice aria-label must explain the visible relation");
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
 assert.match(

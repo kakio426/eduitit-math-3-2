@@ -33,13 +33,6 @@ function uniqueSlotCount(slots) {
   return new Set(Object.values(slots).map((slot) => JSON.stringify(slot))).size;
 }
 
-function readMathmonIds(packId) {
-  const manifestPath = path.join(MATHMON_ROOT, packId, "manifest.json");
-  assert(existsSync(manifestPath), `${packId}: 매스몬 팩 manifest가 없습니다.`);
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  return new Set((manifest.items || manifest.characters || []).map((item) => item.id));
-}
-
 function isUnit3To6AuditTarget(folder) {
   const match = folder.match(/^3-2-(\d+)-(\d+)-/);
   if (!match) return false;
@@ -65,6 +58,60 @@ function checkPlayProgressDecision(folder, config) {
   if (config.packageType !== "standalone-html") {
     assert(config.qa?.layoutAudit?.minStageWidthRatio >= disposition.minLearningWidthRatio, `${folder}: 실제 학습 영역 폭 계약이 진행 보상 미적용 판정보다 작습니다.`);
   }
+}
+
+function resolveEvidencePath(outputDir, evidencePath) {
+  return evidencePath?.startsWith("_shared/")
+    ? path.join(ROOT, evidencePath)
+    : path.join(outputDir, evidencePath || "");
+}
+
+function median(values) {
+  const ordered = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(ordered.length / 2);
+  return ordered.length % 2
+    ? ordered[middle]
+    : (ordered[middle - 1] + ordered[middle]) / 2;
+}
+
+function checkPlaySubjectAnchors(prefix, outputDir, playSet, playAudit, readme, report) {
+  const placement = playSet.layoutContract?.mathmonPlacement;
+  const anchors = playSet.layoutContract?.subjectAnchors;
+  const tolerance = playAudit?.subjectAnchorToleranceRatio;
+  const states = playAudit?.expectedStates || [];
+  assert(anchors?.standard === "source-pixel-anchor-v1", `${prefix} 문제 화면 매스몬 실제 픽셀 앵커 표준이 없습니다.`);
+  assert(playAudit?.subjectAnchorStandard === anchors.standard, `${prefix} 이미지·브라우저 매스몬 앵커 표준이 다릅니다.`);
+  assert(tolerance > 0 && tolerance <= placement.toleranceRatio, `${prefix} 실제 픽셀 앵커 허용 오차가 위치 계약보다 큽니다.`);
+  assert(states.length === playSet.count, `${prefix} 실제 픽셀 앵커 상태 수가 이미지 수와 다릅니다.`);
+
+  const measured = states.map((state) => {
+    const anchor = anchors[state];
+    assert(anchor, `${prefix} ${state} 매스몬 실제 픽셀 앵커가 없습니다.`);
+    for (const key of ["centerX", "centerY", "footY", "height"]) {
+      assert(Number.isFinite(anchor[key]), `${prefix} ${state} 매스몬 ${key} 측정값이 없습니다.`);
+    }
+    assert(Math.abs(anchor.centerX - placement.centerX) <= tolerance, `${prefix} ${state} 매스몬 가로 중심이 계약을 벗어납니다.`);
+    assert(Math.abs(anchor.centerY - placement.centerY) <= tolerance, `${prefix} ${state} 매스몬 세로 중심이 계약을 벗어납니다.`);
+    assert(Math.abs(anchor.footY - placement.footY) <= tolerance, `${prefix} ${state} 매스몬 발 기준선이 계약을 벗어납니다.`);
+    return anchor;
+  });
+  const medianHeight = median(measured.map((anchor) => anchor.height));
+  for (const [index, anchor] of measured.entries()) {
+    assert(Math.abs(anchor.height - medianHeight) <= tolerance, `${prefix} ${states[index]} 매스몬 크기가 세트 중앙값을 벗어납니다.`);
+  }
+
+  assert(typeof playSet.anchorAuditSheet === "string" && playSet.anchorAuditSheet.length > 0, `${prefix} 매스몬 앵커 검수 시트 경로가 없습니다.`);
+  const auditSheet = resolveEvidencePath(outputDir, playSet.anchorAuditSheet);
+  assert(existsSync(auditSheet), `${prefix} 매스몬 앵커 검수 시트가 없습니다.`);
+  assert(readme.includes(playSet.anchorAuditSheet), `${prefix} README에 매스몬 앵커 검수 시트 경로가 없습니다.`);
+  assert(report.includes(playSet.anchorAuditSheet), `${prefix} REPORT에 매스몬 앵커 검수 시트 경로가 없습니다.`);
+}
+
+function readMathmonIds(packId) {
+  const manifestPath = path.join(MATHMON_ROOT, packId, "manifest.json");
+  assert(existsSync(manifestPath), `${packId}: 매스몬 팩 manifest가 없습니다.`);
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  return new Set((manifest.items || manifest.characters || []).map((item) => item.id));
 }
 
 function checkStandaloneLesson(folder, config) {
@@ -96,6 +143,78 @@ function checkStandaloneLesson(folder, config) {
   assert(html.includes('function showRewardOverlay()') && html.includes('screens.play.classList.add("is-active")'), `${prefix} modal reward must retain the play screen behind the card`);
   assert(html.includes('window.__lesson5PackageQa'), `${prefix} standalone visual browser QA export is missing`);
   assert(html.includes('../_shared/mathmon/cover-start-button/start-button-generated.webp'), `${prefix} shared cover start asset is missing`);
+
+  const resultSet = config.result?.stateImageSet;
+  if (config.qa?.resultVisualAudit?.standard === "result-tier-fullscene-native-v1") {
+    assert(resultSet?.standard === "generated-result-fullscene-v3", `${prefix} standalone 결과 완성 장면 표준이 다릅니다.`);
+    assert(resultSet.count === config.results?.length && resultSet.count === 6, `${prefix} standalone 결과 완성 장면은 6장이어야 합니다.`);
+    assert(resultSet.canvas === EXPECTED_CANVAS && resultSet.runtimeSlot === "result-stage-fullscene", `${prefix} standalone 결과 장면은 1280×800 fullscene 슬롯이어야 합니다.`);
+    assert(resultSet.nativeScenePerState === true, `${prefix} standalone 결과 단계마다 고유 장면이 필요합니다.`);
+    assert(resultSet.forbidEffectOverlay === true && resultSet.forbidBlendMode === true && resultSet.forbidTierCssFilter === true, `${prefix} standalone 결과 차이를 CSS 효과로 만들면 안 됩니다.`);
+    assert(resultSet.fixedGeneratedElements?.includes("tier-scene-with-title"), `${prefix} standalone 결과 제목은 장면 안에 있어야 합니다.`);
+    assert(resultSet.fixedGeneratedElements?.includes("retry-button"), `${prefix} standalone 다시 버튼 표면은 장면 안에 있어야 합니다.`);
+    assert(html.includes('data-result-render-mode="fullscene-generated-dynamic-slots"'), `${prefix} standalone fullscene 결과 렌더 모드가 없습니다.`);
+    assert(/\.result-title-art\s*\{[^}]*display:\s*none\s*!important/is.test(html), `${prefix} standalone 별도 결과 제목 이미지는 숨겨야 합니다.`);
+    assert(/\.result-retry-art\s*\{[^}]*display:\s*none\s*!important/is.test(html), `${prefix} standalone 별도 다시 버튼 이미지는 숨겨야 합니다.`);
+    assert(new Set((config.results || []).map((result) => result.image)).size === 6, `${prefix} standalone 결과 6단계는 서로 다른 장면 파일이어야 합니다.`);
+    const resultPngRoot = resultSet.runtimePngPath
+      ? path.resolve(ROOT, resultSet.runtimePngPath)
+      : outputDir;
+    for (const result of config.results || []) {
+      const pngPath = path.join(resultPngRoot, pngFor(result.image || ""));
+      assert(existsSync(pngPath), `${prefix} standalone 결과 PNG가 없습니다: ${path.basename(pngPath)}`);
+      assert(readPngSize(pngPath) === EXPECTED_CANVAS, `${prefix} standalone 결과 이미지는 ${EXPECTED_CANVAS}이어야 합니다: ${path.basename(pngPath)}`);
+      assert(result.titleImage === result.image, `${prefix} standalone 결과 제목은 별도 오버레이가 아니라 완성 장면이어야 합니다: ${result.id}`);
+    }
+    const contactSheet = resolveEvidencePath(outputDir, resultSet.contactSheet);
+    assert(existsSync(contactSheet), `${prefix} standalone 결과 컨택시트가 없습니다.`);
+    assert(readme.includes(resultSet.contactSheet), `${prefix} standalone README에 결과 컨택시트 경로가 없습니다.`);
+    assert(report.includes(resultSet.contactSheet), `${prefix} standalone REPORT에 결과 컨택시트 경로가 없습니다.`);
+  }
+
+  if (config.standards?.playProgress === "generated-play-progress-v3-left-character") {
+    const playSet = config.workbench?.playStateImageSet;
+    const playAudit = config.qa?.playProgressAudit;
+    assert(playSet?.standard === config.standards.playProgress, `${prefix} standalone 왼쪽 진행 이미지 표준이 다릅니다.`);
+    assert(playSet.count === 6 && playSet.count === config.results?.length, `${prefix} standalone 왼쪽 진행 이미지는 결과와 대응하는 6장이어야 합니다.`);
+    assert(playSet.canvas === "768x1536" && playSet.runtimeSlot === "stage-left-play-progress-v1", `${prefix} standalone 왼쪽 진행 이미지 캔버스·슬롯이 다릅니다.`);
+    assert(playSet.objectFit === "contain", `${prefix} standalone 왼쪽 진행 이미지는 contain이어야 합니다.`);
+    assert(playSet.protagonist === config.mathmonId, `${prefix} standalone 왼쪽 진행 장면의 매스몬이 다릅니다.`);
+    assert(playSet.layoutContract?.characterFullBody === true && playSet.layoutContract?.sameCameraAcrossStates === true, `${prefix} standalone 왼쪽 진행 장면의 전신·동일 카메라 계약이 없습니다.`);
+    assert(playSet.layoutContract?.forbidResultCropReuse === true, `${prefix} standalone 최종 결과 크롭을 진행 이미지로 재사용하면 안 됩니다.`);
+    assert(playSet.layoutContract?.mathmonPlacement?.sameScaleAcrossStates === true, `${prefix} standalone 왼쪽 진행 여우몬 크기를 단계마다 바꾸면 안 됩니다.`);
+    assert(playSet.layoutContract?.mathmonPlacement?.toleranceRatio <= .03, `${prefix} standalone 왼쪽 진행 여우몬 위치 허용 오차가 큽니다.`);
+    assert(playAudit?.standard === "stage-left-play-progress-v1" && playAudit.stateCount === 6, `${prefix} standalone 왼쪽 진행 브라우저 계약이 없습니다.`);
+    assert(playAudit.panelPlacement?.tolerancePx <= 1, `${prefix} standalone 왼쪽 진행 패널 허용 오차는 1px 이하여야 합니다.`);
+    assert(html.includes('data-play-progress-standard="stage-left-play-progress-v1"'), `${prefix} standalone 왼쪽 진행 런타임 표준 선언이 없습니다.`);
+    assert(/\.progress-line\s*\{[^}]*top:\s*11%[^}]*left:\s*1\.65%[^}]*width:\s*19\.2%[^}]*height:\s*84%/is.test(html), `${prefix} standalone 왼쪽 진행 패널 Stage 좌표 CSS가 다릅니다.`);
+    assert(/\.run-truck-image\s*\{[^}]*width:\s*100%[^}]*object-fit:\s*contain/is.test(html), `${prefix} standalone 왼쪽 진행 이미지 contain CSS가 없습니다.`);
+    const playImages = (config.results || []).map((result) => result.playImage);
+    assert(playImages.every(Boolean) && new Set(playImages).size === 6, `${prefix} standalone 결과마다 서로 다른 전용 playImage가 필요합니다.`);
+    const sharedPlayRoot = path.resolve(ROOT, playSet.sourceSetPath, "..");
+    for (const asset of playImages) {
+      const pngPath = path.join(sharedPlayRoot, "runtime-png", pngFor(asset));
+      assert(existsSync(pngPath), `${prefix} standalone 왼쪽 진행 PNG가 없습니다: ${path.basename(pngPath)}`);
+      assert(readPngSize(pngPath) === "768x1536", `${prefix} standalone 왼쪽 진행 이미지는 768×1536이어야 합니다: ${path.basename(pngPath)}`);
+    }
+    const playContact = path.resolve(ROOT, playSet.contactSheet);
+    assert(existsSync(playContact), `${prefix} standalone 왼쪽 진행 컨택시트가 없습니다.`);
+    assert(readme.includes(playSet.contactSheet), `${prefix} standalone README에 왼쪽 진행 컨택시트 경로가 없습니다.`);
+    assert(report.includes(playSet.contactSheet), `${prefix} standalone REPORT에 왼쪽 진행 컨택시트 경로가 없습니다.`);
+    checkPlaySubjectAnchors(prefix, outputDir, playSet, playAudit, readme, report);
+  }
+  if (config.qa?.rewardEffectAudit) {
+    const effect = config.qa.rewardEffectAudit;
+    assert(effect.standard === "modal-dismiss-world-impact-v2", `${prefix} standalone 보상 뒤 장면 전환 표준이 다릅니다.`);
+    assert(effect.preEffectDelayMs >= 250 && effect.preEffectDelayMs <= 450, `${prefix} standalone 모달 뒤 시선 이동 여백이 250~450ms가 아닙니다.`);
+    assert(effect.durationMs >= 1200 && effect.minVisibleMs >= 1200, `${prefix} standalone 단계 상승 효과 시간이 부족합니다.`);
+    assert(effect.minImpactStageWidthRatio >= .32, `${prefix} standalone 단계 상승 효과가 Stage에서 너무 작습니다.`);
+    assert(effect.requiresModalClosedBeforeStart === true && effect.deferNextProblem === true, `${prefix} standalone 모달 닫힘·다음 문제 지연 계약이 없습니다.`);
+    assert(effect.tierChangeRequiresImageSwap === true, `${prefix} standalone 단계 상승 이미지 교체 계약이 없습니다.`);
+    for (const className of effect.activeClasses || []) assert(html.includes(`.${className}`), `${prefix} standalone 보상 효과 CSS .${className}가 없습니다.`);
+    assert(html.includes("REWARD_PRE_EFFECT_DELAY_MS = 320") && html.includes("REWARD_EFFECT_DURATION_MS = 1560"), `${prefix} standalone 보상 효과 런타임 시간이 계약과 다릅니다.`);
+    assert(html.includes("state.rewardTransitioning = true") && html.includes('screens.reward.classList.remove("is-active")'), `${prefix} standalone 보상 모달 선행 닫힘 구현이 없습니다.`);
+  }
   for (const asset of config.assets || []) {
     const resolved = path.resolve(outputDir, asset);
     assert(existsSync(resolved), `${prefix} declared standalone asset is missing: ${asset}`);
@@ -151,7 +270,7 @@ function checkV2(folder, config, css, readme, report) {
   assert(css.includes("--sound-button-size: 42px"), `${prefix} 설정 버튼 42px CSS 계약이 없습니다.`);
   assert(css.includes("font-size: .9rem"), `${prefix} 상단 라벨 14px 이상 CSS 계약이 없습니다.`);
   assert(
-    css.includes("top: calc(var(--stage-inset) + var(--sound-button-size) + 6px)"),
+    css.includes("top: calc(var(--top-control-y) + var(--sound-button-size) + 6px)"),
     `${prefix} 상단 행과 문제판 6px 간격 CSS 계약이 없습니다.`,
   );
   assert(report.includes("42×42px") && report.includes("14.4px"), `${prefix} REPORT에 실제 터치·글씨 측정값이 없습니다.`);
@@ -214,7 +333,11 @@ function checkLesson(folder, config) {
     assert(typeof set.protagonist === "string" && set.protagonist.length > 0, `${prefix} 중심 보상 주인공 id가 없습니다.`);
     assert(set.fixedGeneratedElements?.some((element) => element.endsWith("-scene")), `${prefix} 중심 보상 결과 장면이 생성 이미지 요소여야 합니다.`);
   }
-  assert(set.fixedGeneratedElements?.includes("result-title"), `${prefix} 결과 제목은 생성 이미지 요소여야 합니다.`);
+  assert(
+    set.fixedGeneratedElements?.includes("result-title")
+      || set.fixedGeneratedElements?.includes("tier-scene-with-title"),
+    `${prefix} 결과 제목은 생성 이미지 요소이거나 단계 완성 장면 안에 있어야 합니다.`,
+  );
   assert(set.fixedGeneratedElements?.includes("retry-button"), `${prefix} 다시 버튼은 생성 이미지 요소여야 합니다.`);
   const hidesLegacyResultSurface = (
     css.includes("#resultDestinationSvg")
@@ -227,8 +350,11 @@ function checkLesson(folder, config) {
   );
   assert(hidesLegacyResultSurface, `${prefix} 중복 SVG 결과 제목/다시 버튼을 숨겨야 합니다.`);
 
+  const resultPngRoot = set.runtimePngPath
+    ? path.resolve(ROOT, set.runtimePngPath)
+    : outputDir;
   for (const result of config.results) {
-    const pngPath = path.join(outputDir, pngFor(result.image));
+    const pngPath = path.join(resultPngRoot, pngFor(result.image));
     assert(existsSync(pngPath), `${prefix} 결과 PNG가 없습니다: ${path.basename(pngPath)}`);
     assert(readPngSize(pngPath) === EXPECTED_CANVAS, `${prefix} 결과 이미지는 ${EXPECTED_CANVAS}이어야 합니다: ${path.basename(pngPath)}`);
   }
@@ -271,7 +397,8 @@ function checkLesson(folder, config) {
     assert(readme.includes(playSet.sourceSetPath || playSet.sourceSheet), `${prefix} README에 문제 화면 진행 생성 원본 경로가 없습니다.`);
     assert(report.includes(playSet.contactSheet), `${prefix} REPORT에 문제 화면 진행 컨택시트 경로가 없습니다.`);
     assert(report.includes(playSet.sourceSetPath || playSet.sourceSheet), `${prefix} REPORT에 문제 화면 진행 생성 원본 경로가 없습니다.`);
-    assert(css.includes(".compass-play-progress-art") && css.includes("object-fit: contain"), `${prefix} 문제 화면 진행 이미지 contain CSS 계약이 없습니다.`);
+    const playImageSelector = config.qa?.playProgressAudit?.image || ".compass-play-progress-art";
+    assert(css.includes(playImageSelector) && css.includes("object-fit: contain"), `${prefix} 문제 화면 진행 이미지 contain CSS 계약이 없습니다.`);
 
     if (["generated-play-progress-v2-character-centered", "generated-play-progress-v3-left-character"].includes(playSet.standard)) {
       assert(playSet.protagonist === config.mathmonId, `${prefix} 문제 화면 진행 장면의 매스몬이 차시 매스몬과 다릅니다.`);
@@ -297,6 +424,7 @@ function checkLesson(folder, config) {
       assert(config.qa?.playProgressAudit?.expectedProtagonist === config.mathmonId, `${prefix} 브라우저 진행 장면 매스몬 검증 계약이 없습니다.`);
       assert(config.qa?.playProgressAudit?.panelLaneCenterTolerancePx <= 1, `${prefix} 왼쪽 진행 패널 중심 오차 허용값이 너무 큽니다.`);
       assert(config.qa?.playProgressAudit?.imagePanelCenterTolerancePx <= 1, `${prefix} 진행 이미지와 패널 중심 오차 허용값이 너무 큽니다.`);
+      checkPlaySubjectAnchors(prefix, outputDir, playSet, config.qa?.playProgressAudit, readme, report);
     }
   }
 
@@ -306,10 +434,11 @@ function checkLesson(folder, config) {
     assert(typeof audit.unitBadge === "string" && audit.unitBadge.length > 0, `${prefix} 단원 배지 측정 선택자가 없습니다.`);
     assert(typeof audit.settingsButton === "string" && audit.settingsButton.length > 0, `${prefix} 설정 버튼 측정 선택자가 없습니다.`);
     assert(audit.topTolerancePx <= 1, `${prefix} 상단 모서리 정렬 허용값은 1px 이하여야 합니다.`);
+    assert(audit.bottomTolerancePx <= 1, `${prefix} 하단 모서리 정렬 허용값은 1px 이하여야 합니다.`);
     assert(audit.centerYTolerancePx <= 1, `${prefix} 세로 중심 정렬 허용값은 1px 이하여야 합니다.`);
     assert(audit.heightTolerancePx <= 1, `${prefix} 높이 차이 허용값은 1px 이하여야 합니다.`);
     assert(audit.minGapPx >= 8, `${prefix} 상단 조작 사이 간격은 8px 이상이어야 합니다.`);
-    assert(css.includes("top: var(--stage-inset)"), `${prefix} 상단 조작은 공용 --stage-inset 좌표를 써야 합니다.`);
+    assert(css.includes("top: var(--top-control-y)"), `${prefix} 상단 조작은 공용 --top-control-y 좌표를 써야 합니다.`);
   }
 
   if (config.qa?.rewardModalAudit) {

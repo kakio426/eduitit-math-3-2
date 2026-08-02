@@ -44,6 +44,7 @@
         }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
+          --top-control-y: var(--stage-inset);
           --sound-button-size: clamp(42px, 3.6vw, 46px);
           --sound-gap: clamp(8px, 1vw, 12px);
           --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
@@ -79,7 +80,7 @@
         }
         .settings-toggle {
           position: absolute;
-          top: var(--stage-inset);
+          top: var(--top-control-y);
           right: var(--stage-inset);
           width: var(--sound-button-size);
           height: var(--sound-button-size);
@@ -182,7 +183,7 @@
         .stage-shell .hud { padding-right: var(--sound-reserve); }
         .top-row {
           position: absolute;
-          top: var(--stage-inset);
+          top: var(--top-control-y);
           left: var(--stage-inset);
           right: calc(var(--stage-inset) + var(--sound-reserve));
           height: var(--sound-button-size);
@@ -1103,12 +1104,12 @@
     .game[data-workbench-type="pizza-fraction"] .pizza-play-progress.is-tier-up ~ .pizza-play-progress-impact-stage::before { animation: pizza-progress-stage-ring 1.56s cubic-bezier(.08,.72,.16,1) both; }
     .game[data-workbench-type="pizza-fraction"] .pizza-play-progress.is-celebrating ~ .pizza-play-progress-impact-stage::after,
     .game[data-workbench-type="pizza-fraction"] .pizza-play-progress.is-tier-up ~ .pizza-play-progress-impact-stage::after { animation: pizza-progress-stage-rays 1.56s ease-out both; }
-    .game[data-workbench-type="pizza-fraction"] .hud { position: absolute; top: var(--stage-inset); left: var(--stage-inset); right: calc(var(--stage-inset) + var(--sound-reserve)); z-index: 6; width: auto; height: var(--sound-button-size); min-height: var(--sound-button-size); display: flex; align-items: start; justify-content: space-between; gap: var(--sound-gap); padding: 0; }
+    .game[data-workbench-type="pizza-fraction"] .hud { position: absolute; top: var(--top-control-y); left: var(--stage-inset); right: calc(var(--stage-inset) + var(--sound-reserve)); z-index: 6; width: auto; height: var(--sound-button-size); min-height: var(--sound-button-size); display: flex; align-items: start; justify-content: space-between; gap: var(--sound-gap); padding: 0; }
     .game[data-workbench-type="pizza-fraction"] .hud-left,
     .game[data-workbench-type="pizza-fraction"] .hud-right { display: flex; align-items: start; height: var(--sound-button-size); }
     .game[data-workbench-type="pizza-fraction"] .progress-line { display: none; }
     .game[data-workbench-type="pizza-fraction"] #problemCounter { position: absolute; left: 50%; min-width: 132px; min-height: var(--sound-button-size); justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1rem; transform: translateX(-50%); }
-    .game[data-workbench-type="pizza-fraction"] .problem-grid { position: absolute; top: calc(var(--stage-inset) + var(--sound-button-size) + 6px); right: 5%; bottom: 20px; left: 5%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px 212px; gap: 8px; }
+    .game[data-workbench-type="pizza-fraction"] .problem-grid { position: absolute; top: calc(var(--top-control-y) + var(--sound-button-size) + 6px); right: 5%; bottom: 20px; left: 5%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px 212px; gap: 8px; }
     .game[data-workbench-type="pizza-fraction"].has-play-progress .problem-grid { right: 3%; left: 22.5%; }
     .game[data-workbench-type="pizza-fraction"] .problem-card,
     .game[data-workbench-type="pizza-fraction"] .step-board,
@@ -1142,7 +1143,7 @@
     .pizza-confirm-svg[data-state="correct"] .fraction-mark-selected .fraction-line { fill: #16775e; stroke: #16775e; }
     .game[data-workbench-type="pizza-fraction"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
     .game[data-workbench-type="pizza-fraction"] .instruction,
-    .game[data-workbench-type="pizza-fraction"] .feedback-line { grid-area: 1 / 1; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: center; }
+    .game[data-workbench-type="pizza-fraction"] .feedback-line { grid-area: 1 / 1; width: 100%; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.15; font-weight: 1000; text-align: left; }
     .game[data-workbench-type="pizza-fraction"] .instruction[hidden] { display: none; }
     .game[data-workbench-type="pizza-fraction"] .feedback-line[data-state="idle"] { visibility: hidden; }
     .game[data-workbench-type="pizza-fraction"] .feedback-line[data-state="wrong"] { color: #a11742; }
@@ -1152,7 +1153,7 @@
     .game[data-workbench-type="pizza-fraction"] .fraction-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70; }
     .game[data-workbench-type="pizza-fraction"] .fraction-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991; }
     .game[data-workbench-type="pizza-fraction"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 212px; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: #fff2bf; }
-    .game[data-workbench-type="pizza-fraction"] .complete-text { max-width: 770px; color: #36200b; font-size: clamp(1.12rem, 1.9vw, 1.55rem); line-height: 1.2; text-align: center; word-break: keep-all; }
+    .game[data-workbench-type="pizza-fraction"] .complete-text { width: min(100%, 770px); color: #36200b; font-size: clamp(1.12rem, 1.9vw, 1.55rem); line-height: 1.2; text-align: left; word-break: keep-all; }
     .game[data-workbench-type="pizza-fraction"] .complete-panel .primary-button { min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
     .game[data-workbench-type="pizza-fraction"] .problem-grid.is-complete .choices-panel,
     .game[data-workbench-type="pizza-fraction"] .problem-grid.is-complete .step-board { display: none; }
@@ -1233,7 +1234,7 @@
       100% { opacity: 0; transform: rotate(26deg) scale(1.36); }
     }
     @media (max-width: 980px) {
-      .game[data-workbench-type="pizza-fraction"] .problem-grid { top: calc(var(--stage-inset) + var(--sound-button-size) + 6px); right: 4%; bottom: 16px; left: 4%; grid-template-rows: minmax(0, 1fr) 50px 210px; gap: 7px; }
+      .game[data-workbench-type="pizza-fraction"] .problem-grid { top: calc(var(--top-control-y) + var(--sound-button-size) + 6px); right: 4%; bottom: 16px; left: 4%; grid-template-rows: minmax(0, 1fr) 50px 210px; gap: 7px; }
       .game[data-workbench-type="pizza-fraction"].has-play-progress .problem-grid { right: 2%; left: 22.5%; }
       .game[data-workbench-type="pizza-fraction"] .complete-panel { min-height: 196px; }
     }
@@ -1993,7 +1994,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit4-pizza-fraction-migration","id":"3-2-4-1","folder":"3-2-4-1-mathmon-pizza-fraction","modelName":"Lesson4PizzaFractionModel","title":"매스몬 피자 분수 가게","shortTitle":"매스몬 피자 분수 가게","topic":"부분과 전체로 분수 나타내기","unitBadge":"4단원 분수","goal":"색칠된 조각을 분수로 나타내요.","action":"피자와 같은 분수 카드를 고른다.","buttonLabel":"피자 보기","rewardScreenTitle":"피자 빛","progressLabel":"피자 빛","rewardComplete":"피자 빛이 바뀌었어요.","tutorialTitle":"피자를 나누기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 읽어요?","body":"색칠된 조각은 위, 전체 조각은 아래에 놓아요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 피자 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","perfect":"reward-event-perfect-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","perfect","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"perfect":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showNextGoal":true,"layout":{"axisX":960,"axisXByTier":{"slice":960,"half":901,"whole":962,"jumbo":1004,"shopstar":1010,"legend":999},"byTier":{"slice":{"retryRect":{"x":820,"y":558,"width":280,"height":82}},"half":{"retryRect":{"x":761,"y":492,"width":280,"height":78}},"whole":{"retryRect":{"x":822,"y":534,"width":280,"height":76}},"jumbo":{"retryRect":{"x":864,"y":566,"width":280,"height":80}},"shopstar":{"retryRect":{"x":870,"y":488,"width":280,"height":76}},"legend":{"retryRect":{"x":859,"y":534,"width":280,"height":76}}},"measureY":350,"barY":366,"barWidth":260,"barHeight":16,"correctTop":390,"correctWidth":98,"nextY":476,"retryRect":{"x":820,"y":558,"width":280,"height":82}},"stateImageSet":{"standard":"generated-result-fullscene-v3","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/source","runtimePngPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/runtime-png","contract":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contract.json","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png","protagonist":"base-02-foxmon","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["environment","mathmon","pizza-scene","tier-scene-with-title","blank-dynamic-panel","retry-button"],"dynamicOverlays":["pizza-light","correct-count","next-goal"]}},"workbench":{"type":"pizza-fraction","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"base-02-foxmon","cacheVersion":"2026-08-02-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/source","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/contact-sheets/play-pizza-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/contact-sheets/play-pizza-progress-v1-anchor-audit.png","filePattern":"play-pizza-v1-{tier}-generated.webp","requiredSubjects":["여우몬 전신","pizza progress scene"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.192,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.5,"centerY":0.59,"footY":0.75,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","slice":{"centerX":0.5,"centerY":0.59,"footY":0.74,"height":0.3},"half":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3},"whole":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3},"jumbo":{"centerX":0.5,"centerY":0.59,"footY":0.74,"height":0.3},"shopstar":{"centerX":0.5,"centerY":0.59,"footY":0.75,"height":0.32},"legend":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"slice","name":"한 조각","visualRank":0,"minPower":0,"minCorrect":0,"playImage":"play-pizza-v1-slice-generated.webp","image":"result-slice-generated.webp","titleImage":"result-slice-generated.webp"},{"id":"half","name":"반 판","visualRank":1,"minPower":19,"minCorrect":2,"playImage":"play-pizza-v1-half-generated.webp","image":"result-half-generated.webp","titleImage":"result-half-generated.webp"},{"id":"whole","name":"한 판","visualRank":2,"minPower":39,"minCorrect":4,"playImage":"play-pizza-v1-whole-generated.webp","image":"result-whole-generated.webp","titleImage":"result-whole-generated.webp"},{"id":"jumbo","name":"특대 피자","visualRank":3,"minPower":61,"minCorrect":6,"playImage":"play-pizza-v1-jumbo-generated.webp","image":"result-jumbo-generated.webp","titleImage":"result-jumbo-generated.webp"},{"id":"shopstar","name":"가게 대박","visualRank":4,"minPower":83,"minCorrect":8,"playImage":"play-pizza-v1-shopstar-generated.webp","image":"result-shopstar-generated.webp","titleImage":"result-shopstar-generated.webp"},{"id":"legend","name":"전설 피자","visualRank":5,"minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-pizza-v1-legend-generated.webp","image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"빛 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"빛 -","weight":1200,"min":-4,"max":-2,"family":"loss"},{"id":"mega","text":"토핑 가득!","weight":900,"min":12,"max":20,"family":"mega"},{"id":"perfect","text":"완벽한 피자!","weight":50,"min":6,"max":6,"family":"perfect","launches":true},{"id":"empty","text":"빛 0","weight":200,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"rainbow","text":"무지개 피자!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"빛 -","min":-4,"max":-2,"family":"loss"},"typesPerRun":["1/3","2/3","1/4","3/4","2/5","3/5","2/6","4/6","3/8","5/8"],"fractionCases":[[1,3],[2,3],[1,4],[3,4],[2,5],[3,5],[2,6],[4,6],[3,8],[5,8]],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardClosed":"reward-event-closed-generated.webp","rewardScene":"result-whole-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-perfect-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-slice-generated.webp","result-half-generated.webp","result-whole-generated.webp","result-jumbo-generated.webp","result-shopstar-generated.webp","result-legend-generated.webp","play-pizza-v1-slice-generated.webp","play-pizza-v1-half-generated.webp","play-pizza-v1-whole-generated.webp","play-pizza-v1-jumbo-generated.webp","play-pizza-v1-shopstar-generated.webp","play-pizza-v1-legend-generated.webp"],"qa":{"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":2,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.7},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultVisualAudit":{"standard":"result-tier-fullscene-native-v1","stateCount":6,"expectedStates":["slice","half","whole","jumbo","shopstar","legend"],"expectedRanks":[0,1,2,3,4,5],"sceneImage":"#resultBg","sceneCanvas":"1280x800","sceneObjectFit":"cover","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"forbiddenSelectors":["[class*='result-impact']"],"dynamicAxisX":960,"dynamicAxisByTier":{"slice":960,"half":901,"whole":962,"jumbo":1004,"shopstar":1010,"legend":999},"shiftRetryWithTierAxis":false,"axisTolerancePx":1,"panelPixelAudit":{"standard":"dark-panel-row-run-v1","searchRect":{"x":650,"y":120,"width":600,"height":480},"darkRgbMax":{"r":145,"g":110,"b":145},"minBlueToRedRatio":0,"minRunWidth":180,"centerTolerancePx":3},"slots":{"measure":{"x":780,"y":314,"width":360,"height":44},"track":{"x":830,"y":366,"width":260,"height":16},"correct":{"x":911,"y":390,"width":98,"height":58},"next":{"x":780,"y":449,"width":360,"height":36},"retry":{"x":820,"y":558,"width":280,"height":82}},"slotsByTier":{"slice":{"retry":{"x":820,"y":558,"width":280,"height":82}},"half":{"retry":{"x":761,"y":492,"width":280,"height":78}},"whole":{"retry":{"x":822,"y":534,"width":280,"height":76}},"jumbo":{"retry":{"x":864,"y":566,"width":280,"height":80}},"shopstar":{"retry":{"x":870,"y":488,"width":280,"height":76}},"legend":{"retry":{"x":859,"y":534,"width":280,"height":76}}},"measureFontPx":32,"nextFontPx":24,"minVerticalGapPx":2,"requireDistinctSceneSource":true,"grandColorFamily":"golden-pizza-palace","legendColorFamily":"rainbow-pizza-world"},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"dark-neutral","scanStartRatio":0.5,"scanEndRatio":0.973,"minimumDetectedAxisX":850,"maximumDetectedAxisX":1150,"threshold":{"redMax":145,"greenMax":110,"blueMax":145},"minimumRunRatio":0.14,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"slice":960,"half":900.5,"whole":962,"jumbo":1003.5,"shopstar":1010,"legend":997}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png"},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".pizza-play-progress","image":".pizza-play-progress-art","label":".pizza-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["slice","half","whole","jumbo","shopstar","legend"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"base-02-foxmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.192,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.5,"centerY":0.59,"footY":0.75,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".pizza-play-progress","image":".pizza-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".pizza-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":18,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":4,"beforeTier":"slice","afterTier":"half"}},"uiScaleContract":{"minimumTouchPx":42,"minimumSmallLabelPx":14,"minimumProblemPx":32,"minimumInstructionPx":14,"minimumChoicePx":20,"minimumHeaderProblemGapPx":6},"misconceptionCoverage":["FRACTION_SWAPPED","FRACTION_COUNTS_UNSHADED"],"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-missing-left-progress","width":1082,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit4-pizza-fraction-migration","id":"3-2-4-1","folder":"3-2-4-1-mathmon-pizza-fraction","modelName":"Lesson4PizzaFractionModel","title":"매스몬 피자 분수 가게","shortTitle":"매스몬 피자 분수 가게","topic":"부분과 전체로 분수 나타내기","unitBadge":"4단원 분수","goal":"색칠된 조각을 분수로 나타내요.","action":"피자와 같은 분수 카드를 고른다.","buttonLabel":"피자 보기","rewardScreenTitle":"피자 빛","progressLabel":"피자 빛","rewardComplete":"피자 빛이 바뀌었어요.","tutorialTitle":"피자를 나누기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 읽어요?","body":"색칠된 조각은 위, 전체 조각은 아래에 놓아요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 피자 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","perfect":"reward-event-perfect-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","perfect","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"perfect":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showNextGoal":true,"layout":{"axisX":960,"axisXByTier":{"slice":960,"half":901,"whole":962,"jumbo":1004,"shopstar":1010,"legend":999},"byTier":{"slice":{"retryRect":{"x":820,"y":558,"width":280,"height":82}},"half":{"retryRect":{"x":761,"y":492,"width":280,"height":78}},"whole":{"retryRect":{"x":822,"y":534,"width":280,"height":76}},"jumbo":{"retryRect":{"x":864,"y":566,"width":280,"height":80}},"shopstar":{"retryRect":{"x":870,"y":488,"width":280,"height":76}},"legend":{"retryRect":{"x":859,"y":534,"width":280,"height":76}}},"measureY":350,"barY":366,"barWidth":260,"barHeight":16,"correctTop":390,"correctWidth":98,"nextY":476,"retryRect":{"x":820,"y":558,"width":280,"height":82}},"stateImageSet":{"standard":"generated-result-fullscene-v3","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/source","runtimePngPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/runtime-png","contract":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contract.json","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png","protagonist":"base-02-foxmon","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["environment","mathmon","pizza-scene","tier-scene-with-title","blank-dynamic-panel","retry-button"],"dynamicOverlays":["pizza-light","correct-count","next-goal"]}},"workbench":{"type":"pizza-fraction","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"base-02-foxmon","cacheVersion":"2026-08-02-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/source","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/contact-sheets/play-pizza-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/play-progress-v1/contact-sheets/play-pizza-progress-v1-anchor-audit.png","filePattern":"play-pizza-v1-{tier}-generated.webp","requiredSubjects":["여우몬 전신","pizza progress scene"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.192,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.5,"centerY":0.59,"footY":0.75,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","slice":{"centerX":0.5,"centerY":0.59,"footY":0.74,"height":0.3},"half":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3},"whole":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3},"jumbo":{"centerX":0.5,"centerY":0.59,"footY":0.74,"height":0.3},"shopstar":{"centerX":0.5,"centerY":0.59,"footY":0.75,"height":0.32},"legend":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"여우몬","mathmonId":"base-02-foxmon","results":[{"id":"slice","name":"한 조각","visualRank":0,"minPower":0,"minCorrect":0,"playImage":"play-pizza-v1-slice-generated.webp","image":"result-slice-generated.webp","titleImage":"result-slice-generated.webp"},{"id":"half","name":"반 판","visualRank":1,"minPower":15,"minCorrect":2,"playImage":"play-pizza-v1-half-generated.webp","image":"result-half-generated.webp","titleImage":"result-half-generated.webp"},{"id":"whole","name":"한 판","visualRank":2,"minPower":35,"minCorrect":4,"playImage":"play-pizza-v1-whole-generated.webp","image":"result-whole-generated.webp","titleImage":"result-whole-generated.webp"},{"id":"jumbo","name":"특대 피자","visualRank":3,"minPower":55,"minCorrect":6,"playImage":"play-pizza-v1-jumbo-generated.webp","image":"result-jumbo-generated.webp","titleImage":"result-jumbo-generated.webp"},{"id":"shopstar","name":"가게 대박","visualRank":4,"minPower":78,"minCorrect":8,"playImage":"play-pizza-v1-shopstar-generated.webp","image":"result-shopstar-generated.webp","titleImage":"result-shopstar-generated.webp"},{"id":"legend","name":"전설 피자","visualRank":5,"minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-pizza-v1-legend-generated.webp","image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"피자 빛이 늘었어요","weight":6400,"min":6,"max":10,"family":"normal"},{"id":"loss","text":"피자 빛이 줄었어요","weight":1500,"min":-5,"max":-2,"family":"loss"},{"id":"mega","text":"피자 빛이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"mega"},{"id":"jackpot","text":"피자가 크게 빛나요","weight":500,"min":30,"max":30,"family":"perfect"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"special","text":"무지개 피자가 나왔어요","weight":20,"min":100,"max":100,"family":"rainbow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"피자 빛이 줄었어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["1/3","2/3","1/4","3/4","2/5","3/5","2/6","4/6","3/8","5/8"],"fractionCases":[[1,3],[2,3],[1,4],[3,4],[2,5],[3,5],[2,6],[4,6],[3,8],[5,8]],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-stage-generated.webp","rewardClosed":"reward-event-closed-generated.webp","rewardScene":"result-whole-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-stage-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-perfect-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-slice-generated.webp","result-half-generated.webp","result-whole-generated.webp","result-jumbo-generated.webp","result-shopstar-generated.webp","result-legend-generated.webp","play-pizza-v1-slice-generated.webp","play-pizza-v1-half-generated.webp","play-pizza-v1-whole-generated.webp","play-pizza-v1-jumbo-generated.webp","play-pizza-v1-shopstar-generated.webp","play-pizza-v1-legend-generated.webp"],"qa":{"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":2,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.7},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultVisualAudit":{"standard":"result-tier-fullscene-native-v1","stateCount":6,"expectedStates":["slice","half","whole","jumbo","shopstar","legend"],"expectedRanks":[0,1,2,3,4,5],"sceneImage":"#resultBg","sceneCanvas":"1280x800","sceneObjectFit":"cover","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"forbiddenSelectors":["[class*='result-impact']"],"dynamicAxisX":960,"dynamicAxisByTier":{"slice":960,"half":901,"whole":962,"jumbo":1004,"shopstar":1010,"legend":999},"shiftRetryWithTierAxis":false,"axisTolerancePx":1,"panelPixelAudit":{"standard":"dark-panel-row-run-v1","searchRect":{"x":650,"y":120,"width":600,"height":480},"darkRgbMax":{"r":145,"g":110,"b":145},"minBlueToRedRatio":0,"minRunWidth":180,"centerTolerancePx":3},"slots":{"measure":{"x":780,"y":314,"width":360,"height":44},"track":{"x":830,"y":366,"width":260,"height":16},"correct":{"x":911,"y":390,"width":98,"height":58},"next":{"x":780,"y":449,"width":360,"height":36},"retry":{"x":820,"y":558,"width":280,"height":82}},"slotsByTier":{"slice":{"retry":{"x":820,"y":558,"width":280,"height":82}},"half":{"retry":{"x":761,"y":492,"width":280,"height":78}},"whole":{"retry":{"x":822,"y":534,"width":280,"height":76}},"jumbo":{"retry":{"x":864,"y":566,"width":280,"height":80}},"shopstar":{"retry":{"x":870,"y":488,"width":280,"height":76}},"legend":{"retry":{"x":859,"y":534,"width":280,"height":76}}},"measureFontPx":32,"nextFontPx":24,"minVerticalGapPx":2,"requireDistinctSceneSource":true,"grandColorFamily":"golden-pizza-palace","legendColorFamily":"rainbow-pizza-world"},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"dark-neutral","scanStartRatio":0.5,"scanEndRatio":0.973,"minimumDetectedAxisX":850,"maximumDetectedAxisX":1150,"threshold":{"redMax":145,"greenMax":110,"blueMax":145},"minimumRunRatio":0.14,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"slice":960,"half":900.5,"whole":962,"jumbo":1003.5,"shopstar":1010,"legend":997}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png"},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".pizza-play-progress","image":".pizza-play-progress-art","label":".pizza-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["slice","half","whole","jumbo","shopstar","legend"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"base-02-foxmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.192,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.5,"centerY":0.59,"footY":0.75,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".pizza-play-progress","image":".pizza-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".pizza-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"slice","afterTier":"half"}},"uiScaleContract":{"minimumTouchPx":42,"minimumSmallLabelPx":14,"minimumProblemPx":32,"minimumInstructionPx":14,"minimumChoicePx":20,"minimumHeaderProblemGapPx":6},"misconceptionCoverage":["FRACTION_SWAPPED","FRACTION_COUNTS_UNSHADED"],"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-missing-left-progress","width":1082,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson4PizzaFractionModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2162,6 +2163,8 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
+      rewardObject: document.querySelector("#screen-reward .reward-object"),
+      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -2434,6 +2437,8 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
+      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
+      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -2454,6 +2459,12 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
+        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
+        const misconceptionId = getChoiceMisconceptionId(choice);
+        if (misconceptionId) button.dataset.misconception = misconceptionId;
+        if (choice && typeof choice === "object" && choice.relation) {
+          button.dataset.relation = String(choice.relation);
+        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -2472,6 +2483,10 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
+      });
+      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
+        delete choiceButton.dataset.state;
+        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -2537,7 +2552,12 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
+      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
+      ui.completeText.hidden = !showCompleteExpression;
+      ui.completeText.textContent = showCompleteExpression
+        ? (problem.finalExpression || ui.answerSlot.textContent)
+        : "";
+      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -2623,7 +2643,8 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = step.label || `${index + 1}단계`;
+        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
+        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -2631,7 +2652,7 @@
     }
 
     async function showReward() {
-      if (!state.completed) return;
+      if (!state.completed || state.rewardPhase !== "idle") return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -2662,7 +2683,9 @@
         return;
       }
 
-      applyPendingReward(event);
+      const beforePower = applyPendingReward(event);
+      state.rewardPhase = "revealed";
+      renderRewardMeter(event, beforePower, state.power);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -2673,6 +2696,18 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
+    }
+
+    function renderRewardMeter(event, beforePower, afterPower) {
+      if (!ui.rewardObject || !ui.rewardLiquid) return;
+      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
+      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
+      const delta = Number(afterPower) - Number(beforePower);
+      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
+      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
+      ui.rewardObject.dataset.direction = direction;
+      ui.rewardObject.dataset.symbol = symbol;
+      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -2725,7 +2760,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -2740,14 +2775,23 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return event.text || "특별 보상!";
+      if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(beforeResult, afterResult) {
+    function getRewardTargetText(event, beforeResult, afterResult) {
+      const formatter = globalThis.formatLessonRewardTarget;
+      if (typeof formatter === "function") {
+        try {
+          const formatted = formatter({ event, beforeResult, afterResult, state });
+          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
+        } catch (error) {
+          console.warn("formatLessonRewardTarget failed", error);
+        }
+      }
       if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
@@ -2809,8 +2853,7 @@
     }
 
     function setRewardValue(amount) {
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
-      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || "이번 변화";
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -2844,8 +2887,10 @@
 
     async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
+      if (state.pendingAdvance) return;
+      if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
+      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") {
-        if (state.rewardPhase !== "revealed") return;
         const event = state.pendingRewardEvent;
         ui.modalRewardNextButton.disabled = true;
         closeRewardModal();
@@ -2857,6 +2902,10 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
+      if (getRewardMode() === "stage-full") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3362,7 +3411,7 @@
       progress.name.textContent = result.name;
       progress.meter.setAttribute("aria-valuenow", String(power));
       progress.meterFill.style.width = `${power / maxPower * 100}%`;
-      progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요. 피자 빛은 ${power}이에요.`);
+      progress.panel.setAttribute("aria-label", `지금은 ${result.name} 단계예요. 피자 빛은 ${power}이에요.`);
       if (changed) progress.art.src = nextSrc;
 
       const delta = Number(options.delta ?? (power - previousPower));

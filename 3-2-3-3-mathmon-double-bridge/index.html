@@ -44,6 +44,7 @@
         }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
+          --top-control-y: var(--stage-inset);
           --sound-button-size: clamp(42px, 3.6vw, 46px);
           --sound-gap: clamp(8px, 1vw, 12px);
           --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
@@ -79,7 +80,7 @@
         }
         .settings-toggle {
           position: absolute;
-          top: var(--stage-inset);
+          top: var(--top-control-y);
           right: var(--stage-inset);
           width: var(--sound-button-size);
           height: var(--sound-button-size);
@@ -182,7 +183,7 @@
         .stage-shell .hud { padding-right: var(--sound-reserve); }
         .top-row {
           position: absolute;
-          top: var(--stage-inset);
+          top: var(--top-control-y);
           left: var(--stage-inset);
           right: calc(var(--stage-inset) + var(--sound-reserve));
           height: var(--sound-button-size);
@@ -1186,7 +1187,7 @@
 
     .game[data-workbench-type="circle-double-bridge"] .hud {
       position: absolute;
-      top: 16px;
+      top: var(--top-control-y);
       right: calc(2.5% + var(--sound-reserve));
       left: 2.5%;
       z-index: 6;
@@ -1244,8 +1245,8 @@
       margin: 0;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: minmax(0, 1fr) 50px 112px;
-      gap: 8px;
+      grid-template-rows: minmax(0, 1fr) 50px 166px;
+      gap: 12px;
     }
 
     .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card,
@@ -1302,6 +1303,73 @@
       overflow: hidden;
     }
 
+    /* 문제 그림은 원 하나와 길이 관계만 보여 준다. */
+    .circle-relation-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      max-width: 650px;
+      height: 100%;
+      max-height: 100%;
+      margin: auto;
+      overflow: hidden;
+      font-family: ui-rounded, "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+    }
+
+    .circle-relation-svg .known-length,
+    .circle-relation-svg .source-question,
+    .circle-relation-svg .bridge-equation {
+      paint-order: stroke;
+      stroke: rgba(255, 247, 215, .98);
+      stroke-linejoin: round;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .circle-relation-svg .known-length {
+      fill: var(--bridge-ink);
+      stroke-width: 7px;
+      font-size: 36px;
+    }
+
+    .circle-relation-svg .known-measure,
+    .circle-relation-svg .known-measure-cap,
+    .circle-relation-svg .answer-measure,
+    .circle-relation-svg .answer-measure-cap {
+      fill: none;
+      stroke: var(--bridge-orange);
+      stroke-width: 5px;
+      stroke-linecap: round;
+    }
+
+    .circle-relation-svg .source-question {
+      fill: var(--bridge-ink);
+      stroke-width: 7px;
+      font-size: 38px;
+    }
+
+    .circle-relation-svg .bridge-equation {
+      fill: var(--bridge-ink);
+      stroke-width: 7px;
+      font-size: 31px;
+    }
+
+    .circle-relation-svg[data-state="wrong"] .source-question,
+    .circle-relation-svg[data-state="wrong"] .bridge-equation {
+      fill: var(--bridge-danger);
+    }
+
+    .circle-relation-svg[data-state="correct"] .source-question,
+    .circle-relation-svg[data-state="correct"] .bridge-equation {
+      fill: var(--bridge-success);
+    }
+
+    .circle-relation-svg[data-state="correct"] .answer-measure,
+    .circle-relation-svg[data-state="correct"] .answer-measure-cap {
+      stroke: var(--bridge-success);
+      filter: drop-shadow(0 0 5px rgba(80, 255, 187, .62));
+    }
+
     /* 원 관계와 실제 설치 자리 */
     .circle-bridge-confirm-svg {
       position: absolute;
@@ -1338,6 +1406,15 @@
       stroke: #ca852a;
     }
 
+    .radius-half-muted {
+      stroke: #9b9a87;
+      opacity: .42;
+    }
+
+    .radius-half-focus {
+      filter: drop-shadow(0 0 5px rgba(255, 184, 48, .62));
+    }
+
     .bridge-center {
       fill: #263e3b;
       stroke: #fff5d0;
@@ -1353,7 +1430,9 @@
     .radius-name,
     .radius-value,
     .diameter-value,
+    .source-question,
     .target-kind-label,
+    .bridge-transfer-label,
     .bridge-equation,
     .bridge-empty-label,
     .installed-bridge-length,
@@ -1385,16 +1464,39 @@
       stroke-linecap: round;
     }
 
+    .source-measure,
+    .source-measure-cap {
+      stroke: var(--bridge-orange);
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+
+    .source-question {
+      fill: var(--bridge-ink);
+      stroke-width: 6px;
+      font-size: 27px;
+      font-variant-numeric: tabular-nums;
+    }
+
     .target-kind-label {
       fill: #314a45;
       stroke-width: 6px;
-      font-size: 31px;
+      font-size: 27px;
     }
 
-    .target-projection {
-      stroke: rgba(41, 92, 88, .52);
-      stroke-width: 3;
-      stroke-dasharray: 5 6;
+    .bridge-transfer-label {
+      fill: #8a5a1f;
+      stroke-width: 5px;
+      font-size: 23px;
+    }
+
+    .bridge-transfer-arrow,
+    .bridge-transfer-head {
+      fill: none;
+      stroke: var(--bridge-orange);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .bridge-pier {
@@ -1527,6 +1629,14 @@
       fill: var(--bridge-success);
     }
 
+    .circle-bridge-confirm-svg[data-state="correct"] .bridge-transfer-arrow,
+    .circle-bridge-confirm-svg[data-state="correct"] .bridge-transfer-head,
+    .circle-bridge-confirm-svg[data-state="correct"] .source-measure,
+    .circle-bridge-confirm-svg[data-state="correct"] .source-measure-cap {
+      stroke: var(--bridge-success);
+      filter: drop-shadow(0 0 5px rgba(80, 255, 187, .72));
+    }
+
     .circle-bridge-confirm-svg[data-state="correct"] .installed-bridge {
       animation: bridge-install .28s cubic-bezier(.2, .8, .22, 1.14) both,
         bridge-lock-glow .55s .25s ease-out both;
@@ -1548,13 +1658,15 @@
     .game[data-workbench-type="circle-double-bridge"] .instruction,
     .game[data-workbench-type="circle-double-bridge"] .feedback-line {
       grid-area: 1 / 1;
+      width: 100%;
       min-height: 0;
       margin: 0;
+      padding-inline: 16px;
       color: #fff3cc;
       font-size: clamp(1.125rem, 1.55vw, 1.25rem);
       line-height: 1.2;
       font-weight: 1000;
-      text-align: center;
+      text-align: left;
       word-break: keep-all;
     }
 
@@ -1660,6 +1772,68 @@
 
     .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="correct"] .candidate-deck {
       stroke: #4bffbd;
+    }
+
+    /* 선택지는 다리 부품 대신 숫자 네 개만 보여 준다. */
+    .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel {
+      padding: 9px 12px 11px;
+      gap: 10px;
+      border-top: 4px solid #c98943;
+      background: linear-gradient(180deg, rgba(111, 63, 31, .97), rgba(75, 39, 20, .98));
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice {
+      position: relative;
+      min-width: 0;
+      min-height: 58px;
+      padding: 4px 12px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #8a5a23;
+      border-radius: 14px;
+      color: #2f2819;
+      background: #fff1bd;
+      box-shadow: inset 0 2px rgba(255, 255, 255, .78), 0 3px 0 #563315;
+      transition: transform .14s ease, filter .14s ease;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice-value {
+      display: block;
+      font-size: clamp(1.55rem, 2.35vw, 2rem);
+      line-height: 1;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice:hover:not(:disabled),
+    .game[data-workbench-type="circle-double-bridge"] .length-choice:focus-visible {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice:focus-visible {
+      outline: 4px solid #ffe37c;
+      outline-offset: 2px;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice:disabled {
+      opacity: .52;
+      cursor: default;
+      transform: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice[data-state="wrong"] {
+      border-color: #b72f50;
+      color: #8f1736;
+      background: #ffe0e7;
+      animation: bridge-part-shake .26s ease both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .length-choice[data-state="correct"] {
+      opacity: 1;
+      border-color: #16845e;
+      color: #07583d;
+      background: #d8ffed;
     }
 
     /* 정답 확인 뒤에도 원 작업대의 축과 크기는 그대로 유지한다. */
@@ -2016,8 +2190,8 @@
         right: 2%;
         bottom: 12px;
         left: 22%;
-        grid-template-rows: minmax(0, 1fr) 46px 112px;
-        gap: 7px;
+        grid-template-rows: minmax(0, 1fr) 46px 138px;
+        gap: 12px;
       }
 
       .game[data-workbench-type="circle-double-bridge"] .big-problem {
@@ -2058,30 +2232,23 @@
     }
 
     @media (min-width: 981px) and (max-width: 1100px) {
-      .game[data-workbench-type="circle-double-bridge"] .circle-bridge-confirm-svg {
-        max-width: 700px;
+      .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+        grid-template-rows: minmax(0, 1fr) 46px 146px;
       }
 
-      .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
-        width: min(100%, 277.5px);
-        margin-inline: auto;
+      .game[data-workbench-type="circle-double-bridge"] .circle-relation-svg {
+        max-width: 610px;
       }
     }
 
     @media (min-width: 1101px) and (max-height: 740px) {
-      .game[data-workbench-type="circle-double-bridge"] .circle-bridge-confirm-svg {
-        max-width: 790px;
-      }
-
-      .game[data-workbench-type="circle-double-bridge"] .bridge-part-svg {
-        width: min(100%, 337.5px);
-        margin-inline: auto;
+      .game[data-workbench-type="circle-double-bridge"] .circle-relation-svg {
+        max-width: 630px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .game[data-workbench-type="circle-double-bridge"] .installed-bridge,
-      .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"],
+      .game[data-workbench-type="circle-double-bridge"] .length-choice[data-state="wrong"],
       .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-art,
       .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-flare,
       .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-changing,
@@ -2094,7 +2261,7 @@
         animation: none;
       }
 
-      .game[data-workbench-type="circle-double-bridge"] .bridge-part {
+      .game[data-workbench-type="circle-double-bridge"] .length-choice {
         transition: none;
       }
     }
@@ -2843,7 +3010,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":975,"measureY":430,"barY":350,"barWidth":360,"barHeight":28,"correctTop":440,"correctWidth":210,"nextY":590,"retryRect":{"x":820,"y":608,"width":310,"height":136}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count","next-goal"]}},"workbench":{"type":"circle-double-bridge","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","runtimeSlot":"left-progress-panel","objectFit":"contain","filePattern":"play-bridge-v1-*-generated.webp","sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png","cacheVersion":"2026-08-01-left-progress-v1","protagonist":"zfa-03-sudalmon","requiredSubjects":["현재 다리","수달몬 전신"],"layoutContract":{"combinedFocalCenterX":0.5,"combinedFocalCenterY":0.58,"safeMarginRatio":0.05,"characterFullBody":true,"sameCameraAcrossStates":true,"mathmonPlacement":{"centerX":0.34,"centerY":0.72,"footY":0.93,"toleranceRatio":0.03,"sameScaleAcrossStates":true}}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-bridge-v1-log-generated.webp","image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"visualRank":1,"playImage":"play-bridge-v1-small-generated.webp","image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"visualRank":2,"playImage":"play-bridge-v1-bridge-generated.webp","image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"visualRank":3,"playImage":"play-bridge-v1-big-generated.webp","image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":83,"minCorrect":8,"visualRank":4,"playImage":"play-bridge-v1-grand-generated.webp","image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-bridge-v1-rainbow-generated.webp","image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-4,"max":-2,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-4,"max":-2,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp","play-bridge-v1-log-generated.webp","play-bridge-v1-small-generated.webp","play-bridge-v1-bridge-generated.webp","play-bridge-v1-big-generated.webp","play-bridge-v1-grand-generated.webp","play-bridge-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"emptyRewardAuditViewport":"user-reported-missing-left-progress-1082x987-dpr2","visualContractVersion":1,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"dpr":2}],"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".compass-play-progress","image":".compass-play-progress-art","label":".compass-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["log","small","bridge","big","grand","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-03-sudalmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.192,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.34,"centerY":0.72,"footY":0.93,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".compass-play-progress","image":".compass-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".compass-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":18,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":4,"beforeTier":"log","afterTier":"small"}},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"bridgeFitAudit":{"target":".bridge-empty-slot, .installed-bridge","short":".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference","long":".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference","correct":".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check","choiceRange":[1,14],"sharedScaleAttribute":"data-px-per-cm"},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":975,"measureY":430,"barY":350,"barWidth":360,"barHeight":28,"correctTop":440,"correctWidth":210,"nextY":590,"retryRect":{"x":820,"y":608,"width":310,"height":136}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count","next-goal"]}},"workbench":{"type":"circle-double-bridge","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","runtimeSlot":"left-progress-panel","objectFit":"contain","filePattern":"play-bridge-v1-*-generated.webp","sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-anchor-audit.png","cacheVersion":"2026-08-01-left-progress-v1","protagonist":"zfa-03-sudalmon","requiredSubjects":["현재 다리","수달몬 전신"],"layoutContract":{"combinedFocalCenterX":0.5,"combinedFocalCenterY":0.58,"safeMarginRatio":0.05,"characterFullBody":true,"sameCameraAcrossStates":true,"mathmonPlacement":{"centerX":0.3,"centerY":0.69,"footY":0.83,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","log":{"centerX":0.3,"centerY":0.67,"footY":0.81,"height":0.26},"small":{"centerX":0.3,"centerY":0.67,"footY":0.81,"height":0.26},"bridge":{"centerX":0.3,"centerY":0.68,"footY":0.82,"height":0.26},"big":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26},"grand":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26},"rainbow":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26}}}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-bridge-v1-log-generated.webp","image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-bridge-v1-small-generated.webp","image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-bridge-v1-bridge-generated.webp","image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-bridge-v1-big-generated.webp","image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-bridge-v1-grand-generated.webp","image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-bridge-v1-rainbow-generated.webp","image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"다리 힘이 늘었어요","weight":6400,"min":6,"max":10,"family":"normal"},{"id":"loss","text":"다리 힘이 줄었어요","weight":1500,"min":-5,"max":-2,"family":"loss"},{"id":"mega","text":"다리 힘이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"mega"},{"id":"jackpot","text":"다리가 크게 빛나요","weight":500,"min":30,"max":30,"family":"complete"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"special","text":"무지개 다리가 나왔어요","weight":20,"min":100,"max":100,"family":"rainbow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"다리 힘이 줄었어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp","play-bridge-v1-log-generated.webp","play-bridge-v1-small-generated.webp","play-bridge-v1-bridge-generated.webp","play-bridge-v1-big-generated.webp","play-bridge-v1-grand-generated.webp","play-bridge-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"emptyRewardAuditViewport":"user-reported-missing-left-progress-1082x987-dpr2","visualContractVersion":1,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"dpr":2}],"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".compass-play-progress","image":".compass-play-progress-art","label":".compass-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["log","small","bridge","big","grand","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-03-sudalmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.192,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.3,"centerY":0.69,"footY":0.83,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".compass-play-progress","image":".compass-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".compass-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"log","afterTier":"small"}},"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"circleRelationAudit":{"standard":"circle-only-one-known-v4","promptMode":"ask-only","maxKnownLabels":1,"choiceTrackPx":166,"compactChoiceTrackPx":146,"minChoiceHeightPx":58,"visual":".circle-relation-svg","circle":".bridge-circle","known":".known-length","answer":".source-question","equation":".bridge-equation","choice":".length-choice","choiceValue":".length-choice-value","forbidSelectors":[".bridge-target",".length-transfer",".bridge-part-svg",".installed-bridge"]},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson3DoubleBridgeModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2880,7 +3047,7 @@
       }
 
       function lengthChoice(value, misconceptionId = null, feedback = "") {
-        return { id: `choice:${value}`, value, visualKind: "bridge-length", label: `${value} cm`, misconceptionId, feedback };
+        return { id: `choice:${value}`, value, visualKind: "length", label: `${value} cm`, misconceptionId, feedback };
       }
 
       function choicesForCase(ask, radius, rng) {
@@ -2888,16 +3055,16 @@
         if (ask === "지름") {
           return shuffle([
             lengthChoice(diameter),
-            lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "반지름 하나만 놓였어요."),
-            lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "끝까지 닿지 않아요."),
-            lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "기둥 밖으로 나갔어요.")
+            lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "지름은 반지름 두 개를 이은 길이예요."),
+            lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "지름보다 1 cm 짧아요."),
+            lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "지름보다 2 cm 길어요.")
           ], rng);
         }
         return shuffle([
           lengthChoice(radius),
-          lengthChoice(diameter, "RADIUS_NOT_HALVED", "지름 전체를 골랐어요."),
-          lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "끝까지 닿지 않아요."),
-          lengthChoice(radius + 1, "RADIUS_TOO_LONG", "반지름 자리를 넘었어요.")
+          lengthChoice(diameter, "RADIUS_NOT_HALVED", "반지름은 지름의 반이에요."),
+          lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "반지름보다 1 cm 짧아요."),
+          lengthChoice(radius + 1, "RADIUS_TOO_LONG", "반지름보다 1 cm 길어요.")
         ], rng);
       }
 
@@ -2906,9 +3073,7 @@
         const diameter = radius * 2;
         const ask = problemCase.ask;
         const answer = ask === "지름" ? diameter : radius;
-        const prompt = ask === "지름"
-          ? `반지름이 ${radius} cm예요. 지름은?`
-          : `지름이 ${diameter} cm예요. 반지름은?`;
+        const prompt = ask === "지름" ? "지름은?" : "반지름은?";
         const finalExpression = ask === "지름"
           ? `${radius} cm + ${radius} cm = ${diameter} cm`
           : `${diameter} cm ÷ 2 = ${radius} cm`;
@@ -2924,13 +3089,13 @@
           steps: [{
             id: "length",
             label: ask,
-            instruction: ask === "지름" ? "두 반지름을 이은 길이를 골라요." : "지름의 반인 길이를 골라요.",
+            instruction: "알맞은 길이를 골라요.",
             answer,
             answerChoiceId: `choice:${answer}`,
             choices: choicesForCase(ask, radius, rng),
             correctText: ask === "지름"
-              ? `딱 맞아요! ${radius} cm + ${radius} cm = ${diameter} cm`
-              : `딱 맞아요! ${diameter} cm ÷ 2 = ${radius} cm`,
+              ? `${radius} cm + ${radius} cm = ${diameter} cm`
+              : `${diameter} cm ÷ 2 = ${radius} cm`,
             reveal: `${answer} cm`,
             advance: { mode: "complete" }
           }]
@@ -3044,6 +3209,8 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
+      rewardObject: document.querySelector("#screen-reward .reward-object"),
+      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -3316,6 +3483,8 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
+      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
+      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -3336,6 +3505,12 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
+        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
+        const misconceptionId = getChoiceMisconceptionId(choice);
+        if (misconceptionId) button.dataset.misconception = misconceptionId;
+        if (choice && typeof choice === "object" && choice.relation) {
+          button.dataset.relation = String(choice.relation);
+        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -3354,6 +3529,10 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
+      });
+      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
+        delete choiceButton.dataset.state;
+        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -3419,7 +3598,12 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
+      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
+      ui.completeText.hidden = !showCompleteExpression;
+      ui.completeText.textContent = showCompleteExpression
+        ? (problem.finalExpression || ui.answerSlot.textContent)
+        : "";
+      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -3505,7 +3689,8 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = step.label || `${index + 1}단계`;
+        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
+        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -3513,7 +3698,7 @@
     }
 
     async function showReward() {
-      if (!state.completed) return;
+      if (!state.completed || state.rewardPhase !== "idle") return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -3544,7 +3729,9 @@
         return;
       }
 
-      applyPendingReward(event);
+      const beforePower = applyPendingReward(event);
+      state.rewardPhase = "revealed";
+      renderRewardMeter(event, beforePower, state.power);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -3555,6 +3742,18 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
+    }
+
+    function renderRewardMeter(event, beforePower, afterPower) {
+      if (!ui.rewardObject || !ui.rewardLiquid) return;
+      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
+      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
+      const delta = Number(afterPower) - Number(beforePower);
+      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
+      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
+      ui.rewardObject.dataset.direction = direction;
+      ui.rewardObject.dataset.symbol = symbol;
+      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3607,7 +3806,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3622,14 +3821,23 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return event.text || "특별 보상!";
+      if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(beforeResult, afterResult) {
+    function getRewardTargetText(event, beforeResult, afterResult) {
+      const formatter = globalThis.formatLessonRewardTarget;
+      if (typeof formatter === "function") {
+        try {
+          const formatted = formatter({ event, beforeResult, afterResult, state });
+          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
+        } catch (error) {
+          console.warn("formatLessonRewardTarget failed", error);
+        }
+      }
       if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
@@ -3691,8 +3899,7 @@
     }
 
     function setRewardValue(amount) {
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
-      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || "이번 변화";
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -3726,8 +3933,10 @@
 
     async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
+      if (state.pendingAdvance) return;
+      if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
+      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") {
-        if (state.rewardPhase !== "revealed") return;
         const event = state.pendingRewardEvent;
         ui.modalRewardNextButton.disabled = true;
         closeRewardModal();
@@ -3739,6 +3948,10 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
+      if (getRewardMode() === "stage-full") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -4168,7 +4381,6 @@
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
     const BRIDGE_SVG_NS = "http://www.w3.org/2000/svg";
-    const BRIDGE_SCALE_MAX_PX = 320;
     let bridgePlayProgress = null;
     let pendingBridgeRewardImpact = null;
     let bridgeRewardArtPrimed = false;
@@ -4297,103 +4509,70 @@
       playScreen.prepend(image);
     }
 
-    function getBridgeGeometry(problem, choices = problem.steps?.[0]?.choices ?? []) {
-      const values = choices.map((choice) => Number(choice.value)).filter(Number.isFinite);
-      const maxVisibleCm = Math.max(problem.diameter, ...values);
-      const pxPerCm = BRIDGE_SCALE_MAX_PX / maxVisibleCm;
-      const centerX = 200;
-      const circleY = 168;
-      const circleDiameterPx = problem.diameter * pxPerCm;
-      const circleRadiusPx = circleDiameterPx / 2;
+    function getCircleGeometry(problem) {
+      const centerX = 380;
+      const circleY = 158;
+      const circleRadiusPx = 124;
       const circleLeft = centerX - circleRadiusPx;
       const circleRight = centerX + circleRadiusPx;
       const answer = problem.ask === "지름" ? problem.diameter : problem.radius;
-      const targetStart = 420;
-      const targetEnd = targetStart + answer * pxPerCm;
       return {
         answer,
         centerX,
         circleY,
-        circleDiameterPx,
         circleRadiusPx,
         circleLeft,
         circleRight,
-        maxVisibleCm,
-        pxPerCm,
-        targetStart,
-        targetEnd,
-        targetWidth: answer * pxPerCm,
-      };
-    }
-
-    function getBridgeFit(value, geometry) {
-      const width = value * geometry.pxPerCm;
-      const end = geometry.targetStart + width;
-      const difference = end - geometry.targetEnd;
-      return {
-        x: geometry.targetStart,
-        width,
-        end,
-        difference,
-        fit: Math.abs(difference) < 0.001 ? "fit" : difference < 0 ? "short" : "long",
       };
     }
 
     function renderProblemVisual(problem, state) {
       syncBridgePlayProgress(state);
       ensureBridgeStageArt();
-      setBridgeVisualState("idle");
-      renderCircleBridgeWorkbench(problem);
+      setCircleRelationState("idle");
+      renderCircleRelation(problem);
     }
 
     function updateProblemVisualForStep(problem, step, state) {
       syncBridgePlayProgress(state);
-      setBridgeVisualState("idle");
-      renderCircleBridgeWorkbench(problem);
+      setCircleRelationState("idle");
+      renderCircleRelation(problem);
     }
 
     function revealCorrectStep(problem, step) {
-      setBridgeVisualState("correct", step.answer, "fit");
-      renderCircleBridgeWorkbench(problem);
+      setCircleRelationState("correct", step.answer);
+      renderCircleRelation(problem);
     }
 
     function renderAttempt(problem, step, selected, state, result) {
       if (result.correct) return;
-      const geometry = getBridgeGeometry(problem, step.choices);
-      const fit = getBridgeFit(selected.value, geometry).fit;
-      setBridgeVisualState("wrong", selected.value, fit);
+      setCircleRelationState("wrong", selected.value);
       result.button.disabled = true;
-      result.button.setAttribute("aria-label", `${selected.value} cm 다리, 맞지 않아요.`);
-      renderCircleBridgeWorkbench(problem);
+      result.button.setAttribute("aria-label", `${selected.value} cm, 맞지 않아요.`);
+      renderCircleRelation(problem);
     }
 
-    function setBridgeVisualState(bridgeState, selectedLength = "", bridgeFit = "waiting") {
-      ui.visualArea.dataset.bridgeState = bridgeState;
+    function setCircleRelationState(relationState, selectedLength = "") {
+      ui.visualArea.dataset.relationState = relationState;
       ui.visualArea.dataset.selectedLength = String(selectedLength);
-      ui.visualArea.dataset.bridgeFit = bridgeFit;
     }
 
     function renderChoicesForStep(problem, step, state, choose) {
-      const geometry = getBridgeGeometry(problem, step.choices);
       ui.choices.innerHTML = "";
-      ui.choices.dataset.choiceKind = "bridge-parts";
-      ui.choices.style.setProperty("--bridge-px-per-cm", geometry.pxPerCm);
+      ui.choices.dataset.choiceKind = "lengths";
       step.choices.forEach((selected) => {
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "choice-button bridge-part";
+        button.className = "choice-button length-choice";
         button.dataset.choice = selected.id;
         button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-        button.dataset.bridgeLength = String(selected.value);
+        button.dataset.length = String(selected.value);
         if (selected.misconceptionId) button.dataset.misconception = selected.misconceptionId;
-        button.setAttribute("aria-label", `${selected.value} cm 다리 놓기`);
-
-        const svg = document.createElementNS(BRIDGE_SVG_NS, "svg");
-        svg.classList.add("bridge-part-svg");
-        svg.setAttribute("viewBox", "0 0 430 60");
-        svg.setAttribute("aria-hidden", "true");
-        svg.innerHTML = bridgePartMarkup(selected.value, geometry.pxPerCm);
-        button.appendChild(svg);
+        button.setAttribute("aria-label", `${selected.value} cm 고르기`);
+        const value = document.createElement("span");
+        value.className = "length-choice-value";
+        value.textContent = `${selected.value} cm`;
+        button.appendChild(value);
         button.addEventListener("click", () => choose(selected, button));
         ui.choices.appendChild(button);
       });
@@ -4404,154 +4583,62 @@
       document.getElementById("restartButton")?.classList.add("result-restart-hitbox");
     }
 
-    function bridgePartMarkup(value, pxPerCm) {
-      const x = 24;
-      const y = 6;
-      const width = value * pxPerCm;
-      return `
-        <g class="bridge-part-shape" data-length="${value}">
-          ${bridgeStructureMarkup(x, y, width, value, "candidate")}
-        </g>
-        <text class="bridge-part-label" x="406" y="42" text-anchor="end">${value} cm</text>
-      `;
-    }
-
-    function bridgeStructureMarkup(x, y, width, value, kind) {
-      const deckHeight = kind === "installed" ? 15 : 13;
-      const trussDepth = kind === "installed" ? 27 : 23;
-      const sectionCount = Math.max(2, Math.min(7, Math.round(value / 2)));
-      const sectionWidth = width / sectionCount;
-      let supports = "";
-      for (let index = 0; index <= sectionCount; index += 1) {
-        const supportX = x + sectionWidth * index;
-        supports += `<line class="${kind}-support" x1="${supportX}" y1="${y + deckHeight}" x2="${supportX}" y2="${y + deckHeight + trussDepth}"/>`;
-        if (index < sectionCount) {
-          const nextX = x + sectionWidth * (index + 1);
-          const lowY = y + deckHeight + trussDepth;
-          supports += `<line class="${kind}-support" x1="${supportX}" y1="${y + deckHeight}" x2="${nextX}" y2="${lowY}"/>`;
-        }
-      }
-      return `
-        <line class="${kind}-shadow" x1="${x + 2}" y1="${y + deckHeight + trussDepth + 5}" x2="${x + width + 2}" y2="${y + deckHeight + trussDepth + 5}"/>
-        <g class="${kind}-truss">
-          <line class="${kind}-beam" x1="${x}" y1="${y + deckHeight}" x2="${x + width}" y2="${y + deckHeight}"/>
-          <line class="${kind}-beam" x1="${x}" y1="${y + deckHeight + trussDepth}" x2="${x + width}" y2="${y + deckHeight + trussDepth}"/>
-          ${supports}
-        </g>
-        <rect class="${kind}-deck" x="${x}" y="${y}" width="${width}" height="${deckHeight}" rx="3"/>
-        <line class="${kind}-highlight" x1="${x + 4}" y1="${y + 4}" x2="${x + width - 4}" y2="${y + 4}"/>
-      `;
-    }
-
-    function renderCircleBridgeWorkbench(problem) {
-      const state = ui.visualArea.dataset.bridgeState || "idle";
-      const selected = Number(ui.visualArea.dataset.selectedLength || 0);
-      const fit = ui.visualArea.dataset.bridgeFit || "waiting";
-      const choices = problem.steps?.[0]?.choices ?? [];
-      const geometry = getBridgeGeometry(problem, choices);
+    function renderCircleRelation(problem) {
+      const state = ui.visualArea.dataset.relationState || "idle";
+      const selectedValue = ui.visualArea.dataset.selectedLength;
+      const selected = selectedValue === "" ? null : Number(selectedValue);
+      const geometry = getCircleGeometry(problem);
       const svg = document.createElementNS(BRIDGE_SVG_NS, "svg");
-      svg.classList.add("circle-bridge-confirm-svg");
+      svg.classList.add("circle-relation-svg");
       svg.dataset.state = state;
-      svg.dataset.fit = fit;
-      svg.dataset.pxPerCm = geometry.pxPerCm.toFixed(3);
       svg.setAttribute("viewBox", "0 0 760 336");
       svg.setAttribute("role", "img");
-
-      const relationLabel = problem.ask === "지름"
-        ? `반지름 ${problem.radius} 센티미터 두 개를 이은 지름`
-        : `지름 ${problem.diameter} 센티미터를 반으로 나눈 반지름`;
-      const fitLabel = state === "idle"
-        ? "다리 부품을 고르는 중"
-        : fit === "fit"
-          ? `고른 ${selected} 센티미터 다리가 두 기둥에 맞음`
-          : fit === "short"
-            ? `고른 ${selected} 센티미터 다리가 두 번째 기둥에 닿지 않음`
-            : `고른 ${selected} 센티미터 다리가 두 번째 기둥을 넘어감`;
-      svg.setAttribute("aria-label", `${relationLabel}. ${fitLabel}`);
-      svg.innerHTML = circleBridgeMarkup(problem, geometry, state === "idle" ? null : selected);
+      const shownAnswer = selected == null ? "물음표" : `${selected} 센티미터`;
+      svg.setAttribute("aria-label", problem.ask === "지름"
+        ? `반지름 ${problem.radius} 센티미터 두 개. 지름은 ${shownAnswer}`
+        : `지름 ${problem.diameter} 센티미터. 반지름은 ${shownAnswer}`);
+      svg.innerHTML = circleRelationMarkup(problem, geometry, selected);
       ui.visualArea.replaceChildren(svg);
     }
 
-    function installedBridgeMarkup(fitGeometry, value) {
-      const y = 150;
-      return `
-        <g class="installed-bridge" data-fit="${fitGeometry.fit}">
-          ${bridgeStructureMarkup(fitGeometry.x, y, fitGeometry.width, value, "installed")}
-          <text class="installed-bridge-length" x="${fitGeometry.x + fitGeometry.width / 2}" y="${y - 10}" text-anchor="middle">${value} cm</text>
-        </g>
-      `;
-    }
-
-    function bridgeDifferenceMarkup(fitGeometry, geometry) {
-      if (fitGeometry.fit === "fit") {
-        return `
-          <circle class="bridge-lock" cx="${geometry.targetStart}" cy="168" r="9"/>
-          <circle class="bridge-lock" cx="${geometry.targetEnd}" cy="168" r="9"/>
-          <path class="bridge-fit-check" d="M ${geometry.targetEnd + 15} 165 l 7 7 l 15 -17"/>
-        `;
-      }
-      const start = Math.min(fitGeometry.end, geometry.targetEnd);
-      const end = Math.max(fitGeometry.end, geometry.targetEnd);
-      const label = fitGeometry.fit === "short" ? "여기만큼 짧아요" : "여기만큼 길어요";
-      return `
-        <line class="bridge-difference" x1="${start}" y1="246" x2="${end}" y2="246"/>
-        <line class="bridge-difference-cap" x1="${start}" y1="238" x2="${start}" y2="254"/>
-        <line class="bridge-difference-cap" x1="${end}" y1="238" x2="${end}" y2="254"/>
-        <text class="bridge-difference-label" x="${(start + end) / 2}" y="274" text-anchor="middle">${label}</text>
-      `;
-    }
-
-    function circleBridgeMarkup(problem, geometry, selected) {
+    function circleRelationMarkup(problem, geometry, selected) {
       const askDiameter = problem.ask === "지름";
+      const shownAnswer = selected == null ? "?" : selected;
       const equation = selected == null
         ? ""
         : askDiameter
           ? `${problem.radius} + ${problem.radius} ${selected === geometry.answer ? "=" : "≠"} ${selected}`
           : `${problem.diameter} ÷ 2 ${selected === geometry.answer ? "=" : "≠"} ${selected}`;
-      const fitGeometry = selected == null ? null : getBridgeFit(selected, geometry);
-      const targetQuestion = selected == null
-        ? `<text class="target-kind-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="112" text-anchor="middle">${problem.ask} ? cm</text>`
-        : "";
       const relationMarkup = askDiameter
         ? `
-          <text class="radius-name" x="${(geometry.circleLeft + geometry.centerX) / 2}" y="${geometry.circleY - 40}" text-anchor="middle">반지름</text>
-          <text class="radius-value" x="${(geometry.circleLeft + geometry.centerX) / 2}" y="${geometry.circleY - 13}" text-anchor="middle">${problem.radius} cm</text>
-          <text class="radius-name" x="${(geometry.centerX + geometry.circleRight) / 2}" y="${geometry.circleY - 40}" text-anchor="middle">반지름</text>
-          <text class="radius-value" x="${(geometry.centerX + geometry.circleRight) / 2}" y="${geometry.circleY - 13}" text-anchor="middle">${problem.radius} cm</text>
-          ${targetQuestion}
+          <text class="known-length" x="${(geometry.circleLeft + geometry.centerX) / 2}" y="${geometry.circleY - 24}" text-anchor="middle">${problem.radius} cm</text>
+          <line class="answer-measure" x1="${geometry.circleLeft}" y1="${geometry.circleY + 60}" x2="${geometry.circleRight}" y2="${geometry.circleY + 60}"/>
+          <line class="answer-measure-cap" x1="${geometry.circleLeft}" y1="${geometry.circleY + 52}" x2="${geometry.circleLeft}" y2="${geometry.circleY + 68}"/>
+          <line class="answer-measure-cap" x1="${geometry.circleRight}" y1="${geometry.circleY + 52}" x2="${geometry.circleRight}" y2="${geometry.circleY + 68}"/>
+          <text class="source-question" x="${geometry.centerX}" y="${geometry.circleY + 100}" text-anchor="middle">${shownAnswer} cm</text>
         `
         : `
-          <line class="diameter-brace" x1="${geometry.circleLeft}" y1="${geometry.circleY - 27}" x2="${geometry.circleRight}" y2="${geometry.circleY - 27}"/>
-          <line class="diameter-brace" x1="${geometry.circleLeft}" y1="${geometry.circleY - 34}" x2="${geometry.circleLeft}" y2="${geometry.circleY - 20}"/>
-          <line class="diameter-brace" x1="${geometry.circleRight}" y1="${geometry.circleY - 34}" x2="${geometry.circleRight}" y2="${geometry.circleY - 20}"/>
-          <text class="diameter-value" x="${geometry.centerX}" y="${geometry.circleY - 41}" text-anchor="middle">지름 ${problem.diameter} cm</text>
-          ${targetQuestion}
-        `;
-      const installed = fitGeometry
-        ? installedBridgeMarkup(fitGeometry, selected)
-        : `
-          <line class="bridge-empty-slot" x1="${geometry.targetStart}" y1="168" x2="${geometry.targetEnd}" y2="168"/>
-          <text class="bridge-empty-label" x="${(geometry.targetStart + geometry.targetEnd) / 2}" y="176" text-anchor="middle">?</text>
+          <line class="known-measure" x1="${geometry.circleLeft}" y1="${geometry.circleY - 60}" x2="${geometry.circleRight}" y2="${geometry.circleY - 60}"/>
+          <line class="known-measure-cap" x1="${geometry.circleLeft}" y1="${geometry.circleY - 68}" x2="${geometry.circleLeft}" y2="${geometry.circleY - 52}"/>
+          <line class="known-measure-cap" x1="${geometry.circleRight}" y1="${geometry.circleY - 68}" x2="${geometry.circleRight}" y2="${geometry.circleY - 52}"/>
+          <text class="known-length" x="${geometry.centerX}" y="${geometry.circleY - 76}" text-anchor="middle">${problem.diameter} cm</text>
+          <line class="answer-measure" x1="${geometry.centerX}" y1="${geometry.circleY + 60}" x2="${geometry.circleRight}" y2="${geometry.circleY + 60}"/>
+          <line class="answer-measure-cap" x1="${geometry.centerX}" y1="${geometry.circleY + 52}" x2="${geometry.centerX}" y2="${geometry.circleY + 68}"/>
+          <line class="answer-measure-cap" x1="${geometry.circleRight}" y1="${geometry.circleY + 52}" x2="${geometry.circleRight}" y2="${geometry.circleY + 68}"/>
+          <text class="source-question" x="${(geometry.centerX + geometry.circleRight) / 2}" y="${geometry.circleY + 100}" text-anchor="middle">${shownAnswer} cm</text>
         `;
       return `
         <g class="circle-relation">
           <circle class="bridge-circle-shadow" cx="${geometry.centerX}" cy="${geometry.circleY + 5}" r="${geometry.circleRadiusPx}"/>
           <circle class="bridge-circle" cx="${geometry.centerX}" cy="${geometry.circleY}" r="${geometry.circleRadiusPx}"/>
-          <line class="radius-half radius-half-left" x1="${geometry.circleLeft}" y1="${geometry.circleY}" x2="${geometry.centerX}" y2="${geometry.circleY}"/>
-          <line class="radius-half radius-half-right" x1="${geometry.centerX}" y1="${geometry.circleY}" x2="${geometry.circleRight}" y2="${geometry.circleY}"/>
+          <line class="radius-half radius-half-left${askDiameter ? "" : " radius-half-muted"}" x1="${geometry.circleLeft}" y1="${geometry.circleY}" x2="${geometry.centerX}" y2="${geometry.circleY}"/>
+          <line class="radius-half radius-half-right radius-half-focus" x1="${geometry.centerX}" y1="${geometry.circleY}" x2="${geometry.circleRight}" y2="${geometry.circleY}"/>
           <circle class="bridge-center" cx="${geometry.centerX}" cy="${geometry.circleY}" r="8"/>
           <circle class="bridge-end" cx="${geometry.circleLeft}" cy="${geometry.circleY}" r="7"/>
           <circle class="bridge-end" cx="${geometry.circleRight}" cy="${geometry.circleY}" r="7"/>
           ${relationMarkup}
         </g>
-        <g class="bridge-target">
-          <line class="target-projection" x1="${geometry.circleRight + 12}" y1="${geometry.circleY}" x2="${geometry.targetStart - 14}" y2="168"/>
-          <path class="bridge-pier" d="M ${geometry.targetStart - 12} 222 L ${geometry.targetStart + 12} 222 L ${geometry.targetStart + 8} 168 L ${geometry.targetStart - 8} 168 Z"/>
-          <path class="bridge-pier" d="M ${geometry.targetEnd - 12} 222 L ${geometry.targetEnd + 12} 222 L ${geometry.targetEnd + 8} 168 L ${geometry.targetEnd - 8} 168 Z"/>
-          ${installed}
-          ${fitGeometry ? bridgeDifferenceMarkup(fitGeometry, geometry) : ""}
-        </g>
-        <text class="bridge-equation" x="570" y="316" text-anchor="middle">${equation}</text>
+        <text class="bridge-equation" x="${geometry.centerX}" y="324" text-anchor="middle">${equation}</text>
       `;
     }
 

@@ -159,6 +159,27 @@ Browser QA:
 - 오답 문구에서 정답까지 몇 눈금 차이인지 알려 주지 않고, 학생이 고른 눈금이 물높이보다 높은지 낮은지만 말합니다. 모델 QA가 `정답은`, `차이`, `N칸` 형태의 답 누설을 문제 은행 전체에서 차단합니다.
 - 이전 `engine-desktop-*`·`engine-tablet-*` 캡처 18장은 `screenshots/_archive/pre-20260801-legacy-engine-names/`로 옮겼습니다. 현재 루트 캡처는 모두 현재 `index.html` 이후에 생성된 증거입니다.
 
-## 2026-08-01 전수감사 최신 증거
+## 2026-08-01 최종 결과 대비 선행 조정
 
-- `screenshots/report-contact-sheet.png`와 `screenshots/report-evidence-manifest.json`이 현재 빌드와 대표 12개 상태를 해시로 연결합니다. Humanizer 금지 우선어·번역투는 `0건`입니다.
+- 기존 결과 4장은 배경·펭귄몬·물통 수·무지개 물탑이 사실상 같은 장면이라 등급 차이가 없었습니다. 왼쪽 진행 보상을 만들기 전에 최종 결과를 먼저 6단계로 다시 만들었습니다.
+- 현재 결과는 `작은 물통 → 반짝 물통 → 물줄기 물통 → 가득 물통 → 황금 물탑 → 무지개 물탑`입니다. 일반 기준은 `0/0, 15/2, 35/4, 55/6, 78/8`, 특별 기준은 `100/1`입니다.
+- 결과 6장은 각각 다른 1280×800 완성 장면입니다. 하위는 작은 컵과 단일 탱크, 중간은 복수 탱크와 청보라 대형 시설, 상위는 황금 물궁전과 무지개 결정 도시로 장면 자체가 달라집니다.
+- 컨택시트는 `result-tiers-v5-contact-sheet.png`입니다. 결과판 내부 픽셀 축은 `363, 360.5, 306, 314, 310, 323.5px`이며 동적 UI의 단계별 선언 축과 최대 `3px` 이내입니다.
+- 처음 측정에서 제목 아트와 물통 힘 글자가 `0.36px` 겹쳐 실패해 결과판 슬롯을 다시 배분했습니다. 현재 제목·힘·막대·정답 수·다음 목표·다시 버튼 사이 간격은 하네스 기준을 통과합니다.
+
+## 2026-08-01 왼쪽 진행 보상 연결
+
+- 승인된 최종 결과 6단계를 기준으로 문제 화면 전용 세로 장면 6장을 새로 생성했습니다. 최종 결과 이미지를 자르거나 재사용하지 않았습니다.
+- 첫 장에서 펭귄몬의 정면 카메라·중심·크기·발 기준선을 고정하고 나머지 다섯 장을 같은 첫 장에서 편집했습니다. 전신과 두 발 잘림, 검은 띠, 이미지 늘어남은 `0건`입니다.
+- 런타임은 `play-water-v1-*-generated.webp` 6장, 각 768×1536, `object-fit: contain`입니다. 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source`, 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png`에 보관합니다.
+- 현재 원본의 펭귄몬 중심·발 기준선·전신 높이는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png`에서 6장 전수 확인합니다.
+- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`입니다. 다섯 화면에서 선언 좌표와 실제 네 변의 최대 오차는 `0.02px` 미만이며 학습 영역 교차는 `0px`입니다.
+- 모달을 완전히 닫은 뒤 `320ms`를 두고 장면을 바꾸며, Stage 폭 `35%`의 효과를 `1560ms` 표시합니다. 문제 번호는 최소 `1200ms` 동안 고정됩니다.
+- `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2` 전체 흐름에서 텍스트 넘침·요소 겹침·이미지 누락은 `0건`입니다.
+- `994×632` 회귀에서 기존 물통 그림이 문제 카드 아래로 `7.7px` 벗어나는 실패를 발견해 물통 시각 영역의 고정 최소 높이를 제거했습니다.
+- Humanizer 학생 문구 QA에서 새 상태 라벨 `지금의 물통`과 상태 안내를 확인했습니다. 한 화면에는 현재 물통 이름과 물통 힘만 짧게 보여 줍니다.
+
+## 2026-08-02 현재 화면 증거
+
+- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`, `screenshots/report-flow-empty-reward-fixture-contact-sheet.png`
+- 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`

@@ -34,7 +34,7 @@ const Lesson3DoubleBridgeModel = (() => {
   }
 
   function lengthChoice(value, misconceptionId = null, feedback = "") {
-    return { id: `choice:${value}`, value, visualKind: "bridge-length", label: `${value} cm`, misconceptionId, feedback };
+    return { id: `choice:${value}`, value, visualKind: "length", label: `${value} cm`, misconceptionId, feedback };
   }
 
   function choicesForCase(ask, radius, rng) {
@@ -42,16 +42,16 @@ const Lesson3DoubleBridgeModel = (() => {
     if (ask === "지름") {
       return shuffle([
         lengthChoice(diameter),
-        lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "반지름 하나만 놓였어요."),
-        lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "끝까지 닿지 않아요."),
-        lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "기둥 밖으로 나갔어요.")
+        lengthChoice(radius, "DIAMETER_NOT_DOUBLED", "지름은 반지름 두 개를 이은 길이예요."),
+        lengthChoice(diameter - 1, "DIAMETER_ONE_SHORT", "지름보다 1 cm 짧아요."),
+        lengthChoice(diameter + 2, "DIAMETER_TOO_LONG", "지름보다 2 cm 길어요.")
       ], rng);
     }
     return shuffle([
       lengthChoice(radius),
-      lengthChoice(diameter, "RADIUS_NOT_HALVED", "지름 전체를 골랐어요."),
-      lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "끝까지 닿지 않아요."),
-      lengthChoice(radius + 1, "RADIUS_TOO_LONG", "반지름 자리를 넘었어요.")
+      lengthChoice(diameter, "RADIUS_NOT_HALVED", "반지름은 지름의 반이에요."),
+      lengthChoice(radius - 1, "RADIUS_TOO_SHORT", "반지름보다 1 cm 짧아요."),
+      lengthChoice(radius + 1, "RADIUS_TOO_LONG", "반지름보다 1 cm 길어요.")
     ], rng);
   }
 
@@ -60,9 +60,7 @@ const Lesson3DoubleBridgeModel = (() => {
     const diameter = radius * 2;
     const ask = problemCase.ask;
     const answer = ask === "지름" ? diameter : radius;
-    const prompt = ask === "지름"
-      ? `반지름이 ${radius} cm예요. 지름은?`
-      : `지름이 ${diameter} cm예요. 반지름은?`;
+    const prompt = ask === "지름" ? "지름은?" : "반지름은?";
     const finalExpression = ask === "지름"
       ? `${radius} cm + ${radius} cm = ${diameter} cm`
       : `${diameter} cm ÷ 2 = ${radius} cm`;
@@ -78,13 +76,13 @@ const Lesson3DoubleBridgeModel = (() => {
       steps: [{
         id: "length",
         label: ask,
-        instruction: ask === "지름" ? "두 반지름을 이은 길이를 골라요." : "지름의 반인 길이를 골라요.",
+        instruction: "알맞은 길이를 골라요.",
         answer,
         answerChoiceId: `choice:${answer}`,
         choices: choicesForCase(ask, radius, rng),
         correctText: ask === "지름"
-          ? `딱 맞아요! ${radius} cm + ${radius} cm = ${diameter} cm`
-          : `딱 맞아요! ${diameter} cm ÷ 2 = ${radius} cm`,
+          ? `${radius} cm + ${radius} cm = ${diameter} cm`
+          : `${diameter} cm ÷ 2 = ${radius} cm`,
         reveal: `${answer} cm`,
         advance: { mode: "complete" }
       }]
