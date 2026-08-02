@@ -1124,6 +1124,75 @@ async function auditConfiguredPlayProgress(page, label) {
   return { expectedCanvas, states };
 }
 
+async function auditConfiguredLeftProgressWidth(page, label) {
+  const configured = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.leftProgressWidthAudit)");
+  if (!configured) return null;
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa.leftProgressWidthAudit;
+    const stage = document.querySelector('.stage-shell');
+    const panel = document.querySelector(config.panel);
+    const workArea = document.querySelector(config.workArea);
+    const rect = (node) => {
+      const value = node?.getBoundingClientRect();
+      return value ? {
+        left:value.left,
+        top:value.top,
+        right:value.right,
+        bottom:value.bottom,
+        width:value.width,
+        height:value.height
+      } : null;
+    };
+    const stageRect = rect(stage);
+    const panelRect = rect(panel);
+    const workRect = rect(workArea);
+    const panelStyle = panel ? getComputedStyle(panel) : null;
+    const workGapPx = panelRect && workRect ? workRect.left - panelRect.right : -Infinity;
+    return {
+      config,
+      stageRect,
+      panelRect,
+      workRect,
+      panelVisible:Boolean(panelStyle && panelStyle.display !== 'none' && panelStyle.visibility !== 'hidden' && panelRect?.width > 1 && panelRect?.height > 1),
+      workVisible:Boolean(workRect?.width > 1 && workRect?.height > 1),
+      panelWidthRatio:stageRect && panelRect ? panelRect.width / stageRect.width : 0,
+      workGapPx,
+      workGapRatio:stageRect ? workGapPx / stageRect.width : -Infinity,
+      expectedWidthPx:stageRect ? stageRect.width * Number(config.expectedWidthRatio || 0) : 0,
+      widthDeltaPx:stageRect && panelRect
+        ? Math.abs(panelRect.width - stageRect.width * Number(config.expectedWidthRatio || 0))
+        : Infinity
+    };
+  })()`);
+  assert(audit.config.standard === 'stage-left-progress-width-v1', `${label}: left progress width standard is wrong`, audit);
+  assert(audit.stageRect && audit.panelRect && audit.workRect, `${label}: left progress width targets are missing`, audit);
+  assert(audit.panelVisible && audit.workVisible, `${label}: left progress panel or learning area is hidden`, audit);
+  assert(
+    audit.widthDeltaPx <= Number(audit.config.tolerancePx),
+    `${label}: left progress panel width left its fixed Stage ratio`,
+    audit,
+  );
+  const ratioTolerance = Number(audit.config.tolerancePx) / audit.stageRect.width;
+  assert(
+    audit.panelWidthRatio + ratioTolerance >= Number(audit.config.minWidthRatio)
+      && audit.panelWidthRatio - ratioTolerance <= Number(audit.config.maxWidthRatio),
+    `${label}: left progress panel is outside the shared width range`,
+    audit,
+  );
+  assert(
+    audit.workGapRatio + ratioTolerance >= Number(audit.config.minWorkGapRatio),
+    `${label}: left progress panel is too close to the learning area`,
+    audit,
+  );
+  assert(
+    audit.panelRect.left >= audit.stageRect.left - 1
+      && audit.panelRect.right <= audit.stageRect.right + 1,
+    `${label}: left progress panel leaves the Stage horizontally`,
+    audit,
+  );
+  return audit;
+}
+
 async function auditConfiguredTypography(page, label) {
   const audit = await evaluate(page, `(() => {
     const config = LESSON_CONFIG.qa?.typographyAudit;
@@ -1262,6 +1331,42 @@ async function auditConfiguredCompletionAlignment(page, label, waitingAudit) {
     const workArea = document.querySelector(layout?.workArea || '');
     const panel = document.querySelector(config?.panel || layout?.complete || '');
     if (!panel) return null;
+    if (config?.standard === 'completion-density-v1') {
+      const text = document.querySelector(config.text);
+      const action = document.querySelector(config.action);
+      const workAreaRect = rectOf(workArea);
+      const panelRect = rectOf(panel);
+      const textRect = rectOf(text);
+      const actionRect = rectOf(action);
+      const textStyle = text ? getComputedStyle(text) : null;
+      const actionStyle = action ? getComputedStyle(action) : null;
+      return {
+        standard:config.standard,
+        config,
+        workArea:workAreaRect,
+        panel:panelRect,
+        text:textRect,
+        action:actionRect,
+        visible:{
+          panel:visible(panel) && panel.classList.contains('is-visible'),
+          text:visible(text),
+          action:visible(action)
+        },
+        textValue:text?.textContent.trim() || '',
+        actionValue:action?.textContent.trim() || '',
+        textFontSize:Number.parseFloat(textStyle?.fontSize || '0') || 0,
+        actionFontSize:Number.parseFloat(actionStyle?.fontSize || '0') || 0,
+        contentGap:textRect && actionRect ? actionRect.left - textRect.right : null,
+        centerYDelta:textRect && actionRect
+          ? Math.abs((textRect.top + textRect.height / 2) - (actionRect.top + actionRect.height / 2))
+          : null,
+        panelHeightRatio:workAreaRect && panelRect ? panelRect.height / workAreaRect.height : null,
+        actionWidthRatio:panelRect && actionRect ? actionRect.width / panelRect.width : null,
+        dominantHeightRatio:panelRect && textRect && actionRect
+          ? Math.max(textRect.height, actionRect.height) / panelRect.height
+          : null
+      };
+    }
     if (config?.standard !== 'calculation-preserved-v1') {
       const rect = rectOf(panel);
       return { standard:'legacy-work-area-v1', workArea:rectOf(workArea), panel:rect, visible:visible(panel) && panel.classList.contains('is-visible') };
@@ -1293,6 +1398,24 @@ async function auditConfiguredCompletionAlignment(page, label, waitingAudit) {
     };
   })()`);
   assert(complete?.visible?.panel ?? complete?.visible, `${label}: configured completion panel is not visible`, { complete, waitingAudit });
+  if (complete.standard === 'completion-density-v1') {
+    const waiting = waitingAudit.metrics.workArea;
+    assert(complete.visible.text && complete.visible.action, `${label}: completion expression or action is hidden`, { complete, waitingAudit });
+    assert(complete.textValue && complete.actionValue, `${label}: completion expression or action label is empty`, { complete, waitingAudit });
+    for (const key of ["left", "right", "cx"]) {
+      assert(Math.abs(complete.panel[key] - waiting[key]) <= 1, `${label}: completion ${key} moved more than 1px`, { complete, waiting });
+    }
+    assert(complete.textFontSize >= complete.config.minTextFontPx, `${label}: completion expression is too small`, complete);
+    assert(complete.actionFontSize >= complete.config.minActionFontPx, `${label}: completion action label is too small`, complete);
+    assert(complete.action.width >= complete.config.minActionWidthPx, `${label}: completion action is too narrow`, complete);
+    assert(complete.action.height >= complete.config.minActionHeightPx, `${label}: completion action is too short`, complete);
+    assert(complete.actionWidthRatio >= complete.config.minActionWidthRatio, `${label}: completion action is too small for its panel`, complete);
+    assert(complete.panelHeightRatio <= complete.config.maxPanelHeightRatio, `${label}: completion panel is too tall for its content`, complete);
+    assert(complete.dominantHeightRatio >= complete.config.minDominantHeightRatio, `${label}: completion content is too small for its panel`, complete);
+    assert(complete.contentGap >= complete.config.minContentGapPx, `${label}: completion expression and action are too close`, complete);
+    assert(complete.centerYDelta <= complete.config.centerYTolerancePx, `${label}: completion expression and action are vertically misaligned`, complete);
+    return complete;
+  }
   if (complete.standard !== 'calculation-preserved-v1') {
     const waiting = waitingAudit.metrics.workArea;
     for (const key of ["left", "right", "cx"]) {
@@ -4473,6 +4596,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await auditConfiguredAnswerAccumulation(page, `${viewport.name} waiting calculation evidence`, 0);
   }
   initialPlayProgress = await auditConfiguredPlayProgress(page, `${viewport.name} play progress`);
+  await auditConfiguredLeftProgressWidth(page, `${viewport.name} left progress width`);
   if (lesson === "3-2-2-1-mathmon-divide-farm") await auditDivideFarmLayout(page, `${viewport.name} farm waiting`);
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorPlayHeader(page, `${viewport.name} play header`);

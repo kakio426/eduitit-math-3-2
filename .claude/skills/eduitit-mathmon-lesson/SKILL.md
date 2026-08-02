@@ -128,6 +128,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 3-2-3-1과 3-2-2-3처럼 문제 풀이 중 현재 보상 장면을 왼쪽에 두는 차시는 `stage-left-play-progress-v1`을 쓴다.
 
 - 패널 위치와 크기는 viewport가 아니라 `.stage-shell` 실제 rect에 대한 비율로 선언한다. `lesson.json > qa.playProgressAudit.panelPlacement`에 `leftRatio`, `topRatio`, `widthRatio`, `heightRatio`, `tolerancePx`를 두고 브라우저에서 실제 네 변을 잰다. `height:auto`나 `max-height`만 두어 이미지 내용에 따라 세로 길이가 줄어드는 구현은 금지하고, 선언한 `heightRatio`와 실제 패널 높이 오차를 `1px` 이하로 고정한다.
+- 왼쪽 진행 보상 패널의 공통 가로폭은 `stage-left-progress-width-v1`로 고정한다. 3-2-2-3·4의 `23.4375%`와 3-2-3-2의 `25.2%`를 검증 기준으로 삼아 허용 범위는 Stage 폭의 `23.4375~25.2%`, 새 차시·리마스터 권장값은 `24.5%`로 둔다. 패널 오른쪽과 학습 영역 왼쪽 사이에는 Stage 폭의 최소 `1.5625%`를 비운다.
+- `lesson.json > qa.leftProgressWidthAudit`에 `standard`, `panel`, `workArea`, `expectedWidthRatio`, `minWidthRatio`, `maxWidthRatio`, `minWorkGapRatio`, `tolerancePx`를 선언한다. 브라우저 하네스는 실제 패널 폭과 차시별 기대 폭의 오차 `1px` 이하, 공통 허용폭, 학습 영역과의 최소 간격을 모든 `qa.viewports`에서 검사한다.
 - 같은 차시의 지원 viewport에서는 위치 비율을 바꾸는 media query를 쓰지 않는다. 좁은 화면에서는 안쪽 글자·간격만 줄일 수 있고 패널의 왼쪽·위쪽·폭 좌표는 같은 계약을 유지한다.
 - 6단계 결과 구조는 문제 화면 진행 이미지도 정확히 `6장`으로 고정한다. 결과 단계마다 서로 다른 `playImage` 1장을 1:1로 연결하고 최종 결과 이미지를 잘라 재사용하지 않는다.
 - 여섯 장 모두 같은 캔버스·카메라·매스몬 크기·발 기준선·안전 여백을 쓴다. `layoutContract.mathmonPlacement`에 `centerX`, `centerY`, `footY`, `toleranceRatio`, `sameScaleAcrossStates=true`를 기록하고 매스몬 전신과 중심 보상물이 함께 보이게 한다.

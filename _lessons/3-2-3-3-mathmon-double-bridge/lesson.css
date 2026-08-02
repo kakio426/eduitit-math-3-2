@@ -22,9 +22,9 @@
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress {
   position: absolute;
   top: 11%;
-  left: 1.65%;
+  left: 2.5%;
   z-index: 4;
-  width: 19.2%;
+  width: 24.5%;
   height: 84%;
   min-width: 0;
   overflow: hidden;
@@ -269,11 +269,12 @@
 
 /* 문제 화면 골격: 핵심 작업대가 Stage 폭의 68% 이상을 차지한다. */
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+  --bridge-complete-height: 176px;
   position: absolute;
   top: 70px;
   right: 2.5%;
   bottom: 16px;
-  left: 22.5%;
+  left: 29.5%;
   z-index: 3;
   width: auto;
   height: auto;
@@ -876,11 +877,11 @@
   grid-column: 1;
   grid-row: 3;
   min-height: 0;
-  padding: 14px 20px;
+  padding: 18px 34px;
   align-self: stretch;
   place-items: center;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 30%);
+  gap: 32px;
   border-top: 5px solid #d19a4d;
   border-bottom: 8px solid #4b2815;
   background: linear-gradient(180deg, rgba(119, 65, 30, .97), rgba(78, 40, 20, .98));
@@ -888,11 +889,12 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .complete-text {
-  max-width: 620px;
+  max-width: none;
   margin: 0;
+  padding-block: 2px;
   color: #fff2c9;
-  font-size: clamp(1.22rem, 1.95vw, 1.55rem);
-  line-height: 1.2;
+  font-size: clamp(2rem, 3.1vw, 2.65rem);
+  line-height: 1.1;
   font-weight: 1000;
   text-align: center;
   word-break: keep-all;
@@ -900,12 +902,18 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
-  min-width: 164px;
-  min-height: 58px;
+  width: 100%;
+  min-width: 260px;
+  min-height: 92px;
+  padding: 0 32px;
+  display: grid;
+  place-items: center;
   color: #352107;
   border: 3px solid #795414;
   background: linear-gradient(180deg, #ffe783, #ffc947);
   box-shadow: inset 0 2px rgba(255, 255, 255, .55), 0 5px 0 #765318;
+  font-size: clamp(1.55rem, 2.4vw, 1.9rem);
+  line-height: 1;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .choices-panel,
@@ -914,7 +922,11 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .complete-panel {
-  grid-row: 2 / 4;
+  grid-row: 2;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete {
+  grid-template-rows: minmax(0, 1fr) var(--bridge-complete-height);
 }
 
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .bridge-equation {
@@ -1221,10 +1233,11 @@
   }
 
   .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+    --bridge-complete-height: 160px;
     top: 64px;
     right: 2%;
     bottom: 12px;
-    left: 22%;
+    left: 29.5%;
     grid-template-rows: minmax(0, 1fr) 46px 138px;
     gap: 12px;
   }
@@ -1247,13 +1260,14 @@
   }
 
   .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
-    padding: 12px 15px;
-    gap: 12px;
+    padding: 12px 18px;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 32%);
+    gap: 24px;
   }
 
   .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
-    min-width: 150px;
-    min-height: 54px;
+    min-width: 220px;
+    min-height: 80px;
   }
 
   .game[data-workbench-type="circle-double-bridge"] .reward-card {
@@ -1268,7 +1282,22 @@
 
 @media (min-width: 981px) and (max-width: 1100px) {
   .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
+    --bridge-complete-height: 162px;
     grid-template-rows: minmax(0, 1fr) 46px 146px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete {
+    grid-template-rows: minmax(0, 1fr) var(--bridge-complete-height);
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 28px;
+  }
+
+  .game[data-workbench-type="circle-double-bridge"] .complete-panel .primary-button {
+    min-width: 240px;
+    min-height: 84px;
   }
 
   .game[data-workbench-type="circle-double-bridge"] .circle-relation-svg {

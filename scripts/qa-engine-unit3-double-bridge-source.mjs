@@ -42,6 +42,19 @@ assert.equal(config.qa.topControlsAudit.bottomTolerancePx, 1);
 assert.equal(config.qa.topControlsAudit.centerYTolerancePx, 1);
 assert.equal(config.qa.topControlsAudit.heightTolerancePx, 1);
 assert.equal(config.qa.topControlsAudit.minGapPx, 8);
+assert.equal(config.qa.completionAudit.standard, "completion-density-v1");
+assert.equal(config.qa.completionAudit.panel, ".complete-panel");
+assert.equal(config.qa.completionAudit.text, ".complete-text");
+assert.equal(config.qa.completionAudit.action, "#rewardButton");
+assert.equal(config.qa.completionAudit.minTextFontPx, 32);
+assert.equal(config.qa.completionAudit.minActionWidthPx, 220);
+assert.equal(config.qa.completionAudit.minActionHeightPx, 80);
+assert.equal(config.qa.completionAudit.minActionFontPx, 24);
+assert.equal(config.qa.completionAudit.minActionWidthRatio, 0.24);
+assert.equal(config.qa.completionAudit.maxPanelHeightRatio, 0.31);
+assert.equal(config.qa.completionAudit.minDominantHeightRatio, 0.45);
+assert.equal(config.qa.completionAudit.minContentGapPx, 24);
+assert.equal(config.qa.completionAudit.centerYTolerancePx, 1);
 assert.equal(config.qa.visualContractVersion, 1);
 assert.equal(config.standards.playProgress, "generated-play-progress-v3-left-character");
 assert.equal(config.workbench.playStateImageSet.standard, "generated-play-progress-v3-left-character");
@@ -50,14 +63,24 @@ assert.equal(config.workbench.playStateImageSet.canvas, "768x1536");
 assert.equal(config.workbench.playStateImageSet.objectFit, "contain");
 assert.equal(config.workbench.playStateImageSet.protagonist, "zfa-03-sudalmon");
 assert.equal(config.qa.playProgressAudit.standard, "stage-left-play-progress-v1");
+assert.deepEqual(config.qa.leftProgressWidthAudit, {
+  standard: "stage-left-progress-width-v1",
+  panel: ".compass-play-progress",
+  workArea: ".bridge-workshop",
+  expectedWidthRatio: 0.245,
+  minWidthRatio: 0.234375,
+  maxWidthRatio: 0.252,
+  minWorkGapRatio: 0.015625,
+  tolerancePx: 1,
+});
 assert.equal(config.qa.rewardEffectAudit.standard, "modal-dismiss-world-impact-v2");
 assert.equal(config.qa.rewardEffectAudit.preEffectDelayMs, 320);
 assert.ok(config.qa.rewardEffectAudit.minVisibleMs >= 1200);
 assert.ok(config.qa.rewardEffectAudit.minImpactStageWidthRatio >= 0.32);
 assert.deepEqual(config.qa.playProgressAudit.panelPlacement, {
-  leftRatio: 0.0165,
+  leftRatio: 0.025,
   topRatio: 0.11,
-  widthRatio: 0.192,
+  widthRatio: 0.245,
   heightRatio: 0.84,
   tolerancePx: 1,
 });
@@ -147,7 +170,8 @@ assert.match(viewSource, /globalThis\.onRewardDismiss = onRewardDismiss/, "rewar
 assert.match(viewSource, /effectStartedWithModalHidden/, "world impact must expose modal-first timing evidence");
 assert.doesNotMatch(viewSource, /다리 점수|다리 등급|진행도/, "problem view must not add a second reward vocabulary");
 assert.doesNotMatch(viewSource, /bridgeChoiceMarkup|bridge-choice-svg/, "retired floating measurement-handle choices must be removed");
-assert.match(lessonCss, /\.compass-play-progress\s*\{[\s\S]*?top:\s*11%;[\s\S]*?left:\s*1\.65%;[\s\S]*?width:\s*19\.2%;[\s\S]*?height:\s*84%;/, "left progress panel must keep the fixed Stage placement");
+assert.match(lessonCss, /\.compass-play-progress\s*\{[\s\S]*?top:\s*11%;[\s\S]*?left:\s*2\.5%;[\s\S]*?width:\s*24\.5%;[\s\S]*?height:\s*84%;/, "left progress panel must keep the fixed Stage placement");
+assert.match(lessonCss, /\.bridge-workshop\s*\{[\s\S]*?right:\s*2\.5%;[\s\S]*?left:\s*29\.5%;/, "learning area must preserve the shared left-progress gap");
 assert.match(lessonCss, /\.compass-play-progress-art\s*\{[\s\S]*?object-fit:\s*contain;/, "play scene must never be cropped");
 assert.match(lessonCss, /\.compass-play-progress-impact-stage\s*\{[\s\S]*?width:\s*35%;/, "world impact must cover at least 32% of the Stage width");
 assert.match(lessonCss, /\.hud\s*\{[\s\S]*?top:\s*var\(--top-control-y\);/, "play HUD and settings must share one vertical token");
@@ -156,5 +180,9 @@ assert.match(lessonCss, /\.length-choice\s*\{[\s\S]*?min-height:\s*58px;[\s\S]*?
 assert.match(lessonCss, /\.choices-panel\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/, "four lengths must stay in a two-by-two grid");
 assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+50px\s+166px;/, "desktop must give more height to answer choices");
 assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+46px\s+146px;/, "compact landscape must keep larger answer choices");
+assert.match(lessonCss, /--bridge-complete-height:\s*176px;/, "desktop completion panel must use the compact fixed track");
+assert.match(lessonCss, /\.complete-text\s*\{[\s\S]*?font-size:\s*clamp\(2rem,\s*3\.1vw,\s*2\.65rem\);/, "completion equation must be visually dominant");
+assert.match(lessonCss, /\.complete-panel \.primary-button\s*\{[\s\S]*?min-width:\s*260px;[\s\S]*?min-height:\s*92px;/, "bridge-view action must be substantially larger");
+assert.match(lessonCss, /\.bridge-workshop\.is-complete\s*\{[\s\S]*?var\(--bridge-complete-height\);/, "completion must reduce the empty panel track");
 
 console.log("QA_ENGINE_UNIT3_DOUBLE_BRIDGE_SOURCE: PASS");
