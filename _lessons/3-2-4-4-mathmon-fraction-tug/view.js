@@ -1,4 +1,193 @@
 const TUG_SVG_NS = "http://www.w3.org/2000/svg";
+let tugPlayProgress = null;
+let pendingTugRewardImpact = null;
+let tugRewardArtPrimed = false;
+const tugRewardPreloads = [];
+
+function ensureTugPlayProgress() {
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen) return null;
+  if (tugPlayProgress?.panel?.isConnected) return tugPlayProgress;
+  const imageSet = LESSON_CONFIG.workbench?.playStateImageSet || {};
+  if (imageSet.standard !== "generated-play-progress-v3-left-character") return null;
+
+  document.querySelector(".game")?.classList.add("has-play-progress");
+  const panel = document.createElement("aside");
+  panel.className = "tug-play-progress";
+  panel.dataset.playProgressStandard = imageSet.standard || "";
+  panel.dataset.protagonist = imageSet.protagonist || "";
+  panel.dataset.cacheVersion = imageSet.cacheVersion || "";
+
+  const art = document.createElement("img");
+  art.className = "tug-play-progress-art";
+  art.alt = "";
+  art.decoding = "async";
+  art.setAttribute("aria-hidden", "true");
+
+  const flare = document.createElement("span");
+  flare.className = "tug-play-progress-flare";
+  flare.setAttribute("aria-hidden", "true");
+
+  const stageImpact = document.createElement("span");
+  stageImpact.className = "tug-play-progress-impact-stage";
+  stageImpact.setAttribute("aria-hidden", "true");
+
+  const readout = document.createElement("div");
+  readout.className = "tug-play-progress-readout";
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "tug-play-progress-eyebrow";
+  eyebrow.textContent = "지금 모습";
+  const name = document.createElement("strong");
+  name.className = "tug-play-progress-name";
+  const meter = document.createElement("span");
+  meter.className = "tug-play-progress-meter";
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+  const meterFill = document.createElement("i");
+  meterFill.className = "tug-play-progress-meter-fill";
+  meter.appendChild(meterFill);
+  readout.append(eyebrow, name, meter);
+  panel.append(art, flare, readout);
+  playScreen.append(panel, stageImpact);
+  tugPlayProgress = { panel, art, flare, stageImpact, name, meter, meterFill };
+  return tugPlayProgress;
+}
+
+function syncTugPlayProgress(state, options = {}) {
+  const progress = ensureTugPlayProgress();
+  if (!progress) return Promise.resolve();
+  const result = Lesson4FractionTugModel.getResult(
+    Number(state.power || 0),
+    Number(state.correctFirstTry || 0),
+    Boolean(state.specialSeen)
+  );
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), maxPower));
+  const nextSrc = result.playImage || "";
+  const previousPower = Number(progress.panel.dataset.power || 0);
+  const previousTier = progress.panel.dataset.resultTier || "";
+  const changed = progress.art.getAttribute("src") !== nextSrc;
+  const tierChanged = Boolean(previousTier && previousTier !== result.id);
+
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.meterFill.style.width = `${power / maxPower * 100}%`;
+  progress.panel.setAttribute("aria-label", `지금 모습은 ${result.name}이에요. 줄다리기 힘은 ${power}예요.`);
+  if (changed) progress.art.src = nextSrc;
+
+  const delta = Number(options.delta ?? (power - previousPower));
+  const shouldAnimate = options.animate === true && (changed || delta !== 0);
+  progress.panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+  progress.panel.dataset.effectPhase = "idle";
+  progress.panel.dataset.effectKind = "none";
+  if (shouldAnimate) {
+    void progress.panel.offsetWidth;
+    progress.panel.classList.add(delta < 0 ? "is-dimming" : "is-changing");
+    if (options.celebrate === true && delta > 0) progress.panel.classList.add("is-celebrating");
+    if (tierChanged && delta > 0) progress.panel.classList.add("is-tier-up");
+    progress.panel.dataset.effectPhase = "active";
+    progress.panel.dataset.effectKind = tierChanged && delta > 0
+      ? "tier-up"
+      : delta > 0 ? "gain" : delta < 0 ? "loss" : "none";
+    progress.panel.dataset.effectStartedAt = String(performance.now());
+    if (options.afterModalDismiss === true) {
+      progress.panel.dataset.effectStartedWithModalHidden = String(document.getElementById("rewardPop")?.hidden === true);
+    }
+  }
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = shouldAnimate && !reducedMotion
+    ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1560)
+    : 0;
+  if (!duration) return Promise.resolve();
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      progress.panel?.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      if (progress.panel) progress.panel.dataset.effectPhase = "idle";
+      resolve();
+    }, duration);
+  });
+}
+
+function primeTugRewardArt() {
+  if (tugRewardArtPrimed || typeof Image === "undefined") return;
+  tugRewardArtPrimed = true;
+  const sources = new Set([
+    LESSON_CONFIG.imageAssets.rewardClosed,
+    ...Object.values(LESSON_CONFIG.reward?.artMap || {}),
+    ...LESSON_CONFIG.results.map((result) => result.playImage),
+  ].filter(Boolean));
+  sources.forEach((src) => {
+    const image = new Image();
+    image.src = src;
+    tugRewardPreloads.push(image);
+  });
+}
+
+function waitForTugProgress(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function onRewardReveal({ event, beforePower, afterPower }) {
+  pendingTugRewardImpact = { event, delta: afterPower - beforePower };
+}
+
+async function onRewardDismiss({ state }) {
+  const impact = pendingTugRewardImpact;
+  pendingTugRewardImpact = null;
+  if (!impact) return Promise.resolve();
+  if (impact.delta === 0) {
+    return syncTugPlayProgress(state, { animate: false, delta: 0, afterModalDismiss: true });
+  }
+  const progress = ensureTugPlayProgress();
+  const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const preEffectDelay = reducedMotion
+    ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+    : Number(effectConfig.preEffectDelayMs || 0);
+  if (progress?.panel && preEffectDelay > 0) {
+    progress.panel.dataset.effectPhase = "arming";
+    progress.panel.dataset.effectKind = impact.delta > 0 ? "gain-arming" : "loss-arming";
+    progress.panel.dataset.effectArmedAt = String(performance.now());
+    progress.panel.dataset.effectStartedWithModalHidden = String(document.getElementById("rewardPop")?.hidden === true);
+    await waitForTugProgress(preEffectDelay);
+  }
+  return syncTugPlayProgress(state, {
+    animate: true,
+    celebrate: impact.delta > 0,
+    delta: impact.delta,
+    afterModalDismiss: true,
+  });
+}
+
+globalThis.onRewardReveal = onRewardReveal;
+globalThis.onRewardDismiss = onRewardDismiss;
+globalThis.__playProgressQa = {
+  syncProgress() {
+    return syncTugPlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });
+  },
+  getRewardEffectState() {
+    const impactRect = tugPlayProgress?.stageImpact?.getBoundingClientRect?.();
+    return {
+      pendingDelta: pendingTugRewardImpact?.delta ?? null,
+      panelClasses: tugPlayProgress?.panel?.className || "",
+      effectPhase: tugPlayProgress?.panel?.dataset.effectPhase || "idle",
+      effectKind: tugPlayProgress?.panel?.dataset.effectKind || "none",
+      effectArmedAt: tugPlayProgress?.panel?.dataset.effectArmedAt || "",
+      effectStartedAt: tugPlayProgress?.panel?.dataset.effectStartedAt || "",
+      effectStartedWithModalHidden: tugPlayProgress?.panel?.dataset.effectStartedWithModalHidden || "",
+      resultTier: tugPlayProgress?.panel?.dataset.resultTier || "",
+      imageSrc: tugPlayProgress?.art?.getAttribute("src") || "",
+      impactLayerRect: impactRect
+        ? { left: impactRect.left, top: impactRect.top, width: impactRect.width, height: impactRect.height }
+        : null,
+    };
+  },
+};
+globalThis.__compassRingQa = globalThis.__playProgressQa;
 
 function ensureTugStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -10,13 +199,18 @@ function ensureTugStageArt() {
   image.setAttribute("aria-hidden", "true");
   playScreen.prepend(image);
 }
-function renderProblemVisual(problem) {
+function renderProblemVisual(problem, state) {
+  syncTugPlayProgress(state);
   ensureTugStageArt();
   ui.visualArea.dataset.compareState = "idle";
   renderCompareStage(problem);
 }
-function updateProblemVisualForStep(problem) { renderCompareStage(problem); }
-function revealCorrectStep(problem) {
+function updateProblemVisualForStep(problem, step, state) {
+  syncTugPlayProgress(state);
+  renderCompareStage(problem);
+}
+function revealCorrectStep(problem, step, state) {
+  syncTugPlayProgress(state);
   ui.visualArea.dataset.compareState = "correct";
   renderCompareStage(problem);
 }
@@ -64,10 +258,10 @@ function renderCompareStage(problem) {
   const selected = ui.visualArea.dataset.selectedSide === "left" ? problem.left : problem.right;
   const other = ui.visualArea.dataset.selectedSide === "left" ? problem.right : problem.left;
   svg.setAttribute("aria-label", correct
-    ? `${problem.left.den}분의 ${problem.left.num} ${relation === ">" ? "큼" : "작음"} ${problem.right.den}분의 ${problem.right.num}`
+    ? `${problem.left.den}분의 ${problem.left.num}은 ${problem.right.den}분의 ${problem.right.num}보다 ${relation === ">" ? "커요." : "작아요."}`
     : wrong
-      ? `고른 ${selected.den}분의 ${selected.num}이 ${other.den}분의 ${other.num}보다 작음`
-      : "두 분수 막대의 길이 비교");
+      ? `고른 ${selected.den}분의 ${selected.num}은 ${other.den}분의 ${other.num}보다 작아요.`
+      : "두 분수 막대의 길이를 비교해요.");
   const shownSign = correct ? relation : "?";
   const confirmLabel = correct
     ? (relation === ">" ? "왼쪽 막대가 더 길어요." : "오른쪽 막대가 더 길어요.")
@@ -92,3 +286,5 @@ function fractionBar(fraction, x, y, width, height, kind) {
   }
   return markup + `</g>`;
 }
+
+primeTugRewardArt();

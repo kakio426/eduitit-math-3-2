@@ -15,9 +15,56 @@
     "coverStart": "generated-button-art",
     "coverStartAsset": "shared-canonical-v1",
     "settings": "modal-controls",
-    "resultVisual": "generated-assets"
+    "resultVisual": "generated-assets",
+    "playProgress": "generated-play-progress-v3-left-character"
   },
-  "workbench": { "type": "package-weight" },
+  "workbench": {
+    "type": "package-weight",
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "768x1536",
+      "objectFit": "contain",
+      "protagonist": "base-02-foxmon",
+      "cacheVersion": "2026-08-01-left-progress-v1",
+      "runtimeSlot": "stage-left-play-progress-v1",
+      "sourceSetPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/play-progress-v1/source",
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/play-progress-v1/contact-sheets/play-truck-progress-v1-contact-sheet.png",
+      "anchorAuditSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/play-progress-v1/contact-sheets/play-truck-progress-v1-anchor-audit.png",
+      "filePattern": "play-truck-v1-{tier}-generated.webp",
+      "requiredSubjects": ["여우몬 전신", "truck progress"],
+      "layoutContract": {
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "combinedFocalCenterX": 0.5,
+        "leftStageRatio": 0.0165,
+        "topStageRatio": 0.11,
+        "widthStageRatio": 0.192,
+        "heightStageRatio": 0.84,
+        "objectFit": "contain",
+        "safeMarginRatio": 0.06,
+        "maxFootBaselineDeltaRatio": 0.03,
+        "mathmonPlacement": {
+          "centerX": 0.35,
+          "centerY": 0.57,
+          "footY": 0.73,
+          "toleranceRatio": 0.03,
+          "sameScaleAcrossStates": true
+        },
+        "subjectAnchors": {
+          "standard": "source-pixel-anchor-v1",
+          "measurement": "full-body visible bounds from current source PNG",
+          "plain": { "centerX": 0.34, "centerY": 0.57, "footY": 0.74, "height": 0.32 },
+          "slight": { "centerX": 0.34, "centerY": 0.58, "footY": 0.73, "height": 0.30 },
+          "swift": { "centerX": 0.36, "centerY": 0.57, "footY": 0.73, "height": 0.33 },
+          "cool": { "centerX": 0.36, "centerY": 0.58, "footY": 0.73, "height": 0.30 },
+          "gold": { "centerX": 0.35, "centerY": 0.58, "footY": 0.74, "height": 0.31 },
+          "super": { "centerX": 0.34, "centerY": 0.58, "footY": 0.74, "height": 0.33 }
+        },
+        "forbidResultCropReuse": true
+      }
+    }
+  },
   "scoreboard": { "enabled": false },
   "mathmonPack": "base-pack",
   "mathmonName": "여우몬",
@@ -36,11 +83,61 @@
       "contactSheet": "reward-events-v1-contact-sheet.png"
     }
   },
+  "result": {
+    "renderMode": "fullscene-generated-dynamic-slots",
+    "showNextGoal": true,
+    "layout": {
+      "axisX": 958,
+      "axisXByTier": {
+        "plain": 958,
+        "slight": 992,
+        "swift": 958,
+        "cool": 1034,
+        "gold": 1015,
+        "super": 991
+      },
+      "byTier": {
+        "plain": { "retryRect": { "x": 838, "y": 480, "width": 240, "height": 60 } },
+        "slight": { "retryRect": { "x": 872, "y": 480, "width": 240, "height": 60 } },
+        "swift": { "retryRect": { "x": 838, "y": 480, "width": 240, "height": 60 } },
+        "cool": { "retryRect": { "x": 914, "y": 480, "width": 240, "height": 60 } },
+        "gold": { "retryRect": { "x": 895, "y": 480, "width": 240, "height": 60 } },
+        "super": { "retryRect": { "x": 871, "y": 480, "width": 240, "height": 60 } }
+      },
+      "measureY": 300,
+      "barY": 330,
+      "barWidth": 280,
+      "barHeight": 18,
+      "correctTop": 356,
+      "correctWidth": 120,
+      "nextY": 450,
+      "retryRect": { "x": 838, "y": 480, "width": 240, "height": 60 }
+    },
+    "stateImageSet": {
+      "standard": "generated-result-fullscene-v3",
+      "count": 6,
+      "canvas": "1280x800",
+      "runtimeSlot": "result-stage-fullscene",
+      "sourceSetPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/result-fullscene-v1/source",
+      "runtimePngPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/result-fullscene-v1/runtime-png",
+      "contract": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/result-fullscene-v1/contract.json",
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/result-fullscene-v1/contact-sheets/result-tiers-v5-contact-sheet.png",
+      "protagonist": "base-02-foxmon",
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "fixedGeneratedElements": ["environment", "mathmon", "native-truck", "tier-scene-with-title", "blank-dynamic-panel", "retry-button"],
+      "dynamicOverlays": ["truck-power", "correct-count", "next-goal"]
+    }
+  },
   "results": [
-    { "id": "plain", "name": "평범 트럭", "minPower": 0, "minCorrect": 0, "image": "result-truck-plain-generated.webp", "titleImage": "result-title-plain-generated.webp" },
-    { "id": "slight", "name": "살짝 멋진 트럭", "minPower": 30, "minCorrect": 3, "image": "result-truck-slight-generated.webp", "titleImage": "result-title-slight-generated.webp" },
-    { "id": "cool", "name": "번쩍 멋진 트럭", "minPower": 70, "minCorrect": 7, "image": "result-truck-cool-generated.webp", "titleImage": "result-title-cool-generated.webp" },
-    { "id": "super", "name": "슈퍼 초울트라 트럭", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-truck-super-generated.webp", "titleImage": "result-title-super-generated.webp" }
+    { "id": "plain", "name": "평범 트럭", "minPower": 0, "minCorrect": 0, "visualRank": 0, "playImage": "play-truck-v1-plain-generated.webp", "image": "result-truck-plain-generated.webp", "titleImage": "result-truck-plain-generated.webp" },
+    { "id": "slight", "name": "살짝 멋진 트럭", "minPower": 15, "minCorrect": 2, "visualRank": 1, "playImage": "play-truck-v1-slight-generated.webp", "image": "result-truck-slight-generated.webp", "titleImage": "result-truck-slight-generated.webp" },
+    { "id": "swift", "name": "파란 번개 트럭", "minPower": 35, "minCorrect": 4, "visualRank": 2, "playImage": "play-truck-v1-swift-generated.webp", "image": "result-truck-swift-generated.webp", "titleImage": "result-truck-swift-generated.webp" },
+    { "id": "cool", "name": "번쩍 멋진 트럭", "minPower": 55, "minCorrect": 6, "visualRank": 3, "playImage": "play-truck-v1-cool-generated.webp", "image": "result-truck-cool-generated.webp", "titleImage": "result-truck-cool-generated.webp" },
+    { "id": "gold", "name": "황금 축제 트럭", "minPower": 78, "minCorrect": 8, "visualRank": 4, "playImage": "play-truck-v1-gold-generated.webp", "image": "result-truck-gold-generated.webp", "titleImage": "result-truck-gold-generated.webp" },
+    { "id": "super", "name": "무지개 하늘 트럭", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "visualRank": 5, "playImage": "play-truck-v1-super-generated.webp", "image": "result-truck-super-generated.webp", "titleImage": "result-truck-super-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "트럭 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "smallUpgrade" },
@@ -48,7 +145,7 @@
     { "id": "mega", "text": "트럭 힘이 크게 늘었어요", "weight": 1200, "min": 14, "max": 22, "family": "bigUpgrade" },
     { "id": "jackpot", "text": "부품 상자가 크게 빛나요", "weight": 500, "min": 30, "max": 30, "family": "styleUpgrade" },
     { "id": "empty", "text": "이번에는 그대로예요", "weight": 380, "min": 0, "max": 0, "family": "smallOnly" },
-    { "id": "special", "text": "슈퍼 부품 상자", "weight": 20, "min": 100, "max": 100, "family": "superUpgrade", "special": true }
+    { "id": "special", "text": "무지개 부품 상자", "weight": 20, "min": 100, "max": 100, "family": "superUpgrade", "special": true }
   ],
   "wrongEvent": { "id": "wrong-loss", "text": "트럭 힘이 줄었어요", "min": -6, "max": -3, "family": "repair" },
   "imageAssets": {
@@ -59,7 +156,6 @@
     "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp"
   },
   "qa": {
-    "playProgressDisposition": { "standard": "play-progress-disposition-v1", "status": "not-applicable", "reason": "standalone-full-canvas-learning-flow", "minLearningWidthRatio": 0.9 },
     "visualContractVersion": 1,
     "standalonePackageAudit": {
       "standard": "standalone-html-v1",
@@ -76,9 +172,138 @@
       "standard": "delegated-browser-v1",
       "script": "scripts/qa-lesson5-package-weight-click-guards.mjs"
     },
+    "resultVisualAudit": {
+      "standard": "result-tier-fullscene-native-v1",
+      "stateCount": 6,
+      "expectedStates": ["plain", "slight", "swift", "cool", "gold", "super"],
+      "expectedRanks": [0, 1, 2, 3, 4, 5],
+      "sceneImage": "#resultBg",
+      "sceneCanvas": "1280x800",
+      "sceneObjectFit": "cover",
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "forbiddenSelectors": ["[class*='result-impact']"],
+      "dynamicAxisX": 958,
+      "dynamicAxisByTier": {
+        "plain": 958,
+        "slight": 992,
+        "swift": 958,
+        "cool": 1034,
+        "gold": 1015,
+        "super": 991
+      },
+      "shiftRetryWithTierAxis": true,
+      "axisTolerancePx": 1,
+      "panelPixelAudit": {
+        "standard": "light-panel-row-run-v1",
+        "searchRect": { "x": 650, "y": 70, "width": 620, "height": 650 },
+        "lightRgbMin": { "r": 220, "g": 195, "b": 130 },
+        "channelSpreadMax": 135,
+        "minRunWidth": 180,
+        "centerTolerancePx": 3
+      },
+      "slots": {
+        "measure": { "x": 778, "y": 280, "width": 360, "height": 42 },
+        "track": { "x": 818, "y": 330, "width": 280, "height": 18 },
+        "correct": { "x": 898, "y": 356, "width": 120, "height": 72 },
+        "next": { "x": 778, "y": 432, "width": 360, "height": 34 },
+        "retry": { "x": 838, "y": 480, "width": 240, "height": 60 }
+      },
+      "measureFontPx": 32,
+      "nextFontPx": 28,
+      "minVerticalGapPx": 4,
+      "requireDistinctSceneSource": true,
+      "grandColorFamily": "golden-festival",
+      "legendColorFamily": "rainbow-celestial"
+    },
+    "resultBoardAudit": {
+      "standard": "generated-result-board-pixel-axis-v1",
+      "sceneImage": "#resultBg",
+      "matchMode": "light-board",
+      "scanStartRatio": 0.01,
+      "threshold": { "redMin": 220, "greenMin": 195, "blueMin": 130, "channelSpreadMax": 135 },
+      "minimumRunRatio": 0.18,
+      "maxDetectedAxisDeltaPx": 3,
+      "expectedAxisXByTier": {
+        "plain": 957.5,
+        "slight": 991.5,
+        "swift": 957.5,
+        "cool": 1034,
+        "gold": 1014.5,
+        "super": 991
+      }
+    },
+    "resultTierContrastAudit": {
+      "standard": "result-tier-contrast-v1",
+      "stateCount": 6,
+      "minimumChangedAxesPerAdjacentTier": 2,
+      "topTwoColorFamiliesMustDiffer": true,
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/result-fullscene-v1/contact-sheets/result-tiers-v5-contact-sheet.png"
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".progress-line",
+      "image": ".run-truck-image",
+      "label": ".progress-text",
+      "stateCount": 6,
+      "canvas": "768x1536",
+      "expectedStates": ["plain", "slight", "swift", "cool", "gold", "super"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "base-02-foxmon",
+      "panelPlacement": {
+        "leftRatio": 0.0165,
+        "topRatio": 0.11,
+        "widthRatio": 0.192,
+        "heightRatio": 0.84,
+        "tolerancePx": 1
+      },
+      "mathmonPlacement": {
+        "centerX": 0.35,
+        "centerY": 0.57,
+        "footY": 0.73,
+        "toleranceRatio": 0.03,
+        "sameScaleAcrossStates": true
+      },
+      "subjectAnchorStandard": "source-pixel-anchor-v1",
+      "subjectAnchorToleranceRatio": 0.03,
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
+    },
+    "rewardEffectAudit": {
+      "standard": "modal-dismiss-world-impact-v2",
+      "panel": ".progress-line",
+      "image": ".run-truck-image",
+      "activeClasses": ["is-changing", "is-dimming", "is-celebrating", "is-tier-up"],
+      "positiveClasses": ["is-changing", "is-celebrating"],
+      "tierUpClass": "is-tier-up",
+      "impactLayer": ".progress-impact-stage",
+      "preEffectDelayMs": 320,
+      "durationMs": 1560,
+      "minVisibleMs": 1200,
+      "minImpactStageWidthRatio": 0.32,
+      "deferNextProblem": true,
+      "modalKeepsBackgroundStable": true,
+      "requiresModalClosedBeforeStart": true,
+      "tierChangeRequiresImageSwap": true,
+      "forceTierTransition": {
+        "beforePower": 50,
+        "beforeCorrect": 5,
+        "restoreCorrect": 5,
+        "eventId": "normal",
+        "amount": 6,
+        "beforeTier": "swift",
+        "afterTier": "cool"
+      }
+    },
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
-      { "name": "tablet-landscape", "width": 1024, "height": 768 }
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
+      { "name": "user-visibility", "width": 994, "height": 632 },
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 }
     ],
     "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
   },
@@ -97,12 +322,22 @@
     "reward-event-special-generated.webp",
     "result-truck-plain-generated.webp",
     "result-truck-slight-generated.webp",
+    "result-truck-swift-generated.webp",
     "result-truck-cool-generated.webp",
+    "result-truck-gold-generated.webp",
     "result-truck-super-generated.webp",
     "result-title-plain-generated.webp",
     "result-title-slight-generated.webp",
+    "result-title-swift-generated.webp",
     "result-title-cool-generated.webp",
+    "result-title-gold-generated.webp",
     "result-title-super-generated.webp",
+    "play-truck-v1-plain-generated.webp",
+    "play-truck-v1-slight-generated.webp",
+    "play-truck-v1-swift-generated.webp",
+    "play-truck-v1-cool-generated.webp",
+    "play-truck-v1-gold-generated.webp",
+    "play-truck-v1-super-generated.webp",
     "../_shared/result-actions/retry-button-v2-generated.webp"
   ]
 }

@@ -619,12 +619,16 @@
     }
 
     .play.is-active {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 14px;
+      display: block;
     }
 
     .hud {
+      position: absolute;
+      top: var(--stage-inset);
+      left: var(--stage-inset);
+      right: var(--stage-inset);
+      height: var(--sound-button-size);
+      z-index: 8;
       display: flex;
       align-items: start;
       justify-content: space-between;
@@ -641,47 +645,149 @@
     }
 
     .progress-line {
-      flex: 0 1 420px;
-      min-width: 360px;
-      max-width: 420px;
-      height: 92px;
-      margin-top: -12px;
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(14,12,22,.82));
-      border: 1px solid var(--line);
-      position: relative;
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      align-items: center;
-      padding: 2px 22px 2px 8px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.12);
+      position: absolute;
+      top: 11%;
+      left: 1.65%;
+      z-index: 4;
+      width: 19.2%;
+      height: 84%;
+      min-width: 0;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      border: 3px solid rgba(96, 215, 255, .92);
+      border-radius: 22px;
+      background: #102839;
+      box-shadow: 0 16px 34px rgba(10, 43, 65, .4), inset 0 0 0 1px rgba(255, 249, 220, .22);
     }
 
-    .progress-fill {
-      display: none;
+    .progress-readout {
+      flex: 1 1 auto;
+      min-height: 0;
+      padding: 9px 12px 12px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 7px;
+      border-top: 2px solid rgba(96, 215, 255, .68);
+      background: linear-gradient(180deg, rgba(25, 78, 107, .98), rgba(14, 45, 64, .99));
+    }
+
+    .progress-eyebrow {
+      color: #dff8ff;
+      font-size: clamp(.68rem, 1vw, .78rem);
+      line-height: 1;
+      font-weight: 900;
+      text-align: center;
     }
 
     .progress-text {
-      position: static;
-      display: grid;
-      place-items: center;
-      color: var(--ink);
-      font-size: 1.24rem;
-      line-height: 1.15;
+      max-width: 100%;
+      color: #ffe19e;
+      font-size: clamp(.94rem, 1.45vw, 1.16rem);
+      line-height: 1.05;
       text-align: center;
-      font-weight: 950;
+      font-weight: 1000;
+      word-break: keep-all;
+      text-shadow: 0 2px 0 #4c3b1a;
     }
 
-    .run-truck-image { width: 250px; height: 88px; justify-self: center; object-fit: contain; object-position: center; filter: drop-shadow(0 8px 9px rgba(0,0,0,.38)); }
-    .progress-line.is-upgraded .run-truck-image { animation: truck-arrive .7s cubic-bezier(.2,.85,.25,1.25); filter: drop-shadow(0 0 15px rgba(255,200,87,.85)); }
+    .progress-meter {
+      width: 100%;
+      height: 9px;
+      overflow: hidden;
+      display: block;
+      border: 1px solid rgba(231, 252, 255, .82);
+      border-radius: 999px;
+      background: rgba(5, 23, 34, .92);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      display: block;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #56dfff, #35d9b2, #ffd263);
+      box-shadow: 0 0 10px rgba(91, 222, 255, .76);
+      transition: width .62s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .run-truck-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 2;
+      flex: 0 0 auto;
+      min-height: 0;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      background: #0d2333;
+      transition: filter .42s ease, transform .52s ease, opacity .28s ease;
+    }
+    .progress-line.is-upgraded .run-truck-image { animation: truck-arrive 1.2s cubic-bezier(.2,.85,.25,1.12); filter: drop-shadow(0 0 15px rgba(255,200,87,.85)); }
+    .progress-line.is-changing .run-truck-image { animation: progress-brighten 1.56s cubic-bezier(.2,.82,.22,1) both; }
+    .progress-line.is-dimming .run-truck-image { animation: progress-dim 1.56s ease both; }
+    .progress-line.is-celebrating { animation: progress-impact 1.56s cubic-bezier(.18,.78,.2,1) both; }
+    .progress-line.is-tier-up { animation: progress-tier-rise 1.56s cubic-bezier(.18,.78,.2,1) both; }
+
+    .progress-impact-stage {
+      position: absolute;
+      top: 4%;
+      left: -1%;
+      z-index: 5;
+      width: 52%;
+      height: 92%;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(.62);
+      background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(90,224,255,.68) 13%, rgba(255,205,88,.45) 31%, rgba(56,169,230,.24) 48%, transparent 71%);
+      filter: drop-shadow(0 0 30px rgba(87, 219, 255, .9));
+      mix-blend-mode: screen;
+    }
+    .progress-impact-stage::before,
+    .progress-impact-stage::after {
+      content: "";
+      position: absolute;
+      inset: 8% 4%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .progress-impact-stage::before {
+      border: 5px solid rgba(225, 251, 255, .94);
+      box-shadow: 0 0 20px 6px rgba(94, 221, 255, .72), 0 0 58px 20px rgba(255, 196, 74, .62), inset 0 0 36px rgba(91, 213, 255, .62);
+    }
+    .progress-impact-stage::after {
+      inset: -4%;
+      background: repeating-conic-gradient(from 4deg, transparent 0 7deg, rgba(238, 253, 255, .72) 8deg 9deg, transparent 10deg 21deg);
+      -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+      mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+    }
+    .progress-impact-stage.is-active { animation: progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both; }
     @keyframes truck-arrive { 0% { transform: translateX(-18px) scale(.82); opacity: .35; } 70% { transform: translateX(4px) scale(1.09); opacity: 1; } 100% { transform: none; opacity: 1; } }
+    @keyframes progress-brighten { 0% { filter: brightness(.72); } 34% { filter: brightness(1.62) saturate(1.42); transform: scale(1.025); } 100% { filter: brightness(1); transform: none; } }
+    @keyframes progress-dim { 0%, 100% { filter: brightness(1); transform: translateX(0); } 34% { filter: brightness(.52) saturate(.52); transform: translateX(-4px); } }
+    @keyframes progress-impact { 0%, 100% { transform: scale(1); } 26% { transform: scale(1.025); } 52% { transform: scale(.992); } }
+    @keyframes progress-tier-rise { 0% { box-shadow: 0 16px 34px rgba(10,43,65,.4); } 38% { box-shadow: 0 0 48px 18px rgba(255,214,98,.78); transform: scale(1.025); } 100% { transform: none; } }
+    @keyframes progress-stage-impact { 0% { opacity: 0; transform: scale(.62); } 18% { opacity: .98; } 58% { opacity: .7; transform: scale(1.12); } 100% { opacity: 0; transform: scale(1.28); } }
 
     .problem-grid {
+      position: absolute;
+      top: calc(var(--stage-inset) + var(--sound-button-size) + 6px);
+      right: 3%;
+      bottom: 20px;
+      left: 22.5%;
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       grid-template-rows: auto 1fr auto;
       gap: 14px;
-      height: 100%;
+      width: auto;
+      height: auto;
+      margin: 0;
       min-height: 0;
     }
 
@@ -905,7 +1011,7 @@
 
     .instruction {
       margin: 0;
-      font-size: clamp(1.6rem, 3.25vw, 2.25rem);
+      font-size: clamp(1.3rem, 2.4vw, 1.75rem);
       line-height: 1.12;
       font-weight: 1000;
       word-break: keep-all;
@@ -1366,9 +1472,7 @@
     }
 
     .result-status-panel {
-      fill: rgba(14, 12, 22, .78);
-      stroke: rgba(255, 248, 232, .72);
-      stroke-width: 2;
+      display: none;
     }
 
     .result-power-text,
@@ -1383,49 +1487,47 @@
       font-weight: 1000;
     }
 
-    .result-power-text { font-size: 31px; }
-    .result-next-goal-text { font-size: 25px; }
+    .result-power-text { font-size: 32px; }
+    .result-next-goal-text { font-size: 28px; }
     .result-progress-track { fill: rgba(255, 255, 255, .2); stroke: rgba(255, 255, 255, .48); stroke-width: 2; }
     .result-progress-fill { fill: url(#resultProgressGradient); }
 
-    .result-title-art {
-      position: absolute;
-      top: 74px;
-      left: 50%;
-      width: min(720px, 74%);
-      max-height: 190px;
-      object-fit: contain;
-      transform: translateX(-50%);
-      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.38));
+    #screen-result .raster-bg {
+      object-fit: cover;
+      object-position: center;
+      opacity: 1;
+      filter: none;
+      mix-blend-mode: normal;
     }
 
-    .result[data-result-tier="super"] .result-title-art {
-      top: 66px;
-      width: min(840px, 82%);
+    .result-title-art {
+      display: none !important;
     }
 
     .result-correct-art {
       position: absolute;
-      top: 268px;
-      left: 50%;
-      width: min(350px, 34%);
-      max-height: 120px;
+      top: 44.5%;
+      left: 70.15625%;
+      width: 9.375%;
+      height: 9%;
+      max-height: none;
       object-fit: contain;
-      transform: translateX(-50%);
+      transform: none;
       filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.38));
       pointer-events: none;
     }
 
     .result-retry-hitbox {
       position: absolute;
-      left: 50%;
-      bottom: 30px;
-      width: min(232px, 23%);
-      min-width: 174px;
+      left: 65.46875%;
+      top: 60%;
+      width: 18.75%;
+      height: 7.5%;
+      min-width: 0;
       padding: 0;
       border: 0;
       background: transparent;
-      transform: translateX(-50%);
+      transform: none;
       cursor: pointer;
       pointer-events: auto;
     }
@@ -1437,11 +1539,7 @@
     }
 
     .result-retry-art {
-      display: block;
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.28));
-      pointer-events: none;
+      display: none !important;
     }
 
     .visually-hidden {
@@ -1538,22 +1636,8 @@
         min-height: 48px;
       }
 
-      .result-title-art {
-        top: 36px;
-        width: min(600px, 70%);
-        max-height: 150px;
-      }
-
-      .result[data-result-tier="super"] .result-title-art {
-        top: 28px;
-        width: min(650px, 76%);
-        max-height: 150px;
-      }
-
       .result-correct-art {
-        top: 205px;
-        width: 280px;
-        max-height: 92px;
+        max-height: none;
       }
     }
 
@@ -1568,7 +1652,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-standard="unit5-package-modal-art-v2" data-reward-card-size="560x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
+  <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit5-package-modal-art-v2" data-reward-card-size="560x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1645,15 +1729,20 @@
             <div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div>
             <div class="mini-badge" id="problemCounter">1/10</div>
           </div>
-          <div class="progress-line" id="truckProgressVisual" aria-label="현재 트럭">
-            <img class="run-truck-image" id="runTruckImage" src="truck-evolution-plain-generated.webp" alt="">
-            <div class="progress-fill" id="runProgress"></div>
-            <div class="progress-text" id="runProgressText">평범 트럭</div>
-          </div>
           <div class="hud-right">
             <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>5단원 무게</div>
           </div>
         </header>
+
+        <aside class="progress-line" id="truckProgressVisual" aria-label="현재 트럭">
+          <img class="run-truck-image" id="runTruckImage" src="play-truck-v1-plain-generated.webp" alt="현재 평범 트럭">
+          <div class="progress-readout">
+            <span class="progress-eyebrow">지금의 트럭</span>
+            <div class="progress-text" id="runProgressText" data-text-align-role="label">평범 트럭</div>
+            <span class="progress-meter" aria-hidden="true"><span class="progress-fill" id="runProgress"></span></span>
+          </div>
+        </aside>
+        <div class="progress-impact-stage" id="progressImpactStage" aria-hidden="true"></div>
 
         <div class="problem-grid">
           <article class="problem-card">
@@ -1709,10 +1798,10 @@
               </linearGradient>
             </defs>
             <rect class="result-status-panel" x="410" y="430" width="460" height="155" rx="28"></rect>
-            <text class="result-power-text" id="resultPowerText" x="640" y="468">트럭 힘 0</text>
-            <rect class="result-progress-track" x="460" y="496" width="360" height="28" rx="14"></rect>
-            <rect class="result-progress-fill" id="resultProgressFill" x="460" y="501" width="0" height="18" rx="9"></rect>
-            <text class="result-next-goal-text" id="resultNextGoalText" x="640" y="554">다음 목표: 힘 30 · 정답 3개</text>
+            <text class="result-power-text" id="resultPowerText" x="958" y="300">트럭 힘 0</text>
+            <rect class="result-progress-track" id="resultProgressTrack" x="818" y="330" width="280" height="18" rx="9"></rect>
+            <rect class="result-progress-fill" id="resultProgressFill" x="818" y="330" width="0" height="18" rx="9"></rect>
+            <text class="result-next-goal-text" id="resultNextGoalText" x="958" y="450">다음 목표: 힘 15 · 정답 2개</text>
           </svg>
           <button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시">
             <img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
@@ -1744,10 +1833,12 @@
         "limit"
       ];
       const TRUCK_RESULTS = [
-        { id: "plain", name: "평범 트럭", minPower: 0, minCorrect: 0, image: "result-truck-plain-generated.webp", titleImage: "result-title-plain-generated.webp" },
-        { id: "slight", name: "살짝 멋진 트럭", minPower: 30, minCorrect: 3, image: "result-truck-slight-generated.webp", titleImage: "result-title-slight-generated.webp" },
-        { id: "cool", name: "번쩍 멋진 트럭", minPower: 70, minCorrect: 7, image: "result-truck-cool-generated.webp", titleImage: "result-title-cool-generated.webp" },
-        { id: "super", name: "슈퍼 초울트라 트럭", minPower: 100, minCorrect: 1, needsSuperPart: true, image: "result-truck-super-generated.webp", titleImage: "result-title-super-generated.webp" }
+        { id: "plain", name: "평범 트럭", minPower: 0, minCorrect: 0, visualRank: 0, image: "result-truck-plain-generated.webp", titleImage: "result-truck-plain-generated.webp" },
+        { id: "slight", name: "살짝 멋진 트럭", minPower: 15, minCorrect: 2, visualRank: 1, image: "result-truck-slight-generated.webp", titleImage: "result-truck-slight-generated.webp" },
+        { id: "swift", name: "파란 번개 트럭", minPower: 35, minCorrect: 4, visualRank: 2, image: "result-truck-swift-generated.webp", titleImage: "result-truck-swift-generated.webp" },
+        { id: "cool", name: "번쩍 멋진 트럭", minPower: 55, minCorrect: 6, visualRank: 3, image: "result-truck-cool-generated.webp", titleImage: "result-truck-cool-generated.webp" },
+        { id: "gold", name: "황금 축제 트럭", minPower: 78, minCorrect: 8, visualRank: 4, image: "result-truck-gold-generated.webp", titleImage: "result-truck-gold-generated.webp" },
+        { id: "super", name: "무지개 하늘 트럭", minPower: 100, minCorrect: 1, needsSuperPart: true, visualRank: 5, image: "result-truck-super-generated.webp", titleImage: "result-truck-super-generated.webp" }
       ];
       const UPGRADE_EVENTS = [
         { id: "normal", text: "트럭 힘이 늘었어요", weight: 6400, min: 6, max: 10, family: "smallUpgrade" },
@@ -1755,7 +1846,7 @@
         { id: "mega", text: "트럭 힘이 크게 늘었어요", weight: 1200, min: 14, max: 22, family: "bigUpgrade" },
         { id: "jackpot", text: "부품 상자가 크게 빛나요", weight: 500, min: 30, max: 30, family: "styleUpgrade" },
         { id: "empty", text: "이번에는 그대로예요", weight: 380, min: 0, max: 0, family: "smallOnly" },
-        { id: "special", text: "슈퍼 부품 상자", weight: 20, min: 100, max: 100, family: "superUpgrade", superPart: true }
+        { id: "special", text: "무지개 부품 상자", weight: 20, min: 100, max: 100, family: "superUpgrade", superPart: true }
       ];
       const WRONG_UPGRADE_EVENT = { id: "wrong-loss", text: "트럭 힘이 줄었어요", min: -6, max: -3, family: "repair" };
 
@@ -1917,7 +2008,7 @@
           fitsLimit: null,
           representativeMistake: noBorrow,
           steps: [
-            makeStep("borrowKg", "1kg을 1000g으로 바꿔요.", "바뀐 위 무게", formatWeight(borrowedTop), choices1, `${formatWeight(borrowedTop)}로 바뀌었어요.`),
+            makeStep("borrowKg", "1kg은 1000g이에요.", "바뀐 위 무게", formatWeight(borrowedTop), choices1, `${formatWeight(borrowedTop)}로 바뀌었어요.`),
             makeStep("subtractGrams", "g끼리 뺀 값을 골라요.", "g 차", formatGrams(gramDifference), choices2, `${formatGrams(gramDifference)}이 남았어요.`),
             makeStep("subtractFinal", "다 뺀 뒤의 무게를 골라요.", "완성 무게", formatWeight(final), choices3, `${formatWeight(final)}이 남았어요.`)
           ]
@@ -2004,6 +2095,8 @@
 
       function applyUpgrade(state, event, firstTry) {
         const before = state.truckPower;
+        const beforeCorrectFirstTry = state.correctFirstTry;
+        const beforeSuperPartSeen = state.superPartSeen;
         const skillPower = 0;
         const truckPower = clamp(before + event.amount, MIN_TRUCK_POWER, MAX_TRUCK_POWER);
         return {
@@ -2011,6 +2104,9 @@
           correctFirstTry: state.correctFirstTry + (firstTry ? 1 : 0),
           superPartSeen: state.superPartSeen || Boolean(event.superPart),
           before,
+          beforeCorrectFirstTry,
+          beforeSuperPartSeen,
+          firstTry: Boolean(firstTry),
           skillPower,
           event
         };
@@ -2090,6 +2186,7 @@
       runProgress: document.getElementById("runProgress"),
       runProgressText: document.getElementById("runProgressText"),
       truckProgressVisual: document.getElementById("truckProgressVisual"),
+      progressImpactStage: document.getElementById("progressImpactStage"),
       runTruckImage: document.getElementById("runTruckImage"),
       problemKind: document.getElementById("problemKind"),
       problemTitle: document.getElementById("problemTitle"),
@@ -2110,6 +2207,7 @@
       resultBg: document.getElementById("resultBg"),
       resultTitleArt: document.getElementById("resultTitleArt"),
       resultCorrectArt: document.getElementById("resultCorrectArt"),
+      resultProgressTrack: document.getElementById("resultProgressTrack"),
       resultProgressFill: document.getElementById("resultProgressFill"),
       resultPowerText: document.getElementById("resultPowerText"),
       resultNextGoalText: document.getElementById("resultNextGoalText"),
@@ -2121,16 +2219,39 @@
 
     const params = new URLSearchParams(window.location.search);
     const seedParam = params.get("seed");
-    const seedFromUrl = Number(seedParam);
     const hasQaMarker = [...params.keys()].some((key) => key === "audioSmoke" || key.startsWith("qa"));
-    const hasExplicitSeed = hasQaMarker && seedParam !== null && Number.isInteger(seedFromUrl);
+    const requestedSeed = seedParam === null ? null : Number(seedParam);
+    const hasExplicitSeed = hasQaMarker && Number.isSafeInteger(requestedSeed);
     const TUTORIAL_DEFAULT_TITLE = ui.tutorialTitle.textContent;
     const TUTORIAL_DEFAULT_BUTTON = ui.tutorialStartButton.textContent;
     const TRUCK_EVOLUTION_IMAGES = Object.freeze({
-      plain: "truck-evolution-plain-generated.webp",
-      slight: "truck-evolution-cargo-generated.webp",
-      cool: "truck-evolution-turbo-generated.webp",
-      super: "truck-evolution-legend-generated.webp"
+      plain: "play-truck-v1-plain-generated.webp",
+      slight: "play-truck-v1-slight-generated.webp",
+      swift: "play-truck-v1-swift-generated.webp",
+      cool: "play-truck-v1-cool-generated.webp",
+      gold: "play-truck-v1-gold-generated.webp",
+      super: "play-truck-v1-super-generated.webp"
+    });
+    const RESULT_LAYOUT = Object.freeze({
+      axisXByTier: Object.freeze({
+        plain: 958,
+        slight: 992,
+        swift: 958,
+        cool: 1034,
+        gold: 1015,
+        super: 991
+      }),
+      measureY: 300,
+      barY: 330,
+      barWidth: 280,
+      barHeight: 18,
+      correctTop: 356,
+      correctWidth: 120,
+      correctHeight: 72,
+      nextY: 450,
+      retryY: 480,
+      retryWidth: 240,
+      retryHeight: 60
     });
     const REWARD_EVENT_IMAGES = Object.freeze({
       normal: "reward-event-normal-generated.webp",
@@ -2148,7 +2269,7 @@
         cards: [
           ["1", "g끼리 먼저 봐요.", "1000g이 넘으면 1kg으로 바꿔요."],
           ["2", "부족하면 1kg을 빌려요.", "1kg은 1000g이에요."],
-          ["3", "한도보다 가벼워야 해요.", "맞으면 트럭이 더 멋져요."]
+          ["3", "한도와 비교해요.", "맞으면 트럭이 더 멋져요."]
         ]
       },
       {
@@ -2170,7 +2291,7 @@
     let state = createInitialState(createRunSeed());
 
     function createRunSeed() {
-      if (hasExplicitSeed) return seedFromUrl;
+      if (hasExplicitSeed) return requestedSeed;
       let seed;
       if (window.crypto?.getRandomValues) {
         const values = new Uint32Array(1);
@@ -2215,6 +2336,7 @@
         superPartSeen: false,
         latestUpgrade: null,
         rewardPhase: "idle",
+        rewardTransitioning: false,
         rewardAppliedProblemIndex: -1,
         rewardAdvancedProblemIndex: -1,
         tutorialPage: 0,
@@ -2248,9 +2370,15 @@
 
     const TRANSIENT_INPUT_BLOCK_MS = 420;
     const CHOICE_CARRY_THROUGH_BLOCK_MS = 900;
+    const REWARD_PRE_EFFECT_DELAY_MS = 320;
+    const REWARD_EFFECT_DURATION_MS = 1560;
 
     let transientInputBlockedUntil = 0;
     let choiceInputLockedUntil = 0;
+
+    function waitForMs(milliseconds) {
+      return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+    }
 
     function blockTransientInput(ms = TRANSIENT_INPUT_BLOCK_MS) {
       transientInputBlockedUntil = Math.max(transientInputBlockedUntil, performance.now() + ms);
@@ -2353,6 +2481,7 @@
         ui.truckProgressVisual.classList.remove("is-upgraded");
         requestAnimationFrame(() => ui.truckProgressVisual.classList.add("is-upgraded"));
       }
+      ui.runTruckImage.alt = `현재 ${currentResult.name}`;
       ui.runProgressText.textContent = currentResult.name;
     }
 
@@ -2596,25 +2725,69 @@
       ui.rewardOpenButton.focus({ preventScroll: true });
     }
 
-    function advanceAfterReward() {
+    async function advanceAfterReward() {
       const canAdvance = screens.reward.classList.contains("is-active")
         && state.latestUpgrade
         && state.rewardPhase === "opened"
+        && !state.rewardTransitioning
         && state.rewardAppliedProblemIndex === state.problemIndex
         && state.rewardAdvancedProblemIndex !== state.problemIndex;
       if (!canAdvance) return;
 
       state.rewardAdvancedProblemIndex = state.problemIndex;
       state.rewardPhase = "idle";
+      state.rewardTransitioning = true;
+      ui.stageShell.dataset.rewardTransitioning = "true";
+      ui.stageShell.dataset.rewardModalClosedAt = "";
+      ui.stageShell.dataset.rewardEffectStartedAt = "";
+      ui.stageShell.dataset.rewardEffectEndedAt = "";
+      ui.stageShell.dataset.rewardAdvancedAt = "";
       setButtonDisabled(ui.rewardNextButton, true);
       blockTransientInput();
 
+      const model = Lesson5PackageWeightModel;
+      const beforeResult = model.getTruckResult(
+        state.latestUpgrade.before,
+        state.latestUpgrade.beforeCorrectFirstTry,
+        state.latestUpgrade.beforeSuperPartSeen
+      );
+      const afterResult = model.getTruckResult(state.truckPower, state.correctFirstTry, state.superPartSeen);
+      const movement = state.truckPower - state.latestUpgrade.before;
+      const effectClass = afterResult.id !== beforeResult.id
+        ? "is-tier-up"
+        : movement < 0
+          ? "is-dimming"
+          : movement >= 14
+            ? "is-celebrating"
+            : "is-changing";
+
+      screens.reward.classList.remove("is-active");
+      screens.play.classList.add("is-active");
+      state.screen = "play";
+      ui.stageShell.dataset.activeScreen = "play";
+      ui.stageShell.dataset.rewardModalClosedAt = String(performance.now());
+      await waitForMs(REWARD_PRE_EFFECT_DELAY_MS);
+
+      ui.stageShell.dataset.rewardEffectStartedAt = String(performance.now());
+      ui.truckProgressVisual.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      ui.truckProgressVisual.classList.add(effectClass);
+      ui.progressImpactStage.classList.toggle("is-active", movement > 0);
+      renderProgress();
+      await waitForMs(REWARD_EFFECT_DURATION_MS);
+      ui.truckProgressVisual.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      ui.progressImpactStage.classList.remove("is-active");
+      ui.stageShell.dataset.rewardEffectEndedAt = String(performance.now());
+      state.rewardTransitioning = false;
+      ui.stageShell.dataset.rewardTransitioning = "false";
+
       if (state.problemIndex === state.problems.length - 1) {
         showResult();
+        ui.stageShell.dataset.rewardAdvancedAt = String(performance.now());
         return;
       }
       state.problemIndex += 1;
       renderProblem();
+      ui.stageShell.dataset.rewardAdvancedAt = String(performance.now());
       blockChoicePointerInput();
     }
 
@@ -2628,20 +2801,51 @@
       return `../_shared/result-count/result-correct-${value}-generated.webp`;
     }
 
+    function applyResultLayout(result) {
+      const axisX = RESULT_LAYOUT.axisXByTier[result.id] ?? RESULT_LAYOUT.axisXByTier.plain;
+      const barX = axisX - RESULT_LAYOUT.barWidth / 2;
+      const correctX = axisX - RESULT_LAYOUT.correctWidth / 2;
+      const retryX = axisX - RESULT_LAYOUT.retryWidth / 2;
+
+      ui.resultPowerText.setAttribute("x", String(axisX));
+      ui.resultPowerText.setAttribute("y", String(RESULT_LAYOUT.measureY));
+      ui.resultProgressTrack.setAttribute("x", String(barX));
+      ui.resultProgressTrack.setAttribute("y", String(RESULT_LAYOUT.barY));
+      ui.resultProgressTrack.setAttribute("width", String(RESULT_LAYOUT.barWidth));
+      ui.resultProgressTrack.setAttribute("height", String(RESULT_LAYOUT.barHeight));
+      ui.resultProgressFill.setAttribute("x", String(barX));
+      ui.resultProgressFill.setAttribute("y", String(RESULT_LAYOUT.barY));
+      ui.resultProgressFill.setAttribute("height", String(RESULT_LAYOUT.barHeight));
+      ui.resultNextGoalText.setAttribute("x", String(axisX));
+      ui.resultNextGoalText.setAttribute("y", String(RESULT_LAYOUT.nextY));
+
+      ui.resultCorrectArt.style.left = `${correctX / 12.8}%`;
+      ui.resultCorrectArt.style.top = `${RESULT_LAYOUT.correctTop / 8}%`;
+      ui.resultCorrectArt.style.width = `${RESULT_LAYOUT.correctWidth / 12.8}%`;
+      ui.resultCorrectArt.style.height = `${RESULT_LAYOUT.correctHeight / 8}%`;
+      ui.retryButton.style.left = `${retryX / 12.8}%`;
+      ui.retryButton.style.top = `${RESULT_LAYOUT.retryY / 8}%`;
+      ui.retryButton.style.width = `${RESULT_LAYOUT.retryWidth / 12.8}%`;
+      ui.retryButton.style.height = `${RESULT_LAYOUT.retryHeight / 8}%`;
+    }
+
     function showResult() {
       const model = Lesson5PackageWeightModel;
       const result = model.getTruckResult(state.truckPower, state.correctFirstTry, state.superPartSeen);
       const next = model.getNextTruckResult(result);
       screens.result.dataset.resultTier = result.id;
       ui.resultBg.src = result.image;
-      ui.resultTitleArt.src = result.titleImage;
+      ui.resultTitleArt.src = result.image;
       ui.resultTitle.textContent = result.name;
       ui.resultCorrectArt.src = getResultCorrectArtSrc(state.correctFirstTry);
-      ui.resultProgressFill.setAttribute("width", String(360 * model.clamp(state.truckPower, 0, 100) / 100));
+      applyResultLayout(result);
+      ui.resultProgressFill.setAttribute("width", String(RESULT_LAYOUT.barWidth * model.clamp(state.truckPower, 0, 100) / 100));
       ui.resultPowerText.textContent = `트럭 힘 ${state.truckPower}`;
       ui.resultNextGoalText.textContent = result.id === next.id
         ? "가장 높은 트럭까지 왔어요"
-        : `다음 목표: 힘 ${next.minPower} · 정답 ${next.minCorrect}개${next.needsSuperPart ? " · 무지개 부품" : ""}`;
+        : next.needsSuperPart
+          ? "다음: 무지개 부품 상자"
+          : `다음 목표: 힘 ${next.minPower} · 정답 ${next.minCorrect}개`;
       ui.resultSummary.textContent = `정답 ${state.correctFirstTry}/${getResultTotalProblems()}`;
       ui.resultNext.textContent = result.id === next.id
         ? "최고 트럭이에요. 다시 만들까요?"
@@ -2815,8 +3019,12 @@
           const source = Lesson5PackageWeightModel.UPGRADE_EVENTS.find((event) => event.id === eventId);
           if (!source) throw new Error(`알 수 없는 보상 사건: ${eventId}`);
           const amount = source.min === source.max ? source.min : source.min;
-          const beforePower = eventId === "loss" ? 50 : 40;
+          const beforePower = ["normal", "loss"].includes(eventId) ? 50 : 40;
           const event = { ...source, amount };
+          state.truckPower = beforePower;
+          state.correctFirstTry = 5;
+          state.superPartSeen = false;
+          renderProblem();
           const upgradeResult = Lesson5PackageWeightModel.applyUpgrade({
             truckPower: beforePower,
             correctFirstTry: 5,
@@ -2826,11 +3034,28 @@
           state.correctFirstTry = upgradeResult.correctFirstTry;
           state.superPartSeen = upgradeResult.superPartSeen;
           state.latestUpgrade = upgradeResult;
+          state.rewardAppliedProblemIndex = state.problemIndex;
+          state.rewardAdvancedProblemIndex = -1;
           renderClosedReward();
           showRewardOverlay();
           return { eventId, amount, beforePower, afterPower: state.truckPower };
         },
         openReward,
+        forcePlayTier: (tierId) => {
+          const result = Lesson5PackageWeightModel.TRUCK_RESULTS.find((item) => item.id === tierId);
+          if (!result) throw new Error(`알 수 없는 진행 단계: ${tierId}`);
+          state.truckPower = result.minPower;
+          state.correctFirstTry = result.minCorrect;
+          state.superPartSeen = Boolean(result.needsSuperPart);
+          renderProblem();
+          showScreen("play");
+          return {
+            tierId,
+            truckPower: state.truckPower,
+            correctFirstTry: state.correctFirstTry,
+            superPartSeen: state.superPartSeen
+          };
+        },
         forceResultTier: (tierId) => {
           const result = Lesson5PackageWeightModel.TRUCK_RESULTS.find((item) => item.id === tierId);
           if (!result) throw new Error(`알 수 없는 결과 단계: ${tierId}`);
@@ -2848,6 +3073,7 @@
         getState: () => ({
           screen: state.screen,
           rewardPhase: state.rewardPhase,
+          rewardTransitioning: state.rewardTransitioning,
           truckPower: state.truckPower,
           correctFirstTry: state.correctFirstTry,
           problemType: currentProblem()?.type || null,

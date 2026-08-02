@@ -52,43 +52,106 @@
     }
   },
   "result": {
-    "renderMode": "hybrid-generated-dynamic",
+    "renderMode": "fullscene-generated-dynamic-slots",
     "showNextGoal": true,
     "layout": {
-      "axisX": 930,
-      "titleTop": 64,
-      "titleWidth": 304,
-      "barY": 356,
-      "barWidth": 360,
-      "barHeight": 28,
-      "measureY": 430,
-      "correctTop": 450,
-      "correctWidth": 188,
-      "nextY": 600,
-      "retryRect": { "x": 800, "y": 620, "width": 260, "height": 130 }
+      "axisX": 876,
+      "axisXByTier": {
+        "first": 876,
+        "notebook": 933.5,
+        "badge": 910.5,
+        "desk": 957.5,
+        "case-room": 939.5,
+        "rainbow": 939
+      },
+      "byTier": {
+        "first": { "retryRect": { "x": 690.5, "y": 621, "width": 371, "height": 131 } },
+        "notebook": { "retryRect": { "x": 731.5, "y": 636, "width": 404, "height": 110 } },
+        "badge": { "retryRect": { "x": 710.5, "y": 624, "width": 400, "height": 123 } },
+        "desk": { "retryRect": { "x": 766, "y": 597, "width": 383, "height": 121 } },
+        "case-room": { "retryRect": { "x": 714.5, "y": 655, "width": 450, "height": 115 } },
+        "rainbow": { "retryRect": { "x": 721, "y": 637, "width": 436, "height": 125 } }
+      },
+      "barY": 350,
+      "barWidth": 260,
+      "barHeight": 16,
+      "measureY": 286,
+      "correctTop": 374,
+      "correctWidth": 98,
+      "nextY": 470,
+      "retryRect": { "x": 690.5, "y": 621, "width": 371, "height": 131 }
     },
     "stateImageSet": {
+      "standard": "generated-result-fullscene-v3",
       "count": 6,
       "canvas": "1280x800",
-      "runtimeSlot": "1280x800",
-      "contactSheet": "result-scenes-contact-sheet.png",
+      "runtimeSlot": "result-stage-fullscene",
+      "sourceSetPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/result-fullscene-v1/source",
+      "runtimePngPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/result-fullscene-v1/runtime-png",
+      "contract": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/result-fullscene-v1/contract.json",
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png",
       "protagonist": "base-02-foxmon",
-      "fixedGeneratedElements": ["result-title", "retry-button"],
-      "dynamicOverlays": ["detective-power", "correct-count"]
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "fixedGeneratedElements": ["environment", "mathmon", "tier-scene-with-title", "blank-dynamic-panel", "retry-button"],
+      "dynamicOverlays": ["detective-power", "correct-count", "next-goal"]
     }
   },
-  "workbench": { "type": "data-detective", "learningFlow": ["read-unit", "find-current-clue"] },
+  "workbench": {
+    "type": "data-detective",
+    "learningFlow": ["read-unit", "find-current-clue"],
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "768x1536",
+      "objectFit": "contain",
+      "protagonist": "base-02-foxmon",
+      "cacheVersion": "2026-08-01-left-progress-v1",
+      "runtimeSlot": "stage-left-play-progress-v1",
+      "sourceSetPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/play-progress-v1/source",
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/play-progress-v1/contact-sheets/play-detective-progress-v1-contact-sheet.png",
+      "anchorAuditSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/play-progress-v1/contact-sheets/play-detective-progress-v1-anchor-audit.png",
+      "filePattern": "play-detective-v1-{tier}-generated.webp",
+      "requiredSubjects": ["여우몬 전신", "detective progress world"],
+      "layoutContract": {
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "combinedFocalCenterX": 0.5,
+        "leftStageRatio": 0.0165,
+        "topStageRatio": 0.11,
+        "widthStageRatio": 0.192,
+        "heightStageRatio": 0.84,
+        "objectFit": "contain",
+        "safeMarginRatio": 0.06,
+        "maxFootBaselineDeltaRatio": 0.03,
+        "mathmonPlacement": { "centerX": 0.5, "centerY": 0.535, "footY": 0.61, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+        "subjectAnchors": {
+          "standard": "source-pixel-anchor-v1",
+          "measurement": "full-body visible bounds from current source PNG",
+          "first": { "centerX": 0.5, "centerY": 0.51, "footY": 0.581, "height": 0.16 },
+          "notebook": { "centerX": 0.5, "centerY": 0.53, "footY": 0.61, "height": 0.16 },
+          "badge": { "centerX": 0.5, "centerY": 0.53, "footY": 0.60, "height": 0.16 },
+          "desk": { "centerX": 0.5, "centerY": 0.55, "footY": 0.63, "height": 0.16 },
+          "case-room": { "centerX": 0.5, "centerY": 0.52, "footY": 0.60, "height": 0.16 },
+          "rainbow": { "centerX": 0.5, "centerY": 0.559, "footY": 0.639, "height": 0.16 }
+        },
+        "forbidResultCropReuse": true
+      }
+    }
+  },
   "scoreboard": { "enabled": false },
   "mathmonPack": "base-pack",
   "mathmonName": "여우몬",
   "mathmonId": "base-02-foxmon",
   "results": [
-    { "id": "first", "name": "첫 단서", "minPower": 0, "minCorrect": 0, "image": "result-scene-1-generated.webp", "titleImage": "result-title-1-generated.webp" },
-    { "id": "notebook", "name": "단서 수첩", "minPower": 15, "minCorrect": 2, "image": "result-scene-2-generated.webp", "titleImage": "result-title-2-generated.webp" },
-    { "id": "badge", "name": "해결 배지", "minPower": 35, "minCorrect": 4, "image": "result-scene-3-generated.webp", "titleImage": "result-title-3-generated.webp" },
-    { "id": "desk", "name": "탐정 책상", "minPower": 55, "minCorrect": 6, "image": "result-scene-4-generated.webp", "titleImage": "result-title-4-generated.webp" },
-    { "id": "case-room", "name": "사건 해결실", "minPower": 78, "minCorrect": 8, "image": "result-scene-5-generated.webp", "titleImage": "result-title-5-generated.webp" },
-    { "id": "rainbow", "name": "무지개 탐정본부", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-scene-6-generated.webp", "titleImage": "result-title-6-generated.webp" }
+    { "id": "first", "name": "첫 단서", "visualRank": 0, "minPower": 0, "minCorrect": 0, "playImage": "play-detective-v1-first-generated.webp", "image": "result-first-generated.webp", "titleImage": "result-first-generated.webp" },
+    { "id": "notebook", "name": "단서 수첩", "visualRank": 1, "minPower": 15, "minCorrect": 2, "playImage": "play-detective-v1-notebook-generated.webp", "image": "result-notebook-generated.webp", "titleImage": "result-notebook-generated.webp" },
+    { "id": "badge", "name": "해결 배지", "visualRank": 2, "minPower": 35, "minCorrect": 4, "playImage": "play-detective-v1-badge-generated.webp", "image": "result-badge-generated.webp", "titleImage": "result-badge-generated.webp" },
+    { "id": "desk", "name": "탐정 책상", "visualRank": 3, "minPower": 55, "minCorrect": 6, "playImage": "play-detective-v1-desk-generated.webp", "image": "result-desk-generated.webp", "titleImage": "result-desk-generated.webp" },
+    { "id": "case-room", "name": "사건 해결실", "visualRank": 4, "minPower": 78, "minCorrect": 8, "playImage": "play-detective-v1-case-room-generated.webp", "image": "result-case-room-generated.webp", "titleImage": "result-case-room-generated.webp" },
+    { "id": "rainbow", "name": "무지개 탐정본부", "visualRank": 5, "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-detective-v1-rainbow-generated.webp", "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "탐정 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "normal", "rarity": "common" },
@@ -101,7 +164,7 @@
   "wrongEvent": { "id": "wrong-loss", "text": "탐정 힘이 줄었어요", "min": -6, "max": -3, "family": "loss" },
   "typesPerRun": ["maximum", "maximum", "maximum", "minimum", "minimum", "minimum", "difference", "difference", "difference", "difference"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
@@ -121,12 +184,11 @@
     "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
     "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp", "problem-background-generated.webp", "reward-event-closed-generated.webp",
     "reward-normal-generated.webp", "reward-loss-generated.webp", "reward-mega-generated.webp", "reward-complete-generated.webp", "reward-empty-generated.webp", "reward-rainbow-generated.webp",
-    "result-scene-1-generated.webp", "result-scene-2-generated.webp", "result-scene-3-generated.webp", "result-scene-4-generated.webp", "result-scene-5-generated.webp", "result-scene-6-generated.webp",
-    "result-title-1-generated.webp", "result-title-2-generated.webp", "result-title-3-generated.webp", "result-title-4-generated.webp", "result-title-5-generated.webp", "result-title-6-generated.webp",
-    "../_shared/result-actions/retry-button-v2-generated.webp", "result-scenes-contact-sheet.png", "result-titles-contact-sheet.png", "reward-contact-sheet.png"
+    "result-first-generated.webp", "result-notebook-generated.webp", "result-badge-generated.webp", "result-desk-generated.webp", "result-case-room-generated.webp", "result-rainbow-generated.webp",
+    "play-detective-v1-first-generated.webp", "play-detective-v1-notebook-generated.webp", "play-detective-v1-badge-generated.webp", "play-detective-v1-desk-generated.webp", "play-detective-v1-case-room-generated.webp", "play-detective-v1-rainbow-generated.webp",
+    "../_shared/result-actions/retry-button-v2-generated.webp", "reward-contact-sheet.png"
   ],
   "qa": {
-    "playProgressDisposition": { "standard": "play-progress-disposition-v1", "status": "not-applicable", "reason": "full-width-learning-area", "minLearningWidthRatio": 0.9 },
     "visualContractVersion": 1,
     "modelContractVersion": 1,
     "modelRule": "max-min-difference",
@@ -136,7 +198,7 @@
       "secondary": ".choices-panel",
       "tertiary": ".step-board",
       "complete": ".complete-panel",
-      "minStageWidthRatio": 0.9
+      "minStageWidthRatio": 0.7
     },
     "typographyAudit": {
       "headline": ".big-problem",
@@ -161,10 +223,95 @@
       "minimumVisibleGapPx": 8,
       "titleAlphaThreshold": 24
     },
+    "resultVisualAudit": {
+      "standard": "result-tier-fullscene-native-v1",
+      "stateCount": 6,
+      "expectedStates": ["first", "notebook", "badge", "desk", "case-room", "rainbow"],
+      "expectedRanks": [0, 1, 2, 3, 4, 5],
+      "sceneImage": "#resultBg",
+      "sceneCanvas": "1280x800",
+      "sceneObjectFit": "cover",
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "forbiddenSelectors": ["[class*='result-impact']"],
+      "dynamicAxisX": 876,
+      "dynamicAxisByTier": { "first": 876, "notebook": 933.5, "badge": 910.5, "desk": 957.5, "case-room": 939.5, "rainbow": 939 },
+      "shiftRetryWithTierAxis": false,
+      "axisTolerancePx": 1,
+      "panelPixelAudit": {
+        "standard": "dark-panel-row-run-v1",
+        "searchRect": { "x": 500, "y": 130, "width": 760, "height": 540 },
+        "searchRectByTier": {
+          "first": { "x": 500, "y": 130, "width": 760, "height": 520 },
+          "notebook": { "x": 600, "y": 140, "width": 660, "height": 520 },
+          "badge": { "x": 560, "y": 130, "width": 700, "height": 540 },
+          "desk": { "x": 600, "y": 130, "width": 660, "height": 540 },
+          "case-room": { "x": 620, "y": 130, "width": 640, "height": 540 },
+          "rainbow": { "x": 600, "y": 130, "width": 660, "height": 540 }
+        },
+        "darkRgbMax": { "r": 110, "g": 105, "b": 150 },
+        "minBlueToRedRatio": 0.7,
+        "minRunWidth": 180,
+        "centerTolerancePx": 3
+      },
+      "slots": {
+        "measure": { "x": 686, "y": 242, "width": 380, "height": 62 },
+        "track": { "x": 746, "y": 350, "width": 260, "height": 16 },
+        "correct": { "x": 827, "y": 374, "width": 98, "height": 58 },
+        "next": { "x": 696, "y": 443, "width": 360, "height": 36 },
+        "retry": { "x": 690.5, "y": 621, "width": 371, "height": 131 }
+      },
+      "slotsByTier": {
+        "first": { "retry": { "x": 690.5, "y": 621, "width": 371, "height": 131 } },
+        "notebook": { "retry": { "x": 731.5, "y": 636, "width": 404, "height": 110 } },
+        "badge": { "retry": { "x": 710.5, "y": 624, "width": 400, "height": 123 } },
+        "desk": { "retry": { "x": 766, "y": 597, "width": 383, "height": 121 } },
+        "case-room": { "retry": { "x": 714.5, "y": 655, "width": 450, "height": 115 } },
+        "rainbow": { "retry": { "x": 721, "y": 637, "width": 436, "height": 125 } }
+      },
+      "measureFontPx": 42,
+      "nextFontPx": 24,
+      "minVerticalGapPx": 2,
+      "requireDistinctSceneSource": true,
+      "grandColorFamily": "gold-crimson-royal-case-palace",
+      "legendColorFamily": "cyan-magenta-violet-cosmic-detective-headquarters"
+    },
+    "resultTierContrastAudit": {
+      "standard": "result-tier-contrast-v1",
+      "stateCount": 6,
+      "minimumChangedAxesPerAdjacentTier": 2,
+      "topTwoColorFamiliesMustDiffer": true,
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-4/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png"
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".unit6-play-progress",
+      "image": ".unit6-play-progress-art",
+      "label": ".unit6-play-progress-name",
+      "stateCount": 6,
+      "canvas": "768x1536",
+      "expectedStates": ["first", "notebook", "badge", "desk", "case-room", "rainbow"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "base-02-foxmon",
+      "panelPlacement": { "leftRatio": 0.0165, "topRatio": 0.11, "widthRatio": 0.192, "heightRatio": 0.84, "tolerancePx": 1 },
+      "mathmonPlacement": { "centerX": 0.5, "centerY": 0.535, "footY": 0.61, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "subjectAnchorStandard": "source-pixel-anchor-v1",
+      "subjectAnchorToleranceRatio": 0.03,
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
+    },
+    "emptyRewardAudit": true,
+    "emptyRewardAuditViewport": "empty-reward-fixture",
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800, "dpr": 1 },
       { "name": "tablet-landscape", "width": 1024, "height": 768, "dpr": 1 },
-      { "name": "unit6-reported-overlap-1024x768-dpr1", "width": 1024, "height": 768, "dpr": 1 }
+      { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
+      { "name": "user-visibility", "width": 994, "height": 632, "dpr": 1 },
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 },
+      { "name": "empty-reward-fixture", "width": 1280, "height": 800, "dpr": 1 }
     ],
     "requiredFlow": ["cover", "settings", "tutorial-1", "tutorial-2", "play-waiting", "play-wrong-low", "play-wrong-high", "play-correct", "complete", "reward-closed", "reward-open", "result", "result-all-tiers"]
   }

@@ -74,46 +74,112 @@
     }
   },
   "result": {
-    "renderMode": "hybrid-generated-dynamic",
+    "renderMode": "fullscene-generated-dynamic-slots",
     "showNextGoal": true,
     "layout": {
       "axisX": 930,
-      "titleTop": 64,
-      "titleWidth": 304,
-      "barY": 356,
-      "barWidth": 360,
-      "barHeight": 28,
-      "measureY": 430,
-      "correctTop": 450,
-      "correctWidth": 188,
-      "nextY": 600,
-      "retryRect": { "x": 800, "y": 620, "width": 260, "height": 130 }
+      "axisXByTier": {
+        "first": 922,
+        "complete-table": 948.5,
+        "spark-board": 864,
+        "notice-board": 1011.5,
+        "data-lab": 968.5,
+        "rainbow": 967.5
+      },
+      "byTier": {
+        "first": { "retryRect": { "x": 802, "y": 622, "width": 240, "height": 91 } },
+        "complete-table": { "retryRect": { "x": 833.5, "y": 624, "width": 230, "height": 88 } },
+        "spark-board": { "retryRect": { "x": 702, "y": 598, "width": 324, "height": 104 } },
+        "notice-board": { "retryRect": { "x": 851.5, "y": 665, "width": 320, "height": 93 } },
+        "data-lab": { "retryRect": { "x": 803.5, "y": 646, "width": 330, "height": 105 } },
+        "rainbow": { "retryRect": { "x": 817.5, "y": 640, "width": 300, "height": 110 } }
+      },
+      "barY": 350,
+      "barWidth": 260,
+      "barHeight": 16,
+      "measureY": 286,
+      "correctTop": 374,
+      "correctWidth": 98,
+      "nextY": 470,
+      "retryRect": { "x": 780, "y": 640, "width": 300, "height": 100 }
     },
     "stateImageSet": {
+      "standard": "generated-result-fullscene-v3",
       "count": 6,
       "canvas": "1280x800",
-      "runtimeSlot": "1280x800",
-      "contactSheet": "result-scenes-contact-sheet.png",
+      "runtimeSlot": "result-stage-fullscene",
+      "sourceSetPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/result-fullscene-v1/source",
+      "runtimePngPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/result-fullscene-v1/runtime-png",
+      "contract": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/result-fullscene-v1/contract.json",
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png",
       "protagonist": "base-03-babydragonmon",
-      "fixedGeneratedElements": ["result-title", "retry-button"],
-      "dynamicOverlays": ["data-power", "correct-count"]
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "fixedGeneratedElements": ["environment", "mathmon", "tier-scene-with-title", "blank-dynamic-panel", "retry-button"],
+      "dynamicOverlays": ["data-power", "correct-count", "next-goal"]
     }
   },
   "workbench": {
     "type": "census",
-    "learningFlow": ["count-highlighted-data", "fill-table-cell"]
+    "learningFlow": ["count-highlighted-data", "fill-table-cell"],
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "768x1536",
+      "objectFit": "contain",
+      "protagonist": "base-03-babydragonmon",
+      "cacheVersion": "2026-08-02-left-progress-v1",
+      "runtimeSlot": "stage-left-play-progress-v1",
+      "sourceSetPath": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/play-progress-v1/source",
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/play-progress-v1/contact-sheets/play-census-progress-v1-contact-sheet.png",
+      "anchorAuditSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/play-progress-v1/contact-sheets/play-census-progress-v1-anchor-audit.png",
+      "filePattern": "play-census-v1-{tier}-generated.webp",
+      "requiredSubjects": ["새끼용몬 전신", "survey progress world"],
+      "layoutContract": {
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "combinedFocalCenterX": 0.5,
+        "leftStageRatio": 0.0165,
+        "topStageRatio": 0.11,
+        "widthStageRatio": 0.192,
+        "heightStageRatio": 0.84,
+        "objectFit": "contain",
+        "safeMarginRatio": 0.06,
+        "maxFootBaselineDeltaRatio": 0.03,
+        "mathmonPlacement": {
+          "centerX": 0.5,
+          "centerY": 0.54,
+          "footY": 0.69,
+          "toleranceRatio": 0.03,
+          "sameScaleAcrossStates": true
+        },
+        "subjectAnchors": {
+          "standard": "source-pixel-anchor-v1",
+          "measurement": "full-body visible bounds from current source PNG",
+          "first": { "centerX": 0.5, "centerY": 0.54, "footY": 0.69, "height": 0.32 },
+          "complete-table": { "centerX": 0.5, "centerY": 0.54, "footY": 0.69, "height": 0.31 },
+          "spark-board": { "centerX": 0.5, "centerY": 0.54, "footY": 0.69, "height": 0.32 },
+          "notice-board": { "centerX": 0.5, "centerY": 0.54, "footY": 0.7, "height": 0.32 },
+          "data-lab": { "centerX": 0.5, "centerY": 0.54, "footY": 0.7, "height": 0.31 },
+          "rainbow": { "centerX": 0.5, "centerY": 0.53, "footY": 0.67, "height": 0.3 }
+        },
+        "forbidResultCropReuse": true
+      }
+    }
   },
   "scoreboard": { "enabled": false },
   "mathmonPack": "base-pack",
   "mathmonName": "새끼용몬",
   "mathmonId": "base-03-babydragonmon",
   "results": [
-    { "id": "first", "name": "첫 조사표", "minPower": 0, "minCorrect": 0, "image": "result-scene-1-generated.webp", "titleImage": "result-title-1-generated.webp" },
-    { "id": "complete-table", "name": "완성 조사표", "minPower": 15, "minCorrect": 2, "image": "result-scene-2-generated.webp", "titleImage": "result-title-2-generated.webp" },
-    { "id": "spark-board", "name": "반짝 조사판", "minPower": 35, "minCorrect": 4, "image": "result-scene-3-generated.webp", "titleImage": "result-title-3-generated.webp" },
-    { "id": "notice-board", "name": "조사 게시판", "minPower": 55, "minCorrect": 6, "image": "result-scene-4-generated.webp", "titleImage": "result-title-4-generated.webp" },
-    { "id": "data-lab", "name": "자료 연구실", "minPower": 78, "minCorrect": 8, "image": "result-scene-5-generated.webp", "titleImage": "result-title-5-generated.webp" },
-    { "id": "rainbow", "name": "무지개 자료관", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-scene-6-generated.webp", "titleImage": "result-title-6-generated.webp" }
+    { "id": "first", "name": "첫 조사표", "visualRank": 0, "minPower": 0, "minCorrect": 0, "playImage": "play-census-v1-first-generated.webp", "image": "result-first-generated.webp", "titleImage": "result-first-generated.webp" },
+    { "id": "complete-table", "name": "완성 조사표", "visualRank": 1, "minPower": 15, "minCorrect": 2, "playImage": "play-census-v1-complete-table-generated.webp", "image": "result-complete-table-generated.webp", "titleImage": "result-complete-table-generated.webp" },
+    { "id": "spark-board", "name": "반짝 조사판", "visualRank": 2, "minPower": 35, "minCorrect": 4, "playImage": "play-census-v1-spark-board-generated.webp", "image": "result-spark-board-generated.webp", "titleImage": "result-spark-board-generated.webp" },
+    { "id": "notice-board", "name": "조사 게시판", "visualRank": 3, "minPower": 55, "minCorrect": 6, "playImage": "play-census-v1-notice-board-generated.webp", "image": "result-notice-board-generated.webp", "titleImage": "result-notice-board-generated.webp" },
+    { "id": "data-lab", "name": "자료 연구실", "visualRank": 4, "minPower": 78, "minCorrect": 8, "playImage": "play-census-v1-data-lab-generated.webp", "image": "result-data-lab-generated.webp", "titleImage": "result-data-lab-generated.webp" },
+    { "id": "rainbow", "name": "무지개 자료관", "visualRank": 5, "minPower": 100, "minCorrect": 1, "needsSpecial": true, "playImage": "play-census-v1-rainbow-generated.webp", "image": "result-rainbow-generated.webp", "titleImage": "result-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "자료 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "normal", "rarity": "common" },
@@ -131,7 +197,8 @@
     "coverStart": "generated-button-art",
     "coverStartAsset": "shared-canonical-v1",
     "settings": "modal-controls",
-    "resultVisual": "generated-assets"
+    "resultVisual": "generated-assets",
+    "playProgress": "generated-play-progress-v3-left-character"
   },
   "imageAssets": {
     "cover": "cover-generated.webp",
@@ -165,25 +232,22 @@
     "reward-complete-generated.webp",
     "reward-empty-generated.webp",
     "reward-rainbow-generated.webp",
-    "result-scene-1-generated.webp",
-    "result-scene-2-generated.webp",
-    "result-scene-3-generated.webp",
-    "result-scene-4-generated.webp",
-    "result-scene-5-generated.webp",
-    "result-scene-6-generated.webp",
-    "result-title-1-generated.webp",
-    "result-title-2-generated.webp",
-    "result-title-3-generated.webp",
-    "result-title-4-generated.webp",
-    "result-title-5-generated.webp",
-    "result-title-6-generated.webp",
+    "result-first-generated.webp",
+    "result-complete-table-generated.webp",
+    "result-spark-board-generated.webp",
+    "result-notice-board-generated.webp",
+    "result-data-lab-generated.webp",
+    "result-rainbow-generated.webp",
+    "play-census-v1-first-generated.webp",
+    "play-census-v1-complete-table-generated.webp",
+    "play-census-v1-spark-board-generated.webp",
+    "play-census-v1-notice-board-generated.webp",
+    "play-census-v1-data-lab-generated.webp",
+    "play-census-v1-rainbow-generated.webp",
     "../_shared/result-actions/retry-button-v2-generated.webp",
-    "result-scenes-contact-sheet.png",
-    "result-titles-contact-sheet.png",
     "reward-contact-sheet.png"
   ],
   "qa": {
-    "playProgressDisposition": { "standard": "play-progress-disposition-v1", "status": "not-applicable", "reason": "full-width-learning-area", "minLearningWidthRatio": 0.9 },
     "visualContractVersion": 1,
     "modelContractVersion": 1,
     "modelRule": "count-highlighted-data",
@@ -193,7 +257,7 @@
       "secondary": ".choices-panel",
       "tertiary": ".step-board",
       "complete": ".complete-panel",
-      "minStageWidthRatio": 0.9
+        "minStageWidthRatio": 0.7
     },
     "typographyAudit": {
       "headline": ".big-problem",
@@ -218,10 +282,114 @@
       "minimumVisibleGapPx": 8,
       "titleAlphaThreshold": 24
     },
+    "resultVisualAudit": {
+      "standard": "result-tier-fullscene-native-v1",
+      "stateCount": 6,
+      "expectedStates": ["first", "complete-table", "spark-board", "notice-board", "data-lab", "rainbow"],
+      "expectedRanks": [0, 1, 2, 3, 4, 5],
+      "sceneImage": "#resultBg",
+      "sceneCanvas": "1280x800",
+      "sceneObjectFit": "cover",
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "forbiddenSelectors": ["[class*='result-impact']"],
+      "dynamicAxisX": 930,
+      "dynamicAxisByTier": {
+        "first": 922,
+        "complete-table": 948.5,
+        "spark-board": 864,
+        "notice-board": 1011.5,
+        "data-lab": 968.5,
+        "rainbow": 967.5
+      },
+      "shiftRetryWithTierAxis": false,
+      "axisTolerancePx": 1,
+      "panelPixelAudit": {
+        "standard": "dark-panel-row-run-v1",
+        "searchRect": { "x": 560, "y": 100, "width": 700, "height": 580 },
+        "searchRectByTier": {
+          "first": { "x": 700, "y": 100, "width": 560, "height": 580 },
+          "complete-table": { "x": 560, "y": 100, "width": 700, "height": 580 },
+          "spark-board": { "x": 560, "y": 100, "width": 700, "height": 580 },
+          "notice-board": { "x": 560, "y": 100, "width": 700, "height": 580 },
+          "data-lab": { "x": 680, "y": 100, "width": 580, "height": 580 },
+          "rainbow": { "x": 710, "y": 100, "width": 550, "height": 580 }
+        },
+        "darkRgbMax": { "r": 110, "g": 105, "b": 150 },
+        "minBlueToRedRatio": 0.7,
+        "minRunWidth": 180,
+        "centerTolerancePx": 3
+      },
+      "slots": {
+        "measure": { "x": 740, "y": 242, "width": 380, "height": 62 },
+        "track": { "x": 800, "y": 350, "width": 260, "height": 16 },
+        "correct": { "x": 881, "y": 374, "width": 98, "height": 58 },
+        "next": { "x": 750, "y": 443, "width": 360, "height": 36 },
+        "retry": { "x": 780, "y": 640, "width": 300, "height": 100 }
+      },
+      "slotsByTier": {
+        "first": { "retry": { "x": 802, "y": 622, "width": 240, "height": 91 } },
+        "complete-table": { "retry": { "x": 833.5, "y": 624, "width": 230, "height": 88 } },
+        "spark-board": { "retry": { "x": 702, "y": 598, "width": 324, "height": 104 } },
+        "notice-board": { "retry": { "x": 851.5, "y": 665, "width": 320, "height": 93 } },
+        "data-lab": { "retry": { "x": 803.5, "y": 646, "width": 330, "height": 105 } },
+        "rainbow": { "retry": { "x": 817.5, "y": 640, "width": 300, "height": 110 } }
+      },
+      "measureFontPx": 42,
+      "nextFontPx": 24,
+      "minVerticalGapPx": 2,
+      "requireDistinctSceneSource": true,
+      "grandColorFamily": "golden-royal-research-laboratory",
+      "legendColorFamily": "rainbow-cosmic-crystal-archive"
+    },
+    "resultTierContrastAudit": {
+      "standard": "result-tier-contrast-v1",
+      "stateCount": 6,
+      "minimumChangedAxesPerAdjacentTier": 2,
+      "topTwoColorFamiliesMustDiffer": true,
+      "contactSheet": "_shared/mathmon/base-pack/lesson-scenes/3-2-6-1/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png"
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".unit6-play-progress",
+      "image": ".unit6-play-progress-art",
+      "label": ".unit6-play-progress-name",
+      "stateCount": 6,
+      "canvas": "768x1536",
+      "expectedStates": ["first", "complete-table", "spark-board", "notice-board", "data-lab", "rainbow"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "base-03-babydragonmon",
+      "panelPlacement": {
+        "leftRatio": 0.0165,
+        "topRatio": 0.11,
+        "widthRatio": 0.192,
+        "heightRatio": 0.84,
+        "tolerancePx": 1
+      },
+      "mathmonPlacement": {
+        "centerX": 0.5,
+        "centerY": 0.54,
+        "footY": 0.69,
+        "toleranceRatio": 0.03,
+        "sameScaleAcrossStates": true
+      },
+      "subjectAnchorStandard": "source-pixel-anchor-v1",
+      "subjectAnchorToleranceRatio": 0.03,
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
+    },
+    "emptyRewardAudit": true,
+    "emptyRewardAuditViewport": "empty-reward-fixture",
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800, "dpr": 1 },
       { "name": "tablet-landscape", "width": 1024, "height": 768, "dpr": 1 },
-      { "name": "unit6-reported-overlap-1024x768-dpr1", "width": 1024, "height": 768, "dpr": 1 }
+      { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
+      { "name": "user-visibility", "width": 994, "height": 632, "dpr": 1 },
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 },
+      { "name": "empty-reward-fixture", "width": 1280, "height": 800, "dpr": 1 }
     ],
     "requiredFlow": ["cover", "settings", "tutorial-1", "tutorial-2", "play-waiting", "play-wrong-low", "play-wrong-high", "play-correct", "complete", "reward-closed", "reward-open", "result", "result-all-tiers"]
   }

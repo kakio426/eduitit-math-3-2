@@ -1,4 +1,193 @@
 const SCOOP_SVG_NS = "http://www.w3.org/2000/svg";
+let basketPlayProgress = null;
+let pendingBasketRewardImpact = null;
+let basketRewardArtPrimed = false;
+const basketRewardPreloads = [];
+
+function ensureBasketPlayProgress() {
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen) return null;
+  if (basketPlayProgress?.panel?.isConnected) return basketPlayProgress;
+  const imageSet = LESSON_CONFIG.workbench?.playStateImageSet || {};
+  if (imageSet.standard !== "generated-play-progress-v3-left-character") return null;
+
+  document.querySelector(".game")?.classList.add("has-play-progress");
+  const panel = document.createElement("aside");
+  panel.className = "basket-play-progress";
+  panel.dataset.playProgressStandard = imageSet.standard || "";
+  panel.dataset.protagonist = imageSet.protagonist || "";
+  panel.dataset.cacheVersion = imageSet.cacheVersion || "";
+
+  const art = document.createElement("img");
+  art.className = "basket-play-progress-art";
+  art.alt = "";
+  art.decoding = "async";
+  art.setAttribute("aria-hidden", "true");
+
+  const flare = document.createElement("span");
+  flare.className = "basket-play-progress-flare";
+  flare.setAttribute("aria-hidden", "true");
+
+  const stageImpact = document.createElement("span");
+  stageImpact.className = "basket-play-progress-impact-stage";
+  stageImpact.setAttribute("aria-hidden", "true");
+
+  const readout = document.createElement("div");
+  readout.className = "basket-play-progress-readout";
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "basket-play-progress-eyebrow";
+  eyebrow.textContent = "지금 모습";
+  const name = document.createElement("strong");
+  name.className = "basket-play-progress-name";
+  const meter = document.createElement("span");
+  meter.className = "basket-play-progress-meter";
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+  const meterFill = document.createElement("i");
+  meterFill.className = "basket-play-progress-meter-fill";
+  meter.appendChild(meterFill);
+  readout.append(eyebrow, name, meter);
+  panel.append(art, flare, readout);
+  playScreen.append(panel, stageImpact);
+  basketPlayProgress = { panel, art, flare, stageImpact, name, meter, meterFill };
+  return basketPlayProgress;
+}
+
+function syncBasketPlayProgress(state, options = {}) {
+  const progress = ensureBasketPlayProgress();
+  if (!progress) return Promise.resolve();
+  const result = Lesson4FractionScoopModel.getResult(
+    Number(state.power || 0),
+    Number(state.correctFirstTry || 0),
+    Boolean(state.specialSeen)
+  );
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), maxPower));
+  const nextSrc = result.playImage || "";
+  const previousPower = Number(progress.panel.dataset.power || 0);
+  const previousTier = progress.panel.dataset.resultTier || "";
+  const changed = progress.art.getAttribute("src") !== nextSrc;
+  const tierChanged = Boolean(previousTier && previousTier !== result.id);
+
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.meterFill.style.width = `${power / maxPower * 100}%`;
+  progress.panel.setAttribute("aria-label", `지금 모습은 ${result.name}이에요. 바구니 빛은 ${power}이에요.`);
+  if (changed) progress.art.src = nextSrc;
+
+  const delta = Number(options.delta ?? (power - previousPower));
+  const shouldAnimate = options.animate === true && (changed || delta !== 0);
+  progress.panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+  progress.panel.dataset.effectPhase = "idle";
+  progress.panel.dataset.effectKind = "none";
+  if (shouldAnimate) {
+    void progress.panel.offsetWidth;
+    progress.panel.classList.add(delta < 0 ? "is-dimming" : "is-changing");
+    if (options.celebrate === true && delta > 0) progress.panel.classList.add("is-celebrating");
+    if (tierChanged && delta > 0) progress.panel.classList.add("is-tier-up");
+    progress.panel.dataset.effectPhase = "active";
+    progress.panel.dataset.effectKind = tierChanged && delta > 0
+      ? "tier-up"
+      : delta > 0 ? "gain" : delta < 0 ? "loss" : "none";
+    progress.panel.dataset.effectStartedAt = String(performance.now());
+    if (options.afterModalDismiss === true) {
+      progress.panel.dataset.effectStartedWithModalHidden = String(document.getElementById("rewardPop")?.hidden === true);
+    }
+  }
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = shouldAnimate && !reducedMotion
+    ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1560)
+    : 0;
+  if (!duration) return Promise.resolve();
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      progress.panel?.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      if (progress.panel) progress.panel.dataset.effectPhase = "idle";
+      resolve();
+    }, duration);
+  });
+}
+
+function primeBasketRewardArt() {
+  if (basketRewardArtPrimed || typeof Image === "undefined") return;
+  basketRewardArtPrimed = true;
+  const sources = new Set([
+    LESSON_CONFIG.imageAssets.rewardClosed,
+    ...Object.values(LESSON_CONFIG.reward?.artMap || {}),
+    ...LESSON_CONFIG.results.map((result) => result.playImage),
+  ].filter(Boolean));
+  sources.forEach((src) => {
+    const image = new Image();
+    image.src = src;
+    basketRewardPreloads.push(image);
+  });
+}
+
+function waitForBasketProgress(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function onRewardReveal({ event, beforePower, afterPower }) {
+  pendingBasketRewardImpact = { event, delta: afterPower - beforePower };
+}
+
+async function onRewardDismiss({ state }) {
+  const impact = pendingBasketRewardImpact;
+  pendingBasketRewardImpact = null;
+  if (!impact) return Promise.resolve();
+  if (impact.delta === 0) {
+    return syncBasketPlayProgress(state, { animate: false, delta: 0, afterModalDismiss: true });
+  }
+  const progress = ensureBasketPlayProgress();
+  const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const preEffectDelay = reducedMotion
+    ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+    : Number(effectConfig.preEffectDelayMs || 0);
+  if (progress?.panel && preEffectDelay > 0) {
+    progress.panel.dataset.effectPhase = "arming";
+    progress.panel.dataset.effectKind = impact.delta > 0 ? "gain-arming" : "loss-arming";
+    progress.panel.dataset.effectArmedAt = String(performance.now());
+    progress.panel.dataset.effectStartedWithModalHidden = String(document.getElementById("rewardPop")?.hidden === true);
+    await waitForBasketProgress(preEffectDelay);
+  }
+  return syncBasketPlayProgress(state, {
+    animate: true,
+    celebrate: impact.delta > 0,
+    delta: impact.delta,
+    afterModalDismiss: true,
+  });
+}
+
+globalThis.onRewardReveal = onRewardReveal;
+globalThis.onRewardDismiss = onRewardDismiss;
+globalThis.__playProgressQa = {
+  syncProgress() {
+    return syncBasketPlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });
+  },
+  getRewardEffectState() {
+    const impactRect = basketPlayProgress?.stageImpact?.getBoundingClientRect?.();
+    return {
+      pendingDelta: pendingBasketRewardImpact?.delta ?? null,
+      panelClasses: basketPlayProgress?.panel?.className || "",
+      effectPhase: basketPlayProgress?.panel?.dataset.effectPhase || "idle",
+      effectKind: basketPlayProgress?.panel?.dataset.effectKind || "none",
+      effectArmedAt: basketPlayProgress?.panel?.dataset.effectArmedAt || "",
+      effectStartedAt: basketPlayProgress?.panel?.dataset.effectStartedAt || "",
+      effectStartedWithModalHidden: basketPlayProgress?.panel?.dataset.effectStartedWithModalHidden || "",
+      resultTier: basketPlayProgress?.panel?.dataset.resultTier || "",
+      imageSrc: basketPlayProgress?.art?.getAttribute("src") || "",
+      impactLayerRect: impactRect
+        ? { left: impactRect.left, top: impactRect.top, width: impactRect.width, height: impactRect.height }
+        : null,
+    };
+  },
+};
+globalThis.__compassRingQa = globalThis.__playProgressQa;
 
 function ensureScoopStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -11,7 +200,8 @@ function ensureScoopStageArt() {
   playScreen.prepend(image);
 }
 
-function renderProblemVisual(problem) {
+function renderProblemVisual(problem, state) {
+  syncBasketPlayProgress(state);
   ensureScoopStageArt();
   ui.visualArea.dataset.groupValue = "";
   ui.visualArea.dataset.scoopValue = "";
@@ -19,6 +209,7 @@ function renderProblemVisual(problem) {
   renderScoopWorkbench(problem, 0);
 }
 function updateProblemVisualForStep(problem, step, state) {
+  syncBasketPlayProgress(state);
   ui.visualArea.dataset.scoopState = "idle";
   renderScoopWorkbench(problem, state.stepIndex);
 }
@@ -125,3 +316,5 @@ function groupMarkup(problem, { showItems = false, showChosen = false } = {}) {
   }
   return markup;
 }
+
+primeBasketRewardArt();

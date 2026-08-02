@@ -13,6 +13,94 @@
   display: none !important;
 }
 
+.game.has-play-progress .unit6-play-progress {
+  position: absolute;
+  left: 1.65%;
+  top: 11%;
+  z-index: 4;
+  width: 19.2%;
+  height: 84%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 3px solid rgba(238, 230, 186, .72);
+  border-radius: 22px;
+  background: rgba(14, 35, 42, .92);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .34), inset 0 0 0 2px rgba(255, 255, 255, .08);
+}
+
+.unit6-play-progress-art {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 2;
+  flex: 0 0 auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  background: #142b32;
+}
+
+.unit6-play-progress-readout {
+  min-height: 0;
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 12px 12px;
+  color: #fff8df;
+  text-align: center;
+}
+
+.unit6-play-progress-eyebrow {
+  color: #9ee9e0;
+  font-size: clamp(.72rem, 1.15vw, .9rem);
+  font-weight: 900;
+}
+
+.unit6-play-progress-name {
+  display: grid;
+  place-items: center;
+  overflow-wrap: anywhere;
+  font-size: clamp(.92rem, 1.55vw, 1.22rem);
+  line-height: 1.12;
+  font-weight: 1000;
+}
+
+.unit6-play-progress-meter {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, .3);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .38);
+}
+
+.unit6-play-progress-meter-fill {
+  width: 0;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4fd0c6, #ffe66c);
+  transition: width .35s ease;
+}
+
+.game.has-play-progress .problem-grid {
+  position: absolute;
+  left: 22.5%;
+  right: 3%;
+  top: calc(var(--stage-inset) + var(--sound-button-size) + 6px);
+  bottom: 20px;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.game.has-play-progress .hud {
+  z-index: 6;
+}
+
 .problem-grid {
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) auto auto auto;
@@ -757,6 +845,17 @@
 
   .problem-grid {
     gap: 8px;
+  }
+
+  .game.has-play-progress .problem-grid {
+    left: 22.5%;
+    right: 2%;
+    bottom: 16px;
+  }
+
+  .unit6-play-progress-readout {
+    gap: 3px;
+    padding: 7px 9px 9px;
   }
 
   .problem-card {

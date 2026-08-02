@@ -1,4 +1,193 @@
 const PIZZA_SVG_NS = "http://www.w3.org/2000/svg";
+let pizzaPlayProgress = null;
+let pendingPizzaRewardImpact = null;
+let pizzaRewardArtPrimed = false;
+const pizzaRewardPreloads = [];
+
+function ensurePizzaPlayProgress() {
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen) return null;
+  if (pizzaPlayProgress?.panel?.isConnected) return pizzaPlayProgress;
+  const imageSet = LESSON_CONFIG.workbench?.playStateImageSet || {};
+  if (imageSet.standard !== "generated-play-progress-v3-left-character") return null;
+
+  document.querySelector(".game")?.classList.add("has-play-progress");
+  const panel = document.createElement("aside");
+  panel.className = "pizza-play-progress";
+  panel.dataset.playProgressStandard = imageSet.standard || "";
+  panel.dataset.protagonist = imageSet.protagonist || "";
+  panel.dataset.cacheVersion = imageSet.cacheVersion || "";
+
+  const art = document.createElement("img");
+  art.className = "pizza-play-progress-art";
+  art.alt = "";
+  art.decoding = "async";
+  art.setAttribute("aria-hidden", "true");
+
+  const flare = document.createElement("span");
+  flare.className = "pizza-play-progress-flare";
+  flare.setAttribute("aria-hidden", "true");
+
+  const stageImpact = document.createElement("span");
+  stageImpact.className = "pizza-play-progress-impact-stage";
+  stageImpact.setAttribute("aria-hidden", "true");
+
+  const readout = document.createElement("div");
+  readout.className = "pizza-play-progress-readout";
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "pizza-play-progress-eyebrow";
+  eyebrow.textContent = "지금 피자";
+  const name = document.createElement("strong");
+  name.className = "pizza-play-progress-name";
+  const meter = document.createElement("span");
+  meter.className = "pizza-play-progress-meter";
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+  const meterFill = document.createElement("i");
+  meterFill.className = "pizza-play-progress-meter-fill";
+  meter.appendChild(meterFill);
+  readout.append(eyebrow, name, meter);
+  panel.append(art, flare, readout);
+  playScreen.append(panel, stageImpact);
+  pizzaPlayProgress = { panel, art, flare, stageImpact, name, meter, meterFill };
+  return pizzaPlayProgress;
+}
+
+function syncPizzaPlayProgress(state, options = {}) {
+  const progress = ensurePizzaPlayProgress();
+  if (!progress) return Promise.resolve();
+  const result = Lesson4PizzaFractionModel.getResult(
+    Number(state.power || 0),
+    Number(state.correctFirstTry || 0),
+    Boolean(state.specialSeen)
+  );
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state.power || 0), maxPower));
+  const nextSrc = result.playImage || "";
+  const previousPower = Number(progress.panel.dataset.power || 0);
+  const previousTier = progress.panel.dataset.resultTier || "";
+  const changed = progress.art.getAttribute("src") !== nextSrc;
+  const tierChanged = Boolean(previousTier && previousTier !== result.id);
+
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.meterFill.style.width = `${power / maxPower * 100}%`;
+  progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요. 피자 빛은 ${power}이에요.`);
+  if (changed) progress.art.src = nextSrc;
+
+  const delta = Number(options.delta ?? (power - previousPower));
+  const shouldAnimate = options.animate === true && (changed || delta !== 0);
+  progress.panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+  progress.panel.dataset.effectPhase = "idle";
+  progress.panel.dataset.effectKind = "none";
+  if (shouldAnimate) {
+    void progress.panel.offsetWidth;
+    progress.panel.classList.add(delta < 0 ? "is-dimming" : "is-changing");
+    if (options.celebrate === true && delta > 0) progress.panel.classList.add("is-celebrating");
+    if (tierChanged && delta > 0) progress.panel.classList.add("is-tier-up");
+    progress.panel.dataset.effectPhase = "active";
+    progress.panel.dataset.effectKind = tierChanged && delta > 0
+      ? "tier-up"
+      : delta > 0 ? "gain" : delta < 0 ? "loss" : "none";
+    progress.panel.dataset.effectStartedAt = String(performance.now());
+    if (options.afterModalDismiss === true) {
+      progress.panel.dataset.effectStartedWithModalHidden = String(document.getElementById("rewardPop")?.hidden === true);
+    }
+  }
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = shouldAnimate && !reducedMotion
+    ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1560)
+    : 0;
+  if (!duration) return Promise.resolve();
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      progress.panel?.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      if (progress.panel) progress.panel.dataset.effectPhase = "idle";
+      resolve();
+    }, duration);
+  });
+}
+
+function primePizzaRewardArt() {
+  if (pizzaRewardArtPrimed || typeof Image === "undefined") return;
+  pizzaRewardArtPrimed = true;
+  const sources = new Set([
+    LESSON_CONFIG.imageAssets.rewardClosed,
+    ...Object.values(LESSON_CONFIG.reward?.artMap || {}),
+    ...LESSON_CONFIG.results.map((result) => result.playImage),
+  ].filter(Boolean));
+  sources.forEach((src) => {
+    const image = new Image();
+    image.src = src;
+    pizzaRewardPreloads.push(image);
+  });
+}
+
+function waitForPizzaProgress(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function onRewardReveal({ event, beforePower, afterPower }) {
+  pendingPizzaRewardImpact = { event, delta: afterPower - beforePower };
+}
+
+async function onRewardDismiss({ state }) {
+  const impact = pendingPizzaRewardImpact;
+  pendingPizzaRewardImpact = null;
+  if (!impact) return Promise.resolve();
+  if (impact.delta === 0) {
+    return syncPizzaPlayProgress(state, { animate: false, delta: 0, afterModalDismiss: true });
+  }
+  const progress = ensurePizzaPlayProgress();
+  const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const preEffectDelay = reducedMotion
+    ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+    : Number(effectConfig.preEffectDelayMs || 0);
+  if (progress?.panel && preEffectDelay > 0) {
+    progress.panel.dataset.effectPhase = "arming";
+    progress.panel.dataset.effectKind = impact.delta > 0 ? "gain-arming" : "loss-arming";
+    progress.panel.dataset.effectArmedAt = String(performance.now());
+    progress.panel.dataset.effectStartedWithModalHidden = String(document.getElementById("rewardPop")?.hidden === true);
+    await waitForPizzaProgress(preEffectDelay);
+  }
+  return syncPizzaPlayProgress(state, {
+    animate: true,
+    celebrate: impact.delta > 0,
+    delta: impact.delta,
+    afterModalDismiss: true,
+  });
+}
+
+globalThis.onRewardReveal = onRewardReveal;
+globalThis.onRewardDismiss = onRewardDismiss;
+globalThis.__playProgressQa = {
+  syncProgress() {
+    return syncPizzaPlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });
+  },
+  getRewardEffectState() {
+    const impactRect = pizzaPlayProgress?.stageImpact?.getBoundingClientRect?.();
+    return {
+      pendingDelta: pendingPizzaRewardImpact?.delta ?? null,
+      panelClasses: pizzaPlayProgress?.panel?.className || "",
+      effectPhase: pizzaPlayProgress?.panel?.dataset.effectPhase || "idle",
+      effectKind: pizzaPlayProgress?.panel?.dataset.effectKind || "none",
+      effectArmedAt: pizzaPlayProgress?.panel?.dataset.effectArmedAt || "",
+      effectStartedAt: pizzaPlayProgress?.panel?.dataset.effectStartedAt || "",
+      effectStartedWithModalHidden: pizzaPlayProgress?.panel?.dataset.effectStartedWithModalHidden || "",
+      resultTier: pizzaPlayProgress?.panel?.dataset.resultTier || "",
+      imageSrc: pizzaPlayProgress?.art?.getAttribute("src") || "",
+      impactLayerRect: impactRect
+        ? { left: impactRect.left, top: impactRect.top, width: impactRect.width, height: impactRect.height }
+        : null,
+    };
+  },
+};
+globalThis.__compassRingQa = globalThis.__playProgressQa;
 
 function ensurePizzaStageArt() {
   const playScreen = document.getElementById("screen-play");
@@ -11,14 +200,18 @@ function ensurePizzaStageArt() {
   playScreen.prepend(image);
 }
 
-function renderProblemVisual(problem) {
+function renderProblemVisual(problem, state) {
+  syncPizzaPlayProgress(state);
   ensurePizzaStageArt();
   ui.visualArea.dataset.pizzaState = "idle";
   ui.visualArea.dataset.selectedNum = "";
   ui.visualArea.dataset.selectedDen = "";
   renderPizzaWorkbench(problem);
 }
-function updateProblemVisualForStep(problem) { renderProblemVisual(problem); }
+function updateProblemVisualForStep(problem, step, state) {
+  syncPizzaPlayProgress(state);
+  renderPizzaWorkbench(problem);
+}
 function revealCorrectStep(problem) {
   ui.visualArea.dataset.pizzaState = "correct";
   ui.visualArea.dataset.selectedNum = String(problem.num);
@@ -123,3 +316,5 @@ function polarPoint(cx, cy, radius, degrees) {
   const radians = degrees * Math.PI / 180;
   return { x: (cx + Math.cos(radians) * radius).toFixed(2), y: (cy + Math.sin(radians) * radius).toFixed(2) };
 }
+
+primePizzaRewardArt();

@@ -964,8 +964,6 @@ async function auditConfiguredPlayProgress(page, label) {
   const expectedCanvas = await evaluate(page, "LESSON_CONFIG.workbench?.playStateImageSet?.canvas || ''");
   const auditConfig = await evaluate(page, "LESSON_CONFIG.qa.playProgressAudit");
   const playSetConfig = await evaluate(page, "LESSON_CONFIG.workbench?.playStateImageSet || {}");
-  const panelSelector = JSON.stringify(auditConfig.panel);
-  const imageSelector = JSON.stringify(auditConfig.image);
   const [expectedWidth, expectedHeight] = expectedCanvas.split("x").map(Number);
   const states = [];
   assert(auditConfig.standard === "stage-left-play-progress-v1", `${label}: play progress position standard is wrong`, auditConfig);
@@ -994,9 +992,9 @@ async function auditConfiguredPlayProgress(page, label) {
     })()`);
     await waitUntil(
       page,
-      `document.querySelector(${panelSelector})?.dataset.resultTier === ${JSON.stringify(tier.id)}
-        && document.querySelector(${imageSelector})?.complete
-        && document.querySelector(${imageSelector})?.naturalWidth > 0`,
+      `document.querySelector(LESSON_CONFIG.qa.playProgressAudit.panel)?.dataset.resultTier === ${JSON.stringify(tier.id)}
+        && document.querySelector(LESSON_CONFIG.qa.playProgressAudit.image)?.complete
+        && document.querySelector(LESSON_CONFIG.qa.playProgressAudit.image)?.naturalWidth > 0`,
       `${label}: ${tier.id} play progress did not render`,
       8000,
     );
@@ -1034,6 +1032,8 @@ async function auditConfiguredPlayProgress(page, label) {
         standard:panel?.dataset.playProgressStandard || '',
         protagonist:panel?.dataset.protagonist || '',
         cacheVersion:panel?.dataset.cacheVersion || '',
+        ariaLabel:panel?.getAttribute('aria-label') || '',
+        expectedUnitLabel:LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || '힘',
         src:image?.getAttribute('src') || '',
         label:labelNode?.textContent.trim() || '',
         objectFit:image ? getComputedStyle(image).objectFit : '',
@@ -1065,6 +1065,7 @@ async function auditConfiguredPlayProgress(page, label) {
     assert(state.standard === auditConfig.expectedStandard, `${label}: wrong play progress standard`, { tier, state });
     assert(state.protagonist === auditConfig.expectedProtagonist, `${label}: play progress Mathmon is missing`, { tier, state });
     assert(state.cacheVersion === playSetConfig.cacheVersion, `${label}: play progress cache version mismatch`, { tier, state });
+    assert(state.ariaLabel.includes(state.expectedUnitLabel), `${label}: play progress accessibility label uses the wrong reward unit`, { tier, state });
     assert(state.objectFit === "contain", `${label}: play progress image is not contain`, { tier, state });
     assert(state.naturalWidth === expectedWidth && state.naturalHeight === expectedHeight, `${label}: play progress natural size mismatch`, { tier, state, expectedCanvas });
     assert(state.overlapX === 0 || state.overlapY === 0, `${label}: play progress overlaps learning work area`, { tier, state });
@@ -1451,6 +1452,146 @@ async function auditConfiguredResultCohesionV2(page, label) {
   return audit;
 }
 
+async function auditConfiguredResultBoardAxis(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa?.resultBoardAudit;
+    if (!config) return null;
+    const scene = document.querySelector(config.sceneImage || '#resultBg');
+    const stageNode = document.querySelector('.stage-shell');
+    if (!scene?.complete || !scene.naturalWidth || !scene.naturalHeight || !stageNode) {
+      return { config, error:'scene-or-stage-missing' };
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = scene.naturalWidth;
+    canvas.height = scene.naturalHeight;
+    const context = canvas.getContext('2d', { willReadFrequently:true });
+    context.drawImage(scene, 0, 0);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    const threshold = config.threshold || {};
+    const matchMode = config.matchMode || 'dark-teal';
+    const redMax = Number(threshold.redMax ?? 42);
+    const greenMax = Number(threshold.greenMax ?? 82);
+    const blueMax = Number(threshold.blueMax ?? 96);
+    const redMin = Number(threshold.redMin ?? 220);
+    const greenMin = Number(threshold.greenMin ?? 205);
+    const blueMin = Number(threshold.blueMin ?? 160);
+    const channelSpreadMax = Number(threshold.channelSpreadMax ?? 86);
+    const minimumRun = canvas.width * Number(config.minimumRunRatio || 0.18);
+    const median = (values) => {
+      const sorted = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(sorted.length / 2);
+      return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+    };
+    const runs = [];
+    const scanStartX = Math.floor(canvas.width * Number(config.scanStartRatio ?? 0.22));
+    const scanEndX = Math.floor(canvas.width * Number(config.scanEndRatio ?? 1));
+    for (let y = Math.floor(canvas.height * 0.08); y < Math.floor(canvas.height * 0.88); y += 1) {
+      let start = -1;
+      let best = null;
+      for (let x = scanStartX; x <= scanEndX; x += 1) {
+        let matches = false;
+        if (x < scanEndX && x < canvas.width) {
+          const offset = (y * canvas.width + x) * 4;
+          const red = pixels[offset];
+          const green = pixels[offset + 1];
+          const blue = pixels[offset + 2];
+          matches = matchMode === 'light-board'
+            ? red > redMin && green > greenMin && blue > blueMin
+              && Math.max(red, green, blue) - Math.min(red, green, blue) < channelSpreadMax
+            : matchMode === 'dark-neutral'
+              ? red < redMax && green < greenMax && blue < blueMax
+              : red < redMax && green < greenMax && blue < blueMax
+                && blue >= red && green >= red * 0.72;
+        }
+        if (matches && start < 0) start = x;
+        if ((!matches || x === scanEndX) && start >= 0) {
+          const end = x - 1;
+          const length = end - start + 1;
+          if (!best || length > best.length) best = { y, start, end, length, center:(start + end) / 2 };
+          start = -1;
+        }
+      }
+      if (best && best.length >= minimumRun) runs.push(best);
+    }
+    const groups = [];
+    for (const run of runs) {
+      const previous = groups.at(-1);
+      if (!previous || run.y !== previous.at(-1).y + 1
+        || Math.abs(run.center - median(previous.map((item) => item.center))) > canvas.width * 0.05) {
+        groups.push([run]);
+      } else {
+        previous.push(run);
+      }
+    }
+    const minimumDetectedAxisX = Number(config.minimumDetectedAxisX ?? 0);
+    const maximumDetectedAxisX = Number(config.maximumDetectedAxisX ?? canvas.width);
+    const candidateGroups = groups.filter((group) => {
+      const center = median(group.map((item) => item.center));
+      return center >= minimumDetectedAxisX && center <= maximumDetectedAxisX;
+    });
+    candidateGroups.sort((first, second) => (
+      second.length * median(second.map((item) => item.length))
+      - first.length * median(first.map((item) => item.length))
+    ));
+    const group = candidateGroups[0] || [];
+    const middleLength = group.length ? median(group.map((item) => item.length)) : 0;
+    const stable = group.filter((run) => run.length >= middleLength * 0.9);
+    const detectedAxisX = stable.length
+      ? (median(stable.map((item) => item.start)) + median(stable.map((item) => item.end))) / 2
+      : null;
+    const tier = document.getElementById('screen-result')?.dataset.resultTier || '';
+    const layout = LESSON_CONFIG.result?.layout || {};
+    const declaredAxisX = Number(layout.axisXByTier?.[tier] ?? layout.axisX ?? 930);
+    const expectedAxisX = Number(config.expectedAxisXByTier?.[tier] ?? declaredAxisX);
+    const stage = stageNode.getBoundingClientRect();
+    const detectedScreenAxis = detectedAxisX === null ? null : stage.left + (detectedAxisX / canvas.width) * stage.width;
+    const declaredScreenAxis = stage.left + (declaredAxisX / canvas.width) * stage.width;
+    const rectCenter = (node) => {
+      if (!node) return null;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      if (node.hidden || style.display === 'none' || style.visibility === 'hidden' || rect.width <= 1 || rect.height <= 1) return null;
+      return rect.left + rect.width / 2;
+    };
+    const dynamicCenters = {
+      title:rectCenter(document.getElementById('resultTitleArt')),
+      track:rectCenter(document.getElementById('resultMeasureTrackSvg')),
+      measure:rectCenter(document.getElementById('resultMeasureSvg')),
+      correct:rectCenter(document.getElementById('resultCorrectArt')),
+      next:rectCenter(document.getElementById('resultNextSvg')),
+      retry:rectCenter(document.getElementById('restartButton') || document.getElementById('retryButton'))
+    };
+    return {
+      config,
+      tier,
+      natural:{ width:canvas.width, height:canvas.height },
+      detectedAxisX,
+      declaredAxisX,
+      expectedAxisX,
+      detectedAxisDelta:detectedAxisX === null ? null : Math.abs(detectedAxisX - declaredAxisX),
+      expectedAxisDelta:detectedAxisX === null ? null : Math.abs(detectedAxisX - expectedAxisX),
+      detectedScreenAxis,
+      declaredScreenAxis,
+      dynamicCenters,
+      dynamicScreenDeltas:Object.fromEntries(Object.entries(dynamicCenters)
+        .filter(([, center]) => center !== null)
+        .map(([key, center]) => [key, Math.abs(center - detectedScreenAxis)])),
+      runRows:group.length
+    };
+  })()`);
+  if (!audit) return null;
+  assert(audit.config.standard === "generated-result-board-pixel-axis-v1", `${label}: result board audit standard is wrong`, audit);
+  assert(!audit.error && audit.detectedAxisX !== null && audit.runRows > 0, `${label}: result board pixel detector failed`, audit);
+  const sourceTolerance = Number(audit.config.maxDetectedAxisDeltaPx || 3);
+  assert(audit.detectedAxisDelta <= sourceTolerance, `${label}: declared result axis left the detected blank board center`, audit);
+  assert(audit.expectedAxisDelta <= sourceTolerance, `${label}: detected result board center differs from the tier contract`, audit);
+  const screenTolerance = sourceTolerance * (audit.dynamicCenters ? 1 : 1);
+  for (const [node, delta] of Object.entries(audit.dynamicScreenDeltas || {})) {
+    assert(delta <= screenTolerance, `${label}: ${node} left the detected result board axis`, audit);
+  }
+  return audit;
+}
+
 async function auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots) {
   const tiers = await evaluate(page, `(() => {
     if (!LESSON_CONFIG.qa?.resultCohesionAudit) return [];
@@ -1483,6 +1624,7 @@ async function auditAllConfiguredResultCohesionTiers(page, lesson, viewport, sho
     await auditGeometry(page, `${viewport.name} result cohesion ${tier.id}`, { requireRetry:true });
     await auditConfiguredResultNextGoal(page, `${viewport.name} result cohesion ${tier.id} next goal`);
     await auditConfiguredResultCohesionV2(page, `${viewport.name} result cohesion ${tier.id}`);
+    await auditConfiguredResultBoardAxis(page, `${viewport.name} result cohesion ${tier.id} board axis`);
     shots.push(await screenshot(page, lesson, viewport, `08c-result-cohesion-${tier.id}`));
   }
   return tiers;
@@ -1527,12 +1669,29 @@ async function auditCompassResultVisual(page, label, expectedTier) {
     const baseAxis = Number(config?.dynamicAxisX || 0);
     const tierAxis = Number(config?.dynamicAxisByTier?.[tier] ?? baseAxis);
     const axisBoundSlots = new Set(['measure', 'track', 'correct', 'next']);
-    const shiftedSlots = Object.fromEntries(Object.entries(config?.slots || {}).map(([key, slot]) => [
+    if (config?.shiftRetryWithTierAxis === true) axisBoundSlots.add('retry');
+    const tierSlots = { ...(config?.slots || {}), ...(config?.slotsByTier?.[tier] || {}) };
+    const shiftedSlots = Object.fromEntries(Object.entries(tierSlots).map(([key, slot]) => [
       key,
       axisBoundSlots.has(key) ? { ...slot, x:slot.x + tierAxis - baseAxis } : slot,
     ]));
     const slots = Object.fromEntries(Object.entries(shiftedSlots).map(([key, slot]) => [key, toScreenRect(slot)]));
     const sceneStyle = getComputedStyle(scene);
+    const resultRoot = scene?.closest('.result');
+    const pseudoElements = resultRoot ? ['::before', '::after'].map((pseudo) => {
+      const style = getComputedStyle(resultRoot, pseudo);
+      return {
+        pseudo,
+        content:style.content,
+        display:style.display,
+        visibility:style.visibility,
+        opacity:Number(style.opacity || 0),
+        backgroundImage:style.backgroundImage,
+        backgroundColor:style.backgroundColor,
+        mixBlendMode:style.mixBlendMode,
+        filter:style.filter
+      };
+    }) : [];
     const forbiddenNodes = (config?.forbiddenSelectors || [])
       .flatMap((selector) => [...document.querySelectorAll(selector)])
       .filter((node, index, all) => all.indexOf(node) === index)
@@ -1553,26 +1712,98 @@ async function auditCompassResultVisual(page, label, expectedTier) {
         const context = canvas.getContext('2d', { willReadFrequently:true });
         context.drawImage(scene, 0, 0, 1280, 800);
         const pixels = context.getImageData(0, 0, 1280, 800).data;
-        const search = panelConfig.searchRect;
-        const rgb = panelConfig.darkRgbMax;
+        const search = panelConfig.searchRectByTier?.[tier] || panelConfig.searchRect;
+        if (['light-panel-row-run-v1', 'dark-panel-row-run-v1'].includes(panelConfig.standard)) {
+          const isLightRow = panelConfig.standard === 'light-panel-row-run-v1';
+          const rgb = isLightRow ? panelConfig.lightRgbMin : panelConfig.darkRgbMax;
+          const minimumBlueToRedRatio = Number(panelConfig.minBlueToRedRatio || 0);
+          const channelSpreadMax = Number(panelConfig.channelSpreadMax ?? 255);
+          const median = (values) => {
+            const sorted = [...values].sort((first, second) => first - second);
+            const middle = Math.floor(sorted.length / 2);
+            return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+          };
+          const rows = [];
+          for (let y = search.y; y < search.y + search.height; y += 1) {
+            let start = null;
+            let best = null;
+            for (let x = search.x; x <= search.x + search.width; x += 1) {
+              let matches = false;
+              if (x < search.x + search.width) {
+                const offset = (y * 1280 + x) * 4;
+                const red = pixels[offset];
+                const green = pixels[offset + 1];
+                const blue = pixels[offset + 2];
+                const spread = Math.max(red, green, blue) - Math.min(red, green, blue);
+                matches = isLightRow
+                  ? red >= rgb.r && green >= rgb.g && blue >= rgb.b && spread <= channelSpreadMax
+                  : red < rgb.r && green < rgb.g && blue < rgb.b && blue > red * minimumBlueToRedRatio;
+              }
+              if (matches && start === null) start = x;
+              if ((!matches || x === search.x + search.width) && start !== null) {
+                const right = x - 1;
+                const run = { y, left:start, right, width:right - start + 1, cx:(start + right) / 2 };
+                if (!best || run.width > best.width) best = run;
+                start = null;
+              }
+            }
+            if (best && best.width >= panelConfig.minRunWidth) rows.push(best);
+          }
+          const groups = [];
+          for (const row of rows) {
+            const previous = groups.at(-1);
+            if (!previous || row.y !== previous.at(-1).y + 1
+              || Math.abs(row.cx - median(previous.map((item) => item.cx))) > 64) {
+              groups.push([row]);
+            } else {
+              previous.push(row);
+            }
+          }
+          groups.sort((first, second) => (
+            second.length * median(second.map((item) => item.width))
+            - first.length * median(first.map((item) => item.width))
+          ));
+          const group = groups[0] || [];
+          if (!group.length) return { error:'no-panel-row-run', rows };
+          const middleWidth = median(group.map((item) => item.width));
+          const stable = group.filter((item) => item.width >= middleWidth * 0.9);
+          const panel = {
+            left:median(stable.map((item) => item.left)),
+            right:median(stable.map((item) => item.right)),
+          };
+          panel.width = panel.right - panel.left + 1;
+          panel.cx = (panel.left + panel.right) / 2;
+          panel.screenCx = stage.left + panel.cx * scaleX;
+          return panel;
+        }
+        const isLightPanel = panelConfig.standard === 'light-panel-contiguous-run-v1';
+        const rgb = isLightPanel ? panelConfig.lightRgbMin : panelConfig.darkRgbMax;
         const ratio = Number(panelConfig.minBlueToRedRatio || 0);
+        const channelSpreadMax = Number(panelConfig.channelSpreadMax ?? 255);
+        const minimumPixels = Number(isLightPanel
+          ? panelConfig.minColumnLightPixels
+          : panelConfig.minColumnDarkPixels);
         const columns = [];
         for (let x = search.x; x < search.x + search.width; x += 1) {
-          let darkPixels = 0;
+          let matchingPixels = 0;
           for (let y = search.y; y < search.y + search.height; y += 1) {
             const offset = (y * 1280 + x) * 4;
             const red = pixels[offset];
             const green = pixels[offset + 1];
             const blue = pixels[offset + 2];
-            if (red < rgb.r && green < rgb.g && blue < rgb.b && blue > red * ratio) darkPixels += 1;
+            const spread = Math.max(red, green, blue) - Math.min(red, green, blue);
+            const matches = isLightPanel
+              ? red >= rgb.r && green >= rgb.g && blue >= rgb.b && spread <= channelSpreadMax
+              : red < rgb.r && green < rgb.g && blue < rgb.b && blue > red * ratio;
+            if (matches) matchingPixels += 1;
           }
-          columns.push({ x, darkPixels });
+          columns.push({ x, matchingPixels });
         }
         const runs = [];
         let start = null;
         let end = null;
         for (const column of columns) {
-          if (column.darkPixels > panelConfig.minColumnDarkPixels) {
+          if (column.matchingPixels > minimumPixels) {
             if (start === null) start = column.x;
             end = column.x;
           } else if (start !== null) {
@@ -1609,6 +1840,7 @@ async function auditCompassResultVisual(page, label, expectedTier) {
         opacity:Number(sceneStyle.opacity || 0),
         rect:rectOf(scene)
       },
+      pseudoElements,
       forbiddenNodes,
       targetAxisStage:tierAxis,
       targetAxis:stage.left + tierAxis * scaleX,
@@ -1621,19 +1853,41 @@ async function auditCompassResultVisual(page, label, expectedTier) {
   })()`);
   assert(audit?.config?.standard === "result-tier-fullscene-native-v1", `${label}: result visual contract is missing`, audit);
   assert(audit.tier === expectedTier.id, `${label}: wrong visible tier`, audit);
+  if (process.env.MATHMON_QA_LOG_RESULT_AXES === "1") {
+    console.log(`RESULT_PANEL_AXIS ${label}: ${JSON.stringify({ tier:audit.tier, panelAxis:audit.panel?.cx ?? null, declaredAxis:audit.targetAxisStage })}`);
+  }
   assert(audit.visualRank === expectedTier.visualRank, `${label}: visual rank does not match the tier`, audit);
-  assert(audit.scene.source.endsWith(`result-${expectedTier.id}-generated.webp`), `${label}: wrong complete result scene source`, audit);
+  const expectedScene = await evaluate(page, `LESSON_CONFIG.results.find((result) => result.id === ${JSON.stringify(expectedTier.id)})?.image || ''`);
+  assert(audit.scene.source.endsWith(expectedScene), `${label}: wrong complete result scene source`, audit);
   assert(audit.scene.complete && audit.scene.naturalWidth === 1280 && audit.scene.naturalHeight === 800, `${label}: complete result scene canvas is wrong`, audit);
   assert(audit.scene.objectFit === "cover", `${label}: complete result scene must use cover`, audit);
   assert(audit.scene.mixBlendMode === "normal", `${label}: result scene must not use a blend mode`, audit);
   assert(audit.scene.filter === "none", `${label}: result scene must not use a tier CSS filter`, audit);
   assert(audit.scene.opacity === 1, `${label}: result scene opacity must stay at 1`, audit);
+  if (audit.config.forbidEffectOverlay === true) {
+    const visiblePseudoEffect = audit.pseudoElements.find((pseudo) => {
+      if (pseudo.content === "none" || pseudo.display === "none" || pseudo.visibility === "hidden" || pseudo.opacity === 0) return false;
+      const hasBackground = pseudo.backgroundImage !== "none"
+        || !["rgba(0, 0, 0, 0)", "transparent"].includes(pseudo.backgroundColor);
+      return hasBackground || pseudo.mixBlendMode !== "normal" || pseudo.filter !== "none";
+    });
+    assert(!visiblePseudoEffect, `${label}: a result pseudo-element effect overlay exists`, audit);
+  }
   assert(audit.forbiddenNodes.length === 0, `${label}: a forbidden result effect overlay exists`, audit);
   for (const edge of ["left", "top", "right", "bottom"]) {
     assert(Math.abs(audit.scene.rect[edge] - audit.stage[edge]) <= 1, `${label}: complete result scene does not fill the Stage at ${edge}`, audit);
   }
-  assert(audit.fontSizes.measure === 32 && audit.fontSizes.next === 28, `${label}: result typography token changed`, audit);
-  assert(audit.config.panelPixelAudit?.standard === "dark-panel-contiguous-run-v1", `${label}: result raster panel detector is missing`, audit);
+  assert(
+    audit.fontSizes.measure === Number(audit.config.measureFontPx ?? 32)
+      && audit.fontSizes.next === Number(audit.config.nextFontPx ?? 28),
+    `${label}: result typography token changed`,
+    audit,
+  );
+  assert(
+    ["dark-panel-contiguous-run-v1", "light-panel-contiguous-run-v1", "light-panel-row-run-v1", "dark-panel-row-run-v1"].includes(audit.config.panelPixelAudit?.standard),
+    `${label}: result raster panel detector is missing`,
+    audit,
+  );
   assert(audit.config.dynamicAxisByTier?.[expectedTier.id] === audit.targetAxisStage, `${label}: the result tier has no declared raster-panel axis`, audit);
   assert(audit.panel && !audit.panel.error, `${label}: the generated result panel was not detected from raster pixels`, audit);
   assert(
@@ -1968,10 +2222,15 @@ async function auditConfiguredResultCohesion(page, label) {
     const retryNode = document.getElementById('restartButton') || document.getElementById('retryButton');
     const retryArtNode = retryNode?.querySelector('.result-retry-art');
     const layout = LESSON_CONFIG.result?.layout || {};
-    const targetAxis = stage.left + (Number(layout.axisX ?? 930) / 1280) * stage.width;
+    const fixedElements = LESSON_CONFIG.result?.stateImageSet?.fixedGeneratedElements || [];
+    const fullsceneBaked = fixedElements.includes('tier-scene-with-title');
+    const tier = document.getElementById('screen-result')?.dataset.resultTier || '';
+    const axisX = Number(layout.axisXByTier?.[tier] ?? layout.axisX ?? 930);
+    const targetAxis = stage.left + (axisX / 1280) * stage.width;
     return {
       stage,
       targetAxis,
+      fullsceneBaked,
       backgroundSource:document.getElementById('resultBg')?.getAttribute('src') || '',
       titleSource:titleNode?.getAttribute('src') || '',
       title:rectOf(titleNode),
@@ -1986,14 +2245,18 @@ async function auditConfiguredResultCohesion(page, label) {
     };
   })()`);
   assert(audit?.stage, `${label}: result Stage is missing`, audit);
-  assert(audit.titleSource.includes("result-title-") && audit.titleSource !== audit.backgroundSource, `${label}: generated title must be an independent result layer`, audit);
-  const aligned = [audit.title, audit.measure, audit.correct, audit.next, audit.retry].filter(Boolean);
+  if (audit.fullsceneBaked) {
+    assert(audit.titleSource === audit.backgroundSource && audit.title.width === 0 && audit.title.height === 0, `${label}: baked result title must not create a second visible layer`, audit);
+  } else {
+    assert(audit.titleSource.includes("result-title-") && audit.titleSource !== audit.backgroundSource, `${label}: generated title must be an independent result layer`, audit);
+  }
+  const aligned = [audit.fullsceneBaked ? null : audit.title, audit.measure, audit.correct, audit.next, audit.retry].filter(Boolean);
   const tolerance = audit.stage.width * 0.015;
   for (const item of aligned) {
     assert(Math.abs(item.cx - audit.targetAxis) <= tolerance, `${label}: a result element leaves the shared vertical axis`, { audit, item, tolerance });
     assert(item.left >= audit.stage.left && item.right <= audit.stage.right && item.top >= audit.stage.top && item.bottom <= audit.stage.bottom, `${label}: a result element leaves the Stage`, { audit, item });
   }
-  assert(audit.title.bottom <= audit.measure.top, `${label}: title overlaps the progress label`, audit);
+  if (!audit.fullsceneBaked) assert(audit.title.bottom <= audit.measure.top, `${label}: title overlaps the progress label`, audit);
   assert(audit.measure.bottom <= audit.track.top, `${label}: progress label overlaps the progress bar`, audit);
   assert(audit.track.bottom <= audit.correct.top, `${label}: progress bar overlaps the correct-count art`, audit);
   if (audit.next) {
@@ -2002,11 +2265,15 @@ async function auditConfiguredResultCohesion(page, label) {
   } else {
     assert(audit.correct.bottom <= audit.retry.top, `${label}: correct-count art overlaps the retry button`, audit);
   }
-  for (const edge of ["left", "top", "right", "bottom"]) {
-    assert(Math.abs(audit.retry[edge] - audit.retryArt[edge]) <= 1, `${label}: retry hitbox and generated button art do not match`, { audit, edge });
+  if (!audit.fullsceneBaked) {
+    for (const edge of ["left", "top", "right", "bottom"]) {
+      assert(Math.abs(audit.retry[edge] - audit.retryArt[edge]) <= 1, `${label}: retry hitbox and generated button art do not match`, { audit, edge });
+    }
+    assert(audit.titlePixels?.corners.every((alpha) => alpha <= 16) && audit.titlePixels.opaqueRatio > 0.01, `${label}: generated title transparency contract failed`, audit);
+    assert(audit.retryPixels?.corners.every((alpha) => alpha <= 16) && audit.retryPixels.opaqueRatio > 0.1, `${label}: generated retry button transparency contract failed`, audit);
+  } else {
+    assert(audit.retryArt.width === 0 && audit.retryArt.height === 0, `${label}: baked retry surface must not create a second visible art layer`, audit);
   }
-  assert(audit.titlePixels?.corners.every((alpha) => alpha <= 16) && audit.titlePixels.opaqueRatio > 0.01, `${label}: generated title transparency contract failed`, audit);
-  assert(audit.retryPixels?.corners.every((alpha) => alpha <= 16) && audit.retryPixels.opaqueRatio > 0.1, `${label}: generated retry button transparency contract failed`, audit);
   return audit;
 }
 
@@ -2016,7 +2283,29 @@ async function auditConfiguredMisconceptions(page, lesson, viewport, shots, rema
   const targets = [...remaining].filter((id) => available.includes(id));
   for (const id of targets) {
     await clickMisconception(page, id);
-    await waitUntil(page, `document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0 && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: ${id} feedback did not appear`, 8000);
+    try {
+      await waitUntil(page, `document.getElementById('feedbackLine').dataset.state === 'wrong' && document.getElementById('feedbackLine').textContent.trim().length > 0 && window.__mathmonEngineQa.getState().inputLocked === false`, `${viewport.name}: ${id} feedback did not appear`, 8000);
+    } catch (error) {
+      error.details = await evaluate(page, `(() => {
+        const button = document.querySelector('button.choice-button[data-misconception=${JSON.stringify(id)}]');
+        const rect = button?.getBoundingClientRect();
+        const hit = rect ? document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) : null;
+        return {
+          id:${JSON.stringify(id)},
+          state:window.__mathmonEngineQa.getState(),
+          feedbackState:document.getElementById('feedbackLine')?.dataset.state || '',
+          feedbackText:document.getElementById('feedbackLine')?.textContent?.trim() || '',
+          buttonDisabled:Boolean(button?.disabled),
+          buttonState:button?.dataset.state || '',
+          buttonRect:rect ? {left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom,width:rect.width,height:rect.height} : null,
+          viewport:{width:innerWidth,height:innerHeight,scrollX,scrollY},
+          stageRect:(() => { const value=document.querySelector('.stage-shell')?.getBoundingClientRect(); return value ? {left:value.left,top:value.top,right:value.right,bottom:value.bottom,width:value.width,height:value.height} : null; })(),
+          hitClass:hit?.className?.baseVal || hit?.className || '',
+          hitTag:hit?.tagName || ''
+        };
+      })()`);
+      throw error;
+    }
     const evidence = await evaluate(page, `(() => {
       const choice = window.__mathmonEngineQa.getCurrentStep()?.choices?.find((item) => item.misconceptionId === "${id}");
       const selected = [...document.querySelectorAll('button.choice-button')]
@@ -4432,9 +4721,18 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   if (lesson === "3-2-2-4-mathmon-check-lock") await auditCheckLockCompleteLayout(page, `${viewport.name} final confirmation`);
   await evaluate(page, "document.getElementById('rewardButton').click()");
   const firstReward = await waitForReward(page, viewport.name);
-  const emptyRewardAudit = await evaluate(page, "LESSON_CONFIG.qa?.emptyRewardAudit === true");
+  const emptyRewardAuditConfig = await evaluate(page, `(() => ({
+    enabled:LESSON_CONFIG.qa?.emptyRewardAudit === true,
+    viewport:LESSON_CONFIG.qa?.emptyRewardAuditViewport || ""
+  }))()`);
+  const emptyRewardAudit = emptyRewardAuditConfig.enabled
+    && (!emptyRewardAuditConfig.viewport || emptyRewardAuditConfig.viewport === viewport.name);
   if (emptyRewardAudit) {
-    assert(firstReward.modal && !firstReward.autoRevealed, `${viewport.name}: nonzero empty fixture requires a closed modal reward`, firstReward);
+    assert(
+      (firstReward.modal || firstReward.stageReveal) && !firstReward.autoRevealed,
+      `${viewport.name}: nonzero empty fixture requires a closed reward`,
+      firstReward,
+    );
     const preparedEmpty = await evaluate(page, `(() => {
       const empty = LESSON_CONFIG.rewardEvents.find((event) => event.id === "empty");
       if (!empty) throw new Error("empty reward event is missing");
@@ -4447,8 +4745,9 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     })()`);
     assert(preparedEmpty.power === 47 && preparedEmpty.pendingRewardId === "empty" && preparedEmpty.pendingRewardAmount === 0, `${viewport.name}: nonzero empty fixture was not prepared`, preparedEmpty);
   }
-  const rewardEffectConfigured = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.rewardEffectAudit)");
-  const rewardEffectConfig = rewardEffectConfigured
+  const rewardEffectAvailable = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.rewardEffectAudit)");
+  const rewardEffectConfigured = rewardEffectAvailable && !emptyRewardAudit;
+  const rewardEffectConfig = rewardEffectAvailable
     ? await evaluate(page, "LESSON_CONFIG.qa.rewardEffectAudit")
     : null;
   let configuredRewardDelta = 0;
@@ -4564,11 +4863,18 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     if (lesson === "3-2-2-1-mathmon-divide-farm") await auditFarmReward(page, `${viewport.name} revealed reward`, "revealed");
   }
   if (emptyRewardAudit) {
-    const preservedEmpty = await evaluate(page, `(() => ({
-      state:window.__mathmonEngineQa.getState(),
-      label:document.getElementById("modalRewardLabel")?.textContent.trim() || "",
-      expected:(LESSON_CONFIG.reward?.changeLabel || "이번 변화") + " " + (LESSON_CONFIG.reward?.zeroLabel || "0")
-    }))()`);
+    const preservedEmpty = await evaluate(page, `(() => {
+      const stageStory = document.querySelector("[data-reward-stage-story='true']");
+      return {
+        state:window.__mathmonEngineQa.getState(),
+        label:stageStory
+          ? stageStory.querySelector(".unit6-reward-status, .farm-reward-line")?.textContent.trim() || ""
+          : document.getElementById("modalRewardLabel")?.textContent.trim() || "",
+        expected:stageStory
+          ? (LESSON_CONFIG.reward?.zeroLabel || "그대로")
+          : (LESSON_CONFIG.reward?.changeLabel || "이번 변화") + " " + (LESSON_CONFIG.reward?.zeroLabel || "0")
+      };
+    })()`);
     assert(preservedEmpty.state.power === 47, `${viewport.name}: empty reward erased accumulated power`, preservedEmpty);
     assert(preservedEmpty.label === preservedEmpty.expected, `${viewport.name}: empty reward did not show the zero-change label`, preservedEmpty);
   }
@@ -4717,6 +5023,11 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     });
   } else {
     await clickSelector(page, firstReward.nextSelector);
+    await waitUntil(
+      page,
+      "window.__mathmonEngineQa.getState().problemIndex === 1 || document.querySelector('.screen.is-active')?.id === 'screen-result'",
+      `${viewport.name}: next problem did not start after reward confirmation`,
+    );
   }
 
   let checkLockMatchCaptured = false;
@@ -4763,7 +5074,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       "window.__mathmonEngineQa.getState().problemIndex",
     );
     await clickSelector(page, reward.nextSelector);
-    if (rewardEffectConfigured) {
+    if (rewardEffectAvailable) {
       await waitUntil(
         page,
         `document.querySelector('.screen.is-active')?.id === 'screen-result' || window.__mathmonEngineQa.getState().problemIndex > ${JSON.stringify(problemIndexBeforeRewardDismiss)}`,
@@ -4823,7 +5134,11 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditConfiguredResultCohesionV2(page, `${viewport.name} result cohesion v2`);
   await auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots);
 
-  if (lesson === "3-2-3-2-mathmon-compass-ring") {
+  const hasFullsceneVisualAudit = await evaluate(
+    page,
+    `LESSON_CONFIG.qa?.resultVisualAudit?.standard === "result-tier-fullscene-native-v1"`,
+  );
+  if (hasFullsceneVisualAudit) {
     const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
       id:result.id,
       power:result.minPower,
@@ -4831,7 +5146,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       special:Boolean(result.needsSpecial),
       visualRank:Number(result.visualRank)
     }))`);
-    assert(resultTiers.length === 6, `${viewport.name}: compass result set must contain six states`, resultTiers);
+    assert(resultTiers.length === 6, `${viewport.name}: full-scene result set must contain six states`, resultTiers);
     let previousVisualAudit = null;
     for (const tier of resultTiers) {
       await evaluate(page, `(() => {
@@ -4848,17 +5163,17 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
         && document.getElementById('resultBg')?.naturalWidth === 1280
         && document.getElementById('resultCorrectArt')?.complete
         && document.getElementById('resultCorrectArt')?.naturalWidth > 0
-        && !document.querySelector('.compass-result-impact, [class*="result-impact"]')`, `${viewport.name}: compass result ${tier.id} did not render`);
-      await auditGeometry(page, `${viewport.name} compass result ${tier.id}`, { requireRetry: true });
-      await auditConfiguredResultNextGoal(page, `${viewport.name} compass result ${tier.id} next goal`);
+        && !document.querySelector('.compass-result-impact, [class*="result-impact"]')`, `${viewport.name}: full-scene result ${tier.id} did not render`);
+      await auditGeometry(page, `${viewport.name} full-scene result ${tier.id}`, { requireRetry: true });
+      await auditConfiguredResultNextGoal(page, `${viewport.name} full-scene result ${tier.id} next goal`);
       const visualAudit = await auditCompassResultVisual(
         page,
-        `${viewport.name} compass result ${tier.id} visual`,
+        `${viewport.name} full-scene result ${tier.id} visual`,
         tier,
       );
       if (previousVisualAudit) {
-        assert(visualAudit.visualRank === previousVisualAudit.visualRank + 1, `${viewport.name}: compass visual rank must rise by one per tier`, { previousVisualAudit, visualAudit });
-        assert(visualAudit.scene.source !== previousVisualAudit.scene.source, `${viewport.name}: adjacent compass tiers must use different complete scenes`, { previousVisualAudit, visualAudit });
+        assert(visualAudit.visualRank === previousVisualAudit.visualRank + 1, `${viewport.name}: full-scene visual rank must rise by one per tier`, { previousVisualAudit, visualAudit });
+        assert(visualAudit.scene.source !== previousVisualAudit.scene.source, `${viewport.name}: adjacent tiers must use different complete scenes`, { previousVisualAudit, visualAudit });
       }
       previousVisualAudit = visualAudit;
       shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
@@ -4866,6 +5181,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   }
 
   if (/^3-2-4-/.test(lesson)) {
+    const fullSceneResult = await evaluate(page, `["fullscene-score-slot", "fullscene-generated-dynamic-slots"].includes(LESSON_CONFIG.result?.renderMode)`);
     const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
       id:result.id,
       power:result.minPower,
@@ -4886,8 +5202,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
         && document.getElementById('resultBg')?.complete
         && document.getElementById('resultBg')?.naturalWidth === 1280
-        && document.getElementById('resultTitleArt')?.complete
-        && document.getElementById('resultTitleArt')?.naturalWidth === 900
+        && (${fullSceneResult ? "true" : "document.getElementById('resultTitleArt')?.complete && document.getElementById('resultTitleArt')?.naturalWidth === 900"})
         && document.getElementById('resultCorrectArt')?.complete
         && document.querySelector('.result-retry-art')?.complete`, `${viewport.name}: unit 4 result ${tier.id} did not render`);
       await auditGeometry(page, `${viewport.name} result ${tier.id}`, { requireRetry: true });
@@ -4904,7 +5219,12 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
       correct:result.minCorrect,
       special:Boolean(result.needsSpecial)
     }))`);
-    assert(resultTiers.length === 4, `${viewport.name}: unit 5 result set must contain four states`, resultTiers);
+    const configuredResultCount = await evaluate(page, `Number(LESSON_CONFIG.result?.stateImageSet?.count || 0)`);
+    assert(
+      resultTiers.length === configuredResultCount,
+      `${viewport.name}: unit 5 result set must match its state-image contract`,
+      { configuredResultCount, resultTiers },
+    );
     for (const tier of resultTiers) {
       await evaluate(page, `(() => {
         window.__mathmonEngineQa.setState({

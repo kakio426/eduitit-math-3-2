@@ -314,15 +314,28 @@ function checkResultTierFullsceneContract(failures, lesson, config) {
       }
     }
     const panelAudit = audit.panelPixelAudit;
-    if (panelAudit?.standard !== "dark-panel-contiguous-run-v1"
-      || !isValidStageRect(panelAudit.searchRect)
-      || !Number.isFinite(panelAudit.darkRgbMax?.r)
-      || !Number.isFinite(panelAudit.darkRgbMax?.g)
-      || !Number.isFinite(panelAudit.darkRgbMax?.b)
-      || !Number.isFinite(panelAudit.minColumnDarkPixels)
-      || !Number.isFinite(panelAudit.minRunWidth)
-      || !(Number(panelAudit.centerTolerancePx) <= 3)) {
+    const darkPanelAudit = ["dark-panel-contiguous-run-v1", "dark-panel-row-run-v1"].includes(panelAudit?.standard)
+      && Number.isFinite(panelAudit.darkRgbMax?.r)
+      && Number.isFinite(panelAudit.darkRgbMax?.g)
+      && Number.isFinite(panelAudit.darkRgbMax?.b)
+      && (panelAudit.standard === "dark-panel-row-run-v1"
+        || Number.isFinite(panelAudit.minColumnDarkPixels));
+    const lightPanelAudit = ["light-panel-contiguous-run-v1", "light-panel-row-run-v1"].includes(panelAudit?.standard)
+      && Number.isFinite(panelAudit.lightRgbMin?.r)
+      && Number.isFinite(panelAudit.lightRgbMin?.g)
+      && Number.isFinite(panelAudit.lightRgbMin?.b)
+      && Number.isFinite(panelAudit.channelSpreadMax)
+      && (panelAudit.standard === "light-panel-row-run-v1"
+        || Number.isFinite(panelAudit.minColumnLightPixels));
+    if ((!darkPanelAudit && !lightPanelAudit)
+      || !isValidStageRect(panelAudit?.searchRect)
+      || !Number.isFinite(panelAudit?.minRunWidth)
+      || !(Number(panelAudit?.centerTolerancePx) <= 3)) {
       addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} needs a bounded raster panel pixel audit with <=3px tolerance`);
+    }
+    if (audit.shiftRetryWithTierAxis === true && isValidStageRect(slots.retry)
+      && Math.abs(slots.retry.x + slots.retry.width / 2 - audit.dynamicAxisX) > audit.axisTolerancePx) {
+      addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} retry slot must share dynamicAxisX when shiftRetryWithTierAxis is enabled`);
     }
   }
   if (audit.sceneCanvas !== "1280x800"
@@ -333,7 +346,7 @@ function checkResultTierFullsceneContract(failures, lesson, config) {
     || audit.forbidTierCssFilter !== true
     || audit.requireDistinctSceneSource !== true
     || !Array.isArray(audit.forbiddenSelectors)
-    || !audit.forbiddenSelectors.includes(".compass-result-impact")
+    || !audit.forbiddenSelectors.includes("[class*='result-impact']")
     || !isNonEmptyString(audit.grandColorFamily)
     || !isNonEmptyString(audit.legendColorFamily)) {
     addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} native full-scene requirements are incomplete`);
@@ -508,6 +521,7 @@ async function checkStandaloneLesson(lesson, failures, config, html) {
   }
   checkRewardEvents(failures, lesson, config);
   checkUnifiedReward(failures, lesson, config);
+  checkResultTierFullsceneContract(failures, lesson, config);
   for (const asset of config.assets || []) {
     await checkLocalAsset(failures, lesson, config, asset, `standalone declared asset ${asset}`);
   }

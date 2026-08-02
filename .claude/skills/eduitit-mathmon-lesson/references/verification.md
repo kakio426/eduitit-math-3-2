@@ -38,6 +38,14 @@
 - [ ] 문제 화면 왼쪽 위에 `에듀잇티 수학 게임`, 같은 상단 줄에 단원 배지가 보임
 - [ ] 큰 문제의 숫자와 `÷`·`×`·`−`, 나눗셈 괄호선, 몫 칸 사이 간격과 기준선이 자연스러움
 - [ ] 숫자 슬롯에 tabular 숫자 또는 고정 폭을 써서 값이 바뀌어도 정렬이 흔들리지 않음
+- [ ] 카드·칸·슬롯 안 숫자·분수·수식·비교·연산 기호는 부모 상자와 실제 보이는 내용의 가로·세로 중심 오차가 각각 `1px` 이하임
+- [ ] MathLive·MathCanvas 수식은 SVG 그룹, `foreignObject`, `math-field` 호스트가 아니라 열린 Shadow DOM 안의 `.ML__mfrac`, `.ML__base`, `.ML__latex`처럼 실제 글리프를 감싼 가장 안쪽의 보이는 rect를 우선 측정함
+- [ ] 한 자리·두 자리 수, 문제 은행 최솟값·최댓값, 기본·hover·focus·정답·오답·잠금·완성 배치 상태에서 중심 오차와 잘림을 전수 확인함
+- [ ] `REPORT.md`에 viewport·상태별 중심 오차 `dx`·`dy` 최댓값과 상자 밖 넘침 `0건`을 기록함
+- [ ] 숫자·수식·기호는 항상 가운데 정렬이며, `2어절 이하`·공백 제외 `10자 이하`의 짧은 라벨·상태칩·선택지·버튼도 실제 글자 중심 오차가 가로·세로 각각 `1px` 이하임
+- [ ] `3어절 이상`, 공백 제외 `11자 이상`, 또는 문장형 종결 표현을 가진 지시문·피드백·도움말은 왼쪽 정렬이고 모든 줄이 정해진 왼쪽 안쪽 여백에서 시작함
+- [ ] 길이와 의미가 충돌하면 `data-text-align-role="label|sentence"`로 역할을 명시하며, 짧아도 행동을 설명하는 문장은 왼쪽 정렬함
+- [ ] 폰트 bearing·baseline, Shadow DOM, SVG 변환, DPR·Stage 축소, 두 자리 값, 드래그 완료 위치, hitbox를 보정했다면 실패 fixture·자동 회귀 테스트·브라우저 캡처를 추가함
 - [ ] 너무 작은 답과 너무 큰 답을 각각 재현해 오답 이유가 현재 계산판·물건으로 보임
 - [ ] 각 단계 정답 확인을 따로 재현하고, 학생이 고른 값이 계산판·칸·물건에 들어감
 - [ ] 지시문과 피드백이 동시에 겹치지 않고 `?` 칸·숫자·화살표·선택지를 가리지 않음
@@ -111,6 +119,7 @@
 - [ ] 다시하기 버튼의 생성 이미지 rect와 실제 hitbox 네 변 차이가 각각 `1px` 이하임
 - [ ] 끈 결과 문구는 SVG `hidden` 선언만 보지 않고 computed `display:none`과 렌더 rect `0×0`을 확인함
 - [ ] 유한 결과 단계 전부와 `lesson.json > qa.viewports` 전부에서 결과 결속·버튼 알파·숨김 SVG·겹침을 확인함
+- [ ] native fullscene 결과 루트의 `::before`·`::after` computed style까지 읽어 보이는 배경·필터·블렌드 의사요소가 `0건`임을 확인함
 - [ ] 사용자가 발견한 최종 결과 화면 크기를 이름 있는 회귀 viewport로 남기고 수정 전 캡처를 `_archive/`에 보존함
 - [ ] 브랜드/단원/배움주제 배지 위치 동일
 - [ ] 소리 버튼이 모든 화면에서 같은 Stage 우상단 좌표에 있음(`--sound-button-size`/`--sound-gap`/`--sound-reserve` 사용, 화면별 transform 금지)
@@ -151,6 +160,9 @@
 - [ ] `node --check index.html`에 들어가는 JS 점검(필요시 분리 검사)
 - [ ] README.md / REPORT.md / screenshots(첫·설명·문제·보상·결과) 완비
 - [ ] PLAN.md / README.md / REPORT.md / 전용 QA / 스크린샷이 현재 학생 흐름과 같은 버전을 설명함
+- [ ] 모든 `qa.viewports`에서 현재 전체 흐름과 유한 결과 전 단계를 다시 캡처했고, 데스크톱 개별 화면마다 학생 행동·수학 관계·전환 의미 설명이 있음
+- [ ] `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`로 viewport별 전체 흐름 컨택시트와 `report-evidence-manifest.json`을 만들고 모두 `REPORT.md`에 연결함
+- [ ] `node scripts/check-lesson-report-evidence.mjs <lesson-folder>`가 현재 `index.html` 해시·원본 캡처 해시·필수 상태·보고서 포함 여부를 통과함
 - [ ] manifest.json에 차시 추가(id/folder/title/unit/lesson/learningGoal/entryFile)
 - [ ] 루트 README.md 시리즈 표에 행 추가
 

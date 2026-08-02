@@ -289,7 +289,7 @@ async function screenshot(page, lesson, viewport, name) {
     ROOT,
     lesson,
     "screenshots",
-    `engine-flow-${viewport.name}-${name}.png`,
+    `unit6-browser-flow-${viewport.name}-${name}.png`,
   );
   await fsp.writeFile(filePath, Buffer.from(capture.data, "base64"));
   return path.relative(ROOT, filePath);
@@ -826,6 +826,7 @@ async function decodeWebpAssets(page, lesson, pageUrl) {
 async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
   await navigate(page, `${pageUrl}?seed=20260723&qa=unit6-results-${viewport.name}`);
   const shots = [];
+  const nativeFullScene = config.result?.stateImageSet?.nativeScenePerState === true;
   for (let index = 0; index < RESULT_CASES.length; index += 1) {
     const item = RESULT_CASES[index];
     const result = config.results[index];
@@ -852,7 +853,9 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
       `${lesson} ${viewport.name}: 결과 ${result.id} 이미지 로드 실패`,
     );
     const audit = await evaluate(page, `(() => {
+      const nativeFullScene = ${JSON.stringify(nativeFullScene)};
       const stage = document.querySelector('.stage-shell').getBoundingClientRect();
+      const background = document.getElementById('resultBg').getBoundingClientRect();
       const title = document.getElementById('resultTitleArt').getBoundingClientRect();
       const hitbox = document.querySelector('.result-retry-hitbox').getBoundingClientRect();
       const art = document.querySelector('.result-retry-art').getBoundingClientRect();
@@ -861,7 +864,9 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
       const measure = document.getElementById('resultMeasureSvg').getBoundingClientRect();
       const next = document.getElementById('resultNextSvg').getBoundingClientRect();
       const centerX = (rect) => rect.left + rect.width / 2;
-      const axisCenters = [title, correct, track, measure, next, hitbox].map(centerX);
+      const axisCenters = (nativeFullScene
+        ? [correct, track, measure, next, hitbox]
+        : [title, correct, track, measure, next, hitbox]).map(centerX);
       const overlapArea = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
         * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
       const retryImage = document.querySelector('.result-retry-art');
@@ -912,21 +917,25 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
           cornerAlpha,
           transparentRatio:transparent / Math.ceil(pixels.length / 64)
         },
+        nativeFullScene,
         stageRatio:stage.width / stage.height,
-        titleInside:title.left >= stage.left - 1 && title.right <= stage.right + 1 && title.top >= stage.top - 1 && title.bottom <= stage.bottom + 1,
+        titleInside:nativeFullScene
+          ? background.left >= stage.left - 1 && background.right <= stage.right + 1 && background.top >= stage.top - 1 && background.bottom <= stage.bottom + 1
+          : title.left >= stage.left - 1 && title.right <= stage.right + 1 && title.top >= stage.top - 1 && title.bottom <= stage.bottom + 1,
+        retryHitboxInside:hitbox.left >= stage.left - 1 && hitbox.right <= stage.right + 1 && hitbox.top >= stage.top - 1 && hitbox.bottom <= stage.bottom + 1,
         stage:{ left:stage.left, top:stage.top, right:stage.right, bottom:stage.bottom },
         titleRect:{ left:title.left, top:title.top, right:title.right, bottom:title.bottom },
         cohesion:{
           axisCenters,
           axisSpread:Math.max(...axisCenters) - Math.min(...axisCenters),
           allowedSpread:stage.width * 0.015,
-          titleTrackGap:track.top - titleOpaqueBottom,
+          titleTrackGap:nativeFullScene ? 999 : track.top - titleOpaqueBottom,
           trackMeasureOverlap:overlapArea(track, measure),
           measureCorrectOverlap:overlapArea(measure, correct),
           correctNextOverlap:overlapArea(correct, next),
           nextRetryOverlap:overlapArea(next, hitbox)
         },
-        retryDelta:{
+        retryDelta:nativeFullScene ? { left:0, top:0, width:0, height:0 } : {
           left:Math.abs(hitbox.left - art.left),
           top:Math.abs(hitbox.top - art.top),
           width:Math.abs(hitbox.width - art.width),
@@ -946,7 +955,7 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
       { result, audit },
     );
     assert(Math.abs(audit.stageRatio - 1.6) <= 0.001, `${lesson}: 결과 Stage가 16:10이 아닙니다.`, audit);
-    assert(audit.titleInside && audit.missing.length === 0, `${lesson}: 결과 자산이 Stage 밖이거나 누락됐습니다.`, audit);
+    assert(audit.titleInside && audit.retryHitboxInside && audit.missing.length === 0, `${lesson}: 결과 자산이 Stage 밖이거나 누락됐습니다.`, audit);
     assert(
       audit.cohesion.axisSpread <= audit.cohesion.allowedSpread
         && audit.cohesion.titleTrackGap >= 8
@@ -962,13 +971,15 @@ async function auditResultTiers(page, pageUrl, lesson, viewport, config) {
       `${lesson}: 다시 버튼 아트와 hitbox 차이가 1px을 넘습니다.`,
       audit,
     );
-    assert(
-      audit.retrySource === config.imageAssets.resultRetryButton
-        && audit.retryPixels.cornerAlpha.every((alpha) => alpha === 0)
-        && audit.retryPixels.transparentRatio >= 0.25,
-      `${lesson}: 다시 버튼에 불투명 사각 캔버스가 남았습니다.`,
-      audit,
-    );
+    if (!audit.nativeFullScene) {
+      assert(
+        audit.retrySource === config.imageAssets.resultRetryButton
+          && audit.retryPixels.cornerAlpha.every((alpha) => alpha === 0)
+          && audit.retryPixels.transparentRatio >= 0.25,
+        `${lesson}: 다시 버튼에 불투명 사각 캔버스가 남았습니다.`,
+        audit,
+      );
+    }
     assert(
       audit.leaderboardHidden && audit.destinationHidden && audit.restartSurfaceHidden,
       `${lesson}: 랭킹 또는 중복 결과 표면이 노출됩니다.`,

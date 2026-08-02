@@ -10,6 +10,9 @@ import { setTimeout as delay } from "node:timers/promises";
 
 const ROOT = process.cwd();
 const LESSON = "3-2-5-4-mathmon-package-weight";
+const LESSON_CONFIG = JSON.parse(fs.readFileSync(path.join(ROOT, "_lessons", LESSON, "lesson.json"), "utf8"));
+const QA_VIEWPORTS = LESSON_CONFIG.qa.viewports;
+const RESULT_AUDIT = LESSON_CONFIG.qa.resultVisualAudit;
 const DEFAULT_SEED = 424242;
 const CHROME_CANDIDATES = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -30,11 +33,19 @@ const MIME = new Map([
 ]);
 
 function parseArgs(argv) {
-  const options = { seed: DEFAULT_SEED };
+  const options = { seed: DEFAULT_SEED, visualOnly:false, impactOnly:false };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--seed") {
       options.seed = Number(argv[++index]);
+      continue;
+    }
+    if (arg === "--visual-only") {
+      options.visualOnly = true;
+      continue;
+    }
+    if (arg === "--impact-only") {
+      options.impactOnly = true;
       continue;
     }
     throw new Error(`Unknown option: ${arg}`);
@@ -448,13 +459,14 @@ async function runRewardNextDoubleProbe(page, pageUrl) {
   await loadLessonPage(page, pageUrl);
 	  const setup = await evalInPage(page, PLAY_TO_COMPLETE);
 	  const observed = await evalInPage(page, String.raw`
-	    (() => {
+	    (async () => {
 	      const truckButton = document.querySelector("#truckButton");
 	      truckButton.click();
 	      document.querySelector("#rewardOpenButton").click();
 	      const nextButton = document.querySelector("#rewardNextButton");
 	      nextButton.click();
 	      nextButton.click();
+	      await new Promise((resolve) => setTimeout(resolve, 2000));
       return {
         rewardActive: document.querySelector("#screen-reward").classList.contains("is-active"),
         playActive: document.querySelector("#screen-play").classList.contains("is-active"),
@@ -486,7 +498,7 @@ async function runRewardNextPhysicalDoubleClickProbe(page, pageUrl) {
     })()
   `);
   await dispatchMouseClick(page, beforeClick.x, beforeClick.y, 1);
-  await delay(520);
+  await delay(2050);
   const targetAtSecondClick = await evalInPage(page, String.raw`
     ((x, y) => {
       const target = document.elementFromPoint(x, y);
@@ -584,7 +596,7 @@ async function runRewardNextStaleEventProbe(page, pageUrl) {
   await loadLessonPage(page, pageUrl);
 	  const setup = await evalInPage(page, PLAY_TO_COMPLETE);
 	  const observed = await evalInPage(page, String.raw`
-	    (() => {
+	    (async () => {
 	      document.querySelector("#truckButton").click();
 	      document.querySelector("#rewardOpenButton").click();
 	      const nextButton = document.querySelector("#rewardNextButton");
@@ -592,6 +604,7 @@ async function runRewardNextStaleEventProbe(page, pageUrl) {
       nextButton.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
       nextButton.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
       nextButton.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", code: "Enter", bubbles: true, cancelable: true }));
+	      await new Promise((resolve) => setTimeout(resolve, 2000));
       return {
         rewardActive: document.querySelector("#screen-reward").classList.contains("is-active"),
         playActive: document.querySelector("#screen-play").classList.contains("is-active"),
@@ -654,7 +667,10 @@ async function runSeedReplayProbe(page, seedPageUrl, randomPageUrl) {
               await waitFor(() => document.querySelector("#screen-reward").dataset.rewardPhase === "opened", "reward open");
             } else {
               document.querySelector("#rewardNextButton").click();
-              await waitFor(() => document.querySelector("#screen-play").classList.contains("is-active") || document.querySelector("#screen-result").classList.contains("is-active"), "reward advance");
+              await waitFor(() => document.querySelector(".stage-shell").dataset.rewardTransitioning !== "true"
+                && (document.querySelector("#screen-result").classList.contains("is-active")
+                  || (document.querySelector("#screen-play").classList.contains("is-active")
+                    && !document.querySelector("#screen-reward").classList.contains("is-active"))), "reward advance");
             }
             continue;
           }
@@ -710,9 +726,11 @@ async function runResultRasterContractProbe(page, pageUrl) {
           && style.overflow === "hidden";
       };
       return {
+        renderMode:document.querySelector("main.game")?.dataset.resultRenderMode || "",
         hasResultCard: Boolean(document.querySelector(".result-card")),
         hasCssResultHeading: Boolean(document.querySelector(".result-truck-name")),
         hasResultTitleArt: document.querySelector("#resultTitleArt")?.tagName === "IMG",
+        separateTitleDisplay:getComputedStyle(document.querySelector("#resultTitleArt")).display,
         hasResultCorrectArt: document.querySelector("#resultCorrectArt")?.tagName === "IMG",
         hasResultDynamicSvg: document.querySelector(".result-dynamic-ui")?.tagName.toLowerCase() === "svg",
         hasPowerText: document.querySelector("#resultPowerText")?.tagName.toLowerCase() === "text",
@@ -720,6 +738,7 @@ async function runResultRasterContractProbe(page, pageUrl) {
         hasProgressFill: document.querySelector("#resultProgressFill")?.tagName.toLowerCase() === "rect",
         correctArtSrc: document.querySelector("#resultCorrectArt")?.getAttribute("src") || "",
         hasRetryArt: document.querySelector(".result-retry-art")?.tagName === "IMG",
+        separateRetryDisplay:getComputedStyle(document.querySelector(".result-retry-art")).display,
         retryVisibleText: retryButton?.textContent.trim() || "",
         retryAriaLabel: retryButton?.getAttribute("aria-label") || "",
         titleHidden: isVisuallyHidden(title),
@@ -728,9 +747,11 @@ async function runResultRasterContractProbe(page, pageUrl) {
       };
     })()
   `);
-  const pass = !observed.hasResultCard
+  const pass = observed.renderMode === "fullscene-generated-dynamic-slots"
+    && !observed.hasResultCard
     && !observed.hasCssResultHeading
     && observed.hasResultTitleArt
+    && observed.separateTitleDisplay === "none"
     && observed.hasResultCorrectArt
     && observed.hasResultDynamicSvg
     && observed.hasPowerText
@@ -738,6 +759,7 @@ async function runResultRasterContractProbe(page, pageUrl) {
     && observed.hasProgressFill
     && /result-correct-\d+-generated\.webp(?:\?|$)/.test(observed.correctArtSrc)
     && observed.hasRetryArt
+    && observed.separateRetryDisplay === "none"
     && observed.retryVisibleText === ""
     && observed.retryAriaLabel === "다시"
     && observed.titleHidden
@@ -747,8 +769,9 @@ async function runResultRasterContractProbe(page, pageUrl) {
     name: "result_raster_contract_no_css_card",
     pass,
     expected: {
-      visibleResultText: "generated fixed assets plus one SVG dynamic power/next-goal layer",
-      retryButton: "transparent accessible hitbox over generated button art"
+      visibleResultText: "one generated 1280x800 fullscene plus dynamic power/correct/next-goal",
+      fixedTitleAndRetry: "baked into the fullscene; separate image layers hidden",
+      retryButton: "transparent accessible hitbox over the baked retry surface"
     },
     observed
   };
@@ -1091,6 +1114,208 @@ async function runRewardEventSetProbe(page, pageUrl) {
   };
 }
 
+async function runRewardWorldImpactProbe(page, pageUrl) {
+  await page.send("Emulation.setDeviceMetricsOverride", { width:1280, height:800, deviceScaleFactor:1, mobile:false });
+  await loadLessonPage(page, pageUrl);
+  const setup = await evalInPage(page, String.raw`
+    (async () => {
+      window.__lesson5PackageQa.forceRewardEvent("normal");
+      await document.querySelector("#runTruckImage").decode();
+      await new Promise((resolve) => setTimeout(resolve, 1250));
+      const closed = {
+        phase:document.querySelector("#screen-reward").dataset.rewardPhase,
+        rewardActive:document.querySelector("#screen-reward").classList.contains("is-active"),
+        source:document.querySelector("#runTruckImage").getAttribute("src"),
+        label:document.querySelector("#runProgressText").textContent,
+        counter:document.querySelector("#problemCounter").textContent
+      };
+      window.__lesson5PackageQa.openReward();
+      const opened = {
+        phase:document.querySelector("#screen-reward").dataset.rewardPhase,
+        rewardActive:document.querySelector("#screen-reward").classList.contains("is-active"),
+        source:document.querySelector("#runTruckImage").getAttribute("src"),
+        label:document.querySelector("#runProgressText").textContent,
+        counter:document.querySelector("#problemCounter").textContent
+      };
+      return { closed, opened };
+    })()
+  `);
+  await captureLessonScreenshot(page, "reward-transition-01-modal-open.png");
+  const startedAt = performance.now();
+  const immediate = await evalInPage(page, String.raw`
+    (() => {
+      document.querySelector("#rewardNextButton").click();
+      return {
+        rewardActive:document.querySelector("#screen-reward").classList.contains("is-active"),
+        playActive:document.querySelector("#screen-play").classList.contains("is-active"),
+        transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+        source:document.querySelector("#runTruckImage").getAttribute("src"),
+        counter:document.querySelector("#problemCounter").textContent
+      };
+    })()
+  `);
+  await delay(200);
+  const preEffect = await evalInPage(page, String.raw`
+    (() => ({
+      rewardActive:document.querySelector("#screen-reward").classList.contains("is-active"),
+      transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+      source:document.querySelector("#runTruckImage").getAttribute("src"),
+      effectClasses:[...document.querySelector("#truckProgressVisual").classList].filter((name) => name.startsWith("is-")),
+      impactActive:document.querySelector("#progressImpactStage").classList.contains("is-active"),
+      counter:document.querySelector("#problemCounter").textContent
+    }))()
+  `);
+  await delay(150);
+  const active = await evalInPage(page, String.raw`
+    (() => {
+      const stage = document.querySelector(".stage-shell").getBoundingClientRect();
+      const impact = document.querySelector("#progressImpactStage").getBoundingClientRect();
+      return {
+        rewardActive:document.querySelector("#screen-reward").classList.contains("is-active"),
+        transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+        source:document.querySelector("#runTruckImage").getAttribute("src"),
+        effectClasses:[...document.querySelector("#truckProgressVisual").classList].filter((name) => name.startsWith("is-")),
+        impactActive:document.querySelector("#progressImpactStage").classList.contains("is-active"),
+        impactStageWidthRatio:impact.width / stage.width,
+        counter:document.querySelector("#problemCounter").textContent
+      };
+    })()
+  `);
+  await captureLessonScreenshot(page, "reward-transition-03-active.png");
+  await delay(650);
+  const minimumVisible = await evalInPage(page, String.raw`
+    (() => ({
+      transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+      source:document.querySelector("#runTruckImage").getAttribute("src"),
+      effectClasses:[...document.querySelector("#truckProgressVisual").classList].filter((name) => name.startsWith("is-")),
+      impactActive:document.querySelector("#progressImpactStage").classList.contains("is-active"),
+      counter:document.querySelector("#problemCounter").textContent
+    }))()
+  `);
+  await captureLessonScreenshot(page, "reward-transition-04-minimum-visible.png");
+  await delay(900);
+  const after = await evalInPage(page, String.raw`
+    (() => ({
+      rewardActive:document.querySelector("#screen-reward").classList.contains("is-active"),
+      playActive:document.querySelector("#screen-play").classList.contains("is-active"),
+      transitioning:document.querySelector(".stage-shell").dataset.rewardTransitioning,
+      source:document.querySelector("#runTruckImage").getAttribute("src"),
+      effectClasses:[...document.querySelector("#truckProgressVisual").classList].filter((name) => ["is-changing","is-dimming","is-celebrating","is-tier-up"].includes(name)),
+      impactActive:document.querySelector("#progressImpactStage").classList.contains("is-active"),
+      counter:document.querySelector("#problemCounter").textContent
+      ,timing:{
+        modalClosedAt:Number(document.querySelector(".stage-shell").dataset.rewardModalClosedAt),
+        effectStartedAt:Number(document.querySelector(".stage-shell").dataset.rewardEffectStartedAt),
+        effectEndedAt:Number(document.querySelector(".stage-shell").dataset.rewardEffectEndedAt),
+        advancedAt:Number(document.querySelector(".stage-shell").dataset.rewardAdvancedAt)
+      }
+    }))()
+  `);
+  await captureLessonScreenshot(page, "reward-transition-05-next-problem.png");
+  await page.send("Emulation.clearDeviceMetricsOverride");
+  const beforeSource = "play-truck-v1-swift-generated.webp";
+  const afterSource = "play-truck-v1-cool-generated.webp";
+  const pass = setup.closed.phase === "closed"
+    && setup.opened.phase === "opened"
+    && setup.closed.source === beforeSource
+    && setup.opened.source === beforeSource
+    && setup.closed.counter === "1/10"
+    && setup.opened.counter === "1/10"
+    && !immediate.rewardActive
+    && immediate.playActive
+    && immediate.transitioning === "true"
+    && immediate.source === beforeSource
+    && immediate.counter === "1/10"
+    && !preEffect.rewardActive
+    && preEffect.transitioning === "true"
+    && preEffect.source === beforeSource
+    && preEffect.effectClasses.every((name) => name === "is-upgraded")
+    && !preEffect.impactActive
+    && preEffect.counter === "1/10"
+    && !active.rewardActive
+    && active.transitioning === "true"
+    && active.source === afterSource
+    && active.effectClasses.includes("is-tier-up")
+    && active.impactActive
+    && active.impactStageWidthRatio >= .32
+    && active.counter === "1/10"
+    && minimumVisible.source === afterSource
+    && !after.rewardActive
+    && after.playActive
+    && after.transitioning === "false"
+    && after.source === afterSource
+    && after.effectClasses.length === 0
+    && !after.impactActive
+    && after.counter === "2/10"
+    && after.timing.effectStartedAt - after.timing.modalClosedAt >= 300
+    && after.timing.effectEndedAt - after.timing.effectStartedAt >= 1500
+    && after.timing.advancedAt >= after.timing.effectEndedAt;
+  return {
+    name:"modal_dismiss_world_impact_v2",
+    pass,
+    expected:{ modalClosedBeforeEffect:true, preEffectDelayMs:320, imageSwap:"swift→cool", minimumVisibleMs:1200, impactStageWidthRatio:">=0.32", problemCounterHeld:"1/10", nextAfterEffect:"2/10" },
+    observed:{ setup, immediate, preEffect, active, minimumVisible, after, totalElapsedMs:Math.round(performance.now() - startedAt) }
+  };
+}
+
+async function runReportEvidenceCaptureProbe(page, pageUrl) {
+  const tiers = RESULT_AUDIT.expectedStates;
+  const observations = [];
+  for (const viewport of QA_VIEWPORTS) {
+    await page.send("Emulation.setDeviceMetricsOverride", {
+      width:viewport.width,
+      height:viewport.height,
+      deviceScaleFactor:viewport.deviceScaleFactor || viewport.dpr || 1,
+      mobile:false
+    });
+    await loadLessonPage(page, pageUrl);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-01-cover.png`);
+    await evalInPage(page, `document.querySelector("#settingsButton").click()`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-02-settings.png`);
+    await evalInPage(page, `document.querySelector("#settingsCloseButton").click(); document.querySelector("#startButton").click()`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-03-tutorial-1.png`);
+    await evalInPage(page, `document.querySelector("#tutorialStartButton").click()`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-04-tutorial-2.png`);
+    await evalInPage(page, `document.querySelector("#tutorialStartButton").click()`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-05-play-step1.png`);
+
+    await loadLessonPage(page, pageUrl);
+    await evalInPage(page, PLAY_TO_COMPLETE);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-06-confirm.png`);
+    await evalInPage(page, `document.querySelector("#truckButton").click()`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-07-reward-closed.png`);
+    await evalInPage(page, `document.querySelector("#rewardOpenButton").click()`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-07b-reward-open.png`);
+
+    await evalInPage(page, String.raw`
+      (() => {
+        window.__lesson5PackageQa.forceRewardEvent("normal");
+        window.__lesson5PackageQa.openReward();
+        document.querySelector("#rewardNextButton").click();
+      })()
+    `);
+    await delay(400);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-07c-reward-impact.png`);
+    await delay(1650);
+
+    await evalInPage(page, `window.__lesson5PackageQa.forceResultTier("plain")`);
+    await captureLessonScreenshot(page, `engine-flow-${viewport.name}-08-result.png`);
+    for (const tierId of tiers) {
+      await evalInPage(page, `window.__lesson5PackageQa.forceResultTier(${JSON.stringify(tierId)})`);
+      await evalInPage(page, `document.querySelector("#resultBg").decode()`);
+      await captureLessonScreenshot(page, `engine-flow-${viewport.name}-08a-result-${tierId}.png`);
+    }
+    observations.push({ viewport:viewport.name, requiredScreens:9, resultStates:tiers.length });
+  }
+  await page.send("Emulation.clearDeviceMetricsOverride");
+  return {
+    name:"report_evidence_all_viewports",
+    pass:observations.length === QA_VIEWPORTS.length && observations.every((item) => item.resultStates === tiers.length),
+    expected:{ viewports:QA_VIEWPORTS.length, requiredScreensPerViewport:9, resultStates:tiers.length },
+    observed:observations
+  };
+}
+
 async function runCoreScreenEvidenceProbe(page, pageUrl) {
   const viewports = [
     { name:"desktop", width:1280, height:800 },
@@ -1153,7 +1378,7 @@ async function runCoreScreenEvidenceProbe(page, pageUrl) {
   const pass = observations.every((item) => item.wrong.feedback === "다시 골라요."
     && item.wrong.wrongChoices === 1
     && item.complete.truckDisabled === false
-    && item.instruction.text === "1kg을 1000g으로 바꿔요."
+    && item.instruction.text === "1kg은 1000g이에요."
     && item.instruction.wordBreak === "keep-all"
     && item.instruction.overflowWrap === "normal"
     && item.instruction.lineCount === 1
@@ -1163,7 +1388,7 @@ async function runCoreScreenEvidenceProbe(page, pageUrl) {
   return {
     name:"core_screen_evidence_all_viewports",
     pass,
-    expected:{ screens:["cover", "settings", "tutorial-1", "tutorial-2", "play-wait", "play-wrong", "complete-confirm"], instruction:"1kg을 1000g으로 바꿔요. (one line, keep-all)", overflow:0 },
+    expected:{ screens:["cover", "settings", "tutorial-1", "tutorial-2", "play-wait", "play-wrong", "complete-confirm"], instruction:"1kg은 1000g이에요. (one line, keep-all)", overflow:0 },
     observed:observations
   };
 }
@@ -1320,73 +1545,280 @@ async function runCalculationBoardStateProbe(page, pageUrl) {
   };
 }
 
+async function runPlayProgressSetProbe(page, pageUrl) {
+  const audit = LESSON_CONFIG.qa.playProgressAudit;
+  const tierIds = audit.expectedStates;
+  const observations = [];
+  for (const viewport of QA_VIEWPORTS) {
+    await page.send("Emulation.setDeviceMetricsOverride", {
+      width:viewport.width,
+      height:viewport.height,
+      deviceScaleFactor:viewport.deviceScaleFactor || 1,
+      mobile:false
+    });
+    for (const tierId of tierIds) {
+      await loadLessonPage(page, pageUrl);
+      const observed = await evalInPage(page, String.raw`
+        (async (tierId, audit, results) => {
+          const forced = window.__lesson5PackageQa.forcePlayTier(tierId);
+          const imageNode = document.querySelector(audit.image);
+          await imageNode.decode();
+          await new Promise((resolve) => setTimeout(resolve, 1250));
+          const rect = (node) => {
+            const value = node?.getBoundingClientRect();
+            return value ? { left:value.left, top:value.top, right:value.right, bottom:value.bottom, width:value.width, height:value.height, cx:value.left + value.width / 2, cy:value.top + value.height / 2 } : null;
+          };
+          const intersects = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+          const stage = rect(document.querySelector(".stage-shell"));
+          const panel = rect(document.querySelector(audit.panel));
+          const image = rect(imageNode);
+          const labelNode = document.querySelector(audit.label);
+          const label = rect(labelNode);
+          const problemGrid = rect(document.querySelector(".problem-grid"));
+          const learningNodes = [".problem-card", ".step-board", ".choices-panel"].map((selector) => rect(document.querySelector(selector))).filter(Boolean);
+          const placement = audit.panelPlacement;
+          const expectedPanel = {
+            left:stage.left + stage.width * placement.leftRatio,
+            top:stage.top + stage.height * placement.topRatio,
+            right:stage.left + stage.width * (placement.leftRatio + placement.widthRatio),
+            bottom:stage.top + stage.height * (placement.topRatio + placement.heightRatio)
+          };
+          expectedPanel.width = expectedPanel.right - expectedPanel.left;
+          expectedPanel.height = expectedPanel.bottom - expectedPanel.top;
+          expectedPanel.cx = expectedPanel.left + expectedPanel.width / 2;
+          const expected = results.find((result) => result.id === tierId);
+          const imageStyle = getComputedStyle(imageNode);
+          return {
+            forced,
+            tierId,
+            stage,
+            panel,
+            image,
+            label,
+            problemGrid,
+            learningIntersections:learningNodes.map((node) => intersects(panel, node)),
+            expectedPanel,
+            panelImageCenterDelta:Math.abs(panel.cx - image.cx),
+            panelLaneCenterDelta:Math.abs(panel.cx - expectedPanel.cx),
+            labelInside:label.left >= panel.left - 1 && label.right <= panel.right + 1 && label.top >= panel.top - 1 && label.bottom <= panel.bottom + 1,
+            labelOverflow:labelNode.scrollWidth > labelNode.clientWidth + 1 || labelNode.scrollHeight > labelNode.clientHeight + 1,
+            labelText:labelNode.textContent.trim(),
+            source:imageNode.getAttribute("src") || "",
+            expectedSource:expected.playImage,
+            resultSource:expected.image,
+            natural:[imageNode.naturalWidth, imageNode.naturalHeight],
+            objectFit:imageStyle.objectFit,
+            active:document.querySelector("#screen-play").classList.contains("is-active")
+          };
+        })
+      ` + `(${JSON.stringify(tierId)}, ${JSON.stringify(audit)}, ${JSON.stringify(LESSON_CONFIG.results)})`);
+      await captureLessonScreenshot(page, `play-progress-${tierId}-${viewport.name}.png`);
+      observations.push({ viewport, tierId, observed });
+    }
+  }
+  await page.send("Emulation.clearDeviceMetricsOverride");
+  const tolerance = audit.panelPlacement.tolerancePx;
+  const pass = observations.every(({ observed }) =>
+    observed.active
+    && observed.source === observed.expectedSource
+    && observed.source !== observed.resultSource
+    && observed.natural.join("x") === "768x1536"
+    && observed.objectFit === "contain"
+    && ["left", "top", "right", "bottom"].every((edge) => Math.abs(observed.panel[edge] - observed.expectedPanel[edge]) <= tolerance)
+    && observed.panelLaneCenterDelta <= audit.panelLaneCenterTolerancePx
+    && observed.panelImageCenterDelta <= audit.imagePanelCenterTolerancePx
+    && observed.learningIntersections.every((area) => area === 0)
+    && observed.problemGrid.left >= observed.panel.right
+    && observed.labelInside
+    && !observed.labelOverflow
+    && observed.labelText.length > 0
+  );
+  return {
+    name:"play_progress_all_tiers_all_viewports",
+    pass,
+    expected:{ tiers:tierIds, viewports:QA_VIEWPORTS.map((item) => `${item.width}x${item.height}@${item.deviceScaleFactor || 1}x`), panelEdges:"<=1px", learningIntersection:0, canvas:"768x1536", objectFit:"contain", resultCropReuse:false },
+    observed:observations
+  };
+}
+
 async function runResultTierSetProbe(page, pageUrl) {
-  const viewports = [
-    { name: "desktop", width: 1280, height: 800 },
-    { name: "tablet-landscape", width: 1024, height: 768 }
-  ];
-  const tierIds = ["plain", "slight", "cool", "super"];
+  const viewports = QA_VIEWPORTS;
+  const tierIds = RESULT_AUDIT.expectedStates;
   const observations = [];
   for (const viewport of viewports) {
     await page.send("Emulation.setDeviceMetricsOverride", {
       width: viewport.width,
       height: viewport.height,
-      deviceScaleFactor: 1,
+      deviceScaleFactor: viewport.deviceScaleFactor || 1,
       mobile: false
     });
     for (const tierId of tierIds) {
       await loadLessonPage(page, pageUrl);
       const observed = await evalInPage(page, String.raw`
-        (async (tierId) => {
+        (async (tierId, config, results) => {
           const forced = window.__lesson5PackageQa.forceResultTier(tierId);
-          await Promise.all([document.querySelector("#resultBg").decode(), document.querySelector("#resultTitleArt").decode(), document.querySelector("#resultCorrectArt").decode()]);
+          await Promise.all([document.querySelector("#resultBg").decode(), document.querySelector("#resultCorrectArt").decode()]);
           const rect = (node) => {
-            const value = node.getBoundingClientRect();
-            return { left:value.left, top:value.top, right:value.right, bottom:value.bottom, width:value.width, height:value.height, cx:value.left + value.width / 2 };
+            const value = node?.getBoundingClientRect();
+            return value ? { left:value.left, top:value.top, right:value.right, bottom:value.bottom, width:value.width, height:value.height, cx:value.left + value.width / 2, cy:value.top + value.height / 2 } : null;
           };
           const intersects = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
           const stage = rect(document.querySelector(".stage-shell"));
-          const title = rect(document.querySelector("#resultTitleArt"));
+          const sceneNode = document.querySelector("#resultBg");
+          const scene = rect(sceneNode);
           const correct = rect(document.querySelector("#resultCorrectArt"));
-          const panel = rect(document.querySelector(".result-status-panel"));
           const retry = rect(document.querySelector("#retryButton"));
           const fill = rect(document.querySelector("#resultProgressFill"));
-          const track = rect(document.querySelector(".result-progress-track"));
+          const track = rect(document.querySelector("#resultProgressTrack"));
           const powerText = document.querySelector("#resultPowerText");
           const nextText = document.querySelector("#resultNextGoalText");
+          const measure = rect(powerText);
+          const next = rect(nextText);
+          const scaleX = stage.width / 1280;
+          const scaleY = stage.height / 800;
+          const baseAxis = Number(config.dynamicAxisX);
+          const tierAxis = Number(config.dynamicAxisByTier[tierId]);
+          const shiftedSlots = Object.fromEntries(Object.entries(config.slots).map(([key, slot]) => [
+            key,
+            { ...slot, x:slot.x + tierAxis - baseAxis }
+          ]));
+          const toScreenRect = (slot) => ({
+            left:stage.left + slot.x * scaleX,
+            top:stage.top + slot.y * scaleY,
+            right:stage.left + (slot.x + slot.width) * scaleX,
+            bottom:stage.top + (slot.y + slot.height) * scaleY,
+            width:slot.width * scaleX,
+            height:slot.height * scaleY,
+            cx:stage.left + (slot.x + slot.width / 2) * scaleX,
+            cy:stage.top + (slot.y + slot.height / 2) * scaleY
+          });
+          const slots = Object.fromEntries(Object.entries(shiftedSlots).map(([key, slot]) => [key, toScreenRect(slot)]));
+          const detectPanel = () => {
+            const panelConfig = config.panelPixelAudit;
+            const canvas = document.createElement("canvas");
+            canvas.width = 1280;
+            canvas.height = 800;
+            const context = canvas.getContext("2d", { willReadFrequently:true });
+            context.drawImage(sceneNode, 0, 0, 1280, 800);
+            const pixels = context.getImageData(0, 0, 1280, 800).data;
+            const search = panelConfig.searchRect;
+            const rgb = panelConfig.lightRgbMin;
+            const median = (values) => {
+              const sorted = [...values].sort((a, b) => a - b);
+              const middle = Math.floor(sorted.length / 2);
+              return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+            };
+            const rows = [];
+            for (let y = search.y; y < search.y + search.height; y += 1) {
+              let start = null;
+              let best = null;
+              for (let x = search.x; x <= search.x + search.width; x += 1) {
+                let matches = false;
+                if (x < search.x + search.width) {
+                  const offset = (y * 1280 + x) * 4;
+                  const red = pixels[offset];
+                  const green = pixels[offset + 1];
+                  const blue = pixels[offset + 2];
+                  const spread = Math.max(red, green, blue) - Math.min(red, green, blue);
+                  matches = red >= rgb.r && green >= rgb.g && blue >= rgb.b && spread <= panelConfig.channelSpreadMax;
+                }
+                if (matches && start === null) start = x;
+                if ((!matches || x === search.x + search.width) && start !== null) {
+                  const right = x - 1;
+                  const run = { y, left:start, right, width:right - start + 1, cx:(start + right) / 2 };
+                  if (!best || run.width > best.width) best = run;
+                  start = null;
+                }
+              }
+              if (best && best.width >= panelConfig.minRunWidth) rows.push(best);
+            }
+            const groups = [];
+            for (const row of rows) {
+              const previous = groups.at(-1);
+              if (!previous || row.y !== previous.at(-1).y + 1 || Math.abs(row.cx - median(previous.map((item) => item.cx))) > 64) groups.push([row]);
+              else previous.push(row);
+            }
+            groups.sort((a, b) => b.length * median(b.map((item) => item.width)) - a.length * median(a.map((item) => item.width)));
+            const group = groups[0] || [];
+            if (!group.length) return { error:"no-panel-row-run" };
+            const middleWidth = median(group.map((item) => item.width));
+            const stable = group.filter((item) => item.width >= middleWidth * .9);
+            const left = median(stable.map((item) => item.left));
+            const right = median(stable.map((item) => item.right));
+            return { left, right, width:right - left + 1, cx:(left + right) / 2 };
+          };
+          const panel = detectPanel();
+          const rects = { measure, track, correct, next, retry };
+          const pairs = [];
+          const keys = Object.keys(rects);
+          for (let first = 0; first < keys.length; first += 1) for (let second = first + 1; second < keys.length; second += 1) {
+            pairs.push({ pair:keys[first] + ":" + keys[second], area:intersects(rects[keys[first]], rects[keys[second]]) });
+          }
+          const sceneStyle = getComputedStyle(sceneNode);
+          const forbiddenVisible = config.forbiddenSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]).filter((node) => {
+            const style = getComputedStyle(node);
+            return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity || 0) > 0;
+          }).map((node) => node.className || node.id || node.tagName);
           return {
             forced,
             active:document.querySelector("#screen-result").classList.contains("is-active"),
             tier:document.querySelector("#screen-result").dataset.resultTier,
-            stage, title, correct, panel, retry, fill, track,
-            intersections:{ titleCorrect:intersects(title, correct), correctPanel:intersects(correct, panel), panelRetry:intersects(panel, retry) },
-            centers:{ title:Math.abs(title.cx - stage.cx), correct:Math.abs(correct.cx - stage.cx), panel:Math.abs(panel.cx - stage.cx), retry:Math.abs(retry.cx - stage.cx) },
-            text:{ power:powerText.textContent, next:nextText.textContent, powerLength:powerText.getComputedTextLength(), nextLength:nextText.getComputedTextLength() },
-            natural:{ bg:[document.querySelector("#resultBg").naturalWidth, document.querySelector("#resultBg").naturalHeight], title:[document.querySelector("#resultTitleArt").naturalWidth, document.querySelector("#resultTitleArt").naturalHeight] }
+            stage, scene, rects, slots, panel, fill,
+            targetAxis:tierAxis,
+            targetScreenAxis:stage.left + tierAxis * scaleX,
+            scaleX, scaleY,
+            intersections:pairs,
+            styles:{ objectFit:sceneStyle.objectFit, mixBlendMode:sceneStyle.mixBlendMode, filter:sceneStyle.filter, opacity:Number(sceneStyle.opacity) },
+            separateLayers:{ title:getComputedStyle(document.querySelector("#resultTitleArt")).display, retry:getComputedStyle(document.querySelector(".result-retry-art")).display },
+            forbiddenVisible,
+            text:{ power:powerText.textContent, next:nextText.textContent, powerLength:powerText.getComputedTextLength(), nextLength:nextText.getComputedTextLength(), powerFont:parseFloat(getComputedStyle(powerText).fontSize), nextFont:parseFloat(getComputedStyle(nextText).fontSize) },
+            natural:{ bg:[sceneNode.naturalWidth, sceneNode.naturalHeight] },
+            source:sceneNode.getAttribute("src"),
+            resultImage:results.find((result) => result.id === tierId)?.image || ""
           };
         })
-      ` + `(${JSON.stringify(tierId)})`);
+      ` + `(${JSON.stringify(tierId)}, ${JSON.stringify(RESULT_AUDIT)}, ${JSON.stringify(LESSON_CONFIG.results)})`);
       await captureLessonScreenshot(page, `result-tier-${tierId}-${viewport.name}.png`);
       observations.push({ viewport, tierId, observed });
     }
   }
   await page.send("Emulation.clearDeviceMetricsOverride");
-  const pass = observations.every(({ tierId, observed }) =>
-    observed.active
-    && observed.tier === tierId
-    && Object.values(observed.intersections).every((value) => value === 0)
-    && Object.values(observed.centers).every((value) => value <= 1)
-    && observed.fill.width <= observed.track.width + 1
-    && observed.text.powerLength <= 420
-    && observed.text.nextLength <= 420
-    && observed.text.power.includes("트럭 힘")
-    && observed.text.next.length > 0
-    && observed.natural.bg.join("x") === "1280x800"
-  );
+  const contains = (outer, inner, tolerance = 1) => inner.left >= outer.left - tolerance
+    && inner.top >= outer.top - tolerance && inner.right <= outer.right + tolerance && inner.bottom <= outer.bottom + tolerance;
+  const edgeMatch = (first, second, tolerance = 1) => ["left", "top", "right", "bottom"].every((edge) => Math.abs(first[edge] - second[edge]) <= tolerance);
+  const pass = observations.every(({ tierId, observed }) => {
+    const ordered = ["measure", "track", "correct", "next", "retry"];
+    const gap = RESULT_AUDIT.minVerticalGapPx * observed.scaleX;
+    return observed.active
+      && observed.tier === tierId
+      && observed.source === observed.resultImage
+      && observed.natural.bg.join("x") === "1280x800"
+      && observed.styles.objectFit === "cover"
+      && observed.styles.mixBlendMode === "normal"
+      && observed.styles.filter === "none"
+      && observed.styles.opacity === 1
+      && observed.separateLayers.title === "none"
+      && observed.separateLayers.retry === "none"
+      && observed.forbiddenVisible.length === 0
+      && edgeMatch(observed.scene, observed.stage)
+      && !observed.panel.error
+      && Math.abs(observed.panel.cx - observed.targetAxis) <= RESULT_AUDIT.panelPixelAudit.centerTolerancePx
+      && ["measure", "track", "correct", "next", "retry"].every((key) => contains(observed.slots[key], observed.rects[key]))
+      && ["measure", "track", "correct", "next", "retry"].every((key) => Math.abs(observed.rects[key].cx - observed.targetScreenAxis) <= RESULT_AUDIT.axisTolerancePx)
+      && edgeMatch(observed.rects.track, observed.slots.track)
+      && edgeMatch(observed.rects.retry, observed.slots.retry)
+      && observed.intersections.every((item) => item.area === 0)
+      && ordered.slice(0, -1).every((key, index) => observed.rects[ordered[index + 1]].top - observed.rects[key].bottom >= gap - 1)
+      && observed.fill.width <= observed.rects.track.width + 1
+      && observed.text.powerFont === RESULT_AUDIT.measureFontPx
+      && observed.text.nextFont === RESULT_AUDIT.nextFontPx
+      && observed.text.power.includes("트럭 힘")
+      && observed.text.next.length > 0;
+  });
   return {
     name:"result_all_tiers_all_viewports",
     pass,
-    expected:{ tiers:tierIds, viewports:viewports.map((item) => `${item.width}x${item.height}`), siblingIntersections:0, commonAxisError:"<=1px", fullScene:"1280x800" },
+    expected:{ tiers:tierIds, viewports:viewports.map((item) => `${item.width}x${item.height}@${item.deviceScaleFactor || 1}x`), siblingIntersections:0, panelAndDynamicAxisError:"<=3px/<=1px", separateTitleAndRetryVisible:0, fullScene:"1280x800" },
     observed:observations
   };
 }
@@ -1414,21 +1846,33 @@ async function main() {
     await waitForLoad(page);
 
     const probes = [];
-    probes.push(runPlayBrandSourceProbe());
-    probes.push(runRewardModalSourceProbe());
-    probes.push(await runTutorialPosterProbe(page, seedPageUrl));
-    probes.push(await runCoreScreenEvidenceProbe(page, seedPageUrl));
-    probes.push(await runCalculationBoardStateProbe(page, seedPageUrl));
-    probes.push(await runTabletLandscapeProbe(page, seedPageUrl));
-    probes.push(await runRewardEventSetProbe(page, seedPageUrl));
-    probes.push(await runTruckButtonTripleProbe(page, seedPageUrl, options.seed));
-    probes.push(await runRewardNextDoubleProbe(page, seedPageUrl));
-    probes.push(await runRewardNextPhysicalDoubleClickProbe(page, seedPageUrl));
-    probes.push(await runTruckButtonStaleEventProbe(page, seedPageUrl, options.seed));
-    probes.push(await runRewardNextStaleEventProbe(page, seedPageUrl));
-    probes.push(await runSeedReplayProbe(page, seedPageUrl, randomPageUrl));
-    probes.push(await runResultRasterContractProbe(page, seedPageUrl));
-    probes.push(await runResultTierSetProbe(page, seedPageUrl));
+    if (options.impactOnly) {
+      probes.push(await runRewardWorldImpactProbe(page, seedPageUrl));
+    } else if (options.visualOnly) {
+      probes.push(await runResultRasterContractProbe(page, seedPageUrl));
+      probes.push(await runPlayProgressSetProbe(page, seedPageUrl));
+      probes.push(await runResultTierSetProbe(page, seedPageUrl));
+      probes.push(await runReportEvidenceCaptureProbe(page, seedPageUrl));
+    } else {
+      probes.push(runPlayBrandSourceProbe());
+      probes.push(runRewardModalSourceProbe());
+      probes.push(await runTutorialPosterProbe(page, seedPageUrl));
+      probes.push(await runCoreScreenEvidenceProbe(page, seedPageUrl));
+      probes.push(await runCalculationBoardStateProbe(page, seedPageUrl));
+      probes.push(await runTabletLandscapeProbe(page, seedPageUrl));
+      probes.push(await runRewardEventSetProbe(page, seedPageUrl));
+      probes.push(await runRewardWorldImpactProbe(page, seedPageUrl));
+      probes.push(await runTruckButtonTripleProbe(page, seedPageUrl, options.seed));
+      probes.push(await runRewardNextDoubleProbe(page, seedPageUrl));
+      probes.push(await runRewardNextPhysicalDoubleClickProbe(page, seedPageUrl));
+      probes.push(await runTruckButtonStaleEventProbe(page, seedPageUrl, options.seed));
+      probes.push(await runRewardNextStaleEventProbe(page, seedPageUrl));
+      probes.push(await runSeedReplayProbe(page, seedPageUrl, randomPageUrl));
+      probes.push(await runResultRasterContractProbe(page, seedPageUrl));
+      probes.push(await runPlayProgressSetProbe(page, seedPageUrl));
+      probes.push(await runResultTierSetProbe(page, seedPageUrl));
+      probes.push(await runReportEvidenceCaptureProbe(page, seedPageUrl));
+    }
     const pass = probes.every((probe) => probe.pass);
     const payload = {
       status: pass ? "PASS" : "FAIL",

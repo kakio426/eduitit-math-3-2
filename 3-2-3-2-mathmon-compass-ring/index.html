@@ -129,7 +129,7 @@
           display: grid;
           place-items: center;
           background: rgba(0,0,0,.38);
-          backdrop-filter: blur(6px);
+          backdrop-filter: blur(10px);
         }
         .settings-backdrop[hidden] { display: none; }
         .settings-modal {
@@ -226,8 +226,14 @@
           z-index: 10;
         }
         .cover::after,
-        .reward::after,
-        .result::after {
+        .reward::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, rgba(14,12,22,.64), rgba(14,12,22,.2) 46%, rgba(14,12,22,.24));
+          pointer-events: none;
+        }
+        .game:not([data-result-render-mode="fullscene-generated-dynamic-slots"]) .result::after {
           content: "";
           position: absolute;
           inset: 0;
@@ -414,7 +420,7 @@
         .step-chip { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,.09); color: #d7cadb; font-size: .8rem; font-weight: 1000; max-width: 100%; overflow-wrap: anywhere; }
         .step-chip.is-current { background: rgba(255,200,87,.22); color: #fff8e8; }
         .step-chip.is-done { background: rgba(53,217,178,.18); color: #dffff5; }
-        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; }
+        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; word-break: keep-all; overflow-wrap: normal; }
         .answer-slot { min-height: 90px; border: 2px dashed rgba(255,255,255,.22); border-radius: 20px; display: grid; place-items: center; font-size: clamp(1.7rem, 3.2vw, 2.55rem); font-weight: 1000; color: #ffc857; text-align: center; padding: 8px; overflow-wrap: anywhere; }
         .answer-slot.is-filled { border-style: solid; border-color: rgba(53,217,178,.7); background: rgba(53,217,178,.12); animation: slot-pop .5s ease; }
         .feedback-line { margin: 0; min-height: 28px; color: #d7cadb; font-size: .98rem; font-weight: 900; }
@@ -428,12 +434,10 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
-        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
-        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { display: none; }
+        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
         .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
         .problem-grid.is-complete .step-chips,
         .problem-grid.is-complete .instruction,
@@ -479,46 +483,8 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object {
-          position: relative;
-          width: 210px;
-          height: 210px;
-          border-radius: 28px;
-          display: grid;
-          place-items: end center;
-          background:
-            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
-            linear-gradient(180deg, #173649, #0c1c29);
-          border: 2px solid rgba(255,255,255,.3);
-          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
-          overflow: hidden;
-          isolation: isolate;
-        }
-        .reward-object::after {
-          content: attr(data-symbol);
-          position: absolute;
-          z-index: 2;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          color: #fff8e8;
-          font-size: 4.5rem;
-          line-height: 1;
-          font-weight: 1000;
-          text-shadow: 0 5px 14px rgba(0,0,0,.48);
-        }
-        .reward-object[data-direction="special"]::after { color: #fff1a6; }
-        .reward-object[data-direction="same"]::after { color: #d7cadb; }
-        .reward-liquid {
-          position: absolute;
-          z-index: 1;
-          inset: auto 0 0;
-          width: 100%;
-          height: var(--fill);
-          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
-          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
-          transition: height .5s ease;
-        }
+        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
+        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -567,13 +533,42 @@
           font-weight: 1000;
           text-align: center;
         }
+        main.game[data-reward-mode="modal-art"] .reward-card {
+          width: 560px;
+          max-width: 88%;
+          height: 480px;
+          min-height: 0;
+          aspect-ratio: 7 / 6;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-visual {
+          width: 250px;
+          height: 250px;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-label {
+          min-height: 52px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-block: 3px;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-pop {
+          backdrop-filter: blur(10px);
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-visual {
+          transform: none;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label { display: flex; }
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
-        .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
-        .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
+    .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+        .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-title-art,
+        .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-retry-art { display: none !important; }
         .result-dynamic-ui [hidden] { display: none; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
-        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: 0; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
         .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
@@ -1142,7 +1137,8 @@
     .game[data-workbench-type="compass-opening"] .answer-slot { display: none; }
     .game[data-workbench-type="compass-opening"] .big-problem {
       margin: 0; color: #273d3b; font-size: clamp(2.2rem, 4.15vw, 3.75rem);
-      line-height: 1.05; text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.75);
+      line-height: 1.05; padding-block: 4px; box-sizing: content-box;
+      text-align: center; word-break: keep-all; text-shadow: 0 2px 0 rgba(255,255,255,.75);
     }
     .game[data-workbench-type="compass-opening"] .visual-area { position: relative; min-height: 0; display: grid; place-items: center; overflow: hidden; }
 
@@ -1153,7 +1149,7 @@
     .target-radius { stroke: #d46c24; stroke-width: 9; stroke-linecap: round; }
     .target-end { fill: #d46c24; stroke: #fff7df; stroke-width: 2; }
     .target-radius-label, .compass-opening-label { fill: #273d3b; font-weight: 1000; }
-    .target-radius-label { font-size: 28px; }
+    .target-radius-label { font-size: 29px; }
     .compass-opening-label { font-size: 29px; }
     .waiting-target-circle { stroke-dasharray: 8 8; opacity: .74; }
     .waiting-draw-preview {
@@ -1173,7 +1169,7 @@
       filter: drop-shadow(0 0 7px rgba(132,67,226,.72));
     }
     .target-center-label, .proof-center-label {
-      fill: #315e61; font-size: 28px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
+      fill: #315e61; font-size: 29px; font-weight: 1000; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: 5px;
     }
     .compass-ruler { stroke: #6f9191; stroke-width: 3; stroke-linecap: round; }
     .compass-tick { stroke: #6f9191; stroke-width: 2; }
@@ -2449,8 +2445,6 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
-      rewardObject: document.querySelector("#screen-reward .reward-object"),
-      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -2723,8 +2717,6 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
-      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
-      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -2745,12 +2737,6 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
-        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
-        const misconceptionId = getChoiceMisconceptionId(choice);
-        if (misconceptionId) button.dataset.misconception = misconceptionId;
-        if (choice && typeof choice === "object" && choice.relation) {
-          button.dataset.relation = String(choice.relation);
-        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -2769,10 +2755,6 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
-      });
-      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
-        delete choiceButton.dataset.state;
-        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -2838,12 +2820,7 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
-      ui.completeText.hidden = !showCompleteExpression;
-      ui.completeText.textContent = showCompleteExpression
-        ? (problem.finalExpression || ui.answerSlot.textContent)
-        : "";
-      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
+      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -2929,8 +2906,7 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
-        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
+        chip.textContent = step.label || `${index + 1}단계`;
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -2938,7 +2914,7 @@
     }
 
     async function showReward() {
-      if (!state.completed || state.rewardPhase !== "idle") return;
+      if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -2969,9 +2945,7 @@
         return;
       }
 
-      const beforePower = applyPendingReward(event);
-      state.rewardPhase = "revealed";
-      renderRewardMeter(event, beforePower, state.power);
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -2982,18 +2956,6 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
-    }
-
-    function renderRewardMeter(event, beforePower, afterPower) {
-      if (!ui.rewardObject || !ui.rewardLiquid) return;
-      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
-      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
-      const delta = Number(afterPower) - Number(beforePower);
-      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
-      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
-      ui.rewardObject.dataset.direction = direction;
-      ui.rewardObject.dataset.symbol = symbol;
-      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3046,7 +3008,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3061,23 +3023,14 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
+      if (event.special) return event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(event, beforeResult, afterResult) {
-      const formatter = globalThis.formatLessonRewardTarget;
-      if (typeof formatter === "function") {
-        try {
-          const formatted = formatter({ event, beforeResult, afterResult, state });
-          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
-        } catch (error) {
-          console.warn("formatLessonRewardTarget failed", error);
-        }
-      }
+    function getRewardTargetText(beforeResult, afterResult) {
       if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
@@ -3140,11 +3093,12 @@
 
     function setRewardValue(amount) {
       const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
-        ? `${unit} ${zeroLabel}`
-        : `${unit} ${value > 0 ? "+" : ""}${value}`;
+        ? `${changeLabel} ${zeroLabel}`
+        : `${changeLabel} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
@@ -3173,10 +3127,8 @@
 
     async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
-      if (state.pendingAdvance) return;
-      if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
-      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") {
+        if (state.rewardPhase !== "revealed") return;
         const event = state.pendingRewardEvent;
         ui.modalRewardNextButton.disabled = true;
         closeRewardModal();
@@ -3188,10 +3140,6 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
-        state.pendingRewardEvent = null;
-        state.rewardPhase = "idle";
-      }
-      if (getRewardMode() === "stage-full") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3236,7 +3184,7 @@
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-      const fullScene = getResultRenderMode() === "fullscene-score-slot";
+      const fullScene = ["fullscene-score-slot", "fullscene-generated-dynamic-slots"].includes(getResultRenderMode());
       ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
       screens.result.dataset.resultTier = result.id || "";
 

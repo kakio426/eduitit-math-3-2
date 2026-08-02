@@ -1,4 +1,90 @@
 let unit6RewardStage = null;
+let unit6PlayProgress = null;
+let unit6PlayProgressPrimed = false;
+const unit6PlayProgressPreloads = [];
+
+function ensureUnit6PlayProgress() {
+  const playScreen = document.getElementById("screen-play");
+  if (!playScreen) return null;
+  if (unit6PlayProgress?.panel?.isConnected) return unit6PlayProgress;
+  const imageSet = LESSON_CONFIG.workbench?.playStateImageSet || {};
+  if (imageSet.standard !== "generated-play-progress-v3-left-character") return null;
+
+  document.querySelector(".game")?.classList.add("has-play-progress");
+  const panel = document.createElement("aside");
+  panel.className = "unit6-play-progress";
+  panel.dataset.playProgressStandard = imageSet.standard || "";
+  panel.dataset.protagonist = imageSet.protagonist || "";
+  panel.dataset.cacheVersion = imageSet.cacheVersion || "";
+
+  const art = document.createElement("img");
+  art.className = "unit6-play-progress-art";
+  art.alt = "";
+  art.decoding = "async";
+  art.setAttribute("aria-hidden", "true");
+
+  const readout = unit6Create("div", "unit6-play-progress-readout");
+  const eyebrow = unit6Create("span", "unit6-play-progress-eyebrow", "지금 모습");
+  const name = unit6Create("strong", "unit6-play-progress-name");
+  const meter = unit6Create("span", "unit6-play-progress-meter");
+  meter.setAttribute("role", "progressbar");
+  meter.setAttribute("aria-valuemin", "0");
+  meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+  const meterFill = unit6Create("i", "unit6-play-progress-meter-fill");
+  meter.append(meterFill);
+  readout.append(eyebrow, name, meter);
+  panel.append(art, readout);
+  playScreen.append(panel);
+  unit6PlayProgress = { panel, art, name, meter, meterFill };
+  return unit6PlayProgress;
+}
+
+function primeUnit6PlayProgressArt() {
+  if (unit6PlayProgressPrimed || typeof Image === "undefined") return;
+  unit6PlayProgressPrimed = true;
+  LESSON_CONFIG.results.map((result) => result.playImage).filter(Boolean).forEach((src) => {
+    const image = new Image();
+    image.src = src;
+    unit6PlayProgressPreloads.push(image);
+  });
+}
+
+function syncUnit6PlayProgress(state) {
+  const progress = ensureUnit6PlayProgress();
+  if (!progress) return;
+  primeUnit6PlayProgressArt();
+  const result = Lesson6DataLabModel.getResult(
+    Number(state?.power || 0),
+    Number(state?.correctFirstTry || 0),
+    Boolean(state?.specialSeen),
+  );
+  const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+  const power = Math.max(0, Math.min(Number(state?.power || 0), maxPower));
+  const nextSrc = result.playImage || "";
+  progress.panel.dataset.resultTier = result.id;
+  progress.panel.dataset.power = String(power);
+  progress.name.textContent = result.name;
+  progress.meter.setAttribute("aria-valuenow", String(power));
+  progress.meterFill.style.width = `${power / maxPower * 100}%`;
+  const unitLabel = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+  progress.panel.setAttribute("aria-label", `${result.name} 단계예요. ${unitLabel}은 ${power}이에요.`);
+  if (progress.art.getAttribute("src") !== nextSrc) progress.art.src = nextSrc;
+}
+
+globalThis.__playProgressQa = {
+  syncProgress() {
+    syncUnit6PlayProgress(window.__mathmonEngineQa?.getState?.() || {});
+  },
+  getRewardEffectState() {
+    return {
+      resultTier: unit6PlayProgress?.panel?.dataset.resultTier || "",
+      imageSrc: unit6PlayProgress?.art?.getAttribute("src") || "",
+      panelClasses: unit6PlayProgress?.panel?.className || "",
+      effectPhase: "idle",
+      effectKind: "stage-reveal",
+    };
+  },
+};
 
 function unit6Create(tag, className, text = "") {
   const node = document.createElement(tag);
@@ -102,7 +188,8 @@ function renderDetectiveBoard(problem) {
   return board;
 }
 
-function renderProblemVisual(problem) {
+function renderProblemVisual(problem, state) {
+  syncUnit6PlayProgress(state);
   ui.visualArea.innerHTML = "";
   let board;
   if (problem.visual.kind === "census") board = renderCensusBoard(problem);
@@ -112,7 +199,8 @@ function renderProblemVisual(problem) {
   if (board) ui.visualArea.append(board);
 }
 
-function updateProblemVisualForStep(problem, step) {
+function updateProblemVisualForStep(problem, step, state) {
+  syncUnit6PlayProgress(state);
   ui.visualArea.dataset.step = step.id;
   ui.visualArea.dataset.state = "waiting";
   ui.visualArea.querySelectorAll(".is-picked-wrong").forEach((node) => node.classList.remove("is-picked-wrong"));
@@ -125,6 +213,7 @@ function updateProblemVisualForStep(problem, step) {
 }
 
 function renderAttempt(problem, step, choice, currentState, outcome) {
+  syncUnit6PlayProgress(currentState);
   ui.visualArea.dataset.state = outcome.correct ? "correct" : "wrong";
   ui.visualArea.dataset.attemptValue = String(choice.value);
   if (outcome.correct) return;
@@ -200,7 +289,8 @@ function renderAttempt(problem, step, choice, currentState, outcome) {
   }
 }
 
-function revealCorrectStep(problem, step) {
+function revealCorrectStep(problem, step, state) {
+  syncUnit6PlayProgress(state);
   ui.visualArea.querySelectorAll(".is-extra-attempt").forEach((node) => node.remove());
   ui.visualArea.querySelectorAll(".is-picked-wrong, .is-attempt-wrong").forEach((node) => {
     node.classList.remove("is-picked-wrong", "is-attempt-wrong");
@@ -270,7 +360,8 @@ function prepareStepAdvance(problem, step, currentState, advance) {
   return true;
 }
 
-function onProblemComplete({ problem }) {
+function onProblemComplete({ problem, state }) {
+  syncUnit6PlayProgress(state);
   ui.visualArea.dataset.state = "complete";
   if (problem.visual.kind === "stamp") {
     const equation = ui.visualArea.querySelector("[data-stamp-equation]");
@@ -340,7 +431,8 @@ function onRewardPrepare({ beforePower, beforeResult }) {
   stage.root.setAttribute("aria-label", `현재 ${beforeResult.name}. 상자가 닫혀 있어요.`);
 }
 
-function onRewardReveal({ event, beforePower, afterPower, afterResult }) {
+function onRewardReveal({ event, beforePower, afterPower, afterResult, state }) {
+  syncUnit6PlayProgress(state);
   const stage = ensureUnit6RewardStage();
   if (!stage) return Promise.resolve();
   const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
@@ -358,3 +450,5 @@ function onRewardReveal({ event, beforePower, afterPower, afterResult }) {
     ? Promise.resolve()
     : new Promise((resolve) => window.setTimeout(resolve, 480));
 }
+
+globalThis.onRewardReveal = onRewardReveal;

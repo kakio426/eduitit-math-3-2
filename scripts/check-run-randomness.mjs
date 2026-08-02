@@ -21,7 +21,11 @@ function assertCommonRunSeedContract(source, label) {
   assert.match(source, /hasQaMarker && Number\.isSafeInteger\(requestedSeed\)/, `${label}: a normal URL can still freeze the run`);
   assert.match(source, /crypto\?\.getRandomValues|crypto\.getRandomValues/, `${label}: browser randomness is missing`);
   assert.match(source, /seed === lastRunSeed/, `${label}: immediate retries can reuse the same seed`);
-  assert.match(source, /LessonModel\.generateRun\(createRunSeed\(\)\)/, `${label}: startGame does not request a new run seed`);
+  assert.match(
+    source,
+    /(?:LessonModel\.generateRun|createInitialState)\(createRunSeed\(\)\)/,
+    `${label}: startGame does not request a new run seed`,
+  );
   assert.doesNotMatch(
     source,
     /Number\(new URLSearchParams\(window\.location\.search\)\.get\("seed"\)\)/,
@@ -50,7 +54,7 @@ for (const lesson of lessons) {
   const source = read(indexPath);
   const sourceLessonDir = path.join(ROOT, "_lessons", lesson.folder);
 
-  if (existsSync(sourceLessonDir) && lesson.id !== "3-2-5-4") {
+  if (existsSync(sourceLessonDir)) {
     assertCommonRunSeedContract(source, lesson.id);
     checked.push({ id: lesson.id, strategy: "engine-qa-seed-or-fresh-random" });
     continue;

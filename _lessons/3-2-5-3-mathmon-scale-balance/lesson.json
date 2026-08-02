@@ -3,11 +3,11 @@
   "id": "3-2-5-3", "folder": "3-2-5-3-mathmon-scale-balance", "modelName": "Lesson5WaterFillModel",
   "title": "매스몬 저울 균형", "shortTitle": "매스몬 저울", "topic": "무게 비교와 kg, g, t", "unitBadge": "5단원 무게",
   "goal": "저울에 맞는 무게를 골라요.", "action": "저울을 맞출 무게 또는 더 무거운 쪽을 고른다.",
-  "buttonLabel": "저울 보기", "rewardScreenTitle": "저울 맞추기", "progressLabel": "균형 힘",
+  "buttonLabel": "저울 보기", "rewardScreenTitle": "저울 맞추기", "progressLabel": "균형 힘", "rewardThing": "저울", "playProgressEyebrow": "지금의 저울",
   "rewardComplete": "균형 힘이 바뀌었어요.", "rewardSmall": "조금 맞춰졌어요.", "rewardBig": "크게 맞춰졌어요.",
   "tutorialTitle": "저울을 보기 전에", "tutorialButton": "문제 시작",
   "tutorialCards": [
-    { "visual": "1", "purpose": "mechanic", "title": "어떻게 비교해요?", "body": "무게를 비교하고 kg, g, t를 바꿔 봐요.", "image": "tutorial-page-1-generated.webp" },
+    { "visual": "1", "purpose": "mechanic", "title": "어떻게 비교해요?", "body": "같은 단위로 바꾼 뒤 무게를 비교해요.", "image": "tutorial-page-1-generated.webp" },
     { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 마지막 저울 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
   ],
   "tutorial": { "mode": "poster-two-step" },
@@ -37,33 +37,89 @@
     }
   },
   "result": {
-    "renderMode": "hybrid-generated-dynamic",
+    "renderMode": "fullscene-generated-dynamic-slots",
     "showNextGoal": true,
     "layout": {
-      "axisX": 1000,
-      "titleTop": 82,
-      "titleWidth": 430,
-      "measureY": 435,
-      "barY": 455,
-      "barWidth": 340,
-      "barHeight": 24,
-      "correctTop": 490,
-      "correctWidth": 210,
-      "nextY": 636,
-      "retryRect": { "x": 850, "y": 655, "width": 300, "height": 108 }
+      "axisX": 972,
+      "axisXByTier": {
+        "tilted": 972,
+        "almost": 952,
+        "balanced": 969,
+        "shining": 944,
+        "gold": 1004,
+        "rainbow": 985
+      },
+      "byTier": {
+        "tilted": { "retryRect": { "x": 822, "y": 540, "width": 300, "height": 60 } },
+        "almost": { "retryRect": { "x": 802, "y": 540, "width": 300, "height": 60 } },
+        "balanced": { "retryRect": { "x": 819, "y": 540, "width": 300, "height": 60 } },
+        "shining": { "retryRect": { "x": 794, "y": 540, "width": 300, "height": 60 } },
+        "gold": { "retryRect": { "x": 854, "y": 540, "width": 300, "height": 60 } },
+        "rainbow": { "retryRect": { "x": 835, "y": 540, "width": 300, "height": 60 } }
+      },
+      "titleTop": 180,
+      "titleWidth": 210,
+      "measureY": 360,
+      "barY": 380,
+      "barWidth": 300,
+      "barHeight": 20,
+      "correctTop": 410,
+      "correctWidth": 150,
+      "nextY": 531,
+      "retryRect": { "x": 822, "y": 540, "width": 300, "height": 60 }
     },
     "stateImageSet": {
-      "count": 4,
+      "standard": "generated-result-fullscene-v3",
+      "count": 6,
       "canvas": "1280x800",
-      "runtimeSlot": "1280x800",
-      "contactSheet": "result-states-contact-sheet.png",
+      "runtimeSlot": "result-stage-fullscene",
+      "sourceSetPath": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/source",
+      "contactSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/contact-sheets/result-tiers-v6-contact-sheet.png",
       "protagonist": "mathmon-drv-05-crystalowl",
-      "fixedGeneratedElements": ["result-title", "retry-button"],
-      "dynamicOverlays": ["balance-power", "correct-count", "next-goal"]
+      "nativeScenePerState": true,
+      "fixedGeneratedElements": ["environment", "mathmon", "native-scale", "tier-scene-with-title", "blank-dynamic-panel", "retry-button"],
+      "dynamicOverlays": ["balance-power", "correct-count", "next-goal"],
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true
     }
   },
-  "completion": { "showExpression": false },
-  "workbench": { "type": "scale-balance" }, "scoreboard": { "enabled": false },
+  "workbench": {
+    "type": "scale-balance",
+    "playStateImageSet": {
+      "standard": "generated-play-progress-v3-left-character",
+      "count": 6,
+      "canvas": "768x1536",
+      "objectFit": "contain",
+      "protagonist": "mathmon-drv-05-crystalowl",
+      "cacheVersion": "2026-08-01-left-progress-v1",
+      "runtimeSlot": "stage-left-play-progress-v1",
+      "sourceSetPath": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source",
+      "contactSheet": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png",
+      "filePattern": "play-scale-v1-{tier}-generated.webp",
+      "requiredSubjects": ["수정부엉몬 전신", "balance scale progress"],
+      "layoutContract": {
+        "characterFullBody": true,
+        "sameCameraAcrossStates": true,
+        "combinedFocalCenterX": 0.5,
+        "leftStageRatio": 0.0165,
+        "topStageRatio": 0.11,
+        "widthStageRatio": 0.192,
+        "heightStageRatio": 0.84,
+        "objectFit": "contain",
+        "safeMarginRatio": 0.06,
+        "maxFootBaselineDeltaRatio": 0.03,
+        "mathmonPlacement": {
+          "centerX": 0.5,
+          "centerY": 0.57,
+          "footY": 0.72,
+          "toleranceRatio": 0.03,
+          "sameScaleAcrossStates": true
+        },
+        "forbidResultCropReuse": true
+      }
+    }
+  }, "scoreboard": { "enabled": false },
   "sourceFiles": {
     "model": "../3-2-5-1-mathmon-water-fill/model.js",
     "view": "../3-2-5-1-mathmon-water-fill/view.js",
@@ -71,10 +127,12 @@
   },
   "mathmonPack": "diversity-reward-pack", "mathmonName": "수정부엉몬", "mathmonId": "mathmon-drv-05-crystalowl",
   "results": [
-    { "id": "tilted", "name": "살짝 기운 저울", "minPower": 0, "minCorrect": 0, "image": "result-scale-tilted-generated.webp", "titleImage": "result-title-tilted-generated.webp" },
-    { "id": "almost", "name": "거의 균형", "minPower": 30, "minCorrect": 3, "image": "result-scale-almost-generated.webp", "titleImage": "result-title-almost-generated.webp" },
-    { "id": "shining", "name": "반짝 균형", "minPower": 70, "minCorrect": 7, "image": "result-scale-shining-generated.webp", "titleImage": "result-title-shining-generated.webp" },
-    { "id": "gold", "name": "황금 균형", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "image": "result-scale-gold-generated.webp", "titleImage": "result-title-gold-generated.webp" }
+    { "id": "tilted", "name": "살짝 기운 저울", "minPower": 0, "minCorrect": 0, "visualRank": 0, "playImage": "play-scale-v1-tilted-generated.webp", "image": "result-scale-tilted-generated.webp", "titleImage": "result-scale-tilted-generated.webp" },
+    { "id": "almost", "name": "거의 균형", "minPower": 15, "minCorrect": 2, "visualRank": 1, "playImage": "play-scale-v1-almost-generated.webp", "image": "result-scale-almost-generated.webp", "titleImage": "result-scale-almost-generated.webp" },
+    { "id": "balanced", "name": "균형 저울", "minPower": 35, "minCorrect": 4, "visualRank": 2, "playImage": "play-scale-v1-balanced-generated.webp", "image": "result-scale-balanced-generated.webp", "titleImage": "result-scale-balanced-generated.webp" },
+    { "id": "shining", "name": "반짝 균형", "minPower": 55, "minCorrect": 6, "visualRank": 3, "playImage": "play-scale-v1-shining-generated.webp", "image": "result-scale-shining-generated.webp", "titleImage": "result-scale-shining-generated.webp" },
+    { "id": "gold", "name": "황금 균형", "minPower": 78, "minCorrect": 8, "visualRank": 4, "playImage": "play-scale-v1-gold-generated.webp", "image": "result-scale-gold-generated.webp", "titleImage": "result-scale-gold-generated.webp" },
+    { "id": "rainbow", "name": "무지개 균형", "minPower": 100, "minCorrect": 1, "needsSpecial": true, "visualRank": 5, "playImage": "play-scale-v1-rainbow-generated.webp", "image": "result-scale-rainbow-generated.webp", "titleImage": "result-scale-rainbow-generated.webp" }
   ],
   "rewardEvents": [
     { "id": "normal", "text": "균형 힘이 늘었어요", "weight": 6400, "min": 6, "max": 10, "family": "smallBalance" },
@@ -87,10 +145,9 @@
   "wrongEvent": { "id": "wrong-loss", "text": "균형 힘이 줄었어요", "min": -6, "max": -3, "family": "repair" },
   "typesPerRun": ["compareKgG", "compareKgG", "compareKgG", "compareKgG", "balanceMissing", "balanceMissing", "balanceMissing", "balanceMissing", "compareTonKg", "compareTonKg"],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": { "cover": "cover-generated.webp", "titleArt": "title-logo-generated.webp", "startButton": "../_shared/mathmon/cover-start-button/start-button-generated.webp", "rewardClosed": "reward-event-closed-v2-generated.webp", "rewardScene": "reward-scene-generated.webp", "resultRetryButton": "../_shared/result-actions/retry-button-v2-generated.webp" },
   "qa": {
-    "playProgressDisposition": { "standard": "play-progress-disposition-v1", "status": "not-applicable", "reason": "full-width-learning-area", "minLearningWidthRatio": 0.9 },
     "visualContractVersion": 1,
     "misconceptionCoverage": ["COMPARE_KG_G", "BALANCE_MISSING", "COMPARE_TON_KG"],
     "rewardModalAudit": {
@@ -115,7 +172,7 @@
     "layoutAudit": {
       "workArea": ".problem-grid", "primary": ".problem-card", "secondary": ".choices-panel",
       "tertiary": ".step-board", "complete": ".complete-panel",
-      "verticalOrder": ["tertiary", "secondary"], "minStageWidthRatio": 0.9
+      "verticalOrder": ["tertiary", "secondary"], "minStageWidthRatio": 0.7
     },
     "answerAccumulationAudit": {
       "standard": "primary-calculation-accumulates-v1",
@@ -143,7 +200,117 @@
       "standard": "result-dynamic-axis-v1", "axisNodes": ["track", "measure", "correct", "next", "retry"],
       "maxAxisSpreadRatio": 0.015, "minimumVisibleGapPx": 8, "titleAlphaThreshold": 24
     },
-    "viewports": [{ "name": "desktop", "width": 1280, "height": 800 }, { "name": "tablet-landscape", "width": 1024, "height": 768 }],
+    "resultVisualAudit": {
+      "standard": "result-tier-fullscene-native-v1",
+      "stateCount": 6,
+      "expectedStates": ["tilted", "almost", "balanced", "shining", "gold", "rainbow"],
+      "expectedRanks": [0, 1, 2, 3, 4, 5],
+      "sceneImage": "#resultBg",
+      "sceneCanvas": "1280x800",
+      "sceneObjectFit": "cover",
+      "nativeScenePerState": true,
+      "forbidEffectOverlay": true,
+      "forbidBlendMode": true,
+      "forbidTierCssFilter": true,
+      "forbiddenSelectors": [".compass-result-impact", "[class*='result-impact']"],
+      "dynamicAxisX": 972,
+      "dynamicAxisByTier": {
+        "tilted": 972,
+        "almost": 952,
+        "balanced": 969,
+        "shining": 944,
+        "gold": 1004,
+        "rainbow": 985
+      },
+      "shiftRetryWithTierAxis": true,
+      "axisTolerancePx": 1,
+      "panelPixelAudit": {
+        "standard": "light-panel-row-run-v1",
+        "searchRect": { "x": 650, "y": 100, "width": 620, "height": 620 },
+        "lightRgbMin": { "r": 220, "g": 205, "b": 160 },
+        "channelSpreadMax": 86,
+        "minRunWidth": 180,
+        "centerTolerancePx": 3
+      },
+      "slots": {
+        "measure": { "x": 792, "y": 326, "width": 360, "height": 42 },
+        "track": { "x": 822, "y": 380, "width": 300, "height": 20 },
+        "correct": { "x": 897, "y": 410, "width": 150, "height": 88 },
+        "next": { "x": 792, "y": 504, "width": 360, "height": 34 },
+        "retry": { "x": 822, "y": 540, "width": 300, "height": 60 }
+      },
+      "measureFontPx": 32,
+      "nextFontPx": 28,
+      "minVerticalGapPx": 2,
+      "requireDistinctSceneSource": true,
+      "grandColorFamily": "gold-crystal",
+      "legendColorFamily": "rainbow-crystal"
+    },
+    "resultBoardAudit": {
+      "standard": "generated-result-board-pixel-axis-v1",
+      "sceneImage": "#resultBg",
+      "matchMode": "light-board",
+      "scanStartRatio": 0.01,
+      "threshold": { "redMin": 220, "greenMin": 205, "blueMin": 160, "channelSpreadMax": 86 },
+      "minimumRunRatio": 0.18,
+      "maxDetectedAxisDeltaPx": 3,
+      "expectedAxisXByTier": {
+        "tilted": 971.5,
+        "almost": 951.5,
+        "balanced": 969,
+        "shining": 943.5,
+        "gold": 1004,
+        "rainbow": 984.5
+      }
+    },
+    "resultTierContrastAudit": {
+      "standard": "result-tier-contrast-v1",
+      "stateCount": 6,
+      "minimumChangedAxesPerAdjacentTier": 2,
+      "topTwoColorFamiliesMustDiffer": true,
+      "contactSheet": "result-tiers-v6-contact-sheet.png"
+    },
+    "playProgressAudit": {
+      "standard": "stage-left-play-progress-v1",
+      "panel": ".water-play-progress",
+      "image": ".water-play-progress-art",
+      "label": ".water-play-progress-name",
+      "stateCount": 6,
+      "canvas": "768x1536",
+      "expectedStates": ["tilted", "almost", "balanced", "shining", "gold", "rainbow"],
+      "objectFit": "contain",
+      "expectedStandard": "generated-play-progress-v3-left-character",
+      "expectedProtagonist": "mathmon-drv-05-crystalowl",
+      "panelPlacement": { "leftRatio": 0.0165, "topRatio": 0.11, "widthRatio": 0.192, "heightRatio": 0.84, "tolerancePx": 1 },
+      "mathmonPlacement": { "centerX": 0.5, "centerY": 0.57, "footY": 0.72, "toleranceRatio": 0.03, "sameScaleAcrossStates": true },
+      "panelLaneCenterTolerancePx": 1,
+      "imagePanelCenterTolerancePx": 1
+    },
+    "rewardEffectAudit": {
+      "standard": "modal-dismiss-world-impact-v2",
+      "panel": ".water-play-progress",
+      "image": ".water-play-progress-art",
+      "activeClasses": ["is-changing", "is-dimming", "is-celebrating", "is-tier-up"],
+      "positiveClasses": ["is-changing", "is-celebrating"],
+      "tierUpClass": "is-tier-up",
+      "impactLayer": ".water-play-progress-impact-stage",
+      "preEffectDelayMs": 320,
+      "durationMs": 1560,
+      "minVisibleMs": 1200,
+      "minImpactStageWidthRatio": 0.32,
+      "deferNextProblem": true,
+      "modalKeepsBackgroundStable": true,
+      "requiresModalClosedBeforeStart": true,
+      "tierChangeRequiresImageSwap": true,
+      "forceTierTransition": { "beforePower": 13, "beforeCorrect": 2, "restoreCorrect": 1, "eventId": "normal", "amount": 4, "beforeTier": "tilted", "afterTier": "almost" }
+    },
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "codex-in-app", "width": 1280, "height": 720, "deviceScaleFactor": 2 },
+      { "name": "user-visibility", "width": 994, "height": 632 },
+      { "name": "user-reported-missing-left-progress", "width": 1082, "height": 987, "deviceScaleFactor": 2 }
+    ],
     "requiredFlow": ["cover", "tutorial-1", "tutorial-2", "play", "reward", "result"]
   },
   "assets": [
@@ -155,10 +322,11 @@
     "reward-event-shine-balance-generated.webp", "reward-event-small-only-generated.webp",
     "reward-event-special-balance-generated.webp", "reward-event-repair-generated.webp",
     "reward-events-v3-contact-sheet.png",
-    "result-scale-tilted-generated.webp", "result-scale-almost-generated.webp",
-    "result-scale-shining-generated.webp", "result-scale-gold-generated.webp",
-    "result-title-tilted-generated.webp", "result-title-almost-generated.webp",
-    "result-title-shining-generated.webp", "result-title-gold-generated.webp",
+    "result-scale-tilted-generated.webp", "result-scale-almost-generated.webp", "result-scale-balanced-generated.webp",
+    "result-scale-shining-generated.webp", "result-scale-gold-generated.webp", "result-scale-rainbow-generated.webp",
+    "result-tiers-v6-contact-sheet.png", "result-layout-v6.json",
+    "play-scale-v1-tilted-generated.webp", "play-scale-v1-almost-generated.webp", "play-scale-v1-balanced-generated.webp",
+    "play-scale-v1-shining-generated.webp", "play-scale-v1-gold-generated.webp", "play-scale-v1-rainbow-generated.webp",
     "../_shared/result-actions/retry-button-v2-generated.webp"
   ]
 }

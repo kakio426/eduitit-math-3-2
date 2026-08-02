@@ -129,7 +129,7 @@
           display: grid;
           place-items: center;
           background: rgba(0,0,0,.38);
-          backdrop-filter: blur(6px);
+          backdrop-filter: blur(10px);
         }
         .settings-backdrop[hidden] { display: none; }
         .settings-modal {
@@ -226,8 +226,14 @@
           z-index: 10;
         }
         .cover::after,
-        .reward::after,
-        .result::after {
+        .reward::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, rgba(14,12,22,.64), rgba(14,12,22,.2) 46%, rgba(14,12,22,.24));
+          pointer-events: none;
+        }
+        .game:not([data-result-render-mode="fullscene-generated-dynamic-slots"]) .result::after {
           content: "";
           position: absolute;
           inset: 0;
@@ -414,7 +420,7 @@
         .step-chip { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,.09); color: #d7cadb; font-size: .8rem; font-weight: 1000; max-width: 100%; overflow-wrap: anywhere; }
         .step-chip.is-current { background: rgba(255,200,87,.22); color: #fff8e8; }
         .step-chip.is-done { background: rgba(53,217,178,.18); color: #dffff5; }
-        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; }
+        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; word-break: keep-all; overflow-wrap: normal; }
         .answer-slot { min-height: 90px; border: 2px dashed rgba(255,255,255,.22); border-radius: 20px; display: grid; place-items: center; font-size: clamp(1.7rem, 3.2vw, 2.55rem); font-weight: 1000; color: #ffc857; text-align: center; padding: 8px; overflow-wrap: anywhere; }
         .answer-slot.is-filled { border-style: solid; border-color: rgba(53,217,178,.7); background: rgba(53,217,178,.12); animation: slot-pop .5s ease; }
         .feedback-line { margin: 0; min-height: 28px; color: #d7cadb; font-size: .98rem; font-weight: 900; }
@@ -428,12 +434,10 @@
         .choice-button[data-state="correct"] { color: #10241d; background: #35d9b2; }
         .choice-button.is-wrong,
         .choice-button[data-state="wrong"] { color: #fff8e8; background: #ff5d7a; }
-        .complete-panel { grid-column: 2; grid-row: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
+        .complete-panel { grid-column: 2; padding: 14px 18px; display: none; align-items: center; gap: 14px; grid-template-columns: 1fr auto; }
         .complete-panel.is-visible { display: grid; }
-        .complete-panel.is-action-only { grid-template-columns: minmax(0, 1fr); justify-items: center; }
-        .complete-panel.is-action-only .primary-button { min-width: min(240px, 100%); }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
-        .problem-grid.is-complete .choices-panel { display: none; }
+        .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
         .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
         .problem-grid.is-complete .step-chips,
         .problem-grid.is-complete .instruction,
@@ -479,46 +483,8 @@
           text-align: center;
           padding: 26px;
         }
-        .reward-object {
-          position: relative;
-          width: 210px;
-          height: 210px;
-          border-radius: 28px;
-          display: grid;
-          place-items: end center;
-          background:
-            repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.1) 39px 41px),
-            linear-gradient(180deg, #173649, #0c1c29);
-          border: 2px solid rgba(255,255,255,.3);
-          box-shadow: inset 0 0 0 5px rgba(8,25,36,.42), 0 16px 30px rgba(0,0,0,.24);
-          overflow: hidden;
-          isolation: isolate;
-        }
-        .reward-object::after {
-          content: attr(data-symbol);
-          position: absolute;
-          z-index: 2;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          color: #fff8e8;
-          font-size: 4.5rem;
-          line-height: 1;
-          font-weight: 1000;
-          text-shadow: 0 5px 14px rgba(0,0,0,.48);
-        }
-        .reward-object[data-direction="special"]::after { color: #fff1a6; }
-        .reward-object[data-direction="same"]::after { color: #d7cadb; }
-        .reward-liquid {
-          position: absolute;
-          z-index: 1;
-          inset: auto 0 0;
-          width: 100%;
-          height: var(--fill);
-          background: linear-gradient(180deg, rgba(255,200,87,.96), rgba(53,217,178,.88));
-          box-shadow: inset 0 8px 16px rgba(255,255,255,.2);
-          transition: height .5s ease;
-        }
+        .reward-object { width: 210px; height: 210px; border-radius: 28px; display: grid; place-items: end center; background: linear-gradient(180deg, rgba(96,215,255,.16), rgba(255,200,87,.14)); border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
+        .reward-liquid { width: 100%; height: var(--fill); background: linear-gradient(180deg, rgba(255,200,87,.95), rgba(53,217,178,.82)); transition: height .5s ease; }
         .reward-title { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.7rem); line-height: 1.05; font-weight: 1000; color: #ffc857; }
         .reward-stage { margin: 0; font-size: 1.2rem; font-weight: 1000; }
         .reward-change { margin: 0; color: #d7cadb; font-size: 1rem; font-weight: 900; }
@@ -593,16 +559,16 @@
         main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-visual {
           transform: none;
         }
-        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label {
-          display: flex;
-        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label { display: flex; }
         .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
         .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
-        .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
-        .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
+    .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+        .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-title-art,
+        .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-retry-art { display: none !important; }
         .result-dynamic-ui [hidden] { display: none; }
         .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
-        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: .35em; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: 0; }
         .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
         .result-dynamic-ui .result-restart-surface { display: none; }
         .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
@@ -1016,6 +982,179 @@
       background: #cce9dc;
     }
 
+    /* 왼쪽 진행 보상: Stage 좌표와 크기는 lesson.json의 하네스 계약과 같다. */
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress {
+      position: absolute;
+      top: 11%;
+      left: 1.65%;
+      z-index: 4;
+      width: 19.2%;
+      height: 84%;
+      min-width: 0;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      justify-items: stretch;
+      border: 3px solid rgba(237, 190, 90, .94);
+      border-radius: 22px;
+      background: #102b2d;
+      box-shadow: 0 16px 34px rgba(45, 29, 14, .34), inset 0 0 0 1px rgba(255, 248, 211, .2);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-art {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: block;
+      justify-self: center;
+      object-fit: contain;
+      object-position: center center;
+      background: #153638;
+      transition: filter .42s ease, transform .52s ease, opacity .28s ease;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-flare {
+      position: absolute;
+      inset: -18%;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transform: rotate(-18deg) scale(.72);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 252, 190, .96) 0 3%, rgba(255, 189, 76, .72) 11%, rgba(75, 226, 208, .35) 27%, transparent 50%),
+        linear-gradient(108deg, transparent 34%, rgba(255, 255, 255, .9) 46%, rgba(255, 197, 82, .7) 51%, transparent 63%);
+      mix-blend-mode: screen;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage {
+      position: absolute;
+      top: 4%;
+      left: -1%;
+      z-index: 5;
+      width: 35%;
+      height: 92%;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(.62);
+      background: radial-gradient(ellipse at 50% 48%, rgba(255, 255, 255, .97) 0 3%, rgba(255, 216, 91, .62) 13%, rgba(58, 214, 193, .42) 31%, rgba(255, 156, 55, .24) 48%, transparent 71%);
+      filter: drop-shadow(0 0 30px rgba(255, 185, 66, .88));
+      mix-blend-mode: screen;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::before,
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::after {
+      content: "";
+      position: absolute;
+      inset: 8% 4%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::before {
+      border: 5px solid rgba(255, 232, 128, .92);
+      box-shadow: 0 0 20px 6px rgba(255, 218, 99, .72), 0 0 58px 20px rgba(38, 196, 178, .65), inset 0 0 36px rgba(255, 173, 64, .58);
+      opacity: 0;
+      transform: scale(.2);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::after {
+      inset: -4%;
+      background: repeating-conic-gradient(from 4deg, transparent 0 7deg, rgba(255, 239, 151, .7) 8deg 9deg, transparent 10deg 21deg);
+      -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+      mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+      opacity: 0;
+      transform: rotate(-16deg) scale(.52);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-readout {
+      min-height: 78px;
+      padding: 8px 12px 11px;
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      border-top: 2px solid rgba(237, 190, 90, .7);
+      background: linear-gradient(180deg, rgba(56, 48, 25, .98), rgba(32, 27, 19, .99));
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-eyebrow {
+      color: #d7efe8;
+      font-size: clamp(.68rem, 1vw, .78rem);
+      line-height: 1;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-name {
+      max-width: 100%;
+      color: #ffe184;
+      font-size: clamp(.94rem, 1.45vw, 1.16rem);
+      line-height: 1.05;
+      font-weight: 1000;
+      text-align: center;
+      word-break: keep-all;
+      text-shadow: 0 2px 0 #5d350a;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-meter {
+      width: 100%;
+      height: 9px;
+      overflow: hidden;
+      display: block;
+      border: 1px solid rgba(255, 226, 145, .8);
+      border-radius: 999px;
+      background: rgba(7, 18, 17, .92);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-meter-fill {
+      width: 0%;
+      height: 100%;
+      display: block;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #43c9bc, #ffd15c, #ff9052);
+      box-shadow: 0 0 10px rgba(255, 194, 76, .74);
+      transition: width .62s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-changing .compass-play-progress-art {
+      animation: bridge-play-progress-brighten 1.56s cubic-bezier(.2, .82, .22, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-dimming .compass-play-progress-art {
+      animation: bridge-play-progress-dim 1.56s ease both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating {
+      animation: bridge-play-progress-impact 1.56s cubic-bezier(.18, .78, .2, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating .compass-play-progress-flare {
+      animation: bridge-play-progress-flare 1.56s cubic-bezier(.18, .78, .2, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up {
+      animation: bridge-play-progress-tier-rise 1.56s cubic-bezier(.18, .78, .2, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up .compass-play-progress-art {
+      animation: bridge-play-progress-tier-art 1.56s cubic-bezier(.18, .78, .2, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage,
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage {
+      animation: bridge-play-progress-stage-impact 1.56s cubic-bezier(.12, .76, .18, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::before,
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::before {
+      animation: bridge-play-progress-stage-ring 1.56s cubic-bezier(.08, .72, .16, 1) both;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::after,
+    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::after {
+      animation: bridge-play-progress-stage-rays 1.56s ease-out both;
+    }
+
     .bridge-stage-art {
       position: absolute;
       inset: 0;
@@ -1025,64 +1164,6 @@
       object-fit: cover;
       pointer-events: none;
       user-select: none;
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress {
-      position: absolute;
-      top: 20%;
-      left: 2.25%;
-      z-index: 2;
-      width: 18%;
-      height: 48%;
-      display: grid;
-      grid-template-rows: minmax(0, 1fr) auto;
-      overflow: hidden;
-      border: 2px solid rgba(72, 50, 27, .72);
-      border-radius: 18px;
-      background: rgba(255, 247, 220, .9);
-      box-shadow: 0 8px 0 rgba(72, 50, 27, .2);
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-art {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-      object-fit: contain;
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-readout {
-      display: grid;
-      gap: 5px;
-      padding: 8px 10px 10px;
-      color: var(--bridge-ink);
-      text-align: center;
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-eyebrow {
-      font-size: .72rem;
-      font-weight: 900;
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-name {
-      font-size: clamp(.78rem, 1.25vw, 1rem);
-      line-height: 1.1;
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-meter {
-      height: 9px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: rgba(38, 112, 107, .2);
-    }
-
-    .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-meter-fill {
-      display: block;
-      width: 0;
-      height: 100%;
-      border-radius: inherit;
-      background: var(--bridge-orange);
-      transition: width .3s ease;
     }
 
     /* 상단 공통 조작 */
@@ -1867,6 +1948,63 @@
       }
     }
 
+    @keyframes bridge-play-progress-brighten {
+      0% { filter: brightness(.64) saturate(.72); transform: scale(.97); }
+      34% { filter: brightness(1.58) saturate(1.4) contrast(1.08); transform: scale(1.025); }
+      68% { filter: brightness(1.18) saturate(1.22); transform: scale(1.008); }
+      100% { filter: brightness(1); transform: scale(1); }
+    }
+
+    @keyframes bridge-play-progress-dim {
+      0%, 100% { filter: brightness(1); transform: translateX(0); }
+      34% { filter: brightness(.52) saturate(.52); transform: translateX(-4px); }
+    }
+
+    @keyframes bridge-play-progress-impact {
+      0%, 100% { transform: scale(1); }
+      26% { transform: scale(1.025); }
+      52% { transform: scale(.992); }
+    }
+
+    @keyframes bridge-play-progress-flare {
+      0% { opacity: 0; transform: rotate(-18deg) scale(.58); }
+      24% { opacity: .96; }
+      64% { opacity: .38; transform: rotate(-8deg) scale(1.08); }
+      100% { opacity: 0; transform: rotate(2deg) scale(1.28); }
+    }
+
+    @keyframes bridge-play-progress-tier-rise {
+      0%, 100% { box-shadow: 0 16px 34px rgba(45, 29, 14, .34), inset 0 0 0 1px rgba(255, 248, 211, .2); }
+      28% { box-shadow: 0 0 0 6px rgba(255, 230, 124, .78), 0 0 44px 16px rgba(255, 178, 62, .72), 0 16px 34px rgba(45, 29, 14, .34); }
+    }
+
+    @keyframes bridge-play-progress-tier-art {
+      0% { filter: brightness(.5) saturate(.58); transform: scale(.95); }
+      30% { filter: brightness(1.72) saturate(1.5); transform: scale(1.035); }
+      66% { filter: brightness(1.2) saturate(1.22); transform: scale(1.01); }
+      100% { filter: brightness(1); transform: scale(1); }
+    }
+
+    @keyframes bridge-play-progress-stage-impact {
+      0% { opacity: 0; transform: scale(.62); }
+      18% { opacity: .94; transform: scale(.96); }
+      52% { opacity: .58; transform: scale(1.1); }
+      100% { opacity: 0; transform: scale(1.22); }
+    }
+
+    @keyframes bridge-play-progress-stage-ring {
+      0% { opacity: 0; transform: scale(.2); }
+      20% { opacity: 1; }
+      70% { opacity: .52; }
+      100% { opacity: 0; transform: scale(1.34); }
+    }
+
+    @keyframes bridge-play-progress-stage-rays {
+      0% { opacity: 0; transform: rotate(-16deg) scale(.52); }
+      24% { opacity: .85; }
+      100% { opacity: 0; transform: rotate(26deg) scale(1.36); }
+    }
+
     @media (max-width: 980px) {
       .game[data-workbench-type="circle-double-bridge"] .hud {
         right: calc(2% + var(--sound-reserve));
@@ -1943,7 +2081,16 @@
 
     @media (prefers-reduced-motion: reduce) {
       .game[data-workbench-type="circle-double-bridge"] .installed-bridge,
-      .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"] {
+      .game[data-workbench-type="circle-double-bridge"] .bridge-part[data-state="wrong"],
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-art,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-flare,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-changing,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-dimming,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::before,
+      .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::after {
         animation: none;
       }
 
@@ -2696,7 +2843,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":975,"measureY":430,"barY":350,"barWidth":360,"barHeight":28,"correctTop":440,"correctWidth":210,"nextY":590,"retryRect":{"x":820,"y":608,"width":310,"height":136}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count","next-goal"]}},"workbench":{"type":"circle-double-bridge","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"627x418","runtimeSlot":"left-progress-panel","objectFit":"contain","filePattern":"play-progress-*-generated.webp","sourceSheet":"play-progress-source.png","contactSheet":"play-progress-contact-sheet.png","cacheVersion":"2026-08-01-full-audit","protagonist":"zfa-03-sudalmon","requiredSubjects":["다리","수달몬 전신"],"layoutContract":{"combinedFocalCenterX":0.5,"combinedFocalCenterY":0.55,"safeMarginRatio":0.05,"characterFullBody":true,"sameCameraAcrossStates":true,"mathmonPlacement":{"centerX":0.2,"centerY":0.55,"footY":0.74,"toleranceRatio":0.03,"sameScaleAcrossStates":true}}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"playImage":"play-progress-log-generated.webp","image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"playImage":"play-progress-small-generated.webp","image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"playImage":"play-progress-bridge-generated.webp","image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"playImage":"play-progress-big-generated.webp","image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":83,"minCorrect":8,"playImage":"play-progress-grand-generated.webp","image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-progress-rainbow-generated.webp","image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-4,"max":-2,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-4,"max":-2,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","playProgressStates":{"log":"play-progress-log-generated.webp","small":"play-progress-small-generated.webp","bridge":"play-progress-bridge-generated.webp","big":"play-progress-big-generated.webp","grand":"play-progress-grand-generated.webp","rainbow":"play-progress-rainbow-generated.webp"},"rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","play-progress-log-generated.webp","play-progress-small-generated.webp","play-progress-bridge-generated.webp","play-progress-big-generated.webp","play-progress-grand-generated.webp","play-progress-rainbow-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"visualContractVersion":1,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632}],"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".compass-play-progress","image":".compass-play-progress-art","label":".compass-play-progress-name","stateCount":6,"canvas":"627x418","expectedStates":["log","small","bridge","big","grand","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-03-sudalmon","panelPlacement":{"leftRatio":0.0225,"topRatio":0.2,"widthRatio":0.18,"heightRatio":0.48,"tolerancePx":1},"mathmonPlacement":{"centerX":0.2,"centerY":0.55,"footY":0.74,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"bridgeFitAudit":{"target":".bridge-empty-slot, .installed-bridge","short":".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference","long":".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference","correct":".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check","choiceRange":[1,14],"sharedScaleAttribute":"data-px-per-cm"},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"다리 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 다리 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"이번 변화","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":975,"measureY":430,"barY":350,"barWidth":360,"barHeight":28,"correctTop":440,"correctWidth":210,"nextY":590,"retryRect":{"x":820,"y":608,"width":310,"height":136}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v2-contact-sheet.png","protagonist":"zfa-03-sudalmon","fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["bridge-power","correct-count","next-goal"]}},"workbench":{"type":"circle-double-bridge","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","runtimeSlot":"left-progress-panel","objectFit":"contain","filePattern":"play-bridge-v1-*-generated.webp","sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png","cacheVersion":"2026-08-01-left-progress-v1","protagonist":"zfa-03-sudalmon","requiredSubjects":["현재 다리","수달몬 전신"],"layoutContract":{"combinedFocalCenterX":0.5,"combinedFocalCenterY":0.58,"safeMarginRatio":0.05,"characterFullBody":true,"sameCameraAcrossStates":true,"mathmonPlacement":{"centerX":0.34,"centerY":0.72,"footY":0.93,"toleranceRatio":0.03,"sameScaleAcrossStates":true}}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-bridge-v1-log-generated.webp","image":"result-log-generated.webp","titleImage":"result-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":19,"minCorrect":2,"visualRank":1,"playImage":"play-bridge-v1-small-generated.webp","image":"result-small-generated.webp","titleImage":"result-small-generated.webp"},{"id":"bridge","name":"다리","minPower":39,"minCorrect":4,"visualRank":2,"playImage":"play-bridge-v1-bridge-generated.webp","image":"result-bridge-generated.webp","titleImage":"result-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":61,"minCorrect":6,"visualRank":3,"playImage":"play-bridge-v1-big-generated.webp","image":"result-big-generated.webp","titleImage":"result-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":83,"minCorrect":8,"visualRank":4,"playImage":"play-bridge-v1-grand-generated.webp","image":"result-grand-generated.webp","titleImage":"result-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-bridge-v1-rainbow-generated.webp","image":"result-rainbow-generated.webp","titleImage":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"힘 +","weight":7645,"min":4,"max":8,"family":"normal"},{"id":"loss","text":"힘 -","weight":1200,"min":-4,"max":-2,"family":"loss"},{"id":"mega","text":"힘 크게 +","weight":900,"min":12,"max":20,"family":"mega"},{"id":"complete","text":"한 번에 완공!","weight":50,"min":6,"max":6,"family":"complete","launches":true},{"id":"empty","text":"힘 0","weight":200,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"rainbow","text":"무지개 다리!","weight":5,"min":10,"max":10,"family":"rainbow","special":true}],"wrongEvent":{"id":"loss","text":"힘 -","min":-4,"max":-2,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-generated.webp","result-small-generated.webp","result-bridge-generated.webp","result-big-generated.webp","result-grand-generated.webp","result-rainbow-generated.webp","play-bridge-v1-log-generated.webp","play-bridge-v1-small-generated.webp","play-bridge-v1-bridge-generated.webp","play-bridge-v1-big-generated.webp","play-bridge-v1-grand-generated.webp","play-bridge-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"emptyRewardAuditViewport":"user-reported-missing-left-progress-1082x987-dpr2","visualContractVersion":1,"rewardModalAudit":{"standard":"unit3-modal-art-v1","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":560,"cardHeightPx":480,"cardAspectRatio":"7:6","visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"dpr":2}],"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".compass-play-progress","image":".compass-play-progress-art","label":".compass-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["log","small","bridge","big","grand","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-03-sudalmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.192,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.34,"centerY":0.72,"footY":0.93,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".compass-play-progress","image":".compass-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".compass-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":18,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":4,"beforeTier":"log","afterTier":"small"}},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","minStageWidthRatio":0.65},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["track","measure","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"bridgeFitAudit":{"target":".bridge-empty-slot, .installed-bridge","short":".circle-bridge-confirm-svg[data-fit='short'] .bridge-difference","long":".circle-bridge-confirm-svg[data-fit='long'] .bridge-difference","correct":".circle-bridge-confirm-svg[data-fit='fit'] .bridge-fit-check","choiceRange":[1,14],"sharedScaleAttribute":"data-px-per-cm"},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson3DoubleBridgeModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -2897,8 +3044,6 @@
       completePanel: document.getElementById("completePanel"),
       completeText: document.getElementById("completeExpression"),
       continueButton: document.getElementById("rewardButton"),
-      rewardObject: document.querySelector("#screen-reward .reward-object"),
-      rewardLiquid: document.getElementById("rewardLiquid"),
       rewardScreenTitle: document.getElementById("rewardTitle"),
       rewardScene: document.querySelector("#screen-reward .raster-bg"),
       rewardLabel: document.getElementById("rewardChange"),
@@ -3171,8 +3316,6 @@
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
       ui.completePanel.classList.remove("is-visible");
-      ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
-      ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.answerSlot.classList.remove("is-filled");
       ui.answerSlot.textContent = step.preview || "?";
@@ -3193,12 +3336,6 @@
         button.type = "button";
         button.textContent = getChoiceLabel(choice);
         button.dataset.choice = getChoiceId(choice);
-        button.dataset.correct = String(LessonModel.validateChoice(step, choice));
-        const misconceptionId = getChoiceMisconceptionId(choice);
-        if (misconceptionId) button.dataset.misconception = misconceptionId;
-        if (choice && typeof choice === "object" && choice.relation) {
-          button.dataset.relation = String(choice.relation);
-        }
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -3217,10 +3354,6 @@
         choiceId: getChoiceId(choice),
         misconceptionId: getChoiceMisconceptionId(choice),
         correct,
-      });
-      [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
-        delete choiceButton.dataset.state;
-        choiceButton.classList.remove("is-wrong", "is-correct");
       });
 
       if (!correct) {
@@ -3286,12 +3419,7 @@
       await runViewHook("onProblemComplete", { problem, step, choice, state });
       await showMathmonReaction("reward");
       playSample("problem-complete");
-      const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
-      ui.completeText.hidden = !showCompleteExpression;
-      ui.completeText.textContent = showCompleteExpression
-        ? (problem.finalExpression || ui.answerSlot.textContent)
-        : "";
-      ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
+      ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
@@ -3377,8 +3505,7 @@
       problem.steps.forEach((step, index) => {
         const chip = document.createElement("span");
         chip.className = "step-chip";
-        chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
-        if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
+        chip.textContent = step.label || `${index + 1}단계`;
         chip.classList.toggle("is-current", index === state.stepIndex);
         chip.classList.toggle("is-done", index < state.stepIndex);
         ui.stepChips.appendChild(chip);
@@ -3386,7 +3513,7 @@
     }
 
     async function showReward() {
-      if (!state.completed || state.rewardPhase !== "idle") return;
+      if (!state.completed) return;
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -3417,9 +3544,7 @@
         return;
       }
 
-      const beforePower = applyPendingReward(event);
-      state.rewardPhase = "revealed";
-      renderRewardMeter(event, beforePower, state.power);
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -3430,18 +3555,6 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
-    }
-
-    function renderRewardMeter(event, beforePower, afterPower) {
-      if (!ui.rewardObject || !ui.rewardLiquid) return;
-      const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
-      const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
-      const delta = Number(afterPower) - Number(beforePower);
-      const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
-      const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
-      ui.rewardObject.dataset.direction = direction;
-      ui.rewardObject.dataset.symbol = symbol;
-      ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3494,7 +3607,7 @@
         afterResult,
         state,
       });
-      ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
       state.rewardPhase = "revealed";
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
         ? "결과 보기"
@@ -3509,23 +3622,14 @@
     }
 
     function formatRewardDelta(event) {
-      if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
+      if (event.special) return event.text || "특별 보상!";
       const amount = Number(event.amount) || 0;
       if (amount > 0) return `+${amount}`;
       if (amount < 0) return String(amount);
       return "그대로";
     }
 
-    function getRewardTargetText(event, beforeResult, afterResult) {
-      const formatter = globalThis.formatLessonRewardTarget;
-      if (typeof formatter === "function") {
-        try {
-          const formatted = formatter({ event, beforeResult, afterResult, state });
-          if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
-        } catch (error) {
-          console.warn("formatLessonRewardTarget failed", error);
-        }
-      }
+    function getRewardTargetText(beforeResult, afterResult) {
       if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
       if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
       const nextResult = typeof LessonModel.getNextResult === "function"
@@ -3587,7 +3691,8 @@
     }
 
     function setRewardValue(amount) {
-      const changeLabel = LESSON_CONFIG.reward?.changeLabel || "이번 변화";
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -3621,10 +3726,8 @@
 
     async function advanceAfterReward() {
       if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
-      if (state.pendingAdvance) return;
-      if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
-      state.pendingAdvance = true;
       if (getRewardMode() === "modal-art") {
+        if (state.rewardPhase !== "revealed") return;
         const event = state.pendingRewardEvent;
         ui.modalRewardNextButton.disabled = true;
         closeRewardModal();
@@ -3636,10 +3739,6 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
-        state.pendingRewardEvent = null;
-        state.rewardPhase = "idle";
-      }
-      if (getRewardMode() === "stage-full") {
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3684,7 +3783,7 @@
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-      const fullScene = getResultRenderMode() === "fullscene-score-slot";
+      const fullScene = ["fullscene-score-slot", "fullscene-generated-dynamic-slots"].includes(getResultRenderMode());
       ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
       screens.result.dataset.resultTier = result.id || "";
 
@@ -4071,55 +4170,118 @@
     const BRIDGE_SVG_NS = "http://www.w3.org/2000/svg";
     const BRIDGE_SCALE_MAX_PX = 320;
     let bridgePlayProgress = null;
+    let pendingBridgeRewardImpact = null;
+    let bridgeRewardArtPrimed = false;
+    const bridgeRewardPreloads = [];
 
     function ensureBridgePlayProgress() {
-      if (bridgePlayProgress) return bridgePlayProgress;
       const playScreen = document.getElementById("screen-play");
       if (!playScreen) return null;
+      if (bridgePlayProgress?.panel?.isConnected) return bridgePlayProgress;
+
       const panel = document.createElement("aside");
       panel.className = "compass-play-progress";
-      panel.dataset.playProgressStandard = LESSON_CONFIG.workbench.playStateImageSet.standard;
-      panel.dataset.protagonist = LESSON_CONFIG.workbench.playStateImageSet.protagonist;
-      panel.dataset.cacheVersion = LESSON_CONFIG.workbench.playStateImageSet.cacheVersion;
+      panel.dataset.playProgressStandard = LESSON_CONFIG.workbench?.playStateImageSet?.standard || "";
+      panel.dataset.protagonist = LESSON_CONFIG.workbench?.playStateImageSet?.protagonist || "";
+      panel.dataset.cacheVersion = LESSON_CONFIG.workbench?.playStateImageSet?.cacheVersion || "";
+
       const art = document.createElement("img");
       art.className = "compass-play-progress-art";
       art.alt = "";
       art.setAttribute("aria-hidden", "true");
+
+      const flare = document.createElement("span");
+      flare.className = "compass-play-progress-flare";
+      flare.setAttribute("aria-hidden", "true");
+
+      const stageImpact = document.createElement("span");
+      stageImpact.className = "compass-play-progress-impact-stage";
+      stageImpact.setAttribute("aria-hidden", "true");
+
       const readout = document.createElement("div");
       readout.className = "compass-play-progress-readout";
       const eyebrow = document.createElement("span");
       eyebrow.className = "compass-play-progress-eyebrow";
-      eyebrow.textContent = "지금 다리";
+      eyebrow.textContent = "지금의 다리";
       const name = document.createElement("strong");
       name.className = "compass-play-progress-name";
       const meter = document.createElement("span");
       meter.className = "compass-play-progress-meter";
       meter.setAttribute("role", "progressbar");
       meter.setAttribute("aria-valuemin", "0");
-      meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward.maxPower || 100));
-      const fill = document.createElement("i");
-      fill.className = "compass-play-progress-meter-fill";
-      meter.append(fill);
+      meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+      const meterFill = document.createElement("i");
+      meterFill.className = "compass-play-progress-meter-fill";
+      meter.appendChild(meterFill);
       readout.append(eyebrow, name, meter);
-      panel.append(art, readout);
-      playScreen.append(panel);
-      bridgePlayProgress = { panel, art, name, meter, fill };
+      panel.append(art, flare, readout);
+      playScreen.append(panel, stageImpact);
+      bridgePlayProgress = { panel, art, flare, stageImpact, name, meter, meterFill };
       return bridgePlayProgress;
     }
 
-    function syncBridgePlayProgress(state = {}) {
+    function syncBridgePlayProgress(state, options = {}) {
       const progress = ensureBridgePlayProgress();
-      if (!progress) return;
-      const result = Lesson3DoubleBridgeModel.getResult(Number(state.power || 0), Number(state.correctFirstTry || 0), Boolean(state.specialSeen));
-      const max = Number(LESSON_CONFIG.reward.maxPower || 100);
-      const power = Math.max(0, Math.min(Number(state.power || 0), max));
+      if (!progress) return Promise.resolve();
+      const result = Lesson3DoubleBridgeModel.getResult(
+        Number(state.power || 0),
+        Number(state.correctFirstTry || 0),
+        Boolean(state.specialSeen)
+      );
+      const maxPower = Number(LESSON_CONFIG.reward?.maxPower || 100);
+      const power = Math.max(0, Math.min(Number(state.power || 0), maxPower));
+      const nextSrc = result.playImage || "";
+      const previousPower = Number(progress.panel.dataset.power || 0);
+      const previousTier = progress.panel.dataset.resultTier || "";
+      const changed = progress.art.getAttribute("src") !== nextSrc;
+      const tierChanged = Boolean(previousTier && previousTier !== result.id);
+
       progress.panel.dataset.resultTier = result.id;
       progress.panel.dataset.power = String(power);
       progress.name.textContent = result.name;
-      progress.art.src = result.playImage;
       progress.meter.setAttribute("aria-valuenow", String(power));
-      progress.fill.style.width = `${power / max * 100}%`;
-      progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요.`);
+      progress.meterFill.style.width = `${power / maxPower * 100}%`;
+      progress.panel.setAttribute("aria-label", `지금은 ${result.name}예요. 다리 힘은 ${power}이에요.`);
+      if (changed) progress.art.src = nextSrc;
+
+      const delta = Number(options.delta ?? (power - previousPower));
+      const shouldAnimate = options.animate === true && (changed || delta !== 0);
+      progress.panel.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+      progress.panel.dataset.effectPhase = "idle";
+      progress.panel.dataset.effectKind = "none";
+      if (shouldAnimate) {
+        void progress.panel.offsetWidth;
+        progress.panel.classList.add(delta < 0 ? "is-dimming" : "is-changing");
+        if (options.celebrate === true && delta > 0) progress.panel.classList.add("is-celebrating");
+        if (tierChanged && delta > 0) progress.panel.classList.add("is-tier-up");
+        progress.panel.dataset.effectPhase = "active";
+        progress.panel.dataset.effectKind = tierChanged && delta > 0
+          ? "tier-up"
+          : delta > 0
+            ? "gain"
+            : delta < 0
+              ? "loss"
+              : "none";
+        progress.panel.dataset.effectStartedAt = String(performance.now());
+        if (options.afterModalDismiss === true) {
+          progress.panel.dataset.effectStartedWithModalHidden = String(
+            document.getElementById("rewardPop")?.hidden === true
+          );
+        }
+      }
+
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const duration = shouldAnimate && !reducedMotion
+        ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1560)
+        : 0;
+      if (!duration) return Promise.resolve();
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          progress.panel?.classList.remove("is-changing", "is-dimming", "is-celebrating", "is-tier-up");
+          if (progress.panel) progress.panel.dataset.effectPhase = "idle";
+          resolve();
+        }, duration);
+      });
     }
 
     function ensureBridgeStageArt() {
@@ -4178,8 +4340,8 @@
     }
 
     function renderProblemVisual(problem, state) {
-      ensureBridgeStageArt();
       syncBridgePlayProgress(state);
+      ensureBridgeStageArt();
       setBridgeVisualState("idle");
       renderCircleBridgeWorkbench(problem);
     }
@@ -4189,12 +4351,6 @@
       setBridgeVisualState("idle");
       renderCircleBridgeWorkbench(problem);
     }
-
-    async function onRewardDismiss({ state }) {
-      syncBridgePlayProgress(state);
-    }
-
-    globalThis.__mathmonPlayProgressQa = { syncProgress: () => syncBridgePlayProgress(window.__mathmonEngineQa?.getState?.() || {}) };
 
     function revealCorrectStep(problem, step) {
       setBridgeVisualState("correct", step.answer, "fit");
@@ -4398,6 +4554,97 @@
         <text class="bridge-equation" x="570" y="316" text-anchor="middle">${equation}</text>
       `;
     }
+
+    function primeBridgeRewardArt() {
+      if (bridgeRewardArtPrimed || typeof Image === "undefined") return;
+      bridgeRewardArtPrimed = true;
+      const sources = new Set([
+        LESSON_CONFIG.imageAssets.rewardClosed,
+        ...Object.values(LESSON_CONFIG.reward?.artMap || {}),
+        ...LESSON_CONFIG.results.map((result) => result.playImage),
+      ].filter(Boolean));
+      sources.forEach((src) => {
+        const image = new Image();
+        image.src = src;
+        bridgeRewardPreloads.push(image);
+      });
+    }
+
+    function waitForBridge(ms) {
+      return new Promise((resolve) => window.setTimeout(resolve, ms));
+    }
+
+    function onRewardReveal({ event, beforePower, afterPower }) {
+      pendingBridgeRewardImpact = {
+        event,
+        delta: afterPower - beforePower,
+      };
+    }
+
+    async function onRewardDismiss({ state }) {
+      const impact = pendingBridgeRewardImpact;
+      pendingBridgeRewardImpact = null;
+      if (!impact) return Promise.resolve();
+      if (impact.delta === 0) {
+        return syncBridgePlayProgress(state, { animate: false, delta: 0, afterModalDismiss: true });
+      }
+      const progress = ensureBridgePlayProgress();
+      const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const preEffectDelay = reducedMotion
+        ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+        : Number(effectConfig.preEffectDelayMs || 0);
+      if (progress?.panel && preEffectDelay > 0) {
+        progress.panel.dataset.effectPhase = "arming";
+        progress.panel.dataset.effectKind = impact.delta > 0
+          ? "gain-arming"
+          : impact.delta < 0
+            ? "loss-arming"
+            : "none";
+        progress.panel.dataset.effectArmedAt = String(performance.now());
+        progress.panel.dataset.effectStartedWithModalHidden = String(
+          document.getElementById("rewardPop")?.hidden === true
+        );
+        await waitForBridge(preEffectDelay);
+      }
+      return syncBridgePlayProgress(state, {
+        animate: true,
+        celebrate: impact.delta > 0,
+        delta: impact.delta,
+        afterModalDismiss: true,
+      });
+    }
+
+    globalThis.onRewardReveal = onRewardReveal;
+    globalThis.onRewardDismiss = onRewardDismiss;
+    globalThis.__compassRingQa = {
+      syncProgress() {
+        return syncBridgePlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });
+      },
+      getRewardEffectState() {
+        const impactRect = bridgePlayProgress?.stageImpact?.getBoundingClientRect?.();
+        return {
+          pendingDelta: pendingBridgeRewardImpact?.delta ?? null,
+          panelClasses: bridgePlayProgress?.panel?.className || "",
+          effectPhase: bridgePlayProgress?.panel?.dataset.effectPhase || "idle",
+          effectKind: bridgePlayProgress?.panel?.dataset.effectKind || "none",
+          effectArmedAt: bridgePlayProgress?.panel?.dataset.effectArmedAt || "",
+          effectStartedAt: bridgePlayProgress?.panel?.dataset.effectStartedAt || "",
+          effectStartedWithModalHidden: bridgePlayProgress?.panel?.dataset.effectStartedWithModalHidden || "",
+          resultTier: bridgePlayProgress?.panel?.dataset.resultTier || "",
+          imageSrc: bridgePlayProgress?.art?.getAttribute("src") || "",
+          impactLayerRect: impactRect
+            ? {
+                left: impactRect.left,
+                top: impactRect.top,
+                width: impactRect.width,
+                height: impactRect.height,
+              }
+            : null,
+        };
+      },
+    };
+    primeBridgeRewardArt();
     window.Lesson3DoubleBridgeModel = Lesson3DoubleBridgeModel;
   </script>
 </body>
