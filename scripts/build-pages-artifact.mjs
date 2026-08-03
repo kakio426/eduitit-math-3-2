@@ -15,7 +15,14 @@ const DOCUMENT_FILES = new Set([
   "IMAGE_PLAN.md",
   "QUALITY_AUDIT.md",
 ]);
-const PRUNE_DIRS = new Set(["_archive", "screenshots", "raw-chromakey", "contact-sheets"]);
+const PRUNE_DIRS = new Set([
+  "_archive",
+  "screenshots",
+  "raw-chromakey",
+  "contact-sheets",
+  "runtime-png",
+  "source",
+]);
 
 function parseArgs(argv) {
   const args = {

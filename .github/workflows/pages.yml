@@ -9,6 +9,7 @@ on:
       - "_shared/**"
       - "manifest.json"
       - ".nojekyll"
+      - "scripts/check-audio-assets.mjs"
       - "scripts/build-pages-artifact.mjs"
       - ".github/workflows/pages.yml"
       - "!**/screenshots/**"
@@ -44,6 +45,9 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
+      - name: Check all lesson audio integrations
+        run: node scripts/check-audio-assets.mjs
 
       - name: Build static artifact
         run: node scripts/build-pages-artifact.mjs --out _site --check
