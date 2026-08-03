@@ -154,7 +154,7 @@
     { "ask": "반지름", "radius": 2 }, { "ask": "반지름", "radius": 3 }, { "ask": "반지름", "radius": 4 }, { "ask": "반지름", "radius": 5 }, { "ask": "반지름", "radius": 6 }
   ],
   "stage": { "ratio": "16:10", "size": "1280x800" },
-  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "playProgress": "generated-play-progress-v3-left-character" },
+  "standards": { "cover": "generated-title-overlay", "coverStart": "generated-button-art", "coverStartAsset": "shared-canonical-v1", "settings": "modal-controls", "resultVisual": "generated-assets", "resultPanelContainment": "result-panel-containment-v2", "playProgress": "generated-play-progress-v3-left-character" },
   "imageAssets": {
     "cover": "cover-generated.webp",
     "titleArt": "title-logo-generated.webp",
@@ -382,6 +382,28 @@
         "grand": 820,
         "rainbow": 820
       }
+    },
+    "resultPanelContainmentAudit": {
+      "standard": "result-panel-containment-v2",
+      "sceneImage": "#resultBg",
+      "panelDetector": "resultBoardAudit",
+      "safeInsetPx": 16,
+      "containmentTolerancePx": 1,
+      "minimumVisibleGapPx": 8,
+      "requiredNodes": {
+        "title": "#resultDestinationSvg",
+        "measure": "#resultMeasureSvg",
+        "track": "#resultMeasureTrackSvg",
+        "correct": "#resultCorrectArt",
+        "next": "#resultNextSvg",
+        "retry": "#restartButton"
+      },
+      "pairedNodes": {
+        "retryVisual": ".result-retry-art",
+        "retryHitbox": "#restartButton"
+      },
+      "visualHitboxTolerancePx": 1,
+      "optionalWhenHidden": ["next"]
     },
     "misconceptionCoverage": [
       "DIAMETER_NOT_DOUBLED",

@@ -1733,6 +1733,264 @@ async function auditConfiguredResultBoardAxis(page, label) {
   return audit;
 }
 
+async function auditConfiguredResultPanelContainment(page, label) {
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa?.resultPanelContainmentAudit;
+    if (!config) return null;
+    const detector = LESSON_CONFIG.qa?.resultBoardAudit;
+    const scene = document.querySelector(config.sceneImage || '#resultBg');
+    const stageNode = document.querySelector('.stage-shell');
+    if (!detector || !scene?.complete || !scene.naturalWidth || !scene.naturalHeight || !stageNode) {
+      return { config, error:'detector-scene-or-stage-missing' };
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = scene.naturalWidth;
+    canvas.height = scene.naturalHeight;
+    const context = canvas.getContext('2d', { willReadFrequently:true });
+    context.drawImage(scene, 0, 0);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    const threshold = detector.threshold || {};
+    const matchMode = detector.matchMode || 'dark-teal';
+    const redMax = Number(threshold.redMax ?? 42);
+    const greenMax = Number(threshold.greenMax ?? 82);
+    const blueMax = Number(threshold.blueMax ?? 96);
+    const redMin = Number(threshold.redMin ?? 220);
+    const greenMin = Number(threshold.greenMin ?? 205);
+    const blueMin = Number(threshold.blueMin ?? 160);
+    const channelSpreadMax = Number(threshold.channelSpreadMax ?? 86);
+    const minimumRun = canvas.width * Number(detector.minimumRunRatio || 0.18);
+    const scanStartX = Math.floor(canvas.width * Number(detector.scanStartRatio ?? 0.22));
+    const scanEndX = Math.floor(canvas.width * Number(detector.scanEndRatio ?? 1));
+    const median = (values) => {
+      const sorted = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(sorted.length / 2);
+      return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+    };
+    const runs = [];
+    for (let y = Math.floor(canvas.height * 0.08); y < Math.floor(canvas.height * 0.88); y += 1) {
+      let start = -1;
+      let best = null;
+      for (let x = scanStartX; x <= scanEndX; x += 1) {
+        let matches = false;
+        if (x < scanEndX && x < canvas.width) {
+          const offset = (y * canvas.width + x) * 4;
+          const red = pixels[offset];
+          const green = pixels[offset + 1];
+          const blue = pixels[offset + 2];
+          matches = matchMode === 'light-board'
+            ? red > redMin && green > greenMin && blue > blueMin
+              && Math.max(red, green, blue) - Math.min(red, green, blue) < channelSpreadMax
+            : matchMode === 'dark-neutral'
+              ? red < redMax && green < greenMax && blue < blueMax
+              : red < redMax && green < greenMax && blue < blueMax
+                && blue >= red && green >= red * 0.72;
+        }
+        if (matches && start < 0) start = x;
+        if ((!matches || x === scanEndX) && start >= 0) {
+          const end = x - 1;
+          const length = end - start + 1;
+          if (!best || length > best.length) best = { y, start, end, length, center:(start + end) / 2 };
+          start = -1;
+        }
+      }
+      if (best && best.length >= minimumRun) runs.push(best);
+    }
+    const groups = [];
+    for (const run of runs) {
+      const previous = groups.at(-1);
+      if (!previous || run.y !== previous.at(-1).y + 1
+        || Math.abs(run.center - median(previous.map((item) => item.center))) > canvas.width * 0.05) {
+        groups.push([run]);
+      } else {
+        previous.push(run);
+      }
+    }
+    const minimumDetectedAxisX = Number(detector.minimumDetectedAxisX ?? 0);
+    const maximumDetectedAxisX = Number(detector.maximumDetectedAxisX ?? canvas.width);
+    const candidates = groups.filter((group) => {
+      const center = median(group.map((item) => item.center));
+      return center >= minimumDetectedAxisX && center <= maximumDetectedAxisX;
+    });
+    candidates.sort((first, second) => (
+      second.length * median(second.map((item) => item.length))
+      - first.length * median(first.map((item) => item.length))
+    ));
+    const group = candidates[0] || [];
+    if (!group.length) return { config, error:'panel-pixel-run-missing' };
+    const middleLength = median(group.map((item) => item.length));
+    const stable = group.filter((run) => run.length >= middleLength * 0.9);
+    if (!stable.length) return { config, error:'panel-stable-run-missing' };
+    const panelSource = {
+      left:median(stable.map((item) => item.start)),
+      top:Math.min(...group.map((item) => item.y)),
+      right:median(stable.map((item) => item.end)) + 1,
+      bottom:Math.max(...group.map((item) => item.y)) + 1
+    };
+    panelSource.width = panelSource.right - panelSource.left;
+    panelSource.height = panelSource.bottom - panelSource.top;
+    const insetValue = config.safeInsetPx ?? 0;
+    const inset = typeof insetValue === 'number'
+      ? { top:insetValue, right:insetValue, bottom:insetValue, left:insetValue }
+      : insetValue;
+    const safeSource = {
+      left:panelSource.left + Number(inset.left || 0),
+      top:panelSource.top + Number(inset.top || 0),
+      right:panelSource.right - Number(inset.right || 0),
+      bottom:panelSource.bottom - Number(inset.bottom || 0)
+    };
+    safeSource.width = safeSource.right - safeSource.left;
+    safeSource.height = safeSource.bottom - safeSource.top;
+    const stage = stageNode.getBoundingClientRect();
+    const scaleX = stage.width / canvas.width;
+    const scaleY = stage.height / canvas.height;
+    const toScreenRect = (rect) => ({
+      left:stage.left + rect.left * scaleX,
+      top:stage.top + rect.top * scaleY,
+      right:stage.left + rect.right * scaleX,
+      bottom:stage.top + rect.bottom * scaleY,
+      width:rect.width * scaleX,
+      height:rect.height * scaleY
+    });
+    const panel = toScreenRect(panelSource);
+    const safe = toScreenRect(safeSource);
+    const readNode = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return { selector, missing:true };
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return {
+        selector,
+        hidden:Boolean(node.hidden || node.hasAttribute('hidden')),
+        display:style.display,
+        visibility:style.visibility,
+        opacity:Number(style.opacity || 0),
+        rect:{ left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height }
+      };
+    };
+    const nodes = Object.fromEntries(Object.entries(config.requiredNodes || {}).map(([key, selector]) => [key, readNode(selector)]));
+    const pairedNodes = Object.fromEntries(Object.entries(config.pairedNodes || {}).map(([key, selector]) => [key, readNode(selector)]));
+    return {
+      config,
+      tier:document.getElementById('screen-result')?.dataset.resultTier || '',
+      natural:{ width:canvas.width, height:canvas.height },
+      viewport:{ width:innerWidth, height:innerHeight, dpr:devicePixelRatio },
+      stage:{ left:stage.left, top:stage.top, right:stage.right, bottom:stage.bottom, width:stage.width, height:stage.height },
+      stageInsideViewport:stage.left >= -1 && stage.top >= -1 && stage.right <= innerWidth + 1 && stage.bottom <= innerHeight + 1,
+      panelSource,
+      safeSource,
+      panel,
+      safe,
+      nodes,
+      pairedNodes,
+      runRows:group.length
+    };
+  })()`);
+  if (!audit) return null;
+  assert(audit.config.standard === "result-panel-containment-v2", `${label}: result panel containment standard is wrong`, audit);
+  assert(!audit.error && audit.runRows > 0 && audit.safeSource.width > 0 && audit.safeSource.height > 0, `${label}: result panel four-edge detector failed`, audit);
+  assert(audit.natural.width === 1280 && audit.natural.height === 800, `${label}: result scene must use the 1280x800 source coordinate system`, audit);
+  assert(audit.stageInsideViewport, `${label}: Stage is cropped by the viewport`, audit);
+  const optionalWhenHidden = new Set(audit.config.optionalWhenHidden || []);
+  const visibleRects = [];
+  const violations = [];
+  for (const [key, node] of Object.entries(audit.nodes || {})) {
+    if (node.missing) {
+      violations.push({ key, reason:"missing" });
+      continue;
+    }
+    const hidden = node.hidden || node.display === "none" || node.visibility === "hidden" || node.opacity === 0;
+    if (hidden) {
+      if (!(optionalWhenHidden.has(key) && node.rect.width === 0 && node.rect.height === 0)) {
+        violations.push({ key, reason:"required-node-hidden", node });
+      }
+      continue;
+    }
+    if (!(node.rect.width > 0 && node.rect.height > 0)) {
+      violations.push({ key, reason:"empty-visible-rect", node });
+      continue;
+    }
+    const tolerance = Number(audit.config.containmentTolerancePx || 0);
+    const inside = node.rect.left >= audit.safe.left - tolerance
+        && node.rect.top >= audit.safe.top - tolerance
+        && node.rect.right <= audit.safe.right + tolerance
+        && node.rect.bottom <= audit.safe.bottom + tolerance;
+    if (!inside) violations.push({ key, reason:"outside-panel-safe-rect", node, safe:audit.safe });
+    visibleRects.push({ key, rect:node.rect });
+  }
+  const retryVisual = audit.pairedNodes?.retryVisual;
+  const retryHitbox = audit.pairedNodes?.retryHitbox;
+  for (const [key, node] of Object.entries({ retryVisual, retryHitbox })) {
+    if (!node || node.missing) {
+      violations.push({ key, reason:"paired-node-missing" });
+      continue;
+    }
+    const hidden = node.hidden || node.display === "none" || node.visibility === "hidden" || node.opacity === 0;
+    if (hidden || !(node.rect.width > 0 && node.rect.height > 0)) {
+      violations.push({ key, reason:"paired-node-hidden", node });
+      continue;
+    }
+    const tolerance = Number(audit.config.containmentTolerancePx || 0);
+    const inside = node.rect.left >= audit.safe.left - tolerance
+      && node.rect.top >= audit.safe.top - tolerance
+      && node.rect.right <= audit.safe.right + tolerance
+      && node.rect.bottom <= audit.safe.bottom + tolerance;
+    if (!inside) violations.push({ key, reason:"paired-node-outside-panel-safe-rect", node, safe:audit.safe });
+  }
+  if (retryVisual && retryHitbox
+    && !retryVisual.missing && !retryHitbox.missing
+    && retryVisual.display !== "none" && retryHitbox.display !== "none"
+    && retryVisual.rect.width > 0 && retryVisual.rect.height > 0
+    && retryHitbox.rect.width > 0 && retryHitbox.rect.height > 0) {
+    const tolerance = Number(audit.config.visualHitboxTolerancePx || 0);
+    const edgeDeltas = Object.fromEntries(["left", "top", "right", "bottom"]
+      .map((edge) => [edge, Math.abs(retryVisual.rect[edge] - retryHitbox.rect[edge])]));
+    if (Object.values(edgeDeltas).some((delta) => delta > tolerance)) {
+      violations.push({ key:"retry", reason:"visual-hitbox-edge-mismatch", tolerance, edgeDeltas });
+    }
+  }
+  const orderedKeys = ["title", "measure", "track", "correct", "next", "retry"];
+  const ordered = orderedKeys.map((key) => visibleRects.find((item) => item.key === key)).filter(Boolean);
+  const minimumGap = Number(audit.config.minimumVisibleGapPx || 0) * (audit.stage.width / 1280);
+  for (let index = 0; index < ordered.length - 1; index += 1) {
+    const first = ordered[index];
+    const second = ordered[index + 1];
+    if (second.rect.top - first.rect.bottom < minimumGap - 1) {
+      violations.push({ first:first.key, second:second.key, reason:"vertical-gap-too-small", minimumGap });
+    }
+  }
+  assert(violations.length === 0, `${label}: result panel containment violations`, { audit, violations });
+  return audit;
+}
+
+async function auditAllConfiguredResultPanelTiers(page, lesson, viewport, shots) {
+  const tiers = await evaluate(page, `(() => {
+    if (LESSON_CONFIG.qa?.resultPanelContainmentAudit?.standard !== 'result-panel-containment-v2') return [];
+    return LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      power:Number(result.minPower || 0),
+      correct:Number(result.minCorrect || 0),
+      special:Boolean(result.needsSpecial)
+    }));
+  })()`);
+  for (const tier of tiers) {
+    await evaluate(page, `(() => {
+      window.__mathmonEngineQa.setState({
+        power:${tier.power},
+        correctFirstTry:${tier.correct},
+        specialSeen:${tier.special},
+        currentResult:null
+      });
+      window.__mathmonEngineQa.showResult();
+    })()`);
+    await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
+      && document.getElementById('resultBg')?.complete
+      && document.getElementById('resultBg')?.naturalWidth === 1280`, `${viewport.name}: result panel tier ${tier.id} did not render`);
+    await auditConfiguredResultPanelContainment(page, `${viewport.name} result panel ${tier.id}`);
+    shots.push(await screenshot(page, lesson, viewport, `08d-result-panel-${tier.id}`));
+  }
+  return tiers;
+}
+
 async function auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots) {
   const tiers = await evaluate(page, `(() => {
     if (!LESSON_CONFIG.qa?.resultCohesionAudit) return [];
@@ -5351,6 +5609,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditConfiguredResultNextGoal(page, `${viewport.name} result next goal`);
   await auditConfiguredResultCohesionV2(page, `${viewport.name} result cohesion v2`);
   await auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots);
+  await auditAllConfiguredResultPanelTiers(page, lesson, viewport, shots);
 
   const hasFullsceneVisualAudit = await evaluate(
     page,

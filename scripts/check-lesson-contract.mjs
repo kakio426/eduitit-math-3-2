@@ -37,8 +37,10 @@ const UNIFIED_RESULT_THRESHOLDS = Object.freeze([
   [100, 1],
 ]);
 const RESULT_TIER_FULLSCENE_STANDARD = "result-tier-fullscene-native-v1";
+const RESULT_PANEL_CONTAINMENT_STANDARD = "result-panel-containment-v2";
 const RESULT_TIER_FULLSCENE_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next", "retry"]);
 const RESULT_TIER_AXIS_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next"]);
+const RESULT_PANEL_REQUIRED_NODE_KEYS = Object.freeze(["title", "measure", "track", "correct", "next", "retry"]);
 
 async function pathExists(filePath) {
   try {
@@ -232,6 +234,59 @@ function isValidStageRect(rect) {
 function rectsIntersect(a, b) {
   return Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x))
     * Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)) > 0;
+}
+
+function isValidInset(value) {
+  if (Number.isFinite(value)) return value >= 0;
+  if (!value || typeof value !== "object") return false;
+  return ["top", "right", "bottom", "left"].every((key) => Number.isFinite(value[key]) && value[key] >= 0);
+}
+
+function checkResultPanelContainmentContract(failures, lesson, config) {
+  const declaredStandard = config.standards?.resultPanelContainment;
+  const audit = config.qa?.resultPanelContainmentAudit;
+  if (declaredStandard === undefined && audit === undefined) return;
+  if (declaredStandard !== RESULT_PANEL_CONTAINMENT_STANDARD) {
+    addFailure(failures, lesson, `standards.resultPanelContainment must be ${RESULT_PANEL_CONTAINMENT_STANDARD}`);
+  }
+  if (audit?.standard !== RESULT_PANEL_CONTAINMENT_STANDARD) {
+    addFailure(failures, lesson, `qa.resultPanelContainmentAudit.standard must be ${RESULT_PANEL_CONTAINMENT_STANDARD}`);
+    return;
+  }
+  if (!isNonEmptyString(audit.sceneImage) || audit.panelDetector !== "resultBoardAudit") {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} must use a visible result scene and resultBoardAudit pixel detector`);
+  }
+  if (config.qa?.resultBoardAudit?.standard !== "generated-result-board-pixel-axis-v1") {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} requires qa.resultBoardAudit pixel thresholds`);
+  }
+  if (!isValidInset(audit.safeInsetPx)) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} safeInsetPx must be a non-negative number or four-edge object`);
+  }
+  if (!Number.isFinite(audit.containmentTolerancePx) || audit.containmentTolerancePx < 0 || audit.containmentTolerancePx > 1) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} containmentTolerancePx must be between 0 and 1`);
+  }
+  if (!Number.isFinite(audit.minimumVisibleGapPx) || audit.minimumVisibleGapPx < 8) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} minimumVisibleGapPx must be at least 8`);
+  }
+  for (const key of RESULT_PANEL_REQUIRED_NODE_KEYS) {
+    if (!isNonEmptyString(audit.requiredNodes?.[key])) {
+      addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} requiredNodes.${key} must be a selector`);
+    }
+  }
+  for (const key of ["retryVisual", "retryHitbox"]) {
+    if (!isNonEmptyString(audit.pairedNodes?.[key])) {
+      addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} pairedNodes.${key} must be a selector`);
+    }
+  }
+  if (!Number.isFinite(audit.visualHitboxTolerancePx)
+    || audit.visualHitboxTolerancePx < 0
+    || audit.visualHitboxTolerancePx > 1) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} visualHitboxTolerancePx must be between 0 and 1`);
+  }
+  if (!Array.isArray(audit.optionalWhenHidden)
+    || audit.optionalWhenHidden.some((key) => !RESULT_PANEL_REQUIRED_NODE_KEYS.includes(key))) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} optionalWhenHidden contains an unknown result node`);
+  }
 }
 
 function checkResultTierFullsceneContract(failures, lesson, config) {
@@ -530,6 +585,7 @@ async function checkStandaloneLesson(lesson, failures, config, html) {
   checkRewardEvents(failures, lesson, config);
   checkUnifiedReward(failures, lesson, config);
   checkResultTierFullsceneContract(failures, lesson, config);
+  checkResultPanelContainmentContract(failures, lesson, config);
   for (const asset of config.assets || []) {
     await checkLocalAsset(failures, lesson, config, asset, `standalone declared asset ${asset}`);
   }
@@ -555,6 +611,7 @@ async function checkLesson(lesson, failures) {
   const cssSource = await readFile(cssPath, "utf8");
 
   checkManifestShape(failures, lesson, config);
+  checkResultPanelContainmentContract(failures, lesson, config);
   if (config.engineVersion !== ENGINE_VERSION) {
     addFailure(failures, lesson, `engineVersion must be ${ENGINE_VERSION}`);
   }

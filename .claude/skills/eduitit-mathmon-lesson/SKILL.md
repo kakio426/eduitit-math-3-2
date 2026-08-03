@@ -408,6 +408,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - SVG의 `hidden` 속성은 선언만 확인하지 않는다. 브라우저에서 `getComputedStyle(...).display === "none"`이고 렌더 rect가 `0×0`인지 확인한다. 특히 `다음 목표`를 끈 결과 화면에서 숨은 SVG 문구가 다시하기 버튼 주변에 남으면 실패다.
 - 결과 단계가 여러 장이면 대표 한 장만 보지 않는다. 모든 결과 단계와 모든 `lesson.json > qa.viewports`에서 결속 축, 요소 간격, 버튼 알파, 숨김 SVG, 텍스트 넘침·요소 겹침을 전수 검사한다.
 - 사용자가 발견한 최종 결과 화면 크기는 이름 있는 회귀 viewport로 `lesson.json`에 남기고, 수정 전 캡처는 `_archive/`로 보존하며 수정 뒤 같은 상태 캡처를 다시 만든다.
+- 새 결과 화면과 큰 결과 수정은 `standards.resultPanelContainment="result-panel-containment-v2"`와 `qa.resultPanelContainmentAudit`를 반드시 선언한다. 래스터 판의 중심축만 재지 말고 `left/top/right/bottom`을 픽셀로 검출한 뒤 결과명·진행값·막대·정답 수·다음 목표·다시하기 아트와 hitbox의 실제 네 변이 안전 여백 안에 모두 들어오는지 검사한다. 세로 공간이 부족하면 CSS로 판을 덧대거나 글자를 줄이지 말고 결과 장면을 다시 생성한다. 결과 자산·`result/results` 변경은 `node scripts/check-result-panel-adoption.mjs origin/main`으로 설정 누락을 차단한다. 구현과 fixture는 `references/result-panel-contract.md`를 읽고 적용한다.
 
 ### 완성 장면 단계 대비와 고정 슬롯 계약
 

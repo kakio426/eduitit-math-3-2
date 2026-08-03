@@ -47,6 +47,14 @@ for (const expected of expectedViewports) {
   for (const state of config.qa?.resultVisualAudit?.expectedStates || []) {
     assert(paths.some((item) => item.endsWith(`08a-result-${state}.png`)), `${expected.name} is missing result state ${state}`);
   }
+  if (config.qa?.resultPanelContainmentAudit?.standard === "result-panel-containment-v2") {
+    for (const result of config.results || []) {
+      assert(
+        paths.some((item) => item.endsWith(`08d-result-panel-${result.id}.png`)),
+        `${expected.name} is missing four-edge result-panel evidence for ${result.id}`,
+      );
+    }
+  }
   assert(paths.filter((item) => item.includes("05m-")).length >= (config.qa?.misconceptionCoverage?.length || 0), `${expected.name} is missing misconception screenshots`);
 
 }
