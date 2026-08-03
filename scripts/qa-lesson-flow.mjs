@@ -1687,7 +1687,7 @@ async function auditConfiguredResultBoardAxis(page, label) {
       if (node.hidden || style.display === 'none' || style.visibility === 'hidden' || rect.width <= 1 || rect.height <= 1) return null;
       return rect.left + rect.width / 2;
     };
-    const dynamicCenters = {
+    const allDynamicCenters = {
       title:rectCenter(document.getElementById('resultTitleArt')),
       track:rectCenter(document.getElementById('resultMeasureTrackSvg')),
       measure:rectCenter(document.getElementById('resultMeasureSvg')),
@@ -1695,6 +1695,13 @@ async function auditConfiguredResultBoardAxis(page, label) {
       next:rectCenter(document.getElementById('resultNextSvg')),
       retry:rectCenter(document.getElementById('restartButton') || document.getElementById('retryButton'))
     };
+    const boardNodeKeys = Array.isArray(config.axisNodes) && config.axisNodes.length
+      ? config.axisNodes
+      : Object.keys(allDynamicCenters);
+    const dynamicCenters = Object.fromEntries(boardNodeKeys
+      .filter((key) => Object.hasOwn(allDynamicCenters, key))
+      .map((key) => [key, allDynamicCenters[key]])
+      .filter(([, center]) => center !== null));
     return {
       config,
       tier,

@@ -209,3 +209,14 @@
 - 브라우저 하네스에서 정답 효과 중 완성식 유지, 완료 패널 조기 노출 0건, 선택지 교차 0건, 텍스트 넘침·이미지 누락 0건을 확인했습니다.
 - 효과 캡처: `screenshots/engine-flow-desktop-05c-correct-effect.png`, `screenshots/engine-flow-tablet-landscape-05c-correct-effect.png`, `screenshots/engine-flow-user-feedback-reward-1079x929-05c-correct-effect.png`.
 - 완료·보상 캡처: `screenshots/engine-flow-user-feedback-reward-1079x929-06-confirm.png`, `screenshots/engine-flow-user-feedback-reward-1079x929-07b-reward-open.png`.
+
+## 2026-08-03 결과판 안쪽 배치 회귀 수정
+
+- 사용자 제보 회귀 `1079×929`, 기본 DPR에서 결과 Stage 실제 rect는 `x=21.578px, y=140.797px, 1035.844×647.391px`입니다.
+- 수정 전 결과판의 픽셀 중심은 Stage 기준 `x≈820`인데 동적 UI 축이 `x=975`라 진행 막대·정답 수·다음 목표가 오른쪽으로 밀렸습니다.
+- 결과판 축을 `x=820`으로 맞추고 `진행 막대 → 정답 수 → 다음 목표`를 진한 결과판 안에 세로로 배치했습니다. 결과의 보이는 `다리 힘 70` 형식 숫자는 제거했으며, 배경에 포함된 `다시` 버튼은 기존 이미지 위치의 투명 hitbox를 유지했습니다.
+- `lesson.json > qa.resultBoardAudit`에 결과 배경 픽셀 축 검사를 추가하고, `scripts/qa-lesson-flow.mjs`가 화면별 결과판 대상 노드만 검사하도록 보강했습니다.
+- Humanizer 학생 문구 QA: 새 보이는 문구를 추가하지 않았고, 결과 화면에서 제작자용 누적값 문구 `다리 힘 숫자`를 제거했습니다. 결과판의 `6/10`, `다음엔 튼튼한 다리`는 짧고 자연스럽게 읽힙니다.
+- 텍스트 넘침·요소 겹침 QA: `1079×929`에서 `log`, `small`, `bridge`, `big`, `grand`, `rainbow` 결과 전 단계를 확인했습니다. 결과판 안 동적 요소 교차 `0px`, Stage 이탈 `0건`, 텍스트 넘침 `0건`, 이미지 누락 `0건`입니다.
+- 최신 캡처: `screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-big.png`, `screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-grand.png`.
+- 검증: `MATHMON_QA_VIEWPORT=user-feedback-reward-1079x929 node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` → PASS.

@@ -218,6 +218,8 @@ function renderChoicesForStep(problem, step, state, choose) {
 }
 
 function onResult() {
+  const resultMeasure = document.getElementById("resultMeasureSvg");
+  if (resultMeasure) resultMeasure.textContent = "";
   document.getElementById("restartButton")?.classList.add("result-restart-hitbox");
 }
 

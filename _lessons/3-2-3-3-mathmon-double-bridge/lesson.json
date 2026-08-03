@@ -70,15 +70,15 @@
     "renderMode": "hybrid-generated-dynamic",
     "showNextGoal": true,
     "layout": {
-      "axisX": 975,
+      "axisX": 820,
       "measureY": 430,
-      "barY": 350,
+      "barY": 275,
       "barWidth": 360,
       "barHeight": 28,
-      "correctTop": 440,
+      "correctTop": 335,
       "correctWidth": 210,
-      "nextY": 590,
-      "retryRect": { "x": 820, "y": 608, "width": 310, "height": 136 }
+      "nextY": 505,
+      "retryRect": { "x": 840, "y": 602, "width": 310, "height": 128 }
     },
     "stateImageSet": {
       "count": 6, "canvas": "1280x800", "runtimeSlot": "1280x800",
@@ -357,10 +357,31 @@
     },
     "resultCohesionAudit": {
       "standard": "result-dynamic-axis-v1",
-      "axisNodes": ["track", "measure", "correct", "next", "retry"],
+      "axisNodes": ["track", "correct", "next"],
       "maxAxisSpreadRatio": 0.015,
       "minimumVisibleGapPx": 8,
       "titleAlphaThreshold": 24
+    },
+    "resultBoardAudit": {
+      "standard": "generated-result-board-pixel-axis-v1",
+      "sceneImage": "#resultBg",
+      "axisNodes": ["track", "correct", "next"],
+      "matchMode": "dark-neutral",
+      "scanStartRatio": 0.32,
+      "scanEndRatio": 0.95,
+      "minimumDetectedAxisX": 700,
+      "maximumDetectedAxisX": 950,
+      "threshold": { "redMax": 42, "greenMax": 82, "blueMax": 96 },
+      "minimumRunRatio": 0.18,
+      "maxDetectedAxisDeltaPx": 3,
+      "expectedAxisXByTier": {
+        "log": 820,
+        "small": 820,
+        "bridge": 820,
+        "big": 820,
+        "grand": 820,
+        "rainbow": 820
+      }
     },
     "misconceptionCoverage": [
       "DIAMETER_NOT_DOUBLED",
