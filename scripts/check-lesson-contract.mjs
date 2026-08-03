@@ -37,10 +37,18 @@ const UNIFIED_RESULT_THRESHOLDS = Object.freeze([
   [100, 1],
 ]);
 const RESULT_TIER_FULLSCENE_STANDARD = "result-tier-fullscene-native-v1";
-const RESULT_PANEL_CONTAINMENT_STANDARD = "result-panel-containment-v2";
 const RESULT_TIER_FULLSCENE_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next", "retry"]);
 const RESULT_TIER_AXIS_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next"]);
-const RESULT_PANEL_REQUIRED_NODE_KEYS = Object.freeze(["title", "measure", "track", "correct", "next", "retry"]);
+const RESULT_PANEL_CONTAINMENT_STANDARD = "result-panel-containment-v2";
+const RESULT_PANEL_CONTAINMENT_SCOPE = /^3-2-(?:3-4|4-[1-4]|5-[1-4]|6-[1-4])$/;
+const RESULT_PANEL_CONTAINMENT_FIXTURES = Object.freeze([
+  "axis-correct-but-outside-panel",
+  "panel-too-short",
+  "retry-hitbox-outside-panel",
+  "baked-title-outside-panel",
+  "viewport-crops-stage",
+  "stale-runtime-build",
+]);
 
 async function pathExists(filePath) {
   try {
@@ -236,56 +244,67 @@ function rectsIntersect(a, b) {
     * Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)) > 0;
 }
 
-function isValidInset(value) {
-  if (Number.isFinite(value)) return value >= 0;
-  if (!value || typeof value !== "object") return false;
-  return ["top", "right", "bottom", "left"].every((key) => Number.isFinite(value[key]) && value[key] >= 0);
+function isResultPanelContainmentScope(config) {
+  return RESULT_PANEL_CONTAINMENT_SCOPE.test(config.id || "");
 }
 
-function checkResultPanelContainmentContract(failures, lesson, config) {
-  const declaredStandard = config.standards?.resultPanelContainment;
+function checkResultPanelContainmentAudit(failures, lesson, config) {
+  if (!isResultPanelContainmentScope(config)) return;
   const audit = config.qa?.resultPanelContainmentAudit;
-  if (declaredStandard === undefined && audit === undefined) return;
-  if (declaredStandard !== RESULT_PANEL_CONTAINMENT_STANDARD) {
-    addFailure(failures, lesson, `standards.resultPanelContainment must be ${RESULT_PANEL_CONTAINMENT_STANDARD}`);
-  }
-  if (audit?.standard !== RESULT_PANEL_CONTAINMENT_STANDARD) {
-    addFailure(failures, lesson, `qa.resultPanelContainmentAudit.standard must be ${RESULT_PANEL_CONTAINMENT_STANDARD}`);
+  if (!audit) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} is required for every audited result screen`);
     return;
   }
-  if (!isNonEmptyString(audit.sceneImage) || audit.panelDetector !== "resultBoardAudit") {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} must use a visible result scene and resultBoardAudit pixel detector`);
+  if (audit.standard !== RESULT_PANEL_CONTAINMENT_STANDARD) {
+    addFailure(failures, lesson, `qa.resultPanelContainmentAudit.standard must be ${RESULT_PANEL_CONTAINMENT_STANDARD}`);
   }
-  if (config.qa?.resultBoardAudit?.standard !== "generated-result-board-pixel-axis-v1") {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} requires qa.resultBoardAudit pixel thresholds`);
+  if (audit.stage !== EXPECTED_STAGE.size || !["#resultBg", "#resultPanelArt"].includes(audit.sceneImage) || audit.safeInsetPx !== 24) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} must use a raster result scene/panel layer, 1280x800, and a 24px safe inset`);
   }
-  if (!isValidInset(audit.safeInsetPx)) {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} safeInsetPx must be a non-negative number or four-edge object`);
+  const detector = audit.panelDetector || {};
+  const pixelDetector = detector.standard === "raster-panel-bounds-v2"
+    && ["dark", "light"].includes(detector.mode)
+    && isValidStageRect(detector.searchRect)
+    && Number.isFinite(detector.minRunWidth)
+    && detector.minRunWidth >= 180
+    && detector.threshold
+    && typeof detector.threshold === "object";
+  const elementBoundsDetector = detector.standard === "raster-panel-layer-bounds-v1"
+    && detector.mode === "element-bounds"
+    && isNonEmptyString(detector.source);
+  if (!pixelDetector && !elementBoundsDetector) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} needs either a bounded raster detector or an independent panel-layer bounds detector`);
   }
-  if (!Number.isFinite(audit.containmentTolerancePx) || audit.containmentTolerancePx < 0 || audit.containmentTolerancePx > 1) {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} containmentTolerancePx must be between 0 and 1`);
+  if (detector.searchRectByTier !== undefined
+    && (!detector.searchRectByTier || typeof detector.searchRectByTier !== "object")) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} searchRectByTier must be an object when declared`);
   }
-  if (!Number.isFinite(audit.minimumVisibleGapPx) || audit.minimumVisibleGapPx < 8) {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} minimumVisibleGapPx must be at least 8`);
+  const elements = audit.elements || {};
+  for (const key of ["title", "measure", "track", "correct", "next", "retryArt", "retryHitbox"]) {
+    if (!isNonEmptyString(elements[key])) addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} element selector ${key} is required`);
   }
-  for (const key of RESULT_PANEL_REQUIRED_NODE_KEYS) {
-    if (!isNonEmptyString(audit.requiredNodes?.[key])) {
-      addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} requiredNodes.${key} must be a selector`);
+  for (const key of ["axisTolerancePx", "hitboxTolerancePx"]) {
+    if (!(Number.isFinite(audit[key]) && audit[key] <= 1)) {
+      addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} ${key} must be <=1px`);
     }
   }
-  for (const key of ["retryVisual", "retryHitbox"]) {
-    if (!isNonEmptyString(audit.pairedNodes?.[key])) {
-      addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} pairedNodes.${key} must be a selector`);
-    }
+  for (const key of ["elementContainment", "noIntersections", "samePanelSizeAcrossTiers", "sameSafeRectAcrossTiers", "hiddenNextMustBeZero", "viewportCropsStage"]) {
+    const expected = key === "viewportCropsStage" ? false : true;
+    if (audit[key] !== expected) addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} ${key} must be ${expected}`);
   }
-  if (!Number.isFinite(audit.visualHitboxTolerancePx)
-    || audit.visualHitboxTolerancePx < 0
-    || audit.visualHitboxTolerancePx > 1) {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} visualHitboxTolerancePx must be between 0 and 1`);
+  const axisNodes = Array.isArray(audit.axisNodes) ? audit.axisNodes : [];
+  if (!axisNodes.includes("measure") || !axisNodes.includes("track") || !axisNodes.includes("correct")
+    || !axisNodes.includes("next") || !axisNodes.includes("retryHitbox")) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} axisNodes must cover the dynamic result group and retry hitbox`);
   }
-  if (!Array.isArray(audit.optionalWhenHidden)
-    || audit.optionalWhenHidden.some((key) => !RESULT_PANEL_REQUIRED_NODE_KEYS.includes(key))) {
-    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} optionalWhenHidden contains an unknown result node`);
+  for (const fixture of RESULT_PANEL_CONTAINMENT_FIXTURES) {
+    if (!audit.fixtures?.includes(fixture)) addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} missing fixture ${fixture}`);
+  }
+  const metadata = audit.runtimeMetadata || {};
+  if (metadata.selector !== "#mathmonRuntimeBuildMeta"
+    || metadata.commitShaAttribute !== "data-commit-sha"
+    || metadata.lessonJsonShaAttribute !== "data-lesson-json-sha256") {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} runtime metadata selectors are incomplete`);
   }
 }
 
@@ -331,6 +350,8 @@ function checkResultTierFullsceneContract(failures, lesson, config) {
     addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} forbids separate impact/effect assets`);
   }
 
+  const resultPanelV2 = config.qa?.resultPanelContainmentAudit?.standard === RESULT_PANEL_CONTAINMENT_STANDARD;
+  if (!resultPanelV2) {
   const slots = audit.slots || {};
   for (const key of RESULT_TIER_FULLSCENE_SLOT_KEYS) {
     if (!isValidStageRect(slots[key])) {
@@ -395,6 +416,7 @@ function checkResultTierFullsceneContract(failures, lesson, config) {
       && Math.abs(slots.retry.x + slots.retry.width / 2 - audit.dynamicAxisX) > audit.axisTolerancePx) {
       addFailure(failures, lesson, `${RESULT_TIER_FULLSCENE_STANDARD} retry slot must share dynamicAxisX when shiftRetryWithTierAxis is enabled`);
     }
+  }
   }
   if (audit.sceneCanvas !== "1280x800"
     || audit.sceneObjectFit !== "cover"
@@ -542,8 +564,17 @@ async function checkStandaloneLesson(lesson, failures, config, html) {
     `data-mathmon-pack="${config.mathmonPack}"`,
     `data-mathmon-id="${config.mathmonId}"`,
   ];
+  if (isResultPanelContainmentScope(config)) {
+    requiredMarkers.push(`data-result-panel-containment="${RESULT_PANEL_CONTAINMENT_STANDARD}"`);
+  }
   for (const marker of requiredMarkers) {
     if (!html.includes(marker)) addFailure(failures, lesson, `standalone index.html missing ${marker}`);
+  }
+  if (isResultPanelContainmentScope(config)
+    && (!html.includes('id="mathmonRuntimeBuildMeta"')
+      || !html.includes('data-commit-sha=')
+      || !html.includes('data-lesson-json-sha256='))) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} runtime metadata is missing from standalone index.html`);
   }
   if (/<script\s+[^>]*src=/i.test(html) || /<link\s+[^>]*rel=["']stylesheet/i.test(html)) {
     addFailure(failures, lesson, "standalone package must inline scripts and styles");
@@ -585,7 +616,7 @@ async function checkStandaloneLesson(lesson, failures, config, html) {
   checkRewardEvents(failures, lesson, config);
   checkUnifiedReward(failures, lesson, config);
   checkResultTierFullsceneContract(failures, lesson, config);
-  checkResultPanelContainmentContract(failures, lesson, config);
+  checkResultPanelContainmentAudit(failures, lesson, config);
   for (const asset of config.assets || []) {
     await checkLocalAsset(failures, lesson, config, asset, `standalone declared asset ${asset}`);
   }
@@ -611,7 +642,6 @@ async function checkLesson(lesson, failures) {
   const cssSource = await readFile(cssPath, "utf8");
 
   checkManifestShape(failures, lesson, config);
-  checkResultPanelContainmentContract(failures, lesson, config);
   if (config.engineVersion !== ENGINE_VERSION) {
     addFailure(failures, lesson, `engineVersion must be ${ENGINE_VERSION}`);
   }
@@ -640,12 +670,19 @@ async function checkLesson(lesson, failures) {
   ];
   if (config.standards?.coverStartAsset) expectedMarkers.push(`data-cover-start-asset="${config.standards.coverStartAsset}"`);
   if (config.result?.renderMode) expectedMarkers.push(`data-result-render-mode="${config.result.renderMode}"`);
+  if (isResultPanelContainmentScope(config)) expectedMarkers.push(`data-result-panel-containment="${RESULT_PANEL_CONTAINMENT_STANDARD}"`);
   if (config.reward?.mode) expectedMarkers.push(`data-reward-mode="${config.reward.mode}"`);
   if (config.tutorial?.mode) expectedMarkers.push(`data-tutorial-mode="${config.tutorial.mode}"`);
   if (config.workbench?.type) expectedMarkers.push(`data-workbench-type="${config.workbench.type}"`);
   if (config.scoreboard) expectedMarkers.push(`data-scoreboard-enabled="${config.scoreboard.enabled === true ? "true" : "false"}"`);
   for (const marker of expectedMarkers) {
     if (!html.includes(marker)) addFailure(failures, lesson, `generated index.html missing ${marker}`);
+  }
+  if (isResultPanelContainmentScope(config)
+    && (!html.includes('id="mathmonRuntimeBuildMeta"')
+      || !html.includes('data-commit-sha=')
+      || !html.includes('data-lesson-json-sha256='))) {
+    addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} runtime metadata is missing from index.html`);
   }
   if (html.includes("{{")) {
     addFailure(failures, lesson, "generated index.html still contains template placeholders");
@@ -684,6 +721,7 @@ async function checkLesson(lesson, failures) {
   } else {
     const fixedResultElements = config.result?.stateImageSet?.fixedGeneratedElements;
     const titleIsBakedIntoTierScene = Array.isArray(fixedResultElements) && fixedResultElements.includes("tier-scene-with-title");
+    const requiresSeparateResultTitle = isResultPanelContainmentScope(config);
     let previousPower = -1;
     let previousCorrect = -1;
     for (const result of config.results) {
@@ -696,7 +734,7 @@ async function checkLesson(lesson, failures) {
       previousPower = result.minPower;
       if (!result.needsSpecial) previousCorrect = result.minCorrect;
       await checkLocalAsset(failures, lesson, config, result.image, `result image ${result.id}`);
-      if (!titleIsBakedIntoTierScene) {
+      if (!titleIsBakedIntoTierScene || requiresSeparateResultTitle) {
         await checkLocalAsset(failures, lesson, config, result.titleImage, `result title image ${result.id}`);
       }
     }
@@ -704,6 +742,7 @@ async function checkLesson(lesson, failures) {
   checkRewardEvents(failures, lesson, config);
   checkUnifiedReward(failures, lesson, config);
   checkResultTierFullsceneContract(failures, lesson, config);
+  checkResultPanelContainmentAudit(failures, lesson, config);
   if (config.qa?.resultVisualAudit?.standard === RESULT_TIER_FULLSCENE_STANDARD) {
     if (/compass-result-impact|resultImpactStates|impactImage/.test(viewSource)
       || /class=["'][^"']*result-impact/.test(html)) {

@@ -47,8 +47,6 @@ const ui = {
   completePanel: document.getElementById("completePanel"),
   completeText: document.getElementById("completeExpression"),
   continueButton: document.getElementById("rewardButton"),
-  rewardObject: document.querySelector("#screen-reward .reward-object"),
-  rewardLiquid: document.getElementById("rewardLiquid"),
   rewardScreenTitle: document.getElementById("rewardTitle"),
   rewardScene: document.querySelector("#screen-reward .raster-bg"),
   rewardLabel: document.getElementById("rewardChange"),
@@ -59,6 +57,7 @@ const ui = {
   modalRewardOpenButton: document.getElementById("modalRewardOpenButton"),
   modalRewardNextButton: document.getElementById("modalRewardNextButton"),
   resultBg: document.getElementById("resultBg"),
+  resultPanelArt: document.getElementById("resultPanelArt"),
   resultTitleArt: document.getElementById("resultTitleArt"),
   resultCorrectArt: document.getElementById("resultCorrectArt"),
   resultHeading: document.getElementById("resultTitle"),
@@ -112,6 +111,7 @@ function createInitialState() {
     inputLocked: false,
     pendingRewardEvent: null,
     rewardPhase: "idle",
+    rewardTransitioning: false,
   };
 }
 
@@ -295,6 +295,7 @@ function renderProblem() {
     showResult();
     return;
   }
+  setRewardTransitioning(false);
   state.stepIndex = 0;
   state.mistakeTouched = false;
   state.pendingAdvance = false;
@@ -321,8 +322,6 @@ function renderStep() {
   ui.feedback.dataset.state = "idle";
   ui.continueButton.hidden = true;
   ui.completePanel.classList.remove("is-visible");
-  ui.completePanel.classList.toggle("is-action-only", LESSON_CONFIG.completion?.showExpression === false);
-  ui.completeText.hidden = LESSON_CONFIG.completion?.showExpression === false;
   ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
   ui.answerSlot.classList.remove("is-filled");
   ui.answerSlot.textContent = step.preview || "?";
@@ -343,12 +342,6 @@ function renderStep() {
     button.type = "button";
     button.textContent = getChoiceLabel(choice);
     button.dataset.choice = getChoiceId(choice);
-    button.dataset.correct = String(LessonModel.validateChoice(step, choice));
-    const misconceptionId = getChoiceMisconceptionId(choice);
-    if (misconceptionId) button.dataset.misconception = misconceptionId;
-    if (choice && typeof choice === "object" && choice.relation) {
-      button.dataset.relation = String(choice.relation);
-    }
     button.addEventListener("click", () => handleChoice(choice, button));
     ui.choices.appendChild(button);
   });
@@ -367,10 +360,6 @@ async function handleChoice(choice, button) {
     choiceId: getChoiceId(choice),
     misconceptionId: getChoiceMisconceptionId(choice),
     correct,
-  });
-  [...ui.choices.querySelectorAll(".choice-button")].forEach((choiceButton) => {
-    delete choiceButton.dataset.state;
-    choiceButton.classList.remove("is-wrong", "is-correct");
   });
 
   if (!correct) {
@@ -436,12 +425,7 @@ async function completeCurrentProblem(problem, step, choice) {
   await runViewHook("onProblemComplete", { problem, step, choice, state });
   await showMathmonReaction("reward");
   playSample("problem-complete");
-  const showCompleteExpression = LESSON_CONFIG.completion?.showExpression !== false;
-  ui.completeText.hidden = !showCompleteExpression;
-  ui.completeText.textContent = showCompleteExpression
-    ? (problem.finalExpression || ui.answerSlot.textContent)
-    : "";
-  ui.completePanel.classList.toggle("is-action-only", !showCompleteExpression);
+  ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
   ui.completePanel.classList.add("is-visible");
   ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
   ui.continueButton.hidden = false;
@@ -527,8 +511,7 @@ function renderStepChips(problem) {
   problem.steps.forEach((step, index) => {
     const chip = document.createElement("span");
     chip.className = "step-chip";
-    chip.textContent = index > state.stepIndex ? "?" : (step.label || `${index + 1}단계`);
-    if (index > state.stepIndex) chip.setAttribute("aria-label", `${index + 1}단계 잠김`);
+    chip.textContent = step.label || `${index + 1}단계`;
     chip.classList.toggle("is-current", index === state.stepIndex);
     chip.classList.toggle("is-done", index < state.stepIndex);
     ui.stepChips.appendChild(chip);
@@ -536,7 +519,8 @@ function renderStepChips(problem) {
 }
 
 async function showReward() {
-  if (!state.completed || state.rewardPhase !== "idle") return;
+  if (!state.completed || state.rewardPhase !== "idle" || state.rewardTransitioning) return;
+  setRewardTransitioning(true);
   const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
   const firstTry = !state.mistakeTouched;
   const event = LessonModel.pickRewardEvent(rng, !firstTry);
@@ -567,9 +551,7 @@ async function showReward() {
     return;
   }
 
-  const beforePower = applyPendingReward(event);
-  state.rewardPhase = "revealed";
-  renderRewardMeter(event, beforePower, state.power);
+  applyPendingReward(event);
 
   ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
   if (ui.rewardScene instanceof HTMLImageElement) {
@@ -580,18 +562,6 @@ async function showReward() {
   ui.rewardLabel.textContent = formatRewardText(event);
   ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
   showScreen("reward");
-}
-
-function renderRewardMeter(event, beforePower, afterPower) {
-  if (!ui.rewardObject || !ui.rewardLiquid) return;
-  const maxPower = Number(LESSON_CONFIG.reward?.maxPower) || 100;
-  const fill = LessonModel.clamp((Number(afterPower) / maxPower) * 100, 0, 100);
-  const delta = Number(afterPower) - Number(beforePower);
-  const direction = event?.special ? "special" : delta > 0 ? "up" : delta < 0 ? "down" : "same";
-  const symbol = event?.special ? "★" : delta > 0 ? "↑" : delta < 0 ? "↓" : "↻";
-  ui.rewardObject.dataset.direction = direction;
-  ui.rewardObject.dataset.symbol = symbol;
-  ui.rewardLiquid.style.setProperty("--fill", `${fill}%`);
 }
 
 function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -644,7 +614,7 @@ async function revealStageReward() {
     afterResult,
     state,
   });
-  ui.rewardLabel.textContent = getRewardTargetText(event, beforeResult, afterResult);
+  ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
   state.rewardPhase = "revealed";
   ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
     ? "결과 보기"
@@ -659,23 +629,14 @@ function waitFor(duration) {
 }
 
 function formatRewardDelta(event) {
-  if (event.special) return LESSON_CONFIG.reward?.specialLabel || event.text || "특별 보상!";
+  if (event.special) return event.text || "특별 보상!";
   const amount = Number(event.amount) || 0;
   if (amount > 0) return `+${amount}`;
   if (amount < 0) return String(amount);
   return "그대로";
 }
 
-function getRewardTargetText(event, beforeResult, afterResult) {
-  const formatter = globalThis.formatLessonRewardTarget;
-  if (typeof formatter === "function") {
-    try {
-      const formatted = formatter({ event, beforeResult, afterResult, state });
-      if (typeof formatted === "string" && formatted.trim()) return formatted.trim();
-    } catch (error) {
-      console.warn("formatLessonRewardTarget failed", error);
-    }
-  }
+function getRewardTargetText(beforeResult, afterResult) {
   if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
   if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
   const nextResult = typeof LessonModel.getNextResult === "function"
@@ -737,7 +698,8 @@ function animateRewardValue(event) {
 }
 
 function setRewardValue(amount) {
-  const changeLabel = LESSON_CONFIG.reward?.changeLabel || "이번 변화";
+  const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+  const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
   const value = Number(amount) || 0;
   const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
   ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -751,6 +713,13 @@ function closeRewardModal() {
   ui.rewardPop.dataset.rarity = "";
   state.pendingRewardEvent = null;
   state.rewardPhase = "idle";
+}
+
+function setRewardTransitioning(active) {
+  state.rewardTransitioning = Boolean(active);
+  ui.stageShell.dataset.rewardTransitioning = String(state.rewardTransitioning);
+  ui.continueButton.disabled = state.rewardTransitioning;
+  if (state.rewardTransitioning) ui.continueButton.hidden = true;
 }
 
 function getRewardClosedImage() {
@@ -771,10 +740,8 @@ function formatRewardText(event) {
 
 async function advanceAfterReward() {
   if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
-  if (state.pendingAdvance) return;
-  if (getRewardMode() === "modal-art" && state.rewardPhase !== "revealed") return;
-  state.pendingAdvance = true;
   if (getRewardMode() === "modal-art") {
+    if (state.rewardPhase !== "revealed") return;
     const event = state.pendingRewardEvent;
     ui.modalRewardNextButton.disabled = true;
     closeRewardModal();
@@ -789,11 +756,8 @@ async function advanceAfterReward() {
     state.pendingRewardEvent = null;
     state.rewardPhase = "idle";
   }
-  if (getRewardMode() === "stage-full") {
-    state.pendingRewardEvent = null;
-    state.rewardPhase = "idle";
-  }
   if (state.problemIndex >= state.problems.length - 1) {
+    setRewardTransitioning(false);
     showResult();
     return;
   }
@@ -803,6 +767,7 @@ async function advanceAfterReward() {
 }
 
 function showResult() {
+  setRewardTransitioning(false);
   const result = getCurrentResult();
   const nextResult = typeof LessonModel.getNextResult === "function"
     ? LessonModel.getNextResult(result)
@@ -812,6 +777,10 @@ function showResult() {
   state.currentResult = result;
   playSample("result");
   ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
+  if (ui.resultPanelArt) {
+    ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
+    if (LESSON_CONFIG.imageAssets?.resultPanel) ui.resultPanelArt.src = LESSON_CONFIG.imageAssets.resultPanel;
+  }
   ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
   ui.resultTitleArt.alt = "";
   ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
@@ -834,8 +803,7 @@ function showResult() {
   ui.resultCorrectArt.hidden = !correctArt;
   if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-  const fullScene = ["fullscene-score-slot", "fullscene-generated-dynamic-slots"].includes(getResultRenderMode());
-  ui.resultTitleArt.hidden = fullScene && !LESSON_CONFIG.imageAssets.resultScene;
+  ui.resultTitleArt.hidden = false;
   screens.result.dataset.resultTier = result.id || "";
 
   const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -863,18 +831,29 @@ function applyResultLayout() {
   const layout = { ...baseLayout, ...tierLayout };
   const tierAxis = baseLayout.axisXByTier?.[tierId];
   const axisX = Number(tierAxis ?? layout.axisX ?? 930);
+  const titleAxisX = Number(layout.titleAxisXByTier?.[tierId] ?? layout.titleAxisX ?? axisX);
   const titleWidth = Number(layout.titleWidth ?? 520);
   const correctWidth = Number(layout.correctWidth ?? 220);
   const barWidth = Number(layout.barWidth ?? 360);
   const barHeight = Number(layout.barHeight ?? 28);
   const retry = layout.retryRect || {};
+  const panel = layout.panelRect || {};
   const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
   const percentY = (value) => `${(Number(value) / 800) * 100}%`;
 
   if (ui.resultTitleArt) {
-    ui.resultTitleArt.style.left = percentX(axisX - titleWidth / 2);
+    ui.resultTitleArt.style.left = percentX(titleAxisX - titleWidth / 2);
     ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
     ui.resultTitleArt.style.width = percentX(titleWidth);
+  }
+  if (ui.resultPanelArt) {
+    ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
+    if (panel.width && panel.height) {
+      ui.resultPanelArt.style.left = percentX(panel.x ?? 0);
+      ui.resultPanelArt.style.top = percentY(panel.y ?? 0);
+      ui.resultPanelArt.style.width = percentX(panel.width);
+      ui.resultPanelArt.style.height = percentY(panel.height);
+    }
   }
   if (ui.resultCorrectArt) {
     ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
@@ -977,6 +956,7 @@ function confirmRestartFromSettings() {
   closeSettings({ restoreFocus: false });
   closeRewardModal();
   state = createInitialState();
+  setRewardTransitioning(false);
   scoreboardBridge?.reset?.();
   syncProgress();
   showScreen("cover");
@@ -1191,7 +1171,7 @@ window.__mathmonEngineQa = {
   setState: (patch = {}) => {
     const allowed = [
       "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
-      "completed", "mistakeTouched", "rewardPhase", "pendingRewardEvent", "currentResult",
+      "completed", "mistakeTouched", "rewardPhase", "rewardTransitioning", "pendingRewardEvent", "currentResult",
     ];
     for (const key of allowed) {
       if (Object.hasOwn(patch, key)) state[key] = patch[key];
@@ -1209,6 +1189,7 @@ window.__mathmonEngineQa = {
     correctFirstTry: state.correctFirstTry,
     specialSeen: state.specialSeen,
     rewardPhase: state.rewardPhase,
+    rewardTransitioning: state.rewardTransitioning,
     pendingRewardId: state.pendingRewardEvent?.id || "",
     pendingRewardAmount: Number(state.pendingRewardEvent?.amount) || 0,
     pendingRewardSpecial: Boolean(state.pendingRewardEvent?.special),

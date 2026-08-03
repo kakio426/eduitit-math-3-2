@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Build one Mathmon lesson package from _engine/v1 plus a lesson source manifest.
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { runInNewContext } from "node:vm";
 
@@ -167,7 +169,8 @@ async function main() {
 
   const sourceDir = path.join(LESSON_SOURCE_ROOT, lessonFolder);
   const configPath = path.join(sourceDir, "lesson.json");
-  const config = JSON.parse(await readFile(configPath, "utf8"));
+  const lessonJsonSource = await readFile(configPath, "utf8");
+  const config = JSON.parse(lessonJsonSource);
   if (config.packageType === "standalone-html") {
     const outputPath = path.join(ROOT, config.folder || lessonFolder, "index.html");
     await readFile(outputPath, "utf8");
@@ -215,6 +218,9 @@ async function main() {
   const scoreboard = config.scoreboard || {};
   const engineRuntimeScript = engineRuntime.replaceAll("{{MODEL_NAME}}", config.modelName);
   const lessonConfigScript = `const LESSON_CONFIG = ${JSON.stringify(config)};`;
+  const commitSha = spawnSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).stdout.trim();
+  const lessonJsonSha = createHash("sha256").update(lessonJsonSource).digest("hex");
+  const runtimeBuildMetadata = `<div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="${escapeHtml(config.id)}" data-commit-sha="${escapeHtml(commitSha)}" data-lesson-json-sha256="${lessonJsonSha}"></div>`;
   const unitNumber = getUnitNumber(config);
   const scoreboardEnabled = Boolean(scoreboard.enabled);
   const hybridResult = result.renderMode === "hybrid-generated-dynamic";
@@ -228,6 +234,7 @@ async function main() {
     coverStartAsset: escapeHtml(useSharedCoverStart ? "shared-canonical-v1" : "lesson-local"),
     settingsStandard: escapeHtml(standards.settings || "modal-controls"),
     resultVisualStandard: escapeHtml(standards.resultVisual || "generated-assets"),
+    resultPanelContainmentStandard: escapeHtml(config.qa?.resultPanelContainmentAudit?.standard || ""),
     resultRenderMode: escapeHtml(requiredString(result.renderMode, "simple-generated")),
     rewardMode: escapeHtml(requiredString(reward.mode, "stage-full")),
     tutorialMode: escapeHtml(requiredString(tutorial.mode, "card-grid")),
@@ -257,6 +264,8 @@ async function main() {
     initialResultId: escapeHtml(initialResult.id),
     initialResultImage: escapeHtml(initialResult.image),
     initialResultTitleImage: escapeHtml(initialResult.titleImage || initialResult.image || config.imageAssets.cover),
+    resultPanelImage: escapeHtml(imageAssets.resultPanel || ""),
+    resultPanelHidden: imageAssets.resultPanel ? "" : "hidden",
     resultRetryButton: escapeHtml(imageAssets.resultRetryButton || "result-retry-button-generated.webp"),
     resultRestartButtonId: hybridResult ? "restartButton" : "retryButton",
     resultRestartButtonClass: "result-retry-hitbox",
@@ -270,6 +279,7 @@ async function main() {
     scoreboardUnit: escapeHtml(requiredString(scoreboard.unit, config.unitBadge)),
     scoreboardRuntimeScript: indent(scoreboardRuntime, 4),
     lessonConfigScript: indent(lessonConfigScript, 4),
+    runtimeBuildMetadata,
     lessonModelScript: indent(modelSource, 4),
     lessonViewScript: indent(viewSource, 4),
     engineRuntimeScript: indent(engineRuntimeScript, 4),

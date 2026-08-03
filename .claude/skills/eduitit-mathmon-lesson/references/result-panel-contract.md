@@ -1,80 +1,67 @@
-# 결과판 내부 포함 계약
+# Result panel containment v2
 
-결과 화면을 새로 만들거나 크게 고칠 때 `result-panel-containment-v2`를 적용한다. 이 계약은 공통 중심축만 맞고 결과판 위·아래로 요소가 빠지는 화면을 차단한다.
+최종 결과 화면은 생성 장면과 빈 결과판을 `#resultBg`에 두고, 결과명·정답 수·다시하기처럼 고정되는 시각 요소는 독립 래스터/WebP 레이어로 둔다. 넓은 범위의 현재 힘/진행값과 다음 목표만 동적 SVG/HTML 오버레이로 허용한다. 보이는 결과명·칭찬·버튼 면을 CSS 텍스트, CSS 그림자, HTML 텍스트로 다시 그리지 않는다.
 
-## 자산 설계
+## 선언
 
-1. 1280×800 결과 장면에서 결과판의 실제 안쪽 네 변을 먼저 정한다.
-2. 결과판 안쪽 여백, 필수 요소 높이, 요소 사이 최소 간격을 합산한다.
-3. `필요 높이 > 결과판 안전 영역 높이`면 CSS로 밀어 넣지 말고 결과 장면을 다시 생성한다.
-4. 새 결과 화면은 완성 장면과 빈 결과판을 배경 이미지가 맡고, 결과명과 다시하기는 투명 배경의 생성형 이미지 자산으로 결과판 안에 둔다. 동적 값은 SVG/HTML이 맡는다.
-5. 배경에 제목·버튼 표면을 구워 넣는 기존 호환 장면은 큰 수정 때 위 구조로 이관한다. 배경에 구운 요소는 DOM rect를 잴 수 없으므로 새 복제 기준으로 쓰지 않는다.
-
-## lesson.json 계약
+`lesson.json > qa.resultPanelContainmentAudit`는 결과가 있는 차시마다 필수다.
 
 ```json
 {
-  "standards": {
-    "resultPanelContainment": "result-panel-containment-v2"
+  "standard": "result-panel-containment-v2",
+  "stage": "1280x800",
+  "sceneImage": "#resultBg",
+  "safeInsetPx": 24,
+  "panelDetector": {
+    "standard": "raster-panel-bounds-v2",
+    "mode": "dark|light",
+    "searchRect": { "x": 0, "y": 0, "width": 1280, "height": 800 },
+    "searchRectByTier": {},
+    "threshold": {},
+    "minRunWidth": 180
   },
-  "qa": {
-    "resultPanelContainmentAudit": {
-      "standard": "result-panel-containment-v2",
-      "sceneImage": "#resultBg",
-      "panelDetector": "resultBoardAudit",
-      "safeInsetPx": 20,
-      "containmentTolerancePx": 1,
-      "minimumVisibleGapPx": 8,
-      "requiredNodes": {
-        "title": "#resultDestinationSvg",
-        "measure": "#resultMeasureSvg",
-        "track": "#resultMeasureTrackSvg",
-        "correct": "#resultCorrectArt",
-        "next": "#resultNextSvg",
-        "retry": "#restartButton"
-      },
-      "pairedNodes": {
-        "retryVisual": ".result-retry-art",
-        "retryHitbox": "#restartButton"
-      },
-      "visualHitboxTolerancePx": 1,
-      "optionalWhenHidden": ["next"]
-    }
+  "elements": {
+    "title": "#resultTitleArt",
+    "measure": "#resultMeasureSvg",
+    "track": "#resultMeasureTrackSvg",
+    "correct": "#resultCorrectArt",
+    "next": "#resultNextSvg",
+    "retryArt": ".result-retry-art",
+    "retryHitbox": "#restartButton"
+  },
+  "axisNodes": ["measure", "track", "correct", "next", "retryHitbox"],
+  "axisTolerancePx": 1,
+  "hitboxTolerancePx": 1,
+  "elementContainment": true,
+  "noIntersections": true,
+  "samePanelSizeAcrossTiers": true,
+  "sameSafeRectAcrossTiers": true,
+  "hiddenNextMustBeZero": true,
+  "viewportCropsStage": false,
+  "fixtures": [
+    "axis-correct-but-outside-panel",
+    "panel-too-short",
+    "retry-hitbox-outside-panel",
+    "baked-title-outside-panel",
+    "viewport-crops-stage",
+    "stale-runtime-build"
+  ],
+  "runtimeMetadata": {
+    "selector": "#mathmonRuntimeBuildMeta",
+    "commitShaAttribute": "data-commit-sha",
+    "lessonJsonShaAttribute": "data-lesson-json-sha256"
   }
 }
 ```
 
-- `panelDetector`는 현재 `resultBoardAudit`만 허용한다. 검출기는 래스터 결과판의 `left/top/right/bottom`을 모두 반환해야 한다.
-- `safeInsetPx`는 숫자 또는 `{ "top", "right", "bottom", "left" }` 객체로 선언한다.
-- `requiredNodes`는 `title`, `measure`, `track`, `correct`, `next`, `retry`를 모두 포함한다.
-- `pairedNodes`는 보이는 다시하기 아트와 실제 버튼 hitbox를 따로 가리키며, 네 변 차이는 `visualHitboxTolerancePx` 이하여야 한다.
-- 숨김이 허용된 요소도 숨긴 상태에서는 computed `display:none`과 실제 rect `0×0`을 만족해야 한다.
-- 보이는 SVG 텍스트는 호스트가 아니라 실제 글리프 rect를 잰다.
+## 검증 순서
 
-## 브라우저 판정
+1. 이미지 생성 전에 판의 사용 가능 영역과 필요한 콘텐츠 높이를 계산한다. 안쪽 여백 `24px` + 요소 높이 합 + 요소 사이 간격 합이 판 높이를 넘으면 CSS로 늘리지 말고 이미지를 다시 생성한다.
+2. 하네스가 `#resultBg`의 실제 픽셀에서 판의 `left/top/right/bottom`을 검출하고 Stage 좌표로 변환한다.
+3. 검출 판에서 안전 영역을 `24px`씩 줄여 `panelSafeRect`를 만든다.
+4. 제목·진행값·막대·정답 수·다음 목표·다시하기 아트·다시하기 hitbox의 실제 보이는 rect를 측정한다. 모든 rect가 안전 영역 안에 있고 형제 교차가 `0px`인지 확인한다.
+5. 동적 값 묶음의 공통 중심축 오차는 `1px`, 버튼 아트와 hitbox 네 변 오차는 `1px` 이하로 확인한다. 숨긴 다음 목표는 `display:none`과 `0×0`이어야 한다.
+6. 모든 결과 단계와 등록 viewport를 반복한다. 단계마다 판 크기와 안전 영역이 달라지면 실패한다.
+7. 실행 메타데이터의 커밋 SHA와 `lesson.json` SHA-256이 하네스가 검사하는 현재 파일과 같은지 확인한다. 화면에는 보이지 않는 `aria-hidden` 디버그 요소로만 둔다.
 
-모든 결과 단계와 모든 `qa.viewports`에서 다음을 검사한다.
-
-1. `resultBg`를 1280×800 canvas에 그려 결과판의 연속 픽셀 영역 네 변을 검출한다.
-2. 검출한 원본 좌표를 실제 Stage rect로 변환한다.
-3. 결과판 네 변에서 안전 여백을 뺀 `panelSafeRect`를 만든다.
-4. 필수 요소의 실제 보이는 rect와 버튼 hitbox를 따로 잰다.
-5. 모든 rect의 네 변이 `panelSafeRect` 안에 들어오는지 확인한다.
-6. 필수 요소의 세로 순서, 최소 간격, 형제 교차 0px를 확인한다.
-7. 결과 장면과 Stage 네 변, 버튼 아트와 hitbox 네 변 오차를 각각 1px 이하로 확인한다.
-
-## 필수 실패 fixture
-
-- `axis-correct-outside-panel`: 중심축은 맞지만 요소가 결과판 아래로 빠진다.
-- `panel-too-short`: 슬롯 높이와 간격 합이 결과판 안전 높이보다 크다.
-- `retry-hitbox-outside-panel`: 버튼 표면 또는 hitbox가 결과판 밖에 있다.
-- `hidden-node-still-rendered`: 숨긴 다음 목표가 0×0이 아니다.
-- `stage-cropped-at-user-viewport`: 사용자 제보 viewport에서 Stage가 viewport 밖으로 잘린다.
-
-현재 실패 화면은 수정 전 증거로 `_archive/`에 보존하고, 같은 viewport·DPR·결과 단계에서 수정 뒤 캡처를 다시 만든다.
-
-결과 자산이나 `lesson.json`의 `result/results`를 바꾼 브랜치는 배포 전에 아래 변경 감지 게이트도 통과한다. 기존 차시가 구형 계약이었다는 이유로 새 결과 변경이 검사를 생략할 수 없다.
-
-```bash
-node scripts/check-result-panel-adoption.mjs origin/main
-```
+`result-dynamic-axis-v1`이나 가로 중심만 검사하는 예전 `resultBoardAudit`는 이 계약을 대신할 수 없다.

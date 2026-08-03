@@ -1477,11 +1477,23 @@
       pointer-events: none;
     }
 
+    .result-panel-art {
+      position: absolute;
+      left: 50.78125%;
+      top: 5.625%;
+      width: 47.65625%;
+      height: 83.125%;
+      object-fit: fill;
+      pointer-events: none;
+      z-index: 1;
+    }
+
     .result-dynamic-ui {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
+      z-index: 2;
       overflow: visible;
       pointer-events: none;
     }
@@ -1516,7 +1528,14 @@
     }
 
     .result-title-art {
-      display: none !important;
+      position: absolute;
+      display: block !important;
+      left: 60.9375%;
+      top: 11.25%;
+      width: 28.125%;
+      height: auto;
+      z-index: 3;
+      pointer-events: none;
     }
 
     .result-correct-art {
@@ -1526,9 +1545,9 @@
       width: 9.375%;
       height: 9%;
       max-height: none;
+      z-index: 3;
       object-fit: contain;
       transform: none;
-      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.38));
       pointer-events: none;
     }
 
@@ -1545,6 +1564,7 @@
       transform: none;
       cursor: pointer;
       pointer-events: auto;
+      z-index: 6;
     }
 
     .result-retry-hitbox:focus-visible {
@@ -1554,7 +1574,11 @@
     }
 
     .result-retry-art {
-      display: none !important;
+      display: block !important;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
     }
 
     .visually-hidden {
@@ -1665,11 +1689,11 @@
       }
     }
   </style>
-  <script src="../_shared/audio/mathmon-audio-v1.js?v=20260803"></script>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit5-package-modal-art-v2" data-reward-card-size="560x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
+  <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit5-package-modal-art-v2" data-reward-card-size="560x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
     <div class="stage-shell" data-active-screen="cover">
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="559463a1cfcc555361ae60d8294a749b98fd1d9e" data-lesson-json-sha256="af9599be0870586ea8d568f9b552f24555e36603cee3cd170ec786ac810bfb09"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -1803,6 +1827,7 @@
           <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>5단원 무게</div>
         </div>
         <div class="result-layer">
+          <img class="result-panel-art" id="resultPanelArt" src="result-panel-generated.webp" alt="" aria-hidden="true">
           <img class="result-title-art" id="resultTitleArt" src="result-title-plain-generated.webp" alt="" aria-hidden="true">
           <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
           <svg class="result-dynamic-ui" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true">
@@ -1820,7 +1845,7 @@
             <text class="result-next-goal-text" id="resultNextGoalText" x="958" y="450">다음 목표: 힘 15 · 정답 2개</text>
           </svg>
           <button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시">
-            <img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
+            <img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true">
           </button>
         </div>
         <h2 class="visually-hidden" id="resultTitle">평범 트럭</h2>
@@ -1849,12 +1874,12 @@
         "limit"
       ];
       const TRUCK_RESULTS = [
-        { id: "plain", name: "평범 트럭", minPower: 0, minCorrect: 0, visualRank: 0, image: "result-truck-plain-generated.webp", titleImage: "result-truck-plain-generated.webp" },
-        { id: "slight", name: "살짝 멋진 트럭", minPower: 15, minCorrect: 2, visualRank: 1, image: "result-truck-slight-generated.webp", titleImage: "result-truck-slight-generated.webp" },
-        { id: "swift", name: "파란 번개 트럭", minPower: 35, minCorrect: 4, visualRank: 2, image: "result-truck-swift-generated.webp", titleImage: "result-truck-swift-generated.webp" },
-        { id: "cool", name: "번쩍 멋진 트럭", minPower: 55, minCorrect: 6, visualRank: 3, image: "result-truck-cool-generated.webp", titleImage: "result-truck-cool-generated.webp" },
-        { id: "gold", name: "황금 축제 트럭", minPower: 78, minCorrect: 8, visualRank: 4, image: "result-truck-gold-generated.webp", titleImage: "result-truck-gold-generated.webp" },
-        { id: "super", name: "무지개 하늘 트럭", minPower: 100, minCorrect: 1, needsSuperPart: true, visualRank: 5, image: "result-truck-super-generated.webp", titleImage: "result-truck-super-generated.webp" }
+        { id: "plain", name: "평범 트럭", minPower: 0, minCorrect: 0, visualRank: 0, image: "result-truck-plain-generated.webp", titleImage: "result-title-plain-generated.webp" },
+        { id: "slight", name: "살짝 멋진 트럭", minPower: 15, minCorrect: 2, visualRank: 1, image: "result-truck-slight-generated.webp", titleImage: "result-title-slight-generated.webp" },
+        { id: "swift", name: "파란 번개 트럭", minPower: 35, minCorrect: 4, visualRank: 2, image: "result-truck-swift-generated.webp", titleImage: "result-title-swift-generated.webp" },
+        { id: "cool", name: "번쩍 멋진 트럭", minPower: 55, minCorrect: 6, visualRank: 3, image: "result-truck-cool-generated.webp", titleImage: "result-title-cool-generated.webp" },
+        { id: "gold", name: "황금 축제 트럭", minPower: 78, minCorrect: 8, visualRank: 4, image: "result-truck-gold-generated.webp", titleImage: "result-title-gold-generated.webp" },
+        { id: "super", name: "무지개 하늘 트럭", minPower: 100, minCorrect: 1, needsSuperPart: true, visualRank: 5, image: "result-truck-super-generated.webp", titleImage: "result-title-super-generated.webp" }
       ];
       const UPGRADE_EVENTS = [
         { id: "normal", text: "트럭 힘이 늘었어요", weight: 6400, min: 6, max: 10, family: "smallUpgrade" },
@@ -2221,6 +2246,7 @@
       rewardOpenButton: document.getElementById("rewardOpenButton"),
       rewardNextButton: document.getElementById("rewardNextButton"),
       resultBg: document.getElementById("resultBg"),
+      resultPanelArt: document.getElementById("resultPanelArt"),
       resultTitleArt: document.getElementById("resultTitleArt"),
       resultCorrectArt: document.getElementById("resultCorrectArt"),
       resultProgressTrack: document.getElementById("resultProgressTrack"),
@@ -2250,22 +2276,22 @@
     });
     const RESULT_LAYOUT = Object.freeze({
       axisXByTier: Object.freeze({
-        plain: 958,
-        slight: 992,
-        swift: 958,
-        cool: 1034,
-        gold: 1015,
-        super: 991
+        plain: 955,
+        slight: 955,
+        swift: 955,
+        cool: 955,
+        gold: 955,
+        super: 955
       }),
       measureY: 300,
-      barY: 330,
+      barY: 350,
       barWidth: 280,
       barHeight: 18,
-      correctTop: 356,
+      correctTop: 380,
       correctWidth: 120,
       correctHeight: 72,
-      nextY: 450,
-      retryY: 480,
+      nextY: 490,
+      retryY: 530,
       retryWidth: 240,
       retryHeight: 60
     });
@@ -2866,6 +2892,11 @@
       ui.resultNextGoalText.setAttribute("x", String(axisX));
       ui.resultNextGoalText.setAttribute("y", String(RESULT_LAYOUT.nextY));
 
+      ui.resultTitleArt.style.left = `${(axisX - 180) / 12.8}%`;
+      ui.resultTitleArt.style.top = `${90 / 8}%`;
+      ui.resultTitleArt.style.width = `${360 / 12.8}%`;
+      ui.resultTitleArt.style.height = "auto";
+
       ui.resultCorrectArt.style.left = `${correctX / 12.8}%`;
       ui.resultCorrectArt.style.top = `${RESULT_LAYOUT.correctTop / 8}%`;
       ui.resultCorrectArt.style.width = `${RESULT_LAYOUT.correctWidth / 12.8}%`;
@@ -2881,8 +2912,9 @@
       const result = model.getTruckResult(state.truckPower, state.correctFirstTry, state.superPartSeen);
       const next = model.getNextTruckResult(result);
       screens.result.dataset.resultTier = result.id;
-      ui.resultBg.src = result.image;
-      ui.resultTitleArt.src = result.image;
+      ui.resultBg.src = result.backgroundImage || result.image.replace("result-truck-", "result-truck-").replace("-generated.webp", "-background-generated.webp");
+      ui.resultPanelArt.src = "result-panel-generated.webp";
+      ui.resultTitleArt.src = result.titleImage || result.image;
       ui.resultTitle.textContent = result.name;
       ui.resultCorrectArt.src = getResultCorrectArtSrc(state.correctFirstTry);
       applyResultLayout(result);

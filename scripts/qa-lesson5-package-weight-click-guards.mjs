@@ -754,7 +754,7 @@ async function runResultRasterContractProbe(page, pageUrl) {
     && !observed.hasResultCard
     && !observed.hasCssResultHeading
     && observed.hasResultTitleArt
-    && observed.separateTitleDisplay === "none"
+    && observed.separateTitleDisplay !== "none"
     && observed.hasResultCorrectArt
     && observed.hasResultDynamicSvg
     && observed.hasPowerText
@@ -762,7 +762,7 @@ async function runResultRasterContractProbe(page, pageUrl) {
     && observed.hasProgressFill
     && /result-correct-\d+-generated\.webp(?:\?|$)/.test(observed.correctArtSrc)
     && observed.hasRetryArt
-    && observed.separateRetryDisplay === "none"
+    && observed.separateRetryDisplay !== "none"
     && observed.retryVisibleText === ""
     && observed.retryAriaLabel === "다시"
     && observed.titleHidden
@@ -773,8 +773,8 @@ async function runResultRasterContractProbe(page, pageUrl) {
     pass,
     expected: {
       visibleResultText: "one generated 1280x800 fullscene plus dynamic power/correct/next-goal",
-      fixedTitleAndRetry: "baked into the fullscene; separate image layers hidden",
-      retryButton: "transparent accessible hitbox over the baked retry surface"
+      fixedTitleAndRetry: "separate generated title and retry raster layers",
+      retryButton: "transparent accessible hitbox aligned to retry raster"
     },
     observed
   };
@@ -1787,7 +1787,7 @@ async function runResultTierSetProbe(page, pageUrl) {
       const observed = await evalInPage(page, String.raw`
         (async (tierId, config, results) => {
           const forced = window.__lesson5PackageQa.forceResultTier(tierId);
-          await Promise.all([document.querySelector("#resultBg").decode(), document.querySelector("#resultCorrectArt").decode()]);
+          await Promise.all([document.querySelector("#resultBg").decode(), document.querySelector("#resultPanelArt")?.decode?.(), document.querySelector("#resultCorrectArt").decode()]);
           const rect = (node) => {
             const value = node?.getBoundingClientRect();
             return value ? { left:value.left, top:value.top, right:value.right, bottom:value.bottom, width:value.width, height:value.height, cx:value.left + value.width / 2, cy:value.top + value.height / 2 } : null;
@@ -1795,7 +1795,9 @@ async function runResultTierSetProbe(page, pageUrl) {
           const intersects = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
           const stage = rect(document.querySelector(".stage-shell"));
           const sceneNode = document.querySelector("#resultBg");
+          const panelNode = document.querySelector("#resultPanelArt");
           const scene = rect(sceneNode);
+          const panelLayer = rect(panelNode);
           const correct = rect(document.querySelector("#resultCorrectArt"));
           const retry = rect(document.querySelector("#retryButton"));
           const fill = rect(document.querySelector("#resultProgressFill"));
@@ -1825,6 +1827,18 @@ async function runResultTierSetProbe(page, pageUrl) {
           const slots = Object.fromEntries(Object.entries(shiftedSlots).map(([key, slot]) => [key, toScreenRect(slot)]));
           const detectPanel = () => {
             const panelConfig = config.panelPixelAudit;
+            if (panelConfig.mode === "element-bounds") {
+              if (!panelLayer || !stage || panelLayer.width <= 0 || panelLayer.height <= 0) return { error:"panel-layer-missing" };
+              return {
+                left:(panelLayer.left - stage.left) / scaleX,
+                top:(panelLayer.top - stage.top) / scaleY,
+                right:(panelLayer.right - stage.left) / scaleX - 1,
+                bottom:(panelLayer.bottom - stage.top) / scaleY - 1,
+                width:panelLayer.width / scaleX,
+                height:panelLayer.height / scaleY,
+                cx:(panelLayer.left + panelLayer.right) / 2 / scaleX - stage.left / scaleX
+              };
+            }
             const canvas = document.createElement("canvas");
             canvas.width = 1280;
             canvas.height = 800;
@@ -1875,14 +1889,49 @@ async function runResultTierSetProbe(page, pageUrl) {
             const stable = group.filter((item) => item.width >= middleWidth * .9);
             const left = median(stable.map((item) => item.left));
             const right = median(stable.map((item) => item.right));
-            return { left, right, width:right - left + 1, cx:(left + right) / 2 };
+            const top = Math.min(...stable.map((item) => item.y));
+            const bottom = Math.max(...stable.map((item) => item.y));
+            return { left, right, top, bottom, width:right - left + 1, height:bottom - top + 1, cx:(left + right) / 2 };
           };
           const panel = detectPanel();
-          const rects = { measure, track, correct, next, retry };
+          const title = rect(document.querySelector("#resultTitleArt"));
+          const retryArt = rect(document.querySelector(".result-retry-art"));
+          const retryHitbox = retry;
+          const rects = { title, measure, track, correct, next, retryArt, retryHitbox, retry };
           const pairs = [];
           const keys = Object.keys(rects);
           for (let first = 0; first < keys.length; first += 1) for (let second = first + 1; second < keys.length; second += 1) {
-            pairs.push({ pair:keys[first] + ":" + keys[second], area:intersects(rects[keys[first]], rects[keys[second]]) });
+            const pair = keys[first] + ":" + keys[second];
+            const expectedButtonOverlap = new Set(["retryArt:retryHitbox", "retryArt:retry", "retryHitbox:retry"]);
+            if (expectedButtonOverlap.has(pair)) continue;
+            pairs.push({ pair, area:intersects(rects[keys[first]], rects[keys[second]]) });
+          }
+          const panelScreen = panel.error ? null : config.panelPixelAudit?.mode === "element-bounds"
+            ? panelLayer
+            : {
+            left:stage.left + panel.left * scaleX,
+            top:stage.top + panel.top * scaleY,
+            right:stage.left + (panel.right + 1) * scaleX,
+            bottom:stage.top + (panel.bottom + 1) * scaleY,
+            width:(panel.right + 1 - panel.left) * scaleX,
+            height:(panel.bottom + 1 - panel.top) * scaleY
+          };
+          const panelSafeRect = panelScreen ? {
+            left:panelScreen.left + 24 * scaleX,
+            top:panelScreen.top + 24 * scaleY,
+            right:panelScreen.right - 24 * scaleX,
+            bottom:panelScreen.bottom - 24 * scaleY,
+            width:panelScreen.width - 48 * scaleX,
+            height:panelScreen.height - 48 * scaleY
+          } : null;
+          const contained = (node) => Boolean(node && panelSafeRect
+            && node.left >= panelSafeRect.left - 1 && node.top >= panelSafeRect.top - 1
+            && node.right <= panelSafeRect.right + 1 && node.bottom <= panelSafeRect.bottom + 1);
+          const visualKeys = ["title", "measure", "track", "correct", "next", "retryArt"];
+          const visualIntersections = [];
+          for (let first = 0; first < visualKeys.length; first += 1) for (let second = first + 1; second < visualKeys.length; second += 1) {
+            const area = intersects(rects[visualKeys[first]], rects[visualKeys[second]]);
+            if (area > 0) visualIntersections.push({ pair:visualKeys[first] + ":" + visualKeys[second], area });
           }
           const sceneStyle = getComputedStyle(sceneNode);
           const forbiddenVisible = config.forbiddenSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]).filter((node) => {
@@ -1893,7 +1942,10 @@ async function runResultTierSetProbe(page, pageUrl) {
             forced,
             active:document.querySelector("#screen-result").classList.contains("is-active"),
             tier:document.querySelector("#screen-result").dataset.resultTier,
-            stage, scene, rects, slots, panel, fill,
+            stage, scene, rects, slots, panel, panelScreen, panelSafeRect, fill,
+            containment:Object.fromEntries(Object.entries(rects).map(([key, node]) => [key, contained(node)])),
+            visualIntersections,
+            retryArtHitboxEdges:retryArt && retryHitbox ? { left:Math.abs(retryArt.left - retryHitbox.left), top:Math.abs(retryArt.top - retryHitbox.top), right:Math.abs(retryArt.right - retryHitbox.right), bottom:Math.abs(retryArt.bottom - retryHitbox.bottom) } : null,
             targetAxis:tierAxis,
             targetScreenAxis:stage.left + tierAxis * scaleX,
             scaleX, scaleY,
@@ -1916,6 +1968,19 @@ async function runResultTierSetProbe(page, pageUrl) {
   const contains = (outer, inner, tolerance = 1) => inner.left >= outer.left - tolerance
     && inner.top >= outer.top - tolerance && inner.right <= outer.right + tolerance && inner.bottom <= outer.bottom + tolerance;
   const edgeMatch = (first, second, tolerance = 1) => ["left", "top", "right", "bottom"].every((edge) => Math.abs(first[edge] - second[edge]) <= tolerance);
+  const panelSizeGroups = new Map();
+  for (const item of observations) {
+    const key = item.viewport.name;
+    const size = item.observed.panelScreen;
+    if (!size) continue;
+    const first = panelSizeGroups.get(key);
+    if (!first) panelSizeGroups.set(key, size);
+  }
+  const samePanelSize = observations.every((item) => {
+    const first = panelSizeGroups.get(item.viewport.name);
+    const current = item.observed.panelScreen;
+    return !first || !current || Math.abs(first.width - current.width) <= 1 && Math.abs(first.height - current.height) <= 1;
+  });
   const pass = observations.every(({ tierId, observed }) => {
     const ordered = ["measure", "track", "correct", "next", "retry"];
     const gap = RESULT_AUDIT.minVerticalGapPx * observed.scaleX;
@@ -1927,11 +1992,17 @@ async function runResultTierSetProbe(page, pageUrl) {
       && observed.styles.mixBlendMode === "normal"
       && observed.styles.filter === "none"
       && observed.styles.opacity === 1
-      && observed.separateLayers.title === "none"
-      && observed.separateLayers.retry === "none"
+      && observed.separateLayers.title !== "none"
+      && observed.separateLayers.retry !== "none"
       && observed.forbiddenVisible.length === 0
       && edgeMatch(observed.scene, observed.stage)
       && !observed.panel.error
+      && observed.panelScreen
+      && observed.panelSafeRect.width > 0
+      && observed.panelSafeRect.height > 0
+      && Object.values(observed.containment).every(Boolean)
+      && observed.visualIntersections.length === 0
+      && observed.retryArtHitboxEdges && Object.values(observed.retryArtHitboxEdges).every((value) => value <= 1)
       && Math.abs(observed.panel.cx - observed.targetAxis) <= RESULT_AUDIT.panelPixelAudit.centerTolerancePx
       && ["measure", "track", "correct", "next", "retry"].every((key) => contains(observed.slots[key], observed.rects[key]))
       && ["measure", "track", "correct", "next", "retry"].every((key) => Math.abs(observed.rects[key].cx - observed.targetScreenAxis) <= RESULT_AUDIT.axisTolerancePx)
@@ -1943,7 +2014,8 @@ async function runResultTierSetProbe(page, pageUrl) {
       && observed.text.powerFont === RESULT_AUDIT.measureFontPx
       && observed.text.nextFont === RESULT_AUDIT.nextFontPx
       && observed.text.power.includes("트럭 힘")
-      && observed.text.next.length > 0;
+      && observed.text.next.length > 0
+      && samePanelSize;
   });
   return {
     name:"result_all_tiers_all_viewports",

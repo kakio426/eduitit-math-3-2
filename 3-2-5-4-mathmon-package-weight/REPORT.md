@@ -153,3 +153,9 @@
 - 독립 실행 HTML 구조를 `standalone-html-v1` 소스 계약으로 선언해 공통 계약·시각 계약·브라우저 명령에서 빠지지 않게 했습니다.
 - 보상 화면은 문제 화면을 유지한 채 여는 실제 모달입니다. 보상 전용 전체 화면 배경은 숨기고, 카드가 열린 동안 뒤 계산판과 마지막 확인 상태가 그대로 남는지 두 viewport·일곱 보상 상태에서 검사합니다.
 - 승인된 `base-pack`의 `base-02-foxmon` 연결, 런타임 자산, 문서 선언을 공통 계약에서 함께 확인합니다.
+
+## 결과판 내부 결속 v2 (2026-08-03)
+
+- `qa.resultPanelContainmentAudit.standard`를 `result-panel-containment-v2`로 선언했습니다. standalone 결과 배경, 결과 패널, 단계명·정답 수·다시 버튼은 각각 선택 가능한 raster/WebP 레이어이며, 진행값·진행 막대·다음 목표만 동적 UI입니다.
+- 안전 여백 `24px` 안에서 패널 네 변, 실제 보이는 rect, hitbox, 요소 간 교차, 공통 중심축 `1px`, 다시 버튼 아트↔hitbox 네 변 `1px`을 검사합니다. 숨긴 다음 목표는 `display:none`과 `0×0` rect를 확인합니다.
+- standalone 클릭 가드 하네스가 `1280×800`, `1024×768`, `1280×720 DPR2`, `994×632`, `1082×987 DPR2` 및 6개 결과 단계를 전수 검사해 `PASS`했습니다. 런타임 commit SHA와 lesson JSON SHA도 일치했습니다.
