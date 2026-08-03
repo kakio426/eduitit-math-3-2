@@ -74,7 +74,6 @@ const browser = spawn(CHROME, [
   "--disable-gpu",
   "--no-first-run",
   "--no-default-browser-check",
-  "--autoplay-policy=no-user-gesture-required",
   "about:blank",
 ], { stdio: ["ignore", "ignore", "pipe"] });
 browser.stderr.on("data", () => {});
@@ -145,11 +144,12 @@ cdp.on("Runtime.exceptionThrown", ({ exceptionDetails }) => {
   pageExceptions.push(exceptionDetails?.exception?.description || exceptionDetails?.text || "Unknown page exception");
 });
 
-async function evaluate(expression) {
+async function evaluate(expression, userGesture = false) {
   const result = await cdp.send("Runtime.evaluate", {
     expression,
     awaitPromise: true,
     returnByValue: true,
+    userGesture,
   });
   if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
   return result.result?.value;
@@ -190,7 +190,7 @@ async function click(selector) {
     if (!element) throw new Error(${JSON.stringify(`missing selector: ${selector}`)});
     element.click();
     return true;
-  })()`);
+  })()`, true);
 }
 
 async function getSnapshot() {
@@ -235,11 +235,24 @@ async function checkLesson(lesson) {
   await navigate(lesson);
   if (MIGRATION_FIXTURES.has(lesson.id)) await checkLegacyMigration(lesson);
 
+  let snapshot = await getSnapshot();
+  assert(snapshot.prefs.bgmEnabled === true, `${lesson.id}: BGM was not enabled before the real start gesture`);
+  const realGestureStartCount = snapshot.prefs.bgmStartCount;
+  await click("#startButton");
+  await waitUntil(
+    "window.__mathmonAudioQa.getPrefs().bgmPlaying && window.__mathmonAudioQa.getPrefs().bgmLoaded",
+    `${lesson.id}: real start-button gesture did not start BGM under the normal autoplay policy`,
+    15000,
+  );
+  snapshot = await getSnapshot();
+  assert(snapshot.prefs.bgmStartCount === realGestureStartCount + 1, `${lesson.id}: real start gesture created duplicate BGM sources`);
+  await evaluate("window.MathmonAudio.stopBgm({ immediate: true })");
+
   await setPrefs(false, false);
   await evaluate("window.__mathmonAudioQa.clearLog()");
   await evaluate("window.__mathmonAudioQa.play('correct')");
   await delay(250);
-  let snapshot = await getSnapshot();
+  snapshot = await getSnapshot();
   assert(snapshot.log.length === 0, `${lesson.id}: muted SFX still played`);
   assert(snapshot.storage.bgm === "false" && snapshot.storage.sfx === "false", `${lesson.id}: false preferences were not stored canonically`);
   assert(snapshot.toggles.bgm === "false" && snapshot.toggles.sfx === "false", `${lesson.id}: false preferences did not reach both toggles`);
@@ -256,7 +269,6 @@ async function checkLesson(lesson) {
   const startCountBefore = (await getSnapshot()).prefs.bgmStartCount;
   await click("#settingsBgmToggle");
   await waitUntil("window.__mathmonAudioQa.getPrefs().bgmEnabled === true", `${lesson.id}: BGM toggle did not enable BGM`, 3000);
-  await evaluate("window.MathmonAudio.startBgm()");
   await waitUntil(
     "window.__mathmonAudioQa.getPrefs().bgmPlaying && window.__mathmonAudioQa.getPrefs().bgmLoaded",
     `${lesson.id}: approved BGM did not load and start`,

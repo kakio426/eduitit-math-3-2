@@ -180,8 +180,12 @@
 
   async function startBgm() {
     if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+    // Start the network/decode work before awaiting AudioContext.resume().
+    // Some embedded browsers keep resume() pending until a later trusted gesture;
+    // waiting for it first meant the BGM file was never even requested.
+    const bufferPromise = loadBgmBuffer();
     if (!(await unlock())) return false;
-    const buffer = await loadBgmBuffer();
+    const buffer = await bufferPromise;
     if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
     const source = state.context.createBufferSource();
     const now = state.context.currentTime;
@@ -377,14 +381,16 @@
     installQaHook();
   }
 
-  function handleFirstInteraction() {
-    unlock().then(() => {
-      if (state.bgmEnabled) startBgm();
-    });
+  function handleUserInteraction() {
+    if (state.bgmEnabled && !state.bgmSource) startBgm();
   }
 
-  document.addEventListener("pointerdown", handleFirstInteraction, { capture: true, once: true });
-  document.addEventListener("keydown", handleFirstInteraction, { capture: true, once: true });
+  // Keep retrying on real user gestures until playback has actually started.
+  // A one-shot listener loses BGM permanently when the first resume is delayed
+  // or rejected by an iframe/browser autoplay policy.
+  document.addEventListener("pointerdown", handleUserInteraction, { capture: true });
+  document.addEventListener("click", handleUserInteraction, { capture: true });
+  document.addEventListener("keydown", handleUserInteraction, { capture: true });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stopBgm({ immediate: true });
     else if (state.bgmEnabled && state.unlocked) startBgm();

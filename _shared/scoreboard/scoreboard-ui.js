@@ -245,7 +245,7 @@ const MathmonScoreboard = (function () {
         <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
       </div>
       <div class="top-row">
-        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+        <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
         <span class="unit-badge">${escapeHtml(unit)}</span>
       </div>
     `);
