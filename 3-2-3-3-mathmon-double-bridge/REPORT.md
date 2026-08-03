@@ -179,3 +179,23 @@
 
 - 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-994x632-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`
 - 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`
+
+## 2026-08-03 설명 2 다리 보상 연결 수정
+
+- 사용자 제보 화면 `1079×929`의 설명 2에서 수달몬의 손이 세 개처럼 보이고, `10문제를 풀어요.` 칸의 다리 그림이 최종 결과와 이어지지 않는 문제를 수정했습니다.
+- 새 생성 장면 `tutorial-page-2-v3-generated.webp`는 수달몬의 팔과 손을 각각 두 개로 고정하고, 외나무다리·작은 다리·나무 아치 다리·큰 돌다리·대교·무지개 다리 6단계를 최종 결과 세트와 같은 순서·재료감으로 보여 줍니다.
+- 생성 원본은 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/tutorial-page-2-v3/source/tutorial-page-2-v3-source.png`, 배포본은 1280×800 WebP입니다.
+- 이미지 생성 방식: Codex 내장 `imagegen` 정밀 편집. 기존 설명 2를 편집 대상으로, 결과 6단계 컨택시트와 승인된 수달몬 컨택시트를 참조 이미지로 사용했습니다.
+- v3 제작 당시에는 기존 문구를 유지했지만, 사용자 후속 검토에서 `다리 힘`과 `다리 이름을 봐요`가 어색하다는 점을 확인했습니다. 현재 실행본은 아래 v4 문구로 교체했습니다.
+- 브라우저 캡처: `screenshots/user-feedback-1079x929-tutorial-2-v3.png`, `screenshots/tutorial-page-2-v3-desktop-1280x800.png`, `screenshots/tutorial-page-2-v3-tablet-1024x768.png`.
+- `1079×929` 실측에서 Stage와 설명 이미지의 네 변 오차는 모두 `0px`, 이미지 원본은 `1280×800`, `complete=true`, `object-fit: cover`였습니다. `1280×800`과 `1024×768`에서도 같은 배포본이 Stage 네 변을 정확히 채웠고 글자·다리·수달몬 잘림은 `0건`입니다.
+- `node scripts/qa-engine-unit3-double-bridge-source.mjs`와 `node scripts/check-stage-ratio.mjs`는 통과했습니다. 전체 `qa-lesson-flow`는 이번 설명 이미지와 무관한 기존 `994×632` 완료 패널 높이 계약에서 중단됐습니다(작업 영역 대비 `32.53%`, 계약 최대 `31%`). 이번 수정 범위에서는 문제 완료 화면 레이아웃을 바꾸지 않았습니다.
+
+## 2026-08-03 설명 2 학생 문구 수정
+
+- 사용자 확인을 받은 문구로 설명 2를 다시 생성했습니다. `맞히면 다리 힘이 늘어요.`는 `맞히면 다리가 더 멋져질 수 있어요.`, `가끔 줄어들 수도 있어요.`는 `가끔은 다리가 작아질 수도 있어요.`, `마지막에 다리 이름을 봐요.`는 `마지막에 내가 만든 다리를 봐요.`로 바꿨습니다.
+- 현재 배포본은 `tutorial-page-2-v4-generated.webp`이며 1280×800입니다. 생성 원본과 계약·프롬프트는 `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/tutorial-page-2-v4/`에 보관합니다.
+- 이미지 생성 방식은 Codex 내장 `imagegen`의 `text-localization` 편집입니다. v3 설명 이미지를 유일한 편집 대상으로 사용하고, 수달몬 두 팔·두 손과 여섯 다리 단계·버튼·배경을 유지하도록 고정했습니다.
+- Humanizer 학생 문구 QA: 보이지 않는 `다리 힘` 대신 화면에서 바로 보이는 `더 멋져질 수 있어요`와 `작아질 수도 있어요`를 사용했습니다. `다리 이름을 봐요`는 학생이 만든 결과를 직접 가리키는 `내가 만든 다리를 봐요`로 바꿨으며 자연도 등급은 A입니다.
+- 브라우저 캡처: `screenshots/user-feedback-1079x929-tutorial-2-v4.png`, `screenshots/tutorial-page-2-v4-desktop-1280x800.png`, `screenshots/tutorial-page-2-v4-tablet-1024x768.png`.
+- 세 화면 모두 새 `tutorial-page-2-v4-generated.webp`를 불러왔고 `naturalWidth/naturalHeight=1280×800`, `complete=true`였습니다. Stage와 이미지의 왼쪽·위·오른쪽·아래 경계 오차는 모두 `0px`이며 문구 잘림·수달몬 잘림·다리 누락은 `0건`입니다.

@@ -25,6 +25,35 @@ assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent,
 assert.equal(config.workbench.type, "circle-double-bridge");
 assert.equal(config.imageAssets.problemStage, "problem-workshop-v3-generated.webp");
 assert.ok(config.assets.includes("problem-workshop-v3-generated.webp"), "v3 workshop stage must be listed");
+assert.equal(config.tutorialCards[1]?.image, "tutorial-page-2-v4-generated.webp");
+assert.equal(config.tutorialCards[1]?.body, "마지막에 내가 만든 다리를 봐요.");
+assert.equal(config.tutorial.rewardPreview?.standard, "tutorial-final-reward-cohesion-v1");
+assert.equal(config.tutorial.rewardPreview?.image, "tutorial-page-2-v4-generated.webp");
+assert.equal(config.tutorial.rewardPreview?.canvas, "1280x800");
+assert.equal(config.tutorial.rewardPreview?.protagonist, "zfa-03-sudalmon");
+assert.equal(config.tutorial.rewardPreview?.characterAnatomy, "two-arms-two-paws");
+assert.deepEqual([...config.tutorial.rewardPreview?.bridgeStates], ["log", "small", "bridge", "big", "grand", "rainbow"]);
+assert.equal(config.qa.tutorialRewardAudit?.standard, "tutorial-final-reward-cohesion-v1");
+assert.equal(config.qa.tutorialRewardAudit?.source, "tutorial-page-2-v4-generated.webp");
+assert.deepEqual([...config.qa.tutorialRewardAudit?.expectedBridgeStates], ["log", "small", "bridge", "big", "grand", "rainbow"]);
+assert.deepEqual([...config.qa.tutorialRewardAudit?.expectedVisibleText], [
+  "무엇을 얻어요?",
+  "10문제를 풀어요.",
+  "맞히면 다리가 더 멋져질 수 있어요.",
+  "가끔은 다리가 작아질 수도 있어요.",
+  "마지막에 내가 만든 다리를 봐요.",
+  "이전",
+  "문제 시작",
+]);
+assert.equal(config.qa.tutorialRewardAudit?.humanizerGrade, "A");
+assert.deepEqual(config.qa.tutorialRewardAudit?.reviewViewport, {
+  name: "user-feedback-1079x929",
+  width: 1079,
+  height: 929,
+});
+assert.ok(config.assets.includes("tutorial-page-2-v4-generated.webp"), "approved-copy reward tutorial poster must be listed");
+assert.ok(!config.assets.includes("tutorial-page-2-v3-generated.webp"), "retired v3 tutorial poster must not be listed");
+assert.ok(!config.assets.includes("tutorial-page-2-generated.webp"), "retired tutorial reward poster must not be listed");
 assert.ok(!config.assets.includes("problem-stage-v2-generated.webp"), "retired v2 problem stage must not be listed");
 assert.ok(!config.assets.includes("problem-stage-generated.webp"), "retired problem stage must not be listed");
 assert.equal(config.goal, "반지름 두 개를 이으면 지름이 돼요.");

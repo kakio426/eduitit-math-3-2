@@ -22,7 +22,9 @@
 - `problem-workshop-v3-source.png`: imagegen 최종 원본
 - 동행 매스몬: `zero-factory-animal-pack`의 수달몬(`zfa-03-sudalmon`)
 - 설명 1: 반지름 3 cm 두 개가 `3+3=6`, 지름 6 cm가 되는 모습을 연결
-- 설명 2: 10문제·다리 힘 변화·마지막 다리 이름만 안내
+- 설명 2: 10문제를 푼 뒤 다리가 더 멋져지거나 작아질 수 있고, 마지막에 내가 만든 다리를 본다고 안내. 첫 칸은 최종 결과와 같은 외나무다리부터 무지개 다리까지 6단계를 보여 줌
+- 설명 2 생성 원본: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/tutorial-page-2-v4/source/tutorial-page-2-v4-source.png`
+- 설명 2 배포본: `tutorial-page-2-v4-generated.webp`(1280×800)
 - 랜덤 보상: 닫힌 상자 1종과 사건별 열린 상태 6종, 모두 512×512
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
 - 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함

@@ -18,9 +18,28 @@
   "tutorialButton": "문제 시작",
   "tutorialCards": [
     { "visual": "1", "purpose": "mechanic", "title": "어떻게 이어요?", "body": "반지름 두 개를 이으면 지름이 돼요.", "image": "tutorial-page-1-generated.webp" },
-    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "10문제 뒤에 다리 이름을 봐요.", "image": "tutorial-page-2-generated.webp" }
+    { "visual": "2", "purpose": "reward-goal", "title": "무엇을 얻어요?", "body": "마지막에 내가 만든 다리를 봐요.", "image": "tutorial-page-2-v4-generated.webp" }
   ],
-  "tutorial": { "mode": "poster-two-step" },
+  "tutorial": {
+    "mode": "poster-two-step",
+    "rewardPreview": {
+      "standard": "tutorial-final-reward-cohesion-v1",
+      "image": "tutorial-page-2-v4-generated.webp",
+      "canvas": "1280x800",
+      "protagonist": "zfa-03-sudalmon",
+      "characterAnatomy": "two-arms-two-paws",
+      "bridgeStates": ["log", "small", "bridge", "big", "grand", "rainbow"],
+      "visibleText": [
+        "무엇을 얻어요?",
+        "10문제를 풀어요.",
+        "맞히면 다리가 더 멋져질 수 있어요.",
+        "가끔은 다리가 작아질 수도 있어요.",
+        "마지막에 내가 만든 다리를 봐요.",
+        "이전",
+        "문제 시작"
+      ]
+    }
+  },
   "reward": {
     "mode": "modal-art",
     "standard": "mathmon-unified-reward-v1",
@@ -147,7 +166,7 @@
   },
   "assets": [
     "cover-generated.webp", "title-logo-generated.webp", "../_shared/mathmon/cover-start-button/start-button-generated.webp",
-    "problem-workshop-v3-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-generated.webp",
+    "problem-workshop-v3-generated.webp", "tutorial-page-1-generated.webp", "tutorial-page-2-v4-generated.webp",
     "reward-event-closed-v2-generated.webp",
     "reward-event-normal-generated.webp", "reward-event-loss-generated.webp", "reward-event-mega-generated.webp",
     "reward-event-complete-generated.webp", "reward-event-empty-generated.webp", "reward-event-rainbow-generated.webp",
@@ -161,6 +180,26 @@
     "emptyRewardAudit": true,
     "emptyRewardAuditViewport": "user-reported-missing-left-progress-1082x987-dpr2",
     "visualContractVersion": 1,
+    "tutorialRewardAudit": {
+      "standard": "tutorial-final-reward-cohesion-v1",
+      "selector": "#screen-tutorial .tutorial-card:nth-of-type(2) .tutorial-poster-art",
+      "source": "tutorial-page-2-v4-generated.webp",
+      "canvas": "1280x800",
+      "expectedBridgeStates": ["log", "small", "bridge", "big", "grand", "rainbow"],
+      "expectedProtagonist": "zfa-03-sudalmon",
+      "characterAnatomy": "two-arms-two-paws",
+      "expectedVisibleText": [
+        "무엇을 얻어요?",
+        "10문제를 풀어요.",
+        "맞히면 다리가 더 멋져질 수 있어요.",
+        "가끔은 다리가 작아질 수도 있어요.",
+        "마지막에 내가 만든 다리를 봐요.",
+        "이전",
+        "문제 시작"
+      ],
+      "humanizerGrade": "A",
+      "reviewViewport": { "name": "user-feedback-1079x929", "width": 1079, "height": 929 }
+    },
     "rewardModalAudit": {
       "standard": "unit3-modal-art-v1",
       "card": "#rewardPop .reward-card",
