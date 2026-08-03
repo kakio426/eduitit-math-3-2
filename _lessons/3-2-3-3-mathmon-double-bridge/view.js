@@ -173,6 +173,7 @@ function renderProblemVisual(problem, state) {
 
 function updateProblemVisualForStep(problem, step, state) {
   syncBridgePlayProgress(state);
+  ui.instructionText.hidden = true;
   setCircleRelationState("idle");
   renderCircleRelation(problem);
 }

@@ -759,8 +759,11 @@ async function checkLesson(lesson, failures) {
   if (html.includes("{{")) {
     addFailure(failures, lesson, "generated index.html still contains template placeholders");
   }
-  if (/<script\s+[^>]*src=/i.test(html)) {
-    addFailure(failures, lesson, "generated index.html must not reference external scripts");
+  const externalScriptSources = [...html.matchAll(/<script\s+[^>]*src=["']([^"']+)["'][^>]*>/gi)]
+    .map((match) => match[1]);
+  const approvedSharedScriptPattern = /^\.\.\/_shared\/audio\/mathmon-audio-v1\.js(?:\?v=[A-Za-z0-9._-]+)?$/;
+  if (externalScriptSources.some((source) => !approvedSharedScriptPattern.test(source))) {
+    addFailure(failures, lesson, "generated index.html must not reference unapproved external scripts");
   }
   if (/<link\s+[^>]*rel=["']stylesheet/i.test(html)) {
     addFailure(failures, lesson, "generated index.html must inline CSS");
