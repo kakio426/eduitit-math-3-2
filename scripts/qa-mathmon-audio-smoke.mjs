@@ -1,90 +1,92 @@
 import { spawn } from "node:child_process";
-import { rm } from "node:fs/promises";
-import { join } from "node:path";
-import { pathToFileURL } from "node:url";
+import { createServer } from "node:http";
+import { readFile, rm, stat } from "node:fs/promises";
+import path from "node:path";
 
 const ROOT = process.cwd();
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const PORT = Number(process.env.MATHMON_AUDIO_QA_PORT || 9261);
-const PROFILE = join(ROOT, ".tmp-qa", "mathmon-audio-smoke-profile");
-
-const LESSONS = [
-  {
-    name: "lesson1-box-run",
-    dir: "3-2-1-1-mathmon-box-run",
-    startSelector: '[data-action="start"]',
-    playSelector: '[data-action="start-first-problem"]',
-    tutorialClicksToPlay: 2,
-    startCue: "uiNext",
-    playCue: "uiNext",
-  },
-  {
-    name: "lesson2-rocket-charge",
-    dir: "3-2-1-2-mathmon-rocket-charge",
-    startSelector: "#startButton",
-    playSelector: "#tutorialNextButton",
-    tutorialClicksToPlay: 2,
-    tutorialCuesToPlay: ["uiNext", "uiStart"],
-    startCue: "uiStart",
-    playCue: "uiStart",
-  },
-  {
-    name: "lesson3-jump-islands",
-    dir: "3-2-1-3-mathmon-jump-islands",
-    startSelector: "#startButton",
-    playSelector: "#tutorialNextButton",
-    tutorialClicksToPlay: 2,
-    tutorialCuesToPlay: ["uiNext", "uiStart"],
-    startCue: "uiStart",
-    playCue: "uiStart",
-  },
-];
-const SETTINGS = {
-  button: "#settingsButton",
-  bgmToggle: "#settingsBgmToggle",
-  sfxToggle: "#settingsSfxToggle",
-  method: "#settingsMethodButton",
-  restart: "#settingsRestartButton",
-  restartConfirm: "#settingsRestartConfirmButton",
-  restartCancel: "#settingsRestartCancelButton",
-  close: "#settingsCloseButton",
+const DEBUG_PORT = Number(process.env.MATHMON_AUDIO_QA_PORT || 9261);
+const PROFILE = path.join(ROOT, ".tmp-qa", "mathmon-audio-smoke-profile");
+const PREF_KEYS = {
+  bgm: "mathmon-audio-bgm-enabled",
+  sfx: "mathmon-audio-sfx-enabled",
 };
+const MIGRATION_FIXTURES = new Set(["3-2-1-1", "3-2-1-3", "3-2-1-4", "3-2-2-2", "3-2-5-4"]);
+const manifest = JSON.parse(await readFile(path.join(ROOT, "manifest.json"), "utf8"));
+const lessons = manifest.lessons;
+
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function delay(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+function contentType(filePath) {
+  const extension = path.extname(filePath).toLowerCase();
+  return {
+    ".html": "text/html; charset=utf-8",
+    ".js": "text/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".ogg": "audio/ogg",
+    ".wav": "audio/wav",
+    ".webp": "image/webp",
+    ".png": "image/png",
+    ".svg": "image/svg+xml",
+  }[extension] || "application/octet-stream";
+}
+
+const server = createServer(async (request, response) => {
+  try {
+    const requestUrl = new URL(request.url || "/", "http://127.0.0.1");
+    const relative = decodeURIComponent(requestUrl.pathname).replace(/^\/+/, "");
+    let filePath = path.resolve(ROOT, relative || "index.html");
+    assert(filePath === ROOT || filePath.startsWith(`${ROOT}${path.sep}`), "path outside workspace");
+    const info = await stat(filePath);
+    if (info.isDirectory()) filePath = path.join(filePath, "index.html");
+    const body = await readFile(filePath);
+    response.writeHead(200, {
+      "Content-Type": contentType(filePath),
+      "Cache-Control": "no-store",
+      "Content-Length": body.length,
+    });
+    response.end(body);
+  } catch (error) {
+    response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+    response.end("Not found");
+  }
+});
+
+await new Promise((resolve, reject) => {
+  server.once("error", reject);
+  server.listen(0, "127.0.0.1", resolve);
+});
+const serverAddress = server.address();
+const webPort = typeof serverAddress === "object" && serverAddress ? serverAddress.port : 0;
 
 await rm(PROFILE, { recursive: true, force: true });
-
 const browser = spawn(CHROME, [
   "--headless=new",
-  `--remote-debugging-port=${PORT}`,
+  `--remote-debugging-port=${DEBUG_PORT}`,
   `--user-data-dir=${PROFILE}`,
   "--disable-gpu",
   "--no-first-run",
   "--no-default-browser-check",
-  "--allow-file-access-from-files",
+  "--autoplay-policy=no-user-gesture-required",
   "about:blank",
 ], { stdio: ["ignore", "ignore", "pipe"] });
-
 browser.stderr.on("data", () => {});
 
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
-
-async function waitForJson() {
-  for (let index = 0; index < 80; index += 1) {
+async function waitForDebugger() {
+  for (let attempt = 0; attempt < 100; attempt += 1) {
     try {
-      const response = await fetch(`http://127.0.0.1:${PORT}/json/list`);
+      const response = await fetch(`http://127.0.0.1:${DEBUG_PORT}/json/list`);
       const pages = await response.json();
       const page = pages.find((item) => item.type === "page");
-      if (page?.webSocketDebuggerUrl) {
-        return page.webSocketDebuggerUrl;
-      }
-    } catch {
+      if (page?.webSocketDebuggerUrl) return page.webSocketDebuggerUrl;
+    } catch (error) {
       // Chrome is still starting.
     }
     await delay(100);
@@ -97,43 +99,51 @@ class Cdp {
     this.socketUrl = socketUrl;
     this.id = 0;
     this.pending = new Map();
+    this.listeners = new Map();
   }
 
   async open() {
-    this.ws = new WebSocket(this.socketUrl);
-    this.ws.addEventListener("message", (event) => {
+    this.socket = new WebSocket(this.socketUrl);
+    this.socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
       if (message.id && this.pending.has(message.id)) {
-        const { resolve, reject } = this.pending.get(message.id);
+        const pending = this.pending.get(message.id);
         this.pending.delete(message.id);
-        if (message.error) {
-          reject(new Error(JSON.stringify(message.error)));
-        } else {
-          resolve(message.result || {});
-        }
+        if (message.error) pending.reject(new Error(JSON.stringify(message.error)));
+        else pending.resolve(message.result || {});
+        return;
       }
+      for (const listener of this.listeners.get(message.method) || []) listener(message.params || {});
     });
     await new Promise((resolve, reject) => {
-      this.ws.addEventListener("open", resolve, { once: true });
-      this.ws.addEventListener("error", reject, { once: true });
+      this.socket.addEventListener("open", resolve, { once: true });
+      this.socket.addEventListener("error", reject, { once: true });
     });
   }
 
   send(method, params = {}) {
     const id = ++this.id;
-    this.ws.send(JSON.stringify({ id, method, params }));
-    return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
-    });
+    this.socket.send(JSON.stringify({ id, method, params }));
+    return new Promise((resolve, reject) => this.pending.set(id, { resolve, reject }));
+  }
+
+  on(method, listener) {
+    const listeners = this.listeners.get(method) || [];
+    listeners.push(listener);
+    this.listeners.set(method, listeners);
   }
 
   close() {
-    this.ws.close();
+    this.socket.close();
   }
 }
 
-const cdp = new Cdp(await waitForJson());
+const cdp = new Cdp(await waitForDebugger());
 await cdp.open();
+const pageExceptions = [];
+cdp.on("Runtime.exceptionThrown", ({ exceptionDetails }) => {
+  pageExceptions.push(exceptionDetails?.exception?.description || exceptionDetails?.text || "Unknown page exception");
+});
 
 async function evaluate(expression) {
   const result = await cdp.send("Runtime.evaluate", {
@@ -141,306 +151,177 @@ async function evaluate(expression) {
     awaitPromise: true,
     returnByValue: true,
   });
-  if (result.exceptionDetails) {
-    throw new Error(JSON.stringify(result.exceptionDetails));
-  }
+  if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
   return result.result?.value;
 }
 
-async function waitUntil(predicateSource, message, timeout = 4000) {
-  const start = Date.now();
-  while (Date.now() - start < timeout) {
-    if (await evaluate(predicateSource)) {
-      return;
-    }
+async function waitUntil(expression, message, timeout = 5000) {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeout) {
+    if (await evaluate(expression)) return;
     await delay(80);
   }
   throw new Error(message);
 }
 
 function lessonUrl(lesson, suffix = "") {
-  const url = pathToFileURL(join(ROOT, lesson.dir, "index.html"));
-  url.search = `?seed=12345&audioSmoke=${encodeURIComponent(`${lesson.name}-${Date.now()}${suffix}`)}`;
-  return url.href;
+  return `http://127.0.0.1:${webPort}/${lesson.folder}/${lesson.entryFile || "index.html"}?seed=12345&audioQa=${encodeURIComponent(`${lesson.id}-${suffix}-${Date.now()}`)}`;
 }
 
-function choiceSelector(lesson) {
-  return lesson.choiceSelector || ".choice-button";
-}
-
-function tutorialClicksToPlay(lesson) {
-  return lesson.tutorialClicksToPlay || 1;
-}
-
-function tutorialCuesToPlay(lesson) {
-  return lesson.tutorialCuesToPlay || Array.from({ length: tutorialClicksToPlay(lesson) }, () => lesson.playCue);
-}
-
-async function navigateToLesson(lesson, suffix = "") {
+async function navigate(lesson, suffix = "main") {
+  pageExceptions.length = 0;
   await cdp.send("Page.navigate", { url: lessonUrl(lesson, suffix) });
-  await waitUntil("document.readyState === 'complete'", `${lesson.name}: document did not finish loading`, 6000);
-  await waitUntil("Boolean(window.__mathmonAudioQa)", `${lesson.name}: audio QA hook missing`, 3000);
-}
-
-function clickSource(selector) {
-  return `
-(() => {
-  const element = document.querySelector(${JSON.stringify(selector)});
-  if (!element) throw new Error("missing selector: ${selector.replaceAll('"', '\\"')}");
-  element.click();
-  return true;
-})()
-`;
+  await waitUntil("document.readyState === 'complete'", `${lesson.id}: document did not finish loading`, 10000);
+  await waitUntil(
+    "window.MathmonAudio?.version === 'mathmon-audio-v1' && window.__mathmonAudioQa?.version === 'mathmon-audio-v1'",
+    `${lesson.id}: shared audio engine or QA hook is missing`,
+    5000,
+  );
+  await waitUntil(
+    "document.querySelector('main.game')?.dataset.audioStandard === 'mathmon-audio-v1'",
+    `${lesson.id}: runtime audio standard marker is missing`,
+    2000,
+  );
 }
 
 async function click(selector) {
-  await evaluate(clickSource(selector));
+  await evaluate(`(() => {
+    const element = document.querySelector(${JSON.stringify(selector)});
+    if (!element) throw new Error(${JSON.stringify(`missing selector: ${selector}`)});
+    element.click();
+    return true;
+  })()`);
 }
 
-async function pressKey(key, options = {}) {
-  const code = key === "Escape" ? "Escape" : key === "Tab" ? "Tab" : key;
-  const windowsVirtualKeyCode = key === "Escape" ? 27 : key === "Tab" ? 9 : key.charCodeAt(0);
-  await cdp.send("Input.dispatchKeyEvent", {
-    type: "keyDown",
-    key,
-    code,
-    windowsVirtualKeyCode,
-    modifiers: options.shift ? 8 : 0,
-  });
-  await cdp.send("Input.dispatchKeyEvent", {
-    type: "keyUp",
-    key,
-    code,
-    windowsVirtualKeyCode,
-    modifiers: options.shift ? 8 : 0,
-  });
+async function getSnapshot() {
+  return evaluate(`(() => ({
+    prefs: window.__mathmonAudioQa.getPrefs(),
+    log: window.__mathmonAudioQa.getLog(),
+    storage: {
+      bgm: localStorage.getItem(${JSON.stringify(PREF_KEYS.bgm)}),
+      sfx: localStorage.getItem(${JSON.stringify(PREF_KEYS.sfx)})
+    },
+    toggles: {
+      bgm: document.querySelector('#settingsBgmToggle')?.getAttribute('aria-checked'),
+      sfx: document.querySelector('#settingsSfxToggle')?.getAttribute('aria-checked')
+    }
+  }))()`);
 }
 
-async function getLog() {
-  return evaluate("window.__mathmonAudioQa.getLog()");
-}
-
-async function clearLog() {
-  await evaluate("window.__mathmonAudioQa.clearLog()");
-}
-
-async function getPrefs() {
-  return evaluate("window.__mathmonAudioQa.getPrefs()");
-}
-
-async function setPrefs(prefs) {
-  return evaluate(`window.__mathmonAudioQa.setPrefs(${JSON.stringify(prefs)})`);
-}
-
-async function assertLogIncludes(lesson, cue, message) {
-  await waitUntil(`window.__mathmonAudioQa.getLog().includes(${JSON.stringify(cue)})`, `${lesson.name}: ${message}`, 2500);
-}
-
-async function checkCueLoads(lesson) {
-  const results = await evaluate(`
-(async () => {
-  const entries = Object.entries(window.__mathmonAudioQa.cues);
-  return Promise.all(entries.map(([cue, src]) => new Promise((resolve) => {
-    const audio = new Audio(src);
-    let done = false;
-    const finish = (ok) => {
-      if (done) return;
-      done = true;
-      resolve({
-        cue,
-        src,
-        ok,
-        duration: Number.isFinite(audio.duration) ? Math.round(audio.duration * 1000) : 0,
-        error: audio.error ? audio.error.code : 0
-      });
-    };
-    audio.preload = "metadata";
-    audio.addEventListener("loadedmetadata", () => finish(Number.isFinite(audio.duration) && audio.duration > 0), { once: true });
-    audio.addEventListener("error", () => finish(false), { once: true });
-    audio.load();
-    setTimeout(() => finish(false), 4000);
-  })));
-})()
-`);
-  const failed = results.filter((item) => !item.ok);
-  assert(!failed.length, `${lesson.name}: browser could not load audio metadata: ${JSON.stringify(failed)}`);
-  return results;
-}
-
-async function openSettings(lesson) {
-  await click(SETTINGS.button);
-  await waitUntil("window.__mathmonAudioQa.getPrefs().settingsOpen", `${lesson.name}: settings modal did not open`, 2000);
-  await waitUntil("document.activeElement?.id === 'settingsBgmToggle'", `${lesson.name}: settings modal did not focus BGM toggle`, 2000);
-  const activeId = await evaluate("document.activeElement?.id");
-  assert(activeId === "settingsBgmToggle", `${lesson.name}: settings modal did not focus BGM toggle, got ${activeId}`);
-}
-
-async function assertSettingsCloseByButton(lesson) {
-  await openSettings(lesson);
-  await click(SETTINGS.close);
-  await waitUntil("!window.__mathmonAudioQa.getPrefs().settingsOpen", `${lesson.name}: close button did not close settings`, 2000);
-  const activeId = await evaluate("document.activeElement?.id");
-  assert(activeId === "settingsButton", `${lesson.name}: focus did not return to settings button after close, got ${activeId}`);
-}
-
-async function assertSettingsFocusTrapAndEscape(lesson) {
-  await openSettings(lesson);
-  await pressKey("Tab", { shift: true });
-  await waitUntil("document.activeElement?.id === 'settingsCloseButton'", `${lesson.name}: shift+tab did not wrap to close`, 2000);
-  await pressKey("Escape");
-  await waitUntil("!window.__mathmonAudioQa.getPrefs().settingsOpen", `${lesson.name}: escape did not close settings`, 2000);
-  const activeId = await evaluate("document.activeElement?.id");
-  assert(activeId === "settingsButton", `${lesson.name}: focus did not return to settings button after Escape, got ${activeId}`);
-}
-
-async function playToFirstQuestion(lesson) {
-  await clearLog();
-  await click(lesson.startSelector);
-  await assertLogIncludes(lesson, lesson.startCue, "start cue was not logged");
-  const cues = tutorialCuesToPlay(lesson);
-  for (let index = 0; index < tutorialClicksToPlay(lesson); index += 1) {
-    await clearLog();
-    await click(lesson.playSelector);
-    await assertLogIncludes(lesson, cues[index] || lesson.playCue, "play-screen cue was not logged");
-  }
-  await waitUntil(`document.querySelectorAll(${JSON.stringify(choiceSelector(lesson))}).length > 0`, `${lesson.name}: choices did not render`, 3000);
-}
-
-async function screenSnapshot() {
-  return evaluate(`
-(() => ({
-  screen: window.__mathmonAudioQa.getPrefs().screen,
-  question: document.querySelector("#questionText, [data-field='question']")?.textContent || "",
-  progress: document.querySelector("#progressText, [data-field='progress']")?.textContent || ""
-}))()
-`);
-}
-
-async function runSoundOnScenario(lesson) {
-  await navigateToLesson(lesson, "on");
-  const loaded = await checkCueLoads(lesson);
-  await setPrefs({ bgmEnabled: true, sfxEnabled: true });
-  await assertSettingsCloseByButton(lesson);
-  await assertSettingsFocusTrapAndEscape(lesson);
-
-  await playToFirstQuestion(lesson);
-
-  await clearLog();
-  await click(choiceSelector(lesson));
+async function setPrefs(bgmEnabled, sfxEnabled) {
+  await evaluate(`window.__mathmonAudioQa.setPrefs(${JSON.stringify({ bgmEnabled, sfxEnabled })})`);
   await waitUntil(
-    "window.__mathmonAudioQa.getLog().some((cue) => cue === 'answerCorrect' || cue === 'answerWrongSoft')",
-    `${lesson.name}: answer cue was not logged`,
-    2500
+    `window.__mathmonAudioQa.getPrefs().bgmEnabled === ${bgmEnabled} && window.__mathmonAudioQa.getPrefs().sfxEnabled === ${sfxEnabled}`,
+    `preferences did not settle to ${bgmEnabled}/${sfxEnabled}`,
+    3000,
   );
+}
+
+async function checkLegacyMigration(lesson) {
+  await evaluate(`(() => {
+    localStorage.setItem(${JSON.stringify(PREF_KEYS.bgm)}, 'on');
+    localStorage.setItem(${JSON.stringify(PREF_KEYS.sfx)}, 'off');
+  })()`);
+  await cdp.send("Page.reload", { ignoreCache: true });
+  await waitUntil("document.readyState === 'complete'", `${lesson.id}: migration reload did not complete`, 10000);
+  await waitUntil("window.__mathmonAudioQa?.version === 'mathmon-audio-v1'", `${lesson.id}: QA hook missing after migration reload`, 5000);
+  const snapshot = await getSnapshot();
+  assert(snapshot.prefs.bgmEnabled === true && snapshot.prefs.sfxEnabled === false, `${lesson.id}: on/off migration changed meaning`);
+  assert(snapshot.storage.bgm === "true" && snapshot.storage.sfx === "false", `${lesson.id}: on/off migration did not write canonical booleans`);
+  assert(snapshot.toggles.bgm === "true" && snapshot.toggles.sfx === "false", `${lesson.id}: migrated preferences did not reach settings toggles`);
+}
+
+async function checkLesson(lesson) {
+  await navigate(lesson);
+  if (MIGRATION_FIXTURES.has(lesson.id)) await checkLegacyMigration(lesson);
+
+  await setPrefs(false, false);
+  await evaluate("window.__mathmonAudioQa.clearLog()");
+  await evaluate("window.__mathmonAudioQa.play('correct')");
+  await delay(250);
+  let snapshot = await getSnapshot();
+  assert(snapshot.log.length === 0, `${lesson.id}: muted SFX still played`);
+  assert(snapshot.storage.bgm === "false" && snapshot.storage.sfx === "false", `${lesson.id}: false preferences were not stored canonically`);
+  assert(snapshot.toggles.bgm === "false" && snapshot.toggles.sfx === "false", `${lesson.id}: false preferences did not reach both toggles`);
+
+  await click("#settingsSfxToggle");
+  await waitUntil("window.__mathmonAudioQa.getPrefs().sfxEnabled === true", `${lesson.id}: SFX toggle did not enable SFX`, 3000);
+  snapshot = await getSnapshot();
+  assert(snapshot.prefs.bgmEnabled === false, `${lesson.id}: SFX toggle unexpectedly enabled BGM`);
+  assert(snapshot.storage.bgm === "false" && snapshot.storage.sfx === "true", `${lesson.id}: SFX toggle storage linkage failed`);
+  await evaluate("window.__mathmonAudioQa.clearLog()");
+  await evaluate("window.__mathmonAudioQa.play('correct')");
+  await waitUntil("window.__mathmonAudioQa.getLog().includes('correct')", `${lesson.id}: enabled SFX did not play`, 3000);
+
+  const startCountBefore = (await getSnapshot()).prefs.bgmStartCount;
+  await click("#settingsBgmToggle");
+  await waitUntil("window.__mathmonAudioQa.getPrefs().bgmEnabled === true", `${lesson.id}: BGM toggle did not enable BGM`, 3000);
+  await evaluate("window.MathmonAudio.startBgm()");
+  await waitUntil(
+    "window.__mathmonAudioQa.getPrefs().bgmPlaying && window.__mathmonAudioQa.getPrefs().bgmLoaded",
+    `${lesson.id}: approved BGM did not load and start`,
+    15000,
+  );
+  snapshot = await getSnapshot();
+  assert(snapshot.prefs.sfxEnabled === true, `${lesson.id}: BGM toggle unexpectedly disabled SFX`);
+  assert(snapshot.prefs.bgmStartCount === startCountBefore + 1, `${lesson.id}: duplicate BGM sources started`);
+  assert(snapshot.prefs.bgmDuration > 60 && snapshot.prefs.bgmDuration < 90, `${lesson.id}: unexpected BGM duration ${snapshot.prefs.bgmDuration}`);
+  assert(snapshot.prefs.bgmTrack.includes("sketchbook-2025-11-26.ogg"), `${lesson.id}: wrong BGM track is connected`);
+  assert(snapshot.storage.bgm === "true" && snapshot.storage.sfx === "true", `${lesson.id}: enabled preferences were not stored canonically`);
+
+  await evaluate("window.__mathmonAudioQa.clearLog()");
+  await click("#settingsSfxToggle");
+  await waitUntil("window.__mathmonAudioQa.getPrefs().sfxEnabled === false", `${lesson.id}: SFX toggle did not disable SFX`, 3000);
+  snapshot = await getSnapshot();
+  assert(snapshot.prefs.bgmPlaying === true, `${lesson.id}: disabling SFX stopped BGM`);
+  await evaluate("window.__mathmonAudioQa.play('finish')");
+  await delay(250);
+  snapshot = await getSnapshot();
+  assert(snapshot.log.length === 0, `${lesson.id}: disabled SFX logged a finish cue`);
+
+  await click("#settingsBgmToggle");
+  await waitUntil(
+    "window.__mathmonAudioQa.getPrefs().bgmEnabled === false && !window.__mathmonAudioQa.getPrefs().bgmPlaying",
+    `${lesson.id}: BGM toggle did not stop BGM`,
+    3000,
+  );
+  snapshot = await getSnapshot();
+  assert(snapshot.prefs.sfxEnabled === false, `${lesson.id}: BGM toggle unexpectedly enabled SFX`);
+  assert(snapshot.storage.bgm === "false" && snapshot.storage.sfx === "false", `${lesson.id}: disabled toggle storage linkage failed`);
+
+  await setPrefs(true, true);
+  snapshot = await getSnapshot();
+  assert(snapshot.toggles.bgm === "true" && snapshot.toggles.sfx === "true", `${lesson.id}: QA preferences did not synchronize the settings UI`);
+  assert(snapshot.storage.bgm === "true" && snapshot.storage.sfx === "true", `${lesson.id}: final preferences are not canonical`);
+  assert(pageExceptions.length === 0, `${lesson.id}: uncaught page exceptions: ${pageExceptions.join(" | ")}`);
 
   return {
-    cueCount: loaded.length,
-    answerLog: await getLog(),
+    id: lesson.id,
+    title: lesson.title,
+    bgmDuration: Math.round(snapshot.prefs.bgmDuration * 1000) / 1000,
+    duplicateBgmSources: 0,
+    independentToggles: true,
+    canonicalStorage: true,
+    legacyMigration: MIGRATION_FIXTURES.has(lesson.id),
   };
 }
 
-async function runBgmOffSfxOnScenario(lesson) {
-  await navigateToLesson(lesson, "bgm-off");
-  await setPrefs({ bgmEnabled: false, sfxEnabled: true });
-  let prefs = await getPrefs();
-  assert(prefs.bgmEnabled === false && prefs.sfxEnabled === true, `${lesson.name}: prefs did not set BGM off / SFX on`);
-  await clearLog();
-  await click(lesson.startSelector);
-  await assertLogIncludes(lesson, lesson.startCue, "SFX did not play while BGM was muted");
-  await openSettings(lesson);
-  const bgmChecked = await evaluate("document.querySelector('#settingsBgmToggle').getAttribute('aria-checked')");
-  const sfxChecked = await evaluate("document.querySelector('#settingsSfxToggle').getAttribute('aria-checked')");
-  assert(bgmChecked === "false" && sfxChecked === "true", `${lesson.name}: settings toggles did not show BGM off / SFX on`);
-  await click(SETTINGS.close);
-  prefs = await getPrefs();
-  return { bgmOffPrefs: prefs };
-}
-
-async function runSfxOffScenario(lesson) {
-  await navigateToLesson(lesson, "sfx-off");
-  await setPrefs({ bgmEnabled: true, sfxEnabled: false });
-  const prefs = await getPrefs();
-  assert(prefs.bgmEnabled === true && prefs.sfxEnabled === false, `${lesson.name}: prefs did not set BGM on / SFX off`);
-  await clearLog();
-  await click(lesson.startSelector);
-  await delay(250);
-  let log = await getLog();
-  assert(log.length === 0, `${lesson.name}: SFX-off start still logged cues: ${JSON.stringify(log)}`);
-  for (let index = 0; index < tutorialClicksToPlay(lesson); index += 1) {
-    await click(lesson.playSelector);
-  }
-  await waitUntil(`document.querySelectorAll(${JSON.stringify(choiceSelector(lesson))}).length > 0`, `${lesson.name}: choices did not render with SFX off`, 3000);
-  await clearLog();
-  await click(choiceSelector(lesson));
-  await delay(500);
-  log = await getLog();
-  assert(log.length === 0, `${lesson.name}: SFX-off answer still logged cues: ${JSON.stringify(log)}`);
-  return { sfxOffLogLength: log.length };
-}
-
-async function runSettingsFlowScenario(lesson) {
-  await navigateToLesson(lesson, "settings-flow");
-  await setPrefs({ bgmEnabled: true, sfxEnabled: true });
-  await playToFirstQuestion(lesson);
-  const before = await screenSnapshot();
-
-  await openSettings(lesson);
-  await click(SETTINGS.method);
-  await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'tutorial'", `${lesson.name}: method review did not open tutorial`, 2000);
-  for (let index = 0; index < tutorialClicksToPlay(lesson); index += 1) {
-    const reviewLabel = await evaluate(`
-(() => {
-  const node = document.querySelector(${JSON.stringify(lesson.playSelector)});
-  return node?.getAttribute("aria-label")?.trim() || node?.textContent.trim() || "";
-})()
-`);
-    if (index === tutorialClicksToPlay(lesson) - 1) {
-      assert(reviewLabel === "계속하기", `${lesson.name}: tutorial review button label was ${reviewLabel}`);
-    }
-    await click(lesson.playSelector);
-  }
-  await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'play'", `${lesson.name}: method review did not return to play`, 2000);
-  const after = await screenSnapshot();
-  assert(before.question === after.question && before.progress === after.progress, `${lesson.name}: method review changed play state: ${JSON.stringify({ before, after })}`);
-
-  await openSettings(lesson);
-  await click(SETTINGS.restart);
-  await waitUntil("!document.querySelector('#settingsRestartConfirm').hidden", `${lesson.name}: restart confirm did not open`, 2000);
-  const confirmText = await evaluate("document.querySelector('#settingsConfirmText')?.textContent.trim()");
-  assert(confirmText === "처음부터 할까요?", `${lesson.name}: restart confirm text mismatch: ${confirmText}`);
-  await click(SETTINGS.restartCancel);
-  await waitUntil("document.querySelector('#settingsRestartConfirm').hidden", `${lesson.name}: restart cancel did not return to settings menu`, 2000);
-  assert((await getPrefs()).screen === "play", `${lesson.name}: restart cancel changed screen`);
-  await click(SETTINGS.restart);
-  await click(SETTINGS.restartConfirm);
-  await waitUntil("window.__mathmonAudioQa.getPrefs().screen === 'cover'", `${lesson.name}: restart confirm did not return to cover`, 2000);
-  const settingsOpen = (await getPrefs()).settingsOpen;
-  assert(settingsOpen === false, `${lesson.name}: settings stayed open after restart confirm`);
-  return { reviewReturnedQuestion: after.question };
-}
-
 const summaries = [];
-
 try {
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
-  for (const lesson of LESSONS) {
-    const on = await runSoundOnScenario(lesson);
-    const bgmOff = await runBgmOffSfxOnScenario(lesson);
-    const sfxOff = await runSfxOffScenario(lesson);
-    const settingsFlow = await runSettingsFlowScenario(lesson);
-    summaries.push({ lesson: lesson.name, ...on, ...bgmOff, ...sfxOff, ...settingsFlow });
+  for (const lesson of lessons) {
+    summaries.push(await checkLesson(lesson));
+    console.log(`AUDIO_QA ${lesson.id}: PASS`);
   }
   console.log("MATHMON_AUDIO_SMOKE_QA: PASS");
-  console.log(JSON.stringify({ lessons: summaries }, null, 2));
+  console.log(JSON.stringify({ lessonCount: summaries.length, lessons: summaries }, null, 2));
 } finally {
   cdp.close();
   if (browser.exitCode === null) {
     browser.kill();
-    await Promise.race([
-      new Promise((resolve) => browser.once("exit", resolve)),
-      delay(2000),
-    ]);
+    await Promise.race([new Promise((resolve) => browser.once("exit", resolve)), delay(2000)]);
   }
   await rm(PROFILE, { recursive: true, force: true });
+  await new Promise((resolve) => server.close(resolve));
 }

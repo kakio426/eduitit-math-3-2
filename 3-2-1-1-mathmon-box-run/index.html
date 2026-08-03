@@ -1808,6 +1808,7 @@
       }
     }
   </style>
+  <script src="../_shared/audio/mathmon-audio-v1.js?v=20260803"></script>
 </head>
 <body>
   <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
@@ -2217,11 +2218,11 @@
       function loadBgmPreference() {
         try {
           const stored = window.localStorage.getItem(AUDIO_PREF_KEYS.bgm);
-          if (stored === "on" || stored === "off") {
-            return stored !== "off";
+          if (stored === "true" || stored === "on" || stored === "false" || stored === "off") {
+            return stored === "true" || stored === "on";
           }
           if (window.localStorage.getItem(AUDIO_PREF_KEYS.legacyBoxRunBgm) === "off") {
-            window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, "off");
+            window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, "false");
             return false;
           }
           return true;
@@ -2232,7 +2233,8 @@
 
       function loadSfxPreference() {
         try {
-          return window.localStorage.getItem(AUDIO_PREF_KEYS.sfx) !== "off";
+          const stored = window.localStorage.getItem(AUDIO_PREF_KEYS.sfx);
+          return stored == null ? true : stored === "true" || stored === "on";
         } catch (error) {
           return true;
         }
@@ -2240,7 +2242,7 @@
 
       function saveBgmPreference(enabled) {
         try {
-          window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, enabled ? "on" : "off");
+          window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, String(Boolean(enabled)));
         } catch (error) {
           // localStorage may be blocked in some embedded browsers.
         }
@@ -2248,7 +2250,7 @@
 
       function saveSfxPreference(enabled) {
         try {
-          window.localStorage.setItem(AUDIO_PREF_KEYS.sfx, enabled ? "on" : "off");
+          window.localStorage.setItem(AUDIO_PREF_KEYS.sfx, String(Boolean(enabled)));
         } catch (error) {
           // localStorage may be blocked in some embedded browsers.
         }
@@ -2319,14 +2321,7 @@
       }
 
       function playSample(cue) {
-        if (!audioState.sfxEnabled) return;
-        const sample = getSample(cue);
-        if (!sample) return;
-        const voice = sample.cloneNode(true);
-        voice.volume = SFX_VOLUME[cue] ?? 0.56;
-        audioState.sfxLog.push(cue);
-        if (audioState.sfxLog.length > 80) audioState.sfxLog.shift();
-        voice.play().catch(() => {});
+        window.MathmonAudio?.play(cue);
       }
 
       window.__mathmonAudioQa = {
@@ -2431,15 +2426,11 @@
       }
 
       function startBgm() {
-        if (!audioState.bgmEnabled || audioState.bgmTimer) return;
-        playBgmLoop();
-        audioState.bgmTimer = window.setInterval(playBgmLoop, 4200);
+        window.MathmonAudio?.startBgm();
       }
 
       function stopBgm() {
-        if (!audioState.bgmTimer) return;
-        window.clearInterval(audioState.bgmTimer);
-        audioState.bgmTimer = 0;
+        window.MathmonAudio?.stopBgm();
       }
 
       function unlockAudio() {

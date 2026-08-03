@@ -2969,6 +2969,7 @@
       }
     }
   </style>
+  <script src="../_shared/audio/mathmon-audio-v1.js?v=20260803"></script>
 </head>
 <body>
   <div class="phone-blocker" aria-hidden="true">
@@ -3665,7 +3666,8 @@
 
     function loadAudioPreference(key) {
       try {
-        return window.localStorage.getItem(key) !== "off";
+        const stored = window.localStorage.getItem(key);
+        return stored == null ? true : stored === "true" || stored === "on";
       } catch (error) {
         return true;
       }
@@ -3673,7 +3675,7 @@
 
     function saveAudioPreference(key, enabled) {
       try {
-        window.localStorage.setItem(key, enabled ? "on" : "off");
+        window.localStorage.setItem(key, String(Boolean(enabled)));
       } catch (error) {
         // localStorage may be blocked in some embedded browsers.
       }
@@ -4725,86 +4727,19 @@
     }
 
     async function startBgm() {
-      if (!state.bgmEnabled || document.hidden) return;
-      initAudio();
-      if (!state.audio || state.bgmSource) return;
-      if (state.audio.state === "suspended") await state.audio.resume();
-      const buffer = await loadBgmBuffer();
-      if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return;
-      const source = state.audio.createBufferSource();
-      const now = state.audio.currentTime;
-      source.buffer = buffer;
-      source.loop = true;
-      source.connect(state.bgmGain);
-      holdAudioParam(state.bgmGain.gain, now);
-      state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + BGM_TRACK.fadeSeconds);
-      source.onended = () => {
-        if (state.bgmSource === source) state.bgmSource = null;
-      };
-      state.bgmSource = source;
-      source.start(now);
+      return window.MathmonAudio?.startBgm();
     }
 
     function stopBgm({ immediate = false } = {}) {
-      const source = state.bgmSource;
-      if (!source || !state.audio || !state.bgmGain) return;
-      state.bgmSource = null;
-      const now = state.audio.currentTime;
-      if (immediate) {
-        source.stop(now);
-        state.bgmGain.gain.cancelScheduledValues(now);
-        state.bgmGain.gain.setValueAtTime(0.0001, now);
-        return;
-      }
-      holdAudioParam(state.bgmGain.gain, now);
-      state.bgmGain.gain.exponentialRampToValueAtTime(0.0001, now + BGM_TRACK.fadeSeconds);
-      source.stop(now + BGM_TRACK.fadeSeconds + 0.05);
+      return window.MathmonAudio?.stopBgm({ immediate });
     }
 
     function duckBgm(seconds) {
-      if (!state.bgmSource || !state.audio || !state.bgmGain) return;
-      const now = state.audio.currentTime;
-      holdAudioParam(state.bgmGain.gain, now);
-      state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.duckGain, now + 0.08);
-      state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + seconds);
+      window.MathmonAudio?.duckBgm(seconds);
     }
 
     function playSound(kind) {
-      if (!state.sfxEnabled) {
-        return;
-      }
-      initAudio();
-      if (!state.audio) {
-        return;
-      }
-      if (state.audio.state === "suspended") {
-        state.audio.resume();
-      }
-      const duckSeconds = BGM_DUCK_SECONDS[kind];
-      if (duckSeconds) duckBgm(duckSeconds);
-      const plans = {
-        start: [260, 330, 392],
-        correct: [392, 494, 659],
-        try: [220, 196],
-        reward: [392, 523, 784],
-        next: [330, 392],
-        scan: [180, 240, 300],
-        measure: [330, 440, 554],
-        finish: [392, 523, 659, 784]
-      };
-      const frequencies = plans[kind] || [330];
-      frequencies.forEach((frequency, index) => {
-        const oscillator = state.audio.createOscillator();
-        const gain = state.audio.createGain();
-        oscillator.frequency.value = frequency;
-        oscillator.type = kind === "try" ? "triangle" : "sine";
-        gain.gain.setValueAtTime(0.0001, state.audio.currentTime + index * 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.045, state.audio.currentTime + index * 0.08 + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, state.audio.currentTime + index * 0.08 + 0.16);
-        oscillator.connect(gain).connect(state.audio.destination);
-        oscillator.start(state.audio.currentTime + index * 0.08);
-        oscillator.stop(state.audio.currentTime + index * 0.08 + 0.18);
-      });
+      window.MathmonAudio?.play(kind);
     }
 
     window.__mathmonAudioQa = {

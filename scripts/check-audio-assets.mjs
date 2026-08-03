@@ -1,110 +1,133 @@
-import { readFile, readdir, stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const LESSONS = [
-  "3-2-1-1-mathmon-box-run",
-  "3-2-1-2-mathmon-rocket-charge",
-  "3-2-1-3-mathmon-jump-islands",
-];
-const MAX_DURATION_MS = 1500;
-const MAX_BYTES = 250 * 1024;
+const MANIFEST_PATH = path.join(ROOT, "manifest.json");
+const MODULE_PATH = path.join(ROOT, "_shared/audio/mathmon-audio-v1.js");
+const BGM_PATH = path.join(
+  ROOT,
+  "_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+);
+const MODULE_REFERENCE = "../_shared/audio/mathmon-audio-v1.js?v=20260803";
+const PREF_KEYS = ["mathmon-audio-bgm-enabled", "mathmon-audio-sfx-enabled"];
+const REQUIRED_CUES = ["start", "correct", "try", "reward", "next", "scan", "measure", "finish"];
 
-function readWavDurationMs(buffer) {
-  if (buffer.toString("ascii", 0, 4) !== "RIFF" || buffer.toString("ascii", 8, 12) !== "WAVE") {
-    throw new Error("not a RIFF/WAVE file");
-  }
-  let offset = 12;
-  let byteRate = 0;
-  let dataBytes = 0;
-  while (offset + 8 <= buffer.length) {
-    const id = buffer.toString("ascii", offset, offset + 4);
-    const size = buffer.readUInt32LE(offset + 4);
-    const body = offset + 8;
-    if (id === "fmt ") {
-      byteRate = buffer.readUInt32LE(body + 8);
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function countOccurrences(source, needle) {
+  return source.split(needle).length - 1;
+}
+
+function extractFunction(source, name) {
+  const matcher = new RegExp(`(?:async\\s+)?function\\s+${name}\\s*\\([^)]*\\)\\s*\\{`, "g");
+  const match = matcher.exec(source);
+  if (!match) return "";
+  let depth = 0;
+  let quote = "";
+  let escaped = false;
+  let lineComment = false;
+  let blockComment = false;
+  for (let index = match.index; index < source.length; index += 1) {
+    const character = source[index];
+    const next = source[index + 1];
+    if (lineComment) {
+      if (character === "\n") lineComment = false;
+      continue;
     }
-    if (id === "data") {
-      dataBytes = size;
+    if (blockComment) {
+      if (character === "*" && next === "/") {
+        blockComment = false;
+        index += 1;
+      }
+      continue;
     }
-    offset = body + size + (size % 2);
+    if (quote) {
+      if (escaped) escaped = false;
+      else if (character === "\\") escaped = true;
+      else if (character === quote) quote = "";
+      continue;
+    }
+    if (character === "/" && next === "/") {
+      lineComment = true;
+      index += 1;
+      continue;
+    }
+    if (character === "/" && next === "*") {
+      blockComment = true;
+      index += 1;
+      continue;
+    }
+    if (character === '"' || character === "'" || character === "`") {
+      quote = character;
+      continue;
+    }
+    if (character === "{") depth += 1;
+    if (character === "}") {
+      depth -= 1;
+      if (depth === 0) return source.slice(match.index, index + 1);
+    }
   }
-  if (!byteRate || !dataBytes) {
-    throw new Error("missing fmt or data chunk");
-  }
-  return Math.round((dataBytes / byteRate) * 1000);
+  throw new Error(`unterminated function: ${name}`);
 }
 
-async function listWavFiles(directory) {
-  try {
-    const names = await readdir(directory);
-    return names.filter((name) => name.endsWith(".wav")).sort();
-  } catch (error) {
-    throw new Error(`missing audio directory: ${directory}`);
+async function checkSharedModule() {
+  const source = await readFile(MODULE_PATH, "utf8");
+  const bgm = await readFile(BGM_PATH);
+  const bgmInfo = await stat(BGM_PATH);
+  assert(bgm.toString("ascii", 0, 4) === "OggS", "shared BGM is not an Ogg container");
+  assert(bgmInfo.size > 1024 * 1024, `shared BGM is unexpectedly small: ${bgmInfo.size} bytes`);
+  assert(source.includes('const VERSION = "mathmon-audio-v1"'), "shared audio version is missing");
+  assert(source.includes("gain: 0.025"), "approved BGM gain 0.025 is missing");
+  assert(source.includes("duckGain: 0.008"), "approved BGM duck gain 0.008 is missing");
+  assert(source.includes("fadeSeconds: 1.2"), "approved BGM fade 1.2s is missing");
+  for (const cue of REQUIRED_CUES) {
+    assert(new RegExp(`\\b${cue}: Object\\.freeze\\(\\[`).test(source), `shared SFX cue is missing: ${cue}`);
   }
-}
-
-function extractAudioRefs(html) {
-  return [...new Set([...html.matchAll(/assets\/audio\/[A-Za-z0-9._-]+\.wav/g)].map((match) => path.basename(match[0])))].sort();
-}
-
-async function checkWav(filePath) {
-  const buffer = await readFile(filePath);
-  const info = await stat(filePath);
-  const durationMs = readWavDurationMs(buffer);
-  if (durationMs > MAX_DURATION_MS) {
-    throw new Error(`${filePath} is too long: ${durationMs}ms`);
+  for (const key of PREF_KEYS) {
+    assert(source.includes(key), `shared preference key is missing: ${key}`);
   }
-  if (info.size > MAX_BYTES) {
-    throw new Error(`${filePath} is too large: ${info.size} bytes`);
-  }
-  return { durationMs, bytes: info.size };
+  assert(source.includes("global.__mathmonAudioQa"), "shared audio QA hook is missing");
+  return { bytes: bgmInfo.size, cues: REQUIRED_CUES.length };
 }
 
 async function checkLesson(lesson) {
-  const indexPath = path.join(ROOT, lesson, "index.html");
-  const audioDir = path.join(ROOT, lesson, "assets/audio");
+  const indexPath = path.join(ROOT, lesson.folder, lesson.entryFile || "index.html");
   const html = await readFile(indexPath, "utf8");
-  const refs = extractAudioRefs(html);
-  if (!refs.length) {
-    throw new Error(`${lesson} does not reference any audio assets`);
+  assert(countOccurrences(html, MODULE_REFERENCE) === 1, `${lesson.id}: shared audio module must be referenced exactly once`);
+  assert(html.includes('data-settings-standard="modal-controls"'), `${lesson.id}: modal settings standard is missing`);
+  assert(html.includes('id="settingsBgmToggle"'), `${lesson.id}: BGM settings toggle is missing`);
+  assert(html.includes('id="settingsSfxToggle"'), `${lesson.id}: SFX settings toggle is missing`);
+  for (const key of PREF_KEYS) {
+    assert(html.includes(key), `${lesson.id}: preference key is missing: ${key}`);
   }
-  const files = await listWavFiles(audioDir);
-  const missing = refs.filter((name) => !files.includes(name));
-  const extra = files.filter((name) => !refs.includes(name));
-  if (missing.length || extra.length) {
-    throw new Error(`${lesson} audio mismatch: missing=${missing.join(",") || "-"} extra=${extra.join(",") || "-"}`);
-  }
-  const checked = [];
-  for (const name of refs) {
-    checked.push({ name, ...(await checkWav(path.join(audioDir, name))) });
-  }
-  return { lesson, count: checked.length, checked };
+  const playSample = extractFunction(html, "playSample");
+  const playSound = extractFunction(html, "playSound");
+  assert(
+    playSample.includes("MathmonAudio?.play") || playSound.includes("MathmonAudio?.play"),
+    `${lesson.id}: lesson SFX calls do not delegate to the shared engine`,
+  );
+  assert(
+    !/localStorage\.setItem\([^\n]+enabled\s*\?\s*["']on["']\s*:\s*["']off["']/.test(html),
+    `${lesson.id}: legacy on/off preference writer remains`,
+  );
+  return {
+    id: lesson.id,
+    folder: lesson.folder,
+    settings: true,
+    sharedBgm: true,
+    sharedSfx: true,
+  };
 }
 
-async function checkSharedCatalog() {
-  const catalogPath = path.join(ROOT, "_shared/audio/kenney/catalog.json");
-  const usedDir = path.join(ROOT, "_shared/audio/kenney/used");
-  const catalog = JSON.parse(await readFile(catalogPath, "utf8"));
-  const files = await listWavFiles(usedDir);
-  const referenced = [...new Set(catalog.map((item) => item.file))].sort();
-  const missing = referenced.filter((name) => !files.includes(name));
-  const extra = files.filter((name) => !referenced.includes(name));
-  if (missing.length || extra.length) {
-    throw new Error(`shared catalog mismatch: missing=${missing.join(",") || "-"} extra=${extra.join(",") || "-"}`);
-  }
-  for (const item of catalog) {
-    await checkWav(path.join(usedDir, item.file));
-    if (item.durationMs > MAX_DURATION_MS) {
-      throw new Error(`catalog duration too long for ${item.cue}: ${item.durationMs}ms`);
-    }
-  }
-  return { catalogEntries: catalog.length, files: files.length };
-}
+const manifest = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
+assert(Array.isArray(manifest.lessons), "manifest lessons are missing");
+assert(manifest.lessons.length === 24, `expected 24 lessons, found ${manifest.lessons.length}`);
 
-const shared = await checkSharedCatalog();
+const shared = await checkSharedModule();
 const lessons = [];
-for (const lesson of LESSONS) {
-  lessons.push(await checkLesson(lesson));
-}
-console.log(JSON.stringify({ ok: true, shared, lessons }, null, 2));
+for (const lesson of manifest.lessons) lessons.push(await checkLesson(lesson));
+
+console.log("MATHMON_AUDIO_STATIC_QA: PASS");
+console.log(JSON.stringify({ ok: true, shared, lessonCount: lessons.length, lessons }, null, 2));

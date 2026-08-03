@@ -1643,6 +1643,7 @@
 
     /* Unit 5 shared visual rules are loaded through sourceFiles.style. */
   </style>
+  <script src="../_shared/audio/mathmon-audio-v1.js?v=20260803"></script>
 </head>
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="scale-balance" data-scoreboard-enabled="false">
@@ -2658,7 +2659,7 @@
     function readAudioFlag(key, fallback) {
       try {
         const saved = window.localStorage.getItem(key);
-        return saved == null ? fallback : saved === "true";
+        return saved == null ? fallback : saved === "true" || saved === "on";
       } catch (error) {
         return fallback;
       }
@@ -2697,34 +2698,7 @@
     }
 
     function playSample(kind) {
-      if (!audio.sfx) return;
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      if (!audio.ctx) audio.ctx = new AudioContext();
-      const ctx = audio.ctx;
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const now = ctx.currentTime;
-      const frequencies = {
-        "step-correct": 720,
-        "step-wrong": 260,
-        "problem-complete": 840,
-        "reward-open": 520,
-        "reward-rare": 660,
-        "reward-legend": 920,
-        result: 600,
-        scoreboard: 440,
-      };
-      const frequency = frequencies[kind] || 420;
-      oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start(now);
-      oscillator.stop(now + 0.2);
+      window.MathmonAudio?.play(kind);
     }
 
     function renderTutorial() {

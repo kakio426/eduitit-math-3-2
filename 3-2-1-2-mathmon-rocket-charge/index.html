@@ -2773,6 +2773,7 @@
       }
     }
   </style>
+  <script src="../_shared/audio/mathmon-audio-v1.js?v=20260803"></script>
 </head>
 <body>
   <div class="phone-blocker" aria-hidden="true">
@@ -4606,7 +4607,8 @@
 
     function loadAudioPreference(key) {
       try {
-        return window.localStorage.getItem(key) !== "off";
+        const stored = window.localStorage.getItem(key);
+        return stored == null ? true : stored === "true" || stored === "on";
       } catch (error) {
         return true;
       }
@@ -4614,7 +4616,7 @@
 
     function saveAudioPreference(key, enabled) {
       try {
-        window.localStorage.setItem(key, enabled ? "on" : "off");
+        window.localStorage.setItem(key, String(Boolean(enabled)));
       } catch (error) {
         // localStorage may be blocked in some embedded browsers.
       }
@@ -4758,40 +4760,11 @@
     }
 
     function stopBgm() {
-      state.bgmRunning = false;
-      if (state.bgmTimer) {
-        window.clearTimeout(state.bgmTimer);
-        state.bgmTimer = null;
-      }
-      if (!state.bgmGain || !state.audio) {
-        state.bgmGain = null;
-        return;
-      }
-      const gain = state.bgmGain;
-      const now = state.audio.currentTime;
-      gain.gain.cancelScheduledValues(now);
-      gain.gain.setTargetAtTime(0.0001, now, 0.18);
-      window.setTimeout(() => {
-        try {
-          gain.disconnect();
-        } catch (error) {
-          // Already disconnected.
-        }
-      }, 700);
-      state.bgmGain = null;
+      window.MathmonAudio?.stopBgm();
     }
 
     function startBgm() {
-      if (!state.bgmEnabled || state.bgmRunning || !resumeAudio()) {
-        return;
-      }
-      state.bgmRunning = true;
-      state.bgmGain = state.audio.createGain();
-      state.bgmGain.gain.setValueAtTime(0.0001, state.audio.currentTime);
-      state.bgmGain.gain.exponentialRampToValueAtTime(0.045, state.audio.currentTime + 1.2);
-      state.bgmGain.connect(state.audio.destination);
-      state.bgmStep = 0;
-      queueBgmLoop();
+      window.MathmonAudio?.startBgm();
     }
 
     function queueBgmLoop() {
@@ -4908,14 +4881,7 @@
     }
 
     function playSample(cue) {
-      if (!state.sfxEnabled) return;
-      const sample = getSample(cue);
-      if (!sample) return;
-      const voice = sample.cloneNode(true);
-      voice.volume = SFX_VOLUME[cue] ?? 0.56;
-      state.sfxLog.push(cue);
-      if (state.sfxLog.length > 80) state.sfxLog.shift();
-      voice.play().catch(() => {});
+      window.MathmonAudio?.play(cue);
     }
 
     function playSound(kind) {
