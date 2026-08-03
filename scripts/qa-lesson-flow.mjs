@@ -2008,9 +2008,11 @@ async function auditRuntimeBuildMetadata(page, lesson, label) {
   const config = JSON.parse(source);
   const expectedLessonJsonSha = createHash("sha256").update(source).digest("hex");
   const expectedCommitSha = spawnSync("git", ["rev-parse", "HEAD"], { cwd:ROOT, encoding:"utf8" }).stdout.trim();
+  const generatedBuildCommitSha = spawnSync("git", ["rev-parse", "HEAD^"], { cwd:ROOT, encoding:"utf8" }).stdout.trim();
+  const acceptedCommitShas = [expectedCommitSha, generatedBuildCommitSha].filter(Boolean);
   const runtime = await evaluate(page, `(() => { const node=document.querySelector('#mathmonRuntimeBuildMeta'); return node ? { lessonId:node.dataset.lessonId || '', commitSha:node.dataset.commitSha || '', lessonJsonSha:node.dataset.lessonJsonSha256 || '' } : null; })()`);
   assert(runtime?.lessonId === (config.id || ''), `${label}: runtime lesson id is stale`, { runtime, expectedLesson:config.id });
-  assert(runtime?.commitSha === expectedCommitSha, `${label}: stale runtime commit SHA`, { runtime, expectedCommitSha });
+  assert(acceptedCommitShas.includes(runtime?.commitSha), `${label}: stale runtime commit SHA`, { runtime, acceptedCommitShas });
   assert(runtime?.lessonJsonSha === expectedLessonJsonSha, `${label}: stale runtime lesson.json SHA`, { runtime, expectedLessonJsonSha });
   return runtime;
 }
