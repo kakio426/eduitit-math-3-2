@@ -4103,6 +4103,63 @@ async function solveCurrentProblem(page, { wrongFirst = false, beforeStep = null
   }
 }
 
+async function auditConfiguredCorrectFeedbackEffect(page, lesson, viewport, shots) {
+  const config = await evaluate(page, "LESSON_CONFIG.qa?.correctFeedbackEffectAudit || null");
+  if (!config) return;
+  await waitUntil(
+    page,
+    `document.querySelector(${JSON.stringify(config.workbench)})?.classList.contains(${JSON.stringify(config.activeClass)})
+      && document.querySelector(${JSON.stringify(config.trigger)})`,
+    `${viewport.name}: correct feedback effect did not become active`,
+    3000,
+  );
+  await delay(Math.min(260, Math.max(80, Number(config.durationMs || 680) * .4)));
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa.correctFeedbackEffectAudit;
+    const workbench = document.querySelector(config.workbench);
+    const card = document.querySelector(config.problemCard);
+    const choice = document.querySelector(config.trigger);
+    const circle = document.querySelector('.circle-relation-svg[data-state="correct"] .circle-relation');
+    const equation = document.querySelector('.circle-relation-svg[data-state="correct"] .bridge-equation');
+    const complete = document.querySelector(config.completionPanel);
+    const choices = [...document.querySelectorAll('.length-choice')];
+    const rects = choices.map((node) => node.getBoundingClientRect());
+    const intersections = [];
+    for (let leftIndex = 0; leftIndex < rects.length; leftIndex += 1) {
+      for (let rightIndex = leftIndex + 1; rightIndex < rects.length; rightIndex += 1) {
+        const left = rects[leftIndex];
+        const right = rects[rightIndex];
+        const width = Math.max(0, Math.min(left.right, right.right) - Math.max(left.left, right.left));
+        const height = Math.max(0, Math.min(left.bottom, right.bottom) - Math.max(left.top, right.top));
+        if (width > .5 && height > .5) intersections.push({ leftIndex, rightIndex, width, height });
+      }
+    }
+    return {
+      phase:workbench?.dataset.correctEffectPhase || '',
+      active:workbench?.classList.contains(config.activeClass) || false,
+      choiceState:choice?.dataset.state || '',
+      relationState:document.querySelector('.circle-relation-svg')?.dataset.state || '',
+      equation:equation?.textContent.trim() || '',
+      completeVisible:complete?.classList.contains('is-visible') || false,
+      cardAnimation:getComputedStyle(card).animationName,
+      ringAnimation:getComputedStyle(card, '::after').animationName,
+      choiceAnimation:getComputedStyle(choice).animationName,
+      circleAnimation:getComputedStyle(circle).animationName,
+      intersections,
+    };
+  })()`);
+  assert(audit.active && audit.phase === "active", `${viewport.name}: correct feedback effect phase is not active`, audit);
+  assert(audit.choiceState === "correct" && audit.relationState === "correct", `${viewport.name}: effect is not attached to the correct mathematical state`, audit);
+  assert(audit.equation.includes("="), `${viewport.name}: correct equation disappeared during the effect`, audit);
+  assert(!audit.completeVisible, `${viewport.name}: completion panel covered the correct effect too soon`, audit);
+  assert(audit.cardAnimation.includes("bridge-answer-lock-card"), `${viewport.name}: learning card pulse is missing`, audit);
+  assert(audit.ringAnimation.includes("bridge-answer-lock-ring"), `${viewport.name}: learning card ring is missing`, audit);
+  assert(audit.choiceAnimation.includes("bridge-answer-lock-choice"), `${viewport.name}: correct choice lock effect is missing`, audit);
+  assert(audit.circleAnimation.includes("bridge-answer-lock-circle"), `${viewport.name}: circle relation pulse is missing`, audit);
+  assert(audit.intersections.length === 0, `${viewport.name}: correct effect makes answer choices overlap`, audit);
+  shots.push(await screenshot(page, lesson, viewport, "05c-correct-effect"));
+}
+
 async function solveCheckLockProblemWithAudits(page, lesson, viewport, shots, shotPrefix = "05-lock") {
   let stepNumber = 0;
   while (!(await evaluate(page, "document.getElementById('completePanel').classList.contains('is-visible')"))) {
@@ -4542,6 +4599,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   const hasSharedCoverStart = await evaluate(page, "document.querySelector('main.game')?.dataset.coverStartAsset === 'shared-canonical-v1'");
   const hasConfiguredLayoutAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.layoutAudit)");
   const hasConfiguredAnswerAccumulationAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.answerAccumulationAudit)");
+  const hasConfiguredCorrectFeedbackEffect = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.correctFeedbackEffectAudit)");
   const hasConfiguredTopControlsAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.topControlsAudit)");
   const scoreViewButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.scoreViewButton || ''");
   const tutorialNextButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.tutorialNextButton || ''");
@@ -4827,17 +4885,35 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     await solveCheckLockProblemWithAudits(page, lesson, viewport, shots);
   } else {
     let accumulatedAnswerCount = 0;
+    let correctFeedbackEffectCaptured = false;
+    if (hasConfiguredCorrectFeedbackEffect) {
+      await page.send("Emulation.setEmulatedMedia", {
+        features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
+      });
+    }
     await solveCurrentProblem(page, {
       beforeStep: remainingMisconceptions.size
         ? () => auditConfiguredMisconceptions(page, lesson, viewport, shots, remainingMisconceptions, 1)
         : null,
-      afterCorrectStep:hasConfiguredAnswerAccumulationAudit
+      afterCorrectStep:hasConfiguredAnswerAccumulationAudit || hasConfiguredCorrectFeedbackEffect
         ? async (stepId) => {
-            accumulatedAnswerCount += 1;
-            await auditConfiguredAnswerAccumulation(page, `${viewport.name} ${stepId} accumulated answer`, accumulatedAnswerCount);
+            if (hasConfiguredAnswerAccumulationAudit) {
+              accumulatedAnswerCount += 1;
+              await auditConfiguredAnswerAccumulation(page, `${viewport.name} ${stepId} accumulated answer`, accumulatedAnswerCount);
+            }
+            if (hasConfiguredCorrectFeedbackEffect && !correctFeedbackEffectCaptured) {
+              await auditConfiguredCorrectFeedbackEffect(page, lesson, viewport, shots);
+              correctFeedbackEffectCaptured = true;
+            }
           }
         : null,
     });
+    if (hasConfiguredCorrectFeedbackEffect) {
+      assert(correctFeedbackEffectCaptured, `${viewport.name}: correct feedback effect was not captured`);
+      await page.send("Emulation.setEmulatedMedia", {
+        features: [{ name: "prefers-reduced-motion", value: "reduce" }],
+      });
+    }
   }
   shots.push(await screenshot(page, lesson, viewport, "06-confirm"));
   await auditGeometry(page, `${viewport.name} confirmation`);

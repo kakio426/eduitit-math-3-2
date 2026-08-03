@@ -295,6 +295,7 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card {
+  position: relative;
   grid-row: 1;
   min-height: 0;
   padding: 14px 18px 10px;
@@ -310,6 +311,26 @@
     0 8px 0 rgba(89, 52, 24, .38),
     0 14px 30px rgba(47, 31, 17, .18);
   overflow: hidden;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  z-index: 3;
+  border: 4px solid rgba(94, 235, 181, 0);
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 0 rgba(255, 224, 106, 0), 0 0 0 rgba(43, 193, 142, 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .problem-card {
+  animation: bridge-answer-lock-card .68s ease-out both;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .problem-card::after {
+  animation: bridge-answer-lock-ring .68s ease-out both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .problem-label,
@@ -872,6 +893,23 @@
   background: #d8ffed;
 }
 
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .length-choice[data-state="correct"] {
+  animation: bridge-answer-lock-choice .68s cubic-bezier(.2, .82, .22, 1) both;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .circle-relation {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bridge-answer-lock-circle .68s cubic-bezier(.2, .82, .22, 1) both;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .answer-measure,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .answer-measure-cap,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .source-question,
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .bridge-equation {
+  animation: bridge-answer-lock-glow .68s ease-out both;
+}
+
 /* 정답 확인 뒤에도 원 작업대의 축과 크기는 그대로 유지한다. */
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
   grid-column: 1;
@@ -886,6 +924,10 @@
   border-bottom: 8px solid #4b2815;
   background: linear-gradient(180deg, rgba(119, 65, 30, .97), rgba(78, 40, 20, .98));
   box-shadow: 0 7px 0 rgba(54, 29, 14, .55);
+}
+
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel.is-visible {
+  animation: bridge-complete-reveal .42s cubic-bezier(.2, .82, .22, 1) both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .complete-text {
@@ -1156,6 +1198,53 @@
   }
 }
 
+@keyframes bridge-answer-lock-card {
+  0%, 100% {
+    box-shadow: inset 0 2px rgba(255, 255, 255, .88), 0 8px 0 rgba(89, 52, 24, .38), 0 14px 30px rgba(47, 31, 17, .18);
+  }
+  48% {
+    box-shadow: inset 0 0 0 5px rgba(91, 240, 183, .58), 0 8px 0 rgba(89, 52, 24, .38), 0 0 26px rgba(55, 202, 151, .46);
+  }
+}
+
+@keyframes bridge-answer-lock-ring {
+  0% {
+    opacity: 0;
+    border-color: rgba(94, 235, 181, 0);
+    transform: scale(.985);
+  }
+  38% {
+    opacity: .9;
+    border-color: rgba(94, 235, 181, .82);
+    box-shadow: inset 0 0 0 3px rgba(255, 224, 106, .45), 0 0 18px rgba(43, 193, 142, .55);
+  }
+  100% {
+    opacity: 0;
+    border-color: rgba(94, 235, 181, 0);
+    transform: scale(1.015);
+  }
+}
+
+@keyframes bridge-answer-lock-choice {
+  0%, 100% { transform: scale(1); filter: none; }
+  45% { transform: scale(1.02); filter: brightness(1.12) drop-shadow(0 0 8px rgba(91, 255, 195, .72)); }
+}
+
+@keyframes bridge-answer-lock-circle {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.018); }
+}
+
+@keyframes bridge-answer-lock-glow {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(80, 255, 187, .38)); }
+  45% { filter: drop-shadow(0 0 12px rgba(80, 255, 187, .92)); }
+}
+
+@keyframes bridge-complete-reveal {
+  from { opacity: .45; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes bridge-part-shake {
   0%,
   100% {
@@ -1313,6 +1402,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .game[data-workbench-type="circle-double-bridge"] .length-choice[data-state="wrong"],
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .problem-card,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .problem-card::after,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .length-choice[data-state="correct"],
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .circle-relation,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .answer-measure,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .answer-measure-cap,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .source-question,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-answer-locking .circle-relation-svg[data-state="correct"] .bridge-equation,
+  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel.is-visible,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-art,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-flare,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-changing,

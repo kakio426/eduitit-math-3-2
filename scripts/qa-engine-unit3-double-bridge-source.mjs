@@ -23,6 +23,8 @@ assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be rem
 assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
 
 assert.equal(config.workbench.type, "circle-double-bridge");
+assert.equal(config.buttonLabel, "점수 보기");
+assert.equal(config.reward.changeLabel, "뚝딱뚝딱 점수");
 assert.equal(config.imageAssets.problemStage, "problem-workshop-v3-generated.webp");
 assert.ok(config.assets.includes("problem-workshop-v3-generated.webp"), "v3 workshop stage must be listed");
 assert.equal(config.tutorialCards[1]?.image, "tutorial-page-2-v4-generated.webp");
@@ -84,6 +86,20 @@ assert.equal(config.qa.completionAudit.maxPanelHeightRatio, 0.31);
 assert.equal(config.qa.completionAudit.minDominantHeightRatio, 0.45);
 assert.equal(config.qa.completionAudit.minContentGapPx, 24);
 assert.equal(config.qa.completionAudit.centerYTolerancePx, 1);
+assert.deepEqual(config.qa.correctFeedbackEffectAudit, {
+  standard: "bridge-answer-lock-effect-v1",
+  trigger: ".length-choice[data-state=\"correct\"]",
+  workbench: ".bridge-workshop",
+  problemCard: ".problem-card",
+  completionPanel: "#completePanel",
+  activeClass: "is-answer-locking",
+  durationMs: 680,
+  completionRevealMs: 420,
+  preservesCorrectEquation: true,
+  supportsReducedMotion: true,
+  reviewViewport: { name: "user-feedback-reward-1079x929", width: 1079, height: 929 },
+});
+assert.ok(config.qa.viewports.some((viewport) => viewport.name === "user-feedback-reward-1079x929" && viewport.width === 1079 && viewport.height === 929), "the reported reward viewport must remain a named browser regression");
 assert.equal(config.qa.visualContractVersion, 1);
 assert.equal(config.standards.playProgress, "generated-play-progress-v3-left-character");
 assert.equal(config.workbench.playStateImageSet.standard, "generated-play-progress-v3-left-character");
@@ -195,6 +211,9 @@ assert.match(viewSource, /className = "compass-play-progress"/, "problem view mu
 assert.match(viewSource, /function syncBridgePlayProgress/, "play progress must synchronize all six result tiers");
 assert.match(viewSource, /function onRewardReveal/, "reward reveal must remember the pending world change");
 assert.match(viewSource, /async function onRewardDismiss/, "reward dismissal must apply the world change after the modal closes");
+assert.match(viewSource, /async function onStepCorrect/, "correct choice must run a brief answer-lock effect before completion");
+assert.match(viewSource, /globalThis\.onStepCorrect = onStepCorrect/, "correct choice effect hook must be registered with the engine");
+assert.match(viewSource, /correctEffectPhase = "active"/, "correct effect must expose an active browser QA phase");
 assert.match(viewSource, /globalThis\.onRewardDismiss = onRewardDismiss/, "reward dismissal hook must be registered with the engine");
 assert.match(viewSource, /effectStartedWithModalHidden/, "world impact must expose modal-first timing evidence");
 assert.doesNotMatch(viewSource, /다리 점수|다리 등급|진행도/, "problem view must not add a second reward vocabulary");
@@ -212,6 +231,10 @@ assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+46px\s+146px
 assert.match(lessonCss, /--bridge-complete-height:\s*176px;/, "desktop completion panel must use the compact fixed track");
 assert.match(lessonCss, /\.complete-text\s*\{[\s\S]*?font-size:\s*clamp\(2rem,\s*3\.1vw,\s*2\.65rem\);/, "completion equation must be visually dominant");
 assert.match(lessonCss, /\.complete-panel \.primary-button\s*\{[\s\S]*?min-width:\s*260px;[\s\S]*?min-height:\s*92px;/, "bridge-view action must be substantially larger");
+assert.match(lessonCss, /bridge-answer-lock-card/, "correct answer must pulse the learning card without covering it");
+assert.match(lessonCss, /bridge-answer-lock-choice/, "the chosen correct length must receive a visible lock-in effect");
+assert.match(lessonCss, /bridge-complete-reveal/, "the completed equation and score action must enter visibly");
+assert.match(lessonCss, /prefers-reduced-motion:\s*reduce[\s\S]*?is-answer-locking/, "correct feedback effects must respect reduced motion");
 assert.match(lessonCss, /\.bridge-workshop\.is-complete\s*\{[\s\S]*?var\(--bridge-complete-height\);/, "completion must reduce the empty panel track");
 
 console.log("QA_ENGINE_UNIT3_DOUBLE_BRIDGE_SOURCE: PASS");

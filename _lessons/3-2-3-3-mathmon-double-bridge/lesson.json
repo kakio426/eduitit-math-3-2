@@ -10,7 +10,7 @@
   "unitBadge": "3단원 원",
   "goal": "반지름 두 개를 이으면 지름이 돼요.",
   "action": "두 배 또는 반의 길이를 골라요.",
-  "buttonLabel": "다리 보기",
+  "buttonLabel": "점수 보기",
   "rewardScreenTitle": "다리 힘",
   "progressLabel": "다리 힘",
   "rewardComplete": "다리 힘이 바뀌었어요.",
@@ -46,7 +46,7 @@
     "maxPower": 100,
     "fairness": { "emptyKeepsProgress": true, "lossCapAtCommonGainMin": true },
     "closedLabel": "두근두근!",
-    "changeLabel": "이번 변화",
+    "changeLabel": "뚝딱뚝딱 점수",
     "zeroLabel": "0",
     "nextLabel": "다음",
     "stateImageSet": {
@@ -180,6 +180,19 @@
     "emptyRewardAudit": true,
     "emptyRewardAuditViewport": "user-reported-missing-left-progress-1082x987-dpr2",
     "visualContractVersion": 1,
+    "correctFeedbackEffectAudit": {
+      "standard": "bridge-answer-lock-effect-v1",
+      "trigger": ".length-choice[data-state=\"correct\"]",
+      "workbench": ".bridge-workshop",
+      "problemCard": ".problem-card",
+      "completionPanel": "#completePanel",
+      "activeClass": "is-answer-locking",
+      "durationMs": 680,
+      "completionRevealMs": 420,
+      "preservesCorrectEquation": true,
+      "supportsReducedMotion": true,
+      "reviewViewport": { "name": "user-feedback-reward-1079x929", "width": 1079, "height": 929 }
+    },
     "tutorialRewardAudit": {
       "standard": "tutorial-final-reward-cohesion-v1",
       "selector": "#screen-tutorial .tutorial-card:nth-of-type(2) .tutorial-poster-art",
@@ -222,6 +235,7 @@
     "viewports": [
       { "name": "desktop", "width": 1280, "height": 800 },
       { "name": "tablet-landscape", "width": 1024, "height": 768 },
+      { "name": "user-feedback-reward-1079x929", "width": 1079, "height": 929 },
       { "name": "codex-in-app", "width": 1280, "height": 720, "dpr": 2 },
       { "name": "user-visibility-994x632", "width": 994, "height": 632 },
       { "name": "user-reported-missing-left-progress-1082x987-dpr2", "width": 1082, "height": 987, "dpr": 2 }

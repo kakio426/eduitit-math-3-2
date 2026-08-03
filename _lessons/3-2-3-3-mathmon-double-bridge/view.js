@@ -4,6 +4,26 @@ let pendingBridgeRewardImpact = null;
 let bridgeRewardArtPrimed = false;
 const bridgeRewardPreloads = [];
 
+async function onStepCorrect({ button }) {
+  const workbench = document.querySelector("#screen-play .bridge-workshop");
+  if (!workbench) return;
+  const effectConfig = LESSON_CONFIG.qa?.correctFeedbackEffectAudit || {};
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = reducedMotion ? 0 : Number(effectConfig.durationMs || 680);
+
+  workbench.classList.remove("is-answer-locking");
+  button?.classList.remove("is-answer-locking");
+  void workbench.offsetWidth;
+  workbench.classList.add("is-answer-locking");
+  button?.classList.add("is-answer-locking");
+  workbench.dataset.correctEffectPhase = "active";
+
+  if (duration > 0) await waitForBridge(duration);
+  workbench.classList.remove("is-answer-locking");
+  button?.classList.remove("is-answer-locking");
+  workbench.dataset.correctEffectPhase = "idle";
+}
+
 function ensureBridgePlayProgress() {
   const playScreen = document.getElementById("screen-play");
   if (!playScreen) return null;
@@ -322,6 +342,7 @@ async function onRewardDismiss({ state }) {
 
 globalThis.onRewardReveal = onRewardReveal;
 globalThis.onRewardDismiss = onRewardDismiss;
+globalThis.onStepCorrect = onStepCorrect;
 globalThis.__compassRingQa = {
   syncProgress() {
     return syncBridgePlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });

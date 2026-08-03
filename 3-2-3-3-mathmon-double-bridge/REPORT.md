@@ -199,3 +199,13 @@
 - Humanizer 학생 문구 QA: 보이지 않는 `다리 힘` 대신 화면에서 바로 보이는 `더 멋져질 수 있어요`와 `작아질 수도 있어요`를 사용했습니다. `다리 이름을 봐요`는 학생이 만든 결과를 직접 가리키는 `내가 만든 다리를 봐요`로 바꿨으며 자연도 등급은 A입니다.
 - 브라우저 캡처: `screenshots/user-feedback-1079x929-tutorial-2-v4.png`, `screenshots/tutorial-page-2-v4-desktop-1280x800.png`, `screenshots/tutorial-page-2-v4-tablet-1024x768.png`.
 - 세 화면 모두 새 `tutorial-page-2-v4-generated.webp`를 불러왔고 `naturalWidth/naturalHeight=1280×800`, `complete=true`였습니다. Stage와 이미지의 왼쪽·위·오른쪽·아래 경계 오차는 모두 `0px`이며 문구 잘림·수달몬 잘림·다리 누락은 `0건`입니다.
+
+## 2026-08-03 정답 확인 효과·점수 문구 수정
+
+- 정답을 고르면 선택한 길이, 원의 완성 관계, 문제판 테두리가 `680ms` 동안 약하게 빛난 뒤 완성식과 `점수 보기`가 나타납니다. 표준은 `bridge-answer-lock-effect-v1`이며 움직임 줄이기 환경에서는 이동 애니메이션을 끕니다.
+- 완료 버튼은 `다리 보기`에서 `점수 보기`로 바꿨습니다. 열린 보상 모달의 한 덩어리 문구는 `이번 변화 +6` 형식에서 `뚝딱뚝딱 점수 +6` 형식으로 바꿨습니다.
+- Humanizer 학생 문구 QA: `점수 보기`는 다음 행동을 바로 말하는 2어절 버튼이고, `뚝딱뚝딱 점수`는 다리 만들기 장면과 맞는 짧은 이름입니다. 번역투·어려운 한자어·불필요한 설명이 없어 자연도 A입니다. 의미 보존 검증 6항을 모두 통과했습니다.
+- 새 회귀 화면 `user-feedback-reward-1079x929`을 등록했습니다. `1280×800`, `1024×768`, `1079×929`의 전체 흐름과 정답 효과 절정 화면을 현재 코드로 다시 캡처했습니다.
+- 브라우저 하네스에서 정답 효과 중 완성식 유지, 완료 패널 조기 노출 0건, 선택지 교차 0건, 텍스트 넘침·이미지 누락 0건을 확인했습니다.
+- 효과 캡처: `screenshots/engine-flow-desktop-05c-correct-effect.png`, `screenshots/engine-flow-tablet-landscape-05c-correct-effect.png`, `screenshots/engine-flow-user-feedback-reward-1079x929-05c-correct-effect.png`.
+- 완료·보상 캡처: `screenshots/engine-flow-user-feedback-reward-1079x929-06-confirm.png`, `screenshots/engine-flow-user-feedback-reward-1079x929-07b-reward-open.png`.
