@@ -189,7 +189,7 @@
 - v3 제작 당시에는 기존 문구를 유지했지만, 사용자 후속 검토에서 `다리 힘`과 `다리 이름을 봐요`가 어색하다는 점을 확인했습니다. 현재 실행본은 아래 v4 문구로 교체했습니다.
 - 브라우저 캡처: `screenshots/user-feedback-1079x929-tutorial-2-v3.png`, `screenshots/tutorial-page-2-v3-desktop-1280x800.png`, `screenshots/tutorial-page-2-v3-tablet-1024x768.png`.
 - `1079×929` 실측에서 Stage와 설명 이미지의 네 변 오차는 모두 `0px`, 이미지 원본은 `1280×800`, `complete=true`, `object-fit: cover`였습니다. `1280×800`과 `1024×768`에서도 같은 배포본이 Stage 네 변을 정확히 채웠고 글자·다리·수달몬 잘림은 `0건`입니다.
-- `node scripts/qa-engine-unit3-double-bridge-source.mjs`와 `node scripts/check-stage-ratio.mjs`는 통과했습니다. 전체 `qa-lesson-flow`는 이번 설명 이미지와 무관한 기존 `994×632` 완료 패널 높이 계약에서 중단됐습니다(작업 영역 대비 `32.53%`, 계약 최대 `31%`). 이번 수정 범위에서는 문제 완료 화면 레이아웃을 바꾸지 않았습니다.
+- `node scripts/qa-engine-unit3-double-bridge-source.mjs`와 `node scripts/check-stage-ratio.mjs`는 통과했습니다. 이후 결과 하네스 전수 실행에서 발견된 `994×632` 완료 패널 높이 회귀도 수정했으며, 현재 전체 `qa-lesson-flow`가 통과합니다.
 
 ## 2026-08-03 설명 2 학생 문구 수정
 
@@ -218,5 +218,36 @@
 - `lesson.json > qa.resultBoardAudit`에 결과 배경 픽셀 축 검사를 추가하고, `scripts/qa-lesson-flow.mjs`가 화면별 결과판 대상 노드만 검사하도록 보강했습니다.
 - Humanizer 학생 문구 QA: 새 보이는 문구를 추가하지 않았고, 결과 화면에서 제작자용 누적값 문구 `다리 힘 숫자`를 제거했습니다. 결과판의 `6/10`, `다음엔 튼튼한 다리`는 짧고 자연스럽게 읽힙니다.
 - 텍스트 넘침·요소 겹침 QA: `1079×929`에서 `log`, `small`, `bridge`, `big`, `grand`, `rainbow` 결과 전 단계를 확인했습니다. 결과판 안 동적 요소 교차 `0px`, Stage 이탈 `0건`, 텍스트 넘침 `0건`, 이미지 누락 `0건`입니다.
+
+## 2026-08-03 결과 장면 v3 재제작
+
+- 이전 수정은 작은 배경 결과판에 동적 요소를 억지로 맞춘 상태라 제목과 `다시` 버튼이 판 밖에 남는 회귀를 막지 못했습니다.
+- 결과 배경 6장을 `1280×800`으로 다시 만들었습니다. 각 장면은 수달몬과 다리의 단계 차이는 유지하고, 오른쪽에는 글자와 버튼이 없는 큰 남색 결과판만 둡니다.
+- 결과 이름 6종은 투명 생성 이미지로 분리했고, 정답 수·다리 힘 막대·다음 목표·공용 생성형 `다시` 버튼과 함께 결과판의 상태별 중심축에 배치합니다.
+- 배경 전수 컨택시트는 `result-tiers-v3-contact-sheet.png`, 제목 전수 컨택시트는 `result-titles-v3-contact-sheet.png`입니다.
+- 브라우저 하네스는 `#resultTitleArt`, 힘 문구, 진행 막대, 정답 수, 다음 목표, 다시 버튼의 실제 rect가 감지된 결과판 안쪽 여백에 포함되는지 검사합니다. 다시 버튼 이미지와 hitbox 경계 오차도 `1px` 이하로 검사합니다.
+- 현재 실행본에서 `1280×800`, `1024×768`, 사용자 제보 `1082×987 DPR 2`를 다시 검사했습니다. 결과 6단계 전부 결과판 포함·공통 축·최소 간격·이미지/hitbox 일치 검사를 통과했고, 텍스트 넘침·요소 교차·이미지 누락은 모두 `0건`입니다.
 - 최신 캡처: `screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-big.png`, `screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-grand.png`.
 - 검증: `MATHMON_QA_VIEWPORT=user-feedback-reward-1079x929 node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` → PASS.
+
+## 2026-08-03 결과 장면 v4 다리 중심 재제작
+
+- v3는 결과판과 캐릭터가 너무 커서 학생이 만든 다리가 보상처럼 보이지 않았습니다. 3-2-3-2의 결과 위계를 기준으로 `완성된 다리 → 결과 이름 → 정답 수 → 짧은 다음 안내 → 다시` 순서로 다시 구성했습니다.
+- 생성 장면 6장은 모두 1280×800입니다. 외나무다리부터 무지개 다리까지 다리가 화면 왼쪽과 가운데를 크게 차지하고, 수달몬은 보조 역할로 줄였으며, 오른쪽 결과판은 필요한 정보만 담는 크기로 줄였습니다.
+- 결과 화면의 `다리 힘 N` 문구와 진행 막대는 완전히 숨겼습니다. 누적값은 보상 계산에만 사용하고 결과 화면에는 노출하지 않습니다.
+- 결과판에는 생성형 결과 이름, 공용 정답 수 이미지, `다음엔 …` 또는 `최고 단계예요!`, 공용 생성형 `다시` 버튼만 둡니다. 무지개 특별 결과는 잘못된 다음 단계가 나오지 않고 `최고 단계예요!`로 고정됩니다.
+- 배경 전수 컨택시트는 `result-tiers-v4-contact-sheet.png`입니다. 각 상태의 실제 결과판 픽셀 중심은 `lesson.json > qa.resultBoardAudit.expectedAxisXByTier`에 따로 선언했습니다.
+- 하네스는 진행 막대가 없는 결과 구성도 허용하되, 제목·정답 수·다음 안내·다시 버튼의 공통 축, 결과판 안쪽 포함, 요소 간 최소 간격, 버튼 이미지와 hitbox 네 변 오차 `1px` 이하를 계속 검사합니다.
+- `1280×800`, `1024×768`, 사용자 제보 `1082×987 DPR 2`에서 결과 6단계를 전수 검사했습니다. 텍스트 넘침, 요소 교차, 이미지 누락, 결과판 이탈은 모두 `0건`입니다.
+- Humanizer 학생 문구 QA: `튼튼한 다리`, `8/10`, `최고 단계예요!`, `다시`는 짧고 화면의 대상과 행동을 바로 가리킵니다. 번역투·어려운 한자어·뜻 반복이 없어 자연도 A이며 의미 보존 검증 6항을 통과했습니다.
+- 최신 사용자 제보 화면 캡처: `screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-grand.png`.
+
+## 2026-08-03 결과 보상물 우선 스킬·하네스 승격
+
+- 프로젝트 제작 스킬, `AGENTS.md`, `CLAUDE.md`, `LESSON_COMMONS.md`에 `result-primary-reward-dominance-v1`을 같은 용어와 수치로 추가했습니다.
+- 결과 단계별 완성 다리 원본 경계를 `lesson.json > qa.resultRewardDominanceAudit.primaryRewardBoundsByTier`에 기록했습니다. 하네스는 실제 결과 이미지 픽셀에서 검출한 결과판과 비교해 다리 폭 `60%` 이상, 결과판 폭 `38%` 이하, 결과판 시작 `60%` 이후, 다리/결과판 폭 비 `1.45` 이상, 가림 `3%` 이하를 검사합니다.
+- 결과 해석에 승인되지 않은 `#resultMeasureSvg`, 막대·채움 selector와 `다리 힘 N` 문구를 computed style·rect·보이는 텍스트로 검사합니다. 현재 모든 결과 단계에서 금지 노출 `0건`, 보이는 정보 노드 `4개`입니다.
+- 실패 fixture `oversized-panel-tiny-reward`, `internal-metric-leak`, `reward-hidden-by-panel`을 추가했고 `node scripts/test-result-reward-dominance.mjs`가 모두 기대한 실패 원인으로 차단함을 확인했습니다.
+- 변경 감지 게이트 `node scripts/check-result-panel-adoption.mjs origin/main`은 앞으로 결과 자산이나 `result/results`가 바뀌면 내부 포함 계약과 보상물 우선 계약을 둘 다 요구합니다.
+- 브라우저 전체 흐름은 등록된 6개 viewport 전부 PASS입니다. 결과 6단계 × 6개 viewport에서 새 보상물 우선 검사를 전수 실행했고, `994×632`에서 함께 발견된 완료 패널 높이는 `162px → 154px`로 고쳐 `completion-density-v1`도 통과했습니다.
+- 새 회귀 캡처: `screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-{log,small,bridge,big,grand,rainbow}.png`.

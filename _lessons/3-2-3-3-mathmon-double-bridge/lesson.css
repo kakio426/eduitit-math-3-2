@@ -975,10 +975,16 @@
   display: none;
 }
 
-/* 기존 튜토리얼·보상·결과 자산 계약 */
-.game[data-workbench-type="circle-double-bridge"] .result-title-art,
+/* 결과 장면의 생성 배경 위에서 제목·수치·행동을 한 결과판 축에 정렬한다. */
 .game[data-workbench-type="circle-double-bridge"] #screen-result .top-row {
   display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .result-title-art {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 3px rgba(7, 31, 68, .58));
 }
 
 .game[data-workbench-type="circle-double-bridge"] #screen-result::after {
@@ -986,11 +992,10 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureSvg,
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureTrackSvg,
+.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureFillSvg,
 .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui .result-restart-surface {
-  display: none;
-}
-
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureSvg {
   display: none;
 }
 
@@ -1005,31 +1010,17 @@
   opacity: .42;
 }
 
-.game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultMeasureFillSvg {
-  fill: #ffd45c;
-}
-
 .game[data-workbench-type="circle-double-bridge"] .result-dynamic-ui #resultNextSvg {
   transform: none;
 }
 
-.game[data-workbench-type="circle-double-bridge"] .result-correct-art {
-  left: 62%;
-  top: 53%;
-  width: 15%;
-}
-
 .game[data-workbench-type="circle-double-bridge"] .result-retry-hitbox {
-  left: 64.5%;
-  top: 74.3%;
-  width: 28%;
-  height: 16.5%;
   overflow: hidden;
   border-radius: 999px;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .result-retry-hitbox .result-retry-art {
-  display: none !important;
+  display: block !important;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .reward-pop {
@@ -1375,7 +1366,7 @@
 
 @media (min-width: 981px) and (max-width: 1100px) {
   .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
-    --bridge-complete-height: 162px;
+    --bridge-complete-height: 154px;
     grid-template-rows: minmax(0, 1fr) 46px 146px;
   }
 

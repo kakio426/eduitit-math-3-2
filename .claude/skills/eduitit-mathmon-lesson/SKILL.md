@@ -405,6 +405,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 결과판은 배경 장면과 겹쳐도 장면의 빈 공간에 안정적으로 놓고, 테두리·그림자·안쪽 여백으로 하나의 물건처럼 보여야 한다. 단순히 절대 좌표로 글자·숫자·버튼만 띄워 놓는 방식은 금지한다.
 - 기준 차시가 있을 때는 결과 화면의 결속 구조를 먼저 비교한다. 예를 들어 `3-2-1-4-mathmon-fusion`처럼 왼쪽 완성 장면과 오른쪽 결과판이 역할을 나누는 구조는, 테마에 맞게 바꾸되 흩어진 UI보다 우선 검토한다.
 - 결과판 안에서도 시각 우선순위는 `결과명 → 정답 수 → 다시하기`다. 다음 목표는 보조 정보로만 두며, 결과명이나 다시하기보다 크거나 더 멀리 떨어져 보이면 실패다.
+- 최종 결과의 첫 번째 주인공은 누적값이나 결과판이 아니라 학생이 완성한 보상물·세계다. 새 결과 화면과 큰 수정은 `result-primary-reward-dominance-v1`을 선언하고, 전 단계에서 보상물 원본 경계의 Stage 폭 `60%` 이상, 결과판 폭 `38%` 이하, 결과판 시작점 `60%` 이후, 보상물/결과판 폭 비 `1.45` 이상을 하네스로 검사한다.
+- 점수·연료·힘 같은 내부 누적값은 계산 모델에 있어도 결과 화면에 자동 노출하지 않는다. 학습 결과 해석에 꼭 필요하다고 명시 승인한 값만 보이며, 그 외 값·막대 selector와 `다리 힘 70` 같은 문구는 `forbiddenVisibleSelectors`·`forbiddenVisibleTextPatterns`로 실제 computed style과 보이는 텍스트를 검사한다.
 - 최종 조립 QA에서는 결과명, 넓은 범위의 동적 값, 정답 수 이미지, 다시하기 버튼의 화면 중심값을 실제 rect로 잰다. 같은 세로 축을 쓰는 구조라면 가장 왼쪽 중심과 가장 오른쪽 중심의 차이가 Stage 폭의 `1.5%`를 넘으면 실패다.
 - 결과판 요소는 순서만 맞으면 통과가 아니다. 결과명→진행값, 진행값→정답 수, 정답 수→다시하기 사이의 실제 세로 간격이 보이고, 형제 rect 교차가 `0px`여야 한다. 결과 배경 속 주인공 장면을 가리거나 Stage 밖으로 나간 요소가 하나라도 있으면 실패다.
 - 독립 생성형 버튼 자산은 실제 배경과 다른 불투명 사각 캔버스를 품으면 실패다. 알파 채널 네 모서리, 투명 픽셀 비율, `naturalWidth/naturalHeight`, `object-fit: contain`을 확인하고, 보이는 버튼 아트 rect와 실제 hitbox의 네 변 차이를 각각 `1px` 이하로 맞춘다. CSS `border-radius`로 사각 배경을 가리는 것은 수정이 아니다.
@@ -412,6 +414,7 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 결과 단계가 여러 장이면 대표 한 장만 보지 않는다. 모든 결과 단계와 모든 `lesson.json > qa.viewports`에서 결속 축, 요소 간격, 버튼 알파, 숨김 SVG, 텍스트 넘침·요소 겹침을 전수 검사한다.
 - 사용자가 발견한 최종 결과 화면 크기는 이름 있는 회귀 viewport로 `lesson.json`에 남기고, 수정 전 캡처는 `_archive/`로 보존하며 수정 뒤 같은 상태 캡처를 다시 만든다.
 - 새 결과 화면과 큰 결과 수정은 `standards.resultPanelContainment="result-panel-containment-v2"`와 `qa.resultPanelContainmentAudit`를 반드시 선언한다. 래스터 판의 중심축만 재지 말고 `left/top/right/bottom`을 픽셀로 검출한 뒤 결과명·진행값·막대·정답 수·다음 목표·다시하기 아트와 hitbox의 실제 네 변이 안전 여백 안에 모두 들어오는지 검사한다. 세로 공간이 부족하면 CSS로 판을 덧대거나 글자를 줄이지 말고 결과 장면을 다시 생성한다. 결과 자산·`result/results` 변경은 `node scripts/check-result-panel-adoption.mjs origin/main`으로 설정 누락을 차단한다. 구현과 fixture는 `references/result-panel-contract.md`를 읽고 적용한다.
+- 같은 변경에서 `standards.resultRewardDominance="result-primary-reward-dominance-v1"`와 `qa.resultRewardDominanceAudit`도 필수다. 생성 자산 컨택시트에서 단계별 주 보상물 경계를 1280×800 원본 좌표로 기록하고, 브라우저 하네스가 실제 검출 결과판과 비교한다. `oversized-panel-tiny-reward`, `internal-metric-leak`, `reward-hidden-by-panel` fixture를 모두 통과해야 한다.
 
 ### 완성 장면 단계 대비와 고정 슬롯 계약
 

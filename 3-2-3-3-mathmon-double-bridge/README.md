@@ -27,8 +27,11 @@
 - 설명 2 배포본: `tutorial-page-2-v4-generated.webp`(1280×800)
 - 랜덤 보상: 닫힌 상자 1종과 사건별 열린 상태 6종, 모두 512×512
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과 상태 세트: 6장, 각 1280×800, 고정 제목과 `다시` 버튼 포함
-- 결과 컨택시트: `result-tiers-v2-contact-sheet.png`
+- 결과 상태 세트: 6장, 각 1280×800. 완성된 다리가 화면 왼쪽과 가운데를 크게 차지하고, 오른쪽에는 비어 있는 작은 결과판만 둔 완성 장면
+- 결과 제목 세트: 단계별 생성 이미지 6장. 결과판 안에서 정답 수·다음 목표·다시 버튼과 같은 축에 배치하며 내부 누적값과 진행 막대는 결과 화면에 표시하지 않음
+- 결과 행동: 공용 생성형 `다시` 버튼을 결과판 안의 시각 자산·hitbox 1:1 슬롯으로 배치
+- 결과 컨택시트: `result-tiers-v4-contact-sheet.png`, `result-titles-v3-contact-sheet.png`
+- 결과 보상물 우선: `result-primary-reward-dominance-v1`; 다리 폭 Stage 60% 이상, 결과판 폭 38% 이하, 결과판 시작 60% 이후, 다리/판 폭 비 1.45 이상, 내부 `다리 힘 N`·막대 노출 0건
 - 문제 화면 왼쪽 진행 보상: `play-bridge-v1-{log,small,bridge,big,grand,rainbow}-generated.webp` 6장, 각 768×1536, `object-fit: contain`
 - 진행 보상 생성 원본: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source`
 - 진행 보상 컨택시트: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png`
@@ -36,7 +39,7 @@
 - 원·중심·반지름·지름·다리 길이: SVG
 - 선택: 같은 좌표의 HTML 버튼과 접근성 이름
 
-문제 화면 왼쪽에는 현재 다리 한 장과 짧은 단계 이름, 다리 힘 막대만 둡니다. 학습 작업대는 Stage `left 22.5%`를 유지하고, 진행 패널은 `left 1.65% / top 11% / width 19.2% / height 84%`의 고정 좌표를 씁니다. 두 영역은 서로 겹치지 않습니다.
+문제 화면 왼쪽에는 현재 다리 한 장과 짧은 단계 이름, 다리 힘 막대만 둡니다. 진행 패널은 Stage `left 2.5% / top 11% / width 24.5% / height 84%`의 고정 좌표를 쓰며 학습 작업대와 서로 겹치지 않습니다.
 
 ## 보상
 
@@ -50,6 +53,7 @@
 - 진행 보상 표준: `stage-left-play-progress-v1`; 패널 네 변 오차 1px 이하, 학습 영역 교차 0px, 수달몬 전신 잘림 0건
 - 보상 뒤 전환: `modal-dismiss-world-impact-v2`; 모달 닫힘 → 320ms → 진행 이미지 교체와 1560ms 효과 → 다음 문제
 - 정답 확인 효과: `bridge-answer-lock-effect-v1`; 고른 답·원 관계·문제판을 680ms 동안 약하게 빛낸 뒤 완성식과 `점수 보기`를 표시
+- 결과 회귀 fixture: `node scripts/test-result-reward-dominance.mjs`; 큰 판·작은 다리, 내부 누적값 노출, 판의 다리 가림을 자동 실패
 - 작업 영역 최소 폭: Stage의 65%. 최신 실제 측정은 세 QA 화면 모두 69.00%
 - 읽기·조작 최소값: 설정 42×42px, 배지 14px, 문제 수 16.8px, 지시문·선택지 글자 18px, 패널 간격 8px
 - 대표 오개념: 두 배를 하지 않음·하나 짧음·너무 김, 반으로 나누지 않음·너무 김·너무 짧음
@@ -67,6 +71,6 @@
 
 ## 검증 화면
 
-`screenshots/engine-flow-{desktop,tablet-landscape,codex-in-app}-*.png`에 1280×800, 1024×768, 1280×720의 첫 화면, 설정, 방법 보기, 문제 대기, 짧은 오답, 긴 오답, 정답 확인, 닫힌/열린 보상, 결과 화면이 있습니다.
+`screenshots/engine-flow-{desktop,tablet-landscape,user-reported-missing-left-progress-1082x987-dpr2}-*.png`에 1280×800, 1024×768, 1082×987 DPR 2의 첫 화면, 설정, 방법 보기, 문제 대기, 오답, 정답 확인, 닫힌/열린 보상, 결과 화면이 있습니다.
 
 추가 계약 검사는 `node scripts/check-lesson-visual-contract.mjs`로 실행합니다.

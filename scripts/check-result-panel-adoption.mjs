@@ -6,7 +6,8 @@ import path from "node:path";
 import process from "node:process";
 
 const ROOT = process.cwd();
-const STANDARD = "result-panel-containment-v2";
+const PANEL_STANDARD = "result-panel-containment-v2";
+const DOMINANCE_STANDARD = "result-primary-reward-dominance-v1";
 const baseRef = process.argv[2] || process.env.MATHMON_CHANGED_BASE || "origin/main";
 
 function git(args, options = {}) {
@@ -41,6 +42,8 @@ function resultContractChanged(file) {
     results: config.results,
     standard: config.standards?.resultPanelContainment,
     audit: config.qa?.resultPanelContainmentAudit,
+    dominanceStandard: config.standards?.resultRewardDominance,
+    dominanceAudit: config.qa?.resultRewardDominanceAudit,
   });
   return JSON.stringify(pickResultContract(before))
     === JSON.stringify(pickResultContract(after)) ? null : lesson;
@@ -68,9 +71,13 @@ for (const file of changedFiles) {
 const failures = [];
 for (const lesson of [...lessons].sort()) {
   const config = JSON.parse(await readFile(path.join(ROOT, "_lessons", lesson, "lesson.json"), "utf8"));
-  if (config.standards?.resultPanelContainment !== STANDARD
-    || config.qa?.resultPanelContainmentAudit?.standard !== STANDARD) {
-    failures.push(`${lesson}: changed result assets/config must adopt ${STANDARD}`);
+  if (config.standards?.resultPanelContainment !== PANEL_STANDARD
+    || config.qa?.resultPanelContainmentAudit?.standard !== PANEL_STANDARD) {
+    failures.push(`${lesson}: changed result assets/config must adopt ${PANEL_STANDARD}`);
+  }
+  if (config.standards?.resultRewardDominance !== DOMINANCE_STANDARD
+    || config.qa?.resultRewardDominanceAudit?.standard !== DOMINANCE_STANDARD) {
+    failures.push(`${lesson}: changed result assets/config must adopt ${DOMINANCE_STANDARD}`);
   }
 }
 

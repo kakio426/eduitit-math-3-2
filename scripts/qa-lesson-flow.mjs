@@ -9,6 +9,7 @@ import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
+import { validateResultRewardDominance } from "./lib/result-reward-dominance.mjs";
 
 const ROOT = process.cwd();
 const SOURCE_ROOT = path.join(ROOT, "_lessons");
@@ -1620,7 +1621,7 @@ async function auditConfiguredResultCohesionV2(page, label) {
   assert(audit.stage && audit.axisRects.length === audit.config.axisNodes.length, `${label}: result cohesion nodes are missing`, audit);
   assert(audit.axisSpread <= audit.allowedAxisSpread, `${label}: result dynamic elements left their shared axis`, audit);
   assert(audit.overlaps.length === 0, `${label}: adjacent result elements overlap`, audit);
-  if (audit.titleOpaqueBottom !== null) {
+  if (audit.titleOpaqueBottom !== null && audit.titleTrackGap !== null) {
     assert(
       audit.titleTrackGap >= Number(audit.config.minimumVisibleGapPx || 0),
       `${label}: visible title art overlaps or crowds the progress track`,
@@ -2015,6 +2016,97 @@ async function auditRuntimeBuildMetadata(page, lesson, label) {
   assert(acceptedCommitShas.includes(runtime?.commitSha), `${label}: stale runtime commit SHA`, { runtime, acceptedCommitShas });
   assert(runtime?.lessonJsonSha === expectedLessonJsonSha, `${label}: stale runtime lesson.json SHA`, { runtime, expectedLessonJsonSha });
   return runtime;
+}
+
+async function auditConfiguredResultRewardDominance(page, label) {
+  const panelAudit = await auditConfiguredResultPanelContainment(page, `${label} panel prerequisite`);
+  const audit = await evaluate(page, `(() => {
+    const config = LESSON_CONFIG.qa?.resultRewardDominanceAudit;
+    if (!config) return null;
+    const resultScreen = document.getElementById('screen-result');
+    const scene = document.querySelector(config.sceneImage || '#resultBg');
+    const isVisible = (node) => {
+      if (!node) return false;
+      const style = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return !node.hidden && !node.hasAttribute('hidden')
+        && style.display !== 'none' && style.visibility !== 'hidden'
+        && Number(style.opacity || 0) > 0 && rect.width > 0 && rect.height > 0;
+    };
+    const forbiddenVisibleSelectors = (config.forbiddenVisibleSelectors || [])
+      .filter((selector) => isVisible(document.querySelector(selector)));
+    const visibleText = resultScreen?.innerText || '';
+    const forbiddenVisibleText = (config.forbiddenVisibleTextPatterns || [])
+      .filter((pattern) => new RegExp(pattern, 'u').test(visibleText));
+    const visibleInformationSelectors = (config.informationSelectors || [])
+      .filter((selector) => isVisible(document.querySelector(selector)));
+    const tier = resultScreen?.dataset.resultTier || '';
+    return {
+      config,
+      tier,
+      reward:config.primaryRewardBoundsByTier?.[tier] || null,
+      natural:{ width:scene?.naturalWidth || 0, height:scene?.naturalHeight || 0 },
+      forbiddenVisibleSelectors,
+      forbiddenVisibleText,
+      visibleInformationSelectors,
+      visibleText
+    };
+  })()`);
+  if (!audit) return null;
+  assert(audit.config.standard === "result-primary-reward-dominance-v1", `${label}: result reward dominance standard is wrong`, audit);
+  assert(audit.reward && audit.natural.width === 1280 && audit.natural.height === 800, `${label}: result reward source rect or scene is invalid`, audit);
+  const thresholds = Object.fromEntries([
+    "minimumPrimaryRewardWidthRatio",
+    "minimumPrimaryRewardAreaRatio",
+    "minimumRewardRightEdgeRatio",
+    "minimumPanelLeftRatio",
+    "maximumPanelWidthRatio",
+    "maximumPanelAreaRatio",
+    "minimumRewardToPanelWidthRatio",
+    "maximumRewardPanelOverlapRatio",
+    "maximumVisibleInformationNodes",
+  ].map((key) => [key, Number(audit.config[key])]));
+  const result = validateResultRewardDominance({
+    canvas:audit.natural,
+    reward:audit.reward,
+    panel:panelAudit.panelSource,
+    thresholds,
+    forbiddenVisibleSelectors:audit.forbiddenVisibleSelectors,
+    forbiddenVisibleText:audit.forbiddenVisibleText,
+    visibleInformationCount:audit.visibleInformationSelectors.length,
+  });
+  assert(result.failures.length === 0, `${label}: primary reward/result panel dominance violations`, { audit, panel:panelAudit.panelSource, result });
+  console.log(`RESULT_REWARD_DOMINANCE ${label}: ${JSON.stringify({ tier:audit.tier, ...result.measurements })}`);
+  return { audit, panel:panelAudit.panelSource, result };
+}
+
+async function auditAllConfiguredResultRewardDominanceTiers(page, lesson, viewport, shots) {
+  const tiers = await evaluate(page, `(() => {
+    if (LESSON_CONFIG.qa?.resultRewardDominanceAudit?.standard !== 'result-primary-reward-dominance-v1') return [];
+    return LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      power:Number(result.minPower || 0),
+      correct:Number(result.minCorrect || 0),
+      special:Boolean(result.needsSpecial)
+    }));
+  })()`);
+  for (const tier of tiers) {
+    await evaluate(page, `(() => {
+      window.__mathmonEngineQa.setState({
+        power:${tier.power},
+        correctFirstTry:${tier.correct},
+        specialSeen:${tier.special},
+        currentResult:null
+      });
+      window.__mathmonEngineQa.showResult();
+    })()`);
+    await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
+      && document.getElementById('resultBg')?.complete
+      && document.getElementById('resultBg')?.naturalWidth === 1280`, `${viewport.name}: result reward dominance tier ${tier.id} did not render`);
+    await auditConfiguredResultRewardDominance(page, `${viewport.name} result reward dominance ${tier.id}`);
+    shots.push(await screenshot(page, lesson, viewport, `08e-result-reward-dominance-${tier.id}`));
+  }
+  return tiers;
 }
 
 async function auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots) {
@@ -5690,6 +5782,8 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await auditConfiguredResultNextGoal(page, `${viewport.name} result next goal`);
   await auditConfiguredResultCohesionV2(page, `${viewport.name} result cohesion v2`);
   await auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots);
+  await auditAllConfiguredResultPanelTiers(page, lesson, viewport, shots);
+  await auditAllConfiguredResultRewardDominanceTiers(page, lesson, viewport, shots);
 
   const hasFullsceneVisualAudit = await evaluate(
     page,
