@@ -191,8 +191,8 @@
 - 로컬 실행에 필요한 파일이 Git 추적 밖에 있으면 배포 준비 완료로 판정하지 않습니다. 커밋·푸시 전에는 `index.html`과 차시 설정이 참조하는 모든 런타임 자산이 `git ls-files`에 포함되는지 차시 폴더와 `_lessons/` 원본 양쪽에서 확인합니다.
 - 현재 흐름과 맞지 않는 예전 스크린샷·전용 QA·문서는 현재 증거와 섞어 두지 않습니다. 삭제하지 말고 `_archive/`로 옮겨 날짜나 버전을 남깁니다.
 - 대형 화면 변경 뒤에는 `lesson.json > qa.viewports`의 모든 화면 크기에서 시작·설정·설명·문제 대기·오답/오개념·정답 확인·닫힌/열린 보상·모달 뒤 변화·실제 결과·유한 결과 전 단계를 현재 코드로 다시 캡처합니다. 대표 몇 장만 새로 찍어 이전 화면군과 섞으면 실패입니다.
-- `REPORT.md`의 최신 화면 절은 데스크톱 개별 캡처마다 학생이 보는 것, 판단하는 것, 확인되는 수학 관계, 다음 상태로 넘어가는 이유를 설명합니다. 나머지 등록 viewport도 같은 상태를 모두 담은 컨택시트를 포함합니다.
-- `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`로 viewport별 컨택시트와 현재 `index.html`·원본 캡처 SHA-256 manifest를 만들고, `node scripts/check-lesson-report-evidence.mjs <lesson-folder>`로 모든 viewport·필수 상태·결과 단계·보고서 연결이 최신인지 검사합니다.
+- `REPORT.md`의 최신 화면 절은 `report-evidence-manifest.json`에 기록된 모든 viewport의 모든 원본 캡처를 한 장씩 직접 삽입하고, 각 캡처마다 학생이 보는 것, 판단하는 것, 확인되는 수학 관계, 다음 상태로 넘어가는 이유를 설명합니다. 원본 PNG도 Git에 포함해 GitHub REPORT에서 실제로 보여야 하며, 컨택시트는 전수 비교용 보조 증거일 뿐 원본 캡처 삽입을 대신하지 못합니다.
+- `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`로 viewport별 컨택시트와 현재 `index.html`·원본 캡처 SHA-256 manifest를 만들고, `node scripts/sync-lesson-report-evidence.mjs <lesson-folder>`로 manifest의 원본 캡처 전부와 네 가지 설명을 REPORT에 동기화합니다. 마지막에 `node scripts/check-lesson-report-evidence.mjs <lesson-folder>`로 모든 viewport·필수 상태·결과 단계·원본 캡처·설명·보고서 연결이 최신인지 검사합니다.
 - 차시 폴더의 `BENCHMARK_AUDIT.md` 또는 같은 목적의 문서에 비교 기준, 현재 증거, 판정, 우선순위, 다음 행동을 남깁니다. 판정은 `통과`, `일부 통과`, `부족`, `선택`으로 나눕니다.
 - 학생에게 잘못된 수학 관계를 보여 주거나 배움이 일어나지 않는 문제는 `P0`, 현재 증거·오답 피드백·재도전 동기를 크게 떨어뜨리는 문제는 `P1`, 완성도 향상이나 선택 기능은 `P2`로 둡니다.
 - 전국 순위처럼 백엔드 계약이 필요하거나 문제 화면을 더 복잡하게 할 수 있는 선택 기능은 구현자가 임의로 넣지 않고 사용자에게 결정받습니다.

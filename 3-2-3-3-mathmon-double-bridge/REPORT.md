@@ -275,3 +275,2235 @@
 - 텍스트 넘침·요소 겹침 QA: `1280×800`, `1024×768`, `1079×929`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 결과 6단계를 모두 다시 캡처했습니다. 제목·정답 수·안내·다시 버튼의 판 이탈, 형제 교차, 이미지 누락은 모두 `0건`입니다.
 - Humanizer 학생 문구 QA: 새 문구는 추가하지 않았고, 기존 `다음엔 …`, `최고 단계예요!`, `다시`는 한 행동만 짧게 말하며 번역투·어려운 한자어·뜻 반복이 없습니다. 자연도 A, 의미 변경 `0건`입니다.
 - 검증: `node scripts/qa-engine-unit3-double-bridge-source.mjs`, `node scripts/check-lesson-visual-contract.mjs 3-2-3-3-mathmon-double-bridge`, `node scripts/check-stage-ratio.mjs`, `node scripts/test-result-panel-containment.mjs`, `node scripts/test-result-reward-dominance.mjs`, `node scripts/check-result-panel-adoption.mjs origin/main`, `node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` 모두 PASS입니다.
+
+## 2026-08-04 Orca 최종 동기화·최신 전체 화면 증거
+
+- 캡처 기준은 `origin/main`과 동일한 커밋 `74ca29582208e7c3a52f1a8cdd38fb0499e599b8`입니다. 빌드 뒤 `index.html` SHA-256은 `6d413601e5399fb7172ab584975c1e1ca83996de824b8ff8527e1aa4fbdbc5e4`입니다.
+- `lesson.json > qa.viewports`의 6개 화면 크기에서 전체 흐름을 다시 실행해 총 230장을 캡처했습니다. 시작·설정·설명 2장·문제 대기·오답 6종·정답 확인·완료·닫힌/열린 보상·단계 상승 효과·결과 6단계를 같은 빌드로 확인했습니다.
+- `1280×800`, `1024×768`, `1079×929`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 텍스트 넘침, 요소 교차, 이미지 누락, Stage 이탈은 모두 `0건`입니다.
+- 문제 화면의 갈색 빈 계산판 띠는 보이지 않고, 문제판 아래에 네 선택지가 바로 이어집니다. 1079×929에서 보기 패널 높이는 `204px`, 보기 한 칸 높이는 `81px`입니다.
+- 결과 6단계에서 다리 폭은 Stage의 `64.06~66.41%`, 결과판 폭은 `27.81%`, 다리/결과판 폭 비는 `2.30~2.39`, 다리와 결과판 교차는 `0%`입니다. 결과판의 제목·정답 수·다음 안내·`다시` 버튼은 모두 판 안에 들어갑니다.
+
+### 시작
+
+![시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, `시작` 버튼입니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 `시작`을 누릅니다.
+- 화면에서 확인되는 수학 관계: 한 줄 목표에서 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 봅니다.
+- 다음 상태로 넘어가는 이유: 문제를 풀기 전에 다리를 잇는 방법을 확인하기 위해 설명 1로 이동합니다.
+
+### 설정
+
+![설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리, 방법 다시 보기, 처음부터, 닫기입니다.
+- 판단하거나 누르는 것: 필요한 소리와 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 계산 내용을 바꾸지 않는 전역 조작만 모달 안에 모여 있습니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 원래 화면으로 돌아갑니다.
+
+### 설명
+
+![설명 1](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 반지름 `3 cm + 3 cm = 6 cm`와 두 다리 조각이 이어지는 장면입니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 `다음`을 누릅니다.
+- 화면에서 확인되는 수학 관계: `반지름 + 반지름 = 지름`입니다.
+- 다음 상태로 넘어가는 이유: 풀이 방법을 확인했으므로 보상 목표를 보기 위해 설명 2로 이동합니다.
+
+![설명 2](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막에 완성한 다리를 보는 흐름입니다.
+- 판단하거나 누르는 것: 게임의 목표를 확인하고 `문제 시작`을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어집니다.
+- 다음 상태로 넘어가는 이유: 방법과 목표를 모두 확인했으므로 첫 문제로 이동합니다.
+
+### 문제
+
+![문제 대기](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽의 현재 다리, 오른쪽의 원과 길이 관계, 바로 아래의 네 선택지입니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반입니다.
+- 다음 상태로 넘어가는 이유: 고른 값이 관계에 맞는지 확인하기 위해 오답 또는 정답 확인 상태로 이동합니다.
+
+![대표 오답](screenshots/engine-flow-desktop-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 식입니다.
+- 판단하거나 누르는 것: 짧거나 긴 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 `≠`로 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞지 않으므로 같은 문제에서 다시 판단합니다.
+
+![정답 확인](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이, 완성식, `점수 보기` 버튼입니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 아직 공개되지 않은 점수를 보기 위해 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: `반지름 + 반지름 = 지름` 또는 `지름 ÷ 2 = 반지름`이 완성됩니다.
+- 다음 상태로 넘어가는 이유: 수학 관계 확인이 끝났으므로 랜덤 보상으로 이동합니다.
+
+### 보상
+
+![닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 보이지 않는 닫힌 보상 그림과 `열기` 버튼입니다.
+- 판단하거나 누르는 것: 보상 결과를 확인하기 위해 `열기`를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면은 정답 확인 상태로 유지되어 방금 완성한 관계가 먼저 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 열기를 선택한 뒤에만 이번 점수가 공개됩니다.
+
+![열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 사건 그림과 `뚝딱뚝딱 점수 ±값`, `다음` 버튼입니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음 문제로 갈지 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 확인과 랜덤 점수는 분리되어 계산은 예측 가능하고 보상은 예측 불가능합니다.
+- 다음 상태로 넘어가는 이유: 보상을 한 번 확인한 뒤 모달을 닫고 다리의 실제 변화를 봅니다.
+
+![단계 상승 효과](screenshots/engine-flow-desktop-07c-reward-impact.png)
+
+- 학생이 보는 것: 모달이 닫힌 뒤 왼쪽 다리가 바뀌고 Stage에 번지는 단계 상승 효과입니다.
+- 판단하거나 누르는 것: 별도 입력 없이 점수가 다리 세계를 바꾸는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 방금 문제의 결과가 현재 다리 단계에 한 번만 반영됩니다.
+- 다음 상태로 넘어가는 이유: 최소 확인 시간이 끝난 뒤에만 다음 문제 또는 결과로 이동합니다.
+
+### 결과
+
+![결과 화면](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 큰 `다시` 버튼입니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: `다시`를 누르면 새 문제 순서와 새 보상 흐름으로 재도전합니다.
+
+### 화면 크기별 전체 상태
+
+#### 1280×800 · DPR 1 · 39장
+
+![데스크톱 전체 화면 증거](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 1024×768 · DPR 1 · 39장
+
+![태블릿 가로 전체 화면 증거](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 1079×929 · DPR 1 · 36장
+
+![사용자 피드백 화면 전체 증거](screenshots/report-flow-user-feedback-reward-1079x929-contact-sheet.png)
+
+#### 1280×720 · DPR 2 · 39장
+
+![인앱 브라우저 전체 화면 증거](screenshots/report-flow-codex-in-app-contact-sheet.png)
+
+#### 994×632 · DPR 1 · 39장
+
+![문제 가독성 회귀 전체 증거](screenshots/report-flow-user-visibility-994x632-contact-sheet.png)
+
+#### 1082×987 · DPR 2 · 38장
+
+![왼쪽 진행 패널 회귀 전체 증거](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
+
+- 현재 실행본 해시, 각 원본 캡처 해시, viewport·DPR·파일 목록은 `screenshots/report-evidence-manifest.json`에 기록했습니다.
+- 학생에게 보이는 새 문구는 추가하지 않았습니다. 기존 문구의 Humanizer 자연도 A와 의미 보존 상태를 유지합니다.
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `6d413601e5399fb7172ab584975c1e1ca83996de824b8ff8527e1aa4fbdbc5e4`
+- 생성 시각: `2026-08-04T12:10:47.471Z`
+- 등록 화면 크기: `6개`
+- 아래에 직접 삽입한 원본 캡처: `230장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 39장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
+- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
+- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
+
+#### 문제 대기 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 대기](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 선택 효과 · `engine-flow-desktop-05c-correct-effect.png`
+
+![desktop 정답 선택 효과](screenshots/engine-flow-desktop-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
+- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
+
+#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-desktop-05m-p1-diameter-not-doubled.png`
+
+![desktop 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-desktop-05m-p1-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-desktop-05m-p1-diameter-one-short.png`
+
+![desktop 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-desktop-05m-p1-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-desktop-05m-p1-diameter-too-long.png`
+
+![desktop 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p1-diameter-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-desktop-05m-p2-radius-not-halved.png`
+
+![desktop 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-desktop-05m-p2-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-desktop-05m-p2-radius-too-long.png`
+
+![desktop 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p2-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-desktop-05m-p2-radius-too-short.png`
+
+![desktop 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-desktop-05m-p2-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-desktop-05m-p3-radius-not-halved.png`
+
+![desktop 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-desktop-05m-p3-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-desktop-05m-p3-radius-too-long.png`
+
+![desktop 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p3-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-desktop-05m-p3-radius-too-short.png`
+
+![desktop 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-desktop-05m-p3-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 대표 오답 · `engine-flow-desktop-05b-play-wrong.png`
+
+![desktop 대표 오답](screenshots/engine-flow-desktop-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
+- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
+
+#### 정답 확인 · `engine-flow-desktop-06-confirm.png`
+
+![desktop 정답 확인](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이와 완성식, 점수 보기 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 점수 보기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 또는 지름 ÷ 2 = 반지름을 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 닫힌 보상으로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 반지름·지름 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
+
+#### 모달 종료 뒤 다리 변화 · `engine-flow-desktop-07c-reward-impact.png`
+
+![desktop 모달 종료 뒤 다리 변화](screenshots/engine-flow-desktop-07c-reward-impact.png)
+
+- 학생이 보는 것: 모달이 닫힌 뒤 왼쪽 다리가 바뀌고 Stage에 번지는 빛 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 다리 단계를 바꾸는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 다리 단계에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · 큰 다리 · `engine-flow-desktop-08c-result-cohesion-big.png`
+
+![desktop 결과 결속 · 큰 다리](screenshots/engine-flow-desktop-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 튼튼한 다리 · `engine-flow-desktop-08c-result-cohesion-bridge.png`
+
+![desktop 결과 결속 · 튼튼한 다리](screenshots/engine-flow-desktop-08c-result-cohesion-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 황금 다리 · `engine-flow-desktop-08c-result-cohesion-grand.png`
+
+![desktop 결과 결속 · 황금 다리](screenshots/engine-flow-desktop-08c-result-cohesion-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 외나무다리 · `engine-flow-desktop-08c-result-cohesion-log.png`
+
+![desktop 결과 결속 · 외나무다리](screenshots/engine-flow-desktop-08c-result-cohesion-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 무지개 다리 · `engine-flow-desktop-08c-result-cohesion-rainbow.png`
+
+![desktop 결과 결속 · 무지개 다리](screenshots/engine-flow-desktop-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 작은 다리 · `engine-flow-desktop-08c-result-cohesion-small.png`
+
+![desktop 결과 결속 · 작은 다리](screenshots/engine-flow-desktop-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 큰 다리 · `engine-flow-desktop-08d-result-panel-big.png`
+
+![desktop 결과판 포함 · 큰 다리](screenshots/engine-flow-desktop-08d-result-panel-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 튼튼한 다리 · `engine-flow-desktop-08d-result-panel-bridge.png`
+
+![desktop 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-desktop-08d-result-panel-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 황금 다리 · `engine-flow-desktop-08d-result-panel-grand.png`
+
+![desktop 결과판 포함 · 황금 다리](screenshots/engine-flow-desktop-08d-result-panel-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 외나무다리 · `engine-flow-desktop-08d-result-panel-log.png`
+
+![desktop 결과판 포함 · 외나무다리](screenshots/engine-flow-desktop-08d-result-panel-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 무지개 다리 · `engine-flow-desktop-08d-result-panel-rainbow.png`
+
+![desktop 결과판 포함 · 무지개 다리](screenshots/engine-flow-desktop-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 작은 다리 · `engine-flow-desktop-08d-result-panel-small.png`
+
+![desktop 결과판 포함 · 작은 다리](screenshots/engine-flow-desktop-08d-result-panel-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 큰 다리 · `engine-flow-desktop-08e-result-reward-dominance-big.png`
+
+![desktop 다리 보상 우선 · 큰 다리](screenshots/engine-flow-desktop-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-desktop-08e-result-reward-dominance-bridge.png`
+
+![desktop 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-desktop-08e-result-reward-dominance-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 황금 다리 · `engine-flow-desktop-08e-result-reward-dominance-grand.png`
+
+![desktop 다리 보상 우선 · 황금 다리](screenshots/engine-flow-desktop-08e-result-reward-dominance-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 외나무다리 · `engine-flow-desktop-08e-result-reward-dominance-log.png`
+
+![desktop 다리 보상 우선 · 외나무다리](screenshots/engine-flow-desktop-08e-result-reward-dominance-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 무지개 다리 · `engine-flow-desktop-08e-result-reward-dominance-rainbow.png`
+
+![desktop 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-desktop-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 작은 다리 · `engine-flow-desktop-08e-result-reward-dominance-small.png`
+
+![desktop 다리 보상 우선 · 작은 다리](screenshots/engine-flow-desktop-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 39장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
+- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
+- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
+
+#### 문제 대기 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 대기](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 선택 효과 · `engine-flow-tablet-landscape-05c-correct-effect.png`
+
+![tablet-landscape 정답 선택 효과](screenshots/engine-flow-tablet-landscape-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
+- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
+
+#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-tablet-landscape-05m-p1-diameter-not-doubled.png`
+
+![tablet-landscape 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p1-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-tablet-landscape-05m-p1-diameter-one-short.png`
+
+![tablet-landscape 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p1-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p1-diameter-too-long.png`
+
+![tablet-landscape 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p1-diameter-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-tablet-landscape-05m-p2-radius-not-halved.png`
+
+![tablet-landscape 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p2-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p2-radius-too-long.png`
+
+![tablet-landscape 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p2-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-tablet-landscape-05m-p2-radius-too-short.png`
+
+![tablet-landscape 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p2-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-tablet-landscape-05m-p3-radius-not-halved.png`
+
+![tablet-landscape 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p3-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p3-radius-too-long.png`
+
+![tablet-landscape 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p3-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-tablet-landscape-05m-p3-radius-too-short.png`
+
+![tablet-landscape 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p3-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 대표 오답 · `engine-flow-tablet-landscape-05b-play-wrong.png`
+
+![tablet-landscape 대표 오답](screenshots/engine-flow-tablet-landscape-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
+- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
+
+#### 정답 확인 · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 정답 확인](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이와 완성식, 점수 보기 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 점수 보기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 또는 지름 ÷ 2 = 반지름을 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 닫힌 보상으로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 반지름·지름 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
+
+#### 모달 종료 뒤 다리 변화 · `engine-flow-tablet-landscape-07c-reward-impact.png`
+
+![tablet-landscape 모달 종료 뒤 다리 변화](screenshots/engine-flow-tablet-landscape-07c-reward-impact.png)
+
+- 학생이 보는 것: 모달이 닫힌 뒤 왼쪽 다리가 바뀌고 Stage에 번지는 빛 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 다리 단계를 바꾸는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 다리 단계에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · 큰 다리 · `engine-flow-tablet-landscape-08c-result-cohesion-big.png`
+
+![tablet-landscape 결과 결속 · 큰 다리](screenshots/engine-flow-tablet-landscape-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 튼튼한 다리 · `engine-flow-tablet-landscape-08c-result-cohesion-bridge.png`
+
+![tablet-landscape 결과 결속 · 튼튼한 다리](screenshots/engine-flow-tablet-landscape-08c-result-cohesion-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 황금 다리 · `engine-flow-tablet-landscape-08c-result-cohesion-grand.png`
+
+![tablet-landscape 결과 결속 · 황금 다리](screenshots/engine-flow-tablet-landscape-08c-result-cohesion-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 외나무다리 · `engine-flow-tablet-landscape-08c-result-cohesion-log.png`
+
+![tablet-landscape 결과 결속 · 외나무다리](screenshots/engine-flow-tablet-landscape-08c-result-cohesion-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 무지개 다리 · `engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png`
+
+![tablet-landscape 결과 결속 · 무지개 다리](screenshots/engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 작은 다리 · `engine-flow-tablet-landscape-08c-result-cohesion-small.png`
+
+![tablet-landscape 결과 결속 · 작은 다리](screenshots/engine-flow-tablet-landscape-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 큰 다리 · `engine-flow-tablet-landscape-08d-result-panel-big.png`
+
+![tablet-landscape 결과판 포함 · 큰 다리](screenshots/engine-flow-tablet-landscape-08d-result-panel-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 튼튼한 다리 · `engine-flow-tablet-landscape-08d-result-panel-bridge.png`
+
+![tablet-landscape 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-tablet-landscape-08d-result-panel-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 황금 다리 · `engine-flow-tablet-landscape-08d-result-panel-grand.png`
+
+![tablet-landscape 결과판 포함 · 황금 다리](screenshots/engine-flow-tablet-landscape-08d-result-panel-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 외나무다리 · `engine-flow-tablet-landscape-08d-result-panel-log.png`
+
+![tablet-landscape 결과판 포함 · 외나무다리](screenshots/engine-flow-tablet-landscape-08d-result-panel-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 무지개 다리 · `engine-flow-tablet-landscape-08d-result-panel-rainbow.png`
+
+![tablet-landscape 결과판 포함 · 무지개 다리](screenshots/engine-flow-tablet-landscape-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 작은 다리 · `engine-flow-tablet-landscape-08d-result-panel-small.png`
+
+![tablet-landscape 결과판 포함 · 작은 다리](screenshots/engine-flow-tablet-landscape-08d-result-panel-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 큰 다리 · `engine-flow-tablet-landscape-08e-result-reward-dominance-big.png`
+
+![tablet-landscape 다리 보상 우선 · 큰 다리](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-tablet-landscape-08e-result-reward-dominance-bridge.png`
+
+![tablet-landscape 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 황금 다리 · `engine-flow-tablet-landscape-08e-result-reward-dominance-grand.png`
+
+![tablet-landscape 다리 보상 우선 · 황금 다리](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 외나무다리 · `engine-flow-tablet-landscape-08e-result-reward-dominance-log.png`
+
+![tablet-landscape 다리 보상 우선 · 외나무다리](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 무지개 다리 · `engine-flow-tablet-landscape-08e-result-reward-dominance-rainbow.png`
+
+![tablet-landscape 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 작은 다리 · `engine-flow-tablet-landscape-08e-result-reward-dominance-small.png`
+
+![tablet-landscape 다리 보상 우선 · 작은 다리](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+### user-feedback-reward-1079x929 · 1079×929 · DPR 1 · 36장
+
+![user-feedback-reward-1079x929 전체 상태 컨택시트](screenshots/report-flow-user-feedback-reward-1079x929-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-feedback-reward-1079x929-01-cover.png`
+
+![user-feedback-reward-1079x929 시작 화면](screenshots/engine-flow-user-feedback-reward-1079x929-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
+- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-feedback-reward-1079x929-02-settings.png`
+
+![user-feedback-reward-1079x929 설정 화면](screenshots/engine-flow-user-feedback-reward-1079x929-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-feedback-reward-1079x929-03-tutorial-1.png`
+
+![user-feedback-reward-1079x929 설명 1 · 풀이 방법](screenshots/engine-flow-user-feedback-reward-1079x929-03-tutorial-1.png)
+
+- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-feedback-reward-1079x929-04-tutorial-2.png`
+
+![user-feedback-reward-1079x929 설명 2 · 보상과 목표](screenshots/engine-flow-user-feedback-reward-1079x929-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
+- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
+
+#### 문제 대기 · `engine-flow-user-feedback-reward-1079x929-05-play-step1.png`
+
+![user-feedback-reward-1079x929 문제 대기](screenshots/engine-flow-user-feedback-reward-1079x929-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 선택 효과 · `engine-flow-user-feedback-reward-1079x929-05c-correct-effect.png`
+
+![user-feedback-reward-1079x929 정답 선택 효과](screenshots/engine-flow-user-feedback-reward-1079x929-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
+- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
+
+#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-not-doubled.png`
+
+![user-feedback-reward-1079x929 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-one-short.png`
+
+![user-feedback-reward-1079x929 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-too-long.png`
+
+![user-feedback-reward-1079x929 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p3-radius-not-halved.png`
+
+![user-feedback-reward-1079x929 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p3-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-long.png`
+
+![user-feedback-reward-1079x929 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-short.png`
+
+![user-feedback-reward-1079x929 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 대표 오답 · `engine-flow-user-feedback-reward-1079x929-05b-play-wrong.png`
+
+![user-feedback-reward-1079x929 대표 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
+- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
+
+#### 정답 확인 · `engine-flow-user-feedback-reward-1079x929-06-confirm.png`
+
+![user-feedback-reward-1079x929 정답 확인](screenshots/engine-flow-user-feedback-reward-1079x929-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이와 완성식, 점수 보기 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 점수 보기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 또는 지름 ÷ 2 = 반지름을 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 닫힌 보상으로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-feedback-reward-1079x929-07-reward-closed.png`
+
+![user-feedback-reward-1079x929 닫힌 보상](screenshots/engine-flow-user-feedback-reward-1079x929-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 반지름·지름 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-feedback-reward-1079x929-07b-reward-open.png`
+
+![user-feedback-reward-1079x929 열린 보상](screenshots/engine-flow-user-feedback-reward-1079x929-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
+
+#### 모달 종료 뒤 다리 변화 · `engine-flow-user-feedback-reward-1079x929-07c-reward-impact.png`
+
+![user-feedback-reward-1079x929 모달 종료 뒤 다리 변화](screenshots/engine-flow-user-feedback-reward-1079x929-07c-reward-impact.png)
+
+- 학생이 보는 것: 모달이 닫힌 뒤 왼쪽 다리가 바뀌고 Stage에 번지는 빛 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 다리 단계를 바꾸는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 다리 단계에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-feedback-reward-1079x929-08-result.png`
+
+![user-feedback-reward-1079x929 실제 결과](screenshots/engine-flow-user-feedback-reward-1079x929-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · 큰 다리 · `engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-big.png`
+
+![user-feedback-reward-1079x929 결과 결속 · 큰 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 튼튼한 다리 · `engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-bridge.png`
+
+![user-feedback-reward-1079x929 결과 결속 · 튼튼한 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 황금 다리 · `engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-grand.png`
+
+![user-feedback-reward-1079x929 결과 결속 · 황금 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 외나무다리 · `engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-log.png`
+
+![user-feedback-reward-1079x929 결과 결속 · 외나무다리](screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 무지개 다리 · `engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-rainbow.png`
+
+![user-feedback-reward-1079x929 결과 결속 · 무지개 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 작은 다리 · `engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-small.png`
+
+![user-feedback-reward-1079x929 결과 결속 · 작은 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 큰 다리 · `engine-flow-user-feedback-reward-1079x929-08d-result-panel-big.png`
+
+![user-feedback-reward-1079x929 결과판 포함 · 큰 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08d-result-panel-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 튼튼한 다리 · `engine-flow-user-feedback-reward-1079x929-08d-result-panel-bridge.png`
+
+![user-feedback-reward-1079x929 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08d-result-panel-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 황금 다리 · `engine-flow-user-feedback-reward-1079x929-08d-result-panel-grand.png`
+
+![user-feedback-reward-1079x929 결과판 포함 · 황금 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08d-result-panel-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 외나무다리 · `engine-flow-user-feedback-reward-1079x929-08d-result-panel-log.png`
+
+![user-feedback-reward-1079x929 결과판 포함 · 외나무다리](screenshots/engine-flow-user-feedback-reward-1079x929-08d-result-panel-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 무지개 다리 · `engine-flow-user-feedback-reward-1079x929-08d-result-panel-rainbow.png`
+
+![user-feedback-reward-1079x929 결과판 포함 · 무지개 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 작은 다리 · `engine-flow-user-feedback-reward-1079x929-08d-result-panel-small.png`
+
+![user-feedback-reward-1079x929 결과판 포함 · 작은 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08d-result-panel-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 큰 다리 · `engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-big.png`
+
+![user-feedback-reward-1079x929 다리 보상 우선 · 큰 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-bridge.png`
+
+![user-feedback-reward-1079x929 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 황금 다리 · `engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-grand.png`
+
+![user-feedback-reward-1079x929 다리 보상 우선 · 황금 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 외나무다리 · `engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-log.png`
+
+![user-feedback-reward-1079x929 다리 보상 우선 · 외나무다리](screenshots/engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 무지개 다리 · `engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-rainbow.png`
+
+![user-feedback-reward-1079x929 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 작은 다리 · `engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-small.png`
+
+![user-feedback-reward-1079x929 다리 보상 우선 · 작은 다리](screenshots/engine-flow-user-feedback-reward-1079x929-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+### codex-in-app · 1280×720 · DPR 2 · 39장
+
+![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-codex-in-app-01-cover.png`
+
+![codex-in-app 시작 화면](screenshots/engine-flow-codex-in-app-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
+- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-codex-in-app-02-settings.png`
+
+![codex-in-app 설정 화면](screenshots/engine-flow-codex-in-app-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-codex-in-app-03-tutorial-1.png`
+
+![codex-in-app 설명 1 · 풀이 방법](screenshots/engine-flow-codex-in-app-03-tutorial-1.png)
+
+- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-codex-in-app-04-tutorial-2.png`
+
+![codex-in-app 설명 2 · 보상과 목표](screenshots/engine-flow-codex-in-app-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
+- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
+
+#### 문제 대기 · `engine-flow-codex-in-app-05-play-step1.png`
+
+![codex-in-app 문제 대기](screenshots/engine-flow-codex-in-app-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 선택 효과 · `engine-flow-codex-in-app-05c-correct-effect.png`
+
+![codex-in-app 정답 선택 효과](screenshots/engine-flow-codex-in-app-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
+- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
+
+#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-codex-in-app-05m-p1-diameter-not-doubled.png`
+
+![codex-in-app 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p1-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-codex-in-app-05m-p1-diameter-one-short.png`
+
+![codex-in-app 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p1-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p1-diameter-too-long.png`
+
+![codex-in-app 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p1-diameter-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-codex-in-app-05m-p2-radius-not-halved.png`
+
+![codex-in-app 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p2-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p2-radius-too-long.png`
+
+![codex-in-app 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p2-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-codex-in-app-05m-p2-radius-too-short.png`
+
+![codex-in-app 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p2-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-codex-in-app-05m-p3-radius-not-halved.png`
+
+![codex-in-app 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p3-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p3-radius-too-long.png`
+
+![codex-in-app 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p3-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-codex-in-app-05m-p3-radius-too-short.png`
+
+![codex-in-app 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p3-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 대표 오답 · `engine-flow-codex-in-app-05b-play-wrong.png`
+
+![codex-in-app 대표 오답](screenshots/engine-flow-codex-in-app-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
+- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
+
+#### 정답 확인 · `engine-flow-codex-in-app-06-confirm.png`
+
+![codex-in-app 정답 확인](screenshots/engine-flow-codex-in-app-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이와 완성식, 점수 보기 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 점수 보기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 또는 지름 ÷ 2 = 반지름을 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 닫힌 보상으로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-codex-in-app-07-reward-closed.png`
+
+![codex-in-app 닫힌 보상](screenshots/engine-flow-codex-in-app-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 반지름·지름 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-codex-in-app-07b-reward-open.png`
+
+![codex-in-app 열린 보상](screenshots/engine-flow-codex-in-app-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
+
+#### 모달 종료 뒤 다리 변화 · `engine-flow-codex-in-app-07c-reward-impact.png`
+
+![codex-in-app 모달 종료 뒤 다리 변화](screenshots/engine-flow-codex-in-app-07c-reward-impact.png)
+
+- 학생이 보는 것: 모달이 닫힌 뒤 왼쪽 다리가 바뀌고 Stage에 번지는 빛 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 다리 단계를 바꾸는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 다리 단계에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-codex-in-app-08-result.png`
+
+![codex-in-app 실제 결과](screenshots/engine-flow-codex-in-app-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · 큰 다리 · `engine-flow-codex-in-app-08c-result-cohesion-big.png`
+
+![codex-in-app 결과 결속 · 큰 다리](screenshots/engine-flow-codex-in-app-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 튼튼한 다리 · `engine-flow-codex-in-app-08c-result-cohesion-bridge.png`
+
+![codex-in-app 결과 결속 · 튼튼한 다리](screenshots/engine-flow-codex-in-app-08c-result-cohesion-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 황금 다리 · `engine-flow-codex-in-app-08c-result-cohesion-grand.png`
+
+![codex-in-app 결과 결속 · 황금 다리](screenshots/engine-flow-codex-in-app-08c-result-cohesion-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 외나무다리 · `engine-flow-codex-in-app-08c-result-cohesion-log.png`
+
+![codex-in-app 결과 결속 · 외나무다리](screenshots/engine-flow-codex-in-app-08c-result-cohesion-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 무지개 다리 · `engine-flow-codex-in-app-08c-result-cohesion-rainbow.png`
+
+![codex-in-app 결과 결속 · 무지개 다리](screenshots/engine-flow-codex-in-app-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 작은 다리 · `engine-flow-codex-in-app-08c-result-cohesion-small.png`
+
+![codex-in-app 결과 결속 · 작은 다리](screenshots/engine-flow-codex-in-app-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 큰 다리 · `engine-flow-codex-in-app-08d-result-panel-big.png`
+
+![codex-in-app 결과판 포함 · 큰 다리](screenshots/engine-flow-codex-in-app-08d-result-panel-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 튼튼한 다리 · `engine-flow-codex-in-app-08d-result-panel-bridge.png`
+
+![codex-in-app 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-codex-in-app-08d-result-panel-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 황금 다리 · `engine-flow-codex-in-app-08d-result-panel-grand.png`
+
+![codex-in-app 결과판 포함 · 황금 다리](screenshots/engine-flow-codex-in-app-08d-result-panel-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 외나무다리 · `engine-flow-codex-in-app-08d-result-panel-log.png`
+
+![codex-in-app 결과판 포함 · 외나무다리](screenshots/engine-flow-codex-in-app-08d-result-panel-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 무지개 다리 · `engine-flow-codex-in-app-08d-result-panel-rainbow.png`
+
+![codex-in-app 결과판 포함 · 무지개 다리](screenshots/engine-flow-codex-in-app-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 작은 다리 · `engine-flow-codex-in-app-08d-result-panel-small.png`
+
+![codex-in-app 결과판 포함 · 작은 다리](screenshots/engine-flow-codex-in-app-08d-result-panel-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 큰 다리 · `engine-flow-codex-in-app-08e-result-reward-dominance-big.png`
+
+![codex-in-app 다리 보상 우선 · 큰 다리](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-codex-in-app-08e-result-reward-dominance-bridge.png`
+
+![codex-in-app 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 황금 다리 · `engine-flow-codex-in-app-08e-result-reward-dominance-grand.png`
+
+![codex-in-app 다리 보상 우선 · 황금 다리](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 외나무다리 · `engine-flow-codex-in-app-08e-result-reward-dominance-log.png`
+
+![codex-in-app 다리 보상 우선 · 외나무다리](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 무지개 다리 · `engine-flow-codex-in-app-08e-result-reward-dominance-rainbow.png`
+
+![codex-in-app 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 작은 다리 · `engine-flow-codex-in-app-08e-result-reward-dominance-small.png`
+
+![codex-in-app 다리 보상 우선 · 작은 다리](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+### user-visibility-994x632 · 994×632 · DPR 1 · 39장
+
+![user-visibility-994x632 전체 상태 컨택시트](screenshots/report-flow-user-visibility-994x632-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-visibility-994x632-01-cover.png`
+
+![user-visibility-994x632 시작 화면](screenshots/engine-flow-user-visibility-994x632-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
+- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-visibility-994x632-02-settings.png`
+
+![user-visibility-994x632 설정 화면](screenshots/engine-flow-user-visibility-994x632-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-visibility-994x632-03-tutorial-1.png`
+
+![user-visibility-994x632 설명 1 · 풀이 방법](screenshots/engine-flow-user-visibility-994x632-03-tutorial-1.png)
+
+- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-visibility-994x632-04-tutorial-2.png`
+
+![user-visibility-994x632 설명 2 · 보상과 목표](screenshots/engine-flow-user-visibility-994x632-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
+- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
+
+#### 문제 대기 · `engine-flow-user-visibility-994x632-05-play-step1.png`
+
+![user-visibility-994x632 문제 대기](screenshots/engine-flow-user-visibility-994x632-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 선택 효과 · `engine-flow-user-visibility-994x632-05c-correct-effect.png`
+
+![user-visibility-994x632 정답 선택 효과](screenshots/engine-flow-user-visibility-994x632-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
+- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
+
+#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p1-diameter-not-doubled.png`
+
+![user-visibility-994x632 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p1-diameter-one-short.png`
+
+![user-visibility-994x632 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p1-diameter-too-long.png`
+
+![user-visibility-994x632 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-diameter-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p2-radius-not-halved.png`
+
+![user-visibility-994x632 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p2-radius-too-long.png`
+
+![user-visibility-994x632 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p2-radius-too-short.png`
+
+![user-visibility-994x632 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p3-radius-not-halved.png`
+
+![user-visibility-994x632 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p3-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p3-radius-too-long.png`
+
+![user-visibility-994x632 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p3-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p3-radius-too-short.png`
+
+![user-visibility-994x632 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p3-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 대표 오답 · `engine-flow-user-visibility-994x632-05b-play-wrong.png`
+
+![user-visibility-994x632 대표 오답](screenshots/engine-flow-user-visibility-994x632-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
+- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
+
+#### 정답 확인 · `engine-flow-user-visibility-994x632-06-confirm.png`
+
+![user-visibility-994x632 정답 확인](screenshots/engine-flow-user-visibility-994x632-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이와 완성식, 점수 보기 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 점수 보기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 또는 지름 ÷ 2 = 반지름을 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 닫힌 보상으로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-visibility-994x632-07-reward-closed.png`
+
+![user-visibility-994x632 닫힌 보상](screenshots/engine-flow-user-visibility-994x632-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 반지름·지름 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-visibility-994x632-07b-reward-open.png`
+
+![user-visibility-994x632 열린 보상](screenshots/engine-flow-user-visibility-994x632-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
+
+#### 모달 종료 뒤 다리 변화 · `engine-flow-user-visibility-994x632-07c-reward-impact.png`
+
+![user-visibility-994x632 모달 종료 뒤 다리 변화](screenshots/engine-flow-user-visibility-994x632-07c-reward-impact.png)
+
+- 학생이 보는 것: 모달이 닫힌 뒤 왼쪽 다리가 바뀌고 Stage에 번지는 빛 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 다리 단계를 바꾸는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 다리 단계에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-visibility-994x632-08-result.png`
+
+![user-visibility-994x632 실제 결과](screenshots/engine-flow-user-visibility-994x632-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · 큰 다리 · `engine-flow-user-visibility-994x632-08c-result-cohesion-big.png`
+
+![user-visibility-994x632 결과 결속 · 큰 다리](screenshots/engine-flow-user-visibility-994x632-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 튼튼한 다리 · `engine-flow-user-visibility-994x632-08c-result-cohesion-bridge.png`
+
+![user-visibility-994x632 결과 결속 · 튼튼한 다리](screenshots/engine-flow-user-visibility-994x632-08c-result-cohesion-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 황금 다리 · `engine-flow-user-visibility-994x632-08c-result-cohesion-grand.png`
+
+![user-visibility-994x632 결과 결속 · 황금 다리](screenshots/engine-flow-user-visibility-994x632-08c-result-cohesion-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 외나무다리 · `engine-flow-user-visibility-994x632-08c-result-cohesion-log.png`
+
+![user-visibility-994x632 결과 결속 · 외나무다리](screenshots/engine-flow-user-visibility-994x632-08c-result-cohesion-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 무지개 다리 · `engine-flow-user-visibility-994x632-08c-result-cohesion-rainbow.png`
+
+![user-visibility-994x632 결과 결속 · 무지개 다리](screenshots/engine-flow-user-visibility-994x632-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 작은 다리 · `engine-flow-user-visibility-994x632-08c-result-cohesion-small.png`
+
+![user-visibility-994x632 결과 결속 · 작은 다리](screenshots/engine-flow-user-visibility-994x632-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 큰 다리 · `engine-flow-user-visibility-994x632-08d-result-panel-big.png`
+
+![user-visibility-994x632 결과판 포함 · 큰 다리](screenshots/engine-flow-user-visibility-994x632-08d-result-panel-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 튼튼한 다리 · `engine-flow-user-visibility-994x632-08d-result-panel-bridge.png`
+
+![user-visibility-994x632 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-user-visibility-994x632-08d-result-panel-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 황금 다리 · `engine-flow-user-visibility-994x632-08d-result-panel-grand.png`
+
+![user-visibility-994x632 결과판 포함 · 황금 다리](screenshots/engine-flow-user-visibility-994x632-08d-result-panel-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 외나무다리 · `engine-flow-user-visibility-994x632-08d-result-panel-log.png`
+
+![user-visibility-994x632 결과판 포함 · 외나무다리](screenshots/engine-flow-user-visibility-994x632-08d-result-panel-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 무지개 다리 · `engine-flow-user-visibility-994x632-08d-result-panel-rainbow.png`
+
+![user-visibility-994x632 결과판 포함 · 무지개 다리](screenshots/engine-flow-user-visibility-994x632-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 작은 다리 · `engine-flow-user-visibility-994x632-08d-result-panel-small.png`
+
+![user-visibility-994x632 결과판 포함 · 작은 다리](screenshots/engine-flow-user-visibility-994x632-08d-result-panel-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 큰 다리 · `engine-flow-user-visibility-994x632-08e-result-reward-dominance-big.png`
+
+![user-visibility-994x632 다리 보상 우선 · 큰 다리](screenshots/engine-flow-user-visibility-994x632-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-user-visibility-994x632-08e-result-reward-dominance-bridge.png`
+
+![user-visibility-994x632 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-user-visibility-994x632-08e-result-reward-dominance-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 황금 다리 · `engine-flow-user-visibility-994x632-08e-result-reward-dominance-grand.png`
+
+![user-visibility-994x632 다리 보상 우선 · 황금 다리](screenshots/engine-flow-user-visibility-994x632-08e-result-reward-dominance-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 외나무다리 · `engine-flow-user-visibility-994x632-08e-result-reward-dominance-log.png`
+
+![user-visibility-994x632 다리 보상 우선 · 외나무다리](screenshots/engine-flow-user-visibility-994x632-08e-result-reward-dominance-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 무지개 다리 · `engine-flow-user-visibility-994x632-08e-result-reward-dominance-rainbow.png`
+
+![user-visibility-994x632 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-user-visibility-994x632-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 작은 다리 · `engine-flow-user-visibility-994x632-08e-result-reward-dominance-small.png`
+
+![user-visibility-994x632 다리 보상 우선 · 작은 다리](screenshots/engine-flow-user-visibility-994x632-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 38장
+
+![user-reported-missing-left-progress-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 시작 화면](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png)
+
+- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
+- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 설정 화면](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
+- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
+- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
+
+#### 문제 대기 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 문제 대기](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
+- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 선택 효과 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-correct-effect.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 정답 선택 효과](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
+- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
+
+#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-not-doubled.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-one-short.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-too-long.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-not-halved.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-long.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-short.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-not-halved.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-not-halved.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-long.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-long.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-short.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 대표 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 대표 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
+- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
+- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
+- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
+
+#### 정답 확인 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-06-confirm.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 정답 확인](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 원 안에 들어간 정답 길이와 완성식, 점수 보기 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 점수 보기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 또는 지름 ÷ 2 = 반지름을 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 닫힌 보상으로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07-reward-closed.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 반지름·지름 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07b-reward-open.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 열린 보상](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
+
+#### 실제 결과 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 실제 결과](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · 큰 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-big.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 큰 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 튼튼한 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-bridge.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 튼튼한 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 황금 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-grand.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 황금 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 외나무다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-log.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 외나무다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 무지개 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 무지개 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과 결속 · 작은 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 작은 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 큰 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-big.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 큰 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 튼튼한 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-bridge.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 황금 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-grand.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 황금 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 외나무다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-log.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 외나무다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 무지개 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 무지개 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 결과판 포함 · 작은 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 작은 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 큰 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-big.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 큰 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-bridge.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-bridge.png)
+
+- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 황금 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-grand.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 황금 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-grand.png)
+
+- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 외나무다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-log.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 외나무다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-log.png)
+
+- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 무지개 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+#### 다리 보상 우선 · 작은 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 작은 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
+- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

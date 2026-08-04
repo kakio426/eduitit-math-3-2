@@ -153,7 +153,7 @@ const manifest = {
   lesson,
   generatedAt: new Date().toISOString(),
   indexSha256: hash(indexBuffer),
-  sourceScreenshotsCommitted: false,
+  sourceScreenshotsCommitted: true,
   viewports,
 };
 await writeFile(

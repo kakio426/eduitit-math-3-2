@@ -373,8 +373,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 - 새 차시, 학습 흐름 변경, 보상·결과·레이아웃 대형 수정 뒤에는 대표 화면 몇 장만 고르지 않는다. `lesson.json > qa.viewports`에 등록된 모든 화면 크기에서 시작·설정·설명 2장·문제 대기·대표 오답과 오개념 fixture·각 단계 정답 확인·마지막 확인·닫힌/열린 보상·모달 종료 뒤 세계 변화·실제 결과·유한 결과 전 단계를 현재 코드로 다시 캡처한다.
 - `REPORT.md`의 최신 화면 절은 앞 차시 보고서처럼 캡처마다 `학생이 보는 것`, `판단하거나 누르는 것`, `화면에서 확인되는 수학 관계`, `다음 상태로 넘어가는 이유`를 짧게 설명한다. 파일명만 나열하거나 이미지 설명 없이 컨택시트 하나만 붙이면 완료가 아니다.
-- 데스크톱의 전체 상태는 개별 캡처와 설명을 함께 싣고, 나머지 등록 viewport는 같은 상태를 빠짐없이 담은 화면군별 컨택시트를 함께 싣는다. 결과 단계가 N개면 모든 viewport에서 N개를 모두 포함하며 대표 결과 한 장으로 대신하지 않는다.
-- `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`가 모든 `engine-flow-<viewport>-*.png`를 컨택시트로 묶고 `screenshots/report-evidence-manifest.json`에 현재 `index.html` 해시, 원본 캡처 해시, viewport·DPR·파일 목록을 기록한다. 이 manifest와 컨택시트도 차시 증거 자산으로 보관한다.
+- `report-evidence-manifest.json`에 기록된 모든 viewport의 모든 원본 캡처를 `REPORT.md`에 한 장씩 직접 삽입하고 각 캡처의 네 가지 설명을 함께 싣는다. 원본 PNG도 Git에 포함해 GitHub REPORT에서 실제로 렌더되어야 한다. 화면군별 컨택시트는 전수 비교용 보조 증거이며 원본 캡처 삽입을 대신하지 못한다. 결과 단계가 N개면 모든 viewport에서 N개를 모두 포함하며 대표 결과 한 장으로 대신하지 않는다.
+- `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`가 모든 `engine-flow-<viewport>-*.png`를 컨택시트로 묶고 `screenshots/report-evidence-manifest.json`에 현재 `index.html` 해시, 원본 캡처 해시, viewport·DPR·파일 목록을 기록한다. 이어서 `node scripts/sync-lesson-report-evidence.mjs <lesson-folder>`로 manifest의 모든 원본 캡처와 네 가지 설명을 REPORT에 동기화한다. 이 manifest와 컨택시트도 차시 증거 자산으로 보관한다.
 - `node scripts/check-lesson-report-evidence.mjs <lesson-folder>`는 현재 `index.html` 해시와 manifest가 같은지, 모든 `qa.viewports`·필수 흐름·오개념·보상 효과·결과 전 단계가 있는지, 원본 캡처 해시가 바뀌지 않았는지, `REPORT.md`가 모든 화면군 컨택시트를 실제로 포함하는지 검사한다. 하나라도 실패하면 보고서의 이전 PASS와 스크린샷은 최신 증거가 아니다.
 - 스크린샷을 다시 만드는 과정에서 하네스가 UI 결함을 찾으면 보고서 작성보다 먼저 원본을 고치고 전체 캡처를 처음부터 다시 만든다. 일부 화면만 덮어 써서 서로 다른 빌드의 캡처를 한 보고서에 섞지 않는다.
 

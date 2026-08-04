@@ -19,11 +19,17 @@ const hash = (buffer) => createHash("sha256").update(buffer).digest("hex");
 const assert = (condition, message) => {
   if (!condition) throw new Error(message);
 };
+const exhaustiveStartMarker = "<!-- REPORT-EVIDENCE-ALL:START -->";
+const exhaustiveEndMarker = "<!-- REPORT-EVIDENCE-ALL:END -->";
+const exhaustiveStart = report.indexOf(exhaustiveStartMarker);
+const exhaustiveEnd = report.indexOf(exhaustiveEndMarker);
+assert(exhaustiveStart >= 0 && exhaustiveEnd > exhaustiveStart, "REPORT.md is missing the exhaustive screenshot section");
+const exhaustiveSection = report.slice(exhaustiveStart, exhaustiveEnd + exhaustiveEndMarker.length);
 
 assert(manifest.standard === "report-current-screen-evidence-v1", "report evidence standard is missing");
 assert(manifest.lesson === lesson, "report evidence lesson id does not match");
 assert(manifest.indexSha256 === hash(indexBuffer), "screenshots are older than the current index.html; recapture them");
-assert(manifest.sourceScreenshotsCommitted === false, "raw browser screenshots must stay local; commit the verified contact sheets instead");
+assert(manifest.sourceScreenshotsCommitted === true, "raw browser screenshots must be committed so every REPORT.md image renders on GitHub");
 
 const expectedViewports = config.qa?.viewports || [];
 assert(manifest.viewports.length === expectedViewports.length, "not every qa viewport has a report contact sheet");
@@ -37,6 +43,17 @@ for (const expected of expectedViewports) {
   assert(hash(sheetBuffer) === viewport.sheetSha256, `report contact sheet changed after manifest creation: ${viewport.sheet}`);
 
   const paths = viewport.screenshots.map((item) => item.path);
+  for (const screenshot of viewport.screenshots) {
+    assert(
+      exhaustiveSection.includes(`](${screenshot.path})`),
+      `REPORT.md does not embed current screenshot: ${screenshot.path}`,
+    );
+    const screenshotBuffer = await readFile(path.join(lessonDir, screenshot.path));
+    assert(
+      hash(screenshotBuffer) === screenshot.sha256,
+      `source screenshot changed after manifest creation: ${screenshot.path}`,
+    );
+  }
   const required = ["01-cover", "02-settings", "03-tutorial-1", "04-tutorial-2", "05-play-step1", "06-confirm", "07-reward-closed", "07b-reward-open", "08-result"];
   const isEmptyRewardFixture = config.qa?.emptyRewardAudit === true
     && config.qa?.emptyRewardAuditViewport === expected.name;
@@ -59,8 +76,14 @@ for (const expected of expectedViewports) {
 
 }
 
+const screenshotCount = manifest.viewports.reduce((sum, item) => sum + item.screenshotCount, 0);
+for (const label of ["학생이 보는 것:", "판단하거나 누르는 것:", "화면에서 확인되는 수학 관계:", "다음 상태로 넘어가는 이유:"]) {
+  const count = exhaustiveSection.split(label).length - 1;
+  assert(count >= screenshotCount, `REPORT.md needs ${screenshotCount} '${label}' explanations, found ${count}`);
+}
+
 for (const heading of ["시작", "설명", "문제", "보상", "결과", "화면 크기"]) {
   assert(report.includes(heading), `REPORT.md needs a current-screen explanation for: ${heading}`);
 }
 
-console.log(`CHECK_LESSON_REPORT_EVIDENCE: PASS (${manifest.viewports.length} viewports, ${manifest.viewports.reduce((sum, item) => sum + item.screenshotCount, 0)} screenshots)`);
+console.log(`CHECK_LESSON_REPORT_EVIDENCE: PASS (${manifest.viewports.length} viewports, ${screenshotCount} screenshots)`);
