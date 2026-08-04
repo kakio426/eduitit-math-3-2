@@ -5,12 +5,16 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { runInNewContext } from "node:vm";
+import { hashRuntimeBuildInputs } from "./runtime-build-fingerprint.mjs";
 
 const ROOT = process.cwd();
 const ENGINE_VERSION = "mathmon-engine-v1";
 const ENGINE_DIR = path.join(ROOT, "_engine", "v1");
 const LESSON_SOURCE_ROOT = path.join(ROOT, "_lessons");
 const SCOREBOARD_DIR = path.join(ROOT, "_shared", "scoreboard");
+const SHARED_AUDIO_MODULE = path.join(ROOT, "_shared", "audio", "mathmon-audio-v1.js");
+const BUILD_SCRIPT = path.join(ROOT, "scripts", "build-lesson.mjs");
+const BUILD_FINGERPRINT_HELPER = path.join(ROOT, "scripts", "runtime-build-fingerprint.mjs");
 const SHARED_COVER_START_BUTTON = "../_shared/mathmon/cover-start-button/start-button-generated.webp";
 
 function usage() {
@@ -182,14 +186,17 @@ async function main() {
   const sourceFiles = config.sourceFiles || {};
   const modelPath = path.resolve(sourceDir, sourceFiles.model || "model.js");
   const viewPath = path.resolve(sourceDir, sourceFiles.view || "view.js");
-  const [template, engineCss, engineRuntime, scoreboardCss, scoreboardRuntime, modelSource, viewSource] = await Promise.all([
+  const [template, engineCss, engineRuntime, scoreboardCss, scoreboardRuntime, sharedAudioRuntime, modelSource, viewSource, buildScriptSource, buildFingerprintHelperSource] = await Promise.all([
     readFile(path.join(ENGINE_DIR, "template.html"), "utf8"),
     readFile(path.join(ENGINE_DIR, "styles", "core.css"), "utf8"),
     readFile(path.join(ENGINE_DIR, "runtime", "core.js"), "utf8"),
     readFile(path.join(SCOREBOARD_DIR, "scoreboard-ui.css"), "utf8"),
     readFile(path.join(SCOREBOARD_DIR, "scoreboard-ui.js"), "utf8"),
+    readFile(SHARED_AUDIO_MODULE, "utf8"),
     readFile(modelPath, "utf8"),
     readFile(viewPath, "utf8"),
+    readFile(BUILD_SCRIPT, "utf8"),
+    readFile(BUILD_FINGERPRINT_HELPER, "utf8"),
   ]);
   validateModelContract(config, modelSource, lessonFolder);
 
@@ -220,7 +227,21 @@ async function main() {
   const lessonConfigScript = `const LESSON_CONFIG = ${JSON.stringify(config)};`;
   const commitSha = spawnSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).stdout.trim();
   const lessonJsonSha = createHash("sha256").update(lessonJsonSource).digest("hex");
-  const runtimeBuildMetadata = `<div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="${escapeHtml(config.id)}" data-commit-sha="${escapeHtml(commitSha)}" data-lesson-json-sha256="${lessonJsonSha}"></div>`;
+  const buildInputsSha = hashRuntimeBuildInputs({
+    buildFingerprintHelperSource,
+    buildScriptSource,
+    engineCss,
+    engineRuntime,
+    lessonCss,
+    lessonJsonSource,
+    modelSource,
+    scoreboardCss,
+    scoreboardRuntime,
+    sharedAudioRuntime,
+    template,
+    viewSource,
+  });
+  const runtimeBuildMetadata = `<div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="${escapeHtml(config.id)}" data-commit-sha="${escapeHtml(commitSha)}" data-lesson-json-sha256="${lessonJsonSha}" data-build-inputs-sha256="${buildInputsSha}"></div>`;
   const unitNumber = getUnitNumber(config);
   const scoreboardEnabled = Boolean(scoreboard.enabled);
   const hybridResult = result.renderMode === "hybrid-generated-dynamic";
@@ -271,7 +292,9 @@ async function main() {
     resultRestartButtonId: hybridResult ? "restartButton" : "retryButton",
     resultRestartButtonClass: "result-retry-hitbox",
     resultRestartAria: hybridResult ? "다시하기" : "다시",
-    resultLeaderboardButton: escapeHtml(imageAssets.resultLeaderboardButton || imageAssets.startButton || "start-button-generated.webp"),
+    resultLeaderboardButtonSource: scoreboardEnabled
+      ? `src="${escapeHtml(imageAssets.resultLeaderboardButton || imageAssets.startButton || "start-button-generated.webp")}"`
+      : "",
     scoreboardTitle: escapeHtml(requiredString(scoreboard.title, "전국 순위")),
     scoreboardTitleArt: escapeHtml(requiredString(scoreboard.titleArt, "")),
     scoreboardResultKind: escapeHtml(requiredString(scoreboard.resultKind, "score")),
@@ -279,6 +302,7 @@ async function main() {
     scoreboardListTitle: escapeHtml(requiredString(scoreboard.listTitle, "점수 순위")),
     scoreboardUnit: escapeHtml(requiredString(scoreboard.unit, config.unitBadge)),
     scoreboardRuntimeScript: indent(scoreboardRuntime, 4),
+    sharedAudioRuntimeScript: indent(sharedAudioRuntime, 4),
     lessonConfigScript: indent(lessonConfigScript, 4),
     runtimeBuildMetadata,
     lessonModelScript: indent(modelSource, 4),

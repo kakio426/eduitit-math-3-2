@@ -44,7 +44,8 @@
         }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
-          --sound-button-size: clamp(30px, 3vw, 34px);
+          --top-control-y: var(--stage-inset);
+          --sound-button-size: clamp(42px, 3.6vw, 46px);
           --sound-gap: clamp(8px, 1vw, 12px);
           --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
           --top-control-pad-x: 9px;
@@ -79,7 +80,7 @@
         }
         .settings-toggle {
           position: absolute;
-          top: var(--stage-inset);
+          top: var(--top-control-y);
           right: var(--stage-inset);
           width: var(--sound-button-size);
           height: var(--sound-button-size);
@@ -114,6 +115,7 @@
         .settings-switch:focus-visible,
         .settings-action:focus-visible,
         .cover-start-button:focus-visible,
+        .tutorial-back-button:focus-visible,
         .primary-button:focus-visible,
         .choice-button:focus-visible,
         .result-action-hitbox:focus-visible,
@@ -128,7 +130,7 @@
           display: grid;
           place-items: center;
           background: rgba(0,0,0,.38);
-          backdrop-filter: blur(6px);
+          backdrop-filter: blur(10px);
         }
         .settings-backdrop[hidden] { display: none; }
         .settings-modal {
@@ -181,7 +183,7 @@
         .stage-shell .hud { padding-right: var(--sound-reserve); }
         .top-row {
           position: absolute;
-          top: var(--stage-inset);
+          top: var(--top-control-y);
           left: var(--stage-inset);
           right: calc(var(--stage-inset) + var(--sound-reserve));
           height: var(--sound-button-size);
@@ -212,6 +214,8 @@
           backdrop-filter: blur(10px);
         }
         .brand-badge img { margin-right: 0; }
+        .brand-badge--logo { gap: 8px; }
+        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -223,8 +227,14 @@
           z-index: 10;
         }
         .cover::after,
-        .reward::after,
-        .result::after {
+        .reward::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, rgba(14,12,22,.64), rgba(14,12,22,.2) 46%, rgba(14,12,22,.24));
+          pointer-events: none;
+        }
+        .game:not([data-result-render-mode="fullscene-generated-dynamic-slots"]) .result::after {
           content: "";
           position: absolute;
           inset: 0;
@@ -256,9 +266,9 @@
           font-weight: 950;
         }
         .cover-start-button {
-          width: clamp(300px, 28vw, 360px);
-          height: auto;
+          width: clamp(300px, 28.125vw, 360px);
           aspect-ratio: 1611 / 680;
+          height: auto;
           display: grid;
           place-items: center;
           padding: 0;
@@ -270,7 +280,7 @@
         }
         .cover-start-button:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.04); }
         .cover-start-button:active { transform: translateY(1px) scale(.99); }
-        .start-button-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        .start-button-art { display: block; width: 100%; height: auto; pointer-events: none; }
         .tutorial { padding: var(--stage-inset); background: linear-gradient(135deg, #201a2d, #102839); }
         .tutorial-grid {
           position: relative;
@@ -300,6 +310,24 @@
         .tutorial-card strong { font-size: clamp(1.28rem, 2.2vw, 1.72rem); line-height: 1.18; }
         .tutorial-card p { margin: 0; color: #d7cadb; font-size: 1.02rem; line-height: 1.4; font-weight: 850; }
         .tutorial-action { display: grid; place-items: center; }
+
+        .game[data-tutorial-mode="poster-two-step"] .tutorial { padding: 0; background: #13202a; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid { height: 100%; padding: 0; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-grid > .screen-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-cards,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { width: 100%; height: 100%; display: block; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card { position: relative; min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card[hidden] { display: none; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-poster-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card .card-mark,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card strong,
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-card p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+        .game[data-tutorial-mode="poster-two-step"] .tutorial-action { position: absolute; inset: 0; z-index: 8; display: block; pointer-events: none; }
+        .game[data-tutorial-mode="poster-two-step"] #tutorialStartButton,
+        .game[data-tutorial-mode="poster-two-step"] #tutorialBackButton { position: absolute; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; color: transparent; background: transparent; box-shadow: none; font-size: 0; pointer-events: auto; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="0"] #tutorialStartButton { left: 31%; bottom: 1.5%; width: 38%; height: 15%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialStartButton { left: 72%; bottom: 1%; width: 27%; height: 14%; }
+        .game[data-tutorial-mode="poster-two-step"] #screen-tutorial[data-page="1"] #tutorialBackButton { left: 1%; bottom: 1%; width: 24%; height: 14%; }
         .primary-button {
           min-width: 190px;
           min-height: 72px;
@@ -393,7 +421,7 @@
         .step-chip { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,.09); color: #d7cadb; font-size: .8rem; font-weight: 1000; max-width: 100%; overflow-wrap: anywhere; }
         .step-chip.is-current { background: rgba(255,200,87,.22); color: #fff8e8; }
         .step-chip.is-done { background: rgba(53,217,178,.18); color: #dffff5; }
-        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; }
+        .instruction { margin: 0; min-height: 34px; display: grid; align-items: center; color: #fff8e8; font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.22; font-weight: 1000; word-break: keep-all; overflow-wrap: normal; }
         .answer-slot { min-height: 90px; border: 2px dashed rgba(255,255,255,.22); border-radius: 20px; display: grid; place-items: center; font-size: clamp(1.7rem, 3.2vw, 2.55rem); font-weight: 1000; color: #ffc857; text-align: center; padding: 8px; overflow-wrap: anywhere; }
         .answer-slot.is-filled { border-style: solid; border-color: rgba(53,217,178,.7); background: rgba(53,217,178,.12); animation: slot-pop .5s ease; }
         .feedback-line { margin: 0; min-height: 28px; color: #d7cadb; font-size: .98rem; font-weight: 900; }
@@ -411,6 +439,30 @@
         .complete-panel.is-visible { display: grid; }
         .complete-text { margin: 0; color: #fff8e8; font-size: 1.05rem; font-weight: 1000; line-height: 1.25; overflow-wrap: anywhere; }
         .problem-grid.is-complete .choices-panel { opacity: .4; pointer-events: none; }
+        .problem-grid.is-complete .step-board { grid-template-rows: minmax(90px, 1fr); }
+        .problem-grid.is-complete .step-chips,
+        .problem-grid.is-complete .instruction,
+        .problem-grid.is-complete .feedback-line { display: none; }
+        .play-mathmon-reaction {
+          position: absolute;
+          z-index: 4;
+          left: 18px;
+          bottom: 18px;
+          width: 156px;
+          height: 194px;
+          object-fit: contain;
+          object-position: left bottom;
+          pointer-events: none;
+          filter: drop-shadow(0 10px 16px rgba(0,0,0,.28));
+          animation: mathmon-reaction-pop .42s cubic-bezier(.2,.85,.25,1.25);
+        }
+        @keyframes mathmon-reaction-pop {
+          from { opacity: 0; transform: translateY(18px) scale(.84); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .play-mathmon-reaction { animation: none; filter: brightness(1.08) drop-shadow(0 8px 12px rgba(0,0,0,.22)); }
+        }
         .reward { background: #102839; }
         .reward-panel {
           position: absolute;
@@ -461,6 +513,11 @@
           padding: 24px;
           text-align: center;
         }
+        .reward-card[data-reward-phase="closed"] .reward-visual { transform: scale(.94); filter: brightness(.78) saturate(.8); }
+        .reward-card[data-reward-phase="opening"] .reward-visual { animation: reward-open-pulse .42s ease both; }
+        .reward-pop[data-rarity="rare"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 3px rgba(255,210,89,.55), 0 26px 70px rgba(0,0,0,.52); }
+        .reward-pop[data-rarity="legend"] .reward-card[data-reward-phase="revealed"] { box-shadow: 0 0 0 4px rgba(126,244,255,.72), 0 0 48px rgba(255,117,244,.5), 0 26px 70px rgba(0,0,0,.52); }
+        @keyframes reward-open-pulse { 0% { transform: scale(.92) rotate(-1deg); } 55% { transform: scale(1.06) rotate(1deg); } 100% { transform: scale(1); } }
         .reward-visual {
           width: 250px;
           height: 250px;
@@ -477,16 +534,48 @@
           font-weight: 1000;
           text-align: center;
         }
-        .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
-        .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; filter: drop-shadow(0 18px 26px rgba(0,0,0,.44)); }
-        .result-count-overlay {
-          position: absolute;
-          left: var(--result-score-left);
-          top: var(--result-score-top);
-          width: var(--result-score-width);
-          height: var(--result-score-height);
-          pointer-events: none;
+        main.game[data-reward-mode="modal-art"] .reward-card {
+          width: 560px;
+          max-width: 88%;
+          height: 480px;
+          min-height: 0;
+          aspect-ratio: 7 / 6;
+          box-sizing: border-box;
         }
+        main.game[data-reward-mode="modal-art"] .reward-visual {
+          width: 250px;
+          height: 250px;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-label {
+          min-height: 52px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-block: 3px;
+          box-sizing: border-box;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-pop {
+          backdrop-filter: blur(10px);
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-visual {
+          transform: none;
+        }
+        main.game[data-reward-mode="modal-art"] .reward-card[data-reward-phase="closed"] .reward-label { display: flex; }
+        .result-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+        .result-panel-art { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 1; object-fit: fill; pointer-events: none; }
+        .game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultMeasureSvg { font-size: 24px !important; stroke-width: 6px !important; }
+        .game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultNextSvg { font-size: 16px !important; stroke-width: 4px !important; }
+        .result-dynamic-ui { position: absolute; inset: 0; display: none; width: 100%; height: 100%; z-index: 2; }
+    .game[data-result-render-mode="hybrid-generated-dynamic"] .result-dynamic-ui,
+    .game[data-result-render-mode="fullscene-generated-dynamic-slots"] .result-dynamic-ui { display: block; }
+        .result-dynamic-ui [hidden] { display: none; }
+        .result-dynamic-ui text { fill: #fff8e8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 42px; font-weight: 1000; text-anchor: middle; paint-order: stroke; stroke: rgba(20, 42, 48, .72); stroke-width: 8px; }
+        .result-dynamic-ui #resultNextSvg { font-size: 24px; stroke-width: 6px; word-spacing: 0; }
+        .result-dynamic-ui .result-restart-surface text { fill: #2c210c; font-size: 34px; stroke: none; }
+        .result-dynamic-ui .result-restart-surface { display: none; }
+        .result-restart-hitbox { position: absolute; left: 61.71875%; top: 71.25%; width: 21.875%; height: 13.5%; z-index: 6; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
+        .result-restart-hitbox .result-retry-art { display: none; }
+        .result-title-art { position: absolute; width: min(560px, 54%); left: 58px; top: 146px; z-index: 3; }
         .result-correct-art {
           position: absolute;
           left: 116px;
@@ -494,16 +583,7 @@
           display: block;
           width: min(250px, 24%);
           height: auto;
-          filter: drop-shadow(0 12px 20px rgba(0,0,0,.38));
-        }
-        .result-count-overlay .result-correct-art {
-          position: static;
-          display: block;
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.36));
-          transform: none;
+          z-index: 3;
         }
         .result-rank-button-art {
           position: absolute;
@@ -534,9 +614,9 @@
           left: calc(50% - 125px);
           bottom: 78px;
           width: 250px;
-          height: 100px;
+          height: 77px;
         }
-        .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; }
+        .result-retry-hitbox { position: absolute; right: 78px; bottom: 78px; width: 260px; height: 108px; border: 0; background: transparent; padding: 0; cursor: pointer; pointer-events: auto; z-index: 6; }
         .result-retry-art { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
         @keyframes slot-pop { 0% { transform: scale(.96); } 55% { transform: scale(1.04); } 100% { transform: scale(1); } }
         @media (max-width: 900px) {
@@ -546,11 +626,26 @@
           .problem-card { padding: 18px; }
           .visual-area { min-height: 330px; }
           .choice-button { min-height: 72px; }
-          .cover-start-button { width: clamp(300px, 28vw, 360px); height: auto; aspect-ratio: 1611 / 680; }
           .result-title-art { width: 52%; }
           .result-correct-art { left: 82px; top: 410px; width: 230px; }
         }
+        @media (max-width: 1100px) {
+          .topic-badge { left: auto; right: var(--stage-inset); }
+        }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+    .mathmon-scoreboard,
+    .result-leaderboard-hitbox,
+    .result-rank-button-art,
+    #leaderboardButton,
+    #leaderboardButtonArt,
+    [data-action="leaderboard"] {
+      display: none !important;
+    }
+
+    .ranking-disabled {
+      display: none !important;
+    }
+
     .mathmon-scoreboard {
       --scoreboard-font: "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
       --scoreboard-title-fill: #fff6d1;
@@ -895,6 +990,11 @@
       gap: 10px;
     }
 
+    .game[data-workbench-type="jump-islands"] .big-problem {
+      padding-block: 2px;
+      line-height: 1.16;
+    }
+
     .game[data-workbench-type="jump-islands"] .visual-area {
       min-height: 0;
     }
@@ -1066,60 +1166,49 @@
       display: none;
     }
 
-    .game[data-workbench-type="jump-islands"] .result-count-overlay {
-      --result-score-left: 64.4%;
-      --result-score-top: 55.3%;
-      --result-score-width: 24.6%;
-      --result-score-height: 10.9%;
+    .game[data-workbench-type="jump-islands"] .result-correct-art {
+      left: 63.9%;
+      top: 57.5%;
+      width: 25.3%;
+      height: 12.4%;
+      object-fit: contain;
+      transform: translateY(-8%);
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.36));
     }
 
-    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="sand"] .result-count-overlay {
-      --result-score-left: 64.4%;
-      --result-score-top: 55.5%;
-      --result-score-width: 25.2%;
-      --result-score-height: 12.5%;
+    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="sand"] .result-correct-art {
+      left: 64.4%;
+      top: 55.5%;
+      width: 25.2%;
+      height: 12.5%;
     }
 
-    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="forest"] .result-count-overlay {
-      --result-score-left: 64.7%;
-      --result-score-top: 56%;
-      --result-score-width: 24.9%;
-      --result-score-height: 11.8%;
-    }
-
-    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="cloud"] .result-count-overlay {
-      --result-score-left: 63%;
-      --result-score-top: 55.5%;
-      --result-score-width: 26.5%;
-      --result-score-height: 12.4%;
-    }
-
-    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="starlight"] .result-count-overlay {
-      --result-score-left: 63.1%;
-      --result-score-top: 57.5%;
-      --result-score-width: 26.8%;
-      --result-score-height: 12%;
-    }
-
-    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="rainbow"] .result-count-overlay,
-    .game[data-workbench-type="jump-islands"] #screen-result[data-result-island="rainbow"] .result-count-overlay {
-      --result-score-left: 64.4%;
-      --result-score-top: 55.3%;
-      --result-score-width: 24.6%;
-      --result-score-height: 10.9%;
-    }
-
-    .game[data-workbench-type="jump-islands"] .result-retry-mask {
-      position: absolute;
+    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="forest"] .result-correct-art {
       left: 64.7%;
-      top: 70.9%;
-      width: 24%;
-      height: 17.1%;
-      border: 3px solid rgba(255, 255, 255, 0.68);
-      border-radius: 24px;
-      background: rgb(207, 235, 250);
-      box-shadow: inset 0 0 0 2px rgba(95, 163, 216, 0.18);
-      pointer-events: none;
+      top: 56%;
+      width: 24.9%;
+      height: 11.8%;
+    }
+
+    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="cloud"] .result-correct-art {
+      left: 63%;
+      top: 55.5%;
+      width: 26.5%;
+      height: 12.4%;
+    }
+
+    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="starlight"] .result-correct-art {
+      left: 63.1%;
+      top: 57.5%;
+      width: 26.8%;
+      height: 12%;
+    }
+
+    .game[data-workbench-type="jump-islands"] #screen-result[data-result-tier="rainbow"] .result-correct-art {
+      left: 63.9%;
+      top: 54.3%;
+      width: 26.9%;
+      height: 12.1%;
     }
 
     .game[data-workbench-type="jump-islands"] .result-retry-hitbox {
@@ -1133,7 +1222,7 @@
     }
 
     .game[data-workbench-type="jump-islands"] .result-retry-art {
-      display: block;
+      display: none;
     }
 
     .game[data-workbench-type="jump-islands"] .result-rank-button-art,
@@ -1182,11 +1271,431 @@
       }
     }
   </style>
-  <script src="../_shared/audio/mathmon-audio-v1.js?v=20260803-real-gesture-v2"></script>
+
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+    (function installMathmonAudio(global) {
+      "use strict";
+
+      if (global.MathmonAudio?.version === "mathmon-audio-v1") return;
+
+      const VERSION = "mathmon-audio-v1";
+      const PREF_KEYS = Object.freeze({
+        bgm: "mathmon-audio-bgm-enabled",
+        sfx: "mathmon-audio-sfx-enabled",
+      });
+      const currentScript = document.currentScript;
+      const scriptUrl = currentScript?.dataset.mathmonAudioBase
+        ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
+        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+      const BGM_TRACK = Object.freeze({
+        src: new URL(
+          "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
+          scriptUrl,
+        ).href,
+        gain: 0.025,
+        duckGain: 0.008,
+        fadeSeconds: 1.2,
+      });
+      const SFX_PLANS = Object.freeze({
+        start: Object.freeze([260, 330, 392]),
+        correct: Object.freeze([392, 494, 659]),
+        try: Object.freeze([220, 196]),
+        reward: Object.freeze([392, 523, 784]),
+        next: Object.freeze([330, 392]),
+        scan: Object.freeze([180, 240, 300]),
+        measure: Object.freeze([330, 440, 554]),
+        finish: Object.freeze([392, 523, 659, 784]),
+      });
+      const DUCK_SECONDS = Object.freeze({
+        correct: 0.6,
+        reward: 1.1,
+        scan: 0.8,
+        measure: 0.8,
+        finish: 1.35,
+      });
+      const CUE_ALIASES = Object.freeze({
+        start: "start",
+        uiStart: "start",
+        correct: "correct",
+        success: "correct",
+        "step-correct": "correct",
+        answerCorrect: "correct",
+        "problem-complete": "correct",
+        try: "try",
+        error: "try",
+        wrong: "try",
+        "step-wrong": "try",
+        answerWrongSoft: "try",
+        fuelLoss: "try",
+        reward: "reward",
+        "reward-open": "reward",
+        "reward-rare": "reward",
+        "reward-legend": "reward",
+        rewardPositive: "reward",
+        rewardMega: "reward",
+        rewardRainbow: "reward",
+        rewardLaunch: "reward",
+        fuelPositive: "reward",
+        fuelMega: "reward",
+        fuelRainbow: "reward",
+        fuelLaunch: "reward",
+        rewardTransfer: "measure",
+        measure: "measure",
+        scan: "scan",
+        measureScan: "scan",
+        next: "next",
+        uiNext: "next",
+        fuelEmpty: "next",
+        rewardEmpty: "next",
+        scoreboard: "next",
+        finish: "finish",
+        result: "finish",
+        resultLow: "finish",
+        resultMid: "finish",
+        resultHigh: "finish",
+        resultRare: "finish",
+      });
+
+      const state = {
+        bgmEnabled: readPreference(PREF_KEYS.bgm, true),
+        sfxEnabled: readPreference(PREF_KEYS.sfx, true),
+        context: null,
+        bgmGain: null,
+        bgmBuffer: null,
+        bgmBufferPromise: null,
+        bgmSource: null,
+        bgmStartCount: 0,
+        bgmStopCount: 0,
+        unlocked: false,
+        sfxLog: [],
+        legacyQa: null,
+        controlsBound: false,
+      };
+
+      writePreference(PREF_KEYS.bgm, state.bgmEnabled);
+      writePreference(PREF_KEYS.sfx, state.sfxEnabled);
+
+      function parsePreference(value, fallback) {
+        if (value == null) return fallback;
+        if (value === true || value === "true" || value === "on" || value === "1") return true;
+        if (value === false || value === "false" || value === "off" || value === "0") return false;
+        return fallback;
+      }
+
+      function readPreference(key, fallback) {
+        try {
+          return parsePreference(global.localStorage.getItem(key), fallback);
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function writePreference(key, enabled) {
+        try {
+          global.localStorage.setItem(key, String(Boolean(enabled)));
+        } catch (error) {
+          // Some embedded browsers block localStorage. Audio still works for this session.
+        }
+      }
+
+      function ensureContext() {
+        if (state.context) return state.context;
+        const AudioContext = global.AudioContext || global.webkitAudioContext;
+        if (!AudioContext) return null;
+        state.context = new AudioContext();
+        state.bgmGain = state.context.createGain();
+        state.bgmGain.gain.value = 0.0001;
+        state.bgmGain.connect(state.context.destination);
+        return state.context;
+      }
+
+      async function unlock() {
+        const context = ensureContext();
+        if (!context) return false;
+        if (context.state === "suspended") {
+          try {
+            await context.resume();
+          } catch (error) {
+            return false;
+          }
+        }
+        state.unlocked = context.state === "running";
+        return state.unlocked;
+      }
+
+      function holdAudioParam(param, time) {
+        if (typeof param.cancelAndHoldAtTime === "function") {
+          param.cancelAndHoldAtTime(time);
+          return;
+        }
+        const value = Math.max(0.0001, Number(param.value) || 0.0001);
+        param.cancelScheduledValues(time);
+        param.setValueAtTime(value, time);
+      }
+
+      function loadBgmBuffer() {
+        if (state.bgmBuffer) return Promise.resolve(state.bgmBuffer);
+        if (state.bgmBufferPromise) return state.bgmBufferPromise;
+        const context = ensureContext();
+        if (!context) return Promise.resolve(null);
+        state.bgmBufferPromise = fetch(BGM_TRACK.src)
+          .then((response) => {
+            if (!response.ok) throw new Error(`BGM load failed: ${response.status}`);
+            return response.arrayBuffer();
+          })
+          .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+          .then((buffer) => {
+            state.bgmBuffer = buffer;
+            return buffer;
+          })
+          .catch((error) => {
+            console.warn("Background music could not be loaded.", error);
+            state.bgmBufferPromise = null;
+            return null;
+          });
+        return state.bgmBufferPromise;
+      }
+
+      async function startBgm() {
+        if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        if (!(await unlock())) return false;
+        const buffer = await loadBgmBuffer();
+        if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        const source = state.context.createBufferSource();
+        const now = state.context.currentTime;
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(state.bgmGain);
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + BGM_TRACK.fadeSeconds);
+        source.onended = () => {
+          if (state.bgmSource === source) state.bgmSource = null;
+        };
+        state.bgmSource = source;
+        state.bgmStartCount += 1;
+        source.start(now);
+        return true;
+      }
+
+      function stopBgm(options = {}) {
+        const immediate = Boolean(options.immediate);
+        const source = state.bgmSource;
+        if (!source || !state.context || !state.bgmGain) return false;
+        state.bgmSource = null;
+        state.bgmStopCount += 1;
+        const now = state.context.currentTime;
+        if (immediate) {
+          try {
+            source.stop(now);
+          } catch (error) {
+            // The source may already have ended.
+          }
+          state.bgmGain.gain.cancelScheduledValues(now);
+          state.bgmGain.gain.setValueAtTime(0.0001, now);
+          return true;
+        }
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(0.0001, now + BGM_TRACK.fadeSeconds);
+        try {
+          source.stop(now + BGM_TRACK.fadeSeconds + 0.05);
+        } catch (error) {
+          // The source may already have ended.
+        }
+        return true;
+      }
+
+      function duckBgm(seconds) {
+        if (!state.bgmSource || !state.context || !state.bgmGain) return;
+        const now = state.context.currentTime;
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.duckGain, now + 0.08);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + Math.max(0.12, Number(seconds) || 0.6));
+      }
+
+      function normalizeCue(cue) {
+        return CUE_ALIASES[cue] || (SFX_PLANS[cue] ? cue : "next");
+      }
+
+      async function play(cue = "next") {
+        if (!state.sfxEnabled) return false;
+        if (!(await unlock())) return false;
+        const normalizedCue = normalizeCue(cue);
+        const duckSeconds = DUCK_SECONDS[normalizedCue];
+        if (duckSeconds) duckBgm(duckSeconds);
+        const now = state.context.currentTime;
+        SFX_PLANS[normalizedCue].forEach((frequency, index) => {
+          const at = now + index * 0.08;
+          const oscillator = state.context.createOscillator();
+          const gain = state.context.createGain();
+          oscillator.frequency.value = frequency;
+          oscillator.type = normalizedCue === "try" ? "triangle" : "sine";
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(0.045, at + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.16);
+          oscillator.connect(gain).connect(state.context.destination);
+          oscillator.start(at);
+          oscillator.stop(at + 0.18);
+        });
+        state.sfxLog.push(String(cue));
+        if (state.sfxLog.length > 80) state.sfxLog.shift();
+        return true;
+      }
+
+      function syncControls() {
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        if (bgmToggle) bgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+        if (sfxToggle) sfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      }
+
+      function setPreference(kind, enabled, options = {}) {
+        const value = Boolean(enabled);
+        if (kind === "bgm") {
+          state.bgmEnabled = value;
+          writePreference(PREF_KEYS.bgm, value);
+          if (value && options.start !== false) startBgm();
+          if (!value) stopBgm({ immediate: true });
+        } else if (kind === "sfx") {
+          state.sfxEnabled = value;
+          writePreference(PREF_KEYS.sfx, value);
+        }
+        if (options.syncControls !== false) syncControls();
+      }
+
+      function setPrefs(prefs = {}, options = {}) {
+        if (typeof prefs.bgmEnabled === "boolean") {
+          setPreference("bgm", prefs.bgmEnabled, options);
+        }
+        if (typeof prefs.sfxEnabled === "boolean") {
+          setPreference("sfx", prefs.sfxEnabled, options);
+        }
+        return getPrefs();
+      }
+
+      function activeScreenName() {
+        const screen = document.querySelector(".screen.is-active, [data-screen].is-active");
+        return screen?.dataset.screen || screen?.id || "";
+      }
+
+      function getPrefs() {
+        const settingsBackdrop = document.getElementById("settingsBackdrop");
+        return {
+          version: VERSION,
+          bgmEnabled: state.bgmEnabled,
+          sfxEnabled: state.sfxEnabled,
+          bgmPlaying: Boolean(state.bgmSource),
+          bgmLoaded: Boolean(state.bgmBuffer),
+          bgmDuration: state.bgmBuffer?.duration || 0,
+          bgmTrack: BGM_TRACK.src,
+          bgmStartCount: state.bgmStartCount,
+          bgmStopCount: state.bgmStopCount,
+          settingsOpen: Boolean(settingsBackdrop && !settingsBackdrop.hidden),
+          screen: activeScreenName(),
+        };
+      }
+
+      function setLegacyPrefs(prefs) {
+        const legacy = state.legacyQa;
+        if (legacy && typeof legacy.setPrefs === "function") {
+          try {
+            legacy.setPrefs(prefs);
+            return;
+          } catch (error) {
+            console.warn("Lesson audio settings could not be synchronized.", error);
+          }
+        }
+        const pairs = [
+          ["bgmEnabled", "settingsBgmToggle"],
+          ["sfxEnabled", "settingsSfxToggle"],
+        ];
+        pairs.forEach(([key, id]) => {
+          if (typeof prefs[key] !== "boolean") return;
+          const toggle = document.getElementById(id);
+          if (!toggle) return;
+          const current = toggle.getAttribute("aria-checked") === "true";
+          if (current !== prefs[key]) toggle.click();
+        });
+      }
+
+      function installQaHook() {
+        state.legacyQa = global.__mathmonAudioQa || null;
+        global.__mathmonAudioQa = {
+          version: VERSION,
+          keys: PREF_KEYS,
+          cues: SFX_PLANS,
+          getLog: () => [...state.sfxLog],
+          clearLog: () => {
+            state.sfxLog = [];
+          },
+          getPrefs,
+          setPrefs: (prefs = {}) => {
+            setLegacyPrefs(prefs);
+            return setPrefs(prefs);
+          },
+          play,
+          startBgm,
+          stopBgm,
+        };
+      }
+
+      function bindControls() {
+        if (state.controlsBound) return;
+        state.controlsBound = true;
+        document.querySelector("main.game")?.setAttribute("data-audio-standard", VERSION);
+        syncControls();
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        bgmToggle?.addEventListener("click", () => {
+          const enabled = bgmToggle.getAttribute("aria-checked") === "true";
+          setPreference("bgm", enabled);
+        });
+        sfxToggle?.addEventListener("click", () => {
+          const enabled = sfxToggle.getAttribute("aria-checked") === "true";
+          setPreference("sfx", enabled);
+        });
+        installQaHook();
+      }
+
+      function handleFirstInteraction() {
+        unlock().then(() => {
+          if (state.bgmEnabled) startBgm();
+        });
+      }
+
+      document.addEventListener("pointerdown", handleFirstInteraction, { capture: true, once: true });
+      document.addEventListener("keydown", handleFirstInteraction, { capture: true, once: true });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopBgm({ immediate: true });
+        else if (state.bgmEnabled && state.unlocked) startBgm();
+      });
+      global.addEventListener("pagehide", () => stopBgm({ immediate: true }));
+
+      global.MathmonAudio = Object.freeze({
+        version: VERSION,
+        keys: PREF_KEYS,
+        track: BGM_TRACK,
+        plans: SFX_PLANS,
+        play,
+        unlock,
+        startBgm,
+        stopBgm,
+        duckBgm,
+        getPrefs,
+        setPrefs,
+      });
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindControls, { once: true });
+      } else {
+        bindControls();
+      }
+    })(window);
+  </script>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-render-mode="fullscene-score-slot" data-result-action-standard="shared-v1" data-reward-mode="modal-art" data-tutorial-mode="card-grid" data-workbench-type="jump-islands" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="fullscene-score-slot" data-reward-mode="modal-art" data-tutorial-mode="card-grid" data-workbench-type="jump-islands" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-1-3" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="1dec48175e104dc51e00a7c8f36e86f79a63a804499f69cf55697fe17aca1350" data-build-inputs-sha256="2f61dd265f68c60e22818e16a882f10ab682e59c99d3c8560a03545f4444cf4e"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -1214,17 +1723,18 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 1단원</div></div>
-        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 10배 점프섬</h1><img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">0을 가리고 곱한 뒤 다시 붙여요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true"></button></div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 1단원</div></div>
+        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 10배 점프섬</h1><img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">0을 가리고 곱한 뒤 다시 붙여요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">(몇십)×(몇십), (몇십몇)×(몇십)</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div>
-        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">점프섬으로 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><div class="card-mark">1</div><strong>0을 잠깐 가려요.</strong><p>큰 수를 작은 곱셈으로 바꿔 봐요.</p></div><div class="tutorial-card"><div class="card-mark">2</div><strong>먼저 곱해요.</strong><p>가린 0은 아직 붙이지 않아요.</p></div><div class="tutorial-card"><div class="card-mark">3</div><strong>0을 다시 붙여요.</strong><p>맞히면 바람을 타고 다음 섬으로 가요.</p></div></div><div class="tutorial-action"><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
+        <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">점프섬으로 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><div class="card-mark">1</div><strong>0을 잠깐 가려요.</strong><p>큰 수를 작은 곱셈으로 바꿔 봐요.</p></div><div class="tutorial-card"><div class="card-mark">2</div><strong>먼저 곱해요.</strong><p>가린 0은 아직 붙이지 않아요.</p></div><div class="tutorial-card"><div class="card-mark">3</div><strong>0을 다시 붙여요.</strong><p>맞히면 바람을 타고 다음 섬으로 가요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>매스몬 점프섬</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="점프 거리"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">출발섬</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="점프 거리"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">출발섬</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">바람 보기</button></section></div>
+        <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="reward-wind-path-generated.webp" alt="">
@@ -1232,30 +1742,32 @@
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">출발섬</p><p class="reward-change" id="rewardChange">바람이 불었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
-        <div class="reward-card">
+        <div class="reward-card" data-reward-phase="closed">
           <div class="reward-visual" id="rewardVisual" aria-hidden="true"></div>
           <h2 class="visually-hidden" id="modalRewardTitle">보상</h2>
-          <p class="reward-label" id="modalRewardLabel">보상</p>
-          <button class="primary-button" id="modalRewardNextButton" type="button">다음</button>
+          <p class="reward-label" id="modalRewardLabel" aria-live="polite">무엇이 나올까요?</p>
+          <button class="primary-button reward-open-button" id="modalRewardOpenButton" type="button">열기</button>
+          <button class="primary-button" id="modalRewardNextButton" type="button" hidden>다음</button>
         </div>
       </div>
-      <section class="screen result" id="screen-result" data-result-tier="start" data-result-island="start" aria-labelledby="resultTitle">
+      <section class="screen result" id="screen-result" data-result-tier="start" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-final-start-generated.webp" alt="">
         <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div>
-        <div class="result-layer"><img class="result-title-art" id="resultTitleArt" src="result-stamp-ready-generated.webp" alt="" aria-hidden="true"><div id="resultCountOverlay" class="result-count-overlay" aria-label="정답 0/10"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><strong id="finalCorrectText" class="visually-hidden">0/10</strong></div><div class="result-retry-mask" aria-hidden="true"></div><img class="result-rank-button-art" id="leaderboardButtonArt" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="" alt="" aria-hidden="true" hidden><img class="result-title-art" id="resultTitleArt" src="result-stamp-ready-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">출발섬</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 점프 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-jump-generated.webp" data-scoreboard-result-kind="island" data-scoreboard-score-label="도착한 섬" data-scoreboard-list-title="점프섬 순위" data-scoreboard-unit="3학년 2학기 1단원 3차시"></section>
     </div>
   </main>
   <script>
-    (function () {
+    const MathmonScoreboard = (function () {
       const SVG_NS = "http://www.w3.org/2000/svg";
       const ROW_Y = [422, 476, 530, 584];
       const ROW_HEIGHT = 48;
       const ROW_STEP = 54;
       const VISIBLE_ROWS = ROW_Y.length;
       const REQUEST_TIMEOUT_MS = 7000;
+      const SCOREBOARD_PRODUCT_ENABLED = false;
       const OUTCOME_LABELS = Object.freeze({
         box: Object.freeze({ retry: "상자 준비" }),
         rocket: Object.freeze({
@@ -1479,9 +1991,9 @@
                 <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
                 <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
                 <g class="mathmon-scoreboard-action-labels">
-                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
-                  <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="569" y="631" width="142" height="64" rx="24"></rect>
+                  <rect class="mathmon-scoreboard-button-face" x="731" y="631" width="142" height="64" rx="24"></rect>
                   <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
                   <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
                   <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
@@ -1490,9 +2002,9 @@
             </g>
           </svg>
           <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
-            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 631; --w: 142; --h: 64;" aria-label="새로 보기"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 631; --w: 142; --h: 64;" aria-label="결과로"></button>
+            <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
             <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
@@ -1733,6 +2245,19 @@
       }
 
       function createApiBridge(options) {
+        // Product policy: ranking stays hidden and must not contact the API until
+        // the owner explicitly changes the plan and removes this guard.
+        const disabledBridge = Object.freeze({
+          reset: () => null,
+          start: () => null,
+          open: () => null,
+          refresh: () => null,
+          render: () => null,
+          getSession: () => null,
+          getSessionPromise: () => null
+        });
+        if (!SCOREBOARD_PRODUCT_ENABLED) return disabledBridge;
+
         const root = mount(options.root);
         const state = {
           session: null,
@@ -1811,6 +2336,7 @@
           state.gameStartedAt = Math.round(performance.now());
           state.sessionPromise = startSession();
           renderBridge();
+          return state.sessionPromise;
         }
 
         async function submitScoreboardIfNeeded() {
@@ -1900,14 +2426,17 @@
           open,
           refresh,
           render: renderBridge,
-          getSession: () => state.session
+          getSession: () => state.session,
+          getSessionPromise: () => state.sessionPromise
         });
       }
 
-      window.MathmonScoreboard = Object.freeze({ mount, render, createApiBridge });
+      const api = Object.freeze({ mount, render, createApiBridge });
+      if (Object.isExtensible(window)) window.MathmonScoreboard = api;
+      return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"engine-v1-1-scoreboard-pilot","id":"3-2-1-3","folder":"3-2-1-3-mathmon-jump-islands","modelName":"Lesson3JumpIslandsModel","title":"매스몬 10배 점프섬","shortTitle":"매스몬 점프섬","topic":"(몇십)×(몇십), (몇십몇)×(몇십)","unitBadge":"1단원 곱셈","goal":"0을 가리고 곱한 뒤 다시 붙여요.","action":"작은 곱을 찾고 0을 붙인다.","buttonLabel":"바람 보기","rewardScreenTitle":"점프 바람","rewardThing":"바람","progressLabel":"점프 거리","rewardComplete":"바람이 불었어요.","rewardSmall":"살짝 움직였어요.","rewardBig":"멀리 날아갔어요.","tutorialTitle":"점프섬으로 가기 전에","tutorialButton":"문제 시작","tutorialCards":[["1","0을 잠깐 가려요.","큰 수를 작은 곱셈으로 바꿔 봐요."],["2","먼저 곱해요.","가린 0은 아직 붙이지 않아요."],["3","0을 다시 붙여요.","맞히면 바람을 타고 다음 섬으로 가요."]],"tutorial":{"mode":"card-grid"},"reward":{"mode":"modal-art","nextLabel":"다음 점프","artMap":{"tailwind":"reward-tailwind-generated.webp","headwind":"reward-headwind-generated.webp","pause":"reward-pause-generated.webp","gust":"reward-gust-generated.webp","rainbow":"reward-rainbow-generated.webp","shaky":"reward-shaky-generated.webp"}},"result":{"renderMode":"fullscene-score-slot"},"workbench":{"type":"jump-islands"},"scoreboard":{"enabled":false,"title":"전국 점프 순위","titleArt":"../_shared/scoreboard/scoreboard-title-jump-generated.webp","resultKind":"island","scoreLabel":"도착한 섬","listTitle":"점프섬 순위","unit":"3학년 2학기 1단원 3차시"},"results":[{"id":"start","name":"출발섬","minPower":0,"minCorrect":0,"image":"result-final-start-generated.webp","titleImage":"result-stamp-ready-generated.webp"},{"id":"sand","name":"모래섬","minPower":1,"minCorrect":0,"image":"result-final-sand-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"forest","name":"숲섬","minPower":34,"minCorrect":5,"image":"result-final-forest-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"cloud","name":"구름섬","minPower":60,"minCorrect":8,"image":"result-final-cloud-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"starlight","name":"별빛섬","minPower":86,"minCorrect":9,"image":"result-final-starlight-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"rainbow","name":"무지개섬","minPower":96,"minCorrect":10,"needsSpecial":true,"image":"result-final-rainbow-generated.webp","titleImage":"result-stamp-arrival-generated.webp"}],"rewardEvents":[{"id":"tailwind","text":"살랑 바람","weight":6400,"min":2,"max":5,"family":"tailwind","image":"reward-tailwind-generated.webp"},{"id":"headwind","text":"앞바람","weight":1700,"min":-8,"max":-4,"family":"headwind","image":"reward-headwind-generated.webp"},{"id":"pause","text":"잠깐 멈춤","weight":1284,"min":0,"max":0,"family":"pause","image":"reward-pause-generated.webp"},{"id":"gust","text":"쌩쌩 바람","weight":598,"min":8,"max":13,"family":"gust","image":"reward-gust-generated.webp"},{"id":"rainbow","text":"무지개 길","weight":18,"min":14,"max":14,"family":"rainbow","special":true,"image":"reward-rainbow-generated.webp"}],"wrongEvent":{"id":"shaky","text":"길이 흔들렸어요","min":-14,"max":-8,"family":"shaky","image":"reward-shaky-generated.webp"},"typesPerRun":["hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"냥냥몬","mathmonId":"zfa-04-nyangnyangmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-poster-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","rewardScene":"reward-wind-path-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-poster-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","play-map-strip-generated.webp","mathmon-zfa-04-nyangnyangmon.webp","reward-wind-path-generated.webp","reward-wind-button-generated.webp","reward-tailwind-generated.webp","reward-headwind-generated.webp","reward-pause-generated.webp","reward-gust-generated.webp","reward-rainbow-generated.webp","reward-shaky-generated.webp","result-final-start-generated.webp","result-final-sand-generated.webp","result-final-forest-generated.webp","result-final-cloud-generated.webp","result-final-starlight-generated.webp","result-final-rainbow-generated.webp","result-stamp-ready-generated.webp","result-stamp-arrival-generated.webp","../_shared/scoreboard/scoreboard-result-button-generated.webp","../_shared/scoreboard/scoreboard-title-jump-generated.webp"],"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"engine-v1-1-scoreboard-pilot","id":"3-2-1-3","folder":"3-2-1-3-mathmon-jump-islands","modelName":"Lesson3JumpIslandsModel","title":"매스몬 10배 점프섬","shortTitle":"매스몬 점프섬","topic":"(몇십)×(몇십), (몇십몇)×(몇십)","unitBadge":"1단원 곱셈","goal":"0을 가리고 곱한 뒤 다시 붙여요.","action":"작은 곱을 찾고 0을 붙인다.","buttonLabel":"바람 보기","rewardScreenTitle":"점프 바람","rewardThing":"바람","progressLabel":"점프 거리","rewardComplete":"바람이 불었어요.","rewardSmall":"살짝 움직였어요.","rewardBig":"멀리 날아갔어요.","tutorialTitle":"점프섬으로 가기 전에","tutorialButton":"문제 시작","tutorialCards":[["1","0을 잠깐 가려요.","큰 수를 작은 곱셈으로 바꿔 봐요."],["2","먼저 곱해요.","가린 0은 아직 붙이지 않아요."],["3","0을 다시 붙여요.","맞히면 바람을 타고 다음 섬으로 가요."]],"tutorial":{"mode":"card-grid"},"reward":{"mode":"modal-art","nextLabel":"다음 점프","artMap":{"tailwind":"reward-tailwind-generated.webp","headwind":"reward-headwind-generated.webp","pause":"reward-pause-generated.webp","gust":"reward-gust-generated.webp","rainbow":"reward-rainbow-generated.webp","shaky":"reward-shaky-generated.webp"}},"result":{"renderMode":"fullscene-score-slot"},"workbench":{"type":"jump-islands"},"scoreboard":{"enabled":false,"title":"전국 점프 순위","titleArt":"../_shared/scoreboard/scoreboard-title-jump-generated.webp","resultKind":"island","scoreLabel":"도착한 섬","listTitle":"점프섬 순위","unit":"3학년 2학기 1단원 3차시"},"results":[{"id":"start","name":"출발섬","minPower":0,"minCorrect":0,"image":"result-final-start-generated.webp","titleImage":"result-stamp-ready-generated.webp"},{"id":"sand","name":"모래섬","minPower":1,"minCorrect":0,"image":"result-final-sand-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"forest","name":"숲섬","minPower":34,"minCorrect":5,"image":"result-final-forest-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"cloud","name":"구름섬","minPower":60,"minCorrect":8,"image":"result-final-cloud-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"starlight","name":"별빛섬","minPower":86,"minCorrect":9,"image":"result-final-starlight-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"rainbow","name":"무지개섬","minPower":96,"minCorrect":10,"needsSpecial":true,"image":"result-final-rainbow-generated.webp","titleImage":"result-stamp-arrival-generated.webp"}],"rewardEvents":[{"id":"tailwind","text":"살랑 바람","weight":6400,"min":2,"max":5,"family":"tailwind","image":"reward-tailwind-generated.webp"},{"id":"headwind","text":"앞바람","weight":1700,"min":-8,"max":-4,"family":"headwind","image":"reward-headwind-generated.webp"},{"id":"pause","text":"잠깐 멈춤","weight":1284,"min":0,"max":0,"family":"pause","image":"reward-pause-generated.webp"},{"id":"gust","text":"쌩쌩 바람","weight":598,"min":8,"max":13,"family":"gust","image":"reward-gust-generated.webp"},{"id":"rainbow","text":"무지개 길","weight":18,"min":14,"max":14,"family":"rainbow","special":true,"image":"reward-rainbow-generated.webp"}],"wrongEvent":{"id":"shaky","text":"길이 흔들렸어요","min":-14,"max":-8,"family":"shaky","image":"reward-shaky-generated.webp"},"typesPerRun":["hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"냥냥몬","mathmonId":"zfa-04-nyangnyangmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-poster-generated.webp","startButton":"start-button-generated.webp","rewardScene":"reward-wind-path-generated.webp","resultRetryButton":"start-button-generated.webp","resultLeaderboardButton":"result-rank-button-generated.webp"},"assets":["cover-generated.webp","title-poster-generated.webp","start-button-generated.webp","play-map-strip-generated.webp","mathmon-zfa-04-nyangnyangmon.webp","reward-wind-path-generated.webp","reward-wind-button-generated.webp","reward-tailwind-generated.webp","reward-headwind-generated.webp","reward-pause-generated.webp","reward-gust-generated.webp","reward-rainbow-generated.webp","reward-shaky-generated.webp","result-final-start-generated.webp","result-final-sand-generated.webp","result-final-forest-generated.webp","result-final-cloud-generated.webp","result-final-starlight-generated.webp","result-final-rainbow-generated.webp","result-stamp-ready-generated.webp","result-stamp-arrival-generated.webp","result-rank-button-generated.webp","../_shared/scoreboard/scoreboard-title-jump-generated.webp"],"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","play","reward","result"]}};
     const Lesson3JumpIslandsModel = (() => {
       const SCALE_LABELS = {
         tenfold: "0 한 개 붙이기",
@@ -2158,6 +2687,10 @@
       settingsToggle: document.getElementById("settingsButton"),
       settingsBackdrop: document.getElementById("settingsBackdrop"),
       settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -2165,6 +2698,7 @@
       restartButton: document.getElementById("settingsRestartButton"),
       startButton: document.getElementById("startButton"),
       nextTutorialButton: document.getElementById("tutorialStartButton"),
+      backTutorialButton: document.getElementById("tutorialBackButton"),
       tutorialTitle: document.getElementById("tutorialTitle"),
       tutorialText: document.getElementById("tutorialText"),
       tutorialVisual: document.getElementById("tutorialVisual"),
@@ -2176,6 +2710,7 @@
       problemText: document.getElementById("problemTitle"),
       instructionText: document.getElementById("stepInstruction"),
       visualArea: document.getElementById("visualArea"),
+      playMathmonReaction: document.getElementById("playMathmonReaction"),
       choices: document.getElementById("choicesPanel"),
       feedback: document.getElementById("feedbackLine"),
       answerSlot: document.getElementById("answerSlot"),
@@ -2190,17 +2725,23 @@
       rewardPop: document.getElementById("rewardPop"),
       rewardVisual: document.getElementById("rewardVisual"),
       modalRewardLabel: document.getElementById("modalRewardLabel"),
+      modalRewardOpenButton: document.getElementById("modalRewardOpenButton"),
       modalRewardNextButton: document.getElementById("modalRewardNextButton"),
       resultBg: document.getElementById("resultBg"),
+      resultPanelArt: document.getElementById("resultPanelArt"),
       resultTitleArt: document.getElementById("resultTitleArt"),
-      resultCountOverlay: document.getElementById("resultCountOverlay"),
       resultCorrectArt: document.getElementById("resultCorrectArt"),
-      finalCorrectText: document.getElementById("finalCorrectText"),
       resultHeading: document.getElementById("resultTitle"),
       resultSummary: document.getElementById("resultSummary"),
+      resultNext: document.getElementById("resultNext"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureTrackSvg: document.getElementById("resultMeasureTrackSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultNextSvg: document.getElementById("resultNextSvg"),
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
-      retryButton: document.getElementById("retryButton"),
+      retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
       scoreboardScreen: document.getElementById("screen-scoreboard"),
     };
 
@@ -2237,7 +2778,47 @@
         scoreboardAnswers: [],
         scoreboardQuestionStartedAt: 0,
         scoreboardStepStartedAt: 0,
+        stepAttempts: [],
+        inputLocked: false,
+        pendingRewardEvent: null,
+        rewardPhase: "idle",
+        rewardTransitioning: false,
       };
+    }
+
+    async function runViewHook(name, payload) {
+      const hook = globalThis[name];
+      if (typeof hook !== "function") return;
+      try {
+        await hook(payload);
+      } catch (error) {
+        console.warn(`${name} failed`, error);
+      }
+    }
+
+    function showMathmonReaction(kind) {
+      const assets = LESSON_CONFIG.imageAssets?.mathmonReactions;
+      const source = assets?.[kind];
+      if (!ui.playMathmonReaction || !source) return Promise.resolve();
+      ui.playMathmonReaction.src = source;
+      ui.playMathmonReaction.hidden = false;
+      ui.playMathmonReaction.dataset.reaction = kind;
+      const wait = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+      return new Promise((resolve) => setTimeout(resolve, wait));
+    }
+
+    function setProblemSceneState(kind) {
+      const source = LESSON_CONFIG.imageAssets?.problemStates?.[kind];
+      const scene = document.querySelector("#screen-play > img:not(.play-mathmon-reaction)");
+      if (!scene || !source) return Promise.resolve();
+      scene.dataset.problemSceneState = kind;
+      if (scene.getAttribute("src") === source && scene.complete) return Promise.resolve();
+      scene.src = source;
+      if (scene.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        scene.addEventListener("load", resolve, { once: true });
+        scene.addEventListener("error", resolve, { once: true });
+      });
     }
 
     function readAudioFlag(key, fallback) {
@@ -2282,12 +2863,49 @@
     }
 
     function playSample(kind) {
-      window.MathmonAudio?.play(kind);
+      if (!audio.sfx) return;
+      if (window.MathmonAudio?.play) {
+        window.MathmonAudio.play(kind);
+        return;
+      }
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      if (!audio.ctx) audio.ctx = new AudioContext();
+      const ctx = audio.ctx;
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const now = ctx.currentTime;
+      const frequencies = {
+        "step-correct": 720,
+        "step-wrong": 260,
+        "problem-complete": 840,
+        "reward-open": 520,
+        "reward-rare": 660,
+        "reward-legend": 920,
+        result: 600,
+        scoreboard: 440,
+      };
+      const frequency = frequencies[kind] || 420;
+      oscillator.frequency.setValueAtTime(frequency, now);
+      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.2);
     }
 
     function renderTutorial() {
       const cards = LESSON_CONFIG.tutorialCards || [];
       const card = normalizeTutorialCard(cards[state.tutorialIndex] || cards[0] || {});
+      const cardNodes = [...document.querySelectorAll("#screen-tutorial .tutorial-card")];
+      cardNodes.forEach((node, index) => {
+        node.hidden = getTutorialMode() === "poster-two-step" && index !== state.tutorialIndex;
+      });
+      screens.tutorial.dataset.page = String(state.tutorialIndex);
+      if (ui.backTutorialButton) ui.backTutorialButton.hidden = state.tutorialIndex === 0;
       ui.tutorialTitle.textContent = getTutorialMode() === "card-grid"
         ? (LESSON_CONFIG.tutorialTitle || LESSON_CONFIG.title)
         : (card.title || LESSON_CONFIG.title);
@@ -2297,7 +2915,9 @@
       if (getTutorialMode() === "card-grid") {
         ui.nextTutorialButton.textContent = LESSON_CONFIG.tutorialButton || "시작";
       } else {
-        ui.nextTutorialButton.textContent = state.tutorialIndex >= cards.length - 1 ? "시작" : "다음";
+        ui.nextTutorialButton.textContent = state.tutorialIndex >= cards.length - 1
+          ? (LESSON_CONFIG.tutorialButton || "시작")
+          : "다음";
       }
     }
 
@@ -2334,6 +2954,12 @@
       showScreen(state.reviewReturnScreen);
     }
 
+    function previousTutorial() {
+      if (state.tutorialIndex <= 0) return;
+      state.tutorialIndex -= 1;
+      renderTutorial();
+    }
+
     function getTutorialMode() {
       return LESSON_CONFIG.tutorial?.mode || "card-grid";
     }
@@ -2344,15 +2970,18 @@
         showResult();
         return;
       }
+      setRewardTransitioning(false);
       state.stepIndex = 0;
       state.mistakeTouched = false;
       state.pendingAdvance = false;
+      state.stepAttempts = [];
       beginScoreboardQuestion(problem);
       ui.problemText.textContent = problem.prompt;
       ui.completePanel.classList.remove("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.remove("is-complete");
       ui.completeText.textContent = "";
       if (typeof renderProblemVisual === "function") renderProblemVisual(problem, state);
+      setProblemSceneState("waiting");
       renderStep();
       syncProgress();
       showScreen("play");
@@ -2363,6 +2992,7 @@
       const step = problem.steps[state.stepIndex];
       beginScoreboardStep(step);
       ui.instructionText.textContent = step.instruction;
+      ui.instructionText.hidden = false;
       ui.feedback.textContent = "";
       ui.feedback.dataset.state = "idle";
       ui.continueButton.hidden = true;
@@ -2373,12 +3003,20 @@
       renderStepChips(problem);
       ui.choices.innerHTML = "";
 
+      if (typeof renderChoicesForStep === "function") {
+        const handled = renderChoicesForStep(problem, step, state, handleChoice);
+        if (handled === true) {
+          if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
+          return;
+        }
+      }
+
       step.choices.forEach((choice) => {
         const button = document.createElement("button");
         button.className = "choice-button";
         button.type = "button";
-        button.textContent = String(choice);
-        button.dataset.choice = String(choice);
+        button.textContent = getChoiceLabel(choice);
+        button.dataset.choice = getChoiceId(choice);
         button.addEventListener("click", () => handleChoice(choice, button));
         ui.choices.appendChild(button);
       });
@@ -2386,19 +3024,31 @@
       if (typeof updateProblemVisualForStep === "function") updateProblemVisualForStep(problem, step, state);
     }
 
-    function handleChoice(choice, button) {
-      if (state.pendingAdvance) return;
+    async function handleChoice(choice, button) {
+      if (state.pendingAdvance || state.inputLocked) return;
+      state.inputLocked = true;
       const problem = state.problems[state.problemIndex];
       const step = problem.steps[state.stepIndex];
       const correct = LessonModel.validateChoice(step, choice);
       recordScoreboardStep(problem, step, choice, correct);
+      state.stepAttempts.push({
+        choiceId: getChoiceId(choice),
+        misconceptionId: getChoiceMisconceptionId(choice),
+        correct,
+      });
 
       if (!correct) {
         state.mistakeTouched = true;
         button.dataset.state = "wrong";
         ui.feedback.dataset.state = "wrong";
-        ui.feedback.textContent = step.wrongText || "다시 골라 봐요.";
-        playSample("error");
+        ui.feedback.textContent = getChoiceFeedback(choice) || step.wrongText || "다시 골라 봐요.";
+        ui.instructionText.hidden = true;
+        if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: false, button });
+        playSample("step-wrong");
+        await setProblemSceneState("waiting");
+        await showMathmonReaction("wrong");
+        await runViewHook("onStepWrong", { problem, step, choice, state, button });
+        state.inputLocked = false;
         return;
       }
 
@@ -2408,28 +3058,127 @@
       });
       ui.feedback.dataset.state = "correct";
       ui.feedback.textContent = step.correctText || "좋아요. 칸에 딱 맞았어요.";
+      ui.instructionText.hidden = true;
       ui.answerSlot.textContent = step.reveal || step.correctText || String(step.answer);
       ui.answerSlot.classList.add("is-filled");
-      playSample("success");
+      playSample("step-correct");
+      await setProblemSceneState("working");
+      await showMathmonReaction("correct");
+      if (typeof renderAttempt === "function") renderAttempt(problem, step, choice, state, { correct: true, button });
       if (typeof revealCorrectStep === "function") revealCorrectStep(problem, step, state);
+      await runViewHook("onStepCorrect", { problem, step, choice, state, button });
 
       if (state.stepIndex < problem.steps.length - 1) {
         state.pendingAdvance = true;
+        if (step.advance?.mode === "button" && typeof prepareStepAdvance === "function") {
+          const prepared = prepareStepAdvance(problem, step, state, advanceToNextStep);
+          if (prepared === true) return;
+        }
+        const delay = Number.isFinite(step.advance?.delayMs) ? step.advance.delayMs : 900;
         setTimeout(() => {
-          state.stepIndex += 1;
-          state.pendingAdvance = false;
-          renderStep();
-        }, 650);
+          advanceToNextStep();
+        }, Math.max(0, delay));
         return;
       }
 
+      if (step.advance?.mode === "button" && typeof prepareProblemComplete === "function") {
+        state.pendingAdvance = true;
+        const prepared = prepareProblemComplete(problem, step, state, () => completeCurrentProblem(problem, step, choice));
+        if (prepared === true) return;
+        state.pendingAdvance = false;
+      }
+
+      await completeCurrentProblem(problem, step, choice);
+    }
+
+    async function completeCurrentProblem(problem, step, choice) {
+      if (state.completed) return;
+      state.pendingAdvance = false;
       state.completed = true;
+      await setProblemSceneState("complete");
       if (!state.mistakeTouched) state.correctFirstTry += 1;
+      await runViewHook("onProblemComplete", { problem, step, choice, state });
+      await showMathmonReaction("reward");
+      playSample("problem-complete");
       ui.completeText.textContent = problem.finalExpression || ui.answerSlot.textContent;
       ui.completePanel.classList.add("is-visible");
       ui.completePanel.closest(".problem-grid")?.classList.add("is-complete");
       ui.continueButton.hidden = false;
-      ui.continueButton.focus();
+      ui.continueButton.focus({ preventScroll: true });
+      state.inputLocked = false;
+    }
+
+    function advanceToNextStep() {
+      if (!state.pendingAdvance) return;
+      state.stepIndex += 1;
+      state.pendingAdvance = false;
+      state.inputLocked = false;
+      state.stepAttempts = [];
+      renderStep();
+    }
+
+    function getChoiceLabel(choice) {
+      if (choice && typeof choice === "object") return String(choice.label ?? choice.value ?? choice.id ?? "");
+      return String(choice);
+    }
+
+    function getChoiceId(choice) {
+      if (choice && typeof choice === "object") return String(choice.id ?? choice.value ?? choice.label ?? "");
+      return String(choice);
+    }
+
+    function getChoiceMisconceptionId(choice) {
+      return choice && typeof choice === "object" && choice.misconceptionId
+        ? String(choice.misconceptionId)
+        : null;
+    }
+
+    function getChoiceFeedback(choice) {
+      return choice && typeof choice === "object" && choice.feedback
+        ? String(choice.feedback)
+        : "";
+    }
+
+    function wireDirectChoice(button, dropTarget, choice, choose) {
+      button.draggable = true;
+      button.dataset.directChoice = "true";
+      const submit = () => choose(choice, button);
+      button.addEventListener("click", submit);
+      button.addEventListener("dragstart", (event) => {
+        event.dataTransfer?.setData("text/plain", getChoiceId(choice));
+        button.dataset.dragging = "true";
+        dropTarget.__directChoice = { choice, button };
+      });
+      button.addEventListener("dragend", () => { delete button.dataset.dragging; });
+      if (dropTarget.dataset.directDropReady !== "true") {
+        dropTarget.dataset.directDropReady = "true";
+        dropTarget.addEventListener("dragover", (event) => event.preventDefault());
+        dropTarget.addEventListener("drop", (event) => {
+          event.preventDefault();
+          const active = dropTarget.__directChoice;
+          if (active) choose(active.choice, active.button);
+          dropTarget.__directChoice = null;
+        });
+      }
+
+      let start = null;
+      button.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse") return;
+        start = { x: event.clientX, y: event.clientY };
+        button.setPointerCapture(event.pointerId);
+      });
+      button.addEventListener("pointermove", (event) => {
+        if (!start) return;
+        button.style.translate = `${event.clientX - start.x}px ${event.clientY - start.y}px`;
+      });
+      button.addEventListener("pointerup", (event) => {
+        if (!start) return;
+        const rect = dropTarget.getBoundingClientRect();
+        const dropped = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        start = null;
+        button.style.translate = "";
+        if (dropped) submit();
+      });
     }
 
     function renderStepChips(problem) {
@@ -2444,20 +3193,40 @@
       });
     }
 
-    function showReward() {
-      if (!state.completed) return;
+    async function showReward() {
+      if (!state.completed || state.rewardPhase !== "idle" || state.rewardTransitioning) return;
+      setRewardTransitioning(true);
       const rng = LessonModel.createRng(Date.now() + state.problemIndex * 97 + state.power);
       const firstTry = !state.mistakeTouched;
       const event = LessonModel.pickRewardEvent(rng, !firstTry);
-      LessonModel.applyReward(state, event, firstTry);
-      finishScoreboardQuestion(event);
-      state.lastRewardEvent = event;
-      playSample("reward");
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
 
       if (getRewardMode() === "modal-art") {
-        openRewardModal(event);
+        const revealOnOpen = LESSON_CONFIG.reward?.revealOnOpen === true;
+        openRewardModal(event, { revealOnOpen });
+        if (revealOnOpen) await revealRewardModal({ immediateValue: true });
         return;
       }
+
+      if (getRewardMode() === "stage-reveal") {
+        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+        if (ui.rewardScene instanceof HTMLImageElement) {
+          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+        } else if (ui.rewardScene) {
+          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+        }
+        ui.rewardLabel.textContent = "";
+        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+        ui.rewardNextButton.disabled = false;
+        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+        showScreen("reward");
+        ui.rewardNextButton.focus({ preventScroll: true });
+        return;
+      }
+
+      applyPendingReward(event);
 
       ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
       if (ui.rewardScene instanceof HTMLImageElement) {
@@ -2470,18 +3239,166 @@
       showScreen("reward");
     }
 
-    function openRewardModal(event) {
-      ui.modalRewardLabel.textContent = formatRewardText(event);
+    function openRewardModal(event, { revealOnOpen = false } = {}) {
+      if (ui.playMathmonReaction) ui.playMathmonReaction.hidden = true;
+      ui.modalRewardLabel.textContent = LESSON_CONFIG.reward?.closedLabel || "무엇이 나올까요?";
       ui.modalRewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardPop.dataset.reward = "closed";
+      ui.rewardPop.dataset.rarity = event.rarity || "common";
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "closed");
+      ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardClosedImage()}")`);
+      ui.modalRewardOpenButton.hidden = revealOnOpen;
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = true;
+      ui.modalRewardNextButton.disabled = false;
+      ui.rewardPop.hidden = false;
+      if (!revealOnOpen) ui.modalRewardOpenButton.focus();
+    }
+
+    function applyPendingReward(event) {
+      const firstTry = !state.mistakeTouched;
+      const beforePower = state.power;
+      const rewardPatch = LessonModel.applyReward(state, event, firstTry, state.problems[state.problemIndex]);
+      if (rewardPatch && typeof rewardPatch === "object") {
+        if (Number.isFinite(rewardPatch.power)) state.power = rewardPatch.power;
+        if (typeof rewardPatch.specialSeen === "boolean") state.specialSeen = rewardPatch.specialSeen;
+      }
+      finishScoreboardQuestion(event);
+      state.lastRewardEvent = event;
+      state.currentResult = null;
+      return beforePower;
+    }
+
+    async function revealStageReward() {
+      if (getRewardMode() !== "stage-reveal" || state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      state.rewardPhase = "opening";
+      ui.rewardNextButton.disabled = true;
+      const beforePower = applyPendingReward(event);
+      const afterResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      ui.rewardLabel.textContent = formatRewardDelta(event);
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      if (!reduceMotion) await waitFor(650);
+      await runViewHook("onRewardReveal", {
+        event,
+        beforePower,
+        afterPower: state.power,
+        beforeResult,
+        afterResult,
+        state,
+      });
+      ui.rewardLabel.textContent = getRewardTargetText(beforeResult, afterResult);
+      state.rewardPhase = "revealed";
+      ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1
+        ? "결과 보기"
+        : (LESSON_CONFIG.reward?.nextLabel || "다음");
+      ui.rewardNextButton.disabled = false;
+      ui.rewardNextButton.focus({ preventScroll: true });
+      syncProgress();
+    }
+
+    function waitFor(duration) {
+      return new Promise((resolve) => setTimeout(resolve, duration));
+    }
+
+    function formatRewardDelta(event) {
+      if (event.special) return event.text || "특별 보상!";
+      const amount = Number(event.amount) || 0;
+      if (amount > 0) return `+${amount}`;
+      if (amount < 0) return String(amount);
+      return "그대로";
+    }
+
+    function getRewardTargetText(beforeResult, afterResult) {
+      if (afterResult?.needsSpecial) return "특별 결과를 찾았어요!";
+      if (afterResult?.id && beforeResult?.id !== afterResult.id) return `${afterResult.name}이 됐어요!`;
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(afterResult)
+        : afterResult;
+      if (!nextResult || nextResult.id === afterResult?.id) return "최고 단계까지 왔어요!";
+      const missingCorrect = Math.max(0, Number(nextResult.minCorrect || 0) - state.correctFirstTry);
+      if (state.power >= Number(nextResult.minPower || 0) && missingCorrect > 0) {
+        return `${nextResult.name}까지 문제 ${missingCorrect}개 더`;
+      }
+      const remaining = Math.max(0, Number(nextResult.minPower || 0) - state.power);
+      return `${nextResult.name}까지 ${remaining} 더`;
+    }
+
+    async function revealRewardModal({ immediateValue = false } = {}) {
+      if (state.rewardPhase !== "closed" || !state.pendingRewardEvent) return;
+      const event = state.pendingRewardEvent;
+      state.rewardPhase = "opening";
+      ui.modalRewardOpenButton.disabled = true;
+      ui.modalRewardOpenButton.hidden = true;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "opening");
+      if (!immediateValue) await nextAnimationFrame();
+      const beforePower = applyPendingReward(event);
+      event.amount = state.power - beforePower;
       ui.rewardPop.dataset.reward = event.family || event.id || "";
       ui.rewardVisual.style.setProperty("--reward-modal-image", `url("${getRewardImage(event)}")`);
-      ui.rewardPop.hidden = false;
+      ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
+      playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
+      const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
+      if (immediateValue) setRewardValue(event.amount);
+      await revealHook;
+      if (immediateValue) setRewardValue(event.amount);
+      else await animateRewardValue(event);
+      state.rewardPhase = "revealed";
+      ui.modalRewardOpenButton.disabled = false;
+      ui.modalRewardNextButton.hidden = false;
       ui.modalRewardNextButton.focus();
+    }
+
+    function nextAnimationFrame() {
+      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    function animateRewardValue(event) {
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const duration = reduceMotion ? 0 : 650;
+      const target = Number(event.amount) || 0;
+      return new Promise((resolve) => {
+        const started = performance.now();
+        const tick = (now) => {
+          const progress = duration === 0 ? 1 : Math.min(1, (now - started) / duration);
+          const value = Math.round(target * progress);
+          setRewardValue(value);
+          if (progress < 1) requestAnimationFrame(tick);
+          else resolve();
+        };
+        requestAnimationFrame(tick);
+      });
+    }
+
+    function setRewardValue(amount) {
+      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
+      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const value = Number(amount) || 0;
+      const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
+      ui.modalRewardLabel.textContent = value === 0 && zeroLabel
+        ? `${changeLabel} ${zeroLabel}`
+        : `${changeLabel} ${value > 0 ? "+" : ""}${value}`;
     }
 
     function closeRewardModal() {
       ui.rewardPop.hidden = true;
       ui.rewardPop.dataset.reward = "";
+      ui.rewardPop.dataset.rarity = "";
+      state.pendingRewardEvent = null;
+      state.rewardPhase = "idle";
+    }
+
+    function setRewardTransitioning(active) {
+      state.rewardTransitioning = Boolean(active);
+      ui.stageShell.dataset.rewardTransitioning = String(state.rewardTransitioning);
+      ui.continueButton.disabled = state.rewardTransitioning;
+      if (state.rewardTransitioning) ui.continueButton.hidden = true;
+    }
+
+    function getRewardClosedImage() {
+      return LESSON_CONFIG.imageAssets.rewardClosed || LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
     }
 
     function getRewardImage(event) {
@@ -2496,9 +3413,26 @@
       return "그대로";
     }
 
-    function advanceAfterReward() {
-      if (getRewardMode() === "modal-art") closeRewardModal();
+    async function advanceAfterReward() {
+      if (getRewardMode() === "stage-reveal" && state.rewardPhase !== "revealed") return;
+      if (getRewardMode() === "modal-art") {
+        if (state.rewardPhase !== "revealed") return;
+        const event = state.pendingRewardEvent;
+        ui.modalRewardNextButton.disabled = true;
+        closeRewardModal();
+        await runViewHook("onRewardDismiss", {
+          event,
+          afterPower: state.power,
+          state,
+        });
+        ui.modalRewardNextButton.disabled = false;
+      }
+      if (getRewardMode() === "stage-reveal") {
+        state.pendingRewardEvent = null;
+        state.rewardPhase = "idle";
+      }
       if (state.problemIndex >= state.problems.length - 1) {
+        setRewardTransitioning(false);
         showResult();
         return;
       }
@@ -2508,24 +3442,45 @@
     }
 
     function showResult() {
+      setRewardTransitioning(false);
       const result = getCurrentResult();
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(result)
+        : result;
+      const hasNextResult = Boolean(nextResult?.id && nextResult.id !== result?.id);
+      const nextResultText = hasNextResult ? `다음엔 ${nextResult.name}` : "최고 단계예요!";
       state.currentResult = result;
-      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.cover;
+      playSample("result");
+      ui.resultBg.src = result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover;
+      if (ui.resultPanelArt) {
+        ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
+        if (LESSON_CONFIG.imageAssets?.resultPanel) ui.resultPanelArt.src = LESSON_CONFIG.imageAssets.resultPanel;
+      }
       ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
-      ui.resultSummary.textContent = result.summary || "";
+      const totalProblems = state.problems.length || LESSON_CONFIG.typesPerRun?.length || 10;
+      ui.resultSummary.textContent = result.summary || `정답 ${state.correctFirstTry}/${totalProblems}`;
+      if (ui.resultNext) ui.resultNext.textContent = nextResultText;
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.textContent = nextResultText;
+        ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
+      }
+      if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      if (ui.resultMeasureFillSvg) {
+        const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
+        const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
+        ui.resultMeasureFillSvg.setAttribute("width", String(width));
+      }
+      applyResultLayout();
 
       const correctArt = getCorrectCountAsset();
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
-      ui.finalCorrectText.textContent = `${state.correctFirstTry}/${TOTAL_QUESTIONS}`;
-      ui.resultCountOverlay.setAttribute("aria-label", `정답 ${state.correctFirstTry}/${TOTAL_QUESTIONS}`);
 
-      const fullScene = getResultRenderMode() === "fullscene-score-slot";
-      ui.resultTitleArt.hidden = fullScene;
+      ui.resultTitleArt.hidden = false;
       screens.result.dataset.resultTier = result.id || "";
-      screens.result.dataset.resultIsland = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
       const showLeaderboard = Boolean(isScoreboardEnabled() && leaderboardAsset && scoreboardBridge);
@@ -2533,7 +3488,81 @@
       ui.leaderboardButton.hidden = !showLeaderboard;
       if (showLeaderboard) ui.leaderboardButtonArt.src = leaderboardAsset;
 
+      void runViewHook("onResult", {
+        result,
+        nextResult,
+        power: state.power,
+        correctFirstTry: state.correctFirstTry,
+        state,
+      });
+
       showScreen("result");
+    }
+
+    function applyResultLayout() {
+      const baseLayout = LESSON_CONFIG.result?.layout;
+      if (!baseLayout) return;
+      const tierId = state.currentResult?.id || screens.result?.dataset?.resultTier || "";
+      const tierLayout = baseLayout.byTier?.[tierId] || {};
+      const layout = { ...baseLayout, ...tierLayout };
+      const tierAxis = baseLayout.axisXByTier?.[tierId];
+      const axisX = Number(tierAxis ?? layout.axisX ?? 930);
+      const titleAxisX = Number(layout.titleAxisXByTier?.[tierId] ?? layout.titleAxisX ?? axisX);
+      const titleWidth = Number(layout.titleWidth ?? 520);
+      const correctWidth = Number(layout.correctWidth ?? 220);
+      const barWidth = Number(layout.barWidth ?? 360);
+      const barHeight = Number(layout.barHeight ?? 28);
+      const retry = layout.retryRect || {};
+      const panel = layout.panelRect || {};
+      const percentX = (value) => `${(Number(value) / 1280) * 100}%`;
+      const percentY = (value) => `${(Number(value) / 800) * 100}%`;
+
+      if (ui.resultTitleArt) {
+        ui.resultTitleArt.style.left = percentX(titleAxisX - titleWidth / 2);
+        ui.resultTitleArt.style.top = percentY(layout.titleTop ?? 92);
+        ui.resultTitleArt.style.width = percentX(titleWidth);
+      }
+      if (ui.resultPanelArt) {
+        ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
+        if (panel.width && panel.height) {
+          ui.resultPanelArt.style.left = percentX(panel.x ?? 0);
+          ui.resultPanelArt.style.top = percentY(panel.y ?? 0);
+          ui.resultPanelArt.style.width = percentX(panel.width);
+          ui.resultPanelArt.style.height = percentY(panel.height);
+        }
+      }
+      if (ui.resultCorrectArt) {
+        ui.resultCorrectArt.style.left = percentX(axisX - correctWidth / 2);
+        ui.resultCorrectArt.style.top = percentY(layout.correctTop ?? 382);
+        ui.resultCorrectArt.style.width = percentX(correctWidth);
+      }
+      if (ui.resultDestinationSvg) {
+        ui.resultDestinationSvg.setAttribute("x", String(axisX));
+      }
+      if (ui.resultMeasureSvg) {
+        ui.resultMeasureSvg.setAttribute("x", String(axisX));
+        ui.resultMeasureSvg.setAttribute("y", String(layout.measureY ?? 295));
+      }
+      for (const node of [ui.resultMeasureTrackSvg, ui.resultMeasureFillSvg]) {
+        if (!node) continue;
+        node.setAttribute("x", String(axisX - barWidth / 2));
+        node.setAttribute("y", String(layout.barY ?? 324));
+        node.setAttribute("height", String(barHeight));
+        node.setAttribute("rx", String(barHeight / 2));
+      }
+      if (ui.resultMeasureTrackSvg) ui.resultMeasureTrackSvg.setAttribute("width", String(barWidth));
+      if (ui.resultNextSvg) {
+        ui.resultNextSvg.setAttribute("x", String(axisX));
+        ui.resultNextSvg.setAttribute("y", String(layout.nextY ?? 548));
+      }
+      if (ui.retryButton) {
+        ui.retryButton.style.left = percentX(retry.x ?? axisX - 150);
+        ui.retryButton.style.top = percentY(retry.y ?? 615);
+        ui.retryButton.style.right = "auto";
+        ui.retryButton.style.bottom = "auto";
+        ui.retryButton.style.width = percentX(retry.width ?? 300);
+        ui.retryButton.style.height = percentY(retry.height ?? 123);
+      }
     }
 
     function getCorrectCountAsset() {
@@ -2555,7 +3584,7 @@
     }
 
     function isScoreboardEnabled() {
-      return false;
+      return LESSON_CONFIG.scoreboard?.enabled === true && Boolean(ui.scoreboardScreen);
     }
 
     let lastRunSeed = null;
@@ -2588,24 +3617,65 @@
     }
 
     function restartFromSettings() {
-      closeSettings();
+      if (ui.settingsMenu) ui.settingsMenu.hidden = true;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = false;
+      ui.settingsRestartConfirmButton?.focus();
+    }
+
+    function cancelRestartFromSettings() {
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      ui.restartButton?.focus();
+    }
+
+    function confirmRestartFromSettings() {
+      closeSettings({ restoreFocus: false });
       closeRewardModal();
       state = createInitialState();
+      setRewardTransitioning(false);
       scoreboardBridge?.reset?.();
       syncProgress();
       showScreen("cover");
+      ui.startButton?.focus({ preventScroll: true });
     }
 
     function openSettings() {
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
       ui.settingsBackdrop.hidden = false;
       ui.settingsToggle.setAttribute("aria-expanded", "true");
       syncAudioControls();
-      ui.settingsModal.focus();
+      ui.bgmToggle?.focus({ preventScroll: true });
     }
 
-    function closeSettings() {
+    function closeSettings({ restoreFocus = true } = {}) {
       ui.settingsBackdrop.hidden = true;
       ui.settingsToggle.setAttribute("aria-expanded", "false");
+      if (ui.settingsMenu) ui.settingsMenu.hidden = false;
+      if (ui.settingsRestartConfirm) ui.settingsRestartConfirm.hidden = true;
+      if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
+    }
+
+    function trapSettingsFocus(event) {
+      if (ui.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...ui.settingsModal.querySelectorAll("button:not([hidden]):not(:disabled)")]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function beginScoreboardQuestion(problem) {
@@ -2629,6 +3699,7 @@
           selected: null,
           correct: null,
           elapsedMs: 0,
+          attempts: [],
         });
       }
     }
@@ -2636,10 +3707,19 @@
     function recordScoreboardStep(problem, step, choice, correct) {
       if (!state.currentScoreboardAnswer) beginScoreboardQuestion(problem);
       const record = state.currentScoreboardAnswer.steps.find((item) => item.id === step.id);
-      if (!record || record.selected != null) return;
-      record.selected = choice;
-      record.correct = correct;
-      record.elapsedMs = Math.round(performance.now() - state.scoreboardStepStartedAt);
+      if (!record) return;
+      const attempt = {
+        choiceId: getChoiceId(choice),
+        value: choice && typeof choice === "object" ? (choice.value ?? choice.label ?? choice.id) : choice,
+        misconceptionId: getChoiceMisconceptionId(choice),
+        correct,
+        elapsedMs: Math.round(performance.now() - state.scoreboardStepStartedAt),
+        attemptIndex: record.attempts.length,
+      };
+      record.attempts.push(attempt);
+      if (record.selected == null) record.selected = attempt.value;
+      record.correct = record.attempts.every((item) => item.correct);
+      record.elapsedMs = attempt.elapsedMs;
       if (!correct) state.currentScoreboardAnswer.correct = false;
     }
 
@@ -2652,6 +3732,9 @@
         amount: event.amount,
         text: event.text,
       };
+      if (LESSON_CONFIG.reward?.version) {
+        state.currentScoreboardAnswer.reward.version = LESSON_CONFIG.reward.version;
+      }
       state.scoreboardAnswers.push(state.currentScoreboardAnswer);
       state.currentScoreboardAnswer = null;
     }
@@ -2678,8 +3761,8 @@
     }
 
     function createScoreboardBridge() {
-      if (!isScoreboardEnabled() || !window.MathmonScoreboard?.createApiBridge) return null;
-      return window.MathmonScoreboard.createApiBridge({
+      if (!isScoreboardEnabled() || !MathmonScoreboard?.createApiBridge) return null;
+      return MathmonScoreboard.createApiBridge({
         root: ui.scoreboardScreen,
         apiUrl: getScoreboardApiUrl(),
         lessonId: LESSON_CONFIG.folder,
@@ -2699,18 +3782,30 @@
 
     ui.startButton.addEventListener("click", () => beginTutorial("cover"));
     ui.nextTutorialButton.addEventListener("click", continueTutorial);
+    ui.backTutorialButton?.addEventListener("click", previousTutorial);
     ui.continueButton.addEventListener("click", showReward);
-    ui.rewardNextButton.addEventListener("click", advanceAfterReward);
+    ui.rewardNextButton.addEventListener("click", () => {
+      if (getRewardMode() === "stage-reveal") {
+        if (state.rewardPhase === "closed") revealStageReward();
+        else if (state.rewardPhase === "revealed") advanceAfterReward();
+        return;
+      }
+      advanceAfterReward();
+    });
+    ui.modalRewardOpenButton?.addEventListener("click", revealRewardModal);
     ui.modalRewardNextButton.addEventListener("click", advanceAfterReward);
     ui.retryButton.addEventListener("click", startGame);
     ui.leaderboardButton.addEventListener("click", () => scoreboardBridge?.open?.());
     ui.settingsToggle.addEventListener("click", openSettings);
-    ui.closeSettings.addEventListener("click", closeSettings);
+    ui.closeSettings.addEventListener("click", () => closeSettings());
+    ui.settingsBackdrop.addEventListener("keydown", trapSettingsFocus);
     ui.reviewTutorialButton.addEventListener("click", () => {
-      closeSettings();
+      closeSettings({ restoreFocus: false });
       beginTutorial(state.screen || "play");
     });
     ui.restartButton.addEventListener("click", restartFromSettings);
+    ui.settingsRestartConfirmButton?.addEventListener("click", confirmRestartFromSettings);
+    ui.settingsRestartCancelButton?.addEventListener("click", cancelRestartFromSettings);
     ui.bgmToggle.addEventListener("click", () => {
       audio.bgm = !audio.bgm;
       saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
@@ -2725,15 +3820,56 @@
     syncAudioControls();
     syncProgress();
 
+    window.__mathmonAudioQa = {
+      keys: { bgm: STORAGE_KEYS.bgm, sfx: STORAGE_KEYS.sfx },
+      getPrefs: () => ({ bgmEnabled: audio.bgm, sfxEnabled: audio.sfx }),
+      setPrefs: ({ bgmEnabled, sfxEnabled } = {}) => {
+        if (typeof bgmEnabled === "boolean") {
+          audio.bgm = bgmEnabled;
+          saveAudioFlag(STORAGE_KEYS.bgm, audio.bgm);
+        }
+        if (typeof sfxEnabled === "boolean") {
+          audio.sfx = sfxEnabled;
+          saveAudioFlag(STORAGE_KEYS.sfx, audio.sfx);
+        }
+        syncAudioControls();
+        return window.__mathmonAudioQa.getPrefs();
+      },
+    };
+
     window.__mathmonEngineQa = {
       startGame,
+      renderProblem,
       showResult,
       showScreen,
+      showReward,
+      revealStageReward,
+      setState: (patch = {}) => {
+        const allowed = [
+          "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
+          "completed", "mistakeTouched", "rewardPhase", "rewardTransitioning", "pendingRewardEvent", "currentResult",
+        ];
+        for (const key of allowed) {
+          if (Object.hasOwn(patch, key)) state[key] = patch[key];
+        }
+        return window.__mathmonEngineQa.getState();
+      },
       getState: () => ({
         screen: state.screen,
         problemIndex: state.problemIndex,
+        stepIndex: state.stepIndex,
+        inputLocked: state.inputLocked,
+        pendingAdvance: state.pendingAdvance,
+        completed: state.completed,
         power: state.power,
         correctFirstTry: state.correctFirstTry,
+        specialSeen: state.specialSeen,
+        rewardPhase: state.rewardPhase,
+        rewardTransitioning: state.rewardTransitioning,
+        pendingRewardId: state.pendingRewardEvent?.id || "",
+        pendingRewardAmount: Number(state.pendingRewardEvent?.amount) || 0,
+        pendingRewardSpecial: Boolean(state.pendingRewardEvent?.special),
+        lastRewardId: state.lastRewardEvent?.id || "",
         answers: state.scoreboardAnswers,
       }),
       getCurrentProblem: () => state.problems[state.problemIndex] || null,

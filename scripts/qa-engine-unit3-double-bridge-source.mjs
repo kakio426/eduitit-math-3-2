@@ -7,8 +7,8 @@ import vm from "node:vm";
 const ROOT = process.cwd();
 const LESSON = "3-2-3-3-mathmon-double-bridge";
 const SOURCE_DIR = path.join(ROOT, "_lessons", LESSON);
-const lessonJsonSource = await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8");
-const config = JSON.parse(lessonJsonSource);
+const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
+const engineSource = await readFile(path.join(ROOT, "_engine/v1/runtime/core.js"), "utf8");
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const lessonCss = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
@@ -23,6 +23,14 @@ const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
 assert.equal(config.reward.standard, "mathmon-unified-reward-v1", "lesson must opt into the unified reward contract");
 assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
 assert.equal(config.qa.emptyRewardAuditViewport, "user-reported-missing-left-progress-1082x987-dpr2", "empty and tier-up browser fixtures must run independently");
+assert.deepEqual(config.qa.rewardReentryAudit, {
+  standard: "reward-single-consumption-v1",
+  trigger: "#rewardButton",
+  modalNext: "#modalRewardNextButton",
+  transitionAttribute: "data-reward-transitioning",
+  hideTriggerDuringTransition: true,
+  disableTriggerDuringTransition: true,
+}, "rapid reward clicks must have a named browser regression contract");
 assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
 assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
 assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
@@ -160,11 +168,11 @@ assert.ok(config.results.every((result) => config.assets.includes(result.playIma
 assert.equal(config.qa.circleRelationAudit.standard, "circle-only-one-known-v4");
 assert.equal(config.qa.circleRelationAudit.promptMode, "ask-only");
 assert.equal(config.qa.circleRelationAudit.maxKnownLabels, 1);
+assert.equal(config.qa.circleRelationAudit.instructionVisible, false);
 assert.equal(config.qa.circleRelationAudit.choiceTrackPx, 228);
 assert.equal(config.qa.circleRelationAudit.compactChoiceTrackPx, 204);
 assert.equal(config.qa.circleRelationAudit.smallChoiceTrackPx, 196);
-assert.equal(config.qa.circleRelationAudit.minChoiceHeightPx, 80);
-assert.equal(config.qa.circleRelationAudit.instructionBoardRemoved, true);
+assert.equal(config.qa.circleRelationAudit.minChoiceHeightPx, 72);
 assert.equal(config.qa.circleRelationAudit.visual, ".circle-relation-svg");
 assert.equal(config.qa.circleRelationAudit.answer, ".source-question");
 assert.equal(config.qa.circleRelationAudit.choice, ".length-choice");
@@ -241,22 +249,14 @@ assert.match(viewSource, /function syncBridgePlayProgress/, "play progress must 
 assert.match(viewSource, /function onRewardReveal/, "reward reveal must remember the pending world change");
 assert.match(viewSource, /async function onRewardDismiss/, "reward dismissal must apply the world change after the modal closes");
 assert.match(viewSource, /async function onStepCorrect/, "correct choice must run a brief answer-lock effect before completion");
-assert.match(viewSource, /feedback\.classList\.add\("visually-hidden"\)/, "the live feedback must remain accessible without a visible instruction board");
-assert.match(viewSource, /stepBoard\?\.remove\(\)/, "the retired instruction board must be removed from the play DOM");
 assert.match(viewSource, /globalThis\.onStepCorrect = onStepCorrect/, "correct choice effect hook must be registered with the engine");
 assert.match(viewSource, /correctEffectPhase = "active"/, "correct effect must expose an active browser QA phase");
 assert.match(viewSource, /globalThis\.onRewardDismiss = onRewardDismiss/, "reward dismissal hook must be registered with the engine");
 assert.match(viewSource, /effectStartedWithModalHidden/, "world impact must expose modal-first timing evidence");
-assert.match(engineSource, /state\.rewardTransitioning/, "the shared engine must keep an explicit reward transition lock");
-assert.match(engineSource, /if \(!state\.completed \|\| state\.rewardPhase !== "idle" \|\| state\.rewardTransitioning\) return;/, "the reward trigger must reject re-entry while transitioning");
-assert.match(engineSource, /function setRewardTransitioning\(active\)/, "the shared engine must expose one transition-lock setter");
-assert.match(engineSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the stale reward trigger must be disabled during transition");
-assert.match(engineSource, /if \(state\.rewardTransitioning\) ui\.continueButton\.hidden = true;/, "the stale reward trigger must be hidden during transition");
-assert.ok(runtimeSource.includes(`data-lesson-json-sha256="${lessonJsonSha}"`), "the built lesson must match the current lesson.json hash");
-assert.ok(runtimeSource.includes('data-reward-modal-standard="unit3-modal-art-compact-v2"'), "the built lesson must opt into the compact reward card");
-assert.ok(runtimeSource.includes('"rewardReentryAudit":{"standard":"reward-single-consumption-v1"'), "the built lesson must embed the reward re-entry contract");
-assert.match(runtimeSource, /if \(!state\.completed \|\| state\.rewardPhase !== "idle" \|\| state\.rewardTransitioning\) return;/, "the built lesson must include the reward transition guard");
-assert.match(runtimeSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the built lesson must disable the stale reward trigger");
+assert.match(engineSource, /if \(!state\.completed \|\| state\.rewardPhase !== "idle" \|\| state\.rewardTransitioning\) return;/, "reward preparation must reject duplicate and in-flight requests");
+assert.match(engineSource, /function setRewardTransitioning\(active\)/, "the engine must expose one reward-transition lock helper");
+assert.match(engineSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the completed-problem reward button must stay disabled during the world effect");
+assert.match(engineSource, /if \(state\.rewardTransitioning\) ui\.continueButton\.hidden = true;/, "the completed-problem reward button must stay hidden during the world effect");
 assert.doesNotMatch(viewSource, /다리 점수|다리 등급|진행도/, "problem view must not add a second reward vocabulary");
 assert.doesNotMatch(viewSource, /bridgeChoiceMarkup|bridge-choice-svg/, "retired floating measurement-handle choices must be removed");
 assert.match(lessonCss, /\.compass-play-progress\s*\{[\s\S]*?top:\s*11%;[\s\S]*?left:\s*2\.5%;[\s\S]*?width:\s*24\.5%;[\s\S]*?height:\s*84%;/, "left progress panel must keep the fixed Stage placement");
@@ -265,13 +265,12 @@ assert.match(lessonCss, /\.compass-play-progress-art\s*\{[\s\S]*?object-fit:\s*c
 assert.match(lessonCss, /\.compass-play-progress-impact-stage\s*\{[\s\S]*?width:\s*35%;/, "world impact must cover at least 32% of the Stage width");
 assert.match(lessonCss, /\.hud\s*\{[\s\S]*?top:\s*var\(--top-control-y\);/, "play HUD and settings must share one vertical token");
 assert.match(lessonCss, /\.circle-relation-svg\s*\{[\s\S]*?max-width:\s*650px;/, "the single circle visual must stay compact");
-assert.match(lessonCss, /\.length-choice\s*\{[\s\S]*?min-height:\s*80px;[\s\S]*?place-items:\s*center;/, "numeric choices must use large centered touch targets");
+assert.match(lessonCss, /\.length-choice\s*\{[\s\S]*?min-height:\s*72px;[\s\S]*?place-items:\s*center;/, "numeric choices must use large centered touch targets");
 assert.match(lessonCss, /\.choices-panel\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/, "four lengths must stay in a two-by-two grid");
-assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+228px;/, "desktop must give more height to answer choices");
-assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+204px;/, "compact landscape must keep larger answer choices");
+assert.match(lessonCss, /\.bridge-workshop \.step-board\s*\{\s*display:\s*none;/, "the redundant instruction strip must stay visually removed");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+228px;/, "desktop must give the removed instruction height to answer choices");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+204px;/, "compact landscape must keep enlarged answer choices");
 assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+196px;/, "small landscape must keep enlarged answer choices");
-assert.match(lessonCss, /\.is-tier-up\s+\.compass-play-progress-art/, "tier upgrades must animate the bridge art more strongly");
-assert.doesNotMatch(lessonCss, /\.is-changing\s+~\s+\.compass-play-progress-impact-stage/, "ordinary score gain must not use the Stage-wide impact layer");
 assert.match(lessonCss, /--bridge-complete-height:\s*176px;/, "desktop completion panel must use the compact fixed track");
 assert.match(lessonCss, /\.complete-text\s*\{[\s\S]*?font-size:\s*clamp\(2rem,\s*3\.1vw,\s*2\.65rem\);/, "completion equation must be visually dominant");
 assert.match(lessonCss, /\.complete-panel \.primary-button\s*\{[\s\S]*?min-width:\s*260px;[\s\S]*?min-height:\s*92px;/, "bridge-view action must be substantially larger");

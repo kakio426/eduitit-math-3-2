@@ -3,18 +3,16 @@ import path from "node:path";
 import vm from "node:vm";
 
 const ROOT = process.cwd();
-const LESSON_PATH = path.join(ROOT, "3-2-1-3-mathmon-jump-islands", "index.html");
+const LESSON_FOLDER = "3-2-1-3-mathmon-jump-islands";
+const SOURCE_DIR = path.join(ROOT, "_lessons", LESSON_FOLDER);
+const MODEL_PATH = path.join(SOURCE_DIR, "model.js");
+const CONFIG_PATH = path.join(SOURCE_DIR, "lesson.json");
 
 function loadLessonModel() {
-  const html = fs.readFileSync(LESSON_PATH, "utf8");
-  const start = html.indexOf("const Lesson3MathModel = (() => {");
-  const end = html.indexOf("\n\n    if (location.protocol", start);
-  if (start === -1 || end === -1) {
-    throw new Error("Lesson3MathModel block not found in lesson HTML");
-  }
-  const source = `${html.slice(start, end)}\nLesson3MathModel;`;
-  const context = vm.createContext({ console });
-  return vm.runInContext(source, context, { filename: LESSON_PATH });
+  const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
+  const source = fs.readFileSync(MODEL_PATH, "utf8");
+  const context = vm.createContext({ console, Math, LESSON_CONFIG: config });
+  return vm.runInContext(`${source}\n${config.modelName};`, context, { filename: MODEL_PATH });
 }
 
 function assert(condition, message) {
@@ -36,13 +34,14 @@ function validateProblem(problem, index, model) {
   const [smallStep, footingStep] = problem.steps;
   assert(smallStep.id === "smallProduct", `problem ${index} first step must be smallProduct`);
   assert(footingStep.id === "scaleFooting", `problem ${index} second step must be scaleFooting`);
-  assert(smallStep.correct === problem.smallProduct, `problem ${index} small step answer mismatch`);
-  assert(footingStep.correct === problem.scaleLabel, `problem ${index} footing label mismatch`);
+  assert(smallStep.answer === problem.smallProduct, `problem ${index} small step answer mismatch`);
+  assert(footingStep.answer === problem.scaleLabel, `problem ${index} footing label mismatch`);
   assert(footingStep.label === problem.scaleLabel, `problem ${index} footing step lacks correct label`);
-  assert(problem.transformText.includes(`${problem.smallExpression} = ${problem.smallProduct}`), `problem ${index} transform lacks small product`);
-  assert(problem.transformText.includes(`${problem.smallProduct} → ${problem.finalAnswer.toLocaleString("ko-KR")}`), `problem ${index} transform lacks final answer`);
-  assert(problem.finalExpression === `${problem.question} = ${problem.finalAnswer.toLocaleString("ko-KR")}`, `problem ${index} final expression mismatch`);
-  assert(model.validateFooting(problem, problem.scaleLabel), `problem ${index} correct footing rejected`);
+  assert(smallStep.correctText === `${problem.smallExpression} = ${problem.smallProduct}`, `problem ${index} confirmation lacks small product`);
+  assert(footingStep.correctText === `${problem.smallProduct} → ${problem.finalAnswer.toLocaleString("ko-KR")}`, `problem ${index} confirmation lacks final answer`);
+  assert(footingStep.reveal === problem.finalExpression, `problem ${index} final reveal mismatch`);
+  assert(problem.finalExpression === `${problem.prompt} = ${problem.finalAnswer.toLocaleString("ko-KR")}`, `problem ${index} final expression mismatch`);
+  assert(model.validateChoice(footingStep, problem.scaleLabel), `problem ${index} correct footing rejected`);
 
   if (problem.type === "hundredfold") {
     assert(problem.leftFactor % 10 === 0 && problem.rightFactor % 10 === 0, `problem ${index} is not A0 x B0`);
@@ -69,19 +68,17 @@ function validateRun(run, model) {
 }
 
 function runNegativeFixture(model) {
-  const fixture = model.generateCandidateBank().tenfold.find((problem) => problem.question === "25 × 70");
-  assert(fixture, "negative fixture 25 x 70 not found");
-  const accepted = model.validateFooting(fixture, "0 두 개 붙이기");
+  const fixture = { question: "25 × 70", scaleLabel: "0 한 개 붙이기" };
+  const accepted = model.validateChoice({ answer: fixture.scaleLabel }, "0 두 개 붙이기");
   assert(!accepted, "negative fixture should reject 0 두 개 붙이기 for 25 x 70");
-  const shaky = model.applyMistakeBranch(fixture);
-  assert(shaky.mistakeTouched, "mistake fixture should be marked touched");
-  assert(model.getRewardBranch(shaky) === "shaky", "mistake fixture should route to shaky branch");
+  const shaky = model.pickRewardEvent(model.createRng(17), true);
+  assert(shaky.id === "shaky" && shaky.amount <= -8 && shaky.amount >= -14, "mistake fixture should route to shaky branch");
   return {
     question: fixture.question,
     expectedFooting: fixture.scaleLabel,
     triedFooting: "0 두 개 붙이기",
     accepted,
-    rewardBranchAfterMistake: model.getRewardBranch(shaky)
+    rewardBranchAfterMistake: shaky.id
   };
 }
 
@@ -103,9 +100,9 @@ function main() {
       seed,
       split: Object.fromEntries(countBy(run, (problem) => problem.scaleLabel)),
       finalAnswers: run.map((problem) => problem.finalAnswer),
-      sampleTransform: run[0].transformText,
+      sampleTransform: run[0].steps.map((step) => step.correctText).join(" → "),
       sampleFinalExpression: run[0].finalExpression,
-      rewardBranchAfterMistake: model.getRewardBranch(model.applyMistakeBranch(run[0]))
+      rewardBranchAfterMistake: model.pickRewardEvent(model.createRng(seed), true).id
     });
   }
 

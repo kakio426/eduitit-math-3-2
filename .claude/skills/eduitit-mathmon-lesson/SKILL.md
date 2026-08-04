@@ -423,13 +423,13 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 
 ### 완성 장면 단계 대비와 고정 슬롯 계약
 
-- 여러 결과 단계를 한 화면 슬롯에서 바꾸는 차시는 `lesson.json > qa.resultVisualAudit.standard="result-tier-fullscene-native-v1"`을 선언한다. 결과마다 `visualRank: 0..N-1`과 서로 다른 1280×800 완성 장면 `image`를 1:1로 연결한다. 각 이미지는 배경·매스몬·보상물·마법 효과·환경 조명·고정 제목·빈 동적 판·버튼 표면을 한 생성 과정에서 함께 만든다.
+- 여러 결과 단계를 한 화면 슬롯에서 바꾸는 차시는 `lesson.json > qa.resultVisualAudit.standard="result-tier-fullscene-native-v1"`을 선언한다. 결과마다 `visualRank: 0..N-1`과 서로 다른 1280×800 완성 장면 `image`를 1:1로 연결한다. 배경·매스몬·보상물·마법 효과·환경 조명은 단계별 장면 자체에서 달라야 한다. `result-panel-containment-v2` 차시는 모든 단계에서 같은 위치·크기를 쓰는 독립 생성형 결과판·제목·다시하기 래스터를 허용하되, 그 밖의 효과·장식 레이어를 추가하지 않는다.
 - 기존 배경 위에 별도 효과 이미지를 얹는 `impactImage`, effect 전용 `<img>`, `mix-blend-mode`, 단계별 CSS `filter`·`opacity`·`hue-rotate`, 장식용 pseudo-element 합성은 금지한다. `stateImageSet.forbidEffectOverlay`, `forbidBlendMode`, `forbidTierCssFilter`와 같은 QA 값을 모두 `true`로 선언하며, 하네스는 JSON·JS·CSS·실제 DOM/computed style을 검사해 하나라도 발견하면 실패시킨다. 일반 DOM만 조회하면 부족하며 결과 루트의 `getComputedStyle(node, "::before")`와 `getComputedStyle(node, "::after")`에서 `content`, `background-image`, `background-color`, `opacity`, `filter`, `mix-blend-mode`를 따로 읽어 보이는 효과 의사요소를 실패시킨다.
 - 단계가 오를수록 적어도 `효과 크기`, `빛·입자 밀도`, `문양 복잡도`, `색 계열`, `매스몬 반응`, `환경 변화` 중 두 가지가 완성 장면 자체에서 분명히 커져야 한다. 최상위 두 단계는 금빛·무지개처럼 색 계열과 공간 자체가 바뀌어야 하며, 컨택시트에서 이름을 가리고 보아도 단계 순서를 맞힐 수 있어야 한다.
 - 1280×800 Stage 기준으로 결과판의 `넓은 동적 값`, `진행 막대`, `정답 수`, `다음 목표`, `다시하기` 슬롯 rect와 공통 세로축을 `result.layout`과 `qa.resultVisualAudit.slots`에 숫자로 고정한다. 각 슬롯은 Stage 안에 있어야 하고 형제 rect 교차는 `0px`, 선언 슬롯과 실제 rect의 네 변 오차는 각각 `1px` 이하여야 한다.
 - 동적 글자는 SVG/HTML 호스트 좌표만 보지 않는다. 실제 보이는 글리프 rect가 선언 슬롯 안에 들어오는지, 중심이 공통 축에서 `1px` 이내인지, 지정한 font-size·line-height 토큰이 모든 단계와 viewport에서 유지되는지 잰다. 정답 수 생성 이미지와 다시하기 아트·hitbox도 `naturalWidth/naturalHeight`, `object-fit`, 네 변 오차를 각각 검사한다.
 - 상태별 생성 이미지의 빈 결과판 위치가 실제로 같은지 JSON만 보고 가정하지 않는다. 브라우저에서 `resultBg`를 동일 1280×800 canvas에 그려 계약된 색·탐색 영역으로 판의 연속 픽셀 경계를 검출하고, 검출 중심과 상태별 `axisXByTier`, 보이는 글리프·막대·정답 이미지 중심의 오차를 원본 Stage 기준 `3px` 이내로 검사한다. 이미지별 판 위치가 다른데 전역 `axisX` 하나만 검사하거나 선언 슬롯끼리만 비교하면 실패다.
-- 완성 장면은 승인된 1280×800 캔버스와 `object-fit: cover`를 유지하고 Stage 네 변을 `1px` 이내로 채워야 한다. 브라우저에는 결과 장면 `<img>` 한 장만 있어야 하며 computed `filter:none`, `mix-blend-mode:normal`, `opacity:1`을 검사한다.
+- 완성 장면은 승인된 1280×800 캔버스와 `object-fit: cover`를 유지하고 Stage 네 변을 `1px` 이내로 채워야 한다. `result-panel-containment-v2`가 아닌 차시는 결과 장면 `<img>` 한 장만 두고, 이관 차시는 계약된 결과판·제목·다시하기 래스터만 추가로 허용한다. 각 레이어의 computed `filter:none`, `mix-blend-mode:normal`, `opacity:1`을 검사한다.
 - 자산 컨택시트와 실제 브라우저 결과 컨택시트를 따로 만든다. 모든 결과 단계 × 모든 `qa.viewports`를 캡처하고, 단계 ID·visualRank·파일명·색 계열·실제 rect 측정값을 하네스가 전수 검사한 뒤에만 완료로 판정한다.
 
 ## Stage 비율 계약

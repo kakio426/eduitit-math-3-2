@@ -7,7 +7,7 @@
 - 제작 원본: `_lessons/3-2-1-3-mathmon-jump-islands/lesson.json`, `model.js`, `view.js`, `lesson.css`
 - 공용 엔진: `_engine/v1` 산출물
 - Stage: `16:10`, `1280x800`
-- 선언 마커: `data-engine-version="mathmon-engine-v1"`, `data-workbench-type="jump-islands"`, `data-reward-mode="modal-art"`, `data-result-render-mode="fullscene-score-slot"`, `data-scoreboard-enabled="true"`
+- 선언 마커: `data-engine-version="mathmon-engine-v1"`, `data-workbench-type="jump-islands"`, `data-reward-mode="modal-art"`, `data-result-render-mode="fullscene-score-slot"`, `data-scoreboard-enabled="false"`
 
 ## 엔진 이관 범위
 
@@ -18,14 +18,14 @@
 - 보상 이벤트 선택과 적용
 - 보상 이미지 모달
 - 결과 화면 전환과 공용 정답 수 이미지 연결
-- `_shared/scoreboard` 순위판 브리지
+- 순위 진입과 관련 네트워크 요청 차단
 
 1-3 차시가 맡는 부분:
 
 - 10배/100배 문제 생성
 - 작은 곱 선택과 0 붙이기 검증
 - 점프섬 지도 조작판 렌더링
-- 바람 이미지, 결과 섬 이미지, 순위 버튼 좌표
+- 바람 이미지와 결과 섬 이미지 연결
 
 ## 문제 구조
 
@@ -53,48 +53,42 @@
 
 결과는 `fullscene-score-slot` 모드입니다. `result-final-*` 이미지가 도착 섬 장면과 버튼 표면을 맡고, 정답 수는 `_shared/result-count/result-correct-*-generated.webp` 공용 이미지로 표시합니다.
 
-## 순위판
+## 순위 기능
 
-1-3은 엔진의 `MathmonScoreboard.createApiBridge(...)` 경로를 사용합니다. 브라우저 QA에서 로컬 stub으로 아래 endpoint 호출을 확인했습니다.
-
-- `POST /api/v1/sessions`
-- `POST /api/v1/scores`
-- `GET /api/v1/leaderboards/weekly?lessonId=3-2-1-3-mathmon-jump-islands&limit=100`
-
-`POST /api/v1/scores` payload에는 다음 값이 들어갑니다.
-
-- `lessonId: "3-2-1-3-mathmon-jump-islands"`
-- `clientCorrectCount: 10`
-- `answers`: 10문제, 각 문제별 `smallProduct`/`scaleFooting` 단계 기록
-- `rewardResult.islandId`
+현재 제품 정책에 따라 순위 기능은 비활성화했습니다. `scoreboard.enabled=false`이며 결과 화면의 진입 버튼은 숨김·비활성 상태입니다. 현재 흐름 QA는 순위·리더보드·점수 API 관련 네트워크 요청이 0건인지 함께 검사합니다.
 
 ## 검증
 
 실행한 검사:
 
 - `node scripts/build-lesson.mjs 3-2-1-3-mathmon-jump-islands`
-- `node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill`
-- `node scripts/build-lesson.mjs 3-2-6-1-mathmon-data-rangers`
 - `node scripts/check-lesson-contract.mjs`
-- 생성된 3개 `index.html` inline script 문법 검사
-- 브라우저 QA `1280x800`: cover → tutorial → 10문제 → reward modal → result → scoreboard
+- `node scripts/qa-lesson-flow.mjs 3-2-1-3-mathmon-jump-islands 12345`
+- `node scripts/qa-unit1-result-screens.mjs`
+- 생성된 `index.html` 인라인 스크립트 문법 검사
+- 브라우저 QA `1280x800`: cover → tutorial → 10문제 → reward modal → result
 - 브라우저 QA `1024x768`: 같은 흐름 완주
-- 로컬 scoreboard API stub 연동 확인
 
 브라우저 QA 결과:
 
 - 텍스트 넘침 0건
 - 보이는 이미지 누락 0건
-- 결과 정답 수 이미지 `10/10` 정상 표시
-- 결과 화면 `순위 보기` hitbox와 버튼 아트 좌표 일치
-- 순위판 진입 정상
-- API stub 연결 시 순위 데이터 표시 정상
+- 결과 정답 수 생성 이미지 정상 표시
+- 결과 화면 다시 하기 hitbox 정상 작동
+- 순위 화면 진입 0건
+- 순위 관련 네트워크 요청 0건
 
 증거 파일:
 
-- `.omo/ulw-loop/evidence/engine-v1-1/1-3-desktop-clean-flow.json`
-- `.omo/ulw-loop/evidence/engine-v1-1/1-3-tablet-flow.json`
-- `.omo/ulw-loop/evidence/engine-v1-1/1-3-api-flow.json`
-- `.omo/ulw-loop/evidence/engine-v1-1/1-3-desktop-clean-result.png`
-- `.omo/ulw-loop/evidence/engine-v1-1/1-3-tablet-result.png`
-- `.omo/ulw-loop/evidence/engine-v1-1/1-3-api-scoreboard-current.png`
+- 데스크톱 전체 흐름: `screenshots/report-flow-desktop-contact-sheet.png`
+- 태블릿 가로 전체 흐름: `screenshots/report-flow-tablet-landscape-contact-sheet.png`
+- 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`
+
+## 현재 화면 설명과 화면 크기
+
+- 시작: 제목, 한 줄 목표, 공용 시작 버튼이 먼저 보입니다.
+- 설명: 곱셈에서 0을 붙이는 순서를 한 장에서 확인합니다.
+- 문제: 작은 곱을 고른 뒤 0을 붙여 답을 완성합니다.
+- 보상: 정답 확인 뒤 바람 상자를 열고 다음 문제로 갑니다.
+- 결과: 도착한 섬과 정답 수, 다시 하기 버튼을 보여 줍니다.
+- 화면 크기: 1280×800과 1024×768에서 같은 흐름을 확인했습니다.

@@ -333,6 +333,17 @@ async function solveCurrentProblem(page, { wrongFirst = false } = {}) {
     await clickChoice(page, true);
     await delay(1100);
   }
+  await waitUntil(
+    page,
+    `(() => {
+      const button = document.querySelector('#completePanel.is-visible #rewardButton:not([hidden]):not(:disabled)');
+      if (!button) return false;
+      const rect = button.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    })()`,
+    "reward button did not become clickable after the answer confirmation",
+    8000,
+  );
 }
 
 async function runViewport(page, pageUrl, viewport) {
@@ -378,7 +389,18 @@ async function runViewport(page, pageUrl, viewport) {
   await clickSelector(page, "#modalRewardNextButton");
 
   for (let problemIndex = 2; problemIndex <= 10; problemIndex += 1) {
-    await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not active for problem ${problemIndex}`);
+    await waitUntil(
+      page,
+      `(() => {
+        const state = window.__mathmonEngineQa?.getState?.();
+        return document.querySelector('.screen.is-active')?.id === 'screen-play'
+          && state?.problemIndex === ${problemIndex - 1}
+          && state?.completed === false
+          && !document.getElementById('completePanel')?.classList.contains('is-visible');
+      })()`,
+      `${viewport.name}: problem ${problemIndex} did not become ready`,
+      10000,
+    );
     await solveCurrentProblem(page);
     await clickSelector(page, "#rewardButton");
     await waitUntil(page, "!document.getElementById('rewardPop').hidden", `${viewport.name}: reward modal not shown for problem ${problemIndex}`);

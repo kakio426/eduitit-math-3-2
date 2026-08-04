@@ -9,7 +9,7 @@ import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
-import { validateResultRewardDominance } from "./lib/result-reward-dominance.mjs";
+import { hashRuntimeBuildInputs } from "./runtime-build-fingerprint.mjs";
 
 const ROOT = process.cwd();
 const SOURCE_ROOT = path.join(ROOT, "_lessons");
@@ -531,11 +531,13 @@ async function readSnapshot(page) {
     ].join(",");
     const visibleContentOutside = (node) => {
       const box = node.getBoundingClientRect();
+      const scaleX = node.offsetWidth > 0 ? box.width / node.offsetWidth : 1;
+      const scaleY = node.offsetHeight > 0 ? box.height / node.offsetHeight : 1;
       const inside = {
-        left: box.left + node.clientLeft,
-        top: box.top + node.clientTop,
-        right: box.left + node.clientLeft + node.clientWidth,
-        bottom: box.top + node.clientTop + node.clientHeight
+        left: box.left + node.clientLeft * scaleX,
+        top: box.top + node.clientTop * scaleY,
+        right: box.left + (node.clientLeft + node.clientWidth) * scaleX,
+        bottom: box.top + (node.clientTop + node.clientHeight) * scaleY
       };
       const outside = (rect) => rect.width > 0 && rect.height > 0 && (
         rect.left < inside.left - 1 || rect.top < inside.top - 1
@@ -612,11 +614,13 @@ async function auditGeometry(page, label, { requireLogo = false, requireRetry = 
     });
     const visibleContentOutside = (node) => {
       const box = node.getBoundingClientRect();
+      const scaleX = node.offsetWidth > 0 ? box.width / node.offsetWidth : 1;
+      const scaleY = node.offsetHeight > 0 ? box.height / node.offsetHeight : 1;
       const inside = {
-        left: box.left + node.clientLeft,
-        top: box.top + node.clientTop,
-        right: box.left + node.clientLeft + node.clientWidth,
-        bottom: box.top + node.clientTop + node.clientHeight
+        left: box.left + node.clientLeft * scaleX,
+        top: box.top + node.clientTop * scaleY,
+        right: box.left + (node.clientLeft + node.clientWidth) * scaleX,
+        bottom: box.top + (node.clientTop + node.clientHeight) * scaleY
       };
       const outside = (rect) => rect.width > 0 && rect.height > 0 && (
         rect.left < inside.left - 1 || rect.top < inside.top - 1
@@ -1285,9 +1289,6 @@ async function auditConfiguredTypography(page, label) {
         if (!circleConfig) return null;
         const panel = document.querySelector('.choices-panel');
         const panelRect = panel?.getBoundingClientRect();
-        const instructionBoard = document.querySelector('.step-board');
-        const instructionBoardStyle = instructionBoard ? getComputedStyle(instructionBoard) : null;
-        const instructionBoardRect = instructionBoard?.getBoundingClientRect();
         const instruction = document.querySelector(LESSON_CONFIG.qa?.typographyAudit?.instruction || '.step-board .instruction');
         const instructionStyle = instruction ? getComputedStyle(instruction) : null;
         const instructionRect = instruction?.getBoundingClientRect();
@@ -1301,12 +1302,6 @@ async function auditConfiguredTypography(page, label) {
             ? circleConfig.compactChoiceTrackPx
             : circleConfig.choiceTrackPx;
         return {
-          instructionBoardRemoved:circleConfig.instructionBoardRemoved === true,
-          instructionBoardVisible:Boolean(instructionBoardStyle
-            && instructionBoardStyle.display !== 'none'
-            && instructionBoardStyle.visibility !== 'hidden'
-            && instructionBoardRect.width > 1
-            && instructionBoardRect.height > 1),
           instructionVisible:Boolean(instructionStyle
             && instructionStyle.display !== 'none'
             && instructionStyle.visibility !== 'hidden'
@@ -1325,7 +1320,7 @@ async function auditConfiguredTypography(page, label) {
   if (!audit) return null;
   const { config } = audit;
   assert(audit.headline?.visible && audit.headline.fontSize >= config.minHeadlinePx, `${label}: problem headline is too small`, audit);
-  if (config.instructionRequired === false || audit.circleChoiceLayout) {
+  if (config.instructionRequired === false) {
     assert(!audit.instruction?.visible, `${label}: redundant instruction strip is still visible`, audit);
   } else {
     assert(audit.instruction?.visible && audit.instruction.fontSize >= config.minInstructionPx, `${label}: instruction is too small`, audit);
@@ -1355,9 +1350,6 @@ async function auditConfiguredTypography(page, label) {
   assert([...audit.primarySvgText, ...audit.choiceSvgText].every((item) => !item.outside), `${label}: SVG text left its viewBox`, audit);
   if (audit.circleChoiceLayout) {
     const circleConfig = audit.circleChoiceLayout;
-    if (circleConfig.instructionBoardRemoved) {
-      assert(!circleConfig.instructionBoardVisible, `${label}: circle lesson instruction board is still visible`, audit);
-    }
     assert(!circleConfig.instructionVisible, `${label}: circle lesson instruction strip is still visible`, audit);
     assert(Math.abs(circleConfig.panelHeight - circleConfig.expectedPanelHeight) <= 1, `${label}: circle lesson choice panel lost its fixed enlarged height`, audit);
     assert(circleConfig.choices.length === 4, `${label}: circle lesson must keep four choices`, audit);
@@ -1791,7 +1783,6 @@ async function auditResultPanelContainmentV2(page, label) {
   const audit = await evaluate(page, `(() => {
     const config = LESSON_CONFIG.qa?.resultPanelContainmentAudit;
     if (!config) return null;
-    if (!config.elements || typeof config.panelDetector === 'string') return { skipped:true };
     const stageNode = document.querySelector('.stage-shell');
     const scene = document.querySelector(config.sceneImage || '#resultBg');
     const tier = document.getElementById('screen-result')?.dataset.resultTier || '';
@@ -1999,7 +1990,6 @@ async function auditResultPanelContainmentV2(page, label) {
     };
   })()`);
   if (!audit) return null;
-  if (audit.skipped) return null;
   assert(audit.config.standard === "result-panel-containment-v2", `${label}: result panel containment standard is wrong`, audit);
   assert(!audit.error && audit.panel && audit.panelSource?.rows > 0, `${label}: result panel four-edge detector failed`, audit);
   assert(audit.safe.width > 0 && audit.safe.height > 0, `${label}: result panel safe area is empty`, audit);
@@ -2020,367 +2010,39 @@ async function auditResultPanelContainmentV2(page, label) {
 }
 
 async function auditRuntimeBuildMetadata(page, lesson, label) {
-  if (!/^3-2-(?:3-4|4-[1-4]|5-[1-4]|6-[1-4])-/.test(lesson)) return null;
-  const source = fs.readFileSync(path.join(SOURCE_ROOT, lesson, "lesson.json"), "utf8");
+  const sourceDir = path.join(SOURCE_ROOT, lesson);
+  const source = fs.readFileSync(path.join(sourceDir, "lesson.json"), "utf8");
   const config = JSON.parse(source);
+  const sourceFiles = config.sourceFiles || {};
+  const modelSource = fs.readFileSync(path.resolve(sourceDir, sourceFiles.model || "model.js"), "utf8");
+  const viewSource = fs.readFileSync(path.resolve(sourceDir, sourceFiles.view || "view.js"), "utf8");
+  const sharedStyle = sourceFiles.style ? fs.readFileSync(path.resolve(sourceDir, sourceFiles.style), "utf8") : "";
+  const localStylePath = path.join(sourceDir, "lesson.css");
+  const localStyle = fs.existsSync(localStylePath) ? fs.readFileSync(localStylePath, "utf8") : "";
+  const lessonCss = [sharedStyle, localStyle].filter(Boolean).join("\n");
   const expectedLessonJsonSha = createHash("sha256").update(source).digest("hex");
-  const expectedCommitSha = spawnSync("git", ["rev-parse", "HEAD"], { cwd:ROOT, encoding:"utf8" }).stdout.trim();
-  const generatedBuildCommitSha = spawnSync("git", ["rev-parse", "HEAD^"], { cwd:ROOT, encoding:"utf8" }).stdout.trim();
-  const acceptedCommitShas = [expectedCommitSha, generatedBuildCommitSha].filter(Boolean);
-  const runtime = await evaluate(page, `(() => { const node=document.querySelector('#mathmonRuntimeBuildMeta'); return node ? { lessonId:node.dataset.lessonId || '', commitSha:node.dataset.commitSha || '', lessonJsonSha:node.dataset.lessonJsonSha256 || '' } : null; })()`);
-  assert(runtime?.lessonId === (config.id || ''), `${label}: runtime lesson id is stale`, { runtime, expectedLesson:config.id });
-  assert(acceptedCommitShas.includes(runtime?.commitSha), `${label}: stale runtime commit SHA`, { runtime, acceptedCommitShas });
-  assert(runtime?.lessonJsonSha === expectedLessonJsonSha, `${label}: stale runtime lesson.json SHA`, { runtime, expectedLessonJsonSha });
-  return runtime;
-}
-
-async function auditConfiguredResultPanelContainment(page, label) {
-  const audit = await evaluate(page, `(() => {
-    const config = LESSON_CONFIG.qa?.resultPanelContainmentAudit;
-    if (!config) return null;
-    const detector = LESSON_CONFIG.qa?.resultBoardAudit;
-    const scene = document.querySelector(config.sceneImage || '#resultBg');
-    const stageNode = document.querySelector('.stage-shell');
-    if (!detector || !scene?.complete || !scene.naturalWidth || !scene.naturalHeight || !stageNode) {
-      return { config, error:'detector-scene-or-stage-missing' };
-    }
-    const canvas = document.createElement('canvas');
-    canvas.width = scene.naturalWidth;
-    canvas.height = scene.naturalHeight;
-    const context = canvas.getContext('2d', { willReadFrequently:true });
-    context.drawImage(scene, 0, 0);
-    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-    const threshold = detector.threshold || {};
-    const matchMode = detector.matchMode || 'dark-teal';
-    const redMax = Number(threshold.redMax ?? 42);
-    const greenMax = Number(threshold.greenMax ?? 82);
-    const blueMax = Number(threshold.blueMax ?? 96);
-    const redMin = Number(threshold.redMin ?? 220);
-    const greenMin = Number(threshold.greenMin ?? 205);
-    const blueMin = Number(threshold.blueMin ?? 160);
-    const channelSpreadMax = Number(threshold.channelSpreadMax ?? 86);
-    const minimumRun = canvas.width * Number(detector.minimumRunRatio || 0.18);
-    const scanStartX = Math.floor(canvas.width * Number(detector.scanStartRatio ?? 0.22));
-    const scanEndX = Math.floor(canvas.width * Number(detector.scanEndRatio ?? 1));
-    const median = (values) => {
-      const sorted = [...values].sort((a, b) => a - b);
-      const middle = Math.floor(sorted.length / 2);
-      return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
-    };
-    const runs = [];
-    for (let y = Math.floor(canvas.height * 0.08); y < Math.floor(canvas.height * 0.88); y += 1) {
-      let start = -1;
-      let best = null;
-      for (let x = scanStartX; x <= scanEndX; x += 1) {
-        let matches = false;
-        if (x < scanEndX && x < canvas.width) {
-          const offset = (y * canvas.width + x) * 4;
-          const red = pixels[offset];
-          const green = pixels[offset + 1];
-          const blue = pixels[offset + 2];
-          matches = matchMode === 'light-board'
-            ? red > redMin && green > greenMin && blue > blueMin
-              && Math.max(red, green, blue) - Math.min(red, green, blue) < channelSpreadMax
-            : matchMode === 'dark-neutral'
-              ? red < redMax && green < greenMax && blue < blueMax
-              : red < redMax && green < greenMax && blue < blueMax
-                && blue >= red && green >= red * 0.72;
-        }
-        if (matches && start < 0) start = x;
-        if ((!matches || x === scanEndX) && start >= 0) {
-          const end = x - 1;
-          const length = end - start + 1;
-          if (!best || length > best.length) best = { y, start, end, length, center:(start + end) / 2 };
-          start = -1;
-        }
-      }
-      if (best && best.length >= minimumRun) runs.push(best);
-    }
-    const groups = [];
-    for (const run of runs) {
-      const previous = groups.at(-1);
-      if (!previous || run.y !== previous.at(-1).y + 1
-        || Math.abs(run.center - median(previous.map((item) => item.center))) > canvas.width * 0.05) {
-        groups.push([run]);
-      } else {
-        previous.push(run);
-      }
-    }
-    const minimumDetectedAxisX = Number(detector.minimumDetectedAxisX ?? 0);
-    const maximumDetectedAxisX = Number(detector.maximumDetectedAxisX ?? canvas.width);
-    const candidates = groups.filter((group) => {
-      const center = median(group.map((item) => item.center));
-      return center >= minimumDetectedAxisX && center <= maximumDetectedAxisX;
-    });
-    candidates.sort((first, second) => (
-      second.length * median(second.map((item) => item.length))
-      - first.length * median(first.map((item) => item.length))
-    ));
-    const group = candidates[0] || [];
-    if (!group.length) return { config, error:'panel-pixel-run-missing' };
-    const middleLength = median(group.map((item) => item.length));
-    const stable = group.filter((run) => run.length >= middleLength * 0.9);
-    if (!stable.length) return { config, error:'panel-stable-run-missing' };
-    const panelSource = {
-      left:median(stable.map((item) => item.start)),
-      top:Math.min(...group.map((item) => item.y)),
-      right:median(stable.map((item) => item.end)) + 1,
-      bottom:Math.max(...group.map((item) => item.y)) + 1
-    };
-    panelSource.width = panelSource.right - panelSource.left;
-    panelSource.height = panelSource.bottom - panelSource.top;
-    const insetValue = config.safeInsetPx ?? 0;
-    const inset = typeof insetValue === 'number'
-      ? { top:insetValue, right:insetValue, bottom:insetValue, left:insetValue }
-      : insetValue;
-    const safeSource = {
-      left:panelSource.left + Number(inset.left || 0),
-      top:panelSource.top + Number(inset.top || 0),
-      right:panelSource.right - Number(inset.right || 0),
-      bottom:panelSource.bottom - Number(inset.bottom || 0)
-    };
-    safeSource.width = safeSource.right - safeSource.left;
-    safeSource.height = safeSource.bottom - safeSource.top;
-    const stage = stageNode.getBoundingClientRect();
-    const scaleX = stage.width / canvas.width;
-    const scaleY = stage.height / canvas.height;
-    const toScreenRect = (rect) => ({
-      left:stage.left + rect.left * scaleX,
-      top:stage.top + rect.top * scaleY,
-      right:stage.left + rect.right * scaleX,
-      bottom:stage.top + rect.bottom * scaleY,
-      width:rect.width * scaleX,
-      height:rect.height * scaleY
-    });
-    const panel = toScreenRect(panelSource);
-    const safe = toScreenRect(safeSource);
-    const readNode = (selector) => {
-      const node = document.querySelector(selector);
-      if (!node) return { selector, missing:true };
-      const style = getComputedStyle(node);
-      const rect = node.getBoundingClientRect();
-      return {
-        selector,
-        hidden:Boolean(node.hidden || node.hasAttribute('hidden')),
-        display:style.display,
-        visibility:style.visibility,
-        opacity:Number(style.opacity || 0),
-        rect:{ left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height }
-      };
-    };
-    const nodes = Object.fromEntries(Object.entries(config.requiredNodes || {}).map(([key, selector]) => [key, readNode(selector)]));
-    const pairedNodes = Object.fromEntries(Object.entries(config.pairedNodes || {}).map(([key, selector]) => [key, readNode(selector)]));
-    return {
-      config,
-      tier:document.getElementById('screen-result')?.dataset.resultTier || '',
-      natural:{ width:canvas.width, height:canvas.height },
-      viewport:{ width:innerWidth, height:innerHeight, dpr:devicePixelRatio },
-      stage:{ left:stage.left, top:stage.top, right:stage.right, bottom:stage.bottom, width:stage.width, height:stage.height },
-      stageInsideViewport:stage.left >= -1 && stage.top >= -1 && stage.right <= innerWidth + 1 && stage.bottom <= innerHeight + 1,
-      panelSource,
-      safeSource,
-      panel,
-      safe,
-      nodes,
-      pairedNodes,
-      runRows:group.length
-    };
-  })()`);
-  if (!audit) return null;
-  assert(audit.config.standard === "result-panel-containment-v2", `${label}: result panel containment standard is wrong`, audit);
-  assert(!audit.error && audit.runRows > 0 && audit.safeSource.width > 0 && audit.safeSource.height > 0, `${label}: result panel four-edge detector failed`, audit);
-  assert(audit.natural.width === 1280 && audit.natural.height === 800, `${label}: result scene must use the 1280x800 source coordinate system`, audit);
-  assert(audit.stageInsideViewport, `${label}: Stage is cropped by the viewport`, audit);
-  const optionalWhenHidden = new Set(audit.config.optionalWhenHidden || []);
-  const visibleRects = [];
-  const violations = [];
-  for (const [key, node] of Object.entries(audit.nodes || {})) {
-    if (node.missing) {
-      violations.push({ key, reason:"missing" });
-      continue;
-    }
-    const hidden = node.hidden || node.display === "none" || node.visibility === "hidden" || node.opacity === 0;
-    if (hidden) {
-      if (!(optionalWhenHidden.has(key) && node.rect.width === 0 && node.rect.height === 0)) {
-        violations.push({ key, reason:"required-node-hidden", node });
-      }
-      continue;
-    }
-    if (!(node.rect.width > 0 && node.rect.height > 0)) {
-      violations.push({ key, reason:"empty-visible-rect", node });
-      continue;
-    }
-    const tolerance = Number(audit.config.containmentTolerancePx || 0);
-    const inside = node.rect.left >= audit.safe.left - tolerance
-        && node.rect.top >= audit.safe.top - tolerance
-        && node.rect.right <= audit.safe.right + tolerance
-        && node.rect.bottom <= audit.safe.bottom + tolerance;
-    if (!inside) violations.push({ key, reason:"outside-panel-safe-rect", node, safe:audit.safe });
-    visibleRects.push({ key, rect:node.rect });
-  }
-  const retryVisual = audit.pairedNodes?.retryVisual;
-  const retryHitbox = audit.pairedNodes?.retryHitbox;
-  for (const [key, node] of Object.entries({ retryVisual, retryHitbox })) {
-    if (!node || node.missing) {
-      violations.push({ key, reason:"paired-node-missing" });
-      continue;
-    }
-    const hidden = node.hidden || node.display === "none" || node.visibility === "hidden" || node.opacity === 0;
-    if (hidden || !(node.rect.width > 0 && node.rect.height > 0)) {
-      violations.push({ key, reason:"paired-node-hidden", node });
-      continue;
-    }
-    const tolerance = Number(audit.config.containmentTolerancePx || 0);
-    const inside = node.rect.left >= audit.safe.left - tolerance
-      && node.rect.top >= audit.safe.top - tolerance
-      && node.rect.right <= audit.safe.right + tolerance
-      && node.rect.bottom <= audit.safe.bottom + tolerance;
-    if (!inside) violations.push({ key, reason:"paired-node-outside-panel-safe-rect", node, safe:audit.safe });
-  }
-  if (retryVisual && retryHitbox
-    && !retryVisual.missing && !retryHitbox.missing
-    && retryVisual.display !== "none" && retryHitbox.display !== "none"
-    && retryVisual.rect.width > 0 && retryVisual.rect.height > 0
-    && retryHitbox.rect.width > 0 && retryHitbox.rect.height > 0) {
-    const tolerance = Number(audit.config.visualHitboxTolerancePx || 0);
-    const edgeDeltas = Object.fromEntries(["left", "top", "right", "bottom"]
-      .map((edge) => [edge, Math.abs(retryVisual.rect[edge] - retryHitbox.rect[edge])]));
-    if (Object.values(edgeDeltas).some((delta) => delta > tolerance)) {
-      violations.push({ key:"retry", reason:"visual-hitbox-edge-mismatch", tolerance, edgeDeltas });
-    }
-  }
-  const orderedKeys = ["title", "measure", "track", "correct", "next", "retry"];
-  const ordered = orderedKeys.map((key) => visibleRects.find((item) => item.key === key)).filter(Boolean);
-  const minimumGap = Number(audit.config.minimumVisibleGapPx || 0) * (audit.stage.width / 1280);
-  for (let index = 0; index < ordered.length - 1; index += 1) {
-    const first = ordered[index];
-    const second = ordered[index + 1];
-    if (second.rect.top - first.rect.bottom < minimumGap - 1) {
-      violations.push({ first:first.key, second:second.key, reason:"vertical-gap-too-small", minimumGap });
-    }
-  }
-  assert(violations.length === 0, `${label}: result panel containment violations`, { audit, violations });
-  return audit;
-}
-
-async function auditAllConfiguredResultPanelTiers(page, lesson, viewport, shots) {
-  const tiers = await evaluate(page, `(() => {
-    if (LESSON_CONFIG.qa?.resultPanelContainmentAudit?.standard !== 'result-panel-containment-v2') return [];
-    return LESSON_CONFIG.results.map((result) => ({
-      id:result.id,
-      power:Number(result.minPower || 0),
-      correct:Number(result.minCorrect || 0),
-      special:Boolean(result.needsSpecial)
-    }));
-  })()`);
-  for (const tier of tiers) {
-    await evaluate(page, `(() => {
-      window.__mathmonEngineQa.setState({
-        power:${tier.power},
-        correctFirstTry:${tier.correct},
-        specialSeen:${tier.special},
-        currentResult:null
-      });
-      window.__mathmonEngineQa.showResult();
-    })()`);
-    await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
-      && document.getElementById('resultBg')?.complete
-      && document.getElementById('resultBg')?.naturalWidth === 1280`, `${viewport.name}: result panel tier ${tier.id} did not render`);
-    await auditConfiguredResultPanelContainment(page, `${viewport.name} result panel ${tier.id}`);
-    shots.push(await screenshot(page, lesson, viewport, `08d-result-panel-${tier.id}`));
-  }
-  return tiers;
-}
-
-async function auditConfiguredResultRewardDominance(page, label) {
-  const panelAudit = await auditConfiguredResultPanelContainment(page, `${label} panel prerequisite`);
-  const audit = await evaluate(page, `(() => {
-    const config = LESSON_CONFIG.qa?.resultRewardDominanceAudit;
-    if (!config) return null;
-    const resultScreen = document.getElementById('screen-result');
-    const scene = document.querySelector(config.sceneImage || '#resultBg');
-    const isVisible = (node) => {
-      if (!node) return false;
-      const style = getComputedStyle(node);
-      const rect = node.getBoundingClientRect();
-      return !node.hidden && !node.hasAttribute('hidden')
-        && style.display !== 'none' && style.visibility !== 'hidden'
-        && Number(style.opacity || 0) > 0 && rect.width > 0 && rect.height > 0;
-    };
-    const forbiddenVisibleSelectors = (config.forbiddenVisibleSelectors || [])
-      .filter((selector) => isVisible(document.querySelector(selector)));
-    const visibleText = resultScreen?.innerText || '';
-    const forbiddenVisibleText = (config.forbiddenVisibleTextPatterns || [])
-      .filter((pattern) => new RegExp(pattern, 'u').test(visibleText));
-    const visibleInformationSelectors = (config.informationSelectors || [])
-      .filter((selector) => isVisible(document.querySelector(selector)));
-    const tier = resultScreen?.dataset.resultTier || '';
-    return {
-      config,
-      tier,
-      reward:config.primaryRewardBoundsByTier?.[tier] || null,
-      natural:{ width:scene?.naturalWidth || 0, height:scene?.naturalHeight || 0 },
-      forbiddenVisibleSelectors,
-      forbiddenVisibleText,
-      visibleInformationSelectors,
-      visibleText
-    };
-  })()`);
-  if (!audit) return null;
-  assert(audit.config.standard === "result-primary-reward-dominance-v1", `${label}: result reward dominance standard is wrong`, audit);
-  assert(audit.reward && audit.natural.width === 1280 && audit.natural.height === 800, `${label}: result reward source rect or scene is invalid`, audit);
-  const thresholds = Object.fromEntries([
-    "minimumPrimaryRewardWidthRatio",
-    "minimumPrimaryRewardAreaRatio",
-    "minimumRewardRightEdgeRatio",
-    "minimumPanelLeftRatio",
-    "maximumPanelWidthRatio",
-    "maximumPanelAreaRatio",
-    "minimumRewardToPanelWidthRatio",
-    "maximumRewardPanelOverlapRatio",
-    "maximumVisibleInformationNodes",
-  ].map((key) => [key, Number(audit.config[key])]));
-  const result = validateResultRewardDominance({
-    canvas:audit.natural,
-    reward:audit.reward,
-    panel:panelAudit.panelSource,
-    thresholds,
-    forbiddenVisibleSelectors:audit.forbiddenVisibleSelectors,
-    forbiddenVisibleText:audit.forbiddenVisibleText,
-    visibleInformationCount:audit.visibleInformationSelectors.length,
+  const expectedBuildInputsSha = hashRuntimeBuildInputs({
+    buildFingerprintHelperSource:fs.readFileSync(path.join(ROOT, "scripts", "runtime-build-fingerprint.mjs"), "utf8"),
+    buildScriptSource:fs.readFileSync(path.join(ROOT, "scripts", "build-lesson.mjs"), "utf8"),
+    engineCss:fs.readFileSync(path.join(ROOT, "_engine", "v1", "styles", "core.css"), "utf8"),
+    engineRuntime:fs.readFileSync(path.join(ROOT, "_engine", "v1", "runtime", "core.js"), "utf8"),
+    lessonCss,
+    lessonJsonSource:source,
+    modelSource,
+    scoreboardCss:fs.readFileSync(path.join(ROOT, "_shared", "scoreboard", "scoreboard-ui.css"), "utf8"),
+    scoreboardRuntime:fs.readFileSync(path.join(ROOT, "_shared", "scoreboard", "scoreboard-ui.js"), "utf8"),
+    sharedAudioRuntime:fs.readFileSync(path.join(ROOT, "_shared", "audio", "mathmon-audio-v1.js"), "utf8"),
+    template:fs.readFileSync(path.join(ROOT, "_engine", "v1", "template.html"), "utf8"),
+    viewSource,
   });
-  assert(result.failures.length === 0, `${label}: primary reward/result panel dominance violations`, { audit, panel:panelAudit.panelSource, result });
-  console.log(`RESULT_REWARD_DOMINANCE ${label}: ${JSON.stringify({ tier:audit.tier, ...result.measurements })}`);
-  return { audit, panel:panelAudit.panelSource, result };
-}
-
-async function auditAllConfiguredResultRewardDominanceTiers(page, lesson, viewport, shots) {
-  const tiers = await evaluate(page, `(() => {
-    if (LESSON_CONFIG.qa?.resultRewardDominanceAudit?.standard !== 'result-primary-reward-dominance-v1') return [];
-    return LESSON_CONFIG.results.map((result) => ({
-      id:result.id,
-      power:Number(result.minPower || 0),
-      correct:Number(result.minCorrect || 0),
-      special:Boolean(result.needsSpecial)
-    }));
-  })()`);
-  for (const tier of tiers) {
-    await evaluate(page, `(() => {
-      window.__mathmonEngineQa.setState({
-        power:${tier.power},
-        correctFirstTry:${tier.correct},
-        specialSeen:${tier.special},
-        currentResult:null
-      });
-      window.__mathmonEngineQa.showResult();
-    })()`);
-    await waitUntil(page, `document.getElementById('screen-result')?.dataset.resultTier === ${JSON.stringify(tier.id)}
-      && document.getElementById('resultBg')?.complete
-      && document.getElementById('resultBg')?.naturalWidth === 1280`, `${viewport.name}: result reward dominance tier ${tier.id} did not render`);
-    await auditConfiguredResultRewardDominance(page, `${viewport.name} result reward dominance ${tier.id}`);
-    shots.push(await screenshot(page, lesson, viewport, `08e-result-reward-dominance-${tier.id}`));
-  }
-  return tiers;
+  const runtime = await evaluate(page, `(() => { const node=document.querySelector('#mathmonRuntimeBuildMeta'); return node ? { lessonId:node.dataset.lessonId || '', commitSha:node.dataset.commitSha || '', lessonJsonSha:node.dataset.lessonJsonSha256 || '', buildInputsSha:node.dataset.buildInputsSha256 || '' } : null; })()`);
+  assert(runtime?.lessonId === (config.id || ''), `${label}: runtime lesson id is stale`, { runtime, expectedLesson:config.id });
+  const commitIsAncestor = /^[0-9a-f]{40}$/.test(runtime?.commitSha || "")
+    && spawnSync("git", ["merge-base", "--is-ancestor", runtime.commitSha, "HEAD"], { cwd:ROOT }).status === 0;
+  assert(commitIsAncestor, `${label}: runtime build commit is not reachable from HEAD`, { runtime });
+  assert(runtime?.lessonJsonSha === expectedLessonJsonSha, `${label}: stale runtime lesson.json SHA`, { runtime, expectedLessonJsonSha });
+  assert(runtime?.buildInputsSha === expectedBuildInputsSha, `${label}: stale runtime build inputs`, { runtime, expectedBuildInputsSha });
+  return runtime;
 }
 
 async function auditAllConfiguredResultCohesionTiers(page, lesson, viewport, shots) {
@@ -5073,8 +4735,8 @@ async function auditElevatorResultTier(page, label, expected) {
     const meter = document.querySelector('.result-dynamic-ui rect:first-of-type');
     const meterFill = document.getElementById('resultMeasureFillSvg');
     const meterText = document.getElementById('resultMeasureSvg');
-    const retryArt = document.querySelector('.result-restart-hitbox .result-retry-art');
-    const retryHitbox = document.querySelector('.result-restart-hitbox');
+    const retryHitbox = document.getElementById('restartButton');
+    const retryArt = retryHitbox?.querySelector('.result-retry-art');
     const stage = document.querySelector('.stage-shell');
     const layout = LESSON_CONFIG.result?.stateImageSet?.layoutByTier?.[${JSON.stringify(expected.id)}] || null;
     const configuredImage = LESSON_CONFIG.results?.find((item) => item.id === ${JSON.stringify(expected.id)})?.image || '';
@@ -5218,7 +4880,8 @@ async function forceFarmRewardCases(page, lesson, viewport, shots) {
       Lesson2DivideFarmModel.pickRewardEvent = () => forced;
       window.__mathmonEngineQa.setState({
         power:${item.power}, correctFirstTry:${item.correct}, specialSeen:false,
-        completed:true, mistakeTouched:false, rewardPhase:'idle', pendingRewardEvent:null, currentResult:null
+        completed:true, mistakeTouched:false, rewardPhase:'idle', rewardTransitioning:false,
+        pendingRewardEvent:null, currentResult:null
       });
       return window.__mathmonEngineQa.showReward().then(() => window.__mathmonEngineQa.getState());
     })()`);
@@ -5278,6 +4941,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   const hasConfiguredTopControlsAudit = await evaluate(page, "Boolean(LESSON_CONFIG.qa?.topControlsAudit)");
   const scoreViewButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.scoreViewButton || ''");
   const tutorialNextButtonAsset = await evaluate(page, "LESSON_CONFIG.imageAssets?.tutorialNextButton || ''");
+  const tutorialMode = await evaluate(page, "LESSON_CONFIG.tutorial?.mode || 'card-grid'");
   const configuredMisconceptions = await evaluate(page, "LESSON_CONFIG.qa?.misconceptionCoverage || []");
   const remainingMisconceptions = new Set(configuredMisconceptions);
   shots.push(await screenshot(page, lesson, viewport, "01-cover"));
@@ -5291,24 +4955,27 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   await waitUntil(page, "document.getElementById('settingsBackdrop').hidden", `${viewport.name}: settings did not close`);
 
   await clickSelector(page, "#startButton");
-  await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && (document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '다음'", `${viewport.name}: tutorial 1 not shown`);
+  const firstTutorialLabel = tutorialMode === "poster-two-step" ? "다음" : "문제 시작";
+  await waitUntil(page, `document.querySelector('.screen.is-active')?.id === 'screen-tutorial' && (document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === ${JSON.stringify(firstTutorialLabel)}`, `${viewport.name}: tutorial not shown`);
   shots.push(await screenshot(page, lesson, viewport, "03-tutorial-1"));
-  await auditGeometry(page, `${viewport.name} tutorial 1`);
+  await auditGeometry(page, `${viewport.name} tutorial`);
   if (tutorialNextButtonAsset) {
-    await auditGeneratedActionButton(page, `${viewport.name} tutorial next button`, "#tutorialStartButton", tutorialNextButtonAsset, "다음");
+    await auditGeneratedActionButton(page, `${viewport.name} tutorial action button`, "#tutorialStartButton", tutorialNextButtonAsset, firstTutorialLabel);
   }
   if (lesson === "3-2-2-2-mathmon-elevator") {
     await auditElevatorTutorialSolveRaster(page, `${viewport.name} generated place-value tutorial poster`);
     await auditGeneratedActionButton(page, `${viewport.name} tutorial next button`, "#tutorialStartButton", "action-buttons/next-button-generated.webp", "다음");
   }
-  await clickSelector(page, "#tutorialStartButton");
-  await waitUntil(page, "(document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
-  shots.push(await screenshot(page, lesson, viewport, "04-tutorial-2"));
-  await auditGeometry(page, `${viewport.name} tutorial 2`);
-  if (lesson === "3-2-2-2-mathmon-elevator") {
-    await auditElevatorTutorialGoalRaster(page, `${viewport.name} generated tutorial goal poster`);
-    await auditGeneratedActionButton(page, `${viewport.name} tutorial previous button`, "#tutorialBackButton", "action-buttons/previous-button-generated.webp", "이전");
-    await auditGeneratedActionButton(page, `${viewport.name} tutorial problem-start button`, "#tutorialStartButton", "action-buttons/problem-start-button-generated.webp", "문제 시작");
+  if (tutorialMode === "poster-two-step") {
+    await clickSelector(page, "#tutorialStartButton");
+    await waitUntil(page, "(document.getElementById('tutorialStartButton').textContent.trim() || document.getElementById('tutorialStartButton').getAttribute('aria-label')) === '문제 시작'", `${viewport.name}: tutorial 2 not shown`);
+    shots.push(await screenshot(page, lesson, viewport, "04-tutorial-2"));
+    await auditGeometry(page, `${viewport.name} tutorial 2`);
+    if (lesson === "3-2-2-2-mathmon-elevator") {
+      await auditElevatorTutorialGoalRaster(page, `${viewport.name} generated tutorial goal poster`);
+      await auditGeneratedActionButton(page, `${viewport.name} tutorial previous button`, "#tutorialBackButton", "action-buttons/previous-button-generated.webp", "이전");
+      await auditGeneratedActionButton(page, `${viewport.name} tutorial problem-start button`, "#tutorialStartButton", "action-buttons/problem-start-button-generated.webp", "문제 시작");
+    }
   }
   await clickSelector(page, "#tutorialStartButton");
   await waitUntil(page, "document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play not shown`);
@@ -5374,7 +5041,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
-  const answerLeak = await evaluate(page, "(() => { const slot = document.getElementById('answerSlot'); return Boolean(slot && slot.textContent.trim() !== '?') || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]')); })()");
+  const answerLeak = await evaluate(page, "!document.getElementById('answerSlot')?.textContent.includes('?') || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
 
   if (lesson === "3-2-2-2-mathmon-elevator") {

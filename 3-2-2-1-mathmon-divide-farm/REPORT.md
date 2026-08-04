@@ -5,6 +5,7 @@
 - 문제 수: 문제 은행 30개 중 매 판 10개 무작위 출제
 - 화면 기준: 16:10 Stage, 기준 제작 크기 1280×800
 - 보상 구조: 점수에 따라 농장이 6단계로 성장
+- 매스몬 자산: `base-pack`의 `base-02-foxmon`(여우몬)
 
 ## 전체 화면 스크린샷
 
@@ -282,6 +283,8 @@ Humanizer 기준으로 현재 화면의 문구를 다시 읽었습니다.
 | reported-compact | 918×897 | 881.28×550.80 |
 | reported-carrot-fox | 934×987 | 896.66×560.41 |
 | reported-complete-step-gap | 926×688 | 888.97×555.59 |
+
+현재 실행본의 화면 크기별 전체 흐름은 `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-reported-compact-contact-sheet.png`, `screenshots/report-flow-reported-carrot-fox-contact-sheet.png`, `screenshots/report-flow-reported-complete-step-gap-contact-sheet.png`에 모았습니다. 실행본 해시와 개별 캡처 목록은 `screenshots/report-evidence-manifest.json`에 기록했습니다.
 
 각 화면 크기에서 시작, 설정, 방법 보기 2장, 묶음 대기·오답·확인, 낱개 대기·확인, 마지막 덧셈 대기·오답, 최종 완성, 보상 닫힘·열림, 마지막 보상, 결과 6종을 확인했습니다.
 

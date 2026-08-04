@@ -703,6 +703,42 @@
     bridge-lock-glow .55s .25s ease-out both;
 }
 
+/* 문제 자체가 행동을 설명하므로 중복 지시 띠는 화면에서 제거한다. */
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .instruction,
+.game[data-workbench-type="circle-double-bridge"] .feedback-line {
+  grid-area: 1 / 1;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding-inline: 16px;
+  color: #fff3cc;
+  font-size: clamp(1.125rem, 1.55vw, 1.25rem);
+  line-height: 1.2;
+  font-weight: 1000;
+  text-align: left;
+  word-break: keep-all;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .instruction[hidden] {
+  display: none;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="idle"] {
+  visibility: hidden;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="wrong"] {
+  color: #ffd4de;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="correct"] {
+  color: #c9ffe8;
+}
+
 /* 네 후보는 카드가 아니라 하나의 부품 선반 위에 놓인다. */
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel {
   grid-row: 2;
@@ -793,8 +829,8 @@
 
 /* 선택지는 다리 부품 대신 숫자 네 개만 보여 준다. */
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel {
-  padding: 9px 12px 11px;
-  gap: 10px;
+  padding: 12px 14px 14px;
+  gap: 12px;
   border-top: 4px solid #c98943;
   background: linear-gradient(180deg, rgba(111, 63, 31, .97), rgba(75, 39, 20, .98));
 }
@@ -802,7 +838,7 @@
 .game[data-workbench-type="circle-double-bridge"] .length-choice {
   position: relative;
   min-width: 0;
-  min-height: 80px;
+  min-height: 72px;
   padding: 4px 12px;
   display: grid;
   place-items: center;
@@ -816,7 +852,7 @@
 
 .game[data-workbench-type="circle-double-bridge"] .length-choice-value {
   display: block;
-  font-size: clamp(1.55rem, 2.35vw, 2rem);
+  font-size: clamp(1.8rem, 2.65vw, 2.25rem);
   line-height: 1;
   font-weight: 1000;
   font-variant-numeric: tabular-nums;

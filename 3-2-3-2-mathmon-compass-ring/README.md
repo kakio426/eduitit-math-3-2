@@ -23,6 +23,7 @@
 - 문제 중 진행 장면: `play-progress-v3-*-generated.webp` 6장, 각 418×627
 - 진행 장면 생성 원본: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/source`
 - 진행 장면 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/contact-sheets/play-progress-v3-contact-sheet.png`
+- 진행 장면 매스몬 앵커 검수: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/contact-sheets/play-progress-v3-anchor-audit.png`
 - 동행 매스몬: `diversity-reward-pack`의 수정부엉몬(`mathmon-drv-05-crystalowl`)
 - 설명 1: `반지름 3 cm = 컴퍼스 벌림 3 cm`를 원·눈금·컴퍼스로 직접 연결
 - 설명 2: 10문제·마법진 빛 변화·마지막 마법진 이름만 안내

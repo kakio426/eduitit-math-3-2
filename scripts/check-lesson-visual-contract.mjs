@@ -114,6 +114,16 @@ function readMathmonIds(packId) {
   return new Set((manifest.items || manifest.characters || []).map((item) => item.id));
 }
 
+function hasGeneratedResultTitle(set) {
+  return ["result-title", "result-title-raster", "tier-scene-with-title"]
+    .some((element) => set?.fixedGeneratedElements?.includes(element));
+}
+
+function hasGeneratedRetryButton(set) {
+  return ["retry-button", "result-retry-raster"]
+    .some((element) => set?.fixedGeneratedElements?.includes(element));
+}
+
 function checkStandaloneLesson(folder, config) {
   const prefix = `${folder}:`;
   const outputDir = path.join(ROOT, folder);
@@ -146,16 +156,24 @@ function checkStandaloneLesson(folder, config) {
 
   const resultSet = config.result?.stateImageSet;
   if (config.qa?.resultVisualAudit?.standard === "result-tier-fullscene-native-v1") {
+    const splitPanel = config.qa?.resultPanelContainmentAudit?.standard === "result-panel-containment-v2";
     assert(resultSet?.standard === "generated-result-fullscene-v3", `${prefix} standalone 결과 완성 장면 표준이 다릅니다.`);
     assert(resultSet.count === config.results?.length && resultSet.count === 6, `${prefix} standalone 결과 완성 장면은 6장이어야 합니다.`);
     assert(resultSet.canvas === EXPECTED_CANVAS && resultSet.runtimeSlot === "result-stage-fullscene", `${prefix} standalone 결과 장면은 1280×800 fullscene 슬롯이어야 합니다.`);
     assert(resultSet.nativeScenePerState === true, `${prefix} standalone 결과 단계마다 고유 장면이 필요합니다.`);
     assert(resultSet.forbidEffectOverlay === true && resultSet.forbidBlendMode === true && resultSet.forbidTierCssFilter === true, `${prefix} standalone 결과 차이를 CSS 효과로 만들면 안 됩니다.`);
-    assert(resultSet.fixedGeneratedElements?.includes("tier-scene-with-title"), `${prefix} standalone 결과 제목은 장면 안에 있어야 합니다.`);
-    assert(resultSet.fixedGeneratedElements?.includes("retry-button"), `${prefix} standalone 다시 버튼 표면은 장면 안에 있어야 합니다.`);
+    assert(hasGeneratedResultTitle(resultSet), `${prefix} standalone 결과 제목은 생성 이미지 요소여야 합니다.`);
+    assert(hasGeneratedRetryButton(resultSet), `${prefix} standalone 다시 버튼 표면은 생성 이미지 요소여야 합니다.`);
     assert(html.includes('data-result-render-mode="fullscene-generated-dynamic-slots"'), `${prefix} standalone fullscene 결과 렌더 모드가 없습니다.`);
-    assert(/\.result-title-art\s*\{[^}]*display:\s*none\s*!important/is.test(html), `${prefix} standalone 별도 결과 제목 이미지는 숨겨야 합니다.`);
-    assert(/\.result-retry-art\s*\{[^}]*display:\s*none\s*!important/is.test(html), `${prefix} standalone 별도 다시 버튼 이미지는 숨겨야 합니다.`);
+    if (splitPanel) {
+      assert(resultSet.fixedGeneratedElements?.includes("result-panel-raster"), `${prefix} standalone 결과판 래스터 계약이 없습니다.`);
+      assert(resultSet.fixedGeneratedElements?.includes("result-title-raster"), `${prefix} standalone 독립 결과 제목 래스터 계약이 없습니다.`);
+      assert(resultSet.fixedGeneratedElements?.includes("result-retry-raster"), `${prefix} standalone 독립 다시 버튼 래스터 계약이 없습니다.`);
+      assert(config.imageAssets?.resultPanel && config.imageAssets?.resultRetryButton, `${prefix} standalone 결과판·다시 버튼 자산이 없습니다.`);
+    } else {
+      assert(/\.result-title-art\s*\{[^}]*display:\s*none\s*!important/is.test(html), `${prefix} standalone 별도 결과 제목 이미지는 숨겨야 합니다.`);
+      assert(/\.result-retry-art\s*\{[^}]*display:\s*none\s*!important/is.test(html), `${prefix} standalone 별도 다시 버튼 이미지는 숨겨야 합니다.`);
+    }
     assert(new Set((config.results || []).map((result) => result.image)).size === 6, `${prefix} standalone 결과 6단계는 서로 다른 장면 파일이어야 합니다.`);
     const resultPngRoot = resultSet.runtimePngPath
       ? path.resolve(ROOT, resultSet.runtimePngPath)
@@ -164,7 +182,12 @@ function checkStandaloneLesson(folder, config) {
       const pngPath = path.join(resultPngRoot, pngFor(result.image || ""));
       assert(existsSync(pngPath), `${prefix} standalone 결과 PNG가 없습니다: ${path.basename(pngPath)}`);
       assert(readPngSize(pngPath) === EXPECTED_CANVAS, `${prefix} standalone 결과 이미지는 ${EXPECTED_CANVAS}이어야 합니다: ${path.basename(pngPath)}`);
-      assert(result.titleImage === result.image, `${prefix} standalone 결과 제목은 별도 오버레이가 아니라 완성 장면이어야 합니다: ${result.id}`);
+      if (splitPanel) {
+        assert(result.titleImage && result.titleImage !== result.image, `${prefix} standalone 결과 단계별 독립 제목 자산이 필요합니다: ${result.id}`);
+        assert(existsSync(path.join(outputDir, pngFor(result.titleImage))), `${prefix} standalone 결과 제목 PNG가 없습니다: ${pngFor(result.titleImage)}`);
+      } else {
+        assert(result.titleImage === result.image, `${prefix} standalone 결과 제목은 별도 오버레이가 아니라 완성 장면이어야 합니다: ${result.id}`);
+      }
     }
     const contactSheet = resolveEvidencePath(outputDir, resultSet.contactSheet);
     assert(existsSync(contactSheet), `${prefix} standalone 결과 컨택시트가 없습니다.`);
@@ -333,12 +356,8 @@ function checkLesson(folder, config) {
     assert(typeof set.protagonist === "string" && set.protagonist.length > 0, `${prefix} 중심 보상 주인공 id가 없습니다.`);
     assert(set.fixedGeneratedElements?.some((element) => element.endsWith("-scene")), `${prefix} 중심 보상 결과 장면이 생성 이미지 요소여야 합니다.`);
   }
-  assert(
-    set.fixedGeneratedElements?.includes("result-title")
-      || set.fixedGeneratedElements?.includes("tier-scene-with-title"),
-    `${prefix} 결과 제목은 생성 이미지 요소이거나 단계 완성 장면 안에 있어야 합니다.`,
-  );
-  assert(set.fixedGeneratedElements?.includes("retry-button"), `${prefix} 다시 버튼은 생성 이미지 요소여야 합니다.`);
+  assert(hasGeneratedResultTitle(set), `${prefix} 결과 제목은 생성 이미지 요소이거나 단계 완성 장면 안에 있어야 합니다.`);
+  assert(hasGeneratedRetryButton(set), `${prefix} 다시 버튼은 생성 이미지 요소여야 합니다.`);
   const hidesLegacyResultSurface = (
     css.includes("#resultDestinationSvg")
     && css.includes(".result-restart-surface")

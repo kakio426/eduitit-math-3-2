@@ -351,8 +351,10 @@ function checkViewContract(rule, config, modelSource, viewSource, runtimeSource)
 for (const lesson of lessons) {
   const sourceDir = path.join(ROOT, "_lessons", lesson);
   const config = JSON.parse(await readFile(path.join(sourceDir, "lesson.json"), "utf8"));
-  const modelSource = await readFile(path.join(sourceDir, "model.js"), "utf8");
-  const viewSource = await readFile(path.join(sourceDir, "view.js"), "utf8");
+  const modelPath = path.resolve(sourceDir, config.sourceFiles?.model || "model.js");
+  const viewPath = path.resolve(sourceDir, config.sourceFiles?.view || "view.js");
+  const modelSource = await readFile(modelPath, "utf8");
+  const viewSource = await readFile(viewPath, "utf8");
   const runtimeSource = await readFile(path.join(ROOT, "_engine", "v1", "runtime", "core.js"), "utf8");
   const model = loadModel(modelSource, config);
 
@@ -362,7 +364,11 @@ for (const lesson of lessons) {
   assert.ok(config.imageAssets?.resultScene || config.results.every((result) => result.image), `${lesson}: UI-free result scene`);
   const fixedResultElements = config.result?.stateImageSet?.fixedGeneratedElements;
   const titleIsBakedIntoTierScene = Array.isArray(fixedResultElements) && fixedResultElements.includes("tier-scene-with-title");
-  const requiresIndependentResultTitle = !titleIsBakedIntoTierScene && (!Array.isArray(fixedResultElements) || fixedResultElements.includes("result-title"));
+  const requiresIndependentResultTitle = !titleIsBakedIntoTierScene && (
+    !Array.isArray(fixedResultElements)
+      || fixedResultElements.includes("result-title")
+      || fixedResultElements.includes("result-title-raster")
+  );
   for (const result of config.results) {
     if (requiresIndependentResultTitle) {
       assert.ok(result.titleImage && result.titleImage !== result.image, `${lesson}/${result.id}: independent generated result title`);

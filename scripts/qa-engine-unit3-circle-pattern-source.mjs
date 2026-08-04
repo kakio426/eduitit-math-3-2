@@ -72,8 +72,8 @@ assert.match(viewSource, /setAttribute\("aria-label", selected\.label\)/, "choic
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
 assert.match(
   cssSource,
-  /\.result-retry-hitbox\s+\.result-retry-art\s*\{\s*display:\s*none\s*!important;/,
-  "the transparent retry hitbox must not draw a second button over the baked result button",
+  /\.game\[data-result-panel-containment="result-panel-containment-v2"\] \.result-title-art,\s*\.game\[data-result-panel-containment="result-panel-containment-v2"\] \.result-retry-hitbox \.result-retry-art\s*\{\s*display:\s*block\s*!important;/,
+  "the generated title and retry raster must remain visible in the contained result panel",
 );
 assert.doesNotMatch(
   cssSource,

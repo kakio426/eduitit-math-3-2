@@ -19,7 +19,7 @@ function getDarkTextBox(data, width, bounds) {
       const r = data[offset];
       const g = data[offset + 1];
       const b = data[offset + 2];
-      if (r < 90 && g < 75 && b < 55) {
+      if (r < 130 && g < 130 && b < 150) {
         xs.push(x);
         ys.push(y);
       }

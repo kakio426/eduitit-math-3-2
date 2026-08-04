@@ -365,6 +365,8 @@ http://127.0.0.1:4173/3-2-2-3-mathmon-star-pickup/index.html
 | reported-in-app-1082x897-dpr2 | 1082×897 | 2 | 인앱 브라우저 보상·별자리 회귀 |
 | reported-result-panel-1080x820-dpr2 | 1080×820 | 2 | 최종 결과판 제보 화면 회귀 |
 
+현재 실행본의 화면 크기별 전체 흐름은 `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-reported-1780x1112-contact-sheet.png`, `screenshots/report-flow-reported-in-app-1082x897-dpr2-contact-sheet.png`, `screenshots/report-flow-reported-result-panel-1080x820-dpr2-contact-sheet.png`에 모았습니다. 실행본 해시와 개별 캡처 목록은 `screenshots/report-evidence-manifest.json`에 기록했습니다.
+
 최종 결과 제보 화면의 실제 Stage는 `1036.8125×648px`입니다.
 
 확인한 상태:

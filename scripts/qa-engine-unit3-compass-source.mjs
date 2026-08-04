@@ -25,6 +25,7 @@ const playProgressRoot = path.join(
 );
 await readFile(path.join(playProgressRoot, "contract.json"));
 await readFile(path.join(playProgressRoot, "contact-sheets", "play-progress-v3-contact-sheet.png"));
+await readFile(path.join(playProgressRoot, "contact-sheets", "play-progress-v3-anchor-audit.png"));
 const resultFullsceneRoot = path.join(
   ROOT,
   "_shared",
@@ -60,6 +61,7 @@ assert.deepEqual(config.workbench.playStateImageSet, {
   filePattern: "play-progress-v3-*-generated.webp",
   sourceSetPath: "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/source",
   contactSheet: "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/contact-sheets/play-progress-v3-contact-sheet.png",
+  anchorAuditSheet: "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/contact-sheets/play-progress-v3-anchor-audit.png",
   cacheVersion: "2026-07-31-left-character-impact",
   protagonist: "mathmon-drv-05-crystalowl",
   requiredSubjects: ["마법진", "수정부엉몬 전신"],
@@ -75,6 +77,15 @@ assert.deepEqual(config.workbench.playStateImageSet, {
       footY: 0.88,
       toleranceRatio: 0.03,
       sameScaleAcrossStates: true,
+    },
+    subjectAnchors: {
+      standard: "source-pixel-anchor-v1",
+      faint: { centerX: 0.3, centerY: 0.68, footY: 0.86, height: 0.34 },
+      small: { centerX: 0.3, centerY: 0.68, footY: 0.86, height: 0.34 },
+      ring: { centerX: 0.3, centerY: 0.68, footY: 0.86, height: 0.34 },
+      big: { centerX: 0.3, centerY: 0.68, footY: 0.86, height: 0.34 },
+      grand: { centerX: 0.3, centerY: 0.68, footY: 0.86, height: 0.34 },
+      legend: { centerX: 0.3, centerY: 0.68, footY: 0.86, height: 0.34 },
     },
   },
 });
@@ -271,14 +282,15 @@ assert.deepEqual(config.qa.topControlsAudit, {
   unitBadge: "#screen-play .hud-right .unit-badge",
   settingsButton: "#settingsButton",
   topTolerancePx: 1,
+  bottomTolerancePx: 1,
   centerYTolerancePx: 1,
   heightTolerancePx: 1,
   minGapPx: 8,
 });
 assert.match(
   cssSource,
-  /\.game\[data-workbench-type="compass-opening"\] \.hud\s*\{[^}]*top:\s*var\(--stage-inset\)/s,
-  "play HUD must share the stage-inset top coordinate with the settings button",
+  /\.game\[data-workbench-type="compass-opening"\] \.hud\s*\{[^}]*top:\s*var\(--top-control-y\)/s,
+  "play HUD must share the top-control-y coordinate with the settings button",
 );
 assert.doesNotMatch(
   cssSource,

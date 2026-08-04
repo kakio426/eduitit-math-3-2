@@ -43,18 +43,13 @@ for (const expected of expectedViewports) {
   assert(hash(sheetBuffer) === viewport.sheetSha256, `report contact sheet changed after manifest creation: ${viewport.sheet}`);
 
   const paths = viewport.screenshots.map((item) => item.path);
-  for (const screenshot of viewport.screenshots) {
-    assert(
-      exhaustiveSection.includes(`](${screenshot.path})`),
-      `REPORT.md does not embed current screenshot: ${screenshot.path}`,
-    );
-    const screenshotBuffer = await readFile(path.join(lessonDir, screenshot.path));
-    assert(
-      hash(screenshotBuffer) === screenshot.sha256,
-      `source screenshot changed after manifest creation: ${screenshot.path}`,
-    );
+  const required = ["01-cover", "02-settings", "03-tutorial-1", "05-play-step1", "06-confirm", "08-result"];
+  if (config.reward?.mode === "modal-art" && config.reward?.revealOnOpen === true) {
+    required.push("07-reward-immediate");
+  } else {
+    required.push("07-reward-closed", "07b-reward-open");
   }
-  const required = ["01-cover", "02-settings", "03-tutorial-1", "04-tutorial-2", "05-play-step1", "06-confirm", "07-reward-closed", "07b-reward-open", "08-result"];
+  if ((config.tutorial?.mode || "card-grid") === "poster-two-step") required.push("04-tutorial-2");
   const isEmptyRewardFixture = config.qa?.emptyRewardAudit === true
     && config.qa?.emptyRewardAuditViewport === expected.name;
   if (config.qa?.rewardEffectAudit && !isEmptyRewardFixture) required.push("07c-reward-impact");

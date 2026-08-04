@@ -537,7 +537,11 @@
 .game[data-workbench-type="division-elevator"] .complete-text {
   color: #2c210c;
   font-size: clamp(1.65rem, 2.7vw, 2.35rem);
-  line-height: 1.1;
+  min-height: 48px;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  line-height: 1.15;
   text-align: center;
   white-space: nowrap;
 }
@@ -699,7 +703,7 @@
   width: 17.5%;
 }
 
-.game[data-workbench-type="division-elevator"] .result-restart-hitbox {
+.game[data-workbench-type="division-elevator"] #restartButton {
   left: var(--result-retry-left);
   top: var(--result-retry-top);
   width: var(--result-retry-width);
@@ -714,7 +718,7 @@
 .game[data-workbench-type="division-elevator"] #leaderboardButtonArt {
   display: none !important;
 }
-.game[data-workbench-type="division-elevator"] .result-restart-hitbox .result-retry-art {
+.game[data-workbench-type="division-elevator"] #restartButton .result-retry-art {
   display: none !important;
 }
 

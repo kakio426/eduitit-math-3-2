@@ -165,8 +165,6 @@
 - 결과 화면 캡처에서는 보이는 CSS 결과 카드, CSS 제목/본문, CSS 버튼 장식이 남아 있지 않은지도 확인합니다. `fullscene-score-slot` 모드라면 `6/10` 같은 점수 숫자 외 보이는 HTML 텍스트가 없어야 합니다.
 - `REPORT.md`에는 데스크톱 개별 화면별 학생 행동·수학 관계·전환 이유 설명과, 모든 등록 viewport의 전체 흐름 컨택시트를 함께 둡니다.
 - `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`로 컨택시트와 해시 manifest를 만들고 `node scripts/check-lesson-report-evidence.mjs <lesson-folder>`를 통과시킵니다.
-- 공용 엔진이나 `_lessons/<차시>/lesson.json`·`view.js`·`lesson.css`를 바꾸면 배포용 `<차시>/index.html`을 반드시 다시 빌드합니다. 하네스는 `#mathmonRuntimeBuildMeta[data-lesson-json-sha256]`를 현재 `lesson.json` 해시와 대조하고, 이번 회귀의 핵심 잠금 코드가 실제 `index.html`에도 들어 있는지 검사합니다. 소스만 고쳐진 상태는 배포 완료로 보지 않습니다.
-- 개별 브라우저 캡처는 로컬 QA 원본으로 두고, 배포 커밋에는 현재 `index.html` 해시와 원본 해시 목록을 담은 manifest 및 viewport별 컨택시트를 넣습니다. manifest에는 `sourceScreenshotsCommitted: false`를 명시하고 컨택시트 자체의 SHA-256을 검증합니다.
 - `REPORT.md`에는 확인한 화면 크기, 화면 상태, 텍스트 겹침/넘침 QA 결과, 남은 P0/P1을 남깁니다.
 
 ## 12. 교과서식 계산·찰나 화면 체크

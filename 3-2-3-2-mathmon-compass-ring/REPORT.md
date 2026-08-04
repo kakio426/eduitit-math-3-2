@@ -207,6 +207,7 @@
 ## 2026-07-31 왼쪽 매스몬 v3 세트·모달 뒤 단계 상승 효과
 
 - 진행 장면은 `generated-play-progress-v3-left-character` 6장으로 교체했습니다. 실행 파일은 `play-progress-v3-*-generated.webp`, 생성 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/source`, 전수 비교 자료는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/contact-sheets/play-progress-v3-contact-sheet.png`입니다.
+- 수정부엉몬의 가로 중심·세로 중심·발 기준선·크기는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-3-2/play-progress-v3/contact-sheets/play-progress-v3-anchor-audit.png`에서 6단계를 전수 확인했습니다.
 - 6장은 모두 418×627이고 수정부엉몬 전신을 왼쪽 아래, 마법진 장치를 오른쪽에 둡니다. 매스몬 중심은 `(0.30, 0.66)`, 발 기준선은 `0.88`, 허용 오차는 `3%`로 계약했습니다. 단계가 오를수록 청록빛 → 보랏빛 → 금빛·무지개빛으로 장면 변화가 커집니다.
 - `scripts/build-unit3-compass-play-progress-v3.cjs`가 생성 원본을 실행 PNG·WebP와 컨택시트로 빌드합니다. 원본 6장, 실행 6장, 컨택시트와 `contract.json`은 공용 `diversity-reward-pack` 아래에서 한 세트로 관리합니다.
 - 모달 뒤 효과는 `modal-dismiss-world-impact-v2`로 올렸습니다. 모달이 열린 동안에는 이전 단계 이미지와 효과 클래스가 그대로이고, `다음`으로 모달을 완전히 닫은 뒤 새 단계 이미지·빛기둥·원형 충격파·섬광·단계 이름 펄스를 함께 시작합니다.

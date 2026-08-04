@@ -54,7 +54,6 @@
 - 진행 보상 표준: `stage-left-play-progress-v1`; 패널 네 변 오차 1px 이하, 학습 영역 교차 0px, 수달몬 전신 잘림 0건
 - 보상 뒤 전환: `modal-dismiss-world-impact-v2`; 모달 닫힘 → 320ms → 진행 이미지 교체와 1560ms 효과 → 다음 문제
 - 정답 확인 효과: `bridge-answer-lock-effect-v1`; 고른 답·원 관계·문제판을 680ms 동안 약하게 빛낸 뒤 완성식과 `점수 보기`를 표시
-- 결과 회귀 fixture: `node scripts/test-result-reward-dominance.mjs`; 큰 판·작은 다리, 내부 누적값 노출, 판의 다리 가림을 자동 실패
 - 작업 영역 최소 폭: Stage의 65%. 최신 실제 측정은 세 QA 화면 모두 69.00%
 - 읽기·조작 최소값: 설정 42×42px, 배지 14px, 문제 수 16.8px, 지시문·선택지 글자 18px, 패널 간격 8px
 - 대표 오개념: 두 배를 하지 않음·하나 짧음·너무 김, 반으로 나누지 않음·너무 김·너무 짧음

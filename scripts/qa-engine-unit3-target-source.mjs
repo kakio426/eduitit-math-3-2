@@ -11,7 +11,6 @@ const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const cssSource = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
 const engineSource = await readFile(path.join(ROOT, "_engine/v1/runtime/core.js"), "utf8");
-const flowQaSource = await readFile(path.join(ROOT, "scripts/qa-lesson-flow.mjs"), "utf8");
 for (const asset of [
   "tutorial-page-1-target-console-v2-generated.webp",
   "score-view-button-v1-generated.webp",

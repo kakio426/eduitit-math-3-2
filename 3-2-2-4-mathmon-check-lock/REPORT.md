@@ -278,6 +278,8 @@
 | codex-live-panel-regression | 931×897 | 2 | 좁은 작업 패널 회귀 |
 | user-reported-missing-reward-panel | 1082×897 | 2 | 왼쪽 보상 장면 누락 회귀 |
 
+현재 실행본의 화면 크기별 전체 흐름은 `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-user-reported-overload-contact-sheet.png`, `screenshots/report-flow-codex-browser-regression-contact-sheet.png`, `screenshots/report-flow-codex-live-panel-regression-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-reward-panel-contact-sheet.png`에 모았습니다. 실행본 해시와 개별 캡처 목록은 `screenshots/report-evidence-manifest.json`에 기록했습니다.
+
 ### 태블릿 문제 화면
 
 ![태블릿 가로 문제 화면](screenshots/engine-flow-tablet-landscape-05-play-step1.png)

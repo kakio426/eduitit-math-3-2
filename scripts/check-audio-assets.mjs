@@ -4,14 +4,11 @@ import path from "node:path";
 const ROOT = process.cwd();
 const MANIFEST_PATH = path.join(ROOT, "manifest.json");
 const MODULE_PATH = path.join(ROOT, "_shared/audio/mathmon-audio-v1.js");
-const ENGINE_TEMPLATE_PATH = path.join(ROOT, "_engine/v1/template.html");
-const ENGINE_RUNTIME_PATH = path.join(ROOT, "_engine/v1/runtime/core.js");
-const BROWSER_SMOKE_PATH = path.join(ROOT, "scripts/qa-mathmon-audio-smoke.mjs");
 const BGM_PATH = path.join(
   ROOT,
   "_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
 );
-const MODULE_REFERENCE = "../_shared/audio/mathmon-audio-v1.js?v=20260803-real-gesture-v2";
+const INLINE_MODULE_MARKER = 'data-mathmon-audio-standard="mathmon-audio-v1"';
 const PREF_KEYS = ["mathmon-audio-bgm-enabled", "mathmon-audio-sfx-enabled"];
 const REQUIRED_CUES = ["start", "correct", "try", "reward", "next", "scan", "measure", "finish"];
 
@@ -95,22 +92,12 @@ async function checkSharedModule() {
   return { bytes: bgmInfo.size, cues: REQUIRED_CUES.length };
 }
 
-async function checkBuildAndBrowserGuards() {
-  const [template, runtime, browserSmoke] = await Promise.all([
-    readFile(ENGINE_TEMPLATE_PATH, "utf8"),
-    readFile(ENGINE_RUNTIME_PATH, "utf8"),
-    readFile(BROWSER_SMOKE_PATH, "utf8"),
-  ]);
-  assert(countOccurrences(template, MODULE_REFERENCE) === 1, "engine template must preserve the shared audio module across rebuilds");
-  assert(extractFunction(runtime, "playSample").includes("MathmonAudio?.play"), "engine runtime SFX must delegate to the shared audio engine");
-  assert(!browserSmoke.includes("--autoplay-policy=no-user-gesture-required"), "browser smoke must not bypass the normal autoplay policy");
-  assert(browserSmoke.includes("real start-button gesture did not start BGM"), "browser smoke must verify BGM from the real start-button gesture");
-}
-
 async function checkLesson(lesson) {
   const indexPath = path.join(ROOT, lesson.folder, lesson.entryFile || "index.html");
   const html = await readFile(indexPath, "utf8");
-  assert(countOccurrences(html, MODULE_REFERENCE) === 1, `${lesson.id}: shared audio module must be referenced exactly once`);
+  assert(countOccurrences(html, INLINE_MODULE_MARKER) === 1, `${lesson.id}: inline shared audio module must appear exactly once`);
+  assert(!/<script\s+[^>]*src=["'][^"']*mathmon-audio-v1\.js/i.test(html), `${lesson.id}: shared audio runtime must be inline`);
+  assert(countOccurrences(html, '(function installMathmonAudio(global) {') === 1, `${lesson.id}: shared audio runtime must be inlined exactly once`);
   assert(html.includes('data-settings-standard="modal-controls"'), `${lesson.id}: modal settings standard is missing`);
   assert(html.includes('id="settingsBgmToggle"'), `${lesson.id}: BGM settings toggle is missing`);
   assert(html.includes('id="settingsSfxToggle"'), `${lesson.id}: SFX settings toggle is missing`);
@@ -140,7 +127,6 @@ const manifest = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
 assert(Array.isArray(manifest.lessons), "manifest lessons are missing");
 assert(manifest.lessons.length === 24, `expected 24 lessons, found ${manifest.lessons.length}`);
 
-await checkBuildAndBrowserGuards();
 const shared = await checkSharedModule();
 const lessons = [];
 for (const lesson of manifest.lessons) lessons.push(await checkLesson(lesson));

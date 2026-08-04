@@ -36,9 +36,11 @@ const LESSONS = [
     id: "1-3",
     dir: "3-2-1-3-mathmon-jump-islands",
     mode: "fullscene",
+    engine: true,
     query: "?seed=12345&qaProblem=tenfold",
     forceResult: `
-      window.__lesson3Qa.showResultIsland("rainbow");
+      window.__mathmonEngineQa.setState({ power: 100, correctFirstTry: 10, specialSeen: true, currentResult: null });
+      window.__mathmonEngineQa.showResult();
     `
   },
   {
@@ -195,17 +197,19 @@ async function openLesson(lesson, viewport) {
 
 async function forceResult(lesson) {
   await evaluate(`(() => { ${lesson.forceResult} })()`);
-  await waitUntil("document.getElementById('resultScreen')?.classList.contains('is-active')", `${lesson.id}: result screen did not open`);
-  await waitUntil("document.querySelector('#resultScreen img')?.complete !== false", `${lesson.id}: result image did not finish`);
+  const screenId = lesson.engine ? "screen-result" : "resultScreen";
+  await waitUntil(`document.getElementById(${JSON.stringify(screenId)})?.classList.contains('is-active')`, `${lesson.id}: result screen did not open`);
+  await waitUntil(`document.querySelector('#${screenId} img')?.complete !== false`, `${lesson.id}: result image did not finish`);
   await delay(lesson.mode === "fullscene" ? 2100 : 2750);
 }
 
 async function readResultSnapshot(lesson) {
   const mode = JSON.stringify(lesson.mode);
+  const screenId = JSON.stringify(lesson.engine ? "screen-result" : "resultScreen");
   return evaluate(`
 (() => {
   const mode = ${mode};
-  const screen = document.getElementById("resultScreen");
+  const screen = document.getElementById(${screenId});
   const stage = document.querySelector(".stage-shell");
   const rectOf = (node) => {
     const rect = node.getBoundingClientRect();
@@ -260,9 +264,9 @@ async function readResultSnapshot(lesson) {
 	    const box = node.getBBox();
 	    return { text: node.textContent.trim(), x: box.x, y: box.y, width: box.width, height: box.height };
 	  }).filter((box) => box.x < -1 || box.y < -1 || box.x + box.width > 1281 || box.y + box.height > 801) : [];
-  const hitboxStyles = [...screen.querySelectorAll(".result-action-hitbox, .result-leaderboard-hitbox, .result-restart-hitbox")].map((node) => {
+  const hitboxStyles = [...screen.querySelectorAll(".result-action-hitbox, .result-leaderboard-hitbox, .result-restart-hitbox, .result-retry-hitbox")].map((node) => {
     const style = getComputedStyle(node);
-    return { id: node.id || node.dataset.action || node.className, background: style.backgroundColor, color: style.color, border: style.borderTopWidth, rect: rectOf(node), hidden: node.hidden, disabled: node.disabled };
+    return { id: node.id || node.dataset.action || node.className, background: style.backgroundColor, color: style.color, border: style.borderTopWidth, visibleText: node.textContent.trim(), rect: rectOf(node), hidden: node.hidden, disabled: node.disabled };
   });
   return {
     mode,
@@ -316,7 +320,7 @@ function validateSnapshot(lesson, viewport, snapshot) {
   snapshot.hitboxStyles.forEach((hitbox) => {
     if (hitbox.hidden || hitbox.disabled) return;
     assert(hitbox.background === "rgba(0, 0, 0, 0)", `${lesson.id}/${viewport.name}: hitbox ${hitbox.id} draws a background`);
-    assert(hitbox.color === "rgba(0, 0, 0, 0)", `${lesson.id}/${viewport.name}: hitbox ${hitbox.id} draws text color`);
+    if (hitbox.visibleText) assert(hitbox.color === "rgba(0, 0, 0, 0)", `${lesson.id}/${viewport.name}: hitbox ${hitbox.id} draws text color`);
     assert(hitbox.border === "0px", `${lesson.id}/${viewport.name}: hitbox ${hitbox.id} draws a border`);
   });
 }
@@ -325,11 +329,26 @@ async function verifyActions(lesson) {
   if (lesson.download) {
     await waitUntil("document.querySelector('[data-action=\"download-mathmon\"]')?.getAttribute('href') !== '#'", `${lesson.id}: download card did not become ready`, 8000);
   }
-  await evaluate("document.getElementById('leaderboardButton')?.click()");
-  await waitUntil("document.querySelector('.screen.is-active')?.id === 'scoreboardScreen'", `${lesson.id}: leaderboard did not open`, 8000);
-  await forceResult(lesson);
-  await evaluate("document.getElementById('restartButton')?.click()");
-  await waitUntil("document.querySelector('.screen.is-active')?.id !== 'resultScreen'", `${lesson.id}: restart did not leave result`, 5000);
+  const rankingState = await evaluate(`(() => {
+    const expectedResultScreen = ${JSON.stringify(lesson.engine ? "screen-result" : "resultScreen")};
+    const button = document.getElementById('leaderboardButton');
+    button?.click();
+    const style = button ? getComputedStyle(button) : null;
+    const rect = button?.getBoundingClientRect();
+    return {
+      activeScreen:document.querySelector('.screen.is-active')?.id || '',
+      scoreboardActive:document.getElementById('scoreboardScreen')?.classList.contains('is-active') || document.getElementById('screen-scoreboard')?.classList.contains('is-active') || false,
+      expectedResultScreen,
+      buttonHidden:Boolean(button?.hidden || style?.display === 'none' || style?.visibility === 'hidden'),
+      buttonDisabled:Boolean(button?.disabled || button?.getAttribute('aria-disabled') === 'true'),
+      buttonWidth:rect?.width || 0,
+      buttonHeight:rect?.height || 0
+    };
+  })()`);
+  assert(rankingState.activeScreen === rankingState.expectedResultScreen && !rankingState.scoreboardActive, `${lesson.id}: disabled leaderboard left the result screen`);
+  assert(rankingState.buttonHidden || rankingState.buttonDisabled || rankingState.buttonWidth === 0 || rankingState.buttonHeight === 0, `${lesson.id}: disabled leaderboard entry remains interactive`);
+  await evaluate("(document.getElementById('restartButton') || document.getElementById('retryButton'))?.click()");
+  await waitUntil(`document.querySelector('.screen.is-active')?.id !== ${JSON.stringify(lesson.engine ? "screen-result" : "resultScreen")}`, `${lesson.id}: restart did not leave result`, 5000);
 }
 
 const results = [];

@@ -154,40 +154,44 @@ async function showResult(id, correct) {
   const escapedId = JSON.stringify(id);
   await evaluate(`
 (() => {
-  const islandIndex = ISLANDS.findIndex((item) => item.id === ${escapedId});
-  if (islandIndex < 0) throw new Error("unknown island id");
-  const island = ISLANDS[islandIndex];
-  state.correct = ${correct};
-  state.jumpDistance = island.minDistance;
-  state.rainbowPath = Boolean(island.requiresRainbow);
-  clearResultRevealTimers();
-  setResultRevealPhase("idle");
-  startResultReveal({ ...island, index: islandIndex });
+  const island = LESSON_CONFIG.results.find((item) => item.id === ${escapedId});
+  if (!island) throw new Error("unknown island id");
+  window.__mathmonEngineQa.setState({
+    power:island.minPower,
+    correctFirstTry:${correct},
+    specialSeen:Boolean(island.needsSpecial),
+    currentResult:null
+  });
+  window.__mathmonEngineQa.showResult();
 })()
 `);
-  await waitUntil(`document.getElementById("finalCorrectText").textContent.trim() === "${correct}/10"`, `${id}: hidden final score did not update`);
+  await waitUntil(`document.getElementById("screen-result")?.dataset.resultTier === ${escapedId}`, `${id}: result tier did not update`);
+  const scoreState = await evaluate(`(() => ({
+    summary:document.getElementById("resultSummary").textContent.trim(),
+    correct:window.__mathmonEngineQa.getState().correctFirstTry,
+    problems:LESSON_CONFIG.typesPerRun.length
+  }))()`);
+  assert(scoreState.summary === `정답 ${correct}/10`, `${id}: hidden final score did not update: ${JSON.stringify(scoreState)}`);
   await waitUntil(`(() => {
     const art = document.getElementById("resultCorrectArt");
     return Boolean(art && !art.hidden && art.complete && art.naturalWidth > 0 && art.getAttribute("src").includes("result-correct-${correct}-generated.webp"));
   })()`, `${id}: generated correct-count art did not appear`);
-  await waitUntil("document.getElementById('resultRaster').complete", `${id}: result raster did not load`);
+  await waitUntil("document.getElementById('resultBg').complete && document.getElementById('resultBg').naturalWidth === 1280", `${id}: result raster did not load`);
   await delay(160);
 }
 
 async function readResultSnapshot() {
   return evaluate(`
 (() => {
-  const screen = document.getElementById("resultScreen");
-  const score = document.getElementById("resultCountOverlay");
-  const retry = document.getElementById("restartButton");
-  const raster = document.getElementById("resultRaster");
+  const screen = document.getElementById("screen-result");
+  const retry = document.getElementById("retryButton");
+  const raster = document.getElementById("resultBg");
   const correctArt = document.getElementById("resultCorrectArt");
   const rect = (node) => {
     const item = node.getBoundingClientRect();
     return { left: item.left, top: item.top, width: item.width, height: item.height };
   };
   const screenRect = rect(screen);
-  const scoreRect = rect(score);
   const correctArtRect = rect(correctArt);
   const correctArtStyle = getComputedStyle(correctArt);
   const retryStyle = getComputedStyle(retry);
@@ -205,8 +209,8 @@ async function readResultSnapshot() {
   return {
     bodyText: document.body.innerText,
     rasterSrc: raster.getAttribute("src"),
-    scoreText: document.getElementById("finalCorrectText").textContent.trim(),
-    scoreAria: score.getAttribute("aria-label"),
+    scoreText: document.getElementById("resultSummary").textContent.trim(),
+    tier: screen.dataset.resultTier || "",
     correctArt: {
       visible: Boolean(correctArt
         && !correctArt.hidden
@@ -226,19 +230,22 @@ async function readResultSnapshot() {
       }
     },
     scorePct: {
-      left: ((scoreRect.left - screenRect.left) / screenRect.width) * 100,
-      top: ((scoreRect.top - screenRect.top) / screenRect.height) * 100,
-      width: (scoreRect.width / screenRect.width) * 100,
-      height: (scoreRect.height / screenRect.height) * 100
+      left: ((correctArtRect.left - screenRect.left) / screenRect.width) * 100,
+      top: ((correctArtRect.top - screenRect.top) / screenRect.height) * 100,
+      width: (correctArtRect.width / screenRect.width) * 100,
+      height: (correctArtRect.height / screenRect.height) * 100
     },
     screenRect,
     forbiddenCards: document.querySelectorAll(".result-stats, .result-stat, .result-card, .result-copy").length,
-    resultTopRow: document.querySelectorAll("#resultScreen .top-row").length,
+    resultTopRowVisible: (() => {
+      const row = screen.querySelector(".top-row");
+      return Boolean(row && getComputedStyle(row).display !== "none" && row.getBoundingClientRect().width > 0);
+    })(),
     resultTitleHidden: document.getElementById("resultTitle").classList.contains("visually-hidden"),
-    praiseHidden: document.getElementById("praiseText").classList.contains("visually-hidden"),
-    finalIslandHidden: document.getElementById("finalIslandText").classList.contains("visually-hidden"),
-    retryTransparent: retryStyle.backgroundColor === "rgba(0, 0, 0, 0)" && retryStyle.color === "rgba(0, 0, 0, 0)",
+    resultSummaryHidden: document.getElementById("resultSummary").classList.contains("visually-hidden"),
+    retryTransparent: retryStyle.backgroundColor === "rgba(0, 0, 0, 0)" && retryStyle.borderTopWidth === "0px",
     retryEnabled: !retry.disabled,
+    leaderboardHidden: document.getElementById("leaderboardButton").hidden,
     visibleTexts
   };
 })()
@@ -257,18 +264,20 @@ try {
     for (const scenario of SCENARIOS) {
       await showResult(scenario.id, scenario.correct);
       const snapshot = await readResultSnapshot();
-      assert(snapshot.rasterSrc.includes(`result-final-${scenario.id}-generated.webp?v=clean-slot-20260630`), `${viewport.name}/${scenario.id}: wrong raster ${snapshot.rasterSrc}`);
-      assert(snapshot.scoreText === `${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong score ${snapshot.scoreText}`);
-      assert(snapshot.scoreAria === `정답 ${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong aria ${snapshot.scoreAria}`);
+      assert(snapshot.tier === scenario.id, `${viewport.name}/${scenario.id}: wrong result tier ${snapshot.tier}`);
+      assert(snapshot.rasterSrc.endsWith(`result-final-${scenario.id}-generated.webp`), `${viewport.name}/${scenario.id}: wrong raster ${snapshot.rasterSrc}`);
+      assert(snapshot.scoreText === `정답 ${scenario.correct}/10`, `${viewport.name}/${scenario.id}: wrong hidden score ${snapshot.scoreText}`);
       assert(snapshot.correctArt.visible, `${viewport.name}/${scenario.id}: generated correct-count art is not visible ${JSON.stringify(snapshot.correctArt)}`);
       assert(snapshot.correctArt.src.includes(`result-correct-${scenario.correct}-generated.webp`), `${viewport.name}/${scenario.id}: wrong correct-count art ${snapshot.correctArt.src}`);
       assert(!snapshot.bodyText.includes("맞힌 문제"), `${viewport.name}/${scenario.id}: forbidden label remains`);
       assert(snapshot.forbiddenCards === 0, `${viewport.name}/${scenario.id}: CSS result card remnants remain`);
-      assert(snapshot.resultTopRow === 0, `${viewport.name}/${scenario.id}: result top-row should not render`);
-      assert(snapshot.resultTitleHidden && snapshot.praiseHidden && snapshot.finalIslandHidden, `${viewport.name}/${scenario.id}: hidden result text leaked`);
+      assert(!snapshot.resultTopRowVisible, `${viewport.name}/${scenario.id}: result top-row should not render`);
+      assert(snapshot.resultTitleHidden && snapshot.resultSummaryHidden, `${viewport.name}/${scenario.id}: hidden result text leaked`);
       assert(snapshot.retryTransparent && snapshot.retryEnabled, `${viewport.name}/${scenario.id}: restart hitbox is not transparent/enabled`);
+      assert(snapshot.leaderboardHidden, `${viewport.name}/${scenario.id}: disabled leaderboard entry is visible`);
       assert(!snapshot.visibleTexts.some((text) => /^\d+\/10$/.test(text)), `${viewport.name}/${scenario.id}: correct-count remains visible as font text ${JSON.stringify(snapshot.visibleTexts)}`);
-      const expectedBox = SCORE_BOXES[scenario.id];
+      const slot = SCORE_BOXES[scenario.id];
+      const expectedBox = { ...slot, top:slot.top - slot.height * 0.08 };
       assertNear(snapshot.scorePct.left, expectedBox.left, `${viewport.name}/${scenario.id}: score left`);
       assertNear(snapshot.scorePct.top, expectedBox.top, `${viewport.name}/${scenario.id}: score top`);
       assertNear(snapshot.scorePct.width, expectedBox.width, `${viewport.name}/${scenario.id}: score width`);
@@ -281,7 +290,7 @@ try {
       const artTolerance = Math.max(14, visualScore.tolerance * 3);
       assert(Math.abs(visualScore.dx) <= artTolerance, `${viewport.name}/${scenario.id}: correct-count art is not horizontally centered in the image box (${visualScore.dx.toFixed(1)}px)`);
       assert(Math.abs(visualScore.dy) <= artTolerance, `${viewport.name}/${scenario.id}: correct-count art is not vertically centered in the image box (${visualScore.dy.toFixed(1)}px)`);
-      const forbiddenLabel = await measureForbiddenScoreLabel(screenshot, snapshot.screenRect, expectedBox);
+      const forbiddenLabel = await measureForbiddenScoreLabel(screenshot, snapshot.screenRect, slot);
       assert(forbiddenLabel.darkPixels <= forbiddenLabel.maxAllowed, `${viewport.name}/${scenario.id}: forbidden score label pixels remain above the score box (${forbiddenLabel.darkPixels} > ${forbiddenLabel.maxAllowed})`);
       results.push({ viewport: viewport.name, scenario, screenshot, scorePct: snapshot.scorePct, visualScore, forbiddenLabel });
     }

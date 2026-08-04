@@ -328,6 +328,8 @@ http://127.0.0.1:4173/3-2-2-2-mathmon-elevator/index.html
 | reported-svg-overlap | 934×987 | 1 | 계산판·선택지·독수리몬 겹침 회귀 |
 | reported-result-overlap | 1039×651 | 2 | 결과판·점수·다시 버튼·캐시 회귀 |
 
+현재 실행본의 화면 크기별 전체 흐름은 `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-browser-contact-sheet.png`, `screenshots/report-flow-reported-instruction-wrap-1082x897-contact-sheet.png`, `screenshots/report-flow-reported-divisor-left-1022x774-contact-sheet.png`, `screenshots/report-flow-reported-svg-overlap-934x987-contact-sheet.png`, `screenshots/report-flow-reported-result-overlap-1039x651-contact-sheet.png`에 모았습니다. 실행본 해시와 개별 캡처 목록은 `screenshots/report-evidence-manifest.json`에 기록했습니다.
+
 확인한 상태:
 
 - 첫 화면

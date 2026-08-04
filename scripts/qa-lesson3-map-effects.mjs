@@ -8,31 +8,11 @@ const LESSON = join(ROOT, "3-2-1-3-mathmon-jump-islands");
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const FILE_URL = `file://${LESSON.replaceAll(" ", "%20")}/index.html?seed=12345&qaProblem=tenfold`;
 const PORT = Number(process.env.LESSON3_MAP_QA_PORT || 9253);
-const PROFILE = await mkdtemp(join(tmpdir(), "lesson3-map-effects-profile-"));
-const SCREENSHOT_DIR = await mkdtemp(join(tmpdir(), "lesson3-map-effects-"));
+const PROFILE = await mkdtemp(join(tmpdir(), "lesson3-map-progress-profile-"));
+const SCREENSHOT_DIR = await mkdtemp(join(tmpdir(), "lesson3-map-progress-"));
 const VIEWPORTS = [
   { name: "desktop", width: 1280, height: 800 },
-  { name: "tablet-landscape", width: 1024, height: 768 }
-];
-const EFFECT_CLASSES = [
-  "is-map-travel-forward",
-  "is-map-travel-back",
-  "is-map-land",
-  "is-map-land-shaky",
-  "is-map-hop",
-  "is-map-boost",
-  "is-map-rainbow",
-  "is-map-pause",
-  "is-map-headwind",
-  "is-map-shaky",
-  "is-map-reduced-flash"
-];
-const SCENARIOS = [
-  { name: "tailwind-stay", eventId: "tailwind", fromIndex: 1, toIndex: 1, activeClass: "is-map-hop" },
-  { name: "headwind-stay", eventId: "headwind", fromIndex: 2, toIndex: 2, activeClass: "is-map-headwind" },
-  { name: "gust-forward", eventId: "gust", fromIndex: 1, toIndex: 2, activeClass: "is-map-travel-forward", landingClass: "is-map-land" },
-  { name: "rainbow-forward", eventId: "rainbow", fromIndex: 4, toIndex: 5, activeClass: "is-map-travel-forward", landingClass: "is-map-land" },
-  { name: "shaky-backward", eventId: "shaky", fromIndex: 2, toIndex: 1, activeClass: "is-map-travel-back", landingClass: "is-map-land-shaky" }
+  { name: "tablet-landscape", width: 1024, height: 768 },
 ];
 
 const browser = spawn(CHROME, [
@@ -43,20 +23,14 @@ const browser = spawn(CHROME, [
   "--no-first-run",
   "--no-default-browser-check",
   "--allow-file-access-from-files",
-  "about:blank"
+  "about:blank",
 ], { stdio: ["ignore", "ignore", "pipe"] });
 
 browser.stderr.on("data", () => {});
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const assert = (condition, message) => {
+  if (!condition) throw new Error(message);
+};
 
 async function waitForJson() {
   for (let index = 0; index < 80; index += 1) {
@@ -64,9 +38,7 @@ async function waitForJson() {
       const response = await fetch(`http://127.0.0.1:${PORT}/json/list`);
       const pages = await response.json();
       const page = pages.find((item) => item.type === "page");
-      if (page?.webSocketDebuggerUrl) {
-        return page.webSocketDebuggerUrl;
-      }
+      if (page?.webSocketDebuggerUrl) return page.webSocketDebuggerUrl;
     } catch {
       // Chrome is still starting.
     }
@@ -86,15 +58,11 @@ class Cdp {
     this.ws = new WebSocket(this.socketUrl);
     this.ws.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
-      if (message.id && this.pending.has(message.id)) {
-        const { resolve, reject } = this.pending.get(message.id);
-        this.pending.delete(message.id);
-        if (message.error) {
-          reject(new Error(JSON.stringify(message.error)));
-        } else {
-          resolve(message.result || {});
-        }
-      }
+      if (!message.id || !this.pending.has(message.id)) return;
+      const { resolve, reject } = this.pending.get(message.id);
+      this.pending.delete(message.id);
+      if (message.error) reject(new Error(JSON.stringify(message.error)));
+      else resolve(message.result || {});
     });
     await new Promise((resolve, reject) => {
       this.ws.addEventListener("open", resolve, { once: true });
@@ -105,9 +73,7 @@ class Cdp {
   send(method, params = {}) {
     const id = ++this.id;
     this.ws.send(JSON.stringify({ id, method, params }));
-    return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
-    });
+    return new Promise((resolve, reject) => this.pending.set(id, { resolve, reject }));
   }
 
   close() {
@@ -115,39 +81,33 @@ class Cdp {
   }
 }
 
-let cdp;
+const cdp = new Cdp(await waitForJson());
+await cdp.open();
 
 async function evaluate(expression) {
   const result = await cdp.send("Runtime.evaluate", {
     expression,
     awaitPromise: true,
-    returnByValue: true
+    returnByValue: true,
   });
-  if (result.exceptionDetails) {
-    throw new Error(JSON.stringify(result.exceptionDetails));
-  }
+  if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails));
   return result.result?.value;
 }
 
-async function waitUntil(predicateSource, message, timeout = 3000) {
+async function waitUntil(predicateSource, message, timeout = 5000) {
   const start = Date.now();
   while (Date.now() - start < timeout) {
-    if (await evaluate(predicateSource)) {
-      return;
-    }
+    if (await evaluate(predicateSource)) return;
     await delay(80);
   }
   throw new Error(message);
 }
 
 async function captureScreenshot(name) {
-  const { data } = await cdp.send("Page.captureScreenshot", {
-    format: "png",
-    captureBeyondViewport: false
-  });
-  const path = join(SCREENSHOT_DIR, `${name}.png`);
-  await writeFile(path, data, "base64");
-  return path;
+  const { data } = await cdp.send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false });
+  const output = join(SCREENSHOT_DIR, `${name}.png`);
+  await writeFile(output, data, "base64");
+  return output;
 }
 
 async function openLesson(viewport) {
@@ -156,309 +116,93 @@ async function openLesson(viewport) {
     height: viewport.height,
     deviceScaleFactor: 1,
     mobile: false,
-    screenOrientation: { type: "landscapePrimary", angle: 90 }
+    screenOrientation: { type: "landscapePrimary", angle: 90 },
   });
-  await cdp.send("Emulation.setEmulatedMedia", { features: [] });
   await cdp.send("Page.navigate", { url: `${FILE_URL}&viewport=${viewport.name}-${Date.now()}` });
-  await waitUntil("document.readyState === 'complete'", `${viewport.name}: lesson did not load`, 5000);
-  await delay(250);
+  await waitUntil("document.readyState === 'complete'", `${viewport.name}: lesson did not load`);
   await evaluate('document.getElementById("startButton").click()');
-  await delay(120);
-  await evaluate('document.getElementById("tutorialNextButton").click()');
-  await delay(120);
-  await evaluate('document.getElementById("tutorialNextButton").click()');
-  await waitUntil("document.getElementById('playScreen').classList.contains('is-active')", `${viewport.name}: play screen did not open`, 3000);
-  await delay(160);
+  await waitUntil("document.querySelector('.screen.is-active')?.id === 'screen-tutorial'", `${viewport.name}: tutorial did not open`);
+  await evaluate('document.getElementById("tutorialStartButton").click()');
+  await waitUntil("document.querySelector('.screen.is-active')?.id === 'screen-play'", `${viewport.name}: play screen did not open`);
 }
 
-async function setMapIsland(index) {
-  await evaluate(`
-(() => {
-  const island = ISLANDS[${index}];
-  state.correct = island.minCorrect;
-  state.jumpDistance = island.minDistance;
-  state.rainbowPath = Boolean(island.requiresRainbow);
-  renderMap();
-  return getReachedIsland().index;
-})()
-`);
+async function showMapTier(tier) {
+  await evaluate(`(() => {
+    window.__mathmonEngineQa.setState({ power:${tier.minPower} });
+    window.__mathmonEngineQa.renderProblem();
+  })()`);
+  await waitUntil(`document.querySelector('.jump-island-chip.is-current')?.dataset.island === ${JSON.stringify(tier.id)}`, `${tier.id}: current island did not update`);
+  await delay(420);
 }
 
-async function triggerMapEffect(scenario) {
-  const eventId = JSON.stringify(scenario.eventId);
+async function readMapSnapshot() {
   return evaluate(`
 (() => {
-  const island = ISLANDS[${scenario.toIndex}];
-  state.correct = island.minCorrect;
-  state.jumpDistance = island.minDistance;
-  state.rainbowPath = Boolean(island.requiresRainbow);
-  const markerEffect = {
-    eventId: ${eventId},
-    fromIndex: ${scenario.fromIndex},
-    toIndex: ${scenario.toIndex}
-  };
-  renderMap({ markerEffect });
-  return {
-    delay: getMapMarkerEffectDelay(markerEffect),
-    currentIndex: getReachedIsland().index
-  };
-})()
-`);
-}
-
-function markerAtSource(index) {
-  return `
-(() => {
-  const marker = document.getElementById("mapMathmonMarker");
-  const chips = [...document.querySelectorAll(".island-chip")];
-  const current = chips.find((chip) => chip.classList.contains("is-current"));
-  if (!marker || !current) return false;
-  const markerRect = marker.getBoundingClientRect();
-  const chipRect = current.getBoundingClientRect();
-  const markerCenter = markerRect.left + markerRect.width / 2;
-  const chipCenter = chipRect.left + chipRect.width / 2;
-  return chips.indexOf(current) === ${index}
-    && Math.abs(markerCenter - chipCenter) <= 2
-    && Number(getComputedStyle(marker).opacity) > 0.9;
-})()
-`;
-}
-
-function markerSettledAt(index) {
-  const transientClasses = JSON.stringify(EFFECT_CLASSES);
-  return `
-(() => {
-  const marker = document.getElementById("mapMathmonMarker");
-  const chips = [...document.querySelectorAll(".island-chip")];
-  const current = chips.find((chip) => chip.classList.contains("is-current"));
-  if (!marker || !current) return false;
-  const transientClasses = ${transientClasses};
-  const markerRect = marker.getBoundingClientRect();
-  const chipRect = current.getBoundingClientRect();
-  const markerCenter = markerRect.left + markerRect.width / 2;
-  const chipCenter = chipRect.left + chipRect.width / 2;
-  return chips.indexOf(current) === ${index}
-    && Math.abs(markerCenter - chipCenter) <= 2
-    && ![...marker.classList].some((className) => transientClasses.includes(className))
-    && Number(getComputedStyle(marker).opacity) > 0.9;
-})()
-`;
-}
-
-async function readMarkerSnapshot() {
-  return evaluate(`
-(() => {
-  const marker = document.getElementById("mapMathmonMarker");
-  const map = document.getElementById("islandMap");
-  const choices = document.getElementById("choiceGrid");
-  const problemPanel = document.querySelector(".problem-panel");
-  const chips = [...document.querySelectorAll(".island-chip")];
+  const marker = document.querySelector(".jump-marker");
+  const map = document.querySelector(".jump-map");
+  const choices = document.getElementById("choicesPanel");
+  const chips = [...document.querySelectorAll(".jump-island-chip")];
   const current = chips.find((chip) => chip.classList.contains("is-current"));
   const rect = (node) => {
-    const item = node.getBoundingClientRect();
-    return { left: item.left, top: item.top, right: item.right, bottom: item.bottom, width: item.width, height: item.height };
+    const box = node.getBoundingClientRect();
+    return { left:box.left, top:box.top, right:box.right, bottom:box.bottom, width:box.width, height:box.height };
   };
-  const overlaps = (a, b) => !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
+  const overlaps = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
   const markerRect = rect(marker);
   const mapRect = rect(map);
-  const chipRect = rect(current);
   const choiceRect = rect(choices);
-  const problemRect = rect(problemPanel);
+  const currentIndex = chips.indexOf(current);
+  const expectedPercent = chips.length === 1 ? 50 : 8 + (currentIndex / (chips.length - 1)) * 84;
+  const actualPercent = ((markerRect.left + markerRect.width / 2 - mapRect.left) / mapRect.width) * 100;
   return {
-    classes: [...marker.classList],
-    mapEffect: marker.dataset.mapEffect || "",
-    currentIndex: chips.indexOf(current),
-    centerDeltaX: Math.abs((markerRect.left + markerRect.width / 2) - (chipRect.left + chipRect.width / 2)),
-    markerVisible: Number(getComputedStyle(marker).opacity) > 0.9,
-    markerWithinMap: markerRect.left >= mapRect.left - 1
-      && markerRect.right <= mapRect.right + 1
-      && markerRect.top >= mapRect.top - 1
-      && markerRect.bottom <= mapRect.bottom + 1,
-    overlapsChoices: overlaps(markerRect, choiceRect),
-    overlapsProblemPanel: overlaps(markerRect, problemRect),
-    rewardVisible: document.getElementById("rewardPop").classList.contains("is-visible")
+    currentId:current?.dataset.island || "",
+    currentIndex,
+    reachedCount:chips.filter((chip) => chip.classList.contains("is-reached")).length,
+    markerVisible:Number(getComputedStyle(marker).opacity) > 0.9,
+    markerWithinMap:markerRect.left >= mapRect.left - 1 && markerRect.right <= mapRect.right + 1 && markerRect.top >= mapRect.top - 1 && markerRect.bottom <= mapRect.bottom + 1,
+    overlapsChoices:overlaps(markerRect, choiceRect),
+    expectedPercent,
+    actualPercent,
+    markerSource:marker.getAttribute("src") || "",
+    rewardVisible:!document.getElementById("rewardPop").hidden,
   };
 })()
 `);
-}
-
-function assertSnapshotSafe(snapshot, viewportName, scenarioName) {
-  assert(snapshot.markerVisible, `${viewportName}/${scenarioName}: marker is not visible`);
-  assert(snapshot.markerWithinMap, `${viewportName}/${scenarioName}: marker left the map: ${JSON.stringify(snapshot)}`);
-  assert(!snapshot.overlapsChoices, `${viewportName}/${scenarioName}: marker overlaps choices: ${JSON.stringify(snapshot)}`);
-  assert(!snapshot.overlapsProblemPanel, `${viewportName}/${scenarioName}: marker overlaps problem panel: ${JSON.stringify(snapshot)}`);
-}
-
-async function runScenario(viewport, scenario) {
-  await setMapIsland(scenario.fromIndex);
-  await waitUntil(markerAtSource(scenario.fromIndex), `${viewport.name}/${scenario.name}: marker did not settle at source island`);
-  const effect = await triggerMapEffect(scenario);
-  await delay(90);
-  const activeSnapshot = await readMarkerSnapshot();
-  assert(activeSnapshot.classes.includes(scenario.activeClass), `${viewport.name}/${scenario.name}: active class missing: ${JSON.stringify(activeSnapshot)}`);
-  assert(!activeSnapshot.rewardVisible, `${viewport.name}/${scenario.name}: reward modal opened during marker effect`);
-  assertSnapshotSafe(activeSnapshot, viewport.name, scenario.name);
-
-  let landingSnapshot = null;
-  let screenshot = null;
-  if (scenario.landingClass) {
-    await delay(Math.max(120, effect.delay - 240));
-    landingSnapshot = await readMarkerSnapshot();
-    assert(landingSnapshot.classes.includes(scenario.landingClass), `${viewport.name}/${scenario.name}: landing class missing: ${JSON.stringify(landingSnapshot)}`);
-    assertSnapshotSafe(landingSnapshot, viewport.name, scenario.name);
-    if (scenario.name === "gust-forward") {
-      screenshot = await captureScreenshot(`${viewport.name}-gust-land`);
-    }
-  } else if (scenario.name === "tailwind-stay") {
-    screenshot = await captureScreenshot(`${viewport.name}-tailwind-hop`);
-  }
-
-  await delay(effect.delay + 140);
-  const finalSnapshot = await readMarkerSnapshot();
-  assert(finalSnapshot.currentIndex === scenario.toIndex, `${viewport.name}/${scenario.name}: marker current island mismatch: ${JSON.stringify(finalSnapshot)}`);
-  assert(finalSnapshot.centerDeltaX <= 2, `${viewport.name}/${scenario.name}: marker did not finish at island center: ${JSON.stringify(finalSnapshot)}`);
-  assert(!finalSnapshot.classes.some((className) => EFFECT_CLASSES.includes(className)), `${viewport.name}/${scenario.name}: transient classes were not cleared: ${JSON.stringify(finalSnapshot)}`);
-  assert(!finalSnapshot.rewardVisible, `${viewport.name}/${scenario.name}: reward modal opened during direct effect QA`);
-  assertSnapshotSafe(finalSnapshot, viewport.name, scenario.name);
-  return { name: scenario.name, activeSnapshot, landingSnapshot, finalSnapshot, screenshot };
-}
-
-async function runReducedMotionCheck(viewport) {
-  await cdp.send("Emulation.setEmulatedMedia", {
-    features: [{ name: "prefers-reduced-motion", value: "reduce" }]
-  });
-  const scenario = { name: "reduced-motion", eventId: "gust", fromIndex: 1, toIndex: 2, activeClass: "is-map-reduced-flash" };
-  await setMapIsland(scenario.fromIndex);
-  await waitUntil(markerAtSource(scenario.fromIndex), `${viewport.name}/reduced-motion: marker did not settle at source island`);
-  const effect = await triggerMapEffect(scenario);
-  await delay(30);
-  const activeSnapshot = await readMarkerSnapshot();
-  assert(activeSnapshot.classes.includes("is-map-reduced-flash"), `${viewport.name}/reduced-motion: reduced flash class missing: ${JSON.stringify(activeSnapshot)}`);
-  assert(!activeSnapshot.classes.includes("is-map-travel-forward"), `${viewport.name}/reduced-motion: movement class should not be used: ${JSON.stringify(activeSnapshot)}`);
-  await delay(effect.delay + 120);
-  const finalSnapshot = await readMarkerSnapshot();
-  assert(finalSnapshot.currentIndex === scenario.toIndex, `${viewport.name}/reduced-motion: marker did not update destination`);
-  assert(!finalSnapshot.classes.some((className) => EFFECT_CLASSES.includes(className)), `${viewport.name}/reduced-motion: effect class did not clear: ${JSON.stringify(finalSnapshot)}`);
-  await cdp.send("Emulation.setEmulatedMedia", { features: [] });
-  return { activeSnapshot, finalSnapshot };
-}
-
-async function setRewardFlowStart({ correct, jumpDistance, rainbowPath = false }) {
-  await evaluate(`
-(() => {
-  state.correct = ${correct};
-  state.jumpDistance = ${jumpDistance};
-  state.rainbowPath = ${rainbowPath ? "true" : "false"};
-  state.problemMistakeTouched = false;
-  renderMap();
-  return getReachedIsland().index;
-})()
-`);
-}
-
-function hasTransientMapClass(snapshot) {
-  return snapshot.classes.some((className) => EFFECT_CLASSES.includes(className));
-}
-
-async function runModalThenMapCheck(viewport) {
-  await setRewardFlowStart({ correct: 4, jumpDistance: 29 });
-  await waitUntil(markerAtSource(1), `${viewport.name}/modal-then-map: marker did not settle at source island`);
-  await evaluate(`
-(() => {
-  QA.nextRewardId = "tailwind";
-  showReward();
-})()
-`);
-  await delay(120);
-  const modalSnapshot = await readMarkerSnapshot();
-  assert(modalSnapshot.rewardVisible, `${viewport.name}/modal-then-map: reward modal should open before marker moves`);
-  assert(modalSnapshot.currentIndex === 1, `${viewport.name}/modal-then-map: marker moved before modal was dismissed: ${JSON.stringify(modalSnapshot)}`);
-  assert(!hasTransientMapClass(modalSnapshot), `${viewport.name}/modal-then-map: marker effect started under modal: ${JSON.stringify(modalSnapshot)}`);
-  assertSnapshotSafe(modalSnapshot, viewport.name, "modal-then-map-modal");
-
-  await evaluate('document.getElementById("rewardNextButton").click()');
-  await delay(120);
-  const movingSnapshot = await readMarkerSnapshot();
-  assert(!movingSnapshot.rewardVisible, `${viewport.name}/modal-then-map: reward modal stayed open after next`);
-  assert(movingSnapshot.classes.includes("is-map-travel-forward"), `${viewport.name}/modal-then-map: marker did not start moving after modal: ${JSON.stringify(movingSnapshot)}`);
-  assertSnapshotSafe(movingSnapshot, viewport.name, "modal-then-map-moving");
-
-  await waitUntil(markerSettledAt(2), `${viewport.name}/modal-then-map: marker did not finish at destination`, 2200);
-  const finalSnapshot = await readMarkerSnapshot();
-  assert(finalSnapshot.currentIndex === 2, `${viewport.name}/modal-then-map: marker destination mismatch: ${JSON.stringify(finalSnapshot)}`);
-  assert(!hasTransientMapClass(finalSnapshot), `${viewport.name}/modal-then-map: transient classes were not cleared: ${JSON.stringify(finalSnapshot)}`);
-  return { modalSnapshot, movingSnapshot, finalSnapshot };
-}
-
-async function runPauseRewardCheck(viewport) {
-  await setRewardFlowStart({ correct: 0, jumpDistance: 0 });
-  await waitUntil(markerAtSource(0), `${viewport.name}/pause-flow: marker did not settle at start island`);
-  await evaluate(`
-(() => {
-  QA.nextRewardId = "pause";
-  showReward();
-})()
-`);
-  await delay(120);
-  const modalSnapshot = await readMarkerSnapshot();
-  assert(modalSnapshot.rewardVisible, `${viewport.name}/pause-flow: pause modal should open before marker feedback`);
-  assert(modalSnapshot.currentIndex === 0, `${viewport.name}/pause-flow: pause changed island before modal dismiss: ${JSON.stringify(modalSnapshot)}`);
-  assert(!hasTransientMapClass(modalSnapshot), `${viewport.name}/pause-flow: pause marker feedback started under modal: ${JSON.stringify(modalSnapshot)}`);
-
-  await evaluate('document.getElementById("rewardNextButton").click()');
-  await delay(90);
-  const pauseSnapshot = await readMarkerSnapshot();
-  assert(!pauseSnapshot.rewardVisible, `${viewport.name}/pause-flow: reward modal stayed open after next`);
-  assert(pauseSnapshot.currentIndex === 0, `${viewport.name}/pause-flow: pause reward moved to another island: ${JSON.stringify(pauseSnapshot)}`);
-  assert(pauseSnapshot.classes.includes("is-map-pause"), `${viewport.name}/pause-flow: pause feedback class missing: ${JSON.stringify(pauseSnapshot)}`);
-
-  await delay(760);
-  const finalSnapshot = await readMarkerSnapshot();
-  assert(finalSnapshot.currentIndex === 0, `${viewport.name}/pause-flow: pause final island changed: ${JSON.stringify(finalSnapshot)}`);
-  assert(!hasTransientMapClass(finalSnapshot), `${viewport.name}/pause-flow: pause transient classes were not cleared: ${JSON.stringify(finalSnapshot)}`);
-  assertSnapshotSafe(finalSnapshot, viewport.name, "pause-flow-final");
-  return { modalSnapshot, pauseSnapshot, finalSnapshot };
-}
-
-async function runViewport(viewport) {
-  await openLesson(viewport);
-  const scenarioResults = [];
-  for (const scenario of SCENARIOS) {
-    scenarioResults.push(await runScenario(viewport, scenario));
-  }
-  const reducedMotion = await runReducedMotionCheck(viewport);
-  const modalThenMap = await runModalThenMapCheck(viewport);
-  const pauseReward = await runPauseRewardCheck(viewport);
-  return { viewport, scenarios: scenarioResults, reducedMotion, modalThenMap, pauseReward };
 }
 
 try {
-  cdp = new Cdp(await waitForJson());
-  await cdp.open();
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
-
   const results = [];
   for (const viewport of VIEWPORTS) {
-    results.push(await runViewport(viewport));
+    await openLesson(viewport);
+    const tiers = await evaluate("LESSON_CONFIG.results.map(({ id, minPower }) => ({ id, minPower }))");
+    assert(tiers.length === 6, `${viewport.name}: map must expose six islands`);
+    let previousPercent = -Infinity;
+    for (const tier of tiers) {
+      await showMapTier(tier);
+      const snapshot = await readMapSnapshot();
+      assert(snapshot.currentId === tier.id, `${viewport.name}/${tier.id}: wrong current island: ${JSON.stringify(snapshot)}`);
+      assert(snapshot.reachedCount === snapshot.currentIndex + 1, `${viewport.name}/${tier.id}: reached islands are wrong: ${JSON.stringify(snapshot)}`);
+      assert(snapshot.markerVisible && snapshot.markerWithinMap && !snapshot.overlapsChoices, `${viewport.name}/${tier.id}: marker left its safe map area: ${JSON.stringify(snapshot)}`);
+      assert(Math.abs(snapshot.actualPercent - snapshot.expectedPercent) <= 1, `${viewport.name}/${tier.id}: marker position drifted: ${JSON.stringify(snapshot)}`);
+      assert(snapshot.actualPercent > previousPercent, `${viewport.name}/${tier.id}: marker did not advance`);
+      assert(snapshot.markerSource.endsWith("mathmon-zfa-04-nyangnyangmon.webp"), `${viewport.name}/${tier.id}: wrong map Mathmon asset`);
+      assert(!snapshot.rewardVisible, `${viewport.name}/${tier.id}: reward covered direct map QA`);
+      previousPercent = snapshot.actualPercent;
+      const screenshot = ["start", "forest", "rainbow"].includes(tier.id)
+        ? await captureScreenshot(`${viewport.name}-${tier.id}`)
+        : "";
+      results.push({ viewport:viewport.name, tier:tier.id, snapshot, screenshot });
+    }
   }
-
-  console.log("LESSON3_MAP_EFFECT_QA: PASS");
-  console.log(JSON.stringify({
-    screenshotDir: SCREENSHOT_DIR,
-    screenshots: results.flatMap((result) => result.scenarios.map((scenario) => scenario.screenshot).filter(Boolean)),
-    results
-  }, null, 2));
+  console.log("LESSON3_MAP_PROGRESS_QA: PASS");
+  console.log(JSON.stringify({ screenshotDir:SCREENSHOT_DIR, results }, null, 2));
 } finally {
-  if (cdp) {
-    cdp.close();
-  }
+  cdp.close();
   if (browser.exitCode === null) {
     browser.kill();
-    await Promise.race([
-      new Promise((resolve) => browser.once("exit", resolve)),
-      delay(2000)
-    ]);
+    await Promise.race([new Promise((resolve) => browser.once("exit", resolve)), delay(2000)]);
   }
   await rm(PROFILE, { recursive: true, force: true });
 }
