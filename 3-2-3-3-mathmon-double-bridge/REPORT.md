@@ -267,7 +267,7 @@
 
 ## 2026-08-04 결과 장면 v5·오른쪽 UI 재배치
 
-- 3-2-3-2 최종 화면의 정보 크기를 기준으로 제목·정답 수·다음 안내·`다시` 버튼을 결과판 전체 높이에 다시 나눴습니다. 제목 이미지는 단계 이름에 따라 Stage 기준 `220~320px`, `다시` 버튼은 `144×72px`에서 `280×108px`, 정답 수 이미지는 `135px`에서 `180px`로 키웠습니다. 네 요소의 공통 중심축은 `x=1038px`입니다.
+- 3-2-3-2 최종 화면의 정보 크기를 기준으로 제목·정답 수·다음 안내·`다시` 버튼을 결과판 전체 높이에 다시 나눴습니다. 제목 이미지는 단계 이름에 따라 Stage 기준 `220~320px`, `다시` 버튼은 `144×72px`에서 `320×120px`, 정답 수 이미지는 `135px`에서 `180px`로 키웠습니다. 네 요소의 공통 중심축은 `x=1038px`입니다.
 - `result-*-v5-generated.webp` 6장은 모두 새로 생성한 1280×800 완성 장면입니다. 수달몬은 별도 이미지로 얹지 않고 다리·그림자·반사광과 함께 한 장면에서 생성했습니다.
 - 결과 자산 컨택시트: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contact-sheets/result-fullscene-v5-contact-sheet.png`
 - 실제 브라우저 결과 6단계 컨택시트: `screenshots/result-all-tiers-user-feedback-1079x929-v5-contact-sheet.png`. 개별 캡처는 `screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-{log,small,bridge,big,grand,rainbow}.png`입니다.
