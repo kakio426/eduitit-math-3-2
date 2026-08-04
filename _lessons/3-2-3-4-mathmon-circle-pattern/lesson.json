@@ -6,22 +6,22 @@
   "modelName": "Lesson3CirclePatternModel",
   "title": "매스몬 원 무늬 디자이너",
   "shortTitle": "매스몬 원 무늬 디자이너",
-  "topic": "원으로 규칙과 무늬 만들기",
+  "topic": "컴퍼스로 여러 크기의 원 그리기",
   "unitBadge": "3단원 원",
-  "goal": "같은 크기와 간격으로 원 무늬를 이어요.",
-  "action": "규칙대로 이어진 원 무늬를 골라요.",
+  "goal": "컴퍼스의 반지름을 맞춰 원을 그려요.",
+  "action": "자에서 반지름을 맞춘 뒤 원을 그려요.",
   "buttonLabel": "무늬 보기",
   "rewardScreenTitle": "무늬 빛",
   "progressLabel": "무늬 빛",
   "rewardComplete": "무늬 빛이 바뀌었어요.",
-  "tutorialTitle": "무늬를 잇기 전에",
+  "tutorialTitle": "원을 그리기 전에",
   "tutorialButton": "문제 시작",
   "tutorialCards": [
     {
       "visual": "1",
       "purpose": "mechanic",
-      "title": "어떻게 이어요?",
-      "body": "원 크기와 간격을 맞춰 이어요.",
+      "title": "어떻게 그려요?",
+      "body": "자에서 반지름을 맞춘 뒤 원을 그려요.",
       "image": "tutorial-page-1-generated.webp"
     },
     {
@@ -215,6 +215,15 @@
   },
   "workbench": {
     "type": "circle-pattern-choice",
+    "interactionStandard": "compass-radius-drag-v1",
+    "radiusRangeCm": [
+      1,
+      4
+    ],
+    "curriculumStandards": [
+      "4수03-06",
+      "4수03-07"
+    ],
     "playStateImageSet": {
       "standard": "generated-play-progress-v3-left-character",
       "count": 6,
@@ -415,28 +424,16 @@
     "family": "loss"
   },
   "typesPerRun": [
-    "horizontal",
-    "up",
-    "down",
-    "horizontal",
-    "up",
-    "down",
-    "horizontal",
-    "up",
-    "down",
-    "horizontal"
-  ],
-  "orientationsPerRun": [
-    "horizontal",
-    "up",
-    "down",
-    "horizontal",
-    "up",
-    "down",
-    "horizontal",
-    "up",
-    "down",
-    "horizontal"
+    "radius",
+    "radius",
+    "radius",
+    "radius",
+    "radius",
+    "diameter",
+    "diameter",
+    "diameter",
+    "diameter",
+    "diameter"
   ],
   "stage": {
     "ratio": "16:10",
@@ -448,7 +445,8 @@
     "coverStartAsset": "shared-canonical-v1",
     "settings": "modal-controls",
     "resultVisual": "generated-assets",
-    "playProgress": "generated-play-progress-v3-left-character"
+    "playProgress": "generated-play-progress-v3-left-character",
+    "circleDrawing": "compass-radius-drag-v1"
   },
   "imageAssets": {
     "cover": "cover-generated.webp",
@@ -648,6 +646,23 @@
       "complete": ".complete-panel",
       "minStageWidthRatio": 0.65
     },
+    "circleDrawingAudit": {
+      "standard": "compass-radius-drag-v1",
+      "interaction": "compass-radius-drag",
+      "svg": ".circle-draw-svg",
+      "ruler": ".circle-ruler-body",
+      "slider": ".compass-pencil-handle",
+      "drawButton": ".compass-draw-button",
+      "drawnCircle": ".drawn-circle",
+      "radiusMin": 1,
+      "radiusMax": 4,
+      "unitPx": 50,
+      "rulerZeroX": 280,
+      "snapTolerancePx": 1,
+      "minimumTouchPx": 42,
+      "requiresKeyboard": true,
+      "requiresAdjustmentBeforeSubmit": true
+    },
     "typographyAudit": {
       "headline": ".big-problem",
       "instruction": ".step-board .instruction",
@@ -678,9 +693,9 @@
       "titleAlphaThreshold": 24
     },
     "misconceptionCoverage": [
-      "PATTERN_GAP_CHANGED",
-      "PATTERN_OFF_LINE",
-      "PATTERN_SIZE_CHANGED"
+      "RADIUS_TOO_SHORT",
+      "RADIUS_TOO_LONG",
+      "DIAMETER_AS_RADIUS"
     ],
     "resultPanelContainmentAudit": {
       "standard": "result-panel-containment-v2",

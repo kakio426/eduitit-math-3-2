@@ -1,8 +1,21 @@
 const PATTERN_SVG_NS = "http://www.w3.org/2000/svg";
+const CIRCLE_RULER_ZERO_X = 280;
+const CIRCLE_RULER_Y = 392;
+const CIRCLE_UNIT_PX = 50;
 let patternPlayProgress = null;
 let pendingPatternRewardImpact = null;
 let patternRewardArtPrimed = false;
 const patternRewardPreloads = [];
+const circleWorkbench = {
+  problemId: "",
+  selectedRadius: 1,
+  adjusted: false,
+  phase: "setting",
+  choose: null,
+  button: null,
+  engineState: null,
+  dragPointerId: null,
+};
 
 function ensurePatternPlayProgress() {
   const playScreen = document.getElementById("screen-play");
@@ -128,102 +141,259 @@ function ensurePatternStageArt() {
 function renderProblemVisual(problem, state) {
   syncPatternPlayProgress(state);
   ensurePatternStageArt();
-  ui.visualArea.dataset.patternState = "idle";
-  ui.visualArea.dataset.patternKind = "pending";
-  renderPatternWorkbench(problem);
+  resetCircleWorkbench(problem, state);
+  renderCircleWorkbench(problem);
 }
 
 function updateProblemVisualForStep(problem, step, state) {
   syncPatternPlayProgress(state);
-  ui.visualArea.dataset.patternState = "idle";
-  ui.visualArea.dataset.patternKind = "pending";
-  renderPatternWorkbench(problem);
+  if (circleWorkbench.problemId !== problem.id) resetCircleWorkbench(problem, state);
+  circleWorkbench.engineState = state;
+  renderCircleWorkbench(problem);
 }
 
 function revealCorrectStep(problem, step, state) {
-  ui.visualArea.dataset.patternState = "correct";
-  ui.visualArea.dataset.patternKind = "correct";
-  renderPatternWorkbench(problem);
+  circleWorkbench.phase = "correct";
+  circleWorkbench.engineState = state;
+  renderCircleWorkbench(problem);
 }
 
 function renderAttempt(problem, step, selected, state, result) {
   if (result.correct) return;
-  ui.visualArea.dataset.patternState = "wrong";
-  ui.visualArea.dataset.patternKind = selected.visualKind;
-  renderPatternWorkbench(problem);
+  circleWorkbench.phase = "wrong";
+  circleWorkbench.engineState = state;
+  renderCircleWorkbench(problem);
 }
 
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
-  ui.choices.dataset.choiceKind = "circle-pattern";
-  step.choices.forEach((selected) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "choice-button pattern-choice";
+  ui.choices.dataset.choiceKind = "circle-draw";
+  ui.choices.dataset.interaction = "compass-radius-drag";
+  circleWorkbench.choose = choose;
+  circleWorkbench.engineState = state;
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "choice-button compass-draw-button";
+  button.textContent = "원 그리기";
+  button.dataset.textAlignRole = "label";
+  button.addEventListener("click", () => {
+    const selected = step.choices.find((choice) => Number(choice.value) === circleWorkbench.selectedRadius);
+    if (!selected || !circleWorkbench.adjusted) return;
     button.dataset.choice = selected.id;
-    button.dataset.correct = selected.id === step.answerChoiceId ? "true" : "false";
-    button.setAttribute("aria-label", selected.label);
-    const svg = document.createElementNS(PATTERN_SVG_NS, "svg");
-    svg.classList.add("pattern-choice-svg");
-    svg.setAttribute("viewBox", "0 0 240 145");
-    svg.setAttribute("aria-hidden", "true");
-    svg.innerHTML = patternMarkup(problem.orientation, selected.visualKind, problem.radius, false);
-    button.appendChild(svg);
-    button.addEventListener("click", () => choose(selected, button));
-    ui.choices.appendChild(button);
+    button.dataset.misconception = selected.misconceptionId || "";
+    choose(selected, button);
   });
+  ui.choices.appendChild(button);
+  circleWorkbench.button = button;
+  syncCircleDrawButton();
+  renderCircleWorkbench(problem);
   return true;
 }
 
-function renderPatternWorkbench(problem) {
-  const state = ui.visualArea.dataset.patternState || "idle";
-  const kind = ui.visualArea.dataset.patternKind || "pending";
-  const svg = document.createElementNS(PATTERN_SVG_NS, "svg");
-  svg.classList.add("pattern-confirm-svg");
-  svg.dataset.state = state;
-  svg.setAttribute("viewBox", "0 0 520 250");
+function resetCircleWorkbench(problem, state) {
+  circleWorkbench.problemId = problem.id;
+  circleWorkbench.selectedRadius = 1;
+  circleWorkbench.adjusted = false;
+  circleWorkbench.phase = "setting";
+  circleWorkbench.choose = null;
+  circleWorkbench.button = null;
+  circleWorkbench.engineState = state;
+  circleWorkbench.dragPointerId = null;
+}
+
+function clampCircleRadius(value) {
+  return Math.max(1, Math.min(4, Math.round(Number(value) || 1)));
+}
+
+function syncCircleDrawButton() {
+  const button = circleWorkbench.button;
+  if (!button) return;
+  button.disabled = !circleWorkbench.adjusted || circleWorkbench.phase === "correct";
+  button.dataset.selectedRadius = String(circleWorkbench.selectedRadius);
+  button.setAttribute(
+    "aria-label",
+    circleWorkbench.adjusted
+      ? `반지름 ${circleWorkbench.selectedRadius} 센티미터로 원 그리기`
+      : "컴퍼스를 움직인 뒤 원 그리기",
+  );
+}
+
+function setCircleRadius(value, adjusted = true) {
+  if (circleWorkbench.phase === "correct") return;
+  circleWorkbench.selectedRadius = clampCircleRadius(value);
+  circleWorkbench.adjusted = circleWorkbench.adjusted || adjusted;
+  circleWorkbench.phase = "setting";
+  if (circleWorkbench.button) {
+    delete circleWorkbench.button.dataset.state;
+    delete circleWorkbench.button.dataset.misconception;
+  }
+  syncCircleDrawButton();
+  const problem = circleWorkbench.engineState?.problems?.[circleWorkbench.engineState.problemIndex];
+  if (problem) renderCircleWorkbench(problem);
+}
+
+function rulerTicksMarkup() {
+  return [0, 1, 2, 3, 4].map((value) => {
+    const x = CIRCLE_RULER_ZERO_X + value * CIRCLE_UNIT_PX;
+    return `<g class="circle-ruler-tick" data-value="${value}"><line x1="${x}" y1="${CIRCLE_RULER_Y - 18}" x2="${x}" y2="${CIRCLE_RULER_Y + 2}"/><text x="${x}" y="${CIRCLE_RULER_Y + 27}">${value}</text></g>`;
+  }).join("");
+}
+
+function compassMarkup(anchorX, anchorY, radius, className) {
+  const pencilX = anchorX + radius * CIRCLE_UNIT_PX;
+  const hingeX = anchorX + radius * CIRCLE_UNIT_PX / 2;
+  const hingeY = anchorY - 112;
+  return `<g class="${className}" data-radius="${radius}">
+    <line class="compass-leg compass-needle-leg" x1="${hingeX}" y1="${hingeY}" x2="${anchorX}" y2="${anchorY}"/>
+    <line class="compass-leg compass-pencil-leg" x1="${hingeX}" y1="${hingeY}" x2="${pencilX}" y2="${anchorY}"/>
+    <circle class="compass-hinge" cx="${hingeX}" cy="${hingeY}" r="16"/>
+    <line class="compass-grip" x1="${hingeX}" y1="${hingeY - 37}" x2="${hingeX}" y2="${hingeY - 13}"/>
+    <path class="compass-needle" d="M ${anchorX - 5} ${anchorY - 12} L ${anchorX} ${anchorY + 6} L ${anchorX + 5} ${anchorY - 12} Z"/>
+    <rect class="compass-pencil" x="${pencilX - 7}" y="${anchorY - 28}" width="14" height="34" rx="5"/>
+  </g>`;
+}
+
+function circleWorkbenchMarkup(problem) {
+  const radius = circleWorkbench.selectedRadius;
+  const phase = circleWorkbench.phase;
+  const drawRadius = radius * CIRCLE_UNIT_PX;
+  const centerX = 380;
+  const centerY = 212;
+  const showDrawing = phase === "wrong" || phase === "correct";
+  const showRulerCompass = phase !== "correct";
+  const statusClass = phase === "wrong" ? " is-wrong" : phase === "correct" ? " is-correct" : "";
+  const radiusLine = showDrawing
+    ? `<line class="draw-radius-line" x1="${centerX}" y1="${centerY}" x2="${centerX + drawRadius}" y2="${centerY}"/><text class="draw-radius-label" x="168" y="52">반지름 ${radius} cm</text>`
+    : "";
+  const drawnCircle = showDrawing
+    ? `<circle class="drawn-circle${statusClass}" cx="${centerX}" cy="${centerY}" r="${drawRadius}" pathLength="100"/>${radiusLine}${compassMarkup(centerX, centerY, radius, "drawing-compass")}`
+    : `<circle class="circle-place-guide" cx="${centerX}" cy="${centerY}" r="54"/><text class="circle-place-text" x="${centerX}" y="${centerY + 6}">중심</text>`;
+  const pencilX = CIRCLE_RULER_ZERO_X + radius * CIRCLE_UNIT_PX;
+  const settingCompass = showRulerCompass
+    ? `${compassMarkup(CIRCLE_RULER_ZERO_X, CIRCLE_RULER_Y - 8, radius, "setting-compass")}
+      <circle class="compass-pencil-handle" cx="${pencilX}" cy="${CIRCLE_RULER_Y - 11}" r="25" tabindex="0" role="slider" aria-label="컴퍼스 반지름" aria-valuemin="1" aria-valuemax="4" aria-valuenow="${radius}"/>`
+    : "";
+  const helper = circleWorkbench.adjusted ? "눈금에 맞췄어요" : "연필 다리를 옮겨요";
+  return `<rect class="circle-paper" x="78" y="8" width="604" height="424" rx="30"/>
+    ${drawnCircle}
+    <circle class="circle-center-dot" cx="${centerX}" cy="${centerY}" r="6"/>
+    <g class="circle-ruler">
+      <rect class="circle-ruler-body" x="257" y="${CIRCLE_RULER_Y - 28}" width="246" height="67" rx="12"/>
+      ${rulerTicksMarkup()}
+      <text class="circle-ruler-unit" x="522" y="${CIRCLE_RULER_Y + 26}">cm</text>
+      <rect class="circle-ruler-hitbox" x="270" y="${CIRCLE_RULER_Y - 48}" width="220" height="92" rx="16"/>
+    </g>
+    ${settingCompass}
+    <g class="circle-radius-readout">
+      <rect x="545" y="345" width="130" height="76" rx="18"/>
+      <text class="circle-radius-title" x="610" y="360">반지름</text>
+      <text class="circle-radius-value" x="610" y="397">${radius} cm</text>
+    </g>
+    <text class="circle-helper-text" x="170" y="368">${helper}</text>`;
+}
+
+function svgPointFromEvent(svg, event) {
+  const matrix = svg.getScreenCTM();
+  if (!matrix) return null;
+  const point = svg.createSVGPoint();
+  point.x = event.clientX;
+  point.y = event.clientY;
+  return point.matrixTransform(matrix.inverse());
+}
+
+function radiusFromPointer(svg, event) {
+  const point = svgPointFromEvent(svg, event);
+  if (!point) return circleWorkbench.selectedRadius;
+  return clampCircleRadius((point.x - CIRCLE_RULER_ZERO_X) / CIRCLE_UNIT_PX);
+}
+
+function wireCircleWorkbench(svg) {
+  const handle = svg.querySelector(".compass-pencil-handle");
+  const ruler = svg.querySelector(".circle-ruler-hitbox");
+  if (ruler) {
+    ruler.addEventListener("pointerdown", (event) => {
+      if (circleWorkbench.engineState?.inputLocked) return;
+      event.preventDefault();
+      setCircleRadius(radiusFromPointer(svg, event));
+    });
+  }
+  if (!handle) return;
+  handle.addEventListener("pointerdown", (event) => {
+    if (circleWorkbench.engineState?.inputLocked) return;
+    event.preventDefault();
+    event.stopPropagation();
+    circleWorkbench.dragPointerId = event.pointerId;
+    svg.setPointerCapture?.(event.pointerId);
+    setCircleRadius(radiusFromPointer(svg, event));
+  });
+  svg.onpointermove = (event) => {
+    if (circleWorkbench.dragPointerId !== event.pointerId) return;
+    event.preventDefault();
+    setCircleRadius(radiusFromPointer(svg, event));
+  };
+  const finishDrag = (event) => {
+    if (circleWorkbench.dragPointerId !== event.pointerId) return;
+    circleWorkbench.dragPointerId = null;
+    svg.releasePointerCapture?.(event.pointerId);
+  };
+  svg.onpointerup = finishDrag;
+  svg.onpointercancel = finishDrag;
+  handle.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "ArrowUp") return;
+    event.preventDefault();
+    const delta = event.key === "ArrowLeft" || event.key === "ArrowDown" ? -1 : 1;
+    setCircleRadius(circleWorkbench.selectedRadius + delta);
+    requestAnimationFrame(() => ui.visualArea.querySelector(".compass-pencil-handle")?.focus());
+  });
+}
+
+function renderCircleWorkbench(problem) {
+  let svg = ui.visualArea.querySelector(".circle-draw-svg");
+  if (!svg) {
+    svg = document.createElementNS(PATTERN_SVG_NS, "svg");
+    svg.classList.add("circle-draw-svg");
+    ui.visualArea.replaceChildren(svg);
+  }
+  svg.dataset.state = circleWorkbench.phase;
+  svg.dataset.selectedRadius = String(circleWorkbench.selectedRadius);
+  svg.dataset.adjusted = String(circleWorkbench.adjusted);
+  svg.setAttribute("viewBox", "0 0 760 440");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", state === "idle" ? "같은 규칙으로 놓인 원 세 개" : "선택한 원 무늬 확인");
-  svg.innerHTML = patternMarkup(problem.orientation, kind, problem.radius * 1.5, true);
-  ui.visualArea.replaceChildren(svg);
+  svg.setAttribute(
+    "aria-label",
+    `${problem.prompt} 현재 컴퍼스의 반지름은 ${circleWorkbench.selectedRadius} 센티미터예요.`,
+  );
+  svg.innerHTML = circleWorkbenchMarkup(problem);
+  wireCircleWorkbench(svg);
 }
 
-function basePatternGeometry(orientation, large) {
-  if (large) {
-    if (orientation === "up") return { start: { x: 105, y: 178 }, vector: { x: 96, y: -42 } };
-    if (orientation === "down") return { start: { x: 105, y: 72 }, vector: { x: 96, y: 42 } };
-    return { start: { x: 95, y: 125 }, vector: { x: 108, y: 0 } };
-  }
-  if (orientation === "up") return { start: { x: 46, y: 106 }, vector: { x: 47, y: -21 } };
-  if (orientation === "down") return { start: { x: 46, y: 39 }, vector: { x: 47, y: 21 } };
-  return { start: { x: 42, y: 72 }, vector: { x: 50, y: 0 } };
-}
-
-function patternMarkup(orientation, kind, radius, large) {
-  const geometry = basePatternGeometry(orientation, large);
-  const { start, vector } = geometry;
-  const known = [0, 1, 2].map((index) => ({ x: start.x + vector.x * index, y: start.y + vector.y * index }));
-  const expected = { x: start.x + vector.x * 3, y: start.y + vector.y * 3 };
-  let candidate = { ...expected };
-  let candidateRadius = radius;
-  if (kind === "gap-wide") {
-    candidate.x += vector.x * 0.42;
-    candidate.y += vector.y * 0.42;
-  } else if (kind === "off-line") {
-    const length = Math.hypot(vector.x, vector.y) || 1;
-    candidate.x += (-vector.y / length) * (large ? 48 : 25);
-    candidate.y += (vector.x / length) * (large ? 48 : 25);
-  } else if (kind === "size-changed") {
-    candidateRadius *= 1.48;
-  }
-  const lineEnd = kind === "gap-wide" ? candidate : expected;
-  const guide = `<line class="pattern-guide" x1="${start.x}" y1="${start.y}" x2="${lineEnd.x}" y2="${lineEnd.y}"/>`;
-  const knownMarkup = known.map((point) => `<circle class="pattern-known" cx="${point.x}" cy="${point.y}" r="${radius}"/>`).join("");
-  if (kind === "pending") {
-    return knownMarkup;
-  }
-  return `${guide}${knownMarkup}<circle class="pattern-candidate" cx="${candidate.x}" cy="${candidate.y}" r="${candidateRadius}"/>`;
-}
+globalThis.__circleDrawQa = {
+  setRadius(value) {
+    setCircleRadius(value, true);
+    return this.getState();
+  },
+  submit() {
+    circleWorkbench.button?.click();
+  },
+  getState() {
+    const svg = ui.visualArea.querySelector(".circle-draw-svg");
+    const handle = svg?.querySelector(".compass-pencil-handle");
+    const handleRect = handle?.getBoundingClientRect();
+    return {
+      selectedRadius: circleWorkbench.selectedRadius,
+      adjusted: circleWorkbench.adjusted,
+      phase: circleWorkbench.phase,
+      buttonDisabled: Boolean(circleWorkbench.button?.disabled),
+      handleRect: handleRect ? {
+        left: handleRect.left,
+        top: handleRect.top,
+        width: handleRect.width,
+        height: handleRect.height,
+      } : null,
+    };
+  },
+};
 
 function primePatternRewardArt() {
   if (patternRewardArtPrimed || typeof Image === "undefined") return;
@@ -238,6 +408,52 @@ function primePatternRewardArt() {
     image.src = src;
     patternRewardPreloads.push(image);
   });
+}
+
+function tutorialRulerMarkup(x, y, width) {
+  const unit = width / 4;
+  const ticks = [0, 1, 2, 3, 4].map((value) => {
+    const tickX = x + value * unit;
+    return `<line x1="${tickX}" y1="${y}" x2="${tickX}" y2="${y + 20}"/><text x="${tickX}" y="${y + 43}">${value}</text>`;
+  }).join("");
+  return `<g class="tutorial-ruler"><rect x="${x - 18}" y="${y - 12}" width="${width + 36}" height="70" rx="12"/>${ticks}</g>`;
+}
+
+function tutorialCompassMarkup(needleX, pencilX, footY, hingeY) {
+  const hingeX = (needleX + pencilX) / 2;
+  return `<g class="tutorial-compass">
+    <line class="tutorial-needle-leg" x1="${hingeX}" y1="${hingeY}" x2="${needleX}" y2="${footY}"/>
+    <line class="tutorial-pencil-leg" x1="${hingeX}" y1="${hingeY}" x2="${pencilX}" y2="${footY}"/>
+    <circle cx="${hingeX}" cy="${hingeY}" r="15"/>
+    <line class="tutorial-grip" x1="${hingeX}" y1="${hingeY - 34}" x2="${hingeX}" y2="${hingeY - 13}"/>
+    <path class="tutorial-needle-tip" d="M ${needleX - 5} ${footY - 10} L ${needleX} ${footY + 7} L ${needleX + 5} ${footY - 10} Z"/>
+    <rect class="tutorial-pencil-tip" x="${pencilX - 7}" y="${footY - 28}" width="14" height="35" rx="4"/>
+  </g>`;
+}
+
+function ensureCircleTutorialOverlay() {
+  const firstCard = document.querySelector("#screen-tutorial .tutorial-card:first-child");
+  if (!firstCard || firstCard.querySelector(".tutorial-compass-overlay")) return;
+  const svg = document.createElementNS(PATTERN_SVG_NS, "svg");
+  svg.classList.add("tutorial-compass-overlay");
+  svg.setAttribute("viewBox", "0 0 1280 800");
+  svg.setAttribute("aria-hidden", "true");
+  svg.innerHTML = `<defs><marker id="tutorialArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z"/></marker></defs>
+    ${tutorialRulerMarkup(86, 515, 280)}
+    ${tutorialCompassMarkup(86, 226, 515, 375)}
+    <circle class="tutorial-zero-ring" cx="86" cy="515" r="15"/>
+    ${tutorialRulerMarkup(472, 515, 300)}
+    ${tutorialCompassMarkup(472, 772, 515, 360)}
+    <line class="tutorial-move-arrow" x1="570" y1="420" x2="684" y2="420" marker-end="url(#tutorialArrow)"/>
+    <line class="tutorial-span" x1="472" y1="585" x2="772" y2="585"/>
+    <line class="tutorial-span-cap" x1="472" y1="572" x2="472" y2="598"/>
+    <line class="tutorial-span-cap" x1="772" y1="572" x2="772" y2="598"/>
+    <text class="tutorial-span-label" x="622" y="615">4 cm</text>
+    <circle class="tutorial-drawn-circle" cx="944" cy="465" r="112"/>
+    <circle class="tutorial-center-dot" cx="944" cy="465" r="7"/>
+    <g class="tutorial-turning-compass">${tutorialCompassMarkup(944, 1056, 465, 335)}</g>
+    <path class="tutorial-turn-arrow" d="M 1015 358 A 112 112 0 0 1 1060 432" marker-end="url(#tutorialArrow)"/>`;
+  firstCard.appendChild(svg);
 }
 
 function waitForPattern(ms) {
@@ -310,4 +526,5 @@ globalThis.__playProgressQa = {
   },
 };
 globalThis.__compassRingQa = globalThis.__playProgressQa;
+ensureCircleTutorialOverlay();
 primePatternRewardArt();

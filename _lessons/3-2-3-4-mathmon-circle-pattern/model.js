@@ -33,38 +33,56 @@ const Lesson3CirclePatternModel = (() => {
     return Math.min(Math.max(value, min), max);
   }
 
-  function patternChoice(visualKind, label, misconceptionId = null, feedback = "") {
-    return { id: `choice:${visualKind}`, value: visualKind, visualKind, label, misconceptionId, feedback };
+  function feedbackForRadius(conditionType, givenValue, answerRadius, selectedRadius) {
+    if (conditionType === "diameter" && selectedRadius === givenValue) {
+      return "지름의 반을 반지름으로 맞춰요.";
+    }
+    if (selectedRadius < answerRadius) return "반지름이 조건보다 짧아요.";
+    return "반지름이 조건보다 길어요.";
   }
 
-  function choicesForPattern(rng) {
-    return shuffle([
-      patternChoice("correct", "같은 크기와 간격"),
-      patternChoice("gap-wide", "간격이 넓음", "PATTERN_GAP_CHANGED", "간격이 넓어졌어요. 앞의 간격과 맞춰요."),
-      patternChoice("off-line", "줄에서 벗어남", "PATTERN_OFF_LINE", "줄에서 벗어났어요. 앞의 원과 같은 줄로 이어요."),
-      patternChoice("size-changed", "원 크기가 다름", "PATTERN_SIZE_CHANGED", "원 크기가 달라졌어요. 같은 크기로 이어요.")
-    ], rng);
+  function misconceptionForRadius(conditionType, givenValue, answerRadius, selectedRadius) {
+    if (selectedRadius === answerRadius) return "correct";
+    if (conditionType === "diameter" && selectedRadius === givenValue) return "DIAMETER_AS_RADIUS";
+    return selectedRadius < answerRadius ? "RADIUS_TOO_SHORT" : "RADIUS_TOO_LONG";
   }
 
-  function makeProblem(orientation, serial, rng) {
-    const radius = randomInt(rng, 15, 18);
+  function radiusChoices(conditionType, givenValue, answerRadius) {
+    return [1, 2, 3, 4].map((value) => ({
+      id: `radius:${value}`,
+      value,
+      label: `반지름 ${value} cm`,
+      misconceptionId: misconceptionForRadius(conditionType, givenValue, answerRadius, value),
+      feedback: value === answerRadius
+        ? ""
+        : feedbackForRadius(conditionType, givenValue, answerRadius, value),
+    }));
+  }
+
+  function makeProblem(conditionType, givenValue, serial) {
+    const answerRadius = conditionType === "diameter" ? givenValue / 2 : givenValue;
+    const isDiameter = conditionType === "diameter";
     return {
-      id: `pattern-${serial}-${orientation}`,
-      type: "circle-pattern",
-      orientation,
-      radius,
-      answerKind: "correct",
-      prompt: "무늬를 그대로 이은 것은?",
-      finalExpression: "같은 크기와 간격으로 원 무늬를 이었어요.",
+      id: `circle-${serial}-${conditionType}-${givenValue}`,
+      type: "circle-draw",
+      conditionType,
+      givenValue,
+      answerRadius,
+      prompt: `${isDiameter ? "지름" : "반지름"}이 ${givenValue} cm인 원을 그려요.`,
+      finalExpression: isDiameter
+        ? `지름 ${givenValue} cm는 반지름 ${answerRadius} cm예요.`
+        : `반지름 ${answerRadius} cm인 원을 그렸어요.`,
       steps: [{
-        id: "continue-pattern",
-        label: "다음 원",
-        instruction: "같은 크기와 간격으로 이어진 그림을 골라요.",
-        answer: "correct",
-        answerChoiceId: "choice:correct",
-        choices: choicesForPattern(rng),
-        correctText: "맞아요. 원 크기와 간격이 그대로 이어졌어요.",
-        reveal: "무늬 완성",
+        id: "set-radius",
+        label: "반지름",
+        instruction: "컴퍼스의 연필 다리를 자의 눈금에 맞춰요.",
+        answer: answerRadius,
+        answerChoiceId: `radius:${answerRadius}`,
+        choices: radiusChoices(conditionType, givenValue, answerRadius),
+        correctText: isDiameter
+          ? `맞아요. 지름 ${givenValue} cm의 반지름은 ${answerRadius} cm예요.`
+          : `맞아요. 반지름을 ${answerRadius} cm로 맞췄어요.`,
+        reveal: `반지름 ${answerRadius} cm`,
         advance: { mode: "complete" }
       }]
     };
@@ -72,11 +90,15 @@ const Lesson3CirclePatternModel = (() => {
 
   function generateRun(seed = Date.now()) {
     const rng = createRng(seed);
-    return shuffle(LESSON_CONFIG.orientationsPerRun, rng).map((orientation, index) => makeProblem(orientation, index + 1, rng));
+    const radiusProblems = shuffle([2, 2, 3, 3, 4], rng)
+      .map((value, index) => makeProblem("radius", value, index + 1));
+    const diameterProblems = shuffle([4, 4, 6, 6, 8], rng)
+      .map((value, index) => makeProblem("diameter", value, index + 6));
+    return [...radiusProblems, ...diameterProblems];
   }
 
   function validateChoice(step, selected) {
-    return Boolean(selected && selected.id === step.answerChoiceId);
+    return Boolean(selected && Number(selected.value) === Number(step.answer));
   }
 
   function pickRewardEvent(rng, mistakeTouched) {
@@ -124,6 +146,7 @@ const Lesson3CirclePatternModel = (() => {
   return {
     TOTAL_PROBLEMS, MAX_POWER, RESULT_TIERS, REWARD_EVENTS, WRONG_REWARD_EVENT,
     createRng, randomInt, shuffle, clamp, generateRun, validateChoice,
+    feedbackForRadius, misconceptionForRadius,
     pickRewardEvent, applyReward, getResult, getNextResult
   };
 })();

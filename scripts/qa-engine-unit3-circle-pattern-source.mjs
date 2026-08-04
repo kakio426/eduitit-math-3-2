@@ -22,6 +22,9 @@ assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be rem
 assert.equal(model.applyReward({ power:47, specialSeen:false }, { ...emptyEvent, amount:0 }).power, 47, "empty must preserve accumulated power");
 
 assert.equal(config.workbench.type, "circle-pattern-choice");
+assert.equal(config.workbench.interactionStandard, "compass-radius-drag-v1");
+assert.deepEqual([...config.workbench.curriculumStandards], ["4수03-06", "4수03-07"]);
+assert.equal(config.standards.circleDrawing, "compass-radius-drag-v1");
 assert.equal(config.imageAssets.problemStage, "problem-stage-generated.webp");
 assert.equal(config.standards.coverStartAsset, "shared-canonical-v1");
 assert.equal(config.imageAssets.startButton, "../_shared/mathmon/cover-start-button/start-button-generated.webp");
@@ -29,47 +32,52 @@ assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/re
 assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
 assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);
 assert.deepEqual([...config.qa.misconceptionCoverage], [
-  "PATTERN_GAP_CHANGED",
-  "PATTERN_OFF_LINE",
-  "PATTERN_SIZE_CHANGED",
+  "RADIUS_TOO_SHORT",
+  "RADIUS_TOO_LONG",
+  "DIAMETER_AS_RADIUS",
 ]);
+assert.equal(config.qa.circleDrawingAudit.interaction, "compass-radius-drag");
+assert.equal(config.qa.circleDrawingAudit.requiresAdjustmentBeforeSubmit, true);
 
 for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);
   assert.equal(problems.length, 10, `seed ${seed}: ten problems`);
-  const counts = new Map();
+  assert.ok(problems.slice(0, 5).every((problem) => problem.conditionType === "radius"), `seed ${seed}: radius scaffold first`);
+  assert.ok(problems.slice(5).every((problem) => problem.conditionType === "diameter"), `seed ${seed}: diameter scaffold second`);
+  const misconceptions = new Set();
   for (const problem of problems) {
-    counts.set(problem.orientation, (counts.get(problem.orientation) || 0) + 1);
-    assert.ok(["horizontal", "up", "down"].includes(problem.orientation), `${problem.id}: valid orientation`);
+    assert.equal(problem.type, "circle-draw", `${problem.id}: direct circle drawing problem`);
+    assert.ok(problem.answerRadius >= 2 && problem.answerRadius <= 4, `${problem.id}: radius within ruler`);
+    if (problem.conditionType === "radius") assert.equal(problem.answerRadius, problem.givenValue, `${problem.id}: radius condition`);
+    if (problem.conditionType === "diameter") assert.equal(problem.answerRadius * 2, problem.givenValue, `${problem.id}: diameter is twice radius`);
     assert.equal(problem.steps.length, 1, `${problem.id}: one visible action`);
     const step = problem.steps[0];
-    assert.equal(step.choices.length, 4, `${problem.id}: four independent pattern choices`);
+    assert.equal(step.choices.length, 4, `${problem.id}: four ruler snap values`);
     assert.equal(step.choices.filter((choice) => choice.id === step.answerChoiceId).length, 1, `${problem.id}: one answer`);
-    assert.equal(new Set(step.choices.map((choice) => choice.visualKind)).size, 4, `${problem.id}: four distinct pattern relations`);
-    assert.deepEqual(new Set(step.choices.map((choice) => choice.label)), new Set([
-      "같은 크기와 간격",
-      "간격이 넓음",
-      "줄에서 벗어남",
-      "원 크기가 다름",
-    ]), `${problem.id}: semantic accessibility labels`);
-    for (const misconceptionId of ["PATTERN_GAP_CHANGED", "PATTERN_OFF_LINE", "PATTERN_SIZE_CHANGED"]) {
-      assert.ok(step.choices.some((choice) => choice.misconceptionId === misconceptionId), `${problem.id}: ${misconceptionId}`);
-    }
-    for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
-      assert.ok(choice.feedback, `${problem.id}: short feedback`);
+    assert.equal(step.choices.map((choice) => choice.value).join(","), "1,2,3,4", `${problem.id}: ruler values 1 through 4`);
+    assert.equal(step.choices.filter((choice) => model.validateChoice(step, choice)).length, 1, `${problem.id}: exactly one accepted radius`);
+    for (const choice of step.choices) {
+      misconceptions.add(choice.misconceptionId);
+      if (!model.validateChoice(step, choice)) {
+        assert.ok(choice.feedback && choice.feedback.length <= 24, `${problem.id}: short diagnostic feedback`);
+      }
     }
   }
-  assert.equal(counts.get("horizontal"), 4, `seed ${seed}: four horizontal patterns`);
-  assert.equal(counts.get("up"), 3, `seed ${seed}: three rising patterns`);
-  assert.equal(counts.get("down"), 3, `seed ${seed}: three falling patterns`);
+  assert.ok(misconceptions.has("RADIUS_TOO_SHORT"), `seed ${seed}: short-radius misconception`);
+  assert.ok(misconceptions.has("RADIUS_TOO_LONG"), `seed ${seed}: long-radius misconception`);
+  assert.ok(misconceptions.has("DIAMETER_AS_RADIUS"), `seed ${seed}: diameter-as-radius misconception`);
 }
 
-assert.match(viewSource, /pattern-choice-svg/, "each answer must be a separate completed pattern");
-assert.match(viewSource, /pattern-confirm-svg/, "selected pattern must expand for confirmation");
-assert.match(viewSource, /if \(kind === "pending"\) \{\s*return knownMarkup;/, "waiting view must show only the three known circles");
-assert.doesNotMatch(viewSource, /return `\$\{guide\}\$\{knownMarkup\}<circle class="pattern-pending"/, "waiting view must not reveal the answer circle position or size");
-assert.match(viewSource, /setAttribute\("aria-label", selected\.label\)/, "choice aria-label must explain the visible relation");
+assert.match(viewSource, /dataset\.interaction = "compass-radius-drag"/, "browser QA must recognize the direct manipulation");
+assert.match(viewSource, /role="slider"/, "compass pencil handle must expose a slider role");
+assert.match(viewSource, /setPointerCapture/, "compass drag must use Pointer Events");
+assert.match(viewSource, /ArrowLeft.*ArrowDown.*ArrowRight.*ArrowUp/s, "compass slider must support arrow keys");
+assert.match(viewSource, /Math\.round/, "free movement must snap to ruler ticks");
+assert.match(viewSource, /class="drawn-circle/, "confirmation must draw the selected circle");
+assert.match(viewSource, /ensureCircleTutorialOverlay/, "tutorial must use precise SVG math diagrams");
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
+assert.match(cssSource, /\.compass-pencil-handle\s*\{[^}]*cursor:\s*ew-resize/s, "drag handle must be visibly draggable");
+assert.match(cssSource, /@keyframes circle-trace/, "circle confirmation must animate the trace");
 assert.match(
   cssSource,
   /\.game\[data-result-panel-containment="result-panel-containment-v2"\] \.result-title-art,\s*\.game\[data-result-panel-containment="result-panel-containment-v2"\] \.result-retry-hitbox \.result-retry-art\s*\{\s*display:\s*block\s*!important;/,

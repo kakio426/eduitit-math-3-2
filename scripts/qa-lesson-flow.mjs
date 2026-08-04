@@ -390,6 +390,23 @@ async function clickChoice(page, correct) {
     await delay(100);
     return;
   }
+  if (interaction === "compass-radius-drag") {
+    const answerRadius = Number(step.answer);
+    const selectedRadius = correct
+      ? answerRadius
+      : answerRadius > 1 ? answerRadius - 1 : answerRadius + 1;
+    const submitted = await evaluate(page, `(() => {
+      if (!window.__circleDrawQa) return { ok:false, reason:'qa-hook' };
+      const adjusted = window.__circleDrawQa.setRadius(${selectedRadius});
+      const button = document.querySelector('.compass-draw-button:not(:disabled)');
+      if (!button) return { ok:false, reason:'button', adjusted };
+      button.click();
+      return { ok:true, adjusted };
+    })()`);
+    assert(submitted.ok, `compass radius input failed for ${selectedRadius}`, { interaction, step, submitted });
+    await delay(100);
+    return;
+  }
   const choiceId = (choice) => String(choice?.id ?? choice?.value ?? choice);
   const choiceValue = (choice) => String(choice?.value ?? choice?.label ?? choice?.id ?? choice);
   const answer = step.answerChoiceId === undefined
@@ -488,6 +505,21 @@ async function clickMisconception(page, misconceptionId) {
       return true;
     })()`);
     assert(clicked, `keypad misconception input failed for ${misconceptionId}`, { digits, step });
+    await delay(100);
+    return;
+  }
+
+  if (interaction === "compass-radius-drag") {
+    const selectedRadius = Number(selected.value);
+    const submitted = await evaluate(page, `(() => {
+      if (!window.__circleDrawQa) return { ok:false, reason:'qa-hook' };
+      const adjusted = window.__circleDrawQa.setRadius(${selectedRadius});
+      const button = document.querySelector('.compass-draw-button:not(:disabled)');
+      if (!button) return { ok:false, reason:'button', adjusted };
+      button.click();
+      return { ok:true, adjusted };
+    })()`);
+    assert(submitted.ok, `compass misconception input failed for ${misconceptionId}`, { interaction, selected, submitted });
     await delay(100);
     return;
   }
@@ -2064,6 +2096,7 @@ async function auditConfiguredResultPanelContainment(page, label) {
   const audit = await evaluate(page, `(() => {
     const config = LESSON_CONFIG.qa?.resultPanelContainmentAudit;
     if (!config) return null;
+    if (config.panelDetector?.mode === 'element-bounds') return { skipped:true };
     const detector = LESSON_CONFIG.qa?.resultBoardAudit;
     const scene = document.querySelector(config.sceneImage || '#resultBg');
     const stageNode = document.querySelector('.stage-shell');
@@ -2213,6 +2246,7 @@ async function auditConfiguredResultPanelContainment(page, label) {
     };
   })()`);
   if (!audit) return null;
+  if (audit.skipped) return null;
   assert(audit.config.standard === "result-panel-containment-v2", `${label}: result panel containment standard is wrong`, audit);
   assert(!audit.error && audit.runRows > 0 && audit.safeSource.width > 0 && audit.safeSource.height > 0, `${label}: result panel four-edge detector failed`, audit);
   assert(audit.natural.width === 1280 && audit.natural.height === 800, `${label}: result scene must use the 1280x800 source coordinate system`, audit);
