@@ -153,42 +153,47 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-changing .compass-play-progress-art {
-  animation: bridge-play-progress-brighten 1.56s cubic-bezier(.2, .82, .22, 1) both;
+  animation: bridge-play-progress-brighten .9s cubic-bezier(.2, .82, .22, 1) both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-dimming .compass-play-progress-art {
-  animation: bridge-play-progress-dim 1.56s ease both;
+  animation: bridge-play-progress-dim .9s ease both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating {
-  animation: bridge-play-progress-impact 1.56s cubic-bezier(.18, .78, .2, 1) both;
+  animation: bridge-play-progress-impact 1.1s cubic-bezier(.18, .78, .2, 1) both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating .compass-play-progress-flare {
-  animation: bridge-play-progress-flare 1.56s cubic-bezier(.18, .78, .2, 1) both;
+  animation: bridge-play-progress-flare 1.1s cubic-bezier(.18, .78, .2, 1) both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up {
-  animation: bridge-play-progress-tier-rise 1.56s cubic-bezier(.18, .78, .2, 1) both;
+  animation: bridge-play-progress-tier-rise 1.8s cubic-bezier(.18, .78, .2, 1) both;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up .compass-play-progress-art {
-  animation: bridge-play-progress-tier-art 1.56s cubic-bezier(.18, .78, .2, 1) both;
+  animation: bridge-play-progress-tier-art 1.8s cubic-bezier(.18, .78, .2, 1) both;
 }
 
-.game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage,
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage {
-  animation: bridge-play-progress-stage-impact 1.56s cubic-bezier(.12, .76, .18, 1) both;
+  animation: bridge-play-progress-stage-impact 1.8s cubic-bezier(.12, .76, .18, 1) both;
 }
 
-.game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::before,
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::before {
-  animation: bridge-play-progress-stage-ring 1.56s cubic-bezier(.08, .72, .16, 1) both;
+  animation: bridge-play-progress-stage-ring 1.8s cubic-bezier(.08, .72, .16, 1) both;
 }
 
-.game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::after,
 .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::after {
-  animation: bridge-play-progress-stage-rays 1.56s ease-out both;
+  animation: bridge-play-progress-stage-rays 1.8s ease-out both;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up .compass-play-progress-readout {
+  animation: bridge-play-progress-tier-readout 1.8s cubic-bezier(.18, .78, .2, 1) both;
+}
+
+.game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up .compass-play-progress-name {
+  animation: bridge-play-progress-tier-name 1.8s cubic-bezier(.18, .78, .2, 1) both;
 }
 
 .bridge-stage-art {
@@ -281,12 +286,11 @@
   margin: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) 50px 166px;
+  grid-template-rows: minmax(0, 1fr) 228px;
   gap: 12px;
 }
 
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .problem-card,
-.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board,
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel,
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .complete-panel {
   border: 0;
@@ -699,53 +703,9 @@
     bridge-lock-glow .55s .25s ease-out both;
 }
 
-/* 한 줄 작업 지시 */
-.game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
-  grid-row: 2;
-  min-height: 50px;
-  padding: 0 18px;
-  display: grid;
-  grid-template: 1fr / 1fr;
-  place-items: center;
-  border-top: 2px solid rgba(255, 233, 168, .72);
-  border-bottom: 4px solid #5b3318;
-  background: linear-gradient(180deg, rgba(141, 83, 38, .96), rgba(92, 50, 24, .97));
-}
-
-.game[data-workbench-type="circle-double-bridge"] .instruction,
-.game[data-workbench-type="circle-double-bridge"] .feedback-line {
-  grid-area: 1 / 1;
-  width: 100%;
-  min-height: 0;
-  margin: 0;
-  padding-inline: 16px;
-  color: #fff3cc;
-  font-size: clamp(1.125rem, 1.55vw, 1.25rem);
-  line-height: 1.2;
-  font-weight: 1000;
-  text-align: left;
-  word-break: keep-all;
-}
-
-.game[data-workbench-type="circle-double-bridge"] .instruction[hidden] {
-  display: none;
-}
-
-.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="idle"] {
-  visibility: hidden;
-}
-
-.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="wrong"] {
-  color: #ffd4de;
-}
-
-.game[data-workbench-type="circle-double-bridge"] .feedback-line[data-state="correct"] {
-  color: #c9ffe8;
-}
-
 /* 네 후보는 카드가 아니라 하나의 부품 선반 위에 놓인다. */
 .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .choices-panel {
-  grid-row: 3;
+  grid-row: 2;
   min-height: 0;
   padding: 3px 8px 7px;
   display: grid;
@@ -842,7 +802,7 @@
 .game[data-workbench-type="circle-double-bridge"] .length-choice {
   position: relative;
   min-width: 0;
-  min-height: 58px;
+  min-height: 80px;
   padding: 4px 12px;
   display: grid;
   place-items: center;
@@ -958,8 +918,7 @@
   line-height: 1;
 }
 
-.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .choices-panel,
-.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .step-board {
+.game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete .choices-panel {
   display: none;
 }
 
@@ -1025,12 +984,10 @@
 
 .game[data-workbench-type="circle-double-bridge"] .reward-pop {
   background: rgba(14, 47, 46, .48);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(8px);
 }
 
 .game[data-workbench-type="circle-double-bridge"] .reward-card {
-  width: min(470px, 86%);
-  min-height: 450px;
   gap: 10px;
   padding: 18px;
   border: 5px solid #785025;
@@ -1040,8 +997,6 @@
 }
 
 .game[data-workbench-type="circle-double-bridge"] .reward-visual {
-  width: 290px;
-  height: 290px;
   border: 7px solid #7a4e22;
   border-radius: 24px;
   background-image: var(--reward-modal-image);
@@ -1254,9 +1209,9 @@
 }
 
 @keyframes bridge-play-progress-brighten {
-  0% { filter: brightness(.64) saturate(.72); transform: scale(.97); }
-  34% { filter: brightness(1.58) saturate(1.4) contrast(1.08); transform: scale(1.025); }
-  68% { filter: brightness(1.18) saturate(1.22); transform: scale(1.008); }
+  0% { filter: brightness(.9) saturate(.92); transform: scale(.995); }
+  34% { filter: brightness(1.22) saturate(1.14); transform: scale(1.008); }
+  68% { filter: brightness(1.08) saturate(1.08); transform: scale(1.003); }
   100% { filter: brightness(1); transform: scale(1); }
 }
 
@@ -1280,14 +1235,26 @@
 
 @keyframes bridge-play-progress-tier-rise {
   0%, 100% { box-shadow: 0 16px 34px rgba(45, 29, 14, .34), inset 0 0 0 1px rgba(255, 248, 211, .2); }
-  28% { box-shadow: 0 0 0 6px rgba(255, 230, 124, .78), 0 0 44px 16px rgba(255, 178, 62, .72), 0 16px 34px rgba(45, 29, 14, .34); }
+  28% { box-shadow: 0 0 0 9px rgba(255, 240, 142, .92), 0 0 60px 24px rgba(255, 171, 48, .86), 0 16px 34px rgba(45, 29, 14, .34); }
 }
 
 @keyframes bridge-play-progress-tier-art {
-  0% { filter: brightness(.5) saturate(.58); transform: scale(.95); }
-  30% { filter: brightness(1.72) saturate(1.5); transform: scale(1.035); }
-  66% { filter: brightness(1.2) saturate(1.22); transform: scale(1.01); }
+  0% { filter: brightness(.38) saturate(.48); transform: scale(.92); }
+  30% { filter: brightness(2) saturate(1.72) contrast(1.12); transform: scale(1.055); }
+  66% { filter: brightness(1.28) saturate(1.3); transform: scale(1.016); }
   100% { filter: brightness(1); transform: scale(1); }
+}
+
+@keyframes bridge-play-progress-tier-readout {
+  0%, 100% { background: linear-gradient(180deg, rgba(56, 48, 25, .98), rgba(32, 27, 19, .99)); }
+  30% { background: linear-gradient(180deg, #fff0a0, #bf6c1f); }
+  62% { background: linear-gradient(180deg, #7b4b20, #302219); }
+}
+
+@keyframes bridge-play-progress-tier-name {
+  0%, 100% { color: #ffe184; transform: scale(1); }
+  30% { color: #fff; transform: scale(1.32); text-shadow: 0 0 12px #fff, 0 0 24px #ffb83e; }
+  62% { color: #fff0a8; transform: scale(1.1); }
 }
 
 @keyframes bridge-play-progress-stage-impact {
@@ -1322,21 +1289,12 @@
     right: 2%;
     bottom: 12px;
     left: 29.5%;
-    grid-template-rows: minmax(0, 1fr) 46px 138px;
+    grid-template-rows: minmax(0, 1fr) 196px;
     gap: 12px;
   }
 
   .game[data-workbench-type="circle-double-bridge"] .big-problem {
     font-size: 2.8rem;
-  }
-
-  .game[data-workbench-type="circle-double-bridge"] .bridge-workshop .step-board {
-    min-height: 46px;
-  }
-
-  .game[data-workbench-type="circle-double-bridge"] .instruction,
-  .game[data-workbench-type="circle-double-bridge"] .feedback-line {
-    font-size: 1.2rem;
   }
 
   .game[data-workbench-type="circle-double-bridge"] .bridge-part-label {
@@ -1354,20 +1312,12 @@
     min-height: 80px;
   }
 
-  .game[data-workbench-type="circle-double-bridge"] .reward-card {
-    min-height: 420px;
-  }
-
-  .game[data-workbench-type="circle-double-bridge"] .reward-visual {
-    width: 255px;
-    height: 255px;
-  }
 }
 
 @media (min-width: 981px) and (max-width: 1100px) {
   .game[data-workbench-type="circle-double-bridge"] .bridge-workshop {
     --bridge-complete-height: 154px;
-    grid-template-rows: minmax(0, 1fr) 46px 146px;
+    grid-template-rows: minmax(0, 1fr) 204px;
   }
 
   .game[data-workbench-type="circle-double-bridge"] .bridge-workshop.is-complete {
@@ -1412,6 +1362,8 @@
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-dimming,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-celebrating,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up,
+  .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up .compass-play-progress-readout,
+  .game[data-workbench-type="circle-double-bridge"] .compass-play-progress.is-tier-up .compass-play-progress-name,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::before,
   .game[data-workbench-type="circle-double-bridge"] .compass-play-progress-impact-stage::after {

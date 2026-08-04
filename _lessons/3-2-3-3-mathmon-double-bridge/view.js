@@ -121,8 +121,11 @@ function syncBridgePlayProgress(state, options = {}) {
   }
 
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
   const duration = shouldAnimate && !reducedMotion
-    ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1560)
+    ? tierChanged
+      ? Number(effectConfig.tierUpDurationMs || 1800)
+      : Number(effectConfig.durationMs || 900)
     : 0;
   if (!duration) return Promise.resolve();
   return new Promise((resolve) => {
@@ -137,6 +140,13 @@ function syncBridgePlayProgress(state, options = {}) {
 function ensureBridgeStageArt() {
   const playScreen = document.getElementById("screen-play");
   if (!playScreen) return;
+  const stepBoard = playScreen.querySelector(".step-board");
+  const feedback = stepBoard?.querySelector(".feedback-line");
+  if (feedback) {
+    feedback.classList.add("visually-hidden");
+    playScreen.append(feedback);
+  }
+  stepBoard?.remove();
   playScreen.querySelector(".problem-grid")?.classList.add("bridge-workshop");
   if (playScreen.querySelector(".bridge-stage-art")) return;
   const image = document.createElement("img");
@@ -339,7 +349,7 @@ async function onRewardDismiss({ state }) {
   }
   return syncBridgePlayProgress(state, {
     animate: true,
-    celebrate: impact.delta > 0,
+    celebrate: impact.delta > 0 && ["mega", "complete", "rainbow"].includes(impact.event?.family),
     delta: impact.delta,
     afterModalDismiss: true,
   });

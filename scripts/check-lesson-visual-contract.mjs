@@ -443,15 +443,17 @@ function checkLesson(folder, config) {
 
   if (config.qa?.rewardModalAudit) {
     const audit = config.qa.rewardModalAudit;
+    const compact = audit.standard === "unit3-modal-art-compact-v2";
     assert(config.reward?.mode === "modal-art", `${prefix} 보상 모달 하네스는 reward.mode=modal-art에서만 씁니다.`);
     assert(config.reward?.stateImageSet?.runtimeSlot === "reward-modal", `${prefix} 보상 상태 이미지 슬롯은 reward-modal이어야 합니다.`);
-    assert(audit.standard === "unit3-modal-art-v1", `${prefix} 3단원 보상 모달 표준이 다릅니다.`);
+    assert(["unit3-modal-art-v1", "unit3-modal-art-compact-v2"].includes(audit.standard), `${prefix} 3단원 보상 모달 표준이 다릅니다.`);
     for (const key of ["card", "visual", "label", "openButton", "nextButton"]) {
       assert(typeof audit[key] === "string" && audit[key].length > 0, `${prefix} 보상 모달 ${key} 측정 선택자가 없습니다.`);
     }
     assert(audit.canvas === REWARD_CANVAS, `${prefix} 보상 모달 이미지 캔버스는 ${REWARD_CANVAS}이어야 합니다.`);
-    assert(audit.cardWidthPx === 560 && audit.cardHeightPx === 480, `${prefix} 보상 모달 카드는 560×480px이어야 합니다.`);
-    assert(audit.cardAspectRatio === "7:6", `${prefix} 보상 모달 카드 비율은 7:6이어야 합니다.`);
+    assert(audit.cardWidthPx === (compact ? 430 : 560) && audit.cardHeightPx === 480, `${prefix} 보상 모달 카드 크기가 선택한 표준과 다릅니다.`);
+    assert(audit.cardAspectRatio === (compact ? "43:48" : "7:6"), `${prefix} 보상 모달 카드 비율이 선택한 표준과 다릅니다.`);
+    if (compact) assert(audit.cardMaxWidthRatio === 0.82, `${prefix} compact 보상 카드 최대 폭은 Stage 82%여야 합니다.`);
     assert(audit.visualSizePx === 250, `${prefix} 보상 모달 이미지 슬롯은 250×250px이어야 합니다.`);
     assert(audit.cardCenterTolerancePx <= 1, `${prefix} 보상 카드 중심 오차 허용값은 1px 이하여야 합니다.`);
     assert(audit.cardSizeTolerancePx <= 1, `${prefix} 보상 카드 크기 오차 허용값은 1px 이하여야 합니다.`);
@@ -463,8 +465,13 @@ function checkLesson(folder, config) {
       assert(css.includes("backdrop-filter: blur("), `${prefix} 보상 모달 배경 블러 CSS가 없습니다.`);
     }
     assert(config.imageAssets?.rewardClosed, `${prefix} 닫힌 보상 이미지가 없습니다.`);
-    assert(css.includes(".reward-card") && css.includes("width: 560px") && css.includes("max-width: 88%"), `${prefix} 보상 카드 폭 계약 CSS가 없습니다.`);
-    assert(css.includes("height: 480px") && css.includes("min-height: 0") && css.includes("aspect-ratio: 7 / 6"), `${prefix} 보상 카드 높이·비율 계약 CSS가 없습니다.`);
+    if (compact) {
+      assert(css.includes('data-reward-modal-standard="unit3-modal-art-compact-v2"') && css.includes("width: 430px") && css.includes("max-width: 82%"), `${prefix} compact 보상 카드 폭 계약 CSS가 없습니다.`);
+      assert(css.includes("height: 480px") && css.includes("min-height: 0") && css.includes("aspect-ratio: 43 / 48"), `${prefix} compact 보상 카드 높이·비율 계약 CSS가 없습니다.`);
+    } else {
+      assert(css.includes(".reward-card") && css.includes("width: 560px") && css.includes("max-width: 88%"), `${prefix} 보상 카드 폭 계약 CSS가 없습니다.`);
+      assert(css.includes("height: 480px") && css.includes("min-height: 0") && css.includes("aspect-ratio: 7 / 6"), `${prefix} 보상 카드 높이·비율 계약 CSS가 없습니다.`);
+    }
     assert(css.includes(".reward-visual") && (css.includes("background-size: cover") || /center\s*\/\s*cover\s+no-repeat/.test(css)), `${prefix} 보상 이미지 채움 CSS 계약이 없습니다.`);
   }
 
@@ -481,7 +488,8 @@ function checkLesson(folder, config) {
       assert(audit.requiresModalClosedBeforeStart === true, `${prefix} 보상 효과는 모달이 닫힌 뒤 시작해야 합니다.`);
       assert(audit.preEffectDelayMs >= 250 && audit.preEffectDelayMs <= 450, `${prefix} 모달 뒤 시선 이동 여백은 250~450ms여야 합니다.`);
       assert(audit.minVisibleMs >= 1200, `${prefix} 단계 상승 효과가 너무 짧습니다.`);
-      assert(audit.durationMs >= audit.minVisibleMs, `${prefix} 효과 전체 시간이 최소 표시 시간보다 짧습니다.`);
+      const tierUpDurationMs = Number(audit.tierUpDurationMs || audit.durationMs);
+      assert(tierUpDurationMs >= audit.minVisibleMs, `${prefix} 단계 상승 효과 시간이 최소 표시 시간보다 짧습니다.`);
       assert(typeof audit.impactLayer === "string" && audit.impactLayer.length > 0, `${prefix} Stage 크기 보상 효과 레이어가 없습니다.`);
       assert(audit.minImpactStageWidthRatio >= 0.32, `${prefix} 단계 상승 효과가 Stage에서 너무 작습니다.`);
       assert(typeof audit.tierUpClass === "string" && audit.activeClasses.includes(audit.tierUpClass), `${prefix} 단계 상승 효과 클래스 계약이 없습니다.`);
@@ -490,6 +498,13 @@ function checkLesson(folder, config) {
       assert(audit.forceTierTransition?.beforeTier && audit.forceTierTransition?.afterTier, `${prefix} 단계 상승 회귀 fixture가 없습니다.`);
       assert(Number.isFinite(audit.forceTierTransition?.restoreCorrect), `${prefix} 단계 상승 fixture의 정답 수 복원값이 없습니다.`);
       assert(css.includes(audit.impactLayer.replace(/^[.#]/, "")), `${prefix} Stage 크기 보상 효과 CSS가 없습니다.`);
+      if (audit.contrastStandard) {
+        assert(audit.contrastStandard === "bridge-gain-vs-tier-v1", `${prefix} 일반 점수와 단계 상승 효과 구분 표준이 다릅니다.`);
+        assert(audit.gainClass === "is-changing" && audit.activeClasses.includes(audit.gainClass), `${prefix} 일반 점수 효과 클래스 계약이 없습니다.`);
+        assert(audit.gainUsesImpactLayer === false, `${prefix} 일반 점수 효과는 Stage 충격 레이어를 쓰면 안 됩니다.`);
+        assert(audit.tierUpUsesImpactLayer === true, `${prefix} 단계 상승 효과는 Stage 충격 레이어를 써야 합니다.`);
+        assert(tierUpDurationMs > audit.durationMs, `${prefix} 단계 상승 효과가 일반 점수 효과보다 길어야 합니다.`);
+      }
     }
     for (const className of audit.activeClasses) {
       assert(css.includes(`.${className}`), `${prefix} 보상 효과 CSS 클래스 .${className}가 없습니다.`);

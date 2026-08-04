@@ -588,10 +588,19 @@ function checkManifestShape(failures, lesson, config) {
       addFailure(failures, lesson, "Unit 3 result must visibly show the next result goal");
     }
     const layout = config.qa?.layoutAudit;
-    for (const key of ["workArea", "primary", "secondary", "tertiary", "complete"]) {
+    for (const key of ["workArea", "primary", "secondary", "complete"]) {
       if (!isNonEmptyString(layout?.[key])) {
         addFailure(failures, lesson, `qa.layoutAudit.${key} must be a selector`);
       }
+    }
+    if (layout?.tertiary !== undefined && !isNonEmptyString(layout.tertiary)) {
+      addFailure(failures, lesson, "qa.layoutAudit.tertiary must be a selector when present");
+    }
+    if (layout?.tertiary === undefined
+      && (!Array.isArray(layout?.verticalOrder)
+        || layout.verticalOrder.length < 2
+        || layout.verticalOrder.includes("tertiary"))) {
+      addFailure(failures, lesson, "qa.layoutAudit without a tertiary panel must declare a verticalOrder that omits tertiary");
     }
     if (!(Number(layout?.minStageWidthRatio) > 0 && Number(layout?.minStageWidthRatio) <= 1)) {
       addFailure(failures, lesson, "qa.layoutAudit.minStageWidthRatio must be between 0 and 1");

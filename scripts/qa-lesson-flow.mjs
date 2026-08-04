@@ -858,7 +858,7 @@ async function auditConfiguredLearningLayout(page, label) {
       workArea:document.querySelector(config.workArea),
       primary:document.querySelector(config.primary),
       secondary:document.querySelector(config.secondary),
-      tertiary:document.querySelector(config.tertiary),
+      tertiary:config.tertiary ? document.querySelector(config.tertiary) : null,
       complete:document.querySelector(config.complete)
     };
     const rects = Object.fromEntries(Object.entries(nodes).map(([key, node]) => [key, rectOf(node)]));
@@ -877,7 +877,7 @@ async function auditConfiguredLearningLayout(page, label) {
     const choiceRects = [...document.querySelectorAll('#choicesPanel button, #choicesPanel .farm-share-option')]
       .filter(visible).map((node) => rectOf(node));
     const intersections = [];
-    const peers = ['primary', 'secondary', 'tertiary'];
+    const peers = ['primary', 'secondary', ...(nodes.tertiary ? ['tertiary'] : [])];
     for (let i = 0; i < peers.length; i += 1) for (let j = i + 1; j < peers.length; j += 1) {
       const a = rects[peers[i]], b = rects[peers[j]];
       if (!a || !b) continue;
@@ -895,7 +895,8 @@ async function auditConfiguredLearningLayout(page, label) {
   })()`);
   if (!audit) return null;
   const { config, metrics } = audit;
-  assert(metrics.workArea && metrics.primary && metrics.secondary && metrics.tertiary, `${label}: configured learning selectors did not resolve`, audit);
+  assert(metrics.workArea && metrics.primary && metrics.secondary, `${label}: configured learning selectors did not resolve`, audit);
+  if (config.tertiary) assert(metrics.tertiary, `${label}: configured tertiary learning selector did not resolve`, audit);
   assert(metrics.workArea.stageWidthRatio + 0.0001 >= config.minStageWidthRatio, `${label}: learning work area is too narrow`, audit);
   assert(metrics.primary.area > metrics.secondary.area, `${label}: primary learning panel is not the largest learning area`, audit);
   assert(audit.choiceRects.length > 0 && audit.choiceRects.every((rect) => rect.width >= 42 && rect.height >= 42), `${label}: a choice touch target is smaller than 42x42`, audit);
@@ -1242,6 +1243,7 @@ async function auditConfiguredTypography(page, label) {
         };
       });
     const rectOf = (selector) => {
+      if (!selector) return null;
       const node = document.querySelector(selector);
       if (!node) return null;
       const rect = node.getBoundingClientRect();
@@ -1283,6 +1285,9 @@ async function auditConfiguredTypography(page, label) {
         if (!circleConfig) return null;
         const panel = document.querySelector('.choices-panel');
         const panelRect = panel?.getBoundingClientRect();
+        const instructionBoard = document.querySelector('.step-board');
+        const instructionBoardStyle = instructionBoard ? getComputedStyle(instructionBoard) : null;
+        const instructionBoardRect = instructionBoard?.getBoundingClientRect();
         const instruction = document.querySelector(LESSON_CONFIG.qa?.typographyAudit?.instruction || '.step-board .instruction');
         const instructionStyle = instruction ? getComputedStyle(instruction) : null;
         const instructionRect = instruction?.getBoundingClientRect();
@@ -1296,6 +1301,12 @@ async function auditConfiguredTypography(page, label) {
             ? circleConfig.compactChoiceTrackPx
             : circleConfig.choiceTrackPx;
         return {
+          instructionBoardRemoved:circleConfig.instructionBoardRemoved === true,
+          instructionBoardVisible:Boolean(instructionBoardStyle
+            && instructionBoardStyle.display !== 'none'
+            && instructionBoardStyle.visibility !== 'hidden'
+            && instructionBoardRect.width > 1
+            && instructionBoardRect.height > 1),
           instructionVisible:Boolean(instructionStyle
             && instructionStyle.display !== 'none'
             && instructionStyle.visibility !== 'hidden'
@@ -1344,6 +1355,9 @@ async function auditConfiguredTypography(page, label) {
   assert([...audit.primarySvgText, ...audit.choiceSvgText].every((item) => !item.outside), `${label}: SVG text left its viewBox`, audit);
   if (audit.circleChoiceLayout) {
     const circleConfig = audit.circleChoiceLayout;
+    if (circleConfig.instructionBoardRemoved) {
+      assert(!circleConfig.instructionBoardVisible, `${label}: circle lesson instruction board is still visible`, audit);
+    }
     assert(!circleConfig.instructionVisible, `${label}: circle lesson instruction strip is still visible`, audit);
     assert(Math.abs(circleConfig.panelHeight - circleConfig.expectedPanelHeight) <= 1, `${label}: circle lesson choice panel lost its fixed enlarged height`, audit);
     assert(circleConfig.choices.length === 4, `${label}: circle lesson must keep four choices`, audit);
@@ -2872,6 +2886,7 @@ async function auditConfiguredRewardModal(page, label, phase) {
         cardWidth:Number(config.cardWidthPx) || 0,
         cardHeight:Number(config.cardHeightPx) || 0,
         cardAspectRatio:config.cardAspectRatio || '',
+        cardMaxWidthRatio:Number(config.cardMaxWidthRatio) || 0,
         visualSize:Number(config.visualSizePx) || 0
       },
       stage:stageRect,
@@ -2896,7 +2911,7 @@ async function auditConfiguredRewardModal(page, label, phase) {
     && inner.top >= outer.top - 1
     && inner.bottom <= outer.bottom + 1;
   const [canvasWidth, canvasHeight] = audit.canvas.split("x").map(Number);
-  assert(audit.standard === "unit3-modal-art-v1", `${label}: reward modal standard is wrong`, audit);
+  assert(["unit3-modal-art-v1", "unit3-modal-art-compact-v2"].includes(audit.standard), `${label}: reward modal standard is wrong`, audit);
   assert(audit.modalVisible, `${label}: reward modal is not visible`, audit);
   assert(audit.activeScreen === "screen-play", `${label}: reward modal must keep the problem screen behind it`, audit);
   assert(
@@ -2924,6 +2939,13 @@ async function auditConfiguredRewardModal(page, label, phase) {
     `${label}: reward card left its fixed aspect ratio`,
     audit,
   );
+  if (audit.expected.cardMaxWidthRatio > 0) {
+    assert(
+      audit.card.width / audit.stage.width <= audit.expected.cardMaxWidthRatio + 0.001,
+      `${label}: reward card is wider than its Stage ratio contract`,
+      audit,
+    );
+  }
   assert(
     audit.visual.width >= audit.tolerances.minVisual
       && audit.visual.height >= audit.tolerances.minVisual
@@ -5352,7 +5374,7 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
-  const answerLeak = await evaluate(page, "document.getElementById('answerSlot')?.textContent.trim() !== '?' || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
+  const answerLeak = await evaluate(page, "(() => { const slot = document.getElementById('answerSlot'); return Boolean(slot && slot.textContent.trim() !== '?') || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]')); })()");
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
 
   if (lesson === "3-2-2-2-mathmon-elevator") {

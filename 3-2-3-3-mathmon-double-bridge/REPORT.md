@@ -177,7 +177,7 @@
 
 ## 2026-08-02 현재 화면 증거
 
-- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-994x632-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`
+- 시작·설명·문제·보상·결과 상태와 화면 크기별 현재 캡처: `screenshots/report-flow-desktop-contact-sheet.png`, `screenshots/report-flow-tablet-landscape-contact-sheet.png`, `screenshots/report-flow-user-feedback-reward-1079x929-contact-sheet.png`, `screenshots/report-flow-codex-in-app-contact-sheet.png`, `screenshots/report-flow-user-visibility-994x632-contact-sheet.png`, `screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png`
 - 현재 실행본 해시와 캡처 목록: `screenshots/report-evidence-manifest.json`
 
 ## 2026-08-03 설명 2 다리 보상 연결 수정
@@ -251,3 +251,16 @@
 - 변경 감지 게이트 `node scripts/check-result-panel-adoption.mjs origin/main`은 앞으로 결과 자산이나 `result/results`가 바뀌면 내부 포함 계약과 보상물 우선 계약을 둘 다 요구합니다.
 - 브라우저 전체 흐름은 등록된 6개 viewport 전부 PASS입니다. 결과 6단계 × 6개 viewport에서 새 보상물 우선 검사를 전수 실행했고, `994×632`에서 함께 발견된 완료 패널 높이는 `162px → 154px`로 고쳐 `completion-density-v1`도 통과했습니다.
 - 새 회귀 캡처: `screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-{log,small,bridge,big,grand,rainbow}.png`.
+
+## 2026-08-04 보기 확대·compact 보상 카드·다리 승급 효과 구분
+
+- 사용자 제보 `1079×929`에서 문제와 보기 사이의 `현재 계산판` 띠를 화면과 DOM에서 제거했습니다. 정답·오답 피드백은 화면 읽기용 `aria-live` 요소로만 남겨 학습판 높이를 차지하지 않습니다.
+- 보기 패널 고정 높이는 데스크톱 `228px`, `981~1100px` `204px`, `980px 이하` `196px`입니다. 제보 화면의 보기 패널은 `146px → 204px`, 보기 한 칸은 `58px → 81px`로 커졌습니다. `1280×800`에서는 한 칸이 `93px`입니다.
+- `unit3-modal-art-compact-v2`를 추가하고 이 차시를 카드 `430×480px(43:48)`, 이미지 `250×250px`, 최대 폭 Stage `82%`로 이관했습니다. 기존 `unit3-modal-art-v1`의 `560×480px(7:6)`, 최대 폭 `88%`는 기존 차시 호환 규격으로 유지합니다.
+- 제보 화면에서 compact 카드는 실제 `430×480px`, Stage 중심 오차 `dx=0px`, `dy=0.004px`, 이미지·라벨·버튼 교차 `0px`였습니다.
+- 일반 점수 증가는 `900ms` 동안 왼쪽 진행 그림만 짧게 밝아지고 Stage 충격 레이어를 쓰지 않습니다. 다리 단계 상승은 `1800ms` 동안 진행 그림 교체·확대, 다리 이름 강조, Stage 폭 `35%`의 빛·원형 충격파를 함께 보여 줍니다. 최소 확인 시간은 `1400ms`입니다.
+- `bridge-gain-vs-tier-v1` 계약과 고정 단계 상승 fixture가 일반 증가와 단계 상승의 클래스·지속 시간·Stage 충격 레이어 사용 여부를 검사합니다. 단계 상승 캡처는 `screenshots/engine-flow-user-feedback-reward-1079x929-07c-reward-impact.png`입니다.
+- 상자 안 숫자 중심 정렬: `1079×929`에서 한 자리·두 자리 보기의 실제 글자 rect 최대 오차는 `dx=0.004px`, `dy=0px`, 잘림 `0건`입니다.
+- 텍스트 넘침·요소 겹침 QA: 등록된 `1280×800`, `1024×768`, `1079×929`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`의 표지·설명·문제 대기·오답 6종·정답 확인·완료·닫힌/열린 보상·단계 상승·결과 전 단계를 현재 실행본으로 다시 캡처했습니다. 텍스트 넘침, 요소 교차, 이미지 누락은 모두 `0건`입니다.
+- Humanizer 학생 문구 QA: 새로 보이는 학생 문구는 추가하지 않았습니다. 기존 `반지름은?`, `지름은?`, `점수 보기`, `두근두근!`, 다리 이름은 짧고 화면의 물건·행동을 바로 가리키며 번역투·어려운 한자어·뜻 반복이 없어 자연도 A를 유지합니다.
+- 검증: `node scripts/qa-engine-unit3-double-bridge-source.mjs`, `node scripts/check-lesson-visual-contract.mjs 3-2-3-3-mathmon-double-bridge`, `node scripts/check-stage-ratio.mjs`, `node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` 모두 PASS입니다.

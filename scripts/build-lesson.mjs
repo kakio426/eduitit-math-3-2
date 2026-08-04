@@ -237,6 +237,7 @@ async function main() {
     resultPanelContainmentStandard: escapeHtml(config.qa?.resultPanelContainmentAudit?.standard || ""),
     resultRenderMode: escapeHtml(requiredString(result.renderMode, "simple-generated")),
     rewardMode: escapeHtml(requiredString(reward.mode, "stage-full")),
+    rewardModalStandard: escapeHtml(requiredString(config.qa?.rewardModalAudit?.standard, "")),
     tutorialMode: escapeHtml(requiredString(tutorial.mode, "card-grid")),
     workbenchType: escapeHtml(requiredString(workbench.type, "step-choice")),
     scoreboardEnabled: scoreboardEnabled ? "true" : "false",

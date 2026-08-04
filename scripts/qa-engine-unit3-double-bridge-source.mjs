@@ -70,6 +70,13 @@ assert.equal(config.imageAssets.resultRetryButton, "../_shared/result-actions/re
 assert.ok(!config.assets.includes("start-button-generated.webp"), "local start button must not be listed");
 assert.ok(config.assets.includes("../_shared/mathmon/cover-start-button/start-button-generated.webp"), "shared start button must be listed");
 assert.equal(config.qa.layoutAudit.minStageWidthRatio, 0.65);
+assert.deepEqual([...config.qa.layoutAudit.verticalOrder], ["primary", "secondary"]);
+assert.equal(config.qa.layoutAudit.tertiary, undefined);
+assert.equal(config.qa.rewardModalAudit.standard, "unit3-modal-art-compact-v2");
+assert.equal(config.qa.rewardModalAudit.cardWidthPx, 430);
+assert.equal(config.qa.rewardModalAudit.cardHeightPx, 480);
+assert.equal(config.qa.rewardModalAudit.cardAspectRatio, "43:48");
+assert.equal(config.qa.rewardModalAudit.cardMaxWidthRatio, 0.82);
 assert.equal(config.qa.topControlsAudit.standard, "stage-top-controls-v1");
 assert.equal(config.qa.topControlsAudit.unitBadge, "#screen-play .hud-right .unit-badge");
 assert.equal(config.qa.topControlsAudit.settingsButton, "#settingsButton");
@@ -125,8 +132,14 @@ assert.deepEqual(config.qa.leftProgressWidthAudit, {
 });
 assert.equal(config.qa.rewardEffectAudit.standard, "modal-dismiss-world-impact-v2");
 assert.equal(config.qa.rewardEffectAudit.preEffectDelayMs, 320);
-assert.ok(config.qa.rewardEffectAudit.minVisibleMs >= 1200);
+assert.equal(config.qa.rewardEffectAudit.durationMs, 900);
+assert.equal(config.qa.rewardEffectAudit.tierUpDurationMs, 1800);
+assert.ok(config.qa.rewardEffectAudit.minVisibleMs >= 1400);
 assert.ok(config.qa.rewardEffectAudit.minImpactStageWidthRatio >= 0.32);
+assert.equal(config.qa.rewardEffectAudit.contrastStandard, "bridge-gain-vs-tier-v1");
+assert.equal(config.qa.rewardEffectAudit.gainClass, "is-changing");
+assert.equal(config.qa.rewardEffectAudit.gainUsesImpactLayer, false);
+assert.equal(config.qa.rewardEffectAudit.tierUpUsesImpactLayer, true);
 assert.deepEqual(config.qa.rewardReentryAudit, {
   standard: "reward-single-consumption-v1",
   trigger: "#rewardButton",
@@ -147,9 +160,11 @@ assert.ok(config.results.every((result) => config.assets.includes(result.playIma
 assert.equal(config.qa.circleRelationAudit.standard, "circle-only-one-known-v4");
 assert.equal(config.qa.circleRelationAudit.promptMode, "ask-only");
 assert.equal(config.qa.circleRelationAudit.maxKnownLabels, 1);
-assert.equal(config.qa.circleRelationAudit.choiceTrackPx, 166);
-assert.equal(config.qa.circleRelationAudit.compactChoiceTrackPx, 146);
-assert.equal(config.qa.circleRelationAudit.minChoiceHeightPx, 58);
+assert.equal(config.qa.circleRelationAudit.choiceTrackPx, 228);
+assert.equal(config.qa.circleRelationAudit.compactChoiceTrackPx, 204);
+assert.equal(config.qa.circleRelationAudit.smallChoiceTrackPx, 196);
+assert.equal(config.qa.circleRelationAudit.minChoiceHeightPx, 80);
+assert.equal(config.qa.circleRelationAudit.instructionBoardRemoved, true);
 assert.equal(config.qa.circleRelationAudit.visual, ".circle-relation-svg");
 assert.equal(config.qa.circleRelationAudit.answer, ".source-question");
 assert.equal(config.qa.circleRelationAudit.choice, ".length-choice");
@@ -226,6 +241,8 @@ assert.match(viewSource, /function syncBridgePlayProgress/, "play progress must 
 assert.match(viewSource, /function onRewardReveal/, "reward reveal must remember the pending world change");
 assert.match(viewSource, /async function onRewardDismiss/, "reward dismissal must apply the world change after the modal closes");
 assert.match(viewSource, /async function onStepCorrect/, "correct choice must run a brief answer-lock effect before completion");
+assert.match(viewSource, /feedback\.classList\.add\("visually-hidden"\)/, "the live feedback must remain accessible without a visible instruction board");
+assert.match(viewSource, /stepBoard\?\.remove\(\)/, "the retired instruction board must be removed from the play DOM");
 assert.match(viewSource, /globalThis\.onStepCorrect = onStepCorrect/, "correct choice effect hook must be registered with the engine");
 assert.match(viewSource, /correctEffectPhase = "active"/, "correct effect must expose an active browser QA phase");
 assert.match(viewSource, /globalThis\.onRewardDismiss = onRewardDismiss/, "reward dismissal hook must be registered with the engine");
@@ -236,6 +253,7 @@ assert.match(engineSource, /function setRewardTransitioning\(active\)/, "the sha
 assert.match(engineSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the stale reward trigger must be disabled during transition");
 assert.match(engineSource, /if \(state\.rewardTransitioning\) ui\.continueButton\.hidden = true;/, "the stale reward trigger must be hidden during transition");
 assert.ok(runtimeSource.includes(`data-lesson-json-sha256="${lessonJsonSha}"`), "the built lesson must match the current lesson.json hash");
+assert.ok(runtimeSource.includes('data-reward-modal-standard="unit3-modal-art-compact-v2"'), "the built lesson must opt into the compact reward card");
 assert.ok(runtimeSource.includes('"rewardReentryAudit":{"standard":"reward-single-consumption-v1"'), "the built lesson must embed the reward re-entry contract");
 assert.match(runtimeSource, /if \(!state\.completed \|\| state\.rewardPhase !== "idle" \|\| state\.rewardTransitioning\) return;/, "the built lesson must include the reward transition guard");
 assert.match(runtimeSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the built lesson must disable the stale reward trigger");
@@ -247,10 +265,13 @@ assert.match(lessonCss, /\.compass-play-progress-art\s*\{[\s\S]*?object-fit:\s*c
 assert.match(lessonCss, /\.compass-play-progress-impact-stage\s*\{[\s\S]*?width:\s*35%;/, "world impact must cover at least 32% of the Stage width");
 assert.match(lessonCss, /\.hud\s*\{[\s\S]*?top:\s*var\(--top-control-y\);/, "play HUD and settings must share one vertical token");
 assert.match(lessonCss, /\.circle-relation-svg\s*\{[\s\S]*?max-width:\s*650px;/, "the single circle visual must stay compact");
-assert.match(lessonCss, /\.length-choice\s*\{[\s\S]*?min-height:\s*58px;[\s\S]*?place-items:\s*center;/, "numeric choices must use large centered touch targets");
+assert.match(lessonCss, /\.length-choice\s*\{[\s\S]*?min-height:\s*80px;[\s\S]*?place-items:\s*center;/, "numeric choices must use large centered touch targets");
 assert.match(lessonCss, /\.choices-panel\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/, "four lengths must stay in a two-by-two grid");
-assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+50px\s+166px;/, "desktop must give more height to answer choices");
-assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+46px\s+146px;/, "compact landscape must keep larger answer choices");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+228px;/, "desktop must give more height to answer choices");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+204px;/, "compact landscape must keep larger answer choices");
+assert.match(lessonCss, /grid-template-rows:\s*minmax\(0,\s*1fr\)\s+196px;/, "small landscape must keep enlarged answer choices");
+assert.match(lessonCss, /\.is-tier-up\s+\.compass-play-progress-art/, "tier upgrades must animate the bridge art more strongly");
+assert.doesNotMatch(lessonCss, /\.is-changing\s+~\s+\.compass-play-progress-impact-stage/, "ordinary score gain must not use the Stage-wide impact layer");
 assert.match(lessonCss, /--bridge-complete-height:\s*176px;/, "desktop completion panel must use the compact fixed track");
 assert.match(lessonCss, /\.complete-text\s*\{[\s\S]*?font-size:\s*clamp\(2rem,\s*3\.1vw,\s*2\.65rem\);/, "completion equation must be visually dominant");
 assert.match(lessonCss, /\.complete-panel \.primary-button\s*\{[\s\S]*?min-width:\s*260px;[\s\S]*?min-height:\s*92px;/, "bridge-view action must be substantially larger");
