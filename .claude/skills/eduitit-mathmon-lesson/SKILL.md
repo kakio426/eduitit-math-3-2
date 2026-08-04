@@ -120,6 +120,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - `1280×800`, `1024×768`, 사용자가 발견한 viewport/DPR의 닫힘·열림을 각각 캡처한다. 활성 화면 `screen-play`, 카드↔Stage 중심 오차 1px 이하, 카드 `560×480px`, 이미지 `250×250px`, 512×512 원본 연결, 글자 넘침 0, 이미지·변화량·버튼 교차 0, 각 상태에서 보이는 행동 버튼 1개를 자동 검사한다.
 - 모달 확인 뒤 문제 화면의 진행 장면을 바꾸는 차시는 `modal-dismiss-world-impact-v2`를 쓴다. 열린 모달 뒤에서는 이미지·단계·효과 클래스를 그대로 유지하고, 확인 버튼이 모달을 완전히 숨긴 뒤 `onRewardDismiss`에서 새 단계 이미지와 효과를 시작한다. 양수 단계 상승은 전용 `tierUpClass`와 강한 빛·충격파를 최소 `1200ms` 보여 준 뒤에만 다음 문제나 결과로 이동한다.
 - `qa.rewardEffectAudit`에는 `requiresModalClosedBeforeStart=true`, `tierChangeRequiresImageSwap=true`, `minVisibleMs>=1200`, 단계 상승 전후를 고정하는 `forceTierTransition` fixture를 둔다. 브라우저 하네스는 모달 열린 동안 이미지 불변, 모달 닫힘 뒤 효과 시작, 전후 `src` 변경, 단계 ID 변경, 전용 클래스 활성, 최소 표시 시간 동안 문제 번호 고정을 모두 검사한다.
+- 같은 흐름은 `qa.rewardReentryAudit.standard="reward-single-consumption-v1"`를 함께 선언한다. `trigger`, `modalNext`, `transitionAttribute="data-reward-transitioning"`, `hideTriggerDuringTransition=true`, `disableTriggerDuringTransition=true`를 두고, 최초 보상 준비부터 다음 문제 또는 결과 진입이 끝날 때까지 공용 엔진 잠금을 유지한다.
+- 브라우저 하네스는 열린 보상에서 `modalNext`를 누른 직후 이미 완료된 문제의 `trigger`를 빠르게 다시 눌러 본다. 누적 보상값은 정확히 한 번만 바뀌고, 모달은 다시 열리지 않으며, 효과가 끝날 때까지 문제 번호가 고정되고, 다음 문제·결과 진입 뒤 잠금이 해제되어야 한다.
 - 모달이 사라지는 프레임과 큰 효과를 바로 붙이지 않는다. `preEffectDelayMs=250~450`의 시선 이동 여백을 두고, 큰 단계 상승은 `minVisibleMs>=1200`으로 유지한다. 효과 레이어는 왼쪽 진행 패널 안에만 가두지 말고 Stage 폭의 최소 `32%`를 차지하는 별도 시각 레이어로 확장하되 문제·선택지와의 실제 클릭 영역 교차는 0을 유지한다.
 - 하네스는 모달 닫힘 시각과 효과 시작 시각 차이, 효과 레이어의 Stage 폭 비율, 효과 절정 구간 캡처, 최소 표시 시간 동안 문제 번호 고정을 함께 검사한다. CSS 애니메이션 시간만 늘리고 실제 캡처에서 효과가 작거나 거의 끝난 상태면 실패다.
 
@@ -172,6 +174,8 @@ teacher-facing SaaS·관리자 화면에는 적용하지 않는다(그건 `eduit
 - 기본·hover·focus·선택·드래그 완료·정답·오답·잠금 상태와 한 자리·두 자리·최솟값·최댓값을 같은 검사표에 넣는다. 변환 전 DOM 좌표나 오래된 캡처는 증거로 인정하지 않는다.
 
 ## 빌드 파이프라인
+
+공용 엔진이나 `_lessons/<차시>/lesson.json`·`view.js`·`lesson.css`를 바꾼 뒤에는 `node scripts/build-lesson.mjs <lesson-folder>`로 배포용 `<차시>/index.html`을 즉시 다시 만든다. 검증은 `#mathmonRuntimeBuildMeta[data-lesson-json-sha256]`와 현재 `lesson.json` SHA-256을 대조하고, 회귀를 막는 핵심 상태·가드가 실제 `index.html`에도 포함됐는지 확인한다. 소스와 생성 런타임 중 하나만 최신이면 실패다.
 
 1. **계획**: 해당 차시 폴더에 `PLAN.md`를 먼저 쓴다 → `references/plan-template.md`.
 2. **폴더**: `_templates/lesson-package`를 `3-2-<단원>-<차시>-<영문짧은이름>`으로 복사.

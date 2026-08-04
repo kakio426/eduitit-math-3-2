@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
@@ -6,10 +7,14 @@ import vm from "node:vm";
 const ROOT = process.cwd();
 const LESSON = "3-2-3-3-mathmon-double-bridge";
 const SOURCE_DIR = path.join(ROOT, "_lessons", LESSON);
-const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
+const lessonJsonSource = await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8");
+const config = JSON.parse(lessonJsonSource);
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const lessonCss = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
+const engineSource = await readFile(path.join(ROOT, "_engine", "v1", "runtime", "core.js"), "utf8");
+const runtimeSource = await readFile(path.join(ROOT, LESSON, "index.html"), "utf8");
+const lessonJsonSha = createHash("sha256").update(lessonJsonSource).digest("hex");
 
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
@@ -122,6 +127,14 @@ assert.equal(config.qa.rewardEffectAudit.standard, "modal-dismiss-world-impact-v
 assert.equal(config.qa.rewardEffectAudit.preEffectDelayMs, 320);
 assert.ok(config.qa.rewardEffectAudit.minVisibleMs >= 1200);
 assert.ok(config.qa.rewardEffectAudit.minImpactStageWidthRatio >= 0.32);
+assert.deepEqual(config.qa.rewardReentryAudit, {
+  standard: "reward-single-consumption-v1",
+  trigger: "#rewardButton",
+  modalNext: "#modalRewardNextButton",
+  transitionAttribute: "data-reward-transitioning",
+  hideTriggerDuringTransition: true,
+  disableTriggerDuringTransition: true,
+});
 assert.deepEqual(config.qa.playProgressAudit.panelPlacement, {
   leftRatio: 0.025,
   topRatio: 0.11,
@@ -205,7 +218,8 @@ assert.match(modelSource, /알맞은 길이를 골라요\./, "the instruction mu
 assert.doesNotMatch(viewSource, /bridge-target|length-transfer|bridge-part-svg|installed-bridge/, "the problem must not render a second bridge diagram");
 assert.doesNotMatch(viewSource, /bridgeStructureMarkup|bridgeDifferenceMarkup|getBridgeFit/, "retired bridge-fit geometry must be removed");
 assert.doesNotMatch(viewSource, /다리 자리|같은 길이/, "retired explanatory labels must be removed");
-assert.match(viewSource, /classList\.add\("result-restart-hitbox"\)/, "baked result retry button must keep a measured hitbox");
+assert.match(viewSource, /classList\.remove\("result-restart-hitbox"\)/, "legacy result hitbox class must stay removed");
+assert.doesNotMatch(viewSource, /classList\.add\("result-restart-hitbox"\)/, "the retired result hitbox class must not be restored");
 assert.match(viewSource, /selected === geometry\.answer \? "=" : "≠"/, "wrong comparison must never show a false equality");
 assert.match(viewSource, /className = "compass-play-progress"/, "problem view must expose the measured left progress panel");
 assert.match(viewSource, /function syncBridgePlayProgress/, "play progress must synchronize all six result tiers");
@@ -216,6 +230,15 @@ assert.match(viewSource, /globalThis\.onStepCorrect = onStepCorrect/, "correct c
 assert.match(viewSource, /correctEffectPhase = "active"/, "correct effect must expose an active browser QA phase");
 assert.match(viewSource, /globalThis\.onRewardDismiss = onRewardDismiss/, "reward dismissal hook must be registered with the engine");
 assert.match(viewSource, /effectStartedWithModalHidden/, "world impact must expose modal-first timing evidence");
+assert.match(engineSource, /state\.rewardTransitioning/, "the shared engine must keep an explicit reward transition lock");
+assert.match(engineSource, /if \(!state\.completed \|\| state\.rewardPhase !== "idle" \|\| state\.rewardTransitioning\) return;/, "the reward trigger must reject re-entry while transitioning");
+assert.match(engineSource, /function setRewardTransitioning\(active\)/, "the shared engine must expose one transition-lock setter");
+assert.match(engineSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the stale reward trigger must be disabled during transition");
+assert.match(engineSource, /if \(state\.rewardTransitioning\) ui\.continueButton\.hidden = true;/, "the stale reward trigger must be hidden during transition");
+assert.ok(runtimeSource.includes(`data-lesson-json-sha256="${lessonJsonSha}"`), "the built lesson must match the current lesson.json hash");
+assert.ok(runtimeSource.includes('"rewardReentryAudit":{"standard":"reward-single-consumption-v1"'), "the built lesson must embed the reward re-entry contract");
+assert.match(runtimeSource, /if \(!state\.completed \|\| state\.rewardPhase !== "idle" \|\| state\.rewardTransitioning\) return;/, "the built lesson must include the reward transition guard");
+assert.match(runtimeSource, /ui\.continueButton\.disabled = state\.rewardTransitioning;/, "the built lesson must disable the stale reward trigger");
 assert.doesNotMatch(viewSource, /다리 점수|다리 등급|진행도/, "problem view must not add a second reward vocabulary");
 assert.doesNotMatch(viewSource, /bridgeChoiceMarkup|bridge-choice-svg/, "retired floating measurement-handle choices must be removed");
 assert.match(lessonCss, /\.compass-play-progress\s*\{[\s\S]*?top:\s*11%;[\s\S]*?left:\s*2\.5%;[\s\S]*?width:\s*24\.5%;[\s\S]*?height:\s*84%;/, "left progress panel must keep the fixed Stage placement");

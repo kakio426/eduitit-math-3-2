@@ -496,6 +496,17 @@ function checkLesson(folder, config) {
     }
   }
 
+  if (config.qa?.rewardReentryAudit) {
+    const audit = config.qa.rewardReentryAudit;
+    assert(audit.standard === "reward-single-consumption-v1", `${prefix} 보상 재진입 방지 표준이 다릅니다.`);
+    assert(typeof audit.trigger === "string" && audit.trigger.length > 0, `${prefix} 보상 시작 버튼 선택자가 없습니다.`);
+    assert(typeof audit.modalNext === "string" && audit.modalNext.length > 0, `${prefix} 보상 모달 다음 버튼 선택자가 없습니다.`);
+    assert(audit.transitionAttribute === "data-reward-transitioning", `${prefix} 보상 전환 상태 속성이 다릅니다.`);
+    assert(audit.hideTriggerDuringTransition === true, `${prefix} 전환 중 이전 보상 버튼을 숨겨야 합니다.`);
+    assert(audit.disableTriggerDuringTransition === true, `${prefix} 전환 중 이전 보상 버튼을 비활성화해야 합니다.`);
+    assert(config.qa?.rewardEffectAudit?.standard === "modal-dismiss-world-impact-v2", `${prefix} 단일 소비 잠금은 모달 닫힘 뒤 효과 표준과 함께 써야 합니다.`);
+  }
+
   if (config.qa?.visualContractVersion === 2) {
     checkV2(folder, config, css, readme, report);
   }

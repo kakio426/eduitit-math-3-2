@@ -76,6 +76,7 @@
 - 닫힌 보상과 열린 보상은 같은 `16:10` Stage 안에서 전환합니다. 작은 중앙 모달은 기존 차시 호환용으로만 둡니다.
 - 사용자가 기존 단원과 같은 중앙 모달을 명시하면 `modal-art` 호환 흐름을 씁니다. 문제 화면 위 중앙 카드에서 닫힘은 이미지·`열기`, 열림은 이미지·변화량·`다음`만 보입니다. 카드 `560×480px(7:6)`, 이미지 `250×250px`, 최대 폭 Stage `88%`를 고정하고 중심·크기 오차 1px 이하와 글자 넘침·요소 교차 0을 검사합니다.
 - 모달 뒤 진행 장면이 바뀌면 `modal-dismiss-world-impact-v2`를 씁니다. 열린 모달 뒤에서는 이전 이미지를 유지하고, 모달을 완전히 닫은 뒤 250~450ms의 시선 이동 여백을 둡니다. 이후 단계 이미지 교체와 Stage 폭 32% 이상으로 번지는 강한 빛·충격파를 최소 1200ms 보여 준 다음에만 다음 문제로 넘어갑니다. 실제 지연 시간, 전후 이미지·단계, 효과 면적·클래스, 문제 번호 유지 시간을 고정 fixture로 검사합니다.
+- 보상 모달의 `다음`을 누른 뒤 이전 보상 버튼을 다시 누를 수 있는 차시는 실패입니다. `reward-single-consumption-v1`로 최초 보상 준비부터 다음 문제·결과 전환이 끝날 때까지 잠금을 유지하고, 이전 버튼은 숨김·비활성화합니다. `lesson.json > qa.rewardReentryAudit`와 브라우저 하네스는 빠른 연속 입력에서도 보상값 1회 적용, 모달 재등장 0회, 효과 중 문제 번호 고정을 검사합니다.
 - 문제 화면 왼쪽 진행 보상은 Stage 기준 `left/top/width/height` 비율을 선언해 viewport마다 같은 네 변을 유지합니다. `height:auto`나 `max-height`만 사용해 내용에 따라 패널이 짧아지면 실패입니다. 6단계 결과라면 전용 이미지도 6장으로 고정하고, 매스몬 중심·크기·발 기준선과 전신 안전 여백이 전 장에서 같아야 합니다.
 - 보상 루트에는 `data-reward-stage-story="true"`를 두고 공통 QA가 닫힌·열린 상태를 실제로 확인하게 합니다.
 - 버튼을 제외한 보이는 텍스트는 큰 결과 라벨 또는 변화량 1개로 줄입니다.
@@ -164,6 +165,7 @@
 - 결과 화면 캡처에서는 보이는 CSS 결과 카드, CSS 제목/본문, CSS 버튼 장식이 남아 있지 않은지도 확인합니다. `fullscene-score-slot` 모드라면 `6/10` 같은 점수 숫자 외 보이는 HTML 텍스트가 없어야 합니다.
 - `REPORT.md`에는 데스크톱 개별 화면별 학생 행동·수학 관계·전환 이유 설명과, 모든 등록 viewport의 전체 흐름 컨택시트를 함께 둡니다.
 - `node scripts/build-lesson-report-sheets.mjs <lesson-folder>`로 컨택시트와 해시 manifest를 만들고 `node scripts/check-lesson-report-evidence.mjs <lesson-folder>`를 통과시킵니다.
+- 공용 엔진이나 `_lessons/<차시>/lesson.json`·`view.js`·`lesson.css`를 바꾸면 배포용 `<차시>/index.html`을 반드시 다시 빌드합니다. 하네스는 `#mathmonRuntimeBuildMeta[data-lesson-json-sha256]`를 현재 `lesson.json` 해시와 대조하고, 이번 회귀의 핵심 잠금 코드가 실제 `index.html`에도 들어 있는지 검사합니다. 소스만 고쳐진 상태는 배포 완료로 보지 않습니다.
 - 개별 브라우저 캡처는 로컬 QA 원본으로 두고, 배포 커밋에는 현재 `index.html` 해시와 원본 해시 목록을 담은 manifest 및 viewport별 컨택시트를 넣습니다. manifest에는 `sourceScreenshotsCommitted: false`를 명시하고 컨택시트 자체의 SHA-256을 검증합니다.
 - `REPORT.md`에는 확인한 화면 크기, 화면 상태, 텍스트 겹침/넘침 QA 결과, 남은 P0/P1을 남깁니다.
 
