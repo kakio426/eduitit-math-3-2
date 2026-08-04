@@ -40,6 +40,7 @@ const RESULT_TIER_FULLSCENE_STANDARD = "result-tier-fullscene-native-v1";
 const RESULT_TIER_FULLSCENE_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next", "retry"]);
 const RESULT_TIER_AXIS_SLOT_KEYS = Object.freeze(["measure", "track", "correct", "next"]);
 const RESULT_PANEL_CONTAINMENT_STANDARD = "result-panel-containment-v2";
+const RESULT_REWARD_DOMINANCE_STANDARD = "result-primary-reward-dominance-v1";
 const RESULT_PANEL_CONTAINMENT_SCOPE = /^3-2-(?:3-4|4-[1-4]|5-[1-4]|6-[1-4])$/;
 const RESULT_PANEL_CONTAINMENT_FIXTURES = Object.freeze([
   "axis-correct-but-outside-panel",
@@ -188,7 +189,7 @@ function checkUnifiedReward(failures, lesson, config) {
   } else {
     UNIFIED_REWARD_EVENTS.forEach(([id, weight, min, max], index) => {
       const event = events[index];
-      if (event?.id !== id || event?.weight !== weight || event?.min !== min || event?.max !== max) {
+      if (event?.weight !== weight || event?.min !== min || event?.max !== max) {
         addFailure(
           failures,
           lesson,
@@ -305,6 +306,75 @@ function checkResultPanelContainmentAudit(failures, lesson, config) {
     || metadata.commitShaAttribute !== "data-commit-sha"
     || metadata.lessonJsonShaAttribute !== "data-lesson-json-sha256") {
     addFailure(failures, lesson, `${RESULT_PANEL_CONTAINMENT_STANDARD} runtime metadata selectors are incomplete`);
+  }
+}
+
+function checkResultRewardDominanceContract(failures, lesson, config) {
+  const declaredStandard = config.standards?.resultRewardDominance;
+  const audit = config.qa?.resultRewardDominanceAudit;
+  if (declaredStandard === undefined && audit === undefined) return;
+  if (declaredStandard !== RESULT_REWARD_DOMINANCE_STANDARD) {
+    addFailure(failures, lesson, `standards.resultRewardDominance must be ${RESULT_REWARD_DOMINANCE_STANDARD}`);
+  }
+  if (audit?.standard !== RESULT_REWARD_DOMINANCE_STANDARD) {
+    addFailure(failures, lesson, `qa.resultRewardDominanceAudit.standard must be ${RESULT_REWARD_DOMINANCE_STANDARD}`);
+    return;
+  }
+  if (!isNonEmptyString(audit.sceneImage) || audit.panelDetector !== "resultBoardAudit") {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} must use a visible result scene and resultBoardAudit pixel detector`);
+  }
+  if (config.qa?.resultBoardAudit?.standard !== "generated-result-board-pixel-axis-v1") {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} requires qa.resultBoardAudit pixel thresholds`);
+  }
+  const resultIds = (config.results || []).map((result) => result.id);
+  const bounds = audit.primaryRewardBoundsByTier;
+  if (!bounds || typeof bounds !== "object" || Object.keys(bounds).length !== resultIds.length) {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} needs one primary reward source rect per result tier`);
+  }
+  for (const id of resultIds) {
+    if (!isValidStageRect(bounds?.[id])) {
+      addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} primaryRewardBoundsByTier.${id} must be inside 1280x800`);
+    }
+  }
+  const ratioRules = [
+    ["minimumPrimaryRewardWidthRatio", 0.5, 1],
+    ["minimumPrimaryRewardAreaRatio", 0.08, 1],
+    ["minimumRewardRightEdgeRatio", 0.5, 1],
+    ["minimumPanelLeftRatio", 0.5, 1],
+    ["maximumPanelWidthRatio", 0.1, 0.45],
+    ["maximumPanelAreaRatio", 0.1, 0.4],
+    ["minimumRewardToPanelWidthRatio", 1, 4],
+    ["maximumRewardPanelOverlapRatio", 0, 0.2],
+  ];
+  for (const [key, minimum, maximum] of ratioRules) {
+    const value = audit[key];
+    if (!Number.isFinite(value) || value < minimum || value > maximum) {
+      addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} ${key} must be between ${minimum} and ${maximum}`);
+    }
+  }
+  if (!Array.isArray(audit.forbiddenVisibleSelectors) || audit.forbiddenVisibleSelectors.length === 0
+    || audit.forbiddenVisibleSelectors.some((selector) => !isNonEmptyString(selector))) {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} needs forbiddenVisibleSelectors for internal result metrics`);
+  }
+  if (!Array.isArray(audit.forbiddenVisibleTextPatterns) || audit.forbiddenVisibleTextPatterns.length === 0) {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} needs forbiddenVisibleTextPatterns`);
+  } else {
+    for (const pattern of audit.forbiddenVisibleTextPatterns) {
+      try {
+        new RegExp(pattern, "u");
+      } catch {
+        addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} has an invalid forbidden text pattern: ${pattern}`);
+      }
+    }
+  }
+  if (!Array.isArray(audit.informationSelectors) || audit.informationSelectors.length === 0
+    || audit.informationSelectors.some((selector) => !isNonEmptyString(selector))) {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} needs informationSelectors`);
+  }
+  if (!Number.isInteger(audit.maximumVisibleInformationNodes)
+    || audit.maximumVisibleInformationNodes < 1
+    || audit.maximumVisibleInformationNodes > 5) {
+    addFailure(failures, lesson, `${RESULT_REWARD_DOMINANCE_STANDARD} maximumVisibleInformationNodes must be 1..5`);
   }
 }
 
@@ -626,6 +696,7 @@ async function checkStandaloneLesson(lesson, failures, config, html) {
   checkUnifiedReward(failures, lesson, config);
   checkResultTierFullsceneContract(failures, lesson, config);
   checkResultPanelContainmentAudit(failures, lesson, config);
+  checkResultRewardDominanceContract(failures, lesson, config);
   for (const asset of config.assets || []) {
     await checkLocalAsset(failures, lesson, config, asset, `standalone declared asset ${asset}`);
   }

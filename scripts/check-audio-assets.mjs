@@ -4,6 +4,9 @@ import path from "node:path";
 const ROOT = process.cwd();
 const MANIFEST_PATH = path.join(ROOT, "manifest.json");
 const MODULE_PATH = path.join(ROOT, "_shared/audio/mathmon-audio-v1.js");
+const ENGINE_TEMPLATE_PATH = path.join(ROOT, "_engine/v1/template.html");
+const ENGINE_RUNTIME_PATH = path.join(ROOT, "_engine/v1/runtime/core.js");
+const BROWSER_SMOKE_PATH = path.join(ROOT, "scripts/qa-mathmon-audio-smoke.mjs");
 const BGM_PATH = path.join(
   ROOT,
   "_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
@@ -89,7 +92,27 @@ async function checkSharedModule() {
     assert(source.includes(key), `shared preference key is missing: ${key}`);
   }
   assert(source.includes("global.__mathmonAudioQa"), "shared audio QA hook is missing");
+  const startBgm = extractFunction(source, "startBgm");
+  assert(
+    startBgm.indexOf("loadBgmBuffer()") >= 0
+      && startBgm.indexOf("loadBgmBuffer()") < startBgm.indexOf("await unlock()"),
+    "BGM loading must begin before AudioContext resume is awaited",
+  );
+  assert(source.includes('document.addEventListener("click", handleUserInteraction, { capture: true })'), "BGM must retry on later trusted clicks");
   return { bytes: bgmInfo.size, cues: REQUIRED_CUES.length };
+}
+
+async function checkBuildAndBrowserGuards() {
+  const [template, runtime, browserSmoke] = await Promise.all([
+    readFile(ENGINE_TEMPLATE_PATH, "utf8"),
+    readFile(ENGINE_RUNTIME_PATH, "utf8"),
+    readFile(BROWSER_SMOKE_PATH, "utf8"),
+  ]);
+  assert(countOccurrences(template, INLINE_MODULE_MARKER) === 1, "engine template must declare the inline shared audio standard once");
+  assert(countOccurrences(template, "{{sharedAudioRuntimeScript}}") === 1, "engine template must preserve the inline shared audio runtime slot");
+  assert(extractFunction(runtime, "playSample").includes("MathmonAudio?.play"), "engine runtime SFX must delegate to the shared audio engine");
+  assert(!browserSmoke.includes("--autoplay-policy=no-user-gesture-required"), "browser smoke must not bypass the normal autoplay policy");
+  assert(browserSmoke.includes("real start-button gesture did not start BGM"), "browser smoke must verify BGM from the real start-button gesture");
 }
 
 async function checkLesson(lesson) {
@@ -127,6 +150,7 @@ const manifest = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
 assert(Array.isArray(manifest.lessons), "manifest lessons are missing");
 assert(manifest.lessons.length === 24, `expected 24 lessons, found ${manifest.lessons.length}`);
 
+await checkBuildAndBrowserGuards();
 const shared = await checkSharedModule();
 const lessons = [];
 for (const lesson of manifest.lessons) lessons.push(await checkLesson(lesson));

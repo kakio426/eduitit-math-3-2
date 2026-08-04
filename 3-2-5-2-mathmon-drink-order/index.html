@@ -542,6 +542,13 @@
           aspect-ratio: 7 / 6;
           box-sizing: border-box;
         }
+        main.game[data-reward-mode="modal-art"][data-reward-modal-standard="unit3-modal-art-compact-v2"] .reward-card {
+          width: 430px;
+          max-width: 82%;
+          height: 480px;
+          min-height: 0;
+          aspect-ratio: 43 / 48;
+        }
         main.game[data-reward-mode="modal-art"] .reward-visual {
           width: 250px;
           height: 250px;
@@ -1645,7 +1652,6 @@
 
     /* Unit 5 shared visual rules are loaded through sourceFiles.style. */
   </style>
-
   <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
     (function installMathmonAudio(global) {
       "use strict";
@@ -1832,8 +1838,12 @@
 
       async function startBgm() {
         if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        // Start loading before awaiting AudioContext.resume(). Embedded browsers can
+        // keep resume() pending until another trusted gesture; the fetch must not be
+        // blocked behind that pending promise.
+        const bufferPromise = loadBgmBuffer();
         if (!(await unlock())) return false;
-        const buffer = await loadBgmBuffer();
+        const buffer = await bufferPromise;
         if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
         const source = state.context.createBufferSource();
         const now = state.context.currentTime;
@@ -2030,14 +2040,15 @@
         installQaHook();
       }
 
-      function handleFirstInteraction() {
-        unlock().then(() => {
-          if (state.bgmEnabled) startBgm();
-        });
+      function handleUserInteraction() {
+        if (state.bgmEnabled && !state.bgmSource) startBgm();
       }
 
-      document.addEventListener("pointerdown", handleFirstInteraction, { capture: true, once: true });
-      document.addEventListener("keydown", handleFirstInteraction, { capture: true, once: true });
+      // Retry on trusted gestures until playback starts. A one-shot listener can
+      // lose BGM permanently when the first resume is delayed or rejected.
+      document.addEventListener("pointerdown", handleUserInteraction, { capture: true });
+      document.addEventListener("click", handleUserInteraction, { capture: true });
+      document.addEventListener("keydown", handleUserInteraction, { capture: true });
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) stopBgm({ immediate: true });
         else if (state.bgmEnabled && state.unlocked) startBgm();
@@ -2069,7 +2080,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-tutorial-mode="poster-two-step" data-workbench-type="drink-order" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-2" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="973de2bc9df6bb1f7b19ec0eb95683bba18193f01bfc976dd0a3955d2f2ec7eb" data-build-inputs-sha256="2a64c1210417d66a3ed7f97a73090f00c158700419c2d51720f0bade7f67ba75"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-2" data-commit-sha="3cfc44f8f4cf2f70e382bd0cd96aeddd30a8b3ef" data-lesson-json-sha256="973de2bc9df6bb1f7b19ec0eb95683bba18193f01bfc976dd0a3955d2f2ec7eb" data-build-inputs-sha256="433a8185980c53212fd1ff0a4892886c0b1ca5df349a8dd377f4c29b6b0ba3b3"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2381,7 +2392,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -3120,38 +3131,7 @@
     }
 
     function playSample(kind) {
-      if (!audio.sfx) return;
-      if (window.MathmonAudio?.play) {
-        window.MathmonAudio.play(kind);
-        return;
-      }
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      if (!audio.ctx) audio.ctx = new AudioContext();
-      const ctx = audio.ctx;
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const now = ctx.currentTime;
-      const frequencies = {
-        "step-correct": 720,
-        "step-wrong": 260,
-        "problem-complete": 840,
-        "reward-open": 520,
-        "reward-rare": 660,
-        "reward-legend": 920,
-        result: 600,
-        scoreboard: 440,
-      };
-      const frequency = frequencies[kind] || 420;
-      oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start(now);
-      oscillator.stop(now + 0.2);
+      window.MathmonAudio?.play(kind);
     }
 
     function renderTutorial() {

@@ -192,38 +192,7 @@ function syncProgress() {
 }
 
 function playSample(kind) {
-  if (!audio.sfx) return;
-  if (window.MathmonAudio?.play) {
-    window.MathmonAudio.play(kind);
-    return;
-  }
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) return;
-  if (!audio.ctx) audio.ctx = new AudioContext();
-  const ctx = audio.ctx;
-  const oscillator = ctx.createOscillator();
-  const gain = ctx.createGain();
-  const now = ctx.currentTime;
-  const frequencies = {
-    "step-correct": 720,
-    "step-wrong": 260,
-    "problem-complete": 840,
-    "reward-open": 520,
-    "reward-rare": 660,
-    "reward-legend": 920,
-    result: 600,
-    scoreboard: 440,
-  };
-  const frequency = frequencies[kind] || 420;
-  oscillator.frequency.setValueAtTime(frequency, now);
-  oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
-  gain.gain.setValueAtTime(0.001, now);
-  gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-  oscillator.connect(gain);
-  gain.connect(ctx.destination);
-  oscillator.start(now);
-  oscillator.stop(now + 0.2);
+  window.MathmonAudio?.play(kind);
 }
 
 function renderTutorial() {

@@ -542,6 +542,13 @@
           aspect-ratio: 7 / 6;
           box-sizing: border-box;
         }
+        main.game[data-reward-mode="modal-art"][data-reward-modal-standard="unit3-modal-art-compact-v2"] .reward-card {
+          width: 430px;
+          max-width: 82%;
+          height: 480px;
+          min-height: 0;
+          aspect-ratio: 43 / 48;
+        }
         main.game[data-reward-mode="modal-art"] .reward-visual {
           width: 250px;
           height: 250px;
@@ -4117,8 +4124,12 @@
 
       async function startBgm() {
         if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        // Start loading before awaiting AudioContext.resume(). Embedded browsers can
+        // keep resume() pending until another trusted gesture; the fetch must not be
+        // blocked behind that pending promise.
+        const bufferPromise = loadBgmBuffer();
         if (!(await unlock())) return false;
-        const buffer = await loadBgmBuffer();
+        const buffer = await bufferPromise;
         if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
         const source = state.context.createBufferSource();
         const now = state.context.currentTime;
@@ -4315,14 +4326,15 @@
         installQaHook();
       }
 
-      function handleFirstInteraction() {
-        unlock().then(() => {
-          if (state.bgmEnabled) startBgm();
-        });
+      function handleUserInteraction() {
+        if (state.bgmEnabled && !state.bgmSource) startBgm();
       }
 
-      document.addEventListener("pointerdown", handleFirstInteraction, { capture: true, once: true });
-      document.addEventListener("keydown", handleFirstInteraction, { capture: true, once: true });
+      // Retry on trusted gestures until playback starts. A one-shot listener can
+      // lose BGM permanently when the first resume is delayed or rejected.
+      document.addEventListener("pointerdown", handleUserInteraction, { capture: true });
+      document.addEventListener("click", handleUserInteraction, { capture: true });
+      document.addEventListener("keydown", handleUserInteraction, { capture: true });
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) stopBgm({ immediate: true });
         else if (state.bgmEnabled && state.unlocked) startBgm();
@@ -4354,7 +4366,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="stage-reveal" data-tutorial-mode="poster-two-step" data-workbench-type="place-value-farm" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-1" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="6adcd5cc3eb542a2a4769cf60559201d00a700b988e76215f54db7676970f83e" data-build-inputs-sha256="169f2a22a87181c29733eb0c759e44b97bc94267f996e1bb1a4af89964eaf347"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-1" data-commit-sha="3cfc44f8f4cf2f70e382bd0cd96aeddd30a8b3ef" data-lesson-json-sha256="6adcd5cc3eb542a2a4769cf60559201d00a700b988e76215f54db7676970f83e" data-build-inputs-sha256="d26971c148e535c441a069cd9f3ff8fc722e3060e889e869c6a918258f7dc4bb"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4666,7 +4678,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -5464,7 +5476,7 @@
     function readAudioFlag(key, fallback) {
       try {
         const saved = window.localStorage.getItem(key);
-        return saved == null ? fallback : saved === "true" || saved === "on";
+        return saved == null ? fallback : saved === "true";
       } catch (error) {
         return fallback;
       }
@@ -5503,38 +5515,7 @@
     }
 
     function playSample(kind) {
-      if (!audio.sfx) return;
-      if (window.MathmonAudio?.play) {
-        window.MathmonAudio.play(kind);
-        return;
-      }
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      if (!audio.ctx) audio.ctx = new AudioContext();
-      const ctx = audio.ctx;
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const now = ctx.currentTime;
-      const frequencies = {
-        "step-correct": 720,
-        "step-wrong": 260,
-        "problem-complete": 840,
-        "reward-open": 520,
-        "reward-rare": 660,
-        "reward-legend": 920,
-        result: 600,
-        scoreboard: 440,
-      };
-      const frequency = frequencies[kind] || 420;
-      oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.type = kind === "step-wrong" ? "sawtooth" : "sine";
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start(now);
-      oscillator.stop(now + 0.2);
+      window.MathmonAudio?.play(kind);
     }
 
     function renderTutorial() {
@@ -7638,7 +7619,7 @@
       const read = (key, fallback = true) => {
         try {
           const saved = window.localStorage.getItem(key);
-          return saved == null ? fallback : saved === "true" || saved === "on";
+          return saved == null ? fallback : saved === "true";
         } catch (error) {
           return fallback;
         }
