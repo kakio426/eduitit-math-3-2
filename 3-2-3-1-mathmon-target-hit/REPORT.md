@@ -11,6 +11,7 @@
 - 한 판 구성: 중심 4문제, 반지름 3문제, 지름 3문제
 - 동행 매스몬: `diversity-reward-pack`의 번개늑대몬
 - 보상 표준: `mathmon-unified-reward-v1`
+- 결과 자산 컨택시트: `result-tiers-v3-contact-sheet.png`
 - 전국 순위: 비활성화
 
 ## 1. 전달 요약
@@ -146,3 +147,2135 @@
 - 플레이 보상 단계 전수: `screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-*.png`
 - 최저 결과: 각 화면군의 `08a-result-practice-0-of-10.png`
 - 기준 비교와 입력 통계: `BENCHMARK_AUDIT.md`
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `db997aa04f16ac879c40d6ec63ad5385db885099d7f5d6ff3f15c71dff6657ee`
+- 생성 시각: `2026-08-04T15:57:27.252Z`
+- 등록 화면 크기: `8개`
+- 아래에 직접 삽입한 원본 캡처: `232장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 29장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-desktop-05p-play-tier-bullseye.png`
+
+![desktop 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-desktop-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-desktop-05p-play-tier-edge.png`
+
+![desktop 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-desktop-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-desktop-05p-play-tier-hit.png`
+
+![desktop 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-desktop-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-desktop-05p-play-tier-legend.png`
+
+![desktop 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-desktop-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-desktop-05p-play-tier-practice.png`
+
+![desktop 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-desktop-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-desktop-05p-play-tier-targetking.png`
+
+![desktop 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-desktop-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-desktop-05m-p1-circle-center-on-edge.png`
+
+![desktop 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-desktop-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-desktop-05m-p1-circle-radius-as-diameter.png`
+
+![desktop 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-desktop-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-desktop-05m-p2-circle-diameter-misses-center.png`
+
+![desktop 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-desktop-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-desktop-05m-p3-circle-center-on-edge.png`
+
+![desktop 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-desktop-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-desktop-05m-p3-circle-radius-as-diameter.png`
+
+![desktop 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-desktop-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-desktop-05m-p7-circle-diameter-misses-center.png`
+
+![desktop 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-desktop-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-desktop-05b-play-wrong.png`
+
+![desktop 오답 확인 · 05b-play-wrong](screenshots/engine-flow-desktop-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-desktop-08a-result-bullseye.png`
+
+![desktop 결과 단계 · bullseye](screenshots/engine-flow-desktop-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-desktop-08a-result-edge.png`
+
+![desktop 결과 단계 · edge](screenshots/engine-flow-desktop-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-desktop-08a-result-hit.png`
+
+![desktop 결과 단계 · hit](screenshots/engine-flow-desktop-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-desktop-08a-result-legend.png`
+
+![desktop 결과 단계 · legend](screenshots/engine-flow-desktop-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-desktop-08a-result-practice-0-of-10.png`
+
+![desktop 결과 단계 · practice-0-of-10](screenshots/engine-flow-desktop-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-desktop-08a-result-practice.png`
+
+![desktop 결과 단계 · practice](screenshots/engine-flow-desktop-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-desktop-08a-result-targetking.png`
+
+![desktop 결과 단계 · targetking](screenshots/engine-flow-desktop-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 29장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-tablet-landscape-05p-play-tier-bullseye.png`
+
+![tablet-landscape 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-tablet-landscape-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-tablet-landscape-05p-play-tier-edge.png`
+
+![tablet-landscape 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-tablet-landscape-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-tablet-landscape-05p-play-tier-hit.png`
+
+![tablet-landscape 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-tablet-landscape-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-tablet-landscape-05p-play-tier-legend.png`
+
+![tablet-landscape 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-tablet-landscape-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-tablet-landscape-05p-play-tier-practice.png`
+
+![tablet-landscape 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-tablet-landscape-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-tablet-landscape-05p-play-tier-targetking.png`
+
+![tablet-landscape 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-tablet-landscape-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-tablet-landscape-05m-p1-circle-center-on-edge.png`
+
+![tablet-landscape 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-tablet-landscape-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-tablet-landscape-05m-p1-circle-radius-as-diameter.png`
+
+![tablet-landscape 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-tablet-landscape-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-tablet-landscape-05m-p2-circle-diameter-misses-center.png`
+
+![tablet-landscape 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-tablet-landscape-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-tablet-landscape-05m-p3-circle-center-on-edge.png`
+
+![tablet-landscape 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-tablet-landscape-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-tablet-landscape-05m-p3-circle-radius-as-diameter.png`
+
+![tablet-landscape 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-tablet-landscape-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-tablet-landscape-05m-p7-circle-diameter-misses-center.png`
+
+![tablet-landscape 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-tablet-landscape-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-tablet-landscape-05b-play-wrong.png`
+
+![tablet-landscape 오답 확인 · 05b-play-wrong](screenshots/engine-flow-tablet-landscape-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-tablet-landscape-08a-result-bullseye.png`
+
+![tablet-landscape 결과 단계 · bullseye](screenshots/engine-flow-tablet-landscape-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-tablet-landscape-08a-result-edge.png`
+
+![tablet-landscape 결과 단계 · edge](screenshots/engine-flow-tablet-landscape-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-tablet-landscape-08a-result-hit.png`
+
+![tablet-landscape 결과 단계 · hit](screenshots/engine-flow-tablet-landscape-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-tablet-landscape-08a-result-legend.png`
+
+![tablet-landscape 결과 단계 · legend](screenshots/engine-flow-tablet-landscape-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-tablet-landscape-08a-result-practice-0-of-10.png`
+
+![tablet-landscape 결과 단계 · practice-0-of-10](screenshots/engine-flow-tablet-landscape-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-tablet-landscape-08a-result-practice.png`
+
+![tablet-landscape 결과 단계 · practice](screenshots/engine-flow-tablet-landscape-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-tablet-landscape-08a-result-targetking.png`
+
+![tablet-landscape 결과 단계 · targetking](screenshots/engine-flow-tablet-landscape-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-redesign-1082x897-dpr2 · 1082×897 · DPR 2 · 29장
+
+![user-redesign-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-redesign-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-redesign-1082x897-dpr2-01-cover.png`
+
+![user-redesign-1082x897-dpr2 시작 화면](screenshots/engine-flow-user-redesign-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-redesign-1082x897-dpr2-02-settings.png`
+
+![user-redesign-1082x897-dpr2 설정 화면](screenshots/engine-flow-user-redesign-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-redesign-1082x897-dpr2-03-tutorial-1.png`
+
+![user-redesign-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-redesign-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-redesign-1082x897-dpr2-04-tutorial-2.png`
+
+![user-redesign-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-redesign-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-redesign-1082x897-dpr2-05-play-step1.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-redesign-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-bullseye.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-edge.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-hit.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-legend.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-practice.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-targetking.png`
+
+![user-redesign-1082x897-dpr2 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-user-redesign-1082x897-dpr2-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-user-redesign-1082x897-dpr2-05m-p1-circle-center-on-edge.png`
+
+![user-redesign-1082x897-dpr2 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-user-redesign-1082x897-dpr2-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-user-redesign-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png`
+
+![user-redesign-1082x897-dpr2 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-user-redesign-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-user-redesign-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png`
+
+![user-redesign-1082x897-dpr2 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-user-redesign-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-user-redesign-1082x897-dpr2-05m-p3-circle-center-on-edge.png`
+
+![user-redesign-1082x897-dpr2 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-user-redesign-1082x897-dpr2-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-user-redesign-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png`
+
+![user-redesign-1082x897-dpr2 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-user-redesign-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-user-redesign-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png`
+
+![user-redesign-1082x897-dpr2 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-user-redesign-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-redesign-1082x897-dpr2-05b-play-wrong.png`
+
+![user-redesign-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-redesign-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-redesign-1082x897-dpr2-06-confirm.png`
+
+![user-redesign-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-user-redesign-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-redesign-1082x897-dpr2-07-reward-closed.png`
+
+![user-redesign-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-user-redesign-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-redesign-1082x897-dpr2-07b-reward-open.png`
+
+![user-redesign-1082x897-dpr2 열린 보상](screenshots/engine-flow-user-redesign-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-redesign-1082x897-dpr2-08-result.png`
+
+![user-redesign-1082x897-dpr2 실제 결과](screenshots/engine-flow-user-redesign-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-user-redesign-1082x897-dpr2-08a-result-bullseye.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · bullseye](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-user-redesign-1082x897-dpr2-08a-result-edge.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · edge](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-user-redesign-1082x897-dpr2-08a-result-hit.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · hit](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-redesign-1082x897-dpr2-08a-result-legend.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-user-redesign-1082x897-dpr2-08a-result-practice-0-of-10.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · practice-0-of-10](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-user-redesign-1082x897-dpr2-08a-result-practice.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · practice](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-user-redesign-1082x897-dpr2-08a-result-targetking.png`
+
+![user-redesign-1082x897-dpr2 결과 단계 · targetking](screenshots/engine-flow-user-redesign-1082x897-dpr2-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-reported-final-reward-ui-broken-1082x897-dpr2 · 1082×897 · DPR 2 · 29장
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-01-cover.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 시작 화면](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-02-settings.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 설정 화면](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-03-tutorial-1.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-04-tutorial-2.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05-play-step1.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-bullseye.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-edge.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-hit.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-legend.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-practice.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-targetking.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p1-circle-center-on-edge.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p3-circle-center-on-edge.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05b-play-wrong.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-06-confirm.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-07-reward-closed.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-07b-reward-open.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 열린 보상](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08-result.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 실제 결과](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-bullseye.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · bullseye](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-edge.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · edge](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-hit.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · hit](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-legend.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-practice-0-of-10.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · practice-0-of-10](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-practice.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · practice](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-targetking.png`
+
+![user-reported-final-reward-ui-broken-1082x897-dpr2 결과 단계 · targetking](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-reported-result-panel-axis-1082x897-dpr2 · 1082×897 · DPR 2 · 29장
+
+![user-reported-result-panel-axis-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-result-panel-axis-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-01-cover.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 시작 화면](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-02-settings.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 설정 화면](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-03-tutorial-1.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-04-tutorial-2.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05-play-step1.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-bullseye.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-edge.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-hit.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-legend.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-practice.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-targetking.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p1-circle-center-on-edge.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p3-circle-center-on-edge.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05b-play-wrong.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-06-confirm.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-07-reward-closed.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-07b-reward-open.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 열린 보상](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08-result.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 실제 결과](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-bullseye.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · bullseye](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-edge.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · edge](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-hit.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · hit](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-legend.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-practice-0-of-10.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · practice-0-of-10](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-practice.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · practice](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-targetking.png`
+
+![user-reported-result-panel-axis-1082x897-dpr2 결과 단계 · targetking](screenshots/engine-flow-user-reported-result-panel-axis-1082x897-dpr2-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-reported-problem-title-side-spikes-1082x897-dpr2 · 1082×897 · DPR 2 · 29장
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-01-cover.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 시작 화면](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-02-settings.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 설정 화면](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-03-tutorial-1.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-04-tutorial-2.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05-play-step1.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-bullseye.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-edge.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-hit.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-legend.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-practice.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-targetking.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p1-circle-center-on-edge.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p3-circle-center-on-edge.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05b-play-wrong.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-06-confirm.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-07-reward-closed.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-07b-reward-open.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 열린 보상](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08-result.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 실제 결과](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-bullseye.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · bullseye](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-edge.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · edge](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-hit.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · hit](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-legend.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-practice-0-of-10.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · practice-0-of-10](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-practice.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · practice](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-targetking.png`
+
+![user-reported-problem-title-side-spikes-1082x897-dpr2 결과 단계 · targetking](screenshots/engine-flow-user-reported-problem-title-side-spikes-1082x897-dpr2-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-reported-missing-left-reward-panel-1082x897-dpr2 · 1082×897 · DPR 2 · 29장
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-01-cover.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 시작 화면](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-02-settings.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 설정 화면](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-03-tutorial-1.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-04-tutorial-2.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05-play-step1.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-bullseye.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-edge.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-hit.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-legend.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-practice.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-targetking.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p1-circle-center-on-edge.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p3-circle-center-on-edge.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05b-play-wrong.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-06-confirm.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-07-reward-closed.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-07b-reward-open.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 열린 보상](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08-result.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 실제 결과](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-bullseye.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · bullseye](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-edge.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · edge](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-hit.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · hit](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-legend.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-practice-0-of-10.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · practice-0-of-10](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-practice.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · practice](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-targetking.png`
+
+![user-reported-missing-left-reward-panel-1082x897-dpr2 결과 단계 · targetking](screenshots/engine-flow-user-reported-missing-left-reward-panel-1082x897-dpr2-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-reported-left-reward-character-cropped-1082x897-dpr2 · 1082×897 · DPR 2 · 29장
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-01-cover.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 시작 화면](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 표적 맞히기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-02-settings.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 설정 화면](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-03-tutorial-1.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-04-tutorial-2.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 원의 중심·반지름·지름 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05-play-step1.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-bullseye · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-bullseye.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05p-play-tier-bullseye](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-bullseye.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-edge · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-edge.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05p-play-tier-edge](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-edge.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-hit · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-hit.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05p-play-tier-hit](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-hit.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-legend.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-legend.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-practice.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-practice.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-targetking.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 문제 상태 · 05p-play-tier-targetking](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05p-play-tier-targetking.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-circle-center-on-edge · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p1-circle-center-on-edge.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오개념 확인 · p1-circle-center-on-edge](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p1-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-circle-radius-as-diameter · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오개념 확인 · p1-circle-radius-as-diameter](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p1-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p2-circle-diameter-misses-center · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오개념 확인 · p2-circle-diameter-misses-center](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p2-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-center-on-edge · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p3-circle-center-on-edge.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오개념 확인 · p3-circle-center-on-edge](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p3-circle-center-on-edge.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-circle-radius-as-diameter · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오개념 확인 · p3-circle-radius-as-diameter](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p3-circle-radius-as-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-circle-diameter-misses-center · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오개념 확인 · p7-circle-diameter-misses-center](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05m-p7-circle-diameter-misses-center.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05b-play-wrong.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-06-confirm.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-07-reward-closed.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 표적 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-07b-reward-open.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 열린 보상](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 표적 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08-result.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 실제 결과](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bullseye · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-bullseye.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · bullseye](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-bullseye.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · edge · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-edge.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · edge](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-edge.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · hit · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-hit.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · hit](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-hit.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-legend.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice-0-of-10 · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-practice-0-of-10.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · practice-0-of-10](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-practice-0-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · practice · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-practice.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · practice](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-practice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · targetking · `engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-targetking.png`
+
+![user-reported-left-reward-character-cropped-1082x897-dpr2 결과 단계 · targetking](screenshots/engine-flow-user-reported-left-reward-character-cropped-1082x897-dpr2-08a-result-targetking.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 표적 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

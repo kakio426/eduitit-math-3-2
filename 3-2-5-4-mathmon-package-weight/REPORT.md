@@ -159,3 +159,903 @@
 - `qa.resultPanelContainmentAudit.standard`를 `result-panel-containment-v2`로 선언했습니다. standalone 결과 배경, 결과 패널, 단계명·정답 수·다시 버튼은 각각 선택 가능한 raster/WebP 레이어이며, 진행값·진행 막대·다음 목표만 동적 UI입니다.
 - 안전 여백 `24px` 안에서 패널 네 변, 실제 보이는 rect, hitbox, 요소 간 교차, 공통 중심축 `1px`, 다시 버튼 아트↔hitbox 네 변 `1px`을 검사합니다. 숨긴 다음 목표는 `display:none`과 `0×0` rect를 확인합니다.
 - standalone 클릭 가드 하네스가 `1280×800`, `1024×768`, `1280×720 DPR2`, `994×632`, `1082×987 DPR2` 및 6개 결과 단계를 전수 검사해 `PASS`했습니다. 런타임 commit SHA와 lesson JSON SHA도 일치했습니다.
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `7fc7701beb456a133d0869cfc48de02f8173db07d906dd98ce705a528fa8d77c`
+- 생성 시각: `2026-08-04T15:46:09.801Z`
+- 등록 화면 크기: `6개`
+- 아래에 직접 삽입한 원본 캡처: `96장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 16장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 택배 무게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-desktop-07c-reward-impact.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-desktop-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · plain · `engine-flow-desktop-08a-result-plain.png`
+
+![desktop 결과 단계 · plain](screenshots/engine-flow-desktop-08a-result-plain.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slight · `engine-flow-desktop-08a-result-slight.png`
+
+![desktop 결과 단계 · slight](screenshots/engine-flow-desktop-08a-result-slight.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · swift · `engine-flow-desktop-08a-result-swift.png`
+
+![desktop 결과 단계 · swift](screenshots/engine-flow-desktop-08a-result-swift.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cool · `engine-flow-desktop-08a-result-cool.png`
+
+![desktop 결과 단계 · cool](screenshots/engine-flow-desktop-08a-result-cool.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-desktop-08a-result-gold.png`
+
+![desktop 결과 단계 · gold](screenshots/engine-flow-desktop-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · super · `engine-flow-desktop-08a-result-super.png`
+
+![desktop 결과 단계 · super](screenshots/engine-flow-desktop-08a-result-super.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 16장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 택배 무게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-tablet-landscape-07c-reward-impact.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-tablet-landscape-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · plain · `engine-flow-tablet-landscape-08a-result-plain.png`
+
+![tablet-landscape 결과 단계 · plain](screenshots/engine-flow-tablet-landscape-08a-result-plain.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slight · `engine-flow-tablet-landscape-08a-result-slight.png`
+
+![tablet-landscape 결과 단계 · slight](screenshots/engine-flow-tablet-landscape-08a-result-slight.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · swift · `engine-flow-tablet-landscape-08a-result-swift.png`
+
+![tablet-landscape 결과 단계 · swift](screenshots/engine-flow-tablet-landscape-08a-result-swift.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cool · `engine-flow-tablet-landscape-08a-result-cool.png`
+
+![tablet-landscape 결과 단계 · cool](screenshots/engine-flow-tablet-landscape-08a-result-cool.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-tablet-landscape-08a-result-gold.png`
+
+![tablet-landscape 결과 단계 · gold](screenshots/engine-flow-tablet-landscape-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · super · `engine-flow-tablet-landscape-08a-result-super.png`
+
+![tablet-landscape 결과 단계 · super](screenshots/engine-flow-tablet-landscape-08a-result-super.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### codex-in-app · 1280×720 · DPR 2 · 16장
+
+![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-codex-in-app-01-cover.png`
+
+![codex-in-app 시작 화면](screenshots/engine-flow-codex-in-app-01-cover.png)
+
+- 학생이 보는 것: 매스몬 택배 무게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-codex-in-app-02-settings.png`
+
+![codex-in-app 설정 화면](screenshots/engine-flow-codex-in-app-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-codex-in-app-03-tutorial-1.png`
+
+![codex-in-app 설명 1 · 풀이 방법](screenshots/engine-flow-codex-in-app-03-tutorial-1.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-codex-in-app-04-tutorial-2.png`
+
+![codex-in-app 설명 2 · 보상과 목표](screenshots/engine-flow-codex-in-app-04-tutorial-2.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-codex-in-app-05-play-step1.png`
+
+![codex-in-app 문제 상태 · 05-play-step1](screenshots/engine-flow-codex-in-app-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-codex-in-app-06-confirm.png`
+
+![codex-in-app 마지막 확인 · 06-confirm](screenshots/engine-flow-codex-in-app-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-codex-in-app-07-reward-closed.png`
+
+![codex-in-app 닫힌 보상](screenshots/engine-flow-codex-in-app-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-codex-in-app-07b-reward-open.png`
+
+![codex-in-app 열린 보상](screenshots/engine-flow-codex-in-app-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-codex-in-app-07c-reward-impact.png`
+
+![codex-in-app 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-codex-in-app-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-codex-in-app-08-result.png`
+
+![codex-in-app 실제 결과](screenshots/engine-flow-codex-in-app-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · plain · `engine-flow-codex-in-app-08a-result-plain.png`
+
+![codex-in-app 결과 단계 · plain](screenshots/engine-flow-codex-in-app-08a-result-plain.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slight · `engine-flow-codex-in-app-08a-result-slight.png`
+
+![codex-in-app 결과 단계 · slight](screenshots/engine-flow-codex-in-app-08a-result-slight.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · swift · `engine-flow-codex-in-app-08a-result-swift.png`
+
+![codex-in-app 결과 단계 · swift](screenshots/engine-flow-codex-in-app-08a-result-swift.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cool · `engine-flow-codex-in-app-08a-result-cool.png`
+
+![codex-in-app 결과 단계 · cool](screenshots/engine-flow-codex-in-app-08a-result-cool.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-codex-in-app-08a-result-gold.png`
+
+![codex-in-app 결과 단계 · gold](screenshots/engine-flow-codex-in-app-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · super · `engine-flow-codex-in-app-08a-result-super.png`
+
+![codex-in-app 결과 단계 · super](screenshots/engine-flow-codex-in-app-08a-result-super.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-visibility · 994×632 · DPR 1 · 16장
+
+![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-visibility-01-cover.png`
+
+![user-visibility 시작 화면](screenshots/engine-flow-user-visibility-01-cover.png)
+
+- 학생이 보는 것: 매스몬 택배 무게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-visibility-02-settings.png`
+
+![user-visibility 설정 화면](screenshots/engine-flow-user-visibility-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-visibility-03-tutorial-1.png`
+
+![user-visibility 설명 1 · 풀이 방법](screenshots/engine-flow-user-visibility-03-tutorial-1.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-visibility-04-tutorial-2.png`
+
+![user-visibility 설명 2 · 보상과 목표](screenshots/engine-flow-user-visibility-04-tutorial-2.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-visibility-05-play-step1.png`
+
+![user-visibility 문제 상태 · 05-play-step1](screenshots/engine-flow-user-visibility-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-visibility-06-confirm.png`
+
+![user-visibility 마지막 확인 · 06-confirm](screenshots/engine-flow-user-visibility-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-visibility-07-reward-closed.png`
+
+![user-visibility 닫힌 보상](screenshots/engine-flow-user-visibility-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-visibility-07b-reward-open.png`
+
+![user-visibility 열린 보상](screenshots/engine-flow-user-visibility-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-visibility-07c-reward-impact.png`
+
+![user-visibility 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-visibility-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-visibility-08-result.png`
+
+![user-visibility 실제 결과](screenshots/engine-flow-user-visibility-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · plain · `engine-flow-user-visibility-08a-result-plain.png`
+
+![user-visibility 결과 단계 · plain](screenshots/engine-flow-user-visibility-08a-result-plain.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slight · `engine-flow-user-visibility-08a-result-slight.png`
+
+![user-visibility 결과 단계 · slight](screenshots/engine-flow-user-visibility-08a-result-slight.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · swift · `engine-flow-user-visibility-08a-result-swift.png`
+
+![user-visibility 결과 단계 · swift](screenshots/engine-flow-user-visibility-08a-result-swift.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cool · `engine-flow-user-visibility-08a-result-cool.png`
+
+![user-visibility 결과 단계 · cool](screenshots/engine-flow-user-visibility-08a-result-cool.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-user-visibility-08a-result-gold.png`
+
+![user-visibility 결과 단계 · gold](screenshots/engine-flow-user-visibility-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · super · `engine-flow-user-visibility-08a-result-super.png`
+
+![user-visibility 결과 단계 · super](screenshots/engine-flow-user-visibility-08a-result-super.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-reported-missing-left-progress · 1082×987 · DPR 2 · 16장
+
+![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-missing-left-progress-01-cover.png`
+
+![user-reported-missing-left-progress 시작 화면](screenshots/engine-flow-user-reported-missing-left-progress-01-cover.png)
+
+- 학생이 보는 것: 매스몬 택배 무게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-missing-left-progress-02-settings.png`
+
+![user-reported-missing-left-progress 설정 화면](screenshots/engine-flow-user-reported-missing-left-progress-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-missing-left-progress-03-tutorial-1.png`
+
+![user-reported-missing-left-progress 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-missing-left-progress-03-tutorial-1.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-missing-left-progress-04-tutorial-2.png`
+
+![user-reported-missing-left-progress 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-missing-left-progress-04-tutorial-2.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-left-progress-05-play-step1.png`
+
+![user-reported-missing-left-progress 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-left-progress-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-missing-left-progress-06-confirm.png`
+
+![user-reported-missing-left-progress 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-missing-left-progress-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-missing-left-progress-07-reward-closed.png`
+
+![user-reported-missing-left-progress 닫힌 보상](screenshots/engine-flow-user-reported-missing-left-progress-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-missing-left-progress-07b-reward-open.png`
+
+![user-reported-missing-left-progress 열린 보상](screenshots/engine-flow-user-reported-missing-left-progress-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-reported-missing-left-progress-07c-reward-impact.png`
+
+![user-reported-missing-left-progress 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-reported-missing-left-progress-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-missing-left-progress-08-result.png`
+
+![user-reported-missing-left-progress 실제 결과](screenshots/engine-flow-user-reported-missing-left-progress-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · plain · `engine-flow-user-reported-missing-left-progress-08a-result-plain.png`
+
+![user-reported-missing-left-progress 결과 단계 · plain](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-plain.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slight · `engine-flow-user-reported-missing-left-progress-08a-result-slight.png`
+
+![user-reported-missing-left-progress 결과 단계 · slight](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-slight.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · swift · `engine-flow-user-reported-missing-left-progress-08a-result-swift.png`
+
+![user-reported-missing-left-progress 결과 단계 · swift](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-swift.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cool · `engine-flow-user-reported-missing-left-progress-08a-result-cool.png`
+
+![user-reported-missing-left-progress 결과 단계 · cool](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-cool.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-user-reported-missing-left-progress-08a-result-gold.png`
+
+![user-reported-missing-left-progress 결과 단계 · gold](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · super · `engine-flow-user-reported-missing-left-progress-08a-result-super.png`
+
+![user-reported-missing-left-progress 결과 단계 · super](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-super.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### empty-reward-fixture · 1280×800 · DPR 1 · 16장
+
+![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-empty-reward-fixture-01-cover.png`
+
+![empty-reward-fixture 시작 화면](screenshots/engine-flow-empty-reward-fixture-01-cover.png)
+
+- 학생이 보는 것: 매스몬 택배 무게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-empty-reward-fixture-02-settings.png`
+
+![empty-reward-fixture 설정 화면](screenshots/engine-flow-empty-reward-fixture-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-empty-reward-fixture-03-tutorial-1.png`
+
+![empty-reward-fixture 설명 1 · 풀이 방법](screenshots/engine-flow-empty-reward-fixture-03-tutorial-1.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-empty-reward-fixture-04-tutorial-2.png`
+
+![empty-reward-fixture 설명 2 · 보상과 목표](screenshots/engine-flow-empty-reward-fixture-04-tutorial-2.png)
+
+- 학생이 보는 것: kg과 g의 계산 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-empty-reward-fixture-05-play-step1.png`
+
+![empty-reward-fixture 문제 상태 · 05-play-step1](screenshots/engine-flow-empty-reward-fixture-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-empty-reward-fixture-06-confirm.png`
+
+![empty-reward-fixture 마지막 확인 · 06-confirm](screenshots/engine-flow-empty-reward-fixture-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: kg과 g의 계산의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-empty-reward-fixture-07-reward-closed.png`
+
+![empty-reward-fixture 닫힌 보상](screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점수 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-empty-reward-fixture-07b-reward-open.png`
+
+![empty-reward-fixture 열린 보상](screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점수 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-empty · `engine-flow-empty-reward-fixture-07c-reward-empty.png`
+
+![empty-reward-fixture 보상 뒤 변화 · 07c-reward-empty](screenshots/engine-flow-empty-reward-fixture-07c-reward-empty.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-empty-reward-fixture-08-result.png`
+
+![empty-reward-fixture 실제 결과](screenshots/engine-flow-empty-reward-fixture-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · plain · `engine-flow-empty-reward-fixture-08a-result-plain.png`
+
+![empty-reward-fixture 결과 단계 · plain](screenshots/engine-flow-empty-reward-fixture-08a-result-plain.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slight · `engine-flow-empty-reward-fixture-08a-result-slight.png`
+
+![empty-reward-fixture 결과 단계 · slight](screenshots/engine-flow-empty-reward-fixture-08a-result-slight.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · swift · `engine-flow-empty-reward-fixture-08a-result-swift.png`
+
+![empty-reward-fixture 결과 단계 · swift](screenshots/engine-flow-empty-reward-fixture-08a-result-swift.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cool · `engine-flow-empty-reward-fixture-08a-result-cool.png`
+
+![empty-reward-fixture 결과 단계 · cool](screenshots/engine-flow-empty-reward-fixture-08a-result-cool.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-empty-reward-fixture-08a-result-gold.png`
+
+![empty-reward-fixture 결과 단계 · gold](screenshots/engine-flow-empty-reward-fixture-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · super · `engine-flow-empty-reward-fixture-08a-result-super.png`
+
+![empty-reward-fixture 결과 단계 · super](screenshots/engine-flow-empty-reward-fixture-08a-result-super.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

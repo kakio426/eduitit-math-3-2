@@ -92,3 +92,185 @@
 - 보상: 정답 확인 뒤 바람 상자를 열고 다음 문제로 갑니다.
 - 결과: 도착한 섬과 정답 수, 다시 하기 버튼을 보여 줍니다.
 - 화면 크기: 1280×800과 1024×768에서 같은 흐름을 확인했습니다.
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `4e32f5998cd52304fe230d14080bf292feb713964713444b0321f7410d3d80d8`
+- 생성 시각: `2026-08-04T15:32:01.309Z`
+- 등록 화면 크기: `2개`
+- 아래에 직접 삽입한 원본 캡처: `18장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 9장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 점프섬 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: (몇십)×(몇십), (몇십몇)×(몇십) 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-desktop-05b-play-wrong.png`
+
+![desktop 오답 확인 · 05b-play-wrong](screenshots/engine-flow-desktop-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점프 거리 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점프 거리 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점프 거리 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 9장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 점프섬 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: (몇십)×(몇십), (몇십몇)×(몇십) 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-tablet-landscape-05b-play-wrong.png`
+
+![tablet-landscape 오답 확인 · 05b-play-wrong](screenshots/engine-flow-tablet-landscape-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: (몇십)×(몇십), (몇십몇)×(몇십)의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 점프 거리 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 점프 거리 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 점프 거리 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

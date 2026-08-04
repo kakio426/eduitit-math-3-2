@@ -412,3 +412,1749 @@ node scripts/check-stage-ratio.mjs
 ## 12. 최종 판정
 
 수학 관계 선택, 정답 확인, 왼쪽 보상 장면, 통일 보상, 결과 6단계, 화면 크기 회귀, 학생 문구, 정적 배포 조건을 모두 확인했습니다. 업체가 공개 Page 주소로 실행하고 이 REPORT와 정본 파일 경로를 기준으로 유지보수할 수 있는 상태입니다.
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `558ee25a77d887e3bdc83d46f971368e22770052a6392f5a07adde1a97ea8c90`
+- 생성 시각: `2026-08-04T15:32:15.074Z`
+- 등록 화면 크기: `6개`
+- 아래에 직접 삽입한 원본 캡처: `190장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 33장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 검산 자물쇠 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 정답 확인 · 05-lock-1-multiply-confirm · `engine-flow-desktop-05-lock-1-multiply-confirm.png`
+
+![desktop 정답 확인 · 05-lock-1-multiply-confirm](screenshots/engine-flow-desktop-05-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-1-multiply-waiting · `engine-flow-desktop-05-lock-1-multiply-waiting.png`
+
+![desktop 문제 상태 · 05-lock-1-multiply-waiting](screenshots/engine-flow-desktop-05-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-2-add-confirm · `engine-flow-desktop-05-lock-2-add-confirm.png`
+
+![desktop 정답 확인 · 05-lock-2-add-confirm](screenshots/engine-flow-desktop-05-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-2-add-waiting · `engine-flow-desktop-05-lock-2-add-waiting.png`
+
+![desktop 문제 상태 · 05-lock-2-add-waiting](screenshots/engine-flow-desktop-05-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-3-locate-confirm · `engine-flow-desktop-05-lock-3-locate-confirm.png`
+
+![desktop 정답 확인 · 05-lock-3-locate-confirm](screenshots/engine-flow-desktop-05-lock-3-locate-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-3-locate-waiting · `engine-flow-desktop-05-lock-3-locate-waiting.png`
+
+![desktop 문제 상태 · 05-lock-3-locate-waiting](screenshots/engine-flow-desktop-05-lock-3-locate-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-1-multiply-confirm · `engine-flow-desktop-05-match-lock-1-multiply-confirm.png`
+
+![desktop 정답 확인 · 05-match-lock-1-multiply-confirm](screenshots/engine-flow-desktop-05-match-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-1-multiply-waiting · `engine-flow-desktop-05-match-lock-1-multiply-waiting.png`
+
+![desktop 문제 상태 · 05-match-lock-1-multiply-waiting](screenshots/engine-flow-desktop-05-match-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-2-add-confirm · `engine-flow-desktop-05-match-lock-2-add-confirm.png`
+
+![desktop 정답 확인 · 05-match-lock-2-add-confirm](screenshots/engine-flow-desktop-05-match-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-2-add-waiting · `engine-flow-desktop-05-match-lock-2-add-waiting.png`
+
+![desktop 문제 상태 · 05-match-lock-2-add-waiting](screenshots/engine-flow-desktop-05-match-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b2-play-divisor-times-remainder · `engine-flow-desktop-05b2-play-divisor-times-remainder.png`
+
+![desktop 문제 상태 · 05b2-play-divisor-times-remainder](screenshots/engine-flow-desktop-05b2-play-divisor-times-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-product-too-low · `engine-flow-desktop-05b2-play-product-too-low.png`
+
+![desktop 오답 확인 · 05b2-play-product-too-low](screenshots/engine-flow-desktop-05b2-play-product-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 문제 상태 · 05b-play-dividend-times-divisor · `engine-flow-desktop-05b-play-dividend-times-divisor.png`
+
+![desktop 문제 상태 · 05b-play-dividend-times-divisor](screenshots/engine-flow-desktop-05b-play-dividend-times-divisor.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-product-too-high · `engine-flow-desktop-05b-play-product-too-high.png`
+
+![desktop 오답 확인 · 05b-play-product-too-high](screenshots/engine-flow-desktop-05b-play-product-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 마지막 확인 · 06b-match-auto-confirm · `engine-flow-desktop-06b-match-auto-confirm.png`
+
+![desktop 마지막 확인 · 06b-match-auto-confirm](screenshots/engine-flow-desktop-06b-match-auto-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열쇠 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열쇠 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · largeSafe · `engine-flow-desktop-08a-result-largeSafe.png`
+
+![desktop 결과 단계 · largeSafe](screenshots/engine-flow-desktop-08a-result-largeSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · lock · `engine-flow-desktop-08a-result-lock.png`
+
+![desktop 결과 단계 · lock](screenshots/engine-flow-desktop-08a-result-lock.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-desktop-08a-result-rainbow.png`
+
+![desktop 결과 단계 · rainbow](screenshots/engine-flow-desktop-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · safe · `engine-flow-desktop-08a-result-safe.png`
+
+![desktop 결과 단계 · safe](screenshots/engine-flow-desktop-08a-result-safe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · secretSafe · `engine-flow-desktop-08a-result-secretSafe.png`
+
+![desktop 결과 단계 · secretSafe](screenshots/engine-flow-desktop-08a-result-secretSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · treasure · `engine-flow-desktop-08a-result-treasure.png`
+
+![desktop 결과 단계 · treasure](screenshots/engine-flow-desktop-08a-result-treasure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-desktop-09-scoreboard-offline.png`
+
+![desktop 09-scoreboard-offline](screenshots/engine-flow-desktop-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-desktop-09b-scoreboard-10rows-start.png`
+
+![desktop 09b-scoreboard-10rows-start](screenshots/engine-flow-desktop-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-desktop-09c-scoreboard-10rows-end.png`
+
+![desktop 09c-scoreboard-10rows-end](screenshots/engine-flow-desktop-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 33장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 검산 자물쇠 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 정답 확인 · 05-lock-1-multiply-confirm · `engine-flow-tablet-landscape-05-lock-1-multiply-confirm.png`
+
+![tablet-landscape 정답 확인 · 05-lock-1-multiply-confirm](screenshots/engine-flow-tablet-landscape-05-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-1-multiply-waiting · `engine-flow-tablet-landscape-05-lock-1-multiply-waiting.png`
+
+![tablet-landscape 문제 상태 · 05-lock-1-multiply-waiting](screenshots/engine-flow-tablet-landscape-05-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-2-add-confirm · `engine-flow-tablet-landscape-05-lock-2-add-confirm.png`
+
+![tablet-landscape 정답 확인 · 05-lock-2-add-confirm](screenshots/engine-flow-tablet-landscape-05-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-2-add-waiting · `engine-flow-tablet-landscape-05-lock-2-add-waiting.png`
+
+![tablet-landscape 문제 상태 · 05-lock-2-add-waiting](screenshots/engine-flow-tablet-landscape-05-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-3-locate-confirm · `engine-flow-tablet-landscape-05-lock-3-locate-confirm.png`
+
+![tablet-landscape 정답 확인 · 05-lock-3-locate-confirm](screenshots/engine-flow-tablet-landscape-05-lock-3-locate-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-3-locate-waiting · `engine-flow-tablet-landscape-05-lock-3-locate-waiting.png`
+
+![tablet-landscape 문제 상태 · 05-lock-3-locate-waiting](screenshots/engine-flow-tablet-landscape-05-lock-3-locate-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-1-multiply-confirm · `engine-flow-tablet-landscape-05-match-lock-1-multiply-confirm.png`
+
+![tablet-landscape 정답 확인 · 05-match-lock-1-multiply-confirm](screenshots/engine-flow-tablet-landscape-05-match-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-1-multiply-waiting · `engine-flow-tablet-landscape-05-match-lock-1-multiply-waiting.png`
+
+![tablet-landscape 문제 상태 · 05-match-lock-1-multiply-waiting](screenshots/engine-flow-tablet-landscape-05-match-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-2-add-confirm · `engine-flow-tablet-landscape-05-match-lock-2-add-confirm.png`
+
+![tablet-landscape 정답 확인 · 05-match-lock-2-add-confirm](screenshots/engine-flow-tablet-landscape-05-match-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-2-add-waiting · `engine-flow-tablet-landscape-05-match-lock-2-add-waiting.png`
+
+![tablet-landscape 문제 상태 · 05-match-lock-2-add-waiting](screenshots/engine-flow-tablet-landscape-05-match-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b2-play-divisor-times-remainder · `engine-flow-tablet-landscape-05b2-play-divisor-times-remainder.png`
+
+![tablet-landscape 문제 상태 · 05b2-play-divisor-times-remainder](screenshots/engine-flow-tablet-landscape-05b2-play-divisor-times-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-product-too-low · `engine-flow-tablet-landscape-05b2-play-product-too-low.png`
+
+![tablet-landscape 오답 확인 · 05b2-play-product-too-low](screenshots/engine-flow-tablet-landscape-05b2-play-product-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 문제 상태 · 05b-play-dividend-times-divisor · `engine-flow-tablet-landscape-05b-play-dividend-times-divisor.png`
+
+![tablet-landscape 문제 상태 · 05b-play-dividend-times-divisor](screenshots/engine-flow-tablet-landscape-05b-play-dividend-times-divisor.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-product-too-high · `engine-flow-tablet-landscape-05b-play-product-too-high.png`
+
+![tablet-landscape 오답 확인 · 05b-play-product-too-high](screenshots/engine-flow-tablet-landscape-05b-play-product-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 마지막 확인 · 06b-match-auto-confirm · `engine-flow-tablet-landscape-06b-match-auto-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06b-match-auto-confirm](screenshots/engine-flow-tablet-landscape-06b-match-auto-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열쇠 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열쇠 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · largeSafe · `engine-flow-tablet-landscape-08a-result-largeSafe.png`
+
+![tablet-landscape 결과 단계 · largeSafe](screenshots/engine-flow-tablet-landscape-08a-result-largeSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · lock · `engine-flow-tablet-landscape-08a-result-lock.png`
+
+![tablet-landscape 결과 단계 · lock](screenshots/engine-flow-tablet-landscape-08a-result-lock.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-tablet-landscape-08a-result-rainbow.png`
+
+![tablet-landscape 결과 단계 · rainbow](screenshots/engine-flow-tablet-landscape-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · safe · `engine-flow-tablet-landscape-08a-result-safe.png`
+
+![tablet-landscape 결과 단계 · safe](screenshots/engine-flow-tablet-landscape-08a-result-safe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · secretSafe · `engine-flow-tablet-landscape-08a-result-secretSafe.png`
+
+![tablet-landscape 결과 단계 · secretSafe](screenshots/engine-flow-tablet-landscape-08a-result-secretSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · treasure · `engine-flow-tablet-landscape-08a-result-treasure.png`
+
+![tablet-landscape 결과 단계 · treasure](screenshots/engine-flow-tablet-landscape-08a-result-treasure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-tablet-landscape-09-scoreboard-offline.png`
+
+![tablet-landscape 09-scoreboard-offline](screenshots/engine-flow-tablet-landscape-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-tablet-landscape-09b-scoreboard-10rows-start.png`
+
+![tablet-landscape 09b-scoreboard-10rows-start](screenshots/engine-flow-tablet-landscape-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-tablet-landscape-09c-scoreboard-10rows-end.png`
+
+![tablet-landscape 09c-scoreboard-10rows-end](screenshots/engine-flow-tablet-landscape-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### user-reported-overload · 1024×640 · DPR 2 · 30장
+
+![user-reported-overload 전체 상태 컨택시트](screenshots/report-flow-user-reported-overload-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-overload-01-cover.png`
+
+![user-reported-overload 시작 화면](screenshots/engine-flow-user-reported-overload-01-cover.png)
+
+- 학생이 보는 것: 매스몬 검산 자물쇠 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-overload-02-settings.png`
+
+![user-reported-overload 설정 화면](screenshots/engine-flow-user-reported-overload-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-overload-03-tutorial-1.png`
+
+![user-reported-overload 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-overload-03-tutorial-1.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-overload-04-tutorial-2.png`
+
+![user-reported-overload 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-overload-04-tutorial-2.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 정답 확인 · 05-lock-1-multiply-confirm · `engine-flow-user-reported-overload-05-lock-1-multiply-confirm.png`
+
+![user-reported-overload 정답 확인 · 05-lock-1-multiply-confirm](screenshots/engine-flow-user-reported-overload-05-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-1-multiply-waiting · `engine-flow-user-reported-overload-05-lock-1-multiply-waiting.png`
+
+![user-reported-overload 문제 상태 · 05-lock-1-multiply-waiting](screenshots/engine-flow-user-reported-overload-05-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-2-add-confirm · `engine-flow-user-reported-overload-05-lock-2-add-confirm.png`
+
+![user-reported-overload 정답 확인 · 05-lock-2-add-confirm](screenshots/engine-flow-user-reported-overload-05-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-2-add-waiting · `engine-flow-user-reported-overload-05-lock-2-add-waiting.png`
+
+![user-reported-overload 문제 상태 · 05-lock-2-add-waiting](screenshots/engine-flow-user-reported-overload-05-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-3-locate-confirm · `engine-flow-user-reported-overload-05-lock-3-locate-confirm.png`
+
+![user-reported-overload 정답 확인 · 05-lock-3-locate-confirm](screenshots/engine-flow-user-reported-overload-05-lock-3-locate-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-3-locate-waiting · `engine-flow-user-reported-overload-05-lock-3-locate-waiting.png`
+
+![user-reported-overload 문제 상태 · 05-lock-3-locate-waiting](screenshots/engine-flow-user-reported-overload-05-lock-3-locate-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-1-multiply-confirm · `engine-flow-user-reported-overload-05-match-lock-1-multiply-confirm.png`
+
+![user-reported-overload 정답 확인 · 05-match-lock-1-multiply-confirm](screenshots/engine-flow-user-reported-overload-05-match-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-1-multiply-waiting · `engine-flow-user-reported-overload-05-match-lock-1-multiply-waiting.png`
+
+![user-reported-overload 문제 상태 · 05-match-lock-1-multiply-waiting](screenshots/engine-flow-user-reported-overload-05-match-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-2-add-confirm · `engine-flow-user-reported-overload-05-match-lock-2-add-confirm.png`
+
+![user-reported-overload 정답 확인 · 05-match-lock-2-add-confirm](screenshots/engine-flow-user-reported-overload-05-match-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-2-add-waiting · `engine-flow-user-reported-overload-05-match-lock-2-add-waiting.png`
+
+![user-reported-overload 문제 상태 · 05-match-lock-2-add-waiting](screenshots/engine-flow-user-reported-overload-05-match-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-overload-05-play-step1.png`
+
+![user-reported-overload 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-overload-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b2-play-divisor-times-remainder · `engine-flow-user-reported-overload-05b2-play-divisor-times-remainder.png`
+
+![user-reported-overload 문제 상태 · 05b2-play-divisor-times-remainder](screenshots/engine-flow-user-reported-overload-05b2-play-divisor-times-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-product-too-low · `engine-flow-user-reported-overload-05b2-play-product-too-low.png`
+
+![user-reported-overload 오답 확인 · 05b2-play-product-too-low](screenshots/engine-flow-user-reported-overload-05b2-play-product-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 문제 상태 · 05b-play-dividend-times-divisor · `engine-flow-user-reported-overload-05b-play-dividend-times-divisor.png`
+
+![user-reported-overload 문제 상태 · 05b-play-dividend-times-divisor](screenshots/engine-flow-user-reported-overload-05b-play-dividend-times-divisor.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-product-too-high · `engine-flow-user-reported-overload-05b-play-product-too-high.png`
+
+![user-reported-overload 오답 확인 · 05b-play-product-too-high](screenshots/engine-flow-user-reported-overload-05b-play-product-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-overload-06-confirm.png`
+
+![user-reported-overload 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-overload-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 마지막 확인 · 06b-match-auto-confirm · `engine-flow-user-reported-overload-06b-match-auto-confirm.png`
+
+![user-reported-overload 마지막 확인 · 06b-match-auto-confirm](screenshots/engine-flow-user-reported-overload-06b-match-auto-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-overload-07-reward-closed.png`
+
+![user-reported-overload 닫힌 보상](screenshots/engine-flow-user-reported-overload-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열쇠 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-overload-07b-reward-open.png`
+
+![user-reported-overload 열린 보상](screenshots/engine-flow-user-reported-overload-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열쇠 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-overload-08-result.png`
+
+![user-reported-overload 실제 결과](screenshots/engine-flow-user-reported-overload-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · largeSafe · `engine-flow-user-reported-overload-08a-result-largeSafe.png`
+
+![user-reported-overload 결과 단계 · largeSafe](screenshots/engine-flow-user-reported-overload-08a-result-largeSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · lock · `engine-flow-user-reported-overload-08a-result-lock.png`
+
+![user-reported-overload 결과 단계 · lock](screenshots/engine-flow-user-reported-overload-08a-result-lock.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-user-reported-overload-08a-result-rainbow.png`
+
+![user-reported-overload 결과 단계 · rainbow](screenshots/engine-flow-user-reported-overload-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · safe · `engine-flow-user-reported-overload-08a-result-safe.png`
+
+![user-reported-overload 결과 단계 · safe](screenshots/engine-flow-user-reported-overload-08a-result-safe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · secretSafe · `engine-flow-user-reported-overload-08a-result-secretSafe.png`
+
+![user-reported-overload 결과 단계 · secretSafe](screenshots/engine-flow-user-reported-overload-08a-result-secretSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · treasure · `engine-flow-user-reported-overload-08a-result-treasure.png`
+
+![user-reported-overload 결과 단계 · treasure](screenshots/engine-flow-user-reported-overload-08a-result-treasure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### codex-browser-regression · 1280×720 · DPR 2 · 33장
+
+![codex-browser-regression 전체 상태 컨택시트](screenshots/report-flow-codex-browser-regression-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-codex-browser-regression-01-cover.png`
+
+![codex-browser-regression 시작 화면](screenshots/engine-flow-codex-browser-regression-01-cover.png)
+
+- 학생이 보는 것: 매스몬 검산 자물쇠 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-codex-browser-regression-02-settings.png`
+
+![codex-browser-regression 설정 화면](screenshots/engine-flow-codex-browser-regression-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-codex-browser-regression-03-tutorial-1.png`
+
+![codex-browser-regression 설명 1 · 풀이 방법](screenshots/engine-flow-codex-browser-regression-03-tutorial-1.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-codex-browser-regression-04-tutorial-2.png`
+
+![codex-browser-regression 설명 2 · 보상과 목표](screenshots/engine-flow-codex-browser-regression-04-tutorial-2.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 정답 확인 · 05-lock-1-multiply-confirm · `engine-flow-codex-browser-regression-05-lock-1-multiply-confirm.png`
+
+![codex-browser-regression 정답 확인 · 05-lock-1-multiply-confirm](screenshots/engine-flow-codex-browser-regression-05-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-1-multiply-waiting · `engine-flow-codex-browser-regression-05-lock-1-multiply-waiting.png`
+
+![codex-browser-regression 문제 상태 · 05-lock-1-multiply-waiting](screenshots/engine-flow-codex-browser-regression-05-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-2-add-confirm · `engine-flow-codex-browser-regression-05-lock-2-add-confirm.png`
+
+![codex-browser-regression 정답 확인 · 05-lock-2-add-confirm](screenshots/engine-flow-codex-browser-regression-05-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-2-add-waiting · `engine-flow-codex-browser-regression-05-lock-2-add-waiting.png`
+
+![codex-browser-regression 문제 상태 · 05-lock-2-add-waiting](screenshots/engine-flow-codex-browser-regression-05-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-3-locate-confirm · `engine-flow-codex-browser-regression-05-lock-3-locate-confirm.png`
+
+![codex-browser-regression 정답 확인 · 05-lock-3-locate-confirm](screenshots/engine-flow-codex-browser-regression-05-lock-3-locate-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-3-locate-waiting · `engine-flow-codex-browser-regression-05-lock-3-locate-waiting.png`
+
+![codex-browser-regression 문제 상태 · 05-lock-3-locate-waiting](screenshots/engine-flow-codex-browser-regression-05-lock-3-locate-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-1-multiply-confirm · `engine-flow-codex-browser-regression-05-match-lock-1-multiply-confirm.png`
+
+![codex-browser-regression 정답 확인 · 05-match-lock-1-multiply-confirm](screenshots/engine-flow-codex-browser-regression-05-match-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-1-multiply-waiting · `engine-flow-codex-browser-regression-05-match-lock-1-multiply-waiting.png`
+
+![codex-browser-regression 문제 상태 · 05-match-lock-1-multiply-waiting](screenshots/engine-flow-codex-browser-regression-05-match-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-2-add-confirm · `engine-flow-codex-browser-regression-05-match-lock-2-add-confirm.png`
+
+![codex-browser-regression 정답 확인 · 05-match-lock-2-add-confirm](screenshots/engine-flow-codex-browser-regression-05-match-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-2-add-waiting · `engine-flow-codex-browser-regression-05-match-lock-2-add-waiting.png`
+
+![codex-browser-regression 문제 상태 · 05-match-lock-2-add-waiting](screenshots/engine-flow-codex-browser-regression-05-match-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-codex-browser-regression-05-play-step1.png`
+
+![codex-browser-regression 문제 상태 · 05-play-step1](screenshots/engine-flow-codex-browser-regression-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b2-play-divisor-times-remainder · `engine-flow-codex-browser-regression-05b2-play-divisor-times-remainder.png`
+
+![codex-browser-regression 문제 상태 · 05b2-play-divisor-times-remainder](screenshots/engine-flow-codex-browser-regression-05b2-play-divisor-times-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-product-too-low · `engine-flow-codex-browser-regression-05b2-play-product-too-low.png`
+
+![codex-browser-regression 오답 확인 · 05b2-play-product-too-low](screenshots/engine-flow-codex-browser-regression-05b2-play-product-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 문제 상태 · 05b-play-dividend-times-divisor · `engine-flow-codex-browser-regression-05b-play-dividend-times-divisor.png`
+
+![codex-browser-regression 문제 상태 · 05b-play-dividend-times-divisor](screenshots/engine-flow-codex-browser-regression-05b-play-dividend-times-divisor.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-product-too-high · `engine-flow-codex-browser-regression-05b-play-product-too-high.png`
+
+![codex-browser-regression 오답 확인 · 05b-play-product-too-high](screenshots/engine-flow-codex-browser-regression-05b-play-product-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-codex-browser-regression-06-confirm.png`
+
+![codex-browser-regression 마지막 확인 · 06-confirm](screenshots/engine-flow-codex-browser-regression-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 마지막 확인 · 06b-match-auto-confirm · `engine-flow-codex-browser-regression-06b-match-auto-confirm.png`
+
+![codex-browser-regression 마지막 확인 · 06b-match-auto-confirm](screenshots/engine-flow-codex-browser-regression-06b-match-auto-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-codex-browser-regression-07-reward-closed.png`
+
+![codex-browser-regression 닫힌 보상](screenshots/engine-flow-codex-browser-regression-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열쇠 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-codex-browser-regression-07b-reward-open.png`
+
+![codex-browser-regression 열린 보상](screenshots/engine-flow-codex-browser-regression-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열쇠 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-codex-browser-regression-08-result.png`
+
+![codex-browser-regression 실제 결과](screenshots/engine-flow-codex-browser-regression-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · largeSafe · `engine-flow-codex-browser-regression-08a-result-largeSafe.png`
+
+![codex-browser-regression 결과 단계 · largeSafe](screenshots/engine-flow-codex-browser-regression-08a-result-largeSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · lock · `engine-flow-codex-browser-regression-08a-result-lock.png`
+
+![codex-browser-regression 결과 단계 · lock](screenshots/engine-flow-codex-browser-regression-08a-result-lock.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-codex-browser-regression-08a-result-rainbow.png`
+
+![codex-browser-regression 결과 단계 · rainbow](screenshots/engine-flow-codex-browser-regression-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · safe · `engine-flow-codex-browser-regression-08a-result-safe.png`
+
+![codex-browser-regression 결과 단계 · safe](screenshots/engine-flow-codex-browser-regression-08a-result-safe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · secretSafe · `engine-flow-codex-browser-regression-08a-result-secretSafe.png`
+
+![codex-browser-regression 결과 단계 · secretSafe](screenshots/engine-flow-codex-browser-regression-08a-result-secretSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · treasure · `engine-flow-codex-browser-regression-08a-result-treasure.png`
+
+![codex-browser-regression 결과 단계 · treasure](screenshots/engine-flow-codex-browser-regression-08a-result-treasure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-codex-browser-regression-09-scoreboard-offline.png`
+
+![codex-browser-regression 09-scoreboard-offline](screenshots/engine-flow-codex-browser-regression-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-codex-browser-regression-09b-scoreboard-10rows-start.png`
+
+![codex-browser-regression 09b-scoreboard-10rows-start](screenshots/engine-flow-codex-browser-regression-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-codex-browser-regression-09c-scoreboard-10rows-end.png`
+
+![codex-browser-regression 09c-scoreboard-10rows-end](screenshots/engine-flow-codex-browser-regression-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### codex-live-panel-regression · 931×897 · DPR 2 · 33장
+
+![codex-live-panel-regression 전체 상태 컨택시트](screenshots/report-flow-codex-live-panel-regression-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-codex-live-panel-regression-01-cover.png`
+
+![codex-live-panel-regression 시작 화면](screenshots/engine-flow-codex-live-panel-regression-01-cover.png)
+
+- 학생이 보는 것: 매스몬 검산 자물쇠 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-codex-live-panel-regression-02-settings.png`
+
+![codex-live-panel-regression 설정 화면](screenshots/engine-flow-codex-live-panel-regression-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-codex-live-panel-regression-03-tutorial-1.png`
+
+![codex-live-panel-regression 설명 1 · 풀이 방법](screenshots/engine-flow-codex-live-panel-regression-03-tutorial-1.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-codex-live-panel-regression-04-tutorial-2.png`
+
+![codex-live-panel-regression 설명 2 · 보상과 목표](screenshots/engine-flow-codex-live-panel-regression-04-tutorial-2.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 정답 확인 · 05-lock-1-multiply-confirm · `engine-flow-codex-live-panel-regression-05-lock-1-multiply-confirm.png`
+
+![codex-live-panel-regression 정답 확인 · 05-lock-1-multiply-confirm](screenshots/engine-flow-codex-live-panel-regression-05-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-1-multiply-waiting · `engine-flow-codex-live-panel-regression-05-lock-1-multiply-waiting.png`
+
+![codex-live-panel-regression 문제 상태 · 05-lock-1-multiply-waiting](screenshots/engine-flow-codex-live-panel-regression-05-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-2-add-confirm · `engine-flow-codex-live-panel-regression-05-lock-2-add-confirm.png`
+
+![codex-live-panel-regression 정답 확인 · 05-lock-2-add-confirm](screenshots/engine-flow-codex-live-panel-regression-05-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-2-add-waiting · `engine-flow-codex-live-panel-regression-05-lock-2-add-waiting.png`
+
+![codex-live-panel-regression 문제 상태 · 05-lock-2-add-waiting](screenshots/engine-flow-codex-live-panel-regression-05-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-3-locate-confirm · `engine-flow-codex-live-panel-regression-05-lock-3-locate-confirm.png`
+
+![codex-live-panel-regression 정답 확인 · 05-lock-3-locate-confirm](screenshots/engine-flow-codex-live-panel-regression-05-lock-3-locate-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-3-locate-waiting · `engine-flow-codex-live-panel-regression-05-lock-3-locate-waiting.png`
+
+![codex-live-panel-regression 문제 상태 · 05-lock-3-locate-waiting](screenshots/engine-flow-codex-live-panel-regression-05-lock-3-locate-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-1-multiply-confirm · `engine-flow-codex-live-panel-regression-05-match-lock-1-multiply-confirm.png`
+
+![codex-live-panel-regression 정답 확인 · 05-match-lock-1-multiply-confirm](screenshots/engine-flow-codex-live-panel-regression-05-match-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-1-multiply-waiting · `engine-flow-codex-live-panel-regression-05-match-lock-1-multiply-waiting.png`
+
+![codex-live-panel-regression 문제 상태 · 05-match-lock-1-multiply-waiting](screenshots/engine-flow-codex-live-panel-regression-05-match-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-2-add-confirm · `engine-flow-codex-live-panel-regression-05-match-lock-2-add-confirm.png`
+
+![codex-live-panel-regression 정답 확인 · 05-match-lock-2-add-confirm](screenshots/engine-flow-codex-live-panel-regression-05-match-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-2-add-waiting · `engine-flow-codex-live-panel-regression-05-match-lock-2-add-waiting.png`
+
+![codex-live-panel-regression 문제 상태 · 05-match-lock-2-add-waiting](screenshots/engine-flow-codex-live-panel-regression-05-match-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-codex-live-panel-regression-05-play-step1.png`
+
+![codex-live-panel-regression 문제 상태 · 05-play-step1](screenshots/engine-flow-codex-live-panel-regression-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b2-play-divisor-times-remainder · `engine-flow-codex-live-panel-regression-05b2-play-divisor-times-remainder.png`
+
+![codex-live-panel-regression 문제 상태 · 05b2-play-divisor-times-remainder](screenshots/engine-flow-codex-live-panel-regression-05b2-play-divisor-times-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-product-too-low · `engine-flow-codex-live-panel-regression-05b2-play-product-too-low.png`
+
+![codex-live-panel-regression 오답 확인 · 05b2-play-product-too-low](screenshots/engine-flow-codex-live-panel-regression-05b2-play-product-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 문제 상태 · 05b-play-dividend-times-divisor · `engine-flow-codex-live-panel-regression-05b-play-dividend-times-divisor.png`
+
+![codex-live-panel-regression 문제 상태 · 05b-play-dividend-times-divisor](screenshots/engine-flow-codex-live-panel-regression-05b-play-dividend-times-divisor.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-product-too-high · `engine-flow-codex-live-panel-regression-05b-play-product-too-high.png`
+
+![codex-live-panel-regression 오답 확인 · 05b-play-product-too-high](screenshots/engine-flow-codex-live-panel-regression-05b-play-product-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-codex-live-panel-regression-06-confirm.png`
+
+![codex-live-panel-regression 마지막 확인 · 06-confirm](screenshots/engine-flow-codex-live-panel-regression-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 마지막 확인 · 06b-match-auto-confirm · `engine-flow-codex-live-panel-regression-06b-match-auto-confirm.png`
+
+![codex-live-panel-regression 마지막 확인 · 06b-match-auto-confirm](screenshots/engine-flow-codex-live-panel-regression-06b-match-auto-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-codex-live-panel-regression-07-reward-closed.png`
+
+![codex-live-panel-regression 닫힌 보상](screenshots/engine-flow-codex-live-panel-regression-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열쇠 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-codex-live-panel-regression-07b-reward-open.png`
+
+![codex-live-panel-regression 열린 보상](screenshots/engine-flow-codex-live-panel-regression-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열쇠 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-codex-live-panel-regression-08-result.png`
+
+![codex-live-panel-regression 실제 결과](screenshots/engine-flow-codex-live-panel-regression-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · largeSafe · `engine-flow-codex-live-panel-regression-08a-result-largeSafe.png`
+
+![codex-live-panel-regression 결과 단계 · largeSafe](screenshots/engine-flow-codex-live-panel-regression-08a-result-largeSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · lock · `engine-flow-codex-live-panel-regression-08a-result-lock.png`
+
+![codex-live-panel-regression 결과 단계 · lock](screenshots/engine-flow-codex-live-panel-regression-08a-result-lock.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-codex-live-panel-regression-08a-result-rainbow.png`
+
+![codex-live-panel-regression 결과 단계 · rainbow](screenshots/engine-flow-codex-live-panel-regression-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · safe · `engine-flow-codex-live-panel-regression-08a-result-safe.png`
+
+![codex-live-panel-regression 결과 단계 · safe](screenshots/engine-flow-codex-live-panel-regression-08a-result-safe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · secretSafe · `engine-flow-codex-live-panel-regression-08a-result-secretSafe.png`
+
+![codex-live-panel-regression 결과 단계 · secretSafe](screenshots/engine-flow-codex-live-panel-regression-08a-result-secretSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · treasure · `engine-flow-codex-live-panel-regression-08a-result-treasure.png`
+
+![codex-live-panel-regression 결과 단계 · treasure](screenshots/engine-flow-codex-live-panel-regression-08a-result-treasure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-codex-live-panel-regression-09-scoreboard-offline.png`
+
+![codex-live-panel-regression 09-scoreboard-offline](screenshots/engine-flow-codex-live-panel-regression-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-codex-live-panel-regression-09b-scoreboard-10rows-start.png`
+
+![codex-live-panel-regression 09b-scoreboard-10rows-start](screenshots/engine-flow-codex-live-panel-regression-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-codex-live-panel-regression-09c-scoreboard-10rows-end.png`
+
+![codex-live-panel-regression 09c-scoreboard-10rows-end](screenshots/engine-flow-codex-live-panel-regression-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### user-reported-missing-reward-panel · 1082×897 · DPR 2 · 28장
+
+![user-reported-missing-reward-panel 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-reward-panel-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-missing-reward-panel-01-cover.png`
+
+![user-reported-missing-reward-panel 시작 화면](screenshots/engine-flow-user-reported-missing-reward-panel-01-cover.png)
+
+- 학생이 보는 것: 매스몬 검산 자물쇠 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-missing-reward-panel-02-settings.png`
+
+![user-reported-missing-reward-panel 설정 화면](screenshots/engine-flow-user-reported-missing-reward-panel-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-missing-reward-panel-03-tutorial-1.png`
+
+![user-reported-missing-reward-panel 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-missing-reward-panel-03-tutorial-1.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-missing-reward-panel-04-tutorial-2.png`
+
+![user-reported-missing-reward-panel 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-missing-reward-panel-04-tutorial-2.png)
+
+- 학생이 보는 것: 곱셈으로 나눗셈 검산하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 정답 확인 · 05-lock-1-multiply-confirm · `engine-flow-user-reported-missing-reward-panel-05-lock-1-multiply-confirm.png`
+
+![user-reported-missing-reward-panel 정답 확인 · 05-lock-1-multiply-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-05-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-1-multiply-waiting · `engine-flow-user-reported-missing-reward-panel-05-lock-1-multiply-waiting.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05-lock-1-multiply-waiting](screenshots/engine-flow-user-reported-missing-reward-panel-05-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-2-add-confirm · `engine-flow-user-reported-missing-reward-panel-05-lock-2-add-confirm.png`
+
+![user-reported-missing-reward-panel 정답 확인 · 05-lock-2-add-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-05-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-2-add-waiting · `engine-flow-user-reported-missing-reward-panel-05-lock-2-add-waiting.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05-lock-2-add-waiting](screenshots/engine-flow-user-reported-missing-reward-panel-05-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-lock-3-locate-confirm · `engine-flow-user-reported-missing-reward-panel-05-lock-3-locate-confirm.png`
+
+![user-reported-missing-reward-panel 정답 확인 · 05-lock-3-locate-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-05-lock-3-locate-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-lock-3-locate-waiting · `engine-flow-user-reported-missing-reward-panel-05-lock-3-locate-waiting.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05-lock-3-locate-waiting](screenshots/engine-flow-user-reported-missing-reward-panel-05-lock-3-locate-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-1-multiply-confirm · `engine-flow-user-reported-missing-reward-panel-05-match-lock-1-multiply-confirm.png`
+
+![user-reported-missing-reward-panel 정답 확인 · 05-match-lock-1-multiply-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-05-match-lock-1-multiply-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-1-multiply-waiting · `engine-flow-user-reported-missing-reward-panel-05-match-lock-1-multiply-waiting.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05-match-lock-1-multiply-waiting](screenshots/engine-flow-user-reported-missing-reward-panel-05-match-lock-1-multiply-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05-match-lock-2-add-confirm · `engine-flow-user-reported-missing-reward-panel-05-match-lock-2-add-confirm.png`
+
+![user-reported-missing-reward-panel 정답 확인 · 05-match-lock-2-add-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-05-match-lock-2-add-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05-match-lock-2-add-waiting · `engine-flow-user-reported-missing-reward-panel-05-match-lock-2-add-waiting.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05-match-lock-2-add-waiting](screenshots/engine-flow-user-reported-missing-reward-panel-05-match-lock-2-add-waiting.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-reward-panel-05-play-step1.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-reward-panel-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b2-play-divisor-times-remainder · `engine-flow-user-reported-missing-reward-panel-05b2-play-divisor-times-remainder.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05b2-play-divisor-times-remainder](screenshots/engine-flow-user-reported-missing-reward-panel-05b2-play-divisor-times-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05b-play-dividend-times-divisor · `engine-flow-user-reported-missing-reward-panel-05b-play-dividend-times-divisor.png`
+
+![user-reported-missing-reward-panel 문제 상태 · 05b-play-dividend-times-divisor](screenshots/engine-flow-user-reported-missing-reward-panel-05b-play-dividend-times-divisor.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-missing-reward-panel-06-confirm.png`
+
+![user-reported-missing-reward-panel 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 마지막 확인 · 06b-match-auto-confirm · `engine-flow-user-reported-missing-reward-panel-06b-match-auto-confirm.png`
+
+![user-reported-missing-reward-panel 마지막 확인 · 06b-match-auto-confirm](screenshots/engine-flow-user-reported-missing-reward-panel-06b-match-auto-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 곱셈으로 나눗셈 검산하기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-reported-missing-reward-panel-07-reward-closed.png`
+
+![user-reported-missing-reward-panel 닫힌 보상](screenshots/engine-flow-user-reported-missing-reward-panel-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열쇠 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-reported-missing-reward-panel-07b-reward-open.png`
+
+![user-reported-missing-reward-panel 열린 보상](screenshots/engine-flow-user-reported-missing-reward-panel-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열쇠 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-missing-reward-panel-08-result.png`
+
+![user-reported-missing-reward-panel 실제 결과](screenshots/engine-flow-user-reported-missing-reward-panel-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · largeSafe · `engine-flow-user-reported-missing-reward-panel-08a-result-largeSafe.png`
+
+![user-reported-missing-reward-panel 결과 단계 · largeSafe](screenshots/engine-flow-user-reported-missing-reward-panel-08a-result-largeSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · lock · `engine-flow-user-reported-missing-reward-panel-08a-result-lock.png`
+
+![user-reported-missing-reward-panel 결과 단계 · lock](screenshots/engine-flow-user-reported-missing-reward-panel-08a-result-lock.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-user-reported-missing-reward-panel-08a-result-rainbow.png`
+
+![user-reported-missing-reward-panel 결과 단계 · rainbow](screenshots/engine-flow-user-reported-missing-reward-panel-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · safe · `engine-flow-user-reported-missing-reward-panel-08a-result-safe.png`
+
+![user-reported-missing-reward-panel 결과 단계 · safe](screenshots/engine-flow-user-reported-missing-reward-panel-08a-result-safe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · secretSafe · `engine-flow-user-reported-missing-reward-panel-08a-result-secretSafe.png`
+
+![user-reported-missing-reward-panel 결과 단계 · secretSafe](screenshots/engine-flow-user-reported-missing-reward-panel-08a-result-secretSafe.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · treasure · `engine-flow-user-reported-missing-reward-panel-08a-result-treasure.png`
+
+![user-reported-missing-reward-panel 결과 단계 · treasure](screenshots/engine-flow-user-reported-missing-reward-panel-08a-result-treasure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열쇠 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

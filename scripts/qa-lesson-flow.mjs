@@ -2291,7 +2291,8 @@ async function auditConfiguredResultPanelContainment(page, label) {
 
 async function auditAllConfiguredResultPanelTiers(page, lesson, viewport, shots) {
   const tiers = await evaluate(page, `(() => {
-    if (LESSON_CONFIG.qa?.resultPanelContainmentAudit?.standard !== 'result-panel-containment-v2') return [];
+    if (LESSON_CONFIG.standards?.resultPanelContainment !== 'result-panel-containment-v2'
+      || LESSON_CONFIG.qa?.resultPanelContainmentAudit?.standard !== 'result-panel-containment-v2') return [];
     return LESSON_CONFIG.results.map((result) => ({
       id:result.id,
       power:Number(result.minPower || 0),
@@ -5099,8 +5100,8 @@ async function auditElevatorResultTier(page, label, expected) {
     const meter = document.querySelector('.result-dynamic-ui rect:first-of-type');
     const meterFill = document.getElementById('resultMeasureFillSvg');
     const meterText = document.getElementById('resultMeasureSvg');
-    const retryArt = document.querySelector('.result-restart-hitbox .result-retry-art');
-    const retryHitbox = document.querySelector('.result-restart-hitbox');
+    const retryArt = document.querySelector('.result-retry-hitbox .result-retry-art, .result-restart-hitbox .result-retry-art');
+    const retryHitbox = document.querySelector('.result-retry-hitbox, .result-restart-hitbox');
     const stage = document.querySelector('.stage-shell');
     const layout = LESSON_CONFIG.result?.stateImageSet?.layoutByTier?.[${JSON.stringify(expected.id)}] || null;
     const configuredImage = LESSON_CONFIG.results?.find((item) => item.id === ${JSON.stringify(expected.id)})?.image || '';
@@ -5405,7 +5406,14 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
   } else if (lesson === "3-2-2-4-mathmon-check-lock") {
     initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
-  const answerLeak = await evaluate(page, "!document.getElementById('answerSlot')?.textContent.includes('?') || Boolean(document.querySelector('#choicesPanel [data-state=\"correct\"]'))");
+  const answerLeak = await evaluate(page, `(() => {
+    const configuredAnswer = LESSON_CONFIG.qa?.circleRelationAudit?.answer;
+    const answerNode = configuredAnswer
+      ? document.querySelector(configuredAnswer)
+      : document.getElementById('answerSlot');
+    return !answerNode?.textContent.includes('?')
+      || Boolean(document.querySelector('#choicesPanel [data-state="correct"]'));
+  })()`);
   assert(!answerLeak, `${viewport.name}: answer was exposed before student action`);
 
   if (lesson === "3-2-2-2-mathmon-elevator") {
@@ -6289,6 +6297,43 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     shots.push(await screenshot(page, lesson, viewport, "08a-result-practice-0-of-10"));
     await auditGeometry(page, `${viewport.name} practice result`, { requireRetry: true });
     await auditConfiguredResultNextGoal(page, `${viewport.name} practice result next goal`);
+
+    const resultTiers = await evaluate(page, `LESSON_CONFIG.results.map((result) => ({
+      id:result.id,
+      image:result.image,
+      power:result.minPower,
+      correct:result.minCorrect,
+      special:Boolean(result.needsSpecial)
+    }))`);
+    assert(resultTiers.length === 6, `${viewport.name}: target result set must contain six states`, resultTiers);
+    for (const tier of resultTiers) {
+      await evaluate(page, `(() => {
+        window.__mathmonEngineQa.setState({
+          power:${tier.power},
+          correctFirstTry:${tier.correct},
+          specialSeen:${tier.special},
+          currentResult:null
+        });
+        window.__mathmonEngineQa.showResult();
+      })()`);
+      await waitUntil(page, `(() => {
+        const screen = document.getElementById('screen-result');
+        const background = document.getElementById('resultBg');
+        const countArt = document.getElementById('resultCorrectArt');
+        const retryArt = document.querySelector('.result-retry-art');
+        return screen?.dataset.resultTier === ${JSON.stringify(tier.id)}
+          && background?.getAttribute('src') === ${JSON.stringify(tier.image)}
+          && background?.complete
+          && background?.naturalWidth === 1280
+          && background?.naturalHeight === 800
+          && countArt?.complete
+          && countArt?.naturalWidth > 0
+          && retryArt?.complete;
+      })()`, `${viewport.name}: target result ${tier.id} did not render`);
+      await auditGeometry(page, `${viewport.name} target result ${tier.id}`, { requireRetry: true });
+      await auditConfiguredResultNextGoal(page, `${viewport.name} target result ${tier.id} next goal`);
+      shots.push(await screenshot(page, lesson, viewport, `08a-result-${tier.id}`));
+    }
   }
 
   if (lesson === "3-2-2-1-mathmon-divide-farm") {

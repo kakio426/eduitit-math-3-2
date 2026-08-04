@@ -250,3 +250,1303 @@
 - 기존 검사는 JSON의 `dynamicAxisX`와 JSON 슬롯·DOM rect만 서로 비교해 잘못된 축도 통과할 수 있었습니다. 공통 `check-lesson-contract`는 이제 상태별 런타임 축과 QA 축의 1:1 일치, 전 상태 값 존재, 픽셀 탐색 영역·임계값·허용 오차를 함께 검사합니다.
 - 데스크톱·태블릿 가로와 등록 회귀 viewport 전부에서 6단계 결과를 다시 캡처했습니다. `QA_LESSON_FLOW`, `QA_ENGINE_UNIT3_COMPASS_SOURCE`, `CHECK_LESSON_CONTRACT`, `LESSON_VISUAL_CONTRACT`, Stage 비율, 랭킹 비활성화 검사가 모두 통과했습니다.
 - 최신 6단계 비교는 `screenshots/result-all-tiers-desktop-contact-sheet.png`와 `screenshots/result-all-tiers-tablet-landscape-contact-sheet.png`입니다. 학생 문구는 바꾸지 않아 Humanizer 문구 증감은 없습니다.
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `4ffd3c3c97c27783848c82ed2ea44a0659874703fc6f18517397054b176164af`
+- 생성 시각: `2026-08-04T15:32:27.387Z`
+- 등록 화면 크기: `7개`
+- 아래에 직접 삽입한 원본 캡처: `140장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 20장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-desktop-05m-p1-compass-too-narrow.png`
+
+![desktop 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-desktop-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-desktop-05m-p1-compass-too-wide.png`
+
+![desktop 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-desktop-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-desktop-05m-p1-compass-uses-diameter.png`
+
+![desktop 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-desktop-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-desktop-05b-play-wrong.png`
+
+![desktop 오답 확인 · 05b-play-wrong](screenshots/engine-flow-desktop-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-desktop-07c-reward-impact.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-desktop-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-desktop-08a-result-faint.png`
+
+![desktop 결과 단계 · faint](screenshots/engine-flow-desktop-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-desktop-08a-result-small.png`
+
+![desktop 결과 단계 · small](screenshots/engine-flow-desktop-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-desktop-08a-result-ring.png`
+
+![desktop 결과 단계 · ring](screenshots/engine-flow-desktop-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-desktop-08a-result-big.png`
+
+![desktop 결과 단계 · big](screenshots/engine-flow-desktop-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-desktop-08a-result-grand.png`
+
+![desktop 결과 단계 · grand](screenshots/engine-flow-desktop-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-desktop-08a-result-legend.png`
+
+![desktop 결과 단계 · legend](screenshots/engine-flow-desktop-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 20장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-tablet-landscape-05m-p1-compass-too-narrow.png`
+
+![tablet-landscape 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-tablet-landscape-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-tablet-landscape-05m-p1-compass-too-wide.png`
+
+![tablet-landscape 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-tablet-landscape-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-tablet-landscape-05m-p1-compass-uses-diameter.png`
+
+![tablet-landscape 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-tablet-landscape-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-tablet-landscape-05b-play-wrong.png`
+
+![tablet-landscape 오답 확인 · 05b-play-wrong](screenshots/engine-flow-tablet-landscape-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-tablet-landscape-07c-reward-impact.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-tablet-landscape-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-tablet-landscape-08a-result-faint.png`
+
+![tablet-landscape 결과 단계 · faint](screenshots/engine-flow-tablet-landscape-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-tablet-landscape-08a-result-small.png`
+
+![tablet-landscape 결과 단계 · small](screenshots/engine-flow-tablet-landscape-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-tablet-landscape-08a-result-ring.png`
+
+![tablet-landscape 결과 단계 · ring](screenshots/engine-flow-tablet-landscape-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-tablet-landscape-08a-result-big.png`
+
+![tablet-landscape 결과 단계 · big](screenshots/engine-flow-tablet-landscape-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-tablet-landscape-08a-result-grand.png`
+
+![tablet-landscape 결과 단계 · grand](screenshots/engine-flow-tablet-landscape-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-tablet-landscape-08a-result-legend.png`
+
+![tablet-landscape 결과 단계 · legend](screenshots/engine-flow-tablet-landscape-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-play-progress-short-1280x720-dpr2 · 1280×720 · DPR 2 · 20장
+
+![reported-play-progress-short-1280x720-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-play-progress-short-1280x720-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-play-progress-short-1280x720-dpr2-01-cover.png`
+
+![reported-play-progress-short-1280x720-dpr2 시작 화면](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-play-progress-short-1280x720-dpr2-02-settings.png`
+
+![reported-play-progress-short-1280x720-dpr2 설정 화면](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-play-progress-short-1280x720-dpr2-03-tutorial-1.png`
+
+![reported-play-progress-short-1280x720-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-play-progress-short-1280x720-dpr2-04-tutorial-2.png`
+
+![reported-play-progress-short-1280x720-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-play-progress-short-1280x720-dpr2-05-play-step1.png`
+
+![reported-play-progress-short-1280x720-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-reported-play-progress-short-1280x720-dpr2-05m-p1-compass-too-narrow.png`
+
+![reported-play-progress-short-1280x720-dpr2 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-reported-play-progress-short-1280x720-dpr2-05m-p1-compass-too-wide.png`
+
+![reported-play-progress-short-1280x720-dpr2 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-reported-play-progress-short-1280x720-dpr2-05m-p1-compass-uses-diameter.png`
+
+![reported-play-progress-short-1280x720-dpr2 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-play-progress-short-1280x720-dpr2-05b-play-wrong.png`
+
+![reported-play-progress-short-1280x720-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-play-progress-short-1280x720-dpr2-06-confirm.png`
+
+![reported-play-progress-short-1280x720-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-play-progress-short-1280x720-dpr2-07-reward-closed.png`
+
+![reported-play-progress-short-1280x720-dpr2 닫힌 보상](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-play-progress-short-1280x720-dpr2-07b-reward-open.png`
+
+![reported-play-progress-short-1280x720-dpr2 열린 보상](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-reported-play-progress-short-1280x720-dpr2-07c-reward-impact.png`
+
+![reported-play-progress-short-1280x720-dpr2 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-play-progress-short-1280x720-dpr2-08-result.png`
+
+![reported-play-progress-short-1280x720-dpr2 실제 결과](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-faint.png`
+
+![reported-play-progress-short-1280x720-dpr2 결과 단계 · faint](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-small.png`
+
+![reported-play-progress-short-1280x720-dpr2 결과 단계 · small](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-ring.png`
+
+![reported-play-progress-short-1280x720-dpr2 결과 단계 · ring](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-big.png`
+
+![reported-play-progress-short-1280x720-dpr2 결과 단계 · big](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-grand.png`
+
+![reported-play-progress-short-1280x720-dpr2 결과 단계 · grand](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-legend.png`
+
+![reported-play-progress-short-1280x720-dpr2 결과 단계 · legend](screenshots/engine-flow-reported-play-progress-short-1280x720-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-reward-closed-1082x897-dpr2 · 1082×897 · DPR 2 · 20장
+
+![reported-reward-closed-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-reward-closed-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-reward-closed-1082x897-dpr2-01-cover.png`
+
+![reported-reward-closed-1082x897-dpr2 시작 화면](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-reward-closed-1082x897-dpr2-02-settings.png`
+
+![reported-reward-closed-1082x897-dpr2 설정 화면](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-reward-closed-1082x897-dpr2-03-tutorial-1.png`
+
+![reported-reward-closed-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-reward-closed-1082x897-dpr2-04-tutorial-2.png`
+
+![reported-reward-closed-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-reward-closed-1082x897-dpr2-05-play-step1.png`
+
+![reported-reward-closed-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-reported-reward-closed-1082x897-dpr2-05m-p1-compass-too-narrow.png`
+
+![reported-reward-closed-1082x897-dpr2 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-reported-reward-closed-1082x897-dpr2-05m-p1-compass-too-wide.png`
+
+![reported-reward-closed-1082x897-dpr2 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-reported-reward-closed-1082x897-dpr2-05m-p1-compass-uses-diameter.png`
+
+![reported-reward-closed-1082x897-dpr2 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-reward-closed-1082x897-dpr2-05b-play-wrong.png`
+
+![reported-reward-closed-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-reward-closed-1082x897-dpr2-06-confirm.png`
+
+![reported-reward-closed-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-reward-closed-1082x897-dpr2-07-reward-closed.png`
+
+![reported-reward-closed-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-reward-closed-1082x897-dpr2-07b-reward-open.png`
+
+![reported-reward-closed-1082x897-dpr2 열린 보상](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-reported-reward-closed-1082x897-dpr2-07c-reward-impact.png`
+
+![reported-reward-closed-1082x897-dpr2 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-reward-closed-1082x897-dpr2-08-result.png`
+
+![reported-reward-closed-1082x897-dpr2 실제 결과](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-faint.png`
+
+![reported-reward-closed-1082x897-dpr2 결과 단계 · faint](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-small.png`
+
+![reported-reward-closed-1082x897-dpr2 결과 단계 · small](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-ring.png`
+
+![reported-reward-closed-1082x897-dpr2 결과 단계 · ring](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-big.png`
+
+![reported-reward-closed-1082x897-dpr2 결과 단계 · big](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-grand.png`
+
+![reported-reward-closed-1082x897-dpr2 결과 단계 · grand](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-legend.png`
+
+![reported-reward-closed-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-reported-reward-closed-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-complete-1082x897-dpr2 · 1082×897 · DPR 2 · 20장
+
+![reported-complete-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-complete-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-complete-1082x897-dpr2-01-cover.png`
+
+![reported-complete-1082x897-dpr2 시작 화면](screenshots/engine-flow-reported-complete-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-complete-1082x897-dpr2-02-settings.png`
+
+![reported-complete-1082x897-dpr2 설정 화면](screenshots/engine-flow-reported-complete-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-complete-1082x897-dpr2-03-tutorial-1.png`
+
+![reported-complete-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-complete-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-complete-1082x897-dpr2-04-tutorial-2.png`
+
+![reported-complete-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-complete-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-complete-1082x897-dpr2-05-play-step1.png`
+
+![reported-complete-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-complete-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-reported-complete-1082x897-dpr2-05m-p1-compass-too-narrow.png`
+
+![reported-complete-1082x897-dpr2 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-reported-complete-1082x897-dpr2-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-reported-complete-1082x897-dpr2-05m-p1-compass-too-wide.png`
+
+![reported-complete-1082x897-dpr2 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-reported-complete-1082x897-dpr2-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-reported-complete-1082x897-dpr2-05m-p1-compass-uses-diameter.png`
+
+![reported-complete-1082x897-dpr2 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-reported-complete-1082x897-dpr2-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-complete-1082x897-dpr2-05b-play-wrong.png`
+
+![reported-complete-1082x897-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-complete-1082x897-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-complete-1082x897-dpr2-06-confirm.png`
+
+![reported-complete-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-complete-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-complete-1082x897-dpr2-07-reward-closed.png`
+
+![reported-complete-1082x897-dpr2 닫힌 보상](screenshots/engine-flow-reported-complete-1082x897-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-complete-1082x897-dpr2-07b-reward-open.png`
+
+![reported-complete-1082x897-dpr2 열린 보상](screenshots/engine-flow-reported-complete-1082x897-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-reported-complete-1082x897-dpr2-07c-reward-impact.png`
+
+![reported-complete-1082x897-dpr2 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-reported-complete-1082x897-dpr2-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-complete-1082x897-dpr2-08-result.png`
+
+![reported-complete-1082x897-dpr2 실제 결과](screenshots/engine-flow-reported-complete-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-reported-complete-1082x897-dpr2-08a-result-faint.png`
+
+![reported-complete-1082x897-dpr2 결과 단계 · faint](screenshots/engine-flow-reported-complete-1082x897-dpr2-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-reported-complete-1082x897-dpr2-08a-result-small.png`
+
+![reported-complete-1082x897-dpr2 결과 단계 · small](screenshots/engine-flow-reported-complete-1082x897-dpr2-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-reported-complete-1082x897-dpr2-08a-result-ring.png`
+
+![reported-complete-1082x897-dpr2 결과 단계 · ring](screenshots/engine-flow-reported-complete-1082x897-dpr2-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-reported-complete-1082x897-dpr2-08a-result-big.png`
+
+![reported-complete-1082x897-dpr2 결과 단계 · big](screenshots/engine-flow-reported-complete-1082x897-dpr2-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-reported-complete-1082x897-dpr2-08a-result-grand.png`
+
+![reported-complete-1082x897-dpr2 결과 단계 · grand](screenshots/engine-flow-reported-complete-1082x897-dpr2-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-reported-complete-1082x897-dpr2-08a-result-legend.png`
+
+![reported-complete-1082x897-dpr2 결과 단계 · legend](screenshots/engine-flow-reported-complete-1082x897-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-top-controls-1082x987-dpr2 · 1082×987 · DPR 2 · 20장
+
+![reported-top-controls-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-top-controls-1082x987-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-top-controls-1082x987-dpr2-01-cover.png`
+
+![reported-top-controls-1082x987-dpr2 시작 화면](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-top-controls-1082x987-dpr2-02-settings.png`
+
+![reported-top-controls-1082x987-dpr2 설정 화면](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-top-controls-1082x987-dpr2-03-tutorial-1.png`
+
+![reported-top-controls-1082x987-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-top-controls-1082x987-dpr2-04-tutorial-2.png`
+
+![reported-top-controls-1082x987-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-top-controls-1082x987-dpr2-05-play-step1.png`
+
+![reported-top-controls-1082x987-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-reported-top-controls-1082x987-dpr2-05m-p1-compass-too-narrow.png`
+
+![reported-top-controls-1082x987-dpr2 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-reported-top-controls-1082x987-dpr2-05m-p1-compass-too-wide.png`
+
+![reported-top-controls-1082x987-dpr2 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-reported-top-controls-1082x987-dpr2-05m-p1-compass-uses-diameter.png`
+
+![reported-top-controls-1082x987-dpr2 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-top-controls-1082x987-dpr2-05b-play-wrong.png`
+
+![reported-top-controls-1082x987-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-top-controls-1082x987-dpr2-06-confirm.png`
+
+![reported-top-controls-1082x987-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-top-controls-1082x987-dpr2-07-reward-closed.png`
+
+![reported-top-controls-1082x987-dpr2 닫힌 보상](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-top-controls-1082x987-dpr2-07b-reward-open.png`
+
+![reported-top-controls-1082x987-dpr2 열린 보상](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-reported-top-controls-1082x987-dpr2-07c-reward-impact.png`
+
+![reported-top-controls-1082x987-dpr2 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-top-controls-1082x987-dpr2-08-result.png`
+
+![reported-top-controls-1082x987-dpr2 실제 결과](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-reported-top-controls-1082x987-dpr2-08a-result-faint.png`
+
+![reported-top-controls-1082x987-dpr2 결과 단계 · faint](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-reported-top-controls-1082x987-dpr2-08a-result-small.png`
+
+![reported-top-controls-1082x987-dpr2 결과 단계 · small](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-reported-top-controls-1082x987-dpr2-08a-result-ring.png`
+
+![reported-top-controls-1082x987-dpr2 결과 단계 · ring](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-reported-top-controls-1082x987-dpr2-08a-result-big.png`
+
+![reported-top-controls-1082x987-dpr2 결과 단계 · big](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-reported-top-controls-1082x987-dpr2-08a-result-grand.png`
+
+![reported-top-controls-1082x987-dpr2 결과 단계 · grand](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-reported-top-controls-1082x987-dpr2-08a-result-legend.png`
+
+![reported-top-controls-1082x987-dpr2 결과 단계 · legend](screenshots/engine-flow-reported-top-controls-1082x987-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-reward-modal-1082x987-dpr2 · 1082×987 · DPR 2 · 20장
+
+![reported-reward-modal-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-reward-modal-1082x987-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-reward-modal-1082x987-dpr2-01-cover.png`
+
+![reported-reward-modal-1082x987-dpr2 시작 화면](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 컴퍼스 마법진 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-reward-modal-1082x987-dpr2-02-settings.png`
+
+![reported-reward-modal-1082x987-dpr2 설정 화면](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-reward-modal-1082x987-dpr2-03-tutorial-1.png`
+
+![reported-reward-modal-1082x987-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-reward-modal-1082x987-dpr2-04-tutorial-2.png`
+
+![reported-reward-modal-1082x987-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-reward-modal-1082x987-dpr2-05-play-step1.png`
+
+![reported-reward-modal-1082x987-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-compass-too-narrow · `engine-flow-reported-reward-modal-1082x987-dpr2-05m-p1-compass-too-narrow.png`
+
+![reported-reward-modal-1082x987-dpr2 오개념 확인 · p1-compass-too-narrow](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-05m-p1-compass-too-narrow.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-too-wide · `engine-flow-reported-reward-modal-1082x987-dpr2-05m-p1-compass-too-wide.png`
+
+![reported-reward-modal-1082x987-dpr2 오개념 확인 · p1-compass-too-wide](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-05m-p1-compass-too-wide.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-compass-uses-diameter · `engine-flow-reported-reward-modal-1082x987-dpr2-05m-p1-compass-uses-diameter.png`
+
+![reported-reward-modal-1082x987-dpr2 오개념 확인 · p1-compass-uses-diameter](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-05m-p1-compass-uses-diameter.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-reward-modal-1082x987-dpr2-05b-play-wrong.png`
+
+![reported-reward-modal-1082x987-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-reward-modal-1082x987-dpr2-06-confirm.png`
+
+![reported-reward-modal-1082x987-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-reward-modal-1082x987-dpr2-07-reward-closed.png`
+
+![reported-reward-modal-1082x987-dpr2 닫힌 보상](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 마법진 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-reward-modal-1082x987-dpr2-07b-reward-open.png`
+
+![reported-reward-modal-1082x987-dpr2 열린 보상](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 마법진 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-reported-reward-modal-1082x987-dpr2-07c-reward-impact.png`
+
+![reported-reward-modal-1082x987-dpr2 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 마법진 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-reward-modal-1082x987-dpr2-08-result.png`
+
+![reported-reward-modal-1082x987-dpr2 실제 결과](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · faint · `engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-faint.png`
+
+![reported-reward-modal-1082x987-dpr2 결과 단계 · faint](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-faint.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · small · `engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-small.png`
+
+![reported-reward-modal-1082x987-dpr2 결과 단계 · small](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · ring · `engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-ring.png`
+
+![reported-reward-modal-1082x987-dpr2 결과 단계 · ring](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-ring.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · big · `engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-big.png`
+
+![reported-reward-modal-1082x987-dpr2 결과 단계 · big](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · grand · `engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-grand.png`
+
+![reported-reward-modal-1082x987-dpr2 결과 단계 · grand](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-grand.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-legend.png`
+
+![reported-reward-modal-1082x987-dpr2 결과 단계 · legend](screenshots/engine-flow-reported-reward-modal-1082x987-dpr2-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 마법진 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

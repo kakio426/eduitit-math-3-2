@@ -306,3 +306,1475 @@ Humanizer 기준으로 현재 화면의 문구를 다시 읽었습니다.
 - `QA_LESSON2_DIVIDE_FARM: PASS`
 
 이 보고서의 화면은 2026-07-20 현재 실행본에서 다시 만든 `screenshots/engine-flow-*` 파일입니다. 이전 구조의 문구와 화면 설명은 제거했습니다.
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `a636f5c26bdeb1db810d2df9bda0e39a88badfd0fea07b121e9b63795b783bcd`
+- 생성 시각: `2026-08-04T15:32:03.641Z`
+- 등록 화면 크기: `5개`
+- 아래에 직접 삽입한 원본 캡처: `160장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 34장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 나누기 농장 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05c-play-step2 · `engine-flow-desktop-05c-play-step2.png`
+
+![desktop 문제 상태 · 05c-play-step2](screenshots/engine-flow-desktop-05c-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05c-play-tens-confirm · `engine-flow-desktop-05c-play-tens-confirm.png`
+
+![desktop 정답 확인 · 05c-play-tens-confirm](screenshots/engine-flow-desktop-05c-play-tens-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-one-basket-complete · `engine-flow-desktop-05d-play-one-basket-complete.png`
+
+![desktop 정답 확인 · 05d-play-one-basket-complete](screenshots/engine-flow-desktop-05d-play-one-basket-complete.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-ones-confirm · `engine-flow-desktop-05d-play-ones-confirm.png`
+
+![desktop 정답 확인 · 05d-play-ones-confirm](screenshots/engine-flow-desktop-05d-play-ones-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-quotient · `engine-flow-desktop-05d-play-quotient.png`
+
+![desktop 문제 상태 · 05d-play-quotient](screenshots/engine-flow-desktop-05d-play-quotient.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05e-play-final-sum · `engine-flow-desktop-05e-play-final-sum.png`
+
+![desktop 문제 상태 · 05e-play-final-sum](screenshots/engine-flow-desktop-05e-play-final-sum.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05e-play-quotient-wrong · `engine-flow-desktop-05e-play-quotient-wrong.png`
+
+![desktop 오답 확인 · 05e-play-quotient-wrong](screenshots/engine-flow-desktop-05e-play-quotient-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05f-play-final-sum-wrong · `engine-flow-desktop-05f-play-final-sum-wrong.png`
+
+![desktop 오답 확인 · 05f-play-final-sum-wrong](screenshots/engine-flow-desktop-05f-play-final-sum-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-desktop-05b-play-wrong.png`
+
+![desktop 오답 확인 · 05b-play-wrong](screenshots/engine-flow-desktop-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-correct-gate · `engine-flow-desktop-07c-reward-correct-gate.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-correct-gate](screenshots/engine-flow-desktop-07c-reward-correct-gate.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-decrease · `engine-flow-desktop-07c-reward-decrease.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-decrease](screenshots/engine-flow-desktop-07c-reward-decrease.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-golden-field · `engine-flow-desktop-07c-reward-golden-field.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-golden-field](screenshots/engine-flow-desktop-07c-reward-golden-field.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-increase · `engine-flow-desktop-07c-reward-increase.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-increase](screenshots/engine-flow-desktop-07c-reward-increase.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-zero · `engine-flow-desktop-07c-reward-zero.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-zero](screenshots/engine-flow-desktop-07c-reward-zero.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-desktop-07d-final-reward-closed.png`
+
+![desktop 닫힌 보상](screenshots/engine-flow-desktop-07d-final-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-desktop-07e-final-reward-open.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07e-final-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bigfarm · `engine-flow-desktop-08a-result-bigfarm.png`
+
+![desktop 결과 단계 · bigfarm](screenshots/engine-flow-desktop-08a-result-bigfarm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · farm · `engine-flow-desktop-08a-result-farm.png`
+
+![desktop 결과 단계 · farm](screenshots/engine-flow-desktop-08a-result-farm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · garden · `engine-flow-desktop-08a-result-garden.png`
+
+![desktop 결과 단계 · garden](screenshots/engine-flow-desktop-08a-result-garden.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-desktop-08a-result-rainbow.png`
+
+![desktop 결과 단계 · rainbow](screenshots/engine-flow-desktop-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · seed · `engine-flow-desktop-08a-result-seed.png`
+
+![desktop 결과 단계 · seed](screenshots/engine-flow-desktop-08a-result-seed.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · sprout · `engine-flow-desktop-08a-result-sprout.png`
+
+![desktop 결과 단계 · sprout](screenshots/engine-flow-desktop-08a-result-sprout.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-desktop-09-scoreboard-offline.png`
+
+![desktop 09-scoreboard-offline](screenshots/engine-flow-desktop-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-desktop-09b-scoreboard-10rows-start.png`
+
+![desktop 09b-scoreboard-10rows-start](screenshots/engine-flow-desktop-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-desktop-09c-scoreboard-10rows-end.png`
+
+![desktop 09c-scoreboard-10rows-end](screenshots/engine-flow-desktop-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 34장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 나누기 농장 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05c-play-step2 · `engine-flow-tablet-landscape-05c-play-step2.png`
+
+![tablet-landscape 문제 상태 · 05c-play-step2](screenshots/engine-flow-tablet-landscape-05c-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05c-play-tens-confirm · `engine-flow-tablet-landscape-05c-play-tens-confirm.png`
+
+![tablet-landscape 정답 확인 · 05c-play-tens-confirm](screenshots/engine-flow-tablet-landscape-05c-play-tens-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-one-basket-complete · `engine-flow-tablet-landscape-05d-play-one-basket-complete.png`
+
+![tablet-landscape 정답 확인 · 05d-play-one-basket-complete](screenshots/engine-flow-tablet-landscape-05d-play-one-basket-complete.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-ones-confirm · `engine-flow-tablet-landscape-05d-play-ones-confirm.png`
+
+![tablet-landscape 정답 확인 · 05d-play-ones-confirm](screenshots/engine-flow-tablet-landscape-05d-play-ones-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-quotient · `engine-flow-tablet-landscape-05d-play-quotient.png`
+
+![tablet-landscape 문제 상태 · 05d-play-quotient](screenshots/engine-flow-tablet-landscape-05d-play-quotient.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05e-play-final-sum · `engine-flow-tablet-landscape-05e-play-final-sum.png`
+
+![tablet-landscape 문제 상태 · 05e-play-final-sum](screenshots/engine-flow-tablet-landscape-05e-play-final-sum.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05e-play-quotient-wrong · `engine-flow-tablet-landscape-05e-play-quotient-wrong.png`
+
+![tablet-landscape 오답 확인 · 05e-play-quotient-wrong](screenshots/engine-flow-tablet-landscape-05e-play-quotient-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05f-play-final-sum-wrong · `engine-flow-tablet-landscape-05f-play-final-sum-wrong.png`
+
+![tablet-landscape 오답 확인 · 05f-play-final-sum-wrong](screenshots/engine-flow-tablet-landscape-05f-play-final-sum-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-tablet-landscape-05b-play-wrong.png`
+
+![tablet-landscape 오답 확인 · 05b-play-wrong](screenshots/engine-flow-tablet-landscape-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-correct-gate · `engine-flow-tablet-landscape-07c-reward-correct-gate.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-correct-gate](screenshots/engine-flow-tablet-landscape-07c-reward-correct-gate.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-decrease · `engine-flow-tablet-landscape-07c-reward-decrease.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-decrease](screenshots/engine-flow-tablet-landscape-07c-reward-decrease.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-golden-field · `engine-flow-tablet-landscape-07c-reward-golden-field.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-golden-field](screenshots/engine-flow-tablet-landscape-07c-reward-golden-field.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-increase · `engine-flow-tablet-landscape-07c-reward-increase.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-increase](screenshots/engine-flow-tablet-landscape-07c-reward-increase.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-zero · `engine-flow-tablet-landscape-07c-reward-zero.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-zero](screenshots/engine-flow-tablet-landscape-07c-reward-zero.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-tablet-landscape-07d-final-reward-closed.png`
+
+![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07d-final-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07e-final-reward-open.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07e-final-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bigfarm · `engine-flow-tablet-landscape-08a-result-bigfarm.png`
+
+![tablet-landscape 결과 단계 · bigfarm](screenshots/engine-flow-tablet-landscape-08a-result-bigfarm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · farm · `engine-flow-tablet-landscape-08a-result-farm.png`
+
+![tablet-landscape 결과 단계 · farm](screenshots/engine-flow-tablet-landscape-08a-result-farm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · garden · `engine-flow-tablet-landscape-08a-result-garden.png`
+
+![tablet-landscape 결과 단계 · garden](screenshots/engine-flow-tablet-landscape-08a-result-garden.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-tablet-landscape-08a-result-rainbow.png`
+
+![tablet-landscape 결과 단계 · rainbow](screenshots/engine-flow-tablet-landscape-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · seed · `engine-flow-tablet-landscape-08a-result-seed.png`
+
+![tablet-landscape 결과 단계 · seed](screenshots/engine-flow-tablet-landscape-08a-result-seed.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · sprout · `engine-flow-tablet-landscape-08a-result-sprout.png`
+
+![tablet-landscape 결과 단계 · sprout](screenshots/engine-flow-tablet-landscape-08a-result-sprout.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-tablet-landscape-09-scoreboard-offline.png`
+
+![tablet-landscape 09-scoreboard-offline](screenshots/engine-flow-tablet-landscape-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-tablet-landscape-09b-scoreboard-10rows-start.png`
+
+![tablet-landscape 09b-scoreboard-10rows-start](screenshots/engine-flow-tablet-landscape-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-tablet-landscape-09c-scoreboard-10rows-end.png`
+
+![tablet-landscape 09c-scoreboard-10rows-end](screenshots/engine-flow-tablet-landscape-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### reported-compact · 918×897 · DPR 1 · 34장
+
+![reported-compact 전체 상태 컨택시트](screenshots/report-flow-reported-compact-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-compact-01-cover.png`
+
+![reported-compact 시작 화면](screenshots/engine-flow-reported-compact-01-cover.png)
+
+- 학생이 보는 것: 매스몬 나누기 농장 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-compact-02-settings.png`
+
+![reported-compact 설정 화면](screenshots/engine-flow-reported-compact-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-compact-03-tutorial-1.png`
+
+![reported-compact 설명 1 · 풀이 방법](screenshots/engine-flow-reported-compact-03-tutorial-1.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-compact-04-tutorial-2.png`
+
+![reported-compact 설명 2 · 보상과 목표](screenshots/engine-flow-reported-compact-04-tutorial-2.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-compact-05-play-step1.png`
+
+![reported-compact 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-compact-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05c-play-step2 · `engine-flow-reported-compact-05c-play-step2.png`
+
+![reported-compact 문제 상태 · 05c-play-step2](screenshots/engine-flow-reported-compact-05c-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05c-play-tens-confirm · `engine-flow-reported-compact-05c-play-tens-confirm.png`
+
+![reported-compact 정답 확인 · 05c-play-tens-confirm](screenshots/engine-flow-reported-compact-05c-play-tens-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-one-basket-complete · `engine-flow-reported-compact-05d-play-one-basket-complete.png`
+
+![reported-compact 정답 확인 · 05d-play-one-basket-complete](screenshots/engine-flow-reported-compact-05d-play-one-basket-complete.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-ones-confirm · `engine-flow-reported-compact-05d-play-ones-confirm.png`
+
+![reported-compact 정답 확인 · 05d-play-ones-confirm](screenshots/engine-flow-reported-compact-05d-play-ones-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-quotient · `engine-flow-reported-compact-05d-play-quotient.png`
+
+![reported-compact 문제 상태 · 05d-play-quotient](screenshots/engine-flow-reported-compact-05d-play-quotient.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05e-play-final-sum · `engine-flow-reported-compact-05e-play-final-sum.png`
+
+![reported-compact 문제 상태 · 05e-play-final-sum](screenshots/engine-flow-reported-compact-05e-play-final-sum.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05e-play-quotient-wrong · `engine-flow-reported-compact-05e-play-quotient-wrong.png`
+
+![reported-compact 오답 확인 · 05e-play-quotient-wrong](screenshots/engine-flow-reported-compact-05e-play-quotient-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05f-play-final-sum-wrong · `engine-flow-reported-compact-05f-play-final-sum-wrong.png`
+
+![reported-compact 오답 확인 · 05f-play-final-sum-wrong](screenshots/engine-flow-reported-compact-05f-play-final-sum-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-compact-05b-play-wrong.png`
+
+![reported-compact 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-compact-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-compact-06-confirm.png`
+
+![reported-compact 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-compact-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-compact-07-reward-closed.png`
+
+![reported-compact 닫힌 보상](screenshots/engine-flow-reported-compact-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-compact-07b-reward-open.png`
+
+![reported-compact 열린 보상](screenshots/engine-flow-reported-compact-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-correct-gate · `engine-flow-reported-compact-07c-reward-correct-gate.png`
+
+![reported-compact 보상 뒤 변화 · 07c-reward-correct-gate](screenshots/engine-flow-reported-compact-07c-reward-correct-gate.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-decrease · `engine-flow-reported-compact-07c-reward-decrease.png`
+
+![reported-compact 보상 뒤 변화 · 07c-reward-decrease](screenshots/engine-flow-reported-compact-07c-reward-decrease.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-golden-field · `engine-flow-reported-compact-07c-reward-golden-field.png`
+
+![reported-compact 보상 뒤 변화 · 07c-reward-golden-field](screenshots/engine-flow-reported-compact-07c-reward-golden-field.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-increase · `engine-flow-reported-compact-07c-reward-increase.png`
+
+![reported-compact 보상 뒤 변화 · 07c-reward-increase](screenshots/engine-flow-reported-compact-07c-reward-increase.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-zero · `engine-flow-reported-compact-07c-reward-zero.png`
+
+![reported-compact 보상 뒤 변화 · 07c-reward-zero](screenshots/engine-flow-reported-compact-07c-reward-zero.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-compact-07d-final-reward-closed.png`
+
+![reported-compact 닫힌 보상](screenshots/engine-flow-reported-compact-07d-final-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-compact-07e-final-reward-open.png`
+
+![reported-compact 열린 보상](screenshots/engine-flow-reported-compact-07e-final-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-compact-08-result.png`
+
+![reported-compact 실제 결과](screenshots/engine-flow-reported-compact-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bigfarm · `engine-flow-reported-compact-08a-result-bigfarm.png`
+
+![reported-compact 결과 단계 · bigfarm](screenshots/engine-flow-reported-compact-08a-result-bigfarm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · farm · `engine-flow-reported-compact-08a-result-farm.png`
+
+![reported-compact 결과 단계 · farm](screenshots/engine-flow-reported-compact-08a-result-farm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · garden · `engine-flow-reported-compact-08a-result-garden.png`
+
+![reported-compact 결과 단계 · garden](screenshots/engine-flow-reported-compact-08a-result-garden.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-reported-compact-08a-result-rainbow.png`
+
+![reported-compact 결과 단계 · rainbow](screenshots/engine-flow-reported-compact-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · seed · `engine-flow-reported-compact-08a-result-seed.png`
+
+![reported-compact 결과 단계 · seed](screenshots/engine-flow-reported-compact-08a-result-seed.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · sprout · `engine-flow-reported-compact-08a-result-sprout.png`
+
+![reported-compact 결과 단계 · sprout](screenshots/engine-flow-reported-compact-08a-result-sprout.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-reported-compact-09-scoreboard-offline.png`
+
+![reported-compact 09-scoreboard-offline](screenshots/engine-flow-reported-compact-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-reported-compact-09b-scoreboard-10rows-start.png`
+
+![reported-compact 09b-scoreboard-10rows-start](screenshots/engine-flow-reported-compact-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-reported-compact-09c-scoreboard-10rows-end.png`
+
+![reported-compact 09c-scoreboard-10rows-end](screenshots/engine-flow-reported-compact-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### reported-carrot-fox · 934×987 · DPR 1 · 29장
+
+![reported-carrot-fox 전체 상태 컨택시트](screenshots/report-flow-reported-carrot-fox-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-carrot-fox-01-cover.png`
+
+![reported-carrot-fox 시작 화면](screenshots/engine-flow-reported-carrot-fox-01-cover.png)
+
+- 학생이 보는 것: 매스몬 나누기 농장 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-carrot-fox-02-settings.png`
+
+![reported-carrot-fox 설정 화면](screenshots/engine-flow-reported-carrot-fox-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-carrot-fox-03-tutorial-1.png`
+
+![reported-carrot-fox 설명 1 · 풀이 방법](screenshots/engine-flow-reported-carrot-fox-03-tutorial-1.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-carrot-fox-04-tutorial-2.png`
+
+![reported-carrot-fox 설명 2 · 보상과 목표](screenshots/engine-flow-reported-carrot-fox-04-tutorial-2.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-carrot-fox-05-play-step1.png`
+
+![reported-carrot-fox 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-carrot-fox-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05c-play-step2 · `engine-flow-reported-carrot-fox-05c-play-step2.png`
+
+![reported-carrot-fox 문제 상태 · 05c-play-step2](screenshots/engine-flow-reported-carrot-fox-05c-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05c-play-tens-confirm · `engine-flow-reported-carrot-fox-05c-play-tens-confirm.png`
+
+![reported-carrot-fox 정답 확인 · 05c-play-tens-confirm](screenshots/engine-flow-reported-carrot-fox-05c-play-tens-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-one-basket-complete · `engine-flow-reported-carrot-fox-05d-play-one-basket-complete.png`
+
+![reported-carrot-fox 정답 확인 · 05d-play-one-basket-complete](screenshots/engine-flow-reported-carrot-fox-05d-play-one-basket-complete.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-ones-confirm · `engine-flow-reported-carrot-fox-05d-play-ones-confirm.png`
+
+![reported-carrot-fox 정답 확인 · 05d-play-ones-confirm](screenshots/engine-flow-reported-carrot-fox-05d-play-ones-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05e-play-final-sum · `engine-flow-reported-carrot-fox-05e-play-final-sum.png`
+
+![reported-carrot-fox 문제 상태 · 05e-play-final-sum](screenshots/engine-flow-reported-carrot-fox-05e-play-final-sum.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05f-play-final-sum-wrong · `engine-flow-reported-carrot-fox-05f-play-final-sum-wrong.png`
+
+![reported-carrot-fox 오답 확인 · 05f-play-final-sum-wrong](screenshots/engine-flow-reported-carrot-fox-05f-play-final-sum-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-carrot-fox-05b-play-wrong.png`
+
+![reported-carrot-fox 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-carrot-fox-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-carrot-fox-06-confirm.png`
+
+![reported-carrot-fox 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-carrot-fox-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-carrot-fox-07-reward-closed.png`
+
+![reported-carrot-fox 닫힌 보상](screenshots/engine-flow-reported-carrot-fox-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-carrot-fox-07b-reward-open.png`
+
+![reported-carrot-fox 열린 보상](screenshots/engine-flow-reported-carrot-fox-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-correct-gate · `engine-flow-reported-carrot-fox-07c-reward-correct-gate.png`
+
+![reported-carrot-fox 보상 뒤 변화 · 07c-reward-correct-gate](screenshots/engine-flow-reported-carrot-fox-07c-reward-correct-gate.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-decrease · `engine-flow-reported-carrot-fox-07c-reward-decrease.png`
+
+![reported-carrot-fox 보상 뒤 변화 · 07c-reward-decrease](screenshots/engine-flow-reported-carrot-fox-07c-reward-decrease.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-golden-field · `engine-flow-reported-carrot-fox-07c-reward-golden-field.png`
+
+![reported-carrot-fox 보상 뒤 변화 · 07c-reward-golden-field](screenshots/engine-flow-reported-carrot-fox-07c-reward-golden-field.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-increase · `engine-flow-reported-carrot-fox-07c-reward-increase.png`
+
+![reported-carrot-fox 보상 뒤 변화 · 07c-reward-increase](screenshots/engine-flow-reported-carrot-fox-07c-reward-increase.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-zero · `engine-flow-reported-carrot-fox-07c-reward-zero.png`
+
+![reported-carrot-fox 보상 뒤 변화 · 07c-reward-zero](screenshots/engine-flow-reported-carrot-fox-07c-reward-zero.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-carrot-fox-07d-final-reward-closed.png`
+
+![reported-carrot-fox 닫힌 보상](screenshots/engine-flow-reported-carrot-fox-07d-final-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-carrot-fox-07e-final-reward-open.png`
+
+![reported-carrot-fox 열린 보상](screenshots/engine-flow-reported-carrot-fox-07e-final-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-carrot-fox-08-result.png`
+
+![reported-carrot-fox 실제 결과](screenshots/engine-flow-reported-carrot-fox-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bigfarm · `engine-flow-reported-carrot-fox-08a-result-bigfarm.png`
+
+![reported-carrot-fox 결과 단계 · bigfarm](screenshots/engine-flow-reported-carrot-fox-08a-result-bigfarm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · farm · `engine-flow-reported-carrot-fox-08a-result-farm.png`
+
+![reported-carrot-fox 결과 단계 · farm](screenshots/engine-flow-reported-carrot-fox-08a-result-farm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · garden · `engine-flow-reported-carrot-fox-08a-result-garden.png`
+
+![reported-carrot-fox 결과 단계 · garden](screenshots/engine-flow-reported-carrot-fox-08a-result-garden.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-reported-carrot-fox-08a-result-rainbow.png`
+
+![reported-carrot-fox 결과 단계 · rainbow](screenshots/engine-flow-reported-carrot-fox-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · seed · `engine-flow-reported-carrot-fox-08a-result-seed.png`
+
+![reported-carrot-fox 결과 단계 · seed](screenshots/engine-flow-reported-carrot-fox-08a-result-seed.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · sprout · `engine-flow-reported-carrot-fox-08a-result-sprout.png`
+
+![reported-carrot-fox 결과 단계 · sprout](screenshots/engine-flow-reported-carrot-fox-08a-result-sprout.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-complete-step-gap · 926×688 · DPR 1 · 29장
+
+![reported-complete-step-gap 전체 상태 컨택시트](screenshots/report-flow-reported-complete-step-gap-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-complete-step-gap-01-cover.png`
+
+![reported-complete-step-gap 시작 화면](screenshots/engine-flow-reported-complete-step-gap-01-cover.png)
+
+- 학생이 보는 것: 매스몬 나누기 농장 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-complete-step-gap-02-settings.png`
+
+![reported-complete-step-gap 설정 화면](screenshots/engine-flow-reported-complete-step-gap-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-complete-step-gap-03-tutorial-1.png`
+
+![reported-complete-step-gap 설명 1 · 풀이 방법](screenshots/engine-flow-reported-complete-step-gap-03-tutorial-1.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-complete-step-gap-04-tutorial-2.png`
+
+![reported-complete-step-gap 설명 2 · 보상과 목표](screenshots/engine-flow-reported-complete-step-gap-04-tutorial-2.png)
+
+- 학생이 보는 것: 내림 없는 두 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-complete-step-gap-05-play-step1.png`
+
+![reported-complete-step-gap 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-complete-step-gap-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05c-play-step2 · `engine-flow-reported-complete-step-gap-05c-play-step2.png`
+
+![reported-complete-step-gap 문제 상태 · 05c-play-step2](screenshots/engine-flow-reported-complete-step-gap-05c-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05c-play-tens-confirm · `engine-flow-reported-complete-step-gap-05c-play-tens-confirm.png`
+
+![reported-complete-step-gap 정답 확인 · 05c-play-tens-confirm](screenshots/engine-flow-reported-complete-step-gap-05c-play-tens-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-one-basket-complete · `engine-flow-reported-complete-step-gap-05d-play-one-basket-complete.png`
+
+![reported-complete-step-gap 정답 확인 · 05d-play-one-basket-complete](screenshots/engine-flow-reported-complete-step-gap-05d-play-one-basket-complete.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 정답 확인 · 05d-play-ones-confirm · `engine-flow-reported-complete-step-gap-05d-play-ones-confirm.png`
+
+![reported-complete-step-gap 정답 확인 · 05d-play-ones-confirm](screenshots/engine-flow-reported-complete-step-gap-05d-play-ones-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05e-play-final-sum · `engine-flow-reported-complete-step-gap-05e-play-final-sum.png`
+
+![reported-complete-step-gap 문제 상태 · 05e-play-final-sum](screenshots/engine-flow-reported-complete-step-gap-05e-play-final-sum.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05f-play-final-sum-wrong · `engine-flow-reported-complete-step-gap-05f-play-final-sum-wrong.png`
+
+![reported-complete-step-gap 오답 확인 · 05f-play-final-sum-wrong](screenshots/engine-flow-reported-complete-step-gap-05f-play-final-sum-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-reported-complete-step-gap-05b-play-wrong.png`
+
+![reported-complete-step-gap 오답 확인 · 05b-play-wrong](screenshots/engine-flow-reported-complete-step-gap-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-complete-step-gap-06-confirm.png`
+
+![reported-complete-step-gap 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-complete-step-gap-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 내림 없는 두 자리 수 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-complete-step-gap-07-reward-closed.png`
+
+![reported-complete-step-gap 닫힌 보상](screenshots/engine-flow-reported-complete-step-gap-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-complete-step-gap-07b-reward-open.png`
+
+![reported-complete-step-gap 열린 보상](screenshots/engine-flow-reported-complete-step-gap-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-correct-gate · `engine-flow-reported-complete-step-gap-07c-reward-correct-gate.png`
+
+![reported-complete-step-gap 보상 뒤 변화 · 07c-reward-correct-gate](screenshots/engine-flow-reported-complete-step-gap-07c-reward-correct-gate.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-decrease · `engine-flow-reported-complete-step-gap-07c-reward-decrease.png`
+
+![reported-complete-step-gap 보상 뒤 변화 · 07c-reward-decrease](screenshots/engine-flow-reported-complete-step-gap-07c-reward-decrease.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-golden-field · `engine-flow-reported-complete-step-gap-07c-reward-golden-field.png`
+
+![reported-complete-step-gap 보상 뒤 변화 · 07c-reward-golden-field](screenshots/engine-flow-reported-complete-step-gap-07c-reward-golden-field.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-increase · `engine-flow-reported-complete-step-gap-07c-reward-increase.png`
+
+![reported-complete-step-gap 보상 뒤 변화 · 07c-reward-increase](screenshots/engine-flow-reported-complete-step-gap-07c-reward-increase.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-zero · `engine-flow-reported-complete-step-gap-07c-reward-zero.png`
+
+![reported-complete-step-gap 보상 뒤 변화 · 07c-reward-zero](screenshots/engine-flow-reported-complete-step-gap-07c-reward-zero.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 농장 힘 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-reported-complete-step-gap-07d-final-reward-closed.png`
+
+![reported-complete-step-gap 닫힌 보상](screenshots/engine-flow-reported-complete-step-gap-07d-final-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 농장 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-reported-complete-step-gap-07e-final-reward-open.png`
+
+![reported-complete-step-gap 열린 보상](screenshots/engine-flow-reported-complete-step-gap-07e-final-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 농장 힘 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-complete-step-gap-08-result.png`
+
+![reported-complete-step-gap 실제 결과](screenshots/engine-flow-reported-complete-step-gap-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · bigfarm · `engine-flow-reported-complete-step-gap-08a-result-bigfarm.png`
+
+![reported-complete-step-gap 결과 단계 · bigfarm](screenshots/engine-flow-reported-complete-step-gap-08a-result-bigfarm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · farm · `engine-flow-reported-complete-step-gap-08a-result-farm.png`
+
+![reported-complete-step-gap 결과 단계 · farm](screenshots/engine-flow-reported-complete-step-gap-08a-result-farm.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · garden · `engine-flow-reported-complete-step-gap-08a-result-garden.png`
+
+![reported-complete-step-gap 결과 단계 · garden](screenshots/engine-flow-reported-complete-step-gap-08a-result-garden.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-reported-complete-step-gap-08a-result-rainbow.png`
+
+![reported-complete-step-gap 결과 단계 · rainbow](screenshots/engine-flow-reported-complete-step-gap-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · seed · `engine-flow-reported-complete-step-gap-08a-result-seed.png`
+
+![reported-complete-step-gap 결과 단계 · seed](screenshots/engine-flow-reported-complete-step-gap-08a-result-seed.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · sprout · `engine-flow-reported-complete-step-gap-08a-result-sprout.png`
+
+![reported-complete-step-gap 결과 단계 · sprout](screenshots/engine-flow-reported-complete-step-gap-08a-result-sprout.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 농장 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

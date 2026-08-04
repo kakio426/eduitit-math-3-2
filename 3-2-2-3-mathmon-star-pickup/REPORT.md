@@ -422,3 +422,1196 @@ node scripts/check-lesson-contract.mjs 3-2-2-3-mathmon-star-pickup
 node scripts/check-lesson-visual-contract.mjs 3-2-2-3-mathmon-star-pickup
 git diff --check
 ```
+
+<!-- REPORT-EVIDENCE-ALL:START -->
+
+## 2026-08-04 최신 원본 스크린샷 전수
+
+- 실행본 SHA-256: `a633419310ee27513126418cf7cb564cb78e53310ba4e62020366744f4d9fed3`
+- 생성 시각: `2026-08-04T15:32:09.931Z`
+- 등록 화면 크기: `5개`
+- 아래에 직접 삽입한 원본 캡처: `129장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+
+### desktop · 1280×800 · DPR 1 · 27장
+
+![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-desktop-01-cover.png`
+
+![desktop 시작 화면](screenshots/engine-flow-desktop-01-cover.png)
+
+- 학생이 보는 것: 매스몬 별 줍기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-desktop-02-settings.png`
+
+![desktop 설정 화면](screenshots/engine-flow-desktop-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-desktop-03-tutorial-1.png`
+
+![desktop 설명 1 · 풀이 방법](screenshots/engine-flow-desktop-03-tutorial-1.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-desktop-04-tutorial-2.png`
+
+![desktop 설명 2 · 보상과 목표](screenshots/engine-flow-desktop-04-tutorial-2.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
+
+![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a-boundary-20-stars · `engine-flow-desktop-05a-boundary-20-stars.png`
+
+![desktop 문제 상태 · 05a-boundary-20-stars](screenshots/engine-flow-desktop-05a-boundary-20-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a2-boundary-99-stars · `engine-flow-desktop-05a2-boundary-99-stars.png`
+
+![desktop 문제 상태 · 05a2-boundary-99-stars](screenshots/engine-flow-desktop-05a2-boundary-99-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a3-boundary-32-capsules · `engine-flow-desktop-05a3-boundary-32-capsules.png`
+
+![desktop 문제 상태 · 05a3-boundary-32-capsules](screenshots/engine-flow-desktop-05a3-boundary-32-capsules.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a4-boundary-16-groups · `engine-flow-desktop-05a4-boundary-16-groups.png`
+
+![desktop 문제 상태 · 05a4-boundary-16-groups](screenshots/engine-flow-desktop-05a4-boundary-16-groups.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-quotient-too-high · `engine-flow-desktop-05b2-play-quotient-too-high.png`
+
+![desktop 오답 확인 · 05b2-play-quotient-too-high](screenshots/engine-flow-desktop-05b2-play-quotient-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 정답 확인 · 05c-play-quotient-confirm · `engine-flow-desktop-05c-play-quotient-confirm.png`
+
+![desktop 정답 확인 · 05c-play-quotient-confirm](screenshots/engine-flow-desktop-05c-play-quotient-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-remainder · `engine-flow-desktop-05d-play-remainder.png`
+
+![desktop 문제 상태 · 05d-play-remainder](screenshots/engine-flow-desktop-05d-play-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05d2-play-remainder-wrong · `engine-flow-desktop-05d2-play-remainder-wrong.png`
+
+![desktop 오답 확인 · 05d2-play-remainder-wrong](screenshots/engine-flow-desktop-05d2-play-remainder-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-quotient-too-low · `engine-flow-desktop-05b-play-quotient-too-low.png`
+
+![desktop 오답 확인 · 05b-play-quotient-too-low](screenshots/engine-flow-desktop-05b-play-quotient-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-desktop-06-confirm.png`
+
+![desktop 마지막 확인 · 06-confirm](screenshots/engine-flow-desktop-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 열린 보상 · `engine-flow-desktop-07-reward-immediate.png`
+
+![desktop 열린 보상](screenshots/engine-flow-desktop-07-reward-immediate.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 별빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-desktop-08-result.png`
+
+![desktop 실제 결과](screenshots/engine-flow-desktop-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08b-result-rainbow-10-of-10 · `engine-flow-desktop-08b-result-rainbow-10-of-10.png`
+
+![desktop 결과 상태 · 08b-result-rainbow-10-of-10](screenshots/engine-flow-desktop-08b-result-rainbow-10-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · first-star · `engine-flow-desktop-08a-result-first-star.png`
+
+![desktop 결과 단계 · first-star](screenshots/engine-flow-desktop-08a-result-first-star.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow-unicorn · `engine-flow-desktop-08a-result-rainbow-unicorn.png`
+
+![desktop 결과 단계 · rainbow-unicorn](screenshots/engine-flow-desktop-08a-result-rainbow-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · shining-unicorn · `engine-flow-desktop-08a-result-shining-unicorn.png`
+
+![desktop 결과 단계 · shining-unicorn](screenshots/engine-flow-desktop-08a-result-shining-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-cluster · `engine-flow-desktop-08a-result-star-cluster.png`
+
+![desktop 결과 단계 · star-cluster](screenshots/engine-flow-desktop-08a-result-star-cluster.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-path · `engine-flow-desktop-08a-result-star-path.png`
+
+![desktop 결과 단계 · star-path](screenshots/engine-flow-desktop-08a-result-star-path.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · unicorn-constellation · `engine-flow-desktop-08a-result-unicorn-constellation.png`
+
+![desktop 결과 단계 · unicorn-constellation](screenshots/engine-flow-desktop-08a-result-unicorn-constellation.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-desktop-09-scoreboard-offline.png`
+
+![desktop 09-scoreboard-offline](screenshots/engine-flow-desktop-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-desktop-09b-scoreboard-10rows-start.png`
+
+![desktop 09b-scoreboard-10rows-start](screenshots/engine-flow-desktop-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-desktop-09c-scoreboard-10rows-end.png`
+
+![desktop 09c-scoreboard-10rows-end](screenshots/engine-flow-desktop-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### tablet-landscape · 1024×768 · DPR 1 · 27장
+
+![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
+
+![tablet-landscape 시작 화면](screenshots/engine-flow-tablet-landscape-01-cover.png)
+
+- 학생이 보는 것: 매스몬 별 줍기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-tablet-landscape-02-settings.png`
+
+![tablet-landscape 설정 화면](screenshots/engine-flow-tablet-landscape-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-tablet-landscape-03-tutorial-1.png`
+
+![tablet-landscape 설명 1 · 풀이 방법](screenshots/engine-flow-tablet-landscape-03-tutorial-1.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-tablet-landscape-04-tutorial-2.png`
+
+![tablet-landscape 설명 2 · 보상과 목표](screenshots/engine-flow-tablet-landscape-04-tutorial-2.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
+
+![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a-boundary-20-stars · `engine-flow-tablet-landscape-05a-boundary-20-stars.png`
+
+![tablet-landscape 문제 상태 · 05a-boundary-20-stars](screenshots/engine-flow-tablet-landscape-05a-boundary-20-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a2-boundary-99-stars · `engine-flow-tablet-landscape-05a2-boundary-99-stars.png`
+
+![tablet-landscape 문제 상태 · 05a2-boundary-99-stars](screenshots/engine-flow-tablet-landscape-05a2-boundary-99-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a3-boundary-32-capsules · `engine-flow-tablet-landscape-05a3-boundary-32-capsules.png`
+
+![tablet-landscape 문제 상태 · 05a3-boundary-32-capsules](screenshots/engine-flow-tablet-landscape-05a3-boundary-32-capsules.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a4-boundary-16-groups · `engine-flow-tablet-landscape-05a4-boundary-16-groups.png`
+
+![tablet-landscape 문제 상태 · 05a4-boundary-16-groups](screenshots/engine-flow-tablet-landscape-05a4-boundary-16-groups.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-quotient-too-high · `engine-flow-tablet-landscape-05b2-play-quotient-too-high.png`
+
+![tablet-landscape 오답 확인 · 05b2-play-quotient-too-high](screenshots/engine-flow-tablet-landscape-05b2-play-quotient-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 정답 확인 · 05c-play-quotient-confirm · `engine-flow-tablet-landscape-05c-play-quotient-confirm.png`
+
+![tablet-landscape 정답 확인 · 05c-play-quotient-confirm](screenshots/engine-flow-tablet-landscape-05c-play-quotient-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-remainder · `engine-flow-tablet-landscape-05d-play-remainder.png`
+
+![tablet-landscape 문제 상태 · 05d-play-remainder](screenshots/engine-flow-tablet-landscape-05d-play-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05d2-play-remainder-wrong · `engine-flow-tablet-landscape-05d2-play-remainder-wrong.png`
+
+![tablet-landscape 오답 확인 · 05d2-play-remainder-wrong](screenshots/engine-flow-tablet-landscape-05d2-play-remainder-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-quotient-too-low · `engine-flow-tablet-landscape-05b-play-quotient-too-low.png`
+
+![tablet-landscape 오답 확인 · 05b-play-quotient-too-low](screenshots/engine-flow-tablet-landscape-05b-play-quotient-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-tablet-landscape-06-confirm.png`
+
+![tablet-landscape 마지막 확인 · 06-confirm](screenshots/engine-flow-tablet-landscape-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 열린 보상 · `engine-flow-tablet-landscape-07-reward-immediate.png`
+
+![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07-reward-immediate.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 별빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
+
+![tablet-landscape 실제 결과](screenshots/engine-flow-tablet-landscape-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08b-result-rainbow-10-of-10 · `engine-flow-tablet-landscape-08b-result-rainbow-10-of-10.png`
+
+![tablet-landscape 결과 상태 · 08b-result-rainbow-10-of-10](screenshots/engine-flow-tablet-landscape-08b-result-rainbow-10-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · first-star · `engine-flow-tablet-landscape-08a-result-first-star.png`
+
+![tablet-landscape 결과 단계 · first-star](screenshots/engine-flow-tablet-landscape-08a-result-first-star.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow-unicorn · `engine-flow-tablet-landscape-08a-result-rainbow-unicorn.png`
+
+![tablet-landscape 결과 단계 · rainbow-unicorn](screenshots/engine-flow-tablet-landscape-08a-result-rainbow-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · shining-unicorn · `engine-flow-tablet-landscape-08a-result-shining-unicorn.png`
+
+![tablet-landscape 결과 단계 · shining-unicorn](screenshots/engine-flow-tablet-landscape-08a-result-shining-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-cluster · `engine-flow-tablet-landscape-08a-result-star-cluster.png`
+
+![tablet-landscape 결과 단계 · star-cluster](screenshots/engine-flow-tablet-landscape-08a-result-star-cluster.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-path · `engine-flow-tablet-landscape-08a-result-star-path.png`
+
+![tablet-landscape 결과 단계 · star-path](screenshots/engine-flow-tablet-landscape-08a-result-star-path.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · unicorn-constellation · `engine-flow-tablet-landscape-08a-result-unicorn-constellation.png`
+
+![tablet-landscape 결과 단계 · unicorn-constellation](screenshots/engine-flow-tablet-landscape-08a-result-unicorn-constellation.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-tablet-landscape-09-scoreboard-offline.png`
+
+![tablet-landscape 09-scoreboard-offline](screenshots/engine-flow-tablet-landscape-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-tablet-landscape-09b-scoreboard-10rows-start.png`
+
+![tablet-landscape 09b-scoreboard-10rows-start](screenshots/engine-flow-tablet-landscape-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-tablet-landscape-09c-scoreboard-10rows-end.png`
+
+![tablet-landscape 09c-scoreboard-10rows-end](screenshots/engine-flow-tablet-landscape-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### reported-1780x1112 · 1780×1112 · DPR 1 · 27장
+
+![reported-1780x1112 전체 상태 컨택시트](screenshots/report-flow-reported-1780x1112-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-1780x1112-01-cover.png`
+
+![reported-1780x1112 시작 화면](screenshots/engine-flow-reported-1780x1112-01-cover.png)
+
+- 학생이 보는 것: 매스몬 별 줍기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-1780x1112-02-settings.png`
+
+![reported-1780x1112 설정 화면](screenshots/engine-flow-reported-1780x1112-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-1780x1112-03-tutorial-1.png`
+
+![reported-1780x1112 설명 1 · 풀이 방법](screenshots/engine-flow-reported-1780x1112-03-tutorial-1.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-1780x1112-04-tutorial-2.png`
+
+![reported-1780x1112 설명 2 · 보상과 목표](screenshots/engine-flow-reported-1780x1112-04-tutorial-2.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-1780x1112-05-play-step1.png`
+
+![reported-1780x1112 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-1780x1112-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a-boundary-20-stars · `engine-flow-reported-1780x1112-05a-boundary-20-stars.png`
+
+![reported-1780x1112 문제 상태 · 05a-boundary-20-stars](screenshots/engine-flow-reported-1780x1112-05a-boundary-20-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a2-boundary-99-stars · `engine-flow-reported-1780x1112-05a2-boundary-99-stars.png`
+
+![reported-1780x1112 문제 상태 · 05a2-boundary-99-stars](screenshots/engine-flow-reported-1780x1112-05a2-boundary-99-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a3-boundary-32-capsules · `engine-flow-reported-1780x1112-05a3-boundary-32-capsules.png`
+
+![reported-1780x1112 문제 상태 · 05a3-boundary-32-capsules](screenshots/engine-flow-reported-1780x1112-05a3-boundary-32-capsules.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a4-boundary-16-groups · `engine-flow-reported-1780x1112-05a4-boundary-16-groups.png`
+
+![reported-1780x1112 문제 상태 · 05a4-boundary-16-groups](screenshots/engine-flow-reported-1780x1112-05a4-boundary-16-groups.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-quotient-too-high · `engine-flow-reported-1780x1112-05b2-play-quotient-too-high.png`
+
+![reported-1780x1112 오답 확인 · 05b2-play-quotient-too-high](screenshots/engine-flow-reported-1780x1112-05b2-play-quotient-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 정답 확인 · 05c-play-quotient-confirm · `engine-flow-reported-1780x1112-05c-play-quotient-confirm.png`
+
+![reported-1780x1112 정답 확인 · 05c-play-quotient-confirm](screenshots/engine-flow-reported-1780x1112-05c-play-quotient-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-remainder · `engine-flow-reported-1780x1112-05d-play-remainder.png`
+
+![reported-1780x1112 문제 상태 · 05d-play-remainder](screenshots/engine-flow-reported-1780x1112-05d-play-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05d2-play-remainder-wrong · `engine-flow-reported-1780x1112-05d2-play-remainder-wrong.png`
+
+![reported-1780x1112 오답 확인 · 05d2-play-remainder-wrong](screenshots/engine-flow-reported-1780x1112-05d2-play-remainder-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-quotient-too-low · `engine-flow-reported-1780x1112-05b-play-quotient-too-low.png`
+
+![reported-1780x1112 오답 확인 · 05b-play-quotient-too-low](screenshots/engine-flow-reported-1780x1112-05b-play-quotient-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-1780x1112-06-confirm.png`
+
+![reported-1780x1112 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-1780x1112-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 열린 보상 · `engine-flow-reported-1780x1112-07-reward-immediate.png`
+
+![reported-1780x1112 열린 보상](screenshots/engine-flow-reported-1780x1112-07-reward-immediate.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 별빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-1780x1112-08-result.png`
+
+![reported-1780x1112 실제 결과](screenshots/engine-flow-reported-1780x1112-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08b-result-rainbow-10-of-10 · `engine-flow-reported-1780x1112-08b-result-rainbow-10-of-10.png`
+
+![reported-1780x1112 결과 상태 · 08b-result-rainbow-10-of-10](screenshots/engine-flow-reported-1780x1112-08b-result-rainbow-10-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · first-star · `engine-flow-reported-1780x1112-08a-result-first-star.png`
+
+![reported-1780x1112 결과 단계 · first-star](screenshots/engine-flow-reported-1780x1112-08a-result-first-star.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow-unicorn · `engine-flow-reported-1780x1112-08a-result-rainbow-unicorn.png`
+
+![reported-1780x1112 결과 단계 · rainbow-unicorn](screenshots/engine-flow-reported-1780x1112-08a-result-rainbow-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · shining-unicorn · `engine-flow-reported-1780x1112-08a-result-shining-unicorn.png`
+
+![reported-1780x1112 결과 단계 · shining-unicorn](screenshots/engine-flow-reported-1780x1112-08a-result-shining-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-cluster · `engine-flow-reported-1780x1112-08a-result-star-cluster.png`
+
+![reported-1780x1112 결과 단계 · star-cluster](screenshots/engine-flow-reported-1780x1112-08a-result-star-cluster.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-path · `engine-flow-reported-1780x1112-08a-result-star-path.png`
+
+![reported-1780x1112 결과 단계 · star-path](screenshots/engine-flow-reported-1780x1112-08a-result-star-path.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · unicorn-constellation · `engine-flow-reported-1780x1112-08a-result-unicorn-constellation.png`
+
+![reported-1780x1112 결과 단계 · unicorn-constellation](screenshots/engine-flow-reported-1780x1112-08a-result-unicorn-constellation.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 09-scoreboard-offline · `engine-flow-reported-1780x1112-09-scoreboard-offline.png`
+
+![reported-1780x1112 09-scoreboard-offline](screenshots/engine-flow-reported-1780x1112-09-scoreboard-offline.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09b-scoreboard-10rows-start · `engine-flow-reported-1780x1112-09b-scoreboard-10rows-start.png`
+
+![reported-1780x1112 09b-scoreboard-10rows-start](screenshots/engine-flow-reported-1780x1112-09b-scoreboard-10rows-start.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+#### 09c-scoreboard-10rows-end · `engine-flow-reported-1780x1112-09c-scoreboard-10rows-end.png`
+
+![reported-1780x1112 09c-scoreboard-10rows-end](screenshots/engine-flow-reported-1780x1112-09c-scoreboard-10rows-end.png)
+
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈이 현재 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
+
+### reported-in-app-1082x897-dpr2 · 1082×897 · DPR 2 · 24장
+
+![reported-in-app-1082x897-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-in-app-1082x897-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-in-app-1082x897-dpr2-01-cover.png`
+
+![reported-in-app-1082x897-dpr2 시작 화면](screenshots/engine-flow-reported-in-app-1082x897-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 별 줍기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-in-app-1082x897-dpr2-02-settings.png`
+
+![reported-in-app-1082x897-dpr2 설정 화면](screenshots/engine-flow-reported-in-app-1082x897-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-in-app-1082x897-dpr2-03-tutorial-1.png`
+
+![reported-in-app-1082x897-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-in-app-1082x897-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-in-app-1082x897-dpr2-04-tutorial-2.png`
+
+![reported-in-app-1082x897-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-in-app-1082x897-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-in-app-1082x897-dpr2-05-play-step1.png`
+
+![reported-in-app-1082x897-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a-boundary-20-stars · `engine-flow-reported-in-app-1082x897-dpr2-05a-boundary-20-stars.png`
+
+![reported-in-app-1082x897-dpr2 문제 상태 · 05a-boundary-20-stars](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05a-boundary-20-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a2-boundary-99-stars · `engine-flow-reported-in-app-1082x897-dpr2-05a2-boundary-99-stars.png`
+
+![reported-in-app-1082x897-dpr2 문제 상태 · 05a2-boundary-99-stars](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05a2-boundary-99-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a3-boundary-32-capsules · `engine-flow-reported-in-app-1082x897-dpr2-05a3-boundary-32-capsules.png`
+
+![reported-in-app-1082x897-dpr2 문제 상태 · 05a3-boundary-32-capsules](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05a3-boundary-32-capsules.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a4-boundary-16-groups · `engine-flow-reported-in-app-1082x897-dpr2-05a4-boundary-16-groups.png`
+
+![reported-in-app-1082x897-dpr2 문제 상태 · 05a4-boundary-16-groups](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05a4-boundary-16-groups.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-quotient-too-high · `engine-flow-reported-in-app-1082x897-dpr2-05b2-play-quotient-too-high.png`
+
+![reported-in-app-1082x897-dpr2 오답 확인 · 05b2-play-quotient-too-high](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05b2-play-quotient-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 정답 확인 · 05c-play-quotient-confirm · `engine-flow-reported-in-app-1082x897-dpr2-05c-play-quotient-confirm.png`
+
+![reported-in-app-1082x897-dpr2 정답 확인 · 05c-play-quotient-confirm](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05c-play-quotient-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-remainder · `engine-flow-reported-in-app-1082x897-dpr2-05d-play-remainder.png`
+
+![reported-in-app-1082x897-dpr2 문제 상태 · 05d-play-remainder](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05d-play-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05d2-play-remainder-wrong · `engine-flow-reported-in-app-1082x897-dpr2-05d2-play-remainder-wrong.png`
+
+![reported-in-app-1082x897-dpr2 오답 확인 · 05d2-play-remainder-wrong](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05d2-play-remainder-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-quotient-too-low · `engine-flow-reported-in-app-1082x897-dpr2-05b-play-quotient-too-low.png`
+
+![reported-in-app-1082x897-dpr2 오답 확인 · 05b-play-quotient-too-low](screenshots/engine-flow-reported-in-app-1082x897-dpr2-05b-play-quotient-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-in-app-1082x897-dpr2-06-confirm.png`
+
+![reported-in-app-1082x897-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-in-app-1082x897-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 열린 보상 · `engine-flow-reported-in-app-1082x897-dpr2-07-reward-immediate.png`
+
+![reported-in-app-1082x897-dpr2 열린 보상](screenshots/engine-flow-reported-in-app-1082x897-dpr2-07-reward-immediate.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 별빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-in-app-1082x897-dpr2-08-result.png`
+
+![reported-in-app-1082x897-dpr2 실제 결과](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08b-result-rainbow-10-of-10 · `engine-flow-reported-in-app-1082x897-dpr2-08b-result-rainbow-10-of-10.png`
+
+![reported-in-app-1082x897-dpr2 결과 상태 · 08b-result-rainbow-10-of-10](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08b-result-rainbow-10-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · first-star · `engine-flow-reported-in-app-1082x897-dpr2-08a-result-first-star.png`
+
+![reported-in-app-1082x897-dpr2 결과 단계 · first-star](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08a-result-first-star.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow-unicorn · `engine-flow-reported-in-app-1082x897-dpr2-08a-result-rainbow-unicorn.png`
+
+![reported-in-app-1082x897-dpr2 결과 단계 · rainbow-unicorn](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08a-result-rainbow-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · shining-unicorn · `engine-flow-reported-in-app-1082x897-dpr2-08a-result-shining-unicorn.png`
+
+![reported-in-app-1082x897-dpr2 결과 단계 · shining-unicorn](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08a-result-shining-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-cluster · `engine-flow-reported-in-app-1082x897-dpr2-08a-result-star-cluster.png`
+
+![reported-in-app-1082x897-dpr2 결과 단계 · star-cluster](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08a-result-star-cluster.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-path · `engine-flow-reported-in-app-1082x897-dpr2-08a-result-star-path.png`
+
+![reported-in-app-1082x897-dpr2 결과 단계 · star-path](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08a-result-star-path.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · unicorn-constellation · `engine-flow-reported-in-app-1082x897-dpr2-08a-result-unicorn-constellation.png`
+
+![reported-in-app-1082x897-dpr2 결과 단계 · unicorn-constellation](screenshots/engine-flow-reported-in-app-1082x897-dpr2-08a-result-unicorn-constellation.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### reported-result-panel-1080x820-dpr2 · 1080×820 · DPR 2 · 24장
+
+![reported-result-panel-1080x820-dpr2 전체 상태 컨택시트](screenshots/report-flow-reported-result-panel-1080x820-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-reported-result-panel-1080x820-dpr2-01-cover.png`
+
+![reported-result-panel-1080x820-dpr2 시작 화면](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 별 줍기 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-reported-result-panel-1080x820-dpr2-02-settings.png`
+
+![reported-result-panel-1080x820-dpr2 설정 화면](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-reported-result-panel-1080x820-dpr2-03-tutorial-1.png`
+
+![reported-result-panel-1080x820-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-reported-result-panel-1080x820-dpr2-04-tutorial-2.png`
+
+![reported-result-panel-1080x820-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 나머지가 있는 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-reported-result-panel-1080x820-dpr2-05-play-step1.png`
+
+![reported-result-panel-1080x820-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a-boundary-20-stars · `engine-flow-reported-result-panel-1080x820-dpr2-05a-boundary-20-stars.png`
+
+![reported-result-panel-1080x820-dpr2 문제 상태 · 05a-boundary-20-stars](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05a-boundary-20-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a2-boundary-99-stars · `engine-flow-reported-result-panel-1080x820-dpr2-05a2-boundary-99-stars.png`
+
+![reported-result-panel-1080x820-dpr2 문제 상태 · 05a2-boundary-99-stars](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05a2-boundary-99-stars.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a3-boundary-32-capsules · `engine-flow-reported-result-panel-1080x820-dpr2-05a3-boundary-32-capsules.png`
+
+![reported-result-panel-1080x820-dpr2 문제 상태 · 05a3-boundary-32-capsules](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05a3-boundary-32-capsules.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05a4-boundary-16-groups · `engine-flow-reported-result-panel-1080x820-dpr2-05a4-boundary-16-groups.png`
+
+![reported-result-panel-1080x820-dpr2 문제 상태 · 05a4-boundary-16-groups](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05a4-boundary-16-groups.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b2-play-quotient-too-high · `engine-flow-reported-result-panel-1080x820-dpr2-05b2-play-quotient-too-high.png`
+
+![reported-result-panel-1080x820-dpr2 오답 확인 · 05b2-play-quotient-too-high](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05b2-play-quotient-too-high.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 정답 확인 · 05c-play-quotient-confirm · `engine-flow-reported-result-panel-1080x820-dpr2-05c-play-quotient-confirm.png`
+
+![reported-result-panel-1080x820-dpr2 정답 확인 · 05c-play-quotient-confirm](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05c-play-quotient-confirm.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 문제 상태 · 05d-play-remainder · `engine-flow-reported-result-panel-1080x820-dpr2-05d-play-remainder.png`
+
+![reported-result-panel-1080x820-dpr2 문제 상태 · 05d-play-remainder](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05d-play-remainder.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05d2-play-remainder-wrong · `engine-flow-reported-result-panel-1080x820-dpr2-05d2-play-remainder-wrong.png`
+
+![reported-result-panel-1080x820-dpr2 오답 확인 · 05d2-play-remainder-wrong](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05d2-play-remainder-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-quotient-too-low · `engine-flow-reported-result-panel-1080x820-dpr2-05b-play-quotient-too-low.png`
+
+![reported-result-panel-1080x820-dpr2 오답 확인 · 05b-play-quotient-too-low](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-05b-play-quotient-too-low.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-reported-result-panel-1080x820-dpr2-06-confirm.png`
+
+![reported-result-panel-1080x820-dpr2 마지막 확인 · 06-confirm](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 있는 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 열린 보상 · `engine-flow-reported-result-panel-1080x820-dpr2-07-reward-immediate.png`
+
+![reported-result-panel-1080x820-dpr2 열린 보상](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-07-reward-immediate.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 별빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-reported-result-panel-1080x820-dpr2-08-result.png`
+
+![reported-result-panel-1080x820-dpr2 실제 결과](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08b-result-rainbow-10-of-10 · `engine-flow-reported-result-panel-1080x820-dpr2-08b-result-rainbow-10-of-10.png`
+
+![reported-result-panel-1080x820-dpr2 결과 상태 · 08b-result-rainbow-10-of-10](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08b-result-rainbow-10-of-10.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · first-star · `engine-flow-reported-result-panel-1080x820-dpr2-08a-result-first-star.png`
+
+![reported-result-panel-1080x820-dpr2 결과 단계 · first-star](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08a-result-first-star.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow-unicorn · `engine-flow-reported-result-panel-1080x820-dpr2-08a-result-rainbow-unicorn.png`
+
+![reported-result-panel-1080x820-dpr2 결과 단계 · rainbow-unicorn](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08a-result-rainbow-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · shining-unicorn · `engine-flow-reported-result-panel-1080x820-dpr2-08a-result-shining-unicorn.png`
+
+![reported-result-panel-1080x820-dpr2 결과 단계 · shining-unicorn](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08a-result-shining-unicorn.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-cluster · `engine-flow-reported-result-panel-1080x820-dpr2-08a-result-star-cluster.png`
+
+![reported-result-panel-1080x820-dpr2 결과 단계 · star-cluster](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08a-result-star-cluster.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · star-path · `engine-flow-reported-result-panel-1080x820-dpr2-08a-result-star-path.png`
+
+![reported-result-panel-1080x820-dpr2 결과 단계 · star-path](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08a-result-star-path.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · unicorn-constellation · `engine-flow-reported-result-panel-1080x820-dpr2-08a-result-unicorn-constellation.png`
+
+![reported-result-panel-1080x820-dpr2 결과 단계 · unicorn-constellation](screenshots/engine-flow-reported-result-panel-1080x820-dpr2-08a-result-unicorn-constellation.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 별빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+<!-- REPORT-EVIDENCE-ALL:END -->

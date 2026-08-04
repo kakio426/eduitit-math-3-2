@@ -16,7 +16,15 @@ function git(args, options = {}) {
 
 function lessonFromResultAsset(file) {
   const direct = file.match(/^(3-2-[1-6]-[1-4]-[^/]+)\/result-[^/]+\.(?:png|webp)$/);
-  if (direct) return direct[1];
+  if (direct) {
+    const lesson = direct[1];
+    if (file.endsWith(".webp")) return lesson;
+    // Source/provenance PNGs do not alter the running result screen. A PNG only
+    // triggers adoption when lesson.json actually connects it to the package.
+    const configPath = path.join(ROOT, "_lessons", lesson, "lesson.json");
+    const configSource = readFileSync(configPath, "utf8");
+    return configSource.includes(path.basename(file)) ? lesson : null;
+  }
   const shared = file.match(/lesson-scenes\/(3-2-[1-6]-[1-4])\//);
   if (!shared || !/\/result(?:-|\/|_)/.test(file)) return null;
   const prefix = `${shared[1]}-`;
