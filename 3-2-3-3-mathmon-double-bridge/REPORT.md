@@ -264,3 +264,14 @@
 - 텍스트 넘침·요소 겹침 QA: 등록된 `1280×800`, `1024×768`, `1079×929`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`의 표지·설명·문제 대기·오답 6종·정답 확인·완료·닫힌/열린 보상·단계 상승·결과 전 단계를 현재 실행본으로 다시 캡처했습니다. 텍스트 넘침, 요소 교차, 이미지 누락은 모두 `0건`입니다.
 - Humanizer 학생 문구 QA: 새로 보이는 학생 문구는 추가하지 않았습니다. 기존 `반지름은?`, `지름은?`, `점수 보기`, `두근두근!`, 다리 이름은 짧고 화면의 물건·행동을 바로 가리키며 번역투·어려운 한자어·뜻 반복이 없어 자연도 A를 유지합니다.
 - 검증: `node scripts/qa-engine-unit3-double-bridge-source.mjs`, `node scripts/check-lesson-visual-contract.mjs 3-2-3-3-mathmon-double-bridge`, `node scripts/check-stage-ratio.mjs`, `node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` 모두 PASS입니다.
+
+## 2026-08-04 결과 장면 v5·오른쪽 UI 재배치
+
+- 3-2-3-2 최종 화면의 정보 크기를 기준으로 제목·정답 수·다음 안내·`다시` 버튼을 결과판 전체 높이에 다시 나눴습니다. 제목 이미지는 단계 이름에 따라 Stage 기준 `220~320px`, `다시` 버튼은 `144×72px`에서 `280×108px`, 정답 수 이미지는 `135px`에서 `180px`로 키웠습니다. 네 요소의 공통 중심축은 `x=1038px`입니다.
+- `result-*-v5-generated.webp` 6장은 모두 새로 생성한 1280×800 완성 장면입니다. 수달몬은 별도 이미지로 얹지 않고 다리·그림자·반사광과 함께 한 장면에서 생성했습니다.
+- 결과 자산 컨택시트: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contact-sheets/result-fullscene-v5-contact-sheet.png`
+- 실제 브라우저 결과 6단계 컨택시트: `screenshots/result-all-tiers-user-feedback-1079x929-v5-contact-sheet.png`. 개별 캡처는 `screenshots/engine-flow-user-feedback-reward-1079x929-08c-result-cohesion-{log,small,bridge,big,grand,rainbow}.png`입니다.
+- 결과 보상 우선 QA: 전 단계 다리 폭은 Stage의 `64.06~66.41%`, 결과판 폭은 `27.81%`, 다리/판 폭 비는 `2.30~2.39`, 다리와 결과판 교차는 `0%`입니다. 내부 `다리 힘 N`과 진행 막대는 결과 화면에서 보이지 않습니다.
+- 텍스트 넘침·요소 겹침 QA: `1280×800`, `1024×768`, `1079×929`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 결과 6단계를 모두 다시 캡처했습니다. 제목·정답 수·안내·다시 버튼의 판 이탈, 형제 교차, 이미지 누락은 모두 `0건`입니다.
+- Humanizer 학생 문구 QA: 새 문구는 추가하지 않았고, 기존 `다음엔 …`, `최고 단계예요!`, `다시`는 한 행동만 짧게 말하며 번역투·어려운 한자어·뜻 반복이 없습니다. 자연도 A, 의미 변경 `0건`입니다.
+- 검증: `node scripts/qa-engine-unit3-double-bridge-source.mjs`, `node scripts/check-lesson-visual-contract.mjs 3-2-3-3-mathmon-double-bridge`, `node scripts/check-stage-ratio.mjs`, `node scripts/test-result-panel-containment.mjs`, `node scripts/test-result-reward-dominance.mjs`, `node scripts/check-result-panel-adoption.mjs origin/main`, `node scripts/qa-lesson-flow.mjs 3-2-3-3-mathmon-double-bridge` 모두 PASS입니다.

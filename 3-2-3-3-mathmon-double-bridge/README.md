@@ -27,10 +27,11 @@
 - 설명 2 배포본: `tutorial-page-2-v4-generated.webp`(1280×800)
 - 랜덤 보상: 닫힌 상자 1종과 사건별 열린 상태 6종, 모두 512×512
 - 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
-- 결과 상태 세트: 6장, 각 1280×800. 완성된 다리가 화면 왼쪽과 가운데를 크게 차지하고, 오른쪽에는 비어 있는 작은 결과판만 둔 완성 장면
+- 결과 상태 세트: `result-*-v5-generated.webp` 6장, 각 1280×800. 수달몬을 별도 이미지로 얹지 않고 다리 위 장면 안에 함께 생성했으며, 오른쪽에는 같은 위치·크기의 빈 결과판을 둠
 - 결과 제목 세트: 단계별 생성 이미지 6장. 결과판 안에서 정답 수·다음 목표·다시 버튼과 같은 축에 배치하며 내부 누적값과 진행 막대는 결과 화면에 표시하지 않음
 - 결과 행동: 공용 생성형 `다시` 버튼을 결과판 안의 시각 자산·hitbox 1:1 슬롯으로 배치
-- 결과 컨택시트: `result-tiers-v4-contact-sheet.png`, `result-titles-v3-contact-sheet.png`
+- 결과 자산 컨택시트: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contact-sheets/result-fullscene-v5-contact-sheet.png`
+- 실제 브라우저 결과 6단계 컨택시트: `screenshots/result-all-tiers-user-feedback-1079x929-v5-contact-sheet.png`
 - 결과 보상물 우선: `result-primary-reward-dominance-v1`; 다리 폭 Stage 60% 이상, 결과판 폭 38% 이하, 결과판 시작 60% 이후, 다리/판 폭 비 1.45 이상, 내부 `다리 힘 N`·막대 노출 0건
 - 문제 화면 왼쪽 진행 보상: `play-bridge-v1-{log,small,bridge,big,grand,rainbow}-generated.webp` 6장, 각 768×1536, `object-fit: contain`
 - 진행 보상 생성 원본: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source`

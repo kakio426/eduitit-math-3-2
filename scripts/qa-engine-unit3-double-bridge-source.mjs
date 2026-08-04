@@ -233,7 +233,7 @@ assert.match(modelSource, /알맞은 길이를 골라요\./, "the instruction mu
 assert.doesNotMatch(viewSource, /bridge-target|length-transfer|bridge-part-svg|installed-bridge/, "the problem must not render a second bridge diagram");
 assert.doesNotMatch(viewSource, /bridgeStructureMarkup|bridgeDifferenceMarkup|getBridgeFit/, "retired bridge-fit geometry must be removed");
 assert.doesNotMatch(viewSource, /다리 자리|같은 길이/, "retired explanatory labels must be removed");
-assert.match(viewSource, /classList\.remove\("result-restart-hitbox"\)/, "legacy result hitbox class must stay removed");
+assert.match(viewSource, /getElementById\("retryButton"\)\?\.classList\.remove\("result-restart-hitbox"\)/, "legacy result hitbox class must stay removed from the current result button");
 assert.doesNotMatch(viewSource, /classList\.add\("result-restart-hitbox"\)/, "the retired result hitbox class must not be restored");
 assert.match(viewSource, /selected === geometry\.answer \? "=" : "≠"/, "wrong comparison must never show a false equality");
 assert.match(viewSource, /className = "compass-play-progress"/, "problem view must expose the measured left progress panel");

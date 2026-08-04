@@ -229,7 +229,7 @@ function renderChoicesForStep(problem, step, state, choose) {
 }
 
 function onResult({ result }) {
-  document.getElementById("restartButton")?.classList.remove("result-restart-hitbox");
+  document.getElementById("retryButton")?.classList.remove("result-restart-hitbox");
   if (result?.needsSpecial) {
     if (ui.resultNext) ui.resultNext.textContent = "최고 단계예요!";
     if (ui.resultNextSvg) ui.resultNextSvg.textContent = "최고 단계예요!";
