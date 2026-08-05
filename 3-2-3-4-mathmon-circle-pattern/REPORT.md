@@ -97,6 +97,13 @@
 - `node scripts/sync-lesson-report-evidence.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
 - `node scripts/check-lesson-report-evidence.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
 
+## 2026-08-05 황금 정원 제목 확대
+
+- 결과판의 `320px` 제목 슬롯과 `24px` 안전 여백은 그대로 두고, `황금 정원` 생성형 제목 자산의 바깥 장식 여백만 약 `9%` 줄여 글자 자체를 키웠습니다. 다른 다섯 결과 제목과 결과 기준은 바꾸지 않았습니다.
+- 실행 자산은 투명 `800×300 WebP` 규격을 유지합니다. 6개 viewport에서 결과판 포함·중심축·정답 수 간격·다시 버튼 hitbox·요소 겹침을 다시 검사했고 모두 통과했습니다.
+
+![황금 정원 제목 확대 최종 화면](screenshots/engine-flow-desktop-08d-result-panel-design.png)
+
 ## 이번 고도화
 
 - 기존 검은 패널과 왼쪽 점수 장치를 생성 이미지 기반의 밝은 판타지 무늬 공방으로 교체했습니다.
