@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
@@ -11,6 +12,17 @@ const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const cssSource = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
 const tutorialPoster = await readFile(path.join(ROOT, LESSON, config.tutorialCards[0].image));
+const resultFullsceneRoot = path.join(
+  ROOT,
+  "_shared",
+  "mathmon",
+  "diversity-reward-pack",
+  "lesson-scenes",
+  "3-2-3-4",
+  "result-fullscene-v2",
+);
+const resultFullsceneContract = JSON.parse(await readFile(path.join(resultFullsceneRoot, "contract.json"), "utf8"));
+await readFile(path.join(resultFullsceneRoot, "contact-sheets", "result-garden-v2-contact-sheet.png"));
 
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
@@ -73,6 +85,43 @@ assert.equal(config.tutorialCards[0].image, "tutorial-page-1-generated.png");
 assert.equal(tutorialPoster.readUInt32BE(16), 1280, "tutorial poster must be one 1280px-wide raster");
 assert.equal(tutorialPoster.readUInt32BE(20), 800, "tutorial poster must be one 800px-tall raster");
 assert.equal(config.reward.changeLabel, "원의 점수");
+assert.equal(config.progressLabel, "원의 점수");
+assert.equal(config.result.renderMode, "fullscene-generated-dynamic-slots");
+assert.equal(config.result.showNextGoal, true);
+assert.equal(config.result.layout.titleWidth, 320);
+assert.equal(config.result.layout.correctWidth, 180);
+assert.deepEqual(config.result.layout.retryRect, { x:901, y:515, width:316, height:120 });
+assert.equal(config.standards.resultPanelContainment, "result-panel-containment-v2");
+assert.equal(config.standards.resultRewardDominance, "result-primary-reward-dominance-v1");
+assert.deepEqual(config.results.map((result) => result.name), [
+  "동글 씨앗",
+  "반짝 꽃",
+  "별빛 꽃",
+  "달빛 정원",
+  "황금 정원",
+  "무지개 정원",
+]);
+assert.deepEqual(resultFullsceneContract.expectedStates, config.results.map((result) => result.id));
+assert.deepEqual(resultFullsceneContract.expectedRanks, [0, 1, 2, 3, 4, 5]);
+assert.equal(resultFullsceneContract.topTwoColorFamiliesMustDiffer, true);
+const resultHashes = [];
+for (const result of config.results) {
+  const scenePng = await readFile(path.join(resultFullsceneRoot, "runtime-png", result.image.replace(/\.webp$/, ".png")));
+  assert.equal(scenePng.readUInt32BE(16), 1280, `${result.id}: result scene width`);
+  assert.equal(scenePng.readUInt32BE(20), 800, `${result.id}: result scene height`);
+  resultHashes.push(createHash("sha256").update(scenePng).digest("hex"));
+  await readFile(path.join(ROOT, LESSON, result.image));
+  await readFile(path.join(ROOT, LESSON, result.titleImage));
+}
+assert.equal(new Set(resultHashes).size, 6, "all six final reward scenes must be distinct complete images");
+assert.ok(config.result.stateImageSet.fixedGeneratedElements.includes("result-title-raster"));
+assert.ok(config.result.stateImageSet.fixedGeneratedElements.includes("result-retry-raster"));
+assert.deepEqual(config.result.stateImageSet.dynamicOverlays, ["correct-count", "next-goal"]);
+assert.equal(config.result.stateImageSet.forbidEffectOverlay, true);
+assert.equal(config.result.stateImageSet.forbidBlendMode, true);
+assert.equal(config.result.stateImageSet.forbidTierCssFilter, true);
+assert.deepEqual(config.qa.resultBoardAudit.expectedAxisXByTier, config.result.layout.axisXByTier);
+assert.equal(config.qa.resultRewardDominanceAudit.maximumVisibleInformationNodes, 4);
 assert.equal(config.qa.rewardModalAudit.standard, "unit3-modal-art-compact-v2");
 assert.equal(config.qa.rewardModalAudit.cardWidthPx, 430);
 assert.equal(config.qa.rewardModalAudit.cardHeightPx, 480);
@@ -125,6 +174,8 @@ assert.match(viewSource, /stepBoard\?\.remove\(\)/, "the redundant instruction b
 assert.match(viewSource, /class="circle-paper" x="10" y="8" width="740" height="424"/, "the circle workbench paper must fill the SVG surface");
 assert.match(viewSource, /class="circle-workbench-divider" x1="330"/, "the ruler and circle lanes must be structurally separated");
 assert.match(viewSource, /class="draw-radius-chip"[^>]+width="144" height="40"/, "the radius label must use a fixed safe chip instead of bare text");
+assert.match(viewSource, /problem\.conditionType === "diameter"[\s\S]*?`지름 \$\{problem\.givenValue\} cm`/, "diameter completion must explain the given diameter, not repeat only the radius");
+assert.match(viewSource, />\$\{measureLabel\}<\/text>/, "the completion chip must render the condition-aware measure label");
 assert.match(viewSource, /const rulerControls = `<g class="circle-ruler">/, "the ruler must remain on the completed workbench");
 assert.match(viewSource, /circle-correct-halo/, "correct completion must show a full-circle confirmation halo");
 assert.match(viewSource, /circle-correct-badge/, "correct completion must show an unmistakable check badge");
@@ -138,6 +189,9 @@ assert.match(cssSource, /@keyframes circle-correct-badge/, "correct circle must 
 assert.doesNotMatch(cssSource, /is-celebrating\s*~\s*\.compass-play-progress-impact-stage/, "ordinary gains must not reuse the Stage-wide tier-up impact");
 assert.match(cssSource, /is-tier-up\s*~\s*\.compass-play-progress-impact-stage/, "tier-up must keep the Stage-wide impact layer");
 assert.match(cssSource, /\.complete-text\s*\{\s*display:\s*none;/, "completion must leave only the reward action button below the finished circle");
+assert.match(cssSource, /#resultMeasureSvg,[\s\S]*?#resultMeasureTrackSvg,[\s\S]*?#resultMeasureFillSvg,[\s\S]*?display:\s*none/, "final reward must hide the internal score and bar");
+assert.match(cssSource, /#screen-result > \.raster-bg\s*\{[^}]*filter:\s*none;[^}]*mix-blend-mode:\s*normal;/, "tier scenes must render natively without CSS tier effects");
+assert.doesNotMatch(viewSource, /무늬왕|무늬 빛/, "retired reward names must not remain in the play view");
 assert.doesNotMatch(cssSource, /tutorial-compass-overlay|tutorial-ruler|tutorial-span-label/, "tutorial overlay CSS must be removed");
 assert.match(
   cssSource,

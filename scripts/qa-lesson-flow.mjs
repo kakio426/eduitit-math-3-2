@@ -2040,7 +2040,9 @@ async function auditResultPanelContainmentV2(page, label) {
   assert(audit.config.standard === "result-panel-containment-v2", `${label}: result panel containment standard is wrong`, audit);
   assert(!audit.error && audit.panel && audit.panelSource?.rows > 0, `${label}: result panel four-edge detector failed`, audit);
   assert(audit.safe.width > 0 && audit.safe.height > 0, `${label}: result panel safe area is empty`, audit);
+  const optionalWhenHidden = new Set(audit.config.optionalWhenHidden || []);
   for (const [key, inside] of Object.entries(audit.inside || {})) {
+    if (optionalWhenHidden.has(key) && !audit.rects?.[key]) continue;
     assert(inside, `${label}: ${key} leaves panelSafeRect`, audit);
   }
   assert(audit.intersections.length === 0, `${label}: result panel elements intersect`, audit);

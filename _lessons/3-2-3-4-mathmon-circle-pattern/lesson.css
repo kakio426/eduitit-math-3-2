@@ -219,22 +219,24 @@
 .game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .complete-panel { grid-row: 2; min-height: 76px; }
 .game[data-workbench-type="circle-pattern-choice"] #screen-result .top-row { display: none; }
 .game[data-workbench-type="circle-pattern-choice"] #screen-result::after { background: none; }
+.game[data-workbench-type="circle-pattern-choice"] #screen-result > .raster-bg { filter: none; mix-blend-mode: normal; object-fit: cover; }
+.game[data-workbench-type="circle-pattern-choice"] #screen-result .result-panel-art { display: none !important; }
+.game[data-workbench-type="circle-pattern-choice"] .result-title-art { display: block; height: auto; object-fit: contain; }
 .game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultMeasureSvg,
+.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultMeasureTrackSvg,
+.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultMeasureFillSvg,
 .game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui .result-restart-surface { display: none; }
-.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui text { fill: #fff3c6; stroke: rgba(33,14,73,.96); stroke-width: 10px; }
-.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultMeasureTrackSvg { fill: #6f4caf; opacity: .92; }
-.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffcf66; }
-.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultNextSvg { transform: none; }
-.game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultMeasureSvg { font-size: 24px; stroke-width: 6px; }
-.game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultNextSvg { font-size: 20px; stroke-width: 5px; }
-.game[data-workbench-type="circle-pattern-choice"] .result-correct-art { left: 62%; top: 55%; width: 15%; }
+.game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultNextSvg {
+  transform: none;
+  fill: #fff1b4;
+  stroke: rgba(4, 32, 66, .96);
+  stroke-width: 5px;
+  font-size: 28px;
+}
 .game[data-workbench-type="circle-pattern-choice"] .result-retry-hitbox {
-  left: 60%;
-  top: 76%;
-  right: auto;
-  bottom: auto;
-  width: 30%;
-  height: 17%;
+  overflow: hidden;
+  border-radius: 999px;
 }
 .game[data-result-panel-containment="result-panel-containment-v2"] .result-title-art,
 .game[data-result-panel-containment="result-panel-containment-v2"] .result-retry-hitbox .result-retry-art {

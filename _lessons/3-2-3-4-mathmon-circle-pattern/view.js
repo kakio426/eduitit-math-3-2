@@ -61,7 +61,7 @@ function ensurePatternPlayProgress() {
   readout.className = "compass-play-progress-readout";
   const eyebrow = document.createElement("span");
   eyebrow.className = "compass-play-progress-eyebrow";
-  eyebrow.textContent = "지금의 무늬";
+  eyebrow.textContent = "지금의 정원";
   const name = document.createElement("strong");
   name.className = "compass-play-progress-name";
   const meter = document.createElement("span");
@@ -100,7 +100,7 @@ function syncPatternPlayProgress(state, options = {}) {
   progress.name.textContent = result.name;
   progress.meter.setAttribute("aria-valuenow", String(power));
   progress.meterFill.style.width = `${power / maxPower * 100}%`;
-  progress.panel.setAttribute("aria-label", `지금은 ${result.name}예요. 무늬 빛은 ${power}이에요.`);
+  progress.panel.setAttribute("aria-label", `지금은 ${result.name}이에요. 원의 점수는 ${power}점이에요.`);
   if (changed) progress.art.src = nextSrc;
 
   const delta = Number(options.delta ?? (power - previousPower));
@@ -291,11 +291,14 @@ function circleWorkbenchMarkup(problem) {
   const rulerInteractive = phase !== "correct";
   const statusClass = phase === "wrong" ? " is-wrong" : phase === "correct" ? " is-correct" : "";
   const labelX = centerX + Math.min(drawRadius * .5, 100);
+  const measureLabel = phase === "correct" && problem.conditionType === "diameter"
+    ? `지름 ${problem.givenValue} cm`
+    : `반지름 ${radius} cm`;
   const radiusLine = showDrawing
     ? `<line class="draw-radius-line" x1="${centerX}" y1="${centerY}" x2="${centerX + drawRadius}" y2="${centerY}"/>
       <g class="draw-radius-readout">
         <rect class="draw-radius-chip" x="${labelX - 72}" y="${centerY + 16}" width="144" height="40" rx="18"/>
-        <text class="draw-radius-label" x="${labelX}" y="${centerY + 37}">반지름 ${radius} cm</text>
+        <text class="draw-radius-label" x="${labelX}" y="${centerY + 37}">${measureLabel}</text>
       </g>`
     : "";
   const correctEffect = phase === "correct"
