@@ -18,6 +18,21 @@ const circleWorkbench = {
   dragPointerId: null,
 };
 
+async function onStepCorrect() {
+  const svg = document.querySelector("#screen-play .circle-draw-svg[data-state='correct']");
+  if (!svg) return;
+  const effectConfig = LESSON_CONFIG.qa?.correctFeedbackEffectAudit || {};
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duration = reducedMotion ? 0 : Number(effectConfig.durationMs || 1100);
+  svg.classList.remove("is-answer-locking");
+  void svg.getBoundingClientRect();
+  svg.classList.add("is-answer-locking");
+  svg.dataset.correctEffectPhase = "active";
+  if (duration > 0) await waitForPattern(duration);
+  svg.classList.remove("is-answer-locking");
+  svg.dataset.correctEffectPhase = "idle";
+}
+
 function ensurePatternPlayProgress() {
   const playScreen = document.getElementById("screen-play");
   if (!playScreen) return null;
@@ -115,8 +130,11 @@ function syncPatternPlayProgress(state, options = {}) {
   }
 
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
   const duration = shouldAnimate && !reducedMotion
-    ? Number(LESSON_CONFIG.qa?.rewardEffectAudit?.durationMs || 1560)
+    ? tierChanged
+      ? Number(effectConfig.tierUpDurationMs || 1800)
+      : Number(effectConfig.durationMs || 900)
     : 0;
   if (!duration) return Promise.resolve();
   return new Promise((resolve) => {
@@ -270,27 +288,42 @@ function circleWorkbenchMarkup(problem) {
   const centerX = 540;
   const centerY = 220;
   const showDrawing = phase === "wrong" || phase === "correct";
-  const showRulerCompass = phase !== "correct";
+  const rulerInteractive = phase !== "correct";
   const statusClass = phase === "wrong" ? " is-wrong" : phase === "correct" ? " is-correct" : "";
+  const labelX = centerX + Math.min(drawRadius * .5, 100);
   const radiusLine = showDrawing
-    ? `<line class="draw-radius-line" x1="${centerX}" y1="${centerY}" x2="${centerX + drawRadius}" y2="${centerY}"/><text class="draw-radius-label" x="${centerX + drawRadius * .62}" y="${centerY + 28}">반지름 ${radius} cm</text>`
+    ? `<line class="draw-radius-line" x1="${centerX}" y1="${centerY}" x2="${centerX + drawRadius}" y2="${centerY}"/>
+      <g class="draw-radius-readout">
+        <rect class="draw-radius-chip" x="${labelX - 72}" y="${centerY + 16}" width="144" height="40" rx="18"/>
+        <text class="draw-radius-label" x="${labelX}" y="${centerY + 37}">반지름 ${radius} cm</text>
+      </g>`
+    : "";
+  const correctEffect = phase === "correct"
+    ? `<g class="circle-correct-effect" aria-hidden="true">
+        <circle class="circle-correct-halo" cx="${centerX}" cy="${centerY}" r="${drawRadius + 5}"/>
+        <g class="circle-correct-badge-anchor" transform="translate(${centerX + drawRadius * .7} ${centerY - drawRadius * .62})">
+          <g class="circle-correct-badge">
+            <circle r="25"/>
+            <path d="M -11 0 L -3 9 L 14 -11"/>
+          </g>
+        </g>
+      </g>`
     : "";
   const drawnCircle = showDrawing
-    ? `<circle class="drawn-circle${statusClass}" cx="${centerX}" cy="${centerY}" r="${drawRadius}" pathLength="100"/>${radiusLine}${compassMarkup(centerX, centerY, radius, CIRCLE_DRAW_UNIT_PX, "drawing-compass")}`
+    ? `<circle class="drawn-circle${statusClass}" cx="${centerX}" cy="${centerY}" r="${drawRadius}" pathLength="100"/>${radiusLine}${compassMarkup(centerX, centerY, radius, CIRCLE_DRAW_UNIT_PX, "drawing-compass")}${correctEffect}`
     : `<circle class="circle-place-guide" cx="${centerX}" cy="${centerY}" r="54"/><text class="circle-place-text" x="${centerX}" y="${centerY + 6}">중심</text>`;
   const pencilX = CIRCLE_RULER_ZERO_X + radius * CIRCLE_RULER_UNIT_PX;
-  const settingCompass = showRulerCompass
-    ? `${compassMarkup(CIRCLE_RULER_ZERO_X, CIRCLE_RULER_Y - 8, radius, CIRCLE_RULER_UNIT_PX, "setting-compass")}
+  const settingCompass = `${compassMarkup(CIRCLE_RULER_ZERO_X, CIRCLE_RULER_Y - 8, radius, CIRCLE_RULER_UNIT_PX, "setting-compass")}
+    ${rulerInteractive
+      ? `
       <circle class="compass-pencil-handle" cx="${pencilX}" cy="${CIRCLE_RULER_Y - 11}" r="25" tabindex="0" role="slider" aria-label="컴퍼스 반지름" aria-valuemin="1" aria-valuemax="4" aria-valuenow="${radius}"/>`
-    : "";
-  const rulerControls = showRulerCompass
-    ? `<g class="circle-ruler">
+      : ""}`;
+  const rulerControls = `<g class="circle-ruler">
         <rect class="circle-ruler-body" x="48" y="${CIRCLE_RULER_Y - 28}" width="236" height="67" rx="12"/>
         ${rulerTicksMarkup()}
-        <rect class="circle-ruler-hitbox" x="66" y="${CIRCLE_RULER_Y - 48}" width="200" height="92" rx="16"/>
+        ${rulerInteractive ? `<rect class="circle-ruler-hitbox" x="66" y="${CIRCLE_RULER_Y - 48}" width="200" height="92" rx="16"/>` : ""}
       </g>
-      ${settingCompass}`
-    : "";
+      ${settingCompass}`;
   return `<rect class="circle-paper" x="10" y="8" width="740" height="424" rx="30"/>
     <line class="circle-workbench-divider" x1="330" y1="34" x2="330" y2="406"/>
     ${drawnCircle}
@@ -462,6 +495,7 @@ async function onRewardDismiss({ state }) {
 
 globalThis.onRewardReveal = onRewardReveal;
 globalThis.onRewardDismiss = onRewardDismiss;
+globalThis.onStepCorrect = onStepCorrect;
 globalThis.__playProgressQa = {
   syncProgress() {
     return syncPatternPlayProgress(window.__mathmonEngineQa?.getState?.() || {}, { animate: false });

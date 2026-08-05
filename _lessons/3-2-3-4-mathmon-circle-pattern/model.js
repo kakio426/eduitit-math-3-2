@@ -94,7 +94,7 @@ const Lesson3CirclePatternModel = (() => {
       .map((value, index) => makeProblem("radius", value, index + 1));
     const diameterProblems = shuffle([4, 4, 6, 6, 8], rng)
       .map((value, index) => makeProblem("diameter", value, index + 6));
-    return [...radiusProblems, ...diameterProblems];
+    return radiusProblems.flatMap((problem, index) => [problem, diameterProblems[index]]);
   }
 
   function validateChoice(step, selected) {

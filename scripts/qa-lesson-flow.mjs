@@ -4848,6 +4848,62 @@ async function auditConfiguredCorrectFeedbackEffect(page, lesson, viewport, shot
     `${viewport.name}: correct feedback effect did not become active`,
     3000,
   );
+  if (config.standard === "circle-draw-correct-effect-v1") {
+    await delay(Math.min(320, Math.max(120, Number(config.durationMs || 1100) * .28)));
+    const audit = await evaluate(page, `(() => {
+      const config = LESSON_CONFIG.qa.correctFeedbackEffectAudit;
+      const workbench = document.querySelector(config.workbench);
+      const trigger = document.querySelector(config.trigger);
+      const complete = document.querySelector(config.completionPanel);
+      const circle = document.querySelector(config.correctCircle);
+      const halo = document.querySelector(config.halo);
+      const badge = document.querySelector(config.badge);
+      const ruler = document.querySelector(config.ruler);
+      const label = document.querySelector(config.radiusLabel);
+      const paper = document.querySelector(config.paper);
+      const rect = (node) => node?.getBoundingClientRect?.() || null;
+      const labelRect = rect(label);
+      const paperRect = rect(paper);
+      const badgeRect = rect(badge);
+      const rulerRect = rect(ruler);
+      const contains = Boolean(labelRect && paperRect
+        && labelRect.left >= paperRect.left - 1
+        && labelRect.top >= paperRect.top - 1
+        && labelRect.right <= paperRect.right + 1
+        && labelRect.bottom <= paperRect.bottom + 1);
+      const badgeContained = Boolean(badgeRect && paperRect
+        && badgeRect.left >= paperRect.left - 1
+        && badgeRect.top >= paperRect.top - 1
+        && badgeRect.right <= paperRect.right + 1
+        && badgeRect.bottom <= paperRect.bottom + 1);
+      return {
+        phase:workbench?.dataset.correctEffectPhase || '',
+        active:workbench?.classList.contains(config.activeClass) || false,
+        workbenchState:workbench?.dataset.state || '',
+        triggerState:trigger?.dataset.state || '',
+        completeVisible:complete?.classList.contains('is-visible') || false,
+        circleAnimation:getComputedStyle(circle).animationName,
+        haloAnimation:getComputedStyle(halo).animationName,
+        badgeAnimation:getComputedStyle(badge).animationName,
+        rulerVisible:Boolean(rulerRect?.width && rulerRect?.height && getComputedStyle(ruler).display !== 'none'),
+        labelText:label?.textContent?.trim() || '',
+        labelContained:contains,
+        badgeVisible:Boolean(badgeRect?.width && badgeRect?.height),
+        badgeContained,
+      };
+    })()`);
+    assert(audit.active && audit.phase === "active", `${viewport.name}: correct-circle effect phase is not active`, audit);
+    assert(audit.workbenchState === "correct" && audit.triggerState === "correct", `${viewport.name}: correct-circle effect is not attached to the accepted radius`, audit);
+    assert(!audit.completeVisible, `${viewport.name}: completion action covered the correct-circle effect too soon`, audit);
+    assert(audit.circleAnimation.includes("circle-correct-lock"), `${viewport.name}: correct circle lock pulse is missing`, audit);
+    assert(audit.haloAnimation.includes("circle-correct-halo"), `${viewport.name}: correct circle halo is missing`, audit);
+    assert(audit.badgeAnimation.includes("circle-correct-badge"), `${viewport.name}: correct check badge is missing`, audit);
+    assert(audit.rulerVisible, `${viewport.name}: ruler disappeared from the completed workbench`, audit);
+    assert(audit.labelText.includes("반지름") && audit.labelContained, `${viewport.name}: radius label is missing or clipped by the workbench`, audit);
+    assert(audit.badgeVisible && audit.badgeContained, `${viewport.name}: correct check badge is missing or clipped by the workbench`, audit);
+    shots.push(await screenshot(page, lesson, viewport, "05c-correct-effect"));
+    return;
+  }
   await delay(Math.min(260, Math.max(80, Number(config.durationMs || 680) * .4)));
   const audit = await evaluate(page, `(() => {
     const config = LESSON_CONFIG.qa.correctFeedbackEffectAudit;
@@ -5715,6 +5771,41 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     : null;
   const rewardReentryAudit = await evaluate(page, "LESSON_CONFIG.qa?.rewardReentryAudit || null");
   let configuredRewardDelta = 0;
+  if (rewardEffectConfig?.contrastStandard === "bridge-gain-vs-tier-v1") {
+    const gainContrast = await evaluate(page, `(() => {
+      const config = LESSON_CONFIG.qa.rewardEffectAudit;
+      const panel = document.querySelector(config.panel);
+      const art = document.querySelector(config.image);
+      const impact = document.querySelector(config.impactLayer);
+      (config.activeClasses || []).forEach((className) => panel?.classList.remove(className));
+      void panel?.offsetWidth;
+      (config.positiveClasses || [config.gainClass]).forEach((className) => panel?.classList.add(className));
+      const result = {
+        panelAnimation:getComputedStyle(panel).animationName,
+        artAnimation:getComputedStyle(art).animationName,
+        impactAnimation:getComputedStyle(impact).animationName,
+        impactBeforeAnimation:getComputedStyle(impact, '::before').animationName,
+        impactAfterAnimation:getComputedStyle(impact, '::after').animationName,
+        gainClassActive:panel?.classList.contains(config.gainClass) || false,
+      };
+      (config.activeClasses || []).forEach((className) => panel?.classList.remove(className));
+      return result;
+    })()`);
+    assert(gainContrast.gainClassActive, `${viewport.name}: ordinary gain class did not activate`, gainContrast);
+    assert(gainContrast.artAnimation !== "none", `${viewport.name}: ordinary gain has no panel-local visual response`, gainContrast);
+    assert(
+      gainContrast.impactAnimation === "none"
+        && gainContrast.impactBeforeAnimation === "none"
+        && gainContrast.impactAfterAnimation === "none",
+      `${viewport.name}: ordinary gain incorrectly reused the Stage-wide tier-up impact`,
+      gainContrast,
+    );
+    assert(
+      Number(rewardEffectConfig.tierUpDurationMs) > Number(rewardEffectConfig.durationMs),
+      `${viewport.name}: tier-up duration must be longer than ordinary gain`,
+      rewardEffectConfig,
+    );
+  }
   if (rewardEffectConfigured) {
     await evaluate(page, `(() => {
       const forced = LESSON_CONFIG.qa.rewardEffectAudit.forceTierTransition;

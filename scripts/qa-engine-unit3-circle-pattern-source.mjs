@@ -40,6 +40,9 @@ assert.deepEqual([...config.qa.misconceptionCoverage], [
 assert.equal(config.qa.circleDrawingAudit.interaction, "compass-radius-drag");
 assert.equal(config.qa.circleDrawingAudit.requiresAdjustmentBeforeSubmit, true);
 assert.equal(config.qa.circleDrawingAudit.instructionBoardRemoved, true);
+assert.equal(config.qa.circleDrawingAudit.completionKeepsRuler, true);
+assert.equal(config.qa.circleDrawingAudit.radiusLabelContained, true);
+assert.equal(config.qa.circleDrawingAudit.correctEffectStandard, "circle-draw-correct-effect-v1");
 assert.equal(config.qa.circleDrawingAudit.layoutStandard, "circle-workbench-split-v2");
 assert.equal(config.qa.circleDrawingAudit.selectedConcept, "design-concepts/circle-workbench-layout-b-selected.png");
 assert.equal(config.qa.circleDrawingAudit.unitPx, 42);
@@ -55,6 +58,15 @@ assert.deepEqual([...config.qa.circleDrawingAudit.forbidSelectors], [
 assert.equal(config.qa.playProgressAudit.panelPlacement.widthRatio, 0.245);
 assert.equal(config.qa.leftProgressWidthAudit.standard, "stage-left-progress-width-v1");
 assert.equal(config.qa.leftProgressWidthAudit.expectedWidthRatio, 0.245);
+assert.equal(config.qa.correctFeedbackEffectAudit.standard, "circle-draw-correct-effect-v1");
+assert.equal(config.qa.correctFeedbackEffectAudit.preservesRuler, true);
+assert.equal(config.qa.correctFeedbackEffectAudit.containsRadiusLabel, true);
+assert.equal(config.qa.rewardEffectAudit.contrastStandard, "bridge-gain-vs-tier-v1");
+assert.equal(config.qa.rewardEffectAudit.durationMs, 900);
+assert.equal(config.qa.rewardEffectAudit.tierUpDurationMs, 1800);
+assert.equal(config.qa.rewardEffectAudit.gainClass, "is-changing");
+assert.equal(config.qa.rewardEffectAudit.gainUsesImpactLayer, false);
+assert.equal(config.qa.rewardEffectAudit.tierUpUsesImpactLayer, true);
 assert.equal(config.qa.layoutAudit.tertiary, undefined);
 assert.deepEqual([...config.qa.layoutAudit.verticalOrder], ["primary", "secondary"]);
 assert.equal(config.tutorialCards[0].image, "tutorial-page-1-generated.png");
@@ -73,8 +85,10 @@ assert.ok(
 for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);
   assert.equal(problems.length, 10, `seed ${seed}: ten problems`);
-  assert.ok(problems.slice(0, 5).every((problem) => problem.conditionType === "radius"), `seed ${seed}: radius scaffold first`);
-  assert.ok(problems.slice(5).every((problem) => problem.conditionType === "diameter"), `seed ${seed}: diameter scaffold second`);
+  assert.ok(problems.filter((problem) => problem.conditionType === "radius").length === 5, `seed ${seed}: five radius problems`);
+  assert.ok(problems.filter((problem) => problem.conditionType === "diameter").length === 5, `seed ${seed}: five diameter problems`);
+  assert.ok(problems.every((problem, index) => problem.conditionType === (index % 2 === 0 ? "radius" : "diameter")), `seed ${seed}: radius and diameter must alternate`);
+  assert.deepEqual([...new Set(problems.slice(0, 2).map((problem) => problem.conditionType))].sort(), ["diameter", "radius"], `seed ${seed}: both conditions appear in the first two problems`);
   const misconceptions = new Set();
   for (const problem of problems) {
     assert.equal(problem.type, "circle-draw", `${problem.id}: direct circle drawing problem`);
@@ -105,15 +119,24 @@ assert.match(viewSource, /setPointerCapture/, "compass drag must use Pointer Eve
 assert.match(viewSource, /ArrowLeft.*ArrowDown.*ArrowRight.*ArrowUp/s, "compass slider must support arrow keys");
 assert.match(viewSource, /Math\.round/, "free movement must snap to ruler ticks");
 assert.match(viewSource, /class="drawn-circle/, "confirmation must draw the selected circle");
+assert.match(viewSource, /async function onStepCorrect/, "a correct circle must hold a dedicated confirmation effect before completion");
+assert.match(viewSource, /globalThis\.onStepCorrect = onStepCorrect/, "the correct-circle effect hook must be registered");
 assert.match(viewSource, /stepBoard\?\.remove\(\)/, "the redundant instruction board must be removed from the play DOM");
 assert.match(viewSource, /class="circle-paper" x="10" y="8" width="740" height="424"/, "the circle workbench paper must fill the SVG surface");
 assert.match(viewSource, /class="circle-workbench-divider" x1="330"/, "the ruler and circle lanes must be structurally separated");
-assert.match(viewSource, /x="\$\{centerX \+ drawRadius \* \.62\}" y="\$\{centerY \+ 28\}">반지름/, "the radius label must sit between the compass center and pencil");
+assert.match(viewSource, /class="draw-radius-chip"[^>]+width="144" height="40"/, "the radius label must use a fixed safe chip instead of bare text");
+assert.match(viewSource, /const rulerControls = `<g class="circle-ruler">/, "the ruler must remain on the completed workbench");
+assert.match(viewSource, /circle-correct-halo/, "correct completion must show a full-circle confirmation halo");
+assert.match(viewSource, /circle-correct-badge/, "correct completion must show an unmistakable check badge");
 assert.doesNotMatch(viewSource, /circle-radius-readout|circle-ruler-unit|circle-helper-text/, "redundant radius, unit, and helper labels must be removed");
 assert.doesNotMatch(viewSource, /ensureCircleTutorialOverlay|tutorial-compass-overlay|tutorialRulerMarkup/, "tutorial must be a single generated raster without runtime SVG composition");
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
 assert.match(cssSource, /\.compass-pencil-handle\s*\{[^}]*cursor:\s*ew-resize/s, "drag handle must be visibly draggable");
 assert.match(cssSource, /@keyframes circle-trace/, "circle confirmation must animate the trace");
+assert.match(cssSource, /@keyframes circle-correct-lock/, "correct circle must have its own lock effect");
+assert.match(cssSource, /@keyframes circle-correct-badge/, "correct circle must pop a check badge");
+assert.doesNotMatch(cssSource, /is-celebrating\s*~\s*\.compass-play-progress-impact-stage/, "ordinary gains must not reuse the Stage-wide tier-up impact");
+assert.match(cssSource, /is-tier-up\s*~\s*\.compass-play-progress-impact-stage/, "tier-up must keep the Stage-wide impact layer");
 assert.match(cssSource, /\.complete-text\s*\{\s*display:\s*none;/, "completion must leave only the reward action button below the finished circle");
 assert.doesNotMatch(cssSource, /tutorial-compass-overlay|tutorial-ruler|tutorial-span-label/, "tutorial overlay CSS must be removed");
 assert.match(

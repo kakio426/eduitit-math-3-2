@@ -134,18 +134,17 @@
   transition: width .62s cubic-bezier(.2, .8, .2, 1);
 }
 
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-changing .compass-play-progress-art { animation: pattern-progress-brighten 1.56s cubic-bezier(.2,.82,.22,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-dimming .compass-play-progress-art { animation: pattern-progress-dim 1.56s ease both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating { animation: pattern-progress-impact 1.56s cubic-bezier(.18,.78,.2,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating .compass-play-progress-flare { animation: pattern-progress-flare 1.56s cubic-bezier(.18,.78,.2,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up { animation: pattern-progress-tier-rise 1.56s cubic-bezier(.18,.78,.2,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up .compass-play-progress-art { animation: pattern-progress-tier-art 1.56s cubic-bezier(.18,.78,.2,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage,
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage { animation: pattern-progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::before,
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::before { animation: pattern-progress-stage-ring 1.56s cubic-bezier(.08,.72,.16,1) both; }
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating ~ .compass-play-progress-impact-stage::after,
-.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::after { animation: pattern-progress-stage-rays 1.56s ease-out both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-changing .compass-play-progress-art { animation: pattern-progress-brighten .9s cubic-bezier(.2,.82,.22,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-dimming .compass-play-progress-art { animation: pattern-progress-dim .9s ease both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating { animation: pattern-progress-impact 1.1s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-celebrating .compass-play-progress-flare { animation: pattern-progress-flare 1.1s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up { animation: pattern-progress-tier-rise 1.8s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up .compass-play-progress-art { animation: pattern-progress-tier-art 1.8s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage { animation: pattern-progress-stage-impact 1.8s cubic-bezier(.12,.76,.18,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::before { animation: pattern-progress-stage-ring 1.8s cubic-bezier(.08,.72,.16,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up ~ .compass-play-progress-impact-stage::after { animation: pattern-progress-stage-rays 1.8s ease-out both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up .compass-play-progress-readout { animation: pattern-progress-tier-readout 1.8s cubic-bezier(.18,.78,.2,1) both; }
+.game[data-workbench-type="circle-pattern-choice"] .compass-play-progress.is-tier-up .compass-play-progress-name { animation: pattern-progress-tier-name 1.8s cubic-bezier(.18,.78,.2,1) both; }
 .game[data-workbench-type="circle-pattern-choice"] .stage-shell { --sound-button-size: 42px; }
 .game[data-workbench-type="circle-pattern-choice"] .settings-toggle svg { width: 20px; height: 20px; }
 .game[data-workbench-type="circle-pattern-choice"] .brand-badge,
@@ -194,11 +193,18 @@
 .compass-pencil-handle:focus { outline: none; stroke: #235fba; stroke-width: 8; }
 .draw-radius-label { text-anchor: middle; dominant-baseline: middle; font-weight: 1000; }
 .draw-radius-line { stroke: #8353a3; stroke-width: 4; stroke-dasharray: 7 6; }
-.draw-radius-label { fill: #674083; font-size: 22px; }
+.draw-radius-chip { fill: rgba(255, 249, 224, .96); stroke: #9a6fb3; stroke-width: 3; }
+.draw-radius-label { fill: #5d3578; font-size: 21px; }
 .drawn-circle { fill: rgba(188,133,222,.12); stroke: #8353a3; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; animation: circle-trace .9s ease-out forwards; }
 .drawn-circle.is-wrong { fill: rgba(201,43,89,.12); stroke: #b92852; }
-.drawn-circle.is-correct { fill: rgba(22,119,94,.13); stroke: #16775e; }
+.drawn-circle.is-correct { fill: rgba(26,151,111,.14); stroke: #16815f; }
 .drawing-compass { transform-box: view-box; transform-origin: 540px 220px; animation: circle-compass-turn .9s ease-out both; }
+.circle-correct-halo { fill: none; stroke: #ffd45c; stroke-width: 5; opacity: .72; }
+.circle-correct-badge circle { fill: #19a474; stroke: #ffd45c; stroke-width: 7; }
+.circle-correct-badge path { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.circle-draw-svg.is-answer-locking .drawn-circle.is-correct { animation: circle-trace .9s ease-out forwards, circle-correct-lock 1.1s cubic-bezier(.18,.78,.2,1) both; }
+.circle-draw-svg.is-answer-locking .circle-correct-halo { animation: circle-correct-halo 1.1s cubic-bezier(.18,.78,.2,1) both; }
+.circle-draw-svg.is-answer-locking .circle-correct-badge { transform-box: fill-box; transform-origin: center; animation: circle-correct-badge 1.1s cubic-bezier(.16,.8,.2,1) both; }
 
 .game[data-workbench-type="circle-pattern-choice"] .choices-panel { grid-row: 2; min-height: 0; padding: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; place-items: center; }
 .game[data-workbench-type="circle-pattern-choice"] .compass-draw-button { width: min(280px, 62%); min-height: 64px; padding: 8px 24px; border: 3px solid #8f6d17; border-radius: 18px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 1000; text-align: center; }
@@ -275,6 +281,22 @@
   16% { opacity: 1; }
   100% { opacity: 1; transform: rotate(325deg) scale(1); }
 }
+@keyframes circle-correct-lock {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(22,129,95,0)); }
+  34% { stroke: #ffca3a; stroke-width: 12; filter: drop-shadow(0 0 15px rgba(255,202,58,.9)); }
+  70% { stroke-width: 9; filter: drop-shadow(0 0 8px rgba(22,164,116,.72)); }
+}
+@keyframes circle-correct-halo {
+  0% { opacity: 0; stroke-dasharray: 8 18; stroke-dashoffset: 80; }
+  32% { opacity: 1; stroke-width: 11; }
+  100% { opacity: .72; stroke-width: 5; stroke-dasharray: 3 0; stroke-dashoffset: 0; }
+}
+@keyframes circle-correct-badge {
+  0% { opacity: 0; scale: .2; rotate: -18deg; }
+  42% { opacity: 1; scale: 1.28; rotate: 6deg; }
+  70% { scale: .94; rotate: -2deg; }
+  100% { opacity: 1; scale: 1; rotate: 0deg; }
+}
 @keyframes pattern-progress-dim {
   0%, 100% { filter: brightness(1); transform: translateX(0); }
   34% { filter: brightness(.52) saturate(.52); transform: translateX(-4px); }
@@ -299,6 +321,16 @@
   30% { filter: brightness(1.72) saturate(1.5); transform: scale(1.035); }
   66% { filter: brightness(1.2) saturate(1.22); transform: scale(1.01); }
   100% { filter: brightness(1); transform: scale(1); }
+}
+@keyframes pattern-progress-tier-readout {
+  0%, 100% { background: linear-gradient(180deg, rgba(47,31,80,.96), rgba(25,18,56,.98)); }
+  30% { background: linear-gradient(180deg, #fff0a0, #8d55c7); }
+  62% { background: linear-gradient(180deg, #6b449b, #261a50); }
+}
+@keyframes pattern-progress-tier-name {
+  0%, 100% { color: #ffe19e; transform: scale(1); }
+  30% { color: #fff; transform: scale(1.32); text-shadow: 0 0 12px #fff, 0 0 24px #d18cff; }
+  62% { color: #f5d8ff; transform: scale(1.1); }
 }
 @keyframes pattern-progress-stage-impact {
   0% { opacity: 0; transform: scale(.62); }
@@ -336,7 +368,9 @@
   .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::before,
   .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress-impact-stage::after,
   .drawn-circle,
-  .drawing-compass {
+  .drawing-compass,
+  .circle-correct-halo,
+  .circle-correct-badge {
     animation: none;
   }
 }
