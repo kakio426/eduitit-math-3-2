@@ -29,7 +29,7 @@
 
 ## 설명 화면과 학생 문구
 
-- 설명 화면은 생성 이미지 배경 위에 정확한 자·컴퍼스·원 SVG를 올려 `바늘은 0`, `연필 다리는 원하는 눈금`, `원 그리기`의 세 행동을 보여 줍니다.
+- 설명 1은 `tutorial-page-1-generated.png` 한 장에 자·컴퍼스·원을 모두 담았습니다. 런타임 SVG나 CSS 그림은 얹지 않습니다.
 - Humanizer 기준으로 첫 화면 목표, 설명 단계, 문제 지시, 오답, 정답 확인, 보상 진입 문구를 다시 읽었습니다.
 - 학생 문구는 `연필 다리를 옮겨요.`, `눈금에 맞췄어요.`, `반지름이 조건보다 짧아요.`처럼 한 문장에 행동이나 이유 하나만 담았습니다.
 - `측정`, `적용`, `오브젝트`처럼 초등 3학년에게 먼 제작자 말은 화면 문구에 쓰지 않았습니다.
@@ -39,7 +39,7 @@
 - 실제 포인터 드래그로 `1 cm → 2 cm`를 조절하고 버튼 활성화, 정답 원 자동 그리기를 확인했습니다.
 - 오답 뒤 슬라이더가 잠기지 않고 다시 조절되는지 확인했습니다.
 - 드래그 손잡이는 `role="slider"`, 현재값·최솟값·최댓값을 제공하며 터치 영역은 `50×50px`입니다.
-- `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 표지·설명·문제 대기·짧음 오답·김 오답·지름 오개념·정답 확인·닫힌/열린 보상·결과를 검사했습니다.
+- `1280×800`, `1024×768`, `1079×929`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 표지·설명·문제 대기·짧음 오답·김 오답·지름 오개념·정답 확인·닫힌/열린 보상·결과를 검사했습니다.
 - 모든 화면 크기에서 이미지 누락 `0건`, 텍스트 넘침 `0건`, 학습 영역과 왼쪽 진행 보상 교차 `0px`, 버튼과 작업판 교차 `0px`입니다.
 - 정답 원의 크기 라벨과 원·컴퍼스의 교차는 각각 `0px`이며, 한 개뿐인 `원 그리기` 버튼은 작업 영역 중심축과 `1px` 이내로 맞습니다.
 
@@ -51,6 +51,14 @@
 - `node scripts/check-lesson-visual-contract.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
 - `node scripts/check-stage-ratio.mjs --lesson=3-2-3-4-mathmon-circle-pattern` → PASS
 - `node scripts/qa-lesson-flow.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
+
+## 2026-08-05 디자인 피드백 반영
+
+- 설명 1은 `imagegen`으로 다시 만든 단일 `1280×800` PNG입니다. 바늘 `0`, 연필 다리 `2→4 cm`, 원 그리기 순서가 이미지 안에 들어 있으며 별도 SVG·CSS 합성은 `0건`입니다.
+- 정답 확인에서는 자·눈금·도움말·아래 설명 상자를 접고, 완성된 원과 `반지름 N cm`, `무늬 보기` 버튼만 남겼습니다.
+- 보상 변화량 이름은 `원의 점수`로 바꿨습니다.
+- 보상 모달은 `3-2-3-3`과 같은 `unit3-modal-art-compact-v2`를 적용해 카드 `430×480px`, 이미지 `250×250px`, 최대 폭 Stage `82%`로 고정했습니다.
+- 사용자 피드백 화면 `1079×929`를 `user-feedback-completion-1079x929` 회귀 viewport로 등록했습니다.
 
 ## 이번 고도화
 
@@ -125,7 +133,7 @@
 
 - 2026-07-31: 결과 장면으로 잘못 대체되던 닫힌 보상을 무지개유니몬 전용 512×512 생성 장면으로 교체했습니다.
 - 닫힘·일반·감소·큰 증가·완벽·0·무지개 7종 컨택시트: `reward-events-v3-contact-sheet.png`
-- 보상 모달 실측: 카드 560×480px, 이미지 250×250px, 카드↔Stage 중심 오차 1px 이하, 닫힘·열림 각각 행동 버튼 1개, 글자 넘침·요소 교차 0건
+- 보상 모달 실측: 카드 430×480px, 이미지 250×250px, 카드↔Stage 중심 오차 1px 이하, 닫힘·열림 각각 행동 버튼 1개, 글자 넘침·요소 교차 0건
 
 - `node scripts/qa-engine-unit3-circle-pattern-source.mjs` → PASS
 - `node scripts/build-lesson.mjs 3-2-3-4-mathmon-circle-pattern` → PASS
@@ -156,8 +164,8 @@
 
 ## 2026-08-01 빈 보상 누적 유지 회귀
 
-- `empty` 사건은 무늬 힘을 비우지 않고 이번 변화만 `0`으로 처리합니다.
-- 브라우저 하네스가 누적값 `47`에서 `이번 변화 0`과 누적값 유지가 동시에 성립하는지 검사합니다.
+- `empty` 사건은 무늬 힘을 비우지 않고 `원의 점수 0`으로 처리합니다.
+- 브라우저 하네스가 누적값 `47`에서 `원의 점수 0`과 누적값 유지가 동시에 성립하는지 검사합니다.
 
 ## 2026-08-01 최종 결과 대비·왼쪽 진행 보상 루프
 
@@ -189,10 +197,10 @@
 
 ## 2026-08-04 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `9fdedb5e31d2de15319c0932bfb0de5aeb6737c7b1499cb0c68fb1f3775a8be8`
-- 생성 시각: `2026-08-04T23:28:39.576Z`
-- 등록 화면 크기: `5개`
-- 아래에 직접 삽입한 원본 캡처: `138장`
+- 실행본 SHA-256: `d5b55ff83ea4178ad9f4791c26cac1ea720a55c02e6b14456519c4450a38105d`
+- 생성 시각: `2026-08-04T23:53:12.785Z`
+- 등록 화면 크기: `6개`
+- 아래에 직접 삽입한 원본 캡처: `158장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 26장
@@ -665,6 +673,190 @@
 #### 결과판 포함 · small · `engine-flow-tablet-landscape-08d-result-panel-small.png`
 
 ![tablet-landscape 결과판 포함 · small](screenshots/engine-flow-tablet-landscape-08d-result-panel-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-feedback-completion-1079x929 · 1079×929 · DPR 1 · 20장
+
+![user-feedback-completion-1079x929 전체 상태 컨택시트](screenshots/report-flow-user-feedback-completion-1079x929-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-feedback-completion-1079x929-01-cover.png`
+
+![user-feedback-completion-1079x929 시작 화면](screenshots/engine-flow-user-feedback-completion-1079x929-01-cover.png)
+
+- 학생이 보는 것: 매스몬 원 무늬 디자이너 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-feedback-completion-1079x929-02-settings.png`
+
+![user-feedback-completion-1079x929 설정 화면](screenshots/engine-flow-user-feedback-completion-1079x929-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-feedback-completion-1079x929-03-tutorial-1.png`
+
+![user-feedback-completion-1079x929 설명 1 · 풀이 방법](screenshots/engine-flow-user-feedback-completion-1079x929-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 여러 크기의 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-feedback-completion-1079x929-04-tutorial-2.png`
+
+![user-feedback-completion-1079x929 설명 2 · 보상과 목표](screenshots/engine-flow-user-feedback-completion-1079x929-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 여러 크기의 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-feedback-completion-1079x929-05-play-step1.png`
+
+![user-feedback-completion-1079x929 문제 상태 · 05-play-step1](screenshots/engine-flow-user-feedback-completion-1079x929-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-radius-too-long · `engine-flow-user-feedback-completion-1079x929-05m-p1-radius-too-long.png`
+
+![user-feedback-completion-1079x929 오개념 확인 · p1-radius-too-long](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p1-radius-too-long.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-radius-too-short · `engine-flow-user-feedback-completion-1079x929-05m-p1-radius-too-short.png`
+
+![user-feedback-completion-1079x929 오개념 확인 · p1-radius-too-short](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p1-radius-too-short.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-user-feedback-completion-1079x929-05m-p7-diameter-as-radius.png`
+
+![user-feedback-completion-1079x929 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p7-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-feedback-completion-1079x929-05b-play-wrong.png`
+
+![user-feedback-completion-1079x929 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-feedback-completion-1079x929-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-feedback-completion-1079x929-06-confirm.png`
+
+![user-feedback-completion-1079x929 마지막 확인 · 06-confirm](screenshots/engine-flow-user-feedback-completion-1079x929-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-feedback-completion-1079x929-07-reward-closed.png`
+
+![user-feedback-completion-1079x929 닫힌 보상](screenshots/engine-flow-user-feedback-completion-1079x929-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 무늬 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-feedback-completion-1079x929-07b-reward-open.png`
+
+![user-feedback-completion-1079x929 열린 보상](screenshots/engine-flow-user-feedback-completion-1079x929-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 무늬 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-feedback-completion-1079x929-07c-reward-impact.png`
+
+![user-feedback-completion-1079x929 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-feedback-completion-1079x929-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 무늬 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-feedback-completion-1079x929-08-result.png`
+
+![user-feedback-completion-1079x929 실제 결과](screenshots/engine-flow-user-feedback-completion-1079x929-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · big · `engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-big.png`
+
+![user-feedback-completion-1079x929 결과 결속 · big](screenshots/engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · design · `engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-design.png`
+
+![user-feedback-completion-1079x929 결과 결속 · design](screenshots/engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-design.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · dot · `engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-dot.png`
+
+![user-feedback-completion-1079x929 결과 결속 · dot](screenshots/engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-dot.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · pattern · `engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-pattern.png`
+
+![user-feedback-completion-1079x929 결과 결속 · pattern](screenshots/engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-pattern.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · rainbow · `engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-rainbow.png`
+
+![user-feedback-completion-1079x929 결과 결속 · rainbow](screenshots/engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 무늬 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · small · `engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-small.png`
+
+![user-feedback-completion-1079x929 결과 결속 · small](screenshots/engine-flow-user-feedback-completion-1079x929-08c-result-cohesion-small.png)
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.

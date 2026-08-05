@@ -275,22 +275,25 @@ function circleWorkbenchMarkup(problem) {
       <circle class="compass-pencil-handle" cx="${pencilX}" cy="${CIRCLE_RULER_Y - 11}" r="25" tabindex="0" role="slider" aria-label="컴퍼스 반지름" aria-valuemin="1" aria-valuemax="4" aria-valuenow="${radius}"/>`
     : "";
   const helper = circleWorkbench.adjusted ? "눈금에 맞췄어요" : "연필 다리를 옮겨요";
+  const rulerControls = showRulerCompass
+    ? `<g class="circle-ruler">
+        <rect class="circle-ruler-body" x="257" y="${CIRCLE_RULER_Y - 28}" width="246" height="67" rx="12"/>
+        ${rulerTicksMarkup()}
+        <text class="circle-ruler-unit" x="522" y="${CIRCLE_RULER_Y + 26}">cm</text>
+        <rect class="circle-ruler-hitbox" x="270" y="${CIRCLE_RULER_Y - 48}" width="220" height="92" rx="16"/>
+      </g>
+      ${settingCompass}
+      <g class="circle-radius-readout">
+        <rect x="545" y="345" width="130" height="76" rx="18"/>
+        <text class="circle-radius-title" x="610" y="360">반지름</text>
+        <text class="circle-radius-value" x="610" y="397">${radius} cm</text>
+      </g>
+      <text class="circle-helper-text" x="170" y="368">${helper}</text>`
+    : "";
   return `<rect class="circle-paper" x="78" y="8" width="604" height="424" rx="30"/>
     ${drawnCircle}
     <circle class="circle-center-dot" cx="${centerX}" cy="${centerY}" r="6"/>
-    <g class="circle-ruler">
-      <rect class="circle-ruler-body" x="257" y="${CIRCLE_RULER_Y - 28}" width="246" height="67" rx="12"/>
-      ${rulerTicksMarkup()}
-      <text class="circle-ruler-unit" x="522" y="${CIRCLE_RULER_Y + 26}">cm</text>
-      <rect class="circle-ruler-hitbox" x="270" y="${CIRCLE_RULER_Y - 48}" width="220" height="92" rx="16"/>
-    </g>
-    ${settingCompass}
-    <g class="circle-radius-readout">
-      <rect x="545" y="345" width="130" height="76" rx="18"/>
-      <text class="circle-radius-title" x="610" y="360">반지름</text>
-      <text class="circle-radius-value" x="610" y="397">${radius} cm</text>
-    </g>
-    <text class="circle-helper-text" x="170" y="368">${helper}</text>`;
+    ${rulerControls}`;
 }
 
 function svgPointFromEvent(svg, event) {
@@ -410,52 +413,6 @@ function primePatternRewardArt() {
   });
 }
 
-function tutorialRulerMarkup(x, y, width) {
-  const unit = width / 4;
-  const ticks = [0, 1, 2, 3, 4].map((value) => {
-    const tickX = x + value * unit;
-    return `<line x1="${tickX}" y1="${y}" x2="${tickX}" y2="${y + 20}"/><text x="${tickX}" y="${y + 43}">${value}</text>`;
-  }).join("");
-  return `<g class="tutorial-ruler"><rect x="${x - 18}" y="${y - 12}" width="${width + 36}" height="70" rx="12"/>${ticks}</g>`;
-}
-
-function tutorialCompassMarkup(needleX, pencilX, footY, hingeY) {
-  const hingeX = (needleX + pencilX) / 2;
-  return `<g class="tutorial-compass">
-    <line class="tutorial-needle-leg" x1="${hingeX}" y1="${hingeY}" x2="${needleX}" y2="${footY}"/>
-    <line class="tutorial-pencil-leg" x1="${hingeX}" y1="${hingeY}" x2="${pencilX}" y2="${footY}"/>
-    <circle cx="${hingeX}" cy="${hingeY}" r="15"/>
-    <line class="tutorial-grip" x1="${hingeX}" y1="${hingeY - 34}" x2="${hingeX}" y2="${hingeY - 13}"/>
-    <path class="tutorial-needle-tip" d="M ${needleX - 5} ${footY - 10} L ${needleX} ${footY + 7} L ${needleX + 5} ${footY - 10} Z"/>
-    <rect class="tutorial-pencil-tip" x="${pencilX - 7}" y="${footY - 28}" width="14" height="35" rx="4"/>
-  </g>`;
-}
-
-function ensureCircleTutorialOverlay() {
-  const firstCard = document.querySelector("#screen-tutorial .tutorial-card:first-child");
-  if (!firstCard || firstCard.querySelector(".tutorial-compass-overlay")) return;
-  const svg = document.createElementNS(PATTERN_SVG_NS, "svg");
-  svg.classList.add("tutorial-compass-overlay");
-  svg.setAttribute("viewBox", "0 0 1280 800");
-  svg.setAttribute("aria-hidden", "true");
-  svg.innerHTML = `<defs><marker id="tutorialArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z"/></marker></defs>
-    ${tutorialRulerMarkup(86, 515, 280)}
-    ${tutorialCompassMarkup(86, 226, 515, 375)}
-    <circle class="tutorial-zero-ring" cx="86" cy="515" r="15"/>
-    ${tutorialRulerMarkup(472, 515, 300)}
-    ${tutorialCompassMarkup(472, 772, 515, 360)}
-    <line class="tutorial-move-arrow" x1="570" y1="420" x2="684" y2="420" marker-end="url(#tutorialArrow)"/>
-    <line class="tutorial-span" x1="472" y1="585" x2="772" y2="585"/>
-    <line class="tutorial-span-cap" x1="472" y1="572" x2="472" y2="598"/>
-    <line class="tutorial-span-cap" x1="772" y1="572" x2="772" y2="598"/>
-    <text class="tutorial-span-label" x="622" y="615">4 cm</text>
-    <circle class="tutorial-drawn-circle" cx="944" cy="465" r="112"/>
-    <circle class="tutorial-center-dot" cx="944" cy="465" r="7"/>
-    <g class="tutorial-turning-compass">${tutorialCompassMarkup(944, 1056, 465, 335)}</g>
-    <path class="tutorial-turn-arrow" d="M 1015 358 A 112 112 0 0 1 1060 432" marker-end="url(#tutorialArrow)"/>`;
-  firstCard.appendChild(svg);
-}
-
 function waitForPattern(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
@@ -526,5 +483,4 @@ globalThis.__playProgressQa = {
   },
 };
 globalThis.__compassRingQa = globalThis.__playProgressQa;
-ensureCircleTutorialOverlay();
 primePatternRewardArt();

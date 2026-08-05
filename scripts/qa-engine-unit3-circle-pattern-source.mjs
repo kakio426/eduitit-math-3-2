@@ -10,6 +10,7 @@ const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 const cssSource = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
+const tutorialPoster = await readFile(path.join(ROOT, LESSON, config.tutorialCards[0].image));
 
 const context = vm.createContext({ LESSON_CONFIG: config, console, Math });
 vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};`, context);
@@ -38,6 +39,18 @@ assert.deepEqual([...config.qa.misconceptionCoverage], [
 ]);
 assert.equal(config.qa.circleDrawingAudit.interaction, "compass-radius-drag");
 assert.equal(config.qa.circleDrawingAudit.requiresAdjustmentBeforeSubmit, true);
+assert.equal(config.tutorialCards[0].image, "tutorial-page-1-generated.png");
+assert.equal(tutorialPoster.readUInt32BE(16), 1280, "tutorial poster must be one 1280px-wide raster");
+assert.equal(tutorialPoster.readUInt32BE(20), 800, "tutorial poster must be one 800px-tall raster");
+assert.equal(config.reward.changeLabel, "원의 점수");
+assert.equal(config.qa.rewardModalAudit.standard, "unit3-modal-art-compact-v2");
+assert.equal(config.qa.rewardModalAudit.cardWidthPx, 430);
+assert.equal(config.qa.rewardModalAudit.cardHeightPx, 480);
+assert.equal(config.qa.rewardModalAudit.cardMaxWidthRatio, 0.82);
+assert.ok(
+  config.qa.viewports.some((viewport) => viewport.name === "user-feedback-completion-1079x929" && viewport.width === 1079 && viewport.height === 929),
+  "the reported 1079x929 viewport must remain a named regression",
+);
 
 for (let seed = 1; seed <= 200; seed += 1) {
   const problems = model.generateRun(seed);
@@ -74,10 +87,12 @@ assert.match(viewSource, /setPointerCapture/, "compass drag must use Pointer Eve
 assert.match(viewSource, /ArrowLeft.*ArrowDown.*ArrowRight.*ArrowUp/s, "compass slider must support arrow keys");
 assert.match(viewSource, /Math\.round/, "free movement must snap to ruler ticks");
 assert.match(viewSource, /class="drawn-circle/, "confirmation must draw the selected circle");
-assert.match(viewSource, /ensureCircleTutorialOverlay/, "tutorial must use precise SVG math diagrams");
+assert.doesNotMatch(viewSource, /ensureCircleTutorialOverlay|tutorial-compass-overlay|tutorialRulerMarkup/, "tutorial must be a single generated raster without runtime SVG composition");
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
 assert.match(cssSource, /\.compass-pencil-handle\s*\{[^}]*cursor:\s*ew-resize/s, "drag handle must be visibly draggable");
 assert.match(cssSource, /@keyframes circle-trace/, "circle confirmation must animate the trace");
+assert.match(cssSource, /\.complete-text\s*\{\s*display:\s*none;/, "completion must leave only the reward action button below the finished circle");
+assert.doesNotMatch(cssSource, /tutorial-compass-overlay|tutorial-ruler|tutorial-span-label/, "tutorial overlay CSS must be removed");
 assert.match(
   cssSource,
   /\.game\[data-result-panel-containment="result-panel-containment-v2"\] \.result-title-art,\s*\.game\[data-result-panel-containment="result-panel-containment-v2"\] \.result-retry-hitbox \.result-retry-art\s*\{\s*display:\s*block\s*!important;/,
