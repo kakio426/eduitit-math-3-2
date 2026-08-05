@@ -5441,6 +5441,10 @@ async function runViewport(page, lesson, pageUrl, viewport, seed) {
     initialLearningLayout = await auditCheckLockLayout(page, `${viewport.name} check-lock play`);
   }
   const answerLeak = await evaluate(page, `(() => {
+    if (LESSON_CONFIG.qa?.circleDrawingAudit?.instructionBoardRemoved === true) {
+      return Boolean(document.querySelector('.drawn-circle'))
+        || Boolean(document.querySelector('#choicesPanel [data-state="correct"]'));
+    }
     const configuredAnswer = LESSON_CONFIG.qa?.circleRelationAudit?.answer;
     const answerNode = configuredAnswer
       ? document.querySelector(configuredAnswer)

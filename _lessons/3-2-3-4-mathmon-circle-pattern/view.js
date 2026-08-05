@@ -1,7 +1,8 @@
 const PATTERN_SVG_NS = "http://www.w3.org/2000/svg";
-const CIRCLE_RULER_ZERO_X = 280;
-const CIRCLE_RULER_Y = 392;
-const CIRCLE_UNIT_PX = 50;
+const CIRCLE_RULER_ZERO_X = 82;
+const CIRCLE_RULER_Y = 330;
+const CIRCLE_RULER_UNIT_PX = 42;
+const CIRCLE_DRAW_UNIT_PX = 50;
 let patternPlayProgress = null;
 let pendingPatternRewardImpact = null;
 let patternRewardArtPrimed = false;
@@ -129,7 +130,15 @@ function syncPatternPlayProgress(state, options = {}) {
 
 function ensurePatternStageArt() {
   const playScreen = document.getElementById("screen-play");
-  if (!playScreen || playScreen.querySelector(".pattern-stage-art")) return;
+  if (!playScreen) return;
+  const stepBoard = playScreen.querySelector(".step-board");
+  const feedback = stepBoard?.querySelector(".feedback-line");
+  if (feedback) {
+    feedback.classList.add("visually-hidden");
+    playScreen.append(feedback);
+  }
+  stepBoard?.remove();
+  if (playScreen.querySelector(".pattern-stage-art")) return;
   const image = document.createElement("img");
   image.className = "pattern-stage-art";
   image.src = LESSON_CONFIG.imageAssets.problemStage;
@@ -235,14 +244,14 @@ function setCircleRadius(value, adjusted = true) {
 
 function rulerTicksMarkup() {
   return [0, 1, 2, 3, 4].map((value) => {
-    const x = CIRCLE_RULER_ZERO_X + value * CIRCLE_UNIT_PX;
+    const x = CIRCLE_RULER_ZERO_X + value * CIRCLE_RULER_UNIT_PX;
     return `<g class="circle-ruler-tick" data-value="${value}"><line x1="${x}" y1="${CIRCLE_RULER_Y - 18}" x2="${x}" y2="${CIRCLE_RULER_Y + 2}"/><text x="${x}" y="${CIRCLE_RULER_Y + 27}">${value}</text></g>`;
   }).join("");
 }
 
-function compassMarkup(anchorX, anchorY, radius, className) {
-  const pencilX = anchorX + radius * CIRCLE_UNIT_PX;
-  const hingeX = anchorX + radius * CIRCLE_UNIT_PX / 2;
+function compassMarkup(anchorX, anchorY, radius, unitPx, className) {
+  const pencilX = anchorX + radius * unitPx;
+  const hingeX = anchorX + radius * unitPx / 2;
   const hingeY = anchorY - 112;
   return `<g class="${className}" data-radius="${radius}">
     <line class="compass-leg compass-needle-leg" x1="${hingeX}" y1="${hingeY}" x2="${anchorX}" y2="${anchorY}"/>
@@ -257,40 +266,33 @@ function compassMarkup(anchorX, anchorY, radius, className) {
 function circleWorkbenchMarkup(problem) {
   const radius = circleWorkbench.selectedRadius;
   const phase = circleWorkbench.phase;
-  const drawRadius = radius * CIRCLE_UNIT_PX;
-  const centerX = 380;
-  const centerY = 212;
+  const drawRadius = radius * CIRCLE_DRAW_UNIT_PX;
+  const centerX = 540;
+  const centerY = 220;
   const showDrawing = phase === "wrong" || phase === "correct";
   const showRulerCompass = phase !== "correct";
   const statusClass = phase === "wrong" ? " is-wrong" : phase === "correct" ? " is-correct" : "";
   const radiusLine = showDrawing
-    ? `<line class="draw-radius-line" x1="${centerX}" y1="${centerY}" x2="${centerX + drawRadius}" y2="${centerY}"/><text class="draw-radius-label" x="168" y="52">반지름 ${radius} cm</text>`
+    ? `<line class="draw-radius-line" x1="${centerX}" y1="${centerY}" x2="${centerX + drawRadius}" y2="${centerY}"/><text class="draw-radius-label" x="${centerX + drawRadius * .62}" y="${centerY + 28}">반지름 ${radius} cm</text>`
     : "";
   const drawnCircle = showDrawing
-    ? `<circle class="drawn-circle${statusClass}" cx="${centerX}" cy="${centerY}" r="${drawRadius}" pathLength="100"/>${radiusLine}${compassMarkup(centerX, centerY, radius, "drawing-compass")}`
+    ? `<circle class="drawn-circle${statusClass}" cx="${centerX}" cy="${centerY}" r="${drawRadius}" pathLength="100"/>${radiusLine}${compassMarkup(centerX, centerY, radius, CIRCLE_DRAW_UNIT_PX, "drawing-compass")}`
     : `<circle class="circle-place-guide" cx="${centerX}" cy="${centerY}" r="54"/><text class="circle-place-text" x="${centerX}" y="${centerY + 6}">중심</text>`;
-  const pencilX = CIRCLE_RULER_ZERO_X + radius * CIRCLE_UNIT_PX;
+  const pencilX = CIRCLE_RULER_ZERO_X + radius * CIRCLE_RULER_UNIT_PX;
   const settingCompass = showRulerCompass
-    ? `${compassMarkup(CIRCLE_RULER_ZERO_X, CIRCLE_RULER_Y - 8, radius, "setting-compass")}
+    ? `${compassMarkup(CIRCLE_RULER_ZERO_X, CIRCLE_RULER_Y - 8, radius, CIRCLE_RULER_UNIT_PX, "setting-compass")}
       <circle class="compass-pencil-handle" cx="${pencilX}" cy="${CIRCLE_RULER_Y - 11}" r="25" tabindex="0" role="slider" aria-label="컴퍼스 반지름" aria-valuemin="1" aria-valuemax="4" aria-valuenow="${radius}"/>`
     : "";
-  const helper = circleWorkbench.adjusted ? "눈금에 맞췄어요" : "연필 다리를 옮겨요";
   const rulerControls = showRulerCompass
     ? `<g class="circle-ruler">
-        <rect class="circle-ruler-body" x="257" y="${CIRCLE_RULER_Y - 28}" width="246" height="67" rx="12"/>
+        <rect class="circle-ruler-body" x="48" y="${CIRCLE_RULER_Y - 28}" width="236" height="67" rx="12"/>
         ${rulerTicksMarkup()}
-        <text class="circle-ruler-unit" x="522" y="${CIRCLE_RULER_Y + 26}">cm</text>
-        <rect class="circle-ruler-hitbox" x="270" y="${CIRCLE_RULER_Y - 48}" width="220" height="92" rx="16"/>
+        <rect class="circle-ruler-hitbox" x="66" y="${CIRCLE_RULER_Y - 48}" width="200" height="92" rx="16"/>
       </g>
-      ${settingCompass}
-      <g class="circle-radius-readout">
-        <rect x="545" y="345" width="130" height="76" rx="18"/>
-        <text class="circle-radius-title" x="610" y="360">반지름</text>
-        <text class="circle-radius-value" x="610" y="397">${radius} cm</text>
-      </g>
-      <text class="circle-helper-text" x="170" y="368">${helper}</text>`
+      ${settingCompass}`
     : "";
-  return `<rect class="circle-paper" x="78" y="8" width="604" height="424" rx="30"/>
+  return `<rect class="circle-paper" x="10" y="8" width="740" height="424" rx="30"/>
+    <line class="circle-workbench-divider" x1="330" y1="34" x2="330" y2="406"/>
     ${drawnCircle}
     <circle class="circle-center-dot" cx="${centerX}" cy="${centerY}" r="6"/>
     ${rulerControls}`;
@@ -308,7 +310,7 @@ function svgPointFromEvent(svg, event) {
 function radiusFromPointer(svg, event) {
   const point = svgPointFromEvent(svg, event);
   if (!point) return circleWorkbench.selectedRadius;
-  return clampCircleRadius((point.x - CIRCLE_RULER_ZERO_X) / CIRCLE_UNIT_PX);
+  return clampCircleRadius((point.x - CIRCLE_RULER_ZERO_X) / CIRCLE_RULER_UNIT_PX);
 }
 
 function wireCircleWorkbench(svg) {

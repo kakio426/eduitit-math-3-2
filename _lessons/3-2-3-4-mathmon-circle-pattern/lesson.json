@@ -582,9 +582,9 @@
       "expectedStandard": "generated-play-progress-v3-left-character",
       "expectedProtagonist": "mathmon-drv-09-rainbowunicorn",
       "panelPlacement": {
-        "leftRatio": 0.0165,
+        "leftRatio": 0.025,
         "topRatio": 0.11,
-        "widthRatio": 0.192,
+        "widthRatio": 0.245,
         "heightRatio": 0.84,
         "tolerancePx": 1
       },
@@ -599,6 +599,16 @@
       "subjectAnchorToleranceRatio": 0.03,
       "panelLaneCenterTolerancePx": 1,
       "imagePanelCenterTolerancePx": 1
+    },
+    "leftProgressWidthAudit": {
+      "standard": "stage-left-progress-width-v1",
+      "panel": ".compass-play-progress",
+      "workArea": ".problem-grid",
+      "expectedWidthRatio": 0.245,
+      "minWidthRatio": 0.234375,
+      "maxWidthRatio": 0.252,
+      "minWorkGapRatio": 0.015625,
+      "tolerancePx": 1
     },
     "rewardEffectAudit": {
       "standard": "modal-dismiss-world-impact-v2",
@@ -648,8 +658,11 @@
       "workArea": ".problem-grid",
       "primary": ".problem-card",
       "secondary": ".choices-panel",
-      "tertiary": ".step-board",
       "complete": ".complete-panel",
+      "verticalOrder": [
+        "primary",
+        "secondary"
+      ],
       "minStageWidthRatio": 0.65
     },
     "circleDrawingAudit": {
@@ -662,12 +675,35 @@
       "drawnCircle": ".drawn-circle",
       "radiusMin": 1,
       "radiusMax": 4,
-      "unitPx": 50,
-      "rulerZeroX": 280,
+      "unitPx": 42,
+      "drawUnitPx": 50,
+      "rulerZeroX": 82,
       "snapTolerancePx": 1,
       "minimumTouchPx": 42,
       "requiresKeyboard": true,
-      "requiresAdjustmentBeforeSubmit": true
+      "requiresAdjustmentBeforeSubmit": true,
+      "instructionBoardRemoved": true,
+      "layoutStandard": "circle-workbench-split-v2",
+      "selectedConcept": "design-concepts/circle-workbench-layout-b-selected.png",
+      "paperRect": {
+        "x": 10,
+        "y": 8,
+        "width": 740,
+        "height": 424
+      },
+      "dividerX": 330,
+      "rulerSide": "left",
+      "circleSide": "right",
+      "forbidSelectors": [
+        ".circle-radius-readout",
+        ".circle-ruler-unit",
+        ".circle-helper-text"
+      ],
+      "reviewViewport": {
+        "name": "user-feedback-layout-1079x929",
+        "width": 1079,
+        "height": 929
+      }
     },
     "typographyAudit": {
       "headline": ".big-problem",
@@ -678,6 +714,7 @@
       "choiceSvgText": ".choices-panel svg text",
       "minHeadlinePx": 36,
       "minInstructionPx": 18,
+      "instructionRequired": false,
       "minPrimarySvgTextPx": 16,
       "minChoiceSvgTextPx": 18,
       "minBadgePx": 14,

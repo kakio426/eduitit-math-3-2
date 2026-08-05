@@ -39,6 +39,24 @@ assert.deepEqual([...config.qa.misconceptionCoverage], [
 ]);
 assert.equal(config.qa.circleDrawingAudit.interaction, "compass-radius-drag");
 assert.equal(config.qa.circleDrawingAudit.requiresAdjustmentBeforeSubmit, true);
+assert.equal(config.qa.circleDrawingAudit.instructionBoardRemoved, true);
+assert.equal(config.qa.circleDrawingAudit.layoutStandard, "circle-workbench-split-v2");
+assert.equal(config.qa.circleDrawingAudit.selectedConcept, "design-concepts/circle-workbench-layout-b-selected.png");
+assert.equal(config.qa.circleDrawingAudit.unitPx, 42);
+assert.equal(config.qa.circleDrawingAudit.drawUnitPx, 50);
+assert.equal(config.qa.circleDrawingAudit.rulerZeroX, 82);
+assert.deepEqual(config.qa.circleDrawingAudit.paperRect, { x:10, y:8, width:740, height:424 });
+assert.equal(config.qa.circleDrawingAudit.dividerX, 330);
+assert.deepEqual([...config.qa.circleDrawingAudit.forbidSelectors], [
+  ".circle-radius-readout",
+  ".circle-ruler-unit",
+  ".circle-helper-text",
+]);
+assert.equal(config.qa.playProgressAudit.panelPlacement.widthRatio, 0.245);
+assert.equal(config.qa.leftProgressWidthAudit.standard, "stage-left-progress-width-v1");
+assert.equal(config.qa.leftProgressWidthAudit.expectedWidthRatio, 0.245);
+assert.equal(config.qa.layoutAudit.tertiary, undefined);
+assert.deepEqual([...config.qa.layoutAudit.verticalOrder], ["primary", "secondary"]);
 assert.equal(config.tutorialCards[0].image, "tutorial-page-1-generated.png");
 assert.equal(tutorialPoster.readUInt32BE(16), 1280, "tutorial poster must be one 1280px-wide raster");
 assert.equal(tutorialPoster.readUInt32BE(20), 800, "tutorial poster must be one 800px-tall raster");
@@ -87,6 +105,11 @@ assert.match(viewSource, /setPointerCapture/, "compass drag must use Pointer Eve
 assert.match(viewSource, /ArrowLeft.*ArrowDown.*ArrowRight.*ArrowUp/s, "compass slider must support arrow keys");
 assert.match(viewSource, /Math\.round/, "free movement must snap to ruler ticks");
 assert.match(viewSource, /class="drawn-circle/, "confirmation must draw the selected circle");
+assert.match(viewSource, /stepBoard\?\.remove\(\)/, "the redundant instruction board must be removed from the play DOM");
+assert.match(viewSource, /class="circle-paper" x="10" y="8" width="740" height="424"/, "the circle workbench paper must fill the SVG surface");
+assert.match(viewSource, /class="circle-workbench-divider" x1="330"/, "the ruler and circle lanes must be structurally separated");
+assert.match(viewSource, /x="\$\{centerX \+ drawRadius \* \.62\}" y="\$\{centerY \+ 28\}">반지름/, "the radius label must sit between the compass center and pencil");
+assert.doesNotMatch(viewSource, /circle-radius-readout|circle-ruler-unit|circle-helper-text/, "redundant radius, unit, and helper labels must be removed");
 assert.doesNotMatch(viewSource, /ensureCircleTutorialOverlay|tutorial-compass-overlay|tutorialRulerMarkup/, "tutorial must be a single generated raster without runtime SVG composition");
 assert.doesNotMatch(viewSource, /무늬 점수|무늬 등급|진행도/, "problem view must not contain reward panels");
 assert.match(cssSource, /\.compass-pencil-handle\s*\{[^}]*cursor:\s*ew-resize/s, "drag handle must be visibly draggable");

@@ -4,9 +4,9 @@
 .game[data-workbench-type="circle-pattern-choice"] .compass-play-progress {
   position: absolute;
   top: 11%;
-  left: 1.65%;
+  left: 2.5%;
   z-index: 4;
-  width: 19.2%;
+  width: 24.5%;
   height: 84%;
   min-width: 0;
   overflow: hidden;
@@ -161,9 +161,8 @@
 .game[data-workbench-type="circle-pattern-choice"] .hud-right { grid-column: 3; justify-self: end; }
 .game[data-workbench-type="circle-pattern-choice"] #problemCounter { grid-column: 2; justify-self: center; min-width: 132px; min-height: 42px; justify-content: center; border: 2px solid #8a5a23; color: #36200b; background: #ffe28a; font-size: 1.05rem; }
 
-.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 72px; right: 3%; bottom: 20px; left: 22.5%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 54px 76px; gap: 8px; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid { position: absolute; top: 72px; right: 2.5%; bottom: 20px; left: 29.5%; z-index: 3; height: auto; margin: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 76px; gap: 8px; }
 .game[data-workbench-type="circle-pattern-choice"] .problem-card,
-.game[data-workbench-type="circle-pattern-choice"] .step-board,
 .game[data-workbench-type="circle-pattern-choice"] .choices-panel,
 .game[data-workbench-type="circle-pattern-choice"] .complete-panel { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 .game[data-workbench-type="circle-pattern-choice"] .problem-card { grid-row: 1; min-height: 0; padding: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 2px; }
@@ -175,13 +174,13 @@
 
 .circle-draw-svg { position: absolute; inset: 0; width: min(100%, 760px); height: 100%; margin: auto; overflow: visible; touch-action: none; user-select: none; }
 .circle-paper { fill: rgba(255,253,248,.93); stroke: #dcc894; stroke-width: 4; }
+.circle-workbench-divider { stroke: rgba(138, 175, 167, .46); stroke-width: 3; stroke-dasharray: 8 10; }
 .circle-place-guide { fill: rgba(255,255,255,.3); stroke: #8aafa7; stroke-width: 4; stroke-dasharray: 8 8; }
 .circle-place-text { fill: #58766f; font-size: 24px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
 .circle-center-dot { fill: #8051a5; stroke: #fff; stroke-width: 3; }
 .circle-ruler-body { fill: #ffe4a0; stroke: #956623; stroke-width: 3; }
 .circle-ruler-tick line { stroke: #624317; stroke-width: 3; stroke-linecap: round; }
-.circle-ruler-tick text,
-.circle-ruler-unit { fill: #4b3414; font-size: 24px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
+.circle-ruler-tick text { fill: #4b3414; font-size: 24px; font-weight: 900; text-anchor: middle; dominant-baseline: middle; }
 .circle-ruler-hitbox { fill: transparent; pointer-events: all; cursor: crosshair; }
 .compass-leg { stroke: #4c6881; stroke-width: 13; stroke-linecap: round; }
 .compass-pencil-leg { stroke: #d85e6f; }
@@ -193,41 +192,25 @@
 .drawing-compass { pointer-events: none; }
 .compass-pencil-handle { fill: rgba(255,255,255,.7); stroke: #b92852; stroke-width: 5; cursor: ew-resize; pointer-events: all; }
 .compass-pencil-handle:focus { outline: none; stroke: #235fba; stroke-width: 8; }
-.circle-radius-readout rect { fill: #fff2bf; stroke: #9b6b2d; stroke-width: 3; }
-.circle-radius-title,
-.circle-radius-value,
-.circle-helper-text,
 .draw-radius-label { text-anchor: middle; dominant-baseline: middle; font-weight: 1000; }
-.circle-radius-title { fill: #604619; font-size: 24px; }
-.circle-radius-value { fill: #2e6158; font-size: 28px; font-variant-numeric: tabular-nums; }
-.circle-helper-text { fill: #5e4930; font-size: 24px; }
 .draw-radius-line { stroke: #8353a3; stroke-width: 4; stroke-dasharray: 7 6; }
-.draw-radius-label { fill: #674083; font-size: 24px; }
+.draw-radius-label { fill: #674083; font-size: 22px; }
 .drawn-circle { fill: rgba(188,133,222,.12); stroke: #8353a3; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; animation: circle-trace .9s ease-out forwards; }
 .drawn-circle.is-wrong { fill: rgba(201,43,89,.12); stroke: #b92852; }
 .drawn-circle.is-correct { fill: rgba(22,119,94,.13); stroke: #16775e; }
-.drawing-compass { transform-box: view-box; transform-origin: 380px 212px; animation: circle-compass-turn .9s ease-out both; }
+.drawing-compass { transform-box: view-box; transform-origin: 540px 220px; animation: circle-compass-turn .9s ease-out both; }
 
-.game[data-workbench-type="circle-pattern-choice"] .step-board { grid-row: 2; min-height: 54px; padding: 0 16px; display: grid; grid-template: 1fr / 1fr; place-items: center; border: 2px solid #9b6b2d; border-radius: 15px; background: #fff2bf; }
-.game[data-workbench-type="circle-pattern-choice"] .instruction,
-.game[data-workbench-type="circle-pattern-choice"] .feedback-line { grid-area: 1 / 1; width: 100%; min-height: 0; margin: 0; color: #36200b; font-size: clamp(1.125rem, 1.8vw, 1.25rem); line-height: 1.3; font-weight: 1000; text-align: left; }
-.game[data-workbench-type="circle-pattern-choice"] .instruction[hidden] { display: none; }
-.game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="idle"] { visibility: hidden; }
-.game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="wrong"] { color: #a11742; }
-.game[data-workbench-type="circle-pattern-choice"] .feedback-line[data-state="correct"] { color: #12604c; }
-
-.game[data-workbench-type="circle-pattern-choice"] .choices-panel { grid-row: 3; min-height: 0; padding: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; place-items: center; }
+.game[data-workbench-type="circle-pattern-choice"] .choices-panel { grid-row: 2; min-height: 0; padding: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; place-items: center; }
 .game[data-workbench-type="circle-pattern-choice"] .compass-draw-button { width: min(280px, 62%); min-height: 64px; padding: 8px 24px; border: 3px solid #8f6d17; border-radius: 18px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 1000; text-align: center; }
 .game[data-workbench-type="circle-pattern-choice"] .compass-draw-button:disabled { cursor: not-allowed; opacity: .48; box-shadow: 0 3px 0 #8f6d17; transform: translateY(4px); }
 .game[data-workbench-type="circle-pattern-choice"] .compass-draw-button[data-state="wrong"] { border-color: #9f2148; background: #ffd4df; box-shadow: 0 7px 0 #9f2148; }
 .game[data-workbench-type="circle-pattern-choice"] .compass-draw-button[data-state="correct"] { border-color: #12604c; background: #c9f3e6; box-shadow: 0 7px 0 #12604c; }
 
-.game[data-workbench-type="circle-pattern-choice"] .complete-panel { grid-column: 1; grid-row: 3; min-height: 76px; padding: 0; place-items: center; grid-template-columns: 1fr; border: 0; background: transparent; }
+.game[data-workbench-type="circle-pattern-choice"] .complete-panel { grid-column: 1; grid-row: 2; min-height: 76px; padding: 0; place-items: center; grid-template-columns: 1fr; border: 0; background: transparent; }
 .game[data-workbench-type="circle-pattern-choice"] .complete-text { display: none; }
 .game[data-workbench-type="circle-pattern-choice"] .complete-panel .primary-button { width: min(280px, 62%); min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
-.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .choices-panel,
-.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .step-board { display: none; }
-.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .complete-panel { grid-row: 3; min-height: 76px; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .choices-panel { display: none; }
+.game[data-workbench-type="circle-pattern-choice"] .problem-grid.is-complete .complete-panel { grid-row: 2; min-height: 76px; }
 .game[data-workbench-type="circle-pattern-choice"] #screen-result .top-row { display: none; }
 .game[data-workbench-type="circle-pattern-choice"] #screen-result::after { background: none; }
 .game[data-workbench-type="circle-pattern-choice"] .result-dynamic-ui #resultDestinationSvg,
@@ -337,7 +320,7 @@
 
 @media (max-width: 980px) {
   .game[data-workbench-type="circle-pattern-choice"] .hud { right: calc(2% + var(--sound-reserve)); left: 2%; }
-  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 68px; right: 2%; bottom: 16px; left: 22.5%; grid-template-rows: minmax(0, 1fr) 50px 70px; gap: 8px; }
+  .game[data-workbench-type="circle-pattern-choice"] .problem-grid { top: 68px; right: 2%; bottom: 16px; left: 29.5%; grid-template-rows: minmax(0, 1fr) 70px; gap: 8px; }
   .game[data-workbench-type="circle-pattern-choice"] .complete-panel { min-height: 70px; }
   .game[data-workbench-type="circle-pattern-choice"] .compass-draw-button { min-height: 58px; }
 }
