@@ -166,9 +166,17 @@
 .count-name { fill: #604329; font-size: 18px; font-weight: 900; }
 .count-value { fill: #3d2c1d; font-size: 34px; font-weight: 1000; }
 .count-line, .fraction-line { stroke: #3d2c1d; stroke-width: 4; stroke-linecap: round; }
-.fraction-num, .fraction-den { fill: #3d2c1d; font-size: 36px; font-weight: 1000; }
-.fraction-relation { fill: #6a5139; font-size: 40px; font-weight: 1000; }
+.fraction-num, .fraction-den { fill: #3d2c1d; font-size: 48px; font-weight: 1000; }
+.fraction-relation { fill: #6a5139; font-size: 48px; font-weight: 1000; }
 .pizza-question { fill: #6a5139; font-size: 54px; font-weight: 1000; }
+.pizza-complete-svg { width: 100%; height: 150px; max-height: 100%; display: block; overflow: visible; }
+.pizza-complete-label { fill: #604329; font-size: 22px; font-weight: 1000; }
+.pizza-complete-value { fill: #3d2c1d; font-size: 48px; font-weight: 1000; }
+.pizza-complete-count-line { stroke: #3d2c1d; stroke-width: 5; stroke-linecap: round; }
+.pizza-complete-relation { fill: #6a5139; font-size: 52px; font-weight: 1000; }
+.pizza-complete-svg .fraction-mark-complete .fraction-num,
+.pizza-complete-svg .fraction-mark-complete .fraction-den,
+.pizza-complete-svg .fraction-mark-complete .fraction-line { fill: #16775e; stroke: #16775e; }
 .pizza-confirm-svg[data-state="wrong"] .fraction-mark-selected .fraction-num,
 .pizza-confirm-svg[data-state="wrong"] .fraction-mark-selected .fraction-den,
 .pizza-confirm-svg[data-state="wrong"] .fraction-mark-selected .fraction-line { fill: #b92852; stroke: #b92852; }
@@ -194,14 +202,15 @@
 .game[data-workbench-type="pizza-fraction"] .feedback-line[data-state="idle"] { visibility: hidden; }
 .game[data-workbench-type="pizza-fraction"] .feedback-line[data-state="wrong"] { color: #a11742; }
 .game[data-workbench-type="pizza-fraction"] .feedback-line[data-state="correct"] { color: #12604c; }
-.game[data-workbench-type="pizza-fraction"] .choices-panel { grid-row: 2; min-height: 0; padding: 34px 0 0; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.game[data-workbench-type="pizza-fraction"] .choices-panel { grid-row: 2; min-height: 0; padding: 0; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.game[data-workbench-type="pizza-fraction"] .problem-grid:has(.feedback-line[data-state="wrong"]) .choices-panel { padding-top: 34px; }
 .game[data-workbench-type="pizza-fraction"] .fraction-choice { min-height: 0; padding: 0; border: 3px solid #a87b49; border-radius: 18px; color: #3d342c; background: #fffaf0; box-shadow: 0 6px 0 #8d6a45; }
 .game[data-workbench-type="pizza-fraction"] .fraction-choice .fraction-num,
 .game[data-workbench-type="pizza-fraction"] .fraction-choice .fraction-den { font-size: 54px; }
 .game[data-workbench-type="pizza-fraction"] .fraction-choice[data-state="wrong"] { border-color: #c92b59; background: #ffe0e9; box-shadow: 0 6px 0 #a45b70; }
 .game[data-workbench-type="pizza-fraction"] .fraction-choice[data-state="correct"] { border-color: #1f8569; background: #d9f8ed; box-shadow: 0 6px 0 #5ea991; }
-.game[data-workbench-type="pizza-fraction"] .complete-panel { grid-column: 1; grid-row: 2; min-height: 0; padding: 14px; place-items: center; grid-template-columns: 1fr; border: 3px solid #9b6b2d; border-radius: 18px; background: #fff2bf; }
-.game[data-workbench-type="pizza-fraction"] .complete-text { width: min(100%, 770px); color: #36200b; font-size: clamp(1.12rem, 1.9vw, 1.55rem); line-height: 1.2; text-align: left; word-break: keep-all; }
+.game[data-workbench-type="pizza-fraction"] .complete-panel { grid-column: 1; grid-row: 2; min-height: 0; padding: 14px; place-items: center; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 10px; overflow: hidden; border: 3px solid #9b6b2d; border-radius: 18px; background: #fff2bf; }
+.game[data-workbench-type="pizza-fraction"] .complete-text { display: none; }
 .game[data-workbench-type="pizza-fraction"] .complete-panel .primary-button { min-height: 64px; color: #36200b; background: #ffd45c; box-shadow: 0 7px 0 #8f6d17; }
 .game[data-workbench-type="pizza-fraction"] .problem-grid.is-complete .choices-panel,
 .game[data-workbench-type="pizza-fraction"] .problem-grid.is-complete .step-board,

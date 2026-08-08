@@ -56,7 +56,7 @@ const Lesson4PizzaFractionModel = (() => {
       steps: [{
         id: "name-fraction",
         label: "분수 고르기",
-        instruction: "피자에 맞는 분수를 골라요.",
+        instruction: "",
         answer: `${num}/${den}`,
         answerChoiceId: `choice:${num}/${den}`,
         choices: choicesForFraction(num, den, rng),

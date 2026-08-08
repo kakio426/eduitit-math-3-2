@@ -204,6 +204,7 @@ function renderProblemVisual(problem, state) {
   syncPizzaPlayProgress(state);
   ensurePizzaStageArt();
   ensurePizzaStatusLine();
+  document.querySelector(".pizza-complete-svg")?.remove();
   ui.visualArea.dataset.pizzaState = "idle";
   ui.visualArea.dataset.selectedNum = "";
   ui.visualArea.dataset.selectedDen = "";
@@ -238,8 +239,39 @@ function renderAttempt(problem, step, selected, state, result) {
   renderPizzaWorkbench(problem);
 }
 
+function renderPizzaCompleteSummary(problem) {
+  const panel = document.getElementById("completePanel");
+  if (!panel) return;
+  panel.querySelector(".pizza-complete-svg")?.remove();
+
+  const svg = document.createElementNS(PIZZA_SVG_NS, "svg");
+  svg.classList.add("pizza-complete-svg");
+  svg.setAttribute("viewBox", "0 0 760 150");
+  svg.setAttribute("role", "img");
+  svg.setAttribute(
+    "aria-label",
+    `색칠된 조각 ${problem.num}개, 전체 조각 ${problem.den}개, ${problem.den}분의 ${problem.num}`,
+  );
+  svg.innerHTML = `
+    <text class="pizza-complete-label" x="210" y="49" text-anchor="middle">색칠된 조각</text>
+    <text class="pizza-complete-value" x="350" y="57" text-anchor="middle">${problem.num}</text>
+    <line class="pizza-complete-count-line" x1="320" y1="75" x2="380" y2="75"></line>
+    <text class="pizza-complete-label" x="210" y="108" text-anchor="middle">전체 조각</text>
+    <text class="pizza-complete-value" x="350" y="116" text-anchor="middle">${problem.den}</text>
+    <text class="pizza-complete-relation" x="450" y="86" text-anchor="middle">=</text>
+    ${fractionMarkup(problem.num, problem.den, 585, 72, "complete")}
+  `;
+  panel.insertBefore(svg, document.getElementById("rewardButton"));
+}
+
+function onProblemComplete({ problem }) {
+  renderPizzaWorkbench(problem);
+  renderPizzaCompleteSummary(problem);
+}
+
 function renderChoicesForStep(problem, step, state, choose) {
   ui.choices.innerHTML = "";
+  ui.instructionText.hidden = true;
   ui.choices.dataset.choiceKind = "fraction-card";
   step.choices.forEach((selected) => {
     const button = document.createElement("button");
@@ -275,23 +307,14 @@ function renderPizzaWorkbench(problem) {
     : state === "correct"
       ? `전체 ${problem.den}조각 중 색칠된 ${problem.num}조각, ${problem.den}분의 ${problem.num}`
       : `색칠된 피자와 고른 ${spoken}이 서로 달라요`);
-  const pizzaCenterX = state === "idle" ? 260 : 120;
-  const pizza = pizzaSlicesMarkup(problem.num, problem.den, pizzaCenterX, 125, 92);
-  if (state === "idle") {
+  const isWrong = state === "wrong";
+  const pizzaCenterX = isWrong ? 120 : 260;
+  const pizzaRadius = isWrong ? 92 : 108;
+  const pizza = pizzaSlicesMarkup(problem.num, problem.den, pizzaCenterX, 125, pizzaRadius);
+  if (state === "idle" || state === "correct") {
     svg.innerHTML = pizza;
   } else if (state === "wrong") {
     svg.innerHTML = `${pizza}<text class="fraction-relation" x="350" y="137" text-anchor="middle">≠</text>${fractionMarkup(selectedNum, selectedDen, 455, 126, "selected")}`;
-  } else {
-    svg.innerHTML = `
-      ${pizza}
-      <text class="count-name" x="250" y="91">색칠된 조각</text>
-      <text class="count-value" x="350" y="92" text-anchor="middle">${problem.num}</text>
-      <line class="count-line" x1="313" y1="119" x2="387" y2="119"/>
-      <text class="count-name" x="250" y="158">전체 조각</text>
-      <text class="count-value" x="350" y="159" text-anchor="middle">${problem.den}</text>
-      <text class="fraction-relation" x="405" y="137" text-anchor="middle">=</text>
-      ${fractionMarkup(problem.num, problem.den, 455, 126, "selected")}
-    `;
   }
   ui.visualArea.replaceChildren(svg);
 }

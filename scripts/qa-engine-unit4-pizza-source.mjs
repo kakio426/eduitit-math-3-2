@@ -39,7 +39,7 @@ for (let seed = 1; seed <= 200; seed += 1) {
     for (const choice of step.choices.filter((item) => item.id !== step.answerChoiceId)) {
       assert.ok(choice.feedback, `${problem.id}: short feedback`);
     }
-    assert.equal(step.instruction, "피자에 맞는 분수를 골라요.", `${problem.id}: answer is not named in advance`);
+    assert.equal(step.instruction, "", `${problem.id}: redundant choice instruction must stay removed`);
     assert.match(step.correctText, new RegExp(`^맞아요\\. 전체 ${problem.den}조각 중 ${problem.num}조각, ${problem.den}분의 ${problem.num}`), `${problem.id}: student-facing confirmation`);
     assert.doesNotMatch(`${problem.prompt} ${problem.finalExpression} ${step.instruction} ${step.correctText} ${step.reveal}`, /\d+\/\d+/, `${problem.id}: no slash fraction in student copy`);
   }
@@ -49,7 +49,8 @@ assert.equal(config.results.find((result) => result.id === "jumbo")?.name, "특�
 
 assert.match(viewSource, /fraction-choice-svg/, "each answer surface must show a fraction card");
 assert.match(viewSource, /pizza-confirm-svg/, "chosen fraction must expand for confirmation");
-assert.match(viewSource, /if \(state === "idle"\) \{\s*svg\.innerHTML = pizza;/, "waiting state must show only the pizza, not a completed fraction");
+assert.match(viewSource, /pizza-complete-svg/, "completion must move the fraction explanation below the pizza");
+assert.match(viewSource, /if \(state === "idle" \|\| state === "correct"\) \{\s*svg\.innerHTML = pizza;/, "waiting and completed states must keep the top visual to the pizza");
 assert.doesNotMatch(viewSource, /state === "idle" \? "\?"/, "waiting state must not show a redundant relation question mark");
 assert.doesNotMatch(viewSource, /피자 점수|피자 등급|진행도/, "problem view must not contain reward panels");
 const lessonCss = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
