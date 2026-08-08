@@ -7,6 +7,10 @@ const ROOT = process.cwd();
 const LESSON = "3-2-4-1-mathmon-pizza-fraction";
 const SOURCE_DIR = path.join(ROOT, "_lessons", LESSON);
 const config = JSON.parse(await readFile(path.join(SOURCE_DIR, "lesson.json"), "utf8"));
+const unit3Config = JSON.parse(await readFile(
+  path.join(ROOT, "_lessons", "3-2-3-4-mathmon-circle-pattern", "lesson.json"),
+  "utf8",
+));
 const modelSource = await readFile(path.join(SOURCE_DIR, "model.js"), "utf8");
 const viewSource = await readFile(path.join(SOURCE_DIR, "view.js"), "utf8");
 
@@ -15,6 +19,22 @@ vm.runInContext(`${modelSource}\nglobalThis.__lessonModel = ${config.modelName};
 const model = context.__lessonModel;
 const emptyEvent = config.rewardEvents.find((event) => event.id === "empty");
 assert.equal(config.reward.standard, "mathmon-unified-reward-v1", "lesson must opt into the unified reward contract");
+const rewardContractShape = (lesson) => ({
+  standard:lesson.reward.standard,
+  maxPower:lesson.reward.maxPower,
+  fairness:lesson.reward.fairness,
+  events:lesson.rewardEvents.map(({ id, weight, min, max, family, special, keepsPower, emptiesPower }) => ({
+    id, weight, min, max, family, special, keepsPower, emptiesPower,
+  })),
+  wrongEvent:(({ id, min, max, family, special, keepsPower, emptiesPower }) => ({
+    id, min, max, family, special, keepsPower, emptiesPower,
+  }))(lesson.wrongEvent),
+});
+assert.deepEqual(
+  rewardContractShape(config),
+  rewardContractShape(unit3Config),
+  "reward probabilities, ranges, and empty-progress behavior must match the Unit 3 unified contract",
+);
 assert.equal(config.qa.emptyRewardAudit, true, "browser QA must force empty at nonzero power");
 assert.equal(emptyEvent?.keepsPower, true, "empty event must declare accumulated-power preservation");
 assert.equal(emptyEvent?.emptiesPower, undefined, "legacy reset flag must be removed");
@@ -50,10 +70,24 @@ assert.equal(config.results.find((result) => result.id === "jumbo")?.name, "특�
 assert.match(viewSource, /fraction-choice-svg/, "each answer surface must show a fraction card");
 assert.match(viewSource, /pizza-confirm-svg/, "chosen fraction must expand for confirmation");
 assert.match(viewSource, /pizza-complete-svg/, "completion must move the fraction explanation below the pizza");
+assert.match(viewSource, /pizza-complete-relation[\s\S]*>→<\//, "completion must show a count-to-fraction arrow");
+assert.doesNotMatch(viewSource, /pizza-complete-relation[\s\S]*>=<\//, "completion must not repeat the same fraction on both sides of an equals sign");
+assert.match(viewSource, /pizza-complete-fraction-label/, "completion must label the single displayed fraction");
 assert.match(viewSource, /if \(state === "idle" \|\| state === "correct"\) \{\s*svg\.innerHTML = pizza;/, "waiting and completed states must keep the top visual to the pizza");
 assert.doesNotMatch(viewSource, /state === "idle" \? "\?"/, "waiting state must not show a redundant relation question mark");
 assert.doesNotMatch(viewSource, /피자 점수|피자 등급|진행도/, "problem view must not contain reward panels");
 const lessonCss = await readFile(path.join(SOURCE_DIR, "lesson.css"), "utf8");
+assert.equal(config.standards.resultPanelContainment, "result-panel-containment-v2");
+assert.equal(config.standards.resultRewardDominance, "result-primary-reward-dominance-v1");
+assert.equal(config.result.layout.titleWidth, 320, "result title must use the Unit 3 readable slot");
+assert.equal(config.result.layout.correctWidth, 180, "result correct count must use the Unit 3 readable slot");
+assert.deepEqual(config.result.layout.retryRect, { x:904, y:489, width:272, height:120 });
+assert.deepEqual(config.result.stateImageSet.dynamicOverlays, ["correct-count", "next-goal"], "result dynamic overlays must match the Unit 3 result contract");
+assert.equal(config.qa.resultPanelContainmentAudit.sceneImage, "#resultBg");
+assert.equal(config.qa.resultPanelContainmentAudit.panelDetector.mode, "dark");
+assert.equal(config.qa.resultRewardDominanceAudit.maximumVisibleInformationNodes, 4);
+assert.match(lessonCss, /#screen-result \.result-panel-art \{ display: none !important; \}/, "the baked result scene must not receive a second panel layer");
+assert.match(lessonCss, /#resultMeasureSvg,\s*\.game\[data-workbench-type="pizza-fraction"\] \.result-dynamic-ui #resultMeasureTrackSvg/, "running power must stay hidden on the final result");
 assert.match(lessonCss, /\.fraction-choice\s*\{[^}]*background:\s*#[0-9a-f]{6}/i, "answer choices must use an opaque background");
 assert.match(lessonCss, /pizza-fraction[^\n]*\.problem-card\s*\{[^}]*background:\s*#[0-9a-f]{6}/i, "problem panel must use an opaque surface");
 assert.match(lessonCss, /pizza-fraction[^\n]*\.complete-panel\s*\{[^}]*background:\s*#[0-9a-f]{6}/i, "completion panel must use an opaque surface");

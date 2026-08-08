@@ -1672,7 +1672,7 @@ async function auditConfiguredResultCohesionV2(page, label) {
   assert(audit.stage && audit.axisRects.length === audit.config.axisNodes.length, `${label}: result cohesion nodes are missing`, audit);
   assert(audit.axisSpread <= audit.allowedAxisSpread, `${label}: result dynamic elements left their shared axis`, audit);
   assert(audit.overlaps.length === 0, `${label}: adjacent result elements overlap`, audit);
-  if (audit.titleOpaqueBottom !== null && audit.titleTrackGap !== null) {
+  if (audit.titleOpaqueBottom !== null && audit.titleTrackGap !== null && audit.rects.track) {
     assert(
       audit.titleTrackGap >= Number(audit.config.minimumVisibleGapPx || 0),
       `${label}: visible title art overlaps or crowds the progress track`,
@@ -2010,6 +2010,10 @@ async function auditResultPanelContainmentV2(page, label) {
     const inside = (rect) => rect && safe
       ? rect.left >= safe.left - 0.5 && rect.top >= safe.top - 0.5 && rect.right <= safe.right + 0.5 && rect.bottom <= safe.bottom + 0.5
       : false;
+    const forbiddenVisible = (detector.forbiddenVisibleSelectors || [])
+      .flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => ({ selector, node })))
+      .filter(({ node }) => visible(node))
+      .map(({ selector, node }) => ({ selector, rect:rectObject(node.getBoundingClientRect()) }));
     const visualKeys = ['title','measure','track','correct','next','retryArt'];
     const intersections = [];
     for (let index = 0; index < visualKeys.length; index += 1) for (let nextIndex = index + 1; nextIndex < visualKeys.length; nextIndex += 1) {
@@ -2029,7 +2033,7 @@ async function auditResultPanelContainmentV2(page, label) {
     const nextHidden = !visible(nextNode);
     return {
       config, tier, showNextGoal:LESSON_CONFIG.result?.showNextGoal === true, stage:rectObject(stageRect), natural:{ width:canvas.width, height:canvas.height }, detector:{ search:detector.searchRectByTier?.[tier] || detector.searchRect || null, mode:detector.mode },
-      panelSource, panel, safe, rects, domRects, inside:Object.fromEntries(Object.entries(rects).map(([key, rect]) => [key, inside(rect)])),
+      panelSource, panel, safe, rects, domRects, forbiddenVisible, inside:Object.fromEntries(Object.entries(rects).map(([key, rect]) => [key, inside(rect)])),
       intersections, axisRects, axisSpread:centers.length ? Math.max(...centers) - Math.min(...centers) : null,
       retryDelta, nextHidden, nextDisplay:nextNode ? getComputedStyle(nextNode).display : '', nextRect:rects.next,
       stageCropped:stageRect.left < -0.5 || stageRect.top < -0.5 || stageRect.right > innerWidth + 0.5 || stageRect.bottom > innerHeight + 0.5
@@ -2040,6 +2044,23 @@ async function auditResultPanelContainmentV2(page, label) {
   assert(audit.config.standard === "result-panel-containment-v2", `${label}: result panel containment standard is wrong`, audit);
   assert(!audit.error && audit.panel && audit.panelSource?.rows > 0, `${label}: result panel four-edge detector failed`, audit);
   assert(audit.safe.width > 0 && audit.safe.height > 0, `${label}: result panel safe area is empty`, audit);
+  assert(audit.forbiddenVisible.length === 0, `${label}: a duplicate result panel layer is visible`, audit);
+  const expectedDetectedRect = audit.config.panelDetector?.expectedDetectedRect;
+  if (expectedDetectedRect) {
+    const actual = audit.panelSource;
+    const expected = {
+      x: Number(expectedDetectedRect.x),
+      y: Number(expectedDetectedRect.y),
+      right: Number(expectedDetectedRect.x) + Number(expectedDetectedRect.width),
+      bottom: Number(expectedDetectedRect.y) + Number(expectedDetectedRect.height),
+      width: Number(expectedDetectedRect.width),
+      height: Number(expectedDetectedRect.height),
+    };
+    const tolerance = Number(audit.config.panelDetector?.expectedDetectedRectTolerancePx || 1);
+    for (const key of ["x", "y", "right", "bottom", "width", "height"]) {
+      assert(Math.abs(Number(actual?.[key]) - expected[key]) <= tolerance, `${label}: raster result panel pixel rect differs from the common panel contract`, { audit, actual, expected, key, tolerance });
+    }
+  }
   const optionalWhenHidden = new Set(audit.config.optionalWhenHidden || []);
   for (const [key, inside] of Object.entries(audit.inside || {})) {
     if (optionalWhenHidden.has(key) && !audit.rects?.[key]) continue;
@@ -3061,7 +3082,10 @@ async function auditConfiguredRewardModal(page, label, phase) {
 async function auditConfiguredResultCohesion(page, label) {
   const audit = await evaluate(page, `(async () => {
     const rectOf = (node) => {
+      if (!node || node.hidden) return null;
+      const style = getComputedStyle(node);
       const rect = node?.getBoundingClientRect();
+      if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity || 1) <= 0 || rect.width <= 1 || rect.height <= 1) return null;
       return rect ? {
         left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom,
         width:rect.width, height:rect.height,
@@ -3127,9 +3151,13 @@ async function auditConfiguredResultCohesion(page, label) {
     assert(Math.abs(item.cx - audit.targetAxis) <= tolerance, `${label}: a result element leaves the shared vertical axis`, { audit, item, tolerance });
     assert(item.left >= audit.stage.left && item.right <= audit.stage.right && item.top >= audit.stage.top && item.bottom <= audit.stage.bottom, `${label}: a result element leaves the Stage`, { audit, item });
   }
-  if (!audit.fullsceneBaked) assert(audit.title.bottom <= audit.measure.top, `${label}: title overlaps the progress label`, audit);
-  assert(audit.measure.bottom <= audit.track.top, `${label}: progress label overlaps the progress bar`, audit);
-  assert(audit.track.bottom <= audit.correct.top, `${label}: progress bar overlaps the correct-count art`, audit);
+  if (!audit.fullsceneBaked && audit.measure) assert(audit.title.bottom <= audit.measure.top, `${label}: title overlaps the progress label`, audit);
+  if (audit.measure && audit.track) {
+    assert(audit.measure.bottom <= audit.track.top, `${label}: progress label overlaps the progress bar`, audit);
+  }
+  if (audit.track && audit.correct) {
+    assert(audit.track.bottom <= audit.correct.top, `${label}: progress bar overlaps the correct-count art`, audit);
+  }
   if (audit.next) {
     assert(audit.correct.bottom <= audit.next.top, `${label}: correct-count art overlaps the next goal`, audit);
     assert(audit.next.bottom <= audit.retry.top, `${label}: next goal overlaps the retry button`, audit);

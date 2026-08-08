@@ -3,9 +3,13 @@
 ## 2026-08-08 사용자 디자인 피드백 회귀 수정
 
 - 선택지 위의 중복 안내 `피자에 맞는 분수를 골라요.`를 화면에서 제거하고, 하네스에도 `instructionRequired: false`를 선언했습니다. 대기 상태 선택지는 안내 공간 없이 채우고, 오답 상태에서는 피드백과 선택지 사이 `6.66px`의 실제 여백을 확보했습니다.
-- 정답 확인의 위쪽은 피자만 남겼습니다. 기존 위쪽 SVG의 보이는 텍스트는 `0개`이고, 색칠된 조각·전체 조각·분수 설명은 아래 완료판의 `pizza-complete-svg`로 옮겼습니다. 기존 `#completeExpression` 문장은 숨겨 중복을 없앴습니다.
+- 정답 확인의 위쪽은 피자만 남겼습니다. 색칠된 조각 수와 전체 조각 수는 아래 `pizza-complete-svg`에서 세로로 읽고, `→ 분수로 쓰면` 뒤에 분수를 한 번만 보여 줍니다. 기존처럼 `4/6 = 4/6`을 반복하지 않으며, 기존 `#completeExpression` 문장은 숨겨 중복을 없앴습니다.
 - `1079×840` 브라우저에서 Stage는 `1035.84×647.40px`, 문제판과 완료판 중심축은 `0px`, 완료 설명 SVG는 `649.66×150px`, `피자 보기` 버튼은 `190×64px`로 확인했습니다. 정답 확인의 텍스트·수식·버튼 넘침과 형제 요소 교차는 `0건`입니다.
 - 보상 카드는 `unit3-modal-art-compact-v2`로 줄여 `430×480px`, Stage 최대 폭 `82%`, 보상 그림 `250×250px`을 사용합니다. 브라우저에서 카드 중심 오차 `0px`, 카드 크기 오차 `0px`, `피자 굽기 점수` 라벨과 `다음` 버튼의 교차 `0건`을 확인했습니다.
+- 보상 확률·증감 범위·누적값 `0~100`·빈 사건의 누적값 유지·오답 최초 1회 손해는 3단원 기준과 구조적으로 같은지 `qa-engine-unit4-pizza-source.mjs`에서 비교하고 통과했습니다. 표시 라벨만 피자 주제에 맞춰 `피자 굽기 점수`로 둡니다.
+- 최종 결과의 반복 원인은 기존 `result-bg-*` 장면마다 빈 결과판의 위치·폭이 달랐고, 배경판 위에 레거시 `result-panel-art`가 한 겹 더 올라가 UI와 폰트가 어긋난 것이었습니다. `v4-base-source.png`에서 공통 빈 결과판을 정규화해 활성 장면을 다시 만들고, 등급 제목·정답 수·다음 목표·다시 버튼만 독립 슬롯으로 배치했습니다. 진행 중 피자 빛/막대는 결과 화면에서 숨겼습니다.
+- 결과판 계약을 보강했습니다. `expectedDetectedRect`로 실제 공통 픽셀 판 `854,120,386×581`을 모든 단계에서 `1px` 이내로 확인하고, `forbiddenVisibleSelectors`로 중복 `.result-panel-art` 레이어를 0건으로 검사합니다. 이 회귀 규칙은 결과판 스킬 문서와 `qa-lesson-flow.mjs`에도 기록했습니다.
+- 6개 결과 단계의 자산 컨택시트와 브라우저 결과 캡처를 모두 재생성했습니다. 등록된 7개 viewport, 사용자 회귀 `1079×840` 포함 총 258장 캡처에서 결과판 포함·보상 우세·텍스트 넘침·요소 교차·Stage 잘림을 전수 확인했습니다.
 - `qa.viewports`의 사용자 회귀 fixture는 `user-design-feedback-1079x840`으로 고정했고, 문제 대기·대표 오답·정답 확인·닫힌 보상·열린 보상·결과를 `screenshots/engine-flow-user-design-feedback-1079x840-*`로 다시 캡처했습니다.
 - Humanizer 학생 문구 QA 결과: `색칠된 조각`, `전체 조각`, `피자 보기`, `피자 굽기 점수`는 화면에서 바로 읽히는 짧은 말이며, 중복 안내·번역투·제작자 용어는 보이는 화면에 남기지 않았습니다.
 - `qa-engine-unit4-pizza-source`, lesson contract, Stage ratio, `qa-lesson-flow`, report evidence 검사를 모두 통과했습니다.
@@ -14,7 +18,7 @@
 
 - 문제 왼쪽 진행 장면을 만들기 전에 최종 보상 6등급부터 다시 제작했습니다.
 - `한 조각 → 반 판 → 한 판 → 특대 피자 → 가게 대박 → 전설 피자`는 비 오는 낡은 손수레·꽃이 핀 작은 가게·벽돌 화덕 식당·네온 축제 무대·황금 피자 궁전·무지개 피자 세계로 이어집니다. 배경, 피자 크기, 조명, 여우몬의 옷과 반응이 단계마다 함께 달라집니다.
-- 각 등급은 서로 다른 1280×800 생성 완성 장면입니다. 등급 제목과 `다시` 버튼 표면은 장면 안에 고정하고, 피자 빛·진행 막대·정답 수·다음 목표만 빈 결과판 위에 표시합니다. 별도 효과 오버레이, 혼합 모드, 단계별 CSS 필터는 쓰지 않습니다.
+- 각 등급은 서로 다른 1280×800 생성 완성 장면입니다. 장면에는 보상 세계와 공통 빈 결과판만 두고, 등급 제목·정답 수·다음 목표·`다시` 버튼은 독립 슬롯으로 배치합니다. 진행 중 피자 빛·진행 막대는 결과에서 숨기며, 별도 효과 오버레이·혼합 모드·단계별 CSS 필터는 쓰지 않습니다.
 - 생성 원본은 `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/source`, 런타임 PNG는 같은 경로의 `runtime-png`, 전수표는 `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/contact-sheets/result-tiers-v4-contact-sheet.png`입니다.
 - 현재 실행본을 `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2`에서 검사했습니다. 결과판 픽셀 중심과 선언 축 차이는 3px 이내, 동적 요소 중심 오차는 1px 이내, 장면 잘림·CSS 효과 오버레이·혼합 모드·단계 필터·요소 교차는 모두 0건입니다.
 - 실제 브라우저 전수표는 `screenshots/result-all-tiers-desktop-contact-sheet.png`, `screenshots/result-all-tiers-tablet-landscape-contact-sheet.png`입니다.
@@ -131,13 +135,13 @@
 
 ## 2026-08-04 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `460ce8ecf8942edeb264adc486646cd93e32be3f735313da183b57d695634cdd`
-- 생성 시각: `2026-08-08T07:17:09.766Z`
+- 실행본 SHA-256: `7f95e0e9d41a17a3ad049cbf753f799886cd9c2e0f862017a67360e66f8635fa`
+- 생성 시각: `2026-08-08T10:05:16.868Z`
 - 등록 화면 크기: `7개`
-- 아래에 직접 삽입한 원본 캡처: `174장`
+- 아래에 직접 삽입한 원본 캡처: `258장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 25장
+### desktop · 1280×800 · DPR 1 · 37장
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -321,6 +325,114 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과판 포함 · half · `engine-flow-desktop-08d-result-panel-half.png`
+
+![desktop 결과판 포함 · half](screenshots/engine-flow-desktop-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-desktop-08d-result-panel-jumbo.png`
+
+![desktop 결과판 포함 · jumbo](screenshots/engine-flow-desktop-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-desktop-08d-result-panel-legend.png`
+
+![desktop 결과판 포함 · legend](screenshots/engine-flow-desktop-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-desktop-08d-result-panel-shopstar.png`
+
+![desktop 결과판 포함 · shopstar](screenshots/engine-flow-desktop-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-desktop-08d-result-panel-slice.png`
+
+![desktop 결과판 포함 · slice](screenshots/engine-flow-desktop-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-desktop-08d-result-panel-whole.png`
+
+![desktop 결과판 포함 · whole](screenshots/engine-flow-desktop-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-desktop-08e-result-reward-dominance-half.png`
+
+![desktop 중심 보상 우선 · half](screenshots/engine-flow-desktop-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-desktop-08e-result-reward-dominance-jumbo.png`
+
+![desktop 중심 보상 우선 · jumbo](screenshots/engine-flow-desktop-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-desktop-08e-result-reward-dominance-legend.png`
+
+![desktop 중심 보상 우선 · legend](screenshots/engine-flow-desktop-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-desktop-08e-result-reward-dominance-shopstar.png`
+
+![desktop 중심 보상 우선 · shopstar](screenshots/engine-flow-desktop-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-desktop-08e-result-reward-dominance-slice.png`
+
+![desktop 중심 보상 우선 · slice](screenshots/engine-flow-desktop-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-desktop-08e-result-reward-dominance-whole.png`
+
+![desktop 중심 보상 우선 · whole](screenshots/engine-flow-desktop-08e-result-reward-dominance-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · half · `engine-flow-desktop-08a-result-half.png`
 
 ![desktop 결과 단계 · half](screenshots/engine-flow-desktop-08a-result-half.png)
@@ -366,7 +478,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 25장
+### tablet-landscape · 1024×768 · DPR 1 · 37장
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -550,6 +662,114 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과판 포함 · half · `engine-flow-tablet-landscape-08d-result-panel-half.png`
+
+![tablet-landscape 결과판 포함 · half](screenshots/engine-flow-tablet-landscape-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-tablet-landscape-08d-result-panel-jumbo.png`
+
+![tablet-landscape 결과판 포함 · jumbo](screenshots/engine-flow-tablet-landscape-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-tablet-landscape-08d-result-panel-legend.png`
+
+![tablet-landscape 결과판 포함 · legend](screenshots/engine-flow-tablet-landscape-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-tablet-landscape-08d-result-panel-shopstar.png`
+
+![tablet-landscape 결과판 포함 · shopstar](screenshots/engine-flow-tablet-landscape-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-tablet-landscape-08d-result-panel-slice.png`
+
+![tablet-landscape 결과판 포함 · slice](screenshots/engine-flow-tablet-landscape-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-tablet-landscape-08d-result-panel-whole.png`
+
+![tablet-landscape 결과판 포함 · whole](screenshots/engine-flow-tablet-landscape-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-tablet-landscape-08e-result-reward-dominance-half.png`
+
+![tablet-landscape 중심 보상 우선 · half](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-tablet-landscape-08e-result-reward-dominance-jumbo.png`
+
+![tablet-landscape 중심 보상 우선 · jumbo](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-tablet-landscape-08e-result-reward-dominance-legend.png`
+
+![tablet-landscape 중심 보상 우선 · legend](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-tablet-landscape-08e-result-reward-dominance-shopstar.png`
+
+![tablet-landscape 중심 보상 우선 · shopstar](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-tablet-landscape-08e-result-reward-dominance-slice.png`
+
+![tablet-landscape 중심 보상 우선 · slice](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-tablet-landscape-08e-result-reward-dominance-whole.png`
+
+![tablet-landscape 중심 보상 우선 · whole](screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · half · `engine-flow-tablet-landscape-08a-result-half.png`
 
 ![tablet-landscape 결과 단계 · half](screenshots/engine-flow-tablet-landscape-08a-result-half.png)
@@ -595,7 +815,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 25장
+### codex-in-app · 1280×720 · DPR 2 · 37장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -779,6 +999,114 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과판 포함 · half · `engine-flow-codex-in-app-08d-result-panel-half.png`
+
+![codex-in-app 결과판 포함 · half](screenshots/engine-flow-codex-in-app-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-codex-in-app-08d-result-panel-jumbo.png`
+
+![codex-in-app 결과판 포함 · jumbo](screenshots/engine-flow-codex-in-app-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-codex-in-app-08d-result-panel-legend.png`
+
+![codex-in-app 결과판 포함 · legend](screenshots/engine-flow-codex-in-app-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-codex-in-app-08d-result-panel-shopstar.png`
+
+![codex-in-app 결과판 포함 · shopstar](screenshots/engine-flow-codex-in-app-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-codex-in-app-08d-result-panel-slice.png`
+
+![codex-in-app 결과판 포함 · slice](screenshots/engine-flow-codex-in-app-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-codex-in-app-08d-result-panel-whole.png`
+
+![codex-in-app 결과판 포함 · whole](screenshots/engine-flow-codex-in-app-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-codex-in-app-08e-result-reward-dominance-half.png`
+
+![codex-in-app 중심 보상 우선 · half](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-codex-in-app-08e-result-reward-dominance-jumbo.png`
+
+![codex-in-app 중심 보상 우선 · jumbo](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-codex-in-app-08e-result-reward-dominance-legend.png`
+
+![codex-in-app 중심 보상 우선 · legend](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-codex-in-app-08e-result-reward-dominance-shopstar.png`
+
+![codex-in-app 중심 보상 우선 · shopstar](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-codex-in-app-08e-result-reward-dominance-slice.png`
+
+![codex-in-app 중심 보상 우선 · slice](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-codex-in-app-08e-result-reward-dominance-whole.png`
+
+![codex-in-app 중심 보상 우선 · whole](screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · half · `engine-flow-codex-in-app-08a-result-half.png`
 
 ![codex-in-app 결과 단계 · half](screenshots/engine-flow-codex-in-app-08a-result-half.png)
@@ -824,7 +1152,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility · 994×632 · DPR 1 · 25장
+### user-visibility · 994×632 · DPR 1 · 37장
 
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
@@ -1008,6 +1336,114 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과판 포함 · half · `engine-flow-user-visibility-08d-result-panel-half.png`
+
+![user-visibility 결과판 포함 · half](screenshots/engine-flow-user-visibility-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-user-visibility-08d-result-panel-jumbo.png`
+
+![user-visibility 결과판 포함 · jumbo](screenshots/engine-flow-user-visibility-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-user-visibility-08d-result-panel-legend.png`
+
+![user-visibility 결과판 포함 · legend](screenshots/engine-flow-user-visibility-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-user-visibility-08d-result-panel-shopstar.png`
+
+![user-visibility 결과판 포함 · shopstar](screenshots/engine-flow-user-visibility-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-user-visibility-08d-result-panel-slice.png`
+
+![user-visibility 결과판 포함 · slice](screenshots/engine-flow-user-visibility-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-user-visibility-08d-result-panel-whole.png`
+
+![user-visibility 결과판 포함 · whole](screenshots/engine-flow-user-visibility-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-user-visibility-08e-result-reward-dominance-half.png`
+
+![user-visibility 중심 보상 우선 · half](screenshots/engine-flow-user-visibility-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-user-visibility-08e-result-reward-dominance-jumbo.png`
+
+![user-visibility 중심 보상 우선 · jumbo](screenshots/engine-flow-user-visibility-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-user-visibility-08e-result-reward-dominance-legend.png`
+
+![user-visibility 중심 보상 우선 · legend](screenshots/engine-flow-user-visibility-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-user-visibility-08e-result-reward-dominance-shopstar.png`
+
+![user-visibility 중심 보상 우선 · shopstar](screenshots/engine-flow-user-visibility-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-user-visibility-08e-result-reward-dominance-slice.png`
+
+![user-visibility 중심 보상 우선 · slice](screenshots/engine-flow-user-visibility-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-user-visibility-08e-result-reward-dominance-whole.png`
+
+![user-visibility 중심 보상 우선 · whole](screenshots/engine-flow-user-visibility-08e-result-reward-dominance-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · half · `engine-flow-user-visibility-08a-result-half.png`
 
 ![user-visibility 결과 단계 · half](screenshots/engine-flow-user-visibility-08a-result-half.png)
@@ -1053,7 +1489,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress · 1082×987 · DPR 2 · 25장
+### user-reported-missing-left-progress · 1082×987 · DPR 2 · 37장
 
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
@@ -1237,6 +1673,114 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과판 포함 · half · `engine-flow-user-reported-missing-left-progress-08d-result-panel-half.png`
+
+![user-reported-missing-left-progress 결과판 포함 · half](screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-user-reported-missing-left-progress-08d-result-panel-jumbo.png`
+
+![user-reported-missing-left-progress 결과판 포함 · jumbo](screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-user-reported-missing-left-progress-08d-result-panel-legend.png`
+
+![user-reported-missing-left-progress 결과판 포함 · legend](screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-user-reported-missing-left-progress-08d-result-panel-shopstar.png`
+
+![user-reported-missing-left-progress 결과판 포함 · shopstar](screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-user-reported-missing-left-progress-08d-result-panel-slice.png`
+
+![user-reported-missing-left-progress 결과판 포함 · slice](screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-user-reported-missing-left-progress-08d-result-panel-whole.png`
+
+![user-reported-missing-left-progress 결과판 포함 · whole](screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-half.png`
+
+![user-reported-missing-left-progress 중심 보상 우선 · half](screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-jumbo.png`
+
+![user-reported-missing-left-progress 중심 보상 우선 · jumbo](screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-legend.png`
+
+![user-reported-missing-left-progress 중심 보상 우선 · legend](screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-shopstar.png`
+
+![user-reported-missing-left-progress 중심 보상 우선 · shopstar](screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-slice.png`
+
+![user-reported-missing-left-progress 중심 보상 우선 · slice](screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-whole.png`
+
+![user-reported-missing-left-progress 중심 보상 우선 · whole](screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · half · `engine-flow-user-reported-missing-left-progress-08a-result-half.png`
 
 ![user-reported-missing-left-progress 결과 단계 · half](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-half.png)
@@ -1282,7 +1826,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-design-feedback-1079x840 · 1079×840 · DPR 1 · 25장
+### user-design-feedback-1079x840 · 1079×840 · DPR 1 · 37장
 
 ![user-design-feedback-1079x840 전체 상태 컨택시트](screenshots/report-flow-user-design-feedback-1079x840-contact-sheet.png)
 
@@ -1466,6 +2010,114 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과판 포함 · half · `engine-flow-user-design-feedback-1079x840-08d-result-panel-half.png`
+
+![user-design-feedback-1079x840 결과판 포함 · half](screenshots/engine-flow-user-design-feedback-1079x840-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-user-design-feedback-1079x840-08d-result-panel-jumbo.png`
+
+![user-design-feedback-1079x840 결과판 포함 · jumbo](screenshots/engine-flow-user-design-feedback-1079x840-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-user-design-feedback-1079x840-08d-result-panel-legend.png`
+
+![user-design-feedback-1079x840 결과판 포함 · legend](screenshots/engine-flow-user-design-feedback-1079x840-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-user-design-feedback-1079x840-08d-result-panel-shopstar.png`
+
+![user-design-feedback-1079x840 결과판 포함 · shopstar](screenshots/engine-flow-user-design-feedback-1079x840-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-user-design-feedback-1079x840-08d-result-panel-slice.png`
+
+![user-design-feedback-1079x840 결과판 포함 · slice](screenshots/engine-flow-user-design-feedback-1079x840-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-user-design-feedback-1079x840-08d-result-panel-whole.png`
+
+![user-design-feedback-1079x840 결과판 포함 · whole](screenshots/engine-flow-user-design-feedback-1079x840-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-half.png`
+
+![user-design-feedback-1079x840 중심 보상 우선 · half](screenshots/engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-jumbo.png`
+
+![user-design-feedback-1079x840 중심 보상 우선 · jumbo](screenshots/engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-legend.png`
+
+![user-design-feedback-1079x840 중심 보상 우선 · legend](screenshots/engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-shopstar.png`
+
+![user-design-feedback-1079x840 중심 보상 우선 · shopstar](screenshots/engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-slice.png`
+
+![user-design-feedback-1079x840 중심 보상 우선 · slice](screenshots/engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-whole.png`
+
+![user-design-feedback-1079x840 중심 보상 우선 · whole](screenshots/engine-flow-user-design-feedback-1079x840-08e-result-reward-dominance-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · half · `engine-flow-user-design-feedback-1079x840-08a-result-half.png`
 
 ![user-design-feedback-1079x840 결과 단계 · half](screenshots/engine-flow-user-design-feedback-1079x840-08a-result-half.png)
@@ -1511,7 +2163,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 24장
+### empty-reward-fixture · 1280×800 · DPR 1 · 36장
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
@@ -1680,6 +2332,114 @@
 #### 결과 결속 · whole · `engine-flow-empty-reward-fixture-08c-result-cohesion-whole.png`
 
 ![empty-reward-fixture 결과 결속 · whole](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · half · `engine-flow-empty-reward-fixture-08d-result-panel-half.png`
+
+![empty-reward-fixture 결과판 포함 · half](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · jumbo · `engine-flow-empty-reward-fixture-08d-result-panel-jumbo.png`
+
+![empty-reward-fixture 결과판 포함 · jumbo](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · legend · `engine-flow-empty-reward-fixture-08d-result-panel-legend.png`
+
+![empty-reward-fixture 결과판 포함 · legend](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · shopstar · `engine-flow-empty-reward-fixture-08d-result-panel-shopstar.png`
+
+![empty-reward-fixture 결과판 포함 · shopstar](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · slice · `engine-flow-empty-reward-fixture-08d-result-panel-slice.png`
+
+![empty-reward-fixture 결과판 포함 · slice](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · whole · `engine-flow-empty-reward-fixture-08d-result-panel-whole.png`
+
+![empty-reward-fixture 결과판 포함 · whole](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · half · `engine-flow-empty-reward-fixture-08e-result-reward-dominance-half.png`
+
+![empty-reward-fixture 중심 보상 우선 · half](screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · jumbo · `engine-flow-empty-reward-fixture-08e-result-reward-dominance-jumbo.png`
+
+![empty-reward-fixture 중심 보상 우선 · jumbo](screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · legend · `engine-flow-empty-reward-fixture-08e-result-reward-dominance-legend.png`
+
+![empty-reward-fixture 중심 보상 우선 · legend](screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · shopstar · `engine-flow-empty-reward-fixture-08e-result-reward-dominance-shopstar.png`
+
+![empty-reward-fixture 중심 보상 우선 · shopstar](screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · slice · `engine-flow-empty-reward-fixture-08e-result-reward-dominance-slice.png`
+
+![empty-reward-fixture 중심 보상 우선 · slice](screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · whole · `engine-flow-empty-reward-fixture-08e-result-reward-dominance-whole.png`
+
+![empty-reward-fixture 중심 보상 우선 · whole](screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-whole.png)
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.

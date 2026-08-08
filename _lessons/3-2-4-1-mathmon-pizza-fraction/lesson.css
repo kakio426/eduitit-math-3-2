@@ -172,8 +172,8 @@
 .pizza-complete-svg { width: 100%; height: 150px; max-height: 100%; display: block; overflow: visible; }
 .pizza-complete-label { fill: #604329; font-size: 22px; font-weight: 1000; }
 .pizza-complete-value { fill: #3d2c1d; font-size: 48px; font-weight: 1000; }
-.pizza-complete-count-line { stroke: #3d2c1d; stroke-width: 5; stroke-linecap: round; }
-.pizza-complete-relation { fill: #6a5139; font-size: 52px; font-weight: 1000; }
+.pizza-complete-relation { fill: #c27b24; font-size: 48px; font-weight: 1000; }
+.pizza-complete-fraction-label { fill: #604329; font-size: 20px; font-weight: 1000; }
 .pizza-complete-svg .fraction-mark-complete .fraction-num,
 .pizza-complete-svg .fraction-mark-complete .fraction-den,
 .pizza-complete-svg .fraction-mark-complete .fraction-line { fill: #16775e; stroke: #16775e; }
@@ -218,12 +218,20 @@
 .game[data-workbench-type="pizza-fraction"] .problem-grid.is-complete .complete-panel { grid-row: 2; min-height: 0; }
 .game[data-workbench-type="pizza-fraction"] #screen-result .top-row { display: none; }
 .game[data-workbench-type="pizza-fraction"] #screen-result::after { background: none; }
+.game[data-workbench-type="pizza-fraction"] #screen-result > .raster-bg { filter: none; mix-blend-mode: normal; object-fit: cover; }
+.game[data-workbench-type="pizza-fraction"] #screen-result .result-panel-art { display: none !important; }
+.game[data-workbench-type="pizza-fraction"] .result-title-art { display: block; height: auto; object-fit: contain; }
 .game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultDestinationSvg,
+.game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultMeasureSvg,
+.game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultMeasureTrackSvg,
+.game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultMeasureFillSvg,
 .game[data-workbench-type="pizza-fraction"] .result-dynamic-ui .result-restart-surface { display: none; }
 .game[data-workbench-type="pizza-fraction"] .result-dynamic-ui text { fill: #fff4cf; stroke: rgba(35,18,8,.96); stroke-width: 10px; }
-.game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultMeasureSvg { font-size: 32px; stroke-width: 7px; }
+.game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultNextSvg { fill: #fff1b4; stroke: rgba(4, 32, 66, .96); stroke-width: 5px; font-size: 28px; }
 .game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultMeasureSvg { font-size: 24px; stroke-width: 6px; }
-.game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultNextSvg { font-size: 16px; stroke-width: 4px; }
+.game[data-result-panel-containment="result-panel-containment-v2"] .result-title-art,
+.game[data-result-panel-containment="result-panel-containment-v2"] .result-retry-hitbox .result-retry-art { display: block !important; }
+.game[data-workbench-type="pizza-fraction"] .result-retry-hitbox { overflow: hidden; border-radius: 999px; }
 .game[data-workbench-type="pizza-fraction"] .result-dynamic-ui rect:first-of-type { fill: #172544; opacity: .28; }
 .game[data-workbench-type="pizza-fraction"] .result-dynamic-ui #resultMeasureFillSvg { fill: #ffca55; }
 .game[data-workbench-type="pizza-fraction"] .reward-visual { background-image: var(--reward-modal-image); background-size: cover; background-repeat: no-repeat; background-position: center; }
