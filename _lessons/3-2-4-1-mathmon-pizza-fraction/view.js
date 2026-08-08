@@ -203,10 +203,22 @@ function ensurePizzaStageArt() {
 function renderProblemVisual(problem, state) {
   syncPizzaPlayProgress(state);
   ensurePizzaStageArt();
+  ensurePizzaStatusLine();
   ui.visualArea.dataset.pizzaState = "idle";
   ui.visualArea.dataset.selectedNum = "";
   ui.visualArea.dataset.selectedDen = "";
   renderPizzaWorkbench(problem);
+}
+
+function ensurePizzaStatusLine() {
+  const problemGrid = document.querySelector(".problem-grid");
+  if (!problemGrid || !ui.instructionText || !ui.feedback) return;
+  if (problemGrid.querySelector(".pizza-work-status")) return;
+  const status = document.createElement("div");
+  status.className = "pizza-work-status";
+  status.setAttribute("aria-live", "polite");
+  status.append(ui.instructionText, ui.feedback);
+  problemGrid.appendChild(status);
 }
 function updateProblemVisualForStep(problem, step, state) {
   syncPizzaPlayProgress(state);
@@ -240,7 +252,7 @@ function renderChoicesForStep(problem, step, state, choose) {
     svg.classList.add("fraction-choice-svg");
     svg.setAttribute("viewBox", "0 0 240 150");
     svg.setAttribute("aria-hidden", "true");
-    svg.innerHTML = fractionMarkup(selected.num, selected.den, 120, 76, "choice");
+    svg.innerHTML = fractionMarkup(selected.num, selected.den, 120, 82, "choice");
     button.appendChild(svg);
     button.addEventListener("click", () => choose(selected, button));
     ui.choices.appendChild(button);
@@ -263,7 +275,8 @@ function renderPizzaWorkbench(problem) {
     : state === "correct"
       ? `전체 ${problem.den}조각 중 색칠된 ${problem.num}조각, ${problem.den}분의 ${problem.num}`
       : `색칠된 피자와 고른 ${spoken}이 서로 달라요`);
-  const pizza = pizzaSlicesMarkup(problem.num, problem.den, 120, 125, 92);
+  const pizzaCenterX = state === "idle" ? 260 : 120;
+  const pizza = pizzaSlicesMarkup(problem.num, problem.den, pizzaCenterX, 125, 92);
   if (state === "idle") {
     svg.innerHTML = pizza;
   } else if (state === "wrong") {
@@ -284,10 +297,11 @@ function renderPizzaWorkbench(problem) {
 }
 
 function fractionMarkup(num, den, cx, cy, kind) {
+  const lineCy = kind === "choice" ? cy - 8 : cy;
   return `
     <g class="fraction-mark fraction-mark-${kind}">
       <text class="fraction-num" x="${cx}" y="${cy - 18}" text-anchor="middle">${num}</text>
-      <line class="fraction-line" x1="${cx - 30}" y1="${cy}" x2="${cx + 30}" y2="${cy}"/>
+      <line class="fraction-line" x1="${cx - 30}" y1="${lineCy}" x2="${cx + 30}" y2="${lineCy}"/>
       <text class="fraction-den" x="${cx}" y="${cy + 42}" text-anchor="middle">${den}</text>
     </g>
   `;

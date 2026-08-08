@@ -1,5 +1,12 @@
 # 매스몬 피자 분수 가게 제작 보고
 
+## 2026-08-08 분수 보기 간격 회귀 수정
+
+- 보기용 SVG 분수의 가로선을 분자·분모 사이의 실제 글자 픽셀 기준으로 다시 배치했습니다. 현재 `1079×839` 캡처에서 분자 아래와 선 사이 간격은 `6px`, 선과 분모 위 간격은 `7px`이며 네 선택지에 같은 좌표 규칙을 적용합니다.
+- 사용자 발견 화면을 `qa.viewports`의 `user-design-feedback-1079x839` 회귀 fixture로 고정하고, 문제 대기·오답·정답 확인·보상·결과를 다시 캡처했습니다.
+- 현재 문제 화면의 왼쪽 진행 패널은 Stage 폭의 `25.2%`, 학습 영역은 `left 31%`에서 시작하며, 선택지의 실제 글리프 중심은 각 버튼 중심에서 `1px` 이내입니다. 텍스트 넘침·요소 교차는 `0건`입니다.
+- `node scripts/qa-lesson-flow.mjs 3-2-4-1-mathmon-pizza-fraction`, Stage ratio·lesson contract·visual contract·report evidence 검사를 모두 통과했습니다.
+
 ## 2026-08-02 최종 보상 우선 재제작
 
 - 문제 왼쪽 진행 장면을 만들기 전에 최종 보상 6등급부터 다시 제작했습니다.
@@ -121,10 +128,10 @@
 
 ## 2026-08-04 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `b555e5e396f5d3bdb0bcc8468a3c8ac1b9d10d376c2110fb6526900449724c05`
-- 생성 시각: `2026-08-04T15:45:59.566Z`
-- 등록 화면 크기: `6개`
-- 아래에 직접 삽입한 원본 캡처: `149장`
+- 실행본 SHA-256: `1e2d061382807716a2722e4a3a8d3b20a9270c1f357d81e89121d1423e87bb3d`
+- 생성 시각: `2026-08-08T01:49:54.348Z`
+- 등록 화면 크기: `7개`
+- 아래에 직접 삽입한 원본 캡처: `174장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 25장
@@ -1266,6 +1273,235 @@
 #### 결과 단계 · legend · `engine-flow-user-reported-missing-left-progress-08a-result-legend.png`
 
 ![user-reported-missing-left-progress 결과 단계 · legend](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### user-design-feedback-1079x839 · 1079×839 · DPR 1 · 25장
+
+![user-design-feedback-1079x839 전체 상태 컨택시트](screenshots/report-flow-user-design-feedback-1079x839-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-design-feedback-1079x839-01-cover.png`
+
+![user-design-feedback-1079x839 시작 화면](screenshots/engine-flow-user-design-feedback-1079x839-01-cover.png)
+
+- 학생이 보는 것: 매스몬 피자 분수 가게 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-design-feedback-1079x839-02-settings.png`
+
+![user-design-feedback-1079x839 설정 화면](screenshots/engine-flow-user-design-feedback-1079x839-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-design-feedback-1079x839-03-tutorial-1.png`
+
+![user-design-feedback-1079x839 설명 1 · 풀이 방법](screenshots/engine-flow-user-design-feedback-1079x839-03-tutorial-1.png)
+
+- 학생이 보는 것: 부분과 전체로 분수 나타내기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-design-feedback-1079x839-04-tutorial-2.png`
+
+![user-design-feedback-1079x839 설명 2 · 보상과 목표](screenshots/engine-flow-user-design-feedback-1079x839-04-tutorial-2.png)
+
+- 학생이 보는 것: 부분과 전체로 분수 나타내기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-design-feedback-1079x839-05-play-step1.png`
+
+![user-design-feedback-1079x839 문제 상태 · 05-play-step1](screenshots/engine-flow-user-design-feedback-1079x839-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오개념 확인 · p1-fraction-counts-unshaded · `engine-flow-user-design-feedback-1079x839-05m-p1-fraction-counts-unshaded.png`
+
+![user-design-feedback-1079x839 오개념 확인 · p1-fraction-counts-unshaded](screenshots/engine-flow-user-design-feedback-1079x839-05m-p1-fraction-counts-unshaded.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-fraction-swapped · `engine-flow-user-design-feedback-1079x839-05m-p1-fraction-swapped.png`
+
+![user-design-feedback-1079x839 오개념 확인 · p1-fraction-swapped](screenshots/engine-flow-user-design-feedback-1079x839-05m-p1-fraction-swapped.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-design-feedback-1079x839-05b-play-wrong.png`
+
+![user-design-feedback-1079x839 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-design-feedback-1079x839-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-user-design-feedback-1079x839-06-confirm.png`
+
+![user-design-feedback-1079x839 마지막 확인 · 06-confirm](screenshots/engine-flow-user-design-feedback-1079x839-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 부분과 전체로 분수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-user-design-feedback-1079x839-07-reward-closed.png`
+
+![user-design-feedback-1079x839 닫힌 보상](screenshots/engine-flow-user-design-feedback-1079x839-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 피자 빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-user-design-feedback-1079x839-07b-reward-open.png`
+
+![user-design-feedback-1079x839 열린 보상](screenshots/engine-flow-user-design-feedback-1079x839-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 피자 빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-design-feedback-1079x839-07c-reward-impact.png`
+
+![user-design-feedback-1079x839 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-design-feedback-1079x839-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 피자 빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-design-feedback-1079x839-08-result.png`
+
+![user-design-feedback-1079x839 실제 결과](screenshots/engine-flow-user-design-feedback-1079x839-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · slice · `engine-flow-user-design-feedback-1079x839-08a-result-slice.png`
+
+![user-design-feedback-1079x839 결과 단계 · slice](screenshots/engine-flow-user-design-feedback-1079x839-08a-result-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · half · `engine-flow-user-design-feedback-1079x839-08c-result-cohesion-half.png`
+
+![user-design-feedback-1079x839 결과 결속 · half](screenshots/engine-flow-user-design-feedback-1079x839-08c-result-cohesion-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · jumbo · `engine-flow-user-design-feedback-1079x839-08c-result-cohesion-jumbo.png`
+
+![user-design-feedback-1079x839 결과 결속 · jumbo](screenshots/engine-flow-user-design-feedback-1079x839-08c-result-cohesion-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · legend · `engine-flow-user-design-feedback-1079x839-08c-result-cohesion-legend.png`
+
+![user-design-feedback-1079x839 결과 결속 · legend](screenshots/engine-flow-user-design-feedback-1079x839-08c-result-cohesion-legend.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · shopstar · `engine-flow-user-design-feedback-1079x839-08c-result-cohesion-shopstar.png`
+
+![user-design-feedback-1079x839 결과 결속 · shopstar](screenshots/engine-flow-user-design-feedback-1079x839-08c-result-cohesion-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · slice · `engine-flow-user-design-feedback-1079x839-08c-result-cohesion-slice.png`
+
+![user-design-feedback-1079x839 결과 결속 · slice](screenshots/engine-flow-user-design-feedback-1079x839-08c-result-cohesion-slice.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · whole · `engine-flow-user-design-feedback-1079x839-08c-result-cohesion-whole.png`
+
+![user-design-feedback-1079x839 결과 결속 · whole](screenshots/engine-flow-user-design-feedback-1079x839-08c-result-cohesion-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · half · `engine-flow-user-design-feedback-1079x839-08a-result-half.png`
+
+![user-design-feedback-1079x839 결과 단계 · half](screenshots/engine-flow-user-design-feedback-1079x839-08a-result-half.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · whole · `engine-flow-user-design-feedback-1079x839-08a-result-whole.png`
+
+![user-design-feedback-1079x839 결과 단계 · whole](screenshots/engine-flow-user-design-feedback-1079x839-08a-result-whole.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · jumbo · `engine-flow-user-design-feedback-1079x839-08a-result-jumbo.png`
+
+![user-design-feedback-1079x839 결과 단계 · jumbo](screenshots/engine-flow-user-design-feedback-1079x839-08a-result-jumbo.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · shopstar · `engine-flow-user-design-feedback-1079x839-08a-result-shopstar.png`
+
+![user-design-feedback-1079x839 결과 단계 · shopstar](screenshots/engine-flow-user-design-feedback-1079x839-08a-result-shopstar.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 피자 빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · legend · `engine-flow-user-design-feedback-1079x839-08a-result-legend.png`
+
+![user-design-feedback-1079x839 결과 단계 · legend](screenshots/engine-flow-user-design-feedback-1079x839-08a-result-legend.png)
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
