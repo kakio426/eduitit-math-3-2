@@ -26,7 +26,7 @@
 - 동행 매스몬: 승인된 `base-pack`의 여우몬(`base-02-foxmon`)
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장. 첫 장은 분자·분모, 둘째 장은 랜덤 보상과 마지막 피자 이름을 보여 줍니다.
 - 랜덤 보상 상태 세트: 닫힌 피자 상자 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
-- 보상 상태 컨택시트: `reward-events-v3-contact-sheet.png`
+- 보상 상태 컨택시트: `reward-events-v4-contact-sheet.png`
 - 최종 보상 장면: `result-{slice,half,whole,jumbo,shopstar,legend}-generated.webp` 6장. 각 장은 1280×800 완성 장면이며 배경·여우몬·피자·공통 빈 결과판을 담고, 등급 제목·정답 수·다음 목표·`다시` 버튼은 정렬 가능한 독립 자산/오버레이로 둡니다.
 - 최종 보상 생성 원본: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/source/result-*-v4-base-source.png`
 - 최종 보상 런타임 PNG: `_shared/mathmon/base-pack/lesson-scenes/3-2-4-1/result-fullscene-v1/runtime-png/result-*-generated.png`

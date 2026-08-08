@@ -253,13 +253,13 @@ function renderPizzaCompleteSummary(problem) {
     `색칠된 조각 ${problem.num}개와 전체 조각 ${problem.den}개를 세어 ${problem.den}분의 ${problem.num}으로 나타내요`,
   );
   svg.innerHTML = `
-    <text class="pizza-complete-label" x="155" y="47" text-anchor="middle">색칠된 조각</text>
-    <text class="pizza-complete-value" x="300" y="57" text-anchor="middle">${problem.num}</text>
-    <text class="pizza-complete-label" x="155" y="108" text-anchor="middle">전체 조각</text>
-    <text class="pizza-complete-value" x="300" y="118" text-anchor="middle">${problem.den}</text>
+    <text class="pizza-complete-label" x="145" y="47" text-anchor="middle">색칠된 조각</text>
+    <text class="pizza-complete-value" x="285" y="57" text-anchor="middle">${problem.num}</text>
+    <text class="pizza-complete-label" x="145" y="108" text-anchor="middle">전체 조각</text>
+    <text class="pizza-complete-value" x="285" y="118" text-anchor="middle">${problem.den}</text>
     <text class="pizza-complete-relation" x="410" y="88" text-anchor="middle">→</text>
-    <text class="pizza-complete-fraction-label" x="570" y="39" text-anchor="middle">분수로 쓰면</text>
-    ${fractionMarkup(problem.num, problem.den, 570, 91, "complete")}
+    <text class="pizza-complete-fraction-label" x="570" y="23" text-anchor="middle">분수로 쓰면</text>
+    ${fractionMarkup(problem.num, problem.den, 570, 98, "complete")}
   `;
   panel.insertBefore(svg, document.getElementById("rewardButton"));
 }

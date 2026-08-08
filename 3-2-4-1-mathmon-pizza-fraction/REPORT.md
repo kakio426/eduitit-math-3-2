@@ -1,5 +1,15 @@
 # 매스몬 피자 분수 가게 제작 보고
 
+## 2026-08-08 사용자 디자인 피드백 2차 회귀 확인
+
+- 완료 요약의 `pizza-complete-svg`를 다시 배치했습니다. `분수로 쓰면`을 분수 위로 올리고 분수를 아래로 내려, 사용자 viewport `1079×840`에서 문장과 분수 사이 실제 간격 `5.72px`, 텍스트·수식·버튼 교차 `0건`으로 확인했습니다. 왼쪽 숫자 열도 함께 안쪽으로 정렬했습니다.
+- 보상 `empty` 그림은 생성형 자산을 새로 교체했습니다. `reward-event-empty-v2-source.png`, `reward-event-empty-v2-generated.png`, `reward-event-empty-v2-generated.webp`는 모두 `512×512`이며, 기존 흰 띠와 위쪽 여우몬 잘림이 없습니다. `reward-events-v4-contact-sheet.png`에서 7장 상태 세트를 함께 확인했습니다. 보상 카드는 `430×480px`, 그림 슬롯은 `250×250px`을 유지해 카드 레이아웃을 흔들지 않았습니다.
+- 결과 화면은 별도 결과판을 계속 숨긴 채, 제목 래스터를 패널 안에서 더 크게 보이도록 `object-fit: cover`로 표시하고 정답 수 자산을 `220px`, 다시 버튼 hitbox를 `300×132px`, 다음 안내를 `24px`로 키웠습니다. `nextY=470`, `retryRect.y=490`으로 내려 모든 결과 등급의 정답 수·다음 안내·다시 버튼 사이 세로 여백을 확보했습니다. 제목 높이는 Stage 비율 `13%`로 두어 태블릿 축소에서도 겹치지 않습니다.
+- 실제 `1079×840` 브라우저 캡처에서 Stage `1035.84×647.40px`, 결과 제목·정답 수·다음 안내·다시 버튼이 모두 패널 안에 보이고, 결과 장면·제목 자산·정답 수·버튼 자산의 이미지 로드 실패는 `0건`이었습니다. 최신 확인 캡처는 `screenshots/engine-flow-user-design-feedback-1079x840-06-confirm.png`, `screenshots/engine-flow-user-design-feedback-1079x840-08-result.png`입니다.
+- `node scripts/qa-lesson-flow.mjs 3-2-4-1-mathmon-pizza-fraction`를 다시 실행해 7개 viewport, 결과 6등급, 빈 보상 fixture까지 통과했습니다. 결과 보상 우세, 결과판 containment, Stage 잘림, 텍스트 넘침, 요소 겹침, 이미지 누락은 모두 `0건`입니다.
+- Humanizer 학생 문구 QA를 다시 확인했습니다. 이번 수정은 문구를 늘리지 않고 기존 `분수로 쓰면`, `피자 보기`, `다음`, `다시`의 짧은 역할을 유지했으며, 제작자 용어나 번역투를 추가하지 않았습니다.
+- 통과한 검사: `qa-engine-unit4-pizza-source`, `check-stage-ratio`, `check-lesson-contract`, `check-lesson-visual-contract`, `check-result-panel-adoption`, 전체 `qa-lesson-flow`.
+
 ## 2026-08-08 사용자 디자인 피드백 회귀 수정
 
 - 선택지 위의 중복 안내 `피자에 맞는 분수를 골라요.`를 화면에서 제거하고, 하네스에도 `instructionRequired: false`를 선언했습니다. 대기 상태 선택지는 안내 공간 없이 채우고, 오답 상태에서는 피드백과 선택지 사이 `6.66px`의 실제 여백을 확보했습니다.
