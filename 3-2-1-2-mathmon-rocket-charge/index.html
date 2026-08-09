@@ -1,0 +1,5432 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3학년 2학기 1단원 · 매스몬 로켓발사 대작전 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
+  <style>
+    :root {
+      --page: #111018;
+      --panel: #201a2d;
+      --panel-soft: #2b243a;
+      --ink: #fff8e8;
+      --muted: #d7cadb;
+      --line: rgba(255, 255, 255, 0.16);
+      --mint: #35d9b2;
+      --amber: #ffc857;
+      --rose: #ff5d7a;
+      --sky: #60d7ff;
+      --violet: #b88cff;
+      --deep: #0e0c16;
+      --radius: 8px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(180deg, rgba(255, 200, 87, 0.08) 0 1px, transparent 1px 80px),
+        linear-gradient(90deg, rgba(96, 215, 255, 0.07) 0 1px, transparent 1px 96px),
+        linear-gradient(135deg, #16111f 0%, #21182b 46%, #101019 100%);
+      overflow-x: hidden;
+      word-break: keep-all;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+    }
+
+    .phone-blocker {
+      display: none;
+    }
+
+    .game {
+      --stage-padding: clamp(10px, 2vw, 24px);
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: var(--stage-padding);
+    }
+
+    .stage-shell {
+      --stage-inset: clamp(14px, 2vw, 22px);
+      --sound-button-size: clamp(30px, 3vw, 34px);
+      --sound-gap: clamp(8px, 1vw, 12px);
+      --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
+      --top-control-pad-x: 9px;
+      --top-control-icon-gap: 7px;
+      position: relative;
+      width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);
+      aspect-ratio: 16 / 10;
+    }
+
+    .fuel-transfer-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: none;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .fuel-transfer-layer.is-active {
+      display: block;
+    }
+
+    .fuel-stream {
+      position: absolute;
+      left: 31%;
+      top: 48%;
+      width: 39%;
+      height: 16px;
+      border-radius: 999px;
+      transform: rotate(-5deg);
+      transform-origin: left center;
+      background:
+        radial-gradient(circle at 14% 50%, rgba(255, 255, 255, 0.95) 0 5px, transparent 6px),
+        linear-gradient(90deg, transparent, rgba(96, 215, 255, 0.16), rgba(184, 255, 233, 0.95), rgba(255, 232, 140, 0.9), transparent);
+      background-size: 190% 100%;
+      box-shadow: 0 0 24px rgba(53, 217, 178, 0.55), 0 0 34px rgba(255, 200, 87, 0.25);
+      opacity: 0;
+      animation: fuel-transfer 0.82s ease-out both;
+    }
+
+    .fuel-droplet {
+      position: absolute;
+      top: 47.6%;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #baffec;
+      box-shadow: 0 0 18px rgba(53, 217, 178, 0.72);
+      opacity: 0;
+      animation: fuel-droplet 0.82s ease-out both;
+    }
+
+    .fuel-droplet.one {
+      left: 66%;
+    }
+
+    .fuel-droplet.two {
+      left: 58%;
+      animation-delay: 0.07s;
+    }
+
+    .fuel-droplet.three {
+      left: 50%;
+      animation-delay: 0.14s;
+    }
+
+    .fuel-transfer-layer.is-mega .fuel-stream {
+      height: 22px;
+      background:
+        radial-gradient(circle at 14% 50%, rgba(255, 255, 255, 0.95) 0 6px, transparent 7px),
+        linear-gradient(90deg, transparent, rgba(255, 232, 140, 0.2), rgba(255, 240, 180, 0.98), rgba(53, 217, 178, 0.95), transparent);
+      box-shadow: 0 0 34px rgba(255, 200, 87, 0.6), 0 0 42px rgba(53, 217, 178, 0.38);
+    }
+
+    .fuel-transfer-layer.is-rainbow .fuel-stream {
+      background: linear-gradient(90deg, transparent, #ff7aa2, #ffe27a, #45f2b8, #60d7ff, #c59bff, transparent);
+      background-size: 240% 100%;
+      box-shadow: 0 0 36px rgba(96, 215, 255, 0.48), 0 0 34px rgba(184, 116, 255, 0.36);
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: auto;
+      aspect-ratio: 16 / 10;
+      display: none;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 34%),
+        linear-gradient(180deg, #251e32, #171421);
+      box-shadow: var(--shadow);
+    }
+
+    .screen.is-active {
+      display: grid;
+    }
+
+    .top-row {
+      position: absolute;
+      top: var(--stage-inset);
+      left: var(--stage-inset);
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+      z-index: 4;
+      height: var(--sound-button-size);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sound-gap);
+      pointer-events: none;
+    }
+
+    .brand-badge,
+    .unit-badge,
+    .lesson-badge,
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      min-height: var(--sound-button-size);
+      padding: 0 var(--top-control-pad-x);
+      gap: var(--top-control-icon-gap);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(14, 12, 22, 0.7);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    .brand-badge img {
+      width: 20px;
+      height: 20px;
+      margin-right: 0;
+      border-radius: 5px;
+    }
+
+    .unit-badge {
+      border-color: rgba(96, 215, 255, 0.5);
+      color: #c8f3ff;
+    }
+
+    .lesson-badge {
+      position: absolute;
+      left: clamp(14px, 2vw, 22px);
+      bottom: clamp(14px, 2vw, 22px);
+      z-index: 3;
+      border-color: rgba(255, 200, 87, 0.56);
+      color: #ffe0a3;
+    }
+
+    .cover .lesson-badge {
+      left: auto;
+      right: clamp(14px, 2vw, 22px);
+      bottom: clamp(14px, 2vw, 22px);
+    }
+
+    .primary-button,
+    .ghost-button {
+      min-height: 58px;
+      padding: 0 28px;
+      border: 0;
+      border-radius: var(--radius);
+      font-size: clamp(1.05rem, 2.6vw, 1.32rem);
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: 0 14px 0 rgba(106, 70, 23, 0.34), 0 22px 38px rgba(0, 0, 0, 0.3);
+      transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+    }
+
+    .primary-button {
+      color: #2a1700;
+      background: linear-gradient(180deg, #ffe27a, #ffb83d);
+    }
+
+    .ghost-button {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+
+    .primary-button:hover,
+    .ghost-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .primary-button:active,
+    .ghost-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 8px 0 rgba(106, 70, 23, 0.28), 0 12px 22px rgba(0, 0, 0, 0.28);
+    }
+
+    .primary-button:focus-visible,
+    .ghost-button:focus-visible,
+    .choice-button:focus-visible,
+    .hint-toggle:focus-visible,
+    .settings-toggle:focus-visible,
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.86);
+      outline-offset: 4px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .settings-toggle {
+      position: absolute;
+      top: var(--stage-inset);
+      right: var(--stage-inset);
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      width: var(--sound-button-size);
+      min-width: 0;
+      height: var(--sound-button-size);
+      min-height: 0;
+      padding: 0;
+      border: 1px solid rgba(255, 232, 186, 0.34);
+      border-radius: 999px;
+      color: rgba(255, 238, 198, 0.92);
+      background: rgba(14, 12, 22, 0.42);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+      font-size: 0;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .settings-toggle::before,
+    .settings-toggle::after {
+      content: none !important;
+      display: none !important;
+    }
+
+    .settings-toggle svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 19px;
+      height: 19px;
+      display: block;
+      transform: translate(-50%, -50%);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .stage-shell .top-row {
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+    }
+
+    .stage-shell .hud {
+      padding-right: var(--sound-reserve);
+    }
+
+    .settings-toggle[aria-expanded="true"] {
+      border-color: rgba(255, 228, 92, 0.72);
+      color: #fff6ca;
+      background: rgba(14, 12, 22, 0.7);
+    }
+
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: clamp(20px, 4vw, 48px);
+      background: rgba(6, 7, 16, 0.56);
+      backdrop-filter: blur(8px);
+    }
+
+    .settings-backdrop[hidden] {
+      display: none;
+    }
+
+    .settings-modal {
+      width: min(420px, calc(100% - 32px));
+      max-height: calc(100% - 40px);
+      overflow: auto;
+      padding: 22px;
+      border: 1px solid rgba(255, 232, 186, 0.34);
+      border-radius: 8px;
+      color: #ffffff;
+      background: rgba(21, 18, 32, 0.96);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.44);
+    }
+
+    .settings-title {
+      margin: 0 0 16px;
+      font-size: 1.55rem;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .settings-menu,
+    .settings-confirm {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-menu[hidden],
+    .settings-confirm[hidden] {
+      display: none;
+    }
+
+    .settings-switch,
+    .settings-action {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .settings-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .settings-switch-track {
+      position: relative;
+      flex: 0 0 auto;
+      width: 50px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(215, 202, 219, 0.32);
+      transition: background 0.18s ease;
+    }
+
+    .settings-switch-track::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease;
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track {
+      background: linear-gradient(180deg, #63ffe7, #ffcf54);
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track::after {
+      transform: translateX(22px);
+    }
+
+    .settings-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .settings-action.is-danger {
+      border-color: rgba(255, 207, 84, 0.54);
+      color: #fff3d1;
+    }
+
+    .settings-confirm {
+      padding-top: 4px;
+    }
+
+    .settings-confirm-title {
+      margin: 0 0 4px;
+      font-size: 1.08rem;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .settings-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .cover {
+      align-items: center;
+      padding: clamp(70px, 10vw, 100px) clamp(24px, 5vw, 70px);
+      background: #171421;
+    }
+
+    .raster-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(18, 12, 26, 0.74) 0%, rgba(18, 12, 26, 0.44) 38%, transparent 68%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.16), transparent 38%);
+      pointer-events: none;
+    }
+
+    .cover-scene {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(300px, 0.92fr) minmax(360px, 1.08fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 58px);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: start;
+      gap: 14px;
+      transform: translateY(-38px);
+    }
+
+    .hero-title-art {
+      display: block;
+      width: min(368px, 100%);
+      height: auto;
+      margin: -8px 0 -8px -10px;
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.24));
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .hero-copy p {
+      max-width: 520px;
+      margin: 0;
+      color: #ffe8ba;
+      font-size: clamp(1.2rem, 2.8vw, 1.72rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .cover-start-button {
+      width: clamp(300px, 28vw, 360px);
+      height: auto;
+      aspect-ratio: 1611 / 680;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      display: inline-grid;
+      place-items: center;
+      transition: filter 160ms ease, transform 160ms ease;
+      filter: drop-shadow(0 14px 24px rgba(255, 174, 34, 0.24));
+    }
+
+    .cover-start-button:hover {
+      filter: brightness(1.04) drop-shadow(0 16px 26px rgba(255, 174, 34, 0.28));
+      transform: translateY(-1px);
+    }
+
+    .cover-start-button:active {
+      filter: brightness(0.99) drop-shadow(0 10px 18px rgba(255, 174, 34, 0.22));
+      transform: translateY(1px);
+    }
+
+    .cover-start-button:focus-visible {
+      outline: 4px solid rgba(96, 215, 255, 0.9);
+      outline-offset: 5px;
+    }
+
+    .start-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tutorial {
+      align-items: center;
+      padding: clamp(74px, 10vw, 100px) clamp(22px, 5vw, 70px) clamp(28px, 4vw, 42px);
+      background: #171421;
+    }
+
+    .tutorial::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(14, 10, 22, 0.88) 0%, rgba(14, 10, 22, 0.72) 37%, rgba(14, 10, 22, 0.2) 68%, rgba(14, 10, 22, 0.08) 100%),
+        linear-gradient(180deg, rgba(8, 6, 12, 0.24), rgba(8, 6, 12, 0.18));
+      pointer-events: none;
+    }
+
+    .tutorial--fulltext {
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .tutorial--fulltext::after {
+      display: none;
+    }
+
+    .tutorial-fulltext-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tutorial-step-art {
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .tutorial[data-tutorial-step="solve"] .tutorial-solve-art,
+    .tutorial[data-tutorial-step="goal"] .tutorial-goal-art {
+      opacity: 1;
+    }
+
+    .tutorial-poster-hitbox {
+      position: absolute;
+      left: 29%;
+      top: 85.5%;
+      z-index: 5;
+      width: 42%;
+      height: 11%;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: none;
+      color: transparent;
+      font-size: 0;
+    }
+
+    .tutorial-poster-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 5px;
+      box-shadow: 0 0 0 10px rgba(255, 228, 92, 0.42);
+    }
+
+    .tutorial-layout {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(360px, 0.68fr) minmax(320px, 1fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 56px);
+    }
+
+    .tutorial-copy {
+      display: grid;
+      gap: 20px;
+      max-width: 720px;
+    }
+
+    .tutorial-copy h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.2rem, 5.4vw, 4.2rem);
+      line-height: 1.02;
+      font-weight: 1000;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 72px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      background: rgba(26, 21, 36, 0.68);
+      color: #ffffff;
+      font-size: clamp(1.05rem, 2.4vw, 1.38rem);
+      font-weight: 950;
+      line-height: 1.28;
+      backdrop-filter: blur(10px);
+    }
+
+    .steps b {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius);
+      color: #201000;
+      background: var(--amber);
+      font-size: 1.2rem;
+    }
+
+    .tutorial-art-spacer {
+      min-height: clamp(360px, 48vw, 590px);
+    }
+
+    .play {
+      grid-template-rows: auto 1fr;
+      padding: var(--stage-inset);
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: minmax(210px, auto) 1fr auto;
+      align-items: start;
+      gap: 12px;
+      min-height: var(--sound-button-size);
+      margin-bottom: 12px;
+    }
+
+    .hud .brand-badge,
+    .hud .unit-badge {
+      position: static;
+      pointer-events: auto;
+    }
+
+    .hud-center {
+      display: none;
+      min-width: 0;
+    }
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      min-width: 112px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-size: 0.92rem;
+      font-weight: 950;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .play-layout {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(270px, 0.78fr) minmax(460px, 1.22fr);
+      gap: clamp(16px, 2.8vw, 28px);
+    }
+
+    .rocket-zone,
+    .problem-panel {
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.075);
+    }
+
+    .rocket-zone {
+      position: relative;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+      padding: 18px;
+      isolation: isolate;
+      --charge: 0;
+      background: #151522;
+    }
+
+    .rocket-zone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 50% 67%, rgba(53, 217, 178, calc(0.08 + var(--charge) * 0.24)), transparent 0 26%, transparent 50%),
+        linear-gradient(180deg, rgba(7, 8, 14, 0.04), rgba(8, 6, 14, 0.46) 72%, rgba(8, 6, 14, 0.76));
+      pointer-events: none;
+    }
+
+    .rocket-zone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        repeating-linear-gradient(112deg, transparent 0 68px, rgba(96, 215, 255, calc(0.02 + var(--charge) * 0.08)) 70px 74px, transparent 76px 150px),
+        radial-gradient(circle at 18% 18%, rgba(255, 200, 87, calc(0.08 + var(--charge) * 0.18)), transparent 0 9%, transparent 22%),
+        radial-gradient(circle at 82% 22%, rgba(255, 93, 122, calc(0.05 + var(--charge) * 0.16)), transparent 0 8%, transparent 20%);
+      mix-blend-mode: screen;
+      opacity: calc(0.45 + var(--charge) * 0.42);
+      pointer-events: none;
+    }
+
+    .launchpad-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center bottom;
+      filter: saturate(calc(0.82 + var(--charge) * 0.34)) brightness(calc(0.76 + var(--charge) * 0.18));
+      transform: scale(1.015);
+      transition: filter 0.7s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .launch-effects {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .pad-glow,
+    .energy-ring,
+    .launch-beam,
+    .steam-jet,
+    .spark {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .pad-glow {
+      left: 50%;
+      top: 66%;
+      width: calc(128px + var(--charge) * 110px);
+      height: calc(42px + var(--charge) * 44px);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(255, 222, 105, calc(0.24 + var(--charge) * 0.52)), rgba(53, 217, 178, calc(0.12 + var(--charge) * 0.34)) 38%, transparent 72%);
+      filter: blur(8px);
+      animation: pad-pulse 1.7s ease-in-out infinite;
+    }
+
+    .energy-ring {
+      left: 50%;
+      top: 66%;
+      width: calc(142px + var(--charge) * 92px);
+      height: calc(42px + var(--charge) * 32px);
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(255, 200, 87, calc(0.34 + var(--charge) * 0.46));
+      border-radius: 50%;
+      box-shadow:
+        0 0 calc(8px + var(--charge) * 28px) rgba(255, 200, 87, calc(0.24 + var(--charge) * 0.32)),
+        inset 0 0 calc(8px + var(--charge) * 22px) rgba(53, 217, 178, calc(0.14 + var(--charge) * 0.28));
+      animation: ring-spin 2.4s linear infinite;
+    }
+
+    .launch-beam {
+      top: -8%;
+      width: 20%;
+      height: 92%;
+      background: linear-gradient(180deg, transparent, rgba(96, 215, 255, calc(0.04 + var(--charge) * 0.18)), rgba(255, 200, 87, calc(0.05 + var(--charge) * 0.2)), transparent);
+      filter: blur(8px);
+      opacity: calc(0.18 + var(--charge) * 0.58);
+      transform: skewX(-18deg);
+      animation: light-sweep 3.8s ease-in-out infinite;
+    }
+
+    .launch-beam.left {
+      left: 4%;
+    }
+
+    .launch-beam.right {
+      right: 6%;
+      animation-delay: -1.7s;
+    }
+
+    .steam-jet {
+      bottom: 24%;
+      width: 34%;
+      height: 16%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, calc(0.16 + var(--charge) * 0.38)), rgba(255, 228, 188, calc(0.08 + var(--charge) * 0.16)) 42%, transparent 72%);
+      filter: blur(10px);
+      opacity: calc(0.18 + var(--charge) * 0.54);
+      animation: steam-billow 2.2s ease-in-out infinite;
+    }
+
+    .steam-jet.left {
+      left: -6%;
+    }
+
+    .steam-jet.right {
+      right: -8%;
+      animation-delay: -0.9s;
+    }
+
+    .spark {
+      bottom: 28%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ffe27a;
+      box-shadow: 0 0 12px rgba(255, 200, 87, 0.82);
+      opacity: calc(var(--charge) * 0.88);
+      animation: spark-rise 1.35s ease-in-out infinite;
+    }
+
+    .spark.one {
+      left: 27%;
+    }
+
+    .spark.two {
+      left: 71%;
+      animation-delay: -0.42s;
+    }
+
+    .spark.three {
+      left: 52%;
+      animation-delay: -0.84s;
+    }
+
+    .rocket-mini {
+      position: relative;
+      z-index: 3;
+      align-self: center;
+      justify-self: center;
+      width: clamp(230px, 18vw, 290px);
+      aspect-ratio: 748 / 1071;
+      transform: translateY(calc((1 - var(--charge, 0)) * 16px));
+      transition: transform 0.45s ease;
+      filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.34));
+    }
+
+    .rocket-sprite {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .battery-slot {
+      position: absolute;
+      left: 36.9%;
+      top: 39.1%;
+      z-index: 3;
+      width: 26.1%;
+      height: 34.4%;
+      overflow: hidden;
+      border-radius: 24% / 10%;
+      background: rgba(10, 24, 31, 0.24);
+      box-shadow:
+        inset 0 0 18px rgba(10, 24, 31, 0.88),
+        0 0 calc(8px + var(--charge, 0) * 22px) rgba(53, 217, 178, calc(0.1 + var(--charge, 0) * 0.34));
+    }
+
+    .battery-liquid {
+      position: absolute;
+      left: -16%;
+      right: -16%;
+      bottom: 0;
+      height: var(--fuel-height, 0%);
+      min-height: calc(var(--charge, 0) * 10px);
+      border-radius: 18px 18px 0 0;
+      background:
+        radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.82), transparent 0 8px, transparent 12px),
+        linear-gradient(180deg, #d9fff2 0%, #45f2b8 34%, #1cc890 72%, #0a8f6b 100%);
+      box-shadow:
+        inset 0 10px 16px rgba(255, 255, 255, 0.32),
+        inset 0 -10px 22px rgba(4, 97, 80, 0.38),
+        0 0 24px rgba(53, 217, 178, 0.62);
+      transition: height 0.72s cubic-bezier(0.18, 0.9, 0.26, 1.15);
+    }
+
+    .battery-liquid::before {
+      content: "";
+      position: absolute;
+      left: -18%;
+      top: -17px;
+      width: 136%;
+      height: 34px;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 24% 52%, rgba(255, 255, 255, 0.72) 0 12%, transparent 13%),
+        radial-gradient(ellipse at 54% 46%, rgba(255, 255, 255, 0.46) 0 15%, transparent 16%),
+        radial-gradient(ellipse at 82% 56%, rgba(255, 255, 255, 0.38) 0 11%, transparent 12%),
+        linear-gradient(180deg, rgba(211, 255, 239, 0.92), rgba(53, 217, 178, 0.88));
+      animation: liquid-wave 2.2s ease-in-out infinite;
+    }
+
+    .battery-liquid::after {
+      content: "";
+      position: absolute;
+      inset: 8px 12px 10px;
+      background:
+        radial-gradient(circle at 22% 78%, rgba(255, 255, 255, 0.65) 0 3px, transparent 4px),
+        radial-gradient(circle at 62% 58%, rgba(255, 255, 255, 0.5) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 84%, rgba(255, 255, 255, 0.42) 0 2px, transparent 3px);
+      opacity: calc(0.24 + var(--charge, 0) * 0.6);
+      animation: liquid-bubbles 2.6s linear infinite;
+    }
+
+    .rocket-zone.is-rainbow .launchpad-bg {
+      filter: saturate(1.22) brightness(1.02);
+    }
+
+    .rocket-zone.is-rainbow::after {
+      background:
+        repeating-linear-gradient(112deg, transparent 0 68px, rgba(255, 255, 255, 0.1) 70px 74px, transparent 76px 150px),
+        linear-gradient(125deg, rgba(255, 82, 128, 0.22), rgba(255, 210, 75, 0.18), rgba(72, 236, 174, 0.22), rgba(90, 184, 255, 0.2), rgba(184, 116, 255, 0.18));
+      opacity: 0.88;
+    }
+
+    .rocket-mini.is-rainbow .battery-liquid,
+    .rocket-mini.is-rainbow + .fuel-panel .fuel-meter-fill {
+      background:
+        radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.82), transparent 0 8px, transparent 12px),
+        linear-gradient(90deg, #ff5d7a, #ffc857, #45f2b8, #60d7ff, #b874ff, #ff5d7a);
+      background-size: 240% 100%;
+      animation: rainbow-flow 1.45s linear infinite;
+      box-shadow: 0 0 30px rgba(255, 200, 87, 0.52), 0 0 28px rgba(96, 215, 255, 0.44);
+    }
+
+    .battery-shine {
+      position: absolute;
+      inset: 8% auto auto 12%;
+      z-index: 4;
+      width: 22%;
+      height: 82%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.03));
+      opacity: calc(0.08 + var(--charge, 0) * 0.42);
+      pointer-events: none;
+    }
+
+    .rocket-thrust {
+      position: absolute;
+      left: 50%;
+      bottom: -1%;
+      z-index: 1;
+      width: calc(26% + var(--charge, 0) * 18%);
+      height: calc(9% + var(--charge, 0) * 18%);
+      transform: translateX(-50%);
+      border-radius: 0 0 50% 50%;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255, 225, 116, 0.96), rgba(255, 136, 62, 0.68) 42%, rgba(255, 93, 122, 0) 72%);
+      opacity: calc(0.15 + var(--charge, 0) * 0.72);
+      filter: blur(1px);
+      animation: thrust-pulse 0.58s ease-in-out infinite alternate;
+    }
+
+    .rocket-mini.is-boosting .battery-slot {
+      animation: battery-boost 0.68s ease;
+    }
+
+    .rocket-mini.is-boosting {
+      animation: rocket-boost 0.68s ease;
+    }
+
+    .rocket-zone[data-fuel-tier="1"] .energy-ring {
+      border-width: 3px;
+    }
+
+    .rocket-zone[data-fuel-tier="2"] .pad-glow {
+      filter: blur(10px) saturate(1.12);
+    }
+
+    .rocket-zone[data-fuel-tier="2"] .spark,
+    .rocket-zone[data-fuel-tier="3"] .spark,
+    .rocket-zone[data-fuel-tier="4"] .spark {
+      width: 8px;
+      height: 8px;
+    }
+
+    .rocket-zone[data-fuel-tier="3"] .launch-beam {
+      filter: blur(7px) saturate(1.2);
+      animation-duration: 2.8s;
+    }
+
+    .rocket-zone[data-fuel-tier="3"] .steam-jet,
+    .rocket-zone[data-fuel-tier="4"] .steam-jet {
+      filter: blur(8px) saturate(1.16);
+      animation-duration: 1.65s;
+    }
+
+    .rocket-zone[data-fuel-tier="4"] .energy-ring {
+      border-color: rgba(255, 232, 140, 0.9);
+      box-shadow: 0 0 44px rgba(255, 200, 87, 0.62), inset 0 0 30px rgba(53, 217, 178, 0.36);
+      animation-duration: 1.4s;
+    }
+
+    .rocket-zone.is-impact-mega .pad-glow,
+    .rocket-zone.is-impact-launch .pad-glow {
+      animation: pad-flash 0.86s ease both;
+    }
+
+    .rocket-zone.is-impact-loss::before,
+    .rocket-zone.is-impact-empty::before {
+      background:
+        radial-gradient(circle at 50% 68%, rgba(255, 93, 122, 0.2), transparent 0 28%, transparent 52%),
+        linear-gradient(180deg, rgba(7, 8, 14, 0.12), rgba(8, 6, 14, 0.56) 72%, rgba(8, 6, 14, 0.82));
+    }
+
+    .rocket-zone.is-impact-empty .pad-glow,
+    .rocket-zone.is-impact-empty .energy-ring {
+      opacity: 0.2;
+    }
+
+    .rocket-mini.is-impact-normal .battery-slot {
+      animation: battery-boost 0.72s ease;
+    }
+
+    .rocket-mini.is-impact-mega {
+      animation: rocket-mega-bump 0.86s ease;
+    }
+
+    .rocket-mini.is-impact-mega .battery-slot {
+      animation: liquid-mega-slosh 0.86s ease;
+    }
+
+    .rocket-mini.is-impact-loss {
+      animation: tank-shake 0.66s ease;
+    }
+
+    .rocket-mini.is-impact-loss .battery-slot {
+      animation: liquid-loss-slosh 0.66s ease;
+    }
+
+    .rocket-mini.is-impact-empty .battery-slot {
+      animation: battery-empty-pulse 0.82s ease;
+    }
+
+    .rocket-mini.is-impact-launch {
+      animation: rocket-launch-kick 0.86s ease;
+    }
+
+    .rocket-mini.is-impact-launch .rocket-thrust {
+      animation: launch-thrust-burst 0.86s ease both;
+    }
+
+    .rocket-mini.is-impact-rainbow .battery-slot {
+      animation: rainbow-burst 0.96s ease;
+    }
+
+    .fuel-panel {
+      position: relative;
+      z-index: 4;
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(14, 12, 22, 0.64);
+      backdrop-filter: blur(10px);
+    }
+
+    .fuel-readout {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 0.94rem;
+      font-weight: 950;
+    }
+
+    .fuel-readout strong {
+      color: #b8ffe9;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .fuel-meter {
+      position: relative;
+      height: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.22);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+    }
+
+    .fuel-meter-fill {
+      display: block;
+      width: var(--fuel-width, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 22%),
+        linear-gradient(180deg, #d9fff2, #35d9b2 62%, #0f9b77);
+      box-shadow: 0 0 20px rgba(53, 217, 178, 0.48);
+      transition: width 0.7s cubic-bezier(0.18, 0.9, 0.26, 1.15);
+    }
+
+    .fuel-note {
+      display: none;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 850;
+      line-height: 1.32;
+    }
+
+    .planet-panel {
+      display: none;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .planet-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #fff0c6;
+      font-size: 0.9rem;
+      font-weight: 950;
+    }
+
+    .planet-title strong {
+      color: #ffffff;
+    }
+
+    .planet-track {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .planet-chip {
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.58);
+      background: rgba(0, 0, 0, 0.18);
+      font-size: 0.86rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .planet-chip.is-reached {
+      border-color: rgba(96, 215, 255, 0.58);
+      color: #10202a;
+      background: linear-gradient(180deg, #d7f8ff, #60d7ff);
+    }
+
+    .planet-chip.is-current {
+      border-color: rgba(255, 200, 87, 0.86);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.22), 0 0 22px rgba(255, 200, 87, 0.22);
+    }
+
+    .planet-chip.is-target {
+      border-color: rgba(255, 200, 87, 0.9);
+      color: #231400;
+      background: linear-gradient(180deg, #ffe27a, #ffc857);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.24), 0 0 28px rgba(255, 200, 87, 0.34);
+    }
+
+    .planet-chip.is-secret {
+      border-color: rgba(184, 116, 255, 0.58);
+      color: #ffeaff;
+      background: linear-gradient(135deg, rgba(255, 93, 122, 0.28), rgba(96, 215, 255, 0.22), rgba(184, 116, 255, 0.28));
+    }
+
+    .planet-chip.is-secret.is-target,
+    .planet-chip.is-secret.is-reached {
+      color: #24132b;
+      background: linear-gradient(135deg, #ff8ca6, #ffe27a, #60d7ff, #c59bff);
+      box-shadow: 0 0 0 3px rgba(184, 116, 255, 0.26), 0 0 30px rgba(96, 215, 255, 0.34);
+    }
+
+    .problem-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      align-content: start;
+      gap: 12px;
+      padding: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 20px) clamp(34px, 3.7vw, 46px);
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035)),
+        rgba(26, 22, 34, 0.78);
+    }
+
+    .problem-heading {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+    }
+
+    .problem-progress {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 200, 87, 0.38);
+      border-radius: 999px;
+      color: #ffeab0;
+      background: rgba(255, 200, 87, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      font-size: 0.86rem;
+      font-weight: 1000;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .problem-heading h2 {
+      width: 100%;
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2rem, 4.65vw, 3.72rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .phase-label {
+      display: none;
+      min-height: 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #231400;
+      background: var(--amber);
+      font-size: 0.88rem;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .calc-stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 0;
+      padding: clamp(8px, 1.2vw, 12px);
+      overflow: hidden;
+      border: 1px solid rgba(53, 217, 178, 0.28);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 72% 62%, rgba(53, 217, 178, 0.1), transparent 0 26%, transparent 54%),
+        rgba(14, 12, 22, 0.48);
+      box-shadow: inset 0 0 0 1px rgba(53, 217, 178, 0.08);
+    }
+
+    .vertical-sum,
+    .step-panel {
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(14, 12, 22, 0.42);
+    }
+
+    .vertical-sum {
+      display: grid;
+      align-content: center;
+      justify-self: center;
+      width: min(560px, 100%);
+      gap: 6px;
+      min-height: 0;
+      padding: 8px;
+      border-color: rgba(255, 255, 255, 0.12);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+        rgba(12, 10, 18, 0.52);
+      font-variant-numeric: tabular-nums;
+      box-shadow: none;
+    }
+
+    .sum-row {
+      display: grid;
+      grid-template-columns: 42px repeat(4, minmax(0, 1fr));
+      align-items: center;
+      gap: clamp(5px, 0.7vw, 8px);
+      width: 100%;
+      min-height: 0;
+    }
+
+    .sum-cell,
+    .sum-mark {
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      width: 100%;
+      min-height: clamp(34px, 3.8vw, 46px);
+      border-radius: var(--radius);
+      color: #ffffff;
+      font-size: clamp(1.44rem, 3vw, 2.2rem);
+      font-weight: 1000;
+      line-height: 1;
+      overflow: hidden;
+    }
+
+    .sum-cell {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .sum-cell.is-empty {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    .carry-cell {
+      min-height: clamp(27px, 3vw, 36px);
+      color: var(--amber);
+      font-size: clamp(1rem, 2.1vw, 1.48rem);
+      background: rgba(255, 200, 87, 0.08);
+      border-color: rgba(255, 200, 87, 0.22);
+    }
+
+    .sum-line {
+      height: 3px;
+      margin-left: 52px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .answer-cell {
+      color: #35f0b2;
+      background: rgba(53, 217, 178, 0.1);
+      border-color: rgba(53, 217, 178, 0.28);
+    }
+
+    .answer-cell.is-current {
+      box-shadow: inset 0 0 0 4px rgba(255, 200, 87, 0.7), 0 0 22px rgba(255, 200, 87, 0.34);
+    }
+
+    .sum-cell.is-active-factor,
+    .sum-mark.is-active-factor,
+    .carry-cell.is-active-carry {
+      color: #231400;
+      border-color: rgba(255, 200, 87, 0.88);
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.18), 0 0 24px rgba(255, 200, 87, 0.22);
+    }
+
+    .carry-cell.is-carry-target {
+      border-color: rgba(255, 200, 87, 0.74);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 200, 87, 0.18), transparent 0 48%, transparent 70%),
+        rgba(255, 200, 87, 0.08);
+      box-shadow: inset 0 0 0 3px rgba(255, 200, 87, 0.28), 0 0 20px rgba(255, 200, 87, 0.2);
+    }
+
+    .sum-cell.is-step-pop,
+    .carry-cell.is-carry-pop {
+      position: relative;
+      color: #201000;
+      border-color: rgba(255, 200, 87, 0.92);
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      animation: step-cell-pop 0.7s ease both;
+    }
+
+    .sum-cell.is-step-pop::after,
+    .carry-cell.is-carry-pop::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: inherit;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.95) 0 4px, transparent 5px),
+        radial-gradient(circle at 82% 30%, rgba(255, 255, 255, 0.75) 0 3px, transparent 4px),
+        radial-gradient(circle at 48% 82%, rgba(255, 255, 255, 0.68) 0 3px, transparent 4px);
+      opacity: 0;
+      animation: step-sparkle 0.7s ease both;
+      pointer-events: none;
+    }
+
+    .step-panel {
+      align-self: center;
+      justify-self: end;
+      display: grid;
+      grid-template-rows: auto auto auto;
+      gap: 8px;
+      align-content: center;
+      width: 78px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .step-panel:not(.is-open) {
+      width: 78px;
+      padding: 0;
+      place-items: center;
+      border: 0;
+      background: transparent;
+    }
+
+    .step-panel:not(.is-open) .step-track,
+    .step-panel:not(.is-open) .step-focus-label,
+    .step-panel:not(.is-open) .step-formula,
+    .step-panel:not(.is-open) .step-meaning,
+    .step-panel:not(.is-open) #stepHintContent {
+      display: none;
+    }
+
+    #stepHintContent {
+      display: grid;
+      gap: 9px;
+    }
+
+    .hint-toggle {
+      min-width: 74px;
+      min-height: 48px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 200, 87, 0.52);
+      border-radius: var(--radius);
+      color: #231400;
+      background: linear-gradient(180deg, #ffe27a, #ffc857);
+      font-size: clamp(0.9rem, 1.65vw, 1rem);
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: 0 8px 0 rgba(106, 70, 23, 0.22), 0 12px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .step-panel.is-open .hint-toggle {
+      justify-self: end;
+      min-width: 58px;
+      min-height: 0;
+      padding: 6px 10px;
+      color: #ffe7a4;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .step-panel.is-open {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      z-index: 8;
+      width: min(300px, calc(100% - 42px));
+      padding: 12px;
+      border: 1px solid rgba(255, 200, 87, 0.38);
+      background: rgba(14, 12, 22, 0.92);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32);
+    }
+
+    .step-focus-label {
+      display: none;
+      margin: 0;
+      color: #ffe7a4;
+      font-size: 0.88rem;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .step-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .step-chip {
+      min-height: 32px;
+      display: grid;
+      place-items: center;
+      padding: 6px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      font-weight: 950;
+    }
+
+    .step-chip.is-current {
+      color: #231400;
+      background: var(--amber);
+      border-color: rgba(255, 200, 87, 0.86);
+    }
+
+    .step-chip.is-done {
+      color: #10271f;
+      background: #78f2c8;
+      border-color: rgba(53, 217, 178, 0.86);
+    }
+
+    .step-formula {
+      display: grid;
+      place-items: center;
+      min-height: 68px;
+      padding: 10px;
+      border: 1px solid rgba(255, 200, 87, 0.32);
+      border-radius: var(--radius);
+      color: #fff0c6;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 200, 87, 0.16), transparent 0 22%, transparent 48%),
+        rgba(255, 200, 87, 0.08);
+      font-size: clamp(1.34rem, 2.7vw, 2.05rem);
+      font-weight: 1000;
+      text-align: center;
+      line-height: 1.08;
+      box-shadow: none;
+    }
+
+    .step-meaning {
+      margin: 0;
+      color: rgba(255, 240, 198, 0.82);
+      font-size: clamp(0.9rem, 1.65vw, 1rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .prompt {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 200, 87, 0.26);
+      border-radius: var(--radius);
+      background: rgba(255, 200, 87, 0.08);
+      color: #fff0c6;
+      font-size: clamp(1rem, 1.9vw, 1.18rem);
+      font-weight: 950;
+      line-height: 1.35;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, clamp(48px, 4.4vw, 58px));
+      align-content: start;
+      align-self: start;
+      gap: 8px;
+    }
+
+    .choice-button {
+      height: 100%;
+      min-height: 0;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: clamp(1rem, 1.82vw, 1.24rem);
+      font-weight: 1000;
+      line-height: 1.22;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+
+    .choice-button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .choice-button.is-correct {
+      color: #10271f;
+      border-color: rgba(53, 217, 178, 0.86);
+      background: linear-gradient(180deg, #b8ffe9, #35d9b2);
+    }
+
+    .choice-button.is-wrong {
+      color: #ffffff;
+      border-color: rgba(255, 93, 122, 0.78);
+      background: rgba(255, 93, 122, 0.32);
+    }
+
+    .feedback {
+      min-height: 0;
+      color: #ffffff;
+      font-size: clamp(0.98rem, 2vw, 1.14rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .feedback:empty {
+      display: none;
+    }
+
+    .feedback.good {
+      color: #b8ffe9;
+    }
+
+    .feedback.try {
+      color: #ffe7a4;
+    }
+
+    .feedback.wrong {
+      color: #ffc0cd;
+    }
+
+    .reward-pop {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(14, 12, 22, 0.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .reward-pop.is-visible {
+      display: grid;
+    }
+
+    .reward-card {
+      width: min(560px, 100%);
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      padding: clamp(14px, 3vw, 22px);
+      border: 0;
+      border-radius: 12px;
+      background: rgba(14, 12, 22, 0.42);
+      text-align: center;
+      box-shadow: none;
+    }
+
+    .reward-art {
+      position: relative;
+      width: min(480px, 100%);
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      background-image: url("reward-events-sprite-generated.png");
+      background-repeat: no-repeat;
+      background-size: 300% 200%;
+      background-position: 0% 0%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(53, 217, 178, 0.12);
+    }
+
+    .reward-art::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 54%, rgba(14, 12, 22, 0.02), rgba(14, 12, 22, 0.18) 48%, rgba(14, 12, 22, 0.42) 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.1));
+      pointer-events: none;
+    }
+
+    .reward-delta {
+      position: absolute;
+      left: 50%;
+      bottom: 30px;
+      z-index: 2;
+      display: inline-grid;
+      place-items: center;
+      min-width: 188px;
+      min-height: 86px;
+      padding: 10px 22px;
+      transform: translateX(-50%);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 16px;
+      color: #241500;
+      background: linear-gradient(180deg, rgba(255, 231, 128, 0.96), rgba(255, 184, 61, 0.96));
+      font-size: clamp(1.7rem, 4.8vw, 3.05rem);
+      font-weight: 1000;
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+      box-shadow: 0 14px 0 rgba(106, 70, 23, 0.28), 0 22px 30px rgba(0, 0, 0, 0.28);
+      text-shadow: 0 1px rgba(255, 255, 255, 0.32);
+    }
+
+    .reward-pop.reward-art--normal .reward-art {
+      background-position: 0% 0%;
+    }
+
+    .reward-pop.reward-art--mega .reward-art {
+      background-position: 50% 0%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(255, 200, 87, 0.24);
+    }
+
+    .reward-pop.reward-art--loss .reward-art {
+      background-position: 100% 0%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 40px rgba(255, 93, 122, 0.22);
+      animation: tank-shake 0.5s ease both;
+    }
+
+    .reward-pop.reward-art--empty .reward-art {
+      background-position: 0% 100%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(255, 93, 122, 0.14);
+    }
+
+    .reward-pop.reward-art--launch .reward-art {
+      background-position: 50% 100%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 48px rgba(255, 200, 87, 0.28);
+      animation: reward-pop 0.42s ease both;
+    }
+
+    .reward-pop.reward-art--rainbow .reward-art {
+      background-position: 100% 100%;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 54px rgba(96, 215, 255, 0.26), 0 0 40px rgba(184, 116, 255, 0.22);
+    }
+
+    .reward-pop.reward-art--loss .reward-delta,
+    .reward-pop.reward-art--empty .reward-delta {
+      color: #ffffff;
+      background: linear-gradient(180deg, rgba(255, 140, 166, 0.96), rgba(255, 93, 122, 0.96));
+      box-shadow: 0 16px 0 rgba(116, 25, 48, 0.28);
+    }
+
+    .reward-pop.reward-art--mega .reward-delta,
+    .reward-pop.reward-art--launch .reward-delta {
+      min-width: 210px;
+      min-height: 96px;
+      font-size: clamp(1.9rem, 5.2vw, 3.25rem);
+    }
+
+    .reward-pop.reward-art--rainbow .reward-delta {
+      color: #24132b;
+      background: linear-gradient(90deg, #ff8ca6, #ffe27a, #45f2b8, #60d7ff, #c59bff);
+      box-shadow: 0 16px 0 rgba(72, 38, 104, 0.28), 0 0 28px rgba(96, 215, 255, 0.36);
+    }
+
+    .reward-card p {
+      display: none;
+    }
+
+    .result {
+      align-items: center;
+      padding: clamp(72px, 9vw, 92px) clamp(24px, 5vw, 62px) clamp(28px, 4vw, 44px);
+      background: #171421;
+    }
+
+    .result::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(13, 10, 20, 0.28) 45%, rgba(13, 10, 20, 0.78) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.22));
+      pointer-events: none;
+    }
+
+    .result::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0;
+      background:
+        repeating-linear-gradient(115deg, transparent 0 42px, rgba(96, 215, 255, 0.16) 43px 47px, transparent 48px 118px),
+        radial-gradient(circle at 22% 48%, rgba(255, 200, 87, 0.22), transparent 0 24%, transparent 25%);
+      transform: translateX(-8%);
+      pointer-events: none;
+    }
+
+    .result.is-measuring::before {
+      opacity: 1;
+      animation: flight-streak 1.4s linear infinite;
+    }
+
+    .result-layout {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(280px, 0.86fr) minmax(360px, 1.14fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 56px);
+    }
+
+    .launch-scene {
+      min-height: 460px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: visible;
+    }
+
+    .launch-scene .rocket-hero {
+      display: none;
+    }
+
+    .launch-pad {
+      display: none;
+    }
+
+    .result-text-block {
+      display: grid;
+      gap: 14px;
+    }
+
+    .result-text-block h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.6rem, 6.5vw, 5.4rem);
+      line-height: 0.98;
+      font-weight: 1000;
+      text-shadow: 0 5px 18px rgba(0, 0, 0, 0.42);
+    }
+
+    .praise {
+      margin: 0;
+      color: #ffe8ba;
+      font-size: clamp(1.14rem, 2.4vw, 1.45rem);
+      font-weight: 950;
+      line-height: 1.35;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
+    }
+
+    .result-measure {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(96, 215, 255, 0.32);
+      border-radius: var(--radius);
+      background: rgba(14, 12, 22, 0.56);
+      box-shadow: 0 0 30px rgba(96, 215, 255, 0.1);
+    }
+
+    .result-measure::after {
+      content: "";
+      position: absolute;
+      inset: -40% auto -40% -30%;
+      width: 26%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+      transform: skewX(-18deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .result.is-measuring .result-measure::after {
+      opacity: 1;
+      animation: scan-sweep 1.35s ease-in-out infinite;
+    }
+
+    .measure-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      color: #ffffff;
+      font-weight: 1000;
+    }
+
+    .measure-top span {
+      color: #c8f3ff;
+      font-size: 0.96rem;
+    }
+
+    .measure-top strong {
+      color: #b8ffe9;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      line-height: 1;
+    }
+
+    .measure-tube {
+      position: relative;
+      height: 26px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .measure-fill {
+      display: block;
+      width: var(--measure-width, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background:
+        radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.66) 0 5px, transparent 6px),
+        linear-gradient(180deg, #d9fff2, #45f2b8 42%, #12a97d);
+      box-shadow: 0 0 28px rgba(53, 217, 178, 0.56);
+      transition: width 1.7s cubic-bezier(0.18, 0.9, 0.2, 1);
+    }
+
+    .result.is-rainbow-result .measure-fill {
+      background:
+        radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.66) 0 5px, transparent 6px),
+        linear-gradient(90deg, #ff5d7a, #ffc857, #45f2b8, #60d7ff, #b874ff, #ff5d7a);
+      background-size: 240% 100%;
+      animation: rainbow-flow 1.45s linear infinite;
+      box-shadow: 0 0 30px rgba(255, 200, 87, 0.42), 0 0 28px rgba(96, 215, 255, 0.4);
+    }
+
+    .measure-scan {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      opacity: 0;
+      transform: translateX(-100%);
+      pointer-events: none;
+    }
+
+    .result.is-measuring .measure-scan {
+      opacity: 1;
+      animation: meter-scan 1.2s ease-in-out infinite;
+    }
+
+    .result-planet-track {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .result-planet-track .planet-chip {
+      min-height: 40px;
+      font-size: 0.94rem;
+    }
+
+    .result.is-measuring .result-planet-track .planet-chip.is-scanning {
+      color: #201000;
+      border-color: rgba(255, 200, 87, 0.88);
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.2), 0 0 26px rgba(255, 200, 87, 0.32);
+      animation: planet-scan-pop 0.48s ease both;
+    }
+
+    .result-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .result-metric {
+      min-height: 94px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .result-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 850;
+    }
+
+    .result-metric strong {
+      display: block;
+      margin-top: 6px;
+      color: #ffffff;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .result-actions {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .result-action-hitbox {
+      position: absolute;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      color: transparent;
+      box-shadow: none;
+      pointer-events: auto;
+    }
+
+    .result-action-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 4px;
+    }
+
+    .result-action-hitbox:active {
+      transform: translateY(2px);
+    }
+
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-surface,
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-label {
+      display: none;
+    }
+
+    .result-action-hitbox .result-common-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .result-action-hitbox[hidden] {
+      display: none;
+    }
+
+    .result-leaderboard-hitbox {
+      left: 58.4%;
+      top: 80.75%;
+      width: 14.7%;
+      height: 7.75%;
+    }
+
+    .result-restart-hitbox {
+      left: 75%;
+      top: 80.75%;
+      width: 13.9%;
+      height: 7.75%;
+    }
+
+    .result.is-measuring .result-actions {
+      visibility: hidden;
+    }
+
+    .result-dynamic-ui {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .result-title-art {
+      position: absolute;
+      left: 73.5%;
+      top: 30%;
+      z-index: 4;
+      width: 40%;
+      max-height: 27%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.4));
+    }
+
+    .result-title-art[hidden] {
+      display: none;
+    }
+
+    .result-correct-art {
+      position: absolute;
+      left: 74.2%;
+      top: 52.5%;
+      z-index: 4;
+      width: 24%;
+      max-height: 14%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.34));
+    }
+
+    .result-correct-art[hidden] {
+      display: none;
+    }
+
+    .result-panel-glow {
+      opacity: 0.92;
+      filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38));
+    }
+
+    .result.is-measuring .result-panel-glow {
+      animation: result-panel-pulse 1.1s ease-in-out infinite;
+    }
+
+    .result-scan-beam {
+      opacity: 0;
+      transform: translateX(-120px);
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .result.is-measuring .result-scan-beam {
+      opacity: 0.72;
+      animation: result-svg-scan 1.35s ease-in-out infinite;
+    }
+
+    .result-svg-kicker,
+    .result-svg-label,
+    .result-svg-button-text {
+      fill: #d8f9ff;
+      font-weight: 950;
+    }
+
+    .result-svg-kicker {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .result-svg-title {
+      fill: #ffffff;
+      font-size: 68px;
+      font-weight: 1000;
+      letter-spacing: 0;
+      filter: url(#rocketResultGlow);
+    }
+
+    .result-svg-label {
+      fill: rgba(216, 249, 255, 0.84);
+      font-size: 20px;
+    }
+
+    .result-svg-value {
+      fill: #ffffff;
+      font-size: 40px;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .result-svg-measure {
+      fill: #b9ffe8;
+    }
+
+    .result-svg-button-text {
+      fill: #241500;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+
+    @keyframes float-rocket {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+      50% {
+        transform: translateY(-14px) rotate(2deg);
+      }
+    }
+
+    @keyframes flame-pulse {
+      from {
+        transform: translateX(-50%) scaleY(0.84);
+      }
+      to {
+        transform: translateX(-50%) scaleY(1.08);
+      }
+    }
+
+    @keyframes liquid-wave {
+      0%,
+      100% {
+        transform: translateX(-6%) translateY(0) rotate(-1deg);
+      }
+      50% {
+        transform: translateX(6%) translateY(3px) rotate(1deg);
+      }
+    }
+
+    @keyframes liquid-bubbles {
+      from {
+        transform: translateY(18px);
+      }
+      to {
+        transform: translateY(-24px);
+      }
+    }
+
+    @keyframes rainbow-flow {
+      from {
+        background-position: 0% 50%;
+      }
+      to {
+        background-position: 200% 50%;
+      }
+    }
+
+    @keyframes thrust-pulse {
+      from {
+        transform: translateX(-50%) scaleY(0.76);
+      }
+      to {
+        transform: translateX(-50%) scaleY(1.08);
+      }
+    }
+
+    @keyframes battery-boost {
+      0% {
+        box-shadow: inset 0 0 18px rgba(10, 24, 31, 0.88), 0 0 8px rgba(53, 217, 178, 0.18);
+      }
+      48% {
+        box-shadow: inset 0 0 18px rgba(10, 24, 31, 0.72), 0 0 38px rgba(53, 217, 178, 0.86);
+      }
+      100% {
+        box-shadow: inset 0 0 18px rgba(10, 24, 31, 0.88), 0 0 18px rgba(53, 217, 178, 0.3);
+      }
+    }
+
+    @keyframes rocket-boost {
+      0%,
+      100% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px));
+      }
+      42% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px - 12px)) rotate(-1.4deg);
+      }
+      70% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px + 4px)) rotate(1deg);
+      }
+    }
+
+    @keyframes tank-shake {
+      0%,
+      100% {
+        transform: translateX(0) rotate(0deg);
+      }
+      22% {
+        transform: translateX(-10px) rotate(-1deg);
+      }
+      44% {
+        transform: translateX(9px) rotate(1deg);
+      }
+      66% {
+        transform: translateX(-5px) rotate(-0.5deg);
+      }
+    }
+
+    @keyframes reward-pop {
+      from {
+        transform: scale(0.94);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pad-pulse {
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(0.94);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+    }
+
+    @keyframes ring-spin {
+      0% {
+        transform: translate(-50%, -50%) rotateX(60deg) rotateZ(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotateX(60deg) rotateZ(360deg);
+      }
+    }
+
+    @keyframes light-sweep {
+      0%,
+      100% {
+        transform: translateX(-18%) skewX(-18deg);
+      }
+      50% {
+        transform: translateX(18%) skewX(-18deg);
+      }
+    }
+
+    @keyframes steam-billow {
+      0%,
+      100% {
+        transform: translateY(8px) scale(0.88);
+      }
+      50% {
+        transform: translateY(-12px) scale(1.14);
+      }
+    }
+
+    @keyframes spark-rise {
+      0% {
+        transform: translateY(20px) scale(0.5);
+        opacity: 0;
+      }
+      35% {
+        opacity: calc(var(--charge) * 0.9);
+      }
+      100% {
+        transform: translateY(-92px) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fuel-transfer {
+      0% {
+        opacity: 0;
+        background-position: 130% 50%;
+        clip-path: inset(0 0 0 100%);
+      }
+      18% {
+        opacity: 1;
+      }
+      72% {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+      }
+      100% {
+        opacity: 0;
+        background-position: -70% 50%;
+        clip-path: inset(0 100% 0 0);
+      }
+    }
+
+    @keyframes fuel-droplet {
+      0% {
+        opacity: 0;
+        transform: translateX(120px) translateY(0) scale(0.6);
+      }
+      22% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-320px) translateY(-18px) scale(1.1);
+      }
+    }
+
+    @keyframes step-cell-pop {
+      0% {
+        transform: scale(0.94);
+        box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0), 0 0 0 rgba(255, 200, 87, 0);
+      }
+      42% {
+        transform: scale(1.08);
+        box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.38), 0 0 26px rgba(255, 200, 87, 0.56);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.12), 0 0 14px rgba(255, 200, 87, 0.18);
+      }
+    }
+
+    @keyframes step-sparkle {
+      0%,
+      100% {
+        opacity: 0;
+        transform: scale(0.82) rotate(0deg);
+      }
+      48% {
+        opacity: 1;
+        transform: scale(1.1) rotate(8deg);
+      }
+    }
+
+    @keyframes pad-flash {
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+      }
+      45% {
+        transform: translate(-50%, -50%) scale(1.32);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rocket-mega-bump {
+      0%,
+      100% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px));
+      }
+      38% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px - 18px)) rotate(-2deg);
+      }
+      68% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px + 7px)) rotate(1.4deg);
+      }
+    }
+
+    @keyframes liquid-mega-slosh {
+      0%,
+      100% {
+        transform: translateX(0);
+        box-shadow: inset 0 0 18px rgba(10, 24, 31, 0.88), 0 0 18px rgba(53, 217, 178, 0.3);
+      }
+      34% {
+        transform: translateX(-4px) rotate(-1deg);
+        box-shadow: inset 0 0 16px rgba(10, 24, 31, 0.62), 0 0 46px rgba(255, 200, 87, 0.72);
+      }
+      62% {
+        transform: translateX(5px) rotate(1deg);
+        box-shadow: inset 0 0 16px rgba(10, 24, 31, 0.62), 0 0 42px rgba(53, 217, 178, 0.72);
+      }
+    }
+
+    @keyframes liquid-loss-slosh {
+      0%,
+      100% {
+        transform: translateX(0);
+        filter: none;
+      }
+      28% {
+        transform: translateX(-5px) rotate(-1.4deg);
+        filter: saturate(0.7) brightness(0.86);
+      }
+      56% {
+        transform: translateX(4px) rotate(1.2deg);
+        filter: saturate(0.8) brightness(0.9);
+      }
+    }
+
+    @keyframes battery-empty-pulse {
+      0%,
+      100% {
+        filter: none;
+        box-shadow: inset 0 0 18px rgba(10, 24, 31, 0.88), 0 0 10px rgba(255, 93, 122, 0.18);
+      }
+      45% {
+        filter: saturate(0.35) brightness(0.72);
+        box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.92), 0 0 26px rgba(255, 93, 122, 0.5);
+      }
+    }
+
+    @keyframes rocket-launch-kick {
+      0%,
+      100% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px));
+      }
+      36% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px - 24px));
+      }
+      70% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 16px + 6px));
+      }
+    }
+
+    @keyframes launch-thrust-burst {
+      0% {
+        opacity: 0.3;
+        transform: translateX(-50%) scaleY(0.8);
+      }
+      42% {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1.9);
+      }
+      100% {
+        opacity: calc(0.15 + var(--charge, 0) * 0.72);
+        transform: translateX(-50%) scaleY(1);
+      }
+    }
+
+    @keyframes rainbow-burst {
+      0%,
+      100% {
+        box-shadow: inset 0 0 18px rgba(10, 24, 31, 0.88), 0 0 18px rgba(53, 217, 178, 0.3);
+      }
+      50% {
+        box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.28), 0 0 44px rgba(255, 200, 87, 0.66), 0 0 40px rgba(96, 215, 255, 0.58), 0 0 34px rgba(184, 116, 255, 0.54);
+      }
+    }
+
+    @keyframes planet-scan-pop {
+      from {
+        transform: translateY(4px) scale(0.96);
+      }
+      to {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes flight-streak {
+      from {
+        background-position: 0 0, 0 0;
+        transform: translateX(-8%);
+      }
+      to {
+        background-position: 180px -120px, 0 0;
+        transform: translateX(8%);
+      }
+    }
+
+    @keyframes scan-sweep {
+      0% {
+        transform: translateX(0) skewX(-18deg);
+      }
+      100% {
+        transform: translateX(560%) skewX(-18deg);
+      }
+    }
+
+    @keyframes meter-scan {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes result-panel-pulse {
+      0%,
+      100% {
+        filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38)) drop-shadow(0 0 0 rgba(96, 215, 255, 0));
+      }
+      50% {
+        filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38)) drop-shadow(0 0 26px rgba(96, 215, 255, 0.38));
+      }
+    }
+
+    @keyframes result-svg-scan {
+      0% {
+        transform: translateX(-160px);
+        opacity: 0;
+      }
+      22%,
+      70% {
+        opacity: 0.72;
+      }
+      100% {
+        transform: translateX(360px);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fuel-stream,
+      .fuel-droplet,
+      .spark,
+      .steam-jet,
+      .launch-beam,
+      .energy-ring,
+      .pad-glow,
+      .battery-liquid::before,
+      .battery-liquid::after,
+      .rocket-thrust,
+      .measure-scan,
+      .result-measure::after {
+        animation: none !important;
+      }
+
+      .rocket-mini,
+      .battery-slot,
+      .sum-cell,
+      .planet-chip {
+        animation-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .play {
+        padding: var(--stage-inset);
+      }
+
+      .hud {
+        margin-bottom: 8px;
+      }
+
+      .problem-panel {
+        gap: 8px;
+        padding: 12px 12px 28px;
+      }
+
+      .problem-heading h2 {
+        font-size: clamp(1.85rem, 4.8vw, 3.55rem);
+      }
+
+      .calc-stage {
+        gap: 10px;
+        padding: 8px;
+      }
+
+      .vertical-sum {
+        gap: 5px;
+        padding: 8px;
+      }
+
+      .sum-row {
+        min-height: 0;
+      }
+
+      .sum-cell,
+      .sum-mark {
+        min-height: clamp(34px, 4vw, 46px);
+        font-size: clamp(1.36rem, 3vw, 2.15rem);
+      }
+
+      .carry-cell {
+        min-height: clamp(26px, 3.3vw, 36px);
+        font-size: clamp(1rem, 2.1vw, 1.45rem);
+      }
+
+      .hint-toggle {
+        min-width: 66px;
+        min-height: 46px;
+      }
+
+      .step-panel,
+      .step-panel:not(.is-open) {
+        width: 70px;
+      }
+
+      .prompt {
+        min-height: 38px;
+        padding: 7px 10px;
+      }
+
+      .choice-grid {
+        gap: 6px;
+      }
+
+      .choice-button {
+        height: 100%;
+        min-height: 48px;
+        padding: 6px 10px;
+      }
+    }
+
+    @media (max-width: 880px) {
+
+      .cover,
+      .tutorial,
+      .result {
+        padding-top: 78px;
+      }
+
+      .cover-scene,
+      .tutorial-layout,
+      .play-layout,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hud {
+        grid-template-columns: 1fr;
+      }
+
+      .hud-center {
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .calc-stage {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) and (orientation: portrait) {
+      .game,
+      .settings-toggle {
+        display: none;
+      }
+
+      .phone-blocker {
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 28px;
+        text-align: center;
+        color: #ffffff;
+      }
+
+      .phone-blocker div {
+        width: min(420px, 100%);
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+      }
+
+      .phone-blocker h1 {
+        margin: 0 0 10px;
+        font-size: 1.7rem;
+      }
+
+      .phone-blocker p {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 850;
+        line-height: 1.45;
+      }
+    }
+  </style>
+
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+    (function installMathmonAudio(global) {
+      "use strict";
+
+      if (global.MathmonAudio?.version === "mathmon-audio-v1") return;
+
+      const VERSION = "mathmon-audio-v1";
+      const PREF_KEYS = Object.freeze({
+        bgm: "mathmon-audio-bgm-enabled",
+        sfx: "mathmon-audio-sfx-enabled",
+      });
+      const currentScript = document.currentScript;
+      const scriptUrl = currentScript?.dataset.mathmonAudioBase
+        ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
+        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+      const BGM_TRACK = Object.freeze({
+        src: new URL(
+          "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
+          scriptUrl,
+        ).href,
+        gain: 0.025,
+        duckGain: 0.008,
+        fadeSeconds: 1.2,
+      });
+      const SFX_PLANS = Object.freeze({
+        start: Object.freeze([260, 330, 392]),
+        correct: Object.freeze([392, 494, 659]),
+        try: Object.freeze([220, 196]),
+        reward: Object.freeze([392, 523, 784]),
+        next: Object.freeze([330, 392]),
+        scan: Object.freeze([180, 240, 300]),
+        measure: Object.freeze([330, 440, 554]),
+        finish: Object.freeze([392, 523, 659, 784]),
+      });
+      const DUCK_SECONDS = Object.freeze({
+        correct: 0.6,
+        reward: 1.1,
+        scan: 0.8,
+        measure: 0.8,
+        finish: 1.35,
+      });
+      const CUE_ALIASES = Object.freeze({
+        start: "start",
+        uiStart: "start",
+        correct: "correct",
+        success: "correct",
+        "step-correct": "correct",
+        answerCorrect: "correct",
+        "problem-complete": "correct",
+        try: "try",
+        error: "try",
+        wrong: "try",
+        "step-wrong": "try",
+        answerWrongSoft: "try",
+        fuelLoss: "try",
+        reward: "reward",
+        "reward-open": "reward",
+        "reward-rare": "reward",
+        "reward-legend": "reward",
+        rewardPositive: "reward",
+        rewardMega: "reward",
+        rewardRainbow: "reward",
+        rewardLaunch: "reward",
+        fuelPositive: "reward",
+        fuelMega: "reward",
+        fuelRainbow: "reward",
+        fuelLaunch: "reward",
+        rewardTransfer: "measure",
+        measure: "measure",
+        scan: "scan",
+        measureScan: "scan",
+        next: "next",
+        uiNext: "next",
+        fuelEmpty: "next",
+        rewardEmpty: "next",
+        scoreboard: "next",
+        finish: "finish",
+        result: "finish",
+        resultLow: "finish",
+        resultMid: "finish",
+        resultHigh: "finish",
+        resultRare: "finish",
+      });
+
+      const state = {
+        bgmEnabled: readPreference(PREF_KEYS.bgm, true),
+        sfxEnabled: readPreference(PREF_KEYS.sfx, true),
+        context: null,
+        bgmGain: null,
+        bgmBuffer: null,
+        bgmBufferPromise: null,
+        bgmSource: null,
+        bgmStartCount: 0,
+        bgmStopCount: 0,
+        unlocked: false,
+        sfxLog: [],
+        legacyQa: null,
+        controlsBound: false,
+      };
+
+      writePreference(PREF_KEYS.bgm, state.bgmEnabled);
+      writePreference(PREF_KEYS.sfx, state.sfxEnabled);
+
+      function parsePreference(value, fallback) {
+        if (value == null) return fallback;
+        if (value === true || value === "true" || value === "on" || value === "1") return true;
+        if (value === false || value === "false" || value === "off" || value === "0") return false;
+        return fallback;
+      }
+
+      function readPreference(key, fallback) {
+        try {
+          return parsePreference(global.localStorage.getItem(key), fallback);
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function writePreference(key, enabled) {
+        try {
+          global.localStorage.setItem(key, String(Boolean(enabled)));
+        } catch (error) {
+          // Some embedded browsers block localStorage. Audio still works for this session.
+        }
+      }
+
+      function ensureContext() {
+        if (state.context) return state.context;
+        const AudioContext = global.AudioContext || global.webkitAudioContext;
+        if (!AudioContext) return null;
+        state.context = new AudioContext();
+        state.bgmGain = state.context.createGain();
+        state.bgmGain.gain.value = 0.0001;
+        state.bgmGain.connect(state.context.destination);
+        return state.context;
+      }
+
+      async function unlock() {
+        const context = ensureContext();
+        if (!context) return false;
+        if (context.state === "suspended") {
+          try {
+            await context.resume();
+          } catch (error) {
+            return false;
+          }
+        }
+        state.unlocked = context.state === "running";
+        return state.unlocked;
+      }
+
+      function holdAudioParam(param, time) {
+        if (typeof param.cancelAndHoldAtTime === "function") {
+          param.cancelAndHoldAtTime(time);
+          return;
+        }
+        const value = Math.max(0.0001, Number(param.value) || 0.0001);
+        param.cancelScheduledValues(time);
+        param.setValueAtTime(value, time);
+      }
+
+      function loadBgmBuffer() {
+        if (state.bgmBuffer) return Promise.resolve(state.bgmBuffer);
+        if (state.bgmBufferPromise) return state.bgmBufferPromise;
+        const context = ensureContext();
+        if (!context) return Promise.resolve(null);
+        state.bgmBufferPromise = fetch(BGM_TRACK.src)
+          .then((response) => {
+            if (!response.ok) throw new Error(`BGM load failed: ${response.status}`);
+            return response.arrayBuffer();
+          })
+          .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+          .then((buffer) => {
+            state.bgmBuffer = buffer;
+            return buffer;
+          })
+          .catch((error) => {
+            console.warn("Background music could not be loaded.", error);
+            state.bgmBufferPromise = null;
+            return null;
+          });
+        return state.bgmBufferPromise;
+      }
+
+      async function startBgm() {
+        if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        // Start loading before awaiting AudioContext.resume(). Embedded browsers can
+        // keep resume() pending until another trusted gesture; the fetch must not be
+        // blocked behind that pending promise.
+        const bufferPromise = loadBgmBuffer();
+        if (!(await unlock())) return false;
+        const buffer = await bufferPromise;
+        if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        const source = state.context.createBufferSource();
+        const now = state.context.currentTime;
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(state.bgmGain);
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + BGM_TRACK.fadeSeconds);
+        source.onended = () => {
+          if (state.bgmSource === source) state.bgmSource = null;
+        };
+        state.bgmSource = source;
+        state.bgmStartCount += 1;
+        source.start(now);
+        return true;
+      }
+
+      function stopBgm(options = {}) {
+        const immediate = Boolean(options.immediate);
+        const source = state.bgmSource;
+        if (!source || !state.context || !state.bgmGain) return false;
+        state.bgmSource = null;
+        state.bgmStopCount += 1;
+        const now = state.context.currentTime;
+        if (immediate) {
+          try {
+            source.stop(now);
+          } catch (error) {
+            // The source may already have ended.
+          }
+          state.bgmGain.gain.cancelScheduledValues(now);
+          state.bgmGain.gain.setValueAtTime(0.0001, now);
+          return true;
+        }
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(0.0001, now + BGM_TRACK.fadeSeconds);
+        try {
+          source.stop(now + BGM_TRACK.fadeSeconds + 0.05);
+        } catch (error) {
+          // The source may already have ended.
+        }
+        return true;
+      }
+
+      function duckBgm(seconds) {
+        if (!state.bgmSource || !state.context || !state.bgmGain) return;
+        const now = state.context.currentTime;
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.duckGain, now + 0.08);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + Math.max(0.12, Number(seconds) || 0.6));
+      }
+
+      function normalizeCue(cue) {
+        return CUE_ALIASES[cue] || (SFX_PLANS[cue] ? cue : "next");
+      }
+
+      async function play(cue = "next") {
+        if (!state.sfxEnabled) return false;
+        if (!(await unlock())) return false;
+        const normalizedCue = normalizeCue(cue);
+        const duckSeconds = DUCK_SECONDS[normalizedCue];
+        if (duckSeconds) duckBgm(duckSeconds);
+        const now = state.context.currentTime;
+        SFX_PLANS[normalizedCue].forEach((frequency, index) => {
+          const at = now + index * 0.08;
+          const oscillator = state.context.createOscillator();
+          const gain = state.context.createGain();
+          oscillator.frequency.value = frequency;
+          oscillator.type = normalizedCue === "try" ? "triangle" : "sine";
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(0.045, at + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.16);
+          oscillator.connect(gain).connect(state.context.destination);
+          oscillator.start(at);
+          oscillator.stop(at + 0.18);
+        });
+        state.sfxLog.push(String(cue));
+        if (state.sfxLog.length > 80) state.sfxLog.shift();
+        return true;
+      }
+
+      function syncControls() {
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        if (bgmToggle) bgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+        if (sfxToggle) sfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      }
+
+      function setPreference(kind, enabled, options = {}) {
+        const value = Boolean(enabled);
+        if (kind === "bgm") {
+          state.bgmEnabled = value;
+          writePreference(PREF_KEYS.bgm, value);
+          if (value && options.start !== false) startBgm();
+          if (!value) stopBgm({ immediate: true });
+        } else if (kind === "sfx") {
+          state.sfxEnabled = value;
+          writePreference(PREF_KEYS.sfx, value);
+        }
+        if (options.syncControls !== false) syncControls();
+      }
+
+      function setPrefs(prefs = {}, options = {}) {
+        if (typeof prefs.bgmEnabled === "boolean") {
+          setPreference("bgm", prefs.bgmEnabled, options);
+        }
+        if (typeof prefs.sfxEnabled === "boolean") {
+          setPreference("sfx", prefs.sfxEnabled, options);
+        }
+        return getPrefs();
+      }
+
+      function activeScreenName() {
+        const screen = document.querySelector(".screen.is-active, [data-screen].is-active");
+        return screen?.dataset.screen || screen?.id || "";
+      }
+
+      function getPrefs() {
+        const settingsBackdrop = document.getElementById("settingsBackdrop");
+        return {
+          version: VERSION,
+          bgmEnabled: state.bgmEnabled,
+          sfxEnabled: state.sfxEnabled,
+          bgmPlaying: Boolean(state.bgmSource),
+          bgmLoaded: Boolean(state.bgmBuffer),
+          bgmDuration: state.bgmBuffer?.duration || 0,
+          bgmTrack: BGM_TRACK.src,
+          bgmStartCount: state.bgmStartCount,
+          bgmStopCount: state.bgmStopCount,
+          settingsOpen: Boolean(settingsBackdrop && !settingsBackdrop.hidden),
+          screen: activeScreenName(),
+        };
+      }
+
+      function setLegacyPrefs(prefs) {
+        const legacy = state.legacyQa;
+        if (legacy && typeof legacy.setPrefs === "function") {
+          try {
+            legacy.setPrefs(prefs);
+            return;
+          } catch (error) {
+            console.warn("Lesson audio settings could not be synchronized.", error);
+          }
+        }
+        const pairs = [
+          ["bgmEnabled", "settingsBgmToggle"],
+          ["sfxEnabled", "settingsSfxToggle"],
+        ];
+        pairs.forEach(([key, id]) => {
+          if (typeof prefs[key] !== "boolean") return;
+          const toggle = document.getElementById(id);
+          if (!toggle) return;
+          const current = toggle.getAttribute("aria-checked") === "true";
+          if (current !== prefs[key]) toggle.click();
+        });
+      }
+
+      function installQaHook() {
+        state.legacyQa = global.__mathmonAudioQa || null;
+        global.__mathmonAudioQa = {
+          version: VERSION,
+          keys: PREF_KEYS,
+          cues: SFX_PLANS,
+          getLog: () => [...state.sfxLog],
+          clearLog: () => {
+            state.sfxLog = [];
+          },
+          getPrefs,
+          setPrefs: (prefs = {}) => {
+            setLegacyPrefs(prefs);
+            return setPrefs(prefs);
+          },
+          play,
+          startBgm,
+          stopBgm,
+        };
+      }
+
+      function bindControls() {
+        if (state.controlsBound) return;
+        state.controlsBound = true;
+        document.querySelector("main.game")?.setAttribute("data-audio-standard", VERSION);
+        syncControls();
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        bgmToggle?.addEventListener("click", () => {
+          const enabled = bgmToggle.getAttribute("aria-checked") === "true";
+          setPreference("bgm", enabled);
+        });
+        sfxToggle?.addEventListener("click", () => {
+          const enabled = sfxToggle.getAttribute("aria-checked") === "true";
+          setPreference("sfx", enabled);
+        });
+        installQaHook();
+      }
+
+      function handleUserInteraction() {
+        if (state.bgmEnabled && !state.bgmSource) startBgm();
+      }
+
+      // Retry on trusted gestures until playback starts. A one-shot listener can
+      // lose BGM permanently when the first resume is delayed or rejected.
+      document.addEventListener("pointerdown", handleUserInteraction, { capture: true });
+      document.addEventListener("click", handleUserInteraction, { capture: true });
+      document.addEventListener("keydown", handleUserInteraction, { capture: true });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopBgm({ immediate: true });
+        else if (state.bgmEnabled && state.unlocked) startBgm();
+      });
+      global.addEventListener("pagehide", () => stopBgm({ immediate: true }));
+
+      global.MathmonAudio = Object.freeze({
+        version: VERSION,
+        keys: PREF_KEYS,
+        track: BGM_TRACK,
+        plans: SFX_PLANS,
+        play,
+        unlock,
+        startBgm,
+        stopBgm,
+        duckBgm,
+        getPrefs,
+        setPrefs,
+      });
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindControls, { once: true });
+      } else {
+        bindControls();
+      }
+    })(window);
+  </script>
+</head>
+<body>
+  <div class="phone-blocker" aria-hidden="true">
+    <div>
+      <h1>가로 화면에서 플레이해요</h1>
+      <p>태블릿이나 컴퓨터 화면에서 로켓발사 대작전을 시작할 수 있어요.</p>
+    </div>
+  </div>
+
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls">
+    <div class="stage-shell" data-active-screen="cover">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
+        </svg>
+      </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
+              <span>배경 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
+              <span>효과 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
+          </div>
+          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
+            <p class="settings-confirm-title" id="settingsConfirmText">처음부터 할까요?</p>
+            <div class="settings-confirm-actions">
+              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
+              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fuel-transfer-layer" id="fuelTransferLayer" aria-hidden="true">
+        <span class="fuel-stream"></span>
+        <span class="fuel-droplet one"></span>
+        <span class="fuel-droplet two"></span>
+        <span class="fuel-droplet three"></span>
+      </div>
+    <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
+      <img class="raster-bg" src="cover-generated.webp" alt="">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 2차시</span>
+      </div>
+      <span class="lesson-badge">받아올림 있는 세 자리 수 × 한 자리 수</span>
+      <div class="cover-scene">
+        <div class="hero-copy">
+          <h1 class="visually-hidden" id="coverTitle">매스몬 로켓발사 대작전</h1>
+          <img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">
+          <p>받아올림 있는 곱셈을 풀어 로켓의 연료를 넣어요.</p>
+          <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
+            <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen tutorial tutorial--fulltext" id="tutorialScreen" data-tutorial-step="solve" aria-labelledby="tutorialTitle">
+      <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
+      <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 2차시</span>
+      </div>
+      <h2 class="visually-hidden" id="tutorialTitle">차례로 곱해요</h2>
+      <div class="visually-hidden">
+        <p>첫 화면은 받아올림하며 곱하는 방법을 보여 줍니다.</p>
+        <ol>
+          <li>일의 자리부터 곱해요.</li>
+          <li>받아올릴 수를 위에 적어요.</li>
+          <li>올린 수까지 더해 답을 만들어요.</li>
+        </ol>
+        <p>두 번째 화면은 문제를 맞혀 연료를 얻고, 마지막에 도착한 행성을 보는 흐름을 보여 줍니다.</p>
+      </div>
+      <button class="tutorial-poster-hitbox" id="tutorialNextButton" type="button" aria-label="다음"></button>
+    </section>
+
+    <section class="screen play" id="playScreen" aria-labelledby="questionText">
+      <header class="hud">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+      </header>
+      <div class="play-layout">
+        <aside class="rocket-zone" id="rocketZone" aria-label="로켓 연료 상태">
+          <img class="launchpad-bg" src="rocket-launchpad-generated.webp" alt="">
+          <div class="launch-effects" aria-hidden="true">
+            <span class="launch-beam left"></span>
+            <span class="launch-beam right"></span>
+            <span class="pad-glow"></span>
+            <span class="energy-ring"></span>
+            <span class="steam-jet left"></span>
+            <span class="steam-jet right"></span>
+            <span class="spark one"></span>
+            <span class="spark two"></span>
+            <span class="spark three"></span>
+          </div>
+          <div class="rocket-mini" id="rocketMini" aria-hidden="true">
+            <img class="rocket-sprite" src="rocket-charge.webp" alt="">
+            <div class="battery-slot">
+              <div class="battery-liquid"></div>
+              <div class="battery-shine"></div>
+            </div>
+            <div class="rocket-thrust"></div>
+          </div>
+          <div class="fuel-panel">
+            <div class="fuel-readout">
+              <span>로켓 연료</span>
+              <strong id="fuelPercentText">채우는 중</strong>
+            </div>
+            <div class="fuel-meter" aria-hidden="true">
+              <span class="fuel-meter-fill" id="fuelMeterFill"></span>
+            </div>
+            <p class="fuel-note" id="fuelNote">10문제를 끝내면 연료를 재서 도착 행성을 정해요.</p>
+            <div class="planet-panel">
+              <div class="planet-title">
+                <span>행성 거리</span>
+                <strong id="destinationText">마지막에 측정</strong>
+              </div>
+              <div class="planet-track" id="planetTrack" aria-label="로켓이 갈 수 있는 행성"></div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="problem-panel" aria-live="polite">
+          <div class="problem-heading">
+            <span class="problem-progress" id="progressText">문제 1/10</span>
+            <h2 id="questionText">123 × 4</h2>
+            <span class="phase-label" id="phaseLabel">일의 자리</span>
+          </div>
+          <div class="calc-stage">
+            <div class="vertical-sum" aria-label="세로셈 계산판">
+              <div class="sum-row">
+                <span class="sum-mark"></span>
+                <span class="sum-cell is-empty"></span>
+                <span class="sum-cell carry-cell" id="carryHundredsSlot"></span>
+                <span class="sum-cell carry-cell" id="carryTensSlot"></span>
+                <span class="sum-cell is-empty"></span>
+              </div>
+              <div class="sum-row">
+                <span class="sum-mark"></span>
+                <span class="sum-cell is-empty"></span>
+                <span class="sum-cell" id="hundredsDigit">1</span>
+                <span class="sum-cell" id="tensDigit">2</span>
+                <span class="sum-cell" id="onesDigit">3</span>
+              </div>
+              <div class="sum-row">
+                <span class="sum-mark" id="multiplyMark">×</span>
+                <span class="sum-cell is-empty"></span>
+                <span class="sum-cell is-empty"></span>
+                <span class="sum-cell is-empty"></span>
+                <span class="sum-cell" id="multiplierText">4</span>
+              </div>
+              <div class="sum-line"></div>
+              <div class="sum-row">
+                <span class="sum-mark"></span>
+                <span class="sum-cell answer-cell" id="thousandsAnswer"></span>
+                <span class="sum-cell answer-cell" id="hundredsAnswer"></span>
+                <span class="sum-cell answer-cell" id="tensAnswer"></span>
+                <span class="sum-cell answer-cell is-current" id="onesAnswer">?</span>
+              </div>
+            </div>
+            <div class="step-panel" id="stepPanel">
+              <button class="hint-toggle" id="hintToggleButton" type="button" aria-expanded="false" aria-controls="stepHintContent">힌트</button>
+              <div class="step-track" aria-label="계산 순서">
+                <span class="step-chip is-current" id="stepChipOnes">일</span>
+                <span class="step-chip" id="stepChipTens">십</span>
+                <span class="step-chip" id="stepChipHundreds">백</span>
+              </div>
+              <div id="stepHintContent">
+                <p class="step-focus-label">지금 계산</p>
+                <div class="step-formula" id="stepFormula">3 × 4 = ?</div>
+                <p class="step-meaning" id="stepMeaning">일의 자리부터 계산해요.</p>
+              </div>
+            </div>
+          </div>
+          <div class="prompt" id="promptText">지금 보이는 계산의 값을 골라요.</div>
+          <div class="choice-grid" id="choiceGrid"></div>
+          <div class="feedback" id="feedbackText"></div>
+        </section>
+      </div>
+      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
+        <div class="reward-card">
+          <div class="reward-art" aria-hidden="true">
+            <div class="reward-delta" id="rewardDelta">연료 쑥</div>
+          </div>
+          <h3 class="visually-hidden" id="rewardTitle">연료 넣기</h3>
+          <p id="rewardMessage">정답! 로켓의 연료가 들어갔어요.</p>
+          <button class="primary-button" id="rewardNextButton" type="button">다음</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen result" id="resultScreen" aria-labelledby="resultTitle">
+      <img class="raster-bg" id="resultRaster" src="result-mercury-generated.webp" alt="">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 2차시</span>
+      </div>
+      <h2 class="visually-hidden" id="resultTitle">연료 측정 준비</h2>
+      <p class="visually-hidden" id="praiseText">자리올림을 끝까지 살핀 멋진 계산이에요.</p>
+      <div class="result-accessibility-values visually-hidden" aria-live="polite">
+        <div id="resultMeasure" aria-label="연료 측정 결과">
+          <span id="measureStatus">연료 측정 중</span>
+          <strong id="measurePercent">연료 0</strong>
+          <span class="measure-fill" id="measureFill" aria-hidden="true"></span>
+          <div id="resultPlanetTrack" aria-label="행성 거리 측정"></div>
+        </div>
+        <span id="finalEnergyText">0</span>
+        <span class="visually-hidden" id="finalCorrectText">0/10</span>
+        <span id="finalDestinationText">수성</span>
+      </div>
+      <img class="result-title-art" id="resultTitleArt" src="result-title-mercury-generated.webp" alt="" aria-hidden="true" hidden>
+      <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
+      <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
+        <title id="resultSvgTitle">로켓 결과</title>
+        <defs>
+          <linearGradient id="rocketResultPanel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#101c36" stop-opacity="0.82"></stop>
+            <stop offset="0.62" stop-color="#101228" stop-opacity="0.7"></stop>
+            <stop offset="1" stop-color="#3b1d48" stop-opacity="0.76"></stop>
+          </linearGradient>
+          <linearGradient id="rocketResultStroke" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b8fff0"></stop>
+            <stop offset="0.5" stop-color="#ffc857"></stop>
+            <stop offset="1" stop-color="#9bd3ff"></stop>
+          </linearGradient>
+          <linearGradient id="rocketResultButton" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff4a6"></stop>
+            <stop offset="1" stop-color="#ffbd49"></stop>
+          </linearGradient>
+          <filter id="rocketResultGlow" x="-20%" y="-40%" width="140%" height="180%">
+            <feDropShadow dx="0" dy="7" stdDeviation="0" flood-color="#000000" flood-opacity="0.22"></feDropShadow>
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#60d7ff" flood-opacity="0.34"></feDropShadow>
+          </filter>
+        </defs>
+        <g class="result-panel-glow">
+          <path d="M704 104H1194C1208 104 1220 116 1220 130V710C1220 724 1208 736 1194 736H704C690 736 678 724 678 710V130C678 116 690 104 704 104Z" fill="url(#rocketResultPanel)" stroke="url(#rocketResultStroke)" stroke-width="3"></path>
+          <path d="M724 126H1174C1184 126 1192 134 1192 144V694C1192 704 1184 712 1174 712H724C714 712 706 704 706 694V144C706 134 714 126 724 126Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
+          <rect class="result-scan-beam" x="714" y="136" width="88" height="566" rx="44" fill="rgba(255,255,255,0.22)"></rect>
+          <text class="result-svg-kicker" x="748" y="188"></text>
+          <text class="result-svg-title" id="resultDestinationSvg" x="748" y="268" opacity="0" aria-hidden="true"></text>
+          <line x1="748" y1="366" x2="1152" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
+          <text class="result-svg-label" x="748" y="422"></text>
+          <text class="result-svg-value" id="resultScoreSvg" x="748" y="472" opacity="0" aria-hidden="true">0/10</text>
+          <text class="result-svg-label" x="748" y="548"></text>
+          <text class="result-svg-value result-svg-measure" id="resultMeasureSvg" x="748" y="598">연료 0</text>
+          <rect x="748" y="614" width="394" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
+          <rect id="resultMeasureFillSvg" x="748" y="614" width="0" height="12" rx="6" fill="#79f5c4"></rect>
+          <rect class="result-legacy-action-surface ranking-disabled" x="748" y="646" width="188" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect class="result-legacy-action-surface" x="960" y="646" width="178" height="62" rx="14" fill="url(#rocketResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <text class="result-svg-button-text result-legacy-action-label ranking-disabled" x="842" y="685" text-anchor="middle">순위 보기</text>
+          <text class="result-svg-button-text result-legacy-action-label" id="resultSvgRestartText" x="1049" y="685" text-anchor="middle">다시하기</text>
+        </g>
+      </svg>
+      <div class="result-actions" aria-hidden="false">
+        <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
+          <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
+          <span class="visually-hidden">순위 보기</span>
+        </button>
+        <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
+          <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
+          <span class="visually-hidden">다시하기</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 로켓 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-rocket-generated.webp" data-scoreboard-result-kind="rocket">
+      <svg class="mathmon-scoreboard-stage" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid meet" aria-hidden="false">
+        <defs>
+          <linearGradient id="scoreboardTitleGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff"></stop>
+            <stop offset="34%" stop-color="#fff6d1"></stop>
+            <stop offset="72%" stop-color="#ffc857"></stop>
+            <stop offset="100%" stop-color="#f38b1f"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardGoldStroke" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#fff8b5"></stop>
+            <stop offset="44%" stop-color="#ffbf3d"></stop>
+            <stop offset="100%" stop-color="#a85a11"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardBoardGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#174a97" stop-opacity="0.96"></stop>
+            <stop offset="48%" stop-color="#0b285d" stop-opacity="0.95"></stop>
+            <stop offset="100%" stop-color="#07173b" stop-opacity="0.97"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardPanelGradient" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#214f9f" stop-opacity="0.82"></stop>
+            <stop offset="58%" stop-color="#12346f" stop-opacity="0.72"></stop>
+            <stop offset="100%" stop-color="#071f4d" stop-opacity="0.84"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardCardGradient" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3268bb" stop-opacity="0.74"></stop>
+            <stop offset="100%" stop-color="#0c2b66" stop-opacity="0.86"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardRowGradient" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%" stop-color="#133c82" stop-opacity="0.72"></stop>
+            <stop offset="50%" stop-color="#09285f" stop-opacity="0.68"></stop>
+            <stop offset="100%" stop-color="#103878" stop-opacity="0.72"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardButtonGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#1fb9c5"></stop>
+            <stop offset="52%" stop-color="#0d7891"></stop>
+            <stop offset="100%" stop-color="#095167"></stop>
+          </linearGradient>
+          <linearGradient id="scoreboardButtonPrimaryGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#2ee5dc"></stop>
+            <stop offset="52%" stop-color="#0f8aa4"></stop>
+            <stop offset="100%" stop-color="#075e75"></stop>
+          </linearGradient>
+          <filter id="scoreboardTextShadow" x="-20%" y="-50%" width="140%" height="220%">
+            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000a24" flood-opacity="0.82"></feDropShadow>
+          </filter>
+          <filter id="scoreboardTitleShadow" x="-20%" y="-50%" width="140%" height="220%">
+            <feDropShadow dx="0" dy="3" stdDeviation="0" flood-color="#2f1500" flood-opacity="0.54"></feDropShadow>
+            <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#ffc857" flood-opacity="0.38"></feDropShadow>
+          </filter>
+          <filter id="scoreboardBoardShadow" x="-8%" y="-8%" width="116%" height="120%">
+            <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#020817" flood-opacity="0.62"></feDropShadow>
+            <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#1df8ff" flood-opacity="0.18"></feDropShadow>
+          </filter>
+          <clipPath id="scoreboardRowsClip">
+            <rect x="174" y="392" width="932" height="222" rx="20"></rect>
+          </clipPath>
+        </defs>
+        <image class="mathmon-scoreboard-stage-art" href="../_shared/scoreboard/scoreboard-celebration-bg-generated.webp" x="0" y="0" width="1280" height="800" preserveAspectRatio="xMidYMid slice"></image>
+        <rect class="mathmon-scoreboard-bg-dim" x="0" y="0" width="1280" height="800"></rect>
+        <g class="mathmon-scoreboard-ui" filter="url(#scoreboardBoardShadow)">
+          <rect class="mathmon-scoreboard-board" x="108" y="104" width="1064" height="628" rx="38"></rect>
+          <rect class="mathmon-scoreboard-board-inner" x="134" y="132" width="1012" height="572" rx="30"></rect>
+          <rect class="mathmon-scoreboard-plaque" x="400" y="78" width="480" height="98" rx="24"></rect>
+          <rect class="mathmon-scoreboard-plaque-inner" x="424" y="96" width="432" height="64" rx="17"></rect>
+
+          <g class="mathmon-scoreboard-copy" filter="url(#scoreboardTextShadow)">
+            <title id="scoreboardTitle">전국 로켓 순위</title>
+            <image class="mathmon-scoreboard-title-art" href="../_shared/scoreboard/scoreboard-title-rocket-generated.webp" x="350" y="38" width="580" height="184" preserveAspectRatio="xMidYMid meet"></image>
+
+            <g class="mathmon-scoreboard-metrics" aria-label="내 기록">
+              <rect class="mathmon-scoreboard-card" x="174" y="222" width="286" height="88" rx="16"></rect>
+              <rect class="mathmon-scoreboard-card" x="497" y="222" width="286" height="88" rx="16"></rect>
+              <rect class="mathmon-scoreboard-card" x="820" y="222" width="286" height="88" rx="16"></rect>
+              <text class="mathmon-scoreboard-label" x="214" y="248">내 이름</text>
+              <text class="mathmon-scoreboard-value" id="scoreboardNickname" x="214" y="282" data-scoreboard-nickname>준비 중</text>
+              <text class="mathmon-scoreboard-label" x="537" y="248">도착한 곳</text>
+              <text class="mathmon-scoreboard-value" id="scoreboardScore" x="537" y="282" data-scoreboard-score>0</text>
+              <text class="mathmon-scoreboard-label" x="860" y="248">내 등수</text>
+              <text class="mathmon-scoreboard-value mathmon-scoreboard-rank-value" id="scoreboardRank" x="860" y="282" data-scoreboard-rank>기록 전</text>
+            </g>
+
+            <g class="mathmon-scoreboard-list-frame">
+              <rect class="mathmon-scoreboard-list-panel" x="174" y="334" width="932" height="286" rx="24"></rect>
+              <rect class="mathmon-scoreboard-list-header" x="174" y="334" width="932" height="54" rx="22"></rect>
+              <text class="mathmon-scoreboard-head-left" x="214" y="361">10위까지</text>
+              <text class="mathmon-scoreboard-head-title" id="leaderboardTitle" x="640" y="361">도착 순위</text>
+              <text class="mathmon-scoreboard-head-week" id="leaderboardUpdated" x="1066" y="361" data-scoreboard-week>이번 주</text>
+              <rect class="mathmon-scoreboard-row-slot" x="190" y="398" width="900" height="48" rx="17"></rect>
+              <rect class="mathmon-scoreboard-row-slot" x="190" y="452" width="900" height="48" rx="17"></rect>
+              <rect class="mathmon-scoreboard-row-slot" x="190" y="506" width="900" height="48" rx="17"></rect>
+              <rect class="mathmon-scoreboard-row-slot" x="190" y="560" width="900" height="48" rx="17"></rect>
+              <rect class="mathmon-scoreboard-scroll-track" x="1096" y="404" width="5" height="198" rx="3"></rect>
+            </g>
+            <g class="mathmon-scoreboard-list" id="leaderboardList" clip-path="url(#scoreboardRowsClip)" data-scoreboard-list></g>
+            <rect class="mathmon-scoreboard-list-hitbox" x="174" y="392" width="932" height="222" data-scoreboard-list-viewport></rect>
+
+            <g class="mathmon-scoreboard-action-labels">
+              <rect class="mathmon-scoreboard-button-face is-primary" x="407" y="634" width="142" height="58" rx="24"></rect>
+              <rect class="mathmon-scoreboard-button-face" x="569" y="634" width="142" height="58" rx="24"></rect>
+              <rect class="mathmon-scoreboard-button-face" x="731" y="634" width="142" height="58" rx="24"></rect>
+              <text class="mathmon-scoreboard-action-label is-primary" x="478" y="664">새로 보기</text>
+              <text class="mathmon-scoreboard-action-label" x="640" y="664">결과로</text>
+              <text class="mathmon-scoreboard-action-label" x="802" y="664">다시하기</text>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <div class="mathmon-scoreboard-hitboxes" aria-label="순위 화면 조작">
+        <button class="mathmon-scoreboard-hitbox" id="scoreboardRefreshButton" data-scoreboard-refresh type="button" style="--x: 407; --y: 634; --w: 142; --h: 58;" aria-label="새로 보기"></button>
+        <button class="mathmon-scoreboard-hitbox" id="scoreboardResultButton" type="button" style="--x: 569; --y: 634; --w: 142; --h: 58;" aria-label="결과로"></button>
+        <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
+      </div>
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 2차시</span>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
+  <script>
+    const LESSON_ID = "3-2-1-2-mathmon-rocket-charge";
+    const TOTAL_QUESTIONS = 10;
+    const MAX_FUEL = 100;
+    function getScoreboardApiUrl() {
+      const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
+      return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
+    }
+    // Product policy: ranking is hidden and the score API is not contacted.
+    const SCOREBOARD_API_URL = "";
+    const DESTINATIONS = [
+      { id: "mercury", short: "수", name: "수성", min: 1, max: 12, image: "result-mercury-generated.webp", titleArt: "result-title-mercury-generated.webp" },
+      { id: "venus", short: "금", name: "금성", min: 13, max: 24, image: "result-venus-generated.webp", titleArt: "result-title-venus-generated.webp" },
+      { id: "earth", short: "지", name: "지구", min: 25, max: 36, image: "result-earth-generated.webp", titleArt: "result-title-earth-generated.webp" },
+      { id: "mars", short: "화", name: "화성", min: 37, max: 49, image: "result-mars-generated.webp", titleArt: "result-title-mars-generated.webp" },
+      { id: "jupiter", short: "목", name: "목성", min: 50, max: 62, image: "result-jupiter-generated.webp", titleArt: "result-title-jupiter-generated.webp" },
+      { id: "saturn", short: "토", name: "토성", min: 63, max: 75, image: "result-saturn-generated.webp", titleArt: "result-title-saturn-generated.webp" },
+      { id: "uranus", short: "천", name: "천왕성", min: 76, max: 89, image: "result-uranus-generated.webp", titleArt: "result-title-uranus-generated.webp" },
+      { id: "neptune", short: "해", name: "해왕성", min: 90, max: 100, image: "result-neptune-generated.webp", titleArt: "result-title-neptune-generated.webp" }
+    ];
+    const SECRET_DESTINATION = {
+      id: "andromeda",
+      short: "안",
+      name: "안드로메다",
+      min: 100,
+      max: 100,
+      image: "result-andromeda-generated.webp",
+      titleArt: "result-title-andromeda-generated.webp",
+      secret: true
+    };
+    const ALL_DESTINATIONS = [...DESTINATIONS, SECRET_DESTINATION];
+    const RESULT_RETRY_TITLE_ART = "result-title-retry-generated.webp";
+    const FUEL_EVENT_CLASSES = [
+      "fuel-event--normal",
+      "fuel-event--smallExplosion",
+      "fuel-event--megaFuel",
+      "fuel-event--instantLaunch",
+      "fuel-event--emptyTank",
+      "fuel-event--rainbowFuel",
+      "fuel-event--leak"
+    ];
+    const FUEL_ART_CLASSES = [
+      "reward-art--normal",
+      "reward-art--mega",
+      "reward-art--loss",
+      "reward-art--empty",
+      "reward-art--launch",
+      "reward-art--rainbow"
+    ];
+    const ROCKET_IMPACT_CLASSES = [
+      "is-impact-normal",
+      "is-impact-mega",
+      "is-impact-loss",
+      "is-impact-empty",
+      "is-impact-launch",
+      "is-impact-rainbow"
+    ];
+    const STEP_EFFECT_CLASSES = ["is-step-pop", "is-carry-pop"];
+    const AUDIO_PREF_KEYS = Object.freeze({
+      bgm: "mathmon-audio-bgm-enabled",
+      sfx: "mathmon-audio-sfx-enabled"
+    });
+    const TUTORIAL_NEXT_LABEL = "다음";
+    const TUTORIAL_GOAL_LABEL = "발사 준비";
+    const TUTORIAL_REVIEW_LABEL = "계속하기";
+
+    const state = {
+      screen: "cover",
+      problems: [],
+      index: 0,
+      fuelPercent: 0,
+      correct: 0,
+      chain: 0,
+      stepIndex: 0,
+      stepAttempts: 0,
+      problemHadMistake: false,
+      problemHadReveal: false,
+      hintOpen: false,
+      rainbowFuel: false,
+      lastFuelEvent: null,
+      instantLaunch: false,
+      tutorialReviewMode: false,
+      reviewReturnScreen: "cover",
+      bgmEnabled: loadBgmPreference(),
+      sfxEnabled: loadSfxPreference(),
+      audio: null,
+      sfxCache: new Map(),
+      sfxLog: [],
+      bgmGain: null,
+      bgmTimer: null,
+      bgmRunning: false,
+      bgmStep: 0,
+      stepAdvanceTimer: null,
+      rewardModalTimer: null,
+      resultTimers: [],
+      scoreboardSession: null,
+      scoreboardSessionPromise: null,
+      scoreboardSubmission: null,
+      scoreboardEntries: [],
+      scoreboardAnswers: [],
+      scoreboardCurrentAnswer: null,
+      scoreboardGameStartedAt: 0,
+      scoreboardQuestionStartedAt: 0,
+      scoreboardStepStartedAt: 0,
+      scoreboardLoading: false,
+      scoreboardError: ""
+    };
+
+    const el = {
+      stageShell: document.querySelector(".stage-shell"),
+      coverScreen: document.getElementById("coverScreen"),
+      tutorialScreen: document.getElementById("tutorialScreen"),
+      playScreen: document.getElementById("playScreen"),
+      resultScreen: document.getElementById("resultScreen"),
+      startButton: document.getElementById("startButton"),
+      tutorialNextButton: document.getElementById("tutorialNextButton"),
+      settingsButton: document.getElementById("settingsButton"),
+      settingsBackdrop: document.getElementById("settingsBackdrop"),
+      settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsBgmToggle: document.getElementById("settingsBgmToggle"),
+      settingsSfxToggle: document.getElementById("settingsSfxToggle"),
+      settingsMethodButton: document.getElementById("settingsMethodButton"),
+      settingsRestartButton: document.getElementById("settingsRestartButton"),
+      settingsCloseButton: document.getElementById("settingsCloseButton"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      fuelTransferLayer: document.getElementById("fuelTransferLayer"),
+      progressText: document.getElementById("progressText"),
+      fuelPercentText: document.getElementById("fuelPercentText"),
+      fuelMeterFill: document.getElementById("fuelMeterFill"),
+      fuelNote: document.getElementById("fuelNote"),
+      destinationText: document.getElementById("destinationText"),
+      planetTrack: document.getElementById("planetTrack"),
+      rocketZone: document.getElementById("rocketZone"),
+      rocketMini: document.getElementById("rocketMini"),
+      questionText: document.getElementById("questionText"),
+      phaseLabel: document.getElementById("phaseLabel"),
+      hundredsDigit: document.getElementById("hundredsDigit"),
+      tensDigit: document.getElementById("tensDigit"),
+      onesDigit: document.getElementById("onesDigit"),
+      multiplyMark: document.getElementById("multiplyMark"),
+      multiplierText: document.getElementById("multiplierText"),
+      carryHundredsSlot: document.getElementById("carryHundredsSlot"),
+      carryTensSlot: document.getElementById("carryTensSlot"),
+      thousandsAnswer: document.getElementById("thousandsAnswer"),
+      hundredsAnswer: document.getElementById("hundredsAnswer"),
+      tensAnswer: document.getElementById("tensAnswer"),
+      onesAnswer: document.getElementById("onesAnswer"),
+      stepPanel: document.getElementById("stepPanel"),
+      hintToggleButton: document.getElementById("hintToggleButton"),
+      stepChipOnes: document.getElementById("stepChipOnes"),
+      stepChipTens: document.getElementById("stepChipTens"),
+      stepChipHundreds: document.getElementById("stepChipHundreds"),
+      stepFormula: document.getElementById("stepFormula"),
+      stepMeaning: document.getElementById("stepMeaning"),
+      promptText: document.getElementById("promptText"),
+      choiceGrid: document.getElementById("choiceGrid"),
+      feedbackText: document.getElementById("feedbackText"),
+      rewardPop: document.getElementById("rewardPop"),
+      rewardTitle: document.getElementById("rewardTitle"),
+      rewardDelta: document.getElementById("rewardDelta"),
+      rewardMessage: document.getElementById("rewardMessage"),
+      rewardNextButton: document.getElementById("rewardNextButton"),
+      resultRaster: document.getElementById("resultRaster"),
+      resultMeasure: document.getElementById("resultMeasure"),
+      measureStatus: document.getElementById("measureStatus"),
+      measurePercent: document.getElementById("measurePercent"),
+      measureFill: document.getElementById("measureFill"),
+      resultPlanetTrack: document.getElementById("resultPlanetTrack"),
+      praiseText: document.getElementById("praiseText"),
+      finalEnergyText: document.getElementById("finalEnergyText"),
+      finalCorrectText: document.getElementById("finalCorrectText"),
+      finalDestinationText: document.getElementById("finalDestinationText"),
+      resultTitleArt: document.getElementById("resultTitleArt"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultSvgRestartText: document.getElementById("resultSvgRestartText"),
+      leaderboardButton: document.getElementById("leaderboardButton"),
+      restartButton: document.getElementById("restartButton"),
+      scoreboardScreen: document.getElementById("scoreboardScreen"),
+      scoreboardStatus: document.getElementById("scoreboardStatus"),
+      scoreboardNickname: document.getElementById("scoreboardNickname"),
+      scoreboardScore: document.getElementById("scoreboardScore"),
+      scoreboardRank: document.getElementById("scoreboardRank"),
+      leaderboardUpdated: document.getElementById("leaderboardUpdated"),
+      leaderboardList: document.getElementById("leaderboardList"),
+      scoreboardRefreshButton: document.getElementById("scoreboardRefreshButton"),
+      scoreboardResultButton: document.getElementById("scoreboardResultButton"),
+      scoreboardRestartButton: document.getElementById("scoreboardRestartButton")
+    };
+
+    function showScreen(name) {
+      state.screen = name;
+      el.stageShell.dataset.activeScreen = name;
+      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen, el.scoreboardScreen].forEach((screen) => {
+        screen.classList.remove("is-active");
+      });
+      document.getElementById(`${name}Screen`).classList.add("is-active");
+    }
+
+    function clearStepAdvanceTimer() {
+      if (!state.stepAdvanceTimer) {
+        return;
+      }
+      window.clearTimeout(state.stepAdvanceTimer);
+      state.stepAdvanceTimer = null;
+    }
+
+    function clearRewardModalTimer() {
+      if (!state.rewardModalTimer) {
+        return;
+      }
+      window.clearTimeout(state.rewardModalTimer);
+      state.rewardModalTimer = null;
+    }
+
+    function queueResultTimer(callback, delay) {
+      const timer = window.setTimeout(() => {
+        state.resultTimers = state.resultTimers.filter((item) => item !== timer);
+        callback();
+      }, delay);
+      state.resultTimers.push(timer);
+      return timer;
+    }
+
+    function clearResultTimers() {
+      state.resultTimers.forEach((timer) => window.clearTimeout(timer));
+      state.resultTimers = [];
+    }
+
+    function resetTutorialButton() {
+      state.tutorialReviewMode = false;
+      state.reviewReturnScreen = "cover";
+      setTutorialStep("solve");
+    }
+
+    function setTutorialStep(step) {
+      const nextStep = step === "goal" ? "goal" : "solve";
+      el.tutorialScreen.dataset.tutorialStep = nextStep;
+      const label = nextStep === "solve"
+        ? TUTORIAL_NEXT_LABEL
+        : state.tutorialReviewMode ? TUTORIAL_REVIEW_LABEL : TUTORIAL_GOAL_LABEL;
+      el.tutorialNextButton.textContent = label;
+      el.tutorialNextButton.setAttribute("aria-label", label);
+      return nextStep;
+    }
+
+    function restartAnimation(target, className, duration = 760) {
+      if (!target) {
+        return;
+      }
+      target.classList.remove(className);
+      void target.offsetWidth;
+      target.classList.add(className);
+      window.setTimeout(() => target.classList.remove(className), duration);
+    }
+
+    function clearStepEffects() {
+      [
+        el.carryHundredsSlot,
+        el.carryTensSlot,
+        el.thousandsAnswer,
+        el.hundredsAnswer,
+        el.tensAnswer,
+        el.onesAnswer
+      ].forEach((cell) => {
+        STEP_EFFECT_CLASSES.forEach((className) => cell.classList.remove(className));
+      });
+    }
+
+    function clearRocketImpact() {
+      ROCKET_IMPACT_CLASSES.forEach((className) => {
+        el.rocketMini.classList.remove(className);
+        el.rocketZone.classList.remove(className);
+      });
+    }
+
+    function startGame() {
+      resetTutorialButton();
+      clearStepAdvanceTimer();
+      clearRewardModalTimer();
+      clearResultTimers();
+      resetScoreboardForGame();
+      state.problems = buildProblems();
+      state.index = 0;
+      state.fuelPercent = 0;
+      state.correct = 0;
+      state.chain = 0;
+      state.rainbowFuel = false;
+      state.lastFuelEvent = null;
+      state.instantLaunch = false;
+      playSound("start");
+      showScreen("play");
+      renderProblem();
+    }
+
+    function resetScoreboardForGame() {
+      state.scoreboardSession = null;
+      state.scoreboardSubmission = null;
+      state.scoreboardEntries = [];
+      state.scoreboardAnswers = [];
+      state.scoreboardCurrentAnswer = null;
+      state.scoreboardGameStartedAt = Math.round(performance.now());
+      state.scoreboardQuestionStartedAt = state.scoreboardGameStartedAt;
+      state.scoreboardStepStartedAt = state.scoreboardGameStartedAt;
+      state.scoreboardLoading = false;
+      state.scoreboardError = "";
+      state.scoreboardSessionPromise = startScoreboardSession();
+      renderScoreboard();
+    }
+
+    function startScoreboardSession() {
+      if (!SCOREBOARD_API_URL) {
+        return null;
+      }
+      return requestScoreboard("/api/v1/sessions", {
+        method: "POST",
+        body: { lessonId: LESSON_ID }
+      }).then((session) => {
+        state.scoreboardSession = session;
+        renderScoreboard();
+        return session;
+      }).catch((error) => {
+        if (error instanceof Error) {
+          state.scoreboardError = "session";
+          renderScoreboard();
+          return null;
+        }
+        throw error;
+      });
+    }
+
+    async function requestScoreboard(path, options = {}) {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 7000);
+      try {
+        const response = await fetch(`${SCOREBOARD_API_URL}${path}`, {
+          method: options.method || "GET",
+          headers: options.body ? { "content-type": "application/json" } : undefined,
+          body: options.body ? JSON.stringify(options.body) : undefined,
+          signal: controller.signal
+        });
+        if (!response.ok) {
+          throw new Error(`scoreboard_${response.status}`);
+        }
+        return response.json();
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    }
+
+    function beginScoreboardQuestion() {
+      const now = Math.round(performance.now());
+      state.scoreboardQuestionStartedAt = now;
+      state.scoreboardStepStartedAt = now;
+      state.scoreboardCurrentAnswer = {
+        questionIndex: state.index,
+        elapsedMs: 0,
+        steps: []
+      };
+    }
+
+    function beginScoreboardStep() {
+      state.scoreboardStepStartedAt = Math.round(performance.now());
+    }
+
+    function getElapsedMs(startedAt) {
+      return Math.max(0, Math.round(performance.now()) - startedAt);
+    }
+
+    function recordScoreboardStep(step, selected) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer || answer.steps.some((item) => item.stepId === step.id)) {
+        return;
+      }
+      answer.steps.push({
+        stepId: step.id,
+        selected,
+        expected: step.correct,
+        elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+      });
+    }
+
+    function finishScoreboardQuestion(result) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer) {
+        return;
+      }
+      state.scoreboardAnswers.push({
+        questionIndex: answer.questionIndex,
+        elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+        steps: answer.steps,
+        reward: { id: result.id, amount: result.amount }
+      });
+      state.scoreboardCurrentAnswer = null;
+    }
+
+    function getScoreboardScore() {
+      return state.scoreboardAnswers.reduce((score, answer) => {
+        if (!answer.reward) {
+          return score;
+        }
+        if (answer.reward.id === "emptyTank") {
+          return 0;
+        }
+        return clamp(score + answer.reward.amount, 0, MAX_FUEL);
+      }, 0);
+    }
+
+    function getScoreboardCorrectCount() {
+      return state.scoreboardAnswers.filter((answer) =>
+        answer.steps.every((step) => String(step.selected) === String(step.expected))
+      ).length;
+    }
+
+    function getScoreboardRewardResult() {
+      const destination = getDestination();
+      return {
+        destinationId: destination ? destination.id : "retry",
+        rainbowFuel: state.rainbowFuel,
+        fuelPercent: getFuelPercent()
+      };
+    }
+
+    async function submitScoreboardIfNeeded() {
+      if (!SCOREBOARD_API_URL) {
+        return null;
+      }
+      if (state.scoreboardSubmission) {
+        return state.scoreboardSubmission;
+      }
+      const session = state.scoreboardSession || (state.scoreboardSessionPromise
+        ? await state.scoreboardSessionPromise
+        : null);
+      if (!session) {
+        throw new Error("scoreboard_session_unavailable");
+      }
+      const submission = await requestScoreboard("/api/v1/scores", {
+        method: "POST",
+        body: {
+          sessionId: session.sessionId,
+          lessonId: LESSON_ID,
+          nickname: session.nickname,
+          clientScore: String(getScoreboardScore()),
+          clientCorrectCount: getScoreboardCorrectCount(),
+          playTimeMs: getElapsedMs(state.scoreboardGameStartedAt),
+          answers: state.scoreboardAnswers,
+          rewardResult: getScoreboardRewardResult()
+        }
+      });
+      state.scoreboardSubmission = submission;
+      return submission;
+    }
+
+    async function loadWeeklyLeaderboard() {
+      const query = `lessonId=${encodeURIComponent(LESSON_ID)}&limit=100`;
+      const body = await requestScoreboard(`/api/v1/leaderboards/weekly?${query}`);
+      state.scoreboardEntries = Array.isArray(body.entries) ? body.entries : [];
+    }
+
+    async function refreshScoreboard() {
+      if (!SCOREBOARD_API_URL) {
+        state.scoreboardError = "";
+        renderScoreboard();
+        return;
+      }
+      state.scoreboardLoading = true;
+      state.scoreboardError = "";
+      renderScoreboard();
+      try {
+        await submitScoreboardIfNeeded();
+        await loadWeeklyLeaderboard();
+      } catch (error) {
+        if (error instanceof Error) {
+          state.scoreboardError = "network";
+          return;
+        }
+        throw error;
+      } finally {
+        state.scoreboardLoading = false;
+        renderScoreboard();
+      }
+    }
+
+    function findMyLeaderboardEntry() {
+      const submission = state.scoreboardSubmission;
+      if (!submission) {
+        return null;
+      }
+      return state.scoreboardEntries.find((entry) =>
+        entry.nickname === submission.nickname &&
+        entry.score === submission.score &&
+        entry.correctCount === submission.correctCount
+      ) || null;
+    }
+
+    function renderScoreboard() {
+      if (!window.MathmonScoreboard || !el.scoreboardScreen) {
+        return;
+      }
+      window.MathmonScoreboard.render({
+        root: el.scoreboardScreen,
+        apiEnabled: Boolean(SCOREBOARD_API_URL),
+        loading: state.scoreboardLoading,
+        error: Boolean(state.scoreboardError),
+        session: state.scoreboardSession,
+        submission: state.scoreboardSubmission,
+        score: getScoreboardScore(),
+        rewardResult: getScoreboardRewardResult(),
+        myEntry: findMyLeaderboardEntry(),
+        weekLabel: getLeaderboardWeekLabel(),
+        entries: state.scoreboardEntries,
+        totalQuestions: TOTAL_QUESTIONS
+      });
+    }
+
+    function getLeaderboardWeekLabel() {
+      const firstEntry = state.scoreboardEntries[0];
+      if (firstEntry?.weekStart) {
+        return `${firstEntry.weekStart} 주`;
+      }
+      return "이번 주";
+    }
+
+    function openScoreboard() {
+      playSound("next");
+      showScreen("scoreboard");
+      refreshScoreboard();
+    }
+
+    function buildProblems() {
+      const candidates = [];
+      for (let number = 102; number <= 987; number += 1) {
+        const hundreds = Math.floor(number / 100);
+        const tens = Math.floor((number % 100) / 10);
+        const ones = number % 10;
+        for (let multiplier = 2; multiplier <= 9; multiplier += 1) {
+          const onesRaw = ones * multiplier;
+          const carryToTens = Math.floor(onesRaw / 10);
+          const onesResult = onesRaw % 10;
+          const tensRaw = tens * multiplier + carryToTens;
+          const carryToHundreds = Math.floor(tensRaw / 10);
+          const tensResult = tensRaw % 10;
+          const hundredsRaw = hundreds * multiplier + carryToHundreds;
+          const product = number * multiplier;
+          if (carryToTens === 0 && carryToHundreds === 0) {
+            continue;
+          }
+          if (product < 1000 || product > 8999) {
+            continue;
+          }
+          candidates.push({
+            number,
+            multiplier,
+            hundreds,
+            tens,
+            ones,
+            product,
+            carryToTens,
+            carryToHundreds,
+            onesResult,
+            tensResult,
+            hundredsRaw
+          });
+        }
+      }
+      return shuffle(candidates).slice(0, TOTAL_QUESTIONS);
+    }
+
+    window.__mathmonRunQa = {
+      generateSignature: () => JSON.stringify(buildProblems().map(({ number, multiplier }) => [number, multiplier]))
+    };
+
+    function renderProblem() {
+      const problem = currentProblem();
+      clearStepAdvanceTimer();
+      clearRewardModalTimer();
+      state.stepIndex = 0;
+      state.stepAttempts = 0;
+      state.problemHadMistake = false;
+      state.problemHadReveal = false;
+      el.rewardPop.classList.remove("is-visible");
+      el.fuelTransferLayer.className = "fuel-transfer-layer";
+      clearStepEffects();
+      clearRocketImpact();
+      FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      el.questionText.textContent = `${problem.number} × ${problem.multiplier}`;
+      el.hundredsDigit.textContent = problem.hundreds;
+      el.tensDigit.textContent = problem.tens;
+      el.onesDigit.textContent = problem.ones;
+      el.multiplierText.textContent = problem.multiplier;
+      el.carryHundredsSlot.textContent = "";
+      el.carryTensSlot.textContent = "";
+      el.thousandsAnswer.textContent = "";
+      el.hundredsAnswer.textContent = "";
+      el.tensAnswer.textContent = "";
+      el.onesAnswer.textContent = "?";
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      beginScoreboardQuestion();
+      renderStatus();
+      renderStep();
+    }
+
+    function renderStatus() {
+      el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
+      const charge = getFuelPercent() / MAX_FUEL;
+      const fuelPercent = getFuelPercent();
+      el.rocketZone.style.setProperty("--charge", charge.toFixed(3));
+      el.rocketMini.style.setProperty("--charge", charge.toFixed(3));
+      el.rocketMini.style.setProperty("--fuel-height", `${Math.round(charge * 100)}%`);
+      el.rocketZone.dataset.fuelTier = String(getFuelTier(fuelPercent));
+      el.rocketZone.classList.toggle("is-rainbow", state.rainbowFuel);
+      el.rocketMini.classList.toggle("is-rainbow", state.rainbowFuel);
+      el.fuelPercentText.textContent = state.rainbowFuel ? "무지개 연료" : "채우는 중";
+      el.fuelMeterFill.style.setProperty("--fuel-width", `${fuelPercent}%`);
+      el.destinationText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 측정" : "마지막에 측정";
+      el.fuelNote.textContent = "10문제를 끝내면 로켓 안 연료를 재서 도착 행성을 정해요.";
+      renderPlanetTrack(el.planetTrack, { targetIndex: -1, reachedIndex: -1 });
+    }
+
+    function getFuelPercent(fuelPercent = state.fuelPercent) {
+      return clamp(Math.round(fuelPercent), 0, MAX_FUEL);
+    }
+
+    function getFuelTier(fuelPercent = state.fuelPercent) {
+      const fuel = getFuelPercent(fuelPercent);
+      if (state.rainbowFuel || fuel >= 90) {
+        return 4;
+      }
+      if (fuel >= 70) {
+        return 3;
+      }
+      if (fuel >= 42) {
+        return 2;
+      }
+      if (fuel >= 16) {
+        return 1;
+      }
+      return 0;
+    }
+
+    function getDestinationByFuel(fuelPercent = state.fuelPercent, rainbowFuel = state.rainbowFuel) {
+      if (rainbowFuel) {
+        return { ...SECRET_DESTINATION, index: DESTINATIONS.length, started: true };
+      }
+      const fuel = getFuelPercent(fuelPercent);
+      if (fuel <= 0) {
+        return null;
+      }
+      const index = DESTINATIONS.findIndex((destination) => fuel >= destination.min && fuel <= destination.max);
+      const destination = DESTINATIONS[Math.max(index, 0)];
+      return { ...destination, index: DESTINATIONS.indexOf(destination), started: true };
+    }
+
+    function getDestination() {
+      return getDestinationByFuel(state.fuelPercent, state.rainbowFuel);
+    }
+
+    function getResultCorrectArtSrc(correctCount) {
+      const value = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
+      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+    }
+
+    function getNextPlanet(destination) {
+      if (!destination) {
+        return DESTINATIONS[0];
+      }
+      return DESTINATIONS[Math.min(destination.index + 1, DESTINATIONS.length - 1)];
+    }
+
+    function renderPlanetTrack(container, { targetIndex = -1, reachedIndex = -1 } = {}) {
+      container.innerHTML = "";
+      const planets = container === el.resultPlanetTrack ? ALL_DESTINATIONS : DESTINATIONS;
+      planets.forEach((planet, index) => {
+        const chip = document.createElement("span");
+        chip.className = "planet-chip";
+        chip.textContent = planet.short;
+        chip.title = planet.name;
+        if (planet.secret) {
+          chip.classList.add("is-secret");
+        }
+        if (index <= reachedIndex) {
+          chip.classList.add("is-reached");
+        }
+        if (index === targetIndex) {
+          chip.classList.add("is-target");
+        }
+        container.appendChild(chip);
+      });
+    }
+
+    function renderStep() {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      state.hintOpen = false;
+      el.phaseLabel.textContent = step.label;
+      el.stepFormula.textContent = step.formula;
+      el.stepMeaning.textContent = step.meaning;
+      el.promptText.textContent = step.prompt;
+      beginScoreboardStep();
+      renderHintPanel();
+      updateStepChips();
+      updateCurrentAnswerCell();
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      const options = buildStepOptions(step);
+      renderChoices(options.map((option) => ({
+        label: option.value.toLocaleString("ko-KR"),
+        value: option,
+        correct: option.value === step.correct
+      })), handleStepChoice);
+    }
+
+    function renderHintPanel() {
+      el.stepPanel.classList.toggle("is-open", state.hintOpen);
+      el.hintToggleButton.textContent = state.hintOpen ? "닫기" : "힌트";
+      el.hintToggleButton.setAttribute("aria-expanded", String(state.hintOpen));
+    }
+
+    function getCurrentStep(problem) {
+      const steps = buildSteps(problem);
+      return steps[state.stepIndex];
+    }
+
+    function buildSteps(problem) {
+      const onesRaw = problem.ones * problem.multiplier;
+      const tensRaw = problem.tens * problem.multiplier + problem.carryToTens;
+      const hundredsRaw = problem.hundreds * problem.multiplier + problem.carryToHundreds;
+      return [
+        {
+          id: "ones",
+          label: "일의 자리",
+          formula: `${problem.ones} × ${problem.multiplier} = ?`,
+          correct: onesRaw,
+          prompt: "왼쪽 세로셈판을 보고 계산값을 골라요.",
+          meaning: "일의 자리 숫자와 곱하는 수를 봐요.",
+          hint: `${problem.ones}을 ${problem.multiplier}번 더한 값을 찾아요.`,
+          explain: `${onesRaw}라서 일의 자리에 ${problem.onesResult}을 쓰고, 십의 자리로 ${problem.carryToTens} 올려요.`
+        },
+        {
+          id: "tens",
+          label: "십의 자리",
+          formula: problem.carryToTens > 0
+            ? `${problem.tens} × ${problem.multiplier} + ${problem.carryToTens} = ?`
+            : `${problem.tens} × ${problem.multiplier} = ?`,
+          correct: tensRaw,
+          prompt: "왼쪽 세로셈판을 보고 계산값을 골라요.",
+          meaning: problem.carryToTens > 0 ? `십의 자리와 위에 올린 ${problem.carryToTens}을 봐요.` : "십의 자리 숫자와 곱하는 수를 봐요.",
+          hint: problem.carryToTens > 0 ? `곱한 뒤 올림 ${problem.carryToTens}을 더해요.` : `${problem.tens} × ${problem.multiplier}을 계산해요.`,
+          explain: `${tensRaw}라서 십의 자리에 ${problem.tensResult}을 쓰고, 백의 자리로 ${problem.carryToHundreds} 올려요.`
+        },
+        {
+          id: "hundreds",
+          label: "백의 자리",
+          formula: problem.carryToHundreds > 0
+            ? `${problem.hundreds} × ${problem.multiplier} + ${problem.carryToHundreds} = ?`
+            : `${problem.hundreds} × ${problem.multiplier} = ?`,
+          correct: hundredsRaw,
+          prompt: "왼쪽 세로셈판을 보고 계산값을 골라요.",
+          meaning: problem.carryToHundreds > 0 ? `백의 자리와 위에 올린 ${problem.carryToHundreds}을 봐요.` : "백의 자리 숫자와 곱하는 수를 봐요.",
+          hint: problem.carryToHundreds > 0 ? `곱한 뒤 올림 ${problem.carryToHundreds}을 더해요.` : `${problem.hundreds} × ${problem.multiplier}을 계산해요.`,
+          explain: `${hundredsRaw}을 앞에 쓰면 ${problem.product.toLocaleString("ko-KR")}이 완성돼요.`
+        }
+      ];
+    }
+
+    function updateStepChips() {
+      [
+        [el.stepChipOnes, 0],
+        [el.stepChipTens, 1],
+        [el.stepChipHundreds, 2]
+      ].forEach(([chip, index]) => {
+        chip.classList.toggle("is-current", state.stepIndex === index);
+        chip.classList.toggle("is-done", state.stepIndex > index);
+      });
+    }
+
+    function updateCurrentAnswerCell() {
+      [
+        el.thousandsAnswer,
+        el.hundredsAnswer,
+        el.tensAnswer,
+        el.onesAnswer,
+        el.hundredsDigit,
+        el.tensDigit,
+        el.onesDigit,
+        el.multiplierText,
+        el.multiplyMark,
+        el.carryHundredsSlot,
+        el.carryTensSlot
+      ].forEach((cell) => {
+        cell.classList.remove("is-current");
+        cell.classList.remove("is-active-factor");
+        cell.classList.remove("is-active-carry");
+        cell.classList.remove("is-carry-target");
+      });
+      const problem = currentProblem();
+      el.multiplierText.classList.add("is-active-factor");
+      el.multiplyMark.classList.add("is-active-factor");
+      if (state.stepIndex === 0) {
+        el.onesDigit.classList.add("is-active-factor");
+        if (problem.carryToTens > 0) {
+          el.carryTensSlot.classList.add("is-carry-target");
+        }
+        el.onesAnswer.classList.add("is-current");
+      } else if (state.stepIndex === 1) {
+        el.tensDigit.classList.add("is-active-factor");
+        if (el.carryTensSlot.textContent.trim()) {
+          el.carryTensSlot.classList.add("is-active-carry");
+        }
+        if (problem.carryToHundreds > 0) {
+          el.carryHundredsSlot.classList.add("is-carry-target");
+        }
+        el.tensAnswer.classList.add("is-current");
+      } else {
+        el.hundredsDigit.classList.add("is-active-factor");
+        if (el.carryHundredsSlot.textContent.trim()) {
+          el.carryHundredsSlot.classList.add("is-active-carry");
+        }
+        el.hundredsAnswer.classList.add("is-current");
+      }
+    }
+
+    function buildStepOptions(step) {
+      const values = [step.correct];
+      [step.correct + 1, step.correct - 1, step.correct + 10, step.correct - 10, step.correct + 2].forEach((value) => {
+        if (value >= 0 && !values.includes(value)) {
+          values.push(value);
+        }
+      });
+      while (values.length < 4) {
+        const value = Math.max(0, step.correct + randomInt(-5, 5));
+        if (!values.includes(value)) {
+          values.push(value);
+        }
+      }
+      return shuffle(values.slice(0, 4).map((value) => ({ value })));
+    }
+
+    function handleStepChoice(option, button) {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      recordScoreboardStep(step, option.value.value);
+      if (option.correct) {
+        button.classList.add("is-correct");
+        setButtonsDisabled(true);
+        completeStep(step, false);
+        return;
+      }
+
+      state.stepAttempts += 1;
+      state.problemHadMistake = true;
+      button.classList.add("is-wrong");
+      playSound("try");
+      if (state.stepAttempts === 1) {
+        el.feedbackText.textContent = `다시 골라요. ${step.hint}`;
+        el.feedbackText.className = "feedback try";
+        button.disabled = true;
+        return;
+      }
+
+      state.problemHadReveal = true;
+      setButtonsDisabled(true);
+      el.feedbackText.textContent = `정답은 ${step.correct}예요. ${step.explain}`;
+      el.feedbackText.className = "feedback try";
+      completeStep(step, true);
+    }
+
+    function completeStep(step, revealed) {
+      const problem = currentProblem();
+      applyStepToBoard(step, problem);
+      triggerStepEffect(step, problem, revealed);
+      renderStatus();
+      el.rocketMini.classList.remove("is-boosting");
+      void el.rocketMini.offsetWidth;
+      el.rocketMini.classList.add("is-boosting");
+      if (!revealed) {
+        el.feedbackText.textContent = step.explain;
+        el.feedbackText.className = "feedback good";
+        playSound("correct");
+      }
+      clearStepAdvanceTimer();
+      state.stepAdvanceTimer = window.setTimeout(() => {
+        state.stepAdvanceTimer = null;
+        if (state.stepIndex >= 2) {
+          completeProblem();
+          return;
+        }
+        state.stepIndex += 1;
+        state.stepAttempts = 0;
+        renderStep();
+      }, revealed ? 1000 : 760);
+    }
+
+    function triggerStepEffect(step, problem, revealed) {
+      if (revealed) {
+        return;
+      }
+      clearStepEffects();
+      if (step.id === "ones") {
+        restartAnimation(el.onesAnswer, "is-step-pop");
+        if (problem.carryToTens > 0) {
+          restartAnimation(el.carryTensSlot, "is-carry-pop");
+        }
+      } else if (step.id === "tens") {
+        restartAnimation(el.tensAnswer, "is-step-pop");
+        if (problem.carryToHundreds > 0) {
+          restartAnimation(el.carryHundredsSlot, "is-carry-pop");
+        }
+      } else {
+        restartAnimation(el.hundredsAnswer, "is-step-pop");
+        if (problem.hundredsRaw >= 10) {
+          restartAnimation(el.thousandsAnswer, "is-step-pop");
+        }
+      }
+    }
+
+    function applyStepToBoard(step, problem) {
+      if (step.id === "ones") {
+        el.onesAnswer.textContent = problem.onesResult;
+        el.carryTensSlot.textContent = problem.carryToTens > 0 ? problem.carryToTens : "";
+      } else if (step.id === "tens") {
+        el.tensAnswer.textContent = problem.tensResult;
+        el.carryHundredsSlot.textContent = problem.carryToHundreds > 0 ? problem.carryToHundreds : "";
+      } else {
+        const raw = problem.hundredsRaw;
+        if (raw >= 10) {
+          el.thousandsAnswer.textContent = Math.floor(raw / 10);
+          el.hundredsAnswer.textContent = raw % 10;
+        } else {
+          el.thousandsAnswer.textContent = "";
+          el.hundredsAnswer.textContent = raw;
+        }
+      }
+      updateCurrentAnswerCell();
+    }
+
+    function completeProblem() {
+      const perfect = !state.problemHadMistake;
+      if (perfect) {
+        state.correct += 1;
+        state.chain += 1;
+      } else {
+        state.chain = 0;
+      }
+      const event = perfect ? rollFuelEvent() : createLeakEvent();
+      applyFuelEvent(event);
+      finishScoreboardQuestion(state.lastFuelEvent);
+      renderStatus();
+      finishProblem(state.lastFuelEvent);
+    }
+
+    function pickFuelEventForRoll(roll, amountPicker = randomInt) {
+      if (roll < 76.45) {
+        const amount = amountPicker(4, 8);
+        return {
+          id: "normal",
+          amount,
+          title: "연료가 들어갔어요",
+          message: "연료 주입"
+        };
+      }
+      if (roll < 88.45) {
+        const amount = -amountPicker(5, 10);
+        return {
+          id: "smallExplosion",
+          amount,
+          title: "연료통이 펑!",
+          message: "연료 감소"
+        };
+      }
+      if (roll < 97.45) {
+        const amount = amountPicker(12, 20);
+        return {
+          id: "megaFuel",
+          amount,
+          title: "연료가 콸콸!",
+          message: "연료 대량 주입"
+        };
+      }
+      if (roll < 97.95) {
+        return {
+          id: "instantLaunch",
+          amount: 6,
+          title: "발사 스위치 작동!",
+          message: "발사 준비",
+          launches: true
+        };
+      }
+      if (roll < 99.95) {
+        return {
+          id: "emptyTank",
+          amount: 0,
+          title: "연료가 사라졌어요",
+          message: "연료 0",
+          emptiesTank: true
+        };
+      }
+      return {
+        id: "rainbowFuel",
+        amount: 10,
+        title: "무지개 연료 발견!",
+        message: "로켓 안이 무지개빛으로 반짝여요.",
+        rainbow: true
+      };
+    }
+
+    function rollFuelEvent() {
+      return pickFuelEventForRoll(Math.random() * 100);
+    }
+
+    function createLeakEvent() {
+      const amount = -randomInt(8, 18);
+      return {
+        id: "leak",
+        amount,
+        title: "연료가 새요",
+        message: "연료 감소"
+      };
+    }
+
+    function applyFuelEvent(event) {
+      const before = state.fuelPercent;
+      if (event.emptiesTank) {
+        state.fuelPercent = 0;
+      } else {
+        state.fuelPercent = clamp(state.fuelPercent + event.amount, 0, MAX_FUEL);
+      }
+      if (event.rainbow) {
+        state.rainbowFuel = true;
+      }
+      if (event.launches) {
+        state.instantLaunch = true;
+      }
+      const actualDelta = state.fuelPercent - before;
+      const feedback = getFuelEventFeedback(event, actualDelta, before);
+      state.lastFuelEvent = {
+        ...event,
+        actualDelta,
+        ...feedback
+      };
+    }
+
+    function getFuelEventFeedback(event, actualDelta, before) {
+      if (event.rainbow) {
+        return {
+          title: "무지개 연료 발견!",
+          message: "무지개 연료",
+          art: "rainbow"
+        };
+      }
+      if (event.launches) {
+        return {
+          title: "발사 스위치 작동!",
+          message: "발사 준비",
+          art: "launch"
+        };
+      }
+      if (event.emptiesTank) {
+        return {
+          title: before > 0 ? "연료가 모두 사라졌어요" : "연료통이 비어 있어요",
+          message: "연료 0",
+          art: "empty"
+        };
+      }
+      if (actualDelta > 0) {
+        if (actualDelta <= 4) {
+          return {
+            title: "연료 주입",
+            message: "연료 주입",
+            art: "normal"
+          };
+        }
+        if (actualDelta <= 8) {
+          return {
+            title: "연료 주입",
+            message: "연료 주입",
+            art: "normal"
+          };
+        }
+        if (actualDelta <= 14) {
+          return {
+            title: "연료 주입",
+            message: "연료 주입",
+            art: event.id === "megaFuel" ? "mega" : "normal"
+          };
+        }
+        return {
+          title: "연료 대량 주입",
+          message: "연료 대량 주입",
+          art: "mega"
+        };
+      }
+      if (actualDelta < 0) {
+        const loss = Math.abs(actualDelta);
+        if (event.id === "smallExplosion") {
+          return {
+            title: loss <= 5 ? "연료통이 푸슉!" : "연료통이 펑!",
+            message: "연료 감소",
+            art: "loss"
+          };
+        }
+        return {
+          title: loss <= 8 ? "연료가 조금 새요" : "연료가 많이 새요",
+          message: "연료 감소",
+          art: "loss"
+        };
+      }
+      if (event.amount < 0) {
+        return {
+          title: "연료통이 버텼어요",
+          message: "연료 0",
+          art: "empty"
+        };
+      }
+      return {
+        title: "연료통이 가득 찼어요",
+        message: "연료 가득",
+        art: "mega"
+      };
+    }
+
+    function getFuelEventDeltaLabel(event) {
+      if (event.rainbow) {
+        return "무지개!";
+      }
+      if (event.launches) {
+        return "발사!";
+      }
+      if (event.emptiesTank) {
+        return "연료 0";
+      }
+      const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount;
+      if (actualDelta > 0) {
+        return `연료 +${actualDelta}`;
+      }
+      if (actualDelta < 0) {
+        return `연료 ${actualDelta}`;
+      }
+      return "변화 없음";
+    }
+
+    function renderChoices(options, handler) {
+      el.choiceGrid.innerHTML = "";
+      options.forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.innerHTML = option.label;
+        button.addEventListener("click", () => handler(option, button));
+        el.choiceGrid.appendChild(button);
+      });
+    }
+
+    function getFuelImpactClass(result) {
+      const actualDelta = typeof result.actualDelta === "number" ? result.actualDelta : result.amount;
+      if (result.rainbow) {
+        return "is-impact-rainbow";
+      }
+      if (result.launches) {
+        return "is-impact-launch";
+      }
+      if (result.emptiesTank) {
+        return "is-impact-empty";
+      }
+      if (actualDelta < 0 || result.id === "smallExplosion" || result.id === "leak") {
+        return "is-impact-loss";
+      }
+      if (actualDelta >= 12 || result.art === "mega") {
+        return "is-impact-mega";
+      }
+      if (actualDelta > 0) {
+        return "is-impact-normal";
+      }
+      return "is-impact-empty";
+    }
+
+    function getRewardSoundKind(result) {
+      const actualDelta = typeof result.actualDelta === "number" ? result.actualDelta : result.amount;
+      if (result.rainbow) {
+        return "rewardRainbow";
+      }
+      if (result.launches) {
+        return "rewardLaunch";
+      }
+      if (result.emptiesTank) {
+        return "rewardEmpty";
+      }
+      if (actualDelta < 0 || result.id === "smallExplosion" || result.id === "leak") {
+        return "rewardLoss";
+      }
+      if (actualDelta >= 12 || result.art === "mega") {
+        return "rewardMega";
+      }
+      return "rewardPositive";
+    }
+
+    function triggerRewardTransfer(result) {
+      const actualDelta = typeof result.actualDelta === "number" ? result.actualDelta : result.amount;
+      const hasVisibleTransfer = actualDelta > 0 || result.rainbow || result.launches;
+      if (!hasVisibleTransfer || state.screen !== "play") {
+        return;
+      }
+      el.fuelTransferLayer.className = "fuel-transfer-layer";
+      void el.fuelTransferLayer.offsetWidth;
+      el.fuelTransferLayer.classList.add("is-active");
+      if (result.rainbow) {
+        el.fuelTransferLayer.classList.add("is-rainbow");
+      } else if (result.art === "mega" || actualDelta >= 12 || result.launches) {
+        el.fuelTransferLayer.classList.add("is-mega");
+      }
+      window.setTimeout(() => {
+        el.fuelTransferLayer.className = "fuel-transfer-layer";
+      }, 920);
+    }
+
+    function triggerRewardImpact(result) {
+      const impactClass = getFuelImpactClass(result);
+      clearRocketImpact();
+      void el.rocketMini.offsetWidth;
+      el.rocketMini.classList.add(impactClass);
+      el.rocketZone.classList.add(impactClass);
+      window.setTimeout(clearRocketImpact, 1080);
+    }
+
+    function finishProblem(result) {
+      renderStatus();
+      el.rocketMini.classList.remove("is-boosting");
+      void el.rocketMini.offsetWidth;
+      el.rocketMini.classList.add("is-boosting");
+      triggerRewardTransfer(result);
+      triggerRewardImpact(result);
+      FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      el.rewardPop.classList.add(`fuel-event--${result.id}`);
+      if (result.art) {
+        el.rewardPop.classList.add(`reward-art--${result.art}`);
+      }
+      el.rewardTitle.textContent = result.title;
+      el.rewardDelta.textContent = getFuelEventDeltaLabel(result);
+      el.rewardMessage.textContent = result.message;
+      el.rewardNextButton.textContent = result.launches
+        ? "발사하기"
+        : state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
+      clearRewardModalTimer();
+      state.rewardModalTimer = window.setTimeout(() => {
+        state.rewardModalTimer = null;
+        el.rewardPop.classList.add("is-visible");
+        playSound(getRewardSoundKind(result));
+        el.rewardNextButton.focus();
+      }, 840);
+    }
+
+    function nextAfterReward() {
+      clearRewardModalTimer();
+      if (state.lastFuelEvent?.launches || state.index + 1 >= TOTAL_QUESTIONS) {
+        showResult();
+        return;
+      }
+      state.index += 1;
+      playSound("next");
+      renderProblem();
+    }
+
+    function animateMeasureValue(targetFuel, finalLabel) {
+      const duration = 1500;
+      const startedAt = performance.now();
+      const target = getFuelPercent(targetFuel);
+
+      function tick(now) {
+        const progress = clamp((now - startedAt) / duration, 0, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(target * eased);
+        el.measureFill.style.setProperty("--measure-width", `${current}%`);
+        el.resultMeasureFillSvg.setAttribute("width", String(Math.round(394 * current / 100)));
+        el.measurePercent.textContent = finalLabel === "무지개 연료" && progress > 0.84
+          ? finalLabel
+          : `연료 ${current}`;
+        el.resultMeasureSvg.textContent = el.measurePercent.textContent;
+        if (progress < 1) {
+          window.requestAnimationFrame(tick);
+          return;
+        }
+        el.measurePercent.textContent = finalLabel;
+        el.finalEnergyText.textContent = finalLabel;
+        el.resultMeasureSvg.textContent = finalLabel;
+      }
+
+      window.requestAnimationFrame(tick);
+    }
+
+    function scanResultPlanets(targetIndex) {
+      if (targetIndex < 0) {
+        return;
+      }
+      const chips = [...el.resultPlanetTrack.querySelectorAll(".planet-chip")];
+      const scanCount = Math.min(chips.length, targetIndex + 1);
+      chips.forEach((chip) => chip.classList.remove("is-scanning"));
+      chips.slice(0, scanCount).forEach((chip, index) => {
+        queueResultTimer(() => {
+          chips.forEach((item) => item.classList.remove("is-scanning"));
+          chip.classList.add("is-scanning");
+        }, index * 130);
+      });
+      queueResultTimer(() => {
+        chips.forEach((chip) => chip.classList.remove("is-scanning"));
+      }, scanCount * 130 + 520);
+    }
+
+    function showResult() {
+      const destination = getDestination();
+      const launched = Boolean(destination);
+      const fuelPercent = getFuelPercent();
+      const measureFuel = state.rainbowFuel ? MAX_FUEL : fuelPercent;
+      const measureLabel = state.rainbowFuel ? "무지개 연료" : `연료 ${fuelPercent}`;
+      el.resultRaster.src = launched ? destination.image : "result-retry-generated.webp";
+      el.resultScreen.classList.add("is-measuring");
+      el.resultScreen.classList.toggle("is-rainbow-result", state.rainbowFuel);
+      document.getElementById("resultTitle").textContent = "연료 측정 중";
+      el.finalEnergyText.textContent = "측정 중";
+      el.finalCorrectText.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
+      el.finalDestinationText.textContent = "측정 중";
+      el.praiseText.textContent = "로켓 안에 모인 연료를 재고 있어요.";
+      el.measureStatus.textContent = "연료 측정 중";
+      el.measurePercent.textContent = "연료 0";
+      el.measureFill.style.setProperty("--measure-width", "0%");
+      el.resultTitleArt.hidden = true;
+      el.resultDestinationSvg.textContent = "";
+      el.resultScoreSvg.textContent = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultMeasureSvg.textContent = "연료 0";
+      el.resultMeasureFillSvg.setAttribute("width", "0");
+      el.resultSvgRestartText.textContent = "다시하기";
+      renderPlanetTrack(el.resultPlanetTrack, { targetIndex: -1, reachedIndex: -1 });
+      el.restartButton.hidden = true;
+      el.restartButton.disabled = true;
+      el.leaderboardButton.hidden = true;
+      el.leaderboardButton.disabled = true;
+      el.restartButton.setAttribute("aria-label", "다시하기");
+      playSound("scan");
+      showScreen("result");
+      clearResultTimers();
+      queueResultTimer(() => {
+        el.measureStatus.textContent = "도착 거리";
+        animateMeasureValue(measureFuel, measureLabel);
+        renderPlanetTrack(el.resultPlanetTrack, {
+          targetIndex: launched ? destination.index : -1,
+          reachedIndex: launched ? destination.index : -1
+        });
+        scanResultPlanets(launched ? destination.index : -1);
+        playSound("measure");
+      }, 120);
+      queueResultTimer(() => {
+        el.resultScreen.classList.remove("is-measuring");
+        document.getElementById("resultTitle").textContent = launched ? `${destination.name} 도착!` : "연료 더 필요";
+        el.finalDestinationText.textContent = launched ? destination.name : "다시 도전";
+        el.praiseText.textContent = launched ? getPraise(destination) : getRetryMessage();
+        el.resultTitleArt.src = launched ? destination.titleArt : RESULT_RETRY_TITLE_ART;
+        el.resultTitleArt.hidden = false;
+        el.resultDestinationSvg.textContent = "";
+        el.resultMeasureSvg.textContent = measureLabel;
+        el.restartButton.hidden = false;
+        el.restartButton.disabled = false;
+        el.leaderboardButton.hidden = true;
+        el.leaderboardButton.disabled = true;
+        playSound("finish");
+      }, 2500);
+    }
+
+    function isLaunchSuccess() {
+      return Boolean(getDestination());
+    }
+
+    function getPraise(destination) {
+      if (destination.secret) {
+        return "무지개 연료가 켜져 안드로메다까지 날아갔어요!";
+      }
+      if (destination.index >= 7) {
+        return "로켓이 해왕성까지 날아갔어요. 자리 계산을 끝까지 잘 채웠어요.";
+      }
+      if (destination.index >= 5) {
+        return `로켓이 ${destination.name}까지 날아갔어요. 높은 자리까지 차근차근 살폈어요.`;
+      }
+      if (destination.index >= 3) {
+        return `로켓이 ${destination.name}까지 도착했어요. 일, 십, 백 계산이 좋아지고 있어요.`;
+      }
+      return `로켓이 ${destination.name}까지 갔어요. 다음에는 더 먼 행성까지 가 봐요.`;
+    }
+
+    function getRetryMessage() {
+      const next = getNextPlanet(null);
+      if (state.correct >= 6) {
+        return `거의 다 왔어요. ${next.name}까지 가려면 일의 자리부터 한 번만 더 살펴요.`;
+      }
+      if (state.correct >= 3) {
+        return `로켓의 연료가 조금 부족해요. 다시 넣으면 ${next.name}까지 갈 수 있어요.`;
+      }
+      return "괜찮아요. 작은 자리부터 차례대로 채우면 수성까지 갈 수 있어요.";
+    }
+
+    function setButtonsDisabled(disabled) {
+      [...el.choiceGrid.querySelectorAll("button")].forEach((button) => {
+        button.disabled = disabled;
+      });
+    }
+
+    function currentProblem() {
+      return state.problems[state.index];
+    }
+
+    function shuffle(items) {
+      const array = [...items];
+      for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function loadAudioPreference(key) {
+      try {
+        const stored = window.localStorage.getItem(key);
+        return stored == null ? true : stored === "true" || stored === "on";
+      } catch (error) {
+        return true;
+      }
+    }
+
+    function saveAudioPreference(key, enabled) {
+      try {
+        window.localStorage.setItem(key, String(Boolean(enabled)));
+      } catch (error) {
+        // localStorage may be blocked in some embedded browsers.
+      }
+    }
+
+    function loadBgmPreference() {
+      return loadAudioPreference(AUDIO_PREF_KEYS.bgm);
+    }
+
+    function loadSfxPreference() {
+      return loadAudioPreference(AUDIO_PREF_KEYS.sfx);
+    }
+
+    function updateSettingsUi() {
+      el.settingsBgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+      el.settingsSfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      el.settingsButton.setAttribute("aria-expanded", String(!el.settingsBackdrop.hidden));
+    }
+
+    function setBgmEnabled(enabled, shouldUnlock = false) {
+      state.bgmEnabled = enabled;
+      saveAudioPreference(AUDIO_PREF_KEYS.bgm, enabled);
+      updateSettingsUi();
+      if (enabled) {
+        startBgm();
+      } else {
+        stopBgm();
+      }
+    }
+
+    function setSfxEnabled(enabled) {
+      state.sfxEnabled = enabled;
+      saveAudioPreference(AUDIO_PREF_KEYS.sfx, enabled);
+      updateSettingsUi();
+    }
+
+    function getSettingsFocusable() {
+      return [...el.settingsModal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])")]
+        .filter((element) => !element.disabled && !element.closest("[hidden]"));
+    }
+
+    function setSettingsConfirming(confirming, shouldFocus = true) {
+      el.settingsMenu.hidden = confirming;
+      el.settingsRestartConfirm.hidden = !confirming;
+      if (!shouldFocus) return;
+      window.requestAnimationFrame(() => {
+        (confirming ? el.settingsRestartCancelButton : el.settingsBgmToggle).focus();
+      });
+    }
+
+    function openSettings() {
+      el.settingsBackdrop.hidden = false;
+      setSettingsConfirming(false);
+      updateSettingsUi();
+      window.requestAnimationFrame(() => el.settingsBgmToggle.focus());
+    }
+
+    function closeSettings(options = {}) {
+      const restoreFocus = options.restoreFocus !== false;
+      el.settingsBackdrop.hidden = true;
+      setSettingsConfirming(false, false);
+      updateSettingsUi();
+      if (restoreFocus) {
+        el.settingsButton.focus();
+      }
+    }
+
+    function handleSettingsKeydown(event) {
+      if (el.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = getSettingsFocusable();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function enterTutorialReview() {
+      state.reviewReturnScreen = state.screen || "cover";
+      state.tutorialReviewMode = true;
+      setTutorialStep("solve");
+      closeSettings({ restoreFocus: false });
+      showScreen("tutorial");
+      window.requestAnimationFrame(() => el.tutorialNextButton.focus());
+    }
+
+    function leaveTutorialReview() {
+      const returnScreen = state.reviewReturnScreen || "cover";
+      resetTutorialButton();
+      showScreen(returnScreen);
+    }
+
+    function resetToCoverFromSettings() {
+      clearStepAdvanceTimer();
+      clearRewardModalTimer();
+      clearResultTimers();
+      clearStepEffects();
+      clearRocketImpact();
+      resetTutorialButton();
+      el.rewardPop.classList.remove("is-visible");
+      FUEL_EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      FUEL_ART_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      el.fuelTransferLayer.className = "fuel-transfer-layer";
+      el.resultScreen.classList.remove("is-measuring", "is-rainbow-result");
+      state.instantLaunch = false;
+      closeSettings({ restoreFocus: false });
+      showScreen("cover");
+    }
+
+    function initAudio() {
+      if (state.audio) {
+        return;
+      }
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        return;
+      }
+      state.audio = new AudioContext();
+    }
+
+    function resumeAudio() {
+      initAudio();
+      if (!state.audio) {
+        return false;
+      }
+      if (state.audio.state === "suspended") {
+        state.audio.resume();
+      }
+      return true;
+    }
+
+    function stopBgm() {
+      window.MathmonAudio?.stopBgm();
+    }
+
+    function startBgm() {
+      window.MathmonAudio?.startBgm();
+    }
+
+    function queueBgmLoop() {
+      if (!state.bgmRunning || !state.audio || !state.bgmGain) {
+        return;
+      }
+      const phrases = [
+        [
+          { frequency: 130.81, at: 0, duration: 2.8, peak: 0.16, type: "sine" },
+          { frequency: 196, at: 0.35, duration: 1.8, peak: 0.12, type: "sine" },
+          { frequency: 329.63, at: 0.9, duration: 0.45, peak: 0.08, type: "triangle" },
+          { frequency: 392, at: 1.7, duration: 0.5, peak: 0.07, type: "triangle" },
+          { frequency: 261.63, at: 2.7, duration: 0.65, peak: 0.08, type: "triangle" }
+        ],
+        [
+          { frequency: 146.83, at: 0, duration: 2.7, peak: 0.15, type: "sine" },
+          { frequency: 220, at: 0.4, duration: 1.8, peak: 0.11, type: "sine" },
+          { frequency: 293.66, at: 0.7, duration: 0.48, peak: 0.08, type: "triangle" },
+          { frequency: 440, at: 1.55, duration: 0.45, peak: 0.07, type: "triangle" },
+          { frequency: 349.23, at: 2.45, duration: 0.62, peak: 0.08, type: "triangle" }
+        ],
+        [
+          { frequency: 164.81, at: 0, duration: 2.9, peak: 0.15, type: "sine" },
+          { frequency: 246.94, at: 0.45, duration: 1.9, peak: 0.1, type: "sine" },
+          { frequency: 415.3, at: 0.95, duration: 0.4, peak: 0.075, type: "triangle" },
+          { frequency: 493.88, at: 1.8, duration: 0.45, peak: 0.07, type: "triangle" },
+          { frequency: 329.63, at: 2.8, duration: 0.55, peak: 0.075, type: "triangle" }
+        ],
+        [
+          { frequency: 123.47, at: 0, duration: 3, peak: 0.14, type: "sine" },
+          { frequency: 185, at: 0.4, duration: 2, peak: 0.1, type: "sine" },
+          { frequency: 277.18, at: 0.75, duration: 0.42, peak: 0.075, type: "triangle" },
+          { frequency: 369.99, at: 1.65, duration: 0.48, peak: 0.07, type: "triangle" },
+          { frequency: 523.25, at: 2.65, duration: 0.65, peak: 0.08, type: "triangle" }
+        ]
+      ];
+      const now = state.audio.currentTime;
+      const notes = phrases[state.bgmStep % phrases.length];
+      state.bgmStep += 1;
+      notes.forEach(({ frequency, at, duration, peak, type }) => {
+        const oscillator = state.audio.createOscillator();
+        const gain = state.audio.createGain();
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, now + at);
+        oscillator.detune.setValueAtTime(-6 + Math.random() * 12, now + at);
+        gain.gain.setValueAtTime(0.0001, now + at);
+        gain.gain.exponentialRampToValueAtTime(peak, now + at + 0.18);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + at + duration);
+        oscillator.connect(gain).connect(state.bgmGain);
+        oscillator.start(now + at);
+        oscillator.stop(now + at + duration + 0.1);
+      });
+      state.bgmTimer = window.setTimeout(queueBgmLoop, 5200);
+    }
+
+    const SFX_CUES = {
+      uiStart: "assets/audio/ui-start.wav",
+      uiNext: "assets/audio/ui-next.wav",
+      answerCorrect: "assets/audio/answer-correct.wav",
+      answerWrongSoft: "assets/audio/answer-wrong-soft.wav",
+      fuelPositive: "assets/audio/fuel-positive.wav",
+      fuelMega: "assets/audio/fuel-mega.wav",
+      fuelLoss: "assets/audio/fuel-loss.wav",
+      fuelEmpty: "assets/audio/fuel-empty.wav",
+      fuelLaunch: "assets/audio/fuel-launch.wav",
+      fuelRainbow: "assets/audio/fuel-rainbow.wav",
+      rewardTransfer: "assets/audio/reward-transfer.wav",
+      measureScan: "assets/audio/measure-scan.wav",
+      resultLow: "assets/audio/result-low.wav",
+      resultMid: "assets/audio/result-mid.wav",
+      resultHigh: "assets/audio/result-high.wav",
+      resultRare: "assets/audio/result-rare.wav"
+    };
+
+    const SOUND_KIND_TO_CUE = {
+      start: "uiStart",
+      correct: "answerCorrect",
+      try: "answerWrongSoft",
+      reward: "fuelPositive",
+      rewardPositive: "fuelPositive",
+      rewardMega: "fuelMega",
+      rewardRainbow: "fuelRainbow",
+      rewardLaunch: "fuelLaunch",
+      rewardLoss: "fuelLoss",
+      rewardEmpty: "fuelEmpty",
+      scan: "measureScan",
+      measure: "rewardTransfer",
+      next: "uiNext"
+    };
+
+    const SFX_VOLUME = {
+      answerWrongSoft: 0.46,
+      fuelLoss: 0.48,
+      fuelEmpty: 0.5,
+      resultRare: 0.62
+    };
+
+    function getSample(cue) {
+      const src = SFX_CUES[cue];
+      if (!src) return null;
+      if (!state.sfxCache.has(cue)) {
+        const sample = new Audio(src);
+        sample.preload = "auto";
+        state.sfxCache.set(cue, sample);
+      }
+      return state.sfxCache.get(cue);
+    }
+
+    function getResultCue() {
+      if (state.rainbowFuel) return "resultRare";
+      if (state.fuelPercent >= 80) return "resultHigh";
+      if (state.fuelPercent >= 35) return "resultMid";
+      return "resultLow";
+    }
+
+    function playSample(cue) {
+      window.MathmonAudio?.play(cue);
+    }
+
+    function playSound(kind) {
+      playSample(kind === "finish" ? getResultCue() : (SOUND_KIND_TO_CUE[kind] || "uiNext"));
+    }
+
+    window.__mathmonAudioQa = {
+      cues: SFX_CUES,
+      getLog: () => [...state.sfxLog],
+      clearLog: () => {
+        state.sfxLog = [];
+      },
+      getPrefs: () => ({
+        bgmEnabled: state.bgmEnabled,
+        sfxEnabled: state.sfxEnabled,
+        settingsOpen: !el.settingsBackdrop.hidden,
+        screen: state.screen
+      }),
+      setPrefs: (prefs = {}) => {
+        if (typeof prefs.bgmEnabled === "boolean") setBgmEnabled(prefs.bgmEnabled);
+        if (typeof prefs.sfxEnabled === "boolean") setSfxEnabled(prefs.sfxEnabled);
+        return window.__mathmonAudioQa.getPrefs();
+      }
+    };
+
+    window.__unit1ResultQa = {
+      showResult(fuel = 86, correct = 9, rainbow = false) {
+        state.correct = Math.max(0, Math.min(TOTAL_QUESTIONS, Math.round(Number(correct) || 0)));
+        state.index = TOTAL_QUESTIONS - 1;
+        state.fuelPercent = Math.max(0, Math.min(MAX_FUEL, Math.round(Number(fuel) || 0)));
+        state.rainbowFuel = Boolean(rainbow);
+        showResult();
+        return {
+          fuel: state.fuelPercent,
+          correct: state.correct,
+          rainbowFuel: state.rainbowFuel,
+          screen: state.screen
+        };
+      }
+    };
+
+    el.startButton.addEventListener("click", () => {
+      startBgm();
+      playSound("start");
+      resetTutorialButton();
+      showScreen("tutorial");
+    });
+
+    el.tutorialNextButton.addEventListener("click", () => {
+      if (el.tutorialScreen.dataset.tutorialStep !== "goal") {
+        playSound("next");
+        setTutorialStep("goal");
+        return;
+      }
+      if (state.tutorialReviewMode) {
+        playSound("next");
+        leaveTutorialReview();
+        return;
+      }
+      startGame();
+    });
+    el.hintToggleButton.addEventListener("click", () => {
+      state.hintOpen = !state.hintOpen;
+      renderHintPanel();
+      playSound("next");
+    });
+    el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.leaderboardButton.addEventListener("click", openScoreboard);
+    el.restartButton.addEventListener("click", () => {
+      startBgm();
+      playSound("start");
+      showScreen("cover");
+    });
+    el.scoreboardRefreshButton.addEventListener("click", refreshScoreboard);
+    el.scoreboardResultButton.addEventListener("click", () => {
+      playSound("next");
+      showScreen("result");
+    });
+    el.scoreboardRestartButton.addEventListener("click", () => {
+      startBgm();
+      playSound("start");
+      showScreen("cover");
+    });
+    el.settingsButton.addEventListener("click", openSettings);
+    el.settingsBackdrop.addEventListener("click", (event) => {
+      if (event.target === el.settingsBackdrop) closeSettings();
+    });
+    el.settingsModal.addEventListener("keydown", handleSettingsKeydown);
+    el.settingsBgmToggle.addEventListener("click", () => {
+      const nextEnabled = !state.bgmEnabled;
+      setBgmEnabled(nextEnabled, true);
+      if (nextEnabled) playSound("next");
+    });
+    el.settingsSfxToggle.addEventListener("click", () => {
+      const nextEnabled = !state.sfxEnabled;
+      setSfxEnabled(nextEnabled);
+      if (nextEnabled) playSound("next");
+    });
+    el.settingsMethodButton.addEventListener("click", () => {
+      playSound("next");
+      enterTutorialReview();
+    });
+    el.settingsRestartButton.addEventListener("click", () => {
+      playSound("next");
+      setSettingsConfirming(true);
+    });
+    el.settingsRestartConfirmButton.addEventListener("click", () => {
+      playSound("next");
+      resetToCoverFromSettings();
+    });
+    el.settingsRestartCancelButton.addEventListener("click", () => {
+      playSound("next");
+      setSettingsConfirming(false);
+    });
+    el.settingsCloseButton.addEventListener("click", () => {
+      playSound("next");
+      closeSettings();
+    });
+
+    updateSettingsUi();
+    renderStatus();
+  </script>
+</body>
+</html>

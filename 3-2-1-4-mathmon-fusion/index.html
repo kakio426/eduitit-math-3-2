@@ -1,0 +1,5265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3학년 2학기 1단원 · 매스몬 로봇 합체 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
+  <style>
+    :root {
+      --page: #111418;
+      --panel: #1b2328;
+      --panel-strong: #243139;
+      --ink: #fff9ed;
+      --muted: #d5ddd8;
+      --line: rgba(255, 255, 255, 0.16);
+      --mint: #37d6ad;
+      --teal: #50c9de;
+      --amber: #ffc857;
+      --coral: #ff6b63;
+      --steel: #8fb0bd;
+      --radius: 8px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(180deg, rgba(255, 200, 87, 0.08) 0 1px, transparent 1px 80px),
+        linear-gradient(90deg, rgba(80, 201, 222, 0.07) 0 1px, transparent 1px 96px),
+        linear-gradient(135deg, #12181d 0%, #1d2a2a 48%, #17181f 100%);
+      overflow-x: hidden;
+      word-break: keep-all;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .phone-blocker {
+      display: none;
+    }
+
+    .game {
+      --stage-padding: clamp(10px, 2vw, 24px);
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: var(--stage-padding);
+    }
+
+    .stage-shell {
+      --stage-inset: clamp(14px, 2vw, 22px);
+      --sound-button-size: clamp(30px, 3vw, 34px);
+      --sound-gap: clamp(8px, 1vw, 12px);
+      --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
+      --top-control-pad-x: 9px;
+      --top-control-icon-gap: 7px;
+      position: relative;
+      width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);
+      aspect-ratio: 16 / 10;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: auto;
+      aspect-ratio: 16 / 10;
+      display: none;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 34%),
+        linear-gradient(180deg, #243139, #12181d);
+      box-shadow: var(--shadow);
+    }
+
+    .screen.is-active {
+      display: grid;
+    }
+
+    .raster-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .top-row {
+      position: absolute;
+      top: var(--stage-inset);
+      left: var(--stage-inset);
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+      z-index: 4;
+      height: var(--sound-button-size);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sound-gap);
+      pointer-events: none;
+    }
+
+    .brand-badge,
+    .unit-badge,
+    .lesson-badge,
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      min-height: var(--sound-button-size);
+      padding: 0 var(--top-control-pad-x);
+      gap: var(--top-control-icon-gap);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(14, 12, 22, 0.7);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    .brand-badge img {
+      width: 20px;
+      height: 20px;
+      margin-right: 0;
+      border-radius: 5px;
+    }
+
+    .unit-badge {
+      border-color: rgba(80, 201, 222, 0.5);
+      color: #d5f8ff;
+    }
+
+    .lesson-badge {
+      position: absolute;
+      left: 22px;
+      bottom: 22px;
+      z-index: 4;
+      border-color: rgba(255, 200, 87, 0.56);
+      color: #ffe0a3;
+    }
+
+    .primary-button,
+    .ghost-button {
+      min-height: 58px;
+      padding: 0 28px;
+      border: 0;
+      border-radius: var(--radius);
+      font-size: 1.22rem;
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: 0 14px 0 rgba(106, 70, 23, 0.34), 0 22px 38px rgba(0, 0, 0, 0.3);
+      transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+    }
+
+    .primary-button {
+      color: #2a1700;
+      background: linear-gradient(180deg, #ffe27a, #ffb83d);
+    }
+
+    .ghost-button {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+
+    .primary-button:hover,
+    .ghost-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .primary-button:active,
+    .ghost-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 8px 0 rgba(106, 70, 23, 0.28), 0 12px 22px rgba(0, 0, 0, 0.28);
+    }
+
+    .primary-button:focus-visible,
+    .cover-start-button:focus-visible,
+    .ghost-button:focus-visible,
+    .choice-button:focus-visible,
+    .tutorial-image-hitbox:focus-visible,
+    .tutorial-svg-hitbox:focus-visible,
+    .settings-toggle:focus-visible,
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.86);
+      outline-offset: 4px;
+    }
+
+    .settings-toggle {
+      position: absolute;
+      top: var(--stage-inset);
+      right: var(--stage-inset);
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      width: var(--sound-button-size);
+      min-width: 0;
+      height: var(--sound-button-size);
+      min-height: 0;
+      padding: 0;
+      border: 1px solid rgba(255, 232, 186, 0.34);
+      border-radius: 999px;
+      color: rgba(255, 238, 198, 0.92);
+      background: rgba(14, 12, 22, 0.42);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+      font-size: 0;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .settings-toggle::before,
+    .settings-toggle::after {
+      content: none !important;
+      display: none !important;
+    }
+
+    .settings-toggle svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      display: block;
+      transform: translate(-50%, -50%);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .stage-shell .top-row {
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+    }
+
+    .stage-shell .hud {
+      padding-right: var(--sound-reserve);
+    }
+
+    .settings-toggle[aria-expanded="true"] {
+      border-color: rgba(255, 232, 186, 0.72);
+      color: #fff6ca;
+      background: rgba(14, 12, 22, 0.7);
+    }
+
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: clamp(20px, 4vw, 48px);
+      background: rgba(6, 7, 16, 0.56);
+      backdrop-filter: blur(8px);
+    }
+
+    .settings-backdrop[hidden] {
+      display: none;
+    }
+
+    .settings-modal {
+      width: min(420px, calc(100% - 32px));
+      max-height: calc(100% - 40px);
+      overflow: auto;
+      padding: 22px;
+      border: 1px solid rgba(255, 232, 186, 0.34);
+      border-radius: 8px;
+      color: #ffffff;
+      background: rgba(21, 18, 32, 0.96);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.44);
+    }
+
+    .settings-title {
+      margin: 0 0 16px;
+      font-size: 1.55rem;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .settings-menu,
+    .settings-confirm {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-menu[hidden],
+    .settings-confirm[hidden] {
+      display: none;
+    }
+
+    .settings-switch,
+    .settings-action {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .settings-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .settings-switch-track {
+      position: relative;
+      flex: 0 0 auto;
+      width: 50px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(215, 202, 219, 0.32);
+      transition: background 0.18s ease;
+    }
+
+    .settings-switch-track::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease;
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track {
+      background: linear-gradient(180deg, #50f0a8, #79d7ff);
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track::after {
+      transform: translateX(22px);
+    }
+
+    .settings-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .settings-action.is-danger {
+      border-color: rgba(255, 207, 84, 0.54);
+      color: #fff3d1;
+    }
+
+    .settings-confirm {
+      padding-top: 4px;
+    }
+
+    .settings-confirm-title {
+      margin: 0 0 4px;
+      font-size: 1.08rem;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .settings-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .cover,
+    .result {
+      align-items: center;
+      padding: 96px 70px 72px;
+      background: #171d21;
+    }
+
+    .cover::after,
+    .result::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(13, 17, 20, 0.82) 0%, rgba(13, 17, 20, 0.54) 42%, rgba(13, 17, 20, 0.16) 72%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.26));
+      pointer-events: none;
+    }
+
+    .cover-scene,
+    .result-layout {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(340px, 1.1fr);
+      align-items: center;
+      gap: 56px;
+    }
+
+    .hero-copy,
+    .result-text-block {
+      display: grid;
+      justify-items: start;
+      gap: 22px;
+    }
+
+    .cover .hero-copy {
+      gap: 16px;
+      transform: translateY(-10px);
+    }
+
+    .hero-copy h1,
+    .result-text-block h2 {
+      max-width: 8em;
+      margin: 0;
+      color: #ffffff;
+      font-size: 5.6rem;
+      line-height: 0.94;
+      font-weight: 1000;
+      text-shadow: 0 7px 0 rgba(0, 0, 0, 0.2), 0 0 28px rgba(80, 201, 222, 0.24);
+    }
+
+    .hero-title-art {
+      display: block;
+      width: min(560px, 100%);
+      height: auto;
+      margin: -8px 0 -10px -10px;
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.3));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-copy p,
+    .praise {
+      max-width: 560px;
+      margin: 0;
+      color: #ffe8ba;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.35;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
+    }
+
+    .cover-start-button {
+      display: inline-grid;
+      place-items: center;
+      width: clamp(300px, 28vw, 360px);
+      height: auto;
+      aspect-ratio: 1611 / 680;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: none;
+      cursor: pointer;
+      filter: drop-shadow(0 14px 24px rgba(255, 174, 34, 0.24));
+      transition: filter 160ms ease, transform 160ms ease;
+    }
+
+    .cover-start-button:hover {
+      filter: brightness(1.04) drop-shadow(0 16px 26px rgba(255, 174, 34, 0.28));
+      transform: translateY(-1px);
+    }
+
+    .cover-start-button:active {
+      filter: brightness(0.99) drop-shadow(0 10px 18px rgba(255, 174, 34, 0.22));
+      transform: translateY(1px);
+    }
+
+    .start-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .result-visual-space {
+      position: relative;
+      min-height: 450px;
+      display: grid;
+      place-items: end center;
+    }
+
+    .tutorial {
+      align-items: center;
+      padding: 96px 70px 42px;
+    }
+
+    .tutorial-variant {
+      display: none;
+    }
+
+    .tutorial[data-tutorial-variant="image"] .tutorial-image-variant,
+    .tutorial[data-tutorial-variant="svg"] .tutorial-svg-variant,
+    .tutorial[data-tutorial-variant="html"] .tutorial-html-variant {
+      display: grid;
+    }
+
+    .tutorial-image-variant,
+    .tutorial-svg-variant {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .tutorial-fulltext-art,
+    .tutorial-dynamic-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tutorial-step-art {
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .tutorial[data-tutorial-step="solve"] .tutorial-solve-art,
+    .tutorial[data-tutorial-step="goal"] .tutorial-goal-art {
+      opacity: 1;
+    }
+
+    .tutorial-image-hitbox,
+    .tutorial-svg-hitbox {
+      position: absolute;
+      z-index: 5;
+      border: 0;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .tutorial-image-hitbox {
+      left: 31.5%;
+      top: 79%;
+      width: 35%;
+      height: 12%;
+      border-radius: 999px;
+    }
+
+    .tutorial-svg-hitbox {
+      left: 430px;
+      top: 640px;
+      width: 420px;
+      height: 94px;
+      border-radius: 30px;
+    }
+
+    .tutorial-image-hitbox:focus-visible,
+    .tutorial-svg-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 5px;
+    }
+
+    .tutorial-svg-ui {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .tutorial-html-variant {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .tutorial-layout {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(320px, 0.9fr);
+      align-items: center;
+      gap: 56px;
+    }
+
+    .tutorial-copy {
+      display: grid;
+      gap: 20px;
+    }
+
+    .tutorial-copy h2 {
+      margin: 0;
+      color: #ffffff;
+      min-height: 1.24em;
+      font-size: 3.8rem;
+      line-height: 1.12;
+      font-weight: 1000;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 72px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-size: 1.24rem;
+      font-weight: 950;
+      line-height: 1.28;
+    }
+
+    .steps b {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius);
+      color: #201000;
+      background: var(--amber);
+      font-size: 1.2rem;
+    }
+
+    .example-board {
+      display: grid;
+      gap: 14px;
+      padding: 24px;
+      border: 1px solid rgba(80, 201, 222, 0.24);
+      border-radius: var(--radius);
+      background: rgba(17, 20, 24, 0.62);
+    }
+
+    .example-title {
+      margin: 0;
+      color: #d5f8ff;
+      font-size: 1rem;
+      font-weight: 950;
+    }
+
+    .mini-calculation {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mini-cell {
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+      text-align: center;
+    }
+
+    .mini-cell span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 850;
+    }
+
+    .mini-cell strong {
+      display: block;
+      margin-top: 6px;
+      color: #ffffff;
+      font-size: 1.34rem;
+      font-weight: 1000;
+      line-height: 1.12;
+    }
+
+    .play {
+      grid-template-rows: auto auto 1fr;
+      padding: var(--stage-inset);
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: minmax(210px, auto) minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 12px;
+      min-height: var(--sound-button-size);
+      margin-bottom: 8px;
+    }
+
+    .hud .brand-badge,
+    .hud .unit-badge {
+      position: static;
+      pointer-events: auto;
+    }
+
+    .hud-center {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      min-height: var(--sound-button-size);
+      min-width: 0;
+      padding: 0 var(--top-control-pad-x);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(14, 12, 22, 0.7);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    #progressText {
+      border-color: rgba(255, 200, 87, 0.56);
+      color: #ffe0a3;
+      background: rgba(255, 200, 87, 0.1);
+    }
+
+    #energyText,
+    #chainText {
+      display: none;
+    }
+
+    .goal-rail {
+      position: relative;
+      aspect-ratio: 1232 / 166;
+      height: auto;
+      margin-bottom: 8px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: transparent;
+      box-shadow: none;
+      isolation: isolate;
+      --goal-flare-x: 9.7%;
+      --goal-glow-strong: rgba(255, 226, 126, 0.96);
+      --goal-glow-soft: rgba(255, 200, 87, 0.38);
+      --goal-scan: rgba(103, 231, 255, 0.48);
+      --goal-art-y: 0px;
+    }
+
+    .goal-map-raster {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: var(--goal-art-y);
+      bottom: auto;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      pointer-events: none;
+      user-select: none;
+      transform: none;
+      transition: filter 0.24s ease, transform 0.24s ease;
+    }
+
+    .goal-map-raster-next {
+      z-index: 1;
+      opacity: 0;
+      transform: scale(1.006);
+      transform-origin: var(--goal-flare-x) 68%;
+      filter: brightness(1.18) saturate(1.16);
+      will-change: opacity, transform, filter;
+    }
+
+    .goal-map-raster-next[hidden] {
+      display: none;
+    }
+
+    .goal-shade,
+    .goal-transition {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .goal-shade {
+      display: none;
+    }
+
+    .goal-transition {
+      inset: 0;
+      z-index: 3;
+      opacity: 0;
+      mix-blend-mode: screen;
+    }
+
+    .goal-transition-sweep {
+      width: 28%;
+      background:
+        linear-gradient(105deg, transparent 0 31%, rgba(255, 255, 255, 0.05) 39%, rgba(255, 244, 183, 0.44) 48%, var(--goal-scan) 55%, transparent 70%),
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+      filter: blur(0.35px) drop-shadow(0 0 14px var(--goal-glow-soft));
+      transform: translateX(-130%) skewX(-12deg);
+    }
+
+    .goal-transition-burst {
+      background:
+        radial-gradient(circle 18% at var(--goal-flare-x) 54%, var(--goal-glow-strong) 0 8%, var(--goal-glow-soft) 25%, transparent 70%),
+        radial-gradient(ellipse 22% 36% at var(--goal-flare-x) 72%, rgba(255, 245, 197, 0.38), transparent 68%);
+      transform: scale(0.96);
+    }
+
+    .goal-transition-evolution {
+      z-index: 4;
+      transform-origin: var(--goal-flare-x) 66%;
+      background:
+        radial-gradient(ellipse 18% 72% at var(--goal-flare-x) 68%, transparent 0 17%, rgba(255, 247, 178, 0.58) 18% 19%, transparent 22% 33%, rgba(108, 239, 255, 0.34) 34% 35%, transparent 38%),
+        radial-gradient(circle 16% at var(--goal-flare-x) 56%, rgba(255, 255, 255, 0.54), rgba(255, 224, 91, 0.34) 18%, rgba(82, 230, 255, 0.16) 42%, transparent 76%);
+      filter: blur(0.2px) drop-shadow(0 0 18px var(--goal-glow-soft));
+      transform: scale(0.74);
+    }
+
+    .goal-rail.is-switching .goal-transition-sweep {
+      animation: goal-strip-sweep 0.74s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-switching .goal-transition-burst {
+      animation: goal-strip-burst 0.74s ease-out both;
+    }
+
+    .goal-rail.is-switching .goal-transition-evolution {
+      animation: goal-evolution-ring 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-evolving .goal-map-raster-current {
+      animation: goal-evolve-current 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-evolving .goal-map-raster-next {
+      animation: goal-evolve-next 0.86s cubic-bezier(0.18, 0.86, 0.18, 1) both;
+    }
+
+    .goal-rail.is-goal-up .goal-map-raster-current,
+    .goal-rail.is-goal-rare .goal-map-raster-current {
+      animation: goal-strip-pop 0.74s cubic-bezier(0.18, 0.9, 0.22, 1.08) both;
+    }
+
+    .goal-rail.is-goal-down .goal-map-raster-current,
+    .goal-rail.is-goal-empty .goal-map-raster-current {
+      animation: goal-strip-shake 0.48s ease-out both;
+    }
+
+    .goal-rail[data-goal-tier="small"] {
+      --goal-flare-x: 9.7%;
+    }
+
+    .goal-rail[data-goal-tier="medium"] {
+      --goal-flare-x: 22.2%;
+    }
+
+    .goal-rail[data-goal-tier="large"] {
+      --goal-flare-x: 36.3%;
+    }
+
+    .goal-rail[data-goal-tier="giant"] {
+      --goal-flare-x: 50.8%;
+    }
+
+    .goal-rail[data-goal-tier="ultra"] {
+      --goal-flare-x: 66.4%;
+    }
+
+    .goal-rail[data-goal-tier="legend"] {
+      --goal-flare-x: 86.8%;
+      --goal-glow-strong: rgba(238, 179, 255, 0.98);
+      --goal-glow-soft: rgba(178, 92, 255, 0.48);
+      --goal-scan: rgba(255, 131, 236, 0.54);
+    }
+
+    .play-layout {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(280px, 0.46fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .fusion-side,
+    .problem-panel {
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.075);
+    }
+
+    .fusion-side {
+      position: relative;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 6px;
+      overflow: hidden;
+      padding: 12px 12px 14px;
+      isolation: isolate;
+      background: #151b1f;
+    }
+
+    .fusion-side::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(55, 214, 173, 0.18), transparent 0 28%, transparent 54%),
+        linear-gradient(180deg, rgba(8, 10, 14, 0.08), rgba(8, 10, 14, 0.5) 62%, rgba(8, 10, 14, 0.82));
+      pointer-events: none;
+    }
+
+    .fusion-side-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.86) brightness(0.78);
+      transform: scale(1.02);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .robot-stage {
+      position: relative;
+      z-index: 2;
+      align-self: end;
+      justify-self: center;
+      width: min(260px, 78%);
+      aspect-ratio: 1 / 1.05;
+      display: grid;
+      place-items: center;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.34));
+    }
+
+    .robot-stage::before,
+    .robot-stage::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      width: 72%;
+      aspect-ratio: 1 / 0.25;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .robot-stage::before {
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(80, 201, 222, 0.44), transparent 0 45%, transparent 62%),
+        linear-gradient(90deg, transparent, rgba(255, 200, 87, 0.38), transparent);
+      filter: blur(2px);
+    }
+
+    .robot-stage::after {
+      z-index: 1;
+      border: 2px solid rgba(80, 201, 222, 0.45);
+      box-shadow: 0 0 20px rgba(80, 201, 222, 0.22);
+      opacity: 0.76;
+    }
+
+    .robot-sprite {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 250px);
+      aspect-ratio: 1;
+      object-fit: contain;
+      transform: translateY(2px) scale(0.96);
+      transition: filter 0.24s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .fusion-side.has-one .robot-sprite,
+    .fusion-side.has-two .robot-sprite {
+      filter: drop-shadow(0 0 16px rgba(80, 201, 222, 0.22));
+    }
+
+    .fusion-side.is-fusing .robot-sprite {
+      filter: drop-shadow(0 0 24px rgba(255, 200, 87, 0.45));
+    }
+
+    .robot-core-flash,
+    .robot-shockwave,
+    .flying-part,
+    .fusion-spark {
+      position: absolute;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .robot-core-flash {
+      left: 50%;
+      top: 50%;
+      width: 23%;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: radial-gradient(circle, #ffffff 0 16%, #8fffee 17% 36%, rgba(80, 201, 222, 0.38) 37% 60%, transparent 61%);
+      transform: translate(-50%, -50%) scale(0.2);
+      mix-blend-mode: screen;
+    }
+
+    .robot-shockwave {
+      left: 50%;
+      top: 52%;
+      width: 36%;
+      aspect-ratio: 1;
+      border: 3px solid rgba(143, 255, 238, 0.8);
+      border-radius: 999px;
+      transform: translate(-50%, -50%) scale(0.2);
+      mix-blend-mode: screen;
+    }
+
+    .flying-part {
+      top: 49%;
+      width: 54px;
+      aspect-ratio: 1.15 / 1;
+      border: 3px solid rgba(255, 255, 255, 0.82);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.92), transparent 0 13%, transparent 25%),
+        linear-gradient(145deg, #fff4c5, #ffc857 52%, #50c9de);
+      box-shadow: 0 0 22px rgba(80, 201, 222, 0.42), 0 14px 24px rgba(0, 0, 0, 0.32);
+      filter: saturate(1.08);
+    }
+
+    .flying-part-one {
+      left: -18%;
+      transform: translate(-20%, -50%) rotate(-18deg) scale(0.84);
+    }
+
+    .flying-part-two {
+      right: -18%;
+      transform: translate(20%, -50%) rotate(18deg) scale(0.84);
+    }
+
+    .fusion-spark {
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 36px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff, #8fffee, rgba(255, 255, 255, 0));
+      transform-origin: 50% 110px;
+      mix-blend-mode: screen;
+    }
+
+    .spark-one { --spark-rotate: 24deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+    .spark-two { --spark-rotate: 102deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+    .spark-three { --spark-rotate: 206deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+    .spark-four { --spark-rotate: 292deg; transform: translate(-50%, -50%) rotate(var(--spark-rotate)); }
+
+    .robot-stage.attach-one .robot-sprite {
+      animation: robot-attach-pop 0.78s cubic-bezier(0.2, 0.95, 0.2, 1.18);
+    }
+
+    .robot-stage.attach-one .flying-part-one {
+      animation: part-fly-left 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+    }
+
+    .robot-stage.attach-two .robot-sprite {
+      animation: robot-attach-pop 0.78s cubic-bezier(0.2, 0.95, 0.2, 1.18);
+    }
+
+    .robot-stage.attach-two .flying-part-two {
+      animation: part-fly-right 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+    }
+
+    .robot-stage.attach-one .robot-core-flash,
+    .robot-stage.attach-two .robot-core-flash,
+    .robot-stage.complete .robot-core-flash {
+      animation: core-pop 0.76s ease-out forwards;
+    }
+
+    .robot-stage.attach-one .robot-shockwave,
+    .robot-stage.attach-two .robot-shockwave,
+    .robot-stage.complete .robot-shockwave {
+      animation: shockwave-pop 0.78s ease-out forwards;
+    }
+
+    .robot-stage.complete .robot-sprite {
+      animation: robot-complete-hero 1.2s cubic-bezier(0.16, 0.9, 0.24, 1.12);
+    }
+
+    .robot-stage.complete .fusion-spark {
+      animation: spark-pop 0.72s ease-out forwards;
+    }
+
+    .side-parts {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .side-part,
+    .side-result {
+      display: grid;
+      place-items: center;
+      gap: 5px;
+      min-height: 64px;
+      padding: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: rgba(17, 20, 24, 0.64);
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .side-part small,
+    .side-result small {
+      color: #d8fff2;
+      font-size: 0.78rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .side-part strong,
+    .side-result strong {
+      font-size: 1.68rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .side-part.is-current {
+      border-color: rgba(255, 200, 87, 0.78);
+      box-shadow: 0 0 24px rgba(255, 200, 87, 0.18);
+    }
+
+    .side-part.is-done {
+      color: #10271f;
+      border-color: rgba(55, 214, 173, 0.86);
+      background: linear-gradient(180deg, #b8ffe9, #37d6ad);
+    }
+
+    .side-part.is-done small {
+      color: #10271f;
+    }
+
+    .side-result {
+      position: relative;
+      z-index: 3;
+      display: none;
+      color: #251500;
+      border-color: rgba(255, 200, 87, 0.36);
+      background: rgba(255, 200, 87, 0.16);
+    }
+
+    .side-result.is-done {
+      display: grid;
+      border-color: rgba(255, 200, 87, 0.86);
+      background: linear-gradient(180deg, #ffffff, #ffc857);
+      box-shadow: 0 0 30px rgba(255, 200, 87, 0.34);
+    }
+
+    .side-parts,
+    .side-result,
+    .side-result.is-done {
+      display: none !important;
+    }
+
+    .side-caption {
+      position: relative;
+      z-index: 3;
+      margin: 0;
+      color: #fff0c6;
+      font-size: 0.82rem;
+      font-weight: 950;
+      line-height: 1.25;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
+    }
+
+    .workshop-zone {
+      position: relative;
+      display: none;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+      padding: 18px;
+      isolation: isolate;
+      --charge: 0;
+      background: #151b1f;
+    }
+
+    .workshop-zone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 50% 57%, rgba(55, 214, 173, calc(0.08 + var(--charge) * 0.24)), transparent 0 28%, transparent 54%),
+        linear-gradient(180deg, rgba(7, 8, 14, 0.04), rgba(8, 8, 14, 0.48) 72%, rgba(8, 8, 14, 0.78));
+      pointer-events: none;
+    }
+
+    .workshop-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(calc(0.82 + var(--charge) * 0.34)) brightness(calc(0.76 + var(--charge) * 0.18));
+      transform: scale(1.015);
+      transition: filter 0.7s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .fusion-machine {
+      position: relative;
+      z-index: 3;
+      align-self: center;
+      justify-self: center;
+      width: min(280px, 82%);
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.34));
+      transform: translateY(calc((1 - var(--charge, 0)) * 12px));
+      transition: transform 0.45s ease;
+    }
+
+    .fusion-machine::before,
+    .fusion-machine::after {
+      content: "";
+      position: absolute;
+      width: 44%;
+      height: 44%;
+      border: 7px solid rgba(255, 255, 255, 0.72);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.65), transparent 0 16%, transparent 34%),
+        linear-gradient(145deg, #50c9de, #37d6ad 56%, #167b79);
+      box-shadow:
+        inset 0 -12px 0 rgba(0, 0, 0, 0.14),
+        0 0 calc(10px + var(--charge, 0) * 28px) rgba(55, 214, 173, calc(0.18 + var(--charge, 0) * 0.34));
+      animation: part-float 2.4s ease-in-out infinite;
+    }
+
+    .fusion-machine::before {
+      left: 5%;
+      transform: rotate(-10deg);
+    }
+
+    .fusion-machine::after {
+      right: 5%;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.65), transparent 0 16%, transparent 34%),
+        linear-gradient(145deg, #ffc857, #ff8f5a 58%, #b85544);
+      transform: rotate(11deg);
+      animation-delay: -1.2s;
+    }
+
+    .fusion-core-orb {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 42%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      color: #251500;
+      background: linear-gradient(180deg, #fff0a8, #ffc857);
+      font-size: 4rem;
+      font-weight: 1000;
+      box-shadow: 0 12px 0 rgba(106, 70, 23, 0.24), 0 0 30px rgba(255, 200, 87, 0.34);
+    }
+
+    .fusion-machine.is-boosting {
+      animation: machine-boost 0.68s ease;
+    }
+
+    .workshop-zone.is-rainbow .fusion-machine::before,
+    .workshop-zone.is-rainbow .fusion-machine::after,
+    .workshop-zone.is-rainbow .energy-fill,
+    .result.is-rainbow-result .measure-fill {
+      background:
+        radial-gradient(circle at 28% 30%, rgba(255, 255, 255, 0.68), transparent 0 12%, transparent 26%),
+        linear-gradient(90deg, #ff6b63, #ffc857, #37d6ad, #50c9de, #d49bff, #ff6b63);
+      background-size: 240% 100%;
+      animation: rainbow-flow 1.45s linear infinite;
+    }
+
+    .energy-panel {
+      position: relative;
+      z-index: 4;
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(17, 20, 24, 0.66);
+      backdrop-filter: blur(10px);
+    }
+
+    .energy-readout {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 0.94rem;
+      font-weight: 950;
+    }
+
+    .energy-readout strong {
+      color: #b8ffe9;
+      font-size: 1.08rem;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .energy-meter,
+    .measure-tube {
+      position: relative;
+      height: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.22);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+    }
+
+    .energy-fill,
+    .measure-fill {
+      display: block;
+      width: var(--energy-width, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 22%),
+        linear-gradient(180deg, #d9fff2, #37d6ad 62%, #0f9b77);
+      box-shadow: 0 0 20px rgba(55, 214, 173, 0.48);
+      transition: width 0.7s cubic-bezier(0.18, 0.9, 0.26, 1.15);
+    }
+
+    .grade-panel {
+      display: none;
+    }
+
+    .problem-panel {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(66px, 0.55fr) minmax(72px, auto) minmax(140px, auto) minmax(24px, auto);
+      gap: 8px;
+      padding: clamp(10px, 1.2vw, 14px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255, 200, 87, 0.12), transparent 0 30%, transparent 58%),
+        rgba(17, 20, 24, 0.48);
+    }
+
+    .problem-heading {
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      gap: 0;
+      text-align: center;
+    }
+
+    .problem-heading h2 {
+      width: 100%;
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(3.35rem, 5.6vw, 5.25rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .question-part {
+      display: inline-block;
+      transition: color 0.18s ease, text-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .question-part.is-step-target {
+      color: #ffc857;
+      text-shadow: 0 0 18px rgba(255, 200, 87, 0.52);
+      transform: translateY(-2px);
+      animation: target-number-breathe 1.45s ease-in-out infinite;
+    }
+
+    .question-symbol {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .task-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      align-content: center;
+      justify-items: center;
+      gap: 6px;
+      min-height: 72px;
+      padding: clamp(8px, 1vw, 12px);
+      border: 2px solid rgba(255, 200, 87, 0.78);
+      border-radius: var(--radius);
+      color: #251500;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72), transparent 0 22%, transparent 48%),
+        linear-gradient(180deg, #fff0a8, #ffc857);
+      text-align: center;
+      box-shadow: 0 10px 0 rgba(106, 70, 23, 0.18), 0 18px 28px rgba(0, 0, 0, 0.22);
+      transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .task-card.is-confirmed {
+      border-color: rgba(55, 214, 173, 0.92);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.78), transparent 0 22%, transparent 48%),
+        linear-gradient(180deg, #d6fff2, #65e2bd);
+      box-shadow: 0 10px 0 rgba(18, 103, 80, 0.22), 0 18px 28px rgba(0, 0, 0, 0.22);
+    }
+
+    .step-meaning {
+      margin: 0;
+      font-size: clamp(0.96rem, 1.35vw, 1.22rem);
+      font-weight: 1000;
+      line-height: 1.18;
+    }
+
+    .step-formula {
+      font-size: clamp(1.95rem, 3.3vw, 2.82rem);
+      font-weight: 1000;
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .task-card.is-confirmed .step-formula {
+      color: #0b5b44;
+    }
+
+    .prompt {
+      margin: 0;
+    }
+
+    .choice-grid {
+      min-height: 140px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(64px, 1fr));
+      align-content: stretch;
+      gap: 10px;
+    }
+
+    .choice-button {
+      min-height: 64px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.11);
+      color: #ffffff;
+      font-size: clamp(1.65rem, 2.75vw, 2.42rem);
+      font-weight: 1000;
+      line-height: 1;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+
+    .choice-button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    .choice-button.is-correct {
+      color: #10271f;
+      border-color: rgba(55, 214, 173, 0.86);
+      background: linear-gradient(180deg, #b8ffe9, #37d6ad);
+    }
+
+    .choice-button.is-wrong {
+      color: #ffffff;
+      border-color: rgba(255, 107, 99, 0.78);
+      background: rgba(255, 107, 99, 0.32);
+    }
+
+    .feedback {
+      min-height: 36px;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      color: #ffffff;
+      font-size: 1.02rem;
+      font-weight: 1000;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .feedback.good {
+      color: #b8ffe9;
+    }
+
+    .feedback.try {
+      color: #ffe7a4;
+    }
+
+    .fusion-cutscene {
+      position: absolute;
+      z-index: 9;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 16px;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(255, 200, 87, 0.3), transparent 0 30%, transparent 54%),
+        rgba(17, 20, 24, 0.84);
+      backdrop-filter: blur(8px);
+    }
+
+    .fusion-cutscene.is-visible {
+      display: grid;
+    }
+
+    .fusion-cut-card {
+      position: relative;
+      width: 100%;
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+    }
+
+    .cut-part,
+    .cut-answer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      width: 158px;
+      min-height: 104px;
+      padding: 12px;
+      border: 4px solid rgba(255, 255, 255, 0.82);
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 22px 34px rgba(0, 0, 0, 0.34);
+    }
+
+    .cut-part {
+      color: #10271f;
+      background: linear-gradient(180deg, #b8ffe9, #37d6ad);
+    }
+
+    .cut-left {
+      transform: translate(calc(-50% - 112px), -50%) rotate(-4deg);
+    }
+
+    .cut-right {
+      transform: translate(calc(-50% + 112px), -50%) rotate(4deg);
+      background: linear-gradient(180deg, #ffeeb0, #ffb957);
+      color: #2a1700;
+    }
+
+    .fusion-cutscene.is-visible .cut-left {
+      animation: cut-left-merge 1.22s ease forwards;
+    }
+
+    .fusion-cutscene.is-visible .cut-right {
+      animation: cut-right-merge 1.22s ease forwards;
+    }
+
+    .cut-part small,
+    .cut-answer small {
+      font-size: 0.78rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .cut-part strong,
+    .cut-answer strong {
+      font-size: 2rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .cut-plus {
+      position: absolute;
+      top: calc(50% + 88px);
+      left: 50%;
+      color: #fff0c6;
+      font-size: 2.8rem;
+      font-weight: 1000;
+      transform: translate(-50%, -50%);
+    }
+
+    .fusion-cutscene.is-visible .cut-plus {
+      animation: cut-plus-hide 1.22s ease forwards;
+    }
+
+    .cut-robot {
+      position: absolute;
+      z-index: 2;
+      top: 45%;
+      left: 50%;
+      width: min(280px, 78%);
+      aspect-ratio: 1;
+      object-fit: contain;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.55);
+      filter: drop-shadow(0 0 22px rgba(80, 201, 222, 0.44)) drop-shadow(0 22px 28px rgba(0, 0, 0, 0.36));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .fusion-cutscene.is-visible .cut-robot {
+      animation: cut-robot-pop 1.22s cubic-bezier(0.16, 0.9, 0.24, 1.12) forwards;
+    }
+
+    .cut-flash {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      place-items: center;
+      width: 210px;
+      height: 78px;
+      border-radius: 999px;
+      color: #251500;
+      background: linear-gradient(180deg, #ffffff, #ffc857);
+      font-size: 2.1rem;
+      font-weight: 1000;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.72);
+      box-shadow: 0 0 44px rgba(255, 200, 87, 0.65);
+    }
+
+    .fusion-cutscene.is-visible .cut-flash {
+      animation: cut-flash 1.22s ease forwards;
+    }
+
+    .cut-answer {
+      z-index: 3;
+      color: #251500;
+      background: linear-gradient(180deg, #ffffff, #ffc857);
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.76);
+    }
+
+    .fusion-cutscene.is-visible .cut-answer {
+      animation: cut-answer-pop 1.22s ease forwards;
+    }
+
+    .reward-pop {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(17, 20, 24, 0.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .reward-pop.is-visible {
+      display: grid;
+    }
+
+    .reward-card {
+      width: min(760px, 100%);
+      display: grid;
+      justify-items: center;
+      gap: 22px;
+      padding: 18px 24px 28px;
+      border: 0;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 200, 87, 0.2), transparent 0 48%),
+        radial-gradient(circle at 50% 48%, rgba(80, 201, 222, 0.18), transparent 0 58%);
+      text-align: center;
+      box-shadow: none;
+    }
+
+    .reward-card h3 {
+      margin: 0;
+    }
+
+    .reward-score-art {
+      display: block;
+      width: min(680px, 100%);
+      max-height: 390px;
+      object-fit: contain;
+      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.42));
+      transform-origin: center;
+      animation: reward-art-pop 0.46s cubic-bezier(0.2, 1.2, 0.34, 1) both;
+    }
+
+    .reward-pop.fuel-event--normal .reward-card,
+    .reward-pop.fuel-event--megaFuel .reward-card {
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 200, 87, 0.28), transparent 0 50%),
+        radial-gradient(circle at 50% 48%, rgba(55, 214, 173, 0.2), transparent 0 62%);
+    }
+
+    .reward-pop.fuel-event--smallExplosion .reward-card,
+    .reward-pop.fuel-event--leak .reward-card,
+    .reward-pop.fuel-event--emptyTank .reward-card {
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 107, 99, 0.24), transparent 0 48%),
+        radial-gradient(circle at 50% 50%, rgba(80, 201, 222, 0.16), transparent 0 62%);
+      animation: tank-shake 0.5s ease both;
+    }
+
+    .reward-pop.fuel-event--instantLaunch .reward-card {
+      animation: reward-pop 0.42s ease both;
+    }
+
+    .reward-pop.fuel-event--rainbowFuel .reward-card {
+      background:
+        radial-gradient(circle at 50% 44%, rgba(212, 155, 255, 0.34), transparent 0 50%),
+        radial-gradient(circle at 42% 42%, rgba(255, 200, 87, 0.2), transparent 0 38%),
+        radial-gradient(circle at 58% 50%, rgba(80, 201, 222, 0.22), transparent 0 60%);
+    }
+
+    .reward-pop.fuel-event--rainbowFuel .reward-score-art {
+      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.42)) drop-shadow(0 0 28px rgba(212, 155, 255, 0.42));
+    }
+
+    .reward-card p {
+      margin: 0;
+      color: #fff0c6;
+      font-size: 1.12rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .reward-next-button {
+      min-width: 150px;
+      min-height: 76px;
+      padding: 0 34px;
+      font-size: 1.34rem;
+      letter-spacing: 0.01em;
+    }
+
+    #rewardMessage {
+      display: none;
+    }
+
+    .result::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0;
+      background:
+        repeating-linear-gradient(115deg, transparent 0 42px, rgba(80, 201, 222, 0.16) 43px 47px, transparent 48px 118px),
+        radial-gradient(circle at 22% 48%, rgba(255, 200, 87, 0.22), transparent 0 24%, transparent 25%);
+      transform: translateX(-8%);
+      pointer-events: none;
+    }
+
+    .result.is-measuring::before {
+      opacity: 1;
+      animation: flight-streak 1.4s linear infinite;
+    }
+
+    .result-text-block {
+      justify-self: end;
+      width: min(560px, 100%);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(17, 20, 24, 0.54);
+      backdrop-filter: blur(8px);
+    }
+
+    .result-text-block h2 {
+      font-size: 4.4rem;
+    }
+
+    .result-measure {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      width: 100%;
+      padding: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(80, 201, 222, 0.32);
+      border-radius: var(--radius);
+      background: rgba(17, 20, 24, 0.56);
+      box-shadow: 0 0 30px rgba(80, 201, 222, 0.1);
+    }
+
+    .result-measure::after {
+      content: "";
+      position: absolute;
+      inset: -40% auto -40% -30%;
+      width: 26%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+      transform: skewX(-18deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .result.is-measuring .result-measure::after {
+      opacity: 1;
+      animation: scan-sweep 1.35s ease-in-out infinite;
+    }
+
+    .measure-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      color: #ffffff;
+      font-weight: 1000;
+    }
+
+    .measure-top span {
+      color: #d5f8ff;
+      font-size: 0.96rem;
+    }
+
+    .measure-top strong {
+      color: #b8ffe9;
+      font-size: 1.84rem;
+      line-height: 1;
+    }
+
+    .measure-tube {
+      height: 26px;
+    }
+
+    .measure-fill {
+      width: var(--measure-width, 0%);
+      transition: width 1.7s cubic-bezier(0.18, 0.9, 0.2, 1);
+    }
+
+    .measure-scan {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      opacity: 0;
+      transform: translateX(-100%);
+      pointer-events: none;
+    }
+
+    .result.is-measuring .measure-scan {
+      opacity: 1;
+      animation: meter-scan 1.2s ease-in-out infinite;
+    }
+
+    .result-grade-track {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .grade-chip {
+      min-height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.62);
+      background: rgba(0, 0, 0, 0.18);
+      font-size: 0.94rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .grade-chip.is-reached {
+      border-color: rgba(80, 201, 222, 0.58);
+      color: #10202a;
+      background: linear-gradient(180deg, #d7f8ff, #50c9de);
+    }
+
+    .grade-chip.is-target {
+      border-color: rgba(255, 200, 87, 0.9);
+      color: #231400;
+      background: linear-gradient(180deg, #ffe27a, #ffc857);
+      box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.24), 0 0 28px rgba(255, 200, 87, 0.34);
+    }
+
+    .grade-chip.is-secret {
+      border-color: rgba(212, 155, 255, 0.58);
+      color: #ffeaff;
+      background: linear-gradient(135deg, rgba(255, 107, 99, 0.28), rgba(80, 201, 222, 0.22), rgba(212, 155, 255, 0.28));
+    }
+
+    .grade-chip.is-secret.is-target,
+    .grade-chip.is-secret.is-reached {
+      color: #24132b;
+      background: linear-gradient(135deg, #ff8ca6, #ffe27a, #50c9de, #d49bff);
+      box-shadow: 0 0 0 3px rgba(212, 155, 255, 0.26), 0 0 30px rgba(80, 201, 222, 0.34);
+    }
+
+    .result-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+
+    .result-metric {
+      min-height: 94px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .result-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 850;
+    }
+
+    .result-metric strong {
+      display: block;
+      margin-top: 6px;
+      color: #ffffff;
+      font-size: 1.84rem;
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .result-actions [hidden] {
+      display: none;
+    }
+
+    .result.is-measuring .result-actions {
+      visibility: hidden;
+    }
+
+    @keyframes part-float {
+      0%,
+      100% {
+        translate: 0 0;
+      }
+      50% {
+        translate: 0 -10px;
+      }
+    }
+
+    @keyframes rainbow-flow {
+      from {
+        background-position: 0% 50%;
+      }
+      to {
+        background-position: 200% 50%;
+      }
+    }
+
+    @keyframes machine-boost {
+      0%,
+      100% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 12px));
+      }
+      42% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 12px - 12px)) rotate(-1.4deg);
+      }
+      70% {
+        transform: translateY(calc((1 - var(--charge, 0)) * 12px + 4px)) rotate(1deg);
+      }
+    }
+
+    @keyframes belt-move {
+      from {
+        background-position: 0 0, 0 0;
+      }
+      to {
+        background-position: 38px 0, 0 0;
+      }
+    }
+
+    @keyframes slide-to-core {
+      50% {
+        transform: translateX(12px) scale(1.04);
+      }
+      100% {
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes tank-shake {
+      0%,
+      100% {
+        transform: translateX(0) rotate(0deg);
+      }
+      22% {
+        transform: translateX(-10px) rotate(-1deg);
+      }
+      44% {
+        transform: translateX(9px) rotate(1deg);
+      }
+      66% {
+        transform: translateX(-5px) rotate(-0.5deg);
+      }
+    }
+
+    @keyframes reward-pop {
+      from {
+        transform: scale(0.94);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes reward-art-pop {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.9);
+      }
+      62% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.035);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes flight-streak {
+      from {
+        background-position: 0 0, 0 0;
+        transform: translateX(-8%);
+      }
+      to {
+        background-position: 180px -120px, 0 0;
+        transform: translateX(8%);
+      }
+    }
+
+    @keyframes scan-sweep {
+      0% {
+        transform: translateX(0) skewX(-18deg);
+      }
+      100% {
+        transform: translateX(560%) skewX(-18deg);
+      }
+    }
+
+    @keyframes meter-scan {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes robot-attach-pop {
+      0% {
+        transform: translateY(8px) scale(0.9);
+      }
+      46% {
+        transform: translateY(-10px) scale(1.08);
+      }
+      72% {
+        transform: translateY(3px) scale(0.98);
+      }
+      100% {
+        transform: translateY(2px) scale(0.96);
+      }
+    }
+
+    @keyframes robot-complete-hero {
+      0% {
+        transform: translateY(12px) scale(0.78);
+        opacity: 0.36;
+        filter: brightness(1);
+      }
+      34% {
+        transform: translateY(-18px) scale(1.1);
+        opacity: 1;
+        filter: brightness(1.18);
+      }
+      62% {
+        transform: translateY(6px) scale(0.94);
+      }
+      100% {
+        transform: translateY(2px) scale(0.96);
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes part-fly-left {
+      0% {
+        opacity: 0;
+        transform: translate(-20%, -50%) rotate(-18deg) scale(0.84);
+      }
+      18% {
+        opacity: 1;
+      }
+      74% {
+        opacity: 1;
+        transform: translate(188%, -66%) rotate(8deg) scale(1.04);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(218%, -56%) rotate(0deg) scale(0.72);
+      }
+    }
+
+    @keyframes part-fly-right {
+      0% {
+        opacity: 0;
+        transform: translate(20%, -50%) rotate(18deg) scale(0.84);
+      }
+      18% {
+        opacity: 1;
+      }
+      74% {
+        opacity: 1;
+        transform: translate(-188%, -66%) rotate(-8deg) scale(1.04);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-218%, -56%) rotate(0deg) scale(0.72);
+      }
+    }
+
+    @keyframes core-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2);
+      }
+      44% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.75);
+      }
+    }
+
+    @keyframes shockwave-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2);
+      }
+      36% {
+        opacity: 0.85;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.3);
+      }
+    }
+
+    @keyframes spark-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--spark-rotate, 0deg)) scaleY(0.2);
+      }
+      32% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--spark-rotate, 0deg)) scaleY(1.4);
+      }
+    }
+
+    @keyframes goal-strip-sweep {
+      0% {
+        opacity: 0;
+        transform: translateX(-130%) skewX(-12deg);
+      }
+      18% {
+        opacity: 0.72;
+      }
+      62% {
+        opacity: 0.68;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(260%) skewX(-12deg);
+      }
+    }
+
+    @keyframes goal-strip-burst {
+      0% {
+        opacity: 0;
+        transform: scale(0.94);
+        filter: blur(2px);
+      }
+      32% {
+        opacity: 0.98;
+        transform: scale(1.02);
+        filter: blur(0);
+      }
+      68% {
+        opacity: 0.76;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.08);
+        filter: blur(4px);
+      }
+    }
+
+    @keyframes goal-evolution-ring {
+      0% {
+        opacity: 0;
+        transform: scale(0.62);
+        filter: blur(1.6px) drop-shadow(0 0 0 transparent);
+      }
+
+      30% {
+        opacity: 0.72;
+        transform: scale(0.86);
+        filter: blur(0.2px) drop-shadow(0 0 16px var(--goal-glow-soft));
+      }
+
+      62% {
+        opacity: 0.58;
+        transform: scale(1.08);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.38);
+        filter: blur(3px) drop-shadow(0 0 24px var(--goal-glow-soft));
+      }
+    }
+
+    @keyframes goal-evolve-current {
+      0% {
+        opacity: 1;
+        transform: none;
+        filter: brightness(1) saturate(1);
+      }
+
+      36% {
+        opacity: 0.82;
+        transform: scale(1.004);
+        filter: brightness(0.82) saturate(0.9);
+      }
+
+      64% {
+        opacity: 0.28;
+        transform: scale(1.01);
+        filter: brightness(1.42) saturate(1.24) blur(0.4px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.006);
+        filter: brightness(1.08) saturate(1.08);
+      }
+    }
+
+    @keyframes goal-evolve-next {
+      0%,
+      32% {
+        opacity: 0;
+        transform: scale(1.012);
+        filter: brightness(0.9) saturate(0.92) blur(0.6px);
+      }
+
+      64% {
+        opacity: 0.92;
+        transform: scale(1.004);
+        filter: brightness(1.42) saturate(1.28) blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: none;
+        filter: brightness(1) saturate(1);
+      }
+    }
+
+    @keyframes goal-strip-pop {
+      0%,
+      100% {
+        transform: none;
+        filter: brightness(1) saturate(1);
+      }
+
+      42% {
+        transform: none;
+        filter: brightness(1.2) saturate(1.18);
+      }
+    }
+
+    @keyframes goal-strip-shake {
+      0%,
+      100% {
+        transform: translateX(0);
+        filter: brightness(1) saturate(1);
+      }
+
+      28% {
+        transform: translateX(-4px);
+        filter: brightness(0.92) saturate(0.9);
+      }
+
+      56% {
+        transform: translateX(4px);
+      }
+
+      78% {
+        transform: translateX(-2px) scale(1.001);
+      }
+    }
+
+    @keyframes cut-left-merge {
+      0% {
+        transform: translate(calc(-50% - 112px), -50%) rotate(-4deg);
+        opacity: 1;
+      }
+      68% {
+        transform: translate(calc(-50% - 18px), -50%) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% - 8px), -50%) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    @keyframes cut-right-merge {
+      0% {
+        transform: translate(calc(-50% + 112px), -50%) rotate(4deg);
+        opacity: 1;
+      }
+      68% {
+        transform: translate(calc(-50% + 18px), -50%) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + 8px), -50%) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    @keyframes cut-flash {
+      0%,
+      54% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.72);
+      }
+      70% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.3);
+      }
+    }
+
+    @keyframes cut-robot-pop {
+      0%,
+      56% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.55);
+      }
+      74% {
+        opacity: 1;
+        transform: translate(-50%, -52%) scale(1.08);
+      }
+      100% {
+        opacity: 0.92;
+        transform: translate(-50%, -50%) scale(0.92);
+      }
+    }
+
+    @keyframes cut-plus-hide {
+      0%,
+      58% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes cut-answer-pop {
+      0%,
+      72% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.76);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes target-number-breathe {
+      0%,
+      100% {
+        transform: translateY(-2px) scale(1);
+        filter: brightness(1);
+      }
+
+      50% {
+        transform: translateY(-6px) scale(1.035);
+        filter: brightness(1.08);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .question-part.is-step-target {
+        animation: none;
+        transform: none;
+      }
+
+      .robot-stage.attach-one .robot-sprite,
+      .robot-stage.attach-two .robot-sprite,
+      .robot-stage.complete .robot-sprite,
+      .robot-stage.attach-one .flying-part-one,
+      .robot-stage.attach-two .flying-part-two,
+      .robot-stage.attach-one .robot-core-flash,
+      .robot-stage.attach-two .robot-core-flash,
+      .robot-stage.complete .robot-core-flash,
+      .robot-stage.attach-one .robot-shockwave,
+      .robot-stage.attach-two .robot-shockwave,
+      .robot-stage.complete .robot-shockwave,
+      .robot-stage.complete .fusion-spark,
+      .fusion-cutscene.is-visible .cut-robot,
+      .goal-rail.is-switching .goal-transition-sweep,
+      .goal-rail.is-switching .goal-transition-burst,
+      .goal-rail.is-switching .goal-transition-evolution,
+      .goal-rail.is-evolving .goal-map-raster-current,
+      .goal-rail.is-evolving .goal-map-raster-next,
+      .goal-rail.is-goal-up .goal-map-raster-current,
+      .goal-rail.is-goal-rare .goal-map-raster-current,
+      .goal-rail.is-goal-down .goal-map-raster-current,
+      .goal-rail.is-goal-empty .goal-map-raster-current,
+      .reward-score-art,
+      .reward-pop.fuel-event--smallExplosion .reward-card,
+      .reward-pop.fuel-event--leak .reward-card,
+      .reward-pop.fuel-event--emptyTank .reward-card,
+      .reward-pop.fuel-event--instantLaunch .reward-card {
+        animation: none;
+      }
+
+      .goal-transition {
+        display: none;
+      }
+
+      .flying-part,
+      .robot-core-flash,
+      .robot-shockwave,
+      .fusion-spark {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .game {
+        padding: 10px;
+      }
+
+      .cover,
+      .tutorial,
+      .result {
+        padding: 78px 22px 32px;
+      }
+
+      .cover-scene,
+      .tutorial-layout,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .play {
+        padding: var(--stage-inset);
+      }
+
+      .hud {
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .goal-rail {
+        height: auto;
+        margin-bottom: 8px;
+      }
+
+      .play-layout {
+        grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
+        gap: 8px;
+      }
+
+      .fusion-side {
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .robot-stage {
+        width: min(220px, 78%);
+      }
+
+      .robot-sprite {
+        width: min(100%, 220px);
+      }
+
+      .flying-part {
+        width: 42px;
+        border-radius: 13px;
+      }
+
+      .side-parts {
+        gap: 6px;
+      }
+
+      .side-part,
+      .side-result {
+        min-height: 56px;
+        padding: 6px;
+      }
+
+      .side-part small,
+      .side-result small {
+        font-size: 0.68rem;
+      }
+
+      .side-part strong,
+      .side-result strong {
+        font-size: 1.28rem;
+      }
+
+      .side-caption {
+        font-size: 0.78rem;
+      }
+
+      .result-visual-space {
+        min-height: 180px;
+        order: -1;
+        place-items: end;
+      }
+
+      .hero-copy h1,
+      .result-text-block h2 {
+        font-size: 3.6rem;
+      }
+
+      .hero-copy p,
+      .praise {
+        font-size: 1.18rem;
+      }
+
+      .hero-title-art {
+        width: min(520px, 100%);
+      }
+
+      .cover-start-button {
+        width: clamp(300px, 28vw, 360px);
+        height: auto;
+        aspect-ratio: 1611 / 680;
+      }
+
+      .tutorial-copy h2 {
+        font-size: 2.7rem;
+      }
+
+      .tutorial-html-variant .example-board {
+        display: none;
+      }
+
+      .tutorial-image-hitbox {
+        left: 31%;
+        top: 78.5%;
+        width: 38%;
+        height: 12.5%;
+      }
+
+      .tutorial-svg-hitbox {
+        left: 34%;
+        top: 80%;
+        width: 32%;
+        height: 12%;
+      }
+
+      .hud {
+        grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+      }
+
+      .hud-center {
+        justify-content: center;
+        overflow: visible;
+      }
+
+      .problem-panel {
+        grid-template-rows: minmax(78px, auto) minmax(74px, auto) minmax(132px, auto) 24px;
+        gap: 8px;
+        padding: 12px;
+      }
+
+      .problem-heading {
+        gap: 0;
+      }
+
+      .problem-heading h2 {
+        font-size: 3.7rem;
+      }
+
+      .task-card {
+        grid-template-columns: 1fr;
+        min-height: 76px;
+        gap: 5px;
+        padding: 8px 10px;
+      }
+
+      .step-meaning {
+        font-size: 0.92rem;
+      }
+
+      .step-formula {
+        font-size: 2.05rem;
+      }
+
+      .choice-grid {
+        min-height: 132px;
+        grid-template-rows: repeat(2, minmax(62px, 1fr));
+        gap: 8px;
+      }
+
+      .choice-button {
+        min-height: 62px;
+        padding: 8px 10px;
+        font-size: 1.58rem;
+      }
+
+      .feedback {
+        min-height: 26px;
+        font-size: 0.78rem;
+      }
+    }
+
+    .result {
+      align-items: stretch;
+      padding: 0;
+      background: #12181d;
+    }
+
+    .result::after {
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(10, 13, 17, 0.08) 0%, rgba(10, 13, 17, 0.1) 42%, rgba(10, 13, 17, 0.54) 70%, rgba(10, 13, 17, 0.78) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.3));
+    }
+
+    .result-layout {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+    }
+
+    .result-accessibility-copy {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .result-dynamic-ui {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .result-title-art {
+      position: absolute;
+      left: 74.5%;
+      top: 29.8%;
+      z-index: 4;
+      width: 39%;
+      max-height: 27%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.4));
+    }
+
+    .result-title-art[hidden] {
+      display: none;
+    }
+
+    .result-correct-art {
+      position: absolute;
+      left: 74.8%;
+      top: 52%;
+      z-index: 4;
+      width: 24%;
+      max-height: 14%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.34));
+    }
+
+    .result-correct-art[hidden] {
+      display: none;
+    }
+
+    .result-panel-glow {
+      opacity: 0.9;
+      filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.38));
+    }
+
+    .result.is-measuring .result-panel-glow {
+      animation: result-panel-pulse 1.1s ease-in-out infinite;
+    }
+
+    .result-scan-beam {
+      opacity: 0;
+      transform: translateX(-120px);
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .result.is-measuring .result-scan-beam {
+      opacity: 0.72;
+      animation: result-svg-scan 1.35s ease-in-out infinite;
+    }
+
+    .result-svg-kicker,
+    .result-svg-label,
+    .result-svg-button-text {
+      fill: #d8f9ff;
+      font-weight: 950;
+    }
+
+    .result-svg-kicker {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .result-svg-title {
+      fill: #ffffff;
+      font-size: 66px;
+      font-weight: 1000;
+      letter-spacing: 0;
+      filter: url(#resultTextGlow);
+    }
+
+    .result-svg-label {
+      fill: rgba(216, 249, 255, 0.82);
+      font-size: 20px;
+    }
+
+    .result-svg-value {
+      fill: #ffffff;
+      font-size: 39px;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .result-svg-energy {
+      fill: #b9ffe8;
+    }
+
+    .result-svg-grade {
+      fill: #ffd979;
+    }
+
+    .result-svg-button-text {
+      fill: #241500;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+
+    .result.is-measuring .result-actions {
+      visibility: hidden;
+    }
+
+    .result-actions {
+      position: absolute;
+      left: 59.375%;
+      top: 78.25%;
+      z-index: 5;
+      width: 32.8125%;
+      height: 8%;
+      display: block;
+      pointer-events: none;
+    }
+
+    .result-action-hitbox {
+      position: absolute;
+      top: 0;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+      pointer-events: auto;
+    }
+
+    .result-leaderboard-hitbox {
+      left: 0;
+      width: 47.62%;
+    }
+
+    .result-restart-hitbox {
+      right: 0;
+      width: 42.86%;
+    }
+
+    .result-action-hitbox:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 4px;
+    }
+
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-surface,
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-label {
+      display: none;
+    }
+
+    .result-action-hitbox .result-common-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    @keyframes result-panel-pulse {
+      0%,
+      100% {
+        filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.38)) drop-shadow(0 0 0 rgba(80, 201, 222, 0));
+      }
+      50% {
+        filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.38)) drop-shadow(0 0 26px rgba(80, 201, 222, 0.38));
+      }
+    }
+
+    @keyframes result-svg-scan {
+      0% {
+        transform: translateX(-160px);
+        opacity: 0;
+      }
+      22%,
+      70% {
+        opacity: 0.72;
+      }
+      100% {
+        transform: translateX(360px);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 720px) and (orientation: portrait) {
+      .game,
+      .settings-toggle {
+        display: none;
+      }
+
+      .phone-blocker {
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 28px;
+        text-align: center;
+        color: #ffffff;
+      }
+
+      .phone-blocker div {
+        width: min(420px, 100%);
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+      }
+
+      .phone-blocker h1 {
+        margin: 0 0 10px;
+        font-size: 1.7rem;
+      }
+
+      .phone-blocker p {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 850;
+        line-height: 1.45;
+      }
+    }
+  </style>
+
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+    (function installMathmonAudio(global) {
+      "use strict";
+
+      if (global.MathmonAudio?.version === "mathmon-audio-v1") return;
+
+      const VERSION = "mathmon-audio-v1";
+      const PREF_KEYS = Object.freeze({
+        bgm: "mathmon-audio-bgm-enabled",
+        sfx: "mathmon-audio-sfx-enabled",
+      });
+      const currentScript = document.currentScript;
+      const scriptUrl = currentScript?.dataset.mathmonAudioBase
+        ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
+        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+      const BGM_TRACK = Object.freeze({
+        src: new URL(
+          "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
+          scriptUrl,
+        ).href,
+        gain: 0.025,
+        duckGain: 0.008,
+        fadeSeconds: 1.2,
+      });
+      const SFX_PLANS = Object.freeze({
+        start: Object.freeze([260, 330, 392]),
+        correct: Object.freeze([392, 494, 659]),
+        try: Object.freeze([220, 196]),
+        reward: Object.freeze([392, 523, 784]),
+        next: Object.freeze([330, 392]),
+        scan: Object.freeze([180, 240, 300]),
+        measure: Object.freeze([330, 440, 554]),
+        finish: Object.freeze([392, 523, 659, 784]),
+      });
+      const DUCK_SECONDS = Object.freeze({
+        correct: 0.6,
+        reward: 1.1,
+        scan: 0.8,
+        measure: 0.8,
+        finish: 1.35,
+      });
+      const CUE_ALIASES = Object.freeze({
+        start: "start",
+        uiStart: "start",
+        correct: "correct",
+        success: "correct",
+        "step-correct": "correct",
+        answerCorrect: "correct",
+        "problem-complete": "correct",
+        try: "try",
+        error: "try",
+        wrong: "try",
+        "step-wrong": "try",
+        answerWrongSoft: "try",
+        fuelLoss: "try",
+        reward: "reward",
+        "reward-open": "reward",
+        "reward-rare": "reward",
+        "reward-legend": "reward",
+        rewardPositive: "reward",
+        rewardMega: "reward",
+        rewardRainbow: "reward",
+        rewardLaunch: "reward",
+        fuelPositive: "reward",
+        fuelMega: "reward",
+        fuelRainbow: "reward",
+        fuelLaunch: "reward",
+        rewardTransfer: "measure",
+        measure: "measure",
+        scan: "scan",
+        measureScan: "scan",
+        next: "next",
+        uiNext: "next",
+        fuelEmpty: "next",
+        rewardEmpty: "next",
+        scoreboard: "next",
+        finish: "finish",
+        result: "finish",
+        resultLow: "finish",
+        resultMid: "finish",
+        resultHigh: "finish",
+        resultRare: "finish",
+      });
+
+      const state = {
+        bgmEnabled: readPreference(PREF_KEYS.bgm, true),
+        sfxEnabled: readPreference(PREF_KEYS.sfx, true),
+        context: null,
+        bgmGain: null,
+        bgmBuffer: null,
+        bgmBufferPromise: null,
+        bgmSource: null,
+        bgmStartCount: 0,
+        bgmStopCount: 0,
+        unlocked: false,
+        sfxLog: [],
+        legacyQa: null,
+        controlsBound: false,
+      };
+
+      writePreference(PREF_KEYS.bgm, state.bgmEnabled);
+      writePreference(PREF_KEYS.sfx, state.sfxEnabled);
+
+      function parsePreference(value, fallback) {
+        if (value == null) return fallback;
+        if (value === true || value === "true" || value === "on" || value === "1") return true;
+        if (value === false || value === "false" || value === "off" || value === "0") return false;
+        return fallback;
+      }
+
+      function readPreference(key, fallback) {
+        try {
+          return parsePreference(global.localStorage.getItem(key), fallback);
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function writePreference(key, enabled) {
+        try {
+          global.localStorage.setItem(key, String(Boolean(enabled)));
+        } catch (error) {
+          // Some embedded browsers block localStorage. Audio still works for this session.
+        }
+      }
+
+      function ensureContext() {
+        if (state.context) return state.context;
+        const AudioContext = global.AudioContext || global.webkitAudioContext;
+        if (!AudioContext) return null;
+        state.context = new AudioContext();
+        state.bgmGain = state.context.createGain();
+        state.bgmGain.gain.value = 0.0001;
+        state.bgmGain.connect(state.context.destination);
+        return state.context;
+      }
+
+      async function unlock() {
+        const context = ensureContext();
+        if (!context) return false;
+        if (context.state === "suspended") {
+          try {
+            await context.resume();
+          } catch (error) {
+            return false;
+          }
+        }
+        state.unlocked = context.state === "running";
+        return state.unlocked;
+      }
+
+      function holdAudioParam(param, time) {
+        if (typeof param.cancelAndHoldAtTime === "function") {
+          param.cancelAndHoldAtTime(time);
+          return;
+        }
+        const value = Math.max(0.0001, Number(param.value) || 0.0001);
+        param.cancelScheduledValues(time);
+        param.setValueAtTime(value, time);
+      }
+
+      function loadBgmBuffer() {
+        if (state.bgmBuffer) return Promise.resolve(state.bgmBuffer);
+        if (state.bgmBufferPromise) return state.bgmBufferPromise;
+        const context = ensureContext();
+        if (!context) return Promise.resolve(null);
+        state.bgmBufferPromise = fetch(BGM_TRACK.src)
+          .then((response) => {
+            if (!response.ok) throw new Error(`BGM load failed: ${response.status}`);
+            return response.arrayBuffer();
+          })
+          .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+          .then((buffer) => {
+            state.bgmBuffer = buffer;
+            return buffer;
+          })
+          .catch((error) => {
+            console.warn("Background music could not be loaded.", error);
+            state.bgmBufferPromise = null;
+            return null;
+          });
+        return state.bgmBufferPromise;
+      }
+
+      async function startBgm() {
+        if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        // Start loading before awaiting AudioContext.resume(). Embedded browsers can
+        // keep resume() pending until another trusted gesture; the fetch must not be
+        // blocked behind that pending promise.
+        const bufferPromise = loadBgmBuffer();
+        if (!(await unlock())) return false;
+        const buffer = await bufferPromise;
+        if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        const source = state.context.createBufferSource();
+        const now = state.context.currentTime;
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(state.bgmGain);
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + BGM_TRACK.fadeSeconds);
+        source.onended = () => {
+          if (state.bgmSource === source) state.bgmSource = null;
+        };
+        state.bgmSource = source;
+        state.bgmStartCount += 1;
+        source.start(now);
+        return true;
+      }
+
+      function stopBgm(options = {}) {
+        const immediate = Boolean(options.immediate);
+        const source = state.bgmSource;
+        if (!source || !state.context || !state.bgmGain) return false;
+        state.bgmSource = null;
+        state.bgmStopCount += 1;
+        const now = state.context.currentTime;
+        if (immediate) {
+          try {
+            source.stop(now);
+          } catch (error) {
+            // The source may already have ended.
+          }
+          state.bgmGain.gain.cancelScheduledValues(now);
+          state.bgmGain.gain.setValueAtTime(0.0001, now);
+          return true;
+        }
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(0.0001, now + BGM_TRACK.fadeSeconds);
+        try {
+          source.stop(now + BGM_TRACK.fadeSeconds + 0.05);
+        } catch (error) {
+          // The source may already have ended.
+        }
+        return true;
+      }
+
+      function duckBgm(seconds) {
+        if (!state.bgmSource || !state.context || !state.bgmGain) return;
+        const now = state.context.currentTime;
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.duckGain, now + 0.08);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + Math.max(0.12, Number(seconds) || 0.6));
+      }
+
+      function normalizeCue(cue) {
+        return CUE_ALIASES[cue] || (SFX_PLANS[cue] ? cue : "next");
+      }
+
+      async function play(cue = "next") {
+        if (!state.sfxEnabled) return false;
+        if (!(await unlock())) return false;
+        const normalizedCue = normalizeCue(cue);
+        const duckSeconds = DUCK_SECONDS[normalizedCue];
+        if (duckSeconds) duckBgm(duckSeconds);
+        const now = state.context.currentTime;
+        SFX_PLANS[normalizedCue].forEach((frequency, index) => {
+          const at = now + index * 0.08;
+          const oscillator = state.context.createOscillator();
+          const gain = state.context.createGain();
+          oscillator.frequency.value = frequency;
+          oscillator.type = normalizedCue === "try" ? "triangle" : "sine";
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(0.045, at + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.16);
+          oscillator.connect(gain).connect(state.context.destination);
+          oscillator.start(at);
+          oscillator.stop(at + 0.18);
+        });
+        state.sfxLog.push(String(cue));
+        if (state.sfxLog.length > 80) state.sfxLog.shift();
+        return true;
+      }
+
+      function syncControls() {
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        if (bgmToggle) bgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+        if (sfxToggle) sfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      }
+
+      function setPreference(kind, enabled, options = {}) {
+        const value = Boolean(enabled);
+        if (kind === "bgm") {
+          state.bgmEnabled = value;
+          writePreference(PREF_KEYS.bgm, value);
+          if (value && options.start !== false) startBgm();
+          if (!value) stopBgm({ immediate: true });
+        } else if (kind === "sfx") {
+          state.sfxEnabled = value;
+          writePreference(PREF_KEYS.sfx, value);
+        }
+        if (options.syncControls !== false) syncControls();
+      }
+
+      function setPrefs(prefs = {}, options = {}) {
+        if (typeof prefs.bgmEnabled === "boolean") {
+          setPreference("bgm", prefs.bgmEnabled, options);
+        }
+        if (typeof prefs.sfxEnabled === "boolean") {
+          setPreference("sfx", prefs.sfxEnabled, options);
+        }
+        return getPrefs();
+      }
+
+      function activeScreenName() {
+        const screen = document.querySelector(".screen.is-active, [data-screen].is-active");
+        return screen?.dataset.screen || screen?.id || "";
+      }
+
+      function getPrefs() {
+        const settingsBackdrop = document.getElementById("settingsBackdrop");
+        return {
+          version: VERSION,
+          bgmEnabled: state.bgmEnabled,
+          sfxEnabled: state.sfxEnabled,
+          bgmPlaying: Boolean(state.bgmSource),
+          bgmLoaded: Boolean(state.bgmBuffer),
+          bgmDuration: state.bgmBuffer?.duration || 0,
+          bgmTrack: BGM_TRACK.src,
+          bgmStartCount: state.bgmStartCount,
+          bgmStopCount: state.bgmStopCount,
+          settingsOpen: Boolean(settingsBackdrop && !settingsBackdrop.hidden),
+          screen: activeScreenName(),
+        };
+      }
+
+      function setLegacyPrefs(prefs) {
+        const legacy = state.legacyQa;
+        if (legacy && typeof legacy.setPrefs === "function") {
+          try {
+            legacy.setPrefs(prefs);
+            return;
+          } catch (error) {
+            console.warn("Lesson audio settings could not be synchronized.", error);
+          }
+        }
+        const pairs = [
+          ["bgmEnabled", "settingsBgmToggle"],
+          ["sfxEnabled", "settingsSfxToggle"],
+        ];
+        pairs.forEach(([key, id]) => {
+          if (typeof prefs[key] !== "boolean") return;
+          const toggle = document.getElementById(id);
+          if (!toggle) return;
+          const current = toggle.getAttribute("aria-checked") === "true";
+          if (current !== prefs[key]) toggle.click();
+        });
+      }
+
+      function installQaHook() {
+        state.legacyQa = global.__mathmonAudioQa || null;
+        global.__mathmonAudioQa = {
+          version: VERSION,
+          keys: PREF_KEYS,
+          cues: SFX_PLANS,
+          getLog: () => [...state.sfxLog],
+          clearLog: () => {
+            state.sfxLog = [];
+          },
+          getPrefs,
+          setPrefs: (prefs = {}) => {
+            setLegacyPrefs(prefs);
+            return setPrefs(prefs);
+          },
+          play,
+          startBgm,
+          stopBgm,
+        };
+      }
+
+      function bindControls() {
+        if (state.controlsBound) return;
+        state.controlsBound = true;
+        document.querySelector("main.game")?.setAttribute("data-audio-standard", VERSION);
+        syncControls();
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        bgmToggle?.addEventListener("click", () => {
+          const enabled = bgmToggle.getAttribute("aria-checked") === "true";
+          setPreference("bgm", enabled);
+        });
+        sfxToggle?.addEventListener("click", () => {
+          const enabled = sfxToggle.getAttribute("aria-checked") === "true";
+          setPreference("sfx", enabled);
+        });
+        installQaHook();
+      }
+
+      function handleUserInteraction() {
+        if (state.bgmEnabled && !state.bgmSource) startBgm();
+      }
+
+      // Retry on trusted gestures until playback starts. A one-shot listener can
+      // lose BGM permanently when the first resume is delayed or rejected.
+      document.addEventListener("pointerdown", handleUserInteraction, { capture: true });
+      document.addEventListener("click", handleUserInteraction, { capture: true });
+      document.addEventListener("keydown", handleUserInteraction, { capture: true });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopBgm({ immediate: true });
+        else if (state.bgmEnabled && state.unlocked) startBgm();
+      });
+      global.addEventListener("pagehide", () => stopBgm({ immediate: true }));
+
+      global.MathmonAudio = Object.freeze({
+        version: VERSION,
+        keys: PREF_KEYS,
+        track: BGM_TRACK,
+        plans: SFX_PLANS,
+        play,
+        unlock,
+        startBgm,
+        stopBgm,
+        duckBgm,
+        getPrefs,
+        setPrefs,
+      });
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindControls, { once: true });
+      } else {
+        bindControls();
+      }
+    })(window);
+  </script>
+</head>
+<body>
+  <div class="phone-blocker" aria-hidden="true">
+    <div>
+      <h1>가로 화면에서 플레이해요</h1>
+      <p>태블릿이나 컴퓨터 화면에서 매스몬 로봇 합체를 시작할 수 있어요.</p>
+    </div>
+  </div>
+
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls">
+    <div class="stage-shell">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
+        </svg>
+      </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
+              <span>배경 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
+              <span>효과 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
+          </div>
+          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
+            <p class="settings-confirm-title" id="settingsConfirmText">처음부터 할까요?</p>
+            <div class="settings-confirm-actions">
+              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
+              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
+      <img class="raster-bg" src="cover-generated.webp" alt="">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 4차시</span>
+      </div>
+      <span class="lesson-badge">(몇)×(몇십몇), (몇십몇)×(몇십몇)</span>
+      <div class="cover-scene">
+        <div class="hero-copy">
+          <h1 class="visually-hidden" id="coverTitle">매스몬 로봇 합체</h1>
+          <img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">
+          <p>두 번 곱하고 더해서 로봇을 완성해요.</p>
+          <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
+            <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen tutorial" id="tutorialScreen" aria-labelledby="tutorialTitle" data-tutorial-variant="image" data-tutorial-step="solve">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 4차시</span>
+      </div>
+      <h2 class="visually-hidden" id="tutorialTitle">나눠서 곱해요</h2>
+
+      <div class="tutorial-variant tutorial-image-variant" aria-label="이미지로 만든 설명 화면">
+        <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=verified-math-20260710" alt="" aria-hidden="true">
+        <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=fusion-power-20260710" alt="" aria-hidden="true">
+        <div class="visually-hidden">
+          <p>첫 화면은 아래 수를 둘로 나누어 곱하는 방법을 보여 줍니다.</p>
+          <ol>
+            <li>아래 수를 둘로 나눠요.</li>
+            <li>두 조각을 따로 곱해요.</li>
+            <li>두 값을 더해요.</li>
+          </ol>
+          <p>두 번째 화면에서는 합체 힘과 마지막에 완성한 로봇을 보여 줍니다.</p>
+          <p>예: 45는 40과 5로 나누고, 23 곱하기 40과 23 곱하기 5를 따로 봐요.</p>
+        </div>
+        <button class="tutorial-image-hitbox" id="tutorialNextButton" type="button" data-tutorial-start aria-label="다음"></button>
+      </div>
+
+      <div class="tutorial-variant tutorial-svg-variant" aria-label="정밀 UI로 만든 설명 화면">
+        <img class="tutorial-dynamic-bg" src="tutorial-dynamic-bg-generated.webp" alt="" aria-hidden="true">
+        <svg class="tutorial-svg-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="tutorialSvgTitle tutorialSvgDesc">
+          <title id="tutorialSvgTitle">나눠서 곱해요</title>
+          <desc id="tutorialSvgDesc">아래 수를 둘로 나누고, 두 조각을 따로 곱한 뒤, 두 값을 더해요.</desc>
+          <defs>
+            <filter id="tutorialSvgShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.32"/>
+            </filter>
+            <linearGradient id="tutorialSvgButton" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffe77f"/>
+              <stop offset="1" stop-color="#ffb63d"/>
+            </linearGradient>
+          </defs>
+          <rect x="70" y="112" width="690" height="492" rx="28" fill="rgba(15, 20, 26, 0.78)" stroke="rgba(255,255,255,0.18)" filter="url(#tutorialSvgShadow)"/>
+          <rect x="96" y="138" width="132" height="36" rx="18" fill="rgba(14, 12, 22, 0.78)" stroke="rgba(255,255,255,0.18)"/>
+          <text x="162" y="163" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="900">어떻게 해요?</text>
+          <text x="96" y="244" fill="#ffffff" font-size="72" font-weight="1000">나눠서 곱해요</text>
+          <g font-size="29" font-weight="950">
+            <rect x="96" y="292" width="612" height="74" rx="12" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.18)"/>
+            <rect x="116" y="306" width="48" height="48" rx="10" fill="#ffc857"/>
+            <text x="140" y="340" text-anchor="middle" fill="#201000">1</text>
+            <text x="188" y="339" fill="#ffffff">아래 수를 둘로 나눠요.</text>
+            <rect x="96" y="386" width="612" height="74" rx="12" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.18)"/>
+            <rect x="116" y="400" width="48" height="48" rx="10" fill="#ffc857"/>
+            <text x="140" y="434" text-anchor="middle" fill="#201000">2</text>
+            <text x="188" y="433" fill="#ffffff">두 조각을 따로 곱해요.</text>
+            <rect x="96" y="480" width="612" height="74" rx="12" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.18)"/>
+            <rect x="116" y="494" width="48" height="48" rx="10" fill="#ffc857"/>
+            <text x="140" y="528" text-anchor="middle" fill="#201000">3</text>
+            <text x="188" y="527" fill="#ffffff">두 값을 더해요.</text>
+          </g>
+          <rect x="800" y="198" width="390" height="330" rx="24" fill="rgba(17, 20, 24, 0.70)" stroke="rgba(80,201,222,0.34)" filter="url(#tutorialSvgShadow)"/>
+          <text x="832" y="248" fill="#d5f8ff" font-size="24" font-weight="950">예시</text>
+          <rect x="832" y="280" width="326" height="74" rx="16" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.18)"/>
+          <text x="995" y="328" text-anchor="middle" fill="#ffffff" font-size="35" font-weight="1000">45 = 40 + 5</text>
+          <path d="M944 362 C910 390 888 418 874 448" fill="none" stroke="#60d7ff" stroke-width="7" stroke-linecap="round"/>
+          <path d="M1044 362 C1080 390 1102 418 1118 448" fill="none" stroke="#ff74a0" stroke-width="7" stroke-linecap="round"/>
+          <rect x="832" y="456" width="150" height="58" rx="14" fill="#1f6cc9"/>
+          <text x="907" y="494" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="1000">23 × 40</text>
+          <rect x="1008" y="456" width="150" height="58" rx="14" fill="#d84d7a"/>
+          <text x="1083" y="494" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="1000">23 × 5</text>
+          <rect x="430" y="640" width="420" height="94" rx="28" fill="url(#tutorialSvgButton)"/>
+          <rect x="430" y="720" width="420" height="22" rx="8" fill="rgba(111, 70, 16, 0.45)"/>
+          <text x="640" y="699" text-anchor="middle" fill="#241200" font-size="40" font-weight="1000">합체 시작</text>
+        </svg>
+        <button class="tutorial-svg-hitbox" type="button" data-tutorial-start aria-label="합체 시작"></button>
+      </div>
+
+      <div class="tutorial-variant tutorial-html-variant">
+        <div class="tutorial-layout">
+          <div class="tutorial-copy">
+          <span class="mini-badge">어떻게 해요?</span>
+          <h2>나눠서 곱해요</h2>
+          <ol class="steps">
+            <li><b>1</b><span>아래 수를 둘로 나눠요.</span></li>
+            <li><b>2</b><span>두 조각을 따로 곱해요.</span></li>
+            <li><b>3</b><span>두 값을 더해요.</span></li>
+          </ol>
+          <button class="primary-button" type="button" data-tutorial-start>합체 시작</button>
+          </div>
+          <div class="example-board" aria-label="곱셈 부품 합체 예시">
+            <p class="example-title">예시</p>
+            <div class="mini-calculation">
+              <div class="mini-cell"><span>나누기</span><strong>45 = 40 + 5</strong></div>
+              <div class="mini-cell"><span>따로 곱하기</span><strong>23 × 40<br>23 × 5</strong></div>
+              <div class="mini-cell"><span>더하기</span><strong>두 값을 더해요</strong></div>
+            </div>
+            <p class="prompt">큰 곱셈도 둘로 나누면 쉬워요.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen play" id="playScreen" aria-labelledby="questionText">
+      <header class="hud">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <div class="hud-center">
+          <span class="stat-pill" id="progressText">문제 1/10</span>
+          <span class="stat-pill" id="energyText">0점</span>
+          <span class="stat-pill" id="chainText">마지막에 로봇</span>
+        </div>
+        <span class="unit-badge">로봇 합체</span>
+      </header>
+
+      <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
+        <img class="goal-map-raster goal-map-raster-current" id="goalMapRaster" src="play-robot-goal-small-1232-generated.webp?v=goal-1232-slot3-wingfix-20260709" alt="">
+        <img class="goal-map-raster goal-map-raster-next" id="goalMapRasterNext" alt="" aria-hidden="true" hidden>
+        <span class="goal-shade" aria-hidden="true"></span>
+        <span class="goal-transition goal-transition-sweep" aria-hidden="true"></span>
+        <span class="goal-transition goal-transition-burst" aria-hidden="true"></span>
+        <span class="goal-transition goal-transition-evolution" aria-hidden="true"></span>
+      </div>
+
+      <div class="play-layout">
+        <aside class="fusion-side" id="fusionSide" aria-label="로봇 합체 화면">
+          <img class="fusion-side-bg" src="fusion-workshop-generated.webp" alt="">
+          <div class="robot-stage" id="robotStage" aria-hidden="true">
+            <img class="robot-sprite" id="robotSprite" src="mathmon-rfa-01-standby.webp" alt="">
+            <div class="flying-part flying-part-one"></div>
+            <div class="flying-part flying-part-two"></div>
+            <div class="robot-core-flash"></div>
+            <div class="robot-shockwave"></div>
+            <span class="fusion-spark spark-one"></span>
+            <span class="fusion-spark spark-two"></span>
+            <span class="fusion-spark spark-three"></span>
+            <span class="fusion-spark spark-four"></span>
+          </div>
+          <div class="side-parts" aria-label="완성한 계산 조각">
+            <div class="side-part" id="sidePartOne">
+              <small id="sidePartOneLabel">첫 조각</small>
+              <strong>?</strong>
+            </div>
+            <div class="side-part" id="sidePartTwo">
+              <small id="sidePartTwoLabel">둘째 조각</small>
+              <strong>?</strong>
+            </div>
+          </div>
+          <div class="side-result" id="sideResult">
+            <small>합체 답</small>
+            <strong>?</strong>
+          </div>
+          <p class="side-caption" id="sideCaption">두 조각을 모아 로봇을 완성해요.</p>
+
+          <div class="fusion-cutscene" id="fusionCutscene" aria-live="polite" aria-hidden="true">
+            <div class="fusion-cut-card">
+              <div class="cut-part cut-left">
+                <small id="cutPartOneLabel">첫 조각</small>
+                <strong id="cutPartOne">115</strong>
+              </div>
+              <div class="cut-plus" aria-hidden="true">+</div>
+              <div class="cut-part cut-right">
+                <small id="cutPartTwoLabel">둘째 조각</small>
+                <strong id="cutPartTwo">920</strong>
+              </div>
+              <div class="cut-flash">합체!</div>
+              <img class="cut-robot" src="mathmon-rfa-04-complete.webp" alt="" aria-hidden="true">
+              <div class="cut-answer">
+                <small>완성 답</small>
+                <strong id="cutAnswer">1,035</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="problem-panel" aria-live="polite">
+          <div class="problem-heading">
+            <h2 id="questionText">23 × 45</h2>
+          </div>
+          <div class="task-card" id="taskCard">
+            <p class="step-meaning" id="stepMeaning">먼저 5와 곱해요.</p>
+            <div class="step-formula" id="stepFormula">23 × 5 = ?</div>
+          </div>
+          <p class="prompt" id="promptText" hidden>답을 골라요.</p>
+          <div class="choice-grid" id="choiceGrid"></div>
+          <div class="feedback" id="feedbackText"></div>
+        </section>
+      </div>
+
+      <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="rewardTitle" aria-describedby="rewardMessage">
+        <div class="reward-card">
+          <h3 class="visually-hidden" id="rewardTitle">합체 힘</h3>
+          <img class="reward-score-art" id="rewardScoreArt" src="reward-score-plus-50-generated.webp" alt="" aria-hidden="true">
+          <p class="visually-hidden" id="rewardMessage">합체 힘이 50점 늘었어요.</p>
+          <button class="primary-button reward-next-button" id="rewardNextButton" type="button">다음</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen result" id="resultScreen" aria-labelledby="resultTitle">
+      <img class="raster-bg" id="resultRaster" src="result-small-generated.webp" alt="">
+      <div class="top-row">
+        <span class="brand-badge"><img src="eduitit-logo-mark.png" alt="">에듀잇티 수학 게임</span>
+        <span class="unit-badge">3학년 2학기 1단원 4차시</span>
+      </div>
+      <div class="result-layout">
+        <div class="result-accessibility-copy visually-hidden" aria-live="polite">
+          <h2 class="visually-hidden" id="resultTitle">합체 힘 확인 중</h2>
+          <p class="visually-hidden" id="praiseText">두 부품을 차근차근 합치고 있어요.</p>
+          <div id="resultMeasure" aria-label="합체 결과">
+            <div class="measure-top">
+              <span id="measureStatus">합체 힘 확인 중</span>
+              <strong id="measurePercent">0점</strong>
+            </div>
+            <div class="measure-tube" aria-hidden="true">
+              <span class="measure-fill" id="measureFill"></span>
+              <span class="measure-scan"></span>
+            </div>
+            <div class="result-grade-track" id="resultGradeTrack" aria-label="로봇 결과"></div>
+          </div>
+          <span id="finalEnergyText">0점</span>
+          <span class="visually-hidden" id="finalCorrectText">0/10</span>
+          <span id="finalGradeText">소형</span>
+        </div>
+        <img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true" hidden>
+        <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
+        <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
+          <title id="resultSvgTitle">합체 결과</title>
+          <defs>
+            <linearGradient id="resultPanelFill" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10232b" stop-opacity="0.78"></stop>
+              <stop offset="58%" stop-color="#121820" stop-opacity="0.64"></stop>
+              <stop offset="100%" stop-color="#2e1d41" stop-opacity="0.7"></stop>
+            </linearGradient>
+            <linearGradient id="resultPanelStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#b8fff0"></stop>
+              <stop offset="52%" stop-color="#ffc857"></stop>
+              <stop offset="100%" stop-color="#d49bff"></stop>
+            </linearGradient>
+            <linearGradient id="resultButtonFill" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fff0a8"></stop>
+              <stop offset="100%" stop-color="#ffc04e"></stop>
+            </linearGradient>
+            <filter id="resultTextGlow" x="-20%" y="-50%" width="140%" height="200%">
+              <feDropShadow dx="0" dy="7" stdDeviation="0" flood-color="#000000" flood-opacity="0.22"></feDropShadow>
+              <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#50c9de" flood-opacity="0.42"></feDropShadow>
+            </filter>
+          </defs>
+          <g class="result-panel-glow">
+            <path d="M716 112H1198C1211 112 1222 123 1222 136V708C1222 721 1211 732 1198 732H716C703 732 692 721 692 708V136C692 123 703 112 716 112Z" fill="url(#resultPanelFill)" stroke="url(#resultPanelStroke)" stroke-width="3"></path>
+            <path d="M731 130H1183C1193 130 1201 138 1201 148V696C1201 706 1193 714 1183 714H731C721 714 713 706 713 696V148C713 138 721 130 731 130Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
+            <rect class="result-scan-beam" x="724" y="138" width="86" height="568" rx="43" fill="rgba(255,255,255,0.22)"></rect>
+            <text class="result-svg-kicker" x="760" y="188"></text>
+            <text class="result-svg-title" id="resultDestinationSvg" x="760" y="266" opacity="0" aria-hidden="true"></text>
+            <line x1="760" y1="366" x2="1154" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
+            <text class="result-svg-label" x="760" y="421"></text>
+            <text class="result-svg-value" id="resultScoreSvg" x="760" y="469" opacity="0" aria-hidden="true">0/10</text>
+            <text class="result-svg-label" x="760" y="536"></text>
+            <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">확인 중</text>
+            <rect x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
+            <rect id="resultMeasureFillSvg" x="760" y="582" width="0" height="10" rx="5" fill="#79f5c4"></rect>
+            <rect class="result-legacy-action-surface ranking-disabled" x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <rect class="result-legacy-action-surface" x="982" y="626" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
+            <text class="result-svg-button-text result-legacy-action-label ranking-disabled" x="860" y="667" text-anchor="middle">순위 보기</text>
+            <text class="result-svg-button-text result-legacy-action-label" id="resultSvgRestartText" x="1072" y="667" text-anchor="middle">다시하기</text>
+          </g>
+        </svg>
+        <div class="result-actions" aria-hidden="false">
+          <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
+            <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
+            <span class="visually-hidden">순위 보기</span>
+          </button>
+          <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
+            <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
+            <span class="visually-hidden">다시하기</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 합체 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-fusion-generated.webp" data-scoreboard-result-kind="fusion" data-scoreboard-score-label="얻은 로봇" data-scoreboard-list-title="로봇 순위" data-scoreboard-unit="3학년 2학기 1단원 4차시"></section>
+    </div>
+  </main>
+
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260710-seeded-session"></script>
+  <script>
+    const LESSON_ID = "3-2-1-4-mathmon-fusion";
+    const TOTAL_QUESTIONS = 10;
+    const MAX_SCORE = 8000;
+    const ULTRA_SCORE = 1500;
+    const LEGEND_SCORE = 2000;
+    const PROBLEM_SEED_SALT = 0x46555331;
+    const REWARD_SEED_SALT = 0x46555352;
+    const OPTION_SEED_SALT = 0x4655534f;
+    const QUESTION_SEED_STEP = 0x9e3779b1;
+    const AUDIO_PREF_KEYS = {
+      bgm: "mathmon-audio-bgm-enabled",
+      sfx: "mathmon-audio-sfx-enabled"
+    };
+    const BGM_TRACK = {
+      src: "../_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260711",
+      gain: 0.025,
+      duckGain: 0.008,
+      fadeSeconds: 1.2
+    };
+    const BGM_DUCK_SECONDS = {
+      correct: 0.6,
+      reward: 1.1,
+      scan: 0.8,
+      measure: 0.8,
+      finish: 1.35
+    };
+    function getScoreboardApiUrl() {
+      const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
+      return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
+    }
+    const SCOREBOARD_API_URL = getScoreboardApiUrl();
+    const GRADES = [
+      { id: "small", short: "소", name: "소형 로봇 매스몬", min: 0, max: 99, image: "result-small-generated.webp", titleArt: "result-title-small-generated.webp" },
+      { id: "medium", short: "중", name: "중형 로봇 매스몬", min: 100, max: 199, image: "result-medium-generated.webp", titleArt: "result-title-medium-generated.webp" },
+      { id: "large", short: "대", name: "대형 로봇 매스몬", min: 200, max: 499, image: "result-large-generated.webp", titleArt: "result-title-large-generated.webp" },
+      { id: "giant", short: "거", name: "거대 로봇 매스몬", min: 500, max: ULTRA_SCORE - 1, image: "result-giant-generated.webp", titleArt: "result-title-giant-generated.webp" },
+      { id: "ultra", short: "초", name: "초거대 로봇 매스몬", min: ULTRA_SCORE, max: LEGEND_SCORE - 1, image: "result-ultra-generated.webp", titleArt: "result-title-ultra-generated.webp" }
+    ];
+    const SECRET_GRADE = {
+      id: "legend",
+      short: "전",
+      name: "전설 로봇 매스몬",
+      min: LEGEND_SCORE,
+      max: MAX_SCORE,
+      image: "result-legend-generated.webp",
+      titleArt: "result-title-legend-generated.webp",
+      secret: true
+    };
+    const ALL_GRADES = [...GRADES, SECRET_GRADE];
+    const GOAL_RAIL_ASSET_VERSION = "goal-1232-slot3-wingfix-20260709";
+    const GOAL_RAIL_IMAGES = ALL_GRADES.map(
+      (grade) => `play-robot-goal-${grade.id}-1232-generated.webp?v=${GOAL_RAIL_ASSET_VERSION}`
+    );
+    const EVENT_CLASSES = [
+      "fuel-event--normal",
+      "fuel-event--smallExplosion",
+      "fuel-event--megaFuel",
+      "fuel-event--instantLaunch",
+      "fuel-event--emptyTank",
+      "fuel-event--rainbowFuel",
+      "fuel-event--leak"
+    ];
+    const REWARD_SCORE_ART = {
+      plus50: "reward-score-plus-50-generated.webp",
+      plus100: "reward-score-plus-100-generated.webp",
+      plus200: "reward-score-plus-200-generated.webp",
+      plus500: "reward-score-plus-500-generated.webp",
+      minus50: "reward-score-minus-50-generated.webp",
+      minus100: "reward-score-minus-100-generated.webp",
+      zero: "reward-score-zero-generated.webp",
+      rainbow: "reward-score-rainbow-generated.webp?v=actual-800-20260710"
+    };
+    const ROBOT_SPRITES = {
+      standby: "mathmon-rfa-01-standby.webp",
+      one: "mathmon-rfa-02-one-part.webp",
+      two: "mathmon-rfa-03-two-parts.webp",
+      complete: "mathmon-rfa-04-complete.webp"
+    };
+    const ROBOT_STAGE_CLASSES = ["attach-one", "attach-two", "complete"];
+    const GOAL_RAIL_CLASSES = ["is-goal-up", "is-goal-down", "is-goal-rare", "is-goal-empty"];
+    const TUTORIAL_VARIANTS = new Set(["image"]);
+    const TUTORIAL_NEXT_LABEL = "다음";
+    const TUTORIAL_GOAL_LABEL = "합체 준비";
+    const tutorialVariantParam = new URLSearchParams(window.location.search).get("tutorial");
+    const initialTutorialVariant = TUTORIAL_VARIANTS.has(tutorialVariantParam) ? tutorialVariantParam : "image";
+
+    const state = {
+      screen: "cover",
+      problems: [],
+      index: 0,
+      score: 0,
+      correct: 0,
+      chain: 0,
+      stepIndex: 0,
+      stepAttempts: 0,
+      problemHadMistake: false,
+      lastEvent: null,
+      goalRailTimer: null,
+      goalSwitchSwapTimer: null,
+      goalSwitchDoneTimer: null,
+      goalImageIndex: 0,
+      goalPendingImageIndex: null,
+      bgmEnabled: loadAudioPreference(AUDIO_PREF_KEYS.bgm),
+      sfxEnabled: loadAudioPreference(AUDIO_PREF_KEYS.sfx),
+      audio: null,
+      bgmBuffer: null,
+      bgmBufferPromise: null,
+      bgmGain: null,
+      bgmSource: null,
+      scoreboardAnswers: [],
+      scoreboardCurrentAnswer: null,
+      scoreboardQuestionStartedAt: 0,
+      scoreboardStepStartedAt: 0,
+      tutorialReviewMode: false,
+      reviewReturnScreen: "cover",
+      runSeed: 1,
+      scoreboardSessionPromise: null
+    };
+
+    GOAL_RAIL_IMAGES.forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+    Object.values(REWARD_SCORE_ART).forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+
+    const el = {
+      coverScreen: document.getElementById("coverScreen"),
+      tutorialScreen: document.getElementById("tutorialScreen"),
+      playScreen: document.getElementById("playScreen"),
+      resultScreen: document.getElementById("resultScreen"),
+      startButton: document.getElementById("startButton"),
+      tutorialNextButton: document.getElementById("tutorialNextButton"),
+      settingsButton: document.getElementById("settingsButton"),
+      settingsBackdrop: document.getElementById("settingsBackdrop"),
+      settingsModal: document.getElementById("settingsModal"),
+      settingsMenu: document.getElementById("settingsMenu"),
+      settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+      settingsBgmToggle: document.getElementById("settingsBgmToggle"),
+      settingsSfxToggle: document.getElementById("settingsSfxToggle"),
+      settingsMethodButton: document.getElementById("settingsMethodButton"),
+      settingsRestartButton: document.getElementById("settingsRestartButton"),
+      settingsCloseButton: document.getElementById("settingsCloseButton"),
+      settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+      settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      progressText: document.getElementById("progressText"),
+      energyText: document.getElementById("energyText"),
+      chainText: document.getElementById("chainText"),
+      goalRail: document.getElementById("goalRail"),
+      goalMapRaster: document.getElementById("goalMapRaster"),
+      goalMapRasterNext: document.getElementById("goalMapRasterNext"),
+      questionText: document.getElementById("questionText"),
+      taskCard: document.getElementById("taskCard"),
+      stepFormula: document.getElementById("stepFormula"),
+      stepMeaning: document.getElementById("stepMeaning"),
+      promptText: document.getElementById("promptText"),
+      choiceGrid: document.getElementById("choiceGrid"),
+      feedbackText: document.getElementById("feedbackText"),
+      fusionSide: document.getElementById("fusionSide"),
+      robotStage: document.getElementById("robotStage"),
+      robotSprite: document.getElementById("robotSprite"),
+      sidePartOne: document.getElementById("sidePartOne"),
+      sidePartOneLabel: document.getElementById("sidePartOneLabel"),
+      sidePartTwo: document.getElementById("sidePartTwo"),
+      sidePartTwoLabel: document.getElementById("sidePartTwoLabel"),
+      sideResult: document.getElementById("sideResult"),
+      sideCaption: document.getElementById("sideCaption"),
+      fusionCutscene: document.getElementById("fusionCutscene"),
+      cutPartOneLabel: document.getElementById("cutPartOneLabel"),
+      cutPartOne: document.getElementById("cutPartOne"),
+      cutPartTwoLabel: document.getElementById("cutPartTwoLabel"),
+      cutPartTwo: document.getElementById("cutPartTwo"),
+      cutAnswer: document.getElementById("cutAnswer"),
+      rewardPop: document.getElementById("rewardPop"),
+      rewardTitle: document.getElementById("rewardTitle"),
+      rewardScoreArt: document.getElementById("rewardScoreArt"),
+      rewardMessage: document.getElementById("rewardMessage"),
+      rewardNextButton: document.getElementById("rewardNextButton"),
+      resultRaster: document.getElementById("resultRaster"),
+      measureStatus: document.getElementById("measureStatus"),
+      measurePercent: document.getElementById("measurePercent"),
+      measureFill: document.getElementById("measureFill"),
+      resultGradeTrack: document.getElementById("resultGradeTrack"),
+      praiseText: document.getElementById("praiseText"),
+      finalEnergyText: document.getElementById("finalEnergyText"),
+      finalCorrectText: document.getElementById("finalCorrectText"),
+      finalGradeText: document.getElementById("finalGradeText"),
+      resultTitleArt: document.getElementById("resultTitleArt"),
+      resultCorrectArt: document.getElementById("resultCorrectArt"),
+      resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+      resultScoreSvg: document.getElementById("resultScoreSvg"),
+      resultMeasureSvg: document.getElementById("resultMeasureSvg"),
+      resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+      resultSvgRestartText: document.getElementById("resultSvgRestartText"),
+      leaderboardButton: document.getElementById("leaderboardButton"),
+      restartButton: document.getElementById("restartButton"),
+      scoreboardScreen: document.getElementById("scoreboardScreen")
+    };
+
+    function setTutorialVariant(variant) {
+      const nextVariant = TUTORIAL_VARIANTS.has(variant) ? variant : "image";
+      el.tutorialScreen.dataset.tutorialVariant = nextVariant;
+      return nextVariant;
+    }
+
+    function setTutorialStep(step) {
+      const nextStep = step === "goal" ? "goal" : "solve";
+      el.tutorialScreen.dataset.tutorialStep = nextStep;
+      const label = nextStep === "solve" ? TUTORIAL_NEXT_LABEL : TUTORIAL_GOAL_LABEL;
+      el.tutorialNextButton.textContent = label;
+      el.tutorialNextButton.setAttribute("aria-label", label);
+      return nextStep;
+    }
+
+    setTutorialVariant(initialTutorialVariant);
+    setTutorialStep("solve");
+    window.__mathmonTutorialQa = {
+      setVariant: setTutorialVariant,
+      getVariant: () => el.tutorialScreen.dataset.tutorialVariant,
+      setStep: setTutorialStep,
+      getStep: () => el.tutorialScreen.dataset.tutorialStep
+    };
+
+    window.__mathmonFusionQa = {
+      showGoalTier(gradeId = "medium") {
+        const targetIndex = Math.max(0, ALL_GRADES.findIndex((grade) => grade.id === gradeId));
+        const targetGrade = ALL_GRADES[targetIndex] || ALL_GRADES[0];
+        el.goalRail.dataset.goalTier = targetGrade.id;
+        setGoalRailImage(targetIndex);
+        return {
+          tier: targetGrade.id,
+          image: GOAL_RAIL_IMAGES[targetIndex] || GOAL_RAIL_IMAGES[0]
+        };
+      },
+      showResult(gradeId = "legend", correct = TOTAL_QUESTIONS) {
+        const targetGrade = ALL_GRADES.find((grade) => grade.id === gradeId);
+        const safeCorrect = clamp(Math.round(Number(correct) || 0), 0, TOTAL_QUESTIONS);
+        state.correct = safeCorrect;
+        state.index = TOTAL_QUESTIONS;
+        state.score = targetGrade ? targetGrade.min : 0;
+        showResult();
+        return {
+          correct: state.correct,
+          score: getScore(),
+          grade: getGradeByScore().id,
+          screen: state.screen
+        };
+      },
+      showReward(scoreKey = "plus50", isFinal = false) {
+        const samples = {
+          plus50: { id: "normal", scoreArt: REWARD_SCORE_ART.plus50, message: "합체 힘이 50점 늘었어요." },
+          plus100: { id: "normal", scoreArt: REWARD_SCORE_ART.plus100, message: "합체 힘이 100점 늘었어요." },
+          plus200: { id: "megaFuel", scoreArt: REWARD_SCORE_ART.plus200, message: "합체 힘이 200점 늘었어요." },
+          plus500: { id: "instantLaunch", scoreArt: REWARD_SCORE_ART.plus500, message: "합체 힘이 500점 늘었어요." },
+          minus50: { id: "smallExplosion", scoreArt: REWARD_SCORE_ART.minus50, message: "합체 힘이 50점 줄었어요." },
+          minus100: { id: "leak", scoreArt: REWARD_SCORE_ART.minus100, message: "합체 힘이 100점 줄었어요." },
+          zero: { id: "emptyTank", scoreArt: REWARD_SCORE_ART.zero, message: "합체 힘은 그대로예요." },
+          rainbow: { id: "rainbowFuel", scoreArt: REWARD_SCORE_ART.rainbow, message: "합체 힘이 800점 늘었어요." }
+        };
+        const sample = samples[scoreKey] || samples.plus50;
+        EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+        el.rewardPop.classList.add(`fuel-event--${sample.id}`, "is-visible");
+        el.rewardTitle.textContent = "합체 힘";
+        el.rewardScoreArt.src = sample.scoreArt;
+        el.rewardMessage.textContent = sample.message;
+        el.rewardNextButton.textContent = isFinal ? "결과 보기" : "다음";
+        showScreen("play");
+        return {
+          scoreKey,
+          image: sample.scoreArt,
+          button: el.rewardNextButton.textContent
+        };
+      },
+      getSeededRun(seed = 12345) {
+        const safeSeed = Math.max(1, Math.round(Number(seed) || 1));
+        return buildProblems(safeSeed).map((problem, questionIndex) => ({
+          top: problem.top,
+          bottom: problem.bottom,
+          partial1: problem.partial1,
+          partial2: problem.partial2,
+          answer: problem.answer,
+          reward: getFusionRewardForQuestion(safeSeed, questionIndex)
+        }));
+      },
+      previewAppliedEvent(startScore = 0, eventKey = "minus100") {
+        const previousScore = state.score;
+        const previousEvent = state.lastEvent;
+        const samples = {
+          minus50: pickFusionEventForRoll(72),
+          minus100: createDefectEvent(),
+          zero: pickFusionEventForRoll(95),
+          rainbow: pickFusionEventForRoll(99)
+        };
+        state.score = clamp(Number(startScore) || 0, 0, MAX_SCORE);
+        applyFusionEvent(samples[eventKey] || samples.minus100);
+        const result = {
+          score: state.score,
+          actualDelta: state.lastEvent.actualDelta,
+          image: getFusionEventScoreArtSrc(state.lastEvent),
+          message: state.lastEvent.message,
+          visualId: state.lastEvent.visualId
+        };
+        state.score = previousScore;
+        state.lastEvent = previousEvent;
+        return result;
+      }
+    };
+
+    const qaResultParam = new URLSearchParams(window.location.search).get("qa-result");
+    if (qaResultParam) {
+      const qaCorrectParam = new URLSearchParams(window.location.search).get("qa-correct");
+      window.requestAnimationFrame(() => {
+        window.__mathmonFusionQa.showResult(qaResultParam, qaCorrectParam ?? TOTAL_QUESTIONS);
+      });
+    }
+    const qaGoalParam = new URLSearchParams(window.location.search).get("qa-goal");
+
+    const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+      root: el.scoreboardScreen,
+      apiUrl: SCOREBOARD_API_URL,
+      lessonId: LESSON_ID,
+      totalQuestions: TOTAL_QUESTIONS,
+      getScore: () => getScore(),
+      getCorrectCount: () => state.correct,
+      getAnswers: () => state.scoreboardAnswers,
+      getRewardResult: getScoreboardRewardResult,
+      showScoreboard: () => showScreen("scoreboard"),
+      showResult: () => {
+        playSound("next");
+        showScreen("result");
+      },
+      restart: restartGame,
+      playSound: () => playSound("next")
+    });
+
+    if (qaGoalParam) {
+      window.requestAnimationFrame(() => {
+        startGame();
+        window.setTimeout(() => {
+          window.__mathmonFusionQa.showGoalTier(qaGoalParam);
+        }, 60);
+      });
+    }
+
+    function showScreen(name) {
+      state.screen = name;
+      [el.coverScreen, el.tutorialScreen, el.playScreen, el.resultScreen, el.scoreboardScreen].forEach((screen) => {
+        screen.classList.remove("is-active");
+      });
+      document.getElementById(`${name}Screen`).classList.add("is-active");
+    }
+
+    function loadAudioPreference(key) {
+      try {
+        const stored = window.localStorage.getItem(key);
+        return stored == null ? true : stored === "true" || stored === "on";
+      } catch (error) {
+        return true;
+      }
+    }
+
+    function saveAudioPreference(key, enabled) {
+      try {
+        window.localStorage.setItem(key, String(Boolean(enabled)));
+      } catch (error) {
+        // localStorage may be blocked in some embedded browsers.
+      }
+    }
+
+    function updateSettingsUi() {
+      el.settingsBgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+      el.settingsSfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      el.settingsButton.setAttribute("aria-expanded", String(!el.settingsBackdrop.hidden));
+    }
+
+    function setBgmEnabled(enabled) {
+      state.bgmEnabled = enabled;
+      saveAudioPreference(AUDIO_PREF_KEYS.bgm, enabled);
+      updateSettingsUi();
+      if (enabled) {
+        startBgm();
+      } else {
+        stopBgm();
+      }
+    }
+
+    function setSfxEnabled(enabled) {
+      state.sfxEnabled = enabled;
+      saveAudioPreference(AUDIO_PREF_KEYS.sfx, enabled);
+      updateSettingsUi();
+    }
+
+    function getSettingsFocusable() {
+      return [...el.settingsModal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])")]
+        .filter((element) => !element.disabled && !element.closest("[hidden]"));
+    }
+
+    function setSettingsConfirming(confirming, shouldFocus = true) {
+      el.settingsMenu.hidden = confirming;
+      el.settingsRestartConfirm.hidden = !confirming;
+      if (!shouldFocus) return;
+      window.requestAnimationFrame(() => {
+        (confirming ? el.settingsRestartCancelButton : el.settingsBgmToggle).focus();
+      });
+    }
+
+    function openSettings() {
+      el.settingsBackdrop.hidden = false;
+      setSettingsConfirming(false);
+      updateSettingsUi();
+      window.requestAnimationFrame(() => el.settingsBgmToggle.focus());
+    }
+
+    function closeSettings(options = {}) {
+      const restoreFocus = options.restoreFocus !== false;
+      el.settingsBackdrop.hidden = true;
+      setSettingsConfirming(false, false);
+      updateSettingsUi();
+      if (restoreFocus) {
+        el.settingsButton.focus();
+      }
+    }
+
+    function handleSettingsKeydown(event) {
+      if (el.settingsBackdrop.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSettings();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = getSettingsFocusable();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function enterTutorialReview() {
+      state.reviewReturnScreen = state.screen || "cover";
+      state.tutorialReviewMode = true;
+      setTutorialStep("solve");
+      closeSettings({ restoreFocus: false });
+      showScreen("tutorial");
+      window.requestAnimationFrame(() => el.tutorialNextButton.focus());
+    }
+
+    function leaveTutorialReview() {
+      const returnScreen = state.reviewReturnScreen || "cover";
+      state.tutorialReviewMode = false;
+      setTutorialStep("solve");
+      showScreen(returnScreen);
+    }
+
+    function resetToCoverFromSettings() {
+      state.tutorialReviewMode = false;
+      state.reviewReturnScreen = "cover";
+      el.rewardPop.classList.remove("is-visible");
+      setSettingsConfirming(false, false);
+      closeSettings({ restoreFocus: false });
+      setTutorialStep("solve");
+      state.scoreboardSessionPromise = null;
+      showScreen("cover");
+    }
+
+    function getElapsedMs(startedAt) {
+      return Math.max(0, Math.round(performance.now()) - startedAt);
+    }
+
+    function beginScoreboardQuestion() {
+      const now = Math.round(performance.now());
+      state.scoreboardQuestionStartedAt = now;
+      state.scoreboardStepStartedAt = now;
+      state.scoreboardCurrentAnswer = {
+        questionIndex: state.index,
+        elapsedMs: 0,
+        steps: []
+      };
+    }
+
+    function beginScoreboardStep() {
+      state.scoreboardStepStartedAt = Math.round(performance.now());
+    }
+
+    function recordScoreboardStep(step, selected) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer || answer.steps.some((item) => item.stepId === step.id)) return;
+      answer.steps.push({
+        stepId: step.id,
+        selected,
+        expected: step.correct,
+        elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+      });
+    }
+
+    function finishScoreboardQuestion(event) {
+      const answer = state.scoreboardCurrentAnswer;
+      if (!answer) return;
+      state.scoreboardAnswers.push({
+        questionIndex: answer.questionIndex,
+        elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+        steps: answer.steps,
+        reward: { id: event.id, amount: event.amount }
+      });
+      state.scoreboardCurrentAnswer = null;
+    }
+
+    function getScoreboardRewardResult() {
+      const grade = getGradeByScore();
+      return {
+        gradeId: grade.id,
+        score: getScore()
+      };
+    }
+
+    function prepareScoreboardSession() {
+      if (!state.scoreboardSessionPromise) {
+        state.scoreboardSessionPromise = Promise.resolve(scoreboardBridge.start());
+      }
+      return state.scoreboardSessionPromise;
+    }
+
+    function getFixedQaRunSeed() {
+      const rawQaSeed = new URLSearchParams(window.location.search).get("qa-seed");
+      if (rawQaSeed === null || SCOREBOARD_API_URL) return null;
+      const qaSeed = Number(rawQaSeed);
+      return Number.isSafeInteger(qaSeed) && qaSeed > 0 ? qaSeed : null;
+    }
+
+    function createLocalRunSeed() {
+      const fixedQaSeed = getFixedQaRunSeed();
+      if (fixedQaSeed !== null) return fixedQaSeed;
+
+      let seed = 0;
+      do {
+        if (window.crypto?.getRandomValues) {
+          const values = new Uint32Array(1);
+          window.crypto.getRandomValues(values);
+          seed = values[0] || 1;
+        } else {
+          seed = Math.floor(Math.random() * 2_147_483_646) + 1;
+        }
+      } while (seed === state.runSeed);
+      return seed;
+    }
+
+    async function startGame() {
+      const session = await prepareScoreboardSession();
+      const fixedQaSeed = getFixedQaRunSeed();
+      let nextRunSeed = fixedQaSeed ?? (Number.isSafeInteger(Number(session?.seed)) && Number(session.seed) > 0
+        ? Number(session.seed)
+        : createLocalRunSeed());
+      if (fixedQaSeed === null && nextRunSeed === state.runSeed) {
+        nextRunSeed = createLocalRunSeed();
+      }
+      state.runSeed = nextRunSeed;
+      state.problems = buildProblems(state.runSeed);
+      state.index = 0;
+      state.score = 0;
+      state.correct = 0;
+      state.chain = 0;
+      state.lastEvent = null;
+      state.scoreboardAnswers = [];
+      state.scoreboardCurrentAnswer = null;
+      state.scoreboardQuestionStartedAt = 0;
+      state.scoreboardStepStartedAt = 0;
+      window.clearTimeout(state.goalRailTimer);
+      window.clearTimeout(state.goalSwitchSwapTimer);
+      window.clearTimeout(state.goalSwitchDoneTimer);
+      GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
+      el.goalRail.classList.remove("is-switching", "is-evolving");
+      state.goalImageIndex = 0;
+      state.goalPendingImageIndex = null;
+      el.goalRail.dataset.goalTier = ALL_GRADES[0].id;
+      el.goalMapRaster.src = GOAL_RAIL_IMAGES[0];
+      el.goalMapRasterNext.hidden = true;
+      el.goalMapRasterNext.removeAttribute("src");
+      playSound("start");
+      startBgm();
+      showScreen("play");
+      renderProblem();
+    }
+
+    async function restartGame() {
+      state.scoreboardSessionPromise = Promise.resolve(scoreboardBridge.start());
+      await startGame();
+    }
+
+    window.__mathmonRunQa = {
+      async generateSignature() {
+        await startGame();
+        return JSON.stringify(state.problems.map(({ top, bottom }) => [top, bottom]));
+      },
+      getRunSeed: () => state.runSeed
+    };
+
+    function createSeededRandom(seed) {
+      let value = seed >>> 0;
+      return () => {
+        value = (value + 0x6d2b79f5) >>> 0;
+        let mixed = value;
+        mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
+        mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+        return ((mixed ^ (mixed >>> 14)) >>> 0) / 4_294_967_296;
+      };
+    }
+
+    function mixSeed(seed, salt) {
+      let mixed = (seed ^ salt) >>> 0;
+      mixed = Math.imul(mixed ^ (mixed >>> 16), 0x45d9f3b);
+      mixed = Math.imul(mixed ^ (mixed >>> 16), 0x45d9f3b);
+      mixed = (mixed ^ (mixed >>> 16)) >>> 0;
+      return mixed || 1;
+    }
+
+    function randomIntWith(random, min, max) {
+      return Math.floor(random() * (max - min + 1)) + min;
+    }
+
+    function randomTwoDigitNonRound(random) {
+      let value = 10;
+      while (value % 10 === 0) value = randomIntWith(random, 12, 99);
+      return value;
+    }
+
+    function addUniqueProblem(problems, used, random, type) {
+      while (true) {
+        const top = type === "singleByTwo" ? randomIntWith(random, 2, 9) : randomTwoDigitNonRound(random);
+        const bottom = randomTwoDigitNonRound(random);
+        const key = `${top}:${bottom}`;
+        if (used.has(key)) continue;
+        used.add(key);
+        problems.push(createProblem(top, bottom, type));
+        return;
+      }
+    }
+
+    function buildProblems(seed) {
+      const random = createSeededRandom(mixSeed(seed, PROBLEM_SEED_SALT));
+      const problems = [];
+      const used = new Set();
+      for (let index = 0; index < TOTAL_QUESTIONS / 2; index += 1) {
+        addUniqueProblem(problems, used, random, "singleByTwo");
+        addUniqueProblem(problems, used, random, "twoByTwo");
+      }
+      return shuffle(problems, random);
+    }
+
+    function createProblem(top, bottom, type) {
+      const onesMul = bottom % 10;
+      const tensMul = Math.floor(bottom / 10);
+      const partial1 = top * onesMul;
+      const partial2Core = top * tensMul;
+      const partial2 = partial2Core * 10;
+      const answer = partial1 + partial2;
+      return {
+        type,
+        top,
+        bottom,
+        onesMul,
+        tensMul,
+        partial1,
+        partial2Core,
+        partial2,
+        answer,
+        misplacedSum: partial1 + partial2Core
+      };
+    }
+
+    function renderProblem() {
+      const problem = currentProblem();
+      state.stepIndex = 0;
+      state.stepAttempts = 0;
+      state.problemHadMistake = false;
+      beginScoreboardQuestion();
+      el.rewardPop.classList.remove("is-visible");
+      el.fusionCutscene.classList.remove("is-visible");
+      el.fusionCutscene.setAttribute("aria-hidden", "true");
+      EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      renderQuestionHighlight(problem, "partial1");
+      resetFusionSide(problem);
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      renderStatus();
+      renderStep();
+    }
+
+    function renderStatus() {
+      el.progressText.textContent = `문제 ${Math.min(state.index + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
+      el.energyText.textContent = `${getScore()}점`;
+      el.chainText.textContent = state.index + 1 >= TOTAL_QUESTIONS && state.screen === "play" ? "곧 확인" : "마지막에 로봇";
+      updateGoalRail();
+    }
+
+    function getScore(score = state.score) {
+      return clamp(Math.round(score), 0, MAX_SCORE);
+    }
+
+    function getGradeByScore(score = state.score) {
+      const measured = getScore(score);
+      let index = ALL_GRADES.findIndex((grade) => measured >= grade.min && measured <= grade.max);
+      if (index < 0) {
+        index = ALL_GRADES.length - 1;
+      }
+      return { ...ALL_GRADES[index], index };
+    }
+
+    function getResultCorrectArtSrc(correctCount) {
+      const value = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
+      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+    }
+
+    function renderGradeTrack(container, { targetIndex = -1, reachedIndex = -1 } = {}) {
+      container.innerHTML = "";
+      ALL_GRADES.forEach((grade, index) => {
+        const chip = document.createElement("span");
+        chip.className = "grade-chip";
+        chip.textContent = grade.short;
+        chip.title = grade.name;
+        if (grade.secret) {
+          chip.classList.add("is-secret");
+        }
+        if (index <= reachedIndex) {
+          chip.classList.add("is-reached");
+        }
+        if (index === targetIndex) {
+          chip.classList.add("is-target");
+        }
+        container.appendChild(chip);
+      });
+    }
+
+    function setGoalRailImage(nextIndex) {
+      const nextImage = GOAL_RAIL_IMAGES[nextIndex] || GOAL_RAIL_IMAGES[0];
+      if (state.goalPendingImageIndex === null && state.goalImageIndex === nextIndex && el.goalMapRaster.getAttribute("src") === nextImage) {
+        return;
+      }
+      window.clearTimeout(state.goalSwitchSwapTimer);
+      window.clearTimeout(state.goalSwitchDoneTimer);
+      if (state.goalPendingImageIndex !== null) {
+        const pendingImage = GOAL_RAIL_IMAGES[state.goalPendingImageIndex] || GOAL_RAIL_IMAGES[0];
+        el.goalMapRaster.src = pendingImage;
+        state.goalImageIndex = state.goalPendingImageIndex;
+        state.goalPendingImageIndex = null;
+      }
+      el.goalRail.classList.remove("is-switching", "is-evolving");
+      el.goalMapRasterNext.hidden = true;
+      el.goalMapRasterNext.removeAttribute("src");
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        el.goalMapRaster.src = nextImage;
+        state.goalImageIndex = nextIndex;
+        return;
+      }
+      el.goalMapRasterNext.src = nextImage;
+      el.goalMapRasterNext.hidden = false;
+      state.goalPendingImageIndex = nextIndex;
+      void el.goalRail.offsetWidth;
+      el.goalRail.classList.add("is-switching", "is-evolving");
+      state.goalSwitchSwapTimer = window.setTimeout(() => {
+        el.goalMapRaster.src = nextImage;
+        state.goalImageIndex = nextIndex;
+      }, 620);
+      state.goalSwitchDoneTimer = window.setTimeout(() => {
+        el.goalRail.classList.remove("is-switching", "is-evolving");
+        el.goalMapRaster.src = nextImage;
+        el.goalMapRasterNext.hidden = true;
+        el.goalMapRasterNext.removeAttribute("src");
+        state.goalImageIndex = nextIndex;
+        state.goalPendingImageIndex = null;
+      }, 900);
+    }
+
+    function getGoalRailImageIndex() {
+      const reachedGrade = getGradeByScore();
+      const reachedIndex = reachedGrade ? reachedGrade.index : -1;
+      return Math.min(ALL_GRADES.length - 1, Math.max(0, reachedIndex));
+    }
+
+    function updateGoalRail() {
+      const score = getScore();
+      const currentIndex = getGoalRailImageIndex();
+      const currentGrade = ALL_GRADES[currentIndex] || ALL_GRADES[0];
+      const reachedGrade = getGradeByScore();
+      el.goalRail.dataset.goalTier = currentGrade.id;
+      setGoalRailImage(currentIndex);
+      el.goalRail.setAttribute(
+        "aria-label",
+        reachedGrade
+          ? `멋진 로봇까지 가는 길, 합체 힘 ${score}점, ${currentGrade.name}이 보이는 중.`
+          : `멋진 로봇까지 가는 길, 합체 힘 ${score}점, 첫 로봇을 준비하는 중.`
+      );
+    }
+
+    function pulseGoalRail(event) {
+      window.clearTimeout(state.goalRailTimer);
+      GOAL_RAIL_CLASSES.forEach((className) => el.goalRail.classList.remove(className));
+      const actualDelta = typeof event.actualDelta === "number" ? event.actualDelta : event.amount || 0;
+      const pulseClass = event.rainbow && actualDelta > 0
+        ? "is-goal-rare"
+        : event.emptiesTank ? "is-goal-empty" : actualDelta < 0 ? "is-goal-down" : actualDelta > 0 ? "is-goal-up" : "";
+      if (!pulseClass) {
+        return;
+      }
+      void el.goalRail.offsetWidth;
+      el.goalRail.classList.add(pulseClass);
+      state.goalRailTimer = window.setTimeout(() => {
+        el.goalRail.classList.remove(pulseClass);
+      }, 760);
+    }
+
+    function renderStep() {
+      const problem = currentProblem();
+      const step = getCurrentStep(problem);
+      beginScoreboardStep();
+      renderQuestionHighlight(problem, step.id);
+      el.stepFormula.textContent = step.formula;
+      el.stepMeaning.textContent = step.meaning;
+      el.promptText.textContent = step.prompt;
+      el.taskCard.classList.remove("is-confirmed");
+      updateFusionSideCurrent(step.id);
+      el.feedbackText.textContent = "";
+      el.feedbackText.className = "feedback";
+      const options = buildStepOptions(step);
+      renderChoices(options.map((option) => ({
+        label: formatNumber(option.value),
+        value: option,
+        correct: option.value === step.correct
+      })), handleStepChoice);
+    }
+
+    function getCurrentStep(problem) {
+      return buildSteps(problem)[state.stepIndex];
+    }
+
+    function buildSteps(problem) {
+      return [
+        {
+          id: "partial1",
+          label: `×${problem.onesMul}`,
+          formula: `${problem.top} × ${problem.onesMul} = ?`,
+          correct: problem.partial1,
+          prompt: "답을 골라요.",
+          meaning: `1단계: ${withGwa(problem.onesMul)} 곱해요.`,
+          hint: `먼저 ${problem.top} × ${problem.onesMul}부터 봐요.`,
+          explain: `${withGwa(problem.onesMul)} 곱한 값은 ${formatNumber(problem.partial1)}예요.`,
+          distractors: [
+            problem.top * Math.max(1, problem.onesMul - 1),
+            problem.top * Math.min(9, problem.onesMul + 1),
+            problem.partial1 + 10,
+            Math.max(1, problem.partial1 - 10)
+          ]
+        },
+        {
+          id: "partial2",
+          label: `×${problem.tensMul * 10}`,
+          formula: `${problem.top} × ${problem.tensMul}0 = ?`,
+          correct: problem.partial2,
+          prompt: "답을 골라요.",
+          meaning: `2단계: ${problem.top} × ${problem.tensMul}에 0을 붙여요.`,
+          hint: `${withGwa(problem.tensMul * 10)} 곱할 때는 0을 붙여요.`,
+          explain: `${withGwa(problem.tensMul * 10)} 곱한 값은 ${formatNumber(problem.partial2)}예요.`,
+          distractors: [
+            problem.partial2Core,
+            problem.partial2 + 100,
+            Math.max(10, problem.partial2 - 100),
+            problem.top * Math.min(9, problem.tensMul + 1) * 10
+          ]
+        },
+        {
+          id: "fusion",
+          label: "더하기",
+          formula: `${formatNumber(problem.partial1)} + ${formatNumber(problem.partial2)} = ?`,
+          correct: problem.answer,
+          prompt: "답을 골라요.",
+          meaning: "3단계: 두 값을 더해요.",
+          hint: `${formatNumber(problem.partial2)}의 0을 빠뜨리지 않아요.`,
+          explain: `두 값을 더하면 ${formatNumber(problem.answer)}예요.`,
+          distractors: [
+            problem.misplacedSum,
+            problem.answer + 10,
+            Math.max(1, problem.answer - 10),
+            problem.answer + 100,
+            Math.max(1, problem.answer - 100)
+          ]
+        }
+      ];
+    }
+
+    function buildStepOptions(step) {
+      const optionSalt = OPTION_SEED_SALT
+        ^ Math.imul(state.index + 1, QUESTION_SEED_STEP)
+        ^ Math.imul(state.stepIndex + 1, 0x85ebca6b);
+      const random = createSeededRandom(mixSeed(state.runSeed, optionSalt));
+      const values = [step.correct];
+      step.distractors.forEach((value) => addOptionValue(values, value, step.correct));
+      while (values.length < 4) {
+        addOptionValue(values, Math.max(1, step.correct + randomIntWith(random, -18, 18)), step.correct);
+      }
+      return shuffle(values.slice(0, 4).map((value) => ({ value })), random);
+    }
+
+    function addOptionValue(values, value, correct) {
+      const normalized = Math.round(value);
+      if (normalized > 0 && normalized !== correct && !values.includes(normalized)) {
+        values.push(normalized);
+      }
+    }
+
+    function renderQuestionHighlight(problem, stepId) {
+      const topClass = stepId === "fusion" ? "" : " is-step-target";
+      const tensClass = stepId === "partial2" ? " is-step-target" : "";
+      const onesClass = stepId === "partial1" ? " is-step-target" : "";
+      el.questionText.setAttribute("aria-label", `${problem.top} 곱하기 ${problem.bottom}`);
+      el.questionText.innerHTML = [
+        `<span class="question-part${topClass}">${formatNumber(problem.top)}</span>`,
+        `<span class="question-symbol">×</span>`,
+        `<span class="question-part question-bottom"><span class="question-part${tensClass}">${problem.tensMul}</span><span class="question-part${onesClass}">${problem.onesMul}</span></span>`
+      ].join(" ");
+    }
+
+    function setRobotSprite(spriteName) {
+      el.robotSprite.src = ROBOT_SPRITES[spriteName] || ROBOT_SPRITES.standby;
+    }
+
+    function clearRobotActionClasses() {
+      ROBOT_STAGE_CLASSES.forEach((className) => el.robotStage.classList.remove(className));
+    }
+
+    function triggerRobotAction(actionClass, spriteName) {
+      clearRobotActionClasses();
+      setRobotSprite(spriteName);
+      void el.robotStage.offsetWidth;
+      el.robotStage.classList.add(actionClass);
+      window.setTimeout(() => {
+        el.robotStage.classList.remove(actionClass);
+      }, actionClass === "complete" ? 1250 : 860);
+    }
+
+    function handleStepChoice(option, button) {
+      const step = getCurrentStep(currentProblem());
+      recordScoreboardStep(step, option.value.value);
+      if (option.correct) {
+        button.classList.add("is-correct");
+        setButtonsDisabled(true);
+        completeStep(step, false);
+        return;
+      }
+
+      state.stepAttempts += 1;
+      state.problemHadMistake = true;
+      button.classList.add("is-wrong");
+      playSound("try");
+      if (state.stepAttempts === 1) {
+        el.feedbackText.textContent = `다시 골라요. ${step.hint}`;
+        el.feedbackText.className = "feedback try";
+        button.disabled = true;
+        return;
+      }
+
+      setButtonsDisabled(true);
+      el.feedbackText.textContent = `정답은 ${formatNumber(step.correct)}예요.`;
+      el.feedbackText.className = "feedback try";
+      completeStep(step, true);
+    }
+
+    function completeStep(step, revealed) {
+      const problem = currentProblem();
+      const steps = buildSteps(problem);
+      renderStatus();
+      completeFusionSideStep(step, problem);
+      el.stepFormula.textContent = step.formula.replace("?", formatNumber(step.correct));
+      el.taskCard.classList.add("is-confirmed");
+      if (!revealed) {
+        el.feedbackText.textContent = step.explain;
+        el.feedbackText.className = "feedback good";
+        playSound("correct");
+      } else {
+        el.feedbackText.textContent = `${withIGa(step.correct)} 들어갔어요.`;
+      }
+      window.setTimeout(() => {
+        if (state.stepIndex >= steps.length - 1) {
+          showFusionCutscene(problem, completeProblem);
+          return;
+        }
+        state.stepIndex += 1;
+        state.stepAttempts = 0;
+        renderStep();
+      }, revealed ? 1200 : 1050);
+    }
+
+    function resetFusionSide(problem) {
+      el.fusionSide.className = "fusion-side";
+      clearRobotActionClasses();
+      setRobotSprite("standby");
+      el.sidePartOneLabel.textContent = `${withGwa(problem.onesMul)} 곱한 값`;
+      el.sidePartOne.querySelector("strong").textContent = "?";
+      el.sidePartTwoLabel.textContent = `${withGwa(problem.tensMul * 10)} 곱한 값`;
+      el.sidePartTwo.querySelector("strong").textContent = "?";
+      el.sideResult.querySelector("strong").textContent = "?";
+      el.sideCaption.textContent = "두 조각을 모아 로봇을 완성해요.";
+      [el.sidePartOne, el.sidePartTwo, el.sideResult].forEach((node) => {
+        node.classList.remove("is-current", "is-done");
+      });
+    }
+
+    function updateFusionSideCurrent(stepId) {
+      [el.sidePartOne, el.sidePartTwo, el.sideResult].forEach((node) => node.classList.remove("is-current"));
+      if (stepId === "partial1") {
+        el.sidePartOne.classList.add("is-current");
+        el.sideCaption.textContent = "첫 조각을 만드는 중";
+      } else if (stepId === "partial2") {
+        el.sidePartTwo.classList.add("is-current");
+        el.sideCaption.textContent = "둘째 조각을 만드는 중";
+      } else {
+        el.sideResult.classList.add("is-current");
+        el.sideCaption.textContent = "두 조각을 합체해요.";
+      }
+    }
+
+    function completeFusionSideStep(step, problem) {
+      if (step.id === "partial1") {
+        el.sidePartOne.querySelector("strong").textContent = formatNumber(problem.partial1);
+        el.sidePartOne.classList.add("is-done");
+        el.fusionSide.classList.add("has-one");
+        triggerRobotAction("attach-one", "one");
+      } else if (step.id === "partial2") {
+        el.sidePartTwo.querySelector("strong").textContent = formatNumber(problem.partial2);
+        el.sidePartTwo.classList.add("is-done");
+        el.fusionSide.classList.add("has-two");
+        triggerRobotAction("attach-two", "two");
+      }
+    }
+
+    function showFusionCutscene(problem, done) {
+      el.sideResult.querySelector("strong").textContent = formatNumber(problem.answer);
+      el.sideResult.classList.add("is-done");
+      el.fusionSide.classList.add("has-two", "is-fusing");
+      triggerRobotAction("complete", "complete");
+      el.cutPartOneLabel.textContent = `${withGwa(problem.onesMul)} 곱한 값`;
+      el.cutPartOne.textContent = formatNumber(problem.partial1);
+      el.cutPartTwoLabel.textContent = `${withGwa(problem.tensMul * 10)} 곱한 값`;
+      el.cutPartTwo.textContent = formatNumber(problem.partial2);
+      el.cutAnswer.textContent = formatNumber(problem.answer);
+      el.fusionCutscene.classList.remove("is-visible");
+      void el.fusionCutscene.offsetWidth;
+      el.fusionCutscene.setAttribute("aria-hidden", "false");
+      el.fusionCutscene.classList.add("is-visible");
+      window.setTimeout(() => {
+        el.fusionCutscene.classList.remove("is-visible");
+        el.fusionCutscene.setAttribute("aria-hidden", "true");
+        el.fusionSide.classList.remove("is-fusing");
+        el.sideCaption.textContent = "로봇 합체 완료!";
+        done();
+      }, 1700);
+    }
+
+    function completeProblem() {
+      const perfect = !state.problemHadMistake;
+      if (perfect) {
+        state.correct += 1;
+        state.chain += 1;
+      } else {
+        state.chain = 0;
+      }
+      const event = perfect ? rollFusionEvent() : createDefectEvent();
+      applyFusionEvent(event);
+      finishScoreboardQuestion(state.lastEvent);
+      renderStatus();
+      finishProblem(state.lastEvent);
+      playSound("reward");
+    }
+
+    function pickFusionEventForRoll(roll) {
+      if (roll < 44) {
+        return {
+          id: "normal",
+          amount: 50,
+          score: 50,
+          scoreArt: REWARD_SCORE_ART.plus50,
+          title: "합체 힘",
+          message: "합체 힘이 50점 늘었어요."
+        };
+      }
+      if (roll < 68) {
+        return {
+          id: "normal",
+          amount: 100,
+          score: 100,
+          scoreArt: REWARD_SCORE_ART.plus100,
+          title: "합체 힘",
+          message: "합체 힘이 100점 늘었어요."
+        };
+      }
+      if (roll < 78) {
+        return {
+          id: "smallExplosion",
+          amount: -50,
+          score: -50,
+          scoreArt: REWARD_SCORE_ART.minus50,
+          title: "합체 힘",
+          message: "합체 힘이 50점 줄었어요."
+        };
+      }
+      if (roll < 88) {
+        return {
+          id: "megaFuel",
+          amount: 200,
+          score: 200,
+          scoreArt: REWARD_SCORE_ART.plus200,
+          title: "합체 힘",
+          message: "합체 힘이 200점 늘었어요."
+        };
+      }
+      if (roll < 93) {
+        return {
+          id: "instantLaunch",
+          amount: 500,
+          score: 500,
+          scoreArt: REWARD_SCORE_ART.plus500,
+          title: "합체 힘",
+          message: "합체 힘이 500점 늘었어요."
+        };
+      }
+      if (roll < 97) {
+        return {
+          id: "emptyTank",
+          amount: 0,
+          score: 0,
+          scoreArt: REWARD_SCORE_ART.zero,
+          title: "합체 힘",
+          message: "합체 힘은 그대로예요."
+        };
+      }
+      return {
+        id: "rainbowFuel",
+        amount: 800,
+        score: 800,
+        scoreArt: REWARD_SCORE_ART.rainbow,
+        title: "합체 힘",
+        message: "합체 힘이 800점 늘었어요.",
+        rainbow: true
+      };
+    }
+
+    function getFusionRewardForQuestion(seed, questionIndex) {
+      const questionSalt = REWARD_SEED_SALT ^ Math.imul(questionIndex + 1, QUESTION_SEED_STEP);
+      const random = createSeededRandom(mixSeed(seed, questionSalt));
+      return pickFusionEventForRoll(random() * 100);
+    }
+
+    function rollFusionEvent() {
+      return getFusionRewardForQuestion(state.runSeed, state.index);
+    }
+
+    function createDefectEvent() {
+      return {
+        id: "leak",
+        amount: -100,
+        score: -100,
+        scoreArt: REWARD_SCORE_ART.minus100,
+        title: "합체 힘",
+        message: "합체 힘이 100점 줄었어요."
+      };
+    }
+
+    function applyFusionEvent(event) {
+      const before = state.score;
+      state.score = clamp(state.score + event.amount, 0, MAX_SCORE);
+      const actualDelta = state.score - before;
+      state.lastEvent = {
+        ...event,
+        actualDelta,
+        visualId: getFusionEventVisualId(event, actualDelta),
+        message: getFusionEventMessage(actualDelta)
+      };
+    }
+
+    function getFusionEventVisualId(event, actualDelta) {
+      if (actualDelta === 0) return "emptyTank";
+      return event.id;
+    }
+
+    function getFusionEventMessage(actualDelta) {
+      if (actualDelta > 0) return `합체 힘이 ${actualDelta}점 늘었어요.`;
+      if (actualDelta < 0) return `합체 힘이 ${Math.abs(actualDelta)}점 줄었어요.`;
+      return "합체 힘은 그대로예요.";
+    }
+
+    function getFusionEventScoreArtSrc(event) {
+      if (event.actualDelta === 0) return REWARD_SCORE_ART.zero;
+      if (event.actualDelta === -50) return REWARD_SCORE_ART.minus50;
+      if (event.actualDelta === -100) return REWARD_SCORE_ART.minus100;
+      return event.scoreArt || REWARD_SCORE_ART.plus50;
+    }
+
+    function renderChoices(options, handler) {
+      el.choiceGrid.innerHTML = "";
+      options.forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.innerHTML = option.label;
+        button.addEventListener("click", () => handler(option, button));
+        el.choiceGrid.appendChild(button);
+      });
+    }
+
+    function finishProblem(result) {
+      renderStatus();
+      pulseGoalRail(result);
+      EVENT_CLASSES.forEach((className) => el.rewardPop.classList.remove(className));
+      el.rewardPop.classList.add(`fuel-event--${result.visualId || result.id}`);
+      el.rewardTitle.textContent = result.title;
+      el.rewardScoreArt.src = getFusionEventScoreArtSrc(result);
+      el.rewardMessage.textContent = result.message;
+      el.rewardNextButton.textContent = state.index + 1 >= TOTAL_QUESTIONS ? "결과 보기" : "다음";
+      window.setTimeout(() => {
+        el.rewardPop.classList.add("is-visible");
+        el.rewardNextButton.focus();
+      }, 680);
+    }
+
+    function nextAfterReward() {
+      if (state.index + 1 >= TOTAL_QUESTIONS) {
+        showResult();
+        return;
+      }
+      state.index += 1;
+      playSound("next");
+      renderProblem();
+    }
+
+    function showResult() {
+      const grade = getGradeByScore();
+      const score = getScore();
+      const measureLabel = `${score}점`;
+      const measureWidth = Math.min(100, Math.round(score / LEGEND_SCORE * 100));
+      const correctLabel = `${state.correct}/${TOTAL_QUESTIONS}`;
+      el.resultRaster.src = grade.image;
+      el.resultScreen.classList.add("is-measuring");
+      el.resultScreen.classList.toggle("is-rainbow-result", Boolean(grade.secret));
+      document.getElementById("resultTitle").textContent = "합체 힘 확인 중";
+      el.finalEnergyText.textContent = "확인 중";
+      el.finalCorrectText.textContent = correctLabel;
+      el.resultCorrectArt.src = getResultCorrectArtSrc(state.correct);
+      el.finalGradeText.textContent = "확인 중";
+      el.praiseText.textContent = "모은 합체 힘을 보고 있어요.";
+      el.measureStatus.textContent = "합체 힘 확인 중";
+      el.measurePercent.textContent = "0점";
+      el.measureFill.style.setProperty("--measure-width", "0%");
+      el.resultTitleArt.hidden = true;
+      el.resultDestinationSvg.textContent = "";
+      el.resultScoreSvg.textContent = correctLabel;
+      el.resultMeasureSvg.textContent = "확인 중";
+      el.resultMeasureFillSvg.setAttribute("width", "0");
+      el.resultSvgRestartText.textContent = "다시하기";
+      renderGradeTrack(el.resultGradeTrack, { targetIndex: -1, reachedIndex: -1 });
+      el.restartButton.hidden = true;
+      el.restartButton.disabled = true;
+      el.restartButton.setAttribute("aria-label", "다시하기");
+      playSound("scan");
+      showScreen("result");
+      window.setTimeout(() => {
+        el.measureStatus.textContent = "어떤 로봇인지 보는 중";
+        el.measurePercent.textContent = measureLabel;
+        el.measureFill.style.setProperty("--measure-width", `${measureWidth}%`);
+        el.finalEnergyText.textContent = measureLabel;
+        el.resultMeasureSvg.textContent = measureLabel;
+        el.resultMeasureFillSvg.setAttribute("width", String(Math.round(394 * measureWidth / 100)));
+        renderGradeTrack(el.resultGradeTrack, {
+          targetIndex: grade.index,
+          reachedIndex: grade.index
+        });
+        playSound("measure");
+      }, 120);
+      window.setTimeout(() => {
+        el.resultScreen.classList.remove("is-measuring");
+        document.getElementById("resultTitle").textContent = `${grade.name}!`;
+        el.measureStatus.textContent = `${grade.name}!`;
+        el.finalGradeText.textContent = getShortGradeName(grade);
+        el.praiseText.textContent = getPraise(grade);
+        el.resultTitleArt.src = grade.titleArt;
+        el.resultTitleArt.hidden = false;
+        el.resultDestinationSvg.textContent = "";
+        el.resultMeasureSvg.textContent = measureLabel;
+        el.restartButton.hidden = false;
+        el.restartButton.disabled = false;
+        playSound("finish");
+      }, 2500);
+    }
+
+    function getPraise(grade) {
+      if (grade.secret) {
+        return "2000점을 모아 전설 로봇 매스몬까지 갔어요!";
+      }
+      if (grade.id === "ultra") {
+        return "초거대 로봇까지 갔어요. 두 값을 끝까지 잘 합쳤어요.";
+      }
+      if (grade.index >= 3) {
+        return "거대 로봇까지 도착했어요. 두 값을 끝까지 잘 합쳤어요.";
+      }
+      if (grade.index >= 2) {
+        return "대형 로봇 매스몬 성공! 두 값을 잘 이어 붙였어요.";
+      }
+      return `${grade.name} 성공! 다음에는 더 큰 합체에 도전해 봐요.`;
+    }
+
+    function getShortGradeName(grade) {
+      if (grade.secret) {
+        return "전설";
+      }
+      return grade.name.replace(" 로봇 매스몬", "");
+    }
+
+    function setButtonsDisabled(disabled) {
+      [...el.choiceGrid.querySelectorAll("button")].forEach((button) => {
+        button.disabled = disabled;
+      });
+    }
+
+    function currentProblem() {
+      return state.problems[state.index];
+    }
+
+    function shuffle(items, random = Math.random) {
+      const array = [...items];
+      for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function formatNumber(value) {
+      return Number(value).toLocaleString("ko-KR");
+    }
+
+    function hasNumberBatchim(value) {
+      return [0, 1, 3, 6, 7, 8].includes(Math.abs(Number(value)) % 10);
+    }
+
+    function withGwa(value) {
+      return `${formatNumber(value)}${hasNumberBatchim(value) ? "과" : "와"}`;
+    }
+
+    function withIGa(value) {
+      return `${formatNumber(value)}${hasNumberBatchim(value) ? "이" : "가"}`;
+    }
+
+    function withEul(value) {
+      return `${formatNumber(value)}${hasNumberBatchim(value) ? "을" : "를"}`;
+    }
+
+    function withEuro(value) {
+      const digit = Math.abs(Number(value)) % 10;
+      return `${formatNumber(value)}${[0, 3, 6].includes(digit) ? "으로" : "로"}`;
+    }
+
+    function initAudio() {
+      if (state.audio) {
+        return;
+      }
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        return;
+      }
+      state.audio = new AudioContext();
+      state.bgmGain = state.audio.createGain();
+      state.bgmGain.gain.value = 0.0001;
+      state.bgmGain.connect(state.audio.destination);
+    }
+
+    function holdAudioParam(param, now) {
+      if (typeof param.cancelAndHoldAtTime === "function") {
+        param.cancelAndHoldAtTime(now);
+        return;
+      }
+      const currentValue = Math.max(0.0001, param.value);
+      param.cancelScheduledValues(now);
+      param.setValueAtTime(currentValue, now);
+    }
+
+    function loadBgmBuffer() {
+      if (!state.audio) return Promise.resolve(null);
+      if (state.bgmBuffer) return Promise.resolve(state.bgmBuffer);
+      if (state.bgmBufferPromise) return state.bgmBufferPromise;
+      state.bgmBufferPromise = fetch(BGM_TRACK.src)
+        .then((response) => {
+          if (!response.ok) throw new Error(`BGM load failed: ${response.status}`);
+          return response.arrayBuffer();
+        })
+        .then((arrayBuffer) => state.audio.decodeAudioData(arrayBuffer))
+        .then((buffer) => {
+          state.bgmBuffer = buffer;
+          return buffer;
+        })
+        .catch((error) => {
+          console.warn("Background music could not be loaded.", error);
+          state.bgmBufferPromise = null;
+          return null;
+        });
+      return state.bgmBufferPromise;
+    }
+
+    async function startBgm() {
+      return window.MathmonAudio?.startBgm();
+    }
+
+    function stopBgm({ immediate = false } = {}) {
+      return window.MathmonAudio?.stopBgm({ immediate });
+    }
+
+    function duckBgm(seconds) {
+      window.MathmonAudio?.duckBgm(seconds);
+    }
+
+    function playSound(kind) {
+      window.MathmonAudio?.play(kind);
+    }
+
+    window.__mathmonAudioQa = {
+      getPrefs: () => ({
+        bgmEnabled: state.bgmEnabled,
+        sfxEnabled: state.sfxEnabled,
+        bgmPlaying: Boolean(state.bgmSource),
+        bgmLoaded: Boolean(state.bgmBuffer),
+        bgmDuration: state.bgmBuffer?.duration || 0,
+        bgmGain: state.bgmGain?.gain.value || 0,
+        bgmTrack: "Sketchbook 2025-11-26"
+      }),
+      setPrefs({ bgmEnabled = state.bgmEnabled, sfxEnabled = state.sfxEnabled } = {}) {
+        setBgmEnabled(Boolean(bgmEnabled));
+        setSfxEnabled(Boolean(sfxEnabled));
+        return this.getPrefs();
+      }
+    };
+
+    el.startButton.addEventListener("click", () => {
+      playSound("start");
+      startBgm();
+      prepareScoreboardSession();
+      state.tutorialReviewMode = false;
+      state.reviewReturnScreen = "cover";
+      setTutorialStep("solve");
+      showScreen("tutorial");
+    });
+    el.tutorialNextButton.addEventListener("click", async () => {
+      if (el.tutorialScreen.dataset.tutorialStep !== "goal") {
+        playSound("next");
+        setTutorialStep("goal");
+        return;
+      }
+      if (state.tutorialReviewMode) {
+        playSound("next");
+        leaveTutorialReview();
+        return;
+      }
+      el.tutorialNextButton.disabled = true;
+      try {
+        await startGame();
+      } finally {
+        el.tutorialNextButton.disabled = false;
+      }
+    });
+    el.rewardNextButton.addEventListener("click", nextAfterReward);
+    el.leaderboardButton.addEventListener("click", scoreboardBridge.open);
+    el.restartButton.addEventListener("click", () => {
+      playSound("start");
+      state.scoreboardSessionPromise = null;
+      showScreen("cover");
+    });
+    updateSettingsUi();
+    el.settingsButton.addEventListener("click", openSettings);
+    el.settingsBackdrop.addEventListener("click", (event) => {
+      if (event.target === el.settingsBackdrop) closeSettings();
+    });
+    el.settingsModal.addEventListener("keydown", handleSettingsKeydown);
+    el.settingsBgmToggle.addEventListener("click", () => {
+      const nextEnabled = !state.bgmEnabled;
+      setBgmEnabled(nextEnabled);
+      if (nextEnabled) playSound("next");
+    });
+    el.settingsSfxToggle.addEventListener("click", () => {
+      const nextEnabled = !state.sfxEnabled;
+      setSfxEnabled(nextEnabled);
+      if (nextEnabled) playSound("next");
+    });
+    el.settingsMethodButton.addEventListener("click", () => {
+      playSound("next");
+      enterTutorialReview();
+    });
+    el.settingsRestartButton.addEventListener("click", () => {
+      playSound("next");
+      setSettingsConfirming(true);
+    });
+    el.settingsRestartConfirmButton.addEventListener("click", () => {
+      playSound("next");
+      resetToCoverFromSettings();
+    });
+    el.settingsRestartCancelButton.addEventListener("click", () => {
+      playSound("next");
+      setSettingsConfirming(false);
+    });
+    el.settingsCloseButton.addEventListener("click", () => {
+      playSound("next");
+      closeSettings();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopBgm({ immediate: true });
+      } else if (state.bgmEnabled) {
+        startBgm();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lesson {
+  id        String   @id
+  title     String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model PlaySession {
+  id                    String            @id @db.Uuid
+  lessonId              String
+  seed                  Int
+  nickname              String
+  participationCodeHash String?
+  startedAt             DateTime
+  expiresAt             DateTime
+  submittedAt           DateTime?
+  rerollCount           Int               @default(0)
+  submissions           ScoreSubmission[]
+
+  @@index([lessonId, startedAt])
+  @@index([participationCodeHash])
+}
+
+model ScoreSubmission {
+  id                    String           @id @db.Uuid
+  sessionId             String           @unique @db.Uuid
+  lessonId              String
+  nickname              String
+  participationCodeHash String?
+  score                 BigInt
+  correctCount          Int
+  maxScore              BigInt
+  playTimeMs            Int
+  rewardResultJson      String
+  status                SubmissionStatus
+  flagReasons           String[]
+  createdAt             DateTime
+  weekStart             String
+  hiddenAt              DateTime?
+  session               PlaySession      @relation(fields: [sessionId], references: [id])
+  answers               AnswerLog[]
+
+  @@index([lessonId, weekStart, score])
+  @@index([lessonId, participationCodeHash, score])
+  @@index([status])
+}
+
+model AnswerLog {
+  id                String          @id @default(uuid()) @db.Uuid
+  submissionId      String          @db.Uuid
+  questionIndex     Int
+  elapsedMs         Int
+  isCorrect         Boolean
+  answerPayloadJson String
+  submission        ScoreSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId])
+}
+
+model AdminAuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  action    String
+  targetId  String
+  reason    String?
+  createdAt DateTime @default(now())
+}
+
+enum SubmissionStatus {
+  accepted
+  flagged
+  rejected
+}
