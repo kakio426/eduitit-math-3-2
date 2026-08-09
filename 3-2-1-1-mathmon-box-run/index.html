@@ -1,0 +1,3844 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3학년 2학기 1단원 · 매스몬 상자런 | 에듀잇티</title>
+  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
+  <style>
+    :root {
+      --page: #080914;
+      --panel: rgba(18, 19, 34, 0.92);
+      --panel-strong: #17182a;
+      --ink: #fff8d6;
+      --muted: #bac5db;
+      --line: rgba(255, 255, 255, 0.16);
+      --green: #35f2a6;
+      --yellow: #ffe45c;
+      --red: #ff4e6a;
+      --purple: #a96dff;
+      --cyan: #42d9ff;
+      --orange: #ff9d3c;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 14%, rgba(66, 217, 255, 0.24), transparent 26rem),
+        radial-gradient(circle at 82% 10%, rgba(255, 228, 92, 0.18), transparent 22rem),
+        radial-gradient(circle at 70% 90%, rgba(255, 78, 106, 0.18), transparent 24rem),
+        linear-gradient(135deg, #070811 0%, #141527 48%, #090a13 100%);
+      overflow-x: hidden;
+      word-break: keep-all;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+    }
+
+    .game {
+      --stage-padding: clamp(10px, 2vw, 24px);
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: var(--stage-padding);
+    }
+
+    .stage-shell {
+      --stage-inset: clamp(14px, 2vw, 22px);
+      --sound-button-size: clamp(30px, 3vw, 34px);
+      --sound-gap: clamp(8px, 1vw, 12px);
+      --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
+      --top-control-pad-x: 9px;
+      --top-control-icon-gap: 7px;
+      position: relative;
+      width: min(1280px, calc((100dvh - 48px) * 1.6), 100%);
+      aspect-ratio: 16 / 10;
+    }
+
+    .phone-blocker {
+      display: none;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: auto;
+      aspect-ratio: 16 / 10;
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        var(--panel);
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .screen.is-active {
+      display: grid;
+    }
+
+    .settings-toggle {
+      position: absolute;
+      top: var(--stage-inset);
+      right: var(--stage-inset);
+      z-index: 60;
+      display: inline-grid;
+      place-items: center;
+      width: var(--sound-button-size);
+      min-width: 0;
+      height: var(--sound-button-size);
+      min-height: 0;
+      padding: 0;
+      border: 1px solid rgba(255, 200, 87, 0.55);
+      border-radius: 999px;
+      color: #ffe3a5;
+      background: rgba(14, 12, 22, 0.78);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+      font-size: 0;
+      font-weight: 950;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .settings-toggle::before,
+    .settings-toggle::after {
+      content: none !important;
+      display: none !important;
+    }
+
+    .settings-toggle svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 19px;
+      height: 19px;
+      display: block;
+      transform: translate(-50%, -50%);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .stage-shell .top-row {
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+    }
+
+    .stage-shell .hud {
+      padding-right: var(--sound-reserve);
+    }
+
+    .settings-toggle[aria-expanded="true"] {
+      border-color: rgba(255, 228, 92, 0.85);
+      color: #fff6ca;
+      background: rgba(23, 20, 34, 0.92);
+    }
+
+    .settings-toggle:focus-visible,
+    .settings-switch:focus-visible,
+    .settings-action:focus-visible {
+      outline: 4px solid rgba(255, 255, 255, 0.8);
+      outline-offset: 3px;
+    }
+
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: clamp(20px, 4vw, 48px);
+      background: rgba(6, 7, 16, 0.56);
+      backdrop-filter: blur(8px);
+    }
+
+    .settings-backdrop[hidden] {
+      display: none;
+    }
+
+    .settings-modal {
+      width: min(420px, calc(100% - 32px));
+      max-height: calc(100% - 40px);
+      overflow: auto;
+      padding: 22px;
+      border: 1px solid rgba(255, 228, 92, 0.42);
+      border-radius: 8px;
+      color: #fff8d6;
+      background: rgba(17, 16, 31, 0.96);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.44);
+    }
+
+    .settings-title {
+      margin: 0 0 16px;
+      font-size: 1.55rem;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .settings-menu,
+    .settings-confirm {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-menu[hidden],
+    .settings-confirm[hidden] {
+      display: none;
+    }
+
+    .settings-switch,
+    .settings-action {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      color: #fff8d6;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .settings-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .settings-switch-track {
+      position: relative;
+      flex: 0 0 auto;
+      width: 50px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(186, 197, 219, 0.32);
+      transition: background 0.18s ease;
+    }
+
+    .settings-switch-track::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease;
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track {
+      background: linear-gradient(180deg, #35f2a6, #2bbdff);
+    }
+
+    .settings-switch[aria-checked="true"] .settings-switch-track::after {
+      transform: translateX(22px);
+    }
+
+    .settings-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .settings-action.is-danger {
+      border-color: rgba(255, 157, 60, 0.52);
+      color: #fff3d1;
+    }
+
+    .settings-confirm {
+      padding-top: 4px;
+    }
+
+    .settings-confirm-title {
+      margin: 0 0 4px;
+      font-size: 1.08rem;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .settings-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .cover {
+      place-items: center;
+      text-align: center;
+      padding: 0;
+      position: relative;
+      background: #080914;
+    }
+
+    .raster-bg {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .cover-brand-label {
+      position: absolute;
+      top: clamp(16px, 2.2vw, 24px);
+      left: clamp(16px, 2.2vw, 24px);
+      z-index: 2;
+    }
+
+    .cover-start-button {
+      width: clamp(300px, 28vw, 360px);
+      max-width: 58%;
+      height: auto;
+      aspect-ratio: 1611 / 680;
+      margin-top: 18px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: 0 20px 40px rgba(255, 178, 62, 0.28);
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    .cover-start-button:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.04);
+    }
+
+    .cover-start-button:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .cover-start-button:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.92);
+      outline-offset: 5px;
+      box-shadow: 0 0 0 10px rgba(255, 228, 92, 0.42), 0 20px 40px rgba(255, 178, 62, 0.28);
+    }
+
+    .start-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tutorial {
+      position: relative;
+      place-items: stretch;
+      padding: 0;
+      background: #171421;
+    }
+
+    .tutorial-fulltext-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tutorial-step-art {
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .tutorial[data-tutorial-step="solve"] .tutorial-solve-art,
+    .tutorial[data-tutorial-step="goal"] .tutorial-goal-art {
+      opacity: 1;
+    }
+
+    .tutorial-poster-hitbox {
+      position: absolute;
+      left: 34.5%;
+      top: 86.5%;
+      z-index: 2;
+      width: 31%;
+      height: 9.5%;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: none;
+      color: transparent;
+      font-size: 0;
+    }
+
+    .tutorial-poster-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 5px;
+      box-shadow: 0 0 0 10px rgba(255, 228, 92, 0.42);
+    }
+
+    .tutorial-card {
+      position: relative;
+      z-index: 1;
+      width: min(760px, 100%);
+      display: grid;
+      gap: clamp(16px, 3vw, 28px);
+      text-align: center;
+    }
+
+    .tutorial-card .unit-label {
+      justify-self: center;
+    }
+
+    .tutorial-mathmon {
+      position: absolute;
+      z-index: 0;
+      width: clamp(118px, 13vw, 172px);
+      aspect-ratio: 1;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      pointer-events: none;
+      opacity: 0.58;
+      filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.34));
+      animation: cover-mathmon-float 6.2s ease-in-out infinite;
+    }
+
+    .tutorial-mathmon-top {
+      left: clamp(120px, 13vw, 180px);
+      top: clamp(70px, 11vh, 96px);
+      background-image: url("assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1");
+      animation-delay: -2.1s;
+    }
+
+    .tutorial-mathmon-bottom {
+      right: clamp(74px, 8vw, 120px);
+      bottom: clamp(58px, 8vh, 96px);
+      background-image: url("assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1");
+      animation-delay: -4.1s;
+    }
+
+    .tutorial-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.2rem, 7vw, 4.8rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-shadow: 0 0 24px rgba(66, 217, 255, 0.3);
+    }
+
+    .tutorial-steps {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+    }
+
+    .tutorial-steps li {
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 70px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 950;
+    }
+
+    .tutorial-steps b {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius);
+      background: var(--yellow);
+      color: #17120a;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .unit-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 14px;
+      border: 1px solid rgba(66, 217, 255, 0.45);
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(66, 217, 255, 0.08);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .cover-unit-label {
+      position: absolute;
+      top: clamp(16px, 2.2vw, 24px);
+      right: calc(clamp(16px, 2.2vw, 24px) + var(--sound-reserve));
+      z-index: 2;
+    }
+
+    .cover-learning-label {
+      position: absolute;
+      left: clamp(16px, 2.2vw, 24px);
+      bottom: clamp(42px, 6.5vh, 70px);
+      z-index: 2;
+      border-color: rgba(255, 178, 62, 0.58);
+      color: #ffbd4a;
+      background: rgba(255, 178, 62, 0.1);
+      box-shadow: 0 12px 30px rgba(255, 140, 46, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(3.1rem, 11vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+      text-shadow:
+        0 0 24px rgba(255, 228, 92, 0.44),
+        0 8px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      width: min(840px, 74%);
+      margin-top: 0;
+      gap: 12px;
+    }
+
+    .hero-title-art {
+      display: block;
+      width: min(700px, 100%);
+      height: auto;
+      filter: drop-shadow(0 16px 26px rgba(0, 18, 44, 0.28));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .cover-goal {
+      margin: 0;
+      padding: 8px 18px 9px;
+      border-radius: 999px;
+      color: #10251f;
+      background: rgba(255, 248, 232, 0.86);
+      box-shadow: 0 14px 34px rgba(0, 39, 84, 0.16);
+      font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+      font-weight: 1000;
+      line-height: 1.2;
+    }
+
+    .primary-button,
+    .secondary-button,
+    .choice-button {
+      border: 0;
+      border-radius: var(--radius);
+      font-weight: 950;
+      letter-spacing: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .primary-button {
+      min-width: min(320px, 100%);
+      min-height: 74px;
+      padding: 18px 34px;
+      background: linear-gradient(180deg, #fff375, #ffb23e);
+      color: #17120a;
+      box-shadow: 0 14px 0 #9f4d17, 0 26px 44px rgba(255, 178, 62, 0.24);
+      font-size: clamp(1.35rem, 4vw, 2.2rem);
+    }
+
+    .cover .primary-button {
+      position: relative;
+      top: clamp(8px, 1.4vh, 16px);
+      min-width: min(280px, 100%);
+      min-height: 76px;
+      margin-top: clamp(30px, 5vh, 58px);
+      gap: 13px;
+      border: 2px solid rgba(255, 255, 255, 0.42);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.36), transparent 36%),
+        linear-gradient(180deg, #fff46f 0%, #ffc44e 54%, #ff9f2e 100%);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.54),
+        0 10px 0 #9a4513,
+        0 24px 42px rgba(255, 178, 62, 0.34);
+      font-size: clamp(1.5rem, 3.5vw, 2.35rem);
+    }
+
+    .tutorial .primary-button {
+      justify-self: center;
+      min-width: min(320px, 100%);
+    }
+
+    .cover .primary-button::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 16px solid #17120a;
+      filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.32));
+    }
+
+    .primary-button:hover,
+    .choice-button:hover,
+    .secondary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary-button:active,
+    .choice-button:active,
+    .secondary-button:active {
+      transform: translateY(2px);
+    }
+
+    @keyframes cover-mathmon-float {
+      0%,
+      100% {
+        transform: var(--cover-mathmon-transform) translateY(0);
+      }
+
+      50% {
+        transform: var(--cover-mathmon-transform) translateY(-14px);
+      }
+    }
+
+    .play {
+      grid-template-rows: auto minmax(0, 1fr);
+      padding: clamp(12px, 2.2vw, 24px);
+      gap: clamp(12px, 2vw, 22px);
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.72fr) minmax(360px, 1.16fr) minmax(180px, 0.72fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .hud-card {
+      min-width: 0;
+      min-height: 76px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+      padding: 13px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hud-card span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 850;
+      word-break: keep-all;
+    }
+
+    .hud-card strong {
+      min-width: 0;
+      color: #ffffff;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      line-height: 1.05;
+      font-weight: 1000;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .hud-card.score {
+      grid-column: 2;
+    }
+
+    .hud-card--progress,
+    .hud-card.score,
+    .hud-card--last-reward {
+      justify-items: center;
+      text-align: center;
+      min-height: 94px;
+      padding: 12px 18px 14px;
+    }
+
+    .hud-card--progress strong,
+    .hud-card--last-reward strong {
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
+    }
+
+    .combo-badge {
+      min-width: 84px;
+      padding: 4px 10px 5px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.08);
+      font-size: clamp(0.72rem, 1.4vw, 0.94rem);
+      font-style: normal;
+      font-weight: 950;
+      line-height: 1;
+      white-space: nowrap;
+      word-break: keep-all;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .combo-badge.is-hot {
+      color: #09120d;
+      background: linear-gradient(180deg, #ffe45c, #35f2a6);
+      box-shadow: 0 0 16px rgba(255, 228, 92, 0.34);
+      animation: combo-pop 560ms ease both;
+    }
+
+    .hud-card.score strong {
+      color: var(--yellow);
+      font-size: clamp(2.35rem, 5vw, 4.8rem);
+      text-shadow: 0 0 18px rgba(255, 228, 92, 0.35);
+    }
+
+    .hud-card--last-reward strong {
+      color: var(--cyan);
+      text-shadow: 0 0 18px rgba(66, 217, 255, 0.26);
+    }
+
+    .hud-card--last-reward.is-good strong {
+      color: var(--green);
+      text-shadow: 0 0 18px rgba(53, 242, 166, 0.3);
+    }
+
+    .hud-card--last-reward.is-bad strong {
+      color: var(--red);
+      text-shadow: 0 0 18px rgba(255, 78, 106, 0.28);
+    }
+
+    .hud-card--last-reward.is-wild strong {
+      color: #d9a7ff;
+      text-shadow: 0 0 18px rgba(157, 92, 255, 0.32);
+    }
+
+    .hud-card--last-reward.is-hope strong {
+      color: var(--yellow);
+      text-shadow:
+        0 0 16px rgba(255, 228, 92, 0.38),
+        0 0 26px rgba(53, 242, 166, 0.22);
+    }
+
+    .last-reward-change {
+      min-width: 0;
+      color: var(--muted);
+      font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+      font-style: normal;
+      font-weight: 900;
+      line-height: 1.1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .hud-card.score.is-bumping strong {
+      animation: score-bump 420ms ease both;
+    }
+
+    @keyframes combo-pop {
+      0% { transform: scale(0.92); }
+      55% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .play-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+      gap: clamp(12px, 2vw, 22px);
+      min-height: 0;
+    }
+
+    .problem-panel,
+    .crate-panel {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(4, 6, 18, 0.68);
+    }
+
+    .problem-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 16px;
+      padding: clamp(16px, 3vw, 26px);
+    }
+
+    .feedback {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .feedback.is-good {
+      color: #09120d;
+      background: var(--green);
+    }
+
+    .feedback.is-bad {
+      color: #ffffff;
+      background: var(--red);
+    }
+
+    .question-card {
+      align-self: center;
+      display: grid;
+      place-items: center;
+      min-height: 190px;
+      padding: clamp(18px, 4vw, 42px);
+      border: 2px solid rgba(255, 228, 92, 0.38);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255, 228, 92, 0.1), rgba(255, 255, 255, 0.03)),
+        var(--panel-strong);
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.035);
+      transition: transform 220ms ease, opacity 220ms ease;
+      overflow: hidden;
+    }
+
+    .question-card.is-crate-ready {
+      transform: scale(0.94);
+      opacity: 0.58;
+    }
+
+    .question {
+      max-width: 100%;
+      color: #ffffff;
+      font-size: clamp(3.1rem, 8.6vw, 6.4rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-align: center;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .choice-button {
+      min-height: 76px;
+      padding: 14px;
+      border: 2px solid rgba(66, 217, 255, 0.3);
+      background: linear-gradient(180deg, rgba(66, 217, 255, 0.22), rgba(66, 217, 255, 0.08));
+      color: #ffffff;
+      box-shadow: 0 8px 0 rgba(22, 72, 97, 0.8);
+      font-size: clamp(1.55rem, 4vw, 2.7rem);
+    }
+
+    .choice-button.is-wrong {
+      border-color: rgba(255, 78, 106, 0.8);
+      background: rgba(255, 78, 106, 0.26);
+      box-shadow: 0 8px 0 rgba(111, 23, 37, 0.85);
+    }
+
+    .choice-button.is-correct {
+      border-color: rgba(53, 242, 166, 0.8);
+      background: rgba(53, 242, 166, 0.28);
+      box-shadow: 0 8px 0 rgba(18, 93, 67, 0.9);
+    }
+
+    .choice-button:disabled:not(.is-wrong):not(.is-correct) {
+      opacity: 0.5;
+    }
+
+    .crate-panel {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      justify-items: center;
+      align-items: center;
+      gap: 16px;
+      padding: clamp(16px, 3vw, 24px);
+      overflow: hidden;
+    }
+
+    .crate-panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+
+    .crate-title {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .crate-stage {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 230px;
+      width: 100%;
+    }
+
+    .crate {
+      width: min(180px, 62vw);
+      aspect-ratio: 1 / 0.82;
+      position: relative;
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35));
+    }
+
+    .crate::before,
+    .crate-lid,
+    .crate-body {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-radius: 6px;
+    }
+
+    .crate-lid {
+      top: 0;
+      height: 30%;
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.32) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #ffca52, #d27621);
+      border: 3px solid #6e3215;
+      transform-origin: bottom left;
+      transition: transform 260ms ease;
+    }
+
+    .crate-body {
+      bottom: 0;
+      height: 72%;
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.2) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #d9842a, #8d4119);
+      border: 3px solid #6e3215;
+    }
+
+    .crate::before {
+      top: 46%;
+      height: 15%;
+      z-index: 2;
+      background: rgba(255, 243, 117, 0.72);
+      border-radius: 2px;
+    }
+
+    .crate.is-ready {
+      animation: crate-idle 980ms ease-in-out infinite;
+    }
+
+    .crate.grade-normal {
+      filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35));
+    }
+
+    .crate.grade-shiny {
+      filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0 20px rgba(66, 217, 255, 0.3));
+    }
+
+    .crate.grade-shiny .crate-lid,
+    .crate.grade-shiny .crate-body {
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.34) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #59f4ff, #1f9eb8 52%, #f0c84c);
+      border-color: #0b6d84;
+    }
+
+    .crate.grade-shiny::before {
+      background: rgba(255, 243, 117, 0.82);
+      box-shadow: 0 0 18px rgba(66, 217, 255, 0.26);
+    }
+
+    .crate.grade-gold {
+      transform: scale(1.03);
+      filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0 28px rgba(255, 228, 92, 0.46));
+    }
+
+    .crate.grade-gold .crate-lid,
+    .crate.grade-gold .crate-body {
+      background:
+        linear-gradient(90deg, transparent 42%, rgba(255, 255, 255, 0.5) 42% 58%, transparent 58%),
+        linear-gradient(180deg, #fff28a, #f1a52f 54%, #ad5b15);
+      border-color: #7d3e08;
+    }
+
+    .crate.grade-gold::before {
+      background: rgba(255, 255, 168, 0.94);
+      box-shadow:
+        0 0 20px rgba(255, 228, 92, 0.5),
+        0 0 34px rgba(255, 255, 255, 0.18);
+    }
+
+    .crate.grade-gold.is-ready {
+      animation: crate-gold-ready 920ms ease-in-out infinite;
+    }
+
+    .crate.is-opening .crate-lid {
+      transform: rotate(-18deg) translate(-10px, -28px);
+    }
+
+    .crate.is-broken {
+      animation: crate-break 620ms ease-in-out infinite;
+      filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0 20px rgba(255, 78, 106, 0.2));
+    }
+
+    .crate.is-broken .crate-lid,
+    .crate.is-broken .crate-body {
+      background:
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.18) 44% 56%, transparent 56%),
+        linear-gradient(180deg, #9a672a, #562b1c);
+      border-color: #371910;
+    }
+
+    .crate.is-broken::before {
+      background: rgba(255, 78, 106, 0.58);
+    }
+
+    .crate-lid::after,
+    .crate-body::after {
+      content: "";
+      position: absolute;
+      top: 10%;
+      left: 52%;
+      width: 44px;
+      height: 82%;
+      opacity: 0;
+      background:
+        linear-gradient(145deg, transparent 0 22%, #1a0d0b 22% 29%, transparent 29% 43%, #1a0d0b 43% 52%, transparent 52% 68%, #1a0d0b 68% 76%, transparent 76%);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .crate.is-broken .crate-lid::after,
+    .crate.is-broken .crate-body::after {
+      opacity: 0.72;
+    }
+
+    .crate.is-broken-opening {
+      animation: crate-crack-open 520ms ease both;
+    }
+
+    .crate.is-broken-opening .crate-lid {
+      transform: rotate(13deg) translate(8px, -16px);
+    }
+
+    .crate.is-opened {
+      animation: crate-pop 460ms ease both;
+    }
+
+    .burst {
+      position: absolute;
+      inset: 50%;
+      width: 18px;
+      height: 18px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .burst::before,
+    .burst::after {
+      content: "";
+      position: absolute;
+      inset: -120px;
+      background:
+        conic-gradient(from 0deg, transparent 0 8deg, rgba(255, 228, 92, 0.95) 8deg 12deg, transparent 12deg 28deg, rgba(66, 217, 255, 0.8) 28deg 32deg, transparent 32deg 45deg);
+      border-radius: 50%;
+    }
+
+    .burst.is-on {
+      animation: burst-on 620ms ease both;
+    }
+
+    .burst.is-bad::before,
+    .burst.is-bad::after {
+      background:
+        conic-gradient(from 0deg, transparent 0 8deg, rgba(255, 78, 106, 0.95) 8deg 12deg, transparent 12deg 28deg, rgba(169, 109, 255, 0.78) 28deg 32deg, transparent 32deg 45deg);
+    }
+
+    .reward {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      min-height: 84px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .reward-label {
+      max-width: 100%;
+      color: var(--yellow);
+      font-size: clamp(2rem, 4.4vw, 4rem);
+      line-height: 1;
+      font-weight: 1000;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-shadow: 0 0 28px rgba(255, 228, 92, 0.45);
+    }
+
+    .reward-label.is-bad {
+      color: var(--red);
+      text-shadow: 0 0 28px rgba(255, 78, 106, 0.45);
+    }
+
+    .reward-label.is-wild {
+      color: var(--purple);
+      text-shadow: 0 0 28px rgba(169, 109, 255, 0.5);
+    }
+
+    .reward-label.is-hope {
+      color: var(--yellow);
+      text-shadow:
+        0 0 24px rgba(255, 228, 92, 0.5),
+        0 0 38px rgba(53, 242, 166, 0.28);
+    }
+
+    .reward-copy {
+      max-width: 100%;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      font-weight: 850;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .secondary-button {
+      position: relative;
+      z-index: 1;
+      min-width: min(220px, 100%);
+      min-height: 56px;
+      padding: 12px 22px;
+      background: #ffffff;
+      color: #111322;
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.38);
+      font-size: 1.15rem;
+    }
+
+    .secondary-button:disabled {
+      opacity: 0.5;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .result {
+      place-items: center;
+      padding: 0;
+      position: relative;
+      background: #080914;
+    }
+
+    .result-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .result-title-art {
+      position: absolute;
+      left: 28.6%;
+      top: 24.2%;
+      z-index: 4;
+      width: 46%;
+      max-height: 22%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.36));
+    }
+
+    .result-title-art[hidden] {
+      display: none;
+    }
+
+    .result-correct-art {
+      position: absolute;
+      left: 74%;
+      top: 54.5%;
+      z-index: 4;
+      width: 23.5%;
+      max-height: 14%;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.34));
+    }
+
+    .result-correct-art[hidden] {
+      display: none;
+    }
+
+    .result-mathmon-scene {
+      --mathmon-aura: rgba(255, 228, 92, 0.3);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .result-mathmon-scene::before,
+    .result-mathmon-scene::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+
+    .result-mathmon-scene::before {
+      display: none;
+    }
+
+    .result-mathmon-scene::after {
+      background:
+        conic-gradient(from 0deg, transparent 0 12deg, rgba(255, 228, 92, 0.28) 12deg 15deg, transparent 15deg 32deg);
+      opacity: 0;
+      transform: scale(0.75);
+    }
+
+    .result-mathmon-scene.is-revealed::after {
+      animation: prize-burst 900ms ease both;
+    }
+
+    .result-mathmon-stage {
+      position: absolute;
+      left: 28.4%;
+      top: 53.2%;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: min(270px, 24%);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+    }
+
+    .result-mathmon-sprite {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter:
+        drop-shadow(0 30px 28px rgba(0, 0, 0, 0.42))
+        drop-shadow(0 0 32px var(--mathmon-aura));
+      transform: scale(0.92);
+    }
+
+    .result-mathmon-scene.is-revealed .result-mathmon-sprite {
+      animation: mathmon-prize 820ms cubic-bezier(0.2, 1.4, 0.25, 1) both;
+    }
+
+    .result-mathmon-scene.is-revealed .result-mathmon-stage {
+      animation: result-mathmon-float 2.6s ease-in-out 900ms infinite;
+    }
+
+    .result-mathmon-info {
+      position: absolute;
+      top: 42%;
+      left: 55%;
+      width: 31%;
+      z-index: 1;
+      display: grid;
+      justify-items: start;
+      gap: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+    }
+
+    .result-mathmon-info span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255, 228, 92, 0.14);
+      color: var(--yellow);
+      font-size: 0.86rem;
+      font-weight: 1000;
+    }
+
+    .result-mathmon-info strong {
+      color: #ffffff;
+      font-size: clamp(2.25rem, 4.95vw, 3.55rem);
+      line-height: 1.26;
+      font-weight: 1000;
+      text-shadow: 0 0 24px rgba(255, 228, 92, 0.26);
+      white-space: nowrap;
+    }
+
+    .result-mathmon-info p {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(0.94rem, 1.85vw, 1.12rem);
+      line-height: 1.22;
+      font-weight: 900;
+    }
+
+    .result-dynamic-ui {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .result-panel-glow {
+      filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.38));
+    }
+
+    .result-svg-kicker,
+    .result-svg-label,
+    .result-svg-button-text {
+      fill: #fff0a8;
+      font-weight: 950;
+    }
+
+    .result-svg-kicker {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .result-svg-title {
+      fill: #ffffff;
+      font-size: 58px;
+      font-weight: 1000;
+      letter-spacing: 0;
+      filter: url(#boxResultGlow);
+    }
+
+    .result-svg-label {
+      fill: rgba(255, 240, 168, 0.86);
+      font-size: 20px;
+    }
+
+    .result-svg-value {
+      fill: #ffffff;
+      font-size: 38px;
+      font-weight: 1000;
+      letter-spacing: 0;
+    }
+
+    .result-svg-mathmon {
+      fill: #ffe45c;
+    }
+
+    .result-svg-button-text {
+      fill: #241500;
+      font-size: 23px;
+      letter-spacing: 0;
+    }
+
+    .result-actions {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .result-action-hitbox {
+      position: absolute;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      color: transparent;
+      box-shadow: none;
+      pointer-events: auto;
+      text-decoration: none;
+    }
+
+    .result-action-hitbox:focus-visible {
+      outline: 5px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 4px;
+    }
+
+    .result-action-hitbox:active {
+      transform: translateY(2px);
+    }
+
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-surface,
+    .game[data-result-action-standard="shared-v1"] .result-legacy-action-label {
+      display: none;
+    }
+
+    .result-action-hitbox .result-common-button-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .result-action-hitbox.is-disabled {
+      pointer-events: none;
+    }
+
+    .result-leaderboard-hitbox {
+      left: 58.3%;
+      top: 80.75%;
+      width: 9.55%;
+      height: 7.75%;
+    }
+
+    .result-download-hitbox {
+      left: 69.4%;
+      top: 80.75%;
+      width: 12.8%;
+      height: 7.75%;
+    }
+
+    .result-restart-hitbox {
+      left: 83.75%;
+      top: 80.75%;
+      width: 7.35%;
+      height: 7.75%;
+    }
+
+    .visually-hidden,
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes score-bump {
+      0% { transform: scale(1); }
+      36% { transform: scale(1.12); color: #ffffff; }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes crate-idle {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+
+    @keyframes crate-gold-ready {
+      0%, 100% { transform: translateY(0) rotate(-1deg) scale(1.03); }
+      50% { transform: translateY(-8px) rotate(1deg) scale(1.08); }
+    }
+
+    @keyframes crate-pop {
+      0% { transform: scale(1); }
+      42% { transform: scale(1.14); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes crate-break {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      20% { transform: translateX(-5px) rotate(-2deg); }
+      42% { transform: translateX(5px) rotate(2deg); }
+      64% { transform: translateX(-3px) rotate(-1deg); }
+      82% { transform: translateX(3px) rotate(1deg); }
+    }
+
+    @keyframes crate-crack-open {
+      0% { transform: translateX(0) rotate(0deg) scale(1); }
+      24% { transform: translateX(-8px) rotate(-4deg) scale(1.02); }
+      48% { transform: translateX(8px) rotate(4deg) scale(1.04); }
+      100% { transform: translateX(0) rotate(0deg) scale(0.98); }
+    }
+
+    @keyframes burst-on {
+      0% { transform: translate(-50%, -50%) scale(0.35) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.2) rotate(20deg); opacity: 0; }
+    }
+
+    @keyframes mathmon-prize {
+      0% { transform: translateY(28px) scale(0.58) rotate(-8deg); opacity: 0; filter: brightness(1.4); }
+      58% { transform: translateY(-10px) scale(1.08) rotate(3deg); opacity: 1; filter: brightness(1.18); }
+      100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; filter: brightness(1); }
+    }
+
+    @keyframes result-mathmon-float {
+      0%,
+      100% { transform: translate(-50%, -50%) translateY(0); }
+      50% { transform: translate(-50%, -50%) translateY(-12px); }
+    }
+
+    @keyframes prize-burst {
+      0% { transform: scale(0.35) rotate(0deg); opacity: 0; }
+      18% { opacity: 1; }
+      100% { transform: scale(1.35) rotate(16deg); opacity: 0; }
+    }
+
+    @media (max-width: 1080px) and (orientation: landscape) {
+      .play {
+        padding: 10px 14px;
+        gap: 10px;
+      }
+
+      .hud {
+        grid-template-columns: minmax(150px, 0.68fr) minmax(320px, 1fr) minmax(150px, 0.68fr);
+      }
+
+      .hud-card {
+        min-height: 58px;
+        padding: 8px 12px;
+      }
+
+      .hud-card span {
+        font-size: 0.74rem;
+      }
+
+      .hud-card--progress,
+      .hud-card.score,
+      .hud-card--last-reward {
+        min-height: 74px;
+        padding: 8px 12px 10px;
+      }
+
+      .hud-card.score strong {
+        font-size: clamp(2rem, 4.6vw, 3rem);
+      }
+
+      .hud-card--progress strong,
+      .hud-card--last-reward strong {
+        font-size: clamp(1.45rem, 3.4vw, 2.2rem);
+      }
+
+      .last-reward-change {
+        font-size: 0.72rem;
+      }
+
+      .play-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(236px, 286px);
+        gap: 14px;
+      }
+
+      .problem-panel {
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .feedback {
+        min-height: 34px;
+        padding: 6px 10px;
+        font-size: 0.9rem;
+      }
+
+      .question-card {
+        min-height: 148px;
+        padding: 18px;
+      }
+
+      .question {
+        font-size: clamp(3rem, 6.4vw, 5rem);
+      }
+
+      .choices {
+        gap: 8px;
+      }
+
+      .choice-button {
+        min-height: 58px;
+        padding: 9px 12px;
+        box-shadow: 0 6px 0 rgba(22, 72, 97, 0.8);
+        font-size: clamp(1.45rem, 3.4vw, 2.2rem);
+      }
+
+      .choice-button.is-wrong {
+        box-shadow: 0 6px 0 rgba(111, 23, 37, 0.85);
+      }
+
+      .choice-button.is-correct {
+        box-shadow: 0 6px 0 rgba(18, 93, 67, 0.9);
+      }
+
+      .crate-panel {
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .crate-panel::before {
+        inset: 12px;
+      }
+
+      .crate-title {
+        font-size: 0.86rem;
+      }
+
+      .crate-stage {
+        min-height: 164px;
+      }
+
+      .crate {
+        width: 144px;
+      }
+
+      .reward {
+        gap: 6px;
+        min-height: 62px;
+      }
+
+      .reward-label {
+        font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+      }
+
+      .reward-copy {
+        font-size: 0.82rem;
+      }
+
+      .secondary-button {
+        min-height: 46px;
+        padding: 8px 18px;
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.38);
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .game {
+        align-items: stretch;
+        padding: 10px;
+      }
+
+      .play {
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .hud {
+        grid-template-columns: minmax(128px, 0.62fr) minmax(0, 0.96fr) minmax(128px, 0.62fr);
+      }
+
+      .hud-card {
+        min-height: 58px;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .hud-card strong {
+        text-align: center;
+        font-size: clamp(1.05rem, 6vw, 1.55rem);
+      }
+
+      .hud-card--progress,
+      .hud-card.score,
+      .hud-card--last-reward {
+        min-height: 80px;
+        padding-inline: 10px;
+      }
+
+      .hud-card.score strong {
+        font-size: clamp(1.9rem, 8vw, 3.35rem);
+      }
+
+      .hud-card--progress strong,
+      .hud-card--last-reward strong {
+        font-size: clamp(1.5rem, 5.8vw, 2.45rem);
+      }
+
+      .play-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .problem-panel {
+        gap: 12px;
+      }
+
+      .question-card {
+        min-height: 130px;
+      }
+
+      .choices {
+        gap: 9px;
+      }
+
+      .choice-button {
+        min-height: 64px;
+      }
+
+      .crate-panel {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        align-items: center;
+      }
+
+      .crate-title {
+        grid-column: 1 / -1;
+      }
+
+      .crate-stage {
+        min-height: 132px;
+      }
+
+      .crate {
+        width: 124px;
+      }
+
+      .reward {
+        min-height: 64px;
+      }
+
+      .reward-label {
+        font-size: clamp(1.8rem, 10vw, 3rem);
+      }
+
+    }
+
+    @media (max-width: 719px) {
+      .game {
+        padding: 16px;
+      }
+
+      .stage-shell {
+        display: none;
+      }
+
+      .phone-blocker {
+        width: min(420px, 100%);
+        min-height: calc(100dvh - 32px);
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          var(--panel);
+        background-size: 26px 26px, 26px 26px, auto;
+        box-shadow: var(--shadow);
+        text-align: center;
+        padding: 24px;
+      }
+
+      .phone-blocker strong {
+        display: block;
+        color: #ffffff;
+        font-size: 1.9rem;
+        line-height: 1.12;
+        font-weight: 1000;
+      }
+
+      .phone-blocker span {
+        display: block;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 1rem;
+        font-weight: 850;
+        line-height: 1.45;
+      }
+    }
+  </style>
+
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+    (function installMathmonAudio(global) {
+      "use strict";
+
+      if (global.MathmonAudio?.version === "mathmon-audio-v1") return;
+
+      const VERSION = "mathmon-audio-v1";
+      const PREF_KEYS = Object.freeze({
+        bgm: "mathmon-audio-bgm-enabled",
+        sfx: "mathmon-audio-sfx-enabled",
+      });
+      const currentScript = document.currentScript;
+      const scriptUrl = currentScript?.dataset.mathmonAudioBase
+        ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
+        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+      const BGM_TRACK = Object.freeze({
+        src: new URL(
+          "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
+          scriptUrl,
+        ).href,
+        gain: 0.025,
+        duckGain: 0.008,
+        fadeSeconds: 1.2,
+      });
+      const SFX_PLANS = Object.freeze({
+        start: Object.freeze([260, 330, 392]),
+        correct: Object.freeze([392, 494, 659]),
+        try: Object.freeze([220, 196]),
+        reward: Object.freeze([392, 523, 784]),
+        next: Object.freeze([330, 392]),
+        scan: Object.freeze([180, 240, 300]),
+        measure: Object.freeze([330, 440, 554]),
+        finish: Object.freeze([392, 523, 659, 784]),
+      });
+      const DUCK_SECONDS = Object.freeze({
+        correct: 0.6,
+        reward: 1.1,
+        scan: 0.8,
+        measure: 0.8,
+        finish: 1.35,
+      });
+      const CUE_ALIASES = Object.freeze({
+        start: "start",
+        uiStart: "start",
+        correct: "correct",
+        success: "correct",
+        "step-correct": "correct",
+        answerCorrect: "correct",
+        "problem-complete": "correct",
+        try: "try",
+        error: "try",
+        wrong: "try",
+        "step-wrong": "try",
+        answerWrongSoft: "try",
+        fuelLoss: "try",
+        reward: "reward",
+        "reward-open": "reward",
+        "reward-rare": "reward",
+        "reward-legend": "reward",
+        rewardPositive: "reward",
+        rewardMega: "reward",
+        rewardRainbow: "reward",
+        rewardLaunch: "reward",
+        fuelPositive: "reward",
+        fuelMega: "reward",
+        fuelRainbow: "reward",
+        fuelLaunch: "reward",
+        rewardTransfer: "measure",
+        measure: "measure",
+        scan: "scan",
+        measureScan: "scan",
+        next: "next",
+        uiNext: "next",
+        fuelEmpty: "next",
+        rewardEmpty: "next",
+        scoreboard: "next",
+        finish: "finish",
+        result: "finish",
+        resultLow: "finish",
+        resultMid: "finish",
+        resultHigh: "finish",
+        resultRare: "finish",
+      });
+
+      const state = {
+        bgmEnabled: readPreference(PREF_KEYS.bgm, true),
+        sfxEnabled: readPreference(PREF_KEYS.sfx, true),
+        context: null,
+        bgmGain: null,
+        bgmBuffer: null,
+        bgmBufferPromise: null,
+        bgmSource: null,
+        bgmStartCount: 0,
+        bgmStopCount: 0,
+        unlocked: false,
+        sfxLog: [],
+        legacyQa: null,
+        controlsBound: false,
+      };
+
+      writePreference(PREF_KEYS.bgm, state.bgmEnabled);
+      writePreference(PREF_KEYS.sfx, state.sfxEnabled);
+
+      function parsePreference(value, fallback) {
+        if (value == null) return fallback;
+        if (value === true || value === "true" || value === "on" || value === "1") return true;
+        if (value === false || value === "false" || value === "off" || value === "0") return false;
+        return fallback;
+      }
+
+      function readPreference(key, fallback) {
+        try {
+          return parsePreference(global.localStorage.getItem(key), fallback);
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function writePreference(key, enabled) {
+        try {
+          global.localStorage.setItem(key, String(Boolean(enabled)));
+        } catch (error) {
+          // Some embedded browsers block localStorage. Audio still works for this session.
+        }
+      }
+
+      function ensureContext() {
+        if (state.context) return state.context;
+        const AudioContext = global.AudioContext || global.webkitAudioContext;
+        if (!AudioContext) return null;
+        state.context = new AudioContext();
+        state.bgmGain = state.context.createGain();
+        state.bgmGain.gain.value = 0.0001;
+        state.bgmGain.connect(state.context.destination);
+        return state.context;
+      }
+
+      async function unlock() {
+        const context = ensureContext();
+        if (!context) return false;
+        if (context.state === "suspended") {
+          try {
+            await context.resume();
+          } catch (error) {
+            return false;
+          }
+        }
+        state.unlocked = context.state === "running";
+        return state.unlocked;
+      }
+
+      function holdAudioParam(param, time) {
+        if (typeof param.cancelAndHoldAtTime === "function") {
+          param.cancelAndHoldAtTime(time);
+          return;
+        }
+        const value = Math.max(0.0001, Number(param.value) || 0.0001);
+        param.cancelScheduledValues(time);
+        param.setValueAtTime(value, time);
+      }
+
+      function loadBgmBuffer() {
+        if (state.bgmBuffer) return Promise.resolve(state.bgmBuffer);
+        if (state.bgmBufferPromise) return state.bgmBufferPromise;
+        const context = ensureContext();
+        if (!context) return Promise.resolve(null);
+        state.bgmBufferPromise = fetch(BGM_TRACK.src)
+          .then((response) => {
+            if (!response.ok) throw new Error(`BGM load failed: ${response.status}`);
+            return response.arrayBuffer();
+          })
+          .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+          .then((buffer) => {
+            state.bgmBuffer = buffer;
+            return buffer;
+          })
+          .catch((error) => {
+            console.warn("Background music could not be loaded.", error);
+            state.bgmBufferPromise = null;
+            return null;
+          });
+        return state.bgmBufferPromise;
+      }
+
+      async function startBgm() {
+        if (!state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        // Start loading before awaiting AudioContext.resume(). Embedded browsers can
+        // keep resume() pending until another trusted gesture; the fetch must not be
+        // blocked behind that pending promise.
+        const bufferPromise = loadBgmBuffer();
+        if (!(await unlock())) return false;
+        const buffer = await bufferPromise;
+        if (!buffer || !state.bgmEnabled || document.hidden || state.bgmSource) return false;
+        const source = state.context.createBufferSource();
+        const now = state.context.currentTime;
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(state.bgmGain);
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + BGM_TRACK.fadeSeconds);
+        source.onended = () => {
+          if (state.bgmSource === source) state.bgmSource = null;
+        };
+        state.bgmSource = source;
+        state.bgmStartCount += 1;
+        source.start(now);
+        return true;
+      }
+
+      function stopBgm(options = {}) {
+        const immediate = Boolean(options.immediate);
+        const source = state.bgmSource;
+        if (!source || !state.context || !state.bgmGain) return false;
+        state.bgmSource = null;
+        state.bgmStopCount += 1;
+        const now = state.context.currentTime;
+        if (immediate) {
+          try {
+            source.stop(now);
+          } catch (error) {
+            // The source may already have ended.
+          }
+          state.bgmGain.gain.cancelScheduledValues(now);
+          state.bgmGain.gain.setValueAtTime(0.0001, now);
+          return true;
+        }
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(0.0001, now + BGM_TRACK.fadeSeconds);
+        try {
+          source.stop(now + BGM_TRACK.fadeSeconds + 0.05);
+        } catch (error) {
+          // The source may already have ended.
+        }
+        return true;
+      }
+
+      function duckBgm(seconds) {
+        if (!state.bgmSource || !state.context || !state.bgmGain) return;
+        const now = state.context.currentTime;
+        holdAudioParam(state.bgmGain.gain, now);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.duckGain, now + 0.08);
+        state.bgmGain.gain.exponentialRampToValueAtTime(BGM_TRACK.gain, now + Math.max(0.12, Number(seconds) || 0.6));
+      }
+
+      function normalizeCue(cue) {
+        return CUE_ALIASES[cue] || (SFX_PLANS[cue] ? cue : "next");
+      }
+
+      async function play(cue = "next") {
+        if (!state.sfxEnabled) return false;
+        if (!(await unlock())) return false;
+        const normalizedCue = normalizeCue(cue);
+        const duckSeconds = DUCK_SECONDS[normalizedCue];
+        if (duckSeconds) duckBgm(duckSeconds);
+        const now = state.context.currentTime;
+        SFX_PLANS[normalizedCue].forEach((frequency, index) => {
+          const at = now + index * 0.08;
+          const oscillator = state.context.createOscillator();
+          const gain = state.context.createGain();
+          oscillator.frequency.value = frequency;
+          oscillator.type = normalizedCue === "try" ? "triangle" : "sine";
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(0.045, at + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.16);
+          oscillator.connect(gain).connect(state.context.destination);
+          oscillator.start(at);
+          oscillator.stop(at + 0.18);
+        });
+        state.sfxLog.push(String(cue));
+        if (state.sfxLog.length > 80) state.sfxLog.shift();
+        return true;
+      }
+
+      function syncControls() {
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        if (bgmToggle) bgmToggle.setAttribute("aria-checked", String(state.bgmEnabled));
+        if (sfxToggle) sfxToggle.setAttribute("aria-checked", String(state.sfxEnabled));
+      }
+
+      function setPreference(kind, enabled, options = {}) {
+        const value = Boolean(enabled);
+        if (kind === "bgm") {
+          state.bgmEnabled = value;
+          writePreference(PREF_KEYS.bgm, value);
+          if (value && options.start !== false) startBgm();
+          if (!value) stopBgm({ immediate: true });
+        } else if (kind === "sfx") {
+          state.sfxEnabled = value;
+          writePreference(PREF_KEYS.sfx, value);
+        }
+        if (options.syncControls !== false) syncControls();
+      }
+
+      function setPrefs(prefs = {}, options = {}) {
+        if (typeof prefs.bgmEnabled === "boolean") {
+          setPreference("bgm", prefs.bgmEnabled, options);
+        }
+        if (typeof prefs.sfxEnabled === "boolean") {
+          setPreference("sfx", prefs.sfxEnabled, options);
+        }
+        return getPrefs();
+      }
+
+      function activeScreenName() {
+        const screen = document.querySelector(".screen.is-active, [data-screen].is-active");
+        return screen?.dataset.screen || screen?.id || "";
+      }
+
+      function getPrefs() {
+        const settingsBackdrop = document.getElementById("settingsBackdrop");
+        return {
+          version: VERSION,
+          bgmEnabled: state.bgmEnabled,
+          sfxEnabled: state.sfxEnabled,
+          bgmPlaying: Boolean(state.bgmSource),
+          bgmLoaded: Boolean(state.bgmBuffer),
+          bgmDuration: state.bgmBuffer?.duration || 0,
+          bgmTrack: BGM_TRACK.src,
+          bgmStartCount: state.bgmStartCount,
+          bgmStopCount: state.bgmStopCount,
+          settingsOpen: Boolean(settingsBackdrop && !settingsBackdrop.hidden),
+          screen: activeScreenName(),
+        };
+      }
+
+      function setLegacyPrefs(prefs) {
+        const legacy = state.legacyQa;
+        if (legacy && typeof legacy.setPrefs === "function") {
+          try {
+            legacy.setPrefs(prefs);
+            return;
+          } catch (error) {
+            console.warn("Lesson audio settings could not be synchronized.", error);
+          }
+        }
+        const pairs = [
+          ["bgmEnabled", "settingsBgmToggle"],
+          ["sfxEnabled", "settingsSfxToggle"],
+        ];
+        pairs.forEach(([key, id]) => {
+          if (typeof prefs[key] !== "boolean") return;
+          const toggle = document.getElementById(id);
+          if (!toggle) return;
+          const current = toggle.getAttribute("aria-checked") === "true";
+          if (current !== prefs[key]) toggle.click();
+        });
+      }
+
+      function installQaHook() {
+        state.legacyQa = global.__mathmonAudioQa || null;
+        global.__mathmonAudioQa = {
+          version: VERSION,
+          keys: PREF_KEYS,
+          cues: SFX_PLANS,
+          getLog: () => [...state.sfxLog],
+          clearLog: () => {
+            state.sfxLog = [];
+          },
+          getPrefs,
+          setPrefs: (prefs = {}) => {
+            setLegacyPrefs(prefs);
+            return setPrefs(prefs);
+          },
+          play,
+          startBgm,
+          stopBgm,
+        };
+      }
+
+      function bindControls() {
+        if (state.controlsBound) return;
+        state.controlsBound = true;
+        document.querySelector("main.game")?.setAttribute("data-audio-standard", VERSION);
+        syncControls();
+        const bgmToggle = document.getElementById("settingsBgmToggle");
+        const sfxToggle = document.getElementById("settingsSfxToggle");
+        bgmToggle?.addEventListener("click", () => {
+          const enabled = bgmToggle.getAttribute("aria-checked") === "true";
+          setPreference("bgm", enabled);
+        });
+        sfxToggle?.addEventListener("click", () => {
+          const enabled = sfxToggle.getAttribute("aria-checked") === "true";
+          setPreference("sfx", enabled);
+        });
+        installQaHook();
+      }
+
+      function handleUserInteraction() {
+        if (state.bgmEnabled && !state.bgmSource) startBgm();
+      }
+
+      // Retry on trusted gestures until playback starts. A one-shot listener can
+      // lose BGM permanently when the first resume is delayed or rejected.
+      document.addEventListener("pointerdown", handleUserInteraction, { capture: true });
+      document.addEventListener("click", handleUserInteraction, { capture: true });
+      document.addEventListener("keydown", handleUserInteraction, { capture: true });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopBgm({ immediate: true });
+        else if (state.bgmEnabled && state.unlocked) startBgm();
+      });
+      global.addEventListener("pagehide", () => stopBgm({ immediate: true }));
+
+      global.MathmonAudio = Object.freeze({
+        version: VERSION,
+        keys: PREF_KEYS,
+        track: BGM_TRACK,
+        plans: SFX_PLANS,
+        play,
+        unlock,
+        startBgm,
+        stopBgm,
+        duckBgm,
+        getPrefs,
+        setPrefs,
+      });
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindControls, { once: true });
+      } else {
+        bindControls();
+      }
+    })(window);
+  </script>
+</head>
+<body>
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
+    <aside class="phone-blocker" aria-label="지원 화면 안내">
+      <div>
+        <strong>태블릿이나 컴퓨터에서 열어요</strong>
+        <span>이 게임은 큰 화면에서만 플레이할 수 있어요.</span>
+      </div>
+    </aside>
+    <div class="stage-shell" data-active-screen="cover">
+      <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
+        </svg>
+      </button>
+      <div class="settings-backdrop" id="settingsBackdrop" hidden>
+        <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+          <h2 class="settings-title" id="settingsTitle">설정</h2>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="settings-switch" id="settingsBgmToggle" type="button" role="switch" aria-checked="true">
+              <span>배경 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true">
+              <span>효과 소리</span>
+              <span class="settings-switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
+            <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
+          </div>
+          <div class="settings-confirm" id="settingsRestartConfirm" hidden>
+            <p class="settings-confirm-title" id="settingsConfirmText">처음부터 할까요?</p>
+            <div class="settings-confirm-actions">
+              <button class="settings-action is-danger" id="settingsRestartConfirmButton" type="button">처음부터</button>
+              <button class="settings-action" id="settingsRestartCancelButton" type="button">계속하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
+      <img class="raster-bg" src="cover-generated.webp" alt="" aria-hidden="true">
+      <div class="cover-scene">
+        <div class="unit-label cover-brand-label">에듀잇티 수학 게임</div>
+        <div class="unit-label cover-unit-label">3학년 2학기 1단원</div>
+        <div class="unit-label cover-learning-label">받아올림이 없는 (세 자리 수)×(한 자리 수)</div>
+      </div>
+      <div class="hero-copy">
+        <h1 class="visually-hidden" id="coverTitle">매스몬 상자런</h1>
+        <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
+        <p class="cover-goal">점수를 모아 매스몬을 얻어요.</p>
+        <button class="cover-start-button" id="startButton" type="button" data-action="start" aria-label="시작">
+          <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
+        </button>
+      </div>
+    </section>
+
+    <section class="screen tutorial" data-screen="tutorial" data-tutorial-step="solve" aria-labelledby="tutorialTitle">
+      <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
+      <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
+      <h2 class="sr-only" id="tutorialTitle">곱해서 상자를 열어요</h2>
+      <div class="sr-only">
+        <p>첫 화면은 자리마다 곱하는 방법을 보여 줍니다.</p>
+        <ol>
+          <li>일의 자리부터 곱해요.</li>
+          <li>십의 자리도 곱해요.</li>
+          <li>백의 자리까지 곱해요.</li>
+        </ol>
+        <p>두 번째 화면은 상자를 열어 점수를 얻고, 마지막에 매스몬을 만나는 흐름을 보여 줍니다.</p>
+      </div>
+      <button class="tutorial-poster-hitbox" type="button" data-action="start-first-problem" aria-label="다음"></button>
+    </section>
+
+    <section class="screen play" data-screen="play" aria-label="매스몬 상자런 문제">
+      <div class="hud" aria-label="점수판">
+        <div class="hud-card hud-card--progress">
+          <span>문제</span>
+          <strong data-field="progress">1/10</strong>
+          <em class="combo-badge" data-field="combo">콤보 대기</em>
+        </div>
+        <div class="hud-card score" data-score-card>
+          <span>현재 점수</span>
+          <strong data-field="score">0점</strong>
+        </div>
+        <div class="hud-card hud-card--last-reward" data-last-reward-card>
+          <span>방금 상자</span>
+          <strong data-field="last-reward">대기</strong>
+          <em class="last-reward-change" data-field="last-reward-change">상자를 열어요</em>
+        </div>
+      </div>
+
+      <div class="play-grid">
+        <section class="problem-panel" aria-label="문제 풀기">
+          <div class="feedback" data-field="feedback" aria-live="polite">답을 골라요</div>
+          <div class="question-card" data-question-card>
+            <div class="question" data-field="question">123 × 4 = ?</div>
+          </div>
+          <div class="choices" data-field="choices" aria-label="답 고르기"></div>
+        </section>
+
+        <aside class="crate-panel" aria-label="상자 보상">
+          <p class="crate-title" data-field="crate-title">정답이면 상자가 나와요</p>
+          <div class="crate-stage">
+            <div class="burst" data-burst aria-hidden="true"></div>
+            <div class="crate" data-crate aria-hidden="true">
+              <span class="crate-lid"></span>
+              <span class="crate-body"></span>
+            </div>
+          </div>
+          <div class="reward" aria-live="polite">
+            <strong class="reward-label" data-field="reward-label">?</strong>
+            <p class="reward-copy" data-field="reward-copy">상자를 기다려요</p>
+          </div>
+          <button class="secondary-button" type="button" data-action="open-crate" disabled>열기</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="screen result" id="resultScreen" data-screen="result" aria-labelledby="resultTitle">
+      <img class="result-art" src="result-generated-v3.webp?v=1" alt="" aria-hidden="true">
+      <h2 class="visually-hidden" id="resultTitle">상자런 결과</h2>
+      <p class="visually-hidden" data-field="result-praise">계산 집중력이 좋아요!</p>
+      <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 보송몬을 얻었어요!</p>
+      <span class="visually-hidden" data-field="final-mathmon-name">보송몬</span>
+      <span class="visually-hidden" data-field="download-mathmon" aria-hidden="true"></span>
+      <div class="result-mathmon-scene" data-mathmon-result aria-hidden="true">
+        <div class="result-mathmon-stage">
+          <div class="result-mathmon-sprite" data-field="result-mathmon-sprite"></div>
+        </div>
+      </div>
+      <img class="result-title-art" id="resultTitleArt" src="result-title-cottonpuff-generated.webp" alt="" aria-hidden="true" hidden>
+      <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
+      <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
+        <title id="resultSvgTitle">상자런 결과</title>
+        <defs>
+          <linearGradient id="boxResultPanel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#18203a" stop-opacity="0.82"></stop>
+            <stop offset="0.58" stop-color="#16152d" stop-opacity="0.7"></stop>
+            <stop offset="1" stop-color="#42233d" stop-opacity="0.76"></stop>
+          </linearGradient>
+          <linearGradient id="boxResultStroke" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff08a"></stop>
+            <stop offset="0.54" stop-color="#60d7ff"></stop>
+            <stop offset="1" stop-color="#ff9cb1"></stop>
+          </linearGradient>
+          <linearGradient id="boxResultButton" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff4a6"></stop>
+            <stop offset="1" stop-color="#ffbd49"></stop>
+          </linearGradient>
+          <filter id="boxResultGlow" x="-20%" y="-40%" width="140%" height="180%">
+            <feDropShadow dx="0" dy="7" stdDeviation="0" flood-color="#000000" flood-opacity="0.22"></feDropShadow>
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#ffe45c" flood-opacity="0.34"></feDropShadow>
+          </filter>
+        </defs>
+        <g class="result-panel-glow">
+          <path d="M700 104H1190C1206 104 1218 116 1218 132V710C1218 724 1206 736 1190 736H700C686 736 674 724 674 710V132C674 116 686 104 700 104Z" fill="url(#boxResultPanel)" stroke="url(#boxResultStroke)" stroke-width="3"></path>
+          <path d="M722 128H1168C1178 128 1186 136 1186 146V694C1186 704 1178 712 1168 712H722C712 712 704 704 704 694V146C704 136 712 128 722 128Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
+          <text class="result-svg-kicker" x="746" y="188"></text>
+          <text class="result-svg-title" id="resultMeasureSvg" data-field="final-score" x="746" y="270">0점</text>
+          <rect x="746" y="312" width="386" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
+          <rect id="resultMeasureFillSvg" x="746" y="312" width="0" height="12" rx="6" fill="#ffe45c"></rect>
+          <line x1="746" y1="366" x2="1148" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
+          <text class="result-svg-label" x="746" y="426"></text>
+          <text class="result-svg-value" id="resultScoreSvg" data-field="final-correct" x="746" y="476" opacity="0" aria-hidden="true">0/10</text>
+          <text class="result-svg-label" x="746" y="548"></text>
+          <text class="result-svg-value result-svg-mathmon" id="resultDestinationSvg" x="746" y="598" opacity="0" aria-hidden="true"></text>
+          <rect class="result-legacy-action-surface ranking-disabled" x="746" y="646" width="122" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect x="888" y="646" width="164" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <rect class="result-legacy-action-surface" x="1072" y="646" width="94" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
+          <text class="result-svg-button-text result-legacy-action-label ranking-disabled" x="807" y="685" text-anchor="middle">순위</text>
+          <text class="result-svg-button-text" x="970" y="685" text-anchor="middle">이미지 받기</text>
+          <text class="result-svg-button-text result-legacy-action-label" x="1119" y="685" text-anchor="middle">다시</text>
+        </g>
+      </svg>
+      <div class="result-actions" aria-hidden="false">
+        <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" data-action="leaderboard" aria-label="순위">
+          <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
+          <span class="visually-hidden">순위</span>
+        </button>
+        <a class="result-action-hitbox result-download-hitbox is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
+        <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" data-action="restart" aria-label="다시하기">
+          <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
+          <span class="visually-hidden">다시하기</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 상자 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-box-generated.webp" data-scoreboard-result-kind="box" data-scoreboard-score-label="상자 결과" data-scoreboard-list-title="상자 결과 순위" data-scoreboard-unit="3학년 2학기 1단원 1차시"></section>
+    </div>
+  </main>
+
+  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const LESSON_ID = "3-2-1-1-mathmon-box-run";
+      const ROUND_SIZE = 10;
+      const MIN_PROBLEM_BANK_SIZE = 100;
+      const BASE_CORRECT_SCORE = 100n;
+      function getScoreboardApiUrl() {
+        const queryUrl = new URLSearchParams(window.location.search).get("scoreboardApi");
+        return String(window.MATHMON_SCOREBOARD_API_URL || queryUrl || "").trim().replace(/\/+$/, "");
+      }
+      const SCOREBOARD_API_URL = getScoreboardApiUrl();
+      const PHASES = Object.freeze({
+        cover: "cover",
+        playing: "playing",
+        missReview: "missReview",
+        crateReady: "crateReady",
+        crateOpening: "crateOpening",
+        reward: "reward",
+        finished: "finished",
+      });
+
+      const REWARDS = Object.freeze([
+        { label: "+100", type: "add", amount: 100n, tone: "good" },
+        { label: "+1000", type: "add", amount: 1000n, tone: "good" },
+        { label: "+100000", type: "add", amount: 100000n, tone: "good" },
+        { label: "-500", type: "add", amount: -500n, tone: "bad" },
+        { label: "-5000", type: "add", amount: -5000n, tone: "bad" },
+        { label: "-100000", type: "add", amount: -100000n, tone: "bad" },
+        { label: "×2", type: "multiply", amount: 2n, tone: "wild" },
+        { label: "×5", type: "multiply", amount: 5n, tone: "wild" },
+        { label: "×10", type: "multiply", amount: 10n, tone: "wild" },
+        { label: "÷2", type: "divide", amount: 2n, tone: "bad" },
+        { label: "÷3", type: "divide", amount: 3n, tone: "bad" },
+        { label: "-를 +로", type: "rescue", fallback: 500n, tone: "hope" },
+        { label: "0", type: "zero", tone: "bad" },
+      ]);
+
+      const BROKEN_REWARDS = Object.freeze([
+        { label: "-500", type: "add", amount: -500n, tone: "bad" },
+        { label: "-5000", type: "add", amount: -5000n, tone: "bad" },
+        { label: "÷2", type: "divide", amount: 2n, tone: "bad" },
+        { label: "0", type: "zero", tone: "bad" },
+        { label: "+100", type: "add", amount: 100n, tone: "good" },
+      ]);
+
+      const SHINY_REWARD_BOOSTS = Object.freeze([REWARDS[1], REWARDS[2], REWARDS[6], REWARDS[11]]);
+      const GOLD_REWARD_BOOSTS = Object.freeze([REWARDS[1], REWARDS[2], REWARDS[2], REWARDS[6], REWARDS[7], REWARDS[8], REWARDS[11], REWARDS[11]]);
+
+      const CRATE_GRADES = Object.freeze([
+        { id: "normal", label: "일반 상자", className: "grade-normal", weight: 65, rewardPool: Object.freeze([...REWARDS]) },
+        { id: "shiny", label: "반짝 상자", className: "grade-shiny", weight: 25, rewardPool: Object.freeze([...REWARDS, ...SHINY_REWARD_BOOSTS]) },
+        { id: "gold", label: "황금 상자", className: "grade-gold", weight: 10, rewardPool: Object.freeze([...REWARDS, ...GOLD_REWARD_BOOSTS]) },
+      ]);
+
+      const MATHMONS = Object.freeze([
+        { name: "보송몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-01-cottonpuff.webp?v=1", titleArt: "result-title-cottonpuff-generated.webp", fileName: "cottonpuff.png", aura: "rgba(184, 140, 255, 0.24)", copy: "작고 폭신한 시작 매스몬이에요!" },
+        { name: "통통펭몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1", titleArt: "result-title-bouncepenguin-generated.webp", fileName: "bouncepenguin.png", aura: "rgba(96, 215, 255, 0.28)", copy: "상자를 보면 통통 뛰는 매스몬이에요!" },
+        { name: "분홍깃몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1", titleArt: "result-title-blushphoenix-generated.webp", fileName: "blushphoenix.png", aura: "rgba(255, 126, 166, 0.32)", copy: "밝은 깃털로 점수를 올리는 매스몬이에요!" },
+        { name: "호랑몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-04-bravetiger.webp?v=1", titleArt: "result-title-bravetiger-generated.webp", fileName: "bravetiger.png", aura: "rgba(255, 200, 87, 0.34)", copy: "씩씩하게 상자를 지키는 매스몬이에요!" },
+        { name: "수정부엉몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-05-crystalowl.webp?v=1", titleArt: "result-title-crystalowl-generated.webp", fileName: "crystalowl.png", aura: "rgba(184, 140, 255, 0.36)", copy: "반짝이는 눈으로 답을 찾는 매스몬이에요!" },
+        { name: "번개늑대몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-06-thunderwolf.webp?v=1", titleArt: "result-title-thunderwolf-generated.webp", fileName: "thunderwolf.png", aura: "rgba(96, 215, 255, 0.38)", copy: "번개처럼 달려 높은 점수를 잡는 매스몬이에요!" },
+        { name: "하늘그리핀몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-07-skygriffin.webp?v=1", titleArt: "result-title-skygriffin-generated.webp", fileName: "skygriffin.png", aura: "rgba(255, 228, 92, 0.42)", copy: "하늘에서 큰 점수를 지키는 매스몬이에요!" },
+        { name: "흑불드래곤몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-08-nightfiredragon.webp?v=1", titleArt: "result-title-nightfiredragon-generated.webp", fileName: "nightfiredragon.png", aura: "rgba(255, 78, 106, 0.42)", copy: "뜨거운 힘으로 큰 상자를 여는 매스몬이에요!" },
+        { name: "무지개유니몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-09-rainbowunicorn.webp?v=1", titleArt: "result-title-rainbowunicorn-generated.webp", fileName: "rainbowunicorn.png", aura: "rgba(169, 109, 255, 0.44)", copy: "무지갯빛으로 행운을 부르는 매스몬이에요!" },
+        { name: "황금드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-10-golddragon.webp?v=1", titleArt: "result-title-golddragon-generated.webp", fileName: "golddragon.png", aura: "rgba(255, 228, 92, 0.54)", copy: "이번 판 최고 보물을 지키는 전설 매스몬이에요!" },
+      ]);
+
+      const SCORE_UNITS = Object.freeze([
+        { value: 1000000000000n, label: "조" },
+        { value: 100000000n, label: "억" },
+        { value: 10000n, label: "만" },
+      ]);
+      const AUDIO_PREF_KEYS = Object.freeze({
+        bgm: "mathmon-audio-bgm-enabled",
+        sfx: "mathmon-audio-sfx-enabled",
+        legacyBoxRunBgm: "mathmon-box-run-bgm-enabled",
+      });
+      const TUTORIAL_NEXT_LABEL = "다음";
+      const TUTORIAL_GOAL_LABEL = "상자 열기";
+      const TUTORIAL_REVIEW_LABEL = "계속하기";
+
+      const els = {
+        stageShell: document.querySelector(".stage-shell"),
+        screens: {
+          cover: document.querySelector('[data-screen="cover"]'),
+          tutorial: document.querySelector('[data-screen="tutorial"]'),
+          play: document.querySelector('[data-screen="play"]'),
+          result: document.querySelector('[data-screen="result"]'),
+          scoreboard: document.querySelector('[data-screen="scoreboard"]'),
+        },
+        startButton: document.querySelector('[data-action="start"]'),
+        startFirstProblemButton: document.querySelector('[data-action="start-first-problem"]'),
+        restartButton: document.querySelector('[data-action="restart"]'),
+        leaderboardButton: document.querySelector('[data-action="leaderboard"]'),
+        openCrateButton: document.querySelector('[data-action="open-crate"]'),
+        scoreboardScreen: document.getElementById("scoreboardScreen"),
+        settingsButton: document.getElementById("settingsButton"),
+        settingsBackdrop: document.getElementById("settingsBackdrop"),
+        settingsModal: document.getElementById("settingsModal"),
+        settingsMenu: document.getElementById("settingsMenu"),
+        settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
+        settingsBgmToggle: document.getElementById("settingsBgmToggle"),
+        settingsSfxToggle: document.getElementById("settingsSfxToggle"),
+        settingsMethodButton: document.getElementById("settingsMethodButton"),
+        settingsRestartButton: document.getElementById("settingsRestartButton"),
+        settingsCloseButton: document.getElementById("settingsCloseButton"),
+        settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
+        settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+        progress: document.querySelector('[data-field="progress"]'),
+        combo: document.querySelector('[data-field="combo"]'),
+        score: document.querySelector('[data-field="score"]'),
+        scoreCard: document.querySelector("[data-score-card]"),
+        lastRewardCard: document.querySelector("[data-last-reward-card]"),
+        lastReward: document.querySelector('[data-field="last-reward"]'),
+        lastRewardChange: document.querySelector('[data-field="last-reward-change"]'),
+        feedback: document.querySelector('[data-field="feedback"]'),
+        questionCard: document.querySelector("[data-question-card]"),
+        question: document.querySelector('[data-field="question"]'),
+        choices: document.querySelector('[data-field="choices"]'),
+        crateTitle: document.querySelector('[data-field="crate-title"]'),
+        crate: document.querySelector("[data-crate]"),
+        burst: document.querySelector("[data-burst]"),
+        rewardLabel: document.querySelector('[data-field="reward-label"]'),
+        rewardBox: document.querySelector(".reward"),
+        rewardCopy: document.querySelector('[data-field="reward-copy"]'),
+        finalScore: document.querySelector('[data-field="final-score"]'),
+        resultMeasureFillSvg: document.getElementById("resultMeasureFillSvg"),
+        resultPraise: document.querySelector('[data-field="result-praise"]'),
+        finalCorrect: document.querySelector('[data-field="final-correct"]'),
+        resultMathmon: document.querySelector("[data-mathmon-result]"),
+        resultMathmonSprite: document.querySelector('[data-field="result-mathmon-sprite"]'),
+        resultTitleArt: document.getElementById("resultTitleArt"),
+        resultCorrectArt: document.getElementById("resultCorrectArt"),
+        resultDestinationSvg: document.getElementById("resultDestinationSvg"),
+        finalMathmonName: document.querySelector('[data-field="final-mathmon-name"]'),
+        finalMathmonCopy: document.querySelector('[data-field="final-mathmon-copy"]'),
+        downloadMathmon: document.querySelector('[data-field="download-mathmon"]'),
+        downloadMathmonLink: document.querySelector('[data-action="download-mathmon"]'),
+      };
+
+      const state = {
+        phase: PHASES.cover,
+        questions: [],
+        currentIndex: 0,
+        score: 0n,
+        correctCount: 0,
+        comboCount: 0,
+        answeredCurrent: false,
+        wrongAttempts: 0,
+        missAdvanceToken: 0,
+        biggestChangeAbs: 0n,
+        biggestChangeText: "아직 없음",
+        lastRewardText: "대기",
+        lastRewardChangeText: "상자를 열어요",
+        lastRewardTone: "",
+        pendingReward: null,
+        pendingCrateType: "normal",
+        pendingCrateGrade: null,
+        downloadCardUrl: "",
+        downloadRequestToken: "",
+        screen: "cover",
+        tutorialReviewMode: false,
+        reviewReturnScreen: "cover",
+        autoOpenTimer: 0,
+        crateOpenTimer: 0,
+        scoreboardAnswers: [],
+        scoreboardCurrentAnswer: null,
+        scoreboardQuestionStartedAt: 0,
+        scoreboardStepStartedAt: 0,
+      };
+
+      const scoreboardBridge = window.MathmonScoreboard.createApiBridge({
+        root: els.scoreboardScreen,
+        apiUrl: SCOREBOARD_API_URL,
+        lessonId: LESSON_ID,
+        totalQuestions: ROUND_SIZE,
+        getScore: () => state.score,
+        getCorrectCount: () => state.correctCount,
+        getAnswers: () => state.scoreboardAnswers,
+        getRewardResult: getScoreboardRewardResult,
+        showScoreboard: () => showScreen("scoreboard"),
+        showResult: () => {
+          playUiSound();
+          showScreen("result");
+        },
+        restart: () => {
+          unlockAudio();
+          playUiSound();
+          startRound();
+        },
+        playSound: playUiSound
+      });
+
+      const audioState = {
+        context: null,
+        masterGain: null,
+        bgmGain: null,
+        sfxGain: null,
+        sfxCache: new Map(),
+        sfxLog: [],
+        bgmTimer: 0,
+        bgmLoopCount: 0,
+        bgmEnabled: loadBgmPreference(),
+        sfxEnabled: loadSfxPreference(),
+      };
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function loadBgmPreference() {
+        try {
+          const stored = window.localStorage.getItem(AUDIO_PREF_KEYS.bgm);
+          if (stored === "true" || stored === "on" || stored === "false" || stored === "off") {
+            return stored === "true" || stored === "on";
+          }
+          if (window.localStorage.getItem(AUDIO_PREF_KEYS.legacyBoxRunBgm) === "off") {
+            window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, "false");
+            return false;
+          }
+          return true;
+        } catch (error) {
+          return true;
+        }
+      }
+
+      function loadSfxPreference() {
+        try {
+          const stored = window.localStorage.getItem(AUDIO_PREF_KEYS.sfx);
+          return stored == null ? true : stored === "true" || stored === "on";
+        } catch (error) {
+          return true;
+        }
+      }
+
+      function saveBgmPreference(enabled) {
+        try {
+          window.localStorage.setItem(AUDIO_PREF_KEYS.bgm, String(Boolean(enabled)));
+        } catch (error) {
+          // localStorage may be blocked in some embedded browsers.
+        }
+      }
+
+      function saveSfxPreference(enabled) {
+        try {
+          window.localStorage.setItem(AUDIO_PREF_KEYS.sfx, String(Boolean(enabled)));
+        } catch (error) {
+          // localStorage may be blocked in some embedded browsers.
+        }
+      }
+
+      function ensureAudio() {
+        if (audioState.context) return audioState.context;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return null;
+        const context = new AudioContextClass();
+        audioState.context = context;
+        audioState.masterGain = context.createGain();
+        audioState.bgmGain = context.createGain();
+        audioState.sfxGain = context.createGain();
+        audioState.masterGain.gain.value = 0.72;
+        audioState.bgmGain.gain.value = 0.055;
+        audioState.sfxGain.gain.value = 0.55;
+        audioState.bgmGain.connect(audioState.masterGain);
+        audioState.sfxGain.connect(audioState.masterGain);
+        audioState.masterGain.connect(context.destination);
+        return context;
+      }
+
+      function updateSettingsUi() {
+        els.settingsBgmToggle.setAttribute("aria-checked", String(audioState.bgmEnabled));
+        els.settingsSfxToggle.setAttribute("aria-checked", String(audioState.sfxEnabled));
+        els.settingsButton.setAttribute("aria-expanded", String(!els.settingsBackdrop.hidden));
+      }
+
+      const SFX_CUES = {
+        uiStart: "assets/audio/ui-start.wav",
+        uiNext: "assets/audio/ui-next.wav",
+        uiToggleOn: "assets/audio/ui-toggle-on.wav",
+        choiceTap: "assets/audio/choice-tap.wav",
+        answerCorrect: "assets/audio/answer-correct.wav",
+        answerWrongSoft: "assets/audio/answer-wrong-soft.wav",
+        rewardBig: "assets/audio/reward-big.wav",
+        rewardGood: "assets/audio/reward-good.wav",
+        rewardBad: "assets/audio/reward-bad.wav",
+        rewardZero: "assets/audio/reward-zero.wav",
+        rewardRescue: "assets/audio/reward-rescue.wav",
+        crateOpen: "assets/audio/crate-open.wav",
+        crateOpenGold: "assets/audio/crate-open-gold.wav",
+        crateBroken: "assets/audio/crate-broken.wav",
+        resultLow: "assets/audio/result-low.wav",
+        resultMid: "assets/audio/result-mid.wav",
+        resultHigh: "assets/audio/result-high.wav",
+        resultRare: "assets/audio/result-rare.wav",
+      };
+
+      const SFX_VOLUME = {
+        answerWrongSoft: 0.46,
+        rewardBad: 0.48,
+        rewardZero: 0.5,
+        crateBroken: 0.5,
+        resultRare: 0.62,
+      };
+
+      function getSample(cue) {
+        const src = SFX_CUES[cue];
+        if (!src) return null;
+        if (!audioState.sfxCache.has(cue)) {
+          const sample = new Audio(src);
+          sample.preload = "auto";
+          audioState.sfxCache.set(cue, sample);
+        }
+        return audioState.sfxCache.get(cue);
+      }
+
+      function playSample(cue) {
+        window.MathmonAudio?.play(cue);
+      }
+
+      window.__mathmonAudioQa = {
+        cues: SFX_CUES,
+        getLog: () => [...audioState.sfxLog],
+        clearLog: () => {
+          audioState.sfxLog = [];
+        },
+        getPrefs: () => ({
+          bgmEnabled: audioState.bgmEnabled,
+          sfxEnabled: audioState.sfxEnabled,
+          settingsOpen: !els.settingsBackdrop.hidden,
+          screen: state.screen,
+        }),
+        setPrefs: (prefs = {}) => {
+          if (typeof prefs.bgmEnabled === "boolean") setBgmEnabled(prefs.bgmEnabled);
+          if (typeof prefs.sfxEnabled === "boolean") setSfxEnabled(prefs.sfxEnabled);
+          return window.__mathmonAudioQa.getPrefs();
+        },
+      };
+
+      window.__unit1ResultQa = {
+        showResult(score = "1250000", correct = 8) {
+          const safeCorrect = Math.max(0, Math.min(ROUND_SIZE, Math.round(Number(correct) || 0)));
+          state.score = BigInt(score);
+          state.correctCount = safeCorrect;
+          state.currentIndex = ROUND_SIZE - 1;
+          finishRound();
+          return {
+            score: state.score.toString(),
+            correct: state.correctCount,
+            screen: state.screen,
+          };
+        },
+      };
+
+      function playTone(frequency, offset, duration, options = {}) {
+        const context = ensureAudio();
+        if (!context) return;
+        const start = context.currentTime + offset;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const attack = Math.min(options.attack ?? 0.012, duration / 3);
+        const volume = options.volume ?? 0.06;
+        oscillator.type = options.type || "sine";
+        oscillator.frequency.setValueAtTime(frequency, start);
+        if (options.endFrequency) {
+          oscillator.frequency.exponentialRampToValueAtTime(Math.max(1, options.endFrequency), start + duration);
+        }
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.linearRampToValueAtTime(volume, start + attack);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+        oscillator.connect(gain);
+        gain.connect(options.destination || audioState.sfxGain);
+        oscillator.start(start);
+        oscillator.stop(start + duration + 0.03);
+      }
+
+      function playBgmLoop() {
+        if (!audioState.bgmEnabled) return;
+        const context = ensureAudio();
+        if (!context || context.state === "suspended") return;
+        const padRoot = audioState.bgmLoopCount % 2 === 0 ? 196 : 220;
+        [padRoot, padRoot * 1.25, padRoot * 1.5].forEach((note, index) => {
+          playTone(note, 0.04 * index, 3.8, {
+            type: "sine",
+            volume: 0.012,
+            attack: 0.8,
+            destination: audioState.bgmGain,
+          });
+        });
+        [0, 1.4, 2.8].forEach((offset) => {
+          playTone(98, offset, 0.32, {
+            type: "sine",
+            volume: 0.014,
+            attack: 0.04,
+            endFrequency: 62,
+            destination: audioState.bgmGain,
+          });
+        });
+        if (audioState.bgmLoopCount % 3 === 0) {
+          playTone(784, 2.1, 0.16, {
+            type: "sine",
+            volume: 0.01,
+            attack: 0.04,
+            destination: audioState.bgmGain,
+          });
+          playTone(988, 2.26, 0.18, {
+            type: "sine",
+            volume: 0.009,
+            attack: 0.04,
+            destination: audioState.bgmGain,
+          });
+        }
+        playTone(65, 0, 3.6, {
+          type: "sine",
+          volume: 0.01,
+          attack: 1.2,
+          destination: audioState.bgmGain,
+        });
+        audioState.bgmLoopCount += 1;
+      }
+
+      function startBgm() {
+        window.MathmonAudio?.startBgm();
+      }
+
+      function stopBgm() {
+        window.MathmonAudio?.stopBgm();
+      }
+
+      function unlockAudio() {
+        const context = ensureAudio();
+        if (!context) return;
+        if (context.state === "suspended") {
+          context.resume().then(() => {
+            if (audioState.bgmEnabled) startBgm();
+          }).catch(() => {});
+          return;
+        }
+        if (audioState.bgmEnabled) startBgm();
+      }
+
+      function setBgmEnabled(enabled, shouldUnlock = false) {
+        audioState.bgmEnabled = enabled;
+        saveBgmPreference(enabled);
+        updateSettingsUi();
+        if (enabled) {
+          if (shouldUnlock) unlockAudio();
+          else startBgm();
+        } else {
+          stopBgm();
+        }
+      }
+
+      function setSfxEnabled(enabled) {
+        audioState.sfxEnabled = enabled;
+        saveSfxPreference(enabled);
+        updateSettingsUi();
+      }
+
+      function getSettingsFocusable() {
+        return [...els.settingsModal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])")]
+          .filter((element) => !element.disabled && !element.closest("[hidden]"));
+      }
+
+      function setSettingsConfirming(confirming, shouldFocus = true) {
+        els.settingsMenu.hidden = confirming;
+        els.settingsRestartConfirm.hidden = !confirming;
+        if (!shouldFocus) return;
+        window.requestAnimationFrame(() => {
+          (confirming ? els.settingsRestartCancelButton : els.settingsBgmToggle).focus();
+        });
+      }
+
+      function openSettings() {
+        els.settingsBackdrop.hidden = false;
+        setSettingsConfirming(false);
+        updateSettingsUi();
+        window.requestAnimationFrame(() => els.settingsBgmToggle.focus());
+      }
+
+      function closeSettings(options = {}) {
+        const restoreFocus = options.restoreFocus !== false;
+        els.settingsBackdrop.hidden = true;
+        setSettingsConfirming(false, false);
+        updateSettingsUi();
+        if (restoreFocus) {
+          els.settingsButton.focus();
+        }
+      }
+
+      function handleSettingsKeydown(event) {
+        if (els.settingsBackdrop.hidden) return;
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeSettings();
+          return;
+        }
+        if (event.key !== "Tab") return;
+        const focusable = getSettingsFocusable();
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+
+      function setTutorialStep(step) {
+        const nextStep = step === "goal" ? "goal" : "solve";
+        els.screens.tutorial.dataset.tutorialStep = nextStep;
+        const label = nextStep === "solve"
+          ? TUTORIAL_NEXT_LABEL
+          : state.tutorialReviewMode ? TUTORIAL_REVIEW_LABEL : TUTORIAL_GOAL_LABEL;
+        els.startFirstProblemButton.textContent = label;
+        els.startFirstProblemButton.setAttribute("aria-label", label);
+        return nextStep;
+      }
+
+      function enterTutorialReview() {
+        state.reviewReturnScreen = state.screen || "cover";
+        state.tutorialReviewMode = true;
+        setTutorialStep("solve");
+        closeSettings({ restoreFocus: false });
+        showScreen("tutorial");
+        window.requestAnimationFrame(() => els.startFirstProblemButton.focus());
+      }
+
+      function leaveTutorialReview() {
+        const returnScreen = state.reviewReturnScreen || "cover";
+        state.tutorialReviewMode = false;
+        state.reviewReturnScreen = "cover";
+        setTutorialStep("solve");
+        showScreen(returnScreen);
+      }
+
+      function clearPendingTimers() {
+        if (state.autoOpenTimer) {
+          window.clearTimeout(state.autoOpenTimer);
+          state.autoOpenTimer = 0;
+        }
+        if (state.crateOpenTimer) {
+          window.clearTimeout(state.crateOpenTimer);
+          state.crateOpenTimer = 0;
+        }
+      }
+
+      function resetToCoverFromSettings() {
+        clearPendingTimers();
+        state.missAdvanceToken += 1;
+        state.phase = PHASES.cover;
+        state.tutorialReviewMode = false;
+        state.reviewReturnScreen = "cover";
+        setTutorialStep("solve");
+        closeSettings({ restoreFocus: false });
+        showScreen("cover");
+      }
+
+      function playUiSound() {
+        playSample("uiNext");
+      }
+
+      function playCorrectSound(comboCount, gradeId) {
+        playSample("answerCorrect");
+        if (comboCount >= 3 || gradeId === "gold") {
+          window.setTimeout(() => playSample("rewardBig"), 130);
+        }
+      }
+
+      function playWrongSound() {
+        playSample("answerWrongSoft");
+      }
+
+      function playBrokenReadySound() {
+        playSample("crateBroken");
+      }
+
+      function playCrateOpeningSound(isBroken, gradeId) {
+        if (isBroken) {
+          playSample("crateBroken");
+          return;
+        }
+        playSample(gradeId === "gold" || gradeId === "shiny" ? "crateOpenGold" : "crateOpen");
+      }
+
+      function playRewardSound(reward, isBroken) {
+        if (isBroken) {
+          playSample("crateBroken");
+        }
+        if (reward.tone === "bad") {
+          playSample(reward.type === "zero" ? "rewardZero" : "rewardBad");
+          return;
+        }
+        if (reward.tone === "wild") {
+          playSample("rewardBig");
+          return;
+        }
+        if (reward.tone === "hope") {
+          playSample("rewardRescue");
+          return;
+        }
+        playSample("rewardGood");
+      }
+
+      function playResultSound(mathmon) {
+        const mathmonIndex = Math.max(0, MATHMONS.findIndex((item) => item.name === mathmon.name));
+        if (mathmonIndex >= 8) {
+          playSample("resultRare");
+        } else if (mathmonIndex >= 6) {
+          playSample("resultHigh");
+        } else if (mathmonIndex >= 3) {
+          playSample("resultMid");
+        } else {
+          playSample("resultLow");
+        }
+      }
+
+      function shuffle(items) {
+        const copy = [...items];
+        for (let index = copy.length - 1; index > 0; index -= 1) {
+          const other = randomInt(0, index);
+          [copy[index], copy[other]] = [copy[other], copy[index]];
+        }
+        return copy;
+      }
+
+      function buildQuestionBank() {
+        const bank = [];
+
+        for (let b = 2; b <= 9; b += 1) {
+          const maxDigit = Math.floor(9 / b);
+
+          for (let hundreds = 1; hundreds <= maxDigit; hundreds += 1) {
+            for (let tens = 0; tens <= maxDigit; tens += 1) {
+              for (let ones = 0; ones <= maxDigit; ones += 1) {
+                const a = hundreds * 100 + tens * 10 + ones;
+                bank.push({
+                  a,
+                  b,
+                  answer: a * b,
+                });
+              }
+            }
+          }
+        }
+
+        return bank;
+      }
+
+      const QUESTION_BANK = Object.freeze(buildQuestionBank());
+
+      if (QUESTION_BANK.length < MIN_PROBLEM_BANK_SIZE) {
+        throw new Error("문제 은행이 충분하지 않습니다.");
+      }
+
+      function buildChoices(question) {
+        const { b, answer } = question;
+        const maxDigit = Math.floor(9 / b);
+        const placeSlip = Math.max(1, randomInt(-maxDigit, maxDigit)) * b;
+        const tensSlip = randomInt(-maxDigit, maxDigit) * 10;
+        const hundredsSlip = randomInt(-maxDigit, maxDigit) * 100;
+        const candidates = new Set([answer]);
+
+        [answer + placeSlip, answer + tensSlip, answer + hundredsSlip, answer - b * 10, answer + b * 100]
+          .filter((value) => value > 0 && value !== answer)
+          .forEach((value) => candidates.add(value));
+
+        while (candidates.size < 4) {
+          const offset = randomInt(-18, 18) * b;
+          const value = answer + offset;
+          if (value > 0 && value !== answer) {
+            candidates.add(value);
+          }
+        }
+
+        const distractors = shuffle([...candidates].filter((value) => value !== answer)).slice(0, 3);
+
+        return shuffle([answer, ...distractors]);
+      }
+
+      function buildRound() {
+        return shuffle(QUESTION_BANK)
+          .slice(0, ROUND_SIZE)
+          .map((question) => ({
+            ...question,
+            choices: buildChoices(question),
+          }));
+      }
+
+      window.__mathmonRunQa = {
+        generateSignature: () => JSON.stringify(buildRound().map(({ a, b }) => [String(a), b])),
+      };
+
+      function showScreen(name) {
+        state.screen = name;
+        els.stageShell.dataset.activeScreen = name;
+        Object.values(els.screens).forEach((screen) => screen.classList.remove("is-active"));
+        els.screens[name].classList.add("is-active");
+      }
+
+      function getElapsedMs(startedAt) {
+        return Math.max(0, Math.round(performance.now()) - startedAt);
+      }
+
+      function beginScoreboardQuestion() {
+        const now = Math.round(performance.now());
+        state.scoreboardQuestionStartedAt = now;
+        state.scoreboardStepStartedAt = now;
+        state.scoreboardCurrentAnswer = {
+          questionIndex: state.currentIndex,
+          elapsedMs: 0,
+          steps: []
+        };
+      }
+
+      function recordScoreboardStep(selected, expected) {
+        const answer = state.scoreboardCurrentAnswer;
+        if (!answer || answer.steps.length > 0) return;
+        answer.steps.push({
+          stepId: "answer",
+          selected,
+          expected,
+          elapsedMs: getElapsedMs(state.scoreboardStepStartedAt)
+        });
+      }
+
+      function getBoxRewardEvent(reward, isBroken, before, after) {
+        if (isBroken) {
+          return { id: "broken", amount: Number(after - before) };
+        }
+        if (reward.type === "add" && reward.amount === 100n) return { id: "add_100", amount: 100 };
+        if (reward.type === "add" && reward.amount === 1000n) return { id: "add_1000", amount: 1000 };
+        if (reward.type === "add" && reward.amount === 100000n) return { id: "add_100000", amount: 100000 };
+        if (reward.type === "add" && reward.amount === -500n) return { id: "subtract_500", amount: -500 };
+        if (reward.type === "add" && reward.amount === -5000n) return { id: "subtract_5000", amount: -5000 };
+        if (reward.type === "add" && reward.amount === -100000n) return { id: "subtract_100000", amount: -100000 };
+        if (reward.type === "multiply" && reward.amount === 2n) return { id: "multiply_2", amount: 2 };
+        if (reward.type === "multiply" && reward.amount === 5n) return { id: "multiply_5", amount: 5 };
+        if (reward.type === "multiply" && reward.amount === 10n) return { id: "multiply_10", amount: 10 };
+        if (reward.type === "divide" && reward.amount === 2n) return { id: "divide_2", amount: 2 };
+        if (reward.type === "divide" && reward.amount === 3n) return { id: "divide_3", amount: 3 };
+        if (reward.type === "rescue") return { id: "rescue", amount: Number(reward.fallback) };
+        if (reward.type === "zero") return { id: "zero", amount: 0 };
+        return { id: "broken", amount: Number(after - before) };
+      }
+
+      function finishScoreboardQuestion(reward, isBroken, before, after) {
+        const answer = state.scoreboardCurrentAnswer;
+        if (!answer) return;
+        state.scoreboardAnswers.push({
+          questionIndex: answer.questionIndex,
+          elapsedMs: getElapsedMs(state.scoreboardQuestionStartedAt),
+          steps: answer.steps,
+          reward: getBoxRewardEvent(reward, isBroken, before, after)
+        });
+        state.scoreboardCurrentAnswer = null;
+      }
+
+      function getScoreboardRewardResult() {
+        const mathmon = getMathmonForScore(state.score);
+        return {
+          mathmonName: mathmon.name,
+          score: String(state.score),
+          correctCount: state.correctCount
+        };
+      }
+
+      function absBigInt(value) {
+        return value < 0n ? -value : value;
+      }
+
+      function formatNumber(value) {
+        const sign = value < 0n ? "-" : "";
+        const digits = (value < 0n ? -value : value).toString();
+        return `${sign}${digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      }
+
+      function compactNumber(value) {
+        const sign = value < 0n ? "-" : "";
+        const absValue = absBigInt(value);
+        for (const unit of SCORE_UNITS) {
+          if (absValue >= unit.value) {
+            const whole = absValue / unit.value;
+            const decimal = (absValue % unit.value) * 10n / unit.value;
+            const suffix = whole < 100n && decimal > 0n ? `.${decimal}` : "";
+            return `${sign}${whole}${suffix}${unit.label}`;
+          }
+        }
+        return `${sign}${formatNumber(absValue)}`;
+      }
+
+      function formatScore(value, compact = false) {
+        return `${compact ? compactNumber(value) : formatNumber(value)}점`;
+      }
+
+      function getComboScore(comboCount) {
+        return BASE_CORRECT_SCORE * BigInt(Math.min(comboCount, 5));
+      }
+
+      function formatChange(before, after, compact = false) {
+        const diff = after - before;
+        if (diff === 0n) return "변화 없음";
+        return `${diff > 0n ? "+" : ""}${formatScore(diff, compact)}`;
+      }
+
+      function getMathmonForScore(score, correctCount = state.correctCount) {
+        const safeScore = score < 0n ? 0n : score;
+        let selected = MATHMONS[0];
+        for (const mathmon of MATHMONS) {
+          if (safeScore >= mathmon.threshold && correctCount >= mathmon.minCorrect) {
+            selected = mathmon;
+          }
+        }
+        return selected;
+      }
+
+      function getResultPraise(score, correctCount) {
+        if (correctCount === ROUND_SIZE && score >= 100000000n) return "완벽한 계산에 상자 운까지 폭발했어요!";
+        if (correctCount === ROUND_SIZE) return "10문제 완주! 계산 집중력이 최고예요!";
+        if (correctCount >= 8 && score >= 1000000n) return "상자 운이 폭발했어요!";
+        if (correctCount >= 8) return "정확하게 달렸어요! 계산 힘이 탄탄해요!";
+        if (correctCount >= 6 && score < 0n) return "상자는 아쉬웠지만 계산은 잘했어요!";
+        if (correctCount >= 6) return "계산 감각이 살아나고 있어요!";
+        return "다음 판엔 더 멀리 갈 수 있어요!";
+      }
+
+      function getResultCorrectArtSrc(correctCount) {
+        const value = Math.max(0, Math.min(ROUND_SIZE, Number(correctCount) || 0));
+        return `../_shared/result-count/result-correct-${value}-generated.webp`;
+      }
+
+      function clearDownloadCardUrl() {
+        if (!state.downloadCardUrl) return;
+        URL.revokeObjectURL(state.downloadCardUrl);
+        state.downloadCardUrl = "";
+      }
+
+      function setDownloadPending() {
+        clearDownloadCardUrl();
+        els.downloadMathmonLink.href = "#";
+        els.downloadMathmonLink.download = "mathmon-score-card.png";
+        els.downloadMathmonLink.textContent = "준비 중";
+        els.downloadMathmonLink.classList.add("is-disabled");
+        els.downloadMathmonLink.setAttribute("aria-disabled", "true");
+      }
+
+      function loadImage(src) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = reject;
+          image.src = src;
+        });
+      }
+
+      function drawRoundRect(context, x, y, width, height, radius) {
+        const safeRadius = Math.min(radius, width / 2, height / 2);
+        context.beginPath();
+        context.moveTo(x + safeRadius, y);
+        context.lineTo(x + width - safeRadius, y);
+        context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
+        context.lineTo(x + width, y + height - safeRadius);
+        context.quadraticCurveTo(x + width, y + height, x + width - safeRadius, y + height);
+        context.lineTo(x + safeRadius, y + height);
+        context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
+        context.lineTo(x, y + safeRadius);
+        context.quadraticCurveTo(x, y, x + safeRadius, y);
+        context.closePath();
+      }
+
+      function drawFittedText(context, text, x, y, maxWidth, startSize, minSize, color) {
+        let size = startSize;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillStyle = color;
+        do {
+          context.font = `1000 ${size}px Jua, system-ui, sans-serif`;
+          if (context.measureText(text).width <= maxWidth || size <= minSize) break;
+          size -= 2;
+        } while (size > minSize);
+        context.fillText(text, x, y);
+      }
+
+      function scoreFileSlug(score) {
+        const sign = score < 0n ? "minus-" : "";
+        const digits = (score < 0n ? -score : score).toString();
+        return `${sign}${digits}`;
+      }
+
+      async function buildMathmonDownloadCard(mathmon) {
+        const width = 1200;
+        const height = 1200;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        const scoreText = `내 점수 ${formatScore(state.score, true)}`;
+        const correctText = `정답 ${state.correctCount}/${ROUND_SIZE}`;
+        const image = await loadImage(mathmon.asset);
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
+
+        const bg = context.createLinearGradient(0, 0, width, height);
+        bg.addColorStop(0, "#072334");
+        bg.addColorStop(0.52, "#101225");
+        bg.addColorStop(1, "#271324");
+        context.fillStyle = bg;
+        context.fillRect(0, 0, width, height);
+
+        context.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        context.lineWidth = 2;
+        for (let pos = 0; pos <= width; pos += 72) {
+          context.beginPath();
+          context.moveTo(pos, 0);
+          context.lineTo(pos, height);
+          context.stroke();
+          context.beginPath();
+          context.moveTo(0, pos);
+          context.lineTo(width, pos);
+          context.stroke();
+        }
+
+        drawRoundRect(context, 78, 78, 1044, 1044, 48);
+        context.fillStyle = "rgba(255, 255, 255, 0.075)";
+        context.fill();
+        context.strokeStyle = "rgba(255, 228, 92, 0.56)";
+        context.lineWidth = 5;
+        context.stroke();
+
+        const aura = context.createRadialGradient(600, 520, 90, 600, 520, 420);
+        aura.addColorStop(0, mathmon.aura);
+        aura.addColorStop(1, "rgba(255, 228, 92, 0)");
+        context.fillStyle = aura;
+        context.fillRect(130, 170, 940, 690);
+
+        context.shadowColor = "rgba(0, 0, 0, 0.42)";
+        context.shadowBlur = 42;
+        context.shadowOffsetY = 28;
+        context.drawImage(image, 300, 210, 600, 600);
+        context.shadowColor = "transparent";
+        context.shadowBlur = 0;
+        context.shadowOffsetY = 0;
+
+        drawFittedText(context, "매스몬 상자런", 600, 148, 820, 62, 36, "#ffe45c");
+
+        drawRoundRect(context, 458, 800, 284, 62, 31);
+        context.fillStyle = "rgba(255, 228, 92, 0.2)";
+        context.fill();
+        drawFittedText(context, "획득 매스몬", 600, 831, 230, 32, 24, "#ffe45c");
+
+        drawFittedText(context, mathmon.name, 600, 925, 930, 96, 54, "#ffffff");
+        drawFittedText(context, scoreText, 600, 1025, 930, 72, 38, "#ffe45c");
+        drawFittedText(context, correctText, 600, 1092, 760, 42, 28, "#dfe7ff");
+
+        return new Promise((resolve, reject) => {
+          canvas.toBlob((blob) => {
+            if (blob) {
+              resolve(blob);
+              return;
+            }
+            reject(new Error("download canvas failed"));
+          }, "image/png");
+        });
+      }
+
+      async function prepareMathmonDownload(mathmon) {
+        const token = `${mathmon.fileName}:${state.score}:${state.correctCount}`;
+        state.downloadRequestToken = token;
+        setDownloadPending();
+        try {
+          const blob = await buildMathmonDownloadCard(mathmon);
+          if (state.downloadRequestToken !== token) return;
+          const url = URL.createObjectURL(blob);
+          clearDownloadCardUrl();
+          state.downloadCardUrl = url;
+          els.downloadMathmonLink.href = url;
+          els.downloadMathmonLink.download = `${mathmon.fileName.replace(".png", "")}-${scoreFileSlug(state.score)}-score.png`;
+          els.downloadMathmonLink.textContent = "이미지 받기";
+          els.downloadMathmonLink.classList.remove("is-disabled");
+          els.downloadMathmonLink.removeAttribute("aria-disabled");
+        } catch (error) {
+          if (state.downloadRequestToken !== token) return;
+          els.downloadMathmonLink.href = mathmon.asset;
+          els.downloadMathmonLink.download = mathmon.fileName;
+          els.downloadMathmonLink.textContent = "이미지 받기";
+          els.downloadMathmonLink.classList.remove("is-disabled");
+          els.downloadMathmonLink.removeAttribute("aria-disabled");
+        }
+      }
+
+      function renderResultMathmon() {
+        const mathmon = getMathmonForScore(state.score);
+        els.resultMathmon.style.setProperty("--mathmon-aura", mathmon.aura);
+        els.resultMathmonSprite.style.backgroundImage = `url("${mathmon.asset}")`;
+        if (mathmon.titleArt) {
+          els.resultTitleArt.src = mathmon.titleArt;
+          els.resultTitleArt.hidden = false;
+          els.resultDestinationSvg.textContent = "";
+          els.resultDestinationSvg.setAttribute("opacity", "0");
+        } else {
+          els.resultTitleArt.hidden = true;
+          els.resultDestinationSvg.textContent = mathmon.name;
+          els.resultDestinationSvg.setAttribute("opacity", "1");
+        }
+        els.finalMathmonName.textContent = mathmon.name;
+        els.finalMathmonCopy.textContent = mathmon.copy;
+        els.downloadMathmon.style.backgroundImage = `url("${mathmon.asset}")`;
+        els.downloadMathmonLink.setAttribute("aria-label", `${mathmon.name} 이미지 받기`);
+        prepareMathmonDownload(mathmon);
+        els.resultMathmon.classList.remove("is-revealed");
+        void els.resultMathmon.offsetWidth;
+        els.resultMathmon.classList.add("is-revealed");
+        playResultSound(mathmon);
+      }
+
+      function setFeedback(text, tone = "") {
+        els.feedback.textContent = text;
+        els.feedback.classList.toggle("is-good", tone === "good");
+        els.feedback.classList.toggle("is-bad", tone === "bad");
+      }
+
+      function fitTextToBox(textElement, boxElement, minSize, inset = 24) {
+        if (!textElement || !boxElement) return;
+        textElement.style.removeProperty("font-size");
+        window.requestAnimationFrame(() => {
+          const availableWidth = Math.max(0, boxElement.clientWidth - inset);
+          let size = parseFloat(window.getComputedStyle(textElement).fontSize);
+          while (availableWidth > 0 && textElement.scrollWidth > availableWidth && size > minSize) {
+            size -= 2;
+            textElement.style.fontSize = `${size}px`;
+          }
+        });
+      }
+
+      function fitQuestionText() {
+        fitTextToBox(els.question, els.questionCard, 48, 28);
+      }
+
+      function fitScoreText() {
+        fitTextToBox(els.score, els.scoreCard, 32, 32);
+      }
+
+      function fitLastRewardText() {
+        fitTextToBox(els.lastReward, els.lastRewardCard, 26, 20);
+      }
+
+      function fitRewardText() {
+        fitTextToBox(els.rewardLabel, els.rewardBox, 28, 24);
+      }
+
+      function bumpScore() {
+        els.scoreCard.classList.remove("is-bumping");
+        void els.scoreCard.offsetWidth;
+        els.scoreCard.classList.add("is-bumping");
+      }
+
+      function renderHud() {
+        els.progress.textContent = `${Math.min(state.currentIndex + 1, ROUND_SIZE)}/${ROUND_SIZE}`;
+        els.combo.textContent = state.comboCount > 0 ? `${state.comboCount}콤보` : "콤보 대기";
+        els.combo.classList.toggle("is-hot", state.comboCount >= 3);
+        els.combo.title = state.comboCount > 0
+          ? `정답 점수 +${formatNumber(getComboScore(state.comboCount))}점`
+          : "연속 정답을 맞히면 점수가 커져요";
+        els.score.textContent = formatScore(state.score, true);
+        els.score.title = formatScore(state.score);
+        els.lastReward.textContent = state.lastRewardText;
+        els.lastRewardChange.textContent = state.lastRewardChangeText;
+        els.lastRewardCard.classList.toggle("is-good", state.lastRewardTone === "good");
+        els.lastRewardCard.classList.toggle("is-bad", state.lastRewardTone === "bad");
+        els.lastRewardCard.classList.toggle("is-wild", state.lastRewardTone === "wild");
+        els.lastRewardCard.classList.toggle("is-hope", state.lastRewardTone === "hope");
+        fitScoreText();
+        fitLastRewardText();
+      }
+
+      function renderCrateIdle() {
+        els.questionCard.classList.remove("is-crate-ready");
+        els.crate.classList.remove("is-ready", "is-opening", "is-broken", "is-broken-opening", "is-opened", "grade-normal", "grade-shiny", "grade-gold");
+        els.burst.classList.remove("is-on", "is-bad");
+        els.crateTitle.textContent = "정답이면 상자가 나와요";
+        els.rewardLabel.textContent = "?";
+        els.rewardLabel.classList.remove("is-bad", "is-wild", "is-hope");
+        els.rewardCopy.textContent = "상자를 기다려요";
+        els.openCrateButton.disabled = true;
+        els.openCrateButton.textContent = "열기";
+        fitRewardText();
+      }
+
+      function renderQuestion() {
+        const question = state.questions[state.currentIndex];
+        state.phase = PHASES.playing;
+        state.answeredCurrent = false;
+        state.wrongAttempts = 0;
+        state.pendingReward = null;
+        state.pendingCrateType = "normal";
+        state.pendingCrateGrade = null;
+        beginScoreboardQuestion();
+        els.question.textContent = `${question.a} × ${question.b} = ?`;
+        els.choices.innerHTML = "";
+        question.choices.forEach((choice) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.textContent = choice.toLocaleString("ko-KR");
+          button.dataset.value = String(choice);
+          button.addEventListener("click", () => handleChoice(button, choice));
+          els.choices.appendChild(button);
+        });
+        setFeedback("답을 골라요");
+        renderCrateIdle();
+        renderHud();
+        fitQuestionText();
+      }
+
+      function lockChoices(correctValue) {
+        els.choices.querySelectorAll("button").forEach((button) => {
+          button.disabled = true;
+          if (Number(button.dataset.value) === correctValue) {
+            button.classList.add("is-correct");
+          }
+        });
+      }
+
+      function handleChoice(button, choice) {
+        if (state.phase !== PHASES.playing) return;
+        const question = state.questions[state.currentIndex];
+        if (choice !== question.answer) {
+          playWrongSound();
+          state.comboCount = 0;
+          state.wrongAttempts += 1;
+          button.disabled = true;
+          button.classList.add("is-wrong");
+          if (state.wrongAttempts >= 2) {
+            state.phase = PHASES.missReview;
+            state.missAdvanceToken += 1;
+            const token = state.missAdvanceToken;
+            state.pendingReward = pickBrokenReward();
+            state.pendingCrateType = "broken";
+            state.pendingCrateGrade = null;
+            recordScoreboardStep(choice, question.answer);
+            state.lastRewardText = "깨진 상자";
+            state.lastRewardChangeText = "자동으로 열려요";
+            state.lastRewardTone = "bad";
+            lockChoices(question.answer);
+            setFeedback(`정답은 ${question.answer.toLocaleString("ko-KR")}이에요`, "bad");
+            els.questionCard.classList.add("is-crate-ready");
+            els.crate.classList.add("is-broken", "is-ready");
+            els.crateTitle.textContent = "깨진 상자";
+            els.rewardLabel.textContent = "!";
+            els.rewardLabel.classList.add("is-bad");
+            els.rewardCopy.textContent = "자동으로 열려요";
+            els.openCrateButton.disabled = true;
+            els.openCrateButton.textContent = "자동";
+            renderHud();
+            fitRewardText();
+            playBrokenReadySound();
+            clearPendingTimers();
+            state.autoOpenTimer = window.setTimeout(() => {
+              state.autoOpenTimer = 0;
+              openCrate({ auto: true, token });
+            }, 520);
+            return;
+          }
+          setFeedback("다시 골라요", "bad");
+          renderHud();
+          return;
+        }
+
+        state.phase = PHASES.crateReady;
+        state.correctCount += 1;
+        state.comboCount += 1;
+        const comboScore = getComboScore(state.comboCount);
+        state.score += comboScore;
+        state.pendingCrateGrade = pickCrateGrade();
+        state.pendingReward = pickWeightedReward(state.pendingCrateGrade.rewardPool);
+        state.pendingCrateType = "normal";
+        recordScoreboardStep(question.answer, question.answer);
+        state.lastRewardText = state.pendingCrateGrade.label;
+        state.lastRewardChangeText = "상자가 준비됐어요";
+        state.lastRewardTone = "";
+        lockChoices(question.answer);
+        setFeedback(state.comboCount >= 2 ? `${state.comboCount}콤보! 정답!` : "정답!", "good");
+        els.questionCard.classList.add("is-crate-ready");
+        els.crate.classList.add("is-ready", state.pendingCrateGrade.className);
+        els.crateTitle.textContent = state.pendingCrateGrade.label;
+        els.rewardLabel.textContent = "!";
+        els.rewardCopy.textContent = `+${formatNumber(comboScore)}점 받고 ${state.pendingCrateGrade.label} 대기`;
+        els.openCrateButton.disabled = false;
+        renderHud();
+        bumpScore();
+        fitRewardText();
+        playCorrectSound(state.comboCount, state.pendingCrateGrade.id);
+      }
+
+      function pickCrateGrade() {
+        const totalWeight = CRATE_GRADES.reduce((sum, grade) => sum + grade.weight, 0);
+        let ticket = randomInt(1, totalWeight);
+        for (const grade of CRATE_GRADES) {
+          ticket -= grade.weight;
+          if (ticket <= 0) return grade;
+        }
+        return CRATE_GRADES[0];
+      }
+
+      function pickWeightedReward(pool) {
+        return pool[randomInt(0, pool.length - 1)];
+      }
+
+      function pickBrokenReward() {
+        return BROKEN_REWARDS[randomInt(0, BROKEN_REWARDS.length - 1)];
+      }
+
+      function applyReward(score, reward) {
+        if (reward.type === "add") return score + reward.amount;
+        if (reward.type === "multiply") return score * reward.amount;
+        if (reward.type === "divide") return score / reward.amount;
+        if (reward.type === "rescue") return score < 0n ? absBigInt(score) : score + reward.fallback;
+        if (reward.type === "zero") return 0n;
+        return score;
+      }
+
+      function openCrate(options = {}) {
+        const isAuto = Boolean(options.auto);
+        if (!isAuto && state.phase !== PHASES.crateReady) return;
+        if (isAuto && (state.phase !== PHASES.missReview || state.missAdvanceToken !== options.token)) return;
+        const isBroken = state.pendingCrateType === "broken";
+        playCrateOpeningSound(isBroken, state.pendingCrateGrade ? state.pendingCrateGrade.id : "normal");
+        state.phase = PHASES.crateOpening;
+        els.openCrateButton.disabled = true;
+        els.openCrateButton.textContent = "열리는 중";
+        els.crate.classList.remove("is-ready");
+        els.crate.classList.add(isBroken ? "is-broken-opening" : "is-opening");
+        clearPendingTimers();
+        state.crateOpenTimer = window.setTimeout(() => {
+          state.crateOpenTimer = 0;
+          if (state.phase !== PHASES.crateOpening) return;
+          if (isAuto && state.missAdvanceToken !== options.token) return;
+          const reward = state.pendingReward;
+          const before = state.score;
+          const after = applyReward(before, reward);
+          const changeAbs = absBigInt(after - before);
+          state.score = after;
+          finishScoreboardQuestion(reward, isBroken, before, after);
+          state.phase = PHASES.reward;
+          if (changeAbs >= state.biggestChangeAbs) {
+            state.biggestChangeAbs = changeAbs;
+            state.biggestChangeText = `${reward.label} · ${formatChange(before, after, true)}`;
+          }
+          state.lastRewardText = isBroken ? `깨진 ${reward.label}` : reward.label;
+          state.lastRewardChangeText = formatChange(before, after, true);
+          state.lastRewardTone = reward.tone;
+          els.crate.classList.remove("is-opening", "is-broken-opening");
+          els.crate.classList.add("is-opened");
+          els.burst.classList.toggle("is-bad", isBroken);
+          els.burst.classList.add("is-on");
+          els.rewardLabel.textContent = reward.label;
+          els.rewardLabel.classList.toggle("is-bad", reward.tone === "bad");
+          els.rewardLabel.classList.toggle("is-wild", reward.tone === "wild");
+          els.rewardLabel.classList.toggle("is-hope", reward.tone === "hope");
+          els.rewardCopy.textContent = `${formatScore(before, true)} → ${formatScore(after, true)}`;
+          els.rewardCopy.title = `${formatScore(before)} → ${formatScore(after)}`;
+          const gradeLabel = state.pendingCrateGrade ? state.pendingCrateGrade.label : "상자";
+          els.crateTitle.textContent = isBroken ? "깨진 상자 결과" : `${gradeLabel} 결과`;
+          els.openCrateButton.disabled = false;
+          els.openCrateButton.textContent = state.currentIndex + 1 >= ROUND_SIZE ? "결과" : "다음";
+          renderHud();
+          bumpScore();
+          fitRewardText();
+          playRewardSound(reward, isBroken);
+        }, 520);
+      }
+
+      function nextStep() {
+        if (state.phase !== PHASES.reward) return;
+        playUiSound();
+        if (state.currentIndex + 1 >= ROUND_SIZE) {
+          finishRound();
+          return;
+        }
+        state.currentIndex += 1;
+        renderQuestion();
+      }
+
+      function finishRound() {
+        state.phase = PHASES.finished;
+        els.finalScore.textContent = formatScore(state.score, true);
+        els.finalScore.title = formatScore(state.score);
+        els.resultPraise.textContent = getResultPraise(state.score, state.correctCount);
+        els.finalCorrect.textContent = `${state.correctCount}/${ROUND_SIZE}`;
+        els.resultCorrectArt.src = getResultCorrectArtSrc(state.correctCount);
+        els.resultMeasureFillSvg.setAttribute("width", String(Math.round(386 * state.correctCount / ROUND_SIZE)));
+        showScreen("result");
+        window.requestAnimationFrame(renderResultMathmon);
+      }
+
+      function startRound() {
+        unlockAudio();
+        state.questions = buildRound();
+        state.currentIndex = 0;
+        state.score = 0n;
+        state.correctCount = 0;
+        state.comboCount = 0;
+        state.wrongAttempts = 0;
+        state.missAdvanceToken += 1;
+        state.biggestChangeAbs = 0n;
+        state.biggestChangeText = "아직 없음";
+        state.lastRewardText = "대기";
+        state.lastRewardChangeText = "상자를 열어요";
+        state.lastRewardTone = "";
+        state.pendingReward = null;
+        state.pendingCrateType = "normal";
+        state.pendingCrateGrade = null;
+        state.scoreboardAnswers = [];
+        state.scoreboardCurrentAnswer = null;
+        state.scoreboardQuestionStartedAt = 0;
+        state.scoreboardStepStartedAt = 0;
+        state.downloadRequestToken = "";
+        setDownloadPending();
+        scoreboardBridge.start();
+        showScreen("play");
+        renderQuestion();
+      }
+
+      updateSettingsUi();
+      els.settingsButton.addEventListener("click", openSettings);
+      els.settingsBackdrop.addEventListener("click", (event) => {
+        if (event.target === els.settingsBackdrop) closeSettings();
+      });
+      els.settingsModal.addEventListener("keydown", handleSettingsKeydown);
+      els.settingsBgmToggle.addEventListener("click", () => {
+        const nextEnabled = !audioState.bgmEnabled;
+        setBgmEnabled(nextEnabled, true);
+        if (nextEnabled) playUiSound();
+      });
+      els.settingsSfxToggle.addEventListener("click", () => {
+        const nextEnabled = !audioState.sfxEnabled;
+        setSfxEnabled(nextEnabled);
+        if (nextEnabled) playUiSound();
+      });
+      els.settingsMethodButton.addEventListener("click", () => {
+        playUiSound();
+        enterTutorialReview();
+      });
+      els.settingsRestartButton.addEventListener("click", () => {
+        playUiSound();
+        setSettingsConfirming(true);
+      });
+      els.settingsRestartConfirmButton.addEventListener("click", () => {
+        playUiSound();
+        resetToCoverFromSettings();
+      });
+      els.settingsRestartCancelButton.addEventListener("click", () => {
+        playUiSound();
+        setSettingsConfirming(false);
+      });
+      els.settingsCloseButton.addEventListener("click", () => {
+        playUiSound();
+        closeSettings();
+      });
+      els.startButton.addEventListener("click", () => {
+        unlockAudio();
+        playUiSound();
+        state.tutorialReviewMode = false;
+        state.reviewReturnScreen = "cover";
+        setTutorialStep("solve");
+        showScreen("tutorial");
+      });
+      els.startFirstProblemButton.addEventListener("click", () => {
+        unlockAudio();
+        playUiSound();
+        if (els.screens.tutorial.dataset.tutorialStep !== "goal") {
+          setTutorialStep("goal");
+          return;
+        }
+        if (state.tutorialReviewMode) {
+          leaveTutorialReview();
+          return;
+        }
+        startRound();
+      });
+      els.restartButton.addEventListener("click", () => {
+        unlockAudio();
+        playUiSound();
+        startRound();
+      });
+      els.leaderboardButton.addEventListener("click", scoreboardBridge.open);
+      els.openCrateButton.addEventListener("click", () => {
+        if (state.phase === PHASES.crateReady) {
+          openCrate();
+          return;
+        }
+        nextStep();
+      });
+      window.addEventListener("resize", () => {
+        fitQuestionText();
+        fitScoreText();
+        fitLastRewardText();
+        fitRewardText();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopBgm();
+          return;
+        }
+        if (audioState.bgmEnabled) startBgm();
+      });
+    })();
+  </script>
+</body>
+</html>
