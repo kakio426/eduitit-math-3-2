@@ -1185,8 +1185,10 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 560px;
+      width: 430px;
+      max-width: 82%;
       height: 480px;
+      aspect-ratio: 43 / 48;
       display: grid;
       grid-template-rows: minmax(62px, auto) 250px 60px;
       place-items: center;
@@ -2116,9 +2118,9 @@
   </script>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit5-package-modal-art-v2" data-reward-card-size="560x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
+    <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit3-modal-art-compact-v2" data-reward-modal-standard="unit3-modal-art-compact-v2" data-reward-card-size="430x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="f083488af371b099c92fdda342772a517718b4ddcda399ab877d12db6946dea0"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="43908e9174625f2adb7ca35a1590c19dd77ff69681165aa841945298c34173ab"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2307,14 +2309,14 @@
         { id: "super", name: "무지개 하늘 트럭", minPower: 100, minCorrect: 1, needsSuperPart: true, visualRank: 5, image: "result-truck-super-background-generated.webp", titleImage: "result-title-super-generated-v2.webp" }
       ];
       const UPGRADE_EVENTS = [
-        { id: "normal", text: "트럭 힘이 늘었어요", weight: 6400, min: 6, max: 10, family: "smallUpgrade" },
-        { id: "loss", text: "트럭 힘이 줄었어요", weight: 1500, min: -5, max: -2, family: "repair" },
-        { id: "mega", text: "트럭 힘이 크게 늘었어요", weight: 1200, min: 14, max: 22, family: "bigUpgrade" },
+        { id: "normal", text: "배송 점수가 올랐어요", weight: 6400, min: 6, max: 10, family: "smallUpgrade" },
+        { id: "loss", text: "배송 점수가 내려갔어요", weight: 1500, min: -5, max: -2, family: "repair" },
+        { id: "mega", text: "배송 점수가 크게 올랐어요", weight: 1200, min: 14, max: 22, family: "bigUpgrade" },
         { id: "jackpot", text: "부품 상자가 크게 빛나요", weight: 500, min: 30, max: 30, family: "styleUpgrade" },
         { id: "empty", text: "이번에는 그대로예요", weight: 380, min: 0, max: 0, family: "smallOnly" },
         { id: "special", text: "무지개 부품 상자", weight: 20, min: 100, max: 100, family: "superUpgrade", superPart: true }
       ];
-      const WRONG_UPGRADE_EVENT = { id: "wrong-loss", text: "트럭 힘이 줄었어요", min: -6, max: -3, family: "repair" };
+      const WRONG_UPGRADE_EVENT = { id: "wrong-loss", text: "배송 점수가 내려갔어요", min: -6, max: -3, family: "repair" };
 
       function createRng(seed = 12345) {
         let value = seed >>> 0;
@@ -2621,6 +2623,8 @@
       };
     })();
 
+    const REWARD_CHANGE_LABEL = "배송 점수";
+
     const screens = {
       cover: document.getElementById("screen-cover"),
       tutorial: document.getElementById("screen-tutorial"),
@@ -2895,9 +2899,9 @@
 
     function getRewardDeltaLabel(upgradeResult) {
       const movement = upgradeResult.truckPower - upgradeResult.before;
-      if (movement > 0) return `트럭 힘 +${movement}`;
-      if (movement < 0) return `트럭 힘 ${movement}`;
-      return "이번 변화 0";
+      if (movement > 0) return `${REWARD_CHANGE_LABEL} +${movement}`;
+      if (movement < 0) return `${REWARD_CHANGE_LABEL} ${movement}`;
+      return `${REWARD_CHANGE_LABEL} 0`;
     }
 
     function renderClosedReward() {
@@ -3522,10 +3526,12 @@
     if (hasQaMarker) {
       window.__lesson5PackageQa = {
         forceRewardEvent: (eventId) => {
-          const source = Lesson5PackageWeightModel.UPGRADE_EVENTS.find((event) => event.id === eventId);
+          const source = eventId === "wrong" || eventId === Lesson5PackageWeightModel.WRONG_UPGRADE_EVENT.id
+            ? Lesson5PackageWeightModel.WRONG_UPGRADE_EVENT
+            : Lesson5PackageWeightModel.UPGRADE_EVENTS.find((event) => event.id === eventId);
           if (!source) throw new Error(`알 수 없는 보상 사건: ${eventId}`);
           const amount = source.min === source.max ? source.min : source.min;
-          const beforePower = ["normal", "loss"].includes(eventId) ? 50 : 40;
+          const beforePower = ["normal", "loss", "wrong", "wrong-loss"].includes(eventId) ? 50 : 40;
           const event = { ...source, amount };
           state.truckPower = beforePower;
           state.correctFirstTry = 5;
@@ -3544,7 +3550,7 @@
           state.rewardAdvancedProblemIndex = -1;
           renderClosedReward();
           showRewardOverlay();
-          return { eventId, amount, beforePower, afterPower: state.truckPower };
+          return { eventId:source.id, amount, beforePower, afterPower: state.truckPower };
         },
         openReward,
         forcePlayTier: (tierId) => {
