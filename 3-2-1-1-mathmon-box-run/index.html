@@ -65,7 +65,8 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --sound-button-size: clamp(30px, 3vw, 34px);
+      --top-control-y: var(--stage-inset);
+      --sound-button-size: clamp(42px, 3.6vw, 46px);
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
       --top-control-pad-x: 9px;
@@ -104,7 +105,7 @@
 
     .settings-toggle {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       right: var(--stage-inset);
       z-index: 60;
       display: inline-grid;
@@ -153,6 +154,52 @@
 
     .stage-shell .hud {
       padding-right: var(--sound-reserve);
+    }
+
+    .top-row {
+      position: absolute;
+      top: var(--top-control-y);
+      left: var(--stage-inset);
+      right: calc(var(--stage-inset) + var(--sound-reserve));
+      height: var(--sound-button-size);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sound-gap);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .brand-badge,
+    .unit-badge {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      width: fit-content;
+      max-width: max-content;
+      min-height: var(--sound-button-size);
+      padding: 0 var(--top-control-pad-x);
+      gap: var(--top-control-icon-gap);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      background: rgba(14, 12, 22, 0.72);
+      color: #fff8e8;
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .brand-badge img {
+      width: 28px;
+      height: 28px;
+      margin-right: 0;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .unit-badge {
+      border-color: rgba(66, 217, 255, 0.45);
+      color: var(--cyan);
     }
 
     .settings-toggle[aria-expanded="true"] {
@@ -510,9 +557,10 @@
 
     .cover-unit-label {
       position: absolute;
-      top: clamp(16px, 2.2vw, 24px);
-      right: calc(clamp(16px, 2.2vw, 24px) + var(--sound-reserve));
+      top: var(--top-control-y);
+      right: calc(var(--stage-inset) + var(--sound-reserve));
       z-index: 2;
+      min-height: var(--sound-button-size);
     }
 
     .cover-learning-label {
@@ -651,7 +699,7 @@
 
     .play {
       grid-template-rows: auto minmax(0, 1fr);
-      padding: clamp(12px, 2.2vw, 24px);
+      padding: calc(var(--top-control-y) + var(--sound-button-size) + var(--sound-gap)) var(--stage-inset) var(--stage-inset);
       gap: clamp(12px, 2vw, 22px);
     }
 
@@ -659,7 +707,8 @@
       display: grid;
       grid-template-columns: minmax(180px, 0.72fr) minmax(360px, 1.16fr) minmax(180px, 0.72fr);
       gap: 10px;
-      align-items: stretch;
+      align-items: start;
+      min-height: var(--sound-button-size);
     }
 
     .hud-card {
@@ -2277,9 +2326,8 @@
 
     <section class="screen cover is-active" data-screen="cover" aria-labelledby="coverTitle">
       <img class="raster-bg" src="cover-generated.webp" alt="" aria-hidden="true">
+      <div class="top-row"><div class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge">3학년 2학기 1단원 1차시</div></div>
       <div class="cover-scene">
-        <div class="unit-label cover-brand-label">에듀잇티 수학 게임</div>
-        <div class="unit-label cover-unit-label">3학년 2학기 1단원</div>
         <div class="unit-label cover-learning-label">받아올림이 없는 (세 자리 수)×(한 자리 수)</div>
       </div>
       <div class="hero-copy">
@@ -2295,6 +2343,7 @@
     <section class="screen tutorial" data-screen="tutorial" data-tutorial-step="solve" aria-labelledby="tutorialTitle">
       <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
       <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
+      <div class="top-row"><div class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge">1단원 곱셈 · 1차시</div></div>
       <h2 class="sr-only" id="tutorialTitle">곱해서 상자를 열어요</h2>
       <div class="sr-only">
         <p>첫 화면은 자리마다 곱하는 방법을 보여 줍니다.</p>
@@ -2309,6 +2358,7 @@
     </section>
 
     <section class="screen play" data-screen="play" aria-label="매스몬 상자런 문제">
+      <div class="top-row"><div class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge">1단원 곱셈 · 1차시</div></div>
       <div class="hud" aria-label="점수판">
         <div class="hud-card hud-card--progress">
           <span>문제</span>
@@ -2355,6 +2405,7 @@
 
     <section class="screen result" id="resultScreen" data-screen="result" aria-labelledby="resultTitle">
       <img class="result-art" src="result-generated-v3.webp?v=1" alt="" aria-hidden="true">
+      <div class="top-row"><div class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge">1단원 곱셈 · 1차시</div></div>
       <h2 class="visually-hidden" id="resultTitle">상자런 결과</h2>
       <p class="visually-hidden" data-field="result-praise">계산 집중력이 좋아요!</p>
       <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 보송몬을 얻었어요!</p>
