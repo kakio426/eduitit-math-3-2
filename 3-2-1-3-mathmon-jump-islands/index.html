@@ -215,7 +215,6 @@
         }
         .brand-badge img { margin-right: 0; }
         .brand-badge--logo { gap: 8px; }
-        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -970,6 +969,32 @@
       outline: 3px solid rgba(255, 255, 255, 0.74);
       outline-offset: -3px;
     }
+/* mathmon-brand-mark-v1: one shared visual contract for every lesson header. */
+.mathmon-brand-mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 28px !important;
+  height: 20px !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: contain;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
+
+.brand-badge > .mathmon-brand-mark,
+.cover-brand-label > .mathmon-brand-mark {
+  align-self: center;
+}
+
+.cover-brand-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
     .game[data-workbench-type="jump-islands"] {
       background:
@@ -1706,7 +1731,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="fullscene-score-slot" data-reward-mode="modal-art" data-reward-modal-standard="" data-tutorial-mode="card-grid" data-workbench-type="jump-islands" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-1-3" data-commit-sha="e1fac198320330eab62a7ca4d20745bcd86adc24" data-lesson-json-sha256="1dec48175e104dc51e00a7c8f36e86f79a63a804499f69cf55697fe17aca1350" data-build-inputs-sha256="af5fb40d5e7fec0edf1b9a14c78571f4bb1a16efa9a9f874391ba34a3a87c1a8"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-1-3" data-commit-sha="f513750bf6af4b45a0271539d746e1a88c7a4bd8" data-lesson-json-sha256="5e8ebbe9ea6f5a8335432458d017799ba380e901b39988a831ed3f7d09643958" data-build-inputs-sha256="1f0d6df173cdcaa34131f59a1dbd40e3306fab1b3c4aca910123347fcaec9ca8"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -1734,22 +1759,22 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 1단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 1단원 3차시</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 10배 점프섬</h1><img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">0을 가리고 곱한 뒤 다시 붙여요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">(몇십)×(몇십), (몇십몇)×(몇십)</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈 · 3차시</div></div>
         <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">점프섬으로 가기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><div class="card-mark">1</div><strong>0을 잠깐 가려요.</strong><p>큰 수를 작은 곱셈으로 바꿔 봐요.</p></div><div class="tutorial-card"><div class="card-mark">2</div><strong>먼저 곱해요.</strong><p>가린 0은 아직 붙이지 않아요.</p></div><div class="tutorial-card"><div class="card-mark">3</div><strong>0을 다시 붙여요.</strong><p>맞히면 바람을 타고 다음 섬으로 가요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="점프 거리"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">출발섬</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="점프 거리"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">출발섬</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈 · 3차시</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">바람 보기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="reward-wind-path-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>점프 바람</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">점프 바람</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">출발섬</p><p class="reward-change" id="rewardChange">바람이 불었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
@@ -1763,7 +1788,7 @@
       </div>
       <section class="screen result" id="screen-result" data-result-tier="start" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-final-start-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈 · 3차시</div></div>
         <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="" alt="" aria-hidden="true" hidden><img class="result-title-art" id="resultTitleArt" src="result-stamp-ready-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="start-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">출발섬</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
@@ -2018,7 +2043,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -2447,7 +2472,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"engine-v1-1-scoreboard-pilot","id":"3-2-1-3","folder":"3-2-1-3-mathmon-jump-islands","modelName":"Lesson3JumpIslandsModel","title":"매스몬 10배 점프섬","shortTitle":"매스몬 점프섬","topic":"(몇십)×(몇십), (몇십몇)×(몇십)","unitBadge":"1단원 곱셈","goal":"0을 가리고 곱한 뒤 다시 붙여요.","action":"작은 곱을 찾고 0을 붙인다.","buttonLabel":"바람 보기","rewardScreenTitle":"점프 바람","rewardThing":"바람","progressLabel":"점프 거리","rewardComplete":"바람이 불었어요.","rewardSmall":"살짝 움직였어요.","rewardBig":"멀리 날아갔어요.","tutorialTitle":"점프섬으로 가기 전에","tutorialButton":"문제 시작","tutorialCards":[["1","0을 잠깐 가려요.","큰 수를 작은 곱셈으로 바꿔 봐요."],["2","먼저 곱해요.","가린 0은 아직 붙이지 않아요."],["3","0을 다시 붙여요.","맞히면 바람을 타고 다음 섬으로 가요."]],"tutorial":{"mode":"card-grid"},"reward":{"mode":"modal-art","nextLabel":"다음 점프","artMap":{"tailwind":"reward-tailwind-generated.webp","headwind":"reward-headwind-generated.webp","pause":"reward-pause-generated.webp","gust":"reward-gust-generated.webp","rainbow":"reward-rainbow-generated.webp","shaky":"reward-shaky-generated.webp"}},"result":{"renderMode":"fullscene-score-slot"},"workbench":{"type":"jump-islands"},"scoreboard":{"enabled":false,"title":"전국 점프 순위","titleArt":"../_shared/scoreboard/scoreboard-title-jump-generated.webp","resultKind":"island","scoreLabel":"도착한 섬","listTitle":"점프섬 순위","unit":"3학년 2학기 1단원 3차시"},"results":[{"id":"start","name":"출발섬","minPower":0,"minCorrect":0,"image":"result-final-start-generated.webp","titleImage":"result-stamp-ready-generated.webp"},{"id":"sand","name":"모래섬","minPower":1,"minCorrect":0,"image":"result-final-sand-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"forest","name":"숲섬","minPower":34,"minCorrect":5,"image":"result-final-forest-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"cloud","name":"구름섬","minPower":60,"minCorrect":8,"image":"result-final-cloud-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"starlight","name":"별빛섬","minPower":86,"minCorrect":9,"image":"result-final-starlight-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"rainbow","name":"무지개섬","minPower":96,"minCorrect":10,"needsSpecial":true,"image":"result-final-rainbow-generated.webp","titleImage":"result-stamp-arrival-generated.webp"}],"rewardEvents":[{"id":"tailwind","text":"살랑 바람","weight":6400,"min":2,"max":5,"family":"tailwind","image":"reward-tailwind-generated.webp"},{"id":"headwind","text":"앞바람","weight":1700,"min":-8,"max":-4,"family":"headwind","image":"reward-headwind-generated.webp"},{"id":"pause","text":"잠깐 멈춤","weight":1284,"min":0,"max":0,"family":"pause","image":"reward-pause-generated.webp"},{"id":"gust","text":"쌩쌩 바람","weight":598,"min":8,"max":13,"family":"gust","image":"reward-gust-generated.webp"},{"id":"rainbow","text":"무지개 길","weight":18,"min":14,"max":14,"family":"rainbow","special":true,"image":"reward-rainbow-generated.webp"}],"wrongEvent":{"id":"shaky","text":"길이 흔들렸어요","min":-14,"max":-8,"family":"shaky","image":"reward-shaky-generated.webp"},"typesPerRun":["hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"냥냥몬","mathmonId":"zfa-04-nyangnyangmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-poster-generated.webp","startButton":"start-button-generated.webp","rewardScene":"reward-wind-path-generated.webp","resultRetryButton":"start-button-generated.webp","resultLeaderboardButton":"result-rank-button-generated.webp"},"assets":["cover-generated.webp","title-poster-generated.webp","start-button-generated.webp","play-map-strip-generated.webp","mathmon-zfa-04-nyangnyangmon.webp","reward-wind-path-generated.webp","reward-wind-button-generated.webp","reward-tailwind-generated.webp","reward-headwind-generated.webp","reward-pause-generated.webp","reward-gust-generated.webp","reward-rainbow-generated.webp","reward-shaky-generated.webp","result-final-start-generated.webp","result-final-sand-generated.webp","result-final-forest-generated.webp","result-final-cloud-generated.webp","result-final-starlight-generated.webp","result-final-rainbow-generated.webp","result-stamp-ready-generated.webp","result-stamp-arrival-generated.webp","result-rank-button-generated.webp","../_shared/scoreboard/scoreboard-title-jump-generated.webp"],"qa":{"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"engine-v1-1-scoreboard-pilot","id":"3-2-1-3","folder":"3-2-1-3-mathmon-jump-islands","modelName":"Lesson3JumpIslandsModel","title":"매스몬 10배 점프섬","shortTitle":"매스몬 점프섬","topic":"(몇십)×(몇십), (몇십몇)×(몇십)","unitBadge":"1단원 곱셈 · 3차시","goal":"0을 가리고 곱한 뒤 다시 붙여요.","action":"작은 곱을 찾고 0을 붙인다.","buttonLabel":"바람 보기","rewardScreenTitle":"점프 바람","rewardThing":"바람","progressLabel":"점프 거리","rewardComplete":"바람이 불었어요.","rewardSmall":"살짝 움직였어요.","rewardBig":"멀리 날아갔어요.","tutorialTitle":"점프섬으로 가기 전에","tutorialButton":"문제 시작","tutorialCards":[["1","0을 잠깐 가려요.","큰 수를 작은 곱셈으로 바꿔 봐요."],["2","먼저 곱해요.","가린 0은 아직 붙이지 않아요."],["3","0을 다시 붙여요.","맞히면 바람을 타고 다음 섬으로 가요."]],"tutorial":{"mode":"card-grid"},"reward":{"mode":"modal-art","nextLabel":"다음 점프","artMap":{"tailwind":"reward-tailwind-generated.webp","headwind":"reward-headwind-generated.webp","pause":"reward-pause-generated.webp","gust":"reward-gust-generated.webp","rainbow":"reward-rainbow-generated.webp","shaky":"reward-shaky-generated.webp"}},"result":{"renderMode":"fullscene-score-slot"},"workbench":{"type":"jump-islands"},"scoreboard":{"enabled":false,"title":"전국 점프 순위","titleArt":"../_shared/scoreboard/scoreboard-title-jump-generated.webp","resultKind":"island","scoreLabel":"도착한 섬","listTitle":"점프섬 순위","unit":"3학년 2학기 1단원 3차시"},"results":[{"id":"start","name":"출발섬","minPower":0,"minCorrect":0,"image":"result-final-start-generated.webp","titleImage":"result-stamp-ready-generated.webp"},{"id":"sand","name":"모래섬","minPower":1,"minCorrect":0,"image":"result-final-sand-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"forest","name":"숲섬","minPower":34,"minCorrect":5,"image":"result-final-forest-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"cloud","name":"구름섬","minPower":60,"minCorrect":8,"image":"result-final-cloud-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"starlight","name":"별빛섬","minPower":86,"minCorrect":9,"image":"result-final-starlight-generated.webp","titleImage":"result-stamp-arrival-generated.webp"},{"id":"rainbow","name":"무지개섬","minPower":96,"minCorrect":10,"needsSpecial":true,"image":"result-final-rainbow-generated.webp","titleImage":"result-stamp-arrival-generated.webp"}],"rewardEvents":[{"id":"tailwind","text":"살랑 바람","weight":6400,"min":2,"max":5,"family":"tailwind","image":"reward-tailwind-generated.webp"},{"id":"headwind","text":"앞바람","weight":1700,"min":-8,"max":-4,"family":"headwind","image":"reward-headwind-generated.webp"},{"id":"pause","text":"잠깐 멈춤","weight":1284,"min":0,"max":0,"family":"pause","image":"reward-pause-generated.webp"},{"id":"gust","text":"쌩쌩 바람","weight":598,"min":8,"max":13,"family":"gust","image":"reward-gust-generated.webp"},{"id":"rainbow","text":"무지개 길","weight":18,"min":14,"max":14,"family":"rainbow","special":true,"image":"reward-rainbow-generated.webp"}],"wrongEvent":{"id":"shaky","text":"길이 흔들렸어요","min":-14,"max":-8,"family":"shaky","image":"reward-shaky-generated.webp"},"typesPerRun":["hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold","hundredfold","tenfold"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"냥냥몬","mathmonId":"zfa-04-nyangnyangmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-poster-generated.webp","startButton":"start-button-generated.webp","rewardScene":"reward-wind-path-generated.webp","resultRetryButton":"start-button-generated.webp","resultLeaderboardButton":"result-rank-button-generated.webp"},"assets":["cover-generated.webp","title-poster-generated.webp","start-button-generated.webp","play-map-strip-generated.webp","mathmon-zfa-04-nyangnyangmon.webp","reward-wind-path-generated.webp","reward-wind-button-generated.webp","reward-tailwind-generated.webp","reward-headwind-generated.webp","reward-pause-generated.webp","reward-gust-generated.webp","reward-rainbow-generated.webp","reward-shaky-generated.webp","result-final-start-generated.webp","result-final-sand-generated.webp","result-final-forest-generated.webp","result-final-cloud-generated.webp","result-final-starlight-generated.webp","result-final-rainbow-generated.webp","result-stamp-ready-generated.webp","result-stamp-arrival-generated.webp","result-rank-button-generated.webp","../_shared/scoreboard/scoreboard-title-jump-generated.webp"],"qa":{"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 1단원 3차시","compactText":"1단원 곱셈 · 3차시","requiresNoOverflow":true},"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768}],"requiredFlow":["cover","tutorial-1","play","reward","result"]}};
     const Lesson3JumpIslandsModel = (() => {
       const SCALE_LABELS = {
         tenfold: "0 한 개 붙이기",
@@ -2753,6 +2778,7 @@
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
+      resultRetryArt: document.querySelector("#screen-result .result-retry-art"),
       scoreboardScreen: document.getElementById("screen-scoreboard"),
     };
 
@@ -2869,7 +2895,7 @@
       const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
       const width = LessonModel.clamp((state.power / maxPower) * 100, 0, 100);
       ui.progressFill.style.width = `${width}%`;
-      ui.progressValue.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      ui.progressValue.textContent = `${LESSON_CONFIG.progressLabel || "점수"} ${state.power}`;
       ui.questionCount.textContent = `${Math.min(state.problemIndex + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
     }
 
@@ -3190,19 +3216,7 @@
       }
 
       if (getRewardMode() === "stage-reveal") {
-        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
-        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
-        if (ui.rewardScene instanceof HTMLImageElement) {
-          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
-        } else if (ui.rewardScene) {
-          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
-        }
-        ui.rewardLabel.textContent = "";
-        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
-        ui.rewardNextButton.disabled = false;
-        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
-        showScreen("reward");
-        ui.rewardNextButton.focus({ preventScroll: true });
+        await prepareStageReward(event);
         return;
       }
 
@@ -3217,6 +3231,22 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
+    }
+
+    async function prepareStageReward(event) {
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+      if (ui.rewardScene instanceof HTMLImageElement) {
+        ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+      } else if (ui.rewardScene) {
+        ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+      }
+      ui.rewardLabel.textContent = "";
+      ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+      ui.rewardNextButton.disabled = false;
+      await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+      showScreen("reward");
+      ui.rewardNextButton.focus({ preventScroll: true });
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3353,8 +3383,10 @@
     }
 
     function setRewardValue(amount) {
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
-      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const changeLabel = String(LESSON_CONFIG.reward?.changeLabel || "").trim();
+      if (!changeLabel) {
+        throw new Error("modal-art reward requires a lesson-specific reward.changeLabel");
+      }
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -3408,6 +3440,15 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
+        const event = state.pendingRewardEvent;
+        if (typeof globalThis.onRewardDismiss === "function") {
+          showScreen("play");
+          await runViewHook("onRewardDismiss", {
+            event,
+            afterPower: state.power,
+            state,
+          });
+        }
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -3436,7 +3477,13 @@
         ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
         if (LESSON_CONFIG.imageAssets?.resultPanel) ui.resultPanelArt.src = LESSON_CONFIG.imageAssets.resultPanel;
       }
-      ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
+      const resultTitleIsBakedIntoScene = LESSON_CONFIG.result?.stateImageSet?.titlePresentation === "scene-baked";
+      const resultRetryIsBakedIntoScene = LESSON_CONFIG.result?.stateImageSet?.retryPresentation === "scene-baked";
+      ui.resultTitleArt.src = resultTitleIsBakedIntoScene
+        ? (result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover)
+        : (result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover);
+      ui.resultTitleArt.toggleAttribute("hidden", resultTitleIsBakedIntoScene);
+      if (ui.resultRetryArt) ui.resultRetryArt.toggleAttribute("hidden", resultRetryIsBakedIntoScene);
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       const totalProblems = state.problems.length || LESSON_CONFIG.typesPerRun?.length || 10;
@@ -3447,7 +3494,7 @@
         ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
       }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
-      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "점수"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
         const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
@@ -3459,7 +3506,8 @@
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-      ui.resultTitleArt.hidden = false;
+      ui.resultTitleArt.hidden = resultTitleIsBakedIntoScene;
+      if (ui.resultRetryArt) ui.resultRetryArt.hidden = resultRetryIsBakedIntoScene;
       screens.result.dataset.resultTier = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -3817,6 +3865,56 @@
       },
     };
 
+    async function forceRewardEventForQa(eventId, options = {}) {
+      const isWrong = eventId === "wrong" || eventId === LESSON_CONFIG.wrongEvent?.id;
+      const source = isWrong
+        ? LESSON_CONFIG.wrongEvent
+        : LESSON_CONFIG.rewardEvents?.find((event) => event.id === eventId);
+      if (!source) throw new Error(`Unknown reward event for QA: ${eventId}`);
+
+      startGame();
+      state.power = Number.isFinite(Number(options.beforePower)) ? Number(options.beforePower) : 40;
+      state.correctFirstTry = Number.isFinite(Number(options.correctFirstTry)) ? Number(options.correctFirstTry) : 5;
+      state.specialSeen = Boolean(options.specialSeen);
+      state.completed = true;
+      state.mistakeTouched = isWrong;
+      const fallbackAmount = source.special ? 100 : Number(source.min ?? source.max ?? 0);
+      const event = {
+        ...source,
+        amount:Number.isFinite(Number(options.amount)) ? Number(options.amount) : fallbackAmount,
+      };
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
+      setRewardTransitioning(true);
+      const beforePower = state.power;
+
+      if (getRewardMode() === "modal-art") {
+        openRewardModal(event, { revealOnOpen:false });
+        if (options.reveal !== false) await revealRewardModal({ immediateValue:true });
+      } else if (getRewardMode() === "stage-reveal") {
+        await prepareStageReward(event);
+        if (options.reveal !== false) await revealStageReward();
+      } else {
+        throw new Error(`Reward language QA does not support mode: ${getRewardMode()}`);
+      }
+
+      const currentResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(currentResult)
+        : currentResult;
+      return {
+        eventId:event.id,
+        eventAmount:Number(event.amount) || 0,
+        rewardPhase:state.rewardPhase,
+        beforePower,
+        power:state.power,
+        delta:state.power - beforePower,
+        currentResult:{ id:currentResult?.id || "", name:currentResult?.name || "" },
+        nextResult:{ id:nextResult?.id || "", name:nextResult?.name || "" },
+        isHighestTier:Boolean(currentResult?.id && currentResult.id === nextResult?.id),
+      };
+    }
+
     window.__mathmonEngineQa = {
       startGame,
       renderProblem,
@@ -3824,6 +3922,7 @@
       showScreen,
       showReward,
       revealStageReward,
+      forceRewardEvent: forceRewardEventForQa,
       setState: (patch = {}) => {
         const allowed = [
           "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",

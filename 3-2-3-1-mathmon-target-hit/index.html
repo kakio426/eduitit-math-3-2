@@ -215,7 +215,6 @@
         }
         .brand-badge img { margin-right: 0; }
         .brand-badge--logo { gap: 8px; }
-        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -970,6 +969,32 @@
       outline: 3px solid rgba(255, 255, 255, 0.74);
       outline-offset: -3px;
     }
+/* mathmon-brand-mark-v1: one shared visual contract for every lesson header. */
+.mathmon-brand-mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 28px !important;
+  height: 20px !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: contain;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
+
+.brand-badge > .mathmon-brand-mark,
+.cover-brand-label > .mathmon-brand-mark {
+  align-self: center;
+}
+
+.cover-brand-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
     .game[data-workbench-type="circle-relations"] .play {
       padding: 0;
@@ -1112,7 +1137,7 @@
 
     .game[data-workbench-type="circle-relations"] .hud {
       position: absolute;
-      top: 18px;
+      top: var(--top-control-y);
       right: calc(3% + var(--sound-reserve));
       left: 3%;
       z-index: 6;
@@ -1224,7 +1249,7 @@
       margin: 0;
       color: var(--target-ink);
       font-size: clamp(2.25rem, 3.9vw, 3rem);
-      line-height: 1.14;
+      line-height: 1.2;
       font-weight: 1000;
       text-align: center;
       letter-spacing: -.055em;
@@ -2400,7 +2425,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="circle-relations" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-3-1" data-commit-sha="e1fac198320330eab62a7ca4d20745bcd86adc24" data-lesson-json-sha256="0cbb6606efcd93b174cedf04aa8e9c83e26351f77c8970b1e0022eb462fc9e65" data-build-inputs-sha256="b90f2aa8e663badd97f02af357bf707395be5070b6c138cab3fe7fe221421c3e"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-3-1" data-commit-sha="f513750bf6af4b45a0271539d746e1a88c7a4bd8" data-lesson-json-sha256="5da289f79cdc729d54782325f812f7d56275b0f5506530e32746da4192b52fd6" data-build-inputs-sha256="b194d0935fbfa0258c4adf9bb0c3aa90a766cd83f86b41b5deccb066d2190a81"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2428,22 +2453,22 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원 1차시</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 표적 맞히기</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">원에서 중심·반지름·지름을 찾아요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">원의 중심·반지름·지름</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원 · 1차시</div></div>
         <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">표적을 맞히기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-target-console-v2-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 찾아요?</strong><p>표적 네 개 중 알맞은 그림을 골라요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-reward-flow-v2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제를 풀어요. 맞히면 덮인 표적을 열어요. 점수는 오르거나 그대로거나 조금 내려가요. 끝나면 내 표적 이름을 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="표적 점수"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">연습 표적</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="표적 점수"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">연습 표적</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원 · 1차시</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">점수 보기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="reward-event-closed-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>표적 점수</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">표적 점수</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">연습 표적</p><p class="reward-change" id="rewardChange">표적 점수가 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
@@ -2457,11 +2482,11 @@
       </div>
       <section class="screen result" id="screen-result" data-result-tier="practice" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-practice-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원 · 1차시</div></div>
         <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="" alt="" aria-hidden="true" hidden><img class="result-title-art" id="resultTitleArt" src="result-practice-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">연습 표적</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
-      <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원"></section>
+      <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원 · 1차시"></section>
     </div>
   </main>
   <script>
@@ -2712,7 +2737,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -3141,7 +3166,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-circle-relations-migration","id":"3-2-3-1","folder":"3-2-3-1-mathmon-target-hit","modelName":"Lesson3TargetHitModel","title":"매스몬 표적 맞히기","shortTitle":"매스몬 표적 맞히기","topic":"원의 중심·반지름·지름","unitBadge":"3단원 원","goal":"원에서 중심·반지름·지름을 찾아요.","action":"알맞은 점이나 선분이 그려진 원을 골라요.","buttonLabel":"점수 보기","rewardScreenTitle":"표적 점수","progressLabel":"표적 점수","rewardComplete":"표적 점수가 바뀌었어요.","tutorialTitle":"표적을 맞히기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 찾아요?","body":"표적 네 개 중 알맞은 그림을 골라요.","image":"tutorial-page-1-target-console-v2-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 맞히면 덮인 표적을 열어요. 점수는 오르거나 그대로거나 조금 내려가요. 끝나면 내 표적 이름을 봐요.","image":"tutorial-page-2-reward-flow-v2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"unitLabel":"표적 점수","closedLabel":"표적 점수가 얼마나 오를까요?","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","bullseye":"reward-event-bullseye-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"bullseye":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"playStateImageSet":{"count":6,"canvas":"768x1536","runtimeSlot":"left-reward-world-1x2","contactSheet":"play-target-progress-v2-contact-sheet.png","pairedContactSheet":"play-vs-final-v2-contact-sheet.png","protagonist":"mathmon-drv-06-thunderwolf","fit":"contain","requiredProgression":["outer-hits","edge-hit","inner-hits","bullseye","champion-cluster","legend-lightning"],"pairedWithFinalResults":true},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v3-contact-sheet.png","protagonist":"mathmon-drv-06-thunderwolf","requiredProgression":["complete-miss","single-edge-hit","multi-ring-hits","single-bullseye","champion-bullseye-cluster","legend-rainbow-lightning"],"fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["next-goal","correct-count"]}},"workbench":{"type":"circle-relations"},"scoreboard":{"enabled":false},"mathmonPack":"diversity-reward-pack","mathmonName":"번개늑대몬","mathmonId":"mathmon-drv-06-thunderwolf","results":[{"id":"practice","name":"연습 표적","minPower":0,"minCorrect":0,"playImage":"play-target-practice-v2-generated.webp","image":"result-practice-generated.webp","titleImage":"result-practice-generated.webp"},{"id":"edge","name":"가장자리","minPower":15,"minCorrect":2,"playImage":"play-target-edge-v2-generated.webp","image":"result-edge-generated.webp","titleImage":"result-edge-generated.webp"},{"id":"hit","name":"명중","minPower":35,"minCorrect":4,"playImage":"play-target-hit-v2-generated.webp","image":"result-hit-generated.webp","titleImage":"result-hit-generated.webp"},{"id":"bullseye","name":"정중앙","minPower":55,"minCorrect":6,"playImage":"play-target-bullseye-v2-generated.webp","image":"result-bullseye-generated.webp","titleImage":"result-bullseye-generated.webp"},{"id":"targetking","name":"표적왕","minPower":78,"minCorrect":8,"playImage":"play-target-targetking-v2-generated.webp","image":"result-targetking-generated.webp","titleImage":"result-targetking-generated.webp"},{"id":"legend","name":"전설 명중","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-target-legend-v2-generated.webp","image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"점수 +","weight":6400,"min":6,"max":10,"family":"normal","rarity":"common"},{"id":"loss","text":"점수 -","weight":1500,"min":-5,"max":-2,"family":"loss","rarity":"common"},{"id":"mega","text":"점수 크게 +","weight":1200,"min":14,"max":22,"family":"mega","rarity":"rare"},{"id":"bullseye","text":"정중앙!","weight":500,"min":30,"max":30,"family":"bullseye","rarity":"rare"},{"id":"empty","text":"점수 0","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"무지개 명중!","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"loss","text":"점수 -","min":-6,"max":-3,"family":"loss"},"typesPerRun":["중심","반지름","지름","중심","반지름","지름","중심","반지름","지름","중심"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"../_shared/action-buttons/next-button-generated.webp","problemStage":"problem-stage-generated.webp","scoreViewButton":"score-view-button-v1-generated.webp","rewardClosed":"reward-event-closed-generated.webp","rewardScene":"reward-event-closed-generated.webp","resultNextGoalTitles":{"edge":"result-next-edge-title-generated-v1.png","hit":"result-next-hit-title-generated-v1.png","bullseye":"result-next-bullseye-title-generated-v1.png","targetking":"result-next-targetking-title-generated-v1.png","legend":"result-next-legend-title-generated-v1.png","final":"result-final-title-generated-v1.png"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","problem-stage-generated.webp","tutorial-page-1-target-console-v2-generated.webp","tutorial-page-2-reward-flow-v2-generated.webp","score-view-button-v1-generated.webp","../_shared/action-buttons/next-button-generated.webp","reward-event-closed-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-bullseye-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-next-edge-title-generated-v1.png","result-next-hit-title-generated-v1.png","result-next-bullseye-title-generated-v1.png","result-next-targetking-title-generated-v1.png","result-next-legend-title-generated-v1.png","result-final-title-generated-v1.png","play-target-practice-v2-generated.webp","play-target-edge-v2-generated.webp","play-target-hit-v2-generated.webp","play-target-bullseye-v2-generated.webp","play-target-targetking-v2-generated.webp","play-target-legend-v2-generated.webp","play-target-progress-v2-contact-sheet.png","play-vs-final-v2-contact-sheet.png","result-practice-generated.webp","result-edge-generated.webp","result-hit-generated.webp","result-bullseye-generated.webp","result-targetking-generated.webp","result-legend-generated.webp"],"qa":{"visualContractVersion":1,"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"user-redesign-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-final-reward-ui-broken-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-result-panel-axis-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-problem-title-side-spikes-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-missing-left-reward-panel-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-left-reward-character-cropped-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"layoutAudit":{"workArea":".problem-grid","primary":".target-console","secondary":".step-board","tertiary":".problem-card","complete":".complete-panel","minStageWidthRatio":0.64,"verticalOrder":["tertiary","secondary","primary"]},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".target-console .circle-choice-svg","primarySvgText":".target-console .circle-choice-svg text","choiceSvgText":".target-console .circle-choice-svg text","minHeadlinePx":36,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["CIRCLE_CENTER_ON_EDGE","CIRCLE_RADIUS_AS_DIAMETER","CIRCLE_DIAMETER_MISSES_CENTER"],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-circle-relations-migration","id":"3-2-3-1","folder":"3-2-3-1-mathmon-target-hit","modelName":"Lesson3TargetHitModel","title":"매스몬 표적 맞히기","shortTitle":"매스몬 표적 맞히기","topic":"원의 중심·반지름·지름","unitBadge":"3단원 원 · 1차시","goal":"원에서 중심·반지름·지름을 찾아요.","action":"알맞은 점이나 선분이 그려진 원을 골라요.","buttonLabel":"점수 보기","rewardScreenTitle":"표적 점수","progressLabel":"표적 점수","rewardComplete":"표적 점수가 바뀌었어요.","tutorialTitle":"표적을 맞히기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 찾아요?","body":"표적 네 개 중 알맞은 그림을 골라요.","image":"tutorial-page-1-target-console-v2-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 맞히면 덮인 표적을 열어요. 점수는 오르거나 그대로거나 조금 내려가요. 끝나면 내 표적 이름을 봐요.","image":"tutorial-page-2-reward-flow-v2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"unitLabel":"표적 점수","closedLabel":"표적 점수가 얼마나 오를까요?","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","bullseye":"reward-event-bullseye-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"bullseye":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"playStateImageSet":{"count":6,"canvas":"768x1536","runtimeSlot":"left-reward-world-1x2","contactSheet":"play-target-progress-v2-contact-sheet.png","pairedContactSheet":"play-vs-final-v2-contact-sheet.png","protagonist":"mathmon-drv-06-thunderwolf","fit":"contain","requiredProgression":["outer-hits","edge-hit","inner-hits","bullseye","champion-cluster","legend-lightning"],"pairedWithFinalResults":true},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v3-contact-sheet.png","protagonist":"mathmon-drv-06-thunderwolf","requiredProgression":["complete-miss","single-edge-hit","multi-ring-hits","single-bullseye","champion-bullseye-cluster","legend-rainbow-lightning"],"fixedGeneratedElements":["result-title","retry-button"],"dynamicOverlays":["next-goal","correct-count"]}},"workbench":{"type":"circle-relations"},"scoreboard":{"enabled":false},"mathmonPack":"diversity-reward-pack","mathmonName":"번개늑대몬","mathmonId":"mathmon-drv-06-thunderwolf","results":[{"id":"practice","name":"연습 표적","minPower":0,"minCorrect":0,"playImage":"play-target-practice-v2-generated.webp","image":"result-practice-generated.webp","titleImage":"result-practice-generated.webp"},{"id":"edge","name":"가장자리","minPower":15,"minCorrect":2,"playImage":"play-target-edge-v2-generated.webp","image":"result-edge-generated.webp","titleImage":"result-edge-generated.webp"},{"id":"hit","name":"명중","minPower":35,"minCorrect":4,"playImage":"play-target-hit-v2-generated.webp","image":"result-hit-generated.webp","titleImage":"result-hit-generated.webp"},{"id":"bullseye","name":"정중앙","minPower":55,"minCorrect":6,"playImage":"play-target-bullseye-v2-generated.webp","image":"result-bullseye-generated.webp","titleImage":"result-bullseye-generated.webp"},{"id":"targetking","name":"표적왕","minPower":78,"minCorrect":8,"playImage":"play-target-targetking-v2-generated.webp","image":"result-targetking-generated.webp","titleImage":"result-targetking-generated.webp"},{"id":"legend","name":"전설 명중","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-target-legend-v2-generated.webp","image":"result-legend-generated.webp","titleImage":"result-legend-generated.webp"}],"rewardEvents":[{"id":"normal","text":"점수 +","weight":6400,"min":6,"max":10,"family":"normal","rarity":"common"},{"id":"loss","text":"점수 -","weight":1500,"min":-5,"max":-2,"family":"loss","rarity":"common"},{"id":"mega","text":"점수 크게 +","weight":1200,"min":14,"max":22,"family":"mega","rarity":"rare"},{"id":"bullseye","text":"정중앙!","weight":500,"min":30,"max":30,"family":"bullseye","rarity":"rare"},{"id":"empty","text":"점수 0","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"rainbow","text":"무지개 명중!","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"loss","text":"점수 -","min":-6,"max":-3,"family":"loss"},"typesPerRun":["중심","반지름","지름","중심","반지름","지름","중심","반지름","지름","중심"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"../_shared/action-buttons/next-button-generated.webp","problemStage":"problem-stage-generated.webp","scoreViewButton":"score-view-button-v1-generated.webp","rewardClosed":"reward-event-closed-generated.webp","rewardScene":"reward-event-closed-generated.webp","resultNextGoalTitles":{"edge":"result-next-edge-title-generated-v1.png","hit":"result-next-hit-title-generated-v1.png","bullseye":"result-next-bullseye-title-generated-v1.png","targetking":"result-next-targetking-title-generated-v1.png","legend":"result-next-legend-title-generated-v1.png","final":"result-final-title-generated-v1.png"},"resultRetryButton":"../_shared/result-actions/retry-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","problem-stage-generated.webp","tutorial-page-1-target-console-v2-generated.webp","tutorial-page-2-reward-flow-v2-generated.webp","score-view-button-v1-generated.webp","../_shared/action-buttons/next-button-generated.webp","reward-event-closed-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-bullseye-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-next-edge-title-generated-v1.png","result-next-hit-title-generated-v1.png","result-next-bullseye-title-generated-v1.png","result-next-targetking-title-generated-v1.png","result-next-legend-title-generated-v1.png","result-final-title-generated-v1.png","play-target-practice-v2-generated.webp","play-target-edge-v2-generated.webp","play-target-hit-v2-generated.webp","play-target-bullseye-v2-generated.webp","play-target-targetking-v2-generated.webp","play-target-legend-v2-generated.webp","play-target-progress-v2-contact-sheet.png","play-vs-final-v2-contact-sheet.png","result-practice-generated.webp","result-edge-generated.webp","result-hit-generated.webp","result-bullseye-generated.webp","result-targetking-generated.webp","result-legend-generated.webp"],"qa":{"visualContractVersion":1,"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","regressionName":"user-reported-unit-lesson-badge-text-2026-08-10","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 3단원 1차시","compactText":"3단원 원 · 1차시","requiresNoOverflow":true},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"user-reported-top-controls-1079x842","width":1079,"height":842},{"name":"user-redesign-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-final-reward-ui-broken-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-result-panel-axis-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-problem-title-side-spikes-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-missing-left-reward-panel-1082x897-dpr2","width":1082,"height":897,"dpr":2},{"name":"user-reported-left-reward-character-cropped-1082x897-dpr2","width":1082,"height":897,"dpr":2}],"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".target-console","secondary":".step-board","tertiary":".problem-card","complete":".complete-panel","minStageWidthRatio":0.64,"verticalOrder":["tertiary","secondary","primary"]},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".target-console .circle-choice-svg","primarySvgText":".target-console .circle-choice-svg text","choiceSvgText":".target-console .circle-choice-svg text","minHeadlinePx":36,"minInstructionPx":18,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"misconceptionCoverage":["CIRCLE_CENTER_ON_EDGE","CIRCLE_RADIUS_AS_DIAMETER","CIRCLE_DIAMETER_MISSES_CENTER"],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson3TargetHitModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -3372,6 +3397,7 @@
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
+      resultRetryArt: document.querySelector("#screen-result .result-retry-art"),
       scoreboardScreen: document.getElementById("screen-scoreboard"),
     };
 
@@ -3488,7 +3514,7 @@
       const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
       const width = LessonModel.clamp((state.power / maxPower) * 100, 0, 100);
       ui.progressFill.style.width = `${width}%`;
-      ui.progressValue.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      ui.progressValue.textContent = `${LESSON_CONFIG.progressLabel || "점수"} ${state.power}`;
       ui.questionCount.textContent = `${Math.min(state.problemIndex + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
     }
 
@@ -3809,19 +3835,7 @@
       }
 
       if (getRewardMode() === "stage-reveal") {
-        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
-        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
-        if (ui.rewardScene instanceof HTMLImageElement) {
-          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
-        } else if (ui.rewardScene) {
-          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
-        }
-        ui.rewardLabel.textContent = "";
-        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
-        ui.rewardNextButton.disabled = false;
-        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
-        showScreen("reward");
-        ui.rewardNextButton.focus({ preventScroll: true });
+        await prepareStageReward(event);
         return;
       }
 
@@ -3836,6 +3850,22 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
+    }
+
+    async function prepareStageReward(event) {
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+      if (ui.rewardScene instanceof HTMLImageElement) {
+        ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+      } else if (ui.rewardScene) {
+        ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+      }
+      ui.rewardLabel.textContent = "";
+      ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+      ui.rewardNextButton.disabled = false;
+      await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+      showScreen("reward");
+      ui.rewardNextButton.focus({ preventScroll: true });
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -3972,8 +4002,10 @@
     }
 
     function setRewardValue(amount) {
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
-      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const changeLabel = String(LESSON_CONFIG.reward?.changeLabel || "").trim();
+      if (!changeLabel) {
+        throw new Error("modal-art reward requires a lesson-specific reward.changeLabel");
+      }
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -4027,6 +4059,15 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
+        const event = state.pendingRewardEvent;
+        if (typeof globalThis.onRewardDismiss === "function") {
+          showScreen("play");
+          await runViewHook("onRewardDismiss", {
+            event,
+            afterPower: state.power,
+            state,
+          });
+        }
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -4055,7 +4096,13 @@
         ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
         if (LESSON_CONFIG.imageAssets?.resultPanel) ui.resultPanelArt.src = LESSON_CONFIG.imageAssets.resultPanel;
       }
-      ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
+      const resultTitleIsBakedIntoScene = LESSON_CONFIG.result?.stateImageSet?.titlePresentation === "scene-baked";
+      const resultRetryIsBakedIntoScene = LESSON_CONFIG.result?.stateImageSet?.retryPresentation === "scene-baked";
+      ui.resultTitleArt.src = resultTitleIsBakedIntoScene
+        ? (result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover)
+        : (result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover);
+      ui.resultTitleArt.toggleAttribute("hidden", resultTitleIsBakedIntoScene);
+      if (ui.resultRetryArt) ui.resultRetryArt.toggleAttribute("hidden", resultRetryIsBakedIntoScene);
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       const totalProblems = state.problems.length || LESSON_CONFIG.typesPerRun?.length || 10;
@@ -4066,7 +4113,7 @@
         ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
       }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
-      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "점수"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
         const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
@@ -4078,7 +4125,8 @@
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-      ui.resultTitleArt.hidden = false;
+      ui.resultTitleArt.hidden = resultTitleIsBakedIntoScene;
+      if (ui.resultRetryArt) ui.resultRetryArt.hidden = resultRetryIsBakedIntoScene;
       screens.result.dataset.resultTier = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -4436,6 +4484,56 @@
       },
     };
 
+    async function forceRewardEventForQa(eventId, options = {}) {
+      const isWrong = eventId === "wrong" || eventId === LESSON_CONFIG.wrongEvent?.id;
+      const source = isWrong
+        ? LESSON_CONFIG.wrongEvent
+        : LESSON_CONFIG.rewardEvents?.find((event) => event.id === eventId);
+      if (!source) throw new Error(`Unknown reward event for QA: ${eventId}`);
+
+      startGame();
+      state.power = Number.isFinite(Number(options.beforePower)) ? Number(options.beforePower) : 40;
+      state.correctFirstTry = Number.isFinite(Number(options.correctFirstTry)) ? Number(options.correctFirstTry) : 5;
+      state.specialSeen = Boolean(options.specialSeen);
+      state.completed = true;
+      state.mistakeTouched = isWrong;
+      const fallbackAmount = source.special ? 100 : Number(source.min ?? source.max ?? 0);
+      const event = {
+        ...source,
+        amount:Number.isFinite(Number(options.amount)) ? Number(options.amount) : fallbackAmount,
+      };
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
+      setRewardTransitioning(true);
+      const beforePower = state.power;
+
+      if (getRewardMode() === "modal-art") {
+        openRewardModal(event, { revealOnOpen:false });
+        if (options.reveal !== false) await revealRewardModal({ immediateValue:true });
+      } else if (getRewardMode() === "stage-reveal") {
+        await prepareStageReward(event);
+        if (options.reveal !== false) await revealStageReward();
+      } else {
+        throw new Error(`Reward language QA does not support mode: ${getRewardMode()}`);
+      }
+
+      const currentResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(currentResult)
+        : currentResult;
+      return {
+        eventId:event.id,
+        eventAmount:Number(event.amount) || 0,
+        rewardPhase:state.rewardPhase,
+        beforePower,
+        power:state.power,
+        delta:state.power - beforePower,
+        currentResult:{ id:currentResult?.id || "", name:currentResult?.name || "" },
+        nextResult:{ id:nextResult?.id || "", name:nextResult?.name || "" },
+        isHighestTier:Boolean(currentResult?.id && currentResult.id === nextResult?.id),
+      };
+    }
+
     window.__mathmonEngineQa = {
       startGame,
       renderProblem,
@@ -4443,6 +4541,7 @@
       showScreen,
       showReward,
       revealStageReward,
+      forceRewardEvent: forceRewardEventForQa,
       setState: (patch = {}) => {
         const allowed = [
           "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",

@@ -215,7 +215,6 @@
         }
         .brand-badge img { margin-right: 0; }
         .brand-badge--logo { gap: 8px; }
-        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -970,6 +969,32 @@
       outline: 3px solid rgba(255, 255, 255, 0.74);
       outline-offset: -3px;
     }
+/* mathmon-brand-mark-v1: one shared visual contract for every lesson header. */
+.mathmon-brand-mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 28px !important;
+  height: 20px !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: contain;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
+
+.brand-badge > .mathmon-brand-mark,
+.cover-brand-label > .mathmon-brand-mark {
+  align-self: center;
+}
+
+.cover-brand-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
     /* 3-2-3-3 다리 제작 작업대
        화면 구성은 배경 장면 → 원 관계/설치 자리 → 작업 지시 → 부품 선반 순서다. */
@@ -984,6 +1009,10 @@
       --bridge-paper: #fff5d8;
       --bridge-danger: #b52245;
       --bridge-success: #12805f;
+    }
+
+    .game[data-workbench-type="circle-double-bridge"] #screen-cover .hero-title-art {
+      max-height: 300px;
     }
 
     .game[data-workbench-type="circle-double-bridge"] .play {
@@ -2778,7 +2807,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="circle-double-bridge" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-3-3" data-commit-sha="e1fac198320330eab62a7ca4d20745bcd86adc24" data-lesson-json-sha256="46bdb2af9ca8d9c0985c5a66f06d501a6d6c04d264b025e1b37f710f1af2e084" data-build-inputs-sha256="f3cd2d19c6d2321023e0b3b638215220d659d17245b949662029400597a82bad"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-3-3" data-commit-sha="f513750bf6af4b45a0271539d746e1a88c7a4bd8" data-lesson-json-sha256="5db0d0738e67ad218194f0b2fbd3346bbb452cf2d8968f8e3de58b05d7c1b7f6" data-build-inputs-sha256="0d481b03ffb2baa95dfb0a75d66836fd5fcf509ff0d8767f143eca43c476508a"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2806,22 +2835,22 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 3단원 3차시</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 두 배 다리</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">반지름 두 개를 이으면 지름이 돼요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">지름과 반지름의 관계</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원 · 3차시</div></div>
         <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">다리를 놓기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 이어요?</strong><p>반지름 두 개를 이으면 지름이 돼요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-v4-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>마지막에 내가 만든 다리를 봐요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="다리 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">외나무다리</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="다리 힘"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">외나무다리</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원 · 3차시</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">점수 보기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="result-bridge-v5-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>다리 힘</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">다리 힘</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">외나무다리</p><p class="reward-change" id="rewardChange">다리 힘이 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
@@ -2835,11 +2864,11 @@
       </div>
       <section class="screen result" id="screen-result" data-result-tier="log" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-log-v5-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3단원 원 · 3차시</div></div>
         <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="" alt="" aria-hidden="true" hidden><img class="result-title-art" id="resultTitleArt" src="result-title-log-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">외나무다리</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
-      <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원"></section>
+      <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 점수" data-scoreboard-list-title="점수 순위" data-scoreboard-unit="3단원 원 · 3차시"></section>
     </div>
   </main>
   <script>
@@ -3090,7 +3119,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -3519,7 +3548,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"점수 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"마지막에 내가 만든 다리를 봐요.","image":"tutorial-page-2-v4-generated.webp"}],"tutorial":{"mode":"poster-two-step","rewardPreview":{"standard":"tutorial-final-reward-cohesion-v1","image":"tutorial-page-2-v4-generated.webp","canvas":"1280x800","protagonist":"zfa-03-sudalmon","characterAnatomy":"two-arms-two-paws","bridgeStates":["log","small","bridge","big","grand","rainbow"],"visibleText":["무엇을 얻어요?","10문제를 풀어요.","맞히면 다리가 더 멋져질 수 있어요.","가끔은 다리가 작아질 수도 있어요.","마지막에 내가 만든 다리를 봐요.","이전","문제 시작"]}},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"뚝딱뚝딱 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showNextGoal":true,"layout":{"axisX":1038,"axisXByTier":{"log":1038,"small":1038,"bridge":1038,"big":1038,"grand":1038,"rainbow":1038},"titleTop":160,"titleWidth":320,"correctTop":300,"correctWidth":180,"nextY":475,"retryRect":{"x":878,"y":539,"width":320,"height":120},"byTier":{"log":{"titleWidth":320},"small":{"titleWidth":310},"bridge":{"titleWidth":220},"big":{"titleWidth":290},"grand":{"titleWidth":320},"rainbow":{"titleWidth":320}}},"stateImageSet":{"standard":"result-tier-fullscene-native-v1","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","objectFit":"cover","expectedStates":["log","small","bridge","big","grand","rainbow"],"expectedRanks":[0,1,2,3,4,5],"sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/source","runtimePngPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/runtime-png","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contact-sheets/result-fullscene-v5-contact-sheet.png","contract":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contract.json","cacheVersion":"2026-08-04-result-fullscene-v5","protagonist":"zfa-03-sudalmon","nativeScenePerState":true,"forbidCharacterOverlay":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["environment","bridge","mathmon","blank-dynamic-panel","result-title","retry-button"],"dynamicOverlays":["result-title","correct-count","next-goal","retry-button"]}},"workbench":{"type":"circle-double-bridge","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","runtimeSlot":"left-progress-panel","objectFit":"contain","filePattern":"play-bridge-v1-*-generated.webp","sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-anchor-audit.png","cacheVersion":"2026-08-01-left-progress-v1","protagonist":"zfa-03-sudalmon","requiredSubjects":["현재 다리","수달몬 전신"],"layoutContract":{"combinedFocalCenterX":0.5,"combinedFocalCenterY":0.58,"safeMarginRatio":0.05,"characterFullBody":true,"sameCameraAcrossStates":true,"mathmonPlacement":{"centerX":0.3,"centerY":0.69,"footY":0.83,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","log":{"centerX":0.3,"centerY":0.67,"footY":0.81,"height":0.26},"small":{"centerX":0.3,"centerY":0.67,"footY":0.81,"height":0.26},"bridge":{"centerX":0.3,"centerY":0.68,"footY":0.82,"height":0.26},"big":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26},"grand":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26},"rainbow":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26}}}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-bridge-v1-log-generated.webp","image":"result-log-v5-generated.webp","titleImage":"result-title-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-bridge-v1-small-generated.webp","image":"result-small-v5-generated.webp","titleImage":"result-title-small-generated.webp"},{"id":"bridge","name":"다리","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-bridge-v1-bridge-generated.webp","image":"result-bridge-v5-generated.webp","titleImage":"result-title-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-bridge-v1-big-generated.webp","image":"result-big-v5-generated.webp","titleImage":"result-title-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-bridge-v1-grand-generated.webp","image":"result-grand-v5-generated.webp","titleImage":"result-title-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-bridge-v1-rainbow-generated.webp","image":"result-rainbow-v5-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"다리 힘이 늘었어요","weight":6400,"min":6,"max":10,"family":"normal"},{"id":"loss","text":"다리 힘이 줄었어요","weight":1500,"min":-5,"max":-2,"family":"loss"},{"id":"mega","text":"다리 힘이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"mega"},{"id":"jackpot","text":"다리가 크게 빛나요","weight":500,"min":30,"max":30,"family":"complete"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"special","text":"무지개 다리가 나왔어요","weight":20,"min":100,"max":100,"family":"rainbow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"다리 힘이 줄었어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultPanelContainment":"result-panel-containment-v2","resultRewardDominance":"result-primary-reward-dominance-v1","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-v5-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-v4-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-v5-generated.webp","result-small-v5-generated.webp","result-bridge-v5-generated.webp","result-big-v5-generated.webp","result-grand-v5-generated.webp","result-rainbow-v5-generated.webp","result-title-log-generated.webp","result-title-small-generated.webp","result-title-bridge-generated.webp","result-title-big-generated.webp","result-title-grand-generated.webp","result-title-rainbow-generated.webp","play-bridge-v1-log-generated.webp","play-bridge-v1-small-generated.webp","play-bridge-v1-bridge-generated.webp","play-bridge-v1-big-generated.webp","play-bridge-v1-grand-generated.webp","play-bridge-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"emptyRewardAuditViewport":"user-reported-missing-left-progress-1082x987-dpr2","visualContractVersion":1,"correctFeedbackEffectAudit":{"standard":"bridge-answer-lock-effect-v1","trigger":".length-choice[data-state=\"correct\"]","workbench":".bridge-workshop","problemCard":".problem-card","completionPanel":"#completePanel","activeClass":"is-answer-locking","durationMs":680,"completionRevealMs":420,"preservesCorrectEquation":true,"supportsReducedMotion":true,"reviewViewport":{"name":"user-feedback-reward-1079x929","width":1079,"height":929}},"tutorialRewardAudit":{"standard":"tutorial-final-reward-cohesion-v1","selector":"#screen-tutorial .tutorial-card:nth-of-type(2) .tutorial-poster-art","source":"tutorial-page-2-v4-generated.webp","canvas":"1280x800","expectedBridgeStates":["log","small","bridge","big","grand","rainbow"],"expectedProtagonist":"zfa-03-sudalmon","characterAnatomy":"two-arms-two-paws","expectedVisibleText":["무엇을 얻어요?","10문제를 풀어요.","맞히면 다리가 더 멋져질 수 있어요.","가끔은 다리가 작아질 수도 있어요.","마지막에 내가 만든 다리를 봐요.","이전","문제 시작"],"humanizerGrade":"A","reviewViewport":{"name":"user-feedback-1079x929","width":1079,"height":929}},"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"user-feedback-reward-1079x929","width":1079,"height":929},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"dpr":2}],"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".compass-play-progress","image":".compass-play-progress-art","label":".compass-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["log","small","bridge","big","grand","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-03-sudalmon","panelPlacement":{"leftRatio":0.025,"topRatio":0.11,"widthRatio":0.245,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.3,"centerY":0.69,"footY":0.83,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".compass-play-progress","workArea":".bridge-workshop","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".compass-play-progress","image":".compass-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".compass-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":900,"tierUpDurationMs":1800,"minVisibleMs":1400,"minImpactStageWidthRatio":0.32,"contrastStandard":"bridge-gain-vs-tier-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"log","afterTier":"small"}},"rewardReentryAudit":{"standard":"reward-single-consumption-v1","trigger":"#rewardButton","modalNext":"#modalRewardNextButton","transitionAttribute":"data-reward-transitioning","hideTriggerDuringTransition":true,"disableTriggerDuringTransition":true},"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","complete":".complete-panel","verticalOrder":["primary","secondary"],"minStageWidthRatio":0.65},"completionAudit":{"standard":"completion-density-v1","panel":".complete-panel","text":".complete-text","action":"#rewardButton","minTextFontPx":32,"minActionWidthPx":220,"minActionHeightPx":80,"minActionFontPx":24,"minActionWidthRatio":0.24,"maxPanelHeightRatio":0.31,"minDominantHeightRatio":0.45,"minContentGapPx":24,"centerYTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"instructionRequired":false,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["title","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","axisNodes":["title","correct","next","retry"],"matchMode":"dark-neutral","scanStartRatio":0.32,"scanEndRatio":0.95,"minimumDetectedAxisX":700,"maximumDetectedAxisX":1120,"threshold":{"redMax":42,"greenMax":82,"blueMax":96},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"log":1038,"small":1038,"bridge":1038,"big":1038,"grand":1038,"rainbow":1038}},"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","sceneImage":"#resultBg","panelDetector":"resultBoardAudit","safeInsetPx":16,"containmentTolerancePx":1,"minimumVisibleGapPx":8,"requiredNodes":{"title":"#resultTitleArt","correct":"#resultCorrectArt","next":"#resultNextSvg","retry":"#retryButton"},"pairedNodes":{"retryVisual":".result-retry-art","retryHitbox":"#retryButton"},"visualHitboxTolerancePx":1,"optionalWhenHidden":["next"]},"resultRewardDominanceAudit":{"standard":"result-primary-reward-dominance-v1","sceneImage":"#resultBg","panelDetector":"resultBoardAudit","primaryRewardBoundsByTier":{"log":{"x":0,"y":470,"width":830,"height":250},"small":{"x":0,"y":445,"width":820,"height":285},"bridge":{"x":0,"y":350,"width":845,"height":390},"big":{"x":0,"y":330,"width":850,"height":420},"grand":{"x":0,"y":315,"width":850,"height":435},"rainbow":{"x":0,"y":285,"width":850,"height":465}},"minimumPrimaryRewardWidthRatio":0.6,"minimumPrimaryRewardAreaRatio":0.13,"minimumRewardRightEdgeRatio":0.6,"minimumPanelLeftRatio":0.6,"maximumPanelWidthRatio":0.38,"maximumPanelAreaRatio":0.25,"minimumRewardToPanelWidthRatio":1.45,"maximumRewardPanelOverlapRatio":0.03,"forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["다리\\s*힘\\s*\\d+"],"informationSelectors":["#resultTitleArt","#resultCorrectArt","#resultNextSvg","#retryButton"],"maximumVisibleInformationNodes":4},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"circleRelationAudit":{"standard":"circle-only-one-known-v4","promptMode":"ask-only","maxKnownLabels":1,"choiceTrackPx":228,"compactChoiceTrackPx":204,"smallChoiceTrackPx":196,"minChoiceHeightPx":80,"instructionBoardRemoved":true,"visual":".circle-relation-svg","circle":".bridge-circle","known":".known-length","answer":".source-question","equation":".bridge-equation","choice":".length-choice","choiceValue":".length-choice-value","forbidSelectors":[".bridge-target",".length-transfer",".bridge-part-svg",".installed-bridge"]},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit3-double-bridge-migration","id":"3-2-3-3","folder":"3-2-3-3-mathmon-double-bridge","modelName":"Lesson3DoubleBridgeModel","title":"매스몬 두 배 다리","shortTitle":"매스몬 두 배 다리","topic":"지름과 반지름의 관계","unitBadge":"3단원 원 · 3차시","goal":"반지름 두 개를 이으면 지름이 돼요.","action":"두 배 또는 반의 길이를 골라요.","buttonLabel":"점수 보기","rewardScreenTitle":"다리 힘","progressLabel":"다리 힘","rewardComplete":"다리 힘이 바뀌었어요.","tutorialTitle":"다리를 놓기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 이어요?","body":"반지름 두 개를 이으면 지름이 돼요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"마지막에 내가 만든 다리를 봐요.","image":"tutorial-page-2-v4-generated.webp"}],"tutorial":{"mode":"poster-two-step","rewardPreview":{"standard":"tutorial-final-reward-cohesion-v1","image":"tutorial-page-2-v4-generated.webp","canvas":"1280x800","protagonist":"zfa-03-sudalmon","characterAnatomy":"two-arms-two-paws","bridgeStates":["log","small","bridge","big","grand","rainbow"],"visibleText":["무엇을 얻어요?","10문제를 풀어요.","맞히면 다리가 더 멋져질 수 있어요.","가끔은 다리가 작아질 수도 있어요.","마지막에 내가 만든 다리를 봐요.","이전","문제 시작"]}},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"뚝딱뚝딱 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"normal":"reward-event-normal-generated.webp","loss":"reward-event-loss-generated.webp","mega":"reward-event-mega-generated.webp","complete":"reward-event-complete-generated.webp","empty":"reward-event-empty-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"normal":[0,0],"loss":[1,0],"mega":[2,0],"complete":[0,1],"empty":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showNextGoal":true,"layout":{"axisX":1038,"axisXByTier":{"log":1038,"small":1038,"bridge":1038,"big":1038,"grand":1038,"rainbow":1038},"titleTop":160,"titleWidth":320,"correctTop":300,"correctWidth":180,"nextY":475,"retryRect":{"x":878,"y":539,"width":320,"height":120},"byTier":{"log":{"titleWidth":320},"small":{"titleWidth":310},"bridge":{"titleWidth":220},"big":{"titleWidth":290},"grand":{"titleWidth":320},"rainbow":{"titleWidth":320}}},"stateImageSet":{"standard":"result-tier-fullscene-native-v1","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","objectFit":"cover","expectedStates":["log","small","bridge","big","grand","rainbow"],"expectedRanks":[0,1,2,3,4,5],"sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/source","runtimePngPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/runtime-png","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contact-sheets/result-fullscene-v5-contact-sheet.png","contract":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/result-fullscene-v5/contract.json","cacheVersion":"2026-08-04-result-fullscene-v5","protagonist":"zfa-03-sudalmon","nativeScenePerState":true,"forbidCharacterOverlay":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["environment","bridge","mathmon","blank-dynamic-panel","result-title","retry-button"],"dynamicOverlays":["result-title","correct-count","next-goal","retry-button"]}},"workbench":{"type":"circle-double-bridge","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","runtimeSlot":"left-progress-panel","objectFit":"contain","filePattern":"play-bridge-v1-*-generated.webp","sourceSetPath":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/source","contactSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-3-3/play-progress-v1/contact-sheets/play-bridge-progress-v1-anchor-audit.png","cacheVersion":"2026-08-01-left-progress-v1","protagonist":"zfa-03-sudalmon","requiredSubjects":["현재 다리","수달몬 전신"],"layoutContract":{"combinedFocalCenterX":0.5,"combinedFocalCenterY":0.58,"safeMarginRatio":0.05,"characterFullBody":true,"sameCameraAcrossStates":true,"mathmonPlacement":{"centerX":0.3,"centerY":0.69,"footY":0.83,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","log":{"centerX":0.3,"centerY":0.67,"footY":0.81,"height":0.26},"small":{"centerX":0.3,"centerY":0.67,"footY":0.81,"height":0.26},"bridge":{"centerX":0.3,"centerY":0.68,"footY":0.82,"height":0.26},"big":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26},"grand":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26},"rainbow":{"centerX":0.3,"centerY":0.7,"footY":0.85,"height":0.26}}}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"수달몬","mathmonId":"zfa-03-sudalmon","results":[{"id":"log","name":"외나무다리","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-bridge-v1-log-generated.webp","image":"result-log-v5-generated.webp","titleImage":"result-title-log-generated.webp"},{"id":"small","name":"작은 다리","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-bridge-v1-small-generated.webp","image":"result-small-v5-generated.webp","titleImage":"result-title-small-generated.webp"},{"id":"bridge","name":"다리","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-bridge-v1-bridge-generated.webp","image":"result-bridge-v5-generated.webp","titleImage":"result-title-bridge-generated.webp"},{"id":"big","name":"큰 다리","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-bridge-v1-big-generated.webp","image":"result-big-v5-generated.webp","titleImage":"result-title-big-generated.webp"},{"id":"grand","name":"튼튼한 다리","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-bridge-v1-grand-generated.webp","image":"result-grand-v5-generated.webp","titleImage":"result-title-grand-generated.webp"},{"id":"rainbow","name":"무지개 다리","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-bridge-v1-rainbow-generated.webp","image":"result-rainbow-v5-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"다리 힘이 늘었어요","weight":6400,"min":6,"max":10,"family":"normal"},{"id":"loss","text":"다리 힘이 줄었어요","weight":1500,"min":-5,"max":-2,"family":"loss"},{"id":"mega","text":"다리 힘이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"mega"},{"id":"jackpot","text":"다리가 크게 빛나요","weight":500,"min":30,"max":30,"family":"complete"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","keepsPower":true},{"id":"special","text":"무지개 다리가 나왔어요","weight":20,"min":100,"max":100,"family":"rainbow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"다리 힘이 줄었어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["지름-2","지름-3","지름-4","지름-5","지름-6","반지름-2","반지름-3","반지름-4","반지름-5","반지름-6"],"casesPerRun":[{"ask":"지름","radius":2},{"ask":"지름","radius":3},{"ask":"지름","radius":4},{"ask":"지름","radius":5},{"ask":"지름","radius":6},{"ask":"반지름","radius":2},{"ask":"반지름","radius":3},{"ask":"반지름","radius":4},{"ask":"반지름","radius":5},{"ask":"반지름","radius":6}],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultPanelContainment":"result-panel-containment-v2","resultRewardDominance":"result-primary-reward-dominance-v1","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"problem-workshop-v3-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"result-bridge-v5-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","problem-workshop-v3-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-v4-generated.webp","reward-event-closed-v2-generated.webp","reward-event-normal-generated.webp","reward-event-loss-generated.webp","reward-event-mega-generated.webp","reward-event-complete-generated.webp","reward-event-empty-generated.webp","reward-event-rainbow-generated.webp","result-log-v5-generated.webp","result-small-v5-generated.webp","result-bridge-v5-generated.webp","result-big-v5-generated.webp","result-grand-v5-generated.webp","result-rainbow-v5-generated.webp","result-title-log-generated.webp","result-title-small-generated.webp","result-title-bridge-generated.webp","result-title-big-generated.webp","result-title-grand-generated.webp","result-title-rainbow-generated.webp","play-bridge-v1-log-generated.webp","play-bridge-v1-small-generated.webp","play-bridge-v1-bridge-generated.webp","play-bridge-v1-big-generated.webp","play-bridge-v1-grand-generated.webp","play-bridge-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"emptyRewardAudit":true,"emptyRewardAuditViewport":"user-reported-missing-left-progress-1082x987-dpr2","visualContractVersion":1,"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","regressionName":"user-reported-unit-lesson-badge-text-2026-08-10","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 3단원 3차시","compactText":"3단원 원 · 3차시","requiresNoOverflow":true},"generatedTextAudit":[{"standard":"generated-raster-exact-text-v1","regressionName":"user-reported-cover-title-legibility-2026-08-10","source":"title-logo-source.png","asset":"title-logo-generated.webp","sourceSha256":"a1cf59c08cdb0c1d69f2c8c598d45498039413c257b36a6773ebf266f733cfae","assetSha256":"fa41aa9f3c95201060dc268dfd9e0d469174a5376c6a79a316b469e43079ce38","expectedVisibleText":["매스몬 두 배 다리"],"requiredGlyphs":["몬=ㅁ+ㅗ+ㄴ","리=ㄹ+ㅣ"],"requiresAlpha":true,"requiresTransparentCorners":true}],"correctFeedbackEffectAudit":{"standard":"bridge-answer-lock-effect-v1","trigger":".length-choice[data-state=\"correct\"]","workbench":".bridge-workshop","problemCard":".problem-card","completionPanel":"#completePanel","activeClass":"is-answer-locking","durationMs":680,"completionRevealMs":420,"preservesCorrectEquation":true,"supportsReducedMotion":true,"reviewViewport":{"name":"user-feedback-reward-1079x929","width":1079,"height":929}},"tutorialRewardAudit":{"standard":"tutorial-final-reward-cohesion-v1","selector":"#screen-tutorial .tutorial-card:nth-of-type(2) .tutorial-poster-art","source":"tutorial-page-2-v4-generated.webp","canvas":"1280x800","expectedBridgeStates":["log","small","bridge","big","grand","rainbow"],"expectedProtagonist":"zfa-03-sudalmon","characterAnatomy":"two-arms-two-paws","expectedVisibleText":["무엇을 얻어요?","10문제를 풀어요.","맞히면 다리가 더 멋져질 수 있어요.","가끔은 다리가 작아질 수도 있어요.","마지막에 내가 만든 다리를 봐요.","이전","문제 시작"],"humanizerGrade":"A","reviewViewport":{"name":"user-feedback-1079x929","width":1079,"height":929}},"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"user-feedback-reward-1079x929","width":1079,"height":929},{"name":"codex-in-app","width":1280,"height":720,"dpr":2},{"name":"user-visibility-994x632","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"dpr":2}],"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".compass-play-progress","image":".compass-play-progress-art","label":".compass-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["log","small","bridge","big","grand","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-03-sudalmon","panelPlacement":{"leftRatio":0.025,"topRatio":0.11,"widthRatio":0.245,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.3,"centerY":0.69,"footY":0.83,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".compass-play-progress","workArea":".bridge-workshop","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","panel":".compass-play-progress","image":".compass-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing","is-celebrating"],"tierUpClass":"is-tier-up","impactLayer":".compass-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":900,"tierUpDurationMs":1800,"minVisibleMs":1400,"minImpactStageWidthRatio":0.32,"contrastStandard":"bridge-gain-vs-tier-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"log","afterTier":"small"}},"rewardReentryAudit":{"standard":"reward-single-consumption-v1","trigger":"#rewardButton","modalNext":"#modalRewardNextButton","transitionAttribute":"data-reward-transitioning","hideTriggerDuringTransition":true,"disableTriggerDuringTransition":true},"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","complete":".complete-panel","verticalOrder":["primary","secondary"],"minStageWidthRatio":0.65},"completionAudit":{"standard":"completion-density-v1","panel":".complete-panel","text":".complete-text","action":"#rewardButton","minTextFontPx":32,"minActionWidthPx":220,"minActionHeightPx":80,"minActionFontPx":24,"minActionWidthRatio":0.24,"maxPanelHeightRatio":0.31,"minDominantHeightRatio":0.45,"minContentGapPx":24,"centerYTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".problem-card svg","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":40,"minInstructionPx":18,"instructionRequired":false,"minPrimarySvgTextPx":16,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["title","correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","axisNodes":["title","correct","next","retry"],"matchMode":"dark-neutral","scanStartRatio":0.32,"scanEndRatio":0.95,"minimumDetectedAxisX":700,"maximumDetectedAxisX":1120,"threshold":{"redMax":42,"greenMax":82,"blueMax":96},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"log":1038,"small":1038,"bridge":1038,"big":1038,"grand":1038,"rainbow":1038}},"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","sceneImage":"#resultBg","panelDetector":"resultBoardAudit","safeInsetPx":16,"containmentTolerancePx":1,"minimumVisibleGapPx":8,"requiredNodes":{"title":"#resultTitleArt","correct":"#resultCorrectArt","next":"#resultNextSvg","retry":"#retryButton"},"pairedNodes":{"retryVisual":".result-retry-art","retryHitbox":"#retryButton"},"visualHitboxTolerancePx":1,"optionalWhenHidden":["next"]},"resultRewardDominanceAudit":{"standard":"result-primary-reward-dominance-v1","sceneImage":"#resultBg","panelDetector":"resultBoardAudit","primaryRewardBoundsByTier":{"log":{"x":0,"y":470,"width":830,"height":250},"small":{"x":0,"y":445,"width":820,"height":285},"bridge":{"x":0,"y":350,"width":845,"height":390},"big":{"x":0,"y":330,"width":850,"height":420},"grand":{"x":0,"y":315,"width":850,"height":435},"rainbow":{"x":0,"y":285,"width":850,"height":465}},"minimumPrimaryRewardWidthRatio":0.6,"minimumPrimaryRewardAreaRatio":0.13,"minimumRewardRightEdgeRatio":0.6,"minimumPanelLeftRatio":0.6,"maximumPanelWidthRatio":0.38,"maximumPanelAreaRatio":0.25,"minimumRewardToPanelWidthRatio":1.45,"maximumRewardPanelOverlapRatio":0.03,"forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["다리\\s*힘\\s*\\d+"],"informationSelectors":["#resultTitleArt","#resultCorrectArt","#resultNextSvg","#retryButton"],"maximumVisibleInformationNodes":4},"misconceptionCoverage":["DIAMETER_NOT_DOUBLED","DIAMETER_ONE_SHORT","DIAMETER_TOO_LONG","RADIUS_NOT_HALVED","RADIUS_TOO_LONG","RADIUS_TOO_SHORT"],"circleRelationAudit":{"standard":"circle-only-one-known-v4","promptMode":"ask-only","maxKnownLabels":1,"choiceTrackPx":228,"compactChoiceTrackPx":204,"smallChoiceTrackPx":196,"minChoiceHeightPx":80,"instructionBoardRemoved":true,"visual":".circle-relation-svg","circle":".bridge-circle","known":".known-length","answer":".source-question","equation":".bridge-equation","choice":".length-choice","choiceValue":".length-choice-value","forbidSelectors":[".bridge-target",".length-transfer",".bridge-part-svg",".installed-bridge"]},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]}};
     const Lesson3DoubleBridgeModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -3742,6 +3771,7 @@
       leaderboardButtonArt: document.getElementById("leaderboardButtonArt"),
       leaderboardButton: document.getElementById("leaderboardButton"),
       retryButton: document.getElementById("retryButton") || document.getElementById("restartButton"),
+      resultRetryArt: document.querySelector("#screen-result .result-retry-art"),
       scoreboardScreen: document.getElementById("screen-scoreboard"),
     };
 
@@ -3858,7 +3888,7 @@
       const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
       const width = LessonModel.clamp((state.power / maxPower) * 100, 0, 100);
       ui.progressFill.style.width = `${width}%`;
-      ui.progressValue.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      ui.progressValue.textContent = `${LESSON_CONFIG.progressLabel || "점수"} ${state.power}`;
       ui.questionCount.textContent = `${Math.min(state.problemIndex + 1, TOTAL_QUESTIONS)}/${TOTAL_QUESTIONS}`;
     }
 
@@ -4179,19 +4209,7 @@
       }
 
       if (getRewardMode() === "stage-reveal") {
-        const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
-        ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
-        if (ui.rewardScene instanceof HTMLImageElement) {
-          ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
-        } else if (ui.rewardScene) {
-          ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
-        }
-        ui.rewardLabel.textContent = "";
-        ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
-        ui.rewardNextButton.disabled = false;
-        await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
-        showScreen("reward");
-        ui.rewardNextButton.focus({ preventScroll: true });
+        await prepareStageReward(event);
         return;
       }
 
@@ -4206,6 +4224,22 @@
       ui.rewardLabel.textContent = formatRewardText(event);
       ui.rewardNextButton.textContent = state.problemIndex >= state.problems.length - 1 ? "결과 보기" : "다음";
       showScreen("reward");
+    }
+
+    async function prepareStageReward(event) {
+      const beforeResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      ui.rewardScreenTitle.textContent = LESSON_CONFIG.rewardScreenTitle || "보상";
+      if (ui.rewardScene instanceof HTMLImageElement) {
+        ui.rewardScene.src = LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp";
+      } else if (ui.rewardScene) {
+        ui.rewardScene.style.backgroundImage = `url("${LESSON_CONFIG.imageAssets.rewardScene || "cover-generated.webp"}")`;
+      }
+      ui.rewardLabel.textContent = "";
+      ui.rewardNextButton.textContent = LESSON_CONFIG.reward?.closedLabel || "열기";
+      ui.rewardNextButton.disabled = false;
+      await runViewHook("onRewardPrepare", { event, beforePower: state.power, beforeResult, state });
+      showScreen("reward");
+      ui.rewardNextButton.focus({ preventScroll: true });
     }
 
     function openRewardModal(event, { revealOnOpen = false } = {}) {
@@ -4342,8 +4376,10 @@
     }
 
     function setRewardValue(amount) {
-      const unit = LESSON_CONFIG.reward?.unitLabel || LESSON_CONFIG.progressLabel || "힘";
-      const changeLabel = LESSON_CONFIG.reward?.changeLabel || unit;
+      const changeLabel = String(LESSON_CONFIG.reward?.changeLabel || "").trim();
+      if (!changeLabel) {
+        throw new Error("modal-art reward requires a lesson-specific reward.changeLabel");
+      }
       const value = Number(amount) || 0;
       const zeroLabel = LESSON_CONFIG.reward?.zeroLabel;
       ui.modalRewardLabel.textContent = value === 0 && zeroLabel
@@ -4397,6 +4433,15 @@
         ui.modalRewardNextButton.disabled = false;
       }
       if (getRewardMode() === "stage-reveal") {
+        const event = state.pendingRewardEvent;
+        if (typeof globalThis.onRewardDismiss === "function") {
+          showScreen("play");
+          await runViewHook("onRewardDismiss", {
+            event,
+            afterPower: state.power,
+            state,
+          });
+        }
         state.pendingRewardEvent = null;
         state.rewardPhase = "idle";
       }
@@ -4425,7 +4470,13 @@
         ui.resultPanelArt.hidden = !LESSON_CONFIG.imageAssets?.resultPanel;
         if (LESSON_CONFIG.imageAssets?.resultPanel) ui.resultPanelArt.src = LESSON_CONFIG.imageAssets.resultPanel;
       }
-      ui.resultTitleArt.src = result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover;
+      const resultTitleIsBakedIntoScene = LESSON_CONFIG.result?.stateImageSet?.titlePresentation === "scene-baked";
+      const resultRetryIsBakedIntoScene = LESSON_CONFIG.result?.stateImageSet?.retryPresentation === "scene-baked";
+      ui.resultTitleArt.src = resultTitleIsBakedIntoScene
+        ? (result.image || LESSON_CONFIG.imageAssets.resultScene || LESSON_CONFIG.imageAssets.cover)
+        : (result.titleImage || result.image || LESSON_CONFIG.imageAssets.cover);
+      ui.resultTitleArt.toggleAttribute("hidden", resultTitleIsBakedIntoScene);
+      if (ui.resultRetryArt) ui.resultRetryArt.toggleAttribute("hidden", resultRetryIsBakedIntoScene);
       ui.resultTitleArt.alt = "";
       ui.resultHeading.textContent = result.name || LESSON_CONFIG.title;
       const totalProblems = state.problems.length || LESSON_CONFIG.typesPerRun?.length || 10;
@@ -4436,7 +4487,7 @@
         ui.resultNextSvg.toggleAttribute("hidden", !LESSON_CONFIG.result?.showNextGoal);
       }
       if (ui.resultDestinationSvg) ui.resultDestinationSvg.textContent = result.name || LESSON_CONFIG.title;
-      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "힘"} ${state.power}`;
+      if (ui.resultMeasureSvg) ui.resultMeasureSvg.textContent = `${LESSON_CONFIG.progressLabel || "점수"} ${state.power}`;
       if (ui.resultMeasureFillSvg) {
         const maxPower = LESSON_CONFIG.reward?.maxPower ?? 100;
         const width = LessonModel.clamp((state.power / maxPower) * 360, 0, 360);
@@ -4448,7 +4499,8 @@
       ui.resultCorrectArt.hidden = !correctArt;
       if (correctArt) ui.resultCorrectArt.src = correctArt;
 
-      ui.resultTitleArt.hidden = false;
+      ui.resultTitleArt.hidden = resultTitleIsBakedIntoScene;
+      if (ui.resultRetryArt) ui.resultRetryArt.hidden = resultRetryIsBakedIntoScene;
       screens.result.dataset.resultTier = result.id || "";
 
       const leaderboardAsset = LESSON_CONFIG.imageAssets.resultLeaderboardButton;
@@ -4806,6 +4858,56 @@
       },
     };
 
+    async function forceRewardEventForQa(eventId, options = {}) {
+      const isWrong = eventId === "wrong" || eventId === LESSON_CONFIG.wrongEvent?.id;
+      const source = isWrong
+        ? LESSON_CONFIG.wrongEvent
+        : LESSON_CONFIG.rewardEvents?.find((event) => event.id === eventId);
+      if (!source) throw new Error(`Unknown reward event for QA: ${eventId}`);
+
+      startGame();
+      state.power = Number.isFinite(Number(options.beforePower)) ? Number(options.beforePower) : 40;
+      state.correctFirstTry = Number.isFinite(Number(options.correctFirstTry)) ? Number(options.correctFirstTry) : 5;
+      state.specialSeen = Boolean(options.specialSeen);
+      state.completed = true;
+      state.mistakeTouched = isWrong;
+      const fallbackAmount = source.special ? 100 : Number(source.min ?? source.max ?? 0);
+      const event = {
+        ...source,
+        amount:Number.isFinite(Number(options.amount)) ? Number(options.amount) : fallbackAmount,
+      };
+      state.pendingRewardEvent = event;
+      state.rewardPhase = "closed";
+      setRewardTransitioning(true);
+      const beforePower = state.power;
+
+      if (getRewardMode() === "modal-art") {
+        openRewardModal(event, { revealOnOpen:false });
+        if (options.reveal !== false) await revealRewardModal({ immediateValue:true });
+      } else if (getRewardMode() === "stage-reveal") {
+        await prepareStageReward(event);
+        if (options.reveal !== false) await revealStageReward();
+      } else {
+        throw new Error(`Reward language QA does not support mode: ${getRewardMode()}`);
+      }
+
+      const currentResult = LessonModel.getResult(state.power, state.correctFirstTry, state.specialSeen);
+      const nextResult = typeof LessonModel.getNextResult === "function"
+        ? LessonModel.getNextResult(currentResult)
+        : currentResult;
+      return {
+        eventId:event.id,
+        eventAmount:Number(event.amount) || 0,
+        rewardPhase:state.rewardPhase,
+        beforePower,
+        power:state.power,
+        delta:state.power - beforePower,
+        currentResult:{ id:currentResult?.id || "", name:currentResult?.name || "" },
+        nextResult:{ id:nextResult?.id || "", name:nextResult?.name || "" },
+        isHighestTier:Boolean(currentResult?.id && currentResult.id === nextResult?.id),
+      };
+    }
+
     window.__mathmonEngineQa = {
       startGame,
       renderProblem,
@@ -4813,6 +4915,7 @@
       showScreen,
       showReward,
       revealStageReward,
+      forceRewardEvent: forceRewardEventForQa,
       setState: (patch = {}) => {
         const allowed = [
           "problemIndex", "stepIndex", "power", "correctFirstTry", "specialSeen",
