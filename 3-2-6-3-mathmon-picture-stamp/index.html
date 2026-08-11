@@ -215,7 +215,6 @@
         }
         .brand-badge img { margin-right: 0; }
         .brand-badge--logo { gap: 8px; }
-        .brand-logo { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
         .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #35d9b2; box-shadow: 0 0 12px #35d9b2; }
         .unit-badge .badge-dot { background: #60d7ff; box-shadow: 0 0 12px #60d7ff; }
         .topic-badge {
@@ -970,6 +969,32 @@
       outline: 3px solid rgba(255, 255, 255, 0.74);
       outline-offset: -3px;
     }
+/* mathmon-brand-mark-v1: one shared visual contract for every lesson header. */
+.mathmon-brand-mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 28px !important;
+  height: 20px !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: contain;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
+
+.brand-badge > .mathmon-brand-mark,
+.cover-brand-label > .mathmon-brand-mark {
+  align-self: center;
+}
+
+.cover-brand-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
     .stage-shell {
       --sound-button-size: 42px;
@@ -2570,7 +2595,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="stage-reveal" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="picture-stamp" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-6-3" data-commit-sha="dda9db7ebd4b10baa4610aa7e55c577b27309db2" data-lesson-json-sha256="61519b86fc55c29fc7f6fad45672a5cfaa2929015e63821d0964f1edb26567fd" data-build-inputs-sha256="811d0fd6e20fe55e0e5dea661320b55e7639e28a06902f1469aea3ff754f7f67"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-6-3" data-commit-sha="f513750bf6af4b45a0271539d746e1a88c7a4bd8" data-lesson-json-sha256="61519b86fc55c29fc7f6fad45672a5cfaa2929015e63821d0964f1edb26567fd" data-build-inputs-sha256="fd27271ed77ac6523429e47b64bc494cd18bd8eec39bb74adcb60ad5731809a1"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2598,22 +2623,22 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="brand-logo" src="../_shared/brand/eduitit-logo-mark.png" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 6단원 3차시</div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 6단원 3차시</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 그림 도장 찍기</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">큰 도장과 작은 도장으로 수를 나타내요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">큰 그림과 작은 그림으로 수 나타내기</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리 · 3차시</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리 · 3차시</div></div>
         <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">도장을 찍기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>큰 도장부터 골라요</strong><p>큰 도장 수를 골라요. 다음에 작은 도장 수를 골라요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>열 문제를 풀어요</strong><p>상자를 열어 그래프 전시실을 밝혀요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="도장 점수"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">첫 도장판</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리 · 3차시</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="도장 점수"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">첫 도장판</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리 · 3차시</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">도장 상자 열기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="problem-background-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>도장 상자</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">도장 상자</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">첫 도장판</p><p class="reward-change" id="rewardChange">도장 점수가 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
@@ -2627,7 +2652,7 @@
       </div>
       <section class="screen result" id="screen-result" data-result-tier="first" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-bg-first-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><span class="badge-dot" aria-hidden="true"></span>오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리 · 3차시</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>6단원 자료의 정리 · 3차시</div></div>
         <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="result-panel-generated.webp" alt="" aria-hidden="true" ><img class="result-title-art" id="resultTitleArt" src="result-title-1-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="retryButton" type="button" aria-label="다시"><img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">첫 도장판</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
@@ -2882,7 +2907,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img src="../_shared/brand/eduitit-logo-mark.png" alt="">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
