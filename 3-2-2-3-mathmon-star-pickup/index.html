@@ -1444,11 +1444,14 @@
     .game[data-workbench-type="remainder-stars"] .instruction,
     .game[data-workbench-type="remainder-stars"] .feedback-line {
       grid-area: 1 / 1;
+      width: 100%;
       max-width: 100%;
       min-height: 0;
       margin: 0;
+      padding-inline: 20px;
+      box-sizing: border-box;
       color: #251a05;
-      font-size: 22px;
+      font-size: 26px;
       line-height: 1.1;
       font-weight: 1000;
       text-align: center;
@@ -1504,6 +1507,10 @@
       font-variant-numeric: tabular-nums;
     }
 
+    .game[data-workbench-type="remainder-stars"] .star-remainder-choice {
+      grid-template-rows: 1fr;
+    }
+
     .game[data-workbench-type="remainder-stars"] .star-choice strong {
       max-width: 100%;
       font-size: 34px;
@@ -1529,7 +1536,8 @@
     }
 
     .game[data-workbench-type="remainder-stars"] .star-remainder-choice strong {
-      font-size: 36px;
+      font-size: 48px;
+      line-height: 1;
     }
 
     .game[data-workbench-type="remainder-stars"] .star-remainder-choice span {
@@ -1620,6 +1628,15 @@
       border: 2px solid rgba(255, 225, 119, .56);
       background: rgba(9, 18, 43, .9);
       box-shadow: 0 0 34px rgba(255, 211, 84, .2), 0 28px 70px rgba(0, 0, 0, .52);
+    }
+
+    .game[data-workbench-type="remainder-stars"][data-reward-modal-standard="unit3-modal-art-compact-v2"] .reward-card {
+      width: 430px;
+      max-width: 82%;
+      height: 480px;
+      min-height: 0;
+      aspect-ratio: 43 / 48;
+      box-sizing: border-box;
     }
 
     .game[data-workbench-type="remainder-stars"] .reward-label {
@@ -1898,7 +1915,7 @@
 
       .game[data-workbench-type="remainder-stars"] .instruction,
       .game[data-workbench-type="remainder-stars"] .feedback-line {
-        font-size: 19px;
+        font-size: 24px;
       }
 
       .game[data-workbench-type="remainder-stars"] .star-choice strong {
@@ -1915,6 +1932,10 @@
 
       .game[data-workbench-type="remainder-stars"] .star-quotient-choice span {
         font-size: 21px;
+      }
+
+      .game[data-workbench-type="remainder-stars"] .star-remainder-choice strong {
+        font-size: 44px;
       }
 
       .game[data-workbench-type="remainder-stars"] .complete-text {
@@ -3215,7 +3236,7 @@
             {
               id: "remainder",
               label: "남은 별",
-              instruction: "묶고 남은 별을 세어 봐요.",
+              instruction: "남은 별은 몇 개?",
               answer: remainder,
               answerChoiceId: remainderAnswerId,
               choices: shuffle([
@@ -3965,14 +3986,24 @@
       ui.rewardPop.querySelector(".reward-card")?.setAttribute("data-reward-phase", "revealed");
       playSample(event.rarity === "legend" ? "reward-legend" : event.rarity === "rare" ? "reward-rare" : "reward-open");
       const revealHook = runViewHook("onRewardReveal", { event, beforePower, afterPower: state.power, state });
-      if (immediateValue) setRewardValue(event.amount);
+      if (immediateValue) {
+        setRewardValue(event.amount);
+        state.rewardPhase = "revealed";
+        ui.modalRewardOpenButton.hidden = true;
+        ui.modalRewardOpenButton.disabled = true;
+        ui.modalRewardNextButton.hidden = false;
+        ui.modalRewardNextButton.disabled = false;
+        ui.modalRewardNextButton.focus({ preventScroll: true });
+      }
       await revealHook;
       if (immediateValue) setRewardValue(event.amount);
       else await animateRewardValue(event);
-      state.rewardPhase = "revealed";
-      ui.modalRewardOpenButton.disabled = false;
-      ui.modalRewardNextButton.hidden = false;
-      ui.modalRewardNextButton.focus();
+      if (!immediateValue) {
+        state.rewardPhase = "revealed";
+        ui.modalRewardOpenButton.disabled = true;
+        ui.modalRewardNextButton.hidden = false;
+        ui.modalRewardNextButton.focus({ preventScroll: true });
+      }
     }
 
     function nextAnimationFrame() {
@@ -4673,17 +4704,17 @@
         if (Number.isFinite(selected.product)) button.dataset.product = String(selected.product);
 
         const primary = document.createElement("strong");
-        const secondary = document.createElement("span");
         if (step.id === "quotient") {
+          const secondary = document.createElement("span");
           primary.textContent = String(selected.value);
           secondary.textContent = "묶음";
           button.setAttribute("aria-label", `${selected.value}묶음`);
+          button.append(primary, secondary);
         } else {
           primary.textContent = `${selected.value}개`;
-          secondary.textContent = "남은 별";
           button.setAttribute("aria-label", `남은 별 ${selected.value}개`);
+          button.append(primary);
         }
-        button.append(primary, secondary);
         button.addEventListener("click", () => choose(selected, button));
         ui.choices.appendChild(button);
       }
@@ -4929,7 +4960,7 @@
       const gapY = isRoomyCapsuleGrid ? 10 : 8;
       const capsuleRows = Math.ceil(problem.quotient / capsuleColumns);
       const capsuleGridHeight = capsuleRows * height + Math.max(0, capsuleRows - 1) * gapY;
-      const capsuleAreaTop = 80;
+      const capsuleAreaTop = 64;
       const capsuleAreaHeight = 262;
       const startY = capsuleAreaTop + Math.max(0, (capsuleAreaHeight - capsuleGridHeight) / 2);
       const summaryY = Math.max(52, Math.min(100, startY - 30));
@@ -5128,7 +5159,7 @@
           {
             id: "remainder",
             label: "남은 별",
-            instruction: "묶고 남은 별을 세어 봐요.",
+            instruction: "남은 별은 몇 개?",
             answer: remainder,
             answerChoiceId: `remainder:${remainder}`,
             choices: [
