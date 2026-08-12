@@ -1,0 +1,2321 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f2552">
+  <link rel="icon" href="data:,">
+  <title>소셜몬 달라진 생활 찾기</title>
+  <style>
+:root {
+  color-scheme: light;
+  font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  --navy: #102a56;
+  --navy-deep: #081b3a;
+  --cream: #fff9e9;
+  --paper: #fffef8;
+  --teal: #1d9b91;
+  --teal-dark: #08736e;
+  --coral: #ff735e;
+  --yellow: #ffd452;
+  --green: #47a85a;
+  --red: #d84d4d;
+  --ink: #18304d;
+  --muted: #5e6d7d;
+  --line: #cad8dc;
+  --shadow: 0 1.15cqw 2.5cqw rgb(7 34 63 / 18%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #dce9e8;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+}
+
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 0.3cqw solid #ffe173;
+  outline-offset: 0.25cqw;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.social-game {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  place-items: center;
+}
+
+.stage-shell {
+  position: relative;
+  width: min(100vw, 160vh);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  container-type: inline-size;
+  background:
+    radial-gradient(circle at 14% 16%, rgb(255 255 255 / 80%) 0 6%, transparent 6.3%),
+    linear-gradient(150deg, #fff5ca 0%, #ddf5ed 42%, #cbe9f5 100%);
+  box-shadow: 0 1.25cqw 4cqw rgb(5 27 55 / 24%);
+  isolation: isolate;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 2.1cqw 2.5cqw 2.5cqw;
+  overflow: hidden;
+}
+
+.screen::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.raster-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.screen.is-active {
+  animation: screen-in 260ms ease-out both;
+}
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(0.7cqw); }
+  to { opacity: 1; transform: none; }
+}
+
+.top-row,
+.quiz-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 4.22cqw;
+  padding-right: 6.4cqw;
+  gap: 0.75cqw;
+}
+
+.brand-badge,
+.unit-badge,
+.question-progress {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: max-content;
+  min-height: 3.1cqw;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.42cqw 1.08cqw;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 0.35cqw 0.8cqw rgb(11 44 67 / 12%);
+}
+
+.play-progress-group {
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+}
+
+.trace-progress {
+  min-height: var(--sound-button-size);
+  display: flex;
+  align-items: center;
+  gap: 0.25cqw;
+  padding: 0 1.1cqw;
+  border: 0.16cqw solid #f4b94e;
+  border-radius: 999px;
+  background: #fff8d9;
+  color: #704715;
+  font-size: clamp(14px, 1.25cqw, 17px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.brand-badge {
+  border: 0.15cqw solid rgb(255 255 255 / 72%);
+  background: var(--navy);
+  color: white;
+  font-size: clamp(13px, 1.17cqw, 15px);
+}
+
+.unit-badge {
+  border: 0.15cqw solid #f5c447;
+  background: #fff7cd;
+  color: #6c4b06;
+  font-size: clamp(13px, 1.17cqw, 15px);
+}
+
+.settings-toggle {
+  position: absolute;
+  z-index: 20;
+  top: 2.1cqw;
+  right: 2.5cqw;
+  width: max(44px, 4.22cqw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0.78cqw;
+  border: 0.16cqw solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  box-shadow: 0 0.45cqw 1cqw rgb(8 28 56 / 22%);
+  cursor: pointer;
+}
+
+.settings-toggle:hover {
+  background: #173b78;
+}
+
+.settings-toggle svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+/* Cover */
+.screen-cover::before {
+  background: linear-gradient(180deg, rgb(255 255 255 / 5%), rgb(255 249 224 / 8%));
+}
+
+.social-game[data-component-lab="true"] .screen-cover::before {
+  background:
+    linear-gradient(rgb(255 255 255 / 18%), rgb(255 255 255 / 18%)),
+    radial-gradient(circle at 50% 100%, #68b8aa 0 25%, transparent 25.2%),
+    linear-gradient(150deg, #16366e 0 32%, #176b79 32% 61%, #e8c65e 61% 100%);
+}
+
+.cover-decoration,
+.cover-decoration > span {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cover-orbit {
+  border: 0.25cqw solid rgb(255 255 255 / 22%);
+  border-radius: 50%;
+}
+
+.orbit-one { width: 28cqw; height: 28cqw; left: -10cqw; bottom: -9cqw; }
+.orbit-two { width: 22cqw; height: 22cqw; right: -5cqw; top: 9cqw; }
+.cover-pin { width: 1.1cqw; height: 1.1cqw; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0.45cqw rgb(255 212 82 / 24%); }
+.pin-one { left: 16%; top: 42%; }
+.pin-two { right: 13%; bottom: 22%; }
+
+.cover-content {
+  position: absolute;
+  inset: 9.2cqw 13cqw 3cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.series-kicker,
+.panel-eyebrow,
+.question-kind {
+  margin: 0;
+  color: var(--teal-dark);
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.series-kicker {
+  color: #ffeaa0;
+  font-size: clamp(13px, 1.32cqw, 17px);
+}
+
+.cover-content h1 {
+  max-width: 72cqw;
+  margin: 0.85cqw 0 0;
+  padding: 0.08em 0 0.14em;
+  color: white;
+  font-size: clamp(42px, 5.7cqw, 73px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-shadow: 0 0.5cqw 0 #0b224b, 0 0.9cqw 1.6cqw rgb(4 20 45 / 28%);
+  overflow-wrap: anywhere;
+}
+
+.social-game[data-component-lab="false"] .cover-decoration {
+  display: none;
+}
+
+.social-game[data-component-lab="false"] .series-kicker {
+  color: var(--teal-dark);
+  text-shadow: 0 0.15cqw 0 rgb(255 255 255 / 72%);
+}
+
+.social-game[data-component-lab="false"] .cover-content h1 {
+  max-width: 60cqw;
+  color: var(--navy);
+  text-shadow: 0 0.25cqw 0 white, 0 0.65cqw 1.25cqw rgb(108 72 22 / 18%);
+}
+
+.social-game[data-component-lab="false"] .cover-goal {
+  color: var(--navy);
+  text-shadow: 0 0.12cqw 0 white;
+}
+
+.cover-goal {
+  width: min(60cqw, 760px);
+  margin: 1.15cqw 0 0;
+  color: white;
+  font-size: clamp(19px, 2cqw, 26px);
+  font-weight: 760;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.cover-start-button {
+  position: relative;
+  width: clamp(300px, 28.125cqw, 360px);
+  aspect-ratio: 1611 / 680;
+  margin-top: clamp(14px, 1.55cqw, 20px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 0.55cqw 0.45cqw rgb(4 24 46 / 28%));
+}
+
+.cover-start-button:hover { transform: translateY(-0.18cqw); }
+.cover-start-button:active { transform: translateY(0.12cqw) scale(0.98); }
+.start-button-art { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+/* Tutorial */
+.screen-tutorial::before {
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgb(255 255 255 / 18%) 48% 52%, transparent 52%),
+    linear-gradient(150deg, #ddf4eb, #fcf0bd);
+}
+
+.tutorial-panel {
+  width: 76cqw;
+  min-height: 43cqw;
+  margin: 1.1cqw auto 0;
+  padding: 3cqw 4cqw 2.4cqw;
+  border: 0.22cqw solid #fff;
+  border-radius: 2.3cqw;
+  background: rgb(255 254 248 / 94%);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.panel-eyebrow,
+.question-kind {
+  font-size: clamp(13px, 1.18cqw, 15px);
+}
+
+.tutorial-panel h2,
+.result-panel h2 {
+  margin: 0.65cqw auto 1.5cqw;
+  color: var(--navy);
+  font-size: clamp(28px, 3cqw, 39px);
+  line-height: 1.18;
+}
+
+.tutorial-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tutorial-step;
+}
+
+.tutorial-steps li {
+  counter-increment: tutorial-step;
+  min-height: 10.4cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7cqw;
+  padding: 1.15cqw;
+  border: 0.16cqw solid #c8ded9;
+  border-radius: 1.35cqw;
+  background: white;
+  color: var(--ink);
+  font-size: clamp(16px, 1.55cqw, 20px);
+  font-weight: 790;
+  line-height: 1.35;
+}
+
+.tutorial-steps li::before {
+  content: counter(tutorial-step);
+  width: 3.35cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  font-weight: 900;
+}
+
+.tutorial-reward {
+  max-width: 58cqw;
+  min-height: 4.8cqw;
+  display: flex;
+  align-items: center;
+  margin: 1.35cqw auto;
+  padding: 0.75cqw 1.2cqw;
+  border-radius: 1cqw;
+  background: #fff4cc;
+  color: #59400b;
+  font-size: clamp(15px, 1.36cqw, 18px);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.action-button,
+.workbench-submit,
+.sequence-reset {
+  min-width: 12cqw;
+  min-height: max(44px, 4.3cqw);
+  padding: 0.75cqw 1.75cqw;
+  border: 0.16cqw solid #08736e;
+  border-radius: 999px;
+  background: var(--teal);
+  color: white;
+  font-size: clamp(16px, 1.48cqw, 19px);
+  font-weight: 900;
+  line-height: 1.1;
+  box-shadow: 0 0.38cqw 0 #08736e, 0 0.65cqw 1cqw rgb(8 62 72 / 16%);
+  cursor: pointer;
+}
+
+.action-button:hover,
+.workbench-submit:hover { background: #25aea2; }
+.action-button:active,
+.workbench-submit:active { transform: translateY(0.2cqw); box-shadow: 0 0.18cqw 0 #08736e; }
+.action-button:disabled,
+.workbench-submit:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+/* Quiz */
+.screen-play::before {
+  background:
+    radial-gradient(circle at 6% 92%, rgb(23 151 137 / 12%) 0 10%, transparent 10.2%),
+    linear-gradient(145deg, #edf9f4 0 50%, #fff3cc 100%);
+}
+
+.quiz-header {
+  justify-content: space-between;
+}
+
+.quiz-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75cqw;
+}
+
+.question-progress {
+  margin-right: 0;
+  border: 0.16cqw solid #b4cecb;
+  background: white;
+  color: var(--navy);
+  font-size: clamp(15px, 1.36cqw, 18px);
+  font-variant-numeric: tabular-nums;
+}
+
+.question-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24cqw;
+  gap: 1.4cqw;
+  height: 51.4cqw;
+  margin-top: 0.55cqw;
+}
+
+.question-layout:not(.has-feedback) .question-card {
+  grid-column: 1 / -1;
+}
+
+.question-card,
+.feedback-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 0.18cqw solid rgb(255 255 255 / 88%);
+  border-radius: 1.65cqw;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 0.75cqw 1.8cqw rgb(23 67 75 / 14%);
+}
+
+.question-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.45cqw 2.1cqw 1.55cqw;
+}
+
+.question-prompt {
+  max-width: 88cqw;
+  margin: 0.45cqw 0 0;
+  color: var(--navy);
+  font-size: clamp(23px, 2.25cqw, 29px);
+  line-height: 1.3;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.question-instruction {
+  margin: 0.42cqw 0 0;
+  color: var(--muted);
+  font-size: clamp(14px, 1.32cqw, 17px);
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.question-workbench {
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 0.85cqw;
+  overflow: hidden;
+}
+
+.feedback-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 2cqw;
+  background: #fff9dd;
+}
+
+.feedback-panel.is-correct { border-color: #5dbd70; background: #effbea; }
+.feedback-panel.is-wrong { border-color: #e87676; background: #fff0ec; }
+
+.feedback-panel strong {
+  color: var(--navy);
+  font-size: clamp(24px, 2.3cqw, 30px);
+  text-align: center;
+}
+
+.feedback-panel p {
+  margin: 1cqw 0 1.6cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 680;
+  line-height: 1.5;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.trace-continue-button { width: 100%; }
+
+.workbench-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  margin-top: 1.1cqw;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.05cqw;
+}
+
+.choice-option,
+.pair-option,
+.classify-target,
+.sequence-item {
+  min-width: 0;
+  min-height: max(52px, 5.1cqw);
+  border: 0.16cqw solid #b6d2d0;
+  border-radius: 1.05cqw;
+  background: #f7fffd;
+  color: var(--ink);
+  font-size: clamp(16px, 1.58cqw, 20px);
+  font-weight: 800;
+  line-height: 1.3;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.choice-option.has-image {
+  min-height: max(92px, 8.5cqw);
+  display: grid;
+  grid-template-columns: minmax(6.5cqw, 0.42fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.85cqw;
+  padding: 0.7cqw;
+  text-align: left;
+}
+
+.option-image {
+  width: 100%;
+  max-height: 6.5cqw;
+  border-radius: 0.65cqw;
+  object-fit: cover;
+}
+
+.choice-option:hover,
+.pair-option:hover,
+.classify-target:hover,
+.sequence-item:hover { border-color: var(--teal); background: #e9fbf7; }
+
+.choice-option[aria-pressed="true"],
+.pair-option[aria-pressed="true"],
+.classify-target[aria-pressed="true"],
+.sequence-item[aria-pressed="true"] {
+  border-color: var(--navy);
+  background: #dfeaff;
+  box-shadow: inset 0 0 0 0.18cqw var(--navy);
+}
+
+.source-card,
+.situation-card {
+  width: min(78cqw, 100%);
+  max-width: 78cqw;
+  margin: 0 auto 0.85cqw;
+  padding: 1.15cqw 1.45cqw;
+  border-left: 0.55cqw solid var(--coral);
+  border-radius: 0.8cqw;
+  background: #fff7e7;
+  color: var(--ink);
+  font-size: clamp(15px, 1.42cqw, 18px);
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.source-card.has-image {
+  display: grid;
+  grid-template-columns: 14cqw minmax(0, 1fr);
+  align-items: center;
+  gap: 1.15cqw;
+  padding: 0.8cqw 1.15cqw;
+}
+
+.source-image {
+  display: block;
+  width: 14cqw;
+  aspect-ratio: 224 / 143;
+  border: 0.12cqw solid rgb(16 42 86 / 18%);
+  border-radius: 0.7cqw;
+  object-fit: cover;
+}
+
+.source-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.source-credit {
+  display: block;
+  margin-top: 0.45cqw;
+  color: var(--muted);
+  font-size: clamp(11px, 0.98cqw, 13px);
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.source-card strong,
+.situation-card strong { display: block; margin-bottom: 0.35cqw; color: #93402f; }
+
+.match-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3.5cqw minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.7cqw;
+}
+
+.match-column {
+  display: grid;
+  gap: 0.65cqw;
+}
+
+.match-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--teal-dark);
+  font-size: clamp(24px, 2.6cqw, 34px);
+  font-weight: 900;
+}
+
+.pair-option {
+  position: relative;
+  padding: 0.6cqw 3.2cqw 0.6cqw 1cqw;
+  text-align: left;
+}
+
+.pair-number {
+  position: absolute;
+  right: 0.75cqw;
+  top: 50%;
+  width: 2cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  font-size: clamp(12px, 1.05cqw, 14px);
+}
+
+.classify-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85cqw;
+}
+
+.classify-row {
+  display: grid;
+  grid-template-columns: minmax(7cqw, 0.8fr) repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.55cqw;
+  min-width: 0;
+  padding: 0.55cqw;
+  border-radius: 0.9cqw;
+  background: #f3f7f5;
+}
+
+.classify-item {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.5cqw;
+  color: var(--navy);
+  font-size: clamp(15px, 1.45cqw, 18px);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.classify-target {
+  min-height: max(44px, 4cqw);
+  padding: 0.4cqw;
+  font-size: clamp(13px, 1.2cqw, 16px);
+}
+
+.sequence-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8cqw;
+}
+
+.sequence-item {
+  position: relative;
+  min-height: max(78px, 8cqw);
+  padding: 1cqw;
+}
+
+.sequence-order {
+  position: absolute;
+  left: 0.6cqw;
+  top: 0.6cqw;
+  width: 2.2cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--coral);
+  color: white;
+  font-size: clamp(12px, 1.05cqw, 14px);
+  font-weight: 900;
+}
+
+.sequence-reset {
+  min-width: 8cqw;
+  border-color: #9daeb2;
+  background: white;
+  color: var(--ink);
+  box-shadow: none;
+}
+
+/* Trace reveal */
+.settings-modal,
+.trace-reveal-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 4cqw;
+  background: rgb(7 23 51 / 62%);
+  backdrop-filter: blur(0.25cqw);
+}
+
+.trace-toast {
+  position: absolute;
+  z-index: 55;
+  left: 50%;
+  top: 50%;
+  min-width: 24cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  padding: 1.4cqw 2cqw;
+  transform: translate(-50%, -50%);
+  border: 0.22cqw solid #fff;
+  border-radius: 999px;
+  background: #fff4bf;
+  color: var(--navy);
+  box-shadow: 0 1cqw 2.4cqw rgb(4 16 38 / 32%);
+  font-size: clamp(21px, 2.05cqw, 28px);
+  animation: trace-pop 500ms ease both;
+}
+
+.trace-stamp {
+  width: 5cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: rotate(-8deg);
+  border: 0.28cqw solid #c26c3b;
+  border-radius: 50% 50% 46% 54%;
+  color: #9a4b27;
+  font-size: clamp(10px, 0.9cqw, 12px);
+  font-weight: 950;
+}
+
+@keyframes trace-pop {
+  0% { transform: translate(-50%, -50%) scale(0.78); opacity: 0; }
+  55% { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.trace-reveal-card {
+  width: 39cqw;
+  min-height: 44cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.4cqw;
+  border: 0.25cqw solid white;
+  border-radius: 2cqw;
+  background: linear-gradient(160deg, #fffdf0, #eafaf5);
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+}
+
+.trace-character-frame {
+  position: relative;
+  width: 22cqw;
+  height: 22cqw;
+  margin-bottom: 1.2cqw;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff5ac 0 42%, #c8eee5 43% 70%, transparent 71%);
+}
+
+.trace-character-image {
+  width: 21cqw;
+  height: 21cqw;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) opacity(0.76);
+}
+
+.trace-reveal-card[data-phase="trait"] .trace-character-image {
+  filter: brightness(0) saturate(100%) opacity(0.52);
+}
+
+.trace-reveal-card h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(24px, 2.4cqw, 31px);
+  text-align: center;
+}
+
+.trace-reveal-copy {
+  min-height: 3.4cqw;
+  margin: 0.8cqw 0 1.2cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* Result */
+.screen-result::before {
+  background: linear-gradient(90deg, rgb(255 255 255 / 2%) 0 58%, rgb(4 30 49 / 8%) 100%);
+}
+
+.social-game[data-component-lab="true"] .screen-result::before {
+  background:
+    radial-gradient(circle at 27% 49%, rgb(255 236 130 / 72%) 0 18%, transparent 35%),
+    linear-gradient(150deg, #b6ece0 0 55%, #ffe29a 55% 100%);
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(30cqw, 0.75fr);
+  align-items: center;
+  gap: 2.4cqw;
+  height: 52.5cqw;
+  margin-top: 0.35cqw;
+}
+
+.result-character-stage {
+  position: relative;
+  height: 50cqw;
+  display: grid;
+  place-items: center;
+}
+
+.result-halo {
+  position: absolute;
+  width: 38cqw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 10deg, rgb(255 255 255 / 50%) 0 10deg, transparent 10deg 22deg);
+  animation: halo-spin 22s linear infinite;
+}
+
+@keyframes halo-spin { to { transform: rotate(360deg); } }
+
+.result-character-image {
+  position: relative;
+  z-index: 1;
+  width: min(45cqw, 576px);
+  height: min(45cqw, 576px);
+  object-fit: contain;
+  filter: drop-shadow(0 1.2cqw 0.7cqw rgb(9 48 63 / 25%));
+}
+
+.result-panel {
+  max-height: 45cqw;
+  padding: 2.5cqw 2.2cqw;
+  border: 0.22cqw solid white;
+  border-radius: 1.8cqw;
+  background: rgb(255 254 245 / 94%);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.result-correct {
+  margin: 0.65cqw 0;
+  color: var(--navy);
+  font-size: clamp(22px, 2.2cqw, 28px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-discovery-label {
+  display: block;
+  width: fit-content;
+  margin: 1.1cqw 0 0;
+  padding: 0.35cqw 0.75cqw;
+  border-radius: 999px;
+  background: #fff0a8;
+  color: #734715;
+  font-size: clamp(13px, 1.15cqw, 15px);
+}
+
+.result-next {
+  margin: 1cqw 0 1.7cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+/* Settings */
+.settings-card {
+  width: 34cqw;
+  padding: 2.2cqw;
+  border: 0.22cqw solid white;
+  border-radius: 1.7cqw;
+  background: var(--paper);
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+}
+
+.settings-card h2 {
+  margin: 0 0 1.3cqw;
+  color: var(--navy);
+  font-size: clamp(25px, 2.5cqw, 32px);
+  text-align: center;
+}
+
+.settings-row,
+.settings-action,
+.settings-close {
+  width: 100%;
+  min-height: max(44px, 4.3cqw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.65cqw;
+  padding: 0.75cqw 1cqw;
+  border: 0.14cqw solid #c7d5d4;
+  border-radius: 0.8cqw;
+  background: white;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 780;
+  cursor: pointer;
+}
+
+.settings-action,
+.settings-close { justify-content: center; }
+.settings-close { margin-top: 1.2cqw; border-color: var(--navy); background: var(--navy); color: white; }
+
+.switch-mark {
+  position: relative;
+  width: 3.7cqw;
+  height: 2.1cqw;
+  border-radius: 999px;
+  background: #a9b5b6;
+}
+
+.switch-mark::after {
+  position: absolute;
+  top: 0.25cqw;
+  left: 0.25cqw;
+  width: 1.6cqw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0.1cqw 0.3cqw rgb(0 0 0 / 18%);
+  content: "";
+  transition: transform 180ms ease;
+}
+
+.settings-row[aria-checked="true"] .switch-mark { background: var(--teal); }
+.settings-row[aria-checked="true"] .switch-mark::after { transform: translateX(1.6cqw); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+@media (max-aspect-ratio: 4 / 3) {
+  .brand-badge,
+  .unit-badge { padding-inline: 0.8cqw; }
+  .question-layout { gap: 1cqw; }
+}
+
+  </style>
+</head>
+<body>
+  <main
+    class="social-game"
+    data-engine="socialmon-quiz-lite-v1"
+    data-series-profile="socialmon-quiz-lite-contract-v2"
+    data-screen-flow-standard="socialmon-four-screen-flow-v1"
+    data-question-interaction-standard="socialmon-tap-interactions-v1"
+    data-reward-standard="socialmon-trace-reveal-v1"
+    data-stage-ratio="16:10"
+    data-stage-size="1280x800"
+    data-settings-standard="modal-controls"
+    data-cover-standard="socialmon-lite-raster-frame-v1"
+    data-result-standard="socialmon-character-card-v1"
+    data-component-lab="false"
+  >
+    <div class="stage-shell" id="stageShell">
+      <button class="settings-toggle" id="settingsToggle" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M21 5h6l1.2 5a16 16 0 0 1 3.8 1.6l4.4-2.6 4.2 4.2-2.6 4.4a16 16 0 0 1 1.6 3.8l5 1.2v6l-5 1.2a16 16 0 0 1-1.6 3.8l2.6 4.4-4.2 4.2-4.4-2.6a16 16 0 0 1-3.8 1.6L27 45h-6l-1.2-5a16 16 0 0 1-3.8-1.6L11.6 41 7.4 36.8l2.6-4.4a16 16 0 0 1-1.6-3.8l-5-1.2v-6l5-1.2a16 16 0 0 1 1.6-3.8L7.4 13l4.2-4.2 4.4 2.6a16 16 0 0 1 3.8-1.6L21 5Z"/>
+          <circle cx="24" cy="24" r="6"/>
+        </svg>
+      </button>
+
+      <section class="screen is-active screen-cover" id="screenCover" data-screen="cover" aria-labelledby="coverTitle">
+        <img class="raster-bg cover-raster-bg" id="coverBackground" alt="" aria-hidden="true" hidden>
+        <div class="cover-decoration" aria-hidden="true">
+          <span class="cover-orbit orbit-one"></span>
+          <span class="cover-orbit orbit-two"></span>
+          <span class="cover-pin pin-one"></span>
+          <span class="cover-pin pin-two"></span>
+        </div>
+        <div class="top-row cover-top-row">
+          <span class="brand-badge">에듀잇티 사회 게임</span>
+          <span class="unit-badge" id="coverUnitBadge"></span>
+        </div>
+        <div class="cover-content">
+          <p class="series-kicker">SOCIALMON QUIZ</p>
+          <h1 id="coverTitle"></h1>
+          <p class="cover-goal" id="coverGoal" data-text-align-role="sentence"></p>
+          <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
+            <img class="start-button-art" id="startButtonArt" alt="" aria-hidden="true">
+          </button>
+        </div>
+      </section>
+
+      <section class="screen screen-tutorial" id="screenTutorial" data-screen="tutorial" aria-labelledby="tutorialTitle" hidden>
+        <div class="top-row">
+          <span class="brand-badge">에듀잇티 사회 게임</span>
+          <span class="unit-badge" id="tutorialUnitBadge"></span>
+        </div>
+        <div class="tutorial-panel">
+          <p class="panel-eyebrow">방법 보기</p>
+          <h2 id="tutorialTitle"></h2>
+          <ol class="tutorial-steps" id="tutorialSteps"></ol>
+          <div class="tutorial-reward" id="tutorialReward" data-text-align-role="sentence"></div>
+          <button class="action-button" id="tutorialStartButton" type="button">문제 시작</button>
+        </div>
+      </section>
+
+      <section class="screen screen-play" id="screenPlay" data-screen="play" aria-labelledby="questionPrompt" hidden>
+        <header class="quiz-header">
+          <div class="quiz-header-left">
+            <span class="brand-badge">에듀잇티 사회 게임</span>
+            <span class="unit-badge" id="playUnitBadge"></span>
+          </div>
+          <div class="play-progress-group">
+            <div class="trace-progress" id="traceProgress" aria-live="polite">흔적 <span id="traceCount">0</span>/<span id="traceTotal">6</span></div>
+            <div class="question-progress" aria-live="polite"><span id="questionNumber">1</span>/<span id="questionTotal">6</span></div>
+          </div>
+        </header>
+        <div class="question-layout" id="questionLayout">
+          <section class="question-card" id="questionCard">
+            <p class="question-kind" id="questionKind"></p>
+            <h2 class="question-prompt" id="questionPrompt" data-text-align-role="sentence"></h2>
+            <p class="question-instruction" id="questionInstruction" data-text-align-role="sentence"></p>
+            <div class="question-workbench" id="questionWorkbench"></div>
+          </section>
+          <aside class="feedback-panel" id="feedbackPanel" aria-live="polite" hidden>
+            <strong id="feedbackLabel"></strong>
+            <p id="feedbackText" data-text-align-role="sentence"></p>
+            <button class="action-button trace-continue-button" id="continueButton" type="button">다음 문제</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
+        <img class="raster-bg result-raster-bg" id="resultBackground" alt="" aria-hidden="true" hidden>
+        <div class="top-row">
+          <span class="brand-badge">에듀잇티 사회 게임</span>
+          <span class="unit-badge" id="resultUnitBadge"></span>
+        </div>
+        <div class="result-layout">
+          <div class="result-character-stage">
+            <div class="result-halo" aria-hidden="true"></div>
+            <img id="resultCharacterImage" class="result-character-image" alt="">
+          </div>
+          <section class="result-panel">
+            <p class="panel-eyebrow">오늘 만난 소셜몬</p>
+            <h2 id="resultTitle"></h2>
+            <p class="result-correct" id="resultCorrect"></p>
+            <strong class="result-discovery-label">오늘의 발견</strong>
+            <p class="result-next" id="resultDiscovery" data-text-align-role="sentence"></p>
+            <button class="action-button" id="restartButton" type="button">처음으로</button>
+          </section>
+        </div>
+      </section>
+
+      <div class="trace-toast" id="traceToast" role="status" aria-live="polite" hidden>
+        <span class="trace-stamp" aria-hidden="true">발자국</span>
+        <strong id="traceToastLabel">흔적을 찾았어요!</strong>
+      </div>
+
+      <div class="trace-reveal-modal" id="traceRevealModal" role="dialog" aria-modal="true" aria-labelledby="traceRevealTitle" hidden>
+        <section class="trace-reveal-card" id="traceRevealCard" data-phase="silhouette">
+          <p class="panel-eyebrow" id="traceRevealStep">첫 번째 힌트</p>
+          <div class="trace-character-frame">
+            <img class="trace-character-image" id="traceCharacterImage" alt="">
+          </div>
+          <h2 id="traceRevealTitle">누구의 그림자일까요?</h2>
+          <p class="trace-reveal-copy" id="traceRevealCopy" data-text-align-role="sentence"></p>
+          <button class="action-button" id="traceRevealNextButton" type="button">다음 문제</button>
+        </section>
+      </div>
+
+      <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+        <section class="settings-card">
+          <h2 id="settingsTitle">설정</h2>
+          <button class="settings-row" id="bgmToggle" type="button" role="switch" aria-checked="true">
+            <span>배경 소리</span><span class="switch-mark" aria-hidden="true"></span>
+          </button>
+          <button class="settings-row" id="sfxToggle" type="button" role="switch" aria-checked="true">
+            <span>효과 소리</span><span class="switch-mark" aria-hidden="true"></span>
+          </button>
+          <button class="settings-action" id="reviewTutorialButton" type="button">방법 다시 보기</button>
+          <button class="settings-action" id="resetButton" type="button">처음부터</button>
+          <button class="settings-close" id="settingsClose" type="button">닫기</button>
+        </section>
+      </div>
+
+      <div class="visually-hidden" id="liveRegion" aria-live="assertive"></div>
+    </div>
+  </main>
+
+  <script
+    id="socialmonBuildMeta"
+    type="application/json"
+    data-quiz-json-sha256="767225186b641589c1498717fa28baca26758ad8ae20c28ba4dd10872e2fdc0e"
+    data-profile-json-sha256="112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67"
+    data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
+    data-engine-sha256="8f8c97089e4a6bcca0a5ef750d4fb436b7ac0161c016bb55c841d22ac040f4e7"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"8f8c97089e4a6bcca0a5ef750d4fb436b7ac0161c016bb55c841d22ac040f4e7","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"767225186b641589c1498717fa28baca26758ad8ae20c28ba4dd10872e2fdc0e","profileJson":"_shared/socialmon/profiles/quiz-lite-v1/profile.json","profileJsonSha256":"112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","builtAt":"2026-08-12T01:43:59.585Z"}</script>
+  <script>
+    const SOCIAL_QUIZ_CONFIG = {
+  "engineVersion": "socialmon-quiz-lite-v1",
+  "profileId": "socialmon-quiz-lite-profile-v1",
+  "themePackId": "socialmon-3-2-social-change-v1",
+  "recipeId": "evidence-discovery",
+  "gameNo": 1,
+  "id": "socialmon-3-2-u1-g01-changing-life",
+  "folder": "socialmon-3-2-u1-g01-changing-life",
+  "title": "소셜몬 달라진 생활 찾기",
+  "topic": "우리 사회의 변화 모습",
+  "unitBadge": "3학년 2학기 · 1단원 2차시",
+  "goal": "사회가 달라지며 바뀐 생활 모습을 찾아봐요.",
+  "roundMinutes": "5~7",
+  "contentStatus": "publisher-source-backed",
+  "curriculum": {
+    "grade": 3,
+    "semester": 2,
+    "unit": 1,
+    "sourceLessons": [
+      1,
+      2
+    ],
+    "achievementStandard": "[4사03-01]",
+    "learningObjective": "오늘날 우리 사회의 변화 모습을 자료에서 찾아 설명한다."
+  },
+  "sourcePolicy": {
+    "factualMedia": "publisher-source-only",
+    "generatedMediaAsEvidence": false,
+    "ledger": "SOURCE_LEDGER.md"
+  },
+  "questions": [
+    {
+      "id": "q1-old-school-lunch",
+      "type": "source-choice",
+      "prompt": "옛날에는 도시락을 먹었어요. 오늘날 많은 학교에서는 무엇을 먹나요?",
+      "instruction": "사진과 글을 보고 하나 골라요.",
+      "source": {
+        "title": "1960년 학교의 점심시간",
+        "text": "학생들이 교실에서 집에서 가져온 도시락을 먹었습니다.",
+        "image": "assets/source-1960-school-lunch.webp",
+        "alt": "교실 책상에서 도시락을 먹는 학생들의 옛 사진",
+        "credit": "자료: 사회 1 지도서 27쪽"
+      },
+      "options": [
+        {
+          "id": "school-meal",
+          "text": "학교 급식"
+        },
+        {
+          "id": "camping-food",
+          "text": "야영 음식"
+        },
+        {
+          "id": "market-food",
+          "text": "시장 음식"
+        },
+        {
+          "id": "airplane-food",
+          "text": "비행기 기내식"
+        }
+      ],
+      "correctId": "school-meal",
+      "explanation": "오늘날 많은 학교에서는 점심시간에 학교 급식을 먹어요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_1_지도서.pdf",
+        "pdfPage": 12,
+        "printedPage": 27,
+        "textbookPage": 13,
+        "basis": "옛 학교의 도시락과 오늘날 학교 급식을 비교한다."
+      }
+    },
+    {
+      "id": "q2-school-then-now",
+      "type": "match",
+      "prompt": "옛날 학교 모습과 오늘날 모습을 이어 볼까요?",
+      "instruction": "왼쪽을 누른 뒤 알맞은 오른쪽을 눌러요.",
+      "left": [
+        {
+          "id": "old-name",
+          "text": "국민학교"
+        },
+        {
+          "id": "split-class",
+          "text": "오전반·오후반"
+        },
+        {
+          "id": "lunchbox",
+          "text": "도시락"
+        }
+      ],
+      "right": [
+        {
+          "id": "school-meal",
+          "text": "학교 급식"
+        },
+        {
+          "id": "elementary-name",
+          "text": "초등학교"
+        },
+        {
+          "id": "no-split-class",
+          "text": "오전반·오후반 없음"
+        }
+      ],
+      "pairs": {
+        "old-name": "elementary-name",
+        "split-class": "no-split-class",
+        "lunchbox": "school-meal"
+      },
+      "explanation": "학교 이름과 수업 모습, 점심시간의 모습이 달라졌어요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_1_지도서.pdf",
+        "pdfPage": 12,
+        "printedPage": 27,
+        "textbookPage": 13,
+        "basis": "옛 학교와 오늘날 학교의 명칭, 수업 반, 점심 모습을 비교한다."
+      }
+    },
+    {
+      "id": "q3-change-feature",
+      "type": "choice",
+      "prompt": "사회 모습은 시간이 흐르면 어떻게 될까요?",
+      "instruction": "가장 알맞은 말을 하나 골라요.",
+      "options": [
+        {
+          "id": "keeps-changing",
+          "text": "계속 달라져요."
+        },
+        {
+          "id": "always-same",
+          "text": "늘 똑같아요."
+        },
+        {
+          "id": "only-past",
+          "text": "옛날 모습만 남아요."
+        },
+        {
+          "id": "all-gone",
+          "text": "한 번에 모두 사라져요."
+        }
+      ],
+      "correctId": "keeps-changing",
+      "explanation": "사회 모습은 사라지거나 새로 생기며 계속 달라져요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_1_지도서.pdf",
+        "pdfPage": 12,
+        "printedPage": 27,
+        "textbookPage": 13,
+        "basis": "사회 모습은 끊임없이 변하며 사라지거나 새로 생기거나 다른 모습으로 바뀐다."
+      }
+    },
+    {
+      "id": "q4-childcare-change",
+      "type": "source-choice",
+      "prompt": "문을 닫는 어린이집이 늘어난 까닭은 무엇일까요?",
+      "instruction": "자료를 읽고 하나 골라요.",
+      "source": {
+        "title": "달라진 어린이집 모습",
+        "text": "태어나는 아이가 줄면서 문을 닫는 어린이집이 늘고 있습니다.",
+        "credit": "자료: 사회 1 지도서 32쪽"
+      },
+      "options": [
+        {
+          "id": "fewer-births",
+          "text": "태어나는 아이가 줄어서"
+        },
+        {
+          "id": "more-robots",
+          "text": "청소 로봇이 늘어서"
+        },
+        {
+          "id": "more-food",
+          "text": "여러 나라 음식이 늘어서"
+        },
+        {
+          "id": "more-buses",
+          "text": "버스가 빨라져서"
+        }
+      ],
+      "correctId": "fewer-births",
+      "explanation": "태어나는 아이가 줄면 어린이집을 이용할 아이도 줄어요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_1_지도서.pdf",
+        "pdfPage": 17,
+        "printedPage": 32,
+        "basis": "어린이 수 감소로 어린이집이 문을 닫는 사례를 다룬다."
+      }
+    },
+    {
+      "id": "q5-causes-classify",
+      "type": "classify",
+      "prompt": "달라진 생활 모습을 까닭에 따라 나누어 볼까요?",
+      "instruction": "각 줄에서 알맞은 모둠을 골라요.",
+      "groups": [
+        {
+          "id": "people-life",
+          "label": "사람 수·수명"
+        },
+        {
+          "id": "technology",
+          "label": "과학 기술"
+        }
+      ],
+      "items": [
+        {
+          "id": "closed-childcare",
+          "text": "문 닫는 어린이집"
+        },
+        {
+          "id": "senior-center",
+          "text": "노인 복지 시설"
+        },
+        {
+          "id": "cleaning-robot",
+          "text": "집을 청소하는 로봇"
+        },
+        {
+          "id": "tablet-class",
+          "text": "태블릿을 쓰는 수업"
+        }
+      ],
+      "answers": {
+        "closed-childcare": "people-life",
+        "senior-center": "people-life",
+        "cleaning-robot": "technology",
+        "tablet-class": "technology"
+      },
+      "explanation": "사람 수와 수명이 달라지고 과학 기술이 발달하며 생활도 달라져요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_1_지도서.pdf",
+        "pdfPage": 13,
+        "printedPage": 28,
+        "textbookPage": 14,
+        "basis": "사람 수·평균 수명의 변화와 과학 기술 발달을 사회 변화의 원인으로 제시한다."
+      }
+    },
+    {
+      "id": "q6-cause-and-life",
+      "type": "match",
+      "prompt": "사회가 달라진 까닭과 생활 모습을 이어 볼까요?",
+      "instruction": "왼쪽을 누른 뒤 알맞은 오른쪽을 눌러요.",
+      "left": [
+        {
+          "id": "longer-life",
+          "text": "평균 수명이 늘었어요."
+        },
+        {
+          "id": "technology-growth",
+          "text": "과학 기술이 발달했어요."
+        },
+        {
+          "id": "more-exchange",
+          "text": "다른 나라와 교류가 많아졌어요."
+        }
+      ],
+      "right": [
+        {
+          "id": "world-food",
+          "text": "여러 나라 음식 가게가 늘었어요."
+        },
+        {
+          "id": "senior-welfare",
+          "text": "노인 복지 시설이 늘었어요."
+        },
+        {
+          "id": "home-robot",
+          "text": "로봇이 집안일을 도와요."
+        }
+      ],
+      "pairs": {
+        "longer-life": "senior-welfare",
+        "technology-growth": "home-robot",
+        "more-exchange": "world-food"
+      },
+      "explanation": "사회가 달라진 까닭에 따라 사람들의 생활 모습도 달라져요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_1_지도서.pdf",
+        "pdfPage": 13,
+        "printedPage": 28,
+        "textbookPage": 14,
+        "basis": "평균 수명, 과학 기술, 다른 나라와의 교류와 각각의 생활 변화 사례를 연결한다."
+      }
+    }
+  ],
+  "resultSelection": {
+    "candidateResultIds": [
+      "platypusmon",
+      "meerkatmon",
+      "elephantmon"
+    ],
+    "discoveryText": "사회가 달라지면 우리가 먹고 배우고 소식을 나누는 모습도 달라져요."
+  },
+  "standards": {
+    "screenFlow": "socialmon-four-screen-flow-v1",
+    "questionInteraction": "socialmon-tap-interactions-v1",
+    "reward": "socialmon-trace-reveal-v1"
+  },
+  "tutorial": {
+    "title": "세 가지만 기억해요!",
+    "steps": [
+      "자료를 먼저 봐요.",
+      "답을 골라요.",
+      "소셜몬 흔적을 찾아요."
+    ],
+    "rewardText": "두 문제마다 소셜몬 힌트가 보여요. 끝까지 풀면 소셜몬을 만나요."
+  },
+  "reward": {
+    "standard": "socialmon-trace-reveal-v1",
+    "stampDurationMs": 500,
+    "checkpoints": [
+      {
+        "afterQuestion": 2,
+        "phase": "silhouette",
+        "label": "첫 번째 힌트",
+        "title": "누구의 그림자일까요?",
+        "copy": "모양을 잘 살펴봐요."
+      },
+      {
+        "afterQuestion": 4,
+        "phase": "trait",
+        "label": "두 번째 힌트",
+        "title": "이런 재주가 있어요!"
+      }
+    ],
+    "candidateResultIds": [
+      "platypusmon",
+      "meerkatmon",
+      "elephantmon"
+    ],
+    "discoveryText": "사회가 달라지면 우리가 먹고 배우고 소식을 나누는 모습도 달라져요."
+  },
+  "results": [
+    {
+      "id": "kiwimon",
+      "name": "키위몬",
+      "trait": "작은 단서를 잘 찾아요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp"
+    },
+    {
+      "id": "platypusmon",
+      "name": "오리너구리몬",
+      "trait": "두 모습을 빠르게 비교해요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp"
+    },
+    {
+      "id": "meerkatmon",
+      "name": "미어캣몬",
+      "trait": "주변의 달라진 모습을 먼저 찾아요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp"
+    },
+    {
+      "id": "elephantmon",
+      "name": "코끼몬",
+      "trait": "옛날과 오늘의 이야기를 잘 기억해요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp"
+    },
+    {
+      "id": "cranemon",
+      "name": "두루미몬",
+      "trait": "멀리 오가는 소식을 잘 이어요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp"
+    },
+    {
+      "id": "pangolinmon",
+      "name": "천산갑몬",
+      "trait": "함께 지킬 약속을 든든하게 지켜요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp"
+    }
+  ],
+  "assets": {
+    "startButton": "../../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "resultBackground": "../../_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp",
+    "characterPack": "../../_shared/socialmon/discovery-pack-v1/manifest.json",
+    "coverBackground": "../../_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp"
+  },
+  "qa": {
+    "viewports": [
+      {
+        "name": "desktop-1280x800",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "name": "tablet-landscape-1024x768",
+        "width": 1024,
+        "height": 768
+      }
+    ],
+    "requiredScreens": [
+      "cover",
+      "tutorial",
+      "play",
+      "result"
+    ],
+    "requiredFlowStates": [
+      "answering",
+      "feedback-correct",
+      "feedback-wrong",
+      "trace-stamped",
+      "trace-silhouette",
+      "trace-trait"
+    ],
+    "requiredOverlays": [
+      "settings",
+      "trace-reveal"
+    ],
+    "forbidTextOverflow": true,
+    "forbidSiblingOverlap": true,
+    "requireSourceEvidence": true,
+    "forbidGeneratedFactualEvidence": true
+  }
+};
+(() => {
+  "use strict";
+
+  const escapeHtml = (value) => String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+  const makeSubmitArea = (root, controller, onSubmit, options = {}) => {
+    const actions = document.createElement("div");
+    actions.className = "workbench-actions";
+
+    if (options.reset) {
+      const resetButton = document.createElement("button");
+      resetButton.type = "button";
+      resetButton.className = "sequence-reset";
+      resetButton.textContent = "다시 고르기";
+      resetButton.addEventListener("click", () => {
+        if (controller.locked) return;
+        controller.reset();
+        controller.refresh();
+      });
+      actions.append(resetButton);
+    }
+
+    const submitButton = document.createElement("button");
+    submitButton.type = "button";
+    submitButton.className = "workbench-submit";
+    submitButton.textContent = options.submitLabel || "답 확인";
+    submitButton.disabled = true;
+    submitButton.addEventListener("click", () => {
+      if (controller.locked || !controller.isComplete()) return;
+      controller.lock();
+      onSubmit(controller.getAnswer());
+    });
+    actions.append(submitButton);
+    root.append(actions);
+
+    controller.refreshSubmit = () => {
+      submitButton.disabled = controller.locked || !controller.isComplete();
+    };
+    controller.submitButton = submitButton;
+  };
+
+  const lockButtons = (root) => {
+    root.querySelectorAll("button").forEach((button) => {
+      button.disabled = true;
+    });
+  };
+
+  const renderChoice = (root, question, onSubmit) => {
+    let selectedId = null;
+    const controller = {
+      locked: false,
+      getAnswer: () => selectedId,
+      isComplete: () => selectedId !== null,
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        root.querySelectorAll(".choice-option").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.optionId === selectedId));
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    if (question.source) {
+      const source = document.createElement("article");
+      source.className = "source-card";
+      if (question.source.image) {
+        source.classList.add("has-image");
+        const image = document.createElement("img");
+        image.className = "source-image";
+        image.src = question.source.image;
+        image.alt = question.source.alt || "";
+        source.append(image);
+      }
+      const copy = document.createElement("div");
+      copy.className = "source-copy";
+      const title = document.createElement("strong");
+      title.textContent = question.source.title || "자료";
+      const text = document.createElement("span");
+      text.textContent = question.source.text;
+      copy.append(title, text);
+      if (question.source.credit) {
+        const credit = document.createElement("small");
+        credit.className = "source-credit";
+        credit.textContent = question.source.credit;
+        copy.append(credit);
+      }
+      source.append(copy);
+      root.append(source);
+    }
+
+    if (question.situation) {
+      const situation = document.createElement("article");
+      situation.className = "situation-card";
+      situation.innerHTML = `<strong>${escapeHtml(question.situation.title || "이럴 때")}</strong>${escapeHtml(question.situation.text)}`;
+      root.append(situation);
+    }
+
+    const grid = document.createElement("div");
+    grid.className = "choice-grid";
+    question.options.forEach((option) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "choice-option";
+      button.dataset.optionId = option.id;
+      button.setAttribute("aria-pressed", "false");
+      if (option.image) {
+        button.classList.add("has-image");
+        const image = document.createElement("img");
+        image.className = "option-image";
+        image.src = option.image;
+        image.alt = option.alt || "";
+        const text = document.createElement("span");
+        text.textContent = option.text;
+        button.append(image, text);
+      } else {
+        button.textContent = option.text;
+      }
+      button.addEventListener("click", () => {
+        if (controller.locked) return;
+        selectedId = option.id;
+        controller.refresh();
+      });
+      grid.append(button);
+    });
+    root.append(grid);
+    makeSubmitArea(root, controller, onSubmit);
+    controller.refresh();
+    return controller;
+  };
+
+  const renderMatch = (root, question, onSubmit) => {
+    let selectedLeftId = null;
+    const pairs = {};
+    const controller = {
+      locked: false,
+      getAnswer: () => ({ ...pairs }),
+      isComplete: () => question.left.every((item) => Boolean(pairs[item.id])),
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        const orderByLeft = new Map(question.left.map((item, index) => [item.id, index + 1]));
+        root.querySelectorAll("[data-left-id]").forEach((button) => {
+          const leftId = button.dataset.leftId;
+          button.setAttribute("aria-pressed", String(leftId === selectedLeftId));
+          const number = button.querySelector(".pair-number");
+          number.hidden = !pairs[leftId];
+          number.textContent = pairs[leftId] ? String(orderByLeft.get(leftId)) : "";
+        });
+        root.querySelectorAll("[data-right-id]").forEach((button) => {
+          const rightId = button.dataset.rightId;
+          const pairedLeft = Object.keys(pairs).find((leftId) => pairs[leftId] === rightId);
+          button.setAttribute("aria-pressed", String(Boolean(pairedLeft)));
+          const number = button.querySelector(".pair-number");
+          number.hidden = !pairedLeft;
+          number.textContent = pairedLeft ? String(orderByLeft.get(pairedLeft)) : "";
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    const board = document.createElement("div");
+    board.className = "match-board";
+    const leftColumn = document.createElement("div");
+    leftColumn.className = "match-column";
+    question.left.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pair-option";
+      button.dataset.leftId = item.id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<span>${escapeHtml(item.text)}</span><span class="pair-number" hidden></span>`;
+      button.addEventListener("click", () => {
+        if (controller.locked) return;
+        selectedLeftId = item.id;
+        controller.refresh();
+      });
+      leftColumn.append(button);
+    });
+
+    const arrow = document.createElement("div");
+    arrow.className = "match-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "↔";
+
+    const rightColumn = document.createElement("div");
+    rightColumn.className = "match-column";
+    question.right.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pair-option";
+      button.dataset.rightId = item.id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<span>${escapeHtml(item.text)}</span><span class="pair-number" hidden></span>`;
+      button.addEventListener("click", () => {
+        if (controller.locked || !selectedLeftId) return;
+        Object.keys(pairs).forEach((leftId) => {
+          if (pairs[leftId] === item.id) delete pairs[leftId];
+        });
+        pairs[selectedLeftId] = item.id;
+        selectedLeftId = null;
+        controller.refresh();
+      });
+      rightColumn.append(button);
+    });
+
+    board.append(leftColumn, arrow, rightColumn);
+    root.append(board);
+    makeSubmitArea(root, controller, onSubmit, { submitLabel: "짝 확인" });
+    controller.refresh();
+    return controller;
+  };
+
+  const renderClassify = (root, question, onSubmit) => {
+    const selections = {};
+    const controller = {
+      locked: false,
+      getAnswer: () => ({ ...selections }),
+      isComplete: () => question.items.every((item) => Boolean(selections[item.id])),
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        root.querySelectorAll("[data-classify-item][data-group-id]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(selections[button.dataset.classifyItem] === button.dataset.groupId));
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    const board = document.createElement("div");
+    board.className = "classify-board";
+    question.items.forEach((item) => {
+      const row = document.createElement("div");
+      row.className = "classify-row";
+      const label = document.createElement("span");
+      label.className = "classify-item";
+      label.textContent = item.text;
+      row.append(label);
+      question.groups.forEach((group) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "classify-target";
+        button.dataset.classifyItem = item.id;
+        button.dataset.groupId = group.id;
+        button.setAttribute("aria-pressed", "false");
+        button.textContent = group.label;
+        button.addEventListener("click", () => {
+          if (controller.locked) return;
+          selections[item.id] = group.id;
+          controller.refresh();
+        });
+        row.append(button);
+      });
+      board.append(row);
+    });
+    root.append(board);
+    makeSubmitArea(root, controller, onSubmit, { submitLabel: "답 확인" });
+    controller.refresh();
+    return controller;
+  };
+
+  const renderSequence = (root, question, onSubmit) => {
+    let order = [];
+    const controller = {
+      locked: false,
+      getAnswer: () => [...order],
+      isComplete: () => order.length === question.items.length,
+      reset() { order = []; },
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        root.querySelectorAll("[data-sequence-id]").forEach((button) => {
+          const index = order.indexOf(button.dataset.sequenceId);
+          button.setAttribute("aria-pressed", String(index >= 0));
+          const marker = button.querySelector(".sequence-order");
+          marker.hidden = index < 0;
+          marker.textContent = index >= 0 ? String(index + 1) : "";
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    const board = document.createElement("div");
+    board.className = "sequence-board";
+    question.items.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "sequence-item";
+      button.dataset.sequenceId = item.id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<span class="sequence-order" hidden></span><span>${escapeHtml(item.text)}</span>`;
+      button.addEventListener("click", () => {
+        if (controller.locked) return;
+        const index = order.indexOf(item.id);
+        if (index >= 0) order.splice(index, 1);
+        else order.push(item.id);
+        controller.refresh();
+      });
+      board.append(button);
+    });
+    root.append(board);
+    makeSubmitArea(root, controller, onSubmit, { submitLabel: "순서 확인", reset: true });
+    controller.refresh();
+    return controller;
+  };
+
+  const registry = {
+    choice: renderChoice,
+    "source-choice": renderChoice,
+    "situation-choice": renderChoice,
+    match: renderMatch,
+    classify: renderClassify,
+    sequence: renderSequence
+  };
+
+  window.SocialQuizComponents = Object.freeze({
+    escapeHtml,
+    supportedTypes: Object.freeze(Object.keys(registry)),
+    mount(root, question, options) {
+      const renderer = registry[question.type];
+      if (!renderer) throw new Error(`지원하지 않는 문제 형식입니다: ${question.type}`);
+      root.replaceChildren();
+      return renderer(root, question, options.onSubmit);
+    }
+  });
+})();
+
+(() => {
+  "use strict";
+
+  const config = SOCIAL_QUIZ_CONFIG;
+  const byId = (id) => document.getElementById(id);
+  const screens = [...document.querySelectorAll("[data-screen]")];
+  const kindLabels = {
+    choice: "하나 고르기",
+    match: "짝 잇기",
+    classify: "나누어 보기",
+    sequence: "순서 세우기",
+    "source-choice": "자료 살펴보기",
+    "situation-choice": "생각 골라보기"
+  };
+  const storageKeys = {
+    bgm: "socialmon-audio-bgm-enabled",
+    sfx: "socialmon-audio-sfx-enabled"
+  };
+
+  const readToggle = (key) => {
+    try {
+      const value = localStorage.getItem(key);
+      return value === null ? true : value !== "false";
+    } catch {
+      return true;
+    }
+  };
+
+  const state = {
+    screen: "cover",
+    questionIndex: 0,
+    correctCount: 0,
+    traceCount: 0,
+    answerLocked: false,
+    continuationLocked: false,
+    selectedResultId: null,
+    forcedResultId: null,
+    tutorialReturn: null,
+    activeController: null,
+    bgmEnabled: readToggle(storageKeys.bgm),
+    sfxEnabled: readToggle(storageKeys.sfx)
+  };
+
+  let lastFocusedElement = null;
+  let traceTransitionTimer = null;
+
+  const writeToggle = (key, value) => {
+    try { localStorage.setItem(key, String(value)); } catch { /* storage can be unavailable */ }
+  };
+
+  const playTone = (frequency = 520, duration = 0.08) => {
+    if (!state.sfxEnabled) return;
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      const audioContext = new AudioContextClass();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration);
+      oscillator.addEventListener("ended", () => audioContext.close(), { once: true });
+    } catch { /* sound is optional */ }
+  };
+
+  const announce = (message) => {
+    const liveRegion = byId("liveRegion");
+    liveRegion.textContent = "";
+    requestAnimationFrame(() => { liveRegion.textContent = message; });
+  };
+
+  const showScreen = (name, focusSelector) => {
+    state.screen = name;
+    screens.forEach((screen) => {
+      const active = screen.dataset.screen === name;
+      screen.hidden = !active;
+      screen.classList.toggle("is-active", active);
+    });
+    if (focusSelector) requestAnimationFrame(() => document.querySelector(focusSelector)?.focus());
+  };
+
+  const sameObject = (actual, expected) => {
+    const expectedKeys = Object.keys(expected);
+    return expectedKeys.length === Object.keys(actual).length
+      && expectedKeys.every((key) => actual[key] === expected[key]);
+  };
+
+  const isCorrectAnswer = (question, answer) => {
+    if (["choice", "source-choice", "situation-choice"].includes(question.type)) {
+      return answer === question.correctId;
+    }
+    if (question.type === "sequence") {
+      return Array.isArray(answer)
+        && answer.length === question.correctOrder.length
+        && answer.every((id, index) => id === question.correctOrder[index]);
+    }
+    if (question.type === "match") return sameObject(answer, question.pairs);
+    if (question.type === "classify") return sameObject(answer, question.answers);
+    return false;
+  };
+
+  const chooseResult = () => {
+    const candidateIds = config.reward.candidateResultIds;
+    const forcedId = state.forcedResultId;
+    state.forcedResultId = null;
+    const selectedId = forcedId && candidateIds.includes(forcedId)
+      ? forcedId
+      : candidateIds[Math.floor(Math.random() * candidateIds.length)];
+    state.selectedResultId = selectedId;
+    return config.results.find((result) => result.id === selectedId);
+  };
+
+  const selectedResult = () => config.results.find((result) => result.id === state.selectedResultId)
+    || chooseResult();
+
+  const checkpointAfter = (completedCount) => config.reward.checkpoints.find((checkpoint) => checkpoint.afterQuestion === completedCount);
+
+  const updateTraceProgress = () => {
+    byId("traceCount").textContent = String(state.traceCount);
+    byId("traceTotal").textContent = String(config.questions.length);
+    byId("traceProgress").setAttribute("aria-label", `소셜몬 흔적 ${state.traceCount}개 중 ${config.questions.length}개`);
+  };
+
+  const renderQuestion = () => {
+    if (traceTransitionTimer) clearTimeout(traceTransitionTimer);
+    traceTransitionTimer = null;
+    const question = config.questions[state.questionIndex];
+    if (!state.selectedResultId) chooseResult();
+    state.answerLocked = false;
+    state.continuationLocked = false;
+    byId("questionNumber").textContent = String(state.questionIndex + 1);
+    byId("questionTotal").textContent = String(config.questions.length);
+    byId("questionKind").textContent = kindLabels[question.type];
+    byId("questionPrompt").textContent = question.prompt;
+    byId("questionInstruction").textContent = question.instruction;
+    byId("feedbackPanel").hidden = true;
+    byId("feedbackPanel").className = "feedback-panel";
+    byId("questionLayout").classList.remove("has-feedback");
+    byId("traceToast").hidden = true;
+    byId("traceRevealModal").hidden = true;
+    updateTraceProgress();
+    state.activeController = window.SocialQuizComponents.mount(byId("questionWorkbench"), question, {
+      onSubmit: (answer) => submitAnswer(question, answer)
+    });
+    showScreen("play", ".question-workbench button");
+    announce(`${state.questionIndex + 1}번 문제`);
+  };
+
+  const submitAnswer = (question, answer) => {
+    if (state.answerLocked) return;
+    state.answerLocked = true;
+    const correct = isCorrectAnswer(question, answer);
+    if (correct) state.correctCount += 1;
+
+    const feedback = byId("feedbackPanel");
+    feedback.hidden = false;
+    feedback.classList.add(correct ? "is-correct" : "is-wrong");
+    byId("feedbackLabel").textContent = correct ? "맞았어요!" : "아쉬워요.";
+    byId("feedbackText").textContent = question.explanation;
+    const completedCount = state.questionIndex + 1;
+    const checkpoint = checkpointAfter(completedCount);
+    byId("continueButton").textContent = completedCount === config.questions.length
+      ? "소셜몬 만나기"
+      : checkpoint ? "흔적 보기" : "다음 문제";
+    byId("questionLayout").classList.add("has-feedback");
+    playTone(correct ? 660 : 240, correct ? 0.12 : 0.1);
+    announce(correct ? "맞았어요. 설명을 살펴보세요." : "아쉬워요. 설명을 살펴보세요.");
+    requestAnimationFrame(() => byId("continueButton").focus());
+  };
+
+  const showTraceCheckpoint = (checkpoint) => {
+    const result = selectedResult();
+    const card = byId("traceRevealCard");
+    card.dataset.phase = checkpoint.phase;
+    byId("traceRevealStep").textContent = checkpoint.label;
+    byId("traceRevealTitle").textContent = checkpoint.title;
+    byId("traceCharacterImage").src = result.characterImage;
+    byId("traceCharacterImage").alt = checkpoint.phase === "trait" ? "소셜몬 그림자" : "아직 이름을 모르는 소셜몬 그림자";
+    byId("traceRevealCopy").textContent = checkpoint.phase === "trait" ? result.trait : checkpoint.copy;
+    byId("traceRevealModal").hidden = false;
+    byId("traceRevealNextButton").focus();
+    announce(`${checkpoint.label}. ${checkpoint.phase === "trait" ? result.trait : checkpoint.title}`);
+  };
+
+  const renderResult = (previewResultId = null) => {
+    const result = (previewResultId && config.results.find((candidate) => candidate.id === previewResultId)) || selectedResult();
+    byId("resultTitle").textContent = result.name;
+    byId("resultCorrect").textContent = `${config.questions.length}문제 중 ${state.correctCount}문제 정답`;
+    byId("resultDiscovery").textContent = config.reward.discoveryText;
+    byId("resultCharacterImage").src = result.characterImage;
+    byId("resultCharacterImage").alt = `${result.name} 캐릭터`;
+    showScreen("result", "#restartButton");
+    announce(`${result.name}을 만났어요.`);
+  };
+
+  const moveToNextQuestionOrResult = () => {
+    byId("traceRevealModal").hidden = true;
+    if (state.questionIndex + 1 < config.questions.length) {
+      state.questionIndex += 1;
+      renderQuestion();
+    } else {
+      renderResult();
+    }
+  };
+
+  const continueAfterFeedback = () => {
+    if (!state.answerLocked || state.continuationLocked) return;
+    state.continuationLocked = true;
+    state.traceCount = state.questionIndex + 1;
+    updateTraceProgress();
+    const toast = byId("traceToast");
+    toast.hidden = false;
+    byId("traceToastLabel").textContent = `소셜몬 흔적 ${state.traceCount}개!`;
+    playTone(720, 0.1);
+    announce(`소셜몬 흔적 ${state.traceCount}개를 찾았어요.`);
+    const checkpoint = checkpointAfter(state.traceCount);
+    traceTransitionTimer = setTimeout(() => {
+      traceTransitionTimer = null;
+      toast.hidden = true;
+      if (checkpoint) showTraceCheckpoint(checkpoint);
+      else moveToNextQuestionOrResult();
+    }, config.reward.stampDurationMs);
+  };
+
+  const resetGame = () => {
+    if (traceTransitionTimer) clearTimeout(traceTransitionTimer);
+    traceTransitionTimer = null;
+    state.questionIndex = 0;
+    state.correctCount = 0;
+    state.traceCount = 0;
+    state.answerLocked = false;
+    state.continuationLocked = false;
+    state.selectedResultId = null;
+    state.tutorialReturn = null;
+    byId("traceToast").hidden = true;
+    byId("traceRevealModal").hidden = true;
+    byId("settingsModal").hidden = true;
+    showScreen("cover", "#startButton");
+  };
+
+  const openSettings = () => {
+    lastFocusedElement = document.activeElement;
+    byId("settingsModal").hidden = false;
+    byId("settingsClose").focus();
+  };
+
+  const closeSettings = () => {
+    byId("settingsModal").hidden = true;
+    lastFocusedElement?.focus?.();
+  };
+
+  const updateToggleUi = () => {
+    byId("bgmToggle").setAttribute("aria-checked", String(state.bgmEnabled));
+    byId("sfxToggle").setAttribute("aria-checked", String(state.sfxEnabled));
+  };
+
+  const showTutorial = (returnScreen = null) => {
+    state.tutorialReturn = returnScreen;
+    byId("tutorialStartButton").textContent = returnScreen ? "계속하기" : "문제 시작";
+    showScreen("tutorial", "#tutorialStartButton");
+  };
+
+  const bindStaticUi = () => {
+    document.title = config.title;
+    byId("coverTitle").textContent = config.title;
+    byId("coverGoal").textContent = config.goal;
+    ["coverUnitBadge", "tutorialUnitBadge", "playUnitBadge", "resultUnitBadge"].forEach((id) => {
+      byId(id).textContent = config.unitBadge;
+    });
+    byId("tutorialTitle").textContent = config.tutorial.title;
+    byId("tutorialSteps").replaceChildren(...config.tutorial.steps.map((step) => {
+      const item = document.createElement("li");
+      item.textContent = step;
+      return item;
+    }));
+    byId("tutorialReward").textContent = config.tutorial.rewardText;
+    byId("startButtonArt").src = config.assets.startButton;
+    const coverBackground = byId("coverBackground");
+    coverBackground.hidden = !config.assets.coverBackground;
+    if (config.assets.coverBackground) coverBackground.src = config.assets.coverBackground;
+    const resultBackground = byId("resultBackground");
+    resultBackground.hidden = !config.assets.resultBackground;
+    if (config.assets.resultBackground) resultBackground.src = config.assets.resultBackground;
+    updateToggleUi();
+
+    byId("startButton").addEventListener("click", () => showTutorial());
+    byId("tutorialStartButton").addEventListener("click", () => {
+      const returnScreen = state.tutorialReturn;
+      state.tutorialReturn = null;
+      if (returnScreen === "play") showScreen("play", ".question-workbench button:not(:disabled)");
+      else if (returnScreen === "result") showScreen("result", "#restartButton");
+      else renderQuestion();
+    });
+    byId("continueButton").addEventListener("click", continueAfterFeedback);
+    byId("traceRevealNextButton").addEventListener("click", moveToNextQuestionOrResult);
+    byId("restartButton").addEventListener("click", resetGame);
+    byId("settingsToggle").addEventListener("click", openSettings);
+    byId("settingsClose").addEventListener("click", closeSettings);
+    byId("bgmToggle").addEventListener("click", () => {
+      state.bgmEnabled = !state.bgmEnabled;
+      writeToggle(storageKeys.bgm, state.bgmEnabled);
+      updateToggleUi();
+    });
+    byId("sfxToggle").addEventListener("click", () => {
+      state.sfxEnabled = !state.sfxEnabled;
+      writeToggle(storageKeys.sfx, state.sfxEnabled);
+      updateToggleUi();
+      playTone(520, 0.06);
+    });
+    byId("reviewTutorialButton").addEventListener("click", () => {
+      const returnScreen = state.screen === "cover" ? null : state.screen;
+      closeSettings();
+      showTutorial(returnScreen);
+    });
+    byId("resetButton").addEventListener("click", resetGame);
+    byId("settingsModal").addEventListener("click", (event) => {
+      if (event.target === byId("settingsModal")) closeSettings();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !byId("settingsModal").hidden) closeSettings();
+    });
+  };
+
+  bindStaticUi();
+
+  window.__socialmonQa = Object.freeze({
+    getState: () => ({
+      screen: state.screen,
+      questionIndex: state.questionIndex,
+      correctCount: state.correctCount,
+      traceCount: state.traceCount,
+      answerLocked: state.answerLocked,
+      continuationLocked: state.continuationLocked,
+      selectedResultId: state.selectedResultId
+    }),
+    forceResult(id) { state.forcedResultId = id; },
+    renderQuestion(index) {
+      state.questionIndex = Math.max(0, Math.min(config.questions.length - 1, Number(index) || 0));
+      renderQuestion();
+    },
+    renderResult(id) { renderResult(id); },
+    reset: resetGame
+  });
+})();
+
+  </script>
+</body>
+</html>

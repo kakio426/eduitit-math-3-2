@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "profileId": "socialmon-quiz-lite-profile-v1",
+  "engineVersion": "socialmon-quiz-lite-v1",
+  "contractVersion": "socialmon-quiz-lite-contract-v2",
+  "standards": {
+    "screenFlow": "socialmon-four-screen-flow-v1",
+    "questionInteraction": "socialmon-tap-interactions-v1",
+    "reward": "socialmon-trace-reveal-v1"
+  },
+  "tutorial": {
+    "title": "세 가지만 기억해요!",
+    "steps": [
+      "자료를 먼저 봐요.",
+      "답을 골라요.",
+      "소셜몬 흔적을 찾아요."
+    ],
+    "rewardText": "두 문제마다 소셜몬 힌트가 보여요. 끝까지 풀면 소셜몬을 만나요."
+  },
+  "reward": {
+    "standard": "socialmon-trace-reveal-v1",
+    "stampDurationMs": 500,
+    "checkpoints": [
+      {
+        "afterQuestion": 2,
+        "phase": "silhouette",
+        "label": "첫 번째 힌트",
+        "title": "누구의 그림자일까요?",
+        "copy": "모양을 잘 살펴봐요."
+      },
+      {
+        "afterQuestion": 4,
+        "phase": "trait",
+        "label": "두 번째 힌트",
+        "title": "이런 재주가 있어요!"
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "kiwimon",
+      "name": "키위몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp",
+      "trait": "작은 단서를 잘 찾아요."
+    },
+    {
+      "id": "platypusmon",
+      "name": "오리너구리몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp",
+      "trait": "두 모습을 빠르게 비교해요."
+    },
+    {
+      "id": "meerkatmon",
+      "name": "미어캣몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp",
+      "trait": "주변의 달라진 모습을 먼저 찾아요."
+    },
+    {
+      "id": "elephantmon",
+      "name": "코끼몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp",
+      "trait": "옛날과 오늘의 이야기를 잘 기억해요."
+    },
+    {
+      "id": "cranemon",
+      "name": "두루미몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp",
+      "trait": "멀리 오가는 소식을 잘 이어요."
+    },
+    {
+      "id": "pangolinmon",
+      "name": "천산갑몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp",
+      "trait": "함께 지킬 약속을 든든하게 지켜요."
+    }
+  ],
+  "assets": {
+    "startButton": "_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "resultBackground": "_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp",
+    "characterPack": "_shared/socialmon/discovery-pack-v1/manifest.json"
+  },
+  "qa": {
+    "viewports": [
+      { "name": "desktop-1280x800", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape-1024x768", "width": 1024, "height": 768 }
+    ],
+    "requiredScreens": ["cover", "tutorial", "play", "result"],
+    "requiredFlowStates": ["answering", "feedback-correct", "feedback-wrong", "trace-stamped", "trace-silhouette", "trace-trait"],
+    "requiredOverlays": ["settings", "trace-reveal"],
+    "forbidTextOverflow": true,
+    "forbidSiblingOverlap": true,
+    "requireSourceEvidence": true,
+    "forbidGeneratedFactualEvidence": true
+  }
+}
