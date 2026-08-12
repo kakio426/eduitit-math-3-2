@@ -68,8 +68,7 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --top-control-y: var(--stage-inset);
-      --sound-button-size: clamp(42px, 3.6vw, 46px);
+      --sound-button-size: clamp(30px, 3vw, 34px);
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
       --top-control-pad-x: 9px;
@@ -173,7 +172,7 @@
 
     .top-row {
       position: absolute;
-      top: var(--top-control-y);
+      top: var(--stage-inset);
       left: var(--stage-inset);
       right: calc(var(--stage-inset) + var(--sound-reserve));
       z-index: 4;
@@ -298,7 +297,7 @@
 
     .settings-toggle {
       position: absolute;
-      top: var(--top-control-y);
+      top: var(--stage-inset);
       right: var(--stage-inset);
       z-index: 60;
       display: grid;
@@ -737,13 +736,6 @@
     .hud .unit-badge {
       position: static;
       pointer-events: auto;
-    }
-
-    .hud-right {
-      grid-column: 3;
-      justify-self: end;
-      display: flex;
-      align-items: start;
     }
 
     .hud-center {
@@ -3324,7 +3316,6 @@
     <section class="screen play" id="playScreen" aria-labelledby="questionText">
       <header class="hud">
         <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
-        <div class="hud-right"><span class="unit-badge">1단원 곱셈 · 2차시</span></div>
       </header>
       <div class="play-layout">
         <aside class="rocket-zone" id="rocketZone" aria-label="로켓 연료 상태">
