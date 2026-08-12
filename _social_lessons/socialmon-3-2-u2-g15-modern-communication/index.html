@@ -691,6 +691,73 @@ button:focus-visible {
 .source-card strong,
 .situation-card strong { display: block; margin-bottom: 0.35cqw; color: #93402f; }
 
+.map-hotspot-card.has-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55cqw;
+}
+
+.map-hotspot-copy {
+  width: 100%;
+}
+
+.map-hotspot-board {
+  position: relative;
+  width: min(63cqw, 100%);
+  aspect-ratio: 150 / 62;
+  overflow: hidden;
+  border: 0.16cqw solid rgb(16 42 86 / 22%);
+  border-radius: 0.9cqw;
+  background: #eaf5f4;
+  box-shadow: 0 0.35cqw 0.9cqw rgb(43 51 77 / 16%);
+  isolation: isolate;
+}
+
+.map-hotspot-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: inherit;
+  object-fit: contain;
+  user-select: none;
+}
+
+.map-hotspot-target {
+  position: absolute;
+  z-index: 2;
+  left: var(--map-hotspot-x);
+  top: var(--map-hotspot-y);
+  width: max(42px, 4cqw);
+  height: max(42px, 4cqw);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: max(3px, 0.24cqw) solid white;
+  border-radius: 50%;
+  background: #176f91;
+  color: white;
+  box-shadow: 0 0.22cqw 0.65cqw rgb(7 30 62 / 45%);
+  font-size: clamp(17px, 1.75cqw, 23px);
+  font-weight: 950;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.map-hotspot-target:hover,
+.map-hotspot-target:focus-visible {
+  background: #0b4f78;
+  outline: max(3px, 0.22cqw) solid #ffdd69;
+  outline-offset: 2px;
+}
+
+.map-hotspot-target[aria-pressed="true"] {
+  background: #ef6f55;
+  box-shadow: 0 0 0 max(4px, 0.3cqw) #ffda68, 0 0.28cqw 0.8cqw rgb(7 30 62 / 42%);
+}
+
 /* Generated Socialmon visual profile */
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-content {
   inset: 7.4cqw 5cqw 2cqw;
@@ -699,6 +766,7 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-copy-art {
   width: 78cqw;
+  height: 43cqw;
   margin-bottom: -8.4cqw;
 }
 
@@ -1017,6 +1085,46 @@ button:focus-visible {
   overflow-wrap: normal;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-card.has-image {
+  display: flex;
+  grid-template-columns: none;
+  gap: 0.45cqw;
+  margin-bottom: 0;
+  padding: 0.7cqw 0.9cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-copy {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 1cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-copy strong {
+  margin: 0;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-copy > span {
+  font-size: clamp(18px, 1.7cqw, 22px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-board {
+  width: min(63cqw, 100%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-card .map-hotspot-image {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: contain;
+  box-shadow: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench[data-question-presentation="map-hotspots"] .workbench-actions {
+  margin-top: 0.35cqw;
+  padding-block: 0.2cqw;
+}
+
 .play-source-credit {
   display: none;
 }
@@ -1138,6 +1246,21 @@ button:focus-visible {
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-card.has-image {
   grid-template-columns: 18cqw minmax(0, 1fr);
   padding-block: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .map-hotspot-card.has-image {
+  display: flex;
+  grid-template-columns: none;
+  padding-block: 0.45cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .map-hotspot-board {
+  width: min(54cqw, 100%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .map-hotspot-card .map-hotspot-image {
+  width: 100%;
+  height: 100%;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-image {
@@ -1741,11 +1864,12 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="fa9b202b95b12bc435ac5a24eaaf2b30579a0272e26baf0525f5442680e7030d"
-    data-profile-json-sha256="d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba"
+    data-quiz-json-sha256="7c407a0716fcce9c956f2d0ff139158178946bc092a3a145e323979bd8b22082"
+    data-profile-json-sha256="1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84"
     data-theme-pack-json-sha256="523272229d1bb589d1f97d20c661d93f62dbed5a264992ef2f7d2012e3ca1436"
-    data-engine-sha256="c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94","quizJson":"_social_lessons/socialmon-3-2-u2-g15-modern-communication/quiz.json","quizJsonSha256":"fa9b202b95b12bc435ac5a24eaaf2b30579a0272e26baf0525f5442680e7030d","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba","themePackJson":"_shared/socialmon/theme-packs/3-2/communication/pack.json","themePackJsonSha256":"523272229d1bb589d1f97d20c661d93f62dbed5a264992ef2f7d2012e3ca1436","builtAt":"2026-08-12T10:03:21.694Z"}</script>
+    data-lesson-assets-sha256="e2fa963e74ef637acf708ba744fd8772fe8325bfa53863ed66b475894ea516d7"
+    data-engine-sha256="f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776","quizJson":"_social_lessons/socialmon-3-2-u2-g15-modern-communication/quiz.json","quizJsonSha256":"7c407a0716fcce9c956f2d0ff139158178946bc092a3a145e323979bd8b22082","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84","themePackJson":"_shared/socialmon/theme-packs/3-2/communication/pack.json","themePackJsonSha256":"523272229d1bb589d1f97d20c661d93f62dbed5a264992ef2f7d2012e3ca1436","lessonAssetsSha256":"e2fa963e74ef637acf708ba744fd8772fe8325bfa53863ed66b475894ea516d7","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/communication-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-beacon-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-digital-tools-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-far-fast-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-one-message-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-only-near-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-paper-letter-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-train-driving-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/option-visit-first-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/source-q1-todays-communication-v1.webp","_social_lessons/socialmon-3-2-u2-g15-modern-communication/assets/source-q4-school-communication-v1.webp"],"builtAt":"2026-08-12T14:50:07.223Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -1756,9 +1880,9 @@ button:focus-visible {
   "id": "socialmon-3-2-u2-g15-modern-communication",
   "folder": "socialmon-3-2-u2-g15-modern-communication",
   "title": "소셜몬 오늘날 소식 전하기",
-  "topic": "오늘날 통신수단과 달라진 생활",
-  "unitBadge": "3학년 2학기 · 2단원 23~26차시",
-  "goal": "통신수단으로 달라진 생활 모습을 찾아봐요.",
+  "topic": "오늘날 사람들이 이용하는 통신수단",
+  "unitBadge": "3학년 2학기 · 2단원 23~24차시",
+  "goal": "오늘날 통신수단의 특징과 쓰임을 살펴봐요.",
   "roundMinutes": "5~7",
   "contentStatus": "publisher-source-backed",
   "curriculum": {
@@ -1767,12 +1891,10 @@ button:focus-visible {
     "unit": 2,
     "sourceLessons": [
       23,
-      24,
-      25,
-      26
+      24
     ],
     "achievementStandard": "[4사04-03]",
-    "learningObjective": "오늘날 통신수단의 특징을 알고, 통신수단의 변화로 달라진 생활 모습과 새로 생긴 직업을 설명한다."
+    "learningObjective": "오늘날 통신수단의 종류와 특징을 알고 생활 속 이용 모습을 설명한다."
   },
   "sourcePolicy": {
     "factualMedia": "publisher-source-only",
@@ -1787,39 +1909,39 @@ button:focus-visible {
     {
       "id": "q1-todays-communication",
       "type": "source-choice",
-      "prompt": "오늘날 통신수단이 편리한 까닭은 무엇일까요?",
-      "instruction": "글을 읽고 하나 골라요.",
+      "prompt": "오늘날 사람들은 소식과 정보를 어떻게 주고받을까요?",
+      "instruction": "자료를 보고 하나 골라요.",
       "source": {
-        "title": "오늘날의 통신수단",
-        "text": "영상 통화로 얼굴을 보며 이야기해요. 화면에서 미세 먼지와 버스 도착 정보도 확인해요.",
-        "image": "assets/source-todays-communication-v1.webp",
-        "alt": "영상 통화, 미세 먼지 정보, 버스 도착 정보, 라디오를 이용하는 오늘날 사람들의 교과서 그림",
+        "title": "생활 속 통신수단",
+        "text": "영상 통화를 하고 화면에서 미세 먼지와 버스 도착 정보를 확인해요.",
+        "image": "assets/source-q1-todays-communication-v1.webp",
+        "alt": "영상 통화와 미세 먼지 정보, 버스 도착 정보를 이용하는 사람들의 지도서 그림",
         "credit": "자료: 사회 2 지도서 250쪽"
       },
       "options": [
         {
           "id": "far-fast",
-          "text": "먼 곳과도 빠르게 소식을 나눌 수 있어서",
+          "text": "먼 곳과도 빠르게 소식을 나눠요.",
           "image": "assets/option-far-fast-v1.webp",
-          "alt": "어린이가 태블릿으로 멀리 있는 할아버지와 영상 통화를 하는 그림"
+          "alt": "태블릿으로 멀리 있는 가족과 영상 통화를 하는 그림"
         },
         {
           "id": "only-near",
-          "text": "가까운 사람하고만 이야기할 수 있어서",
+          "text": "가까운 사람과만 이야기해요.",
           "image": "assets/option-only-near-v1.webp",
-          "alt": "같은 방에서 가까이 마주 보고 이야기하는 두 어린이 그림"
+          "alt": "같은 방에서 마주 보고 이야기하는 두 어린이 그림"
         },
         {
           "id": "one-message",
-          "text": "한 가지 소식만 전할 수 있어서",
+          "text": "한 가지 소식만 전해요.",
           "image": "assets/option-one-message-v1.webp",
-          "alt": "어린이가 편지 한 통만 들고 있는 그림"
+          "alt": "편지 한 통만 들고 있는 어린이 그림"
         },
         {
           "id": "visit-first",
-          "text": "꼭 직접 찾아가야 소식을 알 수 있어서",
+          "text": "꼭 직접 찾아가야 해요.",
           "image": "assets/option-visit-first-v1.webp",
-          "alt": "어린이가 소식을 전하려고 다른 집 문을 직접 두드리는 그림"
+          "alt": "소식을 전하려고 다른 집 문을 두드리는 어린이 그림"
         }
       ],
       "correctId": "far-fast",
@@ -1829,7 +1951,7 @@ button:focus-visible {
         "pdfPage": 135,
         "printedPage": 250,
         "textbookPage": 126,
-        "basis": "과학 기술의 발달로 먼 곳과 소식이나 정보를 쉽고 빠르게 주고받는 여러 통신수단이 생겼다고 설명한다."
+        "basis": "휴대 전화와 모바일 메신저 등으로 먼 곳과 소식이나 정보를 쉽고 빠르게 주고받는 모습을 제시한다."
       }
     },
     {
@@ -1839,205 +1961,224 @@ button:focus-visible {
       "instruction": "왼쪽을 누른 뒤 알맞은 오른쪽을 눌러요.",
       "left": [
         {
-          "id": "messenger",
-          "text": "모바일 메신저"
+          "id": "safety-text",
+          "text": "안전 안내 문자"
         },
         {
           "id": "digital-sign",
-          "text": "디지털 안내판"
+          "text": "버스 안내판"
         },
         {
-          "id": "email",
-          "text": "전자 우편"
+          "id": "navigation",
+          "text": "길 도우미"
         }
       ],
       "right": [
         {
+          "id": "route",
+          "text": "갈 길을 찾아요."
+        },
+        {
+          "id": "warning",
+          "text": "위험한 날씨를 알려 줘요."
+        },
+        {
           "id": "bus-time",
-          "text": "버스가 올 시간을 확인해요."
-        },
-        {
-          "id": "many-files",
-          "text": "여러 자료를 한 번에 보내요."
-        },
-        {
-          "id": "live-talk",
-          "text": "여러 사람과 바로 대화해요."
+          "text": "버스가 올 때를 알려 줘요."
         }
       ],
       "pairs": {
-        "messenger": "live-talk",
+        "safety-text": "warning",
         "digital-sign": "bus-time",
-        "email": "many-files"
+        "navigation": "route"
       },
-      "explanation": "통신수단마다 소식과 정보를 나누는 방법이 달라요.",
+      "explanation": "통신수단은 생활에 필요한 여러 소식과 정보를 알려 줘요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_2_지도서.pdf",
+        "pdfPage": 136,
+        "printedPage": 251,
+        "textbookPage": 127,
+        "basis": "안전 안내 문자, 버스 도착 안내판, 길 도우미의 이용 모습을 비교한다."
+      }
+    },
+    {
+      "id": "q3-places-and-tools",
+      "type": "classify",
+      "prompt": "통신수단을 주로 볼 수 있는 곳으로 나누어 볼까요?",
+      "instruction": "각 줄에서 알맞은 모둠을 골라요.",
+      "groups": [
+        {
+          "id": "school",
+          "label": "학교"
+        },
+        {
+          "id": "street",
+          "label": "거리"
+        }
+      ],
+      "items": [
+        {
+          "id": "smart-board",
+          "text": "전자 칠판"
+        },
+        {
+          "id": "class-speaker",
+          "text": "교실 스피커"
+        },
+        {
+          "id": "traffic-light",
+          "text": "신호등"
+        },
+        {
+          "id": "bus-board",
+          "text": "버스 도착 안내판"
+        }
+      ],
+      "answers": {
+        "smart-board": "school",
+        "class-speaker": "school",
+        "traffic-light": "street",
+        "bus-board": "street"
+      },
+      "explanation": "학교와 거리에서는 장소에 알맞은 통신수단을 이용해요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_2_지도서.pdf",
+        "pdfPage": 137,
+        "printedPage": 252,
+        "textbookPage": 128,
+        "basis": "학교의 전자 칠판·스피커와 거리의 신호등·디지털 안내판을 생활 장소별로 살펴본다."
+      }
+    },
+    {
+      "id": "q4-school-communication",
+      "type": "source-choice",
+      "prompt": "학교에서 공부할 때 이용하는 통신수단은 무엇일까요?",
+      "instruction": "자료를 보고 하나 골라요.",
+      "source": {
+        "title": "학교의 통신수단",
+        "text": "교실과 복도, 운동장에 여러 기기와 안내 장치가 있어요.",
+        "image": "assets/source-q4-school-communication-v1.webp",
+        "alt": "전자 칠판과 태블릿 컴퓨터, 스피커 등을 이용하는 학교생활 지도서 그림",
+        "credit": "자료: 사회 2 지도서 252쪽"
+      },
+      "options": [
+        {
+          "id": "digital-tools",
+          "text": "전자 칠판과 태블릿 컴퓨터",
+          "image": "assets/option-digital-tools-v1.webp",
+          "alt": "전자 칠판과 태블릿 컴퓨터로 공부하는 어린이 그림"
+        },
+        {
+          "id": "paper-letter",
+          "text": "종이와 풀",
+          "image": "assets/option-paper-letter-v1.webp",
+          "alt": "종이와 풀로 편지를 만드는 어린이 그림"
+        },
+        {
+          "id": "beacon",
+          "text": "봉수대",
+          "image": "assets/option-beacon-v1.webp",
+          "alt": "산꼭대기 봉수대에서 연기가 오르는 그림"
+        },
+        {
+          "id": "train-driving",
+          "text": "기차 운전대",
+          "image": "assets/option-train-driving-v1.webp",
+          "alt": "기차 운전실의 운전대 그림"
+        }
+      ],
+      "correctId": "digital-tools",
+      "explanation": "학교에서는 전자 칠판과 태블릿 컴퓨터 등을 이용해 공부해요.",
+      "evidence": {
+        "sourceFile": "3_2_사회_2_지도서.pdf",
+        "pdfPage": 137,
+        "printedPage": 252,
+        "textbookPage": 128,
+        "basis": "교실에서 전자 칠판과 태블릿 컴퓨터 등 여러 통신수단을 학습에 이용하는 모습을 제시한다."
+      }
+    },
+    {
+      "id": "q5-features",
+      "type": "match",
+      "prompt": "오늘날 통신수단의 모습과 특징을 이어 볼까요?",
+      "instruction": "왼쪽을 누른 뒤 알맞은 오른쪽을 눌러요.",
+      "left": [
+        {
+          "id": "live-alert",
+          "text": "재난 알림 보내기"
+        },
+        {
+          "id": "group-chat",
+          "text": "여러 명이 함께 대화하기"
+        },
+        {
+          "id": "email-files",
+          "text": "전자 우편에 자료 붙이기"
+        }
+      ],
+      "right": [
+        {
+          "id": "many",
+          "text": "많은 정보를 한 번에 보내요."
+        },
+        {
+          "id": "simultaneous",
+          "text": "여러 사람과 동시에 나눠요."
+        },
+        {
+          "id": "quick",
+          "text": "소식을 바로 알려 줘요."
+        }
+      ],
+      "pairs": {
+        "live-alert": "quick",
+        "group-chat": "simultaneous",
+        "email-files": "many"
+      },
+      "explanation": "오늘날 통신수단은 여러 사람과 빠르게 많은 정보를 나눌 수 있어요.",
       "evidence": {
         "sourceFile": "3_2_사회_2_지도서.pdf",
         "pdfPage": 138,
         "printedPage": 253,
         "textbookPage": 129,
-        "basis": "모바일 메신저의 실시간 대화, 디지털 안내판의 버스 도착 정보, 전자 우편의 여러 자료 전송을 오늘날 통신수단의 이용 모습으로 제시한다."
+        "basis": "실시간 전달, 동시 연락, 다양한 정보의 일괄 전송을 오늘날 통신수단의 특징으로 설명한다."
       }
     },
     {
-      "id": "q3-life-without-visiting",
-      "type": "choice",
-      "prompt": "통신수단이 발달하면서 달라진 생활 모습은 무엇일까요?",
-      "instruction": "가장 알맞은 말을 하나 골라요.",
-      "options": [
-        {
-          "id": "do-from-home",
-          "text": "직접 가지 않아도 집에서 할 수 있는 일이 많아졌어요."
-        },
-        {
-          "id": "must-visit",
-          "text": "무슨 일이든 꼭 직접 찾아가야 해요."
-        },
-        {
-          "id": "no-far-talk",
-          "text": "먼 곳에 있는 사람과는 이야기할 수 없어요."
-        },
-        {
-          "id": "less-information",
-          "text": "필요한 정보를 찾기가 더 어려워졌어요."
-        }
-      ],
-      "correctId": "do-from-home",
-      "explanation": "물건 사기, 은행 거래, 진료, 회의처럼 직접 가지 않아도 할 수 있는 일이 늘었어요.",
-      "evidence": {
-        "sourceFile": "3_2_사회_2_지도서.pdf",
-        "pdfPage": 144,
-        "printedPage": 259,
-        "textbookPage": 131,
-        "basis": "인터넷을 이용한 물건 사기와 은행 거래, 원격 진료, 화상 회의를 달라진 생활 모습으로 제시한다."
-      }
-    },
-    {
-      "id": "q4-digital-learning-center",
-      "type": "source-choice",
-      "prompt": "디지털 배움터에서는 무엇을 배울 수 있을까요?",
-      "instruction": "자료를 읽고 하나 골라요.",
-      "source": {
-        "title": "디지털 배움터의 모습",
-        "text": "어르신들이 선생님과 함께 스마트폰 화면과 키오스크를 살펴봐요.",
-        "image": "assets/source-digital-learning-center-v1.webp",
-        "alt": "디지털 배움터에서 어르신들이 키오스크 사용법을 배우는 교과서 사진",
-        "credit": "자료: 사회 2 지도서 262쪽"
+      "id": "q6-right-tool",
+      "type": "situation-choice",
+      "prompt": "바다에서 배가 도움이 필요해요. 어떻게 소식을 전하면 좋을까요?",
+      "instruction": "상황을 읽고 하나 골라요.",
+      "situation": {
+        "title": "바다에서 보내는 긴급 소식",
+        "text": "육지에서 멀리 떨어진 배가 구조를 요청하려고 해요."
       },
       "options": [
         {
-          "id": "use-digital-tools",
-          "text": "인터넷을 검색하고 키오스크로 주문하기",
-          "image": "assets/option-digital-tools-v1.webp",
-          "alt": "어르신이 도움을 받아 스마트폰과 키오스크를 배우는 그림"
+          "id": "radio",
+          "text": "무전기로 구조를 요청해요."
         },
         {
-          "id": "make-paper-letter",
-          "text": "종이와 풀로 편지 만들기",
-          "image": "assets/option-paper-letter-v1.webp",
-          "alt": "어린이가 종이와 풀로 편지를 만드는 그림"
+          "id": "intercom",
+          "text": "집 안의 인터폰만 눌러요."
         },
         {
-          "id": "light-beacon",
-          "text": "산꼭대기에서 봉수 올리기",
-          "image": "assets/option-beacon-v1.webp",
-          "alt": "산꼭대기 봉수대에서 연기가 피어오르는 그림"
+          "id": "traffic-light",
+          "text": "바다에 신호등을 세워요."
         },
         {
-          "id": "train-driving",
-          "text": "기차 운전하기",
-          "image": "assets/option-train-driving-v1.webp",
-          "alt": "기관사가 기차 운전실에서 조종 장치를 다루는 그림"
+          "id": "paper-note",
+          "text": "종이를 바닷물에 띄워요."
         }
       ],
-      "correctId": "use-digital-tools",
-      "explanation": "새로운 통신수단을 배울 수 있도록 서로 도우면 생활이 더 편리해져요.",
+      "correctId": "radio",
+      "explanation": "장소와 하는 일에 알맞은 통신수단을 골라야 해요.",
       "evidence": {
         "sourceFile": "3_2_사회_2_지도서.pdf",
-        "pdfPage": 147,
-        "printedPage": 262,
-        "textbookPage": 134,
-        "basis": "디지털 배움터에서 스마트폰으로 인터넷 검색 등을 하고 키오스크로 음식을 주문하는 방법을 가르친다고 설명한다."
-      }
-    },
-    {
-      "id": "q5-communication-jobs",
-      "type": "match",
-      "prompt": "통신과 관련된 직업과 하는 일을 이어 볼까요?",
-      "instruction": "왼쪽을 누른 뒤 알맞은 오른쪽을 눌러요.",
-      "left": [
-        {
-          "id": "network-technician",
-          "text": "통신 설비 기술자"
-        },
-        {
-          "id": "control-worker",
-          "text": "CCTV 통합 관제 요원"
-        },
-        {
-          "id": "satellite-developer",
-          "text": "인공위성 개발자"
-        }
-      ],
-      "right": [
-        {
-          "id": "protect-safety",
-          "text": "CCTV 화면을 살펴 안전을 지켜요."
-        },
-        {
-          "id": "build-satellite",
-          "text": "정보를 모으는 인공위성을 만들어요."
-        },
-        {
-          "id": "install-station",
-          "text": "전파를 이어 주는 기지국을 설치해요."
-        }
-      ],
-      "pairs": {
-        "network-technician": "install-station",
-        "control-worker": "protect-safety",
-        "satellite-developer": "build-satellite"
-      },
-      "explanation": "통신수단이 발달하며 새로운 시설과 직업이 생겼어요.",
-      "evidence": {
-        "sourceFile": "3_2_사회_2_지도서.pdf",
-        "pdfPage": 145,
-        "printedPage": 260,
-        "textbookPage": 132,
-        "basis": "통신 설비 기술자, 폐회로 텔레비전 통합 관제 요원, 인공위성 개발자가 하는 일을 시설과 함께 설명한다."
-      }
-    },
-    {
-      "id": "q6-telephone-order",
-      "type": "sequence",
-      "prompt": "전화기가 달라진 순서대로 놓아 볼까요?",
-      "instruction": "옛날 모습부터 차례로 눌러요.",
-      "items": [
-        {
-          "id": "mobile-phone",
-          "text": "영상 통화를 하는 휴대 전화"
-        },
-        {
-          "id": "early-phone",
-          "text": "교환원이 이어 주는 초기 전화기"
-        },
-        {
-          "id": "wired-phone",
-          "text": "전화선이 있는 유선 전화"
-        }
-      ],
-      "correctOrder": [
-        "early-phone",
-        "wired-phone",
-        "mobile-phone"
-      ],
-      "explanation": "전화기는 초기 전화기에서 유선 전화, 휴대 전화로 달라졌어요.",
-      "evidence": {
-        "sourceFile": "3_2_사회_2_지도서.pdf",
-        "pdfPage": 146,
-        "printedPage": 261,
-        "textbookPage": 133,
-        "basis": "초기의 전화기, 유선 전화, 휴대 전화를 한 화면에서 변화 순서와 생활 모습으로 비교한다."
+        "pdfPage": 139,
+        "printedPage": 254,
+        "textbookPage": 130,
+        "basis": "바다에서 선원이 무전기로 구조를 요청하는 사례처럼 장소와 일에 따라 알맞은 통신수단이 달라짐을 설명한다."
       }
     }
   ],
@@ -2047,7 +2188,7 @@ button:focus-visible {
       "meerkatmon",
       "platypusmon"
     ],
-    "discoveryText": "통신수단이 달라지며 먼 곳의 소식을 빠르게 나누고, 새롭게 할 수 있는 일도 많아졌어요."
+    "discoveryText": "오늘날에는 여러 통신수단으로 먼 곳과 빠르게 소식을 나누고, 많은 정보를 한 번에 주고받아요."
   },
   "contractVersion": "socialmon-quiz-lite-contract-v3",
   "standards": {
@@ -2093,7 +2234,7 @@ button:focus-visible {
       "meerkatmon",
       "platypusmon"
     ],
-    "discoveryText": "통신수단이 달라지며 먼 곳의 소식을 빠르게 나누고, 새롭게 할 수 있는 일도 많아졌어요."
+    "discoveryText": "오늘날에는 여러 통신수단으로 먼 곳과 빠르게 소식을 나누고, 많은 정보를 한 번에 주고받아요."
   },
   "results": [
     {
@@ -2265,6 +2406,18 @@ button:focus-visible {
       "hideImageSourceInstruction": true,
       "hideInlineSourceCredit": true
     },
+    "mapHotspotAudit": {
+      "standard": "socialmon-source-choice-map-hotspots-v1",
+      "board": ".map-hotspot-board",
+      "mapImage": ".map-hotspot-image",
+      "target": ".map-hotspot-target",
+      "minMapWidthRatio": 0.42,
+      "minMapPixelDensity": 3,
+      "minTargetSizePx": 42,
+      "minSafeInsetPx": 4,
+      "requiredTargetCount": 4,
+      "maxTargetOverlapPx": 0
+    },
     "forbidTextOverflow": true,
     "forbidSiblingOverlap": true,
     "requireSourceEvidence": true,
@@ -2334,12 +2487,66 @@ button:focus-visible {
         lockButtons(root);
       },
       refresh() {
-        root.querySelectorAll(".choice-option").forEach((button) => {
+        root.querySelectorAll(".choice-option, .map-hotspot-target").forEach((button) => {
           button.setAttribute("aria-pressed", String(button.dataset.optionId === selectedId));
         });
         this.refreshSubmit?.();
       }
     };
+
+    if (question.presentation === "map-hotspots") {
+      const source = document.createElement("article");
+      source.className = "source-card has-image map-hotspot-card";
+
+      const copy = document.createElement("div");
+      copy.className = "source-copy map-hotspot-copy";
+      const title = document.createElement("strong");
+      title.textContent = question.source?.title || "지도 자료";
+      const text = document.createElement("span");
+      text.textContent = question.source?.text || "지도 위 위치를 살펴봐요.";
+      copy.append(title, text);
+      if (question.source?.credit) {
+        const credit = document.createElement("small");
+        credit.className = "source-credit";
+        credit.textContent = question.source.credit;
+        copy.append(credit);
+      }
+
+      const board = document.createElement("div");
+      board.className = "map-hotspot-board";
+      board.dataset.mapHotspotStandard = "socialmon-source-choice-map-hotspots-v1";
+      const image = document.createElement("img");
+      image.className = "source-image map-hotspot-image";
+      image.src = question.source?.image || "";
+      image.alt = question.source?.alt || "";
+      image.draggable = false;
+      board.append(image);
+
+      (question.mapHotspots || []).forEach((hotspot, index) => {
+        const option = question.options.find((item) => item.id === hotspot.optionId);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "map-hotspot-target";
+        button.dataset.optionId = hotspot.optionId;
+        button.style.setProperty("--map-hotspot-x", `${hotspot.xPercent}%`);
+        button.style.setProperty("--map-hotspot-y", `${hotspot.yPercent}%`);
+        button.setAttribute("aria-pressed", "false");
+        button.setAttribute("aria-label", `${hotspot.label}: ${option?.text || "지도 위치"}`);
+        button.textContent = String(index + 1);
+        button.addEventListener("click", () => {
+          if (controller.locked) return;
+          selectedId = hotspot.optionId;
+          controller.refresh();
+        });
+        board.append(button);
+      });
+
+      source.append(copy, board);
+      root.append(source);
+      makeSubmitArea(root, controller, onSubmit);
+      controller.refresh();
+      return controller;
+    }
 
     if (question.source) {
       const source = document.createElement("article");
@@ -2606,6 +2813,8 @@ button:focus-visible {
       const renderer = registry[question.type];
       if (!renderer) throw new Error(`지원하지 않는 문제 형식입니다: ${question.type}`);
       root.replaceChildren();
+      if (question.presentation) root.dataset.questionPresentation = question.presentation;
+      else delete root.dataset.questionPresentation;
       return renderer(root, question, options.onSubmit);
     }
   });
