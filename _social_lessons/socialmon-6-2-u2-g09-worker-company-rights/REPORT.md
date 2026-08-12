@@ -45,3 +45,21 @@ node scripts/verify-socialmon-delivery.mjs --lesson=socialmon-6-2-u2-g09-worker-
 ```
 
 이 작업에서는 커밋·푸시하지 않았다.
+
+<!-- SOCIALMON_CURRENT_EVIDENCE:START -->
+## 현재 전달 증거
+
+| 입력 | SHA-256 |
+|---|---|
+| quiz.json | `7c86fb77b0386b3f5a0d63f097760f22c7de4f0f78453268ee5e80512ea5dcc5` |
+| profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
+| 테마팩 | `6ac3414a27178e03a0f199c2b6262cf50303ee7eb2294ad180cd24e580e75900` |
+| 실행 자산 | `d6823fd87bb86e6f6b1e852097916c199226e912bf5b4f5bcef125c1e28c1c97` |
+| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
+| 정책·스킬 | `6d7e3cf825ff48f182b7e5527f3c092e95ccffea8b740aa0740fd159dbfea4b5` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+
+- QA 생성 시각: `2026-08-12T19:46:08.515Z`
+- 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
+- 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
+<!-- SOCIALMON_CURRENT_EVIDENCE:END -->

@@ -49,3 +49,21 @@
 | 하네스 | 509de366b3752aa54262b488d0968629425716e6521a030d669e973478e64300 |
 
 공용 동결 요청에 따라 이 갱신 뒤 verify-socialmon-delivery와 test-socialmon-hooks는 실행하지 않았다.
+
+<!-- SOCIALMON_CURRENT_EVIDENCE:START -->
+## 현재 전달 증거
+
+| 입력 | SHA-256 |
+|---|---|
+| quiz.json | `21839819accf85c1e7343bf1ac5834e7cbb7150883f47479361b0ef9a5064157` |
+| profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
+| 테마팩 | `da5fcdd6a03b5f64ab84e2597abc34e75e9b9ab44f28f77f1df1d19c6975e4a5` |
+| 실행 자산 | `00fa9a51b8501c6676123fc2bde9e11f9de14c2a14340c41fe961da3f074df04` |
+| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
+| 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+
+- QA 생성 시각: `2026-08-12T19:49:55.369Z`
+- 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
+- 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
+<!-- SOCIALMON_CURRENT_EVIDENCE:END -->

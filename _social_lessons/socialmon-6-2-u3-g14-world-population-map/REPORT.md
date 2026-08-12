@@ -42,3 +42,21 @@ Humanizer v1.6.0 기준으로 표지 목표, 문제 지시문·선택지·자료
 - overflow 0 / outside Stage 0 / critical overlap 0 / small target 0 / browser error 0
 
 최신 브라우저 QA 영수증은 `screenshots/qa-report.json`에 있다. 이 작업에서는 커밋하거나 푸시하지 않았다.
+
+<!-- SOCIALMON_CURRENT_EVIDENCE:START -->
+## 현재 전달 증거
+
+| 입력 | SHA-256 |
+|---|---|
+| quiz.json | `c550609f9690102422fe466685678a273ebe206baa49a374d07174d8158e6072` |
+| profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
+| 테마팩 | `986ce7d0649d0569b67b7bb249ae166f5bad03085fa4bb1f0067485b60abe602` |
+| 실행 자산 | `6549c7e2e36b98fa8b6cd02cdf5984b55102fb8336a83a2ab41438fef3696dbc` |
+| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
+| 정책·스킬 | `6d7e3cf825ff48f182b7e5527f3c092e95ccffea8b740aa0740fd159dbfea4b5` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+
+- QA 생성 시각: `2026-08-12T19:48:26.298Z`
+- 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG, 지도 위치 문항 8건
+- 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
+<!-- SOCIALMON_CURRENT_EVIDENCE:END -->

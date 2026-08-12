@@ -51,9 +51,9 @@ node scripts/verify-socialmon-delivery.mjs \
 | 실행 자산 | `89a31744d9d25d92c0b099c5e965480661f6473421978ad31c5f88becd93c2ce` |
 | 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
 | 정책·스킬 | `a2ae8dab29af5ab8072bf6a191eb0e3e2f686068f15ec253aac3902e35cc9cab` |
-| QA 하네스 | `83812a647d685adcf23b9ad8816b7dc9e827695f46c4eeed56181a0122a66589` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
 
-- QA 생성 시각: `2026-08-12T18:03:22.388Z`
+- QA 생성 시각: `2026-08-12T19:41:33.815Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

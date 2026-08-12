@@ -15,8 +15,8 @@
 - 공용 프로필 해시: `d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba`
 - 사회 변화 테마팩 해시: `3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18`
 - 공용 엔진 해시: `c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94`
-- 소셜몬 정책 지문: `9281a9e3fdb5fa2af0c7363259444cd52403a1e68e47b7b8a70c1b7f6672d366`
-- 소셜몬 하네스 지문: `86d786904fac793b7fc37baa4383addb8a2079c1e5c2991b1341243d67ce77a0`
+- 소셜몬 정책 지문: `2e1f3c793f8ff7142e89c96d26d01b9e79392cf963b8b494ee59b0e6786ad6ae`
+- 소셜몬 하네스 지문: `26e4a11534f855f439366bb7d05a3f21b63b829faf6cf06ae8d84df1d52ca55f`
 - 수업 범위: 3학년 2학기 1단원 1~2차시 `우리 사회의 변화 모습`
 - 성취기준: `[4사03-01]`
 - 문제 수: 6문항
@@ -192,3 +192,21 @@ SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4174 node scripts/qa-social-quiz.mjs socia
 
 공통 컴포넌트 데모와 profile-v1 정식 차시도 같은 엔진으로 다시 빌드했다. 각각
 46개 상태의 브라우저 회귀를 통과해 기존 계약 호환을 확인했다.
+
+<!-- SOCIALMON_CURRENT_EVIDENCE:START -->
+## 현재 전달 증거
+
+| 입력 | SHA-256 |
+|---|---|
+| quiz.json | `1a6ea9ce2a6dc7df5da2dd4520c2aeacaffffb60717daaf3429023beab73c6b7` |
+| profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
+| 테마팩 | `3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18` |
+| 실행 자산 | `8e0793587b45d0f221321e9b70ae39637123eac957ed7de68a14a76cd48fc2f3` |
+| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
+| 정책·스킬 | `bbdc556a881f303e366e915ab48ee445bb614101fa30b5733a876b1eb3f43575` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+
+- QA 생성 시각: `2026-08-12T19:36:14.811Z`
+- 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
+- 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
+<!-- SOCIALMON_CURRENT_EVIDENCE:END -->

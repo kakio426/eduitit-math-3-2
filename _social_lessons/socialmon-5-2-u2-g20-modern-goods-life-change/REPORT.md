@@ -84,9 +84,9 @@ g20은 기존 g11 q5의 근대 문물 판단과 q6의 개항 흐름을 독립 �
 | 실행 자산 | `2ac6c2374a3ceca589c982cac9b01f706c5e02b8fe9969f1155fdd23a49171b3` |
 | 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
 | 정책·스킬 | `a2ae8dab29af5ab8072bf6a191eb0e3e2f686068f15ec253aac3902e35cc9cab` |
-| QA 하네스 | `83812a647d685adcf23b9ad8816b7dc9e827695f46c4eeed56181a0122a66589` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
 
-- QA 생성 시각: `2026-08-12T18:02:25.741Z`
+- QA 생성 시각: `2026-08-12T19:43:49.397Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

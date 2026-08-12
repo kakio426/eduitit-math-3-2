@@ -152,3 +152,21 @@ SOCIALMON_GATE_CHANGED_FILES_JSON='["_social_lessons/socialmon-4-2-u1-g02-school
 | 하네스 | 509de366b3752aa54262b488d0968629425716e6521a030d669e973478e64300 |
 
 공용 동결 요청에 따라 이 갱신 뒤 verify-socialmon-delivery와 test-socialmon-hooks는 실행하지 않았다.
+
+<!-- SOCIALMON_CURRENT_EVIDENCE:START -->
+## 현재 전달 증거
+
+| 입력 | SHA-256 |
+|---|---|
+| quiz.json | `53f63793985c2c705513056a332db200b4841e9e39938adf4472c57f6b46add0` |
+| profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
+| 테마팩 | `5e44c5df6b0dc19f7075d3a2419c99544ab7ee06c736f51fc73c7d16f0f1ae27` |
+| 실행 자산 | `7fa5c88b8611d4bddbee519da7451fd8932b1ed7cdcd743d1267fc8b0a7ab82f` |
+| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
+| 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
+| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+
+- QA 생성 시각: `2026-08-12T19:45:14.455Z`
+- 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
+- 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
+<!-- SOCIALMON_CURRENT_EVIDENCE:END -->
