@@ -963,8 +963,12 @@ button:focus-visible {
   display: none;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) {
+  overflow: hidden;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench {
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 0.65cqw;
 }
 
@@ -984,6 +988,7 @@ button:focus-visible {
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
   grid-template-columns: 22cqw minmax(0, 1fr);
   gap: 1.25cqw;
+  margin-bottom: 1.15cqw;
   padding: 0.9cqw 1.1cqw;
 }
 
@@ -1070,9 +1075,35 @@ button:focus-visible {
   object-fit: cover;
 }
 
+@media (max-aspect-ratio: 3 / 2) {
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-layout {
+    height: 52.4cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+    font-size: 34px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
+    grid-template-columns: 22cqw minmax(0, 1fr);
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+    width: 22cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+    min-height: 94px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+    height: 6cqw;
+  }
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
   margin-top: 0.65cqw;
-  padding: 0.45cqw 0.8cqw 0.65cqw;
+  padding: 0.4cqw 0.8cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-submit {
@@ -1098,6 +1129,27 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .workbench-actions {
   display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(30px, 2.75cqw, 35px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-card.has-image {
+  grid-template-columns: 18cqw minmax(0, 1fr);
+  padding-block: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-image {
+  width: 18cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image {
+  min-height: max(82px, 7.3cqw);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image .option-image {
+  height: 5.7cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel {
@@ -1556,7 +1608,7 @@ button:focus-visible {
           <span class="cover-pin pin-two"></span>
         </div>
         <div class="top-row cover-top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="coverUnitBadge"></span>
         </div>
         <div class="cover-content">
@@ -1572,7 +1624,7 @@ button:focus-visible {
 
       <section class="screen screen-tutorial" id="screenTutorial" data-screen="tutorial" aria-labelledby="tutorialTitle" hidden>
         <div class="top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="tutorialUnitBadge"></span>
         </div>
         <div class="tutorial-panel">
@@ -1589,7 +1641,7 @@ button:focus-visible {
         <img class="raster-bg play-raster-bg" id="playBackground" alt="" aria-hidden="true" hidden>
         <header class="quiz-header">
           <div class="quiz-header-left">
-            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
             <span class="unit-badge" id="playUnitBadge"></span>
           </div>
           <div class="play-progress-group">
@@ -1631,7 +1683,7 @@ button:focus-visible {
       <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
         <img class="raster-bg result-raster-bg" id="resultBackground" alt="" aria-hidden="true" hidden>
         <div class="top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="resultUnitBadge"></span>
         </div>
         <div class="result-layout">
@@ -1692,8 +1744,8 @@ button:focus-visible {
     data-quiz-json-sha256="49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7"
     data-profile-json-sha256="112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67"
     data-theme-pack-json-sha256="a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1"
-    data-engine-sha256="165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3","quizJson":"_social_lessons/socialmon-3-2-u1-g06-living-together/quiz.json","quizJsonSha256":"49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7","profileJson":"_shared/socialmon/profiles/quiz-lite-v1/profile.json","profileJsonSha256":"112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67","themePackJson":"_shared/socialmon/theme-packs/3-2/culture/pack.json","themePackJsonSha256":"a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1","builtAt":"2026-08-12T05:55:20.224Z"}</script>
+    data-engine-sha256="c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94","quizJson":"_social_lessons/socialmon-3-2-u1-g06-living-together/quiz.json","quizJsonSha256":"49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7","profileJson":"_shared/socialmon/profiles/quiz-lite-v1/profile.json","profileJsonSha256":"112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67","themePackJson":"_shared/socialmon/theme-packs/3-2/culture/pack.json","themePackJsonSha256":"a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1","builtAt":"2026-08-12T10:03:21.442Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",

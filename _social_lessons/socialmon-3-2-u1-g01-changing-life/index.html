@@ -963,8 +963,12 @@ button:focus-visible {
   display: none;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) {
+  overflow: hidden;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench {
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 0.65cqw;
 }
 
@@ -984,6 +988,7 @@ button:focus-visible {
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
   grid-template-columns: 22cqw minmax(0, 1fr);
   gap: 1.25cqw;
+  margin-bottom: 1.15cqw;
   padding: 0.9cqw 1.1cqw;
 }
 
@@ -1070,9 +1075,35 @@ button:focus-visible {
   object-fit: cover;
 }
 
+@media (max-aspect-ratio: 3 / 2) {
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-layout {
+    height: 52.4cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+    font-size: 34px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
+    grid-template-columns: 22cqw minmax(0, 1fr);
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+    width: 22cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+    min-height: 94px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+    height: 6cqw;
+  }
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
   margin-top: 0.65cqw;
-  padding: 0.45cqw 0.8cqw 0.65cqw;
+  padding: 0.4cqw 0.8cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-submit {
@@ -1098,6 +1129,27 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .workbench-actions {
   display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(30px, 2.75cqw, 35px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-card.has-image {
+  grid-template-columns: 18cqw minmax(0, 1fr);
+  padding-block: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-image {
+  width: 18cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image {
+  min-height: max(82px, 7.3cqw);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image .option-image {
+  height: 5.7cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel {
@@ -1556,7 +1608,7 @@ button:focus-visible {
           <span class="cover-pin pin-two"></span>
         </div>
         <div class="top-row cover-top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="coverUnitBadge"></span>
         </div>
         <div class="cover-content">
@@ -1572,7 +1624,7 @@ button:focus-visible {
 
       <section class="screen screen-tutorial" id="screenTutorial" data-screen="tutorial" aria-labelledby="tutorialTitle" hidden>
         <div class="top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="tutorialUnitBadge"></span>
         </div>
         <div class="tutorial-panel">
@@ -1589,7 +1641,7 @@ button:focus-visible {
         <img class="raster-bg play-raster-bg" id="playBackground" alt="" aria-hidden="true" hidden>
         <header class="quiz-header">
           <div class="quiz-header-left">
-            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
             <span class="unit-badge" id="playUnitBadge"></span>
           </div>
           <div class="play-progress-group">
@@ -1631,7 +1683,7 @@ button:focus-visible {
       <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
         <img class="raster-bg result-raster-bg" id="resultBackground" alt="" aria-hidden="true" hidden>
         <div class="top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="resultUnitBadge"></span>
         </div>
         <div class="result-layout">
@@ -1689,11 +1741,11 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="b8176dc1284dbadfa378d98dcc9f533490101cc9e0830c94b5be0e60bdad579e"
-    data-profile-json-sha256="dfa9ed49520725a36bb2659e79f3cee7c9bb8f4b18e5c5f2575deb0f6d7377da"
+    data-quiz-json-sha256="1a6ea9ce2a6dc7df5da2dd4520c2aeacaffffb60717daaf3429023beab73c6b7"
+    data-profile-json-sha256="d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba"
     data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
-    data-engine-sha256="165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"b8176dc1284dbadfa378d98dcc9f533490101cc9e0830c94b5be0e60bdad579e","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"dfa9ed49520725a36bb2659e79f3cee7c9bb8f4b18e5c5f2575deb0f6d7377da","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","builtAt":"2026-08-12T05:52:53.006Z"}</script>
+    data-engine-sha256="c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"1a6ea9ce2a6dc7df5da2dd4520c2aeacaffffb60717daaf3429023beab73c6b7","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","builtAt":"2026-08-12T10:03:21.156Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -1865,25 +1917,35 @@ button:focus-visible {
       "instruction": "자료를 읽고 하나 골라요.",
       "source": {
         "title": "달라진 어린이집 모습",
-        "text": "태어나는 아이가 줄면서 문을 닫는 어린이집이 늘고 있습니다.",
+        "text": "기사에는 2013년부터 2022년까지 문을 닫은 어린이집 수가 나와 있어요.",
+        "image": "assets/source-childcare-closures-v1.webp",
+        "alt": "어린이 수가 줄어 문을 닫는 어린이집이 많다는 지도서 기사 자료",
         "credit": "자료: 사회 1 지도서 32쪽"
       },
       "options": [
         {
           "id": "fewer-births",
-          "text": "태어나는 아이가 줄어서"
+          "text": "태어나는 아이가 줄어서",
+          "image": "assets/option-fewer-births-v1.webp",
+          "alt": "어린이가 둘뿐이고 빈 의자와 빈 사물함이 많은 어린이집 그림"
         },
         {
           "id": "more-robots",
-          "text": "청소 로봇이 늘어서"
+          "text": "청소 로봇이 늘어서",
+          "image": "assets/option-more-robots-v1.webp",
+          "alt": "여러 청소 로봇이 어린이집 놀이방을 청소하는 그림"
         },
         {
           "id": "more-food",
-          "text": "여러 나라 음식이 늘어서"
+          "text": "여러 나라 음식이 늘어서",
+          "image": "assets/option-more-food-v1.webp",
+          "alt": "여러 나라의 다양한 음식이 한 상에 놓인 그림"
         },
         {
           "id": "more-buses",
-          "text": "버스가 빨라져서"
+          "text": "버스가 빨라져서",
+          "image": "assets/option-more-buses-v1.webp",
+          "alt": "도시 도로를 빠르게 달리는 버스 그림"
         }
       ],
       "correctId": "fewer-births",
@@ -2202,6 +2264,15 @@ button:focus-visible {
       "minSubmitWidthPx": 150,
       "minSubmitHeightPx": 52,
       "minSubmitSafeInsetPx": 4,
+      "minSourceChoiceGapRatio": 0.01,
+      "maxCoreVerticalGapRatio": 0.04,
+      "maxAdjacentGapRatio": 2,
+      "maxCorrectChoiceTokenOverlapRatio": 0.6,
+      "minCorrectChoiceTokenMatches": 2,
+      "requireSourceImage": true,
+      "requireAllOptionImages": true,
+      "forbidAnswerLeak": true,
+      "forbidCenteredWorkbench": true,
       "hideQuestionKind": true,
       "hideImageSourceInstruction": true,
       "hideInlineSourceCredit": true
