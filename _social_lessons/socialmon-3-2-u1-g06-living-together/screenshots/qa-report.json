@@ -1,8 +1,8 @@
 {
   "standard": "socialmon-quiz-browser-qa-v3",
-  "generatedAt": "2026-08-12T10:01:25.130Z",
+  "generatedAt": "2026-08-12T13:58:11.202Z",
   "folder": "socialmon-3-2-u1-g06-living-together",
-  "url": "http://127.0.0.1:4176/_social_lessons/socialmon-3-2-u1-g06-living-together/",
+  "url": "http://127.0.0.1:4199/_social_lessons/socialmon-3-2-u1-g06-living-together/",
   "passed": true,
   "contracts": {
     "profileId": "socialmon-quiz-lite-profile-v1",
@@ -32,21 +32,29 @@
   },
   "visualContracts": null,
   "buildInputs": {
-    "quizJsonSha256": "49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7",
+    "quizJsonSha256": "4decc8cbbe3985d5286b495bfa6e7d12a064a486c276e768a5d204fd2fb43dd4",
     "profileJsonSha256": "112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67",
     "themePackJsonSha256": "a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1",
-    "engineSha256": "c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94"
+    "lessonAssetsSha256": "07e4d485f1b18e3b67e38749806da5fae5775ccc751ddf50ce10de6e73255daf",
+    "engineSha256": "f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776"
   },
   "evidenceGate": {
     "standard": "socialmon-current-browser-evidence-v1",
-    "policySha256": "9281a9e3fdb5fa2af0c7363259444cd52403a1e68e47b7b8a70c1b7f6672d366",
-    "harnessSha256": "86d786904fac793b7fc37baa4383addb8a2079c1e5c2991b1341243d67ce77a0",
+    "policySha256": "03568037a28f1559d28a68cfae4820515fcdb5633f7eb05cfcee614f8f931a91",
+    "harnessSha256": "509de366b3752aa54262b488d0968629425716e6521a030d669e973478e64300",
     "policyFiles": [
       ".claude/skills/eduitit-socialmon-lesson/SKILL.md",
+      ".claude/skills/eduitit-socialmon-lesson/agents/openai.yaml",
+      ".claude/skills/eduitit-socialmon-lesson/references/grade5-history.md",
+      ".claude/skills/eduitit-socialmon-lesson/references/question-types.md",
+      ".claude/skills/eduitit-socialmon-lesson/references/verification.md",
       "AGENTS.md",
       "CLAUDE.md",
       "SOCIALMON_3_2_MASTER_PLAN.md",
-      "SOCIAL_SERIES_CONTRACT.md"
+      "SOCIALMON_INTERACTION_POLICY.json",
+      "SOCIAL_SERIES_CONTRACT.md",
+      "_social_lessons/series/3-2/series.json",
+      "_social_sources/3-2/source-catalog.json"
     ],
     "harnessFiles": [
       ".codex/hooks.json",
@@ -57,6 +65,7 @@
       "scripts/check-social-quiz.mjs",
       "scripts/check-social-series.mjs",
       "scripts/check-socialmon-expansion-packs.mjs",
+      "scripts/check-socialmon-interaction-policy.mjs",
       "scripts/check-socialmon-pack.mjs",
       "scripts/check-socialmon-source-catalog.mjs",
       "scripts/check-stage-ratio.mjs",
@@ -610,7 +619,9 @@
           "targetCount": 2
         }
       ],
-      "visualAudits": {},
+      "visualAudits": {
+        "mapHotspots": []
+      },
       "finalState": {
         "screen": "result",
         "questionIndex": 5,
@@ -1159,7 +1170,9 @@
           "targetCount": 2
         }
       ],
-      "visualAudits": {},
+      "visualAudits": {
+        "mapHotspots": []
+      },
       "finalState": {
         "screen": "result",
         "questionIndex": 5,
@@ -1179,6 +1192,7 @@
     "textOverflowCount": 0,
     "outsideStageCount": 0,
     "criticalOverlapCount": 0,
-    "smallTargetCount": 0
+    "smallTargetCount": 0,
+    "mapHotspotAuditCount": 0
   }
 }
