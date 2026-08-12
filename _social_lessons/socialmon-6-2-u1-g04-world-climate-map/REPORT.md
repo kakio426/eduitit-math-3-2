@@ -45,9 +45,9 @@
 | 실행 자산 | `e32eaabfe7a230097c4094812afbfc36521dfa940630e4290b3cf2d6b6f338f0` |
 | 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
 | 정책·스킬 | `6d7e3cf825ff48f182b7e5527f3c092e95ccffea8b740aa0740fd159dbfea4b5` |
-| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
 
-- QA 생성 시각: `2026-08-12T19:46:04.069Z`
+- QA 생성 시각: `2026-08-12T20:47:59.887Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG, 지도 위치 문항 8건
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

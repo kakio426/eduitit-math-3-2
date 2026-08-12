@@ -85,9 +85,9 @@ g19는 기존 g09 q5의 주변 나라 관계와 g11에 섞인 청·병자호란 
 | 실행 자산 | `113ccf4470bba8386de10998ac140a6c44b800ae60c0923102ba251c5b671ff9` |
 | 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
 | 정책·스킬 | `a2ae8dab29af5ab8072bf6a191eb0e3e2f686068f15ec253aac3902e35cc9cab` |
-| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
 
-- QA 생성 시각: `2026-08-12T19:43:46.104Z`
+- QA 생성 시각: `2026-08-12T20:46:02.279Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

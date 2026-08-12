@@ -60,9 +60,9 @@
 | 실행 자산 | `41fc33b6ffc65c437235d43ca34f4b26d1d9c25a05629cb7a77865f567d1ef76` |
 | 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
 | 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
-| QA 하네스 | `4311e2b76bd42939807336a04129bfb518c22856b174241715a2a75168ebbdc5` |
+| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
 
-- QA 생성 시각: `2026-08-12T19:51:41.433Z`
+- QA 생성 시각: `2026-08-12T20:42:06.529Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
