@@ -93,7 +93,8 @@
     "viewports": [
       { "name": "desktop-1280x800", "width": 1280, "height": 800 },
       { "name": "tablet-landscape-1024x768", "width": 1024, "height": 768 },
-      { "name": "feedback-reported-1079x929", "width": 1079, "height": 929 }
+      { "name": "feedback-reported-1079x929", "width": 1079, "height": 929 },
+      { "name": "feedback-reported-1079x842", "width": 1079, "height": 842 }
     ],
     "requiredScreens": ["cover", "tutorial", "play", "result"],
     "requiredFlowStates": ["answering", "feedback-correct", "feedback-wrong", "trace-stamped", "trace-silhouette", "trace-trait"],
@@ -134,14 +135,30 @@
       "hiddenProgress": "#traceProgress"
     },
     "sourceChoiceAudit": {
-      "standard": "socialmon-source-choice-tablet-v1",
+      "standard": "socialmon-source-choice-tablet-v3",
       "sourceCard": ".source-card.has-image",
       "sourceImage": ".source-image",
       "choice": ".choice-option",
-      "minSourceImageWidthRatio": 0.18,
-      "minChoiceHeightPx": 64,
-      "minChoiceFontPx": 19,
-      "maxChoiceWidthRatio": 0.31
+      "minSourceImageWidthRatio": 0.22,
+      "minSourcePixelDensity": 3,
+      "minPromptFontPx": 34,
+      "minSourceTitleFontPx": 24,
+      "minSourceBodyFontPx": 20,
+      "sourceCredit": "#playSourceCredit",
+      "maxSourceCreditFontPx": 12,
+      "requireSourceCreditBackplate": true,
+      "maxSourceCreditRightInsetRatio": 0.03,
+      "maxSourceCreditBottomInsetRatio": 0.03,
+      "minChoiceHeightPx": 94,
+      "minChoiceFontPx": 21,
+      "maxChoiceWidthRatio": 0.31,
+      "minOptionImageNaturalWidth": 512,
+      "minSubmitWidthPx": 150,
+      "minSubmitHeightPx": 52,
+      "minSubmitSafeInsetPx": 4,
+      "hideQuestionKind": true,
+      "hideImageSourceInstruction": true,
+      "hideInlineSourceCredit": true
     },
     "forbidTextOverflow": true,
     "forbidSiblingOverlap": true,
