@@ -1,0 +1,203 @@
+{
+  "standard": "socialmon-imagegen-request-v1",
+  "lesson": "socialmon-4-2-u3-g14-city-features",
+  "assetsDir": "_social_lessons/socialmon-4-2-u3-g14-city-features/assets",
+  "requestedBy": "term_c14381df-05c1-47c7-9e61-d326623a2994",
+  "itemCount": 9,
+  "deliveryRules": [
+    "모든 파일은 assetsDir 아래에 정확한 파일명으로 저장한다.",
+    "제작 원본은 `<이름>-source.png`, 실행본은 같은 이름의 `.webp`로 둔다. Pages 빌더가 뒤쪽 `-source.<확장자>`만 제외한다.",
+    "이 9장은 모두 생성형 자산이며 정답·사실 근거로 쓰지 않는다. 사실 근거 이미지 2장은 이미 지도서 PDF crop으로 확보했다.",
+    "선택지 8장은 각각 별도 프롬프트로 따로 생성한다. 한 장에 여러 선택지를 모아 그리지 않는다.",
+    "선택지 8장에는 글자, 숫자, 한글, 영문, 로고, 워터마크, 말풍선, 표지판 문구, UI 패널을 넣지 않는다.",
+    "선택지 8장은 정사각 1254x1254 이상, 실행 WebP 자연 가로 512px 이상이어야 한다.",
+    "cover-copy는 배경을 순수 크로마키 #00ff00 한 색으로 채우고, 문구 덩어리 밖에는 어떤 그림도 넣지 않는다. 배경 제거 뒤 투명 PNG와 실행 WebP를 함께 전달한다.",
+    "cover-copy의 한글은 아래 koreanText와 글자 하나까지 같아야 한다. 철자가 틀리면 다시 생성한다."
+  ],
+  "sharedStyle": {
+    "id": "socialmon-option-decoration-style-v1",
+    "description": "기존 소셜몬 선택지 장식 그림과 같은 화풍. 밝은 2D 플랫 카툰 일러스트, 굵고 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 정면에 가까운 눈높이, 크림색(#fdf6e3 계열) 단순 배경, 초등학생이 한눈에 알아보는 큰 형태.",
+    "canvas": "1254x1254",
+    "avoid": [
+      "글자",
+      "숫자",
+      "한글",
+      "영문",
+      "로고",
+      "워터마크",
+      "말풍선",
+      "표지판 문구",
+      "UI 패널",
+      "지도 범례",
+      "사진 같은 실사 렌더",
+      "무서운 표현",
+      "특정 상표"
+    ]
+  },
+  "items": [
+    {
+      "id": "cover-copy-v1",
+      "kind": "cover-copy",
+      "usedBy": "visualAssets.coverCopyArt",
+      "files": {
+        "chromakeySourcePng": "assets/cover-copy-v1-source.png",
+        "transparentPng": "assets/cover-copy-v1-generated.png",
+        "runtimeWebp": "assets/cover-copy-v1-generated.webp"
+      },
+      "canvas": "1536x1024",
+      "background": "#00ff00 순수 크로마키 한 색",
+      "koreanText": {
+        "productPill": "소셜몬 발견 퀴즈",
+        "titleLine1": "소셜몬 도시",
+        "titleLine2": "특징 찾기",
+        "goalPill": "사진과 지도에서 도시의 특징을 찾아봐요."
+      },
+      "prompt": "순수 초록색 #00ff00 배경 한 가운데에 한국 초등학생용 게임 표지 문구 덩어리만 그린다. 위에서부터 세 덩어리로 쌓는다. (1) 노란 알약 모양 배지 안에 굵은 남색 한글 '소셜몬 발견 퀴즈'. (2) 그 아래 아주 굵은 만화체 한글 제목 두 줄, 첫 줄 '소셜몬 도시', 둘째 줄 '특징 찾기'. 글자는 밝은 하늘색과 흰색 그러데이션 면에 굵은 남색 외곽선과 노란 그림자를 두고, 제목 양옆에 작은 노란 반짝임 장식을 둔다. (3) 그 아래 흰색 알약 모양 띠 안에 굵은 남색 한글 한 문장 '사진과 지도에서 도시의 특징을 찾아봐요.'. 문구 덩어리 밖에는 아무 그림도 없고 초록 배경만 남긴다. 글자는 좌우 대칭으로 가운데 정렬한다. 철자는 제시한 한글과 정확히 같아야 한다.",
+      "avoid": [
+        "배경 장면",
+        "캐릭터",
+        "건물",
+        "시작 버튼",
+        "영문 글자",
+        "초록 이외의 배경색",
+        "그림자 진 초록 배경",
+        "반투명 초록"
+      ],
+      "role": "표지 문구 아트. 사실 근거 아님."
+    },
+    {
+      "id": "option-city-skyline-v1",
+      "kind": "option-decoration",
+      "question": "q1-city-photo",
+      "optionId": "city-tall-buildings",
+      "optionText": "높은 건물이 많고 넓은 길이 이어져 있어요.",
+      "isCorrectOption": true,
+      "files": {
+        "sourcePng": "assets/option-city-skyline-v1-source.png",
+        "runtimeWebp": "assets/option-city-skyline-v1.webp"
+      },
+      "alt": "높은 건물이 줄지어 서 있고 넓은 길에 자동차가 오가는 도시 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 높은 유리 건물과 아파트가 줄지어 서 있는 도시 풍경, 앞쪽에는 차선이 여러 개인 넓은 길이 가로로 지나가고 자동차와 파란 버스 몇 대가 달린다. 길가에는 가로수와 신호등이 있고 하늘은 맑은 하늘색에 흰 구름 몇 조각. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-rice-paddy-v1",
+      "kind": "option-decoration",
+      "question": "q1-city-photo",
+      "optionId": "rice-paddy",
+      "optionText": "넓은 논과 밭에서 농사를 지어요.",
+      "isCorrectOption": false,
+      "files": {
+        "sourcePng": "assets/option-rice-paddy-v1-source.png",
+        "runtimeWebp": "assets/option-rice-paddy-v1.webp"
+      },
+      "alt": "누렇게 익은 넓은 논과 밭에서 농사짓는 모습을 그린 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 누렇게 익은 넓은 논이 지평선까지 펼쳐지고 옆에는 초록 채소밭 이랑이 있다. 밀짚모자를 쓴 농부 한 사람이 벼를 살피고 작은 빨간 경운기가 논둑에 서 있다. 멀리 낮은 초록 산과 시골집 두 채. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-mountain-valley-v1",
+      "kind": "option-decoration",
+      "question": "q1-city-photo",
+      "optionId": "mountain-valley",
+      "optionText": "높은 산과 깊은 골짜기가 이어져 있어요.",
+      "isCorrectOption": false,
+      "files": {
+        "sourcePng": "assets/option-mountain-valley-v1-source.png",
+        "runtimeWebp": "assets/option-mountain-valley-v1.webp"
+      },
+      "alt": "높은 산봉우리와 깊은 골짜기, 맑은 계곡물이 흐르는 산속 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 뾰족한 초록 산봉우리 여러 개가 겹쳐 있고 그 사이로 깊은 골짜기가 파여 맑은 계곡물이 바위 사이를 흐른다. 비탈에는 침엽수와 활엽수가 빽빽하고 산 위에는 흰 구름이 걸려 있다. 건물과 도로는 없다. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-sandy-shore-v1",
+      "kind": "option-decoration",
+      "question": "q1-city-photo",
+      "optionId": "sandy-shore",
+      "optionText": "모래사장에 작은 배가 놓여 있어요.",
+      "isCorrectOption": false,
+      "files": {
+        "sourcePng": "assets/option-sandy-shore-v1-source.png",
+        "runtimeWebp": "assets/option-sandy-shore-v1.webp"
+      },
+      "alt": "넓은 모래사장에 작은 나무배가 놓이고 파도가 밀려오는 바닷가 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 넓은 노란 모래사장에 작은 나무배 한 척이 비스듬히 놓여 있고 옆에는 그물과 부표가 쌓여 있다. 뒤로는 잔잔한 파도가 밀려오는 푸른 바다와 낮은 수평선, 갈매기 두어 마리. 높은 건물과 도로는 없다. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-transport-hub-v1",
+      "kind": "option-decoration",
+      "question": "q4-busan-transport",
+      "optionId": "many-facilities",
+      "optionText": "공항과 항구, 기차역과 버스 터미널이 함께 있어요.",
+      "isCorrectOption": true,
+      "files": {
+        "sourcePng": "assets/option-transport-hub-v1-source.png",
+        "runtimeWebp": "assets/option-transport-hub-v1.webp"
+      },
+      "alt": "비행기와 배, 기차와 버스가 한 그림 안에서 함께 오가는 모습을 그린 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 한 장면 안에 네 가지 교통이 함께 보인다. 왼쪽 위에는 활주로에서 막 떠오르는 하늘색 여객기, 오른쪽 위에는 붉은 크레인이 선 부두에 정박한 컨테이너 배, 가운데에는 승강장에 선 흰색 고속 열차, 아래쪽에는 파란 시외버스 두 대가 선 넓은 버스 승강장. 각 요소는 겹치지 않고 또렷하게 배치한다. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-harbor-only-v1",
+      "kind": "option-decoration",
+      "question": "q4-busan-transport",
+      "optionId": "harbor-only",
+      "optionText": "배가 드나드는 항구 하나만 있어요.",
+      "isCorrectOption": false,
+      "files": {
+        "sourcePng": "assets/option-harbor-only-v1-source.png",
+        "runtimeWebp": "assets/option-harbor-only-v1.webp"
+      },
+      "alt": "작은 배 한 척만 드나드는 조용한 항구를 그린 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 조용한 작은 항구에 나무 부두가 하나 있고 파란 어선 한 척만 밧줄로 묶여 있다. 부두 옆에는 나무 기둥과 부표, 갈매기 한 마리. 비행기, 기차, 버스, 큰 도로는 전혀 없고 바다와 부두만 보인다. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-mountain-path-v1",
+      "kind": "option-decoration",
+      "question": "q4-busan-transport",
+      "optionId": "mountain-path-only",
+      "optionText": "산길만 있어서 기차와 배는 다니지 않아요.",
+      "isCorrectOption": false,
+      "files": {
+        "sourcePng": "assets/option-mountain-path-v1-source.png",
+        "runtimeWebp": "assets/option-mountain-path-v1.webp"
+      },
+      "alt": "구불구불한 흙길 하나만 산을 따라 이어진 산속 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 초록 산비탈을 따라 좁은 흙길 하나가 구불구불 위로 이어진다. 길가에는 나무와 바위, 작은 나무 이정표 기둥(글자 없음)만 있고 자동차, 기차, 배, 비행기는 전혀 없다. 하늘에는 흰 구름 몇 조각. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    },
+    {
+      "id": "option-narrow-alley-v1",
+      "kind": "option-decoration",
+      "question": "q4-busan-transport",
+      "optionId": "narrow-alley",
+      "optionText": "좁은 골목 하나로만 오갈 수 있어요.",
+      "isCorrectOption": false,
+      "files": {
+        "sourcePng": "assets/option-narrow-alley-v1-source.png",
+        "runtimeWebp": "assets/option-narrow-alley-v1.webp"
+      },
+      "alt": "낮은 집 사이로 좁은 골목 하나만 이어진 작은 마을 장식 그림",
+      "prompt": "밝은 2D 플랫 카툰 스티커 일러스트. 낮은 기와집과 담장 사이로 사람 한 명이 겨우 지나갈 만큼 좁은 골목 하나가 안쪽으로 이어진다. 담장 위에는 화분과 넝쿨, 바닥에는 돌길. 자동차, 버스, 기차, 배, 넓은 도로는 전혀 없다. 굵은 흰 스티커 테두리, 부드러운 셀 셰이딩, 채도 높은 맑은 색, 크림색 단순 배경.",
+      "role": "선택지 장식 그림. 사실 근거 아님."
+    }
+  ],
+  "alreadyPreparedFactualSources": [
+    {
+      "file": "assets/source-city-view-v1.webp",
+      "master": "assets/source-city-view-v1-source.png",
+      "origin": "4_2_사회_3_지도서.pdf PDF 54쪽(지도서 243쪽 / 교과서 129쪽) crop",
+      "note": "생성 대상 아님"
+    },
+    {
+      "file": "assets/source-busan-transport-v1.webp",
+      "master": "assets/source-busan-transport-v1-source.png",
+      "origin": "4_2_사회_3_지도서.pdf PDF 62쪽(지도서 251쪽 / 교과서 133쪽) crop",
+      "note": "생성 대상 아님"
+    }
+  ]
+}

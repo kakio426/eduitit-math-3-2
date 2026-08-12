@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "socialmon-4-2-u3-g11-two-environments",
+  "folder": "_social_lessons/socialmon-4-2-u3-g11-two-environments",
+  "assetFolder": "_social_lessons/socialmon-4-2-u3-g11-two-environments/assets",
+  "requestedBy": "term_a03f7dae-60a2-445a-baf3-ab3881ea1f3b",
+  "requestCount": 9,
+  "styleAnchor": {
+    "reference": "_social_lessons/socialmon-4-2-u3-g15-city-life/assets/option-city-apartment-v1.webp",
+    "look": "밝은 2D 플랫 카툰 스티커. 굵은 흰색 다이컷 테두리, 부드러운 파스텔 색, 초등 교과서 삽화 톤.",
+    "optionCanvas": "1254x1254 정사각형",
+    "optionBackground": "따뜻한 크림색 단색 배경 (#F7F0DE)",
+    "coverCanvas": "1254x1254 정사각형"
+  },
+  "globalRules": [
+    "선택지 8장은 모두 정답 근거가 아니라 글자의 뜻을 빠르게 알아보게 돕는 장식 그림이다.",
+    "선택지 그림에는 글자, 숫자, 로고, 워터마크, 서명, UI 요소를 넣지 않는다.",
+    "선택지 그림은 실제 사진처럼 보이게 만들지 않는다. 사실 근거 자료는 지도서 PDF crop만 쓴다.",
+    "사람은 초등학생 또는 어른 1~2명까지만 넣고 얼굴을 단순하게 그린다.",
+    "실행 WebP는 자연 가로 512px 이상이어야 한다. 1254x1254 원본을 그대로 변환하면 충족한다.",
+    "cover-copy 한 장만 크로마키 배경으로 만들고 배경 제거 뒤 투명 PNG/WebP로 저장한다."
+  ],
+  "requests": [
+    {
+      "index": 1,
+      "kind": "cover-copy",
+      "sourcePng": "assets/cover-copy-v1-source.png",
+      "deliverPng": "assets/cover-copy-v1-generated.png",
+      "runtimeWebp": "assets/cover-copy-v1-generated.webp",
+      "usage": "1280x800 표지 화면 가운데의 생성형 문구 아트 한 덩어리. 배경 장면 위에 투명하게 얹으며 같은 뜻의 HTML 문구는 접근성용으로 숨긴다.",
+      "exactKoreanText": {
+        "kicker": "소셜몬 발견 퀴즈",
+        "titleLine1": "소셜몬 환경",
+        "titleLine2": "두 모습 찾기",
+        "goal": "자연이 만든 환경과 사람이 만든 환경을 나누어 봐요."
+      },
+      "prompt": "Flat 2D game title lettering artwork on a solid pure green chroma key background (#00ff00), no scene, no photo. Centered vertical stack of three Korean typographic blocks. Top: a small rounded pill badge with warm yellow fill, dark brown outline, and the exact Korean text '소셜몬 발견 퀴즈' in bold rounded gothic letters. Middle: a two-line chunky 3D game title, line 1 '소셜몬 환경' and line 2 '두 모습 찾기', bold rounded Korean gothic letters with bright leaf-green and sky-blue gradient fill, thick white inner outline, dark navy outer outline, soft drop shadow, small yellow sparkle marks on both sides. Bottom: a wide rounded pill with warm cream fill and dark brown outline containing the exact Korean text '자연이 만든 환경과 사람이 만든 환경을 나누어 봐요.' in bold rounded gothic letters. Every Korean character must be spelled exactly as given. Cheerful elementary school textbook mood, crisp vector edges, high contrast, no background scenery, no characters, no photo, no watermark.",
+      "chromaKey": "#00ff00 단색",
+      "avoid": [
+        "배경 장면, 사진, 캐릭터, 소품",
+        "지정한 문구 밖의 글자나 영어 문장",
+        "한글 철자 오류, 자모 분리, 겹침",
+        "워터마크, 서명, 프레임"
+      ]
+    },
+    {
+      "index": 2,
+      "kind": "option",
+      "question": "q1-nature-photos",
+      "optionId": "mountain-sea",
+      "optionText": "산과 바다",
+      "correct": true,
+      "sourcePng": "assets/option-mountain-sea-v1-source.png",
+      "runtimeWebp": "assets/option-mountain-sea-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 왼쪽 위. 글자 뜻을 빠르게 알아보게 돕는 장식 그림이며 정답 근거가 아니다.",
+      "alt": "푸른 산과 파란 바다가 함께 보이는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. A green forested mountain range on the left and a calm blue sea with gentle waves and a small rocky island on the right, sandy shore in front, soft white clouds in a light blue sky. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no buildings, no roads, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "건물·도로·항구 같은 사람이 만든 시설", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 3,
+      "kind": "option",
+      "question": "q1-nature-photos",
+      "optionId": "port-building",
+      "optionText": "항구와 건물",
+      "correct": false,
+      "sourcePng": "assets/option-port-building-v1-source.png",
+      "runtimeWebp": "assets/option-port-building-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 오른쪽 위. 장식 그림이며 정답 근거가 아니다.",
+      "alt": "배가 서 있는 항구와 높은 건물이 함께 보이는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. A harbor with a red and white cargo boat tied at a concrete pier, stacked colorful shipping containers, and a row of tall city buildings with many windows rising behind, calm blue water in front, light blue sky with soft clouds. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "산과 바다 풍경이 주인공이 되는 구도", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 4,
+      "kind": "option",
+      "question": "q1-nature-photos",
+      "optionId": "pasture-rice",
+      "optionText": "목장과 논",
+      "correct": false,
+      "sourcePng": "assets/option-pasture-rice-v1-source.png",
+      "runtimeWebp": "assets/option-pasture-rice-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 왼쪽 아래. 장식 그림이며 정답 근거가 아니다.",
+      "alt": "젖소가 있는 목장과 노랗게 익은 논이 함께 보이는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. A green fenced pasture with two black and white dairy cows grazing on the left, and a golden ripe rice paddy with neat rows on the right, low hills and a small barn in the distance, light blue sky with soft clouds. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "도시 건물이나 항구", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 5,
+      "kind": "option",
+      "question": "q1-nature-photos",
+      "optionId": "road-factory",
+      "optionText": "도로와 공장",
+      "correct": false,
+      "sourcePng": "assets/option-road-factory-v1-source.png",
+      "runtimeWebp": "assets/option-road-factory-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 오른쪽 아래. 장식 그림이며 정답 근거가 아니다.",
+      "alt": "넓은 도로와 굴뚝이 있는 공장이 함께 보이는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. A wide grey asphalt road with white lane lines curving from the front to the middle, street lamps along the side, and a simple factory building with two tall chimneys and a saw-tooth roof behind, low green hills and light blue sky with soft clouds. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no cars with brand marks, no people, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "검은 연기나 무서운 분위기", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 6,
+      "kind": "option",
+      "question": "q4-sejong-change",
+      "optionId": "apartment-road",
+      "optionText": "아파트 단지가 생기고 도로가 넓어졌어요.",
+      "correct": true,
+      "sourcePng": "assets/option-apartment-road-v1-source.png",
+      "runtimeWebp": "assets/option-apartment-road-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 왼쪽 위. 장식 그림이며 정답 근거는 지도서 세종 비교 사진이다.",
+      "alt": "아파트 단지가 줄지어 서 있고 넓은 도로가 지나가는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. A neighborhood of several tall apartment towers standing in neat rows with green trees between them, and a wide multi-lane road with white lane lines and street lamps passing in front, a small river with a bridge at the side, light blue sky with soft clouds. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "항공 사진처럼 보이는 표현", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 7,
+      "kind": "option",
+      "question": "q4-sejong-change",
+      "optionId": "mountain-sea-new",
+      "optionText": "산과 바다가 새로 생겼어요.",
+      "correct": false,
+      "sourcePng": "assets/option-new-mountain-sea-v1-source.png",
+      "runtimeWebp": "assets/option-new-mountain-sea-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 오른쪽 위. 장식 그림이며 정답 근거가 아니다.",
+      "alt": "높은 산봉우리와 넓은 바다가 나란히 보이는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. Two tall rounded mountain peaks with green slopes on the left and a wide blue sea with gentle white-capped waves stretching to the horizon on the right, a few seagull shapes in a light blue sky. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no buildings, no roads, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "2번 선택지 그림(산과 바다)과 똑같은 구도", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 8,
+      "kind": "option",
+      "question": "q4-sejong-change",
+      "optionId": "rain-snow-more",
+      "optionText": "비와 눈이 더 자주 내리게 되었어요.",
+      "correct": false,
+      "sourcePng": "assets/option-rain-snow-v1-source.png",
+      "runtimeWebp": "assets/option-rain-snow-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 왼쪽 아래. 장식 그림이며 정답 근거가 아니다.",
+      "alt": "비가 내리는 쪽과 눈이 내리는 쪽이 나란히 보이는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. Split scene: on the left, grey rain clouds with blue raindrops falling on a green tree and small puddles; on the right, soft white snow falling on a bare tree and a snowy ground, pale blue winter sky. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "천둥·번개처럼 무서운 분위기", "사진 같은 사실 자료 느낌"]
+    },
+    {
+      "index": 9,
+      "kind": "option",
+      "question": "q4-sejong-change",
+      "optionId": "rice-wider",
+      "optionText": "논이 더 넓어지고 도로가 좁아졌어요.",
+      "correct": false,
+      "sourcePng": "assets/option-rice-narrow-road-v1-source.png",
+      "runtimeWebp": "assets/option-rice-narrow-road-v1.webp",
+      "usage": "1280x800 문제 화면 2열 그림 선택지 카드 오른쪽 아래. 장식 그림이며 정답 근거가 아니다.",
+      "alt": "넓은 논 사이로 좁은 흙길이 나 있는 장식 그림",
+      "prompt": "Flat 2D cartoon sticker illustration on a warm cream background (#F7F0DE), thick white die-cut outline. A wide green rice paddy filling most of the scene with neat planted rows, and one narrow brown dirt path winding between the fields, a small farm shed and low green hills in the distance, light blue sky with soft clouds. Bright pastel colors, simple shapes, cheerful elementary textbook mood, square composition, no people, no text, no numbers, no logo, no watermark.",
+      "avoid": ["글자·숫자·로고·워터마크", "아파트나 넓은 포장도로", "사진 같은 사실 자료 느낌"]
+    }
+  ],
+  "postProcessing": {
+    "coverCopy": "크로마키 배경을 제거해 투명 PNG로 저장한 뒤 같은 내용의 WebP로 변환한다. 파일명은 cover-copy-v1-source.png(생성 원본), cover-copy-v1-generated.png(투명 PNG), cover-copy-v1-generated.webp(실행본)로 둔다.",
+    "options": "1254x1254 생성 원본을 <이름>-source.png로 저장하고 같은 내용의 WebP를 <이름>.webp로 변환한다. 자연 가로 512px 이상을 유지한다.",
+    "note": "사실 자료 이미지 2장(source-two-environments-v1.webp, source-sejong-change-v1.webp)은 지도서 PDF crop으로 이미 준비했으므로 생성 대상이 아니다."
+  }
+}
