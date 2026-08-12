@@ -1,0 +1,3213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f2552">
+  <link rel="icon" href="data:,">
+  <title>소셜몬 산과 강 곁의 생활</title>
+  <style>
+:root {
+  color-scheme: light;
+  font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  --navy: #102a56;
+  --navy-deep: #081b3a;
+  --cream: #fff9e9;
+  --paper: #fffef8;
+  --teal: #1d9b91;
+  --teal-dark: #08736e;
+  --coral: #ff735e;
+  --yellow: #ffd452;
+  --green: #47a85a;
+  --red: #d84d4d;
+  --ink: #18304d;
+  --muted: #5e6d7d;
+  --line: #cad8dc;
+  --shadow: 0 1.15cqw 2.5cqw rgb(7 34 63 / 18%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #dce9e8;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+}
+
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 0.3cqw solid #ffe173;
+  outline-offset: 0.25cqw;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.social-game {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  place-items: center;
+}
+
+.stage-shell {
+  position: relative;
+  width: min(100vw, 160vh);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  container-type: inline-size;
+  background:
+    radial-gradient(circle at 14% 16%, rgb(255 255 255 / 80%) 0 6%, transparent 6.3%),
+    linear-gradient(150deg, #fff5ca 0%, #ddf5ed 42%, #cbe9f5 100%);
+  box-shadow: 0 1.25cqw 4cqw rgb(5 27 55 / 24%);
+  isolation: isolate;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 2.1cqw 2.5cqw 2.5cqw;
+  overflow: hidden;
+}
+
+.screen::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.raster-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.screen.is-active {
+  animation: screen-in 260ms ease-out both;
+}
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(0.7cqw); }
+  to { opacity: 1; transform: none; }
+}
+
+.top-row,
+.quiz-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 4.22cqw;
+  padding-right: 6.4cqw;
+  gap: 0.75cqw;
+}
+
+.brand-badge,
+.unit-badge,
+.question-progress {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: max-content;
+  min-height: 3.1cqw;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.42cqw 1.08cqw;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 0.35cqw 0.8cqw rgb(11 44 67 / 12%);
+}
+
+.play-progress-group {
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+}
+
+.trace-progress {
+  min-height: var(--sound-button-size);
+  display: flex;
+  align-items: center;
+  gap: 0.25cqw;
+  padding: 0 1.1cqw;
+  border: 0.16cqw solid #f4b94e;
+  border-radius: 999px;
+  background: #fff8d9;
+  color: #704715;
+  font-size: clamp(14px, 1.25cqw, 17px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.brand-badge {
+  gap: 0.55cqw;
+  border: 0.15cqw solid rgb(255 255 255 / 72%);
+  background: var(--navy);
+  color: white;
+  font-size: clamp(13px, 1.17cqw, 15px);
+}
+
+.socialmon-brand-mark {
+  flex: 0 0 auto;
+  width: 2.25cqw;
+  height: 1.7cqw;
+  object-fit: contain;
+}
+
+.unit-badge {
+  border: 0.15cqw solid #f5c447;
+  background: #fff7cd;
+  color: #6c4b06;
+  font-size: clamp(13px, 1.17cqw, 15px);
+}
+
+.settings-toggle {
+  position: absolute;
+  z-index: 20;
+  top: 2.1cqw;
+  right: 2.5cqw;
+  width: max(44px, 4.22cqw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0.78cqw;
+  border: 0.16cqw solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  box-shadow: 0 0.45cqw 1cqw rgb(8 28 56 / 22%);
+  cursor: pointer;
+}
+
+.settings-toggle:hover {
+  background: #173b78;
+}
+
+.settings-toggle svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+/* Cover */
+.screen-cover::before {
+  background: linear-gradient(180deg, rgb(255 255 255 / 5%), rgb(255 249 224 / 8%));
+}
+
+.social-game[data-component-lab="true"] .screen-cover::before {
+  background:
+    linear-gradient(rgb(255 255 255 / 18%), rgb(255 255 255 / 18%)),
+    radial-gradient(circle at 50% 100%, #68b8aa 0 25%, transparent 25.2%),
+    linear-gradient(150deg, #16366e 0 32%, #176b79 32% 61%, #e8c65e 61% 100%);
+}
+
+.cover-decoration,
+.cover-decoration > span {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cover-orbit {
+  border: 0.25cqw solid rgb(255 255 255 / 22%);
+  border-radius: 50%;
+}
+
+.orbit-one { width: 28cqw; height: 28cqw; left: -10cqw; bottom: -9cqw; }
+.orbit-two { width: 22cqw; height: 22cqw; right: -5cqw; top: 9cqw; }
+.cover-pin { width: 1.1cqw; height: 1.1cqw; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0.45cqw rgb(255 212 82 / 24%); }
+.pin-one { left: 16%; top: 42%; }
+.pin-two { right: 13%; bottom: 22%; }
+
+.cover-content {
+  position: absolute;
+  inset: 9.2cqw 13cqw 3cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.series-kicker,
+.panel-eyebrow,
+.question-kind {
+  margin: 0;
+  color: var(--teal-dark);
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.series-kicker {
+  color: #ffeaa0;
+  font-size: clamp(13px, 1.32cqw, 17px);
+}
+
+.cover-content h1 {
+  max-width: 72cqw;
+  margin: 0.85cqw 0 0;
+  padding: 0.08em 0 0.14em;
+  color: white;
+  font-size: clamp(42px, 5.7cqw, 73px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-shadow: 0 0.5cqw 0 #0b224b, 0 0.9cqw 1.6cqw rgb(4 20 45 / 28%);
+  overflow-wrap: anywhere;
+}
+
+.social-game[data-component-lab="false"] .cover-decoration {
+  display: none;
+}
+
+.social-game[data-component-lab="false"] .series-kicker {
+  color: var(--teal-dark);
+  text-shadow: 0 0.15cqw 0 rgb(255 255 255 / 72%);
+}
+
+.social-game[data-component-lab="false"] .cover-content h1 {
+  max-width: 60cqw;
+  color: var(--navy);
+  text-shadow: 0 0.25cqw 0 white, 0 0.65cqw 1.25cqw rgb(108 72 22 / 18%);
+}
+
+.social-game[data-component-lab="false"] .cover-goal {
+  color: var(--navy);
+  text-shadow: 0 0.12cqw 0 white;
+}
+
+.cover-goal {
+  width: min(60cqw, 760px);
+  margin: 1.15cqw 0 0;
+  color: white;
+  font-size: clamp(19px, 2cqw, 26px);
+  font-weight: 760;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.cover-start-button {
+  position: relative;
+  width: clamp(300px, 28.125cqw, 360px);
+  aspect-ratio: 1611 / 680;
+  margin-top: clamp(14px, 1.55cqw, 20px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 0.55cqw 0.45cqw rgb(4 24 46 / 28%));
+}
+
+.cover-start-button:hover { transform: translateY(-0.18cqw); }
+.cover-start-button:active { transform: translateY(0.12cqw) scale(0.98); }
+.start-button-art { display: block; width: 100%; height: 100%; object-fit: contain; }
+.cover-copy-art { display: block; max-width: 100%; height: auto; object-fit: contain; }
+
+/* Tutorial */
+.screen-tutorial::before {
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgb(255 255 255 / 18%) 48% 52%, transparent 52%),
+    linear-gradient(150deg, #ddf4eb, #fcf0bd);
+}
+
+.tutorial-panel {
+  width: 76cqw;
+  min-height: 43cqw;
+  margin: 1.1cqw auto 0;
+  padding: 3cqw 4cqw 2.4cqw;
+  border: 0.22cqw solid #fff;
+  border-radius: 2.3cqw;
+  background: rgb(255 254 248 / 94%);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.tutorial-poster-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panel-eyebrow,
+.question-kind {
+  font-size: clamp(13px, 1.18cqw, 15px);
+}
+
+.tutorial-panel h2,
+.result-panel h2 {
+  margin: 0.65cqw auto 1.5cqw;
+  color: var(--navy);
+  font-size: clamp(28px, 3cqw, 39px);
+  line-height: 1.18;
+}
+
+.tutorial-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tutorial-step;
+}
+
+.tutorial-steps li {
+  counter-increment: tutorial-step;
+  min-height: 10.4cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7cqw;
+  padding: 1.15cqw;
+  border: 0.16cqw solid #c8ded9;
+  border-radius: 1.35cqw;
+  background: white;
+  color: var(--ink);
+  font-size: clamp(16px, 1.55cqw, 20px);
+  font-weight: 790;
+  line-height: 1.35;
+}
+
+.tutorial-steps li::before {
+  content: counter(tutorial-step);
+  width: 3.35cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  font-weight: 900;
+}
+
+.tutorial-reward {
+  max-width: 58cqw;
+  min-height: 4.8cqw;
+  display: flex;
+  align-items: center;
+  margin: 1.35cqw auto;
+  padding: 0.75cqw 1.2cqw;
+  border-radius: 1cqw;
+  background: #fff4cc;
+  color: #59400b;
+  font-size: clamp(15px, 1.36cqw, 18px);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.action-button,
+.workbench-submit,
+.sequence-reset {
+  min-width: 12cqw;
+  min-height: max(44px, 4.3cqw);
+  padding: 0.75cqw 1.75cqw;
+  border: 0.16cqw solid #08736e;
+  border-radius: 999px;
+  background: var(--teal);
+  color: white;
+  font-size: clamp(16px, 1.48cqw, 19px);
+  font-weight: 900;
+  line-height: 1.1;
+  box-shadow: 0 0.38cqw 0 #08736e, 0 0.65cqw 1cqw rgb(8 62 72 / 16%);
+  cursor: pointer;
+}
+
+.action-button:hover,
+.workbench-submit:hover { background: #25aea2; }
+.action-button:active,
+.workbench-submit:active { transform: translateY(0.2cqw); box-shadow: 0 0.18cqw 0 #08736e; }
+.action-button:disabled,
+.workbench-submit:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+/* Quiz */
+.screen-play::before {
+  background:
+    radial-gradient(circle at 6% 92%, rgb(23 151 137 / 12%) 0 10%, transparent 10.2%),
+    linear-gradient(145deg, #edf9f4 0 50%, #fff3cc 100%);
+}
+
+.quiz-header {
+  justify-content: space-between;
+}
+
+.quiz-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75cqw;
+}
+
+.question-progress {
+  margin-right: 0;
+  border: 0.16cqw solid #b4cecb;
+  background: white;
+  color: var(--navy);
+  font-size: clamp(15px, 1.36cqw, 18px);
+  font-variant-numeric: tabular-nums;
+}
+
+.question-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24cqw;
+  gap: 1.4cqw;
+  height: 51.4cqw;
+  margin-top: 0.55cqw;
+}
+
+.play-work-area {
+  display: contents;
+}
+
+.discovery-panel {
+  display: none;
+}
+
+.question-layout:not(.has-feedback) .question-card {
+  grid-column: 1 / -1;
+}
+
+.question-card,
+.feedback-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 0.18cqw solid rgb(255 255 255 / 88%);
+  border-radius: 1.65cqw;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 0.75cqw 1.8cqw rgb(23 67 75 / 14%);
+}
+
+.question-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.45cqw 2.1cqw 1.55cqw;
+}
+
+.question-prompt {
+  max-width: 88cqw;
+  margin: 0.45cqw 0 0;
+  color: var(--navy);
+  font-size: clamp(23px, 2.25cqw, 29px);
+  line-height: 1.3;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.question-instruction {
+  margin: 0.42cqw 0 0;
+  color: var(--muted);
+  font-size: clamp(14px, 1.32cqw, 17px);
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.question-workbench {
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 0.85cqw;
+  overflow: hidden;
+}
+
+.feedback-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 2cqw;
+  background: #fff9dd;
+}
+
+.feedback-panel.is-correct { border-color: #5dbd70; background: #effbea; }
+.feedback-panel.is-wrong { border-color: #e87676; background: #fff0ec; }
+
+.feedback-panel strong {
+  color: var(--navy);
+  font-size: clamp(24px, 2.3cqw, 30px);
+  text-align: center;
+}
+
+.feedback-panel p {
+  margin: 1cqw 0 1.6cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 680;
+  line-height: 1.5;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.trace-continue-button { width: 100%; }
+
+.workbench-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  margin-top: 1.1cqw;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.05cqw;
+}
+
+.choice-option,
+.pair-option,
+.classify-target,
+.sequence-item {
+  min-width: 0;
+  min-height: max(52px, 5.1cqw);
+  border: 0.16cqw solid #b6d2d0;
+  border-radius: 1.05cqw;
+  background: #f7fffd;
+  color: var(--ink);
+  font-size: clamp(16px, 1.58cqw, 20px);
+  font-weight: 800;
+  line-height: 1.3;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.choice-option.has-image {
+  min-height: max(92px, 8.5cqw);
+  display: grid;
+  grid-template-columns: minmax(6.5cqw, 0.42fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.85cqw;
+  padding: 0.7cqw;
+  text-align: left;
+}
+
+.option-image {
+  width: 100%;
+  max-height: 6.5cqw;
+  border-radius: 0.65cqw;
+  object-fit: cover;
+}
+
+.choice-option:hover,
+.pair-option:hover,
+.classify-target:hover,
+.sequence-item:hover { border-color: var(--teal); background: #e9fbf7; }
+
+.choice-option[aria-pressed="true"],
+.pair-option[aria-pressed="true"],
+.classify-target[aria-pressed="true"],
+.sequence-item[aria-pressed="true"] {
+  border-color: var(--navy);
+  background: #dfeaff;
+  box-shadow: inset 0 0 0 0.18cqw var(--navy);
+}
+
+.source-card,
+.situation-card {
+  width: min(78cqw, 100%);
+  max-width: 78cqw;
+  margin: 0 auto 0.85cqw;
+  padding: 1.15cqw 1.45cqw;
+  border-left: 0.55cqw solid var(--coral);
+  border-radius: 0.8cqw;
+  background: #fff7e7;
+  color: var(--ink);
+  font-size: clamp(15px, 1.42cqw, 18px);
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.source-card.has-image {
+  display: grid;
+  grid-template-columns: 14cqw minmax(0, 1fr);
+  align-items: center;
+  gap: 1.15cqw;
+  padding: 0.8cqw 1.15cqw;
+}
+
+.source-image {
+  display: block;
+  width: 14cqw;
+  aspect-ratio: 224 / 143;
+  border: 0.12cqw solid rgb(16 42 86 / 18%);
+  border-radius: 0.7cqw;
+  object-fit: cover;
+}
+
+.source-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.source-credit {
+  display: block;
+  margin-top: 0.45cqw;
+  color: var(--muted);
+  font-size: clamp(11px, 0.98cqw, 13px);
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.source-card strong,
+.situation-card strong { display: block; margin-bottom: 0.35cqw; color: #93402f; }
+
+.map-hotspot-card.has-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55cqw;
+}
+
+.map-hotspot-copy {
+  width: 100%;
+}
+
+.map-hotspot-board {
+  position: relative;
+  width: min(63cqw, 100%);
+  aspect-ratio: 150 / 62;
+  overflow: hidden;
+  border: 0.16cqw solid rgb(16 42 86 / 22%);
+  border-radius: 0.9cqw;
+  background: #eaf5f4;
+  box-shadow: 0 0.35cqw 0.9cqw rgb(43 51 77 / 16%);
+  isolation: isolate;
+}
+
+.map-hotspot-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: inherit;
+  object-fit: contain;
+  user-select: none;
+}
+
+.map-hotspot-target {
+  position: absolute;
+  z-index: 2;
+  left: var(--map-hotspot-x);
+  top: var(--map-hotspot-y);
+  width: max(42px, 4cqw);
+  height: max(42px, 4cqw);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: max(3px, 0.24cqw) solid white;
+  border-radius: 50%;
+  background: #176f91;
+  color: white;
+  box-shadow: 0 0.22cqw 0.65cqw rgb(7 30 62 / 45%);
+  font-size: clamp(17px, 1.75cqw, 23px);
+  font-weight: 950;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.map-hotspot-target:hover,
+.map-hotspot-target:focus-visible {
+  background: #0b4f78;
+  outline: max(3px, 0.22cqw) solid #ffdd69;
+  outline-offset: 2px;
+}
+
+.map-hotspot-target[aria-pressed="true"] {
+  background: #ef6f55;
+  box-shadow: 0 0 0 max(4px, 0.3cqw) #ffda68, 0 0.28cqw 0.8cqw rgb(7 30 62 / 42%);
+}
+
+/* Generated Socialmon visual profile */
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-content {
+  inset: 7.4cqw 5cqw 2cqw;
+  justify-content: flex-start;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-copy-art {
+  width: 78cqw;
+  height: 43cqw;
+  margin-bottom: -8.4cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-content > .series-kicker,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-content > h1,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .cover-content > .cover-goal,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .tutorial-panel > .panel-eyebrow,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .tutorial-panel > h2,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .tutorial-panel > .tutorial-steps,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .tutorial-panel > .tutorial-steps > li,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .tutorial-panel > .tutorial-reward {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 1px !important;
+  max-height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .screen-tutorial {
+  padding: 0;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .screen-tutorial::before {
+  background: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .screen-tutorial > .top-row {
+  position: absolute;
+  top: 2.1cqw;
+  left: 2.5cqw;
+  right: 2.5cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .tutorial-panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] #tutorialStartButton {
+  position: absolute;
+  z-index: 4;
+  left: 33.75%;
+  top: 84.5%;
+  width: 33.9%;
+  height: 13.2%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] #tutorialStartButton:hover,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] #tutorialStartButton:active {
+  background: rgb(255 255 255 / 8%);
+  box-shadow: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .screen-play::before {
+  background: linear-gradient(90deg, rgb(28 17 67 / 8%) 0 28%, rgb(255 251 233 / 4%) 28% 100%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-progress-group .trace-progress {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-layout {
+  grid-template-columns: 24.5cqw minmax(0, 1fr);
+  gap: 1.5625cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-layout:not(.has-feedback) .question-card {
+  grid-column: auto;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .discovery-panel {
+  --trace-reveal-inset: 100%;
+  min-width: 0;
+  min-height: 0;
+  width: 24.5cqw;
+  height: 51.4cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.3cqw 1.1cqw 1.15cqw;
+  overflow: hidden;
+  border: 0.2cqw solid rgb(225 197 255 / 82%);
+  border-radius: 1.7cqw;
+  background: linear-gradient(180deg, rgb(24 15 66 / 80%), rgb(78 35 120 / 72%));
+  box-shadow: inset 0 0 2.4cqw rgb(181 121 255 / 18%), 0 0.75cqw 1.8cqw rgb(23 14 65 / 20%);
+  color: white;
+}
+
+.discovery-kicker {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #ffe98e;
+  font-size: clamp(15px, 1.45cqw, 19px);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.discovery-character-stage {
+  position: relative;
+  flex: 1 1 auto;
+  width: 21.5cqw;
+  min-height: 0;
+  margin: 0.55cqw 0 0.35cqw;
+}
+
+.discovery-character-base,
+.discovery-character-reveal,
+.discovery-character-color {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.discovery-character-base,
+.discovery-character-color {
+  object-fit: contain;
+}
+
+.discovery-character-base {
+  filter: brightness(0) saturate(100%) opacity(0.82) drop-shadow(0 0 0.8cqw rgb(223 194 255 / 80%));
+}
+
+.discovery-character-reveal {
+  overflow: hidden;
+  clip-path: inset(var(--trace-reveal-inset) 0 0 0);
+  transition: clip-path 680ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.discovery-character-color {
+  filter: drop-shadow(0 0.6cqw 0.55cqw rgb(5 11 34 / 28%));
+}
+
+.discovery-footprints {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.55cqw;
+  width: 20.5cqw;
+  padding: 0.65cqw 0.8cqw;
+  border-radius: 999px;
+  background: rgb(8 10 42 / 48%);
+}
+
+.discovery-footprints span {
+  aspect-ratio: 1;
+  transform: rotate(-18deg);
+  border: 0.14cqw solid rgb(255 236 157 / 58%);
+  border-radius: 58% 42% 55% 45%;
+  background: rgb(255 255 255 / 10%);
+  transition: transform 420ms ease, background 420ms ease, box-shadow 420ms ease;
+}
+
+.discovery-footprints span:nth-child(even) {
+  transform: rotate(18deg);
+}
+
+.discovery-footprints span.is-found {
+  transform: rotate(-18deg) scale(1.08);
+  border-color: #ffe681;
+  background: #ffc83d;
+  box-shadow: 0 0 0.75cqw rgb(255 215 89 / 72%);
+}
+
+.discovery-footprints span:nth-child(even).is-found {
+  transform: rotate(18deg) scale(1.08);
+}
+
+.discovery-copy {
+  flex: 0 0 auto;
+  min-height: 3.6cqw;
+  display: flex;
+  align-items: center;
+  margin: 0.45cqw 0 0;
+  color: white;
+  font-size: clamp(14px, 1.28cqw, 17px);
+  font-weight: 760;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback {
+  grid-template-rows: minmax(0, 1fr) max(64px, 6.5cqw);
+  gap: 0.5cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card {
+  padding: 1.25cqw 1.55cqw 1.35cqw;
+  border-color: rgb(255 244 203 / 94%);
+  background: rgb(255 254 247 / 96%);
+  box-shadow: 0 0.8cqw 2.1cqw rgb(30 24 67 / 18%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-kind {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-prompt {
+  max-width: none;
+  margin-top: 0;
+  font-size: clamp(28px, 2.4cqw, 32px);
+  font-weight: 850;
+  line-height: 1.2;
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-instruction {
+  font-size: clamp(15px, 1.38cqw, 18px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(34px, 3.15cqw, 40px);
+  line-height: 1.17;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-instruction {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) {
+  overflow: hidden;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench {
+  justify-content: flex-start;
+  margin-top: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .situation-card {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0.75cqw;
+  padding: 1.05cqw 1.2cqw;
+  border-left-width: 0.55cqw;
+  border-radius: 1.05cqw;
+  background: #fff4d7;
+  font-size: clamp(17px, 1.55cqw, 20px);
+  line-height: 1.42;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
+  grid-template-columns: 22cqw minmax(0, 1fr);
+  gap: 1.25cqw;
+  margin-bottom: 1.15cqw;
+  padding: 0.9cqw 1.1cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+  width: 22cqw;
+  border-radius: 0.9cqw;
+  background: white;
+  box-shadow: 0 0.35cqw 0.9cqw rgb(43 51 77 / 16%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card strong {
+  margin-bottom: 0.45cqw;
+  font-size: clamp(24px, 2.25cqw, 28px);
+  line-height: 1.25;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-credit {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-copy > span {
+  font-size: clamp(20px, 1.95cqw, 24px);
+  font-weight: 720;
+  line-height: 1.38;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-card.has-image {
+  display: flex;
+  grid-template-columns: none;
+  gap: 0.45cqw;
+  margin-bottom: 0;
+  padding: 0.7cqw 0.9cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-copy {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 1cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-copy strong {
+  margin: 0;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-copy > span {
+  font-size: clamp(18px, 1.7cqw, 22px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-board {
+  width: min(63cqw, 100%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .map-hotspot-card .map-hotspot-image {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: contain;
+  box-shadow: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench[data-question-presentation="map-hotspots"] .workbench-actions {
+  margin-top: 0.35cqw;
+  padding-block: 0.2cqw;
+}
+
+.play-source-credit {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-source-credit:not([hidden]) {
+  position: absolute;
+  right: 2.2cqw;
+  bottom: 0.65cqw;
+  z-index: 4;
+  display: block;
+  margin: 0;
+  padding: 0.18cqw 0.45cqw;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 78%);
+  color: rgb(16 42 86 / 82%);
+  font-size: clamp(10px, 0.92cqw, 12px);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: right;
+  box-shadow: 0 0.15cqw 0.45cqw rgb(16 42 86 / 14%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-grid {
+  grid-template-columns: repeat(2, minmax(0, 31cqw));
+  justify-content: center;
+  gap: 1cqw 1.1cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option {
+  min-height: max(64px, 6cqw);
+  padding: 0.7cqw 1.1cqw;
+  border-width: 0.18cqw;
+  border-radius: 1.2cqw;
+  background: #f7fffd;
+  font-size: clamp(19px, 1.7cqw, 22px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+  min-height: max(94px, 8.8cqw);
+  grid-template-columns: 8.4cqw minmax(0, 1fr);
+  gap: 1cqw;
+  padding: 0.65cqw 0.8cqw;
+  background: #fffdf6;
+  font-size: clamp(21px, 1.9cqw, 24px);
+  text-align: left;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+  width: 8.4cqw;
+  height: 6.3cqw;
+  max-height: none;
+  border: 0.12cqw solid rgb(16 42 86 / 10%);
+  border-radius: 0.8cqw;
+  background: #fff8e8;
+  box-shadow: 0 0.25cqw 0.65cqw rgb(43 51 77 / 13%);
+  object-fit: cover;
+}
+
+@media (max-aspect-ratio: 3 / 2) {
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-layout {
+    height: 52.4cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+    font-size: 34px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
+    grid-template-columns: 22cqw minmax(0, 1fr);
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+    width: 22cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+    min-height: 94px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+    height: 6cqw;
+  }
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
+  margin-top: 0.65cqw;
+  padding: 0.4cqw 0.8cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-submit {
+  min-width: 15cqw;
+  min-height: max(52px, 5cqw);
+  font-size: clamp(18px, 1.65cqw, 21px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option {
+  min-height: max(58px, 5.5cqw);
+  font-size: clamp(17px, 1.48cqw, 20px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-board {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-row {
+  grid-template-columns: minmax(14cqw, 0.9fr) repeat(2, minmax(0, 1fr));
+  min-height: max(58px, 5.4cqw);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .workbench-actions {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(30px, 2.75cqw, 35px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-card.has-image {
+  grid-template-columns: 18cqw minmax(0, 1fr);
+  padding-block: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .map-hotspot-card.has-image {
+  display: flex;
+  grid-template-columns: none;
+  padding-block: 0.45cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .map-hotspot-board {
+  width: min(54cqw, 100%);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .map-hotspot-card .map-hotspot-image {
+  width: 100%;
+  height: 100%;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-image {
+  width: 18cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image {
+  min-height: max(82px, 7.3cqw);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image .option-image {
+  height: 5.7cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) minmax(12cqw, max-content);
+  align-items: center;
+  gap: 1cqw;
+  padding: 0.85cqw 1.1cqw;
+  border-radius: 1.35cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel strong {
+  font-size: clamp(20px, 1.8cqw, 24px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel p {
+  margin: 0;
+  font-size: clamp(14px, 1.25cqw, 17px);
+  line-height: 1.38;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .trace-continue-button {
+  width: auto;
+  min-width: 12cqw;
+}
+
+.match-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3.5cqw minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.7cqw;
+}
+
+.match-column {
+  display: grid;
+  gap: 0.65cqw;
+}
+
+.match-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--teal-dark);
+  font-size: clamp(24px, 2.6cqw, 34px);
+  font-weight: 900;
+}
+
+.pair-option {
+  position: relative;
+  padding: 0.6cqw 3.2cqw 0.6cqw 1cqw;
+  text-align: left;
+}
+
+.pair-number {
+  position: absolute;
+  right: 0.75cqw;
+  top: 50%;
+  width: 2cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  font-size: clamp(12px, 1.05cqw, 14px);
+}
+
+.classify-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85cqw;
+}
+
+.classify-row {
+  display: grid;
+  grid-template-columns: minmax(7cqw, 0.8fr) repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.55cqw;
+  min-width: 0;
+  padding: 0.55cqw;
+  border-radius: 0.9cqw;
+  background: #f3f7f5;
+}
+
+.classify-item {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.5cqw;
+  color: var(--navy);
+  font-size: clamp(15px, 1.45cqw, 18px);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.classify-target {
+  min-height: max(44px, 4cqw);
+  padding: 0.4cqw;
+  font-size: clamp(13px, 1.2cqw, 16px);
+}
+
+.sequence-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8cqw;
+}
+
+.sequence-item {
+  position: relative;
+  min-height: max(78px, 8cqw);
+  padding: 1cqw;
+}
+
+.sequence-order {
+  position: absolute;
+  left: 0.6cqw;
+  top: 0.6cqw;
+  width: 2.2cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--coral);
+  color: white;
+  font-size: clamp(12px, 1.05cqw, 14px);
+  font-weight: 900;
+}
+
+.sequence-reset {
+  min-width: 8cqw;
+  border-color: #9daeb2;
+  background: white;
+  color: var(--ink);
+  box-shadow: none;
+}
+
+/* Trace reveal */
+.settings-modal,
+.trace-reveal-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 4cqw;
+  background: rgb(7 23 51 / 62%);
+  backdrop-filter: blur(0.25cqw);
+}
+
+.trace-toast {
+  position: absolute;
+  z-index: 55;
+  left: 50%;
+  top: 50%;
+  min-width: 24cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  padding: 1.4cqw 2cqw;
+  transform: translate(-50%, -50%);
+  border: 0.22cqw solid #fff;
+  border-radius: 999px;
+  background: #fff4bf;
+  color: var(--navy);
+  box-shadow: 0 1cqw 2.4cqw rgb(4 16 38 / 32%);
+  font-size: clamp(21px, 2.05cqw, 28px);
+  animation: trace-pop 500ms ease both;
+}
+
+.trace-stamp {
+  width: 5cqw;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: rotate(-8deg);
+  border: 0.28cqw solid #c26c3b;
+  border-radius: 50% 50% 46% 54%;
+  color: #9a4b27;
+  font-size: clamp(10px, 0.9cqw, 12px);
+  font-weight: 950;
+}
+
+@keyframes trace-pop {
+  0% { transform: translate(-50%, -50%) scale(0.78); opacity: 0; }
+  55% { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.trace-reveal-card {
+  width: 39cqw;
+  min-height: 44cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.4cqw;
+  border: 0.25cqw solid white;
+  border-radius: 2cqw;
+  background: linear-gradient(160deg, #fffdf0, #eafaf5);
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+}
+
+.trace-character-frame {
+  position: relative;
+  width: 22cqw;
+  height: 22cqw;
+  margin-bottom: 1.2cqw;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff5ac 0 42%, #c8eee5 43% 70%, transparent 71%);
+}
+
+.trace-character-image {
+  width: 21cqw;
+  height: 21cqw;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) opacity(0.76);
+}
+
+.trace-reveal-card[data-phase="trait"] .trace-character-image {
+  filter: brightness(0) saturate(100%) opacity(0.52);
+}
+
+.trace-reveal-card h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(24px, 2.4cqw, 31px);
+  text-align: center;
+}
+
+.trace-reveal-copy {
+  min-height: 3.4cqw;
+  margin: 0.8cqw 0 1.2cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* Result */
+.screen-result::before {
+  background: linear-gradient(90deg, rgb(255 255 255 / 2%) 0 58%, rgb(4 30 49 / 8%) 100%);
+}
+
+.social-game[data-component-lab="true"] .screen-result::before {
+  background:
+    radial-gradient(circle at 27% 49%, rgb(255 236 130 / 72%) 0 18%, transparent 35%),
+    linear-gradient(150deg, #b6ece0 0 55%, #ffe29a 55% 100%);
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(30cqw, 0.75fr);
+  align-items: center;
+  gap: 2.4cqw;
+  height: 52.5cqw;
+  margin-top: 0.35cqw;
+}
+
+.result-character-stage {
+  position: relative;
+  height: 50cqw;
+  display: grid;
+  place-items: center;
+}
+
+.result-halo {
+  position: absolute;
+  width: 38cqw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 10deg, rgb(255 255 255 / 50%) 0 10deg, transparent 10deg 22deg);
+  animation: halo-spin 22s linear infinite;
+}
+
+@keyframes halo-spin { to { transform: rotate(360deg); } }
+
+.result-character-image {
+  position: relative;
+  z-index: 1;
+  width: min(45cqw, 576px);
+  height: min(45cqw, 576px);
+  object-fit: contain;
+  filter: drop-shadow(0 1.2cqw 0.7cqw rgb(9 48 63 / 25%));
+}
+
+.result-panel {
+  max-height: 45cqw;
+  padding: 2.5cqw 2.2cqw;
+  border: 0.22cqw solid white;
+  border-radius: 1.8cqw;
+  background: rgb(255 254 245 / 94%);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.result-correct {
+  margin: 0.65cqw 0;
+  color: var(--navy);
+  font-size: clamp(22px, 2.2cqw, 28px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-discovery-label {
+  display: block;
+  width: fit-content;
+  margin: 1.1cqw 0 0;
+  padding: 0.35cqw 0.75cqw;
+  border-radius: 999px;
+  background: #fff0a8;
+  color: #734715;
+  font-size: clamp(13px, 1.15cqw, 15px);
+}
+
+.result-next {
+  margin: 1cqw 0 1.7cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+/* Settings */
+.settings-card {
+  width: 34cqw;
+  padding: 2.2cqw;
+  border: 0.22cqw solid white;
+  border-radius: 1.7cqw;
+  background: var(--paper);
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+}
+
+.settings-card h2 {
+  margin: 0 0 1.3cqw;
+  color: var(--navy);
+  font-size: clamp(25px, 2.5cqw, 32px);
+  text-align: center;
+}
+
+.settings-row,
+.settings-action,
+.settings-close {
+  width: 100%;
+  min-height: max(44px, 4.3cqw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.65cqw;
+  padding: 0.75cqw 1cqw;
+  border: 0.14cqw solid #c7d5d4;
+  border-radius: 0.8cqw;
+  background: white;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 780;
+  cursor: pointer;
+}
+
+.settings-action,
+.settings-close { justify-content: center; }
+.settings-close { margin-top: 1.2cqw; border-color: var(--navy); background: var(--navy); color: white; }
+
+.switch-mark {
+  position: relative;
+  width: 3.7cqw;
+  height: 2.1cqw;
+  border-radius: 999px;
+  background: #a9b5b6;
+}
+
+.switch-mark::after {
+  position: absolute;
+  top: 0.25cqw;
+  left: 0.25cqw;
+  width: 1.6cqw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0.1cqw 0.3cqw rgb(0 0 0 / 18%);
+  content: "";
+  transition: transform 180ms ease;
+}
+
+.settings-row[aria-checked="true"] .switch-mark { background: var(--teal); }
+.settings-row[aria-checked="true"] .switch-mark::after { transform: translateX(1.6cqw); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+@media (max-aspect-ratio: 4 / 3) {
+  .brand-badge,
+  .unit-badge { padding-inline: 0.8cqw; }
+  .question-layout { gap: 1cqw; }
+}
+
+  </style>
+</head>
+<body>
+  <main
+    class="social-game"
+    data-engine="socialmon-quiz-lite-v1"
+    data-series-profile="socialmon-quiz-lite-contract-v3"
+    data-screen-flow-standard="socialmon-four-screen-flow-v1"
+    data-question-interaction-standard="socialmon-tap-interactions-v1"
+    data-reward-standard="socialmon-trace-reveal-v1"
+    data-stage-ratio="16:10"
+    data-stage-size="1280x800"
+    data-settings-standard="modal-controls"
+    data-cover-standard="socialmon-generated-cover-copy-v1"
+    data-tutorial-standard="socialmon-generated-tutorial-poster-v1"
+    data-brand-standard="socialmon-purple-cloud-mark-v1"
+    data-play-discovery-standard="socialmon-left-reveal-progress-v1"
+    data-play-layout-standard="socialmon-source-choice-tablet-v1"
+    data-result-standard="socialmon-character-card-v1"
+    data-component-lab="false"
+  >
+    <div class="stage-shell" id="stageShell">
+      <button class="settings-toggle" id="settingsToggle" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M21 5h6l1.2 5a16 16 0 0 1 3.8 1.6l4.4-2.6 4.2 4.2-2.6 4.4a16 16 0 0 1 1.6 3.8l5 1.2v6l-5 1.2a16 16 0 0 1-1.6 3.8l2.6 4.4-4.2 4.2-4.4-2.6a16 16 0 0 1-3.8 1.6L27 45h-6l-1.2-5a16 16 0 0 1-3.8-1.6L11.6 41 7.4 36.8l2.6-4.4a16 16 0 0 1-1.6-3.8l-5-1.2v-6l5-1.2a16 16 0 0 1 1.6-3.8L7.4 13l4.2-4.2 4.4 2.6a16 16 0 0 1 3.8-1.6L21 5Z"/>
+          <circle cx="24" cy="24" r="6"/>
+        </svg>
+      </button>
+
+      <section class="screen is-active screen-cover" id="screenCover" data-screen="cover" aria-labelledby="coverTitle">
+        <img class="raster-bg cover-raster-bg" id="coverBackground" alt="" aria-hidden="true" hidden>
+        <div class="cover-decoration" aria-hidden="true">
+          <span class="cover-orbit orbit-one"></span>
+          <span class="cover-orbit orbit-two"></span>
+          <span class="cover-pin pin-one"></span>
+          <span class="cover-pin pin-two"></span>
+        </div>
+        <div class="top-row cover-top-row">
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
+          <span class="unit-badge" id="coverUnitBadge"></span>
+        </div>
+        <div class="cover-content">
+          <img class="cover-copy-art" id="coverCopyArt" alt="" aria-hidden="true" hidden>
+          <p class="series-kicker">SOCIALMON QUIZ</p>
+          <h1 id="coverTitle"></h1>
+          <p class="cover-goal" id="coverGoal" data-text-align-role="sentence"></p>
+          <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
+            <img class="start-button-art" id="startButtonArt" alt="" aria-hidden="true">
+          </button>
+        </div>
+      </section>
+
+      <section class="screen screen-tutorial" id="screenTutorial" data-screen="tutorial" aria-labelledby="tutorialTitle" hidden>
+        <div class="top-row">
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
+          <span class="unit-badge" id="tutorialUnitBadge"></span>
+        </div>
+        <div class="tutorial-panel">
+          <img class="tutorial-poster-art" id="tutorialPosterArt" alt="" aria-hidden="true" hidden>
+          <p class="panel-eyebrow">방법 보기</p>
+          <h2 id="tutorialTitle"></h2>
+          <ol class="tutorial-steps" id="tutorialSteps"></ol>
+          <div class="tutorial-reward" id="tutorialReward" data-text-align-role="sentence"></div>
+          <button class="action-button" id="tutorialStartButton" type="button">문제 시작</button>
+        </div>
+      </section>
+
+      <section class="screen screen-play" id="screenPlay" data-screen="play" aria-labelledby="questionPrompt" hidden>
+        <img class="raster-bg play-raster-bg" id="playBackground" alt="" aria-hidden="true" hidden>
+        <header class="quiz-header">
+          <div class="quiz-header-left">
+            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
+            <span class="unit-badge" id="playUnitBadge"></span>
+          </div>
+          <div class="play-progress-group">
+            <div class="trace-progress" id="traceProgress" aria-live="polite">흔적 <span id="traceCount">0</span>/<span id="traceTotal">6</span></div>
+            <div class="question-progress" id="questionProgress" aria-live="polite"><span id="questionNumber">1</span>/<span id="questionTotal">6</span></div>
+          </div>
+        </header>
+        <div class="question-layout" id="questionLayout">
+          <aside class="discovery-panel" id="discoveryPanel" aria-label="소셜몬 흔적 모습">
+            <p class="discovery-kicker">소셜몬 탐험</p>
+            <div class="discovery-character-stage">
+              <img class="discovery-character-base" id="discoveryCharacterBase" alt="" aria-hidden="true">
+              <div class="discovery-character-reveal" id="discoveryCharacterReveal" aria-hidden="true">
+                <img class="discovery-character-color" id="discoveryCharacterColor" alt="">
+              </div>
+            </div>
+            <div class="discovery-footprints" id="discoveryFootprints" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <p class="discovery-copy" id="discoveryCopy">흔적을 모아 봐요.</p>
+          </aside>
+          <div class="play-work-area" id="playWorkArea">
+            <section class="question-card" id="questionCard">
+              <p class="question-kind" id="questionKind"></p>
+              <h2 class="question-prompt" id="questionPrompt" data-text-align-role="sentence"></h2>
+              <p class="question-instruction" id="questionInstruction" data-text-align-role="sentence"></p>
+              <div class="question-workbench" id="questionWorkbench"></div>
+            </section>
+            <aside class="feedback-panel" id="feedbackPanel" aria-live="polite" hidden>
+              <strong id="feedbackLabel"></strong>
+              <p id="feedbackText" data-text-align-role="sentence"></p>
+              <button class="action-button trace-continue-button" id="continueButton" type="button">다음 문제</button>
+            </aside>
+          </div>
+        </div>
+        <small class="play-source-credit" id="playSourceCredit" data-text-align-role="label" hidden></small>
+      </section>
+
+      <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
+        <img class="raster-bg result-raster-bg" id="resultBackground" alt="" aria-hidden="true" hidden>
+        <div class="top-row">
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
+          <span class="unit-badge" id="resultUnitBadge"></span>
+        </div>
+        <div class="result-layout">
+          <div class="result-character-stage">
+            <div class="result-halo" aria-hidden="true"></div>
+            <img id="resultCharacterImage" class="result-character-image" alt="">
+          </div>
+          <section class="result-panel">
+            <p class="panel-eyebrow">오늘 만난 소셜몬</p>
+            <h2 id="resultTitle"></h2>
+            <p class="result-correct" id="resultCorrect"></p>
+            <strong class="result-discovery-label">오늘의 발견</strong>
+            <p class="result-next" id="resultDiscovery" data-text-align-role="sentence"></p>
+            <button class="action-button" id="restartButton" type="button">처음으로</button>
+          </section>
+        </div>
+      </section>
+
+      <div class="trace-toast" id="traceToast" role="status" aria-live="polite" hidden>
+        <span class="trace-stamp" aria-hidden="true">발자국</span>
+        <strong id="traceToastLabel">흔적을 찾았어요!</strong>
+      </div>
+
+      <div class="trace-reveal-modal" id="traceRevealModal" role="dialog" aria-modal="true" aria-labelledby="traceRevealTitle" hidden>
+        <section class="trace-reveal-card" id="traceRevealCard" data-phase="silhouette">
+          <p class="panel-eyebrow" id="traceRevealStep">첫 번째 힌트</p>
+          <div class="trace-character-frame">
+            <img class="trace-character-image" id="traceCharacterImage" alt="">
+          </div>
+          <h2 id="traceRevealTitle">누구의 그림자일까요?</h2>
+          <p class="trace-reveal-copy" id="traceRevealCopy" data-text-align-role="sentence"></p>
+          <button class="action-button" id="traceRevealNextButton" type="button">다음 문제</button>
+        </section>
+      </div>
+
+      <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+        <section class="settings-card">
+          <h2 id="settingsTitle">설정</h2>
+          <button class="settings-row" id="bgmToggle" type="button" role="switch" aria-checked="true">
+            <span>배경 소리</span><span class="switch-mark" aria-hidden="true"></span>
+          </button>
+          <button class="settings-row" id="sfxToggle" type="button" role="switch" aria-checked="true">
+            <span>효과 소리</span><span class="switch-mark" aria-hidden="true"></span>
+          </button>
+          <button class="settings-action" id="reviewTutorialButton" type="button">방법 다시 보기</button>
+          <button class="settings-action" id="resetButton" type="button">처음부터</button>
+          <button class="settings-close" id="settingsClose" type="button">닫기</button>
+        </section>
+      </div>
+
+      <div class="visually-hidden" id="liveRegion" aria-live="assertive"></div>
+    </div>
+  </main>
+
+  <script
+    id="socialmonBuildMeta"
+    type="application/json"
+    data-quiz-json-sha256="b08a6ff44219726ccb68fc4b6d160edc7565e20d5d1a7f41aec85f8b74b16b71"
+    data-profile-json-sha256="1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84"
+    data-theme-pack-json-sha256="e5de70ff21ac7fbc4f58d982beb8ab83b662c8110389c38c6ec8996ddde53428"
+    data-lesson-assets-sha256="ba5632d4d7b6db4c12ab19eafd9ba115b2931689240a3842f5b38ca6930b3bf5"
+    data-engine-sha256="f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776","quizJson":"_social_lessons/socialmon-6-2-u1-g02-mountain-river-life/quiz.json","quizJsonSha256":"b08a6ff44219726ccb68fc4b6d160edc7565e20d5d1a7f41aec85f8b74b16b71","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84","themePackJson":"_shared/socialmon/theme-packs/6-2/u1/world-landforms/pack.json","themePackJsonSha256":"e5de70ff21ac7fbc4f58d982beb8ab83b662c8110389c38c6ec8996ddde53428","lessonAssetsSha256":"ba5632d4d7b6db4c12ab19eafd9ba115b2931689240a3842f5b38ca6930b3bf5","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp","_shared/socialmon/theme-packs/6-2/u1/options/choice-mountain-v1.webp","_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp","_shared/socialmon/theme-packs/6-2/u1/options/choice-tropical-v1.webp","_shared/socialmon/theme-packs/6-2/u1/world-landforms/cover-background-v1.webp","_social_lessons/socialmon-6-2-u1-g02-mountain-river-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-6-2-u1-g02-mountain-river-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-6-2-u1-g02-mountain-river-life/assets/source-mountain-life.png","_social_lessons/socialmon-6-2-u1-g02-mountain-river-life/assets/source-river-map.png"],"builtAt":"2026-08-12T16:58:26.594Z"}</script>
+  <script>
+    const SOCIAL_QUIZ_CONFIG = {
+  "engineVersion": "socialmon-quiz-lite-v1",
+  "profileId": "socialmon-quiz-lite-profile-v2",
+  "themePackId": "socialmon-6-2-world-landforms-v1",
+  "recipeId": "evidence-discovery",
+  "gameNo": 2,
+  "id": "socialmon-6-2-u1-g02-mountain-river-life",
+  "folder": "socialmon-6-2-u1-g02-mountain-river-life",
+  "title": "소셜몬 산과 강 곁의 생활",
+  "topic": "산지·하천 지형과 생활 모습",
+  "unitBadge": "6학년 2학기 · 1단원 3~4차시",
+  "goal": "산과 강 주변의 지형과 생활 모습을 이어 봐요.",
+  "roundMinutes": "5~7",
+  "contentStatus": "publisher-source-backed",
+  "curriculum": {
+    "grade": 6,
+    "semester": 2,
+    "unit": 1,
+    "sourceLessons": [
+      3,
+      4
+    ],
+    "achievementStandard": "[6사10-01]",
+    "learningObjective": "산지와 하천 지형의 특징이 사람들의 생활 모습에 미친 영향을 설명한다."
+  },
+  "sourcePolicy": {
+    "factualMedia": "publisher-source-only",
+    "generatedMediaAsEvidence": false,
+    "ledger": "SOURCE_LEDGER.md"
+  },
+  "visualAssets": {
+    "coverCopyArt": "assets/cover-copy-v1-generated.webp",
+    "coverCopySource": "assets/cover-copy-v1-source.png"
+  },
+  "questions": [
+    {
+      "id": "q1-mountain-terrace",
+      "type": "source-choice",
+      "prompt": "사진을 보고 산지에서 살아가는 모습을 골라요.",
+      "instruction": "사진의 모습과 알맞은 말을 골라요.",
+      "source": {
+        "title": "산지의 경사와 사람들의 생활",
+        "text": "사진에는 산의 비탈과 사람들이 만든 계단 모양의 밭이 보입니다.",
+        "image": "assets/source-mountain-life.png",
+        "alt": "산비탈을 따라 계단식 논이 이어진 바나우에 사진 자료",
+        "credit": "자료: 6학년 2학기 사회 1 지도서 35쪽"
+      },
+      "options": [
+        {
+          "id": "terrace-farming",
+          "text": "가파른 땅을 계단식 논으로 이용해요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-mountain-v1.webp",
+          "alt": "푸른 산과 하천, 계단식 논이 있는 산지 마을 장식 그림"
+        },
+        {
+          "id": "deep-sea-port",
+          "text": "깊은 바다에 큰 배를 띄워요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp",
+          "alt": "해변과 어선, 항구와 등대가 있는 해안 마을 장식 그림"
+        },
+        {
+          "id": "desert-canal",
+          "text": "모래 언덕 사이에 운하를 파요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-tropical-v1.webp",
+          "alt": "비 내리는 열대 숲과 고상 가옥, 배가 있는 마을 장식 그림"
+        },
+        {
+          "id": "flatland-factory",
+          "text": "넓은 평지에 공장만 지어요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp",
+          "alt": "눈과 얼음, 이글루와 두꺼운 옷을 입은 아이가 있는 장식 그림"
+        }
+      ],
+      "correctId": "terrace-farming",
+      "explanation": "가파른 산지에서는 땅을 계단처럼 만들어 농사를 지을 수 있어요.",
+      "evidence": {
+        "sourceFile": "6_2_사회_1_지도서.pdf",
+        "pdfPage": 20,
+        "printedPage": 35,
+        "textbookPage": 16,
+        "basis": "산지의 경사와 계단식 농사를 연결해 산지 사람들의 생활을 살펴본다."
+      }
+    },
+    {
+      "id": "q2-mountain-river-use",
+      "type": "match",
+      "prompt": "지형의 특징과 알맞은 생활 모습을 이어 볼까요?",
+      "instruction": "왼쪽을 누르고 알맞은 오른쪽을 눌러요.",
+      "left": [
+        {
+          "id": "steep-slope",
+          "text": "경사가 가파른 산지"
+        },
+        {
+          "id": "flat-highland",
+          "text": "비교적 평탄한 고원"
+        },
+        {
+          "id": "rich-water",
+          "text": "물이 풍부한 하천"
+        }
+      ],
+      "right": [
+        {
+          "id": "step-fields",
+          "text": "계단식 논을 만들어요."
+        },
+        {
+          "id": "raise-sheep",
+          "text": "가축을 길러요."
+        },
+        {
+          "id": "hydropower",
+          "text": "수력 발전으로 전기를 만들어요."
+        }
+      ],
+      "pairs": {
+        "steep-slope": "step-fields",
+        "flat-highland": "raise-sheep",
+        "rich-water": "hydropower"
+      },
+      "explanation": "사람들은 산지의 높이와 경사, 하천의 물을 생활에 알맞게 이용해요.",
+      "evidence": {
+        "sourceFile": "6_2_사회_1_지도서.pdf",
+        "pdfPage": 20,
+        "printedPage": 35,
+        "textbookPage": 16,
+        "basis": "산지의 경사와 고원, 풍부한 수량이 각각 농업·목축·발전에 이용되는 모습을 연결한다."
+      }
+    },
+    {
+      "id": "q3-river-plain",
+      "type": "choice",
+      "prompt": "하천 주변에 평야가 발달하면 농사를 짓기 좋은 까닭은 무엇일까요?",
+      "instruction": "알맞은 까닭을 하나 골라요.",
+      "options": [
+        {
+          "id": "soil-piles",
+          "text": "물이 옮긴 흙이 쌓이기 때문에"
+        },
+        {
+          "id": "no-water",
+          "text": "물이 전혀 흐르지 않기 때문에"
+        },
+        {
+          "id": "always-steep",
+          "text": "땅의 경사가 늘 가파르기 때문에"
+        },
+        {
+          "id": "only-rock",
+          "text": "돌만 넓게 펼쳐져 있기 때문에"
+        }
+      ],
+      "correctId": "soil-piles",
+      "explanation": "하천이 옮긴 흙과 모래가 주변에 쌓여 평야를 만들고 농사에 도움을 줘요.",
+      "evidence": {
+        "sourceFile": "6_2_사회_1_지도서.pdf",
+        "pdfPage": 28,
+        "printedPage": 43,
+        "textbookPage": 21,
+        "basis": "하천 주변 평야가 퇴적물로 이루어져 농업에 이용되는 까닭을 설명한다."
+      }
+    },
+    {
+      "id": "q4-river-transport",
+      "type": "source-choice",
+      "prompt": "자료를 보고 하천을 이용하는 까닭을 골라요.",
+      "instruction": "자료 속 하천의 모습을 살펴보고 하나 골라요.",
+      "source": {
+        "title": "하천과 사람들의 이동",
+        "text": "두 사진과 설명은 물이 흐르며 만든 경관과 그 주변 활동을 소개합니다.",
+        "image": "assets/source-river-map.png",
+        "alt": "아마존강과 그랜드 캐니언 등 하천 지형 자료",
+        "credit": "자료: 6학년 2학기 사회 1 지도서 45쪽"
+      },
+      "options": [
+        {
+          "id": "easy-heavy-transport",
+          "text": "강을 따라 무거운 물건을 옮기기 편리해요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp",
+          "alt": "해변과 어선, 항구와 등대가 있는 해안 마을 장식 그림"
+        },
+        {
+          "id": "remove-all-water",
+          "text": "강물을 모두 없앨 수 있어요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-mountain-v1.webp",
+          "alt": "푸른 산과 하천, 계단식 논이 있는 산지 마을 장식 그림"
+        },
+        {
+          "id": "make-mountain-flat",
+          "text": "강이 산을 평평하게 만들어요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-tropical-v1.webp",
+          "alt": "비 내리는 열대 숲과 고상 가옥, 배가 있는 마을 장식 그림"
+        },
+        {
+          "id": "stop-rain",
+          "text": "강을 이용하면 비가 멈춰요.",
+          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp",
+          "alt": "눈과 얼음, 이글루와 두꺼운 옷을 입은 아이가 있는 장식 그림"
+        }
+      ],
+      "correctId": "easy-heavy-transport",
+      "explanation": "하천은 물길을 따라 많은 물건을 옮기기 편리해 생활과 교통에 이용돼요.",
+      "evidence": {
+        "sourceFile": "6_2_사회_1_지도서.pdf",
+        "pdfPage": 30,
+        "printedPage": 45,
+        "textbookPage": 21,
+        "basis": "하천을 따라 물건을 옮기거나 시장을 여는 생활 모습을 하천의 특징과 연결한다."
+      }
+    },
+    {
+      "id": "q5-river-landscape",
+      "type": "choice",
+      "prompt": "큰 폭포나 아름다운 강 주변에 관광업이 발달하는 까닭은 무엇일까요?",
+      "instruction": "가장 알맞은 까닭을 골라요.",
+      "options": [
+        {
+          "id": "beautiful-view",
+          "text": "독특한 경관을 보려는 사람이 많아서"
+        },
+        {
+          "id": "no-people",
+          "text": "사람이 한 명도 살지 않아서"
+        },
+        {
+          "id": "no-water",
+          "text": "물이 모두 말라 있어서"
+        },
+        {
+          "id": "no-landscape",
+          "text": "경관이 보이지 않아서"
+        }
+      ],
+      "correctId": "beautiful-view",
+      "explanation": "웅장하고 아름다운 하천 경관은 많은 사람이 보고 싶어 하는 관광 자원이 돼요.",
+      "evidence": {
+        "sourceFile": "6_2_사회_1_지도서.pdf",
+        "pdfPage": 28,
+        "printedPage": 43,
+        "textbookPage": 21,
+        "basis": "이구아수 폭포와 같은 아름다운 하천 경관이 관광지로 이용되는 까닭을 살펴본다."
+      }
+    },
+    {
+      "id": "q6-river-functions",
+      "type": "match",
+      "prompt": "하천의 모습과 사람들이 하는 일을 이어 볼까요?",
+      "instruction": "왼쪽을 누르고 알맞은 오른쪽을 눌러요.",
+      "left": [
+        {
+          "id": "fertile-plain",
+          "text": "하천 주변의 넓은 평야"
+        },
+        {
+          "id": "great-waterfall",
+          "text": "거대한 폭포 경관"
+        },
+        {
+          "id": "abundant-flow",
+          "text": "물이 풍부한 하천"
+        }
+      ],
+      "right": [
+        {
+          "id": "farming",
+          "text": "농사를 지어요."
+        },
+        {
+          "id": "tourism",
+          "text": "관광지로 이용해요."
+        },
+        {
+          "id": "power-generation",
+          "text": "전기를 만들어요."
+        }
+      ],
+      "pairs": {
+        "fertile-plain": "farming",
+        "great-waterfall": "tourism",
+        "abundant-flow": "power-generation"
+      },
+      "explanation": "하천의 물과 주변 땅, 경관은 농업·발전·관광에 서로 다르게 쓰여요.",
+      "evidence": {
+        "sourceFile": "6_2_사회_1_지도서.pdf",
+        "pdfPage": 28,
+        "printedPage": 43,
+        "textbookPage": 21,
+        "basis": "하천 주변 평야, 폭포, 풍부한 수량이 농업·관광·수력 발전에 이용되는 모습을 정리한다."
+      }
+    }
+  ],
+  "resultSelection": {
+    "candidateResultIds": [
+      "meerkatmon",
+      "elephantmon",
+      "cranemon"
+    ],
+    "discoveryText": "산과 강은 생김새가 다르고, 사람들은 그 특징에 맞게 농사와 이동, 관광을 이어 가요."
+  },
+  "contractVersion": "socialmon-quiz-lite-contract-v3",
+  "standards": {
+    "screenFlow": "socialmon-four-screen-flow-v1",
+    "questionInteraction": "socialmon-tap-interactions-v1",
+    "reward": "socialmon-trace-reveal-v1",
+    "cover": "socialmon-generated-cover-copy-v1",
+    "tutorial": "socialmon-generated-tutorial-poster-v1",
+    "brand": "socialmon-purple-cloud-mark-v1",
+    "playDiscovery": "socialmon-left-reveal-progress-v1",
+    "playLayout": "socialmon-source-choice-tablet-v1"
+  },
+  "tutorial": {
+    "title": "방법 보기",
+    "steps": [
+      "자료를 크게 살펴봐요.",
+      "답을 골라 확인해요.",
+      "흔적이 모이면 소셜몬이 보여요."
+    ],
+    "rewardText": "6문제를 풀고 소셜몬을 만나요.",
+    "actionLabel": "알겠어요"
+  },
+  "reward": {
+    "standard": "socialmon-trace-reveal-v1",
+    "stampDurationMs": 500,
+    "checkpoints": [
+      {
+        "afterQuestion": 2,
+        "phase": "silhouette",
+        "label": "첫 번째 힌트",
+        "title": "누구의 그림자일까요?",
+        "copy": "모양을 잘 살펴봐요."
+      },
+      {
+        "afterQuestion": 4,
+        "phase": "trait",
+        "label": "두 번째 힌트",
+        "title": "이런 재주가 있어요!"
+      }
+    ],
+    "candidateResultIds": [
+      "meerkatmon",
+      "elephantmon",
+      "cranemon"
+    ],
+    "discoveryText": "산과 강은 생김새가 다르고, 사람들은 그 특징에 맞게 농사와 이동, 관광을 이어 가요."
+  },
+  "results": [
+    {
+      "id": "kiwimon",
+      "name": "키위몬",
+      "trait": "작은 단서를 잘 찾아요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp"
+    },
+    {
+      "id": "platypusmon",
+      "name": "오리너구리몬",
+      "trait": "두 모습을 빠르게 비교해요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp"
+    },
+    {
+      "id": "meerkatmon",
+      "name": "미어캣몬",
+      "trait": "주변의 달라진 모습을 먼저 찾아요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp"
+    },
+    {
+      "id": "elephantmon",
+      "name": "코끼몬",
+      "trait": "옛날과 오늘의 이야기를 잘 기억해요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp"
+    },
+    {
+      "id": "cranemon",
+      "name": "두루미몬",
+      "trait": "멀리 오가는 소식을 잘 이어요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp"
+    },
+    {
+      "id": "pangolinmon",
+      "name": "천산갑몬",
+      "trait": "함께 지킬 약속을 든든하게 지켜요.",
+      "characterImage": "../../_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp"
+    }
+  ],
+  "assets": {
+    "startButton": "../../_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "brandMark": "../../_shared/brand/mathmon-cloud-mark.webp",
+    "tutorialPoster": "../../_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp",
+    "playBackground": "../../_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp",
+    "resultBackground": "../../_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp",
+    "characterPack": "../../_shared/socialmon/discovery-pack-v1/manifest.json",
+    "coverBackground": "../../_shared/socialmon/theme-packs/6-2/u1/world-landforms/cover-background-v1.webp"
+  },
+  "qa": {
+    "viewports": [
+      {
+        "name": "desktop-1280x800",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "name": "tablet-landscape-1024x768",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "name": "feedback-reported-1079x929",
+        "width": 1079,
+        "height": 929
+      },
+      {
+        "name": "feedback-reported-1079x842",
+        "width": 1079,
+        "height": 842
+      }
+    ],
+    "requiredScreens": [
+      "cover",
+      "tutorial",
+      "play",
+      "result"
+    ],
+    "requiredFlowStates": [
+      "answering",
+      "feedback-correct",
+      "feedback-wrong",
+      "trace-stamped",
+      "trace-silhouette",
+      "trace-trait"
+    ],
+    "requiredOverlays": [
+      "settings",
+      "trace-reveal"
+    ],
+    "coverCopyAudit": {
+      "standard": "socialmon-generated-cover-copy-v1",
+      "art": "#coverCopyArt",
+      "hiddenText": [
+        "#coverTitle",
+        "#coverGoal",
+        ".series-kicker"
+      ],
+      "sourceRequired": true
+    },
+    "tutorialPosterAudit": {
+      "standard": "socialmon-generated-tutorial-poster-v1",
+      "poster": "#tutorialPosterArt",
+      "hitbox": "#tutorialStartButton",
+      "canvas": "1280x800",
+      "hitboxRect": {
+        "leftRatio": 0.3375,
+        "topRatio": 0.845,
+        "widthRatio": 0.339,
+        "heightRatio": 0.132
+      },
+      "maxEdgeErrorPx": 1
+    },
+    "brandMarkAudit": {
+      "standard": "socialmon-purple-cloud-mark-v1",
+      "selector": ".socialmon-brand-mark",
+      "assetSuffix": "_shared/brand/mathmon-cloud-mark.webp"
+    },
+    "playDiscoveryAudit": {
+      "standard": "socialmon-left-reveal-progress-v1",
+      "panel": "#discoveryPanel",
+      "workArea": "#playWorkArea",
+      "expectedWidthRatio": 0.245,
+      "minWorkGapRatio": 0.015625,
+      "tolerancePx": 1,
+      "traceStates": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "visibleProgress": "#questionProgress",
+      "hiddenProgress": "#traceProgress"
+    },
+    "sourceChoiceAudit": {
+      "standard": "socialmon-source-choice-tablet-v3",
+      "sourceCard": ".source-card.has-image",
+      "sourceImage": ".source-image",
+      "choice": ".choice-option",
+      "minSourceImageWidthRatio": 0.22,
+      "minSourcePixelDensity": 3,
+      "minPromptFontPx": 34,
+      "minSourceTitleFontPx": 24,
+      "minSourceBodyFontPx": 20,
+      "sourceCredit": "#playSourceCredit",
+      "maxSourceCreditFontPx": 12,
+      "requireSourceCreditBackplate": true,
+      "maxSourceCreditRightInsetRatio": 0.03,
+      "maxSourceCreditBottomInsetRatio": 0.03,
+      "minChoiceHeightPx": 94,
+      "minChoiceFontPx": 21,
+      "maxChoiceWidthRatio": 0.31,
+      "minOptionImageNaturalWidth": 512,
+      "minSubmitWidthPx": 150,
+      "minSubmitHeightPx": 52,
+      "minSubmitSafeInsetPx": 4,
+      "minSourceChoiceGapRatio": 0.01,
+      "maxCoreVerticalGapRatio": 0.04,
+      "maxAdjacentGapRatio": 2,
+      "maxCorrectChoiceTokenOverlapRatio": 0.6,
+      "minCorrectChoiceTokenMatches": 2,
+      "requireSourceImage": true,
+      "requireAllOptionImages": true,
+      "forbidAnswerLeak": true,
+      "forbidCenteredWorkbench": true,
+      "hideQuestionKind": true,
+      "hideImageSourceInstruction": true,
+      "hideInlineSourceCredit": true
+    },
+    "mapHotspotAudit": {
+      "standard": "socialmon-source-choice-map-hotspots-v1",
+      "board": ".map-hotspot-board",
+      "mapImage": ".map-hotspot-image",
+      "target": ".map-hotspot-target",
+      "minMapWidthRatio": 0.42,
+      "minMapPixelDensity": 3,
+      "minTargetSizePx": 42,
+      "minSafeInsetPx": 4,
+      "requiredTargetCount": 4,
+      "maxTargetOverlapPx": 0
+    },
+    "forbidTextOverflow": true,
+    "forbidSiblingOverlap": true,
+    "requireSourceEvidence": true,
+    "forbidGeneratedFactualEvidence": true
+  }
+};
+(() => {
+  "use strict";
+
+  const escapeHtml = (value) => String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+  const makeSubmitArea = (root, controller, onSubmit, options = {}) => {
+    const actions = document.createElement("div");
+    actions.className = "workbench-actions";
+
+    if (options.reset) {
+      const resetButton = document.createElement("button");
+      resetButton.type = "button";
+      resetButton.className = "sequence-reset";
+      resetButton.textContent = "다시 고르기";
+      resetButton.addEventListener("click", () => {
+        if (controller.locked) return;
+        controller.reset();
+        controller.refresh();
+      });
+      actions.append(resetButton);
+    }
+
+    const submitButton = document.createElement("button");
+    submitButton.type = "button";
+    submitButton.className = "workbench-submit";
+    submitButton.textContent = options.submitLabel || "답 확인";
+    submitButton.disabled = true;
+    submitButton.addEventListener("click", () => {
+      if (controller.locked || !controller.isComplete()) return;
+      controller.lock();
+      onSubmit(controller.getAnswer());
+    });
+    actions.append(submitButton);
+    root.append(actions);
+
+    controller.refreshSubmit = () => {
+      submitButton.disabled = controller.locked || !controller.isComplete();
+    };
+    controller.submitButton = submitButton;
+  };
+
+  const lockButtons = (root) => {
+    root.querySelectorAll("button").forEach((button) => {
+      button.disabled = true;
+    });
+  };
+
+  const renderChoice = (root, question, onSubmit) => {
+    let selectedId = null;
+    const controller = {
+      locked: false,
+      getAnswer: () => selectedId,
+      isComplete: () => selectedId !== null,
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        root.querySelectorAll(".choice-option, .map-hotspot-target").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.optionId === selectedId));
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    if (question.presentation === "map-hotspots") {
+      const source = document.createElement("article");
+      source.className = "source-card has-image map-hotspot-card";
+
+      const copy = document.createElement("div");
+      copy.className = "source-copy map-hotspot-copy";
+      const title = document.createElement("strong");
+      title.textContent = question.source?.title || "지도 자료";
+      const text = document.createElement("span");
+      text.textContent = question.source?.text || "지도 위 위치를 살펴봐요.";
+      copy.append(title, text);
+      if (question.source?.credit) {
+        const credit = document.createElement("small");
+        credit.className = "source-credit";
+        credit.textContent = question.source.credit;
+        copy.append(credit);
+      }
+
+      const board = document.createElement("div");
+      board.className = "map-hotspot-board";
+      board.dataset.mapHotspotStandard = "socialmon-source-choice-map-hotspots-v1";
+      const image = document.createElement("img");
+      image.className = "source-image map-hotspot-image";
+      image.src = question.source?.image || "";
+      image.alt = question.source?.alt || "";
+      image.draggable = false;
+      board.append(image);
+
+      (question.mapHotspots || []).forEach((hotspot, index) => {
+        const option = question.options.find((item) => item.id === hotspot.optionId);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "map-hotspot-target";
+        button.dataset.optionId = hotspot.optionId;
+        button.style.setProperty("--map-hotspot-x", `${hotspot.xPercent}%`);
+        button.style.setProperty("--map-hotspot-y", `${hotspot.yPercent}%`);
+        button.setAttribute("aria-pressed", "false");
+        button.setAttribute("aria-label", `${hotspot.label}: ${option?.text || "지도 위치"}`);
+        button.textContent = String(index + 1);
+        button.addEventListener("click", () => {
+          if (controller.locked) return;
+          selectedId = hotspot.optionId;
+          controller.refresh();
+        });
+        board.append(button);
+      });
+
+      source.append(copy, board);
+      root.append(source);
+      makeSubmitArea(root, controller, onSubmit);
+      controller.refresh();
+      return controller;
+    }
+
+    if (question.source) {
+      const source = document.createElement("article");
+      source.className = "source-card";
+      if (question.source.image) {
+        source.classList.add("has-image");
+        const image = document.createElement("img");
+        image.className = "source-image";
+        image.src = question.source.image;
+        image.alt = question.source.alt || "";
+        source.append(image);
+      }
+      const copy = document.createElement("div");
+      copy.className = "source-copy";
+      const title = document.createElement("strong");
+      title.textContent = question.source.title || "자료";
+      const text = document.createElement("span");
+      text.textContent = question.source.text;
+      copy.append(title, text);
+      if (question.source.credit) {
+        const credit = document.createElement("small");
+        credit.className = "source-credit";
+        credit.textContent = question.source.credit;
+        copy.append(credit);
+      }
+      source.append(copy);
+      root.append(source);
+    }
+
+    if (question.situation) {
+      const situation = document.createElement("article");
+      situation.className = "situation-card";
+      situation.innerHTML = `<strong>${escapeHtml(question.situation.title || "이럴 때")}</strong>${escapeHtml(question.situation.text)}`;
+      root.append(situation);
+    }
+
+    const grid = document.createElement("div");
+    grid.className = "choice-grid";
+    question.options.forEach((option) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "choice-option";
+      button.dataset.optionId = option.id;
+      button.setAttribute("aria-pressed", "false");
+      if (option.image) {
+        button.classList.add("has-image");
+        const image = document.createElement("img");
+        image.className = "option-image";
+        image.src = option.image;
+        image.alt = option.alt || "";
+        const text = document.createElement("span");
+        text.textContent = option.text;
+        button.append(image, text);
+      } else {
+        button.textContent = option.text;
+      }
+      button.addEventListener("click", () => {
+        if (controller.locked) return;
+        selectedId = option.id;
+        controller.refresh();
+      });
+      grid.append(button);
+    });
+    root.append(grid);
+    makeSubmitArea(root, controller, onSubmit);
+    controller.refresh();
+    return controller;
+  };
+
+  const renderMatch = (root, question, onSubmit) => {
+    let selectedLeftId = null;
+    const pairs = {};
+    const controller = {
+      locked: false,
+      getAnswer: () => ({ ...pairs }),
+      isComplete: () => question.left.every((item) => Boolean(pairs[item.id])),
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        const orderByLeft = new Map(question.left.map((item, index) => [item.id, index + 1]));
+        root.querySelectorAll("[data-left-id]").forEach((button) => {
+          const leftId = button.dataset.leftId;
+          button.setAttribute("aria-pressed", String(leftId === selectedLeftId));
+          const number = button.querySelector(".pair-number");
+          number.hidden = !pairs[leftId];
+          number.textContent = pairs[leftId] ? String(orderByLeft.get(leftId)) : "";
+        });
+        root.querySelectorAll("[data-right-id]").forEach((button) => {
+          const rightId = button.dataset.rightId;
+          const pairedLeft = Object.keys(pairs).find((leftId) => pairs[leftId] === rightId);
+          button.setAttribute("aria-pressed", String(Boolean(pairedLeft)));
+          const number = button.querySelector(".pair-number");
+          number.hidden = !pairedLeft;
+          number.textContent = pairedLeft ? String(orderByLeft.get(pairedLeft)) : "";
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    const board = document.createElement("div");
+    board.className = "match-board";
+    const leftColumn = document.createElement("div");
+    leftColumn.className = "match-column";
+    question.left.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pair-option";
+      button.dataset.leftId = item.id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<span>${escapeHtml(item.text)}</span><span class="pair-number" hidden></span>`;
+      button.addEventListener("click", () => {
+        if (controller.locked) return;
+        selectedLeftId = item.id;
+        controller.refresh();
+      });
+      leftColumn.append(button);
+    });
+
+    const arrow = document.createElement("div");
+    arrow.className = "match-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "↔";
+
+    const rightColumn = document.createElement("div");
+    rightColumn.className = "match-column";
+    question.right.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pair-option";
+      button.dataset.rightId = item.id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<span>${escapeHtml(item.text)}</span><span class="pair-number" hidden></span>`;
+      button.addEventListener("click", () => {
+        if (controller.locked || !selectedLeftId) return;
+        Object.keys(pairs).forEach((leftId) => {
+          if (pairs[leftId] === item.id) delete pairs[leftId];
+        });
+        pairs[selectedLeftId] = item.id;
+        selectedLeftId = null;
+        controller.refresh();
+      });
+      rightColumn.append(button);
+    });
+
+    board.append(leftColumn, arrow, rightColumn);
+    root.append(board);
+    makeSubmitArea(root, controller, onSubmit, { submitLabel: "짝 확인" });
+    controller.refresh();
+    return controller;
+  };
+
+  const renderClassify = (root, question, onSubmit) => {
+    const selections = {};
+    const controller = {
+      locked: false,
+      getAnswer: () => ({ ...selections }),
+      isComplete: () => question.items.every((item) => Boolean(selections[item.id])),
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        root.querySelectorAll("[data-classify-item][data-group-id]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(selections[button.dataset.classifyItem] === button.dataset.groupId));
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    const board = document.createElement("div");
+    board.className = "classify-board";
+    question.items.forEach((item) => {
+      const row = document.createElement("div");
+      row.className = "classify-row";
+      const label = document.createElement("span");
+      label.className = "classify-item";
+      label.textContent = item.text;
+      row.append(label);
+      question.groups.forEach((group) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "classify-target";
+        button.dataset.classifyItem = item.id;
+        button.dataset.groupId = group.id;
+        button.setAttribute("aria-pressed", "false");
+        button.textContent = group.label;
+        button.addEventListener("click", () => {
+          if (controller.locked) return;
+          selections[item.id] = group.id;
+          controller.refresh();
+        });
+        row.append(button);
+      });
+      board.append(row);
+    });
+    root.append(board);
+    makeSubmitArea(root, controller, onSubmit, { submitLabel: "답 확인" });
+    controller.refresh();
+    return controller;
+  };
+
+  const renderSequence = (root, question, onSubmit) => {
+    let order = [];
+    const controller = {
+      locked: false,
+      getAnswer: () => [...order],
+      isComplete: () => order.length === question.items.length,
+      reset() { order = []; },
+      lock() {
+        this.locked = true;
+        lockButtons(root);
+      },
+      refresh() {
+        root.querySelectorAll("[data-sequence-id]").forEach((button) => {
+          const index = order.indexOf(button.dataset.sequenceId);
+          button.setAttribute("aria-pressed", String(index >= 0));
+          const marker = button.querySelector(".sequence-order");
+          marker.hidden = index < 0;
+          marker.textContent = index >= 0 ? String(index + 1) : "";
+        });
+        this.refreshSubmit?.();
+      }
+    };
+
+    const board = document.createElement("div");
+    board.className = "sequence-board";
+    question.items.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "sequence-item";
+      button.dataset.sequenceId = item.id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<span class="sequence-order" hidden></span><span>${escapeHtml(item.text)}</span>`;
+      button.addEventListener("click", () => {
+        if (controller.locked) return;
+        const index = order.indexOf(item.id);
+        if (index >= 0) order.splice(index, 1);
+        else order.push(item.id);
+        controller.refresh();
+      });
+      board.append(button);
+    });
+    root.append(board);
+    makeSubmitArea(root, controller, onSubmit, { submitLabel: "순서 확인", reset: true });
+    controller.refresh();
+    return controller;
+  };
+
+  const registry = {
+    choice: renderChoice,
+    "source-choice": renderChoice,
+    "situation-choice": renderChoice,
+    match: renderMatch,
+    classify: renderClassify,
+    sequence: renderSequence
+  };
+
+  window.SocialQuizComponents = Object.freeze({
+    escapeHtml,
+    supportedTypes: Object.freeze(Object.keys(registry)),
+    mount(root, question, options) {
+      const renderer = registry[question.type];
+      if (!renderer) throw new Error(`지원하지 않는 문제 형식입니다: ${question.type}`);
+      root.replaceChildren();
+      if (question.presentation) root.dataset.questionPresentation = question.presentation;
+      else delete root.dataset.questionPresentation;
+      return renderer(root, question, options.onSubmit);
+    }
+  });
+})();
+
+(() => {
+  "use strict";
+
+  const config = SOCIAL_QUIZ_CONFIG;
+  const usesGeneratedVisualProfile = config.contractVersion === "socialmon-quiz-lite-contract-v3";
+  const byId = (id) => document.getElementById(id);
+  const screens = [...document.querySelectorAll("[data-screen]")];
+  const kindLabels = {
+    choice: "하나 고르기",
+    match: "짝 잇기",
+    classify: "나누어 보기",
+    sequence: "순서 세우기",
+    "source-choice": "자료 살펴보기",
+    "situation-choice": "생각 골라보기"
+  };
+  const storageKeys = {
+    bgm: "socialmon-audio-bgm-enabled",
+    sfx: "socialmon-audio-sfx-enabled"
+  };
+
+  const readToggle = (key) => {
+    try {
+      const value = localStorage.getItem(key);
+      return value === null ? true : value !== "false";
+    } catch {
+      return true;
+    }
+  };
+
+  const state = {
+    screen: "cover",
+    questionIndex: 0,
+    correctCount: 0,
+    traceCount: 0,
+    answerLocked: false,
+    continuationLocked: false,
+    selectedResultId: null,
+    forcedResultId: null,
+    tutorialReturn: null,
+    activeController: null,
+    bgmEnabled: readToggle(storageKeys.bgm),
+    sfxEnabled: readToggle(storageKeys.sfx)
+  };
+
+  let lastFocusedElement = null;
+  let traceTransitionTimer = null;
+
+  const writeToggle = (key, value) => {
+    try { localStorage.setItem(key, String(value)); } catch { /* storage can be unavailable */ }
+  };
+
+  const playTone = (frequency = 520, duration = 0.08) => {
+    if (!state.sfxEnabled) return;
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      const audioContext = new AudioContextClass();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration);
+      oscillator.addEventListener("ended", () => audioContext.close(), { once: true });
+    } catch { /* sound is optional */ }
+  };
+
+  const announce = (message) => {
+    const liveRegion = byId("liveRegion");
+    liveRegion.textContent = "";
+    requestAnimationFrame(() => { liveRegion.textContent = message; });
+  };
+
+  const showScreen = (name, focusSelector) => {
+    state.screen = name;
+    screens.forEach((screen) => {
+      const active = screen.dataset.screen === name;
+      screen.hidden = !active;
+      screen.classList.toggle("is-active", active);
+    });
+    if (focusSelector) requestAnimationFrame(() => document.querySelector(focusSelector)?.focus());
+  };
+
+  const sameObject = (actual, expected) => {
+    const expectedKeys = Object.keys(expected);
+    return expectedKeys.length === Object.keys(actual).length
+      && expectedKeys.every((key) => actual[key] === expected[key]);
+  };
+
+  const isCorrectAnswer = (question, answer) => {
+    if (["choice", "source-choice", "situation-choice"].includes(question.type)) {
+      return answer === question.correctId;
+    }
+    if (question.type === "sequence") {
+      return Array.isArray(answer)
+        && answer.length === question.correctOrder.length
+        && answer.every((id, index) => id === question.correctOrder[index]);
+    }
+    if (question.type === "match") return sameObject(answer, question.pairs);
+    if (question.type === "classify") return sameObject(answer, question.answers);
+    return false;
+  };
+
+  const chooseResult = () => {
+    const candidateIds = config.reward.candidateResultIds;
+    const forcedId = state.forcedResultId;
+    state.forcedResultId = null;
+    const selectedId = forcedId && candidateIds.includes(forcedId)
+      ? forcedId
+      : candidateIds[Math.floor(Math.random() * candidateIds.length)];
+    state.selectedResultId = selectedId;
+    return config.results.find((result) => result.id === selectedId);
+  };
+
+  const selectedResult = () => config.results.find((result) => result.id === state.selectedResultId)
+    || chooseResult();
+
+  const checkpointAfter = (completedCount) => config.reward.checkpoints.find((checkpoint) => checkpoint.afterQuestion === completedCount);
+
+  const updateTraceProgress = () => {
+    byId("traceCount").textContent = String(state.traceCount);
+    byId("traceTotal").textContent = String(config.questions.length);
+    byId("traceProgress").setAttribute("aria-label", `소셜몬 흔적 ${state.traceCount}개 중 ${config.questions.length}개`);
+    const discoveryPanel = byId("discoveryPanel");
+    const revealPercent = Math.max(0, Math.min(100, 100 - (state.traceCount / config.questions.length) * 100));
+    discoveryPanel.dataset.traceCount = String(state.traceCount);
+    discoveryPanel.style.setProperty("--trace-reveal-inset", `${revealPercent}%`);
+    [...byId("discoveryFootprints").children].forEach((footprint, index) => {
+      footprint.classList.toggle("is-found", index < state.traceCount);
+    });
+    const discoveryMessages = [
+      "누가 나타날까요?",
+      "모습이 조금 보이기 시작해요.",
+      "그림자를 잘 살펴봐요.",
+      "조금 더 선명해졌어요.",
+      "특징을 찾아봐요.",
+      "거의 다 보였어요.",
+      "소셜몬을 만났어요!"
+    ];
+    byId("discoveryCopy").textContent = discoveryMessages[Math.min(state.traceCount, discoveryMessages.length - 1)];
+  };
+
+  const updateDiscoveryCharacter = () => {
+    if (!state.selectedResultId) return;
+    const result = selectedResult();
+    byId("discoveryCharacterBase").src = result.characterImage;
+    byId("discoveryCharacterColor").src = result.characterImage;
+  };
+
+  const renderQuestion = () => {
+    if (traceTransitionTimer) clearTimeout(traceTransitionTimer);
+    traceTransitionTimer = null;
+    const question = config.questions[state.questionIndex];
+    if (!state.selectedResultId) chooseResult();
+    updateDiscoveryCharacter();
+    state.answerLocked = false;
+    state.continuationLocked = false;
+    byId("questionNumber").textContent = String(state.questionIndex + 1);
+    byId("questionTotal").textContent = String(config.questions.length);
+    byId("questionKind").textContent = kindLabels[question.type];
+    byId("questionPrompt").textContent = question.prompt;
+    byId("questionInstruction").textContent = question.instruction;
+    const playSourceCredit = byId("playSourceCredit");
+    playSourceCredit.textContent = question.source?.credit || "";
+    playSourceCredit.hidden = !(config.contractVersion === "socialmon-quiz-lite-contract-v3" && question.source?.credit);
+    byId("feedbackPanel").hidden = true;
+    byId("feedbackPanel").className = "feedback-panel";
+    byId("questionLayout").classList.remove("has-feedback");
+    byId("playWorkArea").classList.remove("has-feedback");
+    byId("traceToast").hidden = true;
+    byId("traceRevealModal").hidden = true;
+    updateTraceProgress();
+    state.activeController = window.SocialQuizComponents.mount(byId("questionWorkbench"), question, {
+      onSubmit: (answer) => submitAnswer(question, answer)
+    });
+    showScreen("play", ".question-workbench button");
+    announce(`${state.questionIndex + 1}번 문제`);
+  };
+
+  const submitAnswer = (question, answer) => {
+    if (state.answerLocked) return;
+    state.answerLocked = true;
+    const correct = isCorrectAnswer(question, answer);
+    if (correct) state.correctCount += 1;
+
+    const feedback = byId("feedbackPanel");
+    feedback.hidden = false;
+    feedback.classList.add(correct ? "is-correct" : "is-wrong");
+    byId("feedbackLabel").textContent = correct ? "맞았어요!" : "아쉬워요.";
+    byId("feedbackText").textContent = question.explanation;
+    const completedCount = state.questionIndex + 1;
+    const checkpoint = checkpointAfter(completedCount);
+    byId("continueButton").textContent = completedCount === config.questions.length
+      ? "소셜몬 만나기"
+      : checkpoint ? "흔적 보기" : "다음 문제";
+    byId("questionLayout").classList.add("has-feedback");
+    byId("playWorkArea").classList.add("has-feedback");
+    playTone(correct ? 660 : 240, correct ? 0.12 : 0.1);
+    announce(correct ? "맞았어요. 설명을 살펴보세요." : "아쉬워요. 설명을 살펴보세요.");
+    requestAnimationFrame(() => byId("continueButton").focus());
+  };
+
+  const showTraceCheckpoint = (checkpoint) => {
+    const result = selectedResult();
+    const card = byId("traceRevealCard");
+    card.dataset.phase = checkpoint.phase;
+    byId("traceRevealStep").textContent = checkpoint.label;
+    byId("traceRevealTitle").textContent = checkpoint.title;
+    byId("traceCharacterImage").src = result.characterImage;
+    byId("traceCharacterImage").alt = checkpoint.phase === "trait" ? "소셜몬 그림자" : "아직 이름을 모르는 소셜몬 그림자";
+    byId("traceRevealCopy").textContent = checkpoint.phase === "trait" ? result.trait : checkpoint.copy;
+    byId("traceRevealModal").hidden = false;
+    byId("traceRevealNextButton").focus();
+    announce(`${checkpoint.label}. ${checkpoint.phase === "trait" ? result.trait : checkpoint.title}`);
+  };
+
+  const renderResult = (previewResultId = null) => {
+    const result = (previewResultId && config.results.find((candidate) => candidate.id === previewResultId)) || selectedResult();
+    byId("resultTitle").textContent = result.name;
+    byId("resultCorrect").textContent = `${config.questions.length}문제 중 ${state.correctCount}문제 정답`;
+    byId("resultDiscovery").textContent = config.reward.discoveryText;
+    byId("resultCharacterImage").src = result.characterImage;
+    byId("resultCharacterImage").alt = `${result.name} 캐릭터`;
+    showScreen("result", "#restartButton");
+    announce(`${result.name}을 만났어요.`);
+  };
+
+  const moveToNextQuestionOrResult = () => {
+    byId("traceRevealModal").hidden = true;
+    if (state.questionIndex + 1 < config.questions.length) {
+      state.questionIndex += 1;
+      renderQuestion();
+    } else {
+      renderResult();
+    }
+  };
+
+  const continueAfterFeedback = () => {
+    if (!state.answerLocked || state.continuationLocked) return;
+    state.continuationLocked = true;
+    state.traceCount = state.questionIndex + 1;
+    updateTraceProgress();
+    const toast = byId("traceToast");
+    toast.hidden = false;
+    byId("traceToastLabel").textContent = `소셜몬 흔적 ${state.traceCount}개!`;
+    playTone(720, 0.1);
+    announce(`소셜몬 흔적 ${state.traceCount}개를 찾았어요.`);
+    const checkpoint = checkpointAfter(state.traceCount);
+    traceTransitionTimer = setTimeout(() => {
+      traceTransitionTimer = null;
+      toast.hidden = true;
+      if (checkpoint) showTraceCheckpoint(checkpoint);
+      else moveToNextQuestionOrResult();
+    }, config.reward.stampDurationMs);
+  };
+
+  const resetGame = () => {
+    if (traceTransitionTimer) clearTimeout(traceTransitionTimer);
+    traceTransitionTimer = null;
+    state.questionIndex = 0;
+    state.correctCount = 0;
+    state.traceCount = 0;
+    state.answerLocked = false;
+    state.continuationLocked = false;
+    state.selectedResultId = null;
+    state.tutorialReturn = null;
+    byId("traceToast").hidden = true;
+    byId("traceRevealModal").hidden = true;
+    byId("settingsModal").hidden = true;
+    byId("discoveryCharacterBase").removeAttribute("src");
+    byId("discoveryCharacterColor").removeAttribute("src");
+    updateTraceProgress();
+    showScreen("cover", "#startButton");
+  };
+
+  const openSettings = () => {
+    lastFocusedElement = document.activeElement;
+    byId("settingsModal").hidden = false;
+    byId("settingsClose").focus();
+  };
+
+  const closeSettings = () => {
+    byId("settingsModal").hidden = true;
+    lastFocusedElement?.focus?.();
+  };
+
+  const updateToggleUi = () => {
+    byId("bgmToggle").setAttribute("aria-checked", String(state.bgmEnabled));
+    byId("sfxToggle").setAttribute("aria-checked", String(state.sfxEnabled));
+  };
+
+  const showTutorial = (returnScreen = null) => {
+    state.tutorialReturn = returnScreen;
+    const label = usesGeneratedVisualProfile
+      ? (config.tutorial.actionLabel || "알겠어요")
+      : (returnScreen ? "계속하기" : "문제 시작");
+    byId("tutorialStartButton").textContent = label;
+    byId("tutorialStartButton").setAttribute("aria-label", returnScreen ? "방법을 닫고 계속하기" : label);
+    showScreen("tutorial", "#tutorialStartButton");
+  };
+
+  const bindStaticUi = () => {
+    document.title = config.title;
+    byId("coverTitle").textContent = config.title;
+    byId("coverGoal").textContent = config.goal;
+    ["coverUnitBadge", "tutorialUnitBadge", "playUnitBadge", "resultUnitBadge"].forEach((id) => {
+      byId(id).textContent = config.unitBadge;
+    });
+    byId("tutorialTitle").textContent = config.tutorial.title;
+    byId("tutorialSteps").replaceChildren(...config.tutorial.steps.map((step) => {
+      const item = document.createElement("li");
+      item.textContent = step;
+      return item;
+    }));
+    byId("tutorialReward").textContent = config.tutorial.rewardText;
+    byId("startButtonArt").src = config.assets.startButton;
+    document.querySelectorAll(".socialmon-brand-mark").forEach((image) => {
+      image.hidden = !config.assets.brandMark;
+      if (config.assets.brandMark) image.src = config.assets.brandMark;
+    });
+    const coverCopyArt = byId("coverCopyArt");
+    coverCopyArt.hidden = !config.visualAssets?.coverCopyArt;
+    if (config.visualAssets?.coverCopyArt) coverCopyArt.src = config.visualAssets.coverCopyArt;
+    const tutorialPosterArt = byId("tutorialPosterArt");
+    tutorialPosterArt.hidden = !config.assets.tutorialPoster;
+    if (config.assets.tutorialPoster) tutorialPosterArt.src = config.assets.tutorialPoster;
+    const playBackground = byId("playBackground");
+    playBackground.hidden = !config.assets.playBackground;
+    if (config.assets.playBackground) playBackground.src = config.assets.playBackground;
+    const coverBackground = byId("coverBackground");
+    coverBackground.hidden = !config.assets.coverBackground;
+    if (config.assets.coverBackground) coverBackground.src = config.assets.coverBackground;
+    const resultBackground = byId("resultBackground");
+    resultBackground.hidden = !config.assets.resultBackground;
+    if (config.assets.resultBackground) resultBackground.src = config.assets.resultBackground;
+    updateToggleUi();
+    updateTraceProgress();
+
+    byId("startButton").addEventListener("click", () => showTutorial());
+    byId("tutorialStartButton").addEventListener("click", () => {
+      const returnScreen = state.tutorialReturn;
+      state.tutorialReturn = null;
+      if (returnScreen === "play") showScreen("play", ".question-workbench button:not(:disabled)");
+      else if (returnScreen === "result") showScreen("result", "#restartButton");
+      else renderQuestion();
+    });
+    byId("continueButton").addEventListener("click", continueAfterFeedback);
+    byId("traceRevealNextButton").addEventListener("click", moveToNextQuestionOrResult);
+    byId("restartButton").addEventListener("click", resetGame);
+    byId("settingsToggle").addEventListener("click", openSettings);
+    byId("settingsClose").addEventListener("click", closeSettings);
+    byId("bgmToggle").addEventListener("click", () => {
+      state.bgmEnabled = !state.bgmEnabled;
+      writeToggle(storageKeys.bgm, state.bgmEnabled);
+      updateToggleUi();
+    });
+    byId("sfxToggle").addEventListener("click", () => {
+      state.sfxEnabled = !state.sfxEnabled;
+      writeToggle(storageKeys.sfx, state.sfxEnabled);
+      updateToggleUi();
+      playTone(520, 0.06);
+    });
+    byId("reviewTutorialButton").addEventListener("click", () => {
+      const returnScreen = state.screen === "cover" ? null : state.screen;
+      closeSettings();
+      showTutorial(returnScreen);
+    });
+    byId("resetButton").addEventListener("click", resetGame);
+    byId("settingsModal").addEventListener("click", (event) => {
+      if (event.target === byId("settingsModal")) closeSettings();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !byId("settingsModal").hidden) closeSettings();
+    });
+  };
+
+  bindStaticUi();
+
+  window.__socialmonQa = Object.freeze({
+    getState: () => ({
+      screen: state.screen,
+      questionIndex: state.questionIndex,
+      correctCount: state.correctCount,
+      traceCount: state.traceCount,
+      answerLocked: state.answerLocked,
+      continuationLocked: state.continuationLocked,
+      selectedResultId: state.selectedResultId
+    }),
+    forceResult(id) { state.forcedResultId = id; },
+    renderQuestion(index) {
+      state.questionIndex = Math.max(0, Math.min(config.questions.length - 1, Number(index) || 0));
+      renderQuestion();
+    },
+    renderResult(id) { renderResult(id); },
+    setTraceCount(count) {
+      state.traceCount = Math.max(0, Math.min(config.questions.length, Number(count) || 0));
+      if (!state.selectedResultId) chooseResult();
+      updateDiscoveryCharacter();
+      updateTraceProgress();
+    },
+    reset: resetGame
+  });
+})();
+
+  </script>
+</body>
+</html>
