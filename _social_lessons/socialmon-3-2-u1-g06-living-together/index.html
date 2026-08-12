@@ -924,8 +924,8 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback {
-  grid-template-rows: minmax(0, 1fr) 8.4cqw;
-  gap: 0.8cqw;
+  grid-template-rows: minmax(0, 1fr) max(64px, 6.5cqw);
+  gap: 0.5cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card {
@@ -935,13 +935,32 @@ button:focus-visible {
   box-shadow: 0 0.8cqw 2.1cqw rgb(30 24 67 / 18%);
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-kind {
+  display: none;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-prompt {
   max-width: none;
-  font-size: clamp(24px, 2.08cqw, 28px);
+  margin-top: 0;
+  font-size: clamp(28px, 2.4cqw, 32px);
+  font-weight: 850;
+  line-height: 1.2;
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-instruction {
   font-size: clamp(15px, 1.38cqw, 18px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(34px, 3.15cqw, 40px);
+  line-height: 1.17;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-instruction {
+  display: none;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench {
@@ -963,23 +982,56 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
-  grid-template-columns: 19cqw minmax(0, 1fr);
+  grid-template-columns: 22cqw minmax(0, 1fr);
   gap: 1.25cqw;
   padding: 0.9cqw 1.1cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
-  width: 19cqw;
+  width: 22cqw;
   border-radius: 0.9cqw;
+  background: white;
+  box-shadow: 0 0.35cqw 0.9cqw rgb(43 51 77 / 16%);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card strong {
   margin-bottom: 0.45cqw;
-  font-size: clamp(19px, 1.75cqw, 23px);
+  font-size: clamp(24px, 2.25cqw, 28px);
+  line-height: 1.25;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-credit {
-  font-size: clamp(13px, 1.08cqw, 15px);
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-copy > span {
+  font-size: clamp(20px, 1.95cqw, 24px);
+  font-weight: 720;
+  line-height: 1.38;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.play-source-credit {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-source-credit:not([hidden]) {
+  position: absolute;
+  right: 2.2cqw;
+  bottom: 0.65cqw;
+  z-index: 4;
+  display: block;
+  margin: 0;
+  padding: 0.18cqw 0.45cqw;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 78%);
+  color: rgb(16 42 86 / 82%);
+  font-size: clamp(10px, 0.92cqw, 12px);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: right;
+  box-shadow: 0 0.15cqw 0.45cqw rgb(16 42 86 / 14%);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-grid {
@@ -995,6 +1047,38 @@ button:focus-visible {
   border-radius: 1.2cqw;
   background: #f7fffd;
   font-size: clamp(19px, 1.7cqw, 22px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+  min-height: max(94px, 8.8cqw);
+  grid-template-columns: 8.4cqw minmax(0, 1fr);
+  gap: 1cqw;
+  padding: 0.65cqw 0.8cqw;
+  background: #fffdf6;
+  font-size: clamp(21px, 1.9cqw, 24px);
+  text-align: left;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+  width: 8.4cqw;
+  height: 6.3cqw;
+  max-height: none;
+  border: 0.12cqw solid rgb(16 42 86 / 10%);
+  border-radius: 0.8cqw;
+  background: #fff8e8;
+  box-shadow: 0 0.25cqw 0.65cqw rgb(43 51 77 / 13%);
+  object-fit: cover;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
+  margin-top: 0.65cqw;
+  padding: 0.45cqw 0.8cqw 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-submit {
+  min-width: 15cqw;
+  min-height: max(52px, 5cqw);
+  font-size: clamp(18px, 1.65cqw, 21px);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option {
@@ -1541,6 +1625,7 @@ button:focus-visible {
             </aside>
           </div>
         </div>
+        <small class="play-source-credit" id="playSourceCredit" data-text-align-role="label" hidden></small>
       </section>
 
       <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
@@ -1607,8 +1692,8 @@ button:focus-visible {
     data-quiz-json-sha256="49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7"
     data-profile-json-sha256="112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67"
     data-theme-pack-json-sha256="a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1"
-    data-engine-sha256="c87d04f68e32eb2d4b298fa996dde3a0a79dd5122e11c9084ec9d63a3d7d8c20"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"c87d04f68e32eb2d4b298fa996dde3a0a79dd5122e11c9084ec9d63a3d7d8c20","quizJson":"_social_lessons/socialmon-3-2-u1-g06-living-together/quiz.json","quizJsonSha256":"49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7","profileJson":"_shared/socialmon/profiles/quiz-lite-v1/profile.json","profileJsonSha256":"112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67","themePackJson":"_shared/socialmon/theme-packs/3-2/culture/pack.json","themePackJsonSha256":"a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1","builtAt":"2026-08-12T04:50:02.086Z"}</script>
+    data-engine-sha256="165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3","quizJson":"_social_lessons/socialmon-3-2-u1-g06-living-together/quiz.json","quizJsonSha256":"49881b3b1900f87a89c8c42d4537bb48da794e170a77b06ab0c48e1e123c81a7","profileJson":"_shared/socialmon/profiles/quiz-lite-v1/profile.json","profileJsonSha256":"112f4bb6da35db12398e06679d549cfca1ae685973d88e11ec0293415fc32e67","themePackJson":"_shared/socialmon/theme-packs/3-2/culture/pack.json","themePackJsonSha256":"a82ea6391ee5ac4ae1a51d06f0af96159020c90096447afdb8a4458a5bc3c7c1","builtAt":"2026-08-12T05:55:20.224Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2523,6 +2608,9 @@ button:focus-visible {
     byId("questionKind").textContent = kindLabels[question.type];
     byId("questionPrompt").textContent = question.prompt;
     byId("questionInstruction").textContent = question.instruction;
+    const playSourceCredit = byId("playSourceCredit");
+    playSourceCredit.textContent = question.source?.credit || "";
+    playSourceCredit.hidden = !(config.contractVersion === "socialmon-quiz-lite-contract-v3" && question.source?.credit);
     byId("feedbackPanel").hidden = true;
     byId("feedbackPanel").className = "feedback-panel";
     byId("questionLayout").classList.remove("has-feedback");

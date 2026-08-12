@@ -924,8 +924,8 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback {
-  grid-template-rows: minmax(0, 1fr) 8.4cqw;
-  gap: 0.8cqw;
+  grid-template-rows: minmax(0, 1fr) max(64px, 6.5cqw);
+  gap: 0.5cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card {
@@ -935,13 +935,32 @@ button:focus-visible {
   box-shadow: 0 0.8cqw 2.1cqw rgb(30 24 67 / 18%);
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-kind {
+  display: none;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-prompt {
   max-width: none;
-  font-size: clamp(24px, 2.08cqw, 28px);
+  margin-top: 0;
+  font-size: clamp(28px, 2.4cqw, 32px);
+  font-weight: 850;
+  line-height: 1.2;
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-instruction {
   font-size: clamp(15px, 1.38cqw, 18px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(34px, 3.15cqw, 40px);
+  line-height: 1.17;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-instruction {
+  display: none;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench {
@@ -963,23 +982,56 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
-  grid-template-columns: 19cqw minmax(0, 1fr);
+  grid-template-columns: 22cqw minmax(0, 1fr);
   gap: 1.25cqw;
   padding: 0.9cqw 1.1cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
-  width: 19cqw;
+  width: 22cqw;
   border-radius: 0.9cqw;
+  background: white;
+  box-shadow: 0 0.35cqw 0.9cqw rgb(43 51 77 / 16%);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card strong {
   margin-bottom: 0.45cqw;
-  font-size: clamp(19px, 1.75cqw, 23px);
+  font-size: clamp(24px, 2.25cqw, 28px);
+  line-height: 1.25;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-credit {
-  font-size: clamp(13px, 1.08cqw, 15px);
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-copy > span {
+  font-size: clamp(20px, 1.95cqw, 24px);
+  font-weight: 720;
+  line-height: 1.38;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.play-source-credit {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-source-credit:not([hidden]) {
+  position: absolute;
+  right: 2.2cqw;
+  bottom: 0.65cqw;
+  z-index: 4;
+  display: block;
+  margin: 0;
+  padding: 0.18cqw 0.45cqw;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 78%);
+  color: rgb(16 42 86 / 82%);
+  font-size: clamp(10px, 0.92cqw, 12px);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: right;
+  box-shadow: 0 0.15cqw 0.45cqw rgb(16 42 86 / 14%);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-grid {
@@ -995,6 +1047,38 @@ button:focus-visible {
   border-radius: 1.2cqw;
   background: #f7fffd;
   font-size: clamp(19px, 1.7cqw, 22px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+  min-height: max(94px, 8.8cqw);
+  grid-template-columns: 8.4cqw minmax(0, 1fr);
+  gap: 1cqw;
+  padding: 0.65cqw 0.8cqw;
+  background: #fffdf6;
+  font-size: clamp(21px, 1.9cqw, 24px);
+  text-align: left;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+  width: 8.4cqw;
+  height: 6.3cqw;
+  max-height: none;
+  border: 0.12cqw solid rgb(16 42 86 / 10%);
+  border-radius: 0.8cqw;
+  background: #fff8e8;
+  box-shadow: 0 0.25cqw 0.65cqw rgb(43 51 77 / 13%);
+  object-fit: cover;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
+  margin-top: 0.65cqw;
+  padding: 0.45cqw 0.8cqw 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-submit {
+  min-width: 15cqw;
+  min-height: max(52px, 5cqw);
+  font-size: clamp(18px, 1.65cqw, 21px);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option {
@@ -1541,6 +1625,7 @@ button:focus-visible {
             </aside>
           </div>
         </div>
+        <small class="play-source-credit" id="playSourceCredit" data-text-align-role="label" hidden></small>
       </section>
 
       <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
@@ -1604,11 +1689,11 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="835468128f06aa12ccffbebc2b9c9e74136b35cfc9195a2d25379870f4660d91"
-    data-profile-json-sha256="83dc174711611820cf11f1e172444e1abe64146d1366fdfeb26779db99f3b167"
+    data-quiz-json-sha256="b8176dc1284dbadfa378d98dcc9f533490101cc9e0830c94b5be0e60bdad579e"
+    data-profile-json-sha256="dfa9ed49520725a36bb2659e79f3cee7c9bb8f4b18e5c5f2575deb0f6d7377da"
     data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
-    data-engine-sha256="c87d04f68e32eb2d4b298fa996dde3a0a79dd5122e11c9084ec9d63a3d7d8c20"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"c87d04f68e32eb2d4b298fa996dde3a0a79dd5122e11c9084ec9d63a3d7d8c20","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"835468128f06aa12ccffbebc2b9c9e74136b35cfc9195a2d25379870f4660d91","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"83dc174711611820cf11f1e172444e1abe64146d1366fdfeb26779db99f3b167","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","builtAt":"2026-08-12T04:59:18.864Z"}</script>
+    data-engine-sha256="165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"b8176dc1284dbadfa378d98dcc9f533490101cc9e0830c94b5be0e60bdad579e","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"dfa9ed49520725a36bb2659e79f3cee7c9bb8f4b18e5c5f2575deb0f6d7377da","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","builtAt":"2026-08-12T05:52:53.006Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -1648,31 +1733,39 @@ button:focus-visible {
     {
       "id": "q1-old-school-lunch",
       "type": "source-choice",
-      "prompt": "옛날에는 도시락을 먹었어요. 오늘날 많은 학교에서는 무엇을 먹나요?",
+      "prompt": "옛날에는 도시락을 먹었어요. 지금 학교에서는 무엇을 먹을까요?",
       "instruction": "사진과 글을 보고 하나 골라요.",
       "source": {
         "title": "1960년 학교의 점심시간",
         "text": "학생들이 교실에서 집에서 가져온 도시락을 먹었습니다.",
-        "image": "assets/source-1960-school-lunch.webp",
+        "image": "assets/source-1960-school-lunch-v2.webp",
         "alt": "교실 책상에서 도시락을 먹는 학생들의 옛 사진",
         "credit": "자료: 사회 1 지도서 27쪽"
       },
       "options": [
         {
           "id": "school-meal",
-          "text": "학교 급식"
+          "text": "학교 급식",
+          "image": "assets/option-school-meal-v1.webp",
+          "alt": "밥과 국, 반찬이 담긴 학교 급식 식판 그림"
         },
         {
           "id": "camping-food",
-          "text": "야영 음식"
+          "text": "야영 음식",
+          "image": "assets/option-camping-food-v1.webp",
+          "alt": "야영지에 냄비와 샌드위치가 놓인 그림"
         },
         {
           "id": "market-food",
-          "text": "시장 음식"
+          "text": "시장 음식",
+          "image": "assets/option-market-food-v1.webp",
+          "alt": "시장에 채소와 과일이 놓인 그림"
         },
         {
           "id": "airplane-food",
-          "text": "비행기 기내식"
+          "text": "비행기 기내식",
+          "image": "assets/option-airplane-meal-v1.webp",
+          "alt": "비행기 창가에 음식 쟁반이 놓인 그림"
         }
       ],
       "correctId": "school-meal",
@@ -2015,6 +2108,11 @@ button:focus-visible {
         "name": "feedback-reported-1079x929",
         "width": 1079,
         "height": 929
+      },
+      {
+        "name": "feedback-reported-1079x842",
+        "width": 1079,
+        "height": 842
       }
     ],
     "requiredScreens": [
@@ -2083,14 +2181,30 @@ button:focus-visible {
       "hiddenProgress": "#traceProgress"
     },
     "sourceChoiceAudit": {
-      "standard": "socialmon-source-choice-tablet-v1",
+      "standard": "socialmon-source-choice-tablet-v3",
       "sourceCard": ".source-card.has-image",
       "sourceImage": ".source-image",
       "choice": ".choice-option",
-      "minSourceImageWidthRatio": 0.18,
-      "minChoiceHeightPx": 64,
-      "minChoiceFontPx": 19,
-      "maxChoiceWidthRatio": 0.31
+      "minSourceImageWidthRatio": 0.22,
+      "minSourcePixelDensity": 3,
+      "minPromptFontPx": 34,
+      "minSourceTitleFontPx": 24,
+      "minSourceBodyFontPx": 20,
+      "sourceCredit": "#playSourceCredit",
+      "maxSourceCreditFontPx": 12,
+      "requireSourceCreditBackplate": true,
+      "maxSourceCreditRightInsetRatio": 0.03,
+      "maxSourceCreditBottomInsetRatio": 0.03,
+      "minChoiceHeightPx": 94,
+      "minChoiceFontPx": 21,
+      "maxChoiceWidthRatio": 0.31,
+      "minOptionImageNaturalWidth": 512,
+      "minSubmitWidthPx": 150,
+      "minSubmitHeightPx": 52,
+      "minSubmitSafeInsetPx": 4,
+      "hideQuestionKind": true,
+      "hideImageSourceInstruction": true,
+      "hideInlineSourceCredit": true
     },
     "forbidTextOverflow": true,
     "forbidSiblingOverlap": true,
@@ -2603,6 +2717,9 @@ button:focus-visible {
     byId("questionKind").textContent = kindLabels[question.type];
     byId("questionPrompt").textContent = question.prompt;
     byId("questionInstruction").textContent = question.instruction;
+    const playSourceCredit = byId("playSourceCredit");
+    playSourceCredit.textContent = question.source?.credit || "";
+    playSourceCredit.hidden = !(config.contractVersion === "socialmon-quiz-lite-contract-v3" && question.source?.credit);
     byId("feedbackPanel").hidden = true;
     byId("feedbackPanel").className = "feedback-panel";
     byId("questionLayout").classList.remove("has-feedback");
