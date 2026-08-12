@@ -20,9 +20,18 @@
 
 ## 사용 방식
 
-- 문제 화면에는 지도서의 핵심 내용을 초등학교 3학년이 읽기 쉬운 짧은 글로 옮겼다.
-- 지도서 사진이나 삽화는 복사하지 않았다.
-- 생성형 이미지는 표지 배경에만 썼으며 정답을 판단하는 자료에는 쓰지 않았다.
+- 문제 화면에는 지도서의 관찰 가능한 모습을 초등학교 3학년이 읽기 쉬운 짧은 글로 옮겼다. 정답이 되는 까닭이나 행동은 답 확인 뒤 설명에서 알려 준다.
+- 1번 자료는 PDF 135쪽의 교과서 126쪽 통신수단 삽화를 의미가 달라지지 않게 잘라
+  `assets/source-todays-communication-v1-source.png`로 보관하고,
+  `assets/source-todays-communication-v1.webp`를 실행 화면에 썼다.
+- 4번 자료는 PDF 147쪽의 교과서 134쪽 디지털 배움터 사진을 의미가 달라지지 않게 잘라
+  `assets/source-digital-learning-center-v1-source.png`로 보관하고,
+  `assets/source-digital-learning-center-v1.webp`를 실행 화면에 썼다.
+- 1번과 4번의 네 선택지는 각 선택지 뜻을 빠르게 구별하도록 돕는 생성형 장식이다.
+  `assets/option-*-v1-source.png` 생성 원본과 `assets/option-*-v1.webp` 실행본을 함께
+  보관하며, 정답과 사실 판단은 글과 위 출판사 자료를 기준으로 한다.
+- 생성형 선택지 그림은 정답 근거가 아니다. 교과 자료 이미지를 생성 이미지로 대신하지 않았다.
 - 표지 문구는 내장 이미지 생성으로 만든 `assets/cover-copy-v1-source.png`와
   배경을 제거한 실행본 `assets/cover-copy-v1-generated.webp`를 사용했다.
 - 전화기 순서는 지도서가 한 화면에서 비교한 세 단계만 사용했다.
+- 공개 배포 전에는 출판사 자료의 재사용 권리 범위를 확인한다.

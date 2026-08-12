@@ -963,8 +963,12 @@ button:focus-visible {
   display: none;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) {
+  overflow: hidden;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench {
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 0.65cqw;
 }
 
@@ -984,6 +988,7 @@ button:focus-visible {
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
   grid-template-columns: 22cqw minmax(0, 1fr);
   gap: 1.25cqw;
+  margin-bottom: 1.15cqw;
   padding: 0.9cqw 1.1cqw;
 }
 
@@ -1070,9 +1075,35 @@ button:focus-visible {
   object-fit: cover;
 }
 
+@media (max-aspect-ratio: 3 / 2) {
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-layout {
+    height: 52.4cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-card:has(.source-card.has-image) .question-prompt {
+    font-size: 34px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card.has-image {
+    grid-template-columns: 22cqw minmax(0, 1fr);
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+    width: 22cqw;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+    min-height: 94px;
+  }
+
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
+    height: 6cqw;
+  }
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
   margin-top: 0.65cqw;
-  padding: 0.45cqw 0.8cqw 0.65cqw;
+  padding: 0.4cqw 0.8cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-submit {
@@ -1098,6 +1129,27 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .workbench-actions {
   display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .question-card:has(.source-card.has-image) .question-prompt {
+  font-size: clamp(30px, 2.75cqw, 35px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-card.has-image {
+  grid-template-columns: 18cqw minmax(0, 1fr);
+  padding-block: 0.65cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-image {
+  width: 18cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image {
+  min-height: max(82px, 7.3cqw);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image .option-image {
+  height: 5.7cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel {
@@ -1556,7 +1608,7 @@ button:focus-visible {
           <span class="cover-pin pin-two"></span>
         </div>
         <div class="top-row cover-top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="coverUnitBadge"></span>
         </div>
         <div class="cover-content">
@@ -1572,7 +1624,7 @@ button:focus-visible {
 
       <section class="screen screen-tutorial" id="screenTutorial" data-screen="tutorial" aria-labelledby="tutorialTitle" hidden>
         <div class="top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="tutorialUnitBadge"></span>
         </div>
         <div class="tutorial-panel">
@@ -1589,7 +1641,7 @@ button:focus-visible {
         <img class="raster-bg play-raster-bg" id="playBackground" alt="" aria-hidden="true" hidden>
         <header class="quiz-header">
           <div class="quiz-header-left">
-            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+            <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
             <span class="unit-badge" id="playUnitBadge"></span>
           </div>
           <div class="play-progress-group">
@@ -1631,7 +1683,7 @@ button:focus-visible {
       <section class="screen screen-result" id="screenResult" data-screen="result" aria-labelledby="resultTitle" hidden>
         <img class="raster-bg result-raster-bg" id="resultBackground" alt="" aria-hidden="true" hidden>
         <div class="top-row">
-          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 게임</span></span>
+          <span class="brand-badge"><img class="socialmon-brand-mark" data-brand-mark="socialmon-purple-cloud-mark-v1" alt="" aria-hidden="true" hidden><span>에듀잇티 사회 퀴즈</span></span>
           <span class="unit-badge" id="resultUnitBadge"></span>
         </div>
         <div class="result-layout">
@@ -1689,11 +1741,11 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="a1a23d7d9775dbf1b5059c4174b2010a5f82d948c5204fc0d172274cbf26e111"
-    data-profile-json-sha256="dfa9ed49520725a36bb2659e79f3cee7c9bb8f4b18e5c5f2575deb0f6d7377da"
+    data-quiz-json-sha256="fa9b202b95b12bc435ac5a24eaaf2b30579a0272e26baf0525f5442680e7030d"
+    data-profile-json-sha256="d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba"
     data-theme-pack-json-sha256="523272229d1bb589d1f97d20c661d93f62dbed5a264992ef2f7d2012e3ca1436"
-    data-engine-sha256="165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"165ad6463e56aa3e1739bfd70640b848f298ba6b6c8f97c790edcec6f8f16ed3","quizJson":"_social_lessons/socialmon-3-2-u2-g15-modern-communication/quiz.json","quizJsonSha256":"a1a23d7d9775dbf1b5059c4174b2010a5f82d948c5204fc0d172274cbf26e111","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"dfa9ed49520725a36bb2659e79f3cee7c9bb8f4b18e5c5f2575deb0f6d7377da","themePackJson":"_shared/socialmon/theme-packs/3-2/communication/pack.json","themePackJsonSha256":"523272229d1bb589d1f97d20c661d93f62dbed5a264992ef2f7d2012e3ca1436","builtAt":"2026-08-12T06:21:49.601Z"}</script>
+    data-engine-sha256="c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94","quizJson":"_social_lessons/socialmon-3-2-u2-g15-modern-communication/quiz.json","quizJsonSha256":"fa9b202b95b12bc435ac5a24eaaf2b30579a0272e26baf0525f5442680e7030d","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba","themePackJson":"_shared/socialmon/theme-packs/3-2/communication/pack.json","themePackJsonSha256":"523272229d1bb589d1f97d20c661d93f62dbed5a264992ef2f7d2012e3ca1436","builtAt":"2026-08-12T10:03:21.694Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -1739,25 +1791,35 @@ button:focus-visible {
       "instruction": "글을 읽고 하나 골라요.",
       "source": {
         "title": "오늘날의 통신수단",
-        "text": "과학 기술이 발달하면서 먼 곳에 있는 사람과 소식이나 정보를 쉽고 빠르게 주고받는 통신수단이 생겼습니다.",
+        "text": "영상 통화로 얼굴을 보며 이야기해요. 화면에서 미세 먼지와 버스 도착 정보도 확인해요.",
+        "image": "assets/source-todays-communication-v1.webp",
+        "alt": "영상 통화, 미세 먼지 정보, 버스 도착 정보, 라디오를 이용하는 오늘날 사람들의 교과서 그림",
         "credit": "자료: 사회 2 지도서 250쪽"
       },
       "options": [
         {
           "id": "far-fast",
-          "text": "먼 곳과도 빠르게 소식을 나눌 수 있어서"
+          "text": "먼 곳과도 빠르게 소식을 나눌 수 있어서",
+          "image": "assets/option-far-fast-v1.webp",
+          "alt": "어린이가 태블릿으로 멀리 있는 할아버지와 영상 통화를 하는 그림"
         },
         {
           "id": "only-near",
-          "text": "가까운 사람하고만 이야기할 수 있어서"
+          "text": "가까운 사람하고만 이야기할 수 있어서",
+          "image": "assets/option-only-near-v1.webp",
+          "alt": "같은 방에서 가까이 마주 보고 이야기하는 두 어린이 그림"
         },
         {
           "id": "one-message",
-          "text": "한 가지 소식만 전할 수 있어서"
+          "text": "한 가지 소식만 전할 수 있어서",
+          "image": "assets/option-one-message-v1.webp",
+          "alt": "어린이가 편지 한 통만 들고 있는 그림"
         },
         {
           "id": "visit-first",
-          "text": "꼭 직접 찾아가야 소식을 알 수 있어서"
+          "text": "꼭 직접 찾아가야 소식을 알 수 있어서",
+          "image": "assets/option-visit-first-v1.webp",
+          "alt": "어린이가 소식을 전하려고 다른 집 문을 직접 두드리는 그림"
         }
       ],
       "correctId": "far-fast",
@@ -1856,26 +1918,36 @@ button:focus-visible {
       "prompt": "디지털 배움터에서는 무엇을 배울 수 있을까요?",
       "instruction": "자료를 읽고 하나 골라요.",
       "source": {
-        "title": "스마트폰과 키오스크를 배워요",
-        "text": "디지털 배움터에서는 스마트폰과 키오스크를 쓰기 어려운 어르신에게 이용 방법을 알려 줍니다.",
+        "title": "디지털 배움터의 모습",
+        "text": "어르신들이 선생님과 함께 스마트폰 화면과 키오스크를 살펴봐요.",
+        "image": "assets/source-digital-learning-center-v1.webp",
+        "alt": "디지털 배움터에서 어르신들이 키오스크 사용법을 배우는 교과서 사진",
         "credit": "자료: 사회 2 지도서 262쪽"
       },
       "options": [
         {
           "id": "use-digital-tools",
-          "text": "인터넷을 검색하고 키오스크로 주문하는 방법"
+          "text": "인터넷을 검색하고 키오스크로 주문하기",
+          "image": "assets/option-digital-tools-v1.webp",
+          "alt": "어르신이 도움을 받아 스마트폰과 키오스크를 배우는 그림"
         },
         {
           "id": "make-paper-letter",
-          "text": "종이와 풀로 편지를 만드는 방법"
+          "text": "종이와 풀로 편지 만들기",
+          "image": "assets/option-paper-letter-v1.webp",
+          "alt": "어린이가 종이와 풀로 편지를 만드는 그림"
         },
         {
           "id": "light-beacon",
-          "text": "산꼭대기에서 봉수를 올리는 방법"
+          "text": "산꼭대기에서 봉수 올리기",
+          "image": "assets/option-beacon-v1.webp",
+          "alt": "산꼭대기 봉수대에서 연기가 피어오르는 그림"
         },
         {
           "id": "train-driving",
-          "text": "기차를 운전하는 방법"
+          "text": "기차 운전하기",
+          "image": "assets/option-train-driving-v1.webp",
+          "alt": "기관사가 기차 운전실에서 조종 장치를 다루는 그림"
         }
       ],
       "correctId": "use-digital-tools",
@@ -2180,6 +2252,15 @@ button:focus-visible {
       "minSubmitWidthPx": 150,
       "minSubmitHeightPx": 52,
       "minSubmitSafeInsetPx": 4,
+      "minSourceChoiceGapRatio": 0.01,
+      "maxCoreVerticalGapRatio": 0.04,
+      "maxAdjacentGapRatio": 2,
+      "maxCorrectChoiceTokenOverlapRatio": 0.6,
+      "minCorrectChoiceTokenMatches": 2,
+      "requireSourceImage": true,
+      "requireAllOptionImages": true,
+      "forbidAnswerLeak": true,
+      "forbidCenteredWorkbench": true,
       "hideQuestionKind": true,
       "hideImageSourceInstruction": true,
       "hideInlineSourceCredit": true
