@@ -70,15 +70,16 @@ node scripts/verify-socialmon-delivery.mjs --series=5-2 --lesson=socialmon-5-2-u
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `25f077d4193c279337cf7472b5ab88cc7135f9b0df55a8aa1c89abd2444be702` |
+| quiz.json | `3f3b82457a08c980d44fa051d4254d7241e1622f4b2f1cd0dd974d4d47c3490b` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `18dfc1e7615bfc5596a335e4b8242353b5b317763134f399466d26f8d0afd395` |
 | 실행 자산 | `a27f3ffcaee0863f4de892837b19f8b64411a293ac0b608f2e41fa95e8c26e10` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `a2ae8dab29af5ab8072bf6a191eb0e3e2f686068f15ec253aac3902e35cc9cab` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `10fcf3bfab242828a749754983bd059db5e5bc671b7e2fc6a51861e4c571b621` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `df791a3aabd73a7f975e63fc8e3a365c3e067dee414c5d1d24c3ff74f9cc4298` |
 
-- QA 생성 시각: `2026-08-12T20:44:35.373Z`
+- QA 생성 시각: `2026-08-13T13:24:18.804Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

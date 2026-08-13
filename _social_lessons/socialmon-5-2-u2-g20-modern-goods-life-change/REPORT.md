@@ -78,15 +78,16 @@ g20은 기존 g11 q5의 근대 문물 판단과 q6의 개항 흐름을 독립 �
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `7e747984c2a08939a573699cd04602fdb2657b3a69e86d13c2a3e06a90cd0257` |
+| quiz.json | `a0060b8008e4d166d349baae67d741e77f0f29f36769e5e4c978d22bcec818d9` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `18dfc1e7615bfc5596a335e4b8242353b5b317763134f399466d26f8d0afd395` |
 | 실행 자산 | `2ac6c2374a3ceca589c982cac9b01f706c5e02b8fe9969f1155fdd23a49171b3` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `a2ae8dab29af5ab8072bf6a191eb0e3e2f686068f15ec253aac3902e35cc9cab` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `10fcf3bfab242828a749754983bd059db5e5bc671b7e2fc6a51861e4c571b621` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `f8e036f00b024d29c26c3e32aea28e6484c40607be11dbd0577f932b672d394d` |
 
-- QA 생성 시각: `2026-08-12T20:46:01.367Z`
+- QA 생성 시각: `2026-08-13T13:25:30.055Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
