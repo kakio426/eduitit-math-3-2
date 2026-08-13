@@ -148,15 +148,16 @@ SOCIALMON_GATE_CHANGED_FILES_JSON='["_social_lessons/socialmon-4-2-u1-g03-reside
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `b121a8108ab154daed572abfa9f04af20038163a9cfbef73034fa00008866213` |
+| quiz.json | `9cae58be9223a0735361f265d5e821c35a9948a1027b696fb3bfc62e7678371b` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `21620332e94349bcdb5c72bbd386c3e3b5995f28bca42360634e82fd1fb69ffe` |
 | 실행 자산 | `fc1171351ba3eb9cc954ba2445a360efe0705f2c647f4c568aeda73de8daa555` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `84dc42e1236dfb17a074b9dacb3bfe9d0e74df72a3713b72e73acc6b5d228f06` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `20c998827bf29fbc52a47980292cef0cd139ffaf7199baa7db323881c20d89ad` |
 
-- QA 생성 시각: `2026-08-12T20:38:12.544Z`
+- QA 생성 시각: `2026-08-13T13:13:17.875Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

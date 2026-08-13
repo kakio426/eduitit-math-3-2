@@ -105,15 +105,16 @@ harness 지문을 다시 계산해 영수증과 같은 것을 확인했으며, �
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `0e349a94c4dae4b039956b728786bf07251fd3717ce403fe6f343020ba55c716` |
+| quiz.json | `41059a4e4428e6314db80146399d4dd3701cbd67636844714d4e641f61481ed2` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `e962c2027d3c78162b12a796addf75d07ed6992af33b3d7d79a5e62b5891ed30` |
 | 실행 자산 | `f4374f2eac480c7af7a1c0313646abfa14f25ce54ca70dd7450f61e0ad510e31` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `84dc42e1236dfb17a074b9dacb3bfe9d0e74df72a3713b72e73acc6b5d228f06` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `7fb98e1d4a93f98821b190a1116a2129184b33bec4a6297511b4b7c6a0f103ac` |
 
-- QA 생성 시각: `2026-08-12T20:40:07.236Z`
+- QA 생성 시각: `2026-08-13T13:16:39.109Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

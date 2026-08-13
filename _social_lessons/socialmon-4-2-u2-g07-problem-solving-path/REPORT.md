@@ -17,7 +17,7 @@
 
 ## 근거 자료
 
-`assets/source-parking-data-v1-source.png`와 `assets/source-parking-data-v1.webp`는 PDF 23쪽의 교과서 66쪽 자동차 수 그래프·주차 공간 표를 보존한다. `assets/source-solution-evaluation-v1-source.png`와 `assets/source-solution-evaluation-v1.webp`는 PDF 32쪽의 교과서 71~72쪽 평가표와 10·8·7점 합계를 보존한다. 생성형 선택지 8장은 각각 `*-source.png` 원본과 512px 이상 `*.webp` 실행본이며 모두 `생성형 장식 그림 · 정답 근거 아님`으로 구분했다.
+`assets/source-parking-data-v1-source.png`와 `assets/source-parking-data-v1.webp`는 PDF 23쪽의 교과서 66쪽 자동차 수 그래프·주차 공간 표를 보존한다. `assets/source-solution-evaluation-table-v1-source.png`와 `assets/source-solution-evaluation-table-v1.webp`는 PDF 32쪽의 교과서 71~72쪽 평가표만 960×660px로 잘라 10·8·7점 합계를 작은 화면에서도 읽을 수 있게 했다. 생성형 선택지 8장은 각각 `*-source.png` 원본과 512px 이상 `*.webp` 실행본이며 모두 `생성형 장식 그림 · 정답 근거 아님`으로 구분했다.
 
 ## Humanizer
 
@@ -70,15 +70,16 @@
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `d322dd6a2d5532d53f979246a1c38c367fad156d3c6c1b19d985c2a4665b28ce` |
+| quiz.json | `8a9c16240e8b176ea768e78cdd26a278c3122e9885ef9a07d08f4309c47e1938` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `355253483676b423502a39e68c0182ee61a459dfe8f7af66cd49de4f415c9660` |
-| 실행 자산 | `639b993499f6a51f0cdc6c32bd2e1f5fbc7a16ef2148754c66b02cd95c0bd26d` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 실행 자산 | `2eb3da37f0ed62fd78365a6e7449793ae59bc30f1b0c40c7d86e5c9e9cd19ea9` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `84dc42e1236dfb17a074b9dacb3bfe9d0e74df72a3713b72e73acc6b5d228f06` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `41534f3e6025d340cdcc07e22733e0aa5be235e3f55e4e8efc32370326c6e0ca` |
 
-- QA 생성 시각: `2026-08-12T20:40:06.386Z`
+- QA 생성 시각: `2026-08-13T13:15:01.400Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

@@ -142,15 +142,16 @@ SOCIALMON_DELIVERY_GATE: PASS (1 series, 1 lessons, 1 changed paths)
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `ef727182ecdc80c274c13db54e6ed99f21e2bdb93e4f446ed5d11f89f573714f` |
+| quiz.json | `2bbf427262f22dde2fe7b03f297077d9f10d430b5c3b9c20a5f693be3f3239fa` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `21620332e94349bcdb5c72bbd386c3e3b5995f28bca42360634e82fd1fb69ffe` |
 | 실행 자산 | `3afed61a9b7918d0a7c7007b409b0c11a5932c2ee8d6b793e07ee71e35a6e577` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `a6bb69510ff5258dd2d5b9a3ef74635f1f3369bc32b821d5bfb88500ac034978` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `84dc42e1236dfb17a074b9dacb3bfe9d0e74df72a3713b72e73acc6b5d228f06` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `4c208c036a78aeab0ba5b1ce57561b59cbf789715623e16e2fb6bc0b332f135c` |
 
-- QA 생성 시각: `2026-08-12T20:38:43.064Z`
+- QA 생성 시각: `2026-08-13T13:13:46.649Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

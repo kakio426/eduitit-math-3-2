@@ -26,15 +26,15 @@ PDF 26~44쪽은 인쇄 41~59쪽과 대응한다.
 | 2 | `choice` | 27 / 42 | 20 | 학교 구성원이 의견을 모아 학교 일을 정하고 실천하는 까닭 |
 | 3 | `sequence` | 39 / 54 | 25 | 학교 문제 찾기부터 해결 방법 결정·실천까지의 흐름 |
 | 4 | `source-choice` | 33 / 48 | 22 | 오래된 놀이 기구와 움푹 파인 모래밭을 발견한 학생들의 관찰 |
-| 5 | `sequence` | 35 / 50 | 25 | 방법을 정해 실천하고 바뀐 모습과 남은 문제를 확인하는 과정 |
+| 5 | `match` | 35 / 50 | 해결 방법 정하기·실천 계획 세우기·달라진 점 살피기와 알맞은 행동의 관계 |
 | 6 | `situation-choice` | 43 / 58 | 27 | 모두가 평등한 자리에서 의견을 내고 함께 정하는 민주주의 |
 
 ## 사실 근거 이미지
 
 | 문항 | 원본 PNG | 실행 WebP | 크기 | 화면 출처 |
 |---:|---|---|---:|---|
-| 1 | `assets/source-student-budget-v1-source.png` | `assets/source-student-budget-v1.webp` | `1500×1100` | `자료: 4_2 사회 1 지도서.pdf PDF 28쪽, 교과서 21쪽` |
-| 4 | `assets/source-playground-safety-v1-source.png` | `assets/source-playground-safety-v1.webp` | `1693×2112` | `자료: 4_2 사회 1 지도서.pdf PDF 33쪽, 교과서 22쪽` |
+| 1 | `assets/source-student-budget-v1-source.png` | `assets/source-student-budget-v1.webp` | `1500×1100` | `자료: 4학년 2학기 사회 1 지도서 43쪽` |
+| 4 | `assets/source-playground-safety-v1-source.png` | `assets/source-playground-safety-v1.webp` | `1693×2112` | `자료: 4학년 2학기 사회 1 지도서 48쪽` |
 
 두 원본은 해당 PDF 지면을 400dpi로 렌더하면서 필요한 범위만 자른 PNG다. 문항 1은 기사
 제목·학생 참여 예산제 설명·우산 빗물 제거기 설치 사례와 사진을 함께 보존했다. 문항 4는

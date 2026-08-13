@@ -16,15 +16,15 @@ PDF 쪽은 파일의 첫 장부터 센 값이고, 지도서 쪽은 지면 아래
 | 2 | `choice` | 48 / 63 | 31 | 주민이 지역의 일을 스스로 처리하고 함께 해결하는 주민 자치의 뜻 |
 | 3 | `match` | 49 / 64 | 32 | 주민 회의, 주민 참여 예산, 지역 축제의 참여 사례 |
 | 4 | `source-choice` | 54 / 69 | 33 | 돌봄 로봇 지원과 주민이 아이를 함께 돌본 사례 |
-| 5 | `match` | 62 / 77 | 36 | 공공 기관 누리집 게시판, 주민 회의, 주민 투표의 참여 방법 |
+| 5 | `match` | 62 / 77 | 36 | 공공 기관 누리집 게시판, 지역 자원봉사, 주민 투표의 참여 방법 |
 | 6 | `situation-choice` | 62 / 77 | 36 | 주민 회의에서 지역 일에 의견을 나누는 방법 |
 
 ## 사실 근거 이미지
 
 | 문항 | 실행 자산 | 보존 원본 | 화면 출처 |
 |---:|---|---|---|
-| 1 | `assets/source-lit-alley-v1.webp` | `assets/source-lit-alley-v1-source.png` | `자료: 4_2 사회 1 지도서 63쪽` |
-| 4 | `assets/source-community-care-v1.webp` | `assets/source-community-care-v1-source.png` | `자료: 4_2 사회 1 지도서 69쪽` |
+| 1 | `assets/source-lit-alley-v1.webp` | `assets/source-lit-alley-v1-source.png` | `자료: 4학년 2학기 사회 1 지도서 63쪽` |
+| 4 | `assets/source-community-care-v1.webp` | `assets/source-community-care-v1-source.png` | `자료: 4학년 2학기 사회 1 지도서 69쪽` |
 
 - q1은 300dpi로 렌더한 PDF 48쪽에서 기사 제목, 밤길 사진, 주민 자치회 활동 설명이
   함께 보이는 영역을 잘랐다. 원본과 실행본은 `1150×800`이다.
@@ -53,6 +53,6 @@ q1의 `option-lit-alley`, `option-tall-building`, `option-stay-inside`,
 ## 내용 안전
 
 - 주민 자치를 한 기관이나 한 사람만 하는 일로 설명하지 않았다.
-- 주민 참여 방법을 한 가지로 고정하지 않고 회의, 예산, 축제, 누리집, 투표를 다뤘다.
+- 주민 참여 방법을 한 가지로 고정하지 않고 회의, 예산, 축제, 누리집, 자원봉사, 투표를 다뤘다.
 - 학생이 할 수 없는 시설 설치를 혼자 하라고 권하지 않았다.
 - 자료 제목과 본문에는 정답 선택지 문장을 미리 넣지 않았다.
