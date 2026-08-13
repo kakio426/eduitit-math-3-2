@@ -45,15 +45,16 @@ Humanizer v1.6.0 기준으로 표지 목표, 6문제 지시문·선택지·자�
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `c26210de85abc0a714346a584b45a334dfa8ee49371ee6e55caa3d8df22ca732` |
+| quiz.json | `2e3becdca638e423b4237b18dd37687c055832774c456533b29545ad0bd624da` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `986ce7d0649d0569b67b7bb249ae166f5bad03085fa4bb1f0067485b60abe602` |
 | 실행 자산 | `f143ea0775184c36b8d0859d689d632fb3b59acdb29ed5e8ca7b6fdb29d7b734` |
-| 엔진 | `f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776` |
-| 정책·스킬 | `6d7e3cf825ff48f182b7e5527f3c092e95ccffea8b740aa0740fd159dbfea4b5` |
-| QA 하네스 | `c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa` |
+| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
+| 정책·스킬 | `fa7ce4222ee3e03a5643e058725c0a43e6aa2ba37c02351baaf1fed89ab91d50` |
+| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
+| 캡처 PNG 집합 | `8434d8d6c8ae0c8e135c392a72dce9effb62c8dfd19669c8a0039633cd6baf1d` |
 
-- QA 생성 시각: `2026-08-12T20:51:42.936Z`
+- QA 생성 시각: `2026-08-13T13:35:57.531Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
