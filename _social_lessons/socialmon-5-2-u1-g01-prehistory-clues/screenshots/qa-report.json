@@ -1,8 +1,8 @@
 {
-  "standard": "socialmon-quiz-browser-qa-v3",
-  "generatedAt": "2026-08-12T20:42:06.552Z",
+  "standard": "socialmon-quiz-browser-qa-v4",
+  "generatedAt": "2026-08-13T13:19:08.615Z",
   "folder": "socialmon-5-2-u1-g01-prehistory-clues",
-  "url": "http://127.0.0.1:4186/_social_lessons/socialmon-5-2-u1-g01-prehistory-clues/",
+  "url": "http://127.0.0.1:4173/_social_lessons/socialmon-5-2-u1-g01-prehistory-clues/",
   "passed": true,
   "contracts": {
     "profileId": "socialmon-quiz-lite-profile-v2",
@@ -52,22 +52,23 @@
     ]
   },
   "buildInputs": {
-    "quizJsonSha256": "ca6ec9aec758e68b7e1b2a46d5cbb53ca0f934c1d533fa8a1a1796220eea1e2a",
+    "quizJsonSha256": "576d0a276d0506e057e74d65b1eb2ca6861f3cf240dc951d92e9f36e07617f84",
     "profileJsonSha256": "1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84",
     "themePackJsonSha256": "1a00a30e229dd103bfa12bd5d09ef859b964849bffc804f438785c6392ca5071",
     "lessonAssetsSha256": "917b241353ad7dd278ba2e939f41634676773c07ad6e72134c952ef14dcbc98a",
-    "engineSha256": "f43e8af8a43a82b91162d9b7cfc71cf0a709a1af41761a864cf331c9db2fc776"
+    "engineSha256": "4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a"
   },
   "evidenceGate": {
-    "standard": "socialmon-current-browser-evidence-v1",
-    "policySha256": "a2ae8dab29af5ab8072bf6a191eb0e3e2f686068f15ec253aac3902e35cc9cab",
-    "harnessSha256": "c72dfa523dc66c70647889ba23d47d67687e5c4d7578ae9d8d5eff90322174aa",
+    "standard": "socialmon-current-browser-evidence-v2",
+    "policySha256": "10fcf3bfab242828a749754983bd059db5e5bc671b7e2fc6a51861e4c571b621",
+    "harnessSha256": "72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab",
     "policyFiles": [
       ".claude/skills/eduitit-socialmon-lesson/SKILL.md",
       ".claude/skills/eduitit-socialmon-lesson/agents/openai.yaml",
       ".claude/skills/eduitit-socialmon-lesson/references/grade5-history.md",
       ".claude/skills/eduitit-socialmon-lesson/references/question-types.md",
       ".claude/skills/eduitit-socialmon-lesson/references/verification.md",
+      ".gitignore",
       "AGENTS.md",
       "CLAUDE.md",
       "SOCIALMON_5_2_MASTER_PLAN.md",
@@ -98,6 +99,7 @@
       "scripts/check-stage-ratio.mjs",
       "scripts/lib/socialmon-delivery-gate.mjs",
       "scripts/lib/socialmon-report-evidence.mjs",
+      "scripts/lib/socialmon-screenshot-evidence.mjs",
       "scripts/lib/socialmon-series-contract.mjs",
       "scripts/process-socialmon-expansion-packs.py",
       "scripts/process-socialmon-pack.py",
@@ -111,6 +113,11 @@
       "scripts/test-socialmon-series-contract.mjs",
       "scripts/verify-socialmon-delivery.mjs"
     ]
+  },
+  "screenshotEvidence": {
+    "standard": "socialmon-screenshot-set-v1",
+    "sha256": "a31c9a555a474722a9f6066169c66f1a455ed591793e0dd43cbb9de5978d1f5f",
+    "count": 120
   },
   "viewports": [
     {
@@ -136,12 +143,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-cover.png",
+            "sha256": "c788d53044ae83d4936032c61edb2a1a5bb2a581aae3d25e53665874a6812e16",
+            "width": 1280,
+            "height": 800,
+            "bytes": 1184977
+          }
         },
         {
           "label": "desktop-1280x800-settings",
@@ -159,12 +175,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-settings.png",
+            "sha256": "3b0746d80a726857d4a8cc39871b5b255876aa13ead20695f0af910fed8ad735",
+            "width": 1280,
+            "height": 800,
+            "bytes": 465768
+          }
         },
         {
           "label": "desktop-1280x800-tutorial",
@@ -182,12 +207,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-tutorial.png",
+            "sha256": "ba84d61b1a22e4cef3933a1595d5301a86fb7a58ed0950744f6b6973319786dc",
+            "width": 1280,
+            "height": 800,
+            "bytes": 1535642
+          }
         },
         {
           "label": "desktop-1280x800-q1-choice-ready-wrong-fixture",
@@ -205,12 +239,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q1-choice-ready-wrong-fixture.png",
+            "sha256": "af1e11a9e6aca1c2bca9fd1b24da8302445b309174260116648c562af81d623a",
+            "width": 1280,
+            "height": 800,
+            "bytes": 788201
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-0",
@@ -228,12 +271,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-0.png",
+            "sha256": "af1e11a9e6aca1c2bca9fd1b24da8302445b309174260116648c562af81d623a",
+            "width": 1280,
+            "height": 800,
+            "bytes": 788201
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-1",
@@ -251,12 +303,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-1.png",
+            "sha256": "9999a48f1634f4692a1e87393ec852e57c628db59d9a908e9d063369728215bf",
+            "width": 1280,
+            "height": 800,
+            "bytes": 789276
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-2",
@@ -274,12 +335,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-2.png",
+            "sha256": "fafef9a109fd18312bd69b74ff317ef70284a6b21e6a51e3bb98212991a7d433",
+            "width": 1280,
+            "height": 800,
+            "bytes": 790075
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-3",
@@ -297,12 +367,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-3.png",
+            "sha256": "d92538d325fc15a04153078730bd96a0ee6e938687ab1d90af196a7c5f443697",
+            "width": 1280,
+            "height": 800,
+            "bytes": 796351
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-4",
@@ -320,12 +399,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-4.png",
+            "sha256": "9f08ec16e6ae76520fd5fe378d51520f225399139175caa884b4ec82674b6e2f",
+            "width": 1280,
+            "height": 800,
+            "bytes": 802319
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-5",
@@ -343,12 +431,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-5.png",
+            "sha256": "892c9442fab8dfc7a8370375658986f6fff3a5e7a34c57509fcb3bb5bf35f761",
+            "width": 1280,
+            "height": 800,
+            "bytes": 803816
+          }
         },
         {
           "label": "desktop-1280x800-discovery-trace-6",
@@ -366,12 +463,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-discovery-trace-6.png",
+            "sha256": "7ebafdddcf8a0e2877f0fc75f3f596a5966484ff6a70df1b16845029fd3d1312",
+            "width": 1280,
+            "height": 800,
+            "bytes": 803321
+          }
         },
         {
           "label": "desktop-1280x800-q1-wrong-feedback",
@@ -389,12 +495,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q1-wrong-feedback.png",
+            "sha256": "0935d30bcd35f5b9bf2bf5e8d408446183f784222dcc0826b12239349bf19042",
+            "width": 1280,
+            "height": 800,
+            "bytes": 767084
+          }
         },
         {
           "label": "desktop-1280x800-trace-wrong-stamped",
@@ -412,12 +527,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-trace-wrong-stamped.png",
+            "sha256": "71d196e69a30d594018e1de6af77704970a0b0e95f45950729186a47a0ebc6b9",
+            "width": 1280,
+            "height": 800,
+            "bytes": 779590
+          }
         },
         {
           "label": "desktop-1280x800-q1-source-choice-ready",
@@ -435,12 +559,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q1-source-choice-ready.png",
+            "sha256": "e492f8ec66a59f046daacc621da92c6f87cca5705b6081b06337a641fee75944",
+            "width": 1280,
+            "height": 800,
+            "bytes": 783859
+          }
         },
         {
           "label": "desktop-1280x800-q1-correct-feedback",
@@ -458,12 +591,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q1-correct-feedback.png",
+            "sha256": "bdfcf16379052e7a3471a2d8c54d9875b89b1bfcb66415a2958d2e71370fedfc",
+            "width": 1280,
+            "height": 800,
+            "bytes": 762463
+          }
         },
         {
           "label": "desktop-1280x800-trace-correct-stamped",
@@ -481,12 +623,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-trace-correct-stamped.png",
+            "sha256": "9990a98e046acd9a6ef8f31516dd5fb77eaabe0785e5bfa0e826f5e7f3e0fbaf",
+            "width": 1280,
+            "height": 800,
+            "bytes": 775189
+          }
         },
         {
           "label": "desktop-1280x800-q2-classify-ready",
@@ -504,12 +655,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q2-classify-ready.png",
+            "sha256": "eab47b650caf1e4b9635ee194c8daf987c3815174cba32f9f2f83db40bca908d",
+            "width": 1280,
+            "height": 800,
+            "bytes": 641481
+          }
         },
         {
           "label": "desktop-1280x800-trace-silhouette",
@@ -527,12 +687,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 11
+          "targetCount": 11,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-trace-silhouette.png",
+            "sha256": "60eed5daca22ae6aef6f5423e6fb8a1987a5510eff62591335cc9e69366f6291",
+            "width": 1280,
+            "height": 800,
+            "bytes": 374122
+          }
         },
         {
           "label": "desktop-1280x800-q3-source-choice-ready",
@@ -550,12 +719,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q3-source-choice-ready.png",
+            "sha256": "ce460b0ad9eef972a1bd04d4f15a5a982e9d911c51af454990e8d15636b92d9f",
+            "width": 1280,
+            "height": 800,
+            "bytes": 710730
+          }
         },
         {
           "label": "desktop-1280x800-q4-choice-ready",
@@ -573,12 +751,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q4-choice-ready.png",
+            "sha256": "8988f06845d22a112fa7d56e47a08b107836ca9bdb2a9861ceb5adc4c8668079",
+            "width": 1280,
+            "height": 800,
+            "bytes": 670827
+          }
         },
         {
           "label": "desktop-1280x800-trace-trait",
@@ -596,12 +783,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-trace-trait.png",
+            "sha256": "dfc83173981a242c4c976c5667c9536763bd9f8b67ef6e73ecaa87bf79160398",
+            "width": 1280,
+            "height": 800,
+            "bytes": 388887
+          }
         },
         {
           "label": "desktop-1280x800-q5-classify-ready",
@@ -619,12 +815,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q5-classify-ready.png",
+            "sha256": "4b4214beb232966a6c1b77151c4d95eed8b7c7588a6a830df9d12b1d714344cd",
+            "width": 1280,
+            "height": 800,
+            "bytes": 661566
+          }
         },
         {
           "label": "desktop-1280x800-q6-sequence-ready",
@@ -642,12 +847,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-q6-sequence-ready.png",
+            "sha256": "c20f923a8c2535899e11cce7b78a1387af9ddc9e4c0d82083c3c7b3cdbc49454",
+            "width": 1280,
+            "height": 800,
+            "bytes": 685157
+          }
         },
         {
           "label": "desktop-1280x800-result-platypusmon",
@@ -665,12 +879,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-platypusmon.png",
+            "sha256": "7bd11f9cd5b7459c8ea70b3df71f9aac96d3facaa1427907e4c3372ea9f21238",
+            "width": 1280,
+            "height": 800,
+            "bytes": 949460
+          }
         },
         {
           "label": "desktop-1280x800-result-preview-kiwimon",
@@ -688,12 +911,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-preview-kiwimon.png",
+            "sha256": "cc7173a09bfd840aae3bbef77276c568f25cf3228d1896463083f8c590a148b0",
+            "width": 1280,
+            "height": 800,
+            "bytes": 947347
+          }
         },
         {
           "label": "desktop-1280x800-result-preview-platypusmon",
@@ -711,12 +943,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-preview-platypusmon.png",
+            "sha256": "6913b0efd2dadabe6b5a9aafba7ec835fcb99389ec64b9a89d46f5fc6f707572",
+            "width": 1280,
+            "height": 800,
+            "bytes": 953552
+          }
         },
         {
           "label": "desktop-1280x800-result-preview-meerkatmon",
@@ -734,12 +975,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-preview-meerkatmon.png",
+            "sha256": "2605942a27f6a421483be473dceb5820c549eb75e5867e482642125b5675963c",
+            "width": 1280,
+            "height": 800,
+            "bytes": 927181
+          }
         },
         {
           "label": "desktop-1280x800-result-preview-elephantmon",
@@ -757,12 +1007,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-preview-elephantmon.png",
+            "sha256": "c5f9da717630cba0f854d592ddc2baaccee5f6c1a46583d0d5c6f6b89a2b45bd",
+            "width": 1280,
+            "height": 800,
+            "bytes": 936048
+          }
         },
         {
           "label": "desktop-1280x800-result-preview-cranemon",
@@ -780,12 +1039,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-preview-cranemon.png",
+            "sha256": "bfaeed5ccfd039a2a383a3b6af274873c631459686a6eb78869e5c6688efb824",
+            "width": 1280,
+            "height": 800,
+            "bytes": 908394
+          }
         },
         {
           "label": "desktop-1280x800-result-preview-pangolinmon",
@@ -803,12 +1071,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "desktop-1280x800-result-preview-pangolinmon.png",
+            "sha256": "bb2ec4c9658ca5fb0cdfeaa468f76b814e41908933359e462306ed0cd3b9447e",
+            "width": 1280,
+            "height": 800,
+            "bytes": 1072092
+          }
         }
       ],
       "visualAudits": {
@@ -1028,14 +1305,14 @@
           "activeBrandCopy": "에듀잇티 사회 퀴즈",
           "inlineSourceCreditVisible": false,
           "sourceCredit": {
-            "left": 1007.46875,
+            "left": 1068.953125,
             "top": 772.96875,
             "right": 1251.84375,
             "bottom": 791.6875,
-            "width": 244.375,
+            "width": 182.890625,
             "height": 18.71875,
             "visible": true,
-            "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+            "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
             "fontSize": 11.776,
             "backgroundColor": "rgba(255, 255, 255, 0.78)"
           },
@@ -1242,14 +1519,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 1007.46875,
+              "left": 1068.953125,
               "top": 772.96875,
               "right": 1251.84375,
               "bottom": 791.6875,
-              "width": 244.375,
+              "width": 182.890625,
               "height": 18.71875,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
               "fontSize": 11.776,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
@@ -1455,14 +1732,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 1002.484375,
+              "left": 1065.109375,
               "top": 772.96875,
               "right": 1251.84375,
               "bottom": 791.6875,
-              "width": 249.359375,
+              "width": 186.734375,
               "height": 18.71875,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 25쪽(인쇄 40쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 40쪽",
               "fontSize": 11.776,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
@@ -1664,12 +1941,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-cover.png",
+            "sha256": "0d01f611e61cdb514a23a85cdcaa3a825bf708b04e103fd7f2d6edbd2ac4d0f5",
+            "width": 1024,
+            "height": 768,
+            "bytes": 817605
+          }
         },
         {
           "label": "tablet-landscape-1024x768-settings",
@@ -1687,12 +1973,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-settings.png",
+            "sha256": "1c8f7f8bb53ec5613bd197932540cc7709e2215295b0578af216ff785506962c",
+            "width": 1024,
+            "height": 768,
+            "bytes": 343035
+          }
         },
         {
           "label": "tablet-landscape-1024x768-tutorial",
@@ -1710,12 +2005,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-tutorial.png",
+            "sha256": "c5ca099714fd3bb5a0fba6320f1e945cd81722babcd11c00dc1a40ea169dae9a",
+            "width": 1024,
+            "height": 768,
+            "bytes": 1034061
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q1-choice-ready-wrong-fixture",
@@ -1733,12 +2037,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q1-choice-ready-wrong-fixture.png",
+            "sha256": "d175f334cc2735d8b80c2de26a20ef72aae4b4c8b7224f433fd64f85d5a36c2b",
+            "width": 1024,
+            "height": 768,
+            "bytes": 534993
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-0",
@@ -1756,12 +2069,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-0.png",
+            "sha256": "d175f334cc2735d8b80c2de26a20ef72aae4b4c8b7224f433fd64f85d5a36c2b",
+            "width": 1024,
+            "height": 768,
+            "bytes": 534993
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-1",
@@ -1779,12 +2101,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-1.png",
+            "sha256": "4a2fa1f94cb834797b122ca3412d5a2d279acf7daa4fcc262b57ffc7606c7846",
+            "width": 1024,
+            "height": 768,
+            "bytes": 535647
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-2",
@@ -1802,12 +2133,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-2.png",
+            "sha256": "edf8cbd33139600346f4bd74782b4bb385c9b8840b7c291ac9484f7fe1fd1fa3",
+            "width": 1024,
+            "height": 768,
+            "bytes": 536089
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-3",
@@ -1825,12 +2165,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-3.png",
+            "sha256": "da5bbbbc38e4adc90facefff582f3eea0c5ad8e7fb3186785856130c3811f485",
+            "width": 1024,
+            "height": 768,
+            "bytes": 544243
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-4",
@@ -1848,12 +2197,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-4.png",
+            "sha256": "ba8fa551799747c1d48495f927fc706211d1dad732dcf57a7081dc54a21e3dc7",
+            "width": 1024,
+            "height": 768,
+            "bytes": 551624
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-5",
@@ -1871,12 +2229,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-5.png",
+            "sha256": "3d2a818b0bf8c2c05eca5ade168e8271bafd80490a1c997f8dd8d2fe92087143",
+            "width": 1024,
+            "height": 768,
+            "bytes": 552152
+          }
         },
         {
           "label": "tablet-landscape-1024x768-discovery-trace-6",
@@ -1894,12 +2261,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-discovery-trace-6.png",
+            "sha256": "0c6e959203316c52b9cf66a46607b2dbaab9a3f81e676cdf4f50fb6dc766b6ed",
+            "width": 1024,
+            "height": 768,
+            "bytes": 551778
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q1-wrong-feedback",
@@ -1917,12 +2293,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q1-wrong-feedback.png",
+            "sha256": "5d035c586c77f41542a435fec713ccc4f8343ca4ea11d3a4c642fa5d65a849ac",
+            "width": 1024,
+            "height": 768,
+            "bytes": 525005
+          }
         },
         {
           "label": "tablet-landscape-1024x768-trace-wrong-stamped",
@@ -1940,12 +2325,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-trace-wrong-stamped.png",
+            "sha256": "5ab77e566b89b6955787b39e9849e37de5f878486c2ddcbaa94203c35b0bdf68",
+            "width": 1024,
+            "height": 768,
+            "bytes": 533194
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q1-source-choice-ready",
@@ -1963,12 +2357,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q1-source-choice-ready.png",
+            "sha256": "d175f334cc2735d8b80c2de26a20ef72aae4b4c8b7224f433fd64f85d5a36c2b",
+            "width": 1024,
+            "height": 768,
+            "bytes": 534993
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q1-correct-feedback",
@@ -1986,12 +2389,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q1-correct-feedback.png",
+            "sha256": "6d48da23ac89fc9204dc977394bd080a2963d2c81d886a5acbd77969eb9068ea",
+            "width": 1024,
+            "height": 768,
+            "bytes": 524369
+          }
         },
         {
           "label": "tablet-landscape-1024x768-trace-correct-stamped",
@@ -2009,12 +2421,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-trace-correct-stamped.png",
+            "sha256": "613e96f611390a4f59003f439adf9996681be4ae2ffef6400178834ff62474d0",
+            "width": 1024,
+            "height": 768,
+            "bytes": 533594
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q2-classify-ready",
@@ -2032,12 +2453,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q2-classify-ready.png",
+            "sha256": "6eca1767e1eb981a5d702dba79ed52a3dfe855cb42af4073bb6cba7036df258b",
+            "width": 1024,
+            "height": 768,
+            "bytes": 440416
+          }
         },
         {
           "label": "tablet-landscape-1024x768-trace-silhouette",
@@ -2055,12 +2485,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 11
+          "targetCount": 11,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-trace-silhouette.png",
+            "sha256": "456201b46dc7a0670449d8b24f4dd3bc32878600a558aae136d5a6754ded8e8b",
+            "width": 1024,
+            "height": 768,
+            "bytes": 277657
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q3-source-choice-ready",
@@ -2078,12 +2517,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q3-source-choice-ready.png",
+            "sha256": "1902f2de9ff314239a80c031c2f905c3d202ff72adcaf0b84eaece15e1e4b6bc",
+            "width": 1024,
+            "height": 768,
+            "bytes": 485562
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q4-choice-ready",
@@ -2101,12 +2549,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q4-choice-ready.png",
+            "sha256": "d2c354756b8b7657032775b2d9d223dcd39479e0e38c98b2626f86ecd5c24ce4",
+            "width": 1024,
+            "height": 768,
+            "bytes": 461170
+          }
         },
         {
           "label": "tablet-landscape-1024x768-trace-trait",
@@ -2124,12 +2581,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-trace-trait.png",
+            "sha256": "4b5dc52c2a6f2a16b3229ad53a36dc7d313949b2f93fe677f0cfebceb6216fd9",
+            "width": 1024,
+            "height": 768,
+            "bytes": 290421
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q5-classify-ready",
@@ -2147,12 +2613,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q5-classify-ready.png",
+            "sha256": "3364965e55d2e9e520691944c6dfe05725efc8fbc52b16d0492966f075f6e6a9",
+            "width": 1024,
+            "height": 768,
+            "bytes": 450521
+          }
         },
         {
           "label": "tablet-landscape-1024x768-q6-sequence-ready",
@@ -2170,12 +2645,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-q6-sequence-ready.png",
+            "sha256": "1f871e45832f057720ddb61728fe4ac1514184aa630fee2c181d09e12d61da1a",
+            "width": 1024,
+            "height": 768,
+            "bytes": 470927
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-platypusmon",
@@ -2193,12 +2677,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-platypusmon.png",
+            "sha256": "414422a1c5a6070028c8a91012389d60fca97e330f9fca65b0d44d5dad6b3c6a",
+            "width": 1024,
+            "height": 768,
+            "bytes": 666597
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-preview-kiwimon",
@@ -2216,12 +2709,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-preview-kiwimon.png",
+            "sha256": "c6dc971ce254ae5b2ba1deb8b8bfd227291cd808704487d52b6db9aa31f258dc",
+            "width": 1024,
+            "height": 768,
+            "bytes": 664294
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-preview-platypusmon",
@@ -2239,12 +2741,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-preview-platypusmon.png",
+            "sha256": "b885afda0fad45522d2bb7350e6d690d534f3864287b1334eab7877484416220",
+            "width": 1024,
+            "height": 768,
+            "bytes": 668947
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-preview-meerkatmon",
@@ -2262,12 +2773,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-preview-meerkatmon.png",
+            "sha256": "6dff6d872c6844919bc073f9de0f922b44dfbb5c3afef1e7bac1acb51c5a7adc",
+            "width": 1024,
+            "height": 768,
+            "bytes": 650418
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-preview-elephantmon",
@@ -2285,12 +2805,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-preview-elephantmon.png",
+            "sha256": "15fc952dd7341da298bbf2ac083467fd30d63ffcf6b5d19a1bc45eefabc92d17",
+            "width": 1024,
+            "height": 768,
+            "bytes": 658323
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-preview-cranemon",
@@ -2308,12 +2837,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-preview-cranemon.png",
+            "sha256": "df6ef14f09673bd0ba9f3d215f92f6a268ebc5da411b0094d829d2669a138e06",
+            "width": 1024,
+            "height": 768,
+            "bytes": 637161
+          }
         },
         {
           "label": "tablet-landscape-1024x768-result-preview-pangolinmon",
@@ -2331,12 +2869,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "tablet-landscape-1024x768-result-preview-pangolinmon.png",
+            "sha256": "408251671b1720cc73122541a152c977636a1d36dc130e665496cec149643249",
+            "width": 1024,
+            "height": 768,
+            "bytes": 743541
+          }
         }
       ],
       "visualAudits": {
@@ -2500,26 +3047,26 @@
           },
           "questionWorkbench": {
             "left": 309.328125,
-            "top": 194.53125,
+            "top": 234.296875,
             "right": 981.546875,
             "bottom": 656.078125,
             "width": 672.21875,
-            "height": 461.546875,
+            "height": 421.78125,
             "justifyContent": "flex-start"
           },
           "sourceCard": {
             "left": 309.328125,
-            "top": 194.53125,
+            "top": 234.296875,
             "right": 981.546875,
-            "bottom": 356.734375,
+            "bottom": 396.5,
             "width": 672.21875,
             "height": 162.203125
           },
           "choiceGrid": {
             "left": 309.328125,
-            "top": 368.5,
+            "top": 408.265625,
             "right": 981.546875,
-            "bottom": 566.734375,
+            "bottom": 606.5,
             "width": 672.21875,
             "height": 198.234375
           },
@@ -2530,9 +3077,9 @@
           ],
           "sourceImage": {
             "left": 325.578125,
-            "top": 203.734375,
+            "top": 243.5,
             "right": 550.84375,
-            "bottom": 347.53125,
+            "bottom": 387.296875,
             "width": 225.265625,
             "height": 143.796875
           },
@@ -2546,9 +3093,9 @@
             "left": 309.328125,
             "top": 148.125,
             "right": 981.546875,
-            "bottom": 187.890625,
+            "bottom": 227.65625,
             "width": 672.21875,
-            "height": 39.765625
+            "height": 79.53125
           },
           "questionPromptFontSize": 34,
           "sourceTitleFontSize": 24,
@@ -2556,47 +3103,47 @@
           "activeBrandCopy": "에듀잇티 사회 퀴즈",
           "inlineSourceCreditVisible": false,
           "sourceCredit": {
-            "left": 794.4375,
+            "left": 846.671875,
             "top": 681.703125,
             "right": 1001.484375,
             "bottom": 697.359375,
-            "width": 207.046875,
+            "width": 154.8125,
             "height": 15.65625,
             "visible": true,
-            "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+            "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
             "fontSize": 10,
             "backgroundColor": "rgba(255, 255, 255, 0.78)"
           },
           "submitButton": {
             "left": 568.640625,
-            "top": 577.46875,
+            "top": 617.234375,
             "right": 722.234375,
-            "bottom": 629.46875,
+            "bottom": 669.234375,
             "width": 153.59375,
             "height": 52
           },
           "submitActions": {
             "left": 309.328125,
-            "top": 573.375,
+            "top": 613.140625,
             "right": 981.546875,
-            "bottom": 633.5625,
+            "bottom": 673.328125,
             "width": 672.21875,
             "height": 60.1875
           },
           "choices": [
             {
               "left": 322.375,
-              "top": 368.5,
+              "top": 408.265625,
               "right": 639.8125,
-              "bottom": 462.5,
+              "bottom": 502.265625,
               "width": 317.4375,
               "height": 94,
               "fontSize": 21,
               "image": {
                 "left": 331.5625,
-                "top": 384.78125,
+                "top": 424.546875,
                 "right": 417.578125,
-                "bottom": 446.21875,
+                "bottom": 485.984375,
                 "width": 86.015625,
                 "height": 61.4375,
                 "loaded": true,
@@ -2606,17 +3153,17 @@
             },
             {
               "left": 651.0625,
-              "top": 368.5,
+              "top": 408.265625,
               "right": 968.5,
-              "bottom": 462.5,
+              "bottom": 502.265625,
               "width": 317.4375,
               "height": 94,
               "fontSize": 21,
               "image": {
                 "left": 660.25,
-                "top": 384.78125,
+                "top": 424.546875,
                 "right": 746.265625,
-                "bottom": 446.21875,
+                "bottom": 485.984375,
                 "width": 86.015625,
                 "height": 61.4375,
                 "loaded": true,
@@ -2626,17 +3173,17 @@
             },
             {
               "left": 322.375,
-              "top": 472.734375,
+              "top": 512.5,
               "right": 639.8125,
-              "bottom": 566.734375,
+              "bottom": 606.5,
               "width": 317.4375,
               "height": 94,
               "fontSize": 21,
               "image": {
                 "left": 331.5625,
-                "top": 489.015625,
+                "top": 528.78125,
                 "right": 417.578125,
-                "bottom": 550.453125,
+                "bottom": 590.21875,
                 "width": 86.015625,
                 "height": 61.4375,
                 "loaded": true,
@@ -2646,17 +3193,17 @@
             },
             {
               "left": 651.0625,
-              "top": 472.734375,
+              "top": 512.5,
               "right": 968.5,
-              "bottom": 566.734375,
+              "bottom": 606.5,
               "width": 317.4375,
               "height": 94,
               "fontSize": 21,
               "image": {
                 "left": 660.25,
-                "top": 489.015625,
+                "top": 528.78125,
                 "right": 746.265625,
-                "bottom": 550.453125,
+                "bottom": 590.21875,
                 "width": 86.015625,
                 "height": 61.4375,
                 "loaded": true,
@@ -2714,26 +3261,26 @@
             },
             "questionWorkbench": {
               "left": 309.328125,
-              "top": 194.53125,
+              "top": 234.296875,
               "right": 981.546875,
               "bottom": 656.078125,
               "width": 672.21875,
-              "height": 461.546875,
+              "height": 421.78125,
               "justifyContent": "flex-start"
             },
             "sourceCard": {
               "left": 309.328125,
-              "top": 194.53125,
+              "top": 234.296875,
               "right": 981.546875,
-              "bottom": 356.734375,
+              "bottom": 396.5,
               "width": 672.21875,
               "height": 162.203125
             },
             "choiceGrid": {
               "left": 309.328125,
-              "top": 368.5,
+              "top": 408.265625,
               "right": 981.546875,
-              "bottom": 566.734375,
+              "bottom": 606.5,
               "width": 672.21875,
               "height": 198.234375
             },
@@ -2744,9 +3291,9 @@
             ],
             "sourceImage": {
               "left": 325.578125,
-              "top": 203.734375,
+              "top": 243.5,
               "right": 550.84375,
-              "bottom": 347.53125,
+              "bottom": 387.296875,
               "width": 225.265625,
               "height": 143.796875
             },
@@ -2760,9 +3307,9 @@
               "left": 309.328125,
               "top": 148.125,
               "right": 981.546875,
-              "bottom": 187.890625,
+              "bottom": 227.65625,
               "width": 672.21875,
-              "height": 39.765625
+              "height": 79.53125
             },
             "questionPromptFontSize": 34,
             "sourceTitleFontSize": 24,
@@ -2770,47 +3317,47 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 794.4375,
+              "left": 846.671875,
               "top": 681.703125,
               "right": 1001.484375,
               "bottom": 697.359375,
-              "width": 207.046875,
+              "width": 154.8125,
               "height": 15.65625,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
               "fontSize": 10,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
             "submitButton": {
               "left": 568.640625,
-              "top": 577.46875,
+              "top": 617.234375,
               "right": 722.234375,
-              "bottom": 629.46875,
+              "bottom": 669.234375,
               "width": 153.59375,
               "height": 52
             },
             "submitActions": {
               "left": 309.328125,
-              "top": 573.375,
+              "top": 613.140625,
               "right": 981.546875,
-              "bottom": 633.5625,
+              "bottom": 673.328125,
               "width": 672.21875,
               "height": 60.1875
             },
             "choices": [
               {
                 "left": 322.375,
-                "top": 368.5,
+                "top": 408.265625,
                 "right": 639.8125,
-                "bottom": 462.5,
+                "bottom": 502.265625,
                 "width": 317.4375,
                 "height": 94,
                 "fontSize": 21,
                 "image": {
                   "left": 331.5625,
-                  "top": 384.78125,
+                  "top": 424.546875,
                   "right": 417.578125,
-                  "bottom": 446.21875,
+                  "bottom": 485.984375,
                   "width": 86.015625,
                   "height": 61.4375,
                   "loaded": true,
@@ -2820,17 +3367,17 @@
               },
               {
                 "left": 651.0625,
-                "top": 368.5,
+                "top": 408.265625,
                 "right": 968.5,
-                "bottom": 462.5,
+                "bottom": 502.265625,
                 "width": 317.4375,
                 "height": 94,
                 "fontSize": 21,
                 "image": {
                   "left": 660.25,
-                  "top": 384.78125,
+                  "top": 424.546875,
                   "right": 746.265625,
-                  "bottom": 446.21875,
+                  "bottom": 485.984375,
                   "width": 86.015625,
                   "height": 61.4375,
                   "loaded": true,
@@ -2840,17 +3387,17 @@
               },
               {
                 "left": 322.375,
-                "top": 472.734375,
+                "top": 512.5,
                 "right": 639.8125,
-                "bottom": 566.734375,
+                "bottom": 606.5,
                 "width": 317.4375,
                 "height": 94,
                 "fontSize": 21,
                 "image": {
                   "left": 331.5625,
-                  "top": 489.015625,
+                  "top": 528.78125,
                   "right": 417.578125,
-                  "bottom": 550.453125,
+                  "bottom": 590.21875,
                   "width": 86.015625,
                   "height": 61.4375,
                   "loaded": true,
@@ -2860,17 +3407,17 @@
               },
               {
                 "left": 651.0625,
-                "top": 472.734375,
+                "top": 512.5,
                 "right": 968.5,
-                "bottom": 566.734375,
+                "bottom": 606.5,
                 "width": 317.4375,
                 "height": 94,
                 "fontSize": 21,
                 "image": {
                   "left": 660.25,
-                  "top": 489.015625,
+                  "top": 528.78125,
                   "right": 746.265625,
-                  "bottom": 550.453125,
+                  "bottom": 590.21875,
                   "width": 86.015625,
                   "height": 61.4375,
                   "loaded": true,
@@ -2983,14 +3530,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 790.203125,
+              "left": 843.40625,
               "top": 681.703125,
               "right": 1001.484375,
               "bottom": 697.359375,
-              "width": 211.28125,
+              "width": 158.078125,
               "height": 15.65625,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 25쪽(인쇄 40쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 40쪽",
               "fontSize": 10,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
@@ -3192,12 +3739,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-cover.png",
+            "sha256": "b96bf876b5c140f237b571b3dda230ce4f053debb9e0160107d1ee856b6eeb14",
+            "width": 1079,
+            "height": 929,
+            "bytes": 891301
+          }
         },
         {
           "label": "feedback-reported-1079x929-settings",
@@ -3215,12 +3771,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-settings.png",
+            "sha256": "e843e694757583561c064512b2f9dfa4831705b661803ae23904159ba5cb8766",
+            "width": 1079,
+            "height": 929,
+            "bytes": 370990
+          }
         },
         {
           "label": "feedback-reported-1079x929-tutorial",
@@ -3238,12 +3803,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-tutorial.png",
+            "sha256": "b7e30a45f248e7c73cf8908417f996804d31665633176ac25a7e9d4cb29c0fed",
+            "width": 1079,
+            "height": 929,
+            "bytes": 1133057
+          }
         },
         {
           "label": "feedback-reported-1079x929-q1-choice-ready-wrong-fixture",
@@ -3261,12 +3835,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q1-choice-ready-wrong-fixture.png",
+            "sha256": "df5530df6ce786713e485064e8c71517dc53b88a6aad7a63ceacf2c6680ba24a",
+            "width": 1079,
+            "height": 929,
+            "bytes": 590876
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-0",
@@ -3284,12 +3867,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-0.png",
+            "sha256": "df5530df6ce786713e485064e8c71517dc53b88a6aad7a63ceacf2c6680ba24a",
+            "width": 1079,
+            "height": 929,
+            "bytes": 590876
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-1",
@@ -3307,12 +3899,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-1.png",
+            "sha256": "fed101c652f77365df7deb9b4ada907b5d9532918bcb73d1a119ba217fa4a972",
+            "width": 1079,
+            "height": 929,
+            "bytes": 591907
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-2",
@@ -3330,12 +3931,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-2.png",
+            "sha256": "20d2c1a86dc49237b0332ed7e1570da8363e47a8da46ef42d421613c1243ae7f",
+            "width": 1079,
+            "height": 929,
+            "bytes": 592316
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-3",
@@ -3353,12 +3963,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-3.png",
+            "sha256": "e35f4d2a51e9781223803ebc4fe5fa4aa54aa7646d3f01ba2f276cf15efde2c8",
+            "width": 1079,
+            "height": 929,
+            "bytes": 596816
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-4",
@@ -3376,12 +3995,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-4.png",
+            "sha256": "7fe5b879b37b7b506b1d477fe4359ef3632aa66a60a0c919820ad78dbbd8ffe3",
+            "width": 1079,
+            "height": 929,
+            "bytes": 600694
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-5",
@@ -3399,12 +4027,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-5.png",
+            "sha256": "7dd41def4931083664c08e1e9cca5785c564b60bc7d1090b8055fcff1f62fed4",
+            "width": 1079,
+            "height": 929,
+            "bytes": 601743
+          }
         },
         {
           "label": "feedback-reported-1079x929-discovery-trace-6",
@@ -3422,12 +4059,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-discovery-trace-6.png",
+            "sha256": "f7732a4f16a23dd7801faa92aafee5730dfbb4f05752dd82d1495da282234867",
+            "width": 1079,
+            "height": 929,
+            "bytes": 601355
+          }
         },
         {
           "label": "feedback-reported-1079x929-q1-wrong-feedback",
@@ -3445,12 +4091,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q1-wrong-feedback.png",
+            "sha256": "7677dfdc2fbc6f25e562242e76e5978fd8614c4f718746f8370d0bfaed53bd6c",
+            "width": 1079,
+            "height": 929,
+            "bytes": 575241
+          }
         },
         {
           "label": "feedback-reported-1079x929-trace-wrong-stamped",
@@ -3468,12 +4123,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-trace-wrong-stamped.png",
+            "sha256": "a163a5d06a628b955744f720aaa431f2df64dcbe601507477f47adfac71f9a1e",
+            "width": 1079,
+            "height": 929,
+            "bytes": 584871
+          }
         },
         {
           "label": "feedback-reported-1079x929-q1-source-choice-ready",
@@ -3491,12 +4155,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q1-source-choice-ready.png",
+            "sha256": "b9e20c4d0ea941d3b9e7df893b90f438c6addc14d19e992663bdebe4a8e05d45",
+            "width": 1079,
+            "height": 929,
+            "bytes": 587432
+          }
         },
         {
           "label": "feedback-reported-1079x929-q1-correct-feedback",
@@ -3514,12 +4187,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q1-correct-feedback.png",
+            "sha256": "b787c557b4284d80ed36b8bf0c27ffb0cf4a3db643e0d7c8594c8613db770e0b",
+            "width": 1079,
+            "height": 929,
+            "bytes": 571146
+          }
         },
         {
           "label": "feedback-reported-1079x929-trace-correct-stamped",
@@ -3537,12 +4219,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-trace-correct-stamped.png",
+            "sha256": "21cfb17f9c15aae0f2cf88c9e7156ad7c88993d283f5ae14e0a3e96302f5e05f",
+            "width": 1079,
+            "height": 929,
+            "bytes": 581882
+          }
         },
         {
           "label": "feedback-reported-1079x929-q2-classify-ready",
@@ -3560,12 +4251,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q2-classify-ready.png",
+            "sha256": "ed3512c50cf4bb1a8a53ada43210d040cd679ebb074e2d0cccd09f799120b390",
+            "width": 1079,
+            "height": 929,
+            "bytes": 481001
+          }
         },
         {
           "label": "feedback-reported-1079x929-trace-silhouette",
@@ -3583,12 +4283,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 11
+          "targetCount": 11,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-trace-silhouette.png",
+            "sha256": "8c587f6d956d1184e22ecc77743b4fdc2be23224c7a30ba7b407652f571f73e2",
+            "width": 1079,
+            "height": 929,
+            "bytes": 299150
+          }
         },
         {
           "label": "feedback-reported-1079x929-q3-source-choice-ready",
@@ -3606,12 +4315,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q3-source-choice-ready.png",
+            "sha256": "ab126706a8b2888afc9d686a98c7b0aa32555a581360d49e0d070213c245bfa0",
+            "width": 1079,
+            "height": 929,
+            "bytes": 532245
+          }
         },
         {
           "label": "feedback-reported-1079x929-q4-choice-ready",
@@ -3629,12 +4347,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q4-choice-ready.png",
+            "sha256": "613f301fb6736ab088f8ab2ed4c2abe32ddb969326631cfa629d32fafd9343d7",
+            "width": 1079,
+            "height": 929,
+            "bytes": 499586
+          }
         },
         {
           "label": "feedback-reported-1079x929-trace-trait",
@@ -3652,12 +4379,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-trace-trait.png",
+            "sha256": "fdc5a7307b0bef83ea93b64a3e2a54b96a8328587dba7c0c92d05929bcdb2cf6",
+            "width": 1079,
+            "height": 929,
+            "bytes": 312342
+          }
         },
         {
           "label": "feedback-reported-1079x929-q5-classify-ready",
@@ -3675,12 +4411,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q5-classify-ready.png",
+            "sha256": "6afe5f1fd93e68ae52e1380122a5fa6f6c79bef53f420adc4a2a491829cd39d8",
+            "width": 1079,
+            "height": 929,
+            "bytes": 493425
+          }
         },
         {
           "label": "feedback-reported-1079x929-q6-sequence-ready",
@@ -3698,12 +4443,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-q6-sequence-ready.png",
+            "sha256": "abf4367a202961415cfaee985767339a0ff870aedd6cf544fa5d5bf3ebaef549",
+            "width": 1079,
+            "height": 929,
+            "bytes": 511704
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-platypusmon",
@@ -3721,12 +4475,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-platypusmon.png",
+            "sha256": "2d9d839f6e0e0b76a8cd6b9585ca4df34ac2a2d33161170ffe773a7ab2c0a77c",
+            "width": 1079,
+            "height": 929,
+            "bytes": 728673
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-preview-kiwimon",
@@ -3744,12 +4507,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-preview-kiwimon.png",
+            "sha256": "4fb5bf9caca3d05c2ee0d3c08c1c2a876a36607c5ef6e01ccd1be76d05ea914f",
+            "width": 1079,
+            "height": 929,
+            "bytes": 725829
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-preview-platypusmon",
@@ -3767,12 +4539,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-preview-platypusmon.png",
+            "sha256": "f98ea30dde8af5897f1286df52632f8c60d745444082e7f68c5c80fdd9bf6457",
+            "width": 1079,
+            "height": 929,
+            "bytes": 731203
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-preview-meerkatmon",
@@ -3790,12 +4571,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-preview-meerkatmon.png",
+            "sha256": "0a3e322100b356e49dd5eba4583264611d6cce0d294eda1be07e69439487c781",
+            "width": 1079,
+            "height": 929,
+            "bytes": 709708
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-preview-elephantmon",
@@ -3813,12 +4603,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-preview-elephantmon.png",
+            "sha256": "7b4f319c8e2a61c324347407136a162c794dd4915dabf245318d7e355a509dba",
+            "width": 1079,
+            "height": 929,
+            "bytes": 720189
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-preview-cranemon",
@@ -3836,12 +4635,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-preview-cranemon.png",
+            "sha256": "1935582b0f22ba6866714c9b92674a4bd1e2f5cba1873b413f06ee98446f437c",
+            "width": 1079,
+            "height": 929,
+            "bytes": 694479
+          }
         },
         {
           "label": "feedback-reported-1079x929-result-preview-pangolinmon",
@@ -3859,12 +4667,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x929-result-preview-pangolinmon.png",
+            "sha256": "f6dbe3ea2d5874a3ead61a6296754acffeabd5f0a0addbe0e762a90db370128e",
+            "width": 1079,
+            "height": 929,
+            "bytes": 813758
+          }
         }
       ],
       "visualAudits": {
@@ -4084,14 +4901,14 @@
           "activeBrandCopy": "에듀잇티 사회 퀴즈",
           "inlineSourceCreditVisible": false,
           "sourceCredit": {
-            "left": 847.71875,
+            "left": 899.953125,
             "top": 778.8125,
             "right": 1055.265625,
             "bottom": 794.6875,
-            "width": 207.546875,
+            "width": 155.3125,
             "height": 15.875,
             "visible": true,
-            "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+            "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
             "fontSize": 10,
             "backgroundColor": "rgba(255, 255, 255, 0.78)"
           },
@@ -4298,14 +5115,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 847.71875,
+              "left": 899.953125,
               "top": 778.8125,
               "right": 1055.265625,
               "bottom": 794.6875,
-              "width": 207.546875,
+              "width": 155.3125,
               "height": 15.875,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
               "fontSize": 10,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
@@ -4511,14 +5328,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 843.484375,
+              "left": 896.6875,
               "top": 778.8125,
               "right": 1055.265625,
               "bottom": 794.6875,
-              "width": 211.78125,
+              "width": 158.578125,
               "height": 15.875,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 25쪽(인쇄 40쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 40쪽",
               "fontSize": 10,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
@@ -4720,12 +5537,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-cover.png",
+            "sha256": "70274f53100bc3b6780c479dfbd4198c8321d9278352d67e64631efd785df934",
+            "width": 1079,
+            "height": 842,
+            "bytes": 890393
+          }
         },
         {
           "label": "feedback-reported-1079x842-settings",
@@ -4743,12 +5569,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-settings.png",
+            "sha256": "d1e629ec54621b166cc063ba52f5924b6cc4a7815ab646d6aa9167960439bf2a",
+            "width": 1079,
+            "height": 842,
+            "bytes": 369487
+          }
         },
         {
           "label": "feedback-reported-1079x842-tutorial",
@@ -4766,12 +5601,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-tutorial.png",
+            "sha256": "37a3bfed5448b99911d77cf730e741ace7278b00d0613b126e933d2756c5647e",
+            "width": 1079,
+            "height": 842,
+            "bytes": 1130126
+          }
         },
         {
           "label": "feedback-reported-1079x842-q1-choice-ready-wrong-fixture",
@@ -4789,12 +5633,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q1-choice-ready-wrong-fixture.png",
+            "sha256": "64bd1935168319f3bb47b84818f0f08a650c7514c8ac787623a93ebc219a5be3",
+            "width": 1079,
+            "height": 842,
+            "bytes": 588257
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-0",
@@ -4812,12 +5665,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-0.png",
+            "sha256": "64bd1935168319f3bb47b84818f0f08a650c7514c8ac787623a93ebc219a5be3",
+            "width": 1079,
+            "height": 842,
+            "bytes": 588257
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-1",
@@ -4835,12 +5697,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-1.png",
+            "sha256": "3365d170e922f9ae6f6ad9998b44448f6e860c1562cd6235f5626367960298ae",
+            "width": 1079,
+            "height": 842,
+            "bytes": 589142
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-2",
@@ -4858,12 +5729,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-2.png",
+            "sha256": "b8317f5705ca10e2d5f83acc74f092774101c1d9c3d4270f0b06075ef76054ef",
+            "width": 1079,
+            "height": 842,
+            "bytes": 589645
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-3",
@@ -4881,12 +5761,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-3.png",
+            "sha256": "ed15990e457385d9e6a0ceaaa0273cc7c50f7ef4dc039a4f3bd2c39f62ae82bb",
+            "width": 1079,
+            "height": 842,
+            "bytes": 594203
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-4",
@@ -4904,12 +5793,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-4.png",
+            "sha256": "689681ebfa583db54b0467e0d4d01fd55f3c96462fd0307f4b7a26aa853b1a81",
+            "width": 1079,
+            "height": 842,
+            "bytes": 597960
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-5",
@@ -4927,12 +5825,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-5.png",
+            "sha256": "3fcc6b970ff7d72ab7e97a5626983244c8c54f5c1f5cf62e71c36595c50da226",
+            "width": 1079,
+            "height": 842,
+            "bytes": 599142
+          }
         },
         {
           "label": "feedback-reported-1079x842-discovery-trace-6",
@@ -4950,12 +5857,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-discovery-trace-6.png",
+            "sha256": "a74d4bdec7b8b273cdc27edf2977c27a2c540692d4acc82655db4c25880676aa",
+            "width": 1079,
+            "height": 842,
+            "bytes": 598653
+          }
         },
         {
           "label": "feedback-reported-1079x842-q1-wrong-feedback",
@@ -4973,12 +5889,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q1-wrong-feedback.png",
+            "sha256": "bed336ac4992714745809a76e61a3f7ac86cb98ee413541db788f0961e840b1d",
+            "width": 1079,
+            "height": 842,
+            "bytes": 571277
+          }
         },
         {
           "label": "feedback-reported-1079x842-trace-wrong-stamped",
@@ -4996,12 +5921,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-trace-wrong-stamped.png",
+            "sha256": "60c136a1943eb95ed3b9bc06f6d1361a86bb9a81b9d74032ca3575b53b235190",
+            "width": 1079,
+            "height": 842,
+            "bytes": 581585
+          }
         },
         {
           "label": "feedback-reported-1079x842-q1-source-choice-ready",
@@ -5019,12 +5953,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q1-source-choice-ready.png",
+            "sha256": "b2962f0f6093600f565a166fe333ec2c94e4d9b6a9627e26f6116014d3504cfb",
+            "width": 1079,
+            "height": 842,
+            "bytes": 585015
+          }
         },
         {
           "label": "feedback-reported-1079x842-q1-correct-feedback",
@@ -5042,12 +5985,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q1-correct-feedback.png",
+            "sha256": "2d56df60520c70f81d3135944066d074eace432eeef037b446478d351e11a985",
+            "width": 1079,
+            "height": 842,
+            "bytes": 568159
+          }
         },
         {
           "label": "feedback-reported-1079x842-trace-correct-stamped",
@@ -5065,12 +6017,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-trace-correct-stamped.png",
+            "sha256": "70472dfce75ce7553f3efa8b823a4255e5279138ec5bc8b81d3562fa3ba7d5a7",
+            "width": 1079,
+            "height": 842,
+            "bytes": 578417
+          }
         },
         {
           "label": "feedback-reported-1079x842-q2-classify-ready",
@@ -5088,12 +6049,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q2-classify-ready.png",
+            "sha256": "daab72a13e260d610f038cae59d982e3d724e14d45ec3c8830c12ac4279bf287",
+            "width": 1079,
+            "height": 842,
+            "bytes": 479050
+          }
         },
         {
           "label": "feedback-reported-1079x842-trace-silhouette",
@@ -5111,12 +6081,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 11
+          "targetCount": 11,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-trace-silhouette.png",
+            "sha256": "28d2188e8c054899083b205fbdac3af3b2a68d03a25ff665f69234168b6b4b45",
+            "width": 1079,
+            "height": 842,
+            "bytes": 297746
+          }
         },
         {
           "label": "feedback-reported-1079x842-q3-source-choice-ready",
@@ -5134,12 +6113,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q3-source-choice-ready.png",
+            "sha256": "126a901c214a3ff1f256fef605cfcf11bcf9898cf4de36785c89688af9afe821",
+            "width": 1079,
+            "height": 842,
+            "bytes": 529116
+          }
         },
         {
           "label": "feedback-reported-1079x842-q4-choice-ready",
@@ -5157,12 +6145,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q4-choice-ready.png",
+            "sha256": "077c41adc8f1b82b61d300b94d1e41bb5d56a9a3be57958e3f19e6cfa99548c6",
+            "width": 1079,
+            "height": 842,
+            "bytes": 497481
+          }
         },
         {
           "label": "feedback-reported-1079x842-trace-trait",
@@ -5180,12 +6177,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 7
+          "targetCount": 7,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-trace-trait.png",
+            "sha256": "a1c926aa0759ea61ed5ddcc6e386fb688aeffa270cc833f75c0f22ec0cd481f0",
+            "width": 1079,
+            "height": 842,
+            "bytes": 310493
+          }
         },
         {
           "label": "feedback-reported-1079x842-q5-classify-ready",
@@ -5203,12 +6209,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 10
+          "targetCount": 10,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q5-classify-ready.png",
+            "sha256": "07141694370a34cfcc02aeba084e6305dbe38f49262cdccb363e09224e20b145",
+            "width": 1079,
+            "height": 842,
+            "bytes": 491356
+          }
         },
         {
           "label": "feedback-reported-1079x842-q6-sequence-ready",
@@ -5226,12 +6241,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 6
+          "targetCount": 6,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-q6-sequence-ready.png",
+            "sha256": "0a23c99c8b7cda51e5f1399e9377b47cb1056d75ab0f3b483ff92ad4465cbc09",
+            "width": 1079,
+            "height": 842,
+            "bytes": 509512
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-platypusmon",
@@ -5249,12 +6273,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-platypusmon.png",
+            "sha256": "3035602c99b0e35b67b0b24c135de2469c399901df7e6457219a2cc3de43b237",
+            "width": 1079,
+            "height": 842,
+            "bytes": 726713
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-preview-kiwimon",
@@ -5272,12 +6305,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-preview-kiwimon.png",
+            "sha256": "0f8663db156a139e9b22dd3a9f314161229abe54e7787b634d11f870efdf0433",
+            "width": 1079,
+            "height": 842,
+            "bytes": 724638
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-preview-platypusmon",
@@ -5295,12 +6337,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-preview-platypusmon.png",
+            "sha256": "f8e1756452866a52240276064c4e584d0354625f13d0042628c0809d0d8ff25f",
+            "width": 1079,
+            "height": 842,
+            "bytes": 729173
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-preview-meerkatmon",
@@ -5318,12 +6369,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-preview-meerkatmon.png",
+            "sha256": "dc457fcdb46a1b02bb0fe2cc933c0216ac567c4167329821782041fccdbc7210",
+            "width": 1079,
+            "height": 842,
+            "bytes": 709701
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-preview-elephantmon",
@@ -5341,12 +6401,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-preview-elephantmon.png",
+            "sha256": "c6ce50220cc43ec11d8da04c9f6ae80e8cdaf5c378715bab326f0765edec792f",
+            "width": 1079,
+            "height": 842,
+            "bytes": 717923
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-preview-cranemon",
@@ -5364,12 +6433,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-preview-cranemon.png",
+            "sha256": "1212b4dffb48adda711f3ae5ce0cad5a9f1d39bfe9576ea01f20797824c3aa2c",
+            "width": 1079,
+            "height": 842,
+            "bytes": 694178
+          }
         },
         {
           "label": "feedback-reported-1079x842-result-preview-pangolinmon",
@@ -5387,12 +6465,21 @@
           "textOverflows": [],
           "outsideStage": [],
           "smallTargets": [],
+          "emptyClassifyTargets": [],
           "clippedQuestionContent": [],
           "overlaps": [],
           "generatedVisualProfile": true,
           "activeBrandMarkCount": 1,
           "unloadedBrandMarkCount": 0,
-          "targetCount": 2
+          "targetCount": 2,
+          "screenshot": {
+            "standard": "socialmon-screenshot-evidence-v1",
+            "file": "feedback-reported-1079x842-result-preview-pangolinmon.png",
+            "sha256": "690bee2b42f7c008e0ec8c69c3af6e1f5f7fe2e5932015904e83b91c414300e8",
+            "width": 1079,
+            "height": 842,
+            "bytes": 812358
+          }
         }
       ],
       "visualAudits": {
@@ -5612,14 +6699,14 @@
           "activeBrandCopy": "에듀잇티 사회 퀴즈",
           "inlineSourceCreditVisible": false,
           "sourceCredit": {
-            "left": 847.71875,
+            "left": 899.953125,
             "top": 735.3125,
             "right": 1055.265625,
             "bottom": 751.1875,
-            "width": 207.546875,
+            "width": 155.3125,
             "height": 15.875,
             "visible": true,
-            "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+            "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
             "fontSize": 10,
             "backgroundColor": "rgba(255, 255, 255, 0.78)"
           },
@@ -5826,14 +6913,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 847.71875,
+              "left": 899.953125,
               "top": 735.3125,
               "right": 1055.265625,
               "bottom": 751.1875,
-              "width": 207.546875,
+              "width": 155.3125,
               "height": 15.875,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 16쪽(인쇄 31쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 31쪽",
               "fontSize": 10,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
@@ -6039,14 +7126,14 @@
             "activeBrandCopy": "에듀잇티 사회 퀴즈",
             "inlineSourceCreditVisible": false,
             "sourceCredit": {
-              "left": 843.484375,
+              "left": 896.6875,
               "top": 735.3125,
               "right": 1055.265625,
               "bottom": 751.1875,
-              "width": 211.78125,
+              "width": 158.578125,
               "height": 15.875,
               "visible": true,
-              "text": "자료: 5_2_사회_1_지도서.pdf PDF 25쪽(인쇄 40쪽)",
+              "text": "자료: 5학년 2학기 사회 1 지도서 40쪽",
               "fontSize": 10,
               "backgroundColor": "rgba(255, 255, 255, 0.78)"
             },
