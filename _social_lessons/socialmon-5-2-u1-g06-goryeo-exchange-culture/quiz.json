@@ -227,7 +227,7 @@
     {
       "id": "q4-fact-inference",
       "type": "classify",
-      "prompt": "고려 교류 자료에서 본 것과 짐작한 것을 나누어 볼까요?",
+      "prompt": "문장을 읽고, 자료에 나타난 모습과 그 모습으로 짐작한 내용을 나누어요.",
       "instruction": "각 문장을 알맞은 모둠에 넣어요.",
       "groups": [
         {
@@ -242,11 +242,11 @@
       "items": [
         {
           "id": "map-seen",
-          "text": "고려와 주변 나라가 표시된 지도가 보인다."
+          "text": "지도에는 고려·거란·송·아라비아 상인의 길이 표시되어 있다."
         },
         {
           "id": "food-seen",
-          "text": "만두와 설렁탕 그림이 보인다."
+          "text": "그림에는 만두와 설렁탕이 함께 나타나 있다."
         },
         {
           "id": "trade-inferred",
@@ -273,50 +273,50 @@
       }
     },
     {
-      "id": "q5-exchange-routes",
+      "id": "q5-exchange-traces",
       "type": "match",
-      "prompt": "고려와 이웃 나라의 관계를 이어 볼까요?",
-      "instruction": "왼쪽 문화유산을 누른 뒤 설명을 눌러요.",
+      "prompt": "고려의 국제 교류 단서와 알 수 있는 점을 이어 볼까요?",
+      "instruction": "왼쪽 단서와 오른쪽 설명을 짝지어요.",
       "left": [
         {
-          "id": "khitan",
-          "text": "거란"
+          "id": "byeokrando",
+          "text": "벽란도"
         },
         {
-          "id": "song",
-          "text": "송"
+          "id": "korea-name",
+          "text": "코리아라는 이름"
         },
         {
-          "id": "arab",
-          "text": "아라비아 상인"
+          "id": "goryeodogyeong",
+          "text": "『고려도경』 기록"
         }
       ],
       "right": [
         {
-          "id": "song-trade",
-          "text": "배를 타고 오가며 물건을 주고받았어요."
-        },
-        {
           "id": "arab-name",
-          "text": "고려를 코리아로 알리는 데 이어졌어요."
+          "text": "아라비아 상인을 통해 고려의 이름이 서양에 알려졌어요."
         },
         {
-          "id": "khitan-war",
-          "text": "침입에 맞서 싸우고 외교도 했어요."
+          "id": "envoy-record",
+          "text": "송 사신이 항구의 많은 사람과 군인을 글로 남겼어요."
+        },
+        {
+          "id": "trade-port",
+          "text": "여러 나라의 배와 상인이 오간 국제 무역항이었어요."
         }
       ],
       "pairs": {
-        "khitan": "khitan-war",
-        "song": "song-trade",
-        "arab": "arab-name"
+        "byeokrando": "trade-port",
+        "korea-name": "arab-name",
+        "goryeodogyeong": "envoy-record"
       },
-      "explanation": "거란과는 전쟁과 외교, 송과는 무역, 아라비아 상인과는 이름이 알려진 관계를 살펴봐요.",
+      "explanation": "벽란도와 기록, 코리아라는 이름에는 고려가 여러 나라와 교류한 흔적이 남아 있어요.",
       "evidence": {
         "sourceFile": "5_2_사회_1_지도서.pdf",
-        "pdfPage": 111,
-        "printedPage": 126,
-        "textbookPage": 54,
-        "basis": "고려와 거란·송·아라비아 상인의 관계를 설명하는 지도서 내용을 확인했다."
+        "pdfPage": 112,
+        "printedPage": 127,
+        "textbookPage": 55,
+        "basis": "지도서에서 벽란도가 국제 무역항이었고, 『고려도경』에 항구 모습이 기록되었으며, 아라비아 상인을 통해 고려가 코리아로 알려졌음을 확인했다."
       }
     },
     {
