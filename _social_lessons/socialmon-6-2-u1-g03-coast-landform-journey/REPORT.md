@@ -37,16 +37,16 @@
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `8f4b93e50b141cfa712deb10cb962fc6fe02a91e105cbb8ac81275ff404c3a35` |
+| quiz.json | `4cb0e93a455bf15c6f6bff4b5044ed2383a2a0713fa4a486c20cdfac34502bff` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `e5de70ff21ac7fbc4f58d982beb8ab83b662c8110389c38c6ec8996ddde53428` |
-| 실행 자산 | `ff3fd68eafaf7f0fd790f09b411b177e4b5f55c0f14bd885df9cb59e8f3b1e8c` |
+| 실행 자산 | `afac1b7b11c5982f6191d1f84c8edff8f779fe0990651e5add03b91414bf4379` |
 | 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
 | 정책·스킬 | `fa7ce4222ee3e03a5643e058725c0a43e6aa2ba37c02351baaf1fed89ab91d50` |
 | QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
-| 캡처 PNG 집합 | `998930182d06dba3cde9bfefdd937ce908df2471327d8c4426e590aa99719fc5` |
+| 캡처 PNG 집합 | `72c8b0a0fa66adce917e4e2473de66ede7470e1330bf5b5f7808fbeb423fe6d0` |
 
-- QA 생성 시각: `2026-08-13T13:29:36.391Z`
+- QA 생성 시각: `2026-08-14T08:52:31.332Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
