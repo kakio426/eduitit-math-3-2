@@ -29,9 +29,11 @@ PDF 54·55·60·61쪽을 150 dpi와 300 dpi PNG로 렌더링해 글·그림을 �
 
 | 실행 자산 | 원자료·쪽 | 실행 원본 크기 | 렌더링 확인 |
 |---|---|---:|---|
-| `source-monaegi-v1-source.png/.webp` | PDF 54 / 인쇄 209, 교과서 95쪽 | 1280×720 | 논·모·농사하는 사람과 모내기 장면 확인 |
+| `source-monaegi-v2-source.png/.webp` | PDF 54 / 인쇄 209, 교과서 95쪽 모내기 설명·그림 crop | 1933×1433 | 모내기하는 농민 그림과 쌀 생산량·노동력 변화 설명을 확인 |
+| `option-monaegi-v2-source.png/.webp` | PDF 54 / 인쇄 209, 교과서 95쪽 그림 독립 crop | 867×800 | 여러 사람이 줄지어 모내기하는 모습이 보이며 원자료 카드와 동일 바이트를 재사용하지 않음 |
 | `source-sangpyeongtongbo-v1-source.png/.webp` | PDF 55 / 인쇄 210, 교과서 96쪽 | 1040×600 | 상평통보 동전과 자료 설명 확인 |
 | `source-western-goods-v1.webp` | PDF 61 / 인쇄 216, 교과서 98쪽 | 1040×600 | 자명종·천리경과 서양 문물 설명 확인 |
+| `option-clock-telescope-v2-source.png/.webp` | PDF 61 / 인쇄 216, 교과서 98쪽 선택지용 독립 crop | 780×360 | 자명종과 천리경이 함께 보이며 원자료 카드와 동일 바이트를 재사용하지 않음 |
 | `option-telescope-v1-source.png/.webp` | PDF 61 / 인쇄 216, 교과서 98쪽 | 650×320 | 천리경과 먼 곳을 살피는 사람을 다시 잘라 검은 세로 띠 0건 확인 |
 
 모든 자료·선택지 그림은 출판사 지도서 렌더링 crop이며, 생성형 이미지는 표지

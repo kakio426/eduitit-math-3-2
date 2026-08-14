@@ -27,9 +27,13 @@
 
 | 실행 자산 | 원자료·쪽 | 렌더링 확인 |
 |---|---|---|
-| `source-samgang-v1-source.png/.webp` | PDF 21 / 인쇄 176 삼강행실도 crop | 최루백 이야기의 그림·글이 보이는 자료 |
-| `source-gukgukdaejeon-v1-source.png/.webp` | PDF 22 / 인쇄 177 경국대전 규정 crop | 혼인·토지 거래·부모 돌봄 세 규정 그림이 보이는 자료 |
-| `option-*.webp` | 위 지도서 렌더링의 보조 crop | 모든 source-choice 선택지에 이미지와 alt를 연결 |
+| `source-samganghaengsildo-v2-source.png/.webp` | PDF 21 / 인쇄 176 삼강행실도 crop | 최루백 이야기가 글과 네 장면으로 보임 |
+| `source-gyeonggukdaejeon-v2-source.png/.webp` | PDF 22 / 인쇄 177 경국대전 규정 crop | 혼인·재산·부모 돌봄 규정 세 장면이 보임 |
+| `option-samganghaengsildo-v2-source.png/.webp` | PDF 21 / 인쇄 176 삼강행실도 crop | 최루백 효자 이야기가 글과 그림으로 보임 |
+| `option-gyeonggukdaejeon-v2-source.png/.webp` | PDF 22 / 인쇄 177 경국대전 crop | 생활 규정 세 장면이 보임 |
+| `option-gwanrye-v2-source.png/.webp`, `option-honrye-v2-source.png/.webp` | PDF 22 / 인쇄 177 관례·혼례 crop | 어른이 되는 의식과 혼인 의식이 각각 보임 |
+| `option-marriage-age-v2-source.png/.webp`, `option-property-report-v2-source.png/.webp`, `option-parent-care-v2-source.png/.webp` | PDF 22 / 인쇄 177 경국대전 개별 규정 crop | 혼인 나이·재산 신고·부모 돌봄 규정이 각각 보임 |
+| `option-funeral-rite-v2-source.png/.webp` | PDF 22 / 인쇄 177 상례 crop | 상복을 입고 죽은 사람을 기리는 의식이 보임 |
 
 ## 문항별 근거와 사실·추론 구분
 
