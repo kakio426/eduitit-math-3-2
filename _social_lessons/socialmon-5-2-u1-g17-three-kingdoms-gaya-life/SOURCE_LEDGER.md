@@ -11,7 +11,7 @@
 | 인쇄 쪽 대응 | 인쇄 쪽 = PDF 쪽 + 15 |
 | 게임 범위 | PDF 63~76 / 인쇄 78~91, 원천 9~10차시 |
 
-PDF 텍스트 추출과 90dpi 전체 렌더를 확인한 뒤 q1·q3 페이지를 240dpi로 다시 렌더해 실행 크롭을 만들었다. 생성 이미지는 표지 문구 아트에만 사용했으며 정답 근거가 아니다.
+PDF 텍스트 추출과 전체 렌더를 확인한 뒤 q1·q3 페이지를 600dpi로 다시 렌더해 실행 크롭을 만들었다. 학생용 지면만 잘라 교사용 예시 답안은 제외했고, 네 선택지에는 서로 다른 위치의 자료를 연결했다. 생성 이미지는 표지 문구 아트에만 사용했으며 정답 근거가 아니다.
 
 ## 자료 대조
 
@@ -19,7 +19,7 @@ PDF 텍스트 추출과 90dpi 전체 렌더를 확인한 뒤 q1·q3 페이지를
 |---|---|---|---|
 | q1 | PDF 63의 수산리 고분 벽화에서 귀족은 크게, 재주꾼과 시종은 작게 그려졌다. | 크게 그려진 귀족 부분 찾기 | `source-suisanri-status-mural-v1.webp`와 `option-status-*.webp` |
 | q2 | PDF 63 본문은 귀족·평민·천민의 역할을 구분한다. | 사실 관계 | 텍스트 문항 |
-| q3 | PDF 66에 덩이쇠, 철제 갑옷·투구, 여러 모양의 토기가 보인다. | 철판을 이어 만든 갑옷·투구 자료 찾기 | `source-gaya-iron-pottery-v1.webp`와 `option-gaya-*.webp` |
+| q3 | PDF 66에 덩이쇠와 철판을 철못으로 이어 만든 갑옷·투구가 보인다. | 철 다루는 기술로 만든 방어 도구 찾기 | `source-gaya-iron-pottery-v1.webp`와 `option-gaya-*.webp` |
 | q4 | 벽화 인물과 철제 갑옷은 보이는 사실이고, 신분 차이와 배 이용은 단서로 짐작한다. | 사실/추론 구분 | 텍스트 문항 |
 | q5 | PDF 65~66의 집·배·말 탄 무사 모양 토기와 지도서 예시 답안을 연결했다. | 근거 있는 추론 | 텍스트 문항 |
 | q6 | PDF 65 본문은 백성의 마음을 모으고 왕권을 강화하려고 불교를 받아들였다고 설명한다. | 사실 관계 | 텍스트 문항 |
@@ -28,12 +28,12 @@ PDF 텍스트 추출과 90dpi 전체 렌더를 확인한 뒤 q1·q3 페이지를
 
 | 자산 | 출처·용도 |
 |---|---|
-| `suisanri-status-mural-v1-source.png` | PDF 63을 240dpi로 렌더한 q1 제작 원본 |
-| `source-suisanri-status-mural-v1.webp` | 같은 페이지의 수산리 벽화와 설명 실행본 |
-| `option-status-*-v1-source.png/.webp` | 같은 q1 페이지를 자른 네 선택지 보조 그림, 가로 800px |
-| `gaya-iron-pottery-v1-source.png` | PDF 66을 240dpi로 렌더한 q3 제작 원본 |
-| `source-gaya-iron-pottery-v1.webp` | 같은 페이지의 철기·토기 자료 실행본 |
-| `option-gaya-*-v1-source.png/.webp` | 같은 q3 페이지를 자른 네 선택지 보조 그림, 가로 800px |
+| `suisanri-status-mural-v1-source.png` | PDF 63 학생용 지면의 벽화와 활동 문구를 600dpi로 자른 q1 제작 원본 |
+| `source-suisanri-status-mural-v1.webp` | 같은 페이지의 수산리 벽화와 활동 문구 실행본 |
+| `option-status-*-v1-source.png/.webp` | 벽화 전체·귀족·재주꾼·시종의 서로 다른 위치를 자른 네 선택지 그림, 가로 900px |
+| `gaya-iron-pottery-v1-source.png` | PDF 66 학생용 지면의 덩이쇠·갑옷·투구 부분을 600dpi로 자른 q3 제작 원본 |
+| `source-gaya-iron-pottery-v1.webp` | 같은 페이지의 덩이쇠·갑옷·투구 실행본 |
+| `option-gaya-*-v1-source.png/.webp` | 덩이쇠·갑옷과 투구·말 탄 무사 모양 토기·배 모양 토기를 각각 자른 네 선택지 그림, 가로 900px |
 | `cover-copy-v1-source.png` | imagegen 생성 원본. 문구: `소셜몬 발견 퀴즈 / 소셜몬 삼국과 가야 생활 읽기 / 유물과 벽화에서 삼국과 가야 사람들의 생활 단서를 찾아봐요.` |
 | `cover-copy-v1-generated.webp` | 위 생성 원본의 표지 실행본. 역사 사실 판단에는 사용하지 않음 |
 

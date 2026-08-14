@@ -27,9 +27,12 @@
 
 | 실행 자산 | 원자료·쪽 | 렌더링 확인 |
 |---|---|---|
-| `source-capital-map-v1-source.png/.webp` | PDF 18 / 인쇄 173 도성도 crop | 산줄기와 도성, 물길이 보이는 지도 자료 |
-| `source-confucian-buildings-v1-source.png/.webp` | PDF 20 / 인쇄 175 건축물·덕목 표 crop | 경복궁·사직단·종묘와 유교 덕목 설명이 보이는 자료 |
-| `option-*.webp` | 위 지도서 렌더링의 보조 crop | 모든 source-choice 선택지에 512px 이상 이미지와 alt를 연결 |
+| `source-capital-map-v2-source.png/.webp` | PDF 18 / 인쇄 173 도성도 crop | 산줄기와 도성, 물길이 보이는 지도 자료 |
+| `source-seonggyungwan-v2-source.png/.webp` | PDF 18 / 인쇄 173 성균관 설명 crop | 성균관의 위치·기능·학생 생활을 설명하는 글이 보임 |
+| `option-capital-map-v2-source.png/.webp` | PDF 18 / 인쇄 173 도성도 crop | 산과 물길 안에 자리한 한양의 모습이 보임 |
+| `option-seonggyungwan-v2-source.png/.webp` | PDF 18 / 인쇄 173 성균관 설명 crop | 성균관이 유학 교육과 인재 선발을 맡았다는 설명이 보임 |
+| `option-samganghaengsildo-v2-source.png/.webp` | PDF 21 / 인쇄 176 삼강행실도 crop | 최루백 효자 이야기가 글과 그림으로 보임 |
+| `option-gyeonggukdaejeon-v2-source.png/.webp` | PDF 22 / 인쇄 177 경국대전 crop | 혼인·재산·부모 돌봄에 관한 세 규정이 보임 |
 
 ## 문항별 근거와 사실·추론 구분
 
