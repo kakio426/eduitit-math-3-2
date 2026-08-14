@@ -24,3 +24,22 @@
 - `market-competition-source.png` / `source-market-competition.webp`: 네 경쟁 장면과 설명이 함께 보이는 영역만 잘랐다.
 - 자료 설명과 `alt`에는 crop에서 직접 확인되는 인물·가격표·장면만 적었다.
 - 공유 선택지 그림은 장식으로만 쓰며, 각 `alt`는 실제 자산 모습과 일치시켰다.
+
+<!-- AUTO OPTION SOURCES START -->
+
+## 선택지 그림·지도 버튼 근거
+
+아래 경로는 `quiz.json`과 배포 HTML이 실제로 읽는 실행 자산이다. 파일명이 `-source`로 끝나는 제작 원본은 공개 실행 경로에 쓰지 않는다.
+
+| 문항·선택지 | 실행 자산 | 출처 PDF / 인쇄 | 그림과 문장의 관계 |
+|---|---|---|---|
+| q1 · price-same | `assets/option-price-same-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '3,000원으로 그대로였어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · price-zero | `assets/option-price-zero-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '0원이 되었어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · price-up | `assets/option-price-up-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '2,000원에서 3,000원으로 올라갔어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · price-down | `assets/option-price-down-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '3,000원에서 2,000원으로 내려갔어요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · one-choice | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 물건을 만들어요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · free-compete | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장에서 사과를 골라요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · no-choice | `../../_shared/socialmon/theme-packs/6-2/u2/options/worker-shield-v1.webp` | 6_2_사회_2_지도서.pdf 32/151쪽 | 선택지 그림과 문장은 '안전모로 일하는 사람을 지켜요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · same-product | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 있어요.'라는 같은 모습을 함께 보여 준다. |
+
+<!-- AUTO OPTION SOURCES END -->

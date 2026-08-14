@@ -23,4 +23,24 @@
 - `assets/polar-life-source.png`, `assets/highland-life-source.png`: 지도서 PDF 80·81쪽에서 기하학적으로 자른 제작 원본.
 - `assets/source-polar-life.webp`, `assets/source-highland-life.webp`: 학생 화면용 1100×600 출판사 근거 자료.
 - `assets/cover-copy-v1-source.png`, `assets/cover-copy-v1-generated.webp`: 생성형 표지 제목·목표 묶음. 사실 근거가 아니다.
-- `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-*.webp`: 공용 장식 삽화. 정답은 출판사 자료와 선택지 글로 판단한다.
+- `assets/option-highland-clothes-v1.webp`: 지도서의 고산 지역 옷차림에서 만든 실행 선택지 그림.
+- 공용 선택지 그림은 문장의 뜻을 돕는 장식이며, 기후 사실 판단은 출판사 자료를 따른다.
+
+<!-- AUTO OPTION SOURCES START -->
+
+## 선택지 그림·지도 버튼 근거
+
+아래 경로는 `quiz.json`과 배포 HTML이 실제로 읽는 실행 자산이다. 파일명이 `-source`로 끝나는 제작 원본은 공개 실행 경로에 쓰지 않는다.
+
+| 문항·선택지 | 실행 자산 | 출처 PDF / 인쇄 | 그림과 문장의 관계 |
+|---|---|---|---|
+| q1 · hunt-reindeer | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp` | 6_2_사회_1_지도서.pdf 80/95쪽 | 선택지 그림과 문장은 '눈과 얼음 속에서 두꺼운 옷을 입어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · rice-all-year | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-tropical-v1.webp` | 6_2_사회_1_지도서.pdf 66/81쪽 | 선택지 그림과 문장은 '비가 많이 내리는 숲과 바닥이 높은 집이 있어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · olive-coast | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp` | 6_2_사회_1_지도서.pdf 35/50쪽 | 선택지 그림과 문장은 '해변과 어선, 등대가 있는 마을이에요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · desert-oasis | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-scenes-v1.webp` | 6_2_사회_1_지도서.pdf 87/102쪽 | 선택지 그림과 문장은 '산지·해안·열대·한대 모습을 함께 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+| q4 · coastal-village | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp` | 6_2_사회_1_지도서.pdf 35/50쪽 | 선택지 그림과 문장은 '해변과 어선, 등대가 있는 마을이에요.'라는 같은 모습을 함께 보여 준다. |
+| q4 · highland-layered-clothes | `assets/option-highland-clothes-v1.webp` | 6_2_사회_1_지도서.pdf 81/96쪽 | 선택지 그림과 문장은 '고산 지역에서 모자와 옷을 여러 겹 입어요.'라는 같은 모습을 함께 보여 준다. |
+| q4 · tropical-stilt-house | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-tropical-v1.webp` | 6_2_사회_1_지도서.pdf 66/81쪽 | 선택지 그림과 문장은 '비가 많이 내리는 숲과 바닥이 높은 집이 있어요.'라는 같은 모습을 함께 보여 준다. |
+| q4 · polar-clothing | `../../_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp` | 6_2_사회_1_지도서.pdf 80/95쪽 | 선택지 그림과 문장은 '눈과 얼음 속에서 두꺼운 옷을 입어요.'라는 같은 모습을 함께 보여 준다. |
+
+<!-- AUTO OPTION SOURCES END -->
