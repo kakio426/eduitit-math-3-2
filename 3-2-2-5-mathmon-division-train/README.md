@@ -18,8 +18,8 @@
 - 매스몬: `base-pack`의 새끼용몬 `base-03-babydragonmon`
 - 커버: `cover-source.png` → `cover-generated.png` → `cover-generated.webp`
 - 제목: `title-logo-source.png` → `title-logo-generated.png` → `title-logo-generated.webp`
-- 설명: `tutorial-page-1-v2-generated.webp`, `tutorial-page-2-v2-generated.webp`
-- 설명 원본: `tutorial-page-1-v2-source.png`, `tutorial-page-2-v2-source.png`
+- 설명: `tutorial-page-1-v3-generated.webp`, `tutorial-page-2-v2-generated.webp`
+- 설명 원본: `tutorial-page-1-v3-source.png`, `tutorial-page-2-v2-source.png`
 - 문제 배경: `problem-background-source.png` → `problem-background-generated.webp`
 - 보상 7상태: `reward-event-closed-generated.webp`와 `reward-{normal,loss,mega,complete,empty,rainbow}-generated.webp`
 - 보상 컨택시트: `reward-contact-sheet.png`
@@ -37,6 +37,8 @@
 진행 장면은 각 `768×1536`, 결과 장면은 각 `1280×800`, 보상 그림은 각 `512×512`입니다. 여섯 단계는 출발역부터 무지개역까지 1:1로 연결됩니다. 새끼용몬은 커버·진행·결과 장면 안에 함께 생성되어 별도 캐릭터 오버레이를 쓰지 않습니다.
 
 설명 두 장은 `generated-tutorial-poster-two-step-v1`을 따릅니다. 각 장은 `1280×800` 생성 포스터 한 장이 Stage를 채우며, 제목·풀이·화살표·계산 예·버튼 표면까지 이미지 안에 들어 있습니다. HTML은 접근성 문구와 생성 버튼 위 투명 hitbox만 맡습니다.
+
+설명 1은 `왼쪽 3 확인 → 3 < 7 확인 → 36으로 나누기 → 남은 1 옆에 4 내리기 → 14로 나누기`가 왼쪽에서 오른쪽으로 이어지도록 고쳤습니다. 1번과 3번의 수가 어디에서 왔는지 화살표와 묶음으로 바로 확인할 수 있습니다.
 
 ## 보상과 결과
 
