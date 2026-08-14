@@ -31,6 +31,7 @@ PDF 텍스트를 `pdftotext`로 추출하고 PDF 11~26을 150 dpi PNG로 렌더�
 |---|---|---:|---|
 | `source-paleolithic-life-v1-source.png/.webp` | 지도서 PDF 16 / 인쇄 31, 교과서 13쪽 구석기 생활 그림 | 1320×720 | 동굴·불·사냥·열매와 말풍선의 실제 그림 단서를 확인 |
 | `source-neolithic-fishing-tools-v1-source.png/.webp` | 지도서 PDF 25 / 인쇄 40, 활동지 물고기잡이 도구 | 900×335 | 낚시 도구·그물·찌르개 모양 도구가 보이고 PDF 26 / 인쇄 41 풀이의 표시와 일치 |
+| `option-neolithic-fishing-tools-v2-source.png/.webp` | 지도서 PDF 25 / 인쇄 40, 위 활동지의 선택지용 독립 crop | 700×300 | 낚시 도구와 그물이 함께 보이며 원자료 카드와 동일 바이트를 재사용하지 않음 |
 
 두 이미지는 지도서 렌더링 PNG에서 의미를 바꾸지 않는 범위로 잘랐으며, 실행본은
 각각 WebP로 변환했다. 선택지 이미지도 같은 PDF 렌더링에서 자른 보조 그림이므로
