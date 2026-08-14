@@ -1,6 +1,6 @@
 # 매스몬 나눔열차 제작 보고
 
-검사일: 2026-08-14
+검사일: 2026-08-15
 
 ## 구현 상태
 
@@ -17,6 +17,7 @@
 - 보상 상태: 7장, `512×512`
 - 보상 컨택시트: `reward-contact-sheet.png`
 - 진행 장면: 6장, `768×1536`
+- 진행 이동 효과: 투명 레일·증기·속도광 1장, `768×1536`
 - 진행 장면 생성 원본: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/source`
 - 진행 장면 컨택시트: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-contact-sheet.png`
 - 진행 장면 기준선 시트: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-anchor-audit.png`
@@ -25,6 +26,13 @@
 - 결과 계약: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contract.json`
 
 컨택시트에서 모든 단계의 새끼용몬 전신, 진행 장면의 같은 카메라와 발 기준선, 결과 장면의 서로 다른 배경·조명·열차를 확인했습니다. 진행 장면은 `object-fit: contain`으로 표시하며 최종 결과 이미지를 잘라 재사용하지 않습니다.
+
+## 2026-08-15 디자인 피드백 반영
+
+- `1079×929 DPR1`에서 선택지 행의 고정 최소 높이를 없애 4개 보기가 상자 안에서 각각 `52px` 높이로 맞았습니다. 선택지와 상자의 넘침·교차는 `0건`입니다.
+- 세로셈의 세 뺄셈선을 모두 백의 자리부터 일의 자리까지 이어 계산 흐름을 한눈에 읽게 했습니다.
+- 완료 계산식은 해당 화면에서 `32.37px`로 키워 `800 ÷ 2 = 400` 같은 식이 또렷하게 보입니다.
+- 기존 여섯 진행 장면 위에 중앙 캐릭터를 비운 투명 레일·증기·속도광을 얹었습니다. 평소에는 이동 방향을 보여 주고, 보상 변화와 역 상승 때만 이 효과 레이어가 달리므로 새끼용몬 원본의 위치와 크기는 바뀌지 않습니다.
 
 ## 2026-08-14 디자인 피드백 반영
 
@@ -48,7 +56,7 @@
 
 ## 상자 안 숫자·수식·기호 중심 정렬
 
-나눗셈 계산판은 백·십·일의 세 고정 열과 tabular 숫자를 사용합니다. 브라우저 하네스에서 문제·계산판·선택지의 상자 rect와 실제 글자 Range rect를 따로 재고, 세로 순서와 완료 전후 공통 축도 검사했습니다. 각 viewport에서 3개 상태, 62개 글자·숫자·기호를 확인한 결과는 다음과 같으며 잘림은 `0건`입니다.
+나눗셈 계산판은 백·십·일의 세 고정 열과 tabular 숫자를 사용합니다. 브라우저 하네스에서 문제·계산판·선택지의 상자 rect와 실제 글자 Range rect를 따로 재고, 세로 순서와 완료 전후 공통 축도 검사했습니다. 각 viewport에서 3개 상태, 58개 글자·숫자·기호를 확인한 결과는 다음과 같으며 잘림은 `0건`입니다.
 
 - `1280×800 DPR1`: `max dx=0.008px`, `max dy=0.961px`
 - `1024×768 DPR1`: `max dx=0.008px`, `max dy=0.922px`
@@ -66,7 +74,7 @@
 
 - `node scripts/test-unit2-three-digit-division.mjs`: 28개 원본 문제와 시드 실행 500회 통과
 - `node scripts/test-tutorial-poster-contract.mjs`: 10개 fixture 통과
-- `node scripts/check-stage-ratio.mjs`: 25개 패키지 통과
+- `node scripts/check-stage-ratio.mjs`: 매스몬 25개·소셜몬 79개 패키지 통과
 - `node scripts/check-lesson-contract.mjs`: 22개 엔진 차시 통과
 - `node scripts/check-lesson-visual-contract.mjs 3-2-2-5-mathmon-division-train`: 통과
 - `node scripts/test-student-reward-language.mjs`: 통과
@@ -77,17 +85,17 @@
 - `node scripts/qa-result-visual-integrity-fixtures.mjs`: fixture 10개 통과
 - `node scripts/detect-result-board-axis.mjs 3-2-2-5-mathmon-division-train`: 결과 6단계 실제 축 일치
 - `node scripts/check-result-panel-adoption.mjs dda9db7eb`: 통과
-- `node scripts/qa-lesson-flow.mjs 3-2-2-5-mathmon-division-train 20260723`: 5개 viewport 전체 흐름 통과
+- `node scripts/qa-lesson-flow.mjs 3-2-2-5-mathmon-division-train 20260709`: 5개 viewport 전체 흐름 통과
 - `node scripts/check-lesson-report-evidence.mjs 3-2-2-5-mathmon-division-train --require-current-gates`: 5개 viewport, 174장 증거 통과
 
 현재 자동 검사와 저장된 브라우저 증거 기준으로 남은 차단 문제는 없습니다.
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-14 최신 원본 스크린샷 전수
+## 2026-08-15 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `3e7fde6754c81c8f11456f0ec2586c20843e75008268a76ff8800aeca4e306c8`
-- 생성 시각: `2026-08-14T13:45:18.580Z`
+- 실행본 SHA-256: `806575e7bcc2cabd4d3e1cffcf1373e6f9a342ed9b6d767943ac5325442ef1a8`
+- 생성 시각: `2026-08-14T15:38:27.611Z`
 - 등록 화면 크기: `5개`
 - 아래에 직접 삽입한 원본 캡처: `174장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
