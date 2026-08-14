@@ -25,4 +25,27 @@
 - `source-*-source.png`: PDF 300dpi 렌더링 crop 원본
 - `source-*.webp`: 실행용 WebP 변환본
 - `cover-copy-v1-source.png` / `cover-copy-v1-generated.webp`: imagegen으로 만든 투명 표지 문구 원본·실행본. 사실 근거 아님.
-- 선택지 장식은 공용 U1 자연환경 그림과 U2 경제·환경 그림을 참조한다. 모든 `alt`는 실제 그림만 설명하며 정답 근거로 쓰지 않는다.
+- `assets/option-personal-*.webp`, `assets/option-business-*.webp`, `assets/option-organization-*.webp`는 선택지 뜻을 돕는 생성 장식 카드다. 모든 `alt`는 실제 그림만 설명하며 정답 근거로 쓰지 않는다.
+
+<!-- AUTO OPTION SOURCES START -->
+
+## 선택지 그림·지도 버튼 근거
+
+아래 경로는 `quiz.json`과 배포 HTML이 실제로 읽는 실행 자산이다. 파일명이 `-source`로 끝나는 제작 원본은 공개 실행 경로에 쓰지 않는다.
+
+| 문항·선택지 | 실행 자산 | 출처 PDF / 인쇄 | 그림과 문장의 관계 |
+|---|---|---|---|
+| q1 · use-more-disposable | `assets/option-personal-disposable-v1.webp` | 6_2_사회_3_지도서.pdf 67/326쪽 | 일회용 컵과 더하기 표시는 일회용품을 더 많이 쓴다는 선택지 뜻을 보여 준다. |
+| q1 · leave-lights | `assets/option-personal-lights-v1.webp` | 6_2_사회_3_지도서.pdf 67/326쪽 | 켜진 전구 그림과 문장은 전구를 계속 켜 둔 같은 모습을 보여 준다. |
+| q1 · sort-waste | `../../_shared/socialmon/theme-packs/6-2/u2/options/clean-city-v1.webp` | 6_2_사회_3_지도서.pdf 67/326쪽 | 분리배출함 그림과 문장은 쓰레기를 종류별로 나누어 버리는 같은 모습을 보여 준다. |
+| q1 · waste-water | `assets/option-personal-water-v1.webp` | 6_2_사회_3_지도서.pdf 67/326쪽 | 수도꼭지와 물방울은 물을 계속 틀어 놓는다는 선택지 뜻을 보여 준다. |
+| q3 · use-more-resource | `assets/option-business-more-resource-v1.webp` | 6_2_사회_3_지도서.pdf 68/327쪽 | 공장과 더하기 표시는 자원을 더 많이 써서 물건을 만든다는 선택지 뜻을 보여 준다. |
+| q3 · hide-impact | `assets/option-business-hide-impact-v1.webp` | 6_2_사회_3_지도서.pdf 68/327쪽 | 가려진 눈 그림은 제품의 환경 영향을 숨긴다는 선택지 뜻을 보여 준다. |
+| q3 · recycled-material | `assets/option-recycled-product-v1.webp` | 6_2_사회_3_지도서.pdf 68/327쪽 | 상자와 재활용 화살표는 다시 쓸 재료로 새 물건을 만드는 모습을 보여 준다. |
+| q3 · discard-quickly | `assets/option-business-discard-v1.webp` | 6_2_사회_3_지도서.pdf 68/327쪽 | 쓰레기통 그림은 빨리 버리는 일회용 제품이라는 선택지 뜻을 보여 준다. |
+| q5 · sell-products | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_3_지도서.pdf 69/328쪽 | 시장 가판대 그림은 구호 대신 물건을 판다는 선택지 뜻을 보여 준다. |
+| q5 · refugee-support | `assets/option-refugee-support-v1.webp` | 6_2_사회_3_지도서.pdf 69/328쪽 | 의료 십자와 방패 그림은 피난 온 사람에게 물품과 치료를 돕는 모습을 보여 준다. |
+| q5 · build-roads | `assets/option-organization-road-v1.webp` | 6_2_사회_3_지도서.pdf 69/328쪽 | 넓은 도로 그림과 문장은 도로를 넓히는 같은 모습을 보여 준다. |
+| q5 · run-school-only | `assets/option-organization-school-v1.webp` | 6_2_사회_3_지도서.pdf 69/328쪽 | 학교 건물 그림과 문장은 학교 건물을 세우는 같은 모습을 보여 준다. |
+
+<!-- AUTO OPTION SOURCES END -->

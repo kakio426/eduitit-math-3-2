@@ -45,16 +45,16 @@ Humanizer v1.6.0 기준으로 표지 목표, 6문제 지시문·선택지·자�
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `72f4356c6c4bc951df6acb4aad6280f7932123721d6f8ebfb1d1976bd03395ca` |
+| quiz.json | `c918e5f5c77daf7a36c9fb0c042e0037bfcf659b62cd2b92af1104ab44b48eff` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `5314b5a5ad9e0acdd32625c4434952ae09aab770c00349c3c4b1ab36ebd0178c` |
-| 실행 자산 | `a89ca0fe45a91477a6604ad135e548d3975f3155b112bb1e599bd42204c0f3e5` |
+| 실행 자산 | `89a7763edfa47fef623da7ffc03aa2f205122ac4f1e263ee328a7b59fefbfd53` |
 | 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
 | 정책·스킬 | `fa7ce4222ee3e03a5643e058725c0a43e6aa2ba37c02351baaf1fed89ab91d50` |
 | QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
-| 캡처 PNG 집합 | `9bf024bb8becc14b7bb19d866d3b1dc7f962340e3f0a8b98116929bc5a1c1502` |
+| 캡처 PNG 집합 | `fa14a3c0a9940bcc0d0a605d87ee2b1ff1aaecf2772260591c12572789c16faa` |
 
-- QA 생성 시각: `2026-08-13T13:36:45.293Z`
+- QA 생성 시각: `2026-08-14T09:02:57.156Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
