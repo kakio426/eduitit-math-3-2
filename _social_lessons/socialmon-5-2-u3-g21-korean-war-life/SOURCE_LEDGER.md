@@ -33,7 +33,7 @@
 | `source-temporary-school-v1-source.png/.webp` | PDF 71 / 인쇄 322 | 1080×1000 | 피란민 거처와 천막 학교 |
 | `source-milmyun-v1-source.png/.webp` | PDF 73 / 인쇄 324 | 1120×680 | 밀면과 당시 식당 그림 |
 | `source-family-reunion-v1-source.png/.webp` | PDF 83 / 인쇄 334 | 1040×520 | 이산가족 찾기 방송 참여자 |
-| `option-refugees-v1-source.png/.webp` | PDF 70 / 인쇄 321 | 1040×840 | q1·q4 선택지 |
+| `option-refugees-v2-source.png/.webp` | PDF 70 / 인쇄 321, 선택지용 독립 crop | 520×300 | 짐을 들고 이동하는 피란민만 보이며 원자료 카드와 동일 바이트를 재사용하지 않음 |
 | `option-temporary-school-v1-source.png/.webp` | PDF 71 / 인쇄 322 | 1080×1000 | q1·q4 선택지 |
 | `option-milmyun-v1-source.png/.webp` | PDF 73 / 인쇄 324 | 520×430 | q1·q4 선택지, 지도서에서 재크롭해 검은 세로 띠와 잘린 본문 제거 |
 | `option-family-reunion-v1-source.png/.webp` | PDF 83 / 인쇄 334 | 1040×520 | q1·q4 선택지 |

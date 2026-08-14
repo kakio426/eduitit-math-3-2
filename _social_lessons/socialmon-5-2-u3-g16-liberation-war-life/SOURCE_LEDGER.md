@@ -31,9 +31,9 @@ g21로 분리했다.
 |---|---|---:|---|
 | `source-liberation-crowd-v1-source.png/.webp` | PDF 59 / 인쇄 310 | 1060×680 | 거리에서 만세를 부르는 사람들 |
 | `source-election-v1-source.png/.webp` | PDF 63 / 인쇄 314 | 850×610 | 5·10 총선거 포스터와 투표소 |
-| `option-liberation-crowd-v1-source.png/.webp` | PDF 59 / 인쇄 310 | 1060×680 | q1·q3 선택지 |
+| `option-liberation-crowd-v2-source.png/.webp` | PDF 59 / 인쇄 310, 선택지용 독립 crop | 900×560 | 만세를 부르는 군중이 보이며 원자료 카드와 동일 바이트를 재사용하지 않음 |
 | `option-school-materials-v1-source.png/.webp` | PDF 61 / 인쇄 312 | 760×560 | 한글 교과서와 어린이 신문 |
-| `option-election-v1-source.png/.webp` | PDF 63 / 인쇄 314 | 850×610 | 총선거 포스터와 투표소 |
+| `option-election-v2-source.png/.webp` | PDF 63 / 인쇄 314, 선택지용 독립 crop | 760×500 | 총선거 포스터와 투표소가 보이며 원자료 카드와 동일 바이트를 재사용하지 않음 |
 | `option-government-ceremony-v1-source.png/.webp` | PDF 62 / 인쇄 313 | 600×630 | 대한민국 정부 수립 국민 축하식 |
 
 모든 자료형 선택지 이미지는 실제 지도서 crop이다. 생성형 표지는 역사적 사실의
@@ -46,9 +46,9 @@ g21로 분리했다.
 | q1 | 광복 사진과 맞는 생활 모습 고르기 | PDF 59 / 인쇄 310 |
 | q2 | 학교·이름·신문의 변화와 뜻 이어 보기 | PDF 61 / 인쇄 312 |
 | q3 | 5·10 총선거 포스터와 투표소 자료 찾기 | PDF 63 / 인쇄 314 |
-| q4 | 광복 뒤 생활 변화와 정부 수립 과정 나누기 | PDF 61~62 / 인쇄 312~313 |
+| q4 | 총선거 포스터·투표소에서 본 모습과 민주 선거의 뜻 나누기 | PDF 63 / 인쇄 314 |
 | q5 | 총선거·제헌 국회·정부 수립의 한 일 이어 보기 | PDF 62 / 인쇄 313 |
-| q6 | 대한민국 정부 수립의 뜻 고르기 | PDF 62 / 인쇄 313 |
+| q6 | 국민이 투표해 국회의원을 뽑은 민주 선거의 특징 고르기 | PDF 62 / 인쇄 313 |
 
 ## 중복 제거 확인
 

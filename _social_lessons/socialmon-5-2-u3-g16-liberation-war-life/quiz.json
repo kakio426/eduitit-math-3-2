@@ -50,7 +50,7 @@
         {
           "id": "celebrate-liberation",
           "text": "광복을 기뻐하며 만세를 불렀어요.",
-          "image": "assets/option-liberation-crowd-v1.webp",
+          "image": "assets/option-liberation-crowd-v2.webp",
           "alt": "광복을 맞아 거리에서 만세를 부르는 사람들의 사진",
           "source": {
             "sourceFile": "5_2_사회_3_지도서.pdf",
@@ -74,7 +74,7 @@
         {
           "id": "vote-election",
           "text": "5·10 총선거에 참여해 대표를 뽑았어요.",
-          "image": "assets/option-election-v1.webp",
+          "image": "assets/option-election-v2.webp",
           "alt": "5·10 총선거 포스터와 당시 투표소 사진 자료",
           "source": {
             "sourceFile": "5_2_사회_3_지도서.pdf",
@@ -156,7 +156,7 @@
     {
       "id": "q3-election-source",
       "type": "source-choice",
-      "prompt": "5·10 총선거를 직접 보여 주는 자료는 어느 것일까요?",
+      "prompt": "선거를 알리는 종이와 투표소 사진이 함께 있는 자료를 골라요.",
       "instruction": "포스터와 투표소 사진을 살펴보고 하나 골라요.",
       "source": {
         "title": "1948년 선거 자료",
@@ -205,7 +205,7 @@
         {
           "id": "vote-election",
           "text": "5·10 총선거 포스터와 투표소",
-          "image": "assets/option-election-v1.webp",
+          "image": "assets/option-election-v2.webp",
           "alt": "5·10 총선거 포스터와 당시 투표소 사진 자료",
           "source": {
             "sourceFile": "5_2_사회_3_지도서.pdf",
@@ -226,51 +226,51 @@
       }
     },
     {
-      "id": "q4-life-government",
+      "id": "q4-election-fact-meaning",
       "type": "classify",
-      "prompt": "광복 뒤 생활과 정부 수립 과정을 나누어 볼까요?",
-      "instruction": "카드를 알맞은 모둠에 넣어요.",
+      "prompt": "선거 자료에서 본 모습과 그 뜻을 나누어 볼까요?",
+      "instruction": "문장을 읽고 알맞은 모둠에 넣어요.",
       "groups": [
         {
-          "id": "life",
-          "label": "달라진 생활"
+          "id": "seen",
+          "label": "자료에서 본 모습"
         },
         {
-          "id": "government",
-          "label": "정부를 세운 과정"
+          "id": "meaning",
+          "label": "자료로 알 수 있는 뜻"
         }
       ],
       "items": [
         {
-          "id": "korean-class",
-          "text": "학교에서 우리말로 수업했어요."
+          "id": "poster-date",
+          "text": "포스터에 5월 10일이 크게 적혀 있어요."
         },
         {
-          "id": "original-name",
-          "text": "원래 성과 이름을 다시 썼어요."
+          "id": "polling-people",
+          "text": "투표소 앞에 남자와 여자가 함께 서 있어요."
         },
         {
-          "id": "election",
-          "text": "5·10 총선거로 국회의원을 뽑았어요."
+          "id": "citizen-participation",
+          "text": "국민이 선거에 참여해 대표를 뽑았음을 알 수 있어요."
         },
         {
-          "id": "constitution",
-          "text": "제헌 국회가 헌법을 만들었어요."
+          "id": "democratic-process",
+          "text": "국민의 뜻을 모아 정부를 세우는 과정이었음을 알 수 있어요."
         }
       ],
       "answers": {
-        "korean-class": "life",
-        "original-name": "life",
-        "election": "government",
-        "constitution": "government"
+        "poster-date": "seen",
+        "polling-people": "seen",
+        "citizen-participation": "meaning",
+        "democratic-process": "meaning"
       },
-      "explanation": "광복 뒤 생활이 달라졌고, 선거와 헌법 제정을 거쳐 정부가 세워졌어요.",
+      "explanation": "포스터와 투표소 사진을 보면 국민이 선거에 참여한 모습과 뜻을 함께 알 수 있어요.",
       "evidence": {
         "sourceFile": "5_2_사회_3_지도서.pdf",
-        "pdfPage": 62,
-        "printedPage": 313,
-        "textbookPage": 143,
-        "basis": "PDF 61쪽의 광복 뒤 생활 변화와 PDF 62쪽의 5·10 총선거·제헌 국회·정부 수립 과정을 나누어 구성했다."
+        "pdfPage": 63,
+        "printedPage": 314,
+        "textbookPage": 144,
+        "basis": "5·10 총선거 포스터와 투표소 사진에서 날짜와 참여자를 직접 확인하고, 국민이 대표를 뽑은 민주 선거의 뜻을 구분했다."
       }
     },
     {
@@ -321,36 +321,36 @@
       }
     },
     {
-      "id": "q6-government-meaning",
+      "id": "q6-democratic-election",
       "type": "choice",
-      "prompt": "대한민국 정부 수립의 뜻으로 알맞은 것은 무엇일까요?",
+      "prompt": "5·10 총선거가 민주 선거였다고 볼 수 있는 까닭은 무엇일까요?",
       "instruction": "가장 알맞은 말을 하나 골라요.",
       "options": [
         {
-          "id": "japan-rule",
-          "text": "일본이 다시 우리나라를 다스리기 시작했어요."
+          "id": "one-person",
+          "text": "한 사람이 모든 대표를 마음대로 정했기 때문이에요."
         },
         {
-          "id": "no-election",
-          "text": "국민의 투표 없이 모든 일을 정했어요."
+          "id": "appointed-by-japan",
+          "text": "일본 관리가 우리나라 대표를 임명했기 때문이에요."
         },
         {
-          "id": "no-change",
-          "text": "광복 전과 달라진 일이 하나도 없었어요."
+          "id": "citizens-voted",
+          "text": "국민이 투표에 참여해 국회의원을 뽑았기 때문이에요."
         },
         {
-          "id": "democratic-process",
-          "text": "국민이 뽑은 국회의원이 헌법을 만들고 정부를 세웠어요."
+          "id": "without-vote",
+          "text": "투표를 하지 않고 정부가 모든 일을 정했기 때문이에요."
         }
       ],
-      "correctId": "democratic-process",
-      "explanation": "국민이 참여한 선거와 제헌 국회의 헌법 제정을 거쳐 대한민국 정부가 세워졌어요.",
+      "correctId": "citizens-voted",
+      "explanation": "5·10 총선거에서는 국민이 투표해 국회의원을 뽑았어요.",
       "evidence": {
         "sourceFile": "5_2_사회_3_지도서.pdf",
         "pdfPage": 62,
         "printedPage": 313,
         "textbookPage": 143,
-        "basis": "지도서는 우리나라 역사에서 처음 실시된 민주 선거를 거쳐 대한민국 정부가 수립되었다고 설명한다."
+        "basis": "지도서는 5·10 총선거가 국민이 투표해 국회의원을 뽑은 민주 선거였다고 설명한다."
       }
     }
   ],
