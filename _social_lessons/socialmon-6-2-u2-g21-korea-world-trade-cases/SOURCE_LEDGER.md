@@ -26,3 +26,26 @@
 - `world-trade-examples-source.png` / `source-world-trade-examples.webp`: 쌀 원형 그래프와 원유 막대그래프의 나라 이름과 값이 선명하다.
 - 자료 `alt`에는 각 그림·그래프에 실제로 보이는 품목, 나라, 흐름만 기록했다.
 - 선택지 장식 `alt`는 화물선, 물류가 도는 지구, 공장, 시장 가판대, 동전의 실제 모습과 일치시켰다.
+
+<!-- AUTO OPTION SOURCES START -->
+
+## 선택지 그림·지도 버튼 근거
+
+아래 경로는 `quiz.json`과 배포 HTML이 실제로 읽는 실행 자산이다. 파일명이 `-source`로 끝나는 제작 원본은 공개 실행 경로에 쓰지 않는다.
+
+| 문항·선택지 | 실행 자산 | 출처 PDF / 인쇄 | 그림과 문장의 관계 |
+|---|---|---|---|
+| q1 · oil-gas | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 있어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · chips-cars | `../../_shared/socialmon/theme-packs/6-2/u2/options/cargo-ship-v1.webp` | 6_2_사회_2_지도서.pdf 109/228쪽 | 선택지 그림과 문장은 '배에 물건을 가득 싣고 가요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · coal-oil | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 물건을 만들어요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · chem-gas | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장에서 사과를 골라요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · export-only | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · import-finished-only | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · stop-production | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 기계로 물건을 만드는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · import-make-export | `../../_shared/socialmon/theme-packs/6-2/u2/options/trade-globe-v1.webp` | 6_2_사회_2_지도서.pdf 96/215쪽 | 선택지 그림과 문장은 '여러 나라가 물건을 주고받는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · thailand-russia | `../../_shared/socialmon/theme-packs/6-2/u2/options/cargo-ship-v1.webp` | 6_2_사회_2_지도서.pdf 109/228쪽 | 선택지 그림과 문장은 '컨테이너선이 많은 물건을 실어 나르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · india-saudi | `../../_shared/socialmon/theme-packs/6-2/u2/options/trade-globe-v1.webp` | 6_2_사회_2_지도서.pdf 96/215쪽 | 선택지 그림과 문장은 '여러 나라가 물건을 주고받는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · vietnam-canada | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · pakistan-iraq | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+
+<!-- AUTO OPTION SOURCES END -->
