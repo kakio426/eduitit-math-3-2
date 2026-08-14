@@ -37,43 +37,67 @@
     {
       "id": "q1-research-order",
       "type": "source-choice",
-      "prompt": "한 지역에 알맞은 물건을 만들기 전에 먼저 알아볼 것을 골라요.",
-      "instruction": "자료의 조사 항목을 보고 하나 골라요.",
+      "prompt": "자료 속 친구들이 함께 알아보려는 것을 골라요.",
+      "instruction": "말풍선과 조사 주제를 보고 하나 골라요.",
       "source": {
-        "title": "자연환경과 생활 모습 조사하기",
-        "text": "지역을 정한 뒤 살펴볼 내용을 모아 놓았습니다.",
+      "title": "조사 주제를 이야기하는 친구들",
+      "text": "네 친구의 말풍선과 아래 조사표를 살펴봐요.",
         "image": "assets/source-climate-research.png",
-        "alt": "한 지역의 위치, 지형, 기후, 의식주를 조사하는 과정을 보여 주는 교과 자료",
+      "alt": "네 명의 학생이 말풍선으로 조사하고 싶은 주제를 이야기하고 아래에 모둠 조사표가 있는 교과 자료",
         "credit": "자료: 6학년 2학기 사회 1 지도서 102쪽"
       },
       "options": [
         {
-          "id": "favorite-color",
-          "text": "내가 좋아하는 색 한 가지",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp",
-          "alt": "해변과 어선, 항구와 등대가 있는 해안 마을 장식 그림"
+          "id": "flags-only",
+          "text": "여러 나라 국기의 색만 모아 봐요.",
+          "image": "assets/option-research-flags-v1.webp",
+          "alt": "서로 다른 색과 무늬의 깃발 세 개 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 87,
+            "printedPage": 102,
+            "basis": "깃발 그림은 여러 나라 국기의 색을 모은다는 선택지 뜻을 보여 준다."
+          }
         },
         {
-          "id": "random-name",
-          "text": "뜻 없이 떠오른 물건 이름",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-mountain-v1.webp",
-          "alt": "푸른 산과 하천, 계단식 논이 있는 산지 마을 장식 그림"
+          "id": "sports-results",
+          "text": "나라별 운동 경기 결과만 비교해요.",
+          "image": "assets/option-research-sports-v1.webp",
+          "alt": "공과 두 개의 점수 칸이 있는 경기판 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 87,
+            "printedPage": 102,
+            "basis": "경기판 그림은 나라별 운동 경기 결과를 비교한다는 선택지 뜻을 보여 준다."
+          }
         },
         {
-          "id": "landform-climate-life",
-          "text": "그 지역의 지형과 기후, 생활 모습",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-scenes-v1.webp",
-          "alt": "산지·해안·열대·한대 마을을 네 칸에 모아 놓은 장식 그림"
+          "id": "climate-life-topics",
+        "text": "기후와 관련된 음식·축제·옷·문화를 살펴봐요.",
+          "image": "assets/option-research-climate-life-v1.webp",
+          "alt": "해와 구름, 옷과 생활 물건을 함께 나타낸 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 87,
+            "printedPage": 102,
+            "basis": "해와 구름, 생활 물건 그림은 기후와 관련된 생활 모습을 조사한다는 선택지 뜻을 보여 준다."
+          }
         },
         {
-          "id": "only-price",
-          "text": "값만 가장 비싼 재료",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp",
-          "alt": "눈과 얼음, 이글루와 두꺼운 옷을 입은 아이가 있는 장식 그림"
+          "id": "temperature-only",
+          "text": "하루 동안의 기온 숫자만 적어 봐요.",
+          "image": "assets/option-research-temperature-v1.webp",
+          "alt": "붉은 온도계와 눈금이 있는 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 87,
+            "printedPage": 102,
+            "basis": "온도계 그림은 하루의 기온 숫자만 적는다는 선택지 뜻을 보여 준다."
+          }
         }
       ],
-      "correctId": "landform-climate-life",
-      "explanation": "그 지역의 지형과 기후, 생활 모습을 먼저 알아야 필요한 물건을 생각할 수 있어요.",
+      "correctId": "climate-life-topics",
+      "explanation": "친구들은 기후와 관련된 여러 나라의 음식·축제·옷·문화를 조사하려고 해요.",
       "evidence": {
         "sourceFile": "6_2_사회_1_지도서.pdf",
         "pdfPage": 87,
@@ -170,49 +194,73 @@
     {
       "id": "q4-snow-product",
       "type": "source-choice",
-      "prompt": "자료 속 춥고 눈이 많이 오는 지역에 알맞은 물건을 골라요.",
-      "instruction": "지역의 특징과 물건 아이디어를 보고 하나 골라요.",
+      "prompt": "자료의 추운 지역에 알맞은 물건을 골라요.",
+      "instruction": "눈과 얼음, 사람들의 옷차림을 보고 골라요.",
       "source": {
-        "title": "자연환경에 알맞은 물건 아이디어",
-        "text": "여러 지역의 특징을 살펴보고 필요한 기능을 떠올려 봐요.",
+        "title": "한대 기후 지역의 생활",
+        "text": "눈과 얼음, 사람들의 옷차림을 살펴봐요.",
         "image": "assets/source-product-ideas.png",
-        "alt": "추운 곳, 산지, 열대 지역, 강 주변에 알맞은 물건 아이디어를 보여 주는 교과 자료",
-        "credit": "자료: 6학년 2학기 사회 1 지도서 112쪽"
+        "alt": "눈과 얼음이 넓게 펼쳐진 한대 지역과 두꺼운 옷을 입은 사람들의 생활 모습",
+        "credit": "자료: 6학년 2학기 사회 1 지도서 95쪽"
       },
       "options": [
         {
           "id": "open-sandal",
-          "text": "발이 드러나는 얇은 샌들",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-tropical-v1.webp",
-          "alt": "비 내리는 열대 숲과 고상 가옥, 배가 있는 마을 장식 그림"
+          "text": "발이 드러나는 얇은 샌들이에요.",
+          "image": "assets/option-product-sandal-v1.webp",
+          "alt": "발등이 열린 얇은 샌들 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 80,
+            "printedPage": 95,
+            "basis": "샌들 그림은 발이 드러나는 얇은 신발이라는 선택지 뜻을 보여 준다."
+          }
         },
         {
           "id": "fishing-net",
-          "text": "강물에 던지는 큰 그물",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-coast-v1.webp",
-          "alt": "해변과 어선, 항구와 등대가 있는 해안 마을 장식 그림"
+          "text": "바다에서 쓰는 큰 그물이에요.",
+          "image": "assets/option-product-net-v1.webp",
+          "alt": "넓게 펼친 그물과 추 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 80,
+            "printedPage": 95,
+            "basis": "그물 그림은 바다에서 쓰는 큰 그물이라는 선택지 뜻을 보여 준다."
+          }
         },
         {
           "id": "climbing-rope",
-          "text": "가파른 바위를 오르는 밧줄",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-mountain-v1.webp",
-          "alt": "푸른 산과 하천, 계단식 논이 있는 산지 마을 장식 그림"
+          "text": "바위산을 오를 때 쓰는 밧줄이에요.",
+          "image": "assets/option-product-rope-v1.webp",
+          "alt": "둥글게 감긴 굵은 밧줄 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 80,
+            "printedPage": 95,
+            "basis": "밧줄 그림은 바위산을 오를 때 쓰는 물건이라는 선택지 뜻을 보여 준다."
+          }
         },
         {
-          "id": "warm-snow-shoes",
-          "text": "따뜻하고 눈에 잘 빠지지 않는 신발",
-          "image": "../../_shared/socialmon/theme-packs/6-2/u1/options/choice-polar-v1.webp",
-          "alt": "눈과 얼음, 이글루와 두꺼운 옷을 입은 아이가 있는 장식 그림"
+          "id": "warm-snow-boot",
+          "text": "발을 따뜻하게 감싸는 눈 신발이에요.",
+          "image": "assets/option-product-snow-boot-v1.webp",
+          "alt": "두꺼운 보라색 부츠와 눈송이 그림",
+          "source": {
+            "sourceFile": "6_2_사회_1_지도서.pdf",
+            "pdfPage": 80,
+            "printedPage": 95,
+            "basis": "두꺼운 부츠와 눈송이 그림은 추운 눈밭에서 발을 따뜻하게 하는 신발이라는 선택지 뜻을 보여 준다."
+          }
         }
       ],
-      "correctId": "warm-snow-shoes",
-      "explanation": "춥고 눈이 많이 오는 곳에서는 발을 따뜻하게 하고 눈에 빠지지 않게 돕는 신발이 알맞아요.",
+      "correctId": "warm-snow-boot",
+      "explanation": "눈과 얼음이 많은 곳에서는 발을 따뜻하게 감싸는 신발이 알맞아요.",
       "evidence": {
         "sourceFile": "6_2_사회_1_지도서.pdf",
-        "pdfPage": 97,
-        "printedPage": 112,
-        "textbookPage": 50,
-        "basis": "춥고 눈이 많은 지역의 자연환경에 맞춘 신발 아이디어를 제시한다."
+        "pdfPage": 80,
+        "printedPage": 95,
+        "textbookPage": 41,
+        "basis": "한대 기후 지역의 추운 자연환경과 두꺼운 옷을 입는 생활 모습을 확인한다."
       }
     },
     {
