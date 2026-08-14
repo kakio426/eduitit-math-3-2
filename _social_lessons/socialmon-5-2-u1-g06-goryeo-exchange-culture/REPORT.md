@@ -47,16 +47,16 @@ node scripts/verify-socialmon-delivery.mjs \
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `ffdb127918d96e43903c03653e4f359d94220cce724919cb95210d13d10a3f21` |
+| quiz.json | `ca5d829cfaaecce9dcb9fb89f9f533ae40fb92a174813a8331cb36a379b8be0d` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `857f27bb9cc7dfc6e20e2d03c135ae69e82832a3135806cd3fb01d12571e2ffb` |
 | 실행 자산 | `b0341767f75a268f9b29e8a724ea935d61c05795f1e1c5b69a9945ee81dda2a8` |
 | 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
 | 정책·스킬 | `10fcf3bfab242828a749754983bd059db5e5bc671b7e2fc6a51861e4c571b621` |
 | QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
-| 캡처 PNG 집합 | `ffe0eb324fc4c84ffea82f95cafc56ccad4201bb36ff8e18beeb8f4f969f5feb` |
+| 캡처 PNG 집합 | `4ab1115243f487054356c39d1a57123ba40b0da908e078474f7b5a0150bbb7f7` |
 
-- QA 생성 시각: `2026-08-13T13:21:46.160Z`
+- QA 생성 시각: `2026-08-14T06:24:46.925Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

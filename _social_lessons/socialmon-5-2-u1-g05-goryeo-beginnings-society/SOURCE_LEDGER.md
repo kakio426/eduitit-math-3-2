@@ -11,15 +11,15 @@
 | 인쇄 쪽 대응 | 인쇄 쪽 = PDF 쪽 + 15 |
 | 게임 범위 | PDF 95~109 / 인쇄 110~124 |
 
-PDF 텍스트와 PDF 96·103쪽 렌더링을 함께 대조했다. q1·q3의 source와 네 선택지 그림은 지도서 렌더링에서 자른 PNG/WebP이며, 표지 제목 아트만 생성형이다.
+PDF 텍스트와 PDF 96·97·103쪽 렌더링을 함께 대조했다. q3은 PDF 103의 학생용 지면을 600dpi로 다시 렌더해 고문서·신분 설명·여성 생활 설명·생활 그림을 서로 다른 범위로 잘랐다. 교사용 핵심 질문과 예시 답안은 실행 자산에서 제외했으며, 표지 제목 아트만 생성형이다.
 
 ## 자료 대조
 
 | 문항 | 지도서에서 직접 확인한 사실 | 학생 판단 | 이미지 |
 |---|---|---|---|
 | q1 | PDF 96(인쇄 111)에 후삼국 세력과 왕건의 고려 건국 과정 지도가 보인다. | 고려 건국과 후삼국 통일 흐름을 보여 주는 지도 고르기 | `source-goryeo-foundation-map-v1.*` 및 `option-*.webp` |
-| q2 | PDF 97·102(인쇄 112·117)에서 세금·발해 유민·과거 등 왕건 정책을 확인했다. | 정책과 뜻 잇기 | 텍스트 문항 |
-| q3 | PDF 103(인쇄 118)에 고려 신분과 여성 생활을 설명하는 기록·그림이 보인다. | 여성의 집안일 사례가 직접 적힌 기록 고르기 | `source-goryeo-social-record-v1.*` 및 `option-*.webp` |
+| q2 | PDF 97(인쇄 112)에서 세금 감면·발해 유민 수용·호족 우대와 견제 등 왕건의 정책을 확인했다. | 정책과 뜻 잇기 | 텍스트 문항 |
+| q3 | PDF 103(인쇄 118)은 고려 여성이 가정생활에서 남성과 동등한 지위를 가졌고 집안의 가장인 경우도 있었다고 설명한다. | 여성의 가정생활 지위를 보여 주는 설명 고르기 | `source-goryeo-social-record-v1.*` 및 `option-*.webp` |
 | q4 | 지도·기록은 도판에서 바로 보고, 정책의 뜻과 사회 모습은 단서로 짐작한다. | 본 것과 짐작한 것 나누기 | 텍스트 문항 |
 | q5 | PDF 102~105(인쇄 117~120)에서 과거·신분·여성 상속·불교 자료를 연결했다. | 사회 자료와 모습 잇기 | 텍스트 문항 |
 | q6 | PDF 104(인쇄 119)에 연등회·팔관회 등 불교 행사가 제시된다. | 불교 문화 단서 고르기 | 텍스트 문항 |
@@ -36,7 +36,9 @@ PDF 텍스트와 PDF 96·103쪽 렌더링을 함께 대조했다. q1·q3의 sour
 | 자산 | 출처·용도 |
 |---|---|
 | `source-goryeo-foundation-map-v1-source.png/.webp` | PDF 96 / 인쇄 111 건국 과정 지도, q1 자료 |
-| `source-goryeo-social-record-v1-source.png/.webp` | PDF 103 / 인쇄 118 사회·여성 생활 도판, q3 자료 |
-| q1·q3 `option-*.webp` | 같은 PDF 렌더링의 보조 crop, 모두 512px 이상 |
-| `option-women-status-v1-source.png/.webp` | PDF 103의 고려 여성 생활 기록을 300dpi 렌더에서 `x=1450, y=320, 1200×600px`로 다시 잘라 1000px 폭 실행본으로 만든 q3 보조 자료 |
+| `source-goryeo-social-record-v1-source.png/.webp` | PDF 103 / 인쇄 118 학생용 지면의 고문서와 신분·여성 생활 설명을 자른 q3 자료 |
+| `option-goryeo-record-v1-source.png/.webp` | 송광사 고려 고문서만 자른 q3 선택지 |
+| `option-class-system-v1-source.png/.webp` | 양인·천인 신분 설명만 자른 q3 선택지 |
+| `option-women-status-v1-source.png/.webp` | 여성의 가정생활 지위 설명만 자른 q3 선택지 |
+| `option-farmer-life-v1-source.png/.webp` | 농민과 지배층 생활 그림만 자른 q3 선택지 |
 | `cover-copy-v1-source.png`·`cover-copy-v1-generated.webp` | imagegen 생성 원본·투명 실행본, 표지 제목 전용 |

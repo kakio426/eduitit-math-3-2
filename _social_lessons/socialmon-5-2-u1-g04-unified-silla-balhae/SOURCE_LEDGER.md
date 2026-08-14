@@ -11,7 +11,7 @@
 | 인쇄 쪽 대응 | 인쇄 쪽 = PDF 쪽 + 15 |
 | 게임 범위 | PDF 77~90 / 인쇄 92~105 |
 
-PDF 텍스트와 PDF 77·85·89쪽 렌더링을 함께 대조했다. q1·q3의 source와 네 선택지 그림은 지도서 렌더링에서 자른 PNG/WebP이며, 표지 제목 아트만 생성형이다.
+PDF 텍스트와 PDF 77·85·89쪽 렌더링을 함께 대조했다. q1·q3은 PDF 77·85의 학생용 지면을 600dpi로 다시 렌더해 원본 문서·풀이 문장·석등·기와·온돌을 서로 다른 범위로 잘랐다. 교사용 예시 답안과 확인 문항은 실행 자산에서 제외했으며, 표지 제목 아트만 생성형이다.
 
 ## 자료 대조
 
@@ -19,7 +19,7 @@ PDF 텍스트와 PDF 77·85·89쪽 렌더링을 함께 대조했다. q1·q3의 s
 |---|---|---|---|
 | q1 | PDF 77(인쇄 92)에 통일신라 촌락 문서 사진과 사람 수·땅·가축 항목 설명이 보인다. | 세로로 긴 촌락 문서 원본 사진 고르기 | `source-silla-village-record-v1.*` 및 `option-*.webp` |
 | q2 | PDF 77~85(인쇄 92~100)에서 촌락 문서, 혜초의 여행 기록, 발해 수도·문화 자료를 확인했다. | 단서와 모습 잇기 | 텍스트 문항 |
-| q3 | PDF 85(인쇄 100)에 발해 돌등·유적과 고구려 계승·주변 문화 수용 설명이 보인다. | 고구려와 발해 유물의 닮은 점을 보여 주는 자료 고르기 | `source-balhae-stone-lantern-v1.*` 및 `option-*.webp` |
+| q3 | PDF 85(인쇄 100)에 발해 석등과 고구려·발해의 기와 무늬·온돌 자리가 보인다. | 두 나라의 생활 문화를 나란히 비교한 자료 고르기 | `source-balhae-culture-v2.webp` 및 q3 `option-*-v2.webp` |
 | q4 | 문서·돌등은 도판에서 바로 보고, 관리·교류는 단서로 짐작한다. | 본 것과 짐작한 것 나누기 | 텍스트 문항 |
 | q5 | PDF 79의 불국사·석굴암, PDF 85의 발해 돌등·문화 설명, 촌락 문서를 연결했다. | 자료와 문화 모습 잇기 | 텍스트 문항 |
 | q6 | PDF 89(인쇄 104)의 고구려·발해 토기 비교 활동을 확인했다. | 고구려 계승 단서 고르기 | 텍스트 문항 |
@@ -35,10 +35,11 @@ PDF 텍스트와 PDF 77·85·89쪽 렌더링을 함께 대조했다. q1·q3의 s
 
 | 자산 | 출처·용도 |
 |---|---|
-| `source-silla-village-record-v1-source.png/.webp` | PDF 77 / 인쇄 92 촌락 문서 도판, q1 자료 |
-| `source-balhae-stone-lantern-v1-source.png/.webp` | PDF 85 / 인쇄 100 발해 유물 도판, q3 자료 |
-| q1·q3 `option-*.webp` | 같은 PDF 렌더링의 보조 crop, 모두 512px 이상 |
-| `option-silla-fields-v1-source.png/.webp` | PDF 77의 촌락 문서 수량 표를 300dpi 렌더에서 `x=2070, y=1030, 560×420px`로 다시 잘라 900px 폭 실행본으로 만든 q1 보조 자료 |
-| `option-silla-horses-v1-source.png/.webp` | PDF 77의 촌락 문서 사진을 300dpi 렌더에서 `x=1710, y=1030, 460×420px`로 다시 잘라 900px 폭 실행본으로 만든 q1 보조 자료 |
-| `option-balhae-buddhism-v1-source.png/.webp` | PDF 85의 발해 기와·유적 부분을 300dpi 렌더에서 `x=1800, y=900, 760×430px`로 다시 잘라 900px 폭 실행본으로 만든 q3 보조 자료 |
+| `source-silla-village-record-v1-source.png/.webp` | PDF 77 / 인쇄 92 학생용 지면의 촌락 문서·풀이 상자를 자른 q1 자료 |
+| `option-silla-*-v1-source.png/.webp` | 원본 문서와 사람·말·논·뽕나무 설명을 각각 자른 q1 선택지, 실행본 가로 900px |
+| `source-balhae-culture-v2-source.png/.webp` | PDF 85 / 인쇄 100 학생용 지면의 발해 석등을 자른 q3 자료 |
+| `option-balhae-stone-lantern-v2-source.png/.webp` | 같은 석등을 더 가깝게 자른 단일 유물 선택지 |
+| `option-goguryeo-culture-v2-source.png/.webp` | 고구려의 기와 무늬와 온돌 자리만 자른 선택지 |
+| `option-goguryeo-balhae-pair-v2-source.png/.webp` | 고구려와 발해의 기와 무늬·온돌 자리를 나란히 자른 선택지 |
+| `option-balhae-culture-v2-source.png/.webp` | 발해의 기와 무늬와 온돌 자리만 자른 선택지 |
 | `cover-copy-v1-source.png`·`cover-copy-v1-generated.webp` | imagegen 생성 원본·투명 실행본, 표지 제목 전용 |
