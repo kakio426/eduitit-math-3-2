@@ -9,7 +9,6 @@
 - 정답 뒤 몫·곱한 값·빼는 선·남은 수·내려온 수를 계산판에 보여 주고, 마지막에는 완성식을 확인한 뒤 보상으로 이동합니다.
 - 공용 생성형 시작 버튼, 설정 모달, Stage-Reveal 보상, 왼쪽 진행 장면, 6단계 최종 결과 장면을 연결했습니다.
 - 배포용 `index.html`은 현재 `lesson.json`과 공용 엔진으로 다시 빌드했습니다.
-- 설명 1은 왼쪽 3을 먼저 보는 이유와 `남은 1 + 내려온 4 = 14`의 연결이 한눈에 보이도록 `tutorial-page-1-v3-generated.webp`로 교체했습니다.
 
 ## 매스몬·생성 자산
 
@@ -27,15 +26,23 @@
 
 컨택시트에서 모든 단계의 새끼용몬 전신, 진행 장면의 같은 카메라와 발 기준선, 결과 장면의 서로 다른 배경·조명·열차를 확인했습니다. 진행 장면은 `object-fit: contain`으로 표시하며 최종 결과 이미지를 잘라 재사용하지 않습니다.
 
+## 2026-08-14 디자인 피드백 반영
+
+- 첫 설명 포스터를 `tutorial-page-1-v4-generated.webp`로 교체했습니다. 같은 `364÷7` 세로셈 틀을 유지한 채 `36부터 나누기`, `35를 빼고 1 남기기`, `4를 내려 14 나누기`의 세 상태만 차례로 바뀝니다.
+- 세로셈 괄호의 `6px` 세로선을 숫자 격자 너비에서 분리했습니다. 이 선이 나누어지는 수만 오른쪽으로 밀던 것이 숫자 열 불일치의 원인이었습니다.
+- 몫·나누는 수·나누어지는 수·계산 숫자에 같은 숫자 크기 변수를 적용하고, 문제 계산판의 높이를 늘렸습니다. 완료 전 숨은 결과 행이 차지하던 아래 공간도 계산판과 선택지가 쓰도록 돌렸습니다.
+- 제보 화면과 같은 `1079×929 DPR1`을 `design-feedback-1079x929` 회귀 화면으로 등록했습니다. 이 화면에서 `9↔8`, `9↔1`, `3↔3`의 가로 중심 차이와 나누는 수 `4↔9`의 세로 중심 차이는 모두 `0px`이며, 세로셈 숫자는 모두 `28px`입니다.
+- `936÷4`의 두 번째 계산 상태는 `screenshots/alignment-fixture-design-feedback-1079x929-936-step2.png`에 따로 보관했습니다.
+
 ## Humanizer 학생 문구 QA
 
-목표, 설명, 문제 지시문, 선택지, 오답 피드백, 정답 확인, 보상, 결과 문구를 읽었습니다. 학생이 바로 할 행동을 한 문장씩 말하도록 구성되어 있습니다. 설명 1은 `왼쪽 3부터 봐요`, `3은 7보다 작아요`, `그래서 다음 숫자 6까지 함께 봐요`처럼 이유와 행동을 짧게 나누었습니다. 제작자 용어와 `AI Mart`는 학생 화면에 없습니다. 자리 숫자와 실제 값을 구분해 선택지에는 `몫 200`, `남은 수 100`처럼 씁니다.
+목표, 설명, 문제 지시문, 선택지, 오답 피드백, 정답 확인, 보상, 결과 문구를 읽었습니다. 새 설명의 `36부터 나눠요 → 35를 빼면 1이 남아요 → 4를 내려 14를 만들어요`도 3학년 학생이 보이는 숫자를 따라 한 문장씩 읽을 수 있게 다듬었습니다. 번역투나 제작자 용어 없이 뜻이 바로 이어지며, `AI Mart`는 학생 화면에 없습니다. 자리 숫자와 실제 값을 구분해 선택지에는 `몫 200`, `남은 수 100`처럼 씁니다.
 
 ## 텍스트 넘침·요소 겹침 QA
 
-등록 화면은 `1280×800 DPR1`, `1024×768 DPR1`, `1280×720 DPR2`입니다. 자동 계약은 이 화면에서 표지, 설명, 문제 대기·오답·정답 확인·마지막 확인, 닫힌·열린 보상, 결과 6단계를 검사하도록 선언되어 있습니다.
+등록 화면은 `1280×800 DPR1`, `1024×768 DPR1`, `1280×720 DPR2`, `1079×929 DPR1`입니다. 자동 계약은 이 화면에서 표지, 설명, 문제 대기·오답·정답 확인·마지막 확인, 닫힌·열린 보상, 결과 6단계를 검사하도록 선언되어 있습니다.
 
-`empty-reward-fixture`까지 포함한 네 viewport의 전체 브라우저 흐름을 다시 실행했습니다. 표지, 설정, 설명 2장, 문제 대기·오답·정답 확인, 마지막 확인, 닫힌·열린 보상, 효과, 결과 6단계에서 넘침·누락 이미지·형제 교차는 `0건`이었습니다. 현재 캡처는 `screenshots/engine-flow-*`에 보관합니다.
+`empty-reward-fixture`까지 포함한 다섯 viewport의 전체 브라우저 흐름을 다시 실행했습니다. 표지, 설정, 설명 2장, 문제 대기·오답·정답 확인, 마지막 확인, 닫힌·열린 보상, 효과, 결과 6단계에서 넘침·누락 이미지·형제 교차는 `0건`이었습니다. 현재 캡처는 `screenshots/engine-flow-*`에 보관합니다.
 
 문제 화면에서 학습 영역 폭은 Stage의 `70.25%`, 왼쪽 진행판 폭은 `24.50%`였습니다. 진행판의 선언 위치 오차 최댓값은 `0.02px`, 진행판과 이미지의 가로 중심 오차는 `0px`, 왼쪽 슬롯 중심 오차는 `0.29px`였습니다.
 
@@ -46,6 +53,7 @@
 - `1280×800 DPR1`: `max dx=0.008px`, `max dy=0.961px`
 - `1024×768 DPR1`: `max dx=0.008px`, `max dy=0.922px`
 - `1280×720 DPR2`: `max dx=0.008px`, `max dy=0.953px`
+- `1079×929 DPR1`: `max dx=0.008px`, `max dy=0.922px`
 - 빈 보상 fixture: `max dx=0.008px`, `max dy=0.961px`
 
 모든 값은 `1px` 허용치를 통과했습니다. 진행판의 슬롯 중심 오차 최댓값은 `0.29px`였습니다.
@@ -57,6 +65,7 @@
 현재 코드에서 다음 검사를 통과했습니다.
 
 - `node scripts/test-unit2-three-digit-division.mjs`: 28개 원본 문제와 시드 실행 500회 통과
+- `node scripts/test-tutorial-poster-contract.mjs`: 10개 fixture 통과
 - `node scripts/check-stage-ratio.mjs`: 25개 패키지 통과
 - `node scripts/check-lesson-contract.mjs`: 22개 엔진 차시 통과
 - `node scripts/check-lesson-visual-contract.mjs 3-2-2-5-mathmon-division-train`: 통과
@@ -68,8 +77,8 @@
 - `node scripts/qa-result-visual-integrity-fixtures.mjs`: fixture 10개 통과
 - `node scripts/detect-result-board-axis.mjs 3-2-2-5-mathmon-division-train`: 결과 6단계 실제 축 일치
 - `node scripts/check-result-panel-adoption.mjs dda9db7eb`: 통과
-- `node scripts/qa-lesson-flow.mjs 3-2-2-5-mathmon-division-train 325`: 전체 흐름 통과
-- `node scripts/check-lesson-report-evidence.mjs 3-2-2-5-mathmon-division-train`: 4개 viewport, 139장 증거 통과
+- `node scripts/qa-lesson-flow.mjs 3-2-2-5-mathmon-division-train 20260723`: 5개 viewport 전체 흐름 통과
+- `node scripts/check-lesson-report-evidence.mjs 3-2-2-5-mathmon-division-train --require-current-gates`: 5개 viewport, 174장 증거 통과
 
 현재 자동 검사와 저장된 브라우저 증거 기준으로 남은 차단 문제는 없습니다.
 
@@ -77,10 +86,10 @@
 
 ## 2026-08-14 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `483f18ad70f61b08d4a4f888ceee32ed892af36071596ea3ee5a13f488eabac2`
-- 생성 시각: `2026-08-14T04:43:47.296Z`
-- 등록 화면 크기: `4개`
-- 아래에 직접 삽입한 원본 캡처: `139장`
+- 실행본 SHA-256: `3e7fde6754c81c8f11456f0ec2586c20843e75008268a76ff8800aeca4e306c8`
+- 생성 시각: `2026-08-14T13:45:18.580Z`
+- 등록 화면 크기: `5개`
+- 아래에 직접 삽입한 원본 캡처: `174장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 35장
@@ -1034,6 +1043,325 @@
 #### 결과 단계 · rainbow · `engine-flow-codex-in-app-08a-result-rainbow.png`
 
 ![codex-in-app 결과 단계 · rainbow](screenshots/engine-flow-codex-in-app-08a-result-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+### design-feedback-1079x929 · 1079×929 · DPR 1 · 35장
+
+![design-feedback-1079x929 전체 상태 컨택시트](screenshots/report-flow-design-feedback-1079x929-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-design-feedback-1079x929-01-cover.png`
+
+![design-feedback-1079x929 시작 화면](screenshots/engine-flow-design-feedback-1079x929-01-cover.png)
+
+- 학생이 보는 것: 매스몬 나눔열차 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 없는 세 자리 수 나눗셈을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-design-feedback-1079x929-02-settings.png`
+
+![design-feedback-1079x929 설정 화면](screenshots/engine-flow-design-feedback-1079x929-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-design-feedback-1079x929-03-tutorial-1.png`
+
+![design-feedback-1079x929 설명 1 · 풀이 방법](screenshots/engine-flow-design-feedback-1079x929-03-tutorial-1.png)
+
+- 학생이 보는 것: 나머지가 없는 세 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 없는 세 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-design-feedback-1079x929-04-tutorial-2.png`
+
+![design-feedback-1079x929 설명 2 · 보상과 목표](screenshots/engine-flow-design-feedback-1079x929-04-tutorial-2.png)
+
+- 학생이 보는 것: 나머지가 없는 세 자리 수 나눗셈 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 없는 세 자리 수 나눗셈에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-design-feedback-1079x929-05-play-step1.png`
+
+![design-feedback-1079x929 문제 상태 · 05-play-step1](screenshots/engine-flow-design-feedback-1079x929-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 없는 세 자리 수 나눗셈을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-design-feedback-1079x929-05b-play-wrong.png`
+
+![design-feedback-1079x929 오답 확인 · 05b-play-wrong](screenshots/engine-flow-design-feedback-1079x929-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 없는 세 자리 수 나눗셈의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 마지막 확인 · 06-confirm · `engine-flow-design-feedback-1079x929-06-confirm.png`
+
+![design-feedback-1079x929 마지막 확인 · 06-confirm](screenshots/engine-flow-design-feedback-1079x929-06-confirm.png)
+
+- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 나머지가 없는 세 자리 수 나눗셈의 완성값을 보상 화면 전에 다시 확인합니다.
+- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
+
+#### 닫힌 보상 · `engine-flow-design-feedback-1079x929-07-reward-closed.png`
+
+![design-feedback-1079x929 닫힌 보상](screenshots/engine-flow-design-feedback-1079x929-07-reward-closed.png)
+
+- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 열차 불빛 변화를 확인하기 위해 열기를 누릅니다.
+- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
+- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
+
+#### 열린 보상 · `engine-flow-design-feedback-1079x929-07b-reward-open.png`
+
+![design-feedback-1079x929 열린 보상](screenshots/engine-flow-design-feedback-1079x929-07b-reward-open.png)
+
+- 학생이 보는 것: 보상 사건 그림과 이번 열차 불빛 변화, 다음 행동 버튼을 봅니다.
+- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
+- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-design-feedback-1079x929-07c-reward-impact.png`
+
+![design-feedback-1079x929 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-design-feedback-1079x929-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 열차 불빛 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-design-feedback-1079x929-08-result.png`
+
+![design-feedback-1079x929 실제 결과](screenshots/engine-flow-design-feedback-1079x929-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · departure · `engine-flow-design-feedback-1079x929-08a-result-departure.png`
+
+![design-feedback-1079x929 결과 단계 · departure](screenshots/engine-flow-design-feedback-1079x929-08a-result-departure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · cloud · `engine-flow-design-feedback-1079x929-08d-result-panel-cloud.png`
+
+![design-feedback-1079x929 결과판 포함 · cloud](screenshots/engine-flow-design-feedback-1079x929-08d-result-panel-cloud.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · departure · `engine-flow-design-feedback-1079x929-08d-result-panel-departure.png`
+
+![design-feedback-1079x929 결과판 포함 · departure](screenshots/engine-flow-design-feedback-1079x929-08d-result-panel-departure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · forest · `engine-flow-design-feedback-1079x929-08d-result-panel-forest.png`
+
+![design-feedback-1079x929 결과판 포함 · forest](screenshots/engine-flow-design-feedback-1079x929-08d-result-panel-forest.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · gold · `engine-flow-design-feedback-1079x929-08d-result-panel-gold.png`
+
+![design-feedback-1079x929 결과판 포함 · gold](screenshots/engine-flow-design-feedback-1079x929-08d-result-panel-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · rainbow · `engine-flow-design-feedback-1079x929-08d-result-panel-rainbow.png`
+
+![design-feedback-1079x929 결과판 포함 · rainbow](screenshots/engine-flow-design-feedback-1079x929-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · village · `engine-flow-design-feedback-1079x929-08d-result-panel-village.png`
+
+![design-feedback-1079x929 결과판 포함 · village](screenshots/engine-flow-design-feedback-1079x929-08d-result-panel-village.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · cloud · `engine-flow-design-feedback-1079x929-08e-result-reward-dominance-cloud.png`
+
+![design-feedback-1079x929 중심 보상 우선 · cloud](screenshots/engine-flow-design-feedback-1079x929-08e-result-reward-dominance-cloud.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · departure · `engine-flow-design-feedback-1079x929-08e-result-reward-dominance-departure.png`
+
+![design-feedback-1079x929 중심 보상 우선 · departure](screenshots/engine-flow-design-feedback-1079x929-08e-result-reward-dominance-departure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · forest · `engine-flow-design-feedback-1079x929-08e-result-reward-dominance-forest.png`
+
+![design-feedback-1079x929 중심 보상 우선 · forest](screenshots/engine-flow-design-feedback-1079x929-08e-result-reward-dominance-forest.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · gold · `engine-flow-design-feedback-1079x929-08e-result-reward-dominance-gold.png`
+
+![design-feedback-1079x929 중심 보상 우선 · gold](screenshots/engine-flow-design-feedback-1079x929-08e-result-reward-dominance-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · rainbow · `engine-flow-design-feedback-1079x929-08e-result-reward-dominance-rainbow.png`
+
+![design-feedback-1079x929 중심 보상 우선 · rainbow](screenshots/engine-flow-design-feedback-1079x929-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · village · `engine-flow-design-feedback-1079x929-08e-result-reward-dominance-village.png`
+
+![design-feedback-1079x929 중심 보상 우선 · village](screenshots/engine-flow-design-feedback-1079x929-08e-result-reward-dominance-village.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-cloud · `engine-flow-design-feedback-1079x929-08v-result-visual-integrity-cloud.png`
+
+![design-feedback-1079x929 결과 상태 · 08v-result-visual-integrity-cloud](screenshots/engine-flow-design-feedback-1079x929-08v-result-visual-integrity-cloud.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-departure · `engine-flow-design-feedback-1079x929-08v-result-visual-integrity-departure.png`
+
+![design-feedback-1079x929 결과 상태 · 08v-result-visual-integrity-departure](screenshots/engine-flow-design-feedback-1079x929-08v-result-visual-integrity-departure.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-forest · `engine-flow-design-feedback-1079x929-08v-result-visual-integrity-forest.png`
+
+![design-feedback-1079x929 결과 상태 · 08v-result-visual-integrity-forest](screenshots/engine-flow-design-feedback-1079x929-08v-result-visual-integrity-forest.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-gold · `engine-flow-design-feedback-1079x929-08v-result-visual-integrity-gold.png`
+
+![design-feedback-1079x929 결과 상태 · 08v-result-visual-integrity-gold](screenshots/engine-flow-design-feedback-1079x929-08v-result-visual-integrity-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-design-feedback-1079x929-08v-result-visual-integrity-rainbow.png`
+
+![design-feedback-1079x929 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-design-feedback-1079x929-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-village · `engine-flow-design-feedback-1079x929-08v-result-visual-integrity-village.png`
+
+![design-feedback-1079x929 결과 상태 · 08v-result-visual-integrity-village](screenshots/engine-flow-design-feedback-1079x929-08v-result-visual-integrity-village.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · village · `engine-flow-design-feedback-1079x929-08a-result-village.png`
+
+![design-feedback-1079x929 결과 단계 · village](screenshots/engine-flow-design-feedback-1079x929-08a-result-village.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · forest · `engine-flow-design-feedback-1079x929-08a-result-forest.png`
+
+![design-feedback-1079x929 결과 단계 · forest](screenshots/engine-flow-design-feedback-1079x929-08a-result-forest.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · cloud · `engine-flow-design-feedback-1079x929-08a-result-cloud.png`
+
+![design-feedback-1079x929 결과 단계 · cloud](screenshots/engine-flow-design-feedback-1079x929-08a-result-cloud.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · gold · `engine-flow-design-feedback-1079x929-08a-result-gold.png`
+
+![design-feedback-1079x929 결과 단계 · gold](screenshots/engine-flow-design-feedback-1079x929-08a-result-gold.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 열차 불빛 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 단계 · rainbow · `engine-flow-design-feedback-1079x929-08a-result-rainbow.png`
+
+![design-feedback-1079x929 결과 단계 · rainbow](screenshots/engine-flow-design-feedback-1079x929-08a-result-rainbow.png)
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
