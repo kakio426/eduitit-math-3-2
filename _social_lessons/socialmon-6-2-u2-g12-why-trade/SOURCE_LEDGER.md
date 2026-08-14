@@ -24,3 +24,22 @@
 - `trade-card-game-source.png` / `trade-card-game-crop-source.png` / `source-trade-card-game.webp`: 전체 활동지에서 놀이 방법 다섯 단계와 남은 카드 활용 질문만 가로로 잘라, 화면에서도 근거 영역이 크게 보이게 했다.
 - 자료 `alt`에는 장터·배·물건과 활동지 규칙처럼 실제로 보이는 내용만 적었다.
 - 선택지 장식 `alt`는 물류가 도는 지구, 화물선, 공장, 시장 가판대, 동전의 실제 모습과 일치시켰다.
+
+<!-- AUTO OPTION SOURCES START -->
+
+## 선택지 그림·지도 버튼 근거
+
+아래 경로는 `quiz.json`과 배포 HTML이 실제로 읽는 실행 자산이다. 파일명이 `-source`로 끝나는 제작 원본은 공개 실행 경로에 쓰지 않는다.
+
+| 문항·선택지 | 실행 자산 | 출처 PDF / 인쇄 | 그림과 문장의 관계 |
+|---|---|---|---|
+| q1 · trade-definition | `../../_shared/socialmon/theme-packs/6-2/u2/options/trade-globe-v1.webp` | 6_2_사회_2_지도서.pdf 96/215쪽 | 선택지 그림과 문장은 '여러 나라가 물건을 사고팔거나 바꾸는 일이에요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · local-only | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 기계로 물건을 만드는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · free-gift | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · travel-only | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · same-everything | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · no-exchange | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 기계로 물건을 만드는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · different-resources | `../../_shared/socialmon/theme-packs/6-2/u2/options/trade-globe-v1.webp` | 6_2_사회_2_지도서.pdf 96/215쪽 | 선택지 그림과 문장은 '서로 필요한 것을 바꾸어 모자란 것을 채워요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · only-compete | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+
+<!-- AUTO OPTION SOURCES END -->

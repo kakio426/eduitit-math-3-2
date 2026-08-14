@@ -25,3 +25,26 @@
 - `trade-competition-source.png` / `source-trade-competition.webp`: 생성형 인공지능 시장 전망 그래프와 경쟁 설명이 보이는 영역이다.
 - 자료 `alt`에는 기사·그림·그래프에 실제로 보이는 내용만 기록했다.
 - 선택지 장식 `alt`는 화물선, 물류가 도는 지구, 도시 성장, 공원, 공장, 시장 가판대, 동전의 실제 모습과 일치시켰다.
+
+<!-- AUTO OPTION SOURCES START -->
+
+## 선택지 그림·지도 버튼 근거
+
+아래 경로는 `quiz.json`과 배포 HTML이 실제로 읽는 실행 자산이다. 파일명이 `-source`로 끝나는 제작 원본은 공개 실행 경로에 쓰지 않는다.
+
+| 문항·선택지 | 실행 자산 | 출처 PDF / 인쇄 | 그림과 문장의 관계 |
+|---|---|---|---|
+| q1 · korea-only | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · both-benefit | `../../_shared/socialmon/theme-packs/6-2/u2/options/trade-globe-v1.webp` | 6_2_사회_2_지도서.pdf 96/215쪽 | 선택지 그림과 문장은 '여러 나라가 필요한 것을 주고받아요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · stop-exchange | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 기계로 물건을 만드는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q1 · same-resources | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · cut-links | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 기계로 물건을 만드는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · same-role | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · one-sided | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q2 · share-benefit | `../../_shared/socialmon/theme-packs/6-2/u2/options/trade-globe-v1.webp` | 6_2_사회_2_지도서.pdf 96/215쪽 | 선택지 그림과 문장은 '여러 나라가 물건을 주고받는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · stop-choice | `../../_shared/socialmon/theme-packs/6-2/u2/options/factory-v1.webp` | 6_2_사회_2_지도서.pdf 71/190쪽 | 선택지 그림과 문장은 '공장에서 기계로 물건을 만드는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · better-tech | `../../_shared/socialmon/theme-packs/6-2/u2/options/city-growth-v1.webp` | 6_2_사회_2_지도서.pdf 53/172쪽 | 선택지 그림과 문장은 '작은 건물 옆에 큰 건물이 늘어나는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · same-product | `../../_shared/socialmon/theme-packs/6-2/u2/options/market-stall-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '시장 가판대에서 사과를 고르는 모습이에요.'라는 같은 모습을 함께 보여 준다. |
+| q3 · no-trade | `../../_shared/socialmon/theme-packs/6-2/u2/options/coins-v1.webp` | 6_2_사회_2_지도서.pdf 15/134쪽 | 선택지 그림과 문장은 '동전과 가격표가 돈의 흐름을 보여 줘요.'라는 같은 모습을 함께 보여 준다. |
+
+<!-- AUTO OPTION SOURCES END -->
