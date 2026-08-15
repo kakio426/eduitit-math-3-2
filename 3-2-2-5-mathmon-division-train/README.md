@@ -29,6 +29,7 @@
 - 진행 장면 기준선 시트: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-anchor-audit.png`
 - 진행 장면 계약: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contract.json`
 - 최종 결과 6장: `result-{departure,village,forest,cloud,gold,rainbow}-generated.webp`
+- 최종 결과 생성 원본: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/source/result-*-scene-source-v2.png` (각 `1536×1024`, 단계마다 한 장씩 생성)
 - 최종 결과 계약: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contract.json`
 - 최종 결과 컨택시트: `_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png`
 - 결과 제목 세트: `result-title-*-generated-v2.webp`, `generated-titles-contact-sheet.png`
@@ -47,7 +48,9 @@
 
 중간 보상은 `mathmon-unified-reward-v1`과 Stage-Reveal 흐름을 씁니다. 정사각 보상 그림을 중앙에 두고 아래의 낮은 경로 띠에서 `현재 역 → 변화량 → 다음 역`을 확인합니다. 일반 결과 기준은 `0/0, 15/2, 35/4, 55/6, 78/8`, 특별 결과는 특별 사건이 나온 `100/1`입니다.
 
-결과는 `출발역 → 마을역 → 숲길역 → 구름역 → 황금역 → 무지개역` 순서입니다. 각 단계는 독립 생성 장면이며 CSS 필터·블렌드·별도 효과 오버레이로 단계 차이를 만들지 않습니다.
+결과는 `출발역 → 마을역 → 숲길역 → 구름역 → 황금역 → 무지개역` 순서입니다. 각 단계는 독립 생성 장면이며 CSS 필터·블렌드·별도 효과 오버레이로 단계 차이를 만들지 않습니다. 여섯 장면 모두 `1536×1024`로 한 장씩 생성해 `1280` 폭으로 축소한 뒤 세로를 가운데에서 자릅니다. 확대는 쓰지 않으며, 새끼용몬도 배경과 같은 생성 한 번에 승강장·선로 위에 그림자와 함께 그려집니다.
+
+결과판 안의 역 이름 아트는 `320px`, 정답 수 아트는 `225px`, 다음 목표 글자는 `28px`, 다시 버튼은 `320×160px`이며 단계마다 검출한 결과판 안전 영역 세로에 고르게 나눠 배치합니다.
 
 ## 빌드와 검증
 
