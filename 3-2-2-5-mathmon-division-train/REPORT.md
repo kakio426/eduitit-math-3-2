@@ -1,12 +1,13 @@
 # 매스몬 나눔열차 제작 보고
 
-검사일: 2026-08-15
+검사일: 2026-08-16
 
 ## 구현 상태
 
 - 3학년 2학기 2단원 5차시의 나머지가 없는 세 자리 수 나눗셈 모델과 10문제 흐름을 구현했습니다.
 - 백의 자리부터 시작하는 문제, 십의 자리부터 시작하는 문제, 몫에 0이 있는 문제를 문제 은행에 함께 넣었습니다.
 - 정답 뒤 몫·곱한 값·빼는 선·남은 수·내려온 수를 계산판에 보여 주고, 마지막에는 완성식을 확인한 뒤 보상으로 이동합니다.
+- 3-2-2-5의 세로셈 방식을 기준으로 큰 문제·한 장 계산판·백·십·일 고정 열·현재 단계만 공개·2×2 선택지·완성식 확인 순서를 고정했습니다.
 - 공용 생성형 시작 버튼, 설정 모달, 컴팩트 중앙 보상 모달, 왼쪽 진행 장면, 6단계 최종 결과 장면을 연결했습니다.
 - 배포용 `index.html`은 현재 `lesson.json`과 공용 엔진으로 다시 빌드했습니다.
 
@@ -119,7 +120,8 @@
 - `node scripts/detect-result-board-axis.mjs 3-2-2-5-mathmon-division-train`: 결과 6단계 실제 축 일치
 - `node scripts/check-result-panel-adoption.mjs 760018285`: 결과 자산·설정 변경 없음으로 통과
 - `node scripts/check-mathmon-brand-mark.mjs`: 25개 manifest 차시 통과
-- `node scripts/qa-lesson-flow.mjs 3-2-2-5-mathmon-division-train 20260815`: 5개 viewport 전체 흐름 통과
+- `node scripts/check-mathmon-vertical-calculation.mjs 3-2-2-5-mathmon-division-train`: 3-2-2-5 세로셈 표준 정적 검사 통과
+- `node scripts/qa-lesson-flow.mjs 3-2-2-5-mathmon-division-train 17`: 5개 viewport 전체 흐름·세로셈 상태 전환 통과
 - `node scripts/check-lesson-report-evidence.mjs 3-2-2-5-mathmon-division-train --require-current-gates`: 5개 viewport, 174장 증거 통과
 
 현재 자동 검사와 저장된 브라우저 증거 기준으로 남은 차단 문제는 없습니다.
@@ -128,8 +130,8 @@
 
 ## 2026-08-16 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `454b66da86df529c669810311e12cd89070777e4086aab6a29643fac1664e3aa`
-- 생성 시각: `2026-08-16T02:35:02.034Z`
+- 실행본 SHA-256: `ec760fc9cdd6e481a9ffe0aabd0145720af9a7404cb5a19e0978298fe29301dc`
+- 생성 시각: `2026-08-16T03:41:23.345Z`
 - 등록 화면 크기: `5개`
 - 아래에 직접 삽입한 원본 캡처: `174장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
