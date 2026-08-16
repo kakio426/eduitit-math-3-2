@@ -2309,51 +2309,8 @@
       outline-offset: -6px;
     }
 
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud {
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-      gap: 10px;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud-left {
-      display: contents;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud-left .brand-badge {
-      grid-column: 1;
-      justify-self: start;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress #problemCounter {
-      grid-column: 2;
-      justify-self: center;
-      min-width: 72px;
-      justify-content: center;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud-right {
-      grid-column: 3;
-      justify-self: end;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .progress-line {
-      display: none;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud .brand-badge,
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud .unit-badge {
-      padding-inline: 8px;
-      gap: 6px;
-      font-size: .875rem;
-      line-height: 1;
-      letter-spacing: -.01em;
-    }
-
-    .game[data-workbench-type="three-digit-division-train"].has-play-progress .hud .mini-badge {
-      padding-inline: 8px;
-      gap: 6px;
-      font-size: 1rem;
-      line-height: 1;
+    .game.has-play-progress .progress-line {
+      visibility: hidden;
     }
 
     .division5-play-progress {
@@ -2366,8 +2323,24 @@
       z-index: 0;
       width: 86% !important;
       align-self: center;
-      border-radius: 16px 16px 10px 10px;
-      background: transparent !important;
+      background: #0a2740 !important;
+    }
+
+    .division5-train-motion-art {
+      position: absolute;
+      top: 0;
+      left: 7%;
+      z-index: 1;
+      width: 86%;
+      height: auto;
+      aspect-ratio: 1 / 2;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+      opacity: .58;
+      transform: translateZ(0);
+      transform-origin: 50% 62%;
+      filter: saturate(1.08) brightness(1.02);
     }
 
     .division5-play-progress .unit6-play-progress-readout {
@@ -2389,13 +2362,21 @@
       color: #91dcff;
     }
 
-    .division5-play-progress .unit6-play-progress-meter-fill {
+    .division5-play-progress .unit6-play-progress-meter-fill,
+    .division5-reward-story .unit6-reward-meter-fill {
       background: linear-gradient(90deg, #3ca7ff, #7be6ff, #ffd86f);
     }
 
-    .game.has-play-progress .problem-grid {
-      top: 11%;
-      bottom: 5%;
+    .division5-play-progress.is-changing .division5-train-motion-art {
+      animation: division5-train-light-run .64s cubic-bezier(.18, .78, .2, 1) both;
+    }
+
+    .division5-play-progress.is-dimming .division5-train-motion-art {
+      animation: division5-train-fog-brake .64s ease both;
+    }
+
+    .division5-play-progress.is-tier-up .division5-train-motion-art {
+      animation: division5-train-station-rush 1.56s cubic-bezier(.12, .76, .18, 1) both;
     }
 
     .game.has-play-progress .problem-grid:not(.is-complete) {
@@ -2570,24 +2551,24 @@
       height: 60px;
       display: grid;
       grid-template-columns: repeat(3, var(--division-digit-size));
-      border: 0;
+      border-top: 6px solid #fff1cb;
+      border-radius: 20px 0 0 0;
     }
 
     .division5-bracket::before {
       content: "";
       position: absolute;
-      inset: 0;
-      box-sizing: border-box;
-      border-top: 6px solid #fff1cb;
-      border-left: 6px solid #fff1cb;
+      left: 0;
+      top: -1px;
+      bottom: 0;
+      width: 6px;
       border-radius: 18px 0 0 0;
-      background: transparent;
+      background: #fff1cb;
       pointer-events: none;
     }
 
     .division5-dividend-digit {
       height: 54px;
-      align-self: end;
       color: #fffaf0;
       font-size: var(--division-number-size);
       line-height: 1;
@@ -2864,6 +2845,16 @@
       min-height: 0;
     }
 
+    .division5-reward-story .unit6-reward-copy {
+      border-color: rgba(115, 202, 255, .68);
+      background: linear-gradient(180deg, rgba(9, 43, 68, .96), rgba(5, 25, 45, .98));
+    }
+
+    .division5-reward-story .unit6-reward-tier {
+      color: #8ddcff;
+      text-shadow: 0 3px 0 #164d6e, 0 0 18px rgba(101, 204, 255, .35);
+    }
+
     .game[data-result-panel-containment="result-panel-containment-v2"] #resultDestinationSvg,
     .game[data-result-panel-containment="result-panel-containment-v2"] #resultMeasureSvg,
     .game[data-result-panel-containment="result-panel-containment-v2"] #resultMeasureTrackSvg,
@@ -2890,11 +2881,11 @@
       object-fit: contain;
     }
 
-    .game[data-result-panel-containment="result-panel-containment-v2"] .result-dynamic-ui #resultNextSvg {
+    .game[data-result-panel-containment="result-panel-containment-v2"] #resultNextSvg {
       fill: #fff5d6;
-      font-size: 28px !important;
+      font-size: 19px !important;
       stroke: rgba(4, 18, 33, .92);
-      stroke-width: 5px !important;
+      stroke-width: 4px !important;
     }
 
     @keyframes division5-down {
@@ -2917,6 +2908,25 @@
       0%, 100% { transform: translateX(0); }
       35% { transform: translateX(-5px); }
       70% { transform: translateX(5px); }
+    }
+
+    @keyframes division5-train-light-run {
+      0% { opacity: .42; transform: translateY(3%) scale(.98); filter: saturate(.92) brightness(.88); }
+      46% { opacity: .96; transform: translateY(-2%) scale(1.045); filter: saturate(1.28) brightness(1.32); }
+      100% { opacity: .58; transform: translateY(0) scale(1); filter: saturate(1.08) brightness(1.02); }
+    }
+
+    @keyframes division5-train-fog-brake {
+      0%, 100% { opacity: .58; transform: translateY(0) scale(1); filter: saturate(1.08) brightness(1.02); }
+      48% { opacity: .24; transform: translateY(1.5%) scale(.985); filter: saturate(.55) brightness(.72) blur(1px); }
+    }
+
+    @keyframes division5-train-station-rush {
+      0% { opacity: .3; transform: translateY(8%) scale(.94); filter: saturate(.9) brightness(.82); }
+      24% { opacity: .92; transform: translateY(1%) scale(1.04); filter: saturate(1.25) brightness(1.25); }
+      52% { opacity: 1; transform: translateY(-5%) scale(1.1); filter: saturate(1.42) brightness(1.55); }
+      76% { opacity: .82; transform: translateY(-1%) scale(1.045); filter: saturate(1.22) brightness(1.26); }
+      100% { opacity: .58; transform: translateY(0) scale(1); filter: saturate(1.08) brightness(1.02); }
     }
 
     @media (max-width: 1100px) {
@@ -3010,210 +3020,11 @@
       .division5-work-block.is-latest .division5-work-digit,
       .division5-work-block.is-latest .division5-subtract-line,
       .division5-board.is-step-correct,
-      .division5-board.is-step-wrong {
+      .division5-board.is-step-wrong,
+      .division5-play-progress.is-changing .division5-train-motion-art,
+      .division5-play-progress.is-dimming .division5-train-motion-art,
+      .division5-play-progress.is-tier-up .division5-train-motion-art {
         animation: none;
-      }
-    }
-
-    /* The shared unit6 tier-up rule reserves a wide impact layer for legacy
-       lessons. This train keeps the visual cue in the left progress lane, like
-       the star and vault lessons, so the division work never gets washed out. */
-    .game.has-play-progress .unit6-play-progress-impact-stage {
-      background: transparent !important;
-      filter: none !important;
-      mix-blend-mode: normal !important;
-      transform-origin: left center !important;
-    }
-
-    .game.has-play-progress .unit6-play-progress-impact-stage::before,
-    .game.has-play-progress .unit6-play-progress-impact-stage::after {
-      content: none !important;
-      display: none !important;
-      left: 0 !important;
-      right: auto !important;
-      width: 64% !important;
-      box-sizing: border-box;
-      border-radius: 22px;
-    }
-
-    .game.has-play-progress .unit6-play-progress-impact-stage::before {
-      content: none !important;
-      display: none !important;
-      inset: 12% auto 12% 0 !important;
-      border: 3px solid rgba(231, 255, 246, .72) !important;
-      box-shadow: 0 0 14px 3px rgba(126, 237, 217, .34), inset 0 0 18px rgba(126, 237, 217, .22) !important;
-    }
-
-    .game.has-play-progress .unit6-play-progress-impact-stage::after {
-      content: none !important;
-      display: none !important;
-      inset: 0 auto 0 0 !important;
-      background: linear-gradient(180deg, transparent 12%, rgba(231, 255, 246, .14) 46%, rgba(255, 214, 98, .22) 52%, transparent 88%) !important;
-      -webkit-mask-image: none !important;
-      mask-image: none !important;
-      transform: scaleX(.72) !important;
-      transform-origin: left center !important;
-    }
-
-    .game.has-play-progress .division5-play-progress-impact-visual {
-      position: absolute;
-      inset: 16% auto 16% 0;
-      width: 56%;
-      height: 68%;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-      background: radial-gradient(ellipse at 50% 54%, rgba(255, 255, 255, .34) 0 4%, rgba(255, 224, 116, .24) 15%, rgba(120, 220, 218, .12) 36%, transparent 68%);
-      transform: scale(.78);
-      transform-origin: left center;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up {
-      animation: division5-contained-tier-panel 1.56s cubic-bezier(.18, .78, .2, 1) both !important;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up .unit6-play-progress-art {
-      animation: division5-contained-tier-art 1.56s cubic-bezier(.18, .78, .2, 1) both !important;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up .unit6-play-progress-flare {
-      animation: division5-contained-tier-flare 1.56s cubic-bezier(.12, .76, .18, 1) both !important;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active {
-      animation: division5-contained-tier-impact 1.56s cubic-bezier(.12, .76, .18, 1) both !important;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active::before {
-      animation: division5-contained-tier-ring 1.56s cubic-bezier(.08, .72, .16, 1) both !important;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active::after {
-      animation: division5-contained-tier-band 1.56s ease-out both !important;
-    }
-
-    .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active .division5-play-progress-impact-visual {
-      animation: division5-contained-tier-visual 1.56s cubic-bezier(.12, .76, .18, 1) both;
-    }
-
-    @keyframes division5-contained-tier-panel {
-      0%, 100% { box-shadow: 0 16px 32px rgba(0, 0, 0, .34), inset 0 0 0 2px rgba(255, 255, 255, .08); }
-      26% { box-shadow: 0 0 0 3px rgba(185, 255, 237, .58), 0 0 20px 6px rgba(94, 222, 194, .34), 0 16px 32px rgba(0, 0, 0, .34); }
-    }
-
-    @keyframes division5-contained-tier-art {
-      0% { filter: brightness(.72) saturate(.76); transform: scale(.985); }
-      28% { filter: brightness(1.28) saturate(1.16); transform: scale(1.015); }
-      66% { filter: brightness(1.12) saturate(1.08); transform: scale(1.006); }
-      100% { filter: brightness(1); transform: scale(1); }
-    }
-
-    @keyframes division5-contained-tier-flare {
-      0% { opacity: 0; transform: rotate(-12deg) scale(.7); }
-      22% { opacity: .64; transform: rotate(-6deg) scale(.92); }
-      58% { opacity: .28; transform: rotate(4deg) scale(1.02); }
-      100% { opacity: 0; transform: rotate(10deg) scale(1.08); }
-    }
-
-    @keyframes division5-contained-tier-impact {
-      0% { opacity: 0; transform: translateX(-3%) scale(.86); }
-      18% { opacity: .72; transform: translateX(0) scale(.96); }
-      52% { opacity: .46; transform: translateX(0) scale(1.02); }
-      100% { opacity: 0; transform: translateX(0) scale(1.04); }
-    }
-
-    @keyframes division5-contained-tier-ring {
-      0% { opacity: 0; transform: scale(.72); }
-      20% { opacity: .66; transform: scale(.9); }
-      70% { opacity: .24; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1.04); }
-    }
-
-    @keyframes division5-contained-tier-band {
-      0% { opacity: 0; transform: scaleX(.56); }
-      24% { opacity: .38; transform: scaleX(.82); }
-      100% { opacity: 0; transform: scaleX(1); }
-    }
-
-    @keyframes division5-contained-tier-visual {
-      0% { opacity: 0; transform: scale(.78); }
-      20% { opacity: .62; transform: scale(.92); }
-      48% { opacity: .42; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1.04); }
-    }
-
-    /* Keep the reward handoff readable when motion is reduced: the cue becomes a
-       static, lane-local highlight, while view.js keeps the world-change reading
-       window. */
-    @media (prefers-reduced-motion: reduce) {
-      .game.has-play-progress .division5-play-progress.is-changing,
-      .game.has-play-progress .division5-play-progress.is-dimming,
-      .game.has-play-progress .division5-play-progress.is-tier-up {
-        animation: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-changing {
-        box-shadow: 0 0 0 3px rgba(185, 255, 237, .58), 0 0 18px 5px rgba(94, 222, 194, .32), 0 16px 32px rgba(0, 0, 0, .34) !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-changing .unit6-play-progress-art {
-        animation: none !important;
-        filter: brightness(1.24) saturate(1.14) !important;
-        transform: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-changing .unit6-play-progress-flare {
-        animation: none !important;
-        opacity: .68 !important;
-        transform: rotate(-8deg) scale(1) !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-dimming .unit6-play-progress-art {
-        animation: none !important;
-        filter: brightness(.72) saturate(.72) !important;
-        transform: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up {
-        outline: 3px solid rgba(185, 255, 237, .62) !important;
-        outline-offset: -3px;
-        box-shadow: 0 0 0 4px rgba(185, 255, 237, .58), 0 0 22px 7px rgba(94, 222, 194, .34), 0 16px 32px rgba(0, 0, 0, .34) !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up .unit6-play-progress-art {
-        animation: none !important;
-        filter: brightness(1.24) saturate(1.14) !important;
-        transform: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up .unit6-play-progress-flare {
-        animation: none !important;
-        opacity: .74 !important;
-        transform: rotate(-8deg) scale(1) !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active {
-        animation: none !important;
-        opacity: .62 !important;
-        transform: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active::before {
-        animation: none !important;
-        opacity: 0 !important;
-        transform: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active::after {
-        animation: none !important;
-        opacity: 0 !important;
-        transform: none !important;
-      }
-
-      .game.has-play-progress .division5-play-progress.is-tier-up ~ .unit6-play-progress-impact-stage.is-active .division5-play-progress-impact-visual {
-        animation: none !important;
-        opacity: .38 !important;
-        transform: none !important;
       }
     }
   </style>
@@ -3643,9 +3454,9 @@
   </script>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="three-digit-division-train" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="stage-reveal" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="three-digit-division-train" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-5" data-commit-sha="06c1ca5351edbffd6131dec1f92491e79b05c787" data-lesson-json-sha256="dceba53806d20c1880d1ac7569e0c5197490808be29d6c5d868bb010b79dc232" data-build-inputs-sha256="d473638b02227fbc9074c4ed2b2df394fb1b9e23d0f5a53c8fbc4d6b5eb1c720"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-5" data-commit-sha="8c84b0284625dda5e4e1d512433c061e2b41fcbc" data-lesson-json-sha256="7b52ecfc118d178b19ac96e4a1563b24094bf43c71f2b603c33e6ea8e3e7b678" data-build-inputs-sha256="804677e7135b6f783f2c82c8b78000020cb104413efe1a1a5e7caf0d1729384d"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4386,7 +4197,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-three-digit-division-series","id":"3-2-2-5","folder":"3-2-2-5-mathmon-division-train","modelName":"Lesson2ThreeDigitDivisionModel","title":"매스몬 나눔열차","shortTitle":"매스몬 나눔열차","topic":"나머지가 없는 세 자리 수 나눗셈","unitBadge":"2단원 나눗셈 · 5차시","goal":"왼쪽부터 나눌 수 있는 수를 찾아 몫을 구해요.","action":"강조된 자리의 몫과 남은 수를 고른다.","buttonLabel":"선물 상자 열기","rewardScreenTitle":"선물 상자","progressLabel":"열차 불빛","rewardComplete":"상자를 열어 봐요.","tutorialTitle":"열차를 출발하기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"같은 세로셈을 보며 차례대로 풀어요","body":"3은 7보다 작아서 36부터 나눠요. 몫 5를 쓰고 35를 빼면 1이 남아요. 4를 내려 14를 만들고 몫 2를 써요. 답은 52예요.","image":"tutorial-page-1-v4-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"10문제를 풀고 도착한 역을 봐요","body":"문제를 풀어요. 상자를 열어요. 열차 불빛은 늘기도 하고 줄기도 해요. 그대로일 때도 있어요. 10문제를 다 풀면 도착한 역을 봐요.","image":"tutorial-page-2-v2-generated.webp"}],"tutorial":{"mode":"poster-two-step","standard":"generated-tutorial-poster-two-step-v1","actionPresentation":"scene-baked-hitbox"},"reward":{"mode":"modal-art","version":"division-train-modal-art-v1","revealOnOpen":false,"standard":"mathmon-unified-reward-v1","maxPower":100,"unitLabel":"열차 불빛","changeLabel":"열차 불빛","zeroLabel":"0","closedLabel":"얼마나 나올까?","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-contact-sheet.png"},"artMap":{"normal":"reward-normal-generated.webp","loss":"reward-loss-generated.webp","mega":"reward-mega-generated.webp","complete":"reward-complete-generated.webp","empty":"reward-empty-generated.webp","rainbow":"reward-rainbow-generated.webp"}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showPower":false,"showNextGoal":true,"layout":{"axisX":1010,"axisXByTier":{"departure":1010,"village":1002.5,"forest":1029,"cloud":1033,"gold":996.5,"rainbow":1021.5},"titleAxisX":1010,"titleAxisXByTier":{"departure":1010,"village":1002.5,"forest":1029,"cloud":1033,"gold":996.5,"rainbow":1021.5},"titleTop":160,"titleWidth":320,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-titles-v1-source.png","titleSetManifest":"result-title-set-v2.json","measureY":318,"barY":320,"barWidth":240,"barHeight":16,"correctTop":300,"correctWidth":225,"nextY":471,"byTier":{"departure":{"titleTop":160,"correctTop":300,"nextY":471,"retryRect":{"x":850,"y":512,"width":320,"height":160}},"village":{"titleTop":177,"correctTop":307,"nextY":468,"retryRect":{"x":842.5,"y":499,"width":320,"height":160}},"forest":{"titleTop":137,"correctTop":285,"nextY":464,"retryRect":{"x":869,"y":513,"width":320,"height":160}},"cloud":{"titleTop":150,"correctTop":293,"nextY":467,"retryRect":{"x":873,"y":512,"width":320,"height":160}},"gold":{"titleTop":144,"correctTop":289,"nextY":465,"retryRect":{"x":836.5,"y":512,"width":320,"height":160}},"rainbow":{"titleTop":162,"correctTop":301,"nextY":471,"retryRect":{"x":861.5,"y":512,"width":320,"height":160}}},"retryRect":{"x":850,"y":512,"width":320,"height":160},"panelRect":{"x":798,"y":72,"width":422,"height":632}},"stateImageSet":{"standard":"generated-result-fullscene-v3","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/source","runtimePngPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/runtime-png","contract":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contract.json","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png","protagonist":"base-03-babydragonmon","nativeScenePerState":true,"titlePresentation":"independent-art","retryPresentation":"independent-art","forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["environment","mathmon","division-train-world","blank-dynamic-panel","result-title-raster","result-retry-raster"],"dynamicOverlays":["result-title","correct-count","next-goal","retry-button"]}},"workbench":{"type":"three-digit-division-train","learningFlow":["divide-current-place","choose-quotient-and-remainder","bring-down-next-digit"],"playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"base-03-babydragonmon","cacheVersion":"2026-08-15-division-train-fullbleed-v3","artDirectionVersion":"division-train-fullbleed-portrait-v1","fullBleed":true,"runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/source","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-anchor-audit.png","filePattern":"play-train-v1-{tier}-generated.webp","requiredSubjects":["새끼용몬 전신","나눔열차 진행 세계"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.42,"centerY":0.68,"footY":0.8,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","departure":{"centerX":0.42,"centerY":0.68,"footY":0.81,"height":0.27},"village":{"centerX":0.42,"centerY":0.68,"footY":0.8,"height":0.26},"forest":{"centerX":0.42,"centerY":0.69,"footY":0.81,"height":0.25},"cloud":{"centerX":0.42,"centerY":0.68,"footY":0.8,"height":0.25},"gold":{"centerX":0.42,"centerY":0.68,"footY":0.79,"height":0.25},"rainbow":{"centerX":0.42,"centerY":0.68,"footY":0.8,"height":0.25}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"새끼용몬","mathmonId":"base-03-babydragonmon","results":[{"id":"departure","name":"출발역","visualRank":0,"minPower":0,"minCorrect":0,"playImage":"play-train-v1-departure-generated.webp","image":"result-departure-generated.webp","titleImage":"result-title-departure-generated-v2.webp"},{"id":"village","name":"마을역","visualRank":1,"minPower":15,"minCorrect":2,"playImage":"play-train-v1-village-generated.webp","image":"result-village-generated.webp","titleImage":"result-title-village-generated-v2.webp"},{"id":"forest","name":"숲길역","visualRank":2,"minPower":35,"minCorrect":4,"playImage":"play-train-v1-forest-generated.webp","image":"result-forest-generated.webp","titleImage":"result-title-forest-generated-v2.webp"},{"id":"cloud","name":"구름역","visualRank":3,"minPower":55,"minCorrect":6,"playImage":"play-train-v1-cloud-generated.webp","image":"result-cloud-generated.webp","titleImage":"result-title-cloud-generated-v2.webp"},{"id":"gold","name":"황금역","visualRank":4,"minPower":78,"minCorrect":8,"playImage":"play-train-v1-gold-generated.webp","image":"result-gold-generated.webp","titleImage":"result-title-gold-generated-v2.webp"},{"id":"rainbow","name":"무지개역","visualRank":5,"minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-train-v1-rainbow-generated.webp","image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated-v2.webp"}],"rewardEvents":[{"id":"normal","text":"열차 불빛이 밝아졌어요","weight":6400,"min":6,"max":10,"family":"normal","rarity":"common"},{"id":"loss","text":"열차 불빛이 조금 어두워졌어요","weight":1500,"min":-5,"max":-2,"family":"loss","rarity":"common"},{"id":"mega","text":"열차 불빛이 크게 밝아졌어요","weight":1200,"min":14,"max":22,"family":"mega","rarity":"rare"},{"id":"jackpot","text":"황금 기관차가 나타났어요","weight":500,"min":30,"max":30,"family":"complete","rarity":"rare","express":true},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"special","text":"무지개 급행이 나타났어요","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"wrong-loss","text":"열차 불빛이 조금 어두워졌어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","tutorialPoster":"generated-tutorial-poster-two-step-v1","settings":"modal-controls","resultVisual":"generated-assets","resultPanelContainment":"result-panel-containment-v2","resultRewardDominance":"result-primary-reward-dominance-v1","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStates":{"waiting":"problem-background-generated.webp","working":"problem-background-generated.webp","complete":"problem-background-generated.webp"},"rewardClosed":"reward-event-closed-generated.webp","rewardScene":"problem-background-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp","resultCorrectCount":{"0":"../_shared/result-count/result-correct-0-generated.webp","1":"../_shared/result-count/result-correct-1-generated.webp","2":"../_shared/result-count/result-correct-2-generated.webp","3":"../_shared/result-count/result-correct-3-generated.webp","4":"../_shared/result-count/result-correct-4-generated.webp","5":"../_shared/result-count/result-correct-5-generated.webp","6":"../_shared/result-count/result-correct-6-generated.webp","7":"../_shared/result-count/result-correct-7-generated.webp","8":"../_shared/result-count/result-correct-8-generated.webp","9":"../_shared/result-count/result-correct-9-generated.webp","10":"../_shared/result-count/result-correct-10-generated.webp"}},"sourceFiles":{"style":"../_shared/unit6-data/lesson.css"},"assets":["cover-generated.webp","title-logo-generated.webp","tutorial-page-1-v4-generated.webp","tutorial-page-2-v2-generated.webp","problem-background-generated.webp","reward-event-closed-generated.webp","reward-normal-generated.webp","reward-loss-generated.webp","reward-mega-generated.webp","reward-complete-generated.webp","reward-empty-generated.webp","reward-rainbow-generated.webp","reward-contact-sheet.png","play-train-v1-departure-generated.webp","play-train-v1-village-generated.webp","play-train-v1-forest-generated.webp","play-train-v1-cloud-generated.webp","play-train-v1-gold-generated.webp","play-train-v1-rainbow-generated.webp","result-departure-generated.webp","result-village-generated.webp","result-forest-generated.webp","result-cloud-generated.webp","result-gold-generated.webp","result-rainbow-generated.webp","result-title-departure-generated-v2.webp","result-title-village-generated-v2.webp","result-title-forest-generated-v2.webp","result-title-cloud-generated-v2.webp","result-title-gold-generated-v2.webp","result-title-rainbow-generated-v2.webp","result-title-set-v2.json","../_shared/mathmon/cover-start-button/start-button-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"tutorialPosterAudit":{"standard":"generated-tutorial-poster-two-step-v1","pageCount":2,"nativeCanvas":"1280x800","card":".tutorial-card:not([hidden])","poster":".tutorial-poster-art","actionPresentation":"scene-baked-hitbox","tolerancePx":1,"minimumTouchPx":42},"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 2단원 5차시","compactText":"2단원 나눗셈 · 5차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"열차 불빛","selectors":{"root":"#rewardPop","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["열차 불빛 +6"]},"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","axisNodes":["title","correct","next","retry"],"matchMode":"dark-neutral","scanStartRatio":0.6,"scanEndRatio":0.98,"minimumDetectedAxisX":960,"maximumDetectedAxisX":1060,"threshold":{"redMax":180,"greenMax":175,"blueMax":185},"minimumRunRatio":0.19,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"departure":1010,"village":1002.5,"forest":1029,"cloud":1033,"gold":996.5,"rainbow":1021.5}},"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","stage":"1280x800","sceneImage":"#resultBg","safeInsetPx":24,"panelDetector":{"standard":"raster-panel-bounds-v2","mode":"dark","searchRect":{"x":774,"y":48,"width":470,"height":680},"threshold":{"redMax":180,"greenMax":175,"blueMax":185,"minBlueToRedRatio":0},"minRunWidth":243,"forbiddenVisibleSelectors":[".result-panel-art"],"axisDetection":{"standard":"vertical-inner-frame-edge-pair-v1","edgeStepPx":2,"y":154,"height":513,"minimumDirectionalScore":5000,"minimumInnerWidth":356,"maximumInnerWidth":416,"sourceTolerancePx":1,"screenTolerancePx":1,"leftSearchByTier":{"departure":{"x":782,"width":60},"village":{"x":785,"width":60},"forest":{"x":818,"width":60},"cloud":{"x":823,"width":60},"gold":{"x":774,"width":60},"rainbow":{"x":800,"width":60}},"rightSearchByTier":{"departure":{"x":1179,"width":60},"village":{"x":1161,"width":60},"forest":{"x":1179,"width":60},"cloud":{"x":1184,"width":60},"gold":{"x":1158,"width":60},"rainbow":{"x":1184,"width":60}},"expectedAxisXByTier":{"departure":1010,"village":1002.5,"forest":1029,"cloud":1033,"gold":996.5,"rainbow":1021.5}}},"elements":{"title":"#resultTitleArt","measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retryArt":".result-retry-art","retryHitbox":"#retryButton"},"axisNodes":["title","measure","track","correct","next","retryHitbox"],"axisTolerancePx":1,"hitboxTolerancePx":1,"elementContainment":true,"noIntersections":true,"samePanelSizeAcrossTiers":false,"sameSafeRectAcrossTiers":false,"hiddenNextMustBeZero":true,"viewportCropsStage":false,"containmentTolerancePx":1,"minimumVisibleGapPx":8,"requiredNodes":{"measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retry":"#retryButton"},"pairedNodes":{"retryVisual":".result-retry-art","retryHitbox":"#retryButton"},"visualHitboxTolerancePx":1,"optionalWhenHidden":["measure","track"],"fixtures":["axis-correct-but-outside-panel","panel-too-short","retry-hitbox-outside-panel","baked-title-outside-panel","shared-axis-off-panel-center","tier-panel-source-mismatch","duplicate-result-panel-layer","viewport-crops-stage","stale-runtime-build"],"runtimeMetadata":{"selector":"#mathmonRuntimeBuildMeta","commitShaAttribute":"data-commit-sha","lessonJsonShaAttribute":"data-lesson-json-sha256"}},"resultRewardDominanceAudit":{"standard":"result-primary-reward-dominance-v1","sceneImage":"#resultBg","panelDetector":"resultBoardAudit","primaryRewardBoundsByTier":{"departure":{"x":0,"y":80,"width":768,"height":640},"village":{"x":0,"y":70,"width":768,"height":650},"forest":{"x":0,"y":60,"width":768,"height":670},"cloud":{"x":0,"y":50,"width":768,"height":690},"gold":{"x":0,"y":40,"width":768,"height":710},"rainbow":{"x":0,"y":30,"width":768,"height":730}},"minimumPrimaryRewardWidthRatio":0.6,"minimumPrimaryRewardAreaRatio":0.13,"minimumRewardRightEdgeRatio":0.6,"minimumPanelLeftRatio":0.6,"maximumPanelWidthRatio":0.38,"maximumPanelAreaRatio":0.25,"minimumRewardToPanelWidthRatio":1.45,"maximumRewardPanelOverlapRatio":0.03,"forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["열차\\s*불빛\\s*\\d+"],"informationSelectors":["#resultTitleArt","#resultCorrectArt","#resultNextSvg","#retryButton"],"maximumVisibleInformationNodes":4},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"full-result-v2","titlePresentation":"independent-art","stateCount":6,"minimumVisibleWidthSourcePx":120,"minimumVisibleHeightSourcePx":58,"minimumPaletteColors":18,"minimumNonWarmRatio":0.06,"minimumGapSourcePx":10,"panelSafeInsetSourcePx":24,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"resultVisualAudit":{"standard":"result-tier-fullscene-native-v1","stateCount":6,"expectedStates":["departure","village","forest","cloud","gold","rainbow"],"expectedRanks":[0,1,2,3,4,5],"sceneImage":"#resultBg","sceneCanvas":"1280x800","sceneObjectFit":"cover","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"forbiddenSelectors":["[class*='result-impact']"],"dynamicAxisX":1010,"dynamicAxisByTier":{"departure":1010,"village":1002.5,"forest":1029,"cloud":1033,"gold":996.5,"rainbow":1021.5},"shiftRetryWithTierAxis":false,"axisTolerancePx":1,"slots":{"measure":{"x":820,"y":256,"width":380,"height":32},"track":{"x":890,"y":290,"width":240,"height":16},"correct":{"x":897.5,"y":300,"width":225,"height":114},"next":{"x":830,"y":447,"width":360,"height":32},"retry":{"x":850,"y":512,"width":320,"height":160}},"measureFontPx":24,"nextFontPx":28,"minVerticalGapPx":8,"requireDistinctSceneSource":true,"grandColorFamily":"golden-mountain-railway","legendColorFamily":"rainbow-crystal-sky-railway"},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png"},"visualContractVersion":1,"modelContractVersion":1,"modelRule":"division-three-digit-exact","directInteractionRequired":true,"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".unit6-play-progress","complete":".complete-panel","verticalOrder":["primary","secondary"],"minStageWidthRatio":0.7},"verticalCalculationAudit":{"standard":"vertical-calculation-tap-reveal-v1","stage":"1280x800","workArea":".problem-grid","problemCard":".problem-card","problemPrompt":".big-problem","board":".division5-board","frame":".division5-frame","placeLabels":".division5-place-labels","placeLabelItems":".division5-place-label","placeLabelValues":["백","십","일"],"quotientRow":".division5-quotient-row","quotientSlots":".division5-quotient-slot","dividendRow":".division5-dividend-row","divisor":".division5-divisor","bracket":".division5-bracket","dividendDigits":".division5-dividend-digit","work":".division5-work","workBlocks":".division5-work-block","productRows":".division5-product-row","subtractLine":".division5-subtract-line[data-full-dividend-width='true']","bringDownRow":".division5-next-row","bringDownArrow":".division5-down-arrow","remainderRow":".division5-remainder-row","stepBoard":".step-board","instruction":".step-board .instruction","feedback":".step-board .feedback-line","choicePanel":"#choicesPanel","choiceGrid":".division5-choice-grid","choices":".division5-choice","choiceParts":".division5-choice-part","completePanel":".complete-panel","completeExpression":"#completeExpression","placeCount":3,"choiceCount":4,"choiceGridColumns":2,"choiceGridRows":2,"minChoiceTapPx":42,"minWorkAreaStageWidthRatio":0.7,"minBoardWorkAreaWidthRatio":0.65,"requiredChoiceKinds":["quotient-remainder-pair","number"],"futureStepToken":"?","stateSequence":["waiting","wrong","correct","complete"],"revealContract":"board-value-then-confirmation","finalContract":"complete-expression-before-reward"},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".division5-board","primarySvgText":".division5-board svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":28,"minInstructionPx":16,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":16,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":4},"numericCenterAudit":{"standard":"visible-text-range-center-v1","tolerancePx":1,"selectors":[".big-problem",".division5-quotient-slot:not(:empty)",".division5-divisor",".division5-dividend-digit",".division5-work-digit",".division5-minus",".division5-choice-value",".division5-number-value",".answer-slot",".unit6-play-progress-eyebrow",".unit6-play-progress-name",".complete-text"]},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".unit6-play-progress","image":".unit6-play-progress-art","label":".unit6-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["departure","village","forest","cloud","gold","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"base-03-babydragonmon","expectedArtDirection":"division-train-fullbleed-portrait-v1","requiresFullBleed":true,"panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.245,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.42,"centerY":0.68,"footY":0.8,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".unit6-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","panel":".unit6-play-progress","image":".unit6-play-progress-art","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".unit6-play-progress-impact-stage","impactVisual":".division5-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"durationMs":640,"tierUpDurationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"reducedMotionVisibleEffect":true,"reducedMotionPresentation":"static-highlight-v1","forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":2,"eventId":"normal","amount":6,"beforeTier":"departure","afterTier":"village"}},"divisionTrainDesignFeedbackAudit":{"standard":"division-train-design-feedback-v2","viewport":"design-feedback-1079x929","progressImage":".division5-play-progress-art","progressArtDirection":"division-train-fullbleed-portrait-v1","hud":"#screen-play .hud","counter":"#problemCounter","hudLayout":"compact-centered-counter-v1","bracket":".division5-bracket","bracketStandard":"continuous-l-bracket-v1","choicesPanel":"#choicesPanel","choiceGrid":".division5-choice-grid","choices":".division5-choice","choiceCount":4,"subtractionLines":".division5-subtract-line[data-full-dividend-width='true']","subtractionLineGridColumn":"2 / 5","completeExpression":"#completeExpression","minimumCompleteFontPx":28,"rewardRoot":"#rewardPop","rewardLayout":"unit3-modal-art-compact-v2"},"rewardReentryAudit":{"standard":"reward-single-consumption-v1","trigger":"#rewardButton","modalNext":"#modalRewardNextButton","transitionAttribute":"data-reward-transitioning","hideTriggerDuringTransition":true,"disableTriggerDuringTransition":true},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"design-feedback-1079x929","width":1079,"height":929,"dpr":1},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"requiredFlow":["cover","settings","tutorial-1","tutorial-2","play-waiting","play-wrong-low","play-wrong-high","play-correct","complete","reward-closed","reward-open","reward-impact","result","result-all-tiers"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-three-digit-division-series","id":"3-2-2-5","folder":"3-2-2-5-mathmon-division-train","modelName":"Lesson2ThreeDigitDivisionModel","title":"매스몬 나눔열차","shortTitle":"매스몬 나눔열차","topic":"나머지가 없는 세 자리 수 나눗셈","unitBadge":"2단원 나눗셈 · 5차시","goal":"왼쪽부터 나눌 수 있는 수를 찾아 몫을 구해요.","action":"강조된 자리의 몫과 남은 수를 고른다.","buttonLabel":"선물 상자 열기","rewardScreenTitle":"선물 상자","progressLabel":"열차 불빛","rewardComplete":"상자를 열어 봐요.","tutorialTitle":"열차를 출발하기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"같은 세로셈을 보며 차례대로 풀어요","body":"3은 7보다 작아서 36부터 나눠요. 몫 5를 쓰고 35를 빼면 1이 남아요. 4를 내려 14를 만들고 몫 2를 써요. 답은 52예요.","image":"tutorial-page-1-v4-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"10문제를 풀고 도착한 역을 봐요","body":"문제를 풀어요. 상자를 열어요. 열차 불빛은 늘기도 하고 줄기도 해요. 그대로일 때도 있어요. 10문제를 다 풀면 도착한 역을 봐요.","image":"tutorial-page-2-v2-generated.webp"}],"tutorial":{"mode":"poster-two-step","standard":"generated-tutorial-poster-two-step-v1","actionPresentation":"scene-baked-hitbox"},"reward":{"mode":"stage-reveal","version":"division-train-stage-reveal-v1","standard":"mathmon-unified-reward-v1","maxPower":100,"unitLabel":"열차 불빛","closedLabel":"상자 열기","nextLabel":"다음 문제","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"stage-reveal-event","states":["closed","normal","loss","mega","complete","empty","rainbow"],"contactSheet":"reward-contact-sheet.png"},"artMap":{"normal":"reward-normal-generated.webp","loss":"reward-loss-generated.webp","mega":"reward-mega-generated.webp","complete":"reward-complete-generated.webp","empty":"reward-empty-generated.webp","rainbow":"reward-rainbow-generated.webp"}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showPower":false,"showNextGoal":true,"layout":{"axisX":1004.5,"axisXByTier":{"departure":1004.5,"village":1004,"forest":1022,"cloud":1003,"gold":1022,"rainbow":1003.5},"titleAxisX":1004.5,"titleAxisXByTier":{"departure":1004.5,"village":1004,"forest":1022,"cloud":1003,"gold":1022,"rainbow":1003.5},"titleTop":190,"titleWidth":280,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-titles-v1-source.png","titleSetManifest":"result-title-set-v2.json","measureY":318,"barY":320,"barWidth":240,"barHeight":16,"correctTop":330,"correctWidth":120,"nextY":465,"byTier":{"departure":{"retryRect":{"x":874.5,"y":520,"width":260,"height":105}},"village":{"retryRect":{"x":874,"y":520,"width":260,"height":105}},"forest":{"retryRect":{"x":892,"y":520,"width":260,"height":105}},"cloud":{"retryRect":{"x":873,"y":520,"width":260,"height":105}},"gold":{"retryRect":{"x":892,"y":520,"width":260,"height":105}},"rainbow":{"retryRect":{"x":873.5,"y":520,"width":260,"height":105}}},"retryRect":{"x":874.5,"y":520,"width":260,"height":105},"panelRect":{"x":794,"y":64,"width":394,"height":641}},"stateImageSet":{"standard":"generated-result-fullscene-v3","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/source","runtimePngPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/runtime-png","contract":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contract.json","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png","protagonist":"base-03-babydragonmon","nativeScenePerState":true,"titlePresentation":"independent-art","retryPresentation":"independent-art","forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["environment","mathmon","division-train-world","blank-dynamic-panel","result-title-raster","result-retry-raster"],"dynamicOverlays":["result-title","correct-count","next-goal","retry-button"]}},"workbench":{"type":"three-digit-division-train","learningFlow":["divide-current-place","choose-quotient-and-remainder","bring-down-next-digit"],"playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"base-03-babydragonmon","cacheVersion":"2026-08-15-division-train-v2","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/source","contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-anchor-audit.png","filePattern":"play-train-v1-{tier}-generated.webp","motionOverlay":{"standard":"generated-train-motion-overlay-v1","canvas":"768x1536","runtime":"play-train-motion-overlay-v1-generated.webp","source":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/source/play-train-motion-overlay-v1-source.png","presentation":"static-travel-frame-animated-on-reward-impact","centerClearRatio":0.55},"requiredSubjects":["새끼용몬 전신","나눔열차 진행 세계"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.5,"centerY":0.541,"footY":0.617,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","departure":{"centerX":0.5,"centerY":0.541,"footY":0.617,"height":0.151},"village":{"centerX":0.5,"centerY":0.541,"footY":0.617,"height":0.151},"forest":{"centerX":0.5,"centerY":0.541,"footY":0.617,"height":0.151},"cloud":{"centerX":0.5,"centerY":0.541,"footY":0.617,"height":0.151},"gold":{"centerX":0.5,"centerY":0.541,"footY":0.617,"height":0.151},"rainbow":{"centerX":0.5,"centerY":0.541,"footY":0.617,"height":0.151}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"mathmonPack":"base-pack","mathmonName":"새끼용몬","mathmonId":"base-03-babydragonmon","results":[{"id":"departure","name":"출발역","visualRank":0,"minPower":0,"minCorrect":0,"playImage":"play-train-v1-departure-generated.webp","image":"result-departure-generated.webp","titleImage":"result-title-departure-generated-v2.webp"},{"id":"village","name":"마을역","visualRank":1,"minPower":15,"minCorrect":2,"playImage":"play-train-v1-village-generated.webp","image":"result-village-generated.webp","titleImage":"result-title-village-generated-v2.webp"},{"id":"forest","name":"숲길역","visualRank":2,"minPower":35,"minCorrect":4,"playImage":"play-train-v1-forest-generated.webp","image":"result-forest-generated.webp","titleImage":"result-title-forest-generated-v2.webp"},{"id":"cloud","name":"구름역","visualRank":3,"minPower":55,"minCorrect":6,"playImage":"play-train-v1-cloud-generated.webp","image":"result-cloud-generated.webp","titleImage":"result-title-cloud-generated-v2.webp"},{"id":"gold","name":"황금역","visualRank":4,"minPower":78,"minCorrect":8,"playImage":"play-train-v1-gold-generated.webp","image":"result-gold-generated.webp","titleImage":"result-title-gold-generated-v2.webp"},{"id":"rainbow","name":"무지개역","visualRank":5,"minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-train-v1-rainbow-generated.webp","image":"result-rainbow-generated.webp","titleImage":"result-title-rainbow-generated-v2.webp"}],"rewardEvents":[{"id":"normal","text":"열차 불빛이 밝아졌어요","weight":6400,"min":6,"max":10,"family":"normal","rarity":"common"},{"id":"loss","text":"열차 불빛이 조금 어두워졌어요","weight":1500,"min":-5,"max":-2,"family":"loss","rarity":"common"},{"id":"mega","text":"열차 불빛이 크게 밝아졌어요","weight":1200,"min":14,"max":22,"family":"mega","rarity":"rare"},{"id":"jackpot","text":"황금 기관차가 나타났어요","weight":500,"min":30,"max":30,"family":"complete","rarity":"rare","express":true},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"empty","rarity":"common"},{"id":"special","text":"무지개 급행이 나타났어요","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"wrong-loss","text":"열차 불빛이 조금 어두워졌어요","min":-6,"max":-3,"family":"loss"},"typesPerRun":["three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact","three-digit-exact"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","tutorialPoster":"generated-tutorial-poster-two-step-v1","settings":"modal-controls","resultVisual":"generated-assets","resultPanelContainment":"result-panel-containment-v2","resultRewardDominance":"result-primary-reward-dominance-v1","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStates":{"waiting":"problem-background-generated.webp","working":"problem-background-generated.webp","complete":"problem-background-generated.webp"},"rewardClosed":"reward-event-closed-generated.webp","rewardScene":"problem-background-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp","resultCorrectCount":{"0":"../_shared/result-count/result-correct-0-generated.webp","1":"../_shared/result-count/result-correct-1-generated.webp","2":"../_shared/result-count/result-correct-2-generated.webp","3":"../_shared/result-count/result-correct-3-generated.webp","4":"../_shared/result-count/result-correct-4-generated.webp","5":"../_shared/result-count/result-correct-5-generated.webp","6":"../_shared/result-count/result-correct-6-generated.webp","7":"../_shared/result-count/result-correct-7-generated.webp","8":"../_shared/result-count/result-correct-8-generated.webp","9":"../_shared/result-count/result-correct-9-generated.webp","10":"../_shared/result-count/result-correct-10-generated.webp"}},"sourceFiles":{"style":"../_shared/unit6-data/lesson.css"},"assets":["cover-generated.webp","title-logo-generated.webp","tutorial-page-1-v4-generated.webp","tutorial-page-2-v2-generated.webp","problem-background-generated.webp","reward-event-closed-generated.webp","reward-normal-generated.webp","reward-loss-generated.webp","reward-mega-generated.webp","reward-complete-generated.webp","reward-empty-generated.webp","reward-rainbow-generated.webp","reward-contact-sheet.png","play-train-v1-departure-generated.webp","play-train-v1-village-generated.webp","play-train-v1-forest-generated.webp","play-train-v1-cloud-generated.webp","play-train-v1-gold-generated.webp","play-train-v1-rainbow-generated.webp","play-train-motion-overlay-v1-generated.webp","result-departure-generated.webp","result-village-generated.webp","result-forest-generated.webp","result-cloud-generated.webp","result-gold-generated.webp","result-rainbow-generated.webp","result-title-departure-generated-v2.webp","result-title-village-generated-v2.webp","result-title-forest-generated-v2.webp","result-title-cloud-generated-v2.webp","result-title-gold-generated-v2.webp","result-title-rainbow-generated-v2.webp","result-title-set-v2.json","../_shared/mathmon/cover-start-button/start-button-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp"],"qa":{"tutorialPosterAudit":{"standard":"generated-tutorial-poster-two-step-v1","pageCount":2,"nativeCanvas":"1280x800","card":".tutorial-card:not([hidden])","poster":".tutorial-poster-art","actionPresentation":"scene-baked-hitbox","tolerancePx":1,"minimumTouchPx":42},"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 2단원 5차시","compactText":"2단원 나눗셈 · 5차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"tier-delta-next","selectors":{"root":".division5-reward-story","currentTier":".unit6-reward-tier","change":".unit6-reward-status","nextTier":".unit6-reward-next-tier"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["현재 출발역이에요. 다음 역은 마을역이에요."]},"rewardStageAudit":{"standard":"stage-reveal-card-containment-v1","root":".division5-reward-story","visual":".unit6-reward-visual","art":".unit6-reward-art","copy":".unit6-reward-copy","status":".unit6-reward-status","next":".unit6-reward-next","button":"#rewardNextButton","placement":{"leftRatio":0.05,"rightRatio":0.05,"topPx":64,"bottomRatio":0.04,"tolerancePx":1},"artMaxPx":512,"artMinPx":180,"containmentTolerancePx":1,"noIntersections":true,"states":["closed","revealed"]},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","axisNodes":["title","correct","next","retry"],"matchMode":"dark-neutral","scanStartRatio":0.6203125,"scanEndRatio":0.928125,"minimumDetectedAxisX":990,"maximumDetectedAxisX":1030,"threshold":{"redMax":180,"greenMax":175,"blueMax":185},"minimumRunRatio":0.19,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"departure":1004.5,"village":1001,"forest":1023,"cloud":1000.5,"gold":1024,"rainbow":1001}},"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","stage":"1280x800","sceneImage":"#resultBg","safeInsetPx":24,"panelDetector":{"standard":"raster-panel-bounds-v2","mode":"dark","searchRect":{"x":794,"y":64,"width":394,"height":640},"threshold":{"redMax":180,"greenMax":175,"blueMax":185,"minBlueToRedRatio":0},"minRunWidth":243,"forbiddenVisibleSelectors":[".result-panel-art"],"axisDetection":{"standard":"vertical-inner-frame-edge-pair-v1","edgeStepPx":2,"y":110,"height":540,"minimumDirectionalScore":5000,"minimumInnerWidth":300,"maximumInnerWidth":365,"sourceTolerancePx":1,"screenTolerancePx":1,"leftSearchByTier":{"departure":{"x":800,"width":70},"village":{"x":810,"width":80},"forest":{"x":835,"width":80},"cloud":{"x":810,"width":80},"gold":{"x":835,"width":80},"rainbow":{"x":810,"width":80}},"rightSearchByTier":{"departure":{"x":1140,"width":70},"village":{"x":1130,"width":80},"forest":{"x":1140,"width":80},"cloud":{"x":1130,"width":80},"gold":{"x":1140,"width":80},"rainbow":{"x":1130,"width":80}},"expectedAxisXByTier":{"departure":1004.5,"village":1004,"forest":1022,"cloud":1003,"gold":1022,"rainbow":1003.5}}},"elements":{"title":"#resultTitleArt","measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retryArt":".result-retry-art","retryHitbox":"#retryButton"},"axisNodes":["title","measure","track","correct","next","retryHitbox"],"axisTolerancePx":1,"hitboxTolerancePx":1,"elementContainment":true,"noIntersections":true,"samePanelSizeAcrossTiers":false,"sameSafeRectAcrossTiers":false,"hiddenNextMustBeZero":true,"viewportCropsStage":false,"containmentTolerancePx":1,"minimumVisibleGapPx":8,"requiredNodes":{"measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retry":"#retryButton"},"pairedNodes":{"retryVisual":".result-retry-art","retryHitbox":"#retryButton"},"visualHitboxTolerancePx":1,"optionalWhenHidden":["measure","track"],"fixtures":["axis-correct-but-outside-panel","panel-too-short","retry-hitbox-outside-panel","baked-title-outside-panel","shared-axis-off-panel-center","tier-panel-source-mismatch","duplicate-result-panel-layer","viewport-crops-stage","stale-runtime-build"],"runtimeMetadata":{"selector":"#mathmonRuntimeBuildMeta","commitShaAttribute":"data-commit-sha","lessonJsonShaAttribute":"data-lesson-json-sha256"}},"resultRewardDominanceAudit":{"standard":"result-primary-reward-dominance-v1","sceneImage":"#resultBg","panelDetector":"resultBoardAudit","primaryRewardBoundsByTier":{"departure":{"x":0,"y":80,"width":768,"height":640},"village":{"x":0,"y":70,"width":768,"height":650},"forest":{"x":0,"y":60,"width":768,"height":670},"cloud":{"x":0,"y":50,"width":768,"height":690},"gold":{"x":0,"y":40,"width":768,"height":710},"rainbow":{"x":0,"y":30,"width":768,"height":730}},"minimumPrimaryRewardWidthRatio":0.6,"minimumPrimaryRewardAreaRatio":0.13,"minimumRewardRightEdgeRatio":0.6,"minimumPanelLeftRatio":0.6,"maximumPanelWidthRatio":0.38,"maximumPanelAreaRatio":0.25,"minimumRewardToPanelWidthRatio":1.45,"maximumRewardPanelOverlapRatio":0.03,"forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["열차\\s*불빛\\s*\\d+"],"informationSelectors":["#resultTitleArt","#resultCorrectArt","#resultNextSvg","#retryButton"],"maximumVisibleInformationNodes":4},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"full-result-v2","titlePresentation":"independent-art","stateCount":6,"minimumVisibleWidthSourcePx":120,"minimumVisibleHeightSourcePx":58,"minimumPaletteColors":18,"minimumNonWarmRatio":0.06,"minimumGapSourcePx":10,"panelSafeInsetSourcePx":24,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"resultVisualAudit":{"standard":"result-tier-fullscene-native-v1","stateCount":6,"expectedStates":["departure","village","forest","cloud","gold","rainbow"],"expectedRanks":[0,1,2,3,4,5],"sceneImage":"#resultBg","sceneCanvas":"1280x800","sceneObjectFit":"cover","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"forbiddenSelectors":["[class*='result-impact']"],"dynamicAxisX":1004.5,"dynamicAxisByTier":{"departure":1004.5,"village":1004,"forest":1022,"cloud":1003,"gold":1022,"rainbow":1003.5},"shiftRetryWithTierAxis":false,"axisTolerancePx":1,"slots":{"measure":{"x":814.5,"y":285,"width":380,"height":32},"track":{"x":884.5,"y":320,"width":240,"height":16},"correct":{"x":944.5,"y":330,"width":120,"height":66},"next":{"x":824.5,"y":440,"width":360,"height":36},"retry":{"x":874.5,"y":520,"width":260,"height":105}},"measureFontPx":24,"nextFontPx":19,"minVerticalGapPx":8,"requireDistinctSceneSource":true,"grandColorFamily":"golden-mountain-railway","legendColorFamily":"rainbow-crystal-sky-railway"},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png"},"visualContractVersion":1,"modelContractVersion":1,"modelRule":"division-three-digit-exact","directInteractionRequired":true,"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".unit6-play-progress","complete":".complete-panel","verticalOrder":["primary","secondary"],"minStageWidthRatio":0.7},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".division5-board","primarySvgText":".division5-board svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":28,"minInstructionPx":16,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":16,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":4},"numericCenterAudit":{"standard":"visible-text-range-center-v1","tolerancePx":1,"selectors":[".big-problem",".division5-quotient-slot:not(:empty)",".division5-divisor",".division5-dividend-digit",".division5-work-digit",".division5-minus",".division5-choice-value",".division5-number-value",".answer-slot",".unit6-play-progress-eyebrow",".unit6-play-progress-name",".complete-text"]},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".unit6-play-progress","image":".unit6-play-progress-art","label":".unit6-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["departure","village","forest","cloud","gold","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"base-03-babydragonmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.245,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.5,"centerY":0.541,"footY":0.617,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1,"motionOverlay":".division5-train-motion-art","motionOverlayStandard":"generated-train-motion-overlay-v1","motionOverlayAsset":"play-train-motion-overlay-v1-generated.webp","motionOverlayCanvas":"768x1536"},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".unit6-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","panel":".unit6-play-progress","image":".unit6-play-progress-art","motionOverlay":".division5-train-motion-art","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".unit6-play-progress-impact-stage","preEffectDelayMs":320,"durationMs":640,"tierUpDurationMs":1560,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":2,"eventId":"normal","amount":6,"beforeTier":"departure","afterTier":"village"}},"divisionTrainDesignFeedbackAudit":{"standard":"division-train-design-feedback-v1","viewport":"design-feedback-1079x929","choicesPanel":"#choicesPanel","choiceGrid":".division5-choice-grid","choices":".division5-choice","choiceCount":4,"subtractionLines":".division5-subtract-line[data-full-dividend-width='true']","subtractionLineGridColumn":"2 / 5","completeExpression":"#completeExpression","minimumCompleteFontPx":28,"motionOverlay":".division5-train-motion-art"},"rewardReentryAudit":{"standard":"reward-single-consumption-v1","trigger":"#rewardButton","modalNext":"#rewardNextButton","transitionAttribute":"data-reward-transitioning","hideTriggerDuringTransition":true,"disableTriggerDuringTransition":true},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"design-feedback-1079x929","width":1079,"height":929,"dpr":1},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"requiredFlow":["cover","settings","tutorial-1","tutorial-2","play-waiting","play-wrong-low","play-wrong-high","play-correct","complete","reward-closed","reward-open","reward-impact","result","result-all-tiers"]}};
     const Lesson2ThreeDigitDivisionModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -6068,6 +5879,7 @@
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
     let division5Attempt = null;
+    let division5RewardStage = null;
     let division5PlayProgress = null;
     let division5PlayProgressPrimed = false;
     let division5PendingRewardImpact = null;
@@ -6107,12 +5919,21 @@
       art.decoding = "async";
       art.setAttribute("aria-hidden", "true");
 
+      const motionAsset = imageSet.motionOverlay?.runtime || "";
+      const motionArt = motionAsset ? document.createElement("img") : null;
+      if (motionArt) {
+        motionArt.className = "division5-train-motion-art";
+        motionArt.src = motionAsset;
+        motionArt.alt = "";
+        motionArt.decoding = "async";
+        motionArt.dataset.motionOverlayStandard = imageSet.motionOverlay?.standard || "";
+        motionArt.setAttribute("aria-hidden", "true");
+      }
+
       const flare = division5Create("span", "unit6-play-progress-flare");
       flare.setAttribute("aria-hidden", "true");
       const impactStage = division5Create("span", "unit6-play-progress-impact-stage");
       impactStage.setAttribute("aria-hidden", "true");
-      const impactVisual = division5Create("span", "division5-play-progress-impact-visual");
-      impactStage.append(impactVisual);
 
       const readout = division5Create("div", "unit6-play-progress-readout");
       const eyebrow = division5Create("span", "unit6-play-progress-eyebrow", "지금 역");
@@ -6125,9 +5946,10 @@
       meter.append(meterFill);
       readout.append(eyebrow, name, meter);
       panel.append(art);
+      if (motionArt) panel.append(motionArt);
       panel.append(flare, readout);
       playScreen.append(panel, impactStage);
-      division5PlayProgress = { panel, art, flare, impactStage, impactVisual, name, meter, meterFill };
+      division5PlayProgress = { panel, art, motionArt, flare, impactStage, name, meter, meterFill };
       return division5PlayProgress;
     }
 
@@ -6192,10 +6014,9 @@
         progress.impactStage.classList.toggle("is-active", tierUp);
       }
 
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
-      // Reduced motion removes movement in CSS, but it must not remove the
-      // post-modal reading window or the visible world-change cue.
-      const duration = shouldAnimate
+      const duration = shouldAnimate && !reducedMotion
         ? Number(tierUp ? effectConfig.tierUpDurationMs || 1560 : effectConfig.durationMs || 640)
         : 0;
       if (!duration) return Promise.resolve();
@@ -6215,10 +6036,11 @@
       },
       getRewardEffectState() {
         const impactRect = division5PlayProgress?.impactStage?.getBoundingClientRect?.();
-        const impactVisualRect = division5PlayProgress?.impactVisual?.getBoundingClientRect?.();
         return {
           resultTier: division5PlayProgress?.panel?.dataset.resultTier || "",
           imageSrc: division5PlayProgress?.art?.getAttribute("src") || "",
+          motionOverlaySrc: division5PlayProgress?.motionArt?.getAttribute("src") || "",
+          motionOverlayStandard: division5PlayProgress?.motionArt?.dataset.motionOverlayStandard || "",
           panelClasses: division5PlayProgress?.panel?.className || "",
           effectPhase: division5PlayProgress?.panel?.dataset.effectPhase || "idle",
           effectKind: division5PlayProgress?.panel?.dataset.effectKind || "none",
@@ -6227,9 +6049,6 @@
           effectStartedWithModalHidden: division5PlayProgress?.panel?.dataset.effectStartedWithModalHidden || "",
           impactLayerRect: impactRect
             ? { left: impactRect.left, top: impactRect.top, width: impactRect.width, height: impactRect.height }
-            : null,
-          impactVisualRect: impactVisualRect
-            ? { left: impactVisualRect.left, top: impactVisualRect.top, width: impactVisualRect.width, height: impactVisualRect.height }
             : null,
         };
       },
@@ -6451,11 +6270,119 @@
       ui.visualArea.querySelector(".division5-board")?.classList.add("is-complete");
     }
 
-    function onRewardReveal({ beforePower, afterPower, beforeResult, afterResult }) {
+    function division5RewardImage(event) {
+      const artMap = LESSON_CONFIG.reward?.artMap || {};
+      return event?.image
+        || artMap[event?.id]
+        || artMap[event?.family]
+        || LESSON_CONFIG.imageAssets.rewardClosed;
+    }
+
+    function ensureDivision5RewardStage() {
+      if (division5RewardStage?.root?.isConnected) return division5RewardStage;
+      const panel = document.querySelector("#screen-reward .reward-panel");
+      const title = document.getElementById("rewardTitle");
+      const engineLabel = document.getElementById("rewardChange");
+      const button = document.getElementById("rewardNextButton");
+      if (!panel || !title || !engineLabel || !button) return null;
+
+      title.classList.add("visually-hidden");
+      engineLabel.className = "visually-hidden";
+      engineLabel.setAttribute("aria-hidden", "true");
+
+      const story = division5Create("div", "unit6-reward-story division5-reward-story");
+      story.dataset.rewardStageStory = "true";
+      story.dataset.phase = "closed";
+      button.addEventListener("click", () => {
+        if (story.dataset.phase === "revealed") button.disabled = true;
+      }, { capture: true });
+      const visual = division5Create("div", "unit6-reward-visual");
+      const art = document.createElement("img");
+      art.className = "unit6-reward-art";
+      art.alt = "";
+      art.setAttribute("aria-hidden", "true");
+      visual.append(art);
+
+      const copy = division5Create("div", "unit6-reward-copy");
+      const eyebrow = division5Create("span", "unit6-reward-eyebrow", "현재 역");
+      const tier = division5Create("strong", "unit6-reward-tier");
+      const meter = division5Create("div", "unit6-reward-meter");
+      meter.setAttribute("role", "progressbar");
+      meter.setAttribute("aria-valuemin", "0");
+      meter.setAttribute("aria-valuemax", String(LESSON_CONFIG.reward?.maxPower || 100));
+      const meterFill = division5Create("span", "unit6-reward-meter-fill");
+      meter.append(meterFill);
+      const status = division5Create("p", "unit6-reward-status");
+      status.setAttribute("aria-live", "polite");
+      const next = division5Create("div", "unit6-reward-next");
+      const nextEyebrow = division5Create("span", "unit6-reward-next-eyebrow", "다음 역");
+      const nextTier = division5Create("strong", "unit6-reward-next-tier");
+      next.append(nextEyebrow, nextTier);
+      copy.append(eyebrow, tier, meter, status, next, button);
+      story.append(visual, copy);
+      panel.replaceChildren(title, story, engineLabel);
+      division5RewardStage = { root: story, art, tier, meter, meterFill, status, nextTier };
+      return division5RewardStage;
+    }
+
+    function division5NextTier(result) {
+      const nextResult = Lesson2ThreeDigitDivisionModel.getNextResult(result);
+      const isHighest = Boolean(result?.id && nextResult?.id === result.id);
+      return {
+        result: nextResult,
+        isHighest,
+        label: isHighest ? "가장 높은 단계" : nextResult.name,
+      };
+    }
+
+    function onRewardPrepare({ beforePower, beforeResult }) {
+      division5PendingRewardImpact = null;
+      const stage = ensureDivision5RewardStage();
+      if (!stage) return;
+      const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+      const next = division5NextTier(beforeResult);
+      stage.art.src = LESSON_CONFIG.imageAssets.rewardClosed;
+      stage.tier.textContent = beforeResult.name;
+      stage.nextTier.textContent = next.label;
+      stage.meter.setAttribute("aria-valuenow", String(beforePower));
+      stage.meterFill.style.width = `${Math.max(0, Math.min(100, beforePower / maxPower * 100))}%`;
+      stage.status.textContent = "";
+      stage.root.dataset.phase = "closed";
+      stage.root.dataset.reward = "closed";
+      stage.root.setAttribute(
+        "aria-label",
+        next.isHighest
+          ? `현재 ${beforeResult.name}이에요. 가장 높은 단계예요. 상자가 닫혀 있어요.`
+          : `현재 ${beforeResult.name}이에요. 다음 역은 ${next.result.name}${division5Copula(next.result.name)}. 상자가 닫혀 있어요.`,
+      );
+    }
+
+    function onRewardReveal({ event, beforePower, afterPower, beforeResult, afterResult, state: currentState }) {
       division5PendingRewardImpact = {
         delta: Number(afterPower) - Number(beforePower),
         tierChanged: Boolean(beforeResult?.id && afterResult?.id && beforeResult.id !== afterResult.id),
       };
+      syncDivision5PlayProgress(currentState, { animate: false });
+      const stage = ensureDivision5RewardStage();
+      if (!stage) return Promise.resolve();
+      const maxPower = LESSON_CONFIG.reward?.maxPower || 100;
+      const change = afterPower - beforePower;
+      const changeText = change > 0 ? `+${change}` : change < 0 ? String(change) : "그대로";
+      const next = division5NextTier(afterResult);
+      stage.art.src = division5RewardImage(event);
+      stage.tier.textContent = afterResult.name;
+      stage.nextTier.textContent = next.label;
+      stage.meter.setAttribute("aria-valuenow", String(afterPower));
+      stage.meterFill.style.width = `${Math.max(0, Math.min(100, afterPower / maxPower * 100))}%`;
+      stage.status.textContent = changeText;
+      stage.root.dataset.phase = "revealed";
+      stage.root.dataset.reward = event.family || event.id || "normal";
+      stage.root.setAttribute(
+        "aria-label",
+        next.isHighest
+          ? `${changeText}. 현재 ${afterResult.name}이에요. 가장 높은 단계예요.`
+          : `${changeText}. 현재 ${afterResult.name}이에요. 다음 역은 ${next.result.name}${division5Copula(next.result.name)}.`,
+      );
       return matchMedia("(prefers-reduced-motion: reduce)").matches
         ? Promise.resolve()
         : new Promise((resolve) => window.setTimeout(resolve, 480));
@@ -6467,19 +6394,13 @@
       const impact = division5PendingRewardImpact;
       division5PendingRewardImpact = null;
       if (!impact || impact.delta === 0) {
-        const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
-        const handoffDelay = Number(effectConfig.preEffectDelayMs || 0);
-        if (division5PlayProgress?.panel && handoffDelay > 0) {
-          division5PlayProgress.panel.dataset.effectPhase = "arming";
-          division5PlayProgress.panel.dataset.effectKind = "none";
-          division5PlayProgress.panel.dataset.effectArmedAt = String(performance.now());
-          division5PlayProgress.panel.dataset.effectStartedWithModalHidden = "true";
-          await new Promise((resolve) => window.setTimeout(resolve, handoffDelay));
-        }
         return syncDivision5PlayProgress(currentState, { animate: false, delta: 0, afterModalDismiss: true });
       }
       const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
-      const preEffectDelay = Number(effectConfig.preEffectDelayMs || 0);
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const preEffectDelay = reducedMotion
+        ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+        : Number(effectConfig.preEffectDelayMs || 0);
       if (division5PlayProgress?.panel && preEffectDelay > 0) {
         division5PlayProgress.panel.dataset.effectPhase = "arming";
         division5PlayProgress.panel.dataset.effectKind = impact.tierChanged ? "tier-up-arming" : impact.delta > 0 ? "gain-arming" : "loss-arming";
