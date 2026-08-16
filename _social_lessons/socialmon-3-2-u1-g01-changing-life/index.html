@@ -1047,6 +1047,10 @@ button:focus-visible {
   overflow: visible;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench:has(.match-board) {
+  justify-content: center;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-card,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .situation-card {
   width: 100%;
@@ -1228,8 +1232,21 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option {
-  min-height: max(58px, 5.5cqw);
-  font-size: clamp(17px, 1.48cqw, 20px);
+  min-height: max(68px, 6.4cqw);
+  font-size: clamp(18px, 1.58cqw, 21px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image {
+  grid-template-columns: 6.8cqw minmax(0, 1fr);
+  gap: 0.9cqw;
+  padding: 0.45cqw 3.2cqw 0.45cqw 0.7cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .option-image {
+  width: 6.8cqw;
+  height: 5.2cqw;
+  max-height: none;
+  border-radius: 0.8cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-board {
@@ -1525,7 +1542,8 @@ button:focus-visible {
 
 /* Trace reveal */
 .settings-modal,
-.trace-reveal-modal {
+.trace-reveal-modal,
+.trace-reward-modal {
   position: absolute;
   inset: 0;
   z-index: 50;
@@ -1533,47 +1551,85 @@ button:focus-visible {
   place-items: center;
   padding: 4cqw;
   background: rgb(7 23 51 / 62%);
-  backdrop-filter: blur(0.25cqw);
+  backdrop-filter: blur(0.75cqw);
 }
 
-.trace-toast {
-  position: absolute;
-  z-index: 55;
-  left: 50%;
-  top: 50%;
-  min-width: 24cqw;
+.trace-reward-card {
+  width: min(34cqw, 430px);
+  min-height: min(38cqw, 480px);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1cqw;
-  padding: 1.4cqw 2cqw;
-  transform: translate(-50%, -50%);
-  border: 0.22cqw solid #fff;
-  border-radius: 999px;
-  background: #fff4bf;
+  padding: 2.2cqw 2.4cqw 2.4cqw;
+  border: 0.25cqw solid white;
+  border-radius: 2cqw;
+  background: linear-gradient(160deg, #fffdf0, #eafaf5);
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+  text-align: center;
+}
+
+.trace-reward-art {
+  width: min(19cqw, 250px);
+  height: min(19cqw, 250px);
+  margin: 0.8cqw 0 1.3cqw;
+  border: 0.12cqw solid rgb(16 42 86 / 12%);
+  border-radius: 1.4cqw;
+  object-fit: contain;
+  box-shadow: inset 0 0.1cqw 0 rgb(255 255 255 / 72%), 0 0.8cqw 1.8cqw rgb(4 16 38 / 16%);
+}
+
+.trace-reward-card h2 {
+  margin: 0;
   color: var(--navy);
-  box-shadow: 0 1cqw 2.4cqw rgb(4 16 38 / 32%);
-  font-size: clamp(21px, 2.05cqw, 28px);
-  animation: trace-pop 500ms ease both;
+  font-size: clamp(24px, 2.4cqw, 31px);
+  line-height: 1.2;
 }
 
-.trace-stamp {
-  width: 5cqw;
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  transform: rotate(-8deg);
-  border: 0.28cqw solid #c26c3b;
-  border-radius: 50% 50% 46% 54%;
-  color: #9a4b27;
-  font-size: clamp(10px, 0.9cqw, 12px);
-  font-weight: 950;
+.trace-reward-copy {
+  min-height: 2.8cqw;
+  margin: 0.8cqw 0 0.35cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 700;
+  line-height: 1.45;
 }
 
-@keyframes trace-pop {
-  0% { transform: translate(-50%, -50%) scale(0.78); opacity: 0; }
-  55% { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.trace-reward-count {
+  margin: 0 0 1.35cqw;
+  color: #8c4c24;
+  font-size: clamp(15px, 1.35cqw, 18px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.trace-reward-card .action-button {
+  min-width: 14cqw;
+}
+
+@media (max-aspect-ratio: 3 / 2) {
+  .trace-reward-card {
+    width: min(38cqw, 430px);
+    min-height: min(43cqw, 480px);
+  }
+
+  .trace-reward-art {
+    width: min(21cqw, 230px);
+    height: min(21cqw, 230px);
+  }
+}
+
+.trace-reveal-modal {
+  z-index: 51;
+}
+
+.trace-reward-card[data-phase="earned"] {
+  animation: trace-reward-in 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes trace-reward-in {
+  from { opacity: 0; transform: translateY(1cqw) scale(0.94); }
+  to { opacity: 1; transform: none; }
 }
 
 .trace-reveal-card {
@@ -1939,9 +1995,15 @@ button:focus-visible {
         </div>
       </section>
 
-      <div class="trace-toast" id="traceToast" role="status" aria-live="polite" hidden>
-        <span class="trace-stamp" aria-hidden="true">발자국</span>
-        <strong id="traceToastLabel">흔적을 찾았어요!</strong>
+      <div class="trace-reward-modal" id="traceRewardModal" role="dialog" aria-modal="true" aria-labelledby="traceRewardTitle" aria-describedby="traceRewardCopy" hidden>
+        <section class="trace-reward-card" id="traceRewardCard" data-phase="earned">
+          <p class="panel-eyebrow">소셜몬 탐험 보상</p>
+          <img class="trace-reward-art" id="traceRewardArt" src="assets/trace-earned-v1-generated.webp" alt="소셜몬 흔적을 찾은 발자국 그림">
+          <h2 id="traceRewardTitle">소셜몬 흔적 획득!</h2>
+          <p class="trace-reward-copy" id="traceRewardCopy" data-text-align-role="sentence">소셜몬 흔적 1개를 찾았어요.</p>
+          <p class="trace-reward-count" id="traceRewardCount" aria-live="polite">흔적 1 / 6</p>
+          <button class="action-button" id="traceRewardNextButton" type="button">다음 문제</button>
+        </section>
       </div>
 
       <div class="trace-reveal-modal" id="traceRevealModal" role="dialog" aria-modal="true" aria-labelledby="traceRevealTitle" hidden>
@@ -1978,12 +2040,12 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="995e588241c01a588c314b7898dd625236d8524f4130f2f25f2528fddd3f8b74"
+    data-quiz-json-sha256="3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762"
     data-profile-json-sha256="1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84"
     data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
     data-lesson-assets-sha256="95c74751d9311f1ec061cea2364c9e07b194034e2435c4e2a6eae7189d00bb59"
     data-engine-sha256="f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"995e588241c01a588c314b7898dd625236d8524f4130f2f25f2528fddd3f8b74","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"95c74751d9311f1ec061cea2364c9e07b194034e2435c4e2a6eae7189d00bb59","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp"],"builtAt":"2026-08-16T08:52:22.987Z"}</script>
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"95c74751d9311f1ec061cea2364c9e07b194034e2435c4e2a6eae7189d00bb59","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-source.svg","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp"],"builtAt":"2026-08-16T08:52:22.987Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2018,7 +2080,8 @@ button:focus-visible {
   "questionVisualPolicy": "socialmon-all-rendered-options-v1",
   "visualAssets": {
     "coverCopyArt": "assets/cover-copy-v1-generated.webp",
-    "coverCopySource": "assets/cover-copy-v1-source.png"
+    "coverCopySource": "assets/cover-copy-v1-source.png",
+    "traceRewardArt": "assets/trace-earned-v1-generated.webp"
   },
   "questions": [
     {
@@ -2078,19 +2141,19 @@ button:focus-visible {
         {
           "id": "old-name",
           "text": "국민학교",
-          "image": "assets/option-old-school-v1.svg",
+          "image": "assets/option-old-school-v1-generated.webp",
           "alt": "옛날 교실과 학교 건물이 함께 보이는 그림"
         },
         {
           "id": "split-class",
           "text": "오전반·오후반",
-          "image": "assets/option-split-class-v1.svg",
+          "image": "assets/option-split-class-v1-generated.webp",
           "alt": "한 교실을 오전과 오후에 나누어 쓰는 모습의 그림"
         },
         {
           "id": "lunchbox",
           "text": "도시락",
-          "image": "assets/option-lunchbox-v1.svg",
+          "image": "assets/option-lunchbox-v1-generated.webp",
           "alt": "뚜껑을 연 도시락 통과 밥과 반찬이 보이는 그림"
         }
       ],
@@ -2098,7 +2161,7 @@ button:focus-visible {
         {
           "id": "no-split-class",
           "text": "오전반·오후반 없음",
-          "image": "assets/option-one-class-v1.svg",
+          "image": "assets/option-one-class-v1-generated.webp",
           "alt": "한 번에 함께 수업하는 밝은 교실의 그림"
         },
         {
@@ -2110,7 +2173,7 @@ button:focus-visible {
         {
           "id": "elementary-name",
           "text": "초등학교",
-          "image": "assets/option-elementary-school-v1.svg",
+          "image": "assets/option-elementary-school-v1-generated.webp",
           "alt": "오늘날 학교 건물과 등교하는 어린이의 그림"
         }
       ],
@@ -2137,25 +2200,25 @@ button:focus-visible {
         {
           "id": "keeps-changing",
           "text": "계속 달라져요.",
-          "image": "assets/option-changing-life-v1.svg",
+          "image": "assets/option-changing-life-v1-generated.webp",
           "alt": "집과 학교가 화살표를 따라 다른 모습으로 이어지는 그림"
         },
         {
           "id": "always-same",
           "text": "늘 똑같아요.",
-          "image": "assets/option-same-life-v1.svg",
+          "image": "assets/option-same-life-v1-generated.webp",
           "alt": "같은 집과 학교가 나란히 반복되는 그림"
         },
         {
           "id": "only-past",
           "text": "옛날 모습만 남아요.",
-          "image": "assets/option-past-only-v1.svg",
+          "image": "assets/option-past-only-v1-generated.webp",
           "alt": "빛바랜 옛날 학교 모습만 남은 듯한 그림"
         },
         {
           "id": "all-gone",
           "text": "한 번에 모두 사라져요.",
-          "image": "assets/option-all-gone-v1.svg",
+          "image": "assets/option-all-gone-v1-generated.webp",
           "alt": "빈 액자 주변으로 집과 학교 조각이 흩어진 그림"
         }
       ],
@@ -2225,13 +2288,13 @@ button:focus-visible {
         {
           "id": "people-life",
           "label": "사람 수·수명",
-          "image": "assets/option-people-life-v1.svg",
+          "image": "assets/option-people-life-v1-generated.webp",
           "alt": "여러 사람과 시계가 함께 있는 그림"
         },
         {
           "id": "technology",
           "label": "과학 기술",
-          "image": "assets/option-technology-v1.svg",
+          "image": "assets/option-technology-v1-generated.webp",
           "alt": "톱니바퀴와 전구가 함께 있는 그림"
         }
       ],
@@ -2245,7 +2308,7 @@ button:focus-visible {
         {
           "id": "senior-center",
           "text": "노인 복지 시설",
-          "image": "assets/option-senior-center-v1.svg",
+          "image": "assets/option-senior-center-v1-generated.webp",
           "alt": "어르신과 돌봄 건물이 함께 보이는 그림"
         },
         {
@@ -2257,7 +2320,7 @@ button:focus-visible {
         {
           "id": "tablet-class",
           "text": "태블릿을 쓰는 수업",
-          "image": "assets/option-tablet-class-v1.svg",
+          "image": "assets/option-tablet-class-v1-generated.webp",
           "alt": "어린이가 태블릿으로 수업을 듣는 그림"
         }
       ],
@@ -2285,19 +2348,19 @@ button:focus-visible {
         {
           "id": "longer-life",
           "text": "평균 수명이 늘었어요.",
-          "image": "assets/option-longer-life-v1.svg",
+          "image": "assets/option-longer-life-v1-generated.webp",
           "alt": "사람과 시계, 길게 이어지는 시간의 화살표가 있는 그림"
         },
         {
           "id": "technology-growth",
           "text": "과학 기술이 발달했어요.",
-          "image": "assets/option-technology-growth-v1.svg",
+          "image": "assets/option-technology-growth-v1-generated.webp",
           "alt": "톱니바퀴와 위로 올라가는 계단이 있는 그림"
         },
         {
           "id": "more-exchange",
           "text": "다른 나라와 교류가 많아졌어요.",
-          "image": "assets/option-more-exchange-v1.svg",
+          "image": "assets/option-more-exchange-v1-generated.webp",
           "alt": "지구를 사이에 두고 두 방향으로 오가는 화살표가 있는 그림"
         }
       ],
@@ -2305,7 +2368,7 @@ button:focus-visible {
         {
           "id": "home-robot",
           "text": "로봇이 집안일을 도와요.",
-          "image": "assets/option-home-robot-v1.svg",
+          "image": "assets/option-home-robot-v1-generated.webp",
           "alt": "집 안에서 작은 로봇이 집안일을 돕는 그림"
         },
         {
@@ -2317,7 +2380,7 @@ button:focus-visible {
         {
           "id": "senior-welfare",
           "text": "노인 복지 시설이 늘었어요.",
-          "image": "assets/option-senior-welfare-v1.svg",
+          "image": "assets/option-senior-welfare-v1-generated.webp",
           "alt": "어르신을 위한 밝은 복지 시설 건물의 그림"
         }
       ],
@@ -2367,7 +2430,8 @@ button:focus-visible {
   },
   "reward": {
     "standard": "socialmon-trace-reveal-v1",
-    "stampDurationMs": 500,
+    "presentation": "modal",
+    "requiresExplicitDismiss": true,
     "checkpoints": [
       {
         "afterQuestion": 2,
@@ -2471,11 +2535,13 @@ button:focus-visible {
       "feedback-correct",
       "feedback-wrong",
       "trace-stamped",
+      "trace-reward-open",
       "trace-silhouette",
       "trace-trait"
     ],
     "requiredOverlays": [
       "settings",
+      "trace-reward",
       "trace-reveal"
     ],
     "coverCopyAudit": {
@@ -2524,6 +2590,45 @@ button:focus-visible {
       ],
       "visibleProgress": "#questionProgress",
       "hiddenProgress": "#traceProgress"
+    },
+    "matchBoardAudit": {
+      "standard": "socialmon-match-board-image-v1",
+      "states": ["q2-school-then-now", "q6-cause-and-life"],
+      "board": ".match-board",
+      "workbench": "#questionWorkbench",
+      "option": ".pair-option",
+      "optionImage": ".pair-option .option-image",
+      "connectionLayer": ".match-connections",
+      "requiredOptionImages": 6,
+      "minimumOptionImageNaturalWidth": 512,
+      "minimumOptionImageWidthPx": 64,
+      "minimumOptionImageHeightPx": 48,
+      "allowedImageExtensions": [".webp", ".png"],
+      "forbidSvgOptionImages": true,
+      "forbidStaticArrowText": true,
+      "centerContent": true,
+      "maximumWorkbenchBottomWhitespacePx": 132,
+      "minimumConnectionCountAfterComplete": 3
+    },
+    "traceRewardModalAudit": {
+      "standard": "socialmon-trace-reward-modal-v1",
+      "modal": "#traceRewardModal",
+      "card": "#traceRewardCard",
+      "visual": "#traceRewardArt",
+      "title": "#traceRewardTitle",
+      "copy": "#traceRewardCopy",
+      "count": "#traceRewardCount",
+      "nextButton": "#traceRewardNextButton",
+      "canvas": "512x512",
+      "cardWidthRatio": 0.34,
+      "cardMaxWidthRatio": 0.82,
+      "visualSizeRatio": 0.19,
+      "minimumVisualPx": 180,
+      "backdropBlurMinPx": 8,
+      "requiredTitle": "소셜몬 흔적 획득!",
+      "requiresExplicitDismiss": true,
+      "forbidAutoDismiss": true,
+      "minimumVisibleMs": 1200
     },
     "sourceChoiceAudit": {
       "standard": "socialmon-source-choice-tablet-v3",
@@ -3085,7 +3190,6 @@ button:focus-visible {
   };
 
   let lastFocusedElement = null;
-  let traceTransitionTimer = null;
 
   const writeToggle = (key, value) => {
     try { localStorage.setItem(key, String(value)); } catch { /* storage can be unavailable */ }
@@ -3193,8 +3297,6 @@ button:focus-visible {
   };
 
   const renderQuestion = () => {
-    if (traceTransitionTimer) clearTimeout(traceTransitionTimer);
-    traceTransitionTimer = null;
     const question = config.questions[state.questionIndex];
     if (!state.selectedResultId) chooseResult();
     updateDiscoveryCharacter();
@@ -3212,7 +3314,7 @@ button:focus-visible {
     byId("feedbackPanel").className = "feedback-panel";
     byId("questionLayout").classList.remove("has-feedback");
     byId("playWorkArea").classList.remove("has-feedback");
-    byId("traceToast").hidden = true;
+    byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
     updateTraceProgress();
     state.activeController = window.SocialQuizComponents.mount(byId("questionWorkbench"), question, {
@@ -3259,6 +3361,22 @@ button:focus-visible {
     announce(`${checkpoint.label}. ${checkpoint.phase === "trait" ? result.trait : checkpoint.title}`);
   };
 
+  const showTraceReward = (checkpoint = null) => {
+    const completedCount = state.traceCount;
+    const nextButton = byId("traceRewardNextButton");
+    const rewardArt = byId("traceRewardArt");
+    rewardArt.src = config.visualAssets?.traceRewardArt || "assets/trace-earned-v1-generated.webp";
+    rewardArt.alt = "소셜몬 흔적을 찾은 발자국 그림";
+    byId("traceRewardCopy").textContent = `소셜몬 흔적 ${completedCount}개를 찾았어요.`;
+    byId("traceRewardCount").textContent = `흔적 ${completedCount} / ${config.questions.length}`;
+    nextButton.textContent = completedCount === config.questions.length
+      ? "소셜몬 만나기"
+      : checkpoint ? "힌트 보기" : "다음 문제";
+    byId("traceRewardModal").hidden = false;
+    nextButton.focus();
+    announce(`소셜몬 흔적 ${completedCount}개를 찾았어요.`);
+  };
+
   const renderResult = (previewResultId = null) => {
     const result = (previewResultId && config.results.find((candidate) => candidate.id === previewResultId)) || selectedResult();
     byId("resultTitle").textContent = result.name;
@@ -3271,6 +3389,7 @@ button:focus-visible {
   };
 
   const moveToNextQuestionOrResult = () => {
+    byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
     if (state.questionIndex + 1 < config.questions.length) {
       state.questionIndex += 1;
@@ -3285,23 +3404,18 @@ button:focus-visible {
     state.continuationLocked = true;
     state.traceCount = state.questionIndex + 1;
     updateTraceProgress();
-    const toast = byId("traceToast");
-    toast.hidden = false;
-    byId("traceToastLabel").textContent = `소셜몬 흔적 ${state.traceCount}개!`;
     playTone(720, 0.1);
-    announce(`소셜몬 흔적 ${state.traceCount}개를 찾았어요.`);
+    showTraceReward(checkpointAfter(state.traceCount));
+  };
+
+  const continueAfterTraceReward = () => {
+    byId("traceRewardModal").hidden = true;
     const checkpoint = checkpointAfter(state.traceCount);
-    traceTransitionTimer = setTimeout(() => {
-      traceTransitionTimer = null;
-      toast.hidden = true;
-      if (checkpoint) showTraceCheckpoint(checkpoint);
-      else moveToNextQuestionOrResult();
-    }, config.reward.stampDurationMs);
+    if (checkpoint) showTraceCheckpoint(checkpoint);
+    else moveToNextQuestionOrResult();
   };
 
   const resetGame = () => {
-    if (traceTransitionTimer) clearTimeout(traceTransitionTimer);
-    traceTransitionTimer = null;
     state.questionIndex = 0;
     state.correctCount = 0;
     state.traceCount = 0;
@@ -3309,7 +3423,7 @@ button:focus-visible {
     state.continuationLocked = false;
     state.selectedResultId = null;
     state.tutorialReturn = null;
-    byId("traceToast").hidden = true;
+    byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
     byId("settingsModal").hidden = true;
     byId("discoveryCharacterBase").removeAttribute("src");
@@ -3366,6 +3480,9 @@ button:focus-visible {
     const coverCopyArt = byId("coverCopyArt");
     coverCopyArt.hidden = !config.visualAssets?.coverCopyArt;
     if (config.visualAssets?.coverCopyArt) coverCopyArt.src = config.visualAssets.coverCopyArt;
+    const traceRewardArt = byId("traceRewardArt");
+    traceRewardArt.hidden = !config.visualAssets?.traceRewardArt;
+    if (config.visualAssets?.traceRewardArt) traceRewardArt.src = config.visualAssets.traceRewardArt;
     const tutorialPosterArt = byId("tutorialPosterArt");
     tutorialPosterArt.hidden = !config.assets.tutorialPoster;
     if (config.assets.tutorialPoster) tutorialPosterArt.src = config.assets.tutorialPoster;
@@ -3390,6 +3507,7 @@ button:focus-visible {
       else renderQuestion();
     });
     byId("continueButton").addEventListener("click", continueAfterFeedback);
+    byId("traceRewardNextButton").addEventListener("click", continueAfterTraceReward);
     byId("traceRevealNextButton").addEventListener("click", moveToNextQuestionOrResult);
     byId("restartButton").addEventListener("click", resetGame);
     byId("settingsToggle").addEventListener("click", openSettings);
@@ -3421,6 +3539,62 @@ button:focus-visible {
 
   bindStaticUi();
 
+  const auditVisualContracts = () => {
+    const matchAudit = config.qa?.matchBoardAudit || {};
+    const modalAudit = config.qa?.traceRewardModalAudit || {};
+    const workbench = document.querySelector("#questionWorkbench");
+    const board = document.querySelector(".match-board");
+    const actions = document.querySelector(".workbench-actions");
+    const optionImages = [...document.querySelectorAll(".match-board .option-image")];
+    const imageMetrics = optionImages.map((image) => {
+      const rect = image.getBoundingClientRect();
+      const src = image.getAttribute("src") || "";
+      return {
+        src,
+        naturalWidth: image.naturalWidth,
+        naturalHeight: image.naturalHeight,
+        width: Number(rect.width.toFixed(2)),
+        height: Number(rect.height.toFixed(2)),
+        raster: /\.(?:webp|png)(?:$|[?#])/i.test(src)
+      };
+    });
+    const workbenchRect = workbench?.getBoundingClientRect();
+    const actionsRect = actions?.getBoundingClientRect();
+    const bottomWhitespace = workbenchRect && actionsRect
+      ? Number((workbenchRect.bottom - actionsRect.bottom).toFixed(2))
+      : null;
+    const rewardModal = byId("traceRewardModal");
+    const rewardArt = byId("traceRewardArt");
+    const rewardNextButton = byId("traceRewardNextButton");
+    const rewardCard = byId("traceRewardCard");
+    const rewardCardRect = rewardCard?.getBoundingClientRect();
+    return {
+      matchBoard: {
+        present: Boolean(board),
+        optionImageCount: imageMetrics.length,
+        requiredOptionImages: matchAudit.requiredOptionImages || 0,
+        allRaster: imageMetrics.every((item) => item.raster),
+        minimumNaturalWidth: imageMetrics.length ? Math.min(...imageMetrics.map((item) => item.naturalWidth)) : 0,
+        minimumRenderedWidth: imageMetrics.length ? Math.min(...imageMetrics.map((item) => item.width)) : 0,
+        minimumRenderedHeight: imageMetrics.length ? Math.min(...imageMetrics.map((item) => item.height)) : 0,
+        staticArrowText: (board?.textContent || "").includes("↔"),
+        bottomWhitespacePx: bottomWhitespace,
+        bottomWhitespaceWithinLimit: bottomWhitespace === null || bottomWhitespace <= (matchAudit.maximumWorkbenchBottomWhitespacePx || Infinity),
+        imageMetrics
+      },
+      traceRewardModal: {
+        open: Boolean(rewardModal && !rewardModal.hidden),
+        title: byId("traceRewardTitle")?.textContent?.trim() || "",
+        artNaturalWidth: rewardArt?.naturalWidth || 0,
+        artNaturalHeight: rewardArt?.naturalHeight || 0,
+        hasNextButton: Boolean(rewardNextButton),
+        cardWidth: rewardCardRect ? Number(rewardCardRect.width.toFixed(2)) : 0,
+        configuredMinimumVisibleMs: modalAudit.minimumVisibleMs || 0,
+        requiredTitle: modalAudit.requiredTitle || ""
+      }
+    };
+  };
+
   window.__socialmonQa = Object.freeze({
     getState: () => ({
       screen: state.screen,
@@ -3429,7 +3603,9 @@ button:focus-visible {
       traceCount: state.traceCount,
       answerLocked: state.answerLocked,
       continuationLocked: state.continuationLocked,
-      selectedResultId: state.selectedResultId
+      selectedResultId: state.selectedResultId,
+      traceRewardOpen: !byId("traceRewardModal").hidden,
+      traceRevealOpen: !byId("traceRevealModal").hidden
     }),
     forceResult(id) { state.forcedResultId = id; },
     renderQuestion(index) {
@@ -3443,6 +3619,14 @@ button:focus-visible {
       updateDiscoveryCharacter();
       updateTraceProgress();
     },
+    openTraceReward(count = Math.max(1, state.traceCount)) {
+      state.traceCount = Math.max(1, Math.min(config.questions.length, Number(count) || 1));
+      if (!state.selectedResultId) chooseResult();
+      updateDiscoveryCharacter();
+      updateTraceProgress();
+      showTraceReward(checkpointAfter(state.traceCount));
+    },
+    auditVisualContracts,
     reset: resetGame
   });
 })();
