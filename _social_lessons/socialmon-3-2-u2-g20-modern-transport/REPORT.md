@@ -62,12 +62,12 @@
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `7c1ed1b1a467e625e5b47d1ede47d2a707b5107f930f01edd4e7aa05915376a8` |
 | 실행 자산 | `8ef5d38961f8f083410a845d4af63dc035ea0054202134c88e98b7dac6d641d7` |
-| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
-| 정책·스킬 | `e0079acbc29c6b79a1bcea499e77ed9de7c4f0576ddcfb2b25f8d15a3432005b` |
-| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
-| 캡처 PNG 집합 | `d5574589e27009cc93fce122919d67d344044ff23719030a27f4b04f545b25e1` |
+| 엔진 | `f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc` |
+| 정책·스킬 | `6bad9e9bea5fe4ae1c53a1a81833fbea52a033375f71407107163aff02b229cf` |
+| QA 하네스 | `68955bd66faf6a57a11237c3f350f92aad4ce683cc66d20a2dfe7da0abbf2f2c` |
+| 캡처 PNG 집합 | `9da699a148d0cae5e04b36b94e1e1645da59d62b8e1a29f6d4fae5faf09a6e61` |
 
-- QA 생성 시각: `2026-08-13T13:11:33.434Z`
+- QA 생성 시각: `2026-08-16T08:25:33.808Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

@@ -109,12 +109,12 @@ harness 지문을 다시 계산해 영수증과 같은 것을 확인했으며, �
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `e962c2027d3c78162b12a796addf75d07ed6992af33b3d7d79a5e62b5891ed30` |
 | 실행 자산 | `f4374f2eac480c7af7a1c0313646abfa14f25ce54ca70dd7450f61e0ad510e31` |
-| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
-| 정책·스킬 | `84dc42e1236dfb17a074b9dacb3bfe9d0e74df72a3713b72e73acc6b5d228f06` |
-| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
-| 캡처 PNG 집합 | `7fb98e1d4a93f98821b190a1116a2129184b33bec4a6297511b4b7c6a0f103ac` |
+| 엔진 | `f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc` |
+| 정책·스킬 | `92100d77a42bc809fffc35f62af85de7e269eb9ca0a984b26cf3118f662d0e9a` |
+| QA 하네스 | `68955bd66faf6a57a11237c3f350f92aad4ce683cc66d20a2dfe7da0abbf2f2c` |
+| 캡처 PNG 집합 | `7d1b6aaa5b78520c2893828db3a450b2a999fe6c1b11428c76a44fda270b4b39` |
 
-- QA 생성 시각: `2026-08-13T13:16:39.109Z`
+- QA 생성 시각: `2026-08-16T08:30:35.113Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

@@ -1,7 +1,7 @@
 # 소셜몬 달라진 생활 찾기 검증 보고서
 
-검증일: 2026-08-12
-상태: 대표 정식 차시 실행본 통과
+검증일: 2026-08-16
+상태: 현재 실행본 브라우저 QA 통과
 
 ## 결과
 
@@ -11,12 +11,13 @@
 - 시리즈 계약: `socialmon-quiz-lite-contract-v3`
 - 화면 표준: `socialmon-four-screen-flow-v1`
 - 문항 조작 표준: `socialmon-tap-interactions-v1`
-- 차시 원본 해시: `1a6ea9ce2a6dc7df5da2dd4520c2aeacaffffb60717daaf3429023beab73c6b7`
-- 공용 프로필 해시: `d682c9046bf261f97324d3d75f436cf9513ba771f848a80d9fe4afb2457a1eba`
+- 보기 표준: `socialmon-all-rendered-options-v1` (모든 렌더 보기 이미지·alt)
+- 차시 원본 해시: `995e588241c01a588c314b7898dd625236d8524f4130f2f25f2528fddd3f8b74`
+- 공용 프로필 해시: `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84`
 - 사회 변화 테마팩 해시: `3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18`
-- 공용 엔진 해시: `c58ca532b6201332b9e1788d48e52da863849dbb801fbd2dd9fec328dbcb6f94`
-- 소셜몬 정책 지문: `2e1f3c793f8ff7142e89c96d26d01b9e79392cf963b8b494ee59b0e6786ad6ae`
-- 소셜몬 하네스 지문: `26e4a11534f855f439366bb7d05a3f21b63b829faf6cf06ae8d84df1d52ca55f`
+- 공용 엔진 해시: `f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc`
+- 소셜몬 정책 지문: `6bad9e9bea5fe4ae1c53a1a81833fbea52a033375f71407107163aff02b229cf`
+- 소셜몬 하네스 지문: `68955bd66faf6a57a11237c3f350f92aad4ce683cc66d20a2dfe7da0abbf2f2c`
 - 수업 범위: 3학년 2학기 1단원 1~2차시 `우리 사회의 변화 모습`
 - 성취기준: `[4사03-01]`
 - 문제 수: 6문항
@@ -68,7 +69,7 @@
 - 결과 생성 배경: `socialmon-result-hall-v1.webp`, 1280×800
 - 사실 자료 원본: `source-1960-school-lunch-v2-source.png`, 224×143
 - 사실 자료 실행본: `source-1960-school-lunch-v2.webp`, 896×572
-- 선택지 보조 그림: 생성 원본 PNG 8장과 실행 WebP 8장, 실행본 가로 512px 이상
+- 선택지 보조 그림: 출판사 자료형 실행 WebP 8장과 문항 2·3·5·6의 SVG 장식 실행본 18장, 모두 실행 가로 512px 이상
 - 두 번째 사실 자료: `source-childcare-closures-v1-source.png` / `source-childcare-closures-v1.webp`, 1600×900
 
 표지 문구 아트, 방법 포스터, 문제 배경은 내장 이미지 생성으로 만들었다. 표지에는
@@ -77,10 +78,14 @@
 안내를 한 장에 담았다. 문제 배경은 왼쪽 탐험 창과 오른쪽 학습 공간만 맡고,
 정답 근거·글자·소셜몬은 굽지 않았다.
 
-네 선택지 그림은 내장 이미지 생성으로 만들었다. 공통 프롬프트는 `밝고 정돈된
+자료형 네 선택지 그림은 내장 이미지 생성으로 만들었다. 공통 프롬프트는 `밝고 정돈된
 2D 애니메이션 스티커, 따뜻한 크림 배경, 가운데 큰 사물, 충분한 여백, 글자·로고·
 사람·소셜몬 없음`이며, 급식 식판·야영 음식·시장 가판대·기내식 쟁반을 각각
 지정했다. 시장 그림은 밝기와 사물 수를 한 번 더 줄여 같은 카드 화풍에 맞췄다.
+
+문항 2·3·5·6의 모든 보기에도 같은 역할의 장식 그림을 붙였다. 이 그림은 보기
+뜻을 빠르게 읽게 할 뿐 역사·사회 사실의 근거가 아니다. 문항 2·6의 연결선은 학생이
+짝을 완성한 뒤에만 실제 카드 경계를 따라 나타난다.
 
 출판사 원본 사진 자체가 224×143이라 생성형 복원은 하지 않았다. 모든 회귀
 화면에서 실행 이미지의 표시 픽셀 밀도는 3.18배 이상이며, 보이는 폭은 Stage의
@@ -111,8 +116,8 @@
 - 번역투·어른용 제작 용어: 0건
 - 새 문구 `누가 나타날까요?`, `모습이 조금 보이기 시작해요.`, `거의 다 보였어요.`는
   화면에서 바로 보이는 변화 한 가지씩만 말하도록 확인했다.
-- 1번 질문은 `옛날에는 도시락을 먹었어요. 지금 학교에서는 무엇을 먹을까요?`로
-  줄였고, 한글 낱말 중간에서 줄이 갈라지지 않게 했다.
+- 1번 질문은 `옛날에는 도시락을 먹었어요.` 뒤에서 의도적으로 줄바꿈해 두 문장을
+  자연스럽게 읽게 했고, 한글 낱말 중간에서 줄이 갈라지지 않게 했다.
 - 선택지 대체 문구의 어려운 `가판대`, 중복되는 `기내식`을 접근성 설명에서
   `시장`, `음식 쟁반`으로 고쳤다.
 - 화면에서 두 줄로 갈라지던 `늘어난 노인 복지 시설`은 출처 의미를 유지하며
@@ -167,8 +172,10 @@
 - 1번 질문은 34~40px로 표시되며 `자료 살펴보기`와 반복 지시문은 보이지 않는다.
 - 자료 제목은 24~28px, 본문은 20~24px로 표시된다. 출처는 자료 카드에서 빠지고
   문제 화면 오른쪽 아래의 10~11.78px 고대비 표면에 한 번만 표시된다.
-- 네 선택지 그림은 모두 512×384로 로드됐고 카드 안에서 잘림이 없었다.
+- 모든 정책 대상 보기 그림은 로드됐고 자연 가로 512px 이상, 카드 안에서 잘림이 없었다.
 - `답 확인`은 최소 153.59×52px이며 네 변 안전 여백 최솟값은 4.59px다.
+- 문항 2·6은 대기 상태의 고정 `↔`가 0건이고, 한 쌍을 완성한 뒤 실제 곡선 연결선이 1개씩 생겼다.
+- 정책 대상 문항 24개 대기 상태의 렌더 보기와 8개 짝 연결 효과를 모든 viewport에서 검사했다.
 - 정답·오답 피드백 상태에서도 문제 카드 안 버튼·그림의 바깥 이탈은 0건이다.
 - 흔적 0~6의 발자국 수와 공개 비율 7개 상태를 모든 viewport에서 확인했다.
 - 두 자료 문항 모두 workbench 시작 여백 0px, 자료–보기 간격 Stage 높이 1.838% 이상(11.77~14.72px)으로 확인했다.
@@ -185,9 +192,7 @@ node scripts/check-social-quiz.mjs socialmon-3-2-u1-g01-changing-life
 node scripts/test-social-quiz-contract.mjs
 node scripts/check-socialmon-pack.mjs
 node scripts/check-stage-ratio.mjs
-SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4174 node scripts/qa-social-quiz.mjs socialmon-3-2-u1-g01-changing-life
-SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4174 node scripts/qa-social-quiz.mjs social-quiz-component-demo
-SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4174 node scripts/qa-social-quiz.mjs socialmon-3-2-u1-g06-living-together
+SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4192 node scripts/qa-social-quiz.mjs socialmon-3-2-u1-g01-changing-life
 ```
 
 공통 컴포넌트 데모와 profile-v1 정식 차시도 같은 엔진으로 다시 빌드했다. 각각
@@ -198,16 +203,16 @@ SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4174 node scripts/qa-social-quiz.mjs socia
 
 | 입력 | SHA-256 |
 |---|---|
-| quiz.json | `906ce61f22ffd6c784a71629977bfecc163d749c30c2aefd56b2b337e3ed2ccf` |
+| quiz.json | `995e588241c01a588c314b7898dd625236d8524f4130f2f25f2528fddd3f8b74` |
 | profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
 | 테마팩 | `3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18` |
-| 실행 자산 | `8e0793587b45d0f221321e9b70ae39637123eac957ed7de68a14a76cd48fc2f3` |
-| 엔진 | `4e714a1bdc0e6caf20e362a2a182ad9d0d64d8a5f378c2ebee2f4e155e8fb75a` |
-| 정책·스킬 | `e0079acbc29c6b79a1bcea499e77ed9de7c4f0576ddcfb2b25f8d15a3432005b` |
-| QA 하네스 | `72c00eaa8fed8ba2552f0a559ef49d149c446db98a46f51529ef8cc8dfa504ab` |
-| 캡처 PNG 집합 | `44672c84eeec0604511deb8a75ee50714208bd4c350cc40b074eb3754edbdd3e` |
+| 실행 자산 | `95c74751d9311f1ec061cea2364c9e07b194034e2435c4e2a6eae7189d00bb59` |
+| 엔진 | `f87dfdf6ebe0f009de9ed9f018591d3df1d15fd01d655e79948946421e932fdc` |
+| 정책·스킬 | `6bad9e9bea5fe4ae1c53a1a81833fbea52a033375f71407107163aff02b229cf` |
+| QA 하네스 | `68955bd66faf6a57a11237c3f350f92aad4ce683cc66d20a2dfe7da0abbf2f2c` |
+| 캡처 PNG 집합 | `605d51f688fa56fd6d103b7009aaa24effdd93f565121e1422ab0e43133cf54d` |
 
-- QA 생성 시각: `2026-08-13T13:04:34.031Z`
+- QA 생성 시각: `2026-08-16T08:18:46.822Z`
 - 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
