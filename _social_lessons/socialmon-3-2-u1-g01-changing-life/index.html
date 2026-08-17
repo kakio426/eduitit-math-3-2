@@ -1154,10 +1154,18 @@ button:focus-visible {
   box-shadow: 0 0.15cqw 0.45cqw rgb(16 42 86 / 14%);
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-grid,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-board {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-grid {
   grid-template-columns: repeat(2, minmax(0, 31cqw));
+  grid-auto-rows: 1fr;
   justify-content: center;
-  gap: 1cqw 1.1cqw;
+  align-content: stretch;
+  gap: 0.85cqw 1.1cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option {
@@ -1169,25 +1177,40 @@ button:focus-visible {
   font-size: clamp(19px, 1.7cqw, 22px);
 }
 
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image {
   min-height: max(94px, 8.8cqw);
-  grid-template-columns: 8.4cqw minmax(0, 1fr);
-  gap: 1cqw;
-  padding: 0.65cqw 0.8cqw;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 0.4cqw;
+  padding: 0.5cqw 0.55cqw 0.45cqw;
   background: #fffdf6;
   font-size: clamp(21px, 1.9cqw, 24px);
-  text-align: left;
+  text-align: center;
 }
 
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
-  width: 8.4cqw;
-  height: 6.3cqw;
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .option-image {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   max-height: none;
   border: 0.12cqw solid rgb(16 42 86 / 10%);
   border-radius: 0.8cqw;
   background: #fff8e8;
   box-shadow: 0 0.25cqw 0.65cqw rgb(43 51 77 / 13%);
   object-fit: cover;
+  object-position: center;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-label,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .option-label {
+  justify-self: stretch;
+  text-align: center;
+  line-height: 1.25;
 }
 
 @media (max-aspect-ratio: 3 / 2) {
@@ -1207,12 +1230,9 @@ button:focus-visible {
     width: 22cqw;
   }
 
-  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image {
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image,
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image {
     min-height: 94px;
-  }
-
-  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image {
-    height: 6cqw;
   }
 }
 
@@ -1230,6 +1250,17 @@ button:focus-visible {
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option {
   min-height: max(58px, 5.5cqw);
   font-size: clamp(17px, 1.48cqw, 20px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-column {
+  min-height: 0;
+  grid-auto-rows: 1fr;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .pair-number {
+  top: 0.45cqw;
+  right: 0.45cqw;
+  transform: none;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-board {
@@ -1274,12 +1305,9 @@ button:focus-visible {
   width: 18cqw;
 }
 
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image {
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .pair-option.has-image {
   min-height: max(82px, 7.3cqw);
-}
-
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image .option-image {
-  height: 5.7cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel {
@@ -1979,11 +2007,11 @@ button:focus-visible {
     id="socialmonBuildMeta"
     type="application/json"
     data-quiz-json-sha256="3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762"
-    data-profile-json-sha256="1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84"
+    data-profile-json-sha256="c17875d7ab23a2113b91b46c1bf28137fd9fa82c41974538784a4e0c32013af4"
     data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
     data-lesson-assets-sha256="f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb"
-    data-engine-sha256="1b8b12c4f71ff75b9e572ab7a02ad8b2706ec8e62c6e980442b652bab322c6c6"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"1b8b12c4f71ff75b9e572ab7a02ad8b2706ec8e62c6e980442b652bab322c6c6","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp"],"builtAt":"2026-08-17T09:28:38.235Z"}</script>
+    data-engine-sha256="9d9af464611e5d116d719882626bf900e7bf4445af1e6efcf274244c0cf0d61e"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"9d9af464611e5d116d719882626bf900e7bf4445af1e6efcf274244c0cf0d61e","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"c17875d7ab23a2113b91b46c1bf28137fd9fa82c41974538784a4e0c32013af4","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp"],"builtAt":"2026-08-17T10:47:51.212Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2560,6 +2588,14 @@ button:focus-visible {
       "hideQuestionKind": true,
       "hideImageSourceInstruction": true,
       "hideInlineSourceCredit": true
+    },
+    "illustratedOptionAudit": {
+      "standard": "socialmon-stacked-option-art-v1",
+      "minImageWidthRatio": 0.72,
+      "minImageHeightRatio": 0.48,
+      "minBoardFillRatio": 0.82,
+      "maxEmptyBandRatio": 0.04,
+      "maxImageLabelOverlapPx": 2
     },
     "mapHotspotAudit": {
       "standard": "socialmon-source-choice-map-hotspots-v1",
