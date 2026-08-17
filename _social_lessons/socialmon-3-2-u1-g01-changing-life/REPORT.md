@@ -206,15 +206,15 @@ SOCIAL_QUIZ_BASE_URL=http://127.0.0.1:4192 node scripts/qa-social-quiz.mjs socia
 | 입력 | SHA-256 |
 |---|---|
 | quiz.json | `3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762` |
-| profile.json | `1390e406212f7f5fc01b9e2a1065106fccab593dfe1891cba4a24472e5164b84` |
+| profile.json | `a8e019b04d4c6a880c599a48a74689640bdb17c839d247e41af48587eb546c8b` |
 | 테마팩 | `3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18` |
 | 실행 자산 | `f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb` |
-| 엔진 | `1b8b12c4f71ff75b9e572ab7a02ad8b2706ec8e62c6e980442b652bab322c6c6` |
-| 정책·스킬 | `841f3c63e179b28b960219512420e5d5bdec84d2d567c1f9ea26713a13fff141` |
-| QA 하네스 | `ee3e88148da6ed9a2781a6f77d8b80624e5518ae0439bc1ef9b0ccde1b6a031b` |
-| 캡처 PNG 집합 | `d23f122d5137fa569019c2dc922dd13bd5998337d7ffee4dfef234ad1447fff4` |
+| 엔진 | `66a5f8a2ac4a0a9e205a1c36e74b8a435aaabdcbd58e157a67770287260d7918` |
+| 정책·스킬 | `e8dbda994b2013e9b51097a2443c1bfd87933dfeb9b8a6f0f56912abd7021e29` |
+| QA 하네스 | `449cc5aea9cf0b5e8eed59d48054117de444edba7cfb72662f45112d380ffcb8` |
+| 캡처 PNG 집합 | `c5ed289fbd3f19be6c58a1a4a26f4c0ab426fdc23bf28faf33e9963113e73716` |
 
-- QA 생성 시각: `2026-08-17T09:12:55.704Z`
-- 브라우저 QA: 4개 viewport, 120개 상태, 120개 PNG
+- QA 생성 시각: `2026-08-17T12:15:41.163Z`
+- 브라우저 QA: 5개 viewport, 150개 상태, 150개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->

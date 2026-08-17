@@ -627,7 +627,9 @@ button:focus-visible {
 
 .option-label {
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  line-break: strict;
 }
 
 .choice-option:hover,
@@ -1155,7 +1157,8 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-grid,
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-board {
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-board,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-board {
   flex: 1 1 auto;
   min-height: 0;
 }
@@ -1179,25 +1182,30 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image {
-  min-height: max(94px, 8.8cqw);
+  min-height: max(88px, 8cqw);
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(80px, 1.25fr) minmax(6.8em, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   align-items: stretch;
-  gap: 0.4cqw;
-  padding: 0.5cqw 0.55cqw 0.45cqw;
+  gap: 0.75cqw;
+  padding: 0.55cqw 0.85cqw 0.55cqw 0.55cqw;
   background: #fffdf6;
   font-size: clamp(21px, 1.9cqw, 24px);
-  text-align: center;
+  text-align: left;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-image,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .option-image {
-  width: 100%;
+  width: auto;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
   min-height: 0;
-  max-height: none;
+  justify-self: start;
+  align-self: center;
+  aspect-ratio: 1 / 1;
   border: 0.12cqw solid rgb(16 42 86 / 10%);
   border-radius: 0.8cqw;
   background: #fff8e8;
@@ -1214,21 +1222,18 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench:has(.source-card) .choice-option.has-image,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench:has(.situation-card) .choice-option.has-image {
-  height: auto;
-  grid-template-rows: max(64px, 6.2cqw) auto;
-}
-
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench:has(.source-card) .choice-option.has-image .option-image,
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .question-workbench:has(.situation-card) .choice-option.has-image .option-image {
-  height: 100%;
-  max-height: none;
+  height: max(94px, 8.7cqw);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .choice-option.has-image .option-label,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .option-label {
+  align-self: center;
   justify-self: stretch;
-  text-align: center;
+  text-align: left;
   line-height: 1.25;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  line-break: strict;
 }
 
 @media (max-aspect-ratio: 3 / 2) {
@@ -1255,6 +1260,7 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .workbench-actions {
+  flex: 0 0 auto;
   margin-top: 0.65cqw;
   padding: 0.4cqw 0.8cqw;
 }
@@ -1270,25 +1276,90 @@ button:focus-visible {
   font-size: clamp(17px, 1.48cqw, 20px);
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-board {
+  grid-template-columns: minmax(0, 0.9fr) minmax(5.2cqw, 6.6cqw) minmax(0, 0.9fr);
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-column {
   min-height: 0;
   grid-auto-rows: 1fr;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .match-arrow-rail {
+  display: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image {
+  padding-right: 1.15cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option[data-right-id].has-image {
+  padding-left: 1.15cqw;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option.has-image .pair-number {
-  top: 0.45cqw;
-  right: 0.45cqw;
+  top: 0.4cqw;
+  left: 0.4cqw;
+  right: auto;
   transform: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-port {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: max(10px, 0.9cqw);
+  height: max(10px, 0.9cqw);
+  border: max(2px, 0.16cqw) solid #fff8e8;
+  border-radius: 50%;
+  background: #1d9b91;
+  box-shadow: 0 0.12cqw 0.28cqw rgb(16 42 86 / 22%);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option[data-left-id] .pair-port {
+  right: 0.2cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .pair-option[data-right-id] .pair-port {
+  left: 0.2cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-board {
   grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: 1fr;
   gap: 0.65cqw;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-row {
   grid-template-columns: minmax(14cqw, 0.9fr) repeat(2, minmax(0, 1fr));
-  min-height: max(58px, 5.4cqw);
+  min-height: max(72px, 6.6cqw);
+  height: 100%;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-item.has-image,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-target.has-image {
+  height: 100%;
+  grid-template-columns: minmax(56px, 0.9fr) minmax(6.5em, 1.2fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-item.has-image .option-image,
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-target.has-image .option-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+  justify-self: start;
+  align-self: center;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center;
+  background: #fff8e8;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .workbench-actions {
@@ -1325,7 +1396,7 @@ button:focus-visible {
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .choice-option.has-image,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .pair-option.has-image {
-  min-height: max(82px, 7.3cqw);
+  min-height: max(76px, 7cqw);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .feedback-panel {
@@ -1571,7 +1642,8 @@ button:focus-visible {
 
 /* Trace reveal */
 .settings-modal,
-.trace-reveal-modal {
+.trace-reveal-modal,
+.trace-reward-modal {
   position: absolute;
   inset: 0;
   z-index: 50;
@@ -1579,7 +1651,73 @@ button:focus-visible {
   place-items: center;
   padding: 4cqw;
   background: rgb(7 23 51 / 62%);
-  backdrop-filter: blur(0.25cqw);
+  backdrop-filter: blur(0.75cqw);
+}
+
+.trace-reward-card {
+  width: min(34cqw, 430px);
+  min-height: min(38cqw, 480px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2cqw 2.4cqw 2.4cqw;
+  border: 0.25cqw solid white;
+  border-radius: 2cqw;
+  background: linear-gradient(160deg, #fffdf0, #eafaf5);
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+  text-align: center;
+}
+
+.trace-reward-art {
+  width: min(19cqw, 250px);
+  height: min(19cqw, 250px);
+  margin: 0.8cqw 0 1.3cqw;
+  border: 0.12cqw solid rgb(16 42 86 / 12%);
+  border-radius: 1.4cqw;
+  object-fit: contain;
+  box-shadow: inset 0 0.1cqw 0 rgb(255 255 255 / 72%), 0 0.8cqw 1.8cqw rgb(4 16 38 / 16%);
+}
+
+.trace-reward-card h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(24px, 2.4cqw, 31px);
+  line-height: 1.2;
+}
+
+.trace-reward-copy {
+  min-height: 2.8cqw;
+  margin: 0.8cqw 0 0.35cqw;
+  color: var(--ink);
+  font-size: clamp(15px, 1.4cqw, 18px);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.trace-reward-count {
+  margin: 0 0 1.35cqw;
+  color: #8c4c24;
+  font-size: clamp(15px, 1.35cqw, 18px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.trace-reward-card .action-button {
+  min-width: 14cqw;
+}
+
+.trace-reveal-modal {
+  z-index: 51;
+}
+
+.trace-reward-card[data-phase="earned"] {
+  animation: trace-reward-in 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes trace-reward-in {
+  from { opacity: 0; transform: translateY(1cqw) scale(0.94); }
+  to { opacity: 1; transform: none; }
 }
 
 .trace-toast {
@@ -1990,6 +2128,16 @@ button:focus-visible {
         <strong id="traceToastLabel">흔적을 찾았어요!</strong>
       </div>
 
+      <div class="trace-reward-modal" id="traceRewardModal" role="dialog" aria-modal="true" aria-labelledby="traceRewardTitle" aria-describedby="traceRewardCopy" hidden>
+        <section class="trace-reward-card" id="traceRewardCard" data-phase="earned">
+          <img class="trace-reward-art" id="traceRewardArt" alt="소셜몬 흔적을 찾은 발자국 그림">
+          <h2 id="traceRewardTitle">소셜몬 흔적 획득!</h2>
+          <p class="trace-reward-copy" id="traceRewardCopy" data-text-align-role="sentence">소셜몬 흔적 1개를 찾았어요.</p>
+          <p class="trace-reward-count" id="traceRewardCount" aria-live="polite">흔적 1 / 6</p>
+          <button class="action-button" id="traceRewardNextButton" type="button">다음 문제</button>
+        </section>
+      </div>
+
       <div class="trace-reveal-modal" id="traceRevealModal" role="dialog" aria-modal="true" aria-labelledby="traceRevealTitle" hidden>
         <section class="trace-reveal-card" id="traceRevealCard" data-phase="silhouette">
           <p class="panel-eyebrow" id="traceRevealStep">첫 번째 힌트</p>
@@ -2025,11 +2173,11 @@ button:focus-visible {
     id="socialmonBuildMeta"
     type="application/json"
     data-quiz-json-sha256="3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762"
-    data-profile-json-sha256="5d6d9e360e49c80ca667723e471ab2b19df403cb7ab46aecb84b72ae4d51f010"
+    data-profile-json-sha256="a8e019b04d4c6a880c599a48a74689640bdb17c839d247e41af48587eb546c8b"
     data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
     data-lesson-assets-sha256="f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb"
-    data-engine-sha256="f739459f7c3e8d8451c9ec92309cd3fc4d65dd94e3c9e3383e356415eefffdd0"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"f739459f7c3e8d8451c9ec92309cd3fc4d65dd94e3c9e3383e356415eefffdd0","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"5d6d9e360e49c80ca667723e471ab2b19df403cb7ab46aecb84b72ae4d51f010","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp"],"builtAt":"2026-08-17T11:13:27.119Z"}</script>
+    data-engine-sha256="66a5f8a2ac4a0a9e205a1c36e74b8a435aaabdcbd58e157a67770287260d7918"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"66a5f8a2ac4a0a9e205a1c36e74b8a435aaabdcbd58e157a67770287260d7918","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"a8e019b04d4c6a880c599a48a74689640bdb17c839d247e41af48587eb546c8b","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp"],"builtAt":"2026-08-17T12:13:01.597Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2505,6 +2653,11 @@ button:focus-visible {
         "name": "feedback-reported-1079x842",
         "width": 1079,
         "height": 842
+      },
+      {
+        "name": "feedback-reported-1079x840",
+        "width": 1079,
+        "height": 840
       }
     ],
     "requiredScreens": [
@@ -2608,18 +2761,48 @@ button:focus-visible {
       "hideInlineSourceCredit": true
     },
     "illustratedOptionAudit": {
-      "standard": "socialmon-stacked-option-art-v1",
-      "minImageWidthRatio": 0.72,
-      "minImageHeightRatio": 0.36,
+      "standard": "socialmon-inline-option-art-v1",
+      "layout": "image-left-label-right",
+      "targetImageAspect": 1,
+      "maxImageAspectDelta": 0.18,
+      "minImageWidthRatio": 0.18,
+      "maxImageWidthRatio": 0.62,
+      "minImageHeightRatio": 0.7,
       "minImageBoxHeightPx": 64,
+      "minImageBoxWidthPx": 64,
+      "maxHorizontalPadRatio": 0.14,
       "minBoardFillRatio": 0.82,
       "maxEmptyBandRatio": 0.04,
-      "maxImageLabelOverlapPx": 2,
+      "maxImageLabelOverlapPx": 8,
       "maxSourceAccentBorderExtraPx": 1,
       "fillQuestionTypes": [
         "choice",
-        "match"
-      ]
+        "match",
+        "classify"
+      ],
+      "labelWordBreak": "keep-all",
+      "forbidSingleGlyphLastLine": true,
+      "minLastLineGlyphs": 2
+    },
+    "matchPortAudit": {
+      "standard": "socialmon-match-edge-ports-v1",
+      "port": ".pair-port",
+      "forbidCenterRail": true,
+      "minLaneWidthPx": 28,
+      "maxPortInsetPx": 10
+    },
+    "traceRewardModalAudit": {
+      "standard": "socialmon-trace-reward-modal-v1",
+      "modal": "#traceRewardModal",
+      "card": "#traceRewardCard",
+      "visual": "#traceRewardArt",
+      "title": "#traceRewardTitle",
+      "copy": "#traceRewardCopy",
+      "count": "#traceRewardCount",
+      "nextButton": "#traceRewardNextButton",
+      "requiredTitle": "소셜몬 흔적 획득!",
+      "requiresExplicitDismiss": true,
+      "forbidAutoDismiss": true
     },
     "mapHotspotAudit": {
       "standard": "socialmon-source-choice-map-hotspots-v1",
@@ -2848,11 +3031,13 @@ button:focus-visible {
       const leftButton = [...board.querySelectorAll(".pair-option[data-left-id]")].find((button) => button.dataset.leftId === leftItem.id);
       const rightButton = [...board.querySelectorAll(".pair-option[data-right-id]")].find((button) => button.dataset.rightId === rightId);
       if (!leftButton || !rightButton) return;
-      const leftRect = leftButton.getBoundingClientRect();
-      const rightRect = rightButton.getBoundingClientRect();
-      const x1 = leftRect.right - boardRect.left;
+      const leftPort = leftButton.querySelector(".pair-port") || leftButton;
+      const rightPort = rightButton.querySelector(".pair-port") || rightButton;
+      const leftRect = leftPort.getBoundingClientRect();
+      const rightRect = rightPort.getBoundingClientRect();
+      const x1 = leftRect.left + leftRect.width / 2 - boardRect.left;
       const y1 = leftRect.top + leftRect.height / 2 - boardRect.top;
-      const x2 = rightRect.left - boardRect.left;
+      const x2 = rightRect.left + rightRect.width / 2 - boardRect.left;
       const y2 = rightRect.top + rightRect.height / 2 - boardRect.top;
       const bend = Math.max(18, (x2 - x1) * 0.48);
       const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -2863,15 +3048,7 @@ button:focus-visible {
       path.setAttribute("class", "match-connection-path");
       path.setAttribute("d", `M ${x1} ${y1} C ${x1 + bend} ${y1}, ${x2 - bend} ${y2}, ${x2} ${y2}`);
       path.setAttribute("pathLength", "1");
-      const start = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      start.setAttribute("class", "match-connection-dot");
-      start.setAttribute("cx", String(x1));
-      start.setAttribute("cy", String(y1));
-      const end = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      end.setAttribute("class", "match-connection-dot");
-      end.setAttribute("cx", String(x2));
-      end.setAttribute("cy", String(y2));
-      group.append(path, start, end);
+      group.append(path);
       svg.append(group);
     });
   };
@@ -2923,7 +3100,10 @@ button:focus-visible {
       const number = document.createElement("span");
       number.className = "pair-number";
       number.hidden = true;
-      button.append(number);
+      const port = document.createElement("span");
+      port.className = "pair-port";
+      port.setAttribute("aria-hidden", "true");
+      button.append(number, port);
       button.addEventListener("click", () => {
         if (controller.locked) return;
         selectedLeftId = item.id;
@@ -2955,7 +3135,10 @@ button:focus-visible {
       const number = document.createElement("span");
       number.className = "pair-number";
       number.hidden = true;
-      button.append(number);
+      const port = document.createElement("span");
+      port.className = "pair-port";
+      port.setAttribute("aria-hidden", "true");
+      button.append(number, port);
       button.addEventListener("click", () => {
         if (controller.locked || !selectedLeftId) return;
         Object.keys(pairs).forEach((leftId) => {
@@ -3274,6 +3457,7 @@ button:focus-visible {
     byId("questionLayout").classList.remove("has-feedback");
     byId("playWorkArea").classList.remove("has-feedback");
     byId("traceToast").hidden = true;
+    byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
     updateTraceProgress();
     state.activeController = window.SocialQuizComponents.mount(byId("questionWorkbench"), question, {
@@ -3331,7 +3515,24 @@ button:focus-visible {
     announce(`${result.name}을 만났어요.`);
   };
 
+  const showTraceReward = (checkpoint = null) => {
+    const completedCount = state.traceCount;
+    const nextButton = byId("traceRewardNextButton");
+    const rewardArt = byId("traceRewardArt");
+    rewardArt.src = config.visualAssets?.traceRewardArt || "assets/trace-earned-v1-generated.webp";
+    rewardArt.alt = "소셜몬 흔적을 찾은 발자국 그림";
+    byId("traceRewardCopy").textContent = `소셜몬 흔적 ${completedCount}개를 찾았어요.`;
+    byId("traceRewardCount").textContent = `흔적 ${completedCount} / ${config.questions.length}`;
+    nextButton.textContent = completedCount === config.questions.length
+      ? "소셜몬 만나기"
+      : checkpoint ? "힌트 보기" : "다음 문제";
+    byId("traceRewardModal").hidden = false;
+    nextButton.focus();
+    announce(`소셜몬 흔적 ${completedCount}개를 찾았어요.`);
+  };
+
   const moveToNextQuestionOrResult = () => {
+    byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
     if (state.questionIndex + 1 < config.questions.length) {
       state.questionIndex += 1;
@@ -3346,18 +3547,16 @@ button:focus-visible {
     state.continuationLocked = true;
     state.traceCount = state.questionIndex + 1;
     updateTraceProgress();
-    const toast = byId("traceToast");
-    toast.hidden = false;
-    byId("traceToastLabel").textContent = `소셜몬 흔적 ${state.traceCount}개!`;
+    byId("traceToast").hidden = true;
     playTone(720, 0.1);
-    announce(`소셜몬 흔적 ${state.traceCount}개를 찾았어요.`);
+    showTraceReward(checkpointAfter(state.traceCount));
+  };
+
+  const continueAfterTraceReward = () => {
+    byId("traceRewardModal").hidden = true;
     const checkpoint = checkpointAfter(state.traceCount);
-    traceTransitionTimer = setTimeout(() => {
-      traceTransitionTimer = null;
-      toast.hidden = true;
-      if (checkpoint) showTraceCheckpoint(checkpoint);
-      else moveToNextQuestionOrResult();
-    }, config.reward.stampDurationMs);
+    if (checkpoint) showTraceCheckpoint(checkpoint);
+    else moveToNextQuestionOrResult();
   };
 
   const resetGame = () => {
@@ -3371,6 +3570,7 @@ button:focus-visible {
     state.selectedResultId = null;
     state.tutorialReturn = null;
     byId("traceToast").hidden = true;
+    byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
     byId("settingsModal").hidden = true;
     byId("discoveryCharacterBase").removeAttribute("src");
@@ -3451,6 +3651,7 @@ button:focus-visible {
       else renderQuestion();
     });
     byId("continueButton").addEventListener("click", continueAfterFeedback);
+    byId("traceRewardNextButton").addEventListener("click", continueAfterTraceReward);
     byId("traceRevealNextButton").addEventListener("click", moveToNextQuestionOrResult);
     byId("restartButton").addEventListener("click", resetGame);
     byId("settingsToggle").addEventListener("click", openSettings);
