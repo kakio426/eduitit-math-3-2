@@ -94,7 +94,8 @@
       { "name": "desktop-1280x800", "width": 1280, "height": 800 },
       { "name": "tablet-landscape-1024x768", "width": 1024, "height": 768 },
       { "name": "feedback-reported-1079x929", "width": 1079, "height": 929 },
-      { "name": "feedback-reported-1079x842", "width": 1079, "height": 842 }
+      { "name": "feedback-reported-1079x842", "width": 1079, "height": 842 },
+      { "name": "feedback-reported-1079x840", "width": 1079, "height": 840 }
     ],
     "requiredScreens": ["cover", "tutorial", "play", "result"],
     "requiredFlowStates": ["answering", "feedback-correct", "feedback-wrong", "trace-stamped", "trace-silhouette", "trace-trait"],
@@ -170,15 +171,44 @@
       "hideInlineSourceCredit": true
     },
     "illustratedOptionAudit": {
-      "standard": "socialmon-stacked-option-art-v1",
-      "minImageWidthRatio": 0.72,
-      "minImageHeightRatio": 0.36,
+      "standard": "socialmon-inline-option-art-v1",
+      "layout": "image-left-label-right",
+      "targetImageAspect": 1,
+      "maxImageAspectDelta": 0.18,
+      "minImageWidthRatio": 0.18,
+      "maxImageWidthRatio": 0.62,
+      "minImageHeightRatio": 0.7,
       "minImageBoxHeightPx": 64,
+      "minImageBoxWidthPx": 64,
+      "maxHorizontalPadRatio": 0.14,
       "minBoardFillRatio": 0.82,
       "maxEmptyBandRatio": 0.04,
-      "maxImageLabelOverlapPx": 2,
+      "maxImageLabelOverlapPx": 8,
       "maxSourceAccentBorderExtraPx": 1,
-      "fillQuestionTypes": ["choice", "match"]
+      "fillQuestionTypes": ["choice", "match", "classify"],
+      "labelWordBreak": "keep-all",
+      "forbidSingleGlyphLastLine": true,
+      "minLastLineGlyphs": 2
+    },
+    "matchPortAudit": {
+      "standard": "socialmon-match-edge-ports-v1",
+      "port": ".pair-port",
+      "forbidCenterRail": true,
+      "minLaneWidthPx": 28,
+      "maxPortInsetPx": 10
+    },
+    "traceRewardModalAudit": {
+      "standard": "socialmon-trace-reward-modal-v1",
+      "modal": "#traceRewardModal",
+      "card": "#traceRewardCard",
+      "visual": "#traceRewardArt",
+      "title": "#traceRewardTitle",
+      "copy": "#traceRewardCopy",
+      "count": "#traceRewardCount",
+      "nextButton": "#traceRewardNextButton",
+      "requiredTitle": "소셜몬 흔적 획득!",
+      "requiresExplicitDismiss": true,
+      "forbidAutoDismiss": true
     },
     "mapHotspotAudit": {
       "standard": "socialmon-source-choice-map-hotspots-v1",
