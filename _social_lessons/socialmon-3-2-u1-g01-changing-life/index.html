@@ -1069,8 +1069,22 @@ button:focus-visible {
   padding: 0.9cqw 1.1cqw;
 }
 
-.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-zoom-trigger {
+  display: block;
   width: 22cqw;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-zoom-trigger:focus-visible {
+  outline: 0.22cqw solid var(--navy);
+  outline-offset: 0.2cqw;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
+  width: 100%;
   border-radius: 0.9cqw;
   background: white;
   box-shadow: 0 0.35cqw 0.9cqw rgb(43 51 77 / 16%);
@@ -1249,6 +1263,7 @@ button:focus-visible {
     grid-template-columns: 22cqw minmax(0, 1fr);
   }
 
+  .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-zoom-trigger,
   .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .source-image {
     width: 22cqw;
   }
@@ -1333,9 +1348,25 @@ button:focus-visible {
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-row {
-  grid-template-columns: minmax(14cqw, 0.9fr) repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(20cqw, 1.45fr) repeat(2, minmax(0, 0.68fr));
   min-height: max(72px, 6.6cqw);
   height: 100%;
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-item {
+  font-size: clamp(17px, 1.55cqw, 20px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-item.has-image {
+  grid-template-columns: minmax(68px, 1.05fr) minmax(7.2em, 1fr);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-target {
+  font-size: clamp(13px, 1.12cqw, 16px);
+}
+
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-target.has-image {
+  grid-template-columns: minmax(42px, 0.72fr) minmax(5.2em, 1.2fr);
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .classify-item.has-image,
@@ -1390,6 +1421,7 @@ button:focus-visible {
   height: 100%;
 }
 
+.social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-zoom-trigger,
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v3"] .play-work-area.has-feedback .source-image {
   width: 18cqw;
 }
@@ -1643,7 +1675,8 @@ button:focus-visible {
 /* Trace reveal */
 .settings-modal,
 .trace-reveal-modal,
-.trace-reward-modal {
+.trace-reward-modal,
+.source-viewer-modal {
   position: absolute;
   inset: 0;
   z-index: 50;
@@ -1652,6 +1685,38 @@ button:focus-visible {
   padding: 4cqw;
   background: rgb(7 23 51 / 62%);
   backdrop-filter: blur(0.75cqw);
+}
+
+.source-viewer-modal {
+  z-index: 52;
+}
+
+.source-viewer-card {
+  width: min(72cqw, 820px);
+  max-height: 58cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1cqw;
+  padding: 1.6cqw 1.8cqw 1.8cqw;
+  border: 0.25cqw solid white;
+  border-radius: 1.8cqw;
+  background: #fffdf6;
+  box-shadow: 0 1.3cqw 3.2cqw rgb(4 16 38 / 36%);
+}
+
+.source-viewer-image {
+  display: block;
+  width: 100%;
+  max-height: 44cqw;
+  object-fit: contain;
+  border: 0.12cqw solid rgb(16 42 86 / 14%);
+  border-radius: 1cqw;
+  background: white;
+}
+
+.source-viewer-card .action-button {
+  min-width: 12cqw;
 }
 
 .trace-reward-card {
@@ -1827,9 +1892,9 @@ button:focus-visible {
 
 .result-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(30cqw, 0.75fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(36cqw, 0.95fr);
   align-items: center;
-  gap: 2.4cqw;
+  gap: 2cqw;
   height: 52.5cqw;
   margin-top: 0.35cqw;
 }
@@ -1862,8 +1927,9 @@ button:focus-visible {
 }
 
 .result-panel {
-  max-height: 45cqw;
-  padding: 2.5cqw 2.2cqw;
+  min-height: 42cqw;
+  max-height: none;
+  padding: 2.8cqw 2.6cqw 2.5cqw;
   border: 0.22cqw solid white;
   border-radius: 1.8cqw;
   background: rgb(255 254 245 / 94%);
@@ -1882,20 +1948,21 @@ button:focus-visible {
 .result-discovery-label {
   display: block;
   width: fit-content;
-  margin: 1.1cqw 0 0;
-  padding: 0.35cqw 0.75cqw;
+  margin: 1.35cqw auto 0;
+  padding: 0.5cqw 1cqw;
   border-radius: 999px;
-  background: #fff0a8;
+  background: #ffe066;
   color: #734715;
-  font-size: clamp(13px, 1.15cqw, 15px);
+  font-size: clamp(16px, 1.45cqw, 19px);
+  font-weight: 900;
 }
 
 .result-next {
-  margin: 1cqw 0 1.7cqw;
-  color: var(--ink);
-  font-size: clamp(15px, 1.4cqw, 18px);
-  font-weight: 650;
-  line-height: 1.5;
+  margin: 1.1cqw 0 1.8cqw;
+  color: var(--navy);
+  font-size: clamp(18px, 1.72cqw, 22px);
+  font-weight: 800;
+  line-height: 1.45;
   text-align: left;
   overflow-wrap: anywhere;
 }
@@ -2138,6 +2205,14 @@ button:focus-visible {
         </section>
       </div>
 
+      <div class="source-viewer-modal" id="sourceViewerModal" role="dialog" aria-modal="true" aria-labelledby="sourceViewerTitle" hidden>
+        <section class="source-viewer-card">
+          <p class="panel-eyebrow" id="sourceViewerTitle">자료 크게 보기</p>
+          <img class="source-viewer-image" id="sourceViewerImage" alt="">
+          <button class="action-button" id="sourceViewerClose" type="button">닫기</button>
+        </section>
+      </div>
+
       <div class="trace-reveal-modal" id="traceRevealModal" role="dialog" aria-modal="true" aria-labelledby="traceRevealTitle" hidden>
         <section class="trace-reveal-card" id="traceRevealCard" data-phase="silhouette">
           <p class="panel-eyebrow" id="traceRevealStep">첫 번째 힌트</p>
@@ -2173,11 +2248,11 @@ button:focus-visible {
     id="socialmonBuildMeta"
     type="application/json"
     data-quiz-json-sha256="3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762"
-    data-profile-json-sha256="a8e019b04d4c6a880c599a48a74689640bdb17c839d247e41af48587eb546c8b"
+    data-profile-json-sha256="3aa19e937438124102f15495e538bde9b10b64b538dc4caa5fd731b28c72425e"
     data-theme-pack-json-sha256="3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18"
     data-lesson-assets-sha256="f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb"
-    data-engine-sha256="66a5f8a2ac4a0a9e205a1c36e74b8a435aaabdcbd58e157a67770287260d7918"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"66a5f8a2ac4a0a9e205a1c36e74b8a435aaabdcbd58e157a67770287260d7918","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"a8e019b04d4c6a880c599a48a74689640bdb17c839d247e41af48587eb546c8b","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp"],"builtAt":"2026-08-17T12:13:01.597Z"}</script>
+    data-engine-sha256="a473fc3f26bdffcf601b99723a828344634b1174ba2c1f26301e878221117c47"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"a473fc3f26bdffcf601b99723a828344634b1174ba2c1f26301e878221117c47","quizJson":"_social_lessons/socialmon-3-2-u1-g01-changing-life/quiz.json","quizJsonSha256":"3d5a4f1ec8996682e4154512ab5de00be9c0eb427362239532c4cc36b4078762","profileJson":"_shared/socialmon/profiles/quiz-lite-v2/profile.json","profileJsonSha256":"3aa19e937438124102f15495e538bde9b10b64b538dc4caa5fd731b28c72425e","themePackJson":"_shared/socialmon/theme-packs/3-2/social-change/pack.json","themePackJsonSha256":"3bb2404c433edc94aeb6058c4e10239835ce322a8711d1f398a81a662a2bff18","lessonAssetsSha256":"f221f5c6636e54cf23f2a7ba81f0d820b802da0ecc4092799a62c5dbb3de1dbb","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-airplane-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-all-gone-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-camping-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-changing-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-elementary-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-fewer-births-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-home-robot-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-longer-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-lunchbox-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-market-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-buses-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-exchange-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-food-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-more-robots-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-old-school-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-one-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-past-only-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-people-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-same-life-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-school-meal-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-center-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-senior-welfare-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-split-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-tablet-class-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-growth-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/option-technology-v1-generated.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-1960-school-lunch-v2.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/source-childcare-closures-v1.webp","_social_lessons/socialmon-3-2-u1-g01-changing-life/assets/trace-earned-v1-generated.webp"],"builtAt":"2026-08-18T08:15:07.997Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2658,6 +2733,11 @@ button:focus-visible {
         "name": "feedback-reported-1079x840",
         "width": 1079,
         "height": 840
+      },
+      {
+        "name": "feedback-reported-1079x839",
+        "width": 1079,
+        "height": 839
       }
     ],
     "requiredScreens": [
@@ -2782,14 +2862,17 @@ button:focus-visible {
       ],
       "labelWordBreak": "keep-all",
       "forbidSingleGlyphLastLine": true,
-      "minLastLineGlyphs": 2
+      "minLastLineGlyphs": 2,
+      "generatedSlotPattern": "-generated.",
+      "requireGeneratedSlotAspect": true
     },
     "matchPortAudit": {
       "standard": "socialmon-match-edge-ports-v1",
       "port": ".pair-port",
       "forbidCenterRail": true,
       "minLaneWidthPx": 28,
-      "maxPortInsetPx": 10
+      "maxPortInsetPx": 10,
+      "maxPortToPathPx": 12
     },
     "traceRewardModalAudit": {
       "standard": "socialmon-trace-reward-modal-v1",
@@ -2803,6 +2886,24 @@ button:focus-visible {
       "requiredTitle": "소셜몬 흔적 획득!",
       "requiresExplicitDismiss": true,
       "forbidAutoDismiss": true
+    },
+    "sourceViewerAudit": {
+      "standard": "socialmon-source-viewer-v1",
+      "trigger": ".source-zoom-trigger",
+      "modal": "#sourceViewerModal",
+      "image": "#sourceViewerImage",
+      "closeButton": "#sourceViewerClose",
+      "minZoomWidthRatio": 1.8
+    },
+    "classifyLayoutAudit": {
+      "standard": "socialmon-classify-lead-emphasis-v1",
+      "minLeadToTargetWidthRatio": 1.2
+    },
+    "resultPanelAudit": {
+      "standard": "socialmon-result-discovery-emphasis-v1",
+      "minPanelWidthRatio": 0.34,
+      "minDiscoveryFontPx": 18,
+      "minDiscoveryLabelFontPx": 16
     },
     "mapHotspotAudit": {
       "standard": "socialmon-source-choice-map-hotspots-v1",
@@ -2967,11 +3068,17 @@ button:focus-visible {
       source.className = "source-card";
       if (question.source.image) {
         source.classList.add("has-image");
+        const zoom = document.createElement("button");
+        zoom.type = "button";
+        zoom.className = "source-zoom-trigger";
+        zoom.setAttribute("aria-label", "자료 크게 보기");
         const image = document.createElement("img");
         image.className = "source-image";
         image.src = question.source.image;
         image.alt = question.source.alt || "";
-        source.append(image);
+        image.draggable = false;
+        zoom.append(image);
+        source.append(zoom);
       }
       const copy = document.createElement("div");
       copy.className = "source-copy";
@@ -3459,6 +3566,7 @@ button:focus-visible {
     byId("traceToast").hidden = true;
     byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
+    byId("sourceViewerModal").hidden = true;
     updateTraceProgress();
     state.activeController = window.SocialQuizComponents.mount(byId("questionWorkbench"), question, {
       onSubmit: (answer) => submitAnswer(question, answer)
@@ -3572,6 +3680,7 @@ button:focus-visible {
     byId("traceToast").hidden = true;
     byId("traceRewardModal").hidden = true;
     byId("traceRevealModal").hidden = true;
+    byId("sourceViewerModal").hidden = true;
     byId("settingsModal").hidden = true;
     byId("discoveryCharacterBase").removeAttribute("src");
     byId("discoveryCharacterColor").removeAttribute("src");
@@ -3588,6 +3697,22 @@ button:focus-visible {
   const closeSettings = () => {
     byId("settingsModal").hidden = true;
     lastFocusedElement?.focus?.();
+  };
+
+  const openSourceViewer = (image) => {
+    const modal = byId("sourceViewerModal");
+    const viewer = byId("sourceViewerImage");
+    viewer.src = image.currentSrc || image.src;
+    viewer.alt = image.alt || "자료 그림";
+    modal.hidden = false;
+    byId("sourceViewerClose").focus();
+    announce("자료를 크게 보여 줘요.");
+  };
+
+  const closeSourceViewer = () => {
+    byId("sourceViewerModal").hidden = true;
+    const trigger = document.querySelector(".source-zoom-trigger");
+    trigger?.focus?.();
   };
 
   const updateToggleUi = () => {
@@ -3653,6 +3778,16 @@ button:focus-visible {
     byId("continueButton").addEventListener("click", continueAfterFeedback);
     byId("traceRewardNextButton").addEventListener("click", continueAfterTraceReward);
     byId("traceRevealNextButton").addEventListener("click", moveToNextQuestionOrResult);
+    byId("questionWorkbench").addEventListener("click", (event) => {
+      const trigger = event.target.closest(".source-zoom-trigger");
+      if (!trigger) return;
+      const image = trigger.querySelector(".source-image");
+      if (image) openSourceViewer(image);
+    });
+    byId("sourceViewerClose").addEventListener("click", closeSourceViewer);
+    byId("sourceViewerModal").addEventListener("click", (event) => {
+      if (event.target === byId("sourceViewerModal")) closeSourceViewer();
+    });
     byId("restartButton").addEventListener("click", resetGame);
     byId("settingsToggle").addEventListener("click", openSettings);
     byId("settingsClose").addEventListener("click", closeSettings);
@@ -3677,7 +3812,12 @@ button:focus-visible {
       if (event.target === byId("settingsModal")) closeSettings();
     });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !byId("settingsModal").hidden) closeSettings();
+      if (event.key !== "Escape") return;
+      if (!byId("sourceViewerModal").hidden) {
+        closeSourceViewer();
+        return;
+      }
+      if (!byId("settingsModal").hidden) closeSettings();
     });
   };
 
