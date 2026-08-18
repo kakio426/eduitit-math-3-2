@@ -95,7 +95,8 @@
       { "name": "tablet-landscape-1024x768", "width": 1024, "height": 768 },
       { "name": "feedback-reported-1079x929", "width": 1079, "height": 929 },
       { "name": "feedback-reported-1079x842", "width": 1079, "height": 842 },
-      { "name": "feedback-reported-1079x840", "width": 1079, "height": 840 }
+      { "name": "feedback-reported-1079x840", "width": 1079, "height": 840 },
+      { "name": "feedback-reported-1079x839", "width": 1079, "height": 839 }
     ],
     "requiredScreens": ["cover", "tutorial", "play", "result"],
     "requiredFlowStates": ["answering", "feedback-correct", "feedback-wrong", "trace-stamped", "trace-silhouette", "trace-trait"],
@@ -188,14 +189,17 @@
       "fillQuestionTypes": ["choice", "match", "classify"],
       "labelWordBreak": "keep-all",
       "forbidSingleGlyphLastLine": true,
-      "minLastLineGlyphs": 2
+      "minLastLineGlyphs": 2,
+      "generatedSlotPattern": "-generated.",
+      "requireGeneratedSlotAspect": true
     },
     "matchPortAudit": {
       "standard": "socialmon-match-edge-ports-v1",
       "port": ".pair-port",
       "forbidCenterRail": true,
       "minLaneWidthPx": 28,
-      "maxPortInsetPx": 10
+      "maxPortInsetPx": 10,
+      "maxPortToPathPx": 12
     },
     "traceRewardModalAudit": {
       "standard": "socialmon-trace-reward-modal-v1",
@@ -209,6 +213,24 @@
       "requiredTitle": "소셜몬 흔적 획득!",
       "requiresExplicitDismiss": true,
       "forbidAutoDismiss": true
+    },
+    "sourceViewerAudit": {
+      "standard": "socialmon-source-viewer-v1",
+      "trigger": ".source-zoom-trigger",
+      "modal": "#sourceViewerModal",
+      "image": "#sourceViewerImage",
+      "closeButton": "#sourceViewerClose",
+      "minZoomWidthRatio": 1.8
+    },
+    "classifyLayoutAudit": {
+      "standard": "socialmon-classify-lead-emphasis-v1",
+      "minLeadToTargetWidthRatio": 1.2
+    },
+    "resultPanelAudit": {
+      "standard": "socialmon-result-discovery-emphasis-v1",
+      "minPanelWidthRatio": 0.34,
+      "minDiscoveryFontPx": 18,
+      "minDiscoveryLabelFontPx": 16
     },
     "mapHotspotAudit": {
       "standard": "socialmon-source-choice-map-hotspots-v1",
