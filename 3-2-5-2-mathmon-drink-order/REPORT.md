@@ -1,5 +1,17 @@
 # 매스몬 음료 제조 주문 구현 보고서
 
+## 2026-08-09 보상 패널 효과·폭 회귀
+
+- 일반 점수 상승은 `is-changing` 패널 플레어만 사용하고 Stage 임팩트는 쓰지 않으며, 표시 시간은 `640ms`입니다. 등급 상승은 `is-tier-up`·진행 장면 교체·Stage 폭 `32% 이상` 임팩트를 사용하고 `1560ms`(최소 읽기 시간 `1200ms`) 유지합니다.
+- 왼쪽 진행 패널은 Stage 폭 `24.5%`(`23.4375~25.2%` 허용), 문제 작업 영역과 최소 간격 `1.5625%`로 데스크톱·태블릿에서 측정했습니다. 넘침·교차는 `0건`입니다.
+- 현재 실행본에서 `qa-lesson-flow.mjs` 보상 fixture, `check-stage-ratio.mjs`, `check-lesson-contract.mjs`, 학생 보상 문구 브라우저 QA `176/176`을 통과했습니다.
+
+## 2026-08-09 중간 보상 명칭 QA
+
+- 보상 모달의 `이번 변화`·`가게 힘`을 `가게 인기 +N/-N/0`으로 통일했습니다.
+- Chrome `1280×800`, `1024×768`에서 보상 8상태를 전수 확인했습니다. 텍스트 넘침·요소 교차·Stage 이탈은 모두 0건입니다.
+- 중앙 보상은 `unit3-modal-art-compact-v2`로 고정했습니다: 카드 `430×480px(43:48)`, Stage 최대 폭 `82%`, 이미지 `250×250px`. reward-only 브라우저 하네스에서 닫힘·열림 실제 rect를 확인했습니다.
+
 ## 1. 구현 요약
 
 3학년 2학기 5단원 2차시 `들이의 덧셈·뺄셈과 어림`을 단일 HTML 게임으로 구현했습니다. 학생은 10문제 동안 주문에 맞는 들이를 골라요. 정답을 고르면 값이 계산판에 먼저 들어가고, 마지막 단계에서는 완성값을 본 뒤 `주문 보기`를 눌러 보상으로 넘어갑니다.
@@ -145,7 +157,7 @@
 - 최종 결과 승인 뒤에만 문제 왼쪽 전용 진행 장면 6장을 만들었습니다. 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/source/`, 런타임은 `play-drink-v1-*-generated.webp`, 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png`입니다.
 - 진행 이미지는 `768×1536`, `object-fit: contain`이며 최종 결과를 자르거나 재사용하지 않았습니다. 냥냥몬의 같은 카메라·중심·크기·발 기준선과 전신 잘림 `0건`을 유지합니다.
 - 현재 원본의 냥냥몬 중심·발 기준선·전신 높이는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png`에서 6장 전수 확인합니다.
-- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`입니다. 전환은 모달 닫힘 뒤 `320ms`를 두고 Stage 폭 `35%` 효과와 새 단계 이미지를 `1560ms` 보여 준 뒤 다음 문제로 이동합니다.
+- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 24.5%`, `height 84%`입니다. 전환은 모달 닫힘 뒤 `320ms`를 두고 등급 상승 때만 Stage 폭 `35%` 효과와 새 단계 이미지를 `1560ms` 보여 준 뒤 다음 문제로 이동합니다.
 - Humanizer 학생 문구 QA에서 패널 문구를 `지금의 주문`, 단계 이름, `가게 인기` 한 줄로 유지했습니다.
 
 ## 결과판 내부 결속 v2 (2026-08-03)
@@ -161,15 +173,15 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-04 최신 원본 스크린샷 전수
+## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `acbbfa4ab787ffef77df921b95942dadafc0e95a537a2b466910c2afdcf3f9dc`
-- 생성 시각: `2026-08-04T15:32:52.393Z`
+- 실행본 SHA-256: `3681ef0cc06a87b99eef34d54fe06d05921ddc40f0afb4bf0f89b8a7941c97d4`
+- 생성 시각: `2026-08-22T16:42:12.577Z`
 - 등록 화면 크기: `6개`
-- 아래에 직접 삽입한 원본 캡처: `179장`
+- 아래에 직접 삽입한 원본 캡처: `221장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 30장
+### desktop · 1280×800 · DPR 1 · 37장
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -212,6 +224,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
 
 ![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
+
+![desktop 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -389,6 +410,60 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과 상태 · 08v-result-visual-integrity-cup · `engine-flow-desktop-08v-result-visual-integrity-cup.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-cup](screenshots/engine-flow-desktop-08v-result-visual-integrity-cup.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-festival · `engine-flow-desktop-08v-result-visual-integrity-festival.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-festival](screenshots/engine-flow-desktop-08v-result-visual-integrity-festival.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-popular · `engine-flow-desktop-08v-result-visual-integrity-popular.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-popular](screenshots/engine-flow-desktop-08v-result-visual-integrity-popular.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-desktop-08v-result-visual-integrity-rainbow.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tasty · `engine-flow-desktop-08v-result-visual-integrity-tasty.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-tasty](screenshots/engine-flow-desktop-08v-result-visual-integrity-tasty.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tray · `engine-flow-desktop-08v-result-visual-integrity-tray.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-tray](screenshots/engine-flow-desktop-08v-result-visual-integrity-tray.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · cup · `engine-flow-desktop-08a-result-cup.png`
 
 ![desktop 결과 단계 · cup](screenshots/engine-flow-desktop-08a-result-cup.png)
@@ -443,7 +518,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 30장
+### tablet-landscape · 1024×768 · DPR 1 · 37장
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -486,6 +561,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
 
 ![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
+
+![tablet-landscape 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -663,6 +747,60 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과 상태 · 08v-result-visual-integrity-cup · `engine-flow-tablet-landscape-08v-result-visual-integrity-cup.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-cup](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-cup.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-festival · `engine-flow-tablet-landscape-08v-result-visual-integrity-festival.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-festival](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-festival.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-popular · `engine-flow-tablet-landscape-08v-result-visual-integrity-popular.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-popular](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-popular.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tasty · `engine-flow-tablet-landscape-08v-result-visual-integrity-tasty.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-tasty](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tasty.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tray · `engine-flow-tablet-landscape-08v-result-visual-integrity-tray.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-tray](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tray.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · cup · `engine-flow-tablet-landscape-08a-result-cup.png`
 
 ![tablet-landscape 결과 단계 · cup](screenshots/engine-flow-tablet-landscape-08a-result-cup.png)
@@ -717,7 +855,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 30장
+### codex-in-app · 1280×720 · DPR 2 · 37장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -760,6 +898,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-codex-in-app-05-play-step1.png`
 
 ![codex-in-app 문제 상태 · 05-play-step1](screenshots/engine-flow-codex-in-app-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
+
+![codex-in-app 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -937,6 +1084,60 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과 상태 · 08v-result-visual-integrity-cup · `engine-flow-codex-in-app-08v-result-visual-integrity-cup.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-cup](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-cup.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-festival · `engine-flow-codex-in-app-08v-result-visual-integrity-festival.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-festival](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-festival.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-popular · `engine-flow-codex-in-app-08v-result-visual-integrity-popular.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-popular](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-popular.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tasty · `engine-flow-codex-in-app-08v-result-visual-integrity-tasty.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-tasty](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tasty.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tray · `engine-flow-codex-in-app-08v-result-visual-integrity-tray.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-tray](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tray.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · cup · `engine-flow-codex-in-app-08a-result-cup.png`
 
 ![codex-in-app 결과 단계 · cup](screenshots/engine-flow-codex-in-app-08a-result-cup.png)
@@ -991,7 +1192,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility · 994×632 · DPR 1 · 30장
+### user-visibility · 994×632 · DPR 1 · 37장
 
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
@@ -1034,6 +1235,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-visibility-05-play-step1.png`
 
 ![user-visibility 문제 상태 · 05-play-step1](screenshots/engine-flow-user-visibility-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-visibility-05n-next-problem-clean.png`
+
+![user-visibility 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-visibility-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1211,6 +1421,60 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과 상태 · 08v-result-visual-integrity-cup · `engine-flow-user-visibility-08v-result-visual-integrity-cup.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-cup](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-cup.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-festival · `engine-flow-user-visibility-08v-result-visual-integrity-festival.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-festival](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-festival.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-popular · `engine-flow-user-visibility-08v-result-visual-integrity-popular.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-popular](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-popular.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tasty · `engine-flow-user-visibility-08v-result-visual-integrity-tasty.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-tasty](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tasty.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tray · `engine-flow-user-visibility-08v-result-visual-integrity-tray.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-tray](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tray.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · cup · `engine-flow-user-visibility-08a-result-cup.png`
 
 ![user-visibility 결과 단계 · cup](screenshots/engine-flow-user-visibility-08a-result-cup.png)
@@ -1265,7 +1529,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress · 1082×987 · DPR 2 · 30장
+### user-reported-missing-left-progress · 1082×987 · DPR 2 · 37장
 
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
@@ -1308,6 +1572,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-left-progress-05-play-step1.png`
 
 ![user-reported-missing-left-progress 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-left-progress-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png`
+
+![user-reported-missing-left-progress 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1485,6 +1758,60 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과 상태 · 08v-result-visual-integrity-cup · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-cup.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-cup](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-cup.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-festival · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-festival.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-festival](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-festival.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-popular · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-popular.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-popular](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-popular.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tasty · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tasty.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-tasty](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tasty.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tray · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tray.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-tray](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tray.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · cup · `engine-flow-user-reported-missing-left-progress-08a-result-cup.png`
 
 ![user-reported-missing-left-progress 결과 단계 · cup](screenshots/engine-flow-user-reported-missing-left-progress-08a-result-cup.png)
@@ -1539,7 +1866,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 29장
+### empty-reward-fixture · 1280×800 · DPR 1 · 36장
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
@@ -1582,6 +1909,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-empty-reward-fixture-05-play-step1.png`
 
 ![empty-reward-fixture 문제 상태 · 05-play-step1](screenshots/engine-flow-empty-reward-fixture-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
+
+![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1750,6 +2086,60 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
+#### 결과 상태 · 08v-result-visual-integrity-cup · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-cup.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-cup](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-cup.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-festival · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-festival.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-festival](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-festival.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-popular · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-popular.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-popular](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-popular.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tasty · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-tasty.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-tasty](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-tasty.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tray · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-tray.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-tray](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-tray.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 가게 인기 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
 #### 결과 단계 · cup · `engine-flow-empty-reward-fixture-08a-result-cup.png`
 
 ![empty-reward-fixture 결과 단계 · cup](screenshots/engine-flow-empty-reward-fixture-08a-result-cup.png)
@@ -1805,3 +2195,16 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+## 2026-08-09 최종 보상 정렬 회귀 QA
+
+- 6개 생성 장면의 실제 결과판 중심을 각각 측정해 제목·동적 값·정답 수·다시 버튼 축을 상태별로 맞췄다.
+- 데스크톱 `1280×800`, 태블릿 가로 `1024×768` 전수 캡처에서 축 오차 `1px 이하`, 텍스트 넘침·요소 겹침 `0건`을 확인했다.
+- 증거: `screenshots/result-typography-desktop-after.png`
+
+## 2026-08-09 결과 타이틀 래스터 무결성 QA
+
+- 범위: `result-title-only-v1` — 원본 PNG·투명 WebP·manifest와 제목 레이어를 전수 확인했다.
+- 6단계 독립 생성 제목의 실제 알파 경계·팔레트·노란색 외 색·판 안전영역 포함·동적 값 간격을 전수 검사했다.
+- 데스크톱 `1280×800`과 태블릿 가로 `1024×768`에서 모두 PASS, 텍스트 넘침·요소 겹침 `0건`이다.
+- 증거: `screenshots/result-typography-desktop-contain-after.png`, `screenshots/result-typography-tablet-landscape-contain-after.png`

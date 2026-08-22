@@ -1,5 +1,17 @@
 # 매스몬 물통 채우기 시합 구현 보고서
 
+## 2026-08-09 보상 패널 효과·폭 회귀
+
+- 일반 점수 상승은 `is-changing` 패널 플레어만 사용하고 Stage 임팩트는 쓰지 않으며, 표시 시간은 `640ms`입니다. 등급 상승은 `is-tier-up`·진행 장면 교체·Stage 폭 `32% 이상` 임팩트를 사용하고 `1560ms`(최소 읽기 시간 `1200ms`) 유지합니다.
+- 왼쪽 진행 패널은 Stage 폭 `24.5%`(`23.4375~25.2%` 허용), 문제 작업 영역과 최소 간격 `1.5625%`로 데스크톱·태블릿에서 측정했습니다. 넘침·교차는 `0건`입니다.
+- 현재 실행본에서 `qa-lesson-flow.mjs` 보상 fixture, `check-stage-ratio.mjs`, `check-lesson-contract.mjs`, 학생 보상 문구 브라우저 QA `176/176`을 통과했습니다.
+
+## 2026-08-09 중간 보상 명칭 QA
+
+- 보상 모달의 `이번 변화`·`물통 힘`을 `채우기 점수 +N/-N/0`으로 통일했습니다.
+- Chrome `1280×800`, `1024×768`에서 보상 8상태를 전수 확인했습니다. 텍스트 넘침·요소 교차·Stage 이탈은 모두 0건입니다.
+- 중앙 보상은 `unit3-modal-art-compact-v2`로 고정했습니다: 카드 `430×480px(43:48)`, Stage 최대 폭 `82%`, 이미지 `250×250px`. reward-only 브라우저 하네스에서 닫힘·열림 실제 rect를 확인했습니다.
+
 ## 1. 구현 요약
 
 3학년 2학기 5단원 1차시 `들이 비교와 L, mL`을 단일 HTML 게임으로 구현했습니다. 학생은 10문제 동안 눈금에 맞는 들이를 골라요. 정답을 고르면 값이 계산판에 먼저 들어가고, 마지막 단계에서는 완성값을 본 뒤 `물통 보기`를 눌러 보상으로 넘어갑니다.
@@ -173,7 +185,7 @@ Browser QA:
 - 첫 장에서 펭귄몬의 정면 카메라·중심·크기·발 기준선을 고정하고 나머지 다섯 장을 같은 첫 장에서 편집했습니다. 전신과 두 발 잘림, 검은 띠, 이미지 늘어남은 `0건`입니다.
 - 런타임은 `play-water-v1-*-generated.webp` 6장, 각 768×1536, `object-fit: contain`입니다. 원본은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source`, 컨택시트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png`에 보관합니다.
 - 현재 원본의 펭귄몬 중심·발 기준선·전신 높이는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png`에서 6장 전수 확인합니다.
-- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 19.2%`, `height 84%`입니다. 다섯 화면에서 선언 좌표와 실제 네 변의 최대 오차는 `0.02px` 미만이며 학습 영역 교차는 `0px`입니다.
+- 패널은 Stage 기준 `left 1.65%`, `top 11%`, `width 24.5%`, `height 84%`입니다. 다섯 화면에서 선언 좌표와 실제 네 변의 최대 오차는 `0.02px` 미만이며 학습 영역 교차는 `0px`입니다.
 - 모달을 완전히 닫은 뒤 `320ms`를 두고 장면을 바꾸며, Stage 폭 `35%`의 효과를 `1560ms` 표시합니다. 문제 번호는 최소 `1200ms` 동안 고정됩니다.
 - `1280×800`, `1024×768`, `1280×720 DPR 2`, `994×632`, `1082×987 DPR 2` 전체 흐름에서 텍스트 넘침·요소 겹침·이미지 누락은 `0건`입니다.
 - `994×632` 회귀에서 기존 물통 그림이 문제 카드 아래로 `7.7px` 벗어나는 실패를 발견해 물통 시각 영역의 고정 최소 높이를 제거했습니다.
@@ -192,15 +204,15 @@ Browser QA:
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-04 최신 원본 스크린샷 전수
+## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `b0b9ab770d045653f4023dba69e2f3283063ac81cab4f3545b77f8d85d79453a`
-- 생성 시각: `2026-08-04T15:32:49.535Z`
+- 실행본 SHA-256: `946599aaf31fccedefb0a17314c508ab29df0c4c77d907ece5b33ab32c8c38d8`
+- 생성 시각: `2026-08-22T16:41:53.878Z`
 - 등록 화면 크기: `6개`
-- 아래에 직접 삽입한 원본 캡처: `155장`
+- 아래에 직접 삽입한 원본 캡처: `197장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 26장
+### desktop · 1280×800 · DPR 1 · 33장
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -243,6 +255,15 @@ Browser QA:
 #### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
 
 ![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
+
+![desktop 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -299,7 +320,7 @@ Browser QA:
 ![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 물통 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 채우기 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -307,7 +328,7 @@ Browser QA:
 
 ![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 물통 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 채우기 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -316,7 +337,7 @@ Browser QA:
 
 ![desktop 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-desktop-07c-reward-impact.png)
 
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 물통 힘 변화가 반영되는 모습을 봅니다.
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 채우기 점수 변화가 반영되는 모습을 봅니다.
 - 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
 - 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
 - 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
@@ -327,7 +348,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · full · `engine-flow-desktop-08c-result-cohesion-full.png`
@@ -336,7 +357,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-desktop-08c-result-cohesion-rainbow.png`
@@ -345,7 +366,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · small · `engine-flow-desktop-08c-result-cohesion-small.png`
@@ -354,7 +375,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · spark · `engine-flow-desktop-08c-result-cohesion-spark.png`
@@ -363,7 +384,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · stream · `engine-flow-desktop-08c-result-cohesion-stream.png`
@@ -372,7 +393,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · tower · `engine-flow-desktop-08c-result-cohesion-tower.png`
@@ -381,7 +402,61 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-full · `engine-flow-desktop-08v-result-visual-integrity-full.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-full](screenshots/engine-flow-desktop-08v-result-visual-integrity-full.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-desktop-08v-result-visual-integrity-rainbow.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-small · `engine-flow-desktop-08v-result-visual-integrity-small.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-small](screenshots/engine-flow-desktop-08v-result-visual-integrity-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-spark · `engine-flow-desktop-08v-result-visual-integrity-spark.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-spark](screenshots/engine-flow-desktop-08v-result-visual-integrity-spark.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-stream · `engine-flow-desktop-08v-result-visual-integrity-stream.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-stream](screenshots/engine-flow-desktop-08v-result-visual-integrity-stream.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tower · `engine-flow-desktop-08v-result-visual-integrity-tower.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-tower](screenshots/engine-flow-desktop-08v-result-visual-integrity-tower.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · full · `engine-flow-desktop-08a-result-full.png`
@@ -390,7 +465,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-desktop-08a-result-rainbow.png`
@@ -399,7 +474,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · small · `engine-flow-desktop-08a-result-small.png`
@@ -408,7 +483,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · spark · `engine-flow-desktop-08a-result-spark.png`
@@ -417,7 +492,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · stream · `engine-flow-desktop-08a-result-stream.png`
@@ -426,7 +501,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · tower · `engine-flow-desktop-08a-result-tower.png`
@@ -435,10 +510,10 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 26장
+### tablet-landscape · 1024×768 · DPR 1 · 33장
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -481,6 +556,15 @@ Browser QA:
 #### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
 
 ![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
+
+![tablet-landscape 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -537,7 +621,7 @@ Browser QA:
 ![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 물통 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 채우기 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -545,7 +629,7 @@ Browser QA:
 
 ![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 물통 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 채우기 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -554,7 +638,7 @@ Browser QA:
 
 ![tablet-landscape 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-tablet-landscape-07c-reward-impact.png)
 
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 물통 힘 변화가 반영되는 모습을 봅니다.
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 채우기 점수 변화가 반영되는 모습을 봅니다.
 - 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
 - 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
 - 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
@@ -565,7 +649,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · full · `engine-flow-tablet-landscape-08c-result-cohesion-full.png`
@@ -574,7 +658,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png`
@@ -583,7 +667,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · small · `engine-flow-tablet-landscape-08c-result-cohesion-small.png`
@@ -592,7 +676,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · spark · `engine-flow-tablet-landscape-08c-result-cohesion-spark.png`
@@ -601,7 +685,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · stream · `engine-flow-tablet-landscape-08c-result-cohesion-stream.png`
@@ -610,7 +694,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · tower · `engine-flow-tablet-landscape-08c-result-cohesion-tower.png`
@@ -619,7 +703,61 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-full · `engine-flow-tablet-landscape-08v-result-visual-integrity-full.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-full](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-full.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-small · `engine-flow-tablet-landscape-08v-result-visual-integrity-small.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-small](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-spark · `engine-flow-tablet-landscape-08v-result-visual-integrity-spark.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-spark](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-spark.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-stream · `engine-flow-tablet-landscape-08v-result-visual-integrity-stream.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-stream](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-stream.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tower · `engine-flow-tablet-landscape-08v-result-visual-integrity-tower.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-tower](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tower.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · full · `engine-flow-tablet-landscape-08a-result-full.png`
@@ -628,7 +766,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-tablet-landscape-08a-result-rainbow.png`
@@ -637,7 +775,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · small · `engine-flow-tablet-landscape-08a-result-small.png`
@@ -646,7 +784,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · spark · `engine-flow-tablet-landscape-08a-result-spark.png`
@@ -655,7 +793,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · stream · `engine-flow-tablet-landscape-08a-result-stream.png`
@@ -664,7 +802,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · tower · `engine-flow-tablet-landscape-08a-result-tower.png`
@@ -673,10 +811,10 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 26장
+### codex-in-app · 1280×720 · DPR 2 · 33장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -719,6 +857,15 @@ Browser QA:
 #### 문제 상태 · 05-play-step1 · `engine-flow-codex-in-app-05-play-step1.png`
 
 ![codex-in-app 문제 상태 · 05-play-step1](screenshots/engine-flow-codex-in-app-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
+
+![codex-in-app 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -775,7 +922,7 @@ Browser QA:
 ![codex-in-app 닫힌 보상](screenshots/engine-flow-codex-in-app-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 물통 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 채우기 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -783,7 +930,7 @@ Browser QA:
 
 ![codex-in-app 열린 보상](screenshots/engine-flow-codex-in-app-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 물통 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 채우기 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -792,7 +939,7 @@ Browser QA:
 
 ![codex-in-app 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-codex-in-app-07c-reward-impact.png)
 
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 물통 힘 변화가 반영되는 모습을 봅니다.
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 채우기 점수 변화가 반영되는 모습을 봅니다.
 - 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
 - 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
 - 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
@@ -803,7 +950,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · full · `engine-flow-codex-in-app-08c-result-cohesion-full.png`
@@ -812,7 +959,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-codex-in-app-08c-result-cohesion-rainbow.png`
@@ -821,7 +968,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · small · `engine-flow-codex-in-app-08c-result-cohesion-small.png`
@@ -830,7 +977,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · spark · `engine-flow-codex-in-app-08c-result-cohesion-spark.png`
@@ -839,7 +986,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · stream · `engine-flow-codex-in-app-08c-result-cohesion-stream.png`
@@ -848,7 +995,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · tower · `engine-flow-codex-in-app-08c-result-cohesion-tower.png`
@@ -857,7 +1004,61 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-full · `engine-flow-codex-in-app-08v-result-visual-integrity-full.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-full](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-full.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-small · `engine-flow-codex-in-app-08v-result-visual-integrity-small.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-small](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-spark · `engine-flow-codex-in-app-08v-result-visual-integrity-spark.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-spark](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-spark.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-stream · `engine-flow-codex-in-app-08v-result-visual-integrity-stream.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-stream](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-stream.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tower · `engine-flow-codex-in-app-08v-result-visual-integrity-tower.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-tower](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tower.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · full · `engine-flow-codex-in-app-08a-result-full.png`
@@ -866,7 +1067,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-codex-in-app-08a-result-rainbow.png`
@@ -875,7 +1076,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · small · `engine-flow-codex-in-app-08a-result-small.png`
@@ -884,7 +1085,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · spark · `engine-flow-codex-in-app-08a-result-spark.png`
@@ -893,7 +1094,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · stream · `engine-flow-codex-in-app-08a-result-stream.png`
@@ -902,7 +1103,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · tower · `engine-flow-codex-in-app-08a-result-tower.png`
@@ -911,10 +1112,10 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility · 994×632 · DPR 1 · 26장
+### user-visibility · 994×632 · DPR 1 · 33장
 
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
@@ -957,6 +1158,15 @@ Browser QA:
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-visibility-05-play-step1.png`
 
 ![user-visibility 문제 상태 · 05-play-step1](screenshots/engine-flow-user-visibility-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-visibility-05n-next-problem-clean.png`
+
+![user-visibility 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-visibility-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1013,7 +1223,7 @@ Browser QA:
 ![user-visibility 닫힌 보상](screenshots/engine-flow-user-visibility-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 물통 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 채우기 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -1021,7 +1231,7 @@ Browser QA:
 
 ![user-visibility 열린 보상](screenshots/engine-flow-user-visibility-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 물통 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 채우기 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -1030,7 +1240,7 @@ Browser QA:
 
 ![user-visibility 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-visibility-07c-reward-impact.png)
 
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 물통 힘 변화가 반영되는 모습을 봅니다.
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 채우기 점수 변화가 반영되는 모습을 봅니다.
 - 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
 - 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
 - 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
@@ -1041,7 +1251,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · full · `engine-flow-user-visibility-08c-result-cohesion-full.png`
@@ -1050,7 +1260,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-user-visibility-08c-result-cohesion-rainbow.png`
@@ -1059,7 +1269,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · small · `engine-flow-user-visibility-08c-result-cohesion-small.png`
@@ -1068,7 +1278,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · spark · `engine-flow-user-visibility-08c-result-cohesion-spark.png`
@@ -1077,7 +1287,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · stream · `engine-flow-user-visibility-08c-result-cohesion-stream.png`
@@ -1086,7 +1296,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · tower · `engine-flow-user-visibility-08c-result-cohesion-tower.png`
@@ -1095,7 +1305,61 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-full · `engine-flow-user-visibility-08v-result-visual-integrity-full.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-full](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-full.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-small · `engine-flow-user-visibility-08v-result-visual-integrity-small.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-small](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-spark · `engine-flow-user-visibility-08v-result-visual-integrity-spark.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-spark](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-spark.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-stream · `engine-flow-user-visibility-08v-result-visual-integrity-stream.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-stream](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-stream.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tower · `engine-flow-user-visibility-08v-result-visual-integrity-tower.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-tower](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tower.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · full · `engine-flow-user-visibility-08a-result-full.png`
@@ -1104,7 +1368,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-user-visibility-08a-result-rainbow.png`
@@ -1113,7 +1377,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · small · `engine-flow-user-visibility-08a-result-small.png`
@@ -1122,7 +1386,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · spark · `engine-flow-user-visibility-08a-result-spark.png`
@@ -1131,7 +1395,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · stream · `engine-flow-user-visibility-08a-result-stream.png`
@@ -1140,7 +1404,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · tower · `engine-flow-user-visibility-08a-result-tower.png`
@@ -1149,10 +1413,10 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 26장
+### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 33장
 
 ![user-reported-missing-left-progress-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
 
@@ -1195,6 +1459,15 @@ Browser QA:
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png`
 
 ![user-reported-missing-left-progress-1082x987-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05n-next-problem-clean.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1251,7 +1524,7 @@ Browser QA:
 ![user-reported-missing-left-progress-1082x987-dpr2 닫힌 보상](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 물통 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 채우기 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -1259,7 +1532,7 @@ Browser QA:
 
 ![user-reported-missing-left-progress-1082x987-dpr2 열린 보상](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 물통 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 채우기 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -1268,7 +1541,7 @@ Browser QA:
 
 ![user-reported-missing-left-progress-1082x987-dpr2 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07c-reward-impact.png)
 
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 물통 힘 변화가 반영되는 모습을 봅니다.
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 채우기 점수 변화가 반영되는 모습을 봅니다.
 - 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
 - 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
 - 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
@@ -1279,7 +1552,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · full · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-full.png`
@@ -1288,7 +1561,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png`
@@ -1297,7 +1570,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · small · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png`
@@ -1306,7 +1579,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · spark · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-spark.png`
@@ -1315,7 +1588,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · stream · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-stream.png`
@@ -1324,7 +1597,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · tower · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-tower.png`
@@ -1333,7 +1606,61 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-full · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-full.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 상태 · 08v-result-visual-integrity-full](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-full.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-small · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 상태 · 08v-result-visual-integrity-small](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-spark · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-spark.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 상태 · 08v-result-visual-integrity-spark](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-spark.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-stream · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-stream.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 상태 · 08v-result-visual-integrity-stream](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-stream.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tower · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-tower.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 상태 · 08v-result-visual-integrity-tower](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-tower.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · full · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-full.png`
@@ -1342,7 +1669,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-rainbow.png`
@@ -1351,7 +1678,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · small · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-small.png`
@@ -1360,7 +1687,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · spark · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-spark.png`
@@ -1369,7 +1696,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · stream · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-stream.png`
@@ -1378,7 +1705,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · tower · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-tower.png`
@@ -1387,10 +1714,10 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 25장
+### empty-reward-fixture · 1280×800 · DPR 1 · 32장
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
@@ -1433,6 +1760,15 @@ Browser QA:
 #### 문제 상태 · 05-play-step1 · `engine-flow-empty-reward-fixture-05-play-step1.png`
 
 ![empty-reward-fixture 문제 상태 · 05-play-step1](screenshots/engine-flow-empty-reward-fixture-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
+
+![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1489,7 +1825,7 @@ Browser QA:
 ![empty-reward-fixture 닫힌 보상](screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 물통 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 채우기 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -1497,7 +1833,7 @@ Browser QA:
 
 ![empty-reward-fixture 열린 보상](screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 물통 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 채우기 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -1508,7 +1844,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · full · `engine-flow-empty-reward-fixture-08c-result-cohesion-full.png`
@@ -1517,7 +1853,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png`
@@ -1526,7 +1862,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · small · `engine-flow-empty-reward-fixture-08c-result-cohesion-small.png`
@@ -1535,7 +1871,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · spark · `engine-flow-empty-reward-fixture-08c-result-cohesion-spark.png`
@@ -1544,7 +1880,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · stream · `engine-flow-empty-reward-fixture-08c-result-cohesion-stream.png`
@@ -1553,7 +1889,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · tower · `engine-flow-empty-reward-fixture-08c-result-cohesion-tower.png`
@@ -1562,7 +1898,61 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-full · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-full.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-full](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-full.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-small · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-small.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-small](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-spark · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-spark.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-spark](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-spark.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-stream · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-stream.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-stream](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-stream.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-tower · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-tower.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-tower](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-tower.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · full · `engine-flow-empty-reward-fixture-08a-result-full.png`
@@ -1571,7 +1961,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-empty-reward-fixture-08a-result-rainbow.png`
@@ -1580,7 +1970,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · small · `engine-flow-empty-reward-fixture-08a-result-small.png`
@@ -1589,7 +1979,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · spark · `engine-flow-empty-reward-fixture-08a-result-spark.png`
@@ -1598,7 +1988,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · stream · `engine-flow-empty-reward-fixture-08a-result-stream.png`
@@ -1607,7 +1997,7 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · tower · `engine-flow-empty-reward-fixture-08a-result-tower.png`
@@ -1616,7 +2006,20 @@ Browser QA:
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 물통 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 채우기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+## 2026-08-09 최종 보상 정렬 회귀 QA
+
+- 6개 생성 장면의 실제 결과판 중심을 각각 측정해 제목·동적 값·정답 수·다시 버튼 축을 상태별로 맞췄다.
+- 데스크톱 `1280×800`, 태블릿 가로 `1024×768` 전수 캡처에서 축 오차 `1px 이하`, 텍스트 넘침·요소 겹침 `0건`을 확인했다.
+- 증거: `screenshots/result-typography-desktop-after.png`
+
+## 2026-08-09 결과 타이틀 래스터 무결성 QA
+
+- 범위: `result-title-only-v1` — 원본 PNG·투명 WebP·manifest와 제목 레이어를 전수 확인했다.
+- 6단계 독립 생성 제목의 실제 알파 경계·팔레트·노란색 외 색·판 안전영역 포함·동적 값 간격을 전수 검사했다.
+- 데스크톱 `1280×800`과 태블릿 가로 `1024×768`에서 모두 PASS, 텍스트 넘침·요소 겹침 `0건`이다.
+- 증거: `screenshots/result-typography-desktop-contain-after.png`, `screenshots/result-typography-tablet-landscape-contain-after.png`

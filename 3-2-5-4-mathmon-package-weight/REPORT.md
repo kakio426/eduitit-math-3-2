@@ -1,5 +1,17 @@
 # 매스몬 택배 무게 맞추기 검증 보고서
 
+## 2026-08-09 보상 패널 효과·폭 회귀
+
+- 일반 점수 상승은 `is-changing` 패널 플레어만 사용하고 Stage 임팩트는 쓰지 않으며, 표시 시간은 `640ms`입니다. 등급 상승은 `is-tier-up`·진행 장면 교체·Stage 폭 `32% 이상` 임팩트를 사용하고 `1560ms`(최소 읽기 시간 `1200ms`) 유지합니다.
+- 왼쪽 진행 패널은 Stage 폭 `24.5%`(`23.4375~25.2%` 허용), 문제 작업 영역과 최소 간격 `1.5625%`로 측정했습니다. 5-4 전용 하네스에서 닫힘·열림 카드와 이미지 슬롯을 함께 검사했으며 넘침·교차는 `0건`입니다.
+- `qa-lesson5-package-weight-click-guards.mjs` 전체 이벤트·뷰포트 검증은 runtime SHA 일치, 열린 이미지 `250×250px`, 카드 `430×480px`, 중심 오차 `≤1px`로 PASS했습니다.
+
+## 2026-08-09 중간 보상 명칭 QA
+
+- 독립 실행 HTML에 하드코딩된 `트럭 힘 +N`·`이번 변화 0`을 `배송 점수 +N/-N/0`으로 교체하고, 오답 강제 상태도 브라우저 QA 훅에 추가했습니다.
+- Chrome `1280×800`, `1024×768`의 보상 8상태와 독립 패키지 전체 클릭 방지 하네스를 통과했습니다. 텍스트 넘침·요소 교차·Stage 이탈은 모두 0건입니다.
+- 독립 HTML도 `unit3-modal-art-compact-v2`로 맞췄습니다: 카드 `430×480px(43:48)`, Stage 최대 폭 `82%`, 이미지 `250×250px`. 전용 click-guards가 닫힘·열림과 6개 이벤트, 중복 클릭 잠금을 모두 재확인했습니다.
+
 검증일: 2026-08-01
 실행본: `3-2-5-4-mathmon-package-weight/index.html`
 
@@ -17,7 +29,7 @@
 
 ## 문제 화면 QA
 
-- 왼쪽 진행 패널은 Stage 기준 `left 1.65% / top 11% / width 19.2% / height 84%`로 고정하고, 학습 영역은 `left 22.5%`부터 시작합니다.
+- 왼쪽 진행 패널은 Stage 기준 `left 1.65% / top 11% / width 24.5% / height 84%`로 고정하고, 학습 영역은 `left 27.75% / right 2%`부터 시작합니다.
 - 여섯 진행 장면은 최종 결과 크롭이 아닌 전용 세로 장면이며 `object-fit: contain`으로 표시합니다.
 - 생성 원본은 `_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/play-progress-v1/source`, 전수표는 `_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/play-progress-v1/contact-sheets/play-truck-progress-v1-contact-sheet.png`입니다.
 - 실제 전신 픽셀 경계로 잰 여우몬 중심·발 기준선·크기 검수표는 `_shared/mathmon/base-pack/lesson-scenes/3-2-5-4/play-progress-v1/contact-sheets/play-truck-progress-v1-anchor-audit.png`입니다. 여섯 장의 중심과 발 기준선은 목표값에서 0.03 이내이고, 높이는 세트 중앙값에서 0.03 이내입니다.
@@ -162,10 +174,10 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-04 최신 원본 스크린샷 전수
+## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `7fc7701beb456a133d0869cfc48de02f8173db07d906dd98ce705a528fa8d77c`
-- 생성 시각: `2026-08-04T15:46:09.801Z`
+- 실행본 SHA-256: `6cc973034831d360f98d424b62c85cb7a8c6a8cccb2471ea9581b849505572b6`
+- 생성 시각: `2026-08-22T16:42:11.606Z`
 - 등록 화면 크기: `6개`
 - 아래에 직접 삽입한 원본 캡처: `96장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
@@ -1059,3 +1071,15 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+## 2026-08-09 최종 보상 정렬 회귀 QA
+
+- 독립형 전용 하네스로 결과 6단계와 6개 viewport의 제목 이미지·동적 값·정답 수·다시 버튼 및 클릭 hitbox를 전수 확인했다.
+- `LESSON5_PACKAGE_WEIGHT_CLICK_GUARDS: PASS`, 텍스트 넘침·요소 겹침 `0건`이다.
+
+## 2026-08-09 결과 타이틀 래스터 무결성 QA
+
+- 범위: `result-title-only-v1` — standalone 전용 클릭 가드·6단계×6viewport와 함께 전수 확인했다.
+- 독립형 전용 하네스가 6단계 × 6개 viewport에서 제목 알파 경계·최소 폭/높이·팔레트·노란색 외 색·판 안전영역·동적 값 간격·중복 제목·retry hitbox를 검사했다.
+- `LESSON5_PACKAGE_WEIGHT_CLICK_GUARDS: PASS`, 텍스트 넘침·요소 겹침 `0건`이다.
+- 증거: `screenshots/result-typography-desktop-contain-after.png`, `screenshots/result-typography-tablet-landscape-contain-after.png`

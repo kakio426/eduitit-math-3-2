@@ -1,5 +1,17 @@
 # 매스몬 그림 도장 찍기 제작 보고
 
+## 2026-08-09 보상 패널 효과·폭 회귀
+
+- 일반 점수 상승은 `is-changing` 패널 플레어만 사용하고 Stage 임팩트는 쓰지 않으며, 표시 시간은 `640ms`입니다. 등급 상승은 `is-tier-up`·진행 장면 교체·Stage 폭 `32% 이상` 임팩트를 사용하고 `1560ms`(최소 읽기 시간 `1200ms`) 유지합니다.
+- 왼쪽 진행 패널은 Stage 폭 `24.5%`(`23.4375~25.2%` 허용), 문제 작업 영역과 최소 간격 `1.5625%`로 데스크톱·태블릿에서 측정했습니다. Stage-Reveal 동안 문제 번호 고정, 넘침·교차 `0건`입니다.
+- 현재 실행본에서 Unit6 보상 fixture, `check-stage-ratio.mjs`, `check-lesson-contract.mjs`, 학생 보상 문구 브라우저 QA `176/176`을 통과했습니다. 결과 cohesion 기준은 이번 보상 패널 범위와 별도입니다.
+
+## 2026-08-09 중간 보상 단계 QA
+
+- 보상 Stage를 `현재 단계명 → +N/-N/그대로 → 다음 단계명` 구조로 고치고, 내부 이름 `그래프 힘`은 `도장 점수`로 바꿨습니다.
+- Chrome `1280×800`, `1024×768`에서 보상 8상태를 전수 확인했습니다. 텍스트 넘침·요소 교차·Stage 이탈은 모두 0건입니다.
+- 중앙 모달로 줄이지 않고 Stage-Reveal을 유지했습니다. `qa.rewardStageAudit` 기준 보상 루트는 Stage `inset: 64px 5% 4%`, 그림은 정사각 `180~512px`, 그림·문구·상태·다음 버튼 containment와 교차 `0px`입니다. reward-only 브라우저 하네스가 닫힘·열림을 모두 통과했습니다.
+
 검사일: 2026-08-01
 최종 판정: **통과**
 잔여 P0/P1: 없음
@@ -86,7 +98,7 @@
 - 왼쪽 기준선 시트: `_shared/mathmon/base-pack/lesson-scenes/3-2-6-3/play-progress-v1/contact-sheets/play-stamp-progress-v1-anchor-audit.png`
 - 왼쪽 진행 생성 원본: `_shared/mathmon/base-pack/lesson-scenes/3-2-6-3/play-progress-v1/source`
 - 유니콘몬 선언 기준점은 `centerX 0.50`, `centerY 0.51~0.55`, `footY 0.60~0.65`, 높이 `0.22~0.24`이며 전신 잘림은 0건입니다.
-- 왼쪽 패널은 Stage 기준 `left 1.65% / top 11% / width 19.2% / height 84%`입니다. 패널 네 변 오차 1px 이하와 학습 영역 교차 0px를 검사합니다.
+- 왼쪽 패널은 Stage 기준 `left 1.65% / top 11% / width 24.5% / height 84%`입니다. 패널 네 변 오차 1px 이하와 학습 영역 교차 0px를 검사합니다.
 
 ## 현재 화면 증거
 
@@ -107,15 +119,15 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-04 최신 원본 스크린샷 전수
+## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `066a2961e84960c38847b5bf406e47904752398336bd86f2a18d93922283b425`
-- 생성 시각: `2026-08-04T15:46:16.971Z`
+- 실행본 SHA-256: `b5909c6bdfecded9cc2e43e59585a550134c452eaa7c5e143044fa36402ce316`
+- 생성 시각: `2026-08-22T16:42:27.097Z`
 - 등록 화면 크기: `6개`
-- 아래에 직접 삽입한 원본 캡처: `142장`
+- 아래에 직접 삽입한 원본 캡처: `179장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 27장
+### desktop · 1280×800 · DPR 1 · 30장
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -164,23 +176,14 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오답 확인 · 05c-play-wrong-high · `engine-flow-desktop-05c-play-wrong-high.png`
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
 
-![desktop 오답 확인 · 05c-play-wrong-high](screenshots/engine-flow-desktop-05c-play-wrong-high.png)
+![desktop 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오답 확인 · 05b-play-wrong-low · `engine-flow-desktop-05b-play-wrong-low.png`
-
-![desktop 오답 확인 · 05b-play-wrong-low](screenshots/engine-flow-desktop-05b-play-wrong-low.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
 #### 오답 확인 · 05b-play-wrong · `engine-flow-desktop-05b-play-wrong.png`
 
@@ -200,50 +203,32 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
 - 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
 
-#### 마지막 확인 · 06a-step-1-correct · `engine-flow-desktop-06a-step-1-correct.png`
-
-![desktop 마지막 확인 · 06a-step-1-correct](screenshots/engine-flow-desktop-06a-step-1-correct.png)
-
-- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
-- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
-
-#### 마지막 확인 · 06b-final-complete · `engine-flow-desktop-06b-final-complete.png`
-
-![desktop 마지막 확인 · 06b-final-complete](screenshots/engine-flow-desktop-06b-final-complete.png)
-
-- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
-- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
-
 #### 닫힌 보상 · `engine-flow-desktop-07-reward-closed.png`
 
 ![desktop 닫힌 보상](screenshots/engine-flow-desktop-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 그래프 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 도장 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
-
-#### 보상 상태 · 07a-reward-closed · `engine-flow-desktop-07a-reward-closed.png`
-
-![desktop 보상 상태 · 07a-reward-closed](screenshots/engine-flow-desktop-07a-reward-closed.png)
-
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 그래프 힘 변화가 반영되는 모습을 봅니다.
-- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
-- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
-- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 열린 보상 · `engine-flow-desktop-07b-reward-open.png`
 
 ![desktop 열린 보상](screenshots/engine-flow-desktop-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 그래프 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 도장 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-desktop-07c-reward-impact.png`
+
+![desktop 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-desktop-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 도장 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 실제 결과 · `engine-flow-desktop-08-result.png`
 
@@ -251,7 +236,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · first · `engine-flow-desktop-08a-result-first.png`
@@ -260,7 +245,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · color-board · `engine-flow-desktop-08c-result-cohesion-color-board.png`
@@ -269,7 +254,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · first · `engine-flow-desktop-08c-result-cohesion-first.png`
@@ -278,7 +263,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-board · `engine-flow-desktop-08c-result-cohesion-graph-board.png`
@@ -287,7 +272,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-display · `engine-flow-desktop-08c-result-cohesion-graph-display.png`
@@ -296,7 +281,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-room · `engine-flow-desktop-08c-result-cohesion-graph-room.png`
@@ -305,7 +290,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-desktop-08c-result-cohesion-rainbow.png`
@@ -314,7 +299,61 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-color-board · `engine-flow-desktop-08v-result-visual-integrity-color-board.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-color-board](screenshots/engine-flow-desktop-08v-result-visual-integrity-color-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-desktop-08v-result-visual-integrity-first.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-desktop-08v-result-visual-integrity-first.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-board · `engine-flow-desktop-08v-result-visual-integrity-graph-board.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-graph-board](screenshots/engine-flow-desktop-08v-result-visual-integrity-graph-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-display · `engine-flow-desktop-08v-result-visual-integrity-graph-display.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-graph-display](screenshots/engine-flow-desktop-08v-result-visual-integrity-graph-display.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-room · `engine-flow-desktop-08v-result-visual-integrity-graph-room.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-graph-room](screenshots/engine-flow-desktop-08v-result-visual-integrity-graph-room.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-desktop-08v-result-visual-integrity-rainbow.png`
+
+![desktop 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · color-board · `engine-flow-desktop-08a-result-color-board.png`
@@ -323,7 +362,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-board · `engine-flow-desktop-08a-result-graph-board.png`
@@ -332,7 +371,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-display · `engine-flow-desktop-08a-result-graph-display.png`
@@ -341,7 +380,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-room · `engine-flow-desktop-08a-result-graph-room.png`
@@ -350,7 +389,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-desktop-08a-result-rainbow.png`
@@ -359,10 +398,10 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 27장
+### tablet-landscape · 1024×768 · DPR 1 · 30장
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -411,23 +450,14 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오답 확인 · 05c-play-wrong-high · `engine-flow-tablet-landscape-05c-play-wrong-high.png`
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
 
-![tablet-landscape 오답 확인 · 05c-play-wrong-high](screenshots/engine-flow-tablet-landscape-05c-play-wrong-high.png)
+![tablet-landscape 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오답 확인 · 05b-play-wrong-low · `engine-flow-tablet-landscape-05b-play-wrong-low.png`
-
-![tablet-landscape 오답 확인 · 05b-play-wrong-low](screenshots/engine-flow-tablet-landscape-05b-play-wrong-low.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
 #### 오답 확인 · 05b-play-wrong · `engine-flow-tablet-landscape-05b-play-wrong.png`
 
@@ -447,50 +477,32 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
 - 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
 
-#### 마지막 확인 · 06a-step-1-correct · `engine-flow-tablet-landscape-06a-step-1-correct.png`
-
-![tablet-landscape 마지막 확인 · 06a-step-1-correct](screenshots/engine-flow-tablet-landscape-06a-step-1-correct.png)
-
-- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
-- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
-
-#### 마지막 확인 · 06b-final-complete · `engine-flow-tablet-landscape-06b-final-complete.png`
-
-![tablet-landscape 마지막 확인 · 06b-final-complete](screenshots/engine-flow-tablet-landscape-06b-final-complete.png)
-
-- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기의 완성값을 보상 화면 전에 다시 확인합니다.
-- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
-
 #### 닫힌 보상 · `engine-flow-tablet-landscape-07-reward-closed.png`
 
 ![tablet-landscape 닫힌 보상](screenshots/engine-flow-tablet-landscape-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 그래프 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 도장 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
-
-#### 보상 상태 · 07a-reward-closed · `engine-flow-tablet-landscape-07a-reward-closed.png`
-
-![tablet-landscape 보상 상태 · 07a-reward-closed](screenshots/engine-flow-tablet-landscape-07a-reward-closed.png)
-
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 그래프 힘 변화가 반영되는 모습을 봅니다.
-- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
-- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
-- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 열린 보상 · `engine-flow-tablet-landscape-07b-reward-open.png`
 
 ![tablet-landscape 열린 보상](screenshots/engine-flow-tablet-landscape-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 그래프 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 도장 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-tablet-landscape-07c-reward-impact.png`
+
+![tablet-landscape 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-tablet-landscape-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 도장 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 실제 결과 · `engine-flow-tablet-landscape-08-result.png`
 
@@ -498,7 +510,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · first · `engine-flow-tablet-landscape-08a-result-first.png`
@@ -507,7 +519,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · color-board · `engine-flow-tablet-landscape-08c-result-cohesion-color-board.png`
@@ -516,7 +528,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · first · `engine-flow-tablet-landscape-08c-result-cohesion-first.png`
@@ -525,7 +537,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-board · `engine-flow-tablet-landscape-08c-result-cohesion-graph-board.png`
@@ -534,7 +546,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-display · `engine-flow-tablet-landscape-08c-result-cohesion-graph-display.png`
@@ -543,7 +555,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-room · `engine-flow-tablet-landscape-08c-result-cohesion-graph-room.png`
@@ -552,7 +564,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png`
@@ -561,7 +573,61 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-color-board · `engine-flow-tablet-landscape-08v-result-visual-integrity-color-board.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-color-board](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-color-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-tablet-landscape-08v-result-visual-integrity-first.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-first.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-board · `engine-flow-tablet-landscape-08v-result-visual-integrity-graph-board.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-graph-board](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-graph-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-display · `engine-flow-tablet-landscape-08v-result-visual-integrity-graph-display.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-graph-display](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-graph-display.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-room · `engine-flow-tablet-landscape-08v-result-visual-integrity-graph-room.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-graph-room](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-graph-room.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png`
+
+![tablet-landscape 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · color-board · `engine-flow-tablet-landscape-08a-result-color-board.png`
@@ -570,7 +636,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-board · `engine-flow-tablet-landscape-08a-result-graph-board.png`
@@ -579,7 +645,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-display · `engine-flow-tablet-landscape-08a-result-graph-display.png`
@@ -588,7 +654,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-room · `engine-flow-tablet-landscape-08a-result-graph-room.png`
@@ -597,7 +663,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-tablet-landscape-08a-result-rainbow.png`
@@ -606,10 +672,10 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 22장
+### codex-in-app · 1280×720 · DPR 2 · 30장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -658,6 +724,15 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
+
+![codex-in-app 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
 #### 오답 확인 · 05b-play-wrong · `engine-flow-codex-in-app-05b-play-wrong.png`
 
 ![codex-in-app 오답 확인 · 05b-play-wrong](screenshots/engine-flow-codex-in-app-05b-play-wrong.png)
@@ -681,7 +756,7 @@
 ![codex-in-app 닫힌 보상](screenshots/engine-flow-codex-in-app-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 그래프 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 도장 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -689,10 +764,19 @@
 
 ![codex-in-app 열린 보상](screenshots/engine-flow-codex-in-app-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 그래프 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 도장 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-codex-in-app-07c-reward-impact.png`
+
+![codex-in-app 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-codex-in-app-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 도장 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 실제 결과 · `engine-flow-codex-in-app-08-result.png`
 
@@ -700,7 +784,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · first · `engine-flow-codex-in-app-08a-result-first.png`
@@ -709,7 +793,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · color-board · `engine-flow-codex-in-app-08c-result-cohesion-color-board.png`
@@ -718,7 +802,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · first · `engine-flow-codex-in-app-08c-result-cohesion-first.png`
@@ -727,7 +811,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-board · `engine-flow-codex-in-app-08c-result-cohesion-graph-board.png`
@@ -736,7 +820,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-display · `engine-flow-codex-in-app-08c-result-cohesion-graph-display.png`
@@ -745,7 +829,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-room · `engine-flow-codex-in-app-08c-result-cohesion-graph-room.png`
@@ -754,7 +838,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-codex-in-app-08c-result-cohesion-rainbow.png`
@@ -763,7 +847,61 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-color-board · `engine-flow-codex-in-app-08v-result-visual-integrity-color-board.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-color-board](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-color-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-codex-in-app-08v-result-visual-integrity-first.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-first.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-board · `engine-flow-codex-in-app-08v-result-visual-integrity-graph-board.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-graph-board](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-graph-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-display · `engine-flow-codex-in-app-08v-result-visual-integrity-graph-display.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-graph-display](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-graph-display.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-room · `engine-flow-codex-in-app-08v-result-visual-integrity-graph-room.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-graph-room](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-graph-room.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png`
+
+![codex-in-app 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · color-board · `engine-flow-codex-in-app-08a-result-color-board.png`
@@ -772,7 +910,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-board · `engine-flow-codex-in-app-08a-result-graph-board.png`
@@ -781,7 +919,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-display · `engine-flow-codex-in-app-08a-result-graph-display.png`
@@ -790,7 +928,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-room · `engine-flow-codex-in-app-08a-result-graph-room.png`
@@ -799,7 +937,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-codex-in-app-08a-result-rainbow.png`
@@ -808,10 +946,10 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility · 994×632 · DPR 1 · 22장
+### user-visibility · 994×632 · DPR 1 · 30장
 
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
@@ -860,6 +998,15 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-visibility-05n-next-problem-clean.png`
+
+![user-visibility 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-visibility-05n-next-problem-clean.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
 #### 오답 확인 · 05b-play-wrong · `engine-flow-user-visibility-05b-play-wrong.png`
 
 ![user-visibility 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-visibility-05b-play-wrong.png)
@@ -883,7 +1030,7 @@
 ![user-visibility 닫힌 보상](screenshots/engine-flow-user-visibility-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 그래프 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 도장 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -891,10 +1038,19 @@
 
 ![user-visibility 열린 보상](screenshots/engine-flow-user-visibility-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 그래프 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 도장 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-visibility-07c-reward-impact.png`
+
+![user-visibility 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-visibility-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 도장 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 실제 결과 · `engine-flow-user-visibility-08-result.png`
 
@@ -902,7 +1058,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · first · `engine-flow-user-visibility-08a-result-first.png`
@@ -911,7 +1067,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · color-board · `engine-flow-user-visibility-08c-result-cohesion-color-board.png`
@@ -920,7 +1076,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · first · `engine-flow-user-visibility-08c-result-cohesion-first.png`
@@ -929,7 +1085,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-board · `engine-flow-user-visibility-08c-result-cohesion-graph-board.png`
@@ -938,7 +1094,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-display · `engine-flow-user-visibility-08c-result-cohesion-graph-display.png`
@@ -947,7 +1103,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-room · `engine-flow-user-visibility-08c-result-cohesion-graph-room.png`
@@ -956,7 +1112,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-user-visibility-08c-result-cohesion-rainbow.png`
@@ -965,7 +1121,61 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-color-board · `engine-flow-user-visibility-08v-result-visual-integrity-color-board.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-color-board](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-color-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-user-visibility-08v-result-visual-integrity-first.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-first.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-board · `engine-flow-user-visibility-08v-result-visual-integrity-graph-board.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-graph-board](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-graph-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-display · `engine-flow-user-visibility-08v-result-visual-integrity-graph-display.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-graph-display](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-graph-display.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-room · `engine-flow-user-visibility-08v-result-visual-integrity-graph-room.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-graph-room](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-graph-room.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png`
+
+![user-visibility 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · color-board · `engine-flow-user-visibility-08a-result-color-board.png`
@@ -974,7 +1184,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-board · `engine-flow-user-visibility-08a-result-graph-board.png`
@@ -983,7 +1193,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-display · `engine-flow-user-visibility-08a-result-graph-display.png`
@@ -992,7 +1202,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-room · `engine-flow-user-visibility-08a-result-graph-room.png`
@@ -1001,7 +1211,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-user-visibility-08a-result-rainbow.png`
@@ -1010,10 +1220,10 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress · 1082×987 · DPR 2 · 22장
+### user-reported-missing-left-progress · 1082×987 · DPR 2 · 30장
 
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
@@ -1062,6 +1272,15 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png`
+
+![user-reported-missing-left-progress 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
 #### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-missing-left-progress-05b-play-wrong.png`
 
 ![user-reported-missing-left-progress 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-missing-left-progress-05b-play-wrong.png)
@@ -1085,7 +1304,7 @@
 ![user-reported-missing-left-progress 닫힌 보상](screenshots/engine-flow-user-reported-missing-left-progress-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 그래프 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 도장 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -1093,10 +1312,19 @@
 
 ![user-reported-missing-left-progress 열린 보상](screenshots/engine-flow-user-reported-missing-left-progress-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 그래프 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 도장 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-reported-missing-left-progress-07c-reward-impact.png`
+
+![user-reported-missing-left-progress 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-reported-missing-left-progress-07c-reward-impact.png)
+
+- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 도장 점수 변화가 반영되는 모습을 봅니다.
+- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
+- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
+- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
 
 #### 실제 결과 · `engine-flow-user-reported-missing-left-progress-08-result.png`
 
@@ -1104,7 +1332,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · first · `engine-flow-user-reported-missing-left-progress-08a-result-first.png`
@@ -1113,7 +1341,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · color-board · `engine-flow-user-reported-missing-left-progress-08c-result-cohesion-color-board.png`
@@ -1122,7 +1350,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · first · `engine-flow-user-reported-missing-left-progress-08c-result-cohesion-first.png`
@@ -1131,7 +1359,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-board · `engine-flow-user-reported-missing-left-progress-08c-result-cohesion-graph-board.png`
@@ -1140,7 +1368,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-display · `engine-flow-user-reported-missing-left-progress-08c-result-cohesion-graph-display.png`
@@ -1149,7 +1377,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-room · `engine-flow-user-reported-missing-left-progress-08c-result-cohesion-graph-room.png`
@@ -1158,7 +1386,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-user-reported-missing-left-progress-08c-result-cohesion-rainbow.png`
@@ -1167,7 +1395,61 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-color-board · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-color-board.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-color-board](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-color-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-first.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-first.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-board · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-graph-board.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-graph-board](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-graph-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-display · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-graph-display.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-graph-display](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-graph-display.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-room · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-graph-room.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-graph-room](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-graph-room.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png`
+
+![user-reported-missing-left-progress 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · color-board · `engine-flow-user-reported-missing-left-progress-08a-result-color-board.png`
@@ -1176,7 +1458,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-board · `engine-flow-user-reported-missing-left-progress-08a-result-graph-board.png`
@@ -1185,7 +1467,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-display · `engine-flow-user-reported-missing-left-progress-08a-result-graph-display.png`
@@ -1194,7 +1476,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-room · `engine-flow-user-reported-missing-left-progress-08a-result-graph-room.png`
@@ -1203,7 +1485,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-user-reported-missing-left-progress-08a-result-rainbow.png`
@@ -1212,10 +1494,10 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 22장
+### empty-reward-fixture · 1280×800 · DPR 1 · 29장
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
@@ -1264,6 +1546,15 @@
 - 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
+
+![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 큰 그림과 작은 그림으로 수 나타내기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
 #### 오답 확인 · 05b-play-wrong · `engine-flow-empty-reward-fixture-05b-play-wrong.png`
 
 ![empty-reward-fixture 오답 확인 · 05b-play-wrong](screenshots/engine-flow-empty-reward-fixture-05b-play-wrong.png)
@@ -1287,7 +1578,7 @@
 ![empty-reward-fixture 닫힌 보상](screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png)
 
 - 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 그래프 힘 변화를 확인하기 위해 열기를 누릅니다.
+- 판단하거나 누르는 것: 이번 도장 점수 변화를 확인하기 위해 열기를 누릅니다.
 - 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
 - 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
 
@@ -1295,7 +1586,7 @@
 
 ![empty-reward-fixture 열린 보상](screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png)
 
-- 학생이 보는 것: 보상 사건 그림과 이번 그래프 힘 변화, 다음 행동 버튼을 봅니다.
+- 학생이 보는 것: 보상 사건 그림과 이번 도장 점수 변화, 다음 행동 버튼을 봅니다.
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
@@ -1306,7 +1597,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · first · `engine-flow-empty-reward-fixture-08a-result-first.png`
@@ -1315,7 +1606,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · color-board · `engine-flow-empty-reward-fixture-08c-result-cohesion-color-board.png`
@@ -1324,7 +1615,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · first · `engine-flow-empty-reward-fixture-08c-result-cohesion-first.png`
@@ -1333,7 +1624,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-board · `engine-flow-empty-reward-fixture-08c-result-cohesion-graph-board.png`
@@ -1342,7 +1633,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-display · `engine-flow-empty-reward-fixture-08c-result-cohesion-graph-display.png`
@@ -1351,7 +1642,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · graph-room · `engine-flow-empty-reward-fixture-08c-result-cohesion-graph-room.png`
@@ -1360,7 +1651,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 결속 · rainbow · `engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png`
@@ -1369,7 +1660,61 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-color-board · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-color-board.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-color-board](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-color-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-first.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-first.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-board · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-graph-board.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-graph-board](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-graph-board.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-display · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-graph-display.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-graph-display](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-graph-display.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-graph-room · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-graph-room.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-graph-room](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-graph-room.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png`
+
+![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · color-board · `engine-flow-empty-reward-fixture-08a-result-color-board.png`
@@ -1378,7 +1723,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-board · `engine-flow-empty-reward-fixture-08a-result-graph-board.png`
@@ -1387,7 +1732,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-display · `engine-flow-empty-reward-fixture-08a-result-graph-display.png`
@@ -1396,7 +1741,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · graph-room · `engine-flow-empty-reward-fixture-08a-result-graph-room.png`
@@ -1405,7 +1750,7 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 #### 결과 단계 · rainbow · `engine-flow-empty-reward-fixture-08a-result-rainbow.png`
@@ -1414,7 +1759,20 @@
 
 - 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
 - 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 그래프 힘 변화가 하나의 결과 단계로 정리됩니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 도장 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+## 2026-08-09 최종 보상 정렬 회귀 QA
+
+- 6개 생성 장면마다 다른 결과판 축과 다시 버튼 hitbox를 실제 픽셀 위치에 맞추고, 장면 내 생성 제목·버튼의 중복 DOM 레이어를 제거했다.
+- 데스크톱 `1280×800`, 태블릿 가로 `1024×768`에서 축 오차 `1px 이하`, 넘침·겹침·중복 레이어 `0건`을 확인했다.
+- 증거: `screenshots/result-typography-desktop-after.png`
+
+## 2026-08-09 결과 타이틀 래스터 무결성 QA
+
+- 범위: `result-title-only-v1` — 장면에 구워진 제목의 실제 배경 픽셀 영역까지 전수 검사했다.
+- 장면에 baked-in된 6단계 제목은 독립 DOM 제목을 숨기고 `scene-baked` 픽셀·중복 레이어 검사를 통과했다.
+- 데스크톱 `1280×800`과 태블릿 가로 `1024×768` 전수 PASS, 텍스트 넘침·요소 겹침·중복 제목 `0건`이다.
+- 증거: `screenshots/result-typography-desktop-contain-after.png`, `screenshots/result-typography-tablet-landscape-contain-after.png`
