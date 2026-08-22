@@ -771,7 +771,9 @@ button:focus-visible {
 
 /* Generated Socialmon visual profile */
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .cover-content {
-  inset: 7.4cqw 5cqw 2cqw;
+  /* Keep the generated title art clear of the top controls while preserving
+     the existing title-to-start-button rhythm. */
+  inset: 8.6cqw 5cqw 2cqw;
   justify-content: flex-start;
 }
 
@@ -1151,6 +1153,19 @@ button:focus-visible {
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-card:has(.source-card.has-image) .question-prompt {
+  /* The yellow source card already carries the visible situation title and
+     instruction. Keep the full question for screen readers without spending
+     a second large heading in the student reading path. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  max-width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
   font-size: clamp(34px, 2.8cqw, 36px);
   line-height: 1.16;
 }
@@ -1370,17 +1385,20 @@ button:focus-visible {
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.source-card) .choice-option.has-image,
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.situation-card) .choice-option.has-image {
-  height: max(96px, 8.7cqw);
+  height: max(108px, 9.7cqw);
   padding-block: 0.28cqw;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.source-card) .choice-option.has-image .option-image,
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.situation-card) .choice-option.has-image .option-image {
-  width: auto;
-  height: 78%;
-  max-width: 24%;
-  min-width: 72px;
-  min-height: 72px;
+  /* Keep the art slot square even when the source asset has a portrait
+     intrinsic ratio; the harness and the label column both rely on one
+     stable picture box. */
+  width: min(24cqw, 78cqh);
+  height: min(24cqw, 78cqh);
+  max-width: none;
+  min-width: 76px;
+  min-height: 76px;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .choice-option.has-image .option-label,
@@ -1397,6 +1415,14 @@ button:focus-visible {
   min-height: 100%;
   padding-left: 0.55cqw;
   border-left: 0.1cqw solid rgb(16 42 86 / 14%);
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .has-image .option-label.is-compact-label {
+  justify-self: stretch;
+  padding-left: 0;
+  border-left: 0;
+  text-align: center;
+  justify-content: center;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.source-card) .choice-option.has-image .option-label,
@@ -1501,6 +1527,8 @@ button:focus-visible {
   grid-template-columns: minmax(0, 1fr);
   grid-auto-rows: 1fr;
   gap: 0.65cqw;
+  flex: 1 1 0;
+  align-content: stretch;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-row {
@@ -1567,6 +1595,42 @@ button:focus-visible {
   max-height: none;
 }
 
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8cqw;
+  min-height: max(34px, 3.4cqw);
+  margin-top: 0.35cqw;
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-nav button {
+  min-width: max(96px, 7.5cqw);
+  min-height: max(44px, 4.3cqw);
+  padding: 0.35cqw 0.8cqw;
+  border: 0.14cqw solid #9bc7c4;
+  border-radius: 999px;
+  background: #f4fffc;
+  color: var(--navy);
+  font-size: clamp(13px, 1.2cqw, 16px);
+  font-weight: 850;
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-nav button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-label {
+  min-width: 3.6cqw;
+  color: var(--muted);
+  font-size: clamp(14px, 1.25cqw, 17px);
+  font-weight: 900;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v4"] .classify-target.has-image .option-image {
   width: max(49px, min(4.8cqw, 72cqh, 56px));
   height: max(49px, min(4.8cqw, 72cqh, 56px));
@@ -1623,17 +1687,29 @@ button:focus-visible {
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .feedback-panel strong {
-  font-size: clamp(20px, 1.8cqw, 24px);
+  min-width: 8.8cqw;
+  padding-right: 1cqw;
+  color: #12663f;
+  font-size: clamp(26px, 2.25cqw, 30px);
+  font-weight: 950;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .feedback-panel p {
   margin: 0;
-  font-size: clamp(14px, 1.25cqw, 17px);
-  line-height: 1.38;
+  color: #18345d;
+  font-size: clamp(15px, 1.18cqw, 16px);
+  font-weight: 650;
+  line-height: 1.42;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v4"] .feedback-panel p {
-  font-size: clamp(16px, 1.25cqw, 17px);
+  font-size: clamp(16px, 1.18cqw, 16.5px);
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .feedback-panel.is-wrong strong {
+  color: #a43b31;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .trace-continue-button {
@@ -2179,6 +2255,25 @@ button:focus-visible {
   text-align: center;
 }
 
+.result-title-art {
+  display: block;
+  width: min(28cqw, 300px);
+  max-height: 7cqw;
+  margin: 0.15cqw auto 0.35cqw;
+  object-fit: contain;
+}
+
+.result-panel.has-result-title-art #resultTitle {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
 .result-correct {
   margin: 0.65cqw 0;
   color: var(--navy);
@@ -2187,10 +2282,30 @@ button:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 
+.result-correct-art {
+  display: block;
+  width: min(19cqw, 220px);
+  height: auto;
+  max-height: 4.8cqw;
+  margin: 0.35cqw auto 0.55cqw;
+  object-fit: contain;
+}
+
+.result-panel.has-result-count-art .result-correct {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
 .result-discovery-label {
   display: block;
   width: fit-content;
-  margin: 1.1cqw auto 0;
+  margin: 0.75cqw auto 0.5cqw;
   padding: 0.58cqw 1.15cqw;
   border-radius: 999px;
   background: #ffe066;
@@ -2200,12 +2315,17 @@ button:focus-visible {
 }
 
 .result-next {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   width: 100%;
+  min-height: 8.5cqw;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.8cqw 0 1.1cqw;
+  margin: 0;
+  padding: 0.95cqw 1.2cqw;
+  border: 0.16cqw solid #b9d9d3;
+  border-radius: 1.1cqw;
+  background: #f3fbf7;
   color: var(--navy);
   font-size: clamp(20px, 2.1cqw, 28px);
   font-weight: 800;
@@ -2218,7 +2338,7 @@ button:focus-visible {
   flex: 0 0 auto;
   align-self: center;
   min-height: max(56px, 5.3cqw);
-  margin-top: 0.25cqw;
+  margin-top: auto;
 }
 
 /* Settings */
@@ -2410,7 +2530,7 @@ button:focus-visible {
               <div class="concept-visual">
 
                 <button class="concept-zoom-trigger" id="conceptZoomTrigger" type="button" aria-label="개념 자료 크게 보기">
-                  <img class="concept-image" id="conceptImage" alt="" src="assets/source-concept-01.webp">
+                  <img class="concept-image" id="conceptImage" alt="">
                 </button>
 
               </div>
@@ -2454,7 +2574,9 @@ button:focus-visible {
           <section class="result-panel">
             <p class="panel-eyebrow">오늘 만난 소셜몬</p>
             <h2 id="resultTitle"></h2>
+            <img id="resultTitleArt" class="result-title-art" alt="" hidden>
             <p class="result-correct" id="resultCorrect"></p>
+            <img id="resultCorrectArt" class="result-correct-art" alt="" hidden>
             <strong class="result-discovery-label">오늘의 발견</strong>
             <p class="result-next" id="resultDiscovery" data-text-align-role="sentence"></p>
             <button class="action-button" id="restartButton" type="button">처음으로</button>
@@ -2520,11 +2642,11 @@ button:focus-visible {
     id="socialmonBuildMeta"
     type="application/json"
     data-quiz-json-sha256="71b7540c00331494fe6d34081d335f894083abb50f03864b9b023e09d26bcc5f"
-    data-profile-json-sha256="0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259"
+    data-profile-json-sha256="b776b679b9950e15571b55a9338aa74f915b75add6831caf6330424bf3e1409c"
     data-theme-pack-json-sha256="ca12db1d9d724e4bc25636ddc711d93e2ac2694281a7e58eb9c55a12ebe6a639"
     data-lesson-assets-sha256="1f70fe714a8524c71f1bef3cbd5b52d0ecc69b0de77a2c11bf8c6683da7dae6b"
-    data-engine-sha256="8de20386dc912c3cc56220ac2536ddb29696bb9bf82cc336b5aa1a9903ab5b4d"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"8de20386dc912c3cc56220ac2536ddb29696bb9bf82cc336b5aa1a9903ab5b4d","quizJson":"_social_lessons/socialmon-3-1-u2-g02-past-nearby/quiz.json","quizJsonSha256":"71b7540c00331494fe6d34081d335f894083abb50f03864b9b023e09d26bcc5f","profileJson":"_shared/socialmon/profiles/quiz-lite-v3/profile.json","profileJsonSha256":"0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259","themePackJson":"_shared/socialmon/theme-packs/3-1/time-history/pack.json","themePackJsonSha256":"ca12db1d9d724e4bc25636ddc711d93e2ac2694281a7e58eb9c55a12ebe6a639","lessonAssetsSha256":"1f70fe714a8524c71f1bef3cbd5b52d0ecc69b0de77a2c11bf8c6683da7dae6b","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/official-option-library-v1/actions/blind-guess-generated.webp","_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp","_shared/socialmon/official-option-library-v1/actions/make-plan-generated.webp","_shared/socialmon/official-option-library-v1/actions/research-generated.webp","_shared/socialmon/official-option-library-v1/actions/respectful-listening-generated.webp","_shared/socialmon/official-option-library-v1/actions/share-poster-generated.webp","_shared/socialmon/official-option-library-v1/heritage/artifact-repair-generated.webp","_shared/socialmon/official-option-library-v1/heritage/field-research-generated.webp","_shared/socialmon/official-option-library-v1/heritage/museum-display-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/09-old-object-presentation-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/10-preserve-old-photo-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/23-cassette-tape-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/24-traditional-hair-iron-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/25-typewriter-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/26-select-arrange-exhibits-generated.webp","_shared/socialmon/official-option-library-v1/time/calendar-generated.webp","_shared/socialmon/official-option-library-v1/time/diary-generated.webp","_shared/socialmon/official-option-library-v1/time/elder-interview-generated.webp","_shared/socialmon/official-option-library-v1/time/modern-appliance-generated.webp","_shared/socialmon/official-option-library-v1/time/old-photo-generated.webp","_shared/socialmon/official-option-library-v1/time/old-tool-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/bus-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/car-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/train-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/walking-generated.webp","_shared/socialmon/quiz-lite-v1/backgrounds/customs-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp","_shared/socialmon/rewards/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-concept-01.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-concept-02.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-question-01.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-question-03.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-question-06.webp"],"builtAt":"2026-08-21T02:10:27.634Z"}</script>
+    data-engine-sha256="6e019197ba91e531c178f6fc9bc83d8794e886df95fa524b0b77849fcff112c2"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"6e019197ba91e531c178f6fc9bc83d8794e886df95fa524b0b77849fcff112c2","quizJson":"_social_lessons/socialmon-3-1-u2-g02-past-nearby/quiz.json","quizJsonSha256":"71b7540c00331494fe6d34081d335f894083abb50f03864b9b023e09d26bcc5f","profileJson":"_shared/socialmon/profiles/quiz-lite-v3/profile.json","profileJsonSha256":"b776b679b9950e15571b55a9338aa74f915b75add6831caf6330424bf3e1409c","themePackJson":"_shared/socialmon/theme-packs/3-1/time-history/pack.json","themePackJsonSha256":"ca12db1d9d724e4bc25636ddc711d93e2ac2694281a7e58eb9c55a12ebe6a639","lessonAssetsSha256":"1f70fe714a8524c71f1bef3cbd5b52d0ecc69b0de77a2c11bf8c6683da7dae6b","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/official-option-library-v1/actions/blind-guess-generated.webp","_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp","_shared/socialmon/official-option-library-v1/actions/make-plan-generated.webp","_shared/socialmon/official-option-library-v1/actions/research-generated.webp","_shared/socialmon/official-option-library-v1/actions/respectful-listening-generated.webp","_shared/socialmon/official-option-library-v1/actions/share-poster-generated.webp","_shared/socialmon/official-option-library-v1/heritage/artifact-repair-generated.webp","_shared/socialmon/official-option-library-v1/heritage/field-research-generated.webp","_shared/socialmon/official-option-library-v1/heritage/museum-display-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/09-old-object-presentation-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/10-preserve-old-photo-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/23-cassette-tape-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/24-traditional-hair-iron-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/25-typewriter-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/26-select-arrange-exhibits-generated.webp","_shared/socialmon/official-option-library-v1/time/calendar-generated.webp","_shared/socialmon/official-option-library-v1/time/diary-generated.webp","_shared/socialmon/official-option-library-v1/time/elder-interview-generated.webp","_shared/socialmon/official-option-library-v1/time/modern-appliance-generated.webp","_shared/socialmon/official-option-library-v1/time/old-photo-generated.webp","_shared/socialmon/official-option-library-v1/time/old-tool-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/bus-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/car-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/train-generated.webp","_shared/socialmon/official-option-library-v1/transport-communication/walking-generated.webp","_shared/socialmon/quiz-lite-v1/backgrounds/customs-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp","_shared/socialmon/rewards/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-concept-01.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-concept-02.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-question-01.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-question-03.webp","_social_lessons/socialmon-3-1-u2-g02-past-nearby/assets/source-question-06.webp"],"builtAt":"2026-08-22T11:59:20.135Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -3225,6 +3347,7 @@ button:focus-visible {
   "standards": {
     "screenFlow": "socialmon-four-screen-flow-v1",
     "questionInteraction": "socialmon-tap-interactions-v1",
+    "actionButtons": "socialmon-action-buttons-v1",
     "reward": "socialmon-trace-reveal-v1",
     "cover": "socialmon-generated-cover-copy-v1",
     "tutorial": "socialmon-generated-tutorial-poster-v1",
@@ -3369,6 +3492,169 @@ button:focus-visible {
       "settings",
       "trace-reveal"
     ],
+    "actionButtonAudit": {
+      "standard": "socialmon-action-buttons-v1",
+      "minTargetWidthPx": 44,
+      "minTargetHeightPx": 44,
+      "minPrimaryWidthPx": 150,
+      "minPrimaryHeightPx": 52,
+      "minSafeInsetPx": 4,
+      "minFocusOutlinePx": 2,
+      "requireAccessibleName": true,
+      "requireVisibleFocus": true,
+      "forbidStageEscape": true,
+      "forbidDuplicateActivation": true,
+      "roles": [
+        {
+          "role": "play.concept.next",
+          "selector": "#conceptNextButton",
+          "presence": "concept",
+          "names": [
+            "다음 개념",
+            "문제 시작"
+          ],
+          "primary": true,
+          "safeInset": false
+        },
+        {
+          "role": "play.question.submit",
+          "selector": ".workbench-submit",
+          "presence": "question",
+          "names": [
+            "답 확인",
+            "짝 확인",
+            "순서 확인"
+          ],
+          "primary": true,
+          "safeInset": true
+        },
+        {
+          "role": "play.question.reset",
+          "selector": ".sequence-reset",
+          "presence": "sequence",
+          "names": [
+            "다시 고르기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "play.question.page.previous",
+          "selector": ".classify-page-previous",
+          "presence": "paged-classify",
+          "names": [
+            "앞 문장"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "play.question.page.next",
+          "selector": ".classify-page-next",
+          "presence": "paged-classify",
+          "names": [
+            "다음 문장"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "play.feedback.next",
+          "selector": "#continueButton",
+          "presence": "feedback",
+          "names": [
+            "다음 문제",
+            "흔적 보기",
+            "결과 보기",
+            "소셜몬 만나기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "reward.trace.next",
+          "selector": "#traceRewardNextButton",
+          "presence": "trace-reward",
+          "names": [
+            "다음 문제",
+            "힌트 보기",
+            "소셜몬 만나기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "reward.reveal.next",
+          "selector": "#traceRevealNextButton",
+          "presence": "trace-reveal",
+          "names": [
+            "다음 문제"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "overlay.source.close",
+          "selector": "#sourceViewerClose",
+          "presence": "source-viewer",
+          "names": [
+            "닫기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "result.restart",
+          "selector": "#restartButton",
+          "presence": "result",
+          "names": [
+            "처음으로"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.open",
+          "selector": "#settingsToggle",
+          "presence": "all-screens",
+          "names": [
+            "설정 열기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.review-tutorial",
+          "selector": "#reviewTutorialButton",
+          "presence": "settings",
+          "names": [
+            "방법 다시 보기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.restart",
+          "selector": "#resetButton",
+          "presence": "settings",
+          "names": [
+            "처음부터"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.close",
+          "selector": "#settingsClose",
+          "presence": "settings",
+          "names": [
+            "닫기"
+          ],
+          "primary": false,
+          "safeInset": false
+        }
+      ]
+    },
     "coverCopyAudit": {
       "standard": "socialmon-generated-cover-copy-v1",
       "art": "#coverCopyArt",
@@ -3571,6 +3857,10 @@ button:focus-visible {
     }
     const label = document.createElement("span");
     label.className = "option-label";
+    const normalizedText = String(text).trim();
+    if (normalizedText && !/\s/u.test(normalizedText) && Array.from(normalizedText).length <= 3) {
+      label.classList.add("is-compact-label");
+    }
     label.textContent = text;
     element.append(label);
   };
@@ -3895,10 +4185,18 @@ button:focus-visible {
 
   const renderClassify = (root, question, onSubmit) => {
     const selections = {};
+    const pageSize = Number.isInteger(question.pageSize) && question.pageSize > 0
+      ? question.pageSize
+      : question.items.length;
+    const pageCount = Math.max(1, Math.ceil(question.items.length / pageSize));
+    let pageIndex = 0;
     const controller = {
       locked: false,
       getAnswer: () => ({ ...selections }),
       isComplete: () => question.items.every((item) => Boolean(selections[item.id])),
+      currentPageComplete: () => question.items
+        .slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
+        .every((item) => Boolean(selections[item.id])),
       lock() {
         this.locked = true;
         lockButtons(root);
@@ -3907,38 +4205,81 @@ button:focus-visible {
         root.querySelectorAll("[data-classify-item][data-group-id]").forEach((button) => {
           button.setAttribute("aria-pressed", String(selections[button.dataset.classifyItem] === button.dataset.groupId));
         });
+        root.dataset.classifyPageIndex = String(pageIndex);
+        root.dataset.classifyPageCount = String(pageCount);
+        board.dataset.pageIndex = String(pageIndex);
+        board.dataset.pageCount = String(pageCount);
+        const pageLabel = root.querySelector(".classify-page-label");
+        if (pageLabel) pageLabel.textContent = `${pageIndex + 1} / ${pageCount}`;
+        const previousButton = root.querySelector(".classify-page-previous");
+        if (previousButton) previousButton.disabled = this.locked || pageIndex === 0;
+        const nextButton = root.querySelector(".classify-page-next");
+        if (nextButton) nextButton.disabled = this.locked || pageIndex >= pageCount - 1 || !this.currentPageComplete();
         this.refreshSubmit?.();
       }
     };
 
     const board = document.createElement("div");
     board.className = "classify-board";
-    question.items.forEach((item) => {
-      const row = document.createElement("div");
-      row.className = "classify-row";
-      const label = document.createElement("span");
-      label.className = "classify-item";
-      appendIllustratedContent(label, item);
-      row.append(label);
-      question.groups.forEach((group) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "classify-target";
-        button.dataset.classifyItem = item.id;
-        button.dataset.groupId = group.id;
-        button.setAttribute("aria-pressed", "false");
-        appendIllustratedContent(button, group, group.label);
-        button.addEventListener("click", () => {
-          if (controller.locked) return;
-          selections[item.id] = group.id;
-          controller.refresh();
+    const renderPage = () => {
+      board.replaceChildren();
+      question.items.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize).forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "classify-row";
+        const label = document.createElement("span");
+        label.className = "classify-item";
+        appendIllustratedContent(label, item);
+        row.append(label);
+        question.groups.forEach((group) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "classify-target";
+          button.dataset.classifyItem = item.id;
+          button.dataset.groupId = group.id;
+          button.setAttribute("aria-pressed", "false");
+          appendIllustratedContent(button, group, group.label);
+          button.addEventListener("click", () => {
+            if (controller.locked) return;
+            selections[item.id] = group.id;
+            controller.refresh();
+          });
+          row.append(button);
         });
-        row.append(button);
+        board.append(row);
       });
-      board.append(row);
-    });
+    };
     root.append(board);
+    if (pageCount > 1) {
+      const pagination = document.createElement("div");
+      pagination.className = "classify-page-nav";
+      const previousButton = document.createElement("button");
+      previousButton.type = "button";
+      previousButton.className = "classify-page-previous";
+      previousButton.textContent = "앞 문장";
+      previousButton.addEventListener("click", () => {
+        if (controller.locked || pageIndex === 0) return;
+        pageIndex -= 1;
+        renderPage();
+        controller.refresh();
+      });
+      const pageLabel = document.createElement("span");
+      pageLabel.className = "classify-page-label";
+      pageLabel.setAttribute("aria-live", "polite");
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "classify-page-next";
+      nextButton.textContent = "다음 문장";
+      nextButton.addEventListener("click", () => {
+        if (controller.locked || pageIndex >= pageCount - 1 || !controller.currentPageComplete()) return;
+        pageIndex += 1;
+        renderPage();
+        controller.refresh();
+      });
+      pagination.append(previousButton, pageLabel, nextButton);
+      root.append(pagination);
+    }
     makeSubmitArea(root, controller, onSubmit, { submitLabel: "답 확인" });
+    renderPage();
     controller.refresh();
     return controller;
   };
@@ -4060,7 +4401,10 @@ button:focus-visible {
     if (count <= traitAfter) {
       return third + ((count - silhouetteAfter) / (traitAfter - silhouetteAfter)) * third;
     }
-    return (third * 2) + ((count - traitAfter) / (total - traitAfter)) * third;
+    // Keep the last pre-result state visibly incomplete. Transparent padding in
+    // character art can otherwise make the final hint look fully revealed.
+    const preResultRevealPercent = 82;
+    return (third * 2) + ((count - traitAfter) / (total - traitAfter)) * (preResultRevealPercent - (third * 2));
   };
 
   const resolveTraceRevealState = (traceCount, totalQuestionCount, reward = {}) => {
@@ -4145,6 +4489,7 @@ button:focus-visible {
     questionIndex: 0,
     correctCount: 0,
     traceCount: 0,
+    lastAnswerCorrect: false,
     answerLocked: false,
     continuationLocked: false,
     selectedResultId: null,
@@ -4345,6 +4690,7 @@ button:focus-visible {
     if (state.answerLocked) return;
     state.answerLocked = true;
     const correct = isCorrectAnswer(question, answer);
+    state.lastAnswerCorrect = correct;
     state.flowState = correct ? "feedback-correct" : "feedback-wrong";
     byId("screenPlay").dataset.flowState = state.flowState;
     if (correct) state.correctCount += 1;
@@ -4356,9 +4702,10 @@ button:focus-visible {
     byId("feedbackText").textContent = question.explanation;
     const completedCount = state.questionIndex + 1;
     const checkpoint = checkpointAfter(completedCount);
+    const awardsTrace = correct || config.reward.traceAwardPolicy !== "correct-only";
     byId("continueButton").textContent = completedCount === config.questions.length
-      ? "소셜몬 만나기"
-      : checkpoint ? "흔적 보기" : "다음 문제";
+      ? (awardsTrace ? "소셜몬 만나기" : "결과 보기")
+      : (awardsTrace && checkpoint ? "흔적 보기" : "다음 문제");
     byId("questionLayout").classList.add("has-feedback");
     byId("playWorkArea").classList.add("has-feedback");
     playTone(correct ? 660 : 240, correct ? 0.12 : 0.1);
@@ -4382,8 +4729,33 @@ button:focus-visible {
 
   const renderResult = (previewResultId = null) => {
     const result = (previewResultId && config.results.find((candidate) => candidate.id === previewResultId)) || selectedResult();
+    const resultPanel = document.querySelector(".result-panel");
     byId("resultTitle").textContent = result.name;
-    byId("resultCorrect").textContent = `${config.questions.length}문제 중 ${state.correctCount}문제 정답`;
+    byId("resultCorrect").textContent = `${state.correctCount}/${config.questions.length}`;
+    const resultCountArt = byId("resultCorrectArt");
+    const resultCountPattern = config.reward.resultCountAssetPattern;
+    if (resultCountArt && resultCountPattern) {
+      resultCountArt.src = resultCountPattern.replace("{correct}", String(state.correctCount));
+      resultCountArt.alt = `${state.correctCount}/${config.questions.length}`;
+      resultCountArt.hidden = false;
+      resultPanel?.classList.add("has-result-count-art");
+    } else {
+      resultCountArt?.setAttribute("hidden", "");
+      resultPanel?.classList.remove("has-result-count-art");
+    }
+    const resultTitleArt = byId("resultTitleArt");
+    const resultTitleSrc = config.visualAssets?.resultTitleArts?.[result.id];
+    if (resultTitleArt) {
+      resultTitleArt.hidden = !resultTitleSrc;
+      if (resultTitleSrc) {
+        resultTitleArt.src = resultTitleSrc;
+        resultTitleArt.alt = result.name;
+        resultPanel?.classList.add("has-result-title-art");
+      } else {
+        resultTitleArt.removeAttribute("src");
+        resultPanel?.classList.remove("has-result-title-art");
+      }
+    }
     byId("resultDiscovery").textContent = config.reward.discoveryText;
     byId("resultCharacterImage").src = result.characterImage;
     byId("resultCharacterImage").alt = `${result.name} 캐릭터`;
@@ -4421,6 +4793,13 @@ button:focus-visible {
   const continueAfterFeedback = () => {
     if (!state.answerLocked || state.continuationLocked) return;
     state.continuationLocked = true;
+    const awardsTrace = state.lastAnswerCorrect || config.reward.traceAwardPolicy !== "correct-only";
+    if (!awardsTrace) {
+      byId("traceRewardModal").hidden = true;
+      byId("traceRevealModal").hidden = true;
+      moveToNextQuestionOrResult();
+      return;
+    }
     state.traceCount = state.questionIndex + 1;
     state.flowState = "trace-stamped";
     byId("screenPlay").dataset.flowState = "trace-stamped";
@@ -4445,6 +4824,7 @@ button:focus-visible {
     state.flowState = "idle";
     state.correctCount = 0;
     state.traceCount = 0;
+    state.lastAnswerCorrect = false;
     state.answerLocked = false;
     state.continuationLocked = false;
     state.selectedResultId = null;
@@ -4612,6 +4992,7 @@ button:focus-visible {
       questionIndex: state.questionIndex,
       correctCount: state.correctCount,
       traceCount: state.traceCount,
+      lastAnswerCorrect: state.lastAnswerCorrect,
       answerLocked: state.answerLocked,
       continuationLocked: state.continuationLocked,
       selectedResultId: state.selectedResultId

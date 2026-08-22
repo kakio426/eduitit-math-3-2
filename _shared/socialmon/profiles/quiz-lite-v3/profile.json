@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "profileId": "socialmon-quiz-lite-profile-v3",
+  "engineVersion": "socialmon-quiz-lite-v1",
+  "contractVersion": "socialmon-quiz-lite-contract-v4",
+  "themePackProfileId": "socialmon-quiz-lite-profile-v1",
+  "standards": {
+    "screenFlow": "socialmon-four-screen-flow-v1",
+    "questionInteraction": "socialmon-tap-interactions-v1",
+    "actionButtons": "socialmon-action-buttons-v1",
+    "reward": "socialmon-trace-reveal-v1",
+    "cover": "socialmon-generated-cover-copy-v1",
+    "tutorial": "socialmon-generated-tutorial-poster-v1",
+    "brand": "socialmon-purple-cloud-mark-v1",
+    "playDiscovery": "socialmon-left-reveal-progress-v1",
+    "playLayout": "socialmon-source-choice-tablet-v3",
+    "conceptCards": "socialmon-concept-card-flow-v1"
+  },
+  "tutorial": {
+    "title": "방법 보기",
+    "steps": [
+      "개념을 먼저 살펴봐요.",
+      "문제를 풀고 확인해요.",
+      "흔적을 모아 소셜몬을 만나요."
+    ],
+    "rewardText": "8~10문제를 풀고 소셜몬을 만나요.",
+    "actionLabel": "알겠어요"
+  },
+  "reward": {
+    "standard": "socialmon-trace-reveal-v1",
+    "stampDurationMs": 500,
+    "checkpointStrategy": "socialmon-ceil-third-two-thirds-v1",
+    "checkpoints": [
+      {
+        "phase": "silhouette",
+        "label": "첫 번째 힌트",
+        "title": "누구의 그림자일까요?",
+        "copy": "모양을 잘 살펴봐요."
+      },
+      {
+        "phase": "trait",
+        "label": "두 번째 힌트",
+        "title": "이런 재주가 있어요!"
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "kiwimon",
+      "name": "키위몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp",
+      "trait": "작은 단서를 잘 찾아요."
+    },
+    {
+      "id": "platypusmon",
+      "name": "오리너구리몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp",
+      "trait": "두 모습을 빠르게 비교해요."
+    },
+    {
+      "id": "meerkatmon",
+      "name": "미어캣몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp",
+      "trait": "주변의 달라진 모습을 먼저 찾아요."
+    },
+    {
+      "id": "elephantmon",
+      "name": "코끼몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp",
+      "trait": "옛날과 오늘의 이야기를 잘 기억해요."
+    },
+    {
+      "id": "cranemon",
+      "name": "두루미몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp",
+      "trait": "멀리 오가는 소식을 잘 이어요."
+    },
+    {
+      "id": "pangolinmon",
+      "name": "천산갑몬",
+      "characterAsset": "_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp",
+      "trait": "함께 지킬 약속을 든든하게 지켜요."
+    }
+  ],
+  "assets": {
+    "startButton": "_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "brandMark": "_shared/brand/mathmon-cloud-mark.webp",
+    "tutorialPoster": "_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp",
+    "playBackground": "_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp",
+    "traceRewardArt": "_shared/socialmon/rewards/trace-earned-v1-generated.webp",
+    "resultBackground": "_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp",
+    "characterPack": "_shared/socialmon/discovery-pack-v1/manifest.json"
+  },
+  "qa": {
+    "viewports": [
+      { "name": "desktop-1280x800", "width": 1280, "height": 800 },
+      { "name": "tablet-landscape-1024x768", "width": 1024, "height": 768 },
+      { "name": "feedback-reported-1079x929", "width": 1079, "height": 929 },
+      { "name": "feedback-reported-1079x842", "width": 1079, "height": 842 },
+      { "name": "feedback-reported-1079x840", "width": 1079, "height": 840 },
+      { "name": "feedback-reported-1079x839", "width": 1079, "height": 839 }
+    ],
+    "requiredScreens": ["cover", "tutorial", "play", "result"],
+    "requiredFlowStates": ["concept-reading", "answering", "feedback-correct", "feedback-wrong", "trace-stamped", "trace-silhouette", "trace-trait"],
+    "requiredOverlays": ["settings", "trace-reveal"],
+    "actionButtonAudit": {
+      "standard": "socialmon-action-buttons-v1",
+      "minTargetWidthPx": 44,
+      "minTargetHeightPx": 44,
+      "minPrimaryWidthPx": 150,
+      "minPrimaryHeightPx": 52,
+      "minSafeInsetPx": 4,
+      "minFocusOutlinePx": 2,
+      "requireAccessibleName": true,
+      "requireVisibleFocus": true,
+      "forbidStageEscape": true,
+      "forbidDuplicateActivation": true,
+      "roles": [
+        { "role": "play.concept.next", "selector": "#conceptNextButton", "presence": "concept", "names": ["다음 개념", "문제 시작"], "primary": true, "safeInset": false },
+        { "role": "play.question.submit", "selector": ".workbench-submit", "presence": "question", "names": ["답 확인", "짝 확인", "순서 확인"], "primary": true, "safeInset": true },
+        { "role": "play.question.reset", "selector": ".sequence-reset", "presence": "sequence", "names": ["다시 고르기"], "primary": false, "safeInset": false },
+        { "role": "play.question.page.previous", "selector": ".classify-page-previous", "presence": "paged-classify", "names": ["앞 문장"], "primary": false, "safeInset": false },
+        { "role": "play.question.page.next", "selector": ".classify-page-next", "presence": "paged-classify", "names": ["다음 문장"], "primary": false, "safeInset": false },
+        { "role": "play.feedback.next", "selector": "#continueButton", "presence": "feedback", "names": ["다음 문제", "흔적 보기", "결과 보기", "소셜몬 만나기"], "primary": false, "safeInset": false },
+        { "role": "reward.trace.next", "selector": "#traceRewardNextButton", "presence": "trace-reward", "names": ["다음 문제", "힌트 보기", "소셜몬 만나기"], "primary": false, "safeInset": false },
+        { "role": "reward.reveal.next", "selector": "#traceRevealNextButton", "presence": "trace-reveal", "names": ["다음 문제"], "primary": false, "safeInset": false },
+        { "role": "overlay.source.close", "selector": "#sourceViewerClose", "presence": "source-viewer", "names": ["닫기"], "primary": false, "safeInset": false },
+        { "role": "result.restart", "selector": "#restartButton", "presence": "result", "names": ["처음으로"], "primary": false, "safeInset": false },
+        { "role": "settings.open", "selector": "#settingsToggle", "presence": "all-screens", "names": ["설정 열기"], "primary": false, "safeInset": false },
+        { "role": "settings.review-tutorial", "selector": "#reviewTutorialButton", "presence": "settings", "names": ["방법 다시 보기"], "primary": false, "safeInset": false },
+        { "role": "settings.restart", "selector": "#resetButton", "presence": "settings", "names": ["처음부터"], "primary": false, "safeInset": false },
+        { "role": "settings.close", "selector": "#settingsClose", "presence": "settings", "names": ["닫기"], "primary": false, "safeInset": false }
+      ]
+    },
+    "coverCopyAudit": {
+      "standard": "socialmon-generated-cover-copy-v1",
+      "art": "#coverCopyArt",
+      "hiddenText": ["#coverTitle", "#coverGoal", ".series-kicker"],
+      "sourceRequired": true
+    },
+    "tutorialPosterAudit": {
+      "standard": "socialmon-generated-tutorial-poster-v1",
+      "poster": "#tutorialPosterArt",
+      "hitbox": "#tutorialStartButton",
+      "canvas": "1280x800",
+      "hitboxRect": {
+        "leftRatio": 0.3375,
+        "topRatio": 0.845,
+        "widthRatio": 0.339,
+        "heightRatio": 0.132
+      },
+      "maxEdgeErrorPx": 1
+    },
+    "brandMarkAudit": {
+      "standard": "socialmon-purple-cloud-mark-v1",
+      "selector": ".socialmon-brand-mark",
+      "assetSuffix": "_shared/brand/mathmon-cloud-mark.webp"
+    },
+    "playDiscoveryAudit": {
+      "standard": "socialmon-left-reveal-progress-v1",
+      "panel": "#discoveryPanel",
+      "workArea": "#playWorkArea",
+      "expectedWidthRatio": 0.245,
+      "minWorkGapRatio": 0.015625,
+      "tolerancePx": 1,
+      "traceStates": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "visibleProgress": "#questionProgress",
+      "hiddenProgress": "#traceProgress"
+    },
+    "sourceChoiceAudit": {
+      "standard": "socialmon-source-choice-tablet-v3",
+      "sourceCard": ".source-card.has-image",
+      "sourceImage": ".source-image",
+      "choice": ".choice-option",
+      "minSourceImageWidthRatio": 0.22,
+      "minSourcePixelDensity": 3,
+      "minPromptFontPx": 34,
+      "minSourceTitleFontPx": 24,
+      "minSourceBodyFontPx": 20,
+      "sourceCredit": "#playSourceCredit",
+      "maxSourceCreditFontPx": 12,
+      "requireSourceCreditBackplate": false,
+      "maxSourceCreditRightInsetRatio": 0.03,
+      "maxSourceCreditBottomInsetRatio": 0.03,
+      "minChoiceHeightPx": 94,
+      "minChoiceFontPx": 21,
+      "maxChoiceWidthRatio": 0.31,
+      "minOptionImageNaturalWidth": 512,
+      "minSubmitWidthPx": 150,
+      "minSubmitHeightPx": 52,
+      "minSubmitSafeInsetPx": 4,
+      "minSourceChoiceGapRatio": 0.01,
+      "maxCoreVerticalGapRatio": 0.04,
+      "maxAdjacentGapRatio": 2,
+      "maxCorrectChoiceTokenOverlapRatio": 0.6,
+      "minCorrectChoiceTokenMatches": 2,
+      "requireSourceImage": true,
+      "requireAllOptionImages": true,
+      "forbidAnswerLeak": true,
+      "forbidCenteredWorkbench": true,
+      "hideQuestionKind": true,
+      "hideImageSourceInstruction": true,
+      "hideInlineSourceCredit": true,
+      "hideStudentSourceCredit": true
+    },
+    "conceptCardAudit": {
+      "standard": "socialmon-concept-card-flow-v1",
+      "card": "#conceptCard",
+      "image": "#conceptImage",
+      "title": "#conceptTitle",
+      "body": "#conceptBody",
+      "nextButton": "#conceptNextButton",
+      "minImageWidthRatio": 0.36,
+      "minNextWidthPx": 150,
+      "minNextHeightPx": 52,
+      "maxCards": 4
+    },
+    "illustratedOptionAudit": {
+      "standard": "socialmon-inline-option-art-v1",
+      "layout": "image-left-label-right",
+      "targetImageAspect": 1,
+      "maxImageAspectDelta": 0.18,
+      "minImageWidthRatio": 0.18,
+      "maxImageWidthRatio": 0.62,
+      "minImageHeightRatio": 0.7,
+      "minImageBoxHeightPx": 64,
+      "minImageBoxWidthPx": 64,
+      "maxHorizontalPadRatio": 0.14,
+      "minBoardFillRatio": 0.82,
+      "maxEmptyBandRatio": 0.04,
+      "maxImageLabelOverlapPx": 8,
+      "maxSourceAccentBorderExtraPx": 1,
+      "fillQuestionTypes": ["choice", "match", "classify"],
+      "labelWordBreak": "keep-all",
+      "forbidSingleGlyphLastLine": true,
+      "minLastLineGlyphs": 2,
+      "generatedSlotPattern": "-generated.",
+      "requireGeneratedSlotAspect": true
+    },
+    "matchPortAudit": {
+      "standard": "socialmon-match-edge-ports-v1",
+      "port": ".pair-port",
+      "forbidCenterRail": true,
+      "minLaneWidthPx": 28,
+      "maxPortInsetPx": 10,
+      "maxPortToPathPx": 12
+    },
+    "traceRewardModalAudit": {
+      "standard": "socialmon-trace-reward-modal-v1",
+      "modal": "#traceRewardModal",
+      "card": "#traceRewardCard",
+      "visual": "#traceRewardArt",
+      "title": "#traceRewardTitle",
+      "copy": "#traceRewardCopy",
+      "count": "#traceRewardCount",
+      "nextButton": "#traceRewardNextButton",
+      "requiredTitle": "소셜몬 흔적 획득!",
+      "requiresExplicitDismiss": true,
+      "forbidAutoDismiss": true
+    },
+    "sourceViewerAudit": {
+      "standard": "socialmon-source-viewer-v1",
+      "trigger": ".source-zoom-trigger",
+      "modal": "#sourceViewerModal",
+      "image": "#sourceViewerImage",
+      "closeButton": "#sourceViewerClose",
+      "minZoomWidthRatio": 1.8
+    },
+    "classifyLayoutAudit": {
+      "standard": "socialmon-classify-lead-emphasis-v1",
+      "minLeadToTargetWidthRatio": 1.2
+    },
+    "resultPanelAudit": {
+      "standard": "socialmon-result-discovery-emphasis-v1",
+      "minPanelWidthRatio": 0.34,
+      "minDiscoveryFontPx": 18,
+      "minDiscoveryLabelFontPx": 16
+    },
+    "mapHotspotAudit": {
+      "standard": "socialmon-source-choice-map-hotspots-v1",
+      "board": ".map-hotspot-board",
+      "mapImage": ".map-hotspot-image",
+      "target": ".map-hotspot-target",
+      "minMapWidthRatio": 0.42,
+      "minMapPixelDensity": 3,
+      "minTargetSizePx": 42,
+      "minSafeInsetPx": 4,
+      "requiredTargetCount": 4,
+      "maxTargetOverlapPx": 0
+    },
+    "forbidTextOverflow": true,
+    "forbidSiblingOverlap": true,
+    "requireSourceEvidence": true,
+    "forbidGeneratedFactualEvidence": true
+  },
+  "questionBundle": {
+    "standard": "socialmon-medium-unit-adaptive-8-10q-v1",
+    "minQuestionCount": 8,
+    "maxQuestionCount": 10,
+    "maxConsecutiveSameInteraction": 3,
+    "bands": [
+      {
+        "maxSourceLessonCount": 8,
+        "questionCount": 8,
+        "minSourceChoiceCount": 3,
+        "minRelationshipQuestionCount": 2
+      },
+      {
+        "minSourceLessonCount": 9,
+        "maxSourceLessonCount": 10,
+        "questionCount": 9,
+        "minSourceChoiceCount": 3,
+        "minRelationshipQuestionCount": 2
+      },
+      {
+        "minSourceLessonCount": 11,
+        "questionCount": 10,
+        "minSourceChoiceCount": 4,
+        "minRelationshipQuestionCount": 3
+      }
+    ]
+  }
+}

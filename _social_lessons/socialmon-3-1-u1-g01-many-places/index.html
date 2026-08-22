@@ -771,7 +771,9 @@ button:focus-visible {
 
 /* Generated Socialmon visual profile */
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .cover-content {
-  inset: 7.4cqw 5cqw 2cqw;
+  /* Keep the generated title art clear of the top controls while preserving
+     the existing title-to-start-button rhythm. */
+  inset: 8.6cqw 5cqw 2cqw;
   justify-content: flex-start;
 }
 
@@ -1151,6 +1153,19 @@ button:focus-visible {
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-card:has(.source-card.has-image) .question-prompt {
+  /* The yellow source card already carries the visible situation title and
+     instruction. Keep the full question for screen readers without spending
+     a second large heading in the student reading path. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  max-width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
   font-size: clamp(34px, 2.8cqw, 36px);
   line-height: 1.16;
 }
@@ -1370,17 +1385,20 @@ button:focus-visible {
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.source-card) .choice-option.has-image,
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.situation-card) .choice-option.has-image {
-  height: max(96px, 8.7cqw);
+  height: max(108px, 9.7cqw);
   padding-block: 0.28cqw;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.source-card) .choice-option.has-image .option-image,
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.situation-card) .choice-option.has-image .option-image {
-  width: auto;
-  height: 78%;
-  max-width: 24%;
-  min-width: 72px;
-  min-height: 72px;
+  /* Keep the art slot square even when the source asset has a portrait
+     intrinsic ratio; the harness and the label column both rely on one
+     stable picture box. */
+  width: min(24cqw, 78cqh);
+  height: min(24cqw, 78cqh);
+  max-width: none;
+  min-width: 76px;
+  min-height: 76px;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .choice-option.has-image .option-label,
@@ -1399,7 +1417,7 @@ button:focus-visible {
   border-left: 0.1cqw solid rgb(16 42 86 / 14%);
 }
 
-.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .pair-option.has-image .option-label.is-compact-label {
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .has-image .option-label.is-compact-label {
   justify-self: stretch;
   padding-left: 0;
   border-left: 0;
@@ -2512,7 +2530,7 @@ button:focus-visible {
               <div class="concept-visual">
 
                 <button class="concept-zoom-trigger" id="conceptZoomTrigger" type="button" aria-label="개념 자료 크게 보기">
-                  <img class="concept-image" id="conceptImage" alt="" src="assets/source-concept-01.webp">
+                  <img class="concept-image" id="conceptImage" alt="">
                 </button>
 
               </div>
@@ -2623,12 +2641,12 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="a52cb869194564c05663d096063aae5cdf6acb232394e93ef006c85d270e9827"
-    data-profile-json-sha256="0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259"
+    data-quiz-json-sha256="7babb5a93c2892f64664ed4a1c8aa493175ad985d9287a94528449763f2e78d4"
+    data-profile-json-sha256="b776b679b9950e15571b55a9338aa74f915b75add6831caf6330424bf3e1409c"
     data-theme-pack-json-sha256="e9dd57251aca44d6df8210b71e3152b68a85e193140603c59312321d0f828952"
-    data-lesson-assets-sha256="d1d7935a4929c93e1ce79c5f7a608bc538884dcc7974a183a0ca4089011b78f4"
-    data-engine-sha256="2336d345186a9623ce7a7a0d257149d0fe07ce1032af46f25cee3e0910d560a5"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"2336d345186a9623ce7a7a0d257149d0fe07ce1032af46f25cee3e0910d560a5","quizJson":"_social_lessons/socialmon-3-1-u1-g01-many-places/quiz.json","quizJsonSha256":"a52cb869194564c05663d096063aae5cdf6acb232394e93ef006c85d270e9827","profileJson":"_shared/socialmon/profiles/quiz-lite-v3/profile.json","profileJsonSha256":"0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259","themePackJson":"_shared/socialmon/theme-packs/3-1/places/pack.json","themePackJsonSha256":"e9dd57251aca44d6df8210b71e3152b68a85e193140603c59312321d0f828952","lessonAssetsSha256":"d1d7935a4929c93e1ce79c5f7a608bc538884dcc7974a183a0ca4089011b78f4","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/official-option-library-v1/actions/blind-guess-generated.webp","_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp","_shared/socialmon/official-option-library-v1/actions/different-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/group-discussion-generated.webp","_shared/socialmon/official-option-library-v1/actions/make-plan-generated.webp","_shared/socialmon/official-option-library-v1/actions/research-generated.webp","_shared/socialmon/official-option-library-v1/actions/rude-comment-generated.webp","_shared/socialmon/official-option-library-v1/actions/same-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/share-poster-generated.webp","_shared/socialmon/official-option-library-v1/economy/market-consumer-generated.webp","_shared/socialmon/official-option-library-v1/map/paper-map-generated.webp","_shared/socialmon/official-option-library-v1/map/scale-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/02-split-play-fall-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/03-split-family-memories-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/04-split-fall-play-swapped-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/05-split-family-earthworm-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/07-folded-info-booklet-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/19-market-checkout-generated.webp","_shared/socialmon/official-option-library-v1/places/market-generated.webp","_shared/socialmon/official-option-library-v1/places/mountain-place-generated.webp","_shared/socialmon/official-option-library-v1/places/park-generated.webp","_shared/socialmon/official-option-library-v1/places/riverside-generated.webp","_shared/socialmon/official-option-library-v1/places/school-generated.webp","_shared/socialmon/official-option-library-v1/time/calendar-generated.webp","_shared/socialmon/official-option-library-v1/time/diary-generated.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp","_shared/socialmon/rewards/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-01-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-02-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-03-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-04-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-place-survey-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-share-experience-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-kiwimon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-pangolinmon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-platypusmon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-01.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-03.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-07.webp"],"builtAt":"2026-08-22T00:14:46.035Z"}</script>
+    data-lesson-assets-sha256="dce3c5b3e4a7a36d86306cd93a7ff76239ca68d3dc0669a05b8b0909d3de579a"
+    data-engine-sha256="6e019197ba91e531c178f6fc9bc83d8794e886df95fa524b0b77849fcff112c2"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"6e019197ba91e531c178f6fc9bc83d8794e886df95fa524b0b77849fcff112c2","quizJson":"_social_lessons/socialmon-3-1-u1-g01-many-places/quiz.json","quizJsonSha256":"7babb5a93c2892f64664ed4a1c8aa493175ad985d9287a94528449763f2e78d4","profileJson":"_shared/socialmon/profiles/quiz-lite-v3/profile.json","profileJsonSha256":"b776b679b9950e15571b55a9338aa74f915b75add6831caf6330424bf3e1409c","themePackJson":"_shared/socialmon/theme-packs/3-1/places/pack.json","themePackJsonSha256":"e9dd57251aca44d6df8210b71e3152b68a85e193140603c59312321d0f828952","lessonAssetsSha256":"dce3c5b3e4a7a36d86306cd93a7ff76239ca68d3dc0669a05b8b0909d3de579a","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/official-option-library-v1/actions/blind-guess-generated.webp","_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp","_shared/socialmon/official-option-library-v1/actions/different-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/group-discussion-generated.webp","_shared/socialmon/official-option-library-v1/actions/make-plan-generated.webp","_shared/socialmon/official-option-library-v1/actions/research-generated.webp","_shared/socialmon/official-option-library-v1/actions/rude-comment-generated.webp","_shared/socialmon/official-option-library-v1/actions/same-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/share-poster-generated.webp","_shared/socialmon/official-option-library-v1/economy/market-consumer-generated.webp","_shared/socialmon/official-option-library-v1/map/paper-map-generated.webp","_shared/socialmon/official-option-library-v1/map/scale-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/02-split-play-fall-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/03-split-family-memories-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/04-split-fall-play-swapped-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/05-split-family-earthworm-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/07-folded-info-booklet-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/19-market-checkout-generated.webp","_shared/socialmon/official-option-library-v1/places/market-generated.webp","_shared/socialmon/official-option-library-v1/places/mountain-place-generated.webp","_shared/socialmon/official-option-library-v1/places/park-generated.webp","_shared/socialmon/official-option-library-v1/places/riverside-generated.webp","_shared/socialmon/official-option-library-v1/places/school-generated.webp","_shared/socialmon/official-option-library-v1/time/calendar-generated.webp","_shared/socialmon/official-option-library-v1/time/diary-generated.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp","_shared/socialmon/rewards/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-01-visual-v2.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-02-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-03-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-04-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-place-survey-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-share-experience-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-kiwimon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-pangolinmon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-platypusmon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-01.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-03.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-07.webp"],"builtAt":"2026-08-22T11:59:19.794Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2699,8 +2717,8 @@ button:focus-visible {
         "시장에서는 필요한 물건을 사고팔아요.",
         "산과 강에서는 자연을 만나고 쉬기도 해요."
       ],
-      "image": "assets/concept-01-visual.webp",
-      "alt": "산, 강, 시장, 학교를 네 장면으로 나누어 보여 주고 아이가 여러 장소를 살펴보는 생성 그림",
+      "image": "assets/concept-01-visual-v2.webp",
+      "alt": "학교, 시장, 산길, 강변에서 아이들이 공부하거나 물건을 고르고 걷는 네 장면",
       "credit": "제작 이미지 · 근거: 교과서 13쪽",
       "coverageIds": [
         "places-variety"
@@ -3413,6 +3431,7 @@ button:focus-visible {
   "standards": {
     "screenFlow": "socialmon-four-screen-flow-v1",
     "questionInteraction": "socialmon-tap-interactions-v1",
+    "actionButtons": "socialmon-action-buttons-v1",
     "reward": "socialmon-trace-reveal-v1",
     "cover": "socialmon-generated-cover-copy-v1",
     "tutorial": "socialmon-generated-tutorial-poster-v1",
@@ -3558,6 +3577,169 @@ button:focus-visible {
       "settings",
       "trace-reveal"
     ],
+    "actionButtonAudit": {
+      "standard": "socialmon-action-buttons-v1",
+      "minTargetWidthPx": 44,
+      "minTargetHeightPx": 44,
+      "minPrimaryWidthPx": 150,
+      "minPrimaryHeightPx": 52,
+      "minSafeInsetPx": 4,
+      "minFocusOutlinePx": 2,
+      "requireAccessibleName": true,
+      "requireVisibleFocus": true,
+      "forbidStageEscape": true,
+      "forbidDuplicateActivation": true,
+      "roles": [
+        {
+          "role": "play.concept.next",
+          "selector": "#conceptNextButton",
+          "presence": "concept",
+          "names": [
+            "다음 개념",
+            "문제 시작"
+          ],
+          "primary": true,
+          "safeInset": false
+        },
+        {
+          "role": "play.question.submit",
+          "selector": ".workbench-submit",
+          "presence": "question",
+          "names": [
+            "답 확인",
+            "짝 확인",
+            "순서 확인"
+          ],
+          "primary": true,
+          "safeInset": true
+        },
+        {
+          "role": "play.question.reset",
+          "selector": ".sequence-reset",
+          "presence": "sequence",
+          "names": [
+            "다시 고르기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "play.question.page.previous",
+          "selector": ".classify-page-previous",
+          "presence": "paged-classify",
+          "names": [
+            "앞 문장"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "play.question.page.next",
+          "selector": ".classify-page-next",
+          "presence": "paged-classify",
+          "names": [
+            "다음 문장"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "play.feedback.next",
+          "selector": "#continueButton",
+          "presence": "feedback",
+          "names": [
+            "다음 문제",
+            "흔적 보기",
+            "결과 보기",
+            "소셜몬 만나기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "reward.trace.next",
+          "selector": "#traceRewardNextButton",
+          "presence": "trace-reward",
+          "names": [
+            "다음 문제",
+            "힌트 보기",
+            "소셜몬 만나기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "reward.reveal.next",
+          "selector": "#traceRevealNextButton",
+          "presence": "trace-reveal",
+          "names": [
+            "다음 문제"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "overlay.source.close",
+          "selector": "#sourceViewerClose",
+          "presence": "source-viewer",
+          "names": [
+            "닫기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "result.restart",
+          "selector": "#restartButton",
+          "presence": "result",
+          "names": [
+            "처음으로"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.open",
+          "selector": "#settingsToggle",
+          "presence": "all-screens",
+          "names": [
+            "설정 열기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.review-tutorial",
+          "selector": "#reviewTutorialButton",
+          "presence": "settings",
+          "names": [
+            "방법 다시 보기"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.restart",
+          "selector": "#resetButton",
+          "presence": "settings",
+          "names": [
+            "처음부터"
+          ],
+          "primary": false,
+          "safeInset": false
+        },
+        {
+          "role": "settings.close",
+          "selector": "#settingsClose",
+          "presence": "settings",
+          "names": [
+            "닫기"
+          ],
+          "primary": false,
+          "safeInset": false
+        }
+      ]
+    },
     "coverCopyAudit": {
       "standard": "socialmon-generated-cover-copy-v1",
       "art": "#coverCopyArt",

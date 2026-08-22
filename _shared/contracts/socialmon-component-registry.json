@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "standard": "eduitit-product-component-registry-v1",
+  "sourceOfTruth": "_shared/contracts/socialmon-component-registry.json",
+  "product": "socialmon",
+  "contractDocuments": [
+    "_shared/COMMON_RESOURCE_CONTRACT.md",
+    "SOCIAL_SERIES_CONTRACT.md",
+    "SOCIALMON_INTERACTION_POLICY.json",
+    "_shared/socialmon/profiles/quiz-lite-v2/profile.json"
+  ],
+  "components": [
+    {
+      "id": "socialmon-cover-start-button-v1",
+      "product": "socialmon",
+      "status": "canonical",
+      "roles": ["cover.start"],
+      "assetRef": "eduitit-cover-start-art-v1",
+      "runtime": { "asset": "_shared/mathmon/cover-start-button/start-button-generated.webp", "format": "webp" },
+      "dom": {
+        "rootSelector": "#startButton.cover-start-button",
+        "assetSelector": ".start-button-art",
+        "requiredAssetAttributes": { "alt": "", "aria-hidden": "true" },
+        "hitbox": "same-rect-as-asset"
+      },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-purple-cloud-mark-v1",
+      "product": "socialmon",
+      "status": "canonical",
+      "roles": ["brand.mark"],
+      "assetRef": "eduitit-cloud-mark-art-v1",
+      "runtime": { "asset": "_shared/brand/mathmon-cloud-mark.webp", "stylesheet": "_shared/brand/mathmon-brand.css", "format": "webp" },
+      "dom": {
+        "assetClass": "socialmon-brand-mark",
+        "requiredDataAttribute": "data-brand-mark=socialmon-purple-cloud-mark-v1",
+        "requiredAssetAttributes": { "alt": "", "aria-hidden": "true" }
+      },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-four-screen-flow-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": ["screen-flow.cover", "screen-flow.tutorial", "screen-flow.play", "screen-flow.result"],
+      "contract": { "screens": ["cover", "tutorial", "play", "result"], "overlays": ["settings", "trace-reveal"] },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-tap-interactions-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": ["question.interaction.choice", "question.interaction.match", "question.interaction.classify", "question.interaction.sequence"],
+      "contract": { "platform": "tablet-tap", "maxTypesPerGame": 3 },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-action-buttons-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": [
+        "play.concept.next",
+        "play.question.submit",
+        "play.question.reset",
+        "play.question.page.previous",
+        "play.question.page.next",
+        "play.feedback.next",
+        "reward.trace.next",
+        "reward.reveal.next",
+        "overlay.source.close",
+        "result.restart",
+        "settings.open",
+        "settings.review-tutorial",
+        "settings.restart",
+        "settings.close"
+      ],
+      "contract": {
+        "scope": "socialmon-quiz-lite-profile-v3",
+        "runtimeOwner": "_engine/social-quiz-lite/v1",
+        "lessonOverrides": false,
+        "minimumTargetPx": 44,
+        "primaryMinimumPx": "150x52",
+        "excludedOwners": [
+          "socialmon-cover-start-button-v1",
+          "socialmon-generated-tutorial-poster-v1",
+          "socialmon-tap-interactions-v1"
+        ]
+      },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-trace-reveal-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": ["reward.trace-reveal"],
+      "contract": { "checkpoints": [2, 4, 6], "answerCountSeparate": true },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-generated-cover-copy-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": ["cover.generated-copy"],
+      "contract": { "canvas": "1280x800", "hiddenHtmlCopy": true },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-generated-tutorial-poster-v1",
+      "product": "socialmon",
+      "status": "canonical",
+      "roles": ["tutorial.generated-poster"],
+      "runtime": {
+        "asset": "_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-generated.webp",
+        "source": "_shared/socialmon/quiz-lite-v2/tutorial/tutorial-poster-v1-source.png",
+        "canvas": "1280x800",
+        "format": "webp"
+      },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-left-reveal-progress-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": ["play.discovery-progress"],
+      "contract": { "panelWidthRatio": 0.245, "minWorkGapRatio": 0.015625, "traceStates": 7 },
+      "compatibility": { "allowedVersions": [] }
+    },
+    {
+      "id": "socialmon-source-choice-tablet-v3",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "canonical",
+      "roles": ["play.source-choice"],
+      "contract": { "sourceImage": true, "allOptionImages": true, "tabletStable": true },
+      "compatibility": { "allowedVersions": ["socialmon-source-choice-tablet-v1"] }
+    },
+    {
+      "id": "socialmon-source-choice-tablet-v1",
+      "product": "socialmon",
+      "kind": "behavior-contract",
+      "status": "compatibility",
+      "roles": ["play.source-choice"],
+      "contract": { "existingProfile": "quiz-lite-v2" },
+      "compatibility": { "for": "socialmon-source-choice-tablet-v3", "allowedScope": "existing-lessons-only" }
+    }
+  ]
+}
