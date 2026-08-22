@@ -1,15 +1,23 @@
 # 매스몬 분수 분류 컨베이어 제작 보고
 
+## 2026-08-22 20문항 문제 은행 확장
+
+- 서로 다른 분수 20개를 문제 은행으로 두고, 한 판에는 10문제를 중복 없이 무작위로 뽑도록 바꿨습니다.
+- 매 판은 진분수 4개, 가분수 3개, 대분수 3개를 유지합니다. 가분수에는 `분자=분모`가 1개 포함되고, 대분수는 자연수 1·2·3이 하나씩 나옵니다.
+- 새 분수 10개에도 칸 수와 색칠 수가 정확히 맞는 전용 설명 이미지를 각각 생성해 연결했습니다. 문제 은행 20개 모두가 같은 정답 확인 구조를 사용합니다.
+- 같은 `seed`에서는 같은 문제와 순서가 다시 나오며, 일반 실행에서는 선택과 순서가 판마다 달라집니다.
+- 200개 고정 seed에서 한 판 중복 0개, 매 판 `진분수 4·가분수 3·대분수 3`, 20문항 전부 도달을 확인했습니다. 등록된 7개 화면 크기의 전체 10문제 흐름도 `223장`으로 다시 캡처해 통과했습니다.
+
 ## 2026-08-22 문제별 정답 설명·선택 카드·공통 크기 회귀
 
 - CSS/SVG로 조립하던 분류 통을 생성 이미지 선택 카드 3장으로 교체했습니다. 카드 안 글자는 이미지 안전 여백 안에 두고, HTML 버튼은 같은 경계의 조작과 접근성 이름만 맡습니다.
 - 정답 종류를 큰 분수 그림에서 미리 보여 주던 칩을 제거했습니다. 종류 이름과 이유는 아래 정답 확인판에서만 공개합니다.
-- 정답 확인판은 `큰 종류 이름 → 현재 문제 전용 그림 → 수 비교 → 짧은 이유 한 문장` 구조로 다시 만들었습니다. `2/3`, `3/4`, `2/5`, `5/6`, `5/4`, `6/6`, `7/3`, `1 1/2`, `2 1/3`, `3 2/5`마다 칸 수와 색칠 수가 정확한 생성 이미지를 따로 연결했습니다.
+- 정답 확인판은 `큰 종류 이름 → 현재 문제 전용 그림 → 수 비교 → 짧은 이유 한 문장` 구조로 다시 만들었습니다. 현재 20문항 모두에 칸 수와 색칠 수가 정확한 생성 이미지를 따로 연결했습니다.
 - 학생 문구는 `분자가 분모보다 작아서 진분수예요.`, `분자가 분모보다 커서 가분수예요.`, `한 덩이가 꼭 차서 가분수예요.`, `자연수와 진분수가 함께 있어 대분수예요.` 네 문장으로 제한했습니다.
 - 왼쪽 진행판은 공통 Stage 폭 `24.5%`, 높이 `84%`를 유지하고 읽기 영역 최소 `72px`을 확보했습니다. `지금의 분류`, 단계 이름, 미터가 잘리지 않는지 별도 브라우저 회귀로 검사합니다.
 - `상자 보기`, `상자 열기`, `다음`, `결과 보기`는 모두 생성 이미지 표면과 같은 경계의 공통 버튼 구조를 사용합니다.
-- 사용자 제보 화면 `934×987`을 영구 회귀 크기로 등록했습니다. 이 화면에서 `4분의 5` 확인판은 제목 `24.8px`, 이유 `1줄`, 왼쪽 정렬 오차 `0px`, 패널·문서 넘침 `0px`이며 `explanation-5-4-generated.webp`를 표시합니다.
-- 전체 7개 화면 크기에서 10문항을 완주한 `qa-lesson-flow.mjs`가 문제별 이미지 키·파일명, 제목 크기, 이유 길이·줄 수, 정렬, 선택 카드·버튼 경계, 겹침·넘침을 모두 통과했습니다.
+- 사용자 제보 화면 `934×987`을 영구 회귀 크기로 등록했습니다. 이 화면에서 `4분의 5` 확인판은 제목 `32px`, 비교식 `42.4px`, `상자 보기` 버튼 약 `210×81px`, 이유 `2줄`로 표시되고 패널·문서 넘침은 `0px`입니다. 다음 문제에서는 직전 완료 패널의 실제 rect가 `0×0px`이라 선택 카드 뒤에 그림이나 설명이 남지 않습니다.
+- 전체 7개 화면 크기에서 10문항을 완주한 `qa-lesson-flow.mjs`가 문제별 이미지 키·파일명, 확대된 제목·비교식·버튼 경계, 다음 문제의 완료 패널 숨김, 겹침·넘침을 모두 통과했습니다. 현재 전체 흐름 증거는 PNG `223장`입니다.
 
 ## 2026-08-09 보상 패널 효과·폭 회귀
 
@@ -163,13 +171,13 @@
 
 ## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `9db061873e3bd4131ad3e65b3fe6397ddcbf4306b90d03f7b285eb8e6be13f72`
-- 생성 시각: `2026-08-22T09:14:19.301Z`
+- 실행본 SHA-256: `3cdacdf694c874ac66dc5be2a628be7e9acc923d946976670715529b94b46a23`
+- 생성 시각: `2026-08-22T10:51:31.132Z`
 - 등록 화면 크기: `7개`
-- 아래에 직접 삽입한 원본 캡처: `216장`
+- 아래에 직접 삽입한 원본 캡처: `223장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 31장
+### desktop · 1280×800 · DPR 1 · 32장
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -212,6 +220,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-desktop-05-play-step1.png`
 
 ![desktop 문제 상태 · 05-play-step1](screenshots/engine-flow-desktop-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
+
+![desktop 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -452,7 +469,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 31장
+### tablet-landscape · 1024×768 · DPR 1 · 32장
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -495,6 +512,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-tablet-landscape-05-play-step1.png`
 
 ![tablet-landscape 문제 상태 · 05-play-step1](screenshots/engine-flow-tablet-landscape-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
+
+![tablet-landscape 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -735,7 +761,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 31장
+### codex-in-app · 1280×720 · DPR 2 · 32장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -778,6 +804,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-codex-in-app-05-play-step1.png`
 
 ![codex-in-app 문제 상태 · 05-play-step1](screenshots/engine-flow-codex-in-app-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
+
+![codex-in-app 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1018,7 +1053,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility-994x632 · 994×632 · DPR 1 · 31장
+### user-visibility-994x632 · 994×632 · DPR 1 · 32장
 
 ![user-visibility-994x632 전체 상태 컨택시트](screenshots/report-flow-user-visibility-994x632-contact-sheet.png)
 
@@ -1061,6 +1096,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-visibility-994x632-05-play-step1.png`
 
 ![user-visibility-994x632 문제 상태 · 05-play-step1](screenshots/engine-flow-user-visibility-994x632-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-visibility-994x632-05n-next-problem-clean.png`
+
+![user-visibility-994x632 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-visibility-994x632-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1301,7 +1345,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 31장
+### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 32장
 
 ![user-reported-missing-left-progress-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
 
@@ -1344,6 +1388,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png`
 
 ![user-reported-missing-left-progress-1082x987-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05n-next-problem-clean.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1584,7 +1637,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-comment-overflow-934x987 · 934×987 · DPR 1 · 31장
+### user-comment-overflow-934x987 · 934×987 · DPR 1 · 32장
 
 ![user-comment-overflow-934x987 전체 상태 컨택시트](screenshots/report-flow-user-comment-overflow-934x987-contact-sheet.png)
 
@@ -1627,6 +1680,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-user-comment-overflow-934x987-05-play-step1.png`
 
 ![user-comment-overflow-934x987 문제 상태 · 05-play-step1](screenshots/engine-flow-user-comment-overflow-934x987-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-comment-overflow-934x987-05n-next-problem-clean.png`
+
+![user-comment-overflow-934x987 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-comment-overflow-934x987-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1867,7 +1929,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 30장
+### empty-reward-fixture · 1280×800 · DPR 1 · 31장
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
@@ -1910,6 +1972,15 @@
 #### 문제 상태 · 05-play-step1 · `engine-flow-empty-reward-fixture-05-play-step1.png`
 
 ![empty-reward-fixture 문제 상태 · 05-play-step1](screenshots/engine-flow-empty-reward-fixture-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
+
+![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.

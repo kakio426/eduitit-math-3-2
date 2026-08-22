@@ -3,7 +3,8 @@
 3학년 2학기 4단원 3차시용 분수 게임입니다.
 
 - 학습 행동: 분수 모형과 분자·분모를 보고 `진분수·가분수·대분수` 중 하나를 고릅니다.
-- 문제 수: 진분수 4개, 가분수 3개, 대분수 3개로 구성된 10문제
+- 문제 은행: 서로 다른 분수 20개. 한 판에는 중복 없이 10문제를 무작위로 뽑습니다.
+- 한 판 구성: 진분수 4개, 가분수 3개(분자=분모 1개 포함), 대분수 3개(자연수 1·2·3 각 1개)
 - 문제 화면: 큰 분수 표기와 같은 양을 나타낸 막대 모형, 생성 이미지 선택 카드 세 장만 보여 줍니다.
 - 선택 근거: `분자가 더 작아요`, `분자가 같거나 커요`, `자연수와 진분수`를 이름과 함께 표시합니다.
 - 정답 확인: 종류 이름은 아래 확인판에서 처음 공개합니다. 현재 문제와 정확히 같은 생성 그림, 수 비교, 짧은 이유 한 문장을 확인한 뒤 `상자 보기`를 누릅니다.
@@ -17,7 +18,7 @@
 - 동행 매스몬: 승인된 `zero-factory-animal-pack`의 판다몬(`zfa-08-pandamon`)
 - 설명: `tutorial-page-{1,2}-generated.webp` 2장
 - 분류 선택 카드: `choice-{proper,improper,mixed}-generated.webp` 3장
-- 문제별 정답 설명: `explanation-{2-3,3-4,2-5,5-6,5-4,6-6,7-3,1-1-2,2-1-3,3-2-5}-generated.webp` 10장
+- 문제별 정답 설명: 문제 은행 20개와 각각 정확히 일치하는 `explanation-*-generated.webp` 20장
 - 정답 설명 컨택시트: `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-4-3/fraction-learning-v1/contact-sheets/exact-fraction-explanations-v2-contact-sheet.png`
 - 완료·보상 버튼: `box-view-button-generated.webp`, `box-open-button-generated.webp`, 공용 `next-button-generated.webp`, `result-view-button-generated.webp`
 - 랜덤 보상 상태 세트: 봉인된 분류 상자 `reward-event-closed-generated.webp` + 열린 이벤트 6종, 모두 512×512
