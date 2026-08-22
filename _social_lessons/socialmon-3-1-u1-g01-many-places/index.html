@@ -1399,6 +1399,14 @@ button:focus-visible {
   border-left: 0.1cqw solid rgb(16 42 86 / 14%);
 }
 
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .pair-option.has-image .option-label.is-compact-label {
+  justify-self: stretch;
+  padding-left: 0;
+  border-left: 0;
+  text-align: center;
+  justify-content: center;
+}
+
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.source-card) .choice-option.has-image .option-label,
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .question-workbench:has(.situation-card) .choice-option.has-image .option-label {
   line-height: 1.12;
@@ -1501,6 +1509,8 @@ button:focus-visible {
   grid-template-columns: minmax(0, 1fr);
   grid-auto-rows: 1fr;
   gap: 0.65cqw;
+  flex: 1 1 0;
+  align-content: stretch;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-row {
@@ -1567,6 +1577,42 @@ button:focus-visible {
   max-height: none;
 }
 
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8cqw;
+  min-height: max(34px, 3.4cqw);
+  margin-top: 0.35cqw;
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-nav button {
+  min-width: max(96px, 7.5cqw);
+  min-height: max(44px, 4.3cqw);
+  padding: 0.35cqw 0.8cqw;
+  border: 0.14cqw solid #9bc7c4;
+  border-radius: 999px;
+  background: #f4fffc;
+  color: var(--navy);
+  font-size: clamp(13px, 1.2cqw, 16px);
+  font-weight: 850;
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-nav button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .classify-page-label {
+  min-width: 3.6cqw;
+  color: var(--muted);
+  font-size: clamp(14px, 1.25cqw, 17px);
+  font-weight: 900;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v4"] .classify-target.has-image .option-image {
   width: max(49px, min(4.8cqw, 72cqh, 56px));
   height: max(49px, min(4.8cqw, 72cqh, 56px));
@@ -1623,17 +1669,29 @@ button:focus-visible {
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .feedback-panel strong {
-  font-size: clamp(20px, 1.8cqw, 24px);
+  min-width: 8.8cqw;
+  padding-right: 1cqw;
+  color: #12663f;
+  font-size: clamp(26px, 2.25cqw, 30px);
+  font-weight: 950;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .feedback-panel p {
   margin: 0;
-  font-size: clamp(14px, 1.25cqw, 17px);
-  line-height: 1.38;
+  color: #18345d;
+  font-size: clamp(15px, 1.18cqw, 16px);
+  font-weight: 650;
+  line-height: 1.42;
 }
 
 .social-game[data-series-profile="socialmon-quiz-lite-contract-v4"] .feedback-panel p {
-  font-size: clamp(16px, 1.25cqw, 17px);
+  font-size: clamp(16px, 1.18cqw, 16.5px);
+}
+
+.social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .feedback-panel.is-wrong strong {
+  color: #a43b31;
 }
 
 .social-game:is([data-series-profile="socialmon-quiz-lite-contract-v3"], [data-series-profile="socialmon-quiz-lite-contract-v4"]) .trace-continue-button {
@@ -2179,6 +2237,25 @@ button:focus-visible {
   text-align: center;
 }
 
+.result-title-art {
+  display: block;
+  width: min(28cqw, 300px);
+  max-height: 7cqw;
+  margin: 0.15cqw auto 0.35cqw;
+  object-fit: contain;
+}
+
+.result-panel.has-result-title-art #resultTitle {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
 .result-correct {
   margin: 0.65cqw 0;
   color: var(--navy);
@@ -2187,10 +2264,30 @@ button:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 
+.result-correct-art {
+  display: block;
+  width: min(19cqw, 220px);
+  height: auto;
+  max-height: 4.8cqw;
+  margin: 0.35cqw auto 0.55cqw;
+  object-fit: contain;
+}
+
+.result-panel.has-result-count-art .result-correct {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
 .result-discovery-label {
   display: block;
   width: fit-content;
-  margin: 1.1cqw auto 0;
+  margin: 0.75cqw auto 0.5cqw;
   padding: 0.58cqw 1.15cqw;
   border-radius: 999px;
   background: #ffe066;
@@ -2200,12 +2297,17 @@ button:focus-visible {
 }
 
 .result-next {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   width: 100%;
+  min-height: 8.5cqw;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.8cqw 0 1.1cqw;
+  margin: 0;
+  padding: 0.95cqw 1.2cqw;
+  border: 0.16cqw solid #b9d9d3;
+  border-radius: 1.1cqw;
+  background: #f3fbf7;
   color: var(--navy);
   font-size: clamp(20px, 2.1cqw, 28px);
   font-weight: 800;
@@ -2218,7 +2320,7 @@ button:focus-visible {
   flex: 0 0 auto;
   align-self: center;
   min-height: max(56px, 5.3cqw);
-  margin-top: 0.25cqw;
+  margin-top: auto;
 }
 
 /* Settings */
@@ -2454,7 +2556,9 @@ button:focus-visible {
           <section class="result-panel">
             <p class="panel-eyebrow">오늘 만난 소셜몬</p>
             <h2 id="resultTitle"></h2>
+            <img id="resultTitleArt" class="result-title-art" alt="" hidden>
             <p class="result-correct" id="resultCorrect"></p>
+            <img id="resultCorrectArt" class="result-correct-art" alt="" hidden>
             <strong class="result-discovery-label">오늘의 발견</strong>
             <p class="result-next" id="resultDiscovery" data-text-align-role="sentence"></p>
             <button class="action-button" id="restartButton" type="button">처음으로</button>
@@ -2519,12 +2623,12 @@ button:focus-visible {
   <script
     id="socialmonBuildMeta"
     type="application/json"
-    data-quiz-json-sha256="de0b91811ed654243f56dd1238e931f28b887243de81938f42010381efa5cab1"
+    data-quiz-json-sha256="a52cb869194564c05663d096063aae5cdf6acb232394e93ef006c85d270e9827"
     data-profile-json-sha256="0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259"
     data-theme-pack-json-sha256="e9dd57251aca44d6df8210b71e3152b68a85e193140603c59312321d0f828952"
-    data-lesson-assets-sha256="a1403f8a612daa8c5d17ba61913ddfca155aa330bbe598edd7946d27d91da60e"
-    data-engine-sha256="8de20386dc912c3cc56220ac2536ddb29696bb9bf82cc336b5aa1a9903ab5b4d"
-  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"8de20386dc912c3cc56220ac2536ddb29696bb9bf82cc336b5aa1a9903ab5b4d","quizJson":"_social_lessons/socialmon-3-1-u1-g01-many-places/quiz.json","quizJsonSha256":"de0b91811ed654243f56dd1238e931f28b887243de81938f42010381efa5cab1","profileJson":"_shared/socialmon/profiles/quiz-lite-v3/profile.json","profileJsonSha256":"0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259","themePackJson":"_shared/socialmon/theme-packs/3-1/places/pack.json","themePackJsonSha256":"e9dd57251aca44d6df8210b71e3152b68a85e193140603c59312321d0f828952","lessonAssetsSha256":"a1403f8a612daa8c5d17ba61913ddfca155aa330bbe598edd7946d27d91da60e","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/official-option-library-v1/actions/blind-guess-generated.webp","_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp","_shared/socialmon/official-option-library-v1/actions/different-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/group-discussion-generated.webp","_shared/socialmon/official-option-library-v1/actions/make-plan-generated.webp","_shared/socialmon/official-option-library-v1/actions/research-generated.webp","_shared/socialmon/official-option-library-v1/actions/rude-comment-generated.webp","_shared/socialmon/official-option-library-v1/actions/same-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/share-poster-generated.webp","_shared/socialmon/official-option-library-v1/economy/market-consumer-generated.webp","_shared/socialmon/official-option-library-v1/map/paper-map-generated.webp","_shared/socialmon/official-option-library-v1/map/scale-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/02-split-play-fall-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/03-split-family-memories-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/04-split-fall-play-swapped-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/05-split-family-earthworm-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/07-folded-info-booklet-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/19-market-checkout-generated.webp","_shared/socialmon/official-option-library-v1/places/market-generated.webp","_shared/socialmon/official-option-library-v1/places/mountain-place-generated.webp","_shared/socialmon/official-option-library-v1/places/park-generated.webp","_shared/socialmon/official-option-library-v1/places/riverside-generated.webp","_shared/socialmon/official-option-library-v1/places/school-generated.webp","_shared/socialmon/official-option-library-v1/time/calendar-generated.webp","_shared/socialmon/official-option-library-v1/time/diary-generated.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp","_shared/socialmon/rewards/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-01-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-02-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-03-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-04-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-place-survey-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-share-experience-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-01.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-03.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-07.webp"],"builtAt":"2026-08-21T02:10:26.890Z"}</script>
+    data-lesson-assets-sha256="d1d7935a4929c93e1ce79c5f7a608bc538884dcc7974a183a0ca4089011b78f4"
+    data-engine-sha256="2336d345186a9623ce7a7a0d257149d0fe07ce1032af46f25cee3e0910d560a5"
+  >{"engineVersion":"socialmon-quiz-lite-v1","engineSha256":"2336d345186a9623ce7a7a0d257149d0fe07ce1032af46f25cee3e0910d560a5","quizJson":"_social_lessons/socialmon-3-1-u1-g01-many-places/quiz.json","quizJsonSha256":"a52cb869194564c05663d096063aae5cdf6acb232394e93ef006c85d270e9827","profileJson":"_shared/socialmon/profiles/quiz-lite-v3/profile.json","profileJsonSha256":"0fe2372b0459a9adc85e04b573776a95d84eff746b5068e4c65fbe359c50c259","themePackJson":"_shared/socialmon/theme-packs/3-1/places/pack.json","themePackJsonSha256":"e9dd57251aca44d6df8210b71e3152b68a85e193140603c59312321d0f828952","lessonAssetsSha256":"d1d7935a4929c93e1ce79c5f7a608bc538884dcc7974a183a0ca4089011b78f4","lessonAssetFiles":["_shared/brand/mathmon-cloud-mark.webp","_shared/mathmon/cover-start-button/start-button-generated.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-01-kiwimon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-02-platypusmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-03-meerkatmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-04-elephantmon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-05-cranemon.webp","_shared/socialmon/discovery-pack-v1/webp/socialmon-06-pangolinmon.webp","_shared/socialmon/official-option-library-v1/actions/blind-guess-generated.webp","_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp","_shared/socialmon/official-option-library-v1/actions/different-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/group-discussion-generated.webp","_shared/socialmon/official-option-library-v1/actions/make-plan-generated.webp","_shared/socialmon/official-option-library-v1/actions/research-generated.webp","_shared/socialmon/official-option-library-v1/actions/rude-comment-generated.webp","_shared/socialmon/official-option-library-v1/actions/same-feeling-generated.webp","_shared/socialmon/official-option-library-v1/actions/share-poster-generated.webp","_shared/socialmon/official-option-library-v1/economy/market-consumer-generated.webp","_shared/socialmon/official-option-library-v1/map/paper-map-generated.webp","_shared/socialmon/official-option-library-v1/map/scale-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/02-split-play-fall-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/03-split-family-memories-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/04-split-fall-play-swapped-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/05-split-family-earthworm-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/07-folded-info-booklet-generated.webp","_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/19-market-checkout-generated.webp","_shared/socialmon/official-option-library-v1/places/market-generated.webp","_shared/socialmon/official-option-library-v1/places/mountain-place-generated.webp","_shared/socialmon/official-option-library-v1/places/park-generated.webp","_shared/socialmon/official-option-library-v1/places/riverside-generated.webp","_shared/socialmon/official-option-library-v1/places/school-generated.webp","_shared/socialmon/official-option-library-v1/time/calendar-generated.webp","_shared/socialmon/official-option-library-v1/time/diary-generated.webp","_shared/socialmon/quiz-lite-v1/backgrounds/social-change-cover-v1.webp","_shared/socialmon/quiz-lite-v1/backgrounds/socialmon-result-hall-v1.webp","_shared/socialmon/quiz-lite-v2/backgrounds/discovery-workbench-play-v1-generated.webp","_shared/socialmon/quiz-lite-v3/tutorial/tutorial-poster-v2-neutral-generated.webp","_shared/socialmon/rewards/trace-earned-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-01-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-02-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-03-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/concept-04-visual.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/cover-copy-v1-source.png","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-place-survey-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/peer-share-experience-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-kiwimon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-pangolinmon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/result-title-platypusmon-generated.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-01.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-03.webp","_social_lessons/socialmon-3-1-u1-g01-many-places/assets/source-question-07.webp"],"builtAt":"2026-08-22T00:14:46.035Z"}</script>
   <script>
     const SOCIAL_QUIZ_CONFIG = {
   "engineVersion": "socialmon-quiz-lite-v1",
@@ -2562,19 +2666,19 @@ button:focus-visible {
     "learningOutcomes": [
       {
         "id": "places-variety",
-        "statement": "자료에서 모습과 쓰임이 다른 장소를 찾아 설명해요."
+        "statement": "장소마다 모습과 하는 일이 다름을 설명해요."
       },
       {
-        "id": "place-criteria",
-        "statement": "거리, 이용 횟수, 느낌처럼 알맞은 기준으로 장소를 나누어요."
+        "id": "place-experience",
+        "statement": "같은 장소라도 사람마다 경험과 느낌이 다를 수 있음을 설명해요."
       },
       {
         "id": "place-expression",
-        "statement": "장소에서 한 일과 느낌을 사진, 그림, 글로 나타내요."
+        "statement": "장소에서 겪은 일과 느낌을 그림, 글, 사진으로 나타내요."
       },
       {
         "id": "place-sharing",
-        "statement": "표현한 장소를 소개하고 친구의 생각과 느낌을 비교해요."
+        "statement": "친구와 생각을 나누고 서로 다른 느낌을 존중해요."
       }
     ]
   },
@@ -2588,12 +2692,12 @@ button:focus-visible {
   "conceptCards": [
     {
       "id": "concept-1",
-      "title": "우리 주변의 여러 장소",
-      "body": "산, 강, 시장, 학교처럼 우리 주변에는 모습과 하는 일이 다른 장소가 있어요.",
+      "title": "장소마다 모습과 하는 일이 달라요",
+      "body": "학교, 시장, 산, 강을 살펴보면 생김새와 그곳에서 하는 일이 서로 달라요.",
       "points": [
-        "어떤 곳은 물건을 사고, 어떤 곳은 공부를 해요.",
-        "같은 장소라도 사람마다 느낌이 다를 수 있어요.",
-        "사진 속 장소를 천천히 비교해 봐요."
+        "학교에서는 공부하고 친구들과 지내요.",
+        "시장에서는 필요한 물건을 사고팔아요.",
+        "산과 강에서는 자연을 만나고 쉬기도 해요."
       ],
       "image": "assets/concept-01-visual.webp",
       "alt": "산, 강, 시장, 학교를 네 장면으로 나누어 보여 주고 아이가 여러 장소를 살펴보는 생성 그림",
@@ -2614,25 +2718,25 @@ button:focus-visible {
     },
     {
       "id": "concept-2",
-      "title": "기준을 정해 장소 나누기",
-      "body": "여러 장소를 나눌 때는 거리, 횟수, 느낌처럼 먼저 기준을 정해요.",
+      "title": "같은 장소, 다른 경험과 느낌",
+      "body": "같은 놀이터에서도 무엇을 했는지에 따라 떠오르는 생각과 느낌이 달라요.",
       "points": [
-        "무엇을 볼지 먼저 정해요.",
-        "정한 기준으로만 살펴봐요.",
-        "기준이 바뀌면 같이 모이는 장소도 달라져요."
+        "친구와 논 아이는 즐거운 기억을 떠올려요.",
+        "넘어진 아이는 조심했던 일을 떠올려요.",
+        "같은 장소라도 사람마다 느낌이 달라요."
       ],
       "image": "assets/concept-02-visual.webp",
-      "alt": "아이 손이 장소 그림 카드를 세 모둠으로 나누어 놓는 생성 그림",
-      "credit": "제작 이미지 · 근거: 교과서 16쪽",
+      "alt": "두 어린이가 같은 놀이터 사진을 보며 즐겁게 논 일과 넘어진 일을 각각 떠올리는 생성 그림",
+      "credit": "제작 이미지 · 근거: 교과서 20쪽",
       "coverageIds": [
-        "place-criteria"
+        "place-experience"
       ],
       "evidence": {
         "sourceFile": "[사회]3-1-1_교사용교과서 (1).pdf",
-        "pdfPage": 9,
-        "printedPage": 16,
-        "sourceLesson": 3,
-        "basis": "장소를 거리, 횟수, 느낌처럼 알맞은 기준으로 나누어 보는 활동을 확인한다.",
+        "pdfPage": 13,
+        "printedPage": 20,
+        "sourceLesson": 4,
+        "basis": "같은 놀이터에서도 사람마다 겪은 일이 달라 생각과 느낌이 달라질 수 있음을 확인한다.",
         "supports": [
           "concept"
         ]
@@ -2640,25 +2744,25 @@ button:focus-visible {
     },
     {
       "id": "concept-3",
-      "title": "경험과 느낌을 나타내기",
-      "body": "장소에서 한 일과 느낀 점을 그림이나 글로 남기면 서로의 생각을 나눌 수 있어요.",
+      "title": "경험과 느낌을 여러 방법으로 표현해요",
+      "body": "장소에서 겪은 일과 그때의 느낌을 그림, 글, 사진으로 나타낼 수 있어요.",
       "points": [
-        "사진, 그림, 글을 함께 넣어요.",
-        "친구의 다른 경험도 존중해요.",
-        "만든 소개 책을 친구에게 보여 줘요."
+        "기억에 남는 장소를 먼저 떠올려요.",
+        "그곳에서 한 일과 느낌을 담아요.",
+        "그림, 글, 사진 가운데 알맞은 방법을 골라요."
       ],
       "image": "assets/concept-03-visual.webp",
-      "alt": "아이가 장소 사진이 붙은 접이식 소개 책에 내용을 쓰고 꾸미는 생성 그림",
-      "credit": "제작 이미지 · 근거: 교과서 25쪽",
+      "alt": "아이가 공원과 강 사진을 붙이고 그림을 그리며 장소에서의 경험과 느낌을 표현하는 생성 그림",
+      "credit": "제작 이미지 · 근거: 교과서 23쪽",
       "coverageIds": [
         "place-expression"
       ],
       "evidence": {
         "sourceFile": "[사회]3-1-1_교사용교과서 (1).pdf",
-        "pdfPage": 18,
-        "printedPage": 25,
-        "sourceLesson": 7,
-        "basis": "장소 사진을 붙이고 경험과 느낌을 적어 소개 책을 만드는 세 단계를 확인한다.",
+        "pdfPage": 16,
+        "printedPage": 23,
+        "sourceLesson": 6,
+        "basis": "여러 장소를 그림, 책, 신문 등 다양한 방법으로 표현하고 어떤 장소를 어떻게 나타낼지 계획함을 확인한다.",
         "supports": [
           "concept"
         ]
@@ -2666,12 +2770,12 @@ button:focus-visible {
     },
     {
       "id": "concept-4",
-      "title": "장소를 소개하고 느낌 나누기",
-      "body": "그림이나 책으로 표현한 장소를 친구에게 소개하면 서로의 생각을 나눌 수 있어요.",
+      "title": "서로 다른 느낌을 나누고 존중해요",
+      "body": "친구의 작품을 보며 장소에 관한 생각과 느낌을 비교하면 서로 다른 경험을 알 수 있어요.",
       "points": [
-        "작품을 보여 주며 장소를 소개해요.",
-        "친구의 생각과 내 생각을 비교해요.",
-        "다른 느낌이어도 존중해요."
+        "내가 느낀 점을 친구에게 말해요.",
+        "친구의 생각을 끝까지 들어요.",
+        "느낌이 달라도 서로 존중해요."
       ],
       "image": "assets/concept-04-visual.webp",
       "alt": "교실에서 어린이들이 장소 그림과 소개 책을 서로 보여 주며 이야기하는 생성 그림",
@@ -2684,7 +2788,7 @@ button:focus-visible {
         "pdfPage": 22,
         "printedPage": 29,
         "sourceLesson": 8,
-        "basis": "교실에 장소 작품을 전시하고 생각과 느낌을 나누는 소개 활동을 확인한다.",
+        "basis": "장소를 표현한 작품을 소개하고 서로의 경험과 느낌을 비교하며 존중하는 활동을 확인한다.",
         "supports": [
           "concept"
         ]
@@ -2693,19 +2797,24 @@ button:focus-visible {
   ],
   "visualAssets": {
     "coverCopyArt": "assets/cover-copy-v1-generated.webp",
-    "coverCopySource": "assets/cover-copy-v1-source.png"
+    "coverCopySource": "assets/cover-copy-v1-source.png",
+    "resultTitleArts": {
+      "kiwimon": "assets/result-title-kiwimon-generated.webp",
+      "platypusmon": "assets/result-title-platypusmon-generated.webp",
+      "pangolinmon": "assets/result-title-pangolinmon-generated.webp"
+    }
   },
   "questions": [
     {
       "id": "q1-source",
       "type": "source-choice",
-      "prompt": "사진 속 장소에서 사람들이 주로 하는 일은 무엇일까요?",
-      "instruction": "진열대와 가게의 모습을 살펴보고 알맞은 답을 하나 골라요.",
+      "prompt": "시장 사진을 살펴볼까요?",
+      "instruction": "사진을 보고 알맞은 답을 하나 골라요.",
       "sourceRequired": true,
       "sourceObservationTarget": "여러 가게의 간판과 진열된 물건",
       "source": {
-        "title": "한 장소에서 하는 일",
-        "text": "진열대와 가게의 모습을 살펴보며 그곳에서 하는 일을 생각해 보세요.",
+        "title": "시장에서는 어떤 일을 할까요?",
+        "text": "진열대와 가게, 사람들의 모습을 자세히 보세요.",
         "image": "assets/source-question-01.webp",
         "alt": "천장이 덮인 통로 양쪽에 여러 가게 간판과 진열대가 길게 이어진 사진",
         "credit": "자료: 사회 교과서 13쪽",
@@ -2847,13 +2956,13 @@ button:focus-visible {
     {
       "id": "q3-source",
       "type": "source-choice",
-      "prompt": "초록 말풍선 아이와 노란 말풍선 아이의 경험을 바르게 비교한 것은 무엇일까요?",
+      "prompt": "말풍선 속 아이들이 놀이터에서 떠올린 경험을 비교해 볼까요?",
       "instruction": "자료를 살펴보고 하나 골라요.",
       "sourceRequired": true,
-      "sourceObservationTarget": "초록 말풍선의 친구들과 논 일과 노란 말풍선의 넘어진 일",
+      "sourceObservationTarget": "가족과 보낸 시간과 지렁이를 보고 놀란 경험",
       "source": {
-        "title": "한 놀이터, 서로 다른 경험",
-        "text": "초록 말풍선과 노란 말풍선에서 누구와 무엇을 했는지 비교해 보세요.",
+        "title": "놀이터에서 떠올린 경험",
+        "text": "말풍선 속 아이들이 무엇을 보고, 어떤 일을 겪었는지 찾아보세요.",
         "image": "assets/source-question-03.webp",
         "alt": "놀이터에서 친구나 가족과 한 일, 놀라거나 넘어진 일을 말하는 아이들의 말풍선",
         "credit": "자료: 사회 교과서 20쪽",
@@ -2865,7 +2974,7 @@ button:focus-visible {
             1030,
             770
           ],
-          "observationTarget": "초록 말풍선의 친구들과 논 일과 노란 말풍선의 넘어진 일",
+          "observationTarget": "가족과 보낸 시간과 지렁이를 보고 놀란 경험",
           "excludesTeacherNotes": true,
           "excludesPrintedPage": true,
           "excludesAnswerClues": true
@@ -2874,10 +2983,10 @@ button:focus-visible {
       "options": [
         {
           "id": "q3-o1",
-          "text": "초록은 놀이를, 노란은 넘어진 일을 떠올렸어요.",
-          "image": "../../_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/02-split-play-fall-generated.webp",
-          "alt": "왼쪽에서는 청록색 옷을 입은 아이가 친구 두 명과 놀고 오른쪽에서는 노란색 옷을 입은 아이가 빈 그네 앞 안전 바닥에 앉아 있는 모습",
-          "visualIntent": "왼쪽에서는 청록색 옷을 입은 아이가 친구 두 명과 놀고 오른쪽에서는 노란색 옷을 입은 아이가 빈 그네 앞 안전 바닥에 앉아 있는 모습을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
+          "text": "한 아이는 가족과 보낸 시간을, 다른 아이는 지렁이를 보고 놀란 일을 떠올렸어요.",
+          "image": "../../_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/05-split-family-earthworm-generated.webp",
+          "alt": "한 아이가 가족과 보낸 시간을 떠올리고 다른 아이가 풀밭의 흙 위 지렁이를 살펴보는 모습",
+          "visualIntent": "한 아이가 가족과 보낸 시간을 떠올리고 다른 아이가 풀밭의 흙 위 지렁이를 살펴보는 모습을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
         },
         {
           "id": "q3-o2",
@@ -2888,21 +2997,21 @@ button:focus-visible {
         },
         {
           "id": "q3-o3",
-          "text": "초록은 넘어진 일을, 노란은 놀이를 떠올렸어요.",
+          "text": "한 아이는 넘어진 일을, 다른 아이는 친구들과 논 일을 떠올렸어요.",
           "image": "../../_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/04-split-fall-play-swapped-generated.webp",
           "alt": "왼쪽에서는 청록색 옷을 입은 아이가 빈 그네 앞 안전 바닥에 앉아 있고 오른쪽에서는 노란색 옷을 입은 아이가 친구 두 명과 노는 모습",
           "visualIntent": "왼쪽에서는 청록색 옷을 입은 아이가 빈 그네 앞 안전 바닥에 앉아 있고 오른쪽에서는 노란색 옷을 입은 아이가 친구 두 명과 노는 모습을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
         },
         {
           "id": "q3-o4",
-          "text": "초록은 가족을, 노란은 지렁이를 떠올렸어요.",
-          "image": "../../_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/05-split-family-earthworm-generated.webp",
-          "alt": "청록색 옷을 입은 아이가 가족 소풍을 떠올리고 노란색 옷을 입은 아이가 풀밭의 흙 위 지렁이를 살펴보는 모습",
-          "visualIntent": "청록색 옷을 입은 아이가 가족 소풍을 떠올리고 노란색 옷을 입은 아이가 풀밭의 흙 위 지렁이를 살펴보는 모습을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
+          "text": "한 아이는 친구들과 논 일을, 다른 아이는 그네에서 내리다 넘어진 일을 떠올렸어요.",
+          "image": "../../_shared/socialmon/official-option-library-v1/official-3-1-audit-v1/02-split-play-fall-generated.webp",
+          "alt": "한 아이가 친구들과 노는 모습을 떠올리고 다른 아이가 그네 앞에서 넘어진 일을 떠올리는 모습",
+          "visualIntent": "한 아이가 친구들과 노는 모습을 떠올리고 다른 아이가 그네 앞에서 넘어진 일을 떠올리는 모습을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
         }
       ],
       "correctId": "q3-o1",
-      "explanation": "초록 말풍선에는 친구들과 논 일이, 노란 말풍선에는 그네에서 내리다 넘어진 일이 적혀 있어요.",
+      "explanation": "말풍선에는 가족과 보낸 시간과 지렁이를 보고 놀란 일이 담겨 있어요.",
       "evidence": {
         "sourceFile": "[사회]3-1-1_교사용교과서 (1).pdf",
         "pdfPage": 13,
@@ -2969,46 +3078,46 @@ button:focus-visible {
     {
       "id": "q5-choice",
       "type": "choice",
-      "prompt": "친구들이 자주 가는 장소를 같은 기준으로 모아 보면 무엇을 알 수 있을까요?",
-      "instruction": "친구들이 말한 장소를 같은 기준으로 묶어 보았어요. 알맞은 답을 하나 골라요.",
+      "prompt": "같은 놀이터를 떠올린 친구들의 느낌이 서로 다른 까닭은 무엇일까요?",
+      "instruction": "알맞은 까닭을 하나 골라요.",
       "options": [
         {
           "id": "q5-o1",
-          "text": "각 장소의 위치와 가는 길을 알 수 있어요.",
+          "text": "놀이터까지 가는 길이 달라서요.",
           "image": "../../_shared/socialmon/official-option-library-v1/map/paper-map-generated.webp",
           "alt": "도로와 강이 표시된 접이식 종이 지도 그림",
-          "visualIntent": "도로와 강이 표시된 접이식 종이 지도 그림을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
+          "visualIntent": "접이식 지도를 보여 주어 놀이터까지 가는 길을 떠올리게 한다."
         },
         {
           "id": "q5-o2",
-          "text": "한 장소에서 겪은 일만 자세히 알 수 있어요.",
+          "text": "같은 장소에서 겪은 일이 서로 달라서요.",
           "image": "../../_shared/socialmon/official-option-library-v1/actions/different-feeling-generated.webp",
           "alt": "붐비는 거리에서 한 아이는 걱정하고 다른 아이는 웃는 그림",
-          "visualIntent": "붐비는 거리에서 한 아이는 걱정하고 다른 아이는 웃는 그림을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
+          "visualIntent": "같은 장소에서 한 아이는 걱정하고 다른 아이는 웃는 모습을 보여 주어 서로 다른 경험과 느낌을 떠올리게 한다."
         },
         {
           "id": "q5-o3",
-          "text": "모든 친구가 같은 장소를 좋아한다는 것을 알 수 있어요.",
+          "text": "두 친구가 같은 놀이를 했기 때문이에요.",
           "image": "../../_shared/socialmon/official-option-library-v1/actions/same-feeling-generated.webp",
           "alt": "놀이터가 있는 공원에서 두 아이가 함께 웃는 그림",
-          "visualIntent": "놀이터가 있는 공원에서 두 아이가 함께 웃는 그림을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
+          "visualIntent": "놀이터에서 두 아이가 함께 웃는 모습을 보여 주어 같은 놀이 경험을 떠올리게 한다."
         },
         {
           "id": "q5-o4",
-          "text": "사람마다 좋아하거나 자주 가는 장소가 다름을 알 수 있어요.",
+          "text": "사진만 자세히 비교했기 때문이에요.",
           "image": "../../_shared/socialmon/official-option-library-v1/actions/careful-compare-generated.webp",
           "alt": "아이가 돋보기를 들고 두 장의 풍경 사진을 비교하는 그림",
-          "visualIntent": "아이가 돋보기를 들고 두 장의 풍경 사진을 비교하는 그림을 보여 주어 보기 문장의 대상이나 행동을 눈으로 구분하게 한다."
+          "visualIntent": "아이가 돋보기로 두 장의 사진을 살펴보는 모습을 보여 주어 사진 비교를 떠올리게 한다."
         }
       ],
-      "correctId": "q5-o4",
-      "explanation": "같은 기준으로 묶어 보면 사람마다 좋아하거나 자주 가는 장소가 어떻게 다른지 비교하기 쉬워요.",
+      "correctId": "q5-o2",
+      "explanation": "같은 장소라도 그곳에서 겪은 일이 다르면 떠오르는 생각과 느낌도 달라질 수 있어요.",
       "evidence": {
         "sourceFile": "[사회]3-1-1_교사용교과서 (1).pdf",
-        "pdfPage": 10,
-        "printedPage": 17,
-        "sourceLesson": 3,
-        "basis": "장소를 거리, 이용 횟수, 느낌 같은 같은 기준으로 살펴보는 방법을 확인한다.",
+        "pdfPage": 13,
+        "printedPage": 20,
+        "sourceLesson": 5,
+        "basis": "같은 놀이터에서도 경험한 일이 달라 생각과 느낌이 달라질 수 있음을 확인한다.",
         "supports": [
           "prompt",
           "answer",
@@ -3019,6 +3128,7 @@ button:focus-visible {
     {
       "id": "q6-classify",
       "type": "classify",
+      "pageSize": 2,
       "prompt": "다음 문장을 ‘장소에서 한 일’과 ‘느낀 점’으로 나누어 볼까요?",
       "instruction": "각 문장을 읽고 두 모둠으로 나누어 보아요.",
       "groups": [
@@ -3094,7 +3204,7 @@ button:focus-visible {
     {
       "id": "q7-source",
       "type": "source-choice",
-      "prompt": "완성된 장소 소개 책에 함께 들어간 내용은 무엇일까요?",
+      "prompt": "완성된 책에는 무엇이 함께 들어 있나요?",
       "instruction": "자료를 살펴보고 하나 골라요.",
       "sourceRequired": true,
       "sourceObservationTarget": "완성된 장소 소개 책의 장소 이름, 사진, 경험 글",
@@ -3270,7 +3380,8 @@ button:focus-visible {
       "platypusmon",
       "pangolinmon"
     ],
-    "discoveryText": "장소마다 하는 일과 느낌이 다르고 사람마다 소중하게 여기는 장소도 달라요."
+    "discoveryText": "장소마다 하는 일과 느낌이 다르고 사람마다 소중하게 여기는 장소도 달라요.",
+    "traceAwardPolicy": "correct-only"
   },
   "questionBundle": {
     "standard": "socialmon-medium-unit-adaptive-8-10q-v1",
@@ -3344,7 +3455,8 @@ button:focus-visible {
       "platypusmon",
       "pangolinmon"
     ],
-    "discoveryText": "장소마다 하는 일과 느낌이 다르고 사람마다 소중하게 여기는 장소도 달라요."
+    "discoveryText": "장소마다 하는 일과 느낌이 다르고 사람마다 소중하게 여기는 장소도 달라요.",
+    "traceAwardPolicy": "correct-only"
   },
   "results": [
     {
@@ -3649,6 +3761,10 @@ button:focus-visible {
     }
     const label = document.createElement("span");
     label.className = "option-label";
+    const normalizedText = String(text).trim();
+    if (normalizedText && !/\s/u.test(normalizedText) && Array.from(normalizedText).length <= 3) {
+      label.classList.add("is-compact-label");
+    }
     label.textContent = text;
     element.append(label);
   };
@@ -3973,10 +4089,18 @@ button:focus-visible {
 
   const renderClassify = (root, question, onSubmit) => {
     const selections = {};
+    const pageSize = Number.isInteger(question.pageSize) && question.pageSize > 0
+      ? question.pageSize
+      : question.items.length;
+    const pageCount = Math.max(1, Math.ceil(question.items.length / pageSize));
+    let pageIndex = 0;
     const controller = {
       locked: false,
       getAnswer: () => ({ ...selections }),
       isComplete: () => question.items.every((item) => Boolean(selections[item.id])),
+      currentPageComplete: () => question.items
+        .slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
+        .every((item) => Boolean(selections[item.id])),
       lock() {
         this.locked = true;
         lockButtons(root);
@@ -3985,38 +4109,81 @@ button:focus-visible {
         root.querySelectorAll("[data-classify-item][data-group-id]").forEach((button) => {
           button.setAttribute("aria-pressed", String(selections[button.dataset.classifyItem] === button.dataset.groupId));
         });
+        root.dataset.classifyPageIndex = String(pageIndex);
+        root.dataset.classifyPageCount = String(pageCount);
+        board.dataset.pageIndex = String(pageIndex);
+        board.dataset.pageCount = String(pageCount);
+        const pageLabel = root.querySelector(".classify-page-label");
+        if (pageLabel) pageLabel.textContent = `${pageIndex + 1} / ${pageCount}`;
+        const previousButton = root.querySelector(".classify-page-previous");
+        if (previousButton) previousButton.disabled = this.locked || pageIndex === 0;
+        const nextButton = root.querySelector(".classify-page-next");
+        if (nextButton) nextButton.disabled = this.locked || pageIndex >= pageCount - 1 || !this.currentPageComplete();
         this.refreshSubmit?.();
       }
     };
 
     const board = document.createElement("div");
     board.className = "classify-board";
-    question.items.forEach((item) => {
-      const row = document.createElement("div");
-      row.className = "classify-row";
-      const label = document.createElement("span");
-      label.className = "classify-item";
-      appendIllustratedContent(label, item);
-      row.append(label);
-      question.groups.forEach((group) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "classify-target";
-        button.dataset.classifyItem = item.id;
-        button.dataset.groupId = group.id;
-        button.setAttribute("aria-pressed", "false");
-        appendIllustratedContent(button, group, group.label);
-        button.addEventListener("click", () => {
-          if (controller.locked) return;
-          selections[item.id] = group.id;
-          controller.refresh();
+    const renderPage = () => {
+      board.replaceChildren();
+      question.items.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize).forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "classify-row";
+        const label = document.createElement("span");
+        label.className = "classify-item";
+        appendIllustratedContent(label, item);
+        row.append(label);
+        question.groups.forEach((group) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "classify-target";
+          button.dataset.classifyItem = item.id;
+          button.dataset.groupId = group.id;
+          button.setAttribute("aria-pressed", "false");
+          appendIllustratedContent(button, group, group.label);
+          button.addEventListener("click", () => {
+            if (controller.locked) return;
+            selections[item.id] = group.id;
+            controller.refresh();
+          });
+          row.append(button);
         });
-        row.append(button);
+        board.append(row);
       });
-      board.append(row);
-    });
+    };
     root.append(board);
+    if (pageCount > 1) {
+      const pagination = document.createElement("div");
+      pagination.className = "classify-page-nav";
+      const previousButton = document.createElement("button");
+      previousButton.type = "button";
+      previousButton.className = "classify-page-previous";
+      previousButton.textContent = "앞 문장";
+      previousButton.addEventListener("click", () => {
+        if (controller.locked || pageIndex === 0) return;
+        pageIndex -= 1;
+        renderPage();
+        controller.refresh();
+      });
+      const pageLabel = document.createElement("span");
+      pageLabel.className = "classify-page-label";
+      pageLabel.setAttribute("aria-live", "polite");
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "classify-page-next";
+      nextButton.textContent = "다음 문장";
+      nextButton.addEventListener("click", () => {
+        if (controller.locked || pageIndex >= pageCount - 1 || !controller.currentPageComplete()) return;
+        pageIndex += 1;
+        renderPage();
+        controller.refresh();
+      });
+      pagination.append(previousButton, pageLabel, nextButton);
+      root.append(pagination);
+    }
     makeSubmitArea(root, controller, onSubmit, { submitLabel: "답 확인" });
+    renderPage();
     controller.refresh();
     return controller;
   };
@@ -4138,7 +4305,10 @@ button:focus-visible {
     if (count <= traitAfter) {
       return third + ((count - silhouetteAfter) / (traitAfter - silhouetteAfter)) * third;
     }
-    return (third * 2) + ((count - traitAfter) / (total - traitAfter)) * third;
+    // Keep the last pre-result state visibly incomplete. Transparent padding in
+    // character art can otherwise make the final hint look fully revealed.
+    const preResultRevealPercent = 82;
+    return (third * 2) + ((count - traitAfter) / (total - traitAfter)) * (preResultRevealPercent - (third * 2));
   };
 
   const resolveTraceRevealState = (traceCount, totalQuestionCount, reward = {}) => {
@@ -4223,6 +4393,7 @@ button:focus-visible {
     questionIndex: 0,
     correctCount: 0,
     traceCount: 0,
+    lastAnswerCorrect: false,
     answerLocked: false,
     continuationLocked: false,
     selectedResultId: null,
@@ -4423,6 +4594,7 @@ button:focus-visible {
     if (state.answerLocked) return;
     state.answerLocked = true;
     const correct = isCorrectAnswer(question, answer);
+    state.lastAnswerCorrect = correct;
     state.flowState = correct ? "feedback-correct" : "feedback-wrong";
     byId("screenPlay").dataset.flowState = state.flowState;
     if (correct) state.correctCount += 1;
@@ -4434,9 +4606,10 @@ button:focus-visible {
     byId("feedbackText").textContent = question.explanation;
     const completedCount = state.questionIndex + 1;
     const checkpoint = checkpointAfter(completedCount);
+    const awardsTrace = correct || config.reward.traceAwardPolicy !== "correct-only";
     byId("continueButton").textContent = completedCount === config.questions.length
-      ? "소셜몬 만나기"
-      : checkpoint ? "흔적 보기" : "다음 문제";
+      ? (awardsTrace ? "소셜몬 만나기" : "결과 보기")
+      : (awardsTrace && checkpoint ? "흔적 보기" : "다음 문제");
     byId("questionLayout").classList.add("has-feedback");
     byId("playWorkArea").classList.add("has-feedback");
     playTone(correct ? 660 : 240, correct ? 0.12 : 0.1);
@@ -4460,8 +4633,33 @@ button:focus-visible {
 
   const renderResult = (previewResultId = null) => {
     const result = (previewResultId && config.results.find((candidate) => candidate.id === previewResultId)) || selectedResult();
+    const resultPanel = document.querySelector(".result-panel");
     byId("resultTitle").textContent = result.name;
-    byId("resultCorrect").textContent = `${config.questions.length}문제 중 ${state.correctCount}문제 정답`;
+    byId("resultCorrect").textContent = `${state.correctCount}/${config.questions.length}`;
+    const resultCountArt = byId("resultCorrectArt");
+    const resultCountPattern = config.reward.resultCountAssetPattern;
+    if (resultCountArt && resultCountPattern) {
+      resultCountArt.src = resultCountPattern.replace("{correct}", String(state.correctCount));
+      resultCountArt.alt = `${state.correctCount}/${config.questions.length}`;
+      resultCountArt.hidden = false;
+      resultPanel?.classList.add("has-result-count-art");
+    } else {
+      resultCountArt?.setAttribute("hidden", "");
+      resultPanel?.classList.remove("has-result-count-art");
+    }
+    const resultTitleArt = byId("resultTitleArt");
+    const resultTitleSrc = config.visualAssets?.resultTitleArts?.[result.id];
+    if (resultTitleArt) {
+      resultTitleArt.hidden = !resultTitleSrc;
+      if (resultTitleSrc) {
+        resultTitleArt.src = resultTitleSrc;
+        resultTitleArt.alt = result.name;
+        resultPanel?.classList.add("has-result-title-art");
+      } else {
+        resultTitleArt.removeAttribute("src");
+        resultPanel?.classList.remove("has-result-title-art");
+      }
+    }
     byId("resultDiscovery").textContent = config.reward.discoveryText;
     byId("resultCharacterImage").src = result.characterImage;
     byId("resultCharacterImage").alt = `${result.name} 캐릭터`;
@@ -4499,6 +4697,13 @@ button:focus-visible {
   const continueAfterFeedback = () => {
     if (!state.answerLocked || state.continuationLocked) return;
     state.continuationLocked = true;
+    const awardsTrace = state.lastAnswerCorrect || config.reward.traceAwardPolicy !== "correct-only";
+    if (!awardsTrace) {
+      byId("traceRewardModal").hidden = true;
+      byId("traceRevealModal").hidden = true;
+      moveToNextQuestionOrResult();
+      return;
+    }
     state.traceCount = state.questionIndex + 1;
     state.flowState = "trace-stamped";
     byId("screenPlay").dataset.flowState = "trace-stamped";
@@ -4523,6 +4728,7 @@ button:focus-visible {
     state.flowState = "idle";
     state.correctCount = 0;
     state.traceCount = 0;
+    state.lastAnswerCorrect = false;
     state.answerLocked = false;
     state.continuationLocked = false;
     state.selectedResultId = null;
@@ -4690,6 +4896,7 @@ button:focus-visible {
       questionIndex: state.questionIndex,
       correctCount: state.correctCount,
       traceCount: state.traceCount,
+      lastAnswerCorrect: state.lastAnswerCorrect,
       answerLocked: state.answerLocked,
       continuationLocked: state.continuationLocked,
       selectedResultId: state.selectedResultId
