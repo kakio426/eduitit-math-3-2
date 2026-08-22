@@ -1,14 +1,14 @@
 {
   "standard": "report-current-screen-evidence-v2",
   "lesson": "3-2-4-2-mathmon-fraction-scoop",
-  "generatedAt": "2026-08-22T08:55:11.039Z",
-  "indexSha256": "cbb2eac52044b7bccfab2b9c44db0e8148f4513fbebf6136a020f22365f436b2",
+  "generatedAt": "2026-08-22T13:38:29.421Z",
+  "indexSha256": "3a8b75fb9af495202b91d15be8b462baf26f1c4030cad9567c256cb766b19e30",
   "sourceScreenshotsCommitted": false,
   "sourceScreenshotsRetention": "ephemeral-local-cache",
   "qaReceipt": "screenshots/mathmon-browser-qa-receipt.json",
   "fingerprints": {
     "lessonRuntime": {
-      "sha256": "f45e8749ba40df2f885ccf223fe1e73c7e59a8e5291925876358fb62c7f7eae9",
+      "sha256": "45fdb91aaeb383f4d38ee1a7ae63604f6b66645c211b384e53620608b337d1b5",
       "files": [
         "3-2-4-2-mathmon-fraction-scoop/cover-generated.webp",
         "3-2-4-2-mathmon-fraction-scoop/index.html",
@@ -89,7 +89,7 @@
       ]
     },
     "policy": {
-      "sha256": "839f71d9f643efc94678c35778a9823d63acbbc5d5d1f8dbf0ec876ccdc44eaa",
+      "sha256": "da90cc927a1d143b4ca667386a415b2b6e9d4c316287d6f1bb621e897ba134b9",
       "files": [
         ".claude/skills/eduitit-mathmon-assets/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/SKILL.md",
@@ -104,6 +104,7 @@
         "_shared/brand/mathmon-brand-mark.json",
         "_shared/contracts/component-registry.json",
         "_shared/contracts/mathmon-component-registry.json",
+        "_shared/contracts/mathmon-top-controls-v2.json",
         "_shared/contracts/platform-component-registry.json",
         "_shared/contracts/production-workflow.json",
         "_shared/contracts/socialmon-component-registry.json",
@@ -126,7 +127,7 @@
       ]
     },
     "harness": {
-      "sha256": "e93e34ca970af01163c07a69aafc0fc1a1ae12145e1510d2f8f4208081d950c0",
+      "sha256": "f00ba892a80dd51a986f66f3bf83e34bef5a3e625d7e4893b790272e7b07e860",
       "files": [
         ".codex/hooks.json",
         ".codex/hooks/mathmon-context.mjs",
@@ -209,8 +210,11 @@
         "scripts/lib/component-registry.mjs",
         "scripts/lib/load-lesson-source-model.mjs",
         "scripts/lib/mathmon-delivery-gate.mjs",
+        "scripts/lib/mathmon-top-controls-v2.mjs",
         "scripts/lib/monster-governance.mjs",
         "scripts/lib/production-workflow.mjs",
+        "scripts/lib/result-content-scale-policy.mjs",
+        "scripts/lib/result-internal-metric-policy.mjs",
         "scripts/lib/result-reward-dominance.mjs",
         "scripts/lib/run-lesson5-model-qa.mjs",
         "scripts/lib/run-lesson5-simulation.mjs",
@@ -242,6 +246,7 @@
         "scripts/qa-lesson5-scale-balance-model.mjs",
         "scripts/qa-lesson5-water-fill-model.mjs",
         "scripts/qa-mathmon-audio-smoke.mjs",
+        "scripts/qa-mathmon-result-sweep.mjs",
         "scripts/qa-result-visual-integrity-fixtures.mjs",
         "scripts/qa-run-randomness-browser.mjs",
         "scripts/qa-student-reward-language-browser.mjs",
@@ -254,8 +259,11 @@
         "scripts/test-component-registry.mjs",
         "scripts/test-mathmon-delivery-gate.mjs",
         "scripts/test-mathmon-hooks.mjs",
+        "scripts/test-mathmon-top-controls-v2.mjs",
         "scripts/test-monster-governance.mjs",
         "scripts/test-production-workflow.mjs",
+        "scripts/test-result-content-scale-policy.mjs",
+        "scripts/test-result-internal-metric-policy.mjs",
         "scripts/test-result-panel-containment.mjs",
         "scripts/test-result-reward-dominance.mjs",
         "scripts/test-student-reward-language.mjs",
@@ -271,9 +279,9 @@
       "width": 1280,
       "height": 800,
       "dpr": 1,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-desktop-contact-sheet.png",
-      "sheetSha256": "c4d19b30f526e7c6ba9b9e5687a14375e75f49521927702e70f6e4566a481553",
+      "sheetSha256": "e6268fbcae2541abf66fdf05ed00f4db15fe3b5ae5fad800d02a517254da3ab9",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-desktop-01-cover.png",
@@ -293,167 +301,171 @@
         },
         {
           "path": "screenshots/engine-flow-desktop-05-play-step1.png",
-          "sha256": "a0c5101936689f844c490ca935dce73e7a8f888fab0110c953c5777fe32c63ca"
+          "sha256": "e00253148e0616ab667ce6804ef09832bf96783be72fc9e5add03138ac2576ac"
         },
         {
           "path": "screenshots/engine-flow-desktop-05c-play-group-confirm.png",
-          "sha256": "4bda6c451d99e5fa7be1a7b0fab10d1202feabce77a78499105335c0b344b71b"
+          "sha256": "d36e7c893a4ca4d5c45a387bdba0733764dc488b9f329ddba84f09cf3046a468"
         },
         {
           "path": "screenshots/engine-flow-desktop-05d-play-step2.png",
-          "sha256": "42bf43e48beb5cd7427cea6338aa21537b1cb3f2913afd9819c46350523d10ed"
+          "sha256": "0ce19bebd5de493caf3eee94f0200cd6c48b95c5cb0bc9d19cbb3ca1468fccb1"
+        },
+        {
+          "path": "screenshots/engine-flow-desktop-05n-next-problem-clean.png",
+          "sha256": "fec2a295b348f39b4b8ba54e8d0eaa74b8613c42bc91f5bd225ad69206e9ef6b"
         },
         {
           "path": "screenshots/engine-flow-desktop-05m-p1-group-uses-denominator.png",
-          "sha256": "db87eefbafca9a9a487b0370fc11000a8a193ba667a8847e396ff36298e24aa8"
+          "sha256": "36545d79088a4d013d8700fb6692a265785d2f2db1b6b4aa4585a6d1ed801a37"
         },
         {
           "path": "screenshots/engine-flow-desktop-05m-p1-group-uses-total.png",
-          "sha256": "7f7be7a26e6bd3a86bd810d4dbe55848f13cae452cf3e29f9658388d48213447"
+          "sha256": "2bb5880ed89e4c668a7c122117a29cfcfe3e43c71150483ee986081f2f5c3c05"
         },
         {
           "path": "screenshots/engine-flow-desktop-05b-play-wrong.png",
-          "sha256": "7f7be7a26e6bd3a86bd810d4dbe55848f13cae452cf3e29f9658388d48213447"
+          "sha256": "2bb5880ed89e4c668a7c122117a29cfcfe3e43c71150483ee986081f2f5c3c05"
         },
         {
           "path": "screenshots/engine-flow-desktop-06-confirm.png",
-          "sha256": "2ab093ea6fb1762dc8bcb2c3f504b7dd9f389bcb02c2b70b6f298352a8d534a3"
+          "sha256": "1ed8cb74716fb37c04408b9d023a2dca5153f0cf8705c2f1e2c1392280fc823c"
         },
         {
           "path": "screenshots/engine-flow-desktop-07-reward-closed.png",
-          "sha256": "5c850c287336fc0e5b76bf5bb4e4e9184039dc6f3c97c94f15af5ddaca4eb22e"
+          "sha256": "c9296a8c92e6f24ad7daf44056c1395b4e63e7fd9af993af5e19d51c50d07b07"
         },
         {
           "path": "screenshots/engine-flow-desktop-07b-reward-open.png",
-          "sha256": "61d861f3359217f1ff3689fc7eeffa4186b8f509cf366f60a27fb3bc46678216"
+          "sha256": "5389d0a267715f13c759239cd1e8acb3ae7919eb095eab11a4b4c22babd1d8b6"
         },
         {
           "path": "screenshots/engine-flow-desktop-07c-reward-impact.png",
-          "sha256": "3c59f8b5efb079cf12cad7c8c32dfab1d61000c4e5da2872ef7618d2f94c7c81"
+          "sha256": "ef1273e8936beda3b084dda3099a882c2381ca2495f485380c15c8d4061e6078"
         },
         {
           "path": "screenshots/engine-flow-desktop-08-result.png",
-          "sha256": "805cb43ba02d4262b5cc31a11f945a0b4c4b7f45dbb8e4807928905029d0a225"
+          "sha256": "cd4a98a037681ef04bca11a7f2a04d7f12fb3d31ce9773684f24c96620f04c81"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-desktop-08c-result-cohesion-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-desktop-08c-result-cohesion-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08c-result-cohesion-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-desktop-08c-result-cohesion-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-desktop-08c-result-cohesion-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-desktop-08c-result-cohesion-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08d-result-panel-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-desktop-08d-result-panel-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08d-result-panel-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-desktop-08d-result-panel-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-desktop-08d-result-panel-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-desktop-08d-result-panel-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08e-result-reward-dominance-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-desktop-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08e-result-reward-dominance-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-desktop-08e-result-reward-dominance-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-desktop-08e-result-reward-dominance-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-desktop-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         }
       ]
     },
@@ -462,9 +474,9 @@
       "width": 1024,
       "height": 768,
       "dpr": 1,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-tablet-landscape-contact-sheet.png",
-      "sheetSha256": "09ab8add478cc5cd8b492ac7b49168de6d68e28da96deb4dabf7530ed2568703",
+      "sheetSha256": "40fc664aaf33e6ad0102fc926d2e218a6d2ff156605f5816e5691c03d0ae1f1b",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-tablet-landscape-01-cover.png",
@@ -484,167 +496,171 @@
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05-play-step1.png",
-          "sha256": "ed703ae97a1ab05b67e9de54ca7d6f6c049e4a8fff2721aac31d1846ad93eaf2"
+          "sha256": "aad4db620281ce44774a02e41ed7990062879bde01a910eae626e0bf0748eb04"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05c-play-group-confirm.png",
-          "sha256": "a577ce28032471c0f4f9a97b9a0e8ad92ec8446bcd9aa15babda448d44f24225"
+          "sha256": "777d5121a3d9ae1c43e2bf112eda94e6697bff012eb3a3201acd40705e8ce0b3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05d-play-step2.png",
-          "sha256": "52b0449d9b9a184f7b4b44a098bcf255bc19aa311a8029fc0c81e518bd568bbf"
+          "sha256": "51497b93792abe8307f587dda5937d29412c06e6febc78b6a8b7a2d71899bec7"
+        },
+        {
+          "path": "screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png",
+          "sha256": "89b9b72748879b30de29bd9697913e0edf45d046bb4e80732409b307f84b7abd"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05m-p1-group-uses-denominator.png",
-          "sha256": "db2d9f59f9bbb1a21400a7ea54a821b911ebd7a291470c66018e76cfe7825c66"
+          "sha256": "75b64e74e0bba6bac658485bc2f9ddc015be3dfa13fab629c391e16b9820282f"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05m-p1-group-uses-total.png",
-          "sha256": "27774dfbdabbded2cb3b3c92573ca5e6a6b16051edd597a133ec850e8eafc7fe"
+          "sha256": "86272be3304d446cf2acfa67d3515d9847e78fde96b0c77c0208446c392cc679"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05b-play-wrong.png",
-          "sha256": "27774dfbdabbded2cb3b3c92573ca5e6a6b16051edd597a133ec850e8eafc7fe"
+          "sha256": "86272be3304d446cf2acfa67d3515d9847e78fde96b0c77c0208446c392cc679"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-06-confirm.png",
-          "sha256": "70b94f65d26837210cfc6df0ffe67fcf683bdf1e877ff0f5f47d8769b9b82334"
+          "sha256": "da6d34635468e24ec78a3fafe83c55c0751d6f95b349568799a35327d5fe69c8"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07-reward-closed.png",
-          "sha256": "fdc866a7209357792c62cc8787f1a9a65533d6c724487f1e2a8cd8fc99707275"
+          "sha256": "85858ca5f39334afd62163e59bebe614544cb67091a5d97bc1283b99151b2101"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07b-reward-open.png",
-          "sha256": "2b5101e411d460b0fcc6995f2ad4ffdfe232a97cfb7df3972f4f03c9756e8eef"
+          "sha256": "60397494cb38c1af83efc1d4fd46098e5348c1b1436b74149215b6afeafba7fb"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07c-reward-impact.png",
-          "sha256": "69affc1abf6566c150a47ea30bac48d5c3d1eb47b23eef58fdfad5beb4d71d60"
+          "sha256": "742360e848558d86bb09054828fc39c7f56a03796768c8a1e0c22a8b424a616e"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08-result.png",
-          "sha256": "ae7f86e28b9f28f1ccda55e6361036301e19d332f43d2bc3bbfb0bdb7341d668"
+          "sha256": "8974021585814316bfb13fa21a0365b11cf75236e98b477ff8ae9ab7df192e5b"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-handful.png",
-          "sha256": "2a5ed3648a9d276f418c4314b014210d2114d4e9ad1b7e87d5254c76f267b330"
+          "sha256": "1b43d273f4e4a823a32ad3f41d975ac24c3602f474ecc91ce84967c2038dfb4a"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-basket.png",
-          "sha256": "5e02738044ca47a6925e6a587d91e1db276b8535fdb5aee131399908fd196b22"
+          "sha256": "b504fa0a32e5efadbf5cea026cf64047ae07cb38d0a2a3430187bec1da8f7bac"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-bigbasket.png",
-          "sha256": "15f76d4f53a7a3ae0efd99f4285bffcc93fbc95be7075f50b500df1155e0d308"
+          "sha256": "b6cb7cd15b0342b893713d172c0c41782d47eafb510a3e4c953b99cdfca614a3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-cartfull.png",
-          "sha256": "7fbcc4870e69fc3a33f782462a93f8fc7899210358ca10c2e8d49a93fe8fa1ec"
+          "sha256": "dd55d707652e960bc4d0966cccdccf5b46ebbbed2b3cfd7f03d5f2d08e575ee3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-handful.png",
-          "sha256": "2a5ed3648a9d276f418c4314b014210d2114d4e9ad1b7e87d5254c76f267b330"
+          "sha256": "1b43d273f4e4a823a32ad3f41d975ac24c3602f474ecc91ce84967c2038dfb4a"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png",
-          "sha256": "8aebf1057a01b30cab4e84522cd841f6881dc002105aac8b51462bcd692309fd"
+          "sha256": "e8c4e5a0f3edeeab9d208f91a917699e41e05cabbe53ae5a910deb1681e1fab9"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-smallbasket.png",
-          "sha256": "f18b0652442350f4cb396c71b76fe6ef12a39abf1f5ba0811934513c62b838c0"
+          "sha256": "513565b73385b963e4a02146ccc6ae0322c41bdd161701dec2b627cd353e9fad"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08d-result-panel-basket.png",
-          "sha256": "5e02738044ca47a6925e6a587d91e1db276b8535fdb5aee131399908fd196b22"
+          "sha256": "b504fa0a32e5efadbf5cea026cf64047ae07cb38d0a2a3430187bec1da8f7bac"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08d-result-panel-bigbasket.png",
-          "sha256": "15f76d4f53a7a3ae0efd99f4285bffcc93fbc95be7075f50b500df1155e0d308"
+          "sha256": "b6cb7cd15b0342b893713d172c0c41782d47eafb510a3e4c953b99cdfca614a3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08d-result-panel-cartfull.png",
-          "sha256": "7fbcc4870e69fc3a33f782462a93f8fc7899210358ca10c2e8d49a93fe8fa1ec"
+          "sha256": "dd55d707652e960bc4d0966cccdccf5b46ebbbed2b3cfd7f03d5f2d08e575ee3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08d-result-panel-handful.png",
-          "sha256": "2a5ed3648a9d276f418c4314b014210d2114d4e9ad1b7e87d5254c76f267b330"
+          "sha256": "1b43d273f4e4a823a32ad3f41d975ac24c3602f474ecc91ce84967c2038dfb4a"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08d-result-panel-rainbow.png",
-          "sha256": "8aebf1057a01b30cab4e84522cd841f6881dc002105aac8b51462bcd692309fd"
+          "sha256": "e8c4e5a0f3edeeab9d208f91a917699e41e05cabbe53ae5a910deb1681e1fab9"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08d-result-panel-smallbasket.png",
-          "sha256": "f18b0652442350f4cb396c71b76fe6ef12a39abf1f5ba0811934513c62b838c0"
+          "sha256": "513565b73385b963e4a02146ccc6ae0322c41bdd161701dec2b627cd353e9fad"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-basket.png",
-          "sha256": "5e02738044ca47a6925e6a587d91e1db276b8535fdb5aee131399908fd196b22"
+          "sha256": "b504fa0a32e5efadbf5cea026cf64047ae07cb38d0a2a3430187bec1da8f7bac"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "15f76d4f53a7a3ae0efd99f4285bffcc93fbc95be7075f50b500df1155e0d308"
+          "sha256": "b6cb7cd15b0342b893713d172c0c41782d47eafb510a3e4c953b99cdfca614a3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-cartfull.png",
-          "sha256": "7fbcc4870e69fc3a33f782462a93f8fc7899210358ca10c2e8d49a93fe8fa1ec"
+          "sha256": "dd55d707652e960bc4d0966cccdccf5b46ebbbed2b3cfd7f03d5f2d08e575ee3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-handful.png",
-          "sha256": "2a5ed3648a9d276f418c4314b014210d2114d4e9ad1b7e87d5254c76f267b330"
+          "sha256": "1b43d273f4e4a823a32ad3f41d975ac24c3602f474ecc91ce84967c2038dfb4a"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-rainbow.png",
-          "sha256": "8aebf1057a01b30cab4e84522cd841f6881dc002105aac8b51462bcd692309fd"
+          "sha256": "e8c4e5a0f3edeeab9d208f91a917699e41e05cabbe53ae5a910deb1681e1fab9"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "f18b0652442350f4cb396c71b76fe6ef12a39abf1f5ba0811934513c62b838c0"
+          "sha256": "513565b73385b963e4a02146ccc6ae0322c41bdd161701dec2b627cd353e9fad"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-basket.png",
-          "sha256": "5e02738044ca47a6925e6a587d91e1db276b8535fdb5aee131399908fd196b22"
+          "sha256": "b504fa0a32e5efadbf5cea026cf64047ae07cb38d0a2a3430187bec1da8f7bac"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "15f76d4f53a7a3ae0efd99f4285bffcc93fbc95be7075f50b500df1155e0d308"
+          "sha256": "b6cb7cd15b0342b893713d172c0c41782d47eafb510a3e4c953b99cdfca614a3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-cartfull.png",
-          "sha256": "7fbcc4870e69fc3a33f782462a93f8fc7899210358ca10c2e8d49a93fe8fa1ec"
+          "sha256": "dd55d707652e960bc4d0966cccdccf5b46ebbbed2b3cfd7f03d5f2d08e575ee3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-handful.png",
-          "sha256": "2a5ed3648a9d276f418c4314b014210d2114d4e9ad1b7e87d5254c76f267b330"
+          "sha256": "1b43d273f4e4a823a32ad3f41d975ac24c3602f474ecc91ce84967c2038dfb4a"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png",
-          "sha256": "8aebf1057a01b30cab4e84522cd841f6881dc002105aac8b51462bcd692309fd"
+          "sha256": "e8c4e5a0f3edeeab9d208f91a917699e41e05cabbe53ae5a910deb1681e1fab9"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "f18b0652442350f4cb396c71b76fe6ef12a39abf1f5ba0811934513c62b838c0"
+          "sha256": "513565b73385b963e4a02146ccc6ae0322c41bdd161701dec2b627cd353e9fad"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-smallbasket.png",
-          "sha256": "f18b0652442350f4cb396c71b76fe6ef12a39abf1f5ba0811934513c62b838c0"
+          "sha256": "513565b73385b963e4a02146ccc6ae0322c41bdd161701dec2b627cd353e9fad"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-basket.png",
-          "sha256": "5e02738044ca47a6925e6a587d91e1db276b8535fdb5aee131399908fd196b22"
+          "sha256": "b504fa0a32e5efadbf5cea026cf64047ae07cb38d0a2a3430187bec1da8f7bac"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-bigbasket.png",
-          "sha256": "15f76d4f53a7a3ae0efd99f4285bffcc93fbc95be7075f50b500df1155e0d308"
+          "sha256": "b6cb7cd15b0342b893713d172c0c41782d47eafb510a3e4c953b99cdfca614a3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-cartfull.png",
-          "sha256": "7fbcc4870e69fc3a33f782462a93f8fc7899210358ca10c2e8d49a93fe8fa1ec"
+          "sha256": "dd55d707652e960bc4d0966cccdccf5b46ebbbed2b3cfd7f03d5f2d08e575ee3"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-rainbow.png",
-          "sha256": "8aebf1057a01b30cab4e84522cd841f6881dc002105aac8b51462bcd692309fd"
+          "sha256": "e8c4e5a0f3edeeab9d208f91a917699e41e05cabbe53ae5a910deb1681e1fab9"
         }
       ]
     },
@@ -654,9 +670,9 @@
       "height": 720,
       "deviceScaleFactor": 2,
       "dpr": 2,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-codex-in-app-contact-sheet.png",
-      "sheetSha256": "19eec68497f3776f89ffd92312b0f73abb4a0caa6f43ecbb18d6e29d5659f082",
+      "sheetSha256": "05d1ba984a66b3a5b2f49ac252532ad3af4eef73527898327461f8c012eb94fb",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-codex-in-app-01-cover.png",
@@ -676,167 +692,171 @@
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05-play-step1.png",
-          "sha256": "8d58cfe74e032eb297d9c3565a0f63c9d95118ac35caf179a2fb2411705f76f8"
+          "sha256": "a734c221a8835bbf0d454df31f9e10d0367d69d500f45f6c8c5dcb4a8d20f135"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05c-play-group-confirm.png",
-          "sha256": "655318b6ebf62110c3ab7e7282f199d637192b9e7e61b7ff81492e92fc15e78d"
+          "sha256": "e80c82caf779688eb0aa87f041851038c17340edd6a9cfda32de0cd1e74b5469"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05d-play-step2.png",
-          "sha256": "4fab91f810ea85d02b85133fe9555baf28135fd09bfb18b4a8f507ba1cf67871"
+          "sha256": "703751cc2305974c12d4cf8c83ce434b27050551cfc900131886caf58df30707"
+        },
+        {
+          "path": "screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png",
+          "sha256": "81325bf4f50d8c991b0aeff0b2a2c142e724fb5c1a7639c00daf34d5fba6701c"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05m-p1-group-uses-denominator.png",
-          "sha256": "77dc7b6617fed647d7a3feaa7ad7169105fe2733093d34f3d4e130e3d7439b46"
+          "sha256": "7c774b4b1e8f222a635609c5f732192acd56898c893effafa2100941cd82f423"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05m-p1-group-uses-total.png",
-          "sha256": "5af0ad38578c510fb771807582bd541bd06f12dbf7e8c3eab8672c547ce5b1dd"
+          "sha256": "b609b866f7a15a4b25d2e3a97630d64b8078b3915d62be94babf711b1ee2ce1f"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05b-play-wrong.png",
-          "sha256": "5af0ad38578c510fb771807582bd541bd06f12dbf7e8c3eab8672c547ce5b1dd"
+          "sha256": "b609b866f7a15a4b25d2e3a97630d64b8078b3915d62be94babf711b1ee2ce1f"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-06-confirm.png",
-          "sha256": "91966bcb097832ab7e77827678a11ecd9eaa122c1104f8e81bb17712f816a208"
+          "sha256": "58d0ad8331b08525708bfed7530c6458a9034506d8a7219d0e4aa7dcd955100e"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-07-reward-closed.png",
-          "sha256": "c5ffae6c0c5c394ab3c2a77e5d15dedc7428f41b076c5b0ce103b0ef996afa02"
+          "sha256": "89586e26d3d4410160c2fa628a5e2d415f892bafedc74183b10e5ed0468f9b17"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-07b-reward-open.png",
-          "sha256": "0cde5d2b9ccd1e383a751aeda5d84640ed9db9f258fb05a142b52fcc248048dc"
+          "sha256": "a49d3c66c1964c2bff3cec1c45e0a3c5a3492e2bdf76126bde57203ff64efc83"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-07c-reward-impact.png",
-          "sha256": "62d893b9b4d7d35f73a9ee6183dda479527294b76a649b730c1403a5e93e3de6"
+          "sha256": "5e234f74a9629d4b3f8ea416e65bbe593b07eca6b8e2517d6a328aec8329c9ac"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08-result.png",
-          "sha256": "dd508cad71c7286e07444dc849b86e2097616b82abeb4de572b10dfe78f6edca"
+          "sha256": "cb7b66557f28d006160ec92216741a35f4a1f152136af53f3cc9be83797a8c96"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-handful.png",
-          "sha256": "81ae563651af4244e62987c697d0aa8a50e2866c16135a9f29d6d365ac866d03"
+          "sha256": "b09973e97a57215c82b1e2d9926104f4dcf9c3782a2bcc8fa6812dab7e3e8cdb"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-basket.png",
-          "sha256": "34db088b900764375e0ec682614d7e02770debc5378c3fe9d88cb63c41ede6e6"
+          "sha256": "d73340a70e204c1e361333fb19c3f1263216b4839bf72d3fb7fa65670d2b4e73"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-bigbasket.png",
-          "sha256": "35a618d3a77ed6439e2d50c02b10f6fa0a25a62bd6cd24b40878dba040a7c717"
+          "sha256": "b6761e041e421883f7f49c5a194daf4ad86f6fa60ab63aee25dbaa2879abf8e0"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-cartfull.png",
-          "sha256": "0e50e289b01a3a705589b657f3caa10c5d03035610bfb5381d996a9767335d48"
+          "sha256": "0c4d5b27b0df2f0d86dc4f8079c5eafc1c366a10f38386c42b8b5b2fcf855fc1"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-handful.png",
-          "sha256": "81ae563651af4244e62987c697d0aa8a50e2866c16135a9f29d6d365ac866d03"
+          "sha256": "b09973e97a57215c82b1e2d9926104f4dcf9c3782a2bcc8fa6812dab7e3e8cdb"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-rainbow.png",
-          "sha256": "b8e3712934b16522bf2a9de63776b1bb9298ff23ca739771e18a790ae1bdd7f5"
+          "sha256": "2f1e4a2e732c030dddbfe2d2f247686dc39281aa68db799ffea1bc1d594c1e67"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-smallbasket.png",
-          "sha256": "1fe1cc96fb779f326db62281e81c15dd05f5231aca5cdb01fe1592958f5aff0d"
+          "sha256": "a46b812bce5ac261965cf34a4e2ecf4b341d928bdd4207e2ecc90df047de1e78"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08d-result-panel-basket.png",
-          "sha256": "34db088b900764375e0ec682614d7e02770debc5378c3fe9d88cb63c41ede6e6"
+          "sha256": "d73340a70e204c1e361333fb19c3f1263216b4839bf72d3fb7fa65670d2b4e73"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08d-result-panel-bigbasket.png",
-          "sha256": "35a618d3a77ed6439e2d50c02b10f6fa0a25a62bd6cd24b40878dba040a7c717"
+          "sha256": "b6761e041e421883f7f49c5a194daf4ad86f6fa60ab63aee25dbaa2879abf8e0"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08d-result-panel-cartfull.png",
-          "sha256": "0e50e289b01a3a705589b657f3caa10c5d03035610bfb5381d996a9767335d48"
+          "sha256": "0c4d5b27b0df2f0d86dc4f8079c5eafc1c366a10f38386c42b8b5b2fcf855fc1"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08d-result-panel-handful.png",
-          "sha256": "81ae563651af4244e62987c697d0aa8a50e2866c16135a9f29d6d365ac866d03"
+          "sha256": "b09973e97a57215c82b1e2d9926104f4dcf9c3782a2bcc8fa6812dab7e3e8cdb"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08d-result-panel-rainbow.png",
-          "sha256": "b8e3712934b16522bf2a9de63776b1bb9298ff23ca739771e18a790ae1bdd7f5"
+          "sha256": "2f1e4a2e732c030dddbfe2d2f247686dc39281aa68db799ffea1bc1d594c1e67"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08d-result-panel-smallbasket.png",
-          "sha256": "1fe1cc96fb779f326db62281e81c15dd05f5231aca5cdb01fe1592958f5aff0d"
+          "sha256": "a46b812bce5ac261965cf34a4e2ecf4b341d928bdd4207e2ecc90df047de1e78"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-basket.png",
-          "sha256": "34db088b900764375e0ec682614d7e02770debc5378c3fe9d88cb63c41ede6e6"
+          "sha256": "d73340a70e204c1e361333fb19c3f1263216b4839bf72d3fb7fa65670d2b4e73"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "35a618d3a77ed6439e2d50c02b10f6fa0a25a62bd6cd24b40878dba040a7c717"
+          "sha256": "b6761e041e421883f7f49c5a194daf4ad86f6fa60ab63aee25dbaa2879abf8e0"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-cartfull.png",
-          "sha256": "0e50e289b01a3a705589b657f3caa10c5d03035610bfb5381d996a9767335d48"
+          "sha256": "0c4d5b27b0df2f0d86dc4f8079c5eafc1c366a10f38386c42b8b5b2fcf855fc1"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-handful.png",
-          "sha256": "81ae563651af4244e62987c697d0aa8a50e2866c16135a9f29d6d365ac866d03"
+          "sha256": "b09973e97a57215c82b1e2d9926104f4dcf9c3782a2bcc8fa6812dab7e3e8cdb"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-rainbow.png",
-          "sha256": "b8e3712934b16522bf2a9de63776b1bb9298ff23ca739771e18a790ae1bdd7f5"
+          "sha256": "2f1e4a2e732c030dddbfe2d2f247686dc39281aa68db799ffea1bc1d594c1e67"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "1fe1cc96fb779f326db62281e81c15dd05f5231aca5cdb01fe1592958f5aff0d"
+          "sha256": "a46b812bce5ac261965cf34a4e2ecf4b341d928bdd4207e2ecc90df047de1e78"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-basket.png",
-          "sha256": "34db088b900764375e0ec682614d7e02770debc5378c3fe9d88cb63c41ede6e6"
+          "sha256": "d73340a70e204c1e361333fb19c3f1263216b4839bf72d3fb7fa65670d2b4e73"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "35a618d3a77ed6439e2d50c02b10f6fa0a25a62bd6cd24b40878dba040a7c717"
+          "sha256": "b6761e041e421883f7f49c5a194daf4ad86f6fa60ab63aee25dbaa2879abf8e0"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-cartfull.png",
-          "sha256": "0e50e289b01a3a705589b657f3caa10c5d03035610bfb5381d996a9767335d48"
+          "sha256": "0c4d5b27b0df2f0d86dc4f8079c5eafc1c366a10f38386c42b8b5b2fcf855fc1"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-handful.png",
-          "sha256": "81ae563651af4244e62987c697d0aa8a50e2866c16135a9f29d6d365ac866d03"
+          "sha256": "b09973e97a57215c82b1e2d9926104f4dcf9c3782a2bcc8fa6812dab7e3e8cdb"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png",
-          "sha256": "b8e3712934b16522bf2a9de63776b1bb9298ff23ca739771e18a790ae1bdd7f5"
+          "sha256": "2f1e4a2e732c030dddbfe2d2f247686dc39281aa68db799ffea1bc1d594c1e67"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "1fe1cc96fb779f326db62281e81c15dd05f5231aca5cdb01fe1592958f5aff0d"
+          "sha256": "a46b812bce5ac261965cf34a4e2ecf4b341d928bdd4207e2ecc90df047de1e78"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-smallbasket.png",
-          "sha256": "1fe1cc96fb779f326db62281e81c15dd05f5231aca5cdb01fe1592958f5aff0d"
+          "sha256": "a46b812bce5ac261965cf34a4e2ecf4b341d928bdd4207e2ecc90df047de1e78"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-basket.png",
-          "sha256": "34db088b900764375e0ec682614d7e02770debc5378c3fe9d88cb63c41ede6e6"
+          "sha256": "d73340a70e204c1e361333fb19c3f1263216b4839bf72d3fb7fa65670d2b4e73"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-bigbasket.png",
-          "sha256": "35a618d3a77ed6439e2d50c02b10f6fa0a25a62bd6cd24b40878dba040a7c717"
+          "sha256": "b6761e041e421883f7f49c5a194daf4ad86f6fa60ab63aee25dbaa2879abf8e0"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-cartfull.png",
-          "sha256": "0e50e289b01a3a705589b657f3caa10c5d03035610bfb5381d996a9767335d48"
+          "sha256": "0c4d5b27b0df2f0d86dc4f8079c5eafc1c366a10f38386c42b8b5b2fcf855fc1"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-rainbow.png",
-          "sha256": "b8e3712934b16522bf2a9de63776b1bb9298ff23ca739771e18a790ae1bdd7f5"
+          "sha256": "2f1e4a2e732c030dddbfe2d2f247686dc39281aa68db799ffea1bc1d594c1e67"
         }
       ]
     },
@@ -845,9 +865,9 @@
       "width": 994,
       "height": 632,
       "dpr": 1,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-user-visibility-contact-sheet.png",
-      "sheetSha256": "264b5819f2b0a9e82af5504ac3ed1c0576087b7ae7bd1bee8492992d63d4b216",
+      "sheetSha256": "d3443f4d403f16c768a2a14176aad2735ccef95fb34eb3adb560a0af36a2605b",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-user-visibility-01-cover.png",
@@ -867,167 +887,171 @@
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05-play-step1.png",
-          "sha256": "4669e7a432b99e8cd64b5625309620cc0f091f5ee353d50c8e731b43c34286b6"
+          "sha256": "d5e5b95a72c941109f93ab92ef6c563f19df459d594995a7c94ece96f987ed23"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05c-play-group-confirm.png",
-          "sha256": "c4bf498610ef50d5d16f18be77d11a7274142d6aade52e8f586783e8eb39f60c"
+          "sha256": "56ff9cbe2cfb14c27748829beb0e3c6e753324fca0199193efcaf581ce9761b8"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05d-play-step2.png",
-          "sha256": "2ecd1d146ff733d2ba2dcfc003974fc23759d4a91c6bf336332635fbe8abbb4d"
+          "sha256": "4486c503e6d553e1a2fe47b57f42fa5b570c5c08468be654a91ed67eb3592796"
+        },
+        {
+          "path": "screenshots/engine-flow-user-visibility-05n-next-problem-clean.png",
+          "sha256": "ac75d5b23728824e4dae3e45ac6d6fd7237c38c36ccd361cf711fd7dbb568b38"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05m-p1-group-uses-denominator.png",
-          "sha256": "e8b1b7ee9f059d903a4046098bff8654ba56a77d0ffbee74c3ac9f4b212f009b"
+          "sha256": "bd1c1db4d957201610a042078c224c722c5578f974c5e583154d57fa7daf62cd"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05m-p1-group-uses-total.png",
-          "sha256": "c15318bdd7c4a79ce8fa4e4ff7895060037ae7fd6d3d9e8211700b0c7b52b2ed"
+          "sha256": "626ce5ecacc0364c574f5b1af3ffb624f531ec927c98d87787072c6be4d9dd4a"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05b-play-wrong.png",
-          "sha256": "c15318bdd7c4a79ce8fa4e4ff7895060037ae7fd6d3d9e8211700b0c7b52b2ed"
+          "sha256": "626ce5ecacc0364c574f5b1af3ffb624f531ec927c98d87787072c6be4d9dd4a"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-06-confirm.png",
-          "sha256": "f381d200b81d4f2c48b77fce3bda0bd68be5ac322b24ce77bc7fefea268f9ab2"
+          "sha256": "ce5115090653a15360c7e2370ae838ac2ffc7c2f077c0bfba88837dd4e8ebd39"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-07-reward-closed.png",
-          "sha256": "2bd91448e1a0dd7536d80c3d9ad7a30acfe37827a8fe9a43ee5eaf00b29b93e8"
+          "sha256": "7af266af03eed895c0f33c4ebbde4a573992294ba146920f3475b1b38880091f"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-07b-reward-open.png",
-          "sha256": "e809d9af57f09cdab063b14b7b760a82329709945ce079781e8f217cecd9f3dd"
+          "sha256": "b394f702bed055c0c09ef5608d886110b5ba2832dc10ec58ed0bcadd8d9847ad"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-07c-reward-impact.png",
-          "sha256": "a5a260647034404c566821c9003a62f05c9e75af79d11903ed1fe85bcea8203a"
+          "sha256": "cf77777c84ace2392bde5ca2a8950178294d3c5d87a51eabcf665967bb0cdf18"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08-result.png",
-          "sha256": "bebb792f4dac49cbe5fe297ef8b9a3e42e31fdaa56764841f9854058fa146aa8"
+          "sha256": "cceb9debeb0dd5ad2cbfee31ba2bee94ee463c6e70e83e8cb0c607338e58facc"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08a-result-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08d-result-panel-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08d-result-panel-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08d-result-panel-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08d-result-panel-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08d-result-panel-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08d-result-panel-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08e-result-reward-dominance-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08e-result-reward-dominance-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08e-result-reward-dominance-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08e-result-reward-dominance-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08a-result-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08a-result-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08a-result-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08a-result-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08a-result-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         }
       ]
     },
@@ -1036,9 +1060,9 @@
       "width": 994,
       "height": 632,
       "dpr": 1,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-user-reported-result-panel-centering-contact-sheet.png",
-      "sheetSha256": "32f9b775bd62d34e4615a0d89a767d22d325c31fb15d9d2fa9a42bc9086dbc5d",
+      "sheetSha256": "dd393ce44642c7ab6d802e1b58e8348b4d71caa1401ee3180ad2d7d730fdc8de",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-01-cover.png",
@@ -1058,167 +1082,171 @@
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-05-play-step1.png",
-          "sha256": "4669e7a432b99e8cd64b5625309620cc0f091f5ee353d50c8e731b43c34286b6"
+          "sha256": "d5e5b95a72c941109f93ab92ef6c563f19df459d594995a7c94ece96f987ed23"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-05c-play-group-confirm.png",
-          "sha256": "7f19d9726f7eaeb49e6d8e7cbb978751093f456338c357c95116cbedce26a6a7"
+          "sha256": "56ff9cbe2cfb14c27748829beb0e3c6e753324fca0199193efcaf581ce9761b8"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-05d-play-step2.png",
-          "sha256": "1b7953d31cc28288f7ae2978af479377adcb8ac246b09b47782a52324ee4e8f5"
+          "sha256": "1303e82a4d30e975d842c2b1118f18e758bef32fed663ca35a3118852d5757bf"
+        },
+        {
+          "path": "screenshots/engine-flow-user-reported-result-panel-centering-05n-next-problem-clean.png",
+          "sha256": "ac75d5b23728824e4dae3e45ac6d6fd7237c38c36ccd361cf711fd7dbb568b38"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-05m-p1-group-uses-denominator.png",
-          "sha256": "8aedba2e46d78a1d4ad85c5d802f9bc5e53c850442c6ddc9ca6d736e11500696"
+          "sha256": "bd1c1db4d957201610a042078c224c722c5578f974c5e583154d57fa7daf62cd"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-05m-p1-group-uses-total.png",
-          "sha256": "6f30a412789d3cb103451ffa9a5b512fcacd9eccfda04cf536389c0cc55b5a66"
+          "sha256": "626ce5ecacc0364c574f5b1af3ffb624f531ec927c98d87787072c6be4d9dd4a"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-05b-play-wrong.png",
-          "sha256": "6f30a412789d3cb103451ffa9a5b512fcacd9eccfda04cf536389c0cc55b5a66"
+          "sha256": "626ce5ecacc0364c574f5b1af3ffb624f531ec927c98d87787072c6be4d9dd4a"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-06-confirm.png",
-          "sha256": "7317ccbce4750f90e49d3862010b9d8fc7781dde58ea27598c4b8690e1e0d9d7"
+          "sha256": "ce5115090653a15360c7e2370ae838ac2ffc7c2f077c0bfba88837dd4e8ebd39"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-07-reward-closed.png",
-          "sha256": "77a4ebca6d0c439c44fd5c709debb9489c30e9604425535b7d47fc0dda4653b9"
+          "sha256": "7af266af03eed895c0f33c4ebbde4a573992294ba146920f3475b1b38880091f"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-07b-reward-open.png",
-          "sha256": "dfcd9471967226d17e0d8cf7e1963602e8f291b385e02d7e1c0dd9adf1e01b2a"
+          "sha256": "b394f702bed055c0c09ef5608d886110b5ba2832dc10ec58ed0bcadd8d9847ad"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-07c-reward-impact.png",
-          "sha256": "f6173559d5132c7a8fd0439a49bdc1d34f9abdfecb0d936dc5b49c4539174c6c"
+          "sha256": "799539795dbd26ae27769419bdf0ade1cf60c493e3c25204c7d50ed5a2198d15"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08-result.png",
-          "sha256": "859b9f8c6a852ad3fc669520e7ed207b72f5d45838798520a5956b0a9a15e49e"
+          "sha256": "e7ce78249d163f25b9212937fcc62275f96d28db8a07080c0d0231abf0c1e901"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08a-result-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08c-result-cohesion-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08c-result-cohesion-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08c-result-cohesion-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08c-result-cohesion-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08c-result-cohesion-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08c-result-cohesion-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08d-result-panel-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08d-result-panel-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08d-result-panel-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08d-result-panel-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08d-result-panel-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08d-result-panel-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08e-result-reward-dominance-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08e-result-reward-dominance-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08e-result-reward-dominance-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08e-result-reward-dominance-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08v-result-visual-integrity-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08v-result-visual-integrity-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08v-result-visual-integrity-handful.png",
-          "sha256": "d23e77239b6155eb29a5e05ae393528c313f280cc7138c631ab8c5ac77415d0b"
+          "sha256": "13d0b84ec7cba65966cc49a1b3d17f46f924a94e3a0503662591b482ff29ec60"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08v-result-visual-integrity-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08a-result-smallbasket.png",
-          "sha256": "2bd2c56cc5fe307b5e73bbc49155572e77a3f5466d088871d0aa8174a0534cf7"
+          "sha256": "2265a06276e51d8d1bf403fe546887e7c3d397ca02bae148b271f4d3f6c9c72d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08a-result-basket.png",
-          "sha256": "b2fb979dd828396f1b27fa7a0feca739842d68a996b0203444fe34c3848d5818"
+          "sha256": "02f2c5526192da1722a88d6485f881acd832a0ca7b09ddf92276153c8a5f2c9b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08a-result-bigbasket.png",
-          "sha256": "f5e28a95009c937fe2961e361bf77be5aba25382a5f137a3b8225a31e3a70513"
+          "sha256": "fa9126eb6847461eb2557ce5eccc99add9043f1ecd4aa994b67cc1e9303b1aa1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08a-result-cartfull.png",
-          "sha256": "6605bbd5fba3ece178d0f16033b34e5fc33759b149aab35f8c58d1f11c4e5edb"
+          "sha256": "b75b84668a0256dd6be4816973a92ea309f9623c695a93437a1c6b77f81cb7f1"
         },
         {
           "path": "screenshots/engine-flow-user-reported-result-panel-centering-08a-result-rainbow.png",
-          "sha256": "923a13ecc3f8c671cbf62f708d0b64940cf6e31a4f1c1a6f62103528cf10505e"
+          "sha256": "6d2fd6764b986540634237a9af0750b2636a22f48529eb0e24722803e092ecbf"
         }
       ]
     },
@@ -1228,9 +1256,9 @@
       "height": 987,
       "deviceScaleFactor": 2,
       "dpr": 2,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png",
-      "sheetSha256": "9448c2d520d03d07b4514a2b0e1905d359477772700ad3065d78e52e2d162944",
+      "sheetSha256": "44ca5db8bdcdfab133ceb190d26458ee80cc905e3618b7f7b29ae05e275b41b5",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-01-cover.png",
@@ -1250,167 +1278,171 @@
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05-play-step1.png",
-          "sha256": "62c060c21fbac56f8f16c52213dd009517a6ffb79632fc9556ae2113b50c5c80"
+          "sha256": "c4133e08b3aec6e6fbe382ee29de8506411c0e720de66b069c033a9a94521de3"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05c-play-group-confirm.png",
-          "sha256": "dae8c5a452194471c45118f90f4199feda31a5f75d88d1fc381fd63e9cacc060"
+          "sha256": "69fafea9f0125ff21b4d9676e05593a2b999db4f7a2971d74cbb0420f6570142"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05d-play-step2.png",
-          "sha256": "b9b8f016caec86dc9eb8c240cfddeaedd99bd72cbf812e620eec85e0dcee6156"
+          "sha256": "ebd605a43f88a3b8f1411caaa09d3b624b68a1b340a86fe721bd34acf6f7131b"
+        },
+        {
+          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png",
+          "sha256": "aa73c9d654d6ffab66743b9308e190bccb237e666dfc289e38a1648b8063b2b0"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-group-uses-denominator.png",
-          "sha256": "b8ca686dfb4c4fdd711825b62c7c3179153205c12e1d8f29ab43ffa5d3c9315f"
+          "sha256": "ab563b677ed6a82898972d44e0fc7ea4660e804c50b83c482dd747719f0e95c2"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-group-uses-total.png",
-          "sha256": "93d4d3b0270618224499311c3731cbc6c9c7dafd0d8d05de36d406b36bcfa0a4"
+          "sha256": "ff295c6adda554c698c944ad6436e624e1a237d652d9bf7823d508751cefb4ae"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05b-play-wrong.png",
-          "sha256": "93d4d3b0270618224499311c3731cbc6c9c7dafd0d8d05de36d406b36bcfa0a4"
+          "sha256": "ff295c6adda554c698c944ad6436e624e1a237d652d9bf7823d508751cefb4ae"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-06-confirm.png",
-          "sha256": "c1b87ac63a7164a4f52c2720332efd929ba608b485500eda621056f60a63d72f"
+          "sha256": "7df03caafc3a68347c3a15bb7c37d133e42d89577006f374a173b856d206b1ca"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-07-reward-closed.png",
-          "sha256": "fcd513b0819f28a421e86a2a4b9f1cc393abd05bde05de960a5212aaa26995ad"
+          "sha256": "ae63d58e006caed3e3461bbcb1c88414bc2d2ef12282785e50b21dd491f15d57"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-07b-reward-open.png",
-          "sha256": "3023683ffbcf99c7bb311e0e270d491ec1fe1beb0232140ce1dd587d9c75dfef"
+          "sha256": "3dc59b112973f1e98d4159b8e2699096bb99922adc837f6b371b921834bffff7"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-07c-reward-impact.png",
-          "sha256": "2b315b50c9601dfd2a3af1dc00d065983bb8b2dc4c7ebeb69e3147f0d631a69b"
+          "sha256": "397bb1efb999f9efecdb33609dbae1f6a485471b346d89edbb150a11b8926a38"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08-result.png",
-          "sha256": "e7be214a5519c173a2bbbc9a51010676de75057be6fed8db4aa54d5306ab2772"
+          "sha256": "25a5901a0d5ff0924a806072e111757a9dee60d553c23d7ebd9665a901ec12fc"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-handful.png",
-          "sha256": "16bdacc5c41bf41f082641171aefe7aae0e4fe833ebac9e200384245d2302e74"
+          "sha256": "9971994b9a5f45f5c8f02bbe26134bd5abffeaad8091467d09dedfc35966acfa"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-basket.png",
-          "sha256": "7e6e720d7459f387865e3bcc6992efc7f3787676ba96aed57943a2794f29e4b6"
+          "sha256": "a595e03f307515cbc83c87eb415ffe88ff2978e911e1018267ef3a953f453e0c"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-bigbasket.png",
-          "sha256": "17044e6427f81ea3999531ed9776358bedb5504cd44622098323f13de25ce46a"
+          "sha256": "d6043dd4f7a70f9aa009bb7b3bed04a8a7f92cbbd533296e8769696fc87fa6b6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-cartfull.png",
-          "sha256": "4e1515778ac1a99d3c86a36ac2327e688cdcd3f99f11871c82435f324655ba48"
+          "sha256": "9e4bc2973677b547eb11cc959143329c2e8f5951473711dd3c1103c90b4d935d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-handful.png",
-          "sha256": "16bdacc5c41bf41f082641171aefe7aae0e4fe833ebac9e200384245d2302e74"
+          "sha256": "9971994b9a5f45f5c8f02bbe26134bd5abffeaad8091467d09dedfc35966acfa"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-rainbow.png",
-          "sha256": "3c770d993731870165f46a60bb0948ad8e388f7d7bae0b1c90cb2a877ac1d0b4"
+          "sha256": "9ed9ded4487675ffc4c3c62e8601791a83eb44a1d3d26292e26fb058ee5a5558"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-smallbasket.png",
-          "sha256": "3a677f05b67cc6064ac0167e41607a42658be02d24ef3d7e6137f389bfa19a3a"
+          "sha256": "e8365106d9f2f9bd227755d5ca5cd7865ab70b2aa09304ec64177d7dd408cfda"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-basket.png",
-          "sha256": "7e6e720d7459f387865e3bcc6992efc7f3787676ba96aed57943a2794f29e4b6"
+          "sha256": "a595e03f307515cbc83c87eb415ffe88ff2978e911e1018267ef3a953f453e0c"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-bigbasket.png",
-          "sha256": "17044e6427f81ea3999531ed9776358bedb5504cd44622098323f13de25ce46a"
+          "sha256": "d6043dd4f7a70f9aa009bb7b3bed04a8a7f92cbbd533296e8769696fc87fa6b6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-cartfull.png",
-          "sha256": "4e1515778ac1a99d3c86a36ac2327e688cdcd3f99f11871c82435f324655ba48"
+          "sha256": "9e4bc2973677b547eb11cc959143329c2e8f5951473711dd3c1103c90b4d935d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-handful.png",
-          "sha256": "16bdacc5c41bf41f082641171aefe7aae0e4fe833ebac9e200384245d2302e74"
+          "sha256": "9971994b9a5f45f5c8f02bbe26134bd5abffeaad8091467d09dedfc35966acfa"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-rainbow.png",
-          "sha256": "3c770d993731870165f46a60bb0948ad8e388f7d7bae0b1c90cb2a877ac1d0b4"
+          "sha256": "9ed9ded4487675ffc4c3c62e8601791a83eb44a1d3d26292e26fb058ee5a5558"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08d-result-panel-smallbasket.png",
-          "sha256": "3a677f05b67cc6064ac0167e41607a42658be02d24ef3d7e6137f389bfa19a3a"
+          "sha256": "e8365106d9f2f9bd227755d5ca5cd7865ab70b2aa09304ec64177d7dd408cfda"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-basket.png",
-          "sha256": "7e6e720d7459f387865e3bcc6992efc7f3787676ba96aed57943a2794f29e4b6"
+          "sha256": "a595e03f307515cbc83c87eb415ffe88ff2978e911e1018267ef3a953f453e0c"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "17044e6427f81ea3999531ed9776358bedb5504cd44622098323f13de25ce46a"
+          "sha256": "d6043dd4f7a70f9aa009bb7b3bed04a8a7f92cbbd533296e8769696fc87fa6b6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-cartfull.png",
-          "sha256": "4e1515778ac1a99d3c86a36ac2327e688cdcd3f99f11871c82435f324655ba48"
+          "sha256": "9e4bc2973677b547eb11cc959143329c2e8f5951473711dd3c1103c90b4d935d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-handful.png",
-          "sha256": "16bdacc5c41bf41f082641171aefe7aae0e4fe833ebac9e200384245d2302e74"
+          "sha256": "9971994b9a5f45f5c8f02bbe26134bd5abffeaad8091467d09dedfc35966acfa"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-rainbow.png",
-          "sha256": "3c770d993731870165f46a60bb0948ad8e388f7d7bae0b1c90cb2a877ac1d0b4"
+          "sha256": "9ed9ded4487675ffc4c3c62e8601791a83eb44a1d3d26292e26fb058ee5a5558"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "3a677f05b67cc6064ac0167e41607a42658be02d24ef3d7e6137f389bfa19a3a"
+          "sha256": "e8365106d9f2f9bd227755d5ca5cd7865ab70b2aa09304ec64177d7dd408cfda"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-basket.png",
-          "sha256": "7e6e720d7459f387865e3bcc6992efc7f3787676ba96aed57943a2794f29e4b6"
+          "sha256": "a595e03f307515cbc83c87eb415ffe88ff2978e911e1018267ef3a953f453e0c"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "17044e6427f81ea3999531ed9776358bedb5504cd44622098323f13de25ce46a"
+          "sha256": "d6043dd4f7a70f9aa009bb7b3bed04a8a7f92cbbd533296e8769696fc87fa6b6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-cartfull.png",
-          "sha256": "4e1515778ac1a99d3c86a36ac2327e688cdcd3f99f11871c82435f324655ba48"
+          "sha256": "9e4bc2973677b547eb11cc959143329c2e8f5951473711dd3c1103c90b4d935d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-handful.png",
-          "sha256": "16bdacc5c41bf41f082641171aefe7aae0e4fe833ebac9e200384245d2302e74"
+          "sha256": "9971994b9a5f45f5c8f02bbe26134bd5abffeaad8091467d09dedfc35966acfa"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png",
-          "sha256": "3c770d993731870165f46a60bb0948ad8e388f7d7bae0b1c90cb2a877ac1d0b4"
+          "sha256": "9ed9ded4487675ffc4c3c62e8601791a83eb44a1d3d26292e26fb058ee5a5558"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "3a677f05b67cc6064ac0167e41607a42658be02d24ef3d7e6137f389bfa19a3a"
+          "sha256": "e8365106d9f2f9bd227755d5ca5cd7865ab70b2aa09304ec64177d7dd408cfda"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-smallbasket.png",
-          "sha256": "3a677f05b67cc6064ac0167e41607a42658be02d24ef3d7e6137f389bfa19a3a"
+          "sha256": "e8365106d9f2f9bd227755d5ca5cd7865ab70b2aa09304ec64177d7dd408cfda"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-basket.png",
-          "sha256": "7e6e720d7459f387865e3bcc6992efc7f3787676ba96aed57943a2794f29e4b6"
+          "sha256": "a595e03f307515cbc83c87eb415ffe88ff2978e911e1018267ef3a953f453e0c"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-bigbasket.png",
-          "sha256": "17044e6427f81ea3999531ed9776358bedb5504cd44622098323f13de25ce46a"
+          "sha256": "d6043dd4f7a70f9aa009bb7b3bed04a8a7f92cbbd533296e8769696fc87fa6b6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-cartfull.png",
-          "sha256": "4e1515778ac1a99d3c86a36ac2327e688cdcd3f99f11871c82435f324655ba48"
+          "sha256": "9e4bc2973677b547eb11cc959143329c2e8f5951473711dd3c1103c90b4d935d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-rainbow.png",
-          "sha256": "3c770d993731870165f46a60bb0948ad8e388f7d7bae0b1c90cb2a877ac1d0b4"
+          "sha256": "9ed9ded4487675ffc4c3c62e8601791a83eb44a1d3d26292e26fb058ee5a5558"
         }
       ]
     },
@@ -1420,9 +1452,9 @@
       "height": 987,
       "deviceScaleFactor": 2,
       "dpr": 2,
-      "screenshotCount": 45,
+      "screenshotCount": 46,
       "sheet": "screenshots/report-flow-user-reported-fraction-scoop-934x987-contact-sheet.png",
-      "sheetSha256": "a2e0ca71e3229d533289b06c8c620c60952ef8df1b079863e2bf1c5add9d08ad",
+      "sheetSha256": "c5e988e5b8317964606272e586dddb149594a96a467b3e27a8edc91722c504e8",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-01-cover.png",
@@ -1442,167 +1474,171 @@
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05-play-step1.png",
-          "sha256": "93e8a5a69bd2de84448f3bb1432c51f63f37d500b23e36be4f62d0b29f40d1e1"
+          "sha256": "e4b4d98f894b888e58ee07e31f854defacb7a8502c13ede85ef70cef676b154f"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05c-play-group-confirm.png",
-          "sha256": "5e0e8502138f802501edc47b9b3520b2061fc8a7208f4bef21c465d28c066c03"
+          "sha256": "e334431ee5f2093b150acf9ece24fa3178b1e277493a14bfdf10579fd4f199b5"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05d-play-step2.png",
-          "sha256": "b01b4b14f1216852bbfe9c9b618cf8b5c4bef9d9edf4551ad0a40b25a4a38f43"
+          "sha256": "2b4c628d11d463bcf5fd5a3f26c7641af1f0a69cd7ccc9e06088f34c3a8bd59c"
+        },
+        {
+          "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05n-next-problem-clean.png",
+          "sha256": "db0de600522067f221c0901452505e8d23cb32de009e57171260c887446a0c5b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05m-p1-group-uses-denominator.png",
-          "sha256": "4bbb7d42ee99cebe47cbb21e9444bb4d42f86939c79cd62a815184d41fa7f4dd"
+          "sha256": "68ddd4fff0c47638fef3099540d64f5d2f54b9ebc9de72a49f97967186447a30"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05m-p1-group-uses-total.png",
-          "sha256": "ca17b27b774a8e1dd96360b7f18fe397e69620ccfb9fa6903c105c8fca14a78f"
+          "sha256": "7409d78c5d231085f30e3b7c9e5608a3f7300459951ca25ae71c989017dc27da"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-05b-play-wrong.png",
-          "sha256": "ca17b27b774a8e1dd96360b7f18fe397e69620ccfb9fa6903c105c8fca14a78f"
+          "sha256": "7409d78c5d231085f30e3b7c9e5608a3f7300459951ca25ae71c989017dc27da"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-06-confirm.png",
-          "sha256": "a12d5f7ed3233bde46d183eaacb91a884e810477a832de1e91b153a1c8b1de55"
+          "sha256": "5f6c47229bf84b3fb52caa15bb9adea630ee54a21e95b453fad2fa37c3d098cd"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-07-reward-closed.png",
-          "sha256": "df72e011fb9d9927f5c4935b29aa9ad29ffcde3d2e2f021e7e1cb89656a95e68"
+          "sha256": "684a116738f42bfc9445ed22339ff3d7b68db49fb6969106df752866215822b4"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-07b-reward-open.png",
-          "sha256": "fc5d5f5dceeefe3a00fd5ed9d8bfcb94df2379abcb9392dae6621f4fb5f2db97"
+          "sha256": "6552d211ef2e55e026a4afcc80a47902e630dc114aabe3277c99f507998c8b8d"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-07c-reward-impact.png",
-          "sha256": "e2f8d80e99b609bdfc1db4649d04d458dbc30322a3cd33dac58c1defdda51b62"
+          "sha256": "fda33d9bf5149e8f4c3d8406114f64880ce7c33cde73cb2721f50f7d46d7b8e8"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08-result.png",
-          "sha256": "834eaf2d0e75c0a3541ab7e1c1fd0da3a334d92e060ca4760d9d68e13c863ab1"
+          "sha256": "0354c1f71b85457150ac65c83851a259eec496b95bbaf3a630372cb90be804a8"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08a-result-handful.png",
-          "sha256": "91284ff6e689c3f820da12b67588681e43a18af291d5baeabcc74a64f35fc2d9"
+          "sha256": "a0c3f4fd35e78333b717973f0cb33e3b38b9ec50493f9997c6faba51178eeaa6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08c-result-cohesion-basket.png",
-          "sha256": "092e8b444427df5acd4f3331c0f4aa370ec5cd29c1e5bf06f0ce43eca4091509"
+          "sha256": "2605a08f4c176fda3d87994ff5a56b02315da460b83aa91d9d596b7ec625534b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08c-result-cohesion-bigbasket.png",
-          "sha256": "0535e1cfb9f241662078452bee78159dc929f629815a0c4c6b42c574cf467c96"
+          "sha256": "11a9a2bf19b55ad7d08bbbd2f2bad324f544512f9a4d17da2a587a9efbcc538b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08c-result-cohesion-cartfull.png",
-          "sha256": "dc6abfec0b03cc40ab2ba0ba94d2b2ddddb9eb0960a66d629cb5453939ff744c"
+          "sha256": "005bf5398d35f92ef599365bc128382d2f50e67c4b96b6a32276e7af7b8ee287"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08c-result-cohesion-handful.png",
-          "sha256": "91284ff6e689c3f820da12b67588681e43a18af291d5baeabcc74a64f35fc2d9"
+          "sha256": "a0c3f4fd35e78333b717973f0cb33e3b38b9ec50493f9997c6faba51178eeaa6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08c-result-cohesion-rainbow.png",
-          "sha256": "1f3e3c55b1eb2fcd12009d2b83731afb35545251aad83d97a584811f2e3bf638"
+          "sha256": "2b8a0a2883c385494269deedabc22924e60533c5416f1610c821e5d9b007ad2a"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08c-result-cohesion-smallbasket.png",
-          "sha256": "a993ee338bd290cf09e93e6bd561d89631ee3034230b0380f82afac6fb394edb"
+          "sha256": "ab7b794cafb13429fb10a9e6eecf4b483c8decb3d4a1f7791d282192f2a7cd34"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08d-result-panel-basket.png",
-          "sha256": "092e8b444427df5acd4f3331c0f4aa370ec5cd29c1e5bf06f0ce43eca4091509"
+          "sha256": "2605a08f4c176fda3d87994ff5a56b02315da460b83aa91d9d596b7ec625534b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08d-result-panel-bigbasket.png",
-          "sha256": "0535e1cfb9f241662078452bee78159dc929f629815a0c4c6b42c574cf467c96"
+          "sha256": "11a9a2bf19b55ad7d08bbbd2f2bad324f544512f9a4d17da2a587a9efbcc538b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08d-result-panel-cartfull.png",
-          "sha256": "dc6abfec0b03cc40ab2ba0ba94d2b2ddddb9eb0960a66d629cb5453939ff744c"
+          "sha256": "005bf5398d35f92ef599365bc128382d2f50e67c4b96b6a32276e7af7b8ee287"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08d-result-panel-handful.png",
-          "sha256": "91284ff6e689c3f820da12b67588681e43a18af291d5baeabcc74a64f35fc2d9"
+          "sha256": "a0c3f4fd35e78333b717973f0cb33e3b38b9ec50493f9997c6faba51178eeaa6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08d-result-panel-rainbow.png",
-          "sha256": "1f3e3c55b1eb2fcd12009d2b83731afb35545251aad83d97a584811f2e3bf638"
+          "sha256": "2b8a0a2883c385494269deedabc22924e60533c5416f1610c821e5d9b007ad2a"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08d-result-panel-smallbasket.png",
-          "sha256": "a993ee338bd290cf09e93e6bd561d89631ee3034230b0380f82afac6fb394edb"
+          "sha256": "ab7b794cafb13429fb10a9e6eecf4b483c8decb3d4a1f7791d282192f2a7cd34"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08e-result-reward-dominance-basket.png",
-          "sha256": "092e8b444427df5acd4f3331c0f4aa370ec5cd29c1e5bf06f0ce43eca4091509"
+          "sha256": "2605a08f4c176fda3d87994ff5a56b02315da460b83aa91d9d596b7ec625534b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "0535e1cfb9f241662078452bee78159dc929f629815a0c4c6b42c574cf467c96"
+          "sha256": "11a9a2bf19b55ad7d08bbbd2f2bad324f544512f9a4d17da2a587a9efbcc538b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08e-result-reward-dominance-cartfull.png",
-          "sha256": "dc6abfec0b03cc40ab2ba0ba94d2b2ddddb9eb0960a66d629cb5453939ff744c"
+          "sha256": "005bf5398d35f92ef599365bc128382d2f50e67c4b96b6a32276e7af7b8ee287"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08e-result-reward-dominance-handful.png",
-          "sha256": "91284ff6e689c3f820da12b67588681e43a18af291d5baeabcc74a64f35fc2d9"
+          "sha256": "a0c3f4fd35e78333b717973f0cb33e3b38b9ec50493f9997c6faba51178eeaa6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08e-result-reward-dominance-rainbow.png",
-          "sha256": "1f3e3c55b1eb2fcd12009d2b83731afb35545251aad83d97a584811f2e3bf638"
+          "sha256": "2b8a0a2883c385494269deedabc22924e60533c5416f1610c821e5d9b007ad2a"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "a993ee338bd290cf09e93e6bd561d89631ee3034230b0380f82afac6fb394edb"
+          "sha256": "ab7b794cafb13429fb10a9e6eecf4b483c8decb3d4a1f7791d282192f2a7cd34"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08v-result-visual-integrity-basket.png",
-          "sha256": "092e8b444427df5acd4f3331c0f4aa370ec5cd29c1e5bf06f0ce43eca4091509"
+          "sha256": "2605a08f4c176fda3d87994ff5a56b02315da460b83aa91d9d596b7ec625534b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "0535e1cfb9f241662078452bee78159dc929f629815a0c4c6b42c574cf467c96"
+          "sha256": "11a9a2bf19b55ad7d08bbbd2f2bad324f544512f9a4d17da2a587a9efbcc538b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08v-result-visual-integrity-cartfull.png",
-          "sha256": "dc6abfec0b03cc40ab2ba0ba94d2b2ddddb9eb0960a66d629cb5453939ff744c"
+          "sha256": "005bf5398d35f92ef599365bc128382d2f50e67c4b96b6a32276e7af7b8ee287"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08v-result-visual-integrity-handful.png",
-          "sha256": "91284ff6e689c3f820da12b67588681e43a18af291d5baeabcc74a64f35fc2d9"
+          "sha256": "a0c3f4fd35e78333b717973f0cb33e3b38b9ec50493f9997c6faba51178eeaa6"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08v-result-visual-integrity-rainbow.png",
-          "sha256": "1f3e3c55b1eb2fcd12009d2b83731afb35545251aad83d97a584811f2e3bf638"
+          "sha256": "2b8a0a2883c385494269deedabc22924e60533c5416f1610c821e5d9b007ad2a"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "a993ee338bd290cf09e93e6bd561d89631ee3034230b0380f82afac6fb394edb"
+          "sha256": "ab7b794cafb13429fb10a9e6eecf4b483c8decb3d4a1f7791d282192f2a7cd34"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08a-result-smallbasket.png",
-          "sha256": "a993ee338bd290cf09e93e6bd561d89631ee3034230b0380f82afac6fb394edb"
+          "sha256": "ab7b794cafb13429fb10a9e6eecf4b483c8decb3d4a1f7791d282192f2a7cd34"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08a-result-basket.png",
-          "sha256": "092e8b444427df5acd4f3331c0f4aa370ec5cd29c1e5bf06f0ce43eca4091509"
+          "sha256": "2605a08f4c176fda3d87994ff5a56b02315da460b83aa91d9d596b7ec625534b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08a-result-bigbasket.png",
-          "sha256": "0535e1cfb9f241662078452bee78159dc929f629815a0c4c6b42c574cf467c96"
+          "sha256": "11a9a2bf19b55ad7d08bbbd2f2bad324f544512f9a4d17da2a587a9efbcc538b"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08a-result-cartfull.png",
-          "sha256": "dc6abfec0b03cc40ab2ba0ba94d2b2ddddb9eb0960a66d629cb5453939ff744c"
+          "sha256": "005bf5398d35f92ef599365bc128382d2f50e67c4b96b6a32276e7af7b8ee287"
         },
         {
           "path": "screenshots/engine-flow-user-reported-fraction-scoop-934x987-08a-result-rainbow.png",
-          "sha256": "1f3e3c55b1eb2fcd12009d2b83731afb35545251aad83d97a584811f2e3bf638"
+          "sha256": "2b8a0a2883c385494269deedabc22924e60533c5416f1610c821e5d9b007ad2a"
         }
       ]
     },
@@ -1611,9 +1647,9 @@
       "width": 1280,
       "height": 800,
       "dpr": 1,
-      "screenshotCount": 44,
+      "screenshotCount": 45,
       "sheet": "screenshots/report-flow-empty-reward-fixture-contact-sheet.png",
-      "sheetSha256": "482f1ff55ef7b68fa0be7d7cf18384dafcf9ec919cc97fd4d694f971b05e37be",
+      "sheetSha256": "c54fe20ab550d7d0c455bcea86a90210064170499af4dee6663a168ea0cc73fa",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-01-cover.png",
@@ -1633,163 +1669,167 @@
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-05-play-step1.png",
-          "sha256": "a0c5101936689f844c490ca935dce73e7a8f888fab0110c953c5777fe32c63ca"
+          "sha256": "e00253148e0616ab667ce6804ef09832bf96783be72fc9e5add03138ac2576ac"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-05c-play-group-confirm.png",
-          "sha256": "01500b9d9472a0fa610c502d563165e4153b067e89063844fbe78b11314ae5fe"
+          "sha256": "923455485053e97855c099840524ca4ba30bc36fb4f3537da70faae30103af96"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-05d-play-step2.png",
-          "sha256": "4d11f7742c03657c7fed5cff6a242e45ba08bc838bf07c6e0a2c8a1b056294a6"
+          "sha256": "80acd50aebd4925121d07f96b4e4ef5442c71e02865f7bfa9f851a27f69917ed"
+        },
+        {
+          "path": "screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png",
+          "sha256": "dfbf3a691c0806015cc3d68ecbb5880d4d4596bdef892e920797fba5c8dadba6"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-05m-p1-group-uses-denominator.png",
-          "sha256": "67a5ab39783b13939c10eee48b5d7b63b61808b2383dd030f71e11cad60495d2"
+          "sha256": "8c5afcae4dc7ac796d86a8a227fbf5edc1f8cf70999cc4d686b33b384b01c288"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-05m-p1-group-uses-total.png",
-          "sha256": "d0a569bd463940fe348d55f5ff860d3bb9a3317038d5f88de56a02aa2ef97666"
+          "sha256": "26afc8bf492ebe5222e444429edd067a1c1e90fbac6a45ecc2673d3bc5021d02"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-05b-play-wrong.png",
-          "sha256": "d0a569bd463940fe348d55f5ff860d3bb9a3317038d5f88de56a02aa2ef97666"
+          "sha256": "26afc8bf492ebe5222e444429edd067a1c1e90fbac6a45ecc2673d3bc5021d02"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-06-confirm.png",
-          "sha256": "262f0b08c00eb6d4d43d6e0d774cf55055396ae4b52555735c2539be02a8d6ee"
+          "sha256": "672585c25513baa286d261aca3d1a0511ee8ad1d4b64cd48a744426128e6643d"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png",
-          "sha256": "db4f4257ff9e62777b1782632fc47697b0185ecc2a6c114775c99c4be7823b61"
+          "sha256": "e25d3c64076d1ebfe7880b970fea60d87431934d5e4fe7991c8339e10dddc6f5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png",
-          "sha256": "c4d3fc953ab055a5e432315cdc660fa9b7808c470eb3a92b5efacaec20a199ea"
+          "sha256": "ea49f263adc967180c7a74423f3b04d10694f04659943de2090ace4a670471f3"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08-result.png",
-          "sha256": "1739b48fbb3c5fe8daaae02409d1b7cd4322dface683bf31b5a75e2be56e8a83"
+          "sha256": "27dc5bed9f05e553c5955f956f87f47145f7ff2eb0fc2c861a0ec1a46af033f5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08a-result-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08d-result-panel-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08d-result-panel-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08d-result-panel-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08d-result-panel-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08d-result-panel-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08d-result-panel-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08e-result-reward-dominance-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-handful.png",
-          "sha256": "eb499760593590a5ccef00f8898f7c6ca1f1ec7e71f3515e77d0798ac815b9f2"
+          "sha256": "ebaa65cb7e0ca5e798bae1f1dcb7bc6f1618ad0ef219d08a9fc81ee4e3d1faef"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08a-result-smallbasket.png",
-          "sha256": "6fbef5bff2178ed6085d745b8284bebcaee67264823e0e4e1b34818a4ddbce14"
+          "sha256": "e2acec41c944140f32cd6ca2609c824a91c72562d49d5ee51b114c2430cf611b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08a-result-basket.png",
-          "sha256": "3fb0c3929030d8a8d0dd8de8a3360bcd126062fe5c867dea29b31f9ef7f17f31"
+          "sha256": "7e6ad8e7b17a35bfe72997a819ca10709eea0a439e38745a1c4d681f366bfd6e"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08a-result-bigbasket.png",
-          "sha256": "28e78be5ea20eb094706fed51342462fc05bb9abe1639fcb203eeda6c0ab180b"
+          "sha256": "a8f42b1a8e979cb5c572b6d3f8e631e7c5ff49f5e9f0e0b8e04b06b77950920b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08a-result-cartfull.png",
-          "sha256": "9991b4bea621d068ebdff366385821894b8907092707122daa495216c9e8fa15"
+          "sha256": "e699fd196319972b976ec3e73f99eac8bd72baf2ad6b54663e5be457f8db30c5"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-08a-result-rainbow.png",
-          "sha256": "077c0d345d2e532049a1a5842ed936a75b97319f41acd522a24195c433c4c189"
+          "sha256": "978aaf3af94bed33a6a9e9ca477331fef300545c7fa78d18ccca9fa1d1fd41d0"
         }
       ]
     }

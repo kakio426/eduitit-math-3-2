@@ -148,13 +148,13 @@
 
 ## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `cbb2eac52044b7bccfab2b9c44db0e8148f4513fbebf6136a020f22365f436b2`
-- 생성 시각: `2026-08-22T08:55:11.039Z`
+- 실행본 SHA-256: `3a8b75fb9af495202b91d15be8b462baf26f1c4030cad9567c256cb766b19e30`
+- 생성 시각: `2026-08-22T13:38:29.421Z`
 - 등록 화면 크기: `8개`
-- 아래에 직접 삽입한 원본 캡처: `359장`
+- 아래에 직접 삽입한 원본 캡처: `367장`
 - 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 45장
+### desktop · 1280×800 · DPR 1 · 46장
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -215,6 +215,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-desktop-05d-play-step2.png`
 
 ![desktop 문제 상태 · 05d-play-step2](screenshots/engine-flow-desktop-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
+
+![desktop 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -563,7 +572,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 45장
+### tablet-landscape · 1024×768 · DPR 1 · 46장
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -624,6 +633,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-tablet-landscape-05d-play-step2.png`
 
 ![tablet-landscape 문제 상태 · 05d-play-step2](screenshots/engine-flow-tablet-landscape-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
+
+![tablet-landscape 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -972,7 +990,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 45장
+### codex-in-app · 1280×720 · DPR 2 · 46장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -1033,6 +1051,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-codex-in-app-05d-play-step2.png`
 
 ![codex-in-app 문제 상태 · 05d-play-step2](screenshots/engine-flow-codex-in-app-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
+
+![codex-in-app 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1381,7 +1408,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility · 994×632 · DPR 1 · 45장
+### user-visibility · 994×632 · DPR 1 · 46장
 
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
@@ -1442,6 +1469,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-user-visibility-05d-play-step2.png`
 
 ![user-visibility 문제 상태 · 05d-play-step2](screenshots/engine-flow-user-visibility-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-visibility-05n-next-problem-clean.png`
+
+![user-visibility 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-visibility-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -1790,7 +1826,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-result-panel-centering · 994×632 · DPR 1 · 45장
+### user-reported-result-panel-centering · 994×632 · DPR 1 · 46장
 
 ![user-reported-result-panel-centering 전체 상태 컨택시트](screenshots/report-flow-user-reported-result-panel-centering-contact-sheet.png)
 
@@ -1851,6 +1887,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-user-reported-result-panel-centering-05d-play-step2.png`
 
 ![user-reported-result-panel-centering 문제 상태 · 05d-play-step2](screenshots/engine-flow-user-reported-result-panel-centering-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-result-panel-centering-05n-next-problem-clean.png`
+
+![user-reported-result-panel-centering 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-result-panel-centering-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -2199,7 +2244,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress · 1082×987 · DPR 2 · 45장
+### user-reported-missing-left-progress · 1082×987 · DPR 2 · 46장
 
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
@@ -2260,6 +2305,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-user-reported-missing-left-progress-05d-play-step2.png`
 
 ![user-reported-missing-left-progress 문제 상태 · 05d-play-step2](screenshots/engine-flow-user-reported-missing-left-progress-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png`
+
+![user-reported-missing-left-progress 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -2608,7 +2662,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-fraction-scoop-934x987 · 934×987 · DPR 2 · 45장
+### user-reported-fraction-scoop-934x987 · 934×987 · DPR 2 · 46장
 
 ![user-reported-fraction-scoop-934x987 전체 상태 컨택시트](screenshots/report-flow-user-reported-fraction-scoop-934x987-contact-sheet.png)
 
@@ -2669,6 +2723,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-user-reported-fraction-scoop-934x987-05d-play-step2.png`
 
 ![user-reported-fraction-scoop-934x987 문제 상태 · 05d-play-step2](screenshots/engine-flow-user-reported-fraction-scoop-934x987-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-fraction-scoop-934x987-05n-next-problem-clean.png`
+
+![user-reported-fraction-scoop-934x987 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-fraction-scoop-934x987-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
@@ -3017,7 +3080,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 담기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 44장
+### empty-reward-fixture · 1280×800 · DPR 1 · 45장
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
@@ -3078,6 +3141,15 @@
 #### 문제 상태 · 05d-play-step2 · `engine-flow-empty-reward-fixture-05d-play-step2.png`
 
 ![empty-reward-fixture 문제 상태 · 05d-play-step2](screenshots/engine-flow-empty-reward-fixture-05d-play-step2.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 전체의 분수만큼 구하기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
+
+![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
 
 - 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
 - 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
