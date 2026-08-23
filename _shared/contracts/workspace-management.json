@@ -1,0 +1,133 @@
+{
+  "standard": "ai-mart-workspace-management-v2",
+  "canonicalRoot": "/Users/yubyeongju/ai mart",
+  "managedRoot": "/Users/yubyeongju/ai-mart-workspaces",
+  "products": {
+    "mathmon": {
+      "branchPrefix": "codex/mathmon-",
+      "workspaceSubdir": "mathmon"
+    },
+    "socialmon": {
+      "branchPrefix": "codex/socialmon-",
+      "workspaceSubdir": "socialmon"
+    },
+    "maintenance": {
+      "branchPrefix": "codex/maintenance-",
+      "workspaceSubdir": "maintenance"
+    }
+  },
+  "currentOnly": {
+    "enabled": true,
+    "manageBackups": false,
+    "remoteBackup": "unmanaged",
+    "localHistory": "latest-tip-only",
+    "autoCompactAfterPublish": true,
+    "autoPruneAfterPublish": true,
+    "canonicalRemoteRefs": "discard-before-prune",
+    "previewGit": "standalone-shallow-partial-clone",
+    "publicWorkspaces": {
+      "sanitize": "/Users/yubyeongju/ai-mart-sanitize-20260809",
+      "socialmonSanitize": "/Users/yubyeongju/ai-mart-socialmon-sanitize-20260811",
+      "pages": "/Users/yubyeongju/ai-mart-gh-pages-20260809"
+    }
+  },
+  "storageGuard": {
+    "warningFreeGiB": 80,
+    "blockFreeGiB": 50,
+    "canonicalWarningGiB": 35,
+    "gitWarningGiB": 8,
+    "worktreeWarningGiB": 3,
+    "exemptOperations": [
+      "status",
+      "doctor",
+      "cleanup",
+      "finish"
+    ]
+  },
+  "sparseCheckout": {
+    "enabledByDefault": true,
+    "commonPaths": [
+      ".agents",
+      ".claude/skills",
+      ".codex",
+      "_engine",
+      "_lessons",
+      "_shared",
+      "_templates",
+      "scripts"
+    ],
+    "productPaths": {
+      "mathmon": [],
+      "socialmon": [
+        "_social_lessons/series",
+        "_social_sources"
+      ],
+      "maintenance": []
+    }
+  },
+  "cleanup": {
+    "cachePaths": [
+      ".tmp-qa",
+      "tmp",
+      "_site"
+    ],
+    "approvalFlag": "--approve-removal"
+  },
+  "evidenceCache": {
+    "standard": "ai-mart-ephemeral-browser-evidence-v1",
+    "scope": "lesson screenshots directories containing QA capture PNG files",
+    "gitTracking": "forbidden",
+    "localRetention": "until-validation-or-publication-completes",
+    "recapture": "requested-lesson-only",
+    "durableTargets": [
+      "public-main",
+      "private-google-drive"
+    ],
+    "keepLocal": [
+      "REPORT.md",
+      "qa-report.json",
+      "mathmon-browser-qa-receipt.json",
+      "layout-qa-receipt.json",
+      "report-evidence-manifest.json"
+    ],
+    "neverDelete": [
+      "generated-image-assets",
+      "*-source.png",
+      "runtime-assets",
+      "assets/**",
+      "_shared/**",
+      "_engine/**",
+      ".omo/**",
+      "ambiguous-files"
+    ],
+    "approvalFlag": "--approve-removal"
+  },
+  "retention": {
+    "activeRepository": "latest-runtime-reports-and-json-receipts",
+    "preserveCodeHistory": false,
+    "preserveCanonicalSources": true,
+    "githubEvidence": [
+      "viewport-contact-sheets",
+      "core-cover-tutorial-play-result",
+      "qa-receipts",
+      "REPORT.md"
+    ],
+    "deleteGate": [
+      "current-tree-materialized",
+      "current-worktree-and-index-match",
+      "no-open-writer-or-git-lock",
+      "explicit-final-removal-approval"
+    ],
+    "quarantineDays": 0
+  },
+  "diagnostics": {
+    "looseObjectWarningGiB": 1,
+    "preserveCodexTurnDiffRefs": false,
+    "neverAutoGcOrPrune": false,
+    "explicitGcOnly": false,
+    "autoGcEvent": "successful-publication-or-explicit-history-compact"
+  },
+  "excludedRepositories": [
+    "/Users/yubyeongju/Documents/eduitit"
+  ]
+}
