@@ -174,15 +174,21 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-22 최신 원본 스크린샷 전수
+## 2026-08-23 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `6cc973034831d360f98d424b62c85cb7a8c6a8cccb2471ea9581b849505572b6`
-- 생성 시각: `2026-08-22T16:42:11.606Z`
-- 등록 화면 크기: `6개`
+- 실행본 SHA-256: `d77d789d0dbffe20aa594255ae50f3f609d7fc2b991a8127a990c4c833ea22c9`
+- 생성 시각: `2026-08-23T12:06:36.704Z`
+- 등록 회귀 이름: `6개`
+- 실제 실행 화면 조건: `6개`
+- 동일 조건 별칭 통합: `0개`
 - 아래에 직접 삽입한 원본 캡처: `96장`
-- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+- 같은 width×height×DPR과 같은 fixture 조건은 한 번만 실행하고, 과거 오류 이름은 별칭으로 보존했습니다.
+- manifest에 기록된 실제 실행 원본 캡처를 한 장씩 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 16장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -332,6 +338,9 @@
 
 ### tablet-landscape · 1024×768 · DPR 1 · 16장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
@@ -479,6 +488,9 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 ### codex-in-app · 1280×720 · DPR 2 · 16장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -628,6 +640,9 @@
 
 ### user-visibility · 994×632 · DPR 1 · 16장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-visibility-01-cover.png`
@@ -776,6 +791,9 @@
 
 ### user-reported-missing-left-progress · 1082×987 · DPR 2 · 16장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-reported-missing-left-progress-01-cover.png`
@@ -923,6 +941,9 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 ### empty-reward-fixture · 1280×800 · DPR 1 · 16장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `targeted`
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 
