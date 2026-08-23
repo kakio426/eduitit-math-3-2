@@ -33,7 +33,7 @@
     "effect": "별칭을 합치지 않고 이전처럼 모든 등록 이름을 각각 실행한다."
   },
   "layoutOnlyPreflight": {
-    "standard": "mathmon-layout-qa-preflight-v1",
+    "standard": "mathmon-layout-only-final-v2",
     "command": "git mart qa layout <lesson> [--viewport=<name>]",
     "allowedChanges": [
       "_lessons/<lesson>/view.js",
@@ -54,7 +54,78 @@
     ],
     "screenshots": 0,
     "receipt": "screenshots/layout-qa-receipt.json",
-    "autoEscalate": "모델·lesson.json·자산·공용 엔진·정책·하네스 변경이 하나라도 섞이면 전체 브라우저 QA를 실행한다.",
-    "finalGateAuthority": false
+    "autoEscalate": "모델·lesson.json·자산·공용 엔진·정책·하네스 변경이 하나라도 섞이면 전체 브라우저 QA로 승격한다.",
+    "receiptStandard": "mathmon-layout-qa-receipt-v2",
+    "finalGateAuthority": true
+  },
+  "repeatedElementPreflight": {
+    "standard": "mathmon-repeated-element-change-v1",
+    "command": "git mart qa element <impact-spec.json> [--seed=<integer>]",
+    "purpose": "한 요소가 여러 화면·차시 또는 생성 이미지 상태에 반복될 때 스크린샷 수가 아니라 단일 원본과 서로 다른 렌더 조합을 기준으로 수정·검사한다.",
+    "classifications": {
+      "shared-code": "공용 HTML·CSS·컴포넌트의 단일 원본만 수정하고 layoutFamily·화면·selector·물리 viewport가 같은 정적 등장은 대표 한 번으로 합친다. 임의 동적 상태는 이 빠른 경로로 통과시키지 않는다.",
+      "duplicated-code": "복제 파일을 각각 빠른 통과시키지 않는다. 공용 원본으로 승격하거나 영향 차시 전체 QA를 요구한다.",
+      "baked-raster": "이미지 픽셀 자체가 바뀌므로 빠른 최종 경로를 쓰지 않고 전체 QA로 승격한다."
+    },
+    "specFields": [
+      "id",
+      "implementation.kind",
+      "implementation.sourceFiles",
+      "occurrences[].lesson",
+      "occurrences[].screen",
+      "occurrences[].state",
+      "occurrences[].selector",
+      "occurrences[].layoutFamily",
+      "occurrences[].asset"
+    ],
+    "executionIdentity": [
+      "layoutFamily-or-lesson",
+      "screen",
+      "state",
+      "selector",
+      "physical-viewport",
+      "asset-for-baked-raster"
+    ],
+    "viewports": [
+      "latest-named-user-regression-when-present",
+      "1280x800@1x",
+      "1024x768@1x"
+    ],
+    "checks": [
+      "selector-visible",
+      "minimum-size",
+      "stage-containment",
+      "internal-overflow",
+      "declared-peer-overlap",
+      "shared-geometry-group",
+      "runtime-image-loaded",
+      "baked-asset-reference"
+    ],
+    "screenshots": 0,
+    "receipt": "<lesson>/screenshots/repeated-element-qa-receipt.json",
+    "receiptStandard": "mathmon-repeated-element-qa-receipt-v2",
+    "fullQaBeforeDelivery": "duplicated-code·baked-raster·모델·문항·동작 로직 변경만 전체 QA로 승격한다.",
+    "finalGateAuthority": "shared-code-only"
+  },
+  "rewardPolicyOnlyFinal": {
+    "standard": "mathmon-reward-percentage-only-v1",
+    "command": "git mart qa reward <lesson> [--seed=<integer>] [--trials=<count>]",
+    "allowedChanges": [
+      "_shared/contracts/mathmon-unified-reward-v2.json percentage fields",
+      "_lessons/<lesson>/lesson.json reward percentage fields",
+      "<lesson>/index.html"
+    ],
+    "checks": [
+      "json-pointer-diff-is-percentage-only",
+      "built-index-lesson-hash",
+      "lesson-and-shared-policy-match",
+      "deterministic-reward-distribution-simulation",
+      "mistake-pool-has-no-positive-or-special-outcome"
+    ],
+    "screenshots": 0,
+    "receipt": "<lesson>/screenshots/reward-policy-qa-receipt.json",
+    "receiptStandard": "mathmon-reward-policy-qa-receipt-v1",
+    "autoEscalate": "보상 문구·금액·결과 등급·모델·view·자산·공용 런타임 변경이 섞이면 전체 QA로 승격한다.",
+    "finalGateAuthority": true
   }
 }

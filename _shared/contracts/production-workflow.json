@@ -1,0 +1,293 @@
+{
+  "standard": "eduitit-product-production-workflow-v1",
+  "purpose": "매스몬과 소셜몬의 수정·자료 제작을 제품별 순서와 코드 게이트로 고정한다.",
+  "requestTracking": {
+    "explicitTarget": "요청에 차시·게임·시리즈가 있으면 그 대상을 세션 상태에 기록한다.",
+    "changedPathsTarget": "제품은 명시됐지만 대상 번호가 없으면 세션 기준선 뒤 변경 파일에서 대상을 결정한다.",
+    "continuation": "대기 중인 제품 작업이 있으면 '이어서 진행해줘' 같은 후속 요청에도 같은 제품 절차를 다시 주입한다.",
+    "completion": "Stop 훅은 해당 제품의 delivery-gate가 통과하기 전에는 대기 상태를 지우지 않는다."
+  },
+  "changeClasses": {
+    "lesson-runtime": "차시 내용·화면·상호작용·학생 문구·실행 자산 변경",
+    "asset-runtime": "공용 또는 차시별 실행 자산 생성·교체·연결",
+    "policy-harness": "제품 계약·스킬·공용 컴포넌트·검증 코드 변경",
+    "documentation-evidence": "계획·보고서·스크린샷·QA 영수증만 변경"
+  },
+  "products": {
+    "mathmon": {
+      "product": "mathmon",
+      "skill": ".agents/skills/eduitit-mathmon-lesson/SKILL.md",
+      "assetSkill": ".agents/skills/eduitit-mathmon-assets/SKILL.md",
+      "finalCommand": "node scripts/verify-mathmon-delivery.mjs --lesson=<lesson-folder>",
+      "stages": [
+        {
+          "id": "scope",
+          "owner": "common",
+          "label": "대상·변경 종류 확정"
+        },
+        {
+          "id": "math-contract",
+          "owner": "mathmon",
+          "label": "수학 차시·공통 컴포넌트 계약 확인"
+        },
+        {
+          "id": "lesson-design",
+          "owner": "mathmon",
+          "label": "학습 목표·단계·정답 확인·보상 흐름 설계"
+        },
+        {
+          "id": "asset-contract",
+          "owner": "mathmon",
+          "label": "매스몬 자산 출처·팩·RasterStage 연결 확정"
+        },
+        {
+          "id": "implementation",
+          "owner": "common",
+          "label": "원본 구현"
+        },
+        {
+          "id": "build",
+          "owner": "mathmon",
+          "label": "배포용 단일 HTML 재빌드"
+        },
+        {
+          "id": "student-language",
+          "owner": "common",
+          "label": "Humanizer 학생 문구 QA"
+        },
+        {
+          "id": "static-qa",
+          "owner": "mathmon",
+          "label": "차시·Stage·공통 컴포넌트 정적 검사"
+        },
+        {
+          "id": "browser-qa",
+          "owner": "mathmon",
+          "label": "전체 흐름 브라우저 QA"
+        },
+        {
+          "id": "evidence",
+          "owner": "common",
+          "label": "현재 지문·스크린샷·REPORT 동기화"
+        },
+        {
+          "id": "delivery-gate",
+          "owner": "mathmon",
+          "label": "매스몬 최종 단일 게이트"
+        }
+      ],
+      "routes": {
+        "lesson-runtime": [
+          "scope",
+          "math-contract",
+          "lesson-design",
+          "asset-contract",
+          "implementation",
+          "build",
+          "student-language",
+          "static-qa",
+          "browser-qa",
+          "evidence",
+          "delivery-gate"
+        ],
+        "asset-runtime": [
+          "scope",
+          "math-contract",
+          "asset-contract",
+          "implementation",
+          "build",
+          "student-language",
+          "static-qa",
+          "browser-qa",
+          "evidence",
+          "delivery-gate"
+        ],
+        "policy-harness": [
+          "scope",
+          "math-contract",
+          "implementation",
+          "static-qa",
+          "delivery-gate"
+        ],
+        "documentation-evidence": [
+          "scope",
+          "math-contract",
+          "evidence",
+          "delivery-gate"
+        ]
+      },
+      "fastDeliveryRoutes": {
+        "layout-only-final": {
+          "scope": "차시 view.js·lesson.css와 재빌드 index.html만 변경",
+          "command": "git mart qa layout <lesson>",
+          "checks": "문제 viewport와 1280x800·1024x768의 좌표·정렬·겹침·넘침",
+          "screenshots": 0,
+          "receipt": "screenshots/layout-qa-receipt.json",
+          "finalGateAuthority": true
+        },
+        "repeated-element-final": {
+          "scope": "공용 CSS 또는 차시 표시 코드의 같은 요소가 여러 화면·차시에 반복되고 동작·모델·자산은 불변",
+          "command": "git mart qa element <impact-spec.json>",
+          "checks": "서로 다른 화면·상태·물리 viewport 조합과 모든 선언 occurrence",
+          "screenshots": 0,
+          "receipt": "screenshots/repeated-element-qa-receipt.json",
+          "finalGateAuthority": true
+        },
+        "reward-policy-only-final": {
+          "scope": "보상 확률 weight와 mistakePenaltyChance 및 재빌드 index.html만 변경",
+          "command": "git mart qa reward <lesson>",
+          "checks": "JSON pointer 제한·빌드 지문·정책 일치·결정론적 분포 시뮬레이션",
+          "screenshots": 0,
+          "receipt": "screenshots/reward-policy-qa-receipt.json",
+          "finalGateAuthority": true
+        },
+        "policy-harness-only-final": {
+          "scope": "차시 실행본을 바꾸지 않는 계약·스킬·검증 코드·배포 게이트 변경",
+          "command": "node scripts/verify-mathmon-delivery.mjs",
+          "checks": "규칙 일치·계약·훅·게이트·빠른 경로 fixture",
+          "screenshots": 0,
+          "receipt": null,
+          "finalGateAuthority": true
+        }
+      },
+      "fastDeliveryEscalation": {
+        "mode": "full-qa",
+        "rule": "허용 경로 밖 파일, 혼합 변경, 누락·오래된 영수증, 모델·문항·문구·자산·동작 변경은 기존 전체 브라우저 QA와 현재 증거를 요구한다."
+      }
+    },
+    "socialmon": {
+      "product": "socialmon",
+      "skill": ".agents/skills/eduitit-socialmon-lesson/SKILL.md",
+      "finalCommand": "node scripts/verify-socialmon-delivery.mjs --lesson=<socialmon-folder>",
+      "seriesFinalCommand": "node scripts/verify-socialmon-delivery.mjs --series=<grade-semester>",
+      "allFinalCommand": "node scripts/verify-socialmon-delivery.mjs --all",
+      "stages": [
+        {
+          "id": "scope",
+          "owner": "common",
+          "label": "대상·변경 종류 확정"
+        },
+        {
+          "id": "social-contract",
+          "owner": "socialmon",
+          "label": "사회 퀴즈 제품·상호작용 계약 확인"
+        },
+        {
+          "id": "source-lock",
+          "owner": "socialmon",
+          "label": "지도서·공공 자료 근거와 출처 잠금"
+        },
+        {
+          "id": "question-blueprint",
+          "owner": "socialmon",
+          "label": "개념 1~4장·공식 적응형 8~10문항·조작 조합·정답 위치 설계"
+        },
+        {
+          "id": "asset-plan",
+          "owner": "socialmon",
+          "label": "근거 자료·보기·소셜몬 자산 연결 확정"
+        },
+        {
+          "id": "implementation",
+          "owner": "common",
+          "label": "원본 구현"
+        },
+        {
+          "id": "build",
+          "owner": "socialmon",
+          "label": "배포용 단일 HTML 재빌드"
+        },
+        {
+          "id": "student-language",
+          "owner": "common",
+          "label": "Humanizer 학생 문구 QA"
+        },
+        {
+          "id": "static-qa",
+          "owner": "socialmon",
+          "label": "출처·문항·팩·Stage 정적 검사"
+        },
+        {
+          "id": "browser-qa",
+          "owner": "socialmon",
+          "label": "네 화면과 전체 문제 흐름 브라우저 QA"
+        },
+        {
+          "id": "evidence",
+          "owner": "common",
+          "label": "현재 지문·스크린샷·REPORT 동기화"
+        },
+        {
+          "id": "delivery-gate",
+          "owner": "socialmon",
+          "label": "소셜몬 최종 단일 게이트"
+        }
+      ],
+      "routes": {
+        "lesson-runtime": [
+          "scope",
+          "social-contract",
+          "source-lock",
+          "question-blueprint",
+          "asset-plan",
+          "implementation",
+          "build",
+          "student-language",
+          "static-qa",
+          "browser-qa",
+          "evidence",
+          "delivery-gate"
+        ],
+        "asset-runtime": [
+          "scope",
+          "social-contract",
+          "source-lock",
+          "asset-plan",
+          "implementation",
+          "build",
+          "student-language",
+          "static-qa",
+          "browser-qa",
+          "evidence",
+          "delivery-gate"
+        ],
+        "policy-harness": [
+          "scope",
+          "social-contract",
+          "implementation",
+          "static-qa",
+          "delivery-gate"
+        ],
+        "documentation-evidence": [
+          "scope",
+          "social-contract",
+          "source-lock",
+          "evidence",
+          "delivery-gate"
+        ]
+      },
+      "fastDeliveryRoutes": {
+        "repeated-element-final": {
+          "scope": "소셜몬 공용 CSS의 같은 표시 요소가 여러 화면·차시에 반복되고 quiz·문항·문구·자산·동작은 불변",
+          "command": "git mart qa element <impact-spec.json>",
+          "checks": "모든 선언 occurrence와 서로 다른 화면·물리 viewport 조합의 위치·크기·겹침·넘침",
+          "screenshots": 0,
+          "receipt": "screenshots/repeated-element-qa-receipt.json",
+          "finalGateAuthority": true
+        },
+        "policy-harness-only-final": {
+          "scope": "차시 실행본을 바꾸지 않는 계약·스킬·검증 코드·배포 게이트 변경",
+          "command": "node scripts/verify-socialmon-delivery.mjs",
+          "checks": "규칙 일치·계약·훅·게이트·시리즈·브라우저 감사 fixture",
+          "screenshots": 0,
+          "receipt": null,
+          "finalGateAuthority": true
+        }
+      },
+      "fastDeliveryEscalation": {
+        "mode": "full-qa",
+        "rule": "quiz·문항·학생 문구·출처·자산·JavaScript 동작·공용 엔진 로직, CSS 밖 파일, 혼합 변경, 누락·오래된 영수증은 영향 차시의 기존 전체 브라우저 QA와 현재 증거를 요구한다."
+      }
+    }
+  }
+}
