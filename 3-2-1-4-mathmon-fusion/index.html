@@ -80,7 +80,8 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --sound-button-size: clamp(30px, 3vw, 34px);
+      --top-control-y: var(--stage-inset);
+      --sound-button-size: clamp(42px, 3.6vw, 46px);
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
       --top-control-pad-x: 9px;
@@ -124,7 +125,7 @@
 
     .top-row {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       left: var(--stage-inset);
       right: calc(var(--stage-inset) + var(--sound-reserve));
       z-index: 4;
@@ -233,7 +234,7 @@
 
     .settings-toggle {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       right: var(--stage-inset);
       z-index: 60;
       display: grid;
@@ -3431,7 +3432,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-reward-event-standard="mathmon-unified-reward-v2">
     <div class="stage-shell">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -3588,7 +3589,7 @@
           <span class="stat-pill" id="energyText">0점</span>
           <span class="stat-pill" id="chainText">마지막에 로봇</span>
         </div>
-        <span class="unit-badge">로봇 합체</span>
+        <span class="unit-badge">1단원 곱셈 · 4차시</span>
       </header>
 
       <div class="goal-rail" id="goalRail" data-art-slot="play-robot-goal-state-images" data-goal-tier="small" aria-label="멋진 로봇까지 가는 길">
@@ -4054,8 +4055,8 @@
         const samples = {
           minus50: pickFusionEventForRoll(72),
           minus100: createDefectEvent(),
-          zero: pickFusionEventForRoll(95),
-          rainbow: pickFusionEventForRoll(99)
+          zero: pickFusionEventForRoll(98),
+          rainbow: pickFusionEventForRoll(99.9)
         };
         state.score = clamp(Number(startScore) || 0, 0, MAX_SCORE);
         applyFusionEvent(samples[eventKey] || samples.minus100);
@@ -4834,7 +4835,7 @@
       } else {
         state.chain = 0;
       }
-      const event = perfect ? rollFusionEvent() : createDefectEvent();
+      const event = perfect ? rollFusionEvent() : rollMistakeFusionEvent();
       applyFusionEvent(event);
       finishScoreboardQuestion(state.lastEvent);
       renderStatus();
@@ -4853,7 +4854,7 @@
           message: "합체 힘이 50점 늘었어요."
         };
       }
-      if (roll < 68) {
+      if (roll < 69) {
         return {
           id: "normal",
           amount: 100,
@@ -4863,7 +4864,7 @@
           message: "합체 힘이 100점 늘었어요."
         };
       }
-      if (roll < 78) {
+      if (roll < 79) {
         return {
           id: "smallExplosion",
           amount: -50,
@@ -4873,7 +4874,7 @@
           message: "합체 힘이 50점 줄었어요."
         };
       }
-      if (roll < 88) {
+      if (roll < 91) {
         return {
           id: "megaFuel",
           amount: 200,
@@ -4883,7 +4884,7 @@
           message: "합체 힘이 200점 늘었어요."
         };
       }
-      if (roll < 93) {
+      if (roll < 96) {
         return {
           id: "instantLaunch",
           amount: 500,
@@ -4893,7 +4894,7 @@
           message: "합체 힘이 500점 늘었어요."
         };
       }
-      if (roll < 97) {
+      if (roll < 99.8) {
         return {
           id: "emptyTank",
           amount: 0,
@@ -4934,6 +4935,30 @@
         message: "합체 힘이 100점 줄었어요."
       };
     }
+
+    function pickMistakeFusionEventForRoll(roll) {
+      if (roll < 50) return createDefectEvent();
+      return {
+        id: "mistakeKeep",
+        amount: 0,
+        score: 0,
+        scoreArt: REWARD_SCORE_ART.zero,
+        title: "합체 힘",
+        message: "합체 힘은 그대로예요."
+      };
+    }
+
+    function rollMistakeFusionEvent() {
+      const questionSalt = REWARD_SEED_SALT ^ Math.imul(state.index + 1, QUESTION_SEED_STEP) ^ 0x5f3759df;
+      const random = createSeededRandom(mixSeed(state.runSeed, questionSalt));
+      return pickMistakeFusionEventForRoll(random() * 100);
+    }
+
+    window.__mathmonRewardPolicyQa = Object.freeze({
+      standard: "mathmon-unified-reward-v2",
+      pickCorrectForRoll: pickFusionEventForRoll,
+      pickMistakeForRoll: pickMistakeFusionEventForRoll,
+    });
 
     function applyFusionEvent(event) {
       const before = state.score;
@@ -5289,5 +5314,8 @@
       }
     });
   </script>
+<!-- impeccable-live-start -->
+<script src="http://localhost:8401/live.js?token=9eb807a0-11ca-46ea-be0e-6eefc4e86c1b"></script>
+<!-- impeccable-live-end -->
 </body>
 </html>

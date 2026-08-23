@@ -68,7 +68,8 @@
 
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
-      --sound-button-size: clamp(30px, 3vw, 34px);
+      --top-control-y: var(--stage-inset);
+      --sound-button-size: clamp(42px, 3.6vw, 46px);
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
       --top-control-pad-x: 9px;
@@ -172,7 +173,7 @@
 
     .top-row {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       left: var(--stage-inset);
       right: calc(var(--stage-inset) + var(--sound-reserve));
       z-index: 4;
@@ -297,7 +298,7 @@
 
     .settings-toggle {
       position: absolute;
-      top: var(--stage-inset);
+      top: var(--top-control-y);
       right: var(--stage-inset);
       z-index: 60;
       display: grid;
@@ -736,6 +737,13 @@
     .hud .unit-badge {
       position: static;
       pointer-events: auto;
+    }
+
+    .hud-right {
+      grid-column: 3;
+      justify-self: end;
+      display: flex;
+      align-items: start;
     }
 
     .hud-center {
@@ -3235,7 +3243,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-reward-event-standard="mathmon-unified-reward-v2">
     <div class="stage-shell" data-active-screen="cover">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -3316,6 +3324,7 @@
     <section class="screen play" id="playScreen" aria-labelledby="questionText">
       <header class="hud">
         <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <div class="hud-right"><span class="unit-badge">1단원 곱셈 · 2차시</span></div>
       </header>
       <div class="play-layout">
         <aside class="rocket-zone" id="rocketZone" aria-label="로켓 연료 상태">
@@ -4575,7 +4584,7 @@
       } else {
         state.chain = 0;
       }
-      const event = perfect ? rollFuelEvent() : createLeakEvent();
+      const event = perfect ? rollFuelEvent() : rollMistakeFuelEvent();
       applyFuelEvent(event);
       finishScoreboardQuestion(state.lastFuelEvent);
       renderStatus();
@@ -4583,8 +4592,8 @@
     }
 
     function pickFuelEventForRoll(roll, amountPicker = randomInt) {
-      if (roll < 76.45) {
-        const amount = amountPicker(4, 8);
+      if (roll < 69) {
+        const amount = amountPicker(6, 10);
         return {
           id: "normal",
           amount,
@@ -4592,8 +4601,8 @@
           message: "연료 주입"
         };
       }
-      if (roll < 88.45) {
-        const amount = -amountPicker(5, 10);
+      if (roll < 79) {
+        const amount = -amountPicker(2, 5);
         return {
           id: "smallExplosion",
           amount,
@@ -4601,8 +4610,8 @@
           message: "연료 감소"
         };
       }
-      if (roll < 97.45) {
-        const amount = amountPicker(12, 20);
+      if (roll < 91) {
+        const amount = amountPicker(14, 22);
         return {
           id: "megaFuel",
           amount,
@@ -4610,27 +4619,26 @@
           message: "연료 대량 주입"
         };
       }
-      if (roll < 97.95) {
+      if (roll < 96) {
         return {
           id: "instantLaunch",
-          amount: 6,
+          amount: 30,
           title: "발사 스위치 작동!",
           message: "발사 준비",
           launches: true
         };
       }
-      if (roll < 99.95) {
+      if (roll < 99.8) {
         return {
           id: "emptyTank",
           amount: 0,
-          title: "연료가 사라졌어요",
-          message: "연료 0",
-          emptiesTank: true
+          title: "연료는 그대로예요",
+          message: "연료 유지"
         };
       }
       return {
         id: "rainbowFuel",
-        amount: 10,
+        amount: 100,
         title: "무지개 연료 발견!",
         message: "로켓 안이 무지개빛으로 반짝여요.",
         rainbow: true
@@ -4642,7 +4650,7 @@
     }
 
     function createLeakEvent() {
-      const amount = -randomInt(8, 18);
+      const amount = -randomInt(3, 6);
       return {
         id: "leak",
         amount,
@@ -4650,6 +4658,26 @@
         message: "연료 감소"
       };
     }
+
+    function pickMistakeFuelEventForRoll(roll) {
+      if (roll < 50) return createLeakEvent();
+      return {
+        id: "mistakeKeep",
+        amount: 0,
+        title: "연료는 그대로예요",
+        message: "연료 유지"
+      };
+    }
+
+    function rollMistakeFuelEvent() {
+      return pickMistakeFuelEventForRoll(Math.random() * 100);
+    }
+
+    window.__mathmonRewardPolicyQa = Object.freeze({
+      standard: "mathmon-unified-reward-v2",
+      pickCorrectForRoll: pickFuelEventForRoll,
+      pickMistakeForRoll: pickMistakeFuelEventForRoll,
+    });
 
     function applyFuelEvent(event) {
       const before = state.fuelPercent;
@@ -5456,5 +5484,8 @@
     updateSettingsUi();
     renderStatus();
   </script>
+<!-- impeccable-live-start -->
+<script src="http://localhost:8401/live.js?token=9eb807a0-11ca-46ea-be0e-6eefc4e86c1b"></script>
+<!-- impeccable-live-end -->
 </body>
 </html>
