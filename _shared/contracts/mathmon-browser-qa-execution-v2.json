@@ -1,0 +1,60 @@
+{
+  "standard": "mathmon-browser-qa-execution-v2",
+  "purpose": "같은 브라우저 조건의 중복 실행과 증거 복제를 줄이되 이름 있는 회귀와 전체 자동 검사를 보존한다.",
+  "executionIdentity": [
+    "width",
+    "height",
+    "dpr",
+    "viewport-specific-fixture-bindings"
+  ],
+  "regressionNames": {
+    "storage": "lesson.json > qa.viewports",
+    "rule": "같은 실행 조건의 과거 오류 이름은 삭제하지 않고 한 canonical execution의 regressionNames와 aliases로 보존한다."
+  },
+  "capture": {
+    "fullFlow": "canonical execution마다 전체 상태의 자동 동작·rect·overflow·collision 검사를 실행하고 현재 PNG 증거를 만든다.",
+    "targetedFixture": {
+      "emptyRewardAuditViewport": [
+        "06-confirm",
+        "07-reward-closed",
+        "07b-reward-open"
+      ]
+    },
+    "rule": "viewport 이름에 결합된 특수 fixture는 일반 viewport와 합치지 않는다. 알려진 국소 fixture는 전체 자동 흐름을 실행하되 차이가 생기는 상태만 PNG로 남긴다."
+  },
+  "evidence": {
+    "receipt": "mathmon-browser-qa-receipt-v2",
+    "reportManifest": "report-current-screen-evidence-v3",
+    "details": ".tmp-qa/mathmon/<lesson>/last-flow-results.json",
+    "stdout": "PASS와 등록 수·실행 수·중복 통합 수·PNG 수·상세 파일 경로만 출력한다."
+  },
+  "fallback": {
+    "environment": "MATHMON_QA_EXPAND_DUPLICATE_VIEWPORTS=1",
+    "effect": "별칭을 합치지 않고 이전처럼 모든 등록 이름을 각각 실행한다."
+  },
+  "layoutOnlyPreflight": {
+    "standard": "mathmon-layout-qa-preflight-v1",
+    "command": "git mart qa layout <lesson> [--viewport=<name>]",
+    "allowedChanges": [
+      "_lessons/<lesson>/view.js",
+      "_lessons/<lesson>/lesson.css",
+      "<lesson>/index.html"
+    ],
+    "viewports": [
+      "latest-named-user-regression-or-explicit-viewport",
+      "1280x800@1x",
+      "1024x768@1x"
+    ],
+    "checks": [
+      "card-center",
+      "internal-alignment",
+      "overlap",
+      "overflow",
+      "stage-containment"
+    ],
+    "screenshots": 0,
+    "receipt": "screenshots/layout-qa-receipt.json",
+    "autoEscalate": "모델·lesson.json·자산·공용 엔진·정책·하네스 변경이 하나라도 섞이면 전체 브라우저 QA를 실행한다.",
+    "finalGateAuthority": false
+  }
+}
