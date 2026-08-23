@@ -1,0 +1,50 @@
+{
+  "standard": "mathmon-unified-reward-v2",
+  "purpose": "매스몬 차시의 정답·오답 보상 확률과 결과 등급을 한 기준으로 고정한다.",
+  "enforcement": {
+    "lessonPattern": "^3-2-[1-6]-[0-9]+-mathmon-",
+    "baselineUnits": [1, 2, 3, 4],
+    "migrateOnNextDeliveryUnits": [5, 6],
+    "allowGrandfatherExceptionInDeliveryGate": false
+  },
+  "firstTry": {
+    "totalWeight": 10000,
+    "events": [
+      { "slot": "normal", "weight": 6900, "min": 6, "max": 10, "effect": "positive" },
+      { "slot": "loss", "weight": 1000, "min": -5, "max": -2, "effect": "negative" },
+      { "slot": "mega", "weight": 1200, "min": 14, "max": 22, "effect": "positive" },
+      { "slot": "jackpot", "weight": 500, "min": 30, "max": 30, "effect": "positive" },
+      { "slot": "keep", "weight": 380, "min": 0, "max": 0, "effect": "zero" },
+      { "slot": "special", "weight": 20, "min": 100, "max": 100, "effect": "special" }
+    ]
+  },
+  "afterMistake": {
+    "totalWeight": 10000,
+    "outcomes": [
+      { "slot": "penalty", "weight": 5000, "effect": "negative" },
+      { "slot": "keep", "weight": 5000, "effect": "zero" }
+    ],
+    "fullStandardPenalty": { "min": -6, "max": -3 },
+    "forbidPositive": true,
+    "forbidSpecial": true,
+    "forbidGuaranteedPenalty": true
+  },
+  "fairness": {
+    "emptyKeepsProgress": true,
+    "lossCapAtCommonGainMin": true,
+    "mistakePenaltyChance": 0.5,
+    "mistakeCanKeepProgress": true,
+    "mistakeNeverUsesPositiveReward": true
+  },
+  "fullStandard": {
+    "maxPower": 100,
+    "resultTiers": [
+      { "minPower": 0, "minCorrect": 0 },
+      { "minPower": 15, "minCorrect": 2 },
+      { "minPower": 35, "minCorrect": 4 },
+      { "minPower": 55, "minCorrect": 6 },
+      { "minPower": 78, "minCorrect": 8 },
+      { "minPower": 100, "minCorrect": 1, "needsSpecial": true }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "standard": "mathmon-reward-policy-qa-receipt-v1",
+  "mode": "reward-policy-only-final",
+  "finalDeliveryEvidence": true,
+  "status": "pass",
+  "lesson": "3-2-3-2-mathmon-compass-ring",
+  "runtimeKind": "source",
+  "seed": 20260823,
+  "startedAt": "2026-08-23T02:55:41.422Z",
+  "completedAt": "2026-08-23T02:55:41.575Z",
+  "authorizedChangedPaths": [
+    "3-2-3-2-mathmon-compass-ring/REPORT.md",
+    "3-2-3-2-mathmon-compass-ring/index.html",
+    "_lessons/3-2-3-2-mathmon-compass-ring/lesson.json",
+    "_lessons/3-2-3-2-mathmon-compass-ring/model.js",
+    "_shared/contracts/mathmon-unified-reward-v2.json"
+  ],
+  "semanticChanges": {
+    "lesson": [
+      "/reward/changeLabel",
+      "/reward/fairness/mistakeCanKeepProgress",
+      "/reward/fairness/mistakeNeverUsesPositiveReward",
+      "/reward/fairness/mistakePenaltyChance",
+      "/reward/standard",
+      "/reward/zeroLabel",
+      "/rewardEvents/0/weight",
+      "/rewardEvents/1/weight"
+    ],
+    "auxiliary": [],
+    "contract": [
+      "/"
+    ]
+  },
+  "simulation": {
+    "trials": 50000,
+    "eventRates": [
+      {
+        "id": "normal",
+        "expected": 0.69,
+        "observed": 0.69092,
+        "tolerance": 0.012409995970990483
+      },
+      {
+        "id": "loss",
+        "expected": 0.1,
+        "observed": 0.09928,
+        "tolerance": 0.008049844718999244
+      },
+      {
+        "id": "mega",
+        "expected": 0.12,
+        "observed": 0.1192,
+        "tolerance": 0.008719633019800775
+      },
+      {
+        "id": "perfect",
+        "expected": 0.05,
+        "observed": 0.04984,
+        "tolerance": 0.005848076606885378
+      },
+      {
+        "id": "empty",
+        "expected": 0.038,
+        "observed": 0.0389,
+        "tolerance": 0.005130333322504494
+      },
+      {
+        "id": "rainbow",
+        "expected": 0.002,
+        "observed": 0.00186,
+        "tolerance": 0.005
+      }
+    ],
+    "mistake": {
+      "expectedLoss": 0.5,
+      "observedLoss": 0.501,
+      "observedKeep": 0.499,
+      "tolerance": 0.01341640786499874
+    }
+  },
+  "summary": {
+    "screenshotCount": 0,
+    "changedPolicyFields": 9,
+    "auxiliaryFieldCount": 0
+  },
+  "fingerprints": {
+    "lessonRuntimeSha256": "876695d2be32c90d6dd98cd66beda4b616d161c2e0ea50dd4077a79ec98b05e0",
+    "policySha256": "7f1e6d2287684d518644ae1aeb3afc6e767c36960a110d5d8aa96461d2a7e279",
+    "harnessSha256": "a9dc6654f3abc5499f2b0a360bb42987f582406ac7349d0b8cc51bd68c938390"
+  }
+}

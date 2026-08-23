@@ -1,0 +1,91 @@
+{
+  "standard": "mathmon-reward-policy-qa-receipt-v1",
+  "mode": "reward-policy-only-final",
+  "finalDeliveryEvidence": true,
+  "status": "pass",
+  "lesson": "3-2-2-4-mathmon-check-lock",
+  "runtimeKind": "source",
+  "seed": 20260823,
+  "startedAt": "2026-08-23T02:55:40.581Z",
+  "completedAt": "2026-08-23T02:55:40.731Z",
+  "authorizedChangedPaths": [
+    "3-2-2-4-mathmon-check-lock/REPORT.md",
+    "3-2-2-4-mathmon-check-lock/index.html",
+    "_lessons/3-2-2-4-mathmon-check-lock/lesson.json",
+    "_lessons/3-2-2-4-mathmon-check-lock/model.js",
+    "_shared/contracts/mathmon-unified-reward-v2.json"
+  ],
+  "semanticChanges": {
+    "lesson": [
+      "/reward/changeLabel",
+      "/reward/fairness/mistakeCanKeepProgress",
+      "/reward/fairness/mistakeNeverUsesPositiveReward",
+      "/reward/fairness/mistakePenaltyChance",
+      "/reward/standard",
+      "/reward/zeroLabel",
+      "/rewardEvents/0/weight",
+      "/rewardEvents/1/weight"
+    ],
+    "auxiliary": [],
+    "contract": [
+      "/"
+    ]
+  },
+  "simulation": {
+    "trials": 50000,
+    "eventRates": [
+      {
+        "id": "click",
+        "expected": 0.69,
+        "observed": 0.69092,
+        "tolerance": 0.012409995970990483
+      },
+      {
+        "id": "jam",
+        "expected": 0.1,
+        "observed": 0.09928,
+        "tolerance": 0.008049844718999244
+      },
+      {
+        "id": "double",
+        "expected": 0.12,
+        "observed": 0.1192,
+        "tolerance": 0.008719633019800775
+      },
+      {
+        "id": "master",
+        "expected": 0.05,
+        "observed": 0.04984,
+        "tolerance": 0.005848076606885378
+      },
+      {
+        "id": "reset",
+        "expected": 0.038,
+        "observed": 0.0389,
+        "tolerance": 0.005130333322504494
+      },
+      {
+        "id": "rainbow",
+        "expected": 0.002,
+        "observed": 0.00186,
+        "tolerance": 0.005
+      }
+    ],
+    "mistake": {
+      "expectedLoss": 0.5,
+      "observedLoss": 0.501,
+      "observedKeep": 0.499,
+      "tolerance": 0.01341640786499874
+    }
+  },
+  "summary": {
+    "screenshotCount": 0,
+    "changedPolicyFields": 9,
+    "auxiliaryFieldCount": 0
+  },
+  "fingerprints": {
+    "lessonRuntimeSha256": "33dfdd47f494a2ffc880b92f1d5f79fe0b41d36114defba06adfc619e63bc026",
+    "policySha256": "7f1e6d2287684d518644ae1aeb3afc6e767c36960a110d5d8aa96461d2a7e279",
+    "harnessSha256": "a9dc6654f3abc5499f2b0a360bb42987f582406ac7349d0b8cc51bd68c938390"
+  }
+}
