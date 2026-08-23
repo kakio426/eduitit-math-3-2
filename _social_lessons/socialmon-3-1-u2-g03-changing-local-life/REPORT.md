@@ -19,11 +19,11 @@
 | 테마팩 | `ca12db1d9d724e4bc25636ddc711d93e2ac2694281a7e58eb9c55a12ebe6a639` |
 | 실행 자산 | `211b9cd3bdfe35eca5116e8dfae94b264981d09bce1d898dbb345bbd802a960a` |
 | 엔진 | `6e019197ba91e531c178f6fc9bc83d8794e886df95fa524b0b77849fcff112c2` |
-| 정책·스킬 | `2a7cec9e91d273a881fbe92d10eab7165f9d73f90a7a0a60ecb2c219b79dfe01` |
-| QA 하네스 | `cd058d6f2f725418ae3b6619ff949db3e083ee972a613346d0c2698703044d75` |
-| 캡처 PNG 집합 | `1b917d4fc4783def6896b271e13f013a927bd9b9233298dabe1ff4523eb2bee4` |
+| 정책·스킬 | `4000ea274703d8fffb4722d193ed4d10c904062266c0fc7d107234010245ac24` |
+| QA 하네스 | `c891a959357987f5f5fc5232a67ddb2c44372075b32b5ceb603135fb803ce283` |
+| 캡처 PNG 집합 | `571094eef7dadcdee2d52bc1c4daab544c89eaccf1abfbfa17e253d84c6cfd0d` |
 
-- QA 생성 시각: `2026-08-22T11:08:57.185Z`
+- QA 생성 시각: `2026-08-23T16:05:45.062Z`
 - 브라우저 QA: 6개 viewport, 240개 상태, 240개 PNG
 - 실패 항목: text overflow 0, Stage 밖 0, critical overlap 0, small target 0
 <!-- SOCIALMON_CURRENT_EVIDENCE:END -->
