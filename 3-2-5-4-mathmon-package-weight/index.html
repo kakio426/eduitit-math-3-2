@@ -741,15 +741,15 @@
       top: 4%;
       left: -1%;
       z-index: 5;
-      width: 52%;
+      width: 35%;
       height: 92%;
       border-radius: 50%;
       pointer-events: none;
       opacity: 0;
       transform: scale(.62);
-      background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(90,224,255,.68) 13%, rgba(255,205,88,.45) 31%, rgba(56,169,230,.24) 48%, transparent 71%);
-      filter: drop-shadow(0 0 30px rgba(87, 219, 255, .9));
-      mix-blend-mode: screen;
+      background: transparent !important;
+      filter: none !important;
+      mix-blend-mode: normal;
     }
     .progress-impact-stage::before,
     .progress-impact-stage::after {
@@ -760,14 +760,29 @@
       pointer-events: none;
     }
     .progress-impact-stage::before {
+      content: none !important;
+      display: none !important;
       border: 5px solid rgba(225, 251, 255, .94);
       box-shadow: 0 0 20px 6px rgba(94, 221, 255, .72), 0 0 58px 20px rgba(255, 196, 74, .62), inset 0 0 36px rgba(91, 213, 255, .62);
     }
     .progress-impact-stage::after {
+      content: none !important;
+      display: none !important;
       inset: -4%;
       background: repeating-conic-gradient(from 4deg, transparent 0 7deg, rgba(238, 253, 255, .72) 8deg 9deg, transparent 10deg 21deg);
       -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
       mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
+    }
+    .package-play-progress-impact-visual {
+      position: absolute;
+      inset: 8% auto 8% 0;
+      width: 68%;
+      height: 84%;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(90,224,255,.68) 13%, rgba(255,205,88,.45) 31%, rgba(56,169,230,.24) 48%, transparent 71%);
+      filter: drop-shadow(0 0 30px rgba(87, 219, 255, .9));
+      mix-blend-mode: screen;
     }
     .progress-impact-stage.is-active { animation: progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both; }
     @keyframes truck-arrive { 0% { transform: translateX(-18px) scale(.82); opacity: .35; } 70% { transform: translateX(4px) scale(1.09); opacity: 1; } 100% { transform: none; opacity: 1; } }
@@ -1694,6 +1709,46 @@
         animation-duration: 1ms !important;
         transition-duration: 1ms !important;
       }
+
+      .progress-line.is-changing,
+      .progress-line.is-tier-up {
+        animation: none !important;
+        outline: 3px solid rgba(199, 255, 236, .72);
+        outline-offset: -3px;
+        box-shadow: 0 0 0 4px rgba(186, 255, 235, .55), 0 0 22px 7px rgba(88, 222, 190, .34), 0 16px 32px rgba(0, 0, 0, .34) !important;
+      }
+
+      .progress-line.is-dimming {
+        animation: none !important;
+        outline: 3px solid rgba(173, 196, 222, .58);
+        outline-offset: -3px;
+        box-shadow: 0 0 0 3px rgba(173, 196, 222, .42), 0 12px 28px rgba(0, 0, 0, .32) !important;
+      }
+
+      .progress-line.is-changing .run-truck-image,
+      .progress-line.is-tier-up .run-truck-image {
+        animation: none !important;
+        filter: brightness(1.24) saturate(1.14) !important;
+        transform: none !important;
+      }
+
+      .progress-line.is-dimming .run-truck-image {
+        animation: none !important;
+        filter: brightness(.72) saturate(.72) !important;
+        transform: none !important;
+      }
+
+      .progress-impact-stage.is-active {
+        animation: none !important;
+        opacity: .62 !important;
+        transform: none !important;
+      }
+
+      .progress-impact-stage.is-active .package-play-progress-impact-visual {
+        animation: none !important;
+        opacity: .42 !important;
+        transform: none !important;
+      }
     }
   </style>
 
@@ -2151,9 +2206,9 @@
   </style>
 </head>
 <body>
-    <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-internal-metrics="result-internal-metric-hidden-v1" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-event-standard="mathmon-unified-reward-v2" data-reward-standard="unit3-modal-art-compact-v2" data-reward-modal-standard="unit3-modal-art-compact-v2" data-reward-card-size="430x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
+    <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-internal-metrics="result-internal-metric-hidden-v1" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit3-modal-art-compact-v2" data-reward-event-standard="mathmon-unified-reward-v2" data-reward-modal-standard="unit3-modal-art-compact-v2" data-reward-card-size="430x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="77018e0899c0d4480f340f7b1f5eace5a08b0be5ac616e65476d4879e6cf58bc"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="e54dc369f039921d7d3d3be1b3c2b0abfb179edfd4fa8a5cab9dc6787b204f69"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2242,7 +2297,7 @@
             <span class="progress-meter" aria-hidden="true"><span class="progress-fill" id="runProgress"></span></span>
           </div>
         </aside>
-        <div class="progress-impact-stage" id="progressImpactStage" aria-hidden="true"></div>
+        <div class="progress-impact-stage" id="progressImpactStage" aria-hidden="true"><span class="package-play-progress-impact-visual"></span></div>
 
         <div class="problem-grid">
           <article class="problem-card">
@@ -2350,8 +2405,6 @@
         { id: "special", text: "무지개 부품 상자", weight: 20, min: 100, max: 100, family: "superUpgrade", superPart: true }
       ];
       const WRONG_UPGRADE_EVENT = { id: "wrong-loss", text: "배송 점수가 내려갔어요", min: -6, max: -3, family: "repair" };
-      const KEEP_UPGRADE_EVENT = UPGRADE_EVENTS.find((event) => event.min === 0 && event.max === 0);
-      const MISTAKE_PENALTY_CHANCE = 0.5;
 
       function createRng(seed = 12345) {
         let value = seed >>> 0;
@@ -2580,13 +2633,9 @@
 
       function pickUpgradeEvent(rng, mistakeTouched) {
         if (mistakeTouched) {
-          const penalty = rng() < MISTAKE_PENALTY_CHANCE;
-          const event = penalty ? WRONG_UPGRADE_EVENT : KEEP_UPGRADE_EVENT;
-          return {
-            ...event,
-            amount: penalty ? randomInt(rng, event.min, event.max) : 0,
-            superPart: false
-          };
+          const keepEvent = UPGRADE_EVENTS.find((event) => event.min === 0 && event.max === 0);
+          const event = rng() < 0.5 ? WRONG_UPGRADE_EVENT : keepEvent;
+          return { ...event, amount: randomInt(rng, event.min, event.max) };
         }
         let roll = Math.floor(rng() * 10000);
         for (const event of UPGRADE_EVENTS) {
@@ -2660,33 +2709,6 @@
         getNextTruckResult
       };
     })();
-
-    function rewardPolicyQaRng(rollPercent) {
-      let first = true;
-      return () => {
-        if (!first) return 0;
-        first = false;
-        return Number(rollPercent) / 100;
-      };
-    }
-
-    function normalizeRewardPolicyQaEvent(event) {
-      return {
-        ...event,
-        special: Boolean(event?.superPart),
-        rainbow: Boolean(event?.superPart)
-      };
-    }
-
-    window.__mathmonRewardPolicyQa = Object.freeze({
-      standard: "mathmon-unified-reward-v2",
-      pickCorrectForRoll(rollPercent) {
-        return normalizeRewardPolicyQaEvent(Lesson5PackageWeightModel.pickUpgradeEvent(rewardPolicyQaRng(rollPercent), false));
-      },
-      pickMistakeForRoll(rollPercent) {
-        return normalizeRewardPolicyQaEvent(Lesson5PackageWeightModel.pickUpgradeEvent(rewardPolicyQaRng(rollPercent), true));
-      }
-    });
 
     const REWARD_CHANGE_LABEL = "배송 점수";
 
@@ -3591,6 +3613,10 @@
       }
     };
     window.Lesson5PackageWeightModel = Lesson5PackageWeightModel;
+    window.__mathmonRewardPolicyQa = {
+      standard: "mathmon-unified-reward-v2",
+      pickRewardEvent: (rng, mistakeTouched) => Lesson5PackageWeightModel.pickUpgradeEvent(rng, mistakeTouched)
+    };
     if (hasQaMarker) {
       window.__lesson5PackageQa = {
         forceRewardEvent: (eventId) => {
