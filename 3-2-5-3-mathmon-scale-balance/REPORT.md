@@ -198,10 +198,10 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-23 최신 원본 스크린샷 전수
+## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `5fb53539619556240b95f55f32c54105390fac49b5d37a1fd26993cbafce1cd8`
-- 생성 시각: `2026-08-23T12:06:39.622Z`
+- 실행본 SHA-256: `a82e78fb5f623164b7b0544f6deeeb82663be981acbb3dc58e5a9ce245d5fa29`
+- 생성 시각: `2026-08-29T10:19:11.335Z`
 - 등록 회귀 이름: `6개`
 - 실제 실행 화면 조건: `6개`
 - 동일 조건 별칭 통합: `0개`
@@ -270,27 +270,27 @@
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-kg-g · `engine-flow-desktop-05m-p1-compare-kg-g.png`
+#### 오개념 확인 · p1-balance-missing · `engine-flow-desktop-05m-p1-balance-missing.png`
 
-![desktop 오개념 확인 · p1-compare-kg-g](screenshots/engine-flow-desktop-05m-p1-compare-kg-g.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-balance-missing · `engine-flow-desktop-05m-p2-balance-missing.png`
-
-![desktop 오개념 확인 · p2-balance-missing](screenshots/engine-flow-desktop-05m-p2-balance-missing.png)
+![desktop 오개념 확인 · p1-balance-missing](screenshots/engine-flow-desktop-05m-p1-balance-missing.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-ton-kg · `engine-flow-desktop-05m-p5-compare-ton-kg.png`
+#### 오개념 확인 · p3-compare-kg-g · `engine-flow-desktop-05m-p3-compare-kg-g.png`
 
-![desktop 오개념 확인 · p5-compare-ton-kg](screenshots/engine-flow-desktop-05m-p5-compare-ton-kg.png)
+![desktop 오개념 확인 · p3-compare-kg-g](screenshots/engine-flow-desktop-05m-p3-compare-kg-g.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-ton-kg · `engine-flow-desktop-05m-p8-compare-ton-kg.png`
+
+![desktop 오개념 확인 · p8-compare-ton-kg](screenshots/engine-flow-desktop-05m-p8-compare-ton-kg.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -574,27 +574,27 @@
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-kg-g · `engine-flow-tablet-landscape-05m-p1-compare-kg-g.png`
+#### 오개념 확인 · p1-balance-missing · `engine-flow-tablet-landscape-05m-p1-balance-missing.png`
 
-![tablet-landscape 오개념 확인 · p1-compare-kg-g](screenshots/engine-flow-tablet-landscape-05m-p1-compare-kg-g.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-balance-missing · `engine-flow-tablet-landscape-05m-p2-balance-missing.png`
-
-![tablet-landscape 오개념 확인 · p2-balance-missing](screenshots/engine-flow-tablet-landscape-05m-p2-balance-missing.png)
+![tablet-landscape 오개념 확인 · p1-balance-missing](screenshots/engine-flow-tablet-landscape-05m-p1-balance-missing.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-ton-kg · `engine-flow-tablet-landscape-05m-p5-compare-ton-kg.png`
+#### 오개념 확인 · p3-compare-kg-g · `engine-flow-tablet-landscape-05m-p3-compare-kg-g.png`
 
-![tablet-landscape 오개념 확인 · p5-compare-ton-kg](screenshots/engine-flow-tablet-landscape-05m-p5-compare-ton-kg.png)
+![tablet-landscape 오개념 확인 · p3-compare-kg-g](screenshots/engine-flow-tablet-landscape-05m-p3-compare-kg-g.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-ton-kg · `engine-flow-tablet-landscape-05m-p8-compare-ton-kg.png`
+
+![tablet-landscape 오개념 확인 · p8-compare-ton-kg](screenshots/engine-flow-tablet-landscape-05m-p8-compare-ton-kg.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -878,27 +878,27 @@
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-kg-g · `engine-flow-codex-in-app-05m-p1-compare-kg-g.png`
+#### 오개념 확인 · p1-balance-missing · `engine-flow-codex-in-app-05m-p1-balance-missing.png`
 
-![codex-in-app 오개념 확인 · p1-compare-kg-g](screenshots/engine-flow-codex-in-app-05m-p1-compare-kg-g.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-balance-missing · `engine-flow-codex-in-app-05m-p2-balance-missing.png`
-
-![codex-in-app 오개념 확인 · p2-balance-missing](screenshots/engine-flow-codex-in-app-05m-p2-balance-missing.png)
+![codex-in-app 오개념 확인 · p1-balance-missing](screenshots/engine-flow-codex-in-app-05m-p1-balance-missing.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-ton-kg · `engine-flow-codex-in-app-05m-p5-compare-ton-kg.png`
+#### 오개념 확인 · p3-compare-kg-g · `engine-flow-codex-in-app-05m-p3-compare-kg-g.png`
 
-![codex-in-app 오개념 확인 · p5-compare-ton-kg](screenshots/engine-flow-codex-in-app-05m-p5-compare-ton-kg.png)
+![codex-in-app 오개념 확인 · p3-compare-kg-g](screenshots/engine-flow-codex-in-app-05m-p3-compare-kg-g.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-ton-kg · `engine-flow-codex-in-app-05m-p8-compare-ton-kg.png`
+
+![codex-in-app 오개념 확인 · p8-compare-ton-kg](screenshots/engine-flow-codex-in-app-05m-p8-compare-ton-kg.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1182,27 +1182,27 @@
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-kg-g · `engine-flow-user-visibility-05m-p1-compare-kg-g.png`
+#### 오개념 확인 · p1-balance-missing · `engine-flow-user-visibility-05m-p1-balance-missing.png`
 
-![user-visibility 오개념 확인 · p1-compare-kg-g](screenshots/engine-flow-user-visibility-05m-p1-compare-kg-g.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-balance-missing · `engine-flow-user-visibility-05m-p2-balance-missing.png`
-
-![user-visibility 오개념 확인 · p2-balance-missing](screenshots/engine-flow-user-visibility-05m-p2-balance-missing.png)
+![user-visibility 오개념 확인 · p1-balance-missing](screenshots/engine-flow-user-visibility-05m-p1-balance-missing.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-ton-kg · `engine-flow-user-visibility-05m-p5-compare-ton-kg.png`
+#### 오개념 확인 · p3-compare-kg-g · `engine-flow-user-visibility-05m-p3-compare-kg-g.png`
 
-![user-visibility 오개념 확인 · p5-compare-ton-kg](screenshots/engine-flow-user-visibility-05m-p5-compare-ton-kg.png)
+![user-visibility 오개념 확인 · p3-compare-kg-g](screenshots/engine-flow-user-visibility-05m-p3-compare-kg-g.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-ton-kg · `engine-flow-user-visibility-05m-p8-compare-ton-kg.png`
+
+![user-visibility 오개념 확인 · p8-compare-ton-kg](screenshots/engine-flow-user-visibility-05m-p8-compare-ton-kg.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1486,27 +1486,27 @@
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-kg-g · `engine-flow-user-reported-missing-left-progress-05m-p1-compare-kg-g.png`
+#### 오개념 확인 · p1-balance-missing · `engine-flow-user-reported-missing-left-progress-05m-p1-balance-missing.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p1-compare-kg-g](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-compare-kg-g.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-balance-missing · `engine-flow-user-reported-missing-left-progress-05m-p2-balance-missing.png`
-
-![user-reported-missing-left-progress 오개념 확인 · p2-balance-missing](screenshots/engine-flow-user-reported-missing-left-progress-05m-p2-balance-missing.png)
+![user-reported-missing-left-progress 오개념 확인 · p1-balance-missing](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-balance-missing.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-ton-kg · `engine-flow-user-reported-missing-left-progress-05m-p5-compare-ton-kg.png`
+#### 오개념 확인 · p3-compare-kg-g · `engine-flow-user-reported-missing-left-progress-05m-p3-compare-kg-g.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p5-compare-ton-kg](screenshots/engine-flow-user-reported-missing-left-progress-05m-p5-compare-ton-kg.png)
+![user-reported-missing-left-progress 오개념 확인 · p3-compare-kg-g](screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-compare-kg-g.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 무게 비교와 kg, g, t의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-ton-kg · `engine-flow-user-reported-missing-left-progress-05m-p8-compare-ton-kg.png`
+
+![user-reported-missing-left-progress 오개념 확인 · p8-compare-ton-kg](screenshots/engine-flow-user-reported-missing-left-progress-05m-p8-compare-ton-kg.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.

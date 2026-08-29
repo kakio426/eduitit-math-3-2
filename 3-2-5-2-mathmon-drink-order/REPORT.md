@@ -173,10 +173,10 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-23 최신 원본 스크린샷 전수
+## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `8a0083b47c7b055082474e1ea6767fc65b32164c807255efb62af14277f9ac72`
-- 생성 시각: `2026-08-23T12:06:40.005Z`
+- 실행본 SHA-256: `84d2ffe3e4d7ee84a10e4a3025e052938fdc0e5feac5f4167e42fb1f6b915c77`
+- 생성 시각: `2026-08-29T10:19:07.299Z`
 - 등록 회귀 이름: `6개`
 - 실제 실행 화면 조건: `6개`
 - 동일 조건 별칭 통합: `0개`
@@ -245,63 +245,63 @@
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-add-final-total · `engine-flow-desktop-05m-p1-add-final-total.png`
+#### 오개념 확인 · p1-borrow-liter · `engine-flow-desktop-05m-p1-borrow-liter.png`
 
-![desktop 오개념 확인 · p1-add-final-total](screenshots/engine-flow-desktop-05m-p1-add-final-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p1-add-liter-exchange · `engine-flow-desktop-05m-p1-add-liter-exchange.png`
-
-![desktop 오개념 확인 · p1-add-liter-exchange](screenshots/engine-flow-desktop-05m-p1-add-liter-exchange.png)
+![desktop 오개념 확인 · p1-borrow-liter](screenshots/engine-flow-desktop-05m-p1-borrow-liter.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-add-ml-total · `engine-flow-desktop-05m-p1-add-ml-total.png`
+#### 오개념 확인 · p1-subtract-final · `engine-flow-desktop-05m-p1-subtract-final.png`
 
-![desktop 오개념 확인 · p1-add-ml-total](screenshots/engine-flow-desktop-05m-p1-add-ml-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-borrow-liter · `engine-flow-desktop-05m-p2-borrow-liter.png`
-
-![desktop 오개념 확인 · p2-borrow-liter](screenshots/engine-flow-desktop-05m-p2-borrow-liter.png)
+![desktop 오개념 확인 · p1-subtract-final](screenshots/engine-flow-desktop-05m-p1-subtract-final.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p2-subtract-final · `engine-flow-desktop-05m-p2-subtract-final.png`
+#### 오개념 확인 · p1-subtract-ml · `engine-flow-desktop-05m-p1-subtract-ml.png`
 
-![desktop 오개념 확인 · p2-subtract-final](screenshots/engine-flow-desktop-05m-p2-subtract-final.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-subtract-ml · `engine-flow-desktop-05m-p2-subtract-ml.png`
-
-![desktop 오개념 확인 · p2-subtract-ml](screenshots/engine-flow-desktop-05m-p2-subtract-ml.png)
+![desktop 오개념 확인 · p1-subtract-ml](screenshots/engine-flow-desktop-05m-p1-subtract-ml.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-order-compare · `engine-flow-desktop-05m-p5-order-compare.png`
+#### 오개념 확인 · p3-add-final-total · `engine-flow-desktop-05m-p3-add-final-total.png`
 
-![desktop 오개념 확인 · p5-order-compare](screenshots/engine-flow-desktop-05m-p5-order-compare.png)
+![desktop 오개념 확인 · p3-add-final-total](screenshots/engine-flow-desktop-05m-p3-add-final-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-liter-exchange · `engine-flow-desktop-05m-p3-add-liter-exchange.png`
+
+![desktop 오개념 확인 · p3-add-liter-exchange](screenshots/engine-flow-desktop-05m-p3-add-liter-exchange.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-ml-total · `engine-flow-desktop-05m-p3-add-ml-total.png`
+
+![desktop 오개념 확인 · p3-add-ml-total](screenshots/engine-flow-desktop-05m-p3-add-ml-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-order-compare · `engine-flow-desktop-05m-p8-order-compare.png`
+
+![desktop 오개념 확인 · p8-order-compare](screenshots/engine-flow-desktop-05m-p8-order-compare.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -585,63 +585,63 @@
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-add-final-total · `engine-flow-tablet-landscape-05m-p1-add-final-total.png`
+#### 오개념 확인 · p1-borrow-liter · `engine-flow-tablet-landscape-05m-p1-borrow-liter.png`
 
-![tablet-landscape 오개념 확인 · p1-add-final-total](screenshots/engine-flow-tablet-landscape-05m-p1-add-final-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p1-add-liter-exchange · `engine-flow-tablet-landscape-05m-p1-add-liter-exchange.png`
-
-![tablet-landscape 오개념 확인 · p1-add-liter-exchange](screenshots/engine-flow-tablet-landscape-05m-p1-add-liter-exchange.png)
+![tablet-landscape 오개념 확인 · p1-borrow-liter](screenshots/engine-flow-tablet-landscape-05m-p1-borrow-liter.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-add-ml-total · `engine-flow-tablet-landscape-05m-p1-add-ml-total.png`
+#### 오개념 확인 · p1-subtract-final · `engine-flow-tablet-landscape-05m-p1-subtract-final.png`
 
-![tablet-landscape 오개념 확인 · p1-add-ml-total](screenshots/engine-flow-tablet-landscape-05m-p1-add-ml-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-borrow-liter · `engine-flow-tablet-landscape-05m-p2-borrow-liter.png`
-
-![tablet-landscape 오개념 확인 · p2-borrow-liter](screenshots/engine-flow-tablet-landscape-05m-p2-borrow-liter.png)
+![tablet-landscape 오개념 확인 · p1-subtract-final](screenshots/engine-flow-tablet-landscape-05m-p1-subtract-final.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p2-subtract-final · `engine-flow-tablet-landscape-05m-p2-subtract-final.png`
+#### 오개념 확인 · p1-subtract-ml · `engine-flow-tablet-landscape-05m-p1-subtract-ml.png`
 
-![tablet-landscape 오개념 확인 · p2-subtract-final](screenshots/engine-flow-tablet-landscape-05m-p2-subtract-final.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-subtract-ml · `engine-flow-tablet-landscape-05m-p2-subtract-ml.png`
-
-![tablet-landscape 오개념 확인 · p2-subtract-ml](screenshots/engine-flow-tablet-landscape-05m-p2-subtract-ml.png)
+![tablet-landscape 오개념 확인 · p1-subtract-ml](screenshots/engine-flow-tablet-landscape-05m-p1-subtract-ml.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-order-compare · `engine-flow-tablet-landscape-05m-p5-order-compare.png`
+#### 오개념 확인 · p3-add-final-total · `engine-flow-tablet-landscape-05m-p3-add-final-total.png`
 
-![tablet-landscape 오개념 확인 · p5-order-compare](screenshots/engine-flow-tablet-landscape-05m-p5-order-compare.png)
+![tablet-landscape 오개념 확인 · p3-add-final-total](screenshots/engine-flow-tablet-landscape-05m-p3-add-final-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-liter-exchange · `engine-flow-tablet-landscape-05m-p3-add-liter-exchange.png`
+
+![tablet-landscape 오개념 확인 · p3-add-liter-exchange](screenshots/engine-flow-tablet-landscape-05m-p3-add-liter-exchange.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-ml-total · `engine-flow-tablet-landscape-05m-p3-add-ml-total.png`
+
+![tablet-landscape 오개념 확인 · p3-add-ml-total](screenshots/engine-flow-tablet-landscape-05m-p3-add-ml-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-order-compare · `engine-flow-tablet-landscape-05m-p8-order-compare.png`
+
+![tablet-landscape 오개념 확인 · p8-order-compare](screenshots/engine-flow-tablet-landscape-05m-p8-order-compare.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -925,63 +925,63 @@
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-add-final-total · `engine-flow-codex-in-app-05m-p1-add-final-total.png`
+#### 오개념 확인 · p1-borrow-liter · `engine-flow-codex-in-app-05m-p1-borrow-liter.png`
 
-![codex-in-app 오개념 확인 · p1-add-final-total](screenshots/engine-flow-codex-in-app-05m-p1-add-final-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p1-add-liter-exchange · `engine-flow-codex-in-app-05m-p1-add-liter-exchange.png`
-
-![codex-in-app 오개념 확인 · p1-add-liter-exchange](screenshots/engine-flow-codex-in-app-05m-p1-add-liter-exchange.png)
+![codex-in-app 오개념 확인 · p1-borrow-liter](screenshots/engine-flow-codex-in-app-05m-p1-borrow-liter.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-add-ml-total · `engine-flow-codex-in-app-05m-p1-add-ml-total.png`
+#### 오개념 확인 · p1-subtract-final · `engine-flow-codex-in-app-05m-p1-subtract-final.png`
 
-![codex-in-app 오개념 확인 · p1-add-ml-total](screenshots/engine-flow-codex-in-app-05m-p1-add-ml-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-borrow-liter · `engine-flow-codex-in-app-05m-p2-borrow-liter.png`
-
-![codex-in-app 오개념 확인 · p2-borrow-liter](screenshots/engine-flow-codex-in-app-05m-p2-borrow-liter.png)
+![codex-in-app 오개념 확인 · p1-subtract-final](screenshots/engine-flow-codex-in-app-05m-p1-subtract-final.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p2-subtract-final · `engine-flow-codex-in-app-05m-p2-subtract-final.png`
+#### 오개념 확인 · p1-subtract-ml · `engine-flow-codex-in-app-05m-p1-subtract-ml.png`
 
-![codex-in-app 오개념 확인 · p2-subtract-final](screenshots/engine-flow-codex-in-app-05m-p2-subtract-final.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-subtract-ml · `engine-flow-codex-in-app-05m-p2-subtract-ml.png`
-
-![codex-in-app 오개념 확인 · p2-subtract-ml](screenshots/engine-flow-codex-in-app-05m-p2-subtract-ml.png)
+![codex-in-app 오개념 확인 · p1-subtract-ml](screenshots/engine-flow-codex-in-app-05m-p1-subtract-ml.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-order-compare · `engine-flow-codex-in-app-05m-p5-order-compare.png`
+#### 오개념 확인 · p3-add-final-total · `engine-flow-codex-in-app-05m-p3-add-final-total.png`
 
-![codex-in-app 오개념 확인 · p5-order-compare](screenshots/engine-flow-codex-in-app-05m-p5-order-compare.png)
+![codex-in-app 오개념 확인 · p3-add-final-total](screenshots/engine-flow-codex-in-app-05m-p3-add-final-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-liter-exchange · `engine-flow-codex-in-app-05m-p3-add-liter-exchange.png`
+
+![codex-in-app 오개념 확인 · p3-add-liter-exchange](screenshots/engine-flow-codex-in-app-05m-p3-add-liter-exchange.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-ml-total · `engine-flow-codex-in-app-05m-p3-add-ml-total.png`
+
+![codex-in-app 오개념 확인 · p3-add-ml-total](screenshots/engine-flow-codex-in-app-05m-p3-add-ml-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-order-compare · `engine-flow-codex-in-app-05m-p8-order-compare.png`
+
+![codex-in-app 오개념 확인 · p8-order-compare](screenshots/engine-flow-codex-in-app-05m-p8-order-compare.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1265,63 +1265,63 @@
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-add-final-total · `engine-flow-user-visibility-05m-p1-add-final-total.png`
+#### 오개념 확인 · p1-borrow-liter · `engine-flow-user-visibility-05m-p1-borrow-liter.png`
 
-![user-visibility 오개념 확인 · p1-add-final-total](screenshots/engine-flow-user-visibility-05m-p1-add-final-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p1-add-liter-exchange · `engine-flow-user-visibility-05m-p1-add-liter-exchange.png`
-
-![user-visibility 오개념 확인 · p1-add-liter-exchange](screenshots/engine-flow-user-visibility-05m-p1-add-liter-exchange.png)
+![user-visibility 오개념 확인 · p1-borrow-liter](screenshots/engine-flow-user-visibility-05m-p1-borrow-liter.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-add-ml-total · `engine-flow-user-visibility-05m-p1-add-ml-total.png`
+#### 오개념 확인 · p1-subtract-final · `engine-flow-user-visibility-05m-p1-subtract-final.png`
 
-![user-visibility 오개념 확인 · p1-add-ml-total](screenshots/engine-flow-user-visibility-05m-p1-add-ml-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-borrow-liter · `engine-flow-user-visibility-05m-p2-borrow-liter.png`
-
-![user-visibility 오개념 확인 · p2-borrow-liter](screenshots/engine-flow-user-visibility-05m-p2-borrow-liter.png)
+![user-visibility 오개념 확인 · p1-subtract-final](screenshots/engine-flow-user-visibility-05m-p1-subtract-final.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p2-subtract-final · `engine-flow-user-visibility-05m-p2-subtract-final.png`
+#### 오개념 확인 · p1-subtract-ml · `engine-flow-user-visibility-05m-p1-subtract-ml.png`
 
-![user-visibility 오개념 확인 · p2-subtract-final](screenshots/engine-flow-user-visibility-05m-p2-subtract-final.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-subtract-ml · `engine-flow-user-visibility-05m-p2-subtract-ml.png`
-
-![user-visibility 오개념 확인 · p2-subtract-ml](screenshots/engine-flow-user-visibility-05m-p2-subtract-ml.png)
+![user-visibility 오개념 확인 · p1-subtract-ml](screenshots/engine-flow-user-visibility-05m-p1-subtract-ml.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-order-compare · `engine-flow-user-visibility-05m-p5-order-compare.png`
+#### 오개념 확인 · p3-add-final-total · `engine-flow-user-visibility-05m-p3-add-final-total.png`
 
-![user-visibility 오개념 확인 · p5-order-compare](screenshots/engine-flow-user-visibility-05m-p5-order-compare.png)
+![user-visibility 오개념 확인 · p3-add-final-total](screenshots/engine-flow-user-visibility-05m-p3-add-final-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-liter-exchange · `engine-flow-user-visibility-05m-p3-add-liter-exchange.png`
+
+![user-visibility 오개념 확인 · p3-add-liter-exchange](screenshots/engine-flow-user-visibility-05m-p3-add-liter-exchange.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-ml-total · `engine-flow-user-visibility-05m-p3-add-ml-total.png`
+
+![user-visibility 오개념 확인 · p3-add-ml-total](screenshots/engine-flow-user-visibility-05m-p3-add-ml-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-order-compare · `engine-flow-user-visibility-05m-p8-order-compare.png`
+
+![user-visibility 오개념 확인 · p8-order-compare](screenshots/engine-flow-user-visibility-05m-p8-order-compare.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1605,63 +1605,63 @@
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-add-final-total · `engine-flow-user-reported-missing-left-progress-05m-p1-add-final-total.png`
+#### 오개념 확인 · p1-borrow-liter · `engine-flow-user-reported-missing-left-progress-05m-p1-borrow-liter.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p1-add-final-total](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-add-final-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p1-add-liter-exchange · `engine-flow-user-reported-missing-left-progress-05m-p1-add-liter-exchange.png`
-
-![user-reported-missing-left-progress 오개념 확인 · p1-add-liter-exchange](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-add-liter-exchange.png)
+![user-reported-missing-left-progress 오개념 확인 · p1-borrow-liter](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-borrow-liter.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-add-ml-total · `engine-flow-user-reported-missing-left-progress-05m-p1-add-ml-total.png`
+#### 오개념 확인 · p1-subtract-final · `engine-flow-user-reported-missing-left-progress-05m-p1-subtract-final.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p1-add-ml-total](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-add-ml-total.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-borrow-liter · `engine-flow-user-reported-missing-left-progress-05m-p2-borrow-liter.png`
-
-![user-reported-missing-left-progress 오개념 확인 · p2-borrow-liter](screenshots/engine-flow-user-reported-missing-left-progress-05m-p2-borrow-liter.png)
+![user-reported-missing-left-progress 오개념 확인 · p1-subtract-final](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-subtract-final.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p2-subtract-final · `engine-flow-user-reported-missing-left-progress-05m-p2-subtract-final.png`
+#### 오개념 확인 · p1-subtract-ml · `engine-flow-user-reported-missing-left-progress-05m-p1-subtract-ml.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p2-subtract-final](screenshots/engine-flow-user-reported-missing-left-progress-05m-p2-subtract-final.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-subtract-ml · `engine-flow-user-reported-missing-left-progress-05m-p2-subtract-ml.png`
-
-![user-reported-missing-left-progress 오개념 확인 · p2-subtract-ml](screenshots/engine-flow-user-reported-missing-left-progress-05m-p2-subtract-ml.png)
+![user-reported-missing-left-progress 오개념 확인 · p1-subtract-ml](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-subtract-ml.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-order-compare · `engine-flow-user-reported-missing-left-progress-05m-p5-order-compare.png`
+#### 오개념 확인 · p3-add-final-total · `engine-flow-user-reported-missing-left-progress-05m-p3-add-final-total.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p5-order-compare](screenshots/engine-flow-user-reported-missing-left-progress-05m-p5-order-compare.png)
+![user-reported-missing-left-progress 오개념 확인 · p3-add-final-total](screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-add-final-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-liter-exchange · `engine-flow-user-reported-missing-left-progress-05m-p3-add-liter-exchange.png`
+
+![user-reported-missing-left-progress 오개념 확인 · p3-add-liter-exchange](screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-add-liter-exchange.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p3-add-ml-total · `engine-flow-user-reported-missing-left-progress-05m-p3-add-ml-total.png`
+
+![user-reported-missing-left-progress 오개념 확인 · p3-add-ml-total](screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-add-ml-total.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이의 덧셈·뺄셈과 어림의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-order-compare · `engine-flow-user-reported-missing-left-progress-05m-p8-order-compare.png`
+
+![user-reported-missing-left-progress 오개념 확인 · p8-order-compare](screenshots/engine-flow-user-reported-missing-left-progress-05m-p8-order-compare.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.

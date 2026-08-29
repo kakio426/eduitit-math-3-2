@@ -1,8 +1,8 @@
 {
   "standard": "report-current-screen-evidence-v3",
   "lesson": "3-2-6-1-mathmon-data-rangers",
-  "generatedAt": "2026-08-23T12:06:39.090Z",
-  "indexSha256": "cc081ce32455ec9472fc7708eb44badf817042a7b14f26aed13880cf656ee2da",
+  "generatedAt": "2026-08-29T10:19:17.573Z",
+  "indexSha256": "16049ee90132930755310a8d09426425b45539e02b3c4075e22471da5406ab02",
   "sourceScreenshotsCommitted": false,
   "sourceScreenshotsRetention": "ephemeral-local-cache",
   "qaReceipt": "screenshots/mathmon-browser-qa-receipt.json",
@@ -162,7 +162,7 @@
   },
   "fingerprints": {
     "lessonRuntime": {
-      "sha256": "3a6154ccbc49543513f356fc5ae29c073e786afc92b2c350e7ebf1d9746bd397",
+      "sha256": "6a026cb68162d8032c401bb1112151bf35f3242f44ac21a51c69dcf5afcd5615",
       "files": [
         "3-2-6-1-mathmon-data-rangers/cover-generated.webp",
         "3-2-6-1-mathmon-data-rangers/index.html",
@@ -208,6 +208,7 @@
         "_engine/v1/schemas/lesson.schema.json",
         "_engine/v1/styles/core.css",
         "_engine/v1/template.html",
+        "_lessons/3-2-6-1-mathmon-data-rangers/lesson.css",
         "_lessons/3-2-6-1-mathmon-data-rangers/lesson.json",
         "_lessons/_shared/unit6-data/lesson.css",
         "_lessons/_shared/unit6-data/model.js",
@@ -224,7 +225,7 @@
       ]
     },
     "policy": {
-      "sha256": "6e57fe68171dc9279931ab3bdd563e4fb9ae79a6014e4097e6f31ce061d36880",
+      "sha256": "10a71d9aa7236a5c3401db9cf0d787554e5b00b2ec478f8945d22deadc30cdf2",
       "files": [
         ".claude/skills/eduitit-mathmon-assets/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/SKILL.md",
@@ -257,15 +258,18 @@
         "_shared/monster-governance/schemas/character-governance-link.schema.json",
         "_shared/monster-governance/schemas/generation-run.schema.json",
         "_shared/monster-governance/schemas/registry.schema.json",
+        "_shared/monster-governance/schemas/socialmon-character-roster-v2.schema.json",
+        "_shared/monster-governance/schemas/socialmon-render-profile-v1.schema.json",
         "_shared/monster-governance/schemas/subject-profile.schema.json",
         "_shared/monster-governance/style-core.json",
         "_shared/monster-governance/subject-profiles/mathmon.json",
+        "_shared/monster-governance/subject-profiles/socialmon-render-clay-vinyl-3d-v1.json",
         "_shared/monster-governance/subject-profiles/socialmon.json",
         "_shared/monster-governance/subjects.json"
       ]
     },
     "harness": {
-      "sha256": "0456c08eb5563c12cfec53abbf8b2f3460b82cc2749ac5e71fa21fef3d9867af",
+      "sha256": "7c55217efb84c086651322d31776ff996ab48384206ec47f21f3a09c7a5e56eb",
       "files": [
         ".codex/hooks.json",
         ".codex/hooks/mathmon-context.mjs",
@@ -347,17 +351,13 @@
         "scripts/fixtures/tutorial-poster-contract/visible-html-overlay.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-purpose-order.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-standard.json",
-        "scripts/lib/assert-mathmon-reward-v2.mjs",
         "scripts/lib/component-registry.mjs",
         "scripts/lib/load-lesson-source-model.mjs",
-        "scripts/lib/load-mathmon-reward-model.mjs",
         "scripts/lib/mathmon-delivery-gate.mjs",
         "scripts/lib/mathmon-fast-delivery.mjs",
         "scripts/lib/mathmon-layout-qa.mjs",
         "scripts/lib/mathmon-qa-viewports.mjs",
-        "scripts/lib/mathmon-randomness-audit.mjs",
         "scripts/lib/mathmon-repeated-element-qa.mjs",
-        "scripts/lib/mathmon-reward-reentry.mjs",
         "scripts/lib/mathmon-top-controls-v2.mjs",
         "scripts/lib/monster-governance.mjs",
         "scripts/lib/production-workflow.mjs",
@@ -414,9 +414,7 @@
         "scripts/test-mathmon-layout-qa.mjs",
         "scripts/test-mathmon-qa-viewports.mjs",
         "scripts/test-mathmon-repeated-element-qa.mjs",
-        "scripts/test-mathmon-reward-model-loader.mjs",
         "scripts/test-mathmon-reward-policy.mjs",
-        "scripts/test-mathmon-reward-reentry.mjs",
         "scripts/test-mathmon-top-controls-v2.mjs",
         "scripts/test-monster-governance.mjs",
         "scripts/test-production-workflow.mjs",
@@ -424,7 +422,6 @@
         "scripts/test-result-internal-metric-policy.mjs",
         "scripts/test-result-panel-containment.mjs",
         "scripts/test-result-reward-dominance.mjs",
-        "scripts/test-run-randomness-harness.mjs",
         "scripts/test-student-reward-language.mjs",
         "scripts/test-tutorial-poster-contract.mjs",
         "scripts/test-unit2-three-digit-division.mjs",
@@ -449,7 +446,7 @@
       },
       "screenshotCount": 30,
       "sheet": "screenshots/report-flow-desktop-contact-sheet.png",
-      "sheetSha256": "ae603613cda788b96706dec96937a6a436962e19cf60142f62e8da99813c3311",
+      "sheetSha256": "20e60002f62e348086603754c97aec589a1d01d5e56e34db2da6bee1b5d29bc5",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-desktop-01-cover.png",
@@ -469,19 +466,19 @@
         },
         {
           "path": "screenshots/engine-flow-desktop-05-play-step1.png",
-          "sha256": "396dbb97782770c4a8a3ba3713fb0f1f2aaa7935dac4764350bcd6bcc20f814f"
+          "sha256": "742dcf3af6fc5b833b3de6a0f1999dac3aa848bec8ec8ab6a85536f99b9a0841"
         },
         {
           "path": "screenshots/engine-flow-desktop-05n-next-problem-clean.png",
-          "sha256": "0f6ba9b8379a5bca6ab26a2504ceca26040b2d59aabff8dc79e4aafb3db98827"
+          "sha256": "44c47632aa54ccedb446675d433ee6646301b34cf66c56072e12dc44ee48dad4"
         },
         {
           "path": "screenshots/engine-flow-desktop-05b-play-wrong.png",
-          "sha256": "84ade2bee817b4c232d51bbff57dfbb8d653e271c3ab9c19f26156e236a66c02"
+          "sha256": "ca0012f17733b6515be506f449537bede8a466f31dd741aea25ba81e07336c29"
         },
         {
           "path": "screenshots/engine-flow-desktop-06-confirm.png",
-          "sha256": "ae2ae24d3687ed2fd17d170f53c74873eeaf72464d9013bff8760a7d54f68a39"
+          "sha256": "397fe7f82ea238143d408036d680e06e1ca3988ddcdd0aa1214388d8986880e5"
         },
         {
           "path": "screenshots/engine-flow-desktop-07-reward-closed.png",
@@ -493,11 +490,11 @@
         },
         {
           "path": "screenshots/engine-flow-desktop-07c-reward-impact.png",
-          "sha256": "32c1f8ec4d3826075594b463f1b7afe53467f2981a0b0e3920aba62617d01671"
+          "sha256": "eeddb2ffdb0537812e5d9e36dc18a1859474ce26ae68912993fb424e52482511"
         },
         {
           "path": "screenshots/engine-flow-desktop-08-result.png",
-          "sha256": "3c58829c6ccd98ed20aac1ced08416820d2271fc55b6784e0a3e34ddf5617358"
+          "sha256": "050f98055da984f5755a0b3d430f423898cd178a662ff83a199239cda86701d1"
         },
         {
           "path": "screenshots/engine-flow-desktop-08a-result-first.png",
@@ -589,7 +586,7 @@
       },
       "screenshotCount": 30,
       "sheet": "screenshots/report-flow-tablet-landscape-contact-sheet.png",
-      "sheetSha256": "afc9915af6374442a1fc272e791211c5dcd154fd77ec2b666099e2cd3cea01d8",
+      "sheetSha256": "1fc98b57f2f64bc7f6373f3971b2df334b473fa6f52d8f82393667d5af741e7b",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-tablet-landscape-01-cover.png",
@@ -609,19 +606,19 @@
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05-play-step1.png",
-          "sha256": "0666b94c8969eb3d9ba9a712deb49c45e4a7e443808e66e90bcf9803c71cea57"
+          "sha256": "68395c924cbaf61a24c7f01c6cde79bfba977a37d1bd97bcc5774b34e1c297a8"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png",
-          "sha256": "aa9b4f2d0a8e5f108418ac80df957467dfffd154fe9aa3068f452a371a83936b"
+          "sha256": "0f83190cd13adc8ebb43ab551c26ed11682d7acd5ec5b1a22c69a04688a04ccf"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05b-play-wrong.png",
-          "sha256": "e0f12c98b92e094e50551883f7d8b7c4a5e7c0f7f35069e71c8f486fc2762bbc"
+          "sha256": "f235088d7c0dee649587d1fb682bdfabdd47ad896e1a0e22d5150001023f7ce0"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-06-confirm.png",
-          "sha256": "d3ea760fe44e602783dfa8f9df273d80c5a8ea6fb7a8681254c3eddecadb4e52"
+          "sha256": "42987da7a020ec6f27d99037d7a065eb469e9e9e5c6ccc2557ab3437f65a09d4"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07-reward-closed.png",
@@ -633,11 +630,11 @@
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07c-reward-impact.png",
-          "sha256": "c1a260a1e9fb9ef1573c8158ba34993607594fa993862cdb9c95a3507656d7ca"
+          "sha256": "1001db0e6c42562387c2622afc74b97411e48302cbb86882b3d8893810dfb608"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08-result.png",
-          "sha256": "a1dc605e64198dff7a54017b9b2c2ccc442533be5fbafd5c162ba8e22ee10956"
+          "sha256": "bc1405341b4ef24042e00f22499a441b67a31ea10bf63ad88cf55db77621b65f"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08a-result-first.png",
@@ -729,7 +726,7 @@
       },
       "screenshotCount": 30,
       "sheet": "screenshots/report-flow-codex-in-app-contact-sheet.png",
-      "sheetSha256": "1527ea436d47cb805f9c1055bb5129230b946bca3b44fd7028b82126543f954f",
+      "sheetSha256": "3c574b1d56eb9c24848ae88a9e068e9834b7485e6dd4295010d2a2501f83882c",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-codex-in-app-01-cover.png",
@@ -749,19 +746,19 @@
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05-play-step1.png",
-          "sha256": "2e3411d9adba58f7d80312227ca4af5cca693bd8a815d322b1e691d676f0762a"
+          "sha256": "20a538a87ffbcea7c126c35c648219ee82db84c0bbc8a904d84e496827bf7489"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png",
-          "sha256": "b4c1c0fbf72f34ddc1a913c15a42d213544aa1b39b9557152c30e6172f009c8a"
+          "sha256": "3042ce215d6472c7df4398f896d61aed40ca8d01e8dc93b3f9feefcb62dfe80b"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-05b-play-wrong.png",
-          "sha256": "f61058e747dfffefe234962c59c2b6b05378c78a70ad9bd4af0ed188a8412045"
+          "sha256": "bbcae21683aebf3cfe957ceb7d5d6117bb535fddb49912e2062d58eb290e11a7"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-06-confirm.png",
-          "sha256": "a7c839b19fc033c821235ea10b700b5db8c4726aa51977180c0b3594e4797b2d"
+          "sha256": "1c5c4a06ab13cbbc920d96c5ef3d968b396fc2008725e066912546ec8d54b844"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-07-reward-closed.png",
@@ -773,11 +770,11 @@
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-07c-reward-impact.png",
-          "sha256": "d8f5bd085676b8ff03b534e8e52ec1062ddd2cd5116b85fb7aca322cf8d67758"
+          "sha256": "c780b76ee5b6ecd0010367a27c3bb86999be26ad0a1284e6582d42bcfd86362b"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08-result.png",
-          "sha256": "c6602bff3ae79fe528fcbe1455e195fe42dc3ee226ddfef0da722029f6cb7beb"
+          "sha256": "0b89786ab6f9776b2f991766eb86a3d5497b61bdbab8021797da18961e6c0c4c"
         },
         {
           "path": "screenshots/engine-flow-codex-in-app-08a-result-first.png",
@@ -869,7 +866,7 @@
       },
       "screenshotCount": 30,
       "sheet": "screenshots/report-flow-user-visibility-contact-sheet.png",
-      "sheetSha256": "de5b401b25ec15540de75734d08d351decfc11723e908a053560708d10b9b39f",
+      "sheetSha256": "ec70677f8c5f60b3ecd9e6bfd84f4eefea11d3f7726486dbe6576d92e7545d7b",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-user-visibility-01-cover.png",
@@ -889,19 +886,19 @@
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05-play-step1.png",
-          "sha256": "9edb35504c8f1b8eba8c60a8dcf253eca6d786453c67a23254b3f2c1f83d55da"
+          "sha256": "379730696cab04aa4d073dc732ed29131a60b66af64ada7269b626e3ae6ed62d"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05n-next-problem-clean.png",
-          "sha256": "4ff7259aacaf36e3ca5197fe961e4f167305558d5c5c955f87813fb3ec4fe902"
+          "sha256": "4a1f1f3ccf7a100a99f7a562ac85432ef65a40e098e8b29577e89c987eff0b46"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-05b-play-wrong.png",
-          "sha256": "6d23842a9f73dbb60d61916f223b06070817ceb5cca18dd7fd9d91f9a8033300"
+          "sha256": "84d696ef3ede8187358a161a4be2af1fc27b3893220fa16a2ca129f53e6f61ce"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-06-confirm.png",
-          "sha256": "9300cdd20fb60b54ac827379ca45f6ed0f221b1c65feaccdc57375e91f4c8d39"
+          "sha256": "ba07f0e23baaf8e27a392130db1555bdb1d17427d183cdb4cef58442f85a0310"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-07-reward-closed.png",
@@ -913,7 +910,7 @@
         },
         {
           "path": "screenshots/engine-flow-user-visibility-07c-reward-impact.png",
-          "sha256": "8f0afb734a5f2a9251fa31d46b3134c2ce8fbf048addd4d53c24458b5e1fd4e9"
+          "sha256": "0fb1861f6396911238169a7cd08f5c54b23dcdebc11ecdeba0e87469bf19a2ed"
         },
         {
           "path": "screenshots/engine-flow-user-visibility-08-result.png",
@@ -1009,7 +1006,7 @@
       },
       "screenshotCount": 30,
       "sheet": "screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png",
-      "sheetSha256": "b2b4c7030e4d4a282d4685f6ba81401987f9a2db456161a1fdea504457666c17",
+      "sheetSha256": "c6f86b251245ae48e07a353edc25f9fed340e3a288c150391af6a8e3ffd73f78",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-01-cover.png",
@@ -1029,19 +1026,19 @@
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05-play-step1.png",
-          "sha256": "4678eaf4acea32a2b42de0a6213be7b9ec53bf7e79a0d5e8104f81ac3eb9da2f"
+          "sha256": "b7a51ffccaa02916207ddfeec36dc0ba80d5a4e096631d7f267f2ba10f2616b2"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png",
-          "sha256": "3c2c2a376e09f15eb85379611e70a89ae330b173b9e9132132fb7c401ee6b7be"
+          "sha256": "2f79bc2947674038e841877b4cbca3eb961157967ab6a49711a2bfbcc2c8da29"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-05b-play-wrong.png",
-          "sha256": "3c20e9bb5e01a0a7d38892d4ad439d238c4a8d732916daf3131d8cb9c3bdd99d"
+          "sha256": "24cf38e283b95f4fa40481ccfca7b51f660cbafefc5486d3d07f2a4904fceafd"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-06-confirm.png",
-          "sha256": "6196be1c7a098ff7cfcf40194d6f5c9d81edbafb2e18a3280d9376276df516b8"
+          "sha256": "68accceadfec6de2772951ed2f526ea36e3a3e87ff8939d9ee34d3a04a12e0a5"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-07-reward-closed.png",
@@ -1053,7 +1050,7 @@
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-07c-reward-impact.png",
-          "sha256": "d17bd0d1c04541166ed4d73b9b17ccd4c057eee70908f89ca92ee15a02152015"
+          "sha256": "be5df8385e69e6b37b87286d6822c5e918aef8aa58053e5197e77bd8e70e2ca9"
         },
         {
           "path": "screenshots/engine-flow-user-reported-missing-left-progress-08-result.png",
@@ -1157,11 +1154,11 @@
       },
       "screenshotCount": 3,
       "sheet": "screenshots/report-flow-empty-reward-fixture-contact-sheet.png",
-      "sheetSha256": "08230461e7ad8bee476a036888f81c9d23bde8a41f369cc6aea65ae5627078be",
+      "sheetSha256": "1dcaab28b63922ede97dfd04f3d28e7e0e63f86a80238c8efadc71ed2535bd2f",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-06-confirm.png",
-          "sha256": "c0f5061484c0585167e2393eb122d6f0e1d123e5ccc95ac0ef316f8d20126d4a"
+          "sha256": "58633343fece3a9ad4ee9a1df358db5d47425ac65cd6e95a6b5e1b79f1e13c8b"
         },
         {
           "path": "screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png",

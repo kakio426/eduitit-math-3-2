@@ -1,70 +1,336 @@
 {
-  "standard": "mathmon-browser-qa-receipt-v1",
+  "standard": "mathmon-browser-qa-receipt-v2",
   "lesson": "3-2-4-4-mathmon-fraction-tug",
   "mode": "full-flow",
-  "startedAt": "2026-08-22T16:34:11.429Z",
-  "completedAt": "2026-08-22T16:36:12.627Z",
-  "seed": 20260709,
+  "startedAt": "2026-08-29T10:26:03.803Z",
+  "completedAt": "2026-08-29T10:29:25.820Z",
+  "seed": 20260829,
+  "viewportPlan": {
+    "standard": "mathmon-qa-viewport-plan-v2",
+    "registeredCount": 9,
+    "executionCount": 7,
+    "deduplicatedCount": 2,
+    "targetedExecutionCount": 1,
+    "expandedDuplicates": false,
+    "registered": [
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1,
+        "behaviorKeys": []
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1,
+        "behaviorKeys": []
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "dpr": 2,
+        "behaviorKeys": []
+      },
+      {
+        "name": "user-visibility",
+        "width": 994,
+        "height": 632,
+        "dpr": 1,
+        "behaviorKeys": []
+      },
+      {
+        "name": "user-reported-missing-left-progress",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2,
+        "behaviorKeys": []
+      },
+      {
+        "name": "browser-comment-choice-hierarchy-and-progress",
+        "width": 934,
+        "height": 987,
+        "dpr": 2,
+        "behaviorKeys": []
+      },
+      {
+        "name": "user-reported-result-double-panel",
+        "width": 934,
+        "height": 987,
+        "dpr": 2,
+        "behaviorKeys": []
+      },
+      {
+        "name": "user-reported-result-content-scale",
+        "width": 934,
+        "height": 987,
+        "dpr": 2,
+        "behaviorKeys": []
+      },
+      {
+        "name": "empty-reward-fixture",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1,
+        "behaviorKeys": [
+          "emptyRewardAuditViewport"
+        ]
+      }
+    ],
+    "executions": [
+      {
+        "name": "desktop",
+        "canonicalName": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1,
+        "regressionNames": [
+          "desktop"
+        ],
+        "aliases": [],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "full-flow"
+        }
+      },
+      {
+        "name": "tablet-landscape",
+        "canonicalName": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1,
+        "regressionNames": [
+          "tablet-landscape"
+        ],
+        "aliases": [],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "full-flow"
+        }
+      },
+      {
+        "name": "codex-in-app",
+        "canonicalName": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "dpr": 2,
+        "regressionNames": [
+          "codex-in-app"
+        ],
+        "aliases": [],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "full-flow"
+        }
+      },
+      {
+        "name": "user-visibility",
+        "canonicalName": "user-visibility",
+        "width": 994,
+        "height": 632,
+        "dpr": 1,
+        "regressionNames": [
+          "user-visibility"
+        ],
+        "aliases": [],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "full-flow"
+        }
+      },
+      {
+        "name": "user-reported-missing-left-progress",
+        "canonicalName": "user-reported-missing-left-progress",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2,
+        "regressionNames": [
+          "user-reported-missing-left-progress"
+        ],
+        "aliases": [],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "full-flow"
+        }
+      },
+      {
+        "name": "browser-comment-choice-hierarchy-and-progress",
+        "canonicalName": "browser-comment-choice-hierarchy-and-progress",
+        "width": 934,
+        "height": 987,
+        "dpr": 2,
+        "regressionNames": [
+          "browser-comment-choice-hierarchy-and-progress",
+          "user-reported-result-double-panel",
+          "user-reported-result-content-scale"
+        ],
+        "aliases": [
+          "user-reported-result-double-panel",
+          "user-reported-result-content-scale"
+        ],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "full-flow"
+        }
+      },
+      {
+        "name": "empty-reward-fixture",
+        "canonicalName": "empty-reward-fixture",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1,
+        "regressionNames": [
+          "empty-reward-fixture"
+        ],
+        "aliases": [],
+        "behaviorKeys": [
+          "emptyRewardAuditViewport"
+        ],
+        "capture": {
+          "mode": "targeted",
+          "reason": "empty-reward-fixture",
+          "states": [
+            "06-confirm",
+            "07-reward-closed",
+            "07b-reward-open"
+          ]
+        }
+      }
+    ]
+  },
   "viewports": [
     {
       "name": "desktop",
+      "canonicalName": "desktop",
       "width": 1280,
       "height": 800,
-      "dpr": 1
+      "dpr": 1,
+      "regressionNames": [
+        "desktop"
+      ],
+      "aliases": [],
+      "behaviorKeys": [],
+      "capture": {
+        "mode": "full-flow"
+      }
     },
     {
       "name": "tablet-landscape",
+      "canonicalName": "tablet-landscape",
       "width": 1024,
       "height": 768,
-      "dpr": 1
+      "dpr": 1,
+      "regressionNames": [
+        "tablet-landscape"
+      ],
+      "aliases": [],
+      "behaviorKeys": [],
+      "capture": {
+        "mode": "full-flow"
+      }
     },
     {
       "name": "codex-in-app",
+      "canonicalName": "codex-in-app",
       "width": 1280,
       "height": 720,
-      "dpr": 2
+      "dpr": 2,
+      "regressionNames": [
+        "codex-in-app"
+      ],
+      "aliases": [],
+      "behaviorKeys": [],
+      "capture": {
+        "mode": "full-flow"
+      }
     },
     {
       "name": "user-visibility",
+      "canonicalName": "user-visibility",
       "width": 994,
       "height": 632,
-      "dpr": 1
+      "dpr": 1,
+      "regressionNames": [
+        "user-visibility"
+      ],
+      "aliases": [],
+      "behaviorKeys": [],
+      "capture": {
+        "mode": "full-flow"
+      }
     },
     {
       "name": "user-reported-missing-left-progress",
+      "canonicalName": "user-reported-missing-left-progress",
       "width": 1082,
       "height": 987,
-      "dpr": 2
+      "dpr": 2,
+      "regressionNames": [
+        "user-reported-missing-left-progress"
+      ],
+      "aliases": [],
+      "behaviorKeys": [],
+      "capture": {
+        "mode": "full-flow"
+      }
     },
     {
       "name": "browser-comment-choice-hierarchy-and-progress",
+      "canonicalName": "browser-comment-choice-hierarchy-and-progress",
       "width": 934,
       "height": 987,
-      "dpr": 2
-    },
-    {
-      "name": "user-reported-result-double-panel",
-      "width": 934,
-      "height": 987,
-      "dpr": 2
-    },
-    {
-      "name": "user-reported-result-content-scale",
-      "width": 934,
-      "height": 987,
-      "dpr": 2
+      "dpr": 2,
+      "regressionNames": [
+        "browser-comment-choice-hierarchy-and-progress",
+        "user-reported-result-double-panel",
+        "user-reported-result-content-scale"
+      ],
+      "aliases": [
+        "user-reported-result-double-panel",
+        "user-reported-result-content-scale"
+      ],
+      "behaviorKeys": [],
+      "capture": {
+        "mode": "full-flow"
+      }
     },
     {
       "name": "empty-reward-fixture",
+      "canonicalName": "empty-reward-fixture",
       "width": 1280,
       "height": 800,
-      "dpr": 1
+      "dpr": 1,
+      "regressionNames": [
+        "empty-reward-fixture"
+      ],
+      "aliases": [],
+      "behaviorKeys": [
+        "emptyRewardAuditViewport"
+      ],
+      "capture": {
+        "mode": "targeted",
+        "reason": "empty-reward-fixture",
+        "states": [
+          "06-confirm",
+          "07-reward-closed",
+          "07b-reward-open"
+        ]
+      }
     }
   ],
+  "summary": {
+    "registeredViewportCount": 9,
+    "executionViewportCount": 7,
+    "deduplicatedViewportCount": 2,
+    "targetedExecutionCount": 1,
+    "screenshotCount": 231
+  },
   "delegatedHarness": null,
   "fingerprints": {
     "lessonRuntime": {
-      "sha256": "71526c14aaeb1faa48a1ef6ee66ed447a8f19f6504a11bd49eacb880b7eeeb8d",
+      "sha256": "ab9da5bf7ed6064dba6863cc1640efe581350fdcbdd5272764bdb0ea714327d4",
       "files": [
         "3-2-4-4-mathmon-fraction-tug/cover-generated.webp",
         "3-2-4-4-mathmon-fraction-tug/index.html",
@@ -116,7 +382,7 @@
       ]
     },
     "policy": {
-      "sha256": "da90cc927a1d143b4ca667386a415b2b6e9d4c316287d6f1bb621e897ba134b9",
+      "sha256": "10a71d9aa7236a5c3401db9cf0d787554e5b00b2ec478f8945d22deadc30cdf2",
       "files": [
         ".claude/skills/eduitit-mathmon-assets/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/SKILL.md",
@@ -130,11 +396,14 @@
         "_shared/COMMON_RESOURCE_CONTRACT.md",
         "_shared/brand/mathmon-brand-mark.json",
         "_shared/contracts/component-registry.json",
+        "_shared/contracts/mathmon-browser-qa-execution-v2.json",
         "_shared/contracts/mathmon-component-registry.json",
         "_shared/contracts/mathmon-top-controls-v2.json",
+        "_shared/contracts/mathmon-unified-reward-v2.json",
         "_shared/contracts/platform-component-registry.json",
         "_shared/contracts/production-workflow.json",
         "_shared/contracts/socialmon-component-registry.json",
+        "_shared/contracts/workspace-management.json",
         "_shared/mathmon/MATHMON_ASSET_CONTRACT.md",
         "_shared/monster-governance/MONSTER_UNIVERSE_CONTRACT.md",
         "_shared/monster-governance/approvals/approvals.json",
@@ -146,15 +415,18 @@
         "_shared/monster-governance/schemas/character-governance-link.schema.json",
         "_shared/monster-governance/schemas/generation-run.schema.json",
         "_shared/monster-governance/schemas/registry.schema.json",
+        "_shared/monster-governance/schemas/socialmon-character-roster-v2.schema.json",
+        "_shared/monster-governance/schemas/socialmon-render-profile-v1.schema.json",
         "_shared/monster-governance/schemas/subject-profile.schema.json",
         "_shared/monster-governance/style-core.json",
         "_shared/monster-governance/subject-profiles/mathmon.json",
+        "_shared/monster-governance/subject-profiles/socialmon-render-clay-vinyl-3d-v1.json",
         "_shared/monster-governance/subject-profiles/socialmon.json",
         "_shared/monster-governance/subjects.json"
       ]
     },
     "harness": {
-      "sha256": "32d51a649fc6e630e3a5ada407327801f4d36c7f124bcd0dd9da5a8cf0f72379",
+      "sha256": "7c55217efb84c086651322d31776ff996ab48384206ec47f21f3a09c7a5e56eb",
       "files": [
         ".codex/hooks.json",
         ".codex/hooks/mathmon-context.mjs",
@@ -164,6 +436,7 @@
         ".codex/hooks/socialmon-context.mjs",
         ".codex/hooks/socialmon-hook-state.mjs",
         ".codex/hooks/socialmon-stop-gate.mjs",
+        "scripts/ai-mart.mjs",
         "scripts/build-lesson-report-sheets.mjs",
         "scripts/build-monster-governance.mjs",
         "scripts/build-monster-review-sheets.mjs",
@@ -238,6 +511,10 @@
         "scripts/lib/component-registry.mjs",
         "scripts/lib/load-lesson-source-model.mjs",
         "scripts/lib/mathmon-delivery-gate.mjs",
+        "scripts/lib/mathmon-fast-delivery.mjs",
+        "scripts/lib/mathmon-layout-qa.mjs",
+        "scripts/lib/mathmon-qa-viewports.mjs",
+        "scripts/lib/mathmon-repeated-element-qa.mjs",
         "scripts/lib/mathmon-top-controls-v2.mjs",
         "scripts/lib/monster-governance.mjs",
         "scripts/lib/production-workflow.mjs",
@@ -274,7 +551,10 @@
         "scripts/qa-lesson5-scale-balance-model.mjs",
         "scripts/qa-lesson5-water-fill-model.mjs",
         "scripts/qa-mathmon-audio-smoke.mjs",
+        "scripts/qa-mathmon-layout.mjs",
+        "scripts/qa-mathmon-repeated-element.mjs",
         "scripts/qa-mathmon-result-sweep.mjs",
+        "scripts/qa-mathmon-reward-percent.mjs",
         "scripts/qa-result-visual-integrity-fixtures.mjs",
         "scripts/qa-run-randomness-browser.mjs",
         "scripts/qa-student-reward-language-browser.mjs",
@@ -286,7 +566,12 @@
         "scripts/test-ai-mart.mjs",
         "scripts/test-component-registry.mjs",
         "scripts/test-mathmon-delivery-gate.mjs",
+        "scripts/test-mathmon-fast-delivery.mjs",
         "scripts/test-mathmon-hooks.mjs",
+        "scripts/test-mathmon-layout-qa.mjs",
+        "scripts/test-mathmon-qa-viewports.mjs",
+        "scripts/test-mathmon-repeated-element-qa.mjs",
+        "scripts/test-mathmon-reward-policy.mjs",
         "scripts/test-mathmon-top-controls-v2.mjs",
         "scripts/test-monster-governance.mjs",
         "scripts/test-production-workflow.mjs",

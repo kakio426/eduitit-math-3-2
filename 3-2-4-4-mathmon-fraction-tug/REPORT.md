@@ -200,15 +200,21 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-22 최신 원본 스크린샷 전수
+## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `a1b2e4d3d34b7478d7da16618bddd739dd762054846300562382c2f7ee378469`
-- 생성 시각: `2026-08-22T16:41:55.399Z`
-- 등록 화면 크기: `9개`
-- 아래에 직접 삽입한 원본 캡처: `287장`
-- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+- 실행본 SHA-256: `04f997c9b929660fb03eb30cfea86aeac2b0767a9327fcba8cc62f79e1c213cb`
+- 생성 시각: `2026-08-29T10:30:34.676Z`
+- 등록 회귀 이름: `9개`
+- 실제 실행 화면 조건: `7개`
+- 동일 조건 별칭 통합: `2개`
+- 아래에 직접 삽입한 원본 캡처: `195장`
+- 같은 width×height×DPR과 같은 fixture 조건은 한 번만 실행하고, 과거 오류 이름은 별칭으로 보존했습니다.
+- manifest에 기록된 실제 실행 원본 캡처를 한 장씩 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 32장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -266,18 +272,18 @@
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-desktop-05m-p1-compare-same-denominator-smaller.png`
+#### 오개념 확인 · p1-compare-unit-fraction-smaller · `engine-flow-desktop-05m-p1-compare-unit-fraction-smaller.png`
 
-![desktop 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-desktop-05m-p1-compare-same-denominator-smaller.png)
+![desktop 오개념 확인 · p1-compare-unit-fraction-smaller](screenshots/engine-flow-desktop-05m-p1-compare-unit-fraction-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-desktop-05m-p3-compare-unit-fraction-smaller.png`
+#### 오개념 확인 · p2-compare-same-denominator-smaller · `engine-flow-desktop-05m-p2-compare-same-denominator-smaller.png`
 
-![desktop 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-desktop-05m-p3-compare-unit-fraction-smaller.png)
+![desktop 오개념 확인 · p2-compare-same-denominator-smaller](screenshots/engine-flow-desktop-05m-p2-compare-same-denominator-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -502,6 +508,9 @@
 
 ### tablet-landscape · 1024×768 · DPR 1 · 32장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
@@ -558,18 +567,18 @@
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-tablet-landscape-05m-p1-compare-same-denominator-smaller.png`
+#### 오개념 확인 · p1-compare-unit-fraction-smaller · `engine-flow-tablet-landscape-05m-p1-compare-unit-fraction-smaller.png`
 
-![tablet-landscape 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-tablet-landscape-05m-p1-compare-same-denominator-smaller.png)
+![tablet-landscape 오개념 확인 · p1-compare-unit-fraction-smaller](screenshots/engine-flow-tablet-landscape-05m-p1-compare-unit-fraction-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-tablet-landscape-05m-p3-compare-unit-fraction-smaller.png`
+#### 오개념 확인 · p2-compare-same-denominator-smaller · `engine-flow-tablet-landscape-05m-p2-compare-same-denominator-smaller.png`
 
-![tablet-landscape 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-tablet-landscape-05m-p3-compare-unit-fraction-smaller.png)
+![tablet-landscape 오개념 확인 · p2-compare-same-denominator-smaller](screenshots/engine-flow-tablet-landscape-05m-p2-compare-same-denominator-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -794,6 +803,9 @@
 
 ### codex-in-app · 1280×720 · DPR 2 · 32장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-codex-in-app-01-cover.png`
@@ -850,18 +862,18 @@
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-codex-in-app-05m-p1-compare-same-denominator-smaller.png`
+#### 오개념 확인 · p1-compare-unit-fraction-smaller · `engine-flow-codex-in-app-05m-p1-compare-unit-fraction-smaller.png`
 
-![codex-in-app 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-codex-in-app-05m-p1-compare-same-denominator-smaller.png)
+![codex-in-app 오개념 확인 · p1-compare-unit-fraction-smaller](screenshots/engine-flow-codex-in-app-05m-p1-compare-unit-fraction-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-codex-in-app-05m-p3-compare-unit-fraction-smaller.png`
+#### 오개념 확인 · p2-compare-same-denominator-smaller · `engine-flow-codex-in-app-05m-p2-compare-same-denominator-smaller.png`
 
-![codex-in-app 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-codex-in-app-05m-p3-compare-unit-fraction-smaller.png)
+![codex-in-app 오개념 확인 · p2-compare-same-denominator-smaller](screenshots/engine-flow-codex-in-app-05m-p2-compare-same-denominator-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1086,6 +1098,9 @@
 
 ### user-visibility · 994×632 · DPR 1 · 32장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-visibility-01-cover.png`
@@ -1142,18 +1157,18 @@
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-user-visibility-05m-p1-compare-same-denominator-smaller.png`
+#### 오개념 확인 · p1-compare-unit-fraction-smaller · `engine-flow-user-visibility-05m-p1-compare-unit-fraction-smaller.png`
 
-![user-visibility 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-user-visibility-05m-p1-compare-same-denominator-smaller.png)
+![user-visibility 오개념 확인 · p1-compare-unit-fraction-smaller](screenshots/engine-flow-user-visibility-05m-p1-compare-unit-fraction-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-user-visibility-05m-p3-compare-unit-fraction-smaller.png`
+#### 오개념 확인 · p2-compare-same-denominator-smaller · `engine-flow-user-visibility-05m-p2-compare-same-denominator-smaller.png`
 
-![user-visibility 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-user-visibility-05m-p3-compare-unit-fraction-smaller.png)
+![user-visibility 오개념 확인 · p2-compare-same-denominator-smaller](screenshots/engine-flow-user-visibility-05m-p2-compare-same-denominator-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1378,6 +1393,9 @@
 
 ### user-reported-missing-left-progress · 1082×987 · DPR 2 · 32장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-reported-missing-left-progress-01-cover.png`
@@ -1434,18 +1452,18 @@
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-user-reported-missing-left-progress-05m-p1-compare-same-denominator-smaller.png`
+#### 오개념 확인 · p1-compare-unit-fraction-smaller · `engine-flow-user-reported-missing-left-progress-05m-p1-compare-unit-fraction-smaller.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-compare-same-denominator-smaller.png)
+![user-reported-missing-left-progress 오개념 확인 · p1-compare-unit-fraction-smaller](screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-compare-unit-fraction-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-user-reported-missing-left-progress-05m-p3-compare-unit-fraction-smaller.png`
+#### 오개념 확인 · p2-compare-same-denominator-smaller · `engine-flow-user-reported-missing-left-progress-05m-p2-compare-same-denominator-smaller.png`
 
-![user-reported-missing-left-progress 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-compare-unit-fraction-smaller.png)
+![user-reported-missing-left-progress 오개념 확인 · p2-compare-same-denominator-smaller](screenshots/engine-flow-user-reported-missing-left-progress-05m-p2-compare-same-denominator-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1670,6 +1688,9 @@
 
 ### browser-comment-choice-hierarchy-and-progress · 934×987 · DPR 2 · 32장
 
+- 같은 실행으로 보존한 회귀 이름: `user-reported-result-double-panel`, `user-reported-result-content-scale`
+- 캡처 범위: `full-flow`
+
 ![browser-comment-choice-hierarchy-and-progress 전체 상태 컨택시트](screenshots/report-flow-browser-comment-choice-hierarchy-and-progress-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-browser-comment-choice-hierarchy-and-progress-01-cover.png`
@@ -1726,18 +1747,18 @@
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p1-compare-same-denominator-smaller.png`
+#### 오개념 확인 · p1-compare-unit-fraction-smaller · `engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p1-compare-unit-fraction-smaller.png`
 
-![browser-comment-choice-hierarchy-and-progress 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p1-compare-same-denominator-smaller.png)
+![browser-comment-choice-hierarchy-and-progress 오개념 확인 · p1-compare-unit-fraction-smaller](screenshots/engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p1-compare-unit-fraction-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p3-compare-unit-fraction-smaller.png`
+#### 오개념 확인 · p2-compare-same-denominator-smaller · `engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p2-compare-same-denominator-smaller.png`
 
-![browser-comment-choice-hierarchy-and-progress 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p3-compare-unit-fraction-smaller.png)
+![browser-comment-choice-hierarchy-and-progress 오개념 확인 · p2-compare-same-denominator-smaller](screenshots/engine-flow-browser-comment-choice-hierarchy-and-progress-05m-p2-compare-same-denominator-smaller.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1960,674 +1981,12 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-result-double-panel · 934×987 · DPR 2 · 32장
+### empty-reward-fixture · 1280×800 · DPR 1 · 3장
 
-![user-reported-result-double-panel 전체 상태 컨택시트](screenshots/report-flow-user-reported-result-double-panel-contact-sheet.png)
-
-#### 시작 화면 · `engine-flow-user-reported-result-double-panel-01-cover.png`
-
-![user-reported-result-double-panel 시작 화면](screenshots/engine-flow-user-reported-result-double-panel-01-cover.png)
-
-- 학생이 보는 것: 매스몬 분수 줄다리기 제목과 한 줄 목표, 시작 버튼을 봅니다.
-- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 배우는 차시임을 확인합니다.
-- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
-
-#### 설정 화면 · `engine-flow-user-reported-result-double-panel-02-settings.png`
-
-![user-reported-result-double-panel 설정 화면](screenshots/engine-flow-user-reported-result-double-panel-02-settings.png)
-
-- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
-- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
-- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
-
-#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-result-double-panel-03-tutorial-1.png`
-
-![user-reported-result-double-panel 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-result-double-panel-03-tutorial-1.png)
-
-- 학생이 보는 것: 분모가 같은 분수와 단위분수 비교하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
-
-#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-result-double-panel-04-tutorial-2.png`
-
-![user-reported-result-double-panel 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-result-double-panel-04-tutorial-2.png)
-
-- 학생이 보는 것: 분모가 같은 분수와 단위분수 비교하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
-
-#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-result-double-panel-05-play-step1.png`
-
-![user-reported-result-double-panel 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-result-double-panel-05-play-step1.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-result-double-panel-05n-next-problem-clean.png`
-
-![user-reported-result-double-panel 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-result-double-panel-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-user-reported-result-double-panel-05m-p1-compare-same-denominator-smaller.png`
-
-![user-reported-result-double-panel 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-user-reported-result-double-panel-05m-p1-compare-same-denominator-smaller.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-user-reported-result-double-panel-05m-p3-compare-unit-fraction-smaller.png`
-
-![user-reported-result-double-panel 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-user-reported-result-double-panel-05m-p3-compare-unit-fraction-smaller.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-result-double-panel-05b-play-wrong.png`
-
-![user-reported-result-double-panel 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-result-double-panel-05b-play-wrong.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-result-double-panel-06-confirm.png`
-
-![user-reported-result-double-panel 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-result-double-panel-06-confirm.png)
-
-- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 완성값을 보상 화면 전에 다시 확인합니다.
-- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
-
-#### 닫힌 보상 · `engine-flow-user-reported-result-double-panel-07-reward-closed.png`
-
-![user-reported-result-double-panel 닫힌 보상](screenshots/engine-flow-user-reported-result-double-panel-07-reward-closed.png)
-
-- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 줄다리기 점수 변화를 확인하기 위해 열기를 누릅니다.
-- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
-- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
-
-#### 열린 보상 · `engine-flow-user-reported-result-double-panel-07b-reward-open.png`
-
-![user-reported-result-double-panel 열린 보상](screenshots/engine-flow-user-reported-result-double-panel-07b-reward-open.png)
-
-- 학생이 보는 것: 보상 사건 그림과 이번 줄다리기 점수 변화, 다음 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
-- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
-
-#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-reported-result-double-panel-07c-reward-impact.png`
-
-![user-reported-result-double-panel 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-reported-result-double-panel-07c-reward-impact.png)
-
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 줄다리기 점수 변화가 반영되는 모습을 봅니다.
-- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
-- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
-- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
-
-#### 실제 결과 · `engine-flow-user-reported-result-double-panel-08-result.png`
-
-![user-reported-result-double-panel 실제 결과](screenshots/engine-flow-user-reported-result-double-panel-08-result.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · draw · `engine-flow-user-reported-result-double-panel-08a-result-draw.png`
-
-![user-reported-result-double-panel 결과 단계 · draw](screenshots/engine-flow-user-reported-result-double-panel-08a-result-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · bigwin · `engine-flow-user-reported-result-double-panel-08c-result-cohesion-bigwin.png`
-
-![user-reported-result-double-panel 결과 결속 · bigwin](screenshots/engine-flow-user-reported-result-double-panel-08c-result-cohesion-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · champion · `engine-flow-user-reported-result-double-panel-08c-result-cohesion-champion.png`
-
-![user-reported-result-double-panel 결과 결속 · champion](screenshots/engine-flow-user-reported-result-double-panel-08c-result-cohesion-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · draw · `engine-flow-user-reported-result-double-panel-08c-result-cohesion-draw.png`
-
-![user-reported-result-double-panel 결과 결속 · draw](screenshots/engine-flow-user-reported-result-double-panel-08c-result-cohesion-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · rainbow · `engine-flow-user-reported-result-double-panel-08c-result-cohesion-rainbow.png`
-
-![user-reported-result-double-panel 결과 결속 · rainbow](screenshots/engine-flow-user-reported-result-double-panel-08c-result-cohesion-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · smallwin · `engine-flow-user-reported-result-double-panel-08c-result-cohesion-smallwin.png`
-
-![user-reported-result-double-panel 결과 결속 · smallwin](screenshots/engine-flow-user-reported-result-double-panel-08c-result-cohesion-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · win · `engine-flow-user-reported-result-double-panel-08c-result-cohesion-win.png`
-
-![user-reported-result-double-panel 결과 결속 · win](screenshots/engine-flow-user-reported-result-double-panel-08c-result-cohesion-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-bigwin · `engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-bigwin.png`
-
-![user-reported-result-double-panel 결과 상태 · 08v-result-visual-integrity-bigwin](screenshots/engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-champion · `engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-champion.png`
-
-![user-reported-result-double-panel 결과 상태 · 08v-result-visual-integrity-champion](screenshots/engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-draw · `engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-draw.png`
-
-![user-reported-result-double-panel 결과 상태 · 08v-result-visual-integrity-draw](screenshots/engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-rainbow.png`
-
-![user-reported-result-double-panel 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-smallwin · `engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-smallwin.png`
-
-![user-reported-result-double-panel 결과 상태 · 08v-result-visual-integrity-smallwin](screenshots/engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-win · `engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-win.png`
-
-![user-reported-result-double-panel 결과 상태 · 08v-result-visual-integrity-win](screenshots/engine-flow-user-reported-result-double-panel-08v-result-visual-integrity-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · smallwin · `engine-flow-user-reported-result-double-panel-08a-result-smallwin.png`
-
-![user-reported-result-double-panel 결과 단계 · smallwin](screenshots/engine-flow-user-reported-result-double-panel-08a-result-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · win · `engine-flow-user-reported-result-double-panel-08a-result-win.png`
-
-![user-reported-result-double-panel 결과 단계 · win](screenshots/engine-flow-user-reported-result-double-panel-08a-result-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · bigwin · `engine-flow-user-reported-result-double-panel-08a-result-bigwin.png`
-
-![user-reported-result-double-panel 결과 단계 · bigwin](screenshots/engine-flow-user-reported-result-double-panel-08a-result-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · champion · `engine-flow-user-reported-result-double-panel-08a-result-champion.png`
-
-![user-reported-result-double-panel 결과 단계 · champion](screenshots/engine-flow-user-reported-result-double-panel-08a-result-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · rainbow · `engine-flow-user-reported-result-double-panel-08a-result-rainbow.png`
-
-![user-reported-result-double-panel 결과 단계 · rainbow](screenshots/engine-flow-user-reported-result-double-panel-08a-result-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-### user-reported-result-content-scale · 934×987 · DPR 2 · 32장
-
-![user-reported-result-content-scale 전체 상태 컨택시트](screenshots/report-flow-user-reported-result-content-scale-contact-sheet.png)
-
-#### 시작 화면 · `engine-flow-user-reported-result-content-scale-01-cover.png`
-
-![user-reported-result-content-scale 시작 화면](screenshots/engine-flow-user-reported-result-content-scale-01-cover.png)
-
-- 학생이 보는 것: 매스몬 분수 줄다리기 제목과 한 줄 목표, 시작 버튼을 봅니다.
-- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 배우는 차시임을 확인합니다.
-- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
-
-#### 설정 화면 · `engine-flow-user-reported-result-content-scale-02-settings.png`
-
-![user-reported-result-content-scale 설정 화면](screenshots/engine-flow-user-reported-result-content-scale-02-settings.png)
-
-- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
-- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
-- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
-
-#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-result-content-scale-03-tutorial-1.png`
-
-![user-reported-result-content-scale 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-result-content-scale-03-tutorial-1.png)
-
-- 학생이 보는 것: 분모가 같은 분수와 단위분수 비교하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
-
-#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-result-content-scale-04-tutorial-2.png`
-
-![user-reported-result-content-scale 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-result-content-scale-04-tutorial-2.png)
-
-- 학생이 보는 것: 분모가 같은 분수와 단위분수 비교하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
-
-#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-result-content-scale-05-play-step1.png`
-
-![user-reported-result-content-scale 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-result-content-scale-05-play-step1.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-reported-result-content-scale-05n-next-problem-clean.png`
-
-![user-reported-result-content-scale 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-reported-result-content-scale-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-user-reported-result-content-scale-05m-p1-compare-same-denominator-smaller.png`
-
-![user-reported-result-content-scale 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-user-reported-result-content-scale-05m-p1-compare-same-denominator-smaller.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-user-reported-result-content-scale-05m-p3-compare-unit-fraction-smaller.png`
-
-![user-reported-result-content-scale 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-user-reported-result-content-scale-05m-p3-compare-unit-fraction-smaller.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-result-content-scale-05b-play-wrong.png`
-
-![user-reported-result-content-scale 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-result-content-scale-05b-play-wrong.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 마지막 확인 · 06-confirm · `engine-flow-user-reported-result-content-scale-06-confirm.png`
-
-![user-reported-result-content-scale 마지막 확인 · 06-confirm](screenshots/engine-flow-user-reported-result-content-scale-06-confirm.png)
-
-- 학생이 보는 것: 마지막으로 완성된 계산이나 값과 보상으로 가는 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 완성된 관계를 읽은 뒤 보상 확인 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 완성값을 보상 화면 전에 다시 확인합니다.
-- 다음 상태로 넘어가는 이유: 수학 관계를 확인한 뒤 보상 상태로 이동합니다.
-
-#### 닫힌 보상 · `engine-flow-user-reported-result-content-scale-07-reward-closed.png`
-
-![user-reported-result-content-scale 닫힌 보상](screenshots/engine-flow-user-reported-result-content-scale-07-reward-closed.png)
-
-- 학생이 보는 것: 결과가 아직 드러나지 않은 보상 그림과 열기 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 줄다리기 점수 변화를 확인하기 위해 열기를 누릅니다.
-- 화면에서 확인되는 수학 관계: 뒤 문제 화면에는 방금 완성한 계산이나 관계가 그대로 남습니다.
-- 다음 상태로 넘어가는 이유: 학생이 직접 연 뒤에만 이번 보상 사건이 공개됩니다.
-
-#### 열린 보상 · `engine-flow-user-reported-result-content-scale-07b-reward-open.png`
-
-![user-reported-result-content-scale 열린 보상](screenshots/engine-flow-user-reported-result-content-scale-07b-reward-open.png)
-
-- 학생이 보는 것: 보상 사건 그림과 이번 줄다리기 점수 변화, 다음 행동 버튼을 봅니다.
-- 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
-- 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
-
-#### 보상 뒤 변화 · 07c-reward-impact · `engine-flow-user-reported-result-content-scale-07c-reward-impact.png`
-
-![user-reported-result-content-scale 보상 뒤 변화 · 07c-reward-impact](screenshots/engine-flow-user-reported-result-content-scale-07c-reward-impact.png)
-
-- 학생이 보는 것: 보상 모달이 닫힌 뒤 현재 진행 장면과 줄다리기 점수 변화가 반영되는 모습을 봅니다.
-- 판단하거나 누르는 것: 별도 입력 없이 이번 보상이 진행 단계에 반영되는 모습을 확인합니다.
-- 화면에서 확인되는 수학 관계: 한 문제의 보상이 현재 진행값에 정확히 한 번 반영됩니다.
-- 다음 상태로 넘어가는 이유: 효과를 충분히 본 뒤 다음 문제 또는 결과로 이동합니다.
-
-#### 실제 결과 · `engine-flow-user-reported-result-content-scale-08-result.png`
-
-![user-reported-result-content-scale 실제 결과](screenshots/engine-flow-user-reported-result-content-scale-08-result.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · draw · `engine-flow-user-reported-result-content-scale-08a-result-draw.png`
-
-![user-reported-result-content-scale 결과 단계 · draw](screenshots/engine-flow-user-reported-result-content-scale-08a-result-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · bigwin · `engine-flow-user-reported-result-content-scale-08c-result-cohesion-bigwin.png`
-
-![user-reported-result-content-scale 결과 결속 · bigwin](screenshots/engine-flow-user-reported-result-content-scale-08c-result-cohesion-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · champion · `engine-flow-user-reported-result-content-scale-08c-result-cohesion-champion.png`
-
-![user-reported-result-content-scale 결과 결속 · champion](screenshots/engine-flow-user-reported-result-content-scale-08c-result-cohesion-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · draw · `engine-flow-user-reported-result-content-scale-08c-result-cohesion-draw.png`
-
-![user-reported-result-content-scale 결과 결속 · draw](screenshots/engine-flow-user-reported-result-content-scale-08c-result-cohesion-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · rainbow · `engine-flow-user-reported-result-content-scale-08c-result-cohesion-rainbow.png`
-
-![user-reported-result-content-scale 결과 결속 · rainbow](screenshots/engine-flow-user-reported-result-content-scale-08c-result-cohesion-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · smallwin · `engine-flow-user-reported-result-content-scale-08c-result-cohesion-smallwin.png`
-
-![user-reported-result-content-scale 결과 결속 · smallwin](screenshots/engine-flow-user-reported-result-content-scale-08c-result-cohesion-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · win · `engine-flow-user-reported-result-content-scale-08c-result-cohesion-win.png`
-
-![user-reported-result-content-scale 결과 결속 · win](screenshots/engine-flow-user-reported-result-content-scale-08c-result-cohesion-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-bigwin · `engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-bigwin.png`
-
-![user-reported-result-content-scale 결과 상태 · 08v-result-visual-integrity-bigwin](screenshots/engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-champion · `engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-champion.png`
-
-![user-reported-result-content-scale 결과 상태 · 08v-result-visual-integrity-champion](screenshots/engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-draw · `engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-draw.png`
-
-![user-reported-result-content-scale 결과 상태 · 08v-result-visual-integrity-draw](screenshots/engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-rainbow.png`
-
-![user-reported-result-content-scale 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-smallwin · `engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-smallwin.png`
-
-![user-reported-result-content-scale 결과 상태 · 08v-result-visual-integrity-smallwin](screenshots/engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-win · `engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-win.png`
-
-![user-reported-result-content-scale 결과 상태 · 08v-result-visual-integrity-win](screenshots/engine-flow-user-reported-result-content-scale-08v-result-visual-integrity-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · smallwin · `engine-flow-user-reported-result-content-scale-08a-result-smallwin.png`
-
-![user-reported-result-content-scale 결과 단계 · smallwin](screenshots/engine-flow-user-reported-result-content-scale-08a-result-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · win · `engine-flow-user-reported-result-content-scale-08a-result-win.png`
-
-![user-reported-result-content-scale 결과 단계 · win](screenshots/engine-flow-user-reported-result-content-scale-08a-result-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · bigwin · `engine-flow-user-reported-result-content-scale-08a-result-bigwin.png`
-
-![user-reported-result-content-scale 결과 단계 · bigwin](screenshots/engine-flow-user-reported-result-content-scale-08a-result-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · champion · `engine-flow-user-reported-result-content-scale-08a-result-champion.png`
-
-![user-reported-result-content-scale 결과 단계 · champion](screenshots/engine-flow-user-reported-result-content-scale-08a-result-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · rainbow · `engine-flow-user-reported-result-content-scale-08a-result-rainbow.png`
-
-![user-reported-result-content-scale 결과 단계 · rainbow](screenshots/engine-flow-user-reported-result-content-scale-08a-result-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-### empty-reward-fixture · 1280×800 · DPR 1 · 31장
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `targeted`
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
-
-#### 시작 화면 · `engine-flow-empty-reward-fixture-01-cover.png`
-
-![empty-reward-fixture 시작 화면](screenshots/engine-flow-empty-reward-fixture-01-cover.png)
-
-- 학생이 보는 것: 매스몬 분수 줄다리기 제목과 한 줄 목표, 시작 버튼을 봅니다.
-- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 배우는 차시임을 확인합니다.
-- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
-
-#### 설정 화면 · `engine-flow-empty-reward-fixture-02-settings.png`
-
-![empty-reward-fixture 설정 화면](screenshots/engine-flow-empty-reward-fixture-02-settings.png)
-
-- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
-- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
-- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
-
-#### 설명 1 · 풀이 방법 · `engine-flow-empty-reward-fixture-03-tutorial-1.png`
-
-![empty-reward-fixture 설명 1 · 풀이 방법](screenshots/engine-flow-empty-reward-fixture-03-tutorial-1.png)
-
-- 학생이 보는 것: 분모가 같은 분수와 단위분수 비교하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
-
-#### 설명 2 · 보상과 목표 · `engine-flow-empty-reward-fixture-04-tutorial-2.png`
-
-![empty-reward-fixture 설명 2 · 보상과 목표](screenshots/engine-flow-empty-reward-fixture-04-tutorial-2.png)
-
-- 학생이 보는 것: 분모가 같은 분수와 단위분수 비교하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
-
-#### 문제 상태 · 05-play-step1 · `engine-flow-empty-reward-fixture-05-play-step1.png`
-
-![empty-reward-fixture 문제 상태 · 05-play-step1](screenshots/engine-flow-empty-reward-fixture-05-play-step1.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
-
-![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 오개념 확인 · p1-compare-same-denominator-smaller · `engine-flow-empty-reward-fixture-05m-p1-compare-same-denominator-smaller.png`
-
-![empty-reward-fixture 오개념 확인 · p1-compare-same-denominator-smaller](screenshots/engine-flow-empty-reward-fixture-05m-p1-compare-same-denominator-smaller.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p3-compare-unit-fraction-smaller · `engine-flow-empty-reward-fixture-05m-p3-compare-unit-fraction-smaller.png`
-
-![empty-reward-fixture 오개념 확인 · p3-compare-unit-fraction-smaller](screenshots/engine-flow-empty-reward-fixture-05m-p3-compare-unit-fraction-smaller.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오답 확인 · 05b-play-wrong · `engine-flow-empty-reward-fixture-05b-play-wrong.png`
-
-![empty-reward-fixture 오답 확인 · 05b-play-wrong](screenshots/engine-flow-empty-reward-fixture-05b-play-wrong.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 분모가 같은 분수와 단위분수 비교하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
 #### 마지막 확인 · 06-confirm · `engine-flow-empty-reward-fixture-06-confirm.png`
 
@@ -2655,177 +2014,6 @@
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
-
-#### 실제 결과 · `engine-flow-empty-reward-fixture-08-result.png`
-
-![empty-reward-fixture 실제 결과](screenshots/engine-flow-empty-reward-fixture-08-result.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · draw · `engine-flow-empty-reward-fixture-08a-result-draw.png`
-
-![empty-reward-fixture 결과 단계 · draw](screenshots/engine-flow-empty-reward-fixture-08a-result-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · bigwin · `engine-flow-empty-reward-fixture-08c-result-cohesion-bigwin.png`
-
-![empty-reward-fixture 결과 결속 · bigwin](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · champion · `engine-flow-empty-reward-fixture-08c-result-cohesion-champion.png`
-
-![empty-reward-fixture 결과 결속 · champion](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · draw · `engine-flow-empty-reward-fixture-08c-result-cohesion-draw.png`
-
-![empty-reward-fixture 결과 결속 · draw](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · rainbow · `engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png`
-
-![empty-reward-fixture 결과 결속 · rainbow](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · smallwin · `engine-flow-empty-reward-fixture-08c-result-cohesion-smallwin.png`
-
-![empty-reward-fixture 결과 결속 · smallwin](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · win · `engine-flow-empty-reward-fixture-08c-result-cohesion-win.png`
-
-![empty-reward-fixture 결과 결속 · win](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-bigwin · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-bigwin.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-bigwin](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-champion · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-champion.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-champion](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-draw · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-draw.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-draw](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-draw.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-smallwin · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-smallwin.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-smallwin](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-win · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-win.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-win](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · smallwin · `engine-flow-empty-reward-fixture-08a-result-smallwin.png`
-
-![empty-reward-fixture 결과 단계 · smallwin](screenshots/engine-flow-empty-reward-fixture-08a-result-smallwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · win · `engine-flow-empty-reward-fixture-08a-result-win.png`
-
-![empty-reward-fixture 결과 단계 · win](screenshots/engine-flow-empty-reward-fixture-08a-result-win.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · bigwin · `engine-flow-empty-reward-fixture-08a-result-bigwin.png`
-
-![empty-reward-fixture 결과 단계 · bigwin](screenshots/engine-flow-empty-reward-fixture-08a-result-bigwin.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · champion · `engine-flow-empty-reward-fixture-08a-result-champion.png`
-
-![empty-reward-fixture 결과 단계 · champion](screenshots/engine-flow-empty-reward-fixture-08a-result-champion.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · rainbow · `engine-flow-empty-reward-fixture-08a-result-rainbow.png`
-
-![empty-reward-fixture 결과 단계 · rainbow](screenshots/engine-flow-empty-reward-fixture-08a-result-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 줄다리기 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
 

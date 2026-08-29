@@ -413,15 +413,21 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-04 최신 원본 스크린샷 전수
+## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `bed9108dedb9a7eb8dc90e273b2ccdf3426d45d76a7ab4eea25ef974d06d9922`
-- 생성 시각: `2026-08-04T15:32:33.166Z`
-- 등록 화면 크기: `6개`
-- 아래에 직접 삽입한 원본 캡처: `230장`
-- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+- 실행본 SHA-256: `a1f507484457bc719f28ca75d43e3ee66d6cd2a09234ced0edb22819dd2f5347`
+- 생성 시각: `2026-08-29T10:30:03.638Z`
+- 등록 회귀 이름: `6개`
+- 실제 실행 화면 조건: `6개`
+- 동일 조건 별칭 통합: `0개`
+- 아래에 직접 삽입한 원본 캡처: `188장`
+- 같은 width×height×DPR과 같은 fixture 조건은 한 번만 실행하고, 과거 오류 이름은 별칭으로 보존했습니다.
+- manifest에 기록된 실제 실행 원본 캡처를 한 장씩 연결했습니다.
 
-### desktop · 1280×800 · DPR 1 · 39장
+### desktop · 1280×800 · DPR 1 · 37장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -479,81 +485,63 @@
 - 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
 - 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
 
-#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-desktop-05m-p1-diameter-not-doubled.png`
+#### 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
 
-![desktop 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-desktop-05m-p1-diameter-not-doubled.png)
+![desktop 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름과 지름의 관계가 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
 
-#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-desktop-05m-p1-diameter-one-short.png`
+#### 1번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-desktop-05m-p1-radius-not-halved.png`
 
-![desktop 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-desktop-05m-p1-diameter-one-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-desktop-05m-p1-diameter-too-long.png`
-
-![desktop 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p1-diameter-too-long.png)
+![desktop 1번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-desktop-05m-p1-radius-not-halved.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-desktop-05m-p2-radius-not-halved.png`
+#### 1번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-desktop-05m-p1-radius-too-long.png`
 
-![desktop 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-desktop-05m-p2-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-desktop-05m-p2-radius-too-long.png`
-
-![desktop 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p2-radius-too-long.png)
+![desktop 1번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p1-radius-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-desktop-05m-p2-radius-too-short.png`
+#### 1번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-desktop-05m-p1-radius-too-short.png`
 
-![desktop 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-desktop-05m-p2-radius-too-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-desktop-05m-p3-radius-not-halved.png`
-
-![desktop 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-desktop-05m-p3-radius-not-halved.png)
+![desktop 1번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-desktop-05m-p1-radius-too-short.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-desktop-05m-p3-radius-too-long.png`
+#### 2번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-desktop-05m-p2-diameter-not-doubled.png`
 
-![desktop 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p3-radius-too-long.png)
+![desktop 2번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-desktop-05m-p2-diameter-not-doubled.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-desktop-05m-p3-radius-too-short.png`
+#### 2번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-desktop-05m-p2-diameter-one-short.png`
 
-![desktop 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-desktop-05m-p3-radius-too-short.png)
+![desktop 2번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-desktop-05m-p2-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름보다 긴 오답 · `engine-flow-desktop-05m-p2-diameter-too-long.png`
+
+![desktop 2번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-desktop-05m-p2-diameter-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
@@ -776,7 +764,10 @@
 - 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
 - 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
 
-### tablet-landscape · 1024×768 · DPR 1 · 39장
+### tablet-landscape · 1024×768 · DPR 1 · 37장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
@@ -834,81 +825,63 @@
 - 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
 - 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
 
-#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-tablet-landscape-05m-p1-diameter-not-doubled.png`
+#### 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
 
-![tablet-landscape 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p1-diameter-not-doubled.png)
+![tablet-landscape 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름과 지름의 관계가 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
 
-#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-tablet-landscape-05m-p1-diameter-one-short.png`
+#### 1번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-tablet-landscape-05m-p1-radius-not-halved.png`
 
-![tablet-landscape 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p1-diameter-one-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p1-diameter-too-long.png`
-
-![tablet-landscape 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p1-diameter-too-long.png)
+![tablet-landscape 1번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p1-radius-not-halved.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-tablet-landscape-05m-p2-radius-not-halved.png`
+#### 1번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p1-radius-too-long.png`
 
-![tablet-landscape 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p2-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p2-radius-too-long.png`
-
-![tablet-landscape 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p2-radius-too-long.png)
+![tablet-landscape 1번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p1-radius-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-tablet-landscape-05m-p2-radius-too-short.png`
+#### 1번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-tablet-landscape-05m-p1-radius-too-short.png`
 
-![tablet-landscape 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p2-radius-too-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-tablet-landscape-05m-p3-radius-not-halved.png`
-
-![tablet-landscape 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p3-radius-not-halved.png)
+![tablet-landscape 1번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p1-radius-too-short.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p3-radius-too-long.png`
+#### 2번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-tablet-landscape-05m-p2-diameter-not-doubled.png`
 
-![tablet-landscape 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p3-radius-too-long.png)
+![tablet-landscape 2번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-tablet-landscape-05m-p2-diameter-not-doubled.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-tablet-landscape-05m-p3-radius-too-short.png`
+#### 2번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-tablet-landscape-05m-p2-diameter-one-short.png`
 
-![tablet-landscape 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p3-radius-too-short.png)
+![tablet-landscape 2번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-tablet-landscape-05m-p2-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름보다 긴 오답 · `engine-flow-tablet-landscape-05m-p2-diameter-too-long.png`
+
+![tablet-landscape 2번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-tablet-landscape-05m-p2-diameter-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
@@ -1131,7 +1104,10 @@
 - 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
 - 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
 
-### user-feedback-reward-1079x929 · 1079×929 · DPR 1 · 36장
+### user-feedback-reward-1079x929 · 1079×929 · DPR 1 · 37장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![user-feedback-reward-1079x929 전체 상태 컨택시트](screenshots/report-flow-user-feedback-reward-1079x929-contact-sheet.png)
 
@@ -1189,54 +1165,63 @@
 - 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
 - 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
 
-#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-not-doubled.png`
+#### 05n-next-problem-clean · `engine-flow-user-feedback-reward-1079x929-05n-next-problem-clean.png`
 
-![user-feedback-reward-1079x929 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-not-doubled.png)
+![user-feedback-reward-1079x929 05n-next-problem-clean](screenshots/engine-flow-user-feedback-reward-1079x929-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름과 지름의 관계가 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
 
-#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-one-short.png`
+#### 1번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-radius-not-halved.png`
 
-![user-feedback-reward-1079x929 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-one-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-too-long.png`
-
-![user-feedback-reward-1079x929 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-diameter-too-long.png)
+![user-feedback-reward-1079x929 1번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-radius-not-halved.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p3-radius-not-halved.png`
+#### 1번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-radius-too-long.png`
 
-![user-feedback-reward-1079x929 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p3-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-long.png`
-
-![user-feedback-reward-1079x929 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-long.png)
+![user-feedback-reward-1079x929 1번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-radius-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-short.png`
+#### 1번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p1-radius-too-short.png`
 
-![user-feedback-reward-1079x929 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p3-radius-too-short.png)
+![user-feedback-reward-1079x929 1번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p1-radius-too-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p2-diameter-not-doubled.png`
+
+![user-feedback-reward-1079x929 2번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p2-diameter-not-doubled.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p2-diameter-one-short.png`
+
+![user-feedback-reward-1079x929 2번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p2-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-feedback-reward-1079x929-05m-p2-diameter-too-long.png`
+
+![user-feedback-reward-1079x929 2번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-feedback-reward-1079x929-05m-p2-diameter-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
@@ -1459,7 +1444,10 @@
 - 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
 - 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 39장
+### codex-in-app · 1280×720 · DPR 2 · 37장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -1517,81 +1505,63 @@
 - 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
 - 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
 
-#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-codex-in-app-05m-p1-diameter-not-doubled.png`
+#### 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
 
-![codex-in-app 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p1-diameter-not-doubled.png)
+![codex-in-app 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름과 지름의 관계가 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
 
-#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-codex-in-app-05m-p1-diameter-one-short.png`
+#### 1번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-codex-in-app-05m-p1-radius-not-halved.png`
 
-![codex-in-app 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p1-diameter-one-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p1-diameter-too-long.png`
-
-![codex-in-app 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p1-diameter-too-long.png)
+![codex-in-app 1번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p1-radius-not-halved.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-codex-in-app-05m-p2-radius-not-halved.png`
+#### 1번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p1-radius-too-long.png`
 
-![codex-in-app 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p2-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p2-radius-too-long.png`
-
-![codex-in-app 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p2-radius-too-long.png)
+![codex-in-app 1번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p1-radius-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-codex-in-app-05m-p2-radius-too-short.png`
+#### 1번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-codex-in-app-05m-p1-radius-too-short.png`
 
-![codex-in-app 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p2-radius-too-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-codex-in-app-05m-p3-radius-not-halved.png`
-
-![codex-in-app 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p3-radius-not-halved.png)
+![codex-in-app 1번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p1-radius-too-short.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p3-radius-too-long.png`
+#### 2번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-codex-in-app-05m-p2-diameter-not-doubled.png`
 
-![codex-in-app 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p3-radius-too-long.png)
+![codex-in-app 2번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-codex-in-app-05m-p2-diameter-not-doubled.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-codex-in-app-05m-p3-radius-too-short.png`
+#### 2번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-codex-in-app-05m-p2-diameter-one-short.png`
 
-![codex-in-app 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p3-radius-too-short.png)
+![codex-in-app 2번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-codex-in-app-05m-p2-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름보다 긴 오답 · `engine-flow-codex-in-app-05m-p2-diameter-too-long.png`
+
+![codex-in-app 2번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-codex-in-app-05m-p2-diameter-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
@@ -1814,7 +1784,10 @@
 - 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
 - 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
 
-### user-visibility-994x632 · 994×632 · DPR 1 · 39장
+### user-visibility-994x632 · 994×632 · DPR 1 · 37장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![user-visibility-994x632 전체 상태 컨택시트](screenshots/report-flow-user-visibility-994x632-contact-sheet.png)
 
@@ -1872,81 +1845,63 @@
 - 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
 - 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
 
-#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p1-diameter-not-doubled.png`
+#### 05n-next-problem-clean · `engine-flow-user-visibility-994x632-05n-next-problem-clean.png`
 
-![user-visibility-994x632 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-diameter-not-doubled.png)
+![user-visibility-994x632 05n-next-problem-clean](screenshots/engine-flow-user-visibility-994x632-05n-next-problem-clean.png)
 
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+- 학생이 보는 것: 현재 게임 상태의 모든 보이는 요소를 확인합니다.
+- 판단하거나 누르는 것: 이 상태에서 요구되는 한 가지 행동이나 자동 전환을 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름과 지름의 관계가 화면 상태에 맞게 유지되는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 정해진 게임 흐름의 다음 상태로 이동합니다.
 
-#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p1-diameter-one-short.png`
+#### 1번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p1-radius-not-halved.png`
 
-![user-visibility-994x632 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-diameter-one-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p1-diameter-too-long.png`
-
-![user-visibility-994x632 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-diameter-too-long.png)
+![user-visibility-994x632 1번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-radius-not-halved.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p2-radius-not-halved.png`
+#### 1번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p1-radius-too-long.png`
 
-![user-visibility-994x632 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p2-radius-too-long.png`
-
-![user-visibility-994x632 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-radius-too-long.png)
+![user-visibility-994x632 1번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-radius-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p2-radius-too-short.png`
+#### 1번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p1-radius-too-short.png`
 
-![user-visibility-994x632 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-radius-too-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p3-radius-not-halved.png`
-
-![user-visibility-994x632 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p3-radius-not-halved.png)
+![user-visibility-994x632 1번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p1-radius-too-short.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p3-radius-too-long.png`
+#### 2번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-visibility-994x632-05m-p2-diameter-not-doubled.png`
 
-![user-visibility-994x632 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p3-radius-too-long.png)
+![user-visibility-994x632 2번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-diameter-not-doubled.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
 - 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
 
-#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p3-radius-too-short.png`
+#### 2번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-visibility-994x632-05m-p2-diameter-one-short.png`
 
-![user-visibility-994x632 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p3-radius-too-short.png)
+![user-visibility-994x632 2번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-diameter-one-short.png)
+
+- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
+- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
+- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
+
+#### 2번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-visibility-994x632-05m-p2-diameter-too-long.png`
+
+![user-visibility-994x632 2번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-visibility-994x632-05m-p2-diameter-too-long.png)
 
 - 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
 - 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
@@ -2169,153 +2124,12 @@
 - 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
 - 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
 
-### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 38장
+### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 3장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `targeted`
 
 ![user-reported-missing-left-progress-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
-
-#### 시작 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 시작 화면](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png)
-
-- 학생이 보는 것: 수달몬과 계곡 다리, 게임 제목, 한 줄 목표, 시작 버튼을 봅니다.
-- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개를 이으면 지름이 된다는 배움 방향을 먼저 확인합니다.
-- 다음 상태로 넘어가는 이유: 다리를 잇는 방법을 확인하는 설명 화면으로 이동합니다.
-
-#### 설정 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 설정 화면](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png)
-
-- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
-- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
-- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
-
-#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png)
-
-- 학생이 보는 것: 두 반지름을 이어 하나의 지름을 만드는 예를 봅니다.
-- 판단하거나 누르는 것: 반지름 두 개가 지름 하나가 되는 모습을 확인하고 다음을 누릅니다.
-- 화면에서 확인되는 수학 관계: 반지름 + 반지름 = 지름 관계를 확인합니다.
-- 다음 상태로 넘어가는 이유: 문제 수와 다리 목표를 보는 설명 2로 이동합니다.
-
-#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png)
-
-- 학생이 보는 것: 10문제와 여섯 다리 단계, 마지막 결과 흐름을 봅니다.
-- 판단하거나 누르는 것: 게임 목표를 확인하고 문제 시작을 누릅니다.
-- 화면에서 확인되는 수학 관계: 문제에서 고른 길이가 다리 단계 변화로 이어짐을 확인합니다.
-- 다음 상태로 넘어가는 이유: 첫 번째 반지름·지름 문제로 이동합니다.
-
-#### 문제 대기 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 문제 대기](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png)
-
-- 학생이 보는 것: 왼쪽 현재 다리와 오른쪽 원의 길이 관계, 네 선택지를 봅니다.
-- 판단하거나 누르는 것: 주어진 지름 또는 반지름에 맞는 길이 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 지름은 반지름의 두 배이고 반지름은 지름의 반임을 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 길이에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 정답 선택 효과 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-correct-effect.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 정답 선택 효과](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-correct-effect.png)
-
-- 학생이 보는 것: 고른 정답이 원과 길이 그림에 들어가는 짧은 효과를 봅니다.
-- 판단하거나 누르는 것: 별도 입력 없이 자신이 고른 길이가 적용되는 모습을 확인합니다.
-- 화면에서 확인되는 수학 관계: 선택한 길이가 반지름·지름 관계를 정확히 완성합니다.
-- 다음 상태로 넘어가는 이유: 완성식과 점수 보기 버튼이 있는 정답 확인으로 이어집니다.
-
-#### 1번 문제 유형 · 반지름을 두 배 하지 않은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-not-doubled.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 1번 문제 유형 · 반지름을 두 배 하지 않은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-not-doubled.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 1 cm 짧은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-one-short.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 1번 문제 유형 · 지름보다 1 cm 짧은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-one-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 1번 문제 유형 · 지름보다 긴 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-too-long.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 1번 문제 유형 · 지름보다 긴 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-diameter-too-long.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-not-halved.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 2번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-long.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 2번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-long.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 2번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-short.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 2번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-radius-too-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 지름을 반으로 나누지 않은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-not-halved.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 3번 문제 유형 · 지름을 반으로 나누지 않은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-not-halved.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 반지름보다 긴 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-long.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 3번 문제 유형 · 반지름보다 긴 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-long.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 3번 문제 유형 · 반지름보다 짧은 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-short.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 3번 문제 유형 · 반지름보다 짧은 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-radius-too-short.png)
-
-- 학생이 보는 것: 고른 길이와 목표 길이가 맞지 않는 원 그림과 오답 표시를 봅니다.
-- 판단하거나 누르는 것: 길이가 짧은지, 긴지, 두 배나 반으로 계산하지 않았는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 반지름 두 개의 합 또는 지름의 반과 고른 길이가 같지 않음을 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다른 길이를 다시 고릅니다.
-
-#### 대표 오답 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 대표 오답](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png)
-
-- 학생이 보는 것: 고른 길이와 정답 길이의 차이, 완성되지 않은 관계를 봅니다.
-- 판단하거나 누르는 것: 오답 이유를 그림으로 확인하고 다른 선택지를 고릅니다.
-- 화면에서 확인되는 수학 관계: 두 반지름의 합이나 지름의 반과 고른 길이가 같지 않음을 봅니다.
-- 다음 상태로 넘어가는 이유: 관계가 맞을 때까지 같은 문제에서 다시 판단합니다.
 
 #### 정답 확인 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-06-confirm.png`
 
@@ -2343,176 +2157,5 @@
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 정답 계산과 무작위 점수가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 모달을 먼저 닫고 다리 세계의 실제 변화를 보여 줍니다.
-
-#### 실제 결과 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 실제 결과](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png)
-
-- 학생이 보는 것: 완성한 다리와 수달몬, 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 10문제의 정답 수와 누적 보상이 하나의 다리 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · 큰 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-big.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 큰 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-big.png)
-
-- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과 결속 · 튼튼한 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-bridge.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 튼튼한 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-bridge.png)
-
-- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과 결속 · 황금 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-grand.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 황금 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-grand.png)
-
-- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과 결속 · 외나무다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-log.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 외나무다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-log.png)
-
-- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과 결속 · 무지개 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 무지개 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png)
-
-- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과 결속 · 작은 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · 작은 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png)
-
-- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과판 포함 · 큰 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-big.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 큰 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-big.png)
-
-- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과판 포함 · 튼튼한 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-bridge.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 튼튼한 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-bridge.png)
-
-- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과판 포함 · 황금 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-grand.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 황금 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-grand.png)
-
-- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과판 포함 · 외나무다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-log.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 외나무다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-log.png)
-
-- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과판 포함 · 무지개 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-rainbow.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 무지개 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-rainbow.png)
-
-- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 결과판 포함 · 작은 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-small.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · 작은 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-small.png)
-
-- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 다리 보상 우선 · 큰 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-big.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 큰 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-big.png)
-
-- 학생이 보는 것: 큰 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 다리 보상 우선 · 튼튼한 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-bridge.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 튼튼한 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-bridge.png)
-
-- 학생이 보는 것: 튼튼한 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 다리 보상 우선 · 황금 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-grand.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 황금 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-grand.png)
-
-- 학생이 보는 것: 황금 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 다리 보상 우선 · 외나무다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-log.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 외나무다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-log.png)
-
-- 학생이 보는 것: 외나무다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 다리 보상 우선 · 무지개 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-rainbow.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 무지개 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-rainbow.png)
-
-- 학생이 보는 것: 무지개 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
-
-#### 다리 보상 우선 · 작은 다리 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-small.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 다리 보상 우선 · 작은 다리](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-small.png)
-
-- 학생이 보는 것: 작은 다리 완성 장면과 결과판 안의 결과 이름·정답 수·다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 결과 요소가 한 결과판 안에 모이고 다리가 주인공으로 보이는지 확인합니다.
-- 화면에서 확인되는 수학 관계: 같은 정답·보상 기준이 해당 다리 단계 장면으로 연결됩니다.
-- 다음 상태로 넘어가는 이유: 이 화면은 결과 단계별 레이아웃 회귀 증거로 남습니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->

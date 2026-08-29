@@ -204,10 +204,10 @@ Browser QA:
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-23 최신 원본 스크린샷 전수
+## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `af9e32bbdfd245b9ddc1788383d3f10c9b6b18a058dd85f4134a97432676b975`
-- 생성 시각: `2026-08-23T12:06:39.303Z`
+- 실행본 SHA-256: `96fe158eba7b57b971579cf8e9ccf83d7c7e122c40f3c73a2c814434471d1585`
+- 생성 시각: `2026-08-29T10:19:03.018Z`
 - 등록 회귀 이름: `6개`
 - 실제 실행 화면 조건: `6개`
 - 동일 조건 별칭 통합: `0개`
@@ -276,27 +276,27 @@ Browser QA:
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-read-ml-scale · `engine-flow-desktop-05m-p1-read-ml-scale.png`
+#### 오개념 확인 · p1-read-liter-scale · `engine-flow-desktop-05m-p1-read-liter-scale.png`
 
-![desktop 오개념 확인 · p1-read-ml-scale](screenshots/engine-flow-desktop-05m-p1-read-ml-scale.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-read-liter-scale · `engine-flow-desktop-05m-p2-read-liter-scale.png`
-
-![desktop 오개념 확인 · p2-read-liter-scale](screenshots/engine-flow-desktop-05m-p2-read-liter-scale.png)
+![desktop 오개념 확인 · p1-read-liter-scale](screenshots/engine-flow-desktop-05m-p1-read-liter-scale.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-bottle-level · `engine-flow-desktop-05m-p5-compare-bottle-level.png`
+#### 오개념 확인 · p3-read-ml-scale · `engine-flow-desktop-05m-p3-read-ml-scale.png`
 
-![desktop 오개념 확인 · p5-compare-bottle-level](screenshots/engine-flow-desktop-05m-p5-compare-bottle-level.png)
+![desktop 오개념 확인 · p3-read-ml-scale](screenshots/engine-flow-desktop-05m-p3-read-ml-scale.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-bottle-level · `engine-flow-desktop-05m-p8-compare-bottle-level.png`
+
+![desktop 오개념 확인 · p8-compare-bottle-level](screenshots/engine-flow-desktop-05m-p8-compare-bottle-level.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -580,27 +580,27 @@ Browser QA:
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-read-ml-scale · `engine-flow-tablet-landscape-05m-p1-read-ml-scale.png`
+#### 오개념 확인 · p1-read-liter-scale · `engine-flow-tablet-landscape-05m-p1-read-liter-scale.png`
 
-![tablet-landscape 오개념 확인 · p1-read-ml-scale](screenshots/engine-flow-tablet-landscape-05m-p1-read-ml-scale.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-read-liter-scale · `engine-flow-tablet-landscape-05m-p2-read-liter-scale.png`
-
-![tablet-landscape 오개념 확인 · p2-read-liter-scale](screenshots/engine-flow-tablet-landscape-05m-p2-read-liter-scale.png)
+![tablet-landscape 오개념 확인 · p1-read-liter-scale](screenshots/engine-flow-tablet-landscape-05m-p1-read-liter-scale.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-bottle-level · `engine-flow-tablet-landscape-05m-p5-compare-bottle-level.png`
+#### 오개념 확인 · p3-read-ml-scale · `engine-flow-tablet-landscape-05m-p3-read-ml-scale.png`
 
-![tablet-landscape 오개념 확인 · p5-compare-bottle-level](screenshots/engine-flow-tablet-landscape-05m-p5-compare-bottle-level.png)
+![tablet-landscape 오개념 확인 · p3-read-ml-scale](screenshots/engine-flow-tablet-landscape-05m-p3-read-ml-scale.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-bottle-level · `engine-flow-tablet-landscape-05m-p8-compare-bottle-level.png`
+
+![tablet-landscape 오개념 확인 · p8-compare-bottle-level](screenshots/engine-flow-tablet-landscape-05m-p8-compare-bottle-level.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -884,27 +884,27 @@ Browser QA:
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-read-ml-scale · `engine-flow-codex-in-app-05m-p1-read-ml-scale.png`
+#### 오개념 확인 · p1-read-liter-scale · `engine-flow-codex-in-app-05m-p1-read-liter-scale.png`
 
-![codex-in-app 오개념 확인 · p1-read-ml-scale](screenshots/engine-flow-codex-in-app-05m-p1-read-ml-scale.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-read-liter-scale · `engine-flow-codex-in-app-05m-p2-read-liter-scale.png`
-
-![codex-in-app 오개념 확인 · p2-read-liter-scale](screenshots/engine-flow-codex-in-app-05m-p2-read-liter-scale.png)
+![codex-in-app 오개념 확인 · p1-read-liter-scale](screenshots/engine-flow-codex-in-app-05m-p1-read-liter-scale.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-bottle-level · `engine-flow-codex-in-app-05m-p5-compare-bottle-level.png`
+#### 오개념 확인 · p3-read-ml-scale · `engine-flow-codex-in-app-05m-p3-read-ml-scale.png`
 
-![codex-in-app 오개념 확인 · p5-compare-bottle-level](screenshots/engine-flow-codex-in-app-05m-p5-compare-bottle-level.png)
+![codex-in-app 오개념 확인 · p3-read-ml-scale](screenshots/engine-flow-codex-in-app-05m-p3-read-ml-scale.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-bottle-level · `engine-flow-codex-in-app-05m-p8-compare-bottle-level.png`
+
+![codex-in-app 오개념 확인 · p8-compare-bottle-level](screenshots/engine-flow-codex-in-app-05m-p8-compare-bottle-level.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1188,27 +1188,27 @@ Browser QA:
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-read-ml-scale · `engine-flow-user-visibility-05m-p1-read-ml-scale.png`
+#### 오개념 확인 · p1-read-liter-scale · `engine-flow-user-visibility-05m-p1-read-liter-scale.png`
 
-![user-visibility 오개념 확인 · p1-read-ml-scale](screenshots/engine-flow-user-visibility-05m-p1-read-ml-scale.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-read-liter-scale · `engine-flow-user-visibility-05m-p2-read-liter-scale.png`
-
-![user-visibility 오개념 확인 · p2-read-liter-scale](screenshots/engine-flow-user-visibility-05m-p2-read-liter-scale.png)
+![user-visibility 오개념 확인 · p1-read-liter-scale](screenshots/engine-flow-user-visibility-05m-p1-read-liter-scale.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-bottle-level · `engine-flow-user-visibility-05m-p5-compare-bottle-level.png`
+#### 오개념 확인 · p3-read-ml-scale · `engine-flow-user-visibility-05m-p3-read-ml-scale.png`
 
-![user-visibility 오개념 확인 · p5-compare-bottle-level](screenshots/engine-flow-user-visibility-05m-p5-compare-bottle-level.png)
+![user-visibility 오개념 확인 · p3-read-ml-scale](screenshots/engine-flow-user-visibility-05m-p3-read-ml-scale.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-bottle-level · `engine-flow-user-visibility-05m-p8-compare-bottle-level.png`
+
+![user-visibility 오개념 확인 · p8-compare-bottle-level](screenshots/engine-flow-user-visibility-05m-p8-compare-bottle-level.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1492,27 +1492,27 @@ Browser QA:
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 오개념 확인 · p1-read-ml-scale · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-read-ml-scale.png`
+#### 오개념 확인 · p1-read-liter-scale · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-read-liter-scale.png`
 
-![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-read-ml-scale](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-read-ml-scale.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p2-read-liter-scale · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-read-liter-scale.png`
-
-![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p2-read-liter-scale](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-read-liter-scale.png)
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-read-liter-scale](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-read-liter-scale.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
 - 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p5-compare-bottle-level · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p5-compare-bottle-level.png`
+#### 오개념 확인 · p3-read-ml-scale · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-read-ml-scale.png`
 
-![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p5-compare-bottle-level](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p5-compare-bottle-level.png)
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p3-read-ml-scale](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p3-read-ml-scale.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 들이 비교와 L, mL의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p8-compare-bottle-level · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p8-compare-bottle-level.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p8-compare-bottle-level](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p8-compare-bottle-level.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
