@@ -1910,7 +1910,7 @@
 <body>
   <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="fraction-sorter" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-4-3" data-commit-sha="55a50d507b683437511fe22fbc94e23a3ca6dd01" data-lesson-json-sha256="76be54120f73226894923b33929e5b04a0c1f48283daa2a4a289e787f28b162f" data-build-inputs-sha256="6b3124dc6364f2d087c7e20ffd181a6f70971ce18d51d9a2dd9dd0cf0243327e"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-4-3" data-commit-sha="b75ad7523cd42a0c7a63524090aec72f0bf19e48" data-lesson-json-sha256="76be54120f73226894923b33929e5b04a0c1f48283daa2a4a289e787f28b162f" data-build-inputs-sha256="a18bf72e89c7099cf238a8cc22e96cc8220a2cc464ede74489cb43ff05014683"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4072,6 +4072,38 @@
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
     const SORT_SVG_NS = "http://www.w3.org/2000/svg";
+    const SORTER_RESULT_LAYOUT = Object.freeze({
+      titleTop: 116,
+      titleWidth: 380,
+      correctTop: 267,
+      correctWidth: 150,
+      nextY: 394,
+      nextFontPx: 36,
+      retryWidth: 220,
+      retryHeight: 96,
+      retryY: 412,
+      panelRect: Object.freeze({ x: 501.5, y: 90, width: 680, height: 452 }),
+      retryRect: Object.freeze({ x: 731.5, y: 412, width: 220, height: 96 }),
+    });
+
+    function applySorterResultLayout() {
+      const layout = LESSON_CONFIG.result?.layout;
+      if (!layout) return;
+      Object.assign(layout, SORTER_RESULT_LAYOUT, {
+        panelRect: { ...SORTER_RESULT_LAYOUT.panelRect },
+        retryRect: { ...SORTER_RESULT_LAYOUT.retryRect },
+        byTier: {
+          ...(layout.byTier || {}),
+          rainbow: {
+            ...(layout.byTier?.rainbow || {}),
+            correctTop: SORTER_RESULT_LAYOUT.correctTop - 5,
+          },
+        },
+      });
+    }
+
+    applySorterResultLayout();
+
     let sorterPlayProgress = null;
     let pendingSorterRewardImpact = null;
     let sorterRewardArtPrimed = false;

@@ -185,15 +185,21 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-22 최신 원본 스크린샷 전수
+## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `4d3d754be9931fd6b07c62337585235c028fdfe3d698723ebb022f252481e312`
-- 생성 시각: `2026-08-22T16:41:56.877Z`
-- 등록 화면 크기: `7개`
-- 아래에 직접 삽입한 원본 캡처: `265장`
-- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
+- 실행본 SHA-256: `3664f246fe0e80c6876ee4dfa12473177db1d72398cb59d14fbbe52e2bd24810`
+- 생성 시각: `2026-08-29T08:52:54.651Z`
+- 등록 회귀 이름: `7개`
+- 실제 실행 화면 조건: `7개`
+- 동일 조건 별칭 통합: `0개`
+- 아래에 직접 삽입한 원본 캡처: `231장`
+- 같은 width×height×DPR과 같은 fixture 조건은 한 번만 실행하고, 과거 오류 이름은 별칭으로 보존했습니다.
+- manifest에 기록된 실제 실행 원본 캡처를 한 장씩 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 38장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -260,9 +266,9 @@
 - 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-desktop-05m-p1-sort-mixed.png`
+#### 오개념 확인 · p2-sort-mixed · `engine-flow-desktop-05m-p2-sort-mixed.png`
 
-![desktop 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-desktop-05m-p1-sort-mixed.png)
+![desktop 오개념 확인 · p2-sort-mixed](screenshots/engine-flow-desktop-05m-p2-sort-mixed.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -541,6 +547,9 @@
 
 ### tablet-landscape · 1024×768 · DPR 1 · 38장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
@@ -606,9 +615,9 @@
 - 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-tablet-landscape-05m-p1-sort-mixed.png`
+#### 오개념 확인 · p2-sort-mixed · `engine-flow-tablet-landscape-05m-p2-sort-mixed.png`
 
-![tablet-landscape 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-tablet-landscape-05m-p1-sort-mixed.png)
+![tablet-landscape 오개념 확인 · p2-sort-mixed](screenshots/engine-flow-tablet-landscape-05m-p2-sort-mixed.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -887,6 +896,9 @@
 
 ### codex-in-app · 1280×720 · DPR 2 · 38장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-codex-in-app-01-cover.png`
@@ -952,9 +964,9 @@
 - 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-codex-in-app-05m-p1-sort-mixed.png`
+#### 오개념 확인 · p2-sort-mixed · `engine-flow-codex-in-app-05m-p2-sort-mixed.png`
 
-![codex-in-app 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-codex-in-app-05m-p1-sort-mixed.png)
+![codex-in-app 오개념 확인 · p2-sort-mixed](screenshots/engine-flow-codex-in-app-05m-p2-sort-mixed.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1233,6 +1245,9 @@
 
 ### user-visibility-994x632 · 994×632 · DPR 1 · 38장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-visibility-994x632 전체 상태 컨택시트](screenshots/report-flow-user-visibility-994x632-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-visibility-994x632-01-cover.png`
@@ -1298,9 +1313,9 @@
 - 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-user-visibility-994x632-05m-p1-sort-mixed.png`
+#### 오개념 확인 · p2-sort-mixed · `engine-flow-user-visibility-994x632-05m-p2-sort-mixed.png`
 
-![user-visibility-994x632 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-user-visibility-994x632-05m-p1-sort-mixed.png)
+![user-visibility-994x632 오개념 확인 · p2-sort-mixed](screenshots/engine-flow-user-visibility-994x632-05m-p2-sort-mixed.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1579,6 +1594,9 @@
 
 ### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 38장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-reported-missing-left-progress-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png`
@@ -1644,9 +1662,9 @@
 - 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-sort-mixed.png`
+#### 오개념 확인 · p2-sort-mixed · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-sort-mixed.png`
 
-![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-sort-mixed.png)
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p2-sort-mixed](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p2-sort-mixed.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1925,6 +1943,9 @@
 
 ### user-comment-overflow-934x987 · 934×987 · DPR 1 · 38장
 
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `full-flow`
+
 ![user-comment-overflow-934x987 전체 상태 컨택시트](screenshots/report-flow-user-comment-overflow-934x987-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-comment-overflow-934x987-01-cover.png`
@@ -1990,9 +2011,9 @@
 - 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-user-comment-overflow-934x987-05m-p1-sort-mixed.png`
+#### 오개념 확인 · p2-sort-mixed · `engine-flow-user-comment-overflow-934x987-05m-p2-sort-mixed.png`
 
-![user-comment-overflow-934x987 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-user-comment-overflow-934x987-05m-p1-sort-mixed.png)
+![user-comment-overflow-934x987 오개념 확인 · p2-sort-mixed](screenshots/engine-flow-user-comment-overflow-934x987-05m-p2-sort-mixed.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -2269,90 +2290,12 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### empty-reward-fixture · 1280×800 · DPR 1 · 37장
+### empty-reward-fixture · 1280×800 · DPR 1 · 3장
+
+- 같은 실행으로 보존한 회귀 이름: 없음
+- 캡처 범위: `targeted`
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
-
-#### 시작 화면 · `engine-flow-empty-reward-fixture-01-cover.png`
-
-![empty-reward-fixture 시작 화면](screenshots/engine-flow-empty-reward-fixture-01-cover.png)
-
-- 학생이 보는 것: 매스몬 분수 분류 컨베이어 제목과 한 줄 목표, 시작 버튼을 봅니다.
-- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 배우는 차시임을 확인합니다.
-- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
-
-#### 설정 화면 · `engine-flow-empty-reward-fixture-02-settings.png`
-
-![empty-reward-fixture 설정 화면](screenshots/engine-flow-empty-reward-fixture-02-settings.png)
-
-- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
-- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
-- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
-
-#### 설명 1 · 풀이 방법 · `engine-flow-empty-reward-fixture-03-tutorial-1.png`
-
-![empty-reward-fixture 설명 1 · 풀이 방법](screenshots/engine-flow-empty-reward-fixture-03-tutorial-1.png)
-
-- 학생이 보는 것: 진분수·가분수·대분수 구분하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
-
-#### 설명 2 · 보상과 목표 · `engine-flow-empty-reward-fixture-04-tutorial-2.png`
-
-![empty-reward-fixture 설명 2 · 보상과 목표](screenshots/engine-flow-empty-reward-fixture-04-tutorial-2.png)
-
-- 학생이 보는 것: 진분수·가분수·대분수 구분하기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
-- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기에서 무엇을 비교하거나 계산하는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
-
-#### 문제 상태 · 05-play-step1 · `engine-flow-empty-reward-fixture-05-play-step1.png`
-
-![empty-reward-fixture 문제 상태 · 05-play-step1](screenshots/engine-flow-empty-reward-fixture-05-play-step1.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-empty-reward-fixture-05n-next-problem-clean.png`
-
-![empty-reward-fixture 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-empty-reward-fixture-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 오개념 확인 · p1-sort-improper · `engine-flow-empty-reward-fixture-05m-p1-sort-improper.png`
-
-![empty-reward-fixture 오개념 확인 · p1-sort-improper](screenshots/engine-flow-empty-reward-fixture-05m-p1-sort-improper.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오개념 확인 · p1-sort-mixed · `engine-flow-empty-reward-fixture-05m-p1-sort-mixed.png`
-
-![empty-reward-fixture 오개념 확인 · p1-sort-mixed](screenshots/engine-flow-empty-reward-fixture-05m-p1-sort-mixed.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
-
-#### 오답 확인 · 05b-play-wrong · `engine-flow-empty-reward-fixture-05b-play-wrong.png`
-
-![empty-reward-fixture 오답 확인 · 05b-play-wrong](screenshots/engine-flow-empty-reward-fixture-05b-play-wrong.png)
-
-- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
-- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
-- 화면에서 확인되는 수학 관계: 진분수·가분수·대분수 구분하기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
-- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
 #### 마지막 확인 · 06-confirm · `engine-flow-empty-reward-fixture-06-confirm.png`
 
@@ -2380,231 +2323,6 @@
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
-
-#### 실제 결과 · `engine-flow-empty-reward-fixture-08-result.png`
-
-![empty-reward-fixture 실제 결과](screenshots/engine-flow-empty-reward-fixture-08-result.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · bigline · `engine-flow-empty-reward-fixture-08c-result-cohesion-bigline.png`
-
-![empty-reward-fixture 결과 결속 · bigline](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-bigline.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · first · `engine-flow-empty-reward-fixture-08c-result-cohesion-first.png`
-
-![empty-reward-fixture 결과 결속 · first](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-first.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · line · `engine-flow-empty-reward-fixture-08c-result-cohesion-line.png`
-
-![empty-reward-fixture 결과 결속 · line](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-line.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · manager · `engine-flow-empty-reward-fixture-08c-result-cohesion-manager.png`
-
-![empty-reward-fixture 결과 결속 · manager](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-manager.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · rainbow · `engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png`
-
-![empty-reward-fixture 결과 결속 · rainbow](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 결속 · row · `engine-flow-empty-reward-fixture-08c-result-cohesion-row.png`
-
-![empty-reward-fixture 결과 결속 · row](screenshots/engine-flow-empty-reward-fixture-08c-result-cohesion-row.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과판 포함 · bigline · `engine-flow-empty-reward-fixture-08d-result-panel-bigline.png`
-
-![empty-reward-fixture 결과판 포함 · bigline](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-bigline.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과판 포함 · first · `engine-flow-empty-reward-fixture-08d-result-panel-first.png`
-
-![empty-reward-fixture 결과판 포함 · first](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-first.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과판 포함 · line · `engine-flow-empty-reward-fixture-08d-result-panel-line.png`
-
-![empty-reward-fixture 결과판 포함 · line](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-line.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과판 포함 · manager · `engine-flow-empty-reward-fixture-08d-result-panel-manager.png`
-
-![empty-reward-fixture 결과판 포함 · manager](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-manager.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과판 포함 · rainbow · `engine-flow-empty-reward-fixture-08d-result-panel-rainbow.png`
-
-![empty-reward-fixture 결과판 포함 · rainbow](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과판 포함 · row · `engine-flow-empty-reward-fixture-08d-result-panel-row.png`
-
-![empty-reward-fixture 결과판 포함 · row](screenshots/engine-flow-empty-reward-fixture-08d-result-panel-row.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-bigline · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-bigline.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-bigline](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-bigline.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-first · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-first.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-first](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-first.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-line · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-line.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-line](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-line.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-manager · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-manager.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-manager](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-manager.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-rainbow · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-rainbow](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 상태 · 08v-result-visual-integrity-row · `engine-flow-empty-reward-fixture-08v-result-visual-integrity-row.png`
-
-![empty-reward-fixture 결과 상태 · 08v-result-visual-integrity-row](screenshots/engine-flow-empty-reward-fixture-08v-result-visual-integrity-row.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · bigline · `engine-flow-empty-reward-fixture-08a-result-bigline.png`
-
-![empty-reward-fixture 결과 단계 · bigline](screenshots/engine-flow-empty-reward-fixture-08a-result-bigline.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · first · `engine-flow-empty-reward-fixture-08a-result-first.png`
-
-![empty-reward-fixture 결과 단계 · first](screenshots/engine-flow-empty-reward-fixture-08a-result-first.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · line · `engine-flow-empty-reward-fixture-08a-result-line.png`
-
-![empty-reward-fixture 결과 단계 · line](screenshots/engine-flow-empty-reward-fixture-08a-result-line.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · manager · `engine-flow-empty-reward-fixture-08a-result-manager.png`
-
-![empty-reward-fixture 결과 단계 · manager](screenshots/engine-flow-empty-reward-fixture-08a-result-manager.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · rainbow · `engine-flow-empty-reward-fixture-08a-result-rainbow.png`
-
-![empty-reward-fixture 결과 단계 · rainbow](screenshots/engine-flow-empty-reward-fixture-08a-result-rainbow.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
-
-#### 결과 단계 · row · `engine-flow-empty-reward-fixture-08a-result-row.png`
-
-![empty-reward-fixture 결과 단계 · row](screenshots/engine-flow-empty-reward-fixture-08a-result-row.png)
-
-- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
-- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
-- 화면에서 확인되는 수학 관계: 한 판의 정답과 분류 점수 변화가 하나의 결과 단계로 정리됩니다.
-- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
 
