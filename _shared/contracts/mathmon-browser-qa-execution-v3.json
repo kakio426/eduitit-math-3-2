@@ -1,0 +1,101 @@
+{
+  "standard": "mathmon-browser-qa-execution-v3",
+  "purpose": "모든 매스몬 화면 상태와 viewport의 자동 검사는 유지하면서 사람이 직접 볼 PNG는 핵심 화면만 남긴다.",
+  "executionIdentity": [
+    "width",
+    "height",
+    "dpr",
+    "viewport-specific-fixture-bindings"
+  ],
+  "regressionNames": {
+    "storage": "lesson.json > qa.viewports",
+    "rule": "같은 실행 조건의 과거 오류 이름은 삭제하지 않고 한 canonical execution의 regressionNames와 aliases로 보존한다."
+  },
+  "automatedCoverage": {
+    "scope": "모든 canonical execution의 전체 시작·설명·문제·오답·정답·보상·결과 흐름",
+    "checks": [
+      "interaction",
+      "state-transition",
+      "rect",
+      "overflow",
+      "collision",
+      "asset-load",
+      "finite-result-states"
+    ],
+    "screenshotRequirement": "none"
+  },
+  "humanReviewEvidence": {
+    "standard": "mathmon-human-review-key-states-v1",
+    "desktop": [
+      "cover",
+      "tutorial",
+      "tutorial-second-when-present",
+      "representative-problem",
+      "representative-wrong-feedback",
+      "answer-confirmation",
+      "reward-closed-when-present",
+      "reward-revealed",
+      "reward-impact-when-present",
+      "completed-result"
+    ],
+    "tabletLandscape": [
+      "cover-responsive",
+      "representative-problem-responsive",
+      "reward-responsive",
+      "completed-result-responsive"
+    ],
+    "typicalCount": "12-14",
+    "rule": "설정·반복 문제·오개념 전수·보상 후보·결과 단계 후보·사용자 회귀 viewport는 자동 검사만 하고 PNG를 만들지 않는다. 결과 단계 자산 전수는 별도 자산 컨택시트와 자동 픽셀·DOM 검사로 확인한다."
+  },
+  "failureDiagnostic": {
+    "count": 1,
+    "rule": "자동 검사가 실패하면 성공 증거 PNG를 지우고 실패한 현재 화면만 diagnostic-<viewport>.png로 남긴다."
+  },
+  "evidence": {
+    "receipt": "mathmon-browser-qa-receipt-v3",
+    "reportManifest": "report-current-screen-evidence-v4",
+    "details": ".tmp-qa/mathmon/<lesson>/last-flow-results.json",
+    "stdout": "PASS와 등록 수·실행 수·자동 상태 방문 수·핵심 PNG 수·상세 파일 경로만 출력한다."
+  },
+  "fallback": {
+    "environment": "MATHMON_QA_EXPAND_DUPLICATE_VIEWPORTS=1",
+    "effect": "별칭을 합치지 않고 모든 등록 이름을 각각 자동 검사한다. 사람 검토용 PNG 역할은 늘리지 않는다."
+  },
+  "layoutOnlyPreflight": {
+    "standard": "mathmon-layout-only-final-v2",
+    "command": "git mart qa layout <lesson> [--viewport=<name>]",
+    "viewports": [
+      "latest-named-user-regression-or-explicit-viewport",
+      "1280x800@1x",
+      "1024x768@1x"
+    ],
+    "checks": [
+      "card-center",
+      "internal-alignment",
+      "overlap",
+      "overflow",
+      "stage-containment"
+    ],
+    "screenshots": 0,
+    "receipt": "screenshots/layout-qa-receipt.json",
+    "autoEscalate": "모델·lesson.json·자산·공용 엔진·정책·하네스 변경이 하나라도 섞이면 전체 브라우저 QA로 승격한다.",
+    "receiptStandard": "mathmon-layout-qa-receipt-v2",
+    "finalGateAuthority": true
+  },
+  "repeatedElementPreflight": {
+    "standard": "mathmon-repeated-element-change-v1",
+    "command": "git mart qa element <impact-spec.json> [--seed=<integer>]",
+    "screenshots": 0,
+    "receipt": "<lesson>/screenshots/repeated-element-qa-receipt.json",
+    "receiptStandard": "mathmon-repeated-element-qa-receipt-v2",
+    "finalGateAuthority": "shared-code-only"
+  },
+  "rewardPolicyOnlyFinal": {
+    "standard": "mathmon-reward-percentage-only-v1",
+    "command": "git mart qa reward <lesson> [--seed=<integer>] [--trials=<count>]",
+    "screenshots": 0,
+    "receipt": "<lesson>/screenshots/reward-policy-qa-receipt.json",
+    "receiptStandard": "mathmon-reward-policy-qa-receipt-v1",
+    "finalGateAuthority": true
+  }
+}

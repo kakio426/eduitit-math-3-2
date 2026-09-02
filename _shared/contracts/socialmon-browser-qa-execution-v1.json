@@ -1,0 +1,60 @@
+{
+  "standard": "socialmon-browser-qa-execution-v1",
+  "purpose": "모든 소셜몬 상태와 viewport의 자동 검사는 유지하면서 사람이 직접 볼 PNG는 핵심 장면만 남긴다.",
+  "automatedCoverage": {
+    "scope": "등록된 모든 viewport의 모든 필수 화면·흐름 상태·오버레이",
+    "checks": [
+      "interaction",
+      "state-transition",
+      "rect",
+      "overflow",
+      "collision",
+      "asset-load",
+      "accessibility"
+    ],
+    "screenshotRequirement": "none",
+    "example": {
+      "states": 36,
+      "viewports": 6,
+      "auditRecords": 216,
+      "successfulPngFiles": 13
+    }
+  },
+  "humanReviewEvidence": {
+    "standard": "socialmon-human-review-key-states-v1",
+    "desktop": [
+      "cover",
+      "tutorial",
+      "first-concept",
+      "representative-source-question",
+      "representative-relationship-question",
+      "wrong-feedback",
+      "silhouette-hint",
+      "trait-hint",
+      "completed-result"
+    ],
+    "tabletLandscape": [
+      "cover-responsive",
+      "source-question-responsive",
+      "relationship-question-responsive",
+      "completed-result-responsive"
+    ],
+    "typicalOfficialLessonCount": 13,
+    "rule": "설정·반복 문제·발견 수치 전수·결과 후보 전수와 추가 회귀 viewport는 JSON 자동 감사만 남기고 PNG를 만들지 않는다. 호환 차시는 실제로 존재하는 역할만 남긴다."
+  },
+  "failureDiagnostic": {
+    "count": 1,
+    "rule": "자동 검사가 실패하면 성공 증거 PNG를 지우고 실패한 현재 화면만 diagnostic-<state>.png로 남긴다."
+  },
+  "evidence": {
+    "receipt": "screenshots/qa-report.json",
+    "stateAuditCount": "등록 viewport 전체의 실제 감사 배열 길이",
+    "screenshotCount": "사람 검토용 핵심 PNG만 센 값",
+    "pngIntegrity": [
+      "sha256",
+      "width",
+      "height",
+      "bytes"
+    ]
+  }
+}
