@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 상자런 | 에듀잇티</title>
+  <link rel="preload" as="image" href="../_shared/scoreboard/scoreboard-celebration-bg-generated.webp">
   <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
+  <link rel="stylesheet" href="../_shared/brand/mathmon-brand.css?v=20260903">
+  <link rel="stylesheet" href="../_shared/mathmon/top-controls-v2.css?v=20260903">
   <style>
     :root {
       --page: #080914;
@@ -66,7 +69,7 @@
     .stage-shell {
       --stage-inset: clamp(14px, 2vw, 22px);
       --top-control-y: var(--stage-inset);
-      --sound-button-size: clamp(42px, 3.6vw, 46px);
+      --sound-button-size: 42px;
       --sound-gap: clamp(8px, 1vw, 12px);
       --sound-reserve: calc(var(--sound-button-size) + var(--sound-gap));
       --top-control-pad-x: 9px;
@@ -156,6 +159,10 @@
       padding-right: var(--sound-reserve);
     }
 
+    .stage-shell .score-hud {
+      padding-inline: var(--sound-reserve);
+    }
+
     .top-row {
       position: absolute;
       top: var(--top-control-y);
@@ -171,7 +178,8 @@
     }
 
     .brand-badge,
-    .unit-badge {
+    .unit-badge,
+    .mini-badge {
       display: inline-flex;
       align-items: center;
       flex: 0 0 auto;
@@ -200,6 +208,19 @@
     .unit-badge {
       border-color: rgba(66, 217, 255, 0.45);
       color: var(--cyan);
+    }
+
+    .mini-badge {
+      border-color: rgba(255, 228, 92, 0.46);
+      color: #fff8d6;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px rgba(66, 217, 255, 0.9);
     }
 
     .settings-toggle[aria-expanded="true"] {
@@ -369,11 +390,13 @@
     }
 
     .cover-start-button {
+      position: relative;
+      top: clamp(-96px, -8vh, -56px);
       width: clamp(300px, 28vw, 360px);
       max-width: 58%;
       height: auto;
       aspect-ratio: 1611 / 680;
-      margin-top: 18px;
+      margin-top: 0;
       padding: 0;
       border: 0;
       border-radius: 999px;
@@ -568,10 +591,12 @@
       left: clamp(16px, 2.2vw, 24px);
       bottom: clamp(42px, 6.5vh, 70px);
       z-index: 2;
-      border-color: rgba(255, 178, 62, 0.58);
-      color: #ffbd4a;
-      background: rgba(255, 178, 62, 0.1);
-      box-shadow: 0 12px 30px rgba(255, 140, 46, 0.12);
+      border-color: rgba(255, 228, 92, 0.82);
+      color: #fff8d6;
+      background: rgba(12, 21, 40, 0.82);
+      box-shadow: 0 12px 30px rgba(0, 12, 34, 0.32);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(4px);
     }
 
     h1 {
@@ -602,18 +627,6 @@
       filter: drop-shadow(0 16px 26px rgba(0, 18, 44, 0.28));
       pointer-events: none;
       user-select: none;
-    }
-
-    .cover-goal {
-      margin: 0;
-      padding: 8px 18px 9px;
-      border-radius: 999px;
-      color: #10251f;
-      background: rgba(255, 248, 232, 0.86);
-      box-shadow: 0 14px 34px rgba(0, 39, 84, 0.16);
-      font-size: clamp(1.1rem, 2.1vw, 1.45rem);
-      font-weight: 1000;
-      line-height: 1.2;
     }
 
     .primary-button,
@@ -699,16 +712,21 @@
 
     .play {
       grid-template-rows: auto minmax(0, 1fr);
-      padding: calc(var(--top-control-y) + var(--sound-button-size) + var(--sound-gap)) var(--stage-inset) var(--stage-inset);
-      gap: clamp(12px, 2vw, 22px);
+      padding: var(--stage-inset);
+      padding-top: calc(var(--top-control-y) + var(--sound-button-size) + 10px);
+      gap: 10px;
     }
 
     .hud {
+      align-items: start;
+      min-height: var(--sound-button-size);
+    }
+
+    .score-hud {
       display: grid;
       grid-template-columns: minmax(180px, 0.72fr) minmax(360px, 1.16fr) minmax(180px, 0.72fr);
       gap: 10px;
-      align-items: start;
-      min-height: var(--sound-button-size);
+      align-items: stretch;
     }
 
     .hud-card {
@@ -751,13 +769,13 @@
     .hud-card--last-reward {
       justify-items: center;
       text-align: center;
-      min-height: 94px;
-      padding: 12px 18px 14px;
+      min-height: 78px;
+      padding: 8px 16px 10px;
     }
 
     .hud-card--progress strong,
     .hud-card--last-reward strong {
-      font-size: clamp(2rem, 3.8vw, 3.4rem);
+      font-size: clamp(1.7rem, 3.2vw, 2.8rem);
     }
 
     .combo-badge {
@@ -784,7 +802,7 @@
 
     .hud-card.score strong {
       color: var(--yellow);
-      font-size: clamp(2.35rem, 5vw, 4.8rem);
+      font-size: clamp(2.1rem, 4.2vw, 3.8rem);
       text-shadow: 0 0 18px rgba(255, 228, 92, 0.35);
     }
 
@@ -841,6 +859,7 @@
     .play-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+      grid-template-rows: minmax(0, 1fr);
       gap: clamp(12px, 2vw, 22px);
       min-height: 0;
     }
@@ -848,20 +867,27 @@
     .problem-panel,
     .crate-panel {
       min-width: 0;
+      min-height: 0;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(4, 6, 18, 0.68);
     }
 
     .problem-panel {
+      position: relative;
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
-      gap: 16px;
-      padding: clamp(16px, 3vw, 26px);
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: clamp(12px, 2vw, 18px);
     }
 
     .feedback {
-      min-height: 42px;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 2;
+      min-height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -871,6 +897,10 @@
       background: rgba(255, 255, 255, 0.06);
       font-weight: 950;
       text-align: center;
+    }
+
+    .feedback:empty {
+      display: none;
     }
 
     .feedback.is-good {
@@ -887,8 +917,8 @@
       align-self: center;
       display: grid;
       place-items: center;
-      min-height: 190px;
-      padding: clamp(18px, 4vw, 42px);
+      min-height: 150px;
+      padding: clamp(14px, 2.6vw, 26px);
       border: 2px solid rgba(255, 228, 92, 0.38);
       border-radius: var(--radius);
       background:
@@ -907,7 +937,7 @@
     .question {
       max-width: 100%;
       color: #ffffff;
-      font-size: clamp(3.1rem, 8.6vw, 6.4rem);
+      font-size: clamp(2.8rem, 7.4vw, 5.6rem);
       line-height: 1;
       font-weight: 1000;
       text-align: center;
@@ -918,17 +948,19 @@
     .choices {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 16px;
+      margin: 0 8px 18px;
     }
 
     .choice-button {
-      min-height: 76px;
-      padding: 14px;
-      border: 2px solid rgba(66, 217, 255, 0.3);
-      background: linear-gradient(180deg, rgba(66, 217, 255, 0.22), rgba(66, 217, 255, 0.08));
+      min-height: 62px;
+      padding: 10px 12px;
+      border: 2px solid rgba(66, 217, 255, 0.62);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(66, 217, 255, 0.28), rgba(66, 217, 255, 0.1));
       color: #ffffff;
-      box-shadow: 0 8px 0 rgba(22, 72, 97, 0.8);
-      font-size: clamp(1.55rem, 4vw, 2.7rem);
+      box-shadow: 0 7px 0 rgba(17, 67, 91, 0.95), 0 0 0 1px rgba(133, 232, 255, 0.12);
+      font-size: clamp(1.45rem, 3.5vw, 2.35rem);
     }
 
     .choice-button.is-wrong {
@@ -950,11 +982,12 @@
     .crate-panel {
       position: relative;
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
+      grid-template-rows: minmax(0, 1fr) auto auto;
       justify-items: center;
       align-items: center;
-      gap: 16px;
-      padding: clamp(16px, 3vw, 24px);
+      gap: 8px;
+      min-height: 0;
+      padding: clamp(12px, 2vw, 18px);
       overflow: hidden;
     }
 
@@ -982,12 +1015,12 @@
       z-index: 1;
       display: grid;
       place-items: center;
-      min-height: 230px;
+      min-height: 0;
       width: 100%;
     }
 
     .crate {
-      width: min(180px, 62vw);
+      width: min(150px, 62vw);
       aspect-ratio: 1 / 0.82;
       position: relative;
       transform-style: preserve-3d;
@@ -1172,8 +1205,8 @@
     .reward {
       display: grid;
       justify-items: center;
-      gap: 8px;
-      min-height: 84px;
+      gap: 4px;
+      min-height: 52px;
       width: 100%;
       text-align: center;
     }
@@ -1222,12 +1255,13 @@
       position: relative;
       z-index: 1;
       min-width: min(220px, 100%);
-      min-height: 56px;
-      padding: 12px 22px;
+      min-height: 48px;
+      margin-bottom: clamp(16px, 2vw, 24px);
+      padding: 9px 20px;
       background: #ffffff;
       color: #111322;
       box-shadow: 0 8px 0 rgba(0, 0, 0, 0.38);
-      font-size: 1.15rem;
+      font-size: 1.05rem;
     }
 
     .secondary-button:disabled {
@@ -1431,9 +1465,10 @@
 
     .result-svg-title {
       fill: #ffffff;
-      font-size: 58px;
+      font-size: 82px;
       font-weight: 1000;
       letter-spacing: 0;
+      text-anchor: middle;
       filter: url(#boxResultGlow);
     }
 
@@ -1475,6 +1510,10 @@
       box-shadow: none;
       pointer-events: auto;
       text-decoration: none;
+      padding: 0;
+      margin: 0;
+      appearance: none;
+      -webkit-appearance: none;
     }
 
     .result-action-hitbox:focus-visible {
@@ -1510,18 +1549,37 @@
       height: 7.75%;
     }
 
-    .result-download-hitbox {
-      left: 69.4%;
-      top: 80.75%;
-      width: 12.8%;
-      height: 7.75%;
+    .result-download-hitbox,
+    .result-leaderboard-hitbox {
+      display: none !important;
     }
 
-    .result-restart-hitbox {
-      left: 83.75%;
-      top: 80.75%;
-      width: 7.35%;
-      height: 7.75%;
+    .result-retry-hitbox {
+      position: absolute;
+      left: 74%;
+      top: 68.5%;
+      transform: translateX(-50%);
+      width: 260px;
+      height: 108px;
+      z-index: 6;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: transparent;
+      padding: 0;
+      margin: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .result-retry-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
     }
 
     .visually-hidden,
@@ -1600,11 +1658,11 @@
 
     @media (max-width: 1080px) and (orientation: landscape) {
       .play {
-        padding: 10px 14px;
-        gap: 10px;
+        padding: calc(var(--top-control-y) + var(--sound-button-size) + 8px) 14px 10px;
+        gap: 8px;
       }
 
-      .hud {
+      .score-hud {
         grid-template-columns: minmax(150px, 0.68fr) minmax(320px, 1fr) minmax(150px, 0.68fr);
       }
 
@@ -1620,8 +1678,8 @@
       .hud-card--progress,
       .hud-card.score,
       .hud-card--last-reward {
-        min-height: 74px;
-        padding: 8px 12px 10px;
+        min-height: 68px;
+        padding: 6px 12px 8px;
       }
 
       .hud-card.score strong {
@@ -1639,12 +1697,12 @@
 
       .play-grid {
         grid-template-columns: minmax(0, 1fr) minmax(236px, 286px);
-        gap: 14px;
+        gap: 12px;
       }
 
       .problem-panel {
-        gap: 10px;
-        padding: 14px;
+        gap: 8px;
+        padding: 12px;
       }
 
       .feedback {
@@ -1654,8 +1712,8 @@
       }
 
       .question-card {
-        min-height: 148px;
-        padding: 18px;
+        min-height: 126px;
+        padding: 14px;
       }
 
       .question {
@@ -1663,13 +1721,14 @@
       }
 
       .choices {
-        gap: 8px;
+        gap: 12px;
+        margin: 0 5px 12px;
       }
 
       .choice-button {
-        min-height: 58px;
-        padding: 9px 12px;
-        box-shadow: 0 6px 0 rgba(22, 72, 97, 0.8);
+        min-height: 52px;
+        padding: 7px 10px;
+        box-shadow: 0 5px 0 rgba(17, 67, 91, 0.95), 0 0 0 1px rgba(133, 232, 255, 0.12);
         font-size: clamp(1.45rem, 3.4vw, 2.2rem);
       }
 
@@ -1682,8 +1741,8 @@
       }
 
       .crate-panel {
-        gap: 10px;
-        padding: 14px;
+        gap: 7px;
+        padding: 12px;
       }
 
       .crate-panel::before {
@@ -1694,17 +1753,13 @@
         font-size: 0.86rem;
       }
 
-      .crate-stage {
-        min-height: 164px;
-      }
-
       .crate {
-        width: 144px;
+        width: 128px;
       }
 
       .reward {
-        gap: 6px;
-        min-height: 62px;
+        gap: 3px;
+        min-height: 46px;
       }
 
       .reward-label {
@@ -1716,8 +1771,9 @@
       }
 
       .secondary-button {
-        min-height: 46px;
-        padding: 8px 18px;
+        min-height: 42px;
+        margin-bottom: 12px;
+        padding: 7px 18px;
         box-shadow: 0 6px 0 rgba(0, 0, 0, 0.38);
         font-size: 1rem;
       }
@@ -1733,7 +1789,7 @@
         grid-template-rows: auto minmax(0, 1fr);
       }
 
-      .hud {
+      .score-hud {
         grid-template-columns: minmax(128px, 0.62fr) minmax(0, 0.96fr) minmax(128px, 0.62fr);
       }
 
@@ -1778,7 +1834,8 @@
       }
 
       .choices {
-        gap: 9px;
+        gap: 12px;
+        margin-bottom: 12px;
       }
 
       .choice-button {
@@ -1793,10 +1850,6 @@
 
       .crate-title {
         grid-column: 1 / -1;
-      }
-
-      .crate-stage {
-        min-height: 132px;
       }
 
       .crate {
@@ -2312,7 +2365,7 @@
   </style>
 </head>
 <body>
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-reward-event-standard="mathmon-unified-reward-v2" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
+  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-top-controls-standard="stage-top-controls-v2" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-reward-event-standard="mathmon-unified-reward-v2" data-game="multiplication-box-run" data-series-id="eduitit-math-3-2">
     <aside class="phone-blocker" aria-label="지원 화면 안내">
       <div>
         <strong>태블릿이나 컴퓨터에서 열어요</strong>
@@ -2361,7 +2414,6 @@
       <div class="hero-copy">
         <h1 class="visually-hidden" id="coverTitle">매스몬 상자런</h1>
         <img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true">
-        <p class="cover-goal">점수를 모아 매스몬을 얻어요.</p>
         <button class="cover-start-button" id="startButton" type="button" data-action="start" aria-label="시작">
           <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
         </button>
@@ -2385,9 +2437,18 @@
       <button class="tutorial-poster-hitbox" type="button" data-action="start-first-problem" aria-label="다음"></button>
     </section>
 
-    <section class="screen play" data-screen="play" aria-label="매스몬 상자런 문제">
-      <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge">1단원 곱셈 · 1차시</div></div>
-      <div class="hud" aria-label="점수판">
+    <section class="screen play" id="screen-play" data-screen="play" aria-label="매스몬 상자런 문제">
+      <header class="hud" aria-label="게임 정보">
+        <div class="hud-left">
+          <div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div>
+          <div class="mini-badge" id="problemCounter" aria-label="문제 1/10">1/10</div>
+        </div>
+        <div class="hud-right">
+          <div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>1단원 곱셈 · 1차시</div>
+        </div>
+      </header>
+
+      <div class="score-hud" aria-label="점수판">
         <div class="hud-card hud-card--progress">
           <span>문제</span>
           <strong data-field="progress">1/10</strong>
@@ -2406,7 +2467,7 @@
 
       <div class="play-grid">
         <section class="problem-panel" aria-label="문제 풀기">
-          <div class="feedback" data-field="feedback" aria-live="polite">답을 골라요</div>
+          <div class="feedback" data-field="feedback" aria-live="polite"></div>
           <div class="question-card" data-question-card>
             <div class="question" data-field="question">123 × 4 = ?</div>
           </div>
@@ -2414,7 +2475,7 @@
         </section>
 
         <aside class="crate-panel" aria-label="상자 보상">
-          <p class="crate-title" data-field="crate-title">정답이면 상자가 나와요</p>
+          <p class="crate-title" data-field="crate-title" hidden>정답이면 상자가 나와요</p>
           <div class="crate-stage">
             <div class="burst" data-burst aria-hidden="true"></div>
             <div class="crate" data-crate aria-hidden="true">
@@ -2424,7 +2485,7 @@
           </div>
           <div class="reward" aria-live="polite">
             <strong class="reward-label" data-field="reward-label">?</strong>
-            <p class="reward-copy" data-field="reward-copy">상자를 기다려요</p>
+            <p class="reward-copy visually-hidden" data-field="reward-copy">상자를 기다려요</p>
           </div>
           <button class="secondary-button" type="button" data-action="open-crate" disabled>열기</button>
         </aside>
@@ -2438,7 +2499,6 @@
       <p class="visually-hidden" data-field="result-praise">계산 집중력이 좋아요!</p>
       <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 보송몬을 얻었어요!</p>
       <span class="visually-hidden" data-field="final-mathmon-name">보송몬</span>
-      <span class="visually-hidden" data-field="download-mathmon" aria-hidden="true"></span>
       <div class="result-mathmon-scene" data-mathmon-result aria-hidden="true">
         <div class="result-mathmon-stage">
           <div class="result-mathmon-sprite" data-field="result-mathmon-sprite"></div>
@@ -2472,31 +2532,21 @@
           <path d="M700 104H1190C1206 104 1218 116 1218 132V710C1218 724 1206 736 1190 736H700C686 736 674 724 674 710V132C674 116 686 104 700 104Z" fill="url(#boxResultPanel)" stroke="url(#boxResultStroke)" stroke-width="3"></path>
           <path d="M722 128H1168C1178 128 1186 136 1186 146V694C1186 704 1178 712 1168 712H722C712 712 704 704 704 694V146C704 136 712 128 722 128Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
           <text class="result-svg-kicker" x="746" y="188"></text>
-          <text class="result-svg-title" id="resultMeasureSvg" data-field="final-score" x="746" y="270">0점</text>
-          <rect x="746" y="312" width="386" height="12" rx="6" fill="rgba(255,255,255,0.18)"></rect>
-          <rect id="resultMeasureFillSvg" x="746" y="312" width="0" height="12" rx="6" fill="#ffe45c"></rect>
-          <line x1="746" y1="366" x2="1148" y2="366" stroke="rgba(255,255,255,0.22)" stroke-width="2"></line>
+          <text class="result-svg-title" id="resultMeasureSvg" data-field="final-score" x="946" y="288" text-anchor="middle">0점</text>
+          <rect id="resultMeasureFillSvg" width="0" height="0" opacity="0" aria-hidden="true"></rect>
           <text class="result-svg-label" x="746" y="426"></text>
           <text class="result-svg-value" id="resultScoreSvg" data-field="final-correct" x="746" y="476" opacity="0" aria-hidden="true">0/10</text>
           <text class="result-svg-label" x="746" y="548"></text>
           <text class="result-svg-value result-svg-mathmon" id="resultDestinationSvg" x="746" y="598" opacity="0" aria-hidden="true"></text>
-          <rect class="result-legacy-action-surface ranking-disabled" x="746" y="646" width="122" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <rect x="888" y="646" width="164" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <rect class="result-legacy-action-surface" x="1072" y="646" width="94" height="62" rx="14" fill="url(#boxResultButton)" stroke="#ffdc75" stroke-width="2"></rect>
-          <text class="result-svg-button-text result-legacy-action-label ranking-disabled" x="807" y="685" text-anchor="middle">순위</text>
-          <text class="result-svg-button-text" x="970" y="685" text-anchor="middle">이미지 받기</text>
-          <text class="result-svg-button-text result-legacy-action-label" x="1119" y="685" text-anchor="middle">다시</text>
         </g>
       </svg>
       <div class="result-actions" aria-hidden="false">
-        <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" data-action="leaderboard" aria-label="순위">
+        <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" data-action="leaderboard" aria-label="순위" hidden>
           <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">순위</span>
         </button>
-        <a class="result-action-hitbox result-download-hitbox is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true">준비 중</a>
-        <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" data-action="restart" aria-label="다시하기">
-          <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
-          <span class="visually-hidden">다시하기</span>
+        <button class="result-retry-hitbox" id="restartButton" type="button" data-action="restart" aria-label="다시하기">
+          <img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
         </button>
       </div>
     </section>
@@ -2559,16 +2609,16 @@
       ]);
 
       const MATHMONS = Object.freeze([
-        { name: "보송몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-01-cottonpuff.webp?v=1", titleArt: "result-title-cottonpuff-generated.webp", fileName: "cottonpuff.png", aura: "rgba(184, 140, 255, 0.24)", copy: "작고 폭신한 시작 매스몬이에요!" },
-        { name: "통통펭몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1", titleArt: "result-title-bouncepenguin-generated.webp", fileName: "bouncepenguin.png", aura: "rgba(96, 215, 255, 0.28)", copy: "상자를 보면 통통 뛰는 매스몬이에요!" },
-        { name: "분홍깃몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1", titleArt: "result-title-blushphoenix-generated.webp", fileName: "blushphoenix.png", aura: "rgba(255, 126, 166, 0.32)", copy: "밝은 깃털로 점수를 올리는 매스몬이에요!" },
-        { name: "호랑몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-04-bravetiger.webp?v=1", titleArt: "result-title-bravetiger-generated.webp", fileName: "bravetiger.png", aura: "rgba(255, 200, 87, 0.34)", copy: "씩씩하게 상자를 지키는 매스몬이에요!" },
-        { name: "수정부엉몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-05-crystalowl.webp?v=1", titleArt: "result-title-crystalowl-generated.webp", fileName: "crystalowl.png", aura: "rgba(184, 140, 255, 0.36)", copy: "반짝이는 눈으로 답을 찾는 매스몬이에요!" },
-        { name: "번개늑대몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-06-thunderwolf.webp?v=1", titleArt: "result-title-thunderwolf-generated.webp", fileName: "thunderwolf.png", aura: "rgba(96, 215, 255, 0.38)", copy: "번개처럼 달려 높은 점수를 잡는 매스몬이에요!" },
-        { name: "하늘그리핀몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-07-skygriffin.webp?v=1", titleArt: "result-title-skygriffin-generated.webp", fileName: "skygriffin.png", aura: "rgba(255, 228, 92, 0.42)", copy: "하늘에서 큰 점수를 지키는 매스몬이에요!" },
-        { name: "흑불드래곤몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-08-nightfiredragon.webp?v=1", titleArt: "result-title-nightfiredragon-generated.webp", fileName: "nightfiredragon.png", aura: "rgba(255, 78, 106, 0.42)", copy: "뜨거운 힘으로 큰 상자를 여는 매스몬이에요!" },
-        { name: "무지개유니몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-09-rainbowunicorn.webp?v=1", titleArt: "result-title-rainbowunicorn-generated.webp", fileName: "rainbowunicorn.png", aura: "rgba(169, 109, 255, 0.44)", copy: "무지갯빛으로 행운을 부르는 매스몬이에요!" },
-        { name: "황금드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-10-golddragon.webp?v=1", titleArt: "result-title-golddragon-generated.webp", fileName: "golddragon.png", aura: "rgba(255, 228, 92, 0.54)", copy: "이번 판 최고 보물을 지키는 전설 매스몬이에요!" },
+        { name: "보송몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-01-cottonpuff.webp?v=1", titleArt: "result-title-cottonpuff-generated.webp", aura: "rgba(184, 140, 255, 0.24)", copy: "작고 폭신한 시작 매스몬이에요!" },
+        { name: "통통펭몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1", titleArt: "result-title-bouncepenguin-generated.webp", aura: "rgba(96, 215, 255, 0.28)", copy: "상자를 보면 통통 뛰는 매스몬이에요!" },
+        { name: "분홍깃몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1", titleArt: "result-title-blushphoenix-generated.webp", aura: "rgba(255, 126, 166, 0.32)", copy: "밝은 깃털로 점수를 올리는 매스몬이에요!" },
+        { name: "호랑몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-04-bravetiger.webp?v=1", titleArt: "result-title-bravetiger-generated.webp", aura: "rgba(255, 200, 87, 0.34)", copy: "씩씩하게 상자를 지키는 매스몬이에요!" },
+        { name: "수정부엉몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-05-crystalowl.webp?v=1", titleArt: "result-title-crystalowl-generated.webp", aura: "rgba(184, 140, 255, 0.36)", copy: "반짝이는 눈으로 답을 찾는 매스몬이에요!" },
+        { name: "번개늑대몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-06-thunderwolf.webp?v=1", titleArt: "result-title-thunderwolf-generated.webp", aura: "rgba(96, 215, 255, 0.38)", copy: "번개처럼 달려 높은 점수를 잡는 매스몬이에요!" },
+        { name: "하늘그리핀몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-07-skygriffin.webp?v=1", titleArt: "result-title-skygriffin-generated.webp", aura: "rgba(255, 228, 92, 0.42)", copy: "하늘에서 큰 점수를 지키는 매스몬이에요!" },
+        { name: "흑불드래곤몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-08-nightfiredragon.webp?v=1", titleArt: "result-title-nightfiredragon-generated.webp", aura: "rgba(255, 78, 106, 0.42)", copy: "뜨거운 힘으로 큰 상자를 여는 매스몬이에요!" },
+        { name: "무지개유니몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-09-rainbowunicorn.webp?v=1", titleArt: "result-title-rainbowunicorn-generated.webp", aura: "rgba(169, 109, 255, 0.44)", copy: "무지갯빛으로 행운을 부르는 매스몬이에요!" },
+        { name: "황금드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-10-golddragon.webp?v=1", titleArt: "result-title-golddragon-generated.webp", aura: "rgba(255, 228, 92, 0.54)", copy: "이번 판 최고 보물을 지키는 전설 매스몬이에요!" },
       ]);
 
       const SCORE_UNITS = Object.freeze([
@@ -2612,6 +2662,7 @@
         settingsCloseButton: document.getElementById("settingsCloseButton"),
         settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
         settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+        problemCounter: document.getElementById("problemCounter"),
         progress: document.querySelector('[data-field="progress"]'),
         combo: document.querySelector('[data-field="combo"]'),
         score: document.querySelector('[data-field="score"]'),
@@ -2640,8 +2691,6 @@
         resultDestinationSvg: document.getElementById("resultDestinationSvg"),
         finalMathmonName: document.querySelector('[data-field="final-mathmon-name"]'),
         finalMathmonCopy: document.querySelector('[data-field="final-mathmon-copy"]'),
-        downloadMathmon: document.querySelector('[data-field="download-mathmon"]'),
-        downloadMathmonLink: document.querySelector('[data-action="download-mathmon"]'),
       };
 
       const state = {
@@ -2662,8 +2711,6 @@
         pendingReward: null,
         pendingCrateType: "normal",
         pendingCrateGrade: null,
-        downloadCardUrl: "",
-        downloadRequestToken: "",
         screen: "cover",
         tutorialReviewMode: false,
         reviewReturnScreen: "cover",
@@ -2856,6 +2903,15 @@
           };
         },
       };
+
+      const directResultParams = new URLSearchParams(window.location.search);
+      const directResultScore = directResultParams.get("preview-result") ?? directResultParams.get("qa-result");
+      if (directResultScore != null) {
+        const directResultCorrect = directResultParams.get("preview-correct") ?? directResultParams.get("qa-correct") ?? String(ROUND_SIZE);
+        window.requestAnimationFrame(() => {
+          window.__unit1ResultQa.showResult(directResultScore, directResultCorrect);
+        });
+      }
 
       function playTone(frequency, offset, duration, options = {}) {
         const context = ensureAudio();
@@ -3337,166 +3393,6 @@
         return `../_shared/result-count/result-correct-${value}-generated.webp`;
       }
 
-      function clearDownloadCardUrl() {
-        if (!state.downloadCardUrl) return;
-        URL.revokeObjectURL(state.downloadCardUrl);
-        state.downloadCardUrl = "";
-      }
-
-      function setDownloadPending() {
-        clearDownloadCardUrl();
-        els.downloadMathmonLink.href = "#";
-        els.downloadMathmonLink.download = "mathmon-score-card.png";
-        els.downloadMathmonLink.textContent = "준비 중";
-        els.downloadMathmonLink.classList.add("is-disabled");
-        els.downloadMathmonLink.setAttribute("aria-disabled", "true");
-      }
-
-      function loadImage(src) {
-        return new Promise((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => resolve(image);
-          image.onerror = reject;
-          image.src = src;
-        });
-      }
-
-      function drawRoundRect(context, x, y, width, height, radius) {
-        const safeRadius = Math.min(radius, width / 2, height / 2);
-        context.beginPath();
-        context.moveTo(x + safeRadius, y);
-        context.lineTo(x + width - safeRadius, y);
-        context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
-        context.lineTo(x + width, y + height - safeRadius);
-        context.quadraticCurveTo(x + width, y + height, x + width - safeRadius, y + height);
-        context.lineTo(x + safeRadius, y + height);
-        context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
-        context.lineTo(x, y + safeRadius);
-        context.quadraticCurveTo(x, y, x + safeRadius, y);
-        context.closePath();
-      }
-
-      function drawFittedText(context, text, x, y, maxWidth, startSize, minSize, color) {
-        let size = startSize;
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = color;
-        do {
-          context.font = `1000 ${size}px Jua, system-ui, sans-serif`;
-          if (context.measureText(text).width <= maxWidth || size <= minSize) break;
-          size -= 2;
-        } while (size > minSize);
-        context.fillText(text, x, y);
-      }
-
-      function scoreFileSlug(score) {
-        const sign = score < 0n ? "minus-" : "";
-        const digits = (score < 0n ? -score : score).toString();
-        return `${sign}${digits}`;
-      }
-
-      async function buildMathmonDownloadCard(mathmon) {
-        const width = 1200;
-        const height = 1200;
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext("2d");
-        const scoreText = `내 점수 ${formatScore(state.score, true)}`;
-        const correctText = `정답 ${state.correctCount}/${ROUND_SIZE}`;
-        const image = await loadImage(mathmon.asset);
-        if (document.fonts && document.fonts.ready) {
-          await document.fonts.ready;
-        }
-
-        const bg = context.createLinearGradient(0, 0, width, height);
-        bg.addColorStop(0, "#072334");
-        bg.addColorStop(0.52, "#101225");
-        bg.addColorStop(1, "#271324");
-        context.fillStyle = bg;
-        context.fillRect(0, 0, width, height);
-
-        context.strokeStyle = "rgba(255, 255, 255, 0.08)";
-        context.lineWidth = 2;
-        for (let pos = 0; pos <= width; pos += 72) {
-          context.beginPath();
-          context.moveTo(pos, 0);
-          context.lineTo(pos, height);
-          context.stroke();
-          context.beginPath();
-          context.moveTo(0, pos);
-          context.lineTo(width, pos);
-          context.stroke();
-        }
-
-        drawRoundRect(context, 78, 78, 1044, 1044, 48);
-        context.fillStyle = "rgba(255, 255, 255, 0.075)";
-        context.fill();
-        context.strokeStyle = "rgba(255, 228, 92, 0.56)";
-        context.lineWidth = 5;
-        context.stroke();
-
-        const aura = context.createRadialGradient(600, 520, 90, 600, 520, 420);
-        aura.addColorStop(0, mathmon.aura);
-        aura.addColorStop(1, "rgba(255, 228, 92, 0)");
-        context.fillStyle = aura;
-        context.fillRect(130, 170, 940, 690);
-
-        context.shadowColor = "rgba(0, 0, 0, 0.42)";
-        context.shadowBlur = 42;
-        context.shadowOffsetY = 28;
-        context.drawImage(image, 300, 210, 600, 600);
-        context.shadowColor = "transparent";
-        context.shadowBlur = 0;
-        context.shadowOffsetY = 0;
-
-        drawFittedText(context, "매스몬 상자런", 600, 148, 820, 62, 36, "#ffe45c");
-
-        drawRoundRect(context, 458, 800, 284, 62, 31);
-        context.fillStyle = "rgba(255, 228, 92, 0.2)";
-        context.fill();
-        drawFittedText(context, "획득 매스몬", 600, 831, 230, 32, 24, "#ffe45c");
-
-        drawFittedText(context, mathmon.name, 600, 925, 930, 96, 54, "#ffffff");
-        drawFittedText(context, scoreText, 600, 1025, 930, 72, 38, "#ffe45c");
-        drawFittedText(context, correctText, 600, 1092, 760, 42, 28, "#dfe7ff");
-
-        return new Promise((resolve, reject) => {
-          canvas.toBlob((blob) => {
-            if (blob) {
-              resolve(blob);
-              return;
-            }
-            reject(new Error("download canvas failed"));
-          }, "image/png");
-        });
-      }
-
-      async function prepareMathmonDownload(mathmon) {
-        const token = `${mathmon.fileName}:${state.score}:${state.correctCount}`;
-        state.downloadRequestToken = token;
-        setDownloadPending();
-        try {
-          const blob = await buildMathmonDownloadCard(mathmon);
-          if (state.downloadRequestToken !== token) return;
-          const url = URL.createObjectURL(blob);
-          clearDownloadCardUrl();
-          state.downloadCardUrl = url;
-          els.downloadMathmonLink.href = url;
-          els.downloadMathmonLink.download = `${mathmon.fileName.replace(".png", "")}-${scoreFileSlug(state.score)}-score.png`;
-          els.downloadMathmonLink.textContent = "이미지 받기";
-          els.downloadMathmonLink.classList.remove("is-disabled");
-          els.downloadMathmonLink.removeAttribute("aria-disabled");
-        } catch (error) {
-          if (state.downloadRequestToken !== token) return;
-          els.downloadMathmonLink.href = mathmon.asset;
-          els.downloadMathmonLink.download = mathmon.fileName;
-          els.downloadMathmonLink.textContent = "이미지 받기";
-          els.downloadMathmonLink.classList.remove("is-disabled");
-          els.downloadMathmonLink.removeAttribute("aria-disabled");
-        }
-      }
-
       function renderResultMathmon() {
         const mathmon = getMathmonForScore(state.score);
         els.resultMathmon.style.setProperty("--mathmon-aura", mathmon.aura);
@@ -3513,9 +3409,6 @@
         }
         els.finalMathmonName.textContent = mathmon.name;
         els.finalMathmonCopy.textContent = mathmon.copy;
-        els.downloadMathmon.style.backgroundImage = `url("${mathmon.asset}")`;
-        els.downloadMathmonLink.setAttribute("aria-label", `${mathmon.name} 이미지 받기`);
-        prepareMathmonDownload(mathmon);
         els.resultMathmon.classList.remove("is-revealed");
         void els.resultMathmon.offsetWidth;
         els.resultMathmon.classList.add("is-revealed");
@@ -3564,7 +3457,10 @@
       }
 
       function renderHud() {
-        els.progress.textContent = `${Math.min(state.currentIndex + 1, ROUND_SIZE)}/${ROUND_SIZE}`;
+        const progressText = `${Math.min(state.currentIndex + 1, ROUND_SIZE)}/${ROUND_SIZE}`;
+        els.progress.textContent = progressText;
+        els.problemCounter.textContent = progressText;
+        els.problemCounter.setAttribute("aria-label", `문제 ${progressText}`);
         els.combo.textContent = state.comboCount > 0 ? `${state.comboCount}콤보` : "콤보 대기";
         els.combo.classList.toggle("is-hot", state.comboCount >= 3);
         els.combo.title = state.comboCount > 0
@@ -3615,7 +3511,7 @@
           button.addEventListener("click", () => handleChoice(button, choice));
           els.choices.appendChild(button);
         });
-        setFeedback("답을 골라요");
+        setFeedback("");
         renderCrateIdle();
         renderHud();
         fitQuestionText();
@@ -3819,7 +3715,9 @@
         els.resultPraise.textContent = getResultPraise(state.score, state.correctCount);
         els.finalCorrect.textContent = `${state.correctCount}/${ROUND_SIZE}`;
         els.resultCorrectArt.src = getResultCorrectArtSrc(state.correctCount);
-        els.resultMeasureFillSvg.setAttribute("width", String(Math.round(386 * state.correctCount / ROUND_SIZE)));
+        if (els.resultMeasureFillSvg) {
+          els.resultMeasureFillSvg.setAttribute("width", String(Math.round(386 * state.correctCount / ROUND_SIZE)));
+        }
         showScreen("result");
         window.requestAnimationFrame(renderResultMathmon);
       }
@@ -3845,8 +3743,6 @@
         state.scoreboardCurrentAnswer = null;
         state.scoreboardQuestionStartedAt = 0;
         state.scoreboardStepStartedAt = 0;
-        state.downloadRequestToken = "";
-        setDownloadPending();
         scoreboardBridge.start();
         showScreen("play");
         renderQuestion();
@@ -3937,8 +3833,5 @@
       });
     })();
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8401/live.js?token=9eb807a0-11ca-46ea-be0e-6eefc4e86c1b"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>
