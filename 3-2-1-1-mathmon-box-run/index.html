@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 상자런 | 에듀잇티</title>
+  <link rel="preload" as="image" href="../_shared/scoreboard/scoreboard-celebration-bg-generated.webp">
   <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
   <link rel="stylesheet" href="../_shared/brand/mathmon-brand.css?v=20260903">
   <link rel="stylesheet" href="../_shared/mathmon/top-controls-v2.css?v=20260903">
@@ -154,9 +155,13 @@
       right: calc(var(--stage-inset) + var(--sound-reserve));
     }
 
-.stage-shell .score-hud {
-  padding-inline: var(--sound-reserve);
-}
+    .stage-shell .hud {
+      padding-right: var(--sound-reserve);
+    }
+
+    .stage-shell .score-hud {
+      padding-inline: var(--sound-reserve);
+    }
 
     .top-row {
       position: absolute;
@@ -707,8 +712,14 @@
 
     .play {
       grid-template-rows: auto minmax(0, 1fr);
-      padding: calc(var(--top-control-y) + var(--sound-button-size) + 10px) var(--stage-inset) var(--stage-inset);
+      padding: var(--stage-inset);
+      padding-top: calc(var(--top-control-y) + var(--sound-button-size) + 10px);
       gap: 10px;
+    }
+
+    .hud {
+      align-items: start;
+      min-height: var(--sound-button-size);
     }
 
     .score-hud {
@@ -1554,6 +1565,7 @@
       border: 0;
       border-radius: 0;
       background: transparent;
+      color: transparent;
       padding: 0;
       margin: 0;
       appearance: none;
@@ -2487,7 +2499,6 @@
       <p class="visually-hidden" data-field="result-praise">계산 집중력이 좋아요!</p>
       <p class="visually-hidden" data-field="final-mathmon-copy">마지막 점수로 보송몬을 얻었어요!</p>
       <span class="visually-hidden" data-field="final-mathmon-name">보송몬</span>
-      <span class="visually-hidden" data-field="download-mathmon" aria-hidden="true"></span>
       <div class="result-mathmon-scene" data-mathmon-result aria-hidden="true">
         <div class="result-mathmon-stage">
           <div class="result-mathmon-sprite" data-field="result-mathmon-sprite"></div>
@@ -2522,6 +2533,7 @@
           <path d="M722 128H1168C1178 128 1186 136 1186 146V694C1186 704 1178 712 1168 712H722C712 712 704 704 704 694V146C704 136 712 128 722 128Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"></path>
           <text class="result-svg-kicker" x="746" y="188"></text>
           <text class="result-svg-title" id="resultMeasureSvg" data-field="final-score" x="946" y="288" text-anchor="middle">0점</text>
+          <rect id="resultMeasureFillSvg" width="0" height="0" opacity="0" aria-hidden="true"></rect>
           <text class="result-svg-label" x="746" y="426"></text>
           <text class="result-svg-value" id="resultScoreSvg" data-field="final-correct" x="746" y="476" opacity="0" aria-hidden="true">0/10</text>
           <text class="result-svg-label" x="746" y="548"></text>
@@ -2533,10 +2545,8 @@
           <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">순위</span>
         </button>
-        <a class="result-action-hitbox result-download-hitbox is-disabled" data-action="download-mathmon" href="#" download="mathmon-score-card.png" aria-disabled="true" hidden>준비 중</a>
         <button class="result-retry-hitbox" id="restartButton" type="button" data-action="restart" aria-label="다시하기">
           <img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
-          <span class="visually-hidden">다시하기</span>
         </button>
       </div>
     </section>
@@ -2599,16 +2609,16 @@
       ]);
 
       const MATHMONS = Object.freeze([
-        { name: "보송몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-01-cottonpuff.webp?v=1", titleArt: "result-title-cottonpuff-generated.webp", fileName: "cottonpuff.png", aura: "rgba(184, 140, 255, 0.24)", copy: "작고 폭신한 시작 매스몬이에요!" },
-        { name: "통통펭몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1", titleArt: "result-title-bouncepenguin-generated.webp", fileName: "bouncepenguin.png", aura: "rgba(96, 215, 255, 0.28)", copy: "상자를 보면 통통 뛰는 매스몬이에요!" },
-        { name: "분홍깃몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1", titleArt: "result-title-blushphoenix-generated.webp", fileName: "blushphoenix.png", aura: "rgba(255, 126, 166, 0.32)", copy: "밝은 깃털로 점수를 올리는 매스몬이에요!" },
-        { name: "호랑몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-04-bravetiger.webp?v=1", titleArt: "result-title-bravetiger-generated.webp", fileName: "bravetiger.png", aura: "rgba(255, 200, 87, 0.34)", copy: "씩씩하게 상자를 지키는 매스몬이에요!" },
-        { name: "수정부엉몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-05-crystalowl.webp?v=1", titleArt: "result-title-crystalowl-generated.webp", fileName: "crystalowl.png", aura: "rgba(184, 140, 255, 0.36)", copy: "반짝이는 눈으로 답을 찾는 매스몬이에요!" },
-        { name: "번개늑대몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-06-thunderwolf.webp?v=1", titleArt: "result-title-thunderwolf-generated.webp", fileName: "thunderwolf.png", aura: "rgba(96, 215, 255, 0.38)", copy: "번개처럼 달려 높은 점수를 잡는 매스몬이에요!" },
-        { name: "하늘그리핀몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-07-skygriffin.webp?v=1", titleArt: "result-title-skygriffin-generated.webp", fileName: "skygriffin.png", aura: "rgba(255, 228, 92, 0.42)", copy: "하늘에서 큰 점수를 지키는 매스몬이에요!" },
-        { name: "흑불드래곤몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-08-nightfiredragon.webp?v=1", titleArt: "result-title-nightfiredragon-generated.webp", fileName: "nightfiredragon.png", aura: "rgba(255, 78, 106, 0.42)", copy: "뜨거운 힘으로 큰 상자를 여는 매스몬이에요!" },
-        { name: "무지개유니몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-09-rainbowunicorn.webp?v=1", titleArt: "result-title-rainbowunicorn-generated.webp", fileName: "rainbowunicorn.png", aura: "rgba(169, 109, 255, 0.44)", copy: "무지갯빛으로 행운을 부르는 매스몬이에요!" },
-        { name: "황금드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-10-golddragon.webp?v=1", titleArt: "result-title-golddragon-generated.webp", fileName: "golddragon.png", aura: "rgba(255, 228, 92, 0.54)", copy: "이번 판 최고 보물을 지키는 전설 매스몬이에요!" },
+        { name: "보송몬", threshold: 0n, minCorrect: 0, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-01-cottonpuff.webp?v=1", titleArt: "result-title-cottonpuff-generated.webp", aura: "rgba(184, 140, 255, 0.24)", copy: "작고 폭신한 시작 매스몬이에요!" },
+        { name: "통통펭몬", threshold: 500n, minCorrect: 2, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-02-bouncepenguin.webp?v=1", titleArt: "result-title-bouncepenguin-generated.webp", aura: "rgba(96, 215, 255, 0.28)", copy: "상자를 보면 통통 뛰는 매스몬이에요!" },
+        { name: "분홍깃몬", threshold: 5000n, minCorrect: 4, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-03-blushphoenix.webp?v=1", titleArt: "result-title-blushphoenix-generated.webp", aura: "rgba(255, 126, 166, 0.32)", copy: "밝은 깃털로 점수를 올리는 매스몬이에요!" },
+        { name: "호랑몬", threshold: 50000n, minCorrect: 5, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-04-bravetiger.webp?v=1", titleArt: "result-title-bravetiger-generated.webp", aura: "rgba(255, 200, 87, 0.34)", copy: "씩씩하게 상자를 지키는 매스몬이에요!" },
+        { name: "수정부엉몬", threshold: 500000n, minCorrect: 6, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-05-crystalowl.webp?v=1", titleArt: "result-title-crystalowl-generated.webp", aura: "rgba(184, 140, 255, 0.36)", copy: "반짝이는 눈으로 답을 찾는 매스몬이에요!" },
+        { name: "번개늑대몬", threshold: 5000000n, minCorrect: 7, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-06-thunderwolf.webp?v=1", titleArt: "result-title-thunderwolf-generated.webp", aura: "rgba(96, 215, 255, 0.38)", copy: "번개처럼 달려 높은 점수를 잡는 매스몬이에요!" },
+        { name: "하늘그리핀몬", threshold: 50000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-07-skygriffin.webp?v=1", titleArt: "result-title-skygriffin-generated.webp", aura: "rgba(255, 228, 92, 0.42)", copy: "하늘에서 큰 점수를 지키는 매스몬이에요!" },
+        { name: "흑불드래곤몬", threshold: 500000000n, minCorrect: 8, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-08-nightfiredragon.webp?v=1", titleArt: "result-title-nightfiredragon-generated.webp", aura: "rgba(255, 78, 106, 0.42)", copy: "뜨거운 힘으로 큰 상자를 여는 매스몬이에요!" },
+        { name: "무지개유니몬", threshold: 5000000000n, minCorrect: 9, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-09-rainbowunicorn.webp?v=1", titleArt: "result-title-rainbowunicorn-generated.webp", aura: "rgba(169, 109, 255, 0.44)", copy: "무지갯빛으로 행운을 부르는 매스몬이에요!" },
+        { name: "황금드래곤몬", threshold: 50000000000n, minCorrect: 10, asset: "assets/mathmon/diversity-reward-pack/mathmon-drv-10-golddragon.webp?v=1", titleArt: "result-title-golddragon-generated.webp", aura: "rgba(255, 228, 92, 0.54)", copy: "이번 판 최고 보물을 지키는 전설 매스몬이에요!" },
       ]);
 
       const SCORE_UNITS = Object.freeze([
@@ -2681,8 +2691,6 @@
         resultDestinationSvg: document.getElementById("resultDestinationSvg"),
         finalMathmonName: document.querySelector('[data-field="final-mathmon-name"]'),
         finalMathmonCopy: document.querySelector('[data-field="final-mathmon-copy"]'),
-        downloadMathmon: document.querySelector('[data-field="download-mathmon"]'),
-        downloadMathmonLink: document.querySelector('[data-action="download-mathmon"]'),
       };
 
       const state = {
@@ -2703,8 +2711,6 @@
         pendingReward: null,
         pendingCrateType: "normal",
         pendingCrateGrade: null,
-        downloadCardUrl: "",
-        downloadRequestToken: "",
         screen: "cover",
         tutorialReviewMode: false,
         reviewReturnScreen: "cover",
@@ -3387,166 +3393,6 @@
         return `../_shared/result-count/result-correct-${value}-generated.webp`;
       }
 
-      function clearDownloadCardUrl() {
-        if (!state.downloadCardUrl) return;
-        URL.revokeObjectURL(state.downloadCardUrl);
-        state.downloadCardUrl = "";
-      }
-
-      function setDownloadPending() {
-        clearDownloadCardUrl();
-        els.downloadMathmonLink.href = "#";
-        els.downloadMathmonLink.download = "mathmon-score-card.png";
-        els.downloadMathmonLink.textContent = "준비 중";
-        els.downloadMathmonLink.classList.add("is-disabled");
-        els.downloadMathmonLink.setAttribute("aria-disabled", "true");
-      }
-
-      function loadImage(src) {
-        return new Promise((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => resolve(image);
-          image.onerror = reject;
-          image.src = src;
-        });
-      }
-
-      function drawRoundRect(context, x, y, width, height, radius) {
-        const safeRadius = Math.min(radius, width / 2, height / 2);
-        context.beginPath();
-        context.moveTo(x + safeRadius, y);
-        context.lineTo(x + width - safeRadius, y);
-        context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
-        context.lineTo(x + width, y + height - safeRadius);
-        context.quadraticCurveTo(x + width, y + height, x + width - safeRadius, y + height);
-        context.lineTo(x + safeRadius, y + height);
-        context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
-        context.lineTo(x, y + safeRadius);
-        context.quadraticCurveTo(x, y, x + safeRadius, y);
-        context.closePath();
-      }
-
-      function drawFittedText(context, text, x, y, maxWidth, startSize, minSize, color) {
-        let size = startSize;
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = color;
-        do {
-          context.font = `1000 ${size}px Jua, system-ui, sans-serif`;
-          if (context.measureText(text).width <= maxWidth || size <= minSize) break;
-          size -= 2;
-        } while (size > minSize);
-        context.fillText(text, x, y);
-      }
-
-      function scoreFileSlug(score) {
-        const sign = score < 0n ? "minus-" : "";
-        const digits = (score < 0n ? -score : score).toString();
-        return `${sign}${digits}`;
-      }
-
-      async function buildMathmonDownloadCard(mathmon) {
-        const width = 1200;
-        const height = 1200;
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext("2d");
-        const scoreText = `내 점수 ${formatScore(state.score, true)}`;
-        const correctText = `정답 ${state.correctCount}/${ROUND_SIZE}`;
-        const image = await loadImage(mathmon.asset);
-        if (document.fonts && document.fonts.ready) {
-          await document.fonts.ready;
-        }
-
-        const bg = context.createLinearGradient(0, 0, width, height);
-        bg.addColorStop(0, "#072334");
-        bg.addColorStop(0.52, "#101225");
-        bg.addColorStop(1, "#271324");
-        context.fillStyle = bg;
-        context.fillRect(0, 0, width, height);
-
-        context.strokeStyle = "rgba(255, 255, 255, 0.08)";
-        context.lineWidth = 2;
-        for (let pos = 0; pos <= width; pos += 72) {
-          context.beginPath();
-          context.moveTo(pos, 0);
-          context.lineTo(pos, height);
-          context.stroke();
-          context.beginPath();
-          context.moveTo(0, pos);
-          context.lineTo(width, pos);
-          context.stroke();
-        }
-
-        drawRoundRect(context, 78, 78, 1044, 1044, 48);
-        context.fillStyle = "rgba(255, 255, 255, 0.075)";
-        context.fill();
-        context.strokeStyle = "rgba(255, 228, 92, 0.56)";
-        context.lineWidth = 5;
-        context.stroke();
-
-        const aura = context.createRadialGradient(600, 520, 90, 600, 520, 420);
-        aura.addColorStop(0, mathmon.aura);
-        aura.addColorStop(1, "rgba(255, 228, 92, 0)");
-        context.fillStyle = aura;
-        context.fillRect(130, 170, 940, 690);
-
-        context.shadowColor = "rgba(0, 0, 0, 0.42)";
-        context.shadowBlur = 42;
-        context.shadowOffsetY = 28;
-        context.drawImage(image, 300, 210, 600, 600);
-        context.shadowColor = "transparent";
-        context.shadowBlur = 0;
-        context.shadowOffsetY = 0;
-
-        drawFittedText(context, "매스몬 상자런", 600, 148, 820, 62, 36, "#ffe45c");
-
-        drawRoundRect(context, 458, 800, 284, 62, 31);
-        context.fillStyle = "rgba(255, 228, 92, 0.2)";
-        context.fill();
-        drawFittedText(context, "획득 매스몬", 600, 831, 230, 32, 24, "#ffe45c");
-
-        drawFittedText(context, mathmon.name, 600, 925, 930, 96, 54, "#ffffff");
-        drawFittedText(context, scoreText, 600, 1025, 930, 72, 38, "#ffe45c");
-        drawFittedText(context, correctText, 600, 1092, 760, 42, 28, "#dfe7ff");
-
-        return new Promise((resolve, reject) => {
-          canvas.toBlob((blob) => {
-            if (blob) {
-              resolve(blob);
-              return;
-            }
-            reject(new Error("download canvas failed"));
-          }, "image/png");
-        });
-      }
-
-      async function prepareMathmonDownload(mathmon) {
-        const token = `${mathmon.fileName}:${state.score}:${state.correctCount}`;
-        state.downloadRequestToken = token;
-        setDownloadPending();
-        try {
-          const blob = await buildMathmonDownloadCard(mathmon);
-          if (state.downloadRequestToken !== token) return;
-          const url = URL.createObjectURL(blob);
-          clearDownloadCardUrl();
-          state.downloadCardUrl = url;
-          els.downloadMathmonLink.href = url;
-          els.downloadMathmonLink.download = `${mathmon.fileName.replace(".png", "")}-${scoreFileSlug(state.score)}-score.png`;
-          els.downloadMathmonLink.textContent = "이미지 받기";
-          els.downloadMathmonLink.classList.remove("is-disabled");
-          els.downloadMathmonLink.removeAttribute("aria-disabled");
-        } catch (error) {
-          if (state.downloadRequestToken !== token) return;
-          els.downloadMathmonLink.href = mathmon.asset;
-          els.downloadMathmonLink.download = mathmon.fileName;
-          els.downloadMathmonLink.textContent = "이미지 받기";
-          els.downloadMathmonLink.classList.remove("is-disabled");
-          els.downloadMathmonLink.removeAttribute("aria-disabled");
-        }
-      }
-
       function renderResultMathmon() {
         const mathmon = getMathmonForScore(state.score);
         els.resultMathmon.style.setProperty("--mathmon-aura", mathmon.aura);
@@ -3563,9 +3409,6 @@
         }
         els.finalMathmonName.textContent = mathmon.name;
         els.finalMathmonCopy.textContent = mathmon.copy;
-        els.downloadMathmon.style.backgroundImage = `url("${mathmon.asset}")`;
-        els.downloadMathmonLink.setAttribute("aria-label", `${mathmon.name} 이미지 받기`);
-        prepareMathmonDownload(mathmon);
         els.resultMathmon.classList.remove("is-revealed");
         void els.resultMathmon.offsetWidth;
         els.resultMathmon.classList.add("is-revealed");
@@ -3900,8 +3743,6 @@
         state.scoreboardCurrentAnswer = null;
         state.scoreboardQuestionStartedAt = 0;
         state.scoreboardStepStartedAt = 0;
-        state.downloadRequestToken = "";
-        setDownloadPending();
         scoreboardBridge.start();
         showScreen("play");
         renderQuestion();
@@ -3992,8 +3833,5 @@
       });
     })();
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js?token=46f46be5-13d3-4b58-b9c3-557a6b452926"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>
