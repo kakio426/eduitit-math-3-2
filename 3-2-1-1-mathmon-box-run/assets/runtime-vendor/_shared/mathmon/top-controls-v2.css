@@ -1,0 +1,84 @@
+/* stage-top-controls-v2: one exact Mathmon header metric set. */
+.game .stage-shell {
+  --sound-button-size: 42px;
+  --top-control-label-font-size: 14px;
+  --top-control-counter-font-size: 16px;
+  --top-control-counter-width: 132px;
+  --top-control-pad-x: 9px;
+  --top-control-icon-gap: 7px;
+}
+
+.game .brand-badge,
+.game .unit-badge,
+.game .mini-badge {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: max-content;
+  height: var(--sound-button-size);
+  min-height: var(--sound-button-size);
+  padding: 0 var(--top-control-pad-x);
+  gap: var(--top-control-icon-gap);
+  font-size: var(--top-control-label-font-size);
+  font-weight: 950;
+  box-sizing: border-box;
+}
+
+.game .badge-dot {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+}
+
+.game .settings-toggle {
+  width: var(--sound-button-size);
+  min-width: var(--sound-button-size);
+  height: var(--sound-button-size);
+  min-height: var(--sound-button-size);
+  box-sizing: border-box;
+}
+
+.game .settings-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.game #screen-play .hud {
+  position: absolute;
+  top: var(--top-control-y);
+  right: var(--stage-inset);
+  left: var(--stage-inset);
+  z-index: 6;
+  width: auto;
+  height: var(--sound-button-size);
+  min-height: var(--sound-button-size);
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--sound-gap);
+  padding: 0 var(--sound-reserve) 0 0;
+}
+
+.game #screen-play .hud-left,
+.game #screen-play .hud-right {
+  display: flex;
+  align-items: start;
+  height: var(--sound-button-size);
+}
+
+.game #screen-play .progress-line {
+  display: none;
+}
+
+.game #screen-play #problemCounter {
+  position: absolute;
+  left: 50%;
+  width: var(--top-control-counter-width);
+  min-width: var(--top-control-counter-width);
+  height: var(--sound-button-size);
+  min-height: var(--sound-button-size);
+  justify-content: center;
+  font-size: var(--top-control-counter-font-size);
+  font-weight: 950;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}

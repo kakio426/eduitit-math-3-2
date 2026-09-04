@@ -1,0 +1,78 @@
+{
+  "standard": "mathmon-portable-runtime-v1",
+  "product": "mathmon",
+  "purpose": "Keep reusable authoring sources shared while every deployed lesson owns a complete, relocatable runtime bundle.",
+  "canonicalSourceRoots": [
+    "_shared",
+    "_engine"
+  ],
+  "lessonConfig": "portable-runtime.config.json",
+  "lessonManifest": "assets/PORTABLE_RUNTIME_MANIFEST.json",
+  "vendorRoot": "assets/runtime-vendor",
+  "ownership": {
+    "authoringSource": "Shared CSS, JavaScript, audio, and approved generated assets remain canonical under _shared/ or _engine/.",
+    "deploymentOutput": "A lesson owns deterministic runtime copies under assets/runtime-vendor/ and must run without parent-repository or network dependencies.",
+    "assetMeaning": "A byte-identical, manifest-bound deployment copy is not a new generated asset and does not replace its canonical provenance record."
+  },
+  "requirements": {
+    "deterministic": true,
+    "idempotent": true,
+    "sourceOutputSha256": true,
+    "forbidSymlinks": true,
+    "forbidUndeclaredVendorFiles": true,
+    "forbidParentRuntimeReferences": [
+      "../_shared",
+      "../_engine"
+    ],
+    "forbidExternalRuntimeDependencies": true,
+    "mainPushMayGenerate": false
+  },
+  "commands": {
+    "build": "node scripts/build-mathmon-portable-runtime.mjs --lesson=<lesson-folder>",
+    "check": "node scripts/check-mathmon-portable-runtime.mjs <lesson-folder>",
+    "final": "node scripts/verify-mathmon-delivery.mjs --lesson=<lesson-folder>"
+  },
+  "automation": {
+    "buildLessonAuto": true,
+    "newOrTouchedLessonRequiresConfig": true,
+    "standaloneUsesDirectBuildCommand": true,
+    "deliveryGateBlocksMissingOrStaleBundle": true
+  },
+  "adoption": {
+    "policy": "new-and-touched-with-legacy-freeze",
+    "rule": "New lessons and directly changed legacy lesson runtimes must adopt this contract. Untouched legacy lessons stay frozen until their next runtime change.",
+    "migratedLessons": [
+      "3-2-1-1-mathmon-box-run"
+    ],
+    "legacyFrozenLessons": [
+      "3-2-1-2-mathmon-rocket-charge",
+      "3-2-1-3-mathmon-jump-islands",
+      "3-2-1-4-mathmon-fusion",
+      "3-2-2-1-mathmon-divide-farm",
+      "3-2-2-2-mathmon-elevator",
+      "3-2-2-3-mathmon-star-pickup",
+      "3-2-2-4-mathmon-check-lock",
+      "3-2-2-5-mathmon-division-train",
+      "3-2-3-1-mathmon-target-hit",
+      "3-2-3-2-mathmon-compass-ring",
+      "3-2-3-3-mathmon-double-bridge",
+      "3-2-3-4-mathmon-circle-pattern",
+      "3-2-4-1-mathmon-pizza-fraction",
+      "3-2-4-2-mathmon-fraction-scoop",
+      "3-2-4-3-mathmon-fraction-sorter",
+      "3-2-4-4-mathmon-fraction-tug",
+      "3-2-5-1-mathmon-water-fill",
+      "3-2-5-2-mathmon-drink-order",
+      "3-2-5-3-mathmon-scale-balance",
+      "3-2-5-4-mathmon-package-weight",
+      "3-2-6-1-mathmon-data-rangers",
+      "3-2-6-2-mathmon-picture-decoder",
+      "3-2-6-3-mathmon-picture-stamp",
+      "3-2-6-4-mathmon-data-detective"
+    ]
+  },
+  "crossProductBoundary": {
+    "sharedPrinciple": "Socialmon and Sciencemon may reuse the source-shared/deployment-owned principle.",
+    "rule": "Do not apply this Mathmon dependency graph or rollout list to another product; each product requires its own adapter and final gate."
+  }
+}
