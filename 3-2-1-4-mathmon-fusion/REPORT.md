@@ -10,7 +10,7 @@
 - 제작 보고서 원본 SHA-256: `b756c4a411baadec80bb5f010022f881c9fc5ad4b866514f484aa79eb26e9e50`
 - 실제 실행 진입점: `3-2-1-4-mathmon-fusion/index.html`
 - 실행 진입점 SHA-256: `b642d593416dd888fbc6182b78612eee0d54d0f1b0e3938f7566df9c7fc21181`
-- Pages 파일 집합 SHA-256: `2178ea1dee50bff1d4a8105730785358f5474b643a72568544313d07e05b4d59` (47개)
+- Pages 파일 집합 SHA-256: `47e693919d1caaf5bd9903ab9452f82d94677c15abc5756f3b670cb3c6232af3` (1개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-1-4-mathmon-fusion/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-1-4-mathmon-fusion/REPORT.md
