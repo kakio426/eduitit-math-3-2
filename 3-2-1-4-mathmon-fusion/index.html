@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ko">
+<html data-portable-runtime="mathmon-portable-runtime-v1" lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 로봇 합체 | 에듀잇티</title>
-  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
+  <link rel="stylesheet" href="assets/runtime-vendor/_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
   <style>
     :root {
       --page: #111418;
@@ -1464,13 +1464,15 @@
 
     .task-card {
       display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
+      grid-template-columns: minmax(0, 0.54fr) minmax(0, 1fr);
+      grid-template-rows: 1fr;
       align-content: center;
-      justify-items: center;
-      gap: 6px;
-      min-height: 72px;
-      padding: clamp(8px, 1vw, 12px);
+      align-items: center;
+      justify-items: stretch;
+      gap: 0;
+      min-height: 96px;
+      padding: 0;
+      overflow: hidden;
       border: 2px solid rgba(255, 200, 87, 0.78);
       border-radius: var(--radius);
       color: #251500;
@@ -1491,14 +1493,49 @@
     }
 
     .step-meaning {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 6px;
+      min-width: 0;
+      height: 100%;
+      padding: clamp(12px, 1.25vw, 16px) clamp(16px, 1.75vw, 24px);
+      border-right: 1px solid rgba(37, 21, 0, 0.28);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.18));
       margin: 0;
-      font-size: clamp(0.96rem, 1.35vw, 1.22rem);
+      text-align: left;
+    }
+
+    .step-index {
+      display: inline-flex;
+      align-self: center;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #5a3705;
+      background: rgba(37, 21, 0, 0.12);
+      font-size: clamp(0.98rem, 1.25vw, 1.18rem);
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .step-instruction {
+      max-width: 100%;
+      font-size: clamp(1.3rem, 1.9vw, 1.65rem);
       font-weight: 1000;
       line-height: 1.18;
     }
 
     .step-formula {
-      font-size: clamp(1.95rem, 3.3vw, 2.82rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      height: 100%;
+      padding: clamp(12px, 1.25vw, 16px) clamp(16px, 1.75vw, 24px);
+      font-size: clamp(2.2rem, 3.8vw, 3.25rem);
       font-weight: 1000;
       line-height: 1;
       letter-spacing: 0;
@@ -2681,18 +2718,31 @@
       }
 
       .task-card {
-        grid-template-columns: 1fr;
-        min-height: 76px;
-        gap: 5px;
-        padding: 8px 10px;
+        grid-template-columns: minmax(0, 0.54fr) minmax(0, 1fr);
+        grid-template-rows: 1fr;
+        min-height: 104px;
+        gap: 0;
+        padding: 0;
       }
 
       .step-meaning {
-        font-size: 0.92rem;
+        gap: 5px;
+        padding: 10px 14px;
+      }
+
+      .step-index {
+        min-height: 24px;
+        padding: 4px 9px;
+        font-size: 1rem;
+      }
+
+      .step-instruction {
+        font-size: 1.28rem;
       }
 
       .step-formula {
-        font-size: 2.05rem;
+        padding: 10px 14px;
+        font-size: 2.45rem;
       }
 
       .choice-grid {
@@ -2770,7 +2820,7 @@
     .result-correct-art {
       position: absolute;
       left: 74.8%;
-      top: 52%;
+      top: 60.5%;
       z-index: 4;
       width: 24%;
       max-height: 14%;
@@ -2857,11 +2907,8 @@
 
     .result-actions {
       position: absolute;
-      left: 59.375%;
-      top: 78.25%;
+      inset: 0;
       z-index: 5;
-      width: 32.8125%;
-      height: 8%;
       display: block;
       pointer-events: none;
     }
@@ -2882,16 +2929,33 @@
     }
 
     .result-leaderboard-hitbox {
-      left: 0;
-      width: 47.62%;
+      display: none;
     }
 
-    .result-restart-hitbox {
-      right: 0;
-      width: 42.86%;
+    .result-retry-hitbox {
+      position: absolute;
+      left: 74.8%;
+      top: 68.5%;
+      transform: translateX(-50%);
+      width: 260px;
+      height: 108px;
+      z-index: 6;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      color: transparent;
+      background: transparent;
+      box-shadow: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      pointer-events: auto;
     }
 
-    .result-action-hitbox:focus-visible {
+    .result-retry-hitbox:focus-visible {
       outline: 4px solid rgba(255, 255, 255, 0.9);
       outline-offset: 4px;
     }
@@ -2907,6 +2971,20 @@
       height: 100%;
       object-fit: contain;
       pointer-events: none;
+    }
+
+    .result-retry-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .result-dynamic-ui .result-svg-energy,
+    .result-dynamic-ui .result-progress-track,
+    .result-dynamic-ui #resultMeasureFillSvg {
+      display: none;
     }
 
     @keyframes result-panel-pulse {
@@ -2971,7 +3049,7 @@
     }
   </style>
 
-  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="assets/runtime-vendor/_shared/audio/">
     (function installMathmonAudio(global) {
       "use strict";
 
@@ -2985,7 +3063,7 @@
       const currentScript = document.currentScript;
       const scriptUrl = currentScript?.dataset.mathmonAudioBase
         ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
-        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+        : currentScript?.src || new URL("assets/runtime-vendor/_shared/audio/", global.location.href).href;
       const BGM_TRACK = Object.freeze({
         src: new URL(
           "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
@@ -3468,7 +3546,7 @@
     <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
       <img class="raster-bg" src="cover-generated.webp" alt="">
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 4차시</span>
       </div>
       <span class="lesson-badge">(몇)×(몇십몇), (몇십몇)×(몇십몇)</span>
@@ -3478,7 +3556,7 @@
           <img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">
           <p>두 번 곱하고 더해서 로봇을 완성해요.</p>
           <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
-            <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
+            <img class="start-button-art" src="assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
           </button>
         </div>
       </div>
@@ -3486,7 +3564,7 @@
 
     <section class="screen tutorial" id="tutorialScreen" aria-labelledby="tutorialTitle" data-tutorial-variant="image" data-tutorial-step="solve">
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 4차시</span>
       </div>
       <h2 class="visually-hidden" id="tutorialTitle">나눠서 곱해요</h2>
@@ -3583,7 +3661,7 @@
 
     <section class="screen play" id="playScreen" aria-labelledby="questionText">
       <header class="hud">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <div class="hud-center">
           <span class="stat-pill" id="progressText">문제 1/10</span>
           <span class="stat-pill" id="energyText">0점</span>
@@ -3657,7 +3735,10 @@
             <h2 id="questionText">23 × 45</h2>
           </div>
           <div class="task-card" id="taskCard">
-            <p class="step-meaning" id="stepMeaning">먼저 5와 곱해요.</p>
+            <div class="step-meaning" id="stepMeaning" role="group" aria-labelledby="stepIndex stepInstruction">
+              <span class="step-index" id="stepIndex">1단계</span>
+              <span class="step-instruction" id="stepInstruction" data-text-align-role="sentence">5와 곱해요.</span>
+            </div>
             <div class="step-formula" id="stepFormula">23 × 5 = ?</div>
           </div>
           <p class="prompt" id="promptText" hidden>답을 골라요.</p>
@@ -3679,7 +3760,7 @@
     <section class="screen result" id="resultScreen" aria-labelledby="resultTitle">
       <img class="raster-bg" id="resultRaster" src="result-small-generated.webp" alt="">
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 4차시</span>
       </div>
       <div class="result-layout">
@@ -3702,7 +3783,7 @@
           <span id="finalGradeText">소형</span>
         </div>
         <img class="result-title-art" id="resultTitleArt" src="result-title-small-generated.webp" alt="" aria-hidden="true" hidden>
-        <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
+        <img class="result-correct-art" id="resultCorrectArt" src="assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
         <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
           <title id="resultSvgTitle">합체 결과</title>
           <defs>
@@ -3736,7 +3817,7 @@
             <text class="result-svg-value" id="resultScoreSvg" x="760" y="469" opacity="0" aria-hidden="true">0/10</text>
             <text class="result-svg-label" x="760" y="536"></text>
             <text class="result-svg-value result-svg-energy" id="resultMeasureSvg" x="760" y="568">확인 중</text>
-            <rect x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
+            <rect class="result-progress-track" x="760" y="582" width="394" height="10" rx="5" fill="rgba(255,255,255,0.18)"></rect>
             <rect id="resultMeasureFillSvg" x="760" y="582" width="0" height="10" rx="5" fill="#79f5c4"></rect>
             <rect class="result-legacy-action-surface ranking-disabled" x="760" y="626" width="200" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
             <rect class="result-legacy-action-surface" x="982" y="626" width="180" height="64" rx="12" fill="url(#resultButtonFill)" stroke="#ffdc75" stroke-width="2"></rect>
@@ -3746,22 +3827,21 @@
         </svg>
         <div class="result-actions" aria-hidden="false">
           <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
-            <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
+            <img class="result-common-button-art" src="assets/runtime-vendor/_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
             <span class="visually-hidden">순위 보기</span>
           </button>
-          <button class="result-action-hitbox result-restart-hitbox" id="restartButton" type="button" aria-label="다시하기">
-            <img class="result-common-button-art" src="../_shared/result-actions/retry-button-generated.webp" alt="" aria-hidden="true">
-            <span class="visually-hidden">다시하기</span>
+          <button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기">
+            <img class="result-retry-art" src="assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
           </button>
         </div>
       </div>
     </section>
 
-    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 합체 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-fusion-generated.webp" data-scoreboard-result-kind="fusion" data-scoreboard-score-label="얻은 로봇" data-scoreboard-list-title="로봇 순위" data-scoreboard-unit="3학년 2학기 1단원 4차시"></section>
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 합체 순위" data-scoreboard-title-art="assets/runtime-vendor/_shared/scoreboard/scoreboard-title-fusion-generated.webp" data-scoreboard-result-kind="fusion" data-scoreboard-score-label="얻은 로봇" data-scoreboard-list-title="로봇 순위" data-scoreboard-unit="3학년 2학기 1단원 4차시"></section>
     </div>
   </main>
 
-  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260710-seeded-session"></script>
+  <script src="assets/runtime-vendor/_shared/scoreboard/scoreboard-ui.js?v=20260710-seeded-session"></script>
   <script>
     const LESSON_ID = "3-2-1-4-mathmon-fusion";
     const TOTAL_QUESTIONS = 10;
@@ -3777,7 +3857,7 @@
       sfx: "mathmon-audio-sfx-enabled"
     };
     const BGM_TRACK = {
-      src: "../_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260711",
+      src: "assets/runtime-vendor/_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260711",
       gain: 0.025,
       duckGain: 0.008,
       fadeSeconds: 1.2
@@ -3920,6 +4000,8 @@
       taskCard: document.getElementById("taskCard"),
       stepFormula: document.getElementById("stepFormula"),
       stepMeaning: document.getElementById("stepMeaning"),
+      stepIndex: document.getElementById("stepIndex"),
+      stepInstruction: document.getElementById("stepInstruction"),
       promptText: document.getElementById("promptText"),
       choiceGrid: document.getElementById("choiceGrid"),
       feedbackText: document.getElementById("feedbackText"),
@@ -4480,7 +4562,7 @@
 
     function getResultCorrectArtSrc(correctCount) {
       const value = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
-      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+      return `assets/runtime-vendor/_shared/result-count/result-correct-${value}-generated.webp`;
     }
 
     function renderGradeTrack(container, { targetIndex = -1, reachedIndex = -1 } = {}) {
@@ -4587,7 +4669,8 @@
       beginScoreboardStep();
       renderQuestionHighlight(problem, step.id);
       el.stepFormula.textContent = step.formula;
-      el.stepMeaning.textContent = step.meaning;
+      el.stepIndex.textContent = step.stepLabel;
+      el.stepInstruction.textContent = step.instruction;
       el.promptText.textContent = step.prompt;
       el.taskCard.classList.remove("is-confirmed");
       updateFusionSideCurrent(step.id);
@@ -4613,7 +4696,8 @@
           formula: `${problem.top} × ${problem.onesMul} = ?`,
           correct: problem.partial1,
           prompt: "답을 골라요.",
-          meaning: `1단계: ${withGwa(problem.onesMul)} 곱해요.`,
+          stepLabel: "1단계",
+          instruction: `${withGwa(problem.onesMul)} 곱해요.`,
           hint: `먼저 ${problem.top} × ${problem.onesMul}부터 봐요.`,
           explain: `${withGwa(problem.onesMul)} 곱한 값은 ${formatNumber(problem.partial1)}예요.`,
           distractors: [
@@ -4629,7 +4713,8 @@
           formula: `${problem.top} × ${problem.tensMul}0 = ?`,
           correct: problem.partial2,
           prompt: "답을 골라요.",
-          meaning: `2단계: ${problem.top} × ${problem.tensMul}에 0을 붙여요.`,
+          stepLabel: "2단계",
+          instruction: `${problem.top} × ${problem.tensMul}에 0을 붙여요.`,
           hint: `${withGwa(problem.tensMul * 10)} 곱할 때는 0을 붙여요.`,
           explain: `${withGwa(problem.tensMul * 10)} 곱한 값은 ${formatNumber(problem.partial2)}예요.`,
           distractors: [
@@ -4645,7 +4730,8 @@
           formula: `${formatNumber(problem.partial1)} + ${formatNumber(problem.partial2)} = ?`,
           correct: problem.answer,
           prompt: "답을 골라요.",
-          meaning: "3단계: 두 값을 더해요.",
+          stepLabel: "3단계",
+          instruction: "두 값을 더해요.",
           hint: `${formatNumber(problem.partial2)}의 0을 빠뜨리지 않아요.`,
           explain: `두 값을 더하면 ${formatNumber(problem.answer)}예요.`,
           distractors: [
@@ -5314,8 +5400,6 @@
       }
     });
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8401/live.js?token=9eb807a0-11ca-46ea-be0e-6eefc4e86c1b"></script>
-<!-- impeccable-live-end -->
+
 </body>
 </html>

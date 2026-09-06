@@ -1,5 +1,22 @@
 # 매스몬 로봇 합체 수정 보고서
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `a2d8381e54e3db31496761db384af5f8c8c6dfe1`
+- 입력 커밋 시각: `2026-09-06T20:57:04+09:00`
+- 제작 보고서 원본 SHA-256: `b756c4a411baadec80bb5f010022f881c9fc5ad4b866514f484aa79eb26e9e50`
+- 실제 실행 진입점: `3-2-1-4-mathmon-fusion/index.html`
+- 실행 진입점 SHA-256: `b642d593416dd888fbc6182b78612eee0d54d0f1b0e3938f7566df9c7fc21181`
+- Pages 파일 집합 SHA-256: `2178ea1dee50bff1d4a8105730785358f5474b643a72568544313d07e05b4d59` (47개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-1-4-mathmon-fusion/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-1-4-mathmon-fusion/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.
