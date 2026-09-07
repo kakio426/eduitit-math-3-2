@@ -1,5 +1,22 @@
 # 매스몬 로켓발사 대작전 설명 보고서
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `97257208372ac290e8f99c87042967de206d0153`
+- 입력 커밋 시각: `2026-09-07T14:08:48+09:00`
+- 제작 보고서 원본 SHA-256: `b0c1a716f449dc7a66a71e41729f7f0d63dc6a85fcadd76a2624df2de5585c60`
+- 실제 실행 진입점: `3-2-1-2-mathmon-rocket-charge/index.html`
+- 실행 진입점 SHA-256: `482228388c621b3d503454565bbcb244ffdff0c951e0087c7811f9ef47729fe7`
+- Pages 파일 집합 SHA-256: `1d677c27388fc35c9e7c7c91c17c24a8898e0e3b0ad230eab224fc62d9ef88b7` (93개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-1-2-mathmon-rocket-charge/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-1-2-mathmon-rocket-charge/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.

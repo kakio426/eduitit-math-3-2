@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ko">
+<html data-portable-runtime="mathmon-portable-runtime-v1" lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3학년 2학기 1단원 · 매스몬 로켓발사 대작전 | 에듀잇티</title>
-  <link rel="stylesheet" href="../_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
+  <link rel="stylesheet" href="assets/runtime-vendor/_shared/scoreboard/scoreboard-ui.css?v=20260702-nojekyll">
   <style>
     :root {
       --page: #111018;
@@ -1436,10 +1436,10 @@
 
     .carry-cell {
       min-height: clamp(27px, 3vw, 36px);
-      color: var(--amber);
+      color: #b9f3ff;
       font-size: clamp(1rem, 2.1vw, 1.48rem);
-      background: rgba(255, 200, 87, 0.08);
-      border-color: rgba(255, 200, 87, 0.22);
+      background: rgba(96, 215, 255, 0.08);
+      border-color: rgba(96, 215, 255, 0.34);
     }
 
     .sum-line {
@@ -1460,28 +1460,46 @@
     }
 
     .sum-cell.is-active-factor,
-    .sum-mark.is-active-factor,
-    .carry-cell.is-active-carry {
+    .sum-mark.is-active-factor {
       color: #231400;
       border-color: rgba(255, 200, 87, 0.88);
       background: linear-gradient(180deg, #fff0a8, #ffc857);
       box-shadow: 0 0 0 3px rgba(255, 200, 87, 0.18), 0 0 24px rgba(255, 200, 87, 0.22);
     }
 
+    .carry-cell.is-active-carry {
+      color: #04242c;
+      border-color: rgba(157, 234, 255, 0.96);
+      background: linear-gradient(180deg, #e1fbff, var(--sky));
+      box-shadow: 0 0 0 3px rgba(96, 215, 255, 0.2), 0 0 24px rgba(96, 215, 255, 0.3);
+    }
+
     .carry-cell.is-carry-target {
-      border-color: rgba(255, 200, 87, 0.74);
+      color: #b9f3ff;
+      border-color: rgba(96, 215, 255, 0.82);
       background:
-        radial-gradient(circle at 50% 50%, rgba(255, 200, 87, 0.18), transparent 0 48%, transparent 70%),
-        rgba(255, 200, 87, 0.08);
-      box-shadow: inset 0 0 0 3px rgba(255, 200, 87, 0.28), 0 0 20px rgba(255, 200, 87, 0.2);
+        radial-gradient(circle at 50% 50%, rgba(96, 215, 255, 0.2), transparent 0 48%, transparent 70%),
+        rgba(96, 215, 255, 0.1);
+      box-shadow: inset 0 0 0 3px rgba(96, 215, 255, 0.3), 0 0 20px rgba(96, 215, 255, 0.24);
     }
 
     .sum-cell.is-step-pop,
     .carry-cell.is-carry-pop {
       position: relative;
+    }
+
+    .sum-cell.is-step-pop {
       color: #201000;
       border-color: rgba(255, 200, 87, 0.92);
       background: linear-gradient(180deg, #fff0a8, #ffc857);
+      animation: step-cell-pop 0.7s ease both;
+    }
+
+    .carry-cell.is-carry-pop {
+      color: #04242c;
+      border-color: rgba(157, 234, 255, 0.98);
+      background: linear-gradient(180deg, #e1fbff, var(--sky));
+      box-shadow: 0 0 0 3px rgba(96, 215, 255, 0.22), 0 0 24px rgba(96, 215, 255, 0.34);
       animation: step-cell-pop 0.7s ease both;
     }
 
@@ -2814,7 +2832,7 @@
     }
   </style>
 
-  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="assets/runtime-vendor/_shared/audio/">
     (function installMathmonAudio(global) {
       "use strict";
 
@@ -2828,7 +2846,7 @@
       const currentScript = document.currentScript;
       const scriptUrl = currentScript?.dataset.mathmonAudioBase
         ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
-        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+        : currentScript?.src || new URL("assets/runtime-vendor/_shared/audio/", global.location.href).href;
       const BGM_TRACK = Object.freeze({
         src: new URL(
           "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
@@ -3317,7 +3335,7 @@
     <section class="screen cover is-active" id="coverScreen" aria-labelledby="coverTitle">
       <img class="raster-bg" src="cover-generated.webp" alt="">
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 2차시</span>
       </div>
       <span class="lesson-badge">받아올림 있는 세 자리 수 × 한 자리 수</span>
@@ -3327,7 +3345,7 @@
           <img class="hero-title-art" src="title-poster-generated.webp" alt="" aria-hidden="true">
           <p>받아올림 있는 곱셈을 풀어 로켓의 연료를 넣어요.</p>
           <button class="cover-start-button" id="startButton" type="button" aria-label="시작">
-            <img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
+            <img class="start-button-art" src="assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp" width="1611" height="680" alt="" aria-hidden="true">
           </button>
         </div>
       </div>
@@ -3337,7 +3355,7 @@
       <img class="tutorial-fulltext-art tutorial-step-art tutorial-solve-art" src="tutorial-solve-generated.webp?v=regenerated-20260904" alt="" aria-hidden="true">
       <img class="tutorial-fulltext-art tutorial-step-art tutorial-goal-art" src="tutorial-goal-generated.webp?v=two-step-20260702" alt="" aria-hidden="true">
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 2차시</span>
       </div>
       <h2 class="visually-hidden" id="tutorialTitle">차례로 곱해요</h2>
@@ -3355,7 +3373,7 @@
 
     <section class="screen play" id="playScreen" aria-labelledby="questionText">
       <header class="hud">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="problem-progress" id="progressText">문제 1/10</span>
         <div class="hud-right"><span class="unit-badge">1단원 곱셈 · 2차시</span></div>
       </header>
@@ -3470,7 +3488,7 @@
     <section class="screen result" id="resultScreen" aria-labelledby="resultTitle">
       <img class="raster-bg" id="resultRaster" src="result-mercury-generated.webp" alt="">
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 2차시</span>
       </div>
       <h2 class="visually-hidden" id="resultTitle">연료 측정 준비</h2>
@@ -3487,7 +3505,7 @@
         <span id="finalDestinationText">수성</span>
       </div>
       <img class="result-title-art" id="resultTitleArt" src="result-title-mercury-generated.webp" alt="" aria-hidden="true" hidden>
-      <img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
+      <img class="result-correct-art" id="resultCorrectArt" src="assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true">
       <svg class="result-dynamic-ui" viewBox="0 0 1280 800" role="img" aria-labelledby="resultSvgTitle">
         <title id="resultSvgTitle">로켓 결과</title>
         <defs>
@@ -3531,16 +3549,16 @@
       </svg>
       <div class="result-actions" aria-hidden="false">
         <button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기">
-          <img class="result-common-button-art" src="../_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
+          <img class="result-common-button-art" src="assets/runtime-vendor/_shared/scoreboard/scoreboard-result-button-generated.webp" alt="" aria-hidden="true">
           <span class="visually-hidden">순위 보기</span>
         </button>
         <button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기">
-          <img class="result-retry-art" src="../_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
+          <img class="result-retry-art" src="assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp" alt="" aria-hidden="true">
         </button>
       </div>
     </section>
 
-    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 로켓 순위" data-scoreboard-title-art="../_shared/scoreboard/scoreboard-title-rocket-generated.webp" data-scoreboard-result-kind="rocket">
+    <section class="screen mathmon-scoreboard" id="scoreboardScreen" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 로켓 순위" data-scoreboard-title-art="assets/runtime-vendor/_shared/scoreboard/scoreboard-title-rocket-generated.webp" data-scoreboard-result-kind="rocket">
       <svg class="mathmon-scoreboard-stage" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid meet" aria-hidden="false">
         <defs>
           <linearGradient id="scoreboardTitleGradient" x1="0" x2="0" y1="0" y2="1">
@@ -3598,7 +3616,7 @@
             <rect x="174" y="392" width="932" height="222" rx="20"></rect>
           </clipPath>
         </defs>
-        <image class="mathmon-scoreboard-stage-art" href="../_shared/scoreboard/scoreboard-celebration-bg-generated.webp" x="0" y="0" width="1280" height="800" preserveAspectRatio="xMidYMid slice"></image>
+        <image class="mathmon-scoreboard-stage-art" href="assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp" x="0" y="0" width="1280" height="800" preserveAspectRatio="xMidYMid slice"></image>
         <rect class="mathmon-scoreboard-bg-dim" x="0" y="0" width="1280" height="800"></rect>
         <g class="mathmon-scoreboard-ui" filter="url(#scoreboardBoardShadow)">
           <rect class="mathmon-scoreboard-board" x="108" y="104" width="1064" height="628" rx="38"></rect>
@@ -3608,7 +3626,7 @@
 
           <g class="mathmon-scoreboard-copy" filter="url(#scoreboardTextShadow)">
             <title id="scoreboardTitle">전국 로켓 순위</title>
-            <image class="mathmon-scoreboard-title-art" href="../_shared/scoreboard/scoreboard-title-rocket-generated.webp" x="350" y="38" width="580" height="184" preserveAspectRatio="xMidYMid meet"></image>
+            <image class="mathmon-scoreboard-title-art" href="assets/runtime-vendor/_shared/scoreboard/scoreboard-title-rocket-generated.webp" x="350" y="38" width="580" height="184" preserveAspectRatio="xMidYMid meet"></image>
 
             <g class="mathmon-scoreboard-metrics" aria-label="내 기록">
               <rect class="mathmon-scoreboard-card" x="174" y="222" width="286" height="88" rx="16"></rect>
@@ -3654,14 +3672,14 @@
         <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 634; --w: 142; --h: 58;" aria-label="다시하기"></button>
       </div>
       <div class="top-row">
-        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
+        <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</span>
         <span class="unit-badge">3학년 2학기 1단원 2차시</span>
       </div>
     </section>
     </div>
   </main>
 
-  <script src="../_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
+  <script src="assets/runtime-vendor/_shared/scoreboard/scoreboard-ui.js?v=20260708-scoreboard-actions-fixed"></script>
   <script>
     const LESSON_ID = "3-2-1-2-mathmon-rocket-charge";
     const TOTAL_QUESTIONS = 10;
@@ -4328,7 +4346,7 @@
 
     function getResultCorrectArtSrc(correctCount) {
       const value = Math.max(0, Math.min(TOTAL_QUESTIONS, Number(correctCount) || 0));
-      return `../_shared/result-count/result-correct-${value}-generated.webp`;
+      return `assets/runtime-vendor/_shared/result-count/result-correct-${value}-generated.webp`;
     }
 
     function getNextPlanet(destination) {
@@ -5510,8 +5528,5 @@
     updateSettingsUi();
     renderStatus();
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js?token=46f46be5-13d3-4b58-b9c3-557a6b452926"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>
