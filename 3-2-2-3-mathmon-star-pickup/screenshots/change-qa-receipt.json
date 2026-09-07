@@ -4,83 +4,43 @@
   "lesson": "3-2-2-3-mathmon-star-pickup",
   "status": "pass",
   "scopes": [
-    "presentation",
-    "interaction"
+    "presentation"
   ],
-  "reason": "Reported problem-board background clutter, hidden world-effect timing, and final result information hierarchy; unified problem states to a clean purple small-star field and simplified/recentered the final result layout while preserving the reward panel and interaction behavior.",
+  "reason": "Add an enclosing panel to the existing right-side result elements without changing positions or game behavior.",
   "changedPaths": [
-    "3-2-2-3-mathmon-star-pickup/REPORT.md",
-    "3-2-2-3-mathmon-star-pickup/assets/PORTABLE_RUNTIME_MANIFEST.json",
     "3-2-2-3-mathmon-star-pickup/index.html",
-    "3-2-2-3-mathmon-star-pickup/screenshots/change-qa-receipt.json",
-    "3-2-2-3-mathmon-star-pickup/screenshots/reported-affected-behavior.json",
-    "3-2-2-3-mathmon-star-pickup/screenshots/reported-affected-screen.json",
-    "3-2-2-3-mathmon-star-pickup/screenshots/reported-change-review.json",
-    "3-2-2-3-mathmon-star-pickup/screenshots/reported-connected-flow.json"
+    "3-2-2-3-mathmon-star-pickup/assets/PORTABLE_RUNTIME_MANIFEST.json"
   ],
   "checks": [
     {
       "id": "change-review",
-      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reported-change-review.json",
-      "evidenceSha256": "9116da6de408cdac657b9b2d68d9e81d421e8ac2ebc517ef86204fddc83f0962",
+      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/result-panel-change-review.json",
+      "evidenceSha256": "cd2fb476c29790c103e0134b5d45e543eb92d382e017ffd70afdc06804282ce9",
       "qaFiles": [
-        "_lessons/3-2-2-3-mathmon-star-pickup/qa-reported.mjs"
+        "_lessons/3-2-2-3-mathmon-star-pickup/qa-result-panel.mjs"
       ]
     },
     {
       "id": "affected-screen",
-      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reported-affected-screen.json",
-      "evidenceSha256": "a2241e3fdd3271de4dbc2f5c6dad330cafdf1174b7b67b95c2893567288686da",
+      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/result-panel-affected-screen.json",
+      "evidenceSha256": "239a886db9e2fc3d7979d1ac07f05ca96807bcb3ba19e28fb4c27910bfd6ad14",
       "qaFiles": [
-        "_lessons/3-2-2-3-mathmon-star-pickup/qa-reported.mjs"
-      ]
-    },
-    {
-      "id": "affected-behavior",
-      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reported-affected-behavior.json",
-      "evidenceSha256": "a36d2ff54e1fd143d859aa911e9bae19316ebf31420fb61206307d13864c6149",
-      "qaFiles": [
-        "_lessons/3-2-2-3-mathmon-star-pickup/qa-reported.mjs"
-      ]
-    },
-    {
-      "id": "connected-flow",
-      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reported-connected-flow.json",
-      "evidenceSha256": "51a13d568007308794212de2a50af1e26a1d76de5e41ca57125545f84a8bea58",
-      "qaFiles": [
-        "_lessons/3-2-2-3-mathmon-star-pickup/qa-reported.mjs"
+        "_lessons/3-2-2-3-mathmon-star-pickup/qa-result-panel.mjs"
       ]
     }
   ],
   "browserRuns": 1,
-  "screenshots": 2,
+  "screenshots": 1,
   "coverage": {
     "states": [
-      "remainder-waiting",
-      "remainder-proof",
-      "reward-open",
-      "reward-dismiss-impact",
-      "next-problem"
+      "result"
     ],
     "viewports": [
-      {
-        "name": "desktop",
-        "width": 1280,
-        "height": 800
-      },
-      {
-        "name": "tablet-landscape",
-        "width": 1024,
-        "height": 768
-      },
-      {
-        "name": "reported-star-bundles-1082x987-dpr2",
-        "width": 1082,
-        "height": 987,
-        "dpr": 2
-      }
+      "1082x987",
+      "1280x800",
+      "1024x768"
     ],
-    "reason": "Reported exact viewport plus desktop/tablet, affected quotient layouts and positive/tier-up/negative/zero reward transitions."
+    "reason": "Only final-result enclosure changed; verify bounds and loaded contents across affected viewport sizes."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -95,8 +55,8 @@
       },
       {
         "role": "qa",
-        "path": "_lessons/3-2-2-3-mathmon-star-pickup/qa-reported.mjs",
-        "sha256": "3432325fcce0c271fcd2a22ddc520c5b7be6fd05aeb7daa5618aeaa165f4f832"
+        "path": "_lessons/3-2-2-3-mathmon-star-pickup/qa-result-panel.mjs",
+        "sha256": "58f68cb096bb3815ee0bc89b945f002eb9df19afa35e875c57f05359647a509d"
       },
       {
         "role": "qa",
@@ -121,7 +81,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-3-mathmon-star-pickup/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "b719e5e0bbb8b43aa3164b7ee7fb69f5a3bb4d581fdd74f7a8ba4fa1c78993e4"
+        "sha256": "b74ecbbcf6164d3af0288b91a2296dec2552d7ed63e35cb5d55cb6d987f53f26"
       },
       {
         "role": "runtime",
@@ -206,7 +166,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-3-mathmon-star-pickup/index.html",
-        "sha256": "87702c2d3f226cf3242472c659c8662bf0a605dad3f504930032ccc973646273"
+        "sha256": "e861f5d07f5ef39ebc3c46de971ebde2ff4492266cf522e7630c552ee36c1610"
       },
       {
         "role": "runtime",
@@ -244,6 +204,6 @@
         "sha256": "ddb321cfe0f7b7cc0ed954883184a34e97a3306fcc1099e574db62ed80b41816"
       }
     ],
-    "sha256": "a4a70ee1c06290f70cb203b50812bb108f5da59497d17b431dd0a3495483946d"
+    "sha256": "a777efabf37a4d1c4558b7cc705d5d8385284c1bccaf1539174ce5648903017e"
   }
 }
