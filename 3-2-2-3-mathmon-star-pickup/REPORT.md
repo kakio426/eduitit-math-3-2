@@ -1,5 +1,35 @@
 # 매스몬 별 줍기 업체 전달용 최신 구현 보고서
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `5c1972c51cd027799d9bfedfa8be01b6f118494a`
+- 입력 커밋 시각: `2026-09-07T20:41:38+09:00`
+- 제작 보고서 원본 SHA-256: `36a93ba9f90df748dad591a831bad10230eed6ef7d7144875b627ffa2e39f922`
+- 실제 실행 진입점: `3-2-2-3-mathmon-star-pickup/index.html`
+- 실행 진입점 SHA-256: `87702c2d3f226cf3242472c659c8662bf0a605dad3f504930032ccc973646273`
+- Pages 파일 집합 SHA-256: `2e03fd64e51f5b14428ba4a95f642bd31f9d15c794e22b102c335691bf71566c` (138개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-3-mathmon-star-pickup/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-3-mathmon-star-pickup/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
+<!-- PORTABLE-RUNTIME:START -->
+## 2026-09-07 공통 컴포넌트 차시 내장
+
+- 실행 파일의 공통 런타임 참조를 차시 폴더 내부 경로로 바꿨습니다.
+- 내장 위치: `assets/runtime-vendor/`
+- 내장 공통 파일: `16개`
+- 매니페스트: `assets/PORTABLE_RUNTIME_MANIFEST.json` (SHA-256 `b719e5e0bbb8b43aa3164b7ee7fb69f5a3bb4d581fdd74f7a8ba4fa1c78993e4`)
+- 2~6단원 21개 차시의 공통 파일 364개에 대해 경로·파일 존재·원본/복사본 SHA-256 검사를 통과했습니다.
+- 로컬 정적 호스팅에서 21개 진입 URL과 364개 내장 파일을 직접 요청해 HTTP 오류 0건을 확인했습니다.
+- 기존 화면 캡처는 그대로 보존했으며 이번 경로 이식의 새 화면 증거로 다시 봉인하지 않았습니다.
+- 요소 배치, 문항, 보상 로직은 이 이식 작업에서 변경하지 않았습니다. 정적 호스팅에는 이 차시 폴더 전체를 그대로 배포합니다.
+<!-- PORTABLE-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.
@@ -1635,3 +1665,26 @@ git diff --check
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+## 2026-09-07 제보 화면 수정: 별 묶음 여백·보상 효과 시점
+
+- 범위: `lesson-runtime`의 나머지 계산판 배치와 보상창 닫힘 후 연출, `documentation-evidence`의 해당 회귀 기록. 계산·확률·점수 모델과 결과 화면은 변경하지 않았다.
+- 제보 환경: `1082×987`, DPR `2`, Stage `1038.734×649.203`. `41÷3`의 13묶음이 계산판 아래 테두리에 가까웠고 수식 위쪽 여백도 부족했다. 이전 렌더러 측정에서 아래 여백은 약 3.88 SVG 단위, 수식 위 여백은 약 5.29였다.
+- 수정: 수식 기준선을 고정하고 묶음 영역을 `y=88`, 높이 `230`으로 분리했다. 네 줄 묶음은 행 높이를 남은 공간에 맞춘다. 수정 후 제보 화면의 최소 수식↔묶음 간격은 20.63, 아래 여백은 27.19 SVG 단위다.
+- 왼쪽 별자리 효과는 보상창 뒤에서 재생되던 `onRewardReveal`에서 `onRewardDismiss`로 옮겼다. 창이 닫힌 후 300ms를 두고 효과를 시작하고, 증가 효과 1550ms가 끝나면 다음 문제로 넘어간다. 감소는 같은 단계에서도 어두워짐을 표시하고 이전 갱신 타이머가 최신 효과를 끄지 않게 했다. 보상값은 기존 엔진에서 한 번만 반영한다.
+- 검증: `_lessons/3-2-2-3-mathmon-star-pickup/qa-reported.mjs`. `1280×800`, `1024×768`, 제보 viewport에서 몫 2~31 배치 90건, 54÷4 나머지 증거, 보상 증가·단계 상승·감소·유지 12건 PASS. 열린 보상창 뒤 이미지 유지, 창 닫힘 후 효과, 효과 중 문제 번호 유지, 다음 문제 전환과 점수 중복 반영 없음 확인. 일반 효과 검사는 `prefers-reduced-motion: no-preference`로 실행했다.
+- 현재 범위의 최종 시각 검수: 수식·별 묶음·계산판 테두리 간 분리와 왼쪽 패널 안 별자리 발광 확인. 결과 화면은 이번 수정의 영향 범위가 아니므로 재검하지 않았다.
+- 공개 근거는 `screenshots/change-qa-receipt.json`, `screenshots/reported-regression.json`, `screenshots/reported-runtime-equivalence.json`에 보존했다. 작업 중 생성한 임시 PNG는 배포 파일에서 제외했다.
+- 최종 자산 검사 보완: 기존 `assets` 목록의 `reward-event-protected-source.png` 항목만 제거했다. 제작 원본 파일과 실행 WebP는 보존했다. 재빌드 전후 실행본은 이 미사용 목록 항목과 빌드 지문을 제외하면 바이트 단위로 같음을 확인하여 위 브라우저 검증을 재사용했다(`reported-runtime-equivalence.json`).
+
+## 2026-09-07 제보 화면 수정: 문제판 배경 정리
+
+- 문제판의 `waiting`, `working`, `complete` 세 상태를 작은 별만 있는 보라색 별밭 배경으로 통일했다. 눈에 띄는 노란 별 묶음·별자리 선·큰 띠 장식은 문제판 배경에서 제거하고, 왼쪽 보상 패널의 별빛 효과와 결과 화면의 보상 연출은 유지했다.
+- 실행 매핑: `imageAssets.problemStates` 세 키가 `problem-state-waiting-clean-generated.webp`를 사용한다. 새 배경은 `1280×800` WebP이며 기존 생성 원본과 이전 상태 자산은 보존했다.
+- 검증 결과는 `screenshots/change-qa-receipt.json`과 해당 `reported-*.json` 영수증에 기록했다.
+
+## 2026-09-07 제보 화면 수정: 최종 결과 정보 정리
+
+- 최종 결과 화면에서 진행바와 `모은 별빛` 표시를 숨겼다. `다음엔 무지개 유니콘자리` 안내는 유지하고, 결과 이름·정답 수·다시 버튼을 오른쪽 영역에 균형 있게 재배치했다.
+- `10/10` 결과 아트의 투명 여백을 보정해 숫자의 실제 시각 중심이 `다시` 버튼과 맞도록 좌우 정렬을 미세 조정했다.
+- 최종 결과 화면 확인 결과는 `screenshots/change-qa-receipt.json`과 해당 `reported-*.json` 영수증에 기록했다.
