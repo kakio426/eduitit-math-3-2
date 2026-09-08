@@ -5,17 +5,30 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `3c8eb0e2a5285601e0b2fa7ecac75b3fb1ef94c94eb1bad8e7245c3896d0e9aa`
+- 공개 입력 커밋: `a4a1755c9089fe3ad27d71e0986a018719ed85a3`
+- 입력 커밋 시각: `2026-09-08T20:50:54+09:00`
+- 제작 보고서 원본 SHA-256: `3ce624f90d1998c31b36df13c83bea718aea3080563b0f64bd69abb11328af81`
 - 실제 실행 진입점: `3-2-3-1-mathmon-target-hit/index.html`
-- 실행 진입점 SHA-256: `1776264347d13fe75ca7447f4d38cf3bea053df63fb6fe137e5f86b8ccaf8717`
-- Pages 파일 집합 SHA-256: `41460535f5aaf4f299fae7db7d8d8befd1332951d666c9be12ebe2a4e7988056` (40개)
+- 실행 진입점 SHA-256: `0994cf25a8401ea6351c7c1ae20672108a7aa3c090b6b2f444c2ef19311750f4`
+- Pages 파일 집합 SHA-256: `3e8b6997a41f3e78f26421fa32e7494de59ed7fc54c461ebea9a1aebb7eb3784` (84개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-1-mathmon-target-hit/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-1-mathmon-target-hit/REPORT.md
 
 <!-- CURRENT-PUBLIC-RUNTIME:END -->
+
+<!-- PORTABLE-RUNTIME:START -->
+## 2026-09-07 공통 컴포넌트 차시 내장
+
+- 실행 파일의 공통 런타임 참조를 차시 폴더 내부 경로로 바꿨습니다.
+- 내장 위치: `assets/runtime-vendor/`
+- 내장 공통 파일: `17개`
+- 매니페스트: `assets/PORTABLE_RUNTIME_MANIFEST.json` (SHA-256 `8c1233d2985820ddc69649872fdc6b7e0d1fb4686d4515b3bfbb7588aefd5ccc`)
+- 3단원 1~4차시의 공통 파일 65개에 대해 경로·파일 존재·원본/복사본 SHA-256 검사를 통과했습니다.
+- 독립 정적 호스팅 경로에서 4개 진입 URL과 이동용 파일 209개를 직접 요청해 HTTP 오류와 차시 밖 요청이 0건임을 확인했습니다.
+- 기존 화면 캡처는 그대로 보존했으며 이번 경로 이식의 새 화면 증거로 다시 봉인하지 않았습니다.
+- 요소 배치, 문항, 보상 로직은 이 이식 작업에서 변경하지 않았습니다. 정적 호스팅에는 이 차시 폴더 전체를 그대로 배포합니다.
+<!-- PORTABLE-RUNTIME:END -->
 
 ## 2026-08-23 공통 보상 정책 v2 검수
 
@@ -1528,22 +1541,7 @@
 - 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
-#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-legend.png`
-
-![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-legend](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-legend.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
-#### 문제 상태 · 05p-play-tier-practice · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-practice.png`
-
-![user-reported-final-reward-ui-broken-1082x897-dpr2 문제 상태 · 05p-play-tier-practice](screenshots/engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-practice.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
+#### 문제 상태 · 05p-play-tier-legend · `engine-flow-user-reported-fina…325 tokens truncated… 수학 관계: 원의 중심·반지름·지름을 이용해 선택지를 판단합니다.
 - 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
 
 #### 문제 상태 · 05p-play-tier-targetking · `engine-flow-user-reported-final-reward-ui-broken-1082x897-dpr2-05p-play-tier-targetking.png`

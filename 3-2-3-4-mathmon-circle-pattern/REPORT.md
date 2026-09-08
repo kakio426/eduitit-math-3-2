@@ -5,17 +5,35 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `1426c1fe11b7f3ea09a0c143079a717bf8f314cebecdf08ee1e83617eceb148c`
+- 공개 입력 커밋: `a4a1755c9089fe3ad27d71e0986a018719ed85a3`
+- 입력 커밋 시각: `2026-09-08T20:50:54+09:00`
+- 제작 보고서 원본 SHA-256: `cce1e1b9a836ad7b77d35c5ccfc2dcaee5c430bfaf575884c7267f6c5938b2b2`
 - 실제 실행 진입점: `3-2-3-4-mathmon-circle-pattern/index.html`
-- 실행 진입점 SHA-256: `fa0c84914d92d83fd75c50d3f366064745f7606a1f65b05e930f4575563d3ada`
-- Pages 파일 집합 SHA-256: `c562c23bd91ede64ab8b161d296edbea6c2ae53d0c37873012c3d7577bc156ee` (59개)
-- 상세 화면 증거: 현재 실행 진입점과 일치
+- 실행 진입점 SHA-256: `d655fb7e27652f2a5bc34fd2e993c8d78f41c2a0cbe090317aa33072674acdd1`
+- Pages 파일 집합 SHA-256: `628ccff32993cd088a41c7a02d2e98174ac87d9669e9bb17c388f6d6db8929d0` (100개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-4-mathmon-circle-pattern/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-4-mathmon-circle-pattern/REPORT.md
 
 <!-- CURRENT-PUBLIC-RUNTIME:END -->
+
+<!-- PORTABLE-RUNTIME:START -->
+## 2026-09-07 공통 컴포넌트 차시 내장
+
+- 실행 파일의 공통 런타임 참조를 차시 폴더 내부 경로로 바꿨습니다.
+- 내장 위치: `assets/runtime-vendor/`
+- 내장 공통 파일: `16개`
+- 매니페스트: `assets/PORTABLE_RUNTIME_MANIFEST.json` (SHA-256 `9306d12324cf903b672b6ebe15f21de70650a391e5cc36949166fc7b64806818`)
+- 3단원 1~4차시의 공통 파일 65개에 대해 경로·파일 존재·원본/복사본 SHA-256 검사를 통과했습니다.
+- 독립 정적 호스팅 경로에서 4개 진입 URL과 이동용 파일 209개를 직접 요청해 HTTP 오류와 차시 밖 요청이 0건임을 확인했습니다.
+- 기존 화면 캡처는 그대로 보존했으며 이번 경로 이식의 새 화면 증거로 다시 봉인하지 않았습니다.
+- 요소 배치, 문항, 보상 로직은 이 이식 작업에서 변경하지 않았습니다. 정적 호스팅에는 이 차시 폴더 전체를 그대로 배포합니다.
+<!-- PORTABLE-RUNTIME:END -->
+
+## 2026-09-08 최종 보상 다음 목표 문구
+
+- 6개 최종 보상 화면의 다음 목표 문구를 같은 규칙으로 `40px`까지 키우고 외곽선을 `2px`로 줄였습니다.
+- 6개 결과 단계와 등록 viewport 6종에서 결과판 포함, 잘림, 제목·정답 수·다시하기와의 겹침을 확인했습니다.
 
 ## 2026-08-23 공통 보상 정책 v2 검수
 
@@ -265,21 +283,15 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-29 최신 원본 스크린샷 전수
+## 2026-08-04 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `fa0c84914d92d83fd75c50d3f366064745f7606a1f65b05e930f4575563d3ada`
-- 생성 시각: `2026-08-29T10:30:07.677Z`
-- 등록 회귀 이름: `6개`
-- 실제 실행 화면 조건: `6개`
-- 동일 조건 별칭 통합: `0개`
-- 아래에 직접 삽입한 원본 캡처: `173장`
-- 같은 width×height×DPR과 같은 fixture 조건은 한 번만 실행하고, 과거 오류 이름은 별칭으로 보존했습니다.
-- manifest에 기록된 실제 실행 원본 캡처를 한 장씩 연결했습니다.
+- 실행본 SHA-256: `5efe6a4b6363fd84d840a94d274837ae0fb55223e81b5c84aaf5c631aa5b9a0c`
+- 생성 시각: `2026-08-05T03:32:10.952Z`
+- 등록 화면 크기: `6개`
+- 아래에 직접 삽입한 원본 캡처: `212장`
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 34장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -337,15 +349,6 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 정답 관계가 화면에 완성되었음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
 
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-desktop-05n-next-problem-clean.png`
-
-![desktop 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-desktop-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
 #### 오개념 확인 · p1-radius-too-long · `engine-flow-desktop-05m-p1-radius-too-long.png`
 
 ![desktop 오개념 확인 · p1-radius-too-long](screenshots/engine-flow-desktop-05m-p1-radius-too-long.png)
@@ -364,9 +367,18 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p8-diameter-as-radius · `engine-flow-desktop-05m-p8-diameter-as-radius.png`
+#### 오개념 확인 · p4-diameter-as-radius · `engine-flow-desktop-05m-p4-diameter-as-radius.png`
 
-![desktop 오개념 확인 · p8-diameter-as-radius](screenshots/engine-flow-desktop-05m-p8-diameter-as-radius.png)
+![desktop 오개념 확인 · p4-diameter-as-radius](screenshots/engine-flow-desktop-05m-p4-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-desktop-05m-p7-diameter-as-radius.png`
+
+![desktop 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-desktop-05m-p7-diameter-as-radius.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -591,9 +603,6 @@
 
 ### tablet-landscape · 1024×768 · DPR 1 · 34장
 
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
-
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
@@ -650,15 +659,6 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 정답 관계가 화면에 완성되었음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
 
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-tablet-landscape-05n-next-problem-clean.png`
-
-![tablet-landscape 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
 #### 오개념 확인 · p1-radius-too-long · `engine-flow-tablet-landscape-05m-p1-radius-too-long.png`
 
 ![tablet-landscape 오개념 확인 · p1-radius-too-long](screenshots/engine-flow-tablet-landscape-05m-p1-radius-too-long.png)
@@ -677,9 +677,18 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p8-diameter-as-radius · `engine-flow-tablet-landscape-05m-p8-diameter-as-radius.png`
+#### 오개념 확인 · p4-diameter-as-radius · `engine-flow-tablet-landscape-05m-p4-diameter-as-radius.png`
 
-![tablet-landscape 오개념 확인 · p8-diameter-as-radius](screenshots/engine-flow-tablet-landscape-05m-p8-diameter-as-radius.png)
+![tablet-landscape 오개념 확인 · p4-diameter-as-radius](screenshots/engine-flow-tablet-landscape-05m-p4-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-tablet-landscape-05m-p7-diameter-as-radius.png`
+
+![tablet-landscape 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-tablet-landscape-05m-p7-diameter-as-radius.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -904,9 +913,6 @@
 
 ### user-feedback-completion-1079x929 · 1079×929 · DPR 1 · 34장
 
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
-
 ![user-feedback-completion-1079x929 전체 상태 컨택시트](screenshots/report-flow-user-feedback-completion-1079x929-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-feedback-completion-1079x929-01-cover.png`
@@ -963,15 +969,6 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 정답 관계가 화면에 완성되었음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
 
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-feedback-completion-1079x929-05n-next-problem-clean.png`
-
-![user-feedback-completion-1079x929 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-feedback-completion-1079x929-05n-next-problem-clean.png)
-
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
-
 #### 오개념 확인 · p1-radius-too-long · `engine-flow-user-feedback-completion-1079x929-05m-p1-radius-too-long.png`
 
 ![user-feedback-completion-1079x929 오개념 확인 · p1-radius-too-long](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p1-radius-too-long.png)
@@ -990,9 +987,18 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p8-diameter-as-radius · `engine-flow-user-feedback-completion-1079x929-05m-p8-diameter-as-radius.png`
+#### 오개념 확인 · p4-diameter-as-radius · `engine-flow-user-feedback-completion-1079x929-05m-p4-diameter-as-radius.png`
 
-![user-feedback-completion-1079x929 오개념 확인 · p8-diameter-as-radius](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p8-diameter-as-radius.png)
+![user-feedback-completion-1079x929 오개념 확인 · p4-diameter-as-radius](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p4-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-user-feedback-completion-1079x929-05m-p7-diameter-as-radius.png`
+
+![user-feedback-completion-1079x929 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-user-feedback-completion-1079x929-05m-p7-diameter-as-radius.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1215,10 +1221,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### codex-in-app · 1280×720 · DPR 2 · 34장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
+### codex-in-app · 1280×720 · DPR 2 · 37장
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -1276,14 +1279,32 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 정답 관계가 화면에 완성되었음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
 
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-codex-in-app-05n-next-problem-clean.png`
+#### 오개념 확인 · p1-pattern-gap-changed · `engine-flow-codex-in-app-05m-p1-pattern-gap-changed.png`
 
-![codex-in-app 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png)
+![codex-in-app 오개념 확인 · p1-pattern-gap-changed](screenshots/engine-flow-codex-in-app-05m-p1-pattern-gap-changed.png)
 
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-pattern-off-line · `engine-flow-codex-in-app-05m-p1-pattern-off-line.png`
+
+![codex-in-app 오개념 확인 · p1-pattern-off-line](screenshots/engine-flow-codex-in-app-05m-p1-pattern-off-line.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-pattern-size-changed · `engine-flow-codex-in-app-05m-p1-pattern-size-changed.png`
+
+![codex-in-app 오개념 확인 · p1-pattern-size-changed](screenshots/engine-flow-codex-in-app-05m-p1-pattern-size-changed.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
 #### 오개념 확인 · p1-radius-too-long · `engine-flow-codex-in-app-05m-p1-radius-too-long.png`
 
@@ -1303,9 +1324,18 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p8-diameter-as-radius · `engine-flow-codex-in-app-05m-p8-diameter-as-radius.png`
+#### 오개념 확인 · p4-diameter-as-radius · `engine-flow-codex-in-app-05m-p4-diameter-as-radius.png`
 
-![codex-in-app 오개념 확인 · p8-diameter-as-radius](screenshots/engine-flow-codex-in-app-05m-p8-diameter-as-radius.png)
+![codex-in-app 오개념 확인 · p4-diameter-as-radius](screenshots/engine-flow-codex-in-app-05m-p4-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-codex-in-app-05m-p7-diameter-as-radius.png`
+
+![codex-in-app 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-codex-in-app-05m-p7-diameter-as-radius.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1528,10 +1558,7 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-visibility-994x632 · 994×632 · DPR 1 · 34장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
+### user-visibility-994x632 · 994×632 · DPR 1 · 37장
 
 ![user-visibility-994x632 전체 상태 컨택시트](screenshots/report-flow-user-visibility-994x632-contact-sheet.png)
 
@@ -1589,14 +1616,32 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 정답 관계가 화면에 완성되었음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
 
-#### 문제 상태 · 05n-next-problem-clean · `engine-flow-user-visibility-994x632-05n-next-problem-clean.png`
+#### 오개념 확인 · p1-pattern-gap-changed · `engine-flow-user-visibility-994x632-05m-p1-pattern-gap-changed.png`
 
-![user-visibility-994x632 문제 상태 · 05n-next-problem-clean](screenshots/engine-flow-user-visibility-994x632-05n-next-problem-clean.png)
+![user-visibility-994x632 오개념 확인 · p1-pattern-gap-changed](screenshots/engine-flow-user-visibility-994x632-05m-p1-pattern-gap-changed.png)
 
-- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
-- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
-- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
-- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-pattern-off-line · `engine-flow-user-visibility-994x632-05m-p1-pattern-off-line.png`
+
+![user-visibility-994x632 오개념 확인 · p1-pattern-off-line](screenshots/engine-flow-user-visibility-994x632-05m-p1-pattern-off-line.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-pattern-size-changed · `engine-flow-user-visibility-994x632-05m-p1-pattern-size-changed.png`
+
+![user-visibility-994x632 오개념 확인 · p1-pattern-size-changed](screenshots/engine-flow-user-visibility-994x632-05m-p1-pattern-size-changed.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
 #### 오개념 확인 · p1-radius-too-long · `engine-flow-user-visibility-994x632-05m-p1-radius-too-long.png`
 
@@ -1616,9 +1661,18 @@
 - 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
 - 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
-#### 오개념 확인 · p8-diameter-as-radius · `engine-flow-user-visibility-994x632-05m-p8-diameter-as-radius.png`
+#### 오개념 확인 · p4-diameter-as-radius · `engine-flow-user-visibility-994x632-05m-p4-diameter-as-radius.png`
 
-![user-visibility-994x632 오개념 확인 · p8-diameter-as-radius](screenshots/engine-flow-user-visibility-994x632-05m-p8-diameter-as-radius.png)
+![user-visibility-994x632 오개념 확인 · p4-diameter-as-radius](screenshots/engine-flow-user-visibility-994x632-05m-p4-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-user-visibility-994x632-05m-p7-diameter-as-radius.png`
+
+![user-visibility-994x632 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-user-visibility-994x632-05m-p7-diameter-as-radius.png)
 
 - 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
 - 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
@@ -1841,12 +1895,135 @@
 - 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
-### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 3장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `targeted`
+### user-reported-missing-left-progress-1082x987-dpr2 · 1082×987 · DPR 2 · 36장
 
 ![user-reported-missing-left-progress-1082x987-dpr2 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png)
+
+#### 시작 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 시작 화면](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png)
+
+- 학생이 보는 것: 매스몬 원 무늬 디자이너 제목과 한 줄 목표, 시작 버튼을 봅니다.
+- 판단하거나 누르는 것: 게임을 시작할 준비가 되면 시작을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 배우는 차시임을 확인합니다.
+- 다음 상태로 넘어가는 이유: 문제를 푸는 방법을 보는 설명 화면으로 이동합니다.
+
+#### 설정 화면 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 설정 화면](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png)
+
+- 학생이 보는 것: 배경 소리·효과 소리와 방법 다시 보기, 처음부터, 닫기를 봅니다.
+- 판단하거나 누르는 것: 필요한 소리나 이동 행동 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 수학 문제는 바꾸지 않고 게임 조작만 설정합니다.
+- 다음 상태로 넘어가는 이유: 설정을 마치면 열기 전 화면으로 돌아갑니다.
+
+#### 설명 1 · 풀이 방법 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 설명 1 · 풀이 방법](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png)
+
+- 학생이 보는 것: 컴퍼스로 여러 크기의 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 설명으로 이동합니다.
+
+#### 설명 2 · 보상과 목표 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 설명 2 · 보상과 목표](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png)
+
+- 학생이 보는 것: 컴퍼스로 여러 크기의 원 그리기 문제를 푸는 방법과 게임 흐름을 그림으로 봅니다.
+- 판단하거나 누르는 것: 그림 속 순서와 누를 곳을 확인한 뒤 다음 행동 버튼을 누릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기에서 무엇을 비교하거나 계산하는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 첫 문제로 이동합니다.
+
+#### 문제 상태 · 05-play-step1 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 문제 상태 · 05-play-step1](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png)
+
+- 학생이 보는 것: 현재 문제, 핵심 계산판이나 물건, 고를 수 있는 답을 봅니다.
+- 판단하거나 누르는 것: 문제에서 묻는 값이나 관계에 맞는 답 하나를 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기을 이용해 선택지를 판단합니다.
+- 다음 상태로 넘어가는 이유: 고른 답에 따라 오답 또는 정답 확인 상태로 이동합니다.
+
+#### 정답 확인 · 05c-correct-effect · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-correct-effect.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 정답 확인 · 05c-correct-effect](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-correct-effect.png)
+
+- 학생이 보는 것: 고른 정답이 현재 계산판이나 물건에 들어가 완성된 모습을 봅니다.
+- 판단하거나 누르는 것: 완성값과 짧은 확인 문구를 읽습니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 정답 관계가 화면에 완성되었음을 확인합니다.
+- 다음 상태로 넘어가는 이유: 다음 계산 단계나 보상 확인으로 이동합니다.
+
+#### 오개념 확인 · p1-pattern-gap-changed · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-pattern-gap-changed.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-pattern-gap-changed](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-pattern-gap-changed.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-pattern-off-line · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-pattern-off-line.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-pattern-off-line](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-pattern-off-line.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-pattern-size-changed · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-pattern-size-changed.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-pattern-size-changed](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-pattern-size-changed.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-radius-too-long · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-radius-too-long.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-radius-too-long](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-radius-too-long.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p1-radius-too-short · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-radius-too-short.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p1-radius-too-short](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p1-radius-too-short.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p4-diameter-as-radius · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p4-diameter-as-radius.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p4-diameter-as-radius](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p4-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오개념 확인 · p7-diameter-as-radius · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p7-diameter-as-radius.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오개념 확인 · p7-diameter-as-radius](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p7-diameter-as-radius.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
+
+#### 오답 확인 · 05b-play-wrong · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 오답 확인 · 05b-play-wrong](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png)
+
+- 학생이 보는 것: 고른 답이 계산판이나 물건에 들어간 모습과 짧은 오답 피드백을 봅니다.
+- 판단하거나 누르는 것: 어디가 맞지 않는지 확인하고 같은 문제에서 다른 답을 고릅니다.
+- 화면에서 확인되는 수학 관계: 컴퍼스로 여러 크기의 원 그리기의 관계와 고른 답이 왜 맞지 않는지 확인합니다.
+- 다음 상태로 넘어가는 이유: 같은 문제에서 다시 판단할 수 있는 상태로 돌아갑니다.
 
 #### 마지막 확인 · 06-confirm · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-06-confirm.png`
 
@@ -1874,5 +2051,176 @@
 - 판단하거나 누르는 것: 이번 변화를 확인하고 다음을 누릅니다.
 - 화면에서 확인되는 수학 관계: 수학 정답과 무작위 보상 변화가 서로 분리되어 있음을 확인합니다.
 - 다음 상태로 넘어가는 이유: 현재 진행 장면의 변화를 본 뒤 다음 문제나 결과로 이동합니다.
+
+#### 실제 결과 · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 실제 결과](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · big · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-big.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · big](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · design · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-design.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · design](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-design.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · dot · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-dot.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · dot](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-dot.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · pattern · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-pattern.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · pattern](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-pattern.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · rainbow · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · rainbow](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과 결속 · small · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과 결속 · small](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · big · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-big.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · big](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · design · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-design.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · design](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-design.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · dot · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-dot.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · dot](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-dot.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · pattern · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-pattern.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · pattern](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-pattern.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · rainbow · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · rainbow](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 결과판 포함 · small · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 결과판 포함 · small](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08d-result-panel-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · big · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-big.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 중심 보상 우선 · big](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-big.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · design · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-design.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 중심 보상 우선 · design](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-design.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · dot · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-dot.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 중심 보상 우선 · dot](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-dot.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · pattern · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-pattern.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 중심 보상 우선 · pattern](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-pattern.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · rainbow · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-rainbow.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 중심 보상 우선 · rainbow](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-rainbow.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
+
+#### 중심 보상 우선 · small · `engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-small.png`
+
+![user-reported-missing-left-progress-1082x987-dpr2 중심 보상 우선 · small](screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08e-result-reward-dominance-small.png)
+
+- 학생이 보는 것: 완성 장면과 결과 이름, 정답 수, 다음 목표, 다시 버튼을 봅니다.
+- 판단하거나 누르는 것: 현재 결과와 다음 목표를 비교하고 다시 도전할지 결정합니다.
+- 화면에서 확인되는 수학 관계: 한 판의 정답과 원의 점수 변화가 하나의 결과 단계로 정리됩니다.
+- 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
