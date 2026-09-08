@@ -4,90 +4,163 @@
   "lesson": "3-2-2-5-mathmon-division-train",
   "status": "pass",
   "scopes": [
-    "presentation",
-    "interaction"
+    "presentation"
   ],
-  "reason": "Replace whole-image transitions with explicit object motion; only changed reward effect and connected flow checked.",
+  "reason": "Fix reported 952 ÷ 4 wrapping in narrow problem title column; no math or reward behavior change.",
   "changedPaths": [
-    "_lessons/3-2-2-5-mathmon-division-train/view.js",
+    "_lessons/3-2-2-5-mathmon-division-train/lesson.css",
     "_lessons/3-2-2-5-mathmon-division-train/lesson.json",
+    "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs",
     "3-2-2-5-mathmon-division-train/index.html",
-    "3-2-2-5-mathmon-division-train/portable-runtime.config.json",
-    "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json",
-    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/reward-motion-v1.js",
-    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/reward-motion-v1/train-generated.webp",
-    "_shared/mathmon/reward-motion-v1.js",
-    "_shared/mathmon/reward-motion-v1/vault-generated.webp",
-    "_shared/mathmon/reward-motion-v1/door-generated.webp",
-    "_shared/mathmon/reward-motion-v1/train-generated.webp"
+    "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json"
   ],
   "checks": [
     {
       "id": "change-review",
-      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/motion-change-review.json",
-      "evidenceSha256": "e97560df003bbd45dd8934112ec5f4cf32e64101b5f35eb3041bb8bddff35f40",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/formula-change-review.json",
+      "evidenceSha256": "0342f99183aae14a698ac9a02856025dbfc1c83eb8c3ccd46f92242411541732",
       "qaFiles": [
-        "scripts/qa-mathmon-effect-perception.mjs",
-        "scripts/qa-mathmon-effect-edge.mjs",
-        "scripts/lib/mathmon-effect-perception.mjs"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs"
       ]
     },
     {
       "id": "affected-screen",
-      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/motion-affected-screen.json",
-      "evidenceSha256": "93a7ee3f30f7bfe8c241f1d67b69bb9bcfd0451637419833d7431397acbf5bc5",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/formula-affected-screen.json",
+      "evidenceSha256": "37650b4c661061160c5c14950cbfeecfbfb41dceb04ad45c7378afa9112a956e",
       "qaFiles": [
-        "scripts/qa-mathmon-effect-perception.mjs",
-        "scripts/qa-mathmon-effect-edge.mjs",
-        "scripts/lib/mathmon-effect-perception.mjs"
-      ]
-    },
-    {
-      "id": "affected-behavior",
-      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/motion-affected-behavior.json",
-      "evidenceSha256": "1fbf52d724fb7df3f0666e6c02bda6a451a934b93e92783fe12296ed7858e5bd",
-      "qaFiles": [
-        "scripts/qa-mathmon-effect-perception.mjs",
-        "scripts/qa-mathmon-effect-edge.mjs",
-        "scripts/lib/mathmon-effect-perception.mjs"
-      ]
-    },
-    {
-      "id": "connected-flow",
-      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/motion-connected-flow.json",
-      "evidenceSha256": "7d99a9798e65ff3311205cf87bf664a09192283695c1360843725acfb34d95c1",
-      "qaFiles": [
-        "scripts/qa-mathmon-effect-perception.mjs",
-        "scripts/qa-mathmon-effect-edge.mjs",
-        "scripts/lib/mathmon-effect-perception.mjs"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs"
       ]
     }
   ],
-  "browserRuns": 6,
+  "browserRuns": 5,
   "screenshots": 1,
   "coverage": {
     "states": [
-      "closed modal",
-      "opening",
-      "moving",
-      "settled",
-      "next problem",
-      "reduced motion",
-      "loss",
-      "zero",
-      "special"
+      "play formula card"
     ],
     "viewports": [
       {
+        "name": "desktop",
         "width": 1280,
-        "height": 800
+        "height": 800,
+        "dpr": 1
       },
       {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
         "width": 1024,
-        "height": 768
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
       }
     ],
-    "reason": "Affected reward panel at desktop and tablet; additional edge states at desktop."
+    "reason": "Affected fixed-width column across existing unique breakpoints and actual 1082x987 DPR2 in-app viewport."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -102,8 +175,8 @@
       },
       {
         "role": "qa",
-        "path": "scripts/lib/mathmon-effect-perception.mjs",
-        "sha256": "53df30a16d406c0bada6f8ead2ba446afe1e5c16436e66165e20cd2eb8866db6"
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs",
+        "sha256": "678fd741cfa6906456f0da60e812765eadf680c1ec8e06ac0b2a68dc9eed78d6"
       },
       {
         "role": "qa",
@@ -113,7 +186,7 @@
       {
         "role": "qa",
         "path": "scripts/lib/validation-cost-control.mjs",
-        "sha256": "a33f64cc10efc5a7db4326536dd110117975780d156e0704ca2c9de8b1b11662"
+        "sha256": "541fd3818de698a5911eba2dadf6e0baa3f3805e5456d1e91d571c399f99fa15"
       },
       {
         "role": "qa",
@@ -121,24 +194,19 @@
         "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
       },
       {
-        "role": "qa",
-        "path": "scripts/qa-mathmon-effect-edge.mjs",
-        "sha256": "90ec476d86b10f46734c651e28645ef7cd0722b1b9adc793503c935333c8f486"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/qa-mathmon-effect-perception.mjs",
-        "sha256": "06e3a5c3750e6cbc12adf070e12eb3bc209eae901be67be8fdd265d7e02457eb"
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/lesson.css",
+        "sha256": "5db262cdd11c25c4cc1ecf6eb7fa81f02f5744802fafa814df417b778542b796"
       },
       {
         "role": "runtime",
         "path": "_lessons/3-2-2-5-mathmon-division-train/lesson.json",
-        "sha256": "e5133084c12ba6eebac7c98248bb786fdab9bfbd46e3f4a958cfcc8d283d362f"
+        "sha256": "d398d4516a0dd7cf60042cefd52c4cfb8f83eaf35d6f94fe1eaa9b1ca9b480f5"
       },
       {
         "role": "runtime",
-        "path": "_lessons/3-2-2-5-mathmon-division-train/view.js",
-        "sha256": "7c2e83f9f62f6fbc445c02fc08d8f88fe244b2b6e068b740af2f353c0c604691"
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs",
+        "sha256": "678fd741cfa6906456f0da60e812765eadf680c1ec8e06ac0b2a68dc9eed78d6"
       },
       {
         "role": "runtime",
@@ -162,28 +230,8 @@
       },
       {
         "role": "runtime",
-        "path": "_shared/mathmon/reward-motion-v1.js",
-        "sha256": "db973d26f7b9ef0429569155842dc5faca6f8186e0b3bcd92aa8c14ad74d7218"
-      },
-      {
-        "role": "runtime",
-        "path": "_shared/mathmon/reward-motion-v1/door-generated.webp",
-        "sha256": "7c6314aa92fec68ddf150be1fb1137cc0c0ed4e96c6c0714b04a387b2ff0f9d0"
-      },
-      {
-        "role": "runtime",
-        "path": "_shared/mathmon/reward-motion-v1/train-generated.webp",
-        "sha256": "bf4d8693661680a714d5b9233052e88132496b1eda0f2fed45085c88115f569b"
-      },
-      {
-        "role": "runtime",
-        "path": "_shared/mathmon/reward-motion-v1/vault-generated.webp",
-        "sha256": "0be85cd13e8e368c17732dfc56193fd05ad7433a9007024d50b813c2f7852643"
-      },
-      {
-        "role": "runtime",
         "path": "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "acce78ef88e338684daca299314ecb59e84cee845677ae3bb488cf220e6e2425"
+        "sha256": "a98e3ad607cc1616d8e0017456ea340a91e98c365b53d170ed0daf2861f84025"
       },
       {
         "role": "runtime",
@@ -194,16 +242,6 @@
         "role": "runtime",
         "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
         "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/reward-motion-v1.js",
-        "sha256": "db973d26f7b9ef0429569155842dc5faca6f8186e0b3bcd92aa8c14ad74d7218"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/reward-motion-v1/train-generated.webp",
-        "sha256": "bf4d8693661680a714d5b9233052e88132496b1eda0f2fed45085c88115f569b"
       },
       {
         "role": "runtime",
@@ -278,12 +316,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-5-mathmon-division-train/index.html",
-        "sha256": "ddbeed6ed31ad1f6dad2341ea8a01f0d6df4257340ef7644739f3e1bad194ba1"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-2-5-mathmon-division-train/portable-runtime.config.json",
-        "sha256": "feee73ae82b22bd8bcec7120fc2e7ff1133fa5197a3f151918ece5b10939c4ef"
+        "sha256": "6828a9cad2384f50cbd53023b04d69e468bdcb28f6b5d331e16d2db5f2fb9bd8"
       },
       {
         "role": "runtime",
@@ -316,6 +349,6 @@
         "sha256": "06bfa2763e9989367453b69a9191ae8ccc56d91a35abd25f762f3cb2d359940e"
       }
     ],
-    "sha256": "afdaa02f636f311e0c68c3de268f10621d7bcd63f7dc2f860ced87f8728567d2"
+    "sha256": "3326048506372c479059264983ae093a3d876c8bb06432d26193ac167f673d1d"
   }
 }

@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `a8b40f8747b5b8d538343242a5ce569537fdc225`
-- 입력 커밋 시각: `2026-09-08T17:31:15+09:00`
-- 제작 보고서 원본 SHA-256: `8a8ec0016c27c37829313d06633a6e97ea9091a46458397391de72aa7c344ad1`
+- 공개 입력 커밋: `cc9a8f098f45985d6c809865dbc5d8a50e3332d6`
+- 입력 커밋 시각: `2026-09-08T17:37:51+09:00`
+- 제작 보고서 원본 SHA-256: `acd7e120f6c3557dfa43c75dc75506c0ae42605f6706f7ba5e1d08f735b8f22b`
 - 실제 실행 진입점: `3-2-2-4-mathmon-check-lock/index.html`
-- 실행 진입점 SHA-256: `eedad4fddf12f33857b0b56a88c902709fcc5ed768f3b153daf68d98c8ac1ac3`
-- Pages 파일 집합 SHA-256: `9a42dc410edcfc735b20dfc4d5c6c969d2a08edcf9eeb8bab2c09326dca6e1ae` (139개)
+- 실행 진입점 SHA-256: `d5af6862fb76d6791368d68a9185d594108f3d9dc49ed384fa3b24845a93b64c`
+- Pages 파일 집합 SHA-256: `b3b78d63d0d8fe67246e3757fd72f6ceaebfd74f8552b860e56078a89903750d` (139개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-4-mathmon-check-lock/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-4-mathmon-check-lock/REPORT.md
@@ -2193,10 +2193,3 @@ node scripts/check-stage-ratio.mjs
 확률·일반 단계 기준·수학 문항은 변경하지 않았다. 변경 분류는 lesson-runtime이며 영향 범위의 보상·진행·결과 연결만 검사했다. 6개 화면 크기의 검사는 [현재 보상 검사 기록](screenshots/reward-journey-qa.json)에 남겼다. 과거 화면 자료는 기존 기록으로 보존한다.
 
 공개 준비 중 Pages 용량 제한에 맞춰 실행 화면에서 참조하지 않는 보관용 PNG 24개를 경량화했다. 원본은 같은 폴더의 `-archive-source.png` 파일로 그대로 보존하며 Pages에서 제외한다. PNG 크기·투명도·HTTP 파일 SHA를 검사했고 학생 실행 HTML·WebP는 변경하지 않았다. [파일별 검증 기록](screenshots/png-storage-verification.json).
-
-
-## 2026-09-08 물체 동작 보상 연출
-
-고정된 금고 몸체 앞의 독립된 문 자산이 왼쪽 경첩을 중심으로 회전하고 내부 금화·보석이 드러난다. 보상 모달을 닫은 뒤 3초간 보여 주고 다음 문제로 넘어간다. 움직임 줄이기 설정에서는 완성 상태를 정지 화면으로 보여 준다.
-
-[실행 검사](screenshots/effect-perception.json)와 [감점·유지·특별·움직임 줄이기 검사](screenshots/effect-edge.json)를 통과했다. 자동 수치는 최소 가시성 검사이며 미적 완성도를 보증하지 않는다. [연속 화면 검토](screenshots/effect-perception-review.json)에 실제 관찰과 한계를 기록했다. 이 구현은 2D 물체 애니메이션이며 바퀴 회전이나 3D 금고 뒷면은 구현하지 않았다.
