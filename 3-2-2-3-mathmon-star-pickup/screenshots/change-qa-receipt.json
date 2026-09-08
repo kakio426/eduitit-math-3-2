@@ -4,43 +4,68 @@
   "lesson": "3-2-2-3-mathmon-star-pickup",
   "status": "pass",
   "scopes": [
-    "presentation"
+    "presentation",
+    "interaction"
   ],
-  "reason": "Add an enclosing panel to the existing right-side result elements without changing positions or game behavior.",
+  "reason": "Earned special results persist after loss in lessons 3 and 5; lesson 4 reveals existing treasure scenes and lesson 5 shows departure and arrival after reward dismissal. Only affected reward/progress/result flows are checked.",
   "changedPaths": [
+    "3-2-2-3-mathmon-star-pickup/assets/PORTABLE_RUNTIME_MANIFEST.json",
     "3-2-2-3-mathmon-star-pickup/index.html",
-    "3-2-2-3-mathmon-star-pickup/assets/PORTABLE_RUNTIME_MANIFEST.json"
+    "_lessons/3-2-2-3-mathmon-star-pickup/model.js"
   ],
   "checks": [
     {
       "id": "change-review",
-      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/result-panel-change-review.json",
-      "evidenceSha256": "cd2fb476c29790c103e0134b5d45e543eb92d382e017ffd70afdc06804282ce9",
+      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reward-change-review.json",
+      "evidenceSha256": "33e678b633253528f7d66a2eecb0a4952eb745ee89740f9e2ce4f9ff84c7249a",
       "qaFiles": [
-        "_lessons/3-2-2-3-mathmon-star-pickup/qa-result-panel.mjs"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
       ]
     },
     {
       "id": "affected-screen",
-      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/result-panel-affected-screen.json",
-      "evidenceSha256": "239a886db9e2fc3d7979d1ac07f05ca96807bcb3ba19e28fb4c27910bfd6ad14",
+      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reward-affected-screen.json",
+      "evidenceSha256": "9b98f703fe37d6c2c7f3e4a1ae308ee175f534a886a8ec7e74b951fbbd3d7066",
       "qaFiles": [
-        "_lessons/3-2-2-3-mathmon-star-pickup/qa-result-panel.mjs"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "affected-behavior",
+      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reward-affected-behavior.json",
+      "evidenceSha256": "49baaf736bee40fd4ac9257d3c2128a0dd8adc8e826899740143915cca7f6d82",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "connected-flow",
+      "evidencePath": "3-2-2-3-mathmon-star-pickup/screenshots/reward-connected-flow.json",
+      "evidenceSha256": "d97a34ab560718b66327c47c6200e13b3882323a56f3027cf5232e44f8be7700",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
       ]
     }
   ],
-  "browserRuns": 1,
-  "screenshots": 1,
+  "browserRuns": 2,
+  "screenshots": 0,
   "coverage": {
     "states": [
-      "result"
+      "special after loss shown in result; retry resets award"
     ],
     "viewports": [
-      "1082x987",
-      "1280x800",
-      "1024x768"
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768
+      }
     ],
-    "reason": "Only final-result enclosure changed; verify bounds and loaded contents across affected viewport sizes."
+    "reason": "All distinct registered viewports for changed reward effects; desktop and tablet for result-selection behavior with unchanged result layout."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -55,18 +80,18 @@
       },
       {
         "role": "qa",
-        "path": "_lessons/3-2-2-3-mathmon-star-pickup/qa-result-panel.mjs",
-        "sha256": "58f68cb096bb3815ee0bc89b945f002eb9df19afa35e875c57f05359647a509d"
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs",
+        "sha256": "429c6f8c9a682948c17c3c3157fc6962ddd87b7cd0257ef2fcb40e551ef3f66a"
       },
       {
         "role": "qa",
         "path": "scripts/lib/production-workflow.mjs",
-        "sha256": "8f0716c1958bc4b2105c069ec294c638bb643cd311db3820f8a9640c27616def"
+        "sha256": "330ea0ea75bac9f071a09776515dcefd34963871f38ef34bc806083fdb03290e"
       },
       {
         "role": "qa",
         "path": "scripts/lib/validation-cost-control.mjs",
-        "sha256": "e7d7f6dac7d5e2ed3ce677f50b84c7fddc8bbed73b3629473f2f11b413b63929"
+        "sha256": "541fd3818de698a5911eba2dadf6e0baa3f3805e5456d1e91d571c399f99fa15"
       },
       {
         "role": "qa",
@@ -80,8 +105,13 @@
       },
       {
         "role": "runtime",
+        "path": "_lessons/3-2-2-3-mathmon-star-pickup/model.js",
+        "sha256": "735e4ec3810bde609075f366f7ff82e0543fee8dcc1432156477b45a6e4074e6"
+      },
+      {
+        "role": "runtime",
         "path": "3-2-2-3-mathmon-star-pickup/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "b74ecbbcf6164d3af0288b91a2296dec2552d7ed63e35cb5d55cb6d987f53f26"
+        "sha256": "3b8c592c365d556ad4642063f2412e9fe3f26984ef9062b5354717c0d568fc88"
       },
       {
         "role": "runtime",
@@ -166,7 +196,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-3-mathmon-star-pickup/index.html",
-        "sha256": "e861f5d07f5ef39ebc3c46de971ebde2ff4492266cf522e7630c552ee36c1610"
+        "sha256": "d3422e3fec94840a7974ca6a055809b078dd24fff56a8da79537a5467f07f304"
       },
       {
         "role": "runtime",
@@ -204,6 +234,6 @@
         "sha256": "ddb321cfe0f7b7cc0ed954883184a34e97a3306fcc1099e574db62ed80b41816"
       }
     ],
-    "sha256": "a777efabf37a4d1c4558b7cc705d5d8385284c1bccaf1539174ce5648903017e"
+    "sha256": "649703cae2fa6fb9892d698d588c24907f85689e025297e2e863561257bcd556"
   }
 }

@@ -2500,7 +2500,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="remainder-stars" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-3" data-commit-sha="" data-lesson-json-sha256="7cef703ce93a769a8ba0fb12fae150ea114b27b674e1e2a52ccc5bc221f16941" data-build-inputs-sha256="922b61120a6af9cc57180b23d529115a18fcb9ae2deca1750eaf5ffc36f07e25"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-3" data-commit-sha="" data-lesson-json-sha256="7cef703ce93a769a8ba0fb12fae150ea114b27b674e1e2a52ccc5bc221f16941" data-build-inputs-sha256="e9666a5c884ae818068ea974dd77fae3062b23b7ad1bbec7bfaaec8ab4c914e3"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -3393,12 +3393,7 @@
 
       function getResult(power, correctFirstTry, specialSeen) {
         const special = RESULT_TIERS.find((result) => result.needsSpecial);
-        if (
-          specialSeen
-          && special
-          && power >= Number(special.minPower || 0)
-          && correctFirstTry >= Number(special.minCorrect || 0)
-        ) return special;
+        if (specialSeen && special) return special;
         let current = RESULT_TIERS.find((result) => !result.needsSpecial) || RESULT_TIERS[0];
         for (const result of RESULT_TIERS) {
           if (!result.needsSpecial && power >= result.minPower && correctFirstTry >= result.minCorrect) current = result;

@@ -1,0 +1,324 @@
+{
+  "standard": "eduitit-change-verification-v1",
+  "product": "mathmon",
+  "lesson": "3-2-2-5-mathmon-division-train",
+  "status": "pass",
+  "scopes": [
+    "presentation",
+    "interaction"
+  ],
+  "reason": "Earned special results persist after loss in lessons 3 and 5; lesson 4 reveals existing treasure scenes and lesson 5 shows departure and arrival after reward dismissal. Only affected reward/progress/result flows are checked.",
+  "changedPaths": [
+    "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-1-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-10-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-2-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-3-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-4-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-5-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-6-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-7-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-8-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-9-generated.webp",
+    "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+    "3-2-2-5-mathmon-division-train/index.html",
+    "3-2-2-5-mathmon-division-train/portable-runtime.config.json",
+    "_lessons/3-2-2-5-mathmon-division-train/lesson.css",
+    "_lessons/3-2-2-5-mathmon-division-train/lesson.json",
+    "_lessons/3-2-2-5-mathmon-division-train/model.js",
+    "_lessons/3-2-2-5-mathmon-division-train/qa-reward-edge.mjs",
+    "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs",
+    "_lessons/3-2-2-5-mathmon-division-train/view.js"
+  ],
+  "checks": [
+    {
+      "id": "change-review",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/reward-change-review.json",
+      "evidenceSha256": "7cbbdc64915a3cc43fae121eb207a667982f7db23419830ab1a753bc8066d05b",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "affected-screen",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/reward-affected-screen.json",
+      "evidenceSha256": "c3f8b9240c7329e5b4a3fd2c7773ae56f017a5503da9e2193bb8e4101331b05e",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "affected-behavior",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/reward-affected-behavior.json",
+      "evidenceSha256": "35037a33a6925982473dfa50c2f462251b6bd915876cc2f9bc249f6c896866bc",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "connected-flow",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/reward-connected-flow.json",
+      "evidenceSha256": "6ef8cd476f5d7ad2bafddf55fe6af0bfb8c85d57e3452aa88a4d93b81bda1d7a",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    }
+  ],
+  "browserRuns": 4,
+  "screenshots": 1,
+  "coverage": {
+    "states": [
+      "modal stable, reveal, reading window, next problem",
+      "same-tier delta 0",
+      "same-tier delta -5",
+      "same-tier delta 6",
+      "special after loss shown in result; retry resets award"
+    ],
+    "viewports": [
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      }
+    ],
+    "reason": "All distinct registered viewports for changed reward effects; desktop and tablet for result-selection behavior with unchanged result layout."
+  },
+  "validationDependencies": {
+    "standard": "eduitit-validation-dependencies-v1",
+    "product": "mathmon",
+    "lesson": "3-2-2-5-mathmon-division-train",
+    "entries": [
+      {
+        "role": "contract",
+        "path": "_shared/contracts/production-workflow.json",
+        "pointer": "/validationScope",
+        "sha256": "574109ee09e4b39ddf2eb020c2479415223abf75ed2b0f7a2ea722c47a6b0d4e"
+      },
+      {
+        "role": "qa",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs",
+        "sha256": "429c6f8c9a682948c17c3c3157fc6962ddd87b7cd0257ef2fcb40e551ef3f66a"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/production-workflow.mjs",
+        "sha256": "330ea0ea75bac9f071a09776515dcefd34963871f38ef34bc806083fdb03290e"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-cost-control.mjs",
+        "sha256": "541fd3818de698a5911eba2dadf6e0baa3f3805e5456d1e91d571c399f99fa15"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-dependencies.mjs",
+        "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/lesson.css",
+        "sha256": "0a308b1879d9e43e5391d49238e9d034a373759bc3974e2855d8825fbb833d73"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/lesson.json",
+        "sha256": "82be4f05ee5679a5fcda17f4f4dec272129e0f87c1f786c18f37cfeebb708511"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/model.js",
+        "sha256": "d6a3af1c2593fd29a84f71d234bce8c07766817369297cf427b26545541c65d7"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-reward-edge.mjs",
+        "sha256": "9083f3b31a816b915a764bd7980a4d53790f0ec908f58a0773bdfc84a00f2aa9"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs",
+        "sha256": "429c6f8c9a682948c17c3c3157fc6962ddd87b7cd0257ef2fcb40e551ef3f66a"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/view.js",
+        "sha256": "402e204c4df465d70eb8f85a8a412b845419845630612e378c3eb51538a9a03d"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-anchor-audit.png",
+        "sha256": "a6ca7797a44a27ea7bde618f6966c6d94f542388b4afb6fa27569d7462eb6f81"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/play-progress-v1/contact-sheets/play-train-v1-contact-sheet.png",
+        "sha256": "03c2c567247dbc0f89d18dd4f19cbdd22a0ae5c0fccd49546315de9aea497222"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contact-sheets/result-tiers-v1-contact-sheet.png",
+        "sha256": "16d9c41a833d56c0b9f4d71c91143ec7e84de08596f8336ea33f93ad899cab0f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/base-pack/lesson-scenes/3-2-2-5/result-fullscene-v1/contract.json",
+        "sha256": "dfc1bf5f9cdf151b26d5904952929bc7ea93dc011de7c639cb3ae1313c8fd384"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json",
+        "sha256": "b12fe8a2ce3fb3e5c438477d6e4897a91f97c8a029220f5ca65e05fe8815eb53"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/cover-generated.webp",
+        "sha256": "ec64358619d239382934d6d00510f6ca46512f73a4f3f579556d3b78373bd550"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/index.html",
+        "sha256": "0099cc4b95520ce3c295fe6d354f93f992dd5190e9136960bf35ec82fbbd9d9a"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/portable-runtime.config.json",
+        "sha256": "dfd151dd3d9f599184e2dff0161e64cda0e027a60660427ed0772b815a56617a"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/problem-background-generated.webp",
+        "sha256": "5087e5283568c98629c3f6b7f0024506e72dba42c510a695d60776d063c5694d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/result-departure-generated.webp",
+        "sha256": "222dc90e4d6f7febec973a3c4bd4fc6700773e7616fd82c13b1e3a647ca8e362"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/result-title-departure-generated-v2.webp",
+        "sha256": "6555a458d95c20656494bdef76404dbec40c63f3f7541a7824e5e752b2a3baaa"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/title-logo-generated.webp",
+        "sha256": "e604435a0d8b5f161e00fed5ed75a5afd4d74fe885aa33e0029da8a6b5b1d622"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/tutorial-page-1-v4-generated.webp",
+        "sha256": "d5c6f42ef89e0992c28bc30fe4445b7ec0eada0ee71f53e7c1e406d264924fcb"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-5-mathmon-division-train/tutorial-page-2-v2-generated.webp",
+        "sha256": "06bfa2763e9989367453b69a9191ae8ccc56d91a35abd25f762f3cb2d359940e"
+      }
+    ],
+    "sha256": "5ba4ab29717aa9f4c5273d798290a7dfe6a0e855381fdda79c3974c5f859c19a"
+  }
+}

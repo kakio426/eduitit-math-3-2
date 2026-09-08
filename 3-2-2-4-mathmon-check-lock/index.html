@@ -2174,6 +2174,38 @@
         animation: none;
       }
     }
+
+    /* Reveal the treasure in the existing generated scene inside its own lane. */
+    .vault-world-previous-image {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .vault-world-previous-image[hidden] { display: none; }
+    .vault-world-panel.is-treasure-reveal .vault-world-previous-image {
+      animation: vault-treasure-uncover 1.6s ease-in-out both;
+    }
+    .vault-world-panel.is-treasure-reveal .vault-world-image {
+      animation: vault-treasure-light 1.6s ease-out both;
+    }
+    @keyframes vault-treasure-uncover {
+      0%, 12% { clip-path: inset(0); filter: brightness(.65); opacity: 1; }
+      40% { clip-path: inset(0 0 100% 0); filter: brightness(1); opacity: 0; }
+      100% { clip-path: inset(0 0 100% 0); opacity: 0; }
+    }
+    @keyframes vault-treasure-light {
+      0%, 12% { filter: brightness(.65); }
+      40% { filter: brightness(1.22); }
+      75%, 100% { filter: brightness(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vault-world-panel.is-treasure-reveal .vault-world-previous-image { animation: none; opacity: 0; }
+      .vault-world-panel.is-treasure-reveal .vault-world-image { animation: none; filter: brightness(1.08); }
+    }
   </style>
   <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="assets/runtime-vendor/_shared/audio/">
     (function installMathmonAudio(global) {
@@ -2603,7 +2635,7 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="check-lock-bars" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-4" data-commit-sha="" data-lesson-json-sha256="1c5543ea4ae763130984ee1c6486123ef750f053b7e6e1e4f18abecff9a58e99" data-build-inputs-sha256="91337dcf2b410245fe89cb7a31023587d47dfa1dbc1d6e3da10b2aaaf388cead"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-4" data-commit-sha="" data-lesson-json-sha256="1c5543ea4ae763130984ee1c6486123ef750f053b7e6e1e4f18abecff9a58e99" data-build-inputs-sha256="cb602dd8c94ccd0c7511eeb44a0b1d6c593851b44c721e9c047d3c47f0f32f5e"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4838,6 +4870,8 @@
       getCurrentProblem: () => state.problems[state.problemIndex] || null,
       getCurrentStep: () => state.problems[state.problemIndex]?.steps[state.stepIndex] || null,
     };
+    let vaultPendingRewardImpact = null;
+
     const CHECK_LOCK_SVG_NS = "http://www.w3.org/2000/svg";
     const CHECK_LOCK_RELATION_LABEL = "나누는 수 × 몫";
     const RESULT_NEXT_TITLE_ART = {
@@ -4878,6 +4912,7 @@
         panel.setAttribute("aria-live", "polite");
         panel.innerHTML = `
           <img class="vault-world-image" id="vaultWorldImage" alt="" aria-hidden="true">
+          <img class="vault-world-previous-image" id="vaultWorldPreviousImage" alt="" aria-hidden="true" hidden>
           <img class="vault-world-flare-image" id="vaultWorldFlareImage" alt="" aria-hidden="true">
           <span class="vault-spark-layer" id="vaultSparkLayer" aria-hidden="true"></span>
           <div class="vault-world-readout">
@@ -4942,6 +4977,14 @@
         || LESSON_CONFIG.imageAssets.playRewardStates?.lock
         || "";
 
+      const previousImage = document.getElementById("vaultWorldPreviousImage");
+      const tierUp = options.celebrate && previousTier && previousTier !== result.id;
+      const revealTreasure = options.celebrate && Boolean(image.getAttribute("src"));
+      if (revealTreasure && previousImage) {
+        previousImage.src = image.getAttribute("src");
+        previousImage.hidden = false;
+        panel.dataset.revealPhase = "opening";
+      }
       panel.dataset.resultTier = result.id;
       currentName.textContent = result.name;
       nextName.textContent = result.needsSpecial ? "모든 금고를 열었어요" : (next?.name || "무지개 금고");
@@ -4979,11 +5022,21 @@
         panel.classList.add("is-key-lighting");
       }
       if (options.celebrate) panel.classList.add("is-celebrating");
+      if (revealTreasure) {
+        panel.classList.remove("is-treasure-reveal");
+        void panel.offsetWidth;
+        panel.classList.add("is-treasure-reveal");
+        panel.querySelector(".vault-world-current span").textContent = ["treasure", "rainbow"].includes(result.id) ? "보물 공개" : "금고 확인";
+        panel.dataset.revealTierUp = String(Boolean(tierUp));
+      }
 
-      const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : (lightKeys ? 1450 : 520);
+      const duration = revealTreasure ? 1600 : (lightKeys ? 1450 : 520);
       return new Promise((resolve) => {
         setTimeout(() => {
-          panel.classList.remove("is-changing", "is-dimming", "is-key-lighting", "is-celebrating");
+          panel.classList.remove("is-changing", "is-dimming", "is-key-lighting", "is-celebrating", "is-treasure-reveal");
+          if (previousImage) previousImage.hidden = true;
+          panel.dataset.revealPhase = "idle";
+          panel.querySelector(".vault-world-current span").textContent = "지금";
           resolve();
         }, duration);
       });
@@ -5085,8 +5138,13 @@
       ]);
     }
 
+    function onRewardReveal({ beforePower, afterPower }) {
+      vaultPendingRewardImpact = Number(afterPower) - Number(beforePower);
+    }
+
     async function onRewardDismiss({ event, state }) {
-      const actualDelta = Number(event?.amount || 0);
+      const actualDelta = vaultPendingRewardImpact ?? Number(event?.amount || 0);
+      vaultPendingRewardImpact = null;
       const result = getVaultWorldResult(state);
       const image = new Image();
       image.src = result.playImage || LESSON_CONFIG.imageAssets.playRewardStates?.[result.id] || "";
@@ -5096,7 +5154,7 @@
       ]);
       await Promise.all([
         animateLockSignal("reward"),
-        syncVaultWorld(state, { celebrate: actualDelta > 0, delta: actualDelta })
+        syncVaultWorld(state, { celebrate: actualDelta > 0 || Boolean(event?.special), delta: actualDelta })
       ]);
     }
 

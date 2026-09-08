@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `1803e73d9e2b4871ea659fb2b1fbf014b551c7b1f8cf4df178f055116f0417da`
+- 공개 입력 커밋: `cf6cfe6f8327c4e958b946bbfc94bb59fadd37cb`
+- 입력 커밋 시각: `2026-09-08T16:23:01+09:00`
+- 제작 보고서 원본 SHA-256: `84524ed02f14ef22eebca233b2c0d26796055778391a9853927a3fdb39a47c0c`
 - 실제 실행 진입점: `3-2-2-5-mathmon-division-train/index.html`
-- 실행 진입점 SHA-256: `2b9b4dfb5f23727ec7a47d6e3ea1d11a6414ab46fd739ff0da2f7607c4efb93a`
-- Pages 파일 집합 SHA-256: `1865ec7ffbaaa40b5ab9f1a74905c925f22a9cf6745fab4fd2f718260b5418ce` (46개)
+- 실행 진입점 SHA-256: `0099cc4b95520ce3c295fe6d354f93f992dd5190e9136960bf35ec82fbbd9d9a`
+- Pages 파일 집합 SHA-256: `f4d605260025ae7a5c2726fff0ed81285bda0c95aabb1b2025357c77d3ac4992` (91개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-5-mathmon-division-train/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-5-mathmon-division-train/REPORT.md
@@ -1749,3 +1749,12 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+
+## 2026-09-08 보상 개선
+
+특별 보상을 얻으면 이후 열차 불빛이 줄어도 무지개역을 유지한다. 보상 전후의 실제 역을 비교해 단계 상승을 판정하고, 이전 역이 사라진 뒤 다음 역과 ‘도착!’을 보여 준다. 감점·유지는 상승 이동으로 표시하지 않는다.
+
+확률·일반 단계 기준·수학 문항은 변경하지 않았다. 변경 분류는 lesson-runtime이며 영향 범위의 보상·진행·결과 연결만 검사했다. 4개 화면 크기의 검사는 [현재 보상 검사 기록](screenshots/reward-journey-qa.json)에 남겼다. 과거 화면 자료는 기존 기록으로 보존한다.
+
+공개 준비 중 Pages 용량 제한에 맞춰 실행 화면에서 참조하지 않는 보관용 PNG 4개를 경량화했다. 원본은 같은 폴더의 `-archive-source.png` 파일로 그대로 보존하며 Pages에서 제외한다. PNG 크기·투명도·HTTP 파일 SHA를 검사했고 학생 실행 HTML·WebP는 변경하지 않았다. [파일별 검증 기록](screenshots/png-storage-verification.json).

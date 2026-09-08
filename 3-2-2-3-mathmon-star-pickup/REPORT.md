@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `33bf98431c14ee0a17e00ee28956c44ac2ed11b2ea550b2771d2a5e7a6c4684a`
+- 공개 입력 커밋: `cf6cfe6f8327c4e958b946bbfc94bb59fadd37cb`
+- 입력 커밋 시각: `2026-09-08T16:23:01+09:00`
+- 제작 보고서 원본 SHA-256: `e0424463ceb9389716b3a39a040ca0f9214213bfcaa566c2d99604a6fd1fdede`
 - 실제 실행 진입점: `3-2-2-3-mathmon-star-pickup/index.html`
-- 실행 진입점 SHA-256: `87e777ee80f9a256612e7ae7b4778c7ae81cdc097e775974c1bc7a45fd2869b4`
-- Pages 파일 집합 SHA-256: `65a7b45205ebd7ee623fb3e6f33b735b4618eb5d2052d4f382f49bb256fb0279` (138개)
+- 실행 진입점 SHA-256: `d3422e3fec94840a7974ca6a055809b078dd24fff56a8da79537a5467f07f304`
+- Pages 파일 집합 SHA-256: `70ebc204c46480108fb5c7642ac15cdd422fc51f37eff86cad4c8d332e2176a1` (138개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-3-mathmon-star-pickup/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-3-mathmon-star-pickup/REPORT.md
@@ -1688,3 +1688,12 @@ git diff --check
 - 최종 결과 화면에서 진행바와 `모은 별빛` 표시를 숨겼다. `다음엔 무지개 유니콘자리` 안내는 유지하고, 결과 이름·정답 수·다시 버튼을 오른쪽 영역에 균형 있게 재배치했다.
 - `10/10` 결과 아트의 투명 여백을 보정해 숫자의 실제 시각 중심이 `다시` 버튼과 맞도록 좌우 정렬을 미세 조정했다.
 - 최종 결과 화면 확인 결과는 `screenshots/change-qa-receipt.json`과 해당 `reported-*.json` 영수증에 기록했다.
+
+
+## 2026-09-08 보상 개선
+
+특별 보상을 얻으면 이후 별빛이 줄어도 무지개 유니콘자리를 유지한다. 다시 시작하면 특별 보상 기록을 초기화한다.
+
+확률·일반 단계 기준·수학 문항은 변경하지 않았다. 변경 분류는 lesson-runtime이며 영향 범위의 보상·진행·결과 연결만 검사했다. 2개 화면 크기의 검사는 [현재 보상 검사 기록](screenshots/reward-journey-qa.json)에 남겼다. 과거 화면 자료는 기존 기록으로 보존한다.
+
+공개 준비 중 Pages 용량 제한에 맞춰 실행 화면에서 참조하지 않는 보관용 PNG 26개를 경량화했다. 원본은 같은 폴더의 `-archive-source.png` 파일로 그대로 보존하며 Pages에서 제외한다. PNG 크기·투명도·HTTP 파일 SHA를 검사했고 학생 실행 HTML·WebP는 변경하지 않았다. [파일별 검증 기록](screenshots/png-storage-verification.json).
