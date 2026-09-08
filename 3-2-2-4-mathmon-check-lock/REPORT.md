@@ -5,8 +5,8 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `2bbfea20437c5bf0ae512022ff25ae74943f56a4`
-- 입력 커밋 시각: `2026-09-08T19:17:53+09:00`
+- 공개 입력 커밋: `7f45d9aba0f158cc87ff2bb89be5d5f02efaf05b`
+- 입력 커밋 시각: `2026-09-08T20:47:59+09:00`
 - 제작 보고서 원본 SHA-256: `acd7e120f6c3557dfa43c75dc75506c0ae42605f6706f7ba5e1d08f735b8f22b`
 - 실제 실행 진입점: `3-2-2-4-mathmon-check-lock/index.html`
 - 실행 진입점 SHA-256: `ffdce2567258067ab377b70fc0c905bdaaf5adcb8c947f221cd693f12c918e26`

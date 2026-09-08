@@ -4,62 +4,98 @@
   "lesson": "3-2-2-4-mathmon-check-lock",
   "status": "pass",
   "scopes": [
-    "presentation"
+    "presentation",
+    "interaction"
   ],
-  "reason": "검수 메모의 완료 배치/방법 이미지/표지 표시 수정. 정답·점수·전환 로직 변경 없음. 결과 재촬영은 검수 도구 수정 확인.",
+  "reason": "Earned special results persist after loss in lessons 3 and 5; lesson 4 reveals existing treasure scenes and lesson 5 shows departure and arrival after reward dismissal. Only affected reward/progress/result flows are checked.",
   "changedPaths": [
     "3-2-2-4-mathmon-check-lock/assets/PORTABLE_RUNTIME_MANIFEST.json",
     "3-2-2-4-mathmon-check-lock/index.html",
-    "3-2-2-4-mathmon-check-lock/title-logo-generated.png",
-    "3-2-2-4-mathmon-check-lock/title-logo-generated.webp",
-    "3-2-2-4-mathmon-check-lock/title-logo-source.png",
     "_lessons/3-2-2-4-mathmon-check-lock/lesson.css",
-    "_lessons/3-2-2-4-mathmon-check-lock/lesson.json"
+    "_lessons/3-2-2-4-mathmon-check-lock/view.js"
   ],
   "checks": [
     {
       "id": "change-review",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-change-review.json",
+      "evidenceSha256": "cbb4c4bc185a9877a0e4577ee6f0866189f38781c98d0653e9098c6638e1ae3a",
       "qaFiles": [
-        "review/unit2/write-change-evidence.mjs",
-        "review/unit2/capture-corrections.mjs",
-        "review/unit2/review-contract.mjs",
-        "review/unit2/farm-completion.mjs",
-        "review/unit2/refresh-presentation.mjs",
-        "review/unit2/refresh-farm-evidence.mjs"
-      ],
-      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/review-change-review.json",
-      "evidenceSha256": "361cee85abcc0be2d9f2d91b2e8925e9be24b55425c25aa406d6d9d648be639d"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
     },
     {
       "id": "affected-screen",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-affected-screen.json",
+      "evidenceSha256": "3e78b2ab2fdd5ff32ccfc68f00233b0b9fb92e2d9761d0828b9f968c33fe5554",
       "qaFiles": [
-        "review/unit2/write-change-evidence.mjs",
-        "review/unit2/capture-corrections.mjs",
-        "review/unit2/review-contract.mjs",
-        "review/unit2/farm-completion.mjs",
-        "review/unit2/refresh-presentation.mjs",
-        "review/unit2/refresh-farm-evidence.mjs"
-      ],
-      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/review-affected-screen.json",
-      "evidenceSha256": "db06d7a6bc5cc616247364a5027dd48223c625f92eb9d1d334b6b5170fba4f1e"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "affected-behavior",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-affected-behavior.json",
+      "evidenceSha256": "2742ddb4f773eaf4b5b5c8b854d1703730f940e6229d5cc287350582bd3b145e",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
+    },
+    {
+      "id": "connected-flow",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-connected-flow.json",
+      "evidenceSha256": "3891a9703ac192517259b8e7633810f39b9db4bc534cd5f05f41686a42bc630a",
+      "qaFiles": [
+        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+      ]
     }
   ],
+  "browserRuns": 6,
+  "screenshots": 1,
   "coverage": {
     "states": [
-      "3-2-2-4-mathmon-check-lock/cover/1280",
-      "3-2-2-4-mathmon-check-lock/cover/1024"
+      "modal stable, reveal, reading window, next problem",
+      "same-tier delta 0",
+      "same-tier delta -5",
+      "same-tier delta 6"
     ],
     "viewports": [
       {
+        "name": "desktop",
         "width": 1280,
-        "height": 800
+        "height": 800,
+        "dpr": 1
       },
       {
+        "name": "tablet-landscape",
         "width": 1024,
-        "height": 768
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "user-reported-overload",
+        "width": 1024,
+        "height": 640,
+        "dpr": 2
+      },
+      {
+        "name": "codex-browser-regression",
+        "width": 1280,
+        "height": 720,
+        "dpr": 2
+      },
+      {
+        "name": "codex-live-panel-regression",
+        "width": 931,
+        "height": 897,
+        "dpr": 2
+      },
+      {
+        "name": "user-reported-missing-reward-panel",
+        "width": 1082,
+        "height": 897,
+        "dpr": 2
       }
     ],
-    "reason": "제보 화면과 태블릿의 영향 화면만 검사"
+    "reason": "All distinct registered viewports for changed reward effects; desktop and tablet for result-selection behavior with unchanged result layout."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -74,33 +110,8 @@
       },
       {
         "role": "qa",
-        "path": "review/unit2/capture-corrections.mjs",
-        "sha256": "c7df435d63df11c32bdc89bf9e09dc452d3ebfe8980d907d468711f61b1af1c5"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/farm-completion.mjs",
-        "sha256": "6901b37fc9efe46740522a2e7463974763c5f816eaefc88abeefad98b2817503"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/refresh-farm-evidence.mjs",
-        "sha256": "525920cbbdc7ae430564dae3e60b1d5e05ae05083f0015b9ce4a9d750a7c9f6c"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/refresh-presentation.mjs",
-        "sha256": "27dbbf40f3935e961e54214aacdbedcf732c1b78fb49127f8d8a4e76c4119100"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/review-contract.mjs",
-        "sha256": "e8a6fde8692b13dbb72806be32378298a4211c8e13549e52fa3400bf2665a27b"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/write-change-evidence.mjs",
-        "sha256": "c4619fc3c3cb7af76ef293a407fe70566a9f1ec8a2db668ccee584e0b6905471"
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs",
+        "sha256": "429c6f8c9a682948c17c3c3157fc6962ddd87b7cd0257ef2fcb40e551ef3f66a"
       },
       {
         "role": "qa",
@@ -120,17 +131,22 @@
       {
         "role": "runtime",
         "path": "_lessons/3-2-2-4-mathmon-check-lock/lesson.css",
-        "sha256": "b4b585fb1e1e534f534a310461cdf2800a942cc4da60bff0f617e6ff41238735"
+        "sha256": "a3b3554f1a18de55f52843210f549955f5a36509daaa17ef73a6dfc214f434ea"
       },
       {
         "role": "runtime",
         "path": "_lessons/3-2-2-4-mathmon-check-lock/lesson.json",
-        "sha256": "1dd7ae9be914f2efcadfa1dbd47c895187358551f2b4cea0518a3fa13310f8c5"
+        "sha256": "1c5543ea4ae763130984ee1c6486123ef750f053b7e6e1e4f18abecff9a58e99"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-4-mathmon-check-lock/view.js",
+        "sha256": "1e24986b8105c9bd4eaff2c2765ac9f268ff41eeddfea0e8740f7e4b14c8483c"
       },
       {
         "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "8c846f151f082c01f860959782f8d509e93151a5e925c06ee14b9dfac0f75a6a"
+        "sha256": "f8d9050cd4dedc9319772240aa7e23b855803eaf4b4aa3062070c7ea2507d4d9"
       },
       {
         "role": "runtime",
@@ -215,7 +231,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/index.html",
-        "sha256": "ffdce2567258067ab377b70fc0c905bdaaf5adcb8c947f221cd693f12c918e26"
+        "sha256": "d5af6862fb76d6791368d68a9185d594108f3d9dc49ed384fa3b24845a93b64c"
       },
       {
         "role": "runtime",
@@ -234,18 +250,8 @@
       },
       {
         "role": "runtime",
-        "path": "3-2-2-4-mathmon-check-lock/title-logo-generated.png",
-        "sha256": "8e3ed1a25b291cc61a0a0fb5904a0c5cacd95a5ec6deb481cc148dd8f7a2b849"
-      },
-      {
-        "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/title-logo-generated.webp",
-        "sha256": "dc98d5b025ff148fa6e201d5746887dd023a625e85671a12303b9fabe2b591b7"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-2-4-mathmon-check-lock/title-logo-source.png",
-        "sha256": "8e3ed1a25b291cc61a0a0fb5904a0c5cacd95a5ec6deb481cc148dd8f7a2b849"
+        "sha256": "0ede3d3669723eea74fd83595a5e9720923b76fdb224ee3581ea61d202679c44"
       },
       {
         "role": "runtime",
@@ -258,6 +264,6 @@
         "sha256": "67d4c4bc90a044c58720147abac15f5fa986ae935032eafb997fcb3e28a0c4b7"
       }
     ],
-    "sha256": "30546a6a4e3cbe9ccf4e180ffb5e2b786365c0af1010c0c846dec079100cf615"
+    "sha256": "917f5e2cd117793a143d6b0a96c30fdf3e75e80ee313c70c34288d6d8f929be3"
   }
 }

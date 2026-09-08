@@ -6,46 +6,36 @@
   "scopes": [
     "presentation"
   ],
-  "reason": "검수 메모의 완료 배치/방법 이미지/표지 표시 수정. 정답·점수·전환 로직 변경 없음. 결과 재촬영은 검수 도구 수정 확인.",
+  "reason": "Requested top/bottom alignment and score-group centering only; source SVG viewport fits height without scaling glyph proportions.",
   "changedPaths": [
-    "3-2-2-2-mathmon-elevator/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "_lessons/3-2-2-2-mathmon-elevator/lesson.css",
     "3-2-2-2-mathmon-elevator/index.html",
-    "3-2-2-2-mathmon-elevator/tutorial-page-1-review-v8-generated.png",
-    "3-2-2-2-mathmon-elevator/tutorial-page-1-review-v8-generated.webp",
-    "_lessons/3-2-2-2-mathmon-elevator/lesson.json"
+    "3-2-2-2-mathmon-elevator/assets/PORTABLE_RUNTIME_MANIFEST.json"
   ],
   "checks": [
     {
       "id": "change-review",
       "qaFiles": [
-        "review/unit2/write-change-evidence.mjs",
-        "review/unit2/capture-corrections.mjs",
-        "review/unit2/review-contract.mjs",
-        "review/unit2/farm-completion.mjs",
-        "review/unit2/refresh-presentation.mjs",
-        "review/unit2/refresh-farm-evidence.mjs"
+        ".tmp-qa/elevator-progress/alignment.mjs"
       ],
-      "evidencePath": "3-2-2-2-mathmon-elevator/screenshots/review-change-review.json",
-      "evidenceSha256": "d807fb22a0d6fc12f8b40b1f1e16b2b70fc0b7ec3ab9b7b122e35140be791adb"
+      "evidencePath": "3-2-2-2-mathmon-elevator/screenshots/alignment-change-review.json",
+      "evidenceSha256": "bea5274f88b716d6e5c78c311cdd37c76f89495796e5e0ceaab3afd4c0949928"
     },
     {
       "id": "affected-screen",
       "qaFiles": [
-        "review/unit2/write-change-evidence.mjs",
-        "review/unit2/capture-corrections.mjs",
-        "review/unit2/review-contract.mjs",
-        "review/unit2/farm-completion.mjs",
-        "review/unit2/refresh-presentation.mjs",
-        "review/unit2/refresh-farm-evidence.mjs"
+        ".tmp-qa/elevator-progress/alignment.mjs"
       ],
-      "evidencePath": "3-2-2-2-mathmon-elevator/screenshots/review-affected-screen.json",
-      "evidenceSha256": "e5c27c0ad427e99d442ccb73799cd5af1d6d257a1397361b5a3e9365089d7180"
+      "evidencePath": "3-2-2-2-mathmon-elevator/screenshots/alignment-affected-screen.json",
+      "evidenceSha256": "58c17d7ff5cf9b873583e67db48754279606a20a0d2323a629c16bf1b2ddb825"
     }
   ],
   "coverage": {
     "states": [
-      "3-2-2-2-mathmon-elevator/tutorial-1/1280",
-      "3-2-2-2-mathmon-elevator/tutorial-1/1024"
+      "waiting",
+      "complete",
+      "score-only",
+      "score-and-delta"
     ],
     "viewports": [
       {
@@ -53,11 +43,75 @@
         "height": 800
       },
       {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
         "width": 1024,
         "height": 768
+      },
+      {
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "width": 1082,
+        "height": 987
+      },
+      {
+        "width": 1082,
+        "height": 987
+      },
+      {
+        "width": 1082,
+        "height": 987
+      },
+      {
+        "width": 1082,
+        "height": 987
+      },
+      {
+        "width": 1082,
+        "height": 987
+      },
+      {
+        "width": 1082,
+        "height": 987
       }
     ],
-    "reason": "제보 화면과 태블릿의 영향 화면만 검사"
+    "reason": "Three requested screen sizes and both score states"
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -72,33 +126,8 @@
       },
       {
         "role": "qa",
-        "path": "review/unit2/capture-corrections.mjs",
-        "sha256": "c7df435d63df11c32bdc89bf9e09dc452d3ebfe8980d907d468711f61b1af1c5"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/farm-completion.mjs",
-        "sha256": "6901b37fc9efe46740522a2e7463974763c5f816eaefc88abeefad98b2817503"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/refresh-farm-evidence.mjs",
-        "sha256": "525920cbbdc7ae430564dae3e60b1d5e05ae05083f0015b9ce4a9d750a7c9f6c"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/refresh-presentation.mjs",
-        "sha256": "27dbbf40f3935e961e54214aacdbedcf732c1b78fb49127f8d8a4e76c4119100"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/review-contract.mjs",
-        "sha256": "e8a6fde8692b13dbb72806be32378298a4211c8e13549e52fa3400bf2665a27b"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/write-change-evidence.mjs",
-        "sha256": "c4619fc3c3cb7af76ef293a407fe70566a9f1ec8a2db668ccee584e0b6905471"
+        "path": ".tmp-qa/elevator-progress/alignment.mjs",
+        "sha256": "4de184a538c2c04a3b137a166109fad6017c10810b4c2302074a9ae6cfdd6ec7"
       },
       {
         "role": "qa",
@@ -117,13 +146,18 @@
       },
       {
         "role": "runtime",
+        "path": "_lessons/3-2-2-2-mathmon-elevator/lesson.css",
+        "sha256": "124f1e355f6adcc7d91f5b9a476dc1f1338efaa8154a99bfeda196e3c4ffc64f"
+      },
+      {
+        "role": "runtime",
         "path": "_lessons/3-2-2-2-mathmon-elevator/lesson.json",
-        "sha256": "8e5b0aa9c80490f7b3c66a09bad60149888f0cebcf4377ca804d5f1c574de536"
+        "sha256": "a6123c82293fd4fe68f5a2dc657828b4ede494f5fee4f149e21e59cf9d09111a"
       },
       {
         "role": "runtime",
         "path": "3-2-2-2-mathmon-elevator/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "b598190ef33cae4bb746acb4c0369eae356c37957ed4b2fd28cf8127bf67f055"
+        "sha256": "9a15291dce4cd4b89498c0b68e43f32f652de60633e2b1164c970fec08c612ff"
       },
       {
         "role": "runtime",
@@ -263,7 +297,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-2-mathmon-elevator/index.html",
-        "sha256": "a9cffb04c0218bc5888ddd94d437cef17d61283059839e88da618e9d30b266d9"
+        "sha256": "06b6f59ae5ee3bea0a34dfd5f00184e67f8835c2d7f381ae4a6d5b09f79602b2"
       },
       {
         "role": "runtime",
@@ -282,13 +316,8 @@
       },
       {
         "role": "runtime",
-        "path": "3-2-2-2-mathmon-elevator/tutorial-page-1-review-v8-generated.png",
-        "sha256": "8e666ec8306937417f41684680e8feac66e82c33506dca0ce591f8b4d63ad57f"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-2-2-mathmon-elevator/tutorial-page-1-review-v8-generated.webp",
-        "sha256": "86569352571aea83159a166215e4bdc0b742982294348b8e757a896944284347"
+        "path": "3-2-2-2-mathmon-elevator/tutorial-page-1-v7-generated.webp",
+        "sha256": "880520a4a8e8410d795d1ef1d162be688d94ec0cb9652a2bb462dd39ae353781"
       },
       {
         "role": "runtime",
@@ -296,6 +325,6 @@
         "sha256": "cbf8700ff91d37ea542bb3cf459ee8be967d00198d9de4b052ef47cc13c458ab"
       }
     ],
-    "sha256": "e178ab4ffab8c4ef72d82403a41ab9bc958ec2c7529ea5a295a6540928671a87"
+    "sha256": "9902a0479a981e94d6ac484d6be1b8dd6ef1c86a726dc42323e17a565c90699a"
   }
 }

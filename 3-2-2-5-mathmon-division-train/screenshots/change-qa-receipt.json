@@ -6,51 +6,161 @@
   "scopes": [
     "presentation"
   ],
-  "reason": "방법 설명의 이미지 품질만 수정",
+  "reason": "Fix reported 952 ÷ 4 wrapping in narrow problem title column; no math or reward behavior change.",
   "changedPaths": [
-    "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "_lessons/3-2-2-5-mathmon-division-train/lesson.css",
+    "_lessons/3-2-2-5-mathmon-division-train/lesson.json",
+    "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs",
     "3-2-2-5-mathmon-division-train/index.html",
-    "3-2-2-5-mathmon-division-train/tutorial-page-1-review-v6-generated.png",
-    "3-2-2-5-mathmon-division-train/tutorial-page-1-review-v6-generated.webp",
-    "_lessons/3-2-2-5-mathmon-division-train/lesson.json"
+    "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json"
   ],
   "checks": [
     {
       "id": "change-review",
-      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/quality-change-review.json",
-      "evidenceSha256": "f750694eedcdcb47d1205346697ec6bd3cc60a0c8102dac8f6b420146094514e",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/formula-change-review.json",
+      "evidenceSha256": "0342f99183aae14a698ac9a02856025dbfc1c83eb8c3ccd46f92242411541732",
       "qaFiles": [
-        "review/unit2/verify-quality-change.mjs",
-        "review/unit2/capture-corrections.mjs",
-        "review/unit2/review-contract.mjs"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs"
       ]
     },
     {
       "id": "affected-screen",
-      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/quality-affected-screen.json",
-      "evidenceSha256": "540762191aaa79134258a1ea795b4312cea19865e54baca51519b4617d67f881",
+      "evidencePath": "3-2-2-5-mathmon-division-train/screenshots/formula-affected-screen.json",
+      "evidenceSha256": "37650b4c661061160c5c14950cbfeecfbfb41dceb04ad45c7378afa9112a956e",
       "qaFiles": [
-        "review/unit2/verify-quality-change.mjs",
-        "review/unit2/capture-corrections.mjs",
-        "review/unit2/review-contract.mjs"
+        "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs"
       ]
     }
   ],
+  "browserRuns": 5,
+  "screenshots": 1,
   "coverage": {
     "states": [
-      "tutorial-1"
+      "play formula card"
     ],
     "viewports": [
       {
+        "name": "desktop",
         "width": 1280,
-        "height": 800
+        "height": 800,
+        "dpr": 1
       },
       {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
         "width": 1024,
-        "height": 768
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "codex-in-app",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 2
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "design-feedback-1079x929",
+        "width": 1079,
+        "height": 929,
+        "dpr": 1
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      {
+        "name": "reported-formula-wrap-1082x987",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
       }
     ],
-    "reason": "메모가 달린 5차시 방법 화면의 데스크톱/태블릿만 확인"
+    "reason": "Affected fixed-width column across existing unique breakpoints and actual 1082x987 DPR2 in-app viewport."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -65,23 +175,8 @@
       },
       {
         "role": "qa",
-        "path": "review/unit2/capture-corrections.mjs",
-        "sha256": "69e7b2c584fb302f64fbf05f5f1edb35f3012433880db92bfee7918050a46201"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/farm-completion.mjs",
-        "sha256": "6901b37fc9efe46740522a2e7463974763c5f816eaefc88abeefad98b2817503"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/review-contract.mjs",
-        "sha256": "e8a6fde8692b13dbb72806be32378298a4211c8e13549e52fa3400bf2665a27b"
-      },
-      {
-        "role": "qa",
-        "path": "review/unit2/verify-quality-change.mjs",
-        "sha256": "8bc0567f810790de3120d99b23a0272d0e95dca9cef38535da6c3ef4dd5c004e"
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs",
+        "sha256": "678fd741cfa6906456f0da60e812765eadf680c1ec8e06ac0b2a68dc9eed78d6"
       },
       {
         "role": "qa",
@@ -100,8 +195,18 @@
       },
       {
         "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/lesson.css",
+        "sha256": "5db262cdd11c25c4cc1ecf6eb7fa81f02f5744802fafa814df417b778542b796"
+      },
+      {
+        "role": "runtime",
         "path": "_lessons/3-2-2-5-mathmon-division-train/lesson.json",
-        "sha256": "5541281643d0ec08f74a14ff1fe80c6a2201681860df5c56477188e84a54ecfb"
+        "sha256": "d398d4516a0dd7cf60042cefd52c4cfb8f83eaf35d6f94fe1eaa9b1ca9b480f5"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-formula-layout.mjs",
+        "sha256": "678fd741cfa6906456f0da60e812765eadf680c1ec8e06ac0b2a68dc9eed78d6"
       },
       {
         "role": "runtime",
@@ -126,7 +231,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-5-mathmon-division-train/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "7fbc516d1ea4e9bb4ecdd0675f106a4460ecfed9963331860242e7bce90dc2f2"
+        "sha256": "a98e3ad607cc1616d8e0017456ea340a91e98c365b53d170ed0daf2861f84025"
       },
       {
         "role": "runtime",
@@ -211,7 +316,7 @@
       {
         "role": "runtime",
         "path": "3-2-2-5-mathmon-division-train/index.html",
-        "sha256": "d603eea0ff9890045200f7374956dbdd33f81d83050f1b1acf86d13289a2ae26"
+        "sha256": "6828a9cad2384f50cbd53023b04d69e468bdcb28f6b5d331e16d2db5f2fb9bd8"
       },
       {
         "role": "runtime",
@@ -235,13 +340,8 @@
       },
       {
         "role": "runtime",
-        "path": "3-2-2-5-mathmon-division-train/tutorial-page-1-review-v6-generated.png",
-        "sha256": "106783ef945faac96da256defeee70245752f5d3aa705d165d3d637e2b8450fb"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-2-5-mathmon-division-train/tutorial-page-1-review-v6-generated.webp",
-        "sha256": "afb4ee245f1e38319ad1937c05902dbe16359d8baf50132ba082c8351fc023f3"
+        "path": "3-2-2-5-mathmon-division-train/tutorial-page-1-v4-generated.webp",
+        "sha256": "d5c6f42ef89e0992c28bc30fe4445b7ec0eada0ee71f53e7c1e406d264924fcb"
       },
       {
         "role": "runtime",
@@ -249,6 +349,6 @@
         "sha256": "06bfa2763e9989367453b69a9191ae8ccc56d91a35abd25f762f3cb2d359940e"
       }
     ],
-    "sha256": "7d0db7d60513e272d6e57cc3d27e0351b2c49907ee4343c86ab8cd53975d763a"
+    "sha256": "3326048506372c479059264983ae093a3d876c8bb06432d26193ac167f673d1d"
   }
 }
