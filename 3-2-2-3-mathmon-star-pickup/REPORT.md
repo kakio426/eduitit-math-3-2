@@ -5,8 +5,8 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `7f45d9aba0f158cc87ff2bb89be5d5f02efaf05b`
-- 입력 커밋 시각: `2026-09-08T20:47:59+09:00`
+- 공개 입력 커밋: `62b97932939c7edb11fdead4e83db26adfe006ea`
+- 입력 커밋 시각: `2026-09-08T20:56:54+09:00`
 - 제작 보고서 원본 SHA-256: `e0424463ceb9389716b3a39a040ca0f9214213bfcaa566c2d99604a6fd1fdede`
 - 실제 실행 진입점: `3-2-2-3-mathmon-star-pickup/index.html`
 - 실행 진입점 SHA-256: `ede50600109706ed176798c62af211d90cbadb7e4e29d65ba37dde2e69d5694e`

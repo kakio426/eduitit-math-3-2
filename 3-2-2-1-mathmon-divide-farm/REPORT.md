@@ -5,8 +5,8 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `7f45d9aba0f158cc87ff2bb89be5d5f02efaf05b`
-- 입력 커밋 시각: `2026-09-08T20:47:59+09:00`
+- 공개 입력 커밋: `62b97932939c7edb11fdead4e83db26adfe006ea`
+- 입력 커밋 시각: `2026-09-08T20:56:54+09:00`
 - 제작 보고서 원본 SHA-256: `7fc62f1c564828921fc25a78d7b09eb10a885f42a3c91073afec682eafd2cea2`
 - 실제 실행 진입점: `3-2-2-1-mathmon-divide-farm/index.html`
 - 실행 진입점 SHA-256: `69d40abf4dad52569be6b69abff1989798f3eea199170124dea3f2da2a38d390`

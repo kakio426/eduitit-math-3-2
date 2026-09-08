@@ -5,8 +5,8 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `7f45d9aba0f158cc87ff2bb89be5d5f02efaf05b`
-- 입력 커밋 시각: `2026-09-08T20:47:59+09:00`
+- 공개 입력 커밋: `62b97932939c7edb11fdead4e83db26adfe006ea`
+- 입력 커밋 시각: `2026-09-08T20:56:54+09:00`
 - 제작 보고서 원본 SHA-256: `e0c45bb1a80c297cd8abb57dc2ca7e960365afc1b980b495515239b61ce9d14a`
 - 실제 실행 진입점: `3-2-2-2-mathmon-elevator/index.html`
 - 실행 진입점 SHA-256: `a9cffb04c0218bc5888ddd94d437cef17d61283059839e88da618e9d30b266d9`
