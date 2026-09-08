@@ -1,5 +1,22 @@
 # 매스몬 피자 분수 가게 제작 보고
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `abe3df31798402292f51f6fdc27f37512ea98cc17417316562f631091996bd00`
+- 실제 실행 진입점: `3-2-4-1-mathmon-pizza-fraction/index.html`
+- 실행 진입점 SHA-256: `a63bb2e1830fe2970edc4875c7bc43e5aa87985619d6713554369797c9248ca2`
+- Pages 파일 집합 SHA-256: `6f8e0abe9222f95a0851ca7decd51cbba7ce0517c0583f26044f2d556a19e8d9` (51개)
+- 상세 화면 증거: 현재 실행 진입점과 일치
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-1-mathmon-pizza-fraction/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-1-mathmon-pizza-fraction/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-29 시작 화면 `분수` 글자 가독성 수정
 
 - 시작 제목의 `수` 아래 모음 자리에 있던 둥근 피자 장식을 없애고, 넓은 가로획과 가운데 세로획이 분명한 `ㅜ`로 다시 생성했습니다. 이제 제목이 `매스몬 피자 분수 가게`로 바로 읽힙니다.

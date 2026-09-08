@@ -1,5 +1,22 @@
 # 매스몬 원 무늬 디자이너 제작 보고 (3-2-3-4) ★ 단원 정점
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `1426c1fe11b7f3ea09a0c143079a717bf8f314cebecdf08ee1e83617eceb148c`
+- 실제 실행 진입점: `3-2-3-4-mathmon-circle-pattern/index.html`
+- 실행 진입점 SHA-256: `fa0c84914d92d83fd75c50d3f366064745f7606a1f65b05e930f4575563d3ada`
+- Pages 파일 집합 SHA-256: `c562c23bd91ede64ab8b161d296edbea6c2ae53d0c37873012c3d7577bc156ee` (59개)
+- 상세 화면 증거: 현재 실행 진입점과 일치
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-4-mathmon-circle-pattern/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-4-mathmon-circle-pattern/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.

@@ -1,5 +1,22 @@
 # 매스몬 검산 자물쇠 제작·인수인계 보고서
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `dbfea822cb4a9e2cca120d8ec58beddbe883b2d4d3b8b10eb4aae96b0f6b88b5`
+- 실제 실행 진입점: `3-2-2-4-mathmon-check-lock/index.html`
+- 실행 진입점 SHA-256: `e9c137ec7cd70a530340862362382e8894f63a6b698109a4a29bbac2390697ef`
+- Pages 파일 집합 SHA-256: `25cbaa6c8a8cdc4a9cf1194764e6ce2eed0ae3a19093086930a9c625d4ab9116` (136개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-4-mathmon-check-lock/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-4-mathmon-check-lock/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.

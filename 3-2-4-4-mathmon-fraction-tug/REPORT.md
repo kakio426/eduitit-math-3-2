@@ -1,5 +1,22 @@
 # 매스몬 분수 줄다리기 제작 보고
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `58458a1047dba782b82cf35f11895df86e97f4ba96ad76b8ff62acce8cdfb995`
+- 실제 실행 진입점: `3-2-4-4-mathmon-fraction-tug/index.html`
+- 실행 진입점 SHA-256: `04f997c9b929660fb03eb30cfea86aeac2b0767a9327fcba8cc62f79e1c213cb`
+- Pages 파일 집합 SHA-256: `75123172fe649ea3460241df6f6c16cdb0b3cea2dc95e2844fc355d9bc1b4720` (47개)
+- 상세 화면 증거: 현재 실행 진입점과 일치
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-4-mathmon-fraction-tug/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-4-mathmon-fraction-tug/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.

@@ -1,5 +1,22 @@
 # 매스몬 인구조사 제작 보고
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `df58b5e56a9d7c30c66a7ad2b2015138a0fa48493ae21b07dd134b1329f6145b`
+- 실제 실행 진입점: `3-2-6-1-mathmon-data-rangers/index.html`
+- 실행 진입점 SHA-256: `16049ee90132930755310a8d09426425b45539e02b3c4075e22471da5406ab02`
+- Pages 파일 집합 SHA-256: `9d7754892879918547699b629f7c5ff480825320c9706410ff5202a0c7629fcd` (47개)
+- 상세 화면 증거: 현재 실행 진입점과 일치
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-6-1-mathmon-data-rangers/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-6-1-mathmon-data-rangers/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-09 보상 패널 효과·폭 회귀
 
 - 일반 점수 상승은 `is-changing` 패널 플레어만 사용하고 Stage 임팩트는 쓰지 않으며, 표시 시간은 `640ms`입니다. 등급 상승은 `is-tier-up`·진행 장면 교체·Stage 폭 `32% 이상` 임팩트를 사용하고 `1560ms`(최소 읽기 시간 `1200ms`) 유지합니다.

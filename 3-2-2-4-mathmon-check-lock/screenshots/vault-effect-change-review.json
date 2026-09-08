@@ -1,0 +1,68 @@
+{
+  "id": "change-review",
+  "status": "pass",
+  "exitCode": 0,
+  "command": "node scripts/qa-check-lock-vault-effects.mjs",
+  "output": "Foreground wave/rays visible at 450ms, above art and scrim; panel clipping, work-area gap, pointer passthrough, effect fade and reduced motion checked at user viewport and tablet.",
+  "baseline": "Session CSS: panel z-index 5, spark z-index 3 below readout 4, sparks width 15%, no wave/rays. Existing dirty source preserved; only CSS effect presentation changed.",
+  "changedPaths": [
+    "_lessons/3-2-2-4-mathmon-check-lock/lesson.css",
+    "3-2-2-4-mathmon-check-lock/index.html"
+  ],
+  "results": [
+    {
+      "viewport": {
+        "name": "user-vault-effect-foreground",
+        "width": 1082,
+        "height": 987,
+        "dpr": 2
+      },
+      "gap": 23.8125,
+      "clip": "hidden",
+      "layerZ": 10,
+      "imageZ": 0,
+      "readoutZ": 4,
+      "waveOpacity": 0.92752,
+      "raysOpacity": 0.85,
+      "pointerEvents": "none",
+      "stage": {
+        "x": 21.625,
+        "y": 168.890625,
+        "width": 1038.75,
+        "height": 649.21875,
+        "top": 168.890625,
+        "right": 1060.375,
+        "bottom": 818.109375,
+        "left": 21.625
+      },
+      "sparkWidth": 58.69976806640625
+    },
+    {
+      "viewport": {
+        "name": "tablet",
+        "width": 1024,
+        "height": 768,
+        "dpr": 1
+      },
+      "gap": 22.546875,
+      "clip": "hidden",
+      "layerZ": 10,
+      "imageZ": 0,
+      "readoutZ": 4,
+      "waveOpacity": 0.929111,
+      "raysOpacity": 0.85,
+      "pointerEvents": "none",
+      "stage": {
+        "x": 20.46875,
+        "y": 76.796875,
+        "width": 983.0625,
+        "height": 614.40625,
+        "top": 76.796875,
+        "right": 1003.53125,
+        "bottom": 691.203125,
+        "left": 20.46875
+      },
+      "sparkWidth": 55.492095947265625
+    }
+  ]
+}

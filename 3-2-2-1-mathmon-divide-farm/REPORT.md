@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `bada33311ac5f50f31014efe3a68b2ad7881bdcd`
-- 입력 커밋 시각: `2026-09-08T10:15:49+09:00`
-- 제작 보고서 원본 SHA-256: `25dc7422cf9683a37fbd7a73563e044d7d9da5da9a6b7d61b4e905fd8a070dee`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `721d88af9d24066f9a509d10bda6e7dbfcd9887dcdea1571497b326b6950426a`
 - 실제 실행 진입점: `3-2-2-1-mathmon-divide-farm/index.html`
 - 실행 진입점 SHA-256: `c081a206e643a957675d258f048082810e19171b478e103f01ab43b891d09f0f`
-- Pages 파일 집합 SHA-256: `a26304f510eaf9bd6f132fa5ef4f917bc8c0aa81cb5dcb300c613fd6aedfe461` (151개)
+- Pages 파일 집합 SHA-256: `d57eb6d20c3f8b946accc9bec846c4147fa713a73611103e60487e205ed0e679` (151개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-1-mathmon-divide-farm/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-1-mathmon-divide-farm/REPORT.md

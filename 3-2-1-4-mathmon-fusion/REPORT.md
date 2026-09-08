@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `ff5ac0d6d20a81da93d4af8f635f0eea1163a3cf`
-- 입력 커밋 시각: `2026-09-07T07:00:11+09:00`
-- 제작 보고서 원본 SHA-256: `ed355af0057c4fa3c41f76f98b2f1676da4a0245f46d2ce4763338384aa5ab0f`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `a030642f889d618799705b0876deacff34ca0c53f34b4fc2bcdfc1c1e80502c4`
 - 실제 실행 진입점: `3-2-1-4-mathmon-fusion/index.html`
 - 실행 진입점 SHA-256: `b642d593416dd888fbc6182b78612eee0d54d0f1b0e3938f7566df9c7fc21181`
-- Pages 파일 집합 SHA-256: `143e83ac739b965b8cfe8cf96b5c694b742b1e0103a8d28b16432cda5500016c` (94개)
+- Pages 파일 집합 SHA-256: `021e71f6a4f25bc770502f3a87e2de4a1bd8ffc4d65c75448bd18e6772336719` (94개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-1-4-mathmon-fusion/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-1-4-mathmon-fusion/REPORT.md

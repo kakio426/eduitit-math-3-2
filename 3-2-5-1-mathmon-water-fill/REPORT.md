@@ -1,5 +1,22 @@
 # 매스몬 물통 채우기 시합 구현 보고서
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `45dc96156d733af9041f3f01f852981ccb646fb79f4edaf48170549915dbf5b0`
+- 실제 실행 진입점: `3-2-5-1-mathmon-water-fill/index.html`
+- 실행 진입점 SHA-256: `aec4e3df0be402063e4f0f606d1d66afd208d93bedd7f5c6f75e20b2834f7450`
+- Pages 파일 집합 SHA-256: `4427d7d866ab3dd5a6cedaca5adcea488eac282be4851c96e564e0b9a003c597` (71개)
+- 상세 화면 증거: 현재 실행 진입점과 일치
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-1-mathmon-water-fill/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-1-mathmon-water-fill/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 기존 `zero-factory-animal-pack`의 펭귄몬 결과 6단계와 `result-tiers-v5-contact-sheet.png`는 그대로 유지했습니다.
 
 진행 장면 증거는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source`, `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png`, `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png`입니다.

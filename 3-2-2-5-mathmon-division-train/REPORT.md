@@ -1,5 +1,22 @@
 # 매스몬 나눔열차 제작 보고
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `1803e73d9e2b4871ea659fb2b1fbf014b551c7b1f8cf4df178f055116f0417da`
+- 실제 실행 진입점: `3-2-2-5-mathmon-division-train/index.html`
+- 실행 진입점 SHA-256: `2b9b4dfb5f23727ec7a47d6e3ea1d11a6414ab46fd739ff0da2f7607c4efb93a`
+- Pages 파일 집합 SHA-256: `1865ec7ffbaaa40b5ab9f1a74905c925f22a9cf6745fab4fd2f718260b5418ce` (46개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-5-mathmon-division-train/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-5-mathmon-division-train/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.

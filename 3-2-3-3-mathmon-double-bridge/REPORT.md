@@ -1,5 +1,22 @@
 # 매스몬 두 배 다리 제작 보고 (3-2-3-3)
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
+- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
+- 제작 보고서 원본 SHA-256: `a7b167f67f3f3f95a3dfe883c40a575465c48333aa78b31a9df7b45def5b1256`
+- 실제 실행 진입점: `3-2-3-3-mathmon-double-bridge/index.html`
+- 실행 진입점 SHA-256: `a1f507484457bc719f28ca75d43e3ee66d6cd2a09234ced0edb22819dd2f5347`
+- Pages 파일 집합 SHA-256: `98ca03e86749bcc67089b6bcd246b76f96015b2d211adba85b0cb153ad4da611` (60개)
+- 상세 화면 증거: 현재 실행 진입점과 일치
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-3-mathmon-double-bridge/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-3-mathmon-double-bridge/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.
