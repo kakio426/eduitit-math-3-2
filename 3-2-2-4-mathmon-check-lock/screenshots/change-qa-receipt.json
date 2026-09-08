@@ -7,44 +7,60 @@
     "presentation",
     "interaction"
   ],
-  "reason": "Earned special results persist after loss in lessons 3 and 5; lesson 4 reveals existing treasure scenes and lesson 5 shows departure and arrival after reward dismissal. Only affected reward/progress/result flows are checked.",
+  "reason": "Replace whole-image transitions with explicit object motion; only changed reward effect and connected flow checked.",
   "changedPaths": [
-    "3-2-2-4-mathmon-check-lock/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "_lessons/3-2-2-4-mathmon-check-lock/view.js",
+    "_lessons/3-2-2-4-mathmon-check-lock/lesson.json",
     "3-2-2-4-mathmon-check-lock/index.html",
-    "_lessons/3-2-2-4-mathmon-check-lock/lesson.css",
-    "_lessons/3-2-2-4-mathmon-check-lock/view.js"
+    "3-2-2-4-mathmon-check-lock/portable-runtime.config.json",
+    "3-2-2-4-mathmon-check-lock/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/reward-motion-v1.js",
+    "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/reward-motion-v1/vault-generated.webp",
+    "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/reward-motion-v1/door-generated.webp",
+    "_shared/mathmon/reward-motion-v1.js",
+    "_shared/mathmon/reward-motion-v1/vault-generated.webp",
+    "_shared/mathmon/reward-motion-v1/door-generated.webp",
+    "_shared/mathmon/reward-motion-v1/train-generated.webp"
   ],
   "checks": [
     {
       "id": "change-review",
-      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-change-review.json",
-      "evidenceSha256": "cbb4c4bc185a9877a0e4577ee6f0866189f38781c98d0653e9098c6638e1ae3a",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/motion-change-review.json",
+      "evidenceSha256": "fd8071916c7d8bfb43f51c80002934815fdcb4f557c673c395ee614638c91815",
       "qaFiles": [
-        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+        "scripts/qa-mathmon-effect-perception.mjs",
+        "scripts/qa-mathmon-effect-edge.mjs",
+        "scripts/lib/mathmon-effect-perception.mjs"
       ]
     },
     {
       "id": "affected-screen",
-      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-affected-screen.json",
-      "evidenceSha256": "3e78b2ab2fdd5ff32ccfc68f00233b0b9fb92e2d9761d0828b9f968c33fe5554",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/motion-affected-screen.json",
+      "evidenceSha256": "bbae493a586c09f9aa79f50d32378f345f26eaaae11d1772f01c5f818781f565",
       "qaFiles": [
-        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+        "scripts/qa-mathmon-effect-perception.mjs",
+        "scripts/qa-mathmon-effect-edge.mjs",
+        "scripts/lib/mathmon-effect-perception.mjs"
       ]
     },
     {
       "id": "affected-behavior",
-      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-affected-behavior.json",
-      "evidenceSha256": "2742ddb4f773eaf4b5b5c8b854d1703730f940e6229d5cc287350582bd3b145e",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/motion-affected-behavior.json",
+      "evidenceSha256": "9d9dd34b750966e5394c4f124f8d392cfdcf2c63b942176c5fcf5cf51ee845cd",
       "qaFiles": [
-        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+        "scripts/qa-mathmon-effect-perception.mjs",
+        "scripts/qa-mathmon-effect-edge.mjs",
+        "scripts/lib/mathmon-effect-perception.mjs"
       ]
     },
     {
       "id": "connected-flow",
-      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/reward-connected-flow.json",
-      "evidenceSha256": "3891a9703ac192517259b8e7633810f39b9db4bc534cd5f05f41686a42bc630a",
+      "evidencePath": "3-2-2-4-mathmon-check-lock/screenshots/motion-connected-flow.json",
+      "evidenceSha256": "b9e513c6ad470e782d8e7674a9ca8bbd34796a1dc3d1e51c33070ac08c4441bd",
       "qaFiles": [
-        "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs"
+        "scripts/qa-mathmon-effect-perception.mjs",
+        "scripts/qa-mathmon-effect-edge.mjs",
+        "scripts/lib/mathmon-effect-perception.mjs"
       ]
     }
   ],
@@ -52,50 +68,27 @@
   "screenshots": 1,
   "coverage": {
     "states": [
-      "modal stable, reveal, reading window, next problem",
-      "same-tier delta 0",
-      "same-tier delta -5",
-      "same-tier delta 6"
+      "closed modal",
+      "opening",
+      "moving",
+      "settled",
+      "next problem",
+      "reduced motion",
+      "loss",
+      "zero",
+      "special"
     ],
     "viewports": [
       {
-        "name": "desktop",
         "width": 1280,
-        "height": 800,
-        "dpr": 1
+        "height": 800
       },
       {
-        "name": "tablet-landscape",
         "width": 1024,
-        "height": 768,
-        "dpr": 1
-      },
-      {
-        "name": "user-reported-overload",
-        "width": 1024,
-        "height": 640,
-        "dpr": 2
-      },
-      {
-        "name": "codex-browser-regression",
-        "width": 1280,
-        "height": 720,
-        "dpr": 2
-      },
-      {
-        "name": "codex-live-panel-regression",
-        "width": 931,
-        "height": 897,
-        "dpr": 2
-      },
-      {
-        "name": "user-reported-missing-reward-panel",
-        "width": 1082,
-        "height": 897,
-        "dpr": 2
+        "height": 768
       }
     ],
-    "reason": "All distinct registered viewports for changed reward effects; desktop and tablet for result-selection behavior with unchanged result layout."
+    "reason": "Affected reward panel at desktop and tablet; additional edge states at desktop."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -110,8 +103,8 @@
       },
       {
         "role": "qa",
-        "path": "_lessons/3-2-2-5-mathmon-division-train/qa-reward-journey.mjs",
-        "sha256": "429c6f8c9a682948c17c3c3157fc6962ddd87b7cd0257ef2fcb40e551ef3f66a"
+        "path": "scripts/lib/mathmon-effect-perception.mjs",
+        "sha256": "53df30a16d406c0bada6f8ead2ba446afe1e5c16436e66165e20cd2eb8866db6"
       },
       {
         "role": "qa",
@@ -121,7 +114,7 @@
       {
         "role": "qa",
         "path": "scripts/lib/validation-cost-control.mjs",
-        "sha256": "541fd3818de698a5911eba2dadf6e0baa3f3805e5456d1e91d571c399f99fa15"
+        "sha256": "a33f64cc10efc5a7db4326536dd110117975780d156e0704ca2c9de8b1b11662"
       },
       {
         "role": "qa",
@@ -129,24 +122,49 @@
         "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
       },
       {
-        "role": "runtime",
-        "path": "_lessons/3-2-2-4-mathmon-check-lock/lesson.css",
-        "sha256": "a3b3554f1a18de55f52843210f549955f5a36509daaa17ef73a6dfc214f434ea"
+        "role": "qa",
+        "path": "scripts/qa-mathmon-effect-edge.mjs",
+        "sha256": "90ec476d86b10f46734c651e28645ef7cd0722b1b9adc793503c935333c8f486"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/qa-mathmon-effect-perception.mjs",
+        "sha256": "06e3a5c3750e6cbc12adf070e12eb3bc209eae901be67be8fdd265d7e02457eb"
       },
       {
         "role": "runtime",
         "path": "_lessons/3-2-2-4-mathmon-check-lock/lesson.json",
-        "sha256": "1c5543ea4ae763130984ee1c6486123ef750f053b7e6e1e4f18abecff9a58e99"
+        "sha256": "7cdc9ff69e82252d8d1804a982c2323f092748f0cf8128b9c19bf5890b219dbe"
       },
       {
         "role": "runtime",
         "path": "_lessons/3-2-2-4-mathmon-check-lock/view.js",
-        "sha256": "1e24986b8105c9bd4eaff2c2765ac9f268ff41eeddfea0e8740f7e4b14c8483c"
+        "sha256": "b054248198b191eb8da77f5874e0bb48d523de28d3dec6efacbfa6d55f7f38d0"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/reward-motion-v1.js",
+        "sha256": "db973d26f7b9ef0429569155842dc5faca6f8186e0b3bcd92aa8c14ad74d7218"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/reward-motion-v1/door-generated.webp",
+        "sha256": "7c6314aa92fec68ddf150be1fb1137cc0c0ed4e96c6c0714b04a387b2ff0f9d0"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/reward-motion-v1/train-generated.webp",
+        "sha256": "bf4d8693661680a714d5b9233052e88132496b1eda0f2fed45085c88115f569b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/reward-motion-v1/vault-generated.webp",
+        "sha256": "0be85cd13e8e368c17732dfc56193fd05ad7433a9007024d50b813c2f7852643"
       },
       {
         "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "f8d9050cd4dedc9319772240aa7e23b855803eaf4b4aa3062070c7ea2507d4d9"
+        "sha256": "0337c8b55581bf82bbd4f78acd2390e30d65ea05af3f2914a2236ca58c232acc"
       },
       {
         "role": "runtime",
@@ -157,6 +175,21 @@
         "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
         "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/reward-motion-v1.js",
+        "sha256": "db973d26f7b9ef0429569155842dc5faca6f8186e0b3bcd92aa8c14ad74d7218"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/reward-motion-v1/door-generated.webp",
+        "sha256": "7c6314aa92fec68ddf150be1fb1137cc0c0ed4e96c6c0714b04a387b2ff0f9d0"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-4-mathmon-check-lock/assets/runtime-vendor/_shared/mathmon/reward-motion-v1/vault-generated.webp",
+        "sha256": "0be85cd13e8e368c17732dfc56193fd05ad7433a9007024d50b813c2f7852643"
       },
       {
         "role": "runtime",
@@ -231,12 +264,17 @@
       {
         "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/index.html",
-        "sha256": "d5af6862fb76d6791368d68a9185d594108f3d9dc49ed384fa3b24845a93b64c"
+        "sha256": "eedad4fddf12f33857b0b56a88c902709fcc5ed768f3b153daf68d98c8ac1ac3"
       },
       {
         "role": "runtime",
         "path": "3-2-2-4-mathmon-check-lock/lock-generated.webp",
         "sha256": "169143c799d38dfe0a62c743ffb039db66f110b580e816a5101da7c899aac79a"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-2-4-mathmon-check-lock/portable-runtime.config.json",
+        "sha256": "368d2c95857f064bfaee1810d8b08ceec51bc067b7519008f501814a3e202951"
       },
       {
         "role": "runtime",
@@ -264,6 +302,6 @@
         "sha256": "67d4c4bc90a044c58720147abac15f5fa986ae935032eafb997fcb3e28a0c4b7"
       }
     ],
-    "sha256": "917f5e2cd117793a143d6b0a96c30fdf3e75e80ee313c70c34288d6d8f929be3"
+    "sha256": "84271ddbf5ad477db96d1391d3ca5712a9e9660dda709fe0d32ac8764be32dfb"
   }
 }
