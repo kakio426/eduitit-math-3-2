@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html data-portable-runtime="mathmon-portable-runtime-v1" lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1038,7 +1038,8 @@
       position: absolute;
       top: 11.5%;
       left: var(--stage-inset);
-      z-index: 5;
+      z-index: 20;
+      isolation: isolate;
       width: 23.4375%;
       height: 82%;
       overflow: hidden;
@@ -1199,14 +1200,62 @@
     .vault-spark-layer {
       position: absolute;
       inset: 0;
-      z-index: 3;
+      z-index: 10;
       overflow: hidden;
       pointer-events: none;
     }
 
+    /* Foreground reward light stays clipped to the vault, above the scene art. */
+    .vault-spark-layer::before,
+    .vault-spark-layer::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 43%;
+      width: 94%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(.2);
+    }
+
+    .vault-spark-layer::before {
+      border: 3px solid #fff6c5;
+      background: radial-gradient(circle, #fffbe0 0%, #ffd35a99 8%, #ffbb2422 28%, transparent 58%);
+      box-shadow: 0 0 18px #fff3ad, inset 0 0 22px #ffd45e, 0 0 48px #ffbd36;
+    }
+
+    .vault-spark-layer::after {
+      width: 150%;
+      background: repeating-conic-gradient(from 12deg, transparent 0deg 18deg, #ffdb7777 20deg, #fff9ddcc 21deg, transparent 24deg 36deg);
+      mask-image: radial-gradient(circle, transparent 9%, #000 20% 36%, transparent 69%);
+    }
+
+    .vault-world-panel.is-key-lighting .vault-spark-layer::before {
+      animation: vault-golden-wave 1.4s cubic-bezier(.16,.65,.3,1) both;
+    }
+
+    .vault-world-panel.is-key-lighting .vault-spark-layer::after {
+      animation: vault-golden-rays 1.4s ease-out both;
+    }
+
+    @keyframes vault-golden-wave {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.15); }
+      30% { opacity: .95; }
+      55% { opacity: .8; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.75); }
+    }
+
+    @keyframes vault-golden-rays {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.35) rotate(-18deg); }
+      30%, 48% { opacity: .85; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1) rotate(16deg); }
+    }
+
     .vault-spark {
       position: absolute;
-      width: 15%;
+      width: 24%;
       aspect-ratio: 1;
       opacity: 0;
       transform: translate(-50%, -50%) scale(.16) rotate(-18deg);
@@ -1364,7 +1413,7 @@
       grid-row: 1;
       padding: 0;
       display: grid;
-      grid-template-rows: 64px minmax(0, 1fr);
+      grid-template-rows: 80px minmax(0, 1fr);
       gap: 4px;
       overflow: hidden;
     }
@@ -1376,6 +1425,8 @@
     }
 
     .game[data-workbench-type="check-lock-bars"] .big-problem {
+      background: #091b27;
+      border-radius: 12px;
       min-height: 0;
       margin: 0;
       display: grid;
@@ -1416,10 +1467,21 @@
     }
 
     .lock-board-surface {
-      fill: rgba(7, 21, 31, .94);
+      fill: #091b27;
       stroke: #e0ad47;
       stroke-width: 4;
     }
+
+    .lock-title-equation { width: 100%; height: 100%; overflow: visible; fill: currentColor; font: inherit; }
+    .check-lock-svg[data-phase="comparison"] .lock-aura,
+    .check-lock-svg[data-phase="comparison"] .lock-outer-ring,
+    .check-lock-svg[data-phase="comparison"] .lock-inner-ring { opacity: .08; }
+    .check-lock-svg[data-phase="comparison"] .lock-rail,
+    .check-lock-svg[data-phase="comparison"] .lock-rivet { opacity: .3; }
+    .lock-comparison-labels { fill: #c9dfe3; font-size: 28px; font-weight: 850; dominant-baseline: middle; }
+    .lock-comparison-values { fill: #fff3c5; font-size: 84px; font-weight: 1000; }
+    .lock-comparison-sign { fill: #ffd45d; }
+    .check-lock-svg[data-matches="true"] .lock-comparison-sign { fill: #8de9d0; }
 
     .lock-aura {
       fill: url(#lockCoreGlow);
@@ -1858,7 +1920,8 @@
 
     .game[data-workbench-type="check-lock-bars"] .result-next-prefix-art {
       top: 33.5%;
-      left: 61%;
+      left: var(--result-content-center);
+      transform: translateX(-50%);
       width: 13%;
     }
 
@@ -1868,19 +1931,22 @@
 
     .game[data-workbench-type="check-lock-bars"] .result-next-tier-art {
       top: 40%;
-      left: 53%;
+      left: var(--result-content-center);
+      transform: translateX(-50%);
       width: 29%;
     }
 
     .game[data-workbench-type="check-lock-bars"] .result-next-tier-art.is-final {
       top: 37%;
-      left: 51.5%;
+      left: var(--result-content-center);
+      transform: translateX(-50.7827%);
       width: 32%;
     }
 
     .game[data-workbench-type="check-lock-bars"] .result-correct-art {
       top: 55%;
-      left: 58.5%;
+      left: var(--result-content-center);
+      transform: translateX(-50%);
       width: 18%;
     }
 
@@ -2029,9 +2095,8 @@
     }
 
     @keyframes lock-answer-seat {
-      0% { opacity: .3; transform: scale(.72); transform-origin: center; }
-      68% { opacity: 1; transform: scale(1.08); transform-origin: center; }
-      100% { opacity: 1; transform: scale(1); transform-origin: center; }
+      0% { opacity: .3; }
+      68%, 100% { opacity: 1; }
     }
 
     @keyframes lock-ring-turn {
@@ -2064,7 +2129,7 @@
       }
 
       .game[data-workbench-type="check-lock-bars"] .problem-card {
-        grid-template-rows: 48px minmax(0, 1fr);
+        grid-template-rows: 64px minmax(0, 1fr);
       }
 
       .game[data-workbench-type="check-lock-bars"] .big-problem {
@@ -2094,6 +2159,8 @@
         transition: none;
       }
 
+      .vault-world-panel.is-key-lighting .vault-spark-layer::before,
+      .vault-world-panel.is-key-lighting .vault-spark-layer::after,
       .vault-world-panel.is-key-lighting .vault-world-flare-image,
       .vault-world-panel.is-key-lighting .vault-spark,
       .vault-world-panel.is-changing .vault-world-image,
@@ -2108,7 +2175,7 @@
       }
     }
   </style>
-  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
+  <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="assets/runtime-vendor/_shared/audio/">
     (function installMathmonAudio(global) {
       "use strict";
 
@@ -2122,7 +2189,7 @@
       const currentScript = document.currentScript;
       const scriptUrl = currentScript?.dataset.mathmonAudioBase
         ? new URL(currentScript.dataset.mathmonAudioBase, global.location.href).href
-        : currentScript?.src || new URL("../_shared/audio/", global.location.href).href;
+        : currentScript?.src || new URL("assets/runtime-vendor/_shared/audio/", global.location.href).href;
       const BGM_TRACK = Object.freeze({
         src: new URL(
           "music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg?v=20260803-audio-v1",
@@ -2536,11 +2603,11 @@
 <body>
   <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="check-lock-bars" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-4" data-commit-sha="55a50d507b683437511fe22fbc94e23a3ca6dd01" data-lesson-json-sha256="1c5543ea4ae763130984ee1c6486123ef750f053b7e6e1e4f18abecff9a58e99" data-build-inputs-sha256="826140a159d3893668f21cb796dd8abc22bf52c9add925f99278aead76d970e8"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-2-4" data-commit-sha="" data-lesson-json-sha256="1c5543ea4ae763130984ee1c6486123ef750f053b7e6e1e4f18abecff9a58e99" data-build-inputs-sha256="91337dcf2b410245fe89cb7a31023587d47dfa1dbc1d6e3da10b2aaaf388cead"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
-          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
         </svg>
       </button>
       <div class="settings-backdrop" id="settingsBackdrop" hidden>
@@ -2564,22 +2631,22 @@
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
         <img class="raster-bg" src="cover-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 2단원 4차시</div></div>
-        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 검산 자물쇠</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">곱하고 더해 처음 수가 되는지 확인해요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="../_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
+        <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 2단원 4차시</div></div>
+        <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 검산 자물쇠</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">곱하고 더해 처음 수가 되는지 확인해요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">곱셈으로 나눗셈 검산하기</div>
       </section>
       <section class="screen tutorial" id="screen-tutorial" aria-labelledby="tutorialTitle">
-        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈 · 4차시</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈 · 4차시</div></div>
         <div class="tutorial-grid"><h2 class="screen-title" id="tutorialTitle">금고를 열기 전에</h2><div class="tutorial-cards" aria-label="게임 방법"><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-1-generated.webp" alt=""><div class="card-mark">1</div><strong>어떻게 확인해요?</strong><p>나누는 수와 몫을 곱하고 나머지를 더해요.</p></div><div class="tutorial-card"><img class="tutorial-poster-art" src="tutorial-page-2-generated.webp" alt=""><div class="card-mark">2</div><strong>무엇을 얻어요?</strong><p>10문제를 풀면 금고를 열어요.</p></div></div><div class="tutorial-action"><span class="tutorial-progress" id="tutorialProgress" aria-live="polite"></span><button class="tutorial-back-button" id="tutorialBackButton" type="button" aria-label="이전" hidden>이전</button><button class="primary-button" id="tutorialStartButton" type="button">문제 시작</button></div></div>
       </section>
       <section class="screen play" id="screen-play" aria-labelledby="problemTitle">
-        <header class="hud"><div class="hud-left"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="열쇠 빛"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">작은 자물쇠</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈 · 4차시</div></div></header>
+        <header class="hud"><div class="hud-left"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="mini-badge" id="problemCounter">1/10</div></div><div class="progress-line" aria-label="열쇠 빛"><div class="progress-fill" id="runProgress"></div><div class="progress-text" id="runProgressText">작은 자물쇠</div></div><div class="hud-right"><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈 · 4차시</div></div></header>
         <div class="problem-grid"><article class="problem-card"><p class="problem-label" id="problemKind">문제</p><h2 class="big-problem" id="problemTitle">문제</h2><div class="visual-area" id="visualArea"></div></article><section class="step-board" aria-label="현재 계산판"><div class="step-chips" id="stepChips"></div><p class="instruction" id="stepInstruction">골라요.</p><div class="answer-slot" id="answerSlot">?</div><p class="feedback-line" id="feedbackLine" aria-live="polite"></p></section><section class="choices-panel" id="choicesPanel" aria-label="선택지"></section><section class="complete-panel" id="completePanel" aria-live="polite"><p class="complete-text" id="completeExpression"></p><button class="primary-button" id="rewardButton" type="button">자물쇠 열기</button></section></div>
         <img class="play-mathmon-reaction" id="playMathmonReaction" alt="" aria-hidden="true" hidden>
       </section>
       <section class="screen reward" id="screen-reward" aria-labelledby="rewardTitle">
         <img class="raster-bg" src="lock-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">자물쇠</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">자물쇠</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>한 번만 바뀌어요</div></div>
         <div class="reward-panel"><div class="reward-object" aria-hidden="true"><div class="reward-liquid" id="rewardLiquid" style="--fill:0%"></div></div><h2 class="reward-title" id="rewardTitle">보상</h2><p class="reward-stage" id="rewardStageText">작은 자물쇠</p><p class="reward-change" id="rewardChange">열쇠 빛이 바뀌었어요.</p><button class="primary-button" id="rewardNextButton" type="button">다음</button></div>
       </section>
       <div class="reward-pop" id="rewardPop" role="dialog" aria-modal="true" aria-labelledby="modalRewardTitle" hidden>
@@ -2593,8 +2660,8 @@
       </div>
       <section class="screen result" id="screen-result" data-result-tier="lock" aria-labelledby="resultTitle">
         <img class="raster-bg" id="resultBg" src="result-lock-generated.webp" alt="">
-        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈 · 4차시</div></div>
-        <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="" alt="" aria-hidden="true" hidden><img class="result-title-art" id="resultTitleArt" src="result-lock-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="../_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
+        <div class="top-row"><div class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">오늘의 결과</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>2단원 나눗셈 · 4차시</div></div>
+        <div class="result-layer"><img class="result-panel-art" id="resultPanelArt" src="" alt="" aria-hidden="true" hidden><img class="result-title-art" id="resultTitleArt" src="result-lock-generated.webp" alt="" aria-hidden="true"><img class="result-correct-art" id="resultCorrectArt" src="assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp" alt="" aria-hidden="true"><svg class="result-dynamic-ui" viewBox="0 0 1280 800" aria-hidden="true"><text id="resultDestinationSvg" x="840" y="260">도착 준비</text><rect id="resultMeasureTrackSvg" x="750" y="350" width="360" height="28" rx="14" fill="#183b42" opacity="0.82"></rect><rect id="resultMeasureFillSvg" x="750" y="350" width="0" height="28" rx="14" fill="#f3c45f"></rect><text id="resultMeasureSvg" x="930" y="430">힘 0</text><text id="resultNextSvg" x="930" y="590" hidden></text><g class="result-restart-surface"><rect x="790" y="570" width="280" height="108" rx="54" fill="#f3c45f" stroke="#6f4b00" stroke-width="6"></rect><text x="930" y="640">다시</text></g></svg><img class="result-rank-button-art" id="leaderboardButtonArt"  alt="" aria-hidden="true" hidden><button class="result-action-hitbox result-leaderboard-hitbox" id="leaderboardButton" type="button" aria-label="순위 보기" hidden></button><button class="result-retry-hitbox" id="restartButton" type="button" aria-label="다시하기"><img class="result-retry-art" src="result-retry-button-generated.webp" alt="" aria-hidden="true"></button></div>
         <h2 class="visually-hidden" id="resultTitle">작은 자물쇠</h2><p class="visually-hidden" id="resultSummary"></p><p class="visually-hidden" id="resultNext"></p>
       </section>
       <section class="screen mathmon-scoreboard" id="screen-scoreboard" data-screen="scoreboard" aria-labelledby="scoreboardTitle" data-scoreboard-title="전국 열쇠 순위" data-scoreboard-title-art="" data-scoreboard-result-kind="score" data-scoreboard-score-label="내 열쇠 빛" data-scoreboard-list-title="열쇠 빛 순위" data-scoreboard-unit="3학년 2학기 2단원 4차시"></section>
@@ -2797,7 +2864,7 @@
                 <rect x="174" y="392" width="932" height="222" rx="20"></rect>
               </clipPath>
             </defs>
-            <image class="mathmon-scoreboard-stage-art" href="../_shared/scoreboard/scoreboard-celebration-bg-generated.webp" x="0" y="0" width="1280" height="800" preserveAspectRatio="xMidYMid slice"></image>
+            <image class="mathmon-scoreboard-stage-art" href="assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp" x="0" y="0" width="1280" height="800" preserveAspectRatio="xMidYMid slice"></image>
             <rect class="mathmon-scoreboard-bg-dim" x="0" y="0" width="1280" height="800"></rect>
             <g class="mathmon-scoreboard-ui" filter="url(#scoreboardBoardShadow)">
               <rect class="mathmon-scoreboard-board" x="108" y="104" width="1064" height="628" rx="38"></rect>
@@ -2848,7 +2915,7 @@
             <button class="mathmon-scoreboard-hitbox" id="scoreboardRestartButton" type="button" style="--x: 731; --y: 631; --w: 142; --h: 64;" aria-label="다시하기"></button>
           </div>
           <div class="top-row">
-            <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="../_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">${escapeHtml(brand)}</span>
+            <span class="brand-badge"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">${escapeHtml(brand)}</span>
             <span class="unit-badge">${escapeHtml(unit)}</span>
           </div>
         `);
@@ -3277,7 +3344,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-check-lock-migration","id":"3-2-2-4","folder":"3-2-2-4-mathmon-check-lock","modelName":"Lesson2CheckLockModel","title":"매스몬 검산 자물쇠","shortTitle":"매스몬 검산 자물쇠","topic":"곱셈으로 나눗셈 검산하기","unitBadge":"2단원 나눗셈 · 4차시","goal":"곱하고 더해 처음 수가 되는지 확인해요.","action":"곱할 두 수와 더할 수를 골라요.","buttonLabel":"자물쇠 열기","rewardScreenTitle":"자물쇠","progressLabel":"열쇠 빛","rewardComplete":"열쇠 빛이 바뀌었어요.","tutorialTitle":"금고를 열기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 확인해요?","body":"나누는 수와 몫을 곱하고 나머지를 더해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀면 금고를 열어요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"unitLabel":"열쇠 빛","changeLabel":"열쇠 빛","zeroLabel":"0","closedLabel":"열쇠가 얼마나 빛날까요?","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"artMap":{"click":"reward-event-click-generated.webp","jam":"reward-event-jam-generated.webp","double":"reward-event-double-generated.webp","master":"reward-event-master-generated.webp","reset":"reward-event-reset-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"click":[0,0],"jam":[1,0],"double":[2,0],"master":[0,1],"reset":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v3-contact-sheet.png","sceneBackground":"result-scene-generated.webp","protagonist":"base-09-kingdragonmon","fixedGeneratedElements":["tier-scene-with-title","next-goal-art","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"check-lock-bars","playStateImageSet":{"count":6,"filePattern":"play-vault-*-generated.webp","canvas":"600x1312","runtimeSlot":"300x656@1280x800","requiredSubjects":["킹드래곤몬","현재 금고","자물쇠 빛길"],"activeState":"현재 단계 금고와 켜진 자물쇠 빛","inactiveState":"이전 단계보다 어두운 금고실","contactSheet":"play-vault-world-contact-sheet.png"}},"scoreboard":{"enabled":false,"title":"전국 열쇠 순위","resultKind":"score","scoreLabel":"내 열쇠 빛","listTitle":"열쇠 빛 순위","unit":"3학년 2학기 2단원 4차시"},"mathmonPack":"base-pack","mathmonName":"킹드래곤몬","mathmonId":"base-09-kingdragonmon","results":[{"id":"lock","name":"작은 자물쇠","minPower":0,"minCorrect":0,"playImage":"play-vault-lock-generated.webp","image":"result-lock-generated.webp"},{"id":"safe","name":"튼튼한 금고","minPower":15,"minCorrect":2,"playImage":"play-vault-safe-generated.webp","image":"result-safe-generated.webp"},{"id":"largeSafe","name":"커다란 금고","minPower":35,"minCorrect":4,"playImage":"play-vault-large-safe-generated.webp","image":"result-large-safe-generated.webp"},{"id":"secretSafe","name":"비밀 금고","minPower":55,"minCorrect":6,"playImage":"play-vault-secret-safe-generated.webp","image":"result-secret-safe-generated.webp"},{"id":"treasure","name":"보물 금고","minPower":78,"minCorrect":8,"playImage":"play-vault-treasure-generated.webp","image":"result-treasure-generated.webp"},{"id":"rainbow","name":"무지개 금고","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-vault-rainbow-generated.webp","image":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"click","text":"열쇠 빛이 늘었어요","weight":6900,"min":6,"max":10,"family":"click","rarity":"common"},{"id":"jam","text":"열쇠 빛이 줄었어요","weight":1000,"min":-5,"max":-2,"family":"jam","rarity":"common"},{"id":"double","text":"열쇠 빛이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"double","rarity":"rare"},{"id":"master","text":"황금 열쇠!","weight":500,"min":30,"max":30,"family":"master","rarity":"rare","express":true},{"id":"reset","text":"열쇠 빛 그대로","weight":380,"min":0,"max":0,"family":"reset","rarity":"common"},{"id":"rainbow","text":"무지개 열쇠!","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"jamMistake","text":"열쇠 빛이 줄었어요","min":-6,"max":-3,"family":"jam"},"typesPerRun":["match","match","match","match","match","match","mismatch","mismatch","mismatch","mismatch"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-vault-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"playRewardStates":{"lock":"play-vault-lock-generated.webp","safe":"play-vault-safe-generated.webp","largeSafe":"play-vault-large-safe-generated.webp","secretSafe":"play-vault-secret-safe-generated.webp","treasure":"play-vault-treasure-generated.webp","rainbow":"play-vault-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"lock-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{},"resultNextPrefix":"result-next-prefix-generated.webp","resultFinalTitle":"result-final-title-generated.webp","resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"../_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","board-vault-generated.webp","reward-closed-generated.webp","lock-generated.webp","play-vault-lock-generated.webp","play-vault-safe-generated.webp","play-vault-large-safe-generated.webp","play-vault-secret-safe-generated.webp","play-vault-treasure-generated.webp","play-vault-rainbow-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-next-prefix-generated.webp","result-final-title-generated.webp","result-title-lock-transparent-v2.png","result-title-safe-transparent-v2.png","result-title-largeSafe-transparent-v2.png","result-title-secretSafe-transparent-v2.png","result-title-treasure-transparent-v2.png","result-title-rainbow-transparent-v2.png","result-retry-button-generated.webp","reward-event-click-generated.webp","reward-event-jam-generated.webp","reward-event-double-generated.webp","reward-event-master-generated.webp","reward-event-reset-generated.webp","reward-event-rainbow-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-lock-generated.webp","result-safe-generated.webp","result-large-safe-generated.webp","result-secret-safe-generated.webp","result-treasure-generated.webp","result-rainbow-generated.webp"],"qa":{"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 2단원 4차시","compactText":"2단원 나눗셈 · 4차시","requiresNoOverflow":true},"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"visualContractVersion":1,"modelRule":"division-check-lock","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"user-reported-overload","width":1024,"height":640,"dpr":2},{"name":"codex-browser-regression","width":1280,"height":720,"dpr":2},{"name":"codex-live-panel-regression","width":931,"height":897,"dpr":2},{"name":"user-reported-missing-reward-panel","width":1082,"height":897,"dpr":2}],"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".vault-world-panel","workArea":".problem-grid","expectedWidthRatio":0.234375,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit2-check-lock-migration","id":"3-2-2-4","folder":"3-2-2-4-mathmon-check-lock","modelName":"Lesson2CheckLockModel","title":"매스몬 검산 자물쇠","shortTitle":"매스몬 검산 자물쇠","topic":"곱셈으로 나눗셈 검산하기","unitBadge":"2단원 나눗셈 · 4차시","goal":"곱하고 더해 처음 수가 되는지 확인해요.","action":"곱할 두 수와 더할 수를 골라요.","buttonLabel":"자물쇠 열기","rewardScreenTitle":"자물쇠","progressLabel":"열쇠 빛","rewardComplete":"열쇠 빛이 바뀌었어요.","tutorialTitle":"금고를 열기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 확인해요?","body":"나누는 수와 몫을 곱하고 나머지를 더해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀면 금고를 열어요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"unitLabel":"열쇠 빛","changeLabel":"열쇠 빛","zeroLabel":"0","closedLabel":"열쇠가 얼마나 빛날까요?","nextLabel":"다음","fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"artMap":{"click":"reward-event-click-generated.webp","jam":"reward-event-jam-generated.webp","double":"reward-event-double-generated.webp","master":"reward-event-master-generated.webp","reset":"reward-event-reset-generated.webp","rainbow":"reward-event-rainbow-generated.webp"},"spriteSheet":{"columns":3,"rows":2,"slots":{"click":[0,0],"jam":[1,0],"double":[2,0],"master":[0,1],"reset":[1,1],"rainbow":[2,1]}}},"result":{"renderMode":"hybrid-generated-dynamic","stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v3-contact-sheet.png","sceneBackground":"result-scene-generated.webp","protagonist":"base-09-kingdragonmon","fixedGeneratedElements":["tier-scene-with-title","next-goal-art","retry-button"],"dynamicOverlays":["correct-count"]}},"workbench":{"type":"check-lock-bars","playStateImageSet":{"count":6,"filePattern":"play-vault-*-generated.webp","canvas":"600x1312","runtimeSlot":"300x656@1280x800","requiredSubjects":["킹드래곤몬","현재 금고","자물쇠 빛길"],"activeState":"현재 단계 금고와 켜진 자물쇠 빛","inactiveState":"이전 단계보다 어두운 금고실","contactSheet":"play-vault-world-contact-sheet.png"}},"scoreboard":{"enabled":false,"title":"전국 열쇠 순위","resultKind":"score","scoreLabel":"내 열쇠 빛","listTitle":"열쇠 빛 순위","unit":"3학년 2학기 2단원 4차시"},"mathmonPack":"base-pack","mathmonName":"킹드래곤몬","mathmonId":"base-09-kingdragonmon","results":[{"id":"lock","name":"작은 자물쇠","minPower":0,"minCorrect":0,"playImage":"play-vault-lock-generated.webp","image":"result-lock-generated.webp"},{"id":"safe","name":"튼튼한 금고","minPower":15,"minCorrect":2,"playImage":"play-vault-safe-generated.webp","image":"result-safe-generated.webp"},{"id":"largeSafe","name":"커다란 금고","minPower":35,"minCorrect":4,"playImage":"play-vault-large-safe-generated.webp","image":"result-large-safe-generated.webp"},{"id":"secretSafe","name":"비밀 금고","minPower":55,"minCorrect":6,"playImage":"play-vault-secret-safe-generated.webp","image":"result-secret-safe-generated.webp"},{"id":"treasure","name":"보물 금고","minPower":78,"minCorrect":8,"playImage":"play-vault-treasure-generated.webp","image":"result-treasure-generated.webp"},{"id":"rainbow","name":"무지개 금고","minPower":100,"minCorrect":1,"needsSpecial":true,"playImage":"play-vault-rainbow-generated.webp","image":"result-rainbow-generated.webp"}],"rewardEvents":[{"id":"click","text":"열쇠 빛이 늘었어요","weight":6900,"min":6,"max":10,"family":"click","rarity":"common"},{"id":"jam","text":"열쇠 빛이 줄었어요","weight":1000,"min":-5,"max":-2,"family":"jam","rarity":"common"},{"id":"double","text":"열쇠 빛이 크게 늘었어요","weight":1200,"min":14,"max":22,"family":"double","rarity":"rare"},{"id":"master","text":"황금 열쇠!","weight":500,"min":30,"max":30,"family":"master","rarity":"rare","express":true},{"id":"reset","text":"열쇠 빛 그대로","weight":380,"min":0,"max":0,"family":"reset","rarity":"common"},{"id":"rainbow","text":"무지개 열쇠!","weight":20,"min":100,"max":100,"family":"rainbow","rarity":"legend","special":true}],"wrongEvent":{"id":"jamMistake","text":"열쇠 빛이 줄었어요","min":-6,"max":-3,"family":"jam"},"typesPerRun":["match","match","match","match","match","match","mismatch","mismatch","mismatch","mismatch"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","problemStage":"board-vault-generated.webp","problemStates":{"waiting":"problem-state-waiting-generated.webp","working":"problem-state-working-generated.webp","complete":"problem-state-complete-generated.webp"},"playRewardStates":{"lock":"play-vault-lock-generated.webp","safe":"play-vault-safe-generated.webp","largeSafe":"play-vault-large-safe-generated.webp","secretSafe":"play-vault-secret-safe-generated.webp","treasure":"play-vault-treasure-generated.webp","rainbow":"play-vault-rainbow-generated.webp"},"rewardClosed":"reward-closed-generated.webp","rewardScene":"lock-generated.webp","resultScene":"result-scene-generated.webp","mathmonReactions":{},"resultNextPrefix":"result-next-prefix-generated.webp","resultFinalTitle":"result-final-title-generated.webp","resultRetryButton":"result-retry-button-generated.webp","resultLeaderboardButton":"assets/runtime-vendor/_shared/scoreboard/scoreboard-result-button-generated.webp"},"assets":["cover-generated.webp","title-logo-generated.webp","assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","board-vault-generated.webp","reward-closed-generated.webp","lock-generated.webp","play-vault-lock-generated.webp","play-vault-safe-generated.webp","play-vault-large-safe-generated.webp","play-vault-secret-safe-generated.webp","play-vault-treasure-generated.webp","play-vault-rainbow-generated.webp","problem-state-waiting-generated.webp","problem-state-working-generated.webp","problem-state-complete-generated.webp","mathmon-reaction-correct.webp","mathmon-reaction-wrong.webp","mathmon-reaction-reward.webp","result-scene-generated.webp","result-next-prefix-generated.webp","result-final-title-generated.webp","result-title-lock-transparent-v2.png","result-title-safe-transparent-v2.png","result-title-largeSafe-transparent-v2.png","result-title-secretSafe-transparent-v2.png","result-title-treasure-transparent-v2.png","result-title-rainbow-transparent-v2.png","result-retry-button-generated.webp","reward-event-click-generated.webp","reward-event-jam-generated.webp","reward-event-double-generated.webp","reward-event-master-generated.webp","reward-event-reset-generated.webp","reward-event-rainbow-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","result-lock-generated.webp","result-safe-generated.webp","result-large-safe-generated.webp","result-secret-safe-generated.webp","result-treasure-generated.webp","result-rainbow-generated.webp"],"qa":{"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 2단원 4차시","compactText":"2단원 나눗셈 · 4차시","requiresNoOverflow":true},"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"visualContractVersion":1,"modelRule":"division-check-lock","directInteractionRequired":true,"viewports":[{"name":"desktop","width":1280,"height":800,"dpr":1},{"name":"tablet-landscape","width":1024,"height":768,"dpr":1},{"name":"user-reported-overload","width":1024,"height":640,"dpr":2},{"name":"codex-browser-regression","width":1280,"height":720,"dpr":2},{"name":"codex-live-panel-regression","width":931,"height":897,"dpr":2},{"name":"user-reported-missing-reward-panel","width":1082,"height":897,"dpr":2}],"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".vault-world-panel","workArea":".problem-grid","expectedWidthRatio":0.234375,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward","result"]}};
     const Lesson2CheckLockModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MAX_POWER = LESSON_CONFIG.reward?.maxPower ?? 100;
@@ -3417,13 +3484,13 @@
             {
               id: "multiply",
               label: "곱하기",
-              instruction: "먼저 무엇과 무엇을 곱할까요?",
+              instruction: "검산하려면 무엇과 무엇을 곱할까요?",
               answer: "divisor-quotient",
               answerChoiceId: multiplyAnswerId,
               choices: multiplicationChoices(dividend, divisor, shownQuotient, shownRemainder, rng),
               correctText: `${divisor} × ${shownQuotient} = ${product}`,
               reveal: `${divisor} × ${shownQuotient}`,
-              advance: { mode: "timed", delayMs: 850 }
+              advance: { mode: "timed", delayMs: 3000 }
             },
             {
               id: "add",
@@ -3434,27 +3501,9 @@
               choices: additionChoices(dividend, divisor, shownQuotient, shownRemainder, rng),
               correctText: `${product} + ${shownRemainder} = ${checkTotal}`,
               reveal: String(shownRemainder),
-              advance: { mode: matchesOriginal ? "complete" : "timed", delayMs: 1000 }
+              advance: { mode: "complete", delayMs: 3000 }
             }
           ];
-
-          if (!matchesOriginal) {
-            const locateAnswerId = `locate:${mismatchPart}`;
-            steps.push({
-              id: "locate",
-              label: "다른 곳 찾기",
-              instruction: "어느 수가 다를까요?",
-              answer: mismatchPart,
-              answerChoiceId: locateAnswerId,
-              choices: shuffle([
-                choice("locate:quotient", "quotient", `몫 ${shownQuotient}`, mismatchPart === "quotient" ? null : "DIV4_WRONG_ERROR_LOCATION", "나머지를 다시 봐요."),
-                choice("locate:remainder", "remainder", `나머지 ${shownRemainder}`, mismatchPart === "remainder" ? null : "DIV4_WRONG_ERROR_LOCATION", "몫을 다시 봐요.")
-              ], rng),
-              correctText: mismatchPart === "quotient" ? "몫이 달라요." : "나머지가 달라요.",
-              reveal: mismatchPart === "quotient" ? "몫" : "나머지",
-              advance: { mode: "complete" }
-            });
-          }
 
           return {
             id: `check-${serial}-${dividend}-${divisor}`,
@@ -3471,8 +3520,8 @@
             mismatchPart,
             prompt: `${dividend} ÷ ${divisor} = ${shownQuotient} … ${shownRemainder}`,
             finalExpression: matchesOriginal
-              ? `${divisor} × ${shownQuotient} + ${shownRemainder} = ${dividend}`
-              : `${divisor} × ${shownQuotient} + ${shownRemainder} = ${checkTotal} ≠ ${dividend}`,
+              ? "두 수가 같아요. 맞게 계산했어요."
+              : "두 수가 달라요. 다시 계산해야 해요.",
             steps
           };
         }
@@ -4430,7 +4479,7 @@
 
     function getCorrectCountAsset() {
       const correctAssets = LESSON_CONFIG.imageAssets?.resultCorrectCount || {};
-      return correctAssets[String(state.correctFirstTry)] || `../_shared/result-count/result-correct-${state.correctFirstTry}-generated.webp`;
+      return correctAssets[String(state.correctFirstTry)] || `assets/runtime-vendor/_shared/result-count/result-correct-${state.correctFirstTry}-generated.webp`;
     }
 
     function getCurrentResult() {
@@ -4942,6 +4991,8 @@
 
     function renderProblemVisual(problem, state) {
       ensureCheckLockStageArt();
+      ui.visualArea.dataset.comparing = "false";
+      renderCenteredProblemTitle(problem.prompt);
       ui.visualArea.dataset.revealedStep = "";
       ui.visualArea.dataset.attemptStep = "";
       ui.visualArea.dataset.attemptValue = "";
@@ -5024,16 +5075,25 @@
       return animateLockSignal("wrong");
     }
 
-    async function onProblemComplete() {
+    async function onProblemComplete({ problem, step, state }) {
+      await new Promise(resolve => setTimeout(resolve, step.advance.delayMs));
+      ui.visualArea.dataset.comparing = "true";
+      renderCheckLockBoard(problem, state);
       await Promise.all([
         animateLockSignal("complete"),
         animateKeyEnergyToVault()
       ]);
     }
 
-    async function onRewardReveal({ event, beforePower, afterPower, state }) {
-      const actualDelta = afterPower - beforePower;
-      event.amount = actualDelta;
+    async function onRewardDismiss({ event, state }) {
+      const actualDelta = Number(event?.amount || 0);
+      const result = getVaultWorldResult(state);
+      const image = new Image();
+      image.src = result.playImage || LESSON_CONFIG.imageAssets.playRewardStates?.[result.id] || "";
+      await Promise.all([
+        image.decode().catch(() => {}),
+        new Promise(resolve => setTimeout(resolve, 300))
+      ]);
       await Promise.all([
         animateLockSignal("reward"),
         syncVaultWorld(state, { celebrate: actualDelta > 0, delta: actualDelta })
@@ -5041,6 +5101,9 @@
     }
 
     function onResult({ result }) {
+      // Center within the unobstructed inset of each generated result board.
+      const resultCenters = { lock: 870, safe: 886, largeSafe: 902, secretSafe: 878, treasure: 934, rainbow: 904 };
+      document.getElementById("screen-result").style.setProperty("--result-content-center", `${(resultCenters[result.id] || 870) / 12.8}%`);
       const nextResult = getNextVaultResult(result);
       const nextText = result?.needsSpecial
         ? "최고 단계예요!"
@@ -5160,7 +5223,15 @@
           : "is-waiting-answer";
 
       let boardMarkup = "";
-      if (step.id === "multiply") {
+      if (ui.visualArea.dataset.comparing === "true") {
+        boardMarkup = `
+          <g class="lock-comparison-labels"><text x="270" y="116">처음 수</text><text x="610" y="116">확인한 수</text></g>
+          <g class="lock-comparison-values">
+            <text x="270" y="202">${problem.dividend}</text>
+            <text x="440" y="202" class="lock-comparison-sign">${problem.matchesOriginal ? "=" : "≠"}</text>
+            <text x="610" y="202">${problem.checkTotal}</text>
+          </g>${renderLockPins(2, true)}`;
+      } else if (step.id === "multiply") {
         const relationRole = currentChoice?.roleLabel || "";
         const relationExpression = currentChoice?.expression || "? × ?";
         const relationResult = revealedStep === "multiply" ? ` = ${problem.product}` : "";
@@ -5179,7 +5250,6 @@
           : `${problem.product} + ?`;
         const addExpressionY = addRole ? 218 : 190;
         boardMarkup = `
-          <text x="440" y="92" class="lock-done-text">✓ ${CHECK_LOCK_RELATION_LABEL} · ${problem.divisor} × ${problem.shownQuotient} = ${problem.product}</text>
           <text x="440" y="153" class="lock-relation-role ${currentAnswerClass}">${addRole}</text>
           <text x="440" y="${addExpressionY}" class="lock-method-expression ${currentAnswerClass}">${addExpression}</text>
           ${renderLockPins(1, revealedStep === "add")}
@@ -5217,6 +5287,8 @@
       svg.setAttribute("viewBox", "0 0 880 350");
       svg.setAttribute("role", "img");
       svg.dataset.step = step.id;
+      svg.dataset.phase = ui.visualArea.dataset.comparing === "true" ? "comparison" : "selection";
+      svg.dataset.matches = String(problem.matchesOriginal);
       svg.dataset.answerState = revealedStep === step.id ? "correct" : hasCurrentSelection ? "wrong" : "waiting";
       svg.setAttribute("aria-label", `${problem.prompt}, ${step.instruction}`);
       svg.innerHTML = `
@@ -5249,6 +5321,37 @@
         </g>
       `;
       ui.visualArea.replaceChildren(svg);
+      for (const text of svg.querySelectorAll(".lock-comparison-values text")) centerLockTextInk(text, Number(text.getAttribute("x")), 196);
+    }
+
+    function centerLockTextInk(text, centerX, centerY) {
+      const context = document.createElement("canvas").getContext("2d");
+      const style = getComputedStyle(text);
+      context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      const metrics = context.measureText(text.textContent);
+      text.style.dominantBaseline = "alphabetic";
+      text.setAttribute("x", String(centerX));
+      text.setAttribute("y", String(centerY + (metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2));
+      text.setAttribute("dx", String((metrics.actualBoundingBoxLeft - metrics.actualBoundingBoxRight + metrics.width) / 2));
+    }
+
+    function renderCenteredProblemTitle(prompt) {
+      const title = document.getElementById("problemTitle");
+      const svg = document.createElementNS(CHECK_LOCK_SVG_NS, "svg");
+      svg.classList.add("lock-title-equation");
+      svg.setAttribute("aria-hidden", "true");
+      const text = document.createElementNS(CHECK_LOCK_SVG_NS, "text");
+      text.setAttribute("text-anchor", "middle");
+      text.textContent = prompt;
+      svg.append(text);
+      title.setAttribute("aria-label", prompt);
+      title.replaceChildren(svg);
+      const align = () => centerLockTextInk(text, title.clientWidth / 2, title.clientHeight / 2);
+      align();
+      title._equationObserver?.disconnect();
+      title._equationObserver = new ResizeObserver(align);
+      title._equationObserver.observe(title);
+      document.fonts.ready.then(() => { if (text.isConnected) align(); });
     }
 
     function renderLockPins(activeIndex, currentConfirmed) {
