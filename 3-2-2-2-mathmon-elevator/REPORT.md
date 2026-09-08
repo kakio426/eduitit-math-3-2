@@ -1,5 +1,35 @@
 # 매스몬 엘리베이터 업체 전달용 최신 구현 보고서
 
+<!-- CURRENT-PUBLIC-RUNTIME:START -->
+
+## 현재 공개 실행본
+
+- 보고서 기준: `eduitit-current-public-report-v1`
+- 공개 입력 커밋: `ad5e2d1c7fcd49a57cc1f660b6848c01c137f3b8`
+- 입력 커밋 시각: `2026-09-08T12:20:05+09:00`
+- 제작 보고서 원본 SHA-256: `e0c45bb1a80c297cd8abb57dc2ca7e960365afc1b980b495515239b61ce9d14a`
+- 실제 실행 진입점: `3-2-2-2-mathmon-elevator/index.html`
+- 실행 진입점 SHA-256: `06b6f59ae5ee3bea0a34dfd5f00184e67f8835c2d7f381ae4a6d5b09f79602b2`
+- Pages 파일 집합 SHA-256: `5bb2b0b38642d2a9d1afc6a0a8adbc46f52c56fea1f286fa4108ee600828943d` (123개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
+- 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-2-mathmon-elevator/
+- 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-2-mathmon-elevator/REPORT.md
+
+<!-- CURRENT-PUBLIC-RUNTIME:END -->
+
+<!-- PORTABLE-RUNTIME:START -->
+## 2026-09-07 공통 컴포넌트 차시 내장
+
+- 실행 파일의 공통 런타임 참조를 차시 폴더 내부 경로로 바꿨습니다.
+- 내장 위치: `assets/runtime-vendor/`
+- 내장 공통 파일: `20개`
+- 매니페스트: `assets/PORTABLE_RUNTIME_MANIFEST.json` (SHA-256 `e3c029df3a26efb734026e875d5046da6e37891810c9254291e7857b27ed7849`)
+- 2~6단원 21개 차시의 공통 파일 364개에 대해 경로·파일 존재·원본/복사본 SHA-256 검사를 통과했습니다.
+- 로컬 정적 호스팅에서 21개 진입 URL과 364개 내장 파일을 직접 요청해 HTTP 오류 0건을 확인했습니다.
+- 기존 화면 캡처는 그대로 보존했으며 이번 경로 이식의 새 화면 증거로 다시 봉인하지 않았습니다.
+- 요소 배치, 문항, 보상 로직은 이 이식 작업에서 변경하지 않았습니다. 정적 호스팅에는 이 차시 폴더 전체를 그대로 배포합니다.
+<!-- PORTABLE-RUNTIME:END -->
+
 ## 2026-08-23 공통 보상 정책 v2 검수
 
 - 확률·점수·결과 기준은 `_shared/contracts/mathmon-unified-reward-v2.json`의 `mathmon-unified-reward-v2`를 단일 기준으로 사용합니다.
@@ -1995,3 +2025,23 @@ git diff --check
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 <!-- REPORT-EVIDENCE-ALL:END -->
+
+## 2026-09-08 왼쪽 엘리베이터 보상판
+
+이번 변경은 왼쪽 진행 장면과 보상창 닫힘 이후의 피드백에 한정한다. 위의 이전 전체 화면 증거를 현재 실행본의 PASS로 재봉인하지 않는다. 현재 영향 검사 원본은 `screenshots/elevator-progress-qa.json`이다.
+
+- 전용 생성 장면 6장: 지하 비밀기지, 햇살 로비, 구름 쉼터, 하늘 전망대, 꽃빛 옥상정원, 무지개 최고층. 원본 PNG와 768×1152 WebP는 `_shared/mathmon/lesson-scenes/3-2-2-2/play-progress-v1/`에 보관한다. 1280×800 고정 로비 배경에는 엘리베이터가 없다.
+- 전 장면 컨택시트에서 독수리몬 전신 6회, 동일 카메라·크기·발 위치와 잘림 없음을 확인했다. 보이는 캐릭터 폭은 장면의 약 41%로 승인 목표 약 45%의 허용오차 5%p 안이다. 별도 작은 반응 이미지는 숨겼다.
+- 패널은 Stage left 2%, top 16%, width 24.5%, height 76%. 3개 viewport의 실제 rect에서 1px 이내 일치, 계산 영역과 최소 1.5625% 간격을 확인했다.
+- 보상창 뒤의 장면·표시 점수는 유지된다. 닫은 뒤 300ms 대기하고 실제 `점수 +N/−N` 또는 `점수 변화 0`을 표시한다. 일반 전환 900ms, 단계 상승 1400ms 동안 문제 번호가 고정된다. 다음 문제에서도 점수·도착 장면을 유지한다.
+- 3 viewport × 9 보상 fixture: 증가, 상승, 감소, 0, 특별, 상한, 하한, 정답 수 조건, 마지막 문제. 중복 클릭 1회 소비와 재시작 초기화, reduced-motion 즉시 갱신, 실제 3단계 풀이→보상→다음 문제 연결을 통과했다.
+- 새 학생 문구는 humanizer 검토: `현재 점수 N`, `점수 +N/−N`, `점수 변화 0`. 짧은 동적 값 표기로 의미·수치 보존, 불필요한 교사용 표현 없음. 기존 확률·수치·결과 모델은 변경하지 않았다.
+- 기존 세 자리 DOM 전용 계산 검사와 혼동되지 않도록 두 자리 SVG 계산판 어댑터를 추가했다. 10문항 생성·자리값·내린 수·몫·정답 선택을 검증하며 잘못된 자리 수와 잘못된 나눗셈 입력은 실패시킨다.
+
+![왼쪽 보상판과 현재 문제](screenshots/elevator-progress-play.png)
+
+학생은 오른쪽에서 몫과 남은 수를 고른다. 왼쪽은 마지막으로 확인한 보상 장소와 점수만 보여 주며 새로운 입력을 요구하지 않는다.
+
+![상승 후 다음 문제](screenshots/elevator-progress-arrived.png)
+
+보상창을 닫고 상승을 확인하면 다음 문제로 넘어간다. 도착 장소·현재 점수 23·실제 증가 +5는 다음 문제에서도 남아 있다.
