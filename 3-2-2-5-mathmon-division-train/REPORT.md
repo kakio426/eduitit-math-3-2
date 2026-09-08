@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `cc9a8f098f45985d6c809865dbc5d8a50e3332d6`
-- 입력 커밋 시각: `2026-09-08T17:37:51+09:00`
+- 공개 입력 커밋: `2bbfea20437c5bf0ae512022ff25ae74943f56a4`
+- 입력 커밋 시각: `2026-09-08T19:17:53+09:00`
 - 제작 보고서 원본 SHA-256: `84524ed02f14ef22eebca233b2c0d26796055778391a9853927a3fdb39a47c0c`
 - 실제 실행 진입점: `3-2-2-5-mathmon-division-train/index.html`
-- 실행 진입점 SHA-256: `6828a9cad2384f50cbd53023b04d69e468bdcb28f6b5d331e16d2db5f2fb9bd8`
-- Pages 파일 집합 SHA-256: `8050a768bfdee35f14cd0abc6fa95ff0f04efe4b56dc4b1b0676d5d488c61374` (93개)
+- 실행 진입점 SHA-256: `d603eea0ff9890045200f7374956dbdd33f81d83050f1b1acf86d13289a2ae26`
+- Pages 파일 집합 SHA-256: `ba91e98a6c325b10d74dc226aff4257716c25f946ff9267d79eda772f67a9cea` (95개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-5-mathmon-division-train/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-5-mathmon-division-train/REPORT.md

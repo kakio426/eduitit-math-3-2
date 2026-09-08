@@ -5,30 +5,17 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `721d88af9d24066f9a509d10bda6e7dbfcd9887dcdea1571497b326b6950426a`
+- 공개 입력 커밋: `2bbfea20437c5bf0ae512022ff25ae74943f56a4`
+- 입력 커밋 시각: `2026-09-08T19:17:53+09:00`
+- 제작 보고서 원본 SHA-256: `7fc62f1c564828921fc25a78d7b09eb10a885f42a3c91073afec682eafd2cea2`
 - 실제 실행 진입점: `3-2-2-1-mathmon-divide-farm/index.html`
-- 실행 진입점 SHA-256: `c081a206e643a957675d258f048082810e19171b478e103f01ab43b891d09f0f`
-- Pages 파일 집합 SHA-256: `d57eb6d20c3f8b946accc9bec846c4147fa713a73611103e60487e205ed0e679` (151개)
+- 실행 진입점 SHA-256: `69d40abf4dad52569be6b69abff1989798f3eea199170124dea3f2da2a38d390`
+- Pages 파일 집합 SHA-256: `2c6135e6f892c52bccbdf064388ec872783d3642992193f0322b8fce6107efc5` (151개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-1-mathmon-divide-farm/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-1-mathmon-divide-farm/REPORT.md
 
 <!-- CURRENT-PUBLIC-RUNTIME:END -->
-
-<!-- PORTABLE-RUNTIME:START -->
-## 2026-09-07 공통 컴포넌트 차시 내장
-
-- 실행 파일의 공통 런타임 참조를 차시 폴더 내부 경로로 바꿨습니다.
-- 내장 위치: `assets/runtime-vendor/`
-- 내장 공통 파일: `17개`
-- 매니페스트: `assets/PORTABLE_RUNTIME_MANIFEST.json` (SHA-256 `e032eaddb811cedff5ae30d8c49246bbf71a454878386691d3c8a541074c45b3`)
-- 2~6단원 21개 차시의 공통 파일 364개에 대해 경로·파일 존재·원본/복사본 SHA-256 검사를 통과했습니다.
-- 로컬 정적 호스팅에서 21개 진입 URL과 364개 내장 파일을 직접 요청해 HTTP 오류 0건을 확인했습니다.
-- 기존 화면 캡처는 그대로 보존했으며 이번 경로 이식의 새 화면 증거로 다시 봉인하지 않았습니다.
-- 요소 배치, 문항, 보상 로직은 이 이식 작업에서 변경하지 않았습니다. 정적 호스팅에는 이 차시 폴더 전체를 그대로 배포합니다.
-<!-- PORTABLE-RUNTIME:END -->
 
 ## 2026-08-23 공통 보상 정책 v2 검수
 
