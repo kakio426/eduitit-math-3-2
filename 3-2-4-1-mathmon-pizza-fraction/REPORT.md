@@ -5,9 +5,9 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `abe3df31798402292f51f6fdc27f37512ea98cc17417316562f631091996bd00`
+- 공개 입력 커밋: `7a13f7b52fd4ba0154c0139c0edd5326f90045e3`
+- 입력 커밋 시각: `2026-09-09T11:43:24+09:00`
+- 제작 보고서 원본 SHA-256: `9b9208f08bd146fd6849c4be336868c18ec07aa6b58a78c7c0f958d887292b83`
 - 실제 실행 진입점: `3-2-4-1-mathmon-pizza-fraction/index.html`
 - 실행 진입점 SHA-256: `a63bb2e1830fe2970edc4875c7bc43e5aa87985619d6713554369797c9248ca2`
 - Pages 파일 집합 SHA-256: `6f8e0abe9222f95a0851ca7decd51cbba7ce0517c0583f26044f2d556a19e8d9` (51개)
