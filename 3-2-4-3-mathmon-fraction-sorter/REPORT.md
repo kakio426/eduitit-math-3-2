@@ -5,13 +5,13 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `96409e77b1d392a57109c320b5c10610220268d2a81294ee5ba74374e9ee6023`
+- 공개 입력 커밋: `166ce93e31753be91dbec8d1800acf2146e90d90`
+- 입력 커밋 시각: `2026-09-09T11:40:49+09:00`
+- 제작 보고서 원본 SHA-256: `3e98c6878c4631c3d42156bc7643a8460c2fd090c38fa7fc2c468e9193be0192`
 - 실제 실행 진입점: `3-2-4-3-mathmon-fraction-sorter/index.html`
-- 실행 진입점 SHA-256: `422d17aae524bfc650ef4571745a7bde1920d4acd8d1a3020e65cd64a1dbf1dc`
-- Pages 파일 집합 SHA-256: `153c2e70c2f47662ffb5a89e035e167fa6712a9dafd70c195e7f2ad41c5a252f` (81개)
-- 상세 화면 증거: 현재 실행 진입점과 일치
+- 실행 진입점 SHA-256: `99414faa5b54b20ad49faaced3c2bf2f7a2e96fb4363dc88cb36641802c88187`
+- Pages 파일 집합 SHA-256: `43fdaa573cb76b866d13a2e6f3609503d12b4f6b61859974f258397124e6d993` (144개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-3-mathmon-fraction-sorter/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-3-mathmon-fraction-sorter/REPORT.md
 
@@ -204,8 +204,8 @@
 
 ## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `422d17aae524bfc650ef4571745a7bde1920d4acd8d1a3020e65cd64a1dbf1dc`
-- 생성 시각: `2026-08-29T10:30:28.660Z`
+- 실행본 SHA-256: `3664f246fe0e80c6876ee4dfa12473177db1d72398cb59d14fbbe52e2bd24810`
+- 생성 시각: `2026-08-29T08:52:54.651Z`
 - 등록 회귀 이름: `7개`
 - 실제 실행 화면 조건: `7개`
 - 동일 조건 별칭 통합: `0개`
