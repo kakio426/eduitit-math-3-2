@@ -5,13 +5,13 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `7a13f7b52fd4ba0154c0139c0edd5326f90045e3`
-- 입력 커밋 시각: `2026-09-09T11:43:24+09:00`
-- 제작 보고서 원본 SHA-256: `9b9208f08bd146fd6849c4be336868c18ec07aa6b58a78c7c0f958d887292b83`
+- 공개 입력 커밋: `a69e96fa1993bcd5416fd3c21dcbd0a5f4249dea`
+- 입력 커밋 시각: `2026-09-17T06:45:58+09:00`
+- 제작 보고서 원본 SHA-256: `990d5facd3f080da2a1b22ec1f2e4fb0856839c9b08cb698d29d23a3605cfc96`
 - 실제 실행 진입점: `3-2-4-1-mathmon-pizza-fraction/index.html`
-- 실행 진입점 SHA-256: `a63bb2e1830fe2970edc4875c7bc43e5aa87985619d6713554369797c9248ca2`
-- Pages 파일 집합 SHA-256: `6f8e0abe9222f95a0851ca7decd51cbba7ce0517c0583f26044f2d556a19e8d9` (51개)
-- 상세 화면 증거: 현재 실행 진입점과 일치
+- 실행 진입점 SHA-256: `d567bce1de53ade0c81a6dba9b1c3442841a3bbd9fb52cb7f6e6faaf5d323c5e`
+- Pages 파일 집합 SHA-256: `4cdb5c54696db9b2512717ab6489550c628d782004b86f3ea68df790d04cdd8d` (93개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-1-mathmon-pizza-fraction/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-1-mathmon-pizza-fraction/REPORT.md
 
@@ -197,8 +197,8 @@
 
 ## 2026-08-29 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `a63bb2e1830fe2970edc4875c7bc43e5aa87985619d6713554369797c9248ca2`
-- 생성 시각: `2026-08-29T10:30:14.706Z`
+- 실행본 SHA-256: `b030a6072af45b79271d07af93aa6fd5e4b3dfd991a0662aedb73db09d8ca1ad`
+- 생성 시각: `2026-08-29T08:54:33.363Z`
 - 등록 회귀 이름: `10개`
 - 실제 실행 화면 조건: `10개`
 - 동일 조건 별칭 통합: `0개`
