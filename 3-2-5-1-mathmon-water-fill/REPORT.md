@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `836edc1e209b65858e3917aad116ee2a89dae676`
-- 입력 커밋 시각: `2026-09-17T09:07:12+09:00`
-- 제작 보고서 원본 SHA-256: `87a7a7a88ad6f0ed96f67d3c884b5a06d88fdaf29d6b28c39154449bd1ae50bc`
+- 공개 입력 커밋: `d7c11823616869c537729f8d61a9f1b6c09fbfd3`
+- 입력 커밋 시각: `2026-09-17T21:07:08+09:00`
+- 제작 보고서 원본 SHA-256: `2883e7e31f1ad58d94dca1cc8a41e277c3eeb41dc34ed25b6ddaa1dbcf8e54e3`
 - 실제 실행 진입점: `3-2-5-1-mathmon-water-fill/index.html`
-- 실행 진입점 SHA-256: `9289a2f6c8b7932022175a06a7dd9c2db490acab762db3ea6be5c2534c381a78`
-- Pages 파일 집합 SHA-256: `986fce0bc25540d07392567ee250142d379967575eb94471044538fd7c9a5faf` (135개)
+- 실행 진입점 SHA-256: `c1ae630adbe109c0877be47627735b005af0dfd1db9dae4c594ebecfa799ff0d`
+- Pages 파일 집합 SHA-256: `7c321ceda11676594377f599bf79061d4841230b81cd2b6382f84cb6b83d0acb` (138개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-1-mathmon-water-fill/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-1-mathmon-water-fill/REPORT.md
@@ -37,7 +37,7 @@
 - `물을 옮겨 붓기` 행동 버튼을 `400×68px` 이내로 줄이고 패널 네 변과 최소 `8px` 이상 떨어지게 했습니다. 같은 종류의 행동 버튼에 공통 적용됩니다.
 - 같은 모양 물통의 물높이는 구조화된 컵 수의 대소 관계를 그대로 반영합니다. 물 면은 물통 프레임의 안쪽 안전 영역에만 그려 위·아래로 삐져나오지 않습니다.
 - `종이컵 8번`처럼 정답을 직접 드러내는 숫자 문구와 과정 설명은 없앴습니다. 학생은 컵 모양 표식을 세어 비교하고, 선택지는 최대 3개만 봅니다.
-- 서로 다른 크기의 컵을 비교하는 두 문제는 `capacity-fairness-cups-v1-generated.webp` 한 장면으로 바꿨습니다. 이 그림은 맥락용이며 정답 근거는 모델 데이터입니다. 생성 기록은 `assets/FAIRNESS_COMPARISON_GENERATION_RECEIPT.json`에 있습니다.
+- 서로 다른 크기의 컵을 비교하는 두 문제는 `capacity-fairness-cups-v2-generated.webp` 한 장면으로 바꿨습니다. 물통은 뚜껑이 닫힌 불투명한 형태라 물높이로 정답을 추측할 수 없고, 그림은 컵 크기가 다르다는 맥락만 보여 줍니다. 정답 근거는 모델 데이터이며 생성 기록은 `assets/FAIRNESS_COMPARISON_V2_GENERATION_RECEIPT.json`에 있습니다.
 - 결과 배경의 왼쪽 액자 위에 다시 얹던 베이지 패널을 제거하고, 단계명·정답 수·다음 목표·다시 버튼을 배경 액자 안에 직접 배치합니다.
 - 중간 보상은 공용 `modal-art`와 `unit3-modal-art-compact-v2`를 사용합니다. 기존 전체 화면형 `.measurement-reward-story`가 보이지 않는지도 전용 회귀에서 확인합니다.
 - `capacity-evidence-without-answer-text-v1` 하네스가 10문제의 모든 단계에서 선택지 수, 답 노출 문구, 행동 버튼 여백, 물 면 containment와 높이 관계, 공정성 이미지, 중간 보상 모달, 결과 액자 containment를 검사합니다. `1280×800 DPR1`과 사용자 제보 환경 `1082×987 DPR2`에서 통과했습니다.
@@ -118,7 +118,7 @@
 
 | 파일명 | 역할 |
 | --- | --- |
-| `cover-source.png` / `cover-generated.webp` | 글자 없는 첫 화면 배경 |
+| `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-5-1/cover-v2/source/cover-water-v2-source.png` / `cover-generated.webp` | 왼쪽 제목 영역을 비우고 펭귄몬 전신을 오른쪽에 둔 글자 없는 표준 첫 화면 배경 |
 | `title-logo-chromakey.png` / `title-logo-generated.png` / `title-logo-generated.webp` | 생성형 제목 아트 |
 | `../_shared/mathmon/cover-start-button/start-button-generated.webp` | 공용 시작 버튼 아트 |
 | `reward-event-closed-v2-generated.webp` | 닫힌 보상 장면 |

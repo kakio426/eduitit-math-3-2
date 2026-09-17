@@ -26,14 +26,15 @@
 
 ## 생성 자산
 
+- 첫 화면 배경: `_shared/mathmon/zero-factory-animal-pack/lesson-scenes/3-2-5-1/cover-v2/`의 `1280×800` 원본을 표준 실행 파일 `cover-generated.webp`로 승격했습니다. 펭귄몬 전신은 오른쪽에 두고 왼쪽 제목 영역을 비웠습니다.
 - 설명: `tutorial-page-1-v3-generated.webp`, `tutorial-page-2-v3-generated.webp`
 - 직접 붓기 전: `capacity-direct-before-v1-source.png` / `capacity-direct-before-v1-generated.webp`
 - 직접 붓는 중: `capacity-direct-pouring-v1-source.png` / `capacity-direct-pouring-v1-generated.webp`
 - 직접 붓기 후: `capacity-direct-after-v1-source.png` / `capacity-direct-after-v1-generated.webp`
 - 측정 물통: `measuring-vessel-v1-source.png` / `measuring-vessel-v1-generated.webp`
-- 서로 다른 컵 비교: `capacity-fairness-cups-v1-source.png` / `capacity-fairness-cups-v1-generated.webp`
+- 서로 다른 컵 비교: `capacity-fairness-cups-v2-source.png` / `capacity-fairness-cups-v2-generated.webp`
 
-생성 그림은 `context-only`, `not-evidence`입니다. 문제의 수치와 정답은 구조화된 모델 데이터가 결정하며, 직접 붓기 장면에는 조작 뒤 상태를 설명하는 HTML 근거 문장도 함께 표시합니다. 생성 기록은 `assets/DIRECT_POUR_GENERATION_RECEIPT.json`과 `assets/FAIRNESS_COMPARISON_GENERATION_RECEIPT.json`에 있습니다.
+생성 그림은 `context-only`, `not-evidence`입니다. 문제의 수치와 정답은 구조화된 모델 데이터가 결정하며, 직접 붓기 장면에는 조작 뒤 상태를 설명하는 HTML 근거 문장도 함께 표시합니다. 생성 기록은 `assets/DIRECT_POUR_GENERATION_RECEIPT.json`과 `assets/FAIRNESS_COMPARISON_V2_GENERATION_RECEIPT.json`에 있습니다.
 
 문제 화면의 물은 물통 안쪽 안전 영역에만 표시합니다. 같은 모양 물통 비교에서는 데이터의 대소 관계와 화면의 물높이 관계가 일치해야 합니다. 최종 결과 화면은 배경 그림에 포함된 왼쪽 액자를 그대로 쓰고, 그 위에 별도 베이지 패널을 겹치지 않습니다. 결과의 다시 버튼은 공용 `mathmon-result-retry-button-v2` 자산과 같은 비율·클릭 경계를 사용하며, 다음 목표 문구는 배경과 최소 대비를 확보합니다.
 

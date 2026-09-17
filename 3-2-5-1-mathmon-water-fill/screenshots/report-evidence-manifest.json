@@ -1,17 +1,19 @@
 {
-  "standard": "report-current-screen-evidence-v3",
+  "standard": "report-current-screen-evidence-v4",
   "lesson": "3-2-5-1-mathmon-water-fill",
-  "generatedAt": "2026-09-02T09:58:19.792Z",
-  "indexSha256": "aec4e3df0be402063e4f0f606d1d66afd208d93bedd7f5c6f75e20b2834f7450",
+  "generatedAt": "2026-09-17T11:32:38.326Z",
+  "indexSha256": "c1ae630adbe109c0877be47627735b005af0dfd1db9dae4c594ebecfa799ff0d",
   "sourceScreenshotsCommitted": false,
   "sourceScreenshotsRetention": "ephemeral-local-cache",
   "qaReceipt": "screenshots/mathmon-browser-qa-receipt.json",
   "viewportPlan": {
-    "standard": "mathmon-qa-viewport-plan-v2",
+    "standard": "mathmon-qa-viewport-plan-v3",
     "registeredCount": 8,
     "executionCount": 7,
     "deduplicatedCount": 1,
-    "targetedExecutionCount": 1,
+    "targetedExecutionCount": 0,
+    "humanReviewExecutionCount": 2,
+    "auditOnlyExecutionCount": 5,
     "expandedDuplicates": false,
     "registered": [
       {
@@ -86,7 +88,20 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "key-states",
+          "standard": "mathmon-human-review-key-states-v1",
+          "roles": [
+            "cover",
+            "tutorial",
+            "tutorial-second",
+            "representative-problem",
+            "representative-wrong-feedback",
+            "answer-confirmation",
+            "reward-closed",
+            "reward-revealed",
+            "reward-impact",
+            "completed-result"
+          ]
         }
       },
       {
@@ -101,7 +116,14 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "key-states",
+          "standard": "mathmon-human-review-key-states-v1",
+          "roles": [
+            "cover-responsive",
+            "representative-problem-responsive",
+            "reward-responsive",
+            "completed-result-responsive"
+          ]
         }
       },
       {
@@ -116,7 +138,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -131,7 +154,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -146,7 +170,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -164,7 +189,8 @@
         ],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -181,27 +207,1779 @@
           "emptyRewardAuditViewport"
         ],
         "capture": {
-          "mode": "targeted",
-          "reason": "empty-reward-fixture",
-          "states": [
-            "06-confirm",
-            "07-reward-closed",
-            "07b-reward-open"
-          ]
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       }
     ]
   },
+  "visualEvidence": {
+    "standard": "mathmon-human-review-key-states-v1",
+    "automatedCoverage": "all-canonical-viewports-and-full-flow",
+    "humanReviewViewports": [
+      "desktop",
+      "tablet-landscape"
+    ],
+    "auditOnlyViewports": [
+      "codex-in-app",
+      "user-visibility",
+      "user-reported-missing-left-progress-1082x987-dpr2",
+      "browser-comment-934x987-dpr2",
+      "empty-reward-fixture"
+    ],
+    "stateVisitCount": 237,
+    "screenshotCount": 14,
+    "auditRuns": [
+      {
+        "viewportName": "desktop",
+        "regressionNames": [
+          "desktop"
+        ],
+        "stateVisitCount": 34,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": "cover",
+            "screenshot": true
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": "tutorial",
+            "screenshot": true
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": "tutorial-second",
+            "screenshot": true
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": "representative-problem",
+            "screenshot": true
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": "representative-wrong-feedback",
+            "screenshot": true
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": "answer-confirmation",
+            "screenshot": true
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": "reward-closed",
+            "screenshot": true
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": "reward-revealed",
+            "screenshot": true
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": "reward-impact",
+            "screenshot": true
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": "completed-result",
+            "screenshot": true
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "regressionNames": [
+          "tablet-landscape"
+        ],
+        "stateVisitCount": 34,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": "cover-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": "representative-problem-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": "reward-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": "completed-result-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "codex-in-app",
+        "regressionNames": [
+          "codex-in-app"
+        ],
+        "stateVisitCount": 34,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-visibility",
+        "regressionNames": [
+          "user-visibility"
+        ],
+        "stateVisitCount": 34,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-reported-missing-left-progress-1082x987-dpr2",
+        "regressionNames": [
+          "user-reported-missing-left-progress-1082x987-dpr2"
+        ],
+        "stateVisitCount": 34,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "browser-comment-934x987-dpr2",
+        "regressionNames": [
+          "browser-comment-934x987-dpr2",
+          "browser-comment-direct-pour-crop-type-934x987-dpr2"
+        ],
+        "stateVisitCount": 34,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "empty-reward-fixture",
+        "regressionNames": [
+          "empty-reward-fixture"
+        ],
+        "stateVisitCount": 33,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05a-play-action-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05c-direct-pour-correct-feedback",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-서로-다른-컵을-써요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p4-misconception-물통-높이만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-small",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-spark",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-stream",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-full",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tower",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      }
+    ],
+    "screenshots": [
+      {
+        "viewportName": "desktop",
+        "stateName": "01-cover",
+        "role": "cover",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-01-cover.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "03-tutorial-1",
+        "role": "tutorial",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-03-tutorial-1.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "04-tutorial-2",
+        "role": "tutorial-second",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-04-tutorial-2.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "05-play-step1",
+        "role": "representative-problem",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-05-play-step1.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "05b-play-wrong",
+        "role": "representative-wrong-feedback",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-05b-play-wrong.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "06-confirm",
+        "role": "answer-confirmation",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-06-confirm.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07-reward-closed",
+        "role": "reward-closed",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-07-reward-closed.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07b-reward-open",
+        "role": "reward-revealed",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-07b-reward-open.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07c-reward-impact",
+        "role": "reward-impact",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-07c-reward-impact.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "08-result",
+        "role": "completed-result",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-desktop-08-result.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "01-cover",
+        "role": "cover-responsive",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-tablet-landscape-01-cover.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "05-play-step1",
+        "role": "representative-problem-responsive",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-tablet-landscape-05-play-step1.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "07b-reward-open",
+        "role": "reward-responsive",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-tablet-landscape-07b-reward-open.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "08-result",
+        "role": "completed-result-responsive",
+        "file": "3-2-5-1-mathmon-water-fill/screenshots/engine-flow-tablet-landscape-08-result.png"
+      }
+    ]
+  },
+  "validationDependencies": {
+    "standard": "eduitit-validation-dependencies-v1",
+    "product": "mathmon",
+    "lesson": "3-2-5-1-mathmon-water-fill",
+    "entries": [
+      {
+        "role": "contract",
+        "path": "_shared/contracts/mathmon-browser-qa-execution-v3.json",
+        "pointer": "",
+        "sha256": "e8af9abd41233d8bf25db7a427385ecb202f6f1d6772afbaf485ec367c5de70d"
+      },
+      {
+        "role": "contract",
+        "path": "_shared/contracts/production-workflow.json",
+        "pointer": "/products/mathmon/browserEvidencePolicy",
+        "sha256": "68215f19fe1b50c25bca9afac5d24caeb458568f3e7813480ee9a4c743f5c305"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/generated-runtime-browser-guard.mjs",
+        "sha256": "d46df26b8832d8d8f638c46269b7ffbee02f5b80f462cb5925bcf112d857e23f"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-delivery-gate.mjs",
+        "sha256": "51b7bddb287eee2fd0b90e10496d7d9206589865fae8c1fda93aacc51c535a36"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-effect-restraint.mjs",
+        "sha256": "5e55393017bf367f0d67dcaa04ec532d57ba8e1f87faf865fbbd7a68d7ac8d12"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-qa-viewports.mjs",
+        "sha256": "5a16d8acb3386e4987114a2ce05f7b6225ef7d7f665922707facc1e89124b5b1"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-top-controls-v2.mjs",
+        "sha256": "a8f83d8154c27a346a9b8772d208441b3bcb8608fde7feafb2abd1efcd0671c5"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/result-reward-dominance.mjs",
+        "sha256": "ac81da87e5916365fd8a806f02a50ebcb9d2874be6547ee511c5a0ba61431b8d"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/tutorial-poster-contract.mjs",
+        "sha256": "ba4d17ca0a311fdc8c8f7984bd59c0378431b85907ebfd1b8f3bff4a4b732791"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-cost-control.mjs",
+        "sha256": "fd55e557d6fed458b86ab66d7023e2a255b24bbc243eed63c785bb17ae472aab"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-dependencies.mjs",
+        "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/qa-lesson-flow.mjs",
+        "sha256": "b6a83cf2bd323a23ba3245a1125c212c42c7ab905cc79997773891056ef4e29c"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/runtime-build-fingerprint.mjs",
+        "sha256": "d8f1988c22fde27ef7c52c52fcbe6d03fe408a5672f0d8148062360c3adfebac"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/runtime/core.js",
+        "sha256": "4d7bb6dc123ad289e9ca3b05553936f355ce6845f12c408dce19838a5dcb7fe1"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/styles/core.css",
+        "sha256": "1691e5b826bc077a2d4f92cf4ed203a4e21fbe3a5e8c38e3f7dca6fbd02e6a08"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/template.html",
+        "sha256": "bb07ddc93feb7d6e9e82f8fae67648034e764a5ce23ec471fe4e5557ac478bbb"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/lesson.css",
+        "sha256": "e5074cc7fbd99e5b722542a289a9546efc5b57e0d71b67beee1dafb572cd86b1"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/model.js",
+        "sha256": "bd0a7f4b31ca7cad6741c02c9e4170e5b2a23e952af36d6c47454a860b176472"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/view.js",
+        "sha256": "f8e9d8eaacc21e883ba92a16a73a5057013c94b72754794b2e25a5738564726d"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-1-mathmon-water-fill/lesson.css",
+        "sha256": "b6a6625c874f51c30461617079ea22f32f4a9dd014ad4313c2286c292d37da8d"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-1-mathmon-water-fill/lesson.json",
+        "sha256": "0c7e9afe821f37be3fb8fa6098f1d7352decf6a2a3d68d9bc4499adeb2f338e4"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/audio/mathmon-audio-v1.js",
+        "sha256": "9f6d6a8a4965a4cf157e2bf2a68bb7335517d62409311bd4477f1bfeaccc494f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/brand/mathmon-brand.css",
+        "sha256": "d1866a6cbceb43985cbdd998aae5d07ceb9383eaa7ac0b9c3040f612c83ac77c"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png",
+        "sha256": "afefc8e9b1e159803a0739e0b199578cbaecbd269f711cc1b1924534c371dab6"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png",
+        "sha256": "5a4e0a3988fbc169843cf44eed35650d77e3851b11e6c36b2809724a5b7e79f9"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/top-controls-v2.css",
+        "sha256": "b9a82a61dbeda3096f7d1d5a1e369c39d24c0d7a186e7fdbebbc3d28ffa82891"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-ui.css",
+        "sha256": "f1f01d9e9f2222c2b312079890f27a58eeff83af01f31916f7171b9150685484"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-ui.js",
+        "sha256": "705f02b0f292790585c0672c012f228848a4da3ebeb731a339e8344c737b1ff4"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/PORTABLE_RUNTIME_MANIFEST.json",
+        "sha256": "0c5d8fb90f2e8a2759d57eec9a755329d93963bea9740c8564dca4547037913c"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/cover-generated.webp",
+        "sha256": "053c0b7b006cbee61e412830b0cf1b0c05bf50f5215bb37438fb9e431cff2060"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/index.html",
+        "sha256": "c1ae630adbe109c0877be47627735b005af0dfd1db9dae4c594ebecfa799ff0d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/portable-runtime.config.json",
+        "sha256": "0db155b44d3ca1a97aed78756d3781a19e0642761108b98ea89e24f6b446d896"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/result-bg-small-generated.webp",
+        "sha256": "ba4ac8f58b628d7e1a51425db6b400b64b4b25151c806919496b8f08895f52b7"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/result-title-small-generated.webp",
+        "sha256": "97ef0b2220ba6b354327afb9c99511660937095cb3a221fcd22c65284842f083"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/reward-scene-generated.webp",
+        "sha256": "0a6927ff0664c0f51fb718e6039fa400e2a317c979746d6ac9845a9211484756"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/title-logo-generated.webp",
+        "sha256": "abac3a1245c3271e50c6cc7efa7ff4085ff235dc1cc1c2fbf66c7fe11028d100"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/tutorial-page-1-v3-generated.webp",
+        "sha256": "78cab07efe88f4e32143e8a2d66388fa9173ef97d6f5737b883387536506758d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-1-mathmon-water-fill/tutorial-page-2-v3-generated.webp",
+        "sha256": "726eafbe50d5ec189e312f87cc00545d38692329dce4a2aa9014f5e5cf44941d"
+      },
+      {
+        "role": "runtime",
+        "path": "scripts/runtime/result-presentation-v1.css",
+        "sha256": "c03e7647e2e3a3ebbcc288e06b7f344266a1c7e8963cbf7e762663a01b77bc99"
+      },
+      {
+        "role": "runtime",
+        "path": "scripts/runtime/result-presentation-v1.js",
+        "sha256": "4aa7c566c00fe3c5cd8384dc08b638ec1d1a63fae566df1d05314a72edff0dca"
+      }
+    ],
+    "sha256": "d167eefcf3d35ec4129665b00fe110da85a8d5888b5a277cfd492c3974d876e1"
+  },
   "fingerprints": {
     "lessonRuntime": {
-      "sha256": "45d21dee910418a73ff3a1f8005200bc6181973a03e757d75753eab0f4a9a0f7",
+      "sha256": "70ac6e6a656e5e1d971535d6e74326eeb8ae5366a1e99b7daacf97d936298f08",
       "files": [
+        "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "3-2-5-1-mathmon-water-fill/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
         "3-2-5-1-mathmon-water-fill/capacity-direct-after-v1-generated.webp",
-        "3-2-5-1-mathmon-water-fill/capacity-direct-after-v1-source.png",
         "3-2-5-1-mathmon-water-fill/capacity-direct-before-v1-generated.webp",
-        "3-2-5-1-mathmon-water-fill/capacity-direct-before-v1-source.png",
         "3-2-5-1-mathmon-water-fill/capacity-direct-pouring-v1-generated.webp",
-        "3-2-5-1-mathmon-water-fill/capacity-direct-pouring-v1-source.png",
+        "3-2-5-1-mathmon-water-fill/capacity-fairness-cups-v2-generated.webp",
         "3-2-5-1-mathmon-water-fill/cover-generated.webp",
         "3-2-5-1-mathmon-water-fill/index.html",
         "3-2-5-1-mathmon-water-fill/measuring-vessel-v1-generated.webp",
@@ -217,7 +1995,6 @@
         "3-2-5-1-mathmon-water-fill/result-bg-spark-generated.webp",
         "3-2-5-1-mathmon-water-fill/result-bg-stream-generated.webp",
         "3-2-5-1-mathmon-water-fill/result-bg-tower-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-panel-generated.webp",
         "3-2-5-1-mathmon-water-fill/result-tank-full-generated.webp",
         "3-2-5-1-mathmon-water-fill/result-tank-rainbow-generated.webp",
         "3-2-5-1-mathmon-water-fill/result-tank-small-generated.webp",
@@ -227,23 +2004,17 @@
         "3-2-5-1-mathmon-water-fill/result-tiers-v5-contact-sheet.png",
         "3-2-5-1-mathmon-water-fill/result-title-full-generated.png",
         "3-2-5-1-mathmon-water-fill/result-title-full-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-title-full-source.png",
         "3-2-5-1-mathmon-water-fill/result-title-rainbow-generated.png",
         "3-2-5-1-mathmon-water-fill/result-title-rainbow-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-title-rainbow-source.png",
         "3-2-5-1-mathmon-water-fill/result-title-set-v1.json",
         "3-2-5-1-mathmon-water-fill/result-title-small-generated.png",
         "3-2-5-1-mathmon-water-fill/result-title-small-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-title-small-source.png",
         "3-2-5-1-mathmon-water-fill/result-title-spark-generated.png",
         "3-2-5-1-mathmon-water-fill/result-title-spark-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-title-spark-source.png",
         "3-2-5-1-mathmon-water-fill/result-title-stream-generated.png",
         "3-2-5-1-mathmon-water-fill/result-title-stream-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-title-stream-source.png",
         "3-2-5-1-mathmon-water-fill/result-title-tower-generated.png",
         "3-2-5-1-mathmon-water-fill/result-title-tower-generated.webp",
-        "3-2-5-1-mathmon-water-fill/result-title-tower-source.png",
         "3-2-5-1-mathmon-water-fill/reward-event-big-flow-generated.webp",
         "3-2-5-1-mathmon-water-fill/reward-event-closed-v2-generated.webp",
         "3-2-5-1-mathmon-water-fill/reward-event-repair-generated.webp",
@@ -275,18 +2046,15 @@
         "_shared/action-buttons/next-button-generated.webp",
         "_shared/action-buttons/previous-button-generated.webp",
         "_shared/action-buttons/problem-start-button-generated.webp",
-        "_shared/brand/mathmon-cloud-mark.webp",
         "_shared/mathmon/cover-start-button/start-button-generated.webp",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png",
         "_shared/mathmon/top-controls-v2.css",
-        "_shared/result-actions/retry-button-v2-generated.webp",
-        "_shared/result-count/result-correct-0-generated.webp",
-        "_shared/scoreboard/scoreboard-celebration-bg-generated.webp"
+        "_shared/result-actions/retry-button-v2-generated.webp"
       ]
     },
     "policy": {
-      "sha256": "821322271a78193a5e402e72e47aa3279c6f0fc685a80a9a385b0608d55f3f07",
+      "sha256": "41c04afba1df856c31942621ca56afc8fa7af7215e7915dd2519de4d8a90da51",
       "files": [
         ".claude/skills/eduitit-mathmon-assets/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/SKILL.md",
@@ -304,8 +2072,9 @@
         "_shared/contracts/generated-runtime-assets-v1.json",
         "_shared/contracts/generated-runtime-canonical-assets.json",
         "_shared/contracts/generated-runtime-compatibility-baseline.json",
-        "_shared/contracts/mathmon-browser-qa-execution-v2.json",
+        "_shared/contracts/mathmon-browser-qa-execution-v3.json",
         "_shared/contracts/mathmon-component-registry.json",
+        "_shared/contracts/mathmon-portable-runtime-v1.json",
         "_shared/contracts/mathmon-top-controls-v2.json",
         "_shared/contracts/mathmon-unified-reward-v2.json",
         "_shared/contracts/platform-component-registry.json",
@@ -335,7 +2104,7 @@
       ]
     },
     "harness": {
-      "sha256": "16b4602f85ceff9ff5aec4a897da0c5060ca273b28b00031b37b51b229a0a065",
+      "sha256": "68c3b28d52e151c7f20f134cf5900dcaae73279e7df65ad84909ecb95b1c95d5",
       "files": [
         ".codex/hooks.json",
         ".codex/hooks/mathmon-context.mjs",
@@ -350,6 +2119,7 @@
         ".codex/hooks/socialmon-stop-gate.mjs",
         "scripts/ai-mart.mjs",
         "scripts/build-lesson-report-sheets.mjs",
+        "scripts/build-lesson.mjs",
         "scripts/build-monster-governance.mjs",
         "scripts/build-monster-review-sheets.mjs",
         "scripts/check-audio-assets.mjs",
@@ -360,6 +2130,8 @@
         "scripts/check-lesson-visual-contract.mjs",
         "scripts/check-mathmon-brand-mark.mjs",
         "scripts/check-mathmon-effect-containment.mjs",
+        "scripts/check-mathmon-generated-buttons.mjs",
+        "scripts/check-mathmon-portable-runtime.mjs",
         "scripts/check-mathmon-preview.mjs",
         "scripts/check-mathmon-vertical-calculation.mjs",
         "scripts/check-monster-governance.mjs",
@@ -464,20 +2236,30 @@
         "scripts/fixtures/tutorial-poster-contract/wrong-purpose-order.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-standard.json",
         "scripts/lib/bounded-process.mjs",
+        "scripts/lib/commit-publication.mjs",
         "scripts/lib/component-registry.mjs",
         "scripts/lib/delivery-changed-files-input.mjs",
+        "scripts/lib/delivery-completion.mjs",
         "scripts/lib/generated-runtime-assets.mjs",
         "scripts/lib/generated-runtime-browser-guard.mjs",
         "scripts/lib/generated-visual-audit.mjs",
         "scripts/lib/load-lesson-source-model.mjs",
         "scripts/lib/mathmon-delivery-gate.mjs",
+        "scripts/lib/mathmon-effect-restraint.mjs",
         "scripts/lib/mathmon-fast-delivery.mjs",
         "scripts/lib/mathmon-layout-qa.mjs",
+        "scripts/lib/mathmon-portable-runtime.mjs",
         "scripts/lib/mathmon-qa-viewports.mjs",
         "scripts/lib/mathmon-repeated-element-qa.mjs",
+        "scripts/lib/mathmon-result-qa-targets.mjs",
         "scripts/lib/mathmon-top-controls-v2.mjs",
         "scripts/lib/monster-governance.mjs",
+        "scripts/lib/passive-production-stop.mjs",
+        "scripts/lib/production-reuse.mjs",
         "scripts/lib/production-workflow.mjs",
+        "scripts/lib/public-lesson-paths.mjs",
+        "scripts/lib/publication-authority.mjs",
+        "scripts/lib/publication-outcome.mjs",
         "scripts/lib/result-content-scale-policy.mjs",
         "scripts/lib/result-internal-metric-policy.mjs",
         "scripts/lib/result-reward-dominance.mjs",
@@ -486,6 +2268,7 @@
         "scripts/lib/sciencemon-lab.mjs",
         "scripts/lib/sciencemon-qa.mjs",
         "scripts/lib/sciencemon-result-pack.mjs",
+        "scripts/lib/sciencemon-screenshot-evidence.mjs",
         "scripts/lib/sciencemon-v2-qa.mjs",
         "scripts/lib/sciencemon-v2.mjs",
         "scripts/lib/sciencemon-v3-qa.mjs",
@@ -493,6 +2276,14 @@
         "scripts/lib/student-reward-language.mjs",
         "scripts/lib/tutorial-poster-contract.mjs",
         "scripts/lib/validation-cost-control.mjs",
+        "scripts/lib/validation-dependencies.mjs",
+        "scripts/qa-check-lock-fixed-frame.mjs",
+        "scripts/qa-check-lock-polish.mjs",
+        "scripts/qa-check-lock-result-centering.mjs",
+        "scripts/qa-check-lock-title.mjs",
+        "scripts/qa-check-lock-vault-dismiss.mjs",
+        "scripts/qa-check-lock-vault-effects.mjs",
+        "scripts/qa-elevator-progress.mjs",
         "scripts/qa-engine-unit3-circle-pattern-source.mjs",
         "scripts/qa-engine-unit3-compass-source.mjs",
         "scripts/qa-engine-unit3-double-bridge-source.mjs",
@@ -537,27 +2328,38 @@
         "scripts/test-ai-mart.mjs",
         "scripts/test-component-registry.mjs",
         "scripts/test-delivery-changed-files-input.mjs",
+        "scripts/test-delivery-completion.mjs",
+        "scripts/test-elevator-calculation-contract.mjs",
         "scripts/test-generated-runtime-assets-browser.mjs",
         "scripts/test-generated-runtime-assets.mjs",
         "scripts/test-generated-runtime-compatibility-scope.mjs",
         "scripts/test-generated-runtime-timeout.mjs",
         "scripts/test-mathmon-delivery-gate.mjs",
+        "scripts/test-mathmon-effect-restraint.mjs",
         "scripts/test-mathmon-fast-delivery.mjs",
+        "scripts/test-mathmon-generated-buttons.mjs",
         "scripts/test-mathmon-hooks.mjs",
         "scripts/test-mathmon-layout-qa.mjs",
+        "scripts/test-mathmon-portable-runtime.mjs",
         "scripts/test-mathmon-qa-viewports.mjs",
         "scripts/test-mathmon-repeated-element-qa.mjs",
         "scripts/test-mathmon-reward-policy.mjs",
         "scripts/test-mathmon-top-controls-v2.mjs",
         "scripts/test-monster-governance.mjs",
+        "scripts/test-policy-ownership.mjs",
         "scripts/test-production-workflow.mjs",
+        "scripts/test-publication-boundary.mjs",
+        "scripts/test-release-connection.mjs",
         "scripts/test-result-content-scale-policy.mjs",
         "scripts/test-result-internal-metric-policy.mjs",
         "scripts/test-result-panel-containment.mjs",
         "scripts/test-result-reward-dominance.mjs",
+        "scripts/test-rule-consistency.mjs",
+        "scripts/test-runtime-asset-delivery.mjs",
         "scripts/test-sciencemon-accessibility.mjs",
         "scripts/test-sciencemon-build.mjs",
         "scripts/test-sciencemon-cli.mjs",
+        "scripts/test-sciencemon-delivery-gate.mjs",
         "scripts/test-sciencemon-determinism.mjs",
         "scripts/test-sciencemon-hooks.mjs",
         "scripts/test-sciencemon-lab.mjs",
@@ -567,13 +2369,17 @@
         "scripts/test-sciencemon-result-pack.mjs",
         "scripts/test-sciencemon-safety.mjs",
         "scripts/test-sciencemon-schema.mjs",
+        "scripts/test-sciencemon-screenshot-evidence.mjs",
         "scripts/test-sciencemon-state-machines.mjs",
         "scripts/test-sciencemon-v2-qa.mjs",
         "scripts/test-sciencemon-v2.mjs",
+        "scripts/test-sciencemon-v3-contract.mjs",
         "scripts/test-student-reward-language.mjs",
         "scripts/test-tutorial-poster-contract.mjs",
         "scripts/test-unit2-three-digit-division.mjs",
         "scripts/test-validation-cost-control.mjs",
+        "scripts/test-validation-dependencies.mjs",
+        "scripts/test-validation-minimality.mjs",
         "scripts/verify-mathmon-delivery.mjs",
         "scripts/verify-policy-harness-delivery.mjs"
       ]
@@ -592,19 +2398,28 @@
       "aliases": [],
       "behaviorKeys": [],
       "capture": {
-        "mode": "full-flow"
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover",
+          "tutorial",
+          "tutorial-second",
+          "representative-problem",
+          "representative-wrong-feedback",
+          "answer-confirmation",
+          "reward-closed",
+          "reward-revealed",
+          "reward-impact",
+          "completed-result"
+        ]
       },
-      "screenshotCount": 34,
+      "screenshotCount": 10,
       "sheet": "screenshots/report-flow-desktop-contact-sheet.png",
-      "sheetSha256": "acdb9fd5fe4ff17f1a0b3ee291c98a78ebf70bb83e39c6fc41c41926126262b7",
+      "sheetSha256": "22eed52e02732af6609ee10e3916154bf72844ca353cd0e94e3854c2151dd419",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-desktop-01-cover.png",
-          "sha256": "c8fe964a406bf8b1e6184cdada74c85c9f60266fec5d4ab58c3f5a3912643407"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-02-settings.png",
-          "sha256": "9755288a5531fa01c3f189974cc085f589550f068a431bb64e1cb53fdd785b41"
+          "sha256": "4e53aacf77b9e0e263aa26db2ac7678d627df55ef7d1763c3e97f8470923c660"
         },
         {
           "path": "screenshots/engine-flow-desktop-03-tutorial-1.png",
@@ -616,124 +2431,44 @@
         },
         {
           "path": "screenshots/engine-flow-desktop-05-play-step1.png",
-          "sha256": "bf02cdadd9274e3113180a113b03fd05d704881ca459a3ccf4c1231cf68142b3"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05a-play-action-result.png",
-          "sha256": "29e806dfcb30350b68cfbe9fc80cf5fddcbbfa777cc04172c8a7a14108f5061c"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05c-direct-pour-correct-feedback.png",
-          "sha256": "1b0ebaba7de5863983bfea3d90d788c1491b2e7d7ca79069eac48145814708bd"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05n-next-problem-clean.png",
-          "sha256": "0c2038ebc5619732ea67b046f7cfc8d38016c8dffdfd3e7386859302ca5375e7"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p4-misconception-물통-높이만-봐요.png",
-          "sha256": "a03e75e5a61d9a1c9bceab52728b4515d3ebd14a4b4cc6ab61e2929480f96602"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p4-misconception-서로-다른-컵을-써요.png",
-          "sha256": "5a60270c5a8aff25b2822a665bc40263ce095c8d067f27bb2d4c9dd618bb4c9e"
+          "sha256": "a1c866f20a84d53763d201c65283564222ab3d14480a9194a7bd9bb4aa06f994"
         },
         {
           "path": "screenshots/engine-flow-desktop-05b-play-wrong.png",
-          "sha256": "373eb5459e72b6cd4f82ab823e00b5982ba5f5ada565abc6bcf7195c837a7c95"
+          "sha256": "bfa0ba17a87ef098ee6619ca256d644ddccd995dccbd77d7a52cff577b051949"
         },
         {
           "path": "screenshots/engine-flow-desktop-06-confirm.png",
-          "sha256": "df85abe0f45cd452b94b352510c0dd07da10ca850b5225347e0775f8d796c182"
+          "sha256": "457fdd0befe6166e45ef245f8227e5e3dc543f6ecb7a270bf02a4afb4e4d4055"
         },
         {
           "path": "screenshots/engine-flow-desktop-07-reward-closed.png",
-          "sha256": "9288e93894c0ee0d264c9088ec0799a4df61c72eee4482b53684fb09e11ada4a"
+          "sha256": "2a863f589210638b33c644844083f46440ee144bcf54af362df02e6dd1181597"
         },
         {
           "path": "screenshots/engine-flow-desktop-07b-reward-open.png",
-          "sha256": "eedd2f69f3c9d0f3f87b9d27c8f64a36387c0f3134890115bb0855e82606235b"
+          "sha256": "60bc07382afd8b855053f42243084c6d4337ecd13eb0b7d995f6afff14ae1721"
         },
         {
           "path": "screenshots/engine-flow-desktop-07c-reward-impact.png",
-          "sha256": "ec96fa56477bb813758ea43c0e38fff63c045caa76fcd2061d4c8d87655863b7"
+          "sha256": "3e9ae94ad2ffa5700b6222536ec53bf7b266372670978c64d89191789500b3b6"
         },
         {
           "path": "screenshots/engine-flow-desktop-08-result.png",
-          "sha256": "89aee1d6235b04e29d6466deaad6afc9188564ae095a76dcf1fc905df96373a1"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-full.png",
-          "sha256": "ee4499369471cd66ec2011b54cbd597f08b478870f35ca4cdbe601125d1c51b9"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-rainbow.png",
-          "sha256": "f883c82292e90a1a22ddb5f5eb7d5cb6ed231a3ed7d651bfa6f93d3a86742dab"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-small.png",
-          "sha256": "4500f8488b36e690242452d5ef1fb46d9b67c5870a05f46fa11ffb655650d6fe"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-spark.png",
-          "sha256": "d21d41041c295e20adcaed0ab14c00ae21264d10b4cc21713ad6354b3ae3fa9f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-stream.png",
-          "sha256": "041f4ab03b16ff8fade003f02f3aa8b90a657c94a63ef2df5a7e02ba0c70cb3f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-tower.png",
-          "sha256": "11738aa0e4ab55dc6a92e653b4ebccac5e42bcc87286d30958de506f5e319710"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-full.png",
-          "sha256": "ee4499369471cd66ec2011b54cbd597f08b478870f35ca4cdbe601125d1c51b9"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png",
-          "sha256": "f883c82292e90a1a22ddb5f5eb7d5cb6ed231a3ed7d651bfa6f93d3a86742dab"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-small.png",
-          "sha256": "4500f8488b36e690242452d5ef1fb46d9b67c5870a05f46fa11ffb655650d6fe"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-spark.png",
-          "sha256": "d21d41041c295e20adcaed0ab14c00ae21264d10b4cc21713ad6354b3ae3fa9f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-stream.png",
-          "sha256": "041f4ab03b16ff8fade003f02f3aa8b90a657c94a63ef2df5a7e02ba0c70cb3f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-tower.png",
-          "sha256": "11738aa0e4ab55dc6a92e653b4ebccac5e42bcc87286d30958de506f5e319710"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-full.png",
-          "sha256": "ee4499369471cd66ec2011b54cbd597f08b478870f35ca4cdbe601125d1c51b9"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-rainbow.png",
-          "sha256": "f883c82292e90a1a22ddb5f5eb7d5cb6ed231a3ed7d651bfa6f93d3a86742dab"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-small.png",
-          "sha256": "4500f8488b36e690242452d5ef1fb46d9b67c5870a05f46fa11ffb655650d6fe"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-spark.png",
-          "sha256": "d21d41041c295e20adcaed0ab14c00ae21264d10b4cc21713ad6354b3ae3fa9f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-stream.png",
-          "sha256": "041f4ab03b16ff8fade003f02f3aa8b90a657c94a63ef2df5a7e02ba0c70cb3f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-tower.png",
-          "sha256": "11738aa0e4ab55dc6a92e653b4ebccac5e42bcc87286d30958de506f5e319710"
+          "sha256": "f26316d3a41a026525097c505e44176a85ef09c9ff91f3b91e1294255ef4cd13"
         }
+      ],
+      "screenshotRoles": [
+        "cover",
+        "tutorial",
+        "tutorial-second",
+        "representative-problem",
+        "representative-wrong-feedback",
+        "answer-confirmation",
+        "reward-closed",
+        "reward-revealed",
+        "reward-impact",
+        "completed-result"
       ]
     },
     {
@@ -748,815 +2483,41 @@
       "aliases": [],
       "behaviorKeys": [],
       "capture": {
-        "mode": "full-flow"
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover-responsive",
+          "representative-problem-responsive",
+          "reward-responsive",
+          "completed-result-responsive"
+        ]
       },
-      "screenshotCount": 34,
+      "screenshotCount": 4,
       "sheet": "screenshots/report-flow-tablet-landscape-contact-sheet.png",
-      "sheetSha256": "2a184729669de95cc528684c40275b82cf2a547a62195e828187e3e5efe94b8f",
+      "sheetSha256": "c30ecd7f0f00967f75b6005003f247f8104417a2c0b83a07872b0eb23ca70054",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-tablet-landscape-01-cover.png",
-          "sha256": "74c336b2b80f595fb0e504a6c43e61f7785b67775face931024001af26a8e74b"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-02-settings.png",
-          "sha256": "6f7910f3d1d04297dd7b23cdb51940a0ca8ec1001037abdddb0c284b45797ae3"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-03-tutorial-1.png",
-          "sha256": "670ce97e9f3d60c8268c60902af4c68b90467d7a79f41676b5756933c1f4f3a7"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-04-tutorial-2.png",
-          "sha256": "5f754272d05c4aa54bc4111d0387e8e693732fbd0da0c481483eaa70d919b393"
+          "sha256": "89e04110f1a4be8ec8d4bf88cb86fa5a10099481cd69f8eef866600cb6692cf8"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05-play-step1.png",
-          "sha256": "57defc21d9ad29bfc4f93777553e183b86a42dfb880381c2c39664b04081ffd8"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05a-play-action-result.png",
-          "sha256": "9eb43e28b051be42d51f9f16ff3272eb5194145f4d3edc081484db47ee228f7d"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05c-direct-pour-correct-feedback.png",
-          "sha256": "a1b396ba56c6718177d01d74d8949d6fd539a4687269b7a51fe79be5b38fe483"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png",
-          "sha256": "bf093eab92178237a637300126482a17c65ec5d90199766c70face6424b9a0d1"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p4-misconception-물통-높이만-봐요.png",
-          "sha256": "2d1e4b1a25ede8c3b6ee056fc5f93a1862e80deb5d9f575d9aff2bab5dc25622"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p4-misconception-서로-다른-컵을-써요.png",
-          "sha256": "15fbd57b75a3e57541e7df2137d1871ad7d5c2d34540dfd53cb27e88812c7f60"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05b-play-wrong.png",
-          "sha256": "59a01dca8223e05923fad41ea7527a531c1d4ab161f2f62c61877290628e05d8"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-06-confirm.png",
-          "sha256": "c7f35fc6dc1a90882caba981e7f63715fdfc0571085d5ccf8fb026e1d81d268f"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-07-reward-closed.png",
-          "sha256": "df9608a37d3b13b3d3b3c3a39956e6d12deb85b9dd268b739278e2fd81fa4a04"
+          "sha256": "6aaaaf3f25c24fe2256f3c4d4cfac3cfa5978b858ea7a75bb483e9a744edc20c"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07b-reward-open.png",
-          "sha256": "3aa6cef8d90a7c33e1576c76a86462e583807529245c39286c1f0e8c0eb12727"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-07c-reward-impact.png",
-          "sha256": "cf13a2b270b03b01cdfb2f0d52768ed81c59e3099bf3516b8e5a34f347f478ec"
+          "sha256": "d68fab954cfd3b2ab8cc5090e2c20c75837cb023b3def4a8155771b6c0b81f10"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08-result.png",
-          "sha256": "fa242cf5a4ac2bc70be0867943c8e5234fe9716847c9a4c4039f309b2aee0a17"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-full.png",
-          "sha256": "2dd484136e41febcc9449340fdc67e5e3d6347820888af1a1c252b99ae8799d4"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png",
-          "sha256": "cedd6f40ac20f636c762840ec9d83b064c74a925d2a6a472e103f5f09e153c9c"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-small.png",
-          "sha256": "9c2f6d58edcab0e4d1edb2c49466efb977c981aa4b47a9edf3a16ee9ec1bb14a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-spark.png",
-          "sha256": "21c674cc4aeb2998b939bffb2c5a9274ea9b9c1b1ece6e77b618bac519d64c75"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-stream.png",
-          "sha256": "1bec24b008534f2459b575804bbfaa59830627fda97c4c9282641c34ce5be408"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-tower.png",
-          "sha256": "079f7e552abfd1af3ee5c5da7521335e6a72b2d31cbdbf35e0a4a23049452e2a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-full.png",
-          "sha256": "2dd484136e41febcc9449340fdc67e5e3d6347820888af1a1c252b99ae8799d4"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png",
-          "sha256": "cedd6f40ac20f636c762840ec9d83b064c74a925d2a6a472e103f5f09e153c9c"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-small.png",
-          "sha256": "9c2f6d58edcab0e4d1edb2c49466efb977c981aa4b47a9edf3a16ee9ec1bb14a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-spark.png",
-          "sha256": "21c674cc4aeb2998b939bffb2c5a9274ea9b9c1b1ece6e77b618bac519d64c75"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-stream.png",
-          "sha256": "1bec24b008534f2459b575804bbfaa59830627fda97c4c9282641c34ce5be408"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tower.png",
-          "sha256": "079f7e552abfd1af3ee5c5da7521335e6a72b2d31cbdbf35e0a4a23049452e2a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-full.png",
-          "sha256": "2dd484136e41febcc9449340fdc67e5e3d6347820888af1a1c252b99ae8799d4"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-rainbow.png",
-          "sha256": "cedd6f40ac20f636c762840ec9d83b064c74a925d2a6a472e103f5f09e153c9c"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-small.png",
-          "sha256": "9c2f6d58edcab0e4d1edb2c49466efb977c981aa4b47a9edf3a16ee9ec1bb14a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-spark.png",
-          "sha256": "21c674cc4aeb2998b939bffb2c5a9274ea9b9c1b1ece6e77b618bac519d64c75"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-stream.png",
-          "sha256": "1bec24b008534f2459b575804bbfaa59830627fda97c4c9282641c34ce5be408"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-tower.png",
-          "sha256": "079f7e552abfd1af3ee5c5da7521335e6a72b2d31cbdbf35e0a4a23049452e2a"
+          "sha256": "8f58cb653110a9494b564906c316a1702d69959aa323e5bdaaec34a9364127b9"
         }
-      ]
-    },
-    {
-      "name": "codex-in-app",
-      "canonicalName": "codex-in-app",
-      "width": 1280,
-      "height": 720,
-      "dpr": 2,
-      "regressionNames": [
-        "codex-in-app"
       ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 34,
-      "sheet": "screenshots/report-flow-codex-in-app-contact-sheet.png",
-      "sheetSha256": "6f450f1ca288826028d34ecca635abdc13f9f4758ef241515b10ac5bf6e3ab88",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-codex-in-app-01-cover.png",
-          "sha256": "886632e3e96113277f243482dac7b449a946d16ada5d174d6e670ccc3760822b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-02-settings.png",
-          "sha256": "7d4044908d1083ae700486770b9fb0aff0fc0c9d7f50434f0713c64e5eb08ac5"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-03-tutorial-1.png",
-          "sha256": "86274d5bcfd376bae4be209d64f9031de0260409aa72a39d18bb0d76573e087c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-04-tutorial-2.png",
-          "sha256": "90f2b37d05d63276fac8edd3ddd3c938a16f06eda3358a133752513af794a186"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05-play-step1.png",
-          "sha256": "c52c52e33dfe31676cc623433686a7e611b0158fc21cd53d2c6e6fceba6f8622"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05a-play-action-result.png",
-          "sha256": "b8f2b054c1d7ed91f0b6d6e09c566566772f868c09ca9cdc5f6b20a4ad5852a1"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05c-direct-pour-correct-feedback.png",
-          "sha256": "d805ed4ba5a9373ced1b266dd6c500645730feeb735331a84586fe9bedc607c9"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png",
-          "sha256": "ceb04cd22a81949391b8b83c2b574091d95d0b074d85aae1c064248649641d49"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p4-misconception-물통-높이만-봐요.png",
-          "sha256": "6894a987a719cc8eea942a3e9839cbf936a66564206c37d7fd497c78f2b0d5c6"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p4-misconception-서로-다른-컵을-써요.png",
-          "sha256": "531e0df7cb0698a00d30849bcff2490d0232355b738a9722a14be9e3abd136a3"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05b-play-wrong.png",
-          "sha256": "ac9f482b826a3ea47c1ff74b967b0dbff950ffde0861a1cad52132f5ca87f9eb"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-06-confirm.png",
-          "sha256": "1362a3114dc466ac2c6718ea7309b319520d9a1621ef5686223bcf5f38ddacd5"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07-reward-closed.png",
-          "sha256": "4414dde8d07e05f346f2f61004a7e639ca5dd44568bdfc33c41d24345c484cdd"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07b-reward-open.png",
-          "sha256": "ad39f5e8b39b4e3ba66025bbcdd1feeaab7f895a8af24dffe7352df3d23c48b8"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07c-reward-impact.png",
-          "sha256": "d81523d22bea840682dc624b9aeb1673a7c42ea87979dc93078d1b1b57274233"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08-result.png",
-          "sha256": "c00905fc93b95eabc29796ccf9e2a689cd06a63934379eb137a3ce17c7fbf7e6"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-full.png",
-          "sha256": "50085a7ec25b64012ff3ce8dfe051a8d33589b0f1dfcc6360c7fe3d92d1bd674"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-rainbow.png",
-          "sha256": "b1f05ac05f88b87533bbb999ca03ba5be1209597d02769782c0c64e026aa0418"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-small.png",
-          "sha256": "8d4be2d13ca55898ec2ae3804168f2d90ca8b16cfd6baf34c326b6f495c13bad"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-spark.png",
-          "sha256": "ba816ff53e7ff8416b08c1a5fc688dfa3c1b176ae18a8371e055aa49cb74ca2a"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-stream.png",
-          "sha256": "80a778514ac770a67f91988632f86d4ca3ab4600ae57642e71affebc014af11b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-tower.png",
-          "sha256": "083f7e29115d308157ce13eae322c40547eabc7a065c1837dfc9df23cad01b87"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-full.png",
-          "sha256": "50085a7ec25b64012ff3ce8dfe051a8d33589b0f1dfcc6360c7fe3d92d1bd674"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png",
-          "sha256": "b1f05ac05f88b87533bbb999ca03ba5be1209597d02769782c0c64e026aa0418"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-small.png",
-          "sha256": "8d4be2d13ca55898ec2ae3804168f2d90ca8b16cfd6baf34c326b6f495c13bad"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-spark.png",
-          "sha256": "ba816ff53e7ff8416b08c1a5fc688dfa3c1b176ae18a8371e055aa49cb74ca2a"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-stream.png",
-          "sha256": "80a778514ac770a67f91988632f86d4ca3ab4600ae57642e71affebc014af11b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tower.png",
-          "sha256": "083f7e29115d308157ce13eae322c40547eabc7a065c1837dfc9df23cad01b87"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-full.png",
-          "sha256": "50085a7ec25b64012ff3ce8dfe051a8d33589b0f1dfcc6360c7fe3d92d1bd674"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-rainbow.png",
-          "sha256": "b1f05ac05f88b87533bbb999ca03ba5be1209597d02769782c0c64e026aa0418"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-small.png",
-          "sha256": "8d4be2d13ca55898ec2ae3804168f2d90ca8b16cfd6baf34c326b6f495c13bad"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-spark.png",
-          "sha256": "ba816ff53e7ff8416b08c1a5fc688dfa3c1b176ae18a8371e055aa49cb74ca2a"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-stream.png",
-          "sha256": "80a778514ac770a67f91988632f86d4ca3ab4600ae57642e71affebc014af11b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-tower.png",
-          "sha256": "083f7e29115d308157ce13eae322c40547eabc7a065c1837dfc9df23cad01b87"
-        }
-      ]
-    },
-    {
-      "name": "user-visibility",
-      "canonicalName": "user-visibility",
-      "width": 994,
-      "height": 632,
-      "dpr": 1,
-      "regressionNames": [
-        "user-visibility"
-      ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 34,
-      "sheet": "screenshots/report-flow-user-visibility-contact-sheet.png",
-      "sheetSha256": "089499e3ddf9442a36b4389143000740f367eabeec1082b89fae9fdc2444b9c1",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-user-visibility-01-cover.png",
-          "sha256": "53810e394cc8ffa53359251a1d3da490926019c21a60403b11069077d9399fdc"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-02-settings.png",
-          "sha256": "8a0f96a210acc9c0fee319454f8eb867a15c6139e01df2e6c8cb6d18a99033ac"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-03-tutorial-1.png",
-          "sha256": "79eaba1700825ffedf248d31fa44ecfe4416810166a52c215a3da936d7b0127a"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-04-tutorial-2.png",
-          "sha256": "c987d03ecd1a41e9acbb65a9c8d3ebb9d7623a4cb6c87028a7201b31505a37c0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05-play-step1.png",
-          "sha256": "2e3295d121b0ffcfdd67fb51199084583675885c32df8931b872da10e822e541"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05a-play-action-result.png",
-          "sha256": "11a905dd1cd8c0aaa511248cefe3ee150fb2f8d8739549f9e96aefbe4ae63c85"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05c-direct-pour-correct-feedback.png",
-          "sha256": "e1e5232112bb28c446fe464b4263675b833a130cdabd5e36d7a2638144425ce0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05n-next-problem-clean.png",
-          "sha256": "1c6c81140ce3560cbf020fc0f3bb71b05579826a027107e621025c90f5ad3dbe"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p4-misconception-물통-높이만-봐요.png",
-          "sha256": "d65abbc8e2fd99a0ab983e30075384ba06c8d7dc72ad6172bdfd88b8f166302e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p4-misconception-서로-다른-컵을-써요.png",
-          "sha256": "7b7e2b830671e455850bae8e014c0fd586fecb468a727a33fd4109c9315402b9"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05b-play-wrong.png",
-          "sha256": "fa8bffd293baa49a1d56cff00819869d8e497197bcac63653bbc3beab04d65b2"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-06-confirm.png",
-          "sha256": "16978a51e42047ec00d072fb582976ff7156a08bcec72b5d03fc4c71ad1981df"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07-reward-closed.png",
-          "sha256": "49b7faddb131ab5458da9a977dda40d1e88f6444be00caa6a7d0627998e5a2ea"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07b-reward-open.png",
-          "sha256": "8e55614e0303d7880b72dc24251fedab6f57638678ed47cb9c10270986ca7ddc"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07c-reward-impact.png",
-          "sha256": "8a33b152ec22693dc925f41707746530331d5fffed888ea2c6675c3a45864a80"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08-result.png",
-          "sha256": "6db9eaf17fa90c3623dd6740da7bc3c057a18261ce924a19dcc0ba10f99daf31"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-full.png",
-          "sha256": "78fd67f09944364ba3b2520238d01ed9e106a8d3a47c9f20d9e0b9ce63fde9e1"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-rainbow.png",
-          "sha256": "af46d817732cf3163d1959a477c3f5ab00611936bc94988174ba1b1caee1db4d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-small.png",
-          "sha256": "dce0d62781e6f027ef5a39df6ecdb6e47e0d49a9253f0a4a5130bad55ae22173"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-spark.png",
-          "sha256": "4733898b59ec1281313fbdfc79d3d08572b7c6e5220e97e713f05550968d7e5d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-stream.png",
-          "sha256": "82b70180a3e8d36165a3d799a67a20f61ad17846fefe79bf59b5eb83fded10cd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-tower.png",
-          "sha256": "82280d042333e1bf0a8efb85932d5b151283ceccb1c5310adc3d0892d9fbfbf4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-full.png",
-          "sha256": "78fd67f09944364ba3b2520238d01ed9e106a8d3a47c9f20d9e0b9ce63fde9e1"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png",
-          "sha256": "af46d817732cf3163d1959a477c3f5ab00611936bc94988174ba1b1caee1db4d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-small.png",
-          "sha256": "dce0d62781e6f027ef5a39df6ecdb6e47e0d49a9253f0a4a5130bad55ae22173"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-spark.png",
-          "sha256": "4733898b59ec1281313fbdfc79d3d08572b7c6e5220e97e713f05550968d7e5d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-stream.png",
-          "sha256": "82b70180a3e8d36165a3d799a67a20f61ad17846fefe79bf59b5eb83fded10cd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tower.png",
-          "sha256": "82280d042333e1bf0a8efb85932d5b151283ceccb1c5310adc3d0892d9fbfbf4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-full.png",
-          "sha256": "78fd67f09944364ba3b2520238d01ed9e106a8d3a47c9f20d9e0b9ce63fde9e1"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-rainbow.png",
-          "sha256": "af46d817732cf3163d1959a477c3f5ab00611936bc94988174ba1b1caee1db4d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-small.png",
-          "sha256": "dce0d62781e6f027ef5a39df6ecdb6e47e0d49a9253f0a4a5130bad55ae22173"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-spark.png",
-          "sha256": "4733898b59ec1281313fbdfc79d3d08572b7c6e5220e97e713f05550968d7e5d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-stream.png",
-          "sha256": "82b70180a3e8d36165a3d799a67a20f61ad17846fefe79bf59b5eb83fded10cd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-tower.png",
-          "sha256": "82280d042333e1bf0a8efb85932d5b151283ceccb1c5310adc3d0892d9fbfbf4"
-        }
-      ]
-    },
-    {
-      "name": "user-reported-missing-left-progress-1082x987-dpr2",
-      "canonicalName": "user-reported-missing-left-progress-1082x987-dpr2",
-      "width": 1082,
-      "height": 987,
-      "dpr": 2,
-      "regressionNames": [
-        "user-reported-missing-left-progress-1082x987-dpr2"
-      ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 34,
-      "sheet": "screenshots/report-flow-user-reported-missing-left-progress-1082x987-dpr2-contact-sheet.png",
-      "sheetSha256": "40aed7201b12471bd1fe314580b95ddf54273bc13eb7ab549395581270d56a9b",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-01-cover.png",
-          "sha256": "6205728fd5854c512f1aa1d78764d187dc23cb4cbfc5915ed98f2c3abb9a5c0e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-02-settings.png",
-          "sha256": "f31b742fe6f410dfe7b4d6384aaece0cf6b4268ef2d09756712ba06214aab757"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-03-tutorial-1.png",
-          "sha256": "6bae62fbf2ebb008221147a4ea9a707b6f5efcf2caed1dfc2777ef09819942d6"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-04-tutorial-2.png",
-          "sha256": "879280cc5b8556d9108c677dcb6b40ad4cd736d48bcfdf6bfb8b0b3f6cada0b2"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05-play-step1.png",
-          "sha256": "16f697c25215d4607bdbf61a69d430e73f646ecab7b0d562f9dddb25e4268262"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05a-play-action-result.png",
-          "sha256": "6aead69e7f216722f994ce55067605b2dc12fa38dbca9e1f9640c6d2e2c28abb"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05c-direct-pour-correct-feedback.png",
-          "sha256": "96e584f528b132b96c70fd60031f5cafe09e16f930a0219dcc47895f792bd9bb"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05n-next-problem-clean.png",
-          "sha256": "6bfe599889e15ec701fd0d26ab4908f5bbb6123e491e4182b10d3ef776f8fe3f"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p4-misconception-물통-높이만-봐요.png",
-          "sha256": "51539116f44012d8435d8bfba6f48bd51762fd6a781f0e68d7b129da3d8e677d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05m-p4-misconception-서로-다른-컵을-써요.png",
-          "sha256": "a7bb4323a2c1ce912c412527ce6b271731a77003326c54af42c4a0de5de46b48"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-05b-play-wrong.png",
-          "sha256": "bfb9c98093e2a03890f06eb30a766995f9b76313d245a5c5ddf1f0d27bab9abe"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-06-confirm.png",
-          "sha256": "e60834741f905abe32f1df9413ffacb4c5dbfc258376b35515afd59190a67d19"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07-reward-closed.png",
-          "sha256": "4774e31c15861ef2656d9f551ce7f5c36a3a0fd1f74154b3a79f9aac7f5cf1bc"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07b-reward-open.png",
-          "sha256": "dd37edf6a74e72bf51fe73f963a1ce99a0f085e2db71eac82da6f55b55222a64"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-07c-reward-impact.png",
-          "sha256": "328366e8db9c94c7d07b8a21f38d162b1925d0429ed2f952b3331bcbd0cc656c"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08-result.png",
-          "sha256": "d3a2e3a7dce7366fe193f5e4e1fc61204e9c1aceb10b6a90139358327846abed"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-full.png",
-          "sha256": "702df02665f2146f28af22f24a3bd60a01d696af1e0add383855f2f8a7c88b37"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-rainbow.png",
-          "sha256": "f804dcd93e23dcff842e9ac31ead332a4d071452dfb2e4acf7d3f27c80c87e7e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-small.png",
-          "sha256": "84bc20324ac2e21a73f82e217b726e99cd37f91be8edc7921928e02df1ba25fd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-spark.png",
-          "sha256": "1662381fa450581eaa522982574eff7739d9e14bc2d0526157072e11f73d9340"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-stream.png",
-          "sha256": "447f141444856ffd7bcd72c08713ccf16df9e501c492addfe638fe1361cdd658"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08c-result-cohesion-tower.png",
-          "sha256": "c9f3010999e89930392955a788c5f3cbbe8d7f71506a633b9b5fab19fcc5e829"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-full.png",
-          "sha256": "702df02665f2146f28af22f24a3bd60a01d696af1e0add383855f2f8a7c88b37"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-rainbow.png",
-          "sha256": "f804dcd93e23dcff842e9ac31ead332a4d071452dfb2e4acf7d3f27c80c87e7e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-small.png",
-          "sha256": "84bc20324ac2e21a73f82e217b726e99cd37f91be8edc7921928e02df1ba25fd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-spark.png",
-          "sha256": "1662381fa450581eaa522982574eff7739d9e14bc2d0526157072e11f73d9340"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-stream.png",
-          "sha256": "447f141444856ffd7bcd72c08713ccf16df9e501c492addfe638fe1361cdd658"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08v-result-visual-integrity-tower.png",
-          "sha256": "c9f3010999e89930392955a788c5f3cbbe8d7f71506a633b9b5fab19fcc5e829"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-full.png",
-          "sha256": "702df02665f2146f28af22f24a3bd60a01d696af1e0add383855f2f8a7c88b37"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-rainbow.png",
-          "sha256": "f804dcd93e23dcff842e9ac31ead332a4d071452dfb2e4acf7d3f27c80c87e7e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-small.png",
-          "sha256": "84bc20324ac2e21a73f82e217b726e99cd37f91be8edc7921928e02df1ba25fd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-spark.png",
-          "sha256": "1662381fa450581eaa522982574eff7739d9e14bc2d0526157072e11f73d9340"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-stream.png",
-          "sha256": "447f141444856ffd7bcd72c08713ccf16df9e501c492addfe638fe1361cdd658"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-1082x987-dpr2-08a-result-tower.png",
-          "sha256": "c9f3010999e89930392955a788c5f3cbbe8d7f71506a633b9b5fab19fcc5e829"
-        }
-      ]
-    },
-    {
-      "name": "browser-comment-934x987-dpr2",
-      "canonicalName": "browser-comment-934x987-dpr2",
-      "width": 934,
-      "height": 987,
-      "dpr": 2,
-      "regressionNames": [
-        "browser-comment-934x987-dpr2",
-        "browser-comment-direct-pour-crop-type-934x987-dpr2"
-      ],
-      "aliases": [
-        "browser-comment-direct-pour-crop-type-934x987-dpr2"
-      ],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 34,
-      "sheet": "screenshots/report-flow-browser-comment-934x987-dpr2-contact-sheet.png",
-      "sheetSha256": "60309d6255733d9dfd688a974b5d07c665aaa671c4ba9a1fdec53c9cac6841a1",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-01-cover.png",
-          "sha256": "07244df5b5524aae033dd943dbf8c67ad1532f4106ff88950208e26c96c3551c"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-02-settings.png",
-          "sha256": "c1b461b375f6bae9ec0653d143ccfb9bee89d5a898d0fad8588580069e636cf4"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-03-tutorial-1.png",
-          "sha256": "9f0cffeeb0343edadbea2bc021cbbf7bcf7d2b76c896ed3551e11b8522c91587"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-04-tutorial-2.png",
-          "sha256": "d338ee1e36a911b02f1790f96495b2dcb78f4450230906c0e705183994124467"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05-play-step1.png",
-          "sha256": "db120b191587494ed8ce37834372ef11cd842e88d43d656917ee57d73850b9ed"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05a-play-action-result.png",
-          "sha256": "e60add6162bf0a35d5d68d23a9b50c1fa0adc2d8fdc16a93392088d059413feb"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05c-direct-pour-correct-feedback.png",
-          "sha256": "6ee0676165b735c5f6f8750f18c43168b4c35a62f7c1fd0f4e7d8f6e7312d9a7"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05n-next-problem-clean.png",
-          "sha256": "7fd6029ccc30d596a17455c3ebbc230c39be5aec8e612dca87d7ce99727d9aa7"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05m-p4-misconception-물통-높이만-봐요.png",
-          "sha256": "0f3029b31791130a671e7fe56a1a4d8235ef7d1b1facac80ba0133c01dac9bad"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05m-p4-misconception-서로-다른-컵을-써요.png",
-          "sha256": "506d1520658e99a1e6153009f2d0acfc644739f3bce54c6f30fe12f7f1ddca03"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-05b-play-wrong.png",
-          "sha256": "0e695dab93707422f92504948fb16a72fa09c305485c676b81bf9d8de9466540"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-06-confirm.png",
-          "sha256": "516ee4257d456be025b14ae4f6ef97001da658a75827997759c30876f773b70c"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-07-reward-closed.png",
-          "sha256": "b7ef3fae0152324c21e07cbb54c327a611714e6624ffb1d8f0c39de04966dbf0"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-07b-reward-open.png",
-          "sha256": "9dbc5f1459f1682295c1f0cb7d7ea3da5dd06e619d21e6e7a97e658d212a9364"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-07c-reward-impact.png",
-          "sha256": "c7a025efd321f054d0a1dbe4dbd7af1c52b6cd78bd9a59a7ae78cea541e2e375"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08-result.png",
-          "sha256": "252ec00657c829ade8abbeef5550daac9317d32de779981b480f6220c868a3b7"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08c-result-cohesion-full.png",
-          "sha256": "0a095eaf747017c7ed9411a1b78efe854db6cf41d068617517b1232a0d6bec02"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08c-result-cohesion-rainbow.png",
-          "sha256": "bde7cb15a4c173dc0f9ede43d217f9c28224d43fe465953f67757ffd4062019f"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08c-result-cohesion-small.png",
-          "sha256": "74a118f11a6a4fa3856b23acafa6301130ecbf3cf7ae40ab6cffaee45772e92e"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08c-result-cohesion-spark.png",
-          "sha256": "ed3f782c2f3702d6db231c53ff067a49719bc986bf2faffe276236aeac0692f6"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08c-result-cohesion-stream.png",
-          "sha256": "600199d0fc5d8fa6b3358cc816ea1b43cf7f1c4339b5e14db0647a8228e70ef4"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08c-result-cohesion-tower.png",
-          "sha256": "150808069e1a3cd14889b31fcd69f54b4ac3349a075deaf3506a8a1a17f68790"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08v-result-visual-integrity-full.png",
-          "sha256": "0a095eaf747017c7ed9411a1b78efe854db6cf41d068617517b1232a0d6bec02"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08v-result-visual-integrity-rainbow.png",
-          "sha256": "bde7cb15a4c173dc0f9ede43d217f9c28224d43fe465953f67757ffd4062019f"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08v-result-visual-integrity-small.png",
-          "sha256": "74a118f11a6a4fa3856b23acafa6301130ecbf3cf7ae40ab6cffaee45772e92e"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08v-result-visual-integrity-spark.png",
-          "sha256": "ed3f782c2f3702d6db231c53ff067a49719bc986bf2faffe276236aeac0692f6"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08v-result-visual-integrity-stream.png",
-          "sha256": "600199d0fc5d8fa6b3358cc816ea1b43cf7f1c4339b5e14db0647a8228e70ef4"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08v-result-visual-integrity-tower.png",
-          "sha256": "150808069e1a3cd14889b31fcd69f54b4ac3349a075deaf3506a8a1a17f68790"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08a-result-full.png",
-          "sha256": "0a095eaf747017c7ed9411a1b78efe854db6cf41d068617517b1232a0d6bec02"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08a-result-rainbow.png",
-          "sha256": "bde7cb15a4c173dc0f9ede43d217f9c28224d43fe465953f67757ffd4062019f"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08a-result-small.png",
-          "sha256": "74a118f11a6a4fa3856b23acafa6301130ecbf3cf7ae40ab6cffaee45772e92e"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08a-result-spark.png",
-          "sha256": "ed3f782c2f3702d6db231c53ff067a49719bc986bf2faffe276236aeac0692f6"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08a-result-stream.png",
-          "sha256": "600199d0fc5d8fa6b3358cc816ea1b43cf7f1c4339b5e14db0647a8228e70ef4"
-        },
-        {
-          "path": "screenshots/engine-flow-browser-comment-934x987-dpr2-08a-result-tower.png",
-          "sha256": "150808069e1a3cd14889b31fcd69f54b4ac3349a075deaf3506a8a1a17f68790"
-        }
-      ]
-    },
-    {
-      "name": "empty-reward-fixture",
-      "canonicalName": "empty-reward-fixture",
-      "width": 1280,
-      "height": 800,
-      "dpr": 1,
-      "regressionNames": [
-        "empty-reward-fixture"
-      ],
-      "aliases": [],
-      "behaviorKeys": [
-        "emptyRewardAuditViewport"
-      ],
-      "capture": {
-        "mode": "targeted",
-        "reason": "empty-reward-fixture",
-        "states": [
-          "06-confirm",
-          "07-reward-closed",
-          "07b-reward-open"
-        ]
-      },
-      "screenshotCount": 3,
-      "sheet": "screenshots/report-flow-empty-reward-fixture-contact-sheet.png",
-      "sheetSha256": "59bdec672c17d8c4acdd9cb2b5e8cbe1b2855e3ccda6bfaa526859c482da4c2b",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-06-confirm.png",
-          "sha256": "e75d7eb2cf2733066d0251ad77e504c588f2af024ded5d5b972a3f2dacee7fb2"
-        },
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png",
-          "sha256": "9288e93894c0ee0d264c9088ec0799a4df61c72eee4482b53684fb09e11ada4a"
-        },
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png",
-          "sha256": "bf946a8bde73ad774b5e85f7150214a62818aa3b1bc1e77d82df62ead211d66a"
-        }
+      "screenshotRoles": [
+        "cover-responsive",
+        "representative-problem-responsive",
+        "reward-responsive",
+        "completed-result-responsive"
       ]
     }
   ]
