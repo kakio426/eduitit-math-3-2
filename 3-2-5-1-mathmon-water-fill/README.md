@@ -22,7 +22,7 @@
 표지 → 방법 1 → 방법 2 → 10문제 → 단계 보상 → 결과
 ```
 
-문제마다 먼저 조작하거나 비교 방법을 고르고, 드러난 결과를 근거로 답합니다. 과정 버튼을 누르기 전에는 컵 수나 비교 결과를 미리 보여 주지 않습니다.
+문제마다 먼저 조작하거나 비교 방법을 고르고, 드러난 결과를 근거로 답합니다. 컵 수는 정답 숫자 문구 대신 컵 모양 표식으로 나타내며, 과정 안내가 정답을 미리 말하지 않게 합니다. 선택지는 한 화면에 최대 3개만 둡니다.
 
 ## 생성 자산
 
@@ -31,8 +31,11 @@
 - 직접 붓는 중: `capacity-direct-pouring-v1-source.png` / `capacity-direct-pouring-v1-generated.webp`
 - 직접 붓기 후: `capacity-direct-after-v1-source.png` / `capacity-direct-after-v1-generated.webp`
 - 측정 물통: `measuring-vessel-v1-source.png` / `measuring-vessel-v1-generated.webp`
+- 서로 다른 컵 비교: `capacity-fairness-cups-v1-source.png` / `capacity-fairness-cups-v1-generated.webp`
 
-생성 그림은 `context-only`, `not-evidence`입니다. 문제의 수치와 정답은 구조화된 모델 데이터가 결정하며, 직접 붓기 장면에는 조작 뒤 상태를 설명하는 HTML 근거 문장도 함께 표시합니다. 새 직접 붓기 자산의 생성 기록은 `assets/DIRECT_POUR_GENERATION_RECEIPT.json`에 있습니다.
+생성 그림은 `context-only`, `not-evidence`입니다. 문제의 수치와 정답은 구조화된 모델 데이터가 결정하며, 직접 붓기 장면에는 조작 뒤 상태를 설명하는 HTML 근거 문장도 함께 표시합니다. 생성 기록은 `assets/DIRECT_POUR_GENERATION_RECEIPT.json`과 `assets/FAIRNESS_COMPARISON_GENERATION_RECEIPT.json`에 있습니다.
+
+문제 화면의 물은 물통 안쪽 안전 영역에만 표시합니다. 같은 모양 물통 비교에서는 데이터의 대소 관계와 화면의 물높이 관계가 일치해야 합니다. 최종 결과 화면은 배경 그림에 포함된 왼쪽 액자를 그대로 쓰고, 그 위에 별도 베이지 패널을 겹치지 않습니다. 결과의 다시 버튼은 공용 `mathmon-result-retry-button-v2` 자산과 같은 비율·클릭 경계를 사용하며, 다음 목표 문구는 배경과 최소 대비를 확보합니다.
 
 기존 보상 주인공은 `zero-factory-animal-pack`의 펭귄몬을 유지합니다.
 
@@ -43,6 +46,7 @@
 ```sh
 node scripts/build-lesson.mjs 3-2-5-1-mathmon-water-fill
 node scripts/qa-lesson5-water-fill-model.mjs --runs 10000
+node scripts/qa-lesson5-flow.mjs --water-fill-regressions-only
 node scripts/qa-lesson-flow.mjs 3-2-5-1-mathmon-water-fill 1
 node scripts/verify-mathmon-delivery.mjs --lesson=3-2-5-1-mathmon-water-fill
 ```
