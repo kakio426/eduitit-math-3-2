@@ -2926,6 +2926,110 @@
       background: #dab8ff;
     }
 
+    /* The fairness artwork is asymmetric: its two vessels are not centered in
+       equal-width halves. Anchor each label to the actual vessel center. */
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-scene-labels {
+      inset: auto 0 12px;
+      display: block;
+      height: 38px;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-scene-label {
+      position: absolute;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-scene-label.is-a {
+      left: 34%;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-scene-label.is-b {
+      left: 66.5%;
+    }
+
+    /* Question 10 continues question 9 with a dedicated scene that preserves
+       the same two vessels while removing the mismatched cups from the artwork. */
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-image-board {
+      position: relative;
+      display: block;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-image-board > .fairness-scene-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-items {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-item {
+      position: absolute;
+      inset: 0;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-item.is-a {
+      left: 0;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-item.is-b {
+      left: 0;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-item .fairness-scene-label {
+      position: absolute;
+      top: auto;
+      bottom: 10px;
+      transform: translateX(-50%);
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-evidence {
+      position: absolute;
+      top: 56%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transform: translateY(-50%);
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-item.is-a .fairness-repair-evidence {
+      left: 3.5%;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-item.is-b .fairness-repair-evidence {
+      right: 3.5%;
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-cup {
+      width: clamp(42px, 5.2vw, 62px);
+      height: auto;
+      flex: 0 0 auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 5px rgba(3, 13, 35, .45));
+    }
+
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"]) .fairness-repair-count {
+      min-width: 112px;
+      padding: 5px 12px;
+      border: 2px solid rgba(255, 238, 175, .92);
+      border-radius: 999px;
+      color: #fff8de;
+      background: rgba(15, 31, 66, .9);
+      box-shadow: 0 3px 0 rgba(5, 16, 39, .42);
+      font-size: clamp(.86rem, 1.35vw, 1.02rem);
+      font-weight: 950;
+      text-align: center;
+    }
+
     .relation-rule-board {
       grid-template-rows: auto minmax(0, 1fr);
       align-content: center;
@@ -3920,6 +4024,27 @@
       user-select: none;
     }
 
+    /* Keep the second tutorial page actions clear of the lower stage edge. */
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"])
+      #screen-tutorial[data-page="1"] #tutorialStartButton,
+    .game:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"])
+      #screen-tutorial[data-page="1"] #tutorialBackButton {
+      bottom: 4.5%;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"])
+      .problem-grid.is-complete .complete-panel {
+      gap: 14px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-1"])
+      .problem-grid.is-complete .complete-text {
+      font-size: 24px;
+      line-height: 1.24;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
     .game[data-tutorial-mode="poster-two-step"] .tutorial-progress {
       position: absolute !important;
       width: 1px !important;
@@ -4368,7 +4493,7 @@
 <body>
   <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="measurement-lab" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-1" data-commit-sha="" data-lesson-json-sha256="3c7900ac2c9808540378416a1f2722389de21473c0dfd94f701984624e942dc0" data-build-inputs-sha256="0dbafdba2ed6c05c2e4fd9195175de33a0077e3d78beff018809efbe6ac9e380"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-1" data-commit-sha="" data-lesson-json-sha256="f337bc69415128a58a517607f036e99786487349fb1139a975409b318150842d" data-build-inputs-sha256="4971fc5f193835347f489b68a60cb597a144a5fe6044961b844440f2a6db31cd"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4395,7 +4520,7 @@
         </div>
       </div>
       <section class="screen cover is-active" id="screen-cover" aria-labelledby="coverTitle">
-        <img class="raster-bg" src="cover-generated.webp" alt="">
+        <img class="raster-bg" src="cover-generated.webp?v=cover-v2-20260919" alt="">
         <div class="top-row"><div class="brand-badge brand-badge--logo"><img class="mathmon-brand-mark" data-brand-mark="mathmon-cloud-mark-v1" src="assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp" width="1075" height="762" alt="" aria-hidden="true">에듀잇티 수학 게임</div><div class="unit-badge"><span class="badge-dot" aria-hidden="true"></span>3학년 2학기 5단원 1차시</div></div>
         <div class="cover-scene"><div class="hero-copy"><h1 class="visually-hidden" id="coverTitle">매스몬 물통 채우기 시합</h1><img class="hero-title-art" src="title-logo-generated.webp" alt="" aria-hidden="true"><p class="cover-goal">들이를 직접 비교하고 같은 컵으로 재어 비교해요.</p><button class="cover-start-button" id="startButton" type="button" aria-label="시작"><img class="start-button-art" src="assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp" width="620" height="220" alt="" aria-hidden="true"></button></div></div>
         <div class="mini-badge topic-badge">들이 비교</div>
@@ -5109,7 +5234,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"3-2-5-1-mathmon-water-fill","id":"3-2-5-1","folder":"3-2-5-1-mathmon-water-fill","modelName":"Lesson5MeasurementLabModel","title":"매스몬 물통 채우기 시합","shortTitle":"매스몬 물통","topic":"들이 비교","unitBadge":"5단원 들이 · 1차시","goal":"들이를 직접 비교하고 같은 컵으로 재어 비교해요.","action":"물을 옮겨 붓고, 같은 컵으로 잰 횟수를 비교해요. 서로 다른 컵으로 잰 결과의 문제도 찾아요.","buttonLabel":"점수 보기","rewardScreenTitle":"물통 채우기","rewardThing":"물통","progressLabel":"현재 물통 단계","rewardComplete":"물통이 찰랑였어요.","rewardSmall":"조금 찰랑였어요.","rewardBig":"크게 차올랐어요.","tutorialTitle":"물통을 채우기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 비교해요?","body":"직접 붓거나 같은 컵으로 재어 들이를 비교해요.","image":"tutorial-page-1-v3-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 문제를 맞힐 때마다 물탑이 달라져요. 더 멋져질 수도 있고, 가끔은 조금 작아질 수도 있어요. 끝나면 내가 만든 물탑을 봐요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step","standard":"generated-tutorial-poster-two-step-v1"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"closedLabel":"두근두근!","changeLabel":"물통 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallFlow","bigFlow","shineFlow","smallOnly","specialFlow","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallFlow":"reward-event-small-flow-generated.webp","bigFlow":"reward-event-big-flow-generated.webp","shineFlow":"reward-event-shine-flow-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialFlow":"reward-event-special-flow-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":363,"axisXByTier":{"small":363,"spark":360.5,"stream":306,"full":314,"tower":310,"rainbow":323.5},"byTier":{"small":{"retryRect":{"x":213,"y":514,"width":300,"height":150}},"spark":{"retryRect":{"x":210.5,"y":514,"width":300,"height":150}},"stream":{"retryRect":{"x":156,"y":514,"width":300,"height":150}},"full":{"retryRect":{"x":164,"y":514,"width":300,"height":150}},"tower":{"retryRect":{"x":160,"y":514,"width":300,"height":150}},"rainbow":{"retryRect":{"x":173.5,"y":514,"width":300,"height":150}}},"titleTop":100,"titleWidth":320,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-title-set-v1.json","titleSetManifest":"result-title-set-v1.json","measureY":350,"barY":383,"barWidth":240,"barHeight":16,"correctTop":362,"correctWidth":110,"nextY":470,"nextFontPx":32,"nextStrokeWidthPx":6,"retryCenterOnAxis":true,"retryWidth":300,"retryHeight":150,"retryY":514,"retryRect":{"x":213,"y":514,"width":300,"height":150},"panelRect":{"x":48.25,"y":82,"width":628.5,"height":608},"titleAxisX":363,"titleAxisXByTier":{"small":363,"spark":360.5,"stream":306,"full":314,"tower":310,"rainbow":323.5}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v5-contact-sheet.png","protagonist":"zfa-06-penguinmon","standard":"result-tier-fullscene-native-v1","forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["result-title","result-title-raster","result-retry-raster"],"dynamicOverlays":["correct-count","next-goal"]}},"workbench":{"type":"measurement-lab","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"zfa-06-penguinmon","cacheVersion":"2026-08-01-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png","filePattern":"play-water-v1-{tier}-generated.webp","requiredSubjects":["펭귄몬 전신","water facility"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.5,"centerY":0.625,"footY":0.775,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","small":{"centerX":0.49,"centerY":0.6,"footY":0.75,"height":0.3},"spark":{"centerX":0.49,"centerY":0.6,"footY":0.75,"height":0.3},"stream":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3},"full":{"centerX":0.5,"centerY":0.65,"footY":0.8,"height":0.3},"tower":{"centerX":0.5,"centerY":0.65,"footY":0.8,"height":0.3},"rainbow":{"centerX":0.5,"centerY":0.65,"footY":0.8,"height":0.3}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"resultPrefix":"result-tank","resultTitlePrefix":"result-title","results":[{"id":"small","name":"작은 물통","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-water-v1-small-generated.webp","image":"result-tank-small-generated.webp","titleImage":"result-title-small-generated.webp"},{"id":"spark","name":"반짝 물통","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-water-v1-spark-generated.webp","image":"result-tank-spark-generated.webp","titleImage":"result-title-spark-generated.webp"},{"id":"stream","name":"물줄기 물통","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-water-v1-stream-generated.webp","image":"result-tank-stream-generated.webp","titleImage":"result-title-stream-generated.webp"},{"id":"full","name":"가득 물통","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-water-v1-full-generated.webp","image":"result-tank-full-generated.webp","titleImage":"result-title-full-generated.webp"},{"id":"tower","name":"황금 물탑","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-water-v1-tower-generated.webp","image":"result-tank-tower-generated.webp","titleImage":"result-title-tower-generated.webp"},{"id":"rainbow","name":"무지개 물탑","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-water-v1-rainbow-generated.webp","image":"result-tank-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"물통이 조금 빛나요","weight":6900,"min":6,"max":10,"family":"smallFlow"},{"id":"loss","text":"물통 빛이 조금 줄었어요","weight":1000,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"물통이 크게 빛나요","weight":1200,"min":14,"max":22,"family":"bigFlow"},{"id":"jackpot","text":"물통이 크게 빛나요","weight":500,"min":30,"max":30,"family":"shineFlow"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"무지개 물줄기","weight":20,"min":100,"max":100,"family":"specialFlow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"물통 빛이 조금 줄었어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["capacityDirectPour","sameContainerCapacityCompare","sameContainerCapacityCompare","commonUnitCapacityMeasure","commonUnitCapacityMeasure","sameUnitCapacityCompare","capacityCupDifference","capacityCupDifference","capacityFairnessReason","capacityFairnessRepair"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"펭귄몬","mathmonId":"zfa-06-penguinmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultInternalMetrics":"result-internal-metric-hidden-v1","playProgress":"generated-play-progress-v3-left-character","tutorialPoster":"generated-tutorial-poster-two-step-v1","runtimeAssetProvenance":"eduitit-generated-runtime-assets-v1"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","tutorialPreviousButton":"assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","tutorialProblemStartButton":"assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","measuringVessel":"measuring-vessel-v1-generated.webp","capacityFairness":"capacity-fairness-cups-v2-generated.webp","capacityDirectBefore":"capacity-direct-before-v1-generated.webp","capacityDirectPouring":"capacity-direct-pouring-v1-generated.webp","capacityDirectAfter":"capacity-direct-after-v1-generated.webp"},"qa":{"tutorialPosterAudit":{"standard":"generated-tutorial-poster-two-step-v1","tolerancePx":1,"minimumTouchPx":42,"actionPresentation":"generated-art"},"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 5단원 1차시","compactText":"5단원 들이 · 1차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"물통 점수","selectors":{"root":"#rewardPop .reward-card","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["물통 점수가 6 올랐어요"]},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"result-title-only-v1","titlePresentation":"independent-art","stateCount":6,"minimumVisibleWidthSourcePx":280,"minimumVisibleHeightSourcePx":100,"minimumPaletteColors":18,"minimumNonWarmRatio":0.08,"minimumGapSourcePx":10,"panelSafeInsetSourcePx":6,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":1,"modelContractVersion":1,"topControlsAudit":{"standard":"stage-top-controls-v2","brand":"#screen-play .hud .brand-badge","brandMark":"#screen-play .hud .mathmon-brand-mark","counter":"#problemCounter","unit":"#screen-play .hud-right .unit-badge","unitDot":"#screen-play .hud-right .badge-dot","settings":"#settingsButton","settingsIcon":"#settingsButton svg","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"misconceptionCoverage":["misconception-서로-다른-컵을-써요","misconception-물통-높이만-봐요"],"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["primary","tertiary","secondary"],"minStageWidthRatio":0.7},"completionAudit":{"standard":"completion-density-v1","panel":".complete-panel","text":".complete-text","action":"#rewardButton","minTextFontPx":28,"minTextFontPxByVisualKind":{"capacity-direct-pour":24},"minActionWidthPx":166,"minActionHeightPx":56,"minActionFontPx":20,"minActionWidthRatio":0.19,"maxPanelHeightRatio":0.31,"minDominantHeightRatio":0.5,"minContentGapPx":18,"centerYTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","actionButton":".measurement-action-button","actionInstructionRequired":false,"primaryVisual":".measurement-board","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minActionButtonFontPx":24,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"directPourLayoutAudit":{"standard":"direct-pour-contained-action-v1","board":".direct-pour-board","image":".capacity-direct-scene","labels":".capacity-direct-labels","evidence":".capacity-direct-evidence","headline":".big-problem","choices":".choices-panel","choice":".choices-panel .choice-button","instructionPanel":".step-board","action":".measurement-action-button","requiredObjectFit":"contain","hideDuplicateInstruction":true,"hideEvidenceOverlay":true,"resultQuestion":"어느 물병의 들이가 더 클까요?","minLabelImageOverlapPx":10,"maxLabelImageOverlapPx":18,"correctFeedbackClass":"is-confirming","correctFeedbackHoldMs":850,"completionText":".complete-text","completionToken":".capacity-complete-vessel","expectedCompletionText":"가 물병의 물을 모두 부어도 나 물병에 자리가 남아요. 나 물병의 들이가 더 커요.","maxCompletionFontPx":24,"minActionFontPx":24,"minActionHeightPx":68,"minPanelGapPx":12,"maxResultChoicePanelHeightPx":82,"maxResultChoiceHeightPx":68,"minResultChoiceFontPx":22},"resultInternalMetricAudit":{"standard":"result-internal-metric-hidden-v1","forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["채우기\\s*점수"],"allowedDynamicOverlays":["correct-count","next-goal"]},"resultContentScaleAudit":{"standard":"result-content-scale-v1","minimumCorrectWidthSourcePx":110,"minimumNextFontPx":32,"minimumRetryWidthSourcePx":280,"minimumRetryHeightSourcePx":140,"minimumContentStackSpanSourcePx":180,"minimumTitleWidthSourcePx":300,"minimumTitleHeightSourcePx":100,"requireVisibleRetryArt":true},"resultActionReadabilityAudit":{"standard":"common-result-retry-and-next-contrast-v1","retryAsset":"assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","retryCanvas":"1776x886","minimumRetryWidthSourcePx":280,"minimumRetryHeightSourcePx":140,"retryAspectRatio":2.0045,"retryAspectTolerance":0.03,"minimumNextContrastRatio":4.5,"nextSelector":"#resultNextSvg","retrySelector":"#restartButton","retryArtSelector":".result-retry-art"},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"light-board","scanStartRatio":0.01,"threshold":{"redMin":220,"greenMin":205,"blueMin":160,"channelSpreadMax":86},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"small":363,"spark":360.5,"stream":306,"full":314,"tower":310,"rainbow":323.5}},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".measurement-play-progress","image":".measurement-play-progress-art","label":".measurement-play-progress-name","readout":".measurement-play-progress-readout","presentation":"tier-name-only-v1","forbiddenVisibleTextPatterns":["지금의","현재 물통","현재 단계"],"maxVisibleTextNodes":1,"minNameFontPx":20,"stateCount":6,"canvas":"768x1536","expectedStates":["small","spark","stream","full","tower","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-06-penguinmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.123,"widthRatio":0.245,"heightRatio":0.852,"tolerancePx":1},"topControlSelectors":["#screen-play .hud .brand-badge","#problemCounter","#screen-play .hud-right .unit-badge","#settingsButton"],"minTopClearancePx":8,"mathmonPlacement":{"centerX":0.5,"centerY":0.625,"footY":0.775,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"capacityPresentationAudit":{"standard":"capacity-evidence-without-answer-text-v1","actionPanel":".choices-panel:has(.measurement-action-button)","actionButton":".measurement-action-button","minimumActionBoundaryGapPx":8,"maximumChoiceCount":3,"balancedChoiceWrap":{"text":"똑같은 종이컵으로 둘 다 재요","maximumLineCount":2,"minimumLineWidthRatio":0.45},"expectedPrompts":{"commonUnitCapacityMeasure":"옮겨 붓기 어려운 두 물통의 들이를 비교해 보세요.","sameUnitCapacityCompare":"두 물통의 들이를 비교해 보세요."},"forbiddenVisibleSelectors":[".measurement-unit-count",".measurement-process-note",".fairness-option",".fairness-alert","#screen-result .result-panel-art",".result-restart-surface"],"unitMarks":".measurement-unit-marks","liquid":".measurement-vessel-liquid","vesselFrame":".measurement-vessel-frame","liquidInteriorInsetRatio":0.16,"liquidInteriorTopRatio":0.15,"liquidInteriorBottomRatio":0.15,"expectedVesselFrameAspectRatio":0.6667,"vesselFrameAspectTolerance":0.02,"minimumDistinctLiquidHeightPx":8,"fairnessImage":".fairness-scene-image","fairnessImageAsset":"capacity-fairness-cups-v2-generated.webp","requiredFairnessObjectFit":"cover","resultPanelPresentation":"hidden"},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".measurement-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","reducedMotionVisibleEffect":true,"reducedMotionPresentation":"static-highlight-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"panel":".measurement-play-progress","image":".measurement-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".measurement-play-progress-impact-stage","impactVisual":".measurement-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"tierUpDurationMs":1560,"durationMs":640,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"small","afterTier":"spark"}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"result-tiers-v5-contact-sheet.png"},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"deviceScaleFactor":2,"regressionNames":["browser-comment-action-button-boundary-1082x987-dpr2","browser-comment-four-choice-wrap-1082x987-dpr2","browser-comment-result-panel-oversized-1082x987-dpr2","browser-comment-result-retry-size-1082x987-dpr2","browser-comment-result-next-contrast-1082x987-dpr2","browser-comment-fairness-choice-balanced-wrap-1082x987-dpr2","browser-comment-cup-count-legibility-1082x987-dpr2","browser-comment-fairness-label-colors-1082x987-dpr2","browser-comment-result-black-panel-title-retry-1082x987-dpr2","browser-comment-cover-penguin-obscured-1082x987-dpr2"]},{"name":"browser-comment-934x987-dpr2","width":934,"height":987,"deviceScaleFactor":2},{"name":"browser-comment-direct-pour-crop-type-934x987-dpr2","width":934,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-v3-generated.webp","tutorial-page-2-v3-generated.webp","assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","measuring-vessel-v1-generated.webp","capacity-direct-before-v1-generated.webp","capacity-direct-pouring-v1-generated.webp","capacity-direct-after-v1-generated.webp","capacity-fairness-cups-v2-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-flow-generated.webp","reward-event-big-flow-generated.webp","reward-event-shine-flow-generated.webp","reward-event-small-only-generated.webp","reward-event-special-flow-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-tank-small-generated.webp","result-tank-spark-generated.webp","result-tank-stream-generated.webp","result-tank-full-generated.webp","result-tank-tower-generated.webp","result-tank-rainbow-generated.webp","play-water-v1-small-generated.webp","play-water-v1-spark-generated.webp","play-water-v1-stream-generated.webp","play-water-v1-full-generated.webp","play-water-v1-tower-generated.webp","play-water-v1-rainbow-generated.webp","result-title-small-generated.png","result-title-small-generated.webp","result-title-spark-generated.png","result-title-spark-generated.webp","result-title-stream-generated.png","result-title-stream-generated.webp","result-title-full-generated.png","result-title-full-generated.webp","result-title-tower-generated.png","result-title-tower-generated.webp","result-title-rainbow-generated.png","result-title-rainbow-generated.webp","result-title-set-v1.json","assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp"]};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"3-2-5-1-mathmon-water-fill","id":"3-2-5-1","folder":"3-2-5-1-mathmon-water-fill","modelName":"Lesson5MeasurementLabModel","title":"매스몬 물통 채우기 시합","shortTitle":"매스몬 물통","topic":"들이 비교","unitBadge":"5단원 들이 · 1차시","goal":"들이를 직접 비교하고 같은 컵으로 재어 비교해요.","action":"물을 옮겨 붓고, 같은 컵으로 잰 횟수를 비교해요. 서로 다른 컵으로 잰 결과의 문제도 찾아요.","buttonLabel":"점수 보기","rewardScreenTitle":"물통 채우기","rewardThing":"물통","progressLabel":"현재 물통 단계","rewardComplete":"물통이 찰랑였어요.","rewardSmall":"조금 찰랑였어요.","rewardBig":"크게 차올랐어요.","tutorialTitle":"물통을 채우기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 비교해요?","body":"직접 붓거나 같은 컵으로 재어 들이를 비교해요.","image":"tutorial-page-1-v3-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 문제를 맞힐 때마다 물탑이 달라져요. 더 멋져질 수도 있고, 가끔은 조금 작아질 수도 있어요. 끝나면 내가 만든 물탑을 봐요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step","standard":"generated-tutorial-poster-two-step-v1"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"closedLabel":"두근두근!","changeLabel":"물통 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallFlow","bigFlow","shineFlow","smallOnly","specialFlow","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallFlow":"reward-event-small-flow-generated.webp","bigFlow":"reward-event-big-flow-generated.webp","shineFlow":"reward-event-shine-flow-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialFlow":"reward-event-special-flow-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":363,"axisXByTier":{"small":363,"spark":360.5,"stream":306,"full":314,"tower":310,"rainbow":323.5},"byTier":{"small":{"retryRect":{"x":213,"y":514,"width":300,"height":150}},"spark":{"retryRect":{"x":210.5,"y":514,"width":300,"height":150}},"stream":{"retryRect":{"x":156,"y":514,"width":300,"height":150}},"full":{"retryRect":{"x":164,"y":514,"width":300,"height":150}},"tower":{"retryRect":{"x":160,"y":514,"width":300,"height":150}},"rainbow":{"retryRect":{"x":173.5,"y":514,"width":300,"height":150}}},"titleTop":100,"titleWidth":320,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-title-set-v1.json","titleSetManifest":"result-title-set-v1.json","measureY":350,"barY":383,"barWidth":240,"barHeight":16,"correctTop":362,"correctWidth":110,"nextY":470,"nextFontPx":32,"nextStrokeWidthPx":6,"retryCenterOnAxis":true,"retryWidth":300,"retryHeight":150,"retryY":514,"retryRect":{"x":213,"y":514,"width":300,"height":150},"panelRect":{"x":48.25,"y":82,"width":628.5,"height":608},"titleAxisX":363,"titleAxisXByTier":{"small":363,"spark":360.5,"stream":306,"full":314,"tower":310,"rainbow":323.5}},"stateImageSet":{"count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v5-contact-sheet.png","protagonist":"zfa-06-penguinmon","standard":"result-tier-fullscene-native-v1","forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"fixedGeneratedElements":["result-title","result-title-raster","result-retry-raster"],"dynamicOverlays":["correct-count","next-goal"]}},"workbench":{"type":"measurement-lab","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"zfa-06-penguinmon","cacheVersion":"2026-08-01-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-1/play-progress-v1/contact-sheets/play-water-progress-v1-anchor-audit.png","filePattern":"play-water-v1-{tier}-generated.webp","requiredSubjects":["펭귄몬 전신","water facility"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.5,"centerY":0.625,"footY":0.775,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","small":{"centerX":0.49,"centerY":0.6,"footY":0.75,"height":0.3},"spark":{"centerX":0.49,"centerY":0.6,"footY":0.75,"height":0.3},"stream":{"centerX":0.5,"centerY":0.6,"footY":0.75,"height":0.3},"full":{"centerX":0.5,"centerY":0.65,"footY":0.8,"height":0.3},"tower":{"centerX":0.5,"centerY":0.65,"footY":0.8,"height":0.3},"rainbow":{"centerX":0.5,"centerY":0.65,"footY":0.8,"height":0.3}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"resultPrefix":"result-tank","resultTitlePrefix":"result-title","results":[{"id":"small","name":"작은 물통","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-water-v1-small-generated.webp","image":"result-tank-small-generated.webp","titleImage":"result-title-small-generated.webp"},{"id":"spark","name":"반짝 물통","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-water-v1-spark-generated.webp","image":"result-tank-spark-generated.webp","titleImage":"result-title-spark-generated.webp"},{"id":"stream","name":"물줄기 물통","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-water-v1-stream-generated.webp","image":"result-tank-stream-generated.webp","titleImage":"result-title-stream-generated.webp"},{"id":"full","name":"가득 물통","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-water-v1-full-generated.webp","image":"result-tank-full-generated.webp","titleImage":"result-title-full-generated.webp"},{"id":"tower","name":"황금 물탑","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-water-v1-tower-generated.webp","image":"result-tank-tower-generated.webp","titleImage":"result-title-tower-generated.webp"},{"id":"rainbow","name":"무지개 물탑","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-water-v1-rainbow-generated.webp","image":"result-tank-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"물통이 조금 빛나요","weight":6900,"min":6,"max":10,"family":"smallFlow"},{"id":"loss","text":"물통 빛이 조금 줄었어요","weight":1000,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"물통이 크게 빛나요","weight":1200,"min":14,"max":22,"family":"bigFlow"},{"id":"jackpot","text":"물통이 크게 빛나요","weight":500,"min":30,"max":30,"family":"shineFlow"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"무지개 물줄기","weight":20,"min":100,"max":100,"family":"specialFlow","special":true}],"wrongEvent":{"id":"wrong-loss","text":"물통 빛이 조금 줄었어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["capacityDirectPour","sameContainerCapacityCompare","sameContainerCapacityCompare","commonUnitCapacityMeasure","commonUnitCapacityMeasure","sameUnitCapacityCompare","capacityCupDifference","capacityCupDifference","capacityFairnessReason","capacityFairnessRepair"],"mathmonPack":"zero-factory-animal-pack","mathmonName":"펭귄몬","mathmonId":"zfa-06-penguinmon","stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultInternalMetrics":"result-internal-metric-hidden-v1","playProgress":"generated-play-progress-v3-left-character","tutorialPoster":"generated-tutorial-poster-two-step-v1","runtimeAssetProvenance":"eduitit-generated-runtime-assets-v1"},"imageAssets":{"cover":"cover-generated.webp","coverCacheKey":"cover-v2-20260919","titleArt":"title-logo-generated.webp","startButton":"assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","tutorialPreviousButton":"assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","tutorialProblemStartButton":"assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","measuringVessel":"measuring-vessel-v1-generated.webp","capacityFairness":"capacity-fairness-cups-v2-generated.webp","capacityFairnessRepair":"capacity-fairness-repair-v2-generated.webp","capacityCommonPaperCup":"capacity-common-paper-cup-v1-generated.webp","capacityDirectBefore":"capacity-direct-before-v1-generated.webp","capacityDirectPouring":"capacity-direct-pouring-v1-generated.webp","capacityDirectAfter":"capacity-direct-after-v1-generated.webp"},"qa":{"tutorialPosterAudit":{"standard":"generated-tutorial-poster-two-step-v1","tolerancePx":1,"minimumTouchPx":42,"actionPresentation":"generated-art"},"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 5단원 1차시","compactText":"5단원 들이 · 1차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"물통 점수","selectors":{"root":"#rewardPop .reward-card","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["물통 점수가 6 올랐어요"]},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"result-title-only-v1","titlePresentation":"independent-art","stateCount":6,"minimumVisibleWidthSourcePx":280,"minimumVisibleHeightSourcePx":100,"minimumPaletteColors":18,"minimumNonWarmRatio":0.08,"minimumGapSourcePx":10,"panelSafeInsetSourcePx":6,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":1,"modelContractVersion":1,"topControlsAudit":{"standard":"stage-top-controls-v2","brand":"#screen-play .hud .brand-badge","brandMark":"#screen-play .hud .mathmon-brand-mark","counter":"#problemCounter","unit":"#screen-play .hud-right .unit-badge","unitDot":"#screen-play .hud-right .badge-dot","settings":"#settingsButton","settingsIcon":"#settingsButton svg","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"misconceptionCoverage":["misconception-서로-다른-컵을-써요","misconception-물통-높이만-봐요"],"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["primary","tertiary","secondary"],"minStageWidthRatio":0.7},"completionAudit":{"standard":"completion-density-v1","panel":".complete-panel","text":".complete-text","action":"#rewardButton","minTextFontPx":28,"minTextFontPxByVisualKind":{"capacity-direct-pour":24},"minActionWidthPx":166,"minActionHeightPx":56,"minActionFontPx":20,"minActionWidthRatio":0.19,"maxPanelHeightRatio":0.31,"minDominantHeightRatio":0.5,"minContentGapPx":18,"centerYTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","actionButton":".measurement-action-button","actionInstructionRequired":false,"primaryVisual":".measurement-board","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minActionButtonFontPx":24,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"directPourLayoutAudit":{"standard":"direct-pour-contained-action-v1","board":".direct-pour-board","image":".capacity-direct-scene","labels":".capacity-direct-labels","evidence":".capacity-direct-evidence","headline":".big-problem","choices":".choices-panel","choice":".choices-panel .choice-button","instructionPanel":".step-board","action":".measurement-action-button","requiredObjectFit":"contain","hideDuplicateInstruction":true,"hideEvidenceOverlay":true,"resultQuestion":"어느 물병의 들이가 더 클까요?","minLabelImageOverlapPx":10,"maxLabelImageOverlapPx":18,"correctFeedbackClass":"is-confirming","correctFeedbackHoldMs":850,"completionText":".complete-text","completionToken":".capacity-complete-vessel","expectedCompletionText":"가 물병의 물을 모두 부어도 나 물병에 자리가 남아요. 나 물병의 들이가 더 커요.","maxCompletionFontPx":24,"minActionFontPx":24,"minActionHeightPx":68,"minPanelGapPx":12,"maxResultChoicePanelHeightPx":82,"maxResultChoiceHeightPx":68,"minResultChoiceFontPx":22},"resultInternalMetricAudit":{"standard":"result-internal-metric-hidden-v1","forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["채우기\\s*점수"],"allowedDynamicOverlays":["correct-count","next-goal"]},"resultContentScaleAudit":{"standard":"result-content-scale-v1","minimumCorrectWidthSourcePx":110,"minimumNextFontPx":32,"minimumRetryWidthSourcePx":280,"minimumRetryHeightSourcePx":140,"minimumContentStackSpanSourcePx":180,"minimumTitleWidthSourcePx":300,"minimumTitleHeightSourcePx":100,"requireVisibleRetryArt":true},"resultActionReadabilityAudit":{"standard":"common-result-retry-and-next-contrast-v1","retryAsset":"assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","retryCanvas":"1776x886","minimumRetryWidthSourcePx":280,"minimumRetryHeightSourcePx":140,"retryAspectRatio":2.0045,"retryAspectTolerance":0.03,"minimumNextContrastRatio":4.5,"nextSelector":"#resultNextSvg","retrySelector":"#restartButton","retryArtSelector":".result-retry-art"},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"light-board","scanStartRatio":0.01,"threshold":{"redMin":220,"greenMin":205,"blueMin":160,"channelSpreadMax":86},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"small":363,"spark":360.5,"stream":306,"full":314,"tower":310,"rainbow":323.5}},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".measurement-play-progress","image":".measurement-play-progress-art","label":".measurement-play-progress-name","readout":".measurement-play-progress-readout","presentation":"tier-name-only-v1","forbiddenVisibleTextPatterns":["지금의","현재 물통","현재 단계"],"maxVisibleTextNodes":1,"minNameFontPx":20,"stateCount":6,"canvas":"768x1536","expectedStates":["small","spark","stream","full","tower","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-06-penguinmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.123,"widthRatio":0.245,"heightRatio":0.852,"tolerancePx":1},"topControlSelectors":["#screen-play .hud .brand-badge","#problemCounter","#screen-play .hud-right .unit-badge","#settingsButton"],"minTopClearancePx":8,"mathmonPlacement":{"centerX":0.5,"centerY":0.625,"footY":0.775,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"capacityPresentationAudit":{"standard":"capacity-evidence-without-answer-text-v1","actionPanel":".choices-panel:has(.measurement-action-button)","actionButton":".measurement-action-button","minimumActionBoundaryGapPx":8,"maximumChoiceCount":3,"balancedChoiceWrap":{"text":"똑같은 종이컵으로 둘 다 재요","maximumLineCount":2,"minimumLineWidthRatio":0.45},"expectedPrompts":{"commonUnitCapacityMeasure":"물을 옮겨 붓지 않고 두 물통의 들이를 비교해 보세요.","sameUnitCapacityCompare":"두 물통의 들이를 비교해 보세요."},"forbiddenVisibleSelectors":[".measurement-unit-count",".measurement-process-note",".fairness-option",".fairness-alert","#screen-result .result-panel-art",".result-restart-surface"],"unitMarks":".measurement-unit-marks","liquid":".measurement-vessel-liquid","vesselFrame":".measurement-vessel-frame","liquidInteriorInsetRatio":0.16,"liquidInteriorTopRatio":0.15,"liquidInteriorBottomRatio":0.15,"expectedVesselFrameAspectRatio":0.6667,"vesselFrameAspectTolerance":0.02,"minimumDistinctLiquidHeightPx":8,"fairnessImage":".fairness-scene-image","fairnessImageAsset":"capacity-fairness-cups-v2-generated.webp","requiredFairnessObjectFit":"cover","resultPanelPresentation":"hidden"},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".measurement-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","reducedMotionVisibleEffect":true,"reducedMotionPresentation":"static-highlight-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"panel":".measurement-play-progress","image":".measurement-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".measurement-play-progress-impact-stage","impactVisual":".measurement-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"tierUpDurationMs":1560,"durationMs":640,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"small","afterTier":"spark"}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"result-tiers-v5-contact-sheet.png"},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-missing-left-progress-1082x987-dpr2","width":1082,"height":987,"deviceScaleFactor":2,"regressionNames":["browser-comment-action-button-boundary-1082x987-dpr2","browser-comment-four-choice-wrap-1082x987-dpr2","browser-comment-result-panel-oversized-1082x987-dpr2","browser-comment-result-retry-size-1082x987-dpr2","browser-comment-result-next-contrast-1082x987-dpr2","browser-comment-fairness-choice-balanced-wrap-1082x987-dpr2","browser-comment-cup-count-legibility-1082x987-dpr2","browser-comment-fairness-label-colors-1082x987-dpr2","browser-comment-result-black-panel-title-retry-1082x987-dpr2","browser-comment-cover-penguin-obscured-1082x987-dpr2"]},{"name":"browser-comment-934x987-dpr2","width":934,"height":987,"deviceScaleFactor":2},{"name":"browser-comment-direct-pour-crop-type-934x987-dpr2","width":934,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-v3-generated.webp","tutorial-page-2-v3-generated.webp","assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","measuring-vessel-v1-generated.webp","capacity-direct-before-v1-generated.webp","capacity-direct-pouring-v1-generated.webp","capacity-direct-after-v1-generated.webp","capacity-fairness-cups-v2-generated.webp","capacity-fairness-repair-v2-generated.webp","capacity-common-paper-cup-v1-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-flow-generated.webp","reward-event-big-flow-generated.webp","reward-event-shine-flow-generated.webp","reward-event-small-only-generated.webp","reward-event-special-flow-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-tank-small-generated.webp","result-tank-spark-generated.webp","result-tank-stream-generated.webp","result-tank-full-generated.webp","result-tank-tower-generated.webp","result-tank-rainbow-generated.webp","play-water-v1-small-generated.webp","play-water-v1-spark-generated.webp","play-water-v1-stream-generated.webp","play-water-v1-full-generated.webp","play-water-v1-tower-generated.webp","play-water-v1-rainbow-generated.webp","result-title-small-generated.png","result-title-small-generated.webp","result-title-spark-generated.png","result-title-spark-generated.webp","result-title-stream-generated.png","result-title-stream-generated.webp","result-title-full-generated.png","result-title-full-generated.webp","result-title-tower-generated.png","result-title-tower-generated.webp","result-title-rainbow-generated.png","result-title-rainbow-generated.webp","result-title-set-v1.json","assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp"]};
     const Lesson5MeasurementLabModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -5343,27 +5468,27 @@
         return makeProblem({
           serial,
           type: "sameContainerCapacityCompare",
-          kind: "같은 모양의 통에 붓기",
-          prompt: "두 물통의 물을 같은 모양의 통에 각각 부어 보세요.",
+          kind: "같은 통에 부어 비교하기",
+          prompt: "두 물통의 들이를 비교해요. 물을 크기와 모양이 같은 통에 각각 부어 보세요.",
           expression,
           visual: { kind: "same-container-compare", ...values, maxCount: 9 },
           steps: [
             makeActionStep({
               id: "pour-both",
-              label: "같은 모양의 통에 붓기",
-              instruction: "두 물통의 물을 같은 모양의 통에 각각 부어 보세요.",
-              actionLabel: "같은 모양의 통에 붓기",
-              correctText: "같은 모양의 통에서 물높이를 비교해 보세요.",
+              label: "같은 통에 부어 비교하기",
+              instruction: "두 물통의 들이를 비교해요. 물을 크기와 모양이 같은 통에 각각 부어 보세요.",
+              actionLabel: "같은 통에 부어 보기",
+              correctText: "두 통의 물높이를 비교해 보세요.",
             }),
             makeStep({
               id: "same-container-result",
               label: "비교",
-              instruction: "두 물통의 들이를 비교해 보세요.",
+              instruction: "어느 물통의 들이가 더 큰지 골라 보세요.",
               answer,
               distractors: ["가 물통", "나 물통", "같아요"],
               correctText: expression,
               rng,
-              feedbackFor: () => "같은 모양의 통에서는 두 물높이를 바로 비교할 수 있어요.",
+              feedbackFor: () => "크기와 모양이 같은 통에서는 물높이로 들이를 비교할 수 있어요.",
             }),
           ],
         });
@@ -5377,7 +5502,7 @@
           serial,
           type: "commonUnitCapacityMeasure",
           kind: "같은 컵으로 재기",
-          prompt: "옮겨 붓기 어려운 두 물통의 들이를 비교해 보세요.",
+          prompt: "물을 옮겨 붓지 않고 두 물통의 들이를 비교해 보세요.",
           expression,
           visual: { kind: "common-unit-measure", ...cases, maxCount: 10, unit: "같은 종이컵" },
           steps: [
@@ -5395,12 +5520,12 @@
             makeStep({
               id: "common-unit-result",
               label: "비교",
-              instruction: "같은 종이컵이 더 많이 필요한 물통을 골라요.",
+              instruction: "종이컵 수를 비교해 들이가 더 큰 물통을 골라요.",
               answer,
               distractors: ["가 물통", "나 물통", "같아요"],
               correctText: expression,
               rng,
-              feedbackFor: () => "같은 종이컵을 몇 번 채웠는지 비교해요.",
+              feedbackFor: () => "같은 종이컵으로 잰 횟수가 많을수록 들이가 커요.",
             }),
           ],
         });
@@ -5470,7 +5595,7 @@
           serial,
           type: "capacityFairnessReason",
           kind: "서로 다른 컵으로 잰 결과",
-          prompt: "가 물통은 작은 컵으로 8번, 나 물통은 큰 컵으로 6번 쟀어요.",
+          prompt: "가 물통에는 작은 컵 8개만큼, 나 물통에는 큰 컵 6개만큼 물이 들어 있어요.",
           expression,
           visual: { kind: "fairness", topic: "capacity", aUnit: "작은 컵 8번", bUnit: "큰 컵 6번", fair: false },
           steps: [
@@ -5526,7 +5651,7 @@
               distractors: ["가 물통", "같아요"],
               correctText: expression,
               rng,
-              feedbackFor: () => "같은 종이컵이 더 많이 필요한 물통을 찾아요.",
+              feedbackFor: () => "같은 종이컵으로 잰 횟수가 많을수록 들이가 커요.",
             }),
           ],
         });
@@ -7729,8 +7854,8 @@
         className: "same-container-board",
         revealStep: "pour-both",
         showCounts: false,
-        waitingText: "같은 모양의 비교 통은 아직 비어 있어요.",
-        revealedText: "같은 모양 통에서는 물높이를 바로 비교할 수 있어요.",
+        waitingText: "크기와 모양이 같은 통은 아직 비어 있어요.",
+        revealedText: "크기와 모양이 같은 통에서는 물높이로 비교할 수 있어요.",
       });
     }
 
@@ -7753,11 +7878,43 @@
     }
 
     function fairnessRepairBoard(problem, currentState) {
+      if (LESSON_CONFIG.id === "3-2-5-1") {
+        const revealed = measurementSolvedSteps.has("remeasure") || Number(currentState?.stepIndex || 0) > 0;
+        const board = measurementCreate("div", "measurement-board fairness-repair-board fairness-repair-image-board");
+        const image = measurementCreate("img", "fairness-scene-image");
+        image.src = LESSON_CONFIG.imageAssets?.capacityFairnessRepair || "capacity-fairness-repair-v2-generated.webp";
+        image.alt = "앞 문제에서 본 둥근 가 물통과 긴 나 물통";
+
+        const items = measurementCreate("div", "fairness-repair-items");
+        [
+          { key: "a", label: "가 물통", count: problem.visual.aCount },
+          { key: "b", label: "나 물통", count: problem.visual.bCount },
+        ].forEach(({ key, label, count }) => {
+          const item = measurementCreate("div", `fairness-repair-item is-${key}`);
+          if (revealed) {
+            const evidence = measurementCreate("span", "fairness-repair-evidence");
+            const cup = measurementCreate("img", "fairness-repair-cup");
+            const countLabel = measurementCreate("span", "fairness-repair-count", `같은 종이컵 ${count}개`);
+            cup.src = LESSON_CONFIG.imageAssets?.capacityCommonPaperCup || "capacity-common-paper-cup-v1-generated.webp";
+            cup.alt = "";
+            cup.setAttribute("aria-hidden", "true");
+            if (key === "a") evidence.append(cup, countLabel);
+            else evidence.append(countLabel, cup);
+            item.append(evidence);
+          }
+          item.append(measurementCreate("strong", `fairness-scene-label is-${key}`, label));
+          items.append(item);
+        });
+
+        board.dataset.measurementRevealed = String(revealed);
+        board.append(image, items);
+        return board;
+      }
       return countComparisonBoard(problem, currentState, {
         className: "fairness-repair-board",
         revealStep: "remeasure",
         waitingText: "서로 다른 컵으로 잰 결과는 잠시 내려놓아요.",
-        revealedText: "이번에는 두 물통을 같은 종이컵으로 쟀어요.",
+        revealedText: "이번에는 두 물통을 같은 종이컵으로 재었어요.",
       });
     }
 
@@ -7796,7 +7953,7 @@
         a.append(measurementCreate("strong", "", `가 ${subject}`), measurementCreate("span", "", problem.visual.aUnit));
         const b = measurementCreate("div", "fairness-option is-warning");
         b.append(measurementCreate("strong", "", `나 ${subject}`), measurementCreate("span", "", problem.visual.bUnit));
-        const alert = measurementCreate("div", `fairness-alert${problem.visual.fair ? " is-fair" : ""}`, problem.visual.fair ? "같은 컵으로 쟀어요" : "컵의 크기가 달라요");
+        const alert = measurementCreate("div", `fairness-alert${problem.visual.fair ? " is-fair" : ""}`, problem.visual.fair ? "같은 컵으로 재었어요" : "컵의 크기가 달라요");
         board.append(a, b, alert);
       }
       return board;
