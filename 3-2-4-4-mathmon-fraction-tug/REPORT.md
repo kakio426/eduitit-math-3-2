@@ -5,8 +5,8 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `166ce93e31753be91dbec8d1800acf2146e90d90`
-- 입력 커밋 시각: `2026-09-09T11:40:49+09:00`
+- 공개 입력 커밋: `f19504d6bd221ec220d5f8a77f8d7adc9b62a67b`
+- 입력 커밋 시각: `2026-09-19T14:43:48+09:00`
 - 제작 보고서 원본 SHA-256: `c1288aaf5153e7a3c4bfa3a46320daa4cdde7d5407bd26d127132fae0b595bfe`
 - 실제 실행 진입점: `3-2-4-4-mathmon-fraction-tug/index.html`
 - 실행 진입점 SHA-256: `6fd2c4e6d54d584bfd10528211a19a75a566f870e43477a67d7bfb6f26d2d491`
