@@ -31,10 +31,13 @@
 - `tutorial-page-1-v4-source.png` / `tutorial-page-1-v4-generated.webp`
 - `tutorial-page-2-v2-source.png` / `tutorial-page-2-v2-generated.webp`
 - `estimate-watering-can-milk-carton-v1-source.png` / `estimate-watering-can-milk-carton-v1-generated.webp`
+- `estimate-water-bottle-v1-source.png` / `estimate-water-bottle-v1-generated.webp`
+- `estimate-paper-cup-v1-source.png` / `estimate-paper-cup-v1-generated.webp`
+- `estimate-pot-bottle-v1-source.png` / `estimate-pot-bottle-v1-generated.webp`
 
 1쪽은 `기준을 찾아요 → 비슷한 용기를 찾아요 → 약 1L로 어림해요`의 한 예시를 보여 줍니다. 화면 설명은 `양을 알고 있는 용기와 비교해서 어림해요.`로 안내합니다. 생성 그림은 어림 상황만 돕고 정답의 유일한 근거가 되지 않습니다.
 
-첫 문제에서는 물뿌리개에 담을 수 있는 양을 `1L 우유갑`과 비교합니다. 화면에는 비교 그림과 `두 용기에 담을 수 있는 양이 비슷해요.`라는 관계 문장을 함께 보여 주며, 정답은 문제 데이터가 판정합니다. 이 보강은 1번 문제의 이해도를 높인 것이고, 차시 전체의 성취기준 적합성 판정과는 별개입니다.
+1~4번 기준 어림 문제는 각각 `우유갑–물뿌리개`, `500mL 생수병–물병`, `200mL 컵–종이컵`, `2L 생수병–냄비` 비교 그림을 보여 줍니다. 화면에는 비교 그림과 `두 용기에 담을 수 있는 양이 비슷해요.`라는 관계 문장을 함께 보여 주며, 정답은 문제 데이터가 판정합니다. 이 보강은 비교 근거를 모든 같은 유형 문항에 일관되게 제공하는 것이고, 차시 전체의 성취기준 적합성 판정과는 별개입니다.
 
 기존 보상 주인공은 `zero-factory-animal-pack`의 냥냥몬을 유지하며, 결과 6단계는 `result-tiers-v5-contact-sheet.png`에서 함께 확인합니다.
 

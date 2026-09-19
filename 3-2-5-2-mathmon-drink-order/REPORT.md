@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `189bc5835e8c69c373cc417c4a73ee4abe1bc57f`
-- 입력 커밋 시각: `2026-09-19T23:57:42+09:00`
-- 제작 보고서 원본 SHA-256: `ee2a259e8a89b40827a585f8871327a4fd34f336f7f1a60a82000b0c94a66917`
+- 공개 입력 커밋: `fccfb6c755e998a354fb1922547e861a8a99f442`
+- 입력 커밋 시각: `2026-09-20T08:16:39+09:00`
+- 제작 보고서 원본 SHA-256: `8d8197bd7dfca163b865d5cbc250d50c2aad17ccafc07b90911bb4977fe1877a`
 - 실제 실행 진입점: `3-2-5-2-mathmon-drink-order/index.html`
-- 실행 진입점 SHA-256: `fa1c36460b72f7050f07ae439c26240f69ddd34deed66f96628c8f9f720dcb47`
-- Pages 파일 집합 SHA-256: `dc38e3556172ad5f013ec4b253c61d4114e600366c4ccd89003e934a6d2a693a` (134개)
+- 실행 진입점 SHA-256: `da7deb40231454ea0634c7978845850e48d024aa88c935b9e38484591c2865a7`
+- Pages 파일 집합 SHA-256: `83f9affbea9308b6a2f8e617541fc02969411a566c5c1a4ae95be7feab8869cb` (137개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-2-mathmon-drink-order/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-2-mathmon-drink-order/REPORT.md
@@ -29,6 +29,13 @@
 - 기존 화면 캡처는 그대로 보존했으며 이번 경로 이식의 새 화면 증거로 다시 봉인하지 않았습니다.
 - 요소 배치, 문항, 보상 로직은 이 이식 작업에서 변경하지 않았습니다. 정적 호스팅에는 이 차시 폴더 전체를 그대로 배포합니다.
 <!-- PORTABLE-RUNTIME:END -->
+
+## 2026-09-20 기준 어림 비교 이미지 일관화
+
+- `capacityBenchmarkEstimate` 1~4번을 모두 생성 비교 이미지로 연결했습니다. 각 문항은 `우유갑–물뿌리개`, `500mL 생수병–물병`, `200mL 컵–종이컵`, `2L 생수병–냄비`를 보여 줍니다.
+- 새 실행 자산은 `estimate-water-bottle-v1-generated.webp`, `estimate-paper-cup-v1-generated.webp`, `estimate-pot-bottle-v1-generated.webp`이며 모두 `1672×941` 원본/실행 비율로 맞췄습니다.
+- 이미지에는 비교 맥락만 담고 수치·정답 판정은 `capacityBenchmarkEstimate` 구조화 데이터가 계속 담당합니다.
+- 사용자 제보 화면에서 2번 문항의 생수병–물병 이미지 로드와 관계 문장·기준 카드·선택지 배치를 확인했습니다.
 
 ## 2026-09-19 어림값 확인 문항 재설계
 
