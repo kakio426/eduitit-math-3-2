@@ -5,13 +5,13 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `075eeb628c2bff0b62f72c2d24b8c617bb6542ce`
-- 입력 커밋 시각: `2026-09-18T11:19:27+09:00`
+- 공개 입력 커밋: `35e29a61d5c47b64894d51b1f96999f94660f1d8`
+- 입력 커밋 시각: `2026-09-19T21:42:30+09:00`
 - 제작 보고서 원본 SHA-256: `1af23a8cf3a8ad038ab79acea25a4b491504ed7d29189a754f926bd402b4a754`
 - 실제 실행 진입점: `3-2-5-1-mathmon-water-fill/index.html`
-- 실행 진입점 SHA-256: `2fa9143875e3f2acb65a46e6e5aabdc558208175c622e9423b3c4fa884a86c35`
-- Pages 파일 집합 SHA-256: `18c3865f96722bdba39f8fd61e6a858bf673116b934d3285c3fc143fbacfea6d` (138개)
-- 상세 화면 증거: 현재 실행 진입점과 일치
+- 실행 진입점 SHA-256: `784278b007a054667b261cd692e4a2417c3499927731cdc76085a33fd9630263`
+- Pages 파일 집합 SHA-256: `c1a5ef6f473403289cc8dc4f31f3bd1c4fd3bdc930e6e73a296758de9d50888f` (140개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-1-mathmon-water-fill/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-1-mathmon-water-fill/REPORT.md
 
