@@ -1,17 +1,19 @@
 {
-  "standard": "report-current-screen-evidence-v3",
+  "standard": "report-current-screen-evidence-v4",
   "lesson": "3-2-5-2-mathmon-drink-order",
-  "generatedAt": "2026-08-29T10:19:07.299Z",
-  "indexSha256": "84d2ffe3e4d7ee84a10e4a3025e052938fdc0e5feac5f4167e42fb1f6b915c77",
+  "generatedAt": "2026-09-06T23:55:48.316Z",
+  "indexSha256": "4649597c7f8553d22c4a7a8ee5e2e3a594442887d2993cb9c4c72ffa872ea60a",
   "sourceScreenshotsCommitted": false,
   "sourceScreenshotsRetention": "ephemeral-local-cache",
   "qaReceipt": "screenshots/mathmon-browser-qa-receipt.json",
   "viewportPlan": {
-    "standard": "mathmon-qa-viewport-plan-v2",
+    "standard": "mathmon-qa-viewport-plan-v3",
     "registeredCount": 6,
     "executionCount": 6,
     "deduplicatedCount": 0,
-    "targetedExecutionCount": 1,
+    "targetedExecutionCount": 0,
+    "humanReviewExecutionCount": 2,
+    "auditOnlyExecutionCount": 4,
     "expandedDuplicates": false,
     "registered": [
       {
@@ -72,7 +74,20 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "key-states",
+          "standard": "mathmon-human-review-key-states-v1",
+          "roles": [
+            "cover",
+            "tutorial",
+            "tutorial-second",
+            "representative-problem",
+            "representative-wrong-feedback",
+            "answer-confirmation",
+            "reward-closed",
+            "reward-revealed",
+            "reward-impact",
+            "completed-result"
+          ]
         }
       },
       {
@@ -87,7 +102,14 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "key-states",
+          "standard": "mathmon-human-review-key-states-v1",
+          "roles": [
+            "cover-responsive",
+            "representative-problem-responsive",
+            "reward-responsive",
+            "completed-result-responsive"
+          ]
         }
       },
       {
@@ -102,7 +124,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -117,7 +140,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -132,7 +156,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -149,21 +174,1534 @@
           "emptyRewardAuditViewport"
         ],
         "capture": {
-          "mode": "targeted",
-          "reason": "empty-reward-fixture",
-          "states": [
-            "06-confirm",
-            "07-reward-closed",
-            "07b-reward-open"
-          ]
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       }
     ]
   },
+  "visualEvidence": {
+    "standard": "mathmon-human-review-key-states-v1",
+    "automatedCoverage": "all-canonical-viewports-and-full-flow",
+    "humanReviewViewports": [
+      "desktop",
+      "tablet-landscape"
+    ],
+    "auditOnlyViewports": [
+      "codex-in-app",
+      "user-visibility",
+      "user-reported-missing-left-progress",
+      "empty-reward-fixture"
+    ],
+    "stateVisitCount": 191,
+    "screenshotCount": 14,
+    "auditRuns": [
+      {
+        "viewportName": "desktop",
+        "regressionNames": [
+          "desktop"
+        ],
+        "stateVisitCount": 32,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": "cover",
+            "screenshot": true
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": "tutorial",
+            "screenshot": true
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": "tutorial-second",
+            "screenshot": true
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": "representative-problem",
+            "screenshot": true
+          },
+          {
+            "stateName": "05m-p1-misconception-약-50ml",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-5l",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": "representative-wrong-feedback",
+            "screenshot": true
+          },
+          {
+            "stateName": "06-confirm",
+            "role": "answer-confirmation",
+            "screenshot": true
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": "reward-closed",
+            "screenshot": true
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": "reward-revealed",
+            "screenshot": true
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": "reward-impact",
+            "screenshot": true
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": "completed-result",
+            "screenshot": true
+          },
+          {
+            "stateName": "08c-result-cohesion-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "regressionNames": [
+          "tablet-landscape"
+        ],
+        "stateVisitCount": 32,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": "cover-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": "representative-problem-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "05m-p1-misconception-약-50ml",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-5l",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": "reward-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": "completed-result-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "08c-result-cohesion-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "codex-in-app",
+        "regressionNames": [
+          "codex-in-app"
+        ],
+        "stateVisitCount": 32,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-50ml",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-5l",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-visibility",
+        "regressionNames": [
+          "user-visibility"
+        ],
+        "stateVisitCount": 32,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-50ml",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-5l",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-reported-missing-left-progress",
+        "regressionNames": [
+          "user-reported-missing-left-progress"
+        ],
+        "stateVisitCount": 32,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-50ml",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-5l",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "empty-reward-fixture",
+        "regressionNames": [
+          "empty-reward-fixture"
+        ],
+        "stateVisitCount": 31,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-50ml",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-약-5l",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-cup",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tasty",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tray",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-popular",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-festival",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      }
+    ],
+    "screenshots": [
+      {
+        "viewportName": "desktop",
+        "stateName": "01-cover",
+        "role": "cover",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-01-cover.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "03-tutorial-1",
+        "role": "tutorial",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-03-tutorial-1.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "04-tutorial-2",
+        "role": "tutorial-second",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-04-tutorial-2.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "05-play-step1",
+        "role": "representative-problem",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-05-play-step1.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "05b-play-wrong",
+        "role": "representative-wrong-feedback",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-05b-play-wrong.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "06-confirm",
+        "role": "answer-confirmation",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-06-confirm.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07-reward-closed",
+        "role": "reward-closed",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-07-reward-closed.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07b-reward-open",
+        "role": "reward-revealed",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-07b-reward-open.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07c-reward-impact",
+        "role": "reward-impact",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-07c-reward-impact.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "08-result",
+        "role": "completed-result",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-desktop-08-result.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "01-cover",
+        "role": "cover-responsive",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-tablet-landscape-01-cover.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "05-play-step1",
+        "role": "representative-problem-responsive",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-tablet-landscape-05-play-step1.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "07b-reward-open",
+        "role": "reward-responsive",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-tablet-landscape-07b-reward-open.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "08-result",
+        "role": "completed-result-responsive",
+        "file": "3-2-5-2-mathmon-drink-order/screenshots/engine-flow-tablet-landscape-08-result.png"
+      }
+    ]
+  },
+  "validationDependencies": {
+    "standard": "eduitit-validation-dependencies-v1",
+    "product": "mathmon",
+    "lesson": "3-2-5-2-mathmon-drink-order",
+    "entries": [
+      {
+        "role": "contract",
+        "path": "_shared/contracts/mathmon-browser-qa-execution-v3.json",
+        "pointer": "",
+        "sha256": "e8af9abd41233d8bf25db7a427385ecb202f6f1d6772afbaf485ec367c5de70d"
+      },
+      {
+        "role": "contract",
+        "path": "_shared/contracts/production-workflow.json",
+        "pointer": "/products/mathmon/browserEvidencePolicy",
+        "sha256": "92c9dce9d6266af2d2e6185911df491a7e5832ee6fc6d05bb7ceac720e96c4c8"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/generated-runtime-browser-guard.mjs",
+        "sha256": "d46df26b8832d8d8f638c46269b7ffbee02f5b80f462cb5925bcf112d857e23f"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-delivery-gate.mjs",
+        "sha256": "51b7bddb287eee2fd0b90e10496d7d9206589865fae8c1fda93aacc51c535a36"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-qa-viewports.mjs",
+        "sha256": "5a16d8acb3386e4987114a2ce05f7b6225ef7d7f665922707facc1e89124b5b1"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-top-controls-v2.mjs",
+        "sha256": "a8f83d8154c27a346a9b8772d208441b3bcb8608fde7feafb2abd1efcd0671c5"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/result-reward-dominance.mjs",
+        "sha256": "ac81da87e5916365fd8a806f02a50ebcb9d2874be6547ee511c5a0ba61431b8d"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/tutorial-poster-contract.mjs",
+        "sha256": "ba4d17ca0a311fdc8c8f7984bd59c0378431b85907ebfd1b8f3bff4a4b732791"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-cost-control.mjs",
+        "sha256": "31fdd021886606a22760267c9eb2da85839459ae456ead1bbdb0842b66ece8d9"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-dependencies.mjs",
+        "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/qa-lesson-flow.mjs",
+        "sha256": "903f2aeb87b2c5eaed1a313a78aa9caadaac6a5ce08f051fa4eec8b6f2600004"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/runtime-build-fingerprint.mjs",
+        "sha256": "d8f1988c22fde27ef7c52c52fcbe6d03fe408a5672f0d8148062360c3adfebac"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/runtime/core.js",
+        "sha256": "4d7bb6dc123ad289e9ca3b05553936f355ce6845f12c408dce19838a5dcb7fe1"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/styles/core.css",
+        "sha256": "1691e5b826bc077a2d4f92cf4ed203a4e21fbe3a5e8c38e3f7dca6fbd02e6a08"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/template.html",
+        "sha256": "bb07ddc93feb7d6e9e82f8fae67648034e764a5ce23ec471fe4e5557ac478bbb"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/lesson.css",
+        "sha256": "9727bbd3c494c30cba0838c9345432f0df1cfa4896c8d35b4d609fdac31b2a22"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/model.js",
+        "sha256": "03c03af95b8cb9d2dd57b7343b6eeac3f967a98ed4d32b1be60b0bd3eea58bd3"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/view.js",
+        "sha256": "de733cb6bd0051b2d0f655d9a6a31c316d44194f3cfcaffc48cb94abd4e53ed5"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-2-mathmon-drink-order/lesson.css",
+        "sha256": "2033f17aafa133b52d316fcf0b94fff4df2dd4b1448259c512c6ce4abd95cbe0"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-2-mathmon-drink-order/lesson.json",
+        "sha256": "9eb11679475713e9dc0692059cd643f029eaceb730433f743cc0de6ea72db97f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/audio/mathmon-audio-v1.js",
+        "sha256": "9f6d6a8a4965a4cf157e2bf2a68bb7335517d62409311bd4477f1bfeaccc494f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/brand/mathmon-brand.css",
+        "sha256": "d1866a6cbceb43985cbdd998aae5d07ceb9383eaa7ac0b9c3040f612c83ac77c"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png",
+        "sha256": "f6efc1471ae1bfd1f0c9b4bd4c91db8d66f9435c901b473dffd21b2312be6797"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png",
+        "sha256": "9ce009021536f025a021c05b06595e9ef198f7cfac5268ee7978ea31c9a0d40d"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/top-controls-v2.css",
+        "sha256": "b9a82a61dbeda3096f7d1d5a1e369c39d24c0d7a186e7fdbebbc3d28ffa82891"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-ui.css",
+        "sha256": "f1f01d9e9f2222c2b312079890f27a58eeff83af01f31916f7171b9150685484"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-ui.js",
+        "sha256": "705f02b0f292790585c0672c012f228848a4da3ebeb731a339e8344c737b1ff4"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/PORTABLE_RUNTIME_MANIFEST.json",
+        "sha256": "75183f6c4bab4e9fbe5a0524ac8a5cc61a55c1d0633c6ba2c0a0c4649c7b4ef8"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/cover-generated.webp",
+        "sha256": "f0e7b9c176de83924923001e826ddd514f80a6867465e1d57cc0e266a75656e0"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/index.html",
+        "sha256": "4649597c7f8553d22c4a7a8ee5e2e3a594442887d2993cb9c4c72ffa872ea60a"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/portable-runtime.config.json",
+        "sha256": "1328c5c651b233375f7bf9397e2302e95e5427c553e308fc09271bd0da24dcc3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/result-bg-cup-generated.webp",
+        "sha256": "9b9bb617d3cc818c1dcab6ff5f8687f48315752e9d11321d77e2b4ee415b500d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/result-panel-generated.webp",
+        "sha256": "298a7a96f4eca753ce04460ee9175dfc11ac51d1e515f2bc8d808c7b2b79898b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/result-title-cup-generated.webp",
+        "sha256": "80e3c9d584dd36bc9b4d0fb9a9e15371dd41cc9b9b134edced147715e665de65"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/reward-scene-generated.webp",
+        "sha256": "f0e7b9c176de83924923001e826ddd514f80a6867465e1d57cc0e266a75656e0"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/title-logo-generated.webp",
+        "sha256": "dd9115fad7896b8d31d75a9918773168b50e47a43a557a9516494aa9fca20f41"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/tutorial-page-1-v3-generated.webp",
+        "sha256": "c0f8824fe165f0a6c02b0ffe5e1fc67d31c2d8dc2d0d773768165d39132aad63"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/tutorial-page-2-v3-generated.webp",
+        "sha256": "5c1eb9881e317cfe862bfff6271d4dc88de22b8ca98814537890301e9a5635ca"
+      },
+      {
+        "role": "runtime",
+        "path": "scripts/runtime/result-presentation-v1.css",
+        "sha256": "c03e7647e2e3a3ebbcc288e06b7f344266a1c7e8963cbf7e762663a01b77bc99"
+      },
+      {
+        "role": "runtime",
+        "path": "scripts/runtime/result-presentation-v1.js",
+        "sha256": "4aa7c566c00fe3c5cd8384dc08b638ec1d1a63fae566df1d05314a72edff0dca"
+      }
+    ],
+    "sha256": "fbb6dd039d8e555c483fafaa13678d9de3a82fc84d0d94089e283c48303fd059"
+  },
   "fingerprints": {
     "lessonRuntime": {
-      "sha256": "714586e5ed74252a64a39b3c7d301db45dd85bbc02b59c8793d8dc4e5add9fe7",
+      "sha256": "f80838ed7172bfd087aabd3934a11c3548906e15714a6bc7bc16dd5b863fdc4c",
       "files": [
+        "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
         "3-2-5-2-mathmon-drink-order/cover-generated.webp",
         "3-2-5-2-mathmon-drink-order/index.html",
         "3-2-5-2-mathmon-drink-order/play-drink-v1-cup-generated.webp",
@@ -189,23 +1727,17 @@
         "3-2-5-2-mathmon-drink-order/result-tiers-v5-contact-sheet.png",
         "3-2-5-2-mathmon-drink-order/result-title-cup-generated.png",
         "3-2-5-2-mathmon-drink-order/result-title-cup-generated.webp",
-        "3-2-5-2-mathmon-drink-order/result-title-cup-source.png",
         "3-2-5-2-mathmon-drink-order/result-title-festival-generated.png",
         "3-2-5-2-mathmon-drink-order/result-title-festival-generated.webp",
-        "3-2-5-2-mathmon-drink-order/result-title-festival-source.png",
         "3-2-5-2-mathmon-drink-order/result-title-popular-generated.png",
         "3-2-5-2-mathmon-drink-order/result-title-popular-generated.webp",
-        "3-2-5-2-mathmon-drink-order/result-title-popular-source.png",
         "3-2-5-2-mathmon-drink-order/result-title-rainbow-generated.png",
         "3-2-5-2-mathmon-drink-order/result-title-rainbow-generated.webp",
-        "3-2-5-2-mathmon-drink-order/result-title-rainbow-source.png",
         "3-2-5-2-mathmon-drink-order/result-title-set-v1.json",
         "3-2-5-2-mathmon-drink-order/result-title-tasty-generated.png",
         "3-2-5-2-mathmon-drink-order/result-title-tasty-generated.webp",
-        "3-2-5-2-mathmon-drink-order/result-title-tasty-source.png",
         "3-2-5-2-mathmon-drink-order/result-title-tray-generated.png",
         "3-2-5-2-mathmon-drink-order/result-title-tray-generated.webp",
-        "3-2-5-2-mathmon-drink-order/result-title-tray-source.png",
         "3-2-5-2-mathmon-drink-order/reward-event-big-order-generated.webp",
         "3-2-5-2-mathmon-drink-order/reward-event-closed-v2-generated.webp",
         "3-2-5-2-mathmon-drink-order/reward-event-repair-generated.webp",
@@ -217,38 +1749,40 @@
         "3-2-5-2-mathmon-drink-order/reward-events-v3-contact-sheet.png",
         "3-2-5-2-mathmon-drink-order/reward-scene-generated.webp",
         "3-2-5-2-mathmon-drink-order/title-logo-generated.webp",
-        "3-2-5-2-mathmon-drink-order/tutorial-page-1-generated.webp",
-        "3-2-5-2-mathmon-drink-order/tutorial-page-2-generated.webp",
+        "3-2-5-2-mathmon-drink-order/tutorial-page-1-v3-generated.webp",
+        "3-2-5-2-mathmon-drink-order/tutorial-page-2-v3-generated.webp",
         "_engine/v1/README.md",
         "_engine/v1/runtime/core.js",
         "_engine/v1/schemas/lesson.schema.json",
         "_engine/v1/styles/core.css",
         "_engine/v1/template.html",
-        "_lessons/3-2-5-1-mathmon-water-fill/lesson.css",
-        "_lessons/3-2-5-1-mathmon-water-fill/model.js",
-        "_lessons/3-2-5-1-mathmon-water-fill/view.js",
         "_lessons/3-2-5-2-mathmon-drink-order/lesson.css",
         "_lessons/3-2-5-2-mathmon-drink-order/lesson.json",
+        "_lessons/_shared/unit5-measurement/lesson.css",
+        "_lessons/_shared/unit5-measurement/model.js",
+        "_lessons/_shared/unit5-measurement/view.js",
         "_lessons/_shared/unit6-data/lesson.css",
         "_lessons/_shared/unit6-data/model.js",
         "_lessons/_shared/unit6-data/view.js",
-        "_shared/brand/mathmon-cloud-mark.webp",
+        "_shared/action-buttons/next-button-generated.webp",
+        "_shared/action-buttons/previous-button-generated.webp",
+        "_shared/action-buttons/problem-start-button-generated.webp",
         "_shared/mathmon/cover-start-button/start-button-generated.webp",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png",
-        "_shared/result-actions/retry-button-v2-generated.webp",
-        "_shared/result-count/result-correct-0-generated.webp",
-        "_shared/scoreboard/scoreboard-celebration-bg-generated.webp"
+        "_shared/mathmon/top-controls-v2.css",
+        "_shared/result-actions/retry-button-v2-generated.webp"
       ]
     },
     "policy": {
-      "sha256": "10a71d9aa7236a5c3401db9cf0d787554e5b00b2ec478f8945d22deadc30cdf2",
+      "sha256": "295c62b36d001709b74a69f879f073d9a0ac1f8dbc7897d67919c73964592ab5",
       "files": [
         ".claude/skills/eduitit-mathmon-assets/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/references/effect-design.md",
         ".claude/skills/eduitit-mathmon-lesson/references/verification.md",
         ".claude/skills/eduitit-mathmon-lesson/references/vertical-calculation.md",
+        ".claude/skills/eduitit-socialmon-lesson/SKILL.md",
         "AGENTS.md",
         "CLAUDE.md",
         "LESSON_COMMONS.md",
@@ -256,8 +1790,12 @@
         "_shared/COMMON_RESOURCE_CONTRACT.md",
         "_shared/brand/mathmon-brand-mark.json",
         "_shared/contracts/component-registry.json",
-        "_shared/contracts/mathmon-browser-qa-execution-v2.json",
+        "_shared/contracts/generated-runtime-assets-v1.json",
+        "_shared/contracts/generated-runtime-canonical-assets.json",
+        "_shared/contracts/generated-runtime-compatibility-baseline.json",
+        "_shared/contracts/mathmon-browser-qa-execution-v3.json",
         "_shared/contracts/mathmon-component-registry.json",
+        "_shared/contracts/mathmon-portable-runtime-v1.json",
         "_shared/contracts/mathmon-top-controls-v2.json",
         "_shared/contracts/mathmon-unified-reward-v2.json",
         "_shared/contracts/platform-component-registry.json",
@@ -280,33 +1818,41 @@
         "_shared/monster-governance/schemas/subject-profile.schema.json",
         "_shared/monster-governance/style-core.json",
         "_shared/monster-governance/subject-profiles/mathmon.json",
+        "_shared/monster-governance/subject-profiles/sciencemon.json",
         "_shared/monster-governance/subject-profiles/socialmon-render-clay-vinyl-3d-v1.json",
         "_shared/monster-governance/subject-profiles/socialmon.json",
         "_shared/monster-governance/subjects.json"
       ]
     },
     "harness": {
-      "sha256": "7c55217efb84c086651322d31776ff996ab48384206ec47f21f3a09c7a5e56eb",
+      "sha256": "4bf417ec326991ad09b2c7b72fee8b87f9ea55598b88a55dcbafd30a21022261",
       "files": [
         ".codex/hooks.json",
         ".codex/hooks/mathmon-context.mjs",
         ".codex/hooks/mathmon-hook-state.mjs",
         ".codex/hooks/mathmon-stop-gate.mjs",
         ".codex/hooks/prompt-content.mjs",
+        ".codex/hooks/sciencemon-context.mjs",
+        ".codex/hooks/sciencemon-hook-state.mjs",
+        ".codex/hooks/sciencemon-stop-gate.mjs",
         ".codex/hooks/socialmon-context.mjs",
         ".codex/hooks/socialmon-hook-state.mjs",
         ".codex/hooks/socialmon-stop-gate.mjs",
         "scripts/ai-mart.mjs",
         "scripts/build-lesson-report-sheets.mjs",
+        "scripts/build-lesson.mjs",
         "scripts/build-monster-governance.mjs",
         "scripts/build-monster-review-sheets.mjs",
         "scripts/check-audio-assets.mjs",
         "scripts/check-component-registry.mjs",
+        "scripts/check-generated-runtime-assets.mjs",
         "scripts/check-lesson-contract.mjs",
         "scripts/check-lesson-report-evidence.mjs",
         "scripts/check-lesson-visual-contract.mjs",
         "scripts/check-mathmon-brand-mark.mjs",
         "scripts/check-mathmon-effect-containment.mjs",
+        "scripts/check-mathmon-generated-buttons.mjs",
+        "scripts/check-mathmon-portable-runtime.mjs",
         "scripts/check-mathmon-preview.mjs",
         "scripts/check-mathmon-vertical-calculation.mjs",
         "scripts/check-monster-governance.mjs",
@@ -315,6 +1861,9 @@
         "scripts/check-result-panel-adoption.mjs",
         "scripts/check-rule-consistency.mjs",
         "scripts/check-run-randomness.mjs",
+        "scripts/check-sciencemon-lab.mjs",
+        "scripts/check-sciencemon-official-32.mjs",
+        "scripts/check-sciencemon-v3.mjs",
         "scripts/check-stage-ratio.mjs",
         "scripts/check-student-reward-language.mjs",
         "scripts/compile-monster-prompt.mjs",
@@ -322,7 +1871,9 @@
         "scripts/fixtures/component-registry/local-runtime-path.json",
         "scripts/fixtures/component-registry/missing-compatibility-target.json",
         "scripts/fixtures/component-registry/valid.json",
+        "scripts/fixtures/generated-runtime-timeout-grandchild.mjs",
         "scripts/fixtures/monster-governance/candidate-brief-valid.json",
+        "scripts/fixtures/monster-governance/legacy-product-registry-baseline.json",
         "scripts/fixtures/result-panel-containment/axis-correct-outside-panel.json",
         "scripts/fixtures/result-panel-containment/baked-result-ui.json",
         "scripts/fixtures/result-panel-containment/duplicate-panel-layer.json",
@@ -349,6 +1900,41 @@
         "scripts/fixtures/result-visual-integrity/title-too-small.json",
         "scripts/fixtures/result-visual-integrity/title-yellow-only.json",
         "scripts/fixtures/result-visual-integrity/valid.json",
+        "scripts/fixtures/sciencemon-v2/frozen-current-prototype.json",
+        "scripts/fixtures/sciencemon-v2/minimal-positive.json",
+        "scripts/fixtures/sciencemon-v2/sound/index.html",
+        "scripts/fixtures/sciencemon-v2/sound/lab.json",
+        "scripts/fixtures/sciencemon-v2/sound/theme.json",
+        "scripts/fixtures/sciencemon-v3/README.md",
+        "scripts/fixtures/sciencemon-v3/benchmark-missing.json",
+        "scripts/fixtures/sciencemon-v3/condition-visual-no-change.json",
+        "scripts/fixtures/sciencemon-v3/css-button.json",
+        "scripts/fixtures/sciencemon-v3/css-poster.json",
+        "scripts/fixtures/sciencemon-v3/css-title.json",
+        "scripts/fixtures/sciencemon-v3/dead-space.json",
+        "scripts/fixtures/sciencemon-v3/duplicate-labels.json",
+        "scripts/fixtures/sciencemon-v3/evidence-free-light.json",
+        "scripts/fixtures/sciencemon-v3/generated-slot-missing.json",
+        "scripts/fixtures/sciencemon-v3/generated-slot-obscured.json",
+        "scripts/fixtures/sciencemon-v3/invalid-reuse-sha.json",
+        "scripts/fixtures/sciencemon-v3/metadata-only-capture.json",
+        "scripts/fixtures/sciencemon-v3/multi-variable-trial.json",
+        "scripts/fixtures/sciencemon-v3/open-ended-milestone.json",
+        "scripts/fixtures/sciencemon-v3/pre-run-result.json",
+        "scripts/fixtures/sciencemon-v3/reset-mismatch.json",
+        "scripts/fixtures/sciencemon-v3/scrim-over-045.json",
+        "scripts/fixtures/sciencemon-v3/stage-safe-inset-missing.json",
+        "scripts/fixtures/sciencemon-v3/stale-approval.json",
+        "scripts/fixtures/sciencemon-v3/svg-only-apparatus.json",
+        "scripts/fixtures/sciencemon-v3/tenth-light.json",
+        "scripts/fixtures/sciencemon-v3/text-overload.json",
+        "scripts/fixtures/sciencemon-v3/tiny-type.json",
+        "scripts/fixtures/sciencemon-v3/trialless-record.json",
+        "scripts/fixtures/sciencemon-v3/visual-no-change.json",
+        "scripts/fixtures/sciencemon-v3/vw-font-floor.json",
+        "scripts/fixtures/sciencemon-v3/wrong-brand-slot.json",
+        "scripts/fixtures/sciencemon-v3/wrong-section-count.json",
+        "scripts/fixtures/sciencemon/valid-lab.json",
         "scripts/fixtures/student-reward-language/aria-internal-metric-leak.json",
         "scripts/fixtures/student-reward-language/generic-change-label.json",
         "scripts/fixtures/student-reward-language/internal-metric-leak.json",
@@ -361,6 +1947,8 @@
         "scripts/fixtures/tutorial-poster-contract/css-action-surface.json",
         "scripts/fixtures/tutorial-poster-contract/css-composed-panel.json",
         "scripts/fixtures/tutorial-poster-contract/generated-action-hitbox-mismatch.json",
+        "scripts/fixtures/tutorial-poster-contract/missing-scene-baked-surface.json",
+        "scripts/fixtures/tutorial-poster-contract/missing-standard.json",
         "scripts/fixtures/tutorial-poster-contract/non-generated-poster.json",
         "scripts/fixtures/tutorial-poster-contract/poster-card-mismatch.json",
         "scripts/fixtures/tutorial-poster-contract/valid-generated-actions.json",
@@ -368,13 +1956,21 @@
         "scripts/fixtures/tutorial-poster-contract/visible-html-overlay.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-purpose-order.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-standard.json",
+        "scripts/lib/bounded-process.mjs",
         "scripts/lib/component-registry.mjs",
+        "scripts/lib/delivery-changed-files-input.mjs",
+        "scripts/lib/delivery-completion.mjs",
+        "scripts/lib/generated-runtime-assets.mjs",
+        "scripts/lib/generated-runtime-browser-guard.mjs",
+        "scripts/lib/generated-visual-audit.mjs",
         "scripts/lib/load-lesson-source-model.mjs",
         "scripts/lib/mathmon-delivery-gate.mjs",
         "scripts/lib/mathmon-fast-delivery.mjs",
         "scripts/lib/mathmon-layout-qa.mjs",
+        "scripts/lib/mathmon-portable-runtime.mjs",
         "scripts/lib/mathmon-qa-viewports.mjs",
         "scripts/lib/mathmon-repeated-element-qa.mjs",
+        "scripts/lib/mathmon-result-qa-targets.mjs",
         "scripts/lib/mathmon-top-controls-v2.mjs",
         "scripts/lib/monster-governance.mjs",
         "scripts/lib/production-workflow.mjs",
@@ -383,8 +1979,18 @@
         "scripts/lib/result-reward-dominance.mjs",
         "scripts/lib/run-lesson5-model-qa.mjs",
         "scripts/lib/run-lesson5-simulation.mjs",
+        "scripts/lib/sciencemon-lab.mjs",
+        "scripts/lib/sciencemon-qa.mjs",
+        "scripts/lib/sciencemon-result-pack.mjs",
+        "scripts/lib/sciencemon-screenshot-evidence.mjs",
+        "scripts/lib/sciencemon-v2-qa.mjs",
+        "scripts/lib/sciencemon-v2.mjs",
+        "scripts/lib/sciencemon-v3-qa.mjs",
+        "scripts/lib/sciencemon-v3.mjs",
         "scripts/lib/student-reward-language.mjs",
         "scripts/lib/tutorial-poster-contract.mjs",
+        "scripts/lib/validation-cost-control.mjs",
+        "scripts/lib/validation-dependencies.mjs",
         "scripts/qa-engine-unit3-circle-pattern-source.mjs",
         "scripts/qa-engine-unit3-compass-source.mjs",
         "scripts/qa-engine-unit3-double-bridge-source.mjs",
@@ -417,6 +2023,9 @@
         "scripts/qa-mathmon-reward-percent.mjs",
         "scripts/qa-result-visual-integrity-fixtures.mjs",
         "scripts/qa-run-randomness-browser.mjs",
+        "scripts/qa-sciencemon-lab.mjs",
+        "scripts/qa-sciencemon-v2.mjs",
+        "scripts/qa-sciencemon-v3.mjs",
         "scripts/qa-student-reward-language-browser.mjs",
         "scripts/qa-unit1-result-screens.mjs",
         "scripts/qa-unit3-reported-text-regressions.mjs",
@@ -425,24 +2034,58 @@
         "scripts/sync-lesson-report-evidence.mjs",
         "scripts/test-ai-mart.mjs",
         "scripts/test-component-registry.mjs",
+        "scripts/test-delivery-changed-files-input.mjs",
+        "scripts/test-delivery-completion.mjs",
+        "scripts/test-generated-runtime-assets-browser.mjs",
+        "scripts/test-generated-runtime-assets.mjs",
+        "scripts/test-generated-runtime-compatibility-scope.mjs",
+        "scripts/test-generated-runtime-timeout.mjs",
         "scripts/test-mathmon-delivery-gate.mjs",
         "scripts/test-mathmon-fast-delivery.mjs",
+        "scripts/test-mathmon-generated-buttons.mjs",
         "scripts/test-mathmon-hooks.mjs",
         "scripts/test-mathmon-layout-qa.mjs",
+        "scripts/test-mathmon-portable-runtime.mjs",
         "scripts/test-mathmon-qa-viewports.mjs",
         "scripts/test-mathmon-repeated-element-qa.mjs",
         "scripts/test-mathmon-reward-policy.mjs",
         "scripts/test-mathmon-top-controls-v2.mjs",
         "scripts/test-monster-governance.mjs",
+        "scripts/test-policy-ownership.mjs",
         "scripts/test-production-workflow.mjs",
+        "scripts/test-release-connection.mjs",
         "scripts/test-result-content-scale-policy.mjs",
         "scripts/test-result-internal-metric-policy.mjs",
         "scripts/test-result-panel-containment.mjs",
         "scripts/test-result-reward-dominance.mjs",
+        "scripts/test-rule-consistency.mjs",
+        "scripts/test-runtime-asset-delivery.mjs",
+        "scripts/test-sciencemon-accessibility.mjs",
+        "scripts/test-sciencemon-build.mjs",
+        "scripts/test-sciencemon-cli.mjs",
+        "scripts/test-sciencemon-delivery-gate.mjs",
+        "scripts/test-sciencemon-determinism.mjs",
+        "scripts/test-sciencemon-hooks.mjs",
+        "scripts/test-sciencemon-lab.mjs",
+        "scripts/test-sciencemon-legacy-preservation.mjs",
+        "scripts/test-sciencemon-production.mjs",
+        "scripts/test-sciencemon-qa.mjs",
+        "scripts/test-sciencemon-result-pack.mjs",
+        "scripts/test-sciencemon-safety.mjs",
+        "scripts/test-sciencemon-schema.mjs",
+        "scripts/test-sciencemon-screenshot-evidence.mjs",
+        "scripts/test-sciencemon-state-machines.mjs",
+        "scripts/test-sciencemon-v2-qa.mjs",
+        "scripts/test-sciencemon-v2.mjs",
+        "scripts/test-sciencemon-v3-contract.mjs",
         "scripts/test-student-reward-language.mjs",
         "scripts/test-tutorial-poster-contract.mjs",
         "scripts/test-unit2-three-digit-division.mjs",
-        "scripts/verify-mathmon-delivery.mjs"
+        "scripts/test-validation-cost-control.mjs",
+        "scripts/test-validation-dependencies.mjs",
+        "scripts/test-validation-minimality.mjs",
+        "scripts/verify-mathmon-delivery.mjs",
+        "scripts/verify-policy-harness-delivery.mjs"
       ]
     }
   },
@@ -459,160 +2102,77 @@
       "aliases": [],
       "behaviorKeys": [],
       "capture": {
-        "mode": "full-flow"
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover",
+          "tutorial",
+          "tutorial-second",
+          "representative-problem",
+          "representative-wrong-feedback",
+          "answer-confirmation",
+          "reward-closed",
+          "reward-revealed",
+          "reward-impact",
+          "completed-result"
+        ]
       },
-      "screenshotCount": 37,
+      "screenshotCount": 10,
       "sheet": "screenshots/report-flow-desktop-contact-sheet.png",
-      "sheetSha256": "99bd07918a50a20a80cb1d475ed9e2e34ad172ee0742388f29b9ad7c8a168976",
+      "sheetSha256": "f76ae6057eb48db8fb426418b9a9cd397535b196917932900446eeb08b445871",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-desktop-01-cover.png",
-          "sha256": "d21af6c7d8bc64324f5d4c6169ff0ef63d4b2c621cbaac6c2ca1936b6ba113be"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-02-settings.png",
-          "sha256": "d2ca91477102651ba5998ab8577241808fa8f91e0e60ede6cc3a491df51c85b9"
+          "sha256": "0003b3542252388c5e71b7814cc03ee71e305cd470d451ef2b24a5538f1105ca"
         },
         {
           "path": "screenshots/engine-flow-desktop-03-tutorial-1.png",
-          "sha256": "429db176ff5a7e2fe7ec90aa9f1e0171aa681fdc0fafb07a297afefca779ca96"
+          "sha256": "27cd94f42848c7c30a87847763b002d1e130693b36c1e21aa452e1556d7b74d2"
         },
         {
           "path": "screenshots/engine-flow-desktop-04-tutorial-2.png",
-          "sha256": "53453704b81b99cb38f97ba3c7df4e49e60c96c11cd29b8699d92974c4e91070"
+          "sha256": "eac2848ec8825d2c379ccb4b29b66e8fd919f341d67ad87d676e7d9ad8e223d1"
         },
         {
           "path": "screenshots/engine-flow-desktop-05-play-step1.png",
-          "sha256": "47767fe51ea0728b95294334579896325ab559eb3424cdad4bd3393ea3c98d6d"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05n-next-problem-clean.png",
-          "sha256": "65224c319d37954795827d9fd6e9bbe2f5cc66bf2a92e24598dac766363e0cd5"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p1-borrow-liter.png",
-          "sha256": "459f9dcc42efb1ad5f73cd6efadcf40e10b07af8c139879482bbcd0159ad1a46"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p1-subtract-final.png",
-          "sha256": "93ece47ee7cd67bb42f3142ed99f2e7723e701ad6b3d9eaea3031a59181d007a"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p1-subtract-ml.png",
-          "sha256": "c60c977b8e80e0351ba2e7a02b5bae881f2e365ae6286f2353ee19dadd68f3bf"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p3-add-final-total.png",
-          "sha256": "776da531c97bc943a544c4d88f9a447f67638c3ea0ea00f85b9a9e8f44ddd529"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p3-add-liter-exchange.png",
-          "sha256": "60048848e4f5cb4f67b05e9fcdbed4a69bd20210074f1811761dc08f23c718d2"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p3-add-ml-total.png",
-          "sha256": "ad28bc854d162580821b4a225f4fe7ca131ea3b5cdad1e719ce451c4792579a0"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p8-order-compare.png",
-          "sha256": "8ed484f6d7044ea4ee85f5298a9f7f4848506315c52af2b6ea81f261f4e659a5"
+          "sha256": "36e83bf7ff40084ea69fda08656f9906fa81d2e00672725b0133f3ef04d14c86"
         },
         {
           "path": "screenshots/engine-flow-desktop-05b-play-wrong.png",
-          "sha256": "459f9dcc42efb1ad5f73cd6efadcf40e10b07af8c139879482bbcd0159ad1a46"
+          "sha256": "5bc5b3ff5a43094c8ba0156f07c0eb8d64a8fa718eddbb90a5ac5ca6bd9f6afc"
         },
         {
           "path": "screenshots/engine-flow-desktop-06-confirm.png",
-          "sha256": "acc8e8a0637d0576edf4304cbb7589b72440acc24db54ddc6781b8af134be26b"
+          "sha256": "9d7571f48740e2c31783391e268ac8a556fc22d0cde2053d84d77366a0837ec3"
         },
         {
           "path": "screenshots/engine-flow-desktop-07-reward-closed.png",
-          "sha256": "3ad98f64191fce36ed25e1bcab737ec1633281cf0f41a9b19711f225e5d42c7a"
+          "sha256": "c645d71a63db76ef6940c9ee1879d7bc580c276a069ceb28a0be55534c43e804"
         },
         {
           "path": "screenshots/engine-flow-desktop-07b-reward-open.png",
-          "sha256": "4a2e4cdf68bcc5d75a9d766e45b139bb7eaa4b471fbf2341c3e49540f8c57439"
+          "sha256": "ce314a480930232626db231070d323248be4f68597ab8783291da49836ee825d"
         },
         {
           "path": "screenshots/engine-flow-desktop-07c-reward-impact.png",
-          "sha256": "82819a7c5b9b774cb8cda6a437795573f0dc2b41b270b3e0eb0bb93d9146b15c"
+          "sha256": "68986d562996f18beb70b3bcc671df71dd15d8b990150f75cd1f2548f75361ec"
         },
         {
           "path": "screenshots/engine-flow-desktop-08-result.png",
-          "sha256": "2b3a04a2c6f60fa9caa711d9a56718ec45cd5b131b8acc2788483bb726bec0b5"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-cup.png",
-          "sha256": "a56d44461d5d29e1737e52e1421c53991d53ef624769e0640c0ef1faabff5a5f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-festival.png",
-          "sha256": "2b3a04a2c6f60fa9caa711d9a56718ec45cd5b131b8acc2788483bb726bec0b5"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-popular.png",
-          "sha256": "19706d89879e1966fe829b86db12d836205d429abb5b797d934ab8fb853970e9"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-rainbow.png",
-          "sha256": "bd8d75a58de3b6ec606c19d4a8fe52eecf5b580583fc7541574543562be699ef"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-tasty.png",
-          "sha256": "bf2aa53eed7bbef6bbcdd1b533c4f73891d2d230821d1db827d0cdd295f55063"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-tray.png",
-          "sha256": "7d7b6d8f4c7ee4db00697f85fb2d0efb84d258cd9ab60e888109001e5df2b588"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-cup.png",
-          "sha256": "a56d44461d5d29e1737e52e1421c53991d53ef624769e0640c0ef1faabff5a5f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-festival.png",
-          "sha256": "2b3a04a2c6f60fa9caa711d9a56718ec45cd5b131b8acc2788483bb726bec0b5"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-popular.png",
-          "sha256": "19706d89879e1966fe829b86db12d836205d429abb5b797d934ab8fb853970e9"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png",
-          "sha256": "bd8d75a58de3b6ec606c19d4a8fe52eecf5b580583fc7541574543562be699ef"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-tasty.png",
-          "sha256": "bf2aa53eed7bbef6bbcdd1b533c4f73891d2d230821d1db827d0cdd295f55063"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-tray.png",
-          "sha256": "7d7b6d8f4c7ee4db00697f85fb2d0efb84d258cd9ab60e888109001e5df2b588"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-cup.png",
-          "sha256": "a56d44461d5d29e1737e52e1421c53991d53ef624769e0640c0ef1faabff5a5f"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-festival.png",
-          "sha256": "2b3a04a2c6f60fa9caa711d9a56718ec45cd5b131b8acc2788483bb726bec0b5"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-popular.png",
-          "sha256": "19706d89879e1966fe829b86db12d836205d429abb5b797d934ab8fb853970e9"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-rainbow.png",
-          "sha256": "bd8d75a58de3b6ec606c19d4a8fe52eecf5b580583fc7541574543562be699ef"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-tasty.png",
-          "sha256": "bf2aa53eed7bbef6bbcdd1b533c4f73891d2d230821d1db827d0cdd295f55063"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-tray.png",
-          "sha256": "7d7b6d8f4c7ee4db00697f85fb2d0efb84d258cd9ab60e888109001e5df2b588"
+          "sha256": "6d09c91a72e16cfbe782ab68d34108624962d74de8c1de186745b5b2c4e56637"
         }
+      ],
+      "screenshotRoles": [
+        "cover",
+        "tutorial",
+        "tutorial-second",
+        "representative-problem",
+        "representative-wrong-feedback",
+        "answer-confirmation",
+        "reward-closed",
+        "reward-revealed",
+        "reward-impact",
+        "completed-result"
       ]
     },
     {
@@ -627,704 +2187,41 @@
       "aliases": [],
       "behaviorKeys": [],
       "capture": {
-        "mode": "full-flow"
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover-responsive",
+          "representative-problem-responsive",
+          "reward-responsive",
+          "completed-result-responsive"
+        ]
       },
-      "screenshotCount": 37,
+      "screenshotCount": 4,
       "sheet": "screenshots/report-flow-tablet-landscape-contact-sheet.png",
-      "sheetSha256": "c38d8fd34a40d97c6f58865785abe245f4f720dd6382b9e1347ce7b2b4bf0ff0",
+      "sheetSha256": "d3a4e847c02b04d2f543cfe04aaf6bcd00a4f9a0b3a42912d1db3e7ff5263bc3",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-tablet-landscape-01-cover.png",
-          "sha256": "9a31445b2c96eaf54291f569d5a85ef982aea4d2825ab386b0e10e8e15d28a8f"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-02-settings.png",
-          "sha256": "60b21b98a782844200deca963f4b081ee1af7c2617cfcfbc892b227998d5db65"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-03-tutorial-1.png",
-          "sha256": "5862d683764486553dd37666b307b16d378dc95bdc0cb3ccad535a23a6484af5"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-04-tutorial-2.png",
-          "sha256": "ca7d55264700c40d73f9171f11214e4c8ba3c84817c054117cc0971e30dffdc2"
+          "sha256": "2e2bd2b164eef001c9fafc06ffc77d854a05322c5bc06dc582f541bd0b5327e7"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05-play-step1.png",
-          "sha256": "dcd9e7bb60a2f10f02a0f4f2431e46c3aed044f811d70a7416c09804d9afea26"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png",
-          "sha256": "fdf024cf326d6fc0b9434cc656c1c5a8d7da5b112a28d0f274397b9c23941f01"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p1-borrow-liter.png",
-          "sha256": "b149899b06c7ad31351c9033739645216164ab89efef552040e51e23d38362be"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p1-subtract-final.png",
-          "sha256": "1f87179e8aa57b95621b1199b5dcd16adecd0fa480335673475fd7a5cf1e4d45"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p1-subtract-ml.png",
-          "sha256": "22e74234e38a3a8c73d6e5580d3efa4affbf693b52ea4e82b3f940e76f08800e"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p3-add-final-total.png",
-          "sha256": "aba147c31f33b7dcf7b33df05187fc1231c0b0308ee521d62a80e14c7e1bb72e"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p3-add-liter-exchange.png",
-          "sha256": "3d508c9692a872bd632e12c99c6fef962ceb0b0ba14b1c8289c192d15d1346a4"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p3-add-ml-total.png",
-          "sha256": "e91e4079adab00be5c08103954d9a56716c265be10aacb4020e3b0a4a0ef5ffc"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p8-order-compare.png",
-          "sha256": "35ae54c5f74e662268ef80f48dc4a596d2a6a784f0d2010dbfb7eef4f02271ca"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05b-play-wrong.png",
-          "sha256": "b149899b06c7ad31351c9033739645216164ab89efef552040e51e23d38362be"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-06-confirm.png",
-          "sha256": "33c9ff3c4473dcb5009a37dd3032251c2ac879ff71723c1d24ac3fe896b89994"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-07-reward-closed.png",
-          "sha256": "046d887968b8ea6810ca90576b9de20ec0f0bc8208668e4e596bb6e617f6818d"
+          "sha256": "8c4c480e0f1a3d623ec2ebfa88b07c1535086b9ac8adfae8badd4a95bb784517"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07b-reward-open.png",
-          "sha256": "0d3f1729b7f2f3f8be03fe7333580bc6eeed167f179b75492ea7d6852ea00a32"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-07c-reward-impact.png",
-          "sha256": "abb11f47bb2308facbecfe02f4d998c803732d4b1a590623da3741ebba5b64db"
+          "sha256": "b5a7f94c5f9b27697cef46e76496c2919c638aa9200c94f75e9af81eb976b099"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08-result.png",
-          "sha256": "cc20b70f7db7324891a28f4fde89202a62a74533fc41c8cb4898478dcced1765"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-cup.png",
-          "sha256": "59225a4c4895b9e8a4bc2927883fde8d4753833d158a97bf76aaa9b9ebfbdc41"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-festival.png",
-          "sha256": "ae2084ada8e10740e74cf59829772395201057d5cd07b79b79419f3b3630a539"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-popular.png",
-          "sha256": "e46ee10a303bfc9a633f989ae54c2539b7fea1f54f00418cf4d802059fa1b538"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png",
-          "sha256": "8c60c16f9b60765c537c69d73704f67138e0b1961e9f1286a248193cbbe0db19"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-tasty.png",
-          "sha256": "7af09e69cb04f888065b95d43df3a0f20c18edc29d3f05f779104bd4262f92e2"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-tray.png",
-          "sha256": "c8854a47f9e2b9f8071d0eb53dcee9dc59b078583d6f3de267a393859b558d66"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-cup.png",
-          "sha256": "59225a4c4895b9e8a4bc2927883fde8d4753833d158a97bf76aaa9b9ebfbdc41"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-festival.png",
-          "sha256": "ae2084ada8e10740e74cf59829772395201057d5cd07b79b79419f3b3630a539"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-popular.png",
-          "sha256": "e46ee10a303bfc9a633f989ae54c2539b7fea1f54f00418cf4d802059fa1b538"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png",
-          "sha256": "8c60c16f9b60765c537c69d73704f67138e0b1961e9f1286a248193cbbe0db19"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tasty.png",
-          "sha256": "7af09e69cb04f888065b95d43df3a0f20c18edc29d3f05f779104bd4262f92e2"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tray.png",
-          "sha256": "c8854a47f9e2b9f8071d0eb53dcee9dc59b078583d6f3de267a393859b558d66"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-cup.png",
-          "sha256": "59225a4c4895b9e8a4bc2927883fde8d4753833d158a97bf76aaa9b9ebfbdc41"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-festival.png",
-          "sha256": "ae2084ada8e10740e74cf59829772395201057d5cd07b79b79419f3b3630a539"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-popular.png",
-          "sha256": "e46ee10a303bfc9a633f989ae54c2539b7fea1f54f00418cf4d802059fa1b538"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-rainbow.png",
-          "sha256": "8c60c16f9b60765c537c69d73704f67138e0b1961e9f1286a248193cbbe0db19"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-tasty.png",
-          "sha256": "7af09e69cb04f888065b95d43df3a0f20c18edc29d3f05f779104bd4262f92e2"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-tray.png",
-          "sha256": "c8854a47f9e2b9f8071d0eb53dcee9dc59b078583d6f3de267a393859b558d66"
+          "sha256": "d7cd1c38a860b994ab00a9c396774cffc2564b25809b65693c7de108f402adcc"
         }
-      ]
-    },
-    {
-      "name": "codex-in-app",
-      "canonicalName": "codex-in-app",
-      "width": 1280,
-      "height": 720,
-      "dpr": 2,
-      "regressionNames": [
-        "codex-in-app"
       ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 37,
-      "sheet": "screenshots/report-flow-codex-in-app-contact-sheet.png",
-      "sheetSha256": "68de951ae852d6f6812036fcb8bbe831f3232cc58206f81b4a8c7aa9d9fe8033",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-codex-in-app-01-cover.png",
-          "sha256": "b98136ad947e4cb804596aa06de14723aa805e016b0ae55be303e818066f9daf"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-02-settings.png",
-          "sha256": "c0fd928fe7f672cb618a8e9aa533f8f8b8edf854daf417660aa6b17edc207175"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-03-tutorial-1.png",
-          "sha256": "812bfe2b162a0a4cdd0110f4d87f709e56953d5001f0cbc231b45f6ba6fdbfdc"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-04-tutorial-2.png",
-          "sha256": "14c7a7e4b604e9b8d26e1d28243ce9a52f564ba12e91a8b0aeaed09f507e6d9e"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05-play-step1.png",
-          "sha256": "4ca90d5d3b2be468b77e96bf5c645e2fa9c7d2496e860258898c54e89bddc194"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png",
-          "sha256": "a2ef89ee6e53694ae08a6123b208e74c9ed361732a1a439396eb0014c8cd6acc"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p1-borrow-liter.png",
-          "sha256": "6b4bc7e0a52f682a025f1dff2fa02a847874644f9cf294693f4b5a4a6d558aee"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p1-subtract-final.png",
-          "sha256": "434811beecda5efa4322d7a66f4c84fb862dfa223435c967098e441c477603fd"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p1-subtract-ml.png",
-          "sha256": "3cb5848e9c414019dfb4b8c68e03cd5d74bc86a27776ef2686e60ea7a208ea18"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p3-add-final-total.png",
-          "sha256": "23812598212cfcad2fb36ff68ed766fe5237b3f23ed3c252cebb40df367c23ea"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p3-add-liter-exchange.png",
-          "sha256": "ce1e91f5954a9b79d74f5782ef16cd4ec59752b7727bf10b58eb37b77365ac05"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p3-add-ml-total.png",
-          "sha256": "bda3c3169fb4af8924092c6a1c752a8d4f000da7cfb6efaeed06b5c7c5f218a4"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p8-order-compare.png",
-          "sha256": "b7e3137c131e8d25ba9c73f71c6eea082915cda4b4dd2a97fc05a085214dbcc6"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05b-play-wrong.png",
-          "sha256": "6b4bc7e0a52f682a025f1dff2fa02a847874644f9cf294693f4b5a4a6d558aee"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-06-confirm.png",
-          "sha256": "c0489c9b0517fceb6771e8be0b861cbedac76893e15ff60d3a5192d53aee883f"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07-reward-closed.png",
-          "sha256": "03de79b7b6579d90e6a2507de58278840928aaca14d65af70bbd70d1bb1ed14d"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07b-reward-open.png",
-          "sha256": "b43634aa67a6edf49bf42ef5fe2a354d5aa94b3f7f261641da8475b10146ad7c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07c-reward-impact.png",
-          "sha256": "590120f882f9157d55bd7d607ea6d3bd6873d66f8d139f218880c6ffe0c4515d"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08-result.png",
-          "sha256": "d14bcc26133fab7f1d36184daf67e0a4b675a438ddf4dcf2fca06fb2d28d0c2c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-cup.png",
-          "sha256": "7f646c1dd7d56b2a2092e362911b78aff4741258881fe3a603ffa4b2250bcc9b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-festival.png",
-          "sha256": "d14bcc26133fab7f1d36184daf67e0a4b675a438ddf4dcf2fca06fb2d28d0c2c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-popular.png",
-          "sha256": "0c70519a2cf783edc2ab19970fb00b911f4d688c94dc5975949b3444084d1882"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-rainbow.png",
-          "sha256": "ac9f050b02ae777103e93f13a2a0c18834a9a346beb93b967b7b5222ead3e784"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-tasty.png",
-          "sha256": "1bf0e22af3f1fee2bdb1b37f3e61850c9ef7942c69f475653be36d3f54c9dea1"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-tray.png",
-          "sha256": "3ac5247229b330776c61c9924d90048bcfdc8bcc3dc53b835d3d14bbf29f2b64"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-cup.png",
-          "sha256": "7f646c1dd7d56b2a2092e362911b78aff4741258881fe3a603ffa4b2250bcc9b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-festival.png",
-          "sha256": "d14bcc26133fab7f1d36184daf67e0a4b675a438ddf4dcf2fca06fb2d28d0c2c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-popular.png",
-          "sha256": "0c70519a2cf783edc2ab19970fb00b911f4d688c94dc5975949b3444084d1882"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png",
-          "sha256": "ac9f050b02ae777103e93f13a2a0c18834a9a346beb93b967b7b5222ead3e784"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tasty.png",
-          "sha256": "1bf0e22af3f1fee2bdb1b37f3e61850c9ef7942c69f475653be36d3f54c9dea1"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tray.png",
-          "sha256": "3ac5247229b330776c61c9924d90048bcfdc8bcc3dc53b835d3d14bbf29f2b64"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-cup.png",
-          "sha256": "7f646c1dd7d56b2a2092e362911b78aff4741258881fe3a603ffa4b2250bcc9b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-festival.png",
-          "sha256": "d14bcc26133fab7f1d36184daf67e0a4b675a438ddf4dcf2fca06fb2d28d0c2c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-popular.png",
-          "sha256": "0c70519a2cf783edc2ab19970fb00b911f4d688c94dc5975949b3444084d1882"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-rainbow.png",
-          "sha256": "ac9f050b02ae777103e93f13a2a0c18834a9a346beb93b967b7b5222ead3e784"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-tasty.png",
-          "sha256": "1bf0e22af3f1fee2bdb1b37f3e61850c9ef7942c69f475653be36d3f54c9dea1"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-tray.png",
-          "sha256": "3ac5247229b330776c61c9924d90048bcfdc8bcc3dc53b835d3d14bbf29f2b64"
-        }
-      ]
-    },
-    {
-      "name": "user-visibility",
-      "canonicalName": "user-visibility",
-      "width": 994,
-      "height": 632,
-      "dpr": 1,
-      "regressionNames": [
-        "user-visibility"
-      ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 37,
-      "sheet": "screenshots/report-flow-user-visibility-contact-sheet.png",
-      "sheetSha256": "a114345a9a81228060b2cfaf8da33b62dcb8aaf79e55ef3af75cf726e059839e",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-user-visibility-01-cover.png",
-          "sha256": "1dbb7157c3b9b6c2cccecb73e71e4fc93a5ad91904716d3f85852debd6215c06"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-02-settings.png",
-          "sha256": "a278bf9d7966fa137917f02364f3466cdf98561ebe1d8eefc07ce86a71638eff"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-03-tutorial-1.png",
-          "sha256": "eaaaec426da1d1815a354455664019b1eec520af173a3f2704f3058d5f30b338"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-04-tutorial-2.png",
-          "sha256": "2f50f0d1aaaae91ce5458f9177c5b3c49be76430e5b6302b6599dfda87ab57dd"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05-play-step1.png",
-          "sha256": "5be419e0e025ecb35c3b9ab816c752c21c8931c0da28dd3ddce439f3abe71aad"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05n-next-problem-clean.png",
-          "sha256": "eb77409f39e13be8c493eeddf011c9b7af142239461f9612772b2eb8d6b87852"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p1-borrow-liter.png",
-          "sha256": "58884092a76ff0baf1c12e173653c5ac16154ed0ca19a3f32f2a4a55238e07eb"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p1-subtract-final.png",
-          "sha256": "0b500a994ab763bc46050abd2223ab4a8339bd4d3739e25a3263e8620fbbfdce"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p1-subtract-ml.png",
-          "sha256": "cd84239526fe4edcf64f32155b17a2b71568401e931ab626cf7ce0fc9cfa6fe3"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p3-add-final-total.png",
-          "sha256": "7ec23800b43ba71f7fa76040c84623f231e19d2c1cdfca437268bfb8b162deec"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p3-add-liter-exchange.png",
-          "sha256": "96ffbc69f0cee4df0b3335232387cd5d4b7112b4bf6731c558b60fc2b9094d24"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p3-add-ml-total.png",
-          "sha256": "5f997f0c9cc3a44e571d3ff96c779683e6400f221f27a15852302abf2dbf2143"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p8-order-compare.png",
-          "sha256": "db74df1de6c6d0833b4c576797f7957abf526f25255928bab3f5b07a8ebbb119"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05b-play-wrong.png",
-          "sha256": "58884092a76ff0baf1c12e173653c5ac16154ed0ca19a3f32f2a4a55238e07eb"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-06-confirm.png",
-          "sha256": "b7bfd975a929b773b8ccbb7d5b35dc1d1d8954c090ab0fb6cfe2ad1e4d5edf63"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07-reward-closed.png",
-          "sha256": "cbec8746259e8131493dea3a6b9e3fa9e6163e41cb3e19f2acec0bf013e9a1b6"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07b-reward-open.png",
-          "sha256": "7bed9034b88b3f2bd7725a8168ff79f5e0629b215ad7cca1df663f7d8385b460"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07c-reward-impact.png",
-          "sha256": "00233f87c83192ec5d3beff4064125398d2aa7a0c2a437e4f0d181760f9a5a09"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08-result.png",
-          "sha256": "1fb8115e6ad5e59e673000765a676080c1a6b963ea6ce19a411e10859655a4be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-cup.png",
-          "sha256": "597958a722b697be3b462c78a937389712106910e3a87bd99660186ac433f696"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-festival.png",
-          "sha256": "1fb8115e6ad5e59e673000765a676080c1a6b963ea6ce19a411e10859655a4be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-popular.png",
-          "sha256": "e4df2498e526cdd94139a42aba0c0f9182fc9dd2df5aaf10ab18a4a3fd50aec4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-rainbow.png",
-          "sha256": "db6c6c1eed99d66df77ee1103c280e9996c89c2c5d1eb953d94195834f6761bf"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-tasty.png",
-          "sha256": "52981810c1b5efa4fed7b84a84cc52b3a07b12d2747fff23b0bfb641c4195f1b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-tray.png",
-          "sha256": "1b2f72c5827d1bfbf0a050342ad4e4d88ff85af86d5a1e50932adb5b1b646346"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-cup.png",
-          "sha256": "597958a722b697be3b462c78a937389712106910e3a87bd99660186ac433f696"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-festival.png",
-          "sha256": "1fb8115e6ad5e59e673000765a676080c1a6b963ea6ce19a411e10859655a4be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-popular.png",
-          "sha256": "e4df2498e526cdd94139a42aba0c0f9182fc9dd2df5aaf10ab18a4a3fd50aec4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png",
-          "sha256": "db6c6c1eed99d66df77ee1103c280e9996c89c2c5d1eb953d94195834f6761bf"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tasty.png",
-          "sha256": "52981810c1b5efa4fed7b84a84cc52b3a07b12d2747fff23b0bfb641c4195f1b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tray.png",
-          "sha256": "1b2f72c5827d1bfbf0a050342ad4e4d88ff85af86d5a1e50932adb5b1b646346"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-cup.png",
-          "sha256": "597958a722b697be3b462c78a937389712106910e3a87bd99660186ac433f696"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-festival.png",
-          "sha256": "1fb8115e6ad5e59e673000765a676080c1a6b963ea6ce19a411e10859655a4be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-popular.png",
-          "sha256": "e4df2498e526cdd94139a42aba0c0f9182fc9dd2df5aaf10ab18a4a3fd50aec4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-rainbow.png",
-          "sha256": "db6c6c1eed99d66df77ee1103c280e9996c89c2c5d1eb953d94195834f6761bf"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-tasty.png",
-          "sha256": "52981810c1b5efa4fed7b84a84cc52b3a07b12d2747fff23b0bfb641c4195f1b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-tray.png",
-          "sha256": "1b2f72c5827d1bfbf0a050342ad4e4d88ff85af86d5a1e50932adb5b1b646346"
-        }
-      ]
-    },
-    {
-      "name": "user-reported-missing-left-progress",
-      "canonicalName": "user-reported-missing-left-progress",
-      "width": 1082,
-      "height": 987,
-      "dpr": 2,
-      "regressionNames": [
-        "user-reported-missing-left-progress"
-      ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 37,
-      "sheet": "screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png",
-      "sheetSha256": "6e4e48fbfc30ec4b3d72f5fcb0d015154d27c3201127f0ee738112c759eba92a",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-01-cover.png",
-          "sha256": "63a4130078b57d9a4c48675c0fa285a6fbc173f5826338f16e76e285748b7688"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-02-settings.png",
-          "sha256": "2a2e9d08380b20d55dbe9a735e60f1fea03f5e8f45bdaf76aacc58a2109cbe67"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-03-tutorial-1.png",
-          "sha256": "7049522b3eed5497665d77f9a90f9cbc27c1c2e4e9d8f7cfded0399a8dabbbf0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-04-tutorial-2.png",
-          "sha256": "a92646d9d10f8285a2d0f26d3918cee061954941225eeb9fd97e9e7b602284b9"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05-play-step1.png",
-          "sha256": "abe14a060d20814b3513042b2d44c452b48d7a34ec5f4b41048ada0bc4734b93"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png",
-          "sha256": "18c1b96e5ea9e6d765005f078fa2e29b1c145cbe4f30cb76a903f3d2035763d9"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-borrow-liter.png",
-          "sha256": "3319afd8b1507398459b20f821c03c70946403c79c0530e16053eb7fd6895798"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-subtract-final.png",
-          "sha256": "af8da8e437a9c71ce8e9ed8c959ab5d441a7ce6f55d6fd973ffc7f6b4d05b7ca"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-subtract-ml.png",
-          "sha256": "8dd62461f05bc978108ebe34b12d70ca5e34162ab66ca035e6a0ef89db2fefa5"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-add-final-total.png",
-          "sha256": "9bb3757b84ed32125fe967ebd8c2c2fe4b8c97ec6de87438e469fefeb9551bf0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-add-liter-exchange.png",
-          "sha256": "faeb1714333a044c8a11bfbf0052d193c5c69754d0a8a21c82800a4cd7ad2586"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-add-ml-total.png",
-          "sha256": "4d2a36955f62c700b65d95115cf5d39068f6fc36e4374bff9ebbe315f34706c8"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p8-order-compare.png",
-          "sha256": "54d0a96bde4978a094b2a84fb82e1872d6363f29c9a9f195308e670d4845b7a4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05b-play-wrong.png",
-          "sha256": "3319afd8b1507398459b20f821c03c70946403c79c0530e16053eb7fd6895798"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-06-confirm.png",
-          "sha256": "6117519dd5ab030f6713136950183384f631afcac0f72977ed33d2cf0a78d3a2"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-07-reward-closed.png",
-          "sha256": "ba6c879b0068f71d03b0b99bb6eb5364fe51b5e6bfd056e7ebf1e240a081d477"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-07b-reward-open.png",
-          "sha256": "9c4cc3cd17ce125ad7dff43b7a4afd974d84b192f3225995d47d767c1a8c3990"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-07c-reward-impact.png",
-          "sha256": "3d2f2592f9b3a2de699595b6fcc3b029062e74f06459b936d1a4c625a0a7a6a4"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08-result.png",
-          "sha256": "c15fb99c3c3198ec3574c843bd407ee9c0bd69e6d40eebaf841374fb7f03068d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-cup.png",
-          "sha256": "5eef665ba8d28da00bc91f134474319d676a07a54e007ec2e1875c7b73a193be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-festival.png",
-          "sha256": "d44c02834be8a3f42303b045d67a2a3ffe27073368fb48bfad81df6a830d1573"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-popular.png",
-          "sha256": "4d3c3a85fb69d0f0d47139eadf7e201d22ff35f66c1e9cc02fcf6da5449087b0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-rainbow.png",
-          "sha256": "d194b528d46a7817c738b14adde58601a0cbb5587f24f172b7e1042e98c75a1c"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-tasty.png",
-          "sha256": "aaabe36dd59c4d08547634ee34385280dc2dba73030a3d94be6fb22e8782d1af"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-tray.png",
-          "sha256": "9fcc9a5a684e6c21881161cca82536b1d16717c9477e5d304702e76e6b1860c5"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-cup.png",
-          "sha256": "5eef665ba8d28da00bc91f134474319d676a07a54e007ec2e1875c7b73a193be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-festival.png",
-          "sha256": "d44c02834be8a3f42303b045d67a2a3ffe27073368fb48bfad81df6a830d1573"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-popular.png",
-          "sha256": "4d3c3a85fb69d0f0d47139eadf7e201d22ff35f66c1e9cc02fcf6da5449087b0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png",
-          "sha256": "d194b528d46a7817c738b14adde58601a0cbb5587f24f172b7e1042e98c75a1c"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tasty.png",
-          "sha256": "aaabe36dd59c4d08547634ee34385280dc2dba73030a3d94be6fb22e8782d1af"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tray.png",
-          "sha256": "9fcc9a5a684e6c21881161cca82536b1d16717c9477e5d304702e76e6b1860c5"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-cup.png",
-          "sha256": "5eef665ba8d28da00bc91f134474319d676a07a54e007ec2e1875c7b73a193be"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-festival.png",
-          "sha256": "d44c02834be8a3f42303b045d67a2a3ffe27073368fb48bfad81df6a830d1573"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-popular.png",
-          "sha256": "4d3c3a85fb69d0f0d47139eadf7e201d22ff35f66c1e9cc02fcf6da5449087b0"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-rainbow.png",
-          "sha256": "d194b528d46a7817c738b14adde58601a0cbb5587f24f172b7e1042e98c75a1c"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-tasty.png",
-          "sha256": "aaabe36dd59c4d08547634ee34385280dc2dba73030a3d94be6fb22e8782d1af"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-tray.png",
-          "sha256": "9fcc9a5a684e6c21881161cca82536b1d16717c9477e5d304702e76e6b1860c5"
-        }
-      ]
-    },
-    {
-      "name": "empty-reward-fixture",
-      "canonicalName": "empty-reward-fixture",
-      "width": 1280,
-      "height": 800,
-      "dpr": 1,
-      "regressionNames": [
-        "empty-reward-fixture"
-      ],
-      "aliases": [],
-      "behaviorKeys": [
-        "emptyRewardAuditViewport"
-      ],
-      "capture": {
-        "mode": "targeted",
-        "reason": "empty-reward-fixture",
-        "states": [
-          "06-confirm",
-          "07-reward-closed",
-          "07b-reward-open"
-        ]
-      },
-      "screenshotCount": 3,
-      "sheet": "screenshots/report-flow-empty-reward-fixture-contact-sheet.png",
-      "sheetSha256": "4d8d302e7f7775872a89b9b5d1e2925c6001f525ccc3ca08f40c4c6f8beb6e49",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-06-confirm.png",
-          "sha256": "91e96683ad37e35b9de49fd472aa280342ffefc5f1d28457b84ca3bfe09ae6e6"
-        },
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png",
-          "sha256": "8c87b158793a6cdfe6305b16f488fb0d2f8e41d5b9455fdeb4cee00ee0edd99a"
-        },
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png",
-          "sha256": "247cfc4691b333062d184cfa31673fa6c54d913bd728212583c775242d567020"
-        }
+      "screenshotRoles": [
+        "cover-responsive",
+        "representative-problem-responsive",
+        "reward-responsive",
+        "completed-result-responsive"
       ]
     }
   ]
