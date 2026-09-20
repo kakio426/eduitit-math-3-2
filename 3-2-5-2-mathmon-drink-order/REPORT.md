@@ -5,7 +5,7 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `4d97376c923d39801ea3df4c99cb9e260be6772a`
+- 공개 입력 커밋: `ce669177de8f9ca2cf427a6c407c1ce882d0e861`
 - 입력 커밋 시각: `2026-09-20T20:05:38+09:00`
 - 제작 보고서 원본 SHA-256: `8d8197bd7dfca163b865d5cbc250d50c2aad17ccafc07b90911bb4977fe1877a`
 - 실제 실행 진입점: `3-2-5-2-mathmon-drink-order/index.html`
