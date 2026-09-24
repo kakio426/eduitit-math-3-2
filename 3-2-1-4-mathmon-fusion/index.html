@@ -3047,6 +3047,10 @@
         line-height: 1.45;
       }
     }
+
+    .game:fullscreen { padding: 0; }
+    .game:fullscreen::backdrop { background: #111018; }
+    .game:fullscreen .stage-shell { width: min(1280px, calc(100dvh * 1.6), 100%); }
   </style>
 
   <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="assets/runtime-vendor/_shared/audio/">
@@ -3510,7 +3514,7 @@
     </div>
   </div>
 
-  <main class="game" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-reward-event-standard="mathmon-unified-reward-v2">
+  <main class="game" data-fullscreen-support="landscape-only-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-result-visual-standard="generated-assets" data-result-render-mode="hybrid-generated-dynamic" data-result-action-standard="shared-v1" data-settings-standard="modal-controls" data-reward-event-standard="mathmon-unified-reward-v2">
     <div class="stage-shell">
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -3532,6 +3536,7 @@
             </button>
             <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
             <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsFullscreenButton" type="button" aria-pressed="false">전체 화면</button>
             <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
           </div>
           <div class="settings-confirm" id="settingsRestartConfirm" hidden>
@@ -5401,5 +5406,52 @@
     });
   </script>
 
+
+  <script data-mathmon-fullscreen="landscape-only-v1">
+    (() => {
+      const target = document.querySelector(".game");
+      const button = document.getElementById("settingsFullscreenButton");
+      const backdrop = document.getElementById("settingsBackdrop");
+      const settingsToggle = document.getElementById("settingsButton");
+      if (!target || !button || !backdrop) return;
+      const orientationQuery = typeof window.matchMedia === "function"
+        ? window.matchMedia("(orientation: landscape)")
+        : null;
+      const isLandscape = () => orientationQuery?.matches ?? window.innerWidth >= window.innerHeight;
+      const canFullscreen = () => Boolean(
+        isLandscape()
+          && document.fullscreenEnabled
+          && typeof target.requestFullscreen === "function",
+      );
+      const sync = () => {
+        const active = document.fullscreenElement === target;
+        button.hidden = !isLandscape();
+        button.disabled = !canFullscreen();
+        button.textContent = active ? "전체 화면 나가기" : "전체 화면";
+        button.setAttribute("aria-label", active ? "전체 화면 나가기" : "전체 화면");
+        button.setAttribute("aria-pressed", String(active));
+        button.dataset.fullscreenState = active ? "active" : "inactive";
+      };
+      button.addEventListener("click", async () => {
+        if (!isLandscape()) return;
+        if (document.fullscreenElement) {
+          try { await document.exitFullscreen?.(); } catch (error) { console.warn("Fullscreen mode could not be disabled.", error); }
+          return;
+        }
+        if (!canFullscreen()) return;
+        try {
+          await target.requestFullscreen({ navigationUI: "hide" });
+        } catch (firstError) {
+          try { await target.requestFullscreen(); } catch (error) { console.warn("Fullscreen mode could not be enabled.", error || firstError); return; }
+        }
+        backdrop.hidden = true;
+        settingsToggle?.setAttribute("aria-expanded", "false");
+      });
+      document.addEventListener("fullscreenchange", sync);
+      window.addEventListener("resize", sync, { passive: true });
+      orientationQuery?.addEventListener?.("change", sync);
+      sync();
+    })();
+  </script>
 </body>
 </html>

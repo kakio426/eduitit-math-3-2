@@ -42,6 +42,15 @@
             radial-gradient(circle at 85% 84%, rgba(255, 200, 87, 0.17), transparent 28%),
             #111018;
         }
+        .game:fullscreen {
+          padding: 0;
+        }
+        .game:fullscreen::backdrop {
+          background: #111018;
+        }
+        .game:fullscreen .stage-shell {
+          width: min(1280px, calc(100dvh * 1.6), 100%);
+        }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
           --top-control-y: var(--stage-inset);
@@ -1003,6 +1012,14 @@
       padding-block: 2px;
     }
 
+    .game[data-workbench-type="water-fill"] .problem-label {
+      display: none;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-card {
+      grid-template-rows: auto 1fr;
+    }
+
     .game[data-reward-mode="modal-art"] .reward-card {
       width: 430px;
       max-width: 82%;
@@ -1069,10 +1086,22 @@
       line-height: 1.12;
     }
 
+    .game[data-workbench-type="water-fill"] .step-board .answer-slot {
+      min-height: 72px;
+    }
+
+    .game.has-play-progress[data-workbench-type="water-fill"] .step-board .feedback-line {
+      min-height: 32px;
+    }
+
     .game[data-workbench-type="water-fill"] .problem-grid,
     .game[data-workbench-type="drink-order"] .problem-grid,
     .game[data-workbench-type="scale-balance"] .problem-grid {
       grid-template-rows: minmax(0, .9fr) minmax(0, 1.1fr);
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid {
+      grid-template-rows: repeat(2, minmax(0, 1fr));
     }
 
     .game[data-workbench-type="water-fill"] .choices-panel,
@@ -1480,25 +1509,23 @@
         height: 250px;
       }
     }
-    .top-row .brand-badge,
-    .top-row .unit-badge,
-    .top-row .mini-badge,
-    .hud .brand-badge,
-    .hud .unit-badge,
-    .hud .mini-badge {
-      font-size: 1rem;
+
+    .game.has-play-progress {
+      --water-play-content-top: 11.9%;
+      --water-play-content-height: 84.53%;
     }
+
     .game.has-play-progress .water-play-progress {
       position: absolute;
-      top: 11%;
+      top: var(--water-play-content-top);
       left: 1.65%;
       z-index: 4;
       width: 24.5%;
-      height: 84%;
+      height: var(--water-play-content-height);
       min-width: 0;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) minmax(72px, auto);
       border: 3px solid rgba(96, 215, 255, .92);
       border-radius: 22px;
       background: #102839;
@@ -1507,9 +1534,8 @@
 
     .game.has-play-progress .water-play-progress-art {
       width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 2;
-      flex: 0 0 auto;
+      height: 100%;
+      aspect-ratio: auto;
       min-height: 0;
       display: block;
       object-fit: contain;
@@ -1594,12 +1620,12 @@
     }
 
     .game.has-play-progress .water-play-progress-readout {
-      flex: 1 1 auto;
-      min-height: 0;
-      padding: 8px 12px 11px;
+      min-height: 72px;
+      padding: 8px 12px 9px;
       display: grid;
       place-items: center;
       gap: 4px;
+      box-sizing: border-box;
       border-top: 2px solid rgba(96, 215, 255, .68);
       background: linear-gradient(180deg, rgba(25, 78, 107, .98), rgba(14, 45, 64, .99));
     }
@@ -1656,12 +1682,12 @@
 
     .game.has-play-progress .problem-grid {
       position: absolute;
-      top: calc(var(--top-control-y) + var(--sound-button-size) + 6px);
+      top: var(--water-play-content-top);
       right: 2%;
-      bottom: 20px;
+      bottom: auto;
       left: 27.75%;
       width: auto;
-      height: auto;
+      height: var(--water-play-content-height);
       margin: 0;
       grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
     }
@@ -1693,40 +1719,364 @@
     @keyframes water-progress-stage-ring { 0% { opacity: 0; transform: scale(.2); } 20% { opacity: 1; } 70% { opacity: .52; } 100% { opacity: 0; transform: scale(1.34); } }
     @keyframes water-progress-stage-rays { 0% { opacity: 0; transform: rotate(-16deg) scale(.52); } 24% { opacity: .85; } 100% { opacity: 0; transform: rotate(26deg) scale(1.36); } }
 
-    @media (prefers-reduced-motion: reduce) {
-      .game.has-play-progress .water-play-progress.is-changing,
-      .game.has-play-progress .water-play-progress.is-tier-up {
-        animation: none !important;
-        outline: 3px solid rgba(210, 247, 255, .82);
-        outline-offset: -3px;
-        box-shadow: 0 0 0 4px rgba(142, 231, 250, .58), 0 0 22px 7px rgba(255, 196, 74, .42), 0 16px 34px rgba(10, 43, 65, .4) !important;
+    /* 5-1 focused play: one visual decision, one instruction, one choice row. */
+    .game.has-play-progress[data-workbench-type="water-fill"] .problem-grid {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) 56px 112px;
+      gap: 8px;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-card,
+    .game[data-workbench-type="water-fill"] .step-board,
+    .game[data-workbench-type="water-fill"] .choices-panel,
+    .game[data-workbench-type="water-fill"] .complete-panel {
+      grid-column: 1;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-card {
+      grid-row: 1;
+      min-height: 0;
+      padding: 10px 18px 8px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 2px;
+      border: 2px solid rgba(120, 105, 143, .72);
+      border-radius: 20px;
+      background: rgba(31, 25, 47, .96);
+      box-shadow: inset 0 1px rgba(255, 255, 255, .06), 0 12px 24px rgba(8, 7, 18, .18);
+    }
+
+    .game[data-workbench-type="water-fill"] .big-problem {
+      justify-self: center;
+      margin: 0;
+      padding: 2px 16px;
+      color: #fff8e8;
+      background: transparent;
+      font-size: clamp(2rem, 3.2vw, 2.6rem);
+      line-height: 1.15;
+      text-align: center;
+      text-shadow: none;
+    }
+
+    .game[data-workbench-type="water-fill"] .visual-area {
+      padding: 0 8px;
+      display: grid;
+      place-items: center;
+      overflow: visible;
+    }
+
+    .game[data-workbench-type="water-fill"] .capacity-visual {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board {
+      grid-row: 2;
+      min-height: 0;
+      padding: 0 18px;
+      display: grid;
+      grid-template: 1fr / 1fr;
+      place-items: center;
+      border: 2px solid rgba(120, 105, 143, .72);
+      border-radius: 15px;
+      background: rgba(42, 35, 59, .98);
+    }
+
+    .game[data-workbench-type="water-fill"] .step-chips,
+    .game[data-workbench-type="water-fill"] .answer-slot {
+      display: none;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board .instruction,
+    .game[data-workbench-type="water-fill"] .step-board .feedback-line {
+      grid-area: 1 / 1;
+      width: 100%;
+      min-height: 0;
+      margin: 0;
+      color: #fff8e8;
+      font-size: clamp(1.125rem, 1.55vw, 1.25rem);
+      line-height: 1.15;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board .instruction[hidden] {
+      display: none;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board .feedback-line[data-state="idle"] {
+      visibility: hidden;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board .feedback-line[data-state="wrong"] {
+      color: #ffb3c3;
+    }
+
+    .game[data-workbench-type="water-fill"] .step-board .feedback-line[data-state="correct"] {
+      color: #8fffdc;
+    }
+
+    .game[data-workbench-type="water-fill"] .choices-panel {
+      grid-row: 3;
+      min-height: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-rows: minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .game[data-workbench-type="water-fill"] .choices-panel > :last-child:nth-child(odd) {
+      grid-column: auto;
+      width: auto;
+      justify-self: stretch;
+    }
+
+    .game[data-workbench-type="water-fill"] .choice-button {
+      min-width: 0;
+      min-height: 72px;
+      height: 100%;
+      padding: 8px 10px;
+      border: 2px solid rgba(135, 122, 156, .84);
+      border-radius: 18px;
+      color: #fff8e8;
+      background: #3a3347;
+      box-shadow: 0 6px 0 #201a2c;
+      font-size: clamp(1.15rem, 1.8vw, 1.42rem);
+      line-height: 1.08;
+      font-weight: 1000;
+    }
+
+    .game[data-workbench-type="water-fill"] .choice-button[data-state="wrong"] {
+      border-color: #ff8ca5;
+      color: #fff;
+      background: #6e2f47;
+      box-shadow: 0 6px 0 #421a2a;
+    }
+
+    .game[data-workbench-type="water-fill"] .choice-button[data-state="correct"] {
+      border-color: #69e0bb;
+      color: #10251f;
+      background: #8fffdc;
+      box-shadow: 0 6px 0 #3d8b73;
+    }
+
+    .game[data-problem-type="compareBottle"] .choices-panel {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .game[data-problem-type="compareBottle"] .vessel-side-choice[data-side="왼쪽"] {
+      border-color: #63dbff;
+    }
+
+    .game[data-problem-type="compareBottle"] .vessel-side-choice[data-side="오른쪽"] {
+      border-color: #d1a8ff;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .problem-card {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .choices-panel {
+      display: none;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .step-board {
+      grid-column: 1;
+      grid-row: 2;
+      display: grid;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-panel {
+      grid-column: 1;
+      grid-row: 3;
+      min-height: 0;
+      padding: 6px 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: minmax(0, 1fr);
+      align-items: center;
+      justify-items: stretch;
+      align-content: center;
+      gap: 18px;
+      border: 2px solid rgba(105, 224, 187, .72);
+      border-radius: 17px;
+      background: rgba(29, 57, 53, .98);
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-text {
+      width: 100%;
+      margin: 0;
+      justify-self: start;
+      font-size: clamp(1.75rem, 3vw, 2rem);
+      line-height: 1.15;
+      font-weight: 1000;
+      text-align: left;
+    }
+
+    .game[data-workbench-type="water-fill"] .problem-grid.is-complete .complete-panel .primary-button {
+      min-width: 166px;
+      min-height: 56px;
+      margin: 0;
+      justify-self: end;
+      font-size: 1.25rem;
+    }
+
+    .generated-vessel-scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(26px, 5vw, 72px);
+    }
+
+    .generated-vessel-scene.is-single {
+      padding-right: 58px;
+      box-sizing: border-box;
+    }
+
+    .generated-vessel {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      max-height: 292px;
+      aspect-ratio: 2 / 3;
+      flex: 0 0 auto;
+    }
+
+    .generated-vessel-scene.is-compare .generated-vessel {
+      max-height: 270px;
+    }
+
+    .generated-vessel-liquid {
+      position: absolute;
+      z-index: 1;
+      right: 18.5%;
+      bottom: 14%;
+      left: 18.5%;
+      height: var(--water-height);
+      overflow: visible;
+      border-radius: 8% 8% 26% 26%;
+      background: linear-gradient(180deg, rgba(80, 211, 245, .98), rgba(40, 190, 205, .98) 58%, rgba(39, 183, 153, .98));
+      box-shadow: inset 0 8px 16px rgba(215, 252, 255, .26), 0 0 16px rgba(74, 216, 239, .18);
+      transition: height .58s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .generated-vessel-liquid::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      right: -2%;
+      left: -2%;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(155, 239, 255, .96);
+      box-shadow: 0 2px 0 rgba(20, 139, 169, .34);
+    }
+
+    .generated-vessel-image {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .generated-vessel-scale {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .vessel-tick {
+      position: absolute;
+      bottom: var(--tick-y);
+      left: 62%;
+      width: 16%;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: 0 1px 2px rgba(14, 37, 72, .55);
+      transform: translateY(50%);
+    }
+
+    .vessel-tick.is-major {
+      width: 23%;
+      height: 3px;
+      background: #fff8df;
+    }
+
+    .vessel-scale-label {
+      position: absolute;
+      left: calc(100% + 5px);
+      top: 50%;
+      width: 42px;
+      color: #fff8df;
+      font-size: .78rem;
+      line-height: 1;
+      font-weight: 1000;
+      text-align: left;
+      text-shadow: 0 2px 3px rgba(11, 23, 55, .95);
+      transform: translateY(-50%);
+    }
+
+    .vessel-scale-key {
+      position: absolute;
+      right: 10px;
+      bottom: 12px;
+      z-index: 4;
+      min-height: 34px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(143, 225, 255, .56);
+      border-radius: 999px;
+      color: #dff8ff;
+      background: rgba(16, 40, 57, .9);
+      font-size: .88rem;
+      line-height: 1;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 980px) {
+      .game.has-play-progress[data-workbench-type="water-fill"] .problem-grid {
+        grid-template-rows: minmax(0, 1fr) 52px 100px;
       }
-      .game.has-play-progress .water-play-progress.is-dimming {
-        animation: none !important;
-        outline: 3px solid rgba(173, 196, 222, .58);
-        outline-offset: -3px;
-        box-shadow: 0 0 0 3px rgba(173, 196, 222, .42), 0 12px 28px rgba(0, 0, 0, .32) !important;
+
+      .game[data-workbench-type="water-fill"] .problem-card {
+        padding: 8px 12px 6px;
       }
-      .game.has-play-progress .water-play-progress.is-changing .water-play-progress-art,
-      .game.has-play-progress .water-play-progress.is-tier-up .water-play-progress-art {
-        animation: none !important;
-        filter: brightness(1.24) saturate(1.14) !important;
-        transform: none !important;
+
+      .game[data-workbench-type="water-fill"] .big-problem {
+        font-size: 2rem;
       }
-      .game.has-play-progress .water-play-progress.is-dimming .water-play-progress-art {
-        animation: none !important;
-        filter: brightness(.72) saturate(.72) !important;
-        transform: none !important;
+
+      .generated-vessel {
+        max-height: 246px;
       }
-      .game.has-play-progress .water-play-progress.is-tier-up ~ .water-play-progress-impact-stage {
-        animation: none !important;
-        opacity: .62 !important;
-        transform: none !important;
+
+      .generated-vessel-scene.is-compare .generated-vessel {
+        max-height: 226px;
       }
-      .game.has-play-progress .water-play-progress.is-tier-up ~ .water-play-progress-impact-stage .water-play-progress-impact-visual {
-        animation: none !important;
-        opacity: .42 !important;
-        transform: none !important;
+
+      .game[data-workbench-type="water-fill"] .choice-button {
+        min-height: 64px;
+        font-size: 1.12rem;
       }
     }
 
@@ -2178,13 +2528,13 @@
   </script>
 </head>
 <body>
-  <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="scale-balance" data-scoreboard-enabled="false">
+  <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-fullscreen-support="landscape-only-v1" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="scale-balance" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-3" data-commit-sha="0b59e8b50f555d256b2c79c60e8234afcdc94017" data-lesson-json-sha256="5cbb75cfc119c6bf29a7d1a4ae78ce5309a3f57d32c69f11ae74b4ac447577e4" data-build-inputs-sha256="836f174edd42a4a9f32108f29149b662136d9d6b6b3787b4ab6b1c5d35249217"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-3" data-commit-sha="" data-lesson-json-sha256="140633d5c0e177223a147b5cdf557be5865f3603f0dbaf6d94735d5404dc4814" data-build-inputs-sha256="80a31c73437afca600aab828dd8910eb3d3303213f01f1db666a18cfe9d351bb"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
-          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.02-1.56 1.7 1.7 0 0 0-1.89.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.96a1.7 1.7 0 0 0-.34-1.89l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.89.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09c0 .68.4 1.3 1.03 1.56.62.26 1.34.12 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.89V9c.26.63.88 1.03 1.56 1.03H21a2 2 0 0 1 0 4h-.09c-.68 0-1.3.4-1.56 1.03Z"></path>
         </svg>
       </button>
       <div class="settings-backdrop" id="settingsBackdrop" hidden>
@@ -2195,6 +2545,7 @@
             <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true"><span>효과 소리</span><span class="settings-switch-track" aria-hidden="true"></span></button>
             <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
             <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsFullscreenButton" type="button" aria-pressed="false">전체 화면</button>
             <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
           </div>
           <div class="settings-confirm" id="settingsRestartConfirm" hidden>
@@ -2921,7 +3272,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit5-weight-shared-model","id":"3-2-5-3","folder":"3-2-5-3-mathmon-scale-balance","modelName":"Lesson5WaterFillModel","title":"매스몬 저울 균형","shortTitle":"매스몬 저울","topic":"무게 비교와 kg, g, t","unitBadge":"5단원 무게 · 3차시","goal":"저울에 맞는 무게를 골라요.","action":"저울을 맞출 무게 또는 더 무거운 쪽을 고른다.","buttonLabel":"저울 보기","rewardScreenTitle":"저울 맞추기","progressLabel":"균형 점수","rewardThing":"저울","playProgressEyebrow":"지금의 저울","rewardComplete":"균형 점수가 바뀌었어요.","rewardSmall":"조금 맞춰졌어요.","rewardBig":"크게 맞춰졌어요.","tutorialTitle":"저울을 보기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 비교해요?","body":"같은 단위로 바꾼 뒤 무게를 비교해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 저울 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"closedLabel":"두근두근!","changeLabel":"균형 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallBalance","bigBalance","shineBalance","smallOnly","specialBalance","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallBalance":"reward-event-small-balance-generated.webp","bigBalance":"reward-event-big-balance-generated.webp","shineBalance":"reward-event-shine-balance-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialBalance":"reward-event-special-balance-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showNextGoal":true,"layout":{"axisX":972.5,"axisXByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5},"byTier":{"tilted":{"retryRect":{"x":912.5,"y":540,"width":120,"height":42}},"almost":{"retryRect":{"x":891.5,"y":540,"width":120,"height":42}},"balanced":{"retryRect":{"x":909,"y":540,"width":120,"height":42}},"shining":{"retryRect":{"x":883.5,"y":540,"width":120,"height":42}},"gold":{"retryRect":{"x":944,"y":540,"width":120,"height":42}},"rainbow":{"retryRect":{"x":924.5,"y":540,"width":120,"height":42}}},"titleTop":170,"titleWidth":250,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-title-set-v1.json","titleSetManifest":"result-title-set-v1.json","measureY":404,"barY":429,"barWidth":240,"barHeight":16,"correctTop":360,"correctWidth":120,"nextY":480,"nextFontPx":32,"nextStrokeWidthPx":6,"retryCenterOnAxis":true,"retryWidth":190,"retryHeight":66,"retryY":520,"retryRect":{"x":911,"y":540,"width":120,"height":42},"panelRect":{"x":742,"y":144,"width":458,"height":506},"titleAxisX":972.5,"titleAxisXByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5}},"stateImageSet":{"standard":"generated-result-fullscene-v3","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/contact-sheets/result-tiers-v6-contact-sheet.png","protagonist":"mathmon-drv-05-crystalowl","nativeScenePerState":true,"titlePresentation":"independent-art","retryPresentation":"independent-art","fixedGeneratedElements":["environment","mathmon","native-scale","blank-dynamic-panel","result-panel-raster","result-title-raster","result-retry-raster"],"dynamicOverlays":["correct-count","next-goal"],"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true}},"workbench":{"type":"scale-balance","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"mathmon-drv-05-crystalowl","cacheVersion":"2026-08-01-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png","filePattern":"play-scale-v1-{tier}-generated.webp","requiredSubjects":["수정부엉몬 전신","balance scale progress"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.49,"centerY":0.56,"footY":0.71,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","tilted":{"centerX":0.48,"centerY":0.56,"footY":0.72,"height":0.32},"almost":{"centerX":0.48,"centerY":0.56,"footY":0.72,"height":0.32},"balanced":{"centerX":0.49,"centerY":0.55,"footY":0.71,"height":0.32},"shining":{"centerX":0.49,"centerY":0.56,"footY":0.71,"height":0.31},"gold":{"centerX":0.5,"centerY":0.55,"footY":0.7,"height":0.31},"rainbow":{"centerX":0.5,"centerY":0.56,"footY":0.71,"height":0.31}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"sourceFiles":{"model":"../3-2-5-1-mathmon-water-fill/model.js","view":"../3-2-5-1-mathmon-water-fill/view.js","style":"../3-2-5-1-mathmon-water-fill/lesson.css"},"mathmonPack":"diversity-reward-pack","mathmonName":"수정부엉몬","mathmonId":"mathmon-drv-05-crystalowl","results":[{"id":"tilted","name":"살짝 기운 저울","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-scale-v1-tilted-generated.webp","image":"result-scale-tilted-generated.webp","titleImage":"result-title-tilted-generated.webp"},{"id":"almost","name":"거의 균형","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-scale-v1-almost-generated.webp","image":"result-scale-almost-generated.webp","titleImage":"result-title-almost-generated.webp"},{"id":"balanced","name":"균형 저울","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-scale-v1-balanced-generated.webp","image":"result-scale-balanced-generated.webp","titleImage":"result-title-balanced-generated.webp"},{"id":"shining","name":"반짝 균형","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-scale-v1-shining-generated.webp","image":"result-scale-shining-generated.webp","titleImage":"result-title-shining-generated.webp"},{"id":"gold","name":"황금 균형","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-scale-v1-gold-generated.webp","image":"result-scale-gold-generated.webp","titleImage":"result-title-gold-generated.webp"},{"id":"rainbow","name":"무지개 균형","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-scale-v1-rainbow-generated.webp","image":"result-scale-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"균형 점수가 올랐어요","weight":6900,"min":6,"max":10,"family":"smallBalance"},{"id":"loss","text":"균형 점수가 내려갔어요","weight":1000,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"균형 점수가 크게 올랐어요","weight":1200,"min":14,"max":22,"family":"bigBalance"},{"id":"jackpot","text":"저울이 크게 빛나요","weight":500,"min":30,"max":30,"family":"shineBalance"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"황금 무게추","weight":20,"min":100,"max":100,"family":"specialBalance","special":true}],"wrongEvent":{"id":"wrong-loss","text":"균형 점수가 내려갔어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["compareKgG","compareKgG","compareKgG","compareKgG","balanceMissing","balanceMissing","balanceMissing","balanceMissing","compareTonKg","compareTonKg"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultInternalMetrics":"result-internal-metric-hidden-v1","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp","resultPanel":"result-panel-generated.webp"},"qa":{"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 5단원 3차시","compactText":"5단원 무게 · 3차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"균형 점수","selectors":{"root":"#rewardPop .reward-card","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["균형 점수가 6 올랐어요"]},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"result-title-only-v1","titlePresentation":"independent-art","panelSafeInsetSourcePx":6,"minimumVisibleWidthSourcePx":220,"minimumVisibleHeightSourcePx":100,"minimumPaletteColors":12,"minimumNonWarmRatio":0.05,"stateCount":6,"minimumGapSourcePx":10,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":1,"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"misconceptionCoverage":["COMPARE_KG_G","BALANCE_MISSING","COMPARE_TON_KG"],"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["tertiary","secondary"],"minStageWidthRatio":0.7},"answerAccumulationAudit":{"standard":"primary-calculation-accumulates-v1","board":".calculation-board","answerCountAttribute":"data-answer-count"},"completionAudit":{"standard":"calculation-preserved-v1","primary":".problem-card","calculation":".step-board","panel":".complete-panel","text":".complete-text","action":"#rewardButton","choices":".choices-panel","axisTolerancePx":1,"edgeTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".capacity-visual","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultInternalMetricAudit":{"standard":"result-internal-metric-hidden-v1","forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["균형\\s*점수"],"allowedDynamicOverlays":["correct-count","next-goal"]},"resultContentScaleAudit":{"standard":"result-content-scale-v1","minimumCorrectWidthSourcePx":110,"minimumNextFontPx":32,"minimumRetryWidthSourcePx":180,"minimumRetryHeightSourcePx":60,"minimumContentStackSpanSourcePx":180,"minimumTitleWidthSourcePx":220,"minimumTitleHeightSourcePx":100,"requireVisibleRetryArt":true},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultVisualAudit":{"standard":"result-tier-fullscene-native-v1","stateCount":6,"expectedStates":["tilted","almost","balanced","shining","gold","rainbow"],"expectedRanks":[0,1,2,3,4,5],"sceneImage":"#resultBg","sceneCanvas":"1280x800","sceneObjectFit":"cover","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"forbiddenSelectors":[".compass-result-impact","[class*='result-impact']"],"dynamicAxisX":972.5,"dynamicAxisByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5},"shiftRetryWithTierAxis":true,"axisTolerancePx":1,"hiddenSlots":["measure","track"],"panelPixelAudit":{"standard":"light-panel-row-run-v1","searchRect":{"x":650,"y":100,"width":620,"height":620},"lightRgbMin":{"r":220,"g":205,"b":160},"channelSpreadMax":86,"minRunWidth":180,"centerTolerancePx":3},"slots":{"measure":{"x":792,"y":326,"width":360,"height":42},"track":{"x":822,"y":380,"width":300,"height":20},"correct":{"x":897,"y":410,"width":150,"height":88},"next":{"x":792,"y":504,"width":360,"height":34},"retry":{"x":822,"y":540,"width":300,"height":60}},"measureFontPx":24,"nextFontPx":32,"minimumNextFontPx":32,"minimumCorrectWidthSourcePx":110,"minVerticalGapPx":2,"requireDistinctSceneSource":true,"grandColorFamily":"gold-crystal","legendColorFamily":"rainbow-crystal"},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"light-board","scanStartRatio":0.01,"threshold":{"redMin":220,"greenMin":205,"blueMin":160,"channelSpreadMax":86},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"result-tiers-v6-contact-sheet.png"},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".water-play-progress","image":".water-play-progress-art","label":".water-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["tilted","almost","balanced","shining","gold","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"mathmon-drv-05-crystalowl","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.245,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.49,"centerY":0.56,"footY":0.71,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".water-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"panel":".water-play-progress","image":".water-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".water-play-progress-impact-stage","impactVisual":".water-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"tierUpDurationMs":1560,"durationMs":640,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"reducedMotionVisibleEffect":true,"reducedMotionPresentation":"static-highlight-v1","forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"tilted","afterTier":"almost"}},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-missing-left-progress","width":1082,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","stage":"1280x800","sceneImage":"#resultPanelArt","safeInsetPx":24,"panelDetector":{"standard":"raster-panel-layer-bounds-v1","mode":"element-bounds","source":"result-panel-generated.webp"},"elements":{"title":"#resultTitleArt","measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retryArt":".result-retry-art","retryHitbox":"#restartButton, #retryButton"},"axisNodes":["measure","track","correct","next","retryHitbox"],"optionalWhenHidden":["measure","track"],"axisTolerancePx":1,"hitboxTolerancePx":1,"elementContainment":true,"noIntersections":true,"samePanelSizeAcrossTiers":true,"sameSafeRectAcrossTiers":true,"hiddenNextMustBeZero":true,"viewportCropsStage":false,"fixtures":["axis-correct-but-outside-panel","panel-too-short","retry-hitbox-outside-panel","baked-title-outside-panel","viewport-crops-stage","stale-runtime-build"],"runtimeMetadata":{"selector":"#mathmonRuntimeBuildMeta","commitShaAttribute":"data-commit-sha","lessonJsonShaAttribute":"data-lesson-json-sha256"}},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-balance-generated.webp","reward-event-big-balance-generated.webp","reward-event-shine-balance-generated.webp","reward-event-small-only-generated.webp","reward-event-special-balance-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-scale-tilted-generated.webp","result-scale-almost-generated.webp","result-scale-balanced-generated.webp","result-scale-shining-generated.webp","result-scale-gold-generated.webp","result-scale-rainbow-generated.webp","result-tiers-v6-contact-sheet.png","result-layout-v6.json","play-scale-v1-tilted-generated.webp","play-scale-v1-almost-generated.webp","play-scale-v1-balanced-generated.webp","play-scale-v1-shining-generated.webp","play-scale-v1-gold-generated.webp","play-scale-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp","result-bg-tilted-generated.webp","result-bg-almost-generated.webp","result-bg-balanced-generated.webp","result-bg-shining-generated.webp","result-bg-gold-generated.webp","result-bg-rainbow-generated.webp"]};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit5-weight-shared-model","id":"3-2-5-3","folder":"3-2-5-3-mathmon-scale-balance","modelName":"Lesson5WaterFillModel","title":"매스몬 저울 균형","shortTitle":"매스몬 저울","topic":"무게 비교와 kg, g, t","unitBadge":"5단원 무게 · 3차시","goal":"저울에 맞는 무게를 골라요.","action":"저울을 맞출 무게 또는 더 무거운 쪽을 고른다.","buttonLabel":"저울 보기","rewardScreenTitle":"저울 맞추기","progressLabel":"균형 점수","rewardThing":"저울","playProgressEyebrow":"지금의 저울","rewardComplete":"균형 점수가 바뀌었어요.","rewardSmall":"조금 맞춰졌어요.","rewardBig":"크게 맞춰졌어요.","tutorialTitle":"저울을 보기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 비교해요?","body":"같은 단위로 바꾼 뒤 무게를 비교해요.","image":"tutorial-page-1-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제 뒤에 마지막 저울 이름을 봐요.","image":"tutorial-page-2-generated.webp"}],"tutorial":{"mode":"poster-two-step"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v1","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true},"closedLabel":"두근두근!","changeLabel":"균형 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallBalance","bigBalance","shineBalance","smallOnly","specialBalance","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallBalance":"reward-event-small-balance-generated.webp","bigBalance":"reward-event-big-balance-generated.webp","shineBalance":"reward-event-shine-balance-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialBalance":"reward-event-special-balance-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"fullscene-generated-dynamic-slots","showNextGoal":true,"layout":{"axisX":972.5,"axisXByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5},"byTier":{"tilted":{"retryRect":{"x":912.5,"y":540,"width":120,"height":42}},"almost":{"retryRect":{"x":891.5,"y":540,"width":120,"height":42}},"balanced":{"retryRect":{"x":909,"y":540,"width":120,"height":42}},"shining":{"retryRect":{"x":883.5,"y":540,"width":120,"height":42}},"gold":{"retryRect":{"x":944,"y":540,"width":120,"height":42}},"rainbow":{"retryRect":{"x":924.5,"y":540,"width":120,"height":42}}},"titleTop":170,"titleWidth":250,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-title-set-v1.json","titleSetManifest":"result-title-set-v1.json","measureY":404,"barY":429,"barWidth":240,"barHeight":16,"correctTop":360,"correctWidth":120,"nextY":480,"nextFontPx":32,"nextStrokeWidthPx":6,"retryCenterOnAxis":true,"retryWidth":190,"retryHeight":66,"retryY":520,"retryRect":{"x":911,"y":540,"width":120,"height":42},"panelRect":{"x":742,"y":144,"width":458,"height":506},"titleAxisX":972.5,"titleAxisXByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5}},"stateImageSet":{"standard":"generated-result-fullscene-v3","count":6,"canvas":"1280x800","runtimeSlot":"result-stage-fullscene","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/contact-sheets/result-tiers-v6-contact-sheet.png","protagonist":"mathmon-drv-05-crystalowl","nativeScenePerState":true,"titlePresentation":"independent-art","retryPresentation":"independent-art","fixedGeneratedElements":["environment","mathmon","native-scale","blank-dynamic-panel","result-panel-raster","result-title-raster","result-retry-raster"],"dynamicOverlays":["correct-count","next-goal"],"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true}},"workbench":{"type":"scale-balance","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"mathmon-drv-05-crystalowl","cacheVersion":"2026-08-01-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png","filePattern":"play-scale-v1-{tier}-generated.webp","requiredSubjects":["수정부엉몬 전신","balance scale progress"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.49,"centerY":0.56,"footY":0.71,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","tilted":{"centerX":0.48,"centerY":0.56,"footY":0.72,"height":0.32},"almost":{"centerX":0.48,"centerY":0.56,"footY":0.72,"height":0.32},"balanced":{"centerX":0.49,"centerY":0.55,"footY":0.71,"height":0.32},"shining":{"centerX":0.49,"centerY":0.56,"footY":0.71,"height":0.31},"gold":{"centerX":0.5,"centerY":0.55,"footY":0.7,"height":0.31},"rainbow":{"centerX":0.5,"centerY":0.56,"footY":0.71,"height":0.31}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"sourceFiles":{"model":"../3-2-5-1-mathmon-water-fill/model.js","view":"../3-2-5-1-mathmon-water-fill/view.js","style":"../3-2-5-1-mathmon-water-fill/lesson.css"},"mathmonPack":"diversity-reward-pack","mathmonName":"수정부엉몬","mathmonId":"mathmon-drv-05-crystalowl","results":[{"id":"tilted","name":"살짝 기운 저울","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-scale-v1-tilted-generated.webp","image":"result-scale-tilted-generated.webp","titleImage":"result-title-tilted-generated.webp"},{"id":"almost","name":"거의 균형","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-scale-v1-almost-generated.webp","image":"result-scale-almost-generated.webp","titleImage":"result-title-almost-generated.webp"},{"id":"balanced","name":"균형 저울","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-scale-v1-balanced-generated.webp","image":"result-scale-balanced-generated.webp","titleImage":"result-title-balanced-generated.webp"},{"id":"shining","name":"반짝 균형","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-scale-v1-shining-generated.webp","image":"result-scale-shining-generated.webp","titleImage":"result-title-shining-generated.webp"},{"id":"gold","name":"황금 균형","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-scale-v1-gold-generated.webp","image":"result-scale-gold-generated.webp","titleImage":"result-title-gold-generated.webp"},{"id":"rainbow","name":"무지개 균형","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-scale-v1-rainbow-generated.webp","image":"result-scale-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"균형 점수가 올랐어요","weight":6400,"min":6,"max":10,"family":"smallBalance"},{"id":"loss","text":"균형 점수가 내려갔어요","weight":1500,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"균형 점수가 크게 올랐어요","weight":1200,"min":14,"max":22,"family":"bigBalance"},{"id":"jackpot","text":"저울이 크게 빛나요","weight":500,"min":30,"max":30,"family":"shineBalance"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"황금 무게추","weight":20,"min":100,"max":100,"family":"specialBalance","special":true}],"wrongEvent":{"id":"wrong-loss","text":"균형 점수가 내려갔어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["compareKgG","compareKgG","compareKgG","compareKgG","balanceMissing","balanceMissing","balanceMissing","balanceMissing","compareTonKg","compareTonKg"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultInternalMetrics":"result-internal-metric-hidden-v1","playProgress":"generated-play-progress-v3-left-character"},"imageAssets":{"cover":"cover-generated.webp","titleArt":"title-logo-generated.webp","startButton":"../_shared/mathmon/cover-start-button/start-button-generated.webp","rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"../_shared/result-actions/retry-button-v2-generated.webp","resultPanel":"result-panel-generated.webp"},"qa":{"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 5단원 3차시","compactText":"5단원 무게 · 3차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"균형 점수","selectors":{"root":"#rewardPop .reward-card","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["균형 점수가 6 올랐어요"]},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"result-title-only-v1","titlePresentation":"independent-art","panelSafeInsetSourcePx":6,"minimumVisibleWidthSourcePx":220,"minimumVisibleHeightSourcePx":100,"minimumPaletteColors":12,"minimumNonWarmRatio":0.05,"stateCount":6,"minimumGapSourcePx":10,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":1,"topControlsAudit":{"standard":"stage-top-controls-v1","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"misconceptionCoverage":["COMPARE_KG_G","BALANCE_MISSING","COMPARE_TON_KG"],"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["tertiary","secondary"],"minStageWidthRatio":0.7},"answerAccumulationAudit":{"standard":"primary-calculation-accumulates-v1","board":".calculation-board","answerCountAttribute":"data-answer-count"},"completionAudit":{"standard":"calculation-preserved-v1","primary":".problem-card","calculation":".step-board","panel":".complete-panel","text":".complete-text","action":"#rewardButton","choices":".choices-panel","axisTolerancePx":1,"edgeTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".capacity-visual","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultInternalMetricAudit":{"standard":"result-internal-metric-hidden-v1","forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["균형\\s*점수"],"allowedDynamicOverlays":["correct-count","next-goal"]},"resultContentScaleAudit":{"standard":"result-content-scale-v1","minimumCorrectWidthSourcePx":110,"minimumNextFontPx":32,"minimumRetryWidthSourcePx":180,"minimumRetryHeightSourcePx":60,"minimumContentStackSpanSourcePx":180,"minimumTitleWidthSourcePx":220,"minimumTitleHeightSourcePx":100,"requireVisibleRetryArt":true},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultVisualAudit":{"standard":"result-tier-fullscene-native-v1","stateCount":6,"expectedStates":["tilted","almost","balanced","shining","gold","rainbow"],"expectedRanks":[0,1,2,3,4,5],"sceneImage":"#resultBg","sceneCanvas":"1280x800","sceneObjectFit":"cover","nativeScenePerState":true,"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true,"forbiddenSelectors":[".compass-result-impact","[class*='result-impact']"],"dynamicAxisX":972.5,"dynamicAxisByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5},"shiftRetryWithTierAxis":true,"axisTolerancePx":1,"hiddenSlots":["measure","track"],"panelPixelAudit":{"standard":"light-panel-row-run-v1","searchRect":{"x":650,"y":100,"width":620,"height":620},"lightRgbMin":{"r":220,"g":205,"b":160},"channelSpreadMax":86,"minRunWidth":180,"centerTolerancePx":3},"slots":{"measure":{"x":792,"y":326,"width":360,"height":42},"track":{"x":822,"y":380,"width":300,"height":20},"correct":{"x":897,"y":410,"width":150,"height":88},"next":{"x":792,"y":504,"width":360,"height":34},"retry":{"x":822,"y":540,"width":300,"height":60}},"measureFontPx":24,"nextFontPx":32,"minimumNextFontPx":32,"minimumCorrectWidthSourcePx":110,"minVerticalGapPx":2,"requireDistinctSceneSource":true,"grandColorFamily":"gold-crystal","legendColorFamily":"rainbow-crystal"},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"light-board","scanStartRatio":0.01,"threshold":{"redMin":220,"greenMin":205,"blueMin":160,"channelSpreadMax":86},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"tilted":972.5,"almost":951.5,"balanced":969,"shining":943.5,"gold":1004,"rainbow":984.5}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"result-tiers-v6-contact-sheet.png"},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".water-play-progress","image":".water-play-progress-art","label":".water-play-progress-name","stateCount":6,"canvas":"768x1536","expectedStates":["tilted","almost","balanced","shining","gold","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"mathmon-drv-05-crystalowl","panelPlacement":{"leftRatio":0.0165,"topRatio":0.11,"widthRatio":0.245,"heightRatio":0.84,"tolerancePx":1},"mathmonPlacement":{"centerX":0.49,"centerY":0.56,"footY":0.71,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".water-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"panel":".water-play-progress","image":".water-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".water-play-progress-impact-stage","impactVisual":".water-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"tierUpDurationMs":1560,"durationMs":640,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"tilted","afterTier":"almost"}},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-missing-left-progress","width":1082,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","stage":"1280x800","sceneImage":"#resultPanelArt","safeInsetPx":24,"panelDetector":{"standard":"raster-panel-layer-bounds-v1","mode":"element-bounds","source":"result-panel-generated.webp"},"elements":{"title":"#resultTitleArt","measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retryArt":".result-retry-art","retryHitbox":"#restartButton, #retryButton"},"axisNodes":["measure","track","correct","next","retryHitbox"],"optionalWhenHidden":["measure","track"],"axisTolerancePx":1,"hitboxTolerancePx":1,"elementContainment":true,"noIntersections":true,"samePanelSizeAcrossTiers":true,"sameSafeRectAcrossTiers":true,"hiddenNextMustBeZero":true,"viewportCropsStage":false,"fixtures":["axis-correct-but-outside-panel","panel-too-short","retry-hitbox-outside-panel","baked-title-outside-panel","viewport-crops-stage","stale-runtime-build"],"runtimeMetadata":{"selector":"#mathmonRuntimeBuildMeta","commitShaAttribute":"data-commit-sha","lessonJsonShaAttribute":"data-lesson-json-sha256"}},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","../_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-generated.webp","tutorial-page-2-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-balance-generated.webp","reward-event-big-balance-generated.webp","reward-event-shine-balance-generated.webp","reward-event-small-only-generated.webp","reward-event-special-balance-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-scale-tilted-generated.webp","result-scale-almost-generated.webp","result-scale-balanced-generated.webp","result-scale-shining-generated.webp","result-scale-gold-generated.webp","result-scale-rainbow-generated.webp","result-tiers-v6-contact-sheet.png","result-layout-v6.json","play-scale-v1-tilted-generated.webp","play-scale-v1-almost-generated.webp","play-scale-v1-balanced-generated.webp","play-scale-v1-shining-generated.webp","play-scale-v1-gold-generated.webp","play-scale-v1-rainbow-generated.webp","../_shared/result-actions/retry-button-v2-generated.webp","result-bg-tilted-generated.webp","result-bg-almost-generated.webp","result-bg-balanced-generated.webp","result-bg-shining-generated.webp","result-bg-gold-generated.webp","result-bg-rainbow-generated.webp"]};
     const Lesson5WaterFillModel = (() => {
           const TOTAL_PROBLEMS = 10;
           const MIN_POWER = 0;
@@ -3012,9 +3363,9 @@
               wrongText: "고른 답과 계산판의 수를 다시 비교해요."
             };
           }
-          function makeReadMl(rng, serial) { const amount = randomInt(rng, 1, 9) * 100; const wrong = formatMl(clamp(amount + (amount >= 600 ? -200 : 200), 100, 900)); return { id: 'read-ml-' + serial, type: 'readMl', kind: 'mL 눈금', prompt: '물통 눈금을 읽어 봐요.', expression: '눈금은 ' + formatMl(amount) + '예요.', visual: { kind: 'bottle', max: 1000, amount, label: '물통' }, finalText: formatMl(amount), representativeMistake: wrong, steps: [makeStep('readMl', '눈금이 가리키는 들이를 골라요.', '들이', formatMl(amount), uniqueChoices([formatMl(amount), wrong, formatMl(clamp(amount + 100, 100, 900)), formatMl(clamp(amount - 100, 100, 900)), formatMl(clamp(amount + 300, 100, 900))], rng), formatMl(amount) + '가 들어갔어요.')] }; }
-          function makeReadLiterMl(rng, serial) { const amount = randomInt(rng, 11, 29) * 100; const wrongTotal = amount >= 2000 ? amount - 1000 : amount + 1000; const correct = formatCapacity(amount); const wrong = formatCapacity(wrongTotal); return { id: 'read-liter-' + serial, type: 'readLiterMl', kind: 'L와 mL 눈금', prompt: '큰 물통 눈금을 읽어 봐요.', expression: '눈금은 ' + correct + '예요.', visual: { kind: 'bottle', max: 3000, amount, label: '큰 물통' }, finalText: correct, representativeMistake: wrong, steps: [makeStep('readLiterMl', 'L와 mL를 함께 골라요.', '들이', correct, uniqueChoices([correct, wrong, formatCapacity(amount + 100), formatCapacity(amount - 100), formatCapacity(clamp(amount + 300, 1100, 2900))], rng), correct + '가 들어갔어요.')] }; }
-          function makeCompareBottle(rng, serial) { let left = randomInt(rng, 4, 18) * 100; let right = randomInt(rng, 4, 18) * 100; const tied = rng() < 0.2; if (tied) right = left; else if (Math.abs(left - right) < 100) right = clamp(left + 300, 400, 1800); const correct = left === right ? '같아요' : left > right ? '왼쪽 물통' : '오른쪽 물통'; const wrong = correct === '왼쪽 물통' ? '오른쪽 물통' : '왼쪽 물통'; const confirm = correct === '같아요' ? '두 물통에 같은 만큼 들었어요.' : correct + '이 더 많아요.'; return { id: 'compare-bottle-' + serial, type: 'compareBottle', kind: '들이 비교', prompt: '두 물통 비교', expression: confirm, visual: { kind: 'compareBottle', left, right, max: 2000 }, finalText: correct, representativeMistake: wrong, steps: [makeStep('compareBottle', '더 많이 든 쪽이나 같은지를 골라요.', '비교 결과', correct, shuffle(['왼쪽 물통', '오른쪽 물통', '같아요'], rng), confirm)] }; }
+          function makeReadMl(rng, serial) { const amount = randomInt(rng, 1, 9) * 100; const wrong = formatMl(clamp(amount + (amount >= 600 ? -200 : 200), 100, 900)); return { id: 'read-ml-' + serial, type: 'readMl', kind: 'mL 눈금', prompt: '물높이를 읽어요.', expression: '눈금은 ' + formatMl(amount) + '예요.', visual: { kind: 'bottle', max: 1000, amount, label: '물통' }, finalText: formatMl(amount), representativeMistake: wrong, steps: [makeStep('readMl', '눈금을 보고 들이를 골라요.', '들이', formatMl(amount), uniqueChoices([formatMl(amount), wrong, formatMl(clamp(amount + 100, 100, 900)), formatMl(clamp(amount - 100, 100, 900)), formatMl(clamp(amount + 300, 100, 900))], rng), formatMl(amount) + '가 들어갔어요.')] }; }
+          function makeReadLiterMl(rng, serial) { const amount = randomInt(rng, 11, 29) * 100; const wrongTotal = amount >= 2000 ? amount - 1000 : amount + 1000; const correct = formatCapacity(amount); const wrong = formatCapacity(wrongTotal); return { id: 'read-liter-' + serial, type: 'readLiterMl', kind: 'L와 mL 눈금', prompt: '큰 물통의 물높이를 읽어요.', expression: '눈금은 ' + correct + '예요.', visual: { kind: 'bottle', max: 3000, amount, label: '큰 물통' }, finalText: correct, representativeMistake: wrong, steps: [makeStep('readLiterMl', 'L와 mL를 함께 골라요.', '들이', correct, uniqueChoices([correct, wrong, formatCapacity(amount + 100), formatCapacity(amount - 100), formatCapacity(clamp(amount + 300, 1100, 2900))], rng), correct + '가 들어갔어요.')] }; }
+          function makeCompareBottle(rng, serial) { let left = randomInt(rng, 4, 18) * 100; let right = randomInt(rng, 4, 18) * 100; const tied = rng() < 0.2; if (tied) right = left; else if (Math.abs(left - right) < 100) right = clamp(left + 300, 400, 1800); const correct = left === right ? '같아요' : left > right ? '왼쪽 물통' : '오른쪽 물통'; const wrong = correct === '왼쪽 물통' ? '오른쪽 물통' : '왼쪽 물통'; const confirm = correct === '같아요' ? '두 물통에 같은 만큼 들었어요.' : correct + '이 더 많아요.'; return { id: 'compare-bottle-' + serial, type: 'compareBottle', kind: '들이 비교', prompt: '두 물통', expression: confirm, visual: { kind: 'compareBottle', left, right, max: 2000 }, finalText: correct, representativeMistake: wrong, steps: [makeStep('compareBottle', '물높이를 비교해 골라요.', '비교 결과', correct, shuffle(['왼쪽 물통', '오른쪽 물통', '같아요'], rng), confirm)] }; }
           function makeAddCarryMl(rng, serial) { const left = { l: randomInt(rng, 1, 4), ml: randomInt(rng, 520, 940) }; const right = { l: randomInt(rng, 1, 3), ml: randomInt(rng, 520, 940) }; const mlSum = left.ml + right.ml; const literSum = left.l + right.l; const converted = fromTotalMl(mlSum); const final = fromTotalMl(toTotalMl(left) + toTotalMl(right)); const noCarry = literSum + 'L ' + mlSum + 'mL'; const correct = formatCapacity(toTotalMl(final)); return { id: 'add-ml-' + serial, type: 'addCarryMl', kind: '더하기 주문', prompt: formatCapacity(toTotalMl(left)) + ' + ' + formatCapacity(toTotalMl(right)), expression: formatCapacity(toTotalMl(left)) + ' + ' + formatCapacity(toTotalMl(right)) + ' = ' + correct, visual: { kind: 'mix', rows: [formatCapacity(toTotalMl(left)), '+', formatCapacity(toTotalMl(right))], note: '1000mL는 1L' }, left, right, mlSum, literSum, converted, final, finalText: correct, representativeMistake: noCarry, steps: [makeStep('addMl', 'mL끼리 더한 값을 골라요.', 'mL 합', formatMl(mlSum), uniqueChoices([formatMl(mlSum), formatMl(mlSum - 1000), formatMl(mlSum - 100), formatMl(mlSum + 100)], rng), formatMl(mlSum) + '가 들어갔어요.'), makeStep('addChange', '1000mL를 1L로 바꿔요.', '바꾼 들이', formatCapacity(mlSum), uniqueChoices([formatCapacity(mlSum), formatMl(converted.ml), '1L ' + (converted.ml + 100) + 'mL', '0L ' + mlSum + 'mL'], rng), formatCapacity(mlSum) + '가 되었어요.'), makeStep('addFinal', '다 더한 들이를 골라요.', '완성 들이', correct, uniqueChoices([correct, noCarry, literSum + 'L ' + final.ml + 'mL', (final.l + 1) + 'L ' + final.ml + 'mL'], rng), correct + '가 맞아요.')] }; }
           function makeSubtractBorrowMl(rng, serial) { const top = { l: randomInt(rng, 3, 8), ml: randomInt(rng, 100, 420) }; const bottom = { l: randomInt(rng, 1, top.l - 1), ml: randomInt(rng, top.ml + 160, 960) }; const borrowedTop = { l: top.l - 1, ml: top.ml + 1000 }; const mlDiff = borrowedTop.ml - bottom.ml; const final = fromTotalMl(toTotalMl(top) - toTotalMl(bottom)); const noBorrow = (top.l - bottom.l) + 'L ' + Math.abs(top.ml - bottom.ml) + 'mL'; const correct = formatCapacity(toTotalMl(final)); return { id: 'subtract-ml-' + serial, type: 'subtractBorrowMl', kind: '빼기 주문', prompt: formatCapacity(toTotalMl(top)) + ' - ' + formatCapacity(toTotalMl(bottom)), expression: formatCapacity(toTotalMl(top)) + ' - ' + formatCapacity(toTotalMl(bottom)) + ' = ' + correct, visual: { kind: 'mix', rows: [formatCapacity(toTotalMl(top)), '-', formatCapacity(toTotalMl(bottom))], note: '1L를 1000mL로' }, top, bottom, borrowedTop, mlDiff, final, finalText: correct, representativeMistake: noBorrow, steps: [makeStep('borrowLiter', '1L를 1000mL로 바꿔요.', '바뀐 위 들이', borrowedTop.l + 'L ' + borrowedTop.ml + 'mL', uniqueChoices([borrowedTop.l + 'L ' + borrowedTop.ml + 'mL', top.l + 'L ' + (top.ml + 1000) + 'mL', (top.l - 1) + 'L ' + top.ml + 'mL', (top.l - 2) + 'L ' + (top.ml + 1000) + 'mL'], rng), borrowedTop.l + 'L ' + borrowedTop.ml + 'mL로 바뀌었어요.'), makeStep('subtractMl', 'mL끼리 뺀 값을 골라요.', 'mL 차', formatMl(mlDiff), uniqueChoices([formatMl(mlDiff), formatMl(Math.abs(top.ml - bottom.ml)), formatMl(mlDiff + 100), formatMl(Math.max(0, mlDiff - 100))], rng), formatMl(mlDiff) + '가 남았어요.'), makeStep('subtractFinal', '다 뺀 뒤의 들이를 골라요.', '완성 들이', correct, uniqueChoices([correct, noBorrow, (final.l + 1) + 'L ' + final.ml + 'mL', final.l + 'L ' + Math.min(final.ml + 100, 990) + 'mL'], rng), correct + '가 남았어요.')] }; }
           function makeOrderCheck(rng, serial) { const made = { l: randomInt(rng, 1, 5), ml: randomInt(rng, 100, 900) }; const madeTotal = toTotalMl(made); const tied = rng() < 0.2; const enough = rng() > 0.45; const offset = tied ? 0 : enough ? -randomInt(rng, 100, 500) : randomInt(rng, 100, 500); const orderTotal = clamp(madeTotal + offset, 700, 6900); const order = fromTotalMl(orderTotal); const fitsOrder = madeTotal >= orderTotal; const correct = madeTotal === orderTotal ? '같아요' : madeTotal > orderTotal ? '주문보다 많아요' : '주문보다 적어요'; const wrong = correct === '주문보다 많아요' ? '주문보다 적어요' : '주문보다 많아요'; return { id: 'order-check-' + serial, type: 'orderCheck', kind: '주문 확인', prompt: '만든 양 ' + formatCapacity(madeTotal) + ' · 주문 ' + formatCapacity(orderTotal), expression: correct + '.', visual: { kind: 'mix', rows: [formatCapacity(madeTotal), '↔', formatCapacity(orderTotal)], note: '주문과 비교' }, made, order, fitsOrder, final: made, finalText: correct, representativeMistake: wrong, steps: [makeStep('orderCheck', '주문에 맞는 말을 골라요.', '주문 확인', correct, shuffle(['주문보다 많아요', '주문보다 적어요', '같아요'], rng), correct + '.')] }; }
@@ -3030,20 +3381,7 @@
             });
           }
           function validateChoice(step, choice) { return String(step.correct) === choiceText(choice); }
-          function pickRewardEvent(rng, mistakeTouched) {
-            if (mistakeTouched) {
-              const keepEvent = REWARD_EVENTS.find((event) => event.min === 0 && event.max === 0);
-              const event = rng() < 0.5 ? WRONG_REWARD_EVENT : keepEvent;
-              return Object.assign({}, event, { amount: randomInt(rng, event.min, event.max) });
-            }
-            let roll = Math.floor(rng() * 10000);
-            for (const event of REWARD_EVENTS) {
-              if (roll < event.weight) return Object.assign({}, event, { amount: randomInt(rng, event.min, event.max) });
-              roll -= event.weight;
-            }
-            const fallback = REWARD_EVENTS[0];
-            return Object.assign({}, fallback, { amount: randomInt(rng, fallback.min, fallback.max) });
-          }
+          function pickRewardEvent(rng, mistakeTouched) { if (mistakeTouched) return Object.assign({}, WRONG_REWARD_EVENT, { amount: randomInt(rng, WRONG_REWARD_EVENT.min, WRONG_REWARD_EVENT.max) }); let roll = Math.floor(rng() * 10000); for (const event of REWARD_EVENTS) { if (roll < event.weight) return Object.assign({}, event, { amount: randomInt(rng, event.min, event.max) }); roll -= event.weight; } const fallback = REWARD_EVENTS[0]; return Object.assign({}, fallback, { amount: randomInt(rng, fallback.min, fallback.max) }); }
           function applyReward(state, event) { const before = state.power; const power = clamp(before + event.amount, MIN_POWER, MAX_POWER); return { power, specialSeen: state.specialSeen || Boolean(event.special), before, event }; }
           function getResult(power, correctFirstTry, specialSeen) { for (let index = RESULT_TIERS.length - 1; index >= 0; index -= 1) { const result = RESULT_TIERS[index]; if (result.needsSpecial && !specialSeen) continue; if (power >= result.minPower && correctFirstTry >= result.minCorrect) return result; } return RESULT_TIERS[0]; }
           function getNextResult(result) { const index = RESULT_TIERS.findIndex(item => item.id === result.id); return RESULT_TIERS[Math.min(index + 1, RESULT_TIERS.length - 1)]; }
@@ -3072,6 +3410,7 @@
       settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
       settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
       settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      settingsFullscreenButton: document.getElementById("settingsFullscreenButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -4029,6 +4368,62 @@
       if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
     }
 
+    function installFullscreenControl() {
+      const button = ui.settingsFullscreenButton;
+      const target = ui.main;
+      if (!button || !target) return;
+
+      const orientationQuery = typeof window.matchMedia === "function"
+        ? window.matchMedia("(orientation: landscape)")
+        : null;
+      const isLandscape = () => orientationQuery?.matches ?? window.innerWidth >= window.innerHeight;
+      const canFullscreen = () => Boolean(
+        isLandscape()
+          && document.fullscreenEnabled
+          && typeof target.requestFullscreen === "function",
+      );
+
+      const sync = () => {
+        const active = document.fullscreenElement === target;
+        button.hidden = !isLandscape();
+        button.disabled = !canFullscreen();
+        button.textContent = active ? "전체 화면 나가기" : "전체 화면";
+        button.setAttribute("aria-label", active ? "전체 화면 나가기" : "전체 화면");
+        button.setAttribute("aria-pressed", String(active));
+        button.dataset.fullscreenState = active ? "active" : "inactive";
+      };
+
+      const toggle = async () => {
+        if (!isLandscape()) return;
+        if (document.fullscreenElement) {
+          try {
+            await document.exitFullscreen?.();
+          } catch (error) {
+            console.warn("Fullscreen mode could not be disabled.", error);
+          }
+          return;
+        }
+        if (!canFullscreen()) return;
+        try {
+          await target.requestFullscreen({ navigationUI: "hide" });
+        } catch (firstError) {
+          try {
+            await target.requestFullscreen();
+          } catch (error) {
+            console.warn("Fullscreen mode could not be enabled.", error || firstError);
+            return;
+          }
+        }
+        closeSettings({ restoreFocus: false });
+      };
+
+      button.addEventListener("click", () => { void toggle(); });
+      document.addEventListener("fullscreenchange", sync);
+      window.addEventListener("resize", sync, { passive: true });
+      orientationQuery?.addEventListener?.("change", sync);
+      sync();
+    }
+
     function trapSettingsFocus(event) {
       if (ui.settingsBackdrop.hidden) return;
       if (event.key === "Escape") {
@@ -4190,6 +4585,7 @@
       syncAudioControls();
     });
 
+    installFullscreenControl();
     syncAudioControls();
     syncProgress();
 
@@ -4304,12 +4700,6 @@
     let waterRewardArtPrimed = false;
     const waterRewardPreloads = [];
 
-    function topicParticle(value) {
-      const last = String(value || '').trim().at(-1) || '';
-      const code = last.charCodeAt(0) - 0xac00;
-      return code >= 0 && code <= 11171 && code % 28 !== 0 ? '은' : '는';
-    }
-
     function ensureWaterPlayProgress() {
       const playScreen = document.getElementById('screen-play');
       if (!playScreen) return null;
@@ -4384,7 +4774,7 @@
       progress.meter.setAttribute('aria-valuenow', String(power));
       progress.meterFill.style.width = `${power / maxPower * 100}%`;
       const progressLabel = LESSON_CONFIG.progressLabel || '진행';
-      progress.panel.setAttribute('aria-label', `지금은 ${result.name}이에요. ${progressLabel}${topicParticle(progressLabel)} ${power}이에요.`);
+      progress.panel.setAttribute('aria-label', `지금은 ${result.name}이에요. ${progressLabel}는 ${power}이에요.`);
       if (changed) progress.art.src = nextSrc;
 
       const delta = Number(options.delta ?? (power - previousPower));
@@ -4408,7 +4798,7 @@
 
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
-      const duration = shouldAnimate
+      const duration = shouldAnimate && !reducedMotion
         ? Number(tierUp ? effectConfig.tierUpDurationMs || effectConfig.durationMs || 1560 : effectConfig.durationMs || 640)
         : 0;
       if (!duration) return Promise.resolve();
@@ -4453,7 +4843,10 @@
       }
       const progress = ensureWaterPlayProgress();
       const effectConfig = LESSON_CONFIG.qa?.rewardEffectAudit || {};
-      const preEffectDelay = Number(effectConfig.preEffectDelayMs || 0);
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const preEffectDelay = reducedMotion
+        ? Math.min(140, Number(effectConfig.preEffectDelayMs || 0))
+        : Number(effectConfig.preEffectDelayMs || 0);
       if (progress?.panel && preEffectDelay > 0) {
         progress.panel.dataset.effectPhase = 'arming';
         progress.panel.dataset.effectKind = impact.delta > 0 ? 'gain-arming' : 'loss-arming';
@@ -4475,8 +4868,21 @@
         const value = index * 100;
         const major = value % 1000 === 0;
         const label = value === 0 ? '0' : value / 1000 + 'L';
-        return '<span class="bottle-tick' + (major ? ' is-major' : '') + '" style="--tick:' + (value / max) * 100 + '%">' + (major ? '<span class="bottle-scale-label">' + label + '</span>' : '') + '</span>';
+        const tickY = 14 + (value / max) * 72;
+        return '<span class="vessel-tick' + (major ? ' is-major' : '') + '" style="--tick-y:' + tickY + '%">' + (major ? '<span class="vessel-scale-label">' + label + '</span>' : '') + '</span>';
       }).join('');
+    }
+
+    function renderGeneratedVessel({ amount, max, side = '', showScale = false }) {
+      const fill = Math.max(0, Math.min(100, Math.round((amount / max) * 100)));
+      const waterHeight = fill * .72;
+      const source = LESSON_CONFIG.imageAssets?.measuringVessel || 'measuring-vessel-v1-generated.webp';
+      const ariaLabel = side ? side + ' 물통' : '눈금이 있는 물통';
+      return '<div class="generated-vessel" data-side="' + side + '" role="img" aria-label="' + ariaLabel + '" style="--water-height:' + waterHeight + '%">'
+        + '<span class="generated-vessel-liquid" aria-hidden="true"></span>'
+        + '<img class="generated-vessel-image" src="' + source + '" alt="" aria-hidden="true">'
+        + (showScale ? '<span class="generated-vessel-scale" aria-hidden="true">' + renderBottleScale(max) + '</span>' : '')
+        + '</div>';
     }
 
     function solvedStepSet() {
@@ -4551,7 +4957,7 @@
         const answer = done ? problem.finalText : '?';
         return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">균형식</div><div class="relation-equation"><span>' + problem.visual.left.replace('?', answer) + '</span><strong>=</strong><span>' + problem.visual.right + '</span></div></div>';
       }
-      return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="capacity-board-title">비교판</div><div class="relation-equation"><span>' + left + '</span><strong class="relation-answer">' + sign + '</strong><span>' + right + '</span></div></div>';
+      return '<div class="calculation-board relation-board" data-answer-count="' + (done ? 1 : 0) + '"><div class="relation-equation"><span>' + left + '</span><strong class="relation-answer">' + sign + '</strong><span>' + right + '</span></div></div>';
     }
 
     function renderReadBoard(problem, solved) {
@@ -4561,7 +4967,7 @@
 
     function renderCalculationBoard(problem, solved) {
       if (problem.type === 'addCarryMl' || problem.type === 'subtractBorrowMl') return renderPlaceValueBoard(problem, solved);
-      if (problem.type === 'readMl' || problem.type === 'readLiterMl') return renderReadBoard(problem, solved);
+      if (problem.type === 'readMl' || problem.type === 'readLiterMl' || problem.type === 'compareBottle') return '';
       return renderRelationBoard(problem, solved);
     }
 
@@ -4569,12 +4975,19 @@
       const visual = problem.visual || {};
       const wrapper = document.createElement('div');
       wrapper.className = 'capacity-visual';
+      wrapper.dataset.visualKind = visual.kind || '';
       wrapper.dataset.solvedSteps = [...solved].join(',');
+      ui.main.dataset.problemType = problem.type || '';
       let scene = '';
       if (visual.kind === 'bottle') {
-        scene = '<div class="capacity-scene bottle-wrap"><div class="compare-label"><div class="bottle bottle-with-scale" style="--fill:' + Math.round((visual.amount / visual.max) * 100) + '%"><div class="water-fill"></div>' + renderBottleScale(visual.max) + '</div><div class="bottle-label">한 눈금은 100mL</div></div></div>';
+        scene = '<div class="capacity-scene generated-vessel-scene is-single">'
+          + renderGeneratedVessel({ amount: visual.amount, max: visual.max, showScale: true })
+          + '<div class="vessel-scale-key"><span aria-hidden="true">↕</span> 1칸 = 100mL</div></div>';
       } else if (visual.kind === 'compareBottle') {
-        scene = '<div class="capacity-scene bottle-wrap"><div class="compare-label"><div class="bottle" style="--fill:' + Math.round((visual.left / visual.max) * 100) + '%"><div class="water-fill"></div><span class="tick" style="--tick:50%"></span></div><div class="bottle-label">왼쪽</div></div><div class="compare-label"><div class="bottle" style="--fill:' + Math.round((visual.right / visual.max) * 100) + '%"><div class="water-fill"></div><span class="tick" style="--tick:50%"></span></div><div class="bottle-label">오른쪽</div></div></div>';
+        scene = '<div class="capacity-scene generated-vessel-scene is-compare">'
+          + renderGeneratedVessel({ amount: visual.left, max: visual.max, side: '왼쪽' })
+          + renderGeneratedVessel({ amount: visual.right, max: visual.max, side: '오른쪽' })
+          + '</div>';
       } else if (visual.kind === 'mix') {
         const currentStepId = problem.steps?.[state?.stepIndex || 0]?.id || '';
         const conversionStepId = problem.type === 'addCarryMl' ? 'addChange' : problem.type === 'subtractBorrowMl' ? 'borrowLiter' : '';
@@ -4616,6 +5029,23 @@
       ui.completeText.dataset.textAlignRole = mathTypes.has(problem.type) ? 'math' : 'sentence';
     }
 
+    function renderChoicesForStep(problem, step, state, choose) {
+      if (problem.type !== 'compareBottle') return false;
+      const order = ['왼쪽 물통', '같아요', '오른쪽 물통'];
+      const choices = [...step.choices].sort((left, right) => order.indexOf(left.value) - order.indexOf(right.value));
+      choices.forEach((choice) => {
+        const button = document.createElement('button');
+        button.className = 'choice-button vessel-side-choice';
+        button.type = 'button';
+        button.textContent = choice.value === '같아요' ? '같아요' : choice.value.replace(' 물통', '');
+        button.dataset.choice = choice.id;
+        button.dataset.side = choice.value.replace(' 물통', '');
+        button.addEventListener('click', () => choose(choice, button));
+        ui.choices.appendChild(button);
+      });
+      return true;
+    }
+
     function renderAttempt(problem, step, choice, state, { correct }) {
       syncWaterPlayProgress(state);
       const visual = ui.visualArea.querySelector('.capacity-visual');
@@ -4627,6 +5057,7 @@
         if (beam?.dataset.targetTilt) beam.style.setProperty('--tilt', beam.dataset.targetTilt);
         return;
       }
+      if (problem.type === 'readMl' || problem.type === 'readLiterMl' || problem.type === 'compareBottle') return;
       const value = choice && typeof choice === 'object' ? choice.label ?? choice.value ?? '' : choice;
       const beam = visual.querySelector('.scale-beam');
       if (beam) {

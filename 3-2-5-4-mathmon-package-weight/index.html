@@ -741,15 +741,15 @@
       top: 4%;
       left: -1%;
       z-index: 5;
-      width: 35%;
+      width: 52%;
       height: 92%;
       border-radius: 50%;
       pointer-events: none;
       opacity: 0;
       transform: scale(.62);
-      background: transparent !important;
-      filter: none !important;
-      mix-blend-mode: normal;
+      background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(90,224,255,.68) 13%, rgba(255,205,88,.45) 31%, rgba(56,169,230,.24) 48%, transparent 71%);
+      filter: drop-shadow(0 0 30px rgba(87, 219, 255, .9));
+      mix-blend-mode: screen;
     }
     .progress-impact-stage::before,
     .progress-impact-stage::after {
@@ -760,29 +760,14 @@
       pointer-events: none;
     }
     .progress-impact-stage::before {
-      content: none !important;
-      display: none !important;
       border: 5px solid rgba(225, 251, 255, .94);
       box-shadow: 0 0 20px 6px rgba(94, 221, 255, .72), 0 0 58px 20px rgba(255, 196, 74, .62), inset 0 0 36px rgba(91, 213, 255, .62);
     }
     .progress-impact-stage::after {
-      content: none !important;
-      display: none !important;
       inset: -4%;
       background: repeating-conic-gradient(from 4deg, transparent 0 7deg, rgba(238, 253, 255, .72) 8deg 9deg, transparent 10deg 21deg);
       -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
       mask-image: radial-gradient(circle, transparent 0 30%, #000 43% 61%, transparent 76%);
-    }
-    .package-play-progress-impact-visual {
-      position: absolute;
-      inset: 8% auto 8% 0;
-      width: 68%;
-      height: 84%;
-      border-radius: 50%;
-      pointer-events: none;
-      background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 3%, rgba(90,224,255,.68) 13%, rgba(255,205,88,.45) 31%, rgba(56,169,230,.24) 48%, transparent 71%);
-      filter: drop-shadow(0 0 30px rgba(87, 219, 255, .9));
-      mix-blend-mode: screen;
     }
     .progress-impact-stage.is-active { animation: progress-stage-impact 1.56s cubic-bezier(.12,.76,.18,1) both; }
     @keyframes truck-arrive { 0% { transform: translateX(-18px) scale(.82); opacity: .35; } 70% { transform: translateX(4px) scale(1.09); opacity: 1; } 100% { transform: none; opacity: 1; } }
@@ -1709,47 +1694,11 @@
         animation-duration: 1ms !important;
         transition-duration: 1ms !important;
       }
-
-      .progress-line.is-changing,
-      .progress-line.is-tier-up {
-        animation: none !important;
-        outline: 3px solid rgba(199, 255, 236, .72);
-        outline-offset: -3px;
-        box-shadow: 0 0 0 4px rgba(186, 255, 235, .55), 0 0 22px 7px rgba(88, 222, 190, .34), 0 16px 32px rgba(0, 0, 0, .34) !important;
-      }
-
-      .progress-line.is-dimming {
-        animation: none !important;
-        outline: 3px solid rgba(173, 196, 222, .58);
-        outline-offset: -3px;
-        box-shadow: 0 0 0 3px rgba(173, 196, 222, .42), 0 12px 28px rgba(0, 0, 0, .32) !important;
-      }
-
-      .progress-line.is-changing .run-truck-image,
-      .progress-line.is-tier-up .run-truck-image {
-        animation: none !important;
-        filter: brightness(1.24) saturate(1.14) !important;
-        transform: none !important;
-      }
-
-      .progress-line.is-dimming .run-truck-image {
-        animation: none !important;
-        filter: brightness(.72) saturate(.72) !important;
-        transform: none !important;
-      }
-
-      .progress-impact-stage.is-active {
-        animation: none !important;
-        opacity: .62 !important;
-        transform: none !important;
-      }
-
-      .progress-impact-stage.is-active .package-play-progress-impact-visual {
-        animation: none !important;
-        opacity: .42 !important;
-        transform: none !important;
-      }
     }
+
+    .game:fullscreen { padding: 0; }
+    .game:fullscreen::backdrop { background: #111018; }
+    .game:fullscreen .stage-shell { width: min(1280px, calc(100dvh * 1.6), 100%); }
   </style>
 
   <script data-mathmon-audio-standard="mathmon-audio-v1" data-mathmon-audio-base="../_shared/audio/">
@@ -2206,9 +2155,9 @@
   </style>
 </head>
 <body>
-    <main class="game" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-internal-metrics="result-internal-metric-hidden-v1" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit3-modal-art-compact-v2" data-reward-event-standard="mathmon-unified-reward-v2" data-reward-modal-standard="unit3-modal-art-compact-v2" data-reward-card-size="430x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
+    <main class="game" data-fullscreen-support="landscape-only-v1" data-engine-version="mathmon-standalone-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-internal-metrics="result-internal-metric-hidden-v1" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="fullscene-generated-dynamic-slots" data-play-progress-standard="stage-left-play-progress-v1" data-reward-mode="modal-art" data-reward-standard="unit3-modal-art-compact-v2" data-reward-modal-standard="unit3-modal-art-compact-v2" data-reward-card-size="430x480" data-reward-visual-size="250x250" data-tutorial-mode="poster-two-step" data-scoreboard-enabled="false" data-mathmon-pack="base-pack" data-mathmon-id="base-02-foxmon">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="e54dc369f039921d7d3d3be1b3c2b0abfb179edfd4fa8a5cab9dc6787b204f69"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-4" data-commit-sha="ca1f27e6a897dcc0fd2597280410aceac358508d" data-lesson-json-sha256="b2244de42d92c272fd0a0abebdb1d05ed73db80f932c78a9c171d852ae870573"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2223,6 +2172,7 @@
             <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true"><span>효과 소리</span><span class="settings-switch-track" aria-hidden="true"></span></button>
             <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
             <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsFullscreenButton" type="button" aria-pressed="false">전체 화면</button>
             <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
           </div>
           <div class="settings-confirm" id="settingsRestartConfirm" hidden>
@@ -2297,7 +2247,7 @@
             <span class="progress-meter" aria-hidden="true"><span class="progress-fill" id="runProgress"></span></span>
           </div>
         </aside>
-        <div class="progress-impact-stage" id="progressImpactStage" aria-hidden="true"><span class="package-play-progress-impact-visual"></span></div>
+        <div class="progress-impact-stage" id="progressImpactStage" aria-hidden="true"></div>
 
         <div class="problem-grid">
           <article class="problem-card">
@@ -2397,8 +2347,8 @@
         { id: "super", name: "무지개 하늘 트럭", minPower: 100, minCorrect: 1, needsSuperPart: true, visualRank: 5, image: "result-truck-super-background-generated.webp", titleImage: "result-title-super-generated-v2.webp" }
       ];
       const UPGRADE_EVENTS = [
-        { id: "normal", text: "배송 점수가 올랐어요", weight: 6900, min: 6, max: 10, family: "smallUpgrade" },
-        { id: "loss", text: "배송 점수가 내려갔어요", weight: 1000, min: -5, max: -2, family: "repair" },
+        { id: "normal", text: "배송 점수가 올랐어요", weight: 6400, min: 6, max: 10, family: "smallUpgrade" },
+        { id: "loss", text: "배송 점수가 내려갔어요", weight: 1500, min: -5, max: -2, family: "repair" },
         { id: "mega", text: "배송 점수가 크게 올랐어요", weight: 1200, min: 14, max: 22, family: "bigUpgrade" },
         { id: "jackpot", text: "부품 상자가 크게 빛나요", weight: 500, min: 30, max: 30, family: "styleUpgrade" },
         { id: "empty", text: "이번에는 그대로예요", weight: 380, min: 0, max: 0, family: "smallOnly" },
@@ -2633,9 +2583,10 @@
 
       function pickUpgradeEvent(rng, mistakeTouched) {
         if (mistakeTouched) {
-          const keepEvent = UPGRADE_EVENTS.find((event) => event.min === 0 && event.max === 0);
-          const event = rng() < 0.5 ? WRONG_UPGRADE_EVENT : keepEvent;
-          return { ...event, amount: randomInt(rng, event.min, event.max) };
+          return {
+            ...WRONG_UPGRADE_EVENT,
+            amount: randomInt(rng, WRONG_UPGRADE_EVENT.min, WRONG_UPGRADE_EVENT.max)
+          };
         }
         let roll = Math.floor(rng() * 10000);
         for (const event of UPGRADE_EVENTS) {
@@ -3613,10 +3564,6 @@
       }
     };
     window.Lesson5PackageWeightModel = Lesson5PackageWeightModel;
-    window.__mathmonRewardPolicyQa = {
-      standard: "mathmon-unified-reward-v2",
-      pickRewardEvent: (rng, mistakeTouched) => Lesson5PackageWeightModel.pickUpgradeEvent(rng, mistakeTouched)
-    };
     if (hasQaMarker) {
       window.__lesson5PackageQa = {
         forceRewardEvent: (eventId) => {
@@ -3688,6 +3635,53 @@
         })
       };
     }
+  </script>
+
+  <script data-mathmon-fullscreen="landscape-only-v1">
+    (() => {
+      const target = document.querySelector(".game");
+      const button = document.getElementById("settingsFullscreenButton");
+      const backdrop = document.getElementById("settingsBackdrop");
+      const settingsToggle = document.getElementById("settingsButton");
+      if (!target || !button || !backdrop) return;
+      const orientationQuery = typeof window.matchMedia === "function"
+        ? window.matchMedia("(orientation: landscape)")
+        : null;
+      const isLandscape = () => orientationQuery?.matches ?? window.innerWidth >= window.innerHeight;
+      const canFullscreen = () => Boolean(
+        isLandscape()
+          && document.fullscreenEnabled
+          && typeof target.requestFullscreen === "function",
+      );
+      const sync = () => {
+        const active = document.fullscreenElement === target;
+        button.hidden = !isLandscape();
+        button.disabled = !canFullscreen();
+        button.textContent = active ? "전체 화면 나가기" : "전체 화면";
+        button.setAttribute("aria-label", active ? "전체 화면 나가기" : "전체 화면");
+        button.setAttribute("aria-pressed", String(active));
+        button.dataset.fullscreenState = active ? "active" : "inactive";
+      };
+      button.addEventListener("click", async () => {
+        if (!isLandscape()) return;
+        if (document.fullscreenElement) {
+          try { await document.exitFullscreen?.(); } catch (error) { console.warn("Fullscreen mode could not be disabled.", error); }
+          return;
+        }
+        if (!canFullscreen()) return;
+        try {
+          await target.requestFullscreen({ navigationUI: "hide" });
+        } catch (firstError) {
+          try { await target.requestFullscreen(); } catch (error) { console.warn("Fullscreen mode could not be enabled.", error || firstError); return; }
+        }
+        backdrop.hidden = true;
+        settingsToggle?.setAttribute("aria-expanded", "false");
+      });
+      document.addEventListener("fullscreenchange", sync);
+      window.addEventListener("resize", sync, { passive: true });
+      orientationQuery?.addEventListener?.("change", sync);
+      sync();
+    })();
   </script>
 </body>
 </html>

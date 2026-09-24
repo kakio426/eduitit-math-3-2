@@ -42,6 +42,15 @@
             radial-gradient(circle at 85% 84%, rgba(255, 200, 87, 0.17), transparent 28%),
             #111018;
         }
+        .game:fullscreen {
+          padding: 0;
+        }
+        .game:fullscreen::backdrop {
+          background: #111018;
+        }
+        .game:fullscreen .stage-shell {
+          width: min(1280px, calc(100dvh * 1.6), 100%);
+        }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
           --top-control-y: var(--stage-inset);
@@ -2457,9 +2466,9 @@
   </script>
 </head>
 <body>
-  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="circle-relations" data-scoreboard-enabled="false">
+  <main class="game" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-fullscreen-support="landscape-only-v1" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="" data-tutorial-mode="poster-two-step" data-workbench-type="circle-relations" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-3-1" data-commit-sha="" data-lesson-json-sha256="29b054d155b8c4064b7e906456e98d63284c7c64d63a8c28d3d835b1db23ed63" data-build-inputs-sha256="b71910df785904b26f4b5508cde75b7f1b8f72cd37eb005cc8a3923b900129ac"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-3-1" data-commit-sha="" data-lesson-json-sha256="29b054d155b8c4064b7e906456e98d63284c7c64d63a8c28d3d835b1db23ed63" data-build-inputs-sha256="8da1045ddaf2373bf1fc9e860c30faaee94631ce6cdc922f17cc034cdcc2eb92"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -2474,6 +2483,7 @@
             <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true"><span>효과 소리</span><span class="settings-switch-track" aria-hidden="true"></span></button>
             <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
             <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsFullscreenButton" type="button" aria-pressed="false">전체 화면</button>
             <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
           </div>
           <div class="settings-confirm" id="settingsRestartConfirm" hidden>
@@ -3382,6 +3392,7 @@
       settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
       settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
       settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      settingsFullscreenButton: document.getElementById("settingsFullscreenButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -4339,6 +4350,62 @@
       if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
     }
 
+    function installFullscreenControl() {
+      const button = ui.settingsFullscreenButton;
+      const target = ui.main;
+      if (!button || !target) return;
+
+      const orientationQuery = typeof window.matchMedia === "function"
+        ? window.matchMedia("(orientation: landscape)")
+        : null;
+      const isLandscape = () => orientationQuery?.matches ?? window.innerWidth >= window.innerHeight;
+      const canFullscreen = () => Boolean(
+        isLandscape()
+          && document.fullscreenEnabled
+          && typeof target.requestFullscreen === "function",
+      );
+
+      const sync = () => {
+        const active = document.fullscreenElement === target;
+        button.hidden = !isLandscape();
+        button.disabled = !canFullscreen();
+        button.textContent = active ? "전체 화면 나가기" : "전체 화면";
+        button.setAttribute("aria-label", active ? "전체 화면 나가기" : "전체 화면");
+        button.setAttribute("aria-pressed", String(active));
+        button.dataset.fullscreenState = active ? "active" : "inactive";
+      };
+
+      const toggle = async () => {
+        if (!isLandscape()) return;
+        if (document.fullscreenElement) {
+          try {
+            await document.exitFullscreen?.();
+          } catch (error) {
+            console.warn("Fullscreen mode could not be disabled.", error);
+          }
+          return;
+        }
+        if (!canFullscreen()) return;
+        try {
+          await target.requestFullscreen({ navigationUI: "hide" });
+        } catch (firstError) {
+          try {
+            await target.requestFullscreen();
+          } catch (error) {
+            console.warn("Fullscreen mode could not be enabled.", error || firstError);
+            return;
+          }
+        }
+        closeSettings({ restoreFocus: false });
+      };
+
+      button.addEventListener("click", () => { void toggle(); });
+      document.addEventListener("fullscreenchange", sync);
+      window.addEventListener("resize", sync, { passive: true });
+      orientationQuery?.addEventListener?.("change", sync);
+      sync();
+    }
+
     function trapSettingsFocus(event) {
       if (ui.settingsBackdrop.hidden) return;
       if (event.key === "Escape") {
@@ -4500,6 +4567,7 @@
       syncAudioControls();
     });
 
+    installFullscreenControl();
     syncAudioControls();
     syncProgress();
 
