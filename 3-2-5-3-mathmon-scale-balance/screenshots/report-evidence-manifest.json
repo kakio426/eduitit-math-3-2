@@ -1,17 +1,19 @@
 {
-  "standard": "report-current-screen-evidence-v3",
+  "standard": "report-current-screen-evidence-v4",
   "lesson": "3-2-5-3-mathmon-scale-balance",
-  "generatedAt": "2026-08-29T10:19:11.335Z",
-  "indexSha256": "a82e78fb5f623164b7b0544f6deeeb82663be981acbb3dc58e5a9ce245d5fa29",
+  "generatedAt": "2026-09-24T12:05:09.712Z",
+  "indexSha256": "1e6b5c3fb3f10db1d22e31704144f7557467d030ce417ae90c6dafe5da1aa7b1",
   "sourceScreenshotsCommitted": false,
   "sourceScreenshotsRetention": "ephemeral-local-cache",
   "qaReceipt": "screenshots/mathmon-browser-qa-receipt.json",
   "viewportPlan": {
-    "standard": "mathmon-qa-viewport-plan-v2",
-    "registeredCount": 6,
-    "executionCount": 6,
+    "standard": "mathmon-qa-viewport-plan-v3",
+    "registeredCount": 7,
+    "executionCount": 7,
     "deduplicatedCount": 0,
-    "targetedExecutionCount": 1,
+    "targetedExecutionCount": 0,
+    "humanReviewExecutionCount": 2,
+    "auditOnlyExecutionCount": 5,
     "expandedDuplicates": false,
     "registered": [
       {
@@ -50,6 +52,13 @@
         "behaviorKeys": []
       },
       {
+        "name": "user-reported-hud-overlap",
+        "width": 1083,
+        "height": 987,
+        "dpr": 2,
+        "behaviorKeys": []
+      },
+      {
         "name": "empty-reward-fixture",
         "width": 1280,
         "height": 800,
@@ -72,7 +81,20 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "key-states",
+          "standard": "mathmon-human-review-key-states-v1",
+          "roles": [
+            "cover",
+            "tutorial",
+            "tutorial-second",
+            "representative-problem",
+            "representative-wrong-feedback",
+            "answer-confirmation",
+            "reward-closed",
+            "reward-revealed",
+            "reward-impact",
+            "completed-result"
+          ]
         }
       },
       {
@@ -87,7 +109,14 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "key-states",
+          "standard": "mathmon-human-review-key-states-v1",
+          "roles": [
+            "cover-responsive",
+            "representative-problem-responsive",
+            "reward-responsive",
+            "completed-result-responsive"
+          ]
         }
       },
       {
@@ -102,7 +131,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -117,7 +147,8 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -132,7 +163,24 @@
         "aliases": [],
         "behaviorKeys": [],
         "capture": {
-          "mode": "full-flow"
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
+        }
+      },
+      {
+        "name": "user-reported-hud-overlap",
+        "canonicalName": "user-reported-hud-overlap",
+        "width": 1083,
+        "height": 987,
+        "dpr": 2,
+        "regressionNames": [
+          "user-reported-hud-overlap"
+        ],
+        "aliases": [],
+        "behaviorKeys": [],
+        "capture": {
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       },
       {
@@ -149,21 +197,1938 @@
           "emptyRewardAuditViewport"
         ],
         "capture": {
-          "mode": "targeted",
-          "reason": "empty-reward-fixture",
-          "states": [
-            "06-confirm",
-            "07-reward-closed",
-            "07b-reward-open"
-          ]
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
         }
       }
     ]
   },
+  "visualEvidence": {
+    "standard": "mathmon-human-review-key-states-v1",
+    "automatedCoverage": "all-canonical-viewports-and-full-flow",
+    "humanReviewViewports": [
+      "desktop",
+      "tablet-landscape"
+    ],
+    "auditOnlyViewports": [
+      "codex-in-app",
+      "user-visibility",
+      "user-reported-missing-left-progress",
+      "user-reported-hud-overlap",
+      "empty-reward-fixture"
+    ],
+    "stateVisitCount": 265,
+    "screenshotCount": 14,
+    "auditRuns": [
+      {
+        "viewportName": "desktop",
+        "regressionNames": [
+          "desktop"
+        ],
+        "stateVisitCount": 38,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": "cover",
+            "screenshot": true
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": "tutorial",
+            "screenshot": true
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": "tutorial-second",
+            "screenshot": true
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": "representative-problem",
+            "screenshot": true
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": "representative-wrong-feedback",
+            "screenshot": true
+          },
+          {
+            "stateName": "06-confirm",
+            "role": "answer-confirmation",
+            "screenshot": true
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": "reward-closed",
+            "screenshot": true
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": "reward-revealed",
+            "screenshot": true
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": "reward-impact",
+            "screenshot": true
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": "completed-result",
+            "screenshot": true
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "regressionNames": [
+          "tablet-landscape"
+        ],
+        "stateVisitCount": 38,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": "cover-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": "representative-problem-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": "reward-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": "completed-result-responsive",
+            "screenshot": true
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "codex-in-app",
+        "regressionNames": [
+          "codex-in-app"
+        ],
+        "stateVisitCount": 38,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-visibility",
+        "regressionNames": [
+          "user-visibility"
+        ],
+        "stateVisitCount": 38,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-reported-missing-left-progress",
+        "regressionNames": [
+          "user-reported-missing-left-progress"
+        ],
+        "stateVisitCount": 38,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "user-reported-hud-overlap",
+        "regressionNames": [
+          "user-reported-hud-overlap"
+        ],
+        "stateVisitCount": 38,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07c-reward-impact",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      },
+      {
+        "viewportName": "empty-reward-fixture",
+        "regressionNames": [
+          "empty-reward-fixture"
+        ],
+        "stateVisitCount": 37,
+        "stateVisits": [
+          {
+            "stateName": "01-cover",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "02-settings",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "03-tutorial-1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "04-tutorial-2",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05-play-step1",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-서로-다른-무게추로-재요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05m-p1-misconception-겉모양만-봐요",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05b-play-wrong",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "06-confirm",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07-reward-closed",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "07b-reward-open",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "05n-next-problem-clean",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08-result",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08c-result-cohesion-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08v-result-visual-integrity-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-tilted",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-almost",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-balanced",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-shining",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-gold",
+            "role": null,
+            "screenshot": false
+          },
+          {
+            "stateName": "08a-result-rainbow",
+            "role": null,
+            "screenshot": false
+          }
+        ]
+      }
+    ],
+    "screenshots": [
+      {
+        "viewportName": "desktop",
+        "stateName": "01-cover",
+        "role": "cover",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-01-cover.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "03-tutorial-1",
+        "role": "tutorial",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-03-tutorial-1.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "04-tutorial-2",
+        "role": "tutorial-second",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-04-tutorial-2.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "05-play-step1",
+        "role": "representative-problem",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-05-play-step1.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "05b-play-wrong",
+        "role": "representative-wrong-feedback",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-05b-play-wrong.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "06-confirm",
+        "role": "answer-confirmation",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-06-confirm.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07-reward-closed",
+        "role": "reward-closed",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-07-reward-closed.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07b-reward-open",
+        "role": "reward-revealed",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-07b-reward-open.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "07c-reward-impact",
+        "role": "reward-impact",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-07c-reward-impact.png"
+      },
+      {
+        "viewportName": "desktop",
+        "stateName": "08-result",
+        "role": "completed-result",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-08-result.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "01-cover",
+        "role": "cover-responsive",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-01-cover.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "05-play-step1",
+        "role": "representative-problem-responsive",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-05-play-step1.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "07b-reward-open",
+        "role": "reward-responsive",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-07b-reward-open.png"
+      },
+      {
+        "viewportName": "tablet-landscape",
+        "stateName": "08-result",
+        "role": "completed-result-responsive",
+        "file": "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-08-result.png"
+      }
+    ]
+  },
+  "validationDependencies": {
+    "standard": "eduitit-validation-dependencies-v1",
+    "product": "mathmon",
+    "lesson": "3-2-5-3-mathmon-scale-balance",
+    "entries": [
+      {
+        "role": "contract",
+        "path": "_shared/contracts/mathmon-browser-qa-execution-v3.json",
+        "pointer": "",
+        "sha256": "e8af9abd41233d8bf25db7a427385ecb202f6f1d6772afbaf485ec367c5de70d"
+      },
+      {
+        "role": "contract",
+        "path": "_shared/contracts/production-workflow.json",
+        "pointer": "/products/mathmon/browserEvidencePolicy",
+        "sha256": "68215f19fe1b50c25bca9afac5d24caeb458568f3e7813480ee9a4c743f5c305"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/generated-runtime-browser-guard.mjs",
+        "sha256": "d46df26b8832d8d8f638c46269b7ffbee02f5b80f462cb5925bcf112d857e23f"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-delivery-gate.mjs",
+        "sha256": "51b7bddb287eee2fd0b90e10496d7d9206589865fae8c1fda93aacc51c535a36"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-drink-order-presentation.mjs",
+        "sha256": "f9e63d5ebd0f72d47cac2954d3b2a151d737aafb5e086fba1134cb11c8465584"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-effect-restraint.mjs",
+        "sha256": "5e55393017bf367f0d67dcaa04ec532d57ba8e1f87faf865fbbd7a68d7ac8d12"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-play-presentation-qa.mjs",
+        "sha256": "8ab1c5ac6854876f002c8327035f2760e9da4b7ad231965aa2b08a87caa1797f"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-qa-viewports.mjs",
+        "sha256": "5a16d8acb3386e4987114a2ce05f7b6225ef7d7f665922707facc1e89124b5b1"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-top-controls-v2.mjs",
+        "sha256": "a8f83d8154c27a346a9b8772d208441b3bcb8608fde7feafb2abd1efcd0671c5"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/result-reward-dominance.mjs",
+        "sha256": "ac81da87e5916365fd8a806f02a50ebcb9d2874be6547ee511c5a0ba61431b8d"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/tutorial-poster-contract.mjs",
+        "sha256": "ba4d17ca0a311fdc8c8f7984bd59c0378431b85907ebfd1b8f3bff4a4b732791"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-cost-control.mjs",
+        "sha256": "0be25716748b5e30c1ca8d881b3145d5b01d3f88f67000695c36be161b0d4a6c"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-dependencies.mjs",
+        "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/qa-lesson-flow.mjs",
+        "sha256": "72e835c0dc6c049015fc1a91fb42af28fa6905a7f02c365fdd958379c2d2a135"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/runtime-build-fingerprint.mjs",
+        "sha256": "d8f1988c22fde27ef7c52c52fcbe6d03fe408a5672f0d8148062360c3adfebac"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/runtime/core.js",
+        "sha256": "69c3393558642f7673f25220812758f9f4ac18556d2a044af59814c95e53bef5"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/styles/core.css",
+        "sha256": "cef3985e425e05a3d89e034c9523dc8712aad5fdb75d836cf8073d3286e728b1"
+      },
+      {
+        "role": "runtime",
+        "path": "_engine/v1/template.html",
+        "sha256": "39c2dc50aca5f464e15095a975d1fc301096227ee3c3b1c2de49e748227b1f0e"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/lesson.css",
+        "sha256": "e85798ea32ec531ab44df0a0f906c47fd8f2b74a31b9a63639ea9a22af5646ce"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/model.js",
+        "sha256": "d8c26e6a7cde4af8cecae79236a0bd71cc239165818df4e5cf24d65560ed08fb"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/_shared/unit5-measurement/view.js",
+        "sha256": "03b17653b06bbad003102f485432f515e1c0ef5b9075bf532dd1b8f968403032"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-3-mathmon-scale-balance/lesson.css",
+        "sha256": "2033f17aafa133b52d316fcf0b94fff4df2dd4b1448259c512c6ce4abd95cbe0"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-3-mathmon-scale-balance/lesson.json",
+        "sha256": "3ac6b03c6c25e32dcb6b80aa78598aeb9f4b160ff9163af56a87c3a984315b80"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/audio/mathmon-audio-v1.js",
+        "sha256": "9f6d6a8a4965a4cf157e2bf2a68bb7335517d62409311bd4477f1bfeaccc494f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/brand/mathmon-brand.css",
+        "sha256": "d1866a6cbceb43985cbdd998aae5d07ceb9383eaa7ac0b9c3040f612c83ac77c"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png",
+        "sha256": "2c2ee898c0a76f712cf4a57e6dcc6f130af42dbbd2cea16b902ea38238e93252"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png",
+        "sha256": "dae6ca5ba5887e47309869206db26fbc583b68d3c93b1f89c7f88eef42db3625"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/contact-sheets/result-tiers-v6-contact-sheet.png",
+        "sha256": "edf875afb0fd246f4cc38b0257eb5ef52f9ff856363a5517369479f810a89f3c"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/top-controls-v2.css",
+        "sha256": "b9a82a61dbeda3096f7d1d5a1e369c39d24c0d7a186e7fdbebbc3d28ffa82891"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-ui.css",
+        "sha256": "f1f01d9e9f2222c2b312079890f27a58eeff83af01f31916f7171b9150685484"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/scoreboard/scoreboard-ui.js",
+        "sha256": "705f02b0f292790585c0672c012f228848a4da3ebeb731a339e8344c737b1ff4"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/PORTABLE_RUNTIME_MANIFEST.json",
+        "sha256": "88a9720ec9f158289ba27a818cccd17be23ce218a33af91e1c7b2dadbae88017"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/audio/music/tallbeard/sketchbook-2025-11-26/sketchbook-2025-11-26.ogg",
+        "sha256": "9eeeada5256026c1c2335282b5fb99216cc1ad34e4d5c7ff214231a7ee418393"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/cover-generated.webp",
+        "sha256": "33be4b533230bc130f03e4a791da5cf47446399552197e6b975fd76e7fae1e2d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/index.html",
+        "sha256": "1e6b5c3fb3f10db1d22e31704144f7557467d030ce417ae90c6dafe5da1aa7b1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/portable-runtime.config.json",
+        "sha256": "78e021bf7dcc7357cdbeb4f386957ffe6fdad1534c0118b3b28b1cd0e7e16626"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/result-panel-generated.webp",
+        "sha256": "20b8664d3eee2089537f65005d87ece0880b5329710693c8316586f81abd26bc"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/result-scale-tilted-generated.webp",
+        "sha256": "358bd2ff583ffe6808dba0d885486d83e2c0ad7f75f2c5be78adee1db87cccc3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/result-title-tilted-generated.webp",
+        "sha256": "e0092c2178c69129d4ead49c98b34cd5ff9ee4ffaf44e15518d5c40e804f8df8"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/reward-scene-generated.webp",
+        "sha256": "33be4b533230bc130f03e4a791da5cf47446399552197e6b975fd76e7fae1e2d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/title-logo-generated.webp",
+        "sha256": "ab40e08912c66af6b9058c8e30c0b8f0e3fbbd22962d13c09331cbf1071c38cf"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/tutorial-page-1-v4-generated.webp",
+        "sha256": "97d3fc7c17db35afd4e55903eac59ace8b3e1ae6e47cc3ea7a51c9aeafe203ff"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/tutorial-page-2-v3-generated.webp",
+        "sha256": "d482e66db43d6a64b45f7b5d90fdacc85ec1ee8cad44cc583b4b2def0158634e"
+      },
+      {
+        "role": "runtime",
+        "path": "scripts/runtime/result-presentation-v1.css",
+        "sha256": "c03e7647e2e3a3ebbcc288e06b7f344266a1c7e8963cbf7e762663a01b77bc99"
+      },
+      {
+        "role": "runtime",
+        "path": "scripts/runtime/result-presentation-v1.js",
+        "sha256": "4aa7c566c00fe3c5cd8384dc08b638ec1d1a63fae566df1d05314a72edff0dca"
+      }
+    ],
+    "sha256": "abc7ed166355f72223a23e643833e58d478efa358c89a373def754aeba48ceb5"
+  },
   "fingerprints": {
     "lessonRuntime": {
-      "sha256": "4fc3094942edbb020100f3e72baaaa9bd6a4dd6402df151130fca83576c50d62",
+      "sha256": "12660307a4b189dd4a00ce9082ae1cc2a4ef959dda1cd2eabb7b3b856de25e79",
       "files": [
+        "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/balance-frame-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/balance-inference-left-down-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/balance-inference-level-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/balance-inference-right-down-v1-generated.webp",
         "3-2-5-3-mathmon-scale-balance/cover-generated.webp",
         "3-2-5-3-mathmon-scale-balance/index.html",
         "3-2-5-3-mathmon-scale-balance/play-scale-v1-almost-generated.webp",
@@ -205,39 +2170,48 @@
         "3-2-5-3-mathmon-scale-balance/reward-events-v3-contact-sheet.png",
         "3-2-5-3-mathmon-scale-balance/reward-scene-generated.webp",
         "3-2-5-3-mathmon-scale-balance/title-logo-generated.webp",
-        "3-2-5-3-mathmon-scale-balance/tutorial-page-1-generated.webp",
-        "3-2-5-3-mathmon-scale-balance/tutorial-page-2-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/tutorial-page-1-v4-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/tutorial-page-2-v3-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-fairness-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-kilogram-gram-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-method-same-unit-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-ton-kilogram-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-unit-sense-pencil-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-unit-sense-rice-sack-v1-generated.webp",
+        "3-2-5-3-mathmon-scale-balance/weight-unit-sense-watermelon-v1-generated.webp",
         "_engine/v1/README.md",
         "_engine/v1/runtime/core.js",
         "_engine/v1/schemas/lesson.schema.json",
         "_engine/v1/styles/core.css",
         "_engine/v1/template.html",
-        "_lessons/3-2-5-1-mathmon-water-fill/lesson.css",
-        "_lessons/3-2-5-1-mathmon-water-fill/model.js",
-        "_lessons/3-2-5-1-mathmon-water-fill/view.js",
         "_lessons/3-2-5-3-mathmon-scale-balance/lesson.css",
         "_lessons/3-2-5-3-mathmon-scale-balance/lesson.json",
+        "_lessons/_shared/unit5-measurement/lesson.css",
+        "_lessons/_shared/unit5-measurement/model.js",
+        "_lessons/_shared/unit5-measurement/view.js",
         "_lessons/_shared/unit6-data/lesson.css",
         "_lessons/_shared/unit6-data/model.js",
         "_lessons/_shared/unit6-data/view.js",
-        "_shared/brand/mathmon-cloud-mark.webp",
+        "_shared/action-buttons/next-button-generated.webp",
+        "_shared/action-buttons/previous-button-generated.webp",
+        "_shared/action-buttons/problem-start-button-generated.webp",
         "_shared/mathmon/cover-start-button/start-button-generated.webp",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png",
         "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/result-fullscene-v1/contact-sheets/result-tiers-v6-contact-sheet.png",
-        "_shared/result-actions/retry-button-v2-generated.webp",
-        "_shared/result-count/result-correct-0-generated.webp",
-        "_shared/scoreboard/scoreboard-celebration-bg-generated.webp"
+        "_shared/mathmon/top-controls-v2.css",
+        "_shared/result-actions/retry-button-v2-generated.webp"
       ]
     },
     "policy": {
-      "sha256": "10a71d9aa7236a5c3401db9cf0d787554e5b00b2ec478f8945d22deadc30cdf2",
+      "sha256": "41c04afba1df856c31942621ca56afc8fa7af7215e7915dd2519de4d8a90da51",
       "files": [
         ".claude/skills/eduitit-mathmon-assets/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/SKILL.md",
         ".claude/skills/eduitit-mathmon-lesson/references/effect-design.md",
         ".claude/skills/eduitit-mathmon-lesson/references/verification.md",
         ".claude/skills/eduitit-mathmon-lesson/references/vertical-calculation.md",
+        ".claude/skills/eduitit-socialmon-lesson/SKILL.md",
         "AGENTS.md",
         "CLAUDE.md",
         "LESSON_COMMONS.md",
@@ -245,8 +2219,12 @@
         "_shared/COMMON_RESOURCE_CONTRACT.md",
         "_shared/brand/mathmon-brand-mark.json",
         "_shared/contracts/component-registry.json",
-        "_shared/contracts/mathmon-browser-qa-execution-v2.json",
+        "_shared/contracts/generated-runtime-assets-v1.json",
+        "_shared/contracts/generated-runtime-canonical-assets.json",
+        "_shared/contracts/generated-runtime-compatibility-baseline.json",
+        "_shared/contracts/mathmon-browser-qa-execution-v3.json",
         "_shared/contracts/mathmon-component-registry.json",
+        "_shared/contracts/mathmon-portable-runtime-v1.json",
         "_shared/contracts/mathmon-top-controls-v2.json",
         "_shared/contracts/mathmon-unified-reward-v2.json",
         "_shared/contracts/platform-component-registry.json",
@@ -269,33 +2247,41 @@
         "_shared/monster-governance/schemas/subject-profile.schema.json",
         "_shared/monster-governance/style-core.json",
         "_shared/monster-governance/subject-profiles/mathmon.json",
+        "_shared/monster-governance/subject-profiles/sciencemon.json",
         "_shared/monster-governance/subject-profiles/socialmon-render-clay-vinyl-3d-v1.json",
         "_shared/monster-governance/subject-profiles/socialmon.json",
         "_shared/monster-governance/subjects.json"
       ]
     },
     "harness": {
-      "sha256": "7c55217efb84c086651322d31776ff996ab48384206ec47f21f3a09c7a5e56eb",
+      "sha256": "7225ef679b5c6ff663bb0e65dc3550fb4dd42b40bf903e9ecff994c1d9f2d9d7",
       "files": [
         ".codex/hooks.json",
         ".codex/hooks/mathmon-context.mjs",
         ".codex/hooks/mathmon-hook-state.mjs",
         ".codex/hooks/mathmon-stop-gate.mjs",
         ".codex/hooks/prompt-content.mjs",
+        ".codex/hooks/sciencemon-context.mjs",
+        ".codex/hooks/sciencemon-hook-state.mjs",
+        ".codex/hooks/sciencemon-stop-gate.mjs",
         ".codex/hooks/socialmon-context.mjs",
         ".codex/hooks/socialmon-hook-state.mjs",
         ".codex/hooks/socialmon-stop-gate.mjs",
         "scripts/ai-mart.mjs",
         "scripts/build-lesson-report-sheets.mjs",
+        "scripts/build-lesson.mjs",
         "scripts/build-monster-governance.mjs",
         "scripts/build-monster-review-sheets.mjs",
         "scripts/check-audio-assets.mjs",
         "scripts/check-component-registry.mjs",
+        "scripts/check-generated-runtime-assets.mjs",
         "scripts/check-lesson-contract.mjs",
         "scripts/check-lesson-report-evidence.mjs",
         "scripts/check-lesson-visual-contract.mjs",
         "scripts/check-mathmon-brand-mark.mjs",
         "scripts/check-mathmon-effect-containment.mjs",
+        "scripts/check-mathmon-generated-buttons.mjs",
+        "scripts/check-mathmon-portable-runtime.mjs",
         "scripts/check-mathmon-preview.mjs",
         "scripts/check-mathmon-vertical-calculation.mjs",
         "scripts/check-monster-governance.mjs",
@@ -304,6 +2290,9 @@
         "scripts/check-result-panel-adoption.mjs",
         "scripts/check-rule-consistency.mjs",
         "scripts/check-run-randomness.mjs",
+        "scripts/check-sciencemon-lab.mjs",
+        "scripts/check-sciencemon-official-32.mjs",
+        "scripts/check-sciencemon-v3.mjs",
         "scripts/check-stage-ratio.mjs",
         "scripts/check-student-reward-language.mjs",
         "scripts/compile-monster-prompt.mjs",
@@ -311,7 +2300,9 @@
         "scripts/fixtures/component-registry/local-runtime-path.json",
         "scripts/fixtures/component-registry/missing-compatibility-target.json",
         "scripts/fixtures/component-registry/valid.json",
+        "scripts/fixtures/generated-runtime-timeout-grandchild.mjs",
         "scripts/fixtures/monster-governance/candidate-brief-valid.json",
+        "scripts/fixtures/monster-governance/legacy-product-registry-baseline.json",
         "scripts/fixtures/result-panel-containment/axis-correct-outside-panel.json",
         "scripts/fixtures/result-panel-containment/baked-result-ui.json",
         "scripts/fixtures/result-panel-containment/duplicate-panel-layer.json",
@@ -338,6 +2329,41 @@
         "scripts/fixtures/result-visual-integrity/title-too-small.json",
         "scripts/fixtures/result-visual-integrity/title-yellow-only.json",
         "scripts/fixtures/result-visual-integrity/valid.json",
+        "scripts/fixtures/sciencemon-v2/frozen-current-prototype.json",
+        "scripts/fixtures/sciencemon-v2/minimal-positive.json",
+        "scripts/fixtures/sciencemon-v2/sound/index.html",
+        "scripts/fixtures/sciencemon-v2/sound/lab.json",
+        "scripts/fixtures/sciencemon-v2/sound/theme.json",
+        "scripts/fixtures/sciencemon-v3/README.md",
+        "scripts/fixtures/sciencemon-v3/benchmark-missing.json",
+        "scripts/fixtures/sciencemon-v3/condition-visual-no-change.json",
+        "scripts/fixtures/sciencemon-v3/css-button.json",
+        "scripts/fixtures/sciencemon-v3/css-poster.json",
+        "scripts/fixtures/sciencemon-v3/css-title.json",
+        "scripts/fixtures/sciencemon-v3/dead-space.json",
+        "scripts/fixtures/sciencemon-v3/duplicate-labels.json",
+        "scripts/fixtures/sciencemon-v3/evidence-free-light.json",
+        "scripts/fixtures/sciencemon-v3/generated-slot-missing.json",
+        "scripts/fixtures/sciencemon-v3/generated-slot-obscured.json",
+        "scripts/fixtures/sciencemon-v3/invalid-reuse-sha.json",
+        "scripts/fixtures/sciencemon-v3/metadata-only-capture.json",
+        "scripts/fixtures/sciencemon-v3/multi-variable-trial.json",
+        "scripts/fixtures/sciencemon-v3/open-ended-milestone.json",
+        "scripts/fixtures/sciencemon-v3/pre-run-result.json",
+        "scripts/fixtures/sciencemon-v3/reset-mismatch.json",
+        "scripts/fixtures/sciencemon-v3/scrim-over-045.json",
+        "scripts/fixtures/sciencemon-v3/stage-safe-inset-missing.json",
+        "scripts/fixtures/sciencemon-v3/stale-approval.json",
+        "scripts/fixtures/sciencemon-v3/svg-only-apparatus.json",
+        "scripts/fixtures/sciencemon-v3/tenth-light.json",
+        "scripts/fixtures/sciencemon-v3/text-overload.json",
+        "scripts/fixtures/sciencemon-v3/tiny-type.json",
+        "scripts/fixtures/sciencemon-v3/trialless-record.json",
+        "scripts/fixtures/sciencemon-v3/visual-no-change.json",
+        "scripts/fixtures/sciencemon-v3/vw-font-floor.json",
+        "scripts/fixtures/sciencemon-v3/wrong-brand-slot.json",
+        "scripts/fixtures/sciencemon-v3/wrong-section-count.json",
+        "scripts/fixtures/sciencemon/valid-lab.json",
         "scripts/fixtures/student-reward-language/aria-internal-metric-leak.json",
         "scripts/fixtures/student-reward-language/generic-change-label.json",
         "scripts/fixtures/student-reward-language/internal-metric-leak.json",
@@ -350,6 +2376,8 @@
         "scripts/fixtures/tutorial-poster-contract/css-action-surface.json",
         "scripts/fixtures/tutorial-poster-contract/css-composed-panel.json",
         "scripts/fixtures/tutorial-poster-contract/generated-action-hitbox-mismatch.json",
+        "scripts/fixtures/tutorial-poster-contract/missing-scene-baked-surface.json",
+        "scripts/fixtures/tutorial-poster-contract/missing-standard.json",
         "scripts/fixtures/tutorial-poster-contract/non-generated-poster.json",
         "scripts/fixtures/tutorial-poster-contract/poster-card-mismatch.json",
         "scripts/fixtures/tutorial-poster-contract/valid-generated-actions.json",
@@ -357,23 +2385,57 @@
         "scripts/fixtures/tutorial-poster-contract/visible-html-overlay.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-purpose-order.json",
         "scripts/fixtures/tutorial-poster-contract/wrong-standard.json",
+        "scripts/lib/bounded-process.mjs",
+        "scripts/lib/commit-publication.mjs",
         "scripts/lib/component-registry.mjs",
+        "scripts/lib/delivery-changed-files-input.mjs",
+        "scripts/lib/delivery-completion.mjs",
+        "scripts/lib/generated-runtime-assets.mjs",
+        "scripts/lib/generated-runtime-browser-guard.mjs",
+        "scripts/lib/generated-visual-audit.mjs",
         "scripts/lib/load-lesson-source-model.mjs",
         "scripts/lib/mathmon-delivery-gate.mjs",
+        "scripts/lib/mathmon-drink-order-presentation.mjs",
+        "scripts/lib/mathmon-effect-restraint.mjs",
         "scripts/lib/mathmon-fast-delivery.mjs",
         "scripts/lib/mathmon-layout-qa.mjs",
+        "scripts/lib/mathmon-play-presentation-qa.mjs",
+        "scripts/lib/mathmon-portable-runtime.mjs",
         "scripts/lib/mathmon-qa-viewports.mjs",
         "scripts/lib/mathmon-repeated-element-qa.mjs",
+        "scripts/lib/mathmon-result-qa-targets.mjs",
         "scripts/lib/mathmon-top-controls-v2.mjs",
         "scripts/lib/monster-governance.mjs",
+        "scripts/lib/passive-production-stop.mjs",
+        "scripts/lib/production-reuse.mjs",
         "scripts/lib/production-workflow.mjs",
+        "scripts/lib/public-lesson-paths.mjs",
+        "scripts/lib/publication-authority.mjs",
+        "scripts/lib/publication-outcome.mjs",
         "scripts/lib/result-content-scale-policy.mjs",
         "scripts/lib/result-internal-metric-policy.mjs",
         "scripts/lib/result-reward-dominance.mjs",
         "scripts/lib/run-lesson5-model-qa.mjs",
         "scripts/lib/run-lesson5-simulation.mjs",
+        "scripts/lib/sciencemon-lab.mjs",
+        "scripts/lib/sciencemon-qa.mjs",
+        "scripts/lib/sciencemon-result-pack.mjs",
+        "scripts/lib/sciencemon-screenshot-evidence.mjs",
+        "scripts/lib/sciencemon-v2-qa.mjs",
+        "scripts/lib/sciencemon-v2.mjs",
+        "scripts/lib/sciencemon-v3-qa.mjs",
+        "scripts/lib/sciencemon-v3.mjs",
         "scripts/lib/student-reward-language.mjs",
         "scripts/lib/tutorial-poster-contract.mjs",
+        "scripts/lib/validation-cost-control.mjs",
+        "scripts/lib/validation-dependencies.mjs",
+        "scripts/qa-check-lock-fixed-frame.mjs",
+        "scripts/qa-check-lock-polish.mjs",
+        "scripts/qa-check-lock-result-centering.mjs",
+        "scripts/qa-check-lock-title.mjs",
+        "scripts/qa-check-lock-vault-dismiss.mjs",
+        "scripts/qa-check-lock-vault-effects.mjs",
+        "scripts/qa-elevator-progress.mjs",
         "scripts/qa-engine-unit3-circle-pattern-source.mjs",
         "scripts/qa-engine-unit3-compass-source.mjs",
         "scripts/qa-engine-unit3-double-bridge-source.mjs",
@@ -406,6 +2468,9 @@
         "scripts/qa-mathmon-reward-percent.mjs",
         "scripts/qa-result-visual-integrity-fixtures.mjs",
         "scripts/qa-run-randomness-browser.mjs",
+        "scripts/qa-sciencemon-lab.mjs",
+        "scripts/qa-sciencemon-v2.mjs",
+        "scripts/qa-sciencemon-v3.mjs",
         "scripts/qa-student-reward-language-browser.mjs",
         "scripts/qa-unit1-result-screens.mjs",
         "scripts/qa-unit3-reported-text-regressions.mjs",
@@ -414,24 +2479,63 @@
         "scripts/sync-lesson-report-evidence.mjs",
         "scripts/test-ai-mart.mjs",
         "scripts/test-component-registry.mjs",
+        "scripts/test-delivery-changed-files-input.mjs",
+        "scripts/test-delivery-completion.mjs",
+        "scripts/test-elevator-calculation-contract.mjs",
+        "scripts/test-generated-runtime-assets-browser.mjs",
+        "scripts/test-generated-runtime-assets.mjs",
+        "scripts/test-generated-runtime-compatibility-scope.mjs",
+        "scripts/test-generated-runtime-timeout.mjs",
         "scripts/test-mathmon-delivery-gate.mjs",
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/test-mathmon-effect-restraint.mjs",
         "scripts/test-mathmon-fast-delivery.mjs",
+        "scripts/test-mathmon-generated-buttons.mjs",
         "scripts/test-mathmon-hooks.mjs",
         "scripts/test-mathmon-layout-qa.mjs",
+        "scripts/test-mathmon-play-presentation-qa.mjs",
+        "scripts/test-mathmon-portable-runtime.mjs",
         "scripts/test-mathmon-qa-viewports.mjs",
         "scripts/test-mathmon-repeated-element-qa.mjs",
         "scripts/test-mathmon-reward-policy.mjs",
         "scripts/test-mathmon-top-controls-v2.mjs",
         "scripts/test-monster-governance.mjs",
+        "scripts/test-policy-ownership.mjs",
         "scripts/test-production-workflow.mjs",
+        "scripts/test-publication-boundary.mjs",
+        "scripts/test-release-connection.mjs",
         "scripts/test-result-content-scale-policy.mjs",
         "scripts/test-result-internal-metric-policy.mjs",
         "scripts/test-result-panel-containment.mjs",
         "scripts/test-result-reward-dominance.mjs",
+        "scripts/test-rule-consistency.mjs",
+        "scripts/test-runtime-asset-delivery.mjs",
+        "scripts/test-sciencemon-accessibility.mjs",
+        "scripts/test-sciencemon-build.mjs",
+        "scripts/test-sciencemon-cli.mjs",
+        "scripts/test-sciencemon-delivery-gate.mjs",
+        "scripts/test-sciencemon-determinism.mjs",
+        "scripts/test-sciencemon-hooks.mjs",
+        "scripts/test-sciencemon-lab.mjs",
+        "scripts/test-sciencemon-legacy-preservation.mjs",
+        "scripts/test-sciencemon-production.mjs",
+        "scripts/test-sciencemon-qa.mjs",
+        "scripts/test-sciencemon-result-pack.mjs",
+        "scripts/test-sciencemon-safety.mjs",
+        "scripts/test-sciencemon-schema.mjs",
+        "scripts/test-sciencemon-screenshot-evidence.mjs",
+        "scripts/test-sciencemon-state-machines.mjs",
+        "scripts/test-sciencemon-v2-qa.mjs",
+        "scripts/test-sciencemon-v2.mjs",
+        "scripts/test-sciencemon-v3-contract.mjs",
         "scripts/test-student-reward-language.mjs",
         "scripts/test-tutorial-poster-contract.mjs",
         "scripts/test-unit2-three-digit-division.mjs",
-        "scripts/verify-mathmon-delivery.mjs"
+        "scripts/test-validation-cost-control.mjs",
+        "scripts/test-validation-dependencies.mjs",
+        "scripts/test-validation-minimality.mjs",
+        "scripts/verify-mathmon-delivery.mjs",
+        "scripts/verify-policy-harness-delivery.mjs"
       ]
     }
   },
@@ -448,144 +2552,77 @@
       "aliases": [],
       "behaviorKeys": [],
       "capture": {
-        "mode": "full-flow"
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover",
+          "tutorial",
+          "tutorial-second",
+          "representative-problem",
+          "representative-wrong-feedback",
+          "answer-confirmation",
+          "reward-closed",
+          "reward-revealed",
+          "reward-impact",
+          "completed-result"
+        ]
       },
-      "screenshotCount": 33,
+      "screenshotCount": 10,
       "sheet": "screenshots/report-flow-desktop-contact-sheet.png",
-      "sheetSha256": "32e94dede01815990b6bb736e0d9e75d1204098b07c30bf20584258e7848a914",
+      "sheetSha256": "9337c7b62dd4636e5869304e8898fef6278447b9f9530a8622fd9cac5f28983d",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-desktop-01-cover.png",
-          "sha256": "9c5de1f4cd315fff5f05a62ce724fc5a778aa2a7596052beac372a71a321d913"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-02-settings.png",
-          "sha256": "0304076df25de7de1fb44e4e4d7f0cf41e26259b573c5c9fc592d59a2dfff8df"
+          "sha256": "145a86e4a7fdf975f46e7937cdf65917316e98364e405ef3a269c15285823f3f"
         },
         {
           "path": "screenshots/engine-flow-desktop-03-tutorial-1.png",
-          "sha256": "113b482589d34b57a7c87b5dba9e6b2f68c9b41bc525534836a34aea71446cd1"
+          "sha256": "cc0cda299028c6332981ddcc38067c23863c7fc4dd45098474c964ca39af699a"
         },
         {
           "path": "screenshots/engine-flow-desktop-04-tutorial-2.png",
-          "sha256": "67e9c11dceab9a59890230139cfddb6f0b7aac7bb0781a0a3be3419be35c9c08"
+          "sha256": "11d3f01e1ee5fdb874ea9ecb02675c3bcb8199855bea6b121a4fccb26542f8d7"
         },
         {
           "path": "screenshots/engine-flow-desktop-05-play-step1.png",
-          "sha256": "aa1c608f01f97e66547618269374a5031251701decc833a931a80c0a91ffeb4a"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05n-next-problem-clean.png",
-          "sha256": "b757553093d4e66b6a2083bda3c69d14e9f500054117cec364bffade1637171b"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p1-balance-missing.png",
-          "sha256": "b4e44f737a1fb93ff6a75927cb49a43094f6416f0eaa85712f6224ed3fc075c8"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p3-compare-kg-g.png",
-          "sha256": "87fcaf43530c9cbd47114767a7881cd2ed5ea94cf0e352882e81ed5751eb65a4"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-05m-p8-compare-ton-kg.png",
-          "sha256": "5b1ba6ef1503bee808fcdf8fb71d9ed1c6f4133a8734cc1248ab0f6b2f09ec32"
+          "sha256": "b7a1ffc814f20ffb37c1d5db77b64c593915146bb74e439becd54141f3bfe008"
         },
         {
           "path": "screenshots/engine-flow-desktop-05b-play-wrong.png",
-          "sha256": "b4e44f737a1fb93ff6a75927cb49a43094f6416f0eaa85712f6224ed3fc075c8"
+          "sha256": "d01e51f021112e9d87c7e13760da0d41d6ba451cad9bcc617f4711cc9562d202"
         },
         {
           "path": "screenshots/engine-flow-desktop-06-confirm.png",
-          "sha256": "9e13f946a130212bdd6253772dab25169d493371a4018b5095beab93c644e25a"
+          "sha256": "a74794d528a9792015d39e2ff13015dc43e8b600ab54114e4961b376cdf8af06"
         },
         {
           "path": "screenshots/engine-flow-desktop-07-reward-closed.png",
-          "sha256": "5369cbd49fe8a12d373d419df9de0c2352dea93ec6cef29def3a654988d901e0"
+          "sha256": "b717fe8069d8aedb5101430d86c60375a30e9f3ac23753fbe83591e2081773ef"
         },
         {
           "path": "screenshots/engine-flow-desktop-07b-reward-open.png",
-          "sha256": "07831ee86ff2978f7adb551dcf135f2d8a13b8b71a7364c7a59e67bfd436bcc2"
+          "sha256": "b99e9a802d7c5d94c0439e3767d3f289d9637db02df37788c3f3b89940bced18"
         },
         {
           "path": "screenshots/engine-flow-desktop-07c-reward-impact.png",
-          "sha256": "7d8281a8c14f2f5df9d66acf9a87d0fef74933575c942d0d137d82382698b146"
+          "sha256": "5cfe1fc1c34e1b6e04998c833d13ff56912084cd1b0da5d6351ad52c5b70e277"
         },
         {
           "path": "screenshots/engine-flow-desktop-08-result.png",
-          "sha256": "cb08e88cc50c1e4f13c7201a0ac4bd38fb808cb97383ab2ede4fb8ae44090b31"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-tilted.png",
-          "sha256": "bad57046148ec2a4f8a6f89af63ce645673674b3f59548c86cbb7d3808a8fdaa"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-almost.png",
-          "sha256": "cbd3068564032990532720332d2cfc2245c7454fb862638961d9ecc377a000eb"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-balanced.png",
-          "sha256": "d0524c96b1b3341cbaee2f63aa25f0c59ab71c83868a7ceab47e2735bca6f6f6"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-gold.png",
-          "sha256": "e0e8137a299cdf0b8f5a2350056b9b1d1a206ef1a8f6ca35547f7274daf44498"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-rainbow.png",
-          "sha256": "d104d2acec3bc469e9ab49763f7aa30d5fc2b26c6c722b5060760837a9b35c66"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-shining.png",
-          "sha256": "c00d6dc3ffb41f7696a0e3e5b08465ae13d32d0b80628e194ec80a99a5920cfc"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08c-result-cohesion-tilted.png",
-          "sha256": "bad57046148ec2a4f8a6f89af63ce645673674b3f59548c86cbb7d3808a8fdaa"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-almost.png",
-          "sha256": "cbd3068564032990532720332d2cfc2245c7454fb862638961d9ecc377a000eb"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-balanced.png",
-          "sha256": "d0524c96b1b3341cbaee2f63aa25f0c59ab71c83868a7ceab47e2735bca6f6f6"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-gold.png",
-          "sha256": "e0e8137a299cdf0b8f5a2350056b9b1d1a206ef1a8f6ca35547f7274daf44498"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-rainbow.png",
-          "sha256": "d104d2acec3bc469e9ab49763f7aa30d5fc2b26c6c722b5060760837a9b35c66"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-shining.png",
-          "sha256": "c00d6dc3ffb41f7696a0e3e5b08465ae13d32d0b80628e194ec80a99a5920cfc"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08v-result-visual-integrity-tilted.png",
-          "sha256": "bad57046148ec2a4f8a6f89af63ce645673674b3f59548c86cbb7d3808a8fdaa"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-almost.png",
-          "sha256": "cbd3068564032990532720332d2cfc2245c7454fb862638961d9ecc377a000eb"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-balanced.png",
-          "sha256": "d0524c96b1b3341cbaee2f63aa25f0c59ab71c83868a7ceab47e2735bca6f6f6"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-shining.png",
-          "sha256": "c00d6dc3ffb41f7696a0e3e5b08465ae13d32d0b80628e194ec80a99a5920cfc"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-gold.png",
-          "sha256": "e0e8137a299cdf0b8f5a2350056b9b1d1a206ef1a8f6ca35547f7274daf44498"
-        },
-        {
-          "path": "screenshots/engine-flow-desktop-08a-result-rainbow.png",
-          "sha256": "d104d2acec3bc469e9ab49763f7aa30d5fc2b26c6c722b5060760837a9b35c66"
+          "sha256": "e83871d7b052e3f8838fc0ef9df9ad54952d292149c6df3887064547267d7f86"
         }
+      ],
+      "screenshotRoles": [
+        "cover",
+        "tutorial",
+        "tutorial-second",
+        "representative-problem",
+        "representative-wrong-feedback",
+        "answer-confirmation",
+        "reward-closed",
+        "reward-revealed",
+        "reward-impact",
+        "completed-result"
       ]
     },
     {
@@ -600,640 +2637,41 @@
       "aliases": [],
       "behaviorKeys": [],
       "capture": {
-        "mode": "full-flow"
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover-responsive",
+          "representative-problem-responsive",
+          "reward-responsive",
+          "completed-result-responsive"
+        ]
       },
-      "screenshotCount": 33,
+      "screenshotCount": 4,
       "sheet": "screenshots/report-flow-tablet-landscape-contact-sheet.png",
-      "sheetSha256": "b0970162dc97c9a480500de9c60fb1b27d1f28d8b803c4e76d85aa5fa20ccba9",
+      "sheetSha256": "c90381e5726e52f630b42673fc95a352f0b0308f3371a3a82986beac0ef88e09",
       "screenshots": [
         {
           "path": "screenshots/engine-flow-tablet-landscape-01-cover.png",
-          "sha256": "672a136b58269b55cdcb4de0d4a67048e87a8d4b8ec99f172aa985ce11767e79"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-02-settings.png",
-          "sha256": "3aeb27148b56a80cd93525f4e6ee16b1ca595dc4403af7e76deeca288b39a767"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-03-tutorial-1.png",
-          "sha256": "001286edc82e644d01ae493264845bc5dd30520d9cd79e30a3b08832b8909b21"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-04-tutorial-2.png",
-          "sha256": "f114c50755089b9a68a50bd017345bbf91094b9f7f860cd2b57ecee0fd9d32c1"
+          "sha256": "2d842635000807ae5b22f4d8998d5fbc1a02c2948c23c5c157f8d103ca0cca82"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-05-play-step1.png",
-          "sha256": "e8f713c5f69963a75cd06a32ee6518251748dc8f7ddc7202dad052a7dda869ad"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05n-next-problem-clean.png",
-          "sha256": "7486c57955d56849d5205b447912bb2328eb470cb56180432f42275ea7b8242d"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p1-balance-missing.png",
-          "sha256": "e4667b54b338aa8b6fae66a23071800868c8c740f421aa517ba4f295e93adfd4"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p3-compare-kg-g.png",
-          "sha256": "126ee304455226b2c014f8ea040a8ffc1b6315b80a9eef7bbac806a51934da98"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05m-p8-compare-ton-kg.png",
-          "sha256": "0e8c05f6ae41cce70b1b513d2139074e440dd38bcb79c88cf6b6f3bb5e63d955"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-05b-play-wrong.png",
-          "sha256": "e4667b54b338aa8b6fae66a23071800868c8c740f421aa517ba4f295e93adfd4"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-06-confirm.png",
-          "sha256": "aaf573128c946997138e1bcf22ac523e589d4392f703aa20c25a6e6315555383"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-07-reward-closed.png",
-          "sha256": "5ab3f31504cddff56f54c01f065949164f68c397c55298f42ec4a586c1586240"
+          "sha256": "38e1662f9c9c0225ca7edfb8bbbdff4e12571d7486643389958936f4a206bcf7"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-07b-reward-open.png",
-          "sha256": "81939f88eefd45d59775d83ad118a6a60c5be29641607c0fbd60961b19cc5733"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-07c-reward-impact.png",
-          "sha256": "0c4edf396c0949b30b62348b8c10bb9aa5901b28c29c9df081681d61cbbbcc00"
+          "sha256": "57fd0bd321f9804818d1f502ca00a8e3dcb0cdf9c5d418fffc5d973e7409a849"
         },
         {
           "path": "screenshots/engine-flow-tablet-landscape-08-result.png",
-          "sha256": "044c4fe03d54412adbcea3b7cd81a826f1ab6bf5439878bdfff8334b5a89a5da"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-tilted.png",
-          "sha256": "e2d0a29637c8a5d380d19e1b939f901d536ac114b1dcce36bd1599e2b9a30a2b"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-almost.png",
-          "sha256": "84494549bb892bbeef67ca6eb4ff10750352660e7018dfc83c0f847060be5466"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-balanced.png",
-          "sha256": "ba9feb3561ab9a7e66ba6977b50df539ba82d6a64bef0d84a7315c4cea1a0c39"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-gold.png",
-          "sha256": "e9e1834c24f0942bbc8fc84ce0f0c1b73c5e97d568449dfcdd64ff3e1b84a00d"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-rainbow.png",
-          "sha256": "fb1d5e3fa517819140d21b1cd83c12e1b75b6e64bd366b3c07c298a59ef1132f"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-shining.png",
-          "sha256": "a7d649e0e9afaa8b1f710497964885955cdbdaf8179848a74f1a8f3cae49394a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08c-result-cohesion-tilted.png",
-          "sha256": "e2d0a29637c8a5d380d19e1b939f901d536ac114b1dcce36bd1599e2b9a30a2b"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-almost.png",
-          "sha256": "84494549bb892bbeef67ca6eb4ff10750352660e7018dfc83c0f847060be5466"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-balanced.png",
-          "sha256": "ba9feb3561ab9a7e66ba6977b50df539ba82d6a64bef0d84a7315c4cea1a0c39"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-gold.png",
-          "sha256": "e9e1834c24f0942bbc8fc84ce0f0c1b73c5e97d568449dfcdd64ff3e1b84a00d"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-rainbow.png",
-          "sha256": "fb1d5e3fa517819140d21b1cd83c12e1b75b6e64bd366b3c07c298a59ef1132f"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-shining.png",
-          "sha256": "a7d649e0e9afaa8b1f710497964885955cdbdaf8179848a74f1a8f3cae49394a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08v-result-visual-integrity-tilted.png",
-          "sha256": "e2d0a29637c8a5d380d19e1b939f901d536ac114b1dcce36bd1599e2b9a30a2b"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-almost.png",
-          "sha256": "84494549bb892bbeef67ca6eb4ff10750352660e7018dfc83c0f847060be5466"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-balanced.png",
-          "sha256": "ba9feb3561ab9a7e66ba6977b50df539ba82d6a64bef0d84a7315c4cea1a0c39"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-shining.png",
-          "sha256": "a7d649e0e9afaa8b1f710497964885955cdbdaf8179848a74f1a8f3cae49394a"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-gold.png",
-          "sha256": "e9e1834c24f0942bbc8fc84ce0f0c1b73c5e97d568449dfcdd64ff3e1b84a00d"
-        },
-        {
-          "path": "screenshots/engine-flow-tablet-landscape-08a-result-rainbow.png",
-          "sha256": "fb1d5e3fa517819140d21b1cd83c12e1b75b6e64bd366b3c07c298a59ef1132f"
+          "sha256": "4c0fd95550d77688e0138191d7f084d0747af963f7aa8b863ae31f84add78e4d"
         }
-      ]
-    },
-    {
-      "name": "codex-in-app",
-      "canonicalName": "codex-in-app",
-      "width": 1280,
-      "height": 720,
-      "dpr": 2,
-      "regressionNames": [
-        "codex-in-app"
       ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 33,
-      "sheet": "screenshots/report-flow-codex-in-app-contact-sheet.png",
-      "sheetSha256": "4d7ad8a29cd1d160018e5cdca876b7b2226e44a06521928a831d245345a861fc",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-codex-in-app-01-cover.png",
-          "sha256": "edd1c40f6ae777752129a9a0093b62d316d687b0e4e57017b367f96d676dcdfb"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-02-settings.png",
-          "sha256": "2c4be172613ec9d8b3eaa7e7dec16312493569789ed228694f81269a4ef7338c"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-03-tutorial-1.png",
-          "sha256": "3c12ce2e5e1237498f211e78970487b9dc11315872065593bbda96dc31daa866"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-04-tutorial-2.png",
-          "sha256": "da9aa5fffd1ae3e458b59facf56552f8ae6ec6c573918e8155940095a5666beb"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05-play-step1.png",
-          "sha256": "f2069fe9c40e1c3cbcd02039bf44dd4e4b28d5138b96aa12bc0ae56a1804dbff"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05n-next-problem-clean.png",
-          "sha256": "86da320beb93a7b34a1e1ff3d866591fbadb44c3013d400d23b95883f055055f"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p1-balance-missing.png",
-          "sha256": "ea1c8e707b74016fd5374fe3b5aa2e26ef5a767190b2c47961ea1f6ed634181f"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p3-compare-kg-g.png",
-          "sha256": "ebee56926b956ecfe3d05fe7101e04e370ec373ea6a5e53f506da51a0185b538"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05m-p8-compare-ton-kg.png",
-          "sha256": "1fe67d9d935893a133857b907d1bc4819e0556de2a47c3b0581d8079c942066b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-05b-play-wrong.png",
-          "sha256": "ea1c8e707b74016fd5374fe3b5aa2e26ef5a767190b2c47961ea1f6ed634181f"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-06-confirm.png",
-          "sha256": "d4d75b4db8b23a1f0dcfdb8e8d5152880ce21eda2768222ff7d9d8b7fbbd5069"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07-reward-closed.png",
-          "sha256": "5b3fbd654e07ef820deb2a4ab7b4e57faecd1e3095797b4c299a79eefd566620"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07b-reward-open.png",
-          "sha256": "9f63d2208f073e1578ea611710f74fbd0f2f44c39196d7e5f16c36a14951ec4b"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-07c-reward-impact.png",
-          "sha256": "2a8df0ac18600bdd3f3da0ed3a14a99cd69c1fc7e37f998c6cb6f85a1c1f50a6"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08-result.png",
-          "sha256": "86805f99e7bcfab708637c4e03ddb7d529e06fb794045a2052e17a874a267b99"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-tilted.png",
-          "sha256": "36f43b494002fc25d49f1aa41a4c54e4e0a781f87bdc05627e2503a4d0fd5e53"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-almost.png",
-          "sha256": "647c50eaf5185bc239961a8cd75aee08f2654b31c8359df3344424c577248cab"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-balanced.png",
-          "sha256": "422b201cf02ea9fed2c641479aae934986aa55da31ff65bebde2c06905c365da"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-gold.png",
-          "sha256": "1f64bcf2e921bea1d6ce9f7dd9935317e118c3ff4b7cafbb3bcee719882f38a4"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-rainbow.png",
-          "sha256": "84bf1cbb43c44f60aed853dec987eafb48dcf84e16ae5d1a2c64c50c883a1ec1"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-shining.png",
-          "sha256": "f5b97aa6bca5ee55ed8d31144dd5360f8384abdba695b6e40fc7a9be26b2e751"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08c-result-cohesion-tilted.png",
-          "sha256": "36f43b494002fc25d49f1aa41a4c54e4e0a781f87bdc05627e2503a4d0fd5e53"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-almost.png",
-          "sha256": "647c50eaf5185bc239961a8cd75aee08f2654b31c8359df3344424c577248cab"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-balanced.png",
-          "sha256": "422b201cf02ea9fed2c641479aae934986aa55da31ff65bebde2c06905c365da"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-gold.png",
-          "sha256": "1f64bcf2e921bea1d6ce9f7dd9935317e118c3ff4b7cafbb3bcee719882f38a4"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-rainbow.png",
-          "sha256": "84bf1cbb43c44f60aed853dec987eafb48dcf84e16ae5d1a2c64c50c883a1ec1"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-shining.png",
-          "sha256": "f5b97aa6bca5ee55ed8d31144dd5360f8384abdba695b6e40fc7a9be26b2e751"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08v-result-visual-integrity-tilted.png",
-          "sha256": "36f43b494002fc25d49f1aa41a4c54e4e0a781f87bdc05627e2503a4d0fd5e53"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-almost.png",
-          "sha256": "647c50eaf5185bc239961a8cd75aee08f2654b31c8359df3344424c577248cab"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-balanced.png",
-          "sha256": "422b201cf02ea9fed2c641479aae934986aa55da31ff65bebde2c06905c365da"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-shining.png",
-          "sha256": "f5b97aa6bca5ee55ed8d31144dd5360f8384abdba695b6e40fc7a9be26b2e751"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-gold.png",
-          "sha256": "1f64bcf2e921bea1d6ce9f7dd9935317e118c3ff4b7cafbb3bcee719882f38a4"
-        },
-        {
-          "path": "screenshots/engine-flow-codex-in-app-08a-result-rainbow.png",
-          "sha256": "84bf1cbb43c44f60aed853dec987eafb48dcf84e16ae5d1a2c64c50c883a1ec1"
-        }
-      ]
-    },
-    {
-      "name": "user-visibility",
-      "canonicalName": "user-visibility",
-      "width": 994,
-      "height": 632,
-      "dpr": 1,
-      "regressionNames": [
-        "user-visibility"
-      ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 33,
-      "sheet": "screenshots/report-flow-user-visibility-contact-sheet.png",
-      "sheetSha256": "fe8953a13258d44943cd6bad2174eed5d34062e20acbf5571ba4ff22c9899be8",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-user-visibility-01-cover.png",
-          "sha256": "a37b1309531a6b51108c37d762bf081bc47b1e0a5ed2fbc0e0b62b7b0f20a851"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-02-settings.png",
-          "sha256": "194d3622399846b91155136420f7a23437d75b1af72808870cb4ae9745544cd5"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-03-tutorial-1.png",
-          "sha256": "f0854080b614efda75ffbf419a07e51f655ae7a9d9e104e12df37e88e09953e3"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-04-tutorial-2.png",
-          "sha256": "3e329ff0e1cbd82de4267354438a85295284f760c00eb8187d383eb476404d30"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05-play-step1.png",
-          "sha256": "e9210747e4370e73be788ba7f86b8c5df962ef1090dba03e767a2ffbe9182d4e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05n-next-problem-clean.png",
-          "sha256": "e1d50544216145ce2b5eedefb1071c63aab71ae1a80290ca219e7d1070e24905"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p1-balance-missing.png",
-          "sha256": "6322e71a71ba5d523d02ba4c155b28d8321e65d785b20c227040b5e922bb8914"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p3-compare-kg-g.png",
-          "sha256": "a32b53ef54e55f6c199728c04d93bb058763db24273304c021ee948de258fbed"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05m-p8-compare-ton-kg.png",
-          "sha256": "4a7d21525509af8f3ab574358dc6c26f85ea75437c97a5224bbd61bd62748b71"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-05b-play-wrong.png",
-          "sha256": "6322e71a71ba5d523d02ba4c155b28d8321e65d785b20c227040b5e922bb8914"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-06-confirm.png",
-          "sha256": "7a18bd6cbb81df78e2acaf2e18f296facb3ab15df3f4078e98c510954dddba2f"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07-reward-closed.png",
-          "sha256": "3ceb301dbb620b78a4801835902dfd7a64827837c39421038a0eb9f310398735"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07b-reward-open.png",
-          "sha256": "d967a8f09e2acf7a5f21ce135612f14458cf1af4f91b6cfa1e26dd5fea44c174"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-07c-reward-impact.png",
-          "sha256": "7169f2bfd1c4ae933cf67c4519c2b839d459fe77b06f1b4aee645bc65f464393"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08-result.png",
-          "sha256": "28aa3dcc63245d8cd7b6f7f04bd0b44c8852c0aff8665385e5a3b127cacc8262"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-tilted.png",
-          "sha256": "5896f0e8553be4af34ddbe00fe474ae2b2a163b1f65cf583ced7c91d9c8784f6"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-almost.png",
-          "sha256": "850f85b227978672aca7f5d3f6e83937acefdb2c9d9969573f55fc8912c40529"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-balanced.png",
-          "sha256": "895108e32b8292a7a16e455f3f5f994690dc9ac36c2f9990c506080f6e5711b7"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-gold.png",
-          "sha256": "28aa3dcc63245d8cd7b6f7f04bd0b44c8852c0aff8665385e5a3b127cacc8262"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-rainbow.png",
-          "sha256": "5d4221c50c9360797f9b89bbd2dc420a74aa1e78865572e09b485c1c451f2f9c"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-shining.png",
-          "sha256": "32c13d517e304bf5e1d257d887d424b6f55cc331d036390a2d1fa909d88fd47d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08c-result-cohesion-tilted.png",
-          "sha256": "5896f0e8553be4af34ddbe00fe474ae2b2a163b1f65cf583ced7c91d9c8784f6"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-almost.png",
-          "sha256": "850f85b227978672aca7f5d3f6e83937acefdb2c9d9969573f55fc8912c40529"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-balanced.png",
-          "sha256": "895108e32b8292a7a16e455f3f5f994690dc9ac36c2f9990c506080f6e5711b7"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-gold.png",
-          "sha256": "28aa3dcc63245d8cd7b6f7f04bd0b44c8852c0aff8665385e5a3b127cacc8262"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-rainbow.png",
-          "sha256": "5d4221c50c9360797f9b89bbd2dc420a74aa1e78865572e09b485c1c451f2f9c"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-shining.png",
-          "sha256": "32c13d517e304bf5e1d257d887d424b6f55cc331d036390a2d1fa909d88fd47d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08v-result-visual-integrity-tilted.png",
-          "sha256": "5896f0e8553be4af34ddbe00fe474ae2b2a163b1f65cf583ced7c91d9c8784f6"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-almost.png",
-          "sha256": "850f85b227978672aca7f5d3f6e83937acefdb2c9d9969573f55fc8912c40529"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-balanced.png",
-          "sha256": "895108e32b8292a7a16e455f3f5f994690dc9ac36c2f9990c506080f6e5711b7"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-shining.png",
-          "sha256": "32c13d517e304bf5e1d257d887d424b6f55cc331d036390a2d1fa909d88fd47d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-gold.png",
-          "sha256": "28aa3dcc63245d8cd7b6f7f04bd0b44c8852c0aff8665385e5a3b127cacc8262"
-        },
-        {
-          "path": "screenshots/engine-flow-user-visibility-08a-result-rainbow.png",
-          "sha256": "5d4221c50c9360797f9b89bbd2dc420a74aa1e78865572e09b485c1c451f2f9c"
-        }
-      ]
-    },
-    {
-      "name": "user-reported-missing-left-progress",
-      "canonicalName": "user-reported-missing-left-progress",
-      "width": 1082,
-      "height": 987,
-      "dpr": 2,
-      "regressionNames": [
-        "user-reported-missing-left-progress"
-      ],
-      "aliases": [],
-      "behaviorKeys": [],
-      "capture": {
-        "mode": "full-flow"
-      },
-      "screenshotCount": 33,
-      "sheet": "screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png",
-      "sheetSha256": "21a0c2de2d25f9c564c8c36be1c355537ed73b834bf9ca079db9f5ca902dff49",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-01-cover.png",
-          "sha256": "9bb4e8b0a457e1b4e9a64fe298f8b211fc8e2e9d4fec9e41f6e169868ca707e8"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-02-settings.png",
-          "sha256": "ce694387347f6dc4233a9ee953dcc8ab34442bf22ae6985fd3a6c03cbf933d10"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-03-tutorial-1.png",
-          "sha256": "decd78e7b0a0aa6a1b85b593c35318483417f7583af3539ca6b2908440403d15"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-04-tutorial-2.png",
-          "sha256": "2cbefbe02d12b6c9483ce9ebb524e599906cc9bb912df05f26bd22a90500c38f"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05-play-step1.png",
-          "sha256": "7748f25bfa6346332f235e05f09db7d9d196b90c337cd25584baf3f4060df199"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05n-next-problem-clean.png",
-          "sha256": "bd6d0076f7d602c091810d09a305768870c41bae2e958e6aa1dab9ee0449ca0e"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p1-balance-missing.png",
-          "sha256": "784102185e407c1a8679e06670d0ea5f04021ae9a47d7951916aeda280cda8df"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p3-compare-kg-g.png",
-          "sha256": "bd9e687e2c2b6920f134e6567f54984346a2b3a12d190b6ed72ac957e47ee101"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05m-p8-compare-ton-kg.png",
-          "sha256": "620139100ce16db5415d6c272aa160bd8ebbb3709cfe6d115d761b0a4ae3961d"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-05b-play-wrong.png",
-          "sha256": "784102185e407c1a8679e06670d0ea5f04021ae9a47d7951916aeda280cda8df"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-06-confirm.png",
-          "sha256": "0491d3b8540fafefc97dae767e3f94926a4bf2dcb7499463906c925be6ac05c8"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-07-reward-closed.png",
-          "sha256": "7cb0b8c413faa1926a1901cddf15d77987def2d84e1590814f669b75a0ff063b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-07b-reward-open.png",
-          "sha256": "13768ceeff79bbfc559e45e516b2e6d8c2271996771ebf32a1f0677f8f408426"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-07c-reward-impact.png",
-          "sha256": "9125164cb0d1721857faf0d910cd98300774d465ce3a71dec843aa76dbedcec7"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08-result.png",
-          "sha256": "7982cace2a65c53597b2a5df6d07bf08d3e6e836bf4824b1ea7605f37f9f3d0b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-tilted.png",
-          "sha256": "2f1ea19fab5b1bf92ade2ff40e8de180fa94e078cb51d2a7ccc0f35d8dcc0927"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-almost.png",
-          "sha256": "c9aff526e08ca986f6feb816a54e555390d94e0795d45f53fccac0f4d156b2c2"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-balanced.png",
-          "sha256": "bb3b71ac1184cc84f3f5550713b0ef94519c723482584464064e902c0b899e8a"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-gold.png",
-          "sha256": "72ff5664a73b536db198bba3291171126d3aee97813d2892607589bb2c135d7b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-rainbow.png",
-          "sha256": "7a8ee0afed668cc3da38e39da818d56af288533483fa6ee741fff91dec2d42d9"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-shining.png",
-          "sha256": "344d4b88d88799971de981123784f559b9c07ae40471f3853e5e98ad363936ec"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08c-result-cohesion-tilted.png",
-          "sha256": "2f1ea19fab5b1bf92ade2ff40e8de180fa94e078cb51d2a7ccc0f35d8dcc0927"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-almost.png",
-          "sha256": "c9aff526e08ca986f6feb816a54e555390d94e0795d45f53fccac0f4d156b2c2"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-balanced.png",
-          "sha256": "bb3b71ac1184cc84f3f5550713b0ef94519c723482584464064e902c0b899e8a"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-gold.png",
-          "sha256": "72ff5664a73b536db198bba3291171126d3aee97813d2892607589bb2c135d7b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-rainbow.png",
-          "sha256": "7a8ee0afed668cc3da38e39da818d56af288533483fa6ee741fff91dec2d42d9"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-shining.png",
-          "sha256": "344d4b88d88799971de981123784f559b9c07ae40471f3853e5e98ad363936ec"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08v-result-visual-integrity-tilted.png",
-          "sha256": "2f1ea19fab5b1bf92ade2ff40e8de180fa94e078cb51d2a7ccc0f35d8dcc0927"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-almost.png",
-          "sha256": "c9aff526e08ca986f6feb816a54e555390d94e0795d45f53fccac0f4d156b2c2"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-balanced.png",
-          "sha256": "bb3b71ac1184cc84f3f5550713b0ef94519c723482584464064e902c0b899e8a"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-shining.png",
-          "sha256": "344d4b88d88799971de981123784f559b9c07ae40471f3853e5e98ad363936ec"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-gold.png",
-          "sha256": "72ff5664a73b536db198bba3291171126d3aee97813d2892607589bb2c135d7b"
-        },
-        {
-          "path": "screenshots/engine-flow-user-reported-missing-left-progress-08a-result-rainbow.png",
-          "sha256": "7a8ee0afed668cc3da38e39da818d56af288533483fa6ee741fff91dec2d42d9"
-        }
-      ]
-    },
-    {
-      "name": "empty-reward-fixture",
-      "canonicalName": "empty-reward-fixture",
-      "width": 1280,
-      "height": 800,
-      "dpr": 1,
-      "regressionNames": [
-        "empty-reward-fixture"
-      ],
-      "aliases": [],
-      "behaviorKeys": [
-        "emptyRewardAuditViewport"
-      ],
-      "capture": {
-        "mode": "targeted",
-        "reason": "empty-reward-fixture",
-        "states": [
-          "06-confirm",
-          "07-reward-closed",
-          "07b-reward-open"
-        ]
-      },
-      "screenshotCount": 3,
-      "sheet": "screenshots/report-flow-empty-reward-fixture-contact-sheet.png",
-      "sheetSha256": "75bb18fc39a266b28a2d0a3a9ed747767793d6db6ca24889a69e82888d7b2ba8",
-      "screenshots": [
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-06-confirm.png",
-          "sha256": "9b1aa3ccc68ba1022004930ac380ca4c3a88372b4072d9304aebab0e89070977"
-        },
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-07-reward-closed.png",
-          "sha256": "5e6cfd5a260d44c0c5cbaeb177b1a633aa0f348f9fe5c02c04a9f5c711f7ac56"
-        },
-        {
-          "path": "screenshots/engine-flow-empty-reward-fixture-07b-reward-open.png",
-          "sha256": "be67f9f811e202dbf9bc286034b0e58bdb7155f581d0d9db2c73d7ba1273172a"
-        }
+      "screenshotRoles": [
+        "cover-responsive",
+        "representative-problem-responsive",
+        "reward-responsive",
+        "completed-result-responsive"
       ]
     }
   ]
