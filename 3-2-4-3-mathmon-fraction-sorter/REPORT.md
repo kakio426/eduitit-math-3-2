@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `f19504d6bd221ec220d5f8a77f8d7adc9b62a67b`
-- 입력 커밋 시각: `2026-09-19T14:43:48+09:00`
-- 제작 보고서 원본 SHA-256: `568c23c0a3c09c0c997dba62b53d865fafb93b3168b438488c9c0a8395d2b26b`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
+- 제작 보고서 원본 SHA-256: `3e98c6878c4631c3d42156bc7643a8460c2fd090c38fa7fc2c468e9193be0192`
 - 실제 실행 진입점: `3-2-4-3-mathmon-fraction-sorter/index.html`
-- 실행 진입점 SHA-256: `ccaabb56bae0c5e363a65d38efa1857eceac57612158df9593c2dc6aefe15480`
-- Pages 파일 집합 SHA-256: `1429e72137d2ccd89d39356eaf7d662984e6c13bd5537c8213c999c5b8d43ed3` (144개)
+- 실행 진입점 SHA-256: `9946d6f1a6159e4c2ec85bce150b3c3349c10c2217ecd8d9b9a157a3b879ef0a`
+- Pages 파일 집합 SHA-256: `0aecdf9384e5d146dbcabd102902a73dc155ba754c3fcbe8f0b3dc28809f15d7` (144개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-3-mathmon-fraction-sorter/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-3-mathmon-fraction-sorter/REPORT.md
@@ -79,8 +79,7 @@
 - 새 생성 장면은 `멈춘 작은 분류대 → 한 줄 가동 → 두 줄 가동 → 청보라 다층 분류 공장 → 금빛 공장장 무대 → 무지개 전설 공장` 순서로 기계 규모·완성물 수·빛 범위·판다몬 반응·색 계열이 함께 커집니다.
 - 최상위 두 장은 금빛과 무지개 색 계열로 분리했습니다. CSS 효과·혼합 모드·단계별 필터를 덧붙이지 않고 각 등급을 서로 다른 1280×800 완성 장면으로 연결했습니다.
 - 생성 원본은 `result-{first,row,line,bigline,manager,rainbow}-v4-source.png`, 런타임은 기존 `result-*-generated.webp`, 전수 비교표는 `result-tiers-v4-contact-sheet.png`입니다.
-- 과거 배경에 구워진 빈 결과판의 픽셀 중심 검사는 제거했습니다. 현재 결과판은 독립 요소의 실제 경계와 공통 중심축으로 검사합니다.
-- 2026-09-19 사용자 검수 반영: 배경을 가리던 큰 가로 결과판을 여섯 배경에서 제거하고, 공통 세로 패널을 `x=795, y=100, 445×560px`, 콘텐츠 중심축 `x=1017.5`로 통일했습니다. 실제 브라우저에서 `first`, `row`, `line`, `bigline`, `manager`, `rainbow` 모두 같은 패널 rect와 중심축을 사용하며 판다몬·분류 바구니·단계별 공장 배경이 드러납니다.
+- 빈 결과판 픽셀 중심을 각 장에서 검출하고 `axisXByTier`에 `842, 842, 851, 851, 849, 842`를 선언했습니다. 동적 제목·진행 막대·정답 수·다음 목표·다시 버튼은 검출 중심과 3px 이내여야 합니다.
 
 ## 2026-07-23 V2 보완 결과
 

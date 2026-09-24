@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `f19504d6bd221ec220d5f8a77f8d7adc9b62a67b`
-- 입력 커밋 시각: `2026-09-19T14:43:48+09:00`
-- 제작 보고서 원본 SHA-256: `54edb7250d276aeab13ef89a56621b422fc728edc5fc9e0ac8621bf84e5dcf5e`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
+- 제작 보고서 원본 SHA-256: `990d5facd3f080da2a1b22ec1f2e4fb0856839c9b08cb698d29d23a3605cfc96`
 - 실제 실행 진입점: `3-2-4-1-mathmon-pizza-fraction/index.html`
-- 실행 진입점 SHA-256: `0a5acd5d8a66a358cbd63bde19a050d5bac8b67f8ba3bc6df22fa5adf3ffe9bb`
-- Pages 파일 집합 SHA-256: `53dab634774f364dd795b31733ec8bfe48baa0203fb09f867362f60166dbcb50` (93개)
+- 실행 진입점 SHA-256: `0ef569d8a8999f0238f381e00a32305fe8bf6ef10fe9450c8847a4fe4aefcbf5`
+- Pages 파일 집합 SHA-256: `c2d682653ded5440c5d0ce969230860e4cd652b7cc9560f573e0431d826cec4a` (93개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-1-mathmon-pizza-fraction/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-1-mathmon-pizza-fraction/REPORT.md
@@ -41,7 +41,6 @@
 - 결과판 검출 중심 `1047`에 결과 제목·정답 수·다음 목표·다시 hitbox 축을 맞췄습니다. 실제 retry 중심은 `1046.982`, 결과판 중심과의 차이는 `0.018px`, 픽셀 row-run 중심과 선언 축의 차이는 `0.5px`입니다. 기존 v2 하네스에 없던 결과판 중심 비교와 retry 중심 비교를 영구 회귀 기준으로 추가했습니다.
 - 문제 화면의 `4단원 분수`는 스킬 표준에서 요구하는 단원 배지이며 실제로 표시됩니다. 별도 `3-2-4-1` 차시 배지는 현재 표준에 없고, `topControlsAudit`에서 단원 배지·설정 버튼의 같은 기준선과 최소 간격을 확인했습니다.
 - 짧은 Stage `1308×525`에서는 고정 `430×480px` 보상 카드가 세로로 넘치지 않도록 `Stage 높이 - 4px` responsive 예외를 선언했습니다. 일반 화면의 `430×480px`, `250×250px` 이미지 슬롯은 유지하며 카드·이미지·버튼 교차는 `0건`입니다.
-- 30점 보상 그림은 카드 외곽 `430×480px`과 그림 슬롯 `250×250px`을 그대로 두고 새 512×512 생성 장면으로 교체했습니다. 아래 흰 띠는 `0행`이며 여우몬의 두 귀·얼굴·몸통·엄지·꼬리와 피자 전체가 슬롯 안에 표시됩니다.
 - 사용자 회귀 viewport `1079×842`, 기존 `1308×525`를 포함해 `9개 viewport`에서 `332장`을 다시 캡처했습니다. 텍스트 넘침·요소 겹침·Stage 잘림·이미지 누락은 `0건`입니다.
 - 통과한 검사: `qa-engine-unit4-pizza-source`, `check-stage-ratio`, `check-lesson-contract`, `check-lesson-visual-contract`, 전체 `qa-lesson-flow`, `build-lesson-report-sheets`, `sync-lesson-report-evidence`.
 

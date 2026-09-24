@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `a4a1755c9089fe3ad27d71e0986a018719ed85a3`
-- 입력 커밋 시각: `2026-09-08T20:50:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `3ce624f90d1998c31b36df13c83bea718aea3080563b0f64bd69abb11328af81`
 - 실제 실행 진입점: `3-2-3-1-mathmon-target-hit/index.html`
-- 실행 진입점 SHA-256: `0994cf25a8401ea6351c7c1ae20672108a7aa3c090b6b2f444c2ef19311750f4`
-- Pages 파일 집합 SHA-256: `3e8b6997a41f3e78f26421fa32e7494de59ed7fc54c461ebea9a1aebb7eb3784` (84개)
+- 실행 진입점 SHA-256: `656fd4139b4f2c1a1522df24eac6b6a5c28c47cde50b540941534d8efb8b9823`
+- Pages 파일 집합 SHA-256: `8095b164e8d4f424ce66089009e646ca50526384aaf17f49166b8ae089ab3865` (84개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-1-mathmon-target-hit/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-1-mathmon-target-hit/REPORT.md

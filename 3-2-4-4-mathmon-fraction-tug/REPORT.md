@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `f19504d6bd221ec220d5f8a77f8d7adc9b62a67b`
-- 입력 커밋 시각: `2026-09-19T14:43:48+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `c1288aaf5153e7a3c4bfa3a46320daa4cdde7d5407bd26d127132fae0b595bfe`
 - 실제 실행 진입점: `3-2-4-4-mathmon-fraction-tug/index.html`
-- 실행 진입점 SHA-256: `6fd2c4e6d54d584bfd10528211a19a75a566f870e43477a67d7bfb6f26d2d491`
-- Pages 파일 집합 SHA-256: `51cd2d56c29c37f41f13f66125589b6c5b215ebef6fe36aeacea5bdff43281d7` (89개)
+- 실행 진입점 SHA-256: `2e947b12e744081fbd70491adbc358b41861bc875eaf09bd001c7b8778d26847`
+- Pages 파일 집합 SHA-256: `412bda08d8d37d8844c2b54a75c27a088161e62295bffa289d81856a9bddc84d` (89개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-4-mathmon-fraction-tug/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-4-mathmon-fraction-tug/REPORT.md

@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `62b97932939c7edb11fdead4e83db26adfe006ea`
-- 입력 커밋 시각: `2026-09-08T20:56:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `e0c45bb1a80c297cd8abb57dc2ca7e960365afc1b980b495515239b61ce9d14a`
 - 실제 실행 진입점: `3-2-2-2-mathmon-elevator/index.html`
-- 실행 진입점 SHA-256: `a9cffb04c0218bc5888ddd94d437cef17d61283059839e88da618e9d30b266d9`
-- Pages 파일 집합 SHA-256: `42ef27a91c59a8dae1e4b3889185fa675802e6624112124b31a2f31a5713a930` (124개)
+- 실행 진입점 SHA-256: `a7af99e129c53f813629acc6698a3fa5364b45594f2fee8fbd2cebed3274aa12`
+- Pages 파일 집합 SHA-256: `8df3d2c6166e3d73ae01d1ae220101af6f0cac55ad23f88f836f1a446dc49ed4` (124개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-2-mathmon-elevator/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-2-mathmon-elevator/REPORT.md

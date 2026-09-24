@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d35e0b886bca54b2548b309bf5f673b112f72558`
-- 입력 커밋 시각: `2026-09-06T15:26:24+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `d778cf0a2deb13e56495cf71a51c0b849d85c31b6285dfa33b2ff9cd1b76fb20`
-- 실제 실행 진입점: `3-2-1-3-mathmon-jump-islands/_runtime/3-2-1-3-mathmon-jump-islands/index.html`
-- 실행 진입점 SHA-256: `f15fdd9d28f159fc3d807b6e975648e5f0c15c0502ca2ec4c647f3e6565f9319`
-- Pages 파일 집합 SHA-256: `043ad53a0c34835c4575baefdd04bea9bf23e0dd12262ae6e28b41d64e361771` (108개)
+- 실제 실행 진입점: `3-2-1-3-mathmon-jump-islands/index.html`
+- 실행 진입점 SHA-256: `de61572d246b290373189b0f862289111ce7e9dd999b32f74e89ad93a5e81181`
+- Pages 파일 집합 SHA-256: `cf56871321fba71fe1314eb3dded0aceb0c5fb00474c4812b3271a9269aa0624` (121개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-1-3-mathmon-jump-islands/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-1-3-mathmon-jump-islands/REPORT.md

@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `a4a1755c9089fe3ad27d71e0986a018719ed85a3`
-- 입력 커밋 시각: `2026-09-08T20:50:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `832102f98260e0809fba9a18e2eaadbe9965c9e01b791a879541309a07365aee`
 - 실제 실행 진입점: `3-2-3-3-mathmon-double-bridge/index.html`
-- 실행 진입점 SHA-256: `b0a8aa532fbc385b65ea4aea3b222560df1fda95a0bab74f31d5fa15398e50ec`
-- Pages 파일 집합 SHA-256: `0715c35485e42672b391382907df6aebb9535c7bd35d6702b8314f26d9efb9e1` (117개)
+- 실행 진입점 SHA-256: `275ef333a6012854506babbf32e08c6ba8535b6aa44dd00ec5a48e9a891fd6eb`
+- Pages 파일 집합 SHA-256: `e0e254c644435312093e2a39cd3322f06fbc8b8a22f2275ceabe8b1d32d735ff` (117개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-3-mathmon-double-bridge/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-3-mathmon-double-bridge/REPORT.md

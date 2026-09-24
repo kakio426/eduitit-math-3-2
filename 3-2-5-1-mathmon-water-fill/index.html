@@ -42,6 +42,15 @@
             radial-gradient(circle at 85% 84%, rgba(255, 200, 87, 0.17), transparent 28%),
             #111018;
         }
+        .game:fullscreen {
+          padding: 0;
+        }
+        .game:fullscreen::backdrop {
+          background: #111018;
+        }
+        .game:fullscreen .stage-shell {
+          width: min(1280px, calc(100dvh * 1.6), 100%);
+        }
         .stage-shell {
           --stage-inset: clamp(14px, 2vw, 22px);
           --top-control-y: var(--stage-inset);
@@ -4491,9 +4500,9 @@
   </script>
 </head>
 <body>
-  <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="measurement-lab" data-scoreboard-enabled="false">
+  <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-fullscreen-support="landscape-only-v1" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="measurement-lab" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-1" data-commit-sha="" data-lesson-json-sha256="f337bc69415128a58a517607f036e99786487349fb1139a975409b318150842d" data-build-inputs-sha256="4971fc5f193835347f489b68a60cb597a144a5fe6044961b844440f2a6db31cd"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-1" data-commit-sha="" data-lesson-json-sha256="f337bc69415128a58a517607f036e99786487349fb1139a975409b318150842d" data-build-inputs-sha256="a330c9e43ed71329cd324e4f71201f835e81ab74fa42723d4ca99daebefcb33e"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4508,6 +4517,7 @@
             <button class="settings-switch" id="settingsSfxToggle" type="button" role="switch" aria-checked="true"><span>효과 소리</span><span class="settings-switch-track" aria-hidden="true"></span></button>
             <button class="settings-action" id="settingsMethodButton" type="button">방법 다시 보기</button>
             <button class="settings-action is-danger" id="settingsRestartButton" type="button">처음부터</button>
+            <button class="settings-action" id="settingsFullscreenButton" type="button" aria-pressed="false">전체 화면</button>
             <button class="settings-action" id="settingsCloseButton" type="button">닫기</button>
           </div>
           <div class="settings-confirm" id="settingsRestartConfirm" hidden>
@@ -5715,37 +5725,132 @@
         });
       }
 
+      const benchmarkImages = LESSON_CONFIG.imageAssets?.capacityEstimateComparisons || {};
       const CAPACITY_BENCHMARKS = [
-        { object: "종이컵", benchmark: "200mL 컵", answer: "약 200mL", distractors: ["약 2L", "약 20L"] },
-        { object: "물병", benchmark: "500mL 생수병", answer: "약 500mL", distractors: ["약 50mL", "약 5L"] },
-        { object: "물뿌리개", benchmark: "1L 우유갑", answer: "약 1L", distractors: ["약 100mL", "약 10L"] },
-        { object: "냄비", benchmark: "2L 생수병", answer: "약 2L", distractors: ["약 20mL", "약 20L"] },
+        {
+          object: "물뿌리개",
+          benchmark: "1L 우유갑",
+          answer: "약 1L",
+          distractors: ["약 100mL", "약 10L"],
+          relation: "두 용기에 담을 수 있는 양이 비슷해요.",
+          image: benchmarkImages.wateringCan
+            || LESSON_CONFIG.imageAssets?.capacityEstimateComparison
+            || "estimate-watering-can-milk-carton-v1-generated.webp",
+        },
+        {
+          object: "물병",
+          benchmark: "500mL 생수병",
+          answer: "약 500mL",
+          distractors: ["약 50mL", "약 5L"],
+          relation: "두 용기에 담을 수 있는 양이 비슷해요.",
+          image: benchmarkImages.waterBottle,
+        },
+        {
+          object: "종이컵",
+          benchmark: "200mL 컵",
+          answer: "약 200mL",
+          distractors: ["약 2L", "약 20L"],
+          relation: "두 용기에 담을 수 있는 양이 비슷해요.",
+          image: benchmarkImages.paperCup,
+        },
+        {
+          object: "냄비",
+          benchmark: "2L 생수병",
+          answer: "약 2L",
+          distractors: ["약 20mL", "약 20L"],
+          relation: "두 용기에 담을 수 있는 양이 비슷해요.",
+          image: benchmarkImages.pot,
+        },
       ];
 
       function capacityBenchmarkEstimate(rng, serial) {
-        const item = CAPACITY_BENCHMARKS[serial % CAPACITY_BENCHMARKS.length];
-        const expression = `${item.benchmark}을 기준으로 ${item.answer}로 어림했어요.`;
+        const item = CAPACITY_BENCHMARKS[(serial - 1) % CAPACITY_BENCHMARKS.length];
+        const expression = `${item.benchmark}과 ${item.object}에는 담을 수 있는 양이 비슷해요. 그래서 ${item.object}의 들이를 ${item.answer}로 어림해요.`;
         return makeProblem({
           serial,
           type: "capacityBenchmarkEstimate",
           kind: "들이 어림",
-          prompt: `${item.object}의 들이를 어림해요.`,
+          prompt: `${item.object}에 담을 수 있는 양은 약 얼마일까요?`,
           expression,
-          visual: { kind: "estimate", topic: "capacity", object: item.object, benchmark: item.benchmark },
+          visual: {
+            kind: "estimate",
+            topic: "capacity",
+            object: item.object,
+            benchmark: item.benchmark,
+            relation: item.relation,
+            image: item.image,
+          },
           steps: [makeStep({
             id: "estimate",
             label: "어림",
-            instruction: "기준과 비교해 알맞게 어림한 값을 골라요.",
+            instruction: "기준 용기와 비교해 가장 가까운 어림값을 골라요.",
             answer: item.answer,
             distractors: item.distractors,
             correctText: expression,
             rng,
-            feedbackFor: () => `${item.benchmark} 하나에 담기는 양을 떠올려요.`,
+            feedbackFor: () => `${item.benchmark}과 ${item.object}에 담을 수 있는 양이 비슷한지 다시 살펴봐요.`,
           })],
         });
       }
 
       function capacityMeasureCompare(rng, serial) {
+        if (LESSON_CONFIG.id === "3-2-5-2") {
+          const cases = [
+            { estimate: 1000, estimateLabel: "약 1L", measured: 900 },
+            { estimate: 500, estimateLabel: "약 500mL", measured: 600 },
+          ];
+          const item = cases[(serial - 3) % cases.length];
+          const measuredLabel = formatMl(item.measured);
+          const difference = Math.abs(item.measured - item.estimate);
+          const reasonAnswer = `두 값이 ${difference}mL 차이로 가까워요.`;
+          const expression = `${measuredLabel}를 ${item.estimateLabel}로 어림했어요. ${reasonAnswer}`;
+          return makeProblem({
+            serial,
+            type: "capacityMeasureCompare",
+            kind: "어림값 확인",
+            prompt: "직접 잰 값과 비교해 어림이 알맞은지 살펴봐요.",
+            expression,
+            visual: {
+              kind: "measure-compare",
+              topic: "capacity",
+              assessment: "estimate-check",
+              estimate: item.estimateLabel,
+              measured: measuredLabel,
+              delta: item.measured - item.estimate,
+              question: `직접 잰 값 ${measuredLabel}를 보고 알맞은 어림값을 골라요.`,
+              checkQuestion: `${item.estimateLabel}와 ${measuredLabel}가 가까운지 살펴봐요.`,
+              revealedText: reasonAnswer,
+            },
+            steps: [
+              makeStep({
+                id: "choose-estimate",
+                label: "어림",
+                instruction: "직접 잰 값을 보고 알맞게 어림한 값을 골라요.",
+                answer: item.estimateLabel,
+                distractors: item.estimate === 1000 ? ["약 100mL", "약 10L"] : ["약 50mL", "약 5L"],
+                correctText: `${measuredLabel}는 ${item.estimateLabel}로 어림할 수 있어요.`,
+                reveal: item.estimateLabel,
+                rng,
+                feedbackFor: () => "직접 잰 값과 가까운 수를 찾아요. 단위와 자리도 함께 살펴봐요.",
+                advance: { mode: "auto", delayMs: 900 },
+              }),
+              makeStep({
+                id: "check-estimate",
+                label: "확인",
+                instruction: "두 값이 가까운지 보고 어림이 알맞은 까닭을 골라요.",
+                answer: reasonAnswer,
+                distractors: [
+                  `두 값이 ${item.estimate}mL 차이라서 너무 달라요.`,
+                  "두 값이 같아야 어림이 알맞아요.",
+                ],
+                correctText: expression,
+                rng,
+                feedbackFor: () => "어림값은 직접 잰 값과 정확히 같지 않아도 가까우면 알맞아요.",
+              }),
+            ],
+          });
+        }
+
         const estimate = randomInt(rng, 3, 12) * 100;
         const delta = pick([-200, -100, 100, 200], rng);
         const measured = estimate + delta;
@@ -5800,27 +5905,40 @@
         const expression = `${formatCapacity(left)} ${operator} ${formatCapacity(right)} = ${final}`;
         const steps = [];
         if (exchange) {
+          const milliliterTotal = left.ml + right.ml;
+          const carryLiters = Math.floor(milliliterTotal / 1000);
+          const remainingMilliliters = milliliterTotal % 1000;
           const converted = isAdd
-            ? formatCapacity(left.ml + right.ml)
+            ? formatCapacity(milliliterTotal)
             : formatMl(left.ml + 1000);
+          const exchangeInstruction = isAdd
+            ? `mL를 먼저 더해 1000mL가 생기는지 살펴봐요. ${formatMl(left.ml)} + ${formatMl(right.ml)} = ${formatMl(milliliterTotal)}예요. 1000mL는 1L로 바꾸고, 남은 ${formatMl(remainingMilliliters)}는 mL 자리에 적어요.`
+            : "1L를 1000mL로 바꿔요.";
+          const exchangeCorrectText = isAdd
+            ? `${formatMl(milliliterTotal)} = ${converted}예요. ${carryLiters}L를 L 자리에 받아올림하고, ${remainingMilliliters}mL를 mL 자리에 적어요.`
+            : `${converted}로 바꾸었어요.`;
           steps.push(makeStep({
             id: isAdd ? "exchange-up" : "exchange-down",
             label: isAdd ? "받아올림" : "받아내림",
-            instruction: isAdd ? "1000mL를 1L로 바꿔요." : "1L를 1000mL로 바꿔요.",
+            instruction: exchangeInstruction,
             answer: converted,
             distractors: isAdd
               ? [formatMl(left.ml + right.ml), formatCapacity(left.ml + right.ml + 1000), formatCapacity(Math.abs(left.ml - right.ml))]
               : [formatCapacity(left.ml + 1000), formatMl(left.ml), formatMl(left.ml + 2000)],
-            correctText: `${converted}로 바꾸었어요.`,
+            correctText: exchangeCorrectText,
             rng,
-            feedbackFor: () => isAdd ? "1000mL를 1L로 묶어 보세요." : "위의 1L를 1000mL로 풀어 보세요.",
-            advance: { mode: "auto", delayMs: 900 },
+            feedbackFor: () => isAdd ? "mL가 1000mL가 되면 1L로 바꾸어 L 자리에 받아올림해요." : "위의 1L를 1000mL로 풀어 보세요.",
+            advance: { mode: "auto", delayMs: 1800 },
           }));
         }
+        const additionCarryLiters = isAdd && exchange ? Math.floor((left.ml + right.ml) / 1000) : 0;
+        const additionRemainingMilliliters = isAdd && exchange ? (left.ml + right.ml) % 1000 : 0;
         steps.push(makeStep({
           id: "calculate",
           label: "계산",
-          instruction: "L끼리, mL끼리 계산해요.",
+          instruction: isAdd && exchange
+            ? `이제 L끼리 더해요. ${left.l}L + ${right.l}L + ${additionCarryLiters}L를 계산하고, mL는 ${additionRemainingMilliliters}mL로 적어요.`
+            : "L끼리, mL끼리 계산해요.",
           answer: final,
           distractors: [
             formatCapacity(Math.max(100, finalTotal + 1000)),
@@ -5829,7 +5947,9 @@
           ],
           correctText: expression,
           rng,
-          feedbackFor: () => "L 자리와 mL 자리를 나누어 다시 계산해요.",
+          feedbackFor: () => isAdd && exchange
+            ? `mL에서 받아올림한 ${additionCarryLiters}L를 L끼리 더했는지 확인해요.`
+            : "L 자리와 mL 자리를 나누어 다시 계산해요.",
         }));
         return makeProblem({
           serial,
@@ -6346,6 +6466,7 @@
       settingsRestartConfirm: document.getElementById("settingsRestartConfirm"),
       settingsRestartConfirmButton: document.getElementById("settingsRestartConfirmButton"),
       settingsRestartCancelButton: document.getElementById("settingsRestartCancelButton"),
+      settingsFullscreenButton: document.getElementById("settingsFullscreenButton"),
       closeSettings: document.getElementById("settingsCloseButton"),
       bgmToggle: document.getElementById("settingsBgmToggle"),
       sfxToggle: document.getElementById("settingsSfxToggle"),
@@ -7303,6 +7424,62 @@
       if (restoreFocus) ui.settingsToggle.focus({ preventScroll: true });
     }
 
+    function installFullscreenControl() {
+      const button = ui.settingsFullscreenButton;
+      const target = ui.main;
+      if (!button || !target) return;
+
+      const orientationQuery = typeof window.matchMedia === "function"
+        ? window.matchMedia("(orientation: landscape)")
+        : null;
+      const isLandscape = () => orientationQuery?.matches ?? window.innerWidth >= window.innerHeight;
+      const canFullscreen = () => Boolean(
+        isLandscape()
+          && document.fullscreenEnabled
+          && typeof target.requestFullscreen === "function",
+      );
+
+      const sync = () => {
+        const active = document.fullscreenElement === target;
+        button.hidden = !isLandscape();
+        button.disabled = !canFullscreen();
+        button.textContent = active ? "전체 화면 나가기" : "전체 화면";
+        button.setAttribute("aria-label", active ? "전체 화면 나가기" : "전체 화면");
+        button.setAttribute("aria-pressed", String(active));
+        button.dataset.fullscreenState = active ? "active" : "inactive";
+      };
+
+      const toggle = async () => {
+        if (!isLandscape()) return;
+        if (document.fullscreenElement) {
+          try {
+            await document.exitFullscreen?.();
+          } catch (error) {
+            console.warn("Fullscreen mode could not be disabled.", error);
+          }
+          return;
+        }
+        if (!canFullscreen()) return;
+        try {
+          await target.requestFullscreen({ navigationUI: "hide" });
+        } catch (firstError) {
+          try {
+            await target.requestFullscreen();
+          } catch (error) {
+            console.warn("Fullscreen mode could not be enabled.", error || firstError);
+            return;
+          }
+        }
+        closeSettings({ restoreFocus: false });
+      };
+
+      button.addEventListener("click", () => { void toggle(); });
+      document.addEventListener("fullscreenchange", sync);
+      window.addEventListener("resize", sync, { passive: true });
+      orientationQuery?.addEventListener?.("change", sync);
+      sync();
+    }
+
     function trapSettingsFocus(event) {
       if (ui.settingsBackdrop.hidden) return;
       if (event.key === "Escape") {
@@ -7464,6 +7641,7 @@
       syncAudioControls();
     });
 
+    installFullscreenControl();
     syncAudioControls();
     syncProgress();
 
@@ -7973,23 +8151,49 @@
     }
 
     function estimateBoard(problem) {
-      const board = measurementCreate("div", "measurement-board estimate-board");
+      const hasComparisonArt = Boolean(problem.visual.image);
+      const board = measurementCreate("div", `measurement-board estimate-board${hasComparisonArt ? " is-visual-estimate" : ""}`);
+      if (hasComparisonArt) {
+        const image = measurementCreate("img", "estimate-comparison-art");
+        image.src = problem.visual.image;
+        image.alt = `${problem.visual.benchmark}과 ${problem.visual.object}가 나란히 있는 비교 그림`;
+        image.decoding = "async";
+        board.append(image);
+      }
+      if (problem.visual.relation) {
+        board.append(measurementCreate("p", "estimate-relation", problem.visual.relation));
+      }
+      const summary = measurementCreate("div", "estimate-summary");
       const benchmark = measurementCreate("div", "estimate-card is-benchmark");
-      benchmark.append(measurementCreate("span", "estimate-eyebrow", "기준"), measurementCreate("strong", "", problem.visual.benchmark));
+      benchmark.append(measurementCreate("span", "estimate-eyebrow", "기준 용기"), measurementCreate("strong", "", problem.visual.benchmark));
       const arrow = measurementCreate("span", "estimate-arrow", "↔");
       const target = measurementCreate("div", "estimate-card is-target");
-      target.append(measurementCreate("span", "estimate-eyebrow", "어림할 물건"), measurementCreate("strong", "", problem.visual.object));
-      board.append(benchmark, arrow, target);
+      target.append(measurementCreate("span", "estimate-eyebrow", "비교할 물건"), measurementCreate("strong", "", problem.visual.object));
+      summary.append(benchmark, arrow, target);
+      board.append(summary);
       return board;
     }
 
-    function measureCompareBoard(problem) {
+    function measureCompareBoard(problem, currentState) {
       const board = measurementCreate("div", "measurement-board measure-compare-board");
-      const estimate = measurementCreate("div", "measure-value-card");
-      estimate.append(measurementCreate("span", "", "어림한 값"), measurementCreate("strong", "", problem.visual.estimate));
+      const isEstimateCheck = problem.visual.assessment === "estimate-check";
+      const estimateRevealed = !isEstimateCheck
+        || measurementSolvedSteps.has(problem.steps[0]?.id)
+        || Number(currentState?.stepIndex || 0) > 0;
+      const estimate = measurementCreate("div", `measure-value-card${estimateRevealed ? "" : " is-pending"}`);
+      estimate.append(measurementCreate("span", "", "어림한 값"), measurementCreate("strong", "", estimateRevealed ? problem.visual.estimate : "?"));
       const measured = measurementCreate("div", "measure-value-card is-measured");
       measured.append(measurementCreate("span", "", "직접 잰 값"), measurementCreate("strong", "", problem.visual.measured));
-      const comparison = measurementCreate("div", "measure-comparison", measurementSolvedSteps.size ? problem.expression.split(". ").at(-1) : "차이는 얼마일까요?");
+      const solved = measurementSolvedSteps.size === problem.steps.length;
+      const waitingText = !estimateRevealed
+        ? problem.visual.question
+        : isEstimateCheck
+          ? problem.visual.checkQuestion
+          : "차이는 얼마일까요?";
+      const comparisonText = solved
+        ? problem.visual.revealedText || problem.expression.split(". ").at(-1)
+        : waitingText;
+      const comparison = measurementCreate("div", "measure-comparison", comparisonText);
       board.append(estimate, measured, comparison);
       return board;
     }
@@ -8015,7 +8219,23 @@
       result.append(measurementCreate("span", "", "="), ...resultValues.map((value) => measurementCreate("strong", "", value)));
       table.append(header, first, second, result);
       if (problem.visual.exchange) {
-        table.append(measurementCreate("div", "measurement-exchange-note", topic === "capacity" ? "1L = 1000mL" : "1kg = 1000g"));
+        const isCapacityAdditionExchange = topic === "capacity" && problem.visual.operator === "+";
+        const exchangeNote = isCapacityAdditionExchange
+          ? "mL에서 1000mL가 되면 1L로 바꿔요."
+          : topic === "capacity" ? "1L = 1000mL" : "1kg = 1000g";
+        table.append(measurementCreate("div", "measurement-exchange-note", exchangeNote));
+        if (isCapacityAdditionExchange && measurementSolvedSteps.has("exchange-up")) {
+          const milliliterTotal = Number(problem.visual.left.ml) + Number(problem.visual.right.ml);
+          const carryLiters = Math.floor(milliliterTotal / 1000);
+          const remainingMilliliters = milliliterTotal % 1000;
+          const converted = `${carryLiters}L${remainingMilliliters ? ` ${remainingMilliliters}mL` : ""}`;
+          const trace = measurementCreate("div", "measurement-exchange-trace");
+          trace.append(
+            measurementCreate("strong", "measurement-exchange-equation", `${problem.visual.left.ml}mL + ${problem.visual.right.ml}mL = ${milliliterTotal}mL = ${converted}`),
+            measurementCreate("span", "measurement-exchange-carry", `받아올림 ${carryLiters}L → L 자리에 더해요${remainingMilliliters ? ` · mL는 ${remainingMilliliters}mL` : ""}`),
+          );
+          table.append(trace);
+        }
       }
       board.append(table);
       return board;
@@ -8096,7 +8316,7 @@
       if (kind === "fairness" || kind === "fairness-choice") return fairnessBoard(problem);
       if (kind === "relation") return relationBoard(problem);
       if (kind === "estimate") return estimateBoard(problem);
-      if (kind === "measure-compare") return measureCompareBoard(problem);
+      if (kind === "measure-compare") return measureCompareBoard(problem, currentState);
       if (kind === "vertical-calculation") return calculationBoard(problem);
       if (kind === "balance") return balanceBoard(problem);
       if (kind === "weight-method") return weightMethodBoard(problem);
@@ -8185,6 +8405,16 @@
       syncMeasurementProgress(currentState);
       ui.visualArea.dataset.state = "complete";
       ui.completeText.dataset.textAlignRole = /Add|Subtract|Relation|Representation/u.test(problem.type) ? "math" : "sentence";
+      if (LESSON_CONFIG.id === "3-2-5-2" && problem.visual?.kind === "vertical-calculation") {
+        const observer = new MutationObserver(() => {
+          const text = ui.completeText.textContent.trim();
+          if (!text) return;
+          observer.disconnect();
+          const answer = problem.finalExpression?.split("=").at(-1)?.trim() || text;
+          ui.completeText.textContent = `정답! ${answer}`;
+        });
+        observer.observe(ui.completeText, { childList: true, characterData: true, subtree: true });
+      }
       if (LESSON_CONFIG.id === "3-2-5-1") {
         const observer = new MutationObserver(() => {
           const text = ui.completeText.textContent.trim();

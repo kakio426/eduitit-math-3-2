@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `62b97932939c7edb11fdead4e83db26adfe006ea`
-- 입력 커밋 시각: `2026-09-08T20:56:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `e0424463ceb9389716b3a39a040ca0f9214213bfcaa566c2d99604a6fd1fdede`
 - 실제 실행 진입점: `3-2-2-3-mathmon-star-pickup/index.html`
-- 실행 진입점 SHA-256: `ede50600109706ed176798c62af211d90cbadb7e4e29d65ba37dde2e69d5694e`
-- Pages 파일 집합 SHA-256: `19a14692b4a2dc8310b654af42ce9a6d889d6923d13933cfb097d73062c83db5` (139개)
+- 실행 진입점 SHA-256: `5dcbe48f2fe65a29be7005511ff4889de0a9e85679a0d70b3e8543a21a9030e1`
+- Pages 파일 집합 SHA-256: `bce947ad5e82c15344cec27c1016a95233c70ebaf8a40b8ae1d2b88441fdb33e` (139개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-3-mathmon-star-pickup/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-3-mathmon-star-pickup/REPORT.md

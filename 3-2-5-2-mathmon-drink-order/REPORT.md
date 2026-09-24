@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `935d82a3185182bd5f75f98a054024296e4d000a`
-- 입력 커밋 시각: `2026-09-21T08:14:10+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `8d8197bd7dfca163b865d5cbc250d50c2aad17ccafc07b90911bb4977fe1877a`
 - 실제 실행 진입점: `3-2-5-2-mathmon-drink-order/index.html`
-- 실행 진입점 SHA-256: `4848b05ab0e0cb8160e2a3c128564f3916247484a0894912fbf756fa244ae194`
-- Pages 파일 집합 SHA-256: `a7bf7dff81bd7fa12ad3f45155a8a441b83bac9d79a18f2ecdc896b918d70ba4` (137개)
+- 실행 진입점 SHA-256: `4fd2f4e60c9ba33c8638220100182d2604069c69c2dc297c3f7e73169d3cc495`
+- Pages 파일 집합 SHA-256: `acc26dc155f6955be348a084ad8f7d73c289f327f0915d43b3957f56db6562af` (137개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-2-mathmon-drink-order/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-2-mathmon-drink-order/REPORT.md

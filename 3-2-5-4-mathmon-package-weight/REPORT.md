@@ -5,13 +5,13 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `348c15cdba31e41b64b44df6dfd3904a609cddf3e791bb476f94f2c49ca1ce9b`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
+- 제작 보고서 원본 SHA-256: `d2cc71c106c87f1ebdf8e0c00400b6f4fc14d1a1c4e38b72608b252971b3f493`
 - 실제 실행 진입점: `3-2-5-4-mathmon-package-weight/index.html`
-- 실행 진입점 SHA-256: `addd1cf338d0dfe983193c70afc278471ba5f77db8a0c6318bfff626261004b4`
-- Pages 파일 집합 SHA-256: `afb93633c992d0909bb45b6d122975d819d08d956f4db7b64131beed4c972c1c` (60개)
-- 상세 화면 증거: 현재 실행 진입점과 일치
+- 실행 진입점 SHA-256: `be530c5d2f5ed3cafc6063143a66264773e4e10e2e34f5394e377cfb917f8cba`
+- Pages 파일 집합 SHA-256: `a8880277ad3aa602a101db3c6b524ab9573562a3e7729fc6723a3d3765300928` (94개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-4-mathmon-package-weight/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-4-mathmon-package-weight/REPORT.md
 
@@ -191,21 +191,15 @@
 
 <!-- REPORT-EVIDENCE-ALL:START -->
 
-## 2026-08-29 최신 원본 스크린샷 전수
+## 2026-08-22 최신 원본 스크린샷 전수
 
-- 실행본 SHA-256: `addd1cf338d0dfe983193c70afc278471ba5f77db8a0c6318bfff626261004b4`
-- 생성 시각: `2026-08-29T10:19:13.798Z`
-- 등록 회귀 이름: `6개`
-- 실제 실행 화면 조건: `6개`
-- 동일 조건 별칭 통합: `0개`
+- 실행본 SHA-256: `6cc973034831d360f98d424b62c85cb7a8c6a8cccb2471ea9581b849505572b6`
+- 생성 시각: `2026-08-22T16:42:11.606Z`
+- 등록 화면 크기: `6개`
 - 아래에 직접 삽입한 원본 캡처: `96장`
-- 같은 width×height×DPR과 같은 fixture 조건은 한 번만 실행하고, 과거 오류 이름은 별칭으로 보존했습니다.
-- manifest에 기록된 실제 실행 원본 캡처를 한 장씩 연결했습니다.
+- 컨택시트만으로 대신하지 않고 manifest에 기록된 원본 캡처를 한 장씩 모두 연결했습니다.
 
 ### desktop · 1280×800 · DPR 1 · 16장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
 
 ![desktop 전체 상태 컨택시트](screenshots/report-flow-desktop-contact-sheet.png)
 
@@ -355,9 +349,6 @@
 
 ### tablet-landscape · 1024×768 · DPR 1 · 16장
 
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
-
 ![tablet-landscape 전체 상태 컨택시트](screenshots/report-flow-tablet-landscape-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-tablet-landscape-01-cover.png`
@@ -505,9 +496,6 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 ### codex-in-app · 1280×720 · DPR 2 · 16장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
 
 ![codex-in-app 전체 상태 컨택시트](screenshots/report-flow-codex-in-app-contact-sheet.png)
 
@@ -657,9 +645,6 @@
 
 ### user-visibility · 994×632 · DPR 1 · 16장
 
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
-
 ![user-visibility 전체 상태 컨택시트](screenshots/report-flow-user-visibility-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-visibility-01-cover.png`
@@ -808,9 +793,6 @@
 
 ### user-reported-missing-left-progress · 1082×987 · DPR 2 · 16장
 
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `full-flow`
-
 ![user-reported-missing-left-progress 전체 상태 컨택시트](screenshots/report-flow-user-reported-missing-left-progress-contact-sheet.png)
 
 #### 시작 화면 · `engine-flow-user-reported-missing-left-progress-01-cover.png`
@@ -958,9 +940,6 @@
 - 다음 상태로 넘어가는 이유: 다시를 누르면 새 문제 순서와 새 보상 흐름으로 시작합니다.
 
 ### empty-reward-fixture · 1280×800 · DPR 1 · 16장
-
-- 같은 실행으로 보존한 회귀 이름: 없음
-- 캡처 범위: `targeted`
 
 ![empty-reward-fixture 전체 상태 컨택시트](screenshots/report-flow-empty-reward-fixture-contact-sheet.png)
 

@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `62b97932939c7edb11fdead4e83db26adfe006ea`
-- 입력 커밋 시각: `2026-09-08T20:56:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `acd7e120f6c3557dfa43c75dc75506c0ae42605f6706f7ba5e1d08f735b8f22b`
 - 실제 실행 진입점: `3-2-2-4-mathmon-check-lock/index.html`
-- 실행 진입점 SHA-256: `ffdce2567258067ab377b70fc0c905bdaaf5adcb8c947f221cd693f12c918e26`
-- Pages 파일 집합 SHA-256: `be97d02283a4d083f2c4c3fabc8081684f32fdbbc30d2b4502b67f2feba46c24` (139개)
+- 실행 진입점 SHA-256: `3af61243e33bc5ec2d085222a0147a3d218a226113f0b85c2c3e28831e71fba3`
+- Pages 파일 집합 SHA-256: `845683ab40ad783a01dfde31d5281dda33e0306f48ed4a1cd77becd4d79e3766` (139개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-2-4-mathmon-check-lock/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-2-4-mathmon-check-lock/REPORT.md

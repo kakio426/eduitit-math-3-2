@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `a4a1755c9089fe3ad27d71e0986a018719ed85a3`
-- 입력 커밋 시각: `2026-09-08T20:50:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `b395daae0f5bed7a65660b460bfef0d42b8362d754733ac9061cf4e794de5834`
 - 실제 실행 진입점: `3-2-3-2-mathmon-compass-ring/index.html`
-- 실행 진입점 SHA-256: `7b339f0288766a954de61a0126012c94b8de03760ef99c32aaf53f89e3605281`
-- Pages 파일 집합 SHA-256: `e0148ec4ad0a840adb80de112a3dca1e7fd20d866e7cc748733eab5b26abfcf0` (81개)
+- 실행 진입점 SHA-256: `3c5709a3db1a1978bc9df1422730750c8b58c5aca1d38fc04ccd9fde5d9616c2`
+- Pages 파일 집합 SHA-256: `80a7d892290a11a1dd154658987debe23f709c55b930981a3aa46ba64af900e1` (81개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-2-mathmon-compass-ring/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-2-mathmon-compass-ring/REPORT.md

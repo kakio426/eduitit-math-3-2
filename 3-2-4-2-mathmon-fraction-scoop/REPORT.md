@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `f19504d6bd221ec220d5f8a77f8d7adc9b62a67b`
-- 입력 커밋 시각: `2026-09-19T14:43:48+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `537098c5cb722de789d35444db3f25a2fb8c00d2665a3494bbb1ef0eb43e28fc`
 - 실제 실행 진입점: `3-2-4-2-mathmon-fraction-scoop/index.html`
-- 실행 진입점 SHA-256: `685c7b544735ddd13ccc1b6d9c34b3ec68533fb4636880402fddd571be2de419`
-- Pages 파일 집합 SHA-256: `337822e0251b26c9edee0dffb899267c85c38c9ad3e6be3e0830779d3881bd87` (120개)
+- 실행 진입점 SHA-256: `1c33f54e4fe0abea1d31c5ee06ca7d27736ba93b5c538089f5c14c69e4f5ec13`
+- Pages 파일 집합 SHA-256: `95a536007150cbc6359bd4d4f0763ad86e5c044e02966b761404a714c340dfe1` (120개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-4-2-mathmon-fraction-scoop/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-4-2-mathmon-fraction-scoop/REPORT.md

@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `d876ecb24647ee39cd7321e191eddb2da3895654`
-- 입력 커밋 시각: `2026-09-08T14:39:25+09:00`
-- 제작 보고서 원본 SHA-256: `1b87877beb492c9d0311fddc775e6b800f60adf2d10fed409cfc9a3fefa9f87b`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
+- 제작 보고서 원본 SHA-256: `b0c1a716f449dc7a66a71e41729f7f0d63dc6a85fcadd76a2624df2de5585c60`
 - 실제 실행 진입점: `3-2-1-2-mathmon-rocket-charge/index.html`
-- 실행 진입점 SHA-256: `482228388c621b3d503454565bbcb244ffdff0c951e0087c7811f9ef47729fe7`
-- Pages 파일 집합 SHA-256: `579071b2eb7d6af4fe1def88bbbed82671a8f4481f1b61ae45df08399e5b8a31` (93개)
+- 실행 진입점 SHA-256: `c5d96596833cb67907e74ec808695d0bdc4852c6e9579d3b7b6bff8cce538f71`
+- Pages 파일 집합 SHA-256: `cefbe89fd0b524a62b72a62d9e8ff362412ffc2ba130b4c8fae22d59fea40e5b` (93개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-1-2-mathmon-rocket-charge/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-1-2-mathmon-rocket-charge/REPORT.md

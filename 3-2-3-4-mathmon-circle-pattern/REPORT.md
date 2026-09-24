@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `a4a1755c9089fe3ad27d71e0986a018719ed85a3`
-- 입력 커밋 시각: `2026-09-08T20:50:54+09:00`
+- 공개 입력 커밋: `f8010a35080b2ebafb41f65f31337ba4816ad677`
+- 입력 커밋 시각: `2026-09-24T20:20:51+09:00`
 - 제작 보고서 원본 SHA-256: `cce1e1b9a836ad7b77d35c5ccfc2dcaee5c430bfaf575884c7267f6c5938b2b2`
 - 실제 실행 진입점: `3-2-3-4-mathmon-circle-pattern/index.html`
-- 실행 진입점 SHA-256: `d655fb7e27652f2a5bc34fd2e993c8d78f41c2a0cbe090317aa33072674acdd1`
-- Pages 파일 집합 SHA-256: `628ccff32993cd088a41c7a02d2e98174ac87d9669e9bb17c388f6d6db8929d0` (100개)
+- 실행 진입점 SHA-256: `05fccc950a08214e9e82035903bc6de36d0010d3cc47d9900f8593bd7e408f47`
+- Pages 파일 집합 SHA-256: `0dec5da45e1ad2fe1f1d519e919973994fa282ab32d61eb749c8531121fc27f8` (100개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-3-4-mathmon-circle-pattern/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-3-4-mathmon-circle-pattern/REPORT.md
