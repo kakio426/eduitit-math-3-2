@@ -1155,8 +1155,8 @@
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-board.is-visual-estimate {
       grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: minmax(0, 1fr) auto auto;
-      align-content: stretch;
+      grid-template-rows: auto auto auto;
+      align-content: center;
       justify-items: center;
       gap: 8px;
       padding: 10px 14px 12px;
@@ -1164,10 +1164,14 @@
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-comparison-art {
       width: min(100%, 430px);
-      height: 124px;
+      height: 144px;
       display: block;
       object-fit: contain;
       border-radius: 16px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete .estimate-comparison-art {
+      height: 160px;
     }
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-relation {
@@ -1193,12 +1197,48 @@
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card {
       min-height: 72px;
-      padding: 9px 10px;
+      padding: 5px 10px;
+      gap: 8px;
       border-radius: 16px;
     }
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card strong {
       font-size: clamp(1.05rem, 2vw, 1.55rem);
+    }
+
+    /* Keep the benchmark and the object being estimated visually distinct. The
+       two cards already use gold/cyan borders; matching the text colors makes the
+       comparison readable even when students scan the cards quickly. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card.is-benchmark .estimate-eyebrow,
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card.is-benchmark strong {
+      color: #ffd166;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card.is-target .estimate-eyebrow,
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card.is-target strong {
+      color: #83eaf5;
+    }
+
+    /* Completion keeps the board taller, so use three intrinsic rows and equal
+       spacing instead of stretching the image row and creating a large blank band. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete .estimate-board.is-visual-estimate {
+      grid-template-rows: auto auto auto;
+      align-content: center;
+      gap: 12px;
+    }
+
+    /* Keep the completion badges on the same benchmark/target palette as the
+       estimate cards above: benchmark gold, target cyan. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .complete-text .capacity-complete-vessel[data-vessel="a"] {
+      color: #ffd166;
+      background: rgba(255, 209, 102, .16);
+      box-shadow: inset 0 0 0 2px rgba(255, 209, 102, .82);
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .complete-text .capacity-complete-vessel[data-vessel="b"] {
+      color: #83eaf5;
+      background: rgba(131, 234, 245, .16);
+      box-shadow: inset 0 0 0 2px rgba(131, 234, 245, .82);
     }
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .measure-compare-board .measure-value-card.is-pending {
@@ -1295,6 +1335,234 @@
 
     .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .choices-panel:has(> :nth-child(4)) .choice-button {
       min-height: 70px;
+    }
+
+    /* Galaxy Tab S6 Lite landscape keeps the 16:10 Stage while the browser UI
+       reduces the usable height. Compress vertical tracks only; preserve the
+       two-column learning structure and 42px minimum touch targets. */
+    @media (orientation: landscape) and (max-width: 1050px) and (max-height: 650px) {
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid {
+        gap: 8px;
+        grid-template-rows: minmax(0, 1fr) 66px 78px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-card {
+        padding: 6px 10px 8px;
+        gap: 4px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .big-problem {
+        min-height: 38px;
+        padding: 1px 0;
+        display: grid;
+        align-items: center;
+        font-size: 2rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .measurement-board {
+        min-height: 0;
+        padding: 6px 10px;
+        gap: 6px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .step-board {
+        min-height: 66px;
+        padding: 5px 8px;
+        grid-template-columns: minmax(88px, auto) minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 0 8px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .step-chip {
+        min-height: 32px;
+        padding: 6px 8px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .instruction {
+        font-size: 1.125rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .feedback-line {
+        min-height: 18px;
+        font-size: .78rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .choices-panel {
+        min-height: 78px;
+        padding: 5px 8px;
+        gap: 6px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .choice-button {
+        min-height: 62px;
+        padding: 6px 8px;
+        font-size: 1rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid:has(.choices-panel > :nth-child(4)) {
+        grid-template-rows: minmax(0, 1fr) 66px 130px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .choices-panel:has(> :nth-child(4)) {
+        min-height: 130px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .choices-panel:has(> :nth-child(4)) .choice-button {
+        min-height: 56px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-board.is-visual-estimate {
+        grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        align-items: center;
+        gap: 6px 8px;
+        padding: 6px 10px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete .estimate-board.is-visual-estimate {
+        grid-template-rows: auto auto;
+        gap: 8px 10px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-comparison-art {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        width: 100%;
+        height: 100px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete .estimate-comparison-art {
+        height: 100px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-board.is-visual-estimate .estimate-relation,
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-board.is-visual-estimate .estimate-summary {
+        grid-column: 2;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-board.is-visual-estimate .estimate-relation {
+        grid-row: 1;
+        padding: 4px 8px;
+        font-size: .9rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-board.is-visual-estimate .estimate-summary {
+        grid-row: 2;
+        grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
+        gap: 3px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card {
+        min-height: 66px;
+        padding: 4px;
+        gap: 4px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-card strong {
+        font-size: .95rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-eyebrow {
+        font-size: .8rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .estimate-summary .estimate-arrow {
+        font-size: 1.1rem;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .vertical-calculation-board {
+        width: min(560px, calc(100% - 20px));
+        padding: 8px 12px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .vertical-calculation-board .measurement-place-row {
+        grid-template-columns: 36px 112px 112px;
+        gap: 8px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete {
+        grid-template-rows: minmax(0, 1fr) 134px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete .complete-panel {
+        min-height: 134px;
+        padding: 4px 12px;
+        gap: 18px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete .complete-text {
+        min-height: 126px;
+        padding: 2px;
+        font-size: 1.75rem;
+        line-height: 1.05;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .result-dynamic-html-ui #resultNextSvg {
+        top: calc(var(--mathmon-result-next-top, 63.125%) - .625%);
+        width: min(308px, 38.2%) !important;
+        max-width: 308px;
+        white-space: nowrap;
+        overflow-wrap: normal;
+      }
+    }
+
+    /* A completed calculation is a result to read, not a sentence pinned to the
+       left edge of the action bar. Keep the answer on the work area's center axis
+       while the reward action stays on the right. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete:has(.vertical-calculation-board) .complete-panel {
+      grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete:has(.vertical-calculation-board) .complete-text {
+      grid-column: 2;
+      grid-row: 1;
+      width: max-content;
+      max-width: 100%;
+      min-width: min(220px, 100%);
+      margin: 0;
+      padding: 10px 18px;
+      border: 2px solid rgba(131, 239, 194, .78);
+      border-radius: 16px;
+      color: #ecfff6;
+      background: rgba(29, 83, 70, .9);
+      box-shadow: 0 4px 0 rgba(6, 28, 25, .38);
+      font-size: clamp(1.8rem, 2.8vw, 2.35rem);
+      line-height: 1.05;
+      text-align: center !important;
+      white-space: nowrap;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete:has(.vertical-calculation-board) .complete-panel .primary-button {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    @media (orientation: landscape) and (max-width: 1050px) and (max-height: 650px) {
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete:has(.vertical-calculation-board) .complete-panel {
+        grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+        min-height: 134px;
+        padding: 4px 12px;
+        gap: 10px;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete:has(.vertical-calculation-board) .complete-text {
+        min-height: 0;
+        min-width: min(180px, 100%);
+        padding: 8px;
+        font-size: 1.4rem;
+        line-height: 1.05;
+      }
+
+      .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-2"]) .problem-grid.is-complete:has(.vertical-calculation-board) .complete-panel .primary-button {
+        min-width: 166px;
+        width: 166px;
+        padding-inline: 14px;
+      }
     }
 
     .game.has-measurement-progress {
@@ -3186,6 +3454,230 @@
       overflow-wrap: normal;
     }
 
+    /* 5-3: use generated visual evidence for every problem board. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .measurement-art-board {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      padding: 10px 16px;
+      display: grid;
+      place-items: center;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .measurement-art-image {
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 16px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) :is(
+      .same-unit-art-board,
+      .balance-art-board,
+      .weight-fairness-art-board
+    ) {
+      grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .balance-art-labels {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .balance-art-label {
+      position: absolute;
+      top: 62%;
+      min-width: 100px;
+      padding: 5px 12px;
+      border: 2px solid rgba(255, 244, 190, .9);
+      border-radius: 999px;
+      color: #fff8de;
+      background: rgba(18, 31, 63, .88);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, .28);
+      font-size: clamp(.86rem, 1.35vw, 1.08rem);
+      font-weight: 1000;
+      line-height: 1.1;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .balance-art-label.is-a {
+      left: 24%;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .balance-art-label.is-b {
+      left: 76%;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .relation-art-board {
+      grid-template: minmax(0, 1fr) 34px 38px / minmax(0, 1fr);
+      align-content: center;
+      gap: 4px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .relation-art-board .measurement-rule {
+      width: min(620px, 96%);
+      min-width: 0;
+      min-height: 34px;
+      padding: 2px 12px;
+      font-size: clamp(18px, 2.15vw, 1.55rem);
+      line-height: 1.08;
+      text-align: center;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .relation-art-board .measurement-equation {
+      width: min(620px, 96%);
+      grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+      gap: 8px;
+      font-size: clamp(1.18rem, 2.55vw, 1.85rem);
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .relation-art-board .measurement-equation > span {
+      min-height: 38px;
+      padding: 3px 10px;
+      border-radius: 14px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .weight-unit-sense-art-board {
+      grid-template: minmax(0, 1fr) auto / minmax(0, 1fr);
+      align-content: center;
+      gap: 8px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .unit-sense-art-strip {
+      min-height: 34px;
+      padding: 5px 16px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #3b2a11;
+      background: #ffd77c;
+      font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    /* 5-3: the instruction is complete without the template's answer placeholder. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board {
+      min-height: 82px;
+      padding: 9px 16px;
+      grid-template-columns: minmax(104px, auto) minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) 24px;
+      align-items: center;
+      gap: 0 12px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .step-chips {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .instruction {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
+      align-self: center;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .answer-slot {
+      display: none;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .feedback-line {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .choices-panel {
+      min-height: 104px;
+      padding: 9px 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .choices-panel .choice-button {
+      width: 100%;
+      min-width: 0;
+      min-height: 84px;
+      justify-self: stretch;
+      text-wrap: balance;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .choices-panel > :last-child:nth-child(3) {
+      grid-column: auto;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .choices-panel:has(.choice-button:nth-child(4)) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* 5-3: keep one fixed Stage ratio while clearing the fixed HUD at every QA viewport. */
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) {
+      --measurement-content-top: 12.3%;
+      --measurement-content-bottom: 2.5%;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .problem-grid {
+      grid-template-rows: minmax(0, 1fr) 82px 104px;
+      gap: 8px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board {
+      grid-template-columns: minmax(112px, 128px) minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      align-items: center;
+      gap: 0 12px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .step-chips {
+      min-height: 42px;
+      align-self: center;
+      display: grid;
+      place-items: center;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .step-chip {
+      min-width: 72px;
+      min-height: 42px;
+      padding: 0 16px;
+      font-size: clamp(1rem, 1.5vw, 1.1rem);
+      line-height: 1;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .instruction {
+      width: 100%;
+      align-self: center;
+      font-size: clamp(18px, 1.7vw, 1.32rem);
+      line-height: 1.14;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board .feedback-line[data-state="idle"] {
+      display: none;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board:has(.feedback-line[data-state="correct"]),
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board:has(.feedback-line[data-state="wrong"]) {
+      grid-template-rows: minmax(0, 1fr) 24px;
+    }
+
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board:has(.feedback-line[data-state="correct"]) .feedback-line,
+    .game.has-measurement-progress:has(#mathmonRuntimeBuildMeta[data-lesson-id="3-2-5-3"]) .step-board:has(.feedback-line[data-state="wrong"]) .feedback-line {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
     .game[data-tutorial-mode="poster-two-step"] .tutorial-progress {
       position: absolute !important;
       width: 1px !important;
@@ -3634,7 +4126,7 @@
 <body>
   <main class="game" data-result-internal-metrics="result-internal-metric-hidden-v1" data-engine-version="mathmon-engine-v1" data-stage-ratio="16:10" data-stage-size="1280x800" data-fullscreen-support="landscape-only-v1" data-cover-standard="generated-title-overlay" data-cover-start-standard="generated-button-art" data-cover-start-asset="shared-canonical-v1" data-settings-standard="modal-controls" data-result-visual-standard="generated-assets" data-result-panel-containment="result-panel-containment-v2" data-result-render-mode="hybrid-generated-dynamic" data-reward-mode="modal-art" data-reward-modal-standard="unit3-modal-art-compact-v2" data-tutorial-mode="poster-two-step" data-workbench-type="measurement-lab" data-scoreboard-enabled="false">
     <div class="stage-shell" data-active-screen="cover">
-      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-2" data-commit-sha="" data-lesson-json-sha256="18688dd42d8907f03f3d359c94919a62a4c68c38e2becdc20a5f654ba44f833e" data-build-inputs-sha256="1a0477f5270a446b139e00fb804001fa14f260ba9669afbc4091ec99faa9cda0"></div>
+      <div id="mathmonRuntimeBuildMeta" class="visually-hidden" aria-hidden="true" data-lesson-id="3-2-5-2" data-commit-sha="" data-lesson-json-sha256="4901c980ad1284926d554a2c5f0e019029832a59c9c5266632fcff275374eeab" data-build-inputs-sha256="0827972757997c1ef1e6c249922d347d2338390bc7589dfe9c04d41eb477e979"></div>
       <button class="settings-toggle" id="settingsButton" type="button" aria-label="설정 열기" aria-haspopup="dialog" aria-controls="settingsModal" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"></path>
@@ -4376,7 +4868,7 @@
       return api;
     })();
 
-    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit5-capacity-shared-model","id":"3-2-5-2","folder":"3-2-5-2-mathmon-drink-order","modelName":"Lesson5MeasurementLabModel","title":"매스몬 음료 제조 주문","shortTitle":"매스몬 음료","topic":"들이의 덧셈·뺄셈과 어림","unitBadge":"5단원 들이 · 2차시","goal":"기준으로 어림하고 들이를 계산해요.","action":"친숙한 기준으로 들이를 어림하고 직접 잰 값과 비교해 어림이 알맞은지 확인한 뒤 L와 mL를 계산한다.","buttonLabel":"보상 보기","rewardScreenTitle":"주문 만들기","progressLabel":"현재 주문 단계","rewardThing":"주문","playProgressEyebrow":"지금의 주문","rewardComplete":"가게 인기가 바뀌었어요.","rewardSmall":"조금 올라갔어요.","rewardBig":"크게 올라갔어요.","tutorialTitle":"음료를 만들기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 어림해요?","body":"양을 알고 있는 용기와 비교해서 어림해요.","image":"tutorial-page-1-v4-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 맞히면 음료 주문이 더 화려해지거나 조금 줄어들 수 있어요. 끝나면 완성한 음료 주문을 봐요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step","standard":"generated-tutorial-poster-two-step-v1"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"closedLabel":"두근두근!","changeLabel":"주문 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallOrder","bigOrder","styleOrder","smallOnly","specialOrder","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallOrder":"reward-event-small-order-generated.webp","bigOrder":"reward-event-big-order-generated.webp","styleOrder":"reward-event-style-order-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialOrder":"reward-event-special-order-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":421,"axisXByTier":{"cup":421,"tasty":387,"tray":369.5,"popular":375.5,"festival":390,"rainbow":385.5},"byTier":{"cup":{"retryRect":{"x":361,"y":570,"width":120,"height":42}},"tasty":{"retryRect":{"x":327,"y":570,"width":120,"height":42}},"tray":{"retryRect":{"x":309.5,"y":570,"width":120,"height":42}},"popular":{"retryRect":{"x":315.5,"y":570,"width":120,"height":42}},"festival":{"retryRect":{"x":330,"y":570,"width":120,"height":42}},"rainbow":{"retryRect":{"x":325.5,"y":570,"width":120,"height":42}}},"titleTop":166,"titleWidth":260,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-title-set-v1.json","titleSetManifest":"result-title-set-v1.json","measureY":370,"barY":403,"barWidth":240,"barHeight":16,"correctTop":385,"correctWidth":120,"nextY":505,"nextFontPx":32,"nextStrokeWidthPx":6,"retryCenterOnAxis":true,"retryWidth":190,"retryHeight":66,"retryY":545,"retryRect":{"x":333,"y":570,"width":120,"height":42},"panelRect":{"x":94.65,"y":141,"width":596.7,"height":500},"titleAxisX":421,"titleAxisXByTier":{"cup":421,"tasty":387,"tray":369.5,"popular":375.5,"festival":390,"rainbow":385.5}},"stateImageSet":{"standard":"result-tier-fullscene-native-v1","count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v5-contact-sheet.png","protagonist":"zfa-04-nyangnyangmon","fixedGeneratedElements":["result-title","result-panel-raster","result-title-raster","result-retry-raster"],"dynamicOverlays":["correct-count","next-goal"],"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true}},"workbench":{"type":"measurement-lab","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"zfa-04-nyangnyangmon","cacheVersion":"2026-08-01-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png","filePattern":"play-drink-v1-{tier}-generated.webp","requiredSubjects":["냥냥몬 전신","drink shop progress"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.52,"centerY":0.58,"footY":0.73,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","cup":{"centerX":0.52,"centerY":0.57,"footY":0.72,"height":0.3},"tasty":{"centerX":0.52,"centerY":0.57,"footY":0.72,"height":0.3},"tray":{"centerX":0.52,"centerY":0.57,"footY":0.72,"height":0.3},"popular":{"centerX":0.52,"centerY":0.59,"footY":0.74,"height":0.3},"festival":{"centerX":0.52,"centerY":0.59,"footY":0.74,"height":0.3},"rainbow":{"centerX":0.52,"centerY":0.59,"footY":0.74,"height":0.3}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"mathmonPack":"zero-factory-animal-pack","mathmonName":"냥냥몬","mathmonId":"zfa-04-nyangnyangmon","results":[{"id":"cup","name":"작은 컵 주문","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-drink-v1-cup-generated.webp","image":"result-bg-cup-generated.webp","titleImage":"result-title-cup-generated.webp"},{"id":"tasty","name":"맛있는 주문","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-drink-v1-tasty-generated.webp","image":"result-bg-tasty-generated.webp","titleImage":"result-title-tasty-generated.webp"},{"id":"tray","name":"음료 쟁반 주문","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-drink-v1-tray-generated.webp","image":"result-bg-tray-generated.webp","titleImage":"result-title-tray-generated.webp"},{"id":"popular","name":"인기 가게 주문","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-drink-v1-popular-generated.webp","image":"result-bg-popular-generated.webp","titleImage":"result-title-popular-generated.webp"},{"id":"festival","name":"황금 축제 주문","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-drink-v1-festival-generated.webp","image":"result-bg-festival-generated.webp","titleImage":"result-title-festival-generated.webp"},{"id":"rainbow","name":"무지개 음료 주문","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-drink-v1-rainbow-generated.webp","image":"result-bg-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"가게가 조금 북적여요","weight":6900,"min":6,"max":10,"family":"smallOrder"},{"id":"loss","text":"가게 불빛이 조금 줄었어요","weight":1000,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"가게가 크게 북적여요","weight":1200,"min":14,"max":22,"family":"bigOrder"},{"id":"jackpot","text":"주문표가 크게 빛나요","weight":500,"min":30,"max":30,"family":"styleOrder"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"무지개 주문표","weight":20,"min":100,"max":100,"family":"specialOrder","special":true}],"wrongEvent":{"id":"wrong-loss","text":"가게 불빛이 조금 줄었어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["capacityBenchmarkEstimate","capacityBenchmarkEstimate","capacityMeasureCompare","capacityMeasureCompare","capacityAddSimple","capacityAddSimple","capacityAddExchange","capacitySubtractSimple","capacitySubtractSimple","capacitySubtractExchange"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultInternalMetrics":"result-internal-metric-hidden-v1","playProgress":"generated-play-progress-v3-left-character","tutorialPoster":"generated-tutorial-poster-two-step-v1","runtimeAssetProvenance":"eduitit-generated-runtime-assets-v1"},"imageAssets":{"cover":"cover-generated.webp","coverCacheKey":"cover-v2-20260919","titleArt":"title-logo-generated.webp","startButton":"assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","tutorialPreviousButton":"assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","tutorialProblemStartButton":"assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","capacityEstimateComparison":"estimate-watering-can-milk-carton-v1-generated.webp","capacityEstimateComparisons":{"wateringCan":"estimate-watering-can-milk-carton-v1-generated.webp","waterBottle":"estimate-water-bottle-v1-generated.webp","paperCup":"estimate-paper-cup-v1-generated.webp","pot":"estimate-pot-bottle-v1-generated.webp"},"rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","resultPanel":"result-panel-generated.webp"},"qa":{"tutorialPosterAudit":{"standard":"generated-tutorial-poster-two-step-v1","tolerancePx":1,"minimumTouchPx":42,"actionPresentation":"generated-art"},"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 5단원 2차시","compactText":"5단원 들이 · 2차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"주문 점수","selectors":{"root":"#rewardPop .reward-card","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["주문 점수가 6 올랐어요"]},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"result-title-only-v1","titlePresentation":"independent-art","stateCount":6,"minimumVisibleWidthSourcePx":220,"minimumVisibleHeightSourcePx":100,"minimumPaletteColors":18,"minimumNonWarmRatio":0.08,"minimumGapSourcePx":10,"panelSafeInsetSourcePx":6,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":1,"modelContractVersion":1,"topControlsAudit":{"standard":"stage-top-controls-v2","brand":"#screen-play .hud .brand-badge","brandMark":"#screen-play .hud .mathmon-brand-mark","counter":"#problemCounter","unit":"#screen-play .hud-right .unit-badge","unitDot":"#screen-play .hud-right .badge-dot","settings":"#settingsButton","settingsIcon":"#settingsButton svg","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"misconceptionCoverage":["misconception-약-50mL","misconception-약-5L"],"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["primary","tertiary","secondary"],"minStageWidthRatio":0.7},"completionAudit":{"standard":"completion-density-v1","panel":".complete-panel","text":".complete-text","action":"#rewardButton","minTextFontPx":28,"minActionWidthPx":166,"minActionHeightPx":56,"minActionFontPx":20,"minActionWidthRatio":0.19,"maxPanelHeightRatio":0.31,"minDominantHeightRatio":0.5,"minContentGapPx":18,"centerYTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".measurement-board","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultInternalMetricAudit":{"standard":"result-internal-metric-hidden-v1","forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["가게\\s*인기"],"allowedDynamicOverlays":["correct-count","next-goal"]},"resultContentScaleAudit":{"standard":"result-content-scale-v1","minimumCorrectWidthSourcePx":110,"minimumNextFontPx":32,"minimumRetryWidthSourcePx":180,"minimumRetryHeightSourcePx":60,"minimumContentStackSpanSourcePx":180,"minimumTitleWidthSourcePx":220,"minimumTitleHeightSourcePx":100,"requireVisibleRetryArt":true},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"light-board","scanStartRatio":0.01,"threshold":{"redMin":220,"greenMin":205,"blueMin":160,"channelSpreadMax":86},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"cup":421,"tasty":387,"tray":369.5,"popular":375.5,"festival":390,"rainbow":385.5}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"result-tiers-v5-contact-sheet.png"},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".measurement-play-progress","image":".measurement-play-progress-art","label":".measurement-play-progress-name","readout":".measurement-play-progress-readout","presentation":"tier-name-only-v1","forbiddenVisibleTextPatterns":["지금의","현재 물통","현재 단계"],"maxVisibleTextNodes":1,"minNameFontPx":20,"stateCount":6,"canvas":"768x1536","expectedStates":["cup","tasty","tray","popular","festival","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-04-nyangnyangmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.115,"widthRatio":0.245,"heightRatio":0.86,"tolerancePx":1},"mathmonPlacement":{"centerX":0.52,"centerY":0.58,"footY":0.73,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".measurement-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","reducedMotionVisibleEffect":true,"reducedMotionPresentation":"static-highlight-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"panel":".measurement-play-progress","image":".measurement-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".measurement-play-progress-impact-stage","impactVisual":".measurement-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"tierUpDurationMs":1560,"durationMs":640,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"cup","afterTier":"tasty"}},"rewardReentryAudit":{"standard":"reward-single-consumption-v1","trigger":"#rewardButton","modalNext":"#modalRewardNextButton","transitionAttribute":"data-reward-transitioning","hideTriggerDuringTransition":true,"disableTriggerDuringTransition":true},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"user-reported-hud-overlap","width":1074,"height":987,"deviceScaleFactor":2},{"name":"user-reported-missing-left-progress","width":1082,"height":987,"deviceScaleFactor":2},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","stage":"1280x800","sceneImage":"#resultPanelArt","safeInsetPx":24,"panelDetector":{"standard":"raster-panel-layer-bounds-v1","mode":"element-bounds","source":"result-panel-generated.webp"},"elements":{"title":"#resultTitleArt","measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retryArt":".result-retry-art","retryHitbox":"#restartButton, #retryButton"},"axisNodes":["measure","track","correct","next","retryHitbox"],"optionalWhenHidden":["measure","track"],"axisTolerancePx":1,"hitboxTolerancePx":1,"elementContainment":true,"noIntersections":true,"samePanelSizeAcrossTiers":true,"sameSafeRectAcrossTiers":true,"hiddenNextMustBeZero":true,"viewportCropsStage":false,"fixtures":["axis-correct-but-outside-panel","panel-too-short","retry-hitbox-outside-panel","baked-title-outside-panel","viewport-crops-stage","stale-runtime-build"],"runtimeMetadata":{"selector":"#mathmonRuntimeBuildMeta","commitShaAttribute":"data-commit-sha","lessonJsonShaAttribute":"data-lesson-json-sha256"}},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-v4-generated.webp","tutorial-page-2-v3-generated.webp","estimate-watering-can-milk-carton-v1-generated.webp","estimate-water-bottle-v1-generated.webp","estimate-paper-cup-v1-generated.webp","estimate-pot-bottle-v1-generated.webp","assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-order-generated.webp","reward-event-big-order-generated.webp","reward-event-style-order-generated.webp","reward-event-small-only-generated.webp","reward-event-special-order-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-order-cup-generated.webp","result-order-tasty-generated.webp","result-order-tray-generated.webp","result-order-popular-generated.webp","result-order-festival-generated.webp","result-order-rainbow-generated.webp","result-title-cup-generated.png","result-title-cup-generated.webp","result-title-tasty-generated.png","result-title-tasty-generated.webp","result-title-tray-generated.png","result-title-tray-generated.webp","result-title-popular-generated.png","result-title-popular-generated.webp","result-title-festival-generated.png","result-title-festival-generated.webp","result-title-rainbow-generated.png","result-title-rainbow-generated.webp","result-title-set-v1.json","result-tiers-v5-contact-sheet.png","result-layout-v5.json","play-drink-v1-cup-generated.webp","play-drink-v1-tasty-generated.webp","play-drink-v1-tray-generated.webp","play-drink-v1-popular-generated.webp","play-drink-v1-festival-generated.webp","play-drink-v1-rainbow-generated.webp","assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","result-bg-cup-generated.webp","result-bg-tasty-generated.webp","result-bg-tray-generated.webp","result-bg-popular-generated.webp","result-bg-festival-generated.webp","result-bg-rainbow-generated.webp"]};
+    const LESSON_CONFIG = {"engineVersion":"mathmon-engine-v1","sourceLesson":"unit5-capacity-shared-model","id":"3-2-5-2","folder":"3-2-5-2-mathmon-drink-order","modelName":"Lesson5MeasurementLabModel","title":"매스몬 음료 제조 주문","shortTitle":"매스몬 음료","topic":"들이의 덧셈·뺄셈과 어림","unitBadge":"5단원 들이 · 2차시","goal":"기준으로 어림하고 들이를 계산해요.","action":"친숙한 기준으로 들이를 어림하고 직접 잰 값과 비교해 어림이 알맞은지 확인한 뒤 L와 mL를 계산한다.","buttonLabel":"보상 보기","rewardScreenTitle":"주문 만들기","progressLabel":"현재 주문 단계","rewardThing":"주문","playProgressEyebrow":"지금의 주문","rewardComplete":"가게 인기가 바뀌었어요.","rewardSmall":"조금 올라갔어요.","rewardBig":"크게 올라갔어요.","tutorialTitle":"음료를 만들기 전에","tutorialButton":"문제 시작","tutorialCards":[{"visual":"1","purpose":"mechanic","title":"어떻게 어림해요?","body":"양을 알고 있는 용기와 비교해서 어림해요.","image":"tutorial-page-1-v4-generated.webp"},{"visual":"2","purpose":"reward-goal","title":"무엇을 얻어요?","body":"10문제를 풀어요. 맞히면 음료 주문이 더 화려해지거나 조금 줄어들 수 있어요. 끝나면 완성한 음료 주문을 봐요.","image":"tutorial-page-2-v3-generated.webp"}],"tutorial":{"mode":"poster-two-step","standard":"generated-tutorial-poster-two-step-v1"},"reward":{"mode":"modal-art","standard":"mathmon-unified-reward-v2","maxPower":100,"fairness":{"emptyKeepsProgress":true,"lossCapAtCommonGainMin":true,"mistakePenaltyChance":0.5,"mistakeCanKeepProgress":true,"mistakeNeverUsesPositiveReward":true},"closedLabel":"두근두근!","changeLabel":"주문 점수","zeroLabel":"0","nextLabel":"다음","stateImageSet":{"count":7,"canvas":"512x512","runtimeSlot":"reward-modal","states":["closed","smallOrder","bigOrder","styleOrder","smallOnly","specialOrder","repair"],"contactSheet":"reward-events-v3-contact-sheet.png"},"artMap":{"smallOrder":"reward-event-small-order-generated.webp","bigOrder":"reward-event-big-order-generated.webp","styleOrder":"reward-event-style-order-generated.webp","smallOnly":"reward-event-small-only-generated.webp","specialOrder":"reward-event-special-order-generated.webp","repair":"reward-event-repair-generated.webp"}},"result":{"renderMode":"hybrid-generated-dynamic","showNextGoal":true,"layout":{"axisX":421,"axisXByTier":{"cup":421,"tasty":387,"tray":369.5,"popular":375.5,"festival":390,"rainbow":385.5},"byTier":{"cup":{"retryRect":{"x":361,"y":570,"width":120,"height":42}},"tasty":{"retryRect":{"x":327,"y":570,"width":120,"height":42}},"tray":{"retryRect":{"x":309.5,"y":570,"width":120,"height":42}},"popular":{"retryRect":{"x":315.5,"y":570,"width":120,"height":42}},"festival":{"retryRect":{"x":330,"y":570,"width":120,"height":42}},"rainbow":{"retryRect":{"x":325.5,"y":570,"width":120,"height":42}}},"titleTop":166,"titleWidth":260,"titlePresentation":"independent-art","titleArtStandard":"illustrated-raster-title-set-v1","titleSourceSet":"result-title-set-v1.json","titleSetManifest":"result-title-set-v1.json","measureY":370,"barY":403,"barWidth":240,"barHeight":16,"correctTop":385,"correctWidth":120,"nextY":505,"nextFontPx":32,"nextStrokeWidthPx":6,"retryCenterOnAxis":true,"retryWidth":190,"retryHeight":66,"retryY":545,"retryRect":{"x":333,"y":570,"width":120,"height":42},"panelRect":{"x":94.65,"y":141,"width":596.7,"height":500},"titleAxisX":421,"titleAxisXByTier":{"cup":421,"tasty":387,"tray":369.5,"popular":375.5,"festival":390,"rainbow":385.5}},"stateImageSet":{"standard":"result-tier-fullscene-native-v1","count":6,"canvas":"1280x800","runtimeSlot":"1280x800","contactSheet":"result-tiers-v5-contact-sheet.png","protagonist":"zfa-04-nyangnyangmon","fixedGeneratedElements":["result-title","result-panel-raster","result-title-raster","result-retry-raster"],"dynamicOverlays":["correct-count","next-goal"],"forbidEffectOverlay":true,"forbidBlendMode":true,"forbidTierCssFilter":true}},"workbench":{"type":"measurement-lab","playStateImageSet":{"standard":"generated-play-progress-v3-left-character","count":6,"canvas":"768x1536","objectFit":"contain","protagonist":"zfa-04-nyangnyangmon","cacheVersion":"2026-08-01-left-progress-v1","runtimeSlot":"stage-left-play-progress-v1","sourceSetPath":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/source","contactSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png","anchorAuditSheet":"_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png","filePattern":"play-drink-v1-{tier}-generated.webp","requiredSubjects":["냥냥몬 전신","drink shop progress"],"layoutContract":{"characterFullBody":true,"sameCameraAcrossStates":true,"combinedFocalCenterX":0.5,"leftStageRatio":0.0165,"topStageRatio":0.11,"widthStageRatio":0.245,"heightStageRatio":0.84,"objectFit":"contain","safeMarginRatio":0.06,"maxFootBaselineDeltaRatio":0.03,"mathmonPlacement":{"centerX":0.52,"centerY":0.58,"footY":0.73,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchors":{"standard":"source-pixel-anchor-v1","measurement":"full-body visible bounds from current source PNG","cup":{"centerX":0.52,"centerY":0.57,"footY":0.72,"height":0.3},"tasty":{"centerX":0.52,"centerY":0.57,"footY":0.72,"height":0.3},"tray":{"centerX":0.52,"centerY":0.57,"footY":0.72,"height":0.3},"popular":{"centerX":0.52,"centerY":0.59,"footY":0.74,"height":0.3},"festival":{"centerX":0.52,"centerY":0.59,"footY":0.74,"height":0.3},"rainbow":{"centerX":0.52,"centerY":0.59,"footY":0.74,"height":0.3}},"forbidResultCropReuse":true}}},"scoreboard":{"enabled":false},"fullscreen":{"enabled":true,"orientation":"landscape","standard":"lesson-scoped-fullscreen-v1"},"mathmonPack":"zero-factory-animal-pack","mathmonName":"냥냥몬","mathmonId":"zfa-04-nyangnyangmon","results":[{"id":"cup","name":"작은 컵 주문","minPower":0,"minCorrect":0,"visualRank":0,"playImage":"play-drink-v1-cup-generated.webp","image":"result-bg-cup-generated.webp","titleImage":"result-title-cup-generated.webp"},{"id":"tasty","name":"맛있는 주문","minPower":15,"minCorrect":2,"visualRank":1,"playImage":"play-drink-v1-tasty-generated.webp","image":"result-bg-tasty-generated.webp","titleImage":"result-title-tasty-generated.webp"},{"id":"tray","name":"음료 쟁반 주문","minPower":35,"minCorrect":4,"visualRank":2,"playImage":"play-drink-v1-tray-generated.webp","image":"result-bg-tray-generated.webp","titleImage":"result-title-tray-generated.webp"},{"id":"popular","name":"인기 가게 주문","minPower":55,"minCorrect":6,"visualRank":3,"playImage":"play-drink-v1-popular-generated.webp","image":"result-bg-popular-generated.webp","titleImage":"result-title-popular-generated.webp"},{"id":"festival","name":"황금 축제 주문","minPower":78,"minCorrect":8,"visualRank":4,"playImage":"play-drink-v1-festival-generated.webp","image":"result-bg-festival-generated.webp","titleImage":"result-title-festival-generated.webp"},{"id":"rainbow","name":"무지개 음료 주문","minPower":100,"minCorrect":1,"needsSpecial":true,"visualRank":5,"playImage":"play-drink-v1-rainbow-generated.webp","image":"result-bg-rainbow-generated.webp","titleImage":"result-title-rainbow-generated.webp"}],"rewardEvents":[{"id":"normal","text":"가게가 조금 북적여요","weight":6900,"min":6,"max":10,"family":"smallOrder"},{"id":"loss","text":"가게 불빛이 조금 줄었어요","weight":1000,"min":-5,"max":-2,"family":"repair"},{"id":"mega","text":"가게가 크게 북적여요","weight":1200,"min":14,"max":22,"family":"bigOrder"},{"id":"jackpot","text":"주문표가 크게 빛나요","weight":500,"min":30,"max":30,"family":"styleOrder"},{"id":"empty","text":"이번에는 그대로예요","weight":380,"min":0,"max":0,"family":"smallOnly"},{"id":"special","text":"무지개 주문표","weight":20,"min":100,"max":100,"family":"specialOrder","special":true}],"wrongEvent":{"id":"wrong-loss","text":"가게 불빛이 조금 줄었어요","min":-6,"max":-3,"family":"repair"},"typesPerRun":["capacityBenchmarkEstimate","capacityBenchmarkEstimate","capacityMeasureCompare","capacityMeasureCompare","capacityAddSimple","capacityAddSimple","capacityAddExchange","capacitySubtractSimple","capacitySubtractSimple","capacitySubtractExchange"],"stage":{"ratio":"16:10","size":"1280x800"},"standards":{"cover":"generated-title-overlay","coverStart":"generated-button-art","coverStartAsset":"shared-canonical-v1","settings":"modal-controls","resultVisual":"generated-assets","resultInternalMetrics":"result-internal-metric-hidden-v1","playProgress":"generated-play-progress-v3-left-character","tutorialPoster":"generated-tutorial-poster-two-step-v1","runtimeAssetProvenance":"eduitit-generated-runtime-assets-v1"},"imageAssets":{"cover":"cover-generated.webp","coverCacheKey":"cover-v2-20260919","titleArt":"title-logo-generated.webp","startButton":"assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorialNextButton":"assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","tutorialPreviousButton":"assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","tutorialProblemStartButton":"assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","capacityEstimateComparison":"estimate-watering-can-milk-carton-v1-generated.webp","capacityEstimateComparisons":{"wateringCan":"estimate-watering-can-milk-carton-v1-generated.webp","waterBottle":"estimate-water-bottle-v1-generated.webp","paperCup":"estimate-paper-cup-v1-generated.webp","pot":"estimate-pot-bottle-v1-generated.webp"},"rewardClosed":"reward-event-closed-v2-generated.webp","rewardScene":"reward-scene-generated.webp","resultRetryButton":"assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","resultPanel":"result-panel-generated.webp"},"qa":{"tutorialPosterAudit":{"standard":"generated-tutorial-poster-two-step-v1","tolerancePx":1,"minimumTouchPx":42,"actionPresentation":"generated-art"},"unitLessonBadgeAudit":{"standard":"unit-lesson-badge-text-v1","coverSelector":"#screen-cover .unit-badge","compactSelectors":["#screen-tutorial .unit-badge","#screen-play .hud-right .unit-badge","#screen-result .unit-badge"],"coverText":"3학년 2학기 5단원 2차시","compactText":"5단원 들이 · 2차시","requiresNoOverflow":true},"rewardLanguageAudit":{"standard":"student-reward-language-v1","presentation":"semantic-delta","changeLabel":"주문 점수","selectors":{"root":"#rewardPop .reward-card","change":"#modalRewardLabel"},"states":["closed","normal","loss","mega","jackpot","empty","special","wrong"],"ariaExamples":["주문 점수가 6 올랐어요"]},"resultVisualIntegrityAudit":{"standard":"result-visual-integrity-v1","migrationScope":"result-title-only-v1","titlePresentation":"independent-art","stateCount":6,"minimumVisibleWidthSourcePx":220,"minimumVisibleHeightSourcePx":100,"minimumPaletteColors":18,"minimumNonWarmRatio":0.08,"minimumGapSourcePx":10,"panelSafeInsetSourcePx":6,"evidenceFit":"contain","forbidVisibleDynamicTitleText":true,"fixtures":["title-too-small","title-yellow-only","title-outside-panel","title-overlap-metric","duplicate-title-layer","cropped-evidence"]},"emptyRewardAudit":true,"emptyRewardAuditViewport":"empty-reward-fixture","visualContractVersion":1,"modelContractVersion":1,"topControlsAudit":{"standard":"stage-top-controls-v2","brand":"#screen-play .hud .brand-badge","brandMark":"#screen-play .hud .mathmon-brand-mark","counter":"#problemCounter","unit":"#screen-play .hud-right .unit-badge","unitDot":"#screen-play .hud-right .badge-dot","settings":"#settingsButton","settingsIcon":"#settingsButton svg","unitBadge":"#screen-play .hud-right .unit-badge","settingsButton":"#settingsButton","topTolerancePx":1,"bottomTolerancePx":1,"centerYTolerancePx":1,"heightTolerancePx":1,"minGapPx":8},"fullscreenAudit":{"standard":"lesson-scoped-fullscreen-v1","button":"#settingsFullscreenButton","target":".game","orientation":"landscape","states":["enter","exit"]},"misconceptionCoverage":["misconception-약-50mL","misconception-약-5L"],"rewardModalAudit":{"standard":"unit3-modal-art-compact-v2","card":"#rewardPop .reward-card","visual":"#rewardVisual","label":"#modalRewardLabel","openButton":"#modalRewardOpenButton","nextButton":"#modalRewardNextButton","canvas":"512x512","cardWidthPx":430,"cardHeightPx":480,"cardAspectRatio":"43:48","cardMaxWidthRatio":0.82,"visualSizePx":250,"cardCenterTolerancePx":1,"cardSizeTolerancePx":1,"visualSquareTolerancePx":1,"visualSizeTolerancePx":1,"minVisualPx":180,"backdropBlurMinPx":8},"layoutAudit":{"workArea":".problem-grid","primary":".problem-card","secondary":".choices-panel","tertiary":".step-board","complete":".complete-panel","verticalOrder":["primary","tertiary","secondary"],"minStageWidthRatio":0.7},"drinkOrderPresentationAudit":{"standard":"drink-order-presentation-v1","minImageWidthPx":150,"minImageHeightPx":80,"minGapRatio":0.65,"maxEdgeImbalancePx":24,"maxInstructionLines":2,"maxExchangeInstructionChars":45,"answerCenterTolerancePx":3,"minAnswerWidthPx":180},"completionAudit":{"standard":"completion-density-v1","panel":".complete-panel","text":".complete-text","action":"#rewardButton","minTextFontPx":28,"minActionWidthPx":166,"minActionHeightPx":56,"minActionFontPx":20,"minActionWidthRatio":0.19,"maxPanelHeightRatio":0.31,"minDominantHeightRatio":0.5,"minContentGapPx":18,"centerYTolerancePx":1},"typographyAudit":{"headline":".big-problem","instruction":".step-board .instruction","feedback":".step-board .feedback-line","primaryVisual":".measurement-board","primarySvgText":".problem-card svg text","choiceSvgText":".choices-panel svg text","minHeadlinePx":32,"minInstructionPx":18,"minPrimarySvgTextPx":14,"minChoiceSvgTextPx":18,"minBadgePx":14,"minCounterPx":16,"minGlobalControlPx":42,"minPanelGapPx":8},"resultInternalMetricAudit":{"standard":"result-internal-metric-hidden-v1","forbiddenVisibleSelectors":["#resultMeasureSvg","#resultMeasureTrackSvg","#resultMeasureFillSvg"],"forbiddenVisibleTextPatterns":["가게\\s*인기"],"allowedDynamicOverlays":["correct-count","next-goal"]},"resultContentScaleAudit":{"standard":"result-content-scale-v1","minimumCorrectWidthSourcePx":110,"minimumNextFontPx":32,"minimumRetryWidthSourcePx":180,"minimumRetryHeightSourcePx":60,"minimumContentStackSpanSourcePx":180,"minimumTitleWidthSourcePx":220,"minimumTitleHeightSourcePx":100,"requireVisibleRetryArt":true},"resultCohesionAudit":{"standard":"result-dynamic-axis-v1","axisNodes":["correct","next","retry"],"maxAxisSpreadRatio":0.015,"minimumVisibleGapPx":8,"titleAlphaThreshold":24},"resultBoardAudit":{"standard":"generated-result-board-pixel-axis-v1","sceneImage":"#resultBg","matchMode":"light-board","scanStartRatio":0.01,"threshold":{"redMin":220,"greenMin":205,"blueMin":160,"channelSpreadMax":86},"minimumRunRatio":0.18,"maxDetectedAxisDeltaPx":3,"expectedAxisXByTier":{"cup":421,"tasty":387,"tray":369.5,"popular":375.5,"festival":390,"rainbow":385.5}},"resultTierContrastAudit":{"standard":"result-tier-contrast-v1","stateCount":6,"minimumChangedAxesPerAdjacentTier":2,"topTwoColorFamiliesMustDiffer":true,"contactSheet":"result-tiers-v5-contact-sheet.png"},"playProgressAudit":{"standard":"stage-left-play-progress-v1","panel":".measurement-play-progress","image":".measurement-play-progress-art","label":".measurement-play-progress-name","readout":".measurement-play-progress-readout","presentation":"tier-name-only-v1","forbiddenVisibleTextPatterns":["지금의","현재 물통","현재 단계"],"maxVisibleTextNodes":1,"minNameFontPx":20,"stateCount":6,"canvas":"768x1536","expectedStates":["cup","tasty","tray","popular","festival","rainbow"],"objectFit":"contain","expectedStandard":"generated-play-progress-v3-left-character","expectedProtagonist":"zfa-04-nyangnyangmon","panelPlacement":{"leftRatio":0.0165,"topRatio":0.115,"widthRatio":0.245,"heightRatio":0.86,"tolerancePx":1},"mathmonPlacement":{"centerX":0.52,"centerY":0.58,"footY":0.73,"toleranceRatio":0.03,"sameScaleAcrossStates":true},"subjectAnchorStandard":"source-pixel-anchor-v1","subjectAnchorToleranceRatio":0.03,"panelLaneCenterTolerancePx":1,"imagePanelCenterTolerancePx":1},"leftProgressWidthAudit":{"standard":"stage-left-progress-width-v1","panel":".measurement-play-progress","workArea":".problem-grid","expectedWidthRatio":0.245,"minWidthRatio":0.234375,"maxWidthRatio":0.252,"minWorkGapRatio":0.015625,"tolerancePx":1},"rewardEffectAudit":{"standard":"modal-dismiss-world-impact-v2","contrastStandard":"bridge-gain-vs-tier-v1","reducedMotionVisibleEffect":true,"reducedMotionPresentation":"static-highlight-v1","gainClass":"is-changing","gainUsesImpactLayer":false,"tierUpUsesImpactLayer":true,"panel":".measurement-play-progress","image":".measurement-play-progress-art","activeClasses":["is-changing","is-dimming","is-celebrating","is-tier-up"],"positiveClasses":["is-changing"],"tierUpClass":"is-tier-up","impactLayer":".measurement-play-progress-impact-stage","impactVisual":".measurement-play-progress-impact-visual","impactWorkArea":".problem-grid","visualContainmentStandard":"progress-lane-contained-v1","minImpactVisualWorkGapRatio":0.015625,"preEffectDelayMs":320,"tierUpDurationMs":1560,"durationMs":640,"minVisibleMs":1200,"minImpactStageWidthRatio":0.32,"deferNextProblem":true,"modalKeepsBackgroundStable":true,"requiresModalClosedBeforeStart":true,"tierChangeRequiresImageSwap":true,"forceTierTransition":{"beforePower":14,"beforeCorrect":2,"restoreCorrect":1,"eventId":"normal","amount":6,"beforeTier":"cup","afterTier":"tasty"}},"rewardReentryAudit":{"standard":"reward-single-consumption-v1","trigger":"#rewardButton","modalNext":"#modalRewardNextButton","transitionAttribute":"data-reward-transitioning","hideTriggerDuringTransition":true,"disableTriggerDuringTransition":true},"viewports":[{"name":"desktop","width":1280,"height":800},{"name":"tablet-landscape","width":1024,"height":768},{"name":"codex-in-app","width":1280,"height":720,"deviceScaleFactor":2},{"name":"user-visibility","width":994,"height":632},{"name":"galaxy-tab-s6-lite-landscape","width":1000,"height":600,"deviceScaleFactor":2,"regressionNames":["user-reported-galaxy-tab-s6-lite-overlap"]},{"name":"galaxy-tab-s6-lite-browser-landscape","width":1000,"height":552,"deviceScaleFactor":2,"regressionNames":["user-reported-galaxy-tab-s6-lite-browser-ui-overlap"]},{"name":"user-reported-hud-overlap","width":1074,"height":987,"deviceScaleFactor":2},{"name":"user-reported-missing-left-progress","width":1082,"height":987,"deviceScaleFactor":2,"regressionNames":["browser-comment-estimate-card-label-colors-1082x987-dpr2","browser-comment-estimate-check-sentence-break-1082x987-dpr2","browser-comment-calculation-answer-center-1082x987-dpr2","browser-comment-exchange-instruction-short-1082x987-dpr2","browser-comment-estimate-comparison-image-size-1082x987-dpr2","browser-comment-estimate-board-spacing-1082x987-dpr2"]},{"name":"empty-reward-fixture","width":1280,"height":800,"dpr":1}],"resultPanelContainmentAudit":{"standard":"result-panel-containment-v2","stage":"1280x800","sceneImage":"#resultPanelArt","safeInsetPx":24,"panelDetector":{"standard":"raster-panel-layer-bounds-v1","mode":"element-bounds","source":"result-panel-generated.webp"},"elements":{"title":"#resultTitleArt","measure":"#resultMeasureSvg","track":"#resultMeasureTrackSvg","correct":"#resultCorrectArt","next":"#resultNextSvg","retryArt":".result-retry-art","retryHitbox":"#restartButton, #retryButton"},"axisNodes":["measure","track","correct","next","retryHitbox"],"optionalWhenHidden":["measure","track"],"axisTolerancePx":1,"hitboxTolerancePx":1,"elementContainment":true,"noIntersections":true,"samePanelSizeAcrossTiers":true,"sameSafeRectAcrossTiers":true,"hiddenNextMustBeZero":true,"viewportCropsStage":false,"fixtures":["axis-correct-but-outside-panel","panel-too-short","retry-hitbox-outside-panel","baked-title-outside-panel","viewport-crops-stage","stale-runtime-build"],"runtimeMetadata":{"selector":"#mathmonRuntimeBuildMeta","commitShaAttribute":"data-commit-sha","lessonJsonShaAttribute":"data-lesson-json-sha256"}},"requiredFlow":["cover","tutorial-1","tutorial-2","play","reward-closed","reward-open","result"]},"assets":["cover-generated.webp","title-logo-generated.webp","assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp","tutorial-page-1-v4-generated.webp","tutorial-page-2-v3-generated.webp","estimate-watering-can-milk-carton-v1-generated.webp","estimate-water-bottle-v1-generated.webp","estimate-paper-cup-v1-generated.webp","estimate-pot-bottle-v1-generated.webp","capacity-common-paper-cup-v1-generated.webp","capacity-fairness-cups-v2-generated.webp","capacity-fairness-repair-v2-generated.webp","assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp","assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp","reward-event-closed-v2-generated.webp","reward-events-v2-generated.webp","reward-event-small-order-generated.webp","reward-event-big-order-generated.webp","reward-event-style-order-generated.webp","reward-event-small-only-generated.webp","reward-event-special-order-generated.webp","reward-event-repair-generated.webp","reward-events-v3-contact-sheet.png","result-order-cup-generated.webp","result-order-tasty-generated.webp","result-order-tray-generated.webp","result-order-popular-generated.webp","result-order-festival-generated.webp","result-order-rainbow-generated.webp","result-title-cup-generated.png","result-title-cup-generated.webp","result-title-tasty-generated.png","result-title-tasty-generated.webp","result-title-tray-generated.png","result-title-tray-generated.webp","result-title-popular-generated.png","result-title-popular-generated.webp","result-title-festival-generated.png","result-title-festival-generated.webp","result-title-rainbow-generated.png","result-title-rainbow-generated.webp","result-title-set-v1.json","result-tiers-v5-contact-sheet.png","result-layout-v5.json","play-drink-v1-cup-generated.webp","play-drink-v1-tasty-generated.webp","play-drink-v1-tray-generated.webp","play-drink-v1-popular-generated.webp","play-drink-v1-festival-generated.webp","play-drink-v1-rainbow-generated.webp","assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp","result-bg-cup-generated.webp","result-bg-tasty-generated.webp","result-bg-tray-generated.webp","result-bg-popular-generated.webp","result-bg-festival-generated.webp","result-bg-rainbow-generated.webp"]};
     const Lesson5MeasurementLabModel = (() => {
       const TOTAL_PROBLEMS = 10;
       const MIN_POWER = 0;
@@ -5044,7 +5536,9 @@
             ? formatCapacity(milliliterTotal)
             : formatMl(left.ml + 1000);
           const exchangeInstruction = isAdd
-            ? `mL를 먼저 더해 1000mL가 생기는지 살펴봐요. ${formatMl(left.ml)} + ${formatMl(right.ml)} = ${formatMl(milliliterTotal)}예요. 1000mL는 1L로 바꾸고, 남은 ${formatMl(remainingMilliliters)}는 mL 자리에 적어요.`
+            ? LESSON_CONFIG.id === "3-2-5-2"
+              ? "mL를 먼저 더해 몇 L 몇 mL로 바꿔요."
+              : `mL를 먼저 더해 1000mL가 생기는지 살펴봐요. ${formatMl(left.ml)} + ${formatMl(right.ml)} = ${formatMl(milliliterTotal)}예요. 1000mL는 1L로 바꾸고, 남은 ${formatMl(remainingMilliliters)}는 mL 자리에 적어요.`
             : "1L를 1000mL로 바꿔요.";
           const exchangeCorrectText = isAdd
             ? `${formatMl(milliliterTotal)} = ${converted}예요. ${carryLiters}L를 L 자리에 받아올림하고, ${remainingMilliliters}mL를 mL 자리에 적어요.`
@@ -6940,6 +7434,21 @@
       return node;
     }
 
+    function measurementArtImage(source, alt, className = "measurement-art-image") {
+      const image = measurementCreate("img", className);
+      image.src = source;
+      image.alt = alt;
+      image.decoding = "sync";
+      image.loading = "eager";
+      return image;
+    }
+
+    function measurementRequiredArt(key) {
+      const source = LESSON_CONFIG.imageAssets?.[key];
+      if (!source) throw new Error(`Missing unit 5 measurement image asset: ${key}`);
+      return source;
+    }
+
     function measurementCopula(word) {
       const value = String(word || "").trim();
       if (!value) return "예요";
@@ -7239,6 +7748,16 @@
 
     function fairnessBoard(problem) {
       const board = measurementCreate("div", "measurement-board fairness-board");
+      if (LESSON_CONFIG.id === "3-2-5-3") {
+        board.classList.add("measurement-art-board", "weight-fairness-art-board");
+        board.append(measurementArtImage(
+          measurementRequiredArt("weightFairness"),
+          problem.visual.kind === "fairness-choice"
+            ? "같은 무게추를 쓴 방법과 서로 다른 무게추를 쓴 방법을 비교하는 그림"
+            : "서로 다른 크기의 무게추로 물건을 재어 비교가 어려운 그림",
+        ));
+        return board;
+      }
       if (LESSON_CONFIG.id === "3-2-5-1" && problem.visual.kind === "fairness") {
         board.classList.add("fairness-image-board");
         const image = measurementCreate("img", "fairness-scene-image");
@@ -7278,6 +7797,17 @@
         measurementCreate("strong", "", "="),
         measurementCreate("span", measurementSolvedSteps.size ? "is-filled" : "", measurementSolvedSteps.size ? problem.expression.split("=").slice(1).join("=").trim() : problem.visual.right),
       );
+      if (LESSON_CONFIG.id === "3-2-5-3") {
+        board.classList.add("measurement-art-board", "relation-art-board");
+        board.append(measurementArtImage(
+          problem.type === "tonKilogramRelation"
+            ? measurementRequiredArt("weightTonKilogram")
+            : measurementRequiredArt("weightKilogramGram"),
+          problem.type === "tonKilogramRelation"
+            ? "무거운 짐과 여러 작은 무게추의 관계를 보여 주는 그림"
+            : "큰 무게추와 여러 작은 무게추의 관계를 보여 주는 그림",
+        ));
+      }
       board.append(rule, equation);
       return board;
     }
@@ -7375,6 +7905,25 @@
 
     function balanceBoard(problem) {
       const board = measurementCreate("div", "measurement-board balance-board");
+      if (LESSON_CONFIG.id === "3-2-5-3") {
+        board.classList.add("measurement-art-board", "balance-art-board");
+        const relation = Number(problem.visual.relation || 0);
+        const source = relation > 0
+          ? measurementRequiredArt("balanceLeftDown")
+          : relation < 0
+            ? measurementRequiredArt("balanceRightDown")
+            : measurementRequiredArt("balanceLevel");
+        const image = measurementArtImage(
+          source,
+          relation > 0 ? "왼쪽 접시가 내려간 양팔저울" : relation < 0 ? "오른쪽 접시가 내려간 양팔저울" : "수평으로 놓인 양팔저울",
+        );
+        const labels = measurementCreate("div", "balance-art-labels");
+        const leftLabel = measurementCreate("span", "balance-art-label is-a", problem.visual.aName || "가 물건");
+        const rightLabel = measurementCreate("span", "balance-art-label is-b", problem.visual.bName || "나 물건");
+        labels.append(leftLabel, rightLabel);
+        board.append(image, labels);
+        return board;
+      }
       const apparatus = measurementCreate("div", "measurement-balance-apparatus");
       const image = measurementCreate("img", "measurement-balance-frame");
       image.src = LESSON_CONFIG.imageAssets?.balanceFrame || "balance-frame-v1-generated.webp";
@@ -7400,6 +7949,14 @@
         const proxy = { visual: { relation: 0, aName: "가 물건", bName: "나 물건" } };
         return balanceBoard(proxy);
       }
+      if (LESSON_CONFIG.id === "3-2-5-3") {
+        board.classList.add("measurement-art-board", "same-unit-art-board");
+        board.append(measurementArtImage(
+          measurementRequiredArt("weightMethodSameUnit"),
+          "가 물건은 같은 무게추 6개, 나 물건은 같은 무게추 8개로 재는 그림",
+        ));
+        return board;
+      }
       const sameUnits = measurementCreate("div", "same-unit-demo");
       sameUnits.append(
         measurementCreate("div", "same-unit-object", "가 물건 · 같은 추 6개"),
@@ -7411,6 +7968,19 @@
 
     function unitSenseBoard(problem) {
       const board = measurementCreate("div", "measurement-board unit-sense-board");
+      if (LESSON_CONFIG.id === "3-2-5-3") {
+        board.classList.add("measurement-art-board", "weight-unit-sense-art-board");
+        const object = String(problem.visual.object || "");
+        const source = object.includes("연필")
+          ? measurementRequiredArt("weightUnitSensePencil")
+          : object.includes("수박")
+            ? measurementRequiredArt("weightUnitSenseWatermelon")
+            : measurementRequiredArt("weightUnitSenseRiceSack");
+        const image = measurementArtImage(source, `${object}을 저울에 올려 본 그림`);
+        const unitStrip = measurementCreate("div", "unit-sense-art-strip", "g · kg · t");
+        board.append(image, unitStrip);
+        return board;
+      }
       board.append(
         measurementCreate("span", "unit-sense-object", problem.visual.object),
         measurementCreate("div", "unit-sense-units", problem.visual.topic === "weight" ? "g · kg · t" : "mL · L"),
@@ -7533,6 +8103,26 @@
       return true;
     }
 
+    function escapeMeasurementText(value) {
+      return String(value).replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+    }
+
+    function measurementCompleteTextNodes(text, problem) {
+      const benchmark = String(problem.visual?.benchmark || "");
+      const object = String(problem.visual?.object || "");
+      const terms = [benchmark, object].filter(Boolean).sort((a, b) => b.length - a.length);
+      if (!terms.length) return [document.createTextNode(text)];
+      const pattern = new RegExp(`(${terms.map(escapeMeasurementText).join("|")})`, "gu");
+      return text.split(pattern).filter(Boolean).map((part) => {
+        if (part === benchmark || part === object) {
+          const token = measurementCreate("strong", "capacity-complete-vessel", part);
+          token.dataset.vessel = part === benchmark ? "a" : "b";
+          return token;
+        }
+        return document.createTextNode(part);
+      });
+    }
+
     function onProblemComplete({ problem, state: currentState }) {
       syncMeasurementProgress(currentState);
       ui.visualArea.dataset.state = "complete";
@@ -7544,6 +8134,32 @@
           observer.disconnect();
           const answer = problem.finalExpression?.split("=").at(-1)?.trim() || text;
           ui.completeText.textContent = `정답! ${answer}`;
+        });
+        observer.observe(ui.completeText, { childList: true, characterData: true, subtree: true });
+      }
+      if (LESSON_CONFIG.id === "3-2-5-2" && problem.visual?.kind === "measure-compare") {
+        delete ui.completeText.dataset.sentenceBreak;
+        const observer = new MutationObserver(() => {
+          const text = ui.completeText.textContent.trim();
+          if (!text || ui.completeText.dataset.sentenceBreak === "after-first") return;
+          const match = text.match(/^(.+?\.)\s+(.+)$/u);
+          if (!match) return;
+          observer.disconnect();
+          ui.completeText.dataset.sentenceBreak = "after-first";
+          ui.completeText.replaceChildren(
+            ...measurementCompleteTextNodes(match[1], problem),
+            document.createElement("br"),
+            ...measurementCompleteTextNodes(match[2], problem),
+          );
+        });
+        observer.observe(ui.completeText, { childList: true, characterData: true, subtree: true });
+      }
+      if (LESSON_CONFIG.id === "3-2-5-2" && problem.visual?.kind === "estimate") {
+        const observer = new MutationObserver(() => {
+          const text = ui.completeText.textContent.trim();
+          if (!text || ui.completeText.querySelector(".capacity-complete-vessel")) return;
+          observer.disconnect();
+          ui.completeText.replaceChildren(...measurementCompleteTextNodes(text, problem));
         });
         observer.observe(ui.completeText, { childList: true, characterData: true, subtree: true });
       }
