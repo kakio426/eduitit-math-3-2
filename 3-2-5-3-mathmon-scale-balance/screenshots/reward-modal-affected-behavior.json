@@ -1,0 +1,166 @@
+{
+  "id": "affected-behavior",
+  "status": "pass",
+  "exitCode": 0,
+  "command": "MATHMON_QA_REWARD_ONLY=1 node scripts/qa-lesson-flow.mjs 3-2-5-3-mathmon-scale-balance 424242",
+  "output": "PASS: modal open/next behavior and reward-single-consumption-v1 re-entry protection passed the reward-only browser audit.",
+  "baseline": "43436c76734a7d708b588555015ff093d9b756c4",
+  "changedPaths": [
+    "3-2-5-3-mathmon-scale-balance/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "3-2-5-3-mathmon-scale-balance/index.html",
+    "_lessons/3-2-5-3-mathmon-scale-balance/lesson.json"
+  ],
+  "mode": "modal-art",
+  "modalStandard": "unit3-modal-art-compact-v2",
+  "reentryStandard": "reward-single-consumption-v1",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1280,
+      "height": 800,
+      "dpr": 1,
+      "behaviorKeys": [],
+      "canonicalName": "desktop",
+      "regressionNames": [
+        "desktop"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover",
+          "tutorial",
+          "tutorial-second",
+          "representative-problem",
+          "representative-wrong-feedback",
+          "answer-confirmation",
+          "reward-closed",
+          "reward-revealed",
+          "reward-impact",
+          "completed-result"
+        ]
+      }
+    },
+    {
+      "name": "tablet-landscape",
+      "width": 1024,
+      "height": 768,
+      "dpr": 1,
+      "behaviorKeys": [],
+      "canonicalName": "tablet-landscape",
+      "regressionNames": [
+        "tablet-landscape"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "key-states",
+        "standard": "mathmon-human-review-key-states-v1",
+        "roles": [
+          "cover-responsive",
+          "representative-problem-responsive",
+          "reward-responsive",
+          "completed-result-responsive"
+        ]
+      }
+    },
+    {
+      "name": "codex-in-app",
+      "width": 1280,
+      "height": 720,
+      "deviceScaleFactor": 2,
+      "dpr": 2,
+      "behaviorKeys": [],
+      "canonicalName": "codex-in-app",
+      "regressionNames": [
+        "codex-in-app"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "automated-only",
+        "reason": "all-flow-dom-interaction-layout-audit"
+      }
+    },
+    {
+      "name": "user-visibility",
+      "width": 994,
+      "height": 632,
+      "dpr": 1,
+      "behaviorKeys": [],
+      "canonicalName": "user-visibility",
+      "regressionNames": [
+        "user-visibility"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "automated-only",
+        "reason": "all-flow-dom-interaction-layout-audit"
+      }
+    },
+    {
+      "name": "user-reported-missing-left-progress",
+      "width": 1082,
+      "height": 987,
+      "deviceScaleFactor": 2,
+      "dpr": 2,
+      "behaviorKeys": [],
+      "canonicalName": "user-reported-missing-left-progress",
+      "regressionNames": [
+        "user-reported-missing-left-progress"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "automated-only",
+        "reason": "all-flow-dom-interaction-layout-audit"
+      }
+    },
+    {
+      "name": "user-reported-hud-overlap",
+      "width": 1083,
+      "height": 987,
+      "deviceScaleFactor": 2,
+      "dpr": 2,
+      "behaviorKeys": [],
+      "canonicalName": "user-reported-hud-overlap",
+      "regressionNames": [
+        "user-reported-hud-overlap"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "automated-only",
+        "reason": "all-flow-dom-interaction-layout-audit"
+      }
+    },
+    {
+      "name": "empty-reward-fixture",
+      "width": 1280,
+      "height": 800,
+      "dpr": 1,
+      "behaviorKeys": [
+        "emptyRewardAuditViewport"
+      ],
+      "canonicalName": "empty-reward-fixture",
+      "regressionNames": [
+        "empty-reward-fixture"
+      ],
+      "aliases": [],
+      "capture": {
+        "mode": "automated-only",
+        "reason": "all-flow-dom-interaction-layout-audit"
+      }
+    }
+  ],
+  "screenshots": [
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-01-cover.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-03-tutorial-1.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-04-tutorial-2.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-05-play-step1.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-05b-play-wrong.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-06-confirm.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-07-reward-closed.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-desktop-07b-reward-open.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-01-cover.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-05-play-step1.png",
+    "3-2-5-3-mathmon-scale-balance/screenshots/engine-flow-tablet-landscape-07b-reward-open.png"
+  ]
+}

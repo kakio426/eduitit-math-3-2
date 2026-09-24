@@ -5,13 +5,13 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `398a5d6e5d9ec84f7c8e82681120e4377a4cf1fc`
-- 입력 커밋 시각: `2026-09-24T21:11:40+09:00`
+- 공개 입력 커밋: `1c5e59d4f344e3b42c2dd7124fe982dc1f85d9fa`
+- 입력 커밋 시각: `2026-09-24T21:37:02+09:00`
 - 제작 보고서 원본 SHA-256: `57f5e4881fdb579e93f5b0b764482144ee4d09cd1286bd23f5cff915075e7781`
 - 실제 실행 진입점: `3-2-5-3-mathmon-scale-balance/index.html`
-- 실행 진입점 SHA-256: `1e6b5c3fb3f10db1d22e31704144f7557467d030ce417ae90c6dafe5da1aa7b1`
-- Pages 파일 집합 SHA-256: `793fa22aad4e05ed8b9b673383276a26b41d6df3f4486ca6ec12f555c77f7f18` (131개)
-- 상세 화면 증거: 현재 실행 진입점과 일치
+- 실행 진입점 SHA-256: `82c9c56a3d49eaa850cf70b02a21fd47d1028512161cd1c319b454c3b9974b41`
+- Pages 파일 집합 SHA-256: `6032e3b64a1acad7935507d10b970b25367a9c16013671508e36e301644d7b02` (131개)
+- 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-3-mathmon-scale-balance/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-3-mathmon-scale-balance/REPORT.md
 
