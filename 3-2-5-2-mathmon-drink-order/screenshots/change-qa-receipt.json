@@ -1,0 +1,470 @@
+{
+  "standard": "eduitit-change-verification-v1",
+  "product": "mathmon",
+  "lesson": "3-2-5-2-mathmon-drink-order",
+  "status": "pass",
+  "scopes": [
+    "presentation",
+    "portable",
+    "interaction"
+  ],
+  "reason": "Rebuilt 5-2 from the current lesson presentation/fullscreen sources and removed unreachable 5-3 weight-image fallbacks from its embedded shared view.",
+  "changedPaths": [
+    "3-2-5-2-mathmon-drink-order/assets/PORTABLE_RUNTIME_MANIFEST.json",
+    "3-2-5-2-mathmon-drink-order/index.html",
+    "_lessons/3-2-5-2-mathmon-drink-order/lesson.css",
+    "_lessons/3-2-5-2-mathmon-drink-order/lesson.json"
+  ],
+  "checks": [
+    {
+      "id": "change-review",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/lib/production-workflow.mjs",
+        "_lessons/_shared/unit5-measurement/view.js"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-change-review.json",
+      "evidenceSha256": "1109c0c1730edadcb8ea7332585a0037420e4bb88a4e09a204d843e66ed8b589"
+    },
+    {
+      "id": "copy-integrity",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/check-mathmon-portable-runtime.mjs",
+        "scripts/lib/mathmon-portable-runtime.mjs",
+        "_lessons/_shared/unit5-measurement/view.js"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-copy-integrity.json",
+      "evidenceSha256": "5e9728769469f93a63d2f00ed80d01eace014c433d3d6d9817cdbee13dbd736b"
+    },
+    {
+      "id": "reference-closure",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/check-generated-runtime-assets.mjs",
+        "scripts/lib/generated-runtime-assets.mjs"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-reference-closure.json",
+      "evidenceSha256": "b29f4b2030b2ab94e58f0356e49648d312ccd8b14ff904087e8989379346a0d2"
+    },
+    {
+      "id": "http-load",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-http-load.json",
+      "evidenceSha256": "559f5336589ebe97ce0f512d32b2bdb738c700e1c905cb6a976def180768375b"
+    },
+    {
+      "id": "affected-screen",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/qa-lesson-flow.mjs",
+        "scripts/lib/mathmon-drink-order-presentation.mjs"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-affected-screen.json",
+      "evidenceSha256": "1ed941859fc708d3165b09d95a3a90d72513128c4334045ee5bb8d86fa03fbdd"
+    },
+    {
+      "id": "affected-behavior",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/qa-lesson-flow.mjs",
+        "scripts/lib/mathmon-drink-order-presentation.mjs"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-affected-behavior.json",
+      "evidenceSha256": "b23c0eaacf2e157a46304bfbeb975eb8b43e61d13a653a5cf11af22f531c3c7b"
+    },
+    {
+      "id": "connected-flow",
+      "qaFiles": [
+        "scripts/test-mathmon-drink-order-presentation.mjs",
+        "scripts/qa-lesson-flow.mjs",
+        "scripts/lib/mathmon-drink-order-presentation.mjs"
+      ],
+      "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-connected-flow.json",
+      "evidenceSha256": "2a51dda8ac81ef2d63132559298da1776f67c385ad2209b799268418492e691e"
+    }
+  ],
+  "browserRuns": 3,
+  "screenshots": 0,
+  "coverage": {
+    "states": [
+      "01-cover",
+      "02-settings",
+      "03-tutorial-1",
+      "04-tutorial-2",
+      "05-play-step1",
+      "05b-play-wrong",
+      "06-confirm",
+      "07-reward-closed",
+      "07b-reward-open",
+      "07c-reward-impact",
+      "05n-next-problem-clean",
+      "05m-p2-misconception-약-50ml",
+      "05m-p2-misconception-약-5l",
+      "08-result",
+      "08c-result-cohesion-cup",
+      "08c-result-cohesion-tasty",
+      "08c-result-cohesion-tray",
+      "08c-result-cohesion-popular",
+      "08c-result-cohesion-festival",
+      "08c-result-cohesion-rainbow",
+      "08v-result-visual-integrity-cup",
+      "08v-result-visual-integrity-tasty",
+      "08v-result-visual-integrity-tray",
+      "08v-result-visual-integrity-popular",
+      "08v-result-visual-integrity-festival",
+      "08v-result-visual-integrity-rainbow",
+      "08a-result-cup",
+      "08a-result-tasty",
+      "08a-result-tray",
+      "08a-result-popular",
+      "08a-result-festival",
+      "08a-result-rainbow"
+    ],
+    "viewports": [
+      {
+        "name": "user-reported-missing-left-progress",
+        "width": 1082,
+        "height": 987,
+        "deviceScaleFactor": 2,
+        "regressionNames": [
+          "user-reported-missing-left-progress"
+        ],
+        "dpr": 2,
+        "behaviorKeys": [],
+        "canonicalName": "user-reported-missing-left-progress",
+        "aliases": [],
+        "capture": {
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
+        }
+      },
+      {
+        "name": "galaxy-tab-s6-lite-landscape",
+        "width": 1000,
+        "height": 600,
+        "deviceScaleFactor": 2,
+        "regressionNames": [
+          "galaxy-tab-s6-lite-landscape"
+        ],
+        "dpr": 2,
+        "behaviorKeys": [],
+        "canonicalName": "galaxy-tab-s6-lite-landscape",
+        "aliases": [],
+        "capture": {
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
+        }
+      },
+      {
+        "name": "galaxy-tab-s6-lite-browser-landscape",
+        "width": 1000,
+        "height": 552,
+        "deviceScaleFactor": 2,
+        "regressionNames": [
+          "galaxy-tab-s6-lite-browser-landscape"
+        ],
+        "dpr": 2,
+        "behaviorKeys": [],
+        "canonicalName": "galaxy-tab-s6-lite-browser-landscape",
+        "aliases": [],
+        "capture": {
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
+        }
+      }
+    ],
+    "reason": "Exact reported viewport and both S6 Lite landscape heights cover the affected 5-2 screens and fullscreen flow."
+  },
+  "validationDependencies": {
+    "standard": "eduitit-validation-dependencies-v1",
+    "product": "mathmon",
+    "lesson": "3-2-5-2-mathmon-drink-order",
+    "entries": [
+      {
+        "role": "contract",
+        "path": "_shared/contracts/production-workflow.json",
+        "pointer": "/validationScope",
+        "sha256": "574109ee09e4b39ddf2eb020c2479415223abf75ed2b0f7a2ea722c47a6b0d4e"
+      },
+      {
+        "role": "qa",
+        "path": "_lessons/_shared/unit5-measurement/view.js",
+        "sha256": "03b17653b06bbad003102f485432f515e1c0ef5b9075bf532dd1b8f968403032"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/check-generated-runtime-assets.mjs",
+        "sha256": "8ac629b975775b82abee3800329ad04c165b61b156b9890bc8e8ef84506ad5de"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/check-mathmon-portable-runtime.mjs",
+        "sha256": "2eec6109a273f2d4e1d89d5d4fc683b824355a765af3832978634191663ab9f8"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/bounded-process.mjs",
+        "sha256": "251f749b25864ee73311aea6020866e11ebb8ea8649c8b172735fe5d2e29fa22"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/generated-runtime-assets.mjs",
+        "sha256": "0cb6cf78bc76133c7325bcd01b4e90fdb4e511b6df30806a5a020eea2c3f4778"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/generated-runtime-browser-guard.mjs",
+        "sha256": "d46df26b8832d8d8f638c46269b7ffbee02f5b80f462cb5925bcf112d857e23f"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-delivery-gate.mjs",
+        "sha256": "51b7bddb287eee2fd0b90e10496d7d9206589865fae8c1fda93aacc51c535a36"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-drink-order-presentation.mjs",
+        "sha256": "f9e63d5ebd0f72d47cac2954d3b2a151d737aafb5e086fba1134cb11c8465584"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-effect-restraint.mjs",
+        "sha256": "5e55393017bf367f0d67dcaa04ec532d57ba8e1f87faf865fbbd7a68d7ac8d12"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-play-presentation-qa.mjs",
+        "sha256": "8ab1c5ac6854876f002c8327035f2760e9da4b7ad231965aa2b08a87caa1797f"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-portable-runtime.mjs",
+        "sha256": "9afb985ec511657c4ab5d21acc1bcfa9297f51220fef6fbbd4285434b4b6968a"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-qa-viewports.mjs",
+        "sha256": "5a16d8acb3386e4987114a2ce05f7b6225ef7d7f665922707facc1e89124b5b1"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/mathmon-top-controls-v2.mjs",
+        "sha256": "a8f83d8154c27a346a9b8772d208441b3bcb8608fde7feafb2abd1efcd0671c5"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/production-workflow.mjs",
+        "sha256": "330ea0ea75bac9f071a09776515dcefd34963871f38ef34bc806083fdb03290e"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/result-reward-dominance.mjs",
+        "sha256": "ac81da87e5916365fd8a806f02a50ebcb9d2874be6547ee511c5a0ba61431b8d"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/socialmon-historical-snapshot.mjs",
+        "sha256": "f9cd5a71bc6b7742c200ccd3963728e7429e6424898c9a9117b03631d50b75d1"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/socialmon-v2-approval-lineage.mjs",
+        "sha256": "eacfc3ac114c3d02189bd96b8ca3991dea825cca7eec2a8321fdf93ee1aea2bd"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/tutorial-poster-contract.mjs",
+        "sha256": "ba4d17ca0a311fdc8c8f7984bd59c0378431b85907ebfd1b8f3bff4a4b732791"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-cost-control.mjs",
+        "sha256": "0be25716748b5e30c1ca8d881b3145d5b01d3f88f67000695c36be161b0d4a6c"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/lib/validation-dependencies.mjs",
+        "sha256": "67c4aa175377fcb2f8f02021d7e7e25ea3c3f86155d7ab8bdb33cb4bfa373334"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/qa-lesson-flow.mjs",
+        "sha256": "72e835c0dc6c049015fc1a91fb42af28fa6905a7f02c365fdd958379c2d2a135"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/runtime-build-fingerprint.mjs",
+        "sha256": "d8f1988c22fde27ef7c52c52fcbe6d03fe408a5672f0d8148062360c3adfebac"
+      },
+      {
+        "role": "qa",
+        "path": "scripts/test-mathmon-drink-order-presentation.mjs",
+        "sha256": "473866d6d7f619c95feaf04d9a2479ce828be1aa93df12fd85f6ba94a35f7d29"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-2-mathmon-drink-order/lesson.css",
+        "sha256": "424e809a9831e7fc6f844bfe3cfd09ce1752064abd1fbb37adf6ee4dbd878732"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-2-mathmon-drink-order/lesson.json",
+        "sha256": "4901c980ad1284926d554a2c5f0e019029832a59c9c5266632fcff275374eeab"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-anchor-audit.png",
+        "sha256": "f6efc1471ae1bfd1f0c9b4bd4c91db8d66f9435c901b473dffd21b2312be6797"
+      },
+      {
+        "role": "runtime",
+        "path": "_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-2/play-progress-v1/contact-sheets/play-drink-progress-v1-contact-sheet.png",
+        "sha256": "9ce009021536f025a021c05b06595e9ef198f7cfac5268ee7978ea31c9a0d40d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/PORTABLE_RUNTIME_MANIFEST.json",
+        "sha256": "6cf30352dccee74f6caf2dc5120b39d4ba59cf8bcad5c5716ee5956d3e7a015b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/action-buttons/next-button-generated.webp",
+        "sha256": "f6abe5a758627c853d43ce919c1c3ce9048f8db8dc21642f38aab0042864f0e1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/action-buttons/previous-button-generated.webp",
+        "sha256": "7c9d50eb16fcc354899441d8faa2d9055d376d31f6bc35908f3625b46ae7cc30"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/action-buttons/problem-start-button-generated.webp",
+        "sha256": "2d0a52ce45c0d0aed3aa1187297b12fb8c070bec0c7c4e1a5345bb65133c98bf"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/brand/mathmon-cloud-mark.webp",
+        "sha256": "136e8650e5a0aee560ffe140a7c04faa8b83473b6e1902d3250e59bc6285fced"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
+        "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-actions/retry-button-v2-generated.webp",
+        "sha256": "c30f04ff0d7508d39f9ab3d8175af18d56f8c18602dcb69d673edf1bfb01787f"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-0-generated.webp",
+        "sha256": "2f711162626dce166abcdf3d801aa0795465d716ed7a2c345689fe0e74520bd7"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-1-generated.webp",
+        "sha256": "63653a568ba0b5ca91739abcf775f35573d6f20b209335f7842d4bb9f5ebf2ae"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-10-generated.webp",
+        "sha256": "5017c67b5995eb6b0268b8896140a65a0054d9e479c6240deb90f97f6744ba48"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-2-generated.webp",
+        "sha256": "e4e338fc2ad24eaea672d23ae56dfb617a8b2da8d542520c64835e9ab7c94682"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-3-generated.webp",
+        "sha256": "cd75e0af2d5e54fb7b7470302efc5241519536cad433b1d77dc07ba27b085915"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-4-generated.webp",
+        "sha256": "25fabfa6c8e1f33a6c63997c150c641745fa53c1f4f99a85cac40fac6d01f90b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-5-generated.webp",
+        "sha256": "9dc04d247604b3dbb1de7c0851f7a67a699898cede7b93de7bd00ab94f5ece8e"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-6-generated.webp",
+        "sha256": "6b88bd60f7a010d82331929ec8486fae9798386221a4c1014a6ef81f77a02a5b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-7-generated.webp",
+        "sha256": "4496d919400b38c5a5c5d1187ba1a14b4bbd046ec4330bce14d182a31b09061d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-8-generated.webp",
+        "sha256": "0e8ae4731a0c8c0f49782e85dde6f6a497715d3b61ba81c59a03b031f3eb7886"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/result-count/result-correct-9-generated.webp",
+        "sha256": "0642aa74f716d174aa3d540d3941213059509333b9940ca992a3d8250cf2c8a1"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/assets/runtime-vendor/_shared/scoreboard/scoreboard-celebration-bg-generated.webp",
+        "sha256": "06d695792c8e8c9a28de097b069178279199a2450ff6accc5b508426716caddc"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/cover-generated.webp",
+        "sha256": "b8a77417f6ad21e80de8200e67f1fd82eef54e76039750327f19516f0292bd37"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/index.html",
+        "sha256": "235d1818a19508484286984dbbaac22d42fcbf81999fdc9bcfe2aa48e7db4f61"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/result-bg-cup-generated.webp",
+        "sha256": "9b9bb617d3cc818c1dcab6ff5f8687f48315752e9d11321d77e2b4ee415b500d"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/result-panel-generated.webp",
+        "sha256": "298a7a96f4eca753ce04460ee9175dfc11ac51d1e515f2bc8d808c7b2b79898b"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/result-title-cup-generated.webp",
+        "sha256": "80e3c9d584dd36bc9b4d0fb9a9e15371dd41cc9b9b134edced147715e665de65"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/reward-scene-generated.webp",
+        "sha256": "f0e7b9c176de83924923001e826ddd514f80a6867465e1d57cc0e266a75656e0"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/title-logo-generated.webp",
+        "sha256": "dd9115fad7896b8d31d75a9918773168b50e47a43a557a9516494aa9fca20f41"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/tutorial-page-1-v4-generated.webp",
+        "sha256": "6b8e85804848e45a119ab63719555c29a7fbf647e81de90f9ba7035698b2cc85"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-2-mathmon-drink-order/tutorial-page-2-v3-generated.webp",
+        "sha256": "5c1eb9881e317cfe862bfff6271d4dc88de22b8ca98814537890301e9a5635ca"
+      }
+    ],
+    "sha256": "e3efb2d86cef053a160833c87549f5e8550075c9f3c6fd3d80b11d9b767db0c0"
+  }
+}
