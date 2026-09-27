@@ -8,7 +8,7 @@
     "portable",
     "interaction"
   ],
-  "reason": "Rebuilt 5-2 from the current lesson presentation/fullscreen sources and removed unreachable 5-3 weight-image fallbacks from its embedded shared view.",
+  "reason": "Rebuilt 5-2 with focused exchange-place highlighting, visible subtraction borrowing, and no redundant exchange helper text; the exact reported viewport and the existing regression viewports passed the full flow.",
   "changedPaths": [
     "3-2-5-2-mathmon-drink-order/assets/PORTABLE_RUNTIME_MANIFEST.json",
     "3-2-5-2-mathmon-drink-order/index.html",
@@ -21,10 +21,11 @@
       "qaFiles": [
         "scripts/test-mathmon-drink-order-presentation.mjs",
         "scripts/lib/production-workflow.mjs",
+        "_lessons/_shared/unit5-measurement/model.js",
         "_lessons/_shared/unit5-measurement/view.js"
       ],
       "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-change-review.json",
-      "evidenceSha256": "1109c0c1730edadcb8ea7332585a0037420e4bb88a4e09a204d843e66ed8b589"
+      "evidenceSha256": "d990228a8fab98bb095a41c4a3c28b317b138ef28a54b670624f49cc40420065"
     },
     {
       "id": "copy-integrity",
@@ -32,10 +33,11 @@
         "scripts/test-mathmon-drink-order-presentation.mjs",
         "scripts/check-mathmon-portable-runtime.mjs",
         "scripts/lib/mathmon-portable-runtime.mjs",
+        "_lessons/_shared/unit5-measurement/model.js",
         "_lessons/_shared/unit5-measurement/view.js"
       ],
       "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-copy-integrity.json",
-      "evidenceSha256": "5e9728769469f93a63d2f00ed80d01eace014c433d3d6d9817cdbee13dbd736b"
+      "evidenceSha256": "82403a84c88322240fd0708e5f6d8f957205ad8866ba0a5fffa1b8e94f63a1ca"
     },
     {
       "id": "reference-closure",
@@ -63,7 +65,7 @@
         "scripts/lib/mathmon-drink-order-presentation.mjs"
       ],
       "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-affected-screen.json",
-      "evidenceSha256": "1ed941859fc708d3165b09d95a3a90d72513128c4334045ee5bb8d86fa03fbdd"
+      "evidenceSha256": "7e0dbe2a6f8dc10929c231ebe44ee671a3fa936a6901c48def80e84319bc371e"
     },
     {
       "id": "affected-behavior",
@@ -73,7 +75,7 @@
         "scripts/lib/mathmon-drink-order-presentation.mjs"
       ],
       "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-affected-behavior.json",
-      "evidenceSha256": "b23c0eaacf2e157a46304bfbeb975eb8b43e61d13a653a5cf11af22f531c3c7b"
+      "evidenceSha256": "3c0684898e155a2f6300b3eb8766ebacc14107dae566316071b4605c1d41301c"
     },
     {
       "id": "connected-flow",
@@ -83,10 +85,10 @@
         "scripts/lib/mathmon-drink-order-presentation.mjs"
       ],
       "evidencePath": "3-2-5-2-mathmon-drink-order/screenshots/current-connected-flow.json",
-      "evidenceSha256": "2a51dda8ac81ef2d63132559298da1776f67c385ad2209b799268418492e691e"
+      "evidenceSha256": "e52391c5527161d8adbeb285e445d81ae66faa5599611f96c24144f29f91fc85"
     }
   ],
-  "browserRuns": 3,
+  "browserRuns": 4,
   "screenshots": 0,
   "coverage": {
     "states": [
@@ -124,6 +126,23 @@
       "08a-result-rainbow"
     ],
     "viewports": [
+      {
+        "name": "browser-comment-vertical-calculation-1095x977",
+        "width": 1095,
+        "height": 977,
+        "deviceScaleFactor": 2,
+        "regressionNames": [
+          "browser-comment-vertical-calculation-1095x977"
+        ],
+        "dpr": 2,
+        "behaviorKeys": [],
+        "canonicalName": "browser-comment-vertical-calculation-1095x977",
+        "aliases": [],
+        "capture": {
+          "mode": "automated-only",
+          "reason": "all-flow-dom-interaction-layout-audit"
+        }
+      },
       {
         "name": "user-reported-missing-left-progress",
         "width": 1082,
@@ -176,7 +195,7 @@
         }
       }
     ],
-    "reason": "Exact reported viewport and both S6 Lite landscape heights cover the affected 5-2 screens and fullscreen flow."
+    "reason": "The exact reported vertical-calculation viewport plus the existing user-reported and S6 Lite landscape viewports cover the affected 5-2 screens and fullscreen flow."
   },
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
@@ -191,8 +210,13 @@
       },
       {
         "role": "qa",
+        "path": "_lessons/_shared/unit5-measurement/model.js",
+        "sha256": "c73c141882848e9609011af2c3117f258c05fbe63c02b15059e0a51703e75d93"
+      },
+      {
+        "role": "qa",
         "path": "_lessons/_shared/unit5-measurement/view.js",
-        "sha256": "03b17653b06bbad003102f485432f515e1c0ef5b9075bf532dd1b8f968403032"
+        "sha256": "15353fcb7a2923aadae7c02d9b5444a89775ebd3208698beab14c1004389ba60"
       },
       {
         "role": "qa",
@@ -227,7 +251,7 @@
       {
         "role": "qa",
         "path": "scripts/lib/mathmon-drink-order-presentation.mjs",
-        "sha256": "f9e63d5ebd0f72d47cac2954d3b2a151d737aafb5e086fba1134cb11c8465584"
+        "sha256": "e74cdfffaf9d20fded12fc71c48e4359892b4e9e59eae6bb59d2f2d477020526"
       },
       {
         "role": "qa",
@@ -237,7 +261,7 @@
       {
         "role": "qa",
         "path": "scripts/lib/mathmon-play-presentation-qa.mjs",
-        "sha256": "8ab1c5ac6854876f002c8327035f2760e9da4b7ad231965aa2b08a87caa1797f"
+        "sha256": "c08f01393daa405471da62c50a66df40356fd4e473ce3b4ca71e9df0844d686b"
       },
       {
         "role": "qa",
@@ -282,7 +306,7 @@
       {
         "role": "qa",
         "path": "scripts/lib/validation-cost-control.mjs",
-        "sha256": "0be25716748b5e30c1ca8d881b3145d5b01d3f88f67000695c36be161b0d4a6c"
+        "sha256": "ccbd80db997de3fc95d552b2b12c7c556737f724868a15ada2f3e617d2864889"
       },
       {
         "role": "qa",
@@ -292,7 +316,7 @@
       {
         "role": "qa",
         "path": "scripts/qa-lesson-flow.mjs",
-        "sha256": "72e835c0dc6c049015fc1a91fb42af28fa6905a7f02c365fdd958379c2d2a135"
+        "sha256": "0bf64237b4908de20dd6a1ef531cf0c3fe4ae2d8820d6e77219cc1f45243c16c"
       },
       {
         "role": "qa",
@@ -302,17 +326,17 @@
       {
         "role": "qa",
         "path": "scripts/test-mathmon-drink-order-presentation.mjs",
-        "sha256": "473866d6d7f619c95feaf04d9a2479ce828be1aa93df12fd85f6ba94a35f7d29"
+        "sha256": "5da11388939fc629888512bbacbf316fffd587b3ff006962e1bcfbef97818599"
       },
       {
         "role": "runtime",
         "path": "_lessons/3-2-5-2-mathmon-drink-order/lesson.css",
-        "sha256": "424e809a9831e7fc6f844bfe3cfd09ce1752064abd1fbb37adf6ee4dbd878732"
+        "sha256": "ec4912808bdadd6db4e53adbba6177bf7d0748ac7ef041d6d7c2f5e5267fb6e1"
       },
       {
         "role": "runtime",
         "path": "_lessons/3-2-5-2-mathmon-drink-order/lesson.json",
-        "sha256": "4901c980ad1284926d554a2c5f0e019029832a59c9c5266632fcff275374eeab"
+        "sha256": "f8db142a56bb72d8d43cad891b42e44d5edcc09838592e2802badc344db2b997"
       },
       {
         "role": "runtime",
@@ -327,7 +351,7 @@
       {
         "role": "runtime",
         "path": "3-2-5-2-mathmon-drink-order/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "6cf30352dccee74f6caf2dc5120b39d4ba59cf8bcad5c5716ee5956d3e7a015b"
+        "sha256": "e2b41cde30d7fec5aaee1e167ef87596affb553c8134978ce1ee5c051e1395b4"
       },
       {
         "role": "runtime",
@@ -427,7 +451,7 @@
       {
         "role": "runtime",
         "path": "3-2-5-2-mathmon-drink-order/index.html",
-        "sha256": "235d1818a19508484286984dbbaac22d42fcbf81999fdc9bcfe2aa48e7db4f61"
+        "sha256": "150437b9e1d20159ae07e3a685790f3a0e16862ae896f5f748d0209fe97f6fe7"
       },
       {
         "role": "runtime",
@@ -465,6 +489,6 @@
         "sha256": "5c1eb9881e317cfe862bfff6271d4dc88de22b8ca98814537890301e9a5635ca"
       }
     ],
-    "sha256": "e3efb2d86cef053a160833c87549f5e8550075c9f3c6fd3d80b11d9b767db0c0"
+    "sha256": "dc7976b0c02796200061a910cdccab4c114fba77a18ccc6832ea9f0fec7d869a"
   }
 }
