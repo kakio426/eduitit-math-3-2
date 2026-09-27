@@ -5,12 +5,12 @@
 ## 현재 공개 실행본
 
 - 보고서 기준: `eduitit-current-public-report-v1`
-- 공개 입력 커밋: `1c5e59d4f344e3b42c2dd7124fe982dc1f85d9fa`
-- 입력 커밋 시각: `2026-09-24T21:37:02+09:00`
-- 제작 보고서 원본 SHA-256: `57f5e4881fdb579e93f5b0b764482144ee4d09cd1286bd23f5cff915075e7781`
+- 공개 입력 커밋: `6d4bd972040116b5c9ac12d14a08f5ae4378dcf8`
+- 입력 커밋 시각: `2026-09-27T20:38:56+09:00`
+- 제작 보고서 원본 SHA-256: `d434bba04e101049638ff1b964901f7d34083b96f08f443e0e8e7fa9da25e62a`
 - 실제 실행 진입점: `3-2-5-3-mathmon-scale-balance/index.html`
-- 실행 진입점 SHA-256: `82c9c56a3d49eaa850cf70b02a21fd47d1028512161cd1c319b454c3b9974b41`
-- Pages 파일 집합 SHA-256: `6032e3b64a1acad7935507d10b970b25367a9c16013671508e36e301644d7b02` (131개)
+- 실행 진입점 SHA-256: `676fcaefe248d6bc1e21bd23fcb9ae86976c601e2dae1edadeeb58abd5e1b2ac`
+- Pages 파일 집합 SHA-256: `9d28f9b4ce64e8931dd4e2b2a11232df02358c675f5a41e830545ad7c2214b49` (135개)
 - 상세 화면 증거: 이전 검수 자료이며 현재 실행본의 최신 화면 근거로 사용하지 않음
 - 공개 페이지: https://kakio426.github.io/eduitit-math-3-2/3-2-5-3-mathmon-scale-balance/
 - 공개 보고서: https://github.com/kakio426/eduitit-math-3-2/blob/main/3-2-5-3-mathmon-scale-balance/REPORT.md
@@ -35,6 +35,12 @@
 진행 장면 증거는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source`, `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png`, `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png`입니다.
 
 상단 조작은 `stage-top-controls-v2`를 쓰며, 배지 글자 `14px`, 문제 번호 `16px`를 실제 측정 기준으로 삼습니다.
+
+## 2026-09-27 저울 위 물건 시각화
+
+- 글자 라벨만 있던 저울 문제를 책·연필통, 쌀자루·감자자루, 호박·수박이 접시에 실제로 놓인 1280×640 완성 장면 3종으로 교체했습니다.
+- 장면별 저울 방향은 `level`, `left-down`, `level`이며, 정답과 관계 판정은 기존 구조화 데이터가 계속 담당합니다.
+- 자산 전수표는 `balance-object-scenes-v1-contact-sheet.png`입니다.
 
 ## 2026-09-01 교육과정 재설계
 
