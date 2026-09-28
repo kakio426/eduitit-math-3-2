@@ -14,7 +14,7 @@
 - 차시 설정: `_lessons/3-2-5-3-mathmon-scale-balance/lesson.json`
 - 빌드: `node scripts/build-lesson.mjs 3-2-5-3-mathmon-scale-balance`
 
-생성형 저울 받침 장면 위에 구조화된 빔과 접시를 올립니다. 모델의 무게 관계에 따라 무거운 접시가 내려가며, 물건 이름을 직접 표시해 왼쪽/오른쪽 반복을 줄였습니다.
+저울 문제는 책·연필통, 쌀자루·감자자루, 호박·수박이 접시 위에 실제로 놓인 완성 장면을 사용합니다. 모델의 구조화된 무게 관계가 정답과 저울 방향을 결정하며, 물건 이름은 그림을 식별하기 위한 보조 표지로만 남깁니다.
 
 ## 흐름과 보상
 
@@ -29,6 +29,10 @@
 - `tutorial-page-1-v2-source.png` / `tutorial-page-1-v2-generated.webp`
 - `tutorial-page-2-v2-source.png` / `tutorial-page-2-v2-generated.webp`
 - `balance-frame-v1-source.png` / `balance-frame-v1-generated.webp`
+- `weight-method-balance-book-pencilcase-v1-source.png` / `weight-method-balance-book-pencilcase-v1-generated.webp`
+- `balance-inference-rice-potato-left-down-v1-source.png` / `balance-inference-rice-potato-left-down-v1-generated.webp`
+- `balance-inference-pumpkin-watermelon-level-v1-source.png` / `balance-inference-pumpkin-watermelon-level-v1-generated.webp`
+- `balance-object-scenes-v1-contact-sheet.png` — 1280×640 장면 3종 전수표
 
 생성 그림은 맥락만 제공하고 저울 관계·수치·정답은 HTML과 모델 데이터로 검증합니다.
 
@@ -37,6 +41,19 @@
 문제 화면 진행 장면은 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/source`, `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-contact-sheet.png`, `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/play-progress-v1/contact-sheets/play-scale-progress-v1-anchor-audit.png`를 기준으로 유지합니다.
 
 ## 검증
+
+2026-09-28 수정 범위는 5·6번 `weightFairness` 문항입니다. 5번은 같은 추 3개와 2개로 주머니의 무게를 비교하고, 6번은 빨간 추 3개와 파란 추 2개만으로는 상자의 무게를 결정할 수 없는 상황을 판단합니다. 두 문항 모두 한 단계이며, 나머지 8문항·보상·결과 기준은 유지합니다.
+
+문항 조건은 `lesson.json`의 `workbench.weightComparisonCases`에 있습니다. 정답과 HTML 이름표·개수는 같은 데이터에서 만들고, 생성 그림은 맥락만 제공합니다. 새 자산과 정확한 생성 프롬프트는 `_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/weight-comparison-v2/ART_META.json`에 기록했습니다. 그림의 실제 수평·접시 구성·추 개수는 자동 DOM 검사와 별도로 사람 확인 대상으로 남깁니다.
+
+이번 두 문항에 한정한 검사:
+
+```sh
+node scripts/test-mathmon-weight-comparison.mjs
+node scripts/qa-mathmon-weight-comparison.mjs
+```
+
+화면 범위는 `1280×800`, `1024×768`, `1095×977·DPR 2`입니다. 기존 사람 검수판은 `http://127.0.0.1:4173/review/unit5/`이며, 2·3차시 36개 카드와 최종 결과 12개를 유지합니다. 새 화면은 자동으로 검수 완료 체크하지 않습니다. 아래 전체 흐름 명령은 신규·전체 변경용 도구이며, 이번 두 문항 수정에서는 실행하지 않았습니다.
 
 ```sh
 node scripts/build-lesson.mjs 3-2-5-3-mathmon-scale-balance

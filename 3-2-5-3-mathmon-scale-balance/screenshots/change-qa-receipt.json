@@ -4,203 +4,108 @@
   "lesson": "3-2-5-3-mathmon-scale-balance",
   "status": "pass",
   "scopes": [
-    "presentation",
-    "interaction"
+    "portable",
+    "presentation"
   ],
-  "reason": "Restore the existing central compact reward modal over the active problem screen and bind its mode, audit, and single-consumption transition contract.",
+  "reason": "Enlarge the actual visible shared retry button in lesson3 and adjust its result stack/responsive guide without changing questions or rewards.",
   "changedPaths": [
     "3-2-5-3-mathmon-scale-balance/assets/PORTABLE_RUNTIME_MANIFEST.json",
     "3-2-5-3-mathmon-scale-balance/index.html",
+    "_lessons/3-2-5-3-mathmon-scale-balance/lesson.css",
     "_lessons/3-2-5-3-mathmon-scale-balance/lesson.json"
   ],
   "checks": [
     {
       "id": "change-review",
-      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/reward-modal-change-review.json",
-      "evidenceSha256": "b41e68ce5428de91269e60a179fec47050a4b3f33820c3ed10f2b905c95e6445",
+      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/result-retry-change-review.json",
+      "evidenceSha256": "c9181a7f812c569d2d65818714daa31494b198956a9ef6b3421e966065827eaf",
       "qaFiles": [
-        "scripts/qa-lesson-flow.mjs",
-        "scripts/check-lesson-contract.mjs"
+        "review/unit5/verify-result-retry.mjs",
+        "review/unit5/record-result-retry.mjs",
+        "scripts/lib/result-retry-presentation.mjs",
+        "scripts/test-result-retry-presentation.mjs",
+        "review/unit5/contract.json"
+      ]
+    },
+    {
+      "id": "copy-integrity",
+      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/result-retry-copy-integrity.json",
+      "evidenceSha256": "e04a70d0a6ee0d5e392c5d9a38358de41a69c2a5378a40477adc48ef44737993",
+      "qaFiles": [
+        "scripts/check-mathmon-portable-runtime.mjs",
+        "scripts/build-lesson.mjs"
+      ]
+    },
+    {
+      "id": "reference-closure",
+      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/result-retry-reference-closure.json",
+      "evidenceSha256": "b51957250343fcf9d70213ba4c4755f3d9a758daad4723a433f55a4827a91143",
+      "qaFiles": [
+        "scripts/lib/validation-dependencies.mjs",
+        "review/unit5/record-result-retry.mjs"
+      ]
+    },
+    {
+      "id": "http-load",
+      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/result-retry-http-load.json",
+      "evidenceSha256": "b2c3c66f4794c73fc28262da901df0e8c28ac44993dcf0b4d548e159252159e3",
+      "qaFiles": [
+        "review/unit5/verify-result-retry.mjs",
+        "review/unit5/record-result-retry.mjs",
+        "scripts/lib/result-retry-presentation.mjs",
+        "scripts/test-result-retry-presentation.mjs",
+        "review/unit5/contract.json"
       ]
     },
     {
       "id": "affected-screen",
-      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/reward-modal-affected-screen.json",
-      "evidenceSha256": "a4284113f7dbaafb6d05a467b2068be3f5651d1b053b9754cf2cd8efa3a6447e",
+      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/result-retry-affected-screen.json",
+      "evidenceSha256": "8a7a2ebe1abee7bffd659bcb55c461c0917ab061ac379f444f5d3af2ae1bf7ca",
       "qaFiles": [
-        "scripts/qa-lesson-flow.mjs",
-        "scripts/check-lesson-contract.mjs"
-      ]
-    },
-    {
-      "id": "affected-behavior",
-      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/reward-modal-affected-behavior.json",
-      "evidenceSha256": "97f4a81d9bfc7429a52213c431837a2eb2f4f4950835abf3019396474516eb21",
-      "qaFiles": [
-        "scripts/qa-lesson-flow.mjs",
-        "scripts/check-lesson-contract.mjs"
-      ]
-    },
-    {
-      "id": "connected-flow",
-      "evidencePath": "3-2-5-3-mathmon-scale-balance/screenshots/reward-modal-connected-flow.json",
-      "evidenceSha256": "88e876448e23de546f6da70d9e88a975d08e36a33452064c2f10ae91f3ba555c",
-      "qaFiles": [
-        "scripts/qa-lesson-flow.mjs",
-        "scripts/check-lesson-contract.mjs"
+        "review/unit5/verify-result-retry.mjs",
+        "review/unit5/record-result-retry.mjs",
+        "scripts/lib/result-retry-presentation.mjs",
+        "scripts/test-result-retry-presentation.mjs",
+        "review/unit5/contract.json"
       ]
     }
   ],
-  "browserRuns": 7,
-  "screenshots": 11,
+  "browserRuns": 4,
+  "screenshots": 24,
   "coverage": {
     "states": [
-      "reward-closed",
-      "reward-modal-open",
-      "reward-modal-next",
-      "problem-screen-preserved",
-      "single-consumption-reentry",
-      "empty-reward-modal"
+      "all six final result tiers",
+      "retry resets to question1 and zero score"
     ],
     "viewports": [
       {
         "name": "desktop",
         "width": 1280,
         "height": 800,
-        "dpr": 1,
-        "behaviorKeys": [],
-        "canonicalName": "desktop",
-        "regressionNames": [
-          "desktop"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "key-states",
-          "standard": "mathmon-human-review-key-states-v1",
-          "roles": [
-            "cover",
-            "tutorial",
-            "tutorial-second",
-            "representative-problem",
-            "representative-wrong-feedback",
-            "answer-confirmation",
-            "reward-closed",
-            "reward-revealed",
-            "reward-impact",
-            "completed-result"
-          ]
-        }
+        "dpr": 1
       },
       {
-        "name": "tablet-landscape",
+        "name": "tablet",
         "width": 1024,
         "height": 768,
-        "dpr": 1,
-        "behaviorKeys": [],
-        "canonicalName": "tablet-landscape",
-        "regressionNames": [
-          "tablet-landscape"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "key-states",
-          "standard": "mathmon-human-review-key-states-v1",
-          "roles": [
-            "cover-responsive",
-            "representative-problem-responsive",
-            "reward-responsive",
-            "completed-result-responsive"
-          ]
-        }
+        "dpr": 1
       },
       {
-        "name": "codex-in-app",
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 2,
-        "dpr": 2,
-        "behaviorKeys": [],
-        "canonicalName": "codex-in-app",
-        "regressionNames": [
-          "codex-in-app"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "automated-only",
-          "reason": "all-flow-dom-interaction-layout-audit"
-        }
+        "name": "user-regression",
+        "width": 1095,
+        "height": 977,
+        "dpr": 2
       },
       {
-        "name": "user-visibility",
-        "width": 994,
-        "height": 632,
-        "dpr": 1,
-        "behaviorKeys": [],
-        "canonicalName": "user-visibility",
-        "regressionNames": [
-          "user-visibility"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "automated-only",
-          "reason": "all-flow-dom-interaction-layout-audit"
-        }
-      },
-      {
-        "name": "user-reported-missing-left-progress",
-        "width": 1082,
-        "height": 987,
-        "deviceScaleFactor": 2,
-        "dpr": 2,
-        "behaviorKeys": [],
-        "canonicalName": "user-reported-missing-left-progress",
-        "regressionNames": [
-          "user-reported-missing-left-progress"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "automated-only",
-          "reason": "all-flow-dom-interaction-layout-audit"
-        }
-      },
-      {
-        "name": "user-reported-hud-overlap",
-        "width": 1083,
-        "height": 987,
-        "deviceScaleFactor": 2,
-        "dpr": 2,
-        "behaviorKeys": [],
-        "canonicalName": "user-reported-hud-overlap",
-        "regressionNames": [
-          "user-reported-hud-overlap"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "automated-only",
-          "reason": "all-flow-dom-interaction-layout-audit"
-        }
-      },
-      {
-        "name": "empty-reward-fixture",
-        "width": 1280,
-        "height": 800,
-        "dpr": 1,
-        "behaviorKeys": [
-          "emptyRewardAuditViewport"
-        ],
-        "canonicalName": "empty-reward-fixture",
-        "regressionNames": [
-          "empty-reward-fixture"
-        ],
-        "aliases": [],
-        "capture": {
-          "mode": "automated-only",
-          "reason": "all-flow-dom-interaction-layout-audit"
-        }
+        "name": "compact",
+        "width": 1000,
+        "height": 600,
+        "dpr": 1
       }
     ],
-    "reason": "The registered desktop, tablet, in-app, prior user-reported, and empty-reward viewports directly cover the changed reward presentation and transition."
+    "reason": "Only the lesson3 final result stack changed. Existing unchanged question screenshots are reused; no full/model stress QA."
   },
+  "recordedAt": "2026-09-28T14:12:25.759Z",
   "validationDependencies": {
     "standard": "eduitit-validation-dependencies-v1",
     "product": "mathmon",
@@ -214,43 +119,28 @@
       },
       {
         "role": "qa",
-        "path": "scripts/check-lesson-contract.mjs",
-        "sha256": "59182a737069dc50a68dcf081b733f373a3cab03b6e501e1b8d45dc3f1379875"
+        "path": "review/unit5/contract.json",
+        "sha256": "eef84ba63b68430ba7cd01e99613ec40449131d0baad209fe4d5a38db2574b50"
       },
       {
         "role": "qa",
-        "path": "scripts/lib/bounded-process.mjs",
-        "sha256": "251f749b25864ee73311aea6020866e11ebb8ea8649c8b172735fe5d2e29fa22"
+        "path": "review/unit5/record-result-retry.mjs",
+        "sha256": "bf5a033fc9377d3acc1707f7bb5d5f8c335b5875a55d051fd60dd10c401001e9"
       },
       {
         "role": "qa",
-        "path": "scripts/lib/generated-runtime-assets.mjs",
-        "sha256": "0cb6cf78bc76133c7325bcd01b4e90fdb4e511b6df30806a5a020eea2c3f4778"
+        "path": "review/unit5/verify-result-retry.mjs",
+        "sha256": "be6b9f9039f5c6bb294624d3c6800b5e6fefc138f6548679959fcc82c2e6ea09"
       },
       {
         "role": "qa",
-        "path": "scripts/lib/generated-runtime-browser-guard.mjs",
-        "sha256": "d46df26b8832d8d8f638c46269b7ffbee02f5b80f462cb5925bcf112d857e23f"
+        "path": "scripts/build-lesson.mjs",
+        "sha256": "106495e09641216414ffbd2410dffafa15e285fb443d963ac02f130d67d0ba20"
       },
       {
         "role": "qa",
-        "path": "scripts/lib/mathmon-delivery-gate.mjs",
-        "sha256": "51b7bddb287eee2fd0b90e10496d7d9206589865fae8c1fda93aacc51c535a36"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/mathmon-drink-order-presentation.mjs",
-        "sha256": "f9e63d5ebd0f72d47cac2954d3b2a151d737aafb5e086fba1134cb11c8465584"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/mathmon-effect-restraint.mjs",
-        "sha256": "5e55393017bf367f0d67dcaa04ec532d57ba8e1f87faf865fbbd7a68d7ac8d12"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/mathmon-play-presentation-qa.mjs",
-        "sha256": "8ab1c5ac6854876f002c8327035f2760e9da4b7ad231965aa2b08a87caa1797f"
+        "path": "scripts/check-mathmon-portable-runtime.mjs",
+        "sha256": "2eec6109a273f2d4e1d89d5d4fc683b824355a765af3832978634191663ab9f8"
       },
       {
         "role": "qa",
@@ -259,53 +149,18 @@
       },
       {
         "role": "qa",
-        "path": "scripts/lib/mathmon-qa-viewports.mjs",
-        "sha256": "5a16d8acb3386e4987114a2ce05f7b6225ef7d7f665922707facc1e89124b5b1"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/mathmon-top-controls-v2.mjs",
-        "sha256": "a8f83d8154c27a346a9b8772d208441b3bcb8608fde7feafb2abd1efcd0671c5"
-      },
-      {
-        "role": "qa",
         "path": "scripts/lib/production-workflow.mjs",
         "sha256": "330ea0ea75bac9f071a09776515dcefd34963871f38ef34bc806083fdb03290e"
       },
       {
         "role": "qa",
-        "path": "scripts/lib/result-content-scale-policy.mjs",
-        "sha256": "5c39e1793b683468e851819b38089af2a16f82ef965510358e01d6f43016427f"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/result-internal-metric-policy.mjs",
-        "sha256": "282002582cab29ee1033f27620f6232042f87aedb115eaa0597cc08dcd3f17de"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/result-reward-dominance.mjs",
-        "sha256": "ac81da87e5916365fd8a806f02a50ebcb9d2874be6547ee511c5a0ba61431b8d"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/socialmon-historical-snapshot.mjs",
-        "sha256": "f9cd5a71bc6b7742c200ccd3963728e7429e6424898c9a9117b03631d50b75d1"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/socialmon-v2-approval-lineage.mjs",
-        "sha256": "eacfc3ac114c3d02189bd96b8ca3991dea825cca7eec2a8321fdf93ee1aea2bd"
-      },
-      {
-        "role": "qa",
-        "path": "scripts/lib/tutorial-poster-contract.mjs",
-        "sha256": "ba4d17ca0a311fdc8c8f7984bd59c0378431b85907ebfd1b8f3bff4a4b732791"
+        "path": "scripts/lib/result-retry-presentation.mjs",
+        "sha256": "f67d5e8f22548596e3068e5aa3c79cf36244456750bb0af591a588b85663f75a"
       },
       {
         "role": "qa",
         "path": "scripts/lib/validation-cost-control.mjs",
-        "sha256": "ccbd80db997de3fc95d552b2b12c7c556737f724868a15ada2f3e617d2864889"
+        "sha256": "6b2ced8dac00aeecfbd245d0dfe51a42d5b2f3d488b7641784ad5ac10f9cc8b2"
       },
       {
         "role": "qa",
@@ -314,18 +169,23 @@
       },
       {
         "role": "qa",
-        "path": "scripts/qa-lesson-flow.mjs",
-        "sha256": "72e835c0dc6c049015fc1a91fb42af28fa6905a7f02c365fdd958379c2d2a135"
-      },
-      {
-        "role": "qa",
         "path": "scripts/runtime-build-fingerprint.mjs",
         "sha256": "d8f1988c22fde27ef7c52c52fcbe6d03fe408a5672f0d8148062360c3adfebac"
       },
       {
+        "role": "qa",
+        "path": "scripts/test-result-retry-presentation.mjs",
+        "sha256": "b10dc432ee568cd9d18966b931eeaabe849816ddee75f128a5f8e4629ee421d0"
+      },
+      {
+        "role": "runtime",
+        "path": "_lessons/3-2-5-3-mathmon-scale-balance/lesson.css",
+        "sha256": "e9eb713a0d8c25902511f001cb386eaab2d53d712cb6e7644aa6c8cbd666d3b8"
+      },
+      {
         "role": "runtime",
         "path": "_lessons/3-2-5-3-mathmon-scale-balance/lesson.json",
-        "sha256": "0a116c2d35840255d1742e8befe3fc2768387e792c0c616498d95bd1046dee92"
+        "sha256": "054fd092631ee5a80552d44bab44106f13d4308a429cf83b8f244b58003a51f1"
       },
       {
         "role": "runtime",
@@ -345,7 +205,7 @@
       {
         "role": "runtime",
         "path": "3-2-5-3-mathmon-scale-balance/assets/PORTABLE_RUNTIME_MANIFEST.json",
-        "sha256": "bea08272dc226dbd4c0cae6f25b69b623a9bd5317a41d4a358598d119a06b5e8"
+        "sha256": "d2f46e4c823a0972a7383715a3bf65bfaf00de5ac290da3d82f957e581242dca"
       },
       {
         "role": "runtime",
@@ -371,6 +231,16 @@
         "role": "runtime",
         "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/mathmon/cover-start-button/start-button-generated.webp",
         "sha256": "927c3de4f9e421793641ae91eeb60bc015a2c09b0a1773fbb76187851f7e1cd3"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/weight-comparison-v2/runtime/weight-comparison-boxes-v2-generated.webp",
+        "sha256": "cb28f739d09f382c3271c9bc1365438467d4318b96ce06b7d6426842d37066ca"
+      },
+      {
+        "role": "runtime",
+        "path": "3-2-5-3-mathmon-scale-balance/assets/runtime-vendor/_shared/mathmon/diversity-reward-pack/lesson-scenes/3-2-5-3/weight-comparison-v2/runtime/weight-comparison-pouches-v2-generated.webp",
+        "sha256": "551ff7703ae86f757e0946cb67d7155b83eb6587db50fc4e1d4faeb6145f41d9"
       },
       {
         "role": "runtime",
@@ -445,12 +315,7 @@
       {
         "role": "runtime",
         "path": "3-2-5-3-mathmon-scale-balance/index.html",
-        "sha256": "82c9c56a3d49eaa850cf70b02a21fd47d1028512161cd1c319b454c3b9974b41"
-      },
-      {
-        "role": "runtime",
-        "path": "3-2-5-3-mathmon-scale-balance/result-panel-generated.webp",
-        "sha256": "20b8664d3eee2089537f65005d87ece0880b5329710693c8316586f81abd26bc"
+        "sha256": "004260f781962e2fba75be9c4c0baa9c04ecff806403ea101a20207fcc840f39"
       },
       {
         "role": "runtime",
@@ -483,6 +348,6 @@
         "sha256": "d482e66db43d6a64b45f7b5d90fdacc85ec1ee8cad44cc583b4b2def0158634e"
       }
     ],
-    "sha256": "1c7649776c480690fee5ebe7233e31670856a804dee6ea2cb46b1cd1a153b3eb"
+    "sha256": "d3c6b2115a409f9ca3697c5220a81eef07bc8a82016e6e334e22668e0db3a847"
   }
 }

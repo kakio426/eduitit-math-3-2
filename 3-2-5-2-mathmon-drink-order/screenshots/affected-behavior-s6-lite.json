@@ -1,0 +1,76 @@
+{
+  "id": "affected-behavior",
+  "status": "pass",
+  "exitCode": 0,
+  "command": "node /private/tmp/mathmon-fullscreen-smoke.mjs (Chrome CDP, 1000x600@2)",
+  "output": "PASS: the landscape settings control entered .game fullscreen, hid settings, updated active state, exited fullscreen, restored inactive state, and preserved the lesson state.",
+  "viewport": {
+    "name": "galaxy-tab-s6-lite-landscape",
+    "width": 1000,
+    "height": 600,
+    "deviceScaleFactor": 2
+  },
+  "smoke": {
+    "initial": {
+      "fullscreenEnabled": true,
+      "requestFullscreen": "function",
+      "orientation": true,
+      "button": {
+        "text": "전체 화면",
+        "hidden": false,
+        "disabled": false
+      }
+    },
+    "menu": {
+      "visible": true,
+      "text": "전체 화면",
+      "hidden": false
+    },
+    "entered": {
+      "fullscreen": true,
+      "active": "active",
+      "settingsHidden": true
+    },
+    "exited": {
+      "fullscreen": false,
+      "active": "inactive"
+    },
+    "stateBefore": {
+      "screen": "cover",
+      "problemIndex": 0,
+      "stepIndex": 0,
+      "inputLocked": false,
+      "pendingAdvance": false,
+      "completed": false,
+      "power": 0,
+      "correctFirstTry": 0,
+      "specialSeen": false,
+      "rewardPhase": "idle",
+      "rewardTransitioning": false,
+      "pendingRewardId": "",
+      "pendingRewardAmount": 0,
+      "pendingRewardSpecial": false,
+      "lastRewardId": "",
+      "answers": []
+    },
+    "stateAfter": {
+      "screen": "cover",
+      "problemIndex": 0,
+      "stepIndex": 0,
+      "inputLocked": false,
+      "pendingAdvance": false,
+      "completed": false,
+      "power": 0,
+      "correctFirstTry": 0,
+      "specialSeen": false,
+      "rewardPhase": "idle",
+      "rewardTransitioning": false,
+      "pendingRewardId": "",
+      "pendingRewardAmount": 0,
+      "pendingRewardSpecial": false,
+      "lastRewardId": "",
+      "answers": []
+    },
+    "reopened": true
+  }
+}
